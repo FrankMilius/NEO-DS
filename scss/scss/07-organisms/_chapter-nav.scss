@@ -118,13 +118,44 @@
   background: var(--mod-chapternav-bg, var(--nc-chapternav-bg));
   border-block-end: 1px solid var(--mod-chapternav-border, var(--nc-chapternav-border));
 
+  // Die Leiste folgt der Hauptnavigation, wenn diese sich wegschiebt.
+  //
+  // Die Hauptnavigation blendet sich beim Runterscrollen aus
+  // (.site-header.is-nav-hidden, translateY(-100%)). Die Leiste stand aber
+  // weiter auf deren Hoehe — darunter lief der Inhalt sichtbar durch die
+  // entstandene Luecke nach oben.
+  //
+  // Kein zweiter Scroll-Beobachter: `:has()` liest den Zustand dort, wo er
+  // schon gesetzt wird. Ein eigener Beobachter muesste dieselbe Schwelle,
+  // dieselbe Sperre und dieselbe Richtungslogik noch einmal nachbauen — und
+  // liefe ihr immer eine Bildrate hinterher.
+  transition: inset-block-start var(--fnd-motion-duration-300, 300ms)
+              var(--fnd-motion-ease-focused, ease);
+
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+
   // Ohne Skript hat die Leiste nichts zu markieren — aber springen kann man
   // trotzdem. Sie bleibt deshalb sichtbar.
+}
+
+body:has(.site-header.is-nav-hidden) .nc-chapternav {
+  inset-block-start: 0;
 }
 
 .nc-chapternav__inner {
   display: flex;
   gap: var(--mod-chapternav-gap, var(--nc-chapternav-gap));
+
+  // DER ERSTE EINTRAG STEHT AUF DER ANSCHNITTLINIE.
+  //
+  // Das Innenpolster der Eintraege ist Klickflaeche und gehoert nicht in den
+  // Textfluss: Mit ihm begann „Kommunikation" 16 px rechts von der Kante, an
+  // der Hauptnavigation und Inhalt stehen. Der Streifen wird deshalb um genau
+  // diesen Betrag nach links gezogen — die Klickflaeche bleibt, die Schrift
+  // rueckt auf die Linie.
+  //
+  // Dieselbe Ueberlegung wie beim Akkordeon und bei der Geraete-Strecke.
+  margin-inline: calc(-1 * var(--mod-chapternav-padding-inline, var(--nc-chapternav-padding-inline)));
 
   // Quer scrollbar statt umbrechend: Eine zweizeilige Leiste kostet doppelt so
   // viel dauerhafte Hoehe, und die ist auf einer langen Seite das Knappste.
@@ -137,7 +168,8 @@
   position: relative;
   flex: 0 0 auto;
   scroll-snap-align: center;
-  padding: var(--mod-chapternav-padding, var(--nc-chapternav-padding));
+  padding-block: var(--mod-chapternav-padding-block, var(--nc-chapternav-padding-block));
+  padding-inline: var(--mod-chapternav-padding-inline, var(--nc-chapternav-padding-inline));
   font-family: var(--mod-chapternav-family, var(--nc-chapternav-family));
   font-size: var(--mod-chapternav-size, var(--nc-chapternav-size));
   font-weight: var(--fnd-font-weight-medium);

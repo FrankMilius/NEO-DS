@@ -3279,9 +3279,20 @@
   --nc-chapternav-bg:            var(--fnd-color-background-base);
   --nc-chapternav-border:        var(--fnd-color-border-secondary);
   --nc-chapternav-gap:           var(--fnd-spacing-01);
-  --nc-chapternav-padding:       var(--fnd-spacing-03) var(--fnd-spacing-04);
+
+  // Innenpolster je Eintrag. Die WAAGERECHTE Haelfte wird weiter unten wieder
+  // herausgezogen, damit der erste Eintrag auf der Anschnittlinie steht — sie
+  // dient nur der Klickflaeche, nicht dem Textfluss.
+  --nc-chapternav-padding-block:  var(--fnd-spacing-04);
+  --nc-chapternav-padding-inline: var(--fnd-spacing-04);
+  --nc-chapternav-padding:       var(--nc-chapternav-padding-block) var(--nc-chapternav-padding-inline);
+
   --nc-chapternav-family:        var(--font-heading);
-  --nc-chapternav-size:          var(--nc-type-body-s-size);
+
+  // Eine Stufe UEBER der Hauptnavigation (15 px). Die Kapitelleiste gehoert
+  // zur Seite, nicht zur Website — sie darf nicht wie deren Fussnote wirken.
+  // Vorher body-s, gemessen 14 px: kleiner als die Hauptnavigation darueber.
+  --nc-chapternav-size:          var(--nc-type-body-m-size);
   --nc-chapternav-weight:        var(--fnd-font-weight-semibold);
   --nc-chapternav-color:         var(--fnd-color-text-secondary);
   --nc-chapternav-color-active:  var(--fnd-color-text-primary);

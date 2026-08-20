@@ -5119,6 +5119,14 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-chapternav-scroll-margin"
         ]
+      },
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-chapternav-padding-block",
+          "nc-chapternav-padding-inline"
+        ]
       }
     ],
     "tokens": [
@@ -5259,6 +5267,18 @@ export const componentTokenGroups = [
         "label": "Toc number color",
         "type": "color",
         "default": "var(--fnd-color-text-tertiary)"
+      },
+      {
+        "id": "nc-chapternav-padding-block",
+        "label": "Padding Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-chapternav-padding-inline",
+        "label": "Padding Inline",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
       }
     ]
   },
