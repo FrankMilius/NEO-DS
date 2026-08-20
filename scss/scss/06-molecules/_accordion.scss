@@ -61,7 +61,11 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: var(--mod-accordion-padding, var(--nc-accordion-padding));
+    // Dieselben zwei Achsen wie der Inhalt darunter. Ein gemeinsames Wertepaar
+    // waere kuerzer und hat genau hierher gefuehrt: In `padding:` funktioniert
+    // es, in `padding-inline` und `padding-block-end` nicht.
+    padding-block: var(--mod-accordion-padding-block, var(--nc-accordion-padding-block));
+    padding-inline: var(--mod-accordion-padding-inline, var(--nc-accordion-padding-inline));
 
     // Der Ausloeser ist eine Ueberschrift und traegt deshalb die
     // Ueberschriftenschrift und eine Stufe aus der Typoskala — nicht die
@@ -159,10 +163,20 @@
     }
   }
 
+  // DER INHALT TEILT DIE SENKRECHTE KANTE MIT DEM AUSLOESER.
+  //
+  // Waagerecht denselben Wert wie der Ausloeser — sonst stehen Ueberschrift und
+  // Text um wenige Pixel versetzt und der Kasten wirkt unruhig, ohne dass man
+  // beim Hinsehen sagen koennte, woran es liegt. Gemessen waren es 4 px.
+  //
+  // Senkrecht NUR unten. Oben liefert der Ausloeser den Abstand bereits mit
+  // seinem eigenen padding-block-end; ein zweiter Wert daneben ergaebe die
+  // doppelte Luft zwischen Ueberschrift und Text. So steht der Kasten im
+  // gleichmaessigen Rhythmus: oben, in der Mitte und unten derselbe Abstand.
   &__content-inner {
     overflow: hidden;
-    padding-inline: var(--mod-accordion-padding, var(--nc-accordion-padding));
-    padding-block-end: var(--mod-accordion-padding, var(--nc-accordion-padding));
+    padding-inline: var(--mod-accordion-padding-inline, var(--nc-accordion-padding-inline));
+    padding-block-end: var(--mod-accordion-padding-block, var(--nc-accordion-padding-block));
     color: var(--mod-accordion-content-color, var(--nc-accordion-content-color));
     font-size: var(--mod-accordion-content-font-size, var(--nc-accordion-content-font-size));
     // Der Zeilenabstand folgt dem Lead daneben. --lh-relaxed war eine dritte
@@ -279,23 +293,25 @@
 
   // Compact
   &--compact &__trigger {
-    padding: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
+    padding-block: var(--mod-accordion-padding-compact-block, var(--nc-accordion-padding-compact-block));
+    padding-inline: var(--mod-accordion-padding-compact-inline, var(--nc-accordion-padding-compact-inline));
   }
 
   &--compact &__content-inner {
-    padding-inline: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
-    padding-block-end: var(--mod-accordion-padding-compact, var(--nc-accordion-padding-compact));
+    padding-inline: var(--mod-accordion-padding-compact-inline, var(--nc-accordion-padding-compact-inline));
+    padding-block-end: var(--mod-accordion-padding-compact-block, var(--nc-accordion-padding-compact-block));
     font-size: var(--mod-accordion-content-font-size-compact, var(--nc-accordion-content-font-size-compact));
   }
 
   // Spacious
   &--spacious &__trigger {
-    padding: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
+    padding-block: var(--mod-accordion-padding-spacious-block, var(--nc-accordion-padding-spacious-block));
+    padding-inline: var(--mod-accordion-padding-spacious-inline, var(--nc-accordion-padding-spacious-inline));
   }
 
   &--spacious &__content-inner {
-    padding-inline: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
-    padding-block-end: var(--mod-accordion-padding-spacious, var(--nc-accordion-padding-spacious));
+    padding-inline: var(--mod-accordion-padding-spacious-inline, var(--nc-accordion-padding-spacious-inline));
+    padding-block-end: var(--mod-accordion-padding-spacious-block, var(--nc-accordion-padding-spacious-block));
   }
 
   // ═══════════════════════════════════════════════════════════════
@@ -523,14 +539,18 @@
 // Kopf, sondern ein Abschnitt, der selbst gelesen wird.
 .nc-accordion--lese {
   .nc-accordion__trigger {
-    padding-block: var(--mod-accordion-lese-padding, var(--nc-accordion-lese-padding));
+    padding-block: var(--mod-accordion-lese-padding-block, var(--nc-accordion-lese-padding-block));
     font-size: var(--mod-accordion-lese-trigger-size, var(--nc-accordion-lese-trigger-size));
     font-weight: var(--fnd-font-weight-bold);
   }
 
   .nc-accordion__content-inner {
     font-size: var(--mod-accordion-lese-content-size, var(--nc-accordion-lese-content-size));
-    padding-block-end: var(--fnd-spacing-08);
+    // Derselbe Wert wie das senkrechte Polster des Ausloesers darueber. Vorher
+    // stand hier spacing-08 gegen spacing-06 am Ausloeser — eine Abweichung
+    // ohne Grund, und genau solche Abweichungen ergeben zusammen ein unruhiges
+    // Bild.
+    padding-block-end: var(--mod-accordion-lese-padding-block, var(--nc-accordion-lese-padding-block));
   }
 
   .nc-accordion__text,

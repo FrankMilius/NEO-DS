@@ -1011,7 +1011,25 @@
 
   // Geometry
   --nc-accordion-border: var(--fnd-color-border-secondary);
-  --nc-accordion-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+  // ── Innenabstand: getrennt nach Achse ─────────────────────────────────
+  //
+  // Bis zum 20.08.2026 gab es nur das Wertepaar `<senkrecht> <waagerecht>`. Das
+  // funktioniert in `padding:` und nirgends sonst — und genau dort wurde es
+  // auch verwendet:
+  //
+  //   padding-inline: 16px 20px       ergibt links 16, rechts 20
+  //   padding-block-end: 16px 20px    ist ungueltig und faellt ganz weg
+  //
+  // Gemessen am Inhalt eines Karten-Eintrags: links 16 gegen 20 am Ausloeser
+  // (4 px Versatz, keine senkrechte Anschnittlinie) und unten 1 px bis zur
+  // Kastenkante — der Text klebte am Rand.
+  //
+  // Getrennte Achsen koennen das nicht mehr. Das Paar bleibt als bequeme
+  // Kurzform fuer `padding:` bestehen, wird aber daraus GEBILDET: eine Quelle,
+  // zwei Verwendungen.
+  --nc-accordion-padding-block:  var(--fnd-spacing-04);
+  --nc-accordion-padding-inline: var(--fnd-spacing-05);
+  --nc-accordion-padding: var(--nc-accordion-padding-block) var(--nc-accordion-padding-inline);
   --nc-accordion-icon-size: 20px;
   // ── Typografie des Ausloesers ──────────────────────────────────────────
   // Der Ausloeser ist die Ueberschrift eines Eintrags. Er stand bis zum
@@ -1052,7 +1070,8 @@
   --nc-accordion-lese-trigger-size: var(--nc-type-heading-m-size);
   --nc-accordion-lese-content-size: var(--nc-type-body-l-size);
   --nc-accordion-lese-measure:      66ch;
-  --nc-accordion-lese-padding:      var(--fnd-spacing-06) 0;
+  // Nur die senkrechte Achse — waagerecht ist die Lesefassung buendig.
+  --nc-accordion-lese-padding-block: var(--fnd-spacing-06);
   --nc-accordion-lese-media-max:    clamp(280px, 42vh, 460px);
 
   // ── Blockraster: Kopf zu Akkordeon ────────────────────────────────────
@@ -1077,8 +1096,12 @@
   --nc-accordion-trigger-hover-bg: color-mix(in srgb, var(--fnd-color-text-primary) 4%, transparent);
 
   // Density
-  --nc-accordion-padding-compact: var(--fnd-spacing-03) var(--fnd-spacing-04);
-  --nc-accordion-padding-spacious: var(--fnd-spacing-06) var(--fnd-spacing-07);
+  --nc-accordion-padding-compact-block:  var(--fnd-spacing-03);
+  --nc-accordion-padding-compact-inline: var(--fnd-spacing-04);
+  --nc-accordion-padding-compact: var(--nc-accordion-padding-compact-block) var(--nc-accordion-padding-compact-inline);
+  --nc-accordion-padding-spacious-block:  var(--fnd-spacing-06);
+  --nc-accordion-padding-spacious-inline: var(--fnd-spacing-07);
+  --nc-accordion-padding-spacious: var(--nc-accordion-padding-spacious-block) var(--nc-accordion-padding-spacious-inline);
   --nc-accordion-content-font-size: var(--fnd-typography-body-m-font-size);
   --nc-accordion-content-font-size-compact: var(--fnd-typography-body-s-font-size);
 

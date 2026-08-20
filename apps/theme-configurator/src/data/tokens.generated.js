@@ -4563,12 +4563,6 @@ export const componentTokenGroups = [
         "default": "66ch"
       },
       {
-        "id": "nc-accordion-lese-padding",
-        "label": "Lese Padding",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-06) 0"
-      },
-      {
         "id": "nc-accordion-lese-media-max",
         "label": "Lese Media Max",
         "type": "size",
@@ -4597,6 +4591,48 @@ export const componentTokenGroups = [
         "label": "Voll Measure",
         "type": "size",
         "default": "62ch"
+      },
+      {
+        "id": "nc-accordion-padding-block",
+        "label": "Padding Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-accordion-padding-inline",
+        "label": "Padding Inline",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-accordion-lese-padding-block",
+        "label": "Lese Padding Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-accordion-padding-compact-block",
+        "label": "Padding Compact Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-accordion-padding-compact-inline",
+        "label": "Padding Compact Inline",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-accordion-padding-spacious-block",
+        "label": "Padding Spacious Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-accordion-padding-spacious-inline",
+        "label": "Padding Spacious Inline",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-07)"
       }
     ],
     "subGroups": [
@@ -4641,10 +4677,17 @@ export const componentTokenGroups = [
           "nc-accordion-register-gap",
           "nc-accordion-lese-trigger-size",
           "nc-accordion-lese-content-size",
-          "nc-accordion-lese-padding",
           "nc-accordion-lese-media-max",
-          "nc-accordion-target-width"
-        ]
+          "nc-accordion-target-width",
+          "nc-accordion-padding-block",
+          "nc-accordion-padding-inline",
+          "nc-accordion-lese-padding-block",
+          "nc-accordion-padding-compact-block",
+          "nc-accordion-padding-compact-inline",
+          "nc-accordion-padding-spacious-block",
+          "nc-accordion-padding-spacious-inline"
+        ],
+        "tokens": []
       },
       {
         "id": "typography",
@@ -4656,7 +4699,8 @@ export const componentTokenGroups = [
           "nc-accordion-trigger-tracking",
           "nc-accordion-kicker-weight",
           "nc-accordion-kicker-tracking"
-        ]
+        ],
+        "tokens": []
       },
       {
         "id": "colors",
@@ -4677,7 +4721,8 @@ export const componentTokenGroups = [
           "nc-accordion-trigger-sticky-bg",
           "nc-accordion-footer-border",
           "nc-accordion-kicker-color"
-        ]
+        ],
+        "tokens": []
       },
       {
         "id": "interaction",
@@ -4685,7 +4730,8 @@ export const componentTokenGroups = [
         "category": "state",
         "tokenIds": [
           "nc-accordion-trigger-sticky-z"
-        ]
+        ],
+        "tokens": []
       },
       {
         "id": "other",
@@ -4702,7 +4748,8 @@ export const componentTokenGroups = [
           "nc-accordion-target-marker",
           "nc-accordion-cols",
           "nc-accordion-voll-measure"
-        ]
+        ],
+        "tokens": []
       }
     ]
   },
