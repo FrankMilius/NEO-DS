@@ -4490,14 +4490,56 @@
 // Tab-basierte Fade-Gallery (Apple-Style).
 
 :root {
+  // ── Typografie der Ansichten-Leiste ───────────────────────────────────
+  // Der Tab ist der NAME einer Ansicht und stand auf 16,8 px in Manrope —
+  // eine Stufe UNTER seiner eigenen Beschreibung (20,2 px). Die Navigation
+  // las sich damit als Beiwerk der Bildunterschrift.
+  //
+  // Jetzt dieselbe Leiter wie im Akkordeon, damit beide Bloecke auf einer
+  // Seite zusammengehen:
+  //     Sektionstitel 29,0  >  Tab 20,2  >  Beschreibung 16,8
+  // Beschriftung unter dem Geraet: Name und Text sind zwei Rollen, nicht eine
+  // fettgedruckte Zeile mit Umbruch.
+  --nc-device-figure-name-size:      var(--nc-type-heading-s-size);
+  --nc-device-figure-text-size:      var(--nc-type-body-s-size);
+
   --nc-fade-gallery-radius:          var(--fnd-radius-lg);
-  --nc-fade-gallery-tab-size:        var(--fs-base);
-  --nc-fade-gallery-tab-weight:      var(--fnd-font-weight-medium);
+
+  // ── Typografie der Ansichten-Leiste ─────────────────────────────────
+  // Der Tab ist der NAME einer Ansicht und stand auf fs-base in der
+  // Fliesstextfamilie — gemessen 16,8 px, eine Stufe UNTER seiner eigenen
+  // Beschreibung (20,2 px). Die Navigation las sich damit als Beiwerk der
+  // Bildunterschrift.
+  //
+  // Jetzt dieselbe Leiter wie im Akkordeon, damit beide Bloecke auf einer
+  // Seite zusammengehen:
+  //     Sektionstitel 29,0  >  Tab 20,2  >  Beschreibung 16,8
+  --nc-fade-gallery-tab-family:      var(--font-heading);
+  --nc-fade-gallery-tab-size:        var(--nc-type-heading-s-size);
+  --nc-fade-gallery-tab-weight:      var(--fnd-font-weight-semibold);
+  --nc-fade-gallery-tab-tracking:    var(--fnd-tracking-snug);
+  --nc-fade-gallery-tab-padding:     var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-fade-gallery-tab-color:       var(--fnd-color-text-secondary);
   --nc-fade-gallery-tab-active:      var(--fnd-color-text-primary);
   --nc-fade-gallery-tab-indicator:   var(--fnd-color-interactive-default);
-  --nc-fade-gallery-desc-size:       var(--fs-base);
+
+  --nc-fade-gallery-desc-size:       var(--nc-type-body-m-size);
+  --nc-fade-gallery-desc-measure:    62ch;
   --nc-fade-gallery-desc-color:      var(--fnd-color-text-secondary);
+
+  --nc-fade-gallery-nav-gap:         var(--fnd-spacing-05);
+
+  // Diese drei wurden im Stylesheet BENUTZT, aber nie deklariert. `opacity:
+  // var(--gibt-es-nicht)` ist ungueltig und faellt auf den Anfangswert zurueck
+  // — hier zufaellig 1, also genau das Gewuenschte. Sichtbar wurde es erst
+  // durch den Recipe-Lint, nicht durch Hinsehen.
+  //
+  // Ein Wert, der stimmt, weil eine Variable fehlt, stimmt beim naechsten Mal
+  // nicht mehr: Sobald jemand den Token anlegt, aendert sich das Verhalten
+  // ohne erkennbaren Anlass.
+  --nc-fade-gallery-media-is-active-opacity: 1;
+  --nc-fade-gallery-desc-is-visible-opacity: 1;
+  --nc-fade-gallery-tab-aria-selected-true-after-border-radius: var(--fnd-radius-full);
   --nc-fade-gallery-fade-duration:   0.5s;
   --nc-fade-gallery-headline-size:   var(--fs-2xl);
 }

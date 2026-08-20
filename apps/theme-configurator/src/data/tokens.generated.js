@@ -14090,14 +14090,17 @@ export const componentTokenGroups = [
           "nc-fade-gallery-radius",
           "nc-fade-gallery-tab-size",
           "nc-fade-gallery-desc-size",
-          "nc-fade-gallery-headline-size"
+          "nc-fade-gallery-headline-size",
+          "nc-fade-gallery-tab-padding",
+          "nc-fade-gallery-nav-gap"
         ]
       },
       {
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-fade-gallery-tab-weight"
+          "nc-fade-gallery-tab-weight",
+          "nc-fade-gallery-tab-tracking"
         ]
       },
       {
@@ -14122,7 +14125,9 @@ export const componentTokenGroups = [
         "label": "Weitere",
         "tokenIds": [
           "nc-fade-gallery-tab-active",
-          "nc-fade-gallery-tab-indicator"
+          "nc-fade-gallery-tab-indicator",
+          "nc-fade-gallery-tab-family",
+          "nc-fade-gallery-desc-measure"
         ]
       }
     ],
@@ -14204,6 +14209,36 @@ export const componentTokenGroups = [
         "label": "Headline Size",
         "type": "size",
         "default": "var(--fs-2xl)"
+      },
+      {
+        "id": "nc-fade-gallery-tab-family",
+        "label": "Tab Family",
+        "type": "generic",
+        "default": "var(--font-heading)"
+      },
+      {
+        "id": "nc-fade-gallery-tab-tracking",
+        "label": "Tab Tracking",
+        "type": "size",
+        "default": "var(--fnd-tracking-snug)"
+      },
+      {
+        "id": "nc-fade-gallery-tab-padding",
+        "label": "Tab Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04) var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-fade-gallery-desc-measure",
+        "label": "Desc Measure",
+        "type": "size",
+        "default": "62ch"
+      },
+      {
+        "id": "nc-fade-gallery-nav-gap",
+        "label": "Nav Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
       }
     ]
   },
@@ -19825,7 +19860,9 @@ export const componentTokenGroups = [
           "nc-device-tilt",
           "nc-device-caption-size",
           "nc-device-caption-gap",
-          "nc-device-width-per-height"
+          "nc-device-width-per-height",
+          "nc-device-figure-name-size",
+          "nc-device-figure-text-size"
         ]
       },
       {
@@ -19928,6 +19965,18 @@ export const componentTokenGroups = [
         "label": "Width Per Height",
         "type": "size",
         "default": "0.46"
+      },
+      {
+        "id": "nc-device-figure-name-size",
+        "label": "Figure Name Size",
+        "type": "size",
+        "default": "var(--nc-type-heading-s-size)"
+      },
+      {
+        "id": "nc-device-figure-text-size",
+        "label": "Figure Text Size",
+        "type": "size",
+        "default": "var(--nc-type-body-s-size)"
       }
     ]
   },

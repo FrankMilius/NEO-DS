@@ -46,6 +46,23 @@
   object-fit: cover;
 }
 
+// DIE BESCHREIBUNG IST KEIN LEAD.
+//
+// Eine generische Regel weiter hinten in der Kaskade fasst
+// `.nc-fade-gallery__desc` mit allen `__lead`, `__subline` und `__subtitle`
+// zusammen und setzt sie auf --nc-block-lead-size. Gleiche Spezifitaet, aber
+// spaeter — sie gewinnt. Eine eigene font-size am Bauteil blieb deshalb
+// wirkungslos: gemessen 20,2 px, obwohl der Token 16,8 sagte.
+//
+// Statt mit Spezifitaet dagegenzuhalten (das hat uns hier schon mehrfach
+// eingeholt) wird der Token fuer den Teilbaum umdefiniert: Die generische
+// Regel bleibt zustaendig, bekommt aber den Wert der Galerie geliefert.
+// Dieselbe Loesung wie im Hero fuer --nc-block-lead-size.
+.nc-fade-gallery {
+  --nc-block-lead-size: var(--mod-fade-gallery-desc-size, var(--nc-fade-gallery-desc-size));
+  --nc-block-lead-lh: var(--lh-body);
+}
+
 .nc-fade-gallery__tabs {
   display: flex;
   justify-content: center;
@@ -54,13 +71,18 @@
   border-bottom: 1px solid var(--fnd-color-border-secondary);
 }
 
+// Der Tab ist der NAME einer Ansicht und traegt deshalb Ueberschriftenschrift
+// und eine Stufe aus der Typoskala. Vorher stand er auf label-size in der
+// Fliesstextfamilie — eine Stufe unter seiner eigenen Beschreibung.
 .nc-fade-gallery__tab {
   position: relative;
-  padding: var(--fnd-spacing-03) var(--fnd-spacing-05);
+  padding: var(--mod-fade-gallery-tab-padding, var(--nc-fade-gallery-tab-padding));
   background: none;
   border: none;
-  font-size: var(--nc-type-label-size);
-  font-weight: var(--fnd-font-weight-medium);
+  font-family: var(--mod-fade-gallery-tab-family, var(--nc-fade-gallery-tab-family));
+  font-size: var(--mod-fade-gallery-tab-size, var(--nc-fade-gallery-tab-size));
+  font-weight: var(--mod-fade-gallery-tab-weight, var(--nc-fade-gallery-tab-weight));
+  letter-spacing: var(--mod-fade-gallery-tab-tracking, var(--nc-fade-gallery-tab-tracking));
   color: var(--fnd-color-text-secondary);
   cursor: pointer;
   transition: color 0.2s ease;
@@ -102,10 +124,15 @@
 }
 
 .nc-fade-gallery__desc {
-  font-size: var(--nc-type-body-l-size);
+  // KEINE eigene Schriftgroesse hier — der Token wird oben am Bauteil
+  // umdefiniert. Warum, steht dort.
+  max-inline-size: var(--mod-fade-gallery-desc-measure, var(--nc-fade-gallery-desc-measure));
   color: var(--fnd-color-text-secondary);
-  line-height: var(--lh-body);
+  // Erst zuruecksetzen, dann zentrieren. Andersherum haette `margin: 0` das
+  // `margin-inline: auto` gleich wieder eingesammelt und die Beschreibung
+  // stuende trotz Satzbreite links.
   margin: 0;
+  margin-inline: auto;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -133,7 +160,7 @@
 
 @media (max-width: 768px) {
   .nc-fade-gallery__tab {
-    font-size: var(--nc-type-label-size);
+    font-size: var(--mod-fade-gallery-tab-size, var(--nc-fade-gallery-tab-size));
     padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
   }
 }
@@ -151,3 +178,86 @@
   }
 }
 /* <<< aufgenommen: fade-gallery */
+
+
+// ---------------------------------------------------------------------------
+// Bedienleiste — Blaettern und Uebersicht
+// ---------------------------------------------------------------------------
+// Ergaenzt am 20.08.2026. Die Ueberblendung liess sich nur ueber die Tabs
+// wechseln, das Geraete-Karussell nur durch Scrollen. Beides bekommt jetzt
+// dieselben Bedienelemente wie der Galerie-Block — .nc-gallery__paddle und
+// .nc-gallery__nav-dot. Nichts Eigenes erfunden.
+.nc-fade-gallery__nav-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mod-fade-gallery-nav-gap, var(--nc-fade-gallery-nav-gap));
+  margin-block-start: var(--fnd-spacing-06);
+
+  // Die Tab-Leiste bringt ihren eigenen Abstand nach oben mit; in der Reihe
+  // waere er ein zweiter.
+  .nc-fade-gallery__tabs { margin-block-start: 0; }
+
+  // UEBERNOMMEN IST DAS AUSSEHEN, NICHT DIE LAGE.
+  //
+  // Im Galerie-Block sind beide Behaelter Overlays: __controls liegt mit
+  // `position: absolute; inset: 0` UEBER dem Medium, __nav klebt unten in der
+  // Mitte. In einer gewoehnlichen Reihe brechen sie damit aus und suchen sich
+  // den naechsten positionierten Vorfahren.
+  //
+  // Beobachtet am 20.08.2026: Die Paddles landeten mittig auf dem Bild, und
+  // die Punkte des Geraete-Karussells lagen auf dem Bild der ANDEREN Galerie
+  // weiter oben auf derselben Seite.
+  //
+  // Hier sollen sie unter dem Medium stehen und nichts verdecken — ein Overlay
+  // ueber einem Screenshot verdeckt genau das, was gezeigt werden soll.
+  // Deshalb zurueck in den Fluss.
+  .nc-gallery__controls,
+  .nc-gallery__nav {
+    position: static;
+    inset: auto;
+    transform: none;
+    display: flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+  }
+}
+
+// Auf schmalen Bildschirmen stehen die Paddles ueber der Leiste statt daneben:
+// Nebeneinander bliebe fuer die Tabs zu wenig, und sie scrollen ohnehin quer.
+@include respond-to-max('md') {
+  .nc-fade-gallery__nav-row {
+    flex-direction: column;
+    gap: var(--fnd-spacing-04);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Beschriftung unter dem Geraet
+// ---------------------------------------------------------------------------
+// Name und Text sind zwei Rollen. Vorher waren sie eine <strong>-Zeile mit
+// <br> — was fett ist, ist damit noch keine Ueberschrift.
+.nc-device-figure__name {
+  display: block;
+  font-family: var(--nc-fade-gallery-tab-family);
+  font-size: var(--mod-device-figure-name-size, var(--nc-device-figure-name-size));
+  font-weight: var(--fnd-font-weight-semibold);
+  letter-spacing: var(--fnd-tracking-snug);
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-device-figure__text {
+  display: block;
+  font-size: var(--mod-device-figure-text-size, var(--nc-device-figure-text-size));
+  color: var(--fnd-color-text-secondary);
+  line-height: var(--lh-body);
+  margin-block-start: var(--fnd-spacing-02);
+}
+
+// Der Punkt der aktiven Ansicht — als Verweis, nicht als Schaltflaeche:
+// Ohne Skript springt er ueber die Adresse zur Figur.
+.nc-gallery__nav-dot.is-active {
+  background-color: var(--fnd-color-background-accent);
+}

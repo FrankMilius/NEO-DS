@@ -62,6 +62,26 @@
           "renderHint": "fade-gallery-default"
         }
       }
+    },
+    "navigation": {
+      "label": "Navigation",
+      "description": "Zusaetzlich zu Tabs bzw. Scrollen: Blaettern ueber .nc-gallery__paddle und eine Uebersicht ueber .nc-gallery__nav-dot — dieselben Bauteile wie im Galerie-Block. Uebernommen ist das Aussehen, nicht die Lage: Dort sind beide Overlays ueber dem Medium, hier stehen sie darunter im Fluss.",
+      "values": {
+        "tabs": {
+          "modifier": null,
+          "tokenGroups": [
+            "tabs"
+          ],
+          "renderHint": "fg-tabs"
+        },
+        "paddles": {
+          "modifier": "nc-fade-gallery__nav-row",
+          "tokenGroups": [
+            "tabs"
+          ],
+          "renderHint": "fg-paddles"
+        }
+      }
     }
   },
   "states": {
@@ -106,13 +126,21 @@
         ]
       },
       "tabs": {
-        "label": "Tabs",
+        "label": "Ansichten-Leiste",
+        "description": "Der Tab ist der Name einer Ansicht und traegt deshalb Ueberschriftenschrift — eine Stufe ueber seiner Beschreibung, nicht darunter.",
         "tokens": [
+          "nc-fade-gallery-tab-family",
           "nc-fade-gallery-tab-size",
           "nc-fade-gallery-tab-weight",
+          "nc-fade-gallery-tab-tracking",
+          "nc-fade-gallery-tab-padding",
           "nc-fade-gallery-tab-color",
           "nc-fade-gallery-tab-active",
-          "nc-fade-gallery-tab-indicator"
+          "nc-fade-gallery-tab-indicator",
+          "nc-fade-gallery-desc-size",
+          "nc-fade-gallery-desc-measure",
+          "nc-fade-gallery-desc-color",
+          "nc-fade-gallery-nav-gap"
         ]
       },
       "caption": {
