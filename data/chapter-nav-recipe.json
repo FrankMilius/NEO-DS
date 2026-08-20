@@ -1,0 +1,163 @@
+{
+  "$schema": "../schemas/recipe.schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "chapternav",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "navigation",
+      "anchor",
+      "sticky",
+      "long-page",
+      "editorial"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "docs/content/chapter-nav.html"
+    },
+    "label": "Kapitelnavigation",
+    "description": "Kapitelleiste und Verzeichnis fuer lange Inhaltsseiten. Zwei Bauteile, die zusammengehoeren: Das Verzeichnis traegt ohne Skript und im Druck, die Leiste traegt beim Scrollen.",
+    "whenToUse": "Ab etwa acht Bildschirmen Seitenhoehe und fuenf bis sieben Kapiteln. Fuer Dokumentationsseiten mit vielen Abschnitten und zwei Ebenen ist .nc-refpage__toc die bessere Wahl — es kostet allerdings 200 bis 280 px Breite.",
+    "layer": "07-organisms"
+  },
+  "anatomy": {
+    "root": "nc-chapternav",
+    "slots": [
+      {
+        "element": "nc-chapternav__inner",
+        "name": "Leiste, quer scrollbar",
+        "optional": false
+      },
+      {
+        "element": "nc-chapternav__link",
+        "name": "Kapitelverweis",
+        "optional": false
+      },
+      {
+        "element": "nc-chaptertoc",
+        "name": "Verzeichnis am Seitenanfang",
+        "optional": true
+      },
+      {
+        "element": "nc-chaptertoc__list",
+        "name": "Nummerierte Kapitelliste",
+        "optional": true
+      },
+      {
+        "element": "nc-chapter-anchor",
+        "name": "Sprungziel am Block",
+        "optional": false
+      }
+    ]
+  },
+  "axes": {
+    "form": {
+      "label": "Form",
+      "description": "Beide zusammen sind die Vorgabe. Das Verzeichnis allein ist nach dem ersten Bildschirm weg; die Leiste allein ist ohne Skript stumm und steht nicht im Druck.",
+      "values": {
+        "beide": {
+          "modifier": null,
+          "tokenGroups": [
+            "leiste",
+            "verzeichnis",
+            "anker"
+          ],
+          "renderHint": "chapter-beide"
+        },
+        "nur-leiste": {
+          "modifier": "nc-chapternav",
+          "tokenGroups": [
+            "leiste",
+            "anker"
+          ],
+          "renderHint": "chapter-leiste"
+        },
+        "nur-verzeichnis": {
+          "modifier": "nc-chaptertoc",
+          "tokenGroups": [
+            "verzeichnis",
+            "anker"
+          ],
+          "renderHint": "chapter-verzeichnis"
+        }
+      }
+    }
+  },
+  "states": {
+    "current": {
+      "selector": "[aria-current]",
+      "description": "Das laufende Kapitel. Marke UND Gewicht UND Farbe — Farbe allein waere nach WCAG 1.4.1 kein zulaessiges Unterscheidungsmerkmal."
+    }
+  },
+  "a11y": {
+    "notes": [
+      "Beide Bauteile sind <nav> mit aria-label (WCAG 2.4.1).",
+      "Das laufende Kapitel traegt aria-current='true' und zusaetzlich Marke und Schriftschnitt (WCAG 1.4.1).",
+      "scroll-margin-top an den Kapiteln: ohne ihn verschwindet jedes Sprungziel unter den klebenden Leisten (WCAG 2.4.7).",
+      "Der Scroll-Spy liest denselben scroll-margin-top als Schwelle. Ein geratener Zuschlag laesst ein gerade angesprungenes Kapitel unmarkiert."
+    ]
+  },
+  "constraints": [
+    "Die Leiste braucht einen Vorfahren ohne overflow und ohne transform — beides schaltet position: sticky still ab. Deshalb steht sie ausserhalb der Sektionen.",
+    "Weniger als zwei Kapitel ergeben keine Navigation; die Vorlage gibt dann nichts aus.",
+    "Im Druck entfaellt die Leiste, das Verzeichnis bleibt."
+  ],
+  "styling": {
+    "baseClasses": [
+      "nc-chapternav",
+      "nc-chaptertoc"
+    ],
+    "baseTokenGroups": [
+      "leiste",
+      "verzeichnis",
+      "anker"
+    ],
+    "tokenGroups": {
+      "leiste": {
+        "label": "Kapitelleiste",
+        "description": "Die klebende Leiste samt Marke des laufenden Kapitels.",
+        "tokens": [
+          "nc-chapternav-bg",
+          "nc-chapternav-border",
+          "nc-chapternav-gap",
+          "nc-chapternav-padding",
+          "nc-chapternav-family",
+          "nc-chapternav-size",
+          "nc-chapternav-weight",
+          "nc-chapternav-color",
+          "nc-chapternav-color-active",
+          "nc-chapternav-marker",
+          "nc-chapternav-marker-height",
+          "nc-chapternav-top"
+        ]
+      },
+      "verzeichnis": {
+        "label": "Verzeichnis",
+        "description": "Die nummerierte Liste unter dem Hero.",
+        "tokens": [
+          "nc-chapternav-toc-bg",
+          "nc-chapternav-toc-border",
+          "nc-chapternav-toc-radius",
+          "nc-chapternav-toc-padding",
+          "nc-chapternav-toc-gap",
+          "nc-chapternav-toc-title-size",
+          "nc-chapternav-toc-title-color",
+          "nc-chapternav-toc-size",
+          "nc-chapternav-toc-color",
+          "nc-chapternav-toc-number-color"
+        ]
+      },
+      "anker": {
+        "label": "Sprungziel",
+        "description": "Der Abstand, um den ein angesprungenes Kapitel nach unten rueckt.",
+        "tokens": [
+          "nc-chapternav-scroll-margin"
+        ]
+      }
+    }
+  },
+  "recipes": [],
+  "specimens": []
+}

@@ -1,0 +1,193 @@
+// ==========================================================================
+// 07-Organisms: Kapitelnavigation fuer lange Inhaltsseiten
+// ==========================================================================
+// Zwei Bauteile, die zusammen eine Antwort geben:
+//
+//   .nc-chaptertoc   Eine Liste unter dem Hero. Klebt nicht, braucht kein
+//                    Skript, wird gedruckt mit ausgegeben.
+//   .nc-chapternav   Eine schmale Leiste, die beim Scrollen unter der
+//                    Hauptnavigation klebt und das laufende Kapitel markiert.
+//
+// WARUM BEIDE
+// Die Liste allein ist nach dem ersten Bildschirm weg — wer bei Kapitel 4
+// umsteigen will, scrollt 9 000 px zurueck. Die Leiste allein ist ohne Skript
+// stumm und steht nicht im Druck. Zusammen kosten sie rund 56 px Hoehe und
+// keine Breite.
+//
+// WARUM KEINE RANDSPALTE
+// Ein mitlaufendes Verzeichnis (.nc-refpage__toc) gibt es im System bereits und
+// ist fuer Dokumentationsseiten die bessere Wahl. Es kostet aber 200 bis 280 px
+// Breite — auf einer Marketingseite mit randlosen Sektionen ein Bruch.
+//
+// BARRIEREFREIHEIT
+//   2.4.1  Beide sind <nav> mit aria-label.
+//   1.4.1  Das laufende Kapitel traegt aria-current="true" UND eine
+//          Markierungsleiste UND einen anderen Schriftschnitt. Farbe allein
+//          waere kein zulaessiges Unterscheidungsmerkmal.
+//   2.4.7  scroll-margin-top an den Kapiteln — ohne das verschwindet jedes
+//          Sprungziel unter den klebenden Leisten.
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Verzeichnis am Seitenanfang
+// ---------------------------------------------------------------------------
+
+.nc-chaptertoc {
+  background: var(--mod-chapternav-toc-bg, var(--nc-chapternav-toc-bg));
+  border: 1px solid var(--mod-chapternav-toc-border, var(--nc-chapternav-toc-border));
+  border-radius: var(--mod-chapternav-toc-radius, var(--nc-chapternav-toc-radius));
+  padding: var(--mod-chapternav-toc-padding, var(--nc-chapternav-toc-padding));
+}
+
+.nc-chaptertoc__title {
+  font-family: var(--font-mono);
+  font-size: var(--mod-chapternav-toc-title-size, var(--nc-chapternav-toc-title-size));
+  font-weight: var(--nc-mono-label-weight-strong);
+  letter-spacing: var(--nc-mono-tracking-caps);
+  text-transform: uppercase;
+  color: var(--mod-chapternav-toc-title-color, var(--nc-chapternav-toc-title-color));
+  margin: 0 0 var(--fnd-spacing-03);
+}
+
+// Eine nummerierte Liste, und die Nummern sind hier ehrlich: Die Kapitel einer
+// Seite haben eine Reihenfolge, in der sie gelesen werden.
+.nc-chaptertoc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mod-chapternav-toc-gap, var(--nc-chapternav-toc-gap));
+  counter-reset: kapitel;
+}
+
+.nc-chaptertoc__item {
+  counter-increment: kapitel;
+}
+
+.nc-chaptertoc__link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--fnd-spacing-02);
+  font-size: var(--mod-chapternav-toc-size, var(--nc-chapternav-toc-size));
+  color: var(--mod-chapternav-toc-color, var(--nc-chapternav-toc-color));
+  text-decoration: none;
+  border-block-end: 1px solid var(--fnd-color-border-primary);
+  padding-block-end: 1px;
+
+  &::before {
+    content: counter(kapitel, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--mod-chapternav-toc-number-color, var(--nc-chapternav-toc-number-color));
+    border: 0;
+  }
+
+  &:hover { border-block-end-color: currentColor; }
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+    outline-offset: var(--fnd-focus-offset);
+  }
+}
+
+// Der Abschnitt, der das Verzeichnis traegt.
+//
+// `.nc-section` bringt oben und unten das volle Sektionspolster mit. Direkt
+// unter der klebenden Leiste und direkt ueber dem ersten Inhaltsabschnitt
+// stehen damit zwei volle Polster uebereinander — gemessen rund 116 px Leere
+// zwischen Verzeichnis und erster Ueberschrift.
+//
+// Eine eigene Klasse statt eines Werts am Verzeichnis selbst: Das Polster
+// gehoert dem Abschnitt, und nur der kann es zuruecknehmen.
+.nc-section--chaptertoc {
+  padding-block: var(--fnd-spacing-05) var(--fnd-spacing-06);
+}
+
+// ---------------------------------------------------------------------------
+// Kapitelleiste
+// ---------------------------------------------------------------------------
+
+.nc-chapternav {
+  position: sticky;
+  inset-block-start: var(--mod-chapternav-top, var(--nc-chapternav-top));
+  z-index: 20;
+  background: var(--mod-chapternav-bg, var(--nc-chapternav-bg));
+  border-block-end: 1px solid var(--mod-chapternav-border, var(--nc-chapternav-border));
+
+  // Ohne Skript hat die Leiste nichts zu markieren — aber springen kann man
+  // trotzdem. Sie bleibt deshalb sichtbar.
+}
+
+.nc-chapternav__inner {
+  display: flex;
+  gap: var(--mod-chapternav-gap, var(--nc-chapternav-gap));
+
+  // Quer scrollbar statt umbrechend: Eine zweizeilige Leiste kostet doppelt so
+  // viel dauerhafte Hoehe, und die ist auf einer langen Seite das Knappste.
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  @include hide-scrollbar;
+}
+
+.nc-chapternav__link {
+  position: relative;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  padding: var(--mod-chapternav-padding, var(--nc-chapternav-padding));
+  font-family: var(--mod-chapternav-family, var(--nc-chapternav-family));
+  font-size: var(--mod-chapternav-size, var(--nc-chapternav-size));
+  font-weight: var(--fnd-font-weight-medium);
+  color: var(--mod-chapternav-color, var(--nc-chapternav-color));
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
+
+  &:hover { color: var(--mod-chapternav-color-active, var(--nc-chapternav-color-active)); }
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+    outline-offset: calc(-1 * var(--fnd-focus-ring-width));
+  }
+
+  // Das laufende Kapitel: Marke UND Gewicht UND Farbe. Farbe allein waere nach
+  // WCAG 1.4.1 kein zulaessiges Unterscheidungsmerkmal.
+  &[aria-current] {
+    color: var(--mod-chapternav-color-active, var(--nc-chapternav-color-active));
+    font-weight: var(--mod-chapternav-weight, var(--nc-chapternav-weight));
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: var(--fnd-spacing-03);
+      inset-block-end: -1px;
+      block-size: var(--mod-chapternav-marker-height, var(--nc-chapternav-marker-height));
+      background: var(--mod-chapternav-marker, var(--nc-chapternav-marker));
+      border-radius: var(--fnd-radius-full);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Das Sprungziel selbst
+// ---------------------------------------------------------------------------
+// Ohne diesen Abstand rutscht jedes angesprungene Kapitel unter die beiden
+// klebenden Leisten: Man klickt, es passiert scheinbar nichts, und die
+// Ueberschrift steht ausserhalb des Bildes.
+.nc-chapter-anchor {
+  scroll-margin-block-start: var(--mod-chapternav-scroll-margin, var(--nc-chapternav-scroll-margin));
+}
+
+// ---------------------------------------------------------------------------
+// Drucken
+// ---------------------------------------------------------------------------
+// Eine klebende Leiste auf Papier ist ein Streifen, der auf jeder Seite an
+// derselben Stelle steht und nichts tut. Das Verzeichnis dagegen bleibt: Es ist
+// gedruckt genauso brauchbar wie am Bildschirm.
+@media print {
+  .nc-chapternav { display: none; }
+  .nc-chaptertoc { break-inside: avoid; }
+}
