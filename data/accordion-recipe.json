@@ -205,6 +205,22 @@
           "slotConfig": {
             "trigger-prefix": true
           }
+        },
+        "register": {
+          "modifier": "nc-accordion--register",
+          "tokenGroups": [
+            "register"
+          ],
+          "renderHint": "accordion-register",
+          "description": "Zweispaltig. Fuer Listen, in denen man sucht statt liest — Glossare, Integrationen, Downloads. Ab acht kurzen Eintraegen. Nicht, wenn die Reihenfolge etwas bedeutet: zwei Spalten heissen zwei Anfaenge."
+        },
+        "lese": {
+          "modifier": "nc-accordion--lese",
+          "tokenGroups": [
+            "lese"
+          ],
+          "renderHint": "accordion-lese",
+          "description": "Volle Breite, grosse Ausloeser, Medium im Textfluss. Fuer Schrittfolgen und Erklaerstuecke, die gelesen und nicht ueberflogen werden. Drei bis fuenf Eintraege."
         }
       }
     },
@@ -300,6 +316,35 @@
             "sticky"
           ],
           "renderHint": "accordion-sticky"
+        }
+      }
+    },
+    "deepLink": {
+      "label": "Sprungziel",
+      "description": "Jeder Eintrag traegt eine Kennung. /seite#kennung oeffnet ihn und springt hin; der offene Eintrag bekommt eine Marke, damit man sieht, wo man gelandet ist.",
+      "values": {
+        "on": {
+          "modifier": null,
+          "tokenGroups": [
+            "target"
+          ],
+          "renderHint": "accordion-deeplink"
+        }
+      }
+    },
+    "expandAll": {
+      "label": "Alle aufklappen",
+      "description": "Schalter ueber der Liste. Sinnvoll ab etwa acht Eintraegen. Bei Verhalten `single` wirkungslos — dort widerspraeche er sich selbst.",
+      "values": {
+        "off": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "accordion-expand-off"
+        },
+        "on": {
+          "modifier": "nc-accordion-toggle-all",
+          "tokenGroups": [],
+          "renderHint": "accordion-expand-on"
         }
       }
     }
@@ -569,6 +614,65 @@
           "nc-accordion-footer-padding",
           "nc-accordion-footer-border"
         ]
+      },
+      "trigger-type": {
+        "label": "Typografie des Ausloesers",
+        "description": "Der Ausloeser ist die Ueberschrift eines Eintrags und traegt deshalb Ueberschriftenschrift und eine Stufe aus der Typoskala — nicht die Fliesstextgroesse.",
+        "tokens": [
+          "nc-accordion-trigger-family",
+          "nc-accordion-trigger-size",
+          "nc-accordion-trigger-lh",
+          "nc-accordion-trigger-tracking",
+          "nc-accordion-trigger-font-weight",
+          "nc-accordion-trigger-color",
+          "nc-accordion-trigger-hover-bg",
+          "nc-accordion-trigger-sticky-z",
+          "nc-accordion-trigger-sticky-bg",
+          "nc-accordion-kicker-family",
+          "nc-accordion-kicker-size",
+          "nc-accordion-kicker-weight",
+          "nc-accordion-kicker-tracking",
+          "nc-accordion-kicker-color",
+          "nc-accordion-kicker-gap",
+          "nc-accordion-content-lh",
+          "nc-accordion-content-measure",
+          "nc-accordion-gutter"
+        ]
+      },
+      "register": {
+        "label": "Register",
+        "description": "Zweispaltige Fassung.",
+        "tokens": [
+          "nc-accordion-register-columns",
+          "nc-accordion-register-gap"
+        ]
+      },
+      "lese": {
+        "label": "Lesefassung",
+        "description": "Grosse Ausloeser, Medium im Textfluss.",
+        "tokens": [
+          "nc-accordion-lese-trigger-size",
+          "nc-accordion-lese-content-size",
+          "nc-accordion-lese-measure",
+          "nc-accordion-lese-padding",
+          "nc-accordion-lese-media-max"
+        ]
+      },
+      "target": {
+        "label": "Sprungziel",
+        "description": "Marke des per Adresse geoeffneten Eintrags.",
+        "tokens": [
+          "nc-accordion-target-marker",
+          "nc-accordion-target-width"
+        ]
+      },
+      "block": {
+        "label": "Blockraster",
+        "description": "Breitenverhaeltnis von Kopf und Akkordeon.",
+        "tokens": [
+          "nc-accordion-cols",
+          "nc-accordion-voll-measure"
+        ]
       }
     }
   },
@@ -601,12 +705,30 @@
     }
   },
   "keyboard": {
-    "Enter": { "action": "toggle-item", "note": "Oeffnet/schliesst das fokussierte Accordion-Item." },
-    "Space": { "action": "toggle-item", "note": "Oeffnet/schliesst das fokussierte Accordion-Item." },
-    "ArrowDown": { "action": "focus-next-trigger", "note": "Fokussiert naechsten Accordion-Trigger." },
-    "ArrowUp": { "action": "focus-prev-trigger", "note": "Fokussiert vorherigen Accordion-Trigger." },
-    "Home": { "action": "focus-first-trigger", "note": "Springt zum ersten Trigger." },
-    "End": { "action": "focus-last-trigger", "note": "Springt zum letzten Trigger." }
+    "Enter": {
+      "action": "toggle-item",
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+    },
+    "Space": {
+      "action": "toggle-item",
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+    },
+    "ArrowDown": {
+      "action": "focus-next-trigger",
+      "note": "Fokussiert naechsten Accordion-Trigger."
+    },
+    "ArrowUp": {
+      "action": "focus-prev-trigger",
+      "note": "Fokussiert vorherigen Accordion-Trigger."
+    },
+    "Home": {
+      "action": "focus-first-trigger",
+      "note": "Springt zum ersten Trigger."
+    },
+    "End": {
+      "action": "focus-last-trigger",
+      "note": "Springt zum letzten Trigger."
+    }
   },
   "testSelectors": {
     "root": "[data-testid='accordion']",
@@ -615,7 +737,14 @@
     "content": "[data-testid='accordion-content']"
   },
   "events": {
-    "accordion-toggle": { "bubbles": true, "detail": { "itemId": "string", "open": "boolean" }, "note": "Gefeuert wenn ein Item geoeffnet/geschlossen wird." }
+    "accordion-toggle": {
+      "bubbles": true,
+      "detail": {
+        "itemId": "string",
+        "open": "boolean"
+      },
+      "note": "Gefeuert wenn ein Item geoeffnet/geschlossen wird."
+    }
   },
   "specimens": [
     {

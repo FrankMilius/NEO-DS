@@ -297,6 +297,114 @@
             </div>
           </section>
 
+          <!-- Register: zweispaltig -->
+          <section class="docs__section" id="register">
+            <h2 class="docs__section-title">Register (<code class="docs__token">.nc-accordion--register</code>)</h2>
+            <p class="docs__section-desc">
+              Zweispaltig, f&uuml;r Listen, in denen man <em>sucht</em> statt liest &mdash; Glossare,
+              Integrationen, Downloads. Halbiert die Bauh&ouml;he bei vielen kurzen Eintr&auml;gen.
+              Ab etwa acht Eintr&auml;gen sinnvoll. Unterhalb der Umbruchbreite bleibt eine Spalte:
+              Zwei Spalten auf einem Telefon hei&szlig;en zwei Anf&auml;nge auf 180&nbsp;px Breite.
+            </p>
+            <p class="docs__section-desc">
+              <strong>Nicht einsetzen, wenn die Reihenfolge etwas bedeutet.</strong> Zwei Spalten
+              hei&szlig;en zwei Leseanf&auml;nge; eine Schrittfolge wird darin unlesbar.
+              Ein Medium neben dem Text ist hier wirkungslos &mdash; die Spalte ist zu schmal,
+              deshalb f&auml;llt <code class="docs__token">--media-side</code> in der Registerfassung
+              auf <code class="docs__token">--media-top</code> zur&uuml;ck.
+            </p>
+            <p class="docs__section-desc">
+              Umgesetzt als CSS-Grid und nicht als <code class="docs__token">column-count</code>:
+              Spalten w&uuml;rden einen Eintrag an der Spaltengrenze zerlegen, sobald er aufklappt.
+              Die Spaltenzahl h&auml;ngt an <code class="docs__token">--nc-accordion-register-columns</code>.
+            </p>
+          </section>
+
+          <!-- Lesefassung -->
+          <section class="docs__section" id="lese">
+            <h2 class="docs__section-title">Lesefassung (<code class="docs__token">.nc-accordion--lese</code>)</h2>
+            <p class="docs__section-desc">
+              Volle Breite, gro&szlig;e Ausl&ouml;ser, Medium im Textfluss. Kein Beiwerk neben einem
+              Kopf, sondern ein Abschnitt, der selbst gelesen wird &mdash; Schrittfolgen, Ratgeber,
+              l&auml;ngere Erkl&auml;rst&uuml;cke. Drei bis f&uuml;nf Eintr&auml;ge mit je mehreren S&auml;tzen.
+            </p>
+            <p class="docs__section-desc">
+              Das Medium ist hier der Punkt und nicht die Beigabe, deshalb gilt eine eigene,
+              gro&szlig;z&uuml;gigere H&ouml;hendeckelung
+              (<code class="docs__token">--nc-accordion-lese-media-max</code>). Begrenzt wird die
+              <em>H&ouml;he</em>, die Breite folgt der Form des Bildes: Ein hochkantes Bild wird zu
+              einer ruhigen Spalte statt zu einem Band mit abgeschnittenem Kopf.
+            </p>
+            <p class="docs__section-desc">
+              <strong>Nicht f&uuml;r FAQ.</strong> Dort ist <code class="docs__token">--flush</code>
+              schneller. Und Nummern im Kicker nur, wenn es wirklich eine Folge ist &mdash; sonst
+              behaupten sie eine Ordnung, die es nicht gibt.
+            </p>
+          </section>
+
+          <!-- Anschnittlinie -->
+          <section class="docs__section" id="anschnitt">
+            <h2 class="docs__section-title">Anschnittlinie</h2>
+            <p class="docs__section-desc">
+              Bei <code class="docs__token">--flush</code>, <code class="docs__token">--ghost</code>,
+              <code class="docs__token">--register</code> und <code class="docs__token">--lese</code>
+              beginnt der Text auf der Spaltenkante: Das Innenpolster wandert aus dem Textfluss,
+              das Zeichen h&auml;ngt im Bund.
+            </p>
+            <p class="docs__section-desc">
+              Gemessen am 20.08.2026 vor der Korrektur bei 1440&nbsp;px: Sektionskopf bei 73&nbsp;px,
+              Ausl&ouml;ser bei 771, Inhalt bei 767 &mdash; die beiden standen weder mit dem Kopf noch
+              miteinander auf einer Linie.
+            </p>
+            <p class="docs__section-desc">
+              <strong>Die Kartenfassungen behalten ihr Polster.</strong> Bei
+              <code class="docs__token">--separated</code> und <code class="docs__token">--elevated</code>
+              ist es die Fl&auml;che des Gegenstands und keine Nachl&auml;ssigkeit.
+            </p>
+          </section>
+
+          <!-- Sprungziele -->
+          <section class="docs__section" id="sprungziel">
+            <h2 class="docs__section-title">Sprungziele</h2>
+            <p class="docs__section-desc">
+              Jeder Eintrag tr&auml;gt eine Kennung; <code class="docs__token">/seite#kennung</code>
+              &ouml;ffnet ihn und springt hin. Der so ge&ouml;ffnete Eintrag bekommt eine Marke
+              (<code class="docs__token">:target</code>), damit man sieht, wo man gelandet ist.
+            </p>
+            <p class="docs__section-desc">
+              Ein <code class="docs__token">&lt;details&gt;</code> mit passender
+              <code class="docs__token">id</code> ist zwar das Sprungziel des Browsers, bleibt aber
+              zu &mdash; gesprungen wird an eine &Uuml;berschrift, unter der nichts steht.
+              Aufklappen muss das Skript.
+            </p>
+          </section>
+
+          <!-- Warum details -->
+          <section class="docs__section" id="warum-details">
+            <h2 class="docs__section-title">Warum <code class="docs__token">&lt;details&gt;</code></h2>
+            <p class="docs__section-desc">
+              Bei einem Akkordeon ohne &auml;u&szlig;eres Medium kann das native Element alles, was
+              gebraucht wird &mdash; inklusive &bdquo;genau eines offen&ldquo; &uuml;ber das
+              <code class="docs__token">name</code>-Attribut. Und es kann etwas, das eine
+              Nachbildung aus <code class="docs__token">button</code> und
+              <code class="docs__token">aria-expanded</code> nicht kann: Die Browsersuche findet
+              Text in einem zugeklappten <code class="docs__token">&lt;details&gt;</code> und klappt
+              ihn selbst auf.
+            </p>
+            <p class="docs__section-desc">
+              <strong>Die Gegenprobe</strong> steht in der Ger&auml;te-Strecke
+              (<code class="docs__token">.nc-product-showcase--accordion</code>): Dort muss es ein
+              <code class="docs__token">&lt;button&gt;</code> sein, weil gleichzeitig ein Medium
+              <em>au&szlig;erhalb</em> wechselt. Das kann <code class="docs__token">&lt;details&gt;</code> nicht.
+            </p>
+            <p class="docs__section-desc">
+              Beim Drucken klappt <code class="docs__token">@media print</code> alles auf und blendet
+              Zeichen und Schalter aus. Ein zugeklapptes Akkordeon druckt sonst eine Liste von
+              &Uuml;berschriften ohne Inhalt &mdash; und das merkt niemand, bis das Blatt aus dem
+              Drucker kommt.
+            </p>
+          </section>
+
           <!-- Animierter Daten-Accordion -->
           <section class="docs__section" id="data-accordion">
             <h2 class="docs__section-title">Animierter Inhalt (<code class="docs__token">[data-accordion]</code>)</h2>

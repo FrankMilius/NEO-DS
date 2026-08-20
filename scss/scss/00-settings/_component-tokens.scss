@@ -1013,7 +1013,64 @@
   --nc-accordion-border: var(--fnd-color-border-secondary);
   --nc-accordion-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-accordion-icon-size: 20px;
-  --nc-accordion-trigger-font-weight: var(--fnd-font-weight-medium);
+  // ── Typografie des Ausloesers ──────────────────────────────────────────
+  // Der Ausloeser ist die Ueberschrift eines Eintrags. Er stand bis zum
+  // 20.08.2026 auf 16 px in Manrope — gemessen VIER Stufen unter dem
+  // Sektionstitel (29,0 px) und eine unter dem Lead daneben (20,2 px). Die
+  // rechte Spalte las sich dadurch wie eine Bildunterschrift zur linken.
+  //
+  // Zwei Familien fuer zwei Ueberschriftenebenen lesen sich ausserdem nicht als
+  // Hierarchie, sondern als zwei Systeme. Ueberschrift ist --font-heading.
+  --nc-accordion-trigger-family:    var(--font-heading);
+  --nc-accordion-trigger-size:      var(--nc-type-heading-s-size);
+  --nc-accordion-trigger-lh:        var(--lh-snug);
+  --nc-accordion-trigger-tracking:  var(--fnd-tracking-snug);
+
+  // Etikett ueber dem Ausloeser — dieselbe Sprache wie jedes Etikett im System.
+  --nc-accordion-kicker-family:     var(--font-mono);
+  --nc-accordion-kicker-size:       var(--fs-xs);
+  --nc-accordion-kicker-weight:     var(--nc-mono-label-weight-strong);
+  --nc-accordion-kicker-tracking:   var(--nc-mono-tracking-caps);
+  --nc-accordion-kicker-color:      var(--fnd-color-text-tertiary);
+  --nc-accordion-kicker-gap:        var(--fnd-spacing-01);
+
+  // Der Zeilenabstand des Inhalts folgt dem Lead daneben, nicht dem Vorgabewert
+  // des Bauteils — sonst laufen zwei Fliesstexte im selben Block verschieden.
+  --nc-accordion-content-lh:        var(--lh-body);
+  --nc-accordion-content-measure:   62ch;
+
+  // Der Zwischenraum, um den das Zeichen im Bund haengt (bei den buendigen
+  // Fassungen). Er ersetzt das Innenpolster, das den Text von der
+  // Anschnittlinie wegschob.
+  --nc-accordion-gutter:            var(--fnd-spacing-06);
+
+  // ── Zweispaltiges Register ────────────────────────────────────────────
+  --nc-accordion-register-columns:  2;
+  --nc-accordion-register-gap:      0 var(--fnd-spacing-08);
+
+  // ── Lesefassung ───────────────────────────────────────────────────────
+  --nc-accordion-lese-trigger-size: var(--nc-type-heading-m-size);
+  --nc-accordion-lese-content-size: var(--nc-type-body-l-size);
+  --nc-accordion-lese-measure:      66ch;
+  --nc-accordion-lese-padding:      var(--fnd-spacing-06) 0;
+  --nc-accordion-lese-media-max:    clamp(280px, 42vh, 460px);
+
+  // ── Blockraster: Kopf zu Akkordeon ────────────────────────────────────
+  // 1fr 2fr ist die Vorgabe, nicht 1fr 1fr. Begruendung an der Regel in
+  // _accordion-block.scss.
+  //
+  // Der Name traegt bewusst KEIN „-block-": Ein Token --nc-accordion-block-*
+  // erfindet fuer die Werkzeuge eine Komponente „accordion-block", die es in
+  // design-tokens.json nicht gibt — und die uebergehen sie dann stillschweigend
+  // (derselbe Topf wie die 236 nicht registrierten Tokens im BACKLOG).
+  --nc-accordion-cols:         1fr 2fr;
+  --nc-accordion-voll-measure: 62ch;
+
+  // ── Marke des offenen Eintrags bei Sprungzielen ───────────────────────
+  --nc-accordion-target-marker:     var(--fnd-color-background-accent);
+  --nc-accordion-target-width:      3px;
+
+  --nc-accordion-trigger-font-weight: var(--fnd-font-weight-semibold);
   --nc-accordion-trigger-color: var(--fnd-color-text-primary);
   --nc-accordion-content-color: var(--fnd-color-text-secondary);
   --nc-accordion-icon-color: var(--fnd-color-text-tertiary);

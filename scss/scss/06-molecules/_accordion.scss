@@ -62,6 +62,14 @@
     align-items: center;
     width: 100%;
     padding: var(--mod-accordion-padding, var(--nc-accordion-padding));
+
+    // Der Ausloeser ist eine Ueberschrift und traegt deshalb die
+    // Ueberschriftenschrift und eine Stufe aus der Typoskala — nicht die
+    // Fliesstextgroesse. Siehe die Begruendung an den Tokens.
+    font-family: var(--mod-accordion-trigger-family, var(--nc-accordion-trigger-family));
+    font-size: var(--mod-accordion-trigger-size, var(--nc-accordion-trigger-size));
+    line-height: var(--mod-accordion-trigger-lh, var(--nc-accordion-trigger-lh));
+    letter-spacing: var(--mod-accordion-trigger-tracking, var(--nc-accordion-trigger-tracking));
     font-weight: var(--mod-accordion-trigger-font-weight, var(--nc-accordion-trigger-font-weight));
     color: var(--mod-accordion-trigger-color, var(--nc-accordion-trigger-color));
     cursor: pointer;
@@ -90,6 +98,25 @@
       cursor: not-allowed;
       pointer-events: none;
     }
+  }
+
+  // -- Etikett und Ueberschrift im Ausloeser --
+  // Beide stehen untereinander und bilden zusammen die Schaltflaeche. Der
+  // Wrapper traegt das Grid, damit das Zeichen rechts auf der ersten Zeile
+  // bleibt und nicht mittig zwischen Etikett und Ueberschrift haengt.
+  &__trigger-body {
+    display: grid;
+    gap: var(--mod-accordion-kicker-gap, var(--nc-accordion-kicker-gap));
+    min-width: 0;
+  }
+
+  &__kicker {
+    font-family: var(--mod-accordion-kicker-family, var(--nc-accordion-kicker-family));
+    font-size: var(--mod-accordion-kicker-size, var(--nc-accordion-kicker-size));
+    font-weight: var(--mod-accordion-kicker-weight, var(--nc-accordion-kicker-weight));
+    letter-spacing: var(--mod-accordion-kicker-tracking, var(--nc-accordion-kicker-tracking));
+    text-transform: uppercase;
+    color: var(--mod-accordion-kicker-color, var(--nc-accordion-kicker-color));
   }
 
   // -- Icon --
@@ -138,7 +165,9 @@
     padding-block-end: var(--mod-accordion-padding, var(--nc-accordion-padding));
     color: var(--mod-accordion-content-color, var(--nc-accordion-content-color));
     font-size: var(--mod-accordion-content-font-size, var(--nc-accordion-content-font-size));
-    line-height: var(--lh-relaxed);
+    // Der Zeilenabstand folgt dem Lead daneben. --lh-relaxed war eine dritte
+    // Stufe im selben Block: Sektionslead 1,6, Akkordeoninhalt 1,75.
+    line-height: var(--mod-accordion-content-lh, var(--nc-accordion-content-lh));
 
     // Erstes Kind: Abstand zum Trigger
     > :first-child {
@@ -161,8 +190,36 @@
     }
   }
 
+  // -- Fliesstext, Liste und Handlungsleiste im Inhalt --
+  // Bis zum 20.08.2026 war `content` ein Textfeld und wurde mit <br> eingesetzt.
+  // Ein Akkordeon ohne Weiterfuehrung endet in einer Sackgasse — deshalb gibt
+  // es hier Platz fuer Liste, Verweise und eine Handlung.
+  &__text {
+    max-inline-size: var(--mod-accordion-content-measure, var(--nc-accordion-content-measure));
+    margin: 0;
+
+    + * { margin-block-start: var(--fnd-spacing-04); }
+  }
+
+  &__list {
+    max-inline-size: var(--mod-accordion-content-measure, var(--nc-accordion-content-measure));
+    margin: 0;
+    padding-inline-start: var(--fnd-spacing-05);
+    display: grid;
+    gap: var(--fnd-spacing-02);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap));
+    margin-block-start: var(--fnd-spacing-05);
+  }
+
   // ═══════════════════════════════════════════════════════════════
   // Varianten
+
   // ═══════════════════════════════════════════════════════════════
 
   // Flush: Kein aeusserer Rahmen, nur Trennlinien
@@ -399,4 +456,182 @@
       pointer-events: none;
     }
   }
+}
+
+
+// ===========================================================================
+// Buendige Fassungen: der Text beginnt auf der Anschnittlinie
+// ===========================================================================
+// Ergaenzt am 20.08.2026. Gemessen wurde vorher bei 1440 px: Der Sektionskopf
+// begann bei 73 px, der Ausloeser bei 771 und der Inhalt bei 767 — die beiden
+// standen weder mit dem Kopf noch miteinander auf einer Linie.
+//
+// Ursache war das Innenpolster des Bauteils, das in den Textfluss zaehlt. Bei
+// den buendigen Fassungen wandert es heraus: Das Zeichen haengt im Bund rechts,
+// der Text beginnt bei 0.
+//
+// Die Kartenfassung (--separated, --elevated) behaelt ihr Polster. Dort ist es
+// die Flaeche des Gegenstands und keine Nachlaessigkeit.
+.nc-accordion--flush,
+.nc-accordion--ghost,
+.nc-accordion--register,
+.nc-accordion--lese {
+  .nc-accordion__trigger {
+    padding-inline: 0;
+    align-items: start;
+    gap: var(--mod-accordion-gutter, var(--nc-accordion-gutter));
+  }
+
+  .nc-accordion__content-inner {
+    padding-inline: 0;
+  }
+
+  .nc-accordion__icon {
+    // Auf die erste Zeile der Ueberschrift ausrichten statt auf die Mitte des
+    // Kastens: Bei zweizeiligen Ueberschriften rutschte es sonst nach unten weg.
+    margin-block-start: calc((1em * var(--nc-accordion-trigger-lh) - var(--nc-accordion-icon-size)) / 2);
+  }
+}
+
+// ===========================================================================
+// Register — zweispaltig
+// ===========================================================================
+// Fuer Listen, in denen man sucht statt liest: Glossare, Integrationen,
+// Downloads. Halbiert die Bauhoehe bei vielen kurzen Eintraegen.
+//
+// WARUM SPALTEN UND KEINE COLUMNS
+// `column-count` waere kuerzer und falsch: Es zerlegt einen Eintrag an der
+// Spaltengrenze, sobald er aufklappt — Ueberschrift oben rechts, Text oben
+// links. Ein Raster haelt jeden Eintrag zusammen.
+.nc-accordion--register {
+  display: grid;
+  grid-template-columns: repeat(var(--mod-accordion-register-columns, var(--nc-accordion-register-columns)), minmax(0, 1fr));
+  gap: var(--mod-accordion-register-gap, var(--nc-accordion-register-gap));
+  align-items: start;
+
+  // Unterhalb der Umbruchbreite bleibt eine Spalte. Zwei Spalten auf einem
+  // Telefon heissen zwei Anfaenge auf 180 px Breite.
+  @include respond-to-max('md') {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ===========================================================================
+// Lesefassung
+// ===========================================================================
+// Volle Breite, grosse Ausloeser, Medium im Textfluss. Kein Beiwerk neben einem
+// Kopf, sondern ein Abschnitt, der selbst gelesen wird.
+.nc-accordion--lese {
+  .nc-accordion__trigger {
+    padding-block: var(--mod-accordion-lese-padding, var(--nc-accordion-lese-padding));
+    font-size: var(--mod-accordion-lese-trigger-size, var(--nc-accordion-lese-trigger-size));
+    font-weight: var(--fnd-font-weight-bold);
+  }
+
+  .nc-accordion__content-inner {
+    font-size: var(--mod-accordion-lese-content-size, var(--nc-accordion-lese-content-size));
+    padding-block-end: var(--fnd-spacing-08);
+  }
+
+  .nc-accordion__text,
+  .nc-accordion__list {
+    max-inline-size: var(--mod-accordion-lese-measure, var(--nc-accordion-lese-measure));
+  }
+
+  // DAS MEDIUM DARF GROSS SEIN, ABER NICHT MASSLOS.
+  //
+  // Erster Versuch war `max-height: none` — das Medium ist hier schliesslich
+  // der Punkt und nicht die Beigabe. Ergebnis im Beispiel: ein App-Screenshot
+  // im Format 1206x2622, ueber 823 px Spaltenbreite gezogen, wurde 1789 px
+  // hoch. Ein Eintrag, drei Bildschirmhoehen.
+  //
+  // Statt einer festen Breite mit Zuschnitt begrenzt hier die HOEHE, und die
+  // Breite folgt der Form des Bildes. Ein hochkantes Bild wird damit zu einer
+  // ruhigen Spalte statt zu einem Band mit abgeschnittenem Kopf; ein liegendes
+  // nimmt die Breite, die es braucht.
+  //
+  // Dieselbe Ueberlegung wie beim Geraeterahmen am 19.08.: `cover` schneidet
+  // zu, `contain` zeigt alles.
+  .nc-accordion__media {
+    max-height: var(--mod-accordion-lese-media-max, var(--nc-accordion-lese-media-max));
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    margin-block-start: var(--fnd-spacing-05);
+    background: var(--fnd-color-background-secondary);
+
+    > img,
+    > video {
+      inline-size: auto;
+      block-size: 100%;
+      max-inline-size: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+// ===========================================================================
+// Sprungziel
+// ===========================================================================
+// Wer ueber /seite#eintrag-3 kommt, soll sehen, WO er gelandet ist. Ohne
+// Markierung oeffnet sich irgendwo auf der Seite ein Eintrag und man sucht ihn.
+//
+// Nur eine Marke, keine Flaeche: Eine eingefaerbte Flaeche muesste ihren
+// Vordergrund mitfaerben und traefe damit jede der sieben Varianten anders.
+.nc-accordion__item:target {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: calc(-1 * var(--fnd-spacing-04));
+    inline-size: var(--mod-accordion-target-width, var(--nc-accordion-target-width));
+    border-radius: var(--fnd-radius-full);
+    background: var(--mod-accordion-target-marker, var(--nc-accordion-target-marker));
+  }
+}
+
+.nc-accordion--separated .nc-accordion__item:target,
+.nc-accordion--elevated .nc-accordion__item:target {
+  // In der Kartenfassung sitzt die Marke am Kastenrand statt daneben.
+  &::before { inset-inline-start: 0; }
+}
+
+// ===========================================================================
+// Alle aufklappen
+// ===========================================================================
+.nc-accordion-toggle-all {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--nc-mono-label-weight-strong);
+  letter-spacing: var(--nc-mono-tracking-caps);
+  text-transform: uppercase;
+  color: var(--fnd-color-text-secondary);
+  margin-block-end: var(--fnd-spacing-04);
+
+  &:hover { color: var(--fnd-color-text-primary); }
+
+  &:focus-visible {
+    outline: var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);
+    outline-offset: var(--fnd-focus-offset);
+  }
+}
+
+// ===========================================================================
+// Drucken
+// ===========================================================================
+// Auf Papier gibt es kein Aufklappen. Ein zugeklapptes Akkordeon druckt eine
+// Liste von Ueberschriften ohne Inhalt — und niemand merkt es, bis das Blatt
+// aus dem Drucker kommt.
+@media print {
+  .nc-accordion__content { grid-template-rows: 1fr !important; }
+  .nc-accordion__content-inner { overflow: visible !important; }
+  .nc-accordion__icon,
+  .nc-accordion-toggle-all { display: none !important; }
+  .nc-accordion__item { break-inside: avoid; }
 }

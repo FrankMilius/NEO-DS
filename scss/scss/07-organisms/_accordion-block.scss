@@ -22,10 +22,35 @@
 // senkrechte Rhythmus.
 .nc-accordion-block__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--mod-accordion-cols, var(--nc-accordion-cols));
   gap: var(--fnd-spacing-10);
   padding-block: var(--fnd-spacing-10);
   align-items: start;
+}
+
+// ---------------------------------------------------------------------------
+// Breitenverhaeltnis von Kopf und Akkordeon
+// ---------------------------------------------------------------------------
+// Ergaenzt am 20.08.2026. Bis dahin gab es nur 1/2 zu 1/2 — und das gibt beiden
+// Spalten das Falsche: Der Kopf bekommt 618 px fuer drei kurze Zeilen, waehrend
+// die Eintraege auf derselben Breite umbrechen muessen. Der Kopf braucht
+// Lesebreite, die Eintraege brauchen Platz.
+//
+// Deshalb ist 1/3 zu 2/3 die neue Vorgabe (siehe Token). 1/2 zu 1/2 bleibt
+// richtig, wo der Kopf selbst einen laengeren Fliesstext traegt.
+.nc-accordion-block--halb  { --mod-accordion-cols: 1fr 1fr; }
+.nc-accordion-block--zwei-drittel { --mod-accordion-cols: 1fr 2fr; }
+
+// Voll: Kopf oben, Akkordeon darunter ueber die ganze Breite. Voraussetzung
+// fuer die Lesefassung und das Register — zweispaltig neben einem Kopf haetten
+// beide keinen Platz.
+.nc-accordion-block--voll {
+  --mod-accordion-cols: 1fr;
+
+  .nc-accordion-block__text {
+    position: static;
+    max-inline-size: var(--nc-accordion-voll-measure);
+  }
 }
 
 .nc-accordion-block__text {

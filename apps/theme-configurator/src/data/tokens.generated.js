@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-19
+// Generated: 2026-08-20
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -4453,6 +4453,150 @@ export const componentTokenGroups = [
         "label": "Footer Border",
         "type": "color",
         "ref": "border-secondary"
+      },
+      {
+        "id": "nc-accordion-trigger-family",
+        "label": "Trigger Family",
+        "type": "generic",
+        "default": "var(--font-heading)"
+      },
+      {
+        "id": "nc-accordion-trigger-size",
+        "label": "Trigger Size",
+        "type": "size",
+        "default": "var(--nc-type-heading-s-size)"
+      },
+      {
+        "id": "nc-accordion-trigger-lh",
+        "label": "Trigger Lh",
+        "type": "generic",
+        "default": "var(--lh-snug)"
+      },
+      {
+        "id": "nc-accordion-trigger-tracking",
+        "label": "Trigger Tracking",
+        "type": "size",
+        "default": "var(--fnd-tracking-snug)"
+      },
+      {
+        "id": "nc-accordion-kicker-family",
+        "label": "Kicker Family",
+        "type": "generic",
+        "default": "var(--font-mono)"
+      },
+      {
+        "id": "nc-accordion-kicker-size",
+        "label": "Kicker Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-accordion-kicker-weight",
+        "label": "Kicker Weight",
+        "type": "fontWeight",
+        "default": "var(--nc-mono-label-weight-strong)"
+      },
+      {
+        "id": "nc-accordion-kicker-tracking",
+        "label": "Kicker Tracking",
+        "type": "size",
+        "default": "var(--nc-mono-tracking-caps)"
+      },
+      {
+        "id": "nc-accordion-kicker-color",
+        "label": "Kicker Color",
+        "type": "color",
+        "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-accordion-kicker-gap",
+        "label": "Kicker Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-01)"
+      },
+      {
+        "id": "nc-accordion-content-lh",
+        "label": "Content Lh",
+        "type": "generic",
+        "default": "var(--lh-body)"
+      },
+      {
+        "id": "nc-accordion-content-measure",
+        "label": "Content Measure",
+        "type": "size",
+        "default": "62ch"
+      },
+      {
+        "id": "nc-accordion-gutter",
+        "label": "Gutter",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-accordion-register-columns",
+        "label": "Register Columns",
+        "type": "generic",
+        "default": "2"
+      },
+      {
+        "id": "nc-accordion-register-gap",
+        "label": "Register Gap",
+        "type": "spacing",
+        "default": "0 var(--fnd-spacing-08)"
+      },
+      {
+        "id": "nc-accordion-lese-trigger-size",
+        "label": "Lese Trigger Size",
+        "type": "size",
+        "default": "var(--nc-type-heading-m-size)"
+      },
+      {
+        "id": "nc-accordion-lese-content-size",
+        "label": "Lese Content Size",
+        "type": "size",
+        "default": "var(--nc-type-body-l-size)"
+      },
+      {
+        "id": "nc-accordion-lese-measure",
+        "label": "Lese Measure",
+        "type": "size",
+        "default": "66ch"
+      },
+      {
+        "id": "nc-accordion-lese-padding",
+        "label": "Lese Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06) 0"
+      },
+      {
+        "id": "nc-accordion-lese-media-max",
+        "label": "Lese Media Max",
+        "type": "size",
+        "default": "clamp(280px, 42vh, 460px)"
+      },
+      {
+        "id": "nc-accordion-target-marker",
+        "label": "Target Marker",
+        "type": "color",
+        "ref": "background-accent"
+      },
+      {
+        "id": "nc-accordion-target-width",
+        "label": "Target Width",
+        "type": "size",
+        "default": "3px"
+      },
+      {
+        "id": "nc-accordion-cols",
+        "label": "Cols",
+        "type": "generic",
+        "default": "1fr 2fr"
+      },
+      {
+        "id": "nc-accordion-voll-measure",
+        "label": "Voll Measure",
+        "type": "size",
+        "default": "62ch"
       }
     ],
     "subGroups": [
@@ -4490,7 +4634,16 @@ export const componentTokenGroups = [
           "nc-accordion-nested-icon-size",
           "nc-accordion-selection-indicator-size",
           "nc-accordion-actions-gap",
-          "nc-accordion-footer-padding"
+          "nc-accordion-footer-padding",
+          "nc-accordion-trigger-size",
+          "nc-accordion-kicker-size",
+          "nc-accordion-kicker-gap",
+          "nc-accordion-register-gap",
+          "nc-accordion-lese-trigger-size",
+          "nc-accordion-lese-content-size",
+          "nc-accordion-lese-padding",
+          "nc-accordion-lese-media-max",
+          "nc-accordion-target-width"
         ]
       },
       {
@@ -4499,7 +4652,10 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-accordion-trigger-font-weight",
           "nc-accordion-content-font-size",
-          "nc-accordion-content-font-size-compact"
+          "nc-accordion-content-font-size-compact",
+          "nc-accordion-trigger-tracking",
+          "nc-accordion-kicker-weight",
+          "nc-accordion-kicker-tracking"
         ]
       },
       {
@@ -4519,7 +4675,8 @@ export const componentTokenGroups = [
           "nc-accordion-actions-color",
           "nc-accordion-actions-hover-color",
           "nc-accordion-trigger-sticky-bg",
-          "nc-accordion-footer-border"
+          "nc-accordion-footer-border",
+          "nc-accordion-kicker-color"
         ]
       },
       {
@@ -4528,6 +4685,23 @@ export const componentTokenGroups = [
         "category": "state",
         "tokenIds": [
           "nc-accordion-trigger-sticky-z"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-accordion-trigger-family",
+          "nc-accordion-trigger-lh",
+          "nc-accordion-kicker-family",
+          "nc-accordion-content-lh",
+          "nc-accordion-content-measure",
+          "nc-accordion-gutter",
+          "nc-accordion-register-columns",
+          "nc-accordion-lese-measure",
+          "nc-accordion-target-marker",
+          "nc-accordion-cols",
+          "nc-accordion-voll-measure"
         ]
       }
     ]
