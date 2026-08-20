@@ -146,16 +146,18 @@ body:has(.site-header.is-nav-hidden) .nc-chapternav {
   display: flex;
   gap: var(--mod-chapternav-gap, var(--nc-chapternav-gap));
 
-  // DER ERSTE EINTRAG STEHT AUF DER ANSCHNITTLINIE.
+  // KEIN NEGATIVER AUSSENABSTAND AM CONTAINER.
   //
-  // Das Innenpolster der Eintraege ist Klickflaeche und gehoert nicht in den
-  // Textfluss: Mit ihm begann „Kommunikation" 16 px rechts von der Kante, an
-  // der Hauptnavigation und Inhalt stehen. Der Streifen wird deshalb um genau
-  // diesen Betrag nach links gezogen — die Klickflaeche bleibt, die Schrift
-  // rueckt auf die Linie.
+  // Erster Versuch war, den Streifen um das Innenpolster der Eintraege nach
+  // links zu ziehen. Das funktionierte bei 1440 px — und riss ab 1920 px die
+  // Zentrierung ein: `.nc-container` haelt sich mit `margin-inline: auto` in
+  // der Mitte, und `margin-inline: -16px` ueberschreibt beide Seiten. Gemessen
+  // bei 1920: Hauptnavigation bei 192 px, Kapitelleiste bei 0.
   //
-  // Dieselbe Ueberlegung wie beim Akkordeon und bei der Geraete-Strecke.
-  margin-inline: calc(-1 * var(--mod-chapternav-padding-inline, var(--nc-chapternav-padding-inline)));
+  // Der Text steht jetzt ohne Umweg auf der Containerkante: Die Eintraege haben
+  // waagerecht kein Polster, der Abstand zwischen ihnen kommt aus `gap`. Die
+  // Klickflaeche bleibt gross — sie ist 60 px hoch, das traegt die senkrechte
+  // Achse allein.
 
   // Quer scrollbar statt umbrechend: Eine zweizeilige Leiste kostet doppelt so
   // viel dauerhafte Hoehe, und die ist auf einer langen Seite das Knappste.
@@ -169,7 +171,7 @@ body:has(.site-header.is-nav-hidden) .nc-chapternav {
   flex: 0 0 auto;
   scroll-snap-align: center;
   padding-block: var(--mod-chapternav-padding-block, var(--nc-chapternav-padding-block));
-  padding-inline: var(--mod-chapternav-padding-inline, var(--nc-chapternav-padding-inline));
+  padding-inline: 0;
   font-family: var(--mod-chapternav-family, var(--nc-chapternav-family));
   font-size: var(--mod-chapternav-size, var(--nc-chapternav-size));
   font-weight: var(--fnd-font-weight-medium);
@@ -194,8 +196,14 @@ body:has(.site-header.is-nav-hidden) .nc-chapternav {
     &::after {
       content: '';
       position: absolute;
-      inset-inline: var(--fnd-spacing-03);
-      inset-block-end: -1px;
+      inset-inline: 0;
+
+      // AUF der Trennlinie, nicht darunter.
+      //
+      // Vorher -1px: Die Marke lag zur Haelfte unter der 1 px starken
+      // Trennlinie der Leiste, sichtbar blieb genau ein Pixel. Bei 0 stehen
+      // beide Pixel im Bild und die Trennlinie laeuft dahinter durch.
+      inset-block-end: 0;
       block-size: var(--mod-chapternav-marker-height, var(--nc-chapternav-marker-height));
       background: var(--mod-chapternav-marker, var(--nc-chapternav-marker));
       border-radius: var(--fnd-radius-full);

@@ -189,3 +189,63 @@
   }
 }
 /* <<< aufgenommen: feature-list */
+
+
+// ---------------------------------------------------------------------------
+// Geraeterahmen im Medienbereich
+// ---------------------------------------------------------------------------
+// Ergaenzt am 20.08.2026. Fuer App-Mockups gab es keine passende Darstellung:
+// Ein hochkantes Bild im Format 1:2 stand entweder mit Hairline-Rahmen oder
+// randlos da, in beiden Faellen ohne Geraet drumherum.
+//
+// Der Rahmen ist nicht neu — es ist derselbe .nc-device wie im Geraete-
+// Karussell auf /produkte/app. Hier steht nur, wie er sich in den Medienbereich
+// der Feature-Liste einfuegt.
+//
+// KEIN eigenes Seitenverhaeltnis am Behaelter: Der Rahmen bringt seins mit
+// (1206:2622). Ein zweites daneben zerrte am Bild — genau der Fall, der bei der
+// Geraete-Strecke am 19.08. schon einmal gemessen wurde.
+.nc-feature-list__media--device {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: none;
+
+  // Die Hairline-Kante entfaellt hier. Der Geraeterahmen IST der Rahmen; eine
+  // zweite Kante darum ist ein Rahmen um einen Rahmen.
+  border: 0;
+  box-shadow: none;
+
+  // DREI GEERBTE VORGABEN MUESSEN ZURUECKGENOMMEN WERDEN.
+  //
+  // Der Medienbereich ist auf ein flaechiges Bild gebaut: festes
+  // Seitenverhaeltnis 4:3, Mindesthoehe, und alles darin auf volle Groesse
+  // gezogen. Fuer ein Geraet ist jede dieser Vorgaben falsch — gemessen war
+  // das Telefon 618 x 1324 px statt der vorgesehenen 240 bis 360 px Breite.
+  //
+  // Nicht mit hoeherer Spezifitaet dagegengehalten, sondern die Eigenschaften
+  // ausdruecklich zurueckgenommen. Dieselbe Lehre wie bei den Haarlinien der
+  // Hero-Karten und beim Akkordeon.
+  aspect-ratio: auto;
+  min-height: 0;
+  // Der Rahmen darf ueber den Behaelter hinausragen, statt abgeschnitten zu
+  // werden.
+  overflow: visible;
+
+  > .nc-device {
+    // Etwas groesser als im Karussell: Dort stehen vier Geraete nebeneinander,
+    // hier steht eines allein in einer halben Spalte.
+    --mod-device-width: var(--mod-feature-list-device-width, var(--nc-feature-list-device-width));
+    inline-size: var(--mod-device-width);
+    block-size: auto;
+  }
+
+  // Der Screen im Rahmen zeigt den Screenshot VOLLSTAENDIG. `cover` schneidet
+  // zu — bei einem App-Screenshot faellt damit genau das weg, was ihn ausmacht.
+  // Derselbe Punkt wie beim Geraeterahmen der Galerie am 19.08.
+  .nc-device__screen img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+}

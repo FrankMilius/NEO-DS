@@ -175,3 +175,34 @@
   border: 0;
 }
 /* <<< aufgenommen: text-media */
+
+
+// ---------------------------------------------------------------------------
+// Geraeterahmen
+// ---------------------------------------------------------------------------
+// Dasselbe Bauteil wie in der Feature-Liste und im Geraete-Karussell. Hier
+// steht nur, wie es sich in den Medienbereich einfuegt.
+//
+// Der Rahmen bringt sein Seitenverhaeltnis mit (1206:2622); ein zweites am
+// Behaelter zerrte am Bild.
+.nc-text-media__media--device {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  aspect-ratio: auto;
+  overflow: visible;
+
+  > .nc-device {
+    --mod-device-width: var(--mod-text-media-device-width, var(--nc-text-media-device-width));
+    inline-size: var(--mod-device-width);
+    block-size: auto;
+  }
+
+  // Vollstaendig zeigen, nicht zuschneiden: Bei einem App-Screenshot faellt mit
+  // `cover` genau das weg, was ihn ausmacht.
+  .nc-device__screen img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+}

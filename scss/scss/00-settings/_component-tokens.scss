@@ -3278,14 +3278,14 @@
   // ── Kapitelleiste ──────────────────────────────────────────────────────
   --nc-chapternav-bg:            var(--fnd-color-background-base);
   --nc-chapternav-border:        var(--fnd-color-border-secondary);
-  --nc-chapternav-gap:           var(--fnd-spacing-01);
+  // Der Abstand zwischen den Eintraegen. Er ersetzt das waagerechte Polster:
+  // Nur so beginnt der erste Eintrag auf derselben Linie wie Hauptnavigation
+  // und Inhalt, ohne dass am Container gerechnet werden muss.
+  --nc-chapternav-gap:           var(--fnd-spacing-06);
 
-  // Innenpolster je Eintrag. Die WAAGERECHTE Haelfte wird weiter unten wieder
-  // herausgezogen, damit der erste Eintrag auf der Anschnittlinie steht — sie
-  // dient nur der Klickflaeche, nicht dem Textfluss.
+  // Senkrecht bestimmt das Polster die Hoehe der Leiste und die Klickflaeche.
   --nc-chapternav-padding-block:  var(--fnd-spacing-04);
-  --nc-chapternav-padding-inline: var(--fnd-spacing-04);
-  --nc-chapternav-padding:       var(--nc-chapternav-padding-block) var(--nc-chapternav-padding-inline);
+  --nc-chapternav-padding:       var(--nc-chapternav-padding-block) 0;
 
   --nc-chapternav-family:        var(--font-heading);
 
@@ -3552,6 +3552,12 @@
   // In Anfuehrungszeichen mit Interpolation: Sass liest einen Schraegstrich
   // zwischen zwei mehrstelligen Zahlen als Division und bricht ab. Bei
   // 4 / 5 faellt das nicht auf, bei 1206 / 2622 schon.
+  // Breite des Geraeterahmens in der Feature-Liste. Groesser als im Karussell:
+  // Dort stehen vier Geraete nebeneinander, hier eines allein in einer halben
+  // Spalte.
+  --nc-text-media-device-width:   clamp(240px, calc(240px + (360px - 240px) * var(--fluid-bp)), 360px);
+  --nc-feature-list-device-width: clamp(240px, calc(240px + (360px - 240px) * var(--fluid-bp)), 360px);
+
   --nc-device-ratio:               #{"1206 / 2622"};
 
   // Am 19.08.2026 vergroessert: 200-300 -> 230-345 px, also um 15 %.

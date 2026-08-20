@@ -5124,8 +5124,7 @@ export const componentTokenGroups = [
         "id": "geometry",
         "label": "Geometrie",
         "tokenIds": [
-          "nc-chapternav-padding-block",
-          "nc-chapternav-padding-inline"
+          "nc-chapternav-padding-block"
         ]
       }
     ],
@@ -5271,12 +5270,6 @@ export const componentTokenGroups = [
       {
         "id": "nc-chapternav-padding-block",
         "label": "Padding Block",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-04)"
-      },
-      {
-        "id": "nc-chapternav-padding-inline",
-        "label": "Padding Inline",
         "type": "spacing",
         "default": "var(--fnd-spacing-04)"
       }
@@ -8328,6 +8321,13 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-feature-list-icon-margin-top"
         ]
+      },
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-feature-list-device-width"
+        ]
       }
     ],
     "tokens": [
@@ -8336,6 +8336,12 @@ export const componentTokenGroups = [
         "label": "Icon Margin Top",
         "type": "spacing",
         "default": ".1em"
+      },
+      {
+        "id": "nc-feature-list-device-width",
+        "label": "Device Width",
+        "type": "size",
+        "default": "clamp(240px, calc(240px + (360px - 240px) * var(--fluid-bp)), 360px)"
       }
     ]
   },
@@ -18513,7 +18519,8 @@ export const componentTokenGroups = [
           "nc-text-media-gap",
           "nc-text-media-headline-size",
           "nc-text-media-content-gap",
-          "nc-text-media-video-radius"
+          "nc-text-media-video-radius",
+          "nc-text-media-device-width"
         ]
       },
       {
@@ -18561,6 +18568,12 @@ export const componentTokenGroups = [
         "label": "Video Radius",
         "type": "radius",
         "default": "var(--fnd-radius-md)"
+      },
+      {
+        "id": "nc-text-media-device-width",
+        "label": "Device Width",
+        "type": "size",
+        "default": "clamp(240px, calc(240px + (360px - 240px) * var(--fluid-bp)), 360px)"
       }
     ]
   },
