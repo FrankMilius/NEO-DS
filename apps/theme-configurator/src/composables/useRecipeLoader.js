@@ -9,135 +9,43 @@ import { ref, watch, shallowRef } from 'vue'
 import { loadRecipe } from 'recipe-sdk'
 
 // ---------------------------------------------------------------------------
-// Static import map: alle Recipe-Dateien als lazy imports
+// Import-Liste — aus dem Ordner, nicht von Hand
 // ---------------------------------------------------------------------------
-const RECIPE_IMPORTS = {
-  accordion: () => import('../../../../data/accordion-recipe.json'),
-  alert: () => import('../../../../data/alert-recipe.json'),
-  'alert-dialog': () => import('../../../../data/alert-dialog-recipe.json'),
-  avatar: () => import('../../../../data/avatar-recipe.json'),
-  badge: () => import('../../../../data/badge-recipe.json'),
-  banner: () => import('../../../../data/banner-recipe.json'),
-  breadcrumb: () => import('../../../../data/breadcrumb-recipe.json'),
-  button: () => import('../../../../data/button-recipe.json'),
-  card: () => import('../../../../data/card-recipe.json'),
-  'card-grid': () => import('../../../../data/card-grid-recipe.json'),
-  'card-grid-cta': () => import('../../../../data/card-grid-cta-recipe.json'),
-  carousel: () => import('../../../../data/carousel-recipe.json'),
-  checkbox: () => import('../../../../data/checkbox-recipe.json'),
-  'checkbox-group': () => import('../../../../data/checkbox-group-recipe.json'),
-  chip: () => import('../../../../data/chip-recipe.json'),
-  'code-snippet': () => import('../../../../data/code-snippet-recipe.json'),
-  cta: () => import('../../../../data/cta-recipe.json'),
-  'data-table': () => import('../../../../data/data-table-recipe.json'),
-  divider: () => import('../../../../data/divider-recipe.json'),
-  drawer: () => import('../../../../data/drawer-recipe.json'),
-  'dropdown-menu': () => import('../../../../data/dropdown-menu-recipe.json'),
-  'fade-gallery': () => import('../../../../data/fade-gallery-recipe.json'),
-  'empty-state': () => import('../../../../data/empty-state-recipe.json'),
-  facts: () => import('../../../../data/facts-recipe.json'),
-  faq: () => import('../../../../data/faq-recipe.json'),
-  'feature-accordion': () => import('../../../../data/feature-accordion-recipe.json'),
-  fieldset: () => import('../../../../data/fieldset-recipe.json'),
-  'file-upload': () => import('../../../../data/file-upload-recipe.json'),
-  footer: () => import('../../../../data/footer-recipe.json'),
-  form: () => import('../../../../data/form-recipe.json'),
-  'form-actions': () => import('../../../../data/form-actions-recipe.json'),
-  'form-error': () => import('../../../../data/form-error-recipe.json'),
-  'form-field': () => import('../../../../data/form-field-recipe.json'),
-  'form-hint': () => import('../../../../data/form-hint-recipe.json'),
-  'form-label': () => import('../../../../data/form-label-recipe.json'),
-  'form-section': () => import('../../../../data/form-section-recipe.json'),
-  gallery: () => import('../../../../data/gallery-recipe.json'),
-  header: () => import('../../../../data/header-recipe.json'),
-  hero: () => import('../../../../data/hero-recipe.json'),
-  'hero-tom': () => import('../../../../data/hero-tom-recipe.json'),
-  'hero-tmob': () => import('../../../../data/hero-tmob-recipe.json'),
-  icon: () => import('../../../../data/icon-recipe.json'),
-  input: () => import('../../../../data/input-recipe.json'),
-  'input-group': () => import('../../../../data/input-group-recipe.json'),
-  item: () => import('../../../../data/item-recipe.json'),
-  kbd: () => import('../../../../data/kbd-recipe.json'),
-  label: () => import('../../../../data/label-recipe.json'),
-  'link-with-arrow': () => import('../../../../data/link-with-arrow-recipe.json'),
-  'logo-wall': () => import('../../../../data/logo-wall-recipe.json'),
-  marquee: () => import('../../../../data/marquee-recipe.json'),
-  metric: () => import('../../../../data/metric-recipe.json'),
-  modal: () => import('../../../../data/modal-recipe.json'),
-  'nav-atoms': () => import('../../../../data/nav-atoms-recipe.json'),
-  'nav-molecules': () => import('../../../../data/nav-molecules-recipe.json'),
-  navigation: () => import('../../../../data/navigation-recipe.json'),
-  'navigation-menu': () => import('../../../../data/navigation-menu-recipe.json'),
-  notification: () => import('../../../../data/notification-recipe.json'),
-  'otp-input': () => import('../../../../data/otp-input-recipe.json'),
-  pagination: () => import('../../../../data/pagination-recipe.json'),
-  'parallax-bg': () => import('../../../../data/parallax-bg-recipe.json'),
-  popover: () => import('../../../../data/popover-recipe.json'),
-  pricing: () => import('../../../../data/pricing-recipe.json'),
-  'product-showcase': () => import('../../../../data/product-showcase-recipe.json'),
-  'psychedelic-bg': () => import('../../../../data/psychedelic-bg-recipe.json'),
-  progress: () => import('../../../../data/progress-recipe.json'),
-  question: () => import('../../../../data/question-recipe.json'),
-  radio: () => import('../../../../data/radio-recipe.json'),
-  'radio-group': () => import('../../../../data/radio-group-recipe.json'),
-  rating: () => import('../../../../data/rating-recipe.json'),
-  'scroll-expand': () => import('../../../../data/scroll-expand-recipe.json'),
-  'scroll-reveal': () => import('../../../../data/scroll-reveal-recipe.json'),
-  search: () => import('../../../../data/search-recipe.json'),
-  'security-list': () => import('../../../../data/security-list-recipe.json'),
-  'segmented-control': () => import('../../../../data/segmented-control-recipe.json'),
-  select: () => import('../../../../data/select-recipe.json'),
-  sidebar: () => import('../../../../data/sidebar-recipe.json'),
-  skeleton: () => import('../../../../data/skeleton-recipe.json'),
-  slider: () => import('../../../../data/slider-recipe.json'),
-  solutions: () => import('../../../../data/solutions-recipe.json'),
-  spinner: () => import('../../../../data/spinner-recipe.json'),
-  square: () => import('../../../../data/square-recipe.json'),
-  'square-value': () => import('../../../../data/square-value-recipe.json'),
-  status: () => import('../../../../data/status-recipe.json'),
-  stepper: () => import('../../../../data/stepper-recipe.json'),
-  switch: () => import('../../../../data/switch-recipe.json'),
-  table: () => import('../../../../data/table-recipe.json'),
-  tag: () => import('../../../../data/tag-recipe.json'),
-  testimonial: () => import('../../../../data/testimonial-recipe.json'),
-  'text-blocks': () => import('../../../../data/text-blocks-recipe.json'),
-  'text-only': () => import('../../../../data/text-only-recipe.json'),
-  'story-gallery': () => import('../../../../data/story-gallery-recipe.json'),
-  textarea: () => import('../../../../data/textarea-recipe.json'),
-  'text-media': () => import('../../../../data/text-media-recipe.json'),
-  timeline: () => import('../../../../data/timeline-recipe.json'),
-  toast: () => import('../../../../data/toast-recipe.json'),
-  'toggle-group': () => import('../../../../data/toggle-group-recipe.json'),
-  toolbar: () => import('../../../../data/toolbar-recipe.json'),
-  tooltip: () => import('../../../../data/tooltip-recipe.json'),
-  treeview: () => import('../../../../data/treeview-recipe.json'),
-  'validation-summary': () => import('../../../../data/validation-summary-recipe.json'),
-  'video-section': () => import('../../../../data/video-section-recipe.json'),
+// Hier stand eine haendisch gepflegte Liste mit 120 Eintraegen neben einem
+// Ordner mit 167 Dateien. Zwei Quellen fuer dieselbe Frage driften, und genau
+// das war passiert:
+//
+//   slider-recipe.json   in der Liste, im Ordner nicht mehr (am 19.08.2026 in
+//                        range und carousel geteilt). Vite kann den Import
+//                        nicht aufloesen, das Modul liefert 500 — und die
+//                        GANZE App montiert nicht mehr. Ein umbenanntes Recipe
+//                        legt den Konfigurator lahm.
+//
+//   27 Recipes           im Ordner, in der Liste nicht. Sie waren im
+//                        Konfigurator schlicht nicht vorhanden: kein Fehler,
+//                        keine Meldung, nur ein Bauteil, das niemand einstellen
+//                        kann.
+//
+// `import.meta.glob` liest den Ordner beim Bauen. Ein neues Recipe ist damit
+// sofort da, ein umbenanntes kann nichts mehr kaputtmachen.
+//
+// Die Kennung ist der Dateiname ohne `-recipe.json` — genau die Schreibweise,
+// die die alte Liste von Hand gefuehrt hat (alert-dialog, card-grid, …).
+const RECIPE_MODULES = import.meta.glob('../../../../data/*-recipe.json')
+const LAYOUT_MODULES = import.meta.glob('../../../../data/layout-*.json')
 
-  // Layout Primitives
-  container: () => import('../../../../data/container-recipe.json'),
-  grid: () => import('../../../../data/grid-recipe.json'),
-  spacing: () => import('../../../../data/spacing-recipe.json'),
-  section: () => import('../../../../data/section-recipe.json'),
+function kennungAus(pfad, endung) {
+  return pfad.split('/').pop().slice(0, -endung.length)
+}
 
-  // Layout Specs (Base)
-  'layout-marketing': () => import('../../../../data/layout-marketing.json'),
-  'layout-docs': () => import('../../../../data/layout-docs.json'),
-  'layout-dashboard': () => import('../../../../data/layout-dashboard.json'),
-  'layout-form': () => import('../../../../data/layout-form.json'),
-  'layout-content': () => import('../../../../data/layout-content.json'),
-
-  // Layout Specs (Derived)
-  'layout-marketing-compact': () => import('../../../../data/layout-marketing-compact.json'),
-  'layout-marketing-dark': () => import('../../../../data/layout-marketing-dark.json'),
-  'layout-docs-wide': () => import('../../../../data/layout-docs-wide.json'),
-  'layout-docs-narrow': () => import('../../../../data/layout-docs-narrow.json'),
-  'layout-dashboard-spacious': () => import('../../../../data/layout-dashboard-spacious.json'),
-  'layout-dashboard-sidebar': () => import('../../../../data/layout-dashboard-sidebar.json'),
-  'layout-form-compact': () => import('../../../../data/layout-form-compact.json'),
-  'layout-form-wide': () => import('../../../../data/layout-form-wide.json'),
-  'layout-content-magazine': () => import('../../../../data/layout-content-magazine.json'),
-  'layout-content-landing': () => import('../../../../data/layout-content-landing.json')
+const RECIPE_IMPORTS = {}
+for (const [pfad, laden] of Object.entries(RECIPE_MODULES)) {
+  RECIPE_IMPORTS[kennungAus(pfad, '-recipe.json')] = laden
+}
+// Layout-Specs tragen kein `-recipe` im Namen und wuerden sonst fehlen.
+for (const [pfad, laden] of Object.entries(LAYOUT_MODULES)) {
+  const kennung = kennungAus(pfad, '.json')
+  if (!(kennung in RECIPE_IMPORTS)) RECIPE_IMPORTS[kennung] = laden
 }
 
 // ---------------------------------------------------------------------------

@@ -69,6 +69,18 @@ export default defineConfig({
     }
   },
   server: {
+    // main.js importiert ../../../styles.css — das gebaute Stylesheet des
+    // Design Systems im Wurzelverzeichnis. Darin stehen @font-face-Regeln, die
+    // auf ../fonts/*.woff2 zeigen, also ebenfalls ausserhalb dieser App.
+    //
+    // Vite laesst Dateien ausserhalb des Projektordners nur ueber @fs zu und
+    // verweigert sie ohne diese Freigabe mit 403. Gemessen: zwei 403 auf
+    // manrope-var-latin.woff2 und spacegrotesk-var-latin.woff2 — der
+    // Konfigurator lief damit in der Ersatzschrift und sah nicht aus wie das
+    // System, das er einstellen soll.
+    fs: {
+      allow: [resolve(__dirname, '../..')],
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

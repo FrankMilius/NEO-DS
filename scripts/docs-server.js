@@ -492,7 +492,25 @@ const server = http.createServer((req, res) => {
   // ---- Static File Serving ----
   // Strip query string and hash for file resolution
   const urlPath = req.url.split('?')[0].split('#')[0];
-  let filePath = path.join(ROOT, urlPath === '/' ? '/docs/color-docs.html' : urlPath);
+  // WEITERLEITEN, NICHT AUSLIEFERN.
+  //
+  // Die Wurzel lieferte /docs/color-docs.html aus — eine INHALTSSEITE, nicht
+  // die Huelle. Deren Verweise sind relativ zu /docs/: `../styles.css`,
+  // `docs-sidebar.js`, `docs-tabs.js`. Unter / aufgerufen zeigen sie ins Leere:
+  // acht 404, keine Navigation, keine Suche, keine Tabs — und die Seite selbst
+  // sieht auf den ersten Blick heil aus. Genau daran ist die Doku „vollkommen
+  // unvollstaendig" erschienen.
+  //
+  // Die Uebersicht dort STATT DESSEN auszuliefern hilft nicht: Die Verweise
+  // bleiben relativ zur Adresse im Browser, und die ist dann immer noch /.
+  // Nur eine Weiterleitung aendert die Basis.
+  if (urlPath === '/') {
+    res.writeHead(302, { Location: '/docs/' });
+    res.end();
+    return;
+  }
+
+  let filePath = path.join(ROOT, urlPath);
 
   // Security: prevent directory traversal
   if (!filePath.startsWith(ROOT)) {

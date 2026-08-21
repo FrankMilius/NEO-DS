@@ -1730,6 +1730,11 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useArenaResolver } from '../../composables/useArenaResolver.js'
 import { foundationTokens, componentTokenGroups } from '../../data/tokens.js'
 import ArenaFilterbar from './ArenaFilterbar.vue'
+// Im Template steht <GridArena />, importiert war sie nicht: Vue meldete
+// „Failed to resolve component: GridArena" und liess die Stelle leer. Die
+// uebrigen Arenen kommen ueber useArenaResolver als dynamische Komponente —
+// diese eine steht fest im Markup und braucht deshalb ihren eigenen Import.
+import GridArena from './GridArena.vue'
 import TypographyEditor from '../foundation/TypographyEditor.vue'
 import SpacingInspector from '../foundation/SpacingInspector.vue'
 import RadiiEditor from '../foundation/RadiiEditor.vue'

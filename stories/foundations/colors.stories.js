@@ -11,11 +11,16 @@ const PALETTES = [
   { name: 'Beige', prefix: 'beige', shades: [100,200,300,400,500,600,700,800,900,950] },
 ];
 
+// Die Rollen werden gegen styles.css geprueft: Ein Token, das es nicht gibt,
+// ergibt `background: var(--gibt-es-nicht)` — das ist ungueltig, und das Feld
+// bleibt leer. Genau so sahen die Paletten aus, weil sie
+// `--fnd-color-primary-500` abfragten. Im System heissen die Paletten
+// `--fnd-primitive-*`; `--fnd-color-*` sind die Rollen.
 const SEMANTIC_ROLES = [
   { label: 'Text', tokens: ['text-primary', 'text-secondary', 'text-tertiary', 'text-inverse'] },
-  { label: 'Background', tokens: ['background-base', 'background-subtle', 'background-accent'] },
+  { label: 'Background', tokens: ['background-base', 'background-secondary', 'background-tertiary', 'background-accent', 'background-inverse'] },
   { label: 'Surface', tokens: ['surface-elevated', 'layer-01', 'layer-02', 'layer-03'] },
-  { label: 'Border', tokens: ['border-strong', 'border-primary', 'border-secondary'] },
+  { label: 'Border', tokens: ['border-strong', 'border-primary', 'border-secondary', 'border-hairline'] },
   { label: 'Interactive', tokens: ['interactive-default', 'interactive-hover', 'interactive-active'] },
   { label: 'Feedback', tokens: ['feedback-success', 'feedback-warning', 'feedback-danger', 'feedback-info'] },
 ];
@@ -23,8 +28,8 @@ const SEMANTIC_ROLES = [
 function renderPalette(palette) {
   return palette.shades.map(shade => `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-      <div style="width:48px;height:48px;border-radius:var(--fnd-radius-md);background:var(--fnd-color-${palette.prefix}-${shade});border:1px solid var(--fnd-color-border-secondary)"></div>
-      <code style="font-size:var(--fs-xs);color:var(--fnd-color-text-secondary);min-width:200px">--fnd-color-${palette.prefix}-${shade}</code>
+      <div style="width:48px;height:48px;border-radius:var(--fnd-radius-md);background:var(--fnd-primitive-${palette.prefix}-${shade});border:1px solid var(--fnd-color-border-secondary)"></div>
+      <code style="font-size:var(--fs-xs);color:var(--fnd-color-text-secondary);min-width:200px">--fnd-primitive-${palette.prefix}-${shade}</code>
       <span style="font-size:var(--fs-xs);color:var(--fnd-color-text-tertiary)">${shade}</span>
     </div>
   `).join('');
