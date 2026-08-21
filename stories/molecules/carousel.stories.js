@@ -24,41 +24,80 @@ Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebenei
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/carousel.html</code>.
-  </p>
-  <div class="nc-carousel">
-    <span class="nc-carousel__track">track</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /produkte/app -->`,
 };
 
-export const Karussell = {
-  name: 'Karussell',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/carousel.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-carousel nc-carousel--media">
+<div class="nc-carousel__track nc-carousel__track--media" tabindex="0" role="group" aria-label="App-Ansichten, waagerecht scrollbar">
+<figure class="nc-device-figure" id="fg-542-f0" data-fg-index="0">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Startseite der neo app mit Unternehmensnews und Meldungen" loading="eager" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">News</span>
+<span class="nc-device-figure__text">Unternehmensnews und Meldungen aus den Bereichen — sortiert nach dem, was für die eigene Rolle zählt, nicht nach dem, was zuletzt eingestellt wurde.</span>
+</figcaption>
+</figure>
+<figure class="nc-device-figure" id="fg-542-f1" data-fg-index="1">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Übersicht der Mitarbeiterservices in der neo app" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">Mitarbeiterservices</span>
+<span class="nc-device-figure__text">Urlaubsantrag, Gehaltsnachweis, Krankmeldung: Was sonst über Formulare läuft, liegt hier drei Fingertipps entfernt.</span>
+</figcaption>
+</figure>
+<figure class="nc-device-figure" id="fg-542-f2" data-fg-index="2">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Event-Kalender mit anstehenden Terminen" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">Event-Kalender</span>
+<span class="nc-device-figure__text">Betriebsversammlung, Schulung, Sommerfest — mit Zusage direkt aus der App und einer Erinnerung, die zur eigenen Schicht passt.</span>
+</figcaption>
+</figure>
+<figure class="nc-device-figure" id="fg-542-f3" data-fg-index="3">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Gruppenübersicht mit offenen und geschlossenen Communities" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">Gruppen und Communities</span>
+<span class="nc-device-figure__text">Offene, geschlossene und private Gruppen. Dieselben Rechte wie im Web, ohne Umweg über den Rechner.</span>
+</figcaption>
+</figure>
+<figure class="nc-device-figure" id="fg-542-f4" data-fg-index="4">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Schwarzes Brett mit Kleinanzeigen der Belegschaft" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">Schwarzes Brett und Flohmarkt</span>
+<span class="nc-device-figure__text">Der Aushang, der nicht mehr in der Kantine hängt: Kleinanzeigen, Mitfahrgelegenheiten, Gesuche — sichtbar für alle Standorte.</span>
+</figcaption>
+</figure>
+<figure class="nc-device-figure" id="fg-542-f5" data-fg-index="5">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Geöffnete Hauptnavigation der neo app" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+<figcaption class="nc-device-figure__caption">
+<span class="nc-device-figure__name">Hamburger-Navigation</span>
+<span class="nc-device-figure__text">Alles, was nicht auf die Startseite gehört, an einer Stelle: Verzeichnis, Blogs, Magazin, Einstellungen.</span>
+</figcaption>
+</figure>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Standard gegen Medien-Variante.' },
-    },
-  },
 };

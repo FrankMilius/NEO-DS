@@ -40,51 +40,104 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/feature-list.html</code>.
-  </p>
-  <div class="nc-feature-list">
-    <span class="nc-feature-list__content">content</span>
-    <span class="nc-feature-list__cta">cta</span>
-    <span class="nc-feature-list__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-feature-list__inner">inner</span>
-    <span class="nc-feature-list__item">item</span>
-    <span class="nc-feature-list__item-text">item-text</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /produkte/app -->`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/feature-list.html</code>.
-  </p>
-  <div class="nc-feature-list">
-    <span class="nc-feature-list__content">content</span>
-    <span class="nc-feature-list__cta">cta</span>
-    <span class="nc-feature-list__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-feature-list__inner">inner</span>
-    <span class="nc-feature-list__item">item</span>
-    <span class="nc-feature-list__item-text">item-text</span>
-  </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'feature-list wie auf der Website' },
-    },
-  },
+  render: () => `<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-top">
+<div class="nc-container nc-feature-list__inner">
+<div class="nc-feature-list__media nc-feature-list__media--device">
+<div class="nc-device">
+<div class="nc-device__screen">
+<img src="/assets/muster/app-screen.svg" alt="Login" loading="lazy" decoding="async" width="800" height="1740">
+</div>
+</div>
+</div>
+<div class="nc-feature-list__content">
+<div class="nc-section-header nc-section-header--flush">
+<span class="nc-section-header__label">Authentifizierung und Login</span>
+<h2 class="nc-section-header__title">Sicherer Zugang für jeden Mitarbeitenden</h2>
+<p class="nc-section-header__subtitle">Der Zugang zur App ist ausschließlich authentifizierten Nutzerinnen und Nutzern vorbehalten. Verschiedene Login-Verfahren ermöglichen eine einfache Integration in Ihre bestehende IT-Infrastruktur.</p>
+</div>
+<div class="nc-feature-list__items-host" data-feature-list="" data-feature-list-init="1">
+<ul class="nc-feature-list__items">
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18" fill="#AEF359">
+</circle>
+<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">Anmeldung mit Benutzername/E-Mail und Passwort</span>
+</li>
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18" fill="#AEF359">
+</circle>
+<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">Firmenaccount-Login z.B. via Microsoft-Kennung (Entra ID) / LDAP</span>
+</li>
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18" fill="#AEF359">
+</circle>
+<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">SAML 2.0 / OpenID Connect für unternehmensweites Single-Sign-On</span>
+</li>
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18" fill="#AEF359">
+</circle>
+<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">Kopplung an bestehende Nutzerkonten von neo workplace</span>
+</li>
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18" fill="#AEF359">
+</circle>
+<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">Kein separater Account notwendig – ein Account für App und Web (sofern beides benutzt wird)</span>
+</li>
+</ul>
+</div>
+<script type="application/json" data-feature-list-items="">[
+ {
+ "text": "Anmeldung mit Benutzername/E-Mail und Passwort"
+ },
+ {
+ "text": "Firmenaccount-Login z.B. via Microsoft-Kennung (Entra ID) / LDAP"
+ },
+ {
+ "text": "SAML 2.0 / OpenID Connect für unternehmensweites Single-Sign-On"
+ },
+ {
+ "text": "Kopplung an bestehende Nutzerkonten von neo workplace"
+ },
+ {
+ "text": "Kein separater Account notwendig – ein Account für App und Web (sofern beides benutzt wird)"
+ }
+]</script>
+</div>
+</div>
+</section>`,
 };

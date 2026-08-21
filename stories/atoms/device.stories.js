@@ -25,6 +25,11 @@ Das Seitenverhaeltnis 1206/2622 ist das gemessene Mass der vorhandenen App-Scree
 
 export const Default = {
   name: 'Standard',
+  render: () => `<!-- @quelle: von Hand -->`,
+};
+
+export const Standard = {
+  name: 'Standard',
   render: () => `<div class="nc-device">
   <div class="nc-device__screen">
     <img src="/assets/muster/app-screen.svg" alt="App-Ansicht"

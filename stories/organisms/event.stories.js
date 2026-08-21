@@ -24,51 +24,111 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/event.html</code>.
-  </p>
-  <div class="nc-event">
-    <span class="nc-event__agenda">agenda</span>
-    <span class="nc-event__content-grid">content-grid</span>
-    <span class="nc-event__cta">cta</span>
-    <span class="nc-event__hero">hero</span>
-    <span class="nc-event__hero-content">hero-content</span>
-    <span class="nc-event__hero-media">hero-media</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /events/digital-workplace-summit-2026 -->`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/event.html</code>.
-  </p>
-  <div class="nc-event">
-    <span class="nc-event__agenda">agenda</span>
-    <span class="nc-event__content-grid">content-grid</span>
-    <span class="nc-event__cta">cta</span>
-    <span class="nc-event__hero">hero</span>
-    <span class="nc-event__hero-content">hero-content</span>
-    <span class="nc-event__hero-media">hero-media</span>
-  </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'event wie auf der Website' },
-    },
-  },
+  render: () => `<article class="nc-event">
+<section class="nc-event__hero">
+<div class="nc-event__hero-content nc-container">
+<div class="nc-event__tags">
+<span class="nc-event__tag nc-event__tag--type">Konferenz</span>
+<span class="nc-event__tag nc-event__tag--format">Hybrid</span>
+<span class="nc-event__tag nc-event__tag--lang">Deutsch &amp; English</span>
+</div>
+<h1 class="nc-event__title">
+<span>Digital Workplace Summit 2026</span>
+</h1>
+<p class="nc-event__subtitle">Die Konferenz für den digitalen Arbeitsplatz</p>
+<div class="nc-event__meta">
+<div class="nc-event__meta-item">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="18" rx="2" ry="2">
+</rect>
+<line x1="16" y1="2" x2="16" y2="6">
+</line>
+<line x1="8" y1="2" x2="8" y2="6">
+</line>
+<line x1="3" y1="10" x2="21" y2="10">
+</line>
+</svg>
+<span>20.05.2026</span>
+</div>
+<div class="nc-event__meta-item">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>
+<span>09:00 – 17:00 Uhr</span>
+</div>
+<div class="nc-event__meta-item">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>
+<span>Congresshalle Saarbrücken</span>
+</div>
+</div>
+<div class="nc-event__cta">
+<a href="#event-signup" class="nc-button nc-button--accent nc-button--lg">
+<span>Ticket sichern</span>
+</a>
+</div>
+</div>
+</section>
+<section class="nc-section nc-section--muted">
+<div class="nc-container">
+<h2 class="nc-event__section-title">Agenda</h2>
+<div class="nc-event__agenda u-prose">
+<h4>Tag 1: Strategie</h4>
+<p>Keynotes, Panels, Strategy Sessions</p>
+<h4>Tag 2: Praxis</h4>
+<p>Workshops, Hands-on Labs, Roundtables</p>
+</div>
+</div>
+</section>
+<section class="nc-section">
+<div class="nc-container">
+<h2 class="nc-event__section-title">Weitere Events</h2>
+<div class="nc-event__related-grid">
+<a href="/events/neo-partner-day-2026" class="nc-card nc-card--navigational nc-event__related-card">
+<div class="nc-card__content">
+<span class="nc-card__kicker">Konferenz</span>
+<h3 class="nc-card__title">NEO Partner Day 2026</h3>
+<p class="nc-card__meta">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+<rect x="3" y="4" width="18" height="18" rx="2" ry="2">
+</rect>
+<line x1="16" y1="2" x2="16" y2="6">
+</line>
+<line x1="8" y1="2" x2="8" y2="6">
+</line>
+<line x1="3" y1="10" x2="21" y2="10">
+</line>
+</svg>
+ 08.07.2026
+ </p>
+</div>
+<div class="nc-card__footer">
+<span class="nc-card__footer-label">Mehr erfahren</span>
+<span class="nc-card__footer-icon">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</span>
+</div>
+</a>
+</div>
+</div>
+</section>
+</article>`,
 };

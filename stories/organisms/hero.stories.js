@@ -24,183 +24,67 @@ Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div class="nc-hero">
-    <span class="nc-hero__content">content</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /loesungen/branchen/industrie-und-fertigung -->`,
 };
 
-export const HeroVariants = {
-  name: 'Hero Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+export const Standard = {
+  name: 'Standard',
+  render: () => `<section class="nc-hero nc-hero--surface-light nc-hero--cw-xwide nc-hero--center" style="background-size: cover; background-position: center center; background-repeat: no-repeat;">
+<div class="nc-hero__content">
+<div class="nc-badge-row nc-hero__badges">
+<span class="nc-label nc-label--pill">90% Open Source</span>
+<span class="nc-label nc-label--pill">Cloud &amp; On-Premise</span>
+<span class="nc-label nc-label--pill">KI-nativ</span>
+<span class="nc-label nc-label--pill">WCAG-konform</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Alle Varianten: Picture, Card, Split, Product' },
-    },
-  },
-};
-
-export const Alignment = {
-  name: 'Alignment',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-hero">
-    <span class="nc-hero__content">content</span>
-  </div>
+<p class="nc-hero__kicker">Social Intranet Plattform</p>
+<h1 class="nc-hero__title nc-headline--display">Der <span class="nc-hero__mark">intelligente</span>
+<span class="nc-hero__mark">digitale Arbeitsplatz</span>
+</h1>
+<div class="nc-hero__subtitle">
+<p>neo workplace ist die offene, <span class="nc-hero__mark">KI-native Social Intranet Plattform</span> fuer Organisationen, die Kommunikation, Wissen und Zusammenarbeit in einer zentralen Loesung vereinen wollen — sicher, flexibel und 100% Open Source.</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Start vs Center Ausrichtung' },
-    },
-  },
-};
-
-export const FullFeaturedHero = {
-  name: 'Full Featured Hero',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-hero">
-    <span class="nc-hero__content">content</span>
-  </div>
+<div class="nc-hero__actions">
+<a href="/demo" class="nc-button nc-button--accent nc-button--lg">
+<span>Demo anfordern</span>
+</a>
+<a href="/loesungen" class="nc-button nc-button--ghost nc-button--lg">
+<span>Lösungen entdecken</span>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Picture-Variante mit Badge, Breadcrumb, Highlights und Actions' },
-    },
-  },
-};
-
-export const Flaechen = {
-  name: 'Flaechen',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<div class="nc-hero__footer">
+<div class="nc-hero__cards nc-hero__cards--n4 nc-hero__cards--ruled nc-hero__cards--rule-sm nc-hero__cards--center nc-hero__cards--bg-secondary">
+<div class="nc-metric nc-metric--subtle">
+<span class="nc-metric__label">Lizenz</span>
+<div class="nc-metric__value-row">
+<span class="nc-metric__value">100%</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Dunkel, getoent und hell. Jede Flaeche setzt Grund UND Schrift — sie sind ein Paar, kein Paar von Einstellungen.' },
-    },
-  },
-};
-
-export const HervorhebunginderUeberschrift = {
-  name: 'Hervorhebung in der Ueberschrift',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<span class="nc-metric__footer">Open Source</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Balken gegen Tinte, je Flaeche. Der Balken laesst die Schriftfarbe unangetastet, die Tinte ersetzt sie.' },
-    },
-  },
-};
-
-export const FussBadgesundKennzahlen = {
-  name: 'Fuss: Badges und Kennzahlen',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<div class="nc-metric nc-metric--subtle">
+<span class="nc-metric__label">Betrieb</span>
+<div class="nc-metric__value-row">
+<span class="nc-metric__value">Cloud &amp; On-Prem</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Badge-Zeile oben gegen unten, mit Kennzahlen-Raster.' },
-    },
-  },
-};
-
-export const PositiondesMediums = {
-  name: 'Position des Mediums',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<span class="nc-metric__footer">Betriebsmodelle</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Medium rechts gegen links. Der Inhalt steht im Markup immer zuerst.' },
-    },
-  },
+<div class="nc-metric nc-metric--subtle">
+<span class="nc-metric__label">Technik</span>
+<div class="nc-metric__value-row">
+<span class="nc-metric__value">KI-nativ</span>
+</div>
+<span class="nc-metric__footer">Entwicklung &amp; Betrieb</span>
+</div>
+<div class="nc-metric nc-metric--subtle">
+<span class="nc-metric__label">Standard</span>
+<div class="nc-metric__value-row">
+<span class="nc-metric__value">Barrierefrei</span>
+</div>
+<span class="nc-metric__footer">WCAG-konform</span>
+</div>
+</div>
+</div>
+</div>
+</section>`,
 };

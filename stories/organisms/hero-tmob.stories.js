@@ -24,43 +24,21 @@ Headline + Subtext + Media ueber konfigurierbarem Hintergrund.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero-tmob.html</code>.
-  </p>
-  <div class="nc-hero-tmob">
-    hero-tmob
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
 };
 
-export const HeroTextMediaoverBG = {
-  name: 'Hero — Text + Media over BG',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero-tmob.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-hero-tmob">
-    hero-tmob
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<section class="nc-hero-tmob" style="min-height: 80svh; background-color: #0a0a1a;" data-neo-hero-tmob="">
+<div class="nc-hero-tmob__content">
+<div class="nc-hero-tmob__text">
+<h2 class="nc-hero-tmob__headline nc-headline--display">Die Zukunft der Zusammenarbeit</h2>
+<p class="nc-hero-tmob__subtext">PIIPE Workplace verbindet Teams, Projekte und Wissen in einer einzigen Plattform. Intuitiv, sicher und leistungsstark.</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Headline + Subtext + Media ueber konfigurierbarem Hintergrund.' },
-    },
-  },
+<div class="nc-hero-tmob__media">
+<img src="/themes/custom/neo_fe/assets/piipe-startseite.png" alt="Die Zukunft der Zusammenarbeit" loading="eager" decoding="async">
+</div>
+</div>
+</section>`,
 };

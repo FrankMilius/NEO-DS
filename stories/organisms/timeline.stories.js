@@ -24,226 +24,127 @@ export default {
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /produkte/magazine -->`,
 };
 
-export const DefaultTimeline = {
-  name: 'Default Timeline',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<ol class="nc-timeline nc-timeline--alternating nc-timeline--progress" data-timeline="" aria-label="In 4 Schritten zur produktiven Plattform" style="--nc-timeline-progress: 1.000;">
+<li class="nc-timeline__item is-visible">
+<div class="nc-timeline__node">
+<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z">
+</path>
+</svg>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Standard-Timeline mit kleinen Punkt-Nodes und Content' },
-    },
-  },
-};
-
-export const VariantComparison = {
-  name: 'Variant Comparison',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<div class="nc-timeline__content">
+<div class="nc-timeline__meta">
+<span class="nc-timeline__period">Woche 1–2</span>
+<span class="nc-timeline__badge nc-timeline__badge--danger">Gemeinsam</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default, Icon, Connected, Compact im Vergleich' },
-    },
-  },
-};
-
-export const NodeStatusVariants = {
-  name: 'Node Status Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
+<p class="nc-timeline__phase">Phase 1</p>
+<h3 class="nc-timeline__title">Planung</h3>
+<p class="nc-timeline__lead">Wir lernen uns kennen — und hören genau hin.</p>
+<ul class="nc-timeline__list">
+<li>Kick-off-Workshop</li>
+<li>Bedarfsanalyse &amp; IT-Infrastruktur-Klärung</li>
+<li>Personalrat-Briefing mit Muster-Dienstvereinbarung</li>
+<li>Spezifikation &amp; Anpassungsplanung</li>
+</ul>
+<div class="nc-timeline__cta">
+<a href="/kontakt" class="nc-button nc-button--primary nc-button--md">
+<span>Beratung anfragen</span>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default, Active, Success, Danger Nodes' },
-    },
-  },
-};
-
-export const IconTimeline = {
-  name: 'Icon Timeline',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Groessere Nodes (32px) mit SVG-Icons — fuer Activity Feeds' },
-    },
-  },
-};
-
-export const ConnectedCards = {
-  name: 'Connected Cards',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
+</li>
+<li class="nc-timeline__item is-visible">
+<div class="nc-timeline__node">
+<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z">
+</path>
+<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
+</path>
+</svg>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Timeline mit Card-Hintergrund fuer den Content-Bereich' },
-    },
-  },
-};
-
-export const ChangelogExample = {
-  name: 'Changelog Example',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/timeline.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-timeline">
-    <span class="nc-timeline__item">item</span>
-    <span class="nc-timeline__node">node</span>
-    <span class="nc-timeline__content">content</span>
-    <span class="nc-timeline__title">title</span>
-    <span class="">fill</span>
-    <span class="">period</span>
-    <span class="">badge</span>
-    <span class="">phase</span>
-    <span class="">lead</span>
-    <span class="">list</span>
-    <span class="">cta</span>
-  </div>
+<div class="nc-timeline__content">
+<div class="nc-timeline__meta">
+<span class="nc-timeline__period">Woche 3–5</span>
+<span class="nc-timeline__badge nc-timeline__badge--info">NEOCOSMO</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Typischer Anwendungsfall: Versions-Changelog mit Datum und Beschreibung' },
-    },
-  },
+<p class="nc-timeline__phase">Phase 2</p>
+<h3 class="nc-timeline__title">Aufbau</h3>
+<p class="nc-timeline__lead">Wir bauen — Sie arbeiten weiter.</p>
+<ul class="nc-timeline__list">
+<li>Konfiguration Standardsystem &amp; Anpassung</li>
+<li>Corporate-Design-Anpassung</li>
+<li>Active-Directory-Anbindung (SAML 2.0)</li>
+<li>Technische Installation &amp; Infrastruktur-Setup</li>
+<li>Testphase &amp; Qualitätssicherung</li>
+</ul>
+<div class="nc-timeline__cta">
+<a href="/produkte" class="nc-button nc-button--secondary nc-button--md">
+<span>Leistungen ansehen</span>
+</a>
+</div>
+</div>
+</li>
+<li class="nc-timeline__item is-visible">
+<div class="nc-timeline__node">
+<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z">
+</path>
+</svg>
+</div>
+<div class="nc-timeline__content">
+<div class="nc-timeline__meta">
+<span class="nc-timeline__period">Woche 6–8</span>
+<span class="nc-timeline__badge nc-timeline__badge--danger">Gemeinsam</span>
+</div>
+<p class="nc-timeline__phase">Phase 3</p>
+<h3 class="nc-timeline__title">Go-live</h3>
+<p class="nc-timeline__lead">Der Tag, an dem alle mitmachen.</p>
+<ul class="nc-timeline__list">
+<li>Redaktionsschulung &amp; Initialredaktion</li>
+<li>Training &amp; Systemtests</li>
+<li>Supporteinweisung</li>
+<li>Produktivbetrieb — alle Mitarbeitenden erreichbar</li>
+</ul>
+<div class="nc-timeline__cta">
+<a href="/inside/dokumentation" class="nc-button nc-button--accent nc-button--md">
+<span>Go-live-Checkliste</span>
+</a>
+</div>
+</div>
+</li>
+<li class="nc-timeline__item is-visible">
+<div class="nc-timeline__node">
+<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941">
+</path>
+</svg>
+</div>
+<div class="nc-timeline__content">
+<div class="nc-timeline__meta">
+<span class="nc-timeline__period">Ab Monat 3</span>
+<span class="nc-timeline__badge nc-timeline__badge--accent">Kunde</span>
+</div>
+<p class="nc-timeline__phase">Phase 4</p>
+<h3 class="nc-timeline__title">Betrieb &amp; Ausbau</h3>
+<p class="nc-timeline__lead">Wir bleiben dabei — auch danach.</p>
+<ul class="nc-timeline__list">
+<li>Redaktions- &amp; Kundensupport</li>
+<li>App-Rollout (ohne &amp; mit Chat)</li>
+<li>Kundenspezifische Erweiterungen</li>
+<li>Integration Newsroom &amp; weitere Fachsysteme</li>
+</ul>
+<div class="nc-timeline__cta">
+<a href="/inside/support" class="nc-button nc-button--outline nc-button--md">
+<span>Support kontaktieren</span>
+</a>
+</div>
+</div>
+</li>
+</ol>`,
 };

@@ -24,43 +24,26 @@ Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero-tom.html</code>.
-  </p>
-  <div class="nc-hero-tom">
-    hero-tom
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
 };
 
-export const HeroTextoverMedia = {
-  name: 'Hero — Text over Media',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/hero-tom.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-hero-tom">
-    hero-tom
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<section class="nc-hero-tom nc-hero-tom--expand" data-neo-hero-tom="" data-media-mode="expand" style="min-height: 100svh;" data-tom-init="1">
+<div class="nc-hero-tom__media" style="--tom-expand: 0.0000;">
+<img src="/themes/custom/neo_fe/assets/photo-1497366216548-37526070297c.jpeg" alt="" loading="eager" decoding="async">
+<div class="nc-hero-tom__scrim">
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.' },
-    },
-  },
+</div>
+<div class="nc-hero-tom__content">
+<div class="nc-hero-tom__copy">
+<p class="nc-hero-tom__kicker">PIIPE Workplace</p>
+<h2 class="nc-hero-tom__headline nc-headline--display">Und alles läuft einfach.</h2>
+<div class="nc-hero-tom__subtext">
+<p>PIIPE Workplace ist die leistungsstarke, benutzerfreundliche Plattform, die dein Team zum Team macht. Mit intuitiver Navigation. Automatischen Updates. Integrationen, die einfach funktionieren. Und einem Design, das Klarheit in alles bringt, was du tust.</p>
+</div>
+</div>
+</div>
+</section>`,
 };

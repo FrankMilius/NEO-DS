@@ -24,240 +24,48 @@ Natives <details>/<summary> oder ARIA-Pattern (role='region').
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /piipe-workplace-funktionen-im-ueberblick -->`,
 };
 
-export const AllStates = {
-  name: 'All States',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-accordion nc-accordion--separated nc-accordion--spacious nc-accordion--sticky nc-accordion--media-top" id="acc-561-liste" data-neo-accordion="" data-acc-init="1">
+<details class="nc-accordion__item" id="piipe-analytics" open="">
+<summary class="nc-accordion__trigger">
+<span class="nc-accordion__trigger-body">
+<span class="nc-accordion__trigger-text">PIIPE Analytics</span>
+</span>
+<span class="nc-accordion__icon" aria-hidden="true">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 7.5L10 12.5L15 7.5">
+</path>
+</svg>
+</span>
+</summary>
+<div class="nc-accordion__content">
+<div class="nc-accordion__content-inner">
+<p class="nc-accordion__text">Analysedashboard mit echtzeitbasierten Reports und grafischen Charts, jeweils zeitpunkt- und zeitraumbezogen.&lt;ul&gt;&lt;li&gt;Anzahl registrierter und neuer Nutzer&lt;/li&gt;&lt;li&gt;Anzahl aktiver Redakteure&lt;/li&gt;&lt;li&gt;Anzahl publizierter Inhalte pro Inhaltstyp&lt;/li&gt;&lt;li&gt;Nutzungsraten von Inhalten: Likes, Views, Kommentare, Abonnements&lt;/li&gt;&lt;li&gt;Aktivitäts- und Engagementraten für Newskanäle, Communities und Blogs&lt;/li&gt;&lt;/ul&gt;</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Accordion-Item in allen Zustaenden' },
-    },
-  },
-};
-
-export const VariantComparison = {
-  name: 'Variant Comparison',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Alle 7 Varianten im Vergleich' },
-    },
-  },
-};
-
-export const NestedHierarchy = {
-  name: 'Nested Hierarchy',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
+</details>
+<details class="nc-accordion__item" id="matomo-analytics-optional">
+<summary class="nc-accordion__trigger">
+<span class="nc-accordion__trigger-body">
+<span class="nc-accordion__trigger-text">Matomo Analytics (optional)</span>
+</span>
+<span class="nc-accordion__icon" aria-hidden="true">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 7.5L10 12.5L15 7.5">
+</path>
+</svg>
+</span>
+</summary>
+<div class="nc-accordion__content">
+<div class="nc-accordion__content-inner">
+<p class="nc-accordion__text">In PIIPE integriertes Matomo-Dashboard mit zeitraumbezogenen Datenanalysen.&lt;ul&gt;&lt;li&gt;Zugriffszahlen, Seitenaufrufe sowie Start- und Absprungseiten&lt;/li&gt;&lt;li&gt;Nutzungsverhalten und Verweildauer&lt;/li&gt;&lt;li&gt;Verwendete Endgeräte&lt;/li&gt;&lt;li&gt;Berichte abonnierbar — automatisch erzeugt und an Administratoren verschickt&lt;/li&gt;&lt;li&gt;Weitere Analytics-Reports flexibel hinzufügbar&lt;/li&gt;&lt;/ul&gt;</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Hierarchisches Accordion mit 2 Ebenen (z.B. Kategorie > Unterkategorie).' },
-    },
-  },
-};
-
-export const SelectionCheckable = {
-  name: 'Selection (Checkable)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
 </div>
+</details>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Accordion mit Checkbox im Trigger. Auswahl bleibt bei geschlossenem Item sichtbar.' },
-    },
-  },
-};
-
-export const ActionableHeader = {
-  name: 'Actionable Header',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Trigger mit Badge und Action-Button im Suffix-Slot.' },
-    },
-  },
-};
-
-export const StickyTrigger = {
-  name: 'Sticky Trigger',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Trigger bleibt bei langem Content am oberen Rand sichtbar.' },
-    },
-  },
-};
-
-export const DensityComparison = {
-  name: 'Density Comparison',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default vs Compact vs Spacious' },
-    },
-  },
-};
-
-export const FAQPattern = {
-  name: 'FAQ Pattern',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-accordion">
-    <span class="nc-accordion__item">item</span>
-    <span class="nc-accordion__trigger">trigger</span>
-    <span class="nc-accordion__content">content</span>
-    <span class="nc-accordion__content-inner">content-inner</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Typischer FAQ-Anwendungsfall' },
-    },
-  },
 };

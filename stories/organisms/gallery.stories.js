@@ -24,189 +24,157 @@ Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-he
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /piipe-workplace-funktionen-im-ueberblick -->`,
 };
 
-export const DefaultSlideGallery = {
-  name: 'Default Slide Gallery',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-gallery nc-gallery--lines nc-gallery--svh" data-neo-gallery="" data-autoplay="on" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell" data-gallery-init="1">
+<div class="nc-gallery__track">
+<div class="nc-gallery__slide is-active" role="tabpanel" aria-roledescription="Slide" aria-label="PIIPE Workplace" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/1076/2400/1350" alt="" loading="eager" decoding="async">
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Standard: Viewport-Hoehe, Slide-Animation, Dot-Navigation, Content links.' },
-    },
-  },
-};
-
-export const FadeAnimation = {
-  name: 'Fade Animation',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
+<div class="nc-gallery__slide-overlay">
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Slides blenden sanft ein/aus statt zu schieben.' },
-    },
-  },
-};
-
-export const CenteredContent = {
-  name: 'Centered Content',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">SaaS Platform</span>
+<h3 class="nc-gallery__slide-title">PIIPE Workplace</h3>
+<p class="nc-gallery__slide-description">Die intelligente Arbeitsplatz-Plattform für moderne Teams.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/produkte/workplace" aria-label="Jetzt starten – PIIPE Workplace">Jetzt starten</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Content zentriert ausgerichtet — fuer symmetrische Layouts.' },
-    },
-  },
-};
-
-export const LineNavigation = {
-  name: 'Line Navigation',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Balken-Indikatoren statt Dots.' },
-    },
-  },
-};
-
-export const FixedHeight = {
-  name: 'Fixed Height',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Feste Hoehe (500-700px) statt Viewport-Hoehe.' },
-    },
-  },
-};
-
-export const NavigationStyles = {
-  name: 'Navigation Styles',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/gallery.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-gallery">
-    <span class="nc-gallery__track">track</span>
-    <span class="nc-gallery__slide">slide</span>
-    <span class="nc-gallery__slide-bg">slide-bg</span>
-    <span class="nc-gallery__slide-content">slide-content</span>
-  </div>
 </div>
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Analytics Dashboard" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/180/2400/1350" alt="" loading="lazy" decoding="async">
+</div>
+<div class="nc-gallery__slide-overlay">
+</div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">Neu</span>
+<h3 class="nc-gallery__slide-title">Analytics Dashboard</h3>
+<p class="nc-gallery__slide-description">Echtzeit-Einblicke in Team-Performance und Projektfortschritt.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/produkte/analytics" aria-label="Dashboard entdecken – Analytics Dashboard">Dashboard entdecken</a>
+</div>
+</div>
+</div>
+</div>
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Enterprise Security" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/1073/2400/1350" alt="" loading="lazy" decoding="async">
+</div>
+<div class="nc-gallery__slide-overlay">
+</div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">Security</span>
+<h3 class="nc-gallery__slide-title">Enterprise Security</h3>
+<p class="nc-gallery__slide-description">ISO 27001 zertifiziert. Ende-zu-Ende-Verschlüsselung. DSGVO-konform.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/sicherheit" aria-label="Mehr erfahren – Enterprise Security">Mehr erfahren</a>
+</div>
+</div>
+</div>
+</div>
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="200+ Integrationen" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/119/2400/1350" alt="" loading="lazy" decoding="async">
+</div>
+<div class="nc-gallery__slide-overlay">
+</div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">Apps</span>
+<h3 class="nc-gallery__slide-title">200+ Integrationen</h3>
+<p class="nc-gallery__slide-description">Nahtlose Verbindung zu Slack, Microsoft 365, Google Workspace und mehr.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/integrationen" aria-label="Alle Integrationen – 200+ Integrationen">Alle Integrationen</a>
+</div>
+</div>
+</div>
+</div>
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Für Teams jeder Größe" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/1048/2400/1350" alt="" loading="lazy" decoding="async">
+</div>
+<div class="nc-gallery__slide-overlay">
+</div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">Flexibel</span>
+<h3 class="nc-gallery__slide-title">Für Teams jeder Größe</h3>
+<p class="nc-gallery__slide-description">Vom Startup bis zum Konzern — ab 5 Nutzer kostenlos.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/preise" aria-label="Preise ansehen – Für Teams jeder Größe">Preise ansehen</a>
+</div>
+</div>
+</div>
+</div>
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="KI-Assistent" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide-bg">
+<img src="https://picsum.photos/id/1069/2400/1350" alt="" loading="lazy" decoding="async">
+</div>
+<div class="nc-gallery__slide-overlay">
+</div>
+<div class="nc-gallery__slide-stage">
+<div class="nc-gallery__slide-content">
+<span class="nc-gallery__slide-tag">Beta</span>
+<h3 class="nc-gallery__slide-title">KI-Assistent</h3>
+<p class="nc-gallery__slide-description">Intelligente Vorschläge, automatische Zusammenfassungen und smarte Workflows.</p>
+<div class="nc-gallery__slide-actions">
+<a class="nc-button nc-button--primary nc-button--lg" href="/ki-assistent" aria-label="Beta testen – KI-Assistent">Beta testen</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="nc-gallery__controls">
+<button class="nc-gallery__paddle nc-gallery__paddle--prev" aria-label="Vorheriger Slide" data-gallery-prev="">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M15 6l-6 6 6 6">
+</path>
+</svg>
+</button>
+<button class="nc-gallery__paddle nc-gallery__paddle--next" aria-label="Naechster Slide" data-gallery-next="">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 6l6 6-6 6">
+</path>
+</svg>
+</button>
+</div>
+<nav class="nc-gallery__nav" role="tablist" aria-label="Slide-Navigation">
+<button class="nc-gallery__nav-dot is-active" role="tab" aria-selected="true" aria-label="PIIPE Workplace" data-index="0">
+</button>
+<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Analytics Dashboard" data-index="1">
+</button>
+<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Enterprise Security" data-index="2">
+</button>
+<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="200+ Integrationen" data-index="3">
+</button>
+<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Für Teams jeder Größe" data-index="4">
+</button>
+<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="KI-Assistent" data-index="5">
+</button>
+</nav>
+<button class="nc-gallery__autoplay" aria-label="Galerie pausieren" data-gallery-autoplay="">
+<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+<rect x="6" y="4" width="4" height="16" rx="1">
+</rect>
+<rect x="14" y="4" width="4" height="16" rx="1">
+</rect>
+</svg>
+<svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+<polygon points="6,4 20,12 6,20">
+</polygon>
+</svg>
+</button>
+<script type="application/json" data-gallery-slides="">[{"title":"PIIPE Workplace","tag":"SaaS Platform","description":"Die intelligente Arbeitsplatz-Plattform für moderne Teams.","image":"https://picsum.photos/id/1076/2400/1350","cta":"Jetzt starten","url":"/produkte/workplace","theme":"dark"},{"title":"Analytics Dashboard","tag":"Neu","description":"Echtzeit-Einblicke in Team-Performance und Projektfortschritt.","image":"https://picsum.photos/id/180/2400/1350","cta":"Dashboard entdecken","url":"/produkte/analytics","theme":"dark"},{"title":"Enterprise Security","tag":"Security","description":"ISO 27001 zertifiziert. Ende-zu-Ende-Verschlüsselung. DSGVO-konform.","image":"https://picsum.photos/id/1073/2400/1350","cta":"Mehr erfahren","url":"/sicherheit","theme":"dark"},{"title":"200+ Integrationen","tag":"Apps","description":"Nahtlose Verbindung zu Slack, Microsoft 365, Google Workspace und mehr.","image":"https://picsum.photos/id/119/2400/1350","cta":"Alle Integrationen","url":"/integrationen","theme":"dark"},{"title":"Für Teams jeder Größe","tag":"Flexibel","description":"Vom Startup bis zum Konzern — ab 5 Nutzer kostenlos.","image":"https://picsum.photos/id/1048/2400/1350","cta":"Preise ansehen","url":"/preise","theme":"dark"},{"title":"KI-Assistent","tag":"Beta","description":"Intelligente Vorschläge, automatische Zusammenfassungen und smarte Workflows.","image":"https://picsum.photos/id/1069/2400/1350","cta":"Beta testen","url":"/ki-assistent","theme":"dark"}]</script>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Dots vs Lines vs Thumbnails — alle 3 Nav-Darstellungen.' },
-    },
-  },
 };

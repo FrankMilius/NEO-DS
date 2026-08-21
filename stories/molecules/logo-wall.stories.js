@@ -24,191 +24,92 @@ Root: display:grid (default), display:flex (marquee/cluster). Gap via Token.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /node/1 -->`,
 };
 
-export const GridDefault = {
-  name: 'Grid (Default)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-logo-wall nc-logo-wall--marquee nc-logo-wall--lg nc-logo-wall--mono nc-logo-wall--boxed" data-neo-logo-wall="" data-layout="marquee" aria-label="Unsere Kunden" data-logo-wall-init="1">
+<div class="nc-logo-wall__track">
+<div class="nc-logo-pill" aria-label="AWO">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/awo_logo.png" alt="AWO" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Dataport">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/dataport_logo.png" alt="Dataport" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="degewo">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/degewo-logo.png" alt="degewo" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Deutsche Rentenversicherung">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_drv.png" alt="Deutsche Rentenversicherung" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Festo">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/festo_logo.png" alt="Festo" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Hochschulforum Digitalisierung">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_hfd.png" alt="Hochschulforum Digitalisierung" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="HS Kempten">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_hs-kempten.png" alt="HS Kempten" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="KVNO">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_kvno.png" alt="KVNO" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Landesmedienanstalt Saarland">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_lms.png" alt="Landesmedienanstalt Saarland" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Ringier">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/ringier-logo.png" alt="Ringier" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Saarland">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_saarland.png" alt="Saarland" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Universität des Saarlandes">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/uni-saarland_logo.png" alt="Universität des Saarlandes" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="ZKE Saarbrücken">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/zke_logo.png" alt="ZKE Saarbrücken" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="AWO" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/awo_logo.png" alt="AWO" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Dataport" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/dataport_logo.png" alt="Dataport" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="degewo" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/degewo-logo.png" alt="degewo" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Deutsche Rentenversicherung" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_drv.png" alt="Deutsche Rentenversicherung" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Festo" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/festo_logo.png" alt="Festo" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Hochschulforum Digitalisierung" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_hfd.png" alt="Hochschulforum Digitalisierung" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="HS Kempten" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_hs-kempten.png" alt="HS Kempten" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="KVNO" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_kvno.png" alt="KVNO" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Landesmedienanstalt Saarland" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_lms.png" alt="Landesmedienanstalt Saarland" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Ringier" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/ringier-logo.png" alt="Ringier" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Saarland" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/logo_saarland.png" alt="Saarland" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="Universität des Saarlandes" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/uni-saarland_logo.png" alt="Universität des Saarlandes" loading="lazy" decoding="async">
+</div>
+<div class="nc-logo-pill" aria-label="ZKE Saarbrücken" aria-hidden="true">
+<img class="nc-logo-pill__img" src="/themes/custom/neo_fe/assets/logos/zke_logo.png" alt="ZKE Saarbrücken" loading="lazy" decoding="async">
+</div>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Standard: Responsives auto-fit Raster mit Pill-Items.' },
-    },
-  },
-};
-
-export const MarqueeTicker = {
-  name: 'Marquee Ticker',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Endlose horizontale Laufschrift. Pause bei Hover.' },
-    },
-  },
-};
-
-export const Cluster = {
-  name: 'Cluster',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Organisches Flex-Layout mit Wrap.' },
-    },
-  },
-};
-
-export const MonochromeHoverReveal = {
-  name: 'Monochrome + Hover Reveal',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Logos grau. Hover zeigt Originalfarben.' },
-    },
-  },
-};
-
-export const SizeComparison = {
-  name: 'Size Comparison',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'SM vs MD vs LG im Vergleich.' },
-    },
-  },
-};
-
-export const StaggeredFadeIn = {
-  name: 'Staggered Fade-In',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-logo-wall">
-    <span class="nc-logo-pill">pill</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Logos blenden gestaffelt ein per Intersection Observer.' },
-    },
-  },
-};
-
-export const LayoutVariants = {
-  name: 'Layout Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/logo-wall.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Grid vs Marquee vs Cluster im Vergleich.' },
-    },
-  },
 };

@@ -24,106 +24,51 @@ export default {
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/form-block.html</code>.
-  </p>
-  <div class="nc-form-block">
-    <span class="nc-form-block__text">form-block</span>
-    <span class="nc-form-block__form">form</span>
-    <span class="nc-form-block__headline">headline</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /unternehmen/kontakt -->`,
 };
 
-export const TextLinksDefault = {
-  name: 'Text Links (Default)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/form-block.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-form-block">
-    <span class="nc-form-block__text">form-block</span>
-    <span class="nc-form-block__form">form</span>
-    <span class="nc-form-block__headline">headline</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-form-block nc-form-block--text-left" data-neo-form="" data-layout="text-left">
+<div class="nc-form-block__text">
+<div class="nc-section-header nc-section-header--flush">
+<h2 class="nc-section-header__title">Nachricht senden</h2>
+<p class="nc-section-header__subtitle">Erzählen Sie uns von Ihrem Vorhaben – wir melden uns persönlich.</p>
+</div>
+</div>
+<div class="nc-form-block__form">
+<form class="nc-form nc-form--two-column" novalidate="" data-neo-form-fields="" data-neo-form-init="1">
+<div class="nc-form-hp" aria-hidden="true">
+<input type="text" name="website_url" tabindex="-1" autocomplete="off">
+</div>
+<div class="nc-form-field nc-form-field--required">
+<label class="nc-form-label" for="nf-organisation">
+<span class="nc-form-label__text">Organisation</span>
+<span class="nc-form-label__required" aria-hidden="true"> *</span>
+</label>
+<input class="nc-input" type="text" name="organisation" id="nf-organisation" placeholder="Ihr Unternehmen / Ihre Institution" required="">
+</div>
+<div class="nc-form-field nc-form-field--required">
+<label class="nc-form-label" for="nf-message">
+<span class="nc-form-label__text">Worum geht es?</span>
+<span class="nc-form-label__required" aria-hidden="true"> *</span>
+</label>
+<textarea class="nc-textarea" rows="4" name="message" id="nf-message" placeholder="Beschreiben Sie Ihr Vorhaben …" required="">
+</textarea>
+</div>
+<div class="nc-form-field">
+<label class="nc-form-label" for="nf-topic">
+<span class="nc-form-label__text">Bitte waehlen …</span>
+<span class="nc-form-label__optional"> (optional)</span>
+</label>
+<input class="nc-input" type="checkbox-group" name="topic" id="nf-topic">
+</div>
+<div class="nc-form-block__submission nc-form-field--full-width">
+<p class="nc-form-block__hint-text">Antwort in 48h · DSGVO-konform</p>
+<button type="submit" class="nc-button nc-button--accent nc-button--lg nc-form-block__submit">Nachricht senden</button>
+</div>
+</form>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: '' },
-    },
-  },
-};
-
-export const TextRechts = {
-  name: 'Text Rechts',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/form-block.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-form-block">
-    <span class="nc-form-block__text">form-block</span>
-    <span class="nc-form-block__form">form</span>
-    <span class="nc-form-block__headline">headline</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: '' },
-    },
-  },
-};
-
-export const Gestapelt = {
-  name: 'Gestapelt',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/form-block.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-form-block">
-    <span class="nc-form-block__text">form-block</span>
-    <span class="nc-form-block__form">form</span>
-    <span class="nc-form-block__headline">headline</span>
-  </div>
-  <div class="nc-form-block">
-    <span class="nc-form-block__text">form-block</span>
-    <span class="nc-form-block__form">form</span>
-    <span class="nc-form-block__headline">headline</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: '' },
-    },
-  },
 };

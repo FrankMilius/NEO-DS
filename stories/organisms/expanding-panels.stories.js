@@ -24,47 +24,56 @@ Root .nc-expanding-panels: display:flex, gap, feste Hoehe (--nc-expanding-panels
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/expanding-panels.html</code>.
-  </p>
-  <div class="nc-expanding-panels">
-    <span class="nc-expanding-panels__panel">panel</span>
-    <span class="nc-expanding-panels__label">expanding-panels</span>
-    <span class="nc-expanding-panels__body">body</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
 };
 
-export const ExpandingPanels = {
-  name: 'Expanding Panels',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/expanding-panels.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-expanding-panels">
-    <span class="nc-expanding-panels__panel">panel</span>
-    <span class="nc-expanding-panels__label">expanding-panels</span>
-    <span class="nc-expanding-panels__body">body</span>
-  </div>
-</div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-expanding-panels" data-xpanels="" role="group" aria-label="Warum neo workplace?" data-xpanels-init="1">
+<button type="button" class="nc-expanding-panels__panel" aria-expanded="true">
+<span class="nc-expanding-panels__bg" aria-hidden="true">
+</span>
+<span class="nc-expanding-panels__num">01</span>
+<span class="nc-expanding-panels__label">Open Source</span>
+<span class="nc-expanding-panels__body">
+<span class="nc-expanding-panels__chip">GPL / MIT</span>
+<h3 class="nc-expanding-panels__title">100 % Open Source</h3>
+<p class="nc-expanding-panels__text">Transparenter, auditierbarer Code ohne Vendor-Lock-in. Digitale Souveränität für Unternehmen und öffentliche Hand.</p>
+</span>
+</button>
+<button type="button" class="nc-expanding-panels__panel" aria-expanded="false">
+<span class="nc-expanding-panels__bg" aria-hidden="true">
+</span>
+<span class="nc-expanding-panels__num">02</span>
+<span class="nc-expanding-panels__label">Cloud &amp; On-Prem</span>
+<span class="nc-expanding-panels__body">
+<span class="nc-expanding-panels__chip">Betriebsmodelle</span>
+<h3 class="nc-expanding-panels__title">Cloud &amp; On-Prem</h3>
+<p class="nc-expanding-panels__text">SaaS, Private Cloud oder eigenes Rechenzentrum – Sie entscheiden, wo Ihre Daten liegen.</p>
+</span>
+</button>
+<button type="button" class="nc-expanding-panels__panel" aria-expanded="false">
+<span class="nc-expanding-panels__bg" aria-hidden="true">
+</span>
+<span class="nc-expanding-panels__num">03</span>
+<span class="nc-expanding-panels__label">KI-nativ</span>
+<span class="nc-expanding-panels__body">
+<span class="nc-expanding-panels__chip">Entwicklung &amp; Betrieb</span>
+<h3 class="nc-expanding-panels__title">KI-nativ</h3>
+<p class="nc-expanding-panels__text">KI-gestützte Workflows in Produktentwicklung und Plattformbetrieb – nicht nachgerüstet, sondern eingebaut.</p>
+</span>
+</button>
+<button type="button" class="nc-expanding-panels__panel" aria-expanded="false">
+<span class="nc-expanding-panels__bg" aria-hidden="true">
+</span>
+<span class="nc-expanding-panels__num">04</span>
+<span class="nc-expanding-panels__label">Barrierefrei</span>
+<span class="nc-expanding-panels__body">
+<span class="nc-expanding-panels__chip">WCAG 2.1 AA</span>
+<h3 class="nc-expanding-panels__title">Barrierefrei</h3>
+<p class="nc-expanding-panels__text">WCAG-konform und BITV-ready – Zugänglichkeit als Qualitätsmerkmal des gesamten Produkts.</p>
+</span>
+</button>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Vier horizontale Panels, erstes aktiv. Hover/Klick expandiert, Body wird sichtbar.' },
-    },
-  },
 };

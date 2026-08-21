@@ -24,193 +24,167 @@ Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von /datenschutz -->`,
 };
 
-export const SimpleLegalSocial = {
-  name: 'Simple (Legal + Social)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<footer class="nc-footer nc-footer--columns nc-footer--4-col nc-footer--inverse" role="contentinfo" aria-label="Fußzeile">
+<div class="nc-footer__inner nc-container">
+<div class="nc-footer__main">
+<div class="nc-footer__brand">
+<div class="nc-footer__contact">
+<h3 class="nc-footer__heading">Kontakt</h3>
+<address class="nc-footer__address">NEOCOSMO GmbH<br>
+Science Park 2<br>
+66123 Saarbrücken</address>
+<a class="nc-footer__contact-link" href="tel:+4968130964200">+49 681 3096 4200</a>
+<a class="nc-footer__contact-link" href="mailto:welcome@neocosmo.de">welcome@neocosmo.de</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Minimaler Footer: Copyright links, Social-Icons rechts. Heller Hintergrund.' },
-    },
-  },
-};
-
-export const SimpleDark = {
-  name: 'Simple (Dark)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Minimaler Footer auf dunklem Hintergrund.' },
-    },
-  },
-};
-
-export const Sitemap3Spalten = {
-  name: 'Sitemap (3 Spalten)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
+<nav class="nc-footer__nav" aria-label="Footer Navigation">
+<div class="nc-footer__columns">
+<div class="nc-footer__column">
+<h3 class="nc-footer__heading">Produkte</h3>
+<ul class="nc-footer__links">
+<li>
+<a class="nc-footer__link" href="/produkte/workplace">neo workplace</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/app">neo workplace App</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/magazine">neo magazine</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/chat">neo workplace Chat</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/ai">neo AI</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/cms">neo Headless CMS</a>
+</li>
+</ul>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Sitemap-Footer mit 3-Spalten-Grid. Headings + Link-Listen.' },
-    },
-  },
-};
-
-export const Sitemap4SpaltenDark = {
-  name: 'Sitemap (4 Spalten, Dark)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
+<div class="nc-footer__column">
+<h3 class="nc-footer__heading">Lösungen</h3>
+<ul class="nc-footer__links">
+<li>
+<a class="nc-footer__link" href="/loesungen">Lösungen im Überblick</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/integrationen">Integrationen</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/produkte/technologie-sicherheit">Technologie &amp; Sicherheit</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/editionen-preise">Editionen &amp; Preise</a>
+</li>
+</ul>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Sitemap-Footer mit 4 Spalten auf dunklem Hintergrund.' },
-    },
-  },
-};
-
-export const EngagementCTAColumns = {
-  name: 'Engagement (CTA + Columns)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
+<div class="nc-footer__column">
+<h3 class="nc-footer__heading">Unternehmen</h3>
+<ul class="nc-footer__links">
+<li>
+<a class="nc-footer__link" href="/unternehmen/ueber-uns">Über NEOCOSMO</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/inside/kunden">Kunden</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/unternehmen/news">News</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/unternehmen/veranstaltungen">Veranstaltungen</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/unternehmen/karriere">Karriere</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/unternehmen/partner">Partner</a>
+</li>
+</ul>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Footer mit CTA-Bereich oben (Kicker, Headline, Button) + Sitemap-Grid.' },
-    },
-  },
-};
-
-export const ThemeVergleich = {
-  name: 'Theme Vergleich',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
+<div class="nc-footer__column">
+<h3 class="nc-footer__heading">Inside</h3>
+<ul class="nc-footer__links">
+<li>
+<a class="nc-footer__link" href="/inside/support">Support-Portal</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/inside/dokumentation">Dokumentation</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/inside/blog">Innovation Blog</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/inside/app-store">App Store</a>
+</li>
+<li>
+<a class="nc-footer__link" href="/inside/success-stories">Success Stories</a>
+</li>
+</ul>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Base vs Inverse Theme im direkten Vergleich.' },
-    },
-  },
-};
-
-export const SpaltenVergleich = {
-  name: 'Spalten-Vergleich',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/footer.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-footer">
-    <span class="nc-footer__legal">legal-area</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: '2 vs 3 vs 4 Spalten im Vergleich.' },
-    },
-  },
+</nav>
+<div class="nc-footer__newsletter">
+<h3 class="nc-footer__heading">Newsletter</h3>
+<p class="nc-footer__newsletter-text">Neuigkeiten zu Produkten, Releases und Veranstaltungen — etwa monatlich.</p>
+<form class="nc-footer__newsletter-form" novalidate="">
+<label class="nc-sr-only" for="ft-nl-email">E-Mail-Adresse</label>
+<input class="nc-input nc-footer__newsletter-input" type="email" id="ft-nl-email" name="email" placeholder="name@firma.de" autocomplete="email" required="">
+<button type="submit" class="nc-button nc-button--accent nc-button--md">Abonnieren</button>
+</form>
+<p class="nc-footer__newsletter-consent">Mit dem Abonnieren stimme ich der Verarbeitung meiner E-Mail-Adresse zum Versand des Newsletters zu. Der Widerruf ist jederzeit möglich. Weitere Informationen in der <a href="/datenschutz">Datenschutzerklärung</a>.</p>
+</div>
+</div>
+<div class="nc-footer__separator" aria-hidden="true">
+</div>
+<div class="nc-footer__bottom">
+<div class="nc-footer__social">
+<a class="nc-footer__social-link" href="https://www.linkedin.com/company/neocosmo-gmbh/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer me">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M8 11v5">
+</path>
+<path d="M8 8v.01">
+</path>
+<path d="M12 16v-5">
+</path>
+<path d="M16 16v-3a2 2 0 1 0-4 0">
+</path>
+<path d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4z">
+</path>
+</svg>
+</a>
+<a class="nc-footer__social-link" href="mailto:welcome@neocosmo.de" aria-label="Mail" target="_blank" rel="noopener noreferrer me">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z">
+</path>
+<path d="M3 7l9 6 9-6">
+</path>
+</svg>
+</a>
+</div>
+<div class="nc-footer__legal">
+<span class="nc-footer__copyright">© 2026. neocosmo GmbH. Alle Rechte vorbehalten.</span>
+<nav class="nc-footer__legal-links" aria-label="Rechtliches">
+<a href="/impressum">Impressum</a>
+<a href="/datenschutz">Datenschutz</a>
+<a href="/barrierefreiheit">Barrierefreiheit</a>
+<a href="#cookie-settings">Cookie-Einstellungen</a>
+</nav>
+</div>
+<button type="button" class="nc-footer__backtotop" data-back-to-top="" aria-label="Nach oben" data-btt-init="1">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M18 15l-6-6-6 6">
+</path>
+</svg>
+<span>Nach oben</span>
+</button>
+</div>
+</div>
+</footer>`,
 };
