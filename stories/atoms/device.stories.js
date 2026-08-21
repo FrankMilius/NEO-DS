@@ -24,7 +24,37 @@ Das Seitenverhaeltnis 1206/2622 ist das gemessene Mass der vorhandenen App-Scree
 };
 
 export const Default = {
+  name: 'Standard',
   render: () => `<div class="nc-device">
-    <span class="nc-device__screen">screen</span>
-  </div>`,
+  <div class="nc-device__screen">
+    <img src="/assets/muster/app-screen.svg" alt="App-Ansicht"
+         width="800" height="1740" loading="lazy" decoding="async" />
+  </div>
+</div>`,
+};
+
+export const Klein = {
+  name: 'Klein',
+  render: () => `<div class="nc-device nc-device--sm">
+  <div class="nc-device__screen">
+    <img src="/assets/muster/app-screen.svg" alt="App-Ansicht"
+         width="800" height="1740" loading="lazy" decoding="async" />
+  </div>
+</div>`,
+};
+
+export const MitBeschriftung = {
+  name: 'Mit Beschriftung',
+  render: () => `<figure class="nc-device-figure">
+  <div class="nc-device">
+    <div class="nc-device__screen">
+      <img src="/assets/muster/app-screen.svg" alt="Startseite mit Unternehmensnews"
+           width="800" height="1740" loading="lazy" decoding="async" />
+    </div>
+  </div>
+  <figcaption class="nc-device-figure__caption">
+    <span class="nc-device-figure__name">News</span>
+    <span class="nc-device-figure__text">Unternehmensnews und Meldungen aus den Bereichen — sortiert nach dem, was für die eigene Rolle zählt.</span>
+  </figcaption>
+</figure>`,
 };

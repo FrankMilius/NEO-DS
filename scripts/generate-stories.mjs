@@ -15,6 +15,43 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const DATA_DIR = resolve(ROOT, 'data');
 const STORIES_DIR = resolve(ROOT, 'stories');
+const MARKUP_DIR = resolve(DATA_DIR, 'markup');
+
+// ─── Echtes Bauteil-Markup ───────────────────────────────────────────
+//
+// Der Generator kannte bis zum 21.08.2026 nur `specimen.markup` im Recipe.
+// Getragen hat das kein einziges der 131 Recipes — HTML in JSON heisst
+// maskierte Anfuehrungszeichen und ein Diff, den niemand liest.
+//
+// Zusaetzlich wird deshalb data/markup/<komponente>.html gelesen. Mehrere
+// Fassungen trennt ein Kommentar `<!-- @fassung: Name -->`; ohne Trenner gilt
+// die ganze Datei als eine Fassung.
+//
+// Siehe data/markup/LIESMICH.md.
+function markupDateiLesen(component) {
+  const pfad = resolve(MARKUP_DIR, `${component}.html`);
+  if (!existsSync(pfad)) return [];
+
+  const roh = readFileSync(pfad, 'utf-8').trim();
+  if (!roh) return [];
+
+  const teile = roh.split(/<!--\s*@fassung:\s*(.+?)\s*-->/);
+
+  // Ohne Trenner steht alles in teile[0] und die Liste hat genau ein Element.
+  if (teile.length === 1) {
+    return [{ name: 'Standard', markup: teile[0].trim() }];
+  }
+
+  const fassungen = [];
+  // teile[0] ist der Text VOR dem ersten Trenner — meist leer.
+  if (teile[0].trim()) fassungen.push({ name: 'Standard', markup: teile[0].trim() });
+  for (let i = 1; i < teile.length; i += 2) {
+    const name = teile[i];
+    const markup = (teile[i + 1] || '').trim();
+    if (markup) fassungen.push({ name, markup });
+  }
+  return fassungen;
+}
 
 // ─── Layer Mapping ───────────────────────────────────────────────────
 const LAYER_MAP = {
@@ -66,6 +103,32 @@ function generateHTML(component, anatomy, axisValues) {
   return `<${tag} class="${rootClass}${modifiers ? ' ' + modifiers : ''}">
     ${slots || component}
   </${tag}>`;
+}
+
+// ─── Der Platzhalter sagt, dass er einer ist ─────────────────────────
+//
+// generateHTML() reiht die Slots der Anatomie als Geschwister-<span> auf. Das
+// ist kein Bauteil, sondern eine Liste von Klassennamen: keine Schachtelung,
+// keine Zustaende, bei <details> nicht einmal das Element selbst.
+//
+// Solange es unbeschriftet im Canvas stand, sah jede Luecke aus wie eine
+// fertige Komponente — 131 von 131, und niemandem ist es aufgefallen.
+//
+// Der Hinweis steht IM Canvas und nicht nur in der Beschreibung: Wer eine
+// Story oeffnet, sieht zuerst das Bild.
+function mitHinweis(html, component) {
+  return `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/${component}.html</code>.
+  </p>
+  ${html}
+</div>`;
 }
 
 function generateSpecimenHTML(component, anatomy, specimen, axes) {
@@ -135,13 +198,35 @@ function generateStory(recipe) {
   const anatomy = recipe.anatomy || {};
   const a11y = recipe.a11y || {};
 
+  // Echtes Markup hat Vorrang vor allem anderen.
+  const fassungen = markupDateiLesen(component);
+  const hatEchtes = fassungen.length > 0
+    || specimens.some((s) => s && s.markup);
+
   // Stories generieren
   let stories = '';
 
+  if (fassungen.length) {
+    // Aus data/markup/<komponente>.html — je Fassung eine Story.
+    // Kein frueher Ausstieg: Der gemeinsame Schluss weiter unten baut Titel,
+    // argTypes und die Doku-Beschreibung fuer BEIDE Wege.
+    for (const [i, f] of fassungen.entries()) {
+      const name = i === 0
+        ? 'Default'
+        : f.name.replace(/[^a-zA-Z0-9]/g, '') || `Fassung${i + 1}`;
+      stories += `
+export const ${name} = {
+  name: '${f.name.replace(/'/g, "\\'")}',
+  render: () => \`${f.markup.replace(/`/g, '\\`').replace(/\$\{/g, '\\${')}\`,
+};
+`;
+    }
+  }
+  else {
   // Default Story
   stories += `
 export const Default = {
-  render: () => \`${generateHTML(component, anatomy, [])}\`,
+  render: () => \`${mitHinweis(generateHTML(component, anatomy, []), component).replace(/`/g, '\\`')}\`,
 };
 `;
 
@@ -159,7 +244,7 @@ export const Default = {
     stories += `
 export const ${storyName} = {
   name: '${(specimen.label || specimen.id || '').replace(/'/g, "\\'")}',
-  render: () => \`${html.replace(/`/g, '\\`')}\`,
+  render: () => \`${mitHinweis(html, component).replace(/`/g, '\\`')}\`,
   parameters: {
     docs: {
       description: { story: '${(specimen.description || '').replace(/'/g, "\\'").replace(/\n/g, ' ')}' },
@@ -167,6 +252,7 @@ export const ${storyName} = {
   },
 };
 `;
+  }
   }
 
   // ArgTypes aus Axes
@@ -234,7 +320,7 @@ ${a11yNotes.length > 0 ? `#### Accessibility\\n${a11yNotes.map(n => `- ${n}`).jo
 };
 ${stories}`;
 
-  return { file, layer, component };
+  return { file, layer, component, hatEchtes };
 }
 
 // ─── Main ────────────────────────────────────────────────────────────
@@ -244,6 +330,8 @@ const targetComponent = process.argv.find(a => a.startsWith('--component='))?.sp
 const files = readdirSync(DATA_DIR).filter(f => f.endsWith('-recipe.json'));
 let generated = 0;
 let skipped = 0;
+const mitMarkup = [];
+const ohneMarkup = [];
 
 for (const filename of files) {
   const component = filename.replace('-recipe.json', '');
@@ -253,13 +341,43 @@ for (const filename of files) {
   let recipe;
   try { recipe = JSON.parse(raw); } catch { skipped++; continue; }
 
-  const { file, layer } = generateStory(recipe);
+  const { file, layer, hatEchtes } = generateStory(recipe);
   const outDir = resolve(STORIES_DIR, layer);
   mkdirSync(outDir, { recursive: true });
   const outPath = resolve(outDir, `${component}.stories.js`);
   writeFileSync(outPath, file);
   generated++;
+  (hatEchtes ? mitMarkup : ohneMarkup).push(component);
 }
 
-console.log(`\n📖 Story Generator: ${generated} stories generated, ${skipped} skipped`);
-console.log(`   Output: stories/{atoms,molecules,organisms}/*.stories.js\n`);
+// ─── Abdeckung ───────────────────────────────────────────────────────
+//
+// Die Zahl am Ende ist der Zweck dieser Aenderung. Ohne sie sah jede Luecke
+// aus wie eine fertige Komponente: 131 Stories, alle Platzhalter, ueber Monate
+// unbemerkt. Ab jetzt steht der Stand nach jedem Lauf da.
+const gesamt = mitMarkup.length + ohneMarkup.length;
+const anteil = gesamt ? Math.round((mitMarkup.length / gesamt) * 100) : 0;
+
+console.log(`\n📖 Story Generator: ${generated} Stories erzeugt, ${skipped} uebersprungen`);
+console.log(`   Ausgabe: stories/{atoms,molecules,organisms}/*.stories.js`);
+console.log(`\n   Echtes Bauteil-Markup: ${mitMarkup.length} von ${gesamt} (${anteil} %)`);
+
+if (ohneMarkup.length && !targetComponent) {
+  const zeigen = ohneMarkup.slice(0, 12);
+  console.log(`   Ohne Markup (Platzhalter): ${zeigen.join(', ')}${ohneMarkup.length > zeigen.length ? `, … +${ohneMarkup.length - zeigen.length}` : ''}`);
+  console.log(`   -> data/markup/<komponente>.html anlegen, siehe data/markup/LIESMICH.md`);
+}
+console.log('');
+
+// Fuer den Waechter in npm test — damit die Zahl nicht wieder sinkt.
+if (!targetComponent) {
+  writeFileSync(
+    resolve(DATA_DIR, 'markup-abdeckung.json'),
+    JSON.stringify({
+      hinweis: 'Erzeugt von scripts/generate-stories.mjs. `mindestens` haendisch anheben, wenn Markup dazugekommen ist — scripts/pruefe-markup.mjs faellt darunter aus.',
+      stand: { mit: mitMarkup.length, gesamt, anteil },
+      mit: mitMarkup.sort(),
+      ohne: ohneMarkup.sort(),
+    }, null, 2) + '\n',
+  );
+}

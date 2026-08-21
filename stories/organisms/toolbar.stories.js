@@ -24,15 +24,37 @@ Root: role='toolbar', aria-label. Flex-Layout, flex-wrap, min-height 48px.
 };
 
 export const Default = {
-  render: () => `<div class="nc-toolbar">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
-  </div>`,
+  </div>
+</div>`,
 };
 
 export const Variants = {
   name: 'Variants',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -43,10 +65,21 @@ export const Variants = {
 
 export const Alignment = {
   name: 'Alignment',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -57,10 +90,21 @@ export const Alignment = {
 
 export const Density = {
   name: 'Density',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -71,10 +115,21 @@ export const Density = {
 
 export const Content = {
   name: 'Content',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -85,10 +140,21 @@ export const Content = {
 
 export const FloatingCanvasEditor = {
   name: 'Floating (Canvas Editor)',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -99,10 +165,21 @@ export const FloatingCanvasEditor = {
 
 export const BlurredShell = {
   name: 'Blurred (Shell)',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -113,10 +190,21 @@ export const BlurredShell = {
 
 export const TableToolbar = {
   name: 'Table Toolbar',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -127,10 +215,21 @@ export const TableToolbar = {
 
 export const EditorToolbar = {
   name: 'Editor Toolbar',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/toolbar.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-toolbar">
     <span class="nc-toolbar__group">group</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {

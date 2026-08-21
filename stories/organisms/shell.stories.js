@@ -24,19 +24,41 @@ Aeusseres Grid (.nc-shell): 5 Rows — banner, linkbar, navbar, stage, footerbar
 };
 
 export const Default = {
-  render: () => `<div class="nc-shell">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
     <span class="nc-shell__stage">stage</span>
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
-  </div>`,
+  </div>
+</div>`,
 };
 
 export const LayoutPresets = {
   name: 'Layout Presets',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -47,7 +69,17 @@ export const LayoutPresets = {
 
 export const SidebarStates = {
   name: 'Sidebar States',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -55,6 +87,7 @@ export const SidebarStates = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -65,7 +98,17 @@ export const SidebarStates = {
 
 export const SidebarDensity = {
   name: 'Sidebar Density',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -73,6 +116,7 @@ export const SidebarDensity = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -83,7 +127,17 @@ export const SidebarDensity = {
 
 export const ContentAlignment = {
   name: 'Content Alignment',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -91,6 +145,7 @@ export const ContentAlignment = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -101,7 +156,17 @@ export const ContentAlignment = {
 
 export const ZIndexGovernance = {
   name: 'Z-Index Governance',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -109,6 +174,7 @@ export const ZIndexGovernance = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -119,7 +185,17 @@ export const ZIndexGovernance = {
 
 export const SkipLink = {
   name: 'Skip-Link',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -127,6 +203,7 @@ export const SkipLink = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -137,7 +214,17 @@ export const SkipLink = {
 
 export const Linkbar = {
   name: 'Linkbar',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -145,6 +232,7 @@ export const Linkbar = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -155,7 +243,17 @@ export const Linkbar = {
 
 export const Footerbar = {
   name: 'Footerbar',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/shell.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-shell">
     <span class="nc-shell__skip-link">skip-link</span>
     <span class="nc-shell__navbar">navbar</span>
@@ -163,6 +261,7 @@ export const Footerbar = {
     <span class="nc-shell__main">main</span>
     <span class="nc-shell__content-body">content-body</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {

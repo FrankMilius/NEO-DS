@@ -24,24 +24,46 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 };
 
 export const Default = {
-  render: () => `<div class="nc-card-cta">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/card-cta.html</code>.
+  </p>
+  <div class="nc-card-cta">
     <span class="nc-card-cta__actions">actions</span>
     <span class="nc-card-cta__content">content</span>
     <span class="nc-card-cta__media">media</span>
     <span class="nc-card-cta__overlay">overlay</span>
     <span class="nc-card-cta__title">title</span>
-  </div>`,
+  </div>
+</div>`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<div class="nc-card-cta">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/card-cta.html</code>.
+  </p>
+  <div class="nc-card-cta">
     <span class="nc-card-cta__actions">actions</span>
     <span class="nc-card-cta__content">content</span>
     <span class="nc-card-cta__media">media</span>
     <span class="nc-card-cta__overlay">overlay</span>
     <span class="nc-card-cta__title">title</span>
-  </div>`,
+  </div>
+</div>`,
   parameters: {
     docs: {
       description: { story: 'card-cta wie auf der Website' },

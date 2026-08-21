@@ -24,21 +24,43 @@ Floating-Card Surface: surface-elevated BG + elevation-overlay Schatten (L2). Gl
 };
 
 export const Default = {
-  render: () => `<div class="nc-notification">
-    <span class="nc-notification__content">content</span>
-    <span class="nc-notification__header">header</span>
-    <span class="nc-notification__title">title</span>
-  </div>`,
-};
-
-export const BasicNotification = {
-  name: 'Basic Notification',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>`,
+};
+
+export const BasicNotification = {
+  name: 'Basic Notification',
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-notification">
+    <span class="nc-notification__content">content</span>
+    <span class="nc-notification__header">header</span>
+    <span class="nc-notification__title">title</span>
+  </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -49,12 +71,23 @@ export const BasicNotification = {
 
 export const WithMediaSlot = {
   name: 'With Media Slot',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -65,7 +98,17 @@ export const WithMediaSlot = {
 
 export const UnreadState = {
   name: 'Unread State',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
@@ -81,6 +124,7 @@ export const UnreadState = {
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -91,7 +135,17 @@ export const UnreadState = {
 
 export const PriorityHigh = {
   name: 'Priority High',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
@@ -107,6 +161,7 @@ export const PriorityHigh = {
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -117,8 +172,19 @@ export const PriorityHigh = {
 
 export const TypeVariants = {
   name: 'Type Variants',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -129,12 +195,23 @@ export const TypeVariants = {
 
 export const WithFooterActions = {
   name: 'With Footer Actions',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -145,12 +222,23 @@ export const WithFooterActions = {
 
 export const PermanentNoClose = {
   name: 'Permanent (No Close)',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -161,12 +249,23 @@ export const PermanentNoClose = {
 
 export const DismissAnimation = {
   name: 'Dismiss Animation',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/notification.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-notification">
     <span class="nc-notification__content">content</span>
     <span class="nc-notification__header">header</span>
     <span class="nc-notification__title">title</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {

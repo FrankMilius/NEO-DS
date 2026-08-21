@@ -24,20 +24,16 @@ Wrapper: border, radius, overflow:hidden. Semantisches <table> mit <thead>/<tbod
 };
 
 export const Default = {
-  render: () => `<div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>`,
-};
-
-export const BasicTable = {
-  name: 'Basic Table',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -47,6 +43,32 @@ export const BasicTable = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>`,
+};
+
+export const BasicTable = {
+  name: 'Basic Table',
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  <div class="nc-data-table">
+    <span class="nc-data-table__scroll-container">scroll-container</span>
+    <span class="nc-data-table__table">table</span>
+    <span class="nc-data-table__thead">thead</span>
+    <span class="nc-data-table__tbody">tbody</span>
+    <span class="nc-data-table__row">row</span>
+    <span class="nc-data-table__th">th</span>
+    <span class="nc-data-table__td">td</span>
+  </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -57,8 +79,19 @@ export const BasicTable = {
 
 export const DensityVariants = {
   name: 'Density Variants',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -69,7 +102,17 @@ export const DensityVariants = {
 
 export const SortableTable = {
   name: 'Sortable Table',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -79,6 +122,7 @@ export const SortableTable = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -89,7 +133,17 @@ export const SortableTable = {
 
 export const SelectableTable = {
   name: 'Selectable Table',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -99,6 +153,7 @@ export const SelectableTable = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -109,7 +164,17 @@ export const SelectableTable = {
 
 export const RadioSelection = {
   name: 'Radio Selection',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -119,6 +184,7 @@ export const RadioSelection = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -129,7 +195,17 @@ export const RadioSelection = {
 
 export const ExpandableTable = {
   name: 'Expandable Table',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -139,6 +215,7 @@ export const ExpandableTable = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -149,7 +226,17 @@ export const ExpandableTable = {
 
 export const CardVariant = {
   name: 'Card Variant',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -159,6 +246,7 @@ export const CardVariant = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -169,7 +257,17 @@ export const CardVariant = {
 
 export const GlassVariant = {
   name: 'Glass Variant',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-data-table">
     <span class="nc-data-table__scroll-container">scroll-container</span>
     <span class="nc-data-table__table">table</span>
@@ -179,6 +277,7 @@ export const GlassVariant = {
     <span class="nc-data-table__th">th</span>
     <span class="nc-data-table__td">td</span>
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {

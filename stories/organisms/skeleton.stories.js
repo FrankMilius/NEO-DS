@@ -24,15 +24,37 @@ Skeleton ist ein <div class='nc-skeleton'> mit aria-hidden='true'.
 };
 
 export const Default = {
-  render: () => `<div class="nc-skeleton">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div class="nc-skeleton">
     skeleton
-  </div>`,
+  </div>
+</div>`,
 };
 
 export const AllShapes = {
   name: 'All Shapes',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -43,10 +65,21 @@ export const AllShapes = {
 
 export const SizeScaleXSSMMDLG = {
   name: 'Size Scale — XS / SM / MD / LG',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-skeleton">
     skeleton
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -57,10 +90,21 @@ export const SizeScaleXSSMMDLG = {
 
 export const SkeletonGroupTextBlock = {
   name: 'Skeleton Group (Text Block)',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-skeleton">
     skeleton
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -71,10 +115,21 @@ export const SkeletonGroupTextBlock = {
 
 export const CardPlaceholder = {
   name: 'Card Placeholder',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-skeleton">
     skeleton
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -85,10 +140,21 @@ export const CardPlaceholder = {
 
 export const AvatarTextPlaceholder = {
   name: 'Avatar + Text Placeholder',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-skeleton">
     skeleton
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {
@@ -99,10 +165,21 @@ export const AvatarTextPlaceholder = {
 
 export const ReducedMotion = {
   name: 'Reduced Motion',
-  render: () => `<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
+  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
+  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
+    Kein echtes Markup hinterlegt
+  </p>
+  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
+    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
+    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
+    nicht aus. Echtes Markup gehoert nach
+    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/skeleton.html</code>.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-skeleton">
     skeleton
   </div>
+</div>
 </div>`,
   parameters: {
     docs: {

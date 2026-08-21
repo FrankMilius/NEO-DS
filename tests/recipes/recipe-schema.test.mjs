@@ -195,20 +195,32 @@ describe('Konfig-App Coverage', () => {
     expect(existsSync(RECIPE_LOADER)).toBe(true);
   });
 
-  it('alle Recipes haben einen useRecipeLoader Import', () => {
+  // Frueher stand hier: „jeder Recipe-Name kommt als Zeichenkette im Loader
+  // vor, mindestens 70 %". Der Loader fuehrte dafuer eine Liste von Hand — 120
+  // Eintraege neben einem Ordner mit 167 Dateien.
+  //
+  // Was diese Pruefung NICHT verhindert hat: Am 19.08.2026 wurde
+  // slider-recipe.json in range und carousel geteilt. Der Eintrag blieb stehen,
+  // Vite konnte den Import nicht aufloesen, das Modul lieferte 500 — und die
+  // GANZE Konfig-App montierte nicht mehr. Die 70-Prozent-Schwelle war dabei
+  // die ganze Zeit gruen.
+  //
+  // Seit dem 21.08. liest der Loader den Ordner mit `import.meta.glob`. Damit
+  // ist die Abdeckung bauartbedingt vollstaendig, und die Frage ist eine
+  // andere geworden: Wird noch von Hand gepflegt?
+  it('useRecipeLoader liest den Ordner, statt eine Liste zu fuehren', () => {
     if (!existsSync(RECIPE_LOADER)) return;
     const loaderContent = readFileSync(RECIPE_LOADER, 'utf-8');
-    const recipes = loadRecipes().filter(r => r.data);
-    const missing = recipes
-      .filter(r => !loaderContent.includes(r.componentName))
-      .map(r => r.componentName);
 
-    if (missing.length > 0) {
-      console.warn(`⚠️  ${missing.length} Recipes ohne Loader-Import:\n  ${missing.slice(0, 10).join(', ')}`);
-    }
-    // Mindestens 70% sollen registriert sein
-    const coverage = ((recipes.length - missing.length) / recipes.length) * 100;
-    expect(coverage, `Loader coverage: ${coverage.toFixed(0)}%`).toBeGreaterThan(70);
+    expect(loaderContent, 'import.meta.glob fehlt — wird wieder von Hand gepflegt?')
+      .toContain('import.meta.glob');
+
+    // Einzelne, fest verdrahtete Recipe-Importe sind der Rueckfall in die alte
+    // Bauart. Ein einziger davon kann die App beim naechsten Umbenennen wieder
+    // lahmlegen.
+    const festeImporte = loaderContent.match(/import\('[^']*data\/[a-z0-9-]+-recipe\.json'\)/g) || [];
+    expect(festeImporte, `Fest verdrahtete Recipe-Importe: ${festeImporte.slice(0, 5).join(', ')}`)
+      .toHaveLength(0);
   });
 });
 
