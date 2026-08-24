@@ -87,6 +87,10 @@ async function sitzung(url) {
 // ---------------------------------------------------------------------------
 
 const AUSDRUCK = (props) => `(() => {
+  // ACHTUNG: Dieser ganze Block ist ein Template-Literal. Ein Backtick in einem
+  // Kommentar beendet die Zeichenkette mittendrin — der Messcode kommt dann
+  // verstuemmelt im Browser an und liefert stillschweigend NICHTS. Genau das ist
+  // am 24.08.2026 passiert: 71 Seiten gemessen, 0 Eintraege, ohne Fehlermeldung.
   const P = ${JSON.stringify(props)};
   const raus = {};
   // Je Komponentenklasse die ERSTE Instanz. Alle zu messen blaeht den Stand auf,
@@ -99,6 +103,40 @@ const AUSDRUCK = (props) => `(() => {
       const c = getComputedStyle(el);
       const d = {};
       for (const p of P) { const v = c[p]; if (v && v !== 'none' && v !== 'normal' && v !== 'auto') d[p] = v; }
+
+      // Gilt die Schriftfarbe dieses Elements fuer irgendeinen sichtbaren Text?
+      //
+      // Das ist die Frage, die der Kontrastpruefung zugrunde liegt — und sie
+      // brauchte drei Anlaeufe, jeder von einer Gegenprobe widerlegt:
+      //
+      //   "eigene Textknoten"  .nc-button galt als textlos, denn sein Label
+      //                        sitzt in einem <span> ohne Klasse. Buttons
+      //                        waeren nie wieder geprueft worden.
+      //   "Text irgendwo drin" .nc-gallery galt als textfuehrend. Ihr Text
+      //                        steht aber in Kindern, die selbst Weiss setzen;
+      //                        die dunkle Farbe der Wurzel rendert nichts.
+      //                        Gemeldet wurden 1,18:1 ueber Unsichtbares.
+      //
+      // Richtig ist: Es zaehlt, ob ein Text existiert, dessen berechnete Farbe
+      // die DIESES Elements ist. Dann gilt der gemessene Kontrast fuer etwas,
+      // das jemand liest. Sonst nicht.
+      //
+      // Skript-, Stil- und Vorlageninhalte scheiden dabei von selbst aus: sie
+      // werden nie gerendert.
+      const eigene = c.color;
+      let gilt = false;
+      const lauf = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let knoten;
+      while ((knoten = lauf.nextNode())) {
+        if (!knoten.textContent.trim()) continue;
+        const traeger = knoten.parentElement;
+        if (!traeger) continue;
+        const tag = traeger.tagName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEMPLATE') continue;
+        if (getComputedStyle(traeger).color === eigene) { gilt = true; break; }
+      }
+      d.hatText = gilt;
+
       raus[k] = d;
     }
   }
@@ -204,11 +242,29 @@ stand.komponenten = komponenten;
 // Komprimiert ablegen: der Rohstand ist 17 MB und damit zu gross fuers Repo,
 // gzip drueckt ihn auf gut ein Zwanzigstel. Der Vorher-Stand MUSS aufbewahrt
 // werden — er laesst sich nach Beginn der Migration nicht mehr herstellen.
+const anzahlVorab = Object.keys(komponenten).length;
+
+// Ein leerer Referenzstand ist kein Ergebnis, sondern ein Ausfall.
+//
+// Am 24.08.2026 lieferte ein Lauf 71 Seiten und NULL Eintraege: ein Backtick in
+// einem Kommentar hatte das Template-Literal des Messcodes beendet, der Rest kam
+// verstuemmelt im Browser an. Gemeldet wurde "0 Komponenten, 0 gemessene Werte",
+// Rueckgabewert 0, Datei geschrieben. Ein solcher Stand ist schlimmer als keiner:
+// Ein spaeterer Vergleich gegen ihn meldet jede Komponente als "entfernt".
+if (anzahlVorab === 0) {
+  console.error('\n  ABBRUCH: null Komponenten gemessen.');
+  console.error('  Es wird nichts geschrieben — ein leerer Stand verfaelscht jeden');
+  console.error('  spaeteren Vergleich. Laeuft die Website? Kommt der Messcode heil');
+  console.error('  im Browser an (Backticks im Template-Literal)?\n');
+  try { execFileSync('pkill', ['-f', `remote-debugging-port=${PORT}`]); } catch (e) { /* egal */ }
+  process.exit(1);
+}
+
 const datei = resolve(ablage, `${name}.json.gz`);
 writeFileSync(datei, gzipSync(JSON.stringify(stand), { level: 9 }));
 try { execFileSync('pkill', ['-f', `remote-debugging-port=${PORT}`]); } catch (e) { /* egal */ }
 
-const anzahl = Object.keys(komponenten).length;
+const anzahl = anzahlVorab;
 const werte = Object.values(komponenten).reduce((s, k) => s + Object.values(k).reduce((t, d) => t + Object.keys(d).length, 0), 0);
 console.log(`\n  ${anzahl} Komponenten, ${werte} gemessene Werte`);
 console.log(`  → ${datei.replace(wurzel + '/', '')}`);

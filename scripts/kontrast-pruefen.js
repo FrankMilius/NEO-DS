@@ -81,6 +81,10 @@ const vorher = gegen ? laden(gegen) : null;
 
 const durchgefallen = [];
 const ungeklaert = new Set();
+// Bauteile ohne eigenen Text. Bewusst ein EIGENER Topf, nicht derselbe wie
+// "durchsichtiger Grund": Beides ist nicht beurteilbar, aber aus verschiedenen
+// Gruenden, und wer die Zahl liest, soll wissen welchem.
+const ohneText = new Set();
 let geprueft = 0;
 
 for (const [pfad, seite] of Object.entries(daten.seiten)) {
@@ -90,6 +94,21 @@ for (const [pfad, seite] of Object.entries(daten.seiten)) {
       const vg = kanaele(props.color);
       const hg = kanaele(props.backgroundColor);
       if (!vg) continue;
+
+      // Kein eigener Text, also nichts zu lesen — und damit nichts, wofuer ein
+      // Textkontrast gilt. Gemessen wuerde sonst die GEERBTE Schriftfarbe
+      // gegen die eigene Flaeche; bei einem Rahmen ist das derselbe Wert und
+      // ergibt 1,00:1. So kamen nc-device, nc-shot__chrome-bar/-dot und die
+      // beiden Parallax-Formen in die Liste.
+      //
+      // Ausdruecklich KEINE Ausnahmeliste bekannter Bauteile: eine gepflegte
+      // Liste verdeckt beim naechsten Mal ein echtes Problem, und niemand
+      // liest sie nach. Die Eigenschaft entscheidet, nicht der Name.
+      //
+      // Aeltere Referenzstaende kennen `hatText` nicht. Dort bleibt es bei der
+      // bisherigen Beurteilung — sonst wuerde ein alter Stand stillschweigend
+      // anders bewertet als ein neuer.
+      if (props.hatText === false) { ohneText.add(name); continue; }
       // Durchsichtiger Hintergrund: der wahre Grund liegt weiter oben im Baum
       // und wurde nicht mitgemessen. Nicht beurteilbar, nicht stillschweigend
       // als bestanden verbuchen.
@@ -155,6 +174,14 @@ const echt = [...proBauteil.values()].filter((f) => !f.bestanden).sort((a, b) =>
 console.log(`\nKONTRASTPRUEFUNG  ${stand}`);
 console.log('─'.repeat(78));
 console.log(`  ${geprueft} Paare geprueft, ${ungeklaert.size} Bauteile ungeklaert (durchsichtiger Grund)`);
+if (ohneText.size) {
+  console.log(`  ${ohneText.size} Bauteile ohne eigenen Text — kein Textkontrast anwendbar`);
+}
+if (![...Object.values(daten.seiten)].some((seite) => Object.values(seite).some(
+  (k) => k && typeof k === 'object' && Object.values(k).some((p) => p && 'hatText' in p)))) {
+  console.log('  Hinweis: Dieser Referenzstand kennt `hatText` noch nicht.');
+  console.log('  Textlose Bauteile werden darin wie bisher beurteilt — neu messen mit `npm run baseline`.');
+}
 
 if (!echt.length) {
   console.log(`\n  KEIN VERSTOSS. Alle beurteilbaren Paare erfuellen AA.`);
