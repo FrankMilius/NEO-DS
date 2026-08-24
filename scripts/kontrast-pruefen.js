@@ -79,6 +79,25 @@ function grenze(props) {
 const daten = laden(stand);
 const vorher = gegen ? laden(gegen) : null;
 
+/**
+ * Faellt dieses Paar durch — und ist es ueberhaupt beurteilbar?
+ *
+ * Beide Seiten der Pruefung muessen dieselbe Frage gleich beantworten: der
+ * aktuelle Stand und der Vergleichsstand. Bis zum 24.08.2026 taten sie das
+ * nicht — die Vergleichsseite kannte die `hatText`-Ausnahme nicht und meldete
+ * darum bei JEDEM Lauf dieselben acht textlosen Zierelemente als "behoben",
+ * auch beim Vergleich eines Standes mit sich selbst. Eine Zahl, die sich nicht
+ * aendert, egal was man aendert, ist keine Messung.
+ */
+function faelltDurch(props) {
+  const vg = kanaele(props.color);
+  const hg = kanaele(props.backgroundColor);
+  if (!vg) return null;
+  if (props.hatText === false) return null;
+  if (!hg || hg.a < 0.95) return null;
+  return kontrast(vg, hg) < grenze(props);
+}
+
 const durchgefallen = [];
 const ungeklaert = new Set();
 // Bauteile ohne eigenen Text. Bewusst ein EIGENER Topf, nicht derselbe wie
@@ -202,9 +221,7 @@ if (vorher) {
     for (const [schluessel, komponenten] of Object.entries(seite)) {
       if (!komponenten || typeof komponenten !== 'object') continue;
       for (const [name, props] of Object.entries(komponenten)) {
-        const vg = kanaele(props.color), hg = kanaele(props.backgroundColor);
-        if (!vg || !hg || hg.a < 0.95) continue;
-        if (kontrast(vg, hg) < grenze(props)) alt.add(`${name}|${schluessel.split('|')[1]}`);
+        if (faelltDurch(props) === true) alt.add(`${name}|${schluessel.split('|')[1]}`);
       }
     }
   }

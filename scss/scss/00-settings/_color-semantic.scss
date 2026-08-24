@@ -1,5 +1,28 @@
 // ==========================================================================
 // 00-Settings: Color Semantic
+//
+// STUFENWECHSEL VOM 24.08.2026 — WARUM DIE ROLLEN GEWANDERT SIND
+// Mit dem Wechsel von Neo Darkblue auf Graphit als `primary` haetten die alten
+// Stufennummern die Barrierefreiheit gebrochen. Neo Darkblue 500 (#002049)
+// liegt bei 16,12:1 auf Weiss, Graphit 500 (#909390) bei 3,11:1 — jeder
+// Verweis und jedes Bedienelement waere durch AA gefallen.
+//
+// Deshalb lesen die Rollen jetzt andere Stufen. Nicht als Notbehelf, sondern
+// weil eine Neutralleiter ihre Kraft weiter unten hat als eine gesaettigte
+// Markenfarbe:
+//
+//   Hell (auf #ffffff)      500 -> 700 (6,77:1)   600 -> 800 (9,98:1)
+//                           700 -> 900 (14,27:1)
+//   Dunkel (auf #0f0f0f)    500 -> 400 (8,95:1)   400 -> 300 (12,86:1)
+//                           300 -> 200 (15,28:1)  600 -> 500 (6,17:1)
+//
+// Im Dunkeln ging es nicht ohne: Graphit 600 traegt dort nur 4,11:1 und haette
+// die Rolle `interactive-visited` durchfallen lassen. Die ganze Gruppe ist
+// darum eine Stufe heller gerueckt, damit die Abstufung default/hover/active/
+// visited erhalten bleibt.
+//
+// Die alten Kommentare mit Blau-Bezug ("Neo Blue #009fe3, 7,1:1") sind
+// entfernt — sie beschrieben Werte, die es hier nicht mehr gibt.
 // ==========================================================================
 // Schicht 2 der Color-Architektur: Semantische Token-Maps.
 // Mappt Primitives auf bedeutungstragende Rollen (text, background, border,
@@ -53,8 +76,8 @@ $semantic-light-base: (
   'text-disabled':         map.get(prim.$neutral, 500),        // #8e8d8d
   'text-on-interactive':   map.get(prim.$foundation-white, 100),           // #fff
   'text-difference':       map.get(prim.$foundation-white, 100),           // #fff (mix-blend-mode)
-  'text-link':             map.get(prim.$primary, 500),         // Neo Blue
-  'text-link-hover':       map.get(prim.$primary, 600),
+  'text-link':             map.get(prim.$primary, 700),
+  'text-link-hover':       map.get(prim.$primary, 800),
   'text-transparency-mid': map.get(prim.$foundation-black, 70),
   'text-transparency-low': map.get(prim.$foundation-black, 40),
   'text-success':          map.get(prim.$system-text, success),  // #0b9e23
@@ -100,11 +123,11 @@ $semantic-light-base: (
   'border-info':      map.get(prim.$system-text, info-light),    // #2b6cb0
 
   // --- Interactive ---
-  'interactive-default': map.get(prim.$primary, 500),
-  'interactive-hover':   map.get(prim.$primary, 600),
-  'interactive-active':  map.get(prim.$primary, 700),
-  'interactive-visited': map.get(prim.$primary, 700),
-  'interactive-focus':   map.get(prim.$primary, 500),
+  'interactive-default': map.get(prim.$primary, 700),
+  'interactive-hover':   map.get(prim.$primary, 800),
+  'interactive-active':  map.get(prim.$primary, 900),
+  'interactive-visited': map.get(prim.$primary, 900),
+  'interactive-focus':   map.get(prim.$primary, 700),
 
   // --- Feedback (System) ---
   'feedback-info':    map.get(prim.$system, info),
@@ -162,8 +185,8 @@ $semantic-dark-base: (
   'text-disabled':         map.get(prim.$neutral, 500),        // #8e8d8d
   'text-on-interactive':   map.get(prim.$foundation-white, 100),           // #fff
   'text-difference':       map.get(prim.$foundation-white, 100),           // #fff
-  'text-link':             map.get(prim.$secondary, 500),  // Neo Blue #009fe3 (7.1:1 auf #000)
-  'text-link-hover':       map.get(prim.$secondary, 400),  // aufgehellt (8.7:1 auf #000)
+  'text-link':             map.get(prim.$secondary, 400),
+  'text-link-hover':       map.get(prim.$secondary, 300),
   'text-transparency-mid': map.get(prim.$foundation-white, 70),
   'text-transparency-low': map.get(prim.$foundation-white, 40),
   'text-success':          map.get(prim.$system-text, success),  // #0b9e23
@@ -211,11 +234,11 @@ $semantic-dark-base: (
   // --- Interactive ---
   // Im Dark Mode secondary-Palette (Neo Blue #009fe3) statt primary (Darkblue #002049),
   // da Darkblue auf dunklem Hintergrund zu wenig Kontrast hat (2.4:1 vs. 7.1:1).
-  'interactive-default': map.get(prim.$secondary, 500), // #009fe3 (7.1:1 auf #000)
-  'interactive-hover':   map.get(prim.$secondary, 400), // aufgehellt (8.7:1)
-  'interactive-active':  map.get(prim.$secondary, 300), // noch heller (10.8:1)
-  'interactive-visited': map.get(prim.$secondary, 600), // abgedunkelt, besucht
-  'interactive-focus':   map.get(prim.$secondary, 500), // gleich wie default
+  'interactive-default': map.get(prim.$secondary, 400),
+  'interactive-hover':   map.get(prim.$secondary, 300),
+  'interactive-active':  map.get(prim.$secondary, 200),
+  'interactive-visited': map.get(prim.$secondary, 500),
+  'interactive-focus':   map.get(prim.$secondary, 400),
 
   // --- Feedback (System) ---
   'feedback-info':    map.get(prim.$system, info),
@@ -270,8 +293,8 @@ $semantic-light-secondary: (
   'text-disabled':         map.get(prim.$neutral, 500),
   'text-on-interactive':   map.get(prim.$foundation-white, 100),
   'text-difference':       map.get(prim.$foundation-white, 100),
-  'text-link':             map.get(prim.$primary, 500),
-  'text-link-hover':       map.get(prim.$primary, 600),
+  'text-link':             map.get(prim.$primary, 700),
+  'text-link-hover':       map.get(prim.$primary, 800),
   'text-transparency-mid': map.get(prim.$foundation-black, 70),
   'text-transparency-low': map.get(prim.$foundation-black, 40),
   'text-success':          map.get(prim.$system-text, success),
@@ -313,11 +336,11 @@ $semantic-light-secondary: (
   'border-info':      map.get(prim.$system-text, info-light),
 
   // --- Interactive ---
-  'interactive-default': map.get(prim.$primary, 500),
-  'interactive-hover':   map.get(prim.$primary, 600),
-  'interactive-active':  map.get(prim.$primary, 700),
-  'interactive-visited': map.get(prim.$primary, 700),
-  'interactive-focus':   map.get(prim.$primary, 500),
+  'interactive-default': map.get(prim.$primary, 700),
+  'interactive-hover':   map.get(prim.$primary, 800),
+  'interactive-active':  map.get(prim.$primary, 900),
+  'interactive-visited': map.get(prim.$primary, 900),
+  'interactive-focus':   map.get(prim.$primary, 700),
 
   // --- Feedback (System) ---
   'feedback-info':    map.get(prim.$system, info),
@@ -372,8 +395,8 @@ $semantic-dark-secondary: (
   'text-disabled':         map.get(prim.$neutral, 500),
   'text-on-interactive':   map.get(prim.$foundation-white, 100),
   'text-difference':       map.get(prim.$foundation-white, 100),
-  'text-link':             map.get(prim.$secondary, 500),  // Neo Blue (7.1:1 auf #1d1d1d)
-  'text-link-hover':       map.get(prim.$secondary, 400),  // aufgehellt
+  'text-link':             map.get(prim.$secondary, 400),
+  'text-link-hover':       map.get(prim.$secondary, 300),
   'text-transparency-mid': map.get(prim.$foundation-white, 70),
   'text-transparency-low': map.get(prim.$foundation-white, 40),
   'text-success':          map.get(prim.$system-text, success),
@@ -416,11 +439,11 @@ $semantic-dark-secondary: (
 
   // --- Interactive ---
   // Im Dark Mode secondary-Palette (Neo Blue) statt primary (Darkblue) — analog zu dark-base.
-  'interactive-default': map.get(prim.$secondary, 500),
-  'interactive-hover':   map.get(prim.$secondary, 400),
-  'interactive-active':  map.get(prim.$secondary, 300),
-  'interactive-visited': map.get(prim.$secondary, 600),
-  'interactive-focus':   map.get(prim.$secondary, 500),
+  'interactive-default': map.get(prim.$secondary, 400),
+  'interactive-hover':   map.get(prim.$secondary, 300),
+  'interactive-active':  map.get(prim.$secondary, 200),
+  'interactive-visited': map.get(prim.$secondary, 500),
+  'interactive-focus':   map.get(prim.$secondary, 400),
 
   // --- Feedback (System) ---
   'feedback-info':    map.get(prim.$system, info),

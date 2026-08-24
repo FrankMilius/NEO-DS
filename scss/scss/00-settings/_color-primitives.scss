@@ -10,6 +10,7 @@
 @use 'sass:map';
 @use 'sass:meta';
 @use 'color-functions' as fn;
+@use 'neutral-ramps' as r;
 
 // ---------------------------------------------------------------------------
 // Brand Source Toggle (Customer-Theming)
@@ -55,11 +56,34 @@ $_accent-base: if(
 // Main Palettes (100–950 Shade Scale)
 // ---------------------------------------------------------------------------
 
-/// Primary Palette (Neo Darkblue / Customer Primary)
-$primary: fn.generate-shade-scale($_primary-base) !default;
+/// Primary Palette (Graphit / Customer Primary)
+///
+/// GRAPHIT STATT NEO DARKBLUE — Entscheidung vom 24.08.2026.
+/// Die Leiter kommt aus _neutral-ramps.scss und ist NICHT algorithmisch
+/// erzeugt. Das ist der Punkt: Die vier Leitern dort sind in OKLCH gerechnet
+/// und haben stufenweise dieselben Kontrastwerte. Nur solange primary eine
+/// davon IST, kann ein Bereich von Graphit auf Beige wechseln, ohne dass ein
+/// einziger Kontrast neu zu pruefen waere. Eine mit generate-shade-scale()
+/// nachgebaute Graphit-Skala haette diese Eigenschaft nicht.
+///
+/// Der Kundenzweig bleibt: Wer im Konfigurator eine eigene Primaerfarbe setzt,
+/// bekommt weiterhin eine erzeugte Skala daraus. Nur der NEO-Vorgabewert ist
+/// jetzt Graphit.
+$primary: if(
+  $brand-source == 'customer' and $customer-primary-base != null,
+  fn.generate-shade-scale($_primary-base),
+  r.$graphit
+) !default;
 
-/// Secondary Palette (Neo Blue / Customer Secondary)
-$secondary: fn.generate-shade-scale($_secondary-base) !default;
+/// Secondary Palette (Graphit / Customer Secondary)
+///
+/// Vorerst ebenfalls Graphit. Im Dunkel-Thema liest `text-link` aus dieser
+/// Palette; bliebe sie Neo Blue, waere Blau ueber die Hintertuer wieder da.
+$secondary: if(
+  $brand-source == 'customer' and $customer-secondary-base != null,
+  fn.generate-shade-scale($_secondary-base),
+  r.$graphit
+) !default;
 
 /// Accent Palette (Neo Lime / Customer Accent)
 $accent: fn.generate-shade-scale($_accent-base) !default;
@@ -157,6 +181,22 @@ $system-bg-dark: (
 // Supporting Palettes
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Aufbewahrt fuer das Backend-Theme
+// ---------------------------------------------------------------------------
+// Neo Darkblue und Neo Blue waren bis zum 24.08.2026 primary und secondary.
+// Sie verschwinden nicht, sie wechseln die Rolle: Fuer neo_fe fuehrt Graphit,
+// fuer ein noch zu definierendes Backend-Theme bleiben die beiden Blautoene
+// die Marke. Als eigene Paletten gefuehrt, damit sie im Konfigurator sichtbar
+// sind — eine Farbe, die nur noch in einem Kommentar steht, gilt beim
+// naechsten Aufraeumen als tot.
+
+$_neo-darkblue-base: #002049 !default;
+$neo-darkblue: fn.generate-shade-scale($_neo-darkblue-base) !default;
+
+$_neo-blue-base:     #009fe3 !default;
+$neo-blue:    fn.generate-shade-scale($_neo-blue-base) !default;
+
 $_beige-base:      #D9D2C4 !default;
 $_chartreuse-base: #E6FF9E !default;
 $_pink-base:       #FF53CB !default;
@@ -212,6 +252,14 @@ $dark-orange: fn.generate-shade-scale($_dark-orange-base) !default;
   // Accent Palette
   @each $step, $color in $accent {
     --fnd-primitive-accent-#{$step}: #{$color};
+  }
+
+  // Aufbewahrt fuer das Backend-Theme — siehe oben.
+  @each $step, $color in $neo-darkblue {
+    --fnd-primitive-neo-darkblue-#{$step}: #{$color};
+  }
+  @each $step, $color in $neo-blue {
+    --fnd-primitive-neo-blue-#{$step}: #{$color};
   }
 
   // --- Foundation Palettes ---
