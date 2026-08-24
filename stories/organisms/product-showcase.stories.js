@@ -25,7 +25,8 @@ Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder st
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /produkte/app -->`,
+  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
+<!-- @punkte: 51 -->`,
 };
 
 export const Standard = {

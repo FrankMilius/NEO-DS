@@ -24,178 +24,143 @@ Root: <nav aria-label='Seitennavigation'>. Flex-column, volle Hoehe, border-righ
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/sidebar-docs.html -->
+<!-- @punkte: 31 -->`,
 };
 
-export const DefaultSidebar = {
-  name: 'Default Sidebar',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<nav class="nc-sidebar" aria-label="Applikations-Navigation" style="position: absolute; inset: 0; overflow-y: auto;">
+<!-- Logo/Brand -->
+<div class="nc-sidebar__header">
+<span style="font-weight: var(--fnd-font-weight-bold); font-size: var(--fs-base); color: var(--fnd-color-text-primary);">MyApp</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Expanded Sidebar mit flacher Item-Liste und aktivem Item' },
-    },
-  },
-};
-
-export const ExpandedvsCollapsed = {
-  name: 'Expanded vs Collapsed',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+<!-- Group: Allgemein -->
+<div class="nc-sidebar__group">
+<span class="nc-sidebar__group-label">Allgemein</span>
+<a class="nc-sidebar__item nc-sidebar__item--active" href="#">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: home -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M5 12l-2 0l9 -9l9 9l-2 0">
+</path>
+<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7">
+</path>
+<path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Dashboard</span>
+</a>
+<a class="nc-sidebar__item" href="#">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: search -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0">
+</path>
+<path d="M21 21l-6 -6">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Suche</span>
+</a>
+<a class="nc-sidebar__item" href="#">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: bell -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+</path>
+<path d="M9 17v1a3 3 0 0 0 6 0v-1">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Benachrichtigungen</span>
+<span class="nc-sidebar__item-badge">3</span>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Expanded (260px, Labels sichtbar) vs Collapsed (56px, nur Icons)' },
-    },
-  },
-};
-
-export const ContentVariants = {
-  name: 'Content Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
+<!-- Group: Verwaltung -->
+<div class="nc-sidebar__group">
+<span class="nc-sidebar__group-label">Verwaltung</span>
+<a class="nc-sidebar__item" href="#">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: users -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0">
+</path>
+<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2">
+</path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75">
+</path>
+<path d="M21 21v-2a4 4 0 0 0 -3 -3.85">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Benutzer</span>
+<span class="nc-sidebar__item-badge">12</span>
+</a>
+<button class="nc-sidebar__item" aria-expanded="true" aria-controls="sidebar-demo-settings">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: settings -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.573 1.066c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.066 -2.573c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+</path>
+<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Einstellungen</span>
+<span class="nc-sidebar__item-chevron" aria-hidden="true">
+<!-- Tabler: chevron-right (rotiert 90° bei aria-expanded="true") -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M9 6l6 6l-6 6">
+</path>
+</svg>
+</span>
+</button>
+<div class="nc-sidebar__submenu-items" id="sidebar-demo-settings">
+<a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+<span class="nc-sidebar__item-label">Profil</span>
+</a>
+<a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+<span class="nc-sidebar__item-label">Sicherheit</span>
+</a>
+<a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+<span class="nc-sidebar__item-label">Integrationen</span>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Flat, Grouped, Nested, With Badges, Full' },
-    },
-  },
-};
-
-export const NestedSubmenu = {
-  name: 'Nested Submenu',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Sidebar mit aufklappbaren Sub-Menus und Chevron-Rotation' },
-    },
-  },
-};
-
-export const FullSidebar = {
-  name: 'Full Sidebar',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
+<!-- Group: System -->
+<div class="nc-sidebar__group">
+<span class="nc-sidebar__group-label">System</span>
+<a class="nc-sidebar__item" href="#">
+<span class="nc-sidebar__item-icon" aria-hidden="true">
+<!-- Tabler: info-circle -->
+<svg viewBox="0 0 24 24">
+<path stroke="none" d="M0 0h24v24H0z" fill="none">
+</path>
+<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0">
+</path>
+<path d="M12 9h.01">
+</path>
+<path d="M11 12h1v4h1">
+</path>
+</svg>
+</span>
+<span class="nc-sidebar__item-label">Über</span>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Komplette Sidebar: Header (Logo + Toggle), Gruppen, Badges, Sub-Menus, Footer' },
-    },
-  },
-};
-
-export const MobileOverlay = {
-  name: 'Mobile Overlay',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/sidebar.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-sidebar">
-    <span class="nc-sidebar__nav">nav</span>
-    <span class="nc-sidebar__item">item</span>
-    <span class="nc-sidebar__item-label">item-label</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Mobile-Ansicht: fixed Sidebar mit Backdrop-Overlay' },
-    },
-  },
+</nav>`,
 };

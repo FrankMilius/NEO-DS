@@ -25,17 +25,14 @@ Select ist ein natives <select class='nc-select'>. Kein JS fuer Basis-Funktion n
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /events/editionen-preise -->`,
+  render: () => `<!-- @quelle: geerntet von Doku /docs/data-table-docs.html -->
+<!-- @punkte: 1 -->`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<select class="nc-select" name="edition" id="nf-edition">
-<option value="undefined">
-</option>
-<option value="undefined">
-</option>
-<option value="undefined">
-</option>
+  render: () => `<select class="nc-select nc-select--sm nc-data-table__page-select-input" data-dt-page-select="" aria-label="Seite auswaehlen">
+<option value="1">1</option>
+<option value="2">2</option>
 </select>`,
 };

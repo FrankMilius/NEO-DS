@@ -25,7 +25,8 @@ Container: Flex-Column mit gap. Solid: inverse BG + inverse Text. Subtle: helle 
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /loesungen/branchen/industrie-und-fertigung -->`,
+  render: () => `<!-- @quelle: geerntet von Website /loesungen/branchen/industrie-und-fertigung -->
+<!-- @punkte: 24 -->`,
 };
 
 export const Standard = {

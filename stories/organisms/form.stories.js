@@ -25,7 +25,8 @@ Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /unternehmen/kontakt -->`,
+  render: () => `<!-- @quelle: geerntet von Website /unternehmen/kontakt -->
+<!-- @punkte: 6 -->`,
 };
 
 export const Standard = {

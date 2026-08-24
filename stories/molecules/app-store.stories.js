@@ -25,7 +25,8 @@ Die Abzeichen sind KEINE Nachbauten der Marken von Apple und Google. Beide geben
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 3 -->`,
 };
 
 export const Standard = {

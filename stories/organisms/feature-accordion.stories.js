@@ -24,43 +24,60 @@ export default {
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/feature-accordion.html</code>.
-  </p>
-  <div class="nc-feature-accordeon">
-    <span class="nc-feature-accordeon__left">left</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/feature-accordion-docs.html -->
+<!-- @punkte: 25 -->`,
 };
 
-export const FeatureAccordion = {
-  name: 'Feature Accordion',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/feature-accordion.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-feature-accordeon">
-    <span class="nc-feature-accordeon__left">left</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-feature-accordeon">
+<!-- Left Column: Navigation -->
+<div class="nc-feature-accordeon__left">
+<h2 class="nc-feature-accordeon__title">Alle Features im Überblick</h2>
+<p class="nc-feature-accordeon__lead">Entdecken Sie den vollständigen Funktionsumfang unserer Plattform.</p>
+<ul class="nc-feature-accordeon__links" role="list">
+<li>
+<button class="nc-feature-accordeon__link is-active" type="button">Analytics &amp; Reporting</button>
+</li>
+<li>
+<button class="nc-feature-accordeon__link" type="button">Integrationen</button>
+</li>
+<li>
+<button class="nc-feature-accordeon__link" type="button">Automatisierung</button>
+</li>
+</ul>
+</div>
+<!-- Right Column: Chapters -->
+<div class="nc-feature-accordeon__right">
+<div class="nc-feature-accordeon__chapter">
+<h3 class="nc-feature-accordeon__chapter-title">Analytics &amp; Reporting</h3>
+<div class="nc-feature-accordeon__chapter-items">
+<details class="nc-feature-accordeon__item" open="">
+<summary class="nc-feature-accordeon__item-summary">Echtzeit-Dashboard</summary>
+<div class="nc-feature-accordeon__item-body">
+<p class="nc-feature-accordeon__item-text">Verfolgen Sie alle wichtigen KPIs in Echtzeit auf einem übersichtlichen Dashboard.</p>
+<ul class="nc-feature-accordeon__item-list">
+<li class="nc-feature-accordeon__item-list-entry">Live-Daten-Aktualisierung</li>
+<li class="nc-feature-accordeon__item-list-entry">Anpassbare Widgets</li>
+<li class="nc-feature-accordeon__item-list-entry">Export als PDF oder CSV</li>
+</ul>
+</div>
+</details>
+<details class="nc-feature-accordeon__item">
+<summary class="nc-feature-accordeon__item-summary">Benutzerdefinierte Berichte</summary>
+<div class="nc-feature-accordeon__item-body">
+<p class="nc-feature-accordeon__item-text">Erstellen Sie individuelle Berichte und Analysen nach Ihren eigenen Kriterien.</p>
+</div>
+</details>
+<details class="nc-feature-accordeon__item">
+<summary class="nc-feature-accordeon__item-summary">Prognosen &amp; Trends</summary>
+<div class="nc-feature-accordeon__item-body">
+<p class="nc-feature-accordeon__item-text">KI-gestützte Vorhersagen helfen Ihnen, zukünftige Entwicklungen zu antizipieren.</p>
+</div>
+</details>
+</div>
+</div>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: '2-Spalten Layout mit Nav-Links und expandierbaren Chapters' },
-    },
-  },
 };

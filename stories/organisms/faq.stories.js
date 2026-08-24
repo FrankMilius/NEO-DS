@@ -24,47 +24,21 @@ Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/faq.html</code>.
-  </p>
-  <div class="nc-faq">
-    <span class="nc-faq__item">item</span>
-    <span class="nc-faq__question">question</span>
-    <span class="nc-faq__answer">answer</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/faq-docs.html -->
+<!-- @punkte: 33 -->`,
 };
 
-export const FAQList = {
-  name: 'FAQ List',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/faq.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-faq">
-    <span class="nc-faq__item">item</span>
-    <span class="nc-faq__question">question</span>
-    <span class="nc-faq__answer">answer</span>
-  </div>
-</div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-faq" style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
+<details class="nc-faq__item" open="">
+<summary class="nc-faq__question">Dieser Eintrag ist vorgeöffnet</summary>
+<p class="nc-faq__answer">Durch das <code>open</code>-Attribut am <code>&lt;details&gt;</code>-Element ist dieser Eintrag beim Laden der Seite bereits sichtbar.</p>
+</details>
+<details class="nc-faq__item">
+<summary class="nc-faq__question">Dieser Eintrag ist geschlossen</summary>
+<p class="nc-faq__answer">Klicke auf die Frage, um die Antwort zu sehen.</p>
+</details>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'FAQ-Liste mit aufklappbaren Fragen' },
-    },
-  },
 };

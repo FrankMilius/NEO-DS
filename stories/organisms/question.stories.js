@@ -24,42 +24,74 @@ Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/question.html</code>.
-  </p>
-  <div class="question">
-    <span class="question-text-row">text-row</span>
-    <span class="question-text">question</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/question-docs.html -->
+<!-- @punkte: 20 -->`,
 };
 
-export const QuestionVariants = {
-  name: 'Question Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/question.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+export const Standard = {
+  name: 'Standard',
+  render: () => `<section class="question" style="--px-per-sec: 80; --marquise-el-width: 2000;">
+<hr>
+<!-- Zeile 1 (ungerade &rarr; marquee-reverse) -->
+<div class="question-text-row" style="animation: none; transform: translateX(0);" aria-hidden="true">
+<span class="question-text">
+ Wie können wir effizienter werden?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Was wäre wenn alles möglich ist?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Wie können wir effizienter werden?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Was wäre wenn alles möglich ist?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default vs With-Text' },
-    },
-  },
+<hr>
+<!-- Zeile 2 (gerade &rarr; marquee) -->
+<div class="question-text-row" style="animation: none; transform: translateX(-20%);" aria-hidden="true">
+<span class="question-text">
+ Welche Lösung passt zu uns?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Wie wachsen wir nachhaltig?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Welche Lösung passt zu uns?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+ Wie wachsen wir nachhaltig?
+ <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+</svg>
+</span>
+</div>
+<hr>
+<!-- Action-Bereich -->
+<div class="question-action-section">
+<div class="question-buttons">
+<button class="nc-button nc-button--primary">Demo vereinbaren</button>
+<button class="nc-button nc-button--outline">Mehr erfahren</button>
+</div>
+</div>
+<hr>
+</section>`,
 };

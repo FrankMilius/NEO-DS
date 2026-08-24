@@ -24,43 +24,36 @@ export default {
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/cta.html</code>.
-  </p>
-  <div class="nc-cta">
-    <span class="nc-cta__left">left</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/cta-docs.html -->
+<!-- @punkte: 17 -->`,
 };
 
-export const CTASection = {
-  name: 'CTA Section',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/cta.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-cta">
-    <span class="nc-cta__left">left</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-cta">
+<div class="nc-cta__left">
+<h2 class="nc-section-title">Jetzt starten</h2>
+<p class="nc-lead">Die vollständige Lösung für Ihr digitales Business.</p>
+</div>
+<div class="nc-cta__mid">
+<div class="nc-newsletter-cta">
+<p style="color: var(--fnd-color-always-light); font-weight: var(--fnd-font-weight-semibold);">Updates per E-Mail</p>
+<div class="nc-cta__form">
+<input class="nc-input" type="email" placeholder="ihre@email.de" aria-label="E-Mail-Adresse">
+<button class="nc-button nc-button--primary">Anmelden</button>
+</div>
+<p class="nc-cta__note" style="color: var(--fnd-color-always-light); font-size: 0.875rem;">Datenschutz gewährleistet.</p>
+</div>
+</div>
+<div class="nc-cta__right">
+<div class="nc-demo-cta">
+<p class="nc-demo-cta__title" style="color: var(--fnd-color-always-light);">30 Minuten Beratung</p>
+<p style="color: var(--fnd-color-always-light); opacity: 0.85; margin: 0;">Sprechen Sie direkt mit einem Experten.</p>
+<div class="nc-demo-cta__form">
+<button class="nc-button nc-button--outline" style="color: var(--fnd-color-always-light); border-color: var(--fnd-color-always-light);">Termin buchen</button>
+</div>
+</div>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Call-to-Action mit Newsletter und Demo' },
-    },
-  },
 };

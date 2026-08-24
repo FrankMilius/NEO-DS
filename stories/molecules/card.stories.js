@@ -25,7 +25,8 @@ Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entir
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /events/digital-workplace-summit-2026 -->`,
+  render: () => `<!-- @quelle: geerntet von Website /events/digital-workplace-summit-2026 -->
+<!-- @punkte: 18 -->`,
 };
 
 export const Standard = {

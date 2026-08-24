@@ -25,7 +25,8 @@ Inline-flex Element mit static-surface-base Mixin.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /loesungen/branchen/industrie-und-fertigung -->`,
+  render: () => `<!-- @quelle: geerntet von Website /loesungen/branchen/industrie-und-fertigung -->
+<!-- @punkte: 0 -->`,
 };
 
 export const Standard = {

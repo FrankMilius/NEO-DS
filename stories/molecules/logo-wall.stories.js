@@ -25,7 +25,8 @@ Root: display:grid (default), display:flex (marquee/cluster). Gap via Token.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /node/1 -->`,
+  render: () => `<!-- @quelle: geerntet von Website /node/1 -->
+<!-- @punkte: 12 -->`,
 };
 
 export const Standard = {

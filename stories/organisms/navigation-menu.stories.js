@@ -24,149 +24,98 @@ Radix-UI Pattern: nav > ul > li > trigger/content.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/navigation-menu-docs.html -->
+<!-- @punkte: 38 -->`,
 };
 
-export const DefaultDropdown = {
-  name: 'Default Dropdown',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<nav class="nc-navigation-menu" aria-label="Hauptnavigation" style="display: flex;">
+<ul class="nc-navigation-menu__list" role="menubar">
+<li class="nc-navigation-menu__item" role="none">
+<button class="nc-navigation-menu__trigger" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false" data-state="closed">
+<span>Produkte</span>
+<span class="nc-navigation-menu__trigger-icon">
+<svg viewBox="0 0 12 12" aria-hidden="true">
+<polyline points="2 4 6 8 10 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+</polyline>
+</svg>
+</span>
+</button>
+<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" data-state="closed" role="menu">
+<div class="nc-navigation-menu__content-grid">
+<a class="nc-navigation-menu__callout" href="#">
+<div class="nc-navigation-menu__callout-title">Produkte</div>
+<p class="nc-navigation-menu__callout-desc">Plattform-Bausteine für Intranet, App und Magazin.</p>
+</a>
+<div class="nc-navigation-menu__content-grid">
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Social Intranet</div>
+<p class="nc-navigation-menu__link-desc">News, Communities und Knowledge Hubs.</p>
+</a>
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Mitarbeiter App</div>
+<p class="nc-navigation-menu__link-desc">Mobile Kommunikation für alle Teams.</p>
+</a>
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Magazin</div>
+<p class="nc-navigation-menu__link-desc">Editorial Content und Storytelling.</p>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Einfaches Dropdown mit Links-Liste' },
-    },
-  },
-};
-
-export const TwoColumnwithCallout = {
-  name: 'Two-Column with Callout',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Zwei Spalten: Callout links, Links rechts' },
-    },
-  },
-};
-
-export const MegaMenu = {
-  name: 'Mega Menu',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Grid-Layout mit Featured Item und mehreren Spalten' },
-    },
-  },
-};
-
-export const IndicatorStates = {
-  name: 'Indicator States',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
+</li>
+<li class="nc-navigation-menu__item" role="none">
+<button class="nc-navigation-menu__trigger" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false" data-state="closed">
+<span>Services</span>
+<span class="nc-navigation-menu__trigger-icon">
+<svg viewBox="0 0 12 12" aria-hidden="true">
+<polyline points="2 4 6 8 10 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+</polyline>
+</svg>
+</span>
+</button>
+<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" data-state="closed" role="menu">
+<div class="nc-navigation-menu__content-grid">
+<a class="nc-navigation-menu__callout" href="#">
+<div class="nc-navigation-menu__callout-title">Services</div>
+<p class="nc-navigation-menu__callout-desc">Einführung, Support und langfristiger Erfolg.</p>
+</a>
+<div class="nc-navigation-menu__content-grid">
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Einführungsberatung</div>
+<p class="nc-navigation-menu__link-desc">Strategie, Rollout und Enablement.</p>
+</a>
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Support</div>
+<p class="nc-navigation-menu__link-desc">Schnelle Hilfe mit klaren SLAs.</p>
+</a>
+<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<div class="nc-navigation-menu__link-title">Customer Success</div>
+<p class="nc-navigation-menu__link-desc">Adoption, KPIs und Wachstum.</p>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Indicator-Unterstrich: Default, Hover, Active' },
-    },
-  },
-};
-
-export const FullHeaderComposition = {
-  name: 'Full Header Composition',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-menu.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-navigation-menu">
-    <span class="nc-navigation-menu__list">list</span>
-    <span class="nc-navigation-menu__item">item</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Navigation + NavigationMenu + Brand + Actions — komplette Shell' },
-    },
-  },
+</div>
+</li>
+<li class="nc-navigation-menu__item" role="none">
+<a class="nc-navigation-menu__link--top" href="#" role="menuitem">Kunden</a>
+</li>
+<li class="nc-navigation-menu__item" role="none">
+<a class="nc-navigation-menu__link--top" href="#" role="menuitem">News</a>
+</li>
+<li class="nc-navigation-menu__item" role="none">
+<a class="nc-navigation-menu__link--top" href="#" role="menuitem">Über uns</a>
+</li>
+</ul>
+<div class="nc-navigation-menu__indicator" data-state="hidden">
+<div class="nc-navigation-menu__indicator-arrow">
+</div>
+</div>
+<div class="nc-navigation-menu__viewport-wrapper">
+<div class="nc-navigation-menu__viewport" data-state="closed">
+</div>
+</div>
+</nav>`,
 };

@@ -25,7 +25,8 @@ Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /datenschutz -->`,
+  render: () => `<!-- @quelle: geerntet von Website /datenschutz -->
+<!-- @punkte: 35 -->`,
 };
 
 export const Standard = {

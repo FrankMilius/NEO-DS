@@ -25,7 +25,8 @@ Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebenei
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /produkte/app -->`,
+  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
+<!-- @punkte: 16 -->`,
 };
 
 export const Standard = {

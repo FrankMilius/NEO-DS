@@ -25,12 +25,19 @@ Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /loesungen/anwendungsfaelle/content-management -->`,
+  render: () => `<!-- @quelle: geerntet von Doku /docs/testimonial-docs.html -->
+<!-- @punkte: 35 -->`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<figure class="nc-testimonial">
-<blockquote class="nc-testimonial__quote">„Wir haben unsere Website mit Intranet verbunden – und können extern wie intern mit einer Plattform kommunizieren."</blockquote>
-</figure>`,
+  render: () => `<blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;">
+<p class="nc-testimonial__quote">„Slide 1: Excellente Dokumentation und klare Muster.“</p>
+<footer class="nc-testimonial__author">
+<div class="nc-testimonial__meta">
+<span class="nc-testimonial__name">Pia Weber</span>
+<span class="nc-testimonial__role">Product Manager</span>
+</div>
+</footer>
+</blockquote>`,
 };

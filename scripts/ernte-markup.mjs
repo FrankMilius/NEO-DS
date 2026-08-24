@@ -30,6 +30,13 @@
  * Bearbeitungs-Kennungen. In Storybook sind sie sinnlos und verdecken den
  * Aufbau. Ebenso die Bildwege — /sites/default/files gibt es dort nicht.
  *
+ * DIE BESSERE FUNDSTELLE GEWINNT, AUCH UEBER LAEUFE HINWEG
+ * Die Doku-Seiten liefern fuer manches Bauteil eine duerftige Fassung, die die
+ * Website deutlich besser zeigt: die Feature List kam aus der Preistabelle mit
+ * 11 Punkten, von /produkte/app mit 63. Wer die Quellen der Reihe nach laufen
+ * laesst, wuerde das Gute mit dem Schlechten ueberschreiben. Darum steht die
+ * Punktzahl in der Datei, und ein Lauf ersetzt nur, was er verbessert.
+ *
  * VON HAND GESCHRIEBENES BLEIBT UNANGETASTET
  * Eine Markup-Datei mit der Marke `@quelle: von Hand` ueberschreibt das
  * Skript nicht. Manches Bauteil steht auf keiner Seite und wurde bewusst
@@ -45,7 +52,17 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = resolve(ROOT, 'data');
 const ZIEL = resolve(DATA, 'markup');
-const BASIS = 'https://piipe-workplace.ddev.site';
+// Zwei Quellen, dieselbe Technik.
+//
+// Die Website zeigt die Bauteile im Einsatz — das ist die bessere Quelle,
+// weil dort echte Inhalte drinstehen. Fuer alles, was auf keiner Seite
+// vorkommt, bleiben die Doku-Seiten: die rendern ihre Beispiele live, teils
+// per JS, und liefern damit ebenfalls fertiges Markup statt einer Ableitung
+// aus Klassennamen.
+const QUELLEN = {
+  website: { basis: 'https://piipe-workplace.ddev.site', liste: '.seiten.txt' },
+  doku:    { basis: 'http://localhost:3000',             liste: '.doku-seiten.txt' },
+};
 const VON_HAND = '@quelle: von Hand';
 
 // Wurzelselektoren, die nicht zum Bauteil gehoeren, sondern zum Geruest
@@ -63,6 +80,14 @@ const MAX_ZEICHEN = 24000;
 
 const argv = process.argv.slice(2);
 const trocken = argv.includes('--trocken');
+const erzwingen = argv.includes('--erzwingen');
+const quelleName = (argv.find((a) => a.startsWith('--quelle=')) ?? '--quelle=website').split('=')[1];
+const QUELLE = QUELLEN[quelleName];
+if (!QUELLE) {
+  console.error(`  Unbekannte Quelle "${quelleName}". Moeglich: ${Object.keys(QUELLEN).join(', ')}`);
+  process.exit(1);
+}
+const BASIS = QUELLE.basis;
 const nur = argv.filter((a) => !a.startsWith('--'));
 
 // ─── Bauteile aus den Recipes ────────────────────────────────────────
@@ -78,19 +103,26 @@ for (const datei of readdirSync(DATA).filter((f) => f.endsWith('-recipe.json')).
   if (!wurzel) continue;
 
   const vorhanden = resolve(ZIEL, `${name}.html`);
-  if (existsSync(vorhanden) && readFileSync(vorhanden, 'utf8').includes(VON_HAND)) continue;
+  let bestand = -1;
+  if (existsSync(vorhanden)) {
+    const da = readFileSync(vorhanden, 'utf8');
+    if (da.includes(VON_HAND)) continue;
+    bestand = Number(da.match(/@punkte:\s*(\d+)/)?.[1] ?? -1);
+  }
 
   bauteile.push({
     name,
     wurzel,
+    bestand,
     pflicht: (r.anatomy?.slots ?? [])
       .filter((s) => !s.optional && s.element)
       .map((s) => String(s.element).replace(/^\./, '')),
   });
 }
 
-const seiten = readFileSync(resolve(ZIEL, '.seiten.txt'), 'utf8').split('\n').filter(Boolean);
-console.log(`\n  ${bauteile.length} Bauteile werden auf ${seiten.length} Seiten gesucht.\n`);
+const seiten = readFileSync(resolve(ZIEL, QUELLE.liste), 'utf8').split('\n').filter(Boolean);
+console.log(`\n  Quelle: ${quelleName} (${BASIS})`);
+console.log(`  ${bauteile.length} Bauteile werden auf ${seiten.length} Seiten gesucht.\n`);
 
 // ─── Browser ─────────────────────────────────────────────────────────
 const PORT = 9761;
@@ -157,9 +189,49 @@ window.__ernte = {
     await ruhe(600);
   },
 
+  // ZU GROSSES AUSDUENNEN, STATT ES WEGZUWERFEN.
+  //
+  // Die Vergleichstabelle der Editionen bringt 29 kB — als Story sieht man
+  // darin nicht das Bauteil, sondern eine Datenmenge. Weggeworfen hatte sie
+  // aber gar keine Story. Eine Tabelle mit vier Zeilen zeigt denselben Aufbau
+  // wie eine mit vierzig; die Wiederholung traegt keine Aussage mehr.
+  //
+  // Ausgeduennt wird immer die groesste Gruppe gleichartiger Geschwister, und
+  // dass etwas fehlt, steht als Kommentar im Markup. Stillschweigend kuerzen
+  // waere schlimmer als wegwerfen: die Story sahe vollstaendig aus.
+  ausduennen(k, behalten) {
+    let gruppe = null;
+    let groesse = 0;
+    for (const eltern of k.querySelectorAll('*')) {
+      const kinder = [...eltern.children];
+      if (kinder.length <= behalten + 1) continue;
+      const nach = new Map();
+      for (const kind of kinder) {
+        const kennung = kind.tagName + '.' + kind.className;
+        if (!nach.has(kennung)) nach.set(kennung, []);
+        nach.get(kennung).push(kind);
+      }
+      for (const [, gleiche] of nach) {
+        if (gleiche.length > groesse) { groesse = gleiche.length; gruppe = gleiche; }
+      }
+    }
+    if (!gruppe || groesse <= behalten) return false;
+
+    const weg = gruppe.slice(behalten);
+    const eltern = weg[0].parentNode;
+    for (const x of weg) x.remove();
+    eltern.appendChild(k.ownerDocument.createComment(
+      ' gekuerzt: ' + weg.length + ' weitere gleichartige Eintraege, siehe data/markup/LIESMICH.md '));
+    return true;
+  },
+
   saeubern(el) {
     const k = el.cloneNode(true);
+    this.saeubern2(k);
+    return k.outerHTML;
+  },
 
+  saeubern2(k) {
     // Ein zugeklapptes Akkordeon zeigt in der Doku nur seine Kopfzeilen —
     // der Inhaltsbereich, um den es geht, bleibt unsichtbar. Der erste
     // Eintrag wird darum aufgeklappt. Das ist ein echter Zustand des
@@ -173,8 +245,8 @@ window.__ernte = {
     });
     putzen(k);
     k.querySelectorAll('*').forEach(putzen);
-    return k.outerHTML;
   },
+
   // Pflichtbereiche zaehlen zehnfach, jeder weitere sichtbare BEM-Bereich
   // einfach. So gewinnt der Block, bei dem am meisten ausgefuellt ist.
   bewerten(el, name, pflicht) {
@@ -230,6 +302,7 @@ for (const [name, b] of besten) {
 }
 
 const bericht = [];
+const gekuerzt = [];
 if (!existsSync(ZIEL)) mkdirSync(ZIEL, { recursive: true });
 
 for (const [seite, eintraege] of proSeite) {
@@ -248,23 +321,47 @@ for (const [seite, eintraege] of proSeite) {
     })()`);
     if (!roh) { bericht.push({ name, stand: 'verschwunden', seite }); continue; }
 
+    let markup = roh;
+    if (roh.length > MAX_ZEICHEN) {
+      const duenner = await js(`(() => {
+        const els = document.querySelectorAll(${JSON.stringify(bauteil.wurzel)});
+        const el = els[${b.nr}];
+        if (!el) return null;
+        const k = el.cloneNode(true);
+        window.__ernte.saeubern2(k);
+        for (let i = 0; i < 12; i++) {
+          if (k.outerHTML.length <= ${MAX_ZEICHEN}) break;
+          if (!window.__ernte.ausduennen(k, 4)) break;
+        }
+        return k.outerHTML;
+      })()`);
+      if (!duenner || duenner.length > MAX_ZEICHEN) {
+        bericht.push({ name, stand: 'zu gross', seite, punkte: b.punkte, zeichen: roh.length });
+        continue;
+      }
+      markup = duenner;
+      gekuerzt.push(name);
+    }
+
     // Bildwege ersetzen: /sites/default/files gibt es in Storybook nicht.
-    const markup = roh
+    markup = markup
       .replace(/(src|href)="\/sites\/default\/files\/[^"]*\.(?:png|jpe?g|webp|avif|svg)"/gi,
                (_m, attr) => `${attr}="/assets/muster/app-screen.svg"`)
       .replace(/\s*srcset="[^"]*"/gi, '')
       .replace(/[ \t]{2,}/g, ' ')
       .replace(/>\s*</g, '>\n<');
 
-    if (markup.length > MAX_ZEICHEN) {
-      bericht.push({ name, stand: 'zu gross', seite, punkte: b.punkte, zeichen: markup.length });
+    if (bauteil.bestand > b.punkte && !erzwingen) {
+      bericht.push({ name, stand: `behalten (${bauteil.bestand})`, seite, punkte: b.punkte, zeichen: markup.length });
       continue;
     }
 
     bericht.push({ name, stand: 'geerntet', seite, punkte: b.punkte, zeichen: markup.length });
     if (!trocken) {
       writeFileSync(resolve(ZIEL, `${name}.html`),
-        `<!-- @quelle: geerntet von ${seite} -->\n<!-- @fassung: Standard -->\n${markup}\n`);
+        `<!-- @quelle: geerntet von ${quelleName === 'doku' ? 'Doku' : 'Website'} ${seite} -->\n`
+        + `<!-- @punkte: ${b.punkte} -->\n`
+        + `<!-- @fassung: Standard -->\n${markup}\n`);
     }
   }
 }
@@ -274,14 +371,20 @@ console.log('  MARKUP GEERNTET');
 console.log('  ' + '─'.repeat(74));
 for (const b of bericht) {
   const marke = b.stand === 'geerntet' ? '  ' : '! ';
-  console.log(`  ${marke}${b.name.padEnd(20)} ${String(b.punkte ?? '').padStart(4)} Pkt  ${String(b.zeichen ?? '').padStart(6)} Z   ${b.seite}`);
+  const wo = b.stand === 'geerntet' ? b.seite : `${b.stand} — ${b.seite}`;
+  console.log(`  ${marke}${b.name.padEnd(20)} ${String(b.punkte ?? '').padStart(4)} Pkt  ${String(b.zeichen ?? '').padStart(6)} Z   ${wo}`);
 }
 console.log('  ' + '─'.repeat(74));
 const ok = bericht.filter((b) => b.stand === 'geerntet').length;
 const gross = bericht.filter((b) => b.stand === 'zu gross');
-console.log(`  ${ok} Bauteile mit echtem Markup${trocken ? '  (trocken — nichts geschrieben)' : ''}`);
+const behalten = bericht.filter((b) => b.stand.startsWith('behalten')).length;
+console.log(`  ${ok} Bauteile geschrieben${trocken ? '  (trocken — nichts geschrieben)' : ''}`);
+if (behalten) console.log(`  ${behalten} behalten, weil die vorhandene Fassung mehr zeigt`);
+if (gekuerzt.length) {
+  console.log(`  ausgeduennt, weil ueber ${MAX_ZEICHEN} Zeichen: ${gekuerzt.join(', ')}`);
+}
 if (gross.length) {
-  console.log(`  ueber ${MAX_ZEICHEN} Zeichen, darum verworfen: ${gross.map((g) => g.name).join(', ')}`);
+  console.log(`  auch ausgeduennt zu gross, darum verworfen: ${gross.map((g) => g.name).join(', ')}`);
 }
 console.log(`  ohne Fundstelle: ${bauteile.length - besten.size}\n`);
 

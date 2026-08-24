@@ -25,7 +25,8 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /events/editionen-preise -->`,
+  render: () => `<!-- @quelle: geerntet von Website /events/editionen-preise -->
+<!-- @punkte: 44 -->`,
 };
 
 export const Standard = {

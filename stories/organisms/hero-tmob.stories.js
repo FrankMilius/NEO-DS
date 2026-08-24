@@ -25,7 +25,8 @@ Headline + Subtext + Media ueber konfigurierbarem Hintergrund.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 5 -->`,
 };
 
 export const Standard = {

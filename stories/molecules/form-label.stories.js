@@ -25,13 +25,14 @@ Semantisch ein <label for='input-id'> Element.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /events/editionen-preise -->`,
+  render: () => `<!-- @quelle: geerntet von Doku /docs/form-field-docs.html -->
+<!-- @punkte: 12 -->`,
 };
 
 export const Standard = {
   name: 'Standard',
-  render: () => `<label class="nc-form-label" for="nf-name">
-<span class="nc-form-label__text">Name</span>
-<span class="nc-form-label__required" aria-hidden="true"> *</span>
+  render: () => `<label class="nc-form-label" for="demo-error">
+<span class="nc-form-label__text">E-Mail</span>
+<span class="nc-form-label__required" aria-hidden="true">*</span>
 </label>`,
 };

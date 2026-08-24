@@ -44,21 +44,31 @@ Generator, und genau die hat das Problem verursacht.
 ## Woher das Markup kommt
 
 ```
-npm run ernte:markup            alle Bauteile neu ernten
-npm run ernte:markup -- hero    nur eines
-npm run lint:ernte              Bericht: wo fehlt noch was
+npm run ernte:markup                      von der Website
+npm run ernte:markup -- --quelle=doku     von den Doku-Seiten
+npm run ernte:markup -- hero              nur ein Bauteil
+npm run lint:ernte                        Bericht: wo fehlt noch was
+npm run lint:klassen                      trifft das Markup das Bauteil?
 ```
 
 `scripts/ernte-markup.mjs` sucht jeden Wurzelselektor aus den Recipes auf allen
-veröffentlichten Seiten der laufenden Website und nimmt die reichhaltigste
-Fundstelle. Es gibt **keine gepflegte Liste** „Bauteil X steht auf Seite Y" —
-die wäre beim ersten Seitenumbau still veraltet.
+Seiten der gewählten Quelle und nimmt die reichhaltigste Fundstelle. Es gibt
+**keine gepflegte Liste** „Bauteil X steht auf Seite Y" — die wäre beim ersten
+Seitenumbau still veraltet.
 
-Vor dem Ernten muss die Seitenliste stehen:
+**Zwei Quellen, dieselbe Technik.** Die Website ist die bessere: dort stehen
+echte Inhalte. Für alles, was auf keiner Seite vorkommt, bleiben die
+Doku-Seiten — sie rendern ihre Beispiele live, teils per JS. Reihenfolge:
+erst die Website, dann die Doku; die füllt dann nur Lücken.
+
+Vor dem Ernten müssen die Seitenlisten stehen:
 
 ```
 cd ~/Sites/DRUPAL11
 ddev drush php:script scripts/neo-seitenliste.php > ~/Sites/WEBSITE26/data/markup/.seiten.txt
+
+cd ~/Sites/WEBSITE26                 # Doku-Server muss auf :3000 laufen
+ls docs/*-docs.html | sed 's|docs/|/docs/|' > data/markup/.doku-seiten.txt
 ```
 
 ### Handarbeit schützen
@@ -83,8 +93,21 @@ Menü und ist nicht für Besucher gedacht.
   Bearbeitungs-Kennungen — in Storybook sinnlos und im Weg.
 - **Bildwege ersetzen.** `/sites/default/files/…` gibt es in Storybook nicht.
 - **Das erste `<details>` aufklappen**, damit der Inhaltsbereich sichtbar ist.
-- **Zu grosses verwerfen.** Über 24 000 Zeichen ist nicht mehr das Bauteil zu
-  sehen, sondern eine Datenmenge (Vergleichstabellen).
+- **Zu grosses ausdünnen.** Über 24 000 Zeichen sieht man nicht mehr das
+  Bauteil, sondern eine Datenmenge — die Vergleichstabelle der Editionen bringt
+  29 kB. Ausgedünnt wird die grösste Gruppe gleichartiger Geschwister: vier
+  Zeilen zeigen denselben Aufbau wie vierzig. **Dass etwas fehlt, steht als
+  Kommentar im Markup** (`<!-- gekuerzt: N weitere gleichartige Eintraege -->`).
+  Stillschweigend kürzen wäre schlimmer als wegwerfen — die Story sähe
+  vollständig aus. Bleibt sie auch ausgedünnt zu gross, wird sie verworfen und
+  im Bericht genannt.
+
+Ein Lauf **ersetzt nur, was er verbessert.** Die Punktzahl steht als
+`@punkte` in der Datei; eine schlechtere Fundstelle lässt die bessere stehen.
+Die Doku-Seiten liefern für manches Bauteil eine dürftige Fassung, die die
+Website deutlich besser zeigt — die Feature List kam aus der Preistabelle mit
+11 Punkten, von `/produkte/app` mit 63. Mit `--erzwingen` schreibt der Lauf
+trotzdem.
 
 ## Geerntet heisst nicht gut
 
@@ -99,6 +122,29 @@ Anatomie im Recipe gegenüber und unterscheidet zwei Fälle:
 | **Recipe falsch** | Die Klasse steht in keinem Stylesheet — das Recipe beschreibt einen Bereich, den es nie gab. |
 
 Die Prüfung blockiert nichts. Sie sagt nur, welche Story dünn ist und warum.
+
+## Trifft das Markup das Bauteil überhaupt?
+
+`npm run lint:klassen` stellt **jede** Klasse im Markup dem kompilierten
+`styles.css` gegenüber. Eine Klasse, die es dort nicht gibt, gestaltet nichts —
+sie sieht in der Story nur so aus, als tue sie es. Genau so sind die veralteten
+Doku-Seiten entstanden und jahrelang unbemerkt geblieben: niemand hat je
+gegengeprüft.
+
+Diese Prüfung läuft in `npm test`. Sie friert den Bestand ein und lässt ihn nur
+sinken — ein Test, der ab dem ersten Tag rot steht, wird abgeschaltet.
+
+**Die Schwelle steht je Bauteil, nicht als Gesamtzahl.** Zuerst war es eine
+einzige Zahl. Als der Bestand von 42 auf 101 Dateien wuchs, war sie wertlos:
+„70 gegen 55" sagt nicht, ob etwas schlechter wurde oder nur mehr geworden ist.
+Schlimmer — eine Gesamtzahl verrechnet: ein behobener Befund hätte stillschweigend
+Raum für einen neuen geschaffen. Je Bauteil kann ein neues kein anderes decken.
+
+**Die Schwelle wird nicht angehoben.** Ein Befund heisst: entweder die Klasse im
+Markup korrigieren oder das Bauteil im Stylesheet ergänzen. Am 24.08.2026 stehen
+64 Klassen in 30 Bauteilen offen — Klassen, die das Drupal-Theme oder eine
+Doku-Seite schreibt und das Design System nicht kennt. Sie stehen im BACKLOG
+von DRUPAL11.
 
 ## Bilder
 

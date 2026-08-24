@@ -24,161 +24,105 @@ Ebene 1 — Shell: .nc-shell__navbar Slot reserviert die Grid-Row. nc-shell-z-na
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/navigation-docs.html -->
+<!-- @punkte: 38 -->`,
 };
 
-export const FullHeaderComposition = {
-  name: 'Full Header Composition',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<header class="nc-header" style="position: relative;">
+<nav class="nc-nav" aria-label="Hauptnavigation">
+<div class="nc-nav__inner">
+<a class="nc-brand" href="#">markenname</a>
+<ul class="nc-nav__list" style="display: flex;">
+<li class="nc-nav__item">
+<button class="nc-nav__link" type="button" aria-haspopup="true" aria-expanded="false" style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer; background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; font: inherit; padding: 4px 8px; border-radius: var(--fnd-radius-md); color: var(--fnd-color-text-high);">
+<span>Produkte</span>
+<span class="nc-nav__chevron">
+<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+<polyline points="2 4 6 8 10 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+</polyline>
+</svg>
+</span>
+</button>
+<div class="nc-mega" style="z-index: 100;">
+<div class="nc-mega__inner">
+<div class="nc-mega__meta">
+<span class="nc-mega__eyebrow">Produktbereich</span>
+<strong>Produkte</strong>
+<p>Plattform-Bausteine für Intranet, App und Magazin.</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: '5-Ebenen-Komposition: Shell-Slot → Header → Menu → Links → Icons' },
-    },
-  },
-};
-
-export const TokenCascadeVisualization = {
-  name: 'Token Cascade Visualization',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Social Intranet<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">News, Communities und Knowledge Hubs.</p>
+</a>
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Mitarbeiter App<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">Mobile Kommunikation für alle Teams.</p>
+</a>
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Magazin<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">Editorial Content und Storytelling.</p>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Zeigt den Datenfluss: Shell-Z → Nav-Height → Mol-Hover → Atom-Icon' },
-    },
-  },
-};
-
-export const MobileHandoff = {
-  name: 'Mobile Handoff',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Desktop-Menu → Hamburger → Drawer mit vertikalen Links' },
-    },
-  },
-};
-
-export const CompactDensity = {
-  name: 'Compact Density',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Reduzierte Hoehe fuer Dashboard-Layouts' },
-    },
-  },
-};
-
-export const ZIndexGovernance = {
-  name: 'Z-Index Governance',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/navigation-orchestration.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-header">
-    <span class="nc-shell__navbar">shell-slot</span>
-    <span class="nc-header">header</span>
-    <span class="nc-nav__inner">nav-inner</span>
-    <span class="nc-brand">brand</span>
-  </div>
+</li>
+<li class="nc-nav__item">
+<button class="nc-nav__link" type="button" aria-haspopup="true" aria-expanded="false" style="display: inline-flex; align-items: center; gap: 4px; cursor: pointer; background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; font: inherit; padding: 4px 8px; border-radius: var(--fnd-radius-md); color: var(--fnd-color-text-high);">
+<span>Services</span>
+<span class="nc-nav__chevron">
+<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+<polyline points="2 4 6 8 10 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+</polyline>
+</svg>
+</span>
+</button>
+<div class="nc-mega" style="z-index: 100;">
+<div class="nc-mega__inner">
+<div class="nc-mega__meta">
+<span class="nc-mega__eyebrow">Produktbereich</span>
+<strong>Services</strong>
+<p>Einführung, Support und langfristiger Erfolg.</p>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Shell-Z-Schichten: Linkbar < Footerbar < Navbar < Sidebar < Overlay < Drawer' },
-    },
-  },
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Einführungsberatung<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">Strategie, Rollout und Enablement.</p>
+</a>
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Support<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">Schnelle Hilfe mit klaren SLAs.</p>
+</a>
+<a href="#" style="display: block; padding: 8px 12px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Customer Success<p style="margin: 2px 0px 0px; font-size: 0.85rem; color: var(--fnd-color-text-mid);">Adoption, KPIs und Wachstum.</p>
+</a>
+</div>
+</div>
+</div>
+</li>
+<li class="nc-nav__item">
+<a href="#" style="padding: 4px 8px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Kunden</a>
+</li>
+<li class="nc-nav__item">
+<a href="#" style="padding: 4px 8px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">News</a>
+</li>
+<li class="nc-nav__item">
+<a href="#" style="padding: 4px 8px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Über uns</a>
+</li>
+</ul>
+<div class="nc-tools" style="display: flex;">
+<button type="button" aria-label="Suche öffnen" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; padding: 6px; border-radius: var(--fnd-radius-md); color: var(--fnd-color-text-high);">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="11" cy="11" r="8">
+</circle>
+<line x1="21" y1="21" x2="16.65" y2="16.65">
+</line>
+</svg>
+</button>
+</div>
+<button class="nc-mobile-toggle" type="button" aria-label="Navigation öffnen" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; color: var(--fnd-color-text-high);">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<line x1="3" y1="6" x2="21" y2="6">
+</line>
+<line x1="3" y1="12" x2="21" y2="12">
+</line>
+<line x1="3" y1="18" x2="21" y2="18">
+</line>
+</svg>
+</button>
+</div>
+</nav>
+</header>`,
 };

@@ -24,178 +24,31 @@ Error-Summary-Box am Anfang eines Formulars — zeigt alle Fehler gesammelt.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/form-layout-docs.html -->
+<!-- @punkte: 34 -->`,
 };
 
-export const DefaultValidationSummary = {
-  name: 'Default Validation Summary',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-validation-summary" role="alert">
+<span class="nc-validation-summary__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="15" y1="9" x2="9" y2="15">
+</line>
+<line x1="9" y1="9" x2="15" y2="15">
+</line>
+</svg>
+</span>
+<div>
+<strong class="nc-validation-summary__title">Es sind 3 Fehler aufgetreten:</strong>
+<ul class="nc-validation-summary__list">
+<li class="nc-validation-summary__item">Vorname ist ein Pflichtfeld</li>
+<li class="nc-validation-summary__item">E-Mail-Adresse ist ungültig</li>
+<li class="nc-validation-summary__item">Passwort muss mindestens 8 Zeichen lang sein</li>
+</ul>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Standard-Error-Summary mit Titel und Fehlerliste als Links' },
-    },
-  },
-};
-
-export const ContentVariants = {
-  name: 'Content Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'With Links, Text-Only, With Icon im Vergleich' },
-    },
-  },
-};
-
-export const SingleError = {
-  name: 'Single Error',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Validation Summary mit nur einem Fehler' },
-    },
-  },
-};
-
-export const MultipleErrors = {
-  name: 'Multiple Errors',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Validation Summary mit mehreren Fehlern — typischer Formular-Submit' },
-    },
-  },
-};
-
-export const InFormContext = {
-  name: 'In Form Context',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Validation Summary am Anfang eines Formulars mit markierten Feldern' },
-    },
-  },
-};
-
-export const HighContrastMode = {
-  name: 'High Contrast Mode',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/validation-summary.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-validation-summary">
-    <span class="nc-validation-summary__title">title</span>
-    <span class="nc-validation-summary__list">list</span>
-    <span class="nc-validation-summary__item">item</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Darstellung in Windows High Contrast Mode (forced-colors)' },
-    },
-  },
 };

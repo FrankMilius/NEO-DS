@@ -24,232 +24,65 @@ Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/breadcrumb-docs.html -->
+<!-- @punkte: 39 -->`,
 };
 
-export const FullPathChevron = {
-  name: 'Full Path — Chevron',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Vollstaendiger Breadcrumb-Pfad mit Chevron-Separatoren' },
-    },
-  },
-};
-
-export const SeparatorVarianten = {
-  name: 'Separator-Varianten',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Vergleich aller 5 Separator-Typen mit reduzierter Opacity' },
-    },
-  },
-};
-
-export const SizeSMMD = {
-  name: 'Size — SM / MD',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'SM fuer Admin/Sidebar, MD fuer Haupt-Content' },
-    },
-  },
-};
-
-export const GhostAppearance = {
-  name: 'Ghost Appearance',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Dezente Links wie normaler Text — erst bei Hover interaktiv. Fuer minimalistische Artikel-Seiten.' },
-    },
-  },
-};
-
-export const HomeIcon = {
-  name: 'Home Icon',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Haus-SVG statt \'Home\'-Text — platzsparend und international verstaendlich' },
-    },
-  },
-};
-
-export const SmartTruncation = {
-  name: 'Smart Truncation',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Home + letzte 2 Items sichtbar. Mittlere Ebenen im Ellipsis-Dropdown.' },
-    },
-  },
-};
-
-export const TruncationDropdownOpen = {
-  name: 'Truncation — Dropdown Open',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Ellipsis-Dropdown zeigt versteckte Ebenen. Nutzt nc-dropdown-* Tokens fuer Kohaerenz mit Navigation-Menu.' },
-    },
-  },
-};
-
-export const BackLinkMobile = {
-  name: 'Back-Link (Mobile)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/breadcrumb.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-breadcrumb">
-    <span class="nc-breadcrumb__list">list</span>
-    <span class="nc-breadcrumb__item">item</span>
-    <span class="nc-breadcrumb__link">link</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Mobile-First: Nur \'← Parent\' Link statt vollem Pfad. Maximale Platzersparnis.' },
-    },
-  },
+export const Standard = {
+  name: 'Standard',
+  render: () => `<nav class="nc-breadcrumb" aria-label="Breadcrumb" data-breadcrumb-truncated="" data-breadcrumb-hidden-items="[{&quot;label&quot;:&quot;Dashboard&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Einstellungen&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Benutzer&quot;,&quot;href&quot;:&quot;#&quot;}]">
+<ol class="nc-breadcrumb__list">
+<li class="nc-breadcrumb__item">
+<a class="nc-breadcrumb__link" href="#">Home</a>
+<span class="nc-breadcrumb__separator" aria-hidden="true">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="9 18 15 12 9 6">
+</polyline>
+</svg>
+</span>
+</li>
+<li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">
+<button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen" aria-haspopup="true" aria-expanded="false">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+<circle cx="5" cy="12" r="2">
+</circle>
+<circle cx="12" cy="12" r="2">
+</circle>
+<circle cx="19" cy="12" r="2">
+</circle>
+</svg>
+</button>
+<ul class="nc-breadcrumb__dropdown" role="menu">
+<li role="none">
+<a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Dashboard</a>
+</li>
+<li role="none">
+<a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Einstellungen</a>
+</li>
+<li role="none">
+<a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Benutzer</a>
+</li>
+</ul>
+<span class="nc-breadcrumb__separator" aria-hidden="true">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="9 18 15 12 9 6">
+</polyline>
+</svg>
+</span>
+</li>
+<li class="nc-breadcrumb__item">
+<a class="nc-breadcrumb__link" href="#">Verwaltung</a>
+<span class="nc-breadcrumb__separator" aria-hidden="true">
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="9 18 15 12 9 6">
+</polyline>
+</svg>
+</span>
+</li>
+<li class="nc-breadcrumb__item">
+<span class="nc-breadcrumb__page" aria-current="page">Profil</span>
+</li>
+</ol>
+</nav>`,
 };

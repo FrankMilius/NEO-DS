@@ -24,166 +24,17 @@ Inline-Flex Container mit einzelnen Input-Zellen (maxlength=1).
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/otp-input-docs.html -->
+<!-- @punkte: 12 -->`,
 };
 
-export const AllStates = {
-  name: 'All States',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-otp-input" role="group" aria-label="Code teilweise ausgefüllt">
+<input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 1" value="7" pattern="[0-9]*">
+<input class="nc-otp-input__cell nc-otp-input__cell--filled" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 2" value="3" pattern="[0-9]*">
+<input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 3" pattern="[0-9]*">
+<input class="nc-otp-input__cell" type="text" maxlength="1" inputmode="numeric" aria-label="Stelle 4" pattern="[0-9]*">
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'OTP-Zelle in allen Zustaenden: default, hover, focus, filled, disabled' },
-    },
-  },
-};
-
-export const SizeVariants = {
-  name: 'Size Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'SM, MD, LG Zellen-Groessen' },
-    },
-  },
-};
-
-export const ValidationStates = {
-  name: 'Validation States',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'None, Error, Success' },
-    },
-  },
-};
-
-export const WithSeparator = {
-  name: 'With Separator',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: '6-stelliger OTP-Code mit Bindestrich-Separator (3+3 Format)' },
-    },
-  },
-};
-
-export const _4DigitPIN = {
-  name: '4-Digit PIN',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Typischer 4-stelliger PIN-Code' },
-    },
-  },
-};
-
-export const InFormField = {
-  name: 'In Form Field',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/otp-input.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-otp-input">
-    <span class="nc-otp-input__cell">cell</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'OTP-Input im Form-Field Wrapper mit Label und Fehlermeldung' },
-    },
-  },
 };

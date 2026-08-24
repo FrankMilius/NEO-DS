@@ -24,224 +24,337 @@ Hierarchische Baumstruktur mit role=tree und role=treeitem.
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/treeview-docs.html -->
+<!-- @punkte: 29 -->`,
 };
 
-export const Variants = {
-  name: 'Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
+export const Standard = {
+  name: 'Standard',
+  render: () => `<nav class="nc-treeview" aria-label="Dateistruktur">
+<ul class="nc-treeview__list" role="tree">
+<li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="false" style="--_level: 0;">
+<div class="nc-treeview__node" tabindex="0">
+<button class="nc-treeview__toggle" type="button" tabindex="-1" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</button>
+<span class="nc-treeview__label">Ressourcen</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default, Bordered, Compact, Flush — je mit 3 Ebenen' },
-    },
-  },
-};
-
-export const InteractiveStates = {
-  name: 'Interactive States',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+<ul class="nc-treeview__list" role="group">
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">MDN Web Docs <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Hover, Selected, Expanded, Disabled nebeneinander' },
-    },
-  },
-};
-
-export const GuideLines = {
-  name: 'Guide-Lines',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://www.w3.org/WAI/ARIA/apg/" target="_blank" rel="noopener noreferrer">W3C WAI-ARIA Practices <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Vertikale Verbindungslinien: none vs. solid vs. dashed' },
-    },
-  },
-};
-
-export const CheckboxMultiSelect = {
-  name: 'Checkbox Multi-Select',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="false" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<button class="nc-treeview__toggle" type="button" tabindex="-1" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</button>
+<span class="nc-treeview__label">Frameworks</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Checkboxen pro Node mit Mixed-State auf Eltern' },
-    },
-  },
-};
-
-export const WithActions = {
-  name: 'With Actions',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+<ul class="nc-treeview__list" role="group">
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 2;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://react.dev" target="_blank" rel="noopener noreferrer">React Docs <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Kontextuelle Aktionen (Drei-Punkte-Menue, Loeschen) bei Hover sichtbar' },
-    },
-  },
-};
-
-export const WithBadges = {
-  name: 'With Badges',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 2;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://vuejs.org" target="_blank" rel="noopener noreferrer">Vue.js <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Count-Badges an Nodes (z.B. Anzahl Kinder, ungelesene Items)' },
-    },
-  },
-};
-
-export const DragDrop = {
-  name: 'Drag & Drop',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 2;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://svelte.dev" target="_blank" rel="noopener noreferrer">Svelte <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Draggable Nodes mit Drop-Indikatoren (before/inside/after)' },
-    },
-  },
-};
-
-export const DeepHierarchy5Levels = {
-  name: 'Deep Hierarchy (5 Levels)',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/treeview.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-treeview">
-    <span class="nc-treeview__node">node</span>
-    <span class="nc-treeview__label">treeview</span>
-  </div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="false" style="--_level: 0;">
+<div class="nc-treeview__node" tabindex="-1">
+<button class="nc-treeview__toggle" type="button" tabindex="-1" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</button>
+<span class="nc-treeview__label">Design Systems</span>
 </div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Tiefer Baum mit Guide-Lines und Compact-Density' },
-    },
-  },
+<ul class="nc-treeview__list" role="group">
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://carbondesignsystem.com" target="_blank" rel="noopener noreferrer">Carbon Design System <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
+</div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">shadcn/ui <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
+</div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://m3.material.io" target="_blank" rel="noopener noreferrer">Material Design <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
+</div>
+</li>
+</ul>
+</li>
+<li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="false" style="--_level: 0;">
+<div class="nc-treeview__node" tabindex="-1">
+<button class="nc-treeview__toggle" type="button" tabindex="-1" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</button>
+<span class="nc-treeview__label">Tools</span>
+</div>
+<ul class="nc-treeview__list" role="group">
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
+</div>
+</li>
+<li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem" style="--_level: 1;">
+<div class="nc-treeview__node" tabindex="-1">
+<span class="nc-treeview__toggle" aria-hidden="true">
+<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="6 4 10 8 6 12">
+</polyline>
+</svg>
+</span>
+<span class="nc-treeview__icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="10">
+</circle>
+<line x1="2" y1="12" x2="22" y2="12">
+</line>
+<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+</path>
+</svg>
+</span>
+<a class="nc-treeview__link" href="https://www.figma.com" target="_blank" rel="noopener noreferrer">Figma <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M6 3h7v7">
+</path>
+<path d="M13 3L6 10">
+</path>
+</svg>
+</a>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</nav>`,
 };

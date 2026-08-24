@@ -25,7 +25,8 @@ Natives <details>/<summary> oder ARIA-Pattern (role='region').
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 50 -->`,
 };
 
 export const Standard = {

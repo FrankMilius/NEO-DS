@@ -25,7 +25,8 @@ Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 11 -->`,
 };
 
 export const Standard = {

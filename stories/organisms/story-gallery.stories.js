@@ -25,7 +25,8 @@ Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 20 -->`,
 };
 
 export const Standard = {

@@ -13,6 +13,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { klassenLesen } from './klassen-im-stylesheet.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MARKUP = resolve(ROOT, 'data/markup');
@@ -20,8 +21,8 @@ const MARKUP = resolve(ROOT, 'data/markup');
 // Das kompilierte Stylesheet entscheidet, welche Art von Fehlstelle vorliegt:
 // Steht die Klasse dort nicht, beschreibt das Recipe einen Bereich, den es in
 // der Umsetzung nie gab — dann ist das Recipe falsch, nicht der Inhalt.
-const CSS = readFileSync(resolve(ROOT, 'styles.css'), 'utf8');
-const imCss = (klasse) => new RegExp(`\\.${klasse}\\b`).test(CSS);
+const bekannt = klassenLesen();
+const imCss = (klasse) => bekannt.has(klasse);
 
 const zeilen = [];
 let ganz = 0, luecken = 0;

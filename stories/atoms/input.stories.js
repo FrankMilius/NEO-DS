@@ -25,7 +25,8 @@ Input ist immer ein <input> Element mit type='text|email|url|tel|password|search
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /datenschutz -->`,
+  render: () => `<!-- @quelle: geerntet von Website /datenschutz -->
+<!-- @punkte: 1 -->`,
 };
 
 export const Standard = {

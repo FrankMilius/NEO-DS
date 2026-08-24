@@ -25,7 +25,8 @@ Root .nc-expanding-panels: display:flex, gap, feste Hoehe (--nc-expanding-panels
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /musterseite-bauteile -->`,
+  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
+<!-- @punkte: 38 -->`,
 };
 
 export const Standard = {

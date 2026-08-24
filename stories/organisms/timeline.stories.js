@@ -25,7 +25,8 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /produkte/magazine -->`,
+  render: () => `<!-- @quelle: geerntet von Website /produkte/magazine -->
+<!-- @punkte: 54 -->`,
 };
 
 export const Standard = {

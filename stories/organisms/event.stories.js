@@ -25,7 +25,8 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /events/digital-workplace-summit-2026 -->`,
+  render: () => `<!-- @quelle: geerntet von Website /events/digital-workplace-summit-2026 -->
+<!-- @punkte: 63 -->`,
 };
 
 export const Standard = {

@@ -24,264 +24,477 @@ Wrapper: border, radius, overflow:hidden. Semantisches <table> mit <thead>/<tbod
 };
 
 export const Default = {
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>`,
+  name: 'Standard',
+  render: () => `<!-- @quelle: geerntet von Doku /docs/data-table-docs.html -->
+<!-- @punkte: 106 -->`,
 };
 
-export const BasicTable = {
-  name: 'Basic Table',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
+export const Standard = {
+  name: 'Standard',
+  render: () => `<div class="nc-data-table" data-dt-id="demo-column-types" data-dt-selectable="multi">
+<div class="nc-data-table__scroll-container">
+<table class="nc-data-table__table">
+<colgroup>
+<col style="width: 52px">
+<col style="width: 220px">
+<col style="width: 100px">
+<col style="width: 110px">
+<col style="width: 120px">
+<col style="width: 160px">
+<col style="width: 150px">
+<col style="width: 100px">
+</colgroup>
+<thead class="nc-data-table__thead">
+<tr class="nc-data-table__row">
+<th class="nc-data-table__th nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-all="" aria-label="Alle auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</th>
+<th class="nc-data-table__th" data-dt-col="user">Benutzer</th>
+<th class="nc-data-table__th nc-data-table__th--status" data-dt-col="status">Status</th>
+<th class="nc-data-table__th nc-data-table__th--numeric" data-dt-col="revenue">Umsatz</th>
+<th class="nc-data-table__th nc-data-table__th--date" data-dt-col="date">Erstellt</th>
+<th class="nc-data-table__th" data-dt-col="progress">Fortschritt</th>
+<th class="nc-data-table__th" data-dt-col="website">Website</th>
+<th class="nc-data-table__th nc-data-table__th--center">Aktionen</th>
+</tr>
+</thead>
+<tbody class="nc-data-table__tbody">
+<!-- Row 1: Aktiv, hoher Umsatz, hoher Fortschritt -->
+<tr class="nc-data-table__row" data-dt-row-id="ct-1" aria-selected="false">
+<td class="nc-data-table__td nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-1" aria-label="Maria Schmidt auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</td>
+<td class="nc-data-table__td nc-data-table__td--user">
+<div class="nc-data-table__user-info">
+<span class="nc-avatar nc-avatar--sm">
+<span class="nc-avatar__fallback">MS</span>
+</span>
+<div class="nc-data-table__user-text">
+<span class="nc-data-table__user-name">Maria Schmidt</span>
+<span class="nc-data-table__user-email">maria@example.com</span>
+</div>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--status">
+<span class="nc-badge nc-badge--success nc-badge--sm">Aktiv</span>
+</td>
+<td class="nc-data-table__td nc-data-table__td--numeric">12.450,00&nbsp;€</td>
+<td class="nc-data-table__td nc-data-table__td--date">
+<time datetime="2025-11-15">15.11.2025</time>
+</td>
+<td class="nc-data-table__td nc-data-table__td--progress">
+<div class="nc-data-table__progress-wrapper">
+<div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100">
+<div class="nc-data-table__progress-fill nc-data-table__progress-fill--success" style="width:88%">
+</div>
+</div>
+<span class="nc-data-table__progress-label">88%</span>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--link">
+<a href="https://example.com" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6">
+</path>
+<path d="M11 13l9-9">
+</path>
+<path d="M15 4h5v5">
+</path>
+</svg>
+<span>example.com</span>
+</a>
+</td>
+<td class="nc-data-table__td nc-data-table__td--actions">
+<div class="nc-data-table__actions-wrapper">
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4">
+</path>
+<path d="M13.5 6.5l4 4">
+</path>
+</svg>
+</button>
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 7l16 0">
+</path>
+<path d="M10 11l0 6">
+</path>
+<path d="M14 11l0 6">
+</path>
+<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12">
+</path>
+<path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3">
+</path>
+</svg>
+</button>
+<button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Warnung, mittlerer Fortschritt -->
+<tr class="nc-data-table__row" data-dt-row-id="ct-2" aria-selected="false">
+<td class="nc-data-table__td nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-2" aria-label="Thomas Mueller auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</td>
+<td class="nc-data-table__td nc-data-table__td--user">
+<div class="nc-data-table__user-info">
+<span class="nc-avatar nc-avatar--sm">
+<span class="nc-avatar__fallback">TM</span>
+</span>
+<div class="nc-data-table__user-text">
+<span class="nc-data-table__user-name">Thomas Mueller</span>
+<span class="nc-data-table__user-email">thomas@example.com</span>
+</div>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--status">
+<span class="nc-badge nc-badge--warning nc-badge--sm">Warnung</span>
+</td>
+<td class="nc-data-table__td nc-data-table__td--numeric">8.320,50&nbsp;€</td>
+<td class="nc-data-table__td nc-data-table__td--date">
+<time datetime="2025-09-03">03.09.2025</time>
+</td>
+<td class="nc-data-table__td nc-data-table__td--progress">
+<div class="nc-data-table__progress-wrapper">
+<div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100">
+<div class="nc-data-table__progress-fill nc-data-table__progress-fill--warning" style="width:42%">
+</div>
+</div>
+<span class="nc-data-table__progress-label">42%</span>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--link">
+<a href="https://mueller-gmbh.de" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6">
+</path>
+<path d="M11 13l9-9">
+</path>
+<path d="M15 4h5v5">
+</path>
+</svg>
+<span>mueller-gmbh.de</span>
+</a>
+</td>
+<td class="nc-data-table__td nc-data-table__td--actions">
+<div class="nc-data-table__actions-wrapper">
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4">
+</path>
+<path d="M13.5 6.5l4 4">
+</path>
+</svg>
+</button>
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 7l16 0">
+</path>
+<path d="M10 11l0 6">
+</path>
+<path d="M14 11l0 6">
+</path>
+<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12">
+</path>
+<path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3">
+</path>
+</svg>
+</button>
+<button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Fehler, niedriger Fortschritt -->
+<tr class="nc-data-table__row" data-dt-row-id="ct-3" aria-selected="false">
+<td class="nc-data-table__td nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-3" aria-label="Lisa Weber auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</td>
+<td class="nc-data-table__td nc-data-table__td--user">
+<div class="nc-data-table__user-info">
+<span class="nc-avatar nc-avatar--sm">
+<span class="nc-avatar__fallback">LW</span>
+</span>
+<div class="nc-data-table__user-text">
+<span class="nc-data-table__user-name">Lisa Weber</span>
+<span class="nc-data-table__user-email">lisa@example.com</span>
+</div>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--status">
+<span class="nc-badge nc-badge--error nc-badge--sm">Fehler</span>
+</td>
+<td class="nc-data-table__td nc-data-table__td--numeric">2.180,00&nbsp;€</td>
+<td class="nc-data-table__td nc-data-table__td--date">
+<time datetime="2026-01-22">22.01.2026</time>
+</td>
+<td class="nc-data-table__td nc-data-table__td--progress">
+<div class="nc-data-table__progress-wrapper">
+<div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+<div class="nc-data-table__progress-fill nc-data-table__progress-fill--danger" style="width:15%">
+</div>
+</div>
+<span class="nc-data-table__progress-label">15%</span>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--link">
+<a href="https://weber-design.de" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6">
+</path>
+<path d="M11 13l9-9">
+</path>
+<path d="M15 4h5v5">
+</path>
+</svg>
+<span>weber-design.de</span>
+</a>
+</td>
+<td class="nc-data-table__td nc-data-table__td--actions">
+<div class="nc-data-table__actions-wrapper">
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4">
+</path>
+<path d="M13.5 6.5l4 4">
+</path>
+</svg>
+</button>
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 7l16 0">
+</path>
+<path d="M10 11l0 6">
+</path>
+<path d="M14 11l0 6">
+</path>
+<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12">
+</path>
+<path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3">
+</path>
+</svg>
+</button>
+<button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Info, 65% -->
+<tr class="nc-data-table__row" data-dt-row-id="ct-4" aria-selected="false">
+<td class="nc-data-table__td nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-4" aria-label="Stefan Braun auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</td>
+<td class="nc-data-table__td nc-data-table__td--user">
+<div class="nc-data-table__user-info">
+<span class="nc-avatar nc-avatar--sm">
+<span class="nc-avatar__fallback">SB</span>
+</span>
+<div class="nc-data-table__user-text">
+<span class="nc-data-table__user-name">Stefan Braun</span>
+<span class="nc-data-table__user-email">stefan@example.com</span>
+</div>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--status">
+<span class="nc-badge nc-badge--info nc-badge--sm">Neu</span>
+</td>
+<td class="nc-data-table__td nc-data-table__td--numeric">5.790,25&nbsp;€</td>
+<td class="nc-data-table__td nc-data-table__td--date">
+<time datetime="2026-02-10">10.02.2026</time>
+</td>
+<td class="nc-data-table__td nc-data-table__td--progress">
+<div class="nc-data-table__progress-wrapper">
+<div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+<div class="nc-data-table__progress-fill" style="width:65%">
+</div>
+</div>
+<span class="nc-data-table__progress-label">65%</span>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--link">
+<a href="https://braun-consulting.de" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6">
+</path>
+<path d="M11 13l9-9">
+</path>
+<path d="M15 4h5v5">
+</path>
+</svg>
+<span>braun-consulting.de</span>
+</a>
+</td>
+<td class="nc-data-table__td nc-data-table__td--actions">
+<div class="nc-data-table__actions-wrapper">
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4">
+</path>
+<path d="M13.5 6.5l4 4">
+</path>
+</svg>
+</button>
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 7l16 0">
+</path>
+<path d="M10 11l0 6">
+</path>
+<path d="M14 11l0 6">
+</path>
+<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12">
+</path>
+<path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3">
+</path>
+</svg>
+</button>
+<button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Neutral, 100% -->
+<tr class="nc-data-table__row" data-dt-row-id="ct-5" aria-selected="false">
+<td class="nc-data-table__td nc-data-table__checkbox-cell">
+<label class="nc-checkbox nc-checkbox--sm">
+<input class="nc-checkbox__input" type="checkbox" data-dt-select-row="ct-5" aria-label="Anna Fischer auswaehlen">
+<span class="nc-checkbox__control">
+</span>
+</label>
+</td>
+<td class="nc-data-table__td nc-data-table__td--user">
+<div class="nc-data-table__user-info">
+<span class="nc-avatar nc-avatar--sm">
+<span class="nc-avatar__fallback">AF</span>
+</span>
+<div class="nc-data-table__user-text">
+<span class="nc-data-table__user-name">Anna Fischer</span>
+<span class="nc-data-table__user-email">anna@example.com</span>
+</div>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--status">
+<span class="nc-badge nc-badge--sm">Neutral</span>
+</td>
+<td class="nc-data-table__td nc-data-table__td--numeric">21.000,00&nbsp;€</td>
+<td class="nc-data-table__td nc-data-table__td--date">
+<time datetime="2025-06-28">28.06.2025</time>
+</td>
+<td class="nc-data-table__td nc-data-table__td--progress">
+<div class="nc-data-table__progress-wrapper">
+<div class="nc-data-table__progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+<div class="nc-data-table__progress-fill nc-data-table__progress-fill--success" style="width:100%">
+</div>
+</div>
+<span class="nc-data-table__progress-label">100%</span>
+</div>
+</td>
+<td class="nc-data-table__td nc-data-table__td--link">
+<a href="https://fischer-architekten.de" target="_blank" rel="noopener">
+<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6">
+</path>
+<path d="M11 13l9-9">
+</path>
+<path d="M15 4h5v5">
+</path>
+</svg>
+<span>fischer-architekten.de</span>
+</a>
+</td>
+<td class="nc-data-table__td nc-data-table__td--actions">
+<div class="nc-data-table__actions-wrapper">
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Bearbeiten">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4l-10.5 10.5v4">
+</path>
+<path d="M13.5 6.5l4 4">
+</path>
+</svg>
+</button>
+<button class="nc-button nc-button--xs nc-button--ghost nc-button--icon-only" type="button" aria-label="Loeschen">
+<svg class="nc-button__icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 7l16 0">
+</path>
+<path d="M10 11l0 6">
+</path>
+<path d="M14 11l0 6">
+</path>
+<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12">
+</path>
+<path d="M9 7v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3">
+</path>
+</svg>
+</button>
+<button class="nc-data-table__action-menu" type="button" aria-label="Weitere Aktionen">
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+<path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0">
+</path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Einfache Tabelle ohne interaktive Features' },
-    },
-  },
-};
-
-export const DensityVariants = {
-  name: 'Density Variants',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Default (40px), Compact (32px), Comfortable (48px)' },
-    },
-  },
-};
-
-export const SortableTable = {
-  name: 'Sortable Table',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Tabelle mit sortierbaren Spaltenkoepfen' },
-    },
-  },
-};
-
-export const SelectableTable = {
-  name: 'Selectable Table',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Tabelle mit Zeilen-Checkboxen und Batch-Actions (Zaehler + Clear All)' },
-    },
-  },
-};
-
-export const RadioSelection = {
-  name: 'Radio Selection',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Einzelauswahl per Radio-Button fuer Prozess-Selektion' },
-    },
-  },
-};
-
-export const ExpandableTable = {
-  name: 'Expandable Table',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Tabelle mit aufklappbaren Detail-Zeilen' },
-    },
-  },
-};
-
-export const CardVariant = {
-  name: 'Card Variant',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Erhobene Tabelle mit Card-Shadow' },
-    },
-  },
-};
-
-export const GlassVariant = {
-  name: 'Glass Variant',
-  render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
-  <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
-    Kein echtes Markup hinterlegt
-  </p>
-  <p style="margin:0 0 12px;font:400 13px/1.5 system-ui,sans-serif;color:#595c59;max-width:62ch">
-    Was hier steht, ist aus der Anatomie des Recipes abgeleitet — die Slots als
-    Geschwister, ohne Schachtelung und ohne Zustaende. So sieht das Bauteil
-    nicht aus. Echtes Markup gehoert nach
-    <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/data-table.html</code>.
-  </p>
-  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
-  <div class="nc-data-table">
-    <span class="nc-data-table__scroll-container">scroll-container</span>
-    <span class="nc-data-table__table">table</span>
-    <span class="nc-data-table__thead">thead</span>
-    <span class="nc-data-table__tbody">tbody</span>
-    <span class="nc-data-table__row">row</span>
-    <span class="nc-data-table__th">th</span>
-    <span class="nc-data-table__td">td</span>
-  </div>
-</div>
-</div>`,
-  parameters: {
-    docs: {
-      description: { story: 'Transparente Dashboard-Tabelle mit Backdrop-Blur' },
-    },
-  },
 };

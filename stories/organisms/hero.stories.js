@@ -25,7 +25,8 @@ Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /loesungen/branchen/industrie-und-fertigung -->`,
+  render: () => `<!-- @quelle: geerntet von Website /loesungen/branchen/industrie-und-fertigung -->
+<!-- @punkte: 28 -->`,
 };
 
 export const Standard = {

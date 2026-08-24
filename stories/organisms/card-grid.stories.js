@@ -25,7 +25,8 @@ CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /node/1 -->`,
+  render: () => `<!-- @quelle: geerntet von Website /node/1 -->
+<!-- @punkte: 17 -->`,
 };
 
 export const Standard = {

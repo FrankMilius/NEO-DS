@@ -25,7 +25,8 @@ Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-he
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /piipe-workplace-funktionen-im-ueberblick -->`,
+  render: () => `<!-- @quelle: geerntet von Website /piipe-workplace-funktionen-im-ueberblick -->
+<!-- @punkte: 59 -->`,
 };
 
 export const Standard = {

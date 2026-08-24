@@ -41,7 +41,8 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von /produkte/app -->`,
+  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
+<!-- @punkte: 63 -->`,
 };
 
 export const Standard = {
