@@ -37,7 +37,7 @@ let validateAgainstSchema = null;
 try {
   const schemaPath = path.join(DATA_DIR, 'recipe-schema.json');
   schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
-  const validator = require('./validate-recipe-schema.js');
+  const validator = require('./validate-recipe-schema.cjs');
   validateAgainstSchema = validator.validateAgainstSchema;
 } catch (e) {
   console.error(`  ⚠ Schema/Validator nicht geladen: ${e.message}`);

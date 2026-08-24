@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// CommonJS mit Absicht: wird per createRequire aus lint-recipes.mjs geladen.
+// Als .js in einem ESM-Paket war das ein ERR_REQUIRE_ESM — der Recipe-Linter
+// fiel seit dem Wechsel still auf eine schwaechere Pruefung zurueck.
 // ==========================================================================
 // Lightweight JSON Schema Validator (Draft 2020-12 Subset)
 // ==========================================================================

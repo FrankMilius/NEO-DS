@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// CommonJS mit Absicht: package.json fuehrt "type": "module", eine .js-Datei
+// gilt damit als ESM und `require` scheitert zur Laufzeit. Bis zum 24.08.2026
+// brach deshalb `npm run build` am Icon-Schritt ab — der Ausweg war
+// `npm run build:drupal`, das den Schritt ueberspringt. Ein Werkzeug, das
+// stillschweigend nicht laeuft, vermisst niemand.
 // ==========================================================================
 // Tabler Icons Sync Script
 // ==========================================================================
