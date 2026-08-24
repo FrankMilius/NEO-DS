@@ -25,12 +25,6 @@ Nutzt native CSS aspect-ratio Property.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/media-ratios-docs.html -->
-<!-- @punkte: 11 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-aspect-ratio nc-aspect-ratio--1-1">
 <img class="nc-aspect-ratio__content" src="https://picsum.photos/seed/ar-sq/400/400" alt="1:1 Beispiel">
 </div>`,

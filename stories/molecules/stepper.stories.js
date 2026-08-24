@@ -25,12 +25,6 @@ Inline-Flex Container: Decrement-Button | Input | Increment-Button.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/stepper-docs.html -->
-<!-- @punkte: 33 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-stepper" role="group" aria-label="Menge MD">
 <button class="nc-stepper__decrement" type="button" aria-label="Wert verringern">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">

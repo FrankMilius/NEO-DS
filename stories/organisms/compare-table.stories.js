@@ -38,12 +38,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/table-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<table class="nc-compare-table">
 <thead>
 <tr>

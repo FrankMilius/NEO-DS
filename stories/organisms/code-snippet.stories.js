@@ -25,12 +25,6 @@ Inline: <code class='nc-code-snippet nc-code-snippet--inline'>. Kein Copy-Button
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/code-snippet-docs.html -->
-<!-- @punkte: 30 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-code-snippet nc-code-snippet--multi">
 <span class="nc-code-snippet__label">JavaScript</span>
 <pre class="nc-code-snippet__pre language-javascript" tabindex="0">

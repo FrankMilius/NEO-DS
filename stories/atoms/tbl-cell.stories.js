@@ -36,12 +36,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /events/editionen-preise -->
-<!-- @punkte: 22 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-tbl-cell">
 <p class="nc-tbl-cell__text">On-Premise<button class="nc-tbl-cell__info-btn" aria-label="Mehr Informationen">
 <svg class="nc-tbl-info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">

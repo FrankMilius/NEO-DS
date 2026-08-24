@@ -25,12 +25,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 55 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-card-cta" data-theme="dark">
 <img class="nc-card-cta__media" src="https://picsum.photos/id/1048/1200/800" alt="" loading="lazy" decoding="async">
 <div class="nc-card-cta__overlay">

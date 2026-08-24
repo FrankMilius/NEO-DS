@@ -25,12 +25,6 @@ Progress ist ein <div class='nc-progress' role='progressbar' aria-valuenow='X' a
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/progress-docs.html -->
-<!-- @punkte: 11 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-progress nc-progress--indeterminate" role="progressbar" aria-label="Wird geladen">
 <div class="nc-progress__fill">
 </div>

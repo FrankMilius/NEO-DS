@@ -25,12 +25,6 @@ Image/Fallback-Pattern: Fallback (z-index:0) immer im DOM, Image (z-index:1) ueb
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/avatar-docs.html -->
-<!-- @punkte: 3 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-avatar nc-avatar--lg">
 <span class="nc-avatar__fallback">BS</span>
 <span class="nc-avatar__badge nc-avatar__badge--busy">

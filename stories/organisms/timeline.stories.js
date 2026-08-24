@@ -25,12 +25,6 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /produkte/magazine -->
-<!-- @punkte: 54 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<ol class="nc-timeline nc-timeline--alternating nc-timeline--progress" data-timeline="" aria-label="In 4 Schritten zur produktiven Plattform" style="--nc-timeline-progress: 1.000;">
 <li class="nc-timeline__item is-visible">
 <div class="nc-timeline__node">

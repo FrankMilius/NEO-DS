@@ -25,12 +25,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /events/editionen-preise -->
-<!-- @punkte: 44 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-table-info-modal" data-table-modal="" aria-hidden="true" role="dialog">
 <div class="nc-table-info-modal__backdrop" data-modal-close="">
 </div>

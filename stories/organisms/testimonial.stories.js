@@ -25,12 +25,6 @@ Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/testimonial-docs.html -->
-<!-- @punkte: 35 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<blockquote class="nc-testimonial" style="min-width: 280px; flex-shrink: 0;">
 <p class="nc-testimonial__quote">„Slide 1: Excellente Dokumentation und klare Muster.“</p>
 <footer class="nc-testimonial__author">

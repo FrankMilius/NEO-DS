@@ -25,12 +25,6 @@ Hierarchische Baumstruktur mit role=tree und role=treeitem.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/treeview-docs.html -->
-<!-- @punkte: 29 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<nav class="nc-treeview" aria-label="Dateistruktur">
 <ul class="nc-treeview__list" role="tree">
 <li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="false" style="--_level: 0;">

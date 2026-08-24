@@ -25,12 +25,6 @@ CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /node/1 -->
-<!-- @punkte: 17 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-card-grid nc-card-grid--cols-3 is-revealed" data-card-grid="" data-pattern="standard" data-behavior="navigational" data-animation="reverse-domino" data-card-grid-init="1">
 <a class="nc-card nc-card--navigational" href="/node/76" style="--card-delay: 0s;">
 <div class="nc-card__media">

@@ -25,12 +25,6 @@ Interaktiv: <div class='nc-rating' role='radiogroup' aria-label='Bewertung'> mit
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/rating-docs.html -->
-<!-- @punkte: 15 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-rating nc-rating--readonly" role="img" aria-label="Bewertung: 4 von 5 Sternen" data-rating-value="4">
 <span class="nc-rating__item nc-rating__item--active">
 <svg class="nc-rating__star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round">

@@ -25,11 +25,5 @@ Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead 
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/cta-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<h2 class="nc-section-title">Jetzt starten</h2>`,
 };

@@ -25,12 +25,6 @@ Flex-Column Container fuer mehrere .nc-radio Elemente.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/radio-docs.html -->
-<!-- @punkte: 3 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-radio-group" role="radiogroup" aria-label="Lieblingsfarbe">
 <label class="nc-radio">
 <input type="radio" class="nc-radio__input" name="demo-group-v" value="rot" checked="">

@@ -25,12 +25,6 @@ Root: <nav aria-label='Seitennavigation'>. Flex-column, volle Hoehe, border-righ
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/sidebar-docs.html -->
-<!-- @punkte: 31 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<nav class="nc-sidebar" aria-label="Applikations-Navigation" style="position: absolute; inset: 0; overflow-y: auto;">
 <!-- Logo/Brand -->
 <div class="nc-sidebar__header">

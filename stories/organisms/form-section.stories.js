@@ -25,12 +25,6 @@ Logische Gruppierung innerhalb eines Formulars mit optionalem Titel + Beschreibu
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/form-layout-docs.html -->
-<!-- @punkte: 15 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-form-section">
 <div class="nc-form-section__header">
 <h3 class="nc-form-section__title">Adresse</h3>

@@ -25,12 +25,6 @@ Root: role='toolbar', aria-label. Flex-Layout, flex-wrap, min-height 48px.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/toolbar-docs.html -->
-<!-- @punkte: 14 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-toolbar" role="toolbar" aria-label="Tabellen-Aktionen">
 <div class="nc-toolbar__group">
 <span class="nc-toolbar__label">3 ausgewählt</span>

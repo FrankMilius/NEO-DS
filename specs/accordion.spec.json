@@ -82,7 +82,10 @@
       "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
       "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
       "Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button).",
-      "prefers-reduced-motion: Transitions deaktiviert."
+      "prefers-reduced-motion: Transitions deaktiviert.",
+      ".nc-accordion__text ist ein <div>, kein <p>: die Antwort darf Listen enthalten, und ein <ul> in einem <p> bricht den Absatz im Browser auf.",
+      "Erlaubte Auszeichnung in der Antwort: p, br, strong, em, b, i, ul, ol, li, a, code, abbr. Alles andere wird verworfen (Drupal: Xss::filter im Preprocess _neo_fe_acc_antwort).",
+      "Loser Text vor oder zwischen Bloecken wird in <p> gefasst — sonst klebt eine Liste am Vorspann, denn CSS kann \"steht hinter einem Textknoten\" nicht auswaehlen."
     ]
   },
   "api": null,
@@ -132,6 +135,18 @@
           "cssModifier": "nc-accordion--selection",
           "default": false,
           "label": "selection"
+        },
+        {
+          "value": "register",
+          "cssModifier": "nc-accordion--register",
+          "default": false,
+          "label": "register"
+        },
+        {
+          "value": "lese",
+          "cssModifier": "nc-accordion--lese",
+          "default": false,
+          "label": "lese"
         }
       ]
     },
@@ -224,6 +239,36 @@
           "label": "on"
         }
       ]
+    },
+    "deepLink": {
+      "label": "Sprungziel",
+      "description": "Jeder Eintrag traegt eine Kennung. /seite#kennung oeffnet ihn und springt hin; der offene Eintrag bekommt eine Marke, damit man sieht, wo man gelandet ist.",
+      "values": [
+        {
+          "value": "on",
+          "cssModifier": null,
+          "default": false,
+          "label": "on"
+        }
+      ]
+    },
+    "expandAll": {
+      "label": "Alle aufklappen",
+      "description": "Schalter ueber der Liste. Sinnvoll ab etwa acht Eintraegen. Bei Verhalten `single` wirkungslos — dort widerspraeche er sich selbst.",
+      "values": [
+        {
+          "value": "off",
+          "cssModifier": null,
+          "default": false,
+          "label": "off"
+        },
+        {
+          "value": "on",
+          "cssModifier": "nc-accordion-toggle-all",
+          "default": false,
+          "label": "on"
+        }
+      ]
     }
   },
   "states": {
@@ -276,134 +321,333 @@
     "tokenGroups": {
       "Geometry": [
         {
-          "token": "nc-accordion-border"
+          "token": "--nc-accordion-border"
         },
         {
-          "token": "nc-accordion-padding"
+          "token": "--nc-accordion-padding"
         },
         {
-          "token": "nc-accordion-icon-size"
+          "token": "--nc-accordion-icon-size"
         }
       ],
       "Colors": [
         {
-          "token": "nc-accordion-trigger-font-weight"
+          "token": "--nc-accordion-trigger-font-weight"
         },
         {
-          "token": "nc-accordion-trigger-color"
+          "token": "--nc-accordion-trigger-color"
         },
         {
-          "token": "nc-accordion-content-color"
+          "token": "--nc-accordion-content-color"
         },
         {
-          "token": "nc-accordion-icon-color"
+          "token": "--nc-accordion-icon-color"
         },
         {
-          "token": "nc-accordion-trigger-hover-bg"
+          "token": "--nc-accordion-trigger-hover-bg"
         },
         {
-          "token": "nc-accordion-content-font-size"
+          "token": "--nc-accordion-content-font-size"
         }
       ],
       "Separated": [
         {
-          "token": "nc-accordion-item-gap"
+          "token": "--nc-accordion-item-gap"
         },
         {
-          "token": "nc-accordion-item-radius"
+          "token": "--nc-accordion-item-radius"
         },
         {
-          "token": "nc-accordion-item-shadow"
+          "token": "--nc-accordion-item-shadow"
         },
         {
-          "token": "nc-accordion-item-bg"
+          "token": "--nc-accordion-item-bg"
         }
       ],
       "Elevated": [
         {
-          "token": "nc-accordion-elevated-shadow"
+          "token": "--nc-accordion-elevated-shadow"
         }
       ],
       "Compact": [
         {
-          "token": "nc-accordion-padding-compact"
+          "token": "--nc-accordion-padding-compact"
         },
         {
-          "token": "nc-accordion-content-font-size-compact"
+          "token": "--nc-accordion-content-font-size-compact"
         }
       ],
       "Spacious": [
         {
-          "token": "nc-accordion-padding-spacious"
+          "token": "--nc-accordion-padding-spacious"
         }
       ],
       "Media": [
         {
-          "token": "nc-accordion-media-radius"
+          "token": "--nc-accordion-media-radius"
         },
         {
-          "token": "nc-accordion-media-max-height"
+          "token": "--nc-accordion-media-max-height"
         },
         {
-          "token": "nc-accordion-media-gap"
+          "token": "--nc-accordion-media-gap"
         }
       ],
       "Animation": [
         {
-          "token": "nc-accordion-transition-duration"
+          "token": "--nc-accordion-transition-duration"
         }
       ],
       "Nested": [
         {
-          "token": "nc-accordion-nested-indent"
+          "token": "--nc-accordion-nested-indent"
         },
         {
-          "token": "nc-accordion-nested-border-width"
+          "token": "--nc-accordion-nested-border-width"
         },
         {
-          "token": "nc-accordion-nested-icon-size"
+          "token": "--nc-accordion-nested-icon-size"
         }
       ],
       "Selection": [
         {
-          "token": "nc-accordion-selection-border-active"
+          "token": "--nc-accordion-selection-border-active"
         },
         {
-          "token": "nc-accordion-selection-bg-active"
+          "token": "--nc-accordion-selection-bg-active"
         },
         {
-          "token": "nc-accordion-selection-indicator-size"
+          "token": "--nc-accordion-selection-indicator-size"
         }
       ],
       "Header Actions": [
         {
-          "token": "nc-accordion-actions-gap"
+          "token": "--nc-accordion-actions-gap"
         },
         {
-          "token": "nc-accordion-actions-color"
+          "token": "--nc-accordion-actions-color"
         },
         {
-          "token": "nc-accordion-actions-hover-color"
+          "token": "--nc-accordion-actions-hover-color"
         }
       ],
       "Sticky Trigger": [
         {
-          "token": "nc-accordion-trigger-sticky-z"
+          "token": "--nc-accordion-trigger-sticky-z"
         },
         {
-          "token": "nc-accordion-trigger-sticky-bg"
+          "token": "--nc-accordion-trigger-sticky-bg"
         }
       ],
       "Footer": [
         {
-          "token": "nc-accordion-footer-padding"
+          "token": "--nc-accordion-footer-padding"
         },
         {
-          "token": "nc-accordion-footer-border"
+          "token": "--nc-accordion-footer-border"
+        }
+      ],
+      "Typografie des Ausloesers": [
+        {
+          "token": "--nc-accordion-trigger-family"
+        },
+        {
+          "token": "--nc-accordion-trigger-size"
+        },
+        {
+          "token": "--nc-accordion-trigger-lh"
+        },
+        {
+          "token": "--nc-accordion-trigger-tracking"
+        },
+        {
+          "token": "--nc-accordion-trigger-font-weight"
+        },
+        {
+          "token": "--nc-accordion-trigger-color"
+        },
+        {
+          "token": "--nc-accordion-trigger-hover-bg"
+        },
+        {
+          "token": "--nc-accordion-trigger-sticky-z"
+        },
+        {
+          "token": "--nc-accordion-trigger-sticky-bg"
+        },
+        {
+          "token": "--nc-accordion-kicker-family"
+        },
+        {
+          "token": "--nc-accordion-kicker-size"
+        },
+        {
+          "token": "--nc-accordion-kicker-weight"
+        },
+        {
+          "token": "--nc-accordion-kicker-tracking"
+        },
+        {
+          "token": "--nc-accordion-kicker-color"
+        },
+        {
+          "token": "--nc-accordion-kicker-gap"
+        },
+        {
+          "token": "--nc-accordion-content-lh"
+        },
+        {
+          "token": "--nc-accordion-content-measure"
+        },
+        {
+          "token": "--nc-accordion-gutter"
+        }
+      ],
+      "Register": [
+        {
+          "token": "--nc-accordion-register-columns"
+        },
+        {
+          "token": "--nc-accordion-register-gap"
+        }
+      ],
+      "Lesefassung": [
+        {
+          "token": "--nc-accordion-lese-trigger-size"
+        },
+        {
+          "token": "--nc-accordion-lese-content-size"
+        },
+        {
+          "token": "--nc-accordion-lese-measure"
+        },
+        {
+          "token": "--nc-accordion-lese-padding-block"
+        },
+        {
+          "token": "--nc-accordion-lese-media-max"
+        }
+      ],
+      "Sprungziel": [
+        {
+          "token": "--nc-accordion-target-marker"
+        },
+        {
+          "token": "--nc-accordion-target-width"
+        }
+      ],
+      "Blockraster": [
+        {
+          "token": "--nc-accordion-cols"
+        },
+        {
+          "token": "--nc-accordion-voll-measure"
+        }
+      ],
+      "Innenabstand": [
+        {
+          "token": "--nc-accordion-padding-block"
+        },
+        {
+          "token": "--nc-accordion-padding-inline"
+        },
+        {
+          "token": "--nc-accordion-padding"
+        },
+        {
+          "token": "--nc-accordion-padding-compact-block"
+        },
+        {
+          "token": "--nc-accordion-padding-compact-inline"
+        },
+        {
+          "token": "--nc-accordion-padding-compact"
+        },
+        {
+          "token": "--nc-accordion-padding-spacious-block"
+        },
+        {
+          "token": "--nc-accordion-padding-spacious-inline"
+        },
+        {
+          "token": "--nc-accordion-padding-spacious"
         }
       ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-accordion-border",
+      "--mod-accordion-padding",
+      "--mod-accordion-icon-size",
+      "--mod-accordion-trigger-font-weight",
+      "--mod-accordion-trigger-color",
+      "--mod-accordion-content-color",
+      "--mod-accordion-icon-color",
+      "--mod-accordion-trigger-hover-bg",
+      "--mod-accordion-content-font-size",
+      "--mod-accordion-item-gap",
+      "--mod-accordion-item-radius",
+      "--mod-accordion-item-shadow",
+      "--mod-accordion-item-bg",
+      "--mod-accordion-elevated-shadow",
+      "--mod-accordion-padding-compact",
+      "--mod-accordion-content-font-size-compact",
+      "--mod-accordion-padding-spacious",
+      "--mod-accordion-media-radius",
+      "--mod-accordion-media-max-height",
+      "--mod-accordion-media-gap",
+      "--mod-accordion-transition-duration",
+      "--mod-accordion-nested-indent",
+      "--mod-accordion-nested-border-width",
+      "--mod-accordion-nested-icon-size",
+      "--mod-accordion-selection-border-active",
+      "--mod-accordion-selection-bg-active",
+      "--mod-accordion-selection-indicator-size",
+      "--mod-accordion-actions-gap",
+      "--mod-accordion-actions-color",
+      "--mod-accordion-actions-hover-color",
+      "--mod-accordion-trigger-sticky-z",
+      "--mod-accordion-trigger-sticky-bg",
+      "--mod-accordion-footer-padding",
+      "--mod-accordion-footer-border",
+      "--mod-accordion-trigger-family",
+      "--mod-accordion-trigger-size",
+      "--mod-accordion-trigger-lh",
+      "--mod-accordion-trigger-tracking",
+      "--mod-accordion-trigger-font-weight",
+      "--mod-accordion-trigger-color",
+      "--mod-accordion-trigger-hover-bg",
+      "--mod-accordion-trigger-sticky-z",
+      "--mod-accordion-trigger-sticky-bg",
+      "--mod-accordion-kicker-family",
+      "--mod-accordion-kicker-size",
+      "--mod-accordion-kicker-weight",
+      "--mod-accordion-kicker-tracking",
+      "--mod-accordion-kicker-color",
+      "--mod-accordion-kicker-gap",
+      "--mod-accordion-content-lh",
+      "--mod-accordion-content-measure",
+      "--mod-accordion-gutter",
+      "--mod-accordion-register-columns",
+      "--mod-accordion-register-gap",
+      "--mod-accordion-lese-trigger-size",
+      "--mod-accordion-lese-content-size",
+      "--mod-accordion-lese-measure",
+      "--mod-accordion-lese-padding-block",
+      "--mod-accordion-lese-media-max",
+      "--mod-accordion-target-marker",
+      "--mod-accordion-target-width",
+      "--mod-accordion-cols",
+      "--mod-accordion-voll-measure",
+      "--mod-accordion-padding-block",
+      "--mod-accordion-padding-inline",
+      "--mod-accordion-padding",
+      "--mod-accordion-padding-compact-block",
+      "--mod-accordion-padding-compact-inline",
+      "--mod-accordion-padding-compact",
+      "--mod-accordion-padding-spacious-block",
+      "--mod-accordion-padding-spacious-inline",
+      "--mod-accordion-padding-spacious"
+    ]
   },
   "keyboard": {
     "Enter": {

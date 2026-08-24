@@ -25,12 +25,6 @@ Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/marquee-docs.html -->
-<!-- @punkte: 22 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-marquee" aria-hidden="true" style="border-block: 1px solid var(--fnd-color-border-secondary); padding-block: var(--fnd-spacing-02);">
 <div class="nc-marquee__track" style="animation: marquee-scroll-demo 8s linear infinite;">
 <span class="nc-marquee__text">A — B — C — D — A — B — C — D</span>

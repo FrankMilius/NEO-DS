@@ -25,12 +25,6 @@ Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 7 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<section class="nc-hero-tom nc-hero-tom--expand" data-neo-hero-tom="" data-media-mode="expand" style="min-height: 100svh;" data-tom-init="1">
 <div class="nc-hero-tom__media" style="--tom-expand: 1.0000;">
 <img src="/themes/custom/neo_fe/assets/photo-1497366216548-37526070297c.jpeg" alt="" loading="eager" decoding="async">

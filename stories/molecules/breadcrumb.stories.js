@@ -25,12 +25,6 @@ Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/breadcrumb-docs.html -->
-<!-- @punkte: 39 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<nav class="nc-breadcrumb" aria-label="Breadcrumb" data-breadcrumb-truncated="" data-breadcrumb-hidden-items="[{&quot;label&quot;:&quot;Dashboard&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Einstellungen&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Benutzer&quot;,&quot;href&quot;:&quot;#&quot;}]">
 <ol class="nc-breadcrumb__list">
 <li class="nc-breadcrumb__item">

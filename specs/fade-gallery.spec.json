@@ -30,6 +30,24 @@
           "label": "default"
         }
       ]
+    },
+    "navigation": {
+      "label": "Navigation",
+      "description": "Zusaetzlich zu Tabs bzw. Scrollen: Blaettern ueber .nc-gallery__paddle und eine Uebersicht ueber .nc-gallery__nav-dot — dieselben Bauteile wie im Galerie-Block. Uebernommen ist das Aussehen, nicht die Lage: Dort sind beide Overlays ueber dem Medium, hier stehen sie darunter im Fluss.",
+      "values": [
+        {
+          "value": "tabs",
+          "cssModifier": null,
+          "default": false,
+          "label": "tabs"
+        },
+        {
+          "value": "paddles",
+          "cssModifier": "nc-fade-gallery__nav-row",
+          "default": false,
+          "label": "paddles"
+        }
+      ]
     }
   },
   "states": {
@@ -46,44 +64,83 @@
     "tokenGroups": {
       "Layout": [
         {
-          "token": "nc-fade-gallery-radius"
+          "token": "--nc-fade-gallery-radius"
         },
         {
-          "token": "nc-fade-gallery-headline-size"
+          "token": "--nc-fade-gallery-headline-size"
         }
       ],
-      "Tabs": [
+      "Ansichten-Leiste": [
         {
-          "token": "nc-fade-gallery-tab-size"
+          "token": "--nc-fade-gallery-tab-family"
         },
         {
-          "token": "nc-fade-gallery-tab-weight"
+          "token": "--nc-fade-gallery-tab-size"
         },
         {
-          "token": "nc-fade-gallery-tab-color"
+          "token": "--nc-fade-gallery-tab-weight"
         },
         {
-          "token": "nc-fade-gallery-tab-active"
+          "token": "--nc-fade-gallery-tab-tracking"
         },
         {
-          "token": "nc-fade-gallery-tab-indicator"
+          "token": "--nc-fade-gallery-tab-padding"
+        },
+        {
+          "token": "--nc-fade-gallery-tab-color"
+        },
+        {
+          "token": "--nc-fade-gallery-tab-active"
+        },
+        {
+          "token": "--nc-fade-gallery-tab-indicator"
+        },
+        {
+          "token": "--nc-fade-gallery-desc-size"
+        },
+        {
+          "token": "--nc-fade-gallery-desc-measure"
+        },
+        {
+          "token": "--nc-fade-gallery-desc-color"
+        },
+        {
+          "token": "--nc-fade-gallery-nav-gap"
         }
       ],
       "Caption": [
         {
-          "token": "nc-fade-gallery-desc-size"
+          "token": "--nc-fade-gallery-desc-size"
         },
         {
-          "token": "nc-fade-gallery-desc-color"
+          "token": "--nc-fade-gallery-desc-color"
         }
       ],
       "Animation": [
         {
-          "token": "nc-fade-gallery-fade-duration"
+          "token": "--nc-fade-gallery-fade-duration"
         }
       ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-fade-gallery-radius",
+      "--mod-fade-gallery-headline-size",
+      "--mod-fade-gallery-tab-family",
+      "--mod-fade-gallery-tab-size",
+      "--mod-fade-gallery-tab-weight",
+      "--mod-fade-gallery-tab-tracking",
+      "--mod-fade-gallery-tab-padding",
+      "--mod-fade-gallery-tab-color",
+      "--mod-fade-gallery-tab-active",
+      "--mod-fade-gallery-tab-indicator",
+      "--mod-fade-gallery-desc-size",
+      "--mod-fade-gallery-desc-measure",
+      "--mod-fade-gallery-desc-color",
+      "--mod-fade-gallery-nav-gap",
+      "--mod-fade-gallery-desc-size",
+      "--mod-fade-gallery-desc-color",
+      "--mod-fade-gallery-fade-duration"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

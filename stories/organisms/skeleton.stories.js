@@ -25,12 +25,6 @@ Skeleton ist ein <div class='nc-skeleton'> mit aria-hidden='true'.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/skeleton-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-skeleton">
 </div>`,
 };

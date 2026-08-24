@@ -1,0 +1,169 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "app-store",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "media",
+    "app",
+    "app-store"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-app-store",
+    "slots": [
+      {
+        "name": "badges",
+        "selector": ".nc-app-store__badges",
+        "required": false,
+        "description": "Store-Abzeichen. Ein leeres Adressfeld blendet sein Abzeichen aus — ein toter Verweis ist schlimmer als ein fehlender."
+      },
+      {
+        "name": "qr",
+        "selector": ".nc-app-store__qr",
+        "required": false,
+        "description": "QR-Code. Erst ab md sichtbar: Wer die Seite auf dem Telefon liest, braucht keinen Code, um aufs Telefon zu kommen."
+      },
+      {
+        "name": "note",
+        "selector": ".nc-app-store__note",
+        "required": false,
+        "description": "Kleingedrucktes — Voraussetzungen, Groesse, Sprachen."
+      }
+    ],
+    "notes": [
+      "Die Abzeichen sind KEINE Nachbauten der Marken von Apple und Google. Beide geben eigene Bilddateien und Gestaltungsvorgaben vor; bis die vorliegen, steht hier eine Schaltflaeche im Systemstil.",
+      "Der QR-Code wird als Bild erwartet, nicht im Browser gerechnet — eine QR-Bibliothek waere ein weiteres Skript fuer etwas, das sich einmal erzeugen laesst."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "surface": {
+      "label": "Flaeche",
+      "description": null,
+      "values": [
+        {
+          "value": "light",
+          "cssModifier": null,
+          "default": false,
+          "label": "light"
+        },
+        {
+          "value": "dark",
+          "cssModifier": "nc-app-store--on-dark",
+          "default": false,
+          "label": "dark"
+        }
+      ]
+    },
+    "align": {
+      "label": "Ausrichtung",
+      "description": null,
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-app-store--center",
+          "default": false,
+          "label": "center"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-app-store"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--nc-app-store-gap"
+        },
+        {
+          "token": "--nc-app-store-badge-gap"
+        },
+        {
+          "token": "--nc-app-store-badge-pad"
+        },
+        {
+          "token": "--nc-app-store-badge-radius"
+        },
+        {
+          "token": "--nc-app-store-badge-border-width"
+        },
+        {
+          "token": "--nc-app-store-badge-border"
+        },
+        {
+          "token": "--nc-app-store-badge-border-hover"
+        },
+        {
+          "token": "--nc-app-store-badge-bg"
+        },
+        {
+          "token": "--nc-app-store-badge-bg-hover"
+        },
+        {
+          "token": "--nc-app-store-badge-color"
+        },
+        {
+          "token": "--nc-app-store-kicker-size"
+        },
+        {
+          "token": "--nc-app-store-name-size"
+        },
+        {
+          "token": "--nc-app-store-icon-size"
+        },
+        {
+          "token": "--nc-app-store-qr-size"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-app-store-gap",
+      "--mod-app-store-badge-gap",
+      "--mod-app-store-badge-pad",
+      "--mod-app-store-badge-radius",
+      "--mod-app-store-badge-border-width",
+      "--mod-app-store-badge-border",
+      "--mod-app-store-badge-border-hover",
+      "--mod-app-store-badge-bg",
+      "--mod-app-store-badge-bg-hover",
+      "--mod-app-store-badge-color",
+      "--mod-app-store-kicker-size",
+      "--mod-app-store-name-size",
+      "--mod-app-store-icon-size",
+      "--mod-app-store-qr-size"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_app-store.scss"
+    ]
+  }
+}

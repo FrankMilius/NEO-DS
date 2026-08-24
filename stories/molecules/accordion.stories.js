@@ -25,12 +25,6 @@ Natives <details>/<summary> oder ARIA-Pattern (role='region').
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 50 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-accordion nc-accordion--flush nc-accordion--sticky nc-accordion--media-top" id="acc-589-liste" data-neo-accordion="" data-acc-init="1">
 <details class="nc-accordion__item" id="brauchen-mitarbeitende-eine-firmen-e-mail" open="">
 <summary class="nc-accordion__trigger">

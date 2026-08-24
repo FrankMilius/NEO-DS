@@ -25,12 +25,6 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /unternehmen/kontakt -->
-<!-- @punkte: 30 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-form-block nc-form-block--text-left" data-neo-form="" data-layout="text-left">
 <div class="nc-form-block__text">
 <div class="nc-section-header nc-section-header--flush">

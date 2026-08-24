@@ -25,12 +25,6 @@ Alert ist ein <div class='nc-alert' role='alert|status'>.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/alert-docs.html -->
-<!-- @punkte: 15 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-alert nc-alert--warning" role="alert">
 <span class="nc-alert__icon" aria-hidden="true">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -25,12 +25,6 @@ Radix-UI Pattern: nav > ul > li > trigger/content.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/navigation-menu-docs.html -->
-<!-- @punkte: 38 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<nav class="nc-navigation-menu" aria-label="Hauptnavigation" style="display: flex;">
 <ul class="nc-navigation-menu__list" role="menubar">
 <li class="nc-navigation-menu__item" role="none">

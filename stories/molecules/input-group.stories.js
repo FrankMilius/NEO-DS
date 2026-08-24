@@ -25,12 +25,6 @@ Flex-Row Container: display:flex, align-items:center. Prepend | Input | Append.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/input-group-docs.html -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-input-group">
 <span class="nc-input-group__prepend">€</span>
 <input class="nc-input" type="text" placeholder="0.00">

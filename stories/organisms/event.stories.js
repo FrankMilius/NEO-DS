@@ -25,12 +25,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /events/digital-workplace-summit-2026 -->
-<!-- @punkte: 63 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<article class="nc-event">
 <section class="nc-event__hero">
 <div class="nc-event__hero-content nc-container">

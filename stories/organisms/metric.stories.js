@@ -25,12 +25,6 @@ Container: Flex-Column mit gap. Solid: inverse BG + inverse Text. Subtle: helle 
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /loesungen/branchen/industrie-und-fertigung -->
-<!-- @punkte: 24 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-metric nc-metric--subtle">
 <span class="nc-metric__label">Lizenz</span>
 <div class="nc-metric__value-row">

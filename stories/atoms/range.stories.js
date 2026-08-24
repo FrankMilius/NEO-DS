@@ -25,12 +25,6 @@ Native <input type='range'> mit Cross-Browser Custom-Styling via Pseudo-Elemente
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/slider-docs.html -->
-<!-- @punkte: 15 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-range">
 <input class="nc-range__input" type="range" min="0" max="100" value="40" data-slider-output="output-demo2">
 <span class="nc-range__output" id="output-demo2">40</span>

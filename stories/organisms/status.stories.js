@@ -25,12 +25,6 @@ Status ist rein dekorativ — immer aria-hidden='true' auf dem Dot.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/status-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<span class="nc-status nc-status--busy" aria-hidden="true">
 </span>`,
 };

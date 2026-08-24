@@ -25,12 +25,6 @@ Container ist ein <div class='nc-segmented-control' role='radiogroup'> mit aria-
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/segmented-control-docs.html -->
-<!-- @punkte: 13 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-segmented-control" role="radiogroup" aria-label="Ansicht">
 <button class="nc-segmented-control__item nc-segmented-control__item--active" role="radio" aria-checked="true" aria-label="Rasteransicht" tabindex="0">
 <svg class="nc-segmented-control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">

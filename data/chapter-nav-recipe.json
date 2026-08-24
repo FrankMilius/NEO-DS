@@ -2,7 +2,7 @@
   "$schema": "../schemas/recipe.schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
-    "component": "chapternav",
+    "component": "chapter-nav",
     "version": "1.0.0",
     "status": "stable",
     "tags": [
@@ -23,33 +23,39 @@
     "layer": "07-organisms"
   },
   "anatomy": {
-    "root": "nc-chapternav",
+    "root": {
+      "element": ".nc-chapternav"
+    },
     "slots": [
       {
-        "element": "nc-chapternav__inner",
+        "element": ".nc-chapternav__inner",
         "name": "Leiste, quer scrollbar",
         "optional": false
       },
       {
-        "element": "nc-chapternav__link",
+        "element": ".nc-chapternav__link",
         "name": "Kapitelverweis",
         "optional": false
       },
       {
-        "element": "nc-chaptertoc",
+        "element": ".nc-chaptertoc",
         "name": "Verzeichnis am Seitenanfang",
         "optional": true
       },
       {
-        "element": "nc-chaptertoc__list",
+        "element": ".nc-chaptertoc__list",
         "name": "Nummerierte Kapitelliste",
         "optional": true
       },
       {
-        "element": "nc-chapter-anchor",
+        "element": ".nc-chapter-anchor",
         "name": "Sprungziel am Block",
         "optional": false
       }
+    ],
+    "domNotes": [
+      "Dieses Recipe schrieb bis zum 24.08.2026 root als Zeichenkette und die Slots ohne fuehrenden Punkt — anders als alle 130 uebrigen. Damit war das Bauteil fuer jede Pruefung unsichtbar: die Verwendungsmessung sah null Zeugen, obwohl es live auf den Landing Pages steht, und die Markup-Ernte fand keinen Wurzelselektor.",
+      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapternav; das ist eine eigene Unstimmigkeit und steht im BACKLOG."
     ]
   },
   "axes": {

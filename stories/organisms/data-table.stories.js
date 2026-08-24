@@ -25,12 +25,6 @@ Wrapper: border, radius, overflow:hidden. Semantisches <table> mit <thead>/<tbod
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/data-table-docs.html -->
-<!-- @punkte: 106 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-data-table" data-dt-id="demo-column-types" data-dt-selectable="multi">
 <div class="nc-data-table__scroll-container">
 <table class="nc-data-table__table">

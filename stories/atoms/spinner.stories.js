@@ -25,12 +25,6 @@ Spinner ist ein <div class='nc-spinner' role='status'> mit ::after Pseudo-Elemen
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/spinner-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-spinner nc-spinner--sm" role="status">
 </div>`,
 };

@@ -25,12 +25,6 @@ Wrapper um Trigger + Content. Content wird absolut positioniert.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/tabs-docs.html -->
-<!-- @punkte: 16 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<span class="nc-tooltip nc-tooltip--bottom">
 <button class="nc-tabs__trigger nc-tabs__trigger--icon-only" role="tab" aria-selected="false" aria-controls="sc-tooltip-line-panel-2" id="sc-tooltip-line-tab-2" tabindex="-1" type="button" aria-label="Suche" aria-describedby="sc-tooltip-line-tooltip-2">
 <span class="nc-tabs__trigger-icon">

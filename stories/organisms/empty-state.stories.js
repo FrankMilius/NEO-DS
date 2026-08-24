@@ -25,12 +25,6 @@ Flex-Column-Container, zentriert (align-items + text-align: center).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/empty-state-docs.html -->
-<!-- @punkte: 14 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-empty-state">
 <div class="nc-empty-state__icon" aria-hidden="true">
 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">

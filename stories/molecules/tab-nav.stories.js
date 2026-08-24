@@ -25,12 +25,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /node/1 -->
-<!-- @punkte: 58 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-solution-tabs nc-tab-nav nc-solution-tabs--contained" data-tab-nav="" data-orientation="horizontal" data-autoplay="off" style="--nc-solution-tabs-autoplay-duration: 7s;" data-tab-nav-init="1">
 <div class="nc-solution-tabs__tablist" role="tablist">
 <button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t0" aria-controls="tn5f-p0" aria-selected="true" tabindex="0">neo workplace<span class="nc-solution-tabs__progress" aria-hidden="true">

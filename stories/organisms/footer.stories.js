@@ -25,12 +25,6 @@ Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /datenschutz -->
-<!-- @punkte: 35 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<footer class="nc-footer nc-footer--columns nc-footer--4-col nc-footer--inverse" role="contentinfo" aria-label="Fußzeile">
 <div class="nc-footer__inner nc-container">
 <div class="nc-footer__main">

@@ -25,12 +25,6 @@ Buttons muessen immer ein zugaengliches Label haben — entweder sichtbarer Text
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/button-micro-docs.html -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<button class="nc-button nc-button--info nc-button--micro-c" data-demo="c-target" type="button">
 <span class="nc-button__label">Absenden</span>
 <span class="nc-button__spinner">

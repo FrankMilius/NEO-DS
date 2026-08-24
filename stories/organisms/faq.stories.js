@@ -25,12 +25,6 @@ Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/faq-docs.html -->
-<!-- @punkte: 33 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-faq" style="max-width: 640px; margin-block-end: var(--fnd-spacing-06);">
 <details class="nc-faq__item" open="">
 <summary class="nc-faq__question">Dieser Eintrag ist vorgeöffnet</summary>

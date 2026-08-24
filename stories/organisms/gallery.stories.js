@@ -25,12 +25,6 @@ Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-he
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /piipe-workplace-funktionen-im-ueberblick -->
-<!-- @punkte: 59 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-gallery nc-gallery--lines nc-gallery--svh" data-neo-gallery="" data-autoplay="on" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell" data-gallery-init="1">
 <div class="nc-gallery__track">
 <div class="nc-gallery__slide is-active" role="tabpanel" aria-roledescription="Slide" aria-label="PIIPE Workplace" data-slide-theme="dark">

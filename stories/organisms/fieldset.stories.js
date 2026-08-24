@@ -25,12 +25,6 @@ Root: gestyltes <fieldset> — Browser-Defaults zurueckgesetzt (margin:0, min-wi
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/form-layout-docs.html -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<fieldset class="nc-fieldset">
 <legend class="nc-fieldset__legend">Persönliche Daten</legend>
 <div class="nc-form-field">

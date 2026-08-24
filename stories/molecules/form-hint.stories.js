@@ -25,11 +25,5 @@ Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/form-field-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<p class="nc-form-hint" id="hint-textarea-type">Maximal 500 Zeichen.</p>`,
 };

@@ -25,12 +25,6 @@ Grid: 2 Spalten, media + content. Responsive: stacked auf mobile.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /events -->
-<!-- @punkte: 27 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-text-media nc-text-media--media-left">
 <div class="nc-text-media__grid">
 <div class="nc-text-media__media">

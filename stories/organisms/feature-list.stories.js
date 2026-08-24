@@ -41,12 +41,6 @@ Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
-<!-- @punkte: 63 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-top">
 <div class="nc-container nc-feature-list__inner">
 <div class="nc-feature-list__media nc-feature-list__media--device">

@@ -25,11 +25,5 @@ Kbd ist ein natives <kbd class='nc-kbd'> Element — semantisch korrekt fuer Tas
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/kbd-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<kbd class="nc-kbd">A</kbd>`,
 };

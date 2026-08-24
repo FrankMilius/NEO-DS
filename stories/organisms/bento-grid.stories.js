@@ -25,12 +25,6 @@ Root .nc-bento-grid: CSS Grid, repeat(--nc-bento-grid-columns, 1fr), grid-auto-r
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 28 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-bento-grid is-revealed" data-bento="" data-animation="reveal" data-bento-init="1">
 <article class="nc-bento-grid__cell nc-bento-grid__cell--lg">
 <span class="nc-bento-grid__mesh" aria-hidden="true">

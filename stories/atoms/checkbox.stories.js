@@ -25,12 +25,6 @@ Wrapper ist ein <label class='nc-checkbox'> — Klick auf Label aktiviert Input.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/checkbox-docs.html -->
-<!-- @punkte: 23 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<label class="nc-checkbox">
 <input class="nc-checkbox__input" type="checkbox" id="stage-cb">
 <span class="nc-checkbox__control">

@@ -25,12 +25,6 @@ Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 5 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-card-grid-cta" data-neo-card-grid-cta="" style="--cgc-columns: 2; --cgc-ratio: 4/3;" data-cgc-init="1">
 <div class="nc-card-cta" data-theme="dark">
 <img class="nc-card-cta__media" src="https://picsum.photos/id/1076/1200/800" alt="" loading="lazy" decoding="async">

@@ -25,12 +25,6 @@ Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /unternehmen/kontakt -->
-<!-- @punkte: 6 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<form class="nc-form nc-form--two-column" novalidate="" data-neo-form-fields="" data-neo-form-init="1">
 <div class="nc-form-hp" aria-hidden="true">
 <input type="text" name="website_url" tabindex="-1" autocomplete="off">

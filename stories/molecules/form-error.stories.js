@@ -25,12 +25,6 @@ Flexbox-Layout: Icon + Text nebeneinander, align-items: flex-start.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/form-field-docs.html -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<p class="nc-form-error" role="alert" id="error-email">
 <span class="nc-form-error__icon">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

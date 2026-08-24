@@ -25,12 +25,6 @@ Statischer Tag: <span class='nc-tag'>. Nicht fokussierbar, kein interaktives Ele
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/tag-docs.html -->
-<!-- @punkte: 1 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<span class="nc-tag nc-tag--removable"> mit <button class="nc-tag__remove"> als Kind.</button>
 </span>`,
 };

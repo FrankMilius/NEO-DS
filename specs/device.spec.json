@@ -1,0 +1,200 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "device",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "atom",
+  "tags": [
+    "media",
+    "app",
+    "device"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-device",
+    "slots": [
+      {
+        "name": "screen",
+        "selector": ".nc-device__screen",
+        "required": true,
+        "description": "Der Bildschirm. Bringt das Seitenverhaeltnis mit — deshalb darf ihm kein Elternteil eines aufzwingen."
+      },
+      {
+        "name": "caption",
+        "selector": ".nc-device-figure__caption",
+        "required": false,
+        "description": "Beschriftung ausserhalb des Rahmens, in .nc-device-figure."
+      }
+    ],
+    "notes": [
+      "Das Seitenverhaeltnis 1206/2622 ist das gemessene Mass der vorhandenen App-Screenshots (iPhone 17), nicht ein gerundeter Geraetewert. Wo Rahmen und Bild uebereinstimmen, hat object-fit nichts zu tun.",
+      "object-fit ist contain, NICHT cover. cover war die Ursache des Problems, fuer das dieses Bauteil gebaut wurde: In einem 16:9-Rahmen blieben von 2622 px Hoehe 678 uebrig.",
+      "Die Aussparung ist ein Pseudoelement und steht deshalb gar nicht im Baum — sie braucht kein aria-hidden."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Groesse",
+      "description": null,
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-device--sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-device--lg",
+          "default": false,
+          "label": "lg"
+        }
+      ]
+    },
+    "tilt": {
+      "label": "Neigung",
+      "description": null,
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "left",
+          "cssModifier": "nc-device--tilt-left",
+          "default": false,
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-device--tilt-right",
+          "default": false,
+          "label": "right"
+        }
+      ]
+    },
+    "notch": {
+      "label": "Aussparung",
+      "description": null,
+      "values": [
+        {
+          "value": "on",
+          "cssModifier": null,
+          "default": false,
+          "label": "on"
+        },
+        {
+          "value": "off",
+          "cssModifier": "nc-device--plain",
+          "default": false,
+          "label": "off"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-device"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--nc-device-ratio"
+        },
+        {
+          "token": "--nc-device-width"
+        },
+        {
+          "token": "--nc-device-bezel"
+        },
+        {
+          "token": "--nc-device-bezel-color"
+        },
+        {
+          "token": "--nc-device-radius"
+        },
+        {
+          "token": "--nc-device-screen-radius"
+        },
+        {
+          "token": "--nc-device-shadow"
+        },
+        {
+          "token": "--nc-device-notch-width"
+        },
+        {
+          "token": "--nc-device-notch-height"
+        },
+        {
+          "token": "--nc-device-notch-radius"
+        },
+        {
+          "token": "--nc-device-tilt"
+        },
+        {
+          "token": "--nc-device-caption-size"
+        },
+        {
+          "token": "--nc-device-caption-color"
+        },
+        {
+          "token": "--nc-device-caption-gap"
+        }
+      ],
+      "Geometrie": [
+        {
+          "token": "--nc-device-width-per-height"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-device-ratio",
+      "--mod-device-width",
+      "--mod-device-bezel",
+      "--mod-device-bezel-color",
+      "--mod-device-radius",
+      "--mod-device-screen-radius",
+      "--mod-device-shadow",
+      "--mod-device-notch-width",
+      "--mod-device-notch-height",
+      "--mod-device-notch-radius",
+      "--mod-device-tilt",
+      "--mod-device-caption-size",
+      "--mod-device-caption-color",
+      "--mod-device-caption-gap",
+      "--mod-device-width-per-height"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/05-atoms/_device.scss"
+    ]
+  }
+}

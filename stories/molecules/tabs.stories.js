@@ -25,12 +25,6 @@ Tabs verwenden WAI-ARIA Tabs Pattern (role=tablist/tab/tabpanel).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/tabs-docs.html -->
-<!-- @punkte: 38 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-tabs nc-tabs--line">
 <div class="nc-tabs__list" role="tablist" aria-label="Demo Tabs">
 <span class="nc-tooltip nc-tooltip--bottom">

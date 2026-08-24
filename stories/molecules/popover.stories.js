@@ -25,12 +25,6 @@ Root: inline-flex Wrapper mit Trigger und Panel.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/popover-docs.html -->
-<!-- @punkte: 14 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-popover" style="position: absolute; top: 100%; left: 0; margin-top: 8px; z-index: 10;">
 <div class="nc-popover__header">
 <span>Einstellungen</span>

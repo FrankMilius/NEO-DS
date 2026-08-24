@@ -25,12 +25,6 @@ Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entir
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /events/digital-workplace-summit-2026 -->
-<!-- @punkte: 18 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<a href="/events/neo-partner-day-2026" class="nc-card nc-card--navigational nc-event__related-card">
 <div class="nc-card__content">
 <span class="nc-card__kicker">Konferenz</span>

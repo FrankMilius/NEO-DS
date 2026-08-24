@@ -25,12 +25,6 @@ Dropzone: flex-column zentriert, gestrichelte Border (dashed), Hover wechselt Bo
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/file-upload-docs.html -->
-<!-- @punkte: 25 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-file-upload" role="button" tabindex="0">
 <input class="nc-file-upload__input" type="file" multiple="" tabindex="-1">
 <span class="nc-file-upload__icon">

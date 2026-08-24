@@ -25,12 +25,6 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/feature-accordion-docs.html -->
-<!-- @punkte: 25 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-feature-accordeon">
 <!-- Left Column: Navigation -->
 <div class="nc-feature-accordeon__left">

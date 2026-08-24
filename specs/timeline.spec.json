@@ -1,13 +1,16 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "timeline",
-  "version": "1.0.0",
+  "version": "2.3.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
-    "layout",
+    "chronological",
     "content",
-    "chronological"
+    "layout",
+    "process",
+    "scroll",
+    "steps"
   ],
   "anatomy": {
     "rootElement": ".nc-timeline",
@@ -47,6 +50,41 @@
         "selector": ".nc-timeline__description",
         "required": false,
         "description": null
+      },
+      {
+        "name": "fill",
+        "required": true,
+        "description": "Fortschrittsfuellung der Linie als Pseudo-Element (ein echtes Element waere in der <ol> ungueltiges Markup). Hoehe via --nc-timeline-progress."
+      },
+      {
+        "name": "period",
+        "required": true,
+        "description": "Zeitraum-Badge, z. B. \"Woche 1-2\"."
+      },
+      {
+        "name": "badge",
+        "required": true,
+        "description": "Frei beschriftbares Status-Badge, Farbton via cardTone."
+      },
+      {
+        "name": "phase",
+        "required": true,
+        "description": "Kleine Phasen-Auszeichnung ueber dem Titel, z. B. \"Phase 1\"."
+      },
+      {
+        "name": "lead",
+        "required": true,
+        "description": "Hervorgehobener Einleitungssatz unter dem Titel."
+      },
+      {
+        "name": "list",
+        "required": true,
+        "description": "Stichpunktliste der Phaseninhalte."
+      },
+      {
+        "name": "cta",
+        "required": true,
+        "description": "Optionaler Button am Kartenende. Wird nur gerendert, wenn Beschriftung UND Ziel gepflegt sind."
       }
     ],
     "notes": [
@@ -59,7 +97,18 @@
       "font-variant-numeric: tabular-nums auf __time fuer gleichbreite Ziffern.",
       "Icon-Variante: Groessere Nodes (32px) mit SVG-Icon, Linie verschoben.",
       "Connected-Variante: Content bekommt Card-Hintergrund (layer-01 + border + radius).",
-      "Compact-Variante: Kleinere Nodes (8px), weniger Abstand."
+      "Compact-Variante: Kleinere Nodes (8px), weniger Abstand.",
+      "alternating: 3-Spalten-Grid (1fr / Node / 1fr), Items wechseln per :nth-child die Seite.",
+      "Fortschritt: JS setzt --nc-timeline-progress (0-1) auf dem Wurzelelement; CSS skaliert die Fuellung daraus.",
+      "Ohne JS und bei prefers-reduced-motion sind alle Items sofort sichtbar (kein opacity:0-Startzustand).",
+      "Icons stammen aus der Heroicons-Sammlung des DS und erben currentColor.",
+      "horizontal: der scrollende Bereich traegt tabindex=\"0\" + role=\"group\" + aria-label, damit er per Tastatur bedienbar bleibt (WCAG 2.1.1).",
+      "Kartentitel (h3) nutzt --nc-timeline-card-title-size (= heading-m / --fs-xl), NICHT den kompakten Basis-Token --nc-timeline-title-size (--fs-sm).",
+      "Animiert wird die KARTE (.nc-timeline__content), nicht das Item - sonst wandert der Node mit und loest sich von der Linie.",
+      "Der Node darf kein margin-top tragen: das Basis-Mixin setzt 2px fuer die kompakte Timeline, was ihn in alternating/horizontal aus der Kartenmitte schiebt und im horizontalen Layout die Linie verfehlen laesst.",
+      "horizontal: Node per align-self:center mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.",
+      "Die Fortschrittsfuellung nutzt einen Verlauf mit transparenten Enden, damit sie nicht hart abgeschnitten wirkt.",
+      "CTA wird nur gerendert, wenn label UND url gesetzt sind - ein Link ohne erkennbares Ziel waere fuer Screenreader wertlos. Unbekannte Varianten fallen im Preprocess auf primary zurueck."
     ]
   },
   "api": null,
@@ -123,6 +172,144 @@
           "label": "danger"
         }
       ]
+    },
+    "layout": {
+      "label": "Layout",
+      "description": "single = einspaltig (Linie links). alternating = Zickzack, Linie mittig. horizontal = Karten nebeneinander, Bereich scrollt seitlich mit Scroll-Snap. Unter 860px fallen alternating UND horizontal auf gestapelt zurueck.",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": true,
+          "label": "single"
+        },
+        {
+          "value": "alternating",
+          "cssModifier": null,
+          "default": false,
+          "label": "alternating"
+        },
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        }
+      ]
+    },
+    "progress": {
+      "label": "Progress",
+      "description": "off = statische Linie. scroll = Linie fuellt sich beim Scrollen, Items blenden ein. Bei prefers-reduced-motion und ohne JS ist alles sofort sichtbar.",
+      "values": [
+        {
+          "value": "off",
+          "cssModifier": null,
+          "default": true,
+          "label": "off"
+        },
+        {
+          "value": "scroll",
+          "cssModifier": null,
+          "default": false,
+          "label": "scroll"
+        }
+      ]
+    },
+    "cardTone": {
+      "label": "Card Status Tone",
+      "description": "Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf >=4.5:1 geprueft.",
+      "values": [
+        {
+          "value": "accent",
+          "cssModifier": null,
+          "default": false,
+          "label": "accent"
+        },
+        {
+          "value": "info",
+          "cssModifier": null,
+          "default": false,
+          "label": "info"
+        },
+        {
+          "value": "warning",
+          "cssModifier": null,
+          "default": false,
+          "label": "warning"
+        },
+        {
+          "value": "danger",
+          "cssModifier": null,
+          "default": false,
+          "label": "danger"
+        },
+        {
+          "value": "neutral",
+          "cssModifier": null,
+          "default": true,
+          "label": "neutral"
+        }
+      ]
+    },
+    "headerAlign": {
+      "label": "Header Alignment",
+      "description": "Ausrichtung des Section-Kopfes. Nutzt die zentralen Modifier .nc-section-header--center / --right; left ist der modifier-freie Default.",
+      "values": [
+        {
+          "value": "left",
+          "cssModifier": null,
+          "default": true,
+          "label": "left"
+        },
+        {
+          "value": "center",
+          "cssModifier": null,
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "right",
+          "cssModifier": null,
+          "default": false,
+          "label": "right"
+        }
+      ]
+    },
+    "ctaVariant": {
+      "label": "Card CTA Variant",
+      "description": "Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).",
+      "values": [
+        {
+          "value": "primary",
+          "cssModifier": null,
+          "default": true,
+          "label": "primary"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": null,
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "accent",
+          "cssModifier": null,
+          "default": false,
+          "label": "accent"
+        },
+        {
+          "value": "outline",
+          "cssModifier": null,
+          "default": false,
+          "label": "outline"
+        },
+        {
+          "value": "ghost",
+          "cssModifier": null,
+          "default": false,
+          "label": "ghost"
+        }
+      ]
     }
   },
   "states": {
@@ -139,88 +326,213 @@
     "tokenGroups": {
       "Line": [
         {
-          "token": "nc-timeline-line-color"
+          "token": "--nc-timeline-line-color"
         },
         {
-          "token": "nc-timeline-line-width"
+          "token": "--nc-timeline-line-width"
         },
         {
-          "token": "nc-timeline-gap"
+          "token": "--nc-timeline-gap"
         }
       ],
       "Node": [
         {
-          "token": "nc-timeline-node-size"
+          "token": "--nc-timeline-node-size"
         },
         {
-          "token": "nc-timeline-node-bg"
+          "token": "--nc-timeline-node-bg"
         },
         {
-          "token": "nc-timeline-node-border"
+          "token": "--nc-timeline-node-border"
         },
         {
-          "token": "nc-timeline-node-border-width"
+          "token": "--nc-timeline-node-border-width"
         },
         {
-          "token": "nc-timeline-node-radius"
+          "token": "--nc-timeline-node-radius"
         }
       ],
       "Node Variants": [
         {
-          "token": "nc-timeline-node-active-bg"
+          "token": "--nc-timeline-node-active-bg"
         },
         {
-          "token": "nc-timeline-node-active-border"
+          "token": "--nc-timeline-node-active-border"
         },
         {
-          "token": "nc-timeline-node-success-bg"
+          "token": "--nc-timeline-node-success-bg"
         },
         {
-          "token": "nc-timeline-node-danger-bg"
+          "token": "--nc-timeline-node-danger-bg"
         },
         {
-          "token": "nc-timeline-node-icon-size"
+          "token": "--nc-timeline-node-icon-size"
         },
         {
-          "token": "nc-timeline-node-icon-color"
+          "token": "--nc-timeline-node-icon-color"
         }
       ],
       "Content": [
         {
-          "token": "nc-timeline-content-gap"
+          "token": "--nc-timeline-content-gap"
         },
         {
-          "token": "nc-timeline-content-padding"
+          "token": "--nc-timeline-content-padding"
         }
       ],
       "Typography": [
         {
-          "token": "nc-timeline-title-size"
+          "token": "--nc-timeline-title-size"
         },
         {
-          "token": "nc-timeline-title-weight"
+          "token": "--nc-timeline-title-weight"
         },
         {
-          "token": "nc-timeline-title-color"
+          "token": "--nc-timeline-title-color"
         },
         {
-          "token": "nc-timeline-desc-size"
+          "token": "--nc-timeline-desc-size"
         },
         {
-          "token": "nc-timeline-desc-color"
+          "token": "--nc-timeline-desc-color"
         },
         {
-          "token": "nc-timeline-time-size"
+          "token": "--nc-timeline-time-size"
         },
         {
-          "token": "nc-timeline-time-color"
+          "token": "--nc-timeline-time-color"
         },
         {
-          "token": "nc-timeline-time-weight"
+          "token": "--nc-timeline-time-weight"
+        }
+      ],
+      "Alternating Layout": [
+        {
+          "token": "--nc-timeline-alt-max-width"
+        },
+        {
+          "token": "--nc-timeline-alt-node-col"
+        },
+        {
+          "token": "--nc-timeline-alt-gap"
+        },
+        {
+          "token": "--nc-timeline-alt-item-gap"
+        },
+        {
+          "token": "--nc-timeline-progress-color"
+        }
+      ],
+      "Card": [
+        {
+          "token": "--nc-timeline-card-bg"
+        },
+        {
+          "token": "--nc-timeline-card-border"
+        },
+        {
+          "token": "--nc-timeline-card-radius"
+        },
+        {
+          "token": "--nc-timeline-card-padding"
+        },
+        {
+          "token": "--nc-timeline-badge-tint"
+        },
+        {
+          "token": "--nc-timeline-badge-radius"
+        },
+        {
+          "token": "--nc-timeline-lead-color"
+        },
+        {
+          "token": "--nc-timeline-marker-color"
+        },
+        {
+          "token": "--nc-timeline-card-title-size"
+        },
+        {
+          "token": "--nc-timeline-card-title-weight"
+        },
+        {
+          "token": "--nc-timeline-cta-gap"
+        }
+      ],
+      "Horizontal Layout": [
+        {
+          "token": "--nc-timeline-h-card-width"
+        },
+        {
+          "token": "--nc-timeline-h-gap"
+        },
+        {
+          "token": "--nc-timeline-h-pad-block"
+        }
+      ],
+      "Reveal Effects": [
+        {
+          "token": "--nc-timeline-reveal-shift"
+        },
+        {
+          "token": "--nc-timeline-reveal-duration"
+        },
+        {
+          "token": "--nc-timeline-reveal-glow"
+        },
+        {
+          "token": "--nc-timeline-node-glow"
         }
       ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-timeline-line-color",
+      "--mod-timeline-line-width",
+      "--mod-timeline-gap",
+      "--mod-timeline-node-size",
+      "--mod-timeline-node-bg",
+      "--mod-timeline-node-border",
+      "--mod-timeline-node-border-width",
+      "--mod-timeline-node-radius",
+      "--mod-timeline-node-active-bg",
+      "--mod-timeline-node-active-border",
+      "--mod-timeline-node-success-bg",
+      "--mod-timeline-node-danger-bg",
+      "--mod-timeline-node-icon-size",
+      "--mod-timeline-node-icon-color",
+      "--mod-timeline-content-gap",
+      "--mod-timeline-content-padding",
+      "--mod-timeline-title-size",
+      "--mod-timeline-title-weight",
+      "--mod-timeline-title-color",
+      "--mod-timeline-desc-size",
+      "--mod-timeline-desc-color",
+      "--mod-timeline-time-size",
+      "--mod-timeline-time-color",
+      "--mod-timeline-time-weight",
+      "--mod-timeline-alt-max-width",
+      "--mod-timeline-alt-node-col",
+      "--mod-timeline-alt-gap",
+      "--mod-timeline-alt-item-gap",
+      "--mod-timeline-progress-color",
+      "--mod-timeline-card-bg",
+      "--mod-timeline-card-border",
+      "--mod-timeline-card-radius",
+      "--mod-timeline-card-padding",
+      "--mod-timeline-badge-tint",
+      "--mod-timeline-badge-radius",
+      "--mod-timeline-lead-color",
+      "--mod-timeline-marker-color",
+      "--mod-timeline-card-title-size",
+      "--mod-timeline-card-title-weight",
+      "--mod-timeline-cta-gap",
+      "--mod-timeline-h-card-width",
+      "--mod-timeline-h-gap",
+      "--mod-timeline-h-pad-block",
+      "--mod-timeline-reveal-shift",
+      "--mod-timeline-reveal-duration",
+      "--mod-timeline-reveal-glow",
+      "--mod-timeline-node-glow"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,
@@ -242,7 +554,10 @@
     ],
     "story": "stories/organisms/timeline.stories.js",
     "arena": null,
-    "drupal": [],
+    "drupal": [
+      "block--block-content--neo-timeline.html.twig",
+      "block--inline-block--neo-timeline.html.twig"
+    ],
     "docs": "docs/timeline-docs.html"
   }
 }

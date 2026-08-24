@@ -25,12 +25,6 @@ Badge ist NIEMALS fokussierbar — immer <span>, kein role='button', kein tabind
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/badge-docs.html -->
-<!-- @punkte: 11 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<span class="nc-badge">
 <span class="nc-badge__label">Kurzer Text</span>
 </span>`,

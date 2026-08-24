@@ -25,12 +25,6 @@ Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebenei
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
-<!-- @punkte: 16 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-carousel nc-carousel--media">
 <div class="nc-carousel__track nc-carousel__track--media" tabindex="0" role="group" aria-label="App-Ansichten, waagerecht scrollbar">
 <figure class="nc-device-figure" id="fg-542-f0" data-fg-index="0">

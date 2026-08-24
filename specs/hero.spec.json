@@ -30,6 +30,24 @@
         "selector": ".nc-hero__actions",
         "required": false,
         "description": "Primaere und sekundaere CTA-Buttons unterhalb der Highlights."
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-hero__footer",
+        "required": false,
+        "description": "Badges und Kennzahlen unter den Aktionen."
+      },
+      {
+        "name": "cards",
+        "selector": ".nc-hero__cards",
+        "required": false,
+        "description": "Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil."
+      },
+      {
+        "name": "mark",
+        "selector": ".nc-hero__mark",
+        "required": false,
+        "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
       }
     ],
     "notes": [
@@ -45,14 +63,14 @@
       "Breadcrumb: nc-breadcrumb am oberen Content-Rand, nur sichtbar wenn Slot befuellt.",
       "Centered: Alle Inhalte text-align center, max-width fuer Titel und Highlights.",
       "Split: Content links, Media rechts buendig (kein Radius), nahtlose Kante zum naechsten Abschnitt.",
-      "Product: Metric-Integration fuer Preisangabe, prominenter CTA-Button."
+      ""
     ]
   },
   "api": null,
   "variants": {
     "variant": {
       "label": "Variant",
-      "description": "Visuelle Variante — picture, card, split, product",
+      "description": "Visuelle Variante — picture, mockup, split",
       "values": [
         {
           "value": "picture",
@@ -61,22 +79,16 @@
           "label": "picture"
         },
         {
-          "value": "card",
-          "cssModifier": null,
-          "default": false,
-          "label": "card"
-        },
-        {
           "value": "split",
           "cssModifier": "nc-hero--split",
           "default": false,
           "label": "split"
         },
         {
-          "value": "product",
-          "cssModifier": "nc-hero--product",
+          "value": "mockup",
+          "cssModifier": null,
           "default": false,
-          "label": "product"
+          "label": "mockup"
         }
       ]
     },
@@ -97,6 +109,174 @@
           "label": "center"
         }
       ]
+    },
+    "surface": {
+      "label": "Surface",
+      "description": "Flaeche und Vordergrund als PAAR. Kommt aus dem projektweiten Feld field_surface. accent (Lime) wird bewusst nicht bedient und faellt auf dark zurueck.",
+      "values": [
+        {
+          "value": "dark",
+          "cssModifier": "nc-hero--surface-dark",
+          "default": false,
+          "label": "dark"
+        },
+        {
+          "value": "muted",
+          "cssModifier": "nc-hero--surface-muted",
+          "default": false,
+          "label": "muted"
+        },
+        {
+          "value": "light",
+          "cssModifier": "nc-hero--surface-light",
+          "default": false,
+          "label": "light"
+        }
+      ]
+    },
+    "mediaPosition": {
+      "label": "Media Position",
+      "description": "Auf welcher Seite das Medium steht. Der Inhalt bleibt im Markup zuerst; die Umstellung laeuft ueber order, nicht ueber die Quellreihenfolge.",
+      "values": [
+        {
+          "value": "end",
+          "cssModifier": null,
+          "default": false,
+          "label": "end"
+        },
+        {
+          "value": "start",
+          "cssModifier": "nc-hero--media-start",
+          "default": false,
+          "label": "start"
+        }
+      ]
+    },
+    "markStyle": {
+      "label": "Headline Mark",
+      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert.",
+      "values": [
+        {
+          "value": "bar",
+          "cssModifier": null,
+          "default": false,
+          "label": "bar"
+        },
+        {
+          "value": "tint",
+          "cssModifier": "nc-hero--mark-tint",
+          "default": false,
+          "label": "tint"
+        }
+      ]
+    },
+    "badgesPosition": {
+      "label": "Badges Position",
+      "description": "Badge-Zeile ueber der Ueberschrift oder im Fuss unter den Aktionen. Vorgabe bleibt top, damit bestehende Seiten sich nicht verschieben.",
+      "values": [
+        {
+          "value": "top",
+          "cssModifier": null,
+          "default": false,
+          "label": "top"
+        },
+        {
+          "value": "bottom",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom"
+        }
+      ]
+    },
+    "cardsAlign": {
+      "label": "Ausrichtung der Kennzahlen",
+      "description": "Getrennt von der Ausrichtung des Heroes: Ein zentrierter Hero kann linksbuendige Kennzahlen tragen und umgekehrt.",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": "nc-hero__cards--start",
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-hero__cards--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-hero__cards--end",
+          "default": false,
+          "label": "end"
+        }
+      ]
+    },
+    "cardsRule": {
+      "label": "Trennlinien der Kennzahlen",
+      "description": "Staerke und Farbe. Die Linie gliedert nur und kennzeichnet kein Bedienelement — 1.4.11 greift dort nicht, deshalb ist Lime hier zulaessig, wo es als Schriftfarbe unbrauchbar waere.",
+      "values": [
+        {
+          "value": "sm",
+          "cssModifier": "nc-hero__cards--rule-sm",
+          "default": false,
+          "label": "sm"
+        },
+        {
+          "value": "md",
+          "cssModifier": "nc-hero__cards--rule-md",
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "lg",
+          "cssModifier": "nc-hero__cards--rule-lg",
+          "default": false,
+          "label": "lg"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "nc-hero__cards--rule-accent",
+          "default": false,
+          "label": "accent"
+        }
+      ]
+    },
+    "cardsSurface": {
+      "label": "Flaeche der Kennzahlen-Karten",
+      "description": "Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "base",
+          "cssModifier": "nc-hero__cards--bg-base",
+          "default": false,
+          "label": "base"
+        },
+        {
+          "value": "secondary",
+          "cssModifier": "nc-hero__cards--bg-secondary",
+          "default": false,
+          "label": "secondary"
+        },
+        {
+          "value": "tertiary",
+          "cssModifier": "nc-hero__cards--bg-tertiary",
+          "default": false,
+          "label": "tertiary"
+        },
+        {
+          "value": "inverse",
+          "cssModifier": "nc-hero__cards--bg-inverse",
+          "default": false,
+          "label": "inverse"
+        }
+      ]
     }
   },
   "states": {
@@ -113,113 +293,319 @@
     "tokenGroups": {
       "Layout": [
         {
-          "token": "nc-hero-bg"
+          "token": "--nc-hero-bg"
         },
         {
-          "token": "nc-hero-min-height"
+          "token": "--nc-hero-min-height"
         },
         {
-          "token": "nc-hero-padding-block"
+          "token": "--nc-hero-padding-block"
         },
         {
-          "token": "nc-hero-padding-inline"
+          "token": "--nc-hero-padding-inline"
         },
         {
-          "token": "nc-hero-gap"
+          "token": "--nc-hero-gap"
         },
         {
-          "token": "nc-hero-radius"
+          "token": "--nc-hero-radius"
         }
       ],
       "Overlay": [
         {
-          "token": "nc-hero-overlay-visible"
+          "token": "--nc-hero-overlay-visible"
         },
         {
-          "token": "nc-hero-overlay-start"
+          "token": "--nc-hero-overlay-start"
         },
         {
-          "token": "nc-hero-overlay-end"
+          "token": "--nc-hero-overlay-end"
         },
         {
-          "token": "nc-hero-overlay-direction"
+          "token": "--nc-hero-overlay-direction"
         }
       ],
       "Kicker": [
         {
-          "token": "nc-hero-kicker-size"
+          "token": "--nc-hero-kicker-size"
         },
         {
-          "token": "nc-hero-kicker-weight"
+          "token": "--nc-hero-kicker-weight"
         },
         {
-          "token": "nc-hero-kicker-bg"
+          "token": "--nc-hero-kicker-bg"
         },
         {
-          "token": "nc-hero-kicker-color"
+          "token": "--nc-hero-kicker-color"
         },
         {
-          "token": "nc-hero-kicker-radius"
+          "token": "--nc-hero-kicker-radius"
         },
         {
-          "token": "nc-hero-kicker-padding"
+          "token": "--nc-hero-kicker-padding"
         }
       ],
       "Title": [
         {
-          "token": "nc-hero-title-size"
+          "token": "--nc-hero-title-size"
         },
         {
-          "token": "nc-hero-title-weight"
+          "token": "--nc-hero-title-weight"
         },
         {
-          "token": "nc-hero-title-color"
+          "token": "--nc-hero-title-color"
         },
         {
-          "token": "nc-hero-title-max-width"
+          "token": "--nc-hero-title-max-width"
         },
         {
-          "token": "nc-hero-title-line-height"
+          "token": "--nc-hero-title-line-height"
         }
       ],
       "Subtitle": [
         {
-          "token": "nc-hero-subtitle-size"
+          "token": "--nc-hero-subtitle-size"
         },
         {
-          "token": "nc-hero-subtitle-color"
+          "token": "--nc-hero-subtitle-color"
         },
         {
-          "token": "nc-hero-subtitle-max-width"
+          "token": "--nc-hero-subtitle-max-width"
         },
         {
-          "token": "nc-hero-subtitle-line-height"
+          "token": "--nc-hero-subtitle-line-height"
         }
       ],
       "Highlights": [
         {
-          "token": "nc-hero-highlights-gap"
+          "token": "--nc-hero-highlights-gap"
         },
         {
-          "token": "nc-hero-highlights-color"
+          "token": "--nc-hero-highlights-color"
         },
         {
-          "token": "nc-hero-highlights-marker"
+          "token": "--nc-hero-highlights-marker"
         },
         {
-          "token": "nc-hero-highlights-size"
+          "token": "--nc-hero-highlights-size"
         }
       ],
       "Actions": [
         {
-          "token": "nc-hero-actions-gap"
+          "token": "--nc-hero-actions-gap"
         },
         {
-          "token": "nc-hero-actions-margin-top"
+          "token": "--nc-hero-actions-margin-top"
+        }
+      ],
+      "Flaeche": [
+        {
+          "token": "--nc-hero-surface-dark-bg"
+        },
+        {
+          "token": "--nc-hero-surface-dark-fg"
+        },
+        {
+          "token": "--nc-hero-surface-light-bg"
+        },
+        {
+          "token": "--nc-hero-surface-light-fg"
+        },
+        {
+          "token": "--nc-hero-surface-muted-bg"
+        }
+      ],
+      "Hervorhebung in der Ueberschrift": [
+        {
+          "token": "--nc-hero-mark-color"
+        },
+        {
+          "token": "--nc-hero-mark-thickness"
+        },
+        {
+          "token": "--nc-hero-mark-on-light"
+        },
+        {
+          "token": "--nc-hero-mark-on-dark"
+        },
+        {
+          "token": "--nc-hero-mark-tint"
+        },
+        {
+          "token": "--nc-hero-mark-tint-on-light"
+        },
+        {
+          "token": "--nc-hero-mark-tint-on-dark"
+        }
+      ],
+      "Fuss: Badges und Kennzahlen": [
+        {
+          "token": "--nc-hero-footer-margin-top"
+        },
+        {
+          "token": "--nc-hero-footer-gap"
+        },
+        {
+          "token": "--nc-hero-cards-gap"
+        },
+        {
+          "token": "--nc-hero-footer-rule"
+        },
+        {
+          "token": "--nc-hero-cards-stack"
+        },
+        {
+          "token": "--nc-hero-cards-rule-width-sm"
+        },
+        {
+          "token": "--nc-hero-cards-rule-width-md"
+        },
+        {
+          "token": "--nc-hero-cards-rule-width-lg"
+        },
+        {
+          "token": "--nc-hero-cards-rule-inset"
+        },
+        {
+          "token": "--nc-hero-cards-rule-color"
+        },
+        {
+          "token": "--nc-hero-cards-rule-accent"
+        },
+        {
+          "token": "--nc-hero-cards-kicker-size"
+        },
+        {
+          "token": "--nc-hero-cards-value-size"
+        },
+        {
+          "token": "--nc-hero-cards-label-size"
+        },
+        {
+          "token": "--nc-hero-cards-rule-on-dark"
+        },
+        {
+          "token": "--nc-hero-cards-rule-on-light"
+        },
+        {
+          "token": "--nc-hero-cards-bg"
+        },
+        {
+          "token": "--nc-hero-cards-fg"
+        },
+        {
+          "token": "--nc-hero-cards-fg-muted"
+        },
+        {
+          "token": "--nc-hero-cards-radius"
+        },
+        {
+          "token": "--nc-hero-cards-pad"
+        }
+      ],
+      "Split-Layout": [
+        {
+          "token": "--nc-hero-split-columns"
+        },
+        {
+          "token": "--nc-hero-split-media-min-height"
+        },
+        {
+          "token": "--nc-hero-split-gap"
+        }
+      ],
+      "Dashboard-Attrappe": [
+        {
+          "token": "--nc-hero-mockup-width"
+        },
+        {
+          "token": "--nc-hero-mockup-ratio"
+        },
+        {
+          "token": "--nc-hero-mockup-radius"
+        },
+        {
+          "token": "--nc-hero-mockup-padding"
+        },
+        {
+          "token": "--nc-hero-mockup-gap"
         }
       ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-hero-bg",
+      "--mod-hero-min-height",
+      "--mod-hero-padding-block",
+      "--mod-hero-padding-inline",
+      "--mod-hero-gap",
+      "--mod-hero-radius",
+      "--mod-hero-overlay-visible",
+      "--mod-hero-overlay-start",
+      "--mod-hero-overlay-end",
+      "--mod-hero-overlay-direction",
+      "--mod-hero-kicker-size",
+      "--mod-hero-kicker-weight",
+      "--mod-hero-kicker-bg",
+      "--mod-hero-kicker-color",
+      "--mod-hero-kicker-radius",
+      "--mod-hero-kicker-padding",
+      "--mod-hero-title-size",
+      "--mod-hero-title-weight",
+      "--mod-hero-title-color",
+      "--mod-hero-title-max-width",
+      "--mod-hero-title-line-height",
+      "--mod-hero-subtitle-size",
+      "--mod-hero-subtitle-color",
+      "--mod-hero-subtitle-max-width",
+      "--mod-hero-subtitle-line-height",
+      "--mod-hero-highlights-gap",
+      "--mod-hero-highlights-color",
+      "--mod-hero-highlights-marker",
+      "--mod-hero-highlights-size",
+      "--mod-hero-actions-gap",
+      "--mod-hero-actions-margin-top",
+      "--mod-hero-surface-dark-bg",
+      "--mod-hero-surface-dark-fg",
+      "--mod-hero-surface-light-bg",
+      "--mod-hero-surface-light-fg",
+      "--mod-hero-surface-muted-bg",
+      "--mod-hero-mark-color",
+      "--mod-hero-mark-thickness",
+      "--mod-hero-mark-on-light",
+      "--mod-hero-mark-on-dark",
+      "--mod-hero-mark-tint",
+      "--mod-hero-mark-tint-on-light",
+      "--mod-hero-mark-tint-on-dark",
+      "--mod-hero-footer-margin-top",
+      "--mod-hero-footer-gap",
+      "--mod-hero-cards-gap",
+      "--mod-hero-footer-rule",
+      "--mod-hero-cards-stack",
+      "--mod-hero-cards-rule-width-sm",
+      "--mod-hero-cards-rule-width-md",
+      "--mod-hero-cards-rule-width-lg",
+      "--mod-hero-cards-rule-inset",
+      "--mod-hero-cards-rule-color",
+      "--mod-hero-cards-rule-accent",
+      "--mod-hero-cards-kicker-size",
+      "--mod-hero-cards-value-size",
+      "--mod-hero-cards-label-size",
+      "--mod-hero-cards-rule-on-dark",
+      "--mod-hero-cards-rule-on-light",
+      "--mod-hero-cards-bg",
+      "--mod-hero-cards-fg",
+      "--mod-hero-cards-fg-muted",
+      "--mod-hero-cards-radius",
+      "--mod-hero-cards-pad",
+      "--mod-hero-split-columns",
+      "--mod-hero-split-media-min-height",
+      "--mod-hero-split-gap",
+      "--mod-hero-mockup-width",
+      "--mod-hero-mockup-ratio",
+      "--mod-hero-mockup-radius",
+      "--mod-hero-mockup-padding",
+      "--mod-hero-mockup-gap"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

@@ -165,91 +165,132 @@
     "baseClasses": [
       ".nc-tabs"
     ],
-    "tokenGroups": [
-      {
-        "name": "Trigger",
+    "tokenGroups": {
+      "trigger": {
+        "label": "Trigger",
         "tokens": [
           {
-            "token": "--nc-tabs-trigger-color",
+            "token": "nc-tabs-trigger-color",
             "property": "color"
           },
           {
-            "token": "--nc-tabs-trigger-color-hover",
+            "token": "nc-tabs-trigger-color-hover",
             "property": "color"
           },
           {
-            "token": "--nc-tabs-trigger-color-active",
+            "token": "nc-tabs-trigger-color-active",
             "property": "color"
           },
           {
-            "token": "--nc-tabs-trigger-font-weight",
+            "token": "nc-tabs-trigger-font-weight",
             "property": "font-weight"
           },
           {
-            "token": "--nc-tabs-trigger-font-weight-active",
+            "token": "nc-tabs-trigger-font-weight-active",
             "property": "font-weight"
           }
         ]
       },
-      {
-        "name": "Line Variant",
+      "line-variant": {
+        "label": "Line Variant",
         "tokens": [
           {
-            "token": "--nc-tabs-line-border-color",
+            "token": "nc-tabs-line-border-color",
             "property": "border-color"
           },
           {
-            "token": "--nc-tabs-line-indicator-color",
+            "token": "nc-tabs-line-indicator-color",
             "property": "border-color (active)"
           }
         ]
       },
-      {
-        "name": "Contained Variant",
+      "contained-variant": {
+        "label": "Contained Variant",
         "tokens": [
           {
-            "token": "--nc-tabs-contained-bg",
+            "token": "nc-tabs-contained-bg",
             "property": "background"
           },
           {
-            "token": "--nc-tabs-contained-trigger-bg-active",
+            "token": "nc-tabs-contained-trigger-bg-active",
             "property": "background (active)"
           },
           {
-            "token": "--nc-tabs-contained-trigger-shadow",
+            "token": "nc-tabs-contained-trigger-shadow",
             "property": "box-shadow (active)"
           }
         ]
       },
-      {
-        "name": "Sizes",
+      "sizes": {
+        "label": "Sizes",
         "tokens": [
           {
-            "token": "--nc-tabs-height-sm",
+            "token": "nc-tabs-height-sm",
             "property": "height"
           },
           {
-            "token": "--nc-tabs-height-md",
+            "token": "nc-tabs-height-md",
             "property": "height"
           },
           {
-            "token": "--nc-tabs-height-lg",
+            "token": "nc-tabs-height-lg",
             "property": "height"
           }
         ]
       }
-    ]
+    }
   },
   "keyboard": {
-    "ArrowRight": { "action": "focus-next-tab", "note": "Fokussiert naechsten Tab (horizontal)." },
-    "ArrowLeft": { "action": "focus-prev-tab", "note": "Fokussiert vorherigen Tab (horizontal)." },
-    "ArrowDown": { "action": "focus-next-tab", "note": "Fokussiert naechsten Tab (vertikal).", "onlyWhen": { "axes": { "orientation": ["vertical"] } } },
-    "ArrowUp": { "action": "focus-prev-tab", "note": "Fokussiert vorherigen Tab (vertikal).", "onlyWhen": { "axes": { "orientation": ["vertical"] } } },
-    "Home": { "action": "focus-first-tab", "note": "Springt zum ersten Tab." },
-    "End": { "action": "focus-last-tab", "note": "Springt zum letzten Tab." },
-    "Enter": { "action": "activate-tab", "note": "Aktiviert den fokussierten Tab (falls nicht auto-activate)." },
-    "Space": { "action": "activate-tab", "note": "Aktiviert den fokussierten Tab." },
-    "Tab": { "action": "focus-panel", "note": "Springt direkt zum aktiven Panel-Inhalt (nicht durch alle Tabs)." }
+    "ArrowRight": {
+      "action": "focus-next-tab",
+      "note": "Fokussiert naechsten Tab (horizontal)."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-tab",
+      "note": "Fokussiert vorherigen Tab (horizontal)."
+    },
+    "ArrowDown": {
+      "action": "focus-next-tab",
+      "note": "Fokussiert naechsten Tab (vertikal).",
+      "onlyWhen": {
+        "axes": {
+          "orientation": [
+            "vertical"
+          ]
+        }
+      }
+    },
+    "ArrowUp": {
+      "action": "focus-prev-tab",
+      "note": "Fokussiert vorherigen Tab (vertikal).",
+      "onlyWhen": {
+        "axes": {
+          "orientation": [
+            "vertical"
+          ]
+        }
+      }
+    },
+    "Home": {
+      "action": "focus-first-tab",
+      "note": "Springt zum ersten Tab."
+    },
+    "End": {
+      "action": "focus-last-tab",
+      "note": "Springt zum letzten Tab."
+    },
+    "Enter": {
+      "action": "activate-tab",
+      "note": "Aktiviert den fokussierten Tab (falls nicht auto-activate)."
+    },
+    "Space": {
+      "action": "activate-tab",
+      "note": "Aktiviert den fokussierten Tab."
+    },
+    "Tab": {
+      "action": "focus-panel",
+      "note": "Springt direkt zum aktiven Panel-Inhalt (nicht durch alle Tabs)."
+    }
   },
   "testSelectors": {
     "root": "[data-testid='tabs']",
@@ -258,7 +299,14 @@
     "panel": "[data-testid='tabs-panel']"
   },
   "events": {
-    "tab-change": { "bubbles": true, "detail": { "value": "string", "previousValue": "string" }, "note": "Gefeuert wenn der aktive Tab wechselt." }
+    "tab-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn der aktive Tab wechselt."
+    }
   },
   "specimens": [
     {

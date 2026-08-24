@@ -153,16 +153,21 @@ function extractCssApi(recipe) {
     // Array-Format: [{ name, tokens: [...] }]
     for (const g of groups) {
       tokenGroups[g.name] = (g.tokens || []).map(t => {
-        if (typeof t === 'string') return { token: t };
-        return { token: t.token, property: t.property || null, description: t.description || null };
+        if (typeof t === 'string') return { token: tokenNormal(t) };
+        return { token: tokenNormal(t.token), property: t.property || null, description: t.description || null };
       });
     }
   } else if (groups && typeof groups === 'object') {
     // Object-Format: { groupId: { label, tokens: [...] } }
     for (const [key, val] of Object.entries(groups)) {
       tokenGroups[val.label || key] = (val.tokens || []).map(t => {
-        if (typeof t === 'string') return { token: t };
-        return { token: t, property: null, description: null };
+        if (typeof t === 'string') return { token: tokenNormal(t) };
+        // Bis zum 24.08.2026 stand hier `{ token: t, … }` — bei einem
+        // Objekt-Token landete damit das ganze Objekt im Feld `token`.
+        // Aufgefallen, als die vier Recipes mit Listenform umgestellt wurden:
+        // ihre `property`-Angaben haetten sich in der Objektform sonst nicht
+        // abbilden lassen, und die Umstellung haette 14 Angaben verloren.
+        return { token: tokenNormal(t.token), property: t.property || null, description: t.description || null };
       });
     }
   }
@@ -174,15 +179,32 @@ function extractCssApi(recipe) {
   };
 }
 
+/**
+ * Schreibt einen Tokennamen in die Form, die ein CSS-Verbraucher braucht.
+ *
+ * Die Recipes speichern uneinheitlich: 127 fuehren `nc-accordion-border`, vier
+ * fuehrten `--nc-tabs-trigger-color`. Beide meinen dasselbe. Statt die eine
+ * Seite umzuschreiben, wird hier an der Grenze normalisiert — dann ist es
+ * gleichgueltig, wie ein Recipe es haelt.
+ */
+function tokenNormal(name) {
+  if (typeof name !== 'string') return null;
+  return name.startsWith('--') ? name : `--${name}`;
+}
+
 function generateModTokens(tokenGroups) {
-  // Leite --mod-* Override-API aus --nc-* Token-Gruppen ab
+  // Leite --mod-* Override-API aus --nc-* Token-Gruppen ab.
+  //
+  // Bis zum 24.08.2026 stand hier `token.startsWith('--nc-')` gegen Namen, die
+  // in 127 von 131 Recipes ohne Striche stehen. Ergebnis: die --mod-*-API war
+  // in fast jeder Spec leer, obwohl es sie im Stylesheet laengst gibt. Es fiel
+  // nicht auf, weil die vier Recipes mit Listenform Werte lieferten und der
+  // Rest schlicht nie nachgesehen wurde.
   const modTokens = [];
   for (const tokens of Object.values(tokenGroups)) {
     for (const t of tokens) {
-      const token = t.token || t;
-      if (typeof token === 'string' && token.startsWith('--nc-')) {
-        modTokens.push(token.replace('--nc-', '--mod-'));
-      }
+      const token = tokenNormal(t.token || t);
+      if (token && token.startsWith('--nc-')) modTokens.push(token.replace('--nc-', '--mod-'));
     }
   }
   return modTokens;

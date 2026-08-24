@@ -25,12 +25,6 @@ Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/question-docs.html -->
-<!-- @punkte: 20 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<section class="question" style="--px-per-sec: 80; --marquise-el-width: 2000;">
 <hr>
 <!-- Zeile 1 (ungerade &rarr; marquee-reverse) -->

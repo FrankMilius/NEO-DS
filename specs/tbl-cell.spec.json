@@ -1,0 +1,87 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "tbl-cell",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "unknown",
+  "tags": [
+    "aufgenommen",
+    "atoms"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-tbl-cell",
+    "slots": [
+      {
+        "name": "icon-block",
+        "selector": ".nc-tbl-cell__icon-block",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "info-btn",
+        "selector": ".nc-tbl-cell__info-btn",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "sub",
+        "selector": ".nc-tbl-cell__sub",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-tbl-cell__text",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "0": {
+      "description": null,
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "icon",
+          "cssModifier": "nc-tbl-cell--icon",
+          "default": false,
+          "label": "icon"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [],
+    "tokenGroups": {},
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": null
+}

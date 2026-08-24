@@ -25,12 +25,6 @@ Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder st
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /produkte/app -->
-<!-- @punkte: 51 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-product-showcase nc-product-showcase--accordion nc-product-showcase--device nc-product-showcase--sticky nc-product-showcase--media-end" data-neo-device-accordion="aktiv">
 <div class="nc-product-showcase__media-panel">
 <div class="nc-device">

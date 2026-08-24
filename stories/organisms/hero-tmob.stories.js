@@ -25,12 +25,6 @@ Headline + Subtext + Media ueber konfigurierbarem Hintergrund.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 5 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<section class="nc-hero-tmob" style="min-height: 80svh; background-color: #0a0a1a;" data-neo-hero-tmob="">
 <div class="nc-hero-tmob__content">
 <div class="nc-hero-tmob__text">

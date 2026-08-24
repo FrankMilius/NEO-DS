@@ -25,12 +25,6 @@ Flex-Column Container fuer mehrere .nc-checkbox Elemente.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/checkbox-docs.html -->
-<!-- @punkte: 3 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-checkbox-group" role="group" aria-labelledby="group-label-1">
 <span id="group-label-1" style="font-weight: 600; margin-bottom: 4px; display: block;">Interessen</span>
 <label class="nc-checkbox">

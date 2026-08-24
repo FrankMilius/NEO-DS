@@ -25,12 +25,6 @@ Die Abzeichen sind KEINE Nachbauten der Marken von Apple und Google. Beide geben
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 3 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-app-store">
 <h2 class="nc-section-header__title">Jetzt laden — oder in zwei Minuten ansehen</h2>
 <p class="nc-section-header__lead">Die neo app gibt es für iOS und Android. Der Zugang läuft über Ihre Organisation; einen Testzugang richten wir auf Anfrage ein.</p>

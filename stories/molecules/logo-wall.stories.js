@@ -25,12 +25,6 @@ Root: display:grid (default), display:flex (marquee/cluster). Gap via Token.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /node/1 -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-logo-wall nc-logo-wall--marquee nc-logo-wall--lg nc-logo-wall--mono nc-logo-wall--boxed" data-neo-logo-wall="" data-layout="marquee" aria-label="Unsere Kunden" data-logo-wall-init="1">
 <div class="nc-logo-wall__track">
 <div class="nc-logo-pill" aria-label="AWO">

@@ -25,12 +25,6 @@ Root: <nav aria-label='Seitennavigation'> — landmark fuer Screen Reader.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/pagination-docs.html -->
-<!-- @punkte: 45 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<nav class="nc-pagination" aria-label="Seitennavigation">
 <button class="nc-pagination__prev" aria-label="Vorherige Seite">
 <svg viewBox="0 0 24 24">

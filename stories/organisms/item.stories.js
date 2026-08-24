@@ -25,12 +25,6 @@ Flex-Layout: align-items center (oder flex-start via --align-start), gap spacing
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/item-docs.html -->
-<!-- @punkte: 26 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-item">
 <div class="nc-item__media nc-item__media--icon">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

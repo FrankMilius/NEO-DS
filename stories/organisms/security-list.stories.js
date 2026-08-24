@@ -25,12 +25,6 @@ Grid-Layout mit gap. Items: flex, align-items center, border-bottom.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/security-list-docs.html -->
-<!-- @punkte: 11 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<ul class="nc-security-list" style="max-width: 420px;">
 <li class="nc-security-list__item">Zwei-Faktor-Authentifizierung</li>
 <li class="nc-security-list__item">Automatische Sicherheitsupdates</li>

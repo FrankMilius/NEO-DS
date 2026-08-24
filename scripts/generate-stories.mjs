@@ -37,14 +37,24 @@ function markupDateiLesen(component) {
 
   const teile = roh.split(/<!--\s*@fassung:\s*(.+?)\s*-->/);
 
+  // Traegt der Text ueberhaupt ein Element, oder nur Kommentare?
+  //
+  // Vor dem ersten @fassung-Trenner stehen die Herkunftsmarken (@quelle,
+  // @punkte). Bis zum 24.08.2026 wurden sie als eigene Fassung gezaehlt: jedes
+  // geerntete Bauteil bekam eine Story `Default`, die nichts als zwei
+  // Kommentare rendert — 102 leere Bilder neben den richtigen. Aufgefallen ist
+  // es erst beim Nachsehen im erzeugten Code, weil alle Sichtpruefungen auf
+  // `--standard` liefen.
+  const traegtMarkup = (text) => /<[a-zA-Z]/.test(text.replace(/<!--[\s\S]*?-->/g, ''));
+
   // Ohne Trenner steht alles in teile[0] und die Liste hat genau ein Element.
   if (teile.length === 1) {
-    return [{ name: 'Standard', markup: teile[0].trim() }];
+    return traegtMarkup(teile[0]) ? [{ name: 'Standard', markup: teile[0].trim() }] : [];
   }
 
   const fassungen = [];
-  // teile[0] ist der Text VOR dem ersten Trenner — meist leer.
-  if (teile[0].trim()) fassungen.push({ name: 'Standard', markup: teile[0].trim() });
+  // teile[0] ist der Text VOR dem ersten Trenner — meist nur Herkunftsmarken.
+  if (traegtMarkup(teile[0])) fassungen.push({ name: 'Standard', markup: teile[0].trim() });
   for (let i = 1; i < teile.length; i += 2) {
     const name = teile[i];
     const markup = (teile[i + 1] || '').trim();
@@ -332,6 +342,17 @@ let generated = 0;
 let skipped = 0;
 const mitMarkup = [];
 const ohneMarkup = [];
+const geruest = [];
+
+// Bauteile, die kein eigenes Story-Markup bekommen — nicht weil es fehlt,
+// sondern weil es keines gibt. Sie als Luecke zu zaehlen macht die Quote
+// unehrlich: "101 von 131" liest sich wie 30 offene Aufgaben, dabei sind
+// zehn davon Seitengeruest, das als eigenstaendiges Beispiel nichts zeigt.
+// Die Liste steht in data/geruest-bauteile.json, weil die Markup-Ernte sie
+// ebenfalls braucht.
+const GERUEST = new Set(
+  Object.keys(JSON.parse(readFileSync(resolve(DATA_DIR, 'geruest-bauteile.json'), 'utf-8')).bauteile),
+);
 
 for (const filename of files) {
   const component = filename.replace('-recipe.json', '');
@@ -347,7 +368,8 @@ for (const filename of files) {
   const outPath = resolve(outDir, `${component}.stories.js`);
   writeFileSync(outPath, file);
   generated++;
-  (hatEchtes ? mitMarkup : ohneMarkup).push(component);
+  if (GERUEST.has(component)) geruest.push(component);
+  else (hatEchtes ? mitMarkup : ohneMarkup).push(component);
 }
 
 // ─── Abdeckung ───────────────────────────────────────────────────────
@@ -361,6 +383,9 @@ const anteil = gesamt ? Math.round((mitMarkup.length / gesamt) * 100) : 0;
 console.log(`\n📖 Story Generator: ${generated} Stories erzeugt, ${skipped} uebersprungen`);
 console.log(`   Ausgabe: stories/{atoms,molecules,organisms}/*.stories.js`);
 console.log(`\n   Echtes Bauteil-Markup: ${mitMarkup.length} von ${gesamt} (${anteil} %)`);
+if (geruest.length) {
+  console.log(`   Nicht mitgezaehlt — Seitengeruest ohne eigenes Beispiel (${geruest.length}): ${geruest.sort().join(', ')}`);
+}
 
 if (ohneMarkup.length && !targetComponent) {
   const zeigen = ohneMarkup.slice(0, 12);
@@ -378,6 +403,7 @@ if (!targetComponent) {
       stand: { mit: mitMarkup.length, gesamt, anteil },
       mit: mitMarkup.sort(),
       ohne: ohneMarkup.sort(),
+      geruest: geruest.sort(),
     }, null, 2) + '\n',
   );
 }

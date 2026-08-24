@@ -25,12 +25,6 @@ Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 20 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-story-gallery nc-story-gallery--nav-below nc-story-gallery--loop" data-neo-story-gallery="" data-loop="on" style="--sg-card-height: 520px;" aria-label="Screenshot-System — ein Master, drei Ausschnitte" role="group" aria-roledescription="Galerie" data-sg-init="1">
 <div class="nc-story-gallery__scroll" tabindex="0">
 <ul class="nc-story-gallery__track" role="list">

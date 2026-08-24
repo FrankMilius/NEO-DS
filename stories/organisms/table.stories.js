@@ -25,12 +25,6 @@ Einfache Vergleichstabelle mit inverser Header-Zeile.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/table-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<table class="nc-compare-table">
 <thead>
 <tr>

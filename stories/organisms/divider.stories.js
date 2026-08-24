@@ -25,11 +25,5 @@ Standard: <hr class='nc-divider'>. Nativer role='separator' ist implizit.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/divider-docs.html -->
-<!-- @punkte: 0 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<hr class="nc-divider">`,
 };

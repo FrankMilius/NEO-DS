@@ -25,12 +25,6 @@ Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 11 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-fade-gallery" data-neo-fade-gallery="" aria-label="Eine Plattform für alles" data-fg-init="1">
 <div class="nc-fade-gallery__viewport">
 <div class="nc-fade-gallery__media is-active" role="tabpanel" id="fg-28-p0" aria-labelledby="fg-28-t0">

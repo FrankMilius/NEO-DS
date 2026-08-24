@@ -25,12 +25,6 @@ Button-Pattern: <button role='switch' aria-checked='true/false'> als Track.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/switch-docs.html -->
-<!-- @punkte: 24 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<label class="nc-switch">
 <input type="checkbox" class="nc-switch__input" role="switch">
 <span class="nc-switch__track">

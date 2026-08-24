@@ -25,12 +25,6 @@ Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/banner-docs.html -->
-<!-- @punkte: 14 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-banner nc-banner--danger" role="alert">
 <span class="nc-banner__icon" aria-hidden="true">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

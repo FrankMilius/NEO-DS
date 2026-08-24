@@ -25,12 +25,6 @@ Container ist ein <div class='nc-toggle-group'>.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/toggle-docs.html -->
-<!-- @punkte: 12 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-toggle-group" role="radiogroup" aria-label="Ansichtsmodus">
 <button class="nc-toggle-group__item" role="radio" aria-checked="true" tabindex="0" aria-label="Grid-Ansicht">
 <span class="nc-toggle-group__icon">

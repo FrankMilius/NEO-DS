@@ -126,6 +126,66 @@
           "label": "card"
         }
       ]
+    },
+    "interaktion": {
+      "label": "Interaktion",
+      "description": "Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).",
+      "values": [
+        {
+          "value": "tabs",
+          "cssModifier": null,
+          "default": false,
+          "label": "tabs"
+        },
+        {
+          "value": "accordion",
+          "cssModifier": "nc-product-showcase--accordion",
+          "default": false,
+          "label": "accordion"
+        },
+        {
+          "value": "scroll",
+          "cssModifier": "nc-product-showcase--sticky",
+          "default": false,
+          "label": "scroll"
+        }
+      ]
+    },
+    "mediaSide": {
+      "label": "Seite des Mediums",
+      "description": "Auf welcher Seite das Medium steht. Bei der Akkordeon-Fassung ist links die Vorgabe: Wer eine App zeigt, zeigt zuerst die App. Ab md gestapelt — dann steht das Medium immer oben.",
+      "values": [
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "end",
+          "cssModifier": "nc-product-showcase--media-end",
+          "default": false,
+          "label": "end"
+        }
+      ]
+    },
+    "mediaFrame": {
+      "label": "Geraeterahmen",
+      "description": "Ohne Rahmen fuellt das Medium das Panel im vorgegebenen Seitenverhaeltnis. Mit Rahmen gibt das Panel sein Seitenverhaeltnis auf und ueberlaesst es dem Geraet (nc-device) — noetig fuer App-Screens im Format 1:2.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "device",
+          "cssModifier": "nc-product-showcase--device",
+          "default": false,
+          "label": "device"
+        }
+      ]
     }
   },
   "states": {
@@ -157,99 +217,247 @@
     "tokenGroups": {
       "Layout": [
         {
-          "token": "nc-product-showcase-gap"
+          "token": "--nc-product-showcase-gap"
         },
         {
-          "token": "nc-product-showcase-options-width"
+          "token": "--nc-product-showcase-options-width"
         },
         {
-          "token": "nc-product-showcase-padding"
+          "token": "--nc-product-showcase-padding"
         }
       ],
       "Options": [
         {
-          "token": "nc-product-showcase-option-font-size"
+          "token": "--nc-product-showcase-option-font-size"
         },
         {
-          "token": "nc-product-showcase-option-font-weight"
+          "token": "--nc-product-showcase-option-font-weight"
         },
         {
-          "token": "nc-product-showcase-option-color"
+          "token": "--nc-product-showcase-option-color"
         },
         {
-          "token": "nc-product-showcase-option-color-active"
+          "token": "--nc-product-showcase-option-color-active"
         },
         {
-          "token": "nc-product-showcase-option-color-hover"
+          "token": "--nc-product-showcase-option-color-hover"
         },
         {
-          "token": "nc-product-showcase-option-gap"
+          "token": "--nc-product-showcase-option-gap"
         },
         {
-          "token": "nc-product-showcase-option-padding"
+          "token": "--nc-product-showcase-option-padding"
         },
         {
-          "token": "nc-product-showcase-label-font-size"
+          "token": "--nc-product-showcase-label-font-size"
         },
         {
-          "token": "nc-product-showcase-label-color"
+          "token": "--nc-product-showcase-label-color"
         },
         {
-          "token": "nc-product-showcase-indicator-size"
+          "token": "--nc-product-showcase-indicator-size"
         },
         {
-          "token": "nc-product-showcase-indicator-radius"
+          "token": "--nc-product-showcase-indicator-radius"
         },
         {
-          "token": "nc-product-showcase-option-font-family"
+          "token": "--nc-product-showcase-option-font-family"
         },
         {
-          "token": "nc-product-showcase-options-align"
+          "token": "--nc-product-showcase-options-align"
         },
         {
-          "token": "nc-product-showcase-label-font-family"
+          "token": "--nc-product-showcase-label-font-family"
         }
       ],
       "Headline": [
         {
-          "token": "nc-product-showcase-headline-size"
+          "token": "--nc-product-showcase-headline-size"
         },
         {
-          "token": "nc-product-showcase-headline-weight"
+          "token": "--nc-product-showcase-headline-weight"
         },
         {
-          "token": "nc-product-showcase-headline-color"
+          "token": "--nc-product-showcase-headline-color"
         }
       ],
       "Description": [
         {
-          "token": "nc-product-showcase-desc-size"
+          "token": "--nc-product-showcase-desc-size"
         },
         {
-          "token": "nc-product-showcase-desc-color"
+          "token": "--nc-product-showcase-desc-color"
         }
       ],
       "Media Panel": [
         {
-          "token": "nc-product-showcase-media-radius"
+          "token": "--nc-product-showcase-media-radius"
         },
         {
-          "token": "nc-product-showcase-media-aspect-ratio"
+          "token": "--nc-product-showcase-media-aspect-ratio"
         },
         {
-          "token": "nc-product-showcase-media-bg"
+          "token": "--nc-product-showcase-media-bg"
         }
       ],
       "Animation": [
         {
-          "token": "nc-product-showcase-animation-duration"
+          "token": "--nc-product-showcase-animation-duration"
         },
         {
-          "token": "nc-product-showcase-animation-easing"
+          "token": "--nc-product-showcase-animation-easing"
+        }
+      ],
+      "Akkordeon": [
+        {
+          "token": "--nc-product-showcase-acc-label-family"
+        },
+        {
+          "token": "--nc-product-showcase-acc-label-size"
+        },
+        {
+          "token": "--nc-product-showcase-acc-label-weight"
+        },
+        {
+          "token": "--nc-product-showcase-acc-label-tracking"
+        },
+        {
+          "token": "--nc-product-showcase-acc-label-color"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-family"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-size"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-weight"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-lh"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-tracking"
+        },
+        {
+          "token": "--nc-product-showcase-acc-title-color"
+        },
+        {
+          "token": "--nc-product-showcase-acc-text-size"
+        },
+        {
+          "token": "--nc-product-showcase-acc-text-lh"
+        },
+        {
+          "token": "--nc-product-showcase-acc-text-color"
+        },
+        {
+          "token": "--nc-product-showcase-acc-text-max"
+        },
+        {
+          "token": "--nc-product-showcase-acc-gap"
+        },
+        {
+          "token": "--nc-product-showcase-acc-pad"
+        },
+        {
+          "token": "--nc-product-showcase-acc-rule"
+        },
+        {
+          "token": "--nc-product-showcase-acc-marker"
+        },
+        {
+          "token": "--nc-product-showcase-acc-marker-width"
+        },
+        {
+          "token": "--nc-product-showcase-acc-marker-inset"
+        },
+        {
+          "token": "--nc-product-showcase-acc-device-reserve"
+        },
+        {
+          "token": "--nc-product-showcase-acc-marker-gap"
+        },
+        {
+          "token": "--nc-product-showcase-acc-device-col"
+        },
+        {
+          "token": "--nc-product-showcase-acc-columns-gap"
+        },
+        {
+          "token": "--nc-product-showcase-acc-card-width"
+        },
+        {
+          "token": "--nc-product-showcase-acc-card-gap"
+        },
+        {
+          "token": "--nc-product-showcase-acc-duration"
+        }
+      ],
+      "Mitlaufendes Medium": [
+        {
+          "token": "--nc-product-showcase-sticky-top"
         }
       ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-product-showcase-gap",
+      "--mod-product-showcase-options-width",
+      "--mod-product-showcase-padding",
+      "--mod-product-showcase-option-font-size",
+      "--mod-product-showcase-option-font-weight",
+      "--mod-product-showcase-option-color",
+      "--mod-product-showcase-option-color-active",
+      "--mod-product-showcase-option-color-hover",
+      "--mod-product-showcase-option-gap",
+      "--mod-product-showcase-option-padding",
+      "--mod-product-showcase-label-font-size",
+      "--mod-product-showcase-label-color",
+      "--mod-product-showcase-indicator-size",
+      "--mod-product-showcase-indicator-radius",
+      "--mod-product-showcase-option-font-family",
+      "--mod-product-showcase-options-align",
+      "--mod-product-showcase-label-font-family",
+      "--mod-product-showcase-headline-size",
+      "--mod-product-showcase-headline-weight",
+      "--mod-product-showcase-headline-color",
+      "--mod-product-showcase-desc-size",
+      "--mod-product-showcase-desc-color",
+      "--mod-product-showcase-media-radius",
+      "--mod-product-showcase-media-aspect-ratio",
+      "--mod-product-showcase-media-bg",
+      "--mod-product-showcase-animation-duration",
+      "--mod-product-showcase-animation-easing",
+      "--mod-product-showcase-acc-label-family",
+      "--mod-product-showcase-acc-label-size",
+      "--mod-product-showcase-acc-label-weight",
+      "--mod-product-showcase-acc-label-tracking",
+      "--mod-product-showcase-acc-label-color",
+      "--mod-product-showcase-acc-title-family",
+      "--mod-product-showcase-acc-title-size",
+      "--mod-product-showcase-acc-title-weight",
+      "--mod-product-showcase-acc-title-lh",
+      "--mod-product-showcase-acc-title-tracking",
+      "--mod-product-showcase-acc-title-color",
+      "--mod-product-showcase-acc-text-size",
+      "--mod-product-showcase-acc-text-lh",
+      "--mod-product-showcase-acc-text-color",
+      "--mod-product-showcase-acc-text-max",
+      "--mod-product-showcase-acc-gap",
+      "--mod-product-showcase-acc-pad",
+      "--mod-product-showcase-acc-rule",
+      "--mod-product-showcase-acc-marker",
+      "--mod-product-showcase-acc-marker-width",
+      "--mod-product-showcase-acc-marker-inset",
+      "--mod-product-showcase-acc-device-reserve",
+      "--mod-product-showcase-acc-marker-gap",
+      "--mod-product-showcase-acc-device-col",
+      "--mod-product-showcase-acc-columns-gap",
+      "--mod-product-showcase-acc-card-width",
+      "--mod-product-showcase-acc-card-gap",
+      "--mod-product-showcase-acc-duration",
+      "--mod-product-showcase-sticky-top"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

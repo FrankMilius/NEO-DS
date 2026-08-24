@@ -25,12 +25,6 @@ Wrapper ist ein <label class='nc-radio'> — Klick auf Label aktiviert Input.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/radio-docs.html -->
-<!-- @punkte: 23 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<label class="nc-radio">
 <input type="radio" class="nc-radio__input" name="stage-radio">
 <span class="nc-radio__control">

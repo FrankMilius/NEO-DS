@@ -1,0 +1,215 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "solution-tabs",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "display",
+    "content",
+    "interactive",
+    "tabs"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-solution-tabs",
+    "slots": [
+      {
+        "name": "tablist",
+        "selector": ".nc-solution-tabs__tablist",
+        "required": true,
+        "description": "Tab-Leiste. role='tablist'. Horizontal oben oder vertikal seitlich (--vertical)."
+      },
+      {
+        "name": "tab",
+        "selector": ".nc-solution-tabs__tab",
+        "required": true,
+        "description": "Einzelner Tab. button[role='tab'] mit aria-selected/aria-controls. Enthaelt optionalen Index und Progress-Indikator."
+      },
+      {
+        "name": "progress",
+        "selector": ".nc-solution-tabs__progress",
+        "required": false,
+        "description": "Fortschrittsbalken im aktiven Tab bei Autoplay; im Vertikal-Modus statischer Akzent-Indikator."
+      },
+      {
+        "name": "panel",
+        "selector": ".nc-solution-tabs__panel",
+        "required": true,
+        "description": "Tab-Panel. role='tabpanel'. Sichtbar via .is-active. Grid aus Inhalt + Produkt-Visual."
+      },
+      {
+        "name": "panel-title",
+        "selector": ".nc-solution-tabs__panel-title",
+        "required": true,
+        "description": "Panel-Ueberschrift (h3)."
+      },
+      {
+        "name": "features",
+        "selector": ".nc-solution-tabs__features",
+        "required": false,
+        "description": "Feature-Liste mit gestaffelter Einblendung."
+      },
+      {
+        "name": "cta",
+        "selector": ".nc-solution-tabs__cta",
+        "required": false,
+        "description": "Call-to-Action-Button im Panel."
+      },
+      {
+        "name": "visual",
+        "selector": ".nc-solution-tabs__visual",
+        "required": false,
+        "description": "Produkt-Visual (Mock-UI mit Chip, Name, Skeleton-Linien). Dekorativ, aria-hidden."
+      }
+    ],
+    "notes": [
+      "Root .nc-solution-tabs setzt --nc-solution-tabs-accent (Default = -accent-default), per Panel via Inline-Style ueberschreibbar.",
+      "Tablist role='tablist'; horizontal (flex row) oder vertikal (--vertical, flex column, border-inline-start).",
+      "Tab button[role='tab'][aria-selected][aria-controls]; aktives Panel .is-active (display:grid).",
+      "Autoplay: data-autoplay='on' am Root; Progress-Balken animiert ueber --nc-solution-tabs-autoplay-duration; .is-paused pausiert (Hover/Fokus). JS rotiert die Tabs.",
+      "Vertikal: Progress wird zum vertikalen Akzent-Indikator (scaleY); Visual steht oben (order:-1).",
+      "Variant contained: gefuellte Tabs ohne Underline/Progress.",
+      "Tastatur: ArrowLeft/Right (horizontal) bzw. ArrowUp/Down (vertikal) navigiert; Enter/Space aktiviert.",
+      "Responsive 880px: Panel einspaltig, Tablist horizontal scrollbar.",
+      "prefers-reduced-motion: keine Panel-/Feature-Animation, kein Autoplay-Progress."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "orientation": {
+      "label": "Orientation",
+      "description": "Anordnung der Tab-Leiste",
+      "values": [
+        {
+          "value": "horizontal",
+          "cssModifier": null,
+          "default": false,
+          "label": "horizontal"
+        },
+        {
+          "value": "vertical",
+          "cssModifier": "nc-solution-tabs--vertical",
+          "default": false,
+          "label": "vertical"
+        }
+      ]
+    },
+    "variant": {
+      "label": "Variant",
+      "description": "Visuelle Tab-Darstellung",
+      "values": [
+        {
+          "value": "line",
+          "cssModifier": null,
+          "default": false,
+          "label": "line"
+        },
+        {
+          "value": "contained",
+          "cssModifier": "nc-solution-tabs--contained",
+          "default": false,
+          "label": "contained"
+        }
+      ]
+    },
+    "autoplay": {
+      "label": "Autoplay",
+      "description": "Automatische Tab-Rotation mit Fortschrittsbalken",
+      "values": [
+        {
+          "value": "off",
+          "cssModifier": null,
+          "default": false,
+          "label": "off"
+        },
+        {
+          "value": "on",
+          "cssModifier": null,
+          "default": false,
+          "label": "on"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "active",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-solution-tabs"
+    ],
+    "tokenGroups": {
+      "Layout & Surface": [
+        {
+          "token": "--nc-solution-tabs-border"
+        },
+        {
+          "token": "--nc-solution-tabs-visual-bg"
+        }
+      ],
+      "Tabs & Autoplay": [
+        {
+          "token": "--nc-solution-tabs-tab-color"
+        },
+        {
+          "token": "--nc-solution-tabs-tab-color-active"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-duration"
+        }
+      ],
+      "Accent & Text": [
+        {
+          "token": "--nc-solution-tabs-accent-default"
+        },
+        {
+          "token": "--nc-solution-tabs-title"
+        },
+        {
+          "token": "--nc-solution-tabs-text"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-solution-tabs-border",
+      "--mod-solution-tabs-visual-bg",
+      "--mod-solution-tabs-tab-color",
+      "--mod-solution-tabs-tab-color-active",
+      "--mod-solution-tabs-autoplay-duration",
+      "--mod-solution-tabs-accent-default",
+      "--mod-solution-tabs-title",
+      "--mod-solution-tabs-text"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_solution-tabs.scss"
+    ],
+    "story": "stories/organisms/solution-tabs.stories.js",
+    "arena": null,
+    "drupal": [
+      "block--block-content--neo-solution-tabs.html.twig",
+      "block--inline-block--neo-solution-tabs.html.twig"
+    ],
+    "docs": null
+  }
+}

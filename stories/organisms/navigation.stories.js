@@ -25,12 +25,6 @@ nc-header: sticky top, backdrop-filter blur, bg-base 90% opacity, border-bottom.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/navigation-docs.html -->
-<!-- @punkte: 38 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<header class="nc-header" style="position: relative;">
 <nav class="nc-nav" aria-label="Hauptnavigation">
 <div class="nc-nav__inner">

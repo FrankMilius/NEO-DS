@@ -69,45 +69,45 @@
       },
       {
         "name": "fill",
-        "selector": ".nc-timeline--alternating::after",
-        "required": false,
-        "description": "Fortschrittsfuellung der Linie als Pseudo-Element (ein echtes Element waere in der <ol> ungueltiges Markup). Hoehe via --nc-timeline-progress."
+        "description": "Fortschrittsfuellung der Linie als Pseudo-Element (ein echtes Element waere in der <ol> ungueltiges Markup). Hoehe via --nc-timeline-progress.",
+        "element": ".nc-timeline--alternating::after",
+        "optional": true
       },
       {
         "name": "period",
-        "selector": ".nc-timeline__period",
-        "required": false,
-        "description": "Zeitraum-Badge, z. B. \"Woche 1-2\"."
+        "description": "Zeitraum-Badge, z. B. \"Woche 1-2\".",
+        "element": ".nc-timeline__period",
+        "optional": true
       },
       {
         "name": "badge",
-        "selector": ".nc-timeline__badge",
-        "required": false,
-        "description": "Frei beschriftbares Status-Badge, Farbton via cardTone."
+        "description": "Frei beschriftbares Status-Badge, Farbton via cardTone.",
+        "element": ".nc-timeline__badge",
+        "optional": true
       },
       {
         "name": "phase",
-        "selector": ".nc-timeline__phase",
-        "required": false,
-        "description": "Kleine Phasen-Auszeichnung ueber dem Titel, z. B. \"Phase 1\"."
+        "description": "Kleine Phasen-Auszeichnung ueber dem Titel, z. B. \"Phase 1\".",
+        "element": ".nc-timeline__phase",
+        "optional": true
       },
       {
         "name": "lead",
-        "selector": ".nc-timeline__lead",
-        "required": false,
-        "description": "Hervorgehobener Einleitungssatz unter dem Titel."
+        "description": "Hervorgehobener Einleitungssatz unter dem Titel.",
+        "element": ".nc-timeline__lead",
+        "optional": true
       },
       {
         "name": "list",
-        "selector": ".nc-timeline__list",
-        "required": false,
-        "description": "Stichpunktliste der Phaseninhalte."
+        "description": "Stichpunktliste der Phaseninhalte.",
+        "element": ".nc-timeline__list",
+        "optional": true
       },
       {
         "name": "cta",
-        "selector": ".nc-timeline__cta",
-        "required": false,
-        "description": "Optionaler Button am Kartenende. Wird nur gerendert, wenn Beschriftung UND Ziel gepflegt sind."
+        "description": "Optionaler Button am Kartenende. Wird nur gerendert, wenn Beschriftung UND Ziel gepflegt sind.",
+        "element": ".nc-timeline__cta",
+        "optional": true
       }
     ],
     "convenience": [],
@@ -132,7 +132,8 @@
       "Der Node darf kein margin-top tragen: das Basis-Mixin setzt 2px fuer die kompakte Timeline, was ihn in alternating/horizontal aus der Kartenmitte schiebt und im horizontalen Layout die Linie verfehlen laesst.",
       "horizontal: Node per align-self:center mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.",
       "Die Fortschrittsfuellung nutzt einen Verlauf mit transparenten Enden, damit sie nicht hart abgeschnitten wirkt.",
-      "CTA wird nur gerendert, wenn label UND url gesetzt sind - ein Link ohne erkennbares Ziel waere fuer Screenreader wertlos. Unbekannte Varianten fallen im Preprocess auf primary zurueck."
+      "CTA wird nur gerendert, wenn label UND url gesetzt sind - ein Link ohne erkennbares Ziel waere fuer Screenreader wertlos. Unbekannte Varianten fallen im Preprocess auf primary zurueck.",
+      "Die Slots 6-12 trugen bis zum 24.08.2026 `selector`/`required` statt `element`/`optional` — eine zweite Konvention in derselben Datei, angelegt beim Ausbau der Zeitleiste. Damit fehlten sie jeder Pruefung, die `element` liest."
     ]
   },
   "axes": {

@@ -25,12 +25,6 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/cta-docs.html -->
-<!-- @punkte: 17 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-cta">
 <div class="nc-cta__left">
 <h2 class="nc-section-title">Jetzt starten</h2>

@@ -25,12 +25,6 @@ export default {
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/video-section-docs.html -->
-<!-- @punkte: 26 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-video" id="demo-video-section">
 <!-- Media Column -->
 <div class="nc-video__media" id="demo-video-media">

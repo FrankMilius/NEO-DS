@@ -25,12 +25,6 @@ Root: role='combobox', aria-haspopup='listbox', aria-expanded='true|false', data
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Doku /docs/search-docs.html -->
-<!-- @punkte: 58 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-search">
 <div class="nc-search__input-wrapper">
 <span class="nc-search__icon" aria-hidden="true">

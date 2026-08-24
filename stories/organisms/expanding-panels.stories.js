@@ -25,12 +25,6 @@ Root .nc-expanding-panels: display:flex, gap, feste Hoehe (--nc-expanding-panels
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /musterseite-bauteile -->
-<!-- @punkte: 38 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<div class="nc-expanding-panels" data-xpanels="" role="group" aria-label="Warum neo workplace?" data-xpanels-init="1">
 <button type="button" class="nc-expanding-panels__panel" aria-expanded="true">
 <span class="nc-expanding-panels__bg" aria-hidden="true">

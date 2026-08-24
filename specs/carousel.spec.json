@@ -3,51 +3,39 @@
   "component": "carousel",
   "version": "1.0.0",
   "status": "stable",
-  "layer": "organism",
+  "layer": "molecule",
   "tags": [
-    "display",
-    "interactive",
-    "slider"
+    "layout",
+    "media",
+    "carousel"
   ],
   "anatomy": {
-    "rootElement": ".carousel",
+    "rootElement": ".nc-carousel",
     "slots": [
       {
-        "name": "slides-wrapper",
-        "selector": ".carousel-slides-wrapper",
+        "name": "track",
+        "selector": ".nc-carousel__track",
         "required": true,
-        "description": null
+        "description": "Waagerechte Spur mit scroll-snap. Jedes direkte Kind rastet am Anfang ein."
       },
       {
-        "name": "bottom-nav",
-        "selector": ".carousel-bottom-nav-wrapper",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "line-wrapper",
-        "selector": ".carousel-line-wrapper",
+        "name": "controls",
+        "selector": ".nc-carousel__controls",
         "required": false,
-        "description": null
-      },
-      {
-        "name": "navigations",
-        "selector": ".carousel-navigations-wrapper",
-        "required": false,
-        "description": null
+        "description": "Blaetter-Schaltflaechen, rechtsbuendig unter der Spur."
       }
     ],
     "notes": [
-      "Slides: ul/li, flex nowrap, dynamische Breite via carousel-slide-width-{1-12}.",
-      "Progress-Lines: 2px Hoehe, active-Line 112px breit, autoplay mit CSS-Animation.",
-      "Navigation-Buttons: 32×32, icon-only, :disabled state, focus-ring."
+      "Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebeneinander, unabhaengig von ihrer Zahl.",
+      "Spaltenbreite minmax(360px, 1fr), unter 720px minmax(260px, 85vw). Der angeschnittene Rest der naechsten Karte zeigt, dass es weitergeht.",
+      "scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern."
     ]
   },
   "api": null,
   "variants": {
-    "variant": {
-      "label": "Variant",
-      "description": "Variante — default, autoplay",
+    "media": {
+      "label": "Medien-Variante",
+      "description": "Fuer randlose Inhalte: nimmt die Polsterung heraus und gibt die Spaltenbreite frei, statt sie auf 360px zu zwingen.",
       "values": [
         {
           "value": "default",
@@ -56,35 +44,27 @@
           "label": "default"
         },
         {
-          "value": "autoplay",
-          "cssModifier": null,
+          "value": "media",
+          "cssModifier": "nc-carousel--media",
           "default": false,
-          "label": "autoplay"
+          "label": "media"
         }
       ]
     }
   },
   "states": {
     "supported": [
-      "default",
-      "disabled"
+      "default"
     ],
-    "interactive": true,
-    "rules": [
-      {
-        "state": "disabled",
-        "effects": [],
-        "attributes": {},
-        "description": null
-      }
-    ]
+    "interactive": null,
+    "rules": []
   },
   "cssApi": {
     "baseClasses": [
-      "carousel"
+      "nc-carousel"
     ],
     "tokenGroups": {
-      "Base": []
+      "Layout": []
     },
     "modTokens": []
   },
@@ -93,8 +73,8 @@
   "events": null,
   "a11y": {
     "role": null,
-    "interactive": true,
-    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "interactive": null,
+    "contrastTarget": null,
     "focusIndicator": null,
     "assertions": [],
     "overrides": []
@@ -102,11 +82,7 @@
   "dependencies": [],
   "pipeline": {
     "scss": [
-      "scss/scss/07-organisms/_carousel.scss"
-    ],
-    "story": "stories/organisms/carousel.stories.js",
-    "arena": null,
-    "drupal": [],
-    "docs": "docs/carousel-docs.html"
+      "scss/scss/06-molecules/_carousel.scss"
+    ]
   }
 }

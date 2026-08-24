@@ -25,12 +25,6 @@ Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem
 
 export const Default = {
   name: 'Standard',
-  render: () => `<!-- @quelle: geerntet von Website /loesungen/branchen/industrie-und-fertigung -->
-<!-- @punkte: 28 -->`,
-};
-
-export const Standard = {
-  name: 'Standard',
   render: () => `<section class="nc-hero nc-hero--surface-light nc-hero--cw-xwide nc-hero--center" style="background-size: cover; background-position: center center; background-repeat: no-repeat;">
 <div class="nc-hero__content">
 <div class="nc-badge-row nc-hero__badges">

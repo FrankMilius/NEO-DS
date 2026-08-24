@@ -65,14 +65,13 @@ const QUELLEN = {
 };
 const VON_HAND = '@quelle: von Hand';
 
-// Wurzelselektoren, die nicht zum Bauteil gehoeren, sondern zum Geruest
-// drumherum. `.section` faende jede Sektion, `.nc-shell` die ganze Seite.
-// Fuer diese ist "das echte Markup" der Seiteninhalt selbst — als Story
-// wertlos und 80 kB gross.
-const ZU_GENERISCH = new Set([
-  'section', 'grid', 'header', 'icon', 'spacing', 'square', 'video',
-  'shell', 'container', 'parallax-bg',
-]);
+// Bauteile, die kein eigenes Story-Markup bekommen — die Begruendung je
+// Bauteil steht in data/geruest-bauteile.json. Die Liste liegt dort und nicht
+// hier, weil der Story-Generator sie ebenfalls braucht: er darf sie nicht als
+// Luecke zaehlen. Zwei Listen fuer dieselbe Frage wuerden driften.
+const ZU_GENERISCH = new Set(
+  Object.keys(JSON.parse(readFileSync(resolve(DATA, 'geruest-bauteile.json'), 'utf8')).bauteile),
+);
 
 // Obergrenze fuer eine Story. Darueber ist nicht mehr das Bauteil zu sehen,
 // sondern eine Datenmenge — der Leser scrollt an der Aussage vorbei.
