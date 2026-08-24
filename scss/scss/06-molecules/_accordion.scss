@@ -213,6 +213,33 @@
     margin: 0;
 
     + * { margin-block-start: var(--fnd-spacing-04); }
+
+    // AUSZEICHNUNG IM ANTWORTTEXT.
+    //
+    // Bis zum 24.08.2026 gab Drupal diesen Text maskiert aus: eine Liste, die
+    // ein Redakteur eingetragen hatte, stand als sichtbares `<ul><li>` auf der
+    // Seite. Aufgefallen ist das erst, als Storybook echtes Markup zeigte.
+    // Seit dem Fix kommt hier an, was der Redakteur gemeint hat — und damit
+    // braucht der Bereich Regeln fuer verschachtelte Absaetze und Listen.
+    //
+    // Die Abstaende sind dieselben wie am Geschwister-Element daneben, sonst
+    // haette eine Liste IM Text einen anderen Rhythmus als eine Liste NEBEN
+    // dem Text.
+    > * { margin: 0; }
+    > * + * { margin-block-start: var(--fnd-spacing-04); }
+
+    ul,
+    ol {
+      padding-inline-start: var(--fnd-spacing-05);
+      display: grid;
+      gap: var(--fnd-spacing-02);
+    }
+
+    a {
+      color: currentcolor;
+      text-decoration-line: underline;
+      text-underline-offset: 0.2em;
+    }
   }
 
   &__list {

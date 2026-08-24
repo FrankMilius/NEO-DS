@@ -135,7 +135,10 @@
       "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
       "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
       "Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button).",
-      "prefers-reduced-motion: Transitions deaktiviert."
+      "prefers-reduced-motion: Transitions deaktiviert.",
+      ".nc-accordion__text ist ein <div>, kein <p>: die Antwort darf Listen enthalten, und ein <ul> in einem <p> bricht den Absatz im Browser auf.",
+      "Erlaubte Auszeichnung in der Antwort: p, br, strong, em, b, i, ul, ol, li, a, code, abbr. Alles andere wird verworfen (Drupal: Xss::filter im Preprocess _neo_fe_acc_antwort).",
+      "Loser Text vor oder zwischen Bloecken wird in <p> gefasst — sonst klebt eine Liste am Vorspann, denn CSS kann \"steht hinter einem Textknoten\" nicht auswaehlen."
     ]
   },
   "axes": {
