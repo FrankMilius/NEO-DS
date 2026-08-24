@@ -4276,6 +4276,19 @@
 
 :root {
   // -- Base --
+  // Die Flaeche des Footers und ihre Schriftfarbe.
+  //
+  // Beide standen bis zum 24.08.2026 NUR im Drupal-Theme, obwohl
+  // 07-organisms/_footer.scss sie benutzt. Das Design System verwendete damit
+  // Tokens, die es selbst nicht definiert — wer es ohne das Theme einsetzt,
+  // bekommt einen Footer ohne Flaechenfarbe. Die einzigen zwei Tokens, die die
+  // Drift-Messung noch als "dem DS unbekannt" fuehrte.
+  //
+  // Als Flaeche background-secondary, dasselbe Token wie .neo-surface--muted:
+  // eine abgesetzte Bank am Seitenende, die den Hell/Dunkel-Wechsel mitmacht.
+  --nc-footer-surface-bg:            var(--fnd-color-background-secondary);
+  --nc-footer-surface-fg:            var(--fnd-color-text-primary);
+
   --nc-footer-bg:                    var(--fnd-color-background-base);
   --nc-footer-color:                 var(--fnd-color-text-primary);
   --nc-footer-padding-block:         var(--fnd-spacing-10);
