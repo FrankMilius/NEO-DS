@@ -22,6 +22,20 @@
  * Schriftgroessen, Rahmen, Schatten. NICHT die Layout-Mechanik (display, flex,
  * position, object-fit) — die traegt keine Gestaltungsentscheidung.
  *
+ * OHNE MARKUP KEINE AUFNAHME
+ * Der letzte Schritt — die Regeln aus neo-overrides.css entfernen — laeuft
+ * erst, wenn data/markup/<name>.html existiert. Vorher bricht das Skript ab
+ * und sagt, wie das Markup zu holen ist.
+ *
+ * Der Grund steht in der Geschichte dieses Repos: Am 21.08.2026 trugen alle
+ * 131 Stories Markup, das aus Klassennamen abgeleitet war — es sah nach
+ * Bauteil aus und war keines. Vier Phasen Arbeit haben das aufgeholt. Ohne
+ * Sperre faellt es beim naechsten Bauteil wieder auf, und niemand merkt es,
+ * weil eine Story mit Platzhalter genauso aussieht wie eine fertige.
+ *
+ * Damit die Ernte ueberhaupt greifen kann, legt dieses Skript zuvor das
+ * Recipe an: sie sucht den Wurzelselektor, den nur das Recipe kennt.
+ *
  * SKALEN-ANBINDUNG
  * Ein harter px-Wert wird an die Foundation-Skala gebunden, wenn der Abstand
  * unter 2px liegt; sonst behaelt er seinen Wert und wird mit „eigener Wert"
@@ -344,6 +358,61 @@ if (argv.includes('--anwenden')) {
     if (vorhanden >= 0) gruppen[vorhanden] = { ...gruppen[vorhanden], ...eintrag };
     else gruppen.push(eintrag);
     writeFileSync(jsonDatei, JSON.stringify(j, null, 2) + '\n');
+  }
+
+  // 3b. Recipe anlegen
+  //
+  // Die Markup-Ernte sucht Bauteile ueber `anatomy.root.element` — ohne
+  // Recipe kann sie das neue Bauteil gar nicht finden. Der Entwurf traegt die
+  // Wurzel und die BEM-Bereiche, die in den uebernommenen Regeln vorkommen;
+  // alles Weitere gehoert von Hand nachgezogen.
+  const rezeptDatei = resolve(wurzel, `data/${name}-recipe.json`);
+  if (!existsSync(rezeptDatei)) {
+    const bereiche = [...new Set(
+      scss.flatMap((b) => [...b.sel.matchAll(/\.(nc-[a-z0-9-]+__[a-z0-9-]+)/g)].map((m) => m[1])),
+    )].sort();
+
+    writeFileSync(rezeptDatei, `${JSON.stringify({
+      meta: {
+        schemaVersion: '3.1.0',
+        // Muss dem Dateinamen entsprechen — der Story-Generator sucht die
+        // Markup-Datei ueber diesen Namen. Weicht er ab, bleibt das Bauteil
+        // ohne Markup, obwohl die Datei danebenliegt (siehe chapter-nav,
+        // 24.08.2026).
+        component: name,
+        version: '1.0.0',
+        status: 'draft',
+        tags: ['aufgenommen'],
+      },
+      anatomy: {
+        root: { element: `.${ziel}` },
+        slots: bereiche.map((b) => ({ name: b.split('__')[1], element: `.${b}`, optional: true })),
+        domNotes: [
+          `Entwurf, erzeugt beim Aufnehmen aus neo-overrides.css am ${new Date().toISOString().slice(0, 10)}.`,
+          'Die Bereiche stammen aus den uebernommenen Regeln. Was Pflicht ist und was nicht, steht noch nicht fest — `optional: true` ist die vorsichtige Annahme, nicht die geprueft richtige.',
+        ],
+      },
+      styling: { baseClasses: [ziel], tokenGroups: {} },
+    }, null, 2)}\n`);
+    console.log(`    Recipe    data/${name}-recipe.json (Entwurf, ${bereiche.length} Bereiche)`);
+  }
+
+  // 3c. Ohne Markup kein letzter Schritt
+  //
+  // Erst hier, nicht am Anfang: Das Recipe muss stehen, sonst findet die Ernte
+  // das Bauteil nicht. Und erst vor dem EINZIGEN unumkehrbaren Schritt — bis
+  // hierher ist alles ergaenzend, das Entfernen der Overrides nicht.
+  const markupDatei = resolve(wurzel, `data/markup/${name}.html`);
+  if (!existsSync(markupDatei)) {
+    console.log(`\n  ABBRUCH — noch kein Bauteil-Markup fuer "${name}".`);
+    console.log('  SCSS, Tokens, Konfigurator-Eintrag und Recipe stehen. Die Regeln in');
+    console.log('  neo-overrides.css bleiben, bis das Bauteil in Storybook nachweisbar ist.\n');
+    console.log('  So geht es weiter:');
+    console.log(`      npm run ernte:markup -- ${name}          von der laufenden Website`);
+    console.log(`      npm run ernte:markup -- --quelle=doku ${name}   ersatzweise aus der Doku`);
+    console.log('      # findet die Ernte nichts, von Hand anlegen — siehe data/markup/LIESMICH.md');
+    console.log(`\n  Danach denselben Befehl erneut aufrufen.\n`);
+    process.exit(1);
   }
 
   // 4. Overrides entfernen

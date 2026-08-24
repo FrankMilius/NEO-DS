@@ -146,6 +146,31 @@ Markup korrigieren oder das Bauteil im Stylesheet ergänzen. Am 24.08.2026 stehe
 Doku-Seite schreibt und das Design System nicht kennt. Sie stehen im BACKLOG
 von DRUPAL11.
 
+## Neue Bauteile kommen mit Markup — oder gar nicht
+
+`npm run aufnehmen -- nc-<bauteil> --anwenden` nimmt ein Bauteil aus
+`neo-overrides.css` ins Design System auf. Der **letzte** Schritt, das Entfernen
+der Override-Regeln, läuft erst, wenn `data/markup/<name>.html` existiert.
+Vorher bricht das Skript ab und nennt den Befehl, mit dem das Markup zu holen
+ist.
+
+Die Reihenfolge ist kein Zufall:
+
+1. SCSS, Tokens, Konfigurator-Eintrag — ergänzend, jederzeit wiederholbar
+2. **Recipe-Entwurf** — ohne ihn kennt die Ernte den Wurzelselektor nicht und
+   findet das Bauteil gar nicht
+3. Ernte oder Handarbeit
+4. Override-Regeln entfernen — der einzige unumkehrbare Schritt
+
+Bis Schritt 4 ist nichts verloren, wenn man abbricht. Deshalb steht die Sperre
+davor und nicht am Anfang.
+
+**Warum überhaupt eine Sperre.** Am 21.08.2026 trugen alle 131 Stories Markup,
+das aus Klassennamen abgeleitet war — es sah nach Bauteil aus und war keines.
+Vier Phasen Arbeit haben das aufgeholt. Ohne Sperre fällt es beim nächsten
+Bauteil wieder auf, und niemand merkt es: Eine Story mit Platzhalter sieht
+genauso aus wie eine fertige.
+
 ## Bilder
 
 Beispielbilder kommen aus `assets/muster/` — Storybook liefert `assets/` unter
