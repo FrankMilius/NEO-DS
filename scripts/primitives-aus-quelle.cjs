@@ -56,7 +56,16 @@ function abschnitt(von, bis) {
   // Anlauf ohne eine einzige Palette.
   const b = bis ? scss.indexOf(bis, a) : scss.length;
   const teil = scss.slice(a, b > a ? b : scss.length);
-  return new Set([...teil.matchAll(/^\$([a-z][\w-]*):\s*fn\.generate-shade-scale/gm)].map((m) => m[1]));
+  // Jede Zuweisung im Abschnitt zaehlt, nicht nur `fn.generate-shade-scale(…)`.
+  //
+  // Am 24.08.2026 bekamen $primary und $secondary eine if()-Verzweigung
+  // (Kundenfarbe oder Graphitleiter). Damit passte das alte Muster nicht mehr,
+  // und beide rutschten aus `brand` nach `system` — die Marke bestand
+  // anschliessend nur noch aus dem Akzent. Ein Muster, das auf die
+  // Schreibweise der rechten Seite baut, bricht beim ersten Umbau.
+  return new Set([...teil.matchAll(/^\$([a-z][\w-]*)\s*:/gm)]
+    .map((m) => m[1])
+    .filter((n) => !n.startsWith('_')));
 }
 
 const HAUPT = abschnitt('Main Palettes', 'Foundation Colors');
@@ -87,10 +96,17 @@ function alsHex(wert) {
   return `#${z(m[1])}${z(m[2])}${z(m[3])}`;
 }
 
+// Die Beschriftung ist eine Aussage, keine Verzierung. Sie stand bis zum
+// 24.08.2026 auf "Neo Darkblue" fuer eine Palette, die inzwischen Graphit
+// zeigte — im Konfigurator las man den alten Namen ueber dem neuen Farbfeld.
 const BESCHRIFTUNG = {
-  primary: 'Neo Darkblue', secondary: 'Neo Blue', accent: 'Neo Lime',
+  primary: 'Graphit (Primary)',
+  secondary: 'Graphit (Secondary, vorerst gleich Primary)',
+  accent: 'Neo Lime',
   graphit: 'Graphit', 'neutral-blau': 'Blaustichig',
   'neutral-beige': 'Beigestichig', 'neutral-salbei': 'Salbei',
+  'neo-darkblue': 'Neo Darkblue — Reserve fuer das Backend-Theme',
+  'neo-blue': 'Neo Blue — Reserve fuer das Backend-Theme',
 };
 const schoen = (n) => BESCHRIFTUNG[n] ?? n.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
 

@@ -3,14 +3,32 @@
 // Farb-Primitiven, Semantische Farben, Theme-Vergleich
 // ============================================================
 
-const PALETTES = [
-  { name: 'Primary (Neo Darkblue)', prefix: 'primary', shades: [100,200,300,400,500,600,700,800,900,950] },
-  { name: 'Secondary (Neo Blue)', prefix: 'secondary', shades: [100,200,300,400,500,600,700,800,900,950] },
-  { name: 'Accent (Neo Lime)', prefix: 'accent', shades: [100,200,300,400,500,600,700,800,900,950] },
-  { name: 'Neutral', prefix: 'neutral', shades: [100,200,300,400,500,600,700,800,900,950] },
-  { name: 'Beige', prefix: 'beige', shades: [100,200,300,400,500,600,700,800,900,950] },
-];
+import registry from '../../data/design-tokens.json';
 
+// Die Paletten kommen aus der Registry, nicht aus einer Liste hier.
+//
+// Bis zum 24.08.2026 stand hier eine gepflegte Aufzaehlung — und sie war nach
+// der Umstellung auf Graphit sofort falsch: "Primary (Neo Darkblue)" zeigte
+// weiter auf eine Palette, die inzwischen Graphit ist. Dritte Stelle heute mit
+// demselben Muster. Die Registry entsteht ihrerseits aus den SCSS-Quellen
+// (scripts/primitives-aus-quelle.cjs), also gibt es genau eine Wahrheit.
+const GRUPPENTITEL = {
+  brand: 'Marke',
+  neutralleitern: 'Neutralleitern (OKLCH, stufengleich im Kontrast)',
+  supporting: 'Supporting Palettes',
+  system: 'Rueckmeldungen',
+};
+
+const PALETTES = Object.entries(registry.primitives)
+  .filter(([gruppe]) => gruppe in GRUPPENTITEL)
+  .flatMap(([gruppe, paletten]) =>
+    Object.entries(paletten).map(([name, p]) => ({
+      gruppe: GRUPPENTITEL[gruppe],
+      name: p.label ?? name,
+      prefix: name,
+      shades: Object.keys(p.shades ?? {}).map(Number).sort((a, b) => a - b),
+    })),
+  );
 // Die Rollen werden gegen styles.css geprueft: Ein Token, das es nicht gibt,
 // ergibt `background: var(--gibt-es-nicht)` — das ist ungueltig, und das Feld
 // bleibt leer. Genau so sahen die Paletten aus, weil sie
