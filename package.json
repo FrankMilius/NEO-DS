@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "tokens": "node scripts/generate-tokens.cjs",
+    "tokens": "node scripts/primitives-aus-quelle.cjs --schreiben && node scripts/generate-tokens.cjs",
     "tokens:validate": "node scripts/validate-tokens.cjs",
     "tokens:diff": "node scripts/diff-tokens.cjs",
     "tokens:golden": "cp data/design-tokens.json data/design-tokens.golden.json && echo '  ✓ Golden master updated'",
@@ -94,7 +94,8 @@
     "ernte:markup": "node scripts/ernte-markup.mjs",
     "lint:klassen": "node scripts/pruefe-klassen.mjs",
     "lint:recipe-form": "node scripts/pruefe-recipe-form.mjs",
-    "nutzung": "node scripts/nutzung-pruefen.mjs"
+    "nutzung": "node scripts/nutzung-pruefen.mjs",
+    "primitives:aus-quelle": "node scripts/primitives-aus-quelle.cjs"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^8.6.18",

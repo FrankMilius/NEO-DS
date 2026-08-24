@@ -29,7 +29,12 @@ const getColorPrimitives = () => {
     // In v2, primitives are at top-level: tokens.primitives
     const p = tokens.primitives;
     return {
-      neutral: p.neutral,
+      // `neutral` lag bis zum 24.08.2026 flach unter primitives. Seit die
+      // Registry aus der SCSS-Quelle erzeugt wird (primitives-aus-quelle.cjs),
+      // steht es als Palette in der Gruppe `system` und traegt seine Stufen
+      // unter `shades`. Beide Formen lesen, damit dieser Generator die
+      // Umstellung ueberlebt.
+      neutral: p.neutral ?? p.system?.neutral?.shades ?? {},
       primary: p.brand.primary,
       secondary: p.brand.secondary,
       accent: p.brand.accent,
