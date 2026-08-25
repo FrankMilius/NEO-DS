@@ -23,7 +23,17 @@
   font-family: var(--font-heading);
 }
 
-.nc-feature-list {
+// UMBENANNT AM 25.08.2026 — vorher .nc-feature-list.
+//
+// Diesen Namen trug auch der Blocktyp in 07-organisms/_feature-list.scss:
+// dort ein ganzer Abschnitt, hier ein <ul> mit Haekchen. Bis zum 13.08. hatte
+// der Blocktyp keine eigene Wurzelregel und bezog seine Grundgestaltung
+// versehentlich VON HIER — `padding: 0` nahm ihm die Abschnittspolsterung, und
+// nur weil neo-overrides.css zuletzt lud, fiel es nicht auf.
+//
+// Die Wurzelregel im Organismus war die Absicherung. Das hier ist die Loesung:
+// Die kleinere und klarer eingegrenzte Komponente weicht.
+.nc-pricing-features {
   list-style: none;
   padding: 0;
   display: grid;
@@ -31,7 +41,7 @@
   margin: 1rem 0;
 }
 
-.nc-feature-list__item::before {
+.nc-pricing-features__item::before {
   content: '\2714';
   color: var(--fnd-color-background-accent);
   margin-inline-end: 0.5rem;
