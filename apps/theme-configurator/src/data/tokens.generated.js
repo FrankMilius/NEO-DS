@@ -5177,198 +5177,25 @@ export const componentTokenGroups = [
       {
         "id": "leiste",
         "label": "Kapitelleiste",
-        "tokenIds": [
-          "nc-chapternav-bg",
-          "nc-chapternav-border",
-          "nc-chapternav-gap",
-          "nc-chapternav-padding",
-          "nc-chapternav-family",
-          "nc-chapternav-size",
-          "nc-chapternav-weight",
-          "nc-chapternav-color",
-          "nc-chapternav-color-active",
-          "nc-chapternav-marker",
-          "nc-chapternav-marker-height",
-          "nc-chapternav-top"
-        ]
+        "tokenIds": []
       },
       {
         "id": "verzeichnis",
         "label": "Verzeichnis",
-        "tokenIds": [
-          "nc-chapternav-toc-bg",
-          "nc-chapternav-toc-border",
-          "nc-chapternav-toc-radius",
-          "nc-chapternav-toc-padding",
-          "nc-chapternav-toc-gap",
-          "nc-chapternav-toc-title-size",
-          "nc-chapternav-toc-title-color",
-          "nc-chapternav-toc-size",
-          "nc-chapternav-toc-color",
-          "nc-chapternav-toc-number-color"
-        ]
+        "tokenIds": []
       },
       {
         "id": "anker",
         "label": "Sprungziel",
-        "tokenIds": [
-          "nc-chapternav-scroll-margin"
-        ]
+        "tokenIds": []
       },
       {
         "id": "geometry",
         "label": "Geometrie",
-        "tokenIds": [
-          "nc-chapternav-padding-block"
-        ]
+        "tokenIds": []
       }
     ],
-    "tokens": [
-      {
-        "id": "nc-chapternav-bg",
-        "label": "Bg",
-        "type": "color",
-        "default": "var(--fnd-color-background-base)"
-      },
-      {
-        "id": "nc-chapternav-border",
-        "label": "Border",
-        "type": "color",
-        "default": "var(--fnd-color-border-secondary)"
-      },
-      {
-        "id": "nc-chapternav-gap",
-        "label": "Gap",
-        "type": "dimension",
-        "default": "var(--fnd-spacing-01)"
-      },
-      {
-        "id": "nc-chapternav-padding",
-        "label": "Padding",
-        "type": "dimension",
-        "default": "var(--fnd-spacing-03) var(--fnd-spacing-04)"
-      },
-      {
-        "id": "nc-chapternav-family",
-        "label": "Family",
-        "type": "font",
-        "default": "var(--font-heading)"
-      },
-      {
-        "id": "nc-chapternav-size",
-        "label": "Size",
-        "type": "dimension",
-        "default": "var(--nc-type-body-s-size)"
-      },
-      {
-        "id": "nc-chapternav-weight",
-        "label": "Weight",
-        "type": "number",
-        "default": "var(--fnd-font-weight-semibold)"
-      },
-      {
-        "id": "nc-chapternav-color",
-        "label": "Color",
-        "type": "color",
-        "default": "var(--fnd-color-text-secondary)"
-      },
-      {
-        "id": "nc-chapternav-color-active",
-        "label": "Color active",
-        "type": "color",
-        "default": "var(--fnd-color-text-primary)"
-      },
-      {
-        "id": "nc-chapternav-marker",
-        "label": "Marker",
-        "type": "color",
-        "default": "var(--fnd-color-background-accent)"
-      },
-      {
-        "id": "nc-chapternav-marker-height",
-        "label": "Marker height",
-        "type": "dimension",
-        "default": "2px"
-      },
-      {
-        "id": "nc-chapternav-top",
-        "label": "Top",
-        "type": "dimension",
-        "default": "var(--nc-nav-height, 72px)"
-      },
-      {
-        "id": "nc-chapternav-scroll-margin",
-        "label": "Scroll margin",
-        "type": "dimension",
-        "default": "calc(var(--nc-nav-height, 72px) + 56px + var(--fnd-spacing-05))"
-      },
-      {
-        "id": "nc-chapternav-toc-bg",
-        "label": "Toc bg",
-        "type": "color",
-        "default": "var(--fnd-color-background-secondary)"
-      },
-      {
-        "id": "nc-chapternav-toc-border",
-        "label": "Toc border",
-        "type": "color",
-        "default": "var(--fnd-color-border-secondary)"
-      },
-      {
-        "id": "nc-chapternav-toc-radius",
-        "label": "Toc radius",
-        "type": "dimension",
-        "default": "var(--fnd-radius-sm)"
-      },
-      {
-        "id": "nc-chapternav-toc-padding",
-        "label": "Toc padding",
-        "type": "dimension",
-        "default": "var(--fnd-spacing-05) var(--fnd-spacing-06)"
-      },
-      {
-        "id": "nc-chapternav-toc-gap",
-        "label": "Toc gap",
-        "type": "dimension",
-        "default": "var(--fnd-spacing-02) var(--fnd-spacing-06)"
-      },
-      {
-        "id": "nc-chapternav-toc-title-size",
-        "label": "Toc title size",
-        "type": "dimension",
-        "default": "var(--fs-xs)"
-      },
-      {
-        "id": "nc-chapternav-toc-title-color",
-        "label": "Toc title color",
-        "type": "color",
-        "default": "var(--fnd-color-text-secondary)"
-      },
-      {
-        "id": "nc-chapternav-toc-size",
-        "label": "Toc size",
-        "type": "dimension",
-        "default": "var(--nc-type-body-m-size)"
-      },
-      {
-        "id": "nc-chapternav-toc-color",
-        "label": "Toc color",
-        "type": "color",
-        "default": "var(--fnd-color-text-primary)"
-      },
-      {
-        "id": "nc-chapternav-toc-number-color",
-        "label": "Toc number color",
-        "type": "color",
-        "default": "var(--fnd-color-text-tertiary)"
-      },
-      {
-        "id": "nc-chapternav-padding-block",
-        "label": "Padding Block",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-04)"
-      }
-    ]
+    "tokens": []
   },
   {
     "id": "checkbox",
@@ -9603,13 +9430,6 @@ export const componentTokenGroups = [
     ]
   },
   {
-    "id": "form-actions",
-    "label": "Form Actions",
-    "icon": "components",
-    "subgroups": [],
-    "tokens": []
-  },
-  {
     "id": "form-block",
     "label": "Form Block",
     "icon": "components",
@@ -9926,13 +9746,6 @@ export const componentTokenGroups = [
         ]
       }
     ]
-  },
-  {
-    "id": "form-section",
-    "label": "Form Section",
-    "icon": "components",
-    "subgroups": [],
-    "tokens": []
   },
   {
     "id": "gallery",
@@ -22648,6 +22461,208 @@ export const componentTokenGroups = [
         "label": "Caption Ls",
         "type": "size",
         "default": "0.04em"
+      }
+    ]
+  },
+  {
+    "id": "chapter-nav",
+    "label": "Chapter Nav",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-chapter-nav-gap",
+          "nc-chapter-nav-padding-block",
+          "nc-chapter-nav-padding",
+          "nc-chapter-nav-size",
+          "nc-chapter-nav-marker-height",
+          "nc-chapter-nav-top",
+          "nc-chapter-nav-scroll-margin",
+          "nc-chapter-nav-toc-radius",
+          "nc-chapter-nav-toc-padding",
+          "nc-chapter-nav-toc-gap",
+          "nc-chapter-nav-toc-title-size",
+          "nc-chapter-nav-toc-size"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-chapter-nav-weight"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-chapter-nav-bg",
+          "nc-chapter-nav-border",
+          "nc-chapter-nav-color",
+          "nc-chapter-nav-color-active",
+          "nc-chapter-nav-toc-bg",
+          "nc-chapter-nav-toc-border",
+          "nc-chapter-nav-toc-title-color",
+          "nc-chapter-nav-toc-color",
+          "nc-chapter-nav-toc-number-color"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-chapter-nav-family",
+          "nc-chapter-nav-marker"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-chapter-nav-bg",
+        "label": "BG",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-chapter-nav-border",
+        "label": "Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-chapter-nav-gap",
+        "label": "Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-chapter-nav-padding-block",
+        "label": "Padding Block",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-chapter-nav-padding",
+        "label": "Padding",
+        "type": "size",
+        "default": "var(--nc-chapter-nav-padding-block) 0"
+      },
+      {
+        "id": "nc-chapter-nav-family",
+        "label": "Family",
+        "type": "generic",
+        "default": "var(--font-heading)"
+      },
+      {
+        "id": "nc-chapter-nav-size",
+        "label": "Size",
+        "type": "size",
+        "default": "var(--nc-type-body-m-size)"
+      },
+      {
+        "id": "nc-chapter-nav-weight",
+        "label": "Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-semibold)"
+      },
+      {
+        "id": "nc-chapter-nav-color",
+        "label": "Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-chapter-nav-color-active",
+        "label": "Color Active",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-chapter-nav-marker",
+        "label": "Marker",
+        "type": "color",
+        "ref": "background-accent"
+      },
+      {
+        "id": "nc-chapter-nav-marker-height",
+        "label": "Marker Height",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-chapter-nav-top",
+        "label": "Top",
+        "type": "size",
+        "default": "var(--nc-nav-height, 72px)"
+      },
+      {
+        "id": "nc-chapter-nav-scroll-margin",
+        "label": "Scroll Margin",
+        "type": "spacing",
+        "default": "calc(var(--nc-nav-height, 72px) + 56px + var(--fnd-spacing-05))"
+      },
+      {
+        "id": "nc-chapter-nav-toc-bg",
+        "label": "Toc BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-chapter-nav-toc-border",
+        "label": "Toc Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-chapter-nav-toc-radius",
+        "label": "Toc Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-chapter-nav-toc-padding",
+        "label": "Toc Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05) var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-chapter-nav-toc-gap",
+        "label": "Toc Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02) var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-chapter-nav-toc-title-size",
+        "label": "Toc Title Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-chapter-nav-toc-title-color",
+        "label": "Toc Title Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-chapter-nav-toc-size",
+        "label": "Toc Size",
+        "type": "size",
+        "default": "var(--nc-type-body-m-size)"
+      },
+      {
+        "id": "nc-chapter-nav-toc-color",
+        "label": "Toc Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-chapter-nav-toc-number-color",
+        "label": "Toc Number Color",
+        "type": "color",
+        "ref": "text-tertiary"
       }
     ]
   }

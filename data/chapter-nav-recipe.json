@@ -24,26 +24,26 @@
   },
   "anatomy": {
     "root": {
-      "element": ".nc-chapternav"
+      "element": ".nc-chapter-nav"
     },
     "slots": [
       {
-        "element": ".nc-chapternav__inner",
+        "element": ".nc-chapter-nav__inner",
         "name": "Leiste, quer scrollbar",
         "optional": false
       },
       {
-        "element": ".nc-chapternav__link",
+        "element": ".nc-chapter-nav__link",
         "name": "Kapitelverweis",
         "optional": false
       },
       {
-        "element": ".nc-chaptertoc",
+        "element": ".nc-chapter-toc",
         "name": "Verzeichnis am Seitenanfang",
         "optional": true
       },
       {
-        "element": ".nc-chaptertoc__list",
+        "element": ".nc-chapter-toc__list",
         "name": "Nummerierte Kapitelliste",
         "optional": true
       },
@@ -55,7 +55,7 @@
     ],
     "domNotes": [
       "Dieses Recipe schrieb bis zum 24.08.2026 root als Zeichenkette und die Slots ohne fuehrenden Punkt — anders als alle 130 uebrigen. Damit war das Bauteil fuer jede Pruefung unsichtbar: die Verwendungsmessung sah null Zeugen, obwohl es live auf den Landing Pages steht, und die Markup-Ernte fand keinen Wurzelselektor.",
-      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapternav; das ist eine eigene Unstimmigkeit und steht im BACKLOG."
+      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapter-nav; das ist eine eigene Unstimmigkeit und steht im BACKLOG."
     ]
   },
   "axes": {
@@ -73,7 +73,7 @@
           "description": "Klebende Leiste. Folgt der Hauptnavigation, wenn diese sich beim Runterscrollen wegschiebt."
         },
         "verzeichnis": {
-          "modifier": "nc-chaptertoc",
+          "modifier": "nc-chapter-toc",
           "tokenGroups": [
             "verzeichnis",
             "anker"
@@ -117,8 +117,8 @@
   ],
   "styling": {
     "baseClasses": [
-      "nc-chapternav",
-      "nc-chaptertoc"
+      "nc-chapter-nav",
+      "nc-chapter-toc"
     ],
     "baseTokenGroups": [
       "leiste",
@@ -130,42 +130,42 @@
         "label": "Kapitelleiste",
         "description": "Die klebende Leiste samt Marke des laufenden Kapitels.",
         "tokens": [
-          "nc-chapternav-bg",
-          "nc-chapternav-border",
-          "nc-chapternav-gap",
-          "nc-chapternav-padding-block",
-          "nc-chapternav-padding",
-          "nc-chapternav-family",
-          "nc-chapternav-size",
-          "nc-chapternav-weight",
-          "nc-chapternav-color",
-          "nc-chapternav-color-active",
-          "nc-chapternav-marker",
-          "nc-chapternav-marker-height",
-          "nc-chapternav-top"
+          "nc-chapter-nav-bg",
+          "nc-chapter-nav-border",
+          "nc-chapter-nav-gap",
+          "nc-chapter-nav-padding-block",
+          "nc-chapter-nav-padding",
+          "nc-chapter-nav-family",
+          "nc-chapter-nav-size",
+          "nc-chapter-nav-weight",
+          "nc-chapter-nav-color",
+          "nc-chapter-nav-color-active",
+          "nc-chapter-nav-marker",
+          "nc-chapter-nav-marker-height",
+          "nc-chapter-nav-top"
         ]
       },
       "verzeichnis": {
         "label": "Verzeichnis",
         "description": "Die nummerierte Liste unter dem Hero.",
         "tokens": [
-          "nc-chapternav-toc-bg",
-          "nc-chapternav-toc-border",
-          "nc-chapternav-toc-radius",
-          "nc-chapternav-toc-padding",
-          "nc-chapternav-toc-gap",
-          "nc-chapternav-toc-title-size",
-          "nc-chapternav-toc-title-color",
-          "nc-chapternav-toc-size",
-          "nc-chapternav-toc-color",
-          "nc-chapternav-toc-number-color"
+          "nc-chapter-nav-toc-bg",
+          "nc-chapter-nav-toc-border",
+          "nc-chapter-nav-toc-radius",
+          "nc-chapter-nav-toc-padding",
+          "nc-chapter-nav-toc-gap",
+          "nc-chapter-nav-toc-title-size",
+          "nc-chapter-nav-toc-title-color",
+          "nc-chapter-nav-toc-size",
+          "nc-chapter-nav-toc-color",
+          "nc-chapter-nav-toc-number-color"
         ]
       },
       "anker": {
         "label": "Sprungziel",
         "description": "Der Abstand, um den ein angesprungenes Kapitel nach unten rueckt.",
         "tokens": [
-          "nc-chapternav-scroll-margin"
+          "nc-chapter-nav-scroll-margin"
         ]
       }
     }

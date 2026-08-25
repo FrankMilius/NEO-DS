@@ -3267,63 +3267,63 @@
   // 14,6 Bildschirme, 21 Ueberschriften, 22 Bloecke in 8 Sektionen.
   //
   // Zwei Bauteile, die zusammengehoeren:
-  //   .nc-chaptertoc  Liste unter dem Hero. Klebt nicht, braucht kein Skript,
+  //   .nc-chapter-toc  Liste unter dem Hero. Klebt nicht, braucht kein Skript,
   //                   wird gedruckt mit ausgegeben.
-  //   .nc-chapternav  Schmale Leiste, die beim Scrollen unter der Hauptnavi-
+  //   .nc-chapter-nav  Schmale Leiste, die beim Scrollen unter der Hauptnavi-
   //                   gation klebt und das laufende Kapitel markiert.
   //
   // Die Leiste allein waere ohne Skript stumm, die Liste allein nach dem ersten
   // Bildschirm weg. Zusammen kosten sie rund 56 px Hoehe und keine Breite.
 
   // ── Kapitelleiste ──────────────────────────────────────────────────────
-  --nc-chapternav-bg:            var(--fnd-color-background-base);
-  --nc-chapternav-border:        var(--fnd-color-border-secondary);
+  --nc-chapter-nav-bg:            var(--fnd-color-background-base);
+  --nc-chapter-nav-border:        var(--fnd-color-border-secondary);
   // Der Abstand zwischen den Eintraegen. Er ersetzt das waagerechte Polster:
   // Nur so beginnt der erste Eintrag auf derselben Linie wie Hauptnavigation
   // und Inhalt, ohne dass am Container gerechnet werden muss.
-  --nc-chapternav-gap:           var(--fnd-spacing-06);
+  --nc-chapter-nav-gap:           var(--fnd-spacing-06);
 
   // Senkrecht bestimmt das Polster die Hoehe der Leiste und die Klickflaeche.
-  --nc-chapternav-padding-block:  var(--fnd-spacing-04);
-  --nc-chapternav-padding:       var(--nc-chapternav-padding-block) 0;
+  --nc-chapter-nav-padding-block:  var(--fnd-spacing-04);
+  --nc-chapter-nav-padding:       var(--nc-chapter-nav-padding-block) 0;
 
-  --nc-chapternav-family:        var(--font-heading);
+  --nc-chapter-nav-family:        var(--font-heading);
 
   // Eine Stufe UEBER der Hauptnavigation (15 px). Die Kapitelleiste gehoert
   // zur Seite, nicht zur Website — sie darf nicht wie deren Fussnote wirken.
   // Vorher body-s, gemessen 14 px: kleiner als die Hauptnavigation darueber.
-  --nc-chapternav-size:          var(--nc-type-body-m-size);
-  --nc-chapternav-weight:        var(--fnd-font-weight-semibold);
-  --nc-chapternav-color:         var(--fnd-color-text-secondary);
-  --nc-chapternav-color-active:  var(--fnd-color-text-primary);
-  --nc-chapternav-marker:        var(--fnd-color-background-accent);
-  --nc-chapternav-marker-height: 2px;
+  --nc-chapter-nav-size:          var(--nc-type-body-m-size);
+  --nc-chapter-nav-weight:        var(--fnd-font-weight-semibold);
+  --nc-chapter-nav-color:         var(--fnd-color-text-secondary);
+  --nc-chapter-nav-color-active:  var(--fnd-color-text-primary);
+  --nc-chapter-nav-marker:        var(--fnd-color-background-accent);
+  --nc-chapter-nav-marker-height: 2px;
 
   // Wo die Leiste klebt: unter der Hauptnavigation, sonst verdeckt die eine
   // die andere.
-  --nc-chapternav-top:           var(--nc-nav-height, 72px);
+  --nc-chapter-nav-top:           var(--nc-nav-height, 72px);
 
   // Der Betrag, um den ein angesprungenes Kapitel nach unten ruecken muss.
   // OHNE DEN VERSCHWINDET JEDES SPRUNGZIEL unter den beiden klebenden Leisten —
   // man klickt, es passiert scheinbar nichts, und die Ueberschrift steht
   // ausserhalb des Bildes. Derselbe Punkt steht bei .nc-refpage aufgeschrieben.
-  --nc-chapternav-scroll-margin:    calc(var(--nc-nav-height, 72px) + 56px + var(--fnd-spacing-05));
+  --nc-chapter-nav-scroll-margin:    calc(var(--nc-nav-height, 72px) + 56px + var(--fnd-spacing-05));
 
   // ── Verzeichnis am Seitenanfang ────────────────────────────────────────
-  --nc-chapternav-toc-bg:            var(--fnd-color-background-secondary);
-  --nc-chapternav-toc-border:        var(--fnd-color-border-secondary);
-  --nc-chapternav-toc-radius:        var(--fnd-radius-sm);
-  --nc-chapternav-toc-padding:       var(--fnd-spacing-05) var(--fnd-spacing-06);
-  --nc-chapternav-toc-gap:           var(--fnd-spacing-02) var(--fnd-spacing-06);
-  --nc-chapternav-toc-title-size:    var(--fs-xs);
+  --nc-chapter-nav-toc-bg:            var(--fnd-color-background-secondary);
+  --nc-chapter-nav-toc-border:        var(--fnd-color-border-secondary);
+  --nc-chapter-nav-toc-radius:        var(--fnd-radius-sm);
+  --nc-chapter-nav-toc-padding:       var(--fnd-spacing-05) var(--fnd-spacing-06);
+  --nc-chapter-nav-toc-gap:           var(--fnd-spacing-02) var(--fnd-spacing-06);
+  --nc-chapter-nav-toc-title-size:    var(--fs-xs);
   // Zweite Tintenstufe, nicht die dritte: Das Verzeichnis steht auf getoentem
   // Grund, und dort erreicht die dritte nur 4,18:1. Auf Weiss haelt sie 4,66 —
   // die Stufe ist fuer den Seitengrund gebaut, nicht fuer eine Flaeche darauf.
   // Derselbe Fall wie beim Kicker der Hero-Karten am 19.08.
-  --nc-chapternav-toc-title-color:   var(--fnd-color-text-secondary);
-  --nc-chapternav-toc-size:          var(--nc-type-body-m-size);
-  --nc-chapternav-toc-color:         var(--fnd-color-text-primary);
-  --nc-chapternav-toc-number-color:  var(--fnd-color-text-tertiary);
+  --nc-chapter-nav-toc-title-color:   var(--fnd-color-text-secondary);
+  --nc-chapter-nav-toc-size:          var(--nc-type-body-m-size);
+  --nc-chapter-nav-toc-color:         var(--fnd-color-text-primary);
+  --nc-chapter-nav-toc-number-color:  var(--fnd-color-text-tertiary);
 
   --nc-refpage-toc-width:      300px;
   // Ebene 1 auf Fliesstextgroesse: das Verzeichnis ist die Hauptnavigation der
