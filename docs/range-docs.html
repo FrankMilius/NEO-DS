@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Slider | Component Docs</title>
-  <meta name="description" content="Interaktive Dokumentation der Slider-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
+  <title>Range | Component Docs</title>
+  <meta name="description" content="Interaktive Dokumentation der Range-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
   <link rel="stylesheet" href="../styles.css" />
 
 </head>
@@ -51,16 +51,16 @@
 
       <!-- Page Header -->
             <div class="docs__hero">
-        <h1 class="docs__title">Slider</h1>
+        <h1 class="docs__title">Range</h1>
         <p class="docs__subtitle">
-        Range-Slider mit Custom Track und Thumb. Unterst&uuml;tzt Single-Value und optionalen Wert-Output.
-        Kanonische Klasse: <code class="docs__token">.nc-slider</code> (BEM).
-        Alle Werte kommen aus <code class="docs__token">--nc-slider-*</code> Component-Tokens.
+        Range-Range mit Custom Track und Thumb. Unterst&uuml;tzt Single-Value und optionalen Wert-Output.
+        Kanonische Klasse: <code class="docs__token">.nc-range</code> (BEM).
+        Alle Werte kommen aus <code class="docs__token">--nc-range-*</code> Component-Tokens.
       </p>
       </div>
 
       <div class="docs__tab-nav">
-        <div class="docs-tabs__list" role="tablist" aria-label="Slider-Dokumentation">
+        <div class="docs-tabs__list" role="tablist" aria-label="Range-Dokumentation">
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
@@ -69,7 +69,7 @@
       </div>
 
       <div class="docs__body">
-        <div class="docs-tabs" id="slider-tabs">
+        <div class="docs-tabs" id="range-tabs">
 <!-- ============================================================ -->
         <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
         <!-- ============================================================ -->
@@ -78,7 +78,7 @@
           <!-- Staging Area -->
           <h2 class="docs__section-title">Live Demo</h2>
           <p class="docs__section-desc">
-            W&auml;hle Theme und State, um den Slider live zu konfigurieren.
+            W&auml;hle Theme und State, um den Range live zu konfigurieren.
           </p>
 
           <div class="docs-stage">
@@ -156,7 +156,7 @@
             </div>
 
             <div class="docs-stage__preview" id="stage-preview">
-              <!-- JS renders slider here -->
+              <!-- JS renders range here -->
             </div>
           </div>
 
@@ -168,11 +168,11 @@
 &lt;/div&gt;</pre>
           </div>
 
-          <!-- Default Slider -->
-          <section class="docs__section" id="default-slider">
-            <h2 class="docs__section-title">Default Slider</h2>
+          <!-- Default Range -->
+          <section class="docs__section" id="default-range">
+            <h2 class="docs__section-title">Default Range</h2>
             <p class="docs__section-desc">
-              Einfacher Range-Slider ohne zus&auml;tzliche Elemente. Default-Bereich 0&ndash;100.
+              Einfacher Range-Range ohne zus&auml;tzliche Elemente. Default-Bereich 0&ndash;100.
             </p>
             <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-range">
@@ -185,11 +185,11 @@
           <section class="docs__section" id="with-output">
             <h2 class="docs__section-title">Mit Wert-Output</h2>
             <p class="docs__section-desc">
-              Das <code class="docs__token">.nc-slider__output</code>-Element zeigt den aktuellen Wert an.
+              Das <code class="docs__token">.nc-range__output</code>-Element zeigt den aktuellen Wert an.
             </p>
             <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-range">
-                <input class="nc-range__input" type="range" min="0" max="100" value="65" data-slider-output="output-demo1" />
+                <input class="nc-range__input" type="range" min="0" max="100" value="65" data-range-output="output-demo1" />
                 <span class="nc-range__output" id="output-demo1">65</span>
               </div>
             </div>
@@ -203,7 +203,7 @@
             </p>
             <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-range">
-                <input class="nc-range__input" type="range" min="0" max="100" value="40" data-slider-output="output-demo2" />
+                <input class="nc-range__input" type="range" min="0" max="100" value="40" data-range-output="output-demo2" />
                 <span class="nc-range__output" id="output-demo2">40</span>
                 <div class="nc-range__labels">
                   <span class="nc-range__label-min">0</span>
@@ -214,10 +214,10 @@
           </section>
 
           <!-- Disabled -->
-          <section class="docs__section" id="disabled-slider">
+          <section class="docs__section" id="disabled-range">
             <h2 class="docs__section-title">Disabled</h2>
             <p class="docs__section-desc">
-              Mit dem Modifier <code class="docs__token">.nc-slider--disabled</code> und dem
+              Mit dem Modifier <code class="docs__token">.nc-range--disabled</code> und dem
               <code class="docs__token">disabled</code>-Attribut auf dem Input.
             </p>
             <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
@@ -228,14 +228,14 @@
           </section>
 
           <!-- Error -->
-          <section class="docs__section" id="error-slider">
+          <section class="docs__section" id="error-range">
             <h2 class="docs__section-title">Error</h2>
             <p class="docs__section-desc">
-              Der Modifier <code class="docs__token">.nc-slider--error</code> zeigt einen Fehlerzustand an.
+              Der Modifier <code class="docs__token">.nc-range--error</code> zeigt einen Fehlerzustand an.
             </p>
             <div style="max-width: 400px; margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-range nc-range--error">
-                <input class="nc-range__input" type="range" min="0" max="100" value="80" data-slider-output="output-demo3" />
+                <input class="nc-range__input" type="range" min="0" max="100" value="80" data-range-output="output-demo3" />
                 <span class="nc-range__output" id="output-demo3">80</span>
               </div>
             </div>
@@ -256,10 +256,10 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-track-height</code></td><td>4px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-height</code></td><td>4px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -268,13 +268,13 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-thumb-size</code></td><td>20px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-touch-size</code></td><td>44px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-focus-ring-offset</code></td><td>2px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-touch-size</code></td><td>44px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-focus-ring-offset</code></td><td>2px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -283,8 +283,8 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -293,7 +293,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -302,12 +302,12 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-offset-y</code></td><td>8px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-offset-y</code></td><td>8px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -316,7 +316,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-slider-range-fill-bg</code></td><td>var(--nc-slider-track-bg-active)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-range-range-fill-bg</code></td><td>var(--nc-range-track-bg-active)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -336,9 +336,9 @@
   <div class="nc-data-table nc-data-table--static nc-data-table--striped">
     <table class="nc-data-table__table">
     <tbody>
-      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-slider</code></td></tr>
-      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-slider</code></td></tr>
-      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-slider-*</code></td></tr>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-range</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-range</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-range-*</code></td></tr>
       <tr><td><strong>Status</strong></td><td>stable</td></tr>
       <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
     </tbody>
@@ -352,16 +352,16 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">.nc-slider</code></td><td>Block</td><td>slider-Container</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__input</code></td><td>Element</td><td>input</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__input--max</code></td><td>Element (optional)</td><td>input-max</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__track</code></td><td>Element (optional)</td><td>track</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__fill</code></td><td>Element (optional)</td><td>fill</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__tooltip</code></td><td>Element (optional)</td><td>tooltip</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__output</code></td><td>Element (optional)</td><td>output</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__labels</code></td><td>Element (optional)</td><td>labels</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__label-min</code></td><td>Element (optional)</td><td>label-min</td></tr>
-      <tr><td><code class="docs__token">.nc-slider__label-max</code></td><td>Element (optional)</td><td>label-max</td></tr>
+      <tr><td><code class="docs__token">.nc-range</code></td><td>Block</td><td>range-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-range__input</code></td><td>Element</td><td>input</td></tr>
+      <tr><td><code class="docs__token">.nc-range__input--max</code></td><td>Element (optional)</td><td>input-max</td></tr>
+      <tr><td><code class="docs__token">.nc-range__track</code></td><td>Element (optional)</td><td>track</td></tr>
+      <tr><td><code class="docs__token">.nc-range__fill</code></td><td>Element (optional)</td><td>fill</td></tr>
+      <tr><td><code class="docs__token">.nc-range__tooltip</code></td><td>Element (optional)</td><td>tooltip</td></tr>
+      <tr><td><code class="docs__token">.nc-range__output</code></td><td>Element (optional)</td><td>output</td></tr>
+      <tr><td><code class="docs__token">.nc-range__labels</code></td><td>Element (optional)</td><td>labels</td></tr>
+      <tr><td><code class="docs__token">.nc-range__label-min</code></td><td>Element (optional)</td><td>label-min</td></tr>
+      <tr><td><code class="docs__token">.nc-range__label-max</code></td><td>Element (optional)</td><td>label-max</td></tr>
     </tbody>
     </table>
   </div>
@@ -371,7 +371,7 @@
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><em>(kein Modifier)</em></td><td>horizontal</td><td>Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)</td></tr>
-      <tr><td><code class="docs__token">.nc-slider--vertical</code></td><td>vertical</td><td>Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)</td></tr>
+      <tr><td><code class="docs__token">.nc-range--vertical</code></td><td>vertical</td><td>Ausrichtung — horizontal (Standard) / vertical (Hochformat, 200px Hoehe)</td></tr>
     </tbody>
     </table>
   </div>
@@ -380,8 +380,8 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><em>(kein Modifier)</em></td><td>single</td><td>Slider-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
-      <tr><td><code class="docs__token">.nc-slider--range</code></td><td>range</td><td>Slider-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>single</td><td>Range-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
+      <tr><td><code class="docs__token">.nc-range--range</code></td><td>range</td><td>Range-Modus — single (ein Wert, Standard) / range (zwei Thumbs fuer Min/Max-Spanne)</td></tr>
     </tbody>
     </table>
   </div>
@@ -390,11 +390,11 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><em>(kein Modifier)</em></td><td>plain</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
-      <tr><td><code class="docs__token">.nc-slider--tooltip</code></td><td>with-tooltip</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
-      <tr><td><em>(kein Modifier)</em></td><td>with-output</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
-      <tr><td><em>(kein Modifier)</em></td><td>with-labels</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
-      <tr><td><code class="docs__token">.nc-slider--tooltip</code></td><td>full</td><td>Anzeige-Optionen — plain (nur Slider), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>plain</td><td>Anzeige-Optionen — plain (nur Range), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><code class="docs__token">.nc-range--tooltip</code></td><td>with-tooltip</td><td>Anzeige-Optionen — plain (nur Range), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-output</td><td>Anzeige-Optionen — plain (nur Range), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-labels</td><td>Anzeige-Optionen — plain (nur Range), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
+      <tr><td><code class="docs__token">.nc-range--tooltip</code></td><td>full</td><td>Anzeige-Optionen — plain (nur Range), with-tooltip (Floating Tooltip), with-output (statische Wert-Anzeige), with-labels (Min/Max), full (Tooltip + Labels)</td></tr>
     </tbody>
     </table>
   </div>
@@ -404,7 +404,7 @@
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)</td></tr>
-      <tr><td><code class="docs__token">.nc-slider--error</code></td><td>error</td><td>Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)</td></tr>
+      <tr><td><code class="docs__token">.nc-range--error</code></td><td>error</td><td>Validierungs-State — none (Standard), error (Fehler-Markierung auf Thumb und Fill)</td></tr>
     </tbody>
     </table>
   </div>
@@ -419,32 +419,32 @@
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Track</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-height</code></td><td>4px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-track-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-height</code></td><td>4px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-bg</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-bg-active</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-track-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Thumb</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-size</code></td><td>20px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td>var(--fnd-border-width-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td>var(--fnd-elevation-base)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-touch-size</code></td><td>44px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-thumb-focus-ring-offset</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-size</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-border</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-border-width</code></td><td>var(--fnd-border-width-sm)</td><td>var(--fnd-border-width-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-shadow</code></td><td>var(--fnd-elevation-base)</td><td>var(--fnd-elevation-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-touch-size</code></td><td>44px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-thumb-focus-ring-offset</code></td><td>2px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Interaction</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>var(--fnd-motion-duration-200)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-transition-timing</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Floating Tooltip</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td>var(--fnd-color-background-inverted)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td>var(--fnd-color-text-on-inverted)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-tooltip-offset-y</code></td><td>8px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-bg</code></td><td>var(--fnd-color-background-inverted)</td><td>var(--fnd-color-background-inverted)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-color</code></td><td>var(--fnd-color-text-on-inverted)</td><td>var(--fnd-color-text-on-inverted)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-font-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-tooltip-offset-y</code></td><td>8px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Range (Dual Thumb)</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-range-fill-bg</code></td><td>var(--nc-slider-track-bg-active)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-range-range-fill-bg</code></td><td>var(--nc-range-track-bg-active)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Disabled</td></tr>
-      <tr><td><code class="docs__token">--nc-slider-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>var(--fnd-opacity-disabled)</td></tr>
+      <tr><td><code class="docs__token">--nc-range-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>var(--fnd-opacity-disabled)</td></tr>
     </tbody>
     </table>
   </div>
@@ -453,14 +453,14 @@
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
     <li>Native &lt;input type='range'&gt; mit Cross-Browser Custom-Styling via Pseudo-Elemente.</li>
-    <li>WebKit: ::-webkit-slider-runnable-track + ::-webkit-slider-thumb.</li>
+    <li>WebKit: ::-webkit-range-runnable-track + ::-webkit-range-thumb.</li>
     <li>Firefox: ::-moz-range-track + ::-moz-range-thumb + ::-moz-range-progress (gefuellter Bereich).</li>
     <li>Thumb wird via margin-top auf dem Track zentriert (WebKit).</li>
-    <li>CSS-Variable --nc-slider-progress (0-100) steuert Fill-Breite und Tooltip-Position.</li>
-    <li>Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-slider-progress) * 1%). Pfeil zeigt nach unten.</li>
-    <li>Range-Modus: Zwei ueberlagerte &lt;input type='range'&gt; — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-slider-progress-min und --nc-slider-progress-max.</li>
-    <li>Touch-Target: Input-Hoehe = --nc-slider-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-slider-thumb-size.</li>
-    <li>Focus-Ring: outline mit --nc-slider-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.</li>
+    <li>CSS-Variable --nc-range-progress (0-100) steuert Fill-Breite und Tooltip-Position.</li>
+    <li>Floating Tooltip: Schwebt ueber dem Thumb, sichtbar bei Hover/Focus/Active. Position via left: calc(var(--nc-range-progress) * 1%). Pfeil zeigt nach unten.</li>
+    <li>Range-Modus: Zwei ueberlagerte &lt;input type='range'&gt; — pointer-events: none auf dem Input, auto auf den Thumbs. Fill-Bereich zwischen --nc-range-progress-min und --nc-range-progress-max.</li>
+    <li>Touch-Target: Input-Hoehe = --nc-range-thumb-touch-size (44px, WCAG 2.5.8). Der sichtbare Thumb bleibt --nc-range-thumb-size.</li>
+    <li>Focus-Ring: outline mit --nc-range-thumb-focus-ring-offset (2px) direkt auf dem Pseudo-Element-Thumb, nicht auf dem gesamten Input.</li>
     <li>Output zeigt aktuellen Wert (Tooltip oder Text, via JS aktualisiert).</li>
     <li>Labels zeigen Min/Max-Werte unterhalb des Tracks.</li>
     <li>Hover: Thumb scale(1.15). Focus: focus-ring + border-color auf Thumb.</li>
@@ -567,7 +567,7 @@
   <script src="docs-toc.js"></script>
   <script src="docs-stage-controls.js"></script>
   <script src="docs-recipe-tab.js"></script>
-  <script src="slider-docs.js"></script>
+  <script src="range-docs.js"></script>
 
 </body>
 </html>

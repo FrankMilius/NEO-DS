@@ -1,6 +1,6 @@
 // ============================================================
 // ScrollExpand — Auto-generated from scroll-expand-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.0.0 | Status: draft
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ScrollExpand** v1.0.0 (stable)
+        component: `**ScrollExpand** v1.0.0 (draft)
 
 Element expandiert von Content-Breite zum Viewport beim Scrollen.
 
@@ -18,7 +18,7 @@ Element expandiert von Content-Breite zum Viewport beim Scrollen.
 `,
       },
     },
-    status: { type: 'stable' },
+    status: { type: 'draft' },
   },
   argTypes: {},
 };

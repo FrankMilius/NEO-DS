@@ -1,6 +1,6 @@
 // ============================================================
 // CompareTable — Auto-generated from compare-table-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 2.0.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,30 +10,17 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**CompareTable** v1.0.0 (draft)
+        component: `**CompareTable** v2.0.0 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Einfache Vergleichstabelle mit inverser Header-Zeile.
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
-  argTypes: {
-    "unknown": {
-      "control": {
-        "type": "select"
-      },
-      "options": [
-        "0",
-        "1",
-        "2",
-        "3"
-      ],
-      "description": ""
-    }
-  },
+  argTypes: {},
 };
 
 export const Default = {

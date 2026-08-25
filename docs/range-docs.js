@@ -1,5 +1,5 @@
 // ==========================================================================
-// Slider Docs — Tab Navigation + Staging Area Controller
+// Range Docs — Tab Navigation + Staging Area Controller
 // ==========================================================================
 // Tabs: Benutzung | Style | API | Accessibility
 // Staging Area: Theme, State (Default / Error / Disabled)
@@ -81,40 +81,40 @@
     preview.classList.add(theme);
 
     // Build class list
-    var classes = ['nc-slider'];
+    var classes = ['nc-range'];
     var inputAttrs = 'type="range" min="0" max="100" value="50"';
 
     if (state === 'disabled') {
-      classes.push('nc-slider--disabled');
+      classes.push('nc-range--disabled');
       inputAttrs += ' disabled';
     } else if (state === 'error') {
-      classes.push('nc-slider--error');
+      classes.push('nc-range--error');
     }
 
     var classStr = classes.join(' ');
 
     // Build HTML
     var html = '<div class="' + classStr + '" style="width: 100%; max-width: 320px;">'
-             + '<input class="nc-slider__input" ' + inputAttrs + ' id="stage-slider-input" />'
-             + '<span class="nc-slider__output" id="stage-slider-output">50</span>'
+             + '<input class="nc-range__input" ' + inputAttrs + ' id="stage-range-input" />'
+             + '<span class="nc-range__output" id="stage-range-output">50</span>'
              + '</div>';
 
     // Build code string
     var codeStr = '<div class="' + classStr + '">\n'
-                + '  <input class="nc-slider__input" ' + inputAttrs + ' />\n'
-                + '  <span class="nc-slider__output">50</span>\n'
+                + '  <input class="nc-range__input" ' + inputAttrs + ' />\n'
+                + '  <span class="nc-range__output">50</span>\n'
                 + '</div>';
 
     preview.innerHTML = html;
     codeOutput.textContent = codeStr;
 
-    // Attach live slider interaction
-    bindStageSlider();
+    // Attach live range interaction
+    bindStageRange();
   }
 
-  function bindStageSlider() {
-    var input = document.getElementById('stage-slider-input');
-    var output = document.getElementById('stage-slider-output');
+  function bindStageRange() {
+    var input = document.getElementById('stage-range-input');
+    var output = document.getElementById('stage-range-output');
     if (!input || !output) return;
 
     input.addEventListener('input', function () {
@@ -130,22 +130,22 @@
   updateStage();
 
   // -----------------------------------------------------------------------
-  // 3. Static Demo Sliders — Live Value Output
+  // 3. Static Demo Ranges — Live Value Output
   // -----------------------------------------------------------------------
 
-  function bindStaticSliders() {
-    var sliders = document.querySelectorAll('.nc-slider__input[data-slider-output]');
-    sliders.forEach(function (slider) {
-      var outputId = slider.getAttribute('data-slider-output');
+  function bindStaticRanges() {
+    var ranges = document.querySelectorAll('.nc-range__input[data-range-output]');
+    ranges.forEach(function (range) {
+      var outputId = range.getAttribute('data-range-output');
       var output = document.getElementById(outputId);
       if (!output) return;
 
-      slider.addEventListener('input', function () {
-        output.textContent = slider.value;
+      range.addEventListener('input', function () {
+        output.textContent = range.value;
       });
     });
   }
 
-  bindStaticSliders();
+  bindStaticRanges();
 
 })();

@@ -1,35 +1,54 @@
 {
-  "$schema": "../schemas/component-recipe.schema.json",
+  "$schema": "./recipe-schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "compare-table",
-    "version": "1.0.0",
-    "status": "draft",
+    "version": "2.0.0",
+    "status": "stable",
     "tags": [
-      "aufgenommen",
-      "organisms"
+      "data",
+      "display",
+      "comparison"
     ],
     "links": {
       "figma": "",
       "storybook": "",
-      "docs": ""
+      "docs": "/docs/table-docs"
     },
-    "changelog": [
-      {
-        "version": "1.0.0",
-        "changes": [
-          "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
-          "Anatomie aus den Klassennamen des SCSS abgeleitet, nicht spezifiziert.",
-          "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
-        ]
-      }
-    ]
+    "layer": "atom",
+    "pipeline": {
+      "scss": [
+        "scss/scss/05-atoms/_table.scss"
+      ],
+      "story": "stories/organisms/table.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/TableArena.vue",
+      "drupal": [
+        "block--block-content--neo-table.html.twig",
+        "block--inline-block--neo-table.html.twig"
+      ],
+      "docs": "docs/table-docs.html"
+    }
   },
   "anatomy": {
     "root": {
       "element": ".nc-compare-table"
     },
     "slots": [
+      {
+        "name": "sort-icon",
+        "element": ".nc-compare-table__sort-icon",
+        "description": "Sort-Indikator im Header (SVG Chevron)"
+      },
+      {
+        "name": "checkbox",
+        "element": ".nc-compare-table__checkbox",
+        "description": "Checkbox-Zelle fuer Row-Selection"
+      },
+      {
+        "name": "numeric",
+        "element": ".nc-compare-table__numeric",
+        "description": "Rechtsbuendige Zahlenzelle mit tabular-nums"
+      },
       {
         "name": "section-row",
         "element": ".nc-compare-table__section-row",
@@ -38,62 +57,613 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Einfache Vergleichstabelle mit inverser Header-Zeile.",
+      "Volle Breite, border-collapse, elevation-raised Shadow.",
+      "Header: inverse BG + Color. Zellen: variable Padding per Density.",
+      "Sortable: cursor pointer + Sort-Icon im Header. Selectable: Checkbox-Spalte.",
+      "Sticky-Header: position sticky mit Shadow beim Scrollen.",
+      "Zusammengelegt am 25.08.2026. Es gab ZWEI Recipes fuer dieselbe Wurzel .nc-compare-table: `table` (stable v2, 3 Bereiche, 13 Tokengruppen) und `compare-table` (draft v1, 1 Bereich, keine Tokengruppe). Beide erzeugten eine eigene Story fuer dasselbe Bauteil. Der Inhalt kommt aus `table`, der NAME aus der Wurzelklasse — ein blankes `table` waere neben `table-block` und `data-table` ohnehin mehrdeutig gewesen."
     ]
   },
-  "axes": [
-    {
-      "name": "variante",
-      "values": [
-        {
-          "value": "default",
-          "modifier": null
+  "axes": {
+    "variant": {
+      "label": "Grid Style",
+      "description": "Visuelles Grid-Layout — lines (Standard mit Trennlinien), borderless (nur Weissraum), ghost (dezent fuer Card-Integration)",
+      "values": {
+        "lines": {
+          "modifier": null,
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "row-border",
+            "typography"
+          ],
+          "renderHint": "compare-table-lines"
         },
-        {
-          "value": "full-width",
-          "modifier": "nc-compare-table--full-width"
+        "borderless": {
+          "modifier": "nc-compare-table--borderless",
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "typography"
+          ],
+          "renderHint": "compare-table-borderless"
         },
-        {
-          "value": "sticky-col",
-          "modifier": "nc-compare-table--sticky-col"
-        },
-        {
-          "value": "striped",
-          "modifier": "nc-compare-table--striped"
+        "ghost": {
+          "modifier": "nc-compare-table--ghost",
+          "tokenGroups": [
+            "container",
+            "header",
+            "cell-default",
+            "ghost",
+            "typography"
+          ],
+          "renderHint": "compare-table-ghost"
         }
+      }
+    },
+    "density": {
+      "label": "Density",
+      "description": "Zellenabstand — compact (datenintensiv), default (Standard), expressive (Marketing-Vergleiche)",
+      "values": {
+        "compact": {
+          "modifier": "nc-compare-table--compact",
+          "tokenGroups": [
+            "cell-compact"
+          ],
+          "renderHint": "density-compact"
+        },
+        "default": {
+          "modifier": null,
+          "tokenGroups": [
+            "cell-default"
+          ],
+          "renderHint": "density-default"
+        },
+        "expressive": {
+          "modifier": "nc-compare-table--expressive",
+          "tokenGroups": [
+            "cell-expressive"
+          ],
+          "renderHint": "density-expressive"
+        }
+      }
+    },
+    "striping": {
+      "label": "Striping",
+      "description": "Zebra-Striping fuer verbesserte Zeilenorientierung",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "striped": {
+          "modifier": "nc-compare-table--striped",
+          "tokenGroups": [
+            "striping"
+          ],
+          "renderHint": "striped"
+        }
+      }
+    },
+    "selection": {
+      "label": "Selection",
+      "description": "Zeilen-Auswahl per Checkbox fuer Massenaktionen",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "checkbox": {
+          "modifier": "nc-compare-table--selectable",
+          "tokenGroups": [
+            "selection"
+          ],
+          "renderHint": "selectable"
+        }
+      }
+    },
+    "sorting": {
+      "label": "Sorting",
+      "description": "Interaktive Spalten-Sortierung mit Sort-Icons",
+      "values": {
+        "static": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "sortable": {
+          "modifier": "nc-compare-table--sortable",
+          "tokenGroups": [
+            "sortable"
+          ],
+          "renderHint": "sortable"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "selected"
+    ],
+    "precedence": [
+      "selected",
+      "hover",
+      "default"
+    ],
+    "rules": [
+      {
+        "when": {
+          "axis": "striping",
+          "value": "striped"
+        },
+        "note": "Zebra BG auf geraden Zeilen, Hover ueberschreibt Stripe-BG"
+      },
+      {
+        "when": {
+          "axis": "selection",
+          "value": "checkbox"
+        },
+        "note": "aria-selected=true auf <tr>, selektierte Zeile erhaelt eigenen BG"
+      }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "hasAccessibleName",
+        "hasColumnHeaders"
       ],
-      "default": "default"
+      "note": "<table> mit <caption> oder aria-label. Semantisches <thead>/<tbody>/<tfoot>. scope='col' auf <th>."
+    },
+    "overrides": [
+      {
+        "when": {
+          "axis": "sorting",
+          "value": "sortable"
+        },
+        "note": "aria-sort='ascending|descending|none' auf sortierbare <th>"
+      },
+      {
+        "when": {
+          "axis": "selection",
+          "value": "checkbox"
+        },
+        "note": "aria-selected='true' auf selektierte <tr>"
+      }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      {
+        "when": {},
+        "require": [
+          "caption-or-aria-label"
+        ],
+        "notes": [
+          "<table> braucht <caption> oder aria-label."
+        ]
+      },
+      {
+        "when": {
+          "axis": "sorting",
+          "value": "sortable"
+        },
+        "require": [
+          "aria-sort"
+        ],
+        "notes": [
+          "Jede sortierbare <th> braucht aria-sort."
+        ]
+      }
+    ],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-compare-table"
+    ],
+    "baseTokenGroups": [
+      "container",
+      "header",
+      "cell-default",
+      "row-border",
+      "typography"
+    ],
+    "tokenGroups": {
+      "container": {
+        "label": "Container",
+        "tokens": [
+          "nc-table-bg",
+          "nc-table-radius",
+          "nc-table-shadow",
+          "nc-table-border-color",
+          "nc-table-border-width"
+        ]
+      },
+      "header": {
+        "label": "Header",
+        "tokens": [
+          "nc-table-header-bg",
+          "nc-table-header-color",
+          "nc-table-header-font-size",
+          "nc-table-header-font-weight",
+          "nc-table-header-letter-spacing"
+        ]
+      },
+      "cell-default": {
+        "label": "Cell Padding (Default)",
+        "tokens": [
+          "nc-table-cell-padding",
+          "nc-table-cell-padding-default"
+        ]
+      },
+      "cell-compact": {
+        "label": "Cell Padding (Compact)",
+        "tokens": [
+          "nc-table-cell-padding-compact"
+        ]
+      },
+      "cell-expressive": {
+        "label": "Cell Padding (Expressive)",
+        "tokens": [
+          "nc-table-cell-padding-expressive"
+        ]
+      },
+      "row-border": {
+        "label": "Row Border",
+        "tokens": [
+          "nc-table-row-border-color",
+          "nc-table-row-border-width"
+        ]
+      },
+      "hover": {
+        "label": "Row Hover",
+        "tokens": [
+          "nc-table-row-bg-hover"
+        ]
+      },
+      "striping": {
+        "label": "Zebra-Striping",
+        "tokens": [
+          "nc-table-stripe-bg"
+        ]
+      },
+      "selection": {
+        "label": "Selection",
+        "tokens": [
+          "nc-table-row-bg-selected",
+          "nc-table-row-border-selected",
+          "nc-table-checkbox-size",
+          "nc-table-checkbox-column-width"
+        ]
+      },
+      "sortable": {
+        "label": "Sortable",
+        "tokens": [
+          "nc-table-sort-icon-size",
+          "nc-table-sort-icon-color",
+          "nc-table-sort-icon-color-active"
+        ]
+      },
+      "sticky": {
+        "label": "Sticky Header",
+        "tokens": [
+          "nc-table-sticky-shadow",
+          "nc-table-sticky-z-index"
+        ]
+      },
+      "typography": {
+        "label": "Typography",
+        "tokens": [
+          "nc-table-font-size",
+          "nc-table-color",
+          "nc-table-color-secondary",
+          "nc-table-transition-duration"
+        ]
+      },
+      "ghost": {
+        "label": "Ghost Variant",
+        "tokens": [
+          "nc-table-ghost-header-bg",
+          "nc-table-ghost-header-color",
+          "nc-table-ghost-border-color"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "tokenDependencies": [
+    {
+      "source": "nc-card-shadow → nc-table-shadow",
+      "reason": "Elevation-Konsistenz: Tabelle nutzt gleiche Elevation wie Card (raised)."
+    },
+    {
+      "source": "nc-border-width-xs → nc-table-border-width, nc-table-row-border-width",
+      "reason": "Border-Konsistenz: Tabellenrahmen folgen globaler Border-Width."
+    },
+    {
+      "source": "nc-header-bg (inverse) → nc-table-header-bg",
+      "reason": "Header-Konsistenz: Tabellen-Header folgt inversem Hintergrund."
     }
   ],
-  "states": [
-    "default"
-  ],
-  "a11y": {
-    "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
-  },
-  "constraints": [],
-  "styling": {
-    "tokens": [
-      "--nc-compare-table-sticky-col-th-first-child-after-background"
-    ]
-  },
-  "recipes": [],
   "specimens": [
     {
-      "id": "default",
-      "label": "Standard",
-      "description": "compare-table wie auf der Website",
+      "id": "lines-default",
+      "label": "Lines (Default)",
+      "description": "Standard-Tabelle mit horizontalen Trennlinien und inverser Kopfzeile",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
-      "render": {}
+      "layout": "row",
+      "render": {
+        "label": "compare-table"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Header: inverse Farben 4.5:1. Body: text-primary gegen background-base."
+      }
+    },
+    {
+      "id": "borderless",
+      "label": "Borderless",
+      "description": "Tabelle ohne Trennlinien — nur Weissraum trennt Daten",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "borderless"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "compare-table-borderless"
+      }
+    },
+    {
+      "id": "ghost",
+      "label": "Ghost",
+      "description": "Dezente Tabelle fuer Card-Integration — transparenter Header, keine Borders",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "ghost"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "compare-table-ghost"
+      }
+    },
+    {
+      "id": "density-comparison",
+      "label": "Density Comparison",
+      "description": "Compact / Default / Expressive nebeneinander",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "compact",
+            "default",
+            "expressive"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "column",
+      "render": {
+        "label": "density-comparison"
+      }
+    },
+    {
+      "id": "striped-hover",
+      "label": "Striped + Hover",
+      "description": "Zebra-Striping mit Row-Hover fuer verbesserte Zeilenorientierung",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "striping": [
+            "striped"
+          ]
+        },
+        "states": [
+          "default",
+          "hover"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "striped-hover"
+      }
+    },
+    {
+      "id": "sticky-header",
+      "label": "Sticky Header",
+      "description": "Fixierter Header mit Shadow beim Scrollen",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "sticky-header"
+      },
+      "a11y": {
+        "note": "Header bleibt sichtbar fuer Orientierung bei langen Tabellen."
+      }
+    },
+    {
+      "id": "sortable",
+      "label": "Sortable Headers",
+      "description": "Interaktive Spalten-Sortierung mit Sort-Icons und aria-sort",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "sorting": [
+            "sortable"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "sortable"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA",
+        "note": "aria-sort auf <th>, cursor:pointer, Hover-Feedback."
+      }
+    },
+    {
+      "id": "selectable",
+      "label": "Selectable Rows",
+      "description": "Checkbox-Spalte fuer Zeilen-Auswahl und Massenaktionen",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "selection": [
+            "checkbox"
+          ]
+        },
+        "states": [
+          "default",
+          "selected"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "selectable"
+      },
+      "a11y": {
+        "note": "aria-selected='true' auf <tr>, Checkbox per Zeile."
+      }
+    },
+    {
+      "id": "numeric-alignment",
+      "label": "Numeric Alignment",
+      "description": "Rechtsbuendige Zahlenzellen mit tabular-nums fuer optimale Lesbarkeit",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "numeric-alignment"
+      }
+    },
+    {
+      "id": "full-featured",
+      "label": "Full Featured",
+      "description": "Alle Features kombiniert: Sortable + Selectable + Striped + Hover + Sticky",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "lines"
+          ],
+          "density": [
+            "default"
+          ],
+          "striping": [
+            "striped"
+          ],
+          "selection": [
+            "checkbox"
+          ],
+          "sorting": [
+            "sortable"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "selected"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "full-featured"
+      }
     }
   ]
 }

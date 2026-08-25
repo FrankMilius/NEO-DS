@@ -1,6 +1,6 @@
 // ============================================================
 // ScrollReveal — Auto-generated from scroll-reveal-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.0.0 | Status: draft
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ScrollReveal** v1.0.0 (stable)
+        component: `**ScrollReveal** v1.0.0 (draft)
 
 Staggered Fade-In via Intersection Observer.
 
@@ -18,7 +18,7 @@ Staggered Fade-In via Intersection Observer.
 `,
       },
     },
-    status: { type: 'stable' },
+    status: { type: 'draft' },
   },
   argTypes: {},
 };
