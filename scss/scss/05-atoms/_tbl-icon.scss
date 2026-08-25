@@ -16,4 +16,22 @@
 .nc-tbl-icon--dash {
   color: var(--fnd-color-text-tertiary);
 }
+
+// Der Haken der Vergleichstabelle. Bis zum 25.08.2026 gab es diese Regel
+// nicht: Der Modifikator stand im Markup, gestaltet hat er nichts. Die Farben
+// steckten stattdessen als feste Werte im SVG, das neo-theme.js zusammensetzt
+// — und der Gruenton dort (#AEF359) war nicht einmal mehr die Akzentfarbe
+// (#37e93d). Die Haken waren also sichtbar anders gruen als jedes andere
+// Akzentelement, und keine Palettenaenderung haette sie je erreicht.
+//
+// Die Farbe steht jetzt nur noch hier. Im SVG stehen keine Farbwerte mehr:
+// Ein Rueckfallwert waere ein zweiter Ort fuer dieselbe Entscheidung, und
+// genau so ist der Ton ueberhaupt erst abgedriftet.
+//
+// Kontrast Haken auf Kreis: 12,89:1 — WCAG 1.4.11 verlangt 3:1. Die Bedeutung
+// traegt ohnehin die Hakenform, nicht das Gruen (WCAG 1.4.1).
+.nc-tbl-icon--check {
+  circle { fill: var(--fnd-color-background-accent); }
+  path { stroke: var(--fnd-color-always-dark); }
+}
 /* <<< aufgenommen: tbl-icon */

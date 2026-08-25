@@ -101,22 +101,31 @@ for (const datei of readdirSync(DATA).filter((f) => f.endsWith('-recipe.json')).
   const wurzel = r.anatomy?.root?.element;
   if (!wurzel) continue;
 
+  const pflicht = (r.anatomy?.slots ?? [])
+    .filter((s) => !s.optional && s.element)
+    .map((s) => String(s.element).replace(/^\./, ''));
+
   const vorhanden = resolve(ZIEL, `${name}.html`);
   let bestand = -1;
   if (existsSync(vorhanden)) {
     const da = readFileSync(vorhanden, 'utf8');
     if (da.includes(VON_HAND)) continue;
-    bestand = Number(da.match(/@punkte:\s*(\d+)/)?.[1] ?? -1);
+    const marke = da.match(/@punkte:\s*(\d+)/)?.[1];
+    // Ohne Marke NICHT auf -1 fallen. Eine fehlende Note ist keine Note Null.
+    //
+    // Am 25.08.2026 hat ein Lauf table-block.html von 992 auf 115 Zeilen
+    // gestutzt — von 172 Zellen und fuenf .nc-tbl-info-icon auf 16 Zellen und
+    // keins. Der Bestand war deutlich reichhaltiger, wurde aber ungeprueft
+    // ueberschrieben, weil er aus der Zeit VOR der Bewertung stammte und
+    // deshalb keine Marke trug.
+    //
+    // Das ist die typische Luecke einer nachtraeglich eingebauten Absicherung:
+    // Sie schuetzt alles ausser dem Altbestand, den sie schuetzen sollte. Also
+    // wird der Bestand jetzt nach derselben Formel benotet wie ein Fund.
+    bestand = marke !== undefined ? Number(marke) : punkteAusHtml(da, pflicht);
   }
 
-  bauteile.push({
-    name,
-    wurzel,
-    bestand,
-    pflicht: (r.anatomy?.slots ?? [])
-      .filter((s) => !s.optional && s.element)
-      .map((s) => String(s.element).replace(/^\./, '')),
-  });
+  bauteile.push({ name, wurzel, bestand, pflicht });
 }
 
 const seiten = readFileSync(resolve(ZIEL, QUELLE.liste), 'utf8').split('\n').filter(Boolean);
@@ -167,6 +176,28 @@ await senden('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, 
 // ─── Im Browser: bewerten und saeubern ───────────────────────────────
 // Wird auf jeder Seite einmal eingespielt, damit die Definitionen bei
 // beiden Durchgaengen zur Verfuegung stehen.
+/**
+ * Die Benotung — EINMAL geschrieben, an zwei Orten ausgefuehrt.
+ *
+ * Pflichtbereiche zaehlen zehnfach, jeder weitere sichtbare BEM-Bereich
+ * einfach. So gewinnt der Block, bei dem am meisten ausgefuellt ist.
+ *
+ * Gebraucht wird sie im Browser (fuer einen Fund) und hier in Node (fuer den
+ * Bestand auf der Platte). Zwei Fassungen derselben Formel waeren genau die
+ * Sorte Dublette, die still auseinanderlaeuft — und ein Vergleich zwischen
+ * zwei verschiedenen Massstaeben ist kein Vergleich. Deshalb steht sie hier
+ * als echte Funktion und wird ueber `toString()` in die Seite geschickt.
+ */
+function punkteAusHtml(html, pflicht) {
+  let punkte = 0;
+  for (const p of pflicht) {
+    if (new RegExp('class="[^"]*\\b' + p + '\\b').test(html)) punkte += 10;
+  }
+  const bereiche = new Set();
+  for (const m of html.matchAll(/\bnc-[a-z0-9-]+__[a-z0-9-]+/g)) bereiche.add(m[0]);
+  return punkte + bereiche.size;
+}
+
 const WERKZEUG = `
 window.__ernte = {
   // Manche Bauteile blenden ihre Inhalte beim Scrollen ein: die Timeline
@@ -246,15 +277,12 @@ window.__ernte = {
     k.querySelectorAll('*').forEach(putzen);
   },
 
-  // Pflichtbereiche zaehlen zehnfach, jeder weitere sichtbare BEM-Bereich
-  // einfach. So gewinnt der Block, bei dem am meisten ausgefuellt ist.
+  // Die Formel steht in Node (punkteAusHtml) und wird hier hineingereicht —
+  // siehe den Kommentar dort. Diese Fassung packt nur das outerHTML aus.
+  punkteAusHtml: ${punkteAusHtml.toString()},
+
   bewerten(el, name, pflicht) {
-    const html = el.outerHTML;
-    let punkte = 0;
-    for (const p of pflicht) if (new RegExp('class="[^"]*\\\\b' + p + '\\\\b').test(html)) punkte += 10;
-    const bereiche = new Set();
-    for (const m of html.matchAll(/\\bnc-[a-z0-9-]+__[a-z0-9-]+/g)) bereiche.add(m[0]);
-    return punkte + bereiche.size;
+    return this.punkteAusHtml(el.outerHTML, pflicht);
   },
 };
 `;
@@ -350,7 +378,21 @@ for (const [seite, eintraege] of proSeite) {
       .replace(/[ \t]{2,}/g, ' ')
       .replace(/>\s*</g, '>\n<');
 
-    if (bauteil.bestand > b.punkte && !erzwingen) {
+    // GLEICHSTAND HEISST BEHALTEN, nicht ersetzen.
+    //
+    // Vorher stand hier `>`, ein Fund mit derselben Note verdraengte also den
+    // Bestand. Am 25.08.2026 kostete das table-block.html 880 Zeilen: 2 Punkte
+    // gegen 2 Punkte, und aus 172 Tabellenzellen mit fuenf .nc-tbl-info-icon
+    // wurden 16 Zellen ohne ein einziges.
+    //
+    // Schuld daran ist auch eine Blindstelle der Formel: Sie zaehlt nur
+    // Bereiche in `__`-Schreibweise. `nc-tbl-cell` und `nc-tbl-info-icon`
+    // heissen mit einfachem Bindestrich und sind fuer sie unsichtbar — bei
+    // zehn Bauteilen sieht sie ueberhaupt nichts (siehe BACKLOG).
+    //
+    // Solange die Formel nicht schaerfer ist, ist „gleich benotet" kein Grund
+    // zu tauschen. Wer nicht unterscheiden kann, soll nichts wegwerfen.
+    if (bauteil.bestand >= b.punkte && !erzwingen) {
       bericht.push({ name, stand: `behalten (${bauteil.bestand})`, seite, punkte: b.punkte, zeichen: markup.length });
       continue;
     }
