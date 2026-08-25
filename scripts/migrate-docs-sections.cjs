@@ -7,7 +7,7 @@
 //   2. Extracts .docs-tabs__list into .docs__tab-nav (tabbed pages)
 //   3. Wraps remaining content (panels/sections) in .docs__body
 //
-// Verwendung: node scripts/migrate-docs-sections.js [--dry-run]
+// Verwendung: node scripts/migrate-docs-sections.cjs [--dry-run]
 // ==========================================================================
 
 'use strict';

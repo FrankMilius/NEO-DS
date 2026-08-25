@@ -6,7 +6,7 @@
 // mit Metadaten fuer Dashboard, Suche und Cross-Links.
 //
 // Nutzung:
-//   node scripts/build-recipe-manifest.js
+//   node scripts/build-recipe-manifest.cjs
 // ==========================================================================
 
 const fs = require('fs');

@@ -6,9 +6,9 @@
 // Keine externen Dependencies — nur Node.js fs/path.
 //
 // Usage:
-//   node scripts/build-docs.js          Build alle Seiten
-//   node scripts/build-docs.js --watch  Watch-Modus
-//   node scripts/build-docs.js --extract  Extrahiere Content aus bestehenden HTML-Dateien
+//   node scripts/build-docs.cjs          Build alle Seiten
+//   node scripts/build-docs.cjs --watch  Watch-Modus
+//   node scripts/build-docs.cjs --extract  Extrahiere Content aus bestehenden HTML-Dateien
 // ==========================================================================
 
 'use strict';

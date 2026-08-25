@@ -6,7 +6,7 @@
 // aus den zugehoerigen Recipe-Dateien an (Achsen, States, Tags).
 //
 // Nutzung:
-//   node scripts/build-search-index.js
+//   node scripts/build-search-index.cjs
 // ==========================================================================
 
 const fs = require('fs');

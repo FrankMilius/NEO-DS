@@ -5,12 +5,12 @@
 // Importiert eine beliebige SVG-basierte Icon-Library aus einem npm-Paket.
 //
 // Aufruf:
-//   node scripts/add-icon-library.js <npm-package> [--name "Display Name"] [--subdir path/to/svgs]
+//   node scripts/add-icon-library.cjs <npm-package> [--name "Display Name"] [--subdir path/to/svgs]
 //
 // Beispiele:
-//   node scripts/add-icon-library.js heroicons --name "Heroicons" --subdir 24/outline
-//   node scripts/add-icon-library.js lucide-static --name "Lucide" --subdir icons
-//   node scripts/add-icon-library.js @iconify-json/mdi --name "Material Design Icons"
+//   node scripts/add-icon-library.cjs heroicons --name "Heroicons" --subdir 24/outline
+//   node scripts/add-icon-library.cjs lucide-static --name "Lucide" --subdir icons
+//   node scripts/add-icon-library.cjs @iconify-json/mdi --name "Material Design Icons"
 //
 // Was passiert:
 //   1. npm install <package> --save-dev (falls nicht installiert)
@@ -33,7 +33,7 @@ var { execSync } = require('child_process');
 var args = process.argv.slice(2);
 if (args.length === 0 || args[0] === '--help') {
   console.log('');
-  console.log('  Aufruf: node scripts/add-icon-library.js <npm-package> [optionen]');
+  console.log('  Aufruf: node scripts/add-icon-library.cjs <npm-package> [optionen]');
   console.log('');
   console.log('  Optionen:');
   console.log('    --name "Name"       Display-Name (Standard: Package-Name)');
@@ -41,8 +41,8 @@ if (args.length === 0 || args[0] === '--help') {
   console.log('    --id custom-id      Library-ID (Standard: abgeleitet vom Package-Namen)');
   console.log('');
   console.log('  Beispiele:');
-  console.log('    node scripts/add-icon-library.js heroicons --name "Heroicons" --subdir 24/outline');
-  console.log('    node scripts/add-icon-library.js lucide-static --name "Lucide" --subdir icons');
+  console.log('    node scripts/add-icon-library.cjs heroicons --name "Heroicons" --subdir 24/outline');
+  console.log('    node scripts/add-icon-library.cjs lucide-static --name "Lucide" --subdir icons');
   console.log('');
   process.exit(0);
 }
@@ -212,7 +212,7 @@ console.log('    Neu: ' + added + ' | Aktualisiert: ' + updated + ' | Unveraende
 
 console.log('  [4/4] Generiere Manifests...');
 try {
-  execSync('node scripts/generate-icons-manifest.js', {
+  execSync('node scripts/generate-icons-manifest.cjs', {
     cwd: path.resolve(__dirname, '..'),
     stdio: 'inherit'
   });

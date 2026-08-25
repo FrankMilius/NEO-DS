@@ -5,9 +5,9 @@
 // Generiert Style-, API- und A11y-Tab-Inhalte in Docs aus Recipe-JSON-Dateien.
 //
 // Usage:
-//   node scripts/update-docs-from-recipes.js              # Alle Docs
-//   node scripts/update-docs-from-recipes.js --dry-run    # Nur Report
-//   node scripts/update-docs-from-recipes.js --component badge  # Einzeln
+//   node scripts/update-docs-from-recipes.cjs              # Alle Docs
+//   node scripts/update-docs-from-recipes.cjs --dry-run    # Nur Report
+//   node scripts/update-docs-from-recipes.cjs --component badge  # Einzeln
 // ==========================================================================
 
 const fs = require('fs');

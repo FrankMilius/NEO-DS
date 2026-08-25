@@ -11,8 +11,8 @@
 //   (default) --check
 //
 // Nutzung:
-//   node scripts/sync-component-tokens.js --check
-//   node scripts/sync-component-tokens.js --fix
+//   node scripts/sync-component-tokens.cjs --check
+//   node scripts/sync-component-tokens.cjs --fix
 //
 // Teil von `npm test` (als --check).
 // ==========================================================================
@@ -518,7 +518,7 @@ function main() {
 
   if (mode === 'check') {
     console.log('');
-    console.log('  Zum automatischen Beheben: node scripts/sync-component-tokens.js --fix');
+    console.log('  Zum automatischen Beheben: node scripts/sync-component-tokens.cjs --fix');
     console.log('');
     process.exit(1);
   }

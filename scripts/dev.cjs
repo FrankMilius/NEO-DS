@@ -2,7 +2,7 @@
 // ==========================================================================
 // Dev Orchestrator — Startet alle Watch-Prozesse + Server parallel
 // ==========================================================================
-// Nutzung:  npm run dev  oder  node scripts/dev.js
+// Nutzung:  npm run dev  oder  node scripts/dev.cjs
 // Beendet alle Child-Prozesse sauber bei Ctrl+C.
 // ==========================================================================
 
@@ -15,8 +15,8 @@ const ROOT = path.resolve(__dirname, '..');
 const processes = [
   { label: 'SCSS',   color: '\x1b[36m', cmd: 'sass',  args: ['scss/scss/main.scss:styles.css', '--watch', '--poll'] },
   { label: 'Site',   color: '\x1b[34m', cmd: 'sass',  args: ['website/scss/main.scss:website/styles.css', '--watch', '--poll'] },
-  { label: 'Docs',   color: '\x1b[33m', cmd: 'node',  args: ['scripts/build-docs.js', '--watch'] },
-  { label: 'Icons',  color: '\x1b[35m', cmd: 'node',  args: ['scripts/watch-icons.js'] },
+  { label: 'Docs',   color: '\x1b[33m', cmd: 'node',  args: ['scripts/build-docs.cjs', '--watch'] },
+  { label: 'Icons',  color: '\x1b[35m', cmd: 'node',  args: ['scripts/watch-icons.cjs'] },
   { label: 'Server', color: '\x1b[32m', cmd: 'node',  args: ['scripts/docs-server.js'] },
 ];
 

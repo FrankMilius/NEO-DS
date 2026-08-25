@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-24
+// Generated: 2026-08-25
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -18,35 +18,37 @@
 // --- Main Palettes (Brand) ---
 export const primitiveColors = {
   "primary": {
-    "label": "Neo Darkblue",
-    "base": "#002049",
+    "label": "Graphit (Primary)",
+    "base": "#909390",
     "shades": {
-      "100": "#ccd2db",
-      "200": "#99a6b6",
-      "300": "#667992",
-      "400": "#334d6d",
-      "500": "#002049",
-      "600": "#001a3a",
-      "700": "#00132c",
-      "800": "#000d1d",
-      "900": "#00060f",
-      "950": "#000307"
+      "50": "#f9fbf9",
+      "100": "#f1f3f1",
+      "200": "#e4e6e4",
+      "300": "#d2d4d2",
+      "400": "#afb2af",
+      "500": "#909390",
+      "600": "#727572",
+      "700": "#595c59",
+      "800": "#414341",
+      "900": "#292b29",
+      "950": "#161816"
     }
   },
   "secondary": {
-    "label": "Neo Blue",
-    "base": "#009fe3",
+    "label": "Graphit (Secondary, vorerst gleich Primary)",
+    "base": "#909390",
     "shades": {
-      "100": "#ccecf9",
-      "200": "#99d9f4",
-      "300": "#66c5ee",
-      "400": "#33b2e9",
-      "500": "#009fe3",
-      "600": "#007fb6",
-      "700": "#005f88",
-      "800": "#00405b",
-      "900": "#00202d",
-      "950": "#001017"
+      "50": "#f9fbf9",
+      "100": "#f1f3f1",
+      "200": "#e4e6e4",
+      "300": "#d2d4d2",
+      "400": "#afb2af",
+      "500": "#909390",
+      "600": "#727572",
+      "700": "#595c59",
+      "800": "#414341",
+      "900": "#292b29",
+      "950": "#161816"
     }
   },
   "accent": {
@@ -69,6 +71,38 @@ export const primitiveColors = {
 
 // --- Supporting Palettes ---
 export const supportingPalettes = {
+  "neo-darkblue": {
+    "label": "Neo Darkblue — Reserve fuer das Backend-Theme",
+    "base": "#002049",
+    "shades": {
+      "100": "#ccd2db",
+      "200": "#99a6b6",
+      "300": "#667992",
+      "400": "#334d6d",
+      "500": "#002049",
+      "600": "#001a3a",
+      "700": "#00132c",
+      "800": "#000d1d",
+      "900": "#00060f",
+      "950": "#000307"
+    }
+  },
+  "neo-blue": {
+    "label": "Neo Blue — Reserve fuer das Backend-Theme",
+    "base": "#009fe3",
+    "shades": {
+      "100": "#ccecf9",
+      "200": "#99d9f4",
+      "300": "#66c5ee",
+      "400": "#33b2e9",
+      "500": "#009fe3",
+      "600": "#007fb6",
+      "700": "#005f88",
+      "800": "#00405b",
+      "900": "#00202d",
+      "950": "#001017"
+    }
+  },
   "beige": {
     "label": "Beige",
     "base": "#D9D2C4",
@@ -5968,7 +6002,13 @@ export const componentTokenGroups = [
           "nc-cs-font-size",
           "nc-cs-line-height",
           "nc-cs-font-weight",
-          "nc-cs-tab-size"
+          "nc-cs-tab-size",
+          "nc-cs-header-font-size",
+          "nc-cs-header-font-weight",
+          "nc-cs-line-numbers-width",
+          "nc-cs-line-numbers-padding",
+          "nc-cs-line-highlight-width",
+          "nc-cs-copy-tooltip-font-size"
         ]
       },
       {
@@ -6025,6 +6065,43 @@ export const componentTokenGroups = [
           "nc-cs-syntax-attr-value",
           "nc-cs-syntax-selector",
           "nc-cs-syntax-punctuation"
+        ]
+      },
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-cs-header-height",
+          "nc-cs-header-padding",
+          "nc-cs-header-dot-size",
+          "nc-cs-header-dot-gap",
+          "nc-cs-copy-tooltip-radius"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-cs-header-bg",
+          "nc-cs-header-color",
+          "nc-cs-header-border",
+          "nc-cs-line-numbers-color",
+          "nc-cs-line-numbers-border",
+          "nc-cs-line-highlight-bg",
+          "nc-cs-line-highlight-border",
+          "nc-cs-copy-tooltip-bg",
+          "nc-cs-copy-tooltip-color",
+          "nc-cs-copy-success-color"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-cs-header-dot-close",
+          "nc-cs-header-dot-minimize",
+          "nc-cs-header-dot-maximize"
         ]
       }
     ],
@@ -6292,6 +6369,154 @@ export const componentTokenGroups = [
         "label": "Punctuation",
         "type": "color",
         "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-cs-header-bg",
+        "label": "Nc Cs Header BG",
+        "type": "color",
+        "default": "var(--fnd-color-surface-elevated)",
+        "darkDefault": "var(--fnd-color-surface-elevated)"
+      },
+      {
+        "id": "nc-cs-header-color",
+        "label": "Nc Cs Header Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-cs-header-height",
+        "label": "Nc Cs Header Height",
+        "type": "size",
+        "default": "36px"
+      },
+      {
+        "id": "nc-cs-header-padding",
+        "label": "Nc Cs Header Padding",
+        "type": "spacing",
+        "default": "0 var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-cs-header-font-size",
+        "label": "Nc Cs Header Font Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-cs-header-font-weight",
+        "label": "Nc Cs Header Font Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-medium)"
+      },
+      {
+        "id": "nc-cs-header-border",
+        "label": "Nc Cs Header Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-cs-header-dot-size",
+        "label": "Nc Cs Header Dot Size",
+        "type": "size",
+        "default": "12px"
+      },
+      {
+        "id": "nc-cs-header-dot-gap",
+        "label": "Nc Cs Header Dot Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-cs-header-dot-close",
+        "label": "Nc Cs Header Dot Close",
+        "type": "color",
+        "default": "#ff5f57"
+      },
+      {
+        "id": "nc-cs-header-dot-minimize",
+        "label": "Nc Cs Header Dot Minimize",
+        "type": "color",
+        "default": "#febc2e"
+      },
+      {
+        "id": "nc-cs-header-dot-maximize",
+        "label": "Nc Cs Header Dot Maximize",
+        "type": "color",
+        "default": "#28c840"
+      },
+      {
+        "id": "nc-cs-line-numbers-color",
+        "label": "Nc Cs Line Numbers Color",
+        "type": "color",
+        "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-cs-line-numbers-width",
+        "label": "Nc Cs Line Numbers Width",
+        "type": "size",
+        "default": "40px"
+      },
+      {
+        "id": "nc-cs-line-numbers-padding",
+        "label": "Nc Cs Line Numbers Padding",
+        "type": "spacing",
+        "default": "0 var(--fnd-spacing-03) 0 var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-cs-line-numbers-border",
+        "label": "Nc Cs Line Numbers Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-cs-line-highlight-bg",
+        "label": "Nc Cs Line Highlight BG",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-interactive-default) 15%, transparent)",
+        "darkDefault": "color-mix(in srgb, var(--fnd-color-interactive-default) 15%, transparent)"
+      },
+      {
+        "id": "nc-cs-line-highlight-border",
+        "label": "Nc Cs Line Highlight Border",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-cs-line-highlight-width",
+        "label": "Nc Cs Line Highlight Width",
+        "type": "size",
+        "default": "3px"
+      },
+      {
+        "id": "nc-cs-copy-tooltip-bg",
+        "label": "Nc Cs Copy Tooltip BG",
+        "type": "color",
+        "ref": "background-secondary",
+        "darkDefault": "var(--fnd-color-background-secondary)"
+      },
+      {
+        "id": "nc-cs-copy-tooltip-color",
+        "label": "Nc Cs Copy Tooltip Color",
+        "type": "color",
+        "ref": "text-primary",
+        "darkDefault": "var(--fnd-color-text-primary)"
+      },
+      {
+        "id": "nc-cs-copy-tooltip-radius",
+        "label": "Nc Cs Copy Tooltip Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-xs)"
+      },
+      {
+        "id": "nc-cs-copy-tooltip-font-size",
+        "label": "Nc Cs Copy Tooltip Font Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-cs-copy-success-color",
+        "label": "Nc Cs Copy Success Color",
+        "type": "color",
+        "ref": "feedback-success"
       }
     ]
   },
@@ -7079,6 +7304,208 @@ export const componentTokenGroups = [
         "label": "Description Line Height",
         "type": "keyword",
         "default": "1.5"
+      },
+      {
+        "id": "nc-dt-stacked-breakpoint",
+        "label": "Nc Dt Stacked Breakpoint",
+        "type": "size",
+        "default": "768px"
+      },
+      {
+        "id": "nc-dt-stacked-card-gap",
+        "label": "Nc Dt Stacked Card Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-dt-stacked-card-padding",
+        "label": "Nc Dt Stacked Card Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-dt-stacked-card-radius",
+        "label": "Nc Dt Stacked Card Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-dt-stacked-card-border",
+        "label": "Nc Dt Stacked Card Border",
+        "type": "color",
+        "default": "var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary)"
+      },
+      {
+        "id": "nc-dt-stacked-label-width",
+        "label": "Nc Dt Stacked Label Width",
+        "type": "size",
+        "default": "120px"
+      },
+      {
+        "id": "nc-dt-stacked-label-color",
+        "label": "Nc Dt Stacked Label Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-dt-stacked-label-font-weight",
+        "label": "Nc Dt Stacked Label Font Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-semibold)"
+      },
+      {
+        "id": "nc-dt-batch-shadow",
+        "label": "Nc Dt Batch Shadow",
+        "type": "color",
+        "default": "var(--fnd-elevation-raised)"
+      },
+      {
+        "id": "nc-dt-batch-count-font-size",
+        "label": "Nc Dt Batch Count Font Size",
+        "type": "size",
+        "default": "var(--fs-sm)"
+      },
+      {
+        "id": "nc-dt-batch-clear-color",
+        "label": "Nc Dt Batch Clear Color",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-text-inverse) 70%, transparent)"
+      },
+      {
+        "id": "nc-dt-sticky-col-shadow",
+        "label": "Nc Dt Sticky Col Shadow",
+        "type": "color",
+        "default": "4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)"
+      },
+      {
+        "id": "nc-dt-sticky-col-shadow-end",
+        "label": "Nc Dt Sticky Col Shadow End",
+        "type": "color",
+        "default": "-4px 0 8px -2px color-mix(in srgb, var(--fnd-color-always-dark) 8%, transparent)"
+      },
+      {
+        "id": "nc-dt-sticky-col-bg",
+        "label": "Nc Dt Sticky Col BG",
+        "type": "color",
+        "default": "var(--nc-dt-body-bg)"
+      },
+      {
+        "id": "nc-dt-skeleton-width-avatar",
+        "label": "Nc Dt Skeleton Width Avatar",
+        "type": "size",
+        "default": "32px"
+      },
+      {
+        "id": "nc-dt-skeleton-width-numeric",
+        "label": "Nc Dt Skeleton Width Numeric",
+        "type": "size",
+        "default": "48px"
+      },
+      {
+        "id": "nc-dt-skeleton-width-text",
+        "label": "Nc Dt Skeleton Width Text",
+        "type": "size",
+        "default": "75%"
+      },
+      {
+        "id": "nc-dt-card-shadow",
+        "label": "Nc Dt Card Shadow",
+        "type": "color",
+        "default": "var(--fnd-elevation-raised)"
+      },
+      {
+        "id": "nc-dt-card-bg",
+        "label": "Nc Dt Card BG",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-dt-glass-bg",
+        "label": "Nc Dt Glass BG",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-background-base) 60%, transparent)"
+      },
+      {
+        "id": "nc-dt-glass-header-bg",
+        "label": "Nc Dt Glass Header BG",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-background-secondary) 40%, transparent)"
+      },
+      {
+        "id": "nc-dt-glass-border",
+        "label": "Nc Dt Glass Border",
+        "type": "color",
+        "default": "var(--fnd-border-width-xs) solid color-mix(in srgb, var(--fnd-color-border-secondary) 50%, transparent)"
+      },
+      {
+        "id": "nc-dt-glass-backdrop-blur",
+        "label": "Nc Dt Glass Backdrop Blur",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-dt-cell-line-clamp",
+        "label": "Nc Dt Cell Line Clamp",
+        "type": "size",
+        "default": "1"
+      }
+    ],
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-dt-stacked-card-gap",
+          "nc-dt-stacked-card-padding",
+          "nc-dt-stacked-card-radius",
+          "nc-dt-stacked-label-width",
+          "nc-dt-skeleton-width-avatar",
+          "nc-dt-skeleton-width-numeric",
+          "nc-dt-skeleton-width-text"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-dt-stacked-label-font-weight",
+          "nc-dt-batch-count-font-size",
+          "nc-dt-cell-line-clamp"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-dt-stacked-card-border",
+          "nc-dt-stacked-label-color",
+          "nc-dt-batch-shadow",
+          "nc-dt-batch-clear-color",
+          "nc-dt-sticky-col-shadow",
+          "nc-dt-sticky-col-shadow-end",
+          "nc-dt-sticky-col-bg",
+          "nc-dt-card-shadow",
+          "nc-dt-card-bg",
+          "nc-dt-glass-bg",
+          "nc-dt-glass-header-bg",
+          "nc-dt-glass-border"
+        ]
+      },
+      {
+        "id": "interaction",
+        "label": "Bewegung & Zustand",
+        "category": "state",
+        "tokenIds": [
+          "nc-dt-glass-backdrop-blur"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-dt-stacked-breakpoint"
+        ]
       }
     ]
   },
@@ -8672,7 +9099,9 @@ export const componentTokenGroups = [
           "nc-footer-heading-color",
           "nc-footer-social-color",
           "nc-footer-social-hover-color",
-          "nc-footer-legal-color"
+          "nc-footer-legal-color",
+          "nc-footer-surface-bg",
+          "nc-footer-surface-fg"
         ]
       },
       {
@@ -8875,6 +9304,18 @@ export const componentTokenGroups = [
         "label": "Legal Color",
         "type": "color",
         "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-footer-surface-bg",
+        "label": "Surface BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-footer-surface-fg",
+        "label": "Surface FG",
+        "type": "color",
+        "ref": "text-primary"
       }
     ]
   },
@@ -9993,7 +10434,8 @@ export const componentTokenGroups = [
           "nc-hero-cards-rule-width-lg",
           "nc-hero-cards-rule-inset",
           "nc-hero-cards-radius",
-          "nc-hero-cards-pad"
+          "nc-hero-cards-pad",
+          "nc-hero-cards-rule-width"
         ]
       },
       {
@@ -10559,6 +11001,12 @@ export const componentTokenGroups = [
         "label": "Karten — Polsterung",
         "type": "size",
         "default": "clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px)"
+      },
+      {
+        "id": "nc-hero-cards-rule-width",
+        "label": "Cards Rule Width",
+        "type": "size",
+        "default": "var(--nc-hero-cards-rule-width-sm)"
       }
     ]
   },
@@ -12599,7 +13047,9 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-media-frame-border-width",
-          "nc-media-frame-radius"
+          "nc-media-frame-radius",
+          "nc-surface-muted-radius",
+          "nc-surface-muted-padding"
         ]
       },
       {
@@ -12608,7 +13058,8 @@ export const componentTokenGroups = [
         "category": "main",
         "tokenIds": [
           "nc-media-frame-border-color",
-          "nc-media-frame-shadow"
+          "nc-media-frame-shadow",
+          "nc-surface-muted-bg"
         ]
       }
     ],
@@ -12637,6 +13088,24 @@ export const componentTokenGroups = [
         "type": "color",
         "default": "0 1px 2px rgba(0, 0, 0, 0.50),\n        0 8px 20px -6px rgba(0, 0, 0, 0.60),\n        0 30px 60px -24px rgba(0, 0, 0, 0.80)",
         "darkDefault": "0 1px 2px rgba(0, 0, 0, 0.50),\n      0 8px 20px -6px rgba(0, 0, 0, 0.60),\n      0 30px 60px -24px rgba(0, 0, 0, 0.80)"
+      },
+      {
+        "id": "nc-surface-muted-bg",
+        "label": "Nc Surface Muted BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-surface-muted-radius",
+        "label": "Nc Surface Muted Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-lg)"
+      },
+      {
+        "id": "nc-surface-muted-padding",
+        "label": "Nc Surface Muted Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-08)"
       }
     ]
   },
@@ -13504,7 +13973,8 @@ export const componentTokenGroups = [
         "type": "fontWeight",
         "default": "var(--fnd-font-weight-semibold)"
       }
-    ]
+    ],
+    "subgroups": []
   },
   {
     "id": "pagination",
@@ -15968,6 +16438,58 @@ export const componentTokenGroups = [
         "label": "Transition Duration",
         "type": "duration",
         "default": "var(--fnd-motion-duration-200)"
+      },
+      {
+        "id": "nc-segmented-item-badge-bg",
+        "label": "Nc Segmented Item Badge BG",
+        "type": "color",
+        "ref": "background-tertiary",
+        "darkDefault": "var(--fnd-color-background-tertiary)"
+      },
+      {
+        "id": "nc-segmented-item-badge-color",
+        "label": "Nc Segmented Item Badge Color",
+        "type": "color",
+        "ref": "text-secondary",
+        "darkDefault": "var(--fnd-color-text-secondary)"
+      },
+      {
+        "id": "nc-segmented-item-badge-bg-selected",
+        "label": "Nc Segmented Item Badge BG Selected",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-text-primary) 12%, transparent)",
+        "darkDefault": "color-mix(in srgb, var(--fnd-color-text-primary) 12%, transparent)"
+      },
+      {
+        "id": "nc-segmented-item-badge-color-selected",
+        "label": "Nc Segmented Item Badge Color Selected",
+        "type": "color",
+        "ref": "text-primary",
+        "darkDefault": "var(--fnd-color-text-primary)"
+      },
+      {
+        "id": "nc-segmented-item-badge-radius",
+        "label": "Nc Segmented Item Badge Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-full)"
+      },
+      {
+        "id": "nc-segmented-item-badge-padding",
+        "label": "Nc Segmented Item Badge Padding",
+        "type": "spacing",
+        "default": "0 var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-segmented-item-badge-font-size",
+        "label": "Nc Segmented Item Badge Font Size",
+        "type": "size",
+        "default": "0.75em"
+      },
+      {
+        "id": "nc-segmented-indicator-transition",
+        "label": "Nc Segmented Indicator Transition",
+        "type": "generic",
+        "default": "var(--fnd-motion-duration-300)"
       }
     ],
     "subGroups": [
@@ -16020,6 +16542,42 @@ export const componentTokenGroups = [
         "label": "Animation",
         "tokenIds": [
           "nc-segmented-transition-duration"
+        ]
+      }
+    ],
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-segmented-item-badge-radius",
+          "nc-segmented-item-badge-padding"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-segmented-item-badge-font-size"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-segmented-item-badge-bg",
+          "nc-segmented-item-badge-color",
+          "nc-segmented-item-badge-bg-selected",
+          "nc-segmented-item-badge-color-selected"
+        ]
+      },
+      {
+        "id": "interaction",
+        "label": "Bewegung & Zustand",
+        "category": "state",
+        "tokenIds": [
+          "nc-segmented-indicator-transition"
         ]
       }
     ]
@@ -20380,6 +20938,1718 @@ export const componentTokenGroups = [
       }
     ],
     "subgroups": []
+  },
+  {
+    "id": "anim",
+    "label": "Anim",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "interaction",
+        "label": "Bewegung & Zustand",
+        "category": "state",
+        "tokenIds": [
+          "nc-anim-scroll-duration",
+          "nc-anim-scroll-easing",
+          "nc-anim-fade-duration",
+          "nc-anim-fade-easing",
+          "nc-anim-stagger-delay",
+          "nc-anim-expand-duration"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-anim-scroll-duration",
+        "label": "Scroll Duration",
+        "type": "duration",
+        "default": "0.6s"
+      },
+      {
+        "id": "nc-anim-scroll-easing",
+        "label": "Scroll Easing",
+        "type": "generic",
+        "default": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      {
+        "id": "nc-anim-fade-duration",
+        "label": "Fade Duration",
+        "type": "duration",
+        "default": "0.5s"
+      },
+      {
+        "id": "nc-anim-fade-easing",
+        "label": "Fade Easing",
+        "type": "generic",
+        "default": "ease"
+      },
+      {
+        "id": "nc-anim-stagger-delay",
+        "label": "Stagger Delay",
+        "type": "duration",
+        "default": "0.08s"
+      },
+      {
+        "id": "nc-anim-expand-duration",
+        "label": "Expand Duration",
+        "type": "duration",
+        "default": "0.4s"
+      }
+    ]
+  },
+  {
+    "id": "dropdown",
+    "label": "Dropdown",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-dropdown-check-size",
+          "nc-dropdown-check-gap",
+          "nc-dropdown-submenu-indicator-size",
+          "nc-dropdown-submenu-offset",
+          "nc-dropdown-footer-padding"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-dropdown-check-color",
+          "nc-dropdown-submenu-indicator-color",
+          "nc-dropdown-footer-bg",
+          "nc-dropdown-footer-border-color"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-dropdown-check-size",
+        "label": "Check Size",
+        "type": "size",
+        "default": "16px"
+      },
+      {
+        "id": "nc-dropdown-check-color",
+        "label": "Check Color",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-dropdown-check-gap",
+        "label": "Check Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-dropdown-submenu-indicator-size",
+        "label": "Submenu Indicator Size",
+        "type": "size",
+        "default": "12px"
+      },
+      {
+        "id": "nc-dropdown-submenu-indicator-color",
+        "label": "Submenu Indicator Color",
+        "type": "color",
+        "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-dropdown-submenu-offset",
+        "label": "Submenu Offset",
+        "type": "size",
+        "default": "0px"
+      },
+      {
+        "id": "nc-dropdown-footer-padding",
+        "label": "Footer Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02) var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-dropdown-footer-bg",
+        "label": "Footer BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-dropdown-footer-border-color",
+        "label": "Footer Border Color",
+        "type": "color",
+        "ref": "border-secondary"
+      }
+    ]
+  },
+  {
+    "id": "group",
+    "label": "Group",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-group-gap",
+          "nc-group-gap-horizontal",
+          "nc-group-gap-sm",
+          "nc-group-gap-lg",
+          "nc-group-header-gap",
+          "nc-group-hint-margin-top"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-group-header-border"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-group-gap",
+        "label": "Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-group-gap-horizontal",
+        "label": "Gap Horizontal",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-group-gap-sm",
+        "label": "Gap SM",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-group-gap-lg",
+        "label": "Gap LG",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-group-header-gap",
+        "label": "Header Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-group-header-border",
+        "label": "Header Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-group-hint-margin-top",
+        "label": "Hint Margin Top",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      }
+    ]
+  },
+  {
+    "id": "kicker",
+    "label": "Kicker",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-kicker-font-family",
+          "nc-kicker-font-size",
+          "nc-kicker-font-weight",
+          "nc-kicker-letter-spacing",
+          "nc-kicker-text-transform"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-kicker-color"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-kicker-spacing"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-kicker-font-family",
+        "label": "Font Family",
+        "type": "size",
+        "default": "var(--font-mono)"
+      },
+      {
+        "id": "nc-kicker-font-size",
+        "label": "Font Size",
+        "type": "size",
+        "default": "var(--nc-mono-label-size)"
+      },
+      {
+        "id": "nc-kicker-font-weight",
+        "label": "Font Weight",
+        "type": "fontWeight",
+        "default": "var(--nc-mono-label-weight)"
+      },
+      {
+        "id": "nc-kicker-letter-spacing",
+        "label": "Letter Spacing",
+        "type": "size",
+        "default": "var(--nc-mono-tracking-caps)"
+      },
+      {
+        "id": "nc-kicker-text-transform",
+        "label": "Text Transform",
+        "type": "size",
+        "default": "uppercase"
+      },
+      {
+        "id": "nc-kicker-color",
+        "label": "Color",
+        "type": "color",
+        "ref": "text-accent"
+      },
+      {
+        "id": "nc-kicker-spacing",
+        "label": "Spacing",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      }
+    ]
+  },
+  {
+    "id": "mono",
+    "label": "Mono",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-mono-label-size-lg",
+          "nc-mono-label-size",
+          "nc-mono-label-size-sm"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-mono-label-weight",
+          "nc-mono-label-weight-quiet",
+          "nc-mono-label-weight-strong",
+          "nc-mono-tracking-caps",
+          "nc-mono-tracking-code",
+          "nc-mono-tracking-num"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-mono-label-size-lg",
+        "label": "Label Size LG",
+        "type": "size",
+        "default": "clamp(1rem, calc(1rem + (1.125rem - 1rem) * var(--fluid-bp)), 1.125rem)"
+      },
+      {
+        "id": "nc-mono-label-size",
+        "label": "Label Size",
+        "type": "size",
+        "default": "clamp(.875rem, calc(.875rem + (1rem - .875rem) * var(--fluid-bp)), 1rem)"
+      },
+      {
+        "id": "nc-mono-label-size-sm",
+        "label": "Label Size SM",
+        "type": "size",
+        "default": "clamp(.75rem, calc(.75rem + (.875rem - .75rem) * var(--fluid-bp)), .875rem)"
+      },
+      {
+        "id": "nc-mono-label-weight",
+        "label": "Label Weight",
+        "type": "fontWeight",
+        "default": "500"
+      },
+      {
+        "id": "nc-mono-label-weight-quiet",
+        "label": "Label Weight Quiet",
+        "type": "size",
+        "default": "400"
+      },
+      {
+        "id": "nc-mono-label-weight-strong",
+        "label": "Label Weight Strong",
+        "type": "size",
+        "default": "800"
+      },
+      {
+        "id": "nc-mono-tracking-caps",
+        "label": "Tracking Caps",
+        "type": "size",
+        "default": ".12em"
+      },
+      {
+        "id": "nc-mono-tracking-code",
+        "label": "Tracking Code",
+        "type": "size",
+        "default": ".06em"
+      },
+      {
+        "id": "nc-mono-tracking-num",
+        "label": "Tracking Num",
+        "type": "size",
+        "default": "0"
+      }
+    ]
+  },
+  {
+    "id": "nav",
+    "label": "Nav",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-nav-atom-icon-size",
+          "nc-nav-atom-label-size",
+          "nc-nav-atom-badge-size",
+          "nc-nav-atom-badge-offset",
+          "nc-nav-atom-badge-ring-width",
+          "nc-nav-mol-link-gap",
+          "nc-nav-mol-link-padding-x",
+          "nc-nav-mol-link-padding-y",
+          "nc-nav-mol-link-radius",
+          "nc-nav-mol-link-active-width",
+          "nc-nav-mol-toggle-size",
+          "nc-nav-mol-toggle-bar-height",
+          "nc-nav-mol-toggle-bar-gap",
+          "nc-nav-mol-toggle-bar-radius",
+          "nc-nav-mol-mobile-padding",
+          "nc-nav-mol-mobile-gap",
+          "nc-nav-mol-mobile-link-padding",
+          "nc-nav-mol-lang-radius",
+          "nc-nav-mol-lang-padding",
+          "nc-nav-mol-lang-active-radius",
+          "nc-nav-orch-height",
+          "nc-nav-orch-gap",
+          "nc-nav-orch-icon-size",
+          "nc-nav-orch-sync-height",
+          "nc-nav-orch-mobile-drawer-width",
+          "nc-nav-orch-compact-height",
+          "nc-nav-orch-compact-gap",
+          "nc-nav-orch-compact-padding",
+          "nc-nav-height",
+          "nc-nav-border-width",
+          "nc-nav-padding-block",
+          "nc-nav-padding-inline",
+          "nc-nav-padding-inline-constrained",
+          "nc-nav-padding-inline-xxl",
+          "nc-nav-gap",
+          "nc-nav-brand-size",
+          "nc-nav-brand-gap",
+          "nc-nav-brand-logo-height",
+          "nc-nav-max-width",
+          "nc-nav-menu-item-gap",
+          "nc-nav-menu-item-margin",
+          "nc-nav-menu-trigger-radius",
+          "nc-nav-menu-trigger-padding-x",
+          "nc-nav-menu-trigger-padding-y",
+          "nc-nav-menu-viewport-radius",
+          "nc-nav-menu-viewport-width",
+          "nc-nav-menu-content-padding",
+          "nc-nav-menu-content-width",
+          "nc-nav-menu-link-radius",
+          "nc-nav-menu-link-padding",
+          "nc-nav-menu-indicator-height",
+          "nc-nav-menu-mega-gap",
+          "nc-nav-menu-featured-radius",
+          "nc-nav-menu-featured-padding",
+          "nc-nav-menu-kicker-margin-bottom",
+          "nc-nav-menu-callout-card-radius",
+          "nc-nav-menu-callout-card-padding",
+          "nc-nav-menu-callout-card-min-height"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-nav-atom-label-weight",
+          "nc-nav-mol-link-active-weight",
+          "nc-nav-brand-weight",
+          "nc-nav-brand-letter-spacing",
+          "nc-nav-align-items",
+          "nc-nav-menu-trigger-font-size",
+          "nc-nav-menu-trigger-font-weight",
+          "nc-nav-menu-kicker-font-size",
+          "nc-nav-menu-kicker-font-weight",
+          "nc-nav-menu-kicker-text-transform",
+          "nc-nav-menu-kicker-letter-spacing"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-nav-atom-icon-color",
+          "nc-nav-atom-icon-stroke",
+          "nc-nav-atom-label-color",
+          "nc-nav-atom-badge-color",
+          "nc-nav-atom-badge-ring-color",
+          "nc-nav-mol-link-color",
+          "nc-nav-mol-link-hover-bg",
+          "nc-nav-mol-link-hover-color",
+          "nc-nav-mol-link-active-border",
+          "nc-nav-mol-toggle-bar-color",
+          "nc-nav-mol-mobile-bg",
+          "nc-nav-mol-mobile-border",
+          "nc-nav-mol-mobile-link-border",
+          "nc-nav-mol-lang-bg",
+          "nc-nav-mol-lang-active-bg",
+          "nc-nav-mol-lang-active-color",
+          "nc-nav-orch-link-hover-bg",
+          "nc-nav-orch-link-active-border",
+          "nc-nav-orch-viewport-shadow",
+          "nc-nav-bg",
+          "nc-nav-bg-solid",
+          "nc-nav-border",
+          "nc-nav-brand-color",
+          "nc-nav-transparent-bg",
+          "nc-nav-transparent-border",
+          "nc-nav-transparent-color",
+          "nc-nav-sticky-shadow",
+          "nc-nav-menu-trigger-color",
+          "nc-nav-menu-trigger-hover-bg",
+          "nc-nav-menu-trigger-active-bg",
+          "nc-nav-menu-viewport-bg",
+          "nc-nav-menu-viewport-border",
+          "nc-nav-menu-viewport-shadow",
+          "nc-nav-menu-link-hover-bg",
+          "nc-nav-menu-indicator-color",
+          "nc-nav-menu-featured-bg",
+          "nc-nav-menu-kicker-color"
+        ]
+      },
+      {
+        "id": "interaction",
+        "label": "Bewegung & Zustand",
+        "category": "state",
+        "tokenIds": [
+          "nc-nav-orch-shell-z-index",
+          "nc-nav-blur",
+          "nc-nav-z-index",
+          "nc-nav-menu-duration",
+          "nc-nav-menu-ease"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-nav-orch-sync-interaction",
+          "nc-nav-orch-sync-elevation",
+          "nc-nav-orch-sync-spacing",
+          "nc-nav-orch-mobile-breakpoint",
+          "nc-nav-justify-content",
+          "nc-nav-menu-mega-columns"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-nav-atom-icon-size",
+        "label": "Atom Icon Size",
+        "type": "size",
+        "default": "24px"
+      },
+      {
+        "id": "nc-nav-atom-icon-color",
+        "label": "Atom Icon Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-nav-atom-icon-stroke",
+        "label": "Atom Icon Stroke",
+        "type": "color",
+        "default": "1.5"
+      },
+      {
+        "id": "nc-nav-atom-label-size",
+        "label": "Atom Label Size",
+        "type": "size",
+        "default": "var(--nc-type-label-size)"
+      },
+      {
+        "id": "nc-nav-atom-label-weight",
+        "label": "Atom Label Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-medium)"
+      },
+      {
+        "id": "nc-nav-atom-label-color",
+        "label": "Atom Label Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-nav-atom-badge-size",
+        "label": "Atom Badge Size",
+        "type": "size",
+        "default": "8px"
+      },
+      {
+        "id": "nc-nav-atom-badge-color",
+        "label": "Atom Badge Color",
+        "type": "color",
+        "ref": "feedback-danger"
+      },
+      {
+        "id": "nc-nav-atom-badge-offset",
+        "label": "Atom Badge Offset",
+        "type": "size",
+        "default": "-2px"
+      },
+      {
+        "id": "nc-nav-atom-badge-ring-width",
+        "label": "Atom Badge Ring Width",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-nav-atom-badge-ring-color",
+        "label": "Atom Badge Ring Color",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-nav-mol-link-gap",
+        "label": "Mol Link Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-nav-mol-link-padding-x",
+        "label": "Mol Link Padding X",
+        "type": "size",
+        "default": "0.75rem"
+      },
+      {
+        "id": "nc-nav-mol-link-padding-y",
+        "label": "Mol Link Padding Y",
+        "type": "size",
+        "default": "0.5rem"
+      },
+      {
+        "id": "nc-nav-mol-link-radius",
+        "label": "Mol Link Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-mol-link-color",
+        "label": "Mol Link Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-nav-mol-link-hover-bg",
+        "label": "Mol Link Hover BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-nav-mol-link-hover-color",
+        "label": "Mol Link Hover Color",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-nav-mol-link-active-weight",
+        "label": "Mol Link Active Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-semibold)"
+      },
+      {
+        "id": "nc-nav-mol-link-active-border",
+        "label": "Mol Link Active Border",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-nav-mol-link-active-width",
+        "label": "Mol Link Active Width",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-nav-mol-toggle-size",
+        "label": "Mol Toggle Size",
+        "type": "size",
+        "default": "var(--fnd-size-xs)"
+      },
+      {
+        "id": "nc-nav-mol-toggle-bar-height",
+        "label": "Mol Toggle Bar Height",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-nav-mol-toggle-bar-gap",
+        "label": "Mol Toggle Bar Gap",
+        "type": "size",
+        "default": "5px"
+      },
+      {
+        "id": "nc-nav-mol-toggle-bar-radius",
+        "label": "Mol Toggle Bar Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-xs)"
+      },
+      {
+        "id": "nc-nav-mol-toggle-bar-color",
+        "label": "Mol Toggle Bar Color",
+        "type": "color",
+        "default": "currentColor"
+      },
+      {
+        "id": "nc-nav-mol-mobile-bg",
+        "label": "Mol Mobile BG",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-nav-mol-mobile-border",
+        "label": "Mol Mobile Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-nav-mol-mobile-padding",
+        "label": "Mol Mobile Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-nav-mol-mobile-gap",
+        "label": "Mol Mobile Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-nav-mol-mobile-link-padding",
+        "label": "Mol Mobile Link Padding",
+        "type": "size",
+        "default": "0.5rem 0"
+      },
+      {
+        "id": "nc-nav-mol-mobile-link-border",
+        "label": "Mol Mobile Link Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-nav-mol-lang-bg",
+        "label": "Mol Lang BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-nav-mol-lang-radius",
+        "label": "Mol Lang Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-mol-lang-padding",
+        "label": "Mol Lang Padding",
+        "type": "size",
+        "default": "0 0.5rem"
+      },
+      {
+        "id": "nc-nav-mol-lang-active-bg",
+        "label": "Mol Lang Active BG",
+        "type": "color",
+        "ref": "background-inverse"
+      },
+      {
+        "id": "nc-nav-mol-lang-active-color",
+        "label": "Mol Lang Active Color",
+        "type": "color",
+        "ref": "text-inverse"
+      },
+      {
+        "id": "nc-nav-mol-lang-active-radius",
+        "label": "Mol Lang Active Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-orch-shell-z-index",
+        "label": "Orch Shell Z Index",
+        "type": "generic",
+        "default": "var(--nc-shell-z-navbar)"
+      },
+      {
+        "id": "nc-nav-orch-height",
+        "label": "Orch Height",
+        "type": "size",
+        "default": "var(--nc-nav-height)"
+      },
+      {
+        "id": "nc-nav-orch-gap",
+        "label": "Orch Gap",
+        "type": "size",
+        "default": "var(--nc-nav-gap)"
+      },
+      {
+        "id": "nc-nav-orch-icon-size",
+        "label": "Orch Icon Size",
+        "type": "size",
+        "default": "var(--nc-nav-atom-icon-size)"
+      },
+      {
+        "id": "nc-nav-orch-link-hover-bg",
+        "label": "Orch Link Hover BG",
+        "type": "color",
+        "default": "var(--nc-nav-mol-link-hover-bg)"
+      },
+      {
+        "id": "nc-nav-orch-link-active-border",
+        "label": "Orch Link Active Border",
+        "type": "color",
+        "default": "var(--nc-nav-mol-link-active-border)"
+      },
+      {
+        "id": "nc-nav-orch-viewport-shadow",
+        "label": "Orch Viewport Shadow",
+        "type": "color",
+        "default": "var(--nc-nav-menu-viewport-shadow)"
+      },
+      {
+        "id": "nc-nav-orch-sync-height",
+        "label": "Orch Sync Height",
+        "type": "size",
+        "default": "var(--nc-nav-height)"
+      },
+      {
+        "id": "nc-nav-orch-sync-interaction",
+        "label": "Orch Sync Interaction",
+        "type": "generic",
+        "default": "var(--nc-nav-mol-link-hover-bg)"
+      },
+      {
+        "id": "nc-nav-orch-sync-elevation",
+        "label": "Orch Sync Elevation",
+        "type": "generic",
+        "default": "var(--nc-popover-shadow)"
+      },
+      {
+        "id": "nc-nav-orch-sync-spacing",
+        "label": "Orch Sync Spacing",
+        "type": "generic",
+        "default": "var(--nc-nav-gap)"
+      },
+      {
+        "id": "nc-nav-orch-mobile-breakpoint",
+        "label": "Orch Mobile Breakpoint",
+        "type": "size",
+        "default": "1200px"
+      },
+      {
+        "id": "nc-nav-orch-mobile-drawer-width",
+        "label": "Orch Mobile Drawer Width",
+        "type": "size",
+        "default": "var(--nc-shell-sidebar-left-width)"
+      },
+      {
+        "id": "nc-nav-orch-compact-height",
+        "label": "Orch Compact Height",
+        "type": "size",
+        "default": "var(--fnd-size-lg)"
+      },
+      {
+        "id": "nc-nav-orch-compact-gap",
+        "label": "Orch Compact Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-nav-orch-compact-padding",
+        "label": "Orch Compact Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-nav-height",
+        "label": "Height",
+        "type": "size",
+        "default": "var(--fnd-size-xl)"
+      },
+      {
+        "id": "nc-nav-bg",
+        "label": "BG",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-nav-bg-solid",
+        "label": "BG Solid",
+        "type": "color",
+        "ref": "background-base"
+      },
+      {
+        "id": "nc-nav-border",
+        "label": "Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-nav-border-width",
+        "label": "Border Width",
+        "type": "size",
+        "default": "var(--fnd-border-width-xs)"
+      },
+      {
+        "id": "nc-nav-blur",
+        "label": "Blur",
+        "type": "size",
+        "default": "12px"
+      },
+      {
+        "id": "nc-nav-z-index",
+        "label": "Z Index",
+        "type": "generic",
+        "default": "var(--fnd-z-header)"
+      },
+      {
+        "id": "nc-nav-padding-block",
+        "label": "Padding Block",
+        "type": "size",
+        "default": "0"
+      },
+      {
+        "id": "nc-nav-padding-inline",
+        "label": "Padding Inline",
+        "type": "size",
+        "default": "clamp(16px, 3.5vw, 48px)"
+      },
+      {
+        "id": "nc-nav-padding-inline-constrained",
+        "label": "Padding Inline Constrained",
+        "type": "size",
+        "default": "var(--nc-container-padding-inline-constrained)"
+      },
+      {
+        "id": "nc-nav-padding-inline-xxl",
+        "label": "Padding Inline Xxl",
+        "type": "size",
+        "default": "var(--nc-container-padding-inline-xxl)"
+      },
+      {
+        "id": "nc-nav-gap",
+        "label": "Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-nav-brand-size",
+        "label": "Brand Size",
+        "type": "size",
+        "default": "var(--fs-xl)"
+      },
+      {
+        "id": "nc-nav-brand-weight",
+        "label": "Brand Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-bold)"
+      },
+      {
+        "id": "nc-nav-brand-color",
+        "label": "Brand Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-nav-brand-gap",
+        "label": "Brand Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-nav-brand-logo-height",
+        "label": "Brand Logo Height",
+        "type": "size",
+        "default": "100%"
+      },
+      {
+        "id": "nc-nav-brand-letter-spacing",
+        "label": "Brand Letter Spacing",
+        "type": "size",
+        "default": "0.06em"
+      },
+      {
+        "id": "nc-nav-justify-content",
+        "label": "Justify Content",
+        "type": "generic",
+        "default": "space-between"
+      },
+      {
+        "id": "nc-nav-align-items",
+        "label": "Align Items",
+        "type": "size",
+        "default": "center"
+      },
+      {
+        "id": "nc-nav-transparent-bg",
+        "label": "Transparent BG",
+        "type": "color",
+        "default": "transparent"
+      },
+      {
+        "id": "nc-nav-transparent-border",
+        "label": "Transparent Border",
+        "type": "color",
+        "default": "transparent"
+      },
+      {
+        "id": "nc-nav-transparent-color",
+        "label": "Transparent Color",
+        "type": "color",
+        "default": "var(--fnd-color-always-light)"
+      },
+      {
+        "id": "nc-nav-sticky-shadow",
+        "label": "Sticky Shadow",
+        "type": "color",
+        "default": "var(--fnd-shadow-sm)"
+      },
+      {
+        "id": "nc-nav-max-width",
+        "label": "Max Width",
+        "type": "size",
+        "default": "var(--container-xwide)"
+      },
+      {
+        "id": "nc-nav-menu-item-gap",
+        "label": "Menu Item Gap",
+        "type": "size",
+        "default": "0.125rem"
+      },
+      {
+        "id": "nc-nav-menu-item-margin",
+        "label": "Menu Item Margin",
+        "type": "size",
+        "default": "0"
+      },
+      {
+        "id": "nc-nav-menu-trigger-color",
+        "label": "Menu Trigger Color",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-nav-menu-trigger-hover-bg",
+        "label": "Menu Trigger Hover BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-nav-menu-trigger-active-bg",
+        "label": "Menu Trigger Active BG",
+        "type": "color",
+        "ref": "background-tertiary"
+      },
+      {
+        "id": "nc-nav-menu-trigger-radius",
+        "label": "Menu Trigger Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-menu-trigger-font-size",
+        "label": "Menu Trigger Font Size",
+        "type": "size",
+        "default": "var(--nc-type-label-size)"
+      },
+      {
+        "id": "nc-nav-menu-trigger-font-weight",
+        "label": "Menu Trigger Font Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-medium)"
+      },
+      {
+        "id": "nc-nav-menu-trigger-padding-x",
+        "label": "Menu Trigger Padding X",
+        "type": "size",
+        "default": "0.75rem"
+      },
+      {
+        "id": "nc-nav-menu-trigger-padding-y",
+        "label": "Menu Trigger Padding Y",
+        "type": "size",
+        "default": "0.5rem"
+      },
+      {
+        "id": "nc-nav-menu-viewport-bg",
+        "label": "Menu Viewport BG",
+        "type": "color",
+        "default": "var(--fnd-color-surface-elevated)"
+      },
+      {
+        "id": "nc-nav-menu-viewport-border",
+        "label": "Menu Viewport Border",
+        "type": "color",
+        "ref": "border-secondary"
+      },
+      {
+        "id": "nc-nav-menu-viewport-radius",
+        "label": "Menu Viewport Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-menu-viewport-shadow",
+        "label": "Menu Viewport Shadow",
+        "type": "color",
+        "default": "var(--fnd-elevation-floating)"
+      },
+      {
+        "id": "nc-nav-menu-viewport-width",
+        "label": "Menu Viewport Width",
+        "type": "size",
+        "default": "500px"
+      },
+      {
+        "id": "nc-nav-menu-content-padding",
+        "label": "Menu Content Padding",
+        "type": "size",
+        "default": "1rem"
+      },
+      {
+        "id": "nc-nav-menu-content-width",
+        "label": "Menu Content Width",
+        "type": "size",
+        "default": "500px"
+      },
+      {
+        "id": "nc-nav-menu-link-radius",
+        "label": "Menu Link Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-menu-link-hover-bg",
+        "label": "Menu Link Hover BG",
+        "type": "color",
+        "ref": "background-secondary"
+      },
+      {
+        "id": "nc-nav-menu-link-padding",
+        "label": "Menu Link Padding",
+        "type": "size",
+        "default": "0.75rem"
+      },
+      {
+        "id": "nc-nav-menu-indicator-color",
+        "label": "Menu Indicator Color",
+        "type": "color",
+        "ref": "interactive-default"
+      },
+      {
+        "id": "nc-nav-menu-indicator-height",
+        "label": "Menu Indicator Height",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-nav-menu-mega-columns",
+        "label": "Menu Mega Columns",
+        "type": "generic",
+        "default": "2"
+      },
+      {
+        "id": "nc-nav-menu-mega-gap",
+        "label": "Menu Mega Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-nav-menu-featured-bg",
+        "label": "Menu Featured BG",
+        "type": "color",
+        "default": "linear-gradient(135deg, var(--fnd-color-background-secondary), var(--fnd-color-background-tertiary))"
+      },
+      {
+        "id": "nc-nav-menu-featured-radius",
+        "label": "Menu Featured Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)"
+      },
+      {
+        "id": "nc-nav-menu-featured-padding",
+        "label": "Menu Featured Padding",
+        "type": "size",
+        "default": "1rem"
+      },
+      {
+        "id": "nc-nav-menu-duration",
+        "label": "Menu Duration",
+        "type": "duration",
+        "default": "200ms"
+      },
+      {
+        "id": "nc-nav-menu-ease",
+        "label": "Menu Ease",
+        "type": "generic",
+        "default": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      {
+        "id": "nc-nav-menu-kicker-font-size",
+        "label": "Menu Kicker Font Size",
+        "type": "size",
+        "default": "var(--nc-type-caption-size)"
+      },
+      {
+        "id": "nc-nav-menu-kicker-font-weight",
+        "label": "Menu Kicker Font Weight",
+        "type": "fontWeight",
+        "default": "var(--fnd-font-weight-semibold)"
+      },
+      {
+        "id": "nc-nav-menu-kicker-color",
+        "label": "Menu Kicker Color",
+        "type": "color",
+        "ref": "text-tertiary"
+      },
+      {
+        "id": "nc-nav-menu-kicker-text-transform",
+        "label": "Menu Kicker Text Transform",
+        "type": "size",
+        "default": "capitalize"
+      },
+      {
+        "id": "nc-nav-menu-kicker-letter-spacing",
+        "label": "Menu Kicker Letter Spacing",
+        "type": "size",
+        "default": "0.06em"
+      },
+      {
+        "id": "nc-nav-menu-kicker-margin-bottom",
+        "label": "Menu Kicker Margin Bottom",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-nav-menu-callout-card-radius",
+        "label": "Menu Callout Card Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-md)"
+      },
+      {
+        "id": "nc-nav-menu-callout-card-padding",
+        "label": "Menu Callout Card Padding",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-nav-menu-callout-card-min-height",
+        "label": "Menu Callout Card Min Height",
+        "type": "size",
+        "default": "200px"
+      }
+    ]
+  },
+  {
+    "id": "parallax",
+    "label": "Parallax",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-parallax-radius",
+          "nc-parallax-gap"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-parallax-bg",
+          "nc-parallax-square-color"
+        ]
+      },
+      {
+        "id": "interaction",
+        "label": "Bewegung & Zustand",
+        "category": "state",
+        "tokenIds": [
+          "nc-parallax-opacity"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-parallax-radius",
+        "label": "Radius",
+        "type": "radius",
+        "default": "8px"
+      },
+      {
+        "id": "nc-parallax-gap",
+        "label": "Gap",
+        "type": "size",
+        "default": "6px"
+      },
+      {
+        "id": "nc-parallax-bg",
+        "label": "BG",
+        "type": "color",
+        "default": "var(--fnd-color-always-dark)"
+      },
+      {
+        "id": "nc-parallax-square-color",
+        "label": "Square Color",
+        "type": "color",
+        "default": "var(--fnd-color-always-light)"
+      },
+      {
+        "id": "nc-parallax-opacity",
+        "label": "Opacity",
+        "type": "opacity",
+        "default": "0.12"
+      }
+    ]
+  },
+  {
+    "id": "reference-page",
+    "label": "Reference Page",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-refpage-gap",
+          "nc-refpage-column-gap",
+          "nc-refpage-toc-width",
+          "nc-refpage-toc-size",
+          "nc-refpage-toc-sub-size",
+          "nc-refpage-toc-title-size",
+          "nc-refpage-marker-width"
+        ]
+      },
+      {
+        "id": "colors",
+        "label": "Farben",
+        "category": "main",
+        "tokenIds": [
+          "nc-refpage-active-color"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-refpage-gap",
+        "label": "Nc Refpage Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-08)"
+      },
+      {
+        "id": "nc-refpage-column-gap",
+        "label": "Nc Refpage Column Gap",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-11)"
+      },
+      {
+        "id": "nc-refpage-toc-width",
+        "label": "Nc Refpage Toc Width",
+        "type": "size",
+        "default": "300px"
+      },
+      {
+        "id": "nc-refpage-toc-size",
+        "label": "Nc Refpage Toc Size",
+        "type": "size",
+        "default": "var(--nc-type-body-m-size)"
+      },
+      {
+        "id": "nc-refpage-toc-sub-size",
+        "label": "Nc Refpage Toc Sub Size",
+        "type": "size",
+        "default": "var(--nc-type-body-s-size)"
+      },
+      {
+        "id": "nc-refpage-toc-title-size",
+        "label": "Nc Refpage Toc Title Size",
+        "type": "size",
+        "default": "var(--nc-type-body-s-size)"
+      },
+      {
+        "id": "nc-refpage-marker-width",
+        "label": "Nc Refpage Marker Width",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-refpage-active-color",
+        "label": "Nc Refpage Active Color",
+        "type": "color",
+        "ref": "background-accent"
+      }
+    ]
+  },
+  {
+    "id": "type",
+    "label": "Type",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "geometry",
+        "label": "Geometrie",
+        "tokenIds": [
+          "nc-type-display-l-size",
+          "nc-type-display-m-size",
+          "nc-type-display-s-size",
+          "nc-type-heading-l-size",
+          "nc-type-heading-m-size",
+          "nc-type-heading-s-size",
+          "nc-type-body-l-size",
+          "nc-type-body-m-size",
+          "nc-type-body-s-size",
+          "nc-type-label-size",
+          "nc-type-caption-size"
+        ]
+      },
+      {
+        "id": "typography",
+        "label": "Typografie",
+        "tokenIds": [
+          "nc-type-display-l-weight",
+          "nc-type-display-m-weight",
+          "nc-type-display-s-weight",
+          "nc-type-heading-l-weight",
+          "nc-type-heading-m-weight",
+          "nc-type-heading-s-weight",
+          "nc-type-body-l-weight",
+          "nc-type-body-m-weight",
+          "nc-type-body-s-weight",
+          "nc-type-label-weight",
+          "nc-type-caption-weight"
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Weitere",
+        "tokenIds": [
+          "nc-type-display-l-lh",
+          "nc-type-display-l-ls",
+          "nc-type-display-m-lh",
+          "nc-type-display-m-ls",
+          "nc-type-display-s-lh",
+          "nc-type-display-s-ls",
+          "nc-type-heading-l-lh",
+          "nc-type-heading-l-ls",
+          "nc-type-heading-m-lh",
+          "nc-type-heading-m-ls",
+          "nc-type-heading-s-lh",
+          "nc-type-heading-s-ls",
+          "nc-type-body-l-lh",
+          "nc-type-body-l-ls",
+          "nc-type-body-m-lh",
+          "nc-type-body-m-ls",
+          "nc-type-body-s-lh",
+          "nc-type-body-s-ls",
+          "nc-type-label-lh",
+          "nc-type-label-ls",
+          "nc-type-caption-lh",
+          "nc-type-caption-ls"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-type-display-l-size",
+        "label": "Display L Size",
+        "type": "size",
+        "default": "var(--fs-5xl)"
+      },
+      {
+        "id": "nc-type-display-l-weight",
+        "label": "Display L Weight",
+        "type": "fontWeight",
+        "default": "800"
+      },
+      {
+        "id": "nc-type-display-l-lh",
+        "label": "Display L Lh",
+        "type": "generic",
+        "default": "1.05"
+      },
+      {
+        "id": "nc-type-display-l-ls",
+        "label": "Display L Ls",
+        "type": "size",
+        "default": "-0.03em"
+      },
+      {
+        "id": "nc-type-display-m-size",
+        "label": "Display M Size",
+        "type": "size",
+        "default": "var(--fs-4xl)"
+      },
+      {
+        "id": "nc-type-display-m-weight",
+        "label": "Display M Weight",
+        "type": "fontWeight",
+        "default": "800"
+      },
+      {
+        "id": "nc-type-display-m-lh",
+        "label": "Display M Lh",
+        "type": "generic",
+        "default": "1.08"
+      },
+      {
+        "id": "nc-type-display-m-ls",
+        "label": "Display M Ls",
+        "type": "size",
+        "default": "-0.02em"
+      },
+      {
+        "id": "nc-type-display-s-size",
+        "label": "Display S Size",
+        "type": "size",
+        "default": "var(--fs-3xl)"
+      },
+      {
+        "id": "nc-type-display-s-weight",
+        "label": "Display S Weight",
+        "type": "fontWeight",
+        "default": "700"
+      },
+      {
+        "id": "nc-type-display-s-lh",
+        "label": "Display S Lh",
+        "type": "generic",
+        "default": "1.10"
+      },
+      {
+        "id": "nc-type-display-s-ls",
+        "label": "Display S Ls",
+        "type": "size",
+        "default": "-0.02em"
+      },
+      {
+        "id": "nc-type-heading-l-size",
+        "label": "Heading L Size",
+        "type": "size",
+        "default": "var(--fs-2xl)"
+      },
+      {
+        "id": "nc-type-heading-l-weight",
+        "label": "Heading L Weight",
+        "type": "fontWeight",
+        "default": "700"
+      },
+      {
+        "id": "nc-type-heading-l-lh",
+        "label": "Heading L Lh",
+        "type": "generic",
+        "default": "1.15"
+      },
+      {
+        "id": "nc-type-heading-l-ls",
+        "label": "Heading L Ls",
+        "type": "size",
+        "default": "-0.01em"
+      },
+      {
+        "id": "nc-type-heading-m-size",
+        "label": "Heading M Size",
+        "type": "size",
+        "default": "var(--fs-xl)"
+      },
+      {
+        "id": "nc-type-heading-m-weight",
+        "label": "Heading M Weight",
+        "type": "fontWeight",
+        "default": "700"
+      },
+      {
+        "id": "nc-type-heading-m-lh",
+        "label": "Heading M Lh",
+        "type": "generic",
+        "default": "1.20"
+      },
+      {
+        "id": "nc-type-heading-m-ls",
+        "label": "Heading M Ls",
+        "type": "size",
+        "default": "-0.01em"
+      },
+      {
+        "id": "nc-type-heading-s-size",
+        "label": "Heading S Size",
+        "type": "size",
+        "default": "var(--fs-lg)"
+      },
+      {
+        "id": "nc-type-heading-s-weight",
+        "label": "Heading S Weight",
+        "type": "fontWeight",
+        "default": "600"
+      },
+      {
+        "id": "nc-type-heading-s-lh",
+        "label": "Heading S Lh",
+        "type": "generic",
+        "default": "1.30"
+      },
+      {
+        "id": "nc-type-heading-s-ls",
+        "label": "Heading S Ls",
+        "type": "generic",
+        "default": "0"
+      },
+      {
+        "id": "nc-type-body-l-size",
+        "label": "Body L Size",
+        "type": "size",
+        "default": "var(--fs-lg)"
+      },
+      {
+        "id": "nc-type-body-l-weight",
+        "label": "Body L Weight",
+        "type": "fontWeight",
+        "default": "400"
+      },
+      {
+        "id": "nc-type-body-l-lh",
+        "label": "Body L Lh",
+        "type": "generic",
+        "default": "1.50"
+      },
+      {
+        "id": "nc-type-body-l-ls",
+        "label": "Body L Ls",
+        "type": "generic",
+        "default": "0"
+      },
+      {
+        "id": "nc-type-body-m-size",
+        "label": "Body M Size",
+        "type": "size",
+        "default": "var(--fs-base)"
+      },
+      {
+        "id": "nc-type-body-m-weight",
+        "label": "Body M Weight",
+        "type": "fontWeight",
+        "default": "400"
+      },
+      {
+        "id": "nc-type-body-m-lh",
+        "label": "Body M Lh",
+        "type": "generic",
+        "default": "1.60"
+      },
+      {
+        "id": "nc-type-body-m-ls",
+        "label": "Body M Ls",
+        "type": "generic",
+        "default": "0"
+      },
+      {
+        "id": "nc-type-body-s-size",
+        "label": "Body S Size",
+        "type": "size",
+        "default": "var(--fs-sm)"
+      },
+      {
+        "id": "nc-type-body-s-weight",
+        "label": "Body S Weight",
+        "type": "fontWeight",
+        "default": "400"
+      },
+      {
+        "id": "nc-type-body-s-lh",
+        "label": "Body S Lh",
+        "type": "generic",
+        "default": "1.50"
+      },
+      {
+        "id": "nc-type-body-s-ls",
+        "label": "Body S Ls",
+        "type": "generic",
+        "default": "0"
+      },
+      {
+        "id": "nc-type-label-size",
+        "label": "Label Size",
+        "type": "size",
+        "default": "var(--fs-base)"
+      },
+      {
+        "id": "nc-type-label-weight",
+        "label": "Label Weight",
+        "type": "fontWeight",
+        "default": "500"
+      },
+      {
+        "id": "nc-type-label-lh",
+        "label": "Label Lh",
+        "type": "generic",
+        "default": "1.20"
+      },
+      {
+        "id": "nc-type-label-ls",
+        "label": "Label Ls",
+        "type": "generic",
+        "default": "0"
+      },
+      {
+        "id": "nc-type-caption-size",
+        "label": "Caption Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-type-caption-weight",
+        "label": "Caption Weight",
+        "type": "fontWeight",
+        "default": "500"
+      },
+      {
+        "id": "nc-type-caption-lh",
+        "label": "Caption Lh",
+        "type": "generic",
+        "default": "1.40"
+      },
+      {
+        "id": "nc-type-caption-ls",
+        "label": "Caption Ls",
+        "type": "size",
+        "default": "0.04em"
+      }
+    ]
   }
 ]
 

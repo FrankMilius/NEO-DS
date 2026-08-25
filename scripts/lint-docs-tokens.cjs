@@ -6,7 +6,7 @@
 // Laueft als Teil von `npm test`.
 //
 // Usage:
-//   node scripts/lint-docs-tokens.js
+//   node scripts/lint-docs-tokens.cjs
 // ==========================================================================
 
 'use strict';

@@ -10,7 +10,7 @@
 // Laueft als Teil von `npm test`.
 //
 // Usage:
-//   node scripts/lint-docs-scripts.js
+//   node scripts/lint-docs-scripts.cjs
 // ==========================================================================
 
 'use strict';

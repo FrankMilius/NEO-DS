@@ -12,7 +12,7 @@
 //   4. Drupal CSS Bind-Mount Verifizierung
 //
 // Nutzung:
-//   node scripts/pipeline-guard.js
+//   node scripts/pipeline-guard.cjs
 //   npm run pipeline:check
 //
 // Teil von `npm test` (optional).
@@ -46,7 +46,7 @@ console.log('─'.repeat(55));
 // ── 1. Token Sync ──
 console.log('\n  1. Token Sync');
 try {
-  const result = execSync('node scripts/sync-component-tokens.js --check 2>&1', { cwd: ROOT, encoding: 'utf8' });
+  const result = execSync('node scripts/sync-component-tokens.cjs --check 2>&1', { cwd: ROOT, encoding: 'utf8' });
   if (result.includes('0 fehlend')) {
     ok('Alle Tokens synchron');
   } else {

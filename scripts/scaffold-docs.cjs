@@ -7,8 +7,8 @@
 // Die Tabs werden dann via update-docs-from-recipes.js befuellt.
 //
 // Usage:
-//   node scripts/scaffold-docs.js              # Alle fehlenden
-//   node scripts/scaffold-docs.js --dry-run    # Nur Report
+//   node scripts/scaffold-docs.cjs              # Alle fehlenden
+//   node scripts/scaffold-docs.cjs --dry-run    # Nur Report
 // ==========================================================================
 
 const fs = require('fs');

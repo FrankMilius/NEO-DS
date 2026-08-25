@@ -5,7 +5,7 @@
  * Transformiert alle <table class="docs__table"> in docs/content/*.html
  * zu einem .nc-data-table Wrapper-Pattern mit --static Modifier.
  *
- * Aufruf: node scripts/migrate-docs-tables.js [--dry-run]
+ * Aufruf: node scripts/migrate-docs-tables.cjs [--dry-run]
  */
 
 const fs = require('fs');

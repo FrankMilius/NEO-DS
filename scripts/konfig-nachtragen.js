@@ -140,7 +140,52 @@ for (const eb of ['04-objects', '05-atoms', '06-molecules', '07-organisms', '08-
 }
 // Laengster Treffer zuerst: sonst faengt `card` die Tokens von `card-grid-cta`.
 const nachLaenge = [...namen].sort((a, b) => b.length - a.length);
-const zuKomponente = (t) => nachLaenge.find((n) => t.startsWith(`--nc-${n}-`)) || null;
+// Wer BENUTZT ein Token? Das entscheidet, wohin es gehoert.
+//
+// Am 25.08.2026 blieben 238 Tokens liegen, weil ihr Praefix weder eine Gruppe
+// noch eine SCSS-Datei traf: `--nc-cs-*`, `--nc-dt-*`, `--nc-nav-*` und andere.
+// Der erste Rueckfall nahm einfach das erste Namenssegment — und erzeugte
+// `segmented` neben `segmented-control`, `dropdown` neben `dropdown-menu`,
+// dazu eine leere Gruppe `otp`. Plausibel aussehende Fehlgruppierung, also
+// genau das, was hier nicht entstehen darf.
+//
+// Diese Fassung fragt stattdessen die Bauteildateien: Welche benutzen
+// `var(--nc-<praefix>-…)`? Genau eine -> das Token gehoert dorthin. Mehrere
+// oder keine -> es ist eine bauteiluebergreifende Familie und bekommt eine
+// eigene Gruppe. Das ist eine Regel, keine gepflegte Liste; sie bleibt richtig,
+// wenn jemand ein Bauteil umbenennt.
+const benutzerVon = (() => {
+  const dateien = [];
+  for (const eb of ['03-elements', '04-objects', '05-atoms', '06-molecules', '07-organisms', '08-templates', '10-utilities']) {
+    const d = resolve(wurzel, 'scss/scss', eb);
+    if (!existsSync(d)) continue;
+    for (const f of readdirSync(d)) {
+      if (f.endsWith('.scss') && f !== '_index.scss') {
+        dateien.push([f.slice(1, -5), readFileSync(resolve(d, f), 'utf8')]);
+      }
+    }
+  }
+  const zwischenspeicher = new Map();
+  return (praefix) => {
+    if (zwischenspeicher.has(praefix)) return zwischenspeicher.get(praefix);
+    const treffer = dateien.filter(([, text]) => text.includes(`var(--nc-${praefix}-`)).map(([n]) => n);
+    zwischenspeicher.set(praefix, treffer);
+    return treffer;
+  };
+})();
+
+const zuKomponente = (t) => {
+  const treffer = nachLaenge.find((n) => t.startsWith(`--nc-${n}-`));
+  if (treffer) return treffer;
+
+  const teile = t.replace(/^--nc-/, '').split('-');
+  if (teile.length < 2) return null;
+  const praefix = teile[0];
+
+  const nutzer = benutzerVon(praefix);
+  if (nutzer.length === 1) return nutzer[0];
+  return praefix;
+};
 
 // ---------------------------------------------------------------------------
 // Nachtragen
