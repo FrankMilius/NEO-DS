@@ -96,6 +96,14 @@
 .nc-form-hint {
   @include form-hint-base;
 
+  // Der Meldungstext als eigenes Flex-Kind. Ohne diese Klasse ist er ein
+  // anonymes Flex-Element — nicht ansprechbar, und mit `min-width: auto` kann
+  // eine lange Meldung den Kasten aufdruecken, statt umzubrechen. Die Doku
+  // zeigt die Klasse seit jeher, im Stylesheet fehlte sie (Befund 25.08.2026).
+  &__text {
+    min-width: 0;
+  }
+
   &__icon {
     @include form-hint-icon;
   }

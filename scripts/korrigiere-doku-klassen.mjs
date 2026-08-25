@@ -130,9 +130,21 @@ const trocken = process.argv.includes('--trocken');
 // Laengste zuerst, sonst frisst `nc-btn` den Anfang von `nc-btn--primary`.
 const reihenfolge = Object.keys(ZUORDNUNG).sort((a, b) => b.length - a.length);
 
+// REKURSIV, nicht nur die oberste Ebene.
+//
+// Bis zum 25.08.2026 stand hier `readdirSync(DOKU)`. Damit sah der Korrektor
+// die 118 Dateien in docs/, aber keine der 127 in docs/content/ — und die
+// tragen dieselben Bauteile ein zweites Mal. Der Lauf vom 24.08. meldete „90
+// Vorkommen korrigiert" und war damit sauber die Haelfte: nc-btn, nc-skip-link,
+// nc-hero__card und nc-button--md standen anschliessend unveraendert in
+// docs/content/ weiter.
+//
+// Der `glob` weiter oben konnte immer schon rekursieren; benutzt wurde er
+// dafuer nur nicht. Eine Korrektur, die nur eine von zwei Kopien erreicht, ist
+// schlimmer als keine — sie meldet Vollzug.
 const bericht = [];
-for (const datei of readdirSync(DOKU).filter((f) => f.endsWith('.html')).sort()) {
-  const pfad = resolve(DOKU, datei);
+for (const pfad of glob(DOKU, /\.html$/).sort()) {
+  const datei = pfad.slice(DOKU.length + 1);
   const vorher = readFileSync(pfad, 'utf8');
 
   const zaehler = {};

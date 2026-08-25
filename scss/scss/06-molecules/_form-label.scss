@@ -112,8 +112,18 @@
 
   // -- Sub-Elemente --
 
+  // Bis zum 25.08.2026 stand hier eine LEERE Regel mit dem Kommentar „erbt
+  // Styles vom Block". Sass wirft leere Regeln weg — die Klasse stand also in
+  // der BEM-Liste oben, auf der Doku-Seite, im Theme und im geernteten Markup,
+  // aber in keinem Stylesheet. Der Klassen-Waechter meldete sie zu Recht.
+  //
+  // Und die leere Regel verdeckte, dass etwas fehlte: `min-width: 0`. Ein
+  // Flex-Kind schrumpft von sich aus nie unter seine Textbreite
+  // (`min-width: auto`). Deshalb konnte die Kuerzung in `--inline` nie
+  // greifen — im Browser nachgemessen: 424px Text in einem 200px-Kasten, hart
+  // abgeschnitten, ohne die drei Puenktchen, die die Regel verspricht.
   &__text {
-    // Standard-Text, erbt Styles vom Block
+    min-width: 0;
   }
 
   &__required {
@@ -147,11 +157,21 @@
     margin-bottom: 0;
     margin-inline-end: var(--fnd-spacing-03);
 
-    // Truncation: verhindert Layout-Brueche bei langen Texten
+    // Truncation: verhindert Layout-Brueche bei langen Texten.
+    //
+    // `text-overflow` stand bis zum 25.08.2026 HIER, auf dem Flex-Container.
+    // Dort wirkt es nicht: Die Eigenschaft greift auf dem Kasten, der den Text
+    // unmittelbar enthaelt, und das ist `__text`. Sichtbar war deshalb ein
+    // harter Schnitt statt der drei Puenktchen, die der Kommentar zusagte.
     max-width: var(--mod-form-label-inline-max-width, var(--nc-form-label-inline-max-width, 200px));
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+
+    .nc-form-label__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     // Baseline-Alignment: Synchronisiert Label-Hoehe mit Input
     // padding-top gleicht den vertikalen Offset zum Input-Text aus
