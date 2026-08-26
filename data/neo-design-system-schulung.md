@@ -86,7 +86,7 @@ Rohe Designwerte ohne Semantik. Die Farbpaletten definieren Shades von 100 (hell
 ```css
 :root {
   --fnd-color-primary-500: #002049;   /* Neo Darkblue */
-  --fnd-color-secondary-500: #009fe3; /* Neo Blue */
+  --fnd-color-secondary-500: #009ee3; /* Neo Blue */
   --fnd-color-accent-500: #37e93d;    /* Neo Lime */
   --fnd-color-neutral-500: #64748b;   /* Grau */
 }
@@ -110,7 +110,7 @@ Theme-aware Zuordnungen. Diese Tokens aendern ihren Wert je nach aktivem Theme:
 .neo-dark-theme {
   --fnd-color-text-primary: #f8fafc;
   --fnd-color-background-base: #000000;
-  --fnd-color-interactive-default: #009fe3;
+  --fnd-color-interactive-default: #009ee3;
 }
 ```
 

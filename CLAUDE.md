@@ -58,7 +58,7 @@ Four themes: `neo-light-theme` (default), `neo-dark-theme`, `customer-light-them
 - `data-theme` attribute on `<html>` overrides auto-switch
 - Dark mode component overrides in the dark block of `_component-tokens.scss`
 - Dark hover/active states mix toward `always-light` (not `always-dark`)
-- Dark interactive colors use `secondary-500` (#009fe3) for WCAG contrast on black backgrounds
+- Dark interactive colors use `secondary-500` (#009ee3) for WCAG contrast on black backgrounds
 
 ### Icon System
 

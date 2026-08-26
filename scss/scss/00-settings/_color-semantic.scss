@@ -21,7 +21,7 @@
 // darum eine Stufe heller gerueckt, damit die Abstufung default/hover/active/
 // visited erhalten bleibt.
 //
-// Die alten Kommentare mit Blau-Bezug ("Neo Blue #009fe3, 7,1:1") sind
+// Die alten Kommentare mit Blau-Bezug ("Neo Blue #009ee3, 7,1:1") sind
 // entfernt — sie beschrieben Werte, die es hier nicht mehr gibt.
 // ==========================================================================
 // Schicht 2 der Color-Architektur: Semantische Token-Maps.
@@ -43,16 +43,16 @@
 //   text-secondary (#cbcbcb) auf background-base  →  12.5:1 ✓ AAA
 //   text-tertiary  (#767676) auf background-base  →  4.2:1  ✓ AA
 //   text-disabled  (#8e8d8d) auf background-base  →  5.4:1  ✓ AA (WCAG-Ausnahme)
-//   text-link      (secondary-500 #009fe3) auf bg →  6.5:1  ✓ AA
+//   text-link      (secondary-500 #009ee3) auf bg →  6.5:1  ✓ AA
 //   text-success   (#0b9e23) auf background-base  →  5.4:1  ✓ AA
 //   text-danger    (#ef5b4e) auf background-base  →  5.8:1  ✓ AA
-//   interactive    (secondary-500 #009fe3) auf bg →  6.5:1  ✓ AA
+//   interactive    (secondary-500 #009ee3) auf bg →  6.5:1  ✓ AA
 //
 //   auf layer-01 (#1a1a1a):
 //   text-primary   (#fff)    auf layer-01         → 17.4:1  ✓ AAA
 //   text-secondary (#cbcbcb) auf layer-01         → 11.3:1  ✓ AAA
 //   text-tertiary  (#767676) auf layer-01         →  3.8:1  ✓ AA Large
-//   text-link      (#009fe3) auf layer-01         →  5.9:1  ✓ AA
+//   text-link      (#009ee3) auf layer-01         →  5.9:1  ✓ AA
 //
 //   On-Color Tokens:
 //   on-accent      (#000) auf accent-400          → 13.8:1  ✓ AAA
@@ -232,7 +232,7 @@ $semantic-dark-base: (
   'border-info':      map.get(prim.$system-text, info-dark),     // #6aa3ff
 
   // --- Interactive ---
-  // Im Dark Mode secondary-Palette (Neo Blue #009fe3) statt primary (Darkblue #002049),
+  // Im Dark Mode secondary-Palette (Neo Blue #009ee3) statt primary (Darkblue #002049),
   // da Darkblue auf dunklem Hintergrund zu wenig Kontrast hat (2.4:1 vs. 7.1:1).
   'interactive-default': map.get(prim.$secondary, 400),
   'interactive-hover':   map.get(prim.$secondary, 300),

@@ -14,7 +14,7 @@
 //   <html class="neo-mono-dark">                         Graphit, dunkel
 //   <html class="neo-mono-light" data-neutral="beige">   Beige, hell
 //
-// Der Leiterwechsel ueber `data-neutral` funktioniert, weil alle vier Leitern
+// Der Leiterwechsel ueber `data-neutral` funktioniert, weil alle sieben Leitern
 // stufenweise dieselben Helligkeiten haben: Ein Bereich, der auf Beige
 // umschaltet, behaelt saemtliche Kontrastwerte. Nachpruefen muss man nichts.
 // ==========================================================================
@@ -32,7 +32,7 @@
 .neo-mono-light,
 .neo-mono-dark { @include leiter(r.$graphit); }
 
-@each $name, $map in ('blau': r.$neutral-blau, 'beige': r.$neutral-beige, 'salbei': r.$neutral-salbei) {
+@each $name, $map in ('blau': r.$neutral-blau, 'beige': r.$neutral-beige, 'salbei': r.$neutral-salbei, 'ivory': r.$ivory, 'warm-taupe': r.$neutral-taupe, 'pearl-white': r.$neutral-pearl) {
   .neo-mono-light[data-neutral='#{$name}'],
   .neo-mono-dark[data-neutral='#{$name}'] { @include leiter($map); }
 }
@@ -118,14 +118,32 @@
   --accent-text:           var(--fnd-accent-800);   // 6,41 — nur wo Schrift im Akzent sein MUSS
 
   // -- Rueckmeldung ---------------------------------------------------------
-  // ERFOLG IST NICHT GRUEN. Bei Rot-Gruen-Sehschwaeche liegt ein Erfolgsgruen
-  // 0,4° vom Markenlime entfernt — beide werden zu demselben Gelb. Petrol
-  // liegt 175° entfernt und ist sicher unterscheidbar. Eine Marke, deren
-  // Zeichen gruen ist, kann Gruen nicht nebenbei als Systemfarbe verbrauchen.
-  --feedback-success: #00717a;   // 5,76 auf Weiss
-  --feedback-warning: #92500a;   // 6,22
-  --feedback-danger:  #a31f1f;   // 7,57
-  --feedback-info:    #2563eb;   // 5,17
+  // Auf Weisung uebernommen aus den Systempaletten des Theme-Konfigurators,
+  // Stufe 500. Referenz statt Hexwert, damit die Palette die einzige Quelle
+  // bleibt.
+  //
+  // ZWEI MESSWERTE, DIE DAZUGEHOEREN — beide gegen die frueheren Werte
+  // verschlechtert, beide am 26.08.2026 nachgerechnet:
+  //
+  // 1. KONTRAST. Die 500er-Stufen sind Flaechenfarben, keine Schriftfarben.
+  //    Als Schrift auf der Karte (#ffffff) erreichen sie
+  //      success 3,35   warning 2,31   danger 3,35   info 3,35
+  //    AA verlangt 4,5 fuer Text und 3,0 fuer Bedienelemente. Warning reisst
+  //    beide Schwellen. Die Stufe 700 derselben Paletten laege bei 5,2 bis
+  //    7,6 — das waere der Weg zurueck ueber die Schwelle, ohne die Palette
+  //    zu verlassen.
+  //
+  // 2. ERFOLG IST JETZT GRUEN. Bei Protanopie liegt #24a148 nur 0,6° vom
+  //    Markenlime #37e93d entfernt; unterschieden werden sie dann allein
+  //    ueber die Helligkeit. Das frueher hier stehende Petrol lag 175,9°
+  //    entfernt. Ein Erfolgssymbol neben einem Akzentelement ist damit fuer
+  //    einen Teil der Betrachter dieselbe Farbe in zwei Helligkeiten.
+  //    Rueckmeldung darf deshalb nie allein ueber die Farbe laufen — Symbol
+  //    und Beschriftung sind ab hier nicht mehr Kuer, sondern tragend.
+  --feedback-success: var(--fnd-primitive-success-500);   // #24a148 — 3,35 auf Weiss
+  --feedback-warning: var(--fnd-primitive-warning-500);   // #d4a400 — 2,31
+  --feedback-danger:  var(--fnd-primitive-danger-500);    // #fa4d56 — 3,35
+  --feedback-info:    var(--fnd-primitive-info-500);      // #4589ff — 3,35
 
   // -- Fokus: ZWEI Schichten ------------------------------------------------
   // Ein einfarbiger Ring muesste auf JEDER Flaeche 3:1 erreichen, auf der er
@@ -198,10 +216,14 @@
   // Deshalb hier eine Stufe entsaettigt statt des Markenwerts.
   --accent-text:           var(--fnd-accent-500);
 
-  --feedback-success: #0098a4;   // 5,12 auf dem Grund
-  --feedback-warning: #e0a94e;   // 8,46
-  --feedback-danger:  #f08a8a;   // 7,40
-  --feedback-info:    #60a5fa;   // 7,02
+  // Dieselben Systempaletten wie im hellen Thema, Stufe 500. Im Dunkeln
+  // tragen sie: auf der Karte (Graphit 900) 4,25 bis 6,19, auf dem Grund
+  // (Graphit 950) 5,32 bis 7,74. Der Kontrastverlust betrifft allein die
+  // helle Fassung.
+  --feedback-success: var(--fnd-primitive-success-500);   // #24a148 — 4,26 auf der Karte
+  --feedback-warning: var(--fnd-primitive-warning-500);   // #d4a400 — 6,19
+  --feedback-danger:  var(--fnd-primitive-danger-500);    // #fa4d56 — 4,25
+  --feedback-info:    var(--fnd-primitive-info-500);      // #4589ff — 4,26
 
   --focus-inner: var(--fnd-neutral-950);
   --focus-outer: var(--fnd-neutral-50);

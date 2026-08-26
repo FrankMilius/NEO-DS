@@ -103,13 +103,19 @@
   --fnd-color-border-control:   var(--fnd-neutral-500);   // 3,11 auf Weiss
 
   // -- Rueckmeldung ---------------------------------------------------------
-  // ERFOLG IST NICHT GRUEN. Bei Rot-Gruen-Sehschwaeche liegt ein Erfolgsgruen
-  // 0,4° vom Markenlime entfernt; beide werden zu demselben Gelb. Petrol
-  // liegt 175° entfernt.
-  --fnd-color-feedback-success: #00717a;
-  --fnd-color-feedback-warning: #92500a;
-  --fnd-color-feedback-danger:  #a31f1f;
-  --fnd-color-feedback-info:    #2563eb;
+  // Auf Weisung auf die Systempaletten Stufe 500 gezogen, gleichlautend mit
+  // _mono-theme.scss. Begruendung und Messwerte stehen dort.
+  //
+  // ACHTUNG, DIE FAMILIE IST GETEILT. Die `text-`, `border-` und
+  // `background-`Varianten unten tragen weiterhin die frueheren Werte. Ein
+  // Bauteil, das Symbol und Beschriftung aus verschiedenen dieser Gruppen
+  // zieht, zeigt zwei verschiedene Toene derselben Rolle. Das ist bekannt und
+  // offen — die weichen Flaechen sind auf die alten Schriftfarben eingemessen
+  // (Paare ueber 4,5) und muessen mitgerechnet werden, wenn sie nachziehen.
+  --fnd-color-feedback-success: var(--fnd-primitive-success-500);
+  --fnd-color-feedback-warning: var(--fnd-primitive-warning-500);
+  --fnd-color-feedback-danger:  var(--fnd-primitive-danger-500);
+  --fnd-color-feedback-info:    var(--fnd-primitive-info-500);
   --fnd-color-text-success: #00717a;   // auf Weiss 5,76
   --fnd-color-text-warning: #92500a;   //           6,22
   --fnd-color-text-danger:  #a31f1f;   //           7,57
@@ -194,10 +200,11 @@
   --fnd-color-border-inverse:   var(--fnd-neutral-950);
   --fnd-color-border-control:   var(--fnd-neutral-600);   // 3,83 auf dem Grund
 
-  --fnd-color-feedback-success: #0098a4;
-  --fnd-color-feedback-warning: #e0a94e;
-  --fnd-color-feedback-danger:  #f08a8a;
-  --fnd-color-feedback-info:    #60a5fa;
+  // Systempaletten Stufe 500, gleichlautend mit dem hellen Thema.
+  --fnd-color-feedback-success: var(--fnd-primitive-success-500);
+  --fnd-color-feedback-warning: var(--fnd-primitive-warning-500);
+  --fnd-color-feedback-danger:  var(--fnd-primitive-danger-500);
+  --fnd-color-feedback-info:    var(--fnd-primitive-info-500);
   --fnd-color-text-success: #0098a4;   // auf dem Grund 5,12
   --fnd-color-text-warning: #e0a94e;   //               8,46
   --fnd-color-text-danger:  #f08a8a;   //               7,40

@@ -50,7 +50,7 @@
 
   var NEO_DEFAULTS = {
     color: {
-      primary: '#009fe3',
+      primary: '#009ee3',
       secondary: '#002049',
       accent: '#37e93d'
     },
@@ -68,28 +68,28 @@
       cssClass: 'neo-light-theme',
       type: 'base',
       locked: true,
-      preview: ['#ffffff', '#f5f5f5', '#009fe3', '#002049']
+      preview: ['#ffffff', '#f5f5f5', '#009ee3', '#002049']
     },
     'neo-dark': {
       label: 'Neo Dark',
       cssClass: 'neo-dark-theme',
       type: 'base',
       locked: true,
-      preview: ['#0f0f0f', '#1a1a1a', '#009fe3', '#37e93d']
+      preview: ['#0f0f0f', '#1a1a1a', '#009ee3', '#37e93d']
     },
     'customer-light': {
       label: 'Customer Light',
       cssClass: 'customer-light-theme',
       type: 'customer',
       locked: false,
-      preview: ['#f5f5f5', '#ffffff', '#009fe3', '#37e93d']
+      preview: ['#f5f5f5', '#ffffff', '#009ee3', '#37e93d']
     },
     'customer-dark': {
       label: 'Customer Dark',
       cssClass: 'customer-dark-theme',
       type: 'customer',
       locked: false,
-      preview: ['#1a1a1a', '#252525', '#009fe3', '#37e93d']
+      preview: ['#1a1a1a', '#252525', '#009ee3', '#37e93d']
     }
   };
 

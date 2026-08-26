@@ -10,7 +10,7 @@ const THEMES = [
     bg: '#ffffff',
     bgSecondary: '#f5f5f5',
     text: '#000000',
-    accent: '#009fe3'
+    accent: '#009ee3'
   },
   {
     id: 'neo-dark-theme',
@@ -18,7 +18,7 @@ const THEMES = [
     bg: '#1d1d1d',
     bgSecondary: '#333333',
     text: '#ffffff',
-    accent: '#009fe3'
+    accent: '#009ee3'
   },
   {
     id: 'customer-light-theme',

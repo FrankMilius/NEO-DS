@@ -76,7 +76,7 @@ function generateOverrideTemplate() {
 :root {
   /* ── Brand Colors ──────────────────────────────────────────────────────── */
   /* --fnd-color-primary-500: #002049; */
-  /* --fnd-color-secondary-500: #009fe3; */
+  /* --fnd-color-secondary-500: #009ee3; */
   /* --fnd-color-accent-500: #37e93d; */
 
   /* ── Semantic Colors ───────────────────────────────────────────────────── */

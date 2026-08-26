@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-25
+// Generated: 2026-08-26
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -89,16 +89,16 @@ export const supportingPalettes = {
   },
   "neo-blue": {
     "label": "Neo Blue — Reserve fuer das Backend-Theme",
-    "base": "#009fe3",
+    "base": "#009ee3",
     "shades": {
       "100": "#ccecf9",
-      "200": "#99d9f4",
+      "200": "#99d8f4",
       "300": "#66c5ee",
-      "400": "#33b2e9",
-      "500": "#009fe3",
-      "600": "#007fb6",
+      "400": "#33b1e9",
+      "500": "#009ee3",
+      "600": "#007eb6",
       "700": "#005f88",
-      "800": "#00405b",
+      "800": "#003f5b",
       "900": "#00202d",
       "950": "#001017"
     }

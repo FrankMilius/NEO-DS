@@ -1,15 +1,15 @@
 // ==========================================================================
 // 00-Settings: Neutralleitern und Akzentleiter (Primitives)
 // ==========================================================================
-// Vier Neutralleitern und die Akzentleiter, alle in OKLCH gerechnet und auf
+// Sieben Neutralleitern und die Akzentleiter, alle in OKLCH gerechnet und auf
 // sRGB begrenzt. Reine Primitives: KEIN Bauteil greift hier direkt zu, das
 // laeuft ueber die semantische Ebene in _mono-theme.scss.
 //
 // WARUM OKLCH UND NICHT HSL
-// In HSL ist ein Gelb bei L 50% deutlich heller als ein Blau bei L 50%. Vier
+// In HSL ist ein Gelb bei L 50% deutlich heller als ein Blau bei L 50%. Sieben
 // Leitern mit verschiedenen Farbtoenen waeren damit nicht vergleichbar. In
 // OKLCH sind gleiche Helligkeitswerte auch gleich hell — deshalb haben alle
-// vier Leitern hier STUFE FUER STUFE DIESELBEN KONTRASTWERTE.
+// sieben Leitern hier STUFE FUER STUFE DIESELBEN KONTRASTWERTE.
 //
 // Das ist der eigentliche Trick: Ein Bereich, der von Graphit auf Beige
 // umschaltet, behaelt saemtliche Kontrastwerte. Die Barrierefreiheit muss
@@ -17,7 +17,7 @@
 // Stufennummer ansprechen und nicht den Hexwert — ein einziger fest
 // eingetragener Grauton bricht die Umschaltbarkeit fuer den ganzen Bereich.
 //
-// Kontrast gegen Weiss, fuer alle vier Leitern gleich:
+// Kontrast gegen Weiss, fuer alle sieben Leitern gleich:
 //   50  1,04   100 1,12   200 1,25   300 1,49   400 2,14   500 3,11
 //   600 4,66   700 6,77   800 9,98   900 14,27  950 17,85
 // ==========================================================================
@@ -74,11 +74,63 @@ $neutral-salbei: (
   800: #3e443e,  900: #272c27,  950: #151814
 ) !default;
 
+// ---------------------------------------------------------------------------
+// Ivory — warmes Weiss, hellster Unterton
+// ---------------------------------------------------------------------------
+// Farbton 107°, abgeleitet aus dem Markenwert Ivory #FFFFF0. Buntheit auf dem
+// Profil von Beige — Ivory misst mit 0,0196 praktisch dieselbe Buntheit wie
+// Beige (0,0193), nur bei anderem Farbton. Die Helligkeiten sind Stufe fuer
+// Stufe die von Graphit, wie bei allen Leitern hier.
+//
+// ACHTUNG BEI GRUENEM SIGNAL. Mit 107° liegt Ivory 36° von Lime (143°) und
+// 41° von Green (147°) entfernt. Das ist ueber der Grenze von 30°, ab der ein
+// Papier im Signal verschwindet — aber es ist der geringste Abstand aller
+// Papiere ausser Salbei. Zum Vergleich: Beige liegt 62° entfernt, Warm Taupe
+// 76°. Bei einem gruenen Signal ist Ivory benutzbar, hat aber die kleinste
+// Reserve. Neben NEO Blue (132°) oder Magenta (108°) ist es unkritisch.
+
+$ivory: (
+   50: #fbfbf3,  100: #f3f3ea,  200: #e6e6dd,  300: #d4d4ca,
+  400: #b2b2a6,  500: #939386,  600: #757567,  700: #5c5c4f,
+  800: #434339,  900: #2b2b23,  950: #181810
+) !default;
+
+// ---------------------------------------------------------------------------
+// Warm Taupe — repraesentativ statt einladend
+// ---------------------------------------------------------------------------
+// Farbton 67°, abgeleitet aus dem Markenwert #C2B5A8. Bereichspapier fuer
+// „Unternehmen": Ueber uns, Team, Imagebroschuere. Der waermste der fuenf,
+// aber ohne die Einladung von Beige — waermer und zugleich zurueckhaltender,
+// weil der Farbton naeher am Rot liegt.
+
+$neutral-taupe: (
+   50: #fff9f4,  100: #f8f1eb,  200: #ebe4dd,  300: #dad2ca,
+  400: #b8afa7,  500: #9a9086,  600: #7d7267,  700: #63594f,
+  800: #494139,  900: #2f2923,  950: #1c1611
+) !default;
+
+// ---------------------------------------------------------------------------
+// Pearl White — kein Unterton
+// ---------------------------------------------------------------------------
+// Die einzige Leiter mit Buntheit 0. Bereichspapier fuer „Zahlen und
+// Konditionen": Angebot, Preise, Projektablauf. Dort soll nichts eine
+// Stimmung machen — ein Unterton waere schon zu viel Haltung. Ein Farbton ist
+// hier ohne Bedeutung, weil bei Buntheit 0 keiner sichtbar wird.
+
+$neutral-pearl: (
+   50: #fafafa,  100: #f2f2f2,  200: #e5e5e5,  300: #d3d3d3,
+  400: #b1b1b1,  500: #929292,  600: #747474,  700: #5b5b5b,
+  800: #424242,  900: #2a2a2a,  950: #171717
+) !default;
+
 $neutral-leitern: (
-  'graphit': $graphit,
-  'blau':    $neutral-blau,
-  'beige':   $neutral-beige,
-  'salbei':  $neutral-salbei
+  'graphit':     $graphit,
+  'blau':        $neutral-blau,
+  'beige':       $neutral-beige,
+  'salbei':      $neutral-salbei,
+  'ivory':       $ivory,
+  'warm-taupe':  $neutral-taupe,
+  'pearl-white': $neutral-pearl
 ) !default;
 
 // ---------------------------------------------------------------------------
