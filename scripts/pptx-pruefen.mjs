@@ -22,7 +22,7 @@
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { resolve, join } from 'path';
 import JSZip from 'jszip';
-import { STUFEN, geometrie, STATUS, DIAGRAMM, PAPIER, G } from './pptx-vorlage.mjs';
+import { STUFEN, geometrie, STATUS, DIAGRAMM, KREIS_LAYOUTS, PAPIER, G } from './pptx-vorlage.mjs';
 
 const WURZEL = resolve(import.meta.dirname, '..');
 const DIST = join(WURZEL, 'dist/pptx');
@@ -85,6 +85,17 @@ for (const stufe of STUFEN) {
     const fehlt = Object.entries(STATUS.hell).filter(([, st]) => !xml.includes(`val="${st.marke}"`)).map(([n]) => n);
     if (fehlt.length) nein(`${Z.label}: L7_STATUSBERICHT ohne Statusfarbe für ${fehlt.join(', ')}`);
     else ok(`${Z.label}: L7_STATUSBERICHT trägt die Ampel aus dem Tokensatz (${Object.values(STATUS.hell).map((s) => s.marke).join(' ')})`);
+  }
+
+  // Konzept-Layouts: Kreise entstehen erst im XML (kreiseEinsetzen). Ein
+  // Kreislauf ohne Ellipse ist ein Kreislauf aus Rechtecken.
+  for (const p of layouts) {
+    const xml = await zip.file(p).async('string');
+    const name = (xml.match(/<p:cSld name="([^"]+)"/) || [])[1];
+    if (!KREIS_LAYOUTS.includes(name)) continue;
+    const ell = (xml.match(/prst="ellipse"/g) || []).length;
+    if (ell) ok(`${Z.label}: ${name} hat ${ell} Ellipsen`);
+    else nein(`${Z.label}: ${name} ohne Ellipse — kreiseEinsetzen hat nicht gegriffen`);
   }
 
   const treffer = accents.every((a, i) => a === DIAGRAMM.farbfolge[i]);

@@ -16,7 +16,7 @@
 import PptxGenJS from 'pptxgenjs';
 import { readFileSync, mkdirSync } from 'fs';
 import { resolve, join } from 'path';
-import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, geometrie, STATUS, DIAGRAMM, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
+import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, kreiseEinsetzen, geometrie, STATUS, DIAGRAMM, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
 
 const WURZEL = resolve(import.meta.dirname, '..');
 const { faelle } = JSON.parse(readFileSync(join(WURZEL, 'data/pptx-beispielfaelle.json'), 'utf8'));
@@ -431,6 +431,89 @@ const RENDERER = {
     });
   },
 
+  // ── Konzept (C3–C9, P3) ─────────────────────────────────────────────────
+  // Die Formen stehen im Master (Ring, Stationen, Balken, Baender). Das Deck
+  // fuellt die Positionen mit Text; die Geometrie ist dieselbe wie dort.
+  // kreislauf: { stationen: [vier], text }
+  C3_KREISLAUF(s, f, c) {
+    const CX = x(0) + 1.9, CY = INHALT_Y + INHALT_H / 2, D = Math.min(3.4, INHALT_H - 0.6);
+    [[0, -1], [1, 0], [0, 1], [-1, 0]].forEach(([dx, dy], i) => {
+      const t = f.kreislauf.stationen[i]; if (!t) return;
+      MONO(s, t.toUpperCase(), { x: CX + dx * (D / 2 + 0.3) + (dx === 0 ? -0.9 : dx > 0 ? 0 : -1.8), y: CY + dy * (D / 2 + 0.3) - 0.15 + (dy > 0 ? 0.1 : dy < 0 ? -0.15 : 0), w: 1.8, h: 0.3,
+        color: c.schrift, align: dx === 0 ? 'center' : dx > 0 ? 'left' : 'right' });
+    });
+    TXT(s, f.kreislauf.text, { x: x(3.6), y: INHALT_Y, w: w(2.4), h: INHALT_H, color: c.zweit, fontSize: 15 });
+  },
+
+  // hierarchie: { wurzel, kinder: [vier], text }
+  C4_HIERARCHIE(s, f, c) {
+    const kasten = (t, feld, felder, y, fett) => s.addText(t, { x: x(feld), y, w: w(felder), h: 0.6, fontFace: F.marke, fontSize: fett ? 16 : 14, bold: true, color: c.schrift, align: 'center', valign: 'middle' });
+    kasten(f.hierarchie.wurzel, 2, 2, INHALT_Y, true);
+    f.hierarchie.kinder.forEach((k, i) => kasten(k, i * 1.5, 1.5, INHALT_Y + 1.3, false));
+    if (f.hierarchie.text) TXT(s, f.hierarchie.text, { x: x(0), y: INHALT_Y + 2.2, w: w(6), h: INHALT_H - 2.2, color: c.zweit, fontSize: 15 });
+  },
+
+  // trichter: [[name, wert]] — vier Stufen, die dritte traegt den Akzent (Master)
+  C5_TRICHTER(s, f, c) {
+    [4, 3, 2.2, 1.3].forEach((felder, i) => {
+      const st = f.trichter[i]; if (!st) return;
+      const y = INHALT_Y + i * 0.85;
+      s.addText(st[0], { x: x(0) + 0.2, y, w: w(felder) - 0.4, h: 0.6, fontFace: F.marke, fontSize: 16, bold: true, color: G['950'], valign: 'middle' });
+      MONO(s, String(st[1]), { x: x(felder + 0.2), y: y + 0.17, w: w(1), h: 0.3, color: c.schrift, fontSize: 12 });
+    });
+  },
+
+  // nabe: { zentrum, speichen: [sechs], text }
+  C6_NABE_SPEICHEN(s, f, c) {
+    const CX = x(0) + w(6) / 2 - 1.2, CY = INHALT_Y + INHALT_H / 2, R = Math.min(1.8, INHALT_H / 2 - 0.5);
+    s.addText(f.nabe.zentrum, { x: CX - 0.65, y: CY - 0.65, w: 1.3, h: 1.3, fontFace: F.marke, fontSize: 15, bold: true, color: G['950'], align: 'center', valign: 'middle' });
+    f.nabe.speichen.forEach((t, i) => {
+      const a = -Math.PI / 2 + i * Math.PI / 3, sx = CX + Math.cos(a) * R, sy = CY + Math.sin(a) * R;
+      s.addText(t, { x: sx - 0.45, y: sy - 0.45, w: 0.9, h: 0.9, fontFace: F.info, fontSize: 11, color: c.schrift, align: 'center', valign: 'middle' });
+    });
+    TXT(s, f.nabe.text, { x: x(4.4), y: INHALT_Y, w: w(1.6), h: INHALT_H, color: c.zweit, fontSize: 14 });
+  },
+
+  // pyramide: [[name, text]] von oben (Dach) nach unten (Fundament), vier Ebenen
+  C7_PYRAMIDE(s, f, c) {
+    [1.3, 2.2, 3, 3.8].forEach((felder, i) => {
+      const e = f.pyramide[i]; if (!e) return;
+      const y = INHALT_Y + i * 0.85;
+      s.addText(e[0], { x: x(0) + 0.2, y, w: w(felder) - 0.4, h: 0.6, fontFace: F.marke, fontSize: 16, bold: true, color: c.schrift, valign: 'middle' });
+      TXT(s, e[1], { x: x(4.2), y: y + 0.02, w: w(1.8), h: 0.8, color: c.zweit, fontSize: 13 });
+    });
+  },
+
+  // schnittmenge: { a: name, b: name, schnitt: name, text }
+  C8_SCHNITTMENGE(s, f, c) {
+    const CY = INHALT_Y + INHALT_H / 2, D = Math.min(3.0, INHALT_H - 0.4), AX = x(0) + D / 2 + 0.3, BX = AX + D * 0.62;
+    s.addText(f.schnittmenge.a, { x: AX - D / 2, y: CY - 0.3, w: D * 0.4, h: 0.6, fontFace: F.marke, fontSize: 15, bold: true, color: c.schrift, align: 'center', valign: 'middle' });
+    s.addText(f.schnittmenge.b, { x: BX + D / 2 - D * 0.4, y: CY - 0.3, w: D * 0.4, h: 0.6, fontFace: F.marke, fontSize: 15, bold: true, color: c.schrift, align: 'center', valign: 'middle' });
+    s.addText(f.schnittmenge.schnitt, { x: (AX + BX) / 2 - 0.6, y: CY - 0.3, w: 1.2, h: 0.6, fontFace: F.marke, fontSize: 15, bold: true, color: AKZENT['800'], align: 'center', valign: 'middle' });
+    TXT(s, f.schnittmenge.text, { x: x(4.2), y: INHALT_Y, w: w(1.8), h: INHALT_H, color: c.zweit, fontSize: 14 });
+  },
+
+  // transformation: { ist: [kopf, text], mittel, soll: [kopf, text] }
+  C9_TRANSFORMATION(s, f, c) {
+    const { ist, mittel, soll } = f.transformation;
+    const block = ([kopf, text], feld) => {
+      s.addText(kopf, { x: x(feld), y: INHALT_Y + 0.6, w: w(2), h: 0.5, fontFace: F.marke, fontSize: 17, bold: true, color: c.schrift, valign: 'top' });
+      TXT(s, text, { x: x(feld), y: INHALT_Y + 1.15, w: w(2), h: INHALT_H - 2.1, color: c.zweit });
+    };
+    block(ist, 0.1); block(soll, 3.9);
+    MONO(s, mittel.toUpperCase(), { x: x(2.2), y: INHALT_Y + INHALT_H / 2 - 0.65, w: w(1.6), h: 0.4, color: c.schrift, align: 'center', bold: true });
+  },
+
+  // prozess: [[schritt, ergebnis]] — vier Schritte
+  P3_PROZESS_ERGEBNIS(s, f, c) {
+    f.prozess.forEach(([schritt, erg], i) => {
+      if (i > 3) return;
+      s.addText(String(i + 1), { x: x(i * 1.5) + w(1.5) / 2 - 0.21, y: INHALT_Y + 0.04, w: 0.42, h: 0.42, fontFace: F.technik, fontSize: 11, bold: true, color: c.dunkel ? G['950'] : G['100'], align: 'center', valign: 'middle' });
+      s.addText(schritt, { x: x(i * 1.5), y: INHALT_Y + 0.6, w: w(1.5), h: 0.4, fontFace: F.marke, fontSize: 16, bold: true, color: c.schrift, align: 'center', valign: 'top' });
+      TXT(s, erg, { x: x(i * 1.5), y: INHALT_Y + 1.1, w: w(1.5), h: INHALT_H - 1.1, color: c.zweit, fontSize: 13 });
+    });
+  },
+
   // titel (der Satz) · einsatz (was auf dem Spiel steht)
   X4_BIG_IDEA(s, f, c) {
     TXT(s, f.einsatz, { x: x(0), y: 4.4, w: w(4), h: 1.2, color: c.zweit, fontSize: 16 });
@@ -622,6 +705,7 @@ async function baue(fall) {
   await pptx.writeFile({ fileName: ziel });
   const datiert = await datumsfeldEinsetzen(ziel);
   await themeEinsetzen(ziel);
+  await kreiseEinsetzen(ziel);
   return { ziel, folien: fall.folien.length, datiert };
 }
 

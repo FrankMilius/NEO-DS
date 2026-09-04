@@ -561,6 +561,160 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     ],
   });
 
+  // ── Konzept (8) — C3 bis C9 und P3 des Foliensystems ───────────────────
+  // Duartes vier abstrakte Formen: Fluss (C3, P3), Struktur (C4, C7, C9),
+  // Cluster (C8), Strahlen (C6), dazu der Trichter (C5). pptxgenjs kennt in
+  // Mastern nur Rechtecke; Kreise entstehen nach dem Schreiben im XML
+  // (kreiseEinsetzen), markiert ueber die Layoutnamen in KREIS_LAYOUTS.
+  const kreis = (cx, cy, d, fill, linie = G['400']) => ({
+    rect: { x: cx - d / 2, y: cy - d / 2, w: d, h: d, fill: fill ? { color: fill } : { type: 'none' }, line: { color: linie, width: fill ? 0 : 1 } } });
+  const rahmenPlatz = (name, feld, felder, y, h, hinweis, fill = null) => ({
+    placeholder: { options: { name, type: 'body', x: x(feld), y, w: w(felder), h,
+      fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], align: 'center', valign: 'middle', bullet: false,
+      fill: fill ? { color: fill } : undefined, line: { color: G['400'], width: 0.75 } }, text: hinweis } });
+
+  // C3 Kreislauf: Ring mit vier Stationen, Text rechts. Nur fuer echte Wiederholung.
+  const R_CX = x(0) + 1.9, R_CY = INHALT_Y + INHALT_H / 2, R_D = Math.min(3.4, INHALT_H - 0.6);
+  def('C3_KREISLAUF', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      kreis(R_CX, R_CY, R_D, null),
+      ...[[0, -1], [1, 0], [0, 1], [-1, 0]].map(([dx, dy]) => kreis(R_CX + dx * R_D / 2, R_CY + dy * R_D / 2, 0.42, G['950'])),
+      ...[[0, -1, 'oben'], [1, 0, 'rechts'], [0, 1, 'unten'], [-1, 0, 'links']].map(([dx, dy, n], i) => ({
+        placeholder: { options: { name: `station${i + 1}`, type: 'body', x: R_CX + dx * (R_D / 2 + 0.3) + (dx === 0 ? -0.9 : dx > 0 ? 0 : -1.8), y: R_CY + dy * (R_D / 2 + 0.3) - 0.15 + (dy > 0 ? 0.1 : dy < 0 ? -0.15 : 0), w: 1.8, h: 0.3,
+          fontFace: F.technik, fontSize: kickerPt, color: G['700'], charSpacing: 1.5, align: dx === 0 ? 'center' : dx > 0 ? 'left' : 'right', bullet: false }, text: `STATION ${i + 1}` } })),
+      koerper(3.6, 2.4, INHALT_Y, INHALT_H, 'text'),
+      ...fusszeile(),
+    ],
+  });
+
+  // C4 Hierarchie: Wurzel oben, Kinder darunter, hoechstens drei Ebenen.
+  def('C4_HIERARCHIE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      rahmenPlatz('wurzel', 2, 2, INHALT_Y, 0.6, 'Wurzel', P['200']),
+      { line: { x: x(3) - STEG / 2, y: INHALT_Y + 0.6, w: 0, h: 0.4, line: { color: G['400'], width: 0.75 } } },
+      { line: { x: x(0) + w(1.5) / 2, y: INHALT_Y + 1.0, w: w(6) - w(1.5), h: 0, line: { color: G['400'], width: 0.75 } } },
+      ...[0, 1, 2, 3].flatMap((i) => ([
+        { line: { x: x(i * 1.5) + w(1.5) / 2, y: INHALT_Y + 1.0, w: 0, h: 0.3, line: { color: G['400'], width: 0.75 } } },
+        rahmenPlatz(`kind${i + 1}`, i * 1.5, 1.5, INHALT_Y + 1.3, 0.6, 'Kind'),
+      ])),
+      koerper(0, 6, INHALT_Y + 2.2, INHALT_H - 2.2, 'text'),
+      ...fusszeile(),
+    ],
+  });
+
+  // C5 Trichter: linksbuendige Balken abnehmender Laenge, Wert rechts am Balken.
+  def('C5_TRICHTER', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[4, 3, 2.2, 1.3].flatMap((felder, i) => {
+        const y = INHALT_Y + i * 0.85;
+        return [
+          { rect: { x: x(0), y, w: w(felder), h: 0.6, fill: { color: i === 2 ? AKZENT['500'] : P['300'] }, line: { color: P['300'], width: 0 } } },
+          { placeholder: { options: { name: `stufe${i + 1}`, type: 'body', x: x(0) + 0.2, y, w: w(felder) - 0.4, h: 0.6,
+              fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], valign: 'middle', bullet: false }, text: `Stufe ${i + 1}` } },
+          monoPlatz(`wert${i + 1}`, felder + 0.2, 1, y + 0.17, 0.3, '0 000'),
+        ];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // C6 Nabe und Speichen: Zentrum mit Umfeld, hoechstens acht Speichen.
+  const N_CX = x(0) + w(6) / 2 - 1.2, N_CY = INHALT_Y + INHALT_H / 2, N_R = Math.min(1.8, INHALT_H / 2 - 0.5);
+  def('C6_NABE_SPEICHEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3, 4, 5].flatMap((i) => {
+        const a = -Math.PI / 2 + i * Math.PI / 3, sx = N_CX + Math.cos(a) * N_R, sy = N_CY + Math.sin(a) * N_R;
+        return [
+          { line: { x: N_CX, y: N_CY, w: sx - N_CX, h: sy - N_CY, line: { color: G['400'], width: 0.75 }, flipV: sy < N_CY } },
+          kreis(sx, sy, 0.9, GRUND),
+          { placeholder: { options: { name: `speiche${i + 1}`, type: 'body', x: sx - 0.45, y: sy - 0.45, w: 0.9, h: 0.9,
+              fontFace: F.info, fontSize: kickerPt + 1, color: G['950'], align: 'center', valign: 'middle', bullet: false }, text: 'Speiche' } },
+        ];
+      }),
+      kreis(N_CX, N_CY, 1.3, P['200']),
+      { placeholder: { options: { name: 'nabe', type: 'body', x: N_CX - 0.65, y: N_CY - 0.65, w: 1.3, h: 1.3,
+          fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], align: 'center', valign: 'middle', bullet: false }, text: 'Nabe' } },
+      koerper(4.4, 1.6, INHALT_Y, INHALT_H, 'text'),
+      ...fusszeile(),
+    ],
+  });
+
+  // C7 Pyramide: Ebenen abnehmender Breite, linksbuendig, oben das Dach.
+  def('C7_PYRAMIDE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[1.3, 2.2, 3, 3.8].flatMap((felder, i) => {
+        const y = INHALT_Y + i * 0.85;
+        return [
+          { rect: { x: x(0), y, w: w(felder), h: 0.6, fill: { color: i === 0 ? P['300'] : GRUND }, line: { color: G['400'], width: 0.75 } } },
+          { placeholder: { options: { name: `ebene${i + 1}`, type: 'body', x: x(0) + 0.2, y, w: w(felder) - 0.4, h: 0.6,
+              fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], valign: 'middle', bullet: false }, text: i === 0 ? 'Dach' : 'Ebene' } },
+          koerper(4.2, 1.8, y, 0.8, `text${i + 1}`),
+        ];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // C8 Schnittmenge: zwei Kreise, Beschriftung aussen, Schnittmenge ist die Aussage.
+  const S_CY = INHALT_Y + INHALT_H / 2, S_D = Math.min(3.0, INHALT_H - 0.4), S_AX = x(0) + S_D / 2 + 0.3, S_BX = S_AX + S_D * 0.62;
+  def('C8_SCHNITTMENGE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      kreis(S_AX, S_CY, S_D, null), kreis(S_BX, S_CY, S_D, null),
+      { placeholder: { options: { name: 'menge1', type: 'body', x: S_AX - S_D / 2, y: S_CY - 0.3, w: S_D * 0.4, h: 0.6,
+          fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], align: 'center', valign: 'middle', bullet: false }, text: 'Menge A' } },
+      { placeholder: { options: { name: 'menge2', type: 'body', x: S_BX + S_D / 2 - S_D * 0.4, y: S_CY - 0.3, w: S_D * 0.4, h: 0.6,
+          fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], align: 'center', valign: 'middle', bullet: false }, text: 'Menge B' } },
+      { placeholder: { options: { name: 'schnitt', type: 'body', x: (S_AX + S_BX) / 2 - 0.6, y: S_CY - 0.3, w: 1.2, h: 0.6,
+          fontFace: F.marke, fontSize: textPt, bold: true, color: AKZENT['800'], align: 'center', valign: 'middle', bullet: false }, text: 'Schnitt' } },
+      koerper(4.2, 1.8, INHALT_Y, INHALT_H, 'text'),
+      ...fusszeile(),
+    ],
+  });
+
+  // C9 Transformation: Ist links (Haarlinie), Soll rechts (gefuellt), das Mittel
+  // steht AUF dem Pfeil. Ohne Mittel ist es ein Wunsch.
+  def('C9_TRANSFORMATION', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { rect: { x: x(0), y: INHALT_Y + 0.4, w: w(2.2), h: INHALT_H - 1.2, fill: { type: 'none' }, line: { color: G['400'], width: 0.75 } } },
+      { rect: { x: x(3.8), y: INHALT_Y + 0.4, w: w(2.2), h: INHALT_H - 1.2, fill: { color: P['200'] }, line: { color: P['200'], width: 0 } } },
+      { line: { x: x(2.2) + 0.25, y: INHALT_Y + INHALT_H / 2 - 0.2, w: x(3.8) - x(2.2) - 0.5, h: 0, line: { color: G['950'], width: 1.5, endArrowType: 'triangle' } } },
+      monoPlatz('mittel', 2.2, 1.6, INHALT_Y + INHALT_H / 2 - 0.65, 0.4, 'WOMIT'),
+      koerper(0.1, 2, INHALT_Y + 0.6, INHALT_H - 1.6, 'ist'),
+      koerper(3.9, 2, INHALT_Y + 0.6, INHALT_H - 1.6, 'soll'),
+      ...fusszeile(),
+    ],
+  });
+
+  // P3 Prozess mit Ergebnis: Schritte oben, je Schritt eine Spalte gleicher Breite.
+  def('P3_PROZESS_ERGEBNIS', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { line: { x: x(0) + w(1.5) / 2, y: INHALT_Y + 0.25, w: w(6) - w(1.5), h: 0, line: { color: G['400'], width: 0.75 } } },
+      ...[0, 1, 2, 3].flatMap((i) => ([
+        kreis(x(i * 1.5) + w(1.5) / 2, INHALT_Y + 0.25, 0.42, G['950']),
+        { placeholder: { options: { name: `schritt${i + 1}`, type: 'body', x: x(i * 1.5), y: INHALT_Y + 0.6, w: w(1.5), h: 0.4,
+            fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], align: 'center', bullet: false }, text: `Schritt ${i + 1}` } },
+        koerper(i * 1.5, 1.5, INHALT_Y + 1.1, INHALT_H - 1.1, `text${i + 1}`),
+      ])),
+      ...fusszeile(),
+    ],
+  });
+
   // ── Timeline, Prozess, Architektur (4) ──────────────────────────────────
   def('L1_TIMELINE', {
     background: { color: GRUND },
@@ -1178,6 +1332,32 @@ export async function themeEinsetzen(datei) {
   });
 }
 
+// ── Kreise nachtragen ─────────────────────────────────────────────────────
+// Master-Definitionen kennen nur Rechtecke. In den Konzept-Layouts stehen
+// Ring, Stationen, Nabe und Speichen deshalb zuerst als Rechteck im XML und
+// werden hier zur Ellipse: jede Form ohne Platzhalter und ohne Text in den
+// genannten Layouts. Linien sind p:cxnSp und bleiben unberuehrt.
+export const KREIS_LAYOUTS = ['C3_KREISLAUF', 'C6_NABE_SPEICHEN', 'C8_SCHNITTMENGE', 'P3_PROZESS_ERGEBNIS'];
+export async function kreiseEinsetzen(datei) {
+  return imArchiv(datei, async (zip) => {
+    let getauscht = 0;
+    for (const pfad of Object.keys(zip.files)) {
+      if (!/^ppt\/slideLayouts\/slideLayout\d+\.xml$/.test(pfad)) continue;
+      let xml = await zip.file(pfad).async('string');
+      const name = (xml.match(/<p:cSld name="([^"]+)"/) || [])[1];
+      if (!KREIS_LAYOUTS.includes(name)) continue;
+      xml = xml.replace(/<p:sp>[\s\S]*?<\/p:sp>/g, (block) => {
+        if (/<p:ph\b/.test(block) || /<a:t>[^<]+<\/a:t>/.test(block)) return block;
+        if (!block.includes('prst="rect"')) return block;
+        getauscht++;
+        return block.replace('prst="rect"', 'prst="ellipse"');
+      });
+      zip.file(pfad, xml);
+    }
+    return getauscht;
+  });
+}
+
 // ── Ausführung ────────────────────────────────────────────────────────────
 export async function baueVorlage(ziel, stufe = 'versand') {
   const Z = geometrie(stufe);
@@ -1202,7 +1382,8 @@ export async function baueVorlage(ziel, stufe = 'versand') {
   await pptx.writeFile({ fileName: ziel });
   const datiert = await datumsfeldEinsetzen(ziel);
   const themes = await themeEinsetzen(ziel);
-  return { ziel, stufe, anzahl: namen.length, namen, datiert, themes };
+  const kreise = await kreiseEinsetzen(ziel);
+  return { ziel, stufe, anzahl: namen.length, namen, datiert, themes, kreise };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
