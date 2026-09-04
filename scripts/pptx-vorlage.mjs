@@ -472,6 +472,152 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     ],
   });
 
+  // ── Plan (9) — Familie L des Foliensystems ─────────────────────────────
+  // Was vom Inhalt abhaengt (Anzahl Monate, Zeilen, Optionen), zeichnet das
+  // Deck; der Master gibt Titel, Spalten, Haarlinien und Platzhalter. Die
+  // Beispieldecks (pptx-beispiel.mjs) zeigen je Layout, wie das aussieht.
+  const monoPlatz = (name, feld, felder, y, h, hinweis) => ({
+    placeholder: { options: { name, type: 'body', x: x(feld), y, w: w(felder), h,
+      fontFace: F.technik, fontSize: kickerPt, color: G['600'], charSpacing: 1.5, bullet: false }, text: hinweis } });
+  const tabellenPlatz = (hinweis, felder = 6) => ({
+    placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(felder), h: INHALT_H - 0.4,
+      fontFace: F.info, fontSize: textPt - 3, color: G['800'], lineSpacingMultiple: 1.6, bullet: false }, text: hinweis } });
+  const kopfLinie = () => ({ line: { x: x(0), y: INHALT_Y + 0.3, w: w(6), h: 0, line: { color: G['950'], width: 1 } } });
+
+  // L2 Roadmap: Namen links ein Feld, Balken ueber fuenf Felder, Monatsleiste
+  // oben. Die Zeitachse ist linear — ein Monat ist so breit wie ein Monat.
+  def('L2_ROADMAP', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('monate', 1, 5, INHALT_Y, 0.3, 'JAN · FEB · MÄR · APR · MAI · JUN'),
+      { line: { x: x(1), y: INHALT_Y + 0.38, w: w(5), h: 0, line: { color: G['400'], width: 0.75 } } },
+      koerper(0, 1, INHALT_Y + 0.5, INHALT_H - 0.5, 'zeilen'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L3 Meilensteine: Datum, Name, Abnahmekriterium, Statusmarke. Ein
+  // Meilenstein ohne Kriterium ist nur ein Datum.
+  def('L3_MEILENSTEINE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'DATUM · MEILENSTEIN · ABNAHMEKRITERIUM · STATUS'),
+      kopfLinie(),
+      tabellenPlatz('Je Zeile ein Meilenstein, höchstens sechs'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L4 Phasen mit Ergebnis: Phasenleiste oben, darunter je Phase eine
+  // Spalte gleicher Breite. Das Ergebnis ist ein Substantiv, keine Taetigkeit.
+  def('L4_PHASEN_ERGEBNIS', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3].map((i) => ({ rect: { x: x(i * 1.5), y: INHALT_Y, w: w(1.5), h: 0.6,
+        fill: { color: P['200'] }, line: { color: P['200'], width: 0 } } })),
+      ...[0, 1, 2, 3].map((i) => koerper(i * 1.5, 1.5, INHALT_Y + 0.85, INHALT_H - 0.85, `phase${i + 1}`)),
+      ...fusszeile(),
+    ],
+  });
+
+  // L5 Rollen: Aufgaben als Zeilen, Rollen als Spalten, je Zeile genau
+  // ein V. Zwei Verantwortliche sind keiner.
+  def('L5_ROLLEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'AUFGABE · ROLLE · ROLLE · ROLLE'),
+      kopfLinie(),
+      tabellenPlatz('V verantwortlich · A arbeitet · G gefragt · I informiert'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L6 Risiken: Matrix drei mal drei links, kritisches Feld auf hellerem
+  // Papier, Liste rechts. Nummer verbindet Punkt und Zeile.
+  const M_X = x(0) + 0.35, M_S = Math.min(w(2) - 0.35, INHALT_H - 0.4), M_C = M_S / 3;
+  def('L6_RISIKEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { rect: { x: M_X + 2 * M_C, y: INHALT_Y, w: M_C, h: M_C, fill: { color: P['200'] }, line: { color: P['200'], width: 0 } } },
+      ...[0, 1, 2, 3].map((i) => ({ line: { x: M_X, y: INHALT_Y + i * M_C, w: M_S, h: 0, line: { color: G['400'], width: 0.75 } } })),
+      ...[0, 1, 2, 3].map((i) => ({ line: { x: M_X + i * M_C, y: INHALT_Y, w: 0, h: M_S, line: { color: G['400'], width: 0.75 } } })),
+      { text: { text: 'WAHRSCHEINLICHKEIT →', options: { x: M_X, y: INHALT_Y + M_S + 0.06, w: M_S, h: 0.26,
+          fontFace: F.technik, fontSize: kickerPt - 1, color: G['600'], charSpacing: 1.5 } } },
+      { text: { text: 'AUSWIRKUNG ↑', options: { x: M_X - 0.73, y: INHALT_Y + M_S / 2 - 0.13, w: 1.1, h: 0.26, rotate: 270,
+          fontFace: F.technik, fontSize: kickerPt - 1, color: G['600'], charSpacing: 1.5 } } },
+      koerper(2, 4, INHALT_Y, INHALT_H, 'liste'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L7 Statusbericht: Ampel aus dem Tokensatz, Farbe UND Wort. Die Legende
+  // steht im Master, damit die Bedeutung nicht je Deck neu erfunden wird.
+  def('L7_STATUSBERICHT', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'STATUS · ARBEITSPAKET · ABWEICHUNG · ENTSCHEIDUNG'),
+      kopfLinie(),
+      tabellenPlatz('Je Zeile ein Arbeitspaket. Rot heißt: Entscheidung nötig, und sie steht in der Zeile'),
+      ...Object.entries(STATUS.hell).flatMap(([name, st], i) => ([
+        { rect: { x: x(0) + i * 2.1, y: HOEHE - 0.93, w: 0.14, h: 0.14, fill: { color: st.marke }, line: { color: st.marke, width: 0 } } },
+        { text: { text: st.bedeutung, options: { x: x(0) + i * 2.1 + 0.22, y: HOEHE - 1.0, w: 1.8, h: 0.28,
+            fontFace: F.technik, fontSize: kickerPt - 1, color: G['700'], charSpacing: 1 } } },
+      ])),
+      ...fusszeile(),
+    ],
+  });
+
+  // L8 Entscheidung: Kriterien links, Optionen als Spalten. Die empfohlene
+  // Option steht IMMER in der ersten Spalte auf hellerem Papier — Antwort
+  // zuerst, wie in der Zusammenfassung.
+  def('L8_ENTSCHEIDUNG', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { rect: { x: x(1.5), y: INHALT_Y - 0.35, w: (w(6) - w(1.5)) / 3, h: INHALT_H + 0.35,
+          fill: { color: P['200'] }, line: { color: P['200'], width: 0 } } },
+      { text: { text: 'EMPFEHLUNG', options: { x: x(1.5) + 0.15, y: INHALT_Y - 0.3, w: 2, h: 0.24,
+          fontFace: F.technik, fontSize: kickerPt - 1, color: G['950'], charSpacing: 1.5, bold: true } } },
+      tabellenPlatz('Kriterien als Zeilen, Optionen als Spalten, letzte Zeile ist die Konsequenz'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L9 Konditionen: Positionen ueber vier Felder, Betraege rechtsbuendig,
+  // eine Summe. Optionen stehen darunter, nicht in der Summe.
+  def('L9_KONDITIONEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      tabellenPlatz('Position · Betrag, Summe in der letzten Zeile', 4),
+      monoPlatz('hinweis', 0, 4, HOEHE - 1.05, 0.4, 'Beträge netto · Laufzeit · Gültigkeit'),
+      ...fusszeile(),
+    ],
+  });
+
+  // L10 Lieferumfang: Enthalten links, nicht enthalten rechts, Haarlinie
+  // dazwischen. Die rechte Spalte ist Schutz fuer beide Seiten — immer fuellen.
+  def('L10_LIEFERUMFANG', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { text: { text: 'ENTHALTEN', options: { x: x(0), y: INHALT_Y, w: w(2.8), h: 0.26,
+          fontFace: F.technik, fontSize: kickerPt, color: G['600'], charSpacing: 2 } } },
+      { text: { text: 'NICHT ENTHALTEN', options: { x: x(3.2), y: INHALT_Y, w: w(2.8), h: 0.26,
+          fontFace: F.technik, fontSize: kickerPt, color: G['600'], charSpacing: 2 } } },
+      { line: { x: x(3) + 0.05, y: INHALT_Y, w: 0, h: INHALT_H, line: { color: G['400'], width: 0.75 } } },
+      koerper(0, 2.8, INHALT_Y + 0.45, INHALT_H - 0.45, 'links'),
+      koerper(3.2, 2.8, INHALT_Y + 0.45, INHALT_H - 0.45, 'rechts'),
+      ...fusszeile(),
+    ],
+  });
+
   def('P1_PROZESS_WAAGERECHT', {
     background: { color: GRUND },
     objects: [

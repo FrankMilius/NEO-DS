@@ -77,6 +77,16 @@ for (const stufe of STUFEN) {
     const m = txml.match(new RegExp(`<a:accent${i + 1}>\\s*<a:srgbClr val="([0-9A-Fa-f]{6})"`));
     return m ? m[1].toUpperCase() : '—';
   });
+  // L7 traegt die Ampel aus dem Tokensatz: alle drei Marken muessen im
+  // Layout-XML stehen, sonst ist die Legende aus einer anderen Quelle.
+  for (const p of layouts) {
+    const xml = await zip.file(p).async('string');
+    if (!xml.includes('name="L7_STATUSBERICHT"')) continue;
+    const fehlt = Object.entries(STATUS.hell).filter(([, st]) => !xml.includes(`val="${st.marke}"`)).map(([n]) => n);
+    if (fehlt.length) nein(`${Z.label}: L7_STATUSBERICHT ohne Statusfarbe für ${fehlt.join(', ')}`);
+    else ok(`${Z.label}: L7_STATUSBERICHT trägt die Ampel aus dem Tokensatz (${Object.values(STATUS.hell).map((s) => s.marke).join(' ')})`);
+  }
+
   const treffer = accents.every((a, i) => a === DIAGRAMM.farbfolge[i]);
   const major = (txml.match(/<a:majorFont>\s*<a:latin typeface="([^"]*)"/) || [])[1];
   const minor = (txml.match(/<a:minorFont>\s*<a:latin typeface="([^"]*)"/) || [])[1];
@@ -131,12 +141,18 @@ for (const d of decks) {
   const zip = await archiv(join(DIST, d));
   const folien = Object.keys(zip.files).filter((p) => /^ppt\/slides\/slide\d+\.xml$/.test(p));
   let ersatz = 0;
+  const fehlend = {};
   for (const p of folien) {
     const xml = await zip.file(p).async('string');
-    ersatz += (xml.match(/FEHLT ·/g) || []).length;
+    for (const m of xml.matchAll(/FEHLT · ([A-Z]+\d*_[A-Z_]+)/g)) {
+      ersatz++;
+      const fam = m[1].match(/^[A-Z]+/)[0];
+      fehlend[fam] = (fehlend[fam] || 0) + 1;
+    }
   }
   ersatzGesamt += ersatz;
-  console.log(`  ${ersatz ? '·' : '✓'} ${d.replace('NEO-Beispiel-', '').replace('.pptx', '').padEnd(14)} ${String(folien.length).padStart(2)} Folien, ${ersatz} Ersatzmarken`);
+  const nachFamilie = Object.entries(fehlend).sort().map(([f, n]) => `${f} ${n}`).join(' · ');
+  console.log(`  ${ersatz ? '·' : '✓'} ${d.replace('NEO-Beispiel-', '').replace('.pptx', '').padEnd(14)} ${String(folien.length).padStart(2)} Folien, ${ersatz} Ersatzmarken${nachFamilie ? '  (' + nachFamilie + ')' : ''}`);
 }
 if (decks.length) console.log(`  ${ersatzGesamt ? '·' : '✓'} Ersatzmarken gesamt: ${ersatzGesamt}`);
 
