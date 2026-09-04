@@ -514,6 +514,107 @@ const RENDERER = {
     });
   },
 
+  // ── Bild, Menschen, Anhang (B5–B7, M1–M3, AN1–AN4) ──────────────────────
+  // bilder: [unterschrift je Bild, vier] — Bilder bleiben Platzhalter
+  B5_BILDRASTER(s, f, c) {
+    const RH = (INHALT_H - 0.6) / 2;
+    f.bilder.forEach((u, i) => MONO(s, u.toUpperCase(), { x: x((i % 2) * 3), y: INHALT_Y + Math.floor(i / 2) * (RH + 0.3) + RH - 0.26, w: w(2.8), h: 0.26, color: c.zweit }));
+  },
+
+  // vorher · nachher (je ein Satz unter dem Bild)
+  B6_VORHER_NACHHER(s, f, c) {
+    MONO(s, 'VORHER', { x: x(0), y: INHALT_Y, w: w(2.8), h: 0.26, color: c.zweit });
+    MONO(s, 'NACHHER', { x: x(3.2), y: INHALT_Y, w: w(2.8), h: 0.26, color: c.schrift, bold: true });
+    TXT(s, f.vorher, { x: x(0), y: INHALT_Y + INHALT_H - 0.3, w: w(2.8), h: 0.3, color: c.zweit, fontSize: 12 });
+    TXT(s, f.nachher, { x: x(3.2), y: INHALT_Y + INHALT_H - 0.3, w: w(2.8), h: 0.3, color: c.schrift, fontSize: 12 });
+  },
+
+  // tafel: [titel, text] — Text nur auf der Tafel
+  B7_VOLLBILD_TAFEL(s, f, c) {
+    const TY = 4.2;
+    s.addText(f.tafel[0], { x: x(0) + 0.3, y: TY + 0.3, w: w(2.6) - 0.6, h: 0.9, fontFace: F.marke, fontSize: 22, bold: true, color: G['950'], charSpacing: -0.5, valign: 'top' });
+    TXT(s, f.tafel[1], { x: x(0.13), y: TY + 1.3, w: w(2.4), h: HOEHE - TY - 1.95, color: G['700'], fontSize: 13 });
+  },
+
+  // team: [[name, rolle, satz]] — bis vier
+  M1_TEAM(s, f, c) {
+    f.team.forEach(([name, rolle, satz], i) => {
+      if (i > 3) return;
+      s.addText(name, { x: x(i * 1.5), y: INHALT_Y + w(1.5), w: w(1.5), h: 0.4, fontFace: F.marke, fontSize: 16, bold: true, color: c.schrift, valign: 'top' });
+      MONO(s, rolle.toUpperCase(), { x: x(i * 1.5), y: INHALT_Y + w(1.5) + 0.42, w: w(1.5), h: 0.26, color: c.zweit, fontSize: 9 });
+      TXT(s, satz, { x: x(i * 1.5), y: INHALT_Y + w(1.5) + 0.75, w: w(1.5), h: INHALT_H - w(1.5) - 0.75, color: c.zweit, fontSize: 13 });
+    });
+  },
+
+  // nutzer: { braucht: [..], hindert: [..], zitat }
+  M2_NUTZERBILD(s, f, c) {
+    const liste = (kicker, punkte, y) => {
+      MONO(s, kicker, { x: x(2.4), y, w: w(3.6), h: 0.26, color: c.zweit });
+      punkte.forEach((t, i) => {
+        linie(s, c.pptx, x(2.4), y + 0.5 + i * 0.4, 0.18, 0, c.schrift, { width: 1.5 });
+        TXT(s, t, { x: x(2.4) + 0.3, y: y + 0.35 + i * 0.4, w: w(3.6) - 0.3, h: 0.4, color: c.schrift });
+      });
+    };
+    liste('BRAUCHT', f.nutzer.braucht, INHALT_Y);
+    liste('HINDERT', f.nutzer.hindert, INHALT_Y + 1.8);
+    s.addText(f.nutzer.zitat, { x: x(2.4), y: INHALT_Y + INHALT_H - 0.9, w: w(3.6), h: 0.9, fontFace: F.marke, fontSize: 18, bold: true, color: c.schrift, lineSpacingMultiple: 1.15, valign: 'bottom' });
+  },
+
+  // fall: { ausgangslage, loesung, ergebnis: [zahl, beschriftung] }
+  M3_FALLBEISPIEL(s, f, c) {
+    [['AUSGANGSLAGE', 0], ['LÖSUNG', 2], ['ERGEBNIS', 4]].forEach(([k, feld]) => MONO(s, k, { x: x(feld), y: INHALT_Y, w: w(2), h: 0.26, color: c.zweit }));
+    TXT(s, f.fall.ausgangslage, { x: x(0), y: INHALT_Y + 0.4, w: w(1.8), h: INHALT_H - 0.4, color: c.schrift, fontSize: 15 });
+    TXT(s, f.fall.loesung, { x: x(2), y: INHALT_Y + 0.4, w: w(1.8), h: INHALT_H - 0.4, color: c.schrift, fontSize: 15 });
+    s.addText(f.fall.ergebnis[0], { x: x(4), y: INHALT_Y + 0.4, w: w(2), h: 1.2, fontFace: F.marke, fontSize: 48, bold: true, color: c.schrift, charSpacing: -1.8, valign: 'top' });
+    MONO(s, f.fall.ergebnis[1], { x: x(4), y: INHALT_Y + 1.7, w: w(2), h: 0.6, color: c.zweit, fontSize: 9 });
+  },
+
+  // methodik: [[kicker, text] × 4]
+  AN1_METHODIK(s, f, c) {
+    f.methodik.forEach(([k, text], i) => {
+      const feld = (i % 2) * 3.2, y = INHALT_Y + Math.floor(i / 2) * (INHALT_H / 2);
+      MONO(s, k.toUpperCase(), { x: x(feld), y, w: w(2.8), h: 0.26, color: c.zweit });
+      TXT(s, text, { x: x(feld), y: y + 0.35, w: w(2.8), h: INHALT_H / 2 - 0.5, color: c.schrift, fontSize: 13 });
+    });
+  },
+
+  // glossar: [[begriff, erklaerung]] — alphabetisch, links und rechts im Wechsel
+  AN2_GLOSSAR(s, f, c) {
+    const links = f.glossar.filter((_, i) => i % 2 === 0), rechts = f.glossar.filter((_, i) => i % 2 === 1);
+    const spalte = (eintraege, feld) => eintraege.forEach(([b, e], i) => {
+      const y = INHALT_Y + i * 1.1;
+      s.addText(b, { x: x(feld), y, w: w(2.8), h: 0.35, fontFace: F.marke, fontSize: 15, bold: true, color: c.schrift, valign: 'top' });
+      TXT(s, e, { x: x(feld), y: y + 0.36, w: w(2.8), h: 0.7, color: c.zweit, fontSize: 12 });
+    });
+    spalte(links, 0); spalte(rechts, 3.2);
+  },
+
+  // quellen: [[nr, folie, quelle]]
+  AN3_QUELLEN(s, f, c) {
+    [['NR', 0, 0.4], ['FOLIE', 0.4, 0.8], ['QUELLE', 1.2, 4.8]].forEach(([k, feld, felder]) => MONO(s, k, { x: x(feld), y: INHALT_Y, w: w(felder), h: 0.26, color: c.zweit }));
+    linie(s, c.pptx, x(0), INHALT_Y + 0.3, w(6), 0, c.schrift, { width: 1 });
+    f.quellen.forEach(([nr, folie, quelle], i) => {
+      const y = INHALT_Y + 0.42 + i * 0.5;
+      MONO(s, nr, { x: x(0), y, w: w(0.4), h: 0.26, color: c.schrift, fontSize: 11 });
+      MONO(s, folie, { x: x(0.4), y, w: w(0.8), h: 0.26, color: c.zweit, fontSize: 11 });
+      TXT(s, quelle, { x: x(1.2), y: y - 0.03, w: w(4.8), h: 0.45, color: c.schrift, fontSize: 13 });
+      linie(s, c.pptx, x(0), y + 0.42, w(6), 0, G['300']);
+    });
+  },
+
+  // tabelle: { kopf: [..bis sechs], zeilen: [[..]] } — Zahlen rechtsbuendig
+  AN4_DETAILTABELLE(s, f, c) {
+    const { kopf, zeilen } = f.tabelle, n = kopf.length, cw = w(6) / n, rh = 0.36;
+    const zahl = (v) => /^[\d\s.,%€−-]+$/.test(String(v));
+    kopf.forEach((k, i) => MONO(s, k.toUpperCase(), { x: x(0) + i * cw, y: INHALT_Y, w: cw, h: 0.26, color: c.zweit, fontSize: 9, align: i && zahl(zeilen[0][i]) ? 'right' : 'left' }));
+    linie(s, c.pptx, x(0), INHALT_Y + 0.3, w(6), 0, c.schrift, { width: 1 });
+    zeilen.forEach((z, r) => {
+      const y = INHALT_Y + 0.38 + r * rh;
+      z.forEach((v, i) => s.addText(String(v), { x: x(0) + i * cw, y, w: cw - 0.1, h: rh, fontFace: F.info, fontSize: 11, color: i ? c.zweit : c.schrift, align: i && zahl(v) ? 'right' : 'left', valign: 'top' }));
+      linie(s, c.pptx, x(0), y + rh - 0.02, w(6), 0, G['300']);
+    });
+  },
+
   // titel (der Satz) · einsatz (was auf dem Spiel steht)
   X4_BIG_IDEA(s, f, c) {
     TXT(s, f.einsatz, { x: x(0), y: 4.4, w: w(4), h: 1.2, color: c.zweit, fontSize: 16 });

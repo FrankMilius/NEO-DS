@@ -230,6 +230,8 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(felder), h: INHALT_H - 0.4,
       fontFace: F.info, fontSize: textPt - 3, color: G['800'], lineSpacingMultiple: 1.6, bullet: false }, text: hinweis } });
   const kopfLinie = () => ({ line: { x: x(0), y: INHALT_Y + 0.3, w: w(6), h: 0, line: { color: G['950'], width: 1 } } });
+  const bildRahmen = (name, feld, felder, y, h, hinweis = 'Bildschirmfoto') => ({
+    placeholder: { options: { name, type: 'pic', x: x(feld), y, w: w(felder), h, line: { color: G['400'], width: 1 } }, text: hinweis } });
 
   // ── Titel (4) ───────────────────────────────────────────────────────────
   def('T1_TITEL_TIEF', {
@@ -457,6 +459,48 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
       { placeholder: { options: { name: 'bild', type: 'pic', x: x(0), y: INHALT_Y, w: w(2), h: w(2),
           line: { color: G['400'], width: 1 } }, text: 'Bild 1∶1' } },
       koerper(2, 4),
+      ...fusszeile(),
+    ],
+  });
+
+  // ── Bild (3) — B5 bis B7 des Foliensystems ─────────────────────────────
+  // B5 Bildraster: vier Bilder gleich gross, gleiche Bildsprache, je eine Unterschrift.
+  const RASTER_H = (INHALT_H - 0.6) / 2;
+  def('B5_BILDRASTER', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3].flatMap((i) => {
+        const feld = (i % 2) * 3, y = INHALT_Y + Math.floor(i / 2) * (RASTER_H + 0.3);
+        return [bildRahmen(`bild${i + 1}`, feld, 2.8, y, RASTER_H - 0.3, 'Bild'), monoPlatz(`unterschrift${i + 1}`, feld, 2.8, y + RASTER_H - 0.26, 0.26, 'BILDUNTERSCHRIFT')];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // B6 Vorher und Nachher: gleicher Ausschnitt, gleiches Licht — sonst
+  // vergleicht das Publikum die Fotografie, nicht den Zustand.
+  def('B6_VORHER_NACHHER', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kicker1', 0, 2.8, INHALT_Y, 0.26, 'VORHER'), bildRahmen('vorher', 0, 2.8, INHALT_Y + 0.35, INHALT_H - 0.7, 'Vorher'),
+      monoPlatz('kicker2', 3.2, 2.8, INHALT_Y, 0.26, 'NACHHER'), bildRahmen('nachher', 3.2, 2.8, INHALT_Y + 0.35, INHALT_H - 0.7, 'Nachher'),
+      koerper(0, 2.8, INHALT_Y + INHALT_H - 0.3, 0.3, 'text1'), koerper(3.2, 2.8, INHALT_Y + INHALT_H - 0.3, 0.3, 'text2'),
+      ...fusszeile(),
+    ],
+  });
+
+  // B7 Vollbild mit Tafel: Text liegt auf einer Tafel in Papierfarbe, nie auf dem Bild.
+  const TAFEL_Y = 4.2;
+  def('B7_VOLLBILD_TAFEL', {
+    background: { color: GRUND },
+    objects: [
+      { placeholder: { options: { name: 'bild', type: 'pic', x: 0, y: 0, w: BREITE, h: HOEHE }, text: 'Bild' } },
+      { rect: { x: x(0), y: TAFEL_Y, w: w(2.6), h: HOEHE - TAFEL_Y, fill: { color: GRUND }, line: { color: GRUND, width: 0 } } },
+      { placeholder: { options: { name: 'titel', type: 'title', x: x(0) + 0.3, y: TAFEL_Y + 0.3, w: w(2.6) - 0.6, h: 0.9,
+          fontFace: F.marke, fontSize: titelPt - 8, bold: true, color: G['950'], charSpacing: -0.5, valign: 'top' }, text: 'Aussage auf der Tafel' } },
+      koerper(0.13, 2.4, TAFEL_Y + 1.3, HOEHE - TAFEL_Y - 1.95),
       ...fusszeile(),
     ],
   });
@@ -929,8 +973,6 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
   });
 
   // ── Produkt (7) — S3 bis S7, R3, LG1 des Foliensystems ─────────────────
-  const bildRahmen = (name, feld, felder, y, h, hinweis = 'Bildschirmfoto') => ({
-    placeholder: { options: { name, type: 'pic', x: x(feld), y, w: w(felder), h, line: { color: G['400'], width: 1 } }, text: hinweis } });
 
   // S3 Feature mit Callouts: die tragende Produktfolie. Marker sind Formen
   // des Decks UEBER dem Bild — sie liegen nicht im Bildplatzhalter, sonst
@@ -1256,6 +1298,101 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
   // Z6 Pause: schwarz, leer, ohne Fusszeile — der Bildschirmwechsel vor der
   // Demo passiert hier, nicht auf einer Inhaltsfolie.
   def('Z6_PAUSE', { background: { color: TIEF }, objects: [] });
+
+  // ── Menschen (3) — M1 bis M3 des Foliensystems ─────────────────────────
+  // M1 Team: Rolle im Projekt, nicht Titel im Unternehmen. Bilder gleicher Ausschnitt.
+  def('M1_TEAM', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3].flatMap((i) => ([
+        { placeholder: { options: { name: `bild${i + 1}`, type: 'pic', x: x(i * 1.5), y: INHALT_Y, w: w(1.5) - 0.2, h: w(1.5) - 0.2, line: { color: G['400'], width: 1 } }, text: 'Bild 1∶1' } },
+        { placeholder: { options: { name: `name${i + 1}`, type: 'body', x: x(i * 1.5), y: INHALT_Y + w(1.5), w: w(1.5), h: 0.4,
+            fontFace: F.marke, fontSize: textPt, bold: true, color: G['950'], bullet: false }, text: 'Name' } },
+        monoPlatz(`rolle${i + 1}`, i * 1.5, 1.5, INHALT_Y + w(1.5) + 0.42, 0.26, 'ROLLE IM PROJEKT'),
+        koerper(i * 1.5, 1.5, INHALT_Y + w(1.5) + 0.75, INHALT_H - w(1.5) - 0.75, `satz${i + 1}`),
+      ])),
+      ...fusszeile(),
+    ],
+  });
+
+  // M2 Nutzerbild: eine Rolle beim Kunden, was sie braucht, was sie hindert,
+  // ein echtes Zitat. Keine erfundene Person mit Namen.
+  def('M2_NUTZERBILD', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      bildRahmen('bild', 0, 2, INHALT_Y, INHALT_H, 'Bild'),
+      monoPlatz('kicker1', 2.4, 3.6, INHALT_Y, 0.26, 'BRAUCHT'), koerper(2.4, 3.6, INHALT_Y + 0.35, 1.3, 'braucht'),
+      monoPlatz('kicker2', 2.4, 3.6, INHALT_Y + 1.8, 0.26, 'HINDERT'), koerper(2.4, 3.6, INHALT_Y + 2.15, 1.3, 'hindert'),
+      { placeholder: { options: { name: 'zitat', type: 'body', x: x(2.4), y: INHALT_Y + INHALT_H - 0.9, w: w(3.6), h: 0.9,
+          fontFace: F.marke, fontSize: textPt + 1, bold: true, color: G['950'], lineSpacingMultiple: 1.15, valign: 'bottom', bullet: false }, text: '„Zitat aus dem Gespräch."' } },
+      ...fusszeile(),
+    ],
+  });
+
+  // M3 Fallbeispiel: Ausgangslage, Loesung, Ergebnis. Das Ergebnis ist eine
+  // Zahl mit Zeitraum — ohne Zahl ist es ein Zitat und gehoert in Q1.
+  def('M3_FALLBEISPIEL', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kicker1', 0, 2, INHALT_Y, 0.26, 'AUSGANGSLAGE'), koerper(0, 1.8, INHALT_Y + 0.4, INHALT_H - 0.4, 'ausgangslage'),
+      monoPlatz('kicker2', 2, 2, INHALT_Y, 0.26, 'LÖSUNG'), koerper(2, 1.8, INHALT_Y + 0.4, INHALT_H - 0.4, 'loesung'),
+      monoPlatz('kicker3', 4, 2, INHALT_Y, 0.26, 'ERGEBNIS'),
+      { placeholder: { options: { name: 'zahl', type: 'body', x: x(4), y: INHALT_Y + 0.4, w: w(2), h: 1.2,
+          fontFace: F.marke, fontSize: 48, bold: true, color: G['950'], charSpacing: -1.8, valign: 'top', bullet: false }, text: '00 %' } },
+      monoPlatz('beschriftung', 4, 2, INHALT_Y + 1.7, 0.6, 'WAS DIE ZAHL MISST · ZEITRAUM'),
+      ...fusszeile(),
+    ],
+  });
+
+  // ── Anhang (4) — AN1 bis AN4, nur Versandstufe ─────────────────────────
+  // AN1 Methodik: Datenbasis, Zeitraum, Definitionen, Ausschluesse. Pflicht in jeder Auswertung.
+  def('AN1_METHODIK', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[['DATENBASIS', 0, 0], ['ZEITRAUM', 3.2, 0], ['DEFINITIONEN', 0, 1], ['AUSSCHLÜSSE', 3.2, 1]].flatMap(([k, feld, zeile], i) => {
+        const y = INHALT_Y + zeile * (INHALT_H / 2);
+        return [monoPlatz(`kicker${i + 1}`, feld, 2.8, y, 0.26, k), koerper(feld, 2.8, y + 0.35, INHALT_H / 2 - 0.5, `text${i + 1}`)];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // AN2 Glossar: Begriff fett, Erklaerung ein Satz, alphabetisch, zwei Spalten.
+  def('AN2_GLOSSAR', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), koerper(0, 2.8, INHALT_Y, INHALT_H, 'links'), koerper(3.2, 2.8, INHALT_Y, INHALT_H, 'rechts'), ...fusszeile()],
+  });
+
+  // AN3 Quellen: Nummer, Folie, Quelle — die Nummern sind die Fussnoten des Decks.
+  def('AN3_QUELLEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'NR · FOLIE · QUELLE'),
+      kopfLinie(),
+      { placeholder: { options: { name: 'quellen', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(5), h: INHALT_H - 0.4,
+          fontFace: F.technik, fontSize: kickerPt + 1, color: G['800'], charSpacing: 0.5, lineSpacingMultiple: 1.7, bullet: false }, text: 'Je Zeile eine Quelle' } },
+      ...fusszeile(),
+    ],
+  });
+
+  // AN4 Detailtabelle: bis sechs Spalten und zwoelf Zeilen in Versandgroesse.
+  // Im Vortrag wird sie nicht gezeigt, sondern angekuendigt.
+  def('AN4_DETAILTABELLE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'SPALTE · SPALTE · SPALTE · SPALTE · SPALTE · SPALTE'),
+      kopfLinie(),
+      { placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(6), h: INHALT_H - 0.4,
+          fontFace: F.info, fontSize: 11, color: G['800'], lineSpacingMultiple: 1.5, bullet: false }, text: 'Bis zwölf Zeilen, Zahlen rechtsbündig' } },
+      ...fusszeile(),
+    ],
+  });
 
   return gemacht;
 }
