@@ -1,7 +1,8 @@
 // ==========================================================================
 // Beispielpräsentationen aus der Vorlage erzeugen
 // ==========================================================================
-// Drei Fälle, je 24 Folien, alle aus denselben 35 Layouts. Der Zweck ist
+// Drei Branchenfälle je 24 Folien plus die vier Erzählbögen des Foliensystems
+// (Produkt, Angebot, Projektplan, Auswertung), alle aus dem Master. Der Zweck ist
 // nicht die Foliensammlung, sondern der Beleg: Wenn drei Branchen mit
 // demselben Satz auskommen, trägt der Satz.
 //
@@ -15,7 +16,7 @@
 import PptxGenJS from 'pptxgenjs';
 import { readFileSync, mkdirSync } from 'fs';
 import { resolve, join } from 'path';
-import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, geometrie, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
+import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, geometrie, STATUS, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
 
 const WURZEL = resolve(import.meta.dirname, '..');
 const { faelle } = JSON.parse(readFileSync(join(WURZEL, 'data/pptx-beispielfaelle.json'), 'utf8'));
@@ -97,6 +98,17 @@ async function baue(fall) {
       fontFace: F.info, fontSize: 14, color: zweit });
     if (f.kontakt) s.addText(f.kontakt, { x: x(0), y: 3.9, w: w(4), h: 1.0,
       fontFace: F.info, fontSize: 16, color: G['400'] });
+
+    // Ersatzmarke: Das Layout, das die Folie eigentlich braucht, gibt es
+    // im Master noch nicht. Die Marke steht AUF der Folie, nicht nur in den
+    // Notizen — ein Ersatzlayout sieht sonst fertig aus. Phasen 3 bis 8 des
+    // Plans bringen die Zahl der Marken auf null (npm run pptx:pruefen).
+    if (f.soll) {
+      const rot = tief(f.p) ? STATUS.tief.rot.text : STATUS.hell.rot.text;
+      s.addText(`FEHLT · ${f.soll}`, { x: x(3), y: RAND, w: w(2), h: 0.26,
+        fontFace: F.technik, fontSize: 10, bold: true, color: rot, charSpacing: 1.5, align: 'right' });
+      s.addNotes(`Ersatz: ${f.l} steht für ${f.soll}. Das Ziel-Layout ist im Katalog des Foliensystems beschrieben und kommt mit einer späteren Phase.`);
+    }
 
     // Copyright, Datum und Seitenzahl liefert der Master. Hier kommt nur die
     // Beispielkennzeichnung dazu — sie steht neben dem Copyright und macht
