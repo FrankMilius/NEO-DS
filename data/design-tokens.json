@@ -23251,6 +23251,93 @@
         "description": "Transparente/kontrastarme Flaechen (Ghost, Chips). Hover: 8% Mix, Active: 15% Mix."
       }
     },
+    "praesentation": {
+      "_notiz": "Der PowerPoint-Master (scripts/pptx-vorlage.mjs) liest diesen Abschnitt. Raster aus Markenbuch Kapitel 08.3. Zwei Dichtestufen als zwei Dateien: Vortrag (projiziert, Sprecher anwesend) und Versand (gelesen, ohne Sprecher). Entschieden am 04.09.2026, Plan .claude/plans/2026-09-04-foliensystem.md.",
+      "format": {
+        "breite_zoll": 13.333,
+        "hoehe_zoll": 7.5
+      },
+      "raster_mm": {
+        "rand": 16,
+        "steg": 8,
+        "feld": 44.45,
+        "felder": 5
+      },
+      "dichtestufen": {
+        "vortrag": {
+          "label": "Vortrag",
+          "dateiname": "NEO-Master-Vortrag",
+          "titelzone_mm": 40,
+          "titel_pt": 36,
+          "text_pt": 22,
+          "kicker_pt": 11,
+          "fuss_pt": 9,
+          "woerter_max": 25,
+          "_notiz": "Duarte nennt 24 pt als Untergrenze fuer projizierten Text; 22 pt in Manrope entspricht der optischen Groesse. Titelzone 40 mm, weil 36 pt auf zwei Zeilen in 32 mm nicht passt."
+        },
+        "versand": {
+          "label": "Versand",
+          "dateiname": "NEO-Master-Versand",
+          "titelzone_mm": 32,
+          "titel_pt": 30,
+          "text_pt": 17,
+          "kicker_pt": 10,
+          "fuss_pt": 9,
+          "woerter_max": null,
+          "_notiz": "Die Stufe des Masters vom 26.08.2026. Fliesstext, Fussnoten und Quellen auf der Folie sind hier erlaubt."
+        }
+      },
+      "status": {
+        "_notiz": "Ampel fuer Statusmarken (Meilensteine, Statusbericht). marke = Punkt neben dem Wort, Grenze 3,0:1 (WCAG 1.4.11). text = Wort in der Statusfarbe, Grenze 4,5:1 (1.4.3). Farbe allein reicht nie, das Wort steht immer daneben. Verweise auf primitives.system.<palette>.shades.<stufe>. Kontraste nachgerechnet am 04.09.2026 gegen alle fuenf Papiere (100er-Stufe) und Graphit 950, Ergebnis in scripts/pptx-pruefen.mjs.",
+        "bedeutung": {
+          "gruen": "Im Plan",
+          "gelb": "Massnahme laeuft",
+          "rot": "Entscheidung noetig"
+        },
+        "hell": {
+          "gruen": {
+            "marke": "success.600",
+            "text": "success.700"
+          },
+          "gelb": {
+            "marke": "warning.600",
+            "text": "warning.700"
+          },
+          "rot": {
+            "marke": "danger.600",
+            "text": "danger.700"
+          }
+        },
+        "tief": {
+          "gruen": {
+            "marke": "success.500",
+            "text": "success.500"
+          },
+          "gelb": {
+            "marke": "warning.500",
+            "text": "warning.500"
+          },
+          "rot": {
+            "marke": "danger.500",
+            "text": "danger.500"
+          }
+        }
+      },
+      "diagramm": {
+        "_notiz": "Farbfolge fuer native PowerPoint-Diagramme, geschrieben als accent1-6 in ppt/theme/theme1.xml. Regel: ein Wert traegt den Akzent, alles andere liegt auf der Graphitleiter. Entschieden wurde 200, 300, 400, Akzent; umgesetzt ist die dunkelste Neutrale zuerst, weil Graphit 200 auf Graphit-Papier 100 einen Kontrast von 1,1:1 hat und eine einzelne Reihe damit unsichtbar waere. Wer die Reihenfolge tauschen will, tauscht hier.",
+        "farbfolge": [
+          "graphit.400",
+          "graphit.300",
+          "graphit.200",
+          "lime.500",
+          "graphit.600",
+          "graphit.700"
+        ],
+        "hervorhebung": "lime.500",
+        "achse": "graphit.400",
+        "beschriftung": "graphit.700"
+      }
+    },
     "_configurator": {
       "radius": {
         "label": "Border Radius",
