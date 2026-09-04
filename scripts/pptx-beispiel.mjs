@@ -361,6 +361,76 @@ const RENDERER = {
     });
   },
 
+  // ── Produkt (S3–S7, R3, LG1) ────────────────────────────────────────────
+  // Bildplatzhalter bleiben leer — Bildschirmfotos kommen aus dem Produkt,
+  // nicht aus dem Beispiel. Die Renderer zeichnen, was UEBER dem Bild liegt.
+  // callouts: [[xProzent, yProzent, erklaerung]] — Nummer ist die Erklaerreihenfolge
+  S3_FEATURE_CALLOUTS(s, f, c) {
+    const bx = x(0), by = INHALT_Y, bw = w(3.6), bh = INHALT_H;
+    f.callouts.forEach(([px, py, text], i) => {
+      const cx = bx + px / 100 * bw, cy = by + py / 100 * bh;
+      punkt(s, c.pptx, cx, cy, 0.36, c.schrift);
+      s.addText(String(i + 1), { x: cx - 0.18, y: cy - 0.18, w: 0.36, h: 0.36, fontFace: F.technik, fontSize: 11, bold: true, color: c.dunkel ? G['950'] : G['100'], align: 'center', valign: 'middle' });
+      const ly = INHALT_Y + i * 1.0;
+      s.addShape(c.pptx.ShapeType.ellipse, { x: x(4), y: ly + 0.03, w: 0.3, h: 0.3, fill: { color: grundfarbe(c.papier) }, line: { color: c.schrift, width: 1 } });
+      s.addText(String(i + 1), { x: x(4), y: ly + 0.03, w: 0.3, h: 0.3, fontFace: F.technik, fontSize: 10, color: c.schrift, align: 'center', valign: 'middle' });
+      TXT(s, text, { x: x(4) + 0.42, y: ly, w: w(2) - 0.42, h: 0.95, color: c.schrift });
+    });
+  },
+
+  // funktionen: [[name, satz]] — vier bis sechs
+  S4_FUNKTIONSUEBERSICHT(s, f, c) {
+    const KH = (INHALT_H - 0.3) / 2;
+    f.funktionen.forEach(([name, satz], i) => {
+      const feld = (i % 3) * 2, y = INHALT_Y + Math.floor(i / 3) * (KH + 0.3);
+      linie(s, c.pptx, x(feld), y, w(2), 0, G['400']);
+      s.addShape(c.pptx.ShapeType.ellipse, { x: x(feld), y: y + 0.2, w: 0.4, h: 0.4, fill: { color: grundfarbe(c.papier) }, line: { color: c.schrift, width: 1 } });
+      s.addText(name, { x: x(feld), y: y + 0.75, w: w(2), h: 0.4, fontFace: F.marke, fontSize: 17, bold: true, color: c.schrift, valign: 'top' });
+      TXT(s, satz, { x: x(feld), y: y + 1.2, w: w(2), h: KH - 1.25, color: c.zweit });
+    });
+  },
+
+  // rahmen: [xProzent, yProzent, wProzent, hProzent] im kleinen Bild · text
+  S5_AUSSCHNITT_ZOOM(s, f, c) {
+    const bx = x(0), by = INHALT_Y, bw = w(2), bh = w(2) * 9 / 16, [rx, ry, rw, rh] = f.rahmen;
+    s.addShape(c.pptx.ShapeType.rect, { x: bx + rx / 100 * bw, y: by + ry / 100 * bh, w: rw / 100 * bw, h: rh / 100 * bh, fill: { type: 'none' }, line: { color: DIAGRAMM.hervorhebung, width: 2 } });
+    linie(s, c.pptx, bx + (rx + rw) / 100 * bw, by + ry / 100 * bh, x(2.4) - bx - (rx + rw) / 100 * bw, INHALT_Y - by - ry / 100 * bh, DIAGRAMM.hervorhebung, { width: 1, dashType: 'dash' });
+    TXT(s, f.text, { x: x(0), y: by + bh + 0.3, w: w(2), h: INHALT_H - bh - 0.3, color: c.zweit });
+  },
+
+  // demo: { schritte: [..] } — Klickfolge in den Notizen, Rueckfallbild im Platzhalter
+  S6_DEMO(s, f, c) {
+    MONO(s, 'LIVE', { x: x(0), y: RAND, w: w(4), h: 0.26, color: AKZENT['800'], bold: true });
+    MONO(s, 'LIVE-DEMO · RÜCKFALL: BILDSCHIRMFOTO IN DEN NOTIZEN', { x: x(1), y: INHALT_Y + INHALT_H / 2 - 0.3, w: w(4), h: 0.6, color: c.zweit, align: 'center', fontSize: 11 });
+    s.addNotes(`Klickfolge:\n${f.demo.schritte.map((t, i) => `${i + 1}. ${t}`).join('\n')}`);
+  },
+
+  // geraete: [nameDesktop, nameMobil]
+  S7_GERAETE_PAAR(s, f, c) {
+    MONO(s, f.geraete[0].toUpperCase(), { x: x(0), y: INHALT_Y, w: w(3.8), h: 0.26, color: c.zweit });
+    MONO(s, f.geraete[1].toUpperCase(), { x: x(4.6), y: INHALT_Y - 0.3, w: w(1.4), h: 0.26, color: c.zweit });
+  },
+
+  // ebenen: [[name, text]] von oben nach unten; die letzte ist das Fundament
+  R3_EBENENMODELL(s, f, c) {
+    const n = f.ebenen.length, eh = (INHALT_H - (n - 1) * 0.12) / n;
+    f.ebenen.forEach(([name, text], i) => {
+      const y = INHALT_Y + i * (eh + 0.12), unten = i === n - 1;
+      s.addShape(c.pptx.ShapeType.rect, { x: x(0), y, w: w(3.4), h: eh, fill: { color: unten ? hellesPapier(c.papier) : grundfarbe(c.papier) }, line: { color: G['400'], width: 0.75 } });
+      s.addText(name, { x: x(0) + 0.2, y: y + 0.1, w: w(3.4) - 0.4, h: eh - 0.2, fontFace: F.marke, fontSize: 17, bold: true, color: c.schrift, valign: 'middle' });
+      TXT(s, text, { x: x(3.8), y: y + 0.05, w: w(2.2), h: eh, color: c.zweit });
+    });
+  },
+
+  // logos: [name je Platz] — hier Platzhalter mit Namen, im Ernstfall freigegebene Dateien
+  LG1_LOGOWAND(s, f, c) {
+    f.logos.forEach((name, i) => {
+      const lx = x((i % 4) * 1.5), ly = INHALT_Y + 0.4 + Math.floor(i / 4) * 2.0;
+      s.addShape(c.pptx.ShapeType.rect, { x: lx, y: ly, w: w(1.5), h: 1.2, fill: { type: 'none' }, line: { color: G['400'], width: 0.75, dashType: 'dash' } });
+      MONO(s, name.toUpperCase(), { x: lx, y: ly + 0.47, w: w(1.5), h: 0.26, color: G['600'], align: 'center' });
+    });
+  },
+
   // titel (der Satz) · einsatz (was auf dem Spiel steht)
   X4_BIG_IDEA(s, f, c) {
     TXT(s, f.einsatz, { x: x(0), y: 4.4, w: w(4), h: 1.2, color: c.zweit, fontSize: 16 });

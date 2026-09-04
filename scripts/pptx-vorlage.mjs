@@ -774,6 +774,106 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     ],
   });
 
+  // ── Produkt (7) — S3 bis S7, R3, LG1 des Foliensystems ─────────────────
+  const bildRahmen = (name, feld, felder, y, h, hinweis = 'Bildschirmfoto') => ({
+    placeholder: { options: { name, type: 'pic', x: x(feld), y, w: w(felder), h, line: { color: G['400'], width: 1 } }, text: hinweis } });
+
+  // S3 Feature mit Callouts: die tragende Produktfolie. Marker sind Formen
+  // des Decks UEBER dem Bild — sie liegen nicht im Bildplatzhalter, sonst
+  // verschwinden sie, sobald jemand das Bild einfuegt. Nummer = Erklaerreihenfolge.
+  def('S3_FEATURE_CALLOUTS', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), bildRahmen('bild', 0, 3.6, INHALT_Y, INHALT_H), koerper(4, 2, INHALT_Y, INHALT_H, 'erklaerungen'), ...fusszeile()],
+  });
+
+  // S4 Funktionsuebersicht: sechs Kacheln, Haarlinie oben statt Kasten, ein Satz je Kachel.
+  const KACHEL_H = (INHALT_H - 0.3) / 2;
+  def('S4_FUNKTIONSUEBERSICHT', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3, 4, 5].flatMap((i) => {
+        const feld = (i % 3) * 2, y = INHALT_Y + Math.floor(i / 3) * (KACHEL_H + 0.3);
+        return [
+          { line: { x: x(feld), y, w: w(2), h: 0, line: { color: G['400'], width: 0.75 } } },
+          { placeholder: { options: { name: `icon${i + 1}`, type: 'pic', x: x(feld), y: y + 0.2, w: 0.4, h: 0.4 }, text: '' } },
+          { placeholder: { options: { name: `name${i + 1}`, type: 'body', x: x(feld), y: y + 0.75, w: w(2), h: 0.4,
+              fontFace: F.marke, fontSize: textPt + 1, bold: true, color: G['950'], bullet: false }, text: 'Funktion' } },
+          koerper(feld, 2, y + 1.2, KACHEL_H - 1.25, `text${i + 1}`),
+        ];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // S5 Ausschnitt-Zoom: Bildschirm klein mit Rahmen, Ausschnitt gross in Originalaufloesung.
+  def('S5_AUSSCHNITT_ZOOM', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      bildRahmen('uebersicht', 0, 2, INHALT_Y, w(2) * 9 / 16, 'Bildschirm ganz'),
+      koerper(0, 2, INHALT_Y + w(2) * 9 / 16 + 0.3, INHALT_H - w(2) * 9 / 16 - 0.3),
+      bildRahmen('ausschnitt', 2.4, 3.6, INHALT_Y, INHALT_H, 'Ausschnitt in Originalauflösung'),
+      ...fusszeile(),
+    ],
+  });
+
+  // S6 Demo: Platzhalter fuer die Live-Demo. Was gezeigt wird, steht als Satz
+  // im Titel, die Klickfolge in den Notizen — ein Ausfall kostet die Aussage nicht.
+  def('S6_DEMO', {
+    background: { color: GRUND },
+    objects: [
+      kickerPlatz('LIVE', AKZENT['800']),
+      ueberschrift(),
+      { rect: { x: x(0), y: INHALT_Y, w: w(6), h: INHALT_H, fill: { color: GRUND }, line: { color: G['400'], width: 1, dashType: 'dash' } } },
+      { placeholder: { options: { name: 'hinweis', type: 'body', x: x(1), y: INHALT_Y + INHALT_H / 2 - 0.3, w: w(4), h: 0.6,
+          fontFace: F.technik, fontSize: kickerPt + 1, color: G['600'], charSpacing: 1.5, align: 'center', bullet: false },
+          text: 'LIVE-DEMO · RÜCKFALL: BILDSCHIRMFOTO IN DEN NOTIZEN' } },
+      ...fusszeile(),
+    ],
+  });
+
+  // S7 Geraete-Paar: derselbe Inhalt auf Desktop und Mobilgeraet, gleiche Grundlinie.
+  def('S7_GERAETE_PAAR', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      bildRahmen('desktop', 0, 3.8, INHALT_Y + 0.4, INHALT_H - 0.4, 'Desktop'),
+      bildRahmen('mobil', 4.6, 1.1, INHALT_Y, INHALT_H, 'Mobil'),
+      ...fusszeile(),
+    ],
+  });
+
+  // R3 Ebenenmodell: Baender von unten nach oben, unten das Fundament (gefuellt).
+  const EBENE_H = (INHALT_H - 3 * 0.12) / 4;
+  def('R3_EBENENMODELL', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3].flatMap((i) => {
+        const y = INHALT_Y + i * (EBENE_H + 0.12), unten = i === 3;
+        return [
+          { rect: { x: x(0), y, w: w(3.4), h: EBENE_H, fill: { color: unten ? P['200'] : GRUND }, line: { color: G['400'], width: 0.75 } } },
+          { placeholder: { options: { name: `ebene${i + 1}`, type: 'body', x: x(0) + 0.2, y: y + 0.1, w: w(3.4) - 0.4, h: EBENE_H - 0.2,
+              fontFace: F.marke, fontSize: textPt + 1, bold: true, color: G['950'], valign: 'middle', bullet: false }, text: unten ? 'Fundament' : 'Ebene' } },
+          koerper(3.8, 2.2, y + 0.05, EBENE_H, `text${i + 1}`),
+        ];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // LG1 Logowand: acht Logos gleich hoch, einfarbig. Nur freigegebene.
+  def('LG1_LOGOWAND', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({
+        placeholder: { options: { name: `logo${i + 1}`, type: 'pic', x: x((i % 4) * 1.5), y: INHALT_Y + 0.4 + Math.floor(i / 4) * 2.0, w: w(1.5), h: 1.2 }, text: 'Logo' } })),
+      ...fusszeile(),
+    ],
+  });
+
   // ── Diagramme (2) ───────────────────────────────────────────────────────
   def('D1_DIAGRAMM', {
     background: { color: GRUND },
