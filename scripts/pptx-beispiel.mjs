@@ -16,7 +16,7 @@
 import PptxGenJS from 'pptxgenjs';
 import { readFileSync, mkdirSync } from 'fs';
 import { resolve, join } from 'path';
-import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, geometrie, STATUS, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
+import { definiereMaster, datumsfeldEinsetzen, themeEinsetzen, geometrie, STATUS, DIAGRAMM, G, AKZENT, PAPIER, BREITE, HOEHE, x, w } from './pptx-vorlage.mjs';
 
 const WURZEL = resolve(import.meta.dirname, '..');
 const { faelle } = JSON.parse(readFileSync(join(WURZEL, 'data/pptx-beispielfaelle.json'), 'utf8'));
@@ -43,6 +43,29 @@ const punkt = (s, pptx, cx, cy, d, farbe) =>
   s.addShape(pptx.ShapeType.ellipse, { x: cx - d / 2, y: cy - d / 2, w: d, h: d, fill: { color: farbe }, line: { color: farbe, width: 0 } });
 const flaeche = (s, pptx, form, o, farbe) => s.addShape(form, { ...o, fill: { color: farbe }, line: { color: farbe, width: 0 } });
 const hellesPapier = (p) => PAPIER[p === 'tief' ? 'graphit' : p]['200'];
+
+// Natives Diagramm mit den Voreinstellungen des Foliensystems: Farbfolge
+// aus dem Tokensatz, Beschriftung am Wert, keine Gitterlinien, keine
+// Legende, Flaechen in Papierfarbe. Wer eine Option braucht, ueberschreibt
+// sie — die Regel "ein Wert traegt den Akzent" bleibt Sache des Aufrufers.
+//
+// pptxgenjs schreibt eigene Farben in die Chart-XML und ignoriert das
+// Theme; darum kommt die Farbfolge hier noch einmal als chartColors mit.
+const diagramm = (s, c, typ, daten, o = {}) => {
+  const grund = grundfarbe(c.papier);
+  return s.addChart(c.pptx.ChartType[typ], daten, {
+    chartColors: DIAGRAMM.farbfolge,
+    chartArea: { fill: { color: grund } }, plotArea: { fill: { color: grund } },
+    showLegend: false, showTitle: false,
+    valAxisHidden: true, valGridLine: { style: 'none' }, catGridLine: { style: 'none' },
+    catAxisLineShow: true, catAxisLineColor: DIAGRAMM.achse, catAxisLineSize: 0.75,
+    catAxisLabelFontFace: F.info, catAxisLabelFontSize: 11, catAxisLabelColor: DIAGRAMM.beschriftung,
+    valAxisLabelFontFace: F.info, valAxisLabelFontSize: 10, valAxisLabelColor: DIAGRAMM.beschriftung,
+    showValue: true, dataLabelFontFace: F.info, dataLabelFontSize: 11, dataLabelColor: DIAGRAMM.beschriftung, dataLabelPosition: 'outEnd',
+    barGapWidthPct: 60, lineDataSymbol: 'none',
+    ...o,
+  });
+};
 
 // ── Renderer je Layout ────────────────────────────────────────────────────
 // Jeder Renderer zeichnet, was vom Inhalt abhaengt und darum nicht im Master
@@ -184,6 +207,158 @@ const RENDERER = {
     TXT(s, f.summe[0], { x: x(0), y: sy + 0.06, w: w(2.8), h: 0.5, bold: true, color: schrift, fontSize: 16 });
     s.addText(f.summe[1], { x: x(2.8), y: sy + 0.06, w: w(1.2), h: 0.5, fontFace: F.marke, fontSize: 18, bold: true, color: schrift, align: 'right', valign: 'top' });
     if (f.hinweis) MONO(s, f.hinweis, { x: x(0), y: sy + 0.75, w: w(4), h: 0.6, color: zweit, fontSize: 9 });
+  },
+
+  // ── Daten (D3–D10, K4, TB4) ─────────────────────────────────────────────
+  // paar: [{ kicker, labels, values }, { … }] · max — gleiche Skala ist Pflicht
+  D3_DIAGRAMMPAAR(s, f, c) {
+    f.paar.forEach((d, i) => {
+      const feld = i ? 3.2 : 0;
+      MONO(s, d.kicker.toUpperCase(), { x: x(feld), y: INHALT_Y, w: w(2.8), h: 0.26, color: c.zweit });
+      diagramm(s, c, 'bar', [{ name: d.kicker, labels: d.labels, values: d.values }],
+        { x: x(feld), y: INHALT_Y + 0.4, w: w(2.8), h: INHALT_H - 0.4, barDir: 'col', valAxisMaxVal: f.max, chartColors: [G['400']] });
+    });
+  },
+
+  // vielfache: [{ kicker, values, akzent? }] · labels · max
+  D4_KLEINE_VIELFACHE(s, f, c) {
+    const VH = (INHALT_H - 0.3) / 2;
+    f.vielfache.forEach((d, i) => {
+      const feld = (i % 3) * 2, y = INHALT_Y + Math.floor(i / 3) * (VH + 0.3);
+      MONO(s, d.kicker.toUpperCase(), { x: x(feld), y, w: w(2), h: 0.26, color: d.akzent ? c.schrift : c.zweit, bold: !!d.akzent });
+      diagramm(s, c, 'line', [{ name: d.kicker, labels: f.labels, values: d.values }],
+        { x: x(feld), y: y + 0.3, w: w(2), h: VH - 0.3, valAxisMaxVal: f.max, valAxisMinVal: 0, catAxisHidden: true, showValue: false,
+          lineSize: d.akzent ? 2.5 : 1.5, chartColors: [d.akzent ? DIAGRAMM.hervorhebung : G['500']], lineDataSymbol: 'none' });
+    });
+  },
+
+  // verlauf: { labels, values } · ereignis: { index, name } · max
+  D5_VERLAUF_EREIGNIS(s, f, c) {
+    const box = { x: x(0), y: INHALT_Y, w: w(6), h: INHALT_H - 0.4 }, lay = { x: 0.02, y: 0.12, w: 0.96, h: 0.78 };
+    diagramm(s, c, 'line', [{ name: 'Verlauf', labels: f.verlauf.labels, values: f.verlauf.values }],
+      { ...box, layout: lay, valAxisMaxVal: f.max, valAxisMinVal: 0, showValue: false, lineSize: 2.5, chartColors: [G['600']], lineDataSymbol: 'none' });
+    const n = f.verlauf.labels.length, px = box.x + lay.x * box.w + (f.ereignis.index + 0.5) / n * lay.w * box.w;
+    linie(s, c.pptx, px, box.y + lay.y * box.h - 0.1, 0, lay.h * box.h + 0.1, c.schrift, { width: 1, dashType: 'dash' });
+    MONO(s, f.ereignis.name.toUpperCase(), { x: px + 0.08, y: box.y + 0.02, w: 3, h: 0.26, color: c.schrift });
+    const ende = f.verlauf.values[n - 1];
+    const ey = box.y + lay.y * box.h + (1 - ende / f.max) * lay.h * box.h;
+    punkt(s, c.pptx, box.x + lay.x * box.w + (n - 0.5) / n * lay.w * box.w, ey, 0.16, DIAGRAMM.hervorhebung);
+    MONO(s, String(ende), { x: box.x + box.w - 0.7, y: ey - 0.36, w: 0.6, h: 0.26, color: c.schrift, align: 'right', bold: true });
+  },
+
+  // rang: { labels, values, akzent: index } · anmerkung
+  D6_RANGFOLGE(s, f, c) {
+    const paare = f.rang.labels.map((l, i) => [l, f.rang.values[i], i === f.rang.akzent]).sort((a, b) => b[1] - a[1]);
+    diagramm(s, c, 'bar', [{ name: 'Wert', labels: paare.map((p) => p[0]), values: paare.map((p) => p[1]) }],
+      { x: x(0), y: INHALT_Y, w: w(4), h: INHALT_H, barDir: 'bar', catAxisOrientation: 'maxMin', valAxisMaxVal: f.max,
+        chartColors: paare.map((p) => (p[2] ? DIAGRAMM.hervorhebung : G['400'])), barGapWidthPct: 45 });
+    if (f.anmerkung) TXT(s, f.anmerkung, { x: x(4.4), y: INHALT_Y, w: w(1.6), h: INHALT_H, color: c.zweit, fontSize: 14 });
+  },
+
+  // anteile: [[name, wert, akzent?]] — Summe beliebig, wird auf hundert normiert
+  D7_ANTEILE(s, f, c) {
+    const summe = f.anteile.reduce((a, [, v]) => a + v, 0);
+    const box = { x: x(0), y: INHALT_Y + 0.8, w: w(6), h: 1.6 }, lay = { x: 0, y: 0.05, w: 1, h: 0.9 };
+    diagramm(s, c, 'bar', f.anteile.map(([name, v]) => ({ name, labels: ['Anteil'], values: [Math.round(v / summe * 1000) / 10] })),
+      { ...box, layout: lay, barDir: 'bar', barGrouping: 'percentStacked', catAxisHidden: true, valAxisMaxVal: 100, barGapWidthPct: 10,
+        chartColors: f.anteile.map(([, , ak], i) => (ak ? DIAGRAMM.hervorhebung : [G['400'], G['300'], G['200'], G['500']][i % 4])),
+        dataLabelColor: G['950'], dataLabelPosition: 'ctr', dataLabelFormatCode: '0" %"' });
+    let lauf = 0;
+    f.anteile.forEach(([name, v]) => {
+      const bx = box.x + lauf / summe * box.w, bw = v / summe * box.w; lauf += v;
+      MONO(s, name.toUpperCase(), { x: bx, y: box.y + box.h + 0.1, w: Math.max(bw, 0.9), h: 0.26, color: c.zweit });
+    });
+    if (f.text) TXT(s, f.text, { x: x(0), y: INHALT_Y + 3.0, w: w(4), h: INHALT_H - 3.0, color: c.zweit, fontSize: 14 });
+  },
+
+  // ziele: [[name, ist, ziel, beschriftung]] — auf hundert Prozent Ziel normiert
+  D8_ZIELERREICHUNG(s, f, c) {
+    const stand = f.ziele.map(([, ist, ziel]) => Math.min(100, Math.round(ist / ziel * 100)));
+    const box = { x: x(0), y: INHALT_Y, w: w(5), h: Math.min(INHALT_H, 0.9 * f.ziele.length + 0.4) }, lay = { x: 0.24, y: 0.05, w: 0.66, h: 0.9 };
+    diagramm(s, c, 'bar', [
+      { name: 'Stand', labels: f.ziele.map((z) => z[0]), values: stand },
+      { name: 'Rest', labels: f.ziele.map((z) => z[0]), values: stand.map((v) => 100 - v) },
+    ], { ...box, layout: lay, barDir: 'bar', barGrouping: 'stacked', catAxisOrientation: 'maxMin', valAxisMaxVal: 100, valAxisMinVal: 0,
+         showValue: false, barGapWidthPct: 55, chartColors: [G['500'], hellesPapier(c.papier)], catAxisLabelFontSize: 12 });
+    const px = box.x + (lay.x + lay.w) * box.w;
+    linie(s, c.pptx, px, box.y + lay.y * box.h, 0, lay.h * box.h, c.schrift, { width: 1.25 });
+    MONO(s, 'ZIEL', { x: px - 0.5, y: box.y + box.h - 0.02, w: 1, h: 0.24, color: c.schrift, align: 'center', fontSize: 9 });
+    f.ziele.forEach(([, , , text], i) => {
+      const ry = box.y + lay.y * box.h + (i + 0.5) / f.ziele.length * lay.h * box.h;
+      MONO(s, text, { x: px + 0.12, y: ry - 0.13, w: box.x + w(6) - px - 0.12, h: 0.26, color: c.schrift, fontSize: 10 });
+    });
+  },
+
+  // verteilung: { zeilen, spalten, werte[zeile][spalte] } — Graphitleiter, dunkelste Zelle ist der Befund
+  D9_VERTEILUNG(s, f, c) {
+    const { zeilen, spalten, werte } = f.verteilung;
+    const max = Math.max(...werte.flat()), gx = x(0.5), gy = INHALT_Y + 0.35, gw = w(4), gh = Math.min(INHALT_H - 0.35, 0.42 * zeilen.length);
+    const cw = gw / spalten.length, ch = gh / zeilen.length;
+    const leiter = [hellesPapier(c.papier), G['300'], G['500'], G['700'], G['950']];
+    spalten.forEach((sp, j) => MONO(s, sp, { x: gx + j * cw, y: INHALT_Y, w: cw, h: 0.26, color: c.zweit, align: 'center' }));
+    zeilen.forEach((z, i) => {
+      MONO(s, z, { x: x(0), y: gy + i * ch + ch / 2 - 0.13, w: w(0.5) - 0.05, h: 0.26, color: c.zweit, align: 'right' });
+      spalten.forEach((_, j) => {
+        const v = werte[i][j];
+        if (v == null) return;
+        const stufe = Math.min(4, Math.floor(v / max * 4.999));
+        flaeche(s, c.pptx, c.pptx.ShapeType.rect, { x: gx + j * cw + 0.03, y: gy + i * ch + 0.03, w: cw - 0.06, h: ch - 0.06 }, leiter[stufe]);
+      });
+    });
+    MONO(s, 'SKALA', { x: x(4.8), y: INHALT_Y, w: w(1.2), h: 0.26, color: c.zweit });
+    leiter.forEach((farbe, k) => flaeche(s, c.pptx, c.pptx.ShapeType.rect, { x: x(4.8), y: gy + k * 0.3, w: 0.3, h: 0.24 }, farbe));
+    MONO(s, '0', { x: x(4.8) + 0.4, y: gy, w: 1, h: 0.24, color: c.zweit, fontSize: 9 });
+    MONO(s, String(max), { x: x(4.8) + 0.4, y: gy + 4 * 0.3, w: 1, h: 0.24, color: c.zweit, fontSize: 9 });
+  },
+
+  // steigung: { von, bis, reihen: [[name, wert1, wert2, akzent?]] } · anmerkung
+  D10_STEIGUNG(s, f, c) {
+    const { von, bis, reihen } = f.steigung;
+    const alle = reihen.flatMap((r) => [r[1], r[2]]), min = 0, max = Math.ceil(Math.max(...alle) / 10) * 10;
+    const box = { x: x(0.8), y: INHALT_Y, w: w(2.4), h: INHALT_H - 0.4 }, lay = { x: 0.05, y: 0.06, w: 0.9, h: 0.86 };
+    diagramm(s, c, 'line', reihen.map(([name, a, b]) => ({ name, labels: [von, bis], values: [a, b] })),
+      { ...box, layout: lay, valAxisMaxVal: max, valAxisMinVal: min, showValue: false, catAxisHidden: true, lineDataSymbol: 'circle', lineDataSymbolSize: 7,
+        chartColors: reihen.map((r) => (r[3] ? DIAGRAMM.hervorhebung : G['400'])), lineSize: 2 });
+    const yVon = (v) => box.y + lay.y * box.h + (1 - (v - min) / (max - min)) * lay.h * box.h;
+    const xl = box.x + lay.x * box.w + 0.25 / 2 * lay.w * box.w, xr = box.x + lay.x * box.w + (1 - 0.25 / 2) * lay.w * box.w;
+    MONO(s, von.toUpperCase(), { x: xl - 0.8, y: box.y + box.h + 0.05, w: 1.6, h: 0.26, color: c.zweit, align: 'center' });
+    MONO(s, bis.toUpperCase(), { x: xr - 0.8, y: box.y + box.h + 0.05, w: 1.6, h: 0.26, color: c.zweit, align: 'center' });
+    reihen.forEach(([name, a, b, ak]) => {
+      const farbe = ak ? c.schrift : c.zweit;
+      TXT(s, `${name} ${a}`, { x: x(0) - 0.05, y: yVon(a) - 0.14, w: xl - x(0) - 0.15, h: 0.3, color: farbe, fontSize: 11, align: 'right', bold: !!ak });
+      TXT(s, `${b} ${name}`, { x: xr + 0.15, y: yVon(b) - 0.14, w: x(4.2) - xr - 0.2, h: 0.3, color: farbe, fontSize: 11, bold: !!ak });
+    });
+    if (f.anmerkung) TXT(s, f.anmerkung, { x: x(4.2), y: INHALT_Y, w: w(1.8), h: INHALT_H, color: c.zweit, fontSize: 14 });
+  },
+
+  // zahl · beschriftung · verlauf: [werte] — Endpunkt im Akzent
+  K4_ZAHL_VERLAUF(s, f, c) {
+    s.addText(f.zahl, { x: x(0), y: INHALT_Y + 0.2, w: w(2), h: 1.4, fontFace: F.marke, fontSize: 64, bold: true, color: c.schrift, charSpacing: -2.4, valign: 'top' });
+    MONO(s, f.beschriftung, { x: x(0), y: INHALT_Y + 1.75, w: w(2), h: 0.5, color: c.zweit });
+    const v = f.verlauf, n = v.length, max = Math.max(...v) * 1.15, box = { x: x(2.4), y: INHALT_Y + 0.2, w: w(3.6), h: INHALT_H - 0.6 }, lay = { x: 0.02, y: 0.05, w: 0.9, h: 0.9 };
+    diagramm(s, c, 'line', [{ name: 'Verlauf', labels: v.map((_, i) => String(i + 1)), values: v }],
+      { ...box, layout: lay, valAxisMaxVal: max, valAxisMinVal: 0, catAxisHidden: true, showValue: false, lineSize: 2.5, chartColors: [G['500']], lineDataSymbol: 'none', catAxisLineShow: false });
+    const ex = box.x + lay.x * box.w + (n - 0.5) / n * lay.w * box.w, ey = box.y + lay.y * box.h + (1 - v[n - 1] / max) * lay.h * box.h;
+    punkt(s, c.pptx, ex, ey, 0.18, DIAGRAMM.hervorhebung);
+    s.addText(String(v[n - 1]), { x: ex + 0.15, y: ey - 0.2, w: 0.9, h: 0.4, fontFace: F.marke, fontSize: 16, bold: true, color: c.schrift, valign: 'middle' });
+  },
+
+  // vergleich: { kopf: [Merkmal, Empfehlung, Option, Option], zeilen: [[merkmal, true|false|"Wort", …]] }
+  TB4_VERGLEICHSTABELLE(s, f, c) {
+    const { kopf, zeilen } = f.vergleich, sw = (w(6) - w(2) - STEG) / 3, rh = 0.55;
+    kopf.forEach((k, i) => MONO(s, k.toUpperCase(), { x: i ? x(2) + (i - 1) * sw : x(0), y: INHALT_Y, w: i ? sw : w(2), h: 0.26, color: i === 1 ? c.schrift : c.zweit, bold: i === 1, align: i ? 'center' : 'left' }));
+    linie(s, c.pptx, x(0), INHALT_Y + 0.3, w(6), 0, c.schrift, { width: 1 });
+    zeilen.forEach((z, r) => {
+      const y = INHALT_Y + 0.4 + r * rh;
+      TXT(s, z[0], { x: x(0), y, w: w(2), h: rh - 0.1, color: c.schrift });
+      z.slice(1).forEach((v, i) => {
+        if (v === false || v == null) return;
+        const cx = x(2) + i * sw;
+        if (v === true) s.addText('✓', { x: cx, y: y - 0.04, w: sw, h: rh - 0.1, fontFace: F.marke, fontSize: 18, bold: true, color: c.schrift, align: 'center', valign: 'top' });
+        else TXT(s, String(v), { x: cx, y, w: sw, h: rh - 0.1, color: c.zweit, align: 'center', fontSize: 13 });
+      });
+      linie(s, c.pptx, x(0), y + rh - 0.06, w(6), 0, G['300']);
+    });
   },
 
   // titel (der Satz) · einsatz (was auf dem Spiel steht)

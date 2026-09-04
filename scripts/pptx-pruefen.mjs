@@ -151,8 +151,11 @@ for (const d of decks) {
     }
   }
   ersatzGesamt += ersatz;
+  // Native Diagramme: jedes Chart-Objekt liegt als ppt/charts/chartN.xml im
+  // Archiv. Null in einem Deck mit Diagrammfolien heisst: Bilder statt Daten.
+  const charts = Object.keys(zip.files).filter((p) => /^ppt\/charts\/chart\d+\.xml$/.test(p)).length;
   const nachFamilie = Object.entries(fehlend).sort().map(([f, n]) => `${f} ${n}`).join(' · ');
-  console.log(`  ${ersatz ? '·' : '✓'} ${d.replace('NEO-Beispiel-', '').replace('.pptx', '').padEnd(14)} ${String(folien.length).padStart(2)} Folien, ${ersatz} Ersatzmarken${nachFamilie ? '  (' + nachFamilie + ')' : ''}`);
+  console.log(`  ${ersatz ? '·' : '✓'} ${d.replace('NEO-Beispiel-', '').replace('.pptx', '').padEnd(14)} ${String(folien.length).padStart(2)} Folien, ${ersatz} Ersatzmarken${nachFamilie ? '  (' + nachFamilie + ')' : ''}${charts ? `  · ${charts} native Diagramme` : ''}`);
 }
 if (decks.length) console.log(`  ${ersatzGesamt ? '·' : '✓'} Ersatzmarken gesamt: ${ersatzGesamt}`);
 

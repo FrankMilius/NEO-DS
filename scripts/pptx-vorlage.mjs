@@ -522,6 +522,20 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     ],
   });
 
+  // K4 Zahl mit Verlauf: Kennzahl links, Miniaturverlauf rechts ohne Achsen —
+  // die Zahl setzt den Massstab, der Endpunkt traegt den Akzent.
+  def('K4_ZAHL_VERLAUF', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { placeholder: { options: { name: 'zahl', type: 'body', x: x(0), y: INHALT_Y + 0.2, w: w(2), h: 1.4,
+          fontFace: F.marke, fontSize: 64, bold: true, color: G['950'], charSpacing: -2.4, valign: 'top', bullet: false }, text: '00 %' } },
+      monoPlatz('beschriftung', 0, 2, INHALT_Y + 1.75, 0.5, 'KENNZAHL · VERÄNDERUNG'),
+      { placeholder: { options: { name: 'diagramm', type: 'chart', x: x(2.4), y: INHALT_Y + 0.2, w: w(3.6), h: INHALT_H - 0.6 }, text: 'Verlauf ohne Achsen' } },
+      ...fusszeile(),
+    ],
+  });
+
   // ── Vergleich (2) ───────────────────────────────────────────────────────
   def('C1_VERGLEICH', {
     background: { color: GRUND },
@@ -782,6 +796,81 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     ],
   });
 
+  // ── Daten (8) — D3 bis D10 des Foliensystems ───────────────────────────
+  // Je Vergleichstyp nach Zelazny eine Form. Der Master gibt Platz und
+  // Kicker; die Diagramme selbst sind native Chart-Objekte, die das Deck
+  // mit der Farbfolge aus dem Tokensatz anlegt (pptx-beispiel.mjs, diagramm()).
+  const diagrammPlatz = (name, feld, felder, y = INHALT_Y, h = INHALT_H) => ({
+    placeholder: { options: { name, type: 'chart', x: x(feld), y, w: w(felder), h }, text: 'Diagramm' } });
+
+  // D3 Diagrammpaar: zwei Diagramme, EINE Skala. Sonst ist es D4.
+  def('D3_DIAGRAMMPAAR', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kicker1', 0, 2.8, INHALT_Y, 0.26, 'ZEITRAUM A'), diagrammPlatz('diagramm1', 0, 2.8, INHALT_Y + 0.4, INHALT_H - 0.4),
+      monoPlatz('kicker2', 3.2, 2.8, INHALT_Y, 0.26, 'ZEITRAUM B'), diagrammPlatz('diagramm2', 3.2, 2.8, INHALT_Y + 0.4, INHALT_H - 0.4),
+      ...fusszeile(),
+    ],
+  });
+
+  // D4 Kleine Vielfache: sechs Diagramme gleicher Form und Skala, eines im Akzent.
+  const VIEL_H = (INHALT_H - 0.3) / 2;
+  def('D4_KLEINE_VIELFACHE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2, 3, 4, 5].flatMap((i) => {
+        const feld = (i % 3) * 2, y = INHALT_Y + Math.floor(i / 3) * (VIEL_H + 0.3);
+        return [monoPlatz(`kicker${i + 1}`, feld, 2, y, 0.26, 'GRUPPE'), diagrammPlatz(`diagramm${i + 1}`, feld, 2, y + 0.3, VIEL_H - 0.3)];
+      }),
+      ...fusszeile(),
+    ],
+  });
+
+  // D5 Verlauf mit Ereignis: eine Linie, EIN markierter Zeitpunkt.
+  def('D5_VERLAUF_EREIGNIS', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), diagrammPlatz('diagramm', 0, 6), ...fusszeile()],
+  });
+
+  // D6 Rangfolge: waagerechte Balken, sortiert, einer im Akzent, Wert am Balken.
+  def('D6_RANGFOLGE', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), diagrammPlatz('diagramm', 0, 4), koerper(4.4, 1.6, INHALT_Y, INHALT_H, 'anmerkung'), ...fusszeile()],
+  });
+
+  // D7 Anteile: gestapelter Balken statt Kuchen, Beschriftung unter dem Segment.
+  def('D7_ANTEILE', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), diagrammPlatz('diagramm', 0, 6, INHALT_Y + 0.8, 1.6), koerper(0, 6, INHALT_Y + 3.0, INHALT_H - 3.0, 'beschriftung'), ...fusszeile()],
+  });
+
+  // D8 Zielerreichung: Balken auf hundert Prozent Ziel normiert, Ziel als Haarlinie.
+  def('D8_ZIELERREICHUNG', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), diagrammPlatz('diagramm', 0, 5), ...fusszeile()],
+  });
+
+  // D9 Verteilung: Zellenraster, eine Farbleiter, Skala rechts. Kein natives
+  // Diagramm — PowerPoint kennt keine Heatmap; das Deck zeichnet Zellen.
+  def('D9_VERTEILUNG', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('spalten', 0.5, 4, INHALT_Y, 0.26, 'SPALTEN · Z. B. STUNDEN'),
+      koerper(0.5, 4, INHALT_Y + 0.35, INHALT_H - 0.35, 'zellen'),
+      monoPlatz('skala', 4.8, 1.2, INHALT_Y, 0.26, 'SKALA'),
+      ...fusszeile(),
+    ],
+  });
+
+  // D10 Steigung: zwei Zeitpunkte, eine Linie je Gruppe, Namen an beiden Enden.
+  def('D10_STEIGUNG', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), diagrammPlatz('diagramm', 0.8, 2.4), koerper(4.2, 1.8, INHALT_Y, INHALT_H, 'anmerkung'), ...fusszeile()],
+  });
+
   // ── Tabellen (3) ────────────────────────────────────────────────────────
   def('TB1_TABELLE', {
     background: { color: GRUND },
@@ -816,6 +905,22 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
                 fill: { color: P['200'] }, line: { color: AKZENT['500'], width: 1.5 } } },
       { placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y, w: w(6), h: INHALT_H },
           text: 'Editionen — eine Spalte hervorgehoben' } },
+      ...fusszeile(),
+    ],
+  });
+
+  // TB4 Vergleichstabelle: Merkmale gegen Optionen, Haken in Tinte, Fehlen als
+  // Leerzelle, teilweise als Wort. Die empfohlene Option steht wie in L8 in
+  // der ersten Spalte auf hellerem Papier. Die Tabelle wertet nicht, sie zeigt.
+  const TB4_SW = (w(6) - w(2) - STEG) / 3;
+  def('TB4_VERGLEICHSTABELLE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { rect: { x: x(2), y: INHALT_Y - 0.14, w: TB4_SW, h: INHALT_H + 0.28, fill: { color: P['200'] }, line: { color: P['200'], width: 0 } } },
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'MERKMAL · EMPFEHLUNG · OPTION · OPTION'),
+      kopfLinie(),
+      tabellenPlatz('Haken in Tinte, leere Zelle heißt nein, teilweise als Wort'),
       ...fusszeile(),
     ],
   });
