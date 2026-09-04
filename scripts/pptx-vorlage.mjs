@@ -11,8 +11,26 @@
 // data/design-tokens.json → foundation.praesentation. Die Vorlage aendert
 // sich damit mit den Tokens statt mit jemandes Gedaechtnis.
 //
-//   node scripts/pptx-vorlage.mjs            beide Master schreiben
+//   npm run pptx:vorlage                     beide Master schreiben
 //   node scripts/pptx-vorlage.mjs vortrag    nur eine Stufe
+//   npm run pptx:beispiel                    sieben Beispieldecks daraus
+//   npm run pptx:pruefen                     Pruefschranke (Layouts, Zonen,
+//                                            Theme, Kontraste, Ersatzmarken)
+//   npm run pptx                             alles drei nacheinander
+//
+// DIE 91 LAYOUTS, in zehn Familien (Katalog: .artifact-build/foliensystem.html)
+//   Rahmen    T1 T2 T3 T4 · AG1 AG2 · A1 A2 A3 · Z1 Z2 Z3 Z4 Z5 Z6
+//   Aussage   X1 X4 X5 X6 · Q1 · K1
+//   Text      X2 X3 X7 X8 X9
+//   Bild      B1 B2 B3 B4 B5 B6 B7 · V1
+//   Produkt   S1 S2 S3 S4 S5 S6 S7 · G1 · R1 R3 · LG1
+//   Konzept   C1 C2 C3 C4 C5 C6 C7 C8 C9 · P1 P2 P3
+//   Daten     K2 K3 K4 · D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 · TB1 TB2 TB3 TB4
+//   Plan      L1 L2 L3 L4 L5 L6 L7 L8 L9 L10
+//   Menschen  M1 M2 M3
+//   Anhang    AN1 AN2 AN3 AN4
+// Namensschema KUERZEL_NAME, deutsch. Die Reihenfolge im Master ist die
+// Reihenfolge der def()-Aufrufe unten; PowerPoint zeigt sie so im Layoutmenue.
 //
 // WARUM .pptx UND NICHT .potx
 // pptxgenjs schreibt kein Template-Format. Der letzte Schritt ist einmalig
@@ -20,11 +38,18 @@
 // Die Master sind dann vollstaendig enthalten.
 //
 // WAS NACH DEM SCHREIBEN INS XML KOMMT
-// pptxgenjs kennt weder ein Datumsfeld noch Theme-Farben. Beides wird nach
-// dem Schreiben im Archiv nachgetragen: datumsfeldEinsetzen() und
-// themeEinsetzen(). Das Theme traegt accent1–6 und die Schriften — damit
-// bekommt ein Diagramm, das jemand in PowerPoint einfuegt, die Farbfolge
-// aus dem Tokensatz, ohne dass jemand daran denken muss.
+// pptxgenjs kennt weder ein Datumsfeld noch Theme-Farben noch Kreise in
+// Master-Definitionen. Alles drei wird nach dem Schreiben im Archiv
+// nachgetragen: datumsfeldEinsetzen(), themeEinsetzen(), kreiseEinsetzen().
+// Das Theme traegt accent1–6 und die Schriften — damit bekommt ein
+// Diagramm, das jemand in PowerPoint einfuegt, die Farbfolge aus dem
+// Tokensatz, ohne dass jemand daran denken muss.
+//
+// WAS IM MASTER STEHT UND WAS DAS DECK ZEICHNET
+// Der Master gibt Titel, Platzhalter, Haarlinien und feste Formen. Alles,
+// was von der Anzahl der Inhalte abhaengt (Monate, Zeilen, Optionen,
+// Diagrammwerte), zeichnet das Deck — die Renderer je Layout stehen in
+// pptx-beispiel.mjs und nennen ihre Datenfelder als Kommentar.
 // ==========================================================================
 
 import PptxGenJS from 'pptxgenjs';

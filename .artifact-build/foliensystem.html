@@ -1,0 +1,785 @@
+<title>NEO Foliensystem</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f1f3f1;
+    --surface: #f9fbf9;
+    --surface-2: #e4e6e4;
+    --ink: #161816;
+    --ink-2: #414341;
+    --muted: #595c59;
+    --line: #d2d4d2;
+    --line-soft: #e4e6e4;
+    --accent: #009612;
+    --accent-fill: #37e93d;
+    --accent-soft: #d0ffcd;
+    --tief: #161816;
+    --tief-ink: #f1f3f1;
+    --wf-ground: #ffffff;
+    --wf-ink: #161816;
+    --wf-soft: #c9ccc9;
+    --wf-line: #afb2af;
+    --pearl: #f2f2f2; --beige: #f6f2ea; --ivory: #f3f3ea; --taupe: #f8f1eb; --graphit: #f1f3f1;
+    --f-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --f-body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+    --f-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #161816; --surface: #1f211f; --surface-2: #292b29;
+      --ink: #f1f3f1; --ink-2: #d2d4d2; --muted: #afb2af;
+      --line: #414341; --line-soft: #292b29;
+      --accent: #3df643; --accent-fill: #37e93d; --accent-soft: #004904;
+      --tief: #0b0c0b; --tief-ink: #f1f3f1;
+      --wf-ground: #292b29; --wf-ink: #f1f3f1; --wf-soft: #595c59; --wf-line: #727572;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #161816; --surface: #1f211f; --surface-2: #292b29;
+    --ink: #f1f3f1; --ink-2: #d2d4d2; --muted: #afb2af;
+    --line: #414341; --line-soft: #292b29;
+    --accent: #3df643; --accent-fill: #37e93d; --accent-soft: #004904;
+    --tief: #0b0c0b; --tief-ink: #f1f3f1;
+    --wf-ground: #292b29; --wf-ink: #f1f3f1; --wf-soft: #595c59; --wf-line: #727572;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .page { max-width: 1120px; margin: 0 auto; padding: 48px 32px 96px; }
+  @media (max-width: 640px) { .page { padding: 32px 18px 64px; } }
+
+  /* Kopf */
+  header.kopf { display: grid; grid-template-columns: 1fr; gap: 20px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(36px, 5vw, 60px); line-height: 1.02; letter-spacing: -.02em; margin: 0; text-wrap: balance; max-width: 16ch; }
+  .lead { font-size: 19px; line-height: 1.5; max-width: 62ch; color: var(--ink-2); margin: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 500; }
+
+  /* Inhaltsverzeichnis */
+  nav.inhalt { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  nav.inhalt a { color: var(--ink); text-decoration: none; font-size: 15px; padding: 4px 0; border-bottom: 1px solid transparent; }
+  nav.inhalt a:hover { border-bottom-color: var(--accent); }
+  nav.inhalt a span { font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-right: 8px; }
+
+  section { padding: 56px 0 8px; }
+  h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -.015em; margin: 8px 0 12px; text-wrap: balance; }
+  h3 { font-family: var(--f-display); font-weight: 700; font-size: 20px; line-height: 1.25; margin: 40px 0 10px; letter-spacing: -.01em; }
+  h4 { font-family: var(--f-body); font-weight: 600; font-size: 16px; margin: 20px 0 6px; }
+  p { max-width: 68ch; margin: 0 0 14px; }
+  p.intro { font-size: 17px; color: var(--ink-2); }
+  ul, ol { max-width: 68ch; padding-left: 22px; margin: 0 0 14px; }
+  li { margin: 4px 0; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 600; }
+  code { font-family: var(--f-mono); font-size: .88em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+  /* Auf einen Blick */
+  .blick { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 20px 0 8px; }
+  .blick div { background: var(--surface); padding: 18px 18px 20px; }
+  .blick .kicker { margin-bottom: 8px; color: var(--accent); }
+  .blick b { display: block; font-family: var(--f-display); font-size: 18px; line-height: 1.25; margin-bottom: 8px; font-weight: 700; }
+  .blick span { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+
+  /* Tabellen */
+  .tw { overflow-x: auto; margin: 14px 0 24px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.45; }
+  th { text-align: left; font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--ink); vertical-align: bottom; }
+  td { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  td.mono { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+
+  /* Erzählbögen */
+  .bogen { display: grid; grid-template-columns: 1fr; gap: 0; border: 1px solid var(--line); margin: 18px 0 28px; background: var(--surface); }
+  .bogen header { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+  .bogen header b { font-family: var(--f-display); font-size: 19px; }
+  .bogen header span { font-size: 14px; color: var(--muted); }
+  .bogen ol { list-style: none; padding: 0; margin: 0; max-width: none; counter-reset: schritt; }
+  .bogen li { display: grid; grid-template-columns: 34px 1fr 190px; gap: 14px; padding: 9px 20px; margin: 0; border-bottom: 1px solid var(--line-soft); font-size: 14.5px; align-items: baseline; }
+  .bogen li:last-child { border-bottom: 0; }
+  .bogen li::before { counter-increment: schritt; content: counter(schritt, decimal-leading-zero); font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+  .bogen li .lay { font-family: var(--f-mono); font-size: 12px; color: var(--muted); text-align: right; }
+  .bogen li.sec { background: var(--surface-2); font-weight: 600; }
+  @media (max-width: 640px) { .bogen li { grid-template-columns: 30px 1fr; } .bogen li .lay { grid-column: 2; text-align: left; } }
+
+  /* Papier-Muster */
+  .papier { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 20px; }
+  .papier div { width: 128px; aspect-ratio: 16/9; border: 1px solid var(--line); display: flex; align-items: flex-end; padding: 8px; font-family: var(--f-mono); font-size: 11px; color: #161816; }
+  .papier div.t { color: #f1f3f1; }
+
+  /* Elemente */
+  .elemente { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px 28px; margin: 16px 0 10px; }
+  .elemente div { border-top: 1px solid var(--line); padding-top: 10px; font-size: 14.5px; }
+  .elemente b { display: block; font-weight: 600; margin-bottom: 3px; }
+  .elemente span { color: var(--ink-2); }
+
+  /* Katalog */
+  .fam { margin-top: 44px; padding-top: 18px; border-top: 2px solid var(--ink); }
+  .fam .kopfzeile { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; }
+  .fam .kopfzeile h3 { margin: 0; }
+  .fam .kopfzeile .kicker { color: var(--accent); }
+  .fam p.famtext { margin-top: 8px; color: var(--ink-2); }
+  .vorlage { display: grid; grid-template-columns: 236px 1fr; gap: 22px; padding: 22px 0; border-top: 1px solid var(--line-soft); }
+  .vorlage:first-of-type { border-top: 0; }
+  @media (max-width: 720px) { .vorlage { grid-template-columns: 1fr; } .wf { max-width: 300px; } }
+  .vorlage .txt { display: grid; gap: 6px; align-content: start; }
+  .vorlage .zeile1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+  .vorlage .id { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+  .vorlage .name { font-family: var(--f-display); font-weight: 700; font-size: 18px; }
+  .tag { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+  .tag.neu { border-color: var(--accent); color: var(--accent); }
+  .vorlage .zweck { font-size: 15px; color: var(--ink-2); margin: 0; max-width: none; }
+  .vorlage dl { display: grid; grid-template-columns: 78px 1fr; gap: 3px 12px; margin: 4px 0 0; font-size: 14px; }
+  .vorlage dt { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .vorlage dd { margin: 0; color: var(--ink-2); }
+  .vorlage dd.regel { color: var(--ink); }
+
+  /* Wireframes */
+  .wf { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--wf-ground); border: 1px solid var(--line); overflow: hidden; }
+  .wf.tief { background: var(--tief); --wf-ink: var(--tief-ink); --wf-soft: #595c59; --wf-line: #727572; }
+  .wf.papier { background: #f6f2ea; --wf-ink: #161816; --wf-soft: #c9c3b8; --wf-line: #b7b0a6; }
+  .wf > i { position: absolute; display: block; }
+  .wf .k { background: var(--wf-line); height: 2.2% !important; }
+  .wf .t { background: var(--wf-ink); }
+  .wf .p { background: repeating-linear-gradient(to bottom, var(--wf-soft) 0 2px, transparent 2px 6px); }
+  .wf .i { background: repeating-linear-gradient(135deg, var(--wf-soft) 0 1.5px, transparent 1.5px 7px); border: 1px solid var(--wf-line); }
+  .wf .c { background: repeating-linear-gradient(to right, var(--wf-soft) 0 9%, transparent 9% 14%); background-size: 100% 100%; border-bottom: 1px solid var(--wf-ink); }
+  .wf .cl { border-bottom: 1px solid var(--wf-ink); background: linear-gradient(to top right, transparent 49%, var(--wf-soft) 49% 51%, transparent 51%); }
+  .wf .n { background: var(--wf-ink); }
+  .wf .b { border: 1px solid var(--wf-line); }
+  .wf .bf { background: var(--wf-soft); }
+  .wf .a { background: var(--accent-fill); }
+  .wf .f { background: var(--wf-line); height: 1.2% !important; }
+  .wf .tb { background: repeating-linear-gradient(to bottom, var(--wf-line) 0 1px, transparent 1px 16.6%); }
+  .wf .o { border: 1.5px solid var(--wf-ink); border-radius: 50%; }
+  .wf .d { border: 1px dashed var(--wf-line); }
+  .wf .m { background: var(--wf-ink); border-radius: 50%; }
+
+  .legende { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); margin: 14px 0 0; align-items: center; }
+  .legende i { display: inline-block; width: 22px; height: 12px; vertical-align: -1px; margin-right: 6px; }
+
+  /* Abgleich */
+  .status { display: inline-block; font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .status.v { color: var(--muted); }
+  .status.n { color: var(--accent); }
+  .status.z { color: #c47a00; }
+
+  .quellen li { margin: 6px 0; font-size: 14.5px; }
+  .fuss { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 28px; }
+</style>
+
+<div class="page">
+<header class="kopf">
+  <div class="kicker">NEOCOSMO · Vorlagenkonzept · Stand 4. September 2026</div>
+  <h1>NEO Foliensystem</h1>
+  <p class="lead">Aufbau, Erzählbögen und ein Katalog von 91 Folienvorlagen für Produktpräsentationen, Angebote, Projektpläne und Auswertungen. Die Vorlagen sind kontextfrei gebaut; die vier Anwendungsfälle sind Folienfolgen daraus, keine eigenen Master.</p>
+  <div class="meta">
+    <span><b>Grundlage</b> Duarte · Berinato · Quagliata · Alley · Zelazny · Minto</span>
+    <span><b>Bestand</b> 35 Layouts im Master, 3 Beispielfälle, 2 Figma-Decks</span>
+    <span><b>Stand</b> umgesetzt am 4. September 2026: 91 Layouts in zwei Master-Dateien, sieben Beispieldecks</span>
+  </div>
+</header>
+
+<nav class="inhalt" aria-label="Inhalt">
+  <a href="#blick"><span>·</span>Auf einen Blick</a>
+  <a href="#umsetzung"><span>·</span>Umsetzung</a>
+  <a href="#grundlagen"><span>1</span>Grundsätze aus den Quellen</a>
+  <a href="#aufbau"><span>2</span>Aufbau des Standarddecks</a>
+  <a href="#boegen"><span>3</span>Die vier Erzählbögen</a>
+  <a href="#elemente"><span>4</span>Elementinventar</a>
+  <a href="#katalog"><span>5</span>Vorlagenkatalog</a>
+  <a href="#abgleich"><span>6</span>Abgleich mit dem Bestand</a>
+  <a href="#offen"><span>7</span>Offene Entscheidungen</a>
+</nav>
+
+<!-- ============================================================ -->
+<section id="blick">
+  <div class="kicker">Auf einen Blick</div>
+  <h2>Fünf Festlegungen, aus denen alles Weitere folgt</h2>
+  <div class="blick">
+    <div><div class="kicker">System statt Deck</div><b>Ein Master, zehn Familien, vier Bögen.</b><span>Das Standarddeck ist keine Folienfolge zum Ausfüllen, sondern ein Baukasten. Die Anwendungsfälle sind Empfehlungen, welche Vorlagen in welcher Reihenfolge stehen.</span></div>
+    <div><div class="kicker">Überschrift = Aussage</div><b>Jede Folie behauptet einen Satz.</b><span>Die Überschrift ist ein vollständiger Hauptsatz mit Befund, der Folieninhalt ist der Beleg. „Nutzung nach Standort" ist ein Thema, „Die Leitstelle nutzt die Plattform dreimal häufiger als die Verwaltung" ist eine Folie.</span></div>
+    <div><div class="kicker">Zwei Dichtestufen</div><b>Vortrag und Versand aus demselben Master.</b><span>Was projiziert wird, muss den Blicktest in drei Sekunden bestehen. Was verschickt wird, muss ohne Sprecher tragen. Beides in einer Datei scheitert; beides aus einem Master gelingt.</span></div>
+    <div><div class="kicker">Papier trägt Orientierung</div><b>Jeder Abschnitt hat eine Papierfarbe.</b><span>Die bestehende Regel aus den Figma-Decks bleibt: Pearl, Graphit, Beige, Ivory, Taupe je Abschnitt, Trenner auf Graphit 950. Keine Fortschrittsbalken, keine Kapitelzähler nötig.</span></div>
+    <div><div class="kicker">Daten</div><b>Ein Wert trägt die Akzentfarbe.</b><span>Diagramme sind deklarativ: Titel nennt den Befund, genau ein Element ist hervorgehoben, alles andere liegt auf der Graphitleiter. Exploration gehört in den Anhang oder ins Dashboard.</span></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="umsetzung">
+  <div class="kicker">Umsetzung</div>
+  <h2>Was seit dem 4. September 2026 gilt</h2>
+  <p class="intro">Die offenen Entscheidungen aus dem ersten Entwurf sind getroffen, der Master ist gebaut. Diese Tabelle ist der Stand; der Katalog darunter beschreibt jedes Layout, das jetzt in beiden Dateien liegt.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Frage</th><th>Entscheidung</th><th>Wo es steht</th></tr></thead>
+    <tbody>
+      <tr><td>Dichtestufen</td><td>Zwei Dateien: Vortrag (Titelzone 40 mm, Titel 36 pt, Text 22 pt) und Versand (32 mm, 30 pt, 17 pt), gleiche 91 Layouts</td><td class="mono">dist/pptx/NEO-Master-Vortrag.pptx · NEO-Master-Versand.pptx</td></tr>
+      <tr><td>Quelle der Wahrheit</td><td>Raster, Stufen, Statusfarben und Diagrammfarbfolge liegen im Tokensatz, der Generator liest daraus</td><td class="mono">design-tokens.json → foundation.praesentation</td></tr>
+      <tr><td>Statusfarben</td><td>Grün, Gelb, Rot aus den Systempaletten, je Grund eine Stufe: hell Marke 600 und Text 700, tief 500. 36 von 36 Kontrastpaaren über der Grenze</td><td class="mono">foundation.praesentation.status</td></tr>
+      <tr><td>Diagramme</td><td>Native PowerPoint-Diagramme. Farbfolge Graphit 400, 300, 200, Akzent im Theme (accent1 bis 6) und als Voreinstellung im Beispielskript; ein Wert trägt den Akzent</td><td class="mono">themeEinsetzen() · diagramm()</td></tr>
+      <tr><td>Namen</td><td>Deutsch, Schema Kürzel und Name, Gruppierung über das Präfix im Layoutmenü</td><td class="mono">T1_TITEL_TIEF … AN4_DETAILTABELLE</td></tr>
+      <tr><td>Belege</td><td>Sieben Beispieldecks, darunter die vier Erzählbögen, alle 91 Layouts mindestens einmal im Einsatz, keine Ersatzfolie mehr</td><td class="mono">npm run pptx</td></tr>
+      <tr><td>Prüfung</td><td>Layoutzahl je Stufe, Inhaltszone im XML, Theme, Kontraste, Kreise, native Diagramme, Ersatzmarken</td><td class="mono">npm run pptx:pruefen</td></tr>
+    </tbody>
+  </table></div>
+  <p>Zwei Dinge macht das Skript nicht: die Vorlage als <code>.potx</code> speichern, das bleibt ein Handgriff in PowerPoint, und Bilder einsetzen. Alle Bildplätze, Logos und Bildschirmfotos sind Platzhalter, bis freigegebene Dateien vorliegen.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="grundlagen">
+  <div class="kicker">1 · Grundsätze</div>
+  <h2>Was die Quellen vorgeben, und was daraus für die Vorlage folgt</h2>
+  <p class="intro">Die Autoren widersprechen sich kaum. Sie beschreiben dieselbe Sache aus drei Richtungen: Duarte die Dramaturgie und das Folienbild, Berinato das Diagramm, Quagliata den Arbeitsprozess vom Skelett zur Folie. Die Tabelle übersetzt jedes Prinzip in eine Regel für den Master.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Prinzip</th><th>Quelle</th><th>Folge für die Vorlage</th></tr></thead>
+    <tbody>
+      <tr><td>Blicktest</td><td>Duarte, slide:ology</td><td>Eine Folie muss in drei Sekunden erfasst sein. Vortragsstufe: höchstens 25 Wörter, ein Bild oder ein Diagramm, keine Untergliederung.</td></tr>
+      <tr><td>Ein Gedanke je Folie</td><td>Duarte; Quagliata</td><td>Wer zwei Dinge sagen will, braucht zwei Folien. Der Master bietet deshalb viele schlanke Layouts statt weniger voller.</td></tr>
+      <tr><td>Aussage-Überschrift</td><td>Alley (Assertion-Evidence); Quagliata</td><td>Titelzone auf zwei Zeilen Hauptsatz ausgelegt (30 pt, 36 pt in der Vortragsstufe). Kein Layout hat eine Überschrift, die als Thema gedacht ist.</td></tr>
+      <tr><td>Signal und Rauschen</td><td>Duarte; Tufte (Daten-Tinte)</td><td>Keine Kästen, Schatten, Rahmen, Verläufe. Trennung durch Weißraum und Haarlinie. Bereits Regel im bestehenden Master.</td></tr>
+      <tr><td>Das Publikum ist der Held</td><td>Duarte, Resonate</td><td>Titelfolie und Öffnung sprechen die Lage des Publikums an, nicht das Unternehmen. Die Selbstvorstellung wandert hinter die Lösung.</td></tr>
+      <tr><td>Funkenlinie: Ist und Könnte</td><td>Duarte, Resonate</td><td>Der Produktbogen wechselt zwischen heutigem Zustand und möglichem Zustand und endet im „neuen Normal". Der Vergleich Heute/Mit NEO ist dafür die tragende Vorlage.</td></tr>
+      <tr><td>Big Idea</td><td>Duarte, HBR Guide</td><td>Ein Satz mit eigenem Standpunkt und dem, was auf dem Spiel steht. Bekommt eine eigene Vorlage (X4) und steht in jedem Deck vor der Agenda.</td></tr>
+      <tr><td>Skelett vor Haut</td><td>Quagliata; Duarte (Klebezettel, Foliensortierung)</td><td>Erst die Überschriften aller Folien als Fließtext, dann die Layouts. Die Erzählbögen in Teil 3 sind solche Skelette.</td></tr>
+      <tr><td>Vortragsdeck ist kein Lesedeck</td><td>Duarte, Slidedocs; Quagliata</td><td>Zwei Dichtestufen im selben Raster. Die Versandstufe erlaubt Fließtext, Fußnoten, Quellen; die Vortragsstufe verlagert das in die Sprechernotizen.</td></tr>
+      <tr><td>Diagrammtaxonomie</td><td>Duarte, slide:ology</td><td>Abstrakt: Fluss, Struktur, Cluster, Strahlen. Konkret: bildhaft, Daten. Die Familie „Konzept" deckt die vier abstrakten Formen je mit einer Vorlage ab.</td></tr>
+      <tr><td>Deklarativ, nicht explorativ</td><td>Berinato, Good Charts</td><td>Präsentationsdiagramme zeigen einen Befund. Vereinfachen, entfernen, hervorheben. Titel als Schlagzeile, eine Farbe für die Botschaft, Rest neutral.</td></tr>
+      <tr><td>Reden, skizzieren, prototypen</td><td>Berinato</td><td>Diagrammvorlagen enthalten das Datenbild als Platzhalter mit Anmerkungsfeld, damit der Befund vor der Datenbindung formuliert wird.</td></tr>
+      <tr><td>Vergleichstyp bestimmt die Form</td><td>Zelazny, Say It With Charts</td><td>Anteil, Rang, Zeit, Verteilung, Zusammenhang. Die Datenfamilie hat je Vergleichstyp genau eine Vorlage, keine Diagrammgalerie.</td></tr>
+      <tr><td>Aus Zahlen wird eine Empfehlung</td><td>Duarte, DataStory</td><td>Der Auswertungsbogen endet nie mit einer Zahl, sondern mit Empfehlung und nächsten Schritten. Kernbefund steht vorne, nicht als Überraschung hinten.</td></tr>
+      <tr><td>Antwort zuerst</td><td>Minto, Pyramide / SCQA</td><td>Angebot und Auswertung öffnen mit der Zusammenfassung: Empfehlung, drei Gründe, Konsequenz. Die Vorlage X9 ist dafür gebaut.</td></tr>
+      <tr><td>Kleine Vielfache</td><td>Tufte; Berinato</td><td>Mehrere Reihen werden nicht in ein Diagramm gezwängt, sondern gleich skaliert nebeneinander gesetzt (D4).</td></tr>
+      <tr><td>Nummern nur, wo Reihenfolge Information ist</td><td>Gestaltungsregel des Hauses</td><td>Prozesse, Zeitachsen und Erklärmarker auf Screenshots sind nummeriert. Listen, Säulen und Kacheln nicht.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="aufbau">
+  <div class="kicker">2 · Aufbau</div>
+  <h2>Vier Ebenen: Master, Familien, Bausteine, Bögen</h2>
+  <p class="intro">Ein Standarddeck, das für Angebot und Analytics gleichermaßen taugt, kann keine feste Folienfolge sein. Es ist ein Master mit Layoutfamilien, aus denen Folienfolgen gebaut werden. Die Folienfolge je Anwendungsfall ist eine Empfehlung mit Sprechernotizen, kein zweiter Master.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Ebene</th><th>Was dort festgelegt ist</th><th>Wer es ändert</th></tr></thead>
+    <tbody>
+      <tr><td>Master</td><td>Format 16:9, Raster (Rand 16 mm, Steg 8 mm, fünf Felder, Titelzone 32 mm), Schriften, Papierfarben, Fußzeile mit Copyright, Datum und Seitenzahl, Akzentregel</td><td>Nur das Design System, über den Tokensatz</td></tr>
+      <tr><td>Layoutfamilien</td><td>Zehn Familien mit zusammen 91 Layouts, jedes mit Platzhaltern und festen Positionen. Namensschema wie bisher: Familienkürzel, Nummer, Name</td><td>Design System, bei Bedarf einer Vorlage</td></tr>
+      <tr><td>Bausteine</td><td>Elemente, die in Layouts vorkommen: Kicker, Aussage-Titel, Zahl, Callout, Statusmarke, Legende, Quelle. Siehe Teil 4</td><td>Design System</td></tr>
+      <tr><td>Erzählbögen</td><td>Vier Folienfolgen als fertige Beispieldecks mit Sprechernotizen, die den Sinn jeder Folie erklären. Plus Anhangslogik</td><td>Vertrieb, Projektleitung, Produkt; Design System pflegt die Beispiele</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Die Grunddramaturgie, die für jedes Deck gilt</h3>
+  <p>Unabhängig vom Anwendungsfall hat jedes Deck fünf Teile. Wer nur die Reihenfolge einhält, hat schon die Hälfte gewonnen.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Teil</th><th>Inhalt</th><th>Umfang</th><th>Vorlagen</th></tr></thead>
+    <tbody>
+      <tr><td>Öffnung</td><td>Titel. Dann die Lage des Publikums in einem Satz oder einer Zahl. Dann die Big Idea: was wir behaupten und was auf dem Spiel steht</td><td class="num">2 bis 3 Folien</td><td class="mono">T1 bis T4 · X1 · K1 · X4</td></tr>
+      <tr><td>Orientierung</td><td>Agenda mit drei bis fünf Punkten. Bei Lesedecks zusätzlich die Zusammenfassung mit Antwort zuerst</td><td class="num">1 bis 2 Folien</td><td class="mono">AG1 · X9</td></tr>
+      <tr><td>Hauptteil</td><td>Drei bis fünf Abschnitte. Jeder beginnt mit einem Trenner, hat zwei bis sechs Folien und endet, wenn er lang ist, mit einer Kernaussage</td><td class="num">3 bis 5 Abschnitte</td><td class="mono">A1 bis A3, dann Familien nach Bedarf</td></tr>
+      <tr><td>Abschluss</td><td>Kernaussagen zum Mitnehmen, dann Aufruf oder nächste Schritte, dann Kontakt. Nie „Vielen Dank" als eigene Folie</td><td class="num">2 bis 3 Folien</td><td class="mono">Z2 · Z3 · Z1</td></tr>
+      <tr><td>Anhang</td><td>Hinter einem eigenen Trenner: Methodik, Detailtabellen, Backup-Folien für erwartbare Fragen</td><td class="num">beliebig</td><td class="mono">Z4 · AN1 bis AN4</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Zwei Dichtestufen desselben Masters</h3>
+  <p>Der bestehende Master setzt Fließtext auf 17 pt und die Überschrift auf 30 pt. Das ist eine Versandstufe: gut lesbar am Bildschirm, zu klein für einen Raum. Duarte nennt 24 pt als Untergrenze für projizierten Text. Der Vorschlag: beide Stufen im Master, gleiche Layouts, andere Textgrößen und Platzhalterdichte.</p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Vortragsstufe</th><th>Versandstufe</th></tr></thead>
+    <tbody>
+      <tr><td>Zweck</td><td>Projektion, Sprecher anwesend</td><td>Lesen ohne Sprecher, PDF-Versand, Angebot als Dokument</td></tr>
+      <tr><td>Überschrift</td><td>36 pt, höchstens zwei Zeilen</td><td>30 pt, höchstens zwei Zeilen</td></tr>
+      <tr><td>Fließtext</td><td>22 bis 24 pt, höchstens 25 Wörter je Folie</td><td>16 bis 17 pt, Absätze erlaubt</td></tr>
+      <tr><td>Belege und Quellen</td><td>In den Sprechernotizen</td><td>Als Fußnote und Quellenzeile auf der Folie</td></tr>
+      <tr><td>Diagramme</td><td>Eine Reihe, ein hervorgehobener Wert, Beschriftung direkt am Wert</td><td>Legende und Achsen erlaubt, Anmerkungsfeld neben dem Diagramm</td></tr>
+      <tr><td>Tabellen</td><td>Höchstens vier Spalten, fünf Zeilen</td><td>Bis sechs Spalten, Detailtabellen im Anhang</td></tr>
+      <tr><td>Umfang</td><td>Etwa eine Folie je Minute Redezeit</td><td>So viele wie das Argument braucht, Anhang trennt Pflicht von Kür</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Papier je Abschnitt</h3>
+  <p>Die Orientierung im Deck kommt aus der Farbe des Grundes, nicht aus Kapitelzählern. Die Regel ist in den Figma-Decks eingeführt und hat sich bewährt: die 100er-Stufe, weil die 50er auf Projektion als Weiß liest. Abschnittstrenner und Titel laufen auf Graphit 950.</p>
+  <div class="papier">
+    <div style="background:#f2f2f2">Pearl 100</div>
+    <div style="background:#f1f3f1">Graphit 100</div>
+    <div style="background:#f6f2ea">Beige 100</div>
+    <div style="background:#f3f3ea">Ivory 100</div>
+    <div style="background:#f8f1eb">Taupe 100</div>
+    <div class="t" style="background:#161816">Graphit 950</div>
+  </div>
+  <p>Faustregel für die Zuordnung: Beige und Taupe für Abschnitte über Menschen und Lage, Graphit und Pearl für Produkt und Technik, Ivory für Belege und Zahlen. Wichtig ist nicht die Zuordnung, sondern dass ein Abschnitt nur ein Papier hat.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="boegen">
+  <div class="kicker">3 · Erzählbögen</div>
+  <h2>Vier Folienfolgen aus demselben Katalog</h2>
+  <p class="intro">Jeder Bogen ist ein Skelett im Sinne Quagliatas: erst die Überschriften, dann die Layouts. Die rechte Spalte nennt die Vorlage aus dem Katalog. Abschnittstrenner sind grau hinterlegt. Die Folgen sind Vorschläge für den Regelfall; ein Deck darf Folien streichen, aber keine Teile der Grunddramaturgie.</p>
+
+  <div class="bogen">
+    <header><b>A · Produktpräsentation</b><span>Dramaturgie: Funkenlinie nach Duarte. Wechsel zwischen Ist und Könnte, Höhepunkt ist der Vergleich, Ende ist das neue Normal. 20 bis 24 Folien.</span></header>
+    <ol>
+      <li><span>Titel: Thema aus der Lage des Publikums, nicht Produktname</span><span class="lay">T1 oder T3</span></li>
+      <li><span>Ist: ein Satz, der die heutige Lage benennt</span><span class="lay">X1</span></li>
+      <li><span>Ist belegt: drei Zahlen aus der Branche oder der Bestandsaufnahme</span><span class="lay">K2</span></li>
+      <li><span>Könnte: die Big Idea, was möglich ist und was es kostet, es nicht zu tun</span><span class="lay">X4</span></li>
+      <li><span>Agenda</span><span class="lay">AG1</span></li>
+      <li class="sec"><span>Die Lage</span><span class="lay">A1</span></li>
+      <li><span>Wer im Unternehmen was braucht</span><span class="lay">C2</span></li>
+      <li><span>Ein Arbeitstag als Bild, nicht als Prozess</span><span class="lay">B1</span></li>
+      <li class="sec"><span>Die Lösung</span><span class="lay">A1</span></li>
+      <li><span>Drei Dinge, die zusammengehören: die Struktur der Lösung</span><span class="lay">X3 oder S4</span></li>
+      <li><span>Je Kernfunktion eine Folie: Aussage, Screenshot, Callouts in Erklärreihenfolge</span><span class="lay">S2 · S3 · S5</span></li>
+      <li><span>Wie es sich in das Bestehende einfügt</span><span class="lay">R1 · LG1</span></li>
+      <li><span>Auf welchen Geräten</span><span class="lay">G1 oder S7</span></li>
+      <li class="sec"><span>Was andere erlebt haben</span><span class="lay">A2</span></li>
+      <li><span>Fallbeispiel: Ausgangslage, Lösung, Ergebnis</span><span class="lay">M3</span></li>
+      <li><span>Zitat einer Person mit Rolle</span><span class="lay">Q1</span></li>
+      <li><span>Eine Zahl, die das Ergebnis trägt</span><span class="lay">K1 oder D10</span></li>
+      <li class="sec"><span>Der Weg dahin</span><span class="lay">A3</span></li>
+      <li><span>Heute gegen Mit NEO: der Höhepunkt der Funkenlinie</span><span class="lay">C1</span></li>
+      <li><span>Vier Schritte bis zum Start</span><span class="lay">P1</span></li>
+      <li><span>Editionen im Überblick, Empfehlung markiert</span><span class="lay">TB3</span></li>
+      <li><span>Kernaussagen zum Mitnehmen</span><span class="lay">Z2</span></li>
+      <li><span>Aufruf und Kontakt</span><span class="lay">Z1</span></li>
+    </ol>
+  </div>
+
+  <div class="bogen">
+    <header><b>B · Angebot</b><span>Dramaturgie: Antwort zuerst nach Minto, dann Situation, Komplikation, Frage, Lösung. Wird gelesen, nicht vorgetragen: Versandstufe. 18 bis 26 Folien plus Anhang.</span></header>
+    <ol>
+      <li><span>Titel mit Kundenname, Anlass, Datum, Vertraulichkeitsvermerk</span><span class="lay">T4</span></li>
+      <li><span>Zusammenfassung: Empfehlung, drei Gründe, Preis und Starttermin</span><span class="lay">X9</span></li>
+      <li><span>Agenda</span><span class="lay">AG1</span></li>
+      <li class="sec"><span>Ausgangslage und Ziele</span><span class="lay">A2</span></li>
+      <li><span>Was wir verstanden haben: Lage in den Worten des Kunden</span><span class="lay">X7 oder X8</span></li>
+      <li><span>Ziele und Erfolgskriterien, messbar</span><span class="lay">X8 oder K3</span></li>
+      <li class="sec"><span>Lösung und Lieferumfang</span><span class="lay">A2</span></li>
+      <li><span>Lösungsbild: Struktur der Lösung auf einer Folie</span><span class="lay">R3 oder S4</span></li>
+      <li><span>Je Baustein eine Folie mit Screenshot oder Diagramm</span><span class="lay">S2 · D2</span></li>
+      <li><span>Enthalten und nicht enthalten</span><span class="lay">L10</span></li>
+      <li><span>Annahmen, auf denen das Angebot beruht</span><span class="lay">X8</span></li>
+      <li class="sec"><span>Vorgehen und Zeitplan</span><span class="lay">A2</span></li>
+      <li><span>Phasen mit Ergebnis je Phase</span><span class="lay">L4</span></li>
+      <li><span>Zeitplan bis zum Start</span><span class="lay">L1 oder L2</span></li>
+      <li><span>Rollen auf beiden Seiten</span><span class="lay">L5 oder M1</span></li>
+      <li><span>Risiken und Gegenmaßnahmen</span><span class="lay">L6</span></li>
+      <li class="sec"><span>Warum wir</span><span class="lay">A2</span></li>
+      <li><span>Vergleichbare Referenz als Fallbeispiel</span><span class="lay">M3</span></li>
+      <li><span>Referenzlogos</span><span class="lay">LG1</span></li>
+      <li><span>Betrieb, Datenhoheit, Sicherheit: das Fundament in einer Folie</span><span class="lay">X3 oder R3</span></li>
+      <li class="sec"><span>Konditionen</span><span class="lay">A2</span></li>
+      <li><span>Editionen und Empfehlung</span><span class="lay">TB3 oder TB4</span></li>
+      <li><span>Preis mit Positionen und Summe</span><span class="lay">L9</span></li>
+      <li><span>Nächste Schritte: wer, was, bis wann</span><span class="lay">Z3</span></li>
+      <li><span>Kontakt</span><span class="lay">Z1</span></li>
+      <li class="sec"><span>Anhang: Detailtabellen, Methodik, Rechtliches</span><span class="lay">Z4 · AN4 · Z5</span></li>
+    </ol>
+  </div>
+
+  <div class="bogen">
+    <header><b>C · Projektplan</b><span>Dramaturgie: Ziel, Rahmen, Weg, Menschen, Risiken, Entscheidung. Derselbe Bogen trägt Kick-off und Statusbericht; beim Statusbericht rückt L7 an die zweite Stelle. 12 bis 18 Folien.</span></header>
+    <ol>
+      <li><span>Titel mit Projektname und Stand</span><span class="lay">T1 oder T4</span></li>
+      <li><span>Ziel des Projekts in einem Satz und drei Erfolgskriterien</span><span class="lay">X4 oder X9</span></li>
+      <li><span>Beim Statusbericht: Gesamtstatus je Arbeitspaket mit Ampel</span><span class="lay">L7</span></li>
+      <li class="sec"><span>Rahmen</span><span class="lay">A3</span></li>
+      <li><span>Umfang: enthalten und nicht enthalten</span><span class="lay">L10</span></li>
+      <li><span>Beteiligte Systeme und Schnittstellen</span><span class="lay">R1</span></li>
+      <li class="sec"><span>Weg</span><span class="lay">A3</span></li>
+      <li><span>Phasenmodell mit Ergebnis je Phase</span><span class="lay">L4</span></li>
+      <li><span>Roadmap: Phasen als Balken über Monate</span><span class="lay">L2</span></li>
+      <li><span>Meilensteine mit Datum und Abnahmekriterium</span><span class="lay">L3</span></li>
+      <li><span>Fortschritt gegen Plan</span><span class="lay">D8</span></li>
+      <li class="sec"><span>Menschen</span><span class="lay">A3</span></li>
+      <li><span>Rollen und Verantwortung</span><span class="lay">L5</span></li>
+      <li><span>Team mit Ansprechpartnern</span><span class="lay">M1</span></li>
+      <li class="sec"><span>Risiken und Entscheidungen</span><span class="lay">A3</span></li>
+      <li><span>Risiken nach Wahrscheinlichkeit und Auswirkung, mit Maßnahme</span><span class="lay">L6</span></li>
+      <li><span>Entscheidungen, die anstehen: Optionen und Empfehlung</span><span class="lay">L8</span></li>
+      <li><span>Nächste Schritte</span><span class="lay">Z3</span></li>
+    </ol>
+  </div>
+
+  <div class="bogen">
+    <header><b>D · Auswertung (Analytics)</b><span>Dramaturgie: DataStory nach Duarte, deklarativ nach Berinato. Der Kernbefund steht vorn, je Befund eine Folie, am Ende eine Empfehlung. Methodik im Anhang. 10 bis 16 Folien plus Anhang.</span></header>
+    <ol>
+      <li><span>Titel mit Zeitraum und Datenbasis</span><span class="lay">T1</span></li>
+      <li><span>Kernbefund in einem Satz, mit Empfehlung</span><span class="lay">X9 oder X4</span></li>
+      <li><span>Vier Kennzahlen mit Richtung gegenüber Vorperiode</span><span class="lay">K3 oder K4</span></li>
+      <li class="sec"><span>Befunde</span><span class="lay">A3</span></li>
+      <li><span>Je Befund: Aussage-Titel, ein Diagramm, ein Wert hervorgehoben, Anmerkung</span><span class="lay">D2 · D5 · D6</span></li>
+      <li><span>Vergleich zweier Gruppen oder Zeiträume</span><span class="lay">D3 oder D10</span></li>
+      <li><span>Muster über Standorte oder Gruppen: kleine Vielfache</span><span class="lay">D4</span></li>
+      <li><span>Wann und wo: Verteilung als Heatmap</span><span class="lay">D9</span></li>
+      <li class="sec"><span>Ursachen</span><span class="lay">A3</span></li>
+      <li><span>Warum das so ist: Vergleich, Matrix oder Trichter</span><span class="lay">C1 · C2 · C5</span></li>
+      <li><span>Was das Ziel war und wo wir stehen</span><span class="lay">D8</span></li>
+      <li class="sec"><span>Empfehlung</span><span class="lay">A3</span></li>
+      <li><span>Optionen und Empfehlung</span><span class="lay">L8</span></li>
+      <li><span>Nächste Schritte mit Verantwortlichen</span><span class="lay">Z3</span></li>
+      <li class="sec"><span>Anhang: Datenbasis, Definitionen, Detailtabellen</span><span class="lay">Z4 · AN1 · AN2 · AN4</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="elemente">
+  <div class="kicker">4 · Elemente</div>
+  <h2>Die Bausteine, aus denen jedes Layout besteht</h2>
+  <p class="intro">Jedes Element hat genau eine Aufgabe und einen festen Ort. Wer ein neues Layout baut, setzt Elemente aus dieser Liste zusammen und erfindet keine neuen.</p>
+  <div class="elemente">
+    <div><b>Kicker</b><span>Mono, Versalien, oben links. Nennt Abschnitt, Kategorie oder Folientyp. Nie eine zweite Überschrift.</span></div>
+    <div><b>Aussage-Titel</b><span>Space Grotesk, zwei Zeilen, ein Hauptsatz mit Befund. Auf Trennern und Titeln auch als Thema erlaubt.</span></div>
+    <div><b>Untertitel</b><span>Nur auf Titelfolien und Trennern. Nennt Anlass, Datum oder Zielgruppe.</span></div>
+    <div><b>Fließtext</b><span>Manrope, linksbündig, ohne Aufzählungszeichen. Höchstens zwei Absätze in der Versandstufe, einer im Vortrag.</span></div>
+    <div><b>Liste</b><span>Drei bis fünf Punkte, je höchstens zwei Zeilen. Icon oder Haarlinie als Marker, keine Punkte.</span></div>
+    <div><b>Zahl</b><span>Space Grotesk, groß, mit Bezeichnung in Mono darunter. Höchstens vier je Folie, eine bevorzugt.</span></div>
+    <div><b>Callout</b><span>Nummerierter Marker auf Bild oder Screenshot mit Erklärung am Rand. Nummer ist die Erklärreihenfolge.</span></div>
+    <div><b>Anmerkung</b><span>Ein bis zwei Sätze neben einem Diagramm, die den hervorgehobenen Wert erklären.</span></div>
+    <div><b>Bildunterschrift</b><span>Mono, klein, unter dem Bild. Nennt, was zu sehen ist, oder die Quelle.</span></div>
+    <div><b>Quelle und Fußnote</b><span>Nur Versandstufe. Mono, über der Fußzeile, linksbündig.</span></div>
+    <div><b>Fußzeile</b><span>Copyright links, Datum als Feld, Seitenzahl als Feld rechts. Überall außer auf dem Signalfeld.</span></div>
+    <div><b>Vertraulichkeitsvermerk</b><span>Ergänzt die Fußzeile in Angeboten und Auswertungen. Mono, gleiche Grundlinie.</span></div>
+    <div><b>Bildplatz</b><span>Platzhalter mit Haarlinie. Bilder stets randlos in das Raster gesetzt, angeschnitten nur in B3 und V1.</span></div>
+    <div><b>Diagrammplatz</b><span>Platzhalter mit Anmerkungsfeld. Ein Wert Akzent, Rest Graphitleiter, Beschriftung am Wert.</span></div>
+    <div><b>Tabelle</b><span>Haarlinien, keine Kästen, keine Zebrastreifen. Empfohlene Spalte in der Editionstabelle durch Papierwechsel, nicht durch Rahmen.</span></div>
+    <div><b>Legende</b><span>Nur wenn Beschriftung am Wert nicht möglich ist. Dann oben rechts, waagerecht.</span></div>
+    <div><b>Statusmarke</b><span>Punkt in Grün, Gelb, Rot mit Wort daneben. Farbe allein reicht nicht, Wort allein ist erlaubt.</span></div>
+    <div><b>Fortschritt</b><span>Balken gegen Ziel. Ziel als Haarlinie, Stand als Füllung, Zahl am Ende.</span></div>
+    <div><b>Logo</b><span>Nur auf Titel und Abschluss. Kundenlogo neben dem eigenen, gleich hoch. Nie in der Fußzeile.</span></div>
+    <div><b>Sprechernotiz</b><span>Pflichtfeld in der Vortragsstufe: Belege, Quellen, Übergang zur nächsten Folie.</span></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="katalog">
+  <div class="kicker">5 · Katalog</div>
+  <h2>Einundneunzig Vorlagen in zehn Familien</h2>
+  <p class="intro">Jede Vorlage nennt Zweck, Elemente, Aufbau im Fünf-Feld-Raster und die Regel, die sie vor Missbrauch schützt. Das Kürzel folgt dem Schema des bestehenden Masters; Vorlagen ohne Bestand sind als „neu" markiert. Das Wireframe zeigt Proportionen, nicht Gestaltung.</p>
+  <div class="legende">
+    <span><i style="background:var(--wf-ink)"></i>Überschrift, Zahl</span>
+    <span><i style="background:repeating-linear-gradient(to bottom, var(--wf-soft) 0 2px, transparent 2px 5px)"></i>Text</span>
+    <span><i style="background:repeating-linear-gradient(135deg, var(--wf-soft) 0 1.5px, transparent 1.5px 6px);border:1px solid var(--wf-line)"></i>Bild, Screenshot</span>
+    <span><i style="background:repeating-linear-gradient(to right, var(--wf-soft) 0 25%, transparent 25% 40%);border-bottom:1px solid var(--wf-ink)"></i>Diagramm</span>
+    <span><i style="border:1px solid var(--wf-line)"></i>Fläche, Zelle</span>
+    <span><i style="background:var(--accent-fill)"></i>Akzent, hervorgehobener Wert</span>
+  </div>
+  <div id="katalog-wurzel"></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="abgleich">
+  <div class="kicker">6 · Abgleich</div>
+  <h2>Was der bestehende Master schon kann, und was fehlt</h2>
+  <p class="intro">Der Master vom 26. August hatte 35 Layouts. Alle sind geblieben, zwei bekamen einen zweiten Zweck. Die 56 fehlenden Layouts wurden am 4. September in acht Phasen ergänzt, Familie für Familie, jede mit einer Prüfschranke. Die Tabelle zeigt, was Bestand war und was dazukam.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Familie</th><th>Bestand</th><th>Neu</th><th>Bemerkung</th></tr></thead>
+    <tbody>
+      <tr><td>Rahmen</td><td class="mono">T1 T2 T3 T4 AG1 A1 A2 A3 Z1</td><td class="mono">AG2 Z2 Z3 Z4 Z5 Z6</td><td>Abschluss und Anhang waren bisher eine Folie. Kernaussagen und nächste Schritte fehlten ganz.</td></tr>
+      <tr><td>Aussage</td><td class="mono">X1 Q1 K1</td><td class="mono">X4 X5 X6</td><td>Big Idea ist der wichtigste Neuzugang; sie zwingt zum Standpunkt vor der Agenda.</td></tr>
+      <tr><td>Text</td><td class="mono">X2 X3</td><td class="mono">X7 X8 X9</td><td>X9 Zusammenfassung ist Pflicht in Angebot und Auswertung.</td></tr>
+      <tr><td>Bild</td><td class="mono">B1 B2 B3 B4 V1</td><td class="mono">B5 B6 B7</td><td>Vollbild mit Tafel ersetzt den Wunsch nach Text über Bildern.</td></tr>
+      <tr><td>Produkt</td><td class="mono">S1 S2 G1 R1</td><td class="mono">S3 S4 S5 S6 S7 R3 LG1</td><td>Feature-Detail mit Callouts ist die tragende Produktfolie; sie fehlte.</td></tr>
+      <tr><td>Konzept</td><td class="mono">C1 C2 P1 P2</td><td class="mono">C3 C4 C5 C6 C7 C8 C9 P3</td><td>Duartes vier abstrakte Formen je einmal, dazu Trichter und Transformation.</td></tr>
+      <tr><td>Daten</td><td class="mono">D1 D2 K2 K3 TB1 TB2 TB3</td><td class="mono">D3 D4 D5 D6 D7 D8 D9 D10 K4 TB4</td><td>Je Vergleichstyp nach Zelazny eine Form. D1 bleibt als Freiform.</td></tr>
+      <tr><td>Plan</td><td class="mono">L1</td><td class="mono">L2 L3 L4 L5 L6 L7 L8 L9 L10</td><td>Die größte Lücke. Projektplan und Angebot leben von dieser Familie.</td></tr>
+      <tr><td>Menschen</td><td class="mono">—</td><td class="mono">M1 M2 M3</td><td>Fallbeispiel in drei Spalten ersetzt die bisherige Kette aus B4, Q1 und K1, die bleibt aber erlaubt.</td></tr>
+      <tr><td>Anhang</td><td class="mono">—</td><td class="mono">AN1 AN2 AN3 AN4</td><td>Nur Versandstufe. Nimmt alles auf, was sonst den Hauptteil verstopft.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Zwei Bestandslayouts bekommen eine zweite Rolle: <strong>P1</strong> dient auch als Phasenleiste über einer Roadmap, <strong>TB3</strong> wird das Grundmuster für alle Vergleichstabellen mit Empfehlung. Kein Bestandslayout wird gestrichen; die Beispielfälle in <code>data/pptx-beispielfaelle.json</code> bleiben gültig.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="offen">
+  <div class="kicker">7 · Offen</div>
+  <h2>Was nach der Umsetzung bleibt</h2>
+  <p>Die sieben Entscheidungen des ersten Entwurfs sind getroffen und oben unter „Umsetzung" festgehalten. Eine wich von der Empfehlung ab: Die Diagrammfarbfolge wurde als Graphit 200, 300, 400, Akzent entschieden und als 400, 300, 200, Akzent gebaut, weil Graphit 200 auf dem Papier einen Kontrast von 1,1:1 hat und eine einzelne Reihe damit unsichtbar wäre. Eine Zeile im Tokensatz tauscht es zurück.</p>
+  <ol>
+    <li><strong>Sichtprüfung in PowerPoint.</strong> Alle Maße sind gerechnet und im XML geprüft, aber nicht gesehen. Zu prüfen sind die Chevrons der Phasen, die gedrehte Achsenbeschriftung der Risikomatrix, die Speichenlinien der Nabe und die Plot-Layouts der Diagramme.</li>
+    <li><strong>Speichern als Vorlage.</strong> Beide Master in PowerPoint öffnen und als <code>.potx</code> speichern. Das Skript kann das Format nicht schreiben.</li>
+    <li><strong>Bilder und Logos.</strong> Jeder Bildplatz ist ein Platzhalter. Bildschirmfotos kommen aus dem Produkt, Logos nur freigegeben, Fotos aus der Bildwelt.</li>
+    <li><strong>Feste Kicker im Bestand.</strong> Sechs Layouts vom August tragen den Kicker als festes Textobjekt, das unter dem Kicker des Decks steht. Weg: in Platzhalter umbauen wie bei den neuen Layouts. Steht im Backlog.</li>
+    <li><strong>Vortragsstufe der Beispieldecks.</strong> Die sieben Decks sind in der Versandstufe gebaut. Ein Deck in der Vortragsstufe würde zeigen, ob 22 pt Text und 40 mm Titelzone in den Renderern überall Platz haben.</li>
+  </ol>
+
+  <h3>Quellen</h3>
+  <ul class="quellen">
+    <li>Nancy Duarte, <em>slide:ology. The Art and Science of Creating Great Presentations</em>, O'Reilly 2008. Blicktest, Signal und Rauschen, Diagrammtaxonomie, Anordnungsprinzipien.</li>
+    <li>Nancy Duarte, <em>Resonate. Present Visual Stories that Transform Audiences</em>, Wiley 2010. Funkenlinie, Publikum als Held, Big Idea, S.T.A.R.-Moment.</li>
+    <li>Nancy Duarte, <em>HBR Guide to Persuasive Presentations</em>, Harvard Business Review Press 2012. Big Idea in einem Satz, Publikumsanalyse.</li>
+    <li>Nancy Duarte, <em>Slidedocs</em>, Duarte 2014. Lesedecks als eigene Gattung.</li>
+    <li>Nancy Duarte, <em>DataStory. Explain Data and Inspire Action Through Story</em>, Ideapress 2019. Aus Zahlen wird eine Empfehlung.</li>
+    <li>Scott Berinato, <em>Good Charts</em>, HBR Press 2016, und <em>Good Charts for Persuasive Presentations</em>, HBR Press 2019. Deklarativ und explorativ, reden, skizzieren, prototypen, Diagramme für den Raum vereinfachen.</li>
+    <li>Andrew Quagliata, <em>Build Better Slide Decks. Create Sharper Slides, Stronger Stories, and Standout Presentations</em>. Skelett vor Haut, Aussage-Überschriften, Vortragsdeck und Lesedeck unterscheiden.</li>
+    <li>Michael Alley, <em>The Craft of Scientific Presentations</em>, Springer. Assertion-Evidence-Aufbau: Satz als Überschrift, Beleg als Inhalt.</li>
+    <li>Gene Zelazny, <em>Say It With Charts</em>, McGraw-Hill. Fünf Vergleichstypen und die zugehörige Diagrammform.</li>
+    <li>Barbara Minto, <em>The Pyramid Principle</em>. Antwort zuerst, Situation, Komplikation, Frage.</li>
+    <li>Edward Tufte, <em>The Visual Display of Quantitative Information</em>. Daten-Tinte, kleine Vielfache.</li>
+  </ul>
+</section>
+
+<div class="fuss"><span>NEO Foliensystem · Vorlagenkonzept</span><span>Bestand: scripts/pptx-vorlage.mjs · data/pptx-beispielfaelle.json</span><span>NEOCOSMO GmbH</span></div>
+</div>
+
+<script>
+(function () {
+  // Wireframe-Koordinaten in Prozent des 16:9-Rahmens: [x, y, w, h, art]
+  // Standardzonen des Rasters: Kicker y 7, Titel y 13–24, Inhalt y 30–86, Fuß y 93
+  var K = [5, 6.5, 22, 2.2, 'k'];
+  var T = [5, 12, 62, 9, 't'];
+  var T1 = [5, 12, 48, 5, 't'];
+  var FAM = [
+    { id: 'R', name: 'Rahmen', text: 'Öffnet, gliedert und schließt das Deck. Diese Folien tragen keine Argumente, sondern Orientierung. Titel und Trenner laufen auf Graphit 950, der Rest auf dem Papier des Abschnitts.' },
+    { id: 'X', name: 'Aussage', text: 'Eine Folie, ein Satz oder eine Zahl. Die stärksten Folien im Deck und die, die am häufigsten mit Inhalt überladen werden. Regel: nichts hinzufügen.' },
+    { id: 'TX', name: 'Text', text: 'Folien, die Worte tragen. In der Vortragsstufe höchstens 25 Wörter, in der Versandstufe zwei Absätze. Aufzählungszeichen gibt es nicht; Struktur kommt aus Spalten und Zwischenüberschriften.' },
+    { id: 'B', name: 'Bild', text: 'Fotografie und Illustration. Bilder sitzen randlos im Raster oder laufen über den Rand hinaus; Text liegt nie auf dem Bild, sondern auf einer Tafel oder daneben.' },
+    { id: 'S', name: 'Produkt', text: 'Screenshots, Geräte, Architektur und Integrationen. Der Screenshot ist immer ein echter Stand der Software, kein Mockup. Callouts nummerieren die Erklärreihenfolge.' },
+    { id: 'C', name: 'Konzept', text: 'Abstrakte Zusammenhänge nach Duartes Taxonomie: Fluss, Struktur, Cluster, Strahlen. Je Form eine Vorlage; wer eine fünfte braucht, prüft erst, ob die Idee stimmt.' },
+    { id: 'D', name: 'Daten', text: 'Je Vergleichstyp nach Zelazny genau eine Form. Deklarativ: Titel ist der Befund, ein Wert trägt den Akzent, Beschriftung am Wert. Kuchen nur bis drei Segmente, dreidimensionales nie.' },
+    { id: 'L', name: 'Plan', text: 'Zeit, Umfang, Rollen, Risiken, Entscheidungen. Die Familie, von der Angebot und Projektplan leben. Zahlen in Tabellenziffern, Zeitachsen linear.' },
+    { id: 'M', name: 'Menschen', text: 'Wer spricht, wer nutzt, wer hat es erlebt. Immer mit Rolle, nie mit Titelkaskade. Fotos nur, wenn sie freigegeben sind; sonst Initialen auf Papier.' },
+    { id: 'AN', name: 'Anhang', text: 'Nur Versandstufe. Hier steht alles, was die Frage „woher wissen Sie das" beantwortet, ohne den Hauptteil zu verstopfen.' }
+  ];
+
+  var V = [
+    // ---------------- Rahmen ----------------
+    { f:'R', id:'T1', name:'Titel tief', v:1, zweck:'Standardtitel für Vortrag und internes Deck.', el:'Kicker, Titel, Untertitel mit Anlass und Datum, Logo', bau:'Graphit 950. Titel im unteren Drittel linksbündig über vier Felder, Kicker darüber, Logo unten rechts.', regel:'Der Titel nennt das Thema aus Sicht des Publikums, nicht den Produktnamen.', tief:1,
+      wf:[[5,52,16,2.2,'k'],[5,58,58,10,'t'],[5,72,40,3,'p'],[86,88,9,5,'b']] },
+    { f:'R', id:'T2', name:'Signalfeld', v:1, zweck:'Eine Aussage, sonst nichts. Als Auftakt oder Zäsur.', el:'Ein Satz', bau:'Akzentfläche, Satz in Graphit 950 mittig-links. Keine Fußzeile, keine Seitenzahl.', regel:'Höchstens neun Wörter. Kein Untertitel, kein Logo.', akzent:1,
+      wf:[[0,0,100,100,'a'],[8,40,60,9,'t'],[8,51,36,9,'t']] },
+    { f:'R', id:'T3', name:'Titel Bild', v:1, zweck:'Titel mit Fotografie, wenn die Bildwelt die Lage des Publikums zeigt.', el:'Kicker, Titel, Untertitel, Bild', bau:'Bild rechte Hälfte randlos angeschnitten, Text links auf Graphit 950.', regel:'Bild aus der Bildwelt, kein Stockmotiv mit Menschen am Laptop.', tief:1,
+      wf:[[50,0,50,100,'i'],[5,50,14,2.2,'k'],[5,56,38,14,'t'],[5,74,30,3,'p']] },
+    { f:'R', id:'T4', name:'Titel Kunde', v:1, zweck:'Titel für Angebot und Kundenpräsentation.', el:'Kicker mit Anlass, Kundenname, Titel, Datum, beide Logos, Vertraulichkeitsvermerk', bau:'Wie T1, Kundenlogo neben dem eigenen gleich hoch unten rechts, Vermerk in der Fußzeile.', regel:'Kundenname steht über dem Titel im Kicker, nicht im Titel.', tief:1,
+      wf:[[5,46,20,2.2,'k'],[5,52,58,12,'t'],[5,68,40,3,'p'],[74,88,9,5,'b'],[86,88,9,5,'b'],[5,93,26,1.2,'f']] },
+    { f:'R', id:'AG1', name:'Agenda', v:1, zweck:'Orientierung mit drei bis fünf Punkten.', el:'Titel, Punkte mit Abschnittsnamen, optional Papiermuster je Punkt', bau:'Titel oben, Punkte als Zeilen über drei Felder, links je Punkt ein Papiermuster als Farbmarke des Abschnitts.', regel:'Punkte sind Abschnittsnamen, keine Sätze. Nummern nur, wenn die Reihenfolge im Vortrag zwingend ist.',
+      wf:[K,T1,[5,30,7,5,'bf'],[14,31,40,3,'p'],[5,40,7,5,'bf'],[14,41,36,3,'p'],[5,50,7,5,'bf'],[14,51,44,3,'p'],[5,60,7,5,'bf'],[14,61,32,3,'p']] },
+    { f:'R', id:'AG2', name:'Agenda mit Stand', zweck:'Wiederholt die Agenda am Abschnittswechsel und markiert den aktuellen Punkt.', el:'Punkte, aktueller Punkt in Tinte, übrige in Graphit 500', bau:'Wie AG1, ohne Titel. Aktueller Punkt in voller Tinte, die anderen zurückgenommen.', regel:'Nur bei Decks über 25 Folien. Sonst reicht der Trenner.',
+      wf:[K,[5,30,7,5,'bf'],[14,31,40,3,'p'],[5,40,7,5,'a'],[14,40,44,5,'t'],[5,50,7,5,'bf'],[14,51,44,3,'p'],[5,60,7,5,'bf'],[14,61,32,3,'p']] },
+    { f:'R', id:'A1', name:'Abschnitt tief', v:1, zweck:'Trenner mit Nummer für Vorträge, die eine Reihenfolge haben.', el:'Kicker mit Nummer, Abschnittsname', bau:'Graphit 950. Nummer als Kicker, Name groß über vier Felder in der unteren Hälfte.', regel:'Nummer nur, wenn die Agenda nummeriert ist.', tief:1,
+      wf:[[5,50,8,2.2,'k'],[5,56,52,12,'t']] },
+    { f:'R', id:'A2', name:'Abschnitt Papier', v:1, zweck:'Leiser Trenner auf dem Papier des kommenden Abschnitts.', el:'Kicker, Abschnittsname, ein Satz zur Einordnung', bau:'Papier des Abschnitts. Name in der oberen Hälfte, Einordnungssatz darunter über drei Felder.', regel:'Der Einordnungssatz sagt, warum der Abschnitt jetzt kommt.', papier:1,
+      wf:[K,[5,30,52,12,'t'],[5,48,44,4,'p']] },
+    { f:'R', id:'A3', name:'Abschnitt Band', v:1, zweck:'Trenner als Band auf einer Inhaltsfolie, wenn kein voller Trenner nötig ist.', el:'Band mit Abschnittsname über die ganze Breite', bau:'Band in Graphit 950 im oberen Drittel, Name in Papierfarbe darin. Rest der Folie frei.', regel:'Für Auswertungen und Statusberichte, die viele kurze Abschnitte haben.',
+      wf:[[0,22,100,22,'n'],[5,30,40,6,'bf']] },
+    { f:'R', id:'Z1', name:'Abschluss', v:1, zweck:'Aufruf und Kontakt als letzte Folie.', el:'Aufruf als Satz, Name, Rolle, E-Mail, Telefon, Logo', bau:'Graphit 950. Aufruf groß oben, Kontakt unten links in Mono, Logo unten rechts.', regel:'Der Aufruf ist eine Handlung des Publikums, nicht ein Dank des Sprechers.', tief:1,
+      wf:[[5,20,58,12,'t'],[5,70,28,2.2,'k'],[5,75,34,2.2,'k'],[86,88,9,5,'b']] },
+    { f:'R', id:'Z2', name:'Kernaussagen', zweck:'Drei Sätze zum Mitnehmen vor dem Abschluss.', el:'Titel, drei Sätze in Reihenfolge des Decks', bau:'Titel oben, drei Sätze als Zeilen mit Haarlinie dazwischen über vier Felder.', regel:'Jeder Satz ist eine Folienüberschrift aus dem Deck, wörtlich wiederholt.',
+      wf:[K,T1,[5,32,60,4,'t'],[5,40,60,0.6,'k'],[5,46,54,4,'t'],[5,54,60,0.6,'k'],[5,60,58,4,'t']] },
+    { f:'R', id:'Z3', name:'Nächste Schritte', zweck:'Wer tut was bis wann.', el:'Titel, Tabelle mit Schritt, Verantwortlich, Termin', bau:'Titel oben, drei Spalten über fünf Felder, drei bis fünf Zeilen, Termine in Tabellenziffern.', regel:'Jede Zeile hat einen Namen und ein Datum. Ohne beides ist es kein Schritt.',
+      wf:[K,T1,[5,30,90,50,'tb'],[5,31,40,3,'p'],[52,31,20,3,'p'],[80,31,14,3,'p']] },
+    { f:'R', id:'Z4', name:'Anhang-Trenner', zweck:'Trennt Pflicht von Kür. Alles danach ist Backup.', el:'Wort „Anhang", Liste der Anhangsfolien', bau:'Graphit 950. Wort groß, Liste in Mono darunter.', regel:'Ohne diesen Trenner gibt es keinen Anhang, sondern ein zu langes Deck.', tief:1,
+      wf:[[5,40,30,10,'t'],[5,56,34,2.2,'k'],[5,61,28,2.2,'k'],[5,66,38,2.2,'k']] },
+    { f:'R', id:'Z5', name:'Rechtliches', zweck:'Vertraulichkeit, Urheberrecht, Gültigkeit des Angebots.', el:'Titel, Fließtext in Versandgröße', bau:'Zwei Textspalten über fünf Felder.', regel:'Nur in Angeboten. Text kommt aus einer freigegebenen Quelle, wird nicht auf der Folie geändert.',
+      wf:[K,T1,[5,30,42,48,'p'],[53,30,42,48,'p']] },
+    { f:'R', id:'Z6', name:'Pause', zweck:'Schwarze Folie für Demo-Übergang oder Gespräch.', el:'Nichts', bau:'Graphit 950, leer. Keine Fußzeile.', regel:'Vor jeder Live-Demo einsetzen, damit der Bildschirmwechsel nicht auf einer Inhaltsfolie passiert.', tief:1, wf:[] },
+
+    // ---------------- Aussage ----------------
+    { f:'X', id:'X1', name:'Statement', v:1, zweck:'Ein Satz, der eine Lage benennt oder eine Haltung ausspricht.', el:'Satz, optional Kicker', bau:'Satz über vier Felder im mittleren Drittel, linksbündig, groß.', regel:'Ein Hauptsatz, keine Verneinung, fünf bis zwölf Wörter.',
+      wf:[K,[5,38,64,9,'t'],[5,49,46,9,'t']] },
+    { f:'X', id:'X4', name:'Big Idea', zweck:'Der eine Satz des Decks: Standpunkt plus das, was auf dem Spiel steht.', el:'Kicker „Worum es geht", Satz, ein Nebensatz zum Einsatz', bau:'Satz groß über vier Felder, Einsatz darunter in Textgröße.', regel:'Steht vor der Agenda. Wer ihn nicht in einem Satz sagen kann, hat noch kein Deck.',
+      wf:[K,[5,30,64,9,'t'],[5,41,52,9,'t'],[5,58,48,4,'p']] },
+    { f:'X', id:'X5', name:'Frage', zweck:'Offene Frage als Übergang oder Denkpause.', el:'Frage, optional Kicker', bau:'Wie X1, Frage endet mit Fragezeichen, keine Antwort auf der Folie.', regel:'Die Antwort kommt auf der nächsten Folie oder vom Publikum, nie auf dieser.',
+      wf:[K,[5,40,58,9,'t']] },
+    { f:'X', id:'X6', name:'Definition', zweck:'Ein Begriff, den das Deck anders verwendet, als das Publikum erwartet.', el:'Begriff, Erklärung, optional Abgrenzung', bau:'Begriff groß links über zwei Felder, Erklärung rechts über drei.', regel:'Höchstens eine Definition je Deck. Mehr gehören ins Glossar im Anhang.',
+      wf:[K,[5,32,34,9,'t'],[45,32,50,24,'p']] },
+    { f:'X', id:'Q1', name:'Zitat', v:1, zweck:'Eine Stimme von außen, mit Rolle.', el:'Zitat, Name, Rolle, optional Organisation', bau:'Zitat über vier Felder, Quelle in Mono darunter.', regel:'Wörtlich und freigegeben. Rolle ist Pflicht, Name darf entfallen.',
+      wf:[[5,30,64,8,'t'],[5,40,56,8,'t'],[5,54,30,2.2,'k']] },
+    { f:'X', id:'K1', name:'Eine Zahl', v:1, zweck:'Eine Kennzahl, die das Argument trägt.', el:'Kicker, Zahl, Bezeichnung, ein Satz Kontext', bau:'Zahl sehr groß links über drei Felder, Bezeichnung in Mono darunter, Kontextsatz rechts unten.', regel:'Die Zahl hat eine Einheit und eine Quelle in den Notizen. Trend als Vorzeichen, nicht als Pfeil.',
+      wf:[K,[5,28,44,26,'n'],[5,57,26,2.2,'k'],[56,60,38,4,'p']] },
+
+    // ---------------- Text ----------------
+    { f:'TX', id:'X2', name:'Fließtext', v:1, zweck:'Versandstufe: ein Absatz, der ohne Sprecher trägt.', el:'Titel, Fließtext', bau:'Text über drei Felder, rechte zwei Felder frei.', regel:'Zeilenlänge höchstens 65 Zeichen, deshalb nie über fünf Felder.',
+      wf:[K,T,[5,30,54,44,'p']] },
+    { f:'TX', id:'X3', name:'Drei Spalten', v:1, zweck:'Drei Dinge, die zusammengehören, mit Zwischenüberschrift.', el:'Titel, drei Zwischenüberschriften, drei Kurztexte', bau:'Drei gleich breite Spalten über fünf Felder, Zwischenüberschrift in Tinte, Text darunter.', regel:'Drei, nicht vier. Für vier gibt es S4 oder K3.',
+      wf:[K,T,[5,32,26,4,'t'],[5,38,26,20,'p'],[37,32,26,4,'t'],[37,38,26,20,'p'],[69,32,26,4,'t'],[69,38,26,20,'p']] },
+    { f:'TX', id:'X7', name:'Zwei Spalten', zweck:'Zwei Gedanken nebeneinander, die sich nicht gegenüberstehen.', el:'Titel, zwei Zwischenüberschriften, zwei Texte', bau:'Zwei Spalten je zwei Felder mit einem Feld Abstand.', regel:'Für Gegensätze C1 verwenden. X7 ist für Ergänzung.',
+      wf:[K,T,[5,32,38,4,'t'],[5,38,38,30,'p'],[57,32,38,4,'t'],[57,38,38,30,'p']] },
+    { f:'TX', id:'X8', name:'Liste mit Marken', zweck:'Drei bis fünf gleichrangige Punkte, je ein Satz.', el:'Titel, Punkte mit Icon oder Haarlinie', bau:'Punkte als Zeilen über vier Felder, Icon links in einem halben Feld.', regel:'Höchstens zwei Zeilen je Punkt. Kein Punkt beginnt mit einem Verb, wenn nicht alle es tun.',
+      wf:[K,T,[5,31,4,6,'o'],[12,32,58,4,'p'],[5,43,4,6,'o'],[12,44,50,4,'p'],[5,55,4,6,'o'],[12,56,62,4,'p'],[5,67,4,6,'o'],[12,68,46,4,'p']] },
+    { f:'TX', id:'X9', name:'Zusammenfassung', zweck:'Antwort zuerst: Empfehlung, drei Gründe, Konsequenz.', el:'Titel, Empfehlung als Satz, drei Gründe, Konsequenz mit Zahl oder Termin', bau:'Empfehlung in Tinte über vier Felder, Gründe als drei Zeilen darunter, Konsequenz rechts als Zahl oder Termin.', regel:'Auf Folie zwei in Angebot und Auswertung. Wer sie nicht füllen kann, hat noch keine Empfehlung.',
+      wf:[K,T,[5,30,60,5,'t'],[5,40,54,3,'p'],[5,46,50,3,'p'],[5,52,56,3,'p'],[72,30,23,14,'n'],[72,46,20,2.2,'k']] },
+
+    // ---------------- Bild ----------------
+    { f:'B', id:'B1', name:'Bild rechts', v:1, zweck:'Bild als Beleg, Text als Deutung.', el:'Titel, Text, Bild', bau:'Text zwei Felder links, Bild drei Felder rechts randlos.', regel:'Der Text sagt, was im Bild zu sehen ist und warum es zählt.',
+      wf:[K,T1,[5,30,32,36,'p'],[45,26,55,74,'i']] },
+    { f:'B', id:'B2', name:'Bild links', v:1, zweck:'Spiegelung von B1 für Rhythmuswechsel.', el:'Titel, Text, Bild', bau:'Bild drei Felder links randlos, Text zwei Felder rechts.', regel:'Nicht zweimal hintereinander dieselbe Seite.',
+      wf:[[0,0,55,100,'i'],[62,6.5,20,2.2,'k'],[62,12,33,9,'t'],[62,30,33,36,'p']] },
+    { f:'B', id:'B3', name:'Bild angeschnitten', v:1, zweck:'Bild läuft über den unteren Rand hinaus, Titel oben.', el:'Titel, Bild', bau:'Titelzone bleibt, Bild ab Inhaltszone bis zum Rand über volle Breite.', regel:'Für Atmosphäre, nicht für Details. Kein Text auf dem Bild.',
+      wf:[K,T,[0,28,100,72,'i']] },
+    { f:'B', id:'B4', name:'Bildausschnitt', v:1, zweck:'Ein Detail aus einem größeren Bild mit Bildunterschrift.', el:'Titel, Bild im Raster, Bildunterschrift, Text', bau:'Bild drei Felder mit Haarlinie, Unterschrift in Mono darunter, Text rechts.', regel:'Unterschrift nennt Ort oder Kontext, nicht das Offensichtliche.',
+      wf:[K,T1,[5,30,50,46,'i'],[5,78,30,2.2,'k'],[62,30,33,30,'p']] },
+    { f:'B', id:'V1', name:'Vollbild', v:1, zweck:'Bild über die ganze Folie, ohne Text.', el:'Bild, Seitenzahl', bau:'Randlos. Fußzeile in Weiß oder entfällt je nach Motiv.', regel:'Nur mit Sprecher. In der Versandstufe B7 verwenden.',
+      wf:[[0,0,100,100,'i']] },
+    { f:'B', id:'B5', name:'Bildraster', zweck:'Zwei bis vier Bilder gleich groß, etwa Standorte oder Geräte.', el:'Titel, Bilder, je eine Unterschrift', bau:'Zwei oder vier Felder gleicher Größe mit Steg, Unterschrift unter jedem Bild.', regel:'Gleiche Bildsprache in allen Feldern, sonst B1 mehrfach.',
+      wf:[K,T1,[5,30,44,26,'i'],[5,57,20,2.2,'k'],[51,30,44,26,'i'],[51,57,20,2.2,'k'],[5,62,44,24,'i'],[51,62,44,24,'i']] },
+    { f:'B', id:'B6', name:'Vorher und Nachher', zweck:'Zwei Zustände desselben Motivs nebeneinander.', el:'Titel, zwei Bilder, zwei Kicker „Vorher" und „Nachher"', bau:'Zwei Bilder gleich groß, Kicker darüber, gleicher Ausschnitt.', regel:'Gleicher Bildausschnitt, gleiches Licht. Sonst vergleicht das Publikum die Fotografie, nicht den Zustand.',
+      wf:[K,T1,[5,30,10,2.2,'k'],[5,34,44,50,'i'],[51,30,10,2.2,'k'],[51,34,44,50,'i']] },
+    { f:'B', id:'B7', name:'Vollbild mit Tafel', zweck:'Vollbild mit Text auf einer Tafel, für die Versandstufe.', el:'Bild, Tafel mit Titel und Text', bau:'Bild randlos, Tafel in Papierfarbe unten links über zwei Felder, Fußzeile auf der Tafel.', regel:'Tafel deckt nie das Motiv. Text liegt auf der Tafel, nie direkt auf dem Bild.',
+      wf:[[0,0,100,100,'i'],[5,56,40,38,'bf'],[8,60,30,5,'t'],[8,68,34,14,'p']] },
+
+    // ---------------- Produkt ----------------
+    { f:'S', id:'S1', name:'Screenshot', v:1, zweck:'Ein Bildschirm, ganz.', el:'Screenshot mit Haarlinie', bau:'Über fünf Felder in der Inhaltszone, Seitenverhältnis des Bildschirms erhalten.', regel:'Echter Stand, Testdaten mit plausiblen Namen, keine Lorem-Texte im Produkt.',
+      wf:[K,T1,[5,28,90,60,'i']] },
+    { f:'S', id:'S2', name:'Screenshot mit Text', v:1, zweck:'Ein Bildschirm und die Aussage dazu.', el:'Titel, Text, Screenshot', bau:'Text zwei Felder links, Screenshot drei Felder rechts.', regel:'Der Text nennt, was das Publikum im Screenshot suchen soll.',
+      wf:[K,T1,[5,30,32,32,'p'],[43,26,52,62,'i']] },
+    { f:'S', id:'S3', name:'Feature mit Callouts', zweck:'Die tragende Produktfolie: Screenshot mit zwei bis vier nummerierten Markern.', el:'Titel, Screenshot, Marker, Erklärungen am Rand', bau:'Screenshot drei Felder links, Marker als Kreise mit Nummer, Erklärungen rechts als nummerierte Zeilen.', regel:'Nummer ist die Reihenfolge, in der der Sprecher erklärt. Höchstens vier.',
+      wf:[K,T1,[5,28,54,60,'i'],[14,40,4,7,'m'],[36,58,4,7,'m'],[48,36,4,7,'m'],[65,30,4,7,'o'],[71,31,24,3,'p'],[65,44,4,7,'o'],[71,45,22,3,'p'],[65,58,4,7,'o'],[71,59,24,3,'p']] },
+    { f:'S', id:'S4', name:'Funktionsübersicht', zweck:'Vier bis sechs Funktionen als Kacheln mit Icon und Satz.', el:'Titel, Kacheln mit Icon, Name, ein Satz', bau:'Drei mal zwei Felder, Icon oben links in jeder Kachel, keine Kastenrahmen, Haarlinie oben.', regel:'Ein Satz je Kachel. Wer mehr braucht, macht je Funktion eine S3.',
+      wf:[K,T1,[5,30,27,26,'b'],[36.5,30,27,26,'b'],[68,30,27,26,'b'],[5,60,27,26,'b'],[36.5,60,27,26,'b'],[68,60,27,26,'b'],[8,33,4,7,'o'],[39.5,33,4,7,'o'],[71,33,4,7,'o'],[8,63,4,7,'o'],[39.5,63,4,7,'o'],[71,63,4,7,'o']] },
+    { f:'S', id:'S5', name:'Ausschnitt-Zoom', zweck:'Ein Detail aus einem Bildschirm vergrößert.', el:'Titel, Screenshot klein mit Markierung, Ausschnitt groß, Text', bau:'Kleiner Screenshot oben links mit Rahmen um den Ausschnitt, Ausschnitt groß rechts über drei Felder, Text unten links.', regel:'Ausschnitt in Originalauflösung, nicht hochskaliert.',
+      wf:[K,T1,[5,28,32,22,'i'],[14,34,10,8,'b'],[5,56,32,24,'p'],[43,26,52,62,'i']] },
+    { f:'S', id:'S6', name:'Demo', zweck:'Platzhalter für die Live-Demo mit Ausweichbild.', el:'Kicker „Live", Titel mit dem, was gezeigt wird, Screenshot als Rückfall', bau:'Wie S1, Kicker in Akzent. Sprechernotiz enthält die Klickfolge.', regel:'Was in der Demo gezeigt wird, steht als Satz im Titel, damit ein Ausfall die Aussage nicht kostet.',
+      wf:[[5,6.5,10,2.2,'a'],T1,[5,28,90,60,'d']] },
+    { f:'S', id:'S7', name:'Geräte-Paar', zweck:'Derselbe Inhalt auf Desktop und Mobilgerät.', el:'Titel, zwei Gerätebilder, optional Text', bau:'Desktop drei Felder links, Mobil ein Feld rechts, beide auf gleicher Grundlinie.', regel:'Gleicher Inhalt in beiden Geräten. Zwei verschiedene Bildschirme sind zwei Folien.',
+      wf:[K,T1,[5,30,58,52,'i'],[72,26,20,62,'i']] },
+    { f:'S', id:'G1', name:'Gerät', v:1, zweck:'Ein Bildschirm im Geräterahmen, für Kontext.', el:'Titel, Gerät mit Screenshot', bau:'Gerät zentriert über drei Felder, Titel oben.', regel:'Gerät nur, wenn das Gerät Teil der Aussage ist. Sonst S1.',
+      wf:[K,T1,[24,26,52,66,'i']] },
+    { f:'S', id:'R1', name:'Architektur', v:1, zweck:'Wie die Plattform in bestehende Systeme passt.', el:'Titel, Knoten als Kästen, Verbindungen als Linien, Text', bau:'Plattform mittig als Fläche, Umsysteme als Kästen mit Haarlinie außen, Text zwei Felder links.', regel:'Höchstens sieben Knoten. Austauschbare Komponenten mit gestrichelter Linie.',
+      wf:[K,T1,[5,30,28,30,'p'],[52,44,26,18,'bf'],[40,30,14,8,'b'],[76,30,14,8,'b'],[40,70,14,8,'d'],[76,70,14,8,'b']] },
+    { f:'S', id:'R3', name:'Ebenenmodell', zweck:'Schichten einer Lösung von unten nach oben.', el:'Titel, drei bis fünf Ebenen als Bänder mit Name und Inhalt', bau:'Bänder über drei Felder übereinander, Name links im Band, Inhalt rechts daneben.', regel:'Unten ist das Fundament, oben das, was Menschen sehen. Reihenfolge ist Information.',
+      wf:[K,T1,[5,30,54,10,'b'],[5,42,54,10,'b'],[5,54,54,10,'b'],[5,66,54,10,'bf'],[64,31,30,6,'p'],[64,43,30,6,'p'],[64,55,30,6,'p'],[64,67,30,6,'p']] },
+    { f:'S', id:'LG1', name:'Logowand', zweck:'Referenzen oder Integrationen als Logos.', el:'Titel, Logos in Graustufe, gleich hoch', bau:'Vier mal zwei oder fünf mal zwei Felder, Logos gleich hoch in Graphit 700, optisch zentriert.', regel:'Nur freigegebene Logos. Einheitlich einfarbig; ein farbiges Logo zieht alle Blicke.',
+      wf:[K,T1,[5,34,18,10,'b'],[29,34,18,10,'b'],[53,34,18,10,'b'],[77,34,18,10,'b'],[5,56,18,10,'b'],[29,56,18,10,'b'],[53,56,18,10,'b'],[77,56,18,10,'b']] },
+
+    // ---------------- Konzept ----------------
+    { f:'C', id:'C1', name:'Vergleich', v:1, zweck:'Zwei Zustände gegenüber: Heute und Mit NEO, Option A und B.', el:'Titel, zwei Kicker, zwei Texte', bau:'Zwei Spalten mit einer Haarlinie dazwischen, rechte Spalte auf hellerem Papier oder mit Akzentkicker.', regel:'Gleiche Anzahl Punkte links und rechts, gleiche Reihenfolge. Sonst vergleicht niemand.',
+      wf:[K,T1,[5,30,16,2.2,'k'],[5,35,40,32,'p'],[49.5,30,0.4,40,'k'],[54,30,10,2.2,'a'],[54,35,40,32,'p']] },
+    { f:'C', id:'C2', name:'Matrix', v:1, zweck:'Zwei Dimensionen kreuzen: Zielgruppen und Bedarfe, Wahrscheinlichkeit und Auswirkung.', el:'Titel, zwei Achsenbeschriftungen, Felder mit Einträgen', bau:'Zwei mal zwei Felder über drei Felder Breite, Achsen in Mono, ein Quadrant darf Akzent tragen.', regel:'Achsen sind beschriftet. Ohne Beschriftung ist es ein Raster, keine Matrix.',
+      wf:[K,T1,[12,30,26,26,'b'],[40,30,26,26,'b'],[12,58,26,26,'b'],[40,58,26,26,'a'],[5,30,4,54,'k'],[12,87,54,2.2,'k'],[72,30,23,30,'p']] },
+    { f:'C', id:'C3', name:'Kreislauf', zweck:'Ein Prozess, der sich wiederholt: Planen, Tun, Prüfen, Anpassen.', el:'Titel, drei bis sechs Stationen im Kreis, Text', bau:'Ring links über drei Felder mit Stationen als Punkten, Text rechts.', regel:'Nur für echte Wiederholung. Ein Prozess mit Ende ist P1.',
+      wf:[K,T1,[10,28,36,64,'o'],[26,26,4,7,'m'],[43,52,4,7,'m'],[26,86,4,7,'m'],[9,52,4,7,'m'],[58,30,37,36,'p']] },
+    { f:'C', id:'C4', name:'Hierarchie', zweck:'Eine Ordnung mit Ebenen: Organisation, Struktur eines Portals, Rollen.', el:'Titel, Baum mit zwei bis drei Ebenen', bau:'Wurzel oben mittig, Kinder darunter als Kästen mit Haarlinie, Linien orthogonal.', regel:'Höchstens drei Ebenen und zwölf Knoten. Tiefere Bäume in den Anhang.',
+      wf:[K,T1,[40,30,20,8,'bf'],[10,50,18,8,'b'],[31,50,18,8,'b'],[52,50,18,8,'b'],[73,50,18,8,'b'],[10,68,18,8,'b'],[31,68,18,8,'b'],[52,68,18,8,'b']] },
+    { f:'C', id:'C5', name:'Trichter', zweck:'Verjüngung über Stufen: Erreicht, geöffnet, gelesen, erledigt.', el:'Titel, Stufen mit Wert und Name', bau:'Stufen als Balken abnehmender Länge linksbündig, Wert rechts am Balken, eine Stufe im Akzent.', regel:'Als linksbündige Balken, nicht als symmetrischer Trichter: der Vergleich der Längen ist die Aussage.',
+      wf:[K,T1,[5,30,80,9,'bf'],[5,42,60,9,'bf'],[5,54,42,9,'a'],[5,66,20,9,'bf'],[87,32,8,2.2,'k'],[67,44,8,2.2,'k'],[49,56,8,2.2,'k'],[27,68,8,2.2,'k']] },
+    { f:'C', id:'C6', name:'Nabe und Speichen', zweck:'Ein Zentrum mit Umfeld: die Plattform und ihre Anwendungsfälle.', el:'Titel, Nabe, vier bis acht Speichen mit Name', bau:'Nabe als Fläche mittig, Speichen als Kreise mit Haarlinie ringsum, Text rechts optional.', regel:'Duartes Strahlenform. Nicht mehr als acht Speichen, sonst wird es ein Uhrblatt.',
+      wf:[K,T1,[36,48,14,24,'bf'],[38,26,10,17,'o'],[38,78,10,17,'o'],[14,48,10,17,'o'],[62,48,10,17,'o'],[20,32,10,17,'o'],[56,32,10,17,'o'],[20,72,10,17,'o'],[56,72,10,17,'o']] },
+    { f:'C', id:'C7', name:'Pyramide', zweck:'Ebenen mit abnehmender Breite: Fundament, Säulen, Dach.', el:'Titel, drei bis vier Ebenen, Text je Ebene', bau:'Ebenen als Bänder abnehmender Breite, linksbündig, Name im Band, Erklärung rechts.', regel:'Linksbündig statt zentriert, damit die Erklärungen eine Kante haben.',
+      wf:[K,T1,[5,30,24,12,'bf'],[5,44,40,12,'b'],[5,58,56,12,'b'],[5,72,72,12,'b'],[64,31,30,4,'p'],[64,45,30,4,'p'],[64,59,30,4,'p'],[80,73,15,4,'p']] },
+    { f:'C', id:'C8', name:'Schnittmenge', zweck:'Zwei oder drei Mengen mit Überlappung.', el:'Titel, zwei bis drei Kreise, Beschriftung außen, Schnittmenge benannt', bau:'Kreise mit Haarlinie über drei Felder, Schnittmenge im Akzent, Beschriftung außerhalb der Kreise.', regel:'Höchstens drei Kreise. Die Schnittmenge ist die Aussage und bekommt den Akzent.',
+      wf:[K,T1,[8,30,30,54,'o'],[24,30,30,54,'o'],[66,32,29,30,'p']] },
+    { f:'C', id:'C9', name:'Transformation', zweck:'Von einem Zustand in einen anderen, mit dem, was dazwischen passiert.', el:'Titel, Ist als Kasten, Pfeil mit Mittel, Soll als Fläche', bau:'Ist links Haarlinie, Soll rechts gefüllt, Pfeil dazwischen mit Beschriftung des Mittels.', regel:'Das Mittel steht auf dem Pfeil, nicht in einer Fußnote. Ohne Mittel ist es ein Wunsch.',
+      wf:[K,T1,[5,36,30,32,'b'],[38,50,22,4,'k'],[38,44,22,3,'p'],[65,36,30,32,'bf']] },
+    { f:'C', id:'P1', name:'Prozess waagerecht', v:1, zweck:'Schritte mit Anfang und Ende in einer Zeile.', el:'Titel, drei bis sechs Schritte als Chevrons oder Punkte mit Linie, Name je Schritt', bau:'Schritte über fünf Felder auf einer Linie, Nummer im Punkt, Name darunter.', regel:'Nummeriert, weil Reihenfolge Information ist. Aktueller Schritt darf Akzent tragen.',
+      wf:[K,T1,[5,48,90,0.6,'k'],[8,44,5,9,'m'],[30,44,5,9,'m'],[52,44,5,9,'a'],[74,44,5,9,'m'],[5,56,12,2.2,'k'],[27,56,12,2.2,'k'],[49,56,12,2.2,'k'],[71,56,12,2.2,'k']] },
+    { f:'C', id:'P2', name:'Prozess senkrecht', v:1, zweck:'Schritte mit je einem Satz Erklärung.', el:'Titel, Schritte untereinander, Nummer, Name, Erklärung', bau:'Linie links, Punkte darauf, Name und Erklärung rechts als Zeilen.', regel:'Für höchstens fünf Schritte. Mehr sind zwei Folien oder eine Timeline.',
+      wf:[K,T1,[8,30,0.6,54,'k'],[6,30,5,9,'m'],[6,50,5,9,'m'],[6,70,5,9,'m'],[16,31,30,4,'t'],[16,36,50,3,'p'],[16,51,26,4,'t'],[16,56,44,3,'p'],[16,71,32,4,'t'],[16,76,48,3,'p']] },
+    { f:'C', id:'P3', name:'Prozess mit Ergebnis', zweck:'Schritte oben, je Schritt das Ergebnis darunter.', el:'Titel, Schrittleiste wie P1, Spalte je Schritt mit Ergebnis', bau:'Schrittleiste in der oberen Inhaltszone, darunter je Schritt eine Textspalte gleicher Breite.', regel:'Spalten sind gleich breit, auch wenn ein Schritt mehr Text hat. Text kürzen, nicht Spalte weiten.',
+      wf:[K,T1,[5,34,90,0.6,'k'],[8,30,5,9,'m'],[30,30,5,9,'m'],[52,30,5,9,'m'],[74,30,5,9,'m'],[5,44,19,4,'t'],[5,50,19,22,'p'],[27,44,19,4,'t'],[27,50,19,22,'p'],[49,44,19,4,'t'],[49,50,19,22,'p'],[71,44,19,4,'t'],[71,50,19,22,'p']] },
+
+    // ---------------- Daten ----------------
+    { f:'D', id:'K2', name:'Drei Zahlen', v:1, zweck:'Drei Kennzahlen, die zusammen eine Lage beschreiben.', el:'Titel, drei Zahlen mit Bezeichnung', bau:'Drei Spalten, Zahl groß, Bezeichnung in Mono darunter, Haarlinie oben.', regel:'Gleiche Größenordnung oder gleiche Einheit. Sonst K1 dreimal.',
+      wf:[K,T1,[5,34,26,14,'n'],[5,50,18,2.2,'k'],[37,34,26,14,'n'],[37,50,18,2.2,'k'],[69,34,26,14,'n'],[69,50,18,2.2,'k']] },
+    { f:'D', id:'K3', name:'Vier Zahlen', v:1, zweck:'Kennzahlenüberblick für Auswertungen.', el:'Titel, vier Zahlen mit Bezeichnung und Veränderung', bau:'Vier Spalten, Zahl, Bezeichnung, Veränderung mit Vorzeichen in Mono.', regel:'Veränderung gegenüber einer benannten Vorperiode. Ein Vorzeichen, kein Pfeil.',
+      wf:[K,T1,[5,34,19,12,'n'],[5,48,14,2.2,'k'],[5,53,10,2.2,'k'],[28.5,34,19,12,'n'],[28.5,48,14,2.2,'k'],[28.5,53,10,2.2,'k'],[52,34,19,12,'n'],[52,48,14,2.2,'k'],[52,53,10,2.2,'k'],[75.5,34,19,12,'n'],[75.5,48,14,2.2,'k'],[75.5,53,10,2.2,'k']] },
+    { f:'D', id:'K4', name:'Zahl mit Verlauf', zweck:'Kennzahl plus Miniaturverlauf, wenn der Trend die Aussage ist.', el:'Titel, Zahl, Bezeichnung, Verlaufslinie, Endpunkt hervorgehoben', bau:'Zahl links zwei Felder, Verlauf rechts drei Felder ohne Achsen, Endpunkt mit Wert.', regel:'Verlauf ohne Achsen ist erlaubt, weil die Zahl den Maßstab setzt. Endpunkt im Akzent.',
+      wf:[K,T1,[5,34,34,18,'n'],[5,54,20,2.2,'k'],[48,34,47,40,'cl'],[92,36,4,7,'m']] },
+    { f:'D', id:'D1', name:'Diagramm', v:1, zweck:'Ein Diagramm über die volle Breite, Freiform.', el:'Titel als Befund, Diagramm, Quelle', bau:'Diagramm über fünf Felder, Quelle in Mono darunter in der Versandstufe.', regel:'Titel nennt den Befund. „Umsatz 2025" ist kein Titel.',
+      wf:[K,T,[5,30,90,54,'c'],[5,87,24,2.2,'k']] },
+    { f:'D', id:'D2', name:'Diagramm mit Anmerkung', v:1, zweck:'Diagramm und der Satz, der den hervorgehobenen Wert erklärt.', el:'Titel als Befund, Diagramm, Anmerkung', bau:'Diagramm drei Felder links, Anmerkung zwei Felder rechts auf Höhe des hervorgehobenen Werts.', regel:'Die Anmerkung steht dort, wo der Wert ist, nicht unten.',
+      wf:[K,T,[5,30,54,54,'c'],[41,44,4,40,'a'],[66,44,29,16,'p']] },
+    { f:'D', id:'D3', name:'Diagrammpaar', zweck:'Zwei Diagramme mit gleicher Skala nebeneinander: zwei Gruppen, zwei Zeiträume.', el:'Titel, zwei Kicker, zwei Diagramme', bau:'Zwei gleich breite Diagramme mit gleicher Y-Achse, Kicker über jedem.', regel:'Gleiche Skala ist Pflicht. Sonst ist es D4 mit zwei Feldern und Hinweis.',
+      wf:[K,T1,[5,30,14,2.2,'k'],[5,35,42,48,'c'],[53,30,14,2.2,'k'],[53,35,42,48,'c']] },
+    { f:'D', id:'D4', name:'Kleine Vielfache', zweck:'Vier bis sechs Diagramme gleicher Form und Skala, etwa je Standort.', el:'Titel, Raster aus Diagrammen mit Kicker', bau:'Drei mal zwei Felder, jedes Diagramm ohne eigene Achsen, Skala einmal links.', regel:'Eines darf den Akzent tragen: das, von dem der Titel spricht.',
+      wf:[K,T1,[5,30,27,24,'cl'],[36.5,30,27,24,'cl'],[68,30,27,24,'cl'],[5,60,27,24,'cl'],[36.5,60,27,24,'cl'],[68,60,27,24,'cl'],[36.5,60,4,4,'a']] },
+    { f:'D', id:'D5', name:'Verlauf mit Ereignis', zweck:'Zeitreihe mit einem markierten Zeitpunkt: Rollout, Kampagne, Änderung.', el:'Titel als Befund, Linie, senkrechte Marke, Beschriftung des Ereignisses', bau:'Linie über fünf Felder, Ereignis als Haarlinie mit Kicker oben, Endwert am Ende der Linie.', regel:'Ein Ereignis. Zwei Ereignisse sind zwei Folien.',
+      wf:[K,T,[5,30,90,54,'cl'],[46,28,0.5,56,'k'],[48,28,16,2.2,'k'],[91,36,4,7,'m']] },
+    { f:'D', id:'D6', name:'Rangfolge', zweck:'Vergleich von Kategorien: Standorte, Gruppen, Funktionen.', el:'Titel als Befund, waagerechte Balken sortiert, Wert am Balken', bau:'Balken absteigend über vier Felder, Name links, Wert rechts am Balkenende, einer im Akzent.', regel:'Sortiert, nie alphabetisch. Waagerecht, damit Namen lesbar bleiben.',
+      wf:[K,T,[5,31,14,2.2,'k'],[21,30,70,5,'bf'],[5,40,14,2.2,'k'],[21,39,58,5,'a'],[5,49,14,2.2,'k'],[21,48,44,5,'bf'],[5,58,14,2.2,'k'],[21,57,36,5,'bf'],[5,67,14,2.2,'k'],[21,66,22,5,'bf']] },
+    { f:'D', id:'D7', name:'Anteile', zweck:'Teile eines Ganzen: Editionen im Bestand, Nutzung nach Gerät.', el:'Titel als Befund, gestapelter Balken über volle Breite, Beschriftung in den Segmenten', bau:'Ein Balken über fünf Felder, Segmente in Graphitleiter, eines im Akzent, Beschriftung im oder unter dem Segment.', regel:'Gestapelter Balken statt Kuchen. Kuchen nur bei höchstens drei Segmenten und einem Vergleich.',
+      wf:[K,T,[5,40,34,14,'a'],[39,40,26,14,'bf'],[65,40,18,14,'bf'],[83,40,12,14,'b'],[5,58,12,2.2,'k'],[39,58,12,2.2,'k'],[65,58,10,2.2,'k'],[83,58,8,2.2,'k']] },
+    { f:'D', id:'D8', name:'Zielerreichung', zweck:'Stand gegen Ziel für drei bis fünf Kennzahlen.', el:'Titel, je Zeile Name, Fortschrittsbalken, Zielmarke, Wert', bau:'Zeilen über fünf Felder, Balken bis zum Stand gefüllt, Ziel als Haarlinie, Wert in Tabellenziffern rechts.', regel:'Alle Balken auf hundert Prozent Ziel normiert, sonst vergleicht man Äpfel und Wochen.',
+      wf:[K,T1,[5,32,20,2.2,'k'],[30,30,56,5,'b'],[30,30,42,5,'bf'],[74,28,0.5,9,'t'],[88,32,7,2.2,'k'],[5,46,20,2.2,'k'],[30,44,56,5,'b'],[30,44,52,5,'a'],[74,42,0.5,9,'t'],[88,46,7,2.2,'k'],[5,60,20,2.2,'k'],[30,58,56,5,'b'],[30,58,24,5,'bf'],[74,56,0.5,9,'t'],[88,60,7,2.2,'k']] },
+    { f:'D', id:'D9', name:'Verteilung', zweck:'Wann und wo etwas passiert: Wochentag mal Stunde, Standort mal Monat.', el:'Titel als Befund, Heatmap, Achsenbeschriftung, Skala', bau:'Zellenraster über vier Felder, Achsen in Mono, Skala rechts als Leiter, dunkelste Zelle ist der Befund.', regel:'Eine Farbleiter, keine Regenbogenskala. Zellen ohne Wert bleiben leer, nicht grau.',
+      wf:[K,T1,[12,30,66,52,'tb'],[12,30,66,52,'b'],[5,30,5,52,'k'],[12,84,66,2.2,'k'],[84,30,4,52,'bf'],[54,56,9.4,8.6,'a']] },
+    { f:'D', id:'D10', name:'Vorher und Nachher als Steigung', zweck:'Zwei Zeitpunkte für mehrere Gruppen: wer ist gestiegen, wer gefallen.', el:'Titel als Befund, zwei senkrechte Achsen, Linien je Gruppe, Namen an beiden Enden', bau:'Zwei Achsen über drei Felder, Linien dazwischen, Namen links und rechts, eine Linie im Akzent.', regel:'Höchstens acht Linien. Die Aussage ist die Linie im Akzent.',
+      wf:[K,T1,[22,30,0.5,54,'t'],[72,30,0.5,54,'t'],[5,34,14,2.2,'k'],[5,50,14,2.2,'k'],[5,66,14,2.2,'k'],[76,30,14,2.2,'k'],[76,56,14,2.2,'k'],[76,74,14,2.2,'k'],[22,44,50,0.6,'a'],[22,58,50,0.6,'k'],[22,66,50,0.6,'k']] },
+    { f:'D', id:'TB1', name:'Tabelle', v:1, zweck:'Werte in Zeilen und Spalten, bis vier Spalten.', el:'Titel, Kopfzeile in Mono, Haarlinien', bau:'Über fünf Felder, Zahlen rechtsbündig in Tabellenziffern, keine Zebrastreifen.', regel:'Eine Zelle darf Akzent tragen. Vortragsstufe: höchstens fünf Zeilen.',
+      wf:[K,T1,[5,30,90,50,'tb'],[5,30,90,0.8,'t']] },
+    { f:'D', id:'TB2', name:'Tabelle mit Anmerkung', v:1, zweck:'Tabelle und der Satz zur hervorgehobenen Zelle.', el:'Titel, Tabelle drei Felder, Anmerkung zwei Felder', bau:'Tabelle links, Anmerkung rechts auf Höhe der Zeile, die zählt.', regel:'Wie D2: die Anmerkung steht auf Höhe der Zelle.',
+      wf:[K,T1,[5,30,54,44,'tb'],[5,30,54,0.8,'t'],[5,47,54,8.5,'a'],[66,47,29,12,'p']] },
+    { f:'D', id:'TB3', name:'Editionstabelle', v:1, zweck:'Drei Editionen mit Merkmalen, Empfehlung markiert.', el:'Titel, Spalten je Edition, Zeilen je Merkmal, Empfehlungsspalte auf anderem Papier', bau:'Merkmalsspalte links, drei Editionsspalten, mittlere auf hellerem Papier über volle Höhe, Preis in der letzten Zeile.', regel:'Empfehlung durch Papierwechsel, nicht durch Rahmen oder Farbe. Höchstens acht Merkmalszeilen.',
+      wf:[K,T1,[5,30,90,52,'tb'],[5,30,90,0.8,'t'],[48,26,22,62,'bf'],[5,30,90,0.8,'t']] },
+    { f:'D', id:'TB4', name:'Vergleichstabelle mit Haken', zweck:'Merkmale gegen Optionen, Erfüllung als Haken oder Wort.', el:'Titel, Kopfzeile mit Optionen, Zeilen mit Merkmal, Haken in Tinte, Fehlen als Leerzelle', bau:'Wie TB3 ohne Preiszeile. Haken zentriert, teilweise Erfüllung als Wort, nie als halber Haken.', regel:'Leere Zelle bedeutet nein. Kein Kreuz, kein Rot: die Tabelle wertet nicht, sie zeigt.',
+      wf:[K,T1,[5,30,90,52,'tb'],[5,30,90,0.8,'t'],[48,40,4,6,'m'],[70,40,4,6,'m'],[48,49,4,6,'m'],[70,58,4,6,'m'],[48,67,4,6,'m'],[70,67,4,6,'m'],[26,58,4,6,'m']] },
+
+    // ---------------- Plan ----------------
+    { f:'L', id:'L1', name:'Timeline', v:1, zweck:'Ereignisse auf einer Zeitachse mit Datum.', el:'Titel, Achse, Marken mit Datum in Mono und Name', bau:'Achse über fünf Felder, Marken als Punkte, Datum oben, Name unten, heute als Haarlinie.', regel:'Achse ist linear. Ein Jahr ist so lang wie ein Jahr.',
+      wf:[K,T1,[5,54,90,0.6,'k'],[12,50,4,8,'m'],[36,50,4,8,'m'],[58,50,4,8,'a'],[84,50,4,8,'m'],[9,44,10,2.2,'k'],[33,44,10,2.2,'k'],[55,44,10,2.2,'k'],[81,44,10,2.2,'k'],[9,62,12,3,'p'],[33,62,12,3,'p'],[55,62,12,3,'p'],[81,62,12,3,'p']] },
+    { f:'L', id:'L2', name:'Roadmap', zweck:'Phasen als Balken über Monate oder Quartale.', el:'Titel, Monatsleiste oben, Zeilen je Arbeitspaket mit Balken, Meilensteine als Rauten, heute als Linie', bau:'Namen links ein Feld, Balken über vier Felder, Monatsraster in Haarlinien, aktuelle Phase im Akzent.', regel:'Höchstens acht Zeilen. Für Details ist L3 oder das Projektwerkzeug da.',
+      wf:[K,T1,[27,30,68,2.2,'k'],[5,37,18,2.2,'k'],[27,36,24,5,'bf'],[5,46,18,2.2,'k'],[45,45,30,5,'a'],[5,55,18,2.2,'k'],[65,54,30,5,'bf'],[5,64,18,2.2,'k'],[55,63,40,5,'bf'],[61,28,0.5,46,'k']] },
+    { f:'L', id:'L3', name:'Meilensteine', zweck:'Drei bis sechs Meilensteine mit Datum und Abnahmekriterium.', el:'Titel, Zeilen mit Datum, Name, Kriterium, Status', bau:'Tabelle über fünf Felder: Datum in Mono, Name in Tinte, Kriterium als Satz, Statusmarke rechts.', regel:'Ein Meilenstein hat ein Kriterium, an dem man erkennt, dass er erreicht ist. Sonst ist es ein Datum.',
+      wf:[K,T1,[5,30,90,50,'tb'],[5,32,10,2.2,'k'],[18,31,22,4,'t'],[44,32,36,3,'p'],[88,32,4,5,'m'],[5,42,10,2.2,'k'],[18,41,22,4,'t'],[44,42,30,3,'p'],[88,42,4,5,'m']] },
+    { f:'L', id:'L4', name:'Phasen mit Ergebnis', zweck:'Phasenmodell: was jede Phase liefert.', el:'Titel, Phasen als Chevrons, unter jeder das Ergebnis und die Dauer', bau:'Wie P3 mit Chevrons statt Punkten, Dauer in Mono unter dem Ergebnis.', regel:'Ergebnis ist ein Substantiv: Konzept, Pilot, Freigabe. Keine Tätigkeiten.',
+      wf:[K,T1,[5,30,21,9,'bf'],[28,30,21,9,'bf'],[51,30,21,9,'bf'],[74,30,21,9,'bf'],[5,44,21,4,'t'],[5,50,21,14,'p'],[5,66,10,2.2,'k'],[28,44,21,4,'t'],[28,50,21,14,'p'],[28,66,10,2.2,'k'],[51,44,21,4,'t'],[51,50,21,14,'p'],[51,66,10,2.2,'k'],[74,44,21,4,'t'],[74,50,21,14,'p'],[74,66,10,2.2,'k']] },
+    { f:'L', id:'L5', name:'Rollen und Verantwortung', zweck:'Wer entscheidet, wer arbeitet, wer wird gefragt, wer informiert.', el:'Titel, Matrix Aufgaben mal Rollen, Buchstaben oder Wörter in den Zellen', bau:'Tabelle über fünf Felder, Rollen als Kopfzeile, Aufgaben als Zeilen, verantwortlich in Tinte, übrige in Graphit 600.', regel:'Je Zeile genau ein Verantwortlicher. Zwei Verantwortliche sind keiner.',
+      wf:[K,T1,[5,30,90,52,'tb'],[5,30,90,0.8,'t'],[40,40,4,6,'m'],[58,49,4,6,'m'],[76,58,4,6,'m'],[40,67,4,6,'m']] },
+    { f:'L', id:'L6', name:'Risiken', zweck:'Risiken nach Wahrscheinlichkeit und Auswirkung, mit Maßnahme.', el:'Titel, Matrix drei mal drei links, Liste mit Nummer, Risiko, Maßnahme rechts', bau:'Matrix zwei Felder, Punkte mit Nummer darin, Liste drei Felder, kritisches Feld auf hellerem Papier.', regel:'Nummer verbindet Punkt und Zeile. Jede Zeile hat eine Maßnahme und einen Namen.',
+      wf:[K,T1,[5,30,36,54,'tb'],[5,30,36,54,'b'],[29,30,12,18,'bf'],[33,36,4,7,'m'],[14,48,4,7,'m'],[22,66,4,7,'m'],[48,31,4,7,'o'],[54,32,40,3,'p'],[48,45,4,7,'o'],[54,46,38,3,'p'],[48,59,4,7,'o'],[54,60,40,3,'p']] },
+    { f:'L', id:'L7', name:'Statusbericht', zweck:'Gesamtstatus je Arbeitspaket auf einer Folie.', el:'Titel mit Stand, Zeilen je Arbeitspaket mit Statusmarke, Wort, Abweichung, Entscheidung nötig', bau:'Tabelle über fünf Felder: Marke und Wort links, Paket, Abweichung als Satz, Spalte „Entscheidung" rechts.', regel:'Farbe und Wort zusammen. Gelb heißt: Maßnahme läuft, Rot heißt: Entscheidung nötig, und die steht in der Zeile.',
+      wf:[K,T1,[5,30,90,54,'tb'],[5,33,4,6,'m'],[12,33,14,2.2,'k'],[30,33,40,3,'p'],[76,33,18,3,'p'],[5,42,4,6,'m'],[12,42,14,2.2,'k'],[30,42,36,3,'p'],[5,51,4,6,'a'],[12,51,14,2.2,'k'],[30,51,40,3,'p'],[76,51,18,3,'p'],[5,60,4,6,'m'],[12,60,14,2.2,'k'],[30,60,32,3,'p']] },
+    { f:'L', id:'L8', name:'Entscheidung', zweck:'Zwei bis drei Optionen mit Bewertung und Empfehlung.', el:'Titel als Frage oder Empfehlung, Spalten je Option, Zeilen je Kriterium, Empfehlung auf anderem Papier', bau:'Wie TB3: Kriterien links, Optionen als Spalten, empfohlene Spalte auf hellerem Papier, letzte Zeile ist die Konsequenz.', regel:'Die Empfehlung steht im Titel. Die Tabelle begründet, sie überrascht nicht.',
+      wf:[K,T,[5,30,90,50,'tb'],[5,30,90,0.8,'t'],[62,26,26,58,'bf']] },
+    { f:'L', id:'L9', name:'Konditionen', zweck:'Preispositionen mit Summe.', el:'Titel, Positionen mit Menge, Einheit, Betrag, Summe hervorgehoben, Hinweis zu Laufzeit und Steuern', bau:'Tabelle über vier Felder, Beträge rechtsbündig in Tabellenziffern, Summenzeile mit Haarlinie oben in Tinte, Hinweis in Mono unten.', regel:'Eine Summe. Optionen stehen darunter getrennt, nicht in der Summe.',
+      wf:[K,T1,[5,30,72,40,'tb'],[5,30,72,0.8,'t'],[5,70,72,0.8,'t'],[5,72,30,4,'t'],[60,72,17,4,'t'],[5,82,40,2.2,'k']] },
+    { f:'L', id:'L10', name:'Lieferumfang', zweck:'Enthalten und nicht enthalten nebeneinander.', el:'Titel, zwei Kicker, zwei Listen', bau:'Wie C1, links „Enthalten" mit Haken, rechts „Nicht enthalten" mit Haarlinie, gleiche Zeilenhöhe.', regel:'Nicht enthalten ist keine Verlegenheit, sondern Schutz für beide Seiten. Immer füllen.',
+      wf:[K,T1,[5,30,14,2.2,'k'],[5,36,3,5,'m'],[10,37,34,3,'p'],[5,44,3,5,'m'],[10,45,30,3,'p'],[5,52,3,5,'m'],[10,53,36,3,'p'],[49.5,30,0.4,40,'k'],[54,30,18,2.2,'k'],[54,37,34,3,'p'],[54,45,28,3,'p']] },
+
+    // ---------------- Menschen ----------------
+    { f:'M', id:'M1', name:'Team', zweck:'Drei bis vier Personen mit Rolle im Projekt.', el:'Titel, Foto oder Initialen, Name, Rolle, ein Satz Zuständigkeit', bau:'Spalten gleich breit, Bild quadratisch oben, Name in Tinte, Rolle in Mono, Satz darunter.', regel:'Rolle im Projekt, nicht Titel im Unternehmen. Alle Bilder gleicher Ausschnitt.',
+      wf:[K,T1,[5,30,20,36,'i'],[5,68,16,3,'t'],[5,73,12,2.2,'k'],[29,30,20,36,'i'],[29,68,16,3,'t'],[29,73,12,2.2,'k'],[53,30,20,36,'i'],[53,68,16,3,'t'],[53,73,12,2.2,'k'],[77,30,20,36,'i'],[77,68,16,3,'t'],[77,73,12,2.2,'k']] },
+    { f:'M', id:'M2', name:'Nutzerbild', zweck:'Eine Rolle im Unternehmen des Kunden: was sie braucht, was sie hindert.', el:'Titel mit Rolle, Bild, Kicker „Braucht" und „Hindert", je drei Zeilen, Zitat', bau:'Bild zwei Felder links, rechts zwei Listen untereinander, Zitat unten rechts.', regel:'Keine erfundene Person mit Namen. Rolle und echte Aussagen aus Gesprächen.',
+      wf:[K,T1,[5,28,34,58,'i'],[45,30,10,2.2,'k'],[45,35,48,3,'p'],[45,40,44,3,'p'],[45,50,10,2.2,'k'],[45,55,46,3,'p'],[45,60,40,3,'p'],[45,72,48,5,'t']] },
+    { f:'M', id:'M3', name:'Fallbeispiel', zweck:'Referenz in drei Schritten: Ausgangslage, Lösung, Ergebnis.', el:'Titel mit Kunde oder Branche, drei Spalten mit Kicker, Ergebnis als Zahl', bau:'Drei Spalten wie X3, dritte Spalte trägt eine Zahl statt Text, Logo oder Branche im Kicker.', regel:'Ergebnis ist eine Zahl mit Zeitraum. Ohne Zahl ist es ein Zitat und gehört in Q1.',
+      wf:[K,T1,[5,30,12,2.2,'k'],[5,36,26,26,'p'],[37,30,10,2.2,'k'],[37,36,26,26,'p'],[69,30,10,2.2,'k'],[69,36,26,16,'n'],[69,54,20,2.2,'k']] },
+
+    // ---------------- Anhang ----------------
+    { f:'AN', id:'AN1', name:'Methodik', zweck:'Datenbasis, Zeitraum, Definitionen, Ausschlüsse.', el:'Titel, vier Kicker mit Text', bau:'Zwei mal zwei Blöcke über fünf Felder, Kicker in Mono, Text in Versandgröße.', regel:'Pflicht in jeder Auswertung. Wer hier nichts schreiben kann, hat keine Auswertung.',
+      wf:[K,T1,[5,30,12,2.2,'k'],[5,35,42,16,'p'],[53,30,12,2.2,'k'],[53,35,42,16,'p'],[5,58,12,2.2,'k'],[5,63,42,16,'p'],[53,58,12,2.2,'k'],[53,63,42,16,'p']] },
+    { f:'AN', id:'AN2', name:'Glossar', zweck:'Begriffe, die das Deck voraussetzt.', el:'Titel, zwei Spalten mit Begriff in Tinte und Erklärung', bau:'Zwei Spalten, Begriff fett, Erklärung ein Satz, alphabetisch.', regel:'Ein Satz je Begriff. Längere Erklärungen sind eine Folie X6.',
+      wf:[K,T1,[5,30,12,3,'t'],[5,34,40,3,'p'],[5,42,12,3,'t'],[5,46,40,3,'p'],[5,54,12,3,'t'],[5,58,40,3,'p'],[53,30,12,3,'t'],[53,34,40,3,'p'],[53,42,12,3,'t'],[53,46,40,3,'p']] },
+    { f:'AN', id:'AN3', name:'Quellen', zweck:'Belege für Zahlen und Zitate im Deck.', el:'Titel, nummerierte Liste in Mono mit Foliennummer', bau:'Eine Spalte über vier Felder, Nummer, Folie, Quelle.', regel:'Nummern verweisen auf die Fußnoten im Deck. Ohne Fußnoten keine Quellenfolie.',
+      wf:[K,T1,[5,30,70,2.2,'k'],[5,35,62,2.2,'k'],[5,40,74,2.2,'k'],[5,45,58,2.2,'k'],[5,50,66,2.2,'k'],[5,55,70,2.2,'k']] },
+    { f:'AN', id:'AN4', name:'Detailtabelle', zweck:'Dichte Tabelle bis sechs Spalten und zwölf Zeilen.', el:'Titel, Tabelle in Versandgröße, Quelle', bau:'Über fünf Felder, Schrift 11 bis 12 pt, Zahlen rechtsbündig, Kopfzeile wiederholt bei Fortsetzung.', regel:'Nur Anhang, nur Versandstufe. Im Vortrag wird sie nicht gezeigt, sondern angekündigt.',
+      wf:[K,T1,[5,28,90,60,'tb'],[5,28,90,0.8,'t']] }
+  ];
+
+  var wurzel = document.getElementById('katalog-wurzel');
+  FAM.forEach(function (fam) {
+    var vs = V.filter(function (v) { return v.f === fam.id; });
+    var sec = document.createElement('div'); sec.className = 'fam';
+    var neu = vs.filter(function (v) { return !v.v; }).length;
+    sec.innerHTML = '<div class="kopfzeile"><span class="kicker">Familie ' + fam.id + '</span><h3>' + fam.name + '</h3><span class="id">' + vs.length + ' Vorlagen · ' + neu + ' neu</span></div><p class="famtext">' + fam.text + '</p>';
+    vs.forEach(function (v) {
+      var el = document.createElement('div'); el.className = 'vorlage';
+      var wf = '<div class="wf' + (v.tief ? ' tief' : '') + (v.papier ? ' papier' : '') + '">';
+      var boxes = v.wf.slice();
+      // Fußzeile auf allen Folien außer Signalfeld, Vollbild, Pause
+      if (!v.akzent && v.wf.length && v.id !== 'V1' && v.id !== 'B7') { boxes.push([5, 93, 20, 1.2, 'f'], [88, 93, 7, 1.2, 'f']); }
+      boxes.forEach(function (b) {
+        wf += '<i class="' + b[4] + '" style="left:' + b[0] + '%;top:' + b[1] + '%;width:' + b[2] + '%;height:' + b[3] + '%"></i>';
+      });
+      wf += '</div>';
+      el.innerHTML = wf +
+        '<div class="txt">' +
+        '<div class="zeile1"><span class="id">' + v.id + '</span><span class="name">' + v.name + '</span>' + (v.v ? '<span class="tag">Bestand · August</span>' : '<span class="tag neu">im Master seit 04.09.</span>') + '</div>' +
+        '<p class="zweck">' + v.zweck + '</p>' +
+        '<dl><dt>Elemente</dt><dd>' + v.el + '</dd><dt>Aufbau</dt><dd>' + v.bau + '</dd><dt>Regel</dt><dd class="regel">' + v.regel + '</dd></dl>' +
+        '</div>';
+      sec.appendChild(el);
+    });
+    wurzel.appendChild(sec);
+  });
+})();
+</script>
