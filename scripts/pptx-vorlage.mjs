@@ -214,12 +214,22 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
     const dunkel = spez.background?.color === TIEF;
     // Seitenzahl ueberall ausser auf dem Signalfeld — dort gilt "eine
     // Aussage, sonst nichts" aus Kapitel 04.6.
-    const mitZahl = titel === 'T2_SIGNALFELD'
+    // ... und auf der Pause: Die schwarze Folie vor der Demo ist keine Seite.
+    const mitZahl = ['T2_SIGNALFELD', 'Z6_PAUSE'].includes(titel)
       ? spez
       : { ...spez, slideNumber: seitenzahl(dunkel) };
     pptx.defineSlideMaster({ title: titel, ...mitZahl });
     gemacht.push(titel);
   };
+
+  // Gemeinsame Platzhalter fuer Tabellen- und Listenlayouts (Familien L, X, Z).
+  const monoPlatz = (name, feld, felder, y, h, hinweis) => ({
+    placeholder: { options: { name, type: 'body', x: x(feld), y, w: w(felder), h,
+      fontFace: F.technik, fontSize: kickerPt, color: G['600'], charSpacing: 1.5, bullet: false }, text: hinweis } });
+  const tabellenPlatz = (hinweis, felder = 6) => ({
+    placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(felder), h: INHALT_H - 0.4,
+      fontFace: F.info, fontSize: textPt - 3, color: G['800'], lineSpacingMultiple: 1.6, bullet: false }, text: hinweis } });
+  const kopfLinie = () => ({ line: { x: x(0), y: INHALT_Y + 0.3, w: w(6), h: 0, line: { color: G['950'], width: 1 } } });
 
   // ── Titel (4) ───────────────────────────────────────────────────────────
   def('T1_TITEL_TIEF', {
@@ -330,6 +340,84 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
       koerper(0, 2, INHALT_Y, INHALT_H, 'block1'),
       koerper(2, 2, INHALT_Y, INHALT_H, 'block2'),
       koerper(4, 2, INHALT_Y, INHALT_H, 'block3'),
+      ...fusszeile(),
+    ],
+  });
+
+  // ── Aussage und Text (6) — Familien X des Foliensystems ────────────────
+  // Kicker sind hier Platzhalter, keine festen Texte: Ein fester Text im
+  // Master steht sonst auf jeder Folie unter dem Text des Decks.
+  const kickerPlatz = (hinweis, farbe = G['600']) => ({
+    placeholder: { options: { name: 'kicker', type: 'body', x: x(0), y: RAND, w: w(4), h: 0.26,
+      fontFace: F.technik, fontSize: kickerPt, color: farbe, charSpacing: 2, bullet: false }, text: hinweis } });
+  const grosserSatz = (hinweis, y = 2.2, h = 2.4, felder = 5, farbe = G['950']) => ({
+    placeholder: { options: { name: 'titel', type: 'title', x: x(0), y, w: w(felder), h,
+      fontFace: F.marke, fontSize: 36, bold: true, color: farbe, charSpacing: -1.1,
+      lineSpacingMultiple: 1.05, valign: 'top' }, text: hinweis } });
+
+  // X4 Big Idea: der eine Satz des Decks, darunter, was auf dem Spiel steht.
+  def('X4_BIG_IDEA', {
+    background: { color: GRUND },
+    objects: [
+      kickerPlatz('WORUM ES GEHT'),
+      grosserSatz('Standpunkt in einem Satz', 2.0, 2.2, 4),
+      koerper(0, 4, 4.4, 1.2, 'einsatz'),
+      ...fusszeile(),
+    ],
+  });
+
+  // X5 Frage: die Antwort kommt auf der naechsten Folie, nie auf dieser.
+  def('X5_FRAGE', {
+    background: { color: GRUND },
+    objects: [kickerPlatz('ÜBERGANG'), grosserSatz('Offene Frage?', 2.2, 2.4, 4), ...fusszeile()],
+  });
+
+  // X6 Definition: Begriff links gross, Erklaerung rechts. Hoechstens eine je Deck.
+  def('X6_DEFINITION', {
+    background: { color: GRUND },
+    objects: [
+      kickerPlatz('BEGRIFF'),
+      { placeholder: { options: { name: 'begriff', type: 'title', x: x(0), y: INHALT_Y, w: w(2), h: 1.6,
+          fontFace: F.marke, fontSize: 32, bold: true, color: G['950'], charSpacing: -0.9, valign: 'top' }, text: 'Begriff' } },
+      koerper(2.4, 3.6, INHALT_Y + 0.1, INHALT_H - 0.1, 'erklaerung'),
+      ...fusszeile(),
+    ],
+  });
+
+  // X7 Zwei Spalten: Ergaenzung, kein Gegensatz (dafuer C1).
+  const spaltenKopf = (name, feld, felder, hinweis) => ({
+    placeholder: { options: { name, type: 'body', x: x(feld), y: INHALT_Y, w: w(felder), h: 0.45,
+      fontFace: F.marke, fontSize: textPt + 1, bold: true, color: G['950'], bullet: false }, text: hinweis } });
+  def('X7_ZWEI_SPALTEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      spaltenKopf('kopf1', 0, 2.8, 'Zwischenüberschrift'), koerper(0, 2.8, INHALT_Y + 0.55, INHALT_H - 0.55, 'text1'),
+      spaltenKopf('kopf2', 3.2, 2.8, 'Zwischenüberschrift'), koerper(3.2, 2.8, INHALT_Y + 0.55, INHALT_H - 0.55, 'text2'),
+      ...fusszeile(),
+    ],
+  });
+
+  // X8 Liste: drei bis fuenf Punkte, je hoechstens zwei Zeilen, Marke statt
+  // Aufzaehlungszeichen. Die Marken zeichnet das Deck.
+  def('X8_LISTE', {
+    background: { color: GRUND },
+    objects: [ueberschrift(), koerper(0.25, 4, INHALT_Y, INHALT_H, 'punkte'), ...fusszeile()],
+  });
+
+  // X9 Zusammenfassung: Antwort zuerst — Empfehlung, drei Gruende, Konsequenz
+  // als Zahl oder Termin rechts. Folie zwei in Angebot und Auswertung.
+  def('X9_ZUSAMMENFASSUNG', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      { placeholder: { options: { name: 'empfehlung', type: 'body', x: x(0), y: INHALT_Y, w: w(4), h: 0.9,
+          fontFace: F.marke, fontSize: textPt + 3, bold: true, color: G['950'], lineSpacingMultiple: 1.15, valign: 'top', bullet: false },
+          text: 'Empfehlung in einem Satz' } },
+      koerper(0, 4, INHALT_Y + 1.05, INHALT_H - 1.05, 'gruende'),
+      { placeholder: { options: { name: 'zahl', type: 'body', x: x(4.4), y: INHALT_Y, w: w(1.6), h: 1.2,
+          fontFace: F.marke, fontSize: 40, bold: true, color: G['950'], charSpacing: -1.4, valign: 'top', bullet: false }, text: '00' } },
+      monoPlatz('konsequenz', 4.4, 1.6, INHALT_Y + 1.3, 0.8, 'WAS DARAUS FOLGT'),
       ...fusszeile(),
     ],
   });
@@ -476,14 +564,6 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
   // Was vom Inhalt abhaengt (Anzahl Monate, Zeilen, Optionen), zeichnet das
   // Deck; der Master gibt Titel, Spalten, Haarlinien und Platzhalter. Die
   // Beispieldecks (pptx-beispiel.mjs) zeigen je Layout, wie das aussieht.
-  const monoPlatz = (name, feld, felder, y, h, hinweis) => ({
-    placeholder: { options: { name, type: 'body', x: x(feld), y, w: w(felder), h,
-      fontFace: F.technik, fontSize: kickerPt, color: G['600'], charSpacing: 1.5, bullet: false }, text: hinweis } });
-  const tabellenPlatz = (hinweis, felder = 6) => ({
-    placeholder: { options: { name: 'tabelle', type: 'body', x: x(0), y: INHALT_Y + 0.4, w: w(felder), h: INHALT_H - 0.4,
-      fontFace: F.info, fontSize: textPt - 3, color: G['800'], lineSpacingMultiple: 1.6, bullet: false }, text: hinweis } });
-  const kopfLinie = () => ({ line: { x: x(0), y: INHALT_Y + 0.3, w: w(6), h: 0, line: { color: G['950'], width: 1 } } });
-
   // L2 Roadmap: Namen links ein Feld, Balken ueber fuenf Felder, Monatsleiste
   // oben. Die Zeitachse ist linear — ein Monat ist so breit wie ein Monat.
   def('L2_ROADMAP', {
@@ -753,6 +833,70 @@ export function definiereMaster(pptx, papier = 'graphit', stufe = 'versand') {
       ...fusszeile(true)
     ],
   });
+
+  // ── Rahmen (6) — AG2 und Z2 bis Z6 des Foliensystems ───────────────────
+  // AG2 Agenda mit Stand: Agenda wiederholt, aktueller Punkt in Tinte. Die
+  // Papiermuster je Punkt zeichnet das Deck.
+  def('AG2_AGENDA_STAND', {
+    background: { color: GRUND },
+    objects: [kickerPlatz('WO WIR SIND'), koerper(0.5, 4, INHALT_Y, INHALT_H, 'punkte'), ...fusszeile()],
+  });
+
+  // Z2 Kernaussagen: drei Saetze, woertlich aus dem Deck wiederholt.
+  def('Z2_KERNAUSSAGEN', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      ...[0, 1, 2].flatMap((i) => ([
+        { placeholder: { options: { name: `satz${i + 1}`, type: 'body', x: x(0), y: INHALT_Y + i * 1.25, w: w(4), h: 1.0,
+            fontFace: F.marke, fontSize: textPt + 3, bold: true, color: G['950'], lineSpacingMultiple: 1.15, valign: 'top', bullet: false },
+            text: `Kernaussage ${i + 1}` } },
+        ...(i < 2 ? [{ line: { x: x(0), y: INHALT_Y + i * 1.25 + 1.1, w: w(4), h: 0, line: { color: G['400'], width: 0.75 } } }] : []),
+      ])),
+      ...fusszeile(),
+    ],
+  });
+
+  // Z3 Naechste Schritte: wer, was, bis wann. Ohne Name und Datum ist es kein Schritt.
+  def('Z3_NAECHSTE_SCHRITTE', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      monoPlatz('kopf', 0, 6, INHALT_Y, 0.26, 'SCHRITT · VERANTWORTLICH · TERMIN'),
+      kopfLinie(),
+      tabellenPlatz('Drei bis fünf Zeilen, jede mit Name und Datum'),
+      ...fusszeile(),
+    ],
+  });
+
+  // Z4 Anhang-Trenner: trennt Pflicht von Kuer. Ohne ihn gibt es keinen
+  // Anhang, sondern ein zu langes Deck.
+  def('Z4_ANHANG', {
+    background: { color: TIEF },
+    objects: [
+      { placeholder: { options: { name: 'titel', type: 'title', x: x(0), y: 2.6, w: w(4), h: 1.2,
+          fontFace: F.marke, fontSize: 40, bold: true, color: G['100'], charSpacing: -1.2, valign: 'top' }, text: 'Anhang' } },
+      { placeholder: { options: { name: 'liste', type: 'body', x: x(0), y: 4.0, w: w(4), h: 1.8,
+          fontFace: F.technik, fontSize: kickerPt + 1, color: G['400'], charSpacing: 1.5, lineSpacingMultiple: 1.6, bullet: false },
+          text: 'Was im Anhang steht, je Zeile' } },
+      ...fusszeile(true),
+    ],
+  });
+
+  // Z5 Rechtliches: zwei Textspalten in Versandgroesse, Text aus freigegebener Quelle.
+  def('Z5_RECHTLICHES', {
+    background: { color: GRUND },
+    objects: [
+      ueberschrift(),
+      spaltenKopf('kopf1', 0, 2.8, 'Vertraulichkeit'), koerper(0, 2.8, INHALT_Y + 0.55, INHALT_H - 0.55, 'text1'),
+      spaltenKopf('kopf2', 3.2, 2.8, 'Gültigkeit'), koerper(3.2, 2.8, INHALT_Y + 0.55, INHALT_H - 0.55, 'text2'),
+      ...fusszeile(),
+    ],
+  });
+
+  // Z6 Pause: schwarz, leer, ohne Fusszeile — der Bildschirmwechsel vor der
+  // Demo passiert hier, nicht auf einer Inhaltsfolie.
+  def('Z6_PAUSE', { background: { color: TIEF }, objects: [] });
 
   return gemacht;
 }

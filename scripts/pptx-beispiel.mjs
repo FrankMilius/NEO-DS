@@ -186,6 +186,88 @@ const RENDERER = {
     if (f.hinweis) MONO(s, f.hinweis, { x: x(0), y: sy + 0.75, w: w(4), h: 0.6, color: zweit, fontSize: 9 });
   },
 
+  // titel (der Satz) · einsatz (was auf dem Spiel steht)
+  X4_BIG_IDEA(s, f, c) {
+    TXT(s, f.einsatz, { x: x(0), y: 4.4, w: w(4), h: 1.2, color: c.zweit, fontSize: 16 });
+  },
+
+  // begriff · text
+  X6_DEFINITION(s, f, c) {
+    s.addText(f.begriff, { x: x(0), y: INHALT_Y, w: w(2), h: 1.6, fontFace: F.marke, fontSize: 32, bold: true, color: c.schrift, charSpacing: -0.9, valign: 'top' });
+    TXT(s, f.text, { x: x(2.4), y: INHALT_Y + 0.1, w: w(3.6), h: INHALT_H - 0.1, color: c.schrift, fontSize: 16 });
+  },
+
+  // zwei: [[kopf, text], [kopf, text]]
+  X7_ZWEI_SPALTEN(s, f, c, groesse = 15) {
+    f.zwei.forEach(([kopf, text], i) => {
+      const feld = i ? 3.2 : 0;
+      if (kopf) s.addText(kopf, { x: x(feld), y: INHALT_Y, w: w(2.8), h: 0.45, fontFace: F.marke, fontSize: 17, bold: true, color: c.schrift, valign: 'top' });
+      TXT(s, text, { x: x(feld), y: INHALT_Y + 0.55, w: w(2.8), h: INHALT_H - 0.55, color: c.zweit, fontSize: groesse });
+    });
+  },
+  Z5_RECHTLICHES(s, f, c) { RENDERER.X7_ZWEI_SPALTEN(s, f, c, 12); },
+
+  // punkte: [..] — drei bis fuenf, Marke ist eine kurze Haarlinie in Tinte
+  X8_LISTE(s, f, c) {
+    const rh = Math.min(0.9, (INHALT_H - 0.2) / f.punkte.length);
+    f.punkte.forEach((t, i) => {
+      const y = INHALT_Y + i * rh;
+      linie(s, c.pptx, x(0), y + 0.17, 0.18, 0, c.schrift, { width: 1.5 });
+      TXT(s, t, { x: x(0.25), y, w: w(4), h: rh - 0.05, color: c.schrift, fontSize: 16 });
+    });
+  },
+
+  // empfehlung · gruende: [..] · konsequenz: [zahl, beschriftung]
+  X9_ZUSAMMENFASSUNG(s, f, c) {
+    s.addText(f.empfehlung, { x: x(0), y: INHALT_Y, w: w(4), h: 0.9, fontFace: F.marke, fontSize: 20, bold: true, color: c.schrift, lineSpacingMultiple: 1.15, valign: 'top' });
+    f.gruende.forEach((g, i) => {
+      const y = INHALT_Y + 1.1 + i * 0.7;
+      linie(s, c.pptx, x(0), y + 0.16, 0.18, 0, c.schrift, { width: 1.5 });
+      TXT(s, g, { x: x(0.25), y, w: w(3.75), h: 0.65, color: c.zweit, fontSize: 15 });
+    });
+    s.addText(f.konsequenz[0], { x: x(4.4), y: INHALT_Y, w: w(1.6), h: 1.2, fontFace: F.marke, fontSize: 40, bold: true, color: c.schrift, charSpacing: -1.4, valign: 'top' });
+    MONO(s, f.konsequenz[1], { x: x(4.4), y: INHALT_Y + 1.3, w: w(1.6), h: 0.8, color: c.zweit, fontSize: 9 });
+  },
+
+  // punkte: [..] · aktuell: index · papiere: [papiername je Punkt]
+  AG2_AGENDA_STAND(s, f, c) {
+    const rh = 0.72;
+    f.punkte.forEach((t, i) => {
+      const y = INHALT_Y + i * rh, ist = i === f.aktuell;
+      const papier = f.papiere ? f.papiere[i] : null;
+      if (papier) s.addShape(c.pptx.ShapeType.rect, { x: x(0), y: y + 0.06, w: 0.62, h: 0.35,
+        fill: { color: PAPIER[papier]['100'] }, line: { color: ist ? c.schrift : G['400'], width: ist ? 1.25 : 0.75 } });
+      s.addText(t, { x: x(0.5), y, w: w(4), h: rh - 0.1, fontFace: F.marke, fontSize: 20, bold: ist, color: ist ? c.schrift : c.zweit, valign: 'top' });
+    });
+  },
+
+  // saetze: [drei Saetze, woertlich aus dem Deck]
+  Z2_KERNAUSSAGEN(s, f, c) {
+    f.saetze.forEach((t, i) => {
+      s.addText(t, { x: x(0), y: INHALT_Y + i * 1.25, w: w(4), h: 1.0, fontFace: F.marke, fontSize: 20, bold: true, color: c.schrift, lineSpacingMultiple: 1.15, valign: 'top' });
+      if (i < f.saetze.length - 1) linie(s, c.pptx, x(0), INHALT_Y + i * 1.25 + 1.1, w(4), 0, G['400']);
+    });
+  },
+
+  // schritte: [[schritt, verantwortlich, termin]]
+  Z3_NAECHSTE_SCHRITTE(s, f, c) {
+    const { pptx, schrift, zweit } = c, rh = 0.62;
+    [['SCHRITT', 0, 3], ['VERANTWORTLICH', 3, 2], ['TERMIN', 5, 1]].forEach(([k, feld, felder]) => MONO(s, k, { x: x(feld), y: INHALT_Y, w: w(felder), h: 0.26, color: zweit, align: feld === 5 ? 'right' : 'left' }));
+    linie(s, pptx, x(0), INHALT_Y + 0.3, w(6), 0, schrift, { width: 1 });
+    f.schritte.forEach(([was, wer, wann], i) => {
+      const y = INHALT_Y + 0.4 + i * rh;
+      TXT(s, was, { x: x(0), y, w: w(3) - 0.1, h: rh - 0.1, bold: true, color: schrift, fontSize: 15 });
+      TXT(s, wer, { x: x(3), y, w: w(2), h: rh - 0.1, color: zweit });
+      MONO(s, wann, { x: x(5), y: y + 0.04, w: w(1), h: 0.26, color: schrift, fontSize: 11, align: 'right' });
+      linie(s, pptx, x(0), y + rh - 0.06, w(6), 0, G['300']);
+    });
+  },
+
+  // liste: [..] — was im Anhang steht
+  Z4_ANHANG(s, f, c) {
+    MONO(s, f.liste.join('\n'), { x: x(0), y: 4.0, w: w(4), h: 1.8, color: G['400'], fontSize: 11, lineSpacingMultiple: 1.6 });
+  },
+
   // enthalten: [..] · nicht: [..]
   L10_LIEFERUMFANG(s, f, c) {
     const { pptx, schrift, zweit } = c, rh = 0.5, y0 = INHALT_Y + 0.45;
@@ -222,8 +304,8 @@ async function baue(fall) {
       fontFace: F.technik, fontSize: 10, color: tief(f.p) ? G['400'] : G['600'], charSpacing: 2 });
 
     if (f.titel) {
-      const gross = ['T1_TITEL_TIEF', 'T2_SIGNALFELD', 'T4_TITEL_KUNDE', 'X1_STATEMENT',
-                     'A1_ABSCHNITT_TIEF', 'A2_ABSCHNITT_PAPIER', 'Q1_ZITAT', 'Z1_ABSCHLUSS'].includes(f.l);
+      const gross = ['T1_TITEL_TIEF', 'T2_SIGNALFELD', 'T4_TITEL_KUNDE', 'X1_STATEMENT', 'X4_BIG_IDEA', 'X5_FRAGE',
+                     'A1_ABSCHNITT_TIEF', 'A2_ABSCHNITT_PAPIER', 'Q1_ZITAT', 'Z1_ABSCHLUSS', 'Z4_ANHANG'].includes(f.l);
       const band = f.l === 'A3_ABSCHNITT_BAND';
       s.addText(f.titel, {
         x: x(0), y: band ? 3.2 : (gross ? 2.2 : RAND), w: w(band ? 5 : (gross ? 5 : 5)),
