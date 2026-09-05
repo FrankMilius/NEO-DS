@@ -1,0 +1,246 @@
+<title>Der Entwurf auf dem Prüfstand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+  .mk{text-transform:none}
+  :root{
+    --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af; --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200); --text:var(--g950); --muted:var(--g700); --faint:var(--g600); --border:var(--g300); --hair:var(--g200);
+    --label:#0079ad; --bad:#962e34; --lime:#37e93d; --ink:#161816; --paper:#f1f3f1;
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif; --f-info:'Manrope','Helvetica Neue',Arial,sans-serif; --f-tech:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    --col:1180px; --prose:66ch;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614; --text:var(--g100); --muted:var(--g400); --faint:var(--g500); --border:var(--g800); --hair:#232523; --label:#33b2e9; --bad:#fc949a; } }
+  :root[data-theme="dark"]{ --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614; --text:var(--g100); --muted:var(--g400); --faint:var(--g500); --border:var(--g800); --hair:#232523; --label:#33b2e9; --bad:#fc949a; }
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto} .prose{max-width:var(--prose)}
+  .mast{padding:72px 0 0}
+  .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:0 0 26px;display:flex;gap:14px;align-items:center} .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:.98;letter-spacing:-.035em;margin:0 0 24px;max-width:16ch;text-wrap:balance}
+  .lede{font-size:19.5px;line-height:1.5;color:var(--muted);max-width:62ch;margin:0 0 40px}
+  section{padding:80px 0 0}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;border-top:1px solid var(--text);padding-top:20px;margin-bottom:30px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--label);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.04;letter-spacing:-.028em;margin:0 0 12px;max-width:22ch;text-wrap:balance}
+  .sdek{font-size:17px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:34px 0 14px}
+  p{margin:0 0 16px} p:last-child{margin-bottom:0} em{font-style:normal;font-weight:600;color:var(--text)}
+  .law{border-left:3px solid var(--label);padding:6px 0 6px 24px;margin:0 0 30px} .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.6vw,28px);line-height:1.24;letter-spacing:-.018em;max-width:26ch;margin:0} .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:12px}
+  .verdict{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--label);padding:22px 26px;margin:0 0 24px} .verdict p{font-size:16px;max-width:78ch;margin:0} .verdict p+p{margin-top:12px}
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 30px}
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px} .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))} .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .card{background:var(--surface);padding:24px 24px 26px} .card h3{font-size:17.5px} .card p{font-size:14.6px;color:var(--muted);margin:0} .card p+p{margin-top:10px} .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 11px}
+  .card.f{border-left:3px solid var(--bad)} .card.l{border-left:3px solid var(--label)} .card.v{border-left:3px solid var(--g400)}
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px} table{border-collapse:collapse;width:100%;min-width:720px;font-size:14.3px}
+  thead th{font-family:var(--f-tech);font-size:10px;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.42} tbody tr:last-child td{border-bottom:0} td.c,th.c{text-align:center;white-space:nowrap} td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--label);font-weight:700} .no{color:var(--bad);font-weight:700} .half{color:var(--muted)}
+  .stage{background:#ffffff;color:var(--ink);border:1px solid var(--border);padding:40px 40px;display:flex;flex-wrap:wrap;gap:32px 56px;align-items:baseline;margin-bottom:1px}
+  .stage.deep{background:#161816;color:#f1f3f1}
+  .stage > div{display:flex;flex-direction:column} .stage .cap{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.62;display:block;margin-top:14px}
+  .lg{font-family:var(--f-brand);font-size:var(--s,64px);line-height:1;white-space:nowrap} .lg b{font-weight:700;letter-spacing:-.02em} .lg span{font-weight:400;letter-spacing:-.01em} .lg .gap{display:inline-block;width:.25em}
+  .lg.m5 span{font-weight:500;letter-spacing:0}
+  .lg .seam{background:color-mix(in srgb,var(--lime) 55%,transparent)}
+  .fav{display:inline-grid;place-items:center;background:#161816;color:#f1f3f1;font-family:var(--f-brand);font-weight:700;line-height:1;width:var(--f,64px);height:var(--f,64px);font-size:calc(var(--f,64px)*.62)}
+  .fav.gen{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;background:#111;color:#fff}
+  .fav.gen2{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;background:#fff;color:#111;outline:1px solid #ccc}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px} .cols ul{margin:0;padding-left:19px} .cols li{font-size:15px;color:var(--muted);margin-bottom:9px} .cols li b{color:var(--text);font-weight:600}
+  footer{padding-top:40px;margin-top:80px;border-top:1px solid var(--text);font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+  @media (max-width:760px){.shead{grid-template-columns:1fr;gap:10px}.snum{padding-top:0}.stage{padding:28px 20px;gap:28px 36px}}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <p class="code"><span class="mk">neo brand</span> · Kapitel 02 · Prüfung gegen sechs Bücher und drei Archive · 05.09.2026</p>
+  <h1>Der Entwurf auf dem Prüfstand</h1>
+  <p class="lede">Das Logo ist entschieden und gebaut. Dieses Papier hält den Entwurf gegen sechs Standardwerke und drei Archive, die du genannt hast — nicht, um ihn zu ändern, sondern um zu prüfen, wo er den Regeln des Fachs schon genügt, wo er sie verletzt und was deshalb verfeinert werden muss. Jeder Befund trägt seine Begründung und die Folge, wenn man ihn ignoriert. Was nur Beschäftigung wäre, steht ausdrücklich unter „nicht tun".</p>
+  <div class="law"><p>Ein Fehler, sieben Lücken, drei Verfeinerungen. Die Idee hält. Die Ausführung ist noch nicht fertig.</p><p class="src">Das Ergebnis in einem Satz</p></div>
+</header>
+
+<!-- 01 -->
+<section id="s01">
+  <div class="shead"><div class="snum">01</div><div><h2>Was die Quellen für dieses Logo bedeuten</h2><p class="sdek">Neun Quellen, je auf das reduziert, was sie zu einer Wortmarke in zwei Gewichten mit einem Node zu sagen haben. Die Bücher habe ich aus eigener Kenntnis und den öffentlichen Zusammenfassungen herangezogen, die Archive am 5. September 2026 aufgerufen. Brand New ist hinter einer Bezahlschranke; sichtbar waren Titel, Datum und Einordnung der letzten zehn System-Rezensionen.</p></div></div>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Quelle</th><th scope="col">Der Kern, bezogen auf uns</th><th scope="col">Die Prüffrage</th></tr></thead>
+    <tbody>
+      <tr><td><b>Airey · Logo Design Love</b></td><td>Sieben Grundsätze: einfach, relevant, an Tradition anschließen, unterscheidbar, einprägsam, <em>klein denken</em>, <em>eine Sache</em>. Dazu der Silhouettentest: Ein Zeichen muss an seinem Umriss erkennbar sein. Und: Das Logo wird im Kontext gezeigt, nie allein auf Weiß.</td><td>Hat das Zeichen genau eine Idee — und ist sie auf 16 px noch da?</td></tr>
+      <tr><td><b>Airey · Identity Designed</b></td><td>Fallstudien realer Identitäten. Die Lehre: Ein Logo ist erst fertig, wenn es in den Anwendungen bestanden hat — Karte, Schild, Bildschirm, Bewegung. Der Prozess ist iterativ; die Präsentation zeigt nicht das Logo, sondern die Marke im Einsatz.</td><td>Gibt es Anwendungsbelege, oder nur Folien?</td></tr>
+      <tr><td><b>Pentagram · 1,000 Marks</b></td><td>Tausend Zeichen aus sechzig Jahren, alphabetisch. Der Befund beim Blättern: Die tragfähigen sind Wortmarken mit <em>einer</em> typografischen Idee oder auf einen Umriss reduzierte Symbole. Und sie stehen neben 999 anderen — Unterscheidung ist eine Frage der Silhouette, nicht des Details.</td><td>Hält das Zeichen neben 999 anderen — und neben den acht Wettbewerbern?</td></tr>
+      <tr><td><b>Müller-Brockmann · Grid Systems</b></td><td>Das Raster ist keine Hilfslinie, sondern eine Denkordnung: Einheit, Modul, Verhältnis. Alles, was auf der Fläche steht, leitet sich aus demselben Modul ab — auch das Zeichen. Ein Logo, das sein eigenes Maß mitbringt und im Layout „irgendwie" sitzt, verletzt das Raster.</td><td>Leitet sich das Logo-Maß u aus dem Layoutraster ab, oder steht es daneben?</td></tr>
+      <tr><td><b>Lupton · Thinking with Type</b></td><td>Buchstabe, Text, Raster. Für uns drei Sätze: Schnitte mischen nur mit deutlichem Kontrast. Unterschneidung ist bei Displaygrößen Pflicht, und Vorbreiten unterscheiden sich zwischen Schnitten. Kleine Größen brauchen eigene Zeichnungen — weiter, offener, kräftiger.</td><td>Ist die Nahtstelle zwischen Bold und Regular typografisch gelöst? Gibt es eine Kleinfassung?</td></tr>
+      <tr><td><b>Müller / Remington · Logo Modernism</b></td><td>Sechstausend Zeichen 1940 bis 1980 in drei Familien: geometrisch, Effekt, typografisch. Die Lehre für uns: Die Kleinbuchstaben-Wortmarke in einer Grotesk ist eine Tradition, an die wir anschließen (Airey: incorporate tradition). Aber die Modernisten haben ihre Wortmarken <em>gezeichnet</em>, auch wenn eine Schrift die Grundlage war.</td><td>Ist das Zeichen eine Zeichnung — oder ein Schriftsatz, den jeder tippen kann?</td></tr>
+      <tr><td><b>Brand New · logo_system</b></td><td>Zehn Systemrezensionen der letzten zwei Jahre (Berlin Museum, Motto by Hilton, VoidZero, TIEN, Czech Government, Nederlander, Boston Symphony). Das wiederkehrende Urteil: Ein System wird nicht an der Titelfolie gemessen, sondern an der Regel, die das zehnte Produkt und die schlechteste Anwendung überlebt. Flexibilität ohne Bedeutung ist Beliebigkeit.</td><td>Was ist die Regel für das zehnte Produkt — und für den Praktikanten, der es setzt?</td></tr>
+      <tr><td><b>DesignRush · Best Logos</b></td><td>Jury aus 82 Gestaltern, Auszeichnungen nach Branche und Stil. Die veröffentlichten Begründungen sind kurz: Geometrie, Skalierbarkeit, eine Geschichte in einem Satz. Was fehlt, ist eine offengelegte Methodik — die Auswahl ist Geschmack von Profis, kein Prüfstand.</td><td>Lässt sich das Logo in einem Satz erklären, den ein Fremder wiederholen kann?</td></tr>
+      <tr><td><b>Behance · Logo</b></td><td>Logofolios und Marken-Sammlungen. Der Wert liegt im Präsentationsstandard, nicht in den Zeichen: Konstruktionsraster, Schutzraum, Mindestgröße, Einfarbigkeit, Anwendungs-Mockups — und die Warnung: Wer nur Logofolios anschaut, beginnt Symbole zu sammeln.</td><td>Ist unser Master so vollständig wie eine gute Fallstudie — und so diszipliniert?</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 02 -->
+<section id="s02">
+  <div class="shead"><div class="snum">02</div><div><h2>Der Entwurf gegen die Regeln</h2><p class="sdek">Sechzehn Prüfpunkte aus den neun Quellen. Erfüllt heißt: belegt, nicht behauptet. Lücke heißt: fehlt, und die Quelle sagt, warum das zählt. Fehler heißt: verletzt eine Regel, die nicht verhandelbar ist.</p></div></div>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Prüfpunkt</th><th scope="col">Quelle</th><th scope="col">Stand des Entwurfs</th><th scope="col" class="c">Urteil</th></tr></thead>
+    <tbody>
+      <tr><td>Eine Idee</td><td>Airey, Pentagram</td><td>Gewichtskontrast als Systemgesetz: eine Betonung, ein Rest. Nichts weiter.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>Relevant und angemessen</td><td>Airey</td><td>Die Idee ist die Produktaussage selbst. Für Verwaltung und Industrie tragbar, weil ohne Kostüm.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>Silhouettentest</td><td>Airey, Pentagram</td><td>Nicht gemacht. Die Wortmarke neben LumApps, Haiilo, Simpplr in Grau auf Grau — unklar, ob der Gewichtskontrast als Umriss trägt.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Klein denken</td><td>Airey, Lupton</td><td>Mindestgröße 14 px definiert, Node darunter. Aber keine eigene Kleinfassung und keine Negativfassung — dieselben Pfade für 14 px und 1400 px.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Unterschneidung</td><td>Lupton</td><td>Nicht gemacht. Die Pfade tragen die Laufweiten −2 und −1 Prozent. Die Nahtstelle o|c zwischen Bold und Regular ist ungeprüft.</td><td class="c no">Fehler</td></tr>
+      <tr><td>Kontrast der Schnitte</td><td>Lupton</td><td>700 gegen 400, Stämme 126 gegen 79: deutlich genug, klein noch sichtbar.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>Zeichnung statt Schriftsatz</td><td>Logo Modernism, Airey</td><td>Pfade aus einer frei verfügbaren Schrift, unverändert. Jeder mit Figma und Google Fonts kann das Zeichen nachsetzen.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Konstruktion aus einer Einheit</td><td>Müller-Brockmann</td><td>u = Stammbreite, alle Maße Vielfache. Aber u ist relativ zum Geviert und hat keinen Bezug zum Layoutraster (8 px Web, Steg 40 Folie).</td><td class="c half">Lücke</td></tr>
+      <tr><td>Master in Geviert-Einheiten</td><td>Müller-Brockmann, Lupton</td><td>Der Master liegt bei Schriftgrad 320 px in Figma; Exporte sind Pixelpfade, auf Tausendstel gerundet. Für Druck reicht das, ein Master in 1000 Einheiten ist es nicht.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Regel für das zehnte Produkt</td><td>Brand New</td><td>„Ein Wort, klein, zwölf Zeichen" — gut. Ungeklärt: die Sprache der Zusätze (workplace, app sind englisch; ein deutsches Produkt hieße „<span class="mk">neo</span> wissen"?).</td><td class="c half">Lücke</td></tr>
+      <tr><td>Anwendungsbelege</td><td>Identity Designed, Behance</td><td>Nur Folien und Gründe. Keine Visitenkarte, kein Header, kein Homescreen, keine Messewand mit dem Zeichen.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Unterscheidbarkeit des Node</td><td>Airey, Pentagram</td><td>„n im schwarzen Quadrat" ist ein besetztes Muster im Software-Umfeld (schwarz-weiße Buchstaben-Icons sind Standard). Nicht gegen den Bestand geprüft.</td><td class="c half">Lücke</td></tr>
+      <tr><td>Einfarbig, Gründe, Kontrast</td><td>Airey, Kapitel 04</td><td>Fünf Gründe mit gerechneten Kontrasten, keine eigene Farbe, Weiß verboten.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>Schutzraum und Überlagerung</td><td>Behance-Standard, Kapitel 02 des Markenbuchs</td><td>4 u definiert, Anschnitt an Ebenenkanten erlaubt.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>In einem Satz erklärbar</td><td>DesignRush</td><td>„<span class="mk">neo</span> trägt die Betonung, alles danach beschreibt." Ein Fremder kann das wiederholen.</td><td class="c yes">erfüllt</td></tr>
+      <tr><td>Nichts Überflüssiges</td><td>Airey, Logo Modernism</td><td>Kein Symbol, keine Farbe, kein Effekt, keine Rundung, keine Animation außer der einen.</td><td class="c yes">erfüllt</td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict"><p><strong>Sieben von sechzehn erfüllt, ein Fehler, acht Lücken — die sich zu sieben Befunden bündeln.</strong> Die Verteilung ist typisch für einen Entwurf, der als Idee fertig ist und als Zeichnung nicht: Alles, was die Quellen über Konzept und Reduktion sagen, trifft zu. Alles, was sie über Handwerk, Prüfung und Anwendung sagen, steht noch aus. Das ist keine Schwäche der Idee, sondern der Punkt, an dem Identitäten üblicherweise abbrechen — und deshalb der Punkt, an dem wir nicht abbrechen.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="s03">
+  <div class="shead"><div class="snum">03</div><div><h2>Die Befunde, mit Begründung und Folge</h2><p class="sdek">Ein Fehler, sieben Lücken, drei Verfeinerungen. Jeder Befund nennt die Quelle, die Maßnahme, das Prüfkriterium und was passiert, wenn man nichts tut. Wo das Ergebnis eine Entscheidung ist, steht sie als Frage, nicht als Vorschlag.</p></div></div>
+
+  <h4>F1 · Fehler · Die Nahtstelle und die Unterschneidung</h4>
+  <div class="stage">
+    <div><div class="lg" style="--s:120px"><b>ne<span class="seam">o</span></b><span><span class="seam">c</span>osmo</span></div><span class="cap">Die Naht o|c · Bold trifft Regular · markiert</span></div>
+  </div>
+  <div class="stage deep" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:72px"><b><span class="mk">neo</span></b><span>cosmo</span></div><span class="cap">Negativ · Regular 400 · wirkt dünner als auf Weiß</span></div>
+    <div><div class="lg m5" style="--s:72px"><b><span class="mk">neo</span></b><span>cosmo</span></div><span class="cap">Negativ · Medium 500 als Zusatz · Vorschlag zur Prüfung</span></div>
+  </div>
+  <div class="grid g3">
+    <div class="card f"><p class="lbl">Warum es ein Fehler ist</p><h3>Zwei Schnitte, zwei Vorbreiten</h3><p>Lupton: Jeder Schnitt hat eigene Vorbreiten; Bold ist enger gezeichnet als Regular. An der Naht o|c stoßen die Vorbreite eines Bold-o und die eines Regular-c aufeinander — ein Abstand, den kein Schriftentwerfer je geprüft hat, weil er in keinem Text vorkommt. Dazu die Paare, die Space Grotesk ohnehin locker setzt: eo, oc, sm, mo. Ein Logo ohne Unterschneidung ist ein Schriftsatz, kein Zeichen.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Kerning-Pass am 1000er-Master</h3><p>Erst F2 (Master in Geviert-Einheiten), dann von Hand: Die Naht wird auf den optischen Abstand innerhalb von „cosmo" gebracht — das Auge muss die Wortmitte als gleichmäßig lesen, obwohl die Gewichte wechseln. Danach die vier Paare. Prüfung: Wortmarke auf 24 px und 240 px, um 180 Grad gedreht — Löcher und Kollisionen zeigen sich kopfüber sofort.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Das Loch in der Mitte</h3><p>Auf Folien fällt es nicht auf. Auf der Messewand steht ein sichtbarer Spalt genau an der Stelle, die die Idee trägt — der Übergang von Betonung zu Beschreibung. Die Marke würde dort brechen, wo sie ihre Aussage macht.</p></div>
+  </div>
+
+  <h4>F2 · Lücke · Ein Master in tausend Einheiten</h4>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Pixel sind kein Maß</h3><p>Müller-Brockmann und Lupton denken in Einheiten des Gevierts, nicht in Bildschirmpunkten. Unser Master liegt bei 320 px; die Exporte sind Pixelpfade mit drei Nachkommastellen. Für die Messewand wird der Pfad skaliert — jede Rundung wächst mit. Eine Prägung oder ein Fräsen in Metall zeigt das.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Master 1000 upm, u = 126</h3><p>Ein Figma-Rahmen, in dem das Geviert 1000 Einheiten misst; alle Pfade dorthin übertragen, dort unterschneiden (F1), von dort exportieren. Alle Maße des Kapitels 02 stehen dann als ganze Zahlen im Master: x-Höhe 504, Abstand 252, Schutzraum 504, Node 1008.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Zwei Wahrheiten</h3><p>Das Markenbuch sagt „4 u", die Datei sagt „158,7 px". Wer beides hat, vertraut keinem. Eine Konstruktion, die nicht in ihrer eigenen Einheit vorliegt, ist eine Beschreibung, keine Konstruktion.</p></div>
+  </div>
+
+  <h4>F3 · Lücke · Kleinfassung und Negativfassung</h4>
+  <div class="stage" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:14px"><b><span class="mk">neo</span></b><span>cosmo</span></div><div class="lg" style="--s:18px;margin-top:10px"><b><span class="mk">neo</span></b><span>cosmo</span></div><span class="cap">14 und 18 px · Regular 400, −1 % · wie heute</span></div>
+    <div><div class="lg m5" style="--s:14px"><b><span class="mk">neo</span></b><span>cosmo</span></div><div class="lg m5" style="--s:18px;margin-top:10px"><b><span class="mk">neo</span></b><span>cosmo</span></div><span class="cap">14 und 18 px · Medium 500, Laufweite 0 · Vorschlag Kleinfassung</span></div>
+  </div>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Optische Größen sind eine Regel, keine Kür</h3><p>Lupton und jede Schriftgeschichte: Was klein gelesen wird, wird weiter, offener, kräftiger gezeichnet. Airey sagt „klein denken" und meint genau das. Wir haben eine Mindestgröße definiert, aber dieselben Pfade darüber und darunter. Dazu die Irradiation: Helle Schrift auf dunklem Grund wirkt dünner — der Regular-Zusatz verliert auf Graphit 950 an Gewicht.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Zwei zusätzliche Fassungen, dieselbe Zeichnung</h3><p>Kleinfassung 14 bis 24 px: Zusatz in Medium 500, Laufweite 0. Negativfassung für dunkle Gründe: Zusatz in Medium 500, sonst unverändert. Beides wird gemessen, nicht geschätzt: Stammbreite des Zusatzes auf 16 px muss mindestens 1 px voll decken; auf Graphit 950 muss der Kontrast der Stämme dem auf Weiß entsprechen. <em>Zu entscheiden, nachdem du beide Proben oben gesehen hast.</em></p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Die Pointe verschwindet zuerst dort, wo sie am häufigsten steht</h3><p>Browser-Tab, Signatur, Fußzeile, App-Kopf: Das sind die Orte, an denen das Logo am meisten gesehen wird — und die, an denen 400 auf 16 px zu einem Grau wird.</p></div>
+  </div>
+
+  <h4>F4 · Lücke · Der Node neben den anderen</h4>
+  <div class="stage" style="margin-bottom:16px">
+    <div><div class="fav" style="--f:64px">n</div><span class="cap">Unser Node</span></div>
+    <div><div class="fav gen" style="--f:64px">N</div><span class="cap">Schematisch · versaler Buchstabe, schwarzes Quadrat</span></div>
+    <div><div class="fav gen2" style="--f:64px">N</div><span class="cap">Schematisch · Buchstabe auf Weiß</span></div>
+    <div><div class="fav gen" style="--f:64px;border-radius:14px">n</div><span class="cap">Schematisch · gerundet, wie App-Icons</span></div>
+    <div><div class="fav" style="--f:64px;background:var(--lime);color:#161816">n</div><span class="cap">Unser Signal-Node</span></div>
+  </div>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Buchstabe im Quadrat ist die Kategorie der App-Icons</h3><p>Airey: Unterscheidung über die Silhouette. Pentagram: neben 999 anderen. Der Umriss unseres Node ist ein Quadrat mit einem n — dieselbe Silhouette wie Dutzende Software-Icons mit Anfangsbuchstaben. Was ihn unterscheidet, ist nur, dass das Quadrat <em>nicht</em> gerundet ist und der Buchstabe klein — auf 16 px beides kaum sichtbar. Die Schemata daneben sind keine echten Logos, sie zeigen die Klasse.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Aufstellung, dann Entscheidung</h3><p>Der Node wird in einer Reihe mit den tatsächlichen Icons der Wettbewerber und der üblichen Verdächtigen (Notiz-, Chat- und Bank-Apps mit N) auf 32 px gezeigt. Erkennt man ihn, bleibt er. Erkennt man ihn nicht, gibt es zwei ehrliche Wege: das n so zeichnen, dass seine Silhouette eigen ist (Schulter, Fuß — siehe F5), oder den Node ohne Buchstaben als reines System-Quadrat mit dem Signal zu führen. <em>Keine dritte Form, kein Symbol.</em></p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Die Marke ist im Tab unsichtbar</h3><p>Das Favicon ist das am häufigsten gesehene Markenelement. Wenn es in der Reihe der Tabs mit anderen Buchstaben-Quadraten verschwimmt, hat das System dort, wo es täglich auftritt, keinen Wiedererkennungswert.</p></div>
+  </div>
+
+  <h4>F5 · Lücke · Schriftsatz oder Zeichnung</h4>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Space Grotesk gehört allen</h3><p>Logo Modernism zeigt Wortmarken, die auf Grotesken beruhen und trotzdem gezeichnet sind: Braun, Olivetti, die Marken der Sechziger — jede hat zwei, drei Eigenheiten, die die Schrift nicht hat. Space Grotesk ist eine frei verfügbare Google-Schrift von 2018 und in Tech-Auftritten der letzten Jahre allgegenwärtig. Das Zeichen ist damit heute exakt reproduzierbar — von jedem. Airey: „aim for distinction". Rechtlich: Die Lizenz (OFL) erlaubt Modifikation; ein modifiziertes Zeichen ist zudem als Bildmarke leichter zu schützen.</p></div>
+    <div class="card"><p class="lbl">Maßnahme · später</p><h3>Zwei bis drei Eigenheiten, nur wenn sie die Idee stärken</h3><p>Erst nach F1 und F2. Kandidaten, weil sie in „<span class="mk">neocosmo</span>" mehrfach vorkommen: das waagerechte Terminal von e und c (schärfen oder exakt auf die x-Höhen-Linie legen), die Schulter des n (die auch der Node trägt), der Bogen des o. Die Prüfung ist der Silhouettentest: die Wortmarke als Umriss neben LumApps, Haiilo, Simpplr. Wird sie eigener, bleibt die Änderung; wird sie nur anders, fällt sie. <em>Das ist eine Entscheidung nach Sichtung, nicht vorab.</em></p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Zeitlos oder zeittypisch</h3><p>Deine Vorgabe war Zeitlosigkeit. Eine unveränderte Trendschrift datiert ein Zeichen auf ihr Jahrzehnt — nicht wegen ihrer Form, sondern wegen ihrer Verbreitung. Das Risiko ist mittelfristig, nicht heute; deshalb später, aber nicht nie.</p></div>
+  </div>
+
+  <h4>F6 · Lücke · Das Logo im Layoutraster</h4>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Träger</th><th scope="col">Rastermodul</th><th scope="col">Vorschlag: Logo-Maß aus dem Modul</th><th scope="col">Schriftgrad</th></tr></thead>
+    <tbody>
+      <tr><td>Website, Header</td><td>8 px Grundeinheit</td><td>x-Höhe = 2 Einheiten = 16 px</td><td class="m">32 px</td></tr>
+      <tr><td>Website, Fußzeile</td><td>8 px</td><td>x-Höhe = 1,5 Einheiten = 12 px</td><td class="m">24 px</td></tr>
+      <tr><td>Folie 1920 × 1080</td><td>Steg 40 px</td><td>x-Höhe = ein Steg = 40 px</td><td class="m">80 px</td></tr>
+      <tr><td>Folie, Fußzeile</td><td>Steg 40 px</td><td>x-Höhe = ein halber Steg = 20 px</td><td class="m">40 px</td></tr>
+      <tr><td>A4, Rand 20 mm, Steg 4 mm</td><td>Steg 4 mm</td><td>x-Höhe = ein Steg = 4 mm</td><td class="m">8 mm</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Müller-Brockmann kennt kein Element außerhalb des Rasters</h3><p>u ist relativ zum Geviert und damit zum Logo selbst. Das ist richtig für die Konstruktion, aber es sagt nichts darüber, wie groß das Logo im Header oder auf der Folie ist. Heute ist das Gefühlssache — genau das, was das Raster abschaffen soll.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>x-Höhe als Rastergröße</h3><p>Die x-Höhe des Logos (4 u) wird auf ein Vielfaches des jeweiligen Rastermoduls gesetzt; daraus folgt der Schriftgrad. Die Tabelle ist der Vorschlag; er wird in Kapitel 02 als Regel aufgenommen, sobald du ihn bestätigst. Prüfung: Logo, Haarlinie und Text im Header teilen dieselbe Grundlinie.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Jede Anwendung erfindet die Größe neu</h3><p>Zehn Anwendungen, zehn Logogrößen, keine davon falsch, keine begründet. Das ist die Beliebigkeit, die Brand New an Systemen bemängelt.</p></div>
+  </div>
+
+  <h4>F7 · Lücke · Anwendungsbelege statt Folien</h4>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Identity Designed zeigt nie das Logo, immer die Marke</h3><p>Aireys Fallstudien und der Behance-Standard sind sich einig: Ein Zeichen ist geprüft, wenn es auf Karte, Schild, Bildschirm und Bewegung bestanden hat. Wir haben Gründe und Größen — abstrakt, sauber, ohne Reibung. Reibung entsteht erst in der Anwendung: neben einem Kundenlogo, auf einem Foto, in der Signatur, im App-Store neben Slack.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Sechs Anwendungen als Prüfset, nicht als Dekoration</h3><p>Website-Header mit Navigation, Visitenkarte, E-Mail-Signatur, Homescreen mit Node neben drei fremden Icons, Messewand aus MO3, Titelfolie neben einem Kundenlogo (T4). Jede Anwendung hat ein Kriterium: Grundlinie, Kontrast, Wiedererkennung auf Distanz. Die Mockup-Vorlagen dafür existieren bereits im Brand-Deck.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Der erste echte Einsatz wird zur Prüfung</h3><p>Dann findet die Prüfung bei einem Kunden statt, mit einem Termin dahinter. Das ist der teuerste Prüfstand, den es gibt.</p></div>
+  </div>
+
+  <h4>F8 · Lücke · Die Sprache der Zusätze</h4>
+  <div class="grid g3">
+    <div class="card l"><p class="lbl">Warum</p><h3>Die Regel für das zehnte Produkt</h3><p>Brand New misst Systeme an ihrer schwächsten Anwendung. Unsere Familienregel — ein Wort, klein, zwölf Zeichen — beantwortet Länge und Form, aber nicht die Sprache. „<span class="mk">neo</span> workplace" und „<span class="mk">neo</span> app" sind englisch. Ein Produkt für Wissensmanagement hieße dann „<span class="mk">neo</span> knowledge" — oder „<span class="mk">neo</span> wissen"? Beides ist möglich, aber nur eines je Familie.</p></div>
+    <div class="card"><p class="lbl">Entscheidung</p><h3>Englisch, deutsch oder Bezeichnung statt Sprache?</h3><p>Drei Wege: alle Zusätze englisch (Kategoriekonvention, international); alle deutsch (Kundschaft: Verwaltung, Versicherung); oder nur sprachneutrale Wörter zulassen (app, portal, mobile, core — Wörter, die in beiden Sprachen stehen). Der dritte Weg ist der strengste und der, der am längsten hält. <em>Deine Entscheidung, keine Gestaltungsfrage.</em></p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Das dritte Produkt bricht die Familie</h3><p>Nicht heute. Beim dritten Produkt, wenn jemand im Vertrieb ein Wort braucht und keines in der Regel findet.</p></div>
+  </div>
+
+  <h4>F9 · Verfeinerung · Runde Anfangsbuchstaben</h4>
+  <div class="stage" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>workplace</span></div><span class="cap">w · gerader Anfang · 2 u</span></div>
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>app</span></div><span class="cap">a · runder Anfang · wirkt weiter, obwohl 2 u</span></div>
+  </div>
+  <div class="grid g3">
+    <div class="card v"><p class="lbl">Warum</p><h3>Optischer Ausgleich</h3><p>Lupton: Runde Formen brauchen Überhang, sonst wirken sie kleiner und weiter entfernt. Unser Abstand 2 u gilt von Tinte zu Tinte; beim „a" beginnt die Tinte an der Rundung, beim „w" an einer Kante. Gleiches Maß, ungleicher Eindruck.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Regel: runde Anfänge minus 0,1 u</h3><p>Zusätze, die mit a, c, e, o, s beginnen, rücken um ein Zehntel u näher. Das ist die übliche Überhang-Konvention, auf den Lockup übertragen. Prüfung: Wortmarke und Lockups in einer Spalte, die Zusätze beginnen optisch auf einer Linie.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Fast nichts</h3><p>Ein Zehntel u sieht niemand bewusst. Aber alle Produkte nebeneinander wirken minimal unruhig, und niemand weiß, warum.</p></div>
+  </div>
+
+  <h4>F10 · Verfeinerung · Das n im Node auf 16 px</h4>
+  <div class="grid g3">
+    <div class="card v"><p class="lbl">Warum</p><h3>Auf 16 px ist die Schulter des n zwei Pixel</h3><p>Airey: klein denken. Der Node von 16 px trägt ein n mit 8 px x-Höhe; der Bogen der Schulter wird zu zwei grauen Pixeln. Die Grundlinie bei 0,746 der Kante ist gerechnet, nicht optisch geprüft — das n könnte auf dem Homescreen einen Hauch zu hoch sitzen.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Eine Pixelfassung für 16 und 32</h3><p>Ein eigens gezeichnetes n auf dem Pixelraster — geradere Schulter, breiterer Bogen, keine Halbpixel — wie es die großen Plattformen für ihre kleinsten Icons tun. Nur zwei Größen, aus derselben Idee. Sitz des n optisch prüfen, nicht rechnen.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Grauer Fleck im Tab</h3><p>Das Favicon ist auf 16 px unscharf, während die Wettbewerber-Icons daneben scharf sind. Der Unterschied ist klein und permanent.</p></div>
+  </div>
+
+  <h4>F11 · Verfeinerung · Aussprache und Vorlesen</h4>
+  <div class="grid g3">
+    <div class="card v"><p class="lbl">Warum</p><h3>Ein Wort in zwei Gewichten ist immer noch ein Wort</h3><p>Screenreader lesen „<span class="mk">neocosmo</span>" als ein Wort und „<span class="mk">neo</span> workplace" als zwei — richtig. Aber Sprachassistenten und Menschen betonen „<span class="mk">neocosmo</span>" auf der zweiten Silbe; das Logo betont die erste. Das ist kein Fehler, aber ein Unterschied zwischen Bild und Klang.</p></div>
+    <div class="card"><p class="lbl">Maßnahme</p><h3>Aussprache festlegen, im Markenbuch nennen</h3><p>Ein Satz in Kapitel 2.7: „<span class="mk">neo</span>-cosmo, Betonung auf <span class="mk">neo</span>." Alt-Texte: „<span class="mk">neocosmo</span>" und „<span class="mk">neo</span> workplace", ohne Zusatz „Logo". Das kostet nichts und beendet die Frage, bevor sie in Videos und Sprachmenüs unterschiedlich beantwortet wird.</p></div>
+    <div class="card"><p class="lbl">Wenn nicht</p><h3>Drei Aussprachen</h3><p>Vertrieb, Kunden und Sprachassistent sagen es verschieden. Kein Schaden, aber ein Stück weniger Klarheit.</p></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="s04">
+  <div class="shead"><div class="snum">04</div><div><h2>Was jetzt, was später, was nie</h2><p class="sdek">Die Reihenfolge folgt aus den Abhängigkeiten: Erst der Master, dann das Handwerk darin, dann die Prüfungen, die das Handwerk brauchen. Entscheidungen, die nur du treffen kannst, stehen als Fragen.</p></div></div>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col" class="m">Nr.</th><th scope="col">Schritt</th><th scope="col">Befund</th><th scope="col">Warum in dieser Reihenfolge</th></tr></thead>
+    <tbody>
+      <tr><td class="m">1</td><td>Master in 1000 Einheiten anlegen, Pfade übertragen</td><td class="m">F2</td><td>Alles Weitere wird darin gemacht; sonst zweimal.</td></tr>
+      <tr><td class="m">2</td><td>Unterschneidung von Hand, Naht o|c zuerst, dann eo, oc, sm, mo; Prüfung kopfüber auf 24 und 240 px</td><td class="m">F1</td><td>Der eine Fehler. Vor jeder Prüfung, weil jede Prüfung sonst den Fehler misst.</td></tr>
+      <tr><td class="m">3</td><td>Deine Entscheidung nach Sichtung: Kleinfassung und Negativfassung mit Medium 500?</td><td class="m">F3</td><td>Die Proben stehen oben. Erst entscheiden, dann zeichnen.</td></tr>
+      <tr><td class="m">4</td><td>Deine Entscheidung: Rasterregel „x-Höhe = Rastermodul" nach der Tabelle in F6?</td><td class="m">F6</td><td>Bestimmt die Größen im Prüfset (Schritt 6).</td></tr>
+      <tr><td class="m">5</td><td>Deine Entscheidung: Sprache der Zusätze — englisch, deutsch oder sprachneutral?</td><td class="m">F8</td><td>Bestimmt, welche Lockups im Prüfset stehen.</td></tr>
+      <tr><td class="m">6</td><td>Prüfset: sechs Anwendungen mit je einem Kriterium; Node-Aufstellung auf 32 px neben echten Icons; Silhouettentest neben LumApps, Haiilo, Simpplr</td><td class="m">F7, F4</td><td>Erst mit unterschnittenen Pfaden und festen Größen sinnvoll. Ergebnis: bestanden oder konkreter Änderungsbedarf.</td></tr>
+      <tr><td class="m">7</td><td>Regel runde Anfänge −0,1 u; Pixelfassung des n für 16 und 32; Aussprache und Alt-Text in 2.7</td><td class="m">F9, F10, F11</td><td>Kleine Verfeinerungen, die nach dem Prüfset in einem Zug erledigt werden.</td></tr>
+      <tr><td class="m">8</td><td><em>Später:</em> zwei bis drei Eigenheiten in der Zeichnung prüfen (Terminal von e und c, Schulter des n); Silhouettentest entscheidet</td><td class="m">F5</td><td>Nur nach bestandenem Prüfset, und nur, wenn die Silhouette eigener wird. Nicht aus Ehrgeiz.</td></tr>
+      <tr><td class="m">—</td><td><em>Nie:</em> ein Symbol, eine Farbe im Wort, eine gerundete Node-Fassung, eine zweite Animation, eine Versalfassung, ein Logofolio-Effekt aus den Galerien</td><td class="m">alle Quellen</td><td>Jede Quelle warnt vor dem Mehr. Die Idee hält, weil sie eine ist.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict"><p><strong>Das Wesentliche in einem Absatz.</strong> Die Idee des Logos besteht die Prüfung gegen alle neun Quellen: eine Sache, relevant, reduziert, in einem Satz erklärbar, an eine Tradition angeschlossen, in der Kategorie unbesetzt. Was die Quellen einfordern und der Entwurf noch schuldig ist, ist Handwerk — Unterschneidung, Master in Geviert-Einheiten, optische Größen — und Prüfung in Anwendung. Drei Fragen sind deine: Medium für klein und negativ, die Rasterregel, die Sprache der Zusätze. Eine Frage ist vertagt und bleibt es: die eigene Zeichnung. Nichts davon ändert die Entscheidung vom 5. September. Alles davon entscheidet, ob sie hält.</p></div>
+</section>
+
+<footer>
+  <p><b><span class="mk">neo brand</span> · Prüfung des Logoentwurfs</b> — 5. September 2026. Quellen: David Airey, Logo Design Love (3. Aufl.) und Identity Designed; Pentagram, 1,000 Marks (Unit Editions / Thames &amp; Hudson); Josef Müller-Brockmann, Grid Systems in Graphic Design; Ellen Lupton, Thinking with Type (3. Aufl.); Jens Müller / R. Roger Remington, Logo Modernism (Taschen); Brand New (underconsideration.com, Tag logo_system), DesignRush Best Logos, Behance Logo — Archive aufgerufen am 5. September 2026. Die schematischen Icons in F4 sind keine Logos Dritter, sondern Klassenbeispiele.</p>
+</footer>
+</div>
