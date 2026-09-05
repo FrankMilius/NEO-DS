@@ -1,0 +1,175 @@
+<title>Was aus piipe wird</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+  .mk{text-transform:none}
+  :root{
+    --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af; --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200); --text:var(--g950); --muted:var(--g700); --faint:var(--g600); --border:var(--g300); --hair:var(--g200);
+    --label:#0079ad; --bad:#962e34; --lime:#37e93d; --forest:#0c4146; --mint:#efffe6; --ink:#161816; --paper:#f1f3f1; --piipe:#002049;
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif; --f-info:'Manrope','Helvetica Neue',Arial,sans-serif; --f-tech:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    --col:1180px; --prose:66ch;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614; --text:var(--g100); --muted:var(--g400); --faint:var(--g500); --border:var(--g800); --hair:#232523; --label:#33b2e9; --bad:#fc949a; } }
+  :root[data-theme="dark"]{ --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614; --text:var(--g100); --muted:var(--g400); --faint:var(--g500); --border:var(--g800); --hair:#232523; --label:#33b2e9; --bad:#fc949a; }
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto} .prose{max-width:var(--prose)}
+  .mast{padding:72px 0 0}
+  .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:0 0 26px;display:flex;gap:14px;align-items:center} .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(40px,6.4vw,76px);line-height:.98;letter-spacing:-.035em;margin:0 0 24px;max-width:16ch;text-wrap:balance}
+  .lede{font-size:19.5px;line-height:1.5;color:var(--muted);max-width:62ch;margin:0 0 40px}
+  section{padding:80px 0 0}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;border-top:1px solid var(--text);padding-top:20px;margin-bottom:30px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--label);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.04;letter-spacing:-.028em;margin:0 0 12px;max-width:22ch;text-wrap:balance}
+  .sdek{font-size:17px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:34px 0 14px}
+  p{margin:0 0 16px} p:last-child{margin-bottom:0} em{font-style:normal;font-weight:600;color:var(--text)}
+  .law{border-left:3px solid var(--label);padding:6px 0 6px 24px;margin:0 0 30px} .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.6vw,28px);line-height:1.24;letter-spacing:-.018em;max-width:26ch;margin:0} .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:12px}
+  .verdict{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--label);padding:22px 26px;margin:0 0 24px} .verdict p{font-size:16px;max-width:78ch;margin:0} .verdict p+p{margin-top:12px}
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 30px}
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px} .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))} .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .card{background:var(--surface);padding:24px 24px 26px} .card h3{font-size:17.5px} .card p{font-size:14.6px;color:var(--muted);margin:0} .card p+p{margin-top:10px} .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 11px}
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px} table{border-collapse:collapse;width:100%;min-width:720px;font-size:14.3px}
+  thead th{font-family:var(--f-tech);font-size:10px;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.42} tbody tr:last-child td{border-bottom:0} td.c,th.c{text-align:center} td.m{font-family:var(--f-tech);font-size:12.5px}
+  .yes{color:var(--label);font-weight:700} .no{color:var(--faint)} .half{color:var(--muted)}
+  .stage{background:#ffffff;color:var(--ink);border:1px solid var(--border);padding:44px 40px;display:flex;flex-wrap:wrap;gap:36px 64px;align-items:baseline;margin-bottom:1px}
+  .stage.paper{background:var(--paper)} .stage.deep{background:#161816;color:#f1f3f1} .stage.forest{background:#0c4146;color:#efffe6} .stage.mint{background:#efffe6}
+  .stage > div{display:flex;flex-direction:column} .stage .cap{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;opacity:.62;display:block;margin-top:14px}
+  .lg{font-family:var(--f-brand);font-size:var(--s,64px);line-height:1;white-space:nowrap} .lg b{font-weight:700;letter-spacing:-.02em} .lg span{font-weight:400;letter-spacing:-.01em} .lg .gap{display:inline-block;width:.25em}
+  .lg .end{display:block;font-weight:400;font-size:.32em;letter-spacing:0;margin-top:.28em;color:inherit;opacity:.75}
+  .lg .end b{font-weight:700;letter-spacing:-.01em}
+  .fav{display:inline-grid;place-items:center;background:#161816;color:#f1f3f1;font-family:var(--f-brand);font-weight:700;line-height:1;width:var(--f,64px);height:var(--f,64px);font-size:calc(var(--f,64px)*.62)}
+  .piipe{color:var(--piipe)} .piipe svg{display:block;height:var(--s,64px);width:auto}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px} .cols ul{margin:0;padding-left:19px} .cols li{font-size:15px;color:var(--muted);margin-bottom:9px} .cols li b{color:var(--text);font-weight:600}
+  footer{padding-top:40px;margin-top:80px;border-top:1px solid var(--text);font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+  @media (max-width:760px){.shead{grid-template-columns:1fr;gap:10px}.snum{padding-top:0}.stage{padding:28px 20px;gap:28px 36px}}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <p class="code"><span class="mk">neo brand</span> · Kapitel 02 · Arbeitspapier piipe · 05.09.2026</p>
+  <h1>Zwei Namen, ein System?</h1>
+  <p class="lede">Das Logo ist entschieden: <span class="mk">neo</span> trägt die Betonung, alles danach beschreibt. Offen ist, was aus piipe wird — der Produktmarke, die heute mit eigenem Signet, eigener Farbe und in Versalien neben <span class="mk">neocosmo</span> steht. Dieses Papier zeigt, wie piipe im <span class="mk">neo</span>-System aussähe, in vier Wegen, live gesetzt. Danach entscheidest du, ob die Marke bleibt oder geht.</p>
+  <div class="stage" style="margin-bottom:0">
+    <div><div class="piipe" style="--s:64px"><svg viewBox="8 10 60 20" role="img" aria-label="piipe Logo heute"><g fill="#002049"><path d="M16,10 C20.418278,10 24,13.581722 24,18 C24,22.418278 20.418278,26 16,26 C14.54287219,26 13.17673239,25.6104339 12.00005029,24.9297715 L12,28 C12,29.1045695 11.1045695,30 10,30 C8.8954305,30 8,29.1045695 8,28 L8,18 C8,13.581722 11.581722,10 16,10 Z M16,14 C13.790861,14 12,15.790861 12,18 C12,20.209139 13.790861,22 16,22 C18.209139,22 20,20.209139 20,18 C20,15.790861 18.209139,14 16,14 Z"/><rect x="26" y="10" width="4" height="16" rx="2"/><rect x="32" y="10" width="4" height="16" rx="2"/><path d="M46,10 C50.418278,10 54,13.581722 54,18 C54,22.418278 50.418278,26 46,26 C44.5428722,26 43.1767324,25.6104339 42.0000503,24.9297715 L42,28 C42,29.1045695 41.1045695,30 40,30 C38.8954305,30 38,29.1045695 38,28 L38,17.86666667 L38.0010881,17.8667036 C38.0722629,13.50990768 41.62624,10 46,10 Z M46,14 C43.790861,14 42,15.790861 42,18 C42,20.209139 43.790861,22 46,22 C48.209139,22 50,20.209139 50,18 C50,15.790861 48.209139,14 46,14 Z"/><rect x="56" y="10" width="12" height="4" rx="2"/><rect x="56" y="16" width="12" height="4" rx="2"/><rect x="56" y="22" width="12" height="4" rx="2"/></g></svg></div><span class="cap">Heute · piipe-Wortmarke aus geometrischen Formen · <span class="mk">neo</span> darkblue</span></div>
+    <div><div class="lg" style="--s:64px"><b><span class="mk">neo</span></b><span class="gap"></span><span>workplace</span></div><span class="cap">Weg A · das Produkt bekommt den Familiennamen</span></div>
+    <div><div class="lg" style="--s:64px"><b>piipe</b><span class="end">von <b><span class="mk">neo</span></b>cosmo</span></div><span class="cap">Weg C · piipe bleibt, in der Systemzeichnung, mit Absender</span></div>
+  </div>
+</header>
+
+<!-- 01 -->
+<section id="s01">
+  <div class="shead"><div class="snum">01</div><div><h2>Was piipe heute ist</h2><p class="sdek">Bevor über den Namen entschieden wird, muss klar sein, was an ihm hängt: ein Zeichen, eine Farbe, ein Vokabular und sechzig Kunden, die das Wort in Verträgen und Ausschreibungen führen.</p></div></div>
+  <div class="grid g3">
+    <div class="card"><p class="lbl">Das Zeichen</p><h3>Signet aus Grundformen</h3><p>Zwei p aus Kreis und Stiel, zwei i als Stäbe, ein e aus drei Balken — alles mit Radius, alles in <span class="mk">neo</span> darkblue #002049. Es ist ein konstruiertes Zeichen im Stil der Software-Icons der 2010er: freundlich, rund, technisch.</p></div>
+    <div class="card"><p class="lbl">Das Vokabular</p><h3>piipe ist überall im Produkt</h3><p>piipe Workplace, piipe Mobile App, piipe Core, piipe Modules, piipe Theme, piipe Application Components. Der Name ist nicht nur eine Marke nach außen, sondern der Name der Technik nach innen — und in den Verträgen.</p></div>
+    <div class="card"><p class="lbl">Die Kunden</p><h3>Sechzig Häuser kennen das Wort</h3><p>Deutsche Rentenversicherung, Dataport, Polizei Baden-Württemberg, degewo — sie haben piipe ausgeschrieben, eingeführt, geschult. Ein Markenwechsel ist für sie ein Vorgang, nicht eine Folie.</p></div>
+  </div>
+  <h4>Wo piipe mit dem <span class="mk">neo</span>-System kollidiert</h4>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Merkmal von piipe heute</th><th scope="col">Regel des Systems</th><th scope="col">Folge</th></tr></thead>
+    <tbody>
+      <tr><td>Rundungen überall, Radius an jedem Balken</td><td>Kapitel 05 und 08: Quadrat ist die Grundform, der Kreis ist allein dem Menschen vorbehalten</td><td>Das Signet ist im System nicht baubar</td></tr>
+      <tr><td>Farbe <span class="mk">neo</span> darkblue als Markenfarbe</td><td>Kapitel 02: Das Logo hat keine eigene Farbe, es nimmt die Tinte des Grundes</td><td>Blau ist zudem die Kategoriefarbe von fünf der acht Wettbewerber</td></tr>
+      <tr><td>Versalien „PIIPE" im Text</td><td>Schreibweise überall klein — entschieden am 05.09.2026</td><td>Wird ohnehin zu „piipe"</td></tr>
+      <tr><td>Doppeltes i als Idee</td><td>Kapitel 03 der Logo-Studie: Buchstabenspiel ist besetzt — Haiilo (ii), Simpplr (pp)</td><td>Der nächste Wettbewerber hat dasselbe Motiv</td></tr>
+      <tr><td>Ein Symbol neben dem Wort</td><td>Das <span class="mk">neo</span>-Zeichen ist eine reine Wortmarke; der Node ist das einzige reduzierte Element</td><td>Zwei Nodes (n und p) nebeneinander sind kein System</td></tr>
+      <tr><td>Ein eigener Name für das Produkt</td><td>Familienregel: Produkt = <span class="mk">neo</span> plus ein beschreibendes Wort, klein, höchstens zwölf Zeichen</td><td>„piipe" ist ein Name, keine Beschreibung — es passt nicht in den Zusatzplatz</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 02 -->
+<section id="s02">
+  <div class="shead"><div class="snum">02</div><div><h2>Vier Wege, live gesetzt</h2><p class="sdek">Von der vollständigen Aufgabe des Namens bis zu seiner vollständigen Erhaltung. Jeder Weg ist in der Systemzeichnung gesetzt — Space Grotesk 700 und 400, klein, ohne Farbe — damit die Frage nicht am alten Signet hängt, sondern am Namen.</p></div></div>
+
+  <h4>A · <span class="mk">neo</span> workplace · piipe wird zur Beschreibung</h4>
+  <div class="stage">
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>workplace</span></div><span class="cap">Das Produkt heißt, was es ist</span></div>
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>app</span></div><span class="cap">Die Mobile App</span></div>
+    <div><div class="fav" style="--f:80px">n</div><span class="cap">Ein Node für alles</span></div>
+  </div>
+  <div class="stage paper" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:44px"><b><span class="mk">neo</span></b><span class="gap"></span><span>workplace</span><span class="end" style="opacity:.62">bisher piipe</span></div><span class="cap">Übergang · zwölf Monate in Angeboten, Schulungen, Release Notes</span></div>
+  </div>
+  <div class="prose"><p>Der Name piipe verschwindet nach außen. Nach innen darf er bleiben, wo er technisch ist: piipe core, piipe modules — so wie Chromium unter Chrome liegt. Kunden sehen „<span class="mk">neo</span> workplace, bisher piipe" für ein Jahr, dann nur noch <span class="mk">neo</span> workplace. Das ist der sauberste Weg und der teuerste an Gewöhnung.</p></div>
+
+  <h4>B · <span class="mk">neo</span> piipe · der Name im Zusatzplatz</h4>
+  <div class="stage" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>piipe</span></div><span class="cap">Mechanisch korrekt, fünf Zeichen, klein</span></div>
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span class="gap"></span><span>piipe app</span></div><span class="cap">Und schon bricht die Regel: zwei Wörter</span></div>
+  </div>
+  <div class="prose"><p>Formal passt piipe in den Zusatz: ein Wort, fünf Zeichen. Inhaltlich nicht — der Zusatz beschreibt, piipe benennt. Und sobald die App dazu kommt, braucht es „<span class="mk">neo</span> piipe app", drei Wörter, zwei Namen. Der Weg löst nichts, er verschiebt das Problem um eine Stelle nach rechts.</p></div>
+
+  <h4>C · piipe bleibt · in der Systemzeichnung, mit Absender</h4>
+  <div class="stage">
+    <div><div class="lg" style="--s:80px"><b>piipe</b></div><span class="cap">Wortmarke allein · Space Grotesk 700</span></div>
+    <div><div class="lg" style="--s:80px"><b>piipe</b><span class="end">von <b><span class="mk">neo</span></b>cosmo</span></div><span class="cap">Mit Absender · Endorsed Brand</span></div>
+    <div><div class="lg" style="--s:80px"><b>piipe</b><span class="gap"></span><span>workplace</span></div><span class="cap">piipe als Familienname, <span class="mk">neo</span> verschwindet</span></div>
+  </div>
+  <div class="stage deep" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:56px"><b>piipe</b><span class="end">von <b><span class="mk">neo</span></b>cosmo</span></div><span class="cap">Auf Graphit 950</span></div>
+    <div><div class="fav" style="--f:56px;background:#f1f3f1;color:#161816">p</div><span class="cap">Zweiter Node · p</span></div>
+    <div><div class="fav" style="--f:56px;background:#f1f3f1;color:#161816">n</div><span class="cap">Erster Node · n</span></div>
+  </div>
+  <div class="prose"><p>piipe wird in die Zeichnung des Systems geholt: klein, fett, ohne Signet, ohne Blau. Das doppelte i bleibt als Eigenheit des Wortes, aber es wird nicht mehr betont. Der Absender „von <span class="mk">neocosmo</span>" macht daraus eine <em>Endorsed Brand</em> — dasselbe Modell wie „workvivo by zoom", das in der Kategorie schon steht. Es funktioniert, aber es kostet: zwei Nodes (n und p), zwei Wortmarken, zwei Regelwerke, und die Frage, ob „<span class="mk">neo</span> workplace" dann überhaupt noch etwas bezeichnet.</p></div>
+
+  <h4>D · piipe als Familienname · <span class="mk">neo</span> nur als Unternehmen</h4>
+  <div class="stage" style="margin-bottom:16px">
+    <div><div class="lg" style="--s:80px"><b>piipe</b><span class="gap"></span><span>workplace</span></div><span class="cap">Produkt</span></div>
+    <div><div class="lg" style="--s:80px"><b>piipe</b><span class="gap"></span><span>app</span></div><span class="cap">Produkt</span></div>
+    <div><div class="lg" style="--s:80px"><b><span class="mk">neo</span></b><span>cosmo</span></div><span class="cap">Nur noch Firma und Impressum</span></div>
+  </div>
+  <div class="prose"><p>Die Umkehrung: piipe übernimmt die Rolle, die das Logo für <span class="mk">neo</span> gebaut hat. Das System funktioniert mechanisch genauso — nur dass es dann um ein Wort gebaut ist, dessen einzige Eigenheit ein Buchstabenspiel ist, das der nächste Wettbewerber auch hat. Und „<span class="mk">neocosmo</span>" wird zur Firmierung, obwohl die Brand Idea, das Systemgesetz und die Website auf <span class="mk">neo</span> aufgebaut sind.</p></div>
+</section>
+
+<!-- 03 -->
+<section id="s03">
+  <div class="shead"><div class="snum">03</div><div><h2>Bewertung</h2><p class="sdek">Dieselben Maßstäbe wie in der Logo-Studie, ergänzt um das, was nur piipe betrifft: Kundengewöhnung, Verträge, Markenrecht.</p></div></div>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Maßstab</th><th scope="col" class="c">A <span class="mk">neo</span> workplace</th><th scope="col" class="c">B <span class="mk">neo</span> piipe</th><th scope="col" class="c">C piipe von <span class="mk">neocosmo</span></th><th scope="col" class="c">D piipe workplace</th></tr></thead>
+    <tbody>
+      <tr><td>Relevanz und Klarheit: ein Name, eine Regel</td><td class="c yes">●</td><td class="c no">○</td><td class="c half">◐</td><td class="c half">◐</td></tr>
+      <tr><td>Familie ohne Bruch (<span class="mk">neocosmo</span>, Produkte, Node)</td><td class="c yes">●</td><td class="c no">○</td><td class="c no">○ zwei Nodes</td><td class="c half">◐ <span class="mk">neo</span> fällt raus</td></tr>
+      <tr><td>Differenzierung in der Kategorie</td><td class="c yes">●</td><td class="c half">◐</td><td class="c no">○ ii wie Haiilo, „by" wie Workvivo</td><td class="c no">○</td></tr>
+      <tr><td>Kundengewöhnung, Verträge, Ausschreibungen</td><td class="c no">○ Übergang nötig</td><td class="c half">◐</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+      <tr><td>Passt zur Brand Idea und Website (<span class="mk">neo</span>)</td><td class="c yes">●</td><td class="c yes">●</td><td class="c half">◐</td><td class="c no">○</td></tr>
+      <tr><td>Technische Namen (piipe core, modules) bleiben möglich</td><td class="c yes">● intern</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+      <tr><td>Aufwand: Deck, Website, App-Store, Domains, Verträge</td><td class="c no">○ hoch</td><td class="c half">◐</td><td class="c half">◐ zwei Systeme pflegen</td><td class="c no">○ hoch, und in die falsche Richtung</td></tr>
+      <tr><td>Markenrecht</td><td class="c half">◐ <span class="mk">neocosmo</span> prüfen</td><td class="c half">◐</td><td class="c yes">● piipe, sofern eingetragen</td><td class="c yes">●</td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict">
+    <p><strong>Empfehlung: Weg A.</strong> piipe wird als Marke aufgegeben und lebt als technischer Name weiter — piipe core, piipe modules — dort, wo Entwickler und Betreiber sprechen, nicht Kunden. Das Produkt heißt <span class="mk">neo</span> workplace, die App <span class="mk">neo</span> app. Zwölf Monate lang steht „bisher piipe" darunter. Der Grund ist derselbe wie beim Logo: Das System hat genau eine Betonung, und sie heißt <span class="mk">neo</span>. Ein zweiter Name mit eigenem Zeichen ist nicht Vielfalt, sondern die Rücknahme des Systemgesetzes an der Stelle, an der es am sichtbarsten wäre — am Produkt.</p>
+    <p><em>Wann C trotzdem richtig wäre:</em> Wenn piipe als Wortmarke eingetragen ist und in laufenden Rahmenverträgen als Produktbezeichnung steht, die nicht geändert werden kann, ist „piipe von <span class="mk">neocosmo</span>" die einzige saubere Erhaltung — in der Systemzeichnung, ohne Signet, ohne Blau, mit dem Absender. Dann gilt: piipe ist das Produkt, <span class="mk">neo</span> workplace gibt es nicht, und der Node bleibt das n.</p>
+    <p><em>Nie:</em> B und D. B verschiebt das Problem, D baut das System um das schwächere Wort.</p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="s04">
+  <div class="shead"><div class="snum">04</div><div><h2>Wenn A: der Übergang</h2><p class="sdek">Was in welcher Reihenfolge passiert, wenn piipe geht. Die Liste ist so gebaut, dass Kunden nie zwei Namen ohne Erklärung sehen.</p></div></div>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col" class="m">Nr.</th><th scope="col">Schritt</th><th scope="col">Wann</th></tr></thead>
+    <tbody>
+      <tr><td class="m">1</td><td>Markenrecherche „<span class="mk">neocosmo</span>" und „<span class="mk">neo</span> workplace" (DPMA, EUIPO, Klassen 9, 35, 42); Stand der Eintragung „piipe" feststellen.</td><td>vor allem anderen</td></tr>
+      <tr><td class="m">2</td><td>Namensregel im Markenbuch 2.3 ergänzen: „piipe" ist der technische Name der Plattform (core, modules, theme); nach außen <span class="mk">neo</span> workplace und <span class="mk">neo</span> app.</td><td>Woche 1</td></tr>
+      <tr><td class="m">3</td><td>Unternehmensvorstellung: alle „piipe Workplace" zu „<span class="mk">neo</span> workplace", Abschnitt Produkt umbenennen, Logo-Platzhalter durch die neuen Dateien ersetzen. Die Architekturfolie behält piipe core als technischen Namen.</td><td>Woche 1 bis 2</td></tr>
+      <tr><td class="m">4</td><td>Website: Produktseiten, Navigation, Favicon (assets/logo), Meta-Titel. Eine Seite „<span class="mk">neo</span> workplace, bisher piipe" mit Weiterleitung von allen piipe-Adressen.</td><td>Woche 2 bis 4</td></tr>
+      <tr><td class="m">5</td><td>App-Store und Play-Store: Name, Icon (Node 512 und 180), Beschreibung. Bestehende Installationen behalten die App, nur der Name ändert sich.</td><td>nächstes Release</td></tr>
+      <tr><td class="m">6</td><td>Kunden: eine Nachricht an alle Ansprechpartner, ein Absatz in den Release Notes, Schulungsunterlagen beim nächsten Anfassen. Verträge bleiben, wie sie sind, bis zur nächsten Verlängerung.</td><td>mit dem Release</td></tr>
+      <tr><td class="m">7</td><td>Domains piipe.* behalten und weiterleiten, mindestens drei Jahre.</td><td>dauerhaft</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Nicht in dieser Liste: der technische Umbau (Paketnamen, Konfiguration, Datenbanken). piipe bleibt dort, und das ist kein Kompromiss, sondern die Regel aus Schritt 2.</p>
+</section>
+
+<footer>
+  <p><b><span class="mk">neo brand</span> · Arbeitspapier piipe</b> — 5. September 2026. Das piipe-Zeichen im Kopf ist die heutige Datei aus dem Repository, zur Gegenüberstellung. Alle anderen Setzungen sind live in Space Grotesk. Nach der Entscheidung wandert der Beschluss in Kapitel 2.3 des Markenbuchs.</p>
+</footer>
+</div>

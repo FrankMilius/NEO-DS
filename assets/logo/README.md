@@ -1,6 +1,6 @@
 # neo Logo · Dateien
 
-Stand 05.09.2026 · Quelle: Figma „NEO Brand Styleguide“ (Td9jEnrwY4vSzqnMPm6u1n), Rahmen „02 Logo“ · Regeln: NEO Brand 010, Kapitel 02.
+Stand 05.09.2026 · Quelle: Figma „neo brand Styleguide“ (Td9jEnrwY4vSzqnMPm6u1n), Rahmen „02 Logo“ · Regeln: neo brand 010, Kapitel 02.
 
 Space Grotesk Bold 700 / Regular 400, Laufweite −2 % / −1 %, in Pfade gewandelt. Einheit u = Stammbreite des fetten n = 126/1000 em.
 Familie „neocosmo“ ein Wort; Produkte „neo workplace“, „neo app“ mit 2 u Tintenabstand. Schutzraum 4 u (eine x-Höhe). Mindestgröße Bildschirm 14 px Schriftgrad; darunter der Node.

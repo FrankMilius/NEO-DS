@@ -1,6 +1,7 @@
-<title>NEO Foliensystem</title>
+<title>neo Foliensystem</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
+  .mk{text-transform:none}
   :root {
     --ground: #f1f3f1;
     --surface: #f9fbf9;
@@ -178,8 +179,8 @@
 
 <div class="page">
 <header class="kopf">
-  <div class="kicker">NEOCOSMO · Vorlagenkonzept · Stand 5. September 2026</div>
-  <h1>NEO Foliensystem</h1>
+  <div class="kicker"><span class="mk">neocosmo</span> · Vorlagenkonzept · Stand 5. September 2026</div>
+  <h1><span class="mk">neo</span> Foliensystem</h1>
   <p class="lead">Aufbau, Erzählbögen und ein Katalog von 114 Folienvorlagen für Produktpräsentationen, Angebote, Projektpläne und Auswertungen. Die Vorlagen sind kontextfrei gebaut; die vier Anwendungsfälle sind Folienfolgen daraus, keine eigenen Master.</p>
   <div class="meta">
     <span><b>Grundlage</b> Duarte · Berinato · Quagliata · Alley · Zelazny · Minto</span>
@@ -221,14 +222,14 @@
   <div class="tw"><table>
     <thead><tr><th>Frage</th><th>Entscheidung</th><th>Wo es steht</th></tr></thead>
     <tbody>
-      <tr><td>Dichtestufen</td><td>Zwei Dateien: Vortrag (Titelzone 40 mm, Titel 36 pt, Text 22 pt) und Versand (32 mm, 30 pt, 17 pt), gleiche 91 Layouts</td><td class="mono">dist/pptx/NEO-Master-Vortrag.pptx · NEO-Master-Versand.pptx</td></tr>
+      <tr><td>Dichtestufen</td><td>Zwei Dateien: Vortrag (Titelzone 40 mm, Titel 36 pt, Text 22 pt) und Versand (32 mm, 30 pt, 17 pt), gleiche 91 Layouts</td><td class="mono">dist/pptx/<span class="mk">neo</span>-Master-Vortrag.pptx · <span class="mk">neo</span>-Master-Versand.pptx</td></tr>
       <tr><td>Quelle der Wahrheit</td><td>Raster, Stufen, Statusfarben und Diagrammfarbfolge liegen im Tokensatz, der Generator liest daraus</td><td class="mono">design-tokens.json → foundation.praesentation</td></tr>
       <tr><td>Statusfarben</td><td>Grün, Gelb, Rot aus den Systempaletten, je Grund eine Stufe: hell Marke 600 und Text 700, tief 500. 36 von 36 Kontrastpaaren über der Grenze</td><td class="mono">foundation.praesentation.status</td></tr>
       <tr><td>Diagramme</td><td>Native PowerPoint-Diagramme. Farbfolge Graphit 400, 300, 200, Akzent im Theme (accent1 bis 6) und als Voreinstellung im Beispielskript; ein Wert trägt den Akzent</td><td class="mono">themeEinsetzen() · diagramm()</td></tr>
       <tr><td>Namen</td><td>Deutsch, Schema Kürzel und Name, Gruppierung über das Präfix im Layoutmenü</td><td class="mono">T1_TITEL_TIEF … AN4_DETAILTABELLE</td></tr>
       <tr><td>Belege</td><td>Sieben Beispieldecks, darunter die vier Erzählbögen, alle 91 Layouts mindestens einmal im Einsatz, keine Ersatzfolie mehr</td><td class="mono">npm run pptx</td></tr>
       <tr><td>Prüfung</td><td>Layoutzahl je Stufe, Inhaltszone im XML, Theme, Kontraste, Kreise, native Diagramme, Ersatzmarken</td><td class="mono">npm run pptx:pruefen</td></tr>
-      <tr><td>Figma Slides</td><td>Alle 114 Vorlagen in der Präsentation „NEO Brand Styleguide", sechzehn Reihen „Vorlagen · Familie" vor den Inhaltsreihen — die 23 Vorlagen der Familien Karten, Pills, Do und Don’t, Farbe, Typografie und Mockups seit 05.09.2026 vorerst nur dort, nicht in PowerPoint, in der Grammatik der Datei (Rand 80, Titel 72, Inhalt ab y 330). Kennung im mittleren Fußzeilenfeld, Zweck und Regel in den Sprechernotizen, als Vorlagen mit Kennung im Fußzeilenfeld. Diagramme gezeichnet, keine nativen</td><td class="mono">figma.com/slides/VjC6DtTQLOV0v5ra6Zld06</td></tr>
+      <tr><td>Figma Slides</td><td>Alle 114 Vorlagen in der Präsentation „<span class="mk">neo brand</span> Styleguide", sechzehn Reihen „Vorlagen · Familie" vor den Inhaltsreihen — die 23 Vorlagen der Familien Karten, Pills, Do und Don’t, Farbe, Typografie und Mockups seit 05.09.2026 vorerst nur dort, nicht in PowerPoint, in der Grammatik der Datei (Rand 80, Titel 72, Inhalt ab y 330). Kennung im mittleren Fußzeilenfeld, Zweck und Regel in den Sprechernotizen, als Vorlagen mit Kennung im Fußzeilenfeld. Diagramme gezeichnet, keine nativen</td><td class="mono">figma.com/slides/VjC6DtTQLOV0v5ra6Zld06</td></tr>
     </tbody>
   </table></div>
   <p>Zwei Dinge macht das Skript nicht: die Vorlage als <code>.potx</code> speichern, das bleibt ein Handgriff in PowerPoint, und Bilder einsetzen. Alle Bildplätze, Logos und Bildschirmfotos sind Platzhalter, bis freigegebene Dateien vorliegen, in PowerPoint wie in Figma.</p>
@@ -247,7 +248,7 @@
       <tr><td>Aussage-Überschrift</td><td>Alley (Assertion-Evidence); Quagliata</td><td>Titelzone auf zwei Zeilen Hauptsatz ausgelegt (30 pt, 36 pt in der Vortragsstufe). Kein Layout hat eine Überschrift, die als Thema gedacht ist.</td></tr>
       <tr><td>Signal und Rauschen</td><td>Duarte; Tufte (Daten-Tinte)</td><td>Keine Kästen, Schatten, Rahmen, Verläufe. Trennung durch Weißraum und Haarlinie. Bereits Regel im bestehenden Master.</td></tr>
       <tr><td>Das Publikum ist der Held</td><td>Duarte, Resonate</td><td>Titelfolie und Öffnung sprechen die Lage des Publikums an, nicht das Unternehmen. Die Selbstvorstellung wandert hinter die Lösung.</td></tr>
-      <tr><td>Funkenlinie: Ist und Könnte</td><td>Duarte, Resonate</td><td>Der Produktbogen wechselt zwischen heutigem Zustand und möglichem Zustand und endet im „neuen Normal". Der Vergleich Heute/Mit NEO ist dafür die tragende Vorlage.</td></tr>
+      <tr><td>Funkenlinie: Ist und Könnte</td><td>Duarte, Resonate</td><td>Der Produktbogen wechselt zwischen heutigem Zustand und möglichem Zustand und endet im „neuen Normal". Der Vergleich Heute/Mit <span class="mk">neo</span> ist dafür die tragende Vorlage.</td></tr>
       <tr><td>Big Idea</td><td>Duarte, HBR Guide</td><td>Ein Satz mit eigenem Standpunkt und dem, was auf dem Spiel steht. Bekommt eine eigene Vorlage (X4) und steht in jedem Deck vor der Agenda.</td></tr>
       <tr><td>Skelett vor Haut</td><td>Quagliata; Duarte (Klebezettel, Foliensortierung)</td><td>Erst die Überschriften aller Folien als Fließtext, dann die Layouts. Die Erzählbögen in Teil 3 sind solche Skelette.</td></tr>
       <tr><td>Vortragsdeck ist kein Lesedeck</td><td>Duarte, Slidedocs; Quagliata</td><td>Zwei Dichtestufen im selben Raster. Die Versandstufe erlaubt Fließtext, Fußnoten, Quellen; die Vortragsstufe verlagert das in die Sprechernotizen.</td></tr>
@@ -347,7 +348,7 @@
       <li><span>Zitat einer Person mit Rolle</span><span class="lay">Q1</span></li>
       <li><span>Eine Zahl, die das Ergebnis trägt</span><span class="lay">K1 oder D10</span></li>
       <li class="sec"><span>Der Weg dahin</span><span class="lay">A3</span></li>
-      <li><span>Heute gegen Mit NEO: der Höhepunkt der Funkenlinie</span><span class="lay">C1</span></li>
+      <li><span>Heute gegen Mit <span class="mk">neo</span>: der Höhepunkt der Funkenlinie</span><span class="lay">C1</span></li>
       <li><span>Vier Schritte bis zum Start</span><span class="lay">P1</span></li>
       <li><span>Editionen im Überblick, Empfehlung markiert</span><span class="lay">TB3</span></li>
       <li><span>Kernaussagen zum Mitnehmen</span><span class="lay">Z2</span></li>
@@ -530,7 +531,7 @@
   </ul>
 </section>
 
-<div class="fuss"><span>NEO Foliensystem · Vorlagenkonzept</span><span>Bestand: scripts/pptx-vorlage.mjs · data/pptx-beispielfaelle.json</span><span>NEOCOSMO GmbH</span></div>
+<div class="fuss"><span><span class="mk">neo</span> Foliensystem · Vorlagenkonzept</span><span>Bestand: scripts/pptx-vorlage.mjs · data/pptx-beispielfaelle.json</span><span><span class="mk">neocosmo</span> GmbH</span></div>
 </div>
 
 <script>
