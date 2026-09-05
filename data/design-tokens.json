@@ -23337,6 +23337,117 @@
         "hervorhebung": "lime.500",
         "achse": "graphit.400",
         "beschriftung": "graphit.700"
+      },
+      "gruenfamilie": {
+        "_notiz": "Entschieden am 05.09.2026 nach der Analyse der Vorlagen Horizon und Calypso. Forest (#0c4146) und Mint (#efffe6) sind Franks Werte aus dem Color Picker; die Leitern sind daraus gemischt (Forest als Stufe 800, Tints nach Weiss, Shades nach Schwarz; Mint als Stufe 100). Kontraste nachgerechnet: Lime 500 auf Forest 6,93, Mint auf Forest 10,81, Weiss auf Forest 11,29, Graphit 950 auf Mint 17,10, Forest 600 auf Mint 7,61. Lime 700 auf Mint erreicht nur 4,15 und ist dort kein Textwert. Forest und Mint gehoeren noch nicht in _color-primitives.scss — Backlog.",
+        "forest": {
+          "label": "Forest",
+          "base": "#0c4146",
+          "shades": {
+            "50": "#f3f6f6",
+            "100": "#e7eced",
+            "200": "#ced9da",
+            "300": "#aabdbe",
+            "400": "#799799",
+            "500": "#497174",
+            "600": "#29585c",
+            "700": "#16494d",
+            "800": "#0c4146",
+            "900": "#082e31",
+            "950": "#051d20"
+          }
+        },
+        "mint": {
+          "label": "Mint",
+          "base": "#efffe6",
+          "shades": {
+            "50": "#f5fff0",
+            "100": "#efffe6",
+            "200": "#e1f0d8",
+            "300": "#d0dec8",
+            "400": "#b3bfad",
+            "500": "#949e8f",
+            "600": "#788073",
+            "700": "#5b6157",
+            "800": "#3e423c",
+            "900": "#262925",
+            "950": "#161715"
+          }
+        },
+        "rollen": {
+          "papier": "mint.100",
+          "grund": "forest.800",
+          "grund_tief": "forest.950",
+          "signal": "lime.500",
+          "text_auf_forest": [
+            "mint.100",
+            "lime.200",
+            "graphit.100"
+          ],
+          "mono_auf_forest": "forest.300",
+          "text_auf_mint": [
+            "graphit.950",
+            "forest.600"
+          ],
+          "mono_auf_mint": "forest.600",
+          "flaeche_auf_mint": "mint.200",
+          "flaeche_auf_forest": "forest.700"
+        },
+        "proportion": {
+          "_notiz": "Calypsos 60/30/10: Grund, Zweitflaeche, Signal.",
+          "forest": [
+            "forest.800",
+            "mint.100",
+            "lime.500"
+          ],
+          "mint": [
+            "mint.100",
+            "forest.800",
+            "lime.500"
+          ]
+        }
+      },
+      "welten": {
+        "_notiz": "Vier Welten aus den Ebenenfarben (Kapitel 04 Secondary Palette): je hell (Papier), satt (Flaeche mit Graphit 950 darauf), tief (Flaeche mit heller Schrift). Regeln bleiben: eine Welt je Komposition, nie zwei gleichzeitig. Partner aus den Reservepaletten, Gruen aus der Gruenfamilie. Kontraste Weiss auf tief: Orange 331c00 17,5 · Forest 11,3 · Burgundy 10,8 · Darkblue 16,1. Graphit 950 auf hell: alle ueber 15.",
+        "menschen": {
+          "ebene": "#f39100",
+          "hell": "mustard.100",
+          "satt": "dark-orange.500",
+          "tief": "dark-orange.900"
+        },
+        "wissen": {
+          "ebene": "#a1c513",
+          "hell": "mint.100",
+          "satt": "lime.500",
+          "tief": "forest.800"
+        },
+        "systeme": {
+          "ebene": "#e5007d",
+          "hell": "pink.100",
+          "satt": "pink.500",
+          "tief": "burgundy.500"
+        },
+        "daten": {
+          "ebene": "#009ee3",
+          "hell": "neo-blue.100",
+          "satt": "neo-blue.500",
+          "tief": "neo-darkblue.500"
+        }
+      },
+      "papiere": {
+        "_notiz": "Die fuenf Papiere aus Kapitel 04 plus Mint. Ein Papier je Abschnitt.",
+        "liste": [
+          "neutral-pearl",
+          "graphit",
+          "neutral-beige",
+          "ivory",
+          "neutral-taupe",
+          "mint"
+        ],
+        "gruende": [
+          "graphit.950",
+          "forest.800"
+        ]
       }
     },
     "_configurator": {
