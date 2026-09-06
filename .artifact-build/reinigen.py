@@ -61,7 +61,7 @@ ersetze_muster(r'<div><dt>Version</dt><dd>\d+</dd></div>',
                '<div><dt>Fassung</dt><dd>Erster Entwurf</dd></div>', "Versionsfeld")
 
 # ══ 2 · Versionshistorie ═════════════════════════════════════════════
-schneide('<p><b>Änderungen 010 → 011:</b>',
+schneide('<p><b>Änderungen 011 → 012:</b>',
          '<p>Dieses Dokument folgt den Regeln, die es beschreibt', "Fussnoten-Historie")
 rep(NOTIZ_12, "")
 # ══ 2b · Fassungshinweise aus 010 ════════════════════════════════════
@@ -69,11 +69,10 @@ rep('<p class="src">Ergänzt in Fassung 010, nach der Analyse der Vorlagen Horiz
 rep('<p class="src">Das eine Prinzip · seit 011</p>', '<p class="src">Das eine Prinzip</p>')
 schneide('<p>Bis Fassung 010 stand hier eine visuelle DNA', '<p>Was bleibt, ist der Mechanismus des Systemgesetzes', '')
 rep('<p>Was bleibt, ist der Mechanismus des Systemgesetzes, und er ist in einem Satz sagbar:', '<p>Der Mechanismus des Systemgesetzes ist in einem Satz sagbar:')
-rep('Seit 011 ohne Bedeutungscode: Die Form sagt', 'Ohne Bedeutungscode: Die Form sagt')
-schneide('<p>Bis 010 trug dieses Kapitel eine Taxonomie', '<p>Eine Form ist eine kleine Fläche ohne Kontur', '<p>Dieses Kapitel enthält nur, was Diagramme in Kapitel 11 brauchen — und das ist wenig.</p>\n    ')
-schneide('<div class="card"><p class="lbl">Gestrichen</p><h3>Offene Kontur, Raster als Bedeutung</h3>', '</div>\n  </div>\n  <div class="grid g3">\n    <div class="card"><p class="lbl">Zustand</p>', '')
-rep(' Das Wort „Node" ist seit 011 nicht mehr in Gebrauch.', '')
 rep(' Seit 011 ist das eine Diagrammkonvention für Gestalter, kein Markenbegriff — „Connection" ist gestrichen.', '')
+rep('So halten es seit 012 auch die Artefakte dieses Markenbuchs:', 'So halten es auch die Artefakte dieses Markenbuchs:')
+rep('<b>Der Einwand gegen dieses Kapitel</b>, wie es bis 011 stand:', '<b>Der Einwand gegen dieses Kapitel</b>, wie es bisher stand:')
+rep('<p class="src">Vorschlag 012 · zur Entscheidung</p>', '<p class="src">Vorschlag · zur Entscheidung</p>')
 rep('Ergänzt in 010. ', '', 2)
 rep('<b>Präzisiert in 010:</b> ', '')
 rep('<strong>Ergänzt in 010: die Pill ist eine Kantenform.</strong>', '<strong>Die Pill ist eine Kantenform.</strong>')
@@ -137,6 +136,6 @@ if fehler:
 
 D.joinpath("brand-oeffentlich.html").write_text(s)
 print(f"  {getan} Eingriffe · {ausgang} → {len(s)} Zeichen")
-for w in ["ich ", "mein", "Mein", "Änderungen 0", "Version 00", "Living Document", "in 010", "Fassung 010", "in 011", "seit 011", "Bis 010"]:
+for w in ["ich ", "mein", "Mein", "Änderungen 0", "Version 00", "Living Document", "in 010", "Fassung 010", "in 011", "seit 011", "Bis 010", "seit 012", "bis 011", "in 012"]:
     n = s.count(w)
     print(f"  Rest {w!r}: {n}")
