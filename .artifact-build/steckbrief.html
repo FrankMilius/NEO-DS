@@ -1,0 +1,233 @@
+<title>Referenz-Steckbrief</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --g100:#f1f3f1;--g200:#e4e6e4;--g300:#d2d4d2;--g400:#afb2af;--g500:#909390;--g600:#727572;--g700:#595c59;--g800:#414341;--g900:#292b29;--g950:#161816;
+  --ground:#f8f1eb;--surface:#fff;--text:var(--g950);--muted:var(--g700);--faint:var(--g600);--border:var(--g300);--hair:var(--g200);--field:#fff;
+  --forest:#16494d;--forest-deep:#0c4146;--lime:#37e93d;--bad:#962e34;--ok:var(--forest);
+  --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;--f-info:'Manrope','Helvetica Neue',Arial,sans-serif;--f-tech:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0f110f;--surface:#161816;--text:var(--g100);--muted:var(--g400);--faint:var(--g500);--border:var(--g800);--hair:var(--g900);--field:#1d1f1d;--forest:#5fed64;--ok:#5fed64;--bad:#ff9aa0}}
+:root[data-theme="dark"]{--ground:#0f110f;--surface:#161816;--text:var(--g100);--muted:var(--g400);--faint:var(--g500);--border:var(--g800);--hair:var(--g900);--field:#1d1f1d;--forest:#5fed64;--ok:#5fed64;--bad:#ff9aa0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--f-info);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:44px 24px 96px}
+.code{font-family:var(--f-tech);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(32px,4.6vw,52px);line-height:1.02;letter-spacing:-.02em;margin:8px 0 14px;text-wrap:balance}
+h2{font-family:var(--f-brand);font-weight:700;font-size:24px;letter-spacing:-.015em;margin:0 0 4px}
+p{margin:0 0 10px}
+.lead{font-size:18px;max-width:66ch}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:28px;margin-top:30px;align-items:start}
+@media (max-width:820px){.layout{grid-template-columns:1fr}}
+.side{position:sticky;top:16px}
+.side h3,.blk h3{font-family:var(--f-tech);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:500;margin:0 0 10px}
+.kunden{display:flex;flex-direction:column;gap:6px}
+.kunde{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--border);padding:10px 12px;font:inherit;color:var(--text);cursor:pointer;border-radius:0}
+.kunde:hover{border-color:var(--g500)}
+.kunde[aria-current="true"]{border-color:var(--text);box-shadow:inset 3px 0 0 var(--lime)}
+.kunde:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+.kunde .n{font-weight:600;font-size:14.5px;line-height:1.25}
+.kunde .s{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.kunde .s.ok{color:var(--ok)}.kunde .s.teil{color:var(--text)}
+.neu{margin-top:10px;display:flex;gap:6px}
+.neu input{flex:1;min-width:0}
+.tools{margin-top:22px;display:flex;flex-direction:column;gap:8px}
+button.b{font:inherit;font-size:14px;font-weight:600;padding:9px 14px;border:1px solid var(--text);background:transparent;color:var(--text);cursor:pointer}
+button.b.p{background:var(--text);color:var(--ground)}
+button.b:disabled{opacity:.45;cursor:default}
+button.b:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+.status{font-family:var(--f-tech);font-size:11.5px;letter-spacing:.06em;color:var(--faint);margin-top:10px;min-height:1.4em}
+.form{background:var(--surface);border:1px solid var(--border);padding:26px 28px 30px}
+.form .kopf{display:flex;justify-content:space-between;gap:16px;align-items:baseline;border-bottom:1px solid var(--text);padding-bottom:14px;margin-bottom:8px}
+.form .kopf .t{font-family:var(--f-brand);font-weight:700;font-size:26px;letter-spacing:-.01em}
+.form .kopf .m{font-family:var(--f-tech);font-size:12px;letter-spacing:.08em;color:var(--faint);text-align:right}
+.blk{padding:22px 0 8px;border-bottom:1px solid var(--hair)}
+.blk:last-of-type{border-bottom:0}
+.blk .why{font-size:14px;color:var(--muted);max-width:66ch;margin-bottom:14px}
+.row{display:grid;grid-template-columns:220px 1fr;gap:10px 18px;padding:10px 0;border-top:1px solid var(--hair)}
+.row:first-of-type{border-top:0}
+@media (max-width:640px){.row{grid-template-columns:1fr}}
+.row label{font-weight:600;font-size:14.5px;line-height:1.3;padding-top:8px}
+.row label .p{display:inline-block;margin-left:6px;font-family:var(--f-tech);font-size:10px;letter-spacing:.1em;color:var(--bad)}
+.row .h{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.4}
+.row .h b{font-weight:600;color:var(--text)}
+input[type=text],input[type=number],textarea,select{width:100%;font:inherit;font-size:15px;color:var(--text);background:var(--field);border:1px solid var(--border);padding:8px 10px;border-radius:0}
+textarea{min-height:76px;resize:vertical;line-height:1.45}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--forest);outline-offset:-1px;border-color:var(--forest)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opts label{font-weight:500;font-size:14px;padding:6px 10px;border:1px solid var(--border);cursor:pointer;display:flex;gap:6px;align-items:center;background:var(--field)}
+.opts label:has(input:checked){border-color:var(--text);background:var(--lime);color:var(--g950)}
+.opts input{margin:0}
+.cnt{font-family:var(--f-tech);font-size:11px;color:var(--faint);text-align:right;margin-top:3px}
+.cnt.over{color:var(--bad)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:22px;padding-top:16px;border-top:1px solid var(--text);flex-wrap:wrap}
+.foot .done{font-family:var(--f-tech);font-size:12px;letter-spacing:.06em;color:var(--muted)}
+.foot .done b{color:var(--text)}
+.uebersicht{margin-top:40px;background:var(--surface);border:1px solid var(--border);padding:22px 24px}
+.uebersicht table{width:100%;border-collapse:collapse;font-size:14px}
+.uebersicht th,.uebersicht td{text-align:left;padding:8px 10px;border-top:1px solid var(--hair);vertical-align:top}
+.uebersicht thead th{border-top:0;font-family:var(--f-tech);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:500}
+.uebersicht .bar{height:6px;background:var(--hair);position:relative;min-width:120px}
+.uebersicht .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--forest)}
+.uebersicht .bar i.voll{background:var(--lime)}
+.hint{font-size:13.5px;color:var(--muted);margin-top:12px;max-width:70ch}
+[hidden]{display:none!important}
+@media print{
+  body{background:#fff;color:#000}
+  .wrap{max-width:none;padding:0}
+  .side,.foot button,.tools,.uebersicht,.neu,.status{display:none!important}
+  .layout{display:block}
+  .form{border:0;padding:0}
+  .row{grid-template-columns:200px 1fr;break-inside:avoid}
+  input[type=text],input[type=number],textarea,select{border:0;border-bottom:1px solid #000;background:#fff;color:#000}
+  textarea{min-height:64px}
+  .opts label{border-color:#000;background:#fff;color:#000}
+  .blk{break-inside:avoid}
+}
+</style>
+
+<div class="wrap">
+  <p class="code">neocosmo · intern · Referenzen für Präsentation, Website und Vergabe</p>
+  <h1>Referenz-Steckbrief</h1>
+  <p class="lead">Ein Steckbrief je Kunde, einmal ausgefüllt, danach die Quelle für jede Referenzfolie in Short, Medium und Long, für die Website und für Vergabe-Referenzblätter. Dauer: etwa 15 Minuten je Kunde. Was du nicht weißt, lässt du leer — ein leeres Feld ist besser als eine Schätzung, und die Folie nimmt dann die kleinere Tiefe.</p>
+  <p class="lead" style="font-size:16px;color:var(--muted)">Die Eingaben werden je Kunde gespeichert, sobald du tippst; mehrere Personen können nacheinander ergänzen. Gib bei jedem Feld an, ob die Angabe freigegeben ist — ohne Freigabe kommt nichts nach außen.</p>
+
+  <div class="layout">
+    <aside class="side">
+      <h3>Kunde wählen</h3>
+      <div class="kunden" id="kunden"></div>
+      <div class="neu"><input type="text" id="neuName" placeholder="Weiterer Kunde …" aria-label="Weiteren Kunden anlegen"><button class="b" id="neuBtn" type="button">Anlegen</button></div>
+      <div class="tools">
+        <button class="b" type="button" id="btnCsv">Alle als CSV exportieren</button>
+        <button class="b" type="button" id="btnJson">Alle als JSON exportieren</button>
+        <button class="b" type="button" onclick="window.print()">Leeres Formular drucken</button>
+      </div>
+      <div class="status" id="status"></div>
+    </aside>
+
+    <main>
+      <form class="form" id="form" autocomplete="off" onsubmit="return false">
+        <div class="kopf"><div class="t" id="kopfName">Kunde</div><div class="m" id="kopfMeta">noch nicht gespeichert</div></div>
+
+        <section class="blk">
+          <h3>A · Grunddaten — für die Kurzfassung</h3>
+          <p class="why">Das steht auf jeder Referenzfolie, auch auf der kleinsten. Der eine Satz ist der wichtigste Text des Steckbriefs.</p>
+          <div class="row"><label for="kunde">Kunde, offizieller Name<span class="p">Pflicht</span></label><div><input type="text" id="kunde" data-f="kunde"><div class="h">So, wie der Kunde selbst schreibt. Beispiel: <b>Deutsche Rentenversicherung, sieben Träger</b>.</div></div></div>
+          <div class="row"><label for="segment">Segment<span class="p">Pflicht</span></label><div><select id="segment" data-f="segment"><option value="">— wählen —</option><option>Öffentliche Verwaltung</option><option>Sozialversicherung</option><option>Öffentliche IT</option><option>Gesundheitswesen</option><option>Hochschule</option><option>Wohnungswirtschaft</option><option>Industrie und Fertigung</option><option>Energie und Versorgung</option><option>Verband, Kammer, Stiftung</option><option>Sonstiges</option></select><div class="h">Erscheint im Kicker der Folie und ordnet den Kunden im Referenzraster ein.</div></div></div>
+          <div class="row"><label for="satz">Ein Satz<span class="p">Pflicht</span></label><div><textarea id="satz" data-f="satz" maxlength="140" rows="2"></textarea><div class="cnt" data-cnt="satz">0 / 140</div><div class="h">Was wurde für wen gebaut, in höchstens 140 Zeichen. Beispiel: <b>Gemeinsame Plattform der Deutschen Rentenversicherung, betrieben durch NOW-IT.</b></div></div></div>
+          <div class="row"><label>Logo</label><div><div class="opts" data-f="logo"><label><input type="radio" name="logo" value="vorhanden">liegt vor (Vektor)</label><label><input type="radio" name="logo" value="anfragen">muss angefragt werden</label><label><input type="radio" name="logo" value="nein">Nennung ohne Logo</label></div><div class="h">Logos stehen auf Folien einfarbig in Graphit; wir brauchen die Vektordatei und die Erlaubnis zur Nennung.</div></div></div>
+          <div class="row"><label>Bild vom Kunden oder Kundensystem</label><div><div class="opts" data-f="bild"><label><input type="radio" name="bild" value="vorhanden">liegt vor, freigegeben</label><label><input type="radio" name="bild" value="anfragen">vorhanden, Freigabe offen</label><label><input type="radio" name="bild" value="nein">kein Bild</label></div><div class="h">Ein Foto mit einer Handlung (Menschen am Arbeitsplatz, Gebäude, Fahrzeuge) oder ein Bildschirm. Keine Stockfotos.</div></div></div>
+        </section>
+
+        <section class="blk">
+          <h3>B · Key Facts — für die Mittelfassung und das Vergabe-Referenzblatt</h3>
+          <p class="why">Sechs feste Zeilen, die auf der Key-Facts-Folie erscheinen. Zahlen bitte als Zahl, nicht als „viele". Der Zeitraum ist die Angabe, die in Vergabeverfahren am häufigsten fehlt.</p>
+          <div class="row"><label for="mandanten">Größe<span class="p">Pflicht</span></label><div><div class="two"><input type="text" id="mandanten" data-f="mandanten" placeholder="Mandanten, Standorte oder Träger"><input type="text" id="nutzer" data-f="nutzer" placeholder="Nutzerinnen und Nutzer, z. B. 18.000"></div><div class="h">Zwei Angaben: die Struktur (z. B. <b>7 Mandanten</b>) und die Menge (z. B. <b>18.000 Nutzerinnen und Nutzer</b>). Wenn es nur eine gibt, reicht eine.</div></div></div>
+          <div class="row"><label for="module">Produkt und Module<span class="p">Pflicht</span></label><div><input type="text" id="module" data-f="module" placeholder="z. B. Intranet, intelligente Benachrichtigungen, Inhaltsempfehlungen"><div class="h">Höchstens vier Begriffe, wie sie der Kunde nennt. Das ist zugleich der „Leistungsgegenstand" der Vergabe.</div></div></div>
+          <div class="row"><label>Betrieb<span class="p">Pflicht</span></label><div><div class="opts" data-f="betrieb"><label><input type="radio" name="betrieb" value="On Premises">On Premises</label><label><input type="radio" name="betrieb" value="Private Cloud">Private Cloud</label><label><input type="radio" name="betrieb" value="Hybrid">Hybrid</label><label><input type="radio" name="betrieb" value="GovTech Campus">GovTech Campus</label></div><input type="text" id="betreiber" data-f="betreiber" placeholder="Betreiber, falls nicht neocosmo (z. B. NOW-IT)" style="margin-top:8px"></div></div>
+          <div class="row"><label for="von">Zeitraum<span class="p">Pflicht</span></label><div><div class="two"><input type="text" id="von" data-f="von" placeholder="Start, z. B. 03/2021"><input type="text" id="bis" data-f="bis" placeholder="Ende oder „läuft“"></div><div class="h">Projektstart und Produktivsetzung oder Ende. Vergabe verlangt Monat und Jahr.</div></div></div>
+          <div class="row"><label for="besonderheit">Besonderheit</label><div><input type="text" id="besonderheit" data-f="besonderheit" placeholder="z. B. Barrierefreiheit zertifiziert, Migration vom Altsystem"><div class="h">Was diese Referenz von den anderen unterscheidet: Zertifizierung, Migration, Souveränität, Mehrmandantenfähigkeit, App.</div></div></div>
+          <div class="row"><label for="ergebnis">Ergebnis als eine Zahl<span class="p">Pflicht für Medium</span></label><div><div class="two"><input type="text" id="ergebnis" data-f="ergebnis" placeholder="z. B. 90 % erreichen Nachrichten am selben Tag"><input type="text" id="ergebnisBasis" data-f="ergebnisBasis" placeholder="Woher die Zahl stammt (Messung, Umfrage, Kunde)"></div><div class="h">Die eine Zahl, die auf der Folie betont wird. Ohne Quelle keine Zahl — dann lieber ein qualitatives Ergebnis in einem Satz.</div></div></div>
+        </section>
+
+        <section class="blk">
+          <h3>C · Geschichte — für die Langfassung</h3>
+          <p class="why">Nur für Referenzen, die als Use Case mit Bildschirmen gezeigt werden. Drei Absätze, jeder zwei bis drei Sätze, in der Sprache des Kunden.</p>
+          <div class="row"><label for="ausgangslage">Ausgangslage</label><div><textarea id="ausgangslage" data-f="ausgangslage" maxlength="400" rows="3"></textarea><div class="cnt" data-cnt="ausgangslage">0 / 400</div><div class="h">Wie war die Lage vor dem Projekt, was fehlte, was hat es gekostet. Kein Produktname.</div></div></div>
+          <div class="row"><label for="loesung">Lösung</label><div><textarea id="loesung" data-f="loesung" maxlength="400" rows="3"></textarea><div class="cnt" data-cnt="loesung">0 / 400</div><div class="h">Was gebaut wurde und wie es eingeführt wurde. Produkt, Module, Betrieb, Besonderheit.</div></div></div>
+          <div class="row"><label for="usecase">Der eine Use Case</label><div><input type="text" id="usecase" data-f="usecase" placeholder="Ein Vorgang in einem Satz, z. B. „Dienstinformationen erreichen jede Streife“"><div class="h">Der Vorgang, den die Bildschirmfolie zeigt. Einer, nicht drei. Wird an den Kundennamen im Titel angehängt.</div></div></div>
+          <div class="row"><label>Bildschirme</label><div><div class="opts" data-f="screens"><label><input type="radio" name="screens" value="freigegeben">echte Bildschirme, freigegeben</label><label><input type="radio" name="screens" value="anfragen">vorhanden, Freigabe offen</label><label><input type="radio" name="screens" value="nein">keine</label></div><div class="h">Zwei bis drei Bildschirme des Use Case, mit Freigabe des Kunden. Testdaten sind keine Alternative — so entschieden.</div></div></div>
+        </section>
+
+        <section class="blk">
+          <h3>D · Zitat, Ansprechpartner, Freigaben</h3>
+          <p class="why">Ein Zitat gilt nur mit Namen und Funktion. Die Freigaben entscheiden, was von diesem Steckbrief nach außen darf.</p>
+          <div class="row"><label for="zitat">Zitat</label><div><textarea id="zitat" data-f="zitat" maxlength="280" rows="3"></textarea><div class="cnt" data-cnt="zitat">0 / 280</div><div class="h">Zwei Sätze, wörtlich, vom Kunden bestätigt. Ein Satzteil davon wird auf der Folie fett gesetzt.</div></div></div>
+          <div class="row"><label for="zitatName">Wer sagt es</label><div><div class="two"><input type="text" id="zitatName" data-f="zitatName" placeholder="Vorname Name"><input type="text" id="zitatFunktion" data-f="zitatFunktion" placeholder="Funktion, z. B. Projektleitung"></div><div class="opts" data-f="zitatBild" style="margin-top:8px"><label><input type="radio" name="zitatBild" value="ja">Porträt liegt vor, freigegeben</label><label><input type="radio" name="zitatBild" value="nein">kein Porträt</label></div></div></div>
+          <div class="row"><label for="apKunde">Ansprechpartner beim Kunden</label><div><input type="text" id="apKunde" data-f="apKunde" placeholder="Name, Funktion, E-Mail oder Telefon"><div class="h">Für Vergabe-Referenzblätter. Nur mit Einverständnis der Person.</div></div></div>
+          <div class="row"><label>Freigaben<span class="p">Pflicht</span></label><div><div class="opts" data-f="freigaben" data-multi="1"><label><input type="checkbox" name="freigaben" value="nennung">Nennung als Referenz</label><label><input type="checkbox" name="freigaben" value="logo">Logo</label><label><input type="checkbox" name="freigaben" value="zahlen">Zahlen</label><label><input type="checkbox" name="freigaben" value="zitat">Zitat</label><label><input type="checkbox" name="freigaben" value="screens">Bildschirme</label><label><input type="checkbox" name="freigaben" value="website">auch auf der Website</label></div><div class="h">Was schriftlich freigegeben ist. Was nicht angekreuzt ist, erscheint nicht — auch dann nicht, wenn es oben ausgefüllt ist.</div></div></div>
+          <div class="row"><label for="apIntern">Ausgefüllt von</label><div><div class="two"><input type="text" id="apIntern" data-f="apIntern" placeholder="Name, neocosmo"><input type="text" id="stand" data-f="stand" placeholder="Stand, z. B. 09/2026"></div></div></div>
+          <div class="row"><label for="notizen">Anmerkungen</label><div><textarea id="notizen" data-f="notizen" rows="2" placeholder="Offene Punkte, Rückfragen, wer noch etwas beisteuern kann"></textarea></div></div>
+        </section>
+
+        <div class="foot">
+          <div class="done" id="done"></div>
+          <div style="display:flex;gap:8px"><button class="b" type="button" id="btnCopy">Als Text kopieren</button><button class="b p" type="button" id="btnSave">Speichern</button></div>
+        </div>
+      </form>
+      <p class="hint">Kein Speicherzugang? Dann bleibt der Steckbrief in diesem Browser gespeichert. Nutze „Als Text kopieren" und schicke den Text an Frank, oder drucke das leere Formular und fülle es von Hand aus.</p>
+    </main>
+  </div>
+
+  <section class="uebersicht" id="uebersicht">
+    <h2>Stand aller Steckbriefe</h2>
+    <p class="hint" style="margin:0 0 12px">Vollständigkeit nach Tiefe: Short braucht Kunde, Segment, Satz. Medium dazu Größe, Module, Betrieb, Zeitraum und Ergebnis. Long dazu Ausgangslage, Lösung, Use Case, Bildschirme und Zitat.</p>
+    <div style="overflow-x:auto"><table><thead><tr><th>Kunde</th><th>Short</th><th>Medium</th><th>Long</th><th>Freigaben</th><th>Stand</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var KUNDEN = [
+    ['dataport','Dataport'],['drv','Sieben Rentenversicherungsträger'],['polizei-bw','Polizei Baden-Württemberg'],['degewo','degewo'],['hs-kempten','Hochschule Kempten'],['kv-nordrhein','Kassenärztliche Vereinigung Nordrhein'],['egovcampus','eGovCampus']
+  ];
+  var FIELDS = ['kunde','segment','satz','logo','bild','mandanten','nutzer','module','betrieb','betreiber','von','bis','besonderheit','ergebnis','ergebnisBasis','ausgangslage','loesung','usecase','screens','zitat','zitatName','zitatFunktion','zitatBild','apKunde','freigaben','apIntern','stand','notizen'];
+  var SHORT = ['kunde','segment','satz'], MEDIUM = ['mandanten|nutzer','module','betrieb','von','ergebnis'], LONG = ['ausgangslage','loesung','usecase','screens','zitat'];
+  var db = null, dl = null, current = null, data = {}, timer = null, dirty = false;
+  var $ = function(s){ return document.querySelector(s); };
+  var el = { kunden:$('#kunden'), status:$('#status'), kopfName:$('#kopfName'), kopfMeta:$('#kopfMeta'), done:$('#done'), tbody:$('#tbody') };
+
+  function slug(n){ return n.toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60) || 'kunde'; }
+  function has(d,f){ return f.split('|').some(function(k){ var v = d[k]; return Array.isArray(v) ? v.length>0 : !!(v && String(v).trim()); }); }
+  function score(d,list){ var n=0; list.forEach(function(f){ if(has(d,f)) n++; }); return n; }
+  function tiefe(d){ var s=score(d,SHORT)===SHORT.length, m=s&&score(d,MEDIUM)===MEDIUM.length, l=m&&score(d,LONG)===LONG.length; return l?'long':m?'medium':s?'short':(Object.keys(d).some(function(k){return has(d,k);})?'teil':'leer'); }
+  function fmtStand(d){ return d.updatedAt ? new Date(d.updatedAt).toLocaleString('de-DE',{dateStyle:'short',timeStyle:'short'}) : '—'; }
+
+  // ── lokale Sicherung als Rückfall ──
+  function lget(){ try{ return JSON.parse(localStorage.getItem('steckbriefe')||'{}'); }catch(e){ return {}; } }
+  function lset(all){ try{ localStorage.setItem('steckbriefe', JSON.stringify(all)); }catch(e){} }
+
+  function readForm(){ var d = {}; FIELDS.forEach(function(f){ var box = document.querySelector('[data-f="'+f+'"]'); if(!box) return; if(box.classList.contains('opts')){ var ins = box.querySelectorAll('input:checked'); d[f] = box.dataset.multi ? Array.prototype.map.call(ins,function(i){return i.value;}) : (ins[0]?ins[0].value:''); } else d[f] = box.value; }); return d; }
+  function writeForm(d){ FIELDS.forEach(function(f){ var box = document.querySelector('[data-f="'+f+'"]'); if(!box) return; if(box.classList.contains('opts')){ var vals = Array.isArray(d[f])?d[f]:[d[f]]; box.querySelectorAll('input').forEach(function(i){ i.checked = vals.indexOf(i.value)>=0; }); } else box.value = d[f]||''; }); document.querySelectorAll('[data-cnt]').forEach(updCnt); }
+  function updCnt(c){ var t = document.getElementById(c.dataset.cnt); var max = +t.getAttribute('maxlength'); c.textContent = t.value.length+' / '+max; c.classList.toggle('over', t.value.length>=max); }
+
+  function renderKunden(){ el.kunden.innerHTML=''; var ids = Object.keys(data); KUNDEN.forEach(function(k){ if(ids.indexOf(k[0])<0) ids.push(k[0]); }); ids.sort(function(a,b){ return nameOf(a).localeCompare(nameOf(b),'de'); });
+    ids.forEach(function(id){ var d = data[id]||{}; var t = tiefe(d); var b = document.createElement('button'); b.type='button'; b.className='kunde'; b.setAttribute('aria-current', id===current?'true':'false'); b.innerHTML = '<span class="n"></span><span class="s '+(t==='long'||t==='medium'?'ok':t==='leer'?'':'teil')+'"></span>'; b.querySelector('.n').textContent = nameOf(id); b.querySelector('.s').textContent = t==='leer'?'leer':t==='teil'?'begonnen':t; b.addEventListener('click', function(){ select(id); }); el.kunden.appendChild(b); });
+    renderTable(ids); }
+  function nameOf(id){ var k = KUNDEN.filter(function(x){return x[0]===id;})[0]; return (data[id]&&data[id].kunde&&data[id].kunde.trim()) || (k?k[1]:id); }
+  function renderTable(ids){ el.tbody.innerHTML=''; ids.forEach(function(id){ var d = data[id]||{}; var tr = document.createElement('tr'); function bar(n,max){ var p = Math.round(n/max*100); return '<div class="bar"><i class="'+(n===max?'voll':'')+'" style="width:'+p+'%"></i></div><span class="code" style="font-size:10px">'+n+'/'+max+'</span>'; }
+      tr.innerHTML = '<td></td><td>'+bar(score(d,SHORT),SHORT.length)+'</td><td>'+bar(score(d,MEDIUM),MEDIUM.length)+'</td><td>'+bar(score(d,LONG),LONG.length)+'</td><td class="code" style="font-size:11px;text-transform:none;letter-spacing:.04em"></td><td class="code" style="font-size:11px;letter-spacing:.04em">'+fmtStand(d)+'</td>';
+      tr.children[0].textContent = nameOf(id); tr.children[4].textContent = (d.freigaben||[]).join(', ')||'—'; el.tbody.appendChild(tr); }); }
+
+  function select(id){ if(dirty && current) flush(); current = id; var d = data[id]||{}; if(!d.kunde){ var k = KUNDEN.filter(function(x){return x[0]===id;})[0]; if(k) d = Object.assign({kunde:k[1]}, d); } writeForm(d); el.kopfName.textContent = nameOf(id); el.kopfMeta.textContent = d.updatedAt ? 'gespeichert '+fmtStand(d)+(d.apIntern?' · '+d.apIntern:'') : 'noch nicht gespeichert'; updDone(); renderKunden(); try{ location.hash = id; }catch(e){} }
+  function updDone(){ var d = readForm(); el.done.innerHTML = 'Short <b>'+score(d,SHORT)+'/'+SHORT.length+'</b> · Medium <b>'+score(d,MEDIUM)+'/'+MEDIUM.length+'</b> · Long <b>'+score(d,LONG)+'/'+LONG.length+'</b>'; }
+
+  function flush(){ if(!current) return; var d = readForm(); d.updatedAt = new Date().toISOString(); data[current] = d; dirty = false; lset(data); if(db){ db.collection('steckbriefe').doc(current).set(d).then(function(){ setStatus('gespeichert · '+fmtStand(d)); }).catch(function(e){ setStatus('nicht gespeichert (Server): '+e.code+' — lokal gesichert'); }); } else setStatus('lokal gesichert · '+fmtStand(d)+' (kein Serverzugang)'); el.kopfMeta.textContent = 'gespeichert '+fmtStand(d)+(d.apIntern?' · '+d.apIntern:''); renderKunden(); }
+  function setStatus(t){ el.status.textContent = t; }
+
+  document.getElementById('form').addEventListener('input', function(e){ dirty = true; updDone(); if(e.target.tagName==='TEXTAREA'){ var c = document.querySelector('[data-cnt="'+e.target.id+'"]'); if(c) updCnt(c); } clearTimeout(timer); timer = setTimeout(flush, 900); });
+  document.getElementById('form').addEventListener('change', function(){ dirty = true; updDone(); clearTimeout(timer); timer = setTimeout(flush, 300); });
+  $('#btnSave').addEventListener('click', function(){ clearTimeout(timer); flush(); });
+  $('#neuBtn').addEventListener('click', function(){ var n = $('#neuName').value.trim(); if(!n) return; var id = slug(n); if(!data[id]) data[id] = {kunde:n}; $('#neuName').value=''; select(id); });
+  $('#btnCopy').addEventListener('click', function(){ var d = readForm(); var lines = ['REFERENZ-STECKBRIEF · '+(d.kunde||nameOf(current)),'']; var names = {kunde:'Kunde',segment:'Segment',satz:'Ein Satz',logo:'Logo',bild:'Bild',mandanten:'Größe (Struktur)',nutzer:'Größe (Nutzer)',module:'Produkt und Module',betrieb:'Betrieb',betreiber:'Betreiber',von:'Zeitraum von',bis:'Zeitraum bis',besonderheit:'Besonderheit',ergebnis:'Ergebnis',ergebnisBasis:'Quelle des Ergebnisses',ausgangslage:'Ausgangslage',loesung:'Lösung',usecase:'Use Case',screens:'Bildschirme',zitat:'Zitat',zitatName:'Zitat von',zitatFunktion:'Funktion',zitatBild:'Porträt',apKunde:'Ansprechpartner Kunde',freigaben:'Freigaben',apIntern:'Ausgefüllt von',stand:'Stand',notizen:'Anmerkungen'}; FIELDS.forEach(function(f){ var v = d[f]; if(Array.isArray(v)) v = v.join(', '); if(v && String(v).trim()) lines.push(names[f]+': '+v); }); var txt = lines.join('\n'); if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){ setStatus('Text in die Zwischenablage kopiert'); }, function(){ prompt('Text kopieren:', txt); }); } else prompt('Text kopieren:', txt); });
+
+  function exportAll(kind){ var ids = Object.keys(data); var content, name; if(kind==='json'){ content = JSON.stringify(data,null,2); name = 'referenz-steckbriefe.json'; } else { var head = ['id'].concat(FIELDS,['updatedAt']); var rows = [head.join(';')]; ids.forEach(function(id){ var d = data[id]; rows.push(head.map(function(f){ var v = f==='id'?id:d[f]; if(Array.isArray(v)) v = v.join(', '); v = v==null?'':String(v); return '"'+v.replace(/"/g,'""').replace(/\r?\n/g,' ')+'"'; }).join(';')); }); content = '﻿'+rows.join('\r\n'); name = 'referenz-steckbriefe.csv'; }
+    if(dl){ dl.save({filename:name, data:content}).then(function(){ setStatus('Export gespeichert'); }).catch(function(e){ if(e&&e.code==='declined') setStatus('Export abgebrochen'); else fallbackCopy(content); }); } else fallbackCopy(content); }
+  function fallbackCopy(c){ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(c).then(function(){ setStatus('Export in die Zwischenablage kopiert (Download hier nicht möglich)'); }); } else prompt('Export kopieren:', c); }
+  $('#btnCsv').addEventListener('click', function(){ exportAll('csv'); });
+  $('#btnJson').addEventListener('click', function(){ exportAll('json'); });
+
+  // ── Start: lokal, dann Server ──
+  data = lget(); renderKunden();
+  var start = (location.hash||'').slice(1); select(data[start]||KUNDEN.some(function(k){return k[0]===start;}) ? start : KUNDEN[0][0]);
+  setStatus('verbinde …');
+  if(window.claude && typeof window.claude.use==='function'){
+    window.claude.use('db').then(function(ns){ if(!ns){ setStatus('kein Serverzugang — lokal gesichert'); return; } db = ns;
+      db.collection('steckbriefe').onSnapshot(function(snap){ snap.docs.forEach(function(doc){ if(!doc.exists) return; var d = doc.data(); var mine = data[doc.id]; if(!mine || !mine.updatedAt || (d.updatedAt && d.updatedAt >= mine.updatedAt)) data[doc.id] = d; }); lset(data); renderKunden(); if(current && !dirty && data[current]){ writeForm(data[current]); updDone(); el.kopfMeta.textContent = data[current].updatedAt ? 'gespeichert '+fmtStand(data[current])+(data[current].apIntern?' · '+data[current].apIntern:'') : 'noch nicht gespeichert'; } setStatus('verbunden — Eingaben werden je Kunde gespeichert'); }, function(e){ setStatus('Verbindung verloren ('+e.code+') — lokal gesichert'); });
+    }).catch(function(){ setStatus('kein Serverzugang — lokal gesichert'); });
+    window.claude.use('downloads').then(function(ns){ dl = ns; });
+  } else setStatus('kein Serverzugang — lokal gesichert');
+  window.addEventListener('beforeunload', function(){ if(dirty) flush(); });
+})();
+</script>
