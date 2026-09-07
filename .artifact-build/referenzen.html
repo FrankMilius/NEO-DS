@@ -1,0 +1,375 @@
+<title>Referenzen in drei Tiefen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --g50:#f9fbf9;--g100:#f1f3f1;--g200:#e4e6e4;--g300:#d2d4d2;--g400:#afb2af;--g500:#909390;--g600:#727572;--g700:#595c59;--g800:#414341;--g900:#292b29;--g950:#161816;
+  --ground:var(--g100);--surface:#fff;--text:var(--g950);--muted:var(--g700);--faint:var(--g600);--border:var(--g300);--hair:var(--g200);
+  --lime:#37e93d;--forest:#16494d;--forest-deep:#0c4146;--mint:#efffe6;--papier:#f8f1eb;--papier2:#f3f3ea;--signal:var(--forest);
+  --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;--f-info:'Manrope','Helvetica Neue',Arial,sans-serif;--f-tech:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --col:1180px;--prose:66ch;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0f110f;--surface:#161816;--text:var(--g100);--muted:var(--g400);--faint:var(--g500);--border:var(--g800);--hair:var(--g900);--signal:#5fed64}}
+:root[data-theme="dark"]{--ground:#0f110f;--surface:#161816;--text:var(--g100);--muted:var(--g400);--faint:var(--g500);--border:var(--g800);--hair:var(--g900);--signal:#5fed64}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--f-info);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--col);margin:0 auto;padding:56px 28px 96px}
+.code{font-family:var(--f-tech);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.02em;margin:10px 0 18px;text-wrap:balance}
+h2{font-family:var(--f-brand);font-weight:700;font-size:30px;letter-spacing:-.015em;line-height:1.1;margin:0 0 8px}
+h3{font-family:var(--f-brand);font-weight:700;font-size:19px;letter-spacing:-.01em;margin:0 0 6px}
+p{margin:0 0 12px}
+.prose{max-width:var(--prose)}
+.lead{font-size:19px;max-width:var(--prose);color:var(--text)}
+b{font-weight:700}
+section{margin-top:64px;padding-top:28px;border-top:1px solid var(--border)}
+.shead{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start;margin-bottom:22px}
+.snum{font-family:var(--f-tech);font-size:13px;letter-spacing:.14em;color:var(--signal);padding-top:8px}
+.sdek{color:var(--muted);max-width:var(--prose);font-size:17px}
+.law{border-left:3px solid var(--signal);padding:10px 22px;margin:22px 0;max-width:var(--prose)}
+.law p{font-family:var(--f-brand);font-weight:700;font-size:22px;line-height:1.25;letter-spacing:-.01em;margin:0}
+.law .src{font-family:var(--f-tech);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:8px;font-weight:400}
+.grid{display:grid;gap:16px;margin:18px 0 22px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:860px){.g3,.g4{grid-template-columns:1fr 1fr}}@media (max-width:560px){.g3,.g4,.g2{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);padding:18px 20px 16px}
+.card .lbl{font-family:var(--f-tech);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 8px}
+.card h3{margin-bottom:6px}.card p{font-size:14.5px;color:var(--muted);margin:0}
+.tbl{overflow-x:auto;margin:16px 0 24px;border:1px solid var(--border);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:10px 14px;border-top:1px solid var(--hair);vertical-align:top}
+thead th{border-top:0;font-family:var(--f-tech);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:500}
+td.m{font-family:var(--f-tech);font-size:13px}
+.yes{color:var(--signal);font-weight:600}.no{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);max-width:var(--prose);border-left:2px solid var(--border);padding-left:14px}
+ul.tight{margin:0 0 14px 18px;padding:0}ul.tight li{margin:0 0 6px;max-width:var(--prose)}
+
+/* ── Folien ─────────────────────────────────────────────── */
+.deck{display:grid;gap:34px;margin:26px 0 10px}
+.exhibit{background:var(--surface);border:1px solid var(--border);padding:18px 18px 16px}
+.exhibit .cap{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px;font-size:14px;color:var(--muted)}
+.exhibit .cap b{color:var(--text)}
+.exhibit .cap .meta{font-family:var(--f-tech);font-size:11.5px;letter-spacing:.06em;line-height:1.7;color:var(--faint)}
+@media (max-width:760px){.exhibit .cap{grid-template-columns:1fr}}
+.frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--hair);background:#f8f1eb}
+.slide{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;font-family:var(--f-info);color:#161816;background:var(--papier)}
+.slide.mint{background:var(--mint)}.slide.forest{background:var(--forest-deep);color:var(--g100)}.slide.grau{background:#f2f2f2}
+.slide .kick{position:absolute;left:80px;top:80px;font-family:var(--f-tech);font-size:24px;letter-spacing:4px;line-height:1.05;text-transform:uppercase;color:#161816}
+.slide.forest .kick{color:var(--g100)}
+.slide .ttl{position:absolute;left:80px;top:121px;width:1760px;font-family:var(--f-brand);font-weight:700;font-size:72px;letter-spacing:-3px;line-height:1.05;margin:0}
+.slide .sub{position:absolute;left:80px;top:213px;width:1100px;font-size:30px;line-height:1.35;color:#414341}
+.slide.forest .sub{color:var(--g300)}
+.slide .hair{position:absolute;left:80px;width:1760px;height:1px;background:#161816}
+.slide.forest .hair{background:var(--g100)}
+.slide .foot{position:absolute;top:1019px;font-family:var(--f-tech);font-size:20px;letter-spacing:4px;line-height:1.05;text-transform:uppercase;color:#161816}
+.slide.forest .foot{color:var(--g100)}
+.foot.l{left:80px}.foot.m{left:0;width:1920px;text-align:center}.foot.r{right:80px}
+.slide .ph{position:absolute;display:flex;align-items:center;justify-content:center;font-family:var(--f-tech);font-size:20px;letter-spacing:4px;text-transform:uppercase;color:#727572;background:#e4e6e4}
+.slide .ph.pic{background:linear-gradient(135deg,#d9dcd9 0%,#c4c8c4 100%)}
+.slide .logo{position:absolute;border:1px solid #909390;display:flex;align-items:center;justify-content:center;font-family:var(--f-tech);font-size:18px;letter-spacing:3px;text-transform:uppercase;color:#595c59;background:transparent}
+.slide .tag{position:absolute;right:80px;top:80px;font-family:var(--f-tech);font-size:18px;letter-spacing:3px;text-transform:uppercase;color:#962e34;border:1px solid #962e34;padding:6px 12px}
+.slide.forest .tag{color:#ffb4b9;border-color:#ffb4b9}
+.slide .facts{position:absolute;left:80px;width:880px;border-top:1px solid #161816}
+.slide .facts div{display:grid;grid-template-columns:300px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid #d2d4d2;font-size:26px;line-height:1.3}
+.slide .facts div span:first-child{font-family:var(--f-tech);font-size:18px;letter-spacing:3px;text-transform:uppercase;color:#595c59;padding-top:6px}
+.slide .facts div b{font-weight:700}
+.slide .big{position:absolute;font-family:var(--f-brand);font-weight:700;font-size:150px;letter-spacing:-6px;line-height:1}
+.slide .big i{font-style:normal;color:var(--lime)}
+.slide .lbl{position:absolute;font-family:var(--f-tech);font-size:20px;letter-spacing:4px;text-transform:uppercase;color:#595c59}
+.slide .txt{position:absolute;font-size:26px;line-height:1.4;color:#292b29}
+.slide.forest .txt{color:var(--g200)}
+.slide .col{position:absolute;top:340px;width:540px}
+.slide .col .h{font-family:var(--f-tech);font-size:20px;letter-spacing:4px;text-transform:uppercase;color:#595c59;padding-bottom:16px;border-bottom:1px solid #161816;margin-bottom:22px}
+.slide .col .h.acc{border-bottom:3px solid var(--lime)}
+.slide .col p{font-size:26px;line-height:1.4;margin:0 0 12px;color:#292b29}
+.slide .col .n{font-family:var(--f-brand);font-weight:700;font-size:96px;letter-spacing:-4px;line-height:1;margin:6px 0 10px}
+.slide .col .n i{font-style:normal;color:var(--lime)}
+.slide .quote{position:absolute;left:80px;top:330px;width:1000px;font-family:var(--f-brand);font-weight:400;font-size:52px;line-height:1.2;letter-spacing:-1.5px;color:#161816}
+.slide .quote b{font-weight:700}
+.slide .who{position:absolute;left:80px;top:700px;font-size:24px;color:#595c59}
+.slide .cell{position:absolute;border:1px solid #d2d4d2;background:#fff;padding:26px 30px}
+.slide .cell .lg{height:60px;border:1px solid #afb2af;display:flex;align-items:center;justify-content:center;font-family:var(--f-tech);font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#727572;margin-bottom:18px}
+.slide .cell .t{font-family:var(--f-brand);font-weight:700;font-size:28px;letter-spacing:-.5px;line-height:1.15;margin:0 0 8px}
+.slide .cell .s{font-size:20px;line-height:1.35;color:#414341;margin:0}
+.slide .cell .k{font-family:var(--f-tech);font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#595c59;margin-top:14px}
+.slide .phone{position:absolute;width:300px;height:620px;border:12px solid #161816;border-radius:36px;background:#e4e6e4;display:flex;align-items:center;justify-content:center;font-family:var(--f-tech);font-size:16px;letter-spacing:3px;text-transform:uppercase;color:#727572}
+.slide .dot{position:absolute;width:56px;height:56px;border-radius:50%;background:#161816;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--f-tech);font-size:22px}
+.slide .dot.acc{background:var(--lime);color:#161816}
+.slide .callout{position:absolute;width:620px;font-size:26px;line-height:1.4;color:#292b29}
+.slide .callout b{display:block;font-family:var(--f-brand);font-weight:700;font-size:30px;margin-bottom:4px}
+.slide .band{position:absolute;left:0;top:380px;width:1920px;height:700px}
+.slide .band.pic{background:linear-gradient(135deg,#d9dcd9 0%,#b9bdb9 100%)}
+.slide .tafel{position:absolute;left:80px;top:760px;width:900px;background:var(--papier);padding:34px 40px}
+.slide .tafel .t{font-family:var(--f-brand);font-weight:700;font-size:40px;letter-spacing:-1px;line-height:1.1;margin:0 0 10px}
+.slide .tafel .s{font-size:24px;line-height:1.4;margin:0;color:#414341}
+.slide .chips{position:absolute;left:80px;top:290px;display:flex;gap:16px}
+.slide .chips span{font-family:var(--f-tech);font-size:18px;letter-spacing:3px;text-transform:uppercase;border:1px solid #161816;padding:10px 18px;color:#161816}
+.slide .chips span.acc{background:var(--lime);border-color:var(--lime)}
+.slide .vs{position:absolute;top:330px;width:840px;height:560px;padding:40px 44px}
+.slide .vs.k{border:1px solid #909390}
+.slide .vs.f{background:#e4e6e4}
+.slide .vs .h{font-family:var(--f-tech);font-size:20px;letter-spacing:4px;text-transform:uppercase;color:#595c59;margin-bottom:22px}
+.slide .vs .t{font-family:var(--f-brand);font-weight:700;font-size:40px;letter-spacing:-1px;line-height:1.15;margin:0 0 16px}
+.slide .vs p{font-size:26px;line-height:1.4;color:#292b29;margin:0 0 10px}
+.slide .vs p b{color:#161816}
+.slide .arrow{position:absolute;left:940px;top:600px;width:40px;text-align:center;font-family:var(--f-tech);font-size:18px;letter-spacing:3px;color:#595c59}
+</style>
+
+<div class="wrap">
+  <p class="code">neo brand · Unternehmens- und Produktpräsentation · Kapitel 02 Referenzen</p>
+  <h1>Referenzen in drei Tiefen</h1>
+  <p class="lead">Die heutigen Referenzfolien tragen einen Titel, einen Satz, ein Logo und ein Bild. Das reicht, wenn jemand dazu erzählt. Als PDF fehlt alles, was einen Kunden zum Beleg macht: Was war die Aufgabe, was wurde gebaut, was hat es gebracht. Dieses Papier schlägt ein Konzept vor, das beides kann — dieselbe Referenz in drei Tiefen, aus einem Datensatz, mit einer Betonung je Folie.</p>
+  <div class="law"><p>Ein Steckbrief je Kunde. Drei Tiefen je Steckbrief. Die Tiefe wählt der Anlass, nicht die Folie.</p><p class="src">Konzept · 07.09.2026 · zur Entscheidung</p></div>
+
+  <section>
+    <div class="shead"><div class="snum">01</div><div><h2>Was gut gemachte Referenzen gemeinsam haben</h2><p class="sdek">Fünf Muster, die sich in den besten Kundenreferenzen finden — von SaaS-Kundenberichten über Beratungs-Referenzblätter bis zu Vergabeunterlagen. Aus ihnen folgt das Konzept, nicht aus Geschmack.</p></div></div>
+    <div class="grid g3">
+      <div class="card"><p class="lbl">Muster 01</p><h3>Ausgangslage, Lösung, Ergebnis</h3><p>Der Dreiklang ist der Standard jeder ernsthaften Referenz, von Salesforce- und Atlassian-Kundenberichten bis zur Minto-Struktur Situation–Komplikation–Auflösung. Er beantwortet die drei Fragen, die ein Leser ohne Präsentator hat: Was war los, was wurde getan, was kam heraus.</p></div>
+      <div class="card"><p class="lbl">Muster 02</p><h3>Das Ergebnis zuerst, als eine Zahl</h3><p>Die stärksten Referenzen führen mit einem messbaren Resultat — eine Zahl, ein Zeitraum, ein Vorher-Nachher. Das ist zugleich die eine Betonung aus Kapitel 05: Auf einer Referenzfolie ist das Ergebnis die Aussage, nicht das Logo.</p></div>
+      <div class="card"><p class="lbl">Muster 03</p><h3>Die Beweiskette: Logo, Zahl, Zitat, Geschichte</h3><p>Vertrauen wächst in Stufen. Eine Logowand sagt „die kennen uns", eine Kennzahl sagt „es funktioniert", ein Zitat sagt „sie sagen es selbst", eine Geschichte sagt „so ging es". Jede Tiefe fügt eine Stufe hinzu; keine überspringt eine.</p></div>
+      <div class="card"><p class="lbl">Muster 04</p><h3>Das Referenzblatt der Vergabe</h3><p>Öffentliche Auftraggeber verlangen Referenzen in fester Form: Auftraggeber, Leistungsgegenstand, Zeitraum, Umfang, Ansprechpartner. Wer den Steckbrief so anlegt, dass diese Felder darin stecken, hat das Vergabe-Referenzblatt als Nebenprodukt der Präsentation.</p></div>
+      <div class="card"><p class="lbl">Muster 05</p><h3>Ein Datensatz, mehrere Ausgaben</h3><p>Gute Referenzsysteme pflegen Fakten einmal und rendern sie in Website, Folie, PDF und Angebot. Für uns heißt das: Der Steckbrief ist die Quelle; Kurz-, Mittel- und Langfassung sind Ansichten darauf — nichts wird doppelt gepflegt, nichts widerspricht sich.</p></div>
+      <div class="card"><p class="lbl">Gegenmuster</p><h3>Was wir nicht übernehmen</h3><p>Sterne und Bewertungsbadges, farbige Kundenlogos in Originalfarben, Screenshot-Collagen ohne Aussage, Zitate ohne Namen. Alles vier verstößt gegen die eine Betonung oder gegen die Logoregel (einfarbig Graphit 700).</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><div class="snum">02</div><div><h2>Der Steckbrief — ein Datensatz je Kunde</h2><p class="sdek">Vierzehn Felder, einmal gepflegt. Die Spalten rechts sagen, welche Tiefe welches Feld zeigt. Was ein Feld nicht hat, zeigt die Folie nicht — ein leeres Feld ist kein Platzhalter, sondern ein Grund, die nächstkleinere Tiefe zu nehmen.</p></div></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Feld</th><th>Beispiel (Sieben Rentenversicherungsträger)</th><th>Short</th><th>Medium</th><th>Long</th><th>Vergabe</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kunde</b></td><td>Deutsche Rentenversicherung, sieben Träger</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">Auftraggeber</td></tr>
+        <tr><td><b>Segment</b></td><td>Öffentliche Verwaltung · Sozialversicherung</td><td class="yes">Kicker</td><td class="yes">ja</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Ein Satz</b></td><td>Gemeinsame Plattform, betrieben durch NOW-IT</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">Leistungsgegenstand</td></tr>
+        <tr><td><b>Logo</b></td><td>einfarbig, Graphit 700</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Bild</b></td><td>Foto Kunde oder Kundensystem, eine Handlung</td><td class="yes">ja</td><td class="no">optional</td><td class="yes">Titel</td><td class="no">—</td></tr>
+        <tr><td><b>Größe</b></td><td>7 Mandanten · 18.000 Nutzerinnen und Nutzer</td><td class="no">—</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">Umfang</td></tr>
+        <tr><td><b>Produkt und Module</b></td><td>Intranet, Benachrichtigungen, Empfehlungen</td><td class="no">—</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">Leistungsgegenstand</td></tr>
+        <tr><td><b>Betrieb</b></td><td>On Premises</td><td class="no">—</td><td class="yes">ja</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Zeitraum</b></td><td>seit 20xx <span class="code" style="color:#962e34">zu erheben</span></td><td class="no">—</td><td class="yes">ja</td><td class="yes">ja</td><td class="yes">Zeitraum</td></tr>
+        <tr><td><b>Besonderheit</b></td><td>Barrierefreiheit zertifiziert · Migration vom Altsystem · digitale Souveränität</td><td class="no">—</td><td class="yes">ja</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Ergebnis (eine Zahl)</b></td><td>eine Plattform für sieben Träger</td><td class="no">optional</td><td class="yes">Betonung</td><td class="yes">Betonung</td><td class="no">—</td></tr>
+        <tr><td><b>Ausgangslage, Lösung</b></td><td>je zwei bis drei Sätze</td><td class="no">—</td><td class="no">—</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Use Case und Screens</b></td><td>ein Vorgang, zwei bis drei Bildschirme</td><td class="no">—</td><td class="no">—</td><td class="yes">ja</td><td class="no">—</td></tr>
+        <tr><td><b>Zitat und Ansprechpartner</b></td><td>Name, Funktion, freigegeben</td><td class="no">—</td><td class="no">optional</td><td class="yes">ja</td><td class="yes">Ansprechpartner</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Was heute fehlt: Für alle sieben Referenzen sind nur Kunde, Segment, ein Satz und ein Bild vorhanden; Größe, Module, Betrieb und Besonderheit gibt es nur für die Rentenversicherung und Dataport. Zeitraum, Ergebnis, Zitat und freigegebene Screens fehlen überall. Das Konzept steht — die Erhebung ist der eigentliche Aufwand.</p>
+  </section>
+
+  <section>
+    <div class="shead"><div class="snum">03</div><div><h2>Die drei Tiefen</h2><p class="sdek">Jede Tiefe hat einen Anlass, eine Dauer, eine Pflichtausstattung und eine Antwort auf die Frage, ob sie ohne Präsentator funktioniert.</p></div></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Tiefe</th><th>Folien</th><th>Dauer</th><th>Anlass</th><th>Pflicht</th><th>Betonung</th><th>Als PDF</th></tr></thead>
+      <tbody>
+        <tr><td><b>Short</b></td><td class="m">1</td><td class="m">15–30 s</td><td>Überblick im Vortrag, Logowand, „wir arbeiten mit"</td><td>Kunde, Segment, ein Satz, Logo, Bild</td><td>keine, oder die eine Ergebniszeile</td><td class="no">nur mit Ergebniszeile (S2) oder als Raster (S3)</td></tr>
+        <tr><td><b>Medium</b></td><td class="m">1</td><td class="m">1–2 min</td><td>Standard im Vortrag und in jeder verschickten Fassung</td><td>Short + Größe, Module, Betrieb, Zeitraum, Besonderheit, Ergebnis</td><td>das Ergebnis (Zahl oder Satzteil)</td><td class="yes">ja — die Mindesttiefe für den Versand</td></tr>
+        <tr><td><b>Long</b></td><td class="m">2–3</td><td class="m">3–5 min</td><td>Zwei bis drei Leuchtturmreferenzen, Pitch, Vergabe-Präsentation</td><td>Medium + Ausgangslage, Lösung, Use Case mit Screens, Zitat</td><td>je Folie eine: Ergebnis · der eine Screen · das Zitat</td><td class="yes">ja, als Abschnitt</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid g3">
+      <div class="card"><p class="lbl">Regel 01</p><h3>Die Tiefen schachteln</h3><p>Long enthält Medium, Medium enthält Short. Wer eine Referenz in Long anlegt, hat die beiden kleineren Fassungen mit. Umgekehrt nie: Eine Short-Folie wird nicht durch Aufblasen zur Medium-Folie, sondern durch Fakten.</p></div>
+      <div class="card"><p class="lbl">Regel 02</p><h3>Eine Betonung je Folie</h3><p>Auf der Medium-Folie ist es das Ergebnis; auf der Use-Case-Folie der eine Vorgang; auf der Screen-Folie der eine markierte Bildschirm. Das Logo ist nie die Betonung — es steht einfarbig und klein.</p></div>
+      <div class="card"><p class="lbl">Regel 03</p><h3>Versand braucht Medium</h3><p>Eine PDF-Fassung der Präsentation enthält je Referenz mindestens die Medium-Folie. Short-Folien ohne Ergebniszeile werden vor dem Export ausgeblendet oder durch das Raster ersetzt.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><div class="snum">04</div><div><h2>Die Varianten zur Sichtkontrolle</h2><p class="sdek">Neun Folien im Raster der Präsentation: Kicker, Titel, Haarlinie, Fußzeile wie auf allen Folien seit dem 06.09.2026. Fotos, Logos und Bildschirme sind Platzhalter. Wo Zahlen erfunden sind, steht es auf der Folie.</p></div></div>
+
+    <h3 style="margin-top:8px">Short — eine Folie, ein Eindruck</h3>
+    <div class="deck">
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 03</div>
+          <p class="ttl">Polizei Baden-Württemberg</p>
+          <div class="sub">KI-gestütztes Social Intranet, bereitgestellt über den GovTech Campus Deutschland.</div>
+          <div class="logo" style="right:80px;top:150px;width:320px;height:120px">Logo · Graphit 700</div>
+          <div class="band pic ph" style="top:380px;height:700px">Bild · Kunde oder Kundensystem</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>S1 · Heute.</b> Titel, ein Satz, Logo, Bild. Trägt im Vortrag, wenn erzählt wird; als PDF bleibt nur das Bild. Bleibt als Vorlage erhalten — sie ist die richtige Folie für den Vortragsmodus.</div><div class="meta">BETONUNG: KEINE<br>PDF: NEIN<br>FELDER: KUNDE · SEGMENT · SATZ · LOGO · BILD</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 03 · Öffentliche Verwaltung</div>
+          <p class="ttl">Polizei Baden-Württemberg</p>
+          <div class="sub" style="width:1380px">KI-gestütztes Social Intranet, bereitgestellt über den GovTech Campus Deutschland.</div>
+          <div class="logo" style="right:80px;top:150px;width:320px;height:120px">Logo · Graphit 700</div>
+          <div class="tag" style="top:300px">Beispielwerte</div>
+          <div class="chips"><span class="acc">Ergebnis · landesweit eine Plattform</span><span>Betrieb · GovTech Campus</span><span>Seit · 20xx</span></div>
+          <div class="band pic ph" style="top:380px;height:700px">Bild · Kunde oder Kundensystem</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>S2 · Short mit Ergebniszeile.</b> Dieselbe Folie, dazu drei Chips unter dem Satz: das Ergebnis als gefüllte Pill, Betrieb und Zeitraum als Kontur. Die kleinste Fassung, die ohne Präsentator etwas sagt. Die Betonung ist die eine gefüllte Pill.</div><div class="meta">BETONUNG: ERGEBNIS-PILL<br>PDF: JA, KNAPP<br>FELDER: SHORT + ERGEBNIS · BETRIEB · ZEITRAUM</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenzen · Auswahl</div>
+          <p class="ttl">Sechs Kunden, ein Satz je Kunde</p>
+          <div class="hair" style="top:229px"></div>
+          <div class="cell" style="left:80px;top:290px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">Dataport</p><p class="s">Social Intranet für den größten öffentlichen IT-Dienstleister.</p><div class="k">Öffentliche IT</div></div>
+          <div class="cell" style="left:680px;top:290px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">Sieben Rentenversicherungsträger</p><p class="s">Gemeinsame Plattform der Deutschen Rentenversicherung, betrieben durch NOW-IT.</p><div class="k">Sozialversicherung</div></div>
+          <div class="cell" style="left:1280px;top:290px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">Polizei Baden-Württemberg</p><p class="s">KI-gestütztes Social Intranet über den GovTech Campus Deutschland.</p><div class="k">Öffentliche Verwaltung</div></div>
+          <div class="cell" style="left:80px;top:650px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">degewo</p><p class="s">Social Intranet für eines der großen Berliner Wohnungsunternehmen.</p><div class="k">Wohnungswirtschaft</div></div>
+          <div class="cell" style="left:680px;top:650px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">Hochschule Kempten</p><p class="s">Social Intranet und App für Beschäftigte und Studierende.</p><div class="k">Hochschule</div></div>
+          <div class="cell" style="left:1280px;top:650px;width:560px;height:330px"><div class="lg">Logo</div><p class="t">KV Nordrhein</p><p class="s">KVNO INSIDE — ein Intranet auf Desktop, Tablet und Smartphone.</p><div class="k">Gesundheitswesen</div></div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>S3 · Referenzraster.</b> Sechs Kunden auf einer Folie: Logo, Name, ein Satz, Segment. Ersetzt im Versand die Abfolge einzelner Short-Folien und zeigt Breite statt Tiefe. Keine Betonung — hier ist nichts wichtiger als der Rest (Kapitel 05.5). Bei mehr als sechs Kunden: zweite Folie, nicht kleinere Zellen.</div><div class="meta">BETONUNG: KEINE (BELEG)<br>PDF: JA<br>FELDER: KUNDE · SEGMENT · SATZ · LOGO</div></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:34px">Medium — eine Folie, die ohne Erzähler steht</h3>
+    <div class="deck">
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 01 · Sozialversicherung</div>
+          <p class="ttl" style="width:880px">Sieben Renten&shy;versicherungsträger</p>
+          <div class="sub" style="width:880px;top:305px">Gemeinsame Plattform der Deutschen Rentenversicherung, betrieben durch NOW-IT.</div>
+          <div class="facts" style="top:420px">
+            <div><span>Größe</span><span><b>7 Mandanten</b>, 18.000 Nutzerinnen und Nutzer</span></div>
+            <div><span>Module</span><span>Intranet, intelligente Benachrichtigungen, Inhaltsempfehlungen</span></div>
+            <div><span>Betrieb</span><span>On Premises, digitale Souveränität</span></div>
+            <div><span>Zeitraum</span><span>seit 20xx <em style="color:#962e34;font-style:normal">· zu erheben</em></span></div>
+            <div><span>Besonderheit</span><span>Barrierefreiheit zertifiziert, Migration von einem Altsystem</span></div>
+          </div>
+          <div class="ph pic" style="left:1040px;top:305px;width:800px;height:600px">Bildschirm · Laptop</div>
+          <div class="logo" style="left:1040px;top:130px;width:280px;height:100px">Logo</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>M1 · Key Facts.</b> Der Steckbrief als Tabelle links, der Bildschirm rechts — die heutige DRV-Folie, auf sechs feste Zeilen gebracht, damit alle Referenzen dieselbe Ordnung haben. Die Betonung ist das eine fette Satzteil in der Größenzeile: sieben Mandanten. Das ist die Standardfolie für jede verschickte Fassung.</div><div class="meta">BETONUNG: „7 MANDANTEN" (GEWICHT)<br>PDF: JA — MINDESTTIEFE<br>FELDER: SHORT + GRÖSSE · MODULE · BETRIEB · ZEITRAUM · BESONDERHEIT</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 01 · Sozialversicherung</div>
+          <p class="ttl">Sieben Träger, eine Plattform</p>
+          <div class="hair" style="top:229px"></div>
+          <div class="big" style="left:80px;top:330px"><i>7</i> Träger</div>
+          <div class="lbl" style="left:80px;top:500px">Mandanten auf einer Installation</div>
+          <div class="big" style="left:700px;top:330px">18.000</div>
+          <div class="lbl" style="left:700px;top:500px">Nutzerinnen und Nutzer</div>
+          <div class="big" style="left:1320px;top:330px">1</div>
+          <div class="lbl" style="left:1320px;top:500px">Betreiber · NOW-IT, On Premises</div>
+          <div class="txt" style="left:80px;top:640px;width:1200px">Sieben Rentenversicherungsträger arbeiten auf einer gemeinsamen Plattform — mit zertifizierter Barrierefreiheit, migriert von einem Altsystem, betrieben im eigenen Rechenzentrum.</div>
+          <div class="logo" style="right:80px;top:640px;width:280px;height:100px">Logo</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>M2 · Drei Zahlen.</b> Die Reihe aus Kapitel 05.4: drei gleichwertige Kennzahlen, darunter ein Satz, der sie verbindet. Hier ist bewusst nur die Sieben in Lime gesetzt, weil sie die Aussage der Folie ist — die Zahl, die die Referenz besonders macht. Ohne Hauptzahl: alle drei in Tinte, oder das Zeichen vor der Zahl als Reihenakzent.</div><div class="meta">BETONUNG: DIE HAUPTZAHL (SIGNAL)<br>PDF: JA<br>FELDER: KUNDE · GRÖSSE · BETRIEB · EIN SATZ</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 03 · Öffentliche Verwaltung</div>
+          <p class="ttl">Polizei Baden-Württemberg</p>
+          <div class="hair" style="top:229px"></div>
+          <div class="tag" style="top:250px">Zitat und Zahlen: Platzhalter</div>
+          <div class="quote">„Zwei Sätze der Kundin oder des Kunden, freigegeben. Der <b>eine Satzteil, der das Ergebnis trägt</b>, steht fett — sonst nichts."</div>
+          <div class="who">Name, Funktion · Polizei Baden-Württemberg</div>
+          <div class="facts" style="left:1200px;top:300px;width:640px">
+            <div style="grid-template-columns:200px 1fr"><span>Größe</span><span>xx.000 Beschäftigte</span></div>
+            <div style="grid-template-columns:200px 1fr"><span>Module</span><span>Social Intranet, KI-Assistenz</span></div>
+            <div style="grid-template-columns:200px 1fr"><span>Betrieb</span><span>GovTech Campus Deutschland</span></div>
+            <div style="grid-template-columns:200px 1fr"><span>Zeitraum</span><span>seit 20xx</span></div>
+          </div>
+          <div class="logo" style="left:1200px;top:760px;width:280px;height:100px">Logo</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>M3 · Zitat mit Steckbrief.</b> Die dritte Stufe der Beweiskette: Der Kunde sagt es selbst. Links das Zitat in Space Grotesk Regular mit einem fetten Satzteil, rechts der verkürzte Steckbrief. Nur mit Namen und Freigabe — ein anonymes Zitat ist keines und verstößt gegen Klarheit.</div><div class="meta">BETONUNG: EIN SATZTEIL IM ZITAT (GEWICHT)<br>PDF: JA<br>FELDER: MEDIUM + ZITAT · ANSPRECHPARTNER</div></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:34px">Long — zwei bis drei Folien, ein Vorgang</h3>
+    <div class="deck">
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 03 · Use Case</div>
+          <p class="ttl">Dienstinformationen erreichen jede Streife</p>
+          <div class="hair" style="top:229px"></div>
+          <div class="tag" style="top:250px">Beispielinhalte</div>
+          <div class="col" style="left:80px"><div class="h">Ausgangslage</div><p>Dienstliche Informationen erreichten Beschäftigte im Außendienst nur über Aushang, E-Mail-Verteiler und Dienstbesprechung.</p><p>Kein gemeinsamer Ort für Nachrichten, Vorschriften und Rückfragen.</p></div>
+          <div class="col" style="left:690px"><div class="h">Lösung</div><p>Social Intranet über den GovTech Campus Deutschland, mit KI-gestützter Suche und Zusammenfassung von Vorschriften.</p><p>Rollenbasierte Startseiten für Dienststellen, App für das Dienst-Smartphone.</p></div>
+          <div class="col" style="left:1300px"><div class="h acc">Ergebnis</div><div class="n"><i>&gt;</i> 90 %</div><p>der Beschäftigten erreichen Dienstnachrichten am selben Tag — statt über Aushang und Verteiler.</p></div>
+          <div class="logo" style="left:80px;top:880px;width:280px;height:90px">Logo</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>L1 · Use Case im Dreiklang.</b> Ausgangslage, Lösung, Ergebnis als drei Spalten (Anordnung „Reihe"). Der Titel nennt den Vorgang, nicht den Kunden — der Kunde steht im Kicker und im Logo. Die Betonung ist das Ergebnis: Lime-Zeichen vor der Zahl, Spaltenlinie in Lime. Die Zahlen hier sind erfunden und müssen erhoben werden.</div><div class="meta">BETONUNG: DAS ERGEBNIS (SIGNAL)<br>PDF: JA<br>FELDER: MEDIUM + AUSGANGSLAGE · LÖSUNG · ERGEBNIS</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide mint">
+          <div class="kick">Referenz · 03 · Use Case · Bildschirme</div>
+          <p class="ttl" style="width:1360px">Die Dienstnachricht auf dem Smartphone</p>
+          <div class="hair" style="top:229px;width:1360px"></div>
+          <div class="phone" style="left:80px;top:300px">Screen 1</div>
+          <div class="phone" style="left:420px;top:300px;border-color:#161816">Screen 2</div>
+          <div class="dot" style="left:340px;top:360px">1</div>
+          <div class="dot acc" style="left:680px;top:480px">2</div>
+          <div class="dot" style="left:680px;top:760px">3</div>
+          <div class="callout" style="left:1160px;top:330px"><b>1 · Startseite der Dienststelle</b>Nachrichten nach Rolle und Standort, nichts Landesweites dazwischen.</div>
+          <div class="callout" style="left:1160px;top:520px"><b>2 · Die Nachricht mit Zusammenfassung</b>Drei Sätze aus der KI, die Vorschrift darunter im Volltext. Der eine Bildschirm, um den es geht.</div>
+          <div class="callout" style="left:1160px;top:740px"><b>3 · Gelesen-Bestätigung</b>Die Dienststelle sieht, wen die Nachricht erreicht hat — ohne Rückfrage.</div>
+          <div class="tag" style="right:80px;top:250px">Bildschirme: Platzhalter</div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>L2 · Bildschirme mit Callouts.</b> Zwei Telefone, drei nummerierte Marken, Erklärung rechts — die Vorlage S3 Feature mit Callouts, auf die Referenz angewendet. Die Betonung ist die eine Marke in Lime: der Bildschirm, der den Use Case trägt. Mint-Papier, weil es eine Produktfolie ist. Bildschirme brauchen die Freigabe des Kunden oder plausible Testdaten.</div><div class="meta">BETONUNG: MARKE 2 (SIGNAL)<br>PDF: JA<br>FELDER: USE CASE · 2–3 SCREENS · FREIGABE</div></div>
+      </div>
+
+      <div class="exhibit">
+        <div class="frame"><div class="slide">
+          <div class="kick">Referenz · 03 · Vorher und nachher</div>
+          <p class="ttl">Vom Aushang zur Nachricht</p>
+          <div class="hair" style="top:229px"></div>
+          <div class="tag" style="top:250px">Beispielinhalte</div>
+          <div class="vs k" style="left:80px"><div class="h">Vorher</div><p class="t">Aushang, Verteiler, Dienstbesprechung</p><p>Informationen kamen mit Verzögerung von Tagen an, ohne Rückkanal.</p><p>Vorschriften lagen als PDF auf Laufwerken.</p></div>
+          <div class="arrow">womit</div>
+          <div class="vs f" style="left:1000px"><div class="h">Nachher · mit <span style="font-family:var(--f-brand);text-transform:none;letter-spacing:0;font-size:22px;font-weight:700;color:#161816">neo</span></div><p class="t">Eine Nachricht, am selben Tag, auf jedem Gerät</p><p><b>Mehr als 90 Prozent</b> der Beschäftigten erreichen Dienstnachrichten am selben Tag.</p><p>Vorschriften sind durchsuchbar und zusammengefasst.</p></div>
+          <div class="foot l">neocosmo 2026</div><div class="foot m">Referenzen</div><div class="foot r">Seite</div>
+        </div></div>
+        <div class="cap"><div><b>L3 · Vorher und nachher.</b> Die Anordnung „Gegenüber" aus dem Vorschlag zu Kapitel 06: links Kontur (das Alte), rechts Fläche (das Neue), dazwischen das Wort „womit". Die Betonung liegt rechts im fetten Satzteil. Schließt die Long-Fassung ab oder ersetzt L1, wenn die Ausgangslage kurz ist.</div><div class="meta">BETONUNG: EIN SATZTEIL RECHTS (GEWICHT)<br>PDF: JA<br>FELDER: AUSGANGSLAGE · ERGEBNIS</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><div class="snum">05</div><div><h2>Empfehlung und Reihenfolge</h2><p class="sdek">Was in die Präsentation übernommen wird, entscheidest du. Das hier ist der Vorschlag, in der Reihenfolge, in der er sich lohnt.</p></div></div>
+    <div class="grid g3">
+      <div class="card"><p class="lbl">Zuerst</p><h3>M1 als Standard, S3 als Überblick</h3><p>Jede der sieben Referenzen bekommt eine M1-Folie mit sechs Zeilen. Davor eine S3-Rasterfolie als Überblick. Damit ist der Versand gelöst; die S1-Folien bleiben für den Vortrag und werden vor dem PDF-Export ausgeblendet.</p></div>
+      <div class="card"><p class="lbl">Dann</p><h3>Zwei Leuchttürme in Long</h3><p>Rentenversicherung (Größe, Souveränität, Barrierefreiheit) und Polizei Baden-Württemberg (KI, GovTech Campus) als L1 + L2, je nach Freigabe mit L3 oder M3. Beide decken die Segmente ab, in denen die nächsten Abschlüsse liegen.</p></div>
+      <div class="card"><p class="lbl">Danach</p><h3>Erhebung je Kunde</h3><p>Zeitraum, Größe, Module, Betrieb, ein Ergebnis, ein Zitat mit Freigabe, zwei Screens. Ein Fragebogen mit den vierzehn Feldern an die Projektleitungen; was nicht kommt, bleibt in Short.</p></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Neue Vorlagen im Foliensystem</th><th>Familie</th><th>Abgeleitet von</th><th>Zweck</th></tr></thead>
+      <tbody>
+        <tr><td class="m">RF1 Referenz kurz</td><td>Referenzen (neu)</td><td>heutige Folie</td><td>Vortrag</td></tr>
+        <tr><td class="m">RF2 Referenz kurz mit Ergebnis</td><td>Referenzen</td><td>RF1 + PI2 Botschaftspills</td><td>Vortrag, knapper Versand</td></tr>
+        <tr><td class="m">RF3 Referenzraster</td><td>Referenzen</td><td>KA1 Kartenraster</td><td>Überblick, Versand</td></tr>
+        <tr><td class="m">RF4 Key Facts</td><td>Referenzen</td><td>heutige DRV-Folie, TB1</td><td>Standard, Versand, Vergabe</td></tr>
+        <tr><td class="m">RF5 Drei Zahlen</td><td>Referenzen</td><td>K2 Drei Zahlen</td><td>Kennzahlen</td></tr>
+        <tr><td class="m">RF6 Zitat mit Steckbrief</td><td>Referenzen</td><td>Q1 Zitat + TB1</td><td>Vertrauen</td></tr>
+        <tr><td class="m">RF7 Use Case</td><td>Referenzen</td><td>X3 Drei Spalten</td><td>Long, Pitch</td></tr>
+        <tr><td class="m">RF8 Bildschirme mit Callouts</td><td>Referenzen</td><td>S3 Feature mit Callouts, MO2</td><td>Long, Produkt</td></tr>
+        <tr><td class="m">RF9 Vorher und nachher</td><td>Referenzen</td><td>C9 Transformation</td><td>Long, Abschluss</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Das Foliensystem wächst damit von 16 auf 17 Familien und von 114 auf 123 Vorlagen. PowerPoint bleibt eingefroren; die Familie entsteht zuerst in Figma. Fünf der neun Vorlagen sind Anpassungen bestehender Vorlagen, vier sind neu (RF2, RF3, RF4, RF6).</p>
+    <h3 style="margin-top:22px">Zu entscheiden</h3>
+    <ul class="tight">
+      <li><b>Standardtiefe im Versand:</b> M1 für alle sieben, oder S3 plus M1 nur für die Leuchttürme?</li>
+      <li><b>Leuchttürme:</b> Rentenversicherung und Polizei Baden-Württemberg, oder andere zwei?</li>
+      <li><b>Titel der Use-Case-Folie:</b> der Vorgang (wie hier) oder der Kundenname?</li>
+      <li><b>Zitate:</b> nur mit Namen und Freigabe, oder auch als „Projektleitung, Kunde"?</li>
+      <li><b>Bildschirme:</b> echte Screens mit Freigabe, oder die neutrale Produktfassung mit Testdaten aus der Produktpräsentation?</li>
+    </ul>
+  </section>
+</div>
+<script>
+(function(){
+  function fit(){document.querySelectorAll('.frame').forEach(function(f){var k=f.clientWidth/1920;var s=f.querySelector('.slide');if(s)s.style.transform='scale('+k+')';});}
+  fit();window.addEventListener('resize',fit);if('ResizeObserver' in window){new ResizeObserver(fit).observe(document.body);}
+})();
+</script>
