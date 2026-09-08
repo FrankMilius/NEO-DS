@@ -1,0 +1,234 @@
+import json,re,collections,html
+S='/private/tmp/claude-501/-Users-frank-milius-Sites-WEBSITE26/16d9b9eb-0eb2-495b-9652-638fd26a4124/scratchpad/audit/'
+inv=json.load(open(S+'neo-token-inventory.json')); T=inv['tokens']; sm=inv['summary']
+E=html.escape
+CSS='''
+<style>
+:root{--ink:#161816;--muted:#727572;--dim:#414341;--paper:#f8f1eb;--card:#ffffff;--line:#e4e6e4;--mint:#efffe6;--forest:#16494d;--lime:#37e93d;--danger:#bf281b;--warn:#8a6900;--info:#2b6cb0;--ok:#0b9e23;--code:#f1f3f1}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#f1f3f1;--muted:#afb2af;--dim:#d2d4d2;--paper:#161816;--card:#292b29;--line:#414341;--mint:#0c4146;--forest:#aff6b1;--danger:#ef5b4e;--warn:#e0b74a;--info:#7fb0ff;--ok:#5fed64;--code:#1f211f}}
+:root[data-theme="dark"]{--ink:#f1f3f1;--muted:#afb2af;--dim:#d2d4d2;--paper:#161816;--card:#292b29;--line:#414341;--mint:#0c4146;--forest:#aff6b1;--danger:#ef5b4e;--warn:#e0b74a;--info:#7fb0ff;--ok:#5fed64;--code:#1f211f}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.55}
+h1,h2,h3,h4{font-family:"Space Grotesk","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;text-wrap:balance;line-height:1.1}
+h1{font-size:2.6rem;margin:0 0 .3em}h2{font-size:1.6rem;margin:2.2em 0 .6em;padding-top:.6em;border-top:1px solid var(--line)}h3{font-size:1.15rem;margin:1.6em 0 .4em}h4{font-size:1rem;margin:1.2em 0 .3em}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 32px 80px}
+.kicker{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.15rem;max-width:68ch;color:var(--dim)}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em}
+code{background:var(--code);padding:.05em .35em;border-radius:3px;white-space:nowrap}
+p{max-width:72ch}
+table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6em 0 1.4em}
+th,td{text-align:left;vertical-align:top;padding:.45em .6em;border-bottom:1px solid var(--line)}
+th{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:1.2em 0}
+.kpi{background:var(--card);border:1px solid var(--line);padding:14px 16px}
+.kpi b{display:block;font-family:"Space Grotesk",sans-serif;font-size:2rem;letter-spacing:-.03em;line-height:1}
+.kpi span{font-size:.8rem;color:var(--muted)}
+.f{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);padding:14px 18px;margin:12px 0;break-inside:avoid}
+.f.fehler{border-left-color:var(--danger)}.f.luecke{border-left-color:var(--warn)}.f.nomen{border-left-color:var(--info)}.f.besser{border-left-color:var(--ok)}
+.f h4{margin:0 0 .3em;display:flex;gap:.6em;align-items:baseline}
+.tag{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;padding:.15em .5em;border:1px solid currentColor;border-radius:2px}
+.fehler .tag{color:var(--danger)}.luecke .tag{color:var(--warn)}.nomen .tag{color:var(--info)}.besser .tag{color:var(--ok)}
+.f p{margin:.3em 0;max-width:none}.f .ev{color:var(--dim);font-size:.9rem}.f .rec{margin-top:.5em}.f .rec::before{content:"Empfehlung · ";font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.verdict{background:var(--mint);border:1px solid var(--line);padding:18px 22px;margin:1.4em 0}
+.verdict p{max-width:none}
+ul{padding-left:1.2em}li{margin:.25em 0}
+.small{font-size:.85rem;color:var(--muted)}
+.chip{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.68rem;padding:.1em .45em;border:1px solid var(--line);border-radius:2px;margin:0 .2em .2em 0;color:var(--dim)}
+.chip.bad{color:var(--danger);border-color:var(--danger)}.chip.warn{color:var(--warn);border-color:var(--warn)}
+.toc{columns:2;gap:2em;font-size:.9rem}.toc a{color:inherit;text-decoration:none}.toc li{break-inside:avoid}
+.scroll{overflow-x:auto}
+@page{size:A4;margin:16mm 14mm}
+@media print{body{background:#fff;color:#161816;font-size:10.5pt}.wrap{max-width:none;padding:0}h2{break-after:avoid}.f{break-inside:avoid}table{font-size:8.5pt}th,td{padding:.3em .45em}.kpi b{font-size:1.5rem}.noprint{display:none}}
+</style>'''
+FONTS='<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">'
+
+# ---------- Findings ----------
+F=[]
+def f(kind,title,ev,rec,ids=None):
+    F.append(dict(kind=kind,title=title,ev=ev,rec=rec,ids=ids or []))
+# Fehler
+f('fehler','23 Verweise laufen ins Leere, 40 Stellen ohne Fallback',
+ 'Im gebauten CSS werden Custom Properties gelesen, die nirgends definiert sind. 17 davon im Foundation-Namensraum: <code>--fnd-motion-ease-ease-in-out</code>, <code>--fnd-motion-ease-ease-out</code>, <code>--fnd-motion-ease-linear</code> (die Skala heißt <code>informative/focused/expressive</code>), <code>--fnd-motion-duration-700</code> (es gibt 600), <code>--fnd-spacing-9</code> (heißt <code>09</code>), <code>--fnd-color-background-inverted</code>, <code>--fnd-color-text-on-inverted</code>, <code>--fnd-color-interactive-subtle</code>, <code>--fnd-color-feedback-success-border/-text</code>, <code>--fnd-elevation-flat</code>, <code>--fnd-elevation-navigation</code>, <code>--fnd-typography-body-m/s-font-size</code>, <code>--fnd-typography-fonts-body/-heading</code>, <code>--fnd-typography-paragraph-xs-size</code>. Dazu <code>--nc-input-placeholder-color</code> (Select), <code>--nc-input-radius-md</code> (Textarea), <code>--body-font-size-xs</code> (Footer), <code>--marquise-*</code> (Question), <code>--min-footer-height</code> (Reset). Fundorte: <code>_component-tokens.scss</code>, <code>_docs.scss</code>, Popover, Dropdown, Search, Status, Progress.',
+ 'Namen korrigieren oder fehlende Tokens anlegen. Einen Linter <code>lint:refs</code> einführen, der das gebaute CSS auf <code>var()</code> ohne Definition und ohne Fallback prüft; das Skript aus diesem Audit kann direkt übernommen werden.')
+f('fehler','Der Validator schlägt fehl: 100 Fehler, 274 Warnungen',
+ '98 Fehler, weil <code>ref</code> in der Komponenten-Registry auf Foundation-Namen zeigt (<code>spacing-08</code>, <code>radius-sm</code>, <code>motion-ease-linear</code>), der Validator aber nur semantische Farb-IDs kennt. Ein Fehler „primitives.neutral is empty“, weil <code>neutral</code> am 24.08.2026 nach <code>system</code> umgezogen ist und der Validator nicht nachgezogen wurde. 26 doppelte Komponenten-IDs (<code>nc-form-error-*</code>, <code>nc-form-hint-*</code>, <code>nc-form-label-*</code>, <code>nc-icon-button-*</code>, <code>nc-input-group-addon-*</code> stehen in zwei Gruppen). Dazu 267 Warnungen, weil Tokens nicht mit dem Namen ihrer Gruppe beginnen.',
+ 'Validator an den Vertrag anpassen (Foundation-Refs erlauben, <code>system.neutral</code> lesen), Duplikate einer Gruppe zuordnen. Danach <code>tokens:validate</code> wieder als Pflichtschranke in <code>npm test</code> aufnehmen; heute läuft er dort nicht.')
+f('fehler','design-tokens.json widerspricht dem gebauten CSS bei den semantischen Farben',
+ 'Die JSON-Vorgaben tragen noch das blaue System: <code>neo-light.text-primary #0f1419</code>, <code>interactive-default #009fe3</code>. Das CSS liefert <code>#000000</code> und <code>#595c59</code> (Graphit 700). Die JSON kennt 56 Rollen je Thema, die SCSS-Maps 71, die JSON-Gruppen 79. 16 Rollen gibt es nur im SCSS (<code>background-quinary</code>, <code>border-hairline</code>, <code>border-mid-dark</code>, <code>text-difference</code>, <code>scrollbar-*</code>, <code>selection-*</code>, <code>surface-elevated</code> …), 23 nur in der JSON (die Mono-Rollen). Wer aus der JSON exportiert, etwa Theme-Konfigurator oder Figma, bekommt das alte Blau. <code>$meta.last_updated</code> steht auf 2026-02-19, die Datei wurde zuletzt am 05.09.2026 geändert. Der Golden Master ist vom 11.08.; <code>tokens:diff</code> meldet 1427 neue, 755 entfernte, 2880 geänderte Einträge und ist damit als Drift-Wächter wirkungslos.',
+ 'Eine Richtung festlegen: entweder werden die SCSS-Farbmaps aus der JSON erzeugt (wie bei Spacing, Radien, Motion) oder die JSON wird wie die Primitives aus dem SCSS geschrieben (<code>primitives-aus-quelle.cjs</code> auf Semantik ausweiten). Danach Golden Master und <code>last_updated</code> mit jedem Commit pflegen.')
+f('fehler','design-tokens.css ist als Ausgabe für Nicht-SCSS-Nutzer unbrauchbar',
+ '537 Namen, davon stimmen 41 mit dem gebauten CSS überein. Der Generator schreibt JSON-Pfade (<code>--fnd-radii-scale-md</code>) statt der Kurznamen (<code>--fnd-radius-md</code>), und er schreibt Notizen und Oberflächentexte als Werte hinaus: <code>--fnd-typography-fluid--notiz: Getrennte Verhaeltnisse …</code>, <code>--fnd--configurator-radius-tokens-sm-label: SM (Default)</code>, <code>--fnd-state-derivation-bold-description</code>.',
+ 'Die Datei aus dem gebauten CSS ableiten (Filter auf <code>:root</code> und <code>--fnd-*</code>) oder ganz streichen. Schlüssel mit führendem Unterstrich (<code>_notiz</code>, <code>_configurator</code>) grundsätzlich vom Flatten ausnehmen.')
+f('fehler','Rahmenbreiten: Aliasse stehen auf dem Kopf, Kommentar beschreibt die alte Skala',
+ '<code>medium → lg = 3px</code>, <code>thick → md = 2px</code>: „medium“ ist dicker als „thick“. Der Kopfkommentar in <code>_border.scss</code> nennt sm 2px, md 4px, lg 6px, xl 8px; die JSON hat seit 12.08.2026 1,5 / 2 / 3 / 4 px. Von sechs Aliassen wird nur <code>hairline</code> benutzt (10 Stellen).',
+ 'Aliasse auf <code>hairline</code> und <code>default</code> reduzieren, den Rest streichen; Kommentar aus der JSON generieren statt von Hand pflegen.')
+f('fehler','Zwei Z-Index-Skalen, die sich widersprechen',
+ 'JSON: base 1, dropdown 2, sticky 3, fixed 9, modal-backdrop 10, modal 11, tooltip 20. Nur im SCSS: header 100, sidebar 200, drawer 300, notification 400, toast 500, skip-link 9999. Damit liegt <code>--fnd-z-modal</code> (11, genutzt in <code>_modal.scss</code>) unter <code>--fnd-z-header</code> (100, genutzt in <code>_header.scss</code>) und <code>--fnd-z-tooltip</code> (20) unter jedem Drawer (300). Zusätzlich 20 rohe <code>z-index</code>-Zahlen in Timeline, Accordion, Card-CTA, Radio-Group, Searchbar.',
+ 'Eine Skala mit acht benannten Stufen in aufsteigender Ordnung (base, raised, sticky, header, drawer, modal-backdrop, modal, toast, tooltip, skip-link) in der JSON führen und die SCSS-Ergänzungen dorthin ziehen. Rohe Zahlen innerhalb einer Komponente als <code>--_z-*</code> kennzeichnen.')
+f('fehler','Doppelte Deklarationen mit verschiedenen Werten',
+ '<code>--nc-toast-shadow</code> steht zweimal in <code>_component-tokens.scss</code> (Zeile 1436: <code>elevation-floating</code>, Zeile 1893: <code>elevation-raised</code>). <code>--nc-fade-gallery-tab-aria-selected-true-after-border-radius</code> steht in der Hauptdatei auf <code>radius-full</code> und in der aufgenommenen Datei auf <code>radius-null</code>. Vier weitere Namen sind wortgleich doppelt (<code>--nc-toast-padding</code>, <code>--nc-toast-radius</code>, zwei Fade-Gallery-Opacities).',
+ 'Duplikate auflösen und den Sync-Check um eine Duplikatprüfung innerhalb von <code>:root</code> erweitern.')
+f('fehler','Fokusring und Touch-Ziel sind mehrfach und verschieden definiert',
+ 'Fokus-Offset: JSON <code>a11y.focus_ring.offset 3px</code>, SCSS <code>--fnd-focus-offset 2px</code>; die JSON nennt als Farbe <code>text-primary</code>, das Mono-Thema arbeitet mit <code>focus-inner/outer</code>. Touch-Ziel 44 px: <code>--fnd-touch-target-min</code>, <code>--fnd-size-touch-target</code>, <code>--nc-button-touch-target-min</code>, <code>--nc-chip-touch-target-min</code>, <code>--nc-icon-touch-target</code>, dazu <code>icons.touch_target_min</code> und <code>a11y.touch_target_min</code> in der JSON; drei davon als rohe 44px.',
+ 'Je Größe genau einen Foundation-Token (<code>--fnd-size-touch-target</code>, <code>--fnd-focus-offset</code>), alle anderen als Verweis darauf. Die JSON-Werte auf die SCSS-Werte ziehen.')
+# Luecken
+f('luecke','Drei semantische Farbsysteme laufen nebeneinander',
+ '(a) <code>--fnd-color-*</code>: 71 Rollen in 4 Themenklassen, 4 veralteten Klassen und <code>prefers-color-scheme</code>; (b) das Mono-Thema: 41 Rollen ohne Präfix (<code>--surface-*</code>, <code>--text-*</code>, <code>--border-*</code>, <code>--interactive-*</code>, <code>--accent-*</code>, <code>--feedback-*</code>, <code>--focus-*</code>, <code>--elevation-*</code>), im CSS von keiner Komponente gelesen; die Brücke biegt stattdessen die Alt-Token um; (c) die JSON-Gruppen mit 79 IDs. Rollen überlappen: <code>layer-01…03</code> gegen <code>surface-01…03</code> gegen <code>background-secondary/tertiary</code>; <code>border-primary/secondary/strong</code> gegen <code>border-subtle/control/emphasis</code> gegen <code>border-hairline/mid-dark</code>; <code>interactive-focus</code> gegen <code>focus-inner/outer</code>; <code>accent-text</code> und <code>text-accent</code> existieren beide in der JSON.',
+ 'Zielbild benennen: die Mono-Rollen sind das jüngere, besser begründete Vokabular (OKLCH-Leitern, WCAG-Rollen). Sie unter <code>--fnd-color-*</code> führen, die Alt-Rollen als Aliasse mit Ablaufdatum, dann Komponente für Komponente umziehen wie in <code>_mono-bridge.scss</code> angekündigt.')
+f('luecke','Primitives sind mehrfach kopiert, zwei Lime-Leitern unterscheiden sich',
+ '<code>brand.primary</code>, <code>brand.secondary</code> und <code>neutralleitern.graphit</code> sind dieselbe Leiter in drei Kopien; <code>system.neutral</code> (#7a7a7a) ist eine vierte Grauleiter. <code>brand.accent</code> und <code>neutralleitern.lime</code> haben denselben Grundwert #37e93d, weichen aber ab Stufe 600 ab (700: #218c25 gegen #009612). Im CSS heißt das <code>--fnd-primitive-accent-700</code> ≠ <code>--fnd-accent-700</code>. Die Akzentleiter steht zudem in der Gruppe „neutralleitern“.',
+ 'Eine Leiter je Farbe. <code>brand.primary/secondary</code> als Verweis auf Graphit modellieren, eine Lime-Leiter behalten (die OKLCH-Leiter aus <code>_neutral-ramps.scss</code>), <code>system.neutral</code> streichen oder als „Grau ohne Stich“ begründen. Gruppe in <code>leitern</code> mit Unterteilung neutral/akzent umbenennen.')
+f('luecke','278 Primitive im CSS, 252 davon von niemandem gelesen',
+ '15 Stützpaletten (neo-blue, neo-darkblue, beige, chartreuse, pink, aqua, cyan, burgundy, coral, mustard, sage, warm-taupe, pearl-white, old-gold, dark-orange) werden mit je 10 Stufen ins CSS geschrieben und nirgends verwendet, ebenso <code>primary/secondary</code> (11 Stufen) und <code>black/white</code> (10 Alpha-Stufen). Genutzt werden nur die Stufe 500 der vier Systempaletten über das Mono-Thema.',
+ 'Paletten in der JSON behalten, aber nur ins CSS schreiben, was referenziert wird, oder die Stützpaletten als eigenes, optionales Stylesheet ausliefern. Spart rund 250 Deklarationen in jedem <code>:root</code>.')
+f('luecke','Foundation-Tokens ohne Abnehmer',
+ '46 Foundation-Namen werden weder im CSS noch in Docs, Website, Konfigurator oder Drupal-Theme gelesen: alle neun <code>--fnd-motion-delay-*</code>, vier Dauern (100, 250, 350, 600), alle acht semantischen Dauern <code>informative/focused/expressive-*</code>, <code>--fnd-motion-ease-expressive</code>, alle fünf <code>--fnd-bp-*</code>, vier <code>--fnd-state-*</code>, drei <code>--fnd-text-transform-*</code>, <code>--fnd-size-2xl</code>, <code>--fnd-size-touch-target</code>, <code>--fnd-radius-default</code>, <code>--fnd-content-wide-max-width</code>, <code>--fnd-tracking-tighter</code>, <code>--fnd-spacing-gutter-lg</code>, <code>--fnd-spacing-inset-squish</code>. Die rollenbasierten Abstände (<code>section, component, element, inline, stack, inset, gutter</code>) werden von keiner Komponente benutzt, nur in Docs erwähnt.',
+ 'Je Token entscheiden: benutzen, dokumentieren oder streichen. Die semantischen Motion-Dauern und die Spacing-Rollen sind gut gedacht; sie brauchen einen ersten Abnehmer, sonst bleiben sie Behauptung.')
+f('luecke','143 Komponenten-Tokens ohne Abnehmer, 82 Komponenten-Tokens ohne Registrierung',
+ 'Nirgends gelesen: hero 23, nav 22, card 16, accordion 15, story-gallery 12, input 11, search 11, container 10, section 9. Umgekehrt stehen 82 <code>--nc-*</code> im CSS, die in der JSON-Registry fehlen (<code>bento-grid-cell-*</code>, <code>bleed-*</code>, <code>block-*</code>, <code>button-inverted/soft/press/ripple-*</code>). <code>tokens:sync:check</code> meldet nur die Richtung Registry → SCSS als Fehler; die andere Richtung erscheint als Hinweis und 139 Registry-Einträge haben kein SCSS-Gegenstück.',
+ 'Sync in beide Richtungen als Fehler werten. Unbenutzte Komponenten-Tokens nach einer Schonfrist entfernen; wer sie für Overrides vorhält, dokumentiert das an der Komponente.')
+f('luecke','Dokumentation deckt die neueren Familien nicht',
+ 'Keine Docs-Seite erwähnt <code>--fnd-tracking-*</code>, <code>--fnd-neutral-*</code> und <code>--fnd-accent-*</code> (die Leitern), <code>--fnd-underline-*</code>, <code>--fnd-bp-*</code>, das Mono-Thema (<code>neo-mono-light</code>, <code>data-neutral</code>) oder das <code>--mod-*</code>-Override-Muster, das mit 2110 Haken das meistgenutzte Muster im CSS ist. <code>--lh-*</code> kommt in zwei Seiten vor. Die 16 nur im SCSS vorhandenen Farbrollen haben nirgends eine Beschreibung.',
+ 'Eine Foundation-Seite „Leitern und Mono-Thema“, eine Seite „Override-Haken“ und Beschreibungen für die 16 Rollen in der JSON nachziehen. Die Docs-Token-Prüfung (<code>lint:docs-tokens</code>) um „jede Familie hat eine Seite“ erweitern.')
+f('luecke','Figma-Pipeline liefert nichts',
+ '<code>data/figma-resolved.json</code> enthält leere Objekte (<code>colors {}, typography {}, effects {}</code>). Die Variablen der Figma-Styleguide-Datei und die Tokens im Repo haben keine gemeinsame Quelle; der Tokens-Studio-Export ist seit Februar offen.',
+ 'Nach der Bereinigung der Quelle (Befund 3) den Export im Tokens-Studio-Format aus <code>design-tokens.json</code> erzeugen und in Figma einlesen. Vorher lohnt es nicht.')
+f('luecke','Kontrastprüfung hat keinen Referenzstand',
+ '<code>npm run kontrast</code> verlangt einen Referenzstand und bricht ohne ab; die Baselines unter <code>data/baseline</code> stammen aus einzelnen Umbauten. Das Mono-Thema dokumentiert selbst, dass <code>feedback-warning</code> (#d4a400) als Schrift auf Weiß nur 2,31:1 erreicht und <code>success/danger/info</code> 3,35:1.',
+ 'Einen festen Referenzstand <code>aktuell</code> pflegen und die Prüfung in <code>npm test</code> hängen. Für die Rückmeldefarben als Schrift die Stufe 700 der Systempaletten als <code>text-success</code> usw. binden, wie der Kommentar in <code>_mono-theme.scss</code> es vorschlägt.')
+# Nomenklatur
+f('nomen','21 Präfixe statt der zwei aus der Konvention',
+ '3427 Custom Properties im CSS: 2653 <code>--nc-</code>, 587 <code>--fnd-</code>, 64 private <code>--_</code>, 41 Mono-Rollen ohne Präfix, 14 <code>--fs-</code>, 13 <code>--mod-</code>-Definitionen, 10 <code>--container-</code>, 7 <code>--lh-</code>, 7 <code>--neo-color-*</code> (Relikte, unbenutzt), 4 <code>--fluid-</code>, 4 <code>--sg-</code>, 3 <code>--font-</code>, 3 <code>--square-</code>, 3 <code>--docs-</code>, dazu <code>--grid-gap</code>, <code>--columns</code>, <code>--nav-height</code>, <code>--noop</code>, <code>--time-to-wait</code>. Die Regeln in CLAUDE.md kennen nur <code>--fnd-</code> und <code>--nc-</code>.',
+ 'Präfix-Vertrag festschreiben: <code>--fnd-</code> Foundation, <code>--nc-</code> Komponente, <code>--mod-</code> Override-Haken (nur lesen, nie deklarieren), <code>--_</code> privat innerhalb einer Komponente. <code>--fs-</code>, <code>--lh-</code>, <code>--font-</code> nach <code>--fnd-type-*</code> ziehen und die alten Namen als Aliasse mit Ablaufdatum lassen; <code>--neo-color-*</code> und <code>--sg-*</code> streichen.')
+f('nomen','Drei Vokabulare für Größenstufen',
+ 'Typografie zählt <code>2xs … 9xl</code> (<code>--fs-*</code>), dann <code>xxs, xs, s, m, l, xl, 2xl</code> (<code>--fnd-typography-heading-*</code>) und schließlich Rollen <code>display-l, heading-m, body-s</code> (<code>--nc-type-*</code>). Radien, Größen und Buttons nutzen <code>xs/sm/md/lg/xl</code>. „s/m/l“ und „sm/md/lg“ meinen dasselbe und stehen nebeneinander. Die Rollen-Rampe liegt unter <code>--nc-type-*</code>, obwohl sie Foundation ist.',
+ 'Ein Stufenvokabular (<code>xs … xl</code>, darüber <code>2xl …</code>), ein Rollenvokabular (<code>display/heading/body/label/caption</code> mit <code>l/m/s</code>). <code>--nc-type-*</code> wird <code>--fnd-type-*</code>; <code>--fnd-typography-{display,heading,paragraph}-*</code> läuft aus.')
+f('nomen','Eigenschaftsnamen in Komponenten-Tokens sind nicht normiert',
+ 'Gezählt über 2597 registrierte Tokens: <code>bg</code> 296 gegen <code>background</code> 9; <code>radius</code> 140 gegen <code>border-radius</code> 8; <code>weight</code> 106 gegen <code>font-weight</code> 54; <code>lh</code> 17 gegen <code>line-height</code> 24; <code>ls</code> 11 gegen <code>letter-spacing</code> 13; <code>padding-x</code> 29 gegen <code>padding-inline</code> 13; <code>padding-y</code> 18 gegen <code>padding-block</code> 16; <code>shadow</code> 50 gegen <code>box-shadow</code> 3; <code>border</code> (gemeint: Rahmenfarbe) 235 gegen <code>border-color</code> 19.',
+ 'Ein Eigenschafts-Wörterbuch mit genau einer Form je Eigenschaft (<code>bg, color, border, border-width, radius, shadow, size, weight, lh, ls, padding-x, padding-y, gap</code>) und ein Lint, der die Nebenformen meldet. Die Mehrheitsform ist jeweils die kurze.')
+f('nomen','Gruppennamen: Abkürzungen, Nahduplikate und Fremdkörper',
+ 'Abkürzungen: <code>nc-cs-*</code> (code-snippet, 68), <code>nc-dt-*</code> (data-table, 122), <code>nc-refpage-*</code>, <code>nc-tbl-*</code>, <code>nc-app-*</code>; 267 Tokens beginnen nicht mit dem Namen ihrer Gruppe. Nahduplikate in der Registry: <code>chapternav</code> und <code>chapter-nav</code>; <code>dropdown</code> und <code>dropdown-menu</code>; <code>table</code>, <code>data-table</code>, <code>table-block</code>, <code>tbl-cell</code>, <code>compare-table</code>; <code>hero</code>, <code>hero-tmob</code>, <code>hero-tom</code>; <code>search</code> und <code>searchbar</code>; <code>tabs</code>, <code>tab-nav</code>, <code>solution-tabs</code>; <code>event</code> und <code>events</code>; <code>drawer</code> und <code>mobile-drawer</code>. Foundation-Themen unter <code>--nc-</code>: <code>type, mono, anim, grid, container, section, kicker, group, parallax, nav</code>.',
+ 'Gruppenname = Dateiname der Komponente, ohne Abkürzung. Nahduplikate zusammenführen oder als Varianten der einen Komponente führen. Die Foundation-Gruppen nach <code>--fnd-</code> verschieben.')
+f('nomen','Namen, die Selektoren statt Rollen beschreiben',
+ 'Elf Tokens aus der Drupal-Aufnahme tragen den Selektor im Namen: <code>--nc-fade-gallery-tab-aria-selected-true-after-border-radius</code>, <code>--nc-compare-table-sticky-col-th-first-child-after-background</code>, <code>--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity</code>, <code>--nc-testimonial-video-facade-hover-after-background</code>. Dazu 33 Komponenten-Tokens mit rohen Hex- oder rgba-Werten und 377 mit rohen Längen im <code>:root</code>; der Grundsatz der Datei lautet „nie direkte Hex-Werte“.',
+ 'Nach Rolle benennen (<code>--nc-fade-gallery-tab-active-radius</code>, <code>--nc-compare-table-sticky-shadow</code>). Rohe Werte über Foundation binden oder mit <code>// bewusst</code> begründen; <code>lint:tokens</code> auf die Deklarationsdatei ausweiten, heute prüft er nur die Konsumenten.')
+f('nomen','JSON-Schlüssel: snake_case, Deutsch und Englisch, Sonderfälle',
+ '83 Foundation-Schlüssel in snake_case (<code>base_unit</code>, <code>z_index</code>, <code>modal_backdrop</code>, <code>duration_semantic</code>) neben kebab-case-IDs; der Generator wandelt still um. Deutsche und englische Schlüssel gemischt (<code>neutralleitern</code>, <code>praesentation</code>, <code>_notiz</code> neben <code>supporting</code>, <code>foundation</code>); Labels der neuen Gruppen deutsch („Bühne“, „Erhebung“), der alten englisch („Primary Text“). Spacing-Schlüssel als nullgefüllte Strings <code>"01"…"13"</code>, wodurch 10–13 in der Datei vor 01 stehen. Radius-Schlüssel <code>"null"</code> für 0 px. Breakpoints als Zahl (<code>xs: 0</code>) und String (<code>"768px"</code>) gemischt. Opacity mischt Metaphern: <code>muted 0.6, medium 0.7, high 0.8, prominent 0.85, subtle 0.9</code>; „subtle“ ist der deckendste Wert.',
+ 'Eine Sprache je Ebene festlegen (Schlüssel und IDs englisch, Beschreibungen deutsch), snake_case in der Quelle abschaffen, <code>null</code> zu <code>none</code>, Breakpoints einheitlich als px-Strings, Opacity als Skala <code>disabled/hover/focus/pressed/dragged</code> plus <code>o-60/o-70/o-80/o-85/o-90</code> oder mit eindeutigen Rollen.')
+f('nomen','Veraltete Namen sind die tatsächliche Schnittstelle',
+ '<code>--grid-gap</code> (112 Stellen), <code>--columns</code> (98) und <code>--container-max-width</code> (14) sind als „Legacy-Aliase“ markiert, werden aber häufiger gelesen als die Ziele <code>--nc-grid-*</code> und <code>--nc-container-*</code>. Umgekehrt werden <code>--fnd-radius-s/m/l/2xs</code> und fünf Rahmen-Aliasse nie gelesen, bleiben aber im CSS. Vier veraltete Themenklassen (<code>light-base-theme</code> …) stehen noch in 7 Docs-Dateien. Insgesamt existieren drei Generationen von Themen-APIs nebeneinander: Klassen, <code>data-theme</code>, <code>neo-mono-*</code> mit <code>data-neutral</code>.',
+ 'Was breit genutzt wird, ist kein Alias: <code>--grid-gap</code> und <code>--columns</code> entweder offiziell machen (<code>--fnd-grid-gap</code>, <code>--fnd-grid-columns</code>) oder per Codemod ersetzen. Ungenutzte Aliasse sofort streichen. Themen-API auf eine Form festlegen und die Docs nachziehen.')
+# Verbesserungen
+f('besser','Was gut ist und bleiben sollte',
+ 'Die Dreischichtung ist konsequent: 836 von 2653 Komponenten-Tokens lesen <code>--fnd-color-*</code>, 367 Spacing, 124 Radien; kein Komponenten-Token greift auf <code>--fnd-primitive-*</code> zu. Die OKLCH-Leitern mit stufengleichem Kontrast, die Trennung von Bedienung und Akzent, die zwei Rahmenrollen nach WCAG 1.4.11 und der zweischichtige Fokusring sind über dem Branchenstandard begründet. Das <code>--mod-</code>-Override-Muster (Spectrum-Stil) ist sauber umgesetzt. Die Werkzeugkette (Validator, Sync, Lint, Golden Master, Baselines) ist vorhanden; sie ist nur nicht überall scharf gestellt.',
+ 'Das Audit stellt keine Architekturfrage. Es geht um Drift zwischen Quelle, SCSS und CSS und um ein Namensvokabular, das nie festgeschrieben wurde.')
+kinds={'fehler':'Fehler','luecke':'Lücke','nomen':'Nomenklatur','besser':'Stärke'}
+cnt=collections.Counter(x['kind'] for x in F)
+
+# ---------- Audit HTML ----------
+def findings_html(kind):
+    out=''
+    for i,x in enumerate([y for y in F if y['kind']==kind],1):
+        out+=f'<div class="f {kind}"><h4><span class="tag">{kinds[kind]} {i}</span>{E(x["title"])}</h4><p class="ev">{x["ev"]}</p><p class="rec">{x["rec"]}</p></div>'
+    return out
+lay=sm['by_layer']
+audit=f'''<title>Token-Audit NEO</title>{FONTS}{CSS}<div class="wrap">
+<div class="kicker">NEO Design System · Token-Audit · 08.09.2026</div>
+<h1>Token-Audit</h1>
+<p class="lead">Bestandsaufnahme aller Tokens des NEO Design Systems: Quelle <code>data/design-tokens.json</code>, Definitionen in <code>scss/scss/00-settings</code>, Wirkung im gebauten CSS. Geprüft wurden Nomenklatur, Vollständigkeit, Verweise und Abweichungen zwischen den drei Ebenen.</p>
+<div class="verdict"><p><b>Urteil.</b> Die Architektur ist professionell und in Teilen über dem Branchenstandard. Die Umsetzung ist es an drei Stellen nicht: die Quelle widerspricht dem CSS bei den semantischen Farben, 23 Verweise laufen ins Leere, und das Namensvokabular wurde nie festgeschrieben, weshalb 21 Präfixe und drei Größenvokabulare nebeneinander existieren. Das Inventar liegt trotzdem vollständig bei, mit allen Befunden als Flags je Token.</p></div>
+<div class="grid">
+<div class="kpi"><b>{sm['total']}</b><span>Custom Properties im gebauten CSS</span></div>
+<div class="kpi"><b>{lay['component']}</b><span>Komponenten-Tokens (--nc-)</span></div>
+<div class="kpi"><b>{lay['foundation']+lay['semantic']+lay['primitive']}</b><span>Foundation-Tokens (--fnd-), davon {lay['semantic']} semantische Farben und {lay['primitive']} Primitive</span></div>
+<div class="kpi"><b>{sm['unused_anywhere']}</b><span>Tokens ohne einen einzigen Abnehmer (CSS, Docs, Website, Konfigurator, Drupal)</span></div>
+<div class="kpi"><b>23</b><span>Verweise auf nicht existierende Tokens, 40 Stellen ohne Fallback</span></div>
+<div class="kpi"><b>{cnt['fehler']} · {cnt['luecke']} · {cnt['nomen']}</b><span>Befunde: Fehler · Lücken · Nomenklatur</span></div>
+</div>
+<h2 id="ist">1 · Was das System heute ist</h2>
+<p>Drei Ebenen, wie in CLAUDE.md beschrieben: Primitive (<code>--fnd-primitive-*</code>, seit August auch die OKLCH-Leitern <code>--fnd-neutral-*</code> und <code>--fnd-accent-*</code>), semantische Rollen (<code>--fnd-color-*</code> in vier Themen), Komponenten-Tokens (<code>--nc-*</code>). Dazu die nicht farbigen Foundations: Spacing 01–13, Radien, Rahmen, Schatten und Erhebung, Motion, Z-Index, Größen, Typografie mit fluider Skala <code>--fs-*</code>, Tracking, Opacity, Breakpoints, Barrierefreiheit. Seit dem 24.08.2026 liegt darüber das monochrome Thema mit eigenen Rollen und einer Brücke, die die Alt-Token auf die Leitern umbiegt.</p>
+<div class="scroll"><table><tr><th>Ebene</th><th class="num">Namen im CSS</th><th>Quelle</th><th>Bemerkung</th></tr>
+<tr><td>Primitive</td><td class="num">{lay['primitive']}</td><td>_color-primitives.scss, _neutral-ramps.scss ← JSON primitives</td><td>252 ohne Abnehmer</td></tr>
+<tr><td>Semantische Farben</td><td class="num">{lay['semantic']}</td><td>_color-semantic.scss (Hand), _color-themes.scss, _mono-bridge.scss</td><td>JSON-Vorgaben veraltet</td></tr>
+<tr><td>Mono-Rollen ohne Präfix</td><td class="num">{lay['semantic (mono, ohne Präfix)']}</td><td>_mono-theme.scss</td><td>im CSS noch ungelesen</td></tr>
+<tr><td>Foundation (nicht Farbe)</td><td class="num">{lay['foundation']}</td><td>_spacing, _radii, _border, _shadow, _motion, _layout, _typography, _size, _opacity, _a11y ← teils JSON</td><td>46 ohne Abnehmer</td></tr>
+<tr><td>Komponenten</td><td class="num">{lay['component']}</td><td>_component-tokens.scss (2439 Deklarationen), _component-tokens-aufgenommen.scss (86)</td><td>143 ohne Abnehmer, 82 unregistriert</td></tr>
+<tr><td>Override-Haken</td><td class="num">{lay['override-hook']} definiert · 2110 gelesen</td><td>var(--mod-x, var(--nc-x)) in Layer 04–07</td><td>Muster undokumentiert</td></tr>
+<tr><td>Privat</td><td class="num">{lay['privat (Komponente intern)']}</td><td>--_* innerhalb einer Komponente</td><td>sinnvolle Konvention, nirgends festgeschrieben</td></tr>
+<tr><td>Sonstige Präfixe</td><td class="num">{lay['sonstig']}</td><td>--fs-, --lh-, --font-, --fluid-, --container-, --grid-gap, --columns, --neo-color-*, --sg-*, --docs-*</td><td>außerhalb der Konvention</td></tr>
+</table></div>
+<h2 id="fehler">2 · Fehler</h2>
+<p>Dinge, die heute falsch wirken oder eine Prüfung brechen. Reihenfolge nach Wirkung.</p>
+{findings_html('fehler')}
+<h2 id="luecken">3 · Lücken</h2>
+<p>Dinge, die fehlen oder doppelt vorhanden sind, ohne dass etwas sichtbar kaputt wäre.</p>
+{findings_html('luecke')}
+<h2 id="nomen">4 · Nomenklatur und Benennung</h2>
+<p>Die Regeln in CLAUDE.md nennen zwei Präfixe, BEM für Klassen und Verbote für Rohwerte. Ein Vokabular für Eigenschaften, Stufen, Gruppen und Sprachen gibt es nicht; die Befunde sind die Folge.</p>
+{findings_html('nomen')}
+<h2 id="staerken">5 · Was bleiben soll</h2>
+{findings_html('besser')}
+<h2 id="plan">6 · Empfohlene Reihenfolge</h2>
+<table><tr><th>Stufe</th><th>Inhalt</th><th>Befunde</th><th>Aufwand</th></tr>
+<tr><td>1 · Reparieren</td><td>Leere Verweise, Validator, Duplikate, Rahmen-Aliasse, eine Z-Skala, Fokus und Touch-Ziel je einmal, Golden Master und last_updated</td><td>Fehler 1–8</td><td>1–2 Tage</td></tr>
+<tr><td>2 · Quelle wahr machen</td><td>Richtung JSON ↔ SCSS für Farben festlegen und generieren; design-tokens.css aus dem gebauten CSS; Registry beidseitig synchron; Mono-Rollen in die Vorgaben</td><td>Fehler 3–4, Lücken 1, 5</td><td>2–3 Tage</td></tr>
+<tr><td>3 · Vokabular festschreiben</td><td>Präfix-Vertrag, Eigenschafts-Wörterbuch, ein Stufenvokabular, Gruppenname = Dateiname, Sprache je Ebene; als Lint-Regeln, nicht als Prosa</td><td>Nomenklatur 1–6</td><td>1 Tag Regeln, danach schrittweise Codemods</td></tr>
+<tr><td>4 · Ausmisten</td><td>Ungenutzte Primitive nicht mehr emittieren, 46 Foundation- und 143 Komponenten-Tokens entscheiden, 0-Referenz-Aliasse und --neo-color-* streichen, eine Erhebungsskala, eine Lime-Leiter</td><td>Lücken 2–5, Nomenklatur 7</td><td>1–2 Tage</td></tr>
+<tr><td>5 · Dokumentieren und anbinden</td><td>Leitern, Mono-Thema, Override-Haken, Tracking, Underline, Breakpoints; Kontrast-Referenzstand; Tokens-Studio-Export nach Figma</td><td>Lücken 6–8</td><td>2 Tage</td></tr>
+</table>
+<h2 id="methode">7 · Methode</h2>
+<p>Quelle: <code>data/design-tokens.json</code> (738 KB, Vertrag 2.0.0), die 31 Dateien in <code>scss/scss/00-settings</code>, ein frischer Build von <code>main.scss</code> vom 08.09.2026. Das gebaute CSS wurde vollständig geparst: jede Deklaration einer Custom Property mit Geltungsbereich, jede <code>var()</code>-Verwendung mit und ohne Fallback. Abnehmer außerhalb des CSS wurden in Docs, Website, Theme-Konfigurator, JS und dem Drupal-Theme <code>neo_theme</code> gesucht (342 Dateien). Zusätzlich liefen die vorhandenen Skripte <code>tokens:validate</code>, <code>lint:tokens</code>, <code>tokens:sync:check</code>, <code>tokens:diff</code>, <code>token:triage</code>, <code>nutzung</code>. Nicht bewertet: Werte selbst (Farbwahl, Skalen), Kontraste (kein Referenzstand), Figma-Variablen.</p>
+<p class="small">Beilagen: <code>neo-token-inventar.json</code> (alle {sm['total']} Tokens mit Werten je Geltungsbereich, Verwendungszahl, Quelle, Flags und Registry-Metadaten sowie die Quelldaten aus der JSON) und <code>neo-token-inventar.pdf</code> (dieselbe Liste tabellarisch).</p>
+</div>'''
+open('/Users/frank.milius/Sites/WEBSITE26/.artifact-build/token-audit/token-audit.html','w').write(audit)
+
+# ---------- Inventory HTML ----------
+order=['primitive','semantic','semantic (mono, ohne Präfix)','foundation','component','override-hook','privat (Komponente intern)','sonstig']
+def flagchips(fl):
+    return ''.join(f'<span class="chip {"bad" if f.startswith("unbenutzt (auch") or f=="deprecated-alias" else "warn" if f in("roher-wert","selektor-name","praefix-abweichend") else ""}">{E(f)}</span>' for f in fl)
+rows=[]
+for L in order:
+    tt=[t for t in T if t['layer']==L]
+    rows.append(f'<h2>{E(L)} <span class="small">({len(tt)})</span></h2>')
+    # group by family for component
+    byfam=collections.OrderedDict()
+    for t in tt: byfam.setdefault(t['family'],[]).append(t)
+    for fam,lst in byfam.items():
+        if L=='component': rows.append(f'<h3>{E(fam)} <span class="small">({len(lst)})</span></h3>')
+        rows.append('<table><tr><th style="width:34%">Token</th><th>Wert (:root bzw. erster Bereich)</th><th class="num">Bereiche</th><th class="num">Refs</th><th>Flags</th><th>Quelle</th></tr>')
+        for t in lst:
+            vals=t['values']; first=next(iter(vals.values())) if vals else ''
+            if len(first)>90: first=first[:88]+'…'
+            src=t['source'][0] if t['source'] else ''
+            rows.append(f'<tr><td class="mono">{E(t["name"])}</td><td class="mono">{E(first)}</td><td class="num">{len(vals)}</td><td class="num">{t["referenced"]}</td><td>{flagchips(t["flags"])}</td><td class="small">{E(src)}</td></tr>')
+        rows.append('</table>')
+# semantic descriptions table from JSON
+sem=inv['source_json']['semantic']['groups']
+semrows=''.join(f'<tr><td class="mono">{E(t["id"])}</td><td>{E(g["label"])}</td><td>{E(t.get("label",""))}</td><td>{E(t.get("description",""))}</td></tr>' for g in sem for t in g['tokens'])
+found=inv['source_json']['foundation']
+frows=''.join(f'<tr><td class="mono">{E(k)}</td><td class="mono">{E(json.dumps(v,ensure_ascii=False) if not isinstance(v,str) else v)}</td></tr>' for k,v in found.items())
+prims=inv['source_json']['primitives']
+prows=''
+for k,v in prims.items():
+    if isinstance(v,dict) and 'shades' in v:
+        sw=''.join(f'<span title="{s}" style="display:inline-block;width:14px;height:14px;background:{c};border:1px solid #ccc"></span>' for s,c in v['shades'].items())
+        prows+=f'<tr><td class="mono">{E(k)}</td><td>{E(v.get("label") or "")}</td><td class="mono">{E(v.get("base") or "")}</td><td>{sw} <span class="mono small">{E(" ".join(f"{s}:{c}" for s,c in v["shades"].items()))}</span></td></tr>'
+    else:
+        prows+=f'<tr><td class="mono">{E(k)}</td><td></td><td class="mono">{E(json.dumps(v,ensure_ascii=False))}</td><td></td></tr>'
+invhtml=f'''<title>Token-Inventar NEO</title>{FONTS}{CSS}<div class="wrap">
+<div class="kicker">NEO Design System · Token-Inventar · 08.09.2026</div>
+<h1>Token-Inventar</h1>
+<p class="lead">Alle {sm['total']} Custom Properties, die das Design System ausgibt, nach Ebene und Familie. Wert aus <code>:root</code> beziehungsweise dem ersten Geltungsbereich; „Bereiche“ zählt die Selektoren mit eigener Definition (Themen, Media Queries); „Refs“ zählt <code>var()</code>-Verwendungen im gebauten CSS. Flags stammen aus dem Audit vom selben Tag. Die JSON-Fassung enthält zusätzlich alle Werte je Bereich, die Verwendungen außerhalb des CSS und die Registry-Metadaten.</p>
+<div class="grid">{''.join(f'<div class="kpi"><b>{lay[k]}</b><span>{E(k)}</span></div>' for k in order)}</div>
+<p class="small">Flags: <span class="chip bad">unbenutzt (auch extern nicht)</span> kein Abnehmer in CSS, Docs, Website, Konfigurator, Drupal · <span class="chip">unbenutzt-im-css (extern genutzt)</span> · <span class="chip bad">deprecated-alias</span> · <span class="chip warn">roher-wert</span> Hex, rgba oder Länge ohne Foundation-Bezug · <span class="chip warn">praefix-abweichend</span> außerhalb von --fnd-/--nc-/--_ · <span class="chip warn">selektor-name</span> Name beschreibt einen Selektor</p>
+{''.join(rows)}
+<h2>Quelle: semantische Rollen (design-tokens.json)</h2>
+<table><tr><th>ID</th><th>Gruppe</th><th>Label</th><th>Beschreibung</th></tr>{semrows}</table>
+<h2>Quelle: Primitive (design-tokens.json)</h2>
+<table><tr><th>Palette</th><th>Label</th><th>Basis</th><th>Stufen</th></tr>{prows}</table>
+<h2>Quelle: Foundation (design-tokens.json, flach)</h2>
+<table><tr><th>Pfad</th><th>Wert</th></tr>{frows}</table>
+</div>'''
+open(S+'token-inventar.html','w').write(invhtml)
+print('ok',len(F),cnt)
