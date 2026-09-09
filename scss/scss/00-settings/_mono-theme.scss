@@ -12,11 +12,12 @@
 // VERWENDUNG
 //   <html class="neo-mono-light">                        Graphit, hell
 //   <html class="neo-mono-dark">                         Graphit, dunkel
-//   <html class="neo-mono-light" data-neutral="beige">   Beige, hell
+//   <html class="neo-mono-light" data-bg-paper="beige"> Beige, hell
 //
-// Der Leiterwechsel ueber `data-neutral` funktioniert, weil alle sieben Leitern
-// stufenweise dieselben Helligkeiten haben: Ein Bereich, der auf Beige
-// umschaltet, behaelt saemtliche Kontrastwerte. Nachpruefen muss man nichts.
+// Der Papierwechsel ueber `data-bg-paper` (seit 09.09.2026, vorher
+// `data-neutral`) funktioniert, weil alle sechs Papierleitern stufenweise
+// dieselben Helligkeiten haben: Ein Bereich, der auf Beige umschaltet,
+// behaelt saemtliche Kontrastwerte. Im dunklen Thema gibt es kein Papier.
 // ==========================================================================
 
 @use 'neutral-ramps' as r;
@@ -32,9 +33,8 @@
 .neo-mono-light,
 .neo-mono-dark { @include leiter(r.$graphit); }
 
-@each $name, $map in r.$neutral-leitern {
-  .neo-mono-light[data-neutral='#{$name}'],
-  .neo-mono-dark[data-neutral='#{$name}'] { @include leiter($map); }
+@each $name, $map in r.$papier-leitern {
+  .neo-mono-light[data-bg-paper='#{$name}'] { @include leiter($map); }
 }
 
 // Akzentleiter — in beiden Themen dieselbe.
@@ -50,7 +50,8 @@
 
   // -- Flaechen: Modell C fuer die Website ----------------------------------
   // Genau ZWEI Flaechen. Getrennt wird durch Rahmen, nicht durch Fuellung.
-  --surface-stage:  var(--fnd-neutral-100);
+  --paper:          var(--fnd-neutral-100);
+  --surface-stage:  var(--paper);
   --surface-card:   #ffffff;
 
   // -- Flaechen: Modell A fuer die Anwendung --------------------------------

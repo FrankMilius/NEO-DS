@@ -25,17 +25,25 @@
 // sondern eine zweite Grundfarbe. Ab hier ist sie nur noch: anklickbar.
 // ==========================================================================
 
+@use 'sass:map';
 @use 'neutral-ramps' as r;
 
 @mixin bruecke-hell {
-  // -- Flaechen -------------------------------------------------------------
-  --fnd-color-background-base:        #ffffff;
-  --fnd-color-background-secondary:   var(--fnd-neutral-100);
-  --fnd-color-background-tertiary:    var(--fnd-neutral-200);
-  --fnd-color-background-quaternary:  var(--fnd-neutral-300);
-  --fnd-color-background-quinary:     var(--fnd-neutral-400);
-  --fnd-color-background-hover:       var(--fnd-neutral-100);
-  --fnd-color-background-active:      var(--fnd-neutral-200);
+  // -- Flaechen: das Papier ist die Seite -----------------------------------
+  // Seit dem 09.09.2026 (Markenbuch 4.2 und 4.3): Die Grundflaeche ist Stufe
+  // 100 der aktiven Leiter — das Bereichspapier —, nicht mehr Weiss. Weiss ist
+  // die ERHOBENE Flaeche (Karte, Dialog), Stufe 200 die gesenkte. Welche
+  // Leiter aktiv ist, entscheidet `data-bg-paper` auf <html> (unten).
+  // Bis dahin stand hier #ffffff, und ein Papierwechsel faerbte alles ausser
+  // der Seite selbst.
+  --fnd-color-paper:                  var(--fnd-neutral-100);
+  --fnd-color-background-base:        var(--fnd-color-paper);
+  --fnd-color-background-secondary:   var(--fnd-neutral-200);
+  --fnd-color-background-tertiary:    var(--fnd-neutral-300);
+  --fnd-color-background-quaternary:  var(--fnd-neutral-400);
+  --fnd-color-background-quinary:     var(--fnd-neutral-500);
+  --fnd-color-background-hover:       var(--fnd-neutral-200);
+  --fnd-color-background-active:      var(--fnd-neutral-300);
   --fnd-color-background-disabled:    var(--fnd-neutral-200);
   --fnd-color-background-inverse:     var(--fnd-neutral-950);
   --fnd-color-surface-elevated:       #ffffff;
@@ -45,16 +53,22 @@
   --fnd-color-background-transparency-low: color-mix(in srgb, var(--fnd-neutral-950) 4%, transparent);
   --fnd-color-background-transparency-mid: color-mix(in srgb, var(--fnd-neutral-950) 8%, transparent);
 
-  // Ebenen nach Modell A. Die ersten beiden sind mit Modell C identisch.
-  --fnd-color-layer-01: var(--fnd-neutral-50);
+  // Ebenen: auf dem Papier wechseln sich Weiss und Papier ab (Carbon-Modell,
+  // hell alternierend). Eine Karte liegt weiss auf dem Papier, ein Feld in der
+  // Karte wieder im Papierton.
+  --fnd-color-layer-01: #ffffff;
   --fnd-color-layer-02: var(--fnd-neutral-100);
-  --fnd-color-layer-03: var(--fnd-neutral-200);
+  --fnd-color-layer-03: #ffffff;
 
   // -- Text -----------------------------------------------------------------
-  --fnd-color-text-primary:   var(--fnd-neutral-950);   // 17,85
-  --fnd-color-text-secondary: var(--fnd-neutral-700);   //  6,77
-  --fnd-color-text-tertiary:  var(--fnd-neutral-600);   //  4,66
-  --fnd-color-text-disabled:  var(--fnd-neutral-500);   //  3,11
+  // Kontraste jetzt auf dem PAPIER (Stufe 100), nicht auf Weiss. Stufe 600
+  // erreicht dort nur 4,18 und faellt unter AA — deshalb liegt der tertiaere
+  // Text seit dem 09.09.2026 auf 700, gleich dem sekundaeren. Das Markenbuch
+  // (4.3) kennt ohnehin nur zwei Textstufen; die dritte war eine Codeidee.
+  --fnd-color-text-primary:   var(--fnd-neutral-950);   // 16,01 auf Papier, 17,85 auf Weiss
+  --fnd-color-text-secondary: var(--fnd-neutral-700);   //  6,07 auf Papier,  6,77 auf Weiss
+  --fnd-color-text-tertiary:  var(--fnd-neutral-700);   //  6,07 — 600 laege bei 4,18
+  --fnd-color-text-disabled:  var(--fnd-neutral-500);   //  2,78 auf Papier (WCAG-Ausnahme)
   --fnd-color-text-inverse:   var(--fnd-neutral-50);
   --fnd-color-text-difference: #ffffff;
   --fnd-color-text-transparency-low: color-mix(in srgb, var(--fnd-neutral-950) 55%, transparent);
@@ -100,7 +114,9 @@
   // Der Rahmen, der ein BEDIENELEMENT erkennbar macht. WCAG 1.4.11 verlangt
   // dafuer 3:1 — border-primary erreicht als leise Trennlinie nur 1,49 und
   // ist dafuer nicht gedacht.
-  --fnd-color-border-control:   var(--fnd-neutral-500);   // 3,11 auf Weiss
+  // Auf dem Papier erreicht Stufe 500 nur 2,78 — Stufe 600 liefert 4,18 auf
+  // dem Papier und 4,66 auf der weissen Karte.
+  --fnd-color-border-control:   var(--fnd-neutral-600);
 
   // -- Rueckmeldung ---------------------------------------------------------
   // Auf Weisung auf die Systempaletten Stufe 500 gezogen, gleichlautend mit
@@ -146,7 +162,10 @@
 }
 
 @mixin bruecke-dunkel {
-  --fnd-color-background-base:        var(--fnd-neutral-950);
+  // Im Dunkeln gibt es kein Papier: alle Leitern fallen auf Graphit zusammen
+  // (Markenbuch 4.2, „nur in hellen Themes"). Der Grund ist Graphit 950.
+  --fnd-color-paper:                  var(--fnd-neutral-950);
+  --fnd-color-background-base:        var(--fnd-color-paper);
   --fnd-color-background-secondary:   var(--fnd-neutral-900);
   --fnd-color-background-tertiary:    var(--fnd-neutral-800);
   --fnd-color-background-quaternary:  var(--fnd-neutral-700);
@@ -237,23 +256,62 @@
 // Die Leitern muessen VOR der Bruecke stehen, sonst zeigen die var()-Verweise
 // ins Leere. Beides hier zusammen, damit die Reihenfolge nicht von der
 // Reihenfolge der @forward-Zeilen abhaengt.
+//
+// REIHENFOLGE IST ABSICHT. Bei gleicher Spezifitaet gewinnt die spaetere
+// Regel, und genau darauf beruht das Papiersystem:
+//   1. :root traegt Graphit als Voreinstellung.
+//   2. [data-bg-paper='…'] tauscht die Leiter — sechs Papiere, keine Reserve.
+//   3. .neo-dark-theme steht ZULETZT und setzt Graphit zurueck: im Dunkeln
+//      gibt es kein Papier, egal was das Attribut sagt.
+// .neo-light-theme deklariert die Leiter NICHT — die Klasse sitzt in den Docs
+// auf <body> und wuerde sonst das Attribut auf <html> ueberschreiben.
 
-:root,
-.neo-light-theme {
+// Die sechs Papiere als feste Werte (Stufe 100), unabhaengig vom Thema —
+// fuer Konfig-App, Docs und Bauteile, die ein bestimmtes Papier zeigen.
+@mixin papier-rollen {
+  @each $name, $map in r.$papier-leitern {
+    --fnd-color-paper-#{$name}: #{map.get($map, 100)};
+  }
+}
+
+:root {
   @include r.leiter-vars(r.$graphit, 'neutral');
   @include r.leiter-vars(r.$lime, 'accent');
+  @include papier-rollen;
   @include bruecke-hell;
+}
+
+.neo-light-theme {
+  @include r.leiter-vars(r.$lime, 'accent');
+  @include bruecke-hell;
+}
+
+// Papierwechsel je Bereich (Markenbuch 4.2): ein Papier je Seite, gesetzt als
+// data-bg-paper auf <html>. Alle sechs Leitern haben stufenweise dieselben
+// Helligkeiten, deshalb bleiben saemtliche Kontrastwerte erhalten. Salbei und
+// Blau sind Reserve und bewusst nicht schaltbar (4.2.b).
+@each $name, $map in r.$papier-leitern {
+  [data-bg-paper='#{$name}'] { @include r.leiter-vars($map, 'neutral'); }
+}
+
+// Eingebettete Sektion im hellen Thema (Verschachtelung .neo-light-theme >
+// section.customer-light-theme): liegt EINE Stufe unter dem Papier, sonst
+// verschwindet sie auf dem Papier — ihr alter Grund #f5f5f5 war vom Papier
+// #f1f3f1 nicht zu unterscheiden. Nur die Flaechen; die uebrigen Rollen des
+// Kundenthemas sind ein eigener, offener Punkt (Token-Audit 08.09.2026).
+.customer-light-theme {
+  --fnd-color-paper:                var(--fnd-neutral-200);
+  --fnd-color-background-base:      var(--fnd-color-paper);
+  --fnd-color-background-secondary: var(--fnd-neutral-300);
+  --fnd-color-background-tertiary:  var(--fnd-neutral-400);
+  --fnd-color-surface-elevated:     #ffffff;
+  --fnd-color-layer-01:             #ffffff;
+  --fnd-color-layer-02:             var(--fnd-neutral-200);
+  --fnd-color-layer-03:             #ffffff;
 }
 
 .neo-dark-theme {
   @include r.leiter-vars(r.$graphit, 'neutral');
   @include r.leiter-vars(r.$lime, 'accent');
   @include bruecke-dunkel;
-}
-
-// Leiterwechsel fuer eigene Bereiche — Academy, Support, Foren. Alle vier
-// Leitern haben stufenweise dieselben Helligkeiten, deshalb bleiben saemtliche
-// Kontrastwerte erhalten und nichts muss neu geprueft werden.
-@each $name, $map in ('blau': r.$blau, 'beige': r.$beige, 'salbei': r.$salbei) {
-  [data-neutral='#{$name}'] { @include r.leiter-vars($map, 'neutral'); }
 }

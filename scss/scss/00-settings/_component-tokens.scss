@@ -34,6 +34,21 @@
 // Button Tokens
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Erhobene Flaechen auf dem Papier (seit 09.09.2026)
+// ---------------------------------------------------------------------------
+// Die Grundflaeche ist seit Phase 2 des Papiersystems das Bereichspapier
+// (Stufe 100), nicht mehr Weiss. Karten, Felder und Ueberlagerungen, die bis
+// dahin `background-base` (= Weiss) trugen, lagen damit im Papierton und
+// waren vom Grund nicht zu unterscheiden. Sie zeigen jetzt auf
+// `surface-elevated` (Weiss, im Dunkeln Graphit 900): card, checkbox-card,
+// radio-card, dt-card, text-cta-card, form-control, checkbox, radio,
+// file-upload, table, dt-body, search-results, search-mobile, nav-mol-mobile,
+// segmented-item-selected, range-thumb, logo-wall-item, cs-copy,
+// story-gallery-paddle, timeline-node. Leisten und Sektionen (nav, footer,
+// section, toolbar, chapter-nav, pagination, skip-link, accordion-item)
+// bleiben auf dem Papier — sie sind Teil der Seite, nicht darauf erhoben.
+// ---------------------------------------------------------------------------
 :root {
   // ── Typografie-Rollen (Type Ramp) ──────────────────────────────────────
   // Disziplinierte Nutzung der Fluid-Skala (--fs-*) ueber ein kleines Rollen-
@@ -224,7 +239,7 @@
   // Card Tokens
   // ---------------------------------------------------------------------------
 
-  --nc-card-bg: var(--fnd-color-background-base);
+  --nc-card-bg: var(--fnd-color-surface-elevated);
   --nc-card-color: var(--fnd-color-text-primary);
   --nc-card-border: var(--fnd-color-border-secondary);
   // 8px (radius-lg) statt 16px (radius-4xl): die Karte ist ein Sachtraeger,
@@ -356,7 +371,7 @@
   // Select erben diese Werte via var()-Aliase. Aenderungen hier wirken global.
 
   // -- Outlined (Default) --
-  --nc-form-control-bg:                          var(--fnd-color-background-base);
+  --nc-form-control-bg:                          var(--fnd-color-surface-elevated);
   --nc-form-control-color:                       var(--fnd-color-text-primary);
   // Bedienrahmen, nicht Trennlinie: WCAG 1.4.11 verlangt 3:1 fuer den Rand,
   // der ein Eingabefeld ueberhaupt erkennbar macht. border-primary ist die
@@ -550,7 +565,7 @@
   --nc-checkbox-border-width: var(--fnd-border-width-sm);      // 2px
 
   // -- Colors --
-  --nc-checkbox-bg: var(--fnd-color-background-base);
+  --nc-checkbox-bg: var(--fnd-color-surface-elevated);
   --nc-checkbox-border: var(--fnd-color-border-strong);
   --nc-checkbox-border-hover: var(--fnd-color-interactive-hover);
   --nc-checkbox-bg-checked: var(--fnd-color-interactive-default);
@@ -574,7 +589,7 @@
   --nc-checkbox-focus-ring-offset: 2px;
 
   // -- Card-Variante --
-  --nc-checkbox-card-bg: var(--fnd-color-background-base);
+  --nc-checkbox-card-bg: var(--fnd-color-surface-elevated);
   --nc-checkbox-card-bg-checked: var(--fnd-color-interactive-subtle);
   --nc-checkbox-card-border: var(--fnd-color-border-primary);
   --nc-checkbox-card-border-checked: var(--fnd-color-interactive-default);
@@ -593,7 +608,7 @@
   --nc-radio-border-width: var(--fnd-border-width-sm);         // 2px
 
   // -- Colors --
-  --nc-radio-bg: var(--fnd-color-background-base);
+  --nc-radio-bg: var(--fnd-color-surface-elevated);
   --nc-radio-border: var(--fnd-color-border-strong);
   --nc-radio-border-hover: var(--fnd-color-interactive-hover);
   --nc-radio-bg-checked: var(--fnd-color-interactive-default);
@@ -617,7 +632,7 @@
   --nc-radio-transition-duration: var(--fnd-motion-duration-150);
 
   // -- Card-Variante --
-  --nc-radio-card-bg: var(--fnd-color-background-base);
+  --nc-radio-card-bg: var(--fnd-color-surface-elevated);
   --nc-radio-card-bg-checked: var(--fnd-color-interactive-subtle);
   --nc-radio-card-border: var(--fnd-color-border-primary);
   --nc-radio-card-border-checked: var(--fnd-color-interactive-default);
@@ -722,7 +737,7 @@
   --nc-range-track-bg-active: var(--fnd-color-interactive-default);
   --nc-range-track-radius: var(--fnd-radius-full);
   --nc-range-thumb-size: 20px;
-  --nc-range-thumb-bg: var(--fnd-color-background-base);
+  --nc-range-thumb-bg: var(--fnd-color-surface-elevated);
   --nc-range-thumb-border: var(--fnd-color-interactive-default);
   --nc-range-thumb-border-width: var(--fnd-border-width-sm);
   --nc-range-thumb-shadow: var(--fnd-elevation-base);
@@ -787,7 +802,7 @@
   --nc-file-upload-border: var(--fnd-color-border-primary);
   --nc-file-upload-border-style: dashed;
   --nc-file-upload-border-hover: var(--fnd-color-interactive-default);
-  --nc-file-upload-bg: var(--fnd-color-background-base);
+  --nc-file-upload-bg: var(--fnd-color-surface-elevated);
   --nc-file-upload-bg-hover: var(--fnd-color-background-secondary);
   --nc-file-upload-radius: var(--fnd-radius-sm);
   --nc-file-upload-padding: var(--fnd-spacing-08);
@@ -1854,7 +1869,7 @@
   --nc-segmented-item-color-hover: var(--fnd-color-text-primary);
 
   // -- Item Selected --
-  --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
+  --nc-segmented-item-selected-bg: var(--fnd-color-surface-elevated);
   --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
   --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
 
@@ -1981,7 +1996,7 @@
   // -- Container --
   --nc-dt-radius:                 var(--fnd-radius-md);                    // 6px — rollenbasiert: Daten-Surface (war sm/4px)
   --nc-dt-border:                 var(--fnd-border-width-xs) solid var(--fnd-color-border-secondary);
-  --nc-dt-body-bg:                var(--fnd-color-background-base);        // ref(color.surface.default)
+  --nc-dt-body-bg:                var(--fnd-color-surface-elevated);        // ref(color.surface.default)
   --nc-dt-body-color:             var(--fnd-color-text-primary);           // ref(color.text.primary)
   --nc-dt-body-font-size:         var(--fs-sm);                             // 14px — ref(font.size.sm)
   --nc-dt-body-font-weight:       var(--fnd-font-weight-regular);          // ref(font.weight.regular)
@@ -2146,7 +2161,7 @@
 
   // -- Variante: Card (erhobene Tabelle in Card-Container) --
   --nc-dt-card-shadow:               var(--fnd-elevation-raised);             // Card-Elevation
-  --nc-dt-card-bg:                   var(--fnd-color-background-base);
+  --nc-dt-card-bg:                   var(--fnd-color-surface-elevated);
 
   // -- Variante: Glass (transparente Zeilen fuer moderne Dashboards) --
   --nc-dt-glass-bg:                  color-mix(in srgb, var(--fnd-color-background-base) 60%, transparent);
@@ -2179,7 +2194,7 @@
 
 :root {
   // -- Container --
-  --nc-table-bg: var(--fnd-color-background-base);
+  --nc-table-bg: var(--fnd-color-surface-elevated);
   --nc-table-radius: var(--fnd-radius-md);
   --nc-table-shadow: var(--fnd-elevation-raised);
   --nc-table-border-color: var(--fnd-color-border-secondary);
@@ -2379,7 +2394,7 @@
   --nc-logo-wall-align:                center;
 
   // -- Item (Pill) --
-  --nc-logo-wall-item-bg:              var(--fnd-color-background-base);
+  --nc-logo-wall-item-bg:              var(--fnd-color-surface-elevated);
   --nc-logo-wall-item-border:          var(--fnd-color-border-secondary);
   --nc-logo-wall-item-border-width:    var(--fnd-border-width-xs);
   --nc-logo-wall-item-radius:          var(--fnd-radius-full);
@@ -2762,7 +2777,7 @@
 
   // Node (Punkt auf der Linie)
   --nc-timeline-node-size:        12px;
-  --nc-timeline-node-bg:          var(--fnd-color-background-base);
+  --nc-timeline-node-bg:          var(--fnd-color-surface-elevated);
   --nc-timeline-node-border:      var(--fnd-color-border-primary);
   --nc-timeline-node-border-width: var(--fnd-border-width-sm);     // 2px
   --nc-timeline-node-radius:      var(--fnd-radius-full);
@@ -2996,7 +3011,7 @@
   --nc-nav-mol-toggle-bar-color:   currentColor;
 
   // -- Mobile Panel --
-  --nc-nav-mol-mobile-bg:          var(--fnd-color-background-base);
+  --nc-nav-mol-mobile-bg:          var(--fnd-color-surface-elevated);
   --nc-nav-mol-mobile-border:      var(--fnd-color-border-secondary);
   --nc-nav-mol-mobile-padding:     var(--fnd-spacing-05);         // 20px
   --nc-nav-mol-mobile-gap:         var(--fnd-spacing-04);         // 16px
@@ -3759,7 +3774,7 @@
   --nc-text-cta-card-radius:       var(--fnd-radius-2xl);
   // Standardflaeche der Karte. Redaktionell ueberschreibbar (field_tc_card_bg
   // setzt --mod-card-bg als Inline-Style).
-  --nc-text-cta-card-bg:           var(--fnd-color-background-base);
+  --nc-text-cta-card-bg:           var(--fnd-color-surface-elevated);
   --nc-text-cta-card-border:       var(--fnd-color-border-secondary);
 
   --nc-text-cta-list-gap:          var(--fnd-spacing-03);
@@ -3849,7 +3864,7 @@
   --nc-search-input-height:       var(--fnd-size-md);                // 40px
 
   // Ergebnisliste
-  --nc-search-results-bg:         var(--fnd-color-background-base);
+  --nc-search-results-bg:         var(--fnd-color-surface-elevated);
   --nc-search-results-border:     var(--fnd-color-border-secondary);
   --nc-search-results-border-width: var(--fnd-border-width-xs);    // 1px
   --nc-search-results-radius:     var(--fnd-radius-sm);            // 4px
@@ -3930,7 +3945,7 @@
   // -- Mobile Full-Screen (v3.0) --
   --nc-search-mobile-header-height: 56px;
   --nc-search-mobile-results-max-height: calc(100dvh - 56px);
-  --nc-search-mobile-bg:          var(--fnd-color-background-base);
+  --nc-search-mobile-bg:          var(--fnd-color-surface-elevated);
 }
 
 // ---------------------------------------------------------------------------
@@ -3966,7 +3981,7 @@
 
   // Copy Button
   --nc-cs-copy-size:           var(--fnd-size-sm);               // 32px
-  --nc-cs-copy-bg:             var(--fnd-color-background-base);
+  --nc-cs-copy-bg:             var(--fnd-color-surface-elevated);
   --nc-cs-copy-bg-hover:       var(--fnd-color-background-secondary);
   --nc-cs-copy-color:          var(--fnd-color-text-secondary);
   --nc-cs-copy-color-hover:    var(--fnd-color-text-primary);
@@ -4191,7 +4206,7 @@
   --nc-segmented-item-color: var(--fnd-color-text-secondary);
   --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);
   --nc-segmented-item-color-hover: var(--fnd-color-text-primary);
-  --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
+  --nc-segmented-item-selected-bg: var(--fnd-color-surface-elevated);
   --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
   --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
   --nc-segmented-item-badge-bg: var(--fnd-color-background-tertiary);
@@ -4492,7 +4507,7 @@
     --nc-segmented-item-color: var(--fnd-color-text-secondary);
     --nc-segmented-item-bg-hover: var(--fnd-color-background-tertiary);
     --nc-segmented-item-color-hover: var(--fnd-color-text-primary);
-    --nc-segmented-item-selected-bg: var(--fnd-color-background-base);
+    --nc-segmented-item-selected-bg: var(--fnd-color-surface-elevated);
     --nc-segmented-item-selected-color: var(--fnd-color-text-primary);
     --nc-segmented-item-selected-shadow: var(--fnd-elevation-base);
     --nc-segmented-item-badge-bg: var(--fnd-color-background-tertiary);
@@ -4563,7 +4578,7 @@
   --nc-story-gallery-desc-size:      var(--fs-sm);
   --nc-story-gallery-desc-color:     var(--fnd-color-text-secondary);
   --nc-story-gallery-paddle-size:    44px;
-  --nc-story-gallery-paddle-bg:      var(--fnd-color-background-base);
+  --nc-story-gallery-paddle-bg:      var(--fnd-color-surface-elevated);
   --nc-story-gallery-paddle-shadow:  var(--fnd-shadow-md);
   --nc-story-gallery-headline-size:  var(--fs-2xl);
 }

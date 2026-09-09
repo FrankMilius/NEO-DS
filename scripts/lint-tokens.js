@@ -53,7 +53,7 @@ const rules = [
   {
     name: 'hardcoded-white-bg',
     pattern: /(?:background|background-color):\s*#(?:fff(?:fff)?)\s*;/gi,
-    message: 'Hardcodiertes #fff/#ffffff als background. Nutze var(--fnd-color-background-base).',
+    message: 'Hardcodiertes #fff/#ffffff als background. Nutze var(--fnd-color-surface-elevated) fuer erhobene Flaechen oder var(--fnd-color-background-base) fuer das Papier.',
     skipLine: /\/\//,
   },
   {
