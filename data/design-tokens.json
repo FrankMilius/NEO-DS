@@ -91,22 +91,6 @@
           "950": "#001017"
         }
       },
-      "beige": {
-        "label": "Beige",
-        "base": "#D9D2C4",
-        "shades": {
-          "100": "#f7f6f3",
-          "200": "#f0ede7",
-          "300": "#e8e4dc",
-          "400": "#e1dbd0",
-          "500": "#D9D2C4",
-          "600": "#aea89d",
-          "700": "#827e76",
-          "800": "#57544e",
-          "900": "#2b2a27",
-          "950": "#161514"
-        }
-      },
       "chartreuse": {
         "label": "Chartreuse",
         "base": "#E6FF9E",
@@ -217,54 +201,6 @@
           "800": "#66520b",
           "900": "#332905",
           "950": "#1a1503"
-        }
-      },
-      "sage": {
-        "label": "Sage",
-        "base": "#8F9779",
-        "shades": {
-          "100": "#e9eae4",
-          "200": "#d2d5c9",
-          "300": "#bcc1af",
-          "400": "#a5ac94",
-          "500": "#8F9779",
-          "600": "#727961",
-          "700": "#565b49",
-          "800": "#393c30",
-          "900": "#1d1e18",
-          "950": "#0e0f0c"
-        }
-      },
-      "warm-taupe": {
-        "label": "Warm Taupe",
-        "base": "#C2B5A8",
-        "shades": {
-          "100": "#f3f0ee",
-          "200": "#e7e1dc",
-          "300": "#dad3cb",
-          "400": "#cec4b9",
-          "500": "#C2B5A8",
-          "600": "#9b9186",
-          "700": "#746d65",
-          "800": "#4e4843",
-          "900": "#272422",
-          "950": "#131211"
-        }
-      },
-      "pearl-white": {
-        "label": "Pearl White",
-        "base": "#F5F5F5",
-        "shades": {
-          "100": "#fdfdfd",
-          "200": "#fbfbfb",
-          "300": "#f9f9f9",
-          "400": "#f7f7f7",
-          "500": "#F5F5F5",
-          "600": "#c4c4c4",
-          "700": "#939393",
-          "800": "#626262",
-          "900": "#313131",
-          "950": "#191919"
         }
       },
       "old-gold": {
@@ -447,7 +383,7 @@
           "950": "#161816"
         }
       },
-      "neutral-blau": {
+      "blau": {
         "label": "Blaustichig",
         "base": "#8a939d",
         "shades": {
@@ -464,8 +400,8 @@
           "950": "#13181c"
         }
       },
-      "neutral-beige": {
-        "label": "Beigestichig",
+      "beige": {
+        "label": "Beige",
         "base": "#989185",
         "shades": {
           "50": "#fef9f2",
@@ -481,7 +417,7 @@
           "950": "#1a1710"
         }
       },
-      "neutral-salbei": {
+      "salbei": {
         "label": "Salbei",
         "base": "#8d948d",
         "shades": {
@@ -515,8 +451,8 @@
           "950": "#181810"
         }
       },
-      "neutral-taupe": {
-        "label": "Neutral Taupe",
+      "warm-taupe": {
+        "label": "Warm Taupe",
         "base": "#9a9086",
         "shades": {
           "50": "#fff9f4",
@@ -532,8 +468,8 @@
           "950": "#1c1611"
         }
       },
-      "neutral-pearl": {
-        "label": "Neutral Pearl",
+      "pearl-white": {
+        "label": "Pearl White",
         "base": "#929292",
         "shades": {
           "50": "#fafafa",
@@ -547,6 +483,40 @@
           "800": "#424242",
           "900": "#2a2a2a",
           "950": "#171717"
+        }
+      },
+      "mint": {
+        "label": "Mint",
+        "base": "#839b74",
+        "shades": {
+          "50": "#f3ffec",
+          "100": "#e9f8e0",
+          "200": "#dbecd1",
+          "300": "#c8dabe",
+          "400": "#a4b998",
+          "500": "#839b74",
+          "600": "#637d53",
+          "700": "#4b633c",
+          "800": "#36492b",
+          "900": "#212f17",
+          "950": "#0e1c05"
+        }
+      },
+      "forest": {
+        "label": "Forest",
+        "base": "#497174",
+        "shades": {
+          "50": "#f3f6f6",
+          "100": "#e7eced",
+          "200": "#ced9da",
+          "300": "#aabdbe",
+          "400": "#799799",
+          "500": "#497174",
+          "600": "#29585c",
+          "700": "#16494d",
+          "800": "#0c4146",
+          "900": "#082e31",
+          "950": "#051d20"
         }
       },
       "lime": {
@@ -23339,40 +23309,12 @@
         "beschriftung": "graphit.700"
       },
       "gruenfamilie": {
-        "_notiz": "Entschieden am 05.09.2026 nach der Analyse der Vorlagen Horizon und Calypso. Forest (#0c4146) und Mint (#efffe6) sind Franks Werte aus dem Color Picker; die Leitern sind daraus gemischt (Forest als Stufe 800, Tints nach Weiss, Shades nach Schwarz; Mint als Stufe 100). Kontraste nachgerechnet: Lime 500 auf Forest 6,93, Mint auf Forest 10,81, Weiss auf Forest 11,29, Graphit 950 auf Mint 17,10, Forest 600 auf Mint 7,61. Lime 700 auf Mint erreicht nur 4,15 und ist dort kein Textwert. Forest und Mint gehoeren noch nicht in _color-primitives.scss — Backlog.",
+        "_notiz": "Entschieden am 05.09.2026 nach der Analyse der Vorlagen Horizon und Calypso; Leitern seit dem 09.09.2026 in primitives.neutralleitern (Quelle _neutral-ramps.scss). Mint ist nach der Ivory-Methode auf die Graphit-Helligkeit abgeleitet (Mint 100 = #e9f8e0, Rechenweg scripts/leiter-ableiten.cjs); Forest bleibt die gemischte Leiter mit dem Picker-Wert #0c4146 auf 800 — bewusst die einzige Ausnahme von der Stufenregel, weil Forest ein Grund ist und nie ueber den Papierschalter laeuft. Kontraste neu: Graphit 950 auf Mint 100 16,12; Forest 600 auf Mint 100 7,17; Mint 100 auf Forest 800 10,20; Lime 500 auf Forest 800 6,93; Weiss auf Forest 11,29. Lime 700 auf Mint erreicht nur 3,5 und ist dort kein Textwert.",
         "forest": {
-          "label": "Forest",
-          "base": "#0c4146",
-          "shades": {
-            "50": "#f3f6f6",
-            "100": "#e7eced",
-            "200": "#ced9da",
-            "300": "#aabdbe",
-            "400": "#799799",
-            "500": "#497174",
-            "600": "#29585c",
-            "700": "#16494d",
-            "800": "#0c4146",
-            "900": "#082e31",
-            "950": "#051d20"
-          }
+          "quelle": "primitives.neutralleitern.forest"
         },
         "mint": {
-          "label": "Mint",
-          "base": "#efffe6",
-          "shades": {
-            "50": "#f5fff0",
-            "100": "#efffe6",
-            "200": "#e1f0d8",
-            "300": "#d0dec8",
-            "400": "#b3bfad",
-            "500": "#949e8f",
-            "600": "#788073",
-            "700": "#5b6157",
-            "800": "#3e423c",
-            "900": "#262925",
-            "950": "#161715"
-          }
+          "quelle": "primitives.neutralleitern.mint"
         },
         "rollen": {
           "papier": "mint.100",
@@ -23435,13 +23377,13 @@
         }
       },
       "papiere": {
-        "_notiz": "Die fuenf Papiere aus Kapitel 04 plus Mint. Ein Papier je Abschnitt.",
+        "_notiz": "Die sechs Bereichspapiere aus Kapitel 04.2 (seit 09.09.2026 mit Mint fuer Wissen und Lernen). Ein Papier je Abschnitt. Namen = Schluessel in primitives.neutralleitern.",
         "liste": [
-          "neutral-pearl",
           "graphit",
-          "neutral-beige",
+          "beige",
           "ivory",
-          "neutral-taupe",
+          "warm-taupe",
+          "pearl-white",
           "mint"
         ],
         "gruende": [

@@ -1,15 +1,18 @@
 // ==========================================================================
-// 00-Settings: Neutralleitern und Akzentleiter (Primitives)
+// 00-Settings: Leitern — Papiere, Reserve, Gruenfamilie, Akzent (Primitives)
 // ==========================================================================
-// Sieben Neutralleitern und die Akzentleiter, alle in OKLCH gerechnet und auf
-// sRGB begrenzt. Reine Primitives: KEIN Bauteil greift hier direkt zu, das
-// laeuft ueber die semantische Ebene in _mono-theme.scss.
+// Zehn Leitern, benannt wie im Markenbuch (Kapitel 04.2): sechs Bereichspapiere
+// (Graphit, Beige, Ivory, Warm Taupe, Pearl White, Mint), zwei Reserveleitern
+// (Blau, Salbei), Forest als Grund und Lime als Akzent. Alle ausser Forest und
+// Lime in OKLCH gerechnet und auf sRGB begrenzt. Reine Primitives: KEIN Bauteil
+// greift hier direkt zu, das laeuft ueber die semantische Ebene in
+// _mono-theme.scss und _mono-bridge.scss. Pruefung: scripts/leiter-ableiten.cjs --pruefen
 //
 // WARUM OKLCH UND NICHT HSL
-// In HSL ist ein Gelb bei L 50% deutlich heller als ein Blau bei L 50%. Sieben
+// In HSL ist ein Gelb bei L 50% deutlich heller als ein Blau bei L 50%. Acht
 // Leitern mit verschiedenen Farbtoenen waeren damit nicht vergleichbar. In
 // OKLCH sind gleiche Helligkeitswerte auch gleich hell — deshalb haben alle
-// sieben Leitern hier STUFE FUER STUFE DIESELBEN KONTRASTWERTE.
+// acht Papier- und Reserveleitern hier STUFE FUER STUFE DIESELBEN KONTRASTWERTE.
 //
 // Das ist der eigentliche Trick: Ein Bereich, der von Graphit auf Beige
 // umschaltet, behaelt saemtliche Kontrastwerte. Die Barrierefreiheit muss
@@ -17,10 +20,12 @@
 // Stufennummer ansprechen und nicht den Hexwert — ein einziger fest
 // eingetragener Grauton bricht die Umschaltbarkeit fuer den ganzen Bereich.
 //
-// Kontrast gegen Weiss, fuer alle sieben Leitern gleich:
+// Kontrast gegen Weiss, fuer alle acht Leitern gleich:
 //   50  1,04   100 1,12   200 1,25   300 1,49   400 2,14   500 3,11
 //   600 4,66   700 6,77   800 9,98   900 14,27  950 17,85
 // ==========================================================================
+
+@use 'sass:map';
 
 // ---------------------------------------------------------------------------
 // Graphit — fuehrend, alle Produkte
@@ -44,7 +49,7 @@ $graphit: (
 // spaetere eigene Bereiche mit sachlichem Charakter: Support, Statusseiten,
 // technische Dokumentation.
 
-$neutral-blau: (
+$blau: (
    50: #f6fbff,  100: #edf3f9,  200: #e0e6ec,  300: #cdd4dc,
   400: #aab2ba,  500: #8a939d,  600: #6c7680,  700: #535c65,
   800: #3c434b,  900: #252b31,  950: #13181c
@@ -56,7 +61,7 @@ $neutral-blau: (
 // Farbton 80°. Fuer Bereiche, die Naehe herstellen sollen: Kurse, Weiterbildung,
 // redaktionelle Strecken.
 
-$neutral-beige: (
+$beige: (
    50: #fef9f2,  100: #f6f2ea,  200: #eae4dc,  300: #d8d3ca,
   400: #b7b0a6,  500: #989185,  600: #7b7366,  700: #615a4e,
   800: #474138,  900: #2e2922,  950: #1a1710
@@ -68,7 +73,7 @@ $neutral-beige: (
 // Farbton 143° bei dreifacher Buntheit von Graphit. Fuer Bereiche, die sich
 // deutlich absetzen duerfen, ohne die Familie zu verlassen: Foren, Gemeinschaft.
 
-$neutral-salbei: (
+$salbei: (
    50: #f7fcf7,  100: #eff4ef,  200: #e2e7e1,  300: #d0d5cf,
   400: #adb3ac,  500: #8d948d,  600: #6f776f,  700: #565d56,
   800: #3e443e,  900: #272c27,  950: #151814
@@ -103,7 +108,7 @@ $ivory: (
 // aber ohne die Einladung von Beige — waermer und zugleich zurueckhaltender,
 // weil der Farbton naeher am Rot liegt.
 
-$neutral-taupe: (
+$warm-taupe: (
    50: #fff9f4,  100: #f8f1eb,  200: #ebe4dd,  300: #dad2ca,
   400: #b8afa7,  500: #9a9086,  600: #7d7267,  700: #63594f,
   800: #494139,  900: #2f2923,  950: #1c1611
@@ -117,21 +122,67 @@ $neutral-taupe: (
 // Stimmung machen — ein Unterton waere schon zu viel Haltung. Ein Farbton ist
 // hier ohne Bedeutung, weil bei Buntheit 0 keiner sichtbar wird.
 
-$neutral-pearl: (
+$pearl-white: (
    50: #fafafa,  100: #f2f2f2,  200: #e5e5e5,  300: #d3d3d3,
   400: #b1b1b1,  500: #929292,  600: #747474,  700: #5b5b5b,
   800: #424242,  900: #2a2a2a,  950: #171717
 ) !default;
 
-$neutral-leitern: (
-  'graphit':     $graphit,
-  'blau':        $neutral-blau,
-  'beige':       $neutral-beige,
-  'salbei':      $neutral-salbei,
-  'ivory':       $ivory,
-  'warm-taupe':  $neutral-taupe,
-  'pearl-white': $neutral-pearl
+// ---------------------------------------------------------------------------
+// Mint — Papier fuer „Wissen und Lernen"
+// ---------------------------------------------------------------------------
+// Abgeleitet am 09.09.2026 nach der Ivory-Methode: Farbton 134° und Buntheit
+// vom Markenwert #efffe6 auf Stufe 100, Helligkeiten Stufe fuer Stufe von
+// Graphit, Buntheitsverlauf nach dem Profil von Beige (Faktor 3,2). Mint 100
+// wird damit #e9f8e0 statt #efffe6 (ΔE 2,0); Graphit 950 erreicht darauf 16,1
+// wie auf jedem anderen Papier. Forest 600 auf Mint 100: 7,2. Lime 500 auf
+// Mint 100: 1,5 — nur als Flaeche mit dunkler Schrift, nie als Text.
+// Rechenweg: node scripts/leiter-ableiten.cjs
+
+$mint: (
+   50: #f3ffec,  100: #e9f8e0,  200: #dbecd1,  300: #c8dabe,
+  400: #a4b998,  500: #839b74,  600: #637d53,  700: #4b633c,
+  800: #36492b,  900: #212f17,  950: #0e1c05
 ) !default;
+
+// ---------------------------------------------------------------------------
+// Forest — Grund, kein Papier
+// ---------------------------------------------------------------------------
+// Die EINZIGE Leiter ausserhalb der Stufenregel, und zwar absichtlich
+// (entschieden am 09.09.2026): Forest 800 ist der Picker-Wert #0c4146, die
+// Stufen darueber sind Tints nach Weiss, darunter Shades nach Schwarz. Auf
+// die Graphit-Helligkeit gerechnet haette Forest 600 auf Mint 100 nur 4,1
+// erreicht und die Akzenttinte auf 700 verschoben. Da Forest nie ueber den
+// Papierschalter laeuft, sondern als Grund fuer Einzelelemente dient (Titel,
+// Trenner, Abschluss — wie Graphit 950), braucht es die Vergleichbarkeit nicht.
+//
+// Rollen (Markenbuch 4.2.c): Grund 800, tief 950, Tinte auf Mint 600 (7,2),
+// Mono auf Forest 300 (5,8). Lime 500 auf Forest 800: 6,9. Weiss: 11,3.
+
+$forest: (
+   50: #f3f6f6,  100: #e7eced,  200: #ced9da,  300: #aabdbe,
+  400: #799799,  500: #497174,  600: #29585c,  700: #16494d,
+  800: #0c4146,  900: #082e31,  950: #051d20
+) !default;
+
+// Sechs Bereichspapiere — nur diese laufen ueber den Schalter (Phase 2).
+$papier-leitern: (
+  'graphit':     $graphit,
+  'beige':       $beige,
+  'ivory':       $ivory,
+  'warm-taupe':  $warm-taupe,
+  'pearl-white': $pearl-white,
+  'mint':        $mint
+) !default;
+
+// Reserve (Markenbuch 4.2.b): liegen bereit, belegen keine Route.
+$reserve-leitern: (
+  'blau':   $blau,
+  'salbei': $salbei
+) !default;
+
+// Alle Leitern mit Graphit-Helligkeit, fuer Ausgabe und Pruefung.
+$neutral-leitern: map.merge($papier-leitern, $reserve-leitern) !default;
 
 // ---------------------------------------------------------------------------
 // Lime — Akzent
@@ -161,8 +212,6 @@ $lime: (
 // ---------------------------------------------------------------------------
 // Zugriff
 // ---------------------------------------------------------------------------
-
-@use 'sass:map';
 
 /// Eine Stufe aus einer Leiter holen.
 ///   stufe($graphit, 700)

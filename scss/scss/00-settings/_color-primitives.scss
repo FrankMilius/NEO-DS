@@ -197,14 +197,12 @@ $neo-darkblue: fn.generate-shade-scale($_neo-darkblue-base) !default;
 $_neo-blue-base:     #009ee3 !default;
 $neo-blue:    fn.generate-shade-scale($_neo-blue-base) !default;
 
-$_beige-base:      #D9D2C4 !default;
 $_chartreuse-base: #E6FF9E !default;
 $_pink-base:       #FF53CB !default;
 $_aqua-base:       #C0E8E8 !default;
 $_cyan-base:       #00FFFF !default;
 $_burgundy-base:   #800020 !default;
 
-$beige:      fn.generate-shade-scale($_beige-base) !default;
 $chartreuse: fn.generate-shade-scale($_chartreuse-base) !default;
 $pink:       fn.generate-shade-scale($_pink-base) !default;
 $aqua:       fn.generate-shade-scale($_aqua-base) !default;
@@ -216,15 +214,6 @@ $coral:       fn.generate-shade-scale($_coral-base) !default;
 
 $_mustard-base:        #FFCE1B !default;
 $mustard:     fn.generate-shade-scale($_mustard-base) !default;
-
-$_sage-base:           #8F9779 !default;
-$sage:        fn.generate-shade-scale($_sage-base) !default;
-
-$_warm-taupe-base:     #C2B5A8 !default;
-$warm-taupe:  fn.generate-shade-scale($_warm-taupe-base) !default;
-
-$_pearl-white-base:    #F5F5F5 !default;
-$pearl-white: fn.generate-shade-scale($_pearl-white-base) !default;
 
 $_old-gold-base:       #CFB53B !default;
 $old-gold:    fn.generate-shade-scale($_old-gold-base) !default;
@@ -294,11 +283,23 @@ $dark-orange: fn.generate-shade-scale($_dark-orange-base) !default;
     --fnd-primitive-danger-#{$step}: #{$color};
   }
 
+  // --- Leitern (Markenbuch 04.2) ---
+  // Sechs Bereichspapiere, zwei Reserveleitern, Forest als Grund. Werte aus
+  // _neutral-ramps.scss. Beige, Warm Taupe und Pearl White standen bis zum
+  // 09.09.2026 zusaetzlich als generierte Supporting-Paletten mit anderen
+  // Werten hier — zwei Tokens gleichen Namens, zwei Werte. Jetzt nur noch
+  // die Leitern des Markenbuchs (Sage ist entfallen; Salbei ist die Leiter).
+  @each $name, $leiter in r.$neutral-leitern {
+    @each $step, $color in $leiter {
+      --fnd-primitive-#{$name}-#{$step}: #{$color};
+    }
+  }
+  @each $step, $color in r.$forest {
+    --fnd-primitive-forest-#{$step}: #{$color};
+  }
+
   // --- Supporting Palettes ---
 
-  @each $step, $color in $beige {
-    --fnd-primitive-beige-#{$step}: #{$color};
-  }
   @each $step, $color in $chartreuse {
     --fnd-primitive-chartreuse-#{$step}: #{$color};
   }
@@ -321,18 +322,6 @@ $dark-orange: fn.generate-shade-scale($_dark-orange-base) !default;
 
   @each $step, $color in $mustard {
     --fnd-primitive-mustard-#{$step}: #{$color};
-  }
-
-  @each $step, $color in $sage {
-    --fnd-primitive-sage-#{$step}: #{$color};
-  }
-
-  @each $step, $color in $warm-taupe {
-    --fnd-primitive-warm-taupe-#{$step}: #{$color};
-  }
-
-  @each $step, $color in $pearl-white {
-    --fnd-primitive-pearl-white-#{$step}: #{$color};
   }
 
   @each $step, $color in $old-gold {

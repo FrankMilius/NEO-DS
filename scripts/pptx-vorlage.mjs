@@ -71,11 +71,13 @@ const leiter = (name) => Object.fromEntries(
 export const G = leiter('graphit');
 export const PAPIER = {
   graphit: G,
-  beige: leiter('neutral-beige'),
+  beige: leiter('beige'),
   ivory: leiter('ivory'),
-  taupe: leiter('neutral-taupe'),
-  pearl: leiter('neutral-pearl'),
+  taupe: leiter('warm-taupe'),
+  pearl: leiter('pearl-white'),
+  mint: leiter('mint'),
 };
+export const FOREST = leiter('forest');
 export const AKZENT = leiter('lime');
 export const EBENE = {
   menschen: 'F39100', wissen: 'A1C513', systeme: 'E5007D', daten: '009EE3',
@@ -89,6 +91,7 @@ export function farbe(ref) {
   if (palette === 'graphit') return G[stufe];
   if (palette === 'lime') return AKZENT[stufe];
   if (PAPIER[palette]) return PAPIER[palette][stufe];
+  if (roh[palette]) return ohne(roh[palette].shades[stufe]);
   const sys = tokens.primitives.system[palette];
   if (!sys) throw new Error(`Unbekannte Palette in foundation.praesentation: ${ref}`);
   return ohne(sys.shades[stufe]);

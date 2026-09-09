@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-08-26
+// Generated: 2026-09-09
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -101,22 +101,6 @@ export const supportingPalettes = {
       "800": "#003f5b",
       "900": "#00202d",
       "950": "#001017"
-    }
-  },
-  "beige": {
-    "label": "Beige",
-    "base": "#D9D2C4",
-    "shades": {
-      "100": "#f7f6f3",
-      "200": "#f0ede7",
-      "300": "#e8e4dc",
-      "400": "#e1dbd0",
-      "500": "#D9D2C4",
-      "600": "#aea89d",
-      "700": "#827e76",
-      "800": "#57544e",
-      "900": "#2b2a27",
-      "950": "#161514"
     }
   },
   "chartreuse": {
@@ -229,54 +213,6 @@ export const supportingPalettes = {
       "800": "#66520b",
       "900": "#332905",
       "950": "#1a1503"
-    }
-  },
-  "sage": {
-    "label": "Sage",
-    "base": "#8F9779",
-    "shades": {
-      "100": "#e9eae4",
-      "200": "#d2d5c9",
-      "300": "#bcc1af",
-      "400": "#a5ac94",
-      "500": "#8F9779",
-      "600": "#727961",
-      "700": "#565b49",
-      "800": "#393c30",
-      "900": "#1d1e18",
-      "950": "#0e0f0c"
-    }
-  },
-  "warm-taupe": {
-    "label": "Warm Taupe",
-    "base": "#C2B5A8",
-    "shades": {
-      "100": "#f3f0ee",
-      "200": "#e7e1dc",
-      "300": "#dad3cb",
-      "400": "#cec4b9",
-      "500": "#C2B5A8",
-      "600": "#9b9186",
-      "700": "#746d65",
-      "800": "#4e4843",
-      "900": "#272422",
-      "950": "#131211"
-    }
-  },
-  "pearl-white": {
-    "label": "Pearl White",
-    "base": "#F5F5F5",
-    "shades": {
-      "100": "#fdfdfd",
-      "200": "#fbfbfb",
-      "300": "#f9f9f9",
-      "400": "#f7f7f7",
-      "500": "#F5F5F5",
-      "600": "#c4c4c4",
-      "700": "#939393",
-      "800": "#626262",
-      "900": "#313131",
-      "950": "#191919"
     }
   },
   "old-gold": {

@@ -32,7 +32,7 @@
 .neo-mono-light,
 .neo-mono-dark { @include leiter(r.$graphit); }
 
-@each $name, $map in ('blau': r.$neutral-blau, 'beige': r.$neutral-beige, 'salbei': r.$neutral-salbei, 'ivory': r.$ivory, 'warm-taupe': r.$neutral-taupe, 'pearl-white': r.$neutral-pearl) {
+@each $name, $map in r.$neutral-leitern {
   .neo-mono-light[data-neutral='#{$name}'],
   .neo-mono-dark[data-neutral='#{$name}'] { @include leiter($map); }
 }

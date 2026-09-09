@@ -103,8 +103,9 @@ const BESCHRIFTUNG = {
   primary: 'Graphit (Primary)',
   secondary: 'Graphit (Secondary, vorerst gleich Primary)',
   accent: 'Neo Lime',
-  graphit: 'Graphit', 'neutral-blau': 'Blaustichig',
-  'neutral-beige': 'Beigestichig', 'neutral-salbei': 'Salbei',
+  graphit: 'Graphit', blau: 'Blaustichig', beige: 'Beige', salbei: 'Salbei',
+  ivory: 'Ivory', 'warm-taupe': 'Warm Taupe', 'pearl-white': 'Pearl White',
+  mint: 'Mint', forest: 'Forest', lime: 'Lime',
   'neo-darkblue': 'Neo Darkblue — Reserve fuer das Backend-Theme',
   'neo-blue': 'Neo Blue — Reserve fuer das Backend-Theme',
 };
@@ -121,6 +122,9 @@ const neu = { brand: {}, supporting: {}, system: {}, neutralleitern: {} };
 
 for (const [name, stufen] of Object.entries(ausCss)) {
   if (name === 'black' || name === 'white') continue;
+  // Die Leitern stehen seit dem 09.09.2026 auch als --fnd-primitive-* im
+  // Kompilat; ihre Quelle bleibt _neutral-ramps.scss, nicht das CSS.
+  if (LEITERN[name]) continue;
   const ziel = HAUPT.has(name) ? 'brand' : UNTER.has(name) ? 'supporting' : 'system';
   neu[ziel][name] = palette(name, stufen);
 }
