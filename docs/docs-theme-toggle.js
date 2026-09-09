@@ -80,4 +80,30 @@
   if (savedDark) {
     applyTheme(true);
   }
+
+  // -----------------------------------------------------------------------
+  // Papierwahl (Markenbuch 04.2): data-bg-paper auf <html>, nur zur Pruefung.
+  // Graphit ist die Voreinstellung und traegt kein Attribut. Im dunklen Thema
+  // wirkt das Attribut nicht — das ist die Regel, kein Fehler.
+  // -----------------------------------------------------------------------
+
+  var PAPER_KEY = 'docs-bg-paper';
+  var paperSelect = document.getElementById('docs-paper-select');
+  if (paperSelect) {
+    var applyPaper = function (paper) {
+      if (!paper || paper === 'graphit') {
+        document.documentElement.removeAttribute('data-bg-paper');
+      } else {
+        document.documentElement.setAttribute('data-bg-paper', paper);
+      }
+      paperSelect.value = paper || 'graphit';
+    };
+    var savedPaper = null;
+    try { savedPaper = localStorage.getItem(PAPER_KEY); } catch (e) { /* noop */ }
+    applyPaper(savedPaper);
+    paperSelect.addEventListener('change', function () {
+      applyPaper(paperSelect.value);
+      try { localStorage.setItem(PAPER_KEY, paperSelect.value); } catch (e) { /* noop */ }
+    });
+  }
 })();

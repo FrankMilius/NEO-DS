@@ -12,6 +12,8 @@ export {
   supportingPalettes,
   foundationPalettes,
   neutralPalette,
+  paperLadders,
+  papers,
   systemPalettes,
   semanticTokenGroups,
   semanticDefaults,

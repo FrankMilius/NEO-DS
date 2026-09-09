@@ -541,6 +541,45 @@
         </div>
       </section>
 
+      <!-- ── PAPIERE / LEITERN (Markenbuch 04.2, always locked) ── -->
+      <section class="token-section">
+        <h3 class="sub-heading">
+          <span class="tier-badge tier-1">L1</span>
+          Papiere
+          <span class="locked-badge" title="Leitern aus dem Markenbuch; Quelle ist _neutral-ramps.scss">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Not overridable
+          </span>
+        </h3>
+        <p class="sub-desc">Sechs Bereichspapiere (Stufe 100 ist die Seite), zwei Reserveleitern und Forest als Grund. Alle Papiere tragen Stufe für Stufe dieselbe Helligkeit wie Graphit — ein Bereichswechsel über <code>data-bg-paper</code> behält jeden Kontrast.</p>
+
+        <div class="primitives-grid">
+          <div v-for="palette in paperLadderList" :key="palette.id" class="primitive-card primitive-card--locked">
+            <div class="primitive-header">
+              <div class="primitive-swatch" :style="{ background: palette.shades.find(s => s.step === '100')?.color || palette.base }"></div>
+              <div class="primitive-info">
+                <span class="primitive-label">{{ palette.label }}<template v-if="palette.area"> · {{ palette.area.bereich }}</template><template v-else-if="palette.reserve"> · Reserve</template><template v-else> · Grund</template></span>
+                <span class="primitive-token">--fnd-primitive-{{ palette.id }}-*</span>
+              </div>
+            </div>
+            <div class="shade-strip">
+              <div
+                v-for="shade in palette.shades"
+                :key="shade.step"
+                class="shade-chip"
+                :style="{ background: shade.color }"
+                @mouseenter="showTooltip($event, palette.id, shade)"
+                @mouseleave="hideTooltip"
+              >
+                <span class="shade-label">{{ shade.step }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ── SYSTEM PALETTES (always locked) ── -->
       <section class="token-section">
         <h3 class="sub-heading">
@@ -745,7 +784,7 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
-import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
+import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 
 const store = useThemeStore()
@@ -914,6 +953,13 @@ const supportingPaletteList = computed(() => palettesToList(supportingPalettes))
 // Foundation palettes (black/white) use rgba — keep their original shades
 const foundationPaletteList = computed(() => palettesToList(foundationPalettes, false))
 const neutralPaletteList = computed(() => palettesToList(neutralPalette))
+// Leitern aus dem Markenbuch (Kapitel 04.2): feste Werte aus _neutral-ramps.scss,
+// nie aus einem Basiswert regeneriert — die Stufen tragen dieselbe Helligkeit
+// wie Graphit, das liesse sich aus einem Mittelwert nicht zurueckrechnen.
+const paperOrder = (papers.liste || []).concat(papers.reserve || [], ['forest'])
+const paperLadderList = computed(() => paperOrder
+  .filter(id => paperLadders[id])
+  .map(id => ({ ...palettesToList({ [id]: paperLadders[id] }, false)[0], area: papers.bereiche?.[id] || null, reserve: (papers.reserve || []).includes(id) })))
 const systemPaletteList = computed(() => palettesToList(systemPalettes))
 
 // ---------------------------------------------------------------------------

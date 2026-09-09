@@ -202,6 +202,32 @@
   }
 }
 
+// -- Papierwahl (data-bg-paper) --
+// Nur zur Pruefung in den Docs; die Website setzt das Attribut aus dem
+// Drupal-Feld. Ein natives Select, damit es auf dem Papier keine eigene
+// Flaeche braucht — es liegt wie der Kopf selbst auf dem Papier.
+.docs-header__paper {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.docs-header__paper-select {
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--fnd-color-text-secondary);
+  background: var(--fnd-color-surface-elevated);
+  border: 1px solid var(--fnd-color-border-control);
+  border-radius: var(--fnd-radius-sm);
+  padding: 2px var(--fnd-spacing-02);
+  min-height: 28px;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
 // -- Theme Toggle --
 .docs-header__theme-toggle {
   display: flex;

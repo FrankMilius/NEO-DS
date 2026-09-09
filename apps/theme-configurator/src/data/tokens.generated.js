@@ -293,6 +293,249 @@ export const neutralPalette = {
   }
 }
 
+// --- Leitern (Markenbuch 04.2): sechs Papiere, zwei Reserveleitern, Forest, Lime ---
+export const paperLadders = {
+  "graphit": {
+    "label": "Graphit",
+    "base": "#909390",
+    "shades": {
+      "50": "#f9fbf9",
+      "100": "#f1f3f1",
+      "200": "#e4e6e4",
+      "300": "#d2d4d2",
+      "400": "#afb2af",
+      "500": "#909390",
+      "600": "#727572",
+      "700": "#595c59",
+      "800": "#414341",
+      "900": "#292b29",
+      "950": "#161816"
+    }
+  },
+  "blau": {
+    "label": "Blaustichig",
+    "base": "#8a939d",
+    "shades": {
+      "50": "#f6fbff",
+      "100": "#edf3f9",
+      "200": "#e0e6ec",
+      "300": "#cdd4dc",
+      "400": "#aab2ba",
+      "500": "#8a939d",
+      "600": "#6c7680",
+      "700": "#535c65",
+      "800": "#3c434b",
+      "900": "#252b31",
+      "950": "#13181c"
+    }
+  },
+  "beige": {
+    "label": "Beige",
+    "base": "#989185",
+    "shades": {
+      "50": "#fef9f2",
+      "100": "#f6f2ea",
+      "200": "#eae4dc",
+      "300": "#d8d3ca",
+      "400": "#b7b0a6",
+      "500": "#989185",
+      "600": "#7b7366",
+      "700": "#615a4e",
+      "800": "#474138",
+      "900": "#2e2922",
+      "950": "#1a1710"
+    }
+  },
+  "salbei": {
+    "label": "Salbei",
+    "base": "#8d948d",
+    "shades": {
+      "50": "#f7fcf7",
+      "100": "#eff4ef",
+      "200": "#e2e7e1",
+      "300": "#d0d5cf",
+      "400": "#adb3ac",
+      "500": "#8d948d",
+      "600": "#6f776f",
+      "700": "#565d56",
+      "800": "#3e443e",
+      "900": "#272c27",
+      "950": "#151814"
+    }
+  },
+  "ivory": {
+    "label": "Ivory",
+    "base": "#939386",
+    "shades": {
+      "50": "#fbfbf3",
+      "100": "#f3f3ea",
+      "200": "#e6e6dd",
+      "300": "#d4d4ca",
+      "400": "#b2b2a6",
+      "500": "#939386",
+      "600": "#757567",
+      "700": "#5c5c4f",
+      "800": "#434339",
+      "900": "#2b2b23",
+      "950": "#181810"
+    }
+  },
+  "warm-taupe": {
+    "label": "Warm Taupe",
+    "base": "#9a9086",
+    "shades": {
+      "50": "#fff9f4",
+      "100": "#f8f1eb",
+      "200": "#ebe4dd",
+      "300": "#dad2ca",
+      "400": "#b8afa7",
+      "500": "#9a9086",
+      "600": "#7d7267",
+      "700": "#63594f",
+      "800": "#494139",
+      "900": "#2f2923",
+      "950": "#1c1611"
+    }
+  },
+  "pearl-white": {
+    "label": "Pearl White",
+    "base": "#929292",
+    "shades": {
+      "50": "#fafafa",
+      "100": "#f2f2f2",
+      "200": "#e5e5e5",
+      "300": "#d3d3d3",
+      "400": "#b1b1b1",
+      "500": "#929292",
+      "600": "#747474",
+      "700": "#5b5b5b",
+      "800": "#424242",
+      "900": "#2a2a2a",
+      "950": "#171717"
+    }
+  },
+  "mint": {
+    "label": "Mint",
+    "base": "#839b74",
+    "shades": {
+      "50": "#f3ffec",
+      "100": "#e9f8e0",
+      "200": "#dbecd1",
+      "300": "#c8dabe",
+      "400": "#a4b998",
+      "500": "#839b74",
+      "600": "#637d53",
+      "700": "#4b633c",
+      "800": "#36492b",
+      "900": "#212f17",
+      "950": "#0e1c05"
+    }
+  },
+  "forest": {
+    "label": "Forest",
+    "base": "#497174",
+    "shades": {
+      "50": "#f3f6f6",
+      "100": "#e7eced",
+      "200": "#ced9da",
+      "300": "#aabdbe",
+      "400": "#799799",
+      "500": "#497174",
+      "600": "#29585c",
+      "700": "#16494d",
+      "800": "#0c4146",
+      "900": "#082e31",
+      "950": "#051d20"
+    }
+  },
+  "lime": {
+    "label": "Lime",
+    "base": "#37e93d",
+    "shades": {
+      "50": "#f0ffef",
+      "100": "#d0ffcd",
+      "200": "#a4ff9f",
+      "300": "#61ff61",
+      "400": "#3df643",
+      "500": "#37e93d",
+      "600": "#00c01a",
+      "700": "#009612",
+      "800": "#006f0a",
+      "900": "#004904",
+      "950": "#002801"
+    }
+  }
+}
+
+// --- Papiere: Bereich, Charakter, Kanaele je Papier ---
+export const papers = {
+  "_notiz": "Die sechs Bereichspapiere aus Kapitel 04.2 (seit 09.09.2026 mit Mint fuer Wissen und Lernen, vorlaeufig). Ein Papier je Abschnitt, gesetzt als data-bg-paper auf <html>; Stufe 100 der Leiter ist das Papier. Namen = Schluessel in primitives.neutralleitern. bereiche = die Zuordnungstabelle aus 4.2 — eine Quelle fuer Website (Drupal-Feld field_bg_paper), PowerPoint-Master und Print.",
+  "liste": [
+    "graphit",
+    "beige",
+    "ivory",
+    "warm-taupe",
+    "pearl-white",
+    "mint"
+  ],
+  "gruende": [
+    "graphit.950",
+    "forest.800"
+  ],
+  "stufe": 100,
+  "attribut": "data-bg-paper",
+  "bereiche": {
+    "graphit": {
+      "bereich": "Produkt und Funktion",
+      "charakter": "neutral — das Produkt spricht selbst",
+      "website": "Produkte",
+      "praesentation": "Funktionsübersichten",
+      "print": "Produktdatenblatt",
+      "voreinstellung": true
+    },
+    "beige": {
+      "bereich": "Lösung und Anwendung",
+      "charakter": "einladend — hier kommt jemand mit einer Frage an",
+      "website": "Lösungen",
+      "praesentation": "Anwendungsfälle, Use Cases",
+      "print": "Branchenflyer"
+    },
+    "ivory": {
+      "bereich": "Menschen und Geschichten",
+      "charakter": "andere erzählen, nicht wir",
+      "website": "Inside",
+      "praesentation": "Kundenstories, Referenzen",
+      "print": "Magazin"
+    },
+    "warm-taupe": {
+      "bereich": "Unternehmen",
+      "charakter": "repräsentativ statt einladend",
+      "website": "Unternehmen",
+      "praesentation": "Über uns, Team",
+      "print": "Imagebroschüre"
+    },
+    "pearl-white": {
+      "bereich": "Zahlen und Konditionen",
+      "charakter": "nichts soll eine Stimmung machen",
+      "website": "Editionen & Preise",
+      "praesentation": "Angebot, Projektablauf",
+      "print": "Angebotsmappe"
+    },
+    "mint": {
+      "bereich": "Wissen und Lernen",
+      "charakter": "frisch — hier wird gelernt, nicht verkauft",
+      "website": "Wissen, Akademie, Hilfe",
+      "praesentation": "Schulung, Workshop",
+      "print": "Leitfaden, Handout",
+      "vorlaeufig": true
+    }
+  },
+  "reserve": [
+    "salbei",
+    "blau"
+  ]
+}
+
 // --- System Palettes (Feedback / Status with shade scales) ---
 export const systemPalettes = {
   "neutral": {
@@ -528,6 +771,48 @@ export const semanticTokenGroups = [
         "id": "background-info",
         "label": "Info BG",
         "description": "Hintergrund für Info-Alerts, Hinweiskästen, Hilfe-Bereiche."
+      }
+    ]
+  },
+  {
+    "id": "paper",
+    "label": "Papier",
+    "icon": "file",
+    "tokens": [
+      {
+        "id": "paper",
+        "label": "Papier (aktiv)",
+        "description": "Die Grundfläche der Seite: Stufe 100 der aktiven Leiter. Gewählt über data-bg-paper auf <html>; im dunklen Thema Graphit 950. background-base zeigt darauf."
+      },
+      {
+        "id": "paper-graphit",
+        "label": "Papier Graphit",
+        "description": "Produkt und Funktion — Voreinstellung. #f1f3f1"
+      },
+      {
+        "id": "paper-beige",
+        "label": "Papier Beige",
+        "description": "Lösung und Anwendung — einladend. #f6f2ea"
+      },
+      {
+        "id": "paper-ivory",
+        "label": "Papier Ivory",
+        "description": "Menschen und Geschichten — andere erzählen. #f3f3ea"
+      },
+      {
+        "id": "paper-warm-taupe",
+        "label": "Papier Warm Taupe",
+        "description": "Unternehmen — repräsentativ. #f8f1eb"
+      },
+      {
+        "id": "paper-pearl-white",
+        "label": "Papier Pearl White",
+        "description": "Zahlen und Konditionen — kein Unterton. #f2f2f2"
+      },
+      {
+        "id": "paper-mint",
+        "label": "Papier Mint",
+        "description": "Wissen und Lernen — frisch. #e9f8e0 (vorläufige Zuordnung, 09.09.2026)"
       }
     ]
   },

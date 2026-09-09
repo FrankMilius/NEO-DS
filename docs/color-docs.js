@@ -20,8 +20,39 @@
     });
   }
 
+  // ---- Papierwahl (data-bg-paper auf <html>) ----
+  const paperSwitcher = document.getElementById('paper-switcher');
+  const PAPIERE = [
+    ['graphit',     'Graphit',     'Produkt und Funktion',    'Produkte',              'Funktionsübersichten',      'Produktdatenblatt'],
+    ['beige',       'Beige',       'Lösung und Anwendung',    'Lösungen',              'Anwendungsfälle, Use Cases', 'Branchenflyer'],
+    ['ivory',       'Ivory',       'Menschen und Geschichten','Inside',                'Kundenstories, Referenzen', 'Magazin'],
+    ['warm-taupe',  'Warm Taupe',  'Unternehmen',             'Unternehmen',           'Über uns, Team',            'Imagebroschüre'],
+    ['pearl-white', 'Pearl White', 'Zahlen und Konditionen',  'Editionen & Preise',    'Angebot, Projektablauf',    'Angebotsmappe'],
+    ['mint',        'Mint',        'Wissen und Lernen',       'Wissen, Akademie, Hilfe','Schulung, Workshop',       'Leitfaden, Handout']
+  ];
+  const paperTable = document.getElementById('paper-table');
+  if (paperTable) {
+    paperTable.innerHTML = PAPIERE.map(([id, name, bereich, web, praes, print]) =>
+      '<tr><td><span class="docs__swatch-dot" style="display:inline-block;width:12px;height:12px;border:1px solid var(--fnd-color-border-primary);background:var(--fnd-color-paper-' + id + ');margin-right:6px;vertical-align:middle"></span>' + name + '</td>' +
+      '<td>' + bereich + '</td><td>' + web + '</td><td>' + praes + '</td><td>' + print + '</td>' +
+      '<td><code>--fnd-color-paper-' + id + '</code></td></tr>').join('');
+  }
+  if (paperSwitcher) {
+    paperSwitcher.addEventListener('click', function(e) {
+      const btn = e.target.closest('.docs__theme-btn');
+      if (!btn) return;
+      const paper = btn.dataset.paper;
+      if (paper === 'graphit') document.documentElement.removeAttribute('data-bg-paper');
+      else document.documentElement.setAttribute('data-bg-paper', paper);
+      paperSwitcher.querySelectorAll('.docs__theme-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      setTimeout(renderSemanticTokens, 50);
+    });
+  }
+
   // ---- Shade Scale Rendering ----
   const steps10 = [100,200,300,400,500,600,700,800,900,950];
+  const steps11 = [50,100,200,300,400,500,600,700,800,900,950];
 
   const palettes = {
     // Main Palettes
@@ -35,8 +66,17 @@
     success:    ['--fnd-primitive-success-', steps10],
     warning:    ['--fnd-primitive-warning-', steps10],
     danger:     ['--fnd-primitive-danger-', steps10],
+    // Leitern (Markenbuch 04.2): Papiere, Reserve, Forest — elf Stufen ab 50
+    graphit:       ['--fnd-primitive-graphit-', steps11],
+    beige:         ['--fnd-primitive-beige-', steps11],
+    ivory:         ['--fnd-primitive-ivory-', steps11],
+    'warm-taupe':  ['--fnd-primitive-warm-taupe-', steps11],
+    'pearl-white': ['--fnd-primitive-pearl-white-', steps11],
+    mint:          ['--fnd-primitive-mint-', steps11],
+    salbei:        ['--fnd-primitive-salbei-', steps11],
+    blau:          ['--fnd-primitive-blau-', steps11],
+    forest:        ['--fnd-primitive-forest-', steps11],
     // Supporting Palettes
-    beige:      ['--fnd-primitive-beige-', steps10],
     chartreuse: ['--fnd-primitive-chartreuse-', steps10],
     pink:       ['--fnd-primitive-pink-', steps10],
     aqua:       ['--fnd-primitive-aqua-', steps10],
@@ -44,8 +84,8 @@
     burgundy:   ['--fnd-primitive-burgundy-', steps10],
     coral:       ['--fnd-primitive-coral-', steps10],
     mustard:     ['--fnd-primitive-mustard-', steps10],
-    old-gold:    ['--fnd-primitive-old-gold-', steps10],
-    dark-orange: ['--fnd-primitive-dark-orange-', steps10]
+    'old-gold':    ['--fnd-primitive-old-gold-', steps10],
+    'dark-orange': ['--fnd-primitive-dark-orange-', steps10]
   };
 
   function renderScales() {
@@ -105,6 +145,15 @@
       { token: 'text-transparency-low', alias: null },
       { token: 'text-success',         alias: 'semantic-text-success' },
       { token: 'text-danger',          alias: 'semantic-text-danger' }
+    ],
+    paper: [
+      { token: 'paper' },
+      { token: 'paper-graphit' },
+      { token: 'paper-beige' },
+      { token: 'paper-ivory' },
+      { token: 'paper-warm-taupe' },
+      { token: 'paper-pearl-white' },
+      { token: 'paper-mint' }
     ],
     background: [
       { token: 'background-base',             alias: null },

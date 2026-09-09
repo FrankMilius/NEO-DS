@@ -626,6 +626,14 @@ const generateThemeApp = () => {
   };
   out += `export const neutralPalette = ${JSON.stringify(neutralWrapped, null, 2)}\n\n`;
 
+  // paperLadders + papers — die Leitern des Markenbuchs (Kapitel 04.2) und die
+  // Zuordnung Bereich → Papier. Seit dem 09.09.2026 (Papiersystem, Phase 3).
+  // Quelle der Leitern ist _neutral-ramps.scss, die JSON wird daraus geschrieben.
+  out += `// --- Leitern (Markenbuch 04.2): sechs Papiere, zwei Reserveleitern, Forest, Lime ---\n`;
+  out += `export const paperLadders = ${JSON.stringify(p.neutralleitern ?? {}, null, 2)}\n\n`;
+  out += `// --- Papiere: Bereich, Charakter, Kanaele je Papier ---\n`;
+  out += `export const papers = ${JSON.stringify(tokens.foundation?.praesentation?.papiere ?? {}, null, 2)}\n\n`;
+
   // systemPalettes
   out += `// --- System Palettes (Feedback / Status with shade scales) ---\n`;
   out += `export const systemPalettes = ${JSON.stringify(p.system, null, 2)}\n\n`;
