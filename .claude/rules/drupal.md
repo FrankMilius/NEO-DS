@@ -3,8 +3,8 @@
 ## Drupal Environment
 
 - **CMS:** Drupal 11 via DDEV (`piipe-workplace.ddev.site`)
-- **Theme:** `web/themes/custom/neo_theme`
-- **Commands:** Always `cd /Users/frank.milius/Documents/DRUPAL11` before `ddev drush`
+- **Theme:** `web/themes/custom/neo_fe` (own repo, see `/commit`)
+- **Commands:** Always `cd ~/Sites/DRUPAL11` before `ddev drush` (the theme repo is `~/Sites/DRUPAL11/web/themes/custom/neo_fe`; `Documents/DRUPAL11` is stale and empty since 2026)
 
 ## Block Creation Pattern
 
