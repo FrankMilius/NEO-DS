@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Block | Component Docs</title>
+  <meta name="description" content="Layout-Organismus fuer Formular-Bloecke: Text-Section neben oder ueber einer Form-Section mit Absendebereich." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <label class="docs-header__paper" title="Bereichspapier (data-bg-paper)">
+        <span class="u-sr-only">Papier</span>
+        <select class="docs-header__paper-select" id="docs-paper-select" aria-label="Bereichspapier wählen">
+          <option value="graphit">Graphit</option>
+          <option value="beige">Beige</option>
+          <option value="ivory">Ivory</option>
+          <option value="warm-taupe">Warm Taupe</option>
+          <option value="pearl-white">Pearl White</option>
+          <option value="mint">Mint</option>
+        </select>
+      </label>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+
+      <!-- Page Header -->
+            <div class="docs__hero">
+        <h1 class="docs__title">Form Block</h1>
+        <p class="docs__subtitle">
+        Layout-Organismus f&uuml;r Formular-Bl&ouml;cke: eine Text-Section (Headline, Subtext) neben oder &uuml;ber einer Form-Section mit Absendebereich.
+        Kanonische Klasse: <code class="docs__token">.nc-form-block</code> (BEM).
+        Werte kommen aus Foundation-Abst&auml;nden und <code class="docs__token">--nc-form-block-*</code> Component-Tokens.
+      </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Form-Block-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="form-block-tabs">
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Verwendung</h2>
+          <p class="docs__section-desc">
+            Der Form Block rahmt ein Formular mit einer erkl&auml;renden Text-Section, z.&nbsp;B. f&uuml;r Kontakt, Demo-Anfrage oder Testzugang.
+            Er ist ein reiner Layout-Container: Felder, Labels und Buttons kommen aus den Form-Bausteinen
+            (<a href="./form-field-docs.html">Form Field</a>, <a href="./form-label-docs.html">Form Label</a>, <a href="./form-actions-docs.html">Form Actions</a>).
+          </p>
+
+          <!-- Live-Beispiel -->
+          <section class="docs__section" id="default">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Text links, Formular rechts (Standard)</h3>
+            <p class="docs__section-desc">Ab <code>md</code> nebeneinander, die Text-Section nimmt 40&nbsp;% und bleibt beim Scrollen stehen (sticky). Darunter gestapelt.</p>
+            <div style="padding: var(--fnd-spacing-06); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-md); background: var(--fnd-color-surface-elevated);">
+              <div class="nc-form-block nc-form-block--text-left">
+                <div class="nc-form-block__text">
+                  <h2 class="nc-form-block__headline" id="fb-demo-title">Nachricht senden</h2>
+                  <p class="nc-form-block__subtext" id="fb-demo-desc">Erz&auml;hlen Sie uns von Ihrem Vorhaben &ndash; wir melden uns pers&ouml;nlich.</p>
+                </div>
+                <div class="nc-form-block__form">
+                  <form class="nc-form" aria-labelledby="fb-demo-title" aria-describedby="fb-demo-desc" onsubmit="return false">
+                    <div class="nc-form-field">
+                      <label class="nc-form-label" for="fb-demo-org">
+                        <span class="nc-form-label__text">Organisation</span>
+                        <span class="nc-form-label__required" aria-hidden="true"> *</span>
+                      </label>
+                      <input class="nc-input" type="text" id="fb-demo-org" placeholder="Ihr Unternehmen" required>
+                    </div>
+                    <div class="nc-form-field">
+                      <label class="nc-form-label" for="fb-demo-msg">
+                        <span class="nc-form-label__text">Worum geht es?</span>
+                      </label>
+                      <textarea class="nc-textarea" rows="3" id="fb-demo-msg"></textarea>
+                    </div>
+                    <div class="nc-form-block__submission">
+                      <p class="nc-form-block__hint-text">Antwort in 48 Stunden &middot; DSGVO-konform</p>
+                      <button type="submit" class="nc-button nc-button--primary nc-form-block__submit">Nachricht senden</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-block nc-form-block--text-left"&gt;
+  &lt;div class="nc-form-block__text"&gt;
+    &lt;h2 class="nc-form-block__headline" id="kontakt-titel"&gt;Nachricht senden&lt;/h2&gt;
+    &lt;p class="nc-form-block__subtext" id="kontakt-text"&gt;Wir melden uns pers&ouml;nlich.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="nc-form-block__form"&gt;
+    &lt;form class="nc-form" aria-labelledby="kontakt-titel" aria-describedby="kontakt-text"&gt;
+      &lt;!-- nc-form-field ... --&gt;
+      &lt;div class="nc-form-block__submission"&gt;
+        &lt;p class="nc-form-block__hint-text"&gt;Antwort in 48 Stunden&lt;/p&gt;
+        &lt;button type="submit" class="nc-button nc-button--primary nc-form-block__submit"&gt;Nachricht senden&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Positionen -->
+          <section class="docs__section" id="positions">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Positionen der Text-Section</h3>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-block nc-form-block--text-left"&gt;...&lt;/div&gt;    &lt;!-- Text links (Standard) --&gt;
+&lt;div class="nc-form-block nc-form-block--text-right"&gt;...&lt;/div&gt;   &lt;!-- Text rechts --&gt;
+&lt;div class="nc-form-block nc-form-block--text-top"&gt;...&lt;/div&gt;     &lt;!-- Text oben --&gt;
+&lt;div class="nc-form-block nc-form-block--text-bottom"&gt;...&lt;/div&gt;  &lt;!-- Text unten --&gt;</pre>
+            </div>
+            <p class="docs__section-desc">
+              <code>text-right</code> dreht nur die Anzeige (<code>row-reverse</code>), <code>text-bottom</code> ebenso (<code>column-reverse</code>).
+              Die Lesereihenfolge im DOM bleibt: erst Text, dann Formular.
+            </p>
+          </section>
+
+          <!-- Rueckmeldungen -->
+          <section class="docs__section" id="feedback">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Fehler- und Erfolgsmeldung</h3>
+            <p class="docs__section-desc">
+              F&uuml;r die Meldung nach dem Absenden gibt es <code class="docs__token">.nc-form-block__error</code> und
+              <code class="docs__token">.nc-form-block__success</code> (mit <code>__success-icon</code>, <code>__success-title</code>, <code>__success-text</code>).
+              W&auml;hrend des Sendens tr&auml;gt der Button <code>.is-loading</code>.
+            </p>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-block__success" role="status" tabindex="-1"&gt;
+  &lt;span class="nc-form-block__success-icon" aria-hidden="true"&gt;&amp;check;&lt;/span&gt;
+  &lt;p class="nc-form-block__success-title"&gt;Danke!&lt;/p&gt;
+  &lt;p class="nc-form-block__success-text"&gt;Wir melden uns innerhalb von 48 Stunden.&lt;/p&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <p class="docs__section-desc">Das Layout nutzt Foundation-Abst&auml;nde direkt (<code>--fnd-spacing-08</code> gestapelt, <code>--fnd-spacing-10</code> nebeneinander). Eigene Tokens gibt es nur f&uuml;r Meldungen und Eingabefelder im Block.</p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-form-block-nc-input-font-size</code></td><td>Schriftgr&ouml;&szlig;e von Input, Textarea und Select im Block</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-error-margin</code></td><td>Au&szlig;enabstand der Fehlermeldung</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-error-padding</code></td><td>Innenabstand der Fehlermeldung</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-success-gap</code></td><td>Abstand in der Erfolgsmeldung</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-success-icon-color</code></td><td>Farbe des Erfolgs-Icons</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-success-icon-font-size</code></td><td>Gr&ouml;&szlig;e des Erfolgs-Icons</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-success-icon-border-radius</code></td><td>Rundung des Erfolgs-Icons</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-success-text-margin</code></td><td>Abstand des Erfolgstexts</td></tr>
+      <tr><td><code class="docs__token">--nc-form-block-submit-is-loading-opacity</code></td><td>Deckkraft des Buttons w&auml;hrend des Sendens</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-form-block</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-form-block</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-form-block-*</code></td></tr>
+      <tr><td><strong>Layer</strong></td><td>07-Organisms</td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein (enth&auml;lt interaktive Formular-Elemente)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Pflicht</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-block__text</code></td><td>ja</td><td>Text-Section</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__headline</code></td><td>ja</td><td>Headline der Text-Section</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__subtext</code></td><td>nein</td><td>Beschreibungstext</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__form</code></td><td>ja</td><td>Form-Section (Container f&uuml;r das Formular)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__submission</code></td><td>nein</td><td>Absendebereich (Terms, Hinweis, Button)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__terms</code></td><td>nein</td><td>Bereich f&uuml;r die Einwilligungs-Checkbox</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__hint-text</code></td><td>nein</td><td>Hinweistext unter den Terms</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__submit</code></td><td>nein</td><td>Absende-Button (mit <code>.is-loading</code> w&auml;hrend des Sendens)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__error</code></td><td>nein</td><td>Fehlermeldung nach dem Absenden</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block__success</code></td><td>nein</td><td>Erfolgsmeldung (mit <code>__success-icon</code>, <code>__success-title</code>, <code>__success-text</code>)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Positions-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-form-block--text-left</code></td><td>Text links, Formular rechts (Standard); ab md nebeneinander</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block--text-right</code></td><td>Text rechts, Formular links (row-reverse)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block--text-top</code></td><td>Text oben, Formular unten</td></tr>
+      <tr><td><code class="docs__token">.nc-form-block--text-bottom</code></td><td>Text unten, Formular oben (column-reverse)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Layout-Container ohne eigene ARIA-Rolle; das Formular steht in einem eigenen <code>&lt;form&gt;</code>.</li>
+    <li>Ab <code>md</code>: Text-Section 40&nbsp;% breit und sticky (nur <code>text-left</code>/<code>text-right</code>).</li>
+    <li>Die Form-Section nimmt beliebige Form-Bausteine auf (<code>nc-form-field</code>, <code>nc-input-group</code>, <code>nc-fieldset</code> &hellip;).</li>
+  </ul>
+</section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Der Block selbst hat keine Rolle. Barrierefreiheit entsteht durch die Verkn&uuml;pfung von Text und Formular und durch die Bausteine darin.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Pflicht: Formular benennen</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">&lt;form aria-labelledby="…"&gt;</code> auf die Headline, damit das Formular einen zug&auml;nglichen Namen hat.</li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-describedby</code> auf den Subtext.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Reihenfolge und Meldungen</h4>
+    <ul>
+      <li><code>text-right</code> und <code>text-bottom</code> drehen nur die Anzeige. Die DOM-Reihenfolge Text &rarr; Formular bleibt f&uuml;r Tastatur und Screenreader erhalten (WCAG 1.3.2).</li>
+      <li>Erfolgsmeldung mit <code>role="status"</code> und <code>tabindex="-1"</code>; nach dem Absenden den Fokus darauf setzen.</li>
+      <li>Fehlermeldung nach dem Absenden mit <code>role="alert"</code>.</li>
+    </ul>
+  </div>
+</div>
+
+        </div>
+
+      </div>
+        </div><!-- /.docs-tabs -->
+      </div>
+
+</main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+
+
+</body>
+</html>

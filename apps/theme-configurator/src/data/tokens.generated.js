@@ -9542,7 +9542,7 @@ export const componentTokenGroups = [
         "id": "nc-form-error-color",
         "label": "Error Color",
         "type": "color",
-        "default": "var(--fnd-color-feedback-danger)"
+        "default": "var(--fnd-color-text-danger)"
       },
       {
         "id": "nc-form-error-icon-size",
@@ -9825,7 +9825,19 @@ export const componentTokenGroups = [
         "id": "nc-form-error-color",
         "label": "Color",
         "type": "color",
-        "default": "var(--fnd-color-feedback-danger)"
+        "default": "var(--fnd-color-text-danger)"
+      },
+      {
+        "id": "nc-form-error-warning-color",
+        "label": "Warning Color",
+        "type": "color",
+        "default": "var(--fnd-color-text-warning)"
+      },
+      {
+        "id": "nc-form-error-success-color",
+        "label": "Success Color",
+        "type": "color",
+        "default": "var(--fnd-color-text-success)"
       },
       {
         "id": "nc-form-error-icon-size",

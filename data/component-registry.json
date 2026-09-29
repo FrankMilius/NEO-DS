@@ -1,13 +1,13 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-08-13",
+  "generated": "2026-09-29",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
       "name": "typography",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.typography",
-      "tokenCount": 69,
+      "tokenCount": 81,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_typography.scss"
@@ -251,7 +251,7 @@
       "name": "icons",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.icons",
-      "tokenCount": 12,
+      "tokenCount": 13,
       "paths": {
         "scss": [],
         "generatedScss": [
@@ -314,11 +314,32 @@
         "story": false
       }
     },
+    "praesentation": {
+      "name": "praesentation",
+      "category": "foundation",
+      "tokenSource": "data/design-tokens.json → foundation.praesentation",
+      "tokenCount": 134,
+      "paths": {
+        "scss": [],
+        "generatedScss": [],
+        "docs": null,
+        "editor": null,
+        "story": null
+      },
+      "coverage": {
+        "tokenSource": true,
+        "scss": false,
+        "generatedScss": false,
+        "docs": false,
+        "editor": false,
+        "story": false
+      }
+    },
     "color-primitives": {
       "name": "color-primitives",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → primitives",
-      "tokenCount": 199,
+      "tokenCount": 391,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_color-primitives.scss",
@@ -343,7 +364,7 @@
       "name": "color-semantic",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → semantic",
-      "tokenCount": 413,
+      "tokenCount": 897,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_color-semantic.scss",
@@ -453,6 +474,12 @@
       {
         "name": "media",
         "path": "scss/scss/03-elements/_media.scss",
+        "docs": "docs/elements-docs.html",
+        "story": null
+      },
+      {
+        "name": "mono-elements",
+        "path": "scss/scss/03-elements/_mono-elements.scss",
         "docs": "docs/elements-docs.html",
         "story": null
       },
@@ -745,6 +772,29 @@
       },
       "coverageScore": 5
     },
+    "app-store": {
+      "name": "app-store",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/app-store-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_app-store.scss"
+        ],
+        "story": "stories/molecules/app-store.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
+    },
     "aspect-ratio": {
       "name": "aspect-ratio",
       "layer": "organism",
@@ -1002,7 +1052,6 @@
       "paths": {
         "recipe": "data/card-recipe.json",
         "scss": [
-          "scss/scss/05-atoms/_card.scss",
           "scss/scss/06-molecules/_card.scss"
         ],
         "story": "stories/molecules/card.stories.js",
@@ -1146,26 +1195,53 @@
     },
     "carousel": {
       "name": "carousel",
-      "layer": "molecule",
+      "layer": "organism",
       "paths": {
         "recipe": "data/carousel-recipe.json",
         "scss": [
-          "scss/scss/06-molecules/_carousel.scss"
+          "scss/scss/06-molecules/_carousel.scss",
+          "scss/scss/07-organisms/_carousel.scss"
         ],
         "story": "stories/molecules/carousel.stories.js",
-        "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
+        "arena": null,
         "drupal": [],
-        "docs": "docs/range-docs.html"
+        "docs": "docs/carousel-docs.html"
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": true,
+        "arena": false,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 4
+    },
+    "chapter-nav": {
+      "name": "chapter-nav",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/chapter-nav-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_chapter-nav.scss"
+        ],
+        "story": "stories/organisms/chapter-nav.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "dependencies": [
+        "container"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "checkbox": {
       "name": "checkbox",
@@ -1201,7 +1277,7 @@
         "story": "stories/organisms/checkbox-group.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/checkbox-group-docs.html"
       },
       "dependencies": [
         "checkbox",
@@ -1213,9 +1289,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "chip": {
       "name": "chip",
@@ -1376,6 +1452,29 @@
         "docs": true
       },
       "coverageScore": 5
+    },
+    "device": {
+      "name": "device",
+      "layer": "atom",
+      "paths": {
+        "recipe": "data/device-recipe.json",
+        "scss": [
+          "scss/scss/05-atoms/_device.scss"
+        ],
+        "story": "stories/atoms/device.stories.js",
+        "arena": null,
+        "drupal": [],
+        "docs": null
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": false,
+        "drupal": false,
+        "docs": false
+      },
+      "coverageScore": 3
     },
     "divider": {
       "name": "divider",
@@ -1574,6 +1673,9 @@
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "gallery"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -1664,7 +1766,7 @@
         "story": "stories/organisms/fieldset.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/FieldsetArena.vue",
         "drupal": [],
-        "docs": null
+        "docs": "docs/fieldset-docs.html"
       },
       "dependencies": [
         "checkbox",
@@ -1677,9 +1779,9 @@
         "story": true,
         "arena": true,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "file-upload": {
       "name": "file-upload",
@@ -1741,7 +1843,7 @@
         "story": "stories/organisms/form.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-docs.html"
       },
       "dependencies": [
         "fieldset"
@@ -1752,9 +1854,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-actions": {
       "name": "form-actions",
@@ -1767,7 +1869,7 @@
         "story": "stories/organisms/form-actions.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-actions-docs.html"
       },
       "dependencies": [
         "form"
@@ -1778,9 +1880,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-block": {
       "name": "form-block",
@@ -1793,7 +1895,7 @@
         "story": "stories/organisms/form-block.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-block-docs.html"
       },
       "dependencies": [
         "form"
@@ -1804,9 +1906,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-error": {
       "name": "form-error",
@@ -1819,7 +1921,7 @@
         "story": "stories/molecules/form-error.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-error-docs.html"
       },
       "dependencies": [
         "form"
@@ -1830,9 +1932,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-field": {
       "name": "form-field",
@@ -1875,7 +1977,7 @@
         "story": "stories/molecules/form-hint.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-hint-docs.html"
       },
       "dependencies": [
         "form"
@@ -1886,9 +1988,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-hp": {
       "name": "form-hp",
@@ -1924,7 +2026,7 @@
         "story": "stories/molecules/form-label.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-label-docs.html"
       },
       "dependencies": [
         "form"
@@ -1935,13 +2037,13 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "form-layout": {
       "name": "form-layout",
-      "layer": "unknown",
+      "layer": "pattern",
       "paths": {
         "recipe": null,
         "scss": [],
@@ -1971,7 +2073,7 @@
         "story": "stories/organisms/form-section.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/form-section-docs.html"
       },
       "dependencies": [
         "form"
@@ -1982,9 +2084,9 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "gallery": {
       "name": "gallery",
@@ -2066,6 +2168,9 @@
         "drupal": [],
         "docs": "docs/hero-docs.html"
       },
+      "dependencies": [
+        "metric"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -2841,7 +2946,7 @@
         "story": "stories/organisms/radio-group.stories.js",
         "arena": null,
         "drupal": [],
-        "docs": null
+        "docs": "docs/radio-group-docs.html"
       },
       "dependencies": [
         "form",
@@ -2853,9 +2958,32 @@
         "story": true,
         "arena": false,
         "drupal": false,
-        "docs": false
+        "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
+    },
+    "range": {
+      "name": "range",
+      "layer": "atom",
+      "paths": {
+        "recipe": "data/range-recipe.json",
+        "scss": [
+          "scss/scss/05-atoms/_range.scss"
+        ],
+        "story": "stories/atoms/range.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/RangeArena.vue",
+        "drupal": [],
+        "docs": "docs/range-docs.html"
+      },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": true,
+        "drupal": false,
+        "docs": true
+      },
+      "coverageScore": 5
     },
     "rating": {
       "name": "rating",
@@ -3498,24 +3626,24 @@
       "name": "table",
       "layer": "atom",
       "paths": {
-        "recipe": "data/table-recipe.json",
+        "recipe": null,
         "scss": [
           "scss/scss/05-atoms/_table.scss"
         ],
-        "story": "stories/organisms/table.stories.js",
+        "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/TableArena.vue",
         "drupal": [],
         "docs": "docs/table-docs.html"
       },
       "coverage": {
-        "recipe": true,
+        "recipe": false,
         "scss": true,
-        "story": true,
+        "story": false,
         "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 3
     },
     "table-block": {
       "name": "table-block",
@@ -3772,6 +3900,9 @@
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "device"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -4038,29 +4169,6 @@
         "docs": true
       },
       "coverageScore": 4
-    },
-    "range": {
-      "name": "range",
-      "layer": "atom",
-      "paths": {
-        "recipe": "data/range-recipe.json",
-        "scss": [
-          "scss/scss/05-atoms/_range.scss"
-        ],
-        "story": "stories/atoms/range.stories.js",
-        "arena": "apps/theme-configurator/src/components/laboratory/SliderArena.vue",
-        "drupal": [],
-        "docs": "docs/range-docs.html"
-      },
-      "coverage": {
-        "recipe": true,
-        "scss": true,
-        "story": true,
-        "arena": true,
-        "drupal": false,
-        "docs": true
-      },
-      "coverageScore": 5
     }
   },
   "templates": {
@@ -4468,16 +4576,16 @@
   },
   "stats": {
     "components": {
-      "total": 145,
-      "withRecipe": 128,
-      "withScss": 131,
-      "withStory": 128,
+      "total": 148,
+      "withRecipe": 130,
+      "withScss": 134,
+      "withStory": 130,
       "withArena": 57,
       "withDrupal": 0,
-      "withDocs": 84
+      "withDocs": 94
     },
     "foundations": {
-      "total": 15,
+      "total": 16,
       "withDocs": 14,
       "withEditor": 12,
       "withStory": 10
@@ -4502,15 +4610,15 @@
     "infrastructure": {
       "tools": 7,
       "generic": 3,
-      "elements": 7
+      "elements": 8
     },
     "layoutPresets": 15,
     "coverageDistribution": {
       "5/6": 48,
       "1/6": 15,
+      "3/6": 36,
       "2/6": 7,
-      "3/6": 41,
-      "4/6": 34
+      "4/6": 42
     }
   },
   "gaps": {
@@ -4531,6 +4639,7 @@
         "section-header",
         "section-intro",
         "sizes",
+        "table",
         "tbl-icon",
         "text-cta"
       ],
@@ -4566,11 +4675,13 @@
         "section-header",
         "section-intro",
         "sizes",
+        "table",
         "tbl-icon",
         "text-cta"
       ],
       "missingArena": [
         "accordion-block",
+        "app-store",
         "aspect-ratio",
         "badge-row",
         "bento-grid",
@@ -4583,9 +4694,11 @@
         "card-grid-cta",
         "card-grid-section",
         "carousel",
+        "chapter-nav",
         "checkbox-group",
         "compare-table",
         "cta",
+        "device",
         "divider",
         "empty-state",
         "event",
@@ -4661,6 +4774,7 @@
       ],
       "missingDocs": [
         "accordion-block",
+        "app-store",
         "aspect-ratio",
         "badge-row",
         "bento-grid",
@@ -4672,23 +4786,16 @@
         "card-grid-cq",
         "card-grid-cta",
         "card-grid-section",
-        "checkbox-group",
+        "chapter-nav",
         "compare-table",
         "component",
+        "device",
         "event",
         "events",
         "expanding-panels",
         "fade-gallery",
         "feature-list",
-        "fieldset",
-        "form",
-        "form-actions",
-        "form-block",
-        "form-error",
-        "form-hint",
         "form-hp",
-        "form-label",
-        "form-section",
         "gallery",
         "hero-tmob",
         "hero-tom",
@@ -4701,7 +4808,6 @@
         "parallax-bg",
         "product-showcase",
         "psychedelic-bg",
-        "radio-group",
         "recipe-specimen",
         "reference-page",
         "scroll-expand",
@@ -4725,17 +4831,20 @@
     },
     "foundations": {
       "missingDocs": [
-        "state_derivation"
+        "state_derivation",
+        "praesentation"
       ],
       "missingEditor": [
         "breakpoints",
         "a11y",
-        "state_derivation"
+        "state_derivation",
+        "praesentation"
       ],
       "missingStory": [
         "shadow",
         "elevation",
         "state_derivation",
+        "praesentation",
         "color-primitives",
         "color-semantic"
       ]

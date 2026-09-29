@@ -120,6 +120,22 @@
             </div>
           </section>
 
+          <!-- Severity -->
+          <section class="docs__section" id="severity">
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Schweregrade: Warnung und Erfolg</h3>
+            <p class="docs__section-desc">Neben dem Fehler (Standard) gibt es <code class="docs__token">.nc-form-error--warning</code> und <code class="docs__token">.nc-form-error--success</code>. Nur die Farbe wechselt, alle drei nutzen Text-Rollen und bestehen WCAG AA. Warnung und Erfolg sind keine Fehler: <code>role="status"</code> statt <code>role="alert"</code>.</p>
+            <div style="display:grid; gap: var(--fnd-spacing-03); padding: var(--fnd-spacing-05); border: 1px solid var(--fnd-color-border-secondary); border-radius: var(--fnd-radius-md); background: var(--fnd-color-surface-elevated);">
+              <div class="nc-form-error" role="alert"><span class="nc-form-error__text">Bitte eine g&uuml;ltige E-Mail-Adresse eingeben.</span></div>
+              <div class="nc-form-error nc-form-error--warning" role="status"><span class="nc-form-error__text">Diese Adresse ist schon registriert. Anmelden?</span></div>
+              <div class="nc-form-error nc-form-error--success" role="status"><span class="nc-form-error__text">Adresse best&auml;tigt.</span></div>
+            </div>
+            <div class="docs-snippet">
+<pre>&lt;div class="nc-form-error nc-form-error--warning" role="status" id="hint-email"&gt;
+  &lt;span class="nc-form-error__text"&gt;Diese Adresse ist schon registriert.&lt;/span&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
           <!-- With Input -->
           <section class="docs__section" id="with-input">
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mit Input-Feld</h3>
@@ -167,7 +183,9 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>Textfarbe (Danger/Error-Farbe)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-color</code></td><td>Textfarbe Fehler (<code>text-danger</code>)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-warning-color</code></td><td>Textfarbe Warnung (<code>text-warning</code>)</td></tr>
+      <tr><td><code class="docs__token">--nc-form-error-success-color</code></td><td>Textfarbe Erfolg (<code>text-success</code>)</td></tr>
     </tbody>
     </table>
   </div>
@@ -206,6 +224,8 @@
       <tr><td><code class="docs__token">.nc-form-error</code></td><td>Block</td><td>Error-Message Container (flex, align-items: flex-start)</td></tr>
       <tr><td><code class="docs__token">.nc-form-error__icon</code></td><td>Element (optional)</td><td>Error-Icon (SVG, stroke-basiert)</td></tr>
       <tr><td><code class="docs__token">.nc-form-error__text</code></td><td>Element</td><td>Error-Textinhalt</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error--warning</code></td><td>Modifier</td><td>Schweregrad Warnung (<code>role="status"</code>)</td></tr>
+      <tr><td><code class="docs__token">.nc-form-error--success</code></td><td>Modifier</td><td>Schweregrad Erfolg (<code>role="status"</code>)</td></tr>
     </tbody>
     </table>
   </div>

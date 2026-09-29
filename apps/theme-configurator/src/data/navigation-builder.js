@@ -91,6 +91,7 @@ const LAYER_CONFIG = {
   atom:       { id: 'atoms',      label: 'Atoms',       icon: 'atom',           order: 2 },
   molecule:   { id: 'molecules',  label: 'Molecules',   icon: 'hexagons',       order: 3 },
   organism:   { id: 'organisms',  label: 'Organisms',   icon: 'building',       order: 4 },
+  pattern:    { id: 'patterns',   label: 'Muster',      icon: 'layout-grid',    order: 4.5 },
   template:   { id: 'templates',  label: 'Templates',   icon: 'template',       order: 5 },
   utility:    { id: 'utilities',  label: 'Utilities',   icon: 'tool',           order: 6 },
 }

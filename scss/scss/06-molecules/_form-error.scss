@@ -10,6 +10,8 @@
 //   .nc-form-error               Block (Error/Validation Message)
 //   .nc-form-error__icon         Error-Icon (Ausrufezeichen)
 //   .nc-form-error__text         Error-Text
+//   .nc-form-error--warning      Schweregrad Warnung
+//   .nc-form-error--success      Schweregrad Erfolg/Bestaetigung
 //
 // ACCESSIBILITY:
 //   role="alert" → Screen Reader liest Fehler sofort vor
@@ -71,6 +73,18 @@
 
   &__icon {
     @include form-error-icon;
+  }
+
+  // Schweregrade (Recipe-Achse severity). Nur die Farbe wechselt; die Rolle
+  // bleibt eine Meldung am Feld. Fuer Warnung/Erfolg role="status" statt
+  // role="alert" setzen — sie sind keine Fehler, die sofort vorgelesen werden
+  // muessen.
+  &--warning {
+    color: var(--mod-form-error-warning-color, var(--nc-form-error-warning-color));
+  }
+
+  &--success {
+    color: var(--mod-form-error-success-color, var(--nc-form-error-success-color));
   }
 
   &__text {

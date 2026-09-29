@@ -23,10 +23,18 @@
       "story": "stories/molecules/form-error.stories.js",
       "arena": null,
       "drupal": [],
-      "docs": null
+      "docs": "docs/form-error-docs.html"
     },
     "dependencies": [
       "form"
+    ],
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "29.09.2026: warning/success im SCSS umgesetzt (vorher nur im Recipe); Fehlerfarbe auf text-danger (AA statt feedback-danger 500)"
+        ]
+      }
     ]
   },
   "anatomy": {
@@ -85,12 +93,16 @@
         },
         "warning": {
           "modifier": "nc-form-error--warning",
-          "tokenGroups": [],
+          "tokenGroups": [
+            "severity-warning"
+          ],
           "renderHint": "form-error-warning"
         },
         "success": {
           "modifier": "nc-form-error--success",
-          "tokenGroups": [],
+          "tokenGroups": [
+            "severity-success"
+          ],
           "renderHint": "form-error-success"
         }
       }
@@ -186,6 +198,18 @@
         "label": "Colors",
         "tokens": [
           "nc-form-error-color"
+        ]
+      },
+      "severity-warning": {
+        "label": "Severity Warning",
+        "tokens": [
+          "nc-form-error-warning-color"
+        ]
+      },
+      "severity-success": {
+        "label": "Severity Success",
+        "tokens": [
+          "nc-form-error-success-color"
         ]
       }
     }

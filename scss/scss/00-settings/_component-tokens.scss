@@ -543,7 +543,11 @@
 
   --nc-form-error-font-size: var(--fs-sm);
   --nc-form-error-font-weight: var(--fnd-font-weight-medium);
-  --nc-form-error-color: var(--fnd-color-feedback-danger);
+  // Schrift braucht die Text-Rollen (AA): feedback-danger ist Stufe 500 und
+  // erreicht als Schrift nur ~3:1 (Befund 29.09.2026).
+  --nc-form-error-color: var(--fnd-color-text-danger);
+  --nc-form-error-warning-color: var(--fnd-color-text-warning);
+  --nc-form-error-success-color: var(--fnd-color-text-success);
   --nc-form-error-icon-size: 16px;
   --nc-form-error-gap: var(--fnd-spacing-01);                  // 4px
 

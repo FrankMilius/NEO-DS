@@ -466,6 +466,13 @@ function generateRegistry() {
     };
   }
 
+  // --- Muster (Kompositionen ohne eigenes SCSS/Recipe) ---
+  // Entscheidung 29.09.2026: form-layout ist eine Komposition aus
+  // form-section, form-field, form-actions und validation-summary, keine
+  // Komponente. Vorher layer 'unknown' — damit fiel es aus der Konfig-App-
+  // Navigation, obwohl es eine Arena hat.
+  const PATTERNS = new Set(['form-layout']);
+
   // --- Components (Layer 05-07) ---
   const sortedNames = [...allNames].sort();
 
@@ -476,7 +483,7 @@ function generateRegistry() {
 
     const entry = {
       name,
-      layer: layer || (stories[name]?.layer === 'atoms' ? 'atom' : stories[name]?.layer === 'molecules' ? 'molecule' : stories[name]?.layer === 'organisms' ? 'organism' : 'unknown'),
+      layer: PATTERNS.has(name) ? 'pattern' : layer || (stories[name]?.layer === 'atoms' ? 'atom' : stories[name]?.layer === 'molecules' ? 'molecule' : stories[name]?.layer === 'organisms' ? 'organism' : 'unknown'),
       paths: {
         recipe: recipePath,
         scss: scss[name] ? scss[name].map(s => s.path) : [],

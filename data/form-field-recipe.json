@@ -31,6 +31,14 @@
       "input",
       "select",
       "textarea"
+    ],
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "29.09.2026: requirement ohne Modifier — nc-form-field--required/--optional gab es nie im CSS; Anzeige ueber form-label (indicator)."
+        ]
+      }
     ]
   },
   "anatomy": {
@@ -98,7 +106,7 @@
     },
     "requirement": {
       "label": "Requirement",
-      "description": "Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)",
+      "description": "Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label) — Kompositionsachse: Pflicht/Optional zeigt die Form-Label-Komponente (Slot required/optional), der Wrapper hat dafuer keine eigene Klasse.",
       "values": {
         "none": {
           "modifier": null,
@@ -106,7 +114,7 @@
           "renderHint": "form-field-default"
         },
         "required": {
-          "modifier": "nc-form-field--required",
+          "modifier": null,
           "tokenGroups": [
             "requirement"
           ],
@@ -116,7 +124,7 @@
           "renderHint": "form-field-required"
         },
         "optional": {
-          "modifier": "nc-form-field--optional",
+          "modifier": null,
           "tokenGroups": [
             "requirement"
           ],
