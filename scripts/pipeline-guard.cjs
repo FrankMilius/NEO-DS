@@ -57,21 +57,36 @@ try {
 }
 
 // ── 1b. Token Generation Freshness ──
+// Inhalt statt Zeitstempel (29.09.2026): In einem frischen Git-Checkout
+// (CI) haben alle Dateien die Checkout-Zeit als mtime, in zufaelliger
+// Reihenfolge. Der alte mtime-Vergleich schlug dort seit 24.08.2026 bei jedem
+// Lauf fehl. Jetzt: Generator in einer Kopie laufen lassen und die Ergebnisse
+// mit den eingecheckten Dateien vergleichen (Datumszeile ausgenommen).
 console.log('\n  1b. Token Generation Freshness');
 if (fs.existsSync(TOKENS_SOURCE) && fs.existsSync(TOKENS_CSS) && fs.existsSync(REGISTRY_PATH)) {
-  const srcMtime = fs.statSync(TOKENS_SOURCE).mtime;
-  const cssMtime = fs.statSync(TOKENS_CSS).mtime;
-  const jsMtime = fs.statSync(REGISTRY_PATH).mtime;
-
-  if (cssMtime >= srcMtime) {
-    ok('design-tokens.css ist aktuell');
-  } else {
-    fail('design-tokens.css ist ÄLTER als design-tokens.json — `npm run sync:all` nötig');
-  }
-  if (jsMtime >= srcMtime) {
-    ok('tokens.generated.js ist aktuell');
-  } else {
-    fail('tokens.generated.js ist ÄLTER als design-tokens.json — `npm run sync:all` nötig');
+  const os = require('os');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'guard-tokens-'));
+  const kopieren = ['scripts', 'data', 'scss', 'styles.css', 'apps/theme-configurator/src/data', 'packages'];
+  try {
+    for (const rel of kopieren) {
+      const src = path.join(ROOT, rel);
+      if (fs.existsSync(src)) fs.cpSync(src, path.join(tmp, rel), { recursive: true });
+    }
+    execSync('node scripts/generate-tokens.cjs', { cwd: tmp, stdio: 'pipe' });
+    const ohneDatum = (t) => t.split('\n').filter((z) => !/Generated:/.test(z)).join('\n');
+    const vergleiche = (absolut, label) => {
+      const rel = path.relative(ROOT, absolut);
+      const neu = fs.readFileSync(path.join(tmp, rel), 'utf8');
+      const alt = fs.readFileSync(absolut, 'utf8');
+      if (ohneDatum(neu) === ohneDatum(alt)) ok(label + ' ist aktuell');
+      else fail(label + ' passt nicht zu design-tokens.json — `npm run tokens` ausfuehren und committen');
+    };
+    vergleiche(TOKENS_CSS, 'design-tokens.css');
+    vergleiche(REGISTRY_PATH, 'tokens.generated.js');
+  } catch (e) {
+    fail('Token-Generator lief nicht: ' + String(e.message || e).split('\n')[0]);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
   }
 } else {
   warn('Token-Dateien nicht vollständig vorhanden');
