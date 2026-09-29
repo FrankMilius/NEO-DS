@@ -52,6 +52,7 @@
     "test:build": "sass scss/scss/main.scss:styles.css --style=compressed --no-source-map",
     "test:unit": "npx vitest run",
     "test": "npm run test:build && npm run test:unit && npm run pipeline:check && npm run tokens:sync:check && npm run tokens:semantik:check && npm run lint:schwellen && npm run lint:recipe-form && npm run lint:markup && npm run lint:klassen",
+    "figma:rollen-plan": "node scripts/figma-rollen-plan.cjs > data/figma-rollen-plan.json",
     "figma:pull": "node scripts/figma-sync.mjs --pull",
     "figma:diff": "node scripts/figma-sync.mjs --diff",
     "figma:components": "node scripts/figma-sync.mjs --components",
