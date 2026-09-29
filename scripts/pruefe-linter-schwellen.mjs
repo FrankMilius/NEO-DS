@@ -40,6 +40,9 @@ const LINTER = [
   { id: 'fragments',    befehl: 'npm run lint:fragments',    muster: /Fragment-Lint:\s*(\d+)\s*CRITICAL/ },
   { id: 'docs-scripts', befehl: 'npm run lint:docs-scripts', muster: /Script-Integrity-Lint:\s*(\d+)\s*ERROR/ },
   { id: 'recipes',      befehl: 'npm run lint:recipes',      muster: /Recipe-Lint:.*?,\s*(\d+)\s*Fehler/ },
+  // Token-Validator (Token-Audit F2): meldete am 29.09.2026 100 Fehler Altbestand.
+  // "PASSED" hat keine Zahl — dann gilt 0.
+  { id: 'token-validator', befehl: 'npm run tokens:validate', muster: /Token validation (?:FAILED:\s*(\d+)\s*error|PASSED)/ },
 ];
 
 const setzen = process.argv.includes('--setzen');
@@ -68,7 +71,7 @@ for (const l of LINTER) {
     continue;
   }
 
-  const jetzt = Number(m[1]);
+  const jetzt = Number(m[1] ?? 0);
   stand[l.id] = jetzt;
   const grenze = alt[l.id];
 

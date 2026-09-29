@@ -177,11 +177,18 @@ console.log('  ✓ data/design-tokens.json: semantic.references + semantic.defau
 
 if (fs.existsSync(WERK_PFAD)) {
   const werk = JSON.parse(fs.readFileSync(WERK_PFAD, 'utf8'));
-  werk.themes = {
+  const themen = {
     neo: { light: defaults['neo-light'], dark: defaults['neo-dark'] },
     customer: { light: defaults['customer-light'], dark: defaults['customer-dark'] },
   };
-  werk._meta = { ...werk._meta, generatedAt: new Date().toISOString(), themesSource: 'scripts/semantik-aus-bruecke.cjs' };
-  fs.writeFileSync(WERK_PFAD, JSON.stringify(werk, null, 2) + '\n');
-  console.log('  ✓ neo-theme-defaults.json: themes (Werkseinstellung der Konfig-App)');
+  // Nur schreiben, wenn sich etwas aendert — sonst erzeugt der Zeitstempel
+  // bei jedem Lauf einen Diff.
+  if (JSON.stringify(werk.themes) !== JSON.stringify(themen)) {
+    werk.themes = themen;
+    werk._meta = { ...werk._meta, generatedAt: new Date().toISOString(), themesSource: 'scripts/semantik-aus-bruecke.cjs' };
+    fs.writeFileSync(WERK_PFAD, JSON.stringify(werk, null, 2) + '\n');
+    console.log('  ✓ neo-theme-defaults.json: themes (Werkseinstellung der Konfig-App)');
+  } else {
+    console.log('  ✓ neo-theme-defaults.json unveraendert');
+  }
 }
