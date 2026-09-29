@@ -149,7 +149,17 @@ const generateTypography = () => {
 
   out += `$token-fluid-base-min-px: ${typo.fluid.base_min_px}px;\n`;
   out += `$token-fluid-base-max-px: ${typo.fluid.base_max_px}px;\n`;
-  out += `$token-fluid-ratio: ${typo.fluid.ratio};\n\n`;
+  // Getrennte Verhaeltnisse je Viewport-Ende. `ratio` als Rueckfall, falls eine
+  // aeltere Token-Datei nur den einen Wert kennt.
+  out += `$token-fluid-ratio-min: ${typo.fluid.ratio_min ?? typo.fluid.ratio};\n`;
+  out += `$token-fluid-ratio-max: ${typo.fluid.ratio_max ?? typo.fluid.ratio};\n\n`;
+
+  // Feste Stufen: schlagen die Verhaeltnisrechnung. Leere Map, wenn keine gesetzt.
+  out += `$token-fluid-fixed: (\n`;
+  for (const [key, range] of Object.entries(typo.fluid.fixed_steps || {})) {
+    out += `  '${key}': (min: ${range.min}px, max: ${range.max}px),\n`;
+  }
+  out += `);\n\n`;
 
   out += `$token-line-height: (\n`;
   for (const [key, val] of Object.entries(typo.line_height)) {

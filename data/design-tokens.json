@@ -23208,9 +23208,25 @@
       "fluid": {
         "viewport_min": 320,
         "viewport_max": 1920,
-        "base_min_px": 14,
+        "base_min_px": 16,
         "base_max_px": 18,
-        "ratio": 1.2
+        "ratio_min": 1.15,
+        "ratio_max": 1.2,
+        "fixed_steps": {
+          "2xs": {
+            "min": 12,
+            "max": 13
+          },
+          "xs": {
+            "min": 13,
+            "max": 15
+          },
+          "sm": {
+            "min": 14,
+            "max": 16
+          }
+        },
+        "_notiz": "Getrennte Verhaeltnisse je Viewport-Ende (Utopia-Verfahren): unten flacher, oben steiler. Die drei kleinsten Stufen sind feste Werte statt Rechenergebnisse — eine Modulskala liefert dort 13,3 / 11,1 / 9,3 px und damit zwei unbrauchbare Stufen. Reihenfolge: fixed_steps schlaegt die Rechnung, der 12-px-Boden schlaegt beides."
       },
       "line_height": {
         "tight": 1.05,
@@ -23238,56 +23254,60 @@
         "9xl": 10
       },
       "semantic_sizes_px": {
-        "xs": {
-          "min": 9.722,
-          "max": 12.5
+        "2xs": {
+          "min": 12,
+          "max": 13
         },
-        "sm": {
-          "min": 11.667,
+        "xs": {
+          "min": 13,
           "max": 15
         },
-        "base": {
+        "sm": {
           "min": 14,
+          "max": 16
+        },
+        "base": {
+          "min": 16,
           "max": 18
         },
         "lg": {
-          "min": 16.8,
+          "min": 18.4,
           "max": 21.6
         },
         "xl": {
-          "min": 20.16,
+          "min": 21.16,
           "max": 25.92
         },
         "2xl": {
-          "min": 24.192,
+          "min": 24.334,
           "max": 31.104
         },
         "3xl": {
-          "min": 29.03,
+          "min": 27.984,
           "max": 37.325
         },
         "4xl": {
-          "min": 34.836,
+          "min": 32.182,
           "max": 44.79
         },
         "5xl": {
-          "min": 41.804,
+          "min": 37.009,
           "max": 53.748
         },
         "6xl": {
-          "min": 50.165,
+          "min": 42.56,
           "max": 64.497
         },
         "7xl": {
-          "min": 60.197,
+          "min": 48.944,
           "max": 77.397
         },
         "8xl": {
-          "min": 72.237,
+          "min": 56.286,
           "max": 92.876
         },
         "9xl": {
-          "min": 86.684,
+          "min": 64.729,
           "max": 111.451
         }
       },
@@ -23639,7 +23659,8 @@
         "sm": "xs",
         "md": "sm",
         "lg": "sm"
-      }
+      },
+      "_notiz": "Vorgabe md = 24 px: die Groesse, fuer die Tabler konstruiert ist. Nur bei 16, 24 und 32 px trifft der Strich eine ganze oder halbe Pixelgrenze; bei 20 px laege er bei 1,25 und wuerde weich gezeichnet."
     },
     "a11y": {
       "focus_ring": {

@@ -17,7 +17,17 @@
 
 $fluid-min-px: tokens.$token-fluid-base-min-px;
 $fluid-max-px: tokens.$token-fluid-base-max-px;
-$fluid-ratio: tokens.$token-fluid-ratio;
+// ZWEI Verhaeltnisse, nicht eines. Am schmalen Ende flacher (1,15), am breiten
+// steiler (1,2) — das Verfahren stammt aus Utopia und ist der Grund, warum die
+// Skala ihre FORM aendert statt nur ihre Groesse. Mit einem einzigen Wert an
+// beiden Enden hatte jede Stufe exakt dieselbe Spanne von 1,29 und eine
+// Display-Zeile war auf dem Handy so gross wie auf dem Schreibtisch.
+$fluid-ratio-min: tokens.$token-fluid-ratio-min;
+$fluid-ratio-max: tokens.$token-fluid-ratio-max;
+// Feste Stufen unterhalb der Basis. Eine Modulskala rechnet dort 13,3 / 11,1 /
+// 9,3 px aus — zwei davon sind unbrauchbar und wurden bis August 2026 vom
+// 12-px-Boden auf denselben Wert gehoben. Drei Stufen trugen dieselbe Groesse.
+$fluid-fixed: tokens.$token-fluid-fixed;
 $fluid-line-height-ratio: map.get(tokens.$token-line-height, 'heading');
 $fluid-line-height-body: map.get(tokens.$token-line-height, 'body');
 
@@ -107,15 +117,32 @@ $display-fluid-sizes: (
 // Helper Functions
 // ---------------------------------------------------------------------------
 
-// A11y: keine Schriftgroesse unter 12px (Lesbarkeit / WCAG). Der Floor greift
-// nur fuer die kleinsten (negativen) Steps (2xs/xs/sm-Min lagen bei 8–11.7px);
-// groessere Stufen bleiben unveraendert (math.max ohne Effekt).
+// A11y: keine Schriftgroesse unter 12px (Lesbarkeit / WCAG).
+//
+// SEIT DEM UMBAU IST DER BODEN NUR NOCH SCHUTZGELAENDER, KEIN KORREKTIV.
+// Vorher hob er 2xs, xs und sm auf denselben Wert — drei Stufen, eine Groesse.
+// Diese drei stehen jetzt als feste Werte in $fluid-fixed und liegen ohnehin
+// bei oder ueber 12px. Der Boden faengt nur noch ab, wenn jemand die Basis
+// senkt oder eine Stufe ergaenzt, ohne nachzurechnen.
 $type-min-floor: 12px !default;
 
-@function fluid-size-px($step, $min, $max, $ratio) {
+/// Groesse einer Stufe an beiden Viewport-Enden.
+///
+/// Reihenfolge, die hier gilt und in dieser Reihenfolge gelesen werden muss:
+///   1. Ein fester Wert in $fluid-fixed schlaegt die Rechnung.
+///   2. Sonst Basis mal Verhaeltnis hoch Stufe — je Ende mit EIGENEM Verhaeltnis.
+///   3. Der Boden schlaegt beides.
+@function fluid-size-px($label, $step, $min, $max, $ratio-min, $ratio-max) {
+  @if map.has-key($fluid-fixed, $label) {
+    $fest: map.get($fluid-fixed, $label);
+    @return (
+      'min': math.max($type-min-floor, map.get($fest, 'min')),
+      'max': math.max($type-min-floor, map.get($fest, 'max'))
+    );
+  }
   @return (
-    'min': math.max($type-min-floor, $min * math.pow($ratio, $step)),
-    'max': math.max($type-min-floor, $max * math.pow($ratio, $step))
+    'min': math.max($type-min-floor, $min * math.pow($ratio-min, $step)),
+    'max': math.max($type-min-floor, $max * math.pow($ratio-max, $step))
   );
 }
 
@@ -198,7 +225,7 @@ $type-min-floor: 12px !default;
 
   // --- Semantic sizes (xs to 9xl) mapped from ratio ---
   @each $label, $step in $semantic-steps {
-    $sizes: fluid-size-px($step, $fluid-min-px, $fluid-max-px, $fluid-ratio);
+    $sizes: fluid-size-px($label, $step, $fluid-min-px, $fluid-max-px, $fluid-ratio-min, $fluid-ratio-max);
     $min-rem: px-to-rem(map.get($sizes, 'min'));
     $max-rem: px-to-rem(map.get($sizes, 'max'));
     --fs-#{$label}: clamp(#{$min-rem}, calc(#{$min-rem} + (#{$max-rem} - #{$min-rem}) * var(--fluid-bp)), #{$max-rem});
