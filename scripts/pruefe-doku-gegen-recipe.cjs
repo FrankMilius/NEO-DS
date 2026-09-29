@@ -24,7 +24,9 @@ const vars = new Set([...css.matchAll(/(--(?:nc|fnd)-[a-z0-9-]+)\s*:/g)].map((m)
 
 const args = process.argv.slice(2);
 const alsJson = args.includes('--json');
-const slugs = args.filter((a) => !a.startsWith('--'));
+const summe = args.includes('--summe');
+let slugs = args.filter((a) => !a.startsWith('--'));
+if (!slugs.length) slugs = fs.readdirSync(path.join(ROOT, 'docs/content')).filter((f) => f.endsWith('.html')).map((f) => f.slice(0, -5));
 const ergebnis = {};
 
 for (const slug of slugs) {
@@ -67,6 +69,14 @@ for (const slug of slugs) {
   ergebnis[slug] = r;
 }
 
+if (summe) {
+  let n = 0;
+  for (const r of Object.values(ergebnis)) {
+    for (const k of ['toteKlassen', 'toteTokens', 'fehlendeSlots', 'fehlendeModifier', 'fehlendeTokens']) n += (r[k] || []).length;
+  }
+  console.log(`Doku-Befunde: ${n} ueber ${Object.keys(ergebnis).length} Seiten`);
+  process.exit(0);
+}
 if (alsJson) { console.log(JSON.stringify(ergebnis, null, 2)); process.exit(0); }
 for (const [slug, r] of Object.entries(ergebnis)) {
   const n = (a) => (a ? a.length : 0);

@@ -42,6 +42,10 @@ const LINTER = [
   { id: 'recipes',      befehl: 'npm run lint:recipes',      muster: /Recipe-Lint:.*?,\s*(\d+)\s*Fehler/ },
   // Token-Validator (Token-Audit F2): meldete am 29.09.2026 100 Fehler Altbestand.
   // "PASSED" hat keine Zahl — dann gilt 0.
+  // Token-Audit F1: var() ohne Definition und ohne Rueckfallwert im gebauten CSS.
+  { id: 'tote-verweise', befehl: 'node scripts/pruefe-tote-verweise.cjs', muster: /Tote-Verweise:\s*(\d+)/ },
+  // Doku gegen Recipe/CSS (Summe aller Befunde ueber docs/content/*.html).
+  { id: 'doku-befunde', befehl: 'node scripts/pruefe-doku-gegen-recipe.cjs --summe', muster: /Doku-Befunde:\s*(\d+)/ },
   { id: 'token-validator', befehl: 'npm run tokens:validate', muster: /Token validation (?:FAILED:\s*(\d+)\s*error|PASSED)/ },
 ];
 
