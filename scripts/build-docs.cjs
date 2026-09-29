@@ -181,6 +181,12 @@ function buildPage(page, template) {
   const bodyMatch = content.match(/<!-- BODY -->\n([\s\S]*?)\n<!-- \/BODY -->/);
   if (bodyMatch) {
     body = bodyMatch[1];
+  } else {
+    // Ohne BODY-Marker waere der Inhalt leer — die Seite wuerde mit leerem
+    // Inhaltsbereich ueberschrieben. So geschehen am 09.09.2026 mit
+    // form-field-docs.html (−1.468 Zeilen, Befund 29.09.2026).
+    console.warn(`  ⚠ ${slug}: content/${slug}.html ohne <!-- /BODY --> — Seite NICHT ueberschrieben`);
+    return false;
   }
 
   const scriptsMatch = content.match(/<!-- SCRIPTS -->\n([\s\S]*?)\n<!-- \/SCRIPTS -->/);
