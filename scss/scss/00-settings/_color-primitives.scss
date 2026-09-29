@@ -35,21 +35,18 @@ $customer-accent-base:    null !default;
 // ---------------------------------------------------------------------------
 
 $_primary-base: if(
-  $brand-source == 'customer' and $customer-primary-base != null,
-  $customer-primary-base,
-  $_neo-primary-base
+  sass($brand-source == 'customer' and $customer-primary-base != null): $customer-primary-base;
+  else: $_neo-primary-base
 );
 
 $_secondary-base: if(
-  $brand-source == 'customer' and $customer-secondary-base != null,
-  $customer-secondary-base,
-  $_neo-secondary-base
+  sass($brand-source == 'customer' and $customer-secondary-base != null): $customer-secondary-base;
+  else: $_neo-secondary-base
 );
 
 $_accent-base: if(
-  $brand-source == 'customer' and $customer-accent-base != null,
-  $customer-accent-base,
-  $_neo-accent-base
+  sass($brand-source == 'customer' and $customer-accent-base != null): $customer-accent-base;
+  else: $_neo-accent-base
 );
 
 // ---------------------------------------------------------------------------
@@ -70,9 +67,8 @@ $_accent-base: if(
 /// bekommt weiterhin eine erzeugte Skala daraus. Nur der NEO-Vorgabewert ist
 /// jetzt Graphit.
 $primary: if(
-  $brand-source == 'customer' and $customer-primary-base != null,
-  fn.generate-shade-scale($_primary-base),
-  r.$graphit
+  sass($brand-source == 'customer' and $customer-primary-base != null): fn.generate-shade-scale($_primary-base);
+  else: r.$graphit
 ) !default;
 
 /// Secondary Palette (Graphit / Customer Secondary)
@@ -80,9 +76,8 @@ $primary: if(
 /// Vorerst ebenfalls Graphit. Im Dunkel-Thema liest `text-link` aus dieser
 /// Palette; bliebe sie Neo Blue, waere Blau ueber die Hintertuer wieder da.
 $secondary: if(
-  $brand-source == 'customer' and $customer-secondary-base != null,
-  fn.generate-shade-scale($_secondary-base),
-  r.$graphit
+  sass($brand-source == 'customer' and $customer-secondary-base != null): fn.generate-shade-scale($_secondary-base);
+  else: r.$graphit
 ) !default;
 
 /// Accent Palette (Neo Lime / Customer Accent)
