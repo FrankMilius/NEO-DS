@@ -476,15 +476,22 @@ const bruecke = (configurator, bekannt) => {
     'focus.color':               'fnd-focus-ring-color',
     'focus.width':               'fnd-focus-ring-width',
     'focus.style':               'fnd-focus-ring-style',
+    // Easing heisst im gebauten CSS --fnd-motion-ease-*, der JSON-Pfad
+    // motion.easing-* traf vorher nur die Pfadnamen aus design-tokens.css,
+    // die keine Komponente liest (Befund 29.09.2026).
+    'motion.easing-informative': 'fnd-motion-ease-informative',
+    'motion.easing-focused':     'fnd-motion-ease-focused',
+    'motion.easing-expressive':  'fnd-motion-ease-expressive',
     // z-index liegt im DS strukturell unter layout, die Oberflaeche nennt es
-    // zindex. Aufgenommen am 2026-08-12 (Entscheidung 5).
-    'zindex.base':           'fnd-layout-z-index-base',
-    'zindex.dropdown':       'fnd-layout-z-index-dropdown',
-    'zindex.sticky':         'fnd-layout-z-index-sticky',
-    'zindex.fixed':          'fnd-layout-z-index-fixed',
-    'zindex.modal-backdrop': 'fnd-layout-z-index-modal-backdrop',
-    'zindex.modal':          'fnd-layout-z-index-modal',
-    'zindex.tooltip':        'fnd-layout-z-index-tooltip',
+    // zindex. Aufgenommen am 2026-08-12 (Entscheidung 5). Das gebaute CSS
+    // nennt die Stufen --fnd-z-* (korrigiert 29.09.2026).
+    'zindex.base':           'fnd-z-base',
+    'zindex.dropdown':       'fnd-z-dropdown',
+    'zindex.sticky':         'fnd-z-sticky',
+    'zindex.fixed':          'fnd-z-fixed',
+    'zindex.modal-backdrop': 'fnd-z-modal-backdrop',
+    'zindex.modal':          'fnd-z-modal',
+    'zindex.tooltip':        'fnd-z-tooltip',
   };
 
   const kandidaten = (kat, key) => [
@@ -500,10 +507,13 @@ const bruecke = (configurator, bekannt) => {
     for (const [key, token] of Object.entries(daten.tokens)) {
       // Alias hat Vorrang: er zeigt auf den Namen, den die Komponenten benutzen.
       const alias = ALIAS[`${kat}.${key}`];
-      const treffer = alias || kandidaten(toKebab(kat), toKebab(key)).find((k) => bekannt.has(k));
+      // Ein Alias zaehlt nur, wenn es den Namen im gebauten CSS wirklich gibt.
+      // Vorher wurde er ungeprueft uebernommen und exportierte tote Namen.
+      const aliasOk = alias && (bekannt.has(alias.replace(/^fnd-/, '')) || !alias.startsWith('fnd-'));
+      const treffer = aliasOk ? alias : kandidaten(toKebab(kat), toKebab(key)).find((k) => bekannt.has(k));
       // Alias-Namen sind bereits vollstaendig (mit oder ohne fnd-Praefix).
       token.cssVar = treffer
-        ? (alias ? `--${treffer}` : `--fnd-${treffer}`)
+        ? (aliasOk ? `--${treffer}` : `--fnd-${treffer}`)
         : null;
       if (alias && !bekannt.has(treffer.replace(/^fnd-/, ''))) {
         // Nur pruefen, nicht abbrechen: der Alias kann auch ausserhalb der
@@ -539,10 +549,17 @@ const bekannteNamen = () => {
   // Das GEBAUTE CSS ist die einzige verlaessliche Quelle. Im SCSS entstehen
   // viele Namen erst durch Interpolation (--fnd-radius-#{$size}) und sind als
   // Literal gar nicht vorhanden — ein Quelltext-Scan fand sie deshalb nicht.
-  for (const kandidat of [path.join(__dirname, '..', 'styles.css'), outCss]) {
-    try { sammle(fs.readFileSync(kandidat, 'utf8')); } catch (e) { /* fehlt */ }
+  //
+  // NUR styles.css: design-tokens.css enthaelt die JSON-Pfadnamen
+  // (--fnd-radii-scale-md), die keine Komponente liest. Zaehlte sie mit,
+  // galten tote Namen als bekannt. Fehlt styles.css, bricht der Lauf ab,
+  // statt still 22 x cssVar:null zu schreiben (Befund 29.09.2026).
+  const gebaut = path.join(__dirname, '..', 'styles.css');
+  try { sammle(fs.readFileSync(gebaut, 'utf8')); } catch (e) { /* fehlt */ }
+  if (!namen.size) {
+    console.error('  ✗ styles.css fehlt oder ist leer — erst `npm run build:css`, dann `npm run tokens`.');
+    process.exit(1);
   }
-  if (!namen.size) console.log('  ⚠ Keine gebauten CSS-Namen gefunden — Bruecke uebersprungen (erst `npm run build:css`).');
   return namen;
 };
 
@@ -672,7 +689,12 @@ const generateThemeApp = () => {
   // Kanonische CSS-Namen anhaengen, bevor die Datei geschrieben wird.
   const bericht = bruecke(configurator, bekannteNamen());
   console.log(`  ↳ Konfigurator-Bruecke: ${bericht.verbunden} Tokens verbunden, ${bericht.ohne.length} ohne CSS-Entsprechung`);
-  if (bericht.ohne.length) console.log(`     ohne: ${bericht.ohne.slice(0, 8).join(', ')}${bericht.ohne.length > 8 ? ' …' : ''}`);
+  if (bericht.ohne.length) {
+    console.error(`     ohne: ${bericht.ohne.join(', ')}`);
+    // Ohne CSS-Entsprechung exportiert die Konfig-App nichts oder Falsches.
+    // Das ist ein Fehler, keine Warnung.
+    process.exitCode = 1;
+  }
 
   out += `export const foundationTokens = ${JSON.stringify(configurator, null, 2)}\n\n`;
 

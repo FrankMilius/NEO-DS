@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-09-09
+// Generated: 2026-09-29
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -23217,19 +23217,19 @@ export const foundationTokens = {
         "label": "Informative",
         "value": "linear",
         "type": "easing",
-        "cssVar": "--fnd-motion-easing-informative"
+        "cssVar": "--fnd-motion-ease-informative"
       },
       "easing-focused": {
         "label": "Focused",
         "value": "ease-in-out",
         "type": "easing",
-        "cssVar": "--fnd-motion-easing-focused"
+        "cssVar": "--fnd-motion-ease-focused"
       },
       "easing-expressive": {
         "label": "Expressive",
         "value": "ease-out",
         "type": "easing",
-        "cssVar": "--fnd-motion-easing-expressive"
+        "cssVar": "--fnd-motion-ease-expressive"
       },
       "duration-quick": {
         "label": "Quick",
@@ -23330,37 +23330,37 @@ export const foundationTokens = {
       "base": {
         "label": "Base",
         "value": 1,
-        "cssVar": "--fnd-layout-z-index-base"
+        "cssVar": "--fnd-z-base"
       },
       "dropdown": {
         "label": "Dropdown",
         "value": 2,
-        "cssVar": "--fnd-layout-z-index-dropdown"
+        "cssVar": "--fnd-z-dropdown"
       },
       "sticky": {
         "label": "Sticky",
         "value": 3,
-        "cssVar": "--fnd-layout-z-index-sticky"
+        "cssVar": "--fnd-z-sticky"
       },
       "fixed": {
         "label": "Fixed",
         "value": 9,
-        "cssVar": "--fnd-layout-z-index-fixed"
+        "cssVar": "--fnd-z-fixed"
       },
       "modal-backdrop": {
         "label": "Modal Backdrop",
         "value": 10,
-        "cssVar": "--fnd-layout-z-index-modal-backdrop"
+        "cssVar": "--fnd-z-modal-backdrop"
       },
       "modal": {
         "label": "Modal",
         "value": 11,
-        "cssVar": "--fnd-layout-z-index-modal"
+        "cssVar": "--fnd-z-modal"
       },
       "tooltip": {
         "label": "Tooltip",
         "value": 20,
-        "cssVar": "--fnd-layout-z-index-tooltip"
+        "cssVar": "--fnd-z-tooltip"
       }
     }
   },
