@@ -50,11 +50,13 @@ fi
 # --- 2. Konfig-App --------------------------------------------------------
 APP_FILES=$(echo "$STAGED" | grep -E '^apps/theme-configurator/(src|tests)/.*\.(js|vue)$' | sed 's#^apps/theme-configurator/##')
 if [ -n "$APP_FILES" ]; then
-  if [ -d apps/theme-configurator/node_modules ]; then
+  # node_modules muss zur Plattform passen (macOS-Pakete laufen z. B. nicht
+  # in einer Linux-VM). Sonst ueberspringen statt faelschlich abbrechen.
+  if [ -d apps/theme-configurator/node_modules ] && (cd apps/theme-configurator && node -e "require('rollup/dist/native.js')" >/dev/null 2>&1); then
     echo "▸ Konfig-App: Tests zu den geaenderten Dateien"
     (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $APP_FILES) || FEHLER=1
   else
-    echo "  (apps/theme-configurator/node_modules fehlt — App-Tests uebersprungen, die CI prueft)"
+    echo "  (App-Abhaengigkeiten fehlen oder passen nicht zur Plattform — App-Tests uebersprungen, die CI prueft)"
   fi
 fi
 
