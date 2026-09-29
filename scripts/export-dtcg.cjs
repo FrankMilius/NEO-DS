@@ -91,14 +91,43 @@ function token(wert, meta = {}) {
   return t;
 }
 
+// ─── Kurzverweise (foundation.praesentation, P1.3) ─────────────────────────
+// Der Praesentationsabschnitt schreibt Farben als "<palette>.<stufe>"
+// ("mint.100", "success.600", "dark-orange.900") — lesbar fuer Menschen und
+// fuer scripts/pptx-vorlage.mjs. Die Palettennamen sind ueber alle
+// Primitive-Gruppen eindeutig; der Export macht daraus Aliase. Ein
+// Kurzverweis ohne Ziel ist ein offener Verweis (CI schlaegt an).
+const KURZ = /^[a-z][a-z-]*\.\d{2,3}$/;
+const palettenOrt = new Map();
+for (const [gruppe, inhalt] of Object.entries(src.primitives)) {
+  for (const [name, p] of Object.entries(inhalt || {})) if (p?.shades) palettenOrt.set(name, gruppe);
+}
+function kurzAlias(v, pfad) {
+  const [name, stufe] = v.split('.');
+  const gruppe = palettenOrt.get(name);
+  if (gruppe && src.primitives[gruppe][name].shades[stufe] !== undefined) return `{primitives.${gruppe}.${name}.shades.${stufe}}`;
+  bericht.offen.push(`${pfad}: Kurzverweis "${v}" ohne Ziel`);
+  return null;
+}
+
 // ─── Allgemeiner Baum (foundation, sonstige primitives) ───────────────────
-function baum(o, meta = {}) {
+function baum(o, meta = {}, opt = {}, pfad = '') {
   const g = {};
   const notizen = {};
   for (const [k, v] of Object.entries(o)) {
+    const hier = pfad ? `${pfad}.${k}` : k;
     if (k.startsWith('_') || k.startsWith('$')) { notizen[k] = v; continue; }
+    if (opt.kurz && Array.isArray(v) && v.length && v.every((x) => typeof x === 'string' && KURZ.test(x))) {
+      // Geordnete Liste von Farben (Diagramm-Farbfolge, Proportion …):
+      // als Gruppe mit Positionen 1..n, die Reihenfolge ist die Aussage.
+      g[k] = Object.fromEntries(v.map((x, i) => [String(i + 1), token(kurzAlias(x, `${hier}[${i}]`) ?? x)]));
+      g[k].$extensions = ext({ liste: true });
+      continue;
+    }
     if (Array.isArray(v) || typeof v === 'boolean') { notizen[k] = v; continue; }
-    if (v && typeof v === 'object') g[k] = baum(v);
+    if (v && typeof v === 'object') g[k] = baum(v, {}, opt, hier);
+    else if (opt.kurz && typeof v === 'string' && KURZ.test(v)) g[k] = token(kurzAlias(v, hier) ?? v, { kurz: v });
+    else if (opt.kurz && k === 'familie' && src.foundation.typography?.fonts?.[v] !== undefined) g[k] = token(`{foundation.typography.fonts.${v}}`);
     else g[k] = token(v);
   }
   if (Object.keys(notizen).length || Object.keys(meta).length) g.$extensions = ext({ ...meta, ...notizen });
@@ -278,7 +307,7 @@ function foundation() {
   const out = {};
   for (const [k, v] of Object.entries(F)) {
     if (k === '_configurator') continue;
-    out[k] = typeof v === 'object' ? baum(v) : token(v);
+    out[k] = typeof v === 'object' ? baum(v, {}, { kurz: k === 'praesentation' }, `foundation.${k}`) : token(v);
   }
   const kon = {};
   const meta = {};

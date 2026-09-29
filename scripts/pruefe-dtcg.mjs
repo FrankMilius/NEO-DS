@@ -97,13 +97,25 @@ const vergleiche = (titel, paare) => {
 
 let fehler = 0;
 
+// Kurzverweise (praesentation: "mint.100", familie: "heading") stehen in
+// design-tokens.css als Text. Fuer den Vergleich aus der QUELLE aufloesen —
+// so prueft der Vergleich zugleich, ob der Export richtig aufgeloest hat.
+const paletten = new Map();
+for (const inhalt of Object.values(QUELLE.primitives)) for (const [n, p] of Object.entries(inhalt || {})) if (p?.shades) paletten.set(n, p.shades);
+const erwartet = (name, soll) => {
+  const m = String(soll).trim().match(/^([a-z][a-z-]*)\.(\d{2,3})$/);
+  if (m && paletten.get(m[1])?.[m[2]] !== undefined) return paletten.get(m[1])[m[2]];
+  if (name.endsWith('-familie') && QUELLE.foundation.typography?.fonts?.[String(soll).trim()]) return QUELLE.foundation.typography.fonts[String(soll).trim()];
+  return soll;
+};
+
 // 1. Foundation gegen design-tokens.css
 const alt = new Map([...CSS_ALT.matchAll(/--fnd-([a-z0-9-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2]]));
 const f = [];
 for (const [name, wert] of Object.entries(flach)) {
   if (!name.startsWith('foundation-') || name.startsWith('foundation-configurator-')) continue;
   const kurz = name.slice('foundation-'.length);
-  if (alt.has(kurz)) f.push([kurz, alt.get(kurz), wert]);
+  if (alt.has(kurz)) f.push([kurz, erwartet(kurz, alt.get(kurz)), wert]);
 }
 fehler += vergleiche('Foundation == data/design-tokens.css', f);
 
