@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "tokens": "node scripts/primitives-aus-quelle.cjs --schreiben && node scripts/semantik-aus-bruecke.cjs --schreiben && node scripts/generate-tokens.cjs",
+    "hooks:install": "git config core.hooksPath .githooks && echo '✓ Git-Hooks aktiv (.githooks)'",
     "tokens:semantik": "node scripts/semantik-aus-bruecke.cjs",
     "tokens:semantik:check": "node scripts/semantik-aus-bruecke.cjs --pruefen",
     "tokens:validate": "node scripts/validate-tokens.cjs",

@@ -1,0 +1,66 @@
+#!/bin/sh
+# ==========================================================================
+# Pre-Commit-Waechter — WEBSITE26 / NEO Design System
+# ==========================================================================
+# Prueft NUR, was gestaged ist, und nur die schnellen Dinge (< 10 s):
+#   1. Tokens/SCSS geaendert  -> JSON-Semantik == _mono-bridge.scss
+#                                Validator nicht schlechter als die Schwelle
+#   2. Konfig-App geaendert   -> Tests zu den geaenderten Dateien (vitest related)
+# Alles Langsame (Build, alle Linter) laeuft in der CI.
+#
+# Einmalig aktivieren:   npm run hooks:install
+# Im Notfall umgehen:     git commit --no-verify   (die CI prueft trotzdem)
+# ==========================================================================
+
+# Git-Clients (Fork, Tower, VS Code) starten Hooks ohne Login-Shell:
+# nvm/Homebrew-Node ergaenzen, falls node nicht im PATH ist.
+if ! command -v node >/dev/null 2>&1; then
+  [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh" >/dev/null 2>&1
+  PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+fi
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: node nicht gefunden — Pruefung uebersprungen (die CI prueft)."
+  exit 0
+fi
+
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT" || exit 0
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$STAGED" ] && exit 0
+
+FEHLER=0
+
+# --- 1. Tokens ------------------------------------------------------------
+if echo "$STAGED" | grep -qE '^(data/design-tokens\.json|scss/scss/00-settings/|scripts/(semantik-aus-bruecke|generate-tokens|validate-tokens)\.c?js)'; then
+  echo "▸ Tokens: Semantik-Abgleich"
+  node scripts/semantik-aus-bruecke.cjs --pruefen || FEHLER=1
+
+  echo "▸ Tokens: Validator gegen Schwelle"
+  GRENZE=$(node -e 'try{console.log(require("./data/linter-schwellen.json")["token-validator"]??"")}catch(e){console.log("")}')
+  JETZT=$(node scripts/validate-tokens.cjs 2>&1 | sed -n 's/.*Token validation FAILED: *\([0-9][0-9]*\) error.*/\1/p')
+  [ -z "$JETZT" ] && JETZT=0
+  if [ -n "$GRENZE" ] && [ "$JETZT" -gt "$GRENZE" ]; then
+    echo "  ✗ Validator: $JETZT Fehler, erlaubt $GRENZE — npm run tokens:validate"
+    FEHLER=1
+  else
+    echo "  ✓ Validator: $JETZT Fehler (Schwelle ${GRENZE:-—})"
+  fi
+fi
+
+# --- 2. Konfig-App --------------------------------------------------------
+APP_FILES=$(echo "$STAGED" | grep -E '^apps/theme-configurator/(src|tests)/.*\.(js|vue)$' | sed 's#^apps/theme-configurator/##')
+if [ -n "$APP_FILES" ]; then
+  if [ -d apps/theme-configurator/node_modules ]; then
+    echo "▸ Konfig-App: Tests zu den geaenderten Dateien"
+    (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $APP_FILES) || FEHLER=1
+  else
+    echo "  (apps/theme-configurator/node_modules fehlt — App-Tests uebersprungen, die CI prueft)"
+  fi
+fi
+
+if [ "$FEHLER" -ne 0 ]; then
+  echo ""
+  echo "✗ Commit abgebrochen. Beheben oder bewusst mit --no-verify umgehen."
+  exit 1
+fi
+exit 0
