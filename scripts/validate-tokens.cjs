@@ -16,6 +16,13 @@
 const fs = require('fs');
 const path = require('path');
 
+// DTCG-Export (P1.2): loest Komponenten-refs auf Foundation-Tokens auf.
+// Fehlt er, gelten nur semantische refs — wie bisher.
+const DTCG = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/design-tokens.dtcg.json'), 'utf8')); }
+  catch { return null; }
+})();
+
 const tokensPath = path.resolve(__dirname, '../data/design-tokens.json');
 
 let errors = 0;
@@ -102,10 +109,14 @@ if (!prim.supporting || Object.keys(prim.supporting).length === 0) {
 }
 
 // Neutral
-if (!prim.neutral || Object.keys(prim.neutral).length === 0) {
-  error('primitives.neutral is empty or missing');
+// Seit 24.08.2026 steht neutral als Palette unter primitives.system (aus der
+// SCSS-Quelle, primitives-aus-quelle.cjs); flach unter primitives war die
+// alte Form. generate-tokens.cjs liest beide — der Validator jetzt auch.
+const neutral = prim.neutral ?? prim.system?.neutral?.shades;
+if (!neutral || Object.keys(neutral).length === 0) {
+  error('primitives.neutral / primitives.system.neutral is empty or missing');
 } else {
-  ok(`Neutral palette: ${Object.keys(prim.neutral).length} steps`);
+  ok(`Neutral palette: ${Object.keys(neutral).length} steps`);
 }
 
 // Foundation
@@ -236,9 +247,14 @@ for (const group of components.groups) {
       warn(`Component token "${token.id}" should start with "${expectedPrefix}"`);
     }
 
-    // Ref validation: if token has ref, it should point to a valid semantic token
+    // Ref validation: ein ref zeigt auf eine semantische Rolle ODER auf einen
+    // Foundation-Token (spacing-03, radius-full, motion-duration-200 …).
+    // Ob ein Foundation-ref trifft, weiss der DTCG-Export: dort ist er dann
+    // ein aufgeloester Alias, sonst CSS-Text (P1.2b, 29.09.2026).
     if (token.ref) {
-      if (!allSemanticIds.has(token.ref)) {
+      const dtcgWert = DTCG?.components?.[group.id]?.[token.id]?.$value;
+      const trifftFoundation = typeof dtcgWert === 'string' && /^\{[^}]+\}$/.test(dtcgWert);
+      if (!allSemanticIds.has(token.ref) && !trifftFoundation) {
         error(`Component token "${token.id}" ref "${token.ref}" does not match any semantic token ID`);
         refErrors++;
       }

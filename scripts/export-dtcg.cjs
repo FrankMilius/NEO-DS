@@ -159,6 +159,7 @@ function bruecke(v, thema, rolle) {
   let m;
   if ((m = v.match(/^\{neutral\.(\d+)\}$/))) return `{primitives.neutralleitern.graphit.shades.${m[1]}}`;
   if ((m = v.match(/^\{accent\.(\d+)\}$/))) return `{primitives.neutralleitern.lime.shades.${m[1]}}`;
+  if ((m = v.match(/^\{leiter\.([a-z-]+)\.(\d+)\}$/))) return `{primitives.neutralleitern.${m[1]}.shades.${m[2]}}`;
   if ((m = v.match(/^\{system\.(\w+)\.(\d+)\}$/))) return `{primitives.system.${m[1]}.shades.${m[2]}}`;
   if ((m = v.match(/^\{color\.([a-z0-9-]+)\}$/))) return `{semantic.${m[1]}}`;
   if (/^#/.test(v)) return v;
@@ -314,6 +315,11 @@ function foundation() {
   if (PRUEFEN) {
     const alt = fs.existsSync(ZIEL) ? fs.readFileSync(ZIEL, 'utf8') : '';
     if (alt !== text) { console.error(`  ✗ ${path.relative(WURZEL, ZIEL)} ist veraltet — node scripts/export-dtcg.cjs`); process.exit(1); }
+    // Seit P1.2b (29.09.2026) ist alles aufgeloest — das bleibt so.
+    if (bericht.offen.length || bericht.ohneWert.length) {
+      console.error(`  ✗ ${bericht.offen.length} Verweise ohne Ziel, ${bericht.ohneWert.length} Rollen ohne Wert — node scripts/export-dtcg.cjs --alle`);
+      process.exit(1);
+    }
     console.log(`  ✓ ${zusammenfassung} — Datei aktuell`);
     return;
   }

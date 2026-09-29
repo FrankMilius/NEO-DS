@@ -1228,7 +1228,30 @@ export const semanticDefaults = {
     "scrollbar-track": "#f1f3f1",
     "scrollbar-thumb": "#afb2af",
     "selection-bg": "#37e93d",
-    "selection-color": "#000000"
+    "selection-color": "#000000",
+    "paper-graphit": "#f1f3f1",
+    "paper-beige": "#f6f2ea",
+    "paper-ivory": "#f3f3ea",
+    "paper-warm-taupe": "#f8f1eb",
+    "paper-pearl-white": "#f2f2f2",
+    "paper-mint": "#e9f8e0",
+    "surface-stage": "#f1f3f1",
+    "surface-card": "#ffffff",
+    "surface-base": "#ffffff",
+    "surface-01": "#f9fbf9",
+    "surface-02": "#f1f3f1",
+    "surface-03": "#e4e6e4",
+    "surface-sunken": "#f1f3f1",
+    "border-subtle": "#e4e6e4",
+    "border-emphasis": "#161816",
+    "accent-surface": "#37e93d",
+    "accent-surface-hover": "#00c01a",
+    "accent-surface-active": "#009612",
+    "accent-on": "#000000",
+    "accent-line": "#009612",
+    "accent-text": "#006f0a",
+    "focus-inner": "#161816",
+    "focus-outer": "#f9fbf9"
   },
   "neo-dark": {
     "paper": "#161816",
@@ -1305,7 +1328,30 @@ export const semanticDefaults = {
     "scrollbar-track": "#292b29",
     "scrollbar-thumb": "#595c59",
     "selection-bg": "#37e93d",
-    "selection-color": "#000000"
+    "selection-color": "#000000",
+    "paper-graphit": "#f1f3f1",
+    "paper-beige": "#f6f2ea",
+    "paper-ivory": "#f3f3ea",
+    "paper-warm-taupe": "#f8f1eb",
+    "paper-pearl-white": "#f2f2f2",
+    "paper-mint": "#e9f8e0",
+    "surface-stage": "#161816",
+    "surface-card": "#292b29",
+    "surface-base": "#161816",
+    "surface-01": "#292b29",
+    "surface-02": "#414341",
+    "surface-03": "#595c59",
+    "surface-sunken": "#000000",
+    "border-subtle": "#414341",
+    "border-emphasis": "#f9fbf9",
+    "accent-surface": "#37e93d",
+    "accent-surface-hover": "#3df643",
+    "accent-surface-active": "#3df643",
+    "accent-on": "#000000",
+    "accent-line": "#00c01a",
+    "accent-text": "#37e93d",
+    "focus-inner": "#161816",
+    "focus-outer": "#f9fbf9"
   },
   "customer-light": {
     "paper": "#e4e6e4",
@@ -1382,7 +1428,13 @@ export const semanticDefaults = {
     "scrollbar-track": "#f1f3f1",
     "scrollbar-thumb": "#afb2af",
     "selection-bg": "#37e93d",
-    "selection-color": "#000000"
+    "selection-color": "#000000",
+    "paper-graphit": "#f1f3f1",
+    "paper-beige": "#f6f2ea",
+    "paper-ivory": "#f3f3ea",
+    "paper-warm-taupe": "#f8f1eb",
+    "paper-pearl-white": "#f2f2f2",
+    "paper-mint": "#e9f8e0"
   },
   "customer-dark": {
     "paper": "#161816",
@@ -1459,7 +1511,13 @@ export const semanticDefaults = {
     "scrollbar-track": "#292b29",
     "scrollbar-thumb": "#595c59",
     "selection-bg": "#37e93d",
-    "selection-color": "#000000"
+    "selection-color": "#000000",
+    "paper-graphit": "#f1f3f1",
+    "paper-beige": "#f6f2ea",
+    "paper-ivory": "#f3f3ea",
+    "paper-warm-taupe": "#f8f1eb",
+    "paper-pearl-white": "#f2f2f2",
+    "paper-mint": "#e9f8e0"
   }
 }
 
@@ -4939,7 +4997,7 @@ export const componentTokenGroups = [
         "label": "Title Font Size",
         "type": "size",
         "group": "typography",
-        "ref": "heading-m-font-size"
+        "default": "var(--nc-block-subtitle-size, var(--fs-xl))"
       },
       {
         "id": "nc-card-title-font-weight",
@@ -4967,7 +5025,7 @@ export const componentTokenGroups = [
         "label": "Description Font Size",
         "type": "size",
         "group": "typography",
-        "ref": "body-m-font-size"
+        "default": "var(--fnd-typography-paragraph-m-font-size)"
       },
       {
         "id": "nc-card-description-color",
@@ -5100,7 +5158,7 @@ export const componentTokenGroups = [
         "label": "Preview Title Size",
         "type": "size",
         "group": "preview",
-        "ref": "heading-xs-font-size"
+        "default": "var(--fnd-typography-heading-xs-font-size)"
       },
       {
         "id": "nc-card-summary-avatar-size",
@@ -11517,19 +11575,19 @@ export const componentTokenGroups = [
         "id": "nc-input-font-size-sm",
         "label": "Font Size SM",
         "type": "font-size",
-        "ref": "fs-xs"
+        "default": "var(--fs-xs)"
       },
       {
         "id": "nc-input-font-size-md",
         "label": "Font Size MD",
         "type": "font-size",
-        "ref": "fs-base"
+        "default": "var(--fs-base)"
       },
       {
         "id": "nc-input-font-size-lg",
         "label": "Font Size LG",
         "type": "font-size",
-        "ref": "fs-base"
+        "default": "var(--fs-base)"
       },
       {
         "id": "nc-input-disabled-bg",
@@ -15318,7 +15376,7 @@ export const componentTokenGroups = [
         "id": "nc-range-range-fill-bg",
         "label": "Range Fill BG",
         "type": "color",
-        "default": "var(--nc-slider-track-bg-active)"
+        "default": "var(--nc-range-track-bg-active)"
       }
     ],
     "subgroups": [
@@ -17085,7 +17143,7 @@ export const componentTokenGroups = [
         "id": "nc-skeleton-ease",
         "label": "Easing",
         "type": "string",
-        "ref": "motion-ease-ease-in-out"
+        "default": "var(--fnd-motion-ease-focused)"
       },
       {
         "id": "nc-skeleton-height-xs",
@@ -17281,7 +17339,7 @@ export const componentTokenGroups = [
         "id": "nc-spinner-ease",
         "label": "Easing",
         "type": "string",
-        "ref": "motion-ease-linear"
+        "default": "var(--fnd-motion-ease-informative)"
       },
       {
         "id": "nc-spinner-size-xs",
@@ -20410,7 +20468,7 @@ export const componentTokenGroups = [
         "id": "nc-tooltip-font-size",
         "label": "Font Size",
         "type": "font-size",
-        "ref": "fs-sm"
+        "default": "var(--fs-sm)"
       },
       {
         "id": "nc-tooltip-max-width",

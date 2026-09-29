@@ -31,6 +31,8 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const BRUECKE = path.join(ROOT, 'scss/scss/00-settings/_mono-bridge.scss');
+const MONO = path.join(ROOT, 'scss/scss/00-settings/_mono-theme.scss');
+const RAMPEN = path.join(ROOT, 'scss/scss/00-settings/_neutral-ramps.scss');
 const JSON_PFAD = path.join(ROOT, 'data/design-tokens.json');
 const WERK_PFAD = path.join(ROOT, 'data/neo-theme-defaults/neo-theme-defaults.json');
 
@@ -64,6 +66,7 @@ const alsVerweis = (ausdruck) => {
   let m;
   if ((m = ausdruck.match(/^var\(--fnd-neutral-(\d+)\)$/))) return `{neutral.${m[1]}}`;
   if ((m = ausdruck.match(/^var\(--fnd-accent-(\d+)\)$/))) return `{accent.${m[1]}}`;
+  if ((m = ausdruck.match(/^leiter:([a-z-]+):(\d+)$/))) return `{leiter.${m[1]}.${m[2]}}`;
   if ((m = ausdruck.match(/^var\(--fnd-primitive-(success|warning|danger|info)-(\d+)\)$/))) return `{system.${m[1]}.${m[2]}}`;
   if ((m = ausdruck.match(/^var\(--fnd-color-([a-z0-9-]+)\)$/))) return `{color.${m[1]}}`;
   if (/^#[0-9a-f]{3,8}$/i.test(ausdruck)) return ausdruck.toLowerCase();
@@ -82,6 +85,7 @@ const aufloesen = (verweis, thema, tiefe = 0) => {
   let m;
   if (/^#/.test(verweis)) return verweis;
   if ((m = verweis.match(/^\{(neutral|accent)\.(\d+)\}$/))) return leiter[m[1]][m[2]] || null;
+  if ((m = verweis.match(/^\{leiter\.([a-z-]+)\.(\d+)\}$/))) return P.neutralleitern[m[1]]?.shades?.[m[2]] || null;
   if ((m = verweis.match(/^\{system\.(\w+)\.(\d+)\}$/))) return P.system?.[m[1]]?.shades?.[m[2]] || null;
   if ((m = verweis.match(/^\{color\.([a-z0-9-]+)\}$/))) {
     const ziel = thema[m[1]];
@@ -101,13 +105,50 @@ const hell = deklarationen(block('@mixin bruecke-hell {'));
 const dunkel = deklarationen(block('@mixin bruecke-dunkel {'));
 const kundeHell = { ...hell, ...deklarationen(block('.customer-light-theme {')) };
 
+// Ergaenzungen (P1.2b, 29.09.2026) ------------------------------------------
+// 1. Papier-Rollen: die Bruecke erzeugt --fnd-color-paper-<name> per @each ueber
+//    r.$papier-leitern (Stufe 100, themenunabhaengig). Als Literal steht das
+//    nirgends, deshalb fand dieser Parser sie nicht.
+const rampen = fs.readFileSync(RAMPEN, 'utf8');
+const papierBlock = rampen.slice(rampen.indexOf('$papier-leitern:'), rampen.indexOf(')', rampen.indexOf('$papier-leitern:')));
+const papiere = {};
+for (const m of papierBlock.matchAll(/'?([a-z-]+)'?\s*:\s*\$[a-z-]+/g)) papiere[`paper-${m[1]}`] = `leiter:${m[1]}:100`;
+
+// 2. Rollen aus _mono-theme.scss (surface-*, accent-*, border-subtle/-emphasis,
+//    focus-*, elevation-*): die JSON fuehrte sie als Rolle, aber ohne Wert.
+//    Nur Rollen, die semantic.groups kennt und die Bruecke NICHT setzt. Sie
+//    gelten nur in .neo-mono-light/-dark — die Kundenthemen bekommen sie nicht.
+const mono = fs.readFileSync(MONO, 'utf8');
+// Zeilengenau suchen: `.neo-mono-dark {` steht vorher schon als Einzeiler
+// (`.neo-mono-dark { @include leiter(...) }`) — gemeint ist der Block, dessen
+// Kopfzeile allein steht.
+const monoBlock = (kopf) => {
+  const m = mono.match(new RegExp(`^${kopf.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'm'));
+  if (!m) throw new Error(`Block nicht gefunden in _mono-theme.scss: ${kopf}`);
+  return mono.slice(m.index, mono.indexOf('\n}', m.index));
+};
+const rollenIds = new Set(tokens.semantic.groups.flatMap((g) => g.tokens.map((t) => t.id)));
+const monoRollen = (rumpf, bruecke) => {
+  const out = {};
+  for (const zeile of rumpf.split('\n')) {
+    const m = zeile.replace(/\/\/.*$/, '').match(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/);
+    if (!m || !rollenIds.has(m[1]) || m[1] in bruecke) continue;
+    // var(--paper) / var(--surface-card): Verweis auf eine andere Rolle
+    const v = m[2].trim().replace(/^var\(--([a-z0-9-]+)\)$/, (x, n) => (rollenIds.has(n) || n in bruecke ? `var(--fnd-color-${n})` : x));
+    out[m[1]] = v;
+  }
+  return out;
+};
+const monoHell = monoRollen(monoBlock('.neo-mono-light {'), hell);
+const monoDunkel = monoRollen(monoBlock('.neo-mono-dark {'), dunkel);
+
 const themenAusdruecke = {
-  'neo-light': hell,
-  'neo-dark': dunkel,
-  'customer-light': kundeHell,
+  'neo-light': { ...hell, ...papiere, ...monoHell },
+  'neo-dark': { ...dunkel, ...papiere, ...monoDunkel },
+  'customer-light': { ...kundeHell, ...papiere },
   // Annahme: Die Bruecke hat (noch) keinen eigenen Block fuer customer-dark.
   // Das Kundenthema dunkel folgt deshalb der dunklen Bruecke (Token-Audit, offen).
-  'customer-dark': dunkel,
+  'customer-dark': { ...dunkel, ...papiere },
 };
 
 const referenzen = {};
@@ -123,6 +164,8 @@ for (const [thema, ausdruecke] of Object.entries(themenAusdruecke)) {
   for (const [rolle, ref] of Object.entries(refs)) {
     const wert = aufloesen(ref, refs);
     if (wert) werte[rolle] = wert;
+    // Schatten (elevation-*) sind keine Farben: Verweis ja, Farb-Default nein.
+    else if (/^(none|-?\d[^,]*px)/.test(ref)) (bericht.schatten ??= new Set()).add(rolle);
     else bericht.ungeloest.push(`${thema}.${rolle} = ${ref}`);
   }
   // Rollen, die nur die JSON kennt (nicht in der Bruecke): alten Wert behalten,
@@ -146,8 +189,9 @@ for (const [thema, refs] of Object.entries(referenzen)) {
   }
 }
 
-console.log(`\nSemantik aus der Bruecke — ${Object.keys(hell).length} Rollen hell, ${Object.keys(dunkel).length} dunkel`);
+console.log(`\nSemantik aus der Bruecke — ${Object.keys(hell).length} Rollen hell, ${Object.keys(dunkel).length} dunkel · + ${Object.keys(papiere).length} Papiere, ${Object.keys(monoHell).length}/${Object.keys(monoDunkel).length} Mono-Rollen`);
 if (bericht.ungeloest.length) console.log(`  ⚠ nicht aufloesbar (bleibt Verweis, kein Default): ${bericht.ungeloest.length}\n    ${bericht.ungeloest.slice(0, 6).join('\n    ')}`);
+if (bericht.schatten?.size) console.log(`  · ${bericht.schatten.size} Schatten-Rollen ohne Farb-Default (gewollt): ${[...bericht.schatten].join(', ')}`);
 for (const [t, r] of Object.entries(bericht.nurImJson)) console.log(`  ⚠ ${t}: ${r.length} Rollen nur in der JSON, nicht in der Bruecke (alter Wert bleibt): ${r.join(', ')}`);
 console.log(`  ${abweichungen.length ? '✗' : '✓'} ${abweichungen.length} Abweichungen JSON ↔ Bruecke`);
 
