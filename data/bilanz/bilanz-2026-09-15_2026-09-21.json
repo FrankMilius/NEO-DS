@@ -1,0 +1,521 @@
+{
+  "zeitraum": {
+    "von": "2026-09-15",
+    "bis": "2026-09-21"
+  },
+  "erzeugt": "2026-09-21T06:47:12.371Z",
+  "commits": [],
+  "jeDomaene": {
+    "skills": {
+      "name": "Agenten & Skills",
+      "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 1.6427123470588236
+    },
+    "messstand": {
+      "name": "Messstände & Werkzeuge",
+      "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 20.139156862500002
+    },
+    "storybook": {
+      "name": "Storybook",
+      "was": "Die begehbare Bauteilbibliothek.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "konfig": {
+      "name": "Konfig-App",
+      "was": "Womit ein Kundendesign eingestellt wird, ohne Code anzufassen.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "ds": {
+      "name": "Design System",
+      "was": "Die Quelle der Wahrheit — SCSS, Token, ITCSS-Ebenen.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 93.982732025
+    },
+    "doku": {
+      "name": "Dokumentation",
+      "was": "Recipes und begründende Texte.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 34.386617611029415
+    },
+    "theme": {
+      "name": "Theme",
+      "was": "Was die Website davon tatsächlich zeigt — Twig, JS, Theme-CSS.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "site": {
+      "name": "Drupal-Site",
+      "was": "Konfiguration, Blocktypen, Abhängigkeiten.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "sonst": {
+      "name": "Projektgerüst",
+      "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 669.3781106044119
+    }
+  },
+  "bestand": {
+    "ds": {
+      "komponenten": 145,
+      "ebenen": {
+        "05-atoms": 36,
+        "06-molecules": 49,
+        "07-organisms": 50,
+        "08-templates": 9,
+        "09-pages": 1
+      },
+      "ohneRecipe": 24,
+      "ohneStory": 24
+    },
+    "konfig": {
+      "gruppen": 112,
+      "vueKomponenten": 95
+    },
+    "storybook": {
+      "stories": 146
+    },
+    "doku": {
+      "recipes": 130,
+      "markdown": 277
+    },
+    "messstand": {
+      "skripte": 32,
+      "referenzstaende": 51
+    },
+    "theme": {
+      "templates": 78,
+      "js": 18,
+      "css": 16
+    },
+    "site": {
+      "configExporte": 1857
+    },
+    "skills": {
+      "skills": 18,
+      "agenten": 1,
+      "regeln": 5
+    }
+  },
+  "befunde": [
+    {
+      "id": "doppelungen",
+      "domaene": "ds",
+      "titel": "Wurzelklassen auf zwei Ebenen",
+      "wert": 0,
+      "gut": true,
+      "text": "Jede Wurzelklasse wird auf genau einer Ebene geführt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "skillebene",
+      "domaene": "skills",
+      "titel": "Skills unversioniert oder nicht ladbar",
+      "wert": 0,
+      "gut": true,
+      "text": "Alles versioniert, ladbar und benannt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "verirrt",
+      "domaene": "konfig",
+      "titel": "Build-Artefakte im Wurzelverzeichnis",
+      "wert": 0,
+      "gut": true,
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    }
+  ],
+  "entscheidungen": {
+    "gesamt": 17,
+    "haltbar": 17,
+    "gebrochen": 0,
+    "unpruefbar": 0,
+    "liste": [
+      {
+        "id": "lime-markenwert",
+        "titel": "Lime #37e93d ist der Markenwert",
+        "seit": "2026-08-13",
+        "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+          "regex": "#37e93d"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 39
+      },
+      {
+        "id": "lime-traegt-keinen-text",
+        "titel": "Lime 500 wird nie zur Schriftfarbe",
+        "seit": "2026-08-13",
+        "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-theme.scss",
+          "regex": "--accent-underline"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 39
+      },
+      {
+        "id": "interaktiv-nicht-mehr-cyan",
+        "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+        "seit": "2026-08-13",
+        "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+        "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-bridge.scss",
+          "regex": "--fnd-color-interactive-default"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 39
+      },
+      {
+        "id": "underline-offset-4",
+        "titel": "Unterstrich-Abstand ist 4px, als Token",
+        "seit": "2026-08-17",
+        "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--fnd-underline-offset: *4px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 35
+      },
+      {
+        "id": "label-gewicht-800",
+        "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+        "seit": "2026-06-16",
+        "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-section-header-label-font-weight: *800"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 97
+      },
+      {
+        "id": "card-summary-icon-60",
+        "titel": "Karten-Symbol misst 60px ueber sein Token",
+        "seit": "2026-07-30",
+        "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-card-summary-icon-size: *60px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 53
+      },
+      {
+        "id": "card-atom-geloescht",
+        "titel": "Das Card-Atom bleibt geloescht",
+        "seit": "2026-08-18",
+        "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+        "probe": {
+          "art": "abwesend",
+          "datei": "scss/scss/05-atoms/_card.scss"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "ddev-ohne-mutagen",
+        "titel": "DDEV laeuft ohne Mutagen",
+        "seit": "2026-07-28",
+        "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+        "probe": {
+          "art": "muster",
+          "repo": "site",
+          "datei": ".ddev/config.yaml",
+          "regex": "performance_mode: *none"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 55
+      },
+      {
+        "id": "claude-verzeichnis-versioniert",
+        "titel": "Skills, Agenten und Regeln liegen im Repo",
+        "seit": "2026-08-18",
+        "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+        "probe": {
+          "art": "muster",
+          "datei": ".gitignore",
+          "regex": "!\\.claude/skills/"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "slider-umbenennen",
+        "titel": "Der Slider-Namenskonflikt ist durch Umbenennen geloest",
+        "seit": "2026-08-18",
+        "warum": "05-atoms fuehrte einen Range-Regler, 06-molecules ein Karussell — zwei Bauteile, ein Name. Am 18.08.2026 BEIDE umbenannt: .nc-range und .nc-carousel. Beide, nicht eines von beiden: Bei einem geteilten Namen ist jede Loeschung eine Loeschung zu viel, und wer nur eines umbenennt, laesst den anderen auf einem Namen sitzen, der eine Verwechslung ueberlebt hat. .nc-slider kommt im gebauten CSS nicht mehr vor.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-slider",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-flaeche-paarweise",
+        "titel": "Hero-Flaechen setzen Grund UND Schrift",
+        "seit": "2026-08-18",
+        "warum": "Eine Flaeche ohne passenden Vordergrund ergibt weisse Schrift auf hellem Grund. Der Mixin hero-textfarben deklariert die abgeleiteten Token im Modifier erneut — eine Ableitung in :root wird DORT aufgeloest und reagiert nicht auf ein spaeteres Ueberschreiben. Genau daran war der erste Versuch gescheitert.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-textfarben"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-ohne-lime-flaeche",
+        "titel": "Der Hero bekommt keine Lime-Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Ausdruecklich verworfen. field_surface kennt zwar accent, der Hero bedient es aber nicht und faellt auf dunkel zurueck. Waere die Flaeche Lime, muesste jede Schrift darauf neu geprueft werden — und Lime 500 traegt keinen Text.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "nc-hero--surface-accent",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-mark-flaechenabhaengig",
+        "titel": "Die Ueberschrift-Hervorhebung haengt an der Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Der Balken liegt HINTER dem Text; entscheidend ist die Schrift gegen den Balken, nicht der Balken gegen die Flaeche. Gemessen: accent-200 unter weisser Schrift 1,21:1, accent-800 6,41:1. Ein einziger Vorgabewert fuer beide Flaechen waere deshalb falsch.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_component-tokens.scss",
+          "regex": "--nc-hero-mark-on-dark: *var\\(--fnd-accent-800\\)"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-eine-vorlage",
+        "titel": "Der Hero hat genau eine Vorlage",
+        "seit": "2026-08-18",
+        "warum": "Die Layout-Builder-Fassung war eine byteweise identische Kopie von 154 Zeilen. Die Erweiterung landete zuerst nur in der einen Datei — im Layout Builder blieb alles beim Alten, ohne Fehler und ohne Hinweis. Jetzt verweist die eine auf die andere.",
+        "probe": {
+          "art": "muster",
+          "repo": "theme",
+          "datei": "templates/block/block--inline-block--neo-hero.html.twig",
+          "regex": "include '@neo_fe/block/block--block-content--neo-hero"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-ohne-product-variante",
+        "titel": "Der Hero hat keine product-Variante",
+        "seit": "2026-08-18",
+        "warum": "Das Recipe fuehrte sie als E-Commerce-Hero mit Warenkorb-CTA. Diese Site hat kein Commerce-Modul, keinen Produkt-Inhaltstyp und keinen Warenkorb. Statt Code zu bauen, den niemand einsetzt, ist die Variante aus dem Recipe entfernt worden — samt Specimen, Regel und Token-Gruppe.",
+        "probe": {
+          "art": "muster",
+          "datei": "data/hero-recipe.json",
+          "regex": "nc-hero--product",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-split-buendig",
+        "titel": "Das Split-Medium reicht bis zum Viewport-Rand",
+        "seit": "2026-08-18",
+        "warum": "Der naheliegende Weg calc(50% - 50vw) ist an einem Grid-Element falsch: Prozente beziehen sich dort auf das Grid-Areal, also die halbe Spalte. Gerechnet wird deshalb ohne Prozente aus Container-Padding und halber ungenutzter Containerbreite. Gemessen bei 1920/1600/1440/1200/1100 px jeweils 0 px Abstand zur Kante, kein waagerechter Ueberlauf bei sieben Breiten von 390 bis 1920.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-split-ueberstand"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "hero-attrappe-heisst-mockup",
+        "titel": "Die Dashboard-Attrappe heisst .nc-hero__mockup",
+        "seit": "2026-08-18",
+        "warum": "Sie hiess .nc-hero__card — einen Buchstaben von .nc-hero__cards entfernt, dem Kennzahlen-Raster im Fuss. Ihre Kacheln hiessen .nc-hero__metric und standen damit neben dem Molekuel .nc-metric, das seit dem Fuss im selben Hero vorkommt. Keine Kaskaden-Kollision, aber zwei Lesefallen — und die kosten hier mehr als Kaskadenfehler, weil sie niemand misst. Umbenennung belegt mit baseline:diff: 28954 Werte, keine Abweichung.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-hero__card[^s]",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      }
+    ]
+  },
+  "cssGewicht": {
+    "jetzt": {
+      "bytes": 1200073,
+      "regeln": 6664,
+      "selektoren": 7729,
+      "eigenschaften": 5232
+    },
+    "vorher": {
+      "bytes": 1200073,
+      "regeln": 6664,
+      "selektoren": 7729,
+      "eigenschaften": 5232
+    },
+    "delta": {
+      "bytes": 0,
+      "regeln": 0,
+      "eigenschaften": 0
+    }
+  },
+  "backlog": {
+    "gesamt": 147,
+    "erledigt": 76,
+    "offen": 71,
+    "abschnitte": 38,
+    "stand": "2026-07-29",
+    "delta": {
+      "zugefuegt": 0,
+      "abgearbeitet": 0
+    }
+  },
+  "autoren": {
+    "eigen": "Frank Milius",
+    "liste": [],
+    "fremdCommits": 0,
+    "fremdAnteil": 0
+  },
+  "ungenutzt": {
+    "stand": "nach-typoskala",
+    "gesamt": 266,
+    "ungenutzt": 195,
+    "beispiele": [
+      "nc-alert",
+      "nc-avatar",
+      "nc-avatar-group",
+      "nc-badge",
+      "nc-button-group",
+      "nc-button--full",
+      "nc-checkbox",
+      "nc-chip-group",
+      "nc-code-snippet--inline",
+      "nc-code-snippet--multi",
+      "nc-code-snippet--single",
+      "nc-code-snippet--header-plain"
+    ]
+  },
+  "nacharbeit": {
+    "commits": 0,
+    "korrektur": 0,
+    "aufFrischem": 0,
+    "quote": 0
+  },
+  "gesamtstrecke": {
+    "beruehrt": 0,
+    "vollstaendig": 0,
+    "luecken": []
+  },
+  "kosten": {
+    "gesamt": 819.5293294500001,
+    "unzuordenbar": 0,
+    "sitzungen": 2,
+    "abonnement": true,
+    "waehrung": "USD",
+    "token": {
+      "input": 4738,
+      "output": 1593073,
+      "cacheWrite": 5983621,
+      "cacheRead": 429091407
+    },
+    "modelle": {
+      "claude-fable-5-1": 93,
+      "claude-opus-5": 836,
+      "<synthetic>": 2
+    }
+  }
+}

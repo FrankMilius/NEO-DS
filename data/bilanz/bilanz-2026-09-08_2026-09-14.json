@@ -1,0 +1,2194 @@
+{
+  "zeitraum": {
+    "von": "2026-09-08",
+    "bis": "2026-09-14"
+  },
+  "erzeugt": "2026-09-14T06:47:10.737Z",
+  "commits": [
+    {
+      "repo": "Design System",
+      "hash": "d0811fb",
+      "datum": "2026-09-09T09:53:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(rules): Drupal-Pfad auf ~/Sites/DRUPAL11 und Theme neo_fe korrigiert",
+      "rumpf": "Die Regel nannte Documents/DRUPAL11 und ein Theme neo_theme. Dort liegt\nseit 2026 nichts mehr; Site und Theme liegen unter ~/Sites/DRUPAL11, das\nTheme heisst neo_fe und ist ein eigenes Repo (siehe /commit). Aufgefallen\nin Phase 4 des Papiersystems, als jeder Zugriff auf den alten Pfad ins\nLeere lief.\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": ".claude/rules/drupal.md",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "skills"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "0a7a2ef",
+      "datum": "2026-09-09T09:45:22+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(papier): data-bg-paper aus Feld oder Typ-Voreinstellung auf <html> (Papiersystem Phase 4)",
+      "rumpf": "Was war: Das Design System kennt seit heute sechs Bereichspapiere und einen\nSchalter data-bg-paper (WEBSITE26, Papiersystem Phasen 1-3), aber das Theme\nsetzte nur data-theme und data-layout. Jede Seite lag auf Graphit.\n\nWas jetzt gilt: neo_fe_preprocess_html liest field_bg_paper am Node, sonst\ndie Theme-Einstellung neo_bg_paper_<inhaltstyp>, sonst Graphit, und schreibt\nden Wert als data-bg-paper auf <html>. Graphit traegt kein Attribut. Die\nTheme-Einstellungen haben den Abschnitt „Papier — Bereichspapier je\nInhaltstyp\" (sechs Selects, Schema ergaenzt). Gemessen per curl: Node mit\nFeld ivory -> <html data-bg-paper=\"ivory\">, Node ohne Feld auf Typ mit\nVoreinstellung mint -> mint, Node ohne beides -> kein Attribut.\n\nWas verworfen wurde: das Attribut ueber $variables['attributes'] zu setzen.\nDas landet in html.html.twig auf <body>, nicht auf <html> — die CSS-Regel\nhaette dort zwar gegriffen, aber Docs und Markenbuch nennen das\nWurzelelement, und .neo-dark-theme auf <body> muss das Attribut ueberstimmen\nkoennen. Deshalb html_attributes.\n\ncss/styles.css und css/design-tokens.css sind aus dem committeten Stand des\nDesign Systems gebaut (f848f58, Worktree), nicht aus der Arbeitskopie: dort\nliegen fremde, uncommittete Typografie-Aenderungen, die nicht mitfahren\nsollen. Die vorher uncommittete Fassung der beiden Dateien ist damit ersetzt.\n\nWas offen bleibt: Welche Seite welches Papier traegt, ist Inhalt — Feld und\nVoreinstellungen sind nach dem Test leer. Im Layout Builder zeigt die\nVorschau immer Graphit; das steht als Hinweis am Feld.\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/schema/neo_fe.schema.yml",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/design-tokens.css",
+          "plus": 118,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "neo_fe.theme",
+          "plus": 17,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "theme-settings.php",
+          "plus": 33,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "3ed8dc3",
+      "datum": "2026-09-09T09:43:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(papier): Feld field_bg_paper (Bereichspapier) auf allen Inhaltstypen (Papiersystem Phase 4)",
+      "rumpf": "Was war: Das Markenbuch (Kapitel 04.2) ordnet jedem Bereich ein Papier zu,\naber kein Inhalt konnte sagen, auf welchem Papier er liegt.\n\nWas jetzt gilt: field_bg_paper (list_string, sechs Werte: graphit, beige,\nivory, warm-taupe, pearl-white, mint) auf article, event, landing_page,\nnews, page und reference_page; Widget options_select (Gewicht 6), in allen\nView-Displays versteckt — das Theme neo_fe liest den Wert und schreibt ihn\nals data-bg-paper auf <html>. Angelegt ueber scripts/neo-bg-paper-feld.php\n(idempotent, Entity-API, allowed_values als Schluessel-Wert-Map), dann\ndrush cex.\n\nWas NICHT mitgenommen wurde — Konfig-Drift, die beim Export sichtbar wurde\nund nicht zu dieser Aenderung gehoert: svg_image statt image als\nAbhaengigkeit in core.entity_form_display.node.article.default,\ncore.entity_view_display.node.article.default und .teaser;\nLayout-Builder-Abhaengigkeiten in core.entity_view_display.node.\nreference_page.default; und die Form-Displays von landing_page und\nreference_page fehlten in config/sync ganz. Diese vier Dateien sind hier als\nHEAD plus Feldzeilen gestaged, die zwei fehlenden Form-Displays liegen\nuntracked im Baum (sie tragen auch das neue Widget). Wer die Drift\nuebernimmt, committet sie getrennt.\n\nWas offen bleibt: Zuordnung je Inhalt und Voreinstellungen je Inhaltstyp\n(Theme-Einstellungen) sind leer — das ist eine inhaltliche Entscheidung.\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "config/sync/core.entity_form_display.node.article.default.yml",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.node.event.default.yml",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.node.news.default.yml",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_form_display.node.page.default.yml",
+          "plus": 7,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.article.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.article.rss.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.article.teaser.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.event.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.landing_page.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.news.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.page.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.page.teaser.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/core.entity_view_display.node.reference_page.default.yml",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.article.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.event.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.landing_page.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.news.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.page.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.field.node.reference_page.field_bg_paper.yml",
+          "plus": 21,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "config/sync/field.storage.node.field_bg_paper.yml",
+          "plus": 39,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "site"
+        },
+        {
+          "pfad": "scripts/neo-bg-paper-feld.php",
+          "plus": 71,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "f848f58",
+      "datum": "2026-09-09T09:36:16+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(tokens): Papiere fuer Konfig-App und Docs — paperLadders, Gruppe paper, Papierwahl (Papiersystem Phase 3)",
+      "rumpf": "Was war: Wer Tokens ausserhalb des SCSS las, kannte die Papiere nicht.\ngenerate-tokens.cjs uebersprang primitives.neutralleitern, die Konfig-App\nzeigte unter „Neutral\" nur die alte #7a7a7a-Skala, die Docs-Farbseite\nfuehrte Beige als Supporting-Palette und wusste nichts von Leitern,\nBereichen oder dem Schalter. Die Zuordnung Bereich -> Papier stand nur im\nMarkenbuch als Tabelle.\n\nWas jetzt gilt: tokens.generated.js exportiert paperLadders (zehn Leitern)\nund papers; foundation.praesentation.papiere traegt die Bereichstabelle aus\nKapitel 4.2 mit Mint (bereiche, stufe 100, attribut data-bg-paper, reserve)\n— eine Quelle fuer Website, PowerPoint-Master und Print. semantic.groups\nhat die Gruppe paper mit sieben Rollen. Die Konfig-App zeigt „Papiere\" mit\nneun Karten, Stufe 100 als Farbfeld und dem Bereich im Etikett;\nconfig:build gruen, drift:check unveraendert 2. Die Docs-Farbseite hat den\nAbschnitt „Papiere\" mit Schalter, Zuordnungstabelle, neun Leitern zu elf\nFeldern und der semantischen Gruppe „Papier\"; der Docs-Kopf traegt auf\nallen 118 Seiten eine Papierwahl, die sich die Wahl merkt. Gemessen:\nSchalter Mint -> body #e9f8e0, Select Ivory -> #f3f3ea, Graphit entfernt\ndas Attribut. lint:tokens 30, !important 59.\n\nWas verworfen wurde: Papierrollen zusaetzlich in design-tokens.css zu\nschreiben. Die Datei fuehrt heute keine einzige Farbe; Farben leben nur in\nstyles.css. Eine zweite Deklaration in der frueher geladenen Datei haette\ngenau die Doppelung erzeugt, die der Plan als Risiko nennt.\n\nWas offen bleibt: lint:docs-tokens meldet ein vorbestehendes Problem in\ncontent/composition-rules.html (rgba als Negativbeispiel) — nicht beruehrt.\nStorybook hat fuer Foundation kein Recipe; die Papierwahl gehoert in die\nglobale Toolbar, wenn publish-storybook das naechste Mal laeuft (BACKLOG).\nDrupal setzt das Attribut noch nicht (Phase 4).\n\nGestaged wie in Phase 1: JSON und Generator als HEAD-Stand plus eigene\nHunks (Blob), tokens.generated.js und design-tokens.css daraus erzeugt;\ndie fremden Typografie-Aenderungen bleiben draussen.\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "apps/theme-configurator/src/components/foundation/FoundationColors.vue",
+          "plus": 47,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 285,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.js",
+          "plus": 2,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-config.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AccordionArena-G5Gy70aF.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertArena-BYDTo82l.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AlertDialogArena-BDfa7Wdy.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "AvatarArena-CxuglNHs.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BadgeArena-BoaqZViK.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BannerArena-B8p4mO4s.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "BreadcrumbArena-jQCR1D_u.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ButtonArena-f_rA1165.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CardArena-BKOnEAND.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CheckboxArena-Be4Ef97c.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ChipArena-CJXfOO6h.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "CodeSnippetArena-BJNRN_Ys.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ContainerArena-B8ux0Tc7.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DataTableArena-DqZAwYgd.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DrawerArena-Laj7o1VI.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "DropdownMenuArena-TShr0_ke.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FieldsetArena-CV3MCZoE.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormFieldArena-CV74MpHx.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "FormLayoutArena-qaw4hv54.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "HeroArena-B4r4fFbR.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputArena-DaX34KvL.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "InputGroupArena-CqRzg4iS.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ItemArena-BTsTAWLg.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "LabelArena-BGCg1pun.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "MetricArena-B1cdYmUG.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ModalArena-DOX-RxUP.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationArena-BTzf-zN8.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NavigationMenuArena-Bve6-gMQ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "NotificationArena-CJKansFQ.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PaginationArena-68n1JfAi.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PopoverArena-BJjI6OGC.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ProgressArena-DGHP1Sr4.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "PsychedelicBgArena-V-XShHin.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RadioArena-DZf9Ra5E.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RangeArena-Df340Djo.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RatingArena-_piXDTh7.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "RecipeSpecimenArena-BE3Evpcs.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SearchArena-DaDBtE0j.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SectionArena-cEwj0CrF.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SegmentedControlArena-CoVdZB-U.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SelectArena-5Mk8AOAX.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ShellArena-Bpg7kPku.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SidebarArena-DrSEKeqq.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SkeletonArena-B9b0Uc7M.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SpinnerArena-CQgQpuLy.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "StatusArena-BIeENh9m.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "SwitchArena-Spa0_-0X.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TableArena-BH7-VMK7.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TagArena-Bv4Ge9W5.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TextareaArena-Cn-RUEMf.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToastArena-Dj7RZEql.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToggleGroupArena-B72qitX0.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "ToolbarArena-Ch0pejoV.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TooltipArena-DWhvM3Z7.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "TreeviewArena-CayaMH6_.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-B8YRnkbV.css",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/index-CEyGVDkx.css",
+          "plus": 0,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "index-CHgLvcHa.js",
+          "plus": 9,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/pricing-recipe-BrsA51a0.js",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/assets/pricing-recipe-DEiSrHeT.js",
+          "plus": 0,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "config/theme-configurator/index.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 36,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 95,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "docs/_template.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/accordion-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/alert-dialog-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/alert-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/architecture-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/avatar-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/badge-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/border-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/breadcrumb-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/button-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/button-micro-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/card-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/carousel-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/checkbox-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/chip-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/code-snippet-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/color-docs.html",
+          "plus": 65,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/color-docs.js",
+          "plus": 52,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/component-matrix-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/composition-rules-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/container-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/color.html",
+          "plus": 54,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/cta-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/data-table-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/docs-theme-toggle.js",
+          "plus": 26,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/drawer-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/elements-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/facts-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/faq-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/feature-accordion-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/file-upload-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/footer-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/form-field-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/form-layout-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/grid-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/header-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/hero-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/icons-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/index.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/input-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/input-group-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/interaction-states-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/item-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/label-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/layout-architecture-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/link-with-arrow-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/logo-wall-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/marquee-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/media-ratios-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/metric-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/modal-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/nav-atoms-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/navigation-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/navigation-menu-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/notification-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/opacity-zindex-motion-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/otp-input-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/pricing-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/question-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/radii-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/radio-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/range-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/rating-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/recipe-status-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/recipe-system-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/section-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/security-list-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/segmented-control-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/select-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/shadow-elevation-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/shell-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/sizes-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/solutions-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/spacing-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/square-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/square-value-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/stepper-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/switch-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/system-overview-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/table-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/tabs-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/tag-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-content-page-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-dashboard-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-error-page-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-form-page-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-home-basic-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-home-hero-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/template-settings-page-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/testimonial-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/text-blocks-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/text-only-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/textarea-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/themes-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/theming-architecture-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/toast-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/toggle-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/tooltip-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/treeview-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/typography-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/utility-a11y-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/utility-visibility-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/video-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/video-section-docs.html",
+          "plus": 11,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "scripts/generate-tokens.cjs",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/09-pages/_docs.scss",
+          "plus": 26,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "74dfc7e",
+      "datum": "2026-09-09T09:30:23+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(tokens): das Papier ist die Seite — data-bg-paper, paper-Rollen, Grundflaeche Stufe 100 (Papiersystem Phase 2)",
+      "rumpf": "Was war: Die Bruecke setzte --fnd-color-background-base fest auf #ffffff.\nEin Papierwechsel faerbte Sekundaerflaechen, Text und Rahmen, aber nie die\nSeite selbst — das Markenbuch (4.3) nennt als Grundflaeche Graphit 100 und\nWeiss als ERHOBENE Flaeche. Der Schalter hiess data-neutral und kannte auf\n:root nur blau, beige und salbei: von den sechs Bereichspapieren waren\ngenau Beige und Graphit erreichbar, dafuer beide Reserveleitern. Er wirkte\nauch im dunklen Thema, gegen die Regel „nur in hellen Themes\". Der body\ntrug einen Verlauf aus background-secondary in die Grundflaeche.\n\nWas jetzt gilt: --fnd-color-paper ist die Grundflaeche (Stufe 100 der\naktiven Leiter), background-base zeigt darauf; Weiss bleibt\nsurface-elevated, Stufe 200 die gesenkte Flaeche, die Ebenen wechseln sich\nWeiss/Papier ab. data-bg-paper auf <html> waehlt eines der sechs Papiere\n(graphit, beige, ivory, warm-taupe, pearl-white, mint); Salbei und Blau\nsind Reserve und nicht schaltbar. Die sechs festen Werte liegen als\n--fnd-color-paper-<name> auf :root. .neo-dark-theme steht zuletzt und setzt\nGraphit zurueck — im Dunkeln gibt es kein Papier. Kein Verlauf mehr.\nGemessen im Docs-Server: body #f1f3f1 ohne background-image; ivory ->\n#f3f3ea mit Karte #ffffff und Tertiaertext #5c5c4f; mint -> #e9f8e0;\nsalbei -> bleibt Graphit; dunkel + ivory -> --fnd-neutral-100 = #f1f3f1.\nlint:tokens 30, !important 59 unveraendert.\n\nZwei Folgen, die auf Weiss nicht auffielen: Auf dem Papier erreicht\nGraphit 600 nur 4,18 — text-tertiary liegt deshalb auf 700, gleich dem\nsekundaeren Text (das Markenbuch kennt nur zwei Textstufen). border-control\ngeht von 500 (2,78 auf dem Papier) auf 600 (4,18; 4,66 auf der Karte),\nweil WCAG 1.4.11 fuer Bedienrahmen 3:1 verlangt. .customer-light-theme als\neingebettete Sektion liegt jetzt auf Stufe 200 — ihr alter Grund #f5f5f5\nwar vom Papier #f1f3f1 nicht zu unterscheiden; die uebrigen Rollen des\nKundenthemas bleiben ein offener Punkt aus dem Token-Audit.\n\nBeim Ansehen der Kartenseite lag die Karte im Papierton: 31 Komponenten-\nflaechen zeigten auf background-base, das jetzt das Papier ist. 20 Tokens\n(Karten, Felder, Ueberlagerungen, Auswahlpille; 22 Deklarationen) zeigen\njetzt auf surface-elevated — Weiss, im Dunkeln Graphit 900 —, 11 Leisten\nund Sektionen bleiben auf dem Papier. Liste im Kopfkommentar von\n_component-tokens.scss.\n\nWas verworfen wurde: .neo-light-theme deklariert die Leiter nicht mehr\nselbst. Die Klasse sitzt in den Docs auf <body> und haette das Attribut auf\n<html> ueberschrieben — der erste Entwurf tat genau das.\n\nWas offen bleibt: ddev war nicht erreichbar, deshalb kein messen.js, kein\nwiderlegen und kein Screenshot-Loop gegen den Referenzstand der Website.\nDas holt Phase 4 nach, wenn das Theme synchronisiert wird; sync:drupal\nwurde bewusst nicht ausgefuehrt, weil das Theme-Repo fremde CSS-Aenderungen\ntraegt. Konfig-App und Docs kennen die Papiere noch nicht (Phase 3).\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "scripts/lint-tokens.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 37,
+          "minus": 22,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 84,
+          "minus": 26,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 9,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/03-elements/_body.scss",
+          "plus": 3,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "9ef7d48",
+      "datum": "2026-09-09T09:22:24+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(tokens): zehn Leitern als Primitive — Mint abgeleitet, Forest uebernommen, Dubletten weg (Papiersystem Phase 1)",
+      "rumpf": "Was war: Das Markenbuch (Kapitel 04.2) kennt sechs Bereichspapiere, zwei\nReserveleitern, Forest und Lime. Im Code lagen sieben Leitern als Sass-Maps\nunter Behelfsnamen (neutral-beige, neutral-taupe, neutral-pearl ...), Mint\nund Forest nur in foundation.praesentation.gruenfamilie fuer die\nPowerPoint-Skripte. Dazu standen in _color-primitives.scss vier generierte\nSupporting-Paletten sage, warm-taupe, pearl-white und beige mit ANDEREN\nWerten als die Leitern — Warm Taupe 100 war dort #f3f0ee, in der Leiter\n#f8f1eb. Zwei Tokens gleichen Namens, zwei Werte; kein SCSS-Bauteil las sie.\n\nWas jetzt gilt: _neutral-ramps.scss fuehrt alle zehn Leitern unter ihrem\nMarkennamen (graphit, beige, ivory, warm-taupe, pearl-white, mint, blau,\nsalbei, forest, lime) und gibt sie als --fnd-primitive-<name>-<stufe> aus:\n99 Leiter-Primitive im CSS, 0 x sage, 311 Primitive gesamt (vorher 252).\nprimitives.neutralleitern in der JSON traegt dieselben Namen; die\nPPTX-Skripte lesen sie darueber. Mint ist nach der Ivory-Methode auf die\nGraphit-Helligkeit abgeleitet (Anker #efffe6 auf 100, Buntheitsprofil von\nBeige): Mint 100 = #e9f8e0, Graphit 950 darauf 16,1 wie auf jedem Papier,\nForest 600 darauf 7,2. Pruefung: scripts/leiter-ableiten.cjs --pruefen,\nacht Leitern max. Delta L 0,0023. pptx:pruefen 42/42 Paare — Mint 100 ist\nder sechste Grund, alle Statusfarben halten. tokens:validate 100 und\nlint:tokens 30 unveraendert.\n\nWas verworfen wurde: Forest ebenfalls auf die Graphit-Helligkeit zu\nrechnen. Stufe 600 ist systemweit die letzte ueber AA auf Weiss; Forest 600\nhaette auf Mint 100 nur 4,09 erreicht und die Akzenttinte auf 700\nverschoben. Forest ist ein Grund fuer Einzelelemente, kein Papier, laeuft\nnie ueber den Schalter — deshalb bleibt es die gemischte Leiter mit dem\nPicker-Wert #0c4146 auf 800, als einzige bewusste Ausnahme. Entschieden\nvon Frank am 09.09.2026 nach Vorschau mit drei Fassungen.\n\nWas offen bleibt: Der Schalter heisst noch data-neutral und kennt auf :root\nnur blau, beige, salbei; die Grundflaeche ist noch #ffffff; die Konfig-App\nund die Docs zeigen die Leitern noch nicht als Papiere. Das sind die\nPhasen 2 bis 5 in .claude/plans/2026-09-09-papiersystem.md. tokens:diff\ngegen den Golden Master ist seit dem Audit unbrauchbar (1427/755/2880\nschon vorher) und wurde durch den Bericht von primitives-aus-quelle.cjs\nersetzt.\n\nGestaged wurde die JSON als HEAD-Stand plus eigene Abschnitte (Blob),\nweil die Arbeitskopie fremde Typografie-Aenderungen traegt; design-tokens.css\nund tokens.generated.js entsprechend aus diesem Stand erzeugt.\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 2,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 1,
+          "minus": 65,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.css",
+          "plus": 83,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 49,
+          "minus": 107,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "docs/color-docs.js",
+          "plus": 0,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "scripts/leiter-ableiten.cjs",
+          "plus": 87,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/oklch.cjs",
+          "plus": 78,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/pptx-vorlage.mjs",
+          "plus": 6,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scripts/primitives-aus-quelle.cjs",
+          "plus": 6,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_color-primitives.scss",
+          "plus": 15,
+          "minus": 26,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_neutral-ramps.scss",
+          "plus": 69,
+          "minus": 20,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "71dfb87",
+      "datum": "2026-09-08T11:26:24+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(backlog): Token-Audit — weitere Vorgehensweise und Abstimmung mit der Entwicklung",
+      "rumpf": "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 4,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "8132290",
+      "datum": "2026-09-08T11:11:02+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(tokens): Token-Audit 08.09.2026 — Bericht, Generator; Inventar als JSON und PDF in Downloads",
+      "rumpf": "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": ".artifact-build/token-audit/gen-audit.py",
+          "plus": 234,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": ".artifact-build/token-audit/token-audit.html",
+          "plus": 86,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "a2f40db",
+      "datum": "2026-09-08T10:24:11+02:00",
+      "autor": "Frank Milius",
+      "betreff": "docs(pptx): Hybrid-Export Figma Slides → PowerPoint — Generator, Textdaten und Ablauf",
+      "rumpf": "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": ".artifact-build/pptx-export/README.md",
+          "plus": 15,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": ".artifact-build/pptx-export/all.json",
+          "plus": 1,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": ".artifact-build/pptx-export/build.py",
+          "plus": 116,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "sonst"
+        }
+      ]
+    }
+  ],
+  "jeDomaene": {
+    "skills": {
+      "name": "Agenten & Skills",
+      "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
+      "commits": 1,
+      "dateien": 1,
+      "plus": 2,
+      "minus": 2,
+      "kosten": 4.518369133233588
+    },
+    "messstand": {
+      "name": "Messstände & Werkzeuge",
+      "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
+      "commits": 4,
+      "dateien": 7,
+      "plus": 257,
+      "minus": 6,
+      "kosten": 30.073389466493342
+    },
+    "storybook": {
+      "name": "Storybook",
+      "was": "Die begehbare Bauteilbibliothek.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 0
+    },
+    "konfig": {
+      "name": "Konfig-App",
+      "was": "Womit ein Kundendesign eingestellt wird, ohne Code anzufassen.",
+      "commits": 3,
+      "dateien": 67,
+      "plus": 777,
+      "minus": 236,
+      "kosten": 4.159207857446808
+    },
+    "ds": {
+      "name": "Design System",
+      "was": "Die Quelle der Wahrheit — SCSS, Token, ITCSS-Ebenen.",
+      "commits": 3,
+      "dateien": 7,
+      "plus": 245,
+      "minus": 112,
+      "kosten": 0.5347552959574469
+    },
+    "doku": {
+      "name": "Dokumentation",
+      "was": "Recipes und begründende Texte.",
+      "commits": 4,
+      "dateien": 106,
+      "plus": 1318,
+      "minus": 11,
+      "kosten": 11.421116558949823
+    },
+    "theme": {
+      "name": "Theme",
+      "was": "Was die Website davon tatsächlich zeigt — Twig, JS, Theme-CSS.",
+      "commits": 1,
+      "dateien": 4,
+      "plus": 69,
+      "minus": 1,
+      "kosten": 0.23766902042553192
+    },
+    "site": {
+      "name": "Drupal-Site",
+      "was": "Konfiguration, Blocktypen, Abhängigkeiten.",
+      "commits": 1,
+      "dateien": 20,
+      "plus": 212,
+      "minus": 0,
+      "kosten": 1.1883451021276596
+    },
+    "sonst": {
+      "name": "Projektgerüst",
+      "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
+      "commits": 3,
+      "dateien": 5,
+      "plus": 446,
+      "minus": 9,
+      "kosten": 97.0971938153658
+    }
+  },
+  "bestand": {
+    "ds": {
+      "komponenten": 145,
+      "ebenen": {
+        "05-atoms": 36,
+        "06-molecules": 49,
+        "07-organisms": 50,
+        "08-templates": 9,
+        "09-pages": 1
+      },
+      "ohneRecipe": 24,
+      "ohneStory": 24
+    },
+    "konfig": {
+      "gruppen": 112,
+      "vueKomponenten": 95
+    },
+    "storybook": {
+      "stories": 146
+    },
+    "doku": {
+      "recipes": 130,
+      "markdown": 277
+    },
+    "messstand": {
+      "skripte": 32,
+      "referenzstaende": 51
+    },
+    "theme": {
+      "templates": 78,
+      "js": 18,
+      "css": 16
+    },
+    "site": {
+      "configExporte": 1857
+    },
+    "skills": {
+      "skills": 18,
+      "agenten": 1,
+      "regeln": 5
+    }
+  },
+  "befunde": [
+    {
+      "id": "doppelungen",
+      "domaene": "ds",
+      "titel": "Wurzelklassen auf zwei Ebenen",
+      "wert": 0,
+      "gut": true,
+      "text": "Jede Wurzelklasse wird auf genau einer Ebene geführt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "skillebene",
+      "domaene": "skills",
+      "titel": "Skills unversioniert oder nicht ladbar",
+      "wert": 0,
+      "gut": true,
+      "text": "Alles versioniert, ladbar und benannt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "verirrt",
+      "domaene": "konfig",
+      "titel": "Build-Artefakte im Wurzelverzeichnis",
+      "wert": 0,
+      "gut": true,
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    }
+  ],
+  "entscheidungen": {
+    "gesamt": 17,
+    "haltbar": 17,
+    "gebrochen": 0,
+    "unpruefbar": 0,
+    "liste": [
+      {
+        "id": "lime-markenwert",
+        "titel": "Lime #37e93d ist der Markenwert",
+        "seit": "2026-08-13",
+        "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+          "regex": "#37e93d"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 32
+      },
+      {
+        "id": "lime-traegt-keinen-text",
+        "titel": "Lime 500 wird nie zur Schriftfarbe",
+        "seit": "2026-08-13",
+        "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-theme.scss",
+          "regex": "--accent-underline"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 32
+      },
+      {
+        "id": "interaktiv-nicht-mehr-cyan",
+        "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+        "seit": "2026-08-13",
+        "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+        "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-bridge.scss",
+          "regex": "--fnd-color-interactive-default"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 32
+      },
+      {
+        "id": "underline-offset-4",
+        "titel": "Unterstrich-Abstand ist 4px, als Token",
+        "seit": "2026-08-17",
+        "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--fnd-underline-offset: *4px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 28
+      },
+      {
+        "id": "label-gewicht-800",
+        "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+        "seit": "2026-06-16",
+        "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-section-header-label-font-weight: *800"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 90
+      },
+      {
+        "id": "card-summary-icon-60",
+        "titel": "Karten-Symbol misst 60px ueber sein Token",
+        "seit": "2026-07-30",
+        "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-card-summary-icon-size: *60px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 46
+      },
+      {
+        "id": "card-atom-geloescht",
+        "titel": "Das Card-Atom bleibt geloescht",
+        "seit": "2026-08-18",
+        "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+        "probe": {
+          "art": "abwesend",
+          "datei": "scss/scss/05-atoms/_card.scss"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "ddev-ohne-mutagen",
+        "titel": "DDEV laeuft ohne Mutagen",
+        "seit": "2026-07-28",
+        "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+        "probe": {
+          "art": "muster",
+          "repo": "site",
+          "datei": ".ddev/config.yaml",
+          "regex": "performance_mode: *none"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 48
+      },
+      {
+        "id": "claude-verzeichnis-versioniert",
+        "titel": "Skills, Agenten und Regeln liegen im Repo",
+        "seit": "2026-08-18",
+        "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+        "probe": {
+          "art": "muster",
+          "datei": ".gitignore",
+          "regex": "!\\.claude/skills/"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "slider-umbenennen",
+        "titel": "Der Slider-Namenskonflikt ist durch Umbenennen geloest",
+        "seit": "2026-08-18",
+        "warum": "05-atoms fuehrte einen Range-Regler, 06-molecules ein Karussell — zwei Bauteile, ein Name. Am 18.08.2026 BEIDE umbenannt: .nc-range und .nc-carousel. Beide, nicht eines von beiden: Bei einem geteilten Namen ist jede Loeschung eine Loeschung zu viel, und wer nur eines umbenennt, laesst den anderen auf einem Namen sitzen, der eine Verwechslung ueberlebt hat. .nc-slider kommt im gebauten CSS nicht mehr vor.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-slider",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-flaeche-paarweise",
+        "titel": "Hero-Flaechen setzen Grund UND Schrift",
+        "seit": "2026-08-18",
+        "warum": "Eine Flaeche ohne passenden Vordergrund ergibt weisse Schrift auf hellem Grund. Der Mixin hero-textfarben deklariert die abgeleiteten Token im Modifier erneut — eine Ableitung in :root wird DORT aufgeloest und reagiert nicht auf ein spaeteres Ueberschreiben. Genau daran war der erste Versuch gescheitert.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-textfarben"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-ohne-lime-flaeche",
+        "titel": "Der Hero bekommt keine Lime-Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Ausdruecklich verworfen. field_surface kennt zwar accent, der Hero bedient es aber nicht und faellt auf dunkel zurueck. Waere die Flaeche Lime, muesste jede Schrift darauf neu geprueft werden — und Lime 500 traegt keinen Text.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "nc-hero--surface-accent",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-mark-flaechenabhaengig",
+        "titel": "Die Ueberschrift-Hervorhebung haengt an der Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Der Balken liegt HINTER dem Text; entscheidend ist die Schrift gegen den Balken, nicht der Balken gegen die Flaeche. Gemessen: accent-200 unter weisser Schrift 1,21:1, accent-800 6,41:1. Ein einziger Vorgabewert fuer beide Flaechen waere deshalb falsch.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_component-tokens.scss",
+          "regex": "--nc-hero-mark-on-dark: *var\\(--fnd-accent-800\\)"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-eine-vorlage",
+        "titel": "Der Hero hat genau eine Vorlage",
+        "seit": "2026-08-18",
+        "warum": "Die Layout-Builder-Fassung war eine byteweise identische Kopie von 154 Zeilen. Die Erweiterung landete zuerst nur in der einen Datei — im Layout Builder blieb alles beim Alten, ohne Fehler und ohne Hinweis. Jetzt verweist die eine auf die andere.",
+        "probe": {
+          "art": "muster",
+          "repo": "theme",
+          "datei": "templates/block/block--inline-block--neo-hero.html.twig",
+          "regex": "include '@neo_fe/block/block--block-content--neo-hero"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-ohne-product-variante",
+        "titel": "Der Hero hat keine product-Variante",
+        "seit": "2026-08-18",
+        "warum": "Das Recipe fuehrte sie als E-Commerce-Hero mit Warenkorb-CTA. Diese Site hat kein Commerce-Modul, keinen Produkt-Inhaltstyp und keinen Warenkorb. Statt Code zu bauen, den niemand einsetzt, ist die Variante aus dem Recipe entfernt worden — samt Specimen, Regel und Token-Gruppe.",
+        "probe": {
+          "art": "muster",
+          "datei": "data/hero-recipe.json",
+          "regex": "nc-hero--product",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-split-buendig",
+        "titel": "Das Split-Medium reicht bis zum Viewport-Rand",
+        "seit": "2026-08-18",
+        "warum": "Der naheliegende Weg calc(50% - 50vw) ist an einem Grid-Element falsch: Prozente beziehen sich dort auf das Grid-Areal, also die halbe Spalte. Gerechnet wird deshalb ohne Prozente aus Container-Padding und halber ungenutzter Containerbreite. Gemessen bei 1920/1600/1440/1200/1100 px jeweils 0 px Abstand zur Kante, kein waagerechter Ueberlauf bei sieben Breiten von 390 bis 1920.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-split-ueberstand"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      },
+      {
+        "id": "hero-attrappe-heisst-mockup",
+        "titel": "Die Dashboard-Attrappe heisst .nc-hero__mockup",
+        "seit": "2026-08-18",
+        "warum": "Sie hiess .nc-hero__card — einen Buchstaben von .nc-hero__cards entfernt, dem Kennzahlen-Raster im Fuss. Ihre Kacheln hiessen .nc-hero__metric und standen damit neben dem Molekuel .nc-metric, das seit dem Fuss im selben Hero vorkommt. Keine Kaskaden-Kollision, aber zwei Lesefallen — und die kosten hier mehr als Kaskadenfehler, weil sie niemand misst. Umbenennung belegt mit baseline:diff: 28954 Werte, keine Abweichung.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-hero__card[^s]",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 27
+      }
+    ]
+  },
+  "cssGewicht": {
+    "jetzt": {
+      "bytes": 1200073,
+      "regeln": 6664,
+      "selektoren": 7729,
+      "eigenschaften": 5232
+    },
+    "vorher": {
+      "bytes": 1192636,
+      "regeln": 6656,
+      "selektoren": 7728,
+      "eigenschaften": 5037
+    },
+    "delta": {
+      "bytes": 7437,
+      "regeln": 8,
+      "eigenschaften": 195
+    }
+  },
+  "backlog": {
+    "gesamt": 147,
+    "erledigt": 76,
+    "offen": 71,
+    "abschnitte": 38,
+    "stand": "2026-07-29",
+    "delta": {
+      "zugefuegt": 0,
+      "abgearbeitet": 0
+    }
+  },
+  "autoren": {
+    "eigen": "Frank Milius",
+    "liste": [
+      {
+        "name": "Frank Milius",
+        "commits": 9,
+        "dateien": 224,
+        "eigen": true
+      }
+    ],
+    "fremdCommits": 0,
+    "fremdAnteil": 0
+  },
+  "ungenutzt": {
+    "stand": "nach-typoskala",
+    "gesamt": 266,
+    "ungenutzt": 195,
+    "beispiele": [
+      "nc-alert",
+      "nc-avatar",
+      "nc-avatar-group",
+      "nc-badge",
+      "nc-button-group",
+      "nc-button--full",
+      "nc-checkbox",
+      "nc-chip-group",
+      "nc-code-snippet--inline",
+      "nc-code-snippet--multi",
+      "nc-code-snippet--single",
+      "nc-code-snippet--header-plain"
+    ]
+  },
+  "nacharbeit": {
+    "commits": 9,
+    "korrektur": 0,
+    "aufFrischem": 5,
+    "quote": 0
+  },
+  "gesamtstrecke": {
+    "beruehrt": 1,
+    "vollstaendig": 0,
+    "luecken": [
+      {
+        "komponente": "docs",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      }
+    ]
+  },
+  "kosten": {
+    "gesamt": 149.23004625,
+    "unzuordenbar": 0,
+    "sitzungen": 2,
+    "abonnement": true,
+    "waehrung": "USD",
+    "token": {
+      "input": 19564,
+      "output": 1921038,
+      "cacheWrite": 7472813,
+      "cacheRead": 307775785
+    },
+    "modelle": {
+      "claude-fable-5-1": 680
+    }
+  }
+}

@@ -1,0 +1,1148 @@
+{
+  "zeitraum": {
+    "von": "2026-08-25",
+    "bis": "2026-08-31"
+  },
+  "erzeugt": "2026-08-31T06:47:10.120Z",
+  "commits": [
+    {
+      "repo": "Design System",
+      "hash": "efe5229",
+      "datum": "2026-08-26T13:41:46+02:00",
+      "autor": "Frank Milius",
+      "betreff": "feat(farben): Papiersystem vollstaendig, Signal-Konflikt aufgeloest, Rueckmeldung auf die Systempaletten",
+      "rumpf": "Drei Aenderungen, die zusammen einen Zustand herstellen — einzeln waeren sie\nwiderspruechlich gewesen.\n\n1 — DIE FUENF BEREICHSPAPIERE GAB ES NUR AUF DEM PAPIER\n\nDer Brand Styleguide weist jedem der fuenf Navigationsbereiche ein eigenes\nPapier zu. Im Tokensatz standen davon drei als Leiter; Warm Taupe und Pearl\nWhite lagen nur als flache Einzelfarben in `supporting` und waren damit als\nBereichsgrund unbrauchbar — eine Leiter braucht elf Stufen, sonst hat der\nBereich keinen Text, keine Rahmen und keine gesenkten Flaechen.\n\nBeide sind jetzt nach demselben Verfahren abgeleitet wie die uebrigen:\nHelligkeiten Stufe fuer Stufe von Graphit, uebernommen wird nur der Farbton.\nPearl White traegt als einzige Leiter Buntheit 0 — dort soll nichts eine\nStimmung machen, ein Unterton waere schon zu viel Haltung.\n\nNeu hinzu kommt Ivory (Farbton 107 Grad, aus dem Markenwert #FFFFF0). Es\nuebernimmt „Menschen und Geschichten\" von Salbei, das in die Reserve geht.\nDas ist keine Geschmacksfrage: Bei dem als Arbeitsstand gesetzten gruenen\nSignal liegt Salbeis Unterton nur 3 Grad von Lime entfernt und verschwindet\nim Grund. Ivory haelt 36 Grad — die kleinste Reserve aller fuenf Papiere,\naber ueber der Grenze von 30. Faellt die Signalentscheidung spaeter auf NEO\nBlue oder Magenta, kommt Salbei zurueck und Ivory wird nicht gebraucht.\n\nVerworfen: Salbei durch Blaustichig zu ersetzen, wie 4.7 es urspruenglich\nvorschlug. Der Bereich haette damit den waermsten Ton gegen den kuehlsten\ngetauscht. Ivory bleibt warm und loest denselben Konflikt.\n\nGemessen: alle sieben Leitern reproduzieren Graphits Kontrastwerte Stufe fuer\nStufe (groesste Abweichung 0,02). Im Druck coated bleibt Ivory ueber elf\nStufen unter dE 0,87 und Pearl White unter 0,39 — beide genauer als Graphit\nselbst mit 1,40.\n\nNebenbefund, nicht behoben: Der Styleguide behauptet fuer die Papiere „max.\ndE 0,8\". Auf den Papierstufen 50/100/200 messen Beige 1,44, Graphit 1,00 und\nIvory 0,87. Alle bleiben in der Einstufung „sicher\" (Grenze 2,0), aber die\nZahl im Dokument traegt nicht.\n\n2 — ZWEI FARBEN, EINE HEXZIFFER AUSEINANDER\n\nNEO Blue stand auf #009fe3, die Ebenenfarbe „Daten und KI\" auf #009ee3. Zwei\npraktisch identische Farben mit verschiedenen Aufgaben, unterscheidbar nur\nfuer den, der den Hexwert liest. Auf Weisung auf #009ee3 vereinheitlicht,\nueberall: SCSS-Quellen, zitierende Kommentare, Doku, Website- und Docs-Daten.\n\nOffen: Ein Token namens `cyan` existiert bereits mit #00FFFF. Wenn #009ee3\nkuenftig „reines Cyan\" heissen soll, kollidieren die Namen. Der Wert ist\nunstrittig, die Benennung nicht.\n\n3 — RUECKMELDUNG AUF DIE SYSTEMPALETTEN, MIT ZWEI EINGESTANDENEN VERLUSTEN\n\nDie vier `feedback-*`-Token ziehen jetzt auf `--fnd-primitive-*-500` des\nTheme-Konfigurators, als Referenz statt als Hexwert, in heller und dunkler\nFassung gleich. Gleichlautend in der Bruecke, sonst haette sie dem Thema\nwidersprochen.\n\nDas ist eine Verschlechterung an zwei Stellen, und beide stehen im Code:\n\n  KONTRAST. Die 500er-Stufen sind Flaechenfarben. Als Schrift auf der hellen\n  Karte erreichen sie success 3,35 / warning 2,31 / danger 3,35 / info 3,35.\n  AA verlangt 4,5 fuer Text und 3,0 fuer Bedienelemente — Warning reisst\n  beide. Vorher lagen die Werte bei 5,17 bis 7,57. Im Dunkeln tragen sie\n  (4,25 bis 6,19), und als Flaeche mit schwarzer Tinte darauf erreichen alle\n  vier 5,32 bis 7,74.\n\n  ERFOLG IST WIEDER GRUEN. Hier stand ausdruecklich ein Petrol, weil ein\n  Erfolgsgruen bei Rot-Gruen-Schwaeche mit dem Markenlime zusammenfaellt. Die\n  Begruendung wurde nachgerechnet statt uebernommen: Bei Protanopie liegen\n  #24a148 und #37e93d 0,6 Grad auseinander, unterschieden allein ueber die\n  Helligkeit. Das Petrol lag 175,9 Grad entfernt.\n\nDaraus folgt eine Auflage, keine Meinung: Rueckmeldung darf nie allein ueber\ndie Farbe laufen. Symbol und Beschriftung sind ab hier tragend.\n\nDie Kontrastpruefung gegen den Referenzstand `nach-graphit` meldet trotzdem\nKEINEN VERSTOSS und 0 neu durchgefallene Paare bei 6350 geprueften. Der\ngemessene Einbruch ist eine Eigenschaft der Token, kein Zustand der Website:\nKein gemessenes Bauteil malt derzeit Text in diesen Farben auf eine helle\nFlaeche. Das entlastet den Bestand, nicht die naechste Komponente.\n\nOffen und bewusst nicht mitgezogen: Die `text-`, `border-` und `background-`\nVarianten derselben vier Rollen tragen weiterhin die alten Werte. Die weichen\nFlaechen sind auf die alten Schriftfarben eingemessen (Paare ueber 4,5); sie\nnachzuziehen heisst, vier Flaechenpaare neu zu rechnen. Bis dahin kann ein\nBauteil, das Symbol und Beschriftung aus verschiedenen dieser Gruppen zieht,\nzwei Toene derselben Rolle zeigen.\n\nEIN UMWEG, DER HIER STEHEN BLEIBT\n\nBeim Einbau der neuen Leitern kollidierten `$warm-taupe` und `$pearl-white`\nmit gleichnamigen Variablen in _color-primitives.scss; sie heissen deshalb\n`$neutral-taupe` und `$neutral-pearl`. Der gescheiterte Sass-Lauf hat dann\n`primitives-aus-quelle.cjs` ein unvollstaendiges styles.css untergeschoben,\nworauf der Generator brand, supporting und system stillschweigend GELEERT\nhat — ohne Fehler, ohne Warnung. Aufgefallen ist es erst, als der naechste\nSchritt abstuerzte. In der richtigen Reihenfolge neu aufgebaut, Registry\nwieder vollstaendig.\n\nDie Fragilitaet selbst bleibt: Der Generator liest aus dem Kompilat und\nprueft nicht, ob es plausibel ist. Ein Plausibilitaets-Check ist als eigene\nAufgabe ausgelagert.",
+      "dateien": [
+        {
+          "pfad": ".claude/rules/architecture.md",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "skills"
+        },
+        {
+          "pfad": "CLAUDE.md",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "apps/theme-configurator/src/data/tokens.generated.js",
+          "plus": 7,
+          "minus": 7,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/design-tokens.json",
+          "plus": 57,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "konfig"
+        },
+        {
+          "pfad": "data/neo-design-system-schulung.md",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/themes-docs.js",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "scripts/extract-theme-css.js",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_color-primitives.scss",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_color-semantic.scss",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_component-tokens.scss",
+          "plus": 3,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-bridge.scss",
+          "plus": 18,
+          "minus": 11,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_mono-theme.scss",
+          "plus": 36,
+          "minus": 14,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/00-settings/_neutral-ramps.scss",
+          "plus": 60,
+          "minus": 8,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_card.scss",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "website/data/custom-theme.json",
+          "plus": 7,
+          "minus": 7,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "website/data/themes-config.json",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "website/js/site.js",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "sonst"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "37efb0b",
+      "datum": "2026-08-25T10:35:18+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Artikel nach /inside/blog/ umgezogen, Kartenziel auf Alias umgestellt",
+      "rumpf": "Knoten 76 liegt jetzt unter /inside/blog/aus-piipe-workplace-wird-neo-workplace.\nDamit ist eine Konvention gesetzt, denn es gab keine: Von vier Artikeln sind\nzwei Rechtstexte in der Wurzel, einer hat gar keinen Alias. /inside/blog/ statt\n/inside/, weil unter /inside/ ausschliesslich Rubrikseiten liegen — ein Artikel\ndaneben laese sich wie eine siebte Rubrik.\n\nDabei behoben und fuer kuenftige Faelle festgehalten: Die Karte auf der\nStartseite zeigte als einziges von 48 Kartenzielen auf /node/76 statt auf einen\nAlias. Kein toter Link, aber der Besucher sah den Systempfad. Diese URLs stehen\nim JSON-Feld und wandern per JavaScript direkt ins href — Drupal loest sie NICHT\nzum Alias auf, anders als ein Link aus einer Twig-Vorlage. Meine gegenteilige\nAussage vorher war falsch.\n\nUnter /events/ liegen jetzt nur noch 20 veroeffentlichte Veranstaltungen und\ndrei unveroeffentlichte Testseiten.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 25,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "88c853d",
+      "datum": "2026-08-25T10:16:50+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Preisseite verschoben, system.performance importiert — mit zwei Richtigstellungen",
+      "rumpf": "Editionen & Preise liegt jetzt unter /editionen-preise. Der Umzug ist keine\nKosmetik: Die drei Menueeintraege zeigten laengst auf internal:/editionen-preise,\neinen Pfad, den es nicht gab. Der Menuepunkt fuehrte auf jeder Seite ins 404.\nKein Verweis im Inhalt zeigte auf den alten Pfad; alle Text-, URI- und\nJSON-Felder durchsucht.\n\nZWEI EIGENE AUSSAGEN RICHTIGGESTELLT\n\n'Zwei Landing Pages unter /events/' waren eine — die Zahl kam aus der doppelten\nAlias-Zeile bei /node/69, die zweimal mitgezaehlt wurde.\n\n'Die Zusammenfassung von CSS und JS ist auf der laufenden Website abgeschaltet'\nstimmt so nicht. Nach dem Import lud die Startseite unveraendert 14\nStylesheets: settings.local.php erzwingt preprocess = FALSE zur Laufzeit, und\ndas schlaegt den gespeicherten Wert. Die Datei ist gitignoriert, gilt also nur\nlokal, und die Abschaltung ist beim Entwickeln richtig so. Fuer die Produktion\nwar die Einstellung nie falsch. config:status vergleicht den gespeicherten\nWert, nicht den wirksamen.\n\nNebenbefund: dieselben beiden Zeilen stehen zweimal in settings.local.php.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 50,
+          "minus": 9,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "ab90879",
+      "datum": "2026-08-25T10:00:51+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Pathauto-Muster wiederhergestellt, Dublette entfernt",
+      "rumpf": "Nur pathauto.pattern.event_url importiert, damit system.performance nicht\nunbeabsichtigt mitlaeuft. Schnappschuss vor-pathauto-import.\n\nBelegt statt behauptet: alle 74 Alias-Zeilen vorher/nachher identisch, dann\nKnoten 8 gespeichert — Alias unveraendert, Seite 200. Vor dem Import haette\ngenau dieser Klick ihn geloescht.\n\nDublette bei /node/69 ueber die Entity-API entfernt. 74 -> 73, null Dubletten.\n\nOffen und redaktionell: zwei Landing Pages und ein Artikel liegen unter\n/events/, obwohl sie keine Veranstaltungen sind.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 22,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "b081a91",
+      "datum": "2026-08-25T09:57:43+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Pathauto-Drift ausgemessen — 23 Knoten einen Klick vom 404 entfernt",
+      "rumpf": "Es gibt nur ein einziges Pathauto-Muster, und es greift fuer jeden Inhaltstyp.\n\n24 Knoten tragen einen /events/-Alias, den das laufende Muster /[node:title]\ngar nicht erzeugen kann — sie stammen aus der Zeit davor. update_action steht\nauf 2 (alten Alias loeschen), ein Redirect-Modul ist nicht installiert. Jeder\nder 23 veroeffentlichten ist damit einen Redaktionsklick davon entfernt, seine\nAdresse ersatzlos zu verlieren.\n\nDie Sorge, ein cim ziehe die vorhandenen Aliase nicht nach, hat sich nicht\nbestaetigt: Fuer alle 20 Veranstaltungen erzeugt das Export-Muster exakt die\nAliase, die schon da stehen. Der Import ist ein Nulltausch und entschaerft nur\ndie Falle.\n\nNebenbefund: /node/69 hat zwei identische path_alias-Zeilen.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 40,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "246c5ca",
+      "datum": "2026-08-25T09:53:49+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: zwei Konfigurationen weichen vom Export ab",
+      "rumpf": "Beim Pruefen des Konfigurationsstands nach dem Core-Update aufgefallen, aber\naelter als dieses:\n\nsystem.performance — Export sagt preprocess: true, die Datenbank false. Die\nZusammenfassung von CSS und JS ist auf der laufenden Website abgeschaltet.\n\npathauto.pattern.event_url — das laufende Muster ist /[node:title] OHNE\nEinschraenkung auf den Inhaltstyp, statt /events/[node:title] nur fuer event.\nEs greift damit fuer jeden Typ und legt Aliase in der Wurzel an. Da Pathauto\nbeim Speichern neu erzeugt, entsteht dabei laufend Datenmuell.\n\nEin drush cim aendert das Muster, nicht die bereits erzeugten Aliase. Deshalb\nerst zaehlen, dann entscheiden — als offener Punkt notiert, nicht im\nVorbeigehen importiert.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 32,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "39911da",
+      "datum": "2026-08-25T09:53:16+02:00",
+      "autor": "Frank Milius",
+      "betreff": "Sicherheitsupdate: Drupal core 11.4.5, Guzzle 7.15.5 — alle neun Meldungen weg",
+      "rumpf": "BEHOBEN\ndrupal/core 11.4.1 -> 11.4.5, drei Meldungen (alle moderately critical):\n  SA-CORE-2026-012 / CVE-2026-55805   Cross-Site-Scripting\n  SA-CORE-2026-011 / CVE-2026-15917   Cross-Site-Scripting\n  SA-CORE-2026-010 / CVE-2026-15916   Informationsabfluss\n\nguzzlehttp/guzzle 7.13.2 -> 7.15.5, sechs Meldungen, eine davon hoch:\n  CVE-2026-69246 (hoch)  Nicht-kanonischer Host umgeht Host-Pruefungen\n  CVE-2026-69245         Cookie-Domain behaelt Subdomain-Geltung\n  CVE-2026-67354         URI-Fragmente im Referer bei Weiterleitungen\n  CVE-2026-67355         Host-only-Cookies verlieren ihre Bindung\n  CVE-2026-67353         Unbegrenzte Antwort-Cookies, DoS-Risiko\n  CVE-2026-67339         Proxy-Authorization geht an den Zielserver\n\nDrei der Guzzle-Luecken betreffen die Schicht, ueber die Drupal ausgehende\nHTTP-Anfragen macht — Cookie-Geltungsbereiche und Header an fremde Server.\nFuer eine Website, die Inhalte aus Confluence ziehen soll, keine theoretische\nEcke.\n\nMitgezogen: die Symfony-7.4-Reihe von .14 auf .17, psr7, promises, peast,\narchive_tar, composer-stager. 34 Pakete, keine Downgrades, keine Entfernungen.\n\nABLAUF\nDB-Schnappschuss vorher (`ddev snapshot vor-core-11-4-5-sicherheitsupdate`) —\nder Composer-Teil ist ueber git zurueckholbar, `drush updb` nicht.\nVier Updates gelaufen: search_update_11401/11402, help_update_11400,\nsearch_post_update_search_help_dependencies. Ohne Fehler.\n\nNACHGEPRUEFT\ncomposer audit: keine Meldung mehr.\nTheme unversehrt — .git da, auf master bei 83c9199, sauber, 294 Zeilen in\nneo-overrides.css, 12px-Boden drin. Die Quell-Installation hat gehalten,\nobwohl Composer das Verzeichnis neu ausgecheckt hat.\nVier Seiten liefern 200, kein Fehler im Watchdog.\n69 berechnete Typografie-Werte auf drei Seiten gegen den Stand vor dem\nUpdate: null Unterschiede. Null Elemente unter 12px bei 360 und 1400px.\nKontrast Light+Dark ueber 4,5:1. 47 Haken der Vergleichstabelle sichtbar in\nrgb(55,233,61).\n\nNICHT VOM UPDATE, aber dabei aufgefallen (siehe BACKLOG):\nsystem.performance und pathauto.pattern.event_url weichen vom Export ab.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 218,
+          "minus": 213,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "eb2f089",
+      "datum": "2026-08-25T09:45:51+02:00",
+      "autor": "Frank Milius",
+      "betreff": "composer.lock auf neo_fe 83c9199 nachziehen",
+      "rumpf": "Theme-Push vom 25.08.2026, Phase 4: neo-overrides.css auf 294 Zeilen,\n12px-Boden in der Navigation, Begruendungen in die Solution-Tabs-Vorlage.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "055d784",
+      "datum": "2026-08-25T09:43:38+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Phase 4 erledigt — 294 Zeilen, 12px-Boden auch in der Navigation",
+      "rumpf": "Das Ziel 'unter 300 Zeilen' ist erreicht, ohne Kommentare wegzukuerzen: Vier\nBloecke spiegelten nur noch das Design System und trugen den Vermerk selbst.\n\nDer als 'fuenf Navigationsgroessen' notierte Punkt waren zehn Elemente, und die\nUrsache war allgemeiner als notiert: Der 12px-Boden wurde im Design System\ngezogen, aber neo-nav.css benutzt dessen Tokens gar nicht. Als Merksatz\nfestgehalten, weil neo-shot.css genauso gebaut ist.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 21,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "83c9199",
+      "datum": "2026-08-25T09:42:25+02:00",
+      "autor": "Frank Milius",
+      "betreff": "Phase 4: neo-overrides.css auf 294 Zeilen; 12px-Boden erreicht jetzt auch die Navigation",
+      "rumpf": "VIER BLOECKE SPIEGELTEN NUR NOCH DAS DESIGN SYSTEM\nDie Line-Height-Stufen, die Tracking-Skala, die Schriftstapel mit\nMetrik-Fallback und --fnd-font-weight-heading-strong, dazu `text-wrap: balance`\nauf den Ueberschriften, `font-optical-sizing` auf dem Body und das staerkere\nGewicht fuer h4–h6. Jeder trug seit dem Audit den Vermerk „nach\nDS-Regenerierung redundant\" — und das Design System ist seither vielfach neu\ngebaut worden.\n\nNachgemessen: alle 15 Custom Properties stehen dort mit IDENTISCHEM Wert, die\ndrei Element-Regeln mit denselben Selektoren, `h4,h5,h6{font-weight:…}` sogar\nwortgleich. Ein Override, das dasselbe sagt wie die Quelle, ist keine\nSicherheit, sondern eine zweite Wahrheit: Aendert das Design System einen Wert,\nhaelt die Kopie dagegen — und weil diese Datei ZULETZT laedt, gewinnt sie.\n\nGegengeprueft wurde nicht der Dateiinhalt, sondern das Ergebnis: 69 berechnete\nWerte auf drei Seiten, vor und nach dem Entfernen. Null Unterschiede.\n\n331 -> 294 Zeilen, 24 -> 19 Regelbloecke. Ziel „unter 300\" erreicht, ohne\neinen einzigen Kommentar wegzukuerzen.\n\nDER 12PX-BODEN GALT NUR FUER DAS HALBE HAUS\nDas Backlog fuehrte „fuenf Navigationsgroessen unter 12px\". Gemessen waren es\nZEHN, bei 360px wie bei 1400px: die Rubriktitel der Navigation, „Sprache\",\n„Erscheinungsbild\" und die Sprachkuerzel DE/EN — 10px und 11px.\n\nDer Boden gilt seit dem 25.06.2026, aber er wurde im Design System gezogen\n(--fs-* clampt bei 0.75rem). css/neo-nav.css benutzt keines dieser Tokens; es\nhat eigene, --nav-eyebrow-size und --nav-meta-size. Ein Boden, den nur ein Teil\ndes Hauses kennt, ist keiner.\n\nBeide auf .75rem gesetzt — zwei Werte statt zehn Regeln. Danach: null Elemente\nunter 12px bei beiden Breiten, kein waagerechtes Scrollen bei 360/768/1400px,\nkeine abgeschnittene Beschriftung, Kontrast in Light und Dark ueber 4,5:1\n(schlechtester Wert 6,77:1).\n\nBEGRUENDUNGEN WANDERN ZU IHREM GEGENSTAND\nZwei Kommentare standen in neo-overrides.css OHNE Regel und beschrieben\nEntscheidungen, die in der Solution-Tabs-Vorlage umgesetzt sind: die\nsurface-abhaengige Textfarbe (--fnd-color-text-inverse kippte im Dark-Theme auf\nSchwarz — schwarz auf schwarz) und der kanonische Abstand vor dem Primaer-CTA.\nBeide stehen jetzt im Kopf der Vorlage. Eine Begruendung, die nicht bei ihrer\nUmsetzung steht, ueberlebt das naechste Aufraeumen nicht.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/neo-nav.css",
+          "plus": 10,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "css/neo-overrides.css",
+          "plus": 28,
+          "minus": 64,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-solution-tabs.html.twig",
+          "plus": 15,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "e8a0517",
+      "datum": "2026-08-25T09:27:05+02:00",
+      "autor": "Frank Milius",
+      "betreff": "composer.lock auf neo_fe 25445d1 nachziehen",
+      "rumpf": "Theme-Push vom 25.08.2026: Namenskorrekturen, nc-button--md auch im JS\nentfernt, |raw auf field_store_lead abgebaut, styles.css mit den drei\n__text-Regeln.\n\nOhne diesen Schritt wirft der naechste composer install das Theme auf 869ebe5\nzurueck — ohne Fehler und ohne Hinweis.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "composer.lock",
+          "plus": 5,
+          "minus": 5,
+          "binaer": false,
+          "domaene": "site"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "24ccf9c",
+      "datum": "2026-08-25T09:18:32+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Doku-Klassen 22 -> 9, Theme-Klassen 64/30 -> 50/21",
+      "rumpf": "Beide Listen sind nicht durch Abarbeiten der Klassen geschrumpft, sondern\ndurch zwei Befunde ueber den Werkzeugen:\n\nDer Doku-Korrektor las nur eine von zwei Kopien — docs/, nicht docs/content/.\nDer Lauf vom 24.08. meldete Vollzug und hatte die Haelfte erwischt.\n\nDrei .nc-*__text-Klassen existierten im Design System als LEERE SCSS-Regel,\ndie Sass wegwirft. Sie war kein Platzhalter, sondern ein Deckel: Es fehlte\nmin-width: 0, ohne das ein Flex-Kind nie schrumpft — und deshalb konnte die\nKuerzung in .nc-form-label--inline nie greifen. Im Browser gemessen: 424px\nText in einem 200px-Kasten, hart abgeschnitten statt mit drei Puenktchen.\n\nEin Befund, sechs Bauteile weniger auf der Theme-Liste.\n\nDie neun verbleibenden Doku-Klassen brauchen eine inhaltliche Entscheidung,\nkeine Ersetzung — mit Warnung bei den Zustandsklassen, die Doku-Skripte setzen.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 44,
+          "minus": 20,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "25445d1",
+      "datum": "2026-08-25T09:16:37+02:00",
+      "autor": "Frank Milius",
+      "betreff": "styles.css nachziehen: __text-Regeln fuer Label, Fehler und Hinweis",
+      "rumpf": "Aus WEBSITE26. Die drei Klassen standen im Theme-Markup, aber in keinem\nStylesheet — die SCSS-Regel war leer, und Sass wirft leere Regeln weg. Damit\nfaellt der Befund fuer sechs Bauteile im Theme weg.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "e44c7c9",
+      "datum": "2026-08-25T09:16:37+02:00",
+      "autor": "Frank Milius",
+      "betreff": "Doku-Korrektor sah nur die halbe Doku; leere __text-Regel verdeckte einen Fehler",
+      "rumpf": "DER KORREKTOR LAS NUR EINE VON ZWEI KOPIEN\nkorrigiere-doku-klassen.mjs lief ueber `readdirSync(DOKU)` — das sind die 118\nDateien in docs/, aber keine der 127 in docs/content/, die dieselben Bauteile\nein zweites Mal beschreiben. Der Lauf vom 24.08. meldete „90 Vorkommen\nkorrigiert\" und hatte sauber die Haelfte erwischt: nc-btn, nc-skip-link,\nnc-hero__card und nc-button--md standen in docs/content/ unveraendert weiter.\n\nEine Korrektur, die nur eine von zwei Kopien erreicht, ist schlimmer als\nkeine — sie meldet Vollzug. Der `glob` weiter oben konnte immer schon\nrekursieren, benutzt wurde er dafuer nur nicht. Jetzt schon: 70 weitere\nErsetzungen in 10 Dateien.\n\nDIE LEERE REGEL WAR KEIN PLATZHALTER, SONDERN EIN DECKEL\n.nc-form-label__text stand in der BEM-Liste im Dateikopf, auf der Doku-Seite,\nim Theme und im geernteten Markup — im Stylesheet aber nicht, denn die Regel\nwar leer und Sass wirft leere Regeln weg:\n\n    &__text {\n      // Standard-Text, erbt Styles vom Block\n    }\n\nWas fehlte, war `min-width: 0`. Ein Flex-Kind schrumpft von sich aus nie unter\nseine Textbreite, und deshalb konnte die Kuerzung in --inline gar nicht\ngreifen. Dazu stand `text-overflow: ellipsis` auf dem Flex-Container statt auf\ndem Kasten, der den Text enthaelt. Im Browser gemessen: 424px Text in einem\n200px-Kasten, hart abgeschnitten — die drei Puenktchen, die der Kommentar\n„Truncation\" zusagt, erschienen nie. Mit der Regel auf __text: 190px, gekuerzt.\n\nDieselbe Luecke bei .nc-form-error__text und .nc-form-hint__text. Beide Bloecke\nsind Flex-Container mit einem Icon daneben; ohne die Klasse ist der Meldungs-\ntext ein anonymes Flex-Element, nicht ansprechbar und nicht schrumpfbar.\n\nERGEBNIS\nDoku-Klassen ohne Gegenstueck: 22 -> 9. Die neun brauchen eine inhaltliche\nEntscheidung, keine Ersetzung.\nKlassen ohne Stylesheet: 58 in 26 Bauteilen -> 50 in 21. Schwellen gesenkt.\nnpm test gruen, styles.css ins Theme synchronisiert.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "data/klassen-hoechstens.json",
+          "plus": 2,
+          "minus": 7,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "docs/content/form-layout.html",
+          "plus": 21,
+          "minus": 21,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/hero.html",
+          "plus": 11,
+          "minus": 11,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/icons.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/pricing.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/template-error-page.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/template-home-hero.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/text-only.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/toast.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/utility-a11y.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "docs/content/utility-visibility.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "doku"
+        },
+        {
+          "pfad": "scripts/korrigiere-doku-klassen.mjs",
+          "plus": 14,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_form-error.scss",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_form-hint.scss",
+          "plus": 8,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        },
+        {
+          "pfad": "scss/scss/06-molecules/_form-label.scss",
+          "plus": 23,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    },
+    {
+      "repo": "Site",
+      "hash": "5cd6cd2",
+      "datum": "2026-08-25T09:00:08+02:00",
+      "autor": "Frank Milius",
+      "betreff": "BACKLOG: Namenskollision geloest, zwei neue Befunde, Klassenzahlen nachgemessen",
+      "rumpf": ".nc-feature-list-Kollision vom 13.08. ist geloest — die Preiskartenliste heisst\njetzt .nc-pricing-features (WEBSITE26 1ef6dca).\n\nZWEI NEUE PUNKTE, beide beim Aufraeumen aufgefallen:\n\n73 x |raw in 40 Theme-Vorlagen. Aufgefallen an einer Zeile, die ich ohnehin\nanfasste: field_store_lead ist string_long, also Klartext ohne Filterformat,\nund stand ungefiltert im Markup — derselbe Weg, ueber den am 24.08. das\nAkkordeon <ul><li> oeffentlich anzeigte. Die eine Stelle ist behoben, 72\nbleiben. Die Mehrheit ist theme-eigenes HTML und harmlos; welche nicht, haengt\nam Feldtyp und ist keine mechanische Entscheidung. Vor einem Livegang\nabzuarbeiten.\n\nDie Markup-Ernte benotet nur __-Bereiche. Bauteile mit einfachem Bindestrich\nsind fuer sie fast unsichtbar; bei zehn sieht sie gar nichts. Bei table-block\nkostete das 880 Zeilen. Folge sofort abgestellt (Gleichstand behaelt den\nBestand, fehlende Marke ist keine Null), Ursache offen: Die Formel zu\nerweitern aendert den Massstab, und die 99 gespeicherten Noten stuenden dann\nauf einer anderen Skala als jeder neue Fund.\n\nNebenbefund: curl ist das falsche Werkzeug fuer Klassen im gerenderten Markup.\nEs meldete null nc-button--md, waehrend zwei JS-Stellen sie weiter schrieben.\n\nZahlen nachgemessen: 58 Vorkommen, 44 verschiedene Klassen, 26 Bauteile — und\nnur 31 der 44 sind echte Befunde. 13 sind im Theme-CSS gestaltet, nur nicht im\nDesign System. Eine Liste, die zu einem Drittel aus Nicht-Problemen besteht,\nwird nicht gelesen.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "BACKLOG.md",
+          "plus": 118,
+          "minus": 15,
+          "binaer": false,
+          "domaene": "doku"
+        }
+      ]
+    },
+    {
+      "repo": "Theme",
+      "hash": "31d297b",
+      "datum": "2026-08-25T08:56:10+02:00",
+      "autor": "Frank Milius",
+      "betreff": "Klassennamen richtigstellen, nc-button--md auch im JS entfernen, |raw abbauen",
+      "rumpf": "DREI BEFUNDE AUS DEM ABGLEICH MIT DEM DESIGN SYSTEM\n\nnc-section-header__lead -> __subtitle. Das Design System kennt nur __subtitle;\n__lead stand an genau einer Stelle im Theme, auf demselben Element an\nderselben Position. Die Klasse war schlicht wirkungslos.\n\nKein |raw mehr auf field_store_lead. Das Feld ist string_long, also Klartext\nohne Filterformat — was eine Redaktion dort tippt, stuende ungefiltert im\nMarkup. Denselben Weg ging am 24.08. das Akkordeon, das <ul><li> oeffentlich\nanzeigte. Twig maskiert von allein. (Im Theme stehen noch 73 weitere |raw in\n40 Vorlagen; die meisten sind theme-eigenes HTML, aber nicht alle. Als eigene\nDurchsicht im BACKLOG vermerkt.)\n\nnc-button--md an zwei Stellen in neo-theme.js. Die Klasse steht in keinem\nStylesheet — MD ist der Vorgabewert. Am 24.08. wurde sie aus den Vorlagen\nentfernt, diese beiden Stellen blieben stehen, weil damals nur templates/\ndurchsucht wurde. Aufgefallen ist es erst, als die Markup-Ernte sie wieder\neinsammelte: Sie faehrt einen Browser und sieht deshalb auch, was JavaScript\nerzeugt. curl sah null Vorkommen und lag falsch.\n\nFeste Farben aus dem Haken-SVG entfernt. fill=\"#AEF359\" war nicht einmal mehr\ndie Akzentfarbe (#37e93d) — 47 Haken auf der Editionsseite waren sichtbar\nanders gruen als jedes andere Akzentelement. Die Farbe steht jetzt allein im\nDesign System unter .nc-tbl-icon--check. Nachgemessen im Browser:\nKreisfuellung rgb(55,233,61), Strich schwarz, Kontrast 12,89:1.\n\nstyles.css aus dem Design System nachgezogen (Commit 45c7ba2 dort).\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "css/styles.css",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "js/neo-theme.js",
+          "plus": 15,
+          "minus": 3,
+          "binaer": false,
+          "domaene": "theme"
+        },
+        {
+          "pfad": "templates/block/block--block-content--neo-app-store.html.twig",
+          "plus": 8,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "theme"
+        }
+      ]
+    },
+    {
+      "repo": "Design System",
+      "hash": "45c7ba2",
+      "datum": "2026-08-25T08:55:18+02:00",
+      "autor": "Frank Milius",
+      "betreff": "Ernte: Gleichstand behaelt den Bestand; .nc-tbl-icon--check bekommt eine Regel",
+      "rumpf": "DIE ERNTE HAT 880 ZEILEN WEGGEWORFEN\nEin Lauf stutzte data/markup/table-block.html von 992 auf 115 Zeilen — aus 172\nTabellenzellen mit fuenf .nc-tbl-info-icon wurden 16 Zellen ohne ein einziges.\nZwei Ursachen wirkten zusammen:\n\n1. Die Absicherung schuetzte den Altbestand nicht. Eine Datei ohne\n   @punkte-Marke galt als Note -1, also als wertlos. Ausgerechnet die Dateien\n   aus der Zeit VOR der Bewertung waren damit ungeschuetzt. Der Bestand wird\n   jetzt nach derselben Formel benotet wie ein Fund.\n\n2. Bei Gleichstand gewann der Fund. Die Formel zaehlt nur Bereiche in\n   __-Schreibweise; nc-tbl-cell und nc-tbl-info-icon heissen mit einfachem\n   Bindestrich und sind fuer sie unsichtbar (bei zehn Bauteilen sieht sie\n   ueberhaupt nichts). 2 Punkte gegen 2 Punkte, und die kleinere Datei gewann.\n   Jetzt gilt: gleich benotet heisst behalten. Wer nicht unterscheiden kann,\n   soll nichts wegwerfen. Zum Auffrischen gibt es --erzwingen.\n\nDie Benotung steht jetzt EINMAL da (punkteAusHtml in Node) und wird per\ntoString() in die Seite gereicht. Zwei Fassungen derselben Formel waeren genau\ndie Dublette, vor der die Formel schuetzen soll — und ein Vergleich zwischen\nzwei Massstaeben ist kein Vergleich.\n\nDER HAKEN DER VERGLEICHSTABELLE WAR VON DER PALETTE ABGEDRIFTET\n.nc-tbl-icon--check stand im Markup und gestaltete nichts; die Farben steckten\nfest im SVG, das neo-theme.js baut. Der Gruenton dort (#AEF359) war nicht\neinmal mehr die Akzentfarbe (#37e93d) — 47 Haken waren sichtbar anders gruen\nals jedes andere Akzentelement, und keine Palettenaenderung haette sie je\nerreicht. Die Regel steht jetzt in 05-atoms/_tbl-icon.scss neben --dash, die\nFarbwerte im SVG sind ersatzlos weg (ein Rueckfallwert waere der zweite Ort,\nan dem es losging).\n\nIm Browser nachgemessen: 47 Haken, Kreisfuellung rgb(55,233,61) = das\nAkzent-Token, Strich schwarz, kein Restattribut. Kontrast Haken auf Kreis\n12,89:1 (WCAG 1.4.11 verlangt 3:1); die Bedeutung traegt die Hakenform, nicht\ndas Gruen (1.4.1).\n\nMarkup neu geerntet, wo das Theme sich geaendert hat: nc-button--md ist raus\n(auch aus den zwei JS-Stellen, die der Fix vom 24.08. uebersah, weil damals\nnur templates/ durchsucht wurde), nc-section-header__lead heisst jetzt\n__subtitle.\n\nKlassen ohne Stylesheet: 64 in 30 Bauteilen -> 58 in 26. Schwellen gesenkt.\nnpm test gruen.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+      "dateien": [
+        {
+          "pfad": "data/klassen-hoechstens.json",
+          "plus": 3,
+          "minus": 7,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/app-store.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/card-cta.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/card-grid-cta.html",
+          "plus": 6,
+          "minus": 6,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/compare-table.html",
+          "plus": 99,
+          "minus": 15,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/footer.html",
+          "plus": 1,
+          "minus": 1,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/form-label.html",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/kbd.html",
+          "plus": 2,
+          "minus": 2,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/solution-tabs.html",
+          "plus": 14,
+          "minus": 14,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/tab-nav.html",
+          "plus": 14,
+          "minus": 14,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "data/markup/timeline.html",
+          "plus": 4,
+          "minus": 4,
+          "binaer": false,
+          "domaene": "sonst"
+        },
+        {
+          "pfad": "scripts/ernte-markup.mjs",
+          "plus": 60,
+          "minus": 18,
+          "binaer": false,
+          "domaene": "messstand"
+        },
+        {
+          "pfad": "scss/scss/05-atoms/_tbl-icon.scss",
+          "plus": 18,
+          "minus": 0,
+          "binaer": false,
+          "domaene": "ds"
+        }
+      ]
+    }
+  ],
+  "jeDomaene": {
+    "skills": {
+      "name": "Agenten & Skills",
+      "was": "Wie ich arbeite — Skills, Agentenrollen, Regelwerke.",
+      "commits": 1,
+      "dateien": 1,
+      "plus": 1,
+      "minus": 1,
+      "kosten": 142.69366879922444
+    },
+    "messstand": {
+      "name": "Messstände & Werkzeuge",
+      "was": "Womit Behauptungen belegt werden — Prüfskripte und Referenzstände.",
+      "commits": 3,
+      "dateien": 3,
+      "plus": 75,
+      "minus": 21,
+      "kosten": 814.3884508406696
+    },
+    "storybook": {
+      "name": "Storybook",
+      "was": "Die begehbare Bauteilbibliothek.",
+      "commits": 0,
+      "dateien": 0,
+      "plus": 0,
+      "minus": 0,
+      "kosten": 6.282474609317894
+    },
+    "konfig": {
+      "name": "Konfig-App",
+      "was": "Womit ein Kundendesign eingestellt wird, ohne Code anzufassen.",
+      "commits": 1,
+      "dateien": 2,
+      "plus": 64,
+      "minus": 13,
+      "kosten": 21.52340400709733
+    },
+    "ds": {
+      "name": "Design System",
+      "was": "Die Quelle der Wahrheit — SCSS, Token, ITCSS-Ebenen.",
+      "commits": 3,
+      "dateien": 11,
+      "plus": 182,
+      "minus": 47,
+      "kosten": 824.9200166746614
+    },
+    "doku": {
+      "name": "Dokumentation",
+      "was": "Recipes und begründende Texte.",
+      "commits": 10,
+      "dateien": 14,
+      "plus": 403,
+      "minus": 110,
+      "kosten": 590.1641490955576
+    },
+    "theme": {
+      "name": "Theme",
+      "was": "Was die Website davon tatsächlich zeigt — Twig, JS, Theme-CSS.",
+      "commits": 3,
+      "dateien": 6,
+      "plus": 78,
+      "minus": 74,
+      "kosten": 1142.0076447762308
+    },
+    "site": {
+      "name": "Drupal-Site",
+      "was": "Konfiguration, Blocktypen, Abhängigkeiten.",
+      "commits": 3,
+      "dateien": 1,
+      "plus": 228,
+      "minus": 223,
+      "kosten": 215.6933234317479
+    },
+    "sonst": {
+      "name": "Projektgerüst",
+      "was": "Build, Abhängigkeiten, Ignorierlisten — trägt kein Interface.",
+      "commits": 3,
+      "dateien": 14,
+      "plus": 164,
+      "minus": 89,
+      "kosten": 2147.9241022654837
+    }
+  },
+  "bestand": {
+    "ds": {
+      "komponenten": 145,
+      "ebenen": {
+        "05-atoms": 36,
+        "06-molecules": 49,
+        "07-organisms": 50,
+        "08-templates": 9,
+        "09-pages": 1
+      },
+      "ohneRecipe": 24,
+      "ohneStory": 24
+    },
+    "konfig": {
+      "gruppen": 112,
+      "vueKomponenten": 95
+    },
+    "storybook": {
+      "stories": 146
+    },
+    "doku": {
+      "recipes": 130,
+      "markdown": 275
+    },
+    "messstand": {
+      "skripte": 32,
+      "referenzstaende": 51
+    },
+    "theme": {
+      "templates": 78,
+      "js": 18,
+      "css": 16
+    },
+    "site": {
+      "configExporte": 1848
+    },
+    "skills": {
+      "skills": 18,
+      "agenten": 1,
+      "regeln": 5
+    }
+  },
+  "befunde": [
+    {
+      "id": "doppelungen",
+      "domaene": "ds",
+      "titel": "Wurzelklassen auf zwei Ebenen",
+      "wert": 0,
+      "gut": true,
+      "text": "Jede Wurzelklasse wird auf genau einer Ebene geführt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "skillebene",
+      "domaene": "skills",
+      "titel": "Skills unversioniert oder nicht ladbar",
+      "wert": 0,
+      "gut": true,
+      "text": "Alles versioniert, ladbar und benannt.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    },
+    {
+      "id": "verirrt",
+      "domaene": "konfig",
+      "titel": "Build-Artefakte im Wurzelverzeichnis",
+      "wert": 0,
+      "gut": true,
+      "text": "Keine. Build-Ausgaben liegen, wo sie hingehören.",
+      "seit": null,
+      "tage": 0,
+      "neu": false
+    }
+  ],
+  "entscheidungen": {
+    "gesamt": 17,
+    "haltbar": 17,
+    "gebrochen": 0,
+    "unpruefbar": 0,
+    "liste": [
+      {
+        "id": "lime-markenwert",
+        "titel": "Lime #37e93d ist der Markenwert",
+        "seit": "2026-08-13",
+        "warum": "Cyan und Dunkelblau sind als Primaer- und Sekundaerfarbe abgeloest. Lime traegt den Akzent, Graphit die Flaeche.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_neutral-ramps.scss",
+          "regex": "#37e93d"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 18
+      },
+      {
+        "id": "lime-traegt-keinen-text",
+        "titel": "Lime 500 wird nie zur Schriftfarbe",
+        "seit": "2026-08-13",
+        "warum": "#37e93d kommt auf Weiss auf 1,7:1. Fuer Text steht ein abgedunkelter Ton daneben; der Markenwert markiert nur Flaeche und Kante.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-theme.scss",
+          "regex": "--accent-underline"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 18
+      },
+      {
+        "id": "interaktiv-nicht-mehr-cyan",
+        "titel": "Interaktionsfarbe ist nicht mehr Cyan oder Dunkelblau",
+        "seit": "2026-08-13",
+        "warum": "Der Wechsel auf Monochrom-Graphit. Die Bruecke in _mono-bridge.scss bildet die 71 Altbestand-Token auf die neuen Leitern ab.",
+        "notiz": "Geprueft wird die Bruecke selbst. Die Bereiche .customer-*, .*-base-theme und .*-secondary-theme fuehren weiterhin die alten Werte — sie werden derzeit von keinem Markup benutzt, waeren aber beim Aktivieren eine Falle.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_mono-bridge.scss",
+          "regex": "--fnd-color-interactive-default"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 18
+      },
+      {
+        "id": "underline-offset-4",
+        "titel": "Unterstrich-Abstand ist 4px, als Token",
+        "seit": "2026-08-17",
+        "warum": "Von 3px erhoeht. Als Token, damit Design System, Konfig-App und Dokumentation denselben Wert fuehren statt drei Abschriften.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--fnd-underline-offset: *4px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 14
+      },
+      {
+        "id": "label-gewicht-800",
+        "titel": "Etikett der Abschnittsueberschrift steht auf 800",
+        "seit": "2026-06-16",
+        "warum": "Zusammen mit dem dunklen Grau aus der Schwarz-Palette statt der frueheren Akzentfarbe — ein Gattungsetikett ordnet ein, es ruft nicht auf.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-section-header-label-font-weight: *800"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 76
+      },
+      {
+        "id": "card-summary-icon-60",
+        "titel": "Karten-Symbol misst 60px ueber sein Token",
+        "seit": "2026-07-30",
+        "warum": "Von 32px vergroessert, ueber das dafuer vorgesehene Token statt eines festen Werts.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "--nc-card-summary-icon-size: *60px"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 32
+      },
+      {
+        "id": "card-atom-geloescht",
+        "titel": "Das Card-Atom bleibt geloescht",
+        "seit": "2026-08-18",
+        "warum": "Echte Ebenen-Doppelung: Es fuehrte .nc-card ein zweites Mal und verlor jede Regel an das Molekuel. Belegt mit baseline:diff, 28858 Werte, keine Abweichung.",
+        "probe": {
+          "art": "abwesend",
+          "datei": "scss/scss/05-atoms/_card.scss"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "ddev-ohne-mutagen",
+        "titel": "DDEV laeuft ohne Mutagen",
+        "seit": "2026-07-28",
+        "warum": "Mutagen hing fest, Dateien synchronisierten nicht mehr. performance_mode: none nutzt den Bind-Mount.",
+        "probe": {
+          "art": "muster",
+          "repo": "site",
+          "datei": ".ddev/config.yaml",
+          "regex": "performance_mode: *none"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 34
+      },
+      {
+        "id": "claude-verzeichnis-versioniert",
+        "titel": "Skills, Agenten und Regeln liegen im Repo",
+        "seit": "2026-08-18",
+        "warum": "Vierzehn Skills lagen unversioniert auf einer Maschine, getarnt durch ein git status, das brav clean meldete. Die Verzeichnisse sind als Ganzes freigegeben, damit ein neuer Skill ohne Aenderung an .gitignore mitkommt.",
+        "probe": {
+          "art": "muster",
+          "datei": ".gitignore",
+          "regex": "!\\.claude/skills/"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "slider-umbenennen",
+        "titel": "Der Slider-Namenskonflikt ist durch Umbenennen geloest",
+        "seit": "2026-08-18",
+        "warum": "05-atoms fuehrte einen Range-Regler, 06-molecules ein Karussell — zwei Bauteile, ein Name. Am 18.08.2026 BEIDE umbenannt: .nc-range und .nc-carousel. Beide, nicht eines von beiden: Bei einem geteilten Namen ist jede Loeschung eine Loeschung zu viel, und wer nur eines umbenennt, laesst den anderen auf einem Namen sitzen, der eine Verwechslung ueberlebt hat. .nc-slider kommt im gebauten CSS nicht mehr vor.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-slider",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-flaeche-paarweise",
+        "titel": "Hero-Flaechen setzen Grund UND Schrift",
+        "seit": "2026-08-18",
+        "warum": "Eine Flaeche ohne passenden Vordergrund ergibt weisse Schrift auf hellem Grund. Der Mixin hero-textfarben deklariert die abgeleiteten Token im Modifier erneut — eine Ableitung in :root wird DORT aufgeloest und reagiert nicht auf ein spaeteres Ueberschreiben. Genau daran war der erste Versuch gescheitert.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-textfarben"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-ohne-lime-flaeche",
+        "titel": "Der Hero bekommt keine Lime-Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Ausdruecklich verworfen. field_surface kennt zwar accent, der Hero bedient es aber nicht und faellt auf dunkel zurueck. Waere die Flaeche Lime, muesste jede Schrift darauf neu geprueft werden — und Lime 500 traegt keinen Text.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "nc-hero--surface-accent",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-mark-flaechenabhaengig",
+        "titel": "Die Ueberschrift-Hervorhebung haengt an der Flaeche",
+        "seit": "2026-08-18",
+        "warum": "Der Balken liegt HINTER dem Text; entscheidend ist die Schrift gegen den Balken, nicht der Balken gegen die Flaeche. Gemessen: accent-200 unter weisser Schrift 1,21:1, accent-800 6,41:1. Ein einziger Vorgabewert fuer beide Flaechen waere deshalb falsch.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/00-settings/_component-tokens.scss",
+          "regex": "--nc-hero-mark-on-dark: *var\\(--fnd-accent-800\\)"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-eine-vorlage",
+        "titel": "Der Hero hat genau eine Vorlage",
+        "seit": "2026-08-18",
+        "warum": "Die Layout-Builder-Fassung war eine byteweise identische Kopie von 154 Zeilen. Die Erweiterung landete zuerst nur in der einen Datei — im Layout Builder blieb alles beim Alten, ohne Fehler und ohne Hinweis. Jetzt verweist die eine auf die andere.",
+        "probe": {
+          "art": "muster",
+          "repo": "theme",
+          "datei": "templates/block/block--inline-block--neo-hero.html.twig",
+          "regex": "include '@neo_fe/block/block--block-content--neo-hero"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-ohne-product-variante",
+        "titel": "Der Hero hat keine product-Variante",
+        "seit": "2026-08-18",
+        "warum": "Das Recipe fuehrte sie als E-Commerce-Hero mit Warenkorb-CTA. Diese Site hat kein Commerce-Modul, keinen Produkt-Inhaltstyp und keinen Warenkorb. Statt Code zu bauen, den niemand einsetzt, ist die Variante aus dem Recipe entfernt worden — samt Specimen, Regel und Token-Gruppe.",
+        "probe": {
+          "art": "muster",
+          "datei": "data/hero-recipe.json",
+          "regex": "nc-hero--product",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-split-buendig",
+        "titel": "Das Split-Medium reicht bis zum Viewport-Rand",
+        "seit": "2026-08-18",
+        "warum": "Der naheliegende Weg calc(50% - 50vw) ist an einem Grid-Element falsch: Prozente beziehen sich dort auf das Grid-Areal, also die halbe Spalte. Gerechnet wird deshalb ohne Prozente aus Container-Padding und halber ungenutzter Containerbreite. Gemessen bei 1920/1600/1440/1200/1100 px jeweils 0 px Abstand zur Kante, kein waagerechter Ueberlauf bei sieben Breiten von 390 bis 1920.",
+        "probe": {
+          "art": "muster",
+          "datei": "scss/scss/07-organisms/_hero.scss",
+          "regex": "@mixin hero-split-ueberstand"
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      },
+      {
+        "id": "hero-attrappe-heisst-mockup",
+        "titel": "Die Dashboard-Attrappe heisst .nc-hero__mockup",
+        "seit": "2026-08-18",
+        "warum": "Sie hiess .nc-hero__card — einen Buchstaben von .nc-hero__cards entfernt, dem Kennzahlen-Raster im Fuss. Ihre Kacheln hiessen .nc-hero__metric und standen damit neben dem Molekuel .nc-metric, das seit dem Fuss im selben Hero vorkommt. Keine Kaskaden-Kollision, aber zwei Lesefallen — und die kosten hier mehr als Kaskadenfehler, weil sie niemand misst. Umbenennung belegt mit baseline:diff: 28954 Werte, keine Abweichung.",
+        "probe": {
+          "art": "muster",
+          "datei": "styles.css",
+          "regex": "\\.nc-hero__card[^s]",
+          "erwartet": false
+        },
+        "status": "gilt",
+        "haelt": true,
+        "bemerkung": "",
+        "alterTage": 13
+      }
+    ]
+  },
+  "cssGewicht": {
+    "jetzt": {
+      "bytes": 1192636,
+      "regeln": 6656,
+      "selektoren": 7728,
+      "eigenschaften": 5037
+    },
+    "vorher": {
+      "bytes": 1190303,
+      "regeln": 6646,
+      "selektoren": 7715,
+      "eigenschaften": 4980
+    },
+    "delta": {
+      "bytes": 2333,
+      "regeln": 10,
+      "eigenschaften": 57
+    }
+  },
+  "backlog": {
+    "gesamt": 147,
+    "erledigt": 76,
+    "offen": 71,
+    "abschnitte": 38,
+    "stand": "2026-07-29",
+    "delta": {
+      "zugefuegt": 8,
+      "abgearbeitet": 17
+    }
+  },
+  "autoren": {
+    "eigen": "Frank Milius",
+    "liste": [
+      {
+        "name": "Frank Milius",
+        "commits": 17,
+        "dateien": 63,
+        "eigen": true
+      }
+    ],
+    "fremdCommits": 0,
+    "fremdAnteil": 0
+  },
+  "ungenutzt": {
+    "stand": "nach-typoskala",
+    "gesamt": 266,
+    "ungenutzt": 195,
+    "beispiele": [
+      "nc-alert",
+      "nc-avatar",
+      "nc-avatar-group",
+      "nc-badge",
+      "nc-button-group",
+      "nc-button--full",
+      "nc-checkbox",
+      "nc-chip-group",
+      "nc-code-snippet--inline",
+      "nc-code-snippet--multi",
+      "nc-code-snippet--single",
+      "nc-code-snippet--header-plain"
+    ]
+  },
+  "nacharbeit": {
+    "commits": 17,
+    "korrektur": 1,
+    "aufFrischem": 17,
+    "quote": 6
+  },
+  "gesamtstrecke": {
+    "beruehrt": 5,
+    "vollstaendig": 4,
+    "luecken": [
+      {
+        "komponente": "tbl-icon",
+        "fehlt": [
+          "Recipe",
+          "Story",
+          "Konfig-App"
+        ]
+      }
+    ]
+  },
+  "kosten": {
+    "gesamt": 5912.335040249991,
+    "unzuordenbar": 6.737805749999999,
+    "sitzungen": 5,
+    "abonnement": true,
+    "waehrung": "USD",
+    "token": {
+      "input": 12466,
+      "output": 6540441,
+      "cacheWrite": 28414565,
+      "cacheRead": 3259227921
+    },
+    "modelle": {
+      "claude-opus-5": 6498,
+      "<synthetic>": 6
+    }
+  }
+}
