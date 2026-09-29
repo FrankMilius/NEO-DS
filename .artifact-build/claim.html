@@ -1,0 +1,628 @@
+
+<title>Zehn Wege aus zwei Substantiven</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+  td.do,.do{color:var(--signal);font-weight:600}
+
+  /* ── Claim-Karten: der Satz trägt die Seite, nicht die Auszeichnung ── */
+  .cl{border:1px solid var(--border);background:var(--surface);padding:30px 30px 32px;margin-bottom:14px}
+  .cl-1{border-left:3px solid var(--signal)}
+  .cl-w{background:var(--sunk)}
+  .cl-n{font-family:var(--f-tech);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+        color:var(--faint);margin:0 0 18px}
+  .cl-1 .cl-n{color:var(--signal)}
+  .cl-t{font-family:var(--f-brand);font-weight:700;
+        font-size:clamp(25px,3.6vw,42px);line-height:1.08;letter-spacing:-.028em;
+        margin:0 0 24px;max-width:19ch;text-wrap:balance}
+  .cl-w .cl-t{color:var(--faint)}
+  .cl-b{max-width:70ch;border-top:1px solid var(--hair);padding-top:20px}
+  .cl-b p{font-size:15px;color:var(--muted);margin:0 0 12px;line-height:1.55}
+  .cl-b p:last-child{margin-bottom:0}
+  .cl-b b{color:var(--text)}
+  .tag{display:inline-block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;
+       text-transform:uppercase;padding:3px 8px;border:1px solid var(--border);
+       color:var(--faint);margin-right:8px;vertical-align:2px}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.bad{border-color:#c4363f;color:#c4363f}
+  td.c{font-size:15px;line-height:1}
+  td.c.no{color:var(--border)}
+  .card p+p{margin-top:11px}
+</style>
+
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Claim-Entwicklung auf Basis der Marktanalyse und der Klarheits-Auswertung</p>
+  <h1>Zehn Wege aus zwei Substantiven</h1>
+  <p class="lede">Der bestehende Claim hat eine gute Architektur und ein schlechtes Vokabular. Diese zehn Varianten entwickeln ihn entlang von sechs Achsen weiter — vom kleinsten Eingriff bis zur radikalen Verkürzung. Die Reihenfolge ist meine Rangfolge.</p>
+  <div class="meta">
+    <div><dt>Varianten</dt><dd>10, gereiht</dd></div>
+    <div><dt>Kriterien</dt><dd>6, offengelegt</dd></div>
+    <div><dt>Empfehlung</dt><dd>3 Zeilen, 3 Aufgaben</dd></div>
+    <div><dt>Gesperrt</dt><dd>1 Formulierung</dd></div>
+  </div>
+</header>
+
+<div class="law">
+  <p>Relevanz für jeden. Klarheit für alle.</p>
+  <p class="src">Der Stand — Ausgangspunkt, nicht Maßstab</p>
+</div>
+
+<div class="verdict">
+  <p><strong>Was der Claim kann.</strong> Seine Architektur ist besser, als sie aussieht. <b>„Für jeden"</b> und <b>„für alle"</b> sind nicht dasselbe: Das eine meint jeden einzeln, das andere alle zusammen. Damit trifft der Satz zufällig genau die Leiter aus dem Klarheitsbuch — individuelle Klarheit, dann synchronisierte. <b>Diese Struktur ist erhaltenswert.</b> Sie kommt in allen guten Varianten wieder vor.</p>
+  <p><strong>Was er nicht kann.</strong> Drei Schwächen, in aufsteigender Schwere. Er hat <b>kein Verb</b> — zwei Substantive nebeneinander benennen einen Zustand, statt eine Bewegung zu beschreiben. Er hat <b>keinen Gegner</b> — nach der Buchauswertung wäre einer verfügbar. Und, vermeintlich am schwersten: <b>„Relevanz" sei ein Beraterwort</b>, weil niemand an der Werkbank so spricht. <b><span style="color:#c4363f">Dieser dritte Einwand ist zurückgezogen.</span></b> Er war methodisch falsch — die Begründung und der Begriffstest, der ihn widerlegt, stehen in Abschnitt 05. Die beiden ersten Einwände bleiben, wiegen aber weniger, als sie zunächst schienen.</p>
+</div>
+
+<div class="subhead"><span>—</span><h3>Wonach ich reihe</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Kriterium</th><th scope="col">Die Prüffrage dahinter</th></tr></thead>
+    <tbody>
+      <tr><td><b>Sagbarkeit</b></td><td>Zitiert eine Kommunikationsleiterin den Satz in ihrer Vorstandsvorlage — und ein CIO im Gespräch mit dem Einkauf? <span class="no">(Berichtigt am 31.08.; die frühere Fassung fragte nach der Frontline. Warum das falsch war, steht in Abschnitt 05.)</span></td></tr>
+      <tr><td><b>Besetzbarkeit</b></td><td>Könnten Staffbase, Unily oder Simpplr denselben Satz auf ihre Startseite setzen?</td></tr>
+      <tr><td><b>Spannweite</b></td><td>Trägt er vom Speiseplan bis zur Verfahrensanweisung — und für Werkstatt wie Sachbearbeitung?</td></tr>
+      <tr><td><b>Einklang</b></td><td>Sagt der Satz dasselbe wie der gestalterische Mechanismus: auswählen, markieren, weglassen?</td></tr>
+      <tr><td><b>Belegbarkeit</b></td><td>Lässt sich messen, ob er eingelöst wird — oder bleibt er Behauptung?</td></tr>
+      <tr><td><b>Haltbarkeit</b></td><td>Steht der Satz 2030 noch, wenn KI selbstverständlich ist?</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>01</span><h3>Die direkte Weiterentwicklung</h3></div>
+
+<div class="cl cl-1">
+  <p class="cl-n">Platz 01</p>
+  <p class="cl-t">Jeder sieht, was ihn angeht.<br>Alle wissen, was gilt.</p>
+  <div class="cl-b">
+    <p><b>Die Architektur bleibt, das Vokabular fällt.</b> Beide Hälften behalten ihre Rolle — jeder einzeln, dann alle zusammen —, aber jedes Substantiv wird zum Verb: aus Relevanz wird <em>sehen</em>, aus Klarheit wird <em>wissen</em>. Ein Satz mit Verben beschreibt einen Vorgang; ein Satz aus Substantiven beschreibt einen Zustand, den jemand behauptet.</p>
+    <p><b>„Was gilt" sind die stärksten zwei Wörter im ganzen Feld.</b> Sie decken die volle Spannweite ab, ohne sie aufzuzählen: Der Speiseplan gilt heute, die Verfahrensanweisung gilt seit Montag, die Schichtregel gilt für diese Station. Für Rentenversicherung, Krankenkassen und Polizei ist <em>Geltung</em> zudem der Kernbegriff der eigenen Arbeit — der Satz spricht ihre Sprache, ohne sich anzubiedern.</p>
+    <p><span class="tag on">stark bei</span> Sagbarkeit · Spannweite · Belegbarkeit — „weiß jemand, was gilt?" ist eine Frage, die man tatsächlich stellen kann.</p>
+    <p><span class="tag bad">schwach bei</span> Prägnanz. Neun Wörter statt sechs. Auf einer Messewand braucht er zwei Zeilen, wo der alte eine gebraucht hätte.</p>
+  </div>
+</div>
+
+<div class="cl">
+  <p class="cl-n">Platz 02</p>
+  <p class="cl-t">Damit jeder weiß, was gilt.</p>
+  <div class="cl-b">
+    <p><b>Die radikale Verkürzung nach unten.</b> Ein Nebensatz, fünf Wörter, ein Zweck. Er sagt nicht, was das Produkt ist, sondern wozu es da ist — und das ist für einen Claim meist die bessere Wahl.</p>
+    <p><b>Der sagbarste Satz im ganzen Feld.</b> Man kann ihn ans Ende eines Telefonats hängen, ohne dass es nach Marketing klingt. Genau daran scheitern die meisten Claims.</p>
+    <p><span class="tag on">stark bei</span> Sagbarkeit · Haltbarkeit — an diesem Satz altert nichts.</p>
+    <p><span class="tag bad">schwach bei</span> der zweiten Hälfte. Er verliert das Kollektive: <em>jeder</em> weiß es, aber ob alle dasselbe wissen, sagt er nicht. Damit fällt die Stufe, auf der die Marke sich unterscheiden wollte.</p>
+  </div>
+</div>
+
+<div class="cl">
+  <p class="cl-n">Platz 03</p>
+  <p class="cl-t">Relevanz für jeden.<br>Verstehen für alle.</p>
+  <div class="cl-b">
+    <p><b>Ein Wort geändert, die ganze Beweislast verschoben.</b> Klarheit ist ein Zustand, den man behaupten kann. <em>Verstehen</em> ist ein Vorgang, der beim Empfänger stattfindet oder nicht. Damit rückt der Claim genau dorthin, wo die Auswertung den Beleg verortet hat: in den Abstand zwischen Senden und Verstehen.</p>
+    <p><b>Der kleinste mögliche Eingriff.</b> Rhythmus, Länge und Satzbau bleiben identisch — nichts, was auf Folien, Messeständen oder in der Vorlagenbibliothek nachgezogen werden müsste, ändert seine Form.</p>
+    <p><span class="tag on">stark bei</span> Belegbarkeit · Umstellungsaufwand.</p>
+    <p><span class="tag bad">schwach bei</span> dem Problem, das der Anlass war: <b>„Relevanz" bleibt stehen.</b> Der Satz behebt die zweite Hälfte und lässt die erste, wie sie ist.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>02</span><h3>Die konzedierenden</h3></div>
+
+<div class="cl">
+  <p class="cl-n">Platz 04</p>
+  <p class="cl-t">Alles ist da.<br>Wir zeigen, was zählt.</p>
+  <div class="cl-b">
+    <p><b>Der ehrlichste Satz im Feld.</b> Er gibt die Transparenzebene zu — die das Produkt tatsächlich hat, mit Suche, Konnektoren und einer Oberfläche — und legt den Wert auf den zweiten Schritt. Damit nimmt er dem Wettbewerb sein Argument ab, statt es zu bestreiten.</p>
+    <p><b>Vertriebsfähig ohne Übersetzung.</b> Er beantwortet die erste Rückfrage jedes Einkäufers („haben Sie das auch?") schon im ersten Halbsatz.</p>
+    <p><span class="tag on">stark bei</span> Sagbarkeit · Einklang — „zeigen, was zählt" ist wörtlich die Aufgabe des Signals.</p>
+    <p><span class="tag bad">schwach bei</span> der Haltung. <b>„Wir zeigen" macht die Plattform zur Instanz</b>, die entscheidet, was den Beschäftigten zusteht. In Häusern mit starkem Betriebsrat ist das der falsche Satz.</p>
+  </div>
+</div>
+
+<div class="cl">
+  <p class="cl-n">Platz 05</p>
+  <p class="cl-t">Was Sie angeht, ist markiert.</p>
+  <div class="cl-b">
+    <p><b>Die einzige Variante, die das Designsystem <em>ist</em>.</b> Das Signal markiert das Zutreffende — genau das sagt der Satz, wörtlich. Produktaussage und gestalterischer Mechanismus fallen zusammen, statt sich nur zu ähneln. Das war die Forderung, an der der frühere Systementwurf gescheitert ist.</p>
+    <p><b>Und er löst das Vollständigkeitsproblem.</b> Er verspricht keine Klarheit über alles, sondern eine Markierung an einer Stelle. Kleiner, aber einlösbar.</p>
+    <p><span class="tag on">stark bei</span> Einklang — hier unerreicht.</p>
+    <p><span class="tag bad">schwach bei</span> Wärme. <b>„Markiert" ist ein Systemwort</b>, kein Menschenwort — es klingt nach Kennzeichnung, nicht nach Zuwendung. Als Kapitelmotto in Kapitel 05 stark, als Dachclaim zu kühl.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>03</span><h3>Die zuspitzenden</h3></div>
+
+<div class="cl">
+  <p class="cl-n">Platz 06</p>
+  <p class="cl-t">Klarheit für alle.</p>
+  <div class="cl-b">
+    <p><b>Die Konsequenz aus der Marktanalyse, wörtlich genommen.</b> Der Befund lautete: Relevanz verspricht jeder, Klarheit keiner — wer kürzen müsste, müsste die erste Hälfte streichen. Diese Variante tut das. Drei Wörter, die kein Wettbewerber besetzt hat.</p>
+    <p><span class="tag on">stark bei</span> Besetzbarkeit · Prägnanz.</p>
+    <p><span class="tag bad">schwach bei</span> zwei Dingen zugleich, und beide wiegen. <b>Ohne die erste Hälfte fehlt die Personalisierung</b> — ausgerechnet die Fähigkeit, die das Produkt hat. Und allein gestellt liest sich der Satz als Vollständigkeitsversprechen, das das Klarheitsbuch ausdrücklich für uneinlösbar erklärt. Er bräuchte einen definierenden Satz daneben, um zu stehen — und ein Claim, der eine Fußnote braucht, ist keiner.</p>
+  </div>
+</div>
+
+<div class="cl">
+  <p class="cl-n">Platz 07</p>
+  <p class="cl-t">Vom Speiseplan<br>bis zur Verfahrensanweisung.</p>
+  <div class="cl-b">
+    <p><b>Die mutigste Zeile im Feld.</b> Keine Abstraktion, kein Anglizismus, kein Wort, das man erklären müsste. Sie ist unverwechselbar — keiner der acht Wettbewerber würde sie wagen, weil sie das Produkt scheinbar kleinmacht. Genau darin liegt ihre Kraft: Sie beweist Spannweite, statt sie zu behaupten, und trifft die tatsächliche Nutzung.</p>
+    <p><span class="tag on">stark bei</span> Besetzbarkeit · Spannweite · Erinnerbarkeit.</p>
+    <p><span class="tag bad">schwach bei</span> der Aussage selbst. <b>Sie beschreibt Reichweite, nicht Klarheit</b> — inhaltlich also die Kategorie, aus der die Marke gerade heraus will. Und sie nennt den trivialsten Anwendungsfall zuerst, was in einer Preisverhandlung teuer werden kann. Hervorragende <em>Untezeile</em>, kein Dachclaim.</p>
+  </div>
+</div>
+
+<div class="cl">
+  <p class="cl-n">Platz 08</p>
+  <p class="cl-t">Zugang haben alle.<br>Klarheit nicht.</p>
+  <div class="cl-b">
+    <p><b>Der Gegner, ausgesprochen.</b> Die Auswertung hat ihn geliefert: Transparenz schafft Zugang und damit Fülle; Klarheit wählt aus. Dieser Satz macht die Verwechslung sichtbar, ohne einen Wettbewerber zu nennen — und trifft jeden von ihnen.</p>
+    <p><span class="tag on">stark bei</span> Schärfe. Als <b>Kampagnenzeile die beste im Feld</b>, für Anzeige, Messewand, Vortragstitel.</p>
+    <p><span class="tag bad">schwach bei</span> der Gattung. <b>Ein Claim muss versprechen, nicht diagnostizieren.</b> Dieser Satz sagt, was fehlt, und lässt offen, wer es bringt. Als Dach über einem Auftritt wäre er auf Dauer eine Beschwerde.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>04</span><h3>Die verworfenen</h3></div>
+
+<div class="cl cl-w">
+  <p class="cl-n">Platz 09</p>
+  <p class="cl-t">Nicht mehr sehen.<br>Klarer sehen.</p>
+  <div class="cl-b">
+    <p><b>Der Gedanke stimmt, die Wörter tragen ihn nicht.</b> Gemeint ist die Auswahl: nicht die Menge erhöhen, sondern die Schärfe. Aber der Satz beginnt mit einer Verneinung — dieselbe Figur, die schon aus der Brand Idea gestrichen wurde, weil eine Marke sich nicht über das definiert, was sie verwirft.</p>
+    <p><span class="tag bad">und das eigentliche Risiko</span> <b>„Nicht mehr sehen" liest sich in einer Mitarbeiterplattform als Einschränkung.</b> In der ersten Betriebsratssitzung wird aus dem Satz die Frage, wer entscheidet, was jemand nicht mehr sieht. Ein Claim, der diese Frage aufwirft, hat schon verloren.</p>
+  </div>
+</div>
+
+<div class="cl cl-w">
+  <p class="cl-n">Platz 10</p>
+  <p class="cl-t">Einer weiß es. Dann alle.</p>
+  <div class="cl-b">
+    <p><b>Der wärmste und menschlichste Satz — und inhaltlich der falsche.</b> Er beschreibt, wie Wissen wandert, und trifft damit ein echtes Gefühl. Nur beschreibt er <em>Flurfunk</em>: Information, die sich von selbst verbreitet, weil jemand zufällig danebensteht.</p>
+    <p><span class="tag bad">und damit</span> sagt er genau das, was das Klarheitsbuch als Problem benennt. <b>Klarheit darf nicht vom Zufall abhängen</b>, sie muss hergestellt werden. Der Satz verkauft den Zustand als Versprechen, gegen den das Produkt antritt.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>05</span><h3>Der Begriffstest — und eine Korrektur</h3></div>
+
+<div class="verdict" style="border-left-color:#c4363f">
+  <p><strong>Was ich falsch gemacht habe.</strong> Der Einwand gegen „Relevanz" lautete: Niemand an der Werkbank spricht so. Der Satz stimmt — und er ist trotzdem kein Argument, weil er die falsche Prüfung anlegt. <b>Der Claim erreicht die Frontline nie.</b> Er steht auf der Website des Anbieters, im Angebot, auf der Titelfolie und am Messestand. Im Intranet selbst steht er nicht: Das trägt die Marke des Kunden, nicht die von NEOCOSMO. Wer dort arbeitet, bekommt diesen Satz nie zu sehen.</p>
+  <p>Angesprochen wird das <b>Buying Center</b> — Geschäftsführung, Kommunikation, Personal, IT, und in Verwaltung und Industrie regelmäßig auch Personal- oder Betriebsrat. Für diese Menschen ist „Relevanz" kein Beraterwort, sondern <b>ihr eigenes Vokabular</b>. Die Kommunikationsabteilung wird an Reichweite <em>und</em> Relevanz gemessen; im Personalbereich heißt dasselbe zielgruppengerechte Ansprache; in der IT Personalisierung.</p>
+  <p><strong>Was das für die Reihung bedeutet.</strong> Kriterium 01 war falsch definiert und ist berichtigt. Damit verschiebt sich die Rangfolge — die berichtigte steht unten. <b>Ich habe eine Konsumentenmarken-Prüfung auf eine B2B-Plattformmarke angewendet</b>, und das ist ein Fehler in der Anlage, nicht im Urteil.</p>
+</div>
+
+<div class="prose">
+  <p>Dennoch der Test, den du verlangt hast — denn eine zurückgezogene Behauptung ist noch kein Beleg. Zwölf Alternativen für die erste Hälfte, geprüft nicht nach Wohlklang, sondern danach, <b>welche der vier Käufergruppen das Wort in ihrer eigenen Sprache wiederfindet</b>.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Begriff</th><th scope="col">C-Level</th><th scope="col">Komm.</th><th scope="col">HR</th><th scope="col">IT</th><th scope="col">Befund</th></tr></thead>
+    <tbody>
+      <tr style="background:var(--sunk)"><td><b>Relevanz</b> <span class="m">Bestand</span></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td><b>Der einzige Begriff, den alle vier führen.</b> Kurz genug für den Rhythmus, präzise genug für die Sache, und das Wort, mit dem die Kategorie ihr Problem benennt.</td></tr>
+      <tr><td>Passgenauigkeit</td><td class="c no">○</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td><td>Systemsprache. Fünf Silben zerstören den Rhythmus, und im Vorstand klingt es nach Ausschreibungstext.</td></tr>
+      <tr><td>Treffsicherheit</td><td class="c">◐</td><td class="c yes">●</td><td class="c no">○</td><td class="c no">○</td><td>Kampagnenwort der Kommunikation — und nur ihres. Verengt den Claim auf eine von vier Gruppen.</td></tr>
+      <tr><td>Ansprache</td><td class="c no">○</td><td class="c yes">●</td><td class="c">◐</td><td class="c no">○</td><td>Dasselbe Problem, schärfer. Zudem beschreibt es das Senden, nicht das Ankommen.</td></tr>
+      <tr><td>Teilhabe</td><td class="c">◐</td><td class="c">◐</td><td class="c yes">●</td><td class="c no">○</td><td><b>Der interessanteste Ausreißer.</b> Trägt in Verwaltung, Kassen und bei Personalräten weit und verbindet sich mit der Barrierefreiheit als belegtem Wert. Bei Festo und im Mittelstand fällt er ab.</td></tr>
+      <tr><td>Wirksamkeit</td><td class="c yes">●</td><td class="c">◐</td><td class="c">◐</td><td class="c no">○</td><td>Reines Vorstandswort. Aber es benennt ein Ergebnis, nicht das Persönliche — damit fallen beide Hälften des Claims ineinander.</td></tr>
+      <tr><td>Orientierung</td><td class="c yes">●</td><td class="c yes">●</td><td class="c">◐</td><td class="c no">○</td><td><b>Struktureller Ausfall.</b> Orientierung und Klarheit sind nahe Verwandte; der Satz sagte zweimal dasselbe und verlöre seine Spannung.</td></tr>
+      <tr><td>Übersicht</td><td class="c">◐</td><td class="c yes">●</td><td class="c no">○</td><td class="c">◐</td><td><b>Aktiv falsch.</b> Übersicht ist ein Transparenzversprechen — genau der Gegner, den die Buchauswertung benannt hat.</td></tr>
+      <tr><td>Verbindlichkeit</td><td class="c yes">●</td><td class="c no">○</td><td class="c">◐</td><td class="c no">○</td><td>Starkes Wort für Verwaltung und Compliance, aber es beschreibt die Geltung, nicht das Persönliche. Gehört in die zweite Hälfte, wenn überhaupt.</td></tr>
+      <tr><td>Nähe</td><td class="c no">○</td><td class="c">◐</td><td class="c yes">●</td><td class="c no">○</td><td>Kulturwort. Warm, aber unbestimmt — und im Wortfeld der Wettbewerber („connect", „heartbeat") längst besetzt.</td></tr>
+      <tr><td><span class="no">Betroffenheit</span></td><td class="c no">○</td><td class="c">◐</td><td class="c no">○</td><td class="c no">○</td><td>Sachlich der präziseste Begriff im Feld — und im Deutschen unbrauchbar, weil er Bestürzung heißt.</td></tr>
+      <tr><td><span class="no">Anschluss</span></td><td class="c no">○</td><td class="c no">○</td><td class="c no">○</td><td class="c no">○</td><td><b>Gesperrt.</b> Historisch besetzt. Wie die Wendung im Schlussabschnitt bietet sich das Wort beim Formulieren an und ist trotzdem nicht verwendbar.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Das Ergebnis des Tests: „Relevanz" bleibt.</strong> Kein Alternativbegriff erreicht alle vier Käufergruppen, und die beiden, die im Einzelfall stärker sind — <em>Teilhabe</em> für die öffentliche Hand, <em>Treffsicherheit</em> für die Kommunikation —, tun das um den Preis, die jeweils anderen zu verlieren. Ein Dachclaim darf sich nicht auf eine Gruppe verengen.</p>
+  <p><strong>Was von meinen drei Einwänden übrig bleibt.</strong> Der dritte ist widerlegt. Der zweite — <em>kein Verb</em> — war schwächer, als ich ihn dargestellt habe: <em>Vorsprung durch Technik</em> und <em>Freude am Fahren</em> kommen ebenfalls ohne aus. <b>Nur der erste steht</b>: Dem Claim fehlte ein Gegner. Und den hat inzwischen nicht eine neue Formulierung geliefert, sondern die Buchauswertung — <em>Zugang ist nicht Klarheit</em>.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Berichtigt · Platz 01</p><h3>Relevanz für jeden. Klarheit für alle.</h3><p><b>Der Bestand kehrt an die Spitze zurück.</b> Unter dem richtigen Kriterium ist er das Vokabular aller vier Käufergruppen, und „Klarheit" ist laut Marktanalyse das einzige unbesetzte Wort der Kategorie.</p><p>Was ihm fehlte, war kein anderer Wortlaut, sondern <b>ein Unterbau</b> — Gegner, Definition, Beleg. Alle drei liegen jetzt vor.</p></div>
+  <div class="card"><p class="lbl">Berichtigt · Platz 02</p><h3>Jeder sieht, was ihn angeht. Alle wissen, was gilt.</h3><p>Bleibt stark, verliert aber sein Hauptargument. Es war die Sagbarkeit an der Werkbank — und die wird nie geprüft.</p><p>Weiterhin die beste Wahl, falls der Auftritt einmal <b>eine Zeile ohne Abstrakta</b> braucht: für die Endkundenansprache in einer Ausschreibung oder für einen Messeauftritt vor gemischtem Publikum.</p></div>
+  <div class="card"><p class="lbl">Berichtigt · Platz 03</p><h3>Relevanz für jeden. Verstehen für alle.</h3><p><b>Von Platz 03 nicht weiter nach oben</b> — und das ist die zweite Korrektur. Ich hatte den Tausch empfohlen, weil <em>Verstehen</em> messbar ist.</p><p>Er kostet aber das unbesetzte Wort. <b>Klarheit ist der Anspruch, Verstehen die Messgröße darunter.</b> Beide gehören ins System, aber auf verschiedene Ebenen — nicht in dieselbe Zeile.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Damit ist die Empfehlung eine andere als vor zwei Stunden.</strong> Der Claim wird nicht ersetzt. Die Arbeit war trotzdem nicht umsonst: Sie hat den Gegner geliefert, die Definition und den Weg zum Beleg. <b>Ein Claim, der eine Prüfung übersteht, steht danach fester als vorher</b> — vorausgesetzt, man schreibt auf, dass er sie überstanden hat. Deshalb bleibt dieser Abschnitt im Dokument, statt still korrigiert zu werden.</p>
+</div>
+
+<div class="subhead"><span>—</span><h3>Die Rangfolge auf einen Blick</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">#</th><th scope="col">Variante</th><th scope="col">Sagbar</th><th scope="col">Nicht besetzt</th><th scope="col">Spannweite</th><th scope="col">Einklang</th><th scope="col">Belegbar</th><th scope="col">Haltbar</th></tr></thead>
+    <tbody>
+      <tr><td class="m r">01</td><td><b>Jeder sieht, was ihn angeht. Alle wissen, was gilt.</b></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+      <tr><td class="m r">02</td><td><b>Damit jeder weiß, was gilt.</b></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+      <tr><td class="m r">03</td><td>Relevanz für jeden. Verstehen für alle.</td><td class="c">◐</td><td class="c yes">●</td><td class="c">◐</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+      <tr><td class="m r">04</td><td>Alles ist da. Wir zeigen, was zählt.</td><td class="c yes">●</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td><td class="c">◐</td><td class="c">◐</td></tr>
+      <tr><td class="m r">05</td><td>Was Sie angeht, ist markiert.</td><td class="c">◐</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c">◐</td></tr>
+      <tr><td class="m r">06</td><td>Klarheit für alle.</td><td class="c yes">●</td><td class="c yes">●</td><td class="c no">○</td><td class="c">◐</td><td class="c no">○</td><td class="c yes">●</td></tr>
+      <tr><td class="m r">07</td><td>Vom Speiseplan bis zur Verfahrensanweisung.</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c no">○</td><td class="c no">○</td><td class="c">◐</td></tr>
+      <tr><td class="m r">08</td><td>Zugang haben alle. Klarheit nicht.</td><td class="c">◐</td><td class="c yes">●</td><td class="c">◐</td><td class="c">◐</td><td class="c no">○</td><td class="c">◐</td></tr>
+      <tr><td class="m r">09</td><td><span class="no">Nicht mehr sehen. Klarer sehen.</span></td><td class="c">◐</td><td class="c yes">●</td><td class="c">◐</td><td class="c yes">●</td><td class="c no">○</td><td class="c no">○</td></tr>
+      <tr><td class="m r">10</td><td><span class="no">Einer weiß es. Dann alle.</span></td><td class="c yes">●</td><td class="c yes">●</td><td class="c no">○</td><td class="c no">○</td><td class="c no">○</td><td class="c no">○</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note"><b>●</b> erfüllt · <b>◐</b> teilweise · <b>○</b> nicht erfüllt. Die Bewertung ist begründet, nicht gemessen — sie fasst die Argumente oben zusammen und ersetzt keinen Test mit Kunden.</p>
+
+<div class="subhead"><span>—</span><h3>Was ich empfehlen würde</h3></div>
+<div class="verdict">
+  <p><strong>Nicht eine Zeile, sondern drei mit verschiedenen Aufgaben.</strong> Das ist keine Ausweichbewegung — es ist die übliche Bauform: ein Dach, eine Kurzform, eine Kampagne.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Dachclaim</p><h3>Jeder sieht, was ihn angeht. Alle wissen, was gilt.</h3><p>Trägt Markenbuch, Website, Angebot. Verben statt Substantive, kein Beraterwort, volle Spannweite — und die Architektur, die schon bewährt ist.</p></div>
+  <div class="card"><p class="lbl">Kurzform</p><h3>Damit jeder weiß, was gilt.</h3><p>Für Titelfolien, Signaturen, das Ende eines Telefonats. Die Hälfte, die zuerst hängen bleibt. Sie steht auch allein.</p></div>
+  <div class="card"><p class="lbl">Kampagne</p><h3>Zugang haben alle. Klarheit nicht.</h3><p>Für Anzeige, Messewand, Vortragstitel. Befristet einsetzbar, weil sie diagnostiziert — und genau deshalb wirksam.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Was der Wechsel kostet.</strong> Das Systemgesetz steht heute an acht Stellen im Markenbuch, in drei Schriftmustern und auf zwei Beispielfolien. Ein Wechsel ist ein Nachmittag Arbeit, kein Projekt — aber er sollte einmal geschehen und dann stehen. <b>Der jetzige Zeitpunkt ist der günstigste</b>: Das Dokument ist noch nicht verteilt, die Lesefassung für die Kollegen liegt seit gestern vor und hat noch keine Kommentare.</p>
+  <p><strong>Und eine Formulierung, die nicht in die Nähe kommen darf.</strong> Die naheliegende deutsche Wendung für „jedem das, was ihn betrifft" ist historisch besetzt — sie stand über dem Tor des Konzentrationslagers Buchenwald. <b>Sie ist in keiner Variante, keinem Untertitel und keiner Präsentation verwendbar</b>, auch nicht abgewandelt. Ich nenne es hier ausdrücklich, weil der Satz sich beim Formulieren an dieser Stelle von selbst anbietet und die Falle nicht jedem sofort auffällt.</p>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Claim-Entwicklung, 31. August 2026 · Grundlage: die Marktanalyse zu acht Workplace-Plattformen entlang der sechs Gartner-Anwendungsfälle, die Auswertung von <em>(Un)klarheit</em> (Habermann/Schmidt, Becota 2026) und der Bestand von NEO Brand 008, Kapitel 01. Die Bewertungsmatrix ist eine begründete Einschätzung, kein Testergebnis — vor einer Festlegung gehört mindestens die erste Variante in ein Gespräch mit zwei Bestandskunden aus verschiedenen Branchen.</p>
+</footer>
+
+</div>

@@ -1,0 +1,735 @@
+<title>Die Signalentscheidung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  /* Farbwerte aus data/design-tokens.json — Graphit-Leiter, Akzent Lime. */
+  :root{
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100);
+    --surface:#ffffff;
+    --sunk:var(--g200);
+    --ink:var(--g950);
+    --muted:var(--g700);
+    --faint:var(--g600);
+    --border:var(--g300);
+    --hair:var(--g200);
+    --signal:#37e93d;
+    --signal-ink:var(--g950);
+    --dial-ring:var(--g300);
+    --dial-grid:var(--g200);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-body:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1080px;
+    --prose:64ch;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:var(--g950);
+      --surface:var(--g900);
+      --sunk:#0e100e;
+      --ink:var(--g100);
+      --muted:var(--g400);
+      --faint:var(--g500);
+      --border:var(--g800);
+      --hair:#232523;
+      --signal:#37e93d;
+      --signal-ink:var(--g950);
+      --dial-ring:var(--g800);
+      --dial-grid:#232523;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:var(--g950);
+    --surface:var(--g900);
+    --sunk:#0e100e;
+    --ink:var(--g100);
+    --muted:var(--g400);
+    --faint:var(--g500);
+    --border:var(--g800);
+    --hair:#232523;
+    --signal:#37e93d;
+    --signal-ink:var(--g950);
+    --dial-ring:var(--g800);
+    --dial-grid:#232523;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--f-body);
+    font-size:16.5px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    margin:0;
+    padding:0 24px 110px;
+  }
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+  .prose p{margin:0 0 18px}
+  .prose p:last-child{margin-bottom:0}
+
+  /* ---------- Kopf ---------- */
+  .mast{padding:74px 0 0}
+  .eyebrow{
+    font-family:var(--f-tech);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+    color:var(--faint);margin:0 0 26px;display:flex;gap:14px;align-items:center;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{
+    font-family:var(--f-brand);font-weight:700;
+    font-size:clamp(38px,6.4vw,74px);line-height:1.0;letter-spacing:-.034em;
+    margin:0 0 26px;max-width:15ch;text-wrap:balance;
+  }
+  .lede{font-size:19.5px;line-height:1.54;color:var(--muted);max-width:58ch;margin:0 0 34px}
+
+  .statusbar{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 64px}
+  .chip{
+    font-family:var(--f-tech);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:7px 12px;border:1px solid var(--border);color:var(--muted);background:var(--surface);
+  }
+  .chip b{color:var(--ink);font-weight:500}
+  .chip--open{border-color:var(--ink)}
+  .chip--open b{position:relative;padding-left:15px}
+  .chip--open b::before{
+    content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+    width:8px;height:8px;background:var(--signal);
+  }
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:0 0 66px}
+  .subhead{display:flex;align-items:baseline;gap:16px;margin:0 0 22px;padding-top:14px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:11px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;white-space:nowrap}
+  .subhead h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(23px,3vw,31px);letter-spacing:-.02em;margin:0;text-wrap:balance}
+
+  h3{font-family:var(--f-brand);font-weight:600;font-size:18.5px;letter-spacing:-.01em;margin:0 0 9px}
+
+  /* ---------- Tabellen ---------- */
+  .scroll{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin:0 0 16px}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px}
+  th,td{padding:12px 15px;text-align:left;border-bottom:1px solid var(--hair);vertical-align:top}
+  thead th{
+    font-family:var(--f-tech);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);font-weight:500;background:var(--sunk);border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--f-tech);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td b{font-weight:600}
+  .sub{display:block;font-size:12.5px;color:var(--muted);font-family:var(--f-body);letter-spacing:0;text-transform:none}
+
+  .val{font-family:var(--f-tech);font-size:11.5px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .dot{width:13px;height:13px;flex:none;border:1px solid rgba(128,128,128,.4)}
+
+  .flag{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+        padding:3px 7px;border:1px solid var(--border);color:var(--muted);white-space:nowrap}
+  .flag--out{border-color:var(--ink);color:var(--ink);font-weight:500}
+
+  .note{font-size:13.5px;line-height:1.62;color:var(--muted);max-width:74ch;margin:0 0 8px}
+  .note b{color:var(--ink);font-weight:600}
+
+  /* ---------- Karten ---------- */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 18px;
+        grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+  .card{background:var(--surface);padding:22px 22px 24px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 11px}
+  .card p{font-size:14.5px;color:var(--muted);margin:0}
+  .card p+p{margin-top:10px}
+  .card b{color:var(--ink);font-weight:600}
+
+  /* ---------- Farbtonuhr ---------- */
+  figure{margin:0 0 18px;background:var(--surface);border:1px solid var(--border);padding:26px 20px 20px}
+  .dial{display:block;margin:0 auto;max-width:100%;height:auto}
+  .dial text{font-family:var(--f-tech);font-size:10.5px;fill:var(--muted)}
+  .dial text.sig{fill:var(--ink);font-weight:700}
+  figcaption{font-size:13px;color:var(--muted);max-width:66ch;margin:16px auto 0;text-align:left;line-height:1.6}
+
+  /* ---------- Liste ---------- */
+  ul.check{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:1px;background:var(--border);border:1px solid var(--border)}
+  ul.check li{background:var(--surface);padding:13px 16px;font-size:14.5px;display:flex;gap:13px;align-items:baseline}
+  ul.check .mark{font-family:var(--f-tech);font-size:11px;letter-spacing:.06em;color:var(--faint);white-space:nowrap;min-width:82px;text-transform:uppercase}
+  ul.check .yes{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--border);padding-top:22px;margin-top:14px}
+  footer p{font-size:13px;color:var(--faint);margin:0;max-width:70ch}
+
+  a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible,.chip:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ---------- Umschalter ---------- */
+  .switcher{border:1px solid var(--border);background:var(--surface);padding:18px 20px 16px;margin:0 0 20px}
+  .switchrow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:0 0 12px}
+  .switchlbl{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:7px 0 0;min-width:52px}
+  .opts{display:flex;gap:7px;flex-wrap:wrap}
+  .opt{font-family:var(--f-body);font-size:13.5px;color:var(--muted);background:var(--ground);
+       border:1px solid var(--border);padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:7px;
+       line-height:1.3}
+  .opt em{font-style:normal;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.08em;
+          text-transform:uppercase;color:var(--faint)}
+  .opt:hover{border-color:var(--faint)}
+  .opt.is-on{border-color:var(--ink);color:var(--ink);font-weight:600;background:var(--surface)}
+  .opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .swx{width:14px;height:14px;flex:none;border:1px solid rgba(128,128,128,.45)}
+  .verdict{font-size:13.5px;color:var(--muted);margin:14px 0 0;padding-top:13px;border-top:1px solid var(--hair)}
+  .verdict b{color:var(--ink)}
+
+  /* ---------- Beispiele ---------- */
+  .stage{display:grid;gap:26px;margin:0 0 16px;
+    /* Vorgabe Graphit — das Skript ersetzt sie beim Umschalten. */
+    --p50:#f9fbf9;--p100:#f1f3f1;--p200:#e4e6e4;--p300:#d2d4d2;--p400:#afb2af;--p500:#909390;
+    --p600:#727572;--p700:#595c59;--p800:#414341;--p900:#292b29;--p950:#161816;
+    --sig:#37e93d;--sig-on:#161816}
+  @media (min-width:900px){.stage{grid-template-columns:1fr 1fr}}
+  .exlbl{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+         color:var(--faint);margin:0 0 9px}
+  .frame{border:1px solid var(--border);overflow:hidden;background:#ffffff}
+
+  /* Die dargestellte Seite bleibt hell — Papiere gelten nur in hellen Themes. */
+  .frame,.frame *{color-scheme:light}
+  .browser{display:flex;align-items:center;gap:6px;padding:8px 11px;background:var(--p200);
+           border-bottom:1px solid var(--p300)}
+  .bdot{width:8px;height:8px;border-radius:50%;background:var(--p400)}
+  .burl{font-family:var(--f-tech);font-size:9.5px;color:var(--p700);margin-left:9px;
+        background:var(--p50);padding:2px 9px;border:1px solid var(--p300)}
+  .page{background:var(--p100);padding:0 0 18px;min-height:250px}
+
+  .topnav{display:flex;align-items:center;gap:12px;padding:11px 16px;background:var(--p50);
+          border-bottom:1px solid var(--p300)}
+  .logo{font-family:var(--f-brand);font-weight:700;font-size:11px;letter-spacing:.06em;color:var(--p950)}
+  .navlinks{display:flex;gap:11px;font-size:9.5px;color:var(--p700);flex:1}
+  .btn-sig{background:var(--sig);color:var(--sig-on);font-size:9.5px;font-weight:700;padding:5px 11px;white-space:nowrap}
+  .btn-quiet{border:1px solid var(--p500);color:var(--p950);font-size:9.5px;font-weight:600;padding:5px 11px}
+
+  .hero-body{padding:26px 20px 8px}
+  .kicker{font-family:var(--f-tech);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+          color:var(--p600);margin:0 0 10px}
+  .hero-h{font-family:var(--f-brand);font-weight:700;font-size:23px;line-height:1.06;letter-spacing:-.028em;
+          color:var(--p950);margin:0 0 11px;max-width:15ch}
+  .hero-sub{font-size:11.5px;line-height:1.5;color:var(--p700);margin:0 0 16px;max-width:40ch}
+  .hero-cta{display:flex;gap:9px;align-items:center}
+  .hero-vis{position:relative;height:72px;margin:14px 20px 0;background:var(--p200);border:1px solid var(--p300)}
+  .node{position:absolute;width:15px;height:15px;background:var(--p50);border:1.5px solid var(--p600);top:29px}
+  .node.n1{left:16%}.node.n2{left:44%}.node.n3{left:72%}
+  .node.is-sig{background:var(--sig);border-color:var(--sig)}
+  .edge{position:absolute;height:1.5px;background:var(--p500);top:36px}
+  .edge.e1{left:calc(16% + 15px);width:calc(28% - 15px)}
+  .edge.e2{left:calc(44% + 15px);width:calc(28% - 15px)}
+
+  .feat-p{padding:20px 20px 18px}
+  .feat-h{font-family:var(--f-brand);font-weight:700;font-size:18px;letter-spacing:-.022em;
+          color:var(--p950);margin:0 0 15px}
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 0 16px}
+  .fcard{background:#ffffff;border:1px solid var(--p300);padding:11px 11px 13px}
+  .ficon{display:block;width:17px;height:17px;background:var(--p300);margin:0 0 8px}
+  .ficon.is-sig{background:var(--sig)}
+  .fh{font-family:var(--f-brand);font-weight:700;font-size:11px;color:var(--p950);margin:0 0 5px}
+  .ft{font-size:9.5px;line-height:1.45;color:var(--p700);margin:0}
+
+  .shot{border:1px solid var(--p300);background:#ffffff}
+  .shotbar{display:flex;align-items:center;gap:5px;padding:6px 9px;background:var(--p200);border-bottom:1px solid var(--p300)}
+  .sdot{width:6px;height:6px;border-radius:50%;background:var(--p400)}
+  .stitle{font-family:var(--f-tech);font-size:8.5px;color:var(--p700);margin-left:6px}
+  .shotbody{display:flex;min-height:92px}
+  .side{width:26%;background:var(--p100);border-right:1px solid var(--p300);padding:9px 7px;display:flex;
+        flex-direction:column;gap:6px}
+  .srow{height:7px;background:var(--p300)}
+  .srow.is-sig{background:var(--sig)}
+  .main{flex:1;padding:9px;display:flex;flex-direction:column;gap:7px}
+  .mcard{border:1px solid var(--p300);padding:7px 8px;display:flex;flex-direction:column;gap:5px;background:#ffffff}
+  .mbar{height:4px;width:26px;background:var(--p400)}
+  .mbar.is-sig{background:var(--sig)}
+  .mline{height:5px;background:var(--p200)}
+  .w70{width:70%}.w45{width:45%}.w60{width:60%}.w35{width:35%}.w75{width:75%}.w50{width:50%}
+
+  /* ---------- Folien ---------- */
+  .slide{background:var(--p100);padding:22px 24px 16px;min-height:284px;display:flex;flex-direction:column}
+  .sl-head{display:flex;gap:12px;align-items:flex-start;margin:0 0 15px}
+  .sl-mark{width:5px;align-self:stretch;min-height:34px;background:var(--sig);flex:none}
+  .sl-h{font-family:var(--f-brand);font-weight:700;font-size:20px;line-height:1.1;letter-spacing:-.026em;
+        color:var(--p950);margin:0}
+  .sl-sub{font-size:11.5px;color:var(--p700);margin:6px 0 0}
+  .sl-body{font-size:11.5px;line-height:1.62;color:var(--p800);margin:0 0 15px;max-width:52ch}
+  .sl-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;flex:1}
+  .sl-list li{display:flex;gap:10px;align-items:baseline;font-size:11.5px;color:var(--p900)}
+  .bullet{width:7px;height:7px;flex:none;background:var(--p500);transform:translateY(-1px)}
+  .bullet.is-sig{background:var(--sig)}
+  .sl-tbl{border-collapse:collapse;width:100%;font-size:10.5px;flex:1;min-width:0}
+  .sl-tbl th{font-family:var(--f-tech);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;
+             color:var(--p700);text-align:left;padding:7px 8px;background:var(--p200);
+             border-bottom:1px solid var(--p400);font-weight:500}
+  .sl-tbl td{padding:7px 8px;border-bottom:1px solid var(--p300);color:var(--p900)}
+  .sl-tbl .r{text-align:right;font-variant-numeric:tabular-nums}
+  .sl-tbl .is-row-sig td{background:var(--p50);font-weight:600}
+  .sl-tbl .is-row-sig td:first-child{box-shadow:inset 3px 0 0 var(--sig)}
+  .sl-foot{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;
+           padding-top:9px;border-top:1px solid var(--p300);
+           font-family:var(--f-tech);font-size:8.5px;color:var(--p600);letter-spacing:.08em}
+  .sl-pg{color:var(--p950);font-weight:700}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">NEO Brand · Entscheidungsgrundlage</p>
+    <h1>Eine Farbe, die noch niemand gewählt hat</h1>
+    <p class="lede">Der Styleguide legt alles fest bis auf einen Wert. Die Signalfarbe ist die einzige offene Entscheidung im gesamten Dokument — und sie zieht mehr nach sich, als die vier Kandidaten vermuten lassen.</p>
+    <div class="statusbar">
+      <span class="chip chip--open"><b>Offen — Signalfarbe</b></span>
+      <span class="chip">Arbeitsstand: <b>Lime</b></span>
+      <span class="chip">Druckfassung: <b>Green #34c759</b></span>
+      <span class="chip">Papiersystem: <b>fünf Bereiche</b></span>
+    </div>
+  </header>
+
+  <section>
+    <div class="subhead"><span>Die Wahl</span><h2>Vier Kandidaten, ein Platz</h2></div>
+    <div class="prose">
+      <p>Die Primärpalette besteht aus zwei Farben: der Tinte und dem Signal. Die Tinte ist entschieden — reines Schwarz. Für das Signal stehen vier Werte zur Wahl, und es wird genau <b>einer</b> davon. Die Tabelle listet keine Palette, sondern eine Auswahl.</p>
+      <p>Jeder Kandidat erscheint in vier Fassungen: hell, dunkel und je einmal für die Kontrast-Themes. Increased Contrast verändert dabei nicht nur den Wert, sondern die Funktion — was im Light-Theme ein Textmarker ist, wird in IC Light zum Akzent.</p>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Kandidat</th><th>Light</th><th>Dark</th><th>IC Light</th><th>IC Dark</th>
+            <th class="num">Buntheit</th><th class="num">Farbton</th><th>Druck</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Lime</b><span class="sub">Bestand, Arbeitsstand</span></td>
+            <td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span></td>
+            <td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span></td>
+            <td><span class="val"><span class="dot" style="background:#165d18"></span>#165d18</span></td>
+            <td><span class="val"><span class="dot" style="background:#87f28b"></span>#87f28b</span></td>
+            <td class="num">0,251</td><td class="num">143°</td>
+            <td><span class="flag">nur IC Light</span></td>
+          </tr>
+          <tr>
+            <td><b>Green</b><span class="sub">neu vorgeschlagen</span></td>
+            <td><span class="val"><span class="dot" style="background:#34c759"></span>#34c759</span></td>
+            <td><span class="val"><span class="dot" style="background:#30d158"></span>#30d158</span></td>
+            <td><span class="val"><span class="dot" style="background:#008932"></span>#008932</span></td>
+            <td><span class="val"><span class="dot" style="background:#4ad968"></span>#4ad968</span></td>
+            <td class="num">0,194</td><td class="num">147°</td>
+            <td><span class="flag">teilweise</span></td>
+          </tr>
+          <tr>
+            <td><b>NEO Blue</b><span class="sub">vorhandenes Token</span></td>
+            <td><span class="val"><span class="dot" style="background:#009ee3"></span>#009ee3</span></td>
+            <td><span class="val"><span class="dot" style="background:#33b2e9"></span>#33b2e9</span></td>
+            <td><span class="val"><span class="dot" style="background:#005f88"></span>#005f88</span></td>
+            <td><span class="val"><span class="dot" style="background:#66c5ee"></span>#66c5ee</span></td>
+            <td class="num">0,147</td><td class="num">238°</td>
+            <td><span class="flag">vollständig</span></td>
+          </tr>
+          <tr>
+            <td><b>Magenta</b></td>
+            <td><span class="val"><span class="dot" style="background:#e5007d"></span>#e5007d</span></td>
+            <td><span class="val"><span class="dot" style="background:#e5007d"></span>#e5007d</span></td>
+            <td><span class="val"><span class="dot" style="background:#a60062"></span>#a60062</span></td>
+            <td><span class="val"><span class="dot" style="background:#ed6ea6"></span>#ed6ea6</span></td>
+            <td class="num">0,243</td><td class="num">359°</td>
+            <td><span class="flag">vollständig</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Der Light-Wert von NEO Blue steht hier als <b>#009ee3</b>. Er lag bis zuletzt bei #009fe3 und wurde angeglichen, weil die Ebenenfarbe „Daten und KI" mit #009ee3 nur eine Hexziffer daneben lag — zwei fast identische Farben mit verschiedenen Aufgaben. Jetzt ist es ein Wert.</p>
+    <p class="note"><b>Zur Herkunft von Green:</b> #34C759 und #30D158 sind die iOS-Systemfarben <span style="font-family:var(--f-tech);font-size:12.5px">systemGreen</span>. Kein Ausschlussgrund, aber auf iPhone und iPad ist dieses Grün die Farbe für „erledigt", „aktiv", „verbunden". Als Markensignal in einer mobilen App fiele es mit der Systemsemantik zusammen — die PIIPE-App ist genau der Fall, in dem das auffiele.</p>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Der Mechanismus</span><h2>Warum das Signal das Papier bestimmt</h2></div>
+    <div class="prose">
+      <p>Das System führt fünf Bereichspapiere — eine Farbe je Navigationsbereich, so lange man sich darin befindet. Ihre Untertöne sind schwach, Buntheiten zwischen 0,000 und 0,024. Allein sieht man sie kaum. Neben der Signalfarbe wird daraus eine Entscheidung.</p>
+      <p>Liegen Papierunterton und Signal im Farbton zu dicht beieinander, verschwindet das Signal im Grund. Die Grenze liegt bei etwa <b>30°</b>; ab rund 150° stehen beide komplementär und stützen sich gegenseitig.</p>
+    </div>
+
+    <figure>
+      <svg class="dial" viewBox="0 0 400 400" width="400" height="400" role="img" aria-labelledby="dial-t">
+        <title id="dial-t">Farbtonuhr: Position der vier Signalkandidaten und der Papieruntertöne im OKLCH-Farbkreis</title>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="var(--dial-ring)" stroke-width="1"/>
+        <circle cx="200" cy="200" r="104" fill="none" stroke="var(--dial-grid)" stroke-width="1" stroke-dasharray="2 4"/>
+
+        <!-- Papiere: Striche nach innen -->
+        <line x1="213.9" y1="109.1" x2="217.5" y2="85.3" stroke="var(--muted)" stroke-width="1.5"/>
+        <text x="219.4" y="70" text-anchor="middle">Beige 81°</text>
+
+        <line x1="235.2" y1="115.0" x2="244.4" y2="92.9" stroke="var(--muted)" stroke-width="1.5"/>
+        <text x="253" y="82" text-anchor="start">Taupe 67°</text>
+
+        <line x1="173.2" y1="112.0" x2="166.3" y2="89.0" stroke="var(--muted)" stroke-width="1.5"/>
+        <text x="163" y="74" text-anchor="middle">Ivory 107°</text>
+
+        <line x1="124.2" y1="147.8" x2="104.5" y2="134.2" stroke="var(--muted)" stroke-width="1.5"/>
+        <text x="97" y="123" text-anchor="end">Salbei / Graphit 145°</text>
+
+        <!-- Signalkandidaten: Punkte auf dem Ring -->
+        <circle cx="79.9" cy="110.1" r="9" fill="#37e93d" stroke="var(--ink)" stroke-width="1"/>
+        <text class="sig" x="66" y="92" text-anchor="end">Lime 143°</text>
+
+        <circle cx="73.6" cy="119.3" r="9" fill="#34c759" stroke="var(--ink)" stroke-width="1"/>
+        <text class="sig" x="52" y="140" text-anchor="end">Green 147°</text>
+
+        <circle cx="121.3" cy="327.7" r="9" fill="#009ee3" stroke="var(--ink)" stroke-width="1"/>
+        <text class="sig" x="112" y="352" text-anchor="middle">NEO Blue 238°</text>
+
+        <circle cx="350.0" cy="203.2" r="9" fill="#e5007d" stroke="var(--ink)" stroke-width="1"/>
+        <text class="sig" x="345" y="228" text-anchor="middle">Magenta 359°</text>
+
+        <text x="200" y="196" text-anchor="middle" style="font-size:10px">Ring: Signal</text>
+        <text x="200" y="210" text-anchor="middle" style="font-size:10px">Innen: Papier</text>
+      </svg>
+      <figcaption>Die vier Kandidaten sitzen auf dem äußeren Ring, die Papieruntertöne als Striche nach innen. Lime und Green fallen fast auf denselben Punkt wie Salbei und Graphit — dort steht das Signal auf dem Papier, statt sich davon abzuheben. NEO Blue liegt als einziger auf der gegenüberliegenden Seite.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Folgeabhängigkeiten</span><h2>Was jede Wahl kostet</h2></div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Signalkandidat</th>
+            <th class="num">Beige 81°</th><th class="num">Taupe 67°</th><th class="num">Ivory 107°</th>
+            <th class="num">Salbei 145°</th><th class="num">Graphit 146°</th><th>Pearl White</th><th>Ergebnis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>NEO Blue</b> <span class="sub">238°</span></td>
+            <td class="num">153°</td><td class="num">175°</td><td class="num">132°</td>
+            <td class="num">92°</td><td class="num">95°</td><td class="num">frei</td>
+            <td>alle Papiere nutzbar</td>
+          </tr>
+          <tr>
+            <td><b>Magenta</b> <span class="sub">359°</span></td>
+            <td class="num">86°</td><td class="num">64°</td><td class="num">108°</td>
+            <td class="num">147°</td><td class="num">144°</td><td class="num">frei</td>
+            <td>Taupe wird schwach</td>
+          </tr>
+          <tr>
+            <td><b>Green</b> <span class="sub">147°</span></td>
+            <td class="num">62°</td><td class="num">84°</td><td class="num">41°</td>
+            <td class="num">1°</td><td class="num">4°</td><td class="num">frei</td>
+            <td><span class="flag flag--out">Salbei fällt aus</span></td>
+          </tr>
+          <tr>
+            <td><b>Lime</b> <span class="sub">143°</span></td>
+            <td class="num">58°</td><td class="num">80°</td><td class="num">36°</td>
+            <td class="num">3°</td><td class="num">0°</td><td class="num">frei</td>
+            <td><span class="flag flag--out">Salbei fällt aus</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Angegeben ist der Farbtonabstand zwischen Papierunterton und Signal. <b>Graphit ist trotz 0° unkritisch</b>, weil seine Buntheit mit 0,006 zu schwach zum Konkurrieren ist. Salbei liegt mit 0,013 gut doppelt so hoch und tritt sichtbar in Wettbewerb — deshalb fällt es aus und Graphit nicht.</p>
+
+    <div class="grid">
+      <div class="card">
+        <p class="lbl">Konsequenz Lime / Green</p>
+        <p>Der Bereich <b>Menschen und Geschichten</b> verlöre sein Papier. Salbei ist der wärmste Ton der Sekundärleitern; als Ersatz bliebe der kühlste. Das ist kein Ausschlusskriterium, aber es gehört auf den Tisch.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Konsequenz NEO Blue</p>
+        <p>Als einziger Kandidat lässt NEO Blue das <b>gesamte Papiersystem unangetastet</b>. Zusätzlich ist es vollständig druckbar und als Token bereits im System.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Konsequenz Druck</p>
+        <p>Bei einem vollflächigen Signalfeld — Plakat, Messewand, Titelseite — wäre <b>Lime die am schlechtesten reproduzierbare</b> der vier Farben. Deshalb der Arbeitsstand: Lime am Bildschirm, Green als Druckfassung.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="subhead"><span>Anschauung</span><h2>Wie sich die Wahl anfühlt</h2></div>
+    <div class="prose">
+      <p>Farbtonabstände in Grad sagen einem Vorstand nichts. Diese vier Beispiele zeigen dieselbe Entscheidung als das, was am Ende jemand sieht: zwei Webseiten-Abschnitte und zwei Folien, jeweils mit Bereichspapier, Flächenstapel und Signalfarbe.</p>
+      <p><b>Signal und Papier lassen sich einzeln umschalten.</b> Alle vier Beispiele reagieren gemeinsam — so wird sichtbar, was die Tabellen zuvor nur behauptet haben: dass ein grünes Signal auf Salbei verschwindet und auf Warm Taupe steht.</p>
+    </div>
+
+    <div class="switcher">
+      <div class="switchrow">
+        <p class="switchlbl">Signal</p>
+        <div class="opts" role="group" aria-label="Signalfarbe wählen">
+          <button type="button" class="opt is-on" data-sig="lime"><span class="swx" style="background:#37e93d"></span>Lime</button>
+          <button type="button" class="opt" data-sig="green"><span class="swx" style="background:#34c759"></span>Green</button>
+          <button type="button" class="opt" data-sig="blue"><span class="swx" style="background:#009ee3"></span>NEO Blue</button>
+          <button type="button" class="opt" data-sig="magenta"><span class="swx" style="background:#e5007d"></span>Magenta</button>
+        </div>
+      </div>
+      <div class="switchrow">
+        <p class="switchlbl">Papier</p>
+        <div class="opts" role="group" aria-label="Bereichspapier wählen">
+          <button type="button" class="opt is-on" data-pap="graphit"><span class="swx" style="background:#f1f3f1"></span>Graphit</button>
+          <button type="button" class="opt" data-pap="neutral-beige"><span class="swx" style="background:#f6f2ea"></span>Beige</button>
+          <button type="button" class="opt" data-pap="ivory"><span class="swx" style="background:#f3f3ea"></span>Ivory</button>
+          <button type="button" class="opt" data-pap="neutral-taupe"><span class="swx" style="background:#f8f1eb"></span>Warm Taupe</button>
+          <button type="button" class="opt" data-pap="neutral-pearl"><span class="swx" style="background:#f2f2f2"></span>Pearl White</button>
+          <button type="button" class="opt" data-pap="neutral-salbei"><span class="swx" style="background:#eff4ef"></span>Salbei <em>Reserve</em></button>
+        </div>
+      </div>
+      <p class="verdict" id="verdict"></p>
+    </div>
+
+    <div class="stage" id="stage">
+
+      <!-- ---------- Webseite: Hero ---------- -->
+      <div class="ex">
+        <p class="exlbl">Webseite · Hero</p>
+        <div class="frame">
+          <div class="browser">
+            <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
+            <span class="burl">neocosmo.de</span>
+          </div>
+          <div class="page hero-p">
+            <div class="topnav">
+              <span class="logo">NEOCOSMO</span>
+              <span class="navlinks"><span>Lösungen</span><span>Produkte</span><span>Inside</span><span>Preise</span></span>
+              <span class="btn-sig">Demo buchen</span>
+            </div>
+            <div class="hero-body">
+              <p class="kicker">Wissensplattform</p>
+              <h3 class="hero-h">Dieselbe Organisation, dasselbe System.</h3>
+              <p class="hero-sub">Lernen, Dokumentation und Zusammenarbeit auf einer Oberfläche — ohne dass jemand die Anwendung wechseln muss.</p>
+              <div class="hero-cta">
+                <span class="btn-sig">Plattform ansehen</span>
+                <span class="btn-quiet">Wie es funktioniert</span>
+              </div>
+            </div>
+            <div class="hero-vis">
+              <span class="node n1"></span><span class="node n2"></span><span class="node n3 is-sig"></span>
+              <span class="edge e1"></span><span class="edge e2"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- Webseite: Funktionsübersicht ---------- -->
+      <div class="ex">
+        <p class="exlbl">Webseite · Funktionsübersicht mit Screenshot</p>
+        <div class="frame">
+          <div class="browser">
+            <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
+            <span class="burl">neocosmo.de/produkte</span>
+          </div>
+          <div class="page feat-p">
+            <p class="kicker">Funktionsübersicht</p>
+            <h3 class="feat-h">Drei Dinge, die zusammengehören</h3>
+            <div class="feat-grid">
+              <div class="fcard">
+                <span class="ficon is-sig"></span>
+                <p class="fh">Kurse</p>
+                <p class="ft">Strukturierte Lernpfade mit Fortschritt und Nachweis.</p>
+              </div>
+              <div class="fcard">
+                <span class="ficon"></span>
+                <p class="fh">Wissensbasis</p>
+                <p class="ft">Durchsuchbar, versioniert, direkt aus dem Arbeitskontext.</p>
+              </div>
+              <div class="fcard">
+                <span class="ficon"></span>
+                <p class="fh">Zusammenarbeit</p>
+                <p class="ft">Kommentare und Aufgaben an der Stelle, wo sie hingehören.</p>
+              </div>
+            </div>
+            <div class="shot">
+              <div class="shotbar"><span class="sdot"></span><span class="sdot"></span><span class="stitle">Kursübersicht</span></div>
+              <div class="shotbody">
+                <div class="side">
+                  <span class="srow is-sig"></span><span class="srow"></span><span class="srow"></span><span class="srow"></span>
+                </div>
+                <div class="main">
+                  <div class="mcard"><span class="mbar is-sig"></span><span class="mline w70"></span><span class="mline w45"></span></div>
+                  <div class="mcard"><span class="mbar"></span><span class="mline w60"></span><span class="mline w35"></span></div>
+                  <div class="mcard"><span class="mbar"></span><span class="mline w75"></span><span class="mline w50"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- Folie: Text und Aufzählung ---------- -->
+      <div class="ex">
+        <p class="exlbl">Präsentation · Headline, Fließtext, Aufzählung</p>
+        <div class="frame">
+          <div class="slide">
+            <div class="sl-head">
+              <span class="sl-mark"></span>
+              <h3 class="sl-h">Warum ein Papier je Bereich</h3>
+            </div>
+            <p class="sl-body">Ein Papier markiert einen Ort, keine Kategorie. Der Betrachter vergleicht nichts — er merkt beim Wechsel, dass er woanders ist, und benennt es nie. Genau das funktioniert, weil der Abstand so klein ist.</p>
+            <ul class="sl-list">
+              <li><span class="bullet is-sig"></span>Fünf Bereiche, ein Papier je Bereich</li>
+              <li><span class="bullet"></span>Nie zwei Papiere gleichzeitig sichtbar</li>
+              <li><span class="bullet"></span>Nur in hellen Themes — dunkel läuft alles auf Graphit</li>
+              <li><span class="bullet"></span>Website, Präsentation und Druck teilen dieselben fünf Welten</li>
+            </ul>
+            <div class="sl-foot"><span>NEO Brand</span><span class="sl-pg">07</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- Folie: Tabelle ---------- -->
+      <div class="ex">
+        <p class="exlbl">Präsentation · Headline, Subheadline, Tabelle</p>
+        <div class="frame">
+          <div class="slide">
+            <div class="sl-head">
+              <span class="sl-mark"></span>
+              <div>
+                <h3 class="sl-h">Zuordnung der Bereiche</h3>
+                <p class="sl-sub">Website, Präsentation und Druck benutzen dieselben Papiere</p>
+              </div>
+            </div>
+            <table class="sl-tbl">
+              <thead><tr><th>Bereich</th><th>Papier</th><th>Route</th><th class="r">Tinte</th></tr></thead>
+              <tbody>
+                <tr><td>Lösung und Anwendung</td><td>Beige</td><td>/loesungen</td><td class="r">18,81</td></tr>
+                <tr class="is-row-sig"><td>Menschen und Geschichten</td><td>Ivory</td><td>/inside</td><td class="r">18,82</td></tr>
+                <tr><td>Produkt und Funktion</td><td>Graphit</td><td>/produkte</td><td class="r">18,83</td></tr>
+                <tr><td>Unternehmen</td><td>Warm Taupe</td><td>/unternehmen</td><td class="r">18,77</td></tr>
+                <tr><td>Zahlen und Konditionen</td><td>Pearl White</td><td>/preise</td><td class="r">18,76</td></tr>
+              </tbody>
+            </table>
+            <div class="sl-foot"><span>NEO Brand</span><span class="sl-pg">08</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p class="note">Die Beispiele benutzen ausschließlich Werte aus dem Tokensatz: Grund ist Stufe 100 des gewählten Papiers, gesenkte Flächen Stufe 200, Konturen Stufe 300, Text Stufe 950 und 700. Die Signalfläche trägt immer schwarze Tinte, nie weiße — auf allen vier Kandidaten gewinnt Schwarz.</p>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Arbeitsstand</span><h2>Was gilt, bis entschieden ist</h2></div>
+    <div class="prose">
+      <p>Die Entscheidung liegt bei der Unternehmensleitung. Bis dahin wird mit <b>Lime</b> gearbeitet, <b>Green (#34c759)</b> dient als Druckfassung für Messestände, Großformat und unbeschichtete Papiere. <b>Salbei bleibt als Bereichspapier bestehen</b> — der Konflikt aus der Tabelle oben ist bekannt und bewusst in Kauf genommen.</p>
+      <p>Neu im Tokensatz ist die Reserveleiter <b>Ivory</b>, abgeleitet aus #FFFFF0. Sie ist keinem Bereich zugeordnet und belegt keine Route; die Grenze „fünf Bereiche, fünf Papiere" gilt unverändert.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <p class="lbl">Ivory · Ableitung</p>
+        <p>Helligkeiten Stufe für Stufe von <b>Graphit</b>, damit alle Kontrastwerte beim Wechsel erhalten bleiben. Übernommen wird nur der Farbton, <b>107°</b>. Die Buntheit folgt dem Profil von Beige — Ivory misst 0,0196, Beige 0,0193.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Ivory · Druck</p>
+        <p>Über alle elf Stufen unter <b>ΔE 0,87</b>, durchgängig „sicher" — genauer als Graphit selbst mit ΔE 1,40. Schwarze Tinte auf Ivory 100 erreicht 16,00 gegen 16,01 bei Graphit 100.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Ivory · Auflage</p>
+        <p>Mit 36° zu Lime und 41° zu Green hat Ivory beim gegenwärtigen Arbeitsstand die <b>kleinste Reserve aller Papiere außer Salbei</b>. Neben NEO Blue oder Magenta ist es unkritisch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Ist-Stand</span><h2>Was im Design System steht</h2></div>
+    <div class="prose">
+      <p>Geprüft gegen <span style="font-family:var(--f-tech);font-size:13.5px">data/design-tokens.json</span> und die SCSS-Quellen. Der Styleguide ist teilweise eingeflossen — die offene Signalentscheidung blockiert den Rest.</p>
+    </div>
+
+    <ul class="check">
+      <li><span class="mark yes">vorhanden</span><span><b>NEO Blue</b> — alle vier Theme-Werte, jetzt auf #009ee3</span></li>
+      <li><span class="mark yes">vorhanden</span><span><b>Lime</b> — alle vier Theme-Werte als Akzentleiter</span></li>
+      <li><span class="mark yes">vorhanden</span><span><b>Feedback-Farben</b> — alle sechzehn Werte, systematisch als Stufe 700 (Light), 300 (Dark), 800 (IC Light), 200 (IC Dark)</span></li>
+      <li><span class="mark yes">vorhanden</span><span><b>Graphit als Primary</b> — seit 24.08.2026</span></li>
+      <li><span class="mark yes">neu</span><span><b>Ivory</b> — elf Stufen, in SCSS-Quelle, Registry, Kompilat und Druckfarbtabelle</span></li>
+      <li><span class="mark">fehlt</span><span><b>Green</b> — kein einziger der vier Werte</span></li>
+      <li><span class="mark">fehlt</span><span><b>Magenta</b> — kein einziger der Werte</span></li>
+      <li><span class="mark">fehlt</span><span><b>Ebenenfarben</b> — Menschen, Wissen, Systeme, Daten und KI</span></li>
+      <li><span class="mark">fehlt</span><span><b>IC als Theme-Achse</b> — die Werte liegen als Primitives bereit, aber kein Theme greift sie ab</span></li>
+      <li><span class="mark">fehlt</span><span><b>Warm Taupe und Pearl White als Leitern</b> — vorhanden, aber nur als flache Einzelfarben</span></li>
+      <li><span class="mark">abweichend</span><span><b>Kapitel 07 Flächen</b> — das Mono-Theme führt zwei parallele Modelle mit fünf und zwei Flächen, der Styleguide eines mit vier plus Kontur</span></li>
+    </ul>
+
+    <p class="note">Zwei Punkte brauchen eine eigene Entscheidung. Erstens: Die Feedback-Farben des Styleguides sind <b>nicht</b> die der vier Themes — der Styleguide greift auf die Primitive-Leitern zu (Success Light #16612b), die Themes benutzen freie Werte (#0a6e3d). Entweder ziehen die Themes auf die Leiterwerte um, oder der Styleguide auf die Theme-Werte. Zweitens: Für Increased Contrast gibt es <b>keine Ebenenfarben</b> — vier Varianten wurden gerechnet, alle fallen wegen Rot-Grün-Schwäche durch. Diagramme tragen dort Schraffuren statt Farbe.</p>
+  </section>
+
+  <footer>
+    <p>Stand 26. August 2026 · Grundlage: NEO Brand Styleguide, Kapitel 04 Color und 07 Layer, abgeglichen gegen den Tokensatz des NEO Design Systems. Farbtonwerte in OKLCH, Kontraste nach WCAG 2.1, Druckabweichungen als ΔE00 gegen ISO Coated v2 (FOGRA39).</p>
+  </footer>
+
+</div>
+
+<script>const PAPIERE = {"graphit":{"label":"Graphit","shades":{"50":"#f9fbf9","100":"#f1f3f1","200":"#e4e6e4","300":"#d2d4d2","400":"#afb2af","500":"#909390","600":"#727572","700":"#595c59","800":"#414341","900":"#292b29","950":"#161816"}},"neutral-beige":{"label":"Beige","shades":{"50":"#fef9f2","100":"#f6f2ea","200":"#eae4dc","300":"#d8d3ca","400":"#b7b0a6","500":"#989185","600":"#7b7366","700":"#615a4e","800":"#474138","900":"#2e2922","950":"#1a1710"}},"ivory":{"label":"Ivory","shades":{"50":"#fbfbf3","100":"#f3f3ea","200":"#e6e6dd","300":"#d4d4ca","400":"#b2b2a6","500":"#939386","600":"#757567","700":"#5c5c4f","800":"#434339","900":"#2b2b23","950":"#181810"}},"neutral-taupe":{"label":"Warm Taupe","shades":{"50":"#fff9f4","100":"#f8f1eb","200":"#ebe4dd","300":"#dad2ca","400":"#b8afa7","500":"#9a9086","600":"#7d7267","700":"#63594f","800":"#494139","900":"#2f2923","950":"#1c1611"}},"neutral-pearl":{"label":"Pearl White","shades":{"50":"#fafafa","100":"#f2f2f2","200":"#e5e5e5","300":"#d3d3d3","400":"#b1b1b1","500":"#929292","600":"#747474","700":"#5b5b5b","800":"#424242","900":"#2a2a2a","950":"#171717"}},"neutral-salbei":{"label":"Salbei","shades":{"50":"#f7fcf7","100":"#eff4ef","200":"#e2e7e1","300":"#d0d5cf","400":"#adb3ac","500":"#8d948d","600":"#6f776f","700":"#565d56","800":"#3e443e","900":"#272c27","950":"#151814"}}};</script>
+<script>
+(function(){
+  var SIG = {
+    lime:    {label:"Lime",     hex:"#37e93d", on:"#161816"},
+    green:   {label:"Green",    hex:"#34c759", on:"#161816"},
+    blue:    {label:"NEO Blue", hex:"#009ee3", on:"#161816"},
+    magenta: {label:"Magenta",  hex:"#e5007d", on:"#161816"}
+  };
+  var MATRIX = {"lime":{"graphit":{"d":2,"v":"neutral"},"neutral-beige":{"d":62,"v":"ok"},"ivory":{"d":36,"v":"knapp"},"neutral-taupe":{"d":76,"v":"ok"},"neutral-pearl":{"d":53,"v":"neutral"},"neutral-salbei":{"d":2,"v":"raus"}},"green":{"graphit":{"d":2,"v":"neutral"},"neutral-beige":{"d":66,"v":"ok"},"ivory":{"d":41,"v":"knapp"},"neutral-taupe":{"d":80,"v":"ok"},"neutral-pearl":{"d":58,"v":"neutral"},"neutral-salbei":{"d":2,"v":"raus"}},"blue":{"graphit":{"d":93,"v":"neutral"},"neutral-beige":{"d":157,"v":"ok"},"ivory":{"d":131,"v":"ok"},"neutral-taupe":{"d":171,"v":"ok"},"neutral-pearl":{"d":148,"v":"neutral"},"neutral-salbei":{"d":93,"v":"ok"}},"magenta":{"graphit":{"d":147,"v":"neutral"},"neutral-beige":{"d":83,"v":"ok"},"ivory":{"d":108,"v":"ok"},"neutral-taupe":{"d":69,"v":"ok"},"neutral-pearl":{"d":91,"v":"neutral"},"neutral-salbei":{"d":147,"v":"ok"}}};
+
+  var stage = document.getElementById("stage");
+  var out   = document.getElementById("verdict");
+  if(!stage || !out) return;
+
+  var curSig = "lime", curPap = "graphit";
+
+  function apply(){
+    var p = PAPIERE[curPap], s = SIG[curSig];
+    Object.keys(p.shades).forEach(function(k){
+      stage.style.setProperty("--p" + k, p.shades[k]);
+    });
+    stage.style.setProperty("--sig", s.hex);
+    stage.style.setProperty("--sig-on", s.on);
+
+    var m = MATRIX[curSig][curPap];
+    var txt;
+    if(m.v === "raus"){
+      txt = "<b>" + s.label + " auf " + p.label + " — ausgeschlossen.</b> Farbtonabstand " + m.d
+          + "°, unter der Grenze von 30°. Das Signal verschwindet im Grund; genau deshalb ist Salbei aus dem Bereichsdienst genommen.";
+    } else if(m.v === "knapp"){
+      txt = "<b>" + s.label + " auf " + p.label + " — benutzbar, mit der kleinsten Reserve.</b> Farbtonabstand "
+          + m.d + "°. Über der Grenze von 30°, aber der geringste Abstand der fünf Bereichspapiere.";
+    } else if(m.v === "neutral"){
+      txt = "<b>" + s.label + " auf " + p.label + " — unkritisch.</b> Der Abstand beträgt zwar " + m.d
+          + "°, aber die Buntheit dieses Papiers ist zu schwach, um mit dem Signal zu konkurrieren.";
+    } else {
+      txt = "<b>" + s.label + " auf " + p.label + " — trägt.</b> Farbtonabstand " + m.d
+          + "°" + (m.d > 140 ? ", nahezu komplementär: Papier und Signal stützen sich gegenseitig." : ", deutlich über der Grenze von 30°.");
+    }
+    out.innerHTML = txt;
+  }
+
+  function wire(attr, set){
+    var btns = document.querySelectorAll("[data-" + attr + "]");
+    Array.prototype.forEach.call(btns, function(b){
+      b.addEventListener("click", function(){
+        Array.prototype.forEach.call(btns, function(o){
+          o.classList.remove("is-on");
+          o.setAttribute("aria-pressed", "false");
+        });
+        b.classList.add("is-on");
+        b.setAttribute("aria-pressed", "true");
+        set(b.getAttribute("data-" + attr));
+        apply();
+      });
+      b.setAttribute("aria-pressed", b.classList.contains("is-on") ? "true" : "false");
+    });
+  }
+
+  wire("sig", function(v){ curSig = v; });
+  wire("pap", function(v){ curPap = v; });
+  apply();
+})();
+</script>
+

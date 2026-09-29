@@ -1,0 +1,42 @@
+
+<style>
+  /* ── Ergänzung Kapitel 3: Stufenleiter ────────────────────────────────── */
+  :root{
+    --fluid-min-vw: 320;
+    --fluid-max-vw: 1920;
+    --fluid-range: calc((var(--fluid-max-vw) - var(--fluid-min-vw)) * 1px);
+    --fluid-bp: clamp(0, calc((100vw - (var(--fluid-min-vw) * 1px)) / var(--fluid-range)), 1);
+    --fs-2xs: clamp(0.75rem, calc(0.75rem + (0.8125rem - 0.75rem) * var(--fluid-bp)), 0.8125rem);
+    --fs-xs: clamp(0.8125rem, calc(0.8125rem + (0.9375rem - 0.8125rem) * var(--fluid-bp)), 0.9375rem);
+    --fs-sm: clamp(0.875rem, calc(0.875rem + (1rem - 0.875rem) * var(--fluid-bp)), 1rem);
+    --fs-base: clamp(1rem, calc(1rem + (1.125rem - 1rem) * var(--fluid-bp)), 1.125rem);
+    --fs-lg: clamp(1.15rem, calc(1.15rem + (1.35rem - 1.15rem) * var(--fluid-bp)), 1.35rem);
+    --fs-xl: clamp(1.3225rem, calc(1.3225rem + (1.62rem - 1.3225rem) * var(--fluid-bp)), 1.62rem);
+    --fs-2xl: clamp(1.520875rem, calc(1.520875rem + (1.944rem - 1.520875rem) * var(--fluid-bp)), 1.944rem);
+    --fs-3xl: clamp(1.74900625rem, calc(1.74900625rem + (2.3328rem - 1.74900625rem) * var(--fluid-bp)), 2.3328rem);
+    --fs-4xl: clamp(2.0113571875rem, calc(2.0113571875rem + (2.79936rem - 2.0113571875rem) * var(--fluid-bp)), 2.79936rem);
+    --fs-5xl: clamp(2.3130607656rem, calc(2.3130607656rem + (3.359232rem - 2.3130607656rem) * var(--fluid-bp)), 3.359232rem);
+    --fs-6xl: clamp(2.6600198805rem, calc(2.6600198805rem + (4.0310784rem - 2.6600198805rem) * var(--fluid-bp)), 4.0310784rem);
+    --fs-7xl: clamp(3.0590228625rem, calc(3.0590228625rem + (4.83729408rem - 3.0590228625rem) * var(--fluid-bp)), 4.83729408rem);
+    --fs-8xl: clamp(3.5178762919rem, calc(3.5178762919rem + (5.804752896rem - 3.5178762919rem) * var(--fluid-bp)), 5.804752896rem);
+    --fs-9xl: clamp(4.0455577357rem, calc(4.0455577357rem + (6.9657034752rem - 4.0455577357rem) * var(--fluid-bp)), 6.9657034752rem);
+  }
+  .leiter{border:1px solid var(--border);background:var(--surface);margin:0 0 16px}
+  .stufe{display:grid;grid-template-columns:1fr;gap:0;border-bottom:1px solid var(--hair)}
+  .stufe:last-child{border-bottom:0}
+  @media (min-width:760px){.stufe{grid-template-columns:186px 1fr;align-items:start}}
+  .stufe-meta{padding:18px 20px 14px;border-bottom:1px solid var(--hair)}
+  @media (min-width:760px){
+    .stufe-meta{border-bottom:0;border-right:1px solid var(--hair);
+                position:sticky;top:0;padding:20px 20px 22px}
+  }
+  .stufe-tok{font-family:var(--f-tech);font-size:12px;color:var(--signal);margin:0 0 6px}
+  .stufe-px{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0 0 10px;
+            font-variant-numeric:tabular-nums}
+  .stufe-rolle{font-family:var(--f-brand);font-weight:700;font-size:14px;
+               letter-spacing:-.01em;margin:0 0 3px}
+  .stufe-wo{font-size:12.5px;color:var(--faint);margin:0;line-height:1.4}
+  .stufe-probe{padding:20px 22px 24px;overflow:hidden;min-width:0}
+  .stufe-probe span{display:block;color:var(--text);max-width:46ch;
+                    overflow-wrap:break-word;text-wrap:balance}
+</style>

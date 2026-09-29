@@ -1,0 +1,47 @@
+
+<style>
+  /* ── Ergänzung Kapitel 11: Folien-Miniaturen ──────────────────────────── */
+  .slides{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));margin:0 0 16px}
+  .sl{background:var(--surface)}
+  .sl-frame{aspect-ratio:16/9;background:var(--gl-paper);border:1px solid var(--gl-kontur);
+            position:relative;overflow:hidden;padding:7% 5%}
+  .sl-frame.tief{background:var(--g950)}
+  .sl-frame.tief .t,.sl-frame.tief .h{color:var(--g100)}
+  .sl-frame.tief .s{color:var(--g400)}
+  .sl-cap{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.09em;color:var(--faint);
+          margin:8px 0 0;line-height:1.4}
+  .sl-cap b{color:var(--text);letter-spacing:.04em}
+
+  /* Bausteine innerhalb einer Miniatur */
+  .sl .k{font-family:var(--f-tech);font-size:5.5px;letter-spacing:.16em;text-transform:uppercase;
+         color:var(--faint);margin:0 0 4px;display:block}
+  .sl .t{font-family:var(--f-brand);font-weight:700;font-size:13px;line-height:1.02;
+         letter-spacing:-.03em;color:var(--gl-ink);margin:0}
+  .sl .h{font-family:var(--f-brand);font-weight:600;font-size:9px;line-height:1.1;
+         letter-spacing:-.02em;color:var(--gl-ink);margin:0 0 5px}
+  .sl .s{font-size:6px;line-height:1.5;color:var(--muted);margin:0}
+  .sl .bar{height:3px;background:var(--g300);margin:0 0 3px}
+  .sl .bar.w70{width:70%}.sl .bar.w50{width:50%}.sl .bar.w85{width:85%}.sl .bar.w40{width:40%}
+  .sl .box{background:var(--gl-card);border:1px solid var(--gl-kontur)}
+  .sl .img{background:var(--g300)}
+  .sl .sig{background:var(--gl-lime)}
+  .sl .num{font-family:var(--f-brand);font-weight:700;font-size:17px;letter-spacing:-.04em;
+           line-height:1;color:var(--gl-ink)}
+  .sl .foot{position:absolute;left:5%;right:5%;bottom:4%;display:flex;justify-content:space-between;
+            font-family:var(--f-tech);font-size:5px;letter-spacing:.1em;color:var(--faint)}
+  .sl-row{display:flex;gap:5px}
+  .sl-col{display:flex;flex-direction:column;gap:4px}
+
+  /* Rasterraster über einer Folie */
+  .sl-grid{position:absolute;inset:7% 5%;display:grid;grid-template-columns:repeat(6,1fr);
+           gap:2.4%;pointer-events:none}
+  .sl-grid span{background:color-mix(in srgb, var(--signal) 18%, transparent)}
+
+  /* Diagramm- und Tabellenspezifikation */
+  .spec-tbl{border-collapse:collapse;width:100%;font-size:12.5px}
+  .spec-tbl th{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+               color:var(--faint);text-align:left;padding:8px 10px;background:var(--sunk);
+               border-bottom:1px solid var(--border);font-weight:500}
+  .spec-tbl td{padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+  .spec-tbl tr:last-child td{border-bottom:0}
+</style>

@@ -1,0 +1,582 @@
+
+<title>Zugang ist nicht Klarheit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+  td.do,.do{color:var(--signal);font-weight:600}
+
+  /* ── Ungleichungen: das Instrument des Buchs als Struktur der Seite ── */
+  .ungl{border:1px solid var(--border);background:var(--surface);margin-bottom:20px}
+  .u-row{display:grid;grid-template-columns:auto auto auto 1fr;
+         gap:0 18px;align-items:baseline;padding:26px 28px;border-top:1px solid var(--hair)}
+  .u-row.u-top{border-top:0}
+  .u-a,.u-b{font-family:var(--f-brand);font-weight:700;font-size:clamp(19px,2.3vw,26px);
+            letter-spacing:-.022em;line-height:1.1}
+  .u-b{color:var(--faint)}
+  .u-op{font-family:var(--f-brand);font-weight:400;font-size:clamp(19px,2.3vw,26px);
+        color:var(--signal);line-height:1.1}
+  .u-t{grid-column:1/-1;margin-top:15px;max-width:72ch}
+  .u-t p{font-size:15px;color:var(--muted);margin:0 0 10px}
+  .u-t p:last-child{margin-bottom:0}
+  .u-t b{color:var(--text)}
+  @media (min-width:820px){
+    .u-t{grid-column:4;margin-top:0}
+    .u-row{grid-template-columns:auto auto auto minmax(0,1.7fr);gap:0 22px;align-items:start}
+    .u-a,.u-b,.u-op{padding-top:1px}
+  }
+  td.do,.do{color:var(--signal);font-weight:600}
+  .tag{display:inline-block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;
+       text-transform:uppercase;padding:3px 8px;border:1px solid var(--border);
+       color:var(--faint);margin-right:7px;vertical-align:2px}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.bad{border-color:#c4363f;color:#c4363f}
+  .card p+p{margin-top:11px}
+</style>
+
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Quellenauswertung für die zweite Hälfte des Systemgesetzes</p>
+  <h1>Zugang ist nicht Klarheit</h1>
+  <p class="lede">Habermann und Schmidt trennen in ihrem Buch <em>(Un)klarheit</em> vier Begriffe, die im Markt für Workplace-Plattformen routinemäßig verwechselt werden. Eine dieser Trennungen ist für NEO mehr wert als der Rest des Buchs zusammen — weil sie dem Claim einen Gegner gibt.</p>
+  <div class="meta">
+    <div><dt>Quelle</dt><dd>(Un)klarheit, Becota 2026</dd></div>
+    <div><dt>Gelesen</dt><dd>48 Seiten, Kap. 1–2</dd></div>
+    <div><dt>Übernehmbar</dt><dd>5 Gedanken</dd></div>
+    <div><dt>Gesperrt</dt><dd>das Clarity Wheel</dd></div>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><strong>Der Befund in einem Satz.</strong> Das Buch definiert Klarheit als <b>selektiv</b> — sie sortiert und trennt — und grenzt sie damit von Transparenz ab, die Zugang schafft und Fülle erzeugt. <b>Genau diese Unterscheidung ist die Positionierung, die dem Systemgesetz gefehlt hat.</b> Alle acht Wettbewerber verkaufen Transparenz: eine Oberfläche, Suche über Systeme, 80 Konnektoren, alles an einem Ort. Wenn Zugang und Klarheit dasselbe wären, hätte NEO nichts zu sagen. Sie sind es nicht.</p>
+  <p><strong>Zur Belastbarkeit.</strong> Vorliegend ist ein <b>Auszug</b>: Kapitel 1 und 2 vollständig, die Kapitel Sensorik, (Fehl)orientierung und Selbstführung nur als Inhaltsverzeichnis. Die Auswertung stützt sich also auf die Grundlegung, nicht auf die Praxisteile. Für die Markenarbeit reicht das — die Begriffsarbeit steht vorn.</p>
+</div>
+
+<div class="subhead"><span>01</span><h3>Was das Buch behauptet</h3></div>
+<div class="prose">
+  <p>Adressat sind Führungskräfte, Gegenstand ist deren Wahrnehmung. Der Gedankengang in sechs Schritten, in eigenen Worten:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">Nr.</th><th scope="col">Schritt</th></tr></thead>
+    <tbody>
+      <tr><td class="m r">01</td><td><b>Unklarheit ist der Normalzustand, nicht die Störung.</b> Weil Arbeit geteilt ist, Perspektiven auseinanderliegen und Sprache ungenau ist, beginnt jedes anspruchsvolle Vorhaben unklar. Wer das Gegenteil annimmt, überspringt die Arbeit, die am Anfang zu leisten wäre.</td></tr>
+      <tr><td class="m r">02</td><td><b>Das eigene Klarheitsgefühl ist ein schlechter Maßstab.</b> Wer entschlossen entscheidet, senkt die eigene Anspannung — und hält das entstehende Gefühl von Ordnung für einen Beleg, dass die Sache geklärt sei. Die Autoren nennen das die Entschlossenheitsfalle.</td></tr>
+      <tr><td class="m r">03</td><td><b>Echte und eingebildete Klarheit fühlen sich identisch an.</b> Der Unterschied zeigt sich erst im Widerspruch, in der kritischen Nachfrage, im Test. Fundierte Klarheit hält Differenzierung aus, illusionäre bricht darunter zusammen.</td></tr>
+      <tr><td class="m r">04</td><td><b>Unklarheit erzeugt einen Kreislauf.</b> Sie führt zu Anspannung, Anspannung zu schlechterer Kommunikation, diese zu schlechteren Entscheidungen, diese zu Mehrarbeit — und Mehrarbeit zu neuer Unklarheit. Der Schaden entsteht ohne bösen Willen.</td></tr>
+      <tr><td class="m r">05</td><td><b>Der Preis ist dreifach.</b> Operativ als Reibung und Doppelarbeit, unternehmerisch als Entscheidungen ohne Orientierung, menschlich als Erschöpfung, Misstrauen und Rückzug. Die dritte Spalte ist die, die in Wirtschaftlichkeitsrechnungen fehlt.</td></tr>
+      <tr><td class="m r">06</td><td><b>Vollständige Klarheit ist im Komplexen unerreichbar.</b> Ein Rest Unklarheit ist keine Schwäche, sondern eine Eigenschaft des Systems. Wer auf Vollständigkeit wartet, handelt zu spät oder gar nicht.</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note">Die eine Formulierung, die ich wörtlich weitergebe, weil sie sich zum Merksatz eignet: <b>„Klarheit kostet Minuten, Unklarheit kostet Monate."</b> <span style="color:var(--faint)">— Habermann/Schmidt</span></p>
+
+<div class="subhead"><span>02</span><h3>Die vier Abgrenzungen — das Herzstück</h3></div>
+<div class="prose">
+  <p>Das Buch arbeitet mit einem einzigen Instrument: der Unterscheidung. Es sagt nicht, was Klarheit ist, sondern wovon sie sich trennt. <b>Drei dieser vier Trennungen sind für NEO unmittelbar verwertbar</b>, eine ist ein Warnschild.</p>
+</div>
+
+<div class="ungl">
+  <div class="u-row u-top">
+    <div class="u-a">Klarheit</div><div class="u-op">≠</div><div class="u-b">Transparenz</div>
+    <div class="u-t"><p><b>Die wichtigste für NEO.</b> Transparenz schafft Sichtbarkeit und Zugang — und damit Fülle. Wer alles zeigt, zeigt auch alles Unwichtige, Widersprüchliche, Ungeordnete. Klarheit dagegen ist <b>auswählend</b>: Sie trennt relevant von irrelevant, stabil von flüchtig, Symptom von Ursache.</p><p><span class="tag on">Folge</span> Genau hier liegt die Trennlinie zum Wettbewerb. „Alles an einem Ort", „Suche über alle Systeme", „80 Konnektoren" sind <b>Transparenzversprechen</b>. Sie sind notwendig und sie unterscheiden nichts. Der Satz, der NEO gehören könnte: <b>Zugang zu allem ist nicht dasselbe wie Klarheit über das Eigene.</b></p></div>
+  </div>
+  <div class="u-row">
+    <div class="u-a">Klarheit</div><div class="u-op">≠</div><div class="u-b">Einfachheit</div>
+    <div class="u-t"><p>Klarheit entsteht, indem man Komplexität <b>durchdringt</b>; Einfachheit, indem man <b>weglässt</b>. Beides ist sinnvoll — in der falschen Reihenfolge wird es gefährlich. Wer vereinfacht, bevor er verstanden hat, verzerrt.</p><p><span class="tag on">Folge</span> Doppelt einschlägig. <b>Für das Produkt:</b> Eine KI, die zusammenfasst, leistet Einfachheit. Eine KI, die nach Betroffenheit sortiert, leistet Klarheit. Das ist der Unterschied zwischen einem Feature und dem Systemgesetz. <b>Für das Designsystem:</b> Die Reduktion in Kapitel 08 muss verdient sein — sie ist das Ergebnis von Durchdringung, nicht deren Ersatz.</p></div>
+  </div>
+  <div class="u-row">
+    <div class="u-a">Klarheit</div><div class="u-op">≠</div><div class="u-b">Korrektheit</div>
+    <div class="u-t"><p>Man kann korrekt informiert sein und trotzdem nichts verstanden haben. Umgekehrt kann man klar darüber sein, dass man etwas nicht beurteilen kann — und das ist ebenfalls Klarheit.</p><p><span class="tag on">Folge</span> Für die Redaktion relevanter, als es klingt. Eine fachlich einwandfreie Verfahrensanweisung ist korrekt. Ob sie beim Empfänger Klarheit erzeugt, ist eine <b>andere Frage mit einer anderen Messgröße</b>.</p></div>
+  </div>
+  <div class="u-row">
+    <div class="u-a">Klarheit</div><div class="u-op">≠</div><div class="u-b">Vollständigkeit</div>
+    <div class="u-t"><p>Das Warnschild. Im Komplexen ist vollständige Klarheit unerreichbar; ein Rest Ungewissheit gehört zum System. Klarheit heißt nach diesem Buch: bewusst unterscheiden zwischen dem, was man <b>weiß</b>, dem, was man <b>annimmt</b>, und dem, was man <b>nicht weiß</b>.</p><p><span class="tag bad">Achtung</span> „Klarheit für alle" kann als Vollständigkeitsversprechen missverstanden werden. Der Claim braucht deshalb im Markenbuch <b>einen definierenden Satz daneben</b> — sonst verspricht er etwas, das niemand halten kann.</p></div>
+  </div>
+</div>
+
+<div class="subhead"><span>03</span><h3>Die Leiter — und warum sie den Claim rettet</h3></div>
+<div class="prose">
+  <p>Das Buch beschreibt drei aufeinander aufbauende Stufen. Sie sind eine echte Reihenfolge, keine Aufzählung: Jede setzt die vorige voraus.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Stufe 01</p><h3>Individuelle Klarheit</h3><p>Ich verstehe die Lage aus meiner Perspektive und sehe die Dimensionen, die von dort sichtbar sind.</p><p><span class="tag">jeder für sich</span></p></div>
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Stufe 02</p><h3>Synchronisierte Klarheit</h3><p>Die abweichenden Sichtweisen sind erkannt <em>(geteilt)</em> und in einem sozialen Vorgang zusammengeführt <em>(gemeinsam)</em>.</p><p><span class="tag on">hier sitzt „für alle"</span></p></div>
+  <div class="card"><p class="lbl">Stufe 03</p><h3>Fundierte Klarheit</h3><p>Das Verständnis trägt: Es hält Differenzierung, kritische Nachfrage und Faktencheck aus.</p><p><span class="tag">prüfbar</span></p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Das ist der Fund, den ich nicht erwartet hatte.</strong> „Klarheit für alle" war bisher eine Behauptung ohne Begriff. Die Leiter gibt ihr <b>eine präzise Position</b>: Der Claim meint Stufe 02. Nicht, dass jeder alles versteht — sondern dass die einzelnen Klarheiten nicht nebeneinander stehen bleiben.</p>
+  <p>Und sie löst nebenbei das Registerproblem. Das Buch beschreibt Stufe 02 als <b>Führungsleistung</b>: mühsam, persönlich, an Selbstreflexion gebunden. Genau darin liegt die Umkehrung, die NEO zu eigen ist — <b>was das Buch von einer Führungskraft an Disziplin verlangt, muss die Plattform allen an Voraussetzung mitgeben.</b> Nicht als Ersatz für das Nachdenken, sondern indem sie die strukturellen Ursachen wegnimmt: falsche Zielgruppe, fehlender Kontext, veraltete Fassung, keine Antwort auf die Frage „gilt das für mich".</p>
+</div>
+
+<div class="subhead"><span>04</span><h3>Fünf Gedanken, die ich übernehmen würde</h3></div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Gedanke</th><th scope="col">Was er für NEO leistet</th><th scope="col">Wert</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Klarheit ist selektiv, Transparenz ist umfassend</b></td>
+        <td>Gibt dem Claim einen Gegner — und zwar keinen Wettbewerber, sondern eine <b>verbreitete Verwechslung</b>. Damit kann NEO gegen etwas argumentieren, ohne jemanden anzugreifen.</td>
+        <td class="do"><b>hoch</b></td>
+      </tr>
+      <tr>
+        <td><b>Sagen ≠ Meinen ≠ Verstehen</b></td>
+        <td>Der Markt misst <b>Reichweite</b> und <b>Beteiligung</b> — also Senden und Reagieren. Verstehen misst keiner. Hier liegt der einzige Ort, an dem „Klarheit" belegbar werden kann, ohne dass es Marketing bleibt.</td>
+        <td class="do"><b>hoch</b></td>
+      </tr>
+      <tr>
+        <td><b>Die Leiter: individuell → synchronisiert → fundiert</b></td>
+        <td>Verwandelt den Claim von einer Stimmung in eine <b>Position mit drei Stufen</b>. „Für alle" heißt Stufe 02. Das ist erklärbar, prüfbar und in einem Verkaufsgespräch belastbar.</td>
+        <td class="do"><b>hoch</b></td>
+      </tr>
+      <tr>
+        <td><b>Die Illusion von Klarheit</b></td>
+        <td>Beschreibt die Krankheit der internen Kommunikation exakt: Der Absender fühlt sich klar und hält dieses Gefühl für den Beleg, dass es angekommen ist. <b>Ein Gegner, der kein Wettbewerber ist</b> — markenstrategisch die beste Sorte.</td>
+        <td>mittel bis hoch</td>
+      </tr>
+      <tr>
+        <td><b>Erst verstehen, dann weglassen</b></td>
+        <td>Leitplanke in zwei Richtungen: gegen eine KI, die nur kürzt, und gegen ein Designsystem, das seine Reduktion nicht verdient hat. Gehört als Satz in Kapitel 08.</td>
+        <td>mittel</td>
+      </tr>
+      <tr>
+        <td><span class="no">Der Teufelskreis und die Preistabelle</span></td>
+        <td><span class="no">Brauchbar für den Vertrieb, nicht für die Marke. Eine Marke, die mit Schadensrechnungen argumentiert, verkauft Angst. Die Zahlen gehören in die Präsentation, nicht ins Markenbuch.</span></td>
+        <td><span class="no">nur Vertrieb</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>05</span><h3>Die Grenze — und sie ist ausdrücklich gezogen</h3></div>
+
+<div class="verdict" style="border-left-color:#c4363f">
+  <p><strong>Das Clarity Wheel ist gesperrt.</strong> Das Impressum erklärt das Modell und die zugehörigen methodischen Ansätze zum geistigen Eigentum der Autoren und verlangt für <b>kommerzielle Nutzung ein Gespräch</b>. Die Formulierung dort ist unmissverständlich und nennt alles andere ausdrücklich eine Grenzüberschreitung.</p>
+  <p>Konkret nicht übernehmen: <b>den Kreis mit vier Segmenten</b>, die Aufteilung in Selbst, Problemraum, Lösungsraum und Handlungsraum, die zugehörigen Leitfragen und die Raummetapher als Denkmodell. Das ist bedauerlich, weil die Raummetapher visuell hervorragend zu einem Layer-System passen würde — und genau deshalb wäre die Nähe auch besonders sichtbar.</p>
+  <p><strong>Frei verwendbar</strong> sind die begrifflichen Trennungen aus Abschnitt 02. Klarheit gegen Transparenz, Einfachheit und Korrektheit abzugrenzen ist kein Einfall dieses Buchs, sondern verbreitetes Gut der Systemtheorie und der Kommunikationslehre. Das Buch formuliert es nur besser als die meisten.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Zweite Grenze</p><h3>Das Register muss gedreht werden</h3><p>Das Buch spricht <b>Führungskräfte</b> an und handelt von deren Selbstwahrnehmung. Wer diesen Rahmen unverändert übernimmt, bekommt eine Führungskräfte-Marke — und widerspricht dem eigenen Claim im selben Atemzug.</p><p><b>„Für alle" heißt: nicht für Führungskräfte.</b> Der Speiseplan, die Schichtübergabe, die geänderte Verfahrensanweisung. Die Umkehrung aus Abschnitt 03 ist keine Formulierungsfrage, sondern die Bedingung, unter der das Buch überhaupt nutzbar ist.</p></div>
+  <div class="card"><p class="lbl">Nebenbei</p><h3>Berlin, und keine Wettbewerber</h3><p>Habermann und Schmidt arbeiten unter <span class="m" style="text-transform:none;letter-spacing:0">changepunk.com</span> in Berlin, das Buch erscheint bei Becota. Sie sind <b>keine Plattformanbieter</b>, sondern Beratung und Methodik.</p><p>Damit ist die Lizenzfrage kein Hindernis, sondern eine offene Tür: Wer ein Modell zur Klarheit entwickelt hat, hat ein Interesse an einer Plattform, die Klarheit herstellt. <b>Das Gespräch, das das Impressum verlangt, wäre ohnehin das interessantere.</b></p></div>
+</div>
+
+<div class="subhead"><span>06</span><h3>Wie ich den Claim daraus ausbaue</h3></div>
+<div class="law">
+  <p>Relevanz für jeden. Klarheit für alle.</p>
+  <p class="src">Das Systemgesetz — unverändert</p>
+</div>
+<div class="prose">
+  <p>Der Claim bleibt. Was ihm gefehlt hat, war der Unterbau: ein Gegenbegriff, eine Definition und ein Beleg. Alle drei liefert das Buch. Drei Argumentationslinien, in aufsteigender Angreifbarkeit:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">Nr.</th><th scope="col">Linie</th><th scope="col">Was sie braucht, um zu tragen</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="m r">01</td>
+        <td><b>Zugang ist nicht Klarheit.</b><br><span style="color:var(--muted)">Jede Plattform verspricht, alles erreichbar zu machen. Erreichbarkeit erzeugt Fülle. Klarheit entsteht durch Auswahl — und Auswahl ist eine Entscheidung, die jemand verantworten muss.</span></td>
+        <td>Nichts. Die Linie steht sofort und ist gegen jeden der acht Wettbewerber verwendbar, ohne einen zu nennen.</td>
+      </tr>
+      <tr>
+        <td class="m r">02</td>
+        <td><b>Klarheit ist nicht, dass jeder alles versteht — sondern dass niemand allein versteht.</b><br><span style="color:var(--muted)">Die Umkehrung von Stufe 02: aus der individuellen Klarheit vieler wird eine gemeinsame. Das ist die Definition, die „für alle" vor dem Vollständigkeitsvorwurf schützt.</span></td>
+        <td>Einen Satz im Markenbuch, der den Claim so definiert — sonst hängt die Auslegung an der Tagesform des Vortragenden.</td>
+      </tr>
+      <tr>
+        <td class="m r">03</td>
+        <td><b>Der Markt misst Reichweite. Wir arbeiten am Verstehen.</b><br><span style="color:var(--muted)">Die schärfste und die riskanteste Linie. Sie greift die Kennzahl an, mit der die gesamte Kategorie ihren Wert nachweist.</span></td>
+        <td class="do"><b>Ein Produktbeleg.</b> Ohne eine Funktion, die Verstehen sichtbar macht, ist dieser Satz eine Behauptung — und zwar eine, die auffällt.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Meine Empfehlung als Positionierung.</strong> Linie 01 sofort in die Marktkommunikation, Linie 02 als definierenden Satz ins Markenbuch neben den Claim. <b>Linie 03 zurückhalten, bis sie belegt ist</b> — sie ist die stärkste, und genau deshalb die, bei der ein Bluff am teuersten wäre.</p>
+  <p>Damit ist auch die offene Frage aus der Marktanalyse beantwortet, wo „Klarheit" belegbar wird. <b>Nicht in der Oberfläche, sondern im Abstand zwischen Senden und Verstehen.</b> Das ist eine Produktanforderung, und sie ist unbequem: Sie verlangt, dass die Plattform etwas misst, das ihr auch widersprechen kann.</p>
+</div>
+
+<div class="subhead"><span>—</span><h3>Was daraus zu tun ist</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Schritt</th><th scope="col">Wo</th><th scope="col">Stand</th></tr></thead>
+    <tbody>
+      <tr><td>Definierender Satz für „Klarheit für alle" neben den Claim</td><td class="m">Kapitel 01.2</td><td class="do"><b>vorgeschlagen</b></td></tr>
+      <tr><td>„Erst verstehen, dann weglassen" als Leitplanke</td><td class="m">Kapitel 08</td><td class="do"><b>vorgeschlagen</b></td></tr>
+      <tr><td>Argumentationslinien 01 und 02 in die Marktkommunikation</td><td class="m">außerhalb des Markenbuchs</td><td>zur Entscheidung</td></tr>
+      <tr><td><b>Visueller Marker für Klarheit</b> — das Signal ist an Relevanz vergeben</td><td class="m">Kapitel 05</td><td><span class="no">offen</span></td></tr>
+      <tr><td><b>Abstand zwischen Senden und Verstehen messbar machen</b></td><td class="m">Produkt</td><td><span class="no">offen</span></td></tr>
+      <tr><td>Gespräch mit den Autoren, falls das Modell genutzt werden soll</td><td class="m">changepunk.com</td><td>zur Entscheidung</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Auswertung, 31. August 2026 · Grundlage: <em>(Un)klarheit — Sensorik und Selbstverteidigung für wirksame Führung</em>, Frank Habermann und Karen Schmidt, Becota GmbH Berlin 2026, ISBN 978-3-9824455-2-6, Entwurfsfassung 09. Gelesen wurden die Seiten 1 bis 48 des Entwurfs; das sind die Kapitel Klarheit und Clarity Wheel vollständig sowie das Inhaltsverzeichnis der Kapitel Sensorik, (Fehl)orientierung, Selbstführung und Zuletzt. <b>Die Inhalte sind hier in eigenen Worten zusammengefasst und auf einen anderen Gegenstand übertragen</b>, nicht wiedergegeben; ein Zitat ist als solches gekennzeichnet. Das „Clarity Wheel" ist urheberrechtlich geschütztes Eigentum der Autoren und wird hier weder abgebildet noch übernommen.</p>
+</footer>
+
+</div>

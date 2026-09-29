@@ -1,0 +1,107 @@
+feat(farben): Papiersystem vollstaendig, Signal-Konflikt aufgeloest, Rueckmeldung auf die Systempaletten
+
+Drei Aenderungen, die zusammen einen Zustand herstellen — einzeln waeren sie
+widerspruechlich gewesen.
+
+
+1 — DIE FUENF BEREICHSPAPIERE GAB ES NUR AUF DEM PAPIER
+
+Der Brand Styleguide weist jedem der fuenf Navigationsbereiche ein eigenes
+Papier zu. Im Tokensatz standen davon drei als Leiter; Warm Taupe und Pearl
+White lagen nur als flache Einzelfarben in `supporting` und waren damit als
+Bereichsgrund unbrauchbar — eine Leiter braucht elf Stufen, sonst hat der
+Bereich keinen Text, keine Rahmen und keine gesenkten Flaechen.
+
+Beide sind jetzt nach demselben Verfahren abgeleitet wie die uebrigen:
+Helligkeiten Stufe fuer Stufe von Graphit, uebernommen wird nur der Farbton.
+Pearl White traegt als einzige Leiter Buntheit 0 — dort soll nichts eine
+Stimmung machen, ein Unterton waere schon zu viel Haltung.
+
+Neu hinzu kommt Ivory (Farbton 107 Grad, aus dem Markenwert #FFFFF0). Es
+uebernimmt „Menschen und Geschichten" von Salbei, das in die Reserve geht.
+Das ist keine Geschmacksfrage: Bei dem als Arbeitsstand gesetzten gruenen
+Signal liegt Salbeis Unterton nur 3 Grad von Lime entfernt und verschwindet
+im Grund. Ivory haelt 36 Grad — die kleinste Reserve aller fuenf Papiere,
+aber ueber der Grenze von 30. Faellt die Signalentscheidung spaeter auf NEO
+Blue oder Magenta, kommt Salbei zurueck und Ivory wird nicht gebraucht.
+
+Verworfen: Salbei durch Blaustichig zu ersetzen, wie 4.7 es urspruenglich
+vorschlug. Der Bereich haette damit den waermsten Ton gegen den kuehlsten
+getauscht. Ivory bleibt warm und loest denselben Konflikt.
+
+Gemessen: alle sieben Leitern reproduzieren Graphits Kontrastwerte Stufe fuer
+Stufe (groesste Abweichung 0,02). Im Druck coated bleibt Ivory ueber elf
+Stufen unter dE 0,87 und Pearl White unter 0,39 — beide genauer als Graphit
+selbst mit 1,40.
+
+Nebenbefund, nicht behoben: Der Styleguide behauptet fuer die Papiere „max.
+dE 0,8". Auf den Papierstufen 50/100/200 messen Beige 1,44, Graphit 1,00 und
+Ivory 0,87. Alle bleiben in der Einstufung „sicher" (Grenze 2,0), aber die
+Zahl im Dokument traegt nicht.
+
+
+2 — ZWEI FARBEN, EINE HEXZIFFER AUSEINANDER
+
+NEO Blue stand auf #009fe3, die Ebenenfarbe „Daten und KI" auf #009ee3. Zwei
+praktisch identische Farben mit verschiedenen Aufgaben, unterscheidbar nur
+fuer den, der den Hexwert liest. Auf Weisung auf #009ee3 vereinheitlicht,
+ueberall: SCSS-Quellen, zitierende Kommentare, Doku, Website- und Docs-Daten.
+
+Offen: Ein Token namens `cyan` existiert bereits mit #00FFFF. Wenn #009ee3
+kuenftig „reines Cyan" heissen soll, kollidieren die Namen. Der Wert ist
+unstrittig, die Benennung nicht.
+
+
+3 — RUECKMELDUNG AUF DIE SYSTEMPALETTEN, MIT ZWEI EINGESTANDENEN VERLUSTEN
+
+Die vier `feedback-*`-Token ziehen jetzt auf `--fnd-primitive-*-500` des
+Theme-Konfigurators, als Referenz statt als Hexwert, in heller und dunkler
+Fassung gleich. Gleichlautend in der Bruecke, sonst haette sie dem Thema
+widersprochen.
+
+Das ist eine Verschlechterung an zwei Stellen, und beide stehen im Code:
+
+  KONTRAST. Die 500er-Stufen sind Flaechenfarben. Als Schrift auf der hellen
+  Karte erreichen sie success 3,35 / warning 2,31 / danger 3,35 / info 3,35.
+  AA verlangt 4,5 fuer Text und 3,0 fuer Bedienelemente — Warning reisst
+  beide. Vorher lagen die Werte bei 5,17 bis 7,57. Im Dunkeln tragen sie
+  (4,25 bis 6,19), und als Flaeche mit schwarzer Tinte darauf erreichen alle
+  vier 5,32 bis 7,74.
+
+  ERFOLG IST WIEDER GRUEN. Hier stand ausdruecklich ein Petrol, weil ein
+  Erfolgsgruen bei Rot-Gruen-Schwaeche mit dem Markenlime zusammenfaellt. Die
+  Begruendung wurde nachgerechnet statt uebernommen: Bei Protanopie liegen
+  #24a148 und #37e93d 0,6 Grad auseinander, unterschieden allein ueber die
+  Helligkeit. Das Petrol lag 175,9 Grad entfernt.
+
+Daraus folgt eine Auflage, keine Meinung: Rueckmeldung darf nie allein ueber
+die Farbe laufen. Symbol und Beschriftung sind ab hier tragend.
+
+Die Kontrastpruefung gegen den Referenzstand `nach-graphit` meldet trotzdem
+KEINEN VERSTOSS und 0 neu durchgefallene Paare bei 6350 geprueften. Der
+gemessene Einbruch ist eine Eigenschaft der Token, kein Zustand der Website:
+Kein gemessenes Bauteil malt derzeit Text in diesen Farben auf eine helle
+Flaeche. Das entlastet den Bestand, nicht die naechste Komponente.
+
+Offen und bewusst nicht mitgezogen: Die `text-`, `border-` und `background-`
+Varianten derselben vier Rollen tragen weiterhin die alten Werte. Die weichen
+Flaechen sind auf die alten Schriftfarben eingemessen (Paare ueber 4,5); sie
+nachzuziehen heisst, vier Flaechenpaare neu zu rechnen. Bis dahin kann ein
+Bauteil, das Symbol und Beschriftung aus verschiedenen dieser Gruppen zieht,
+zwei Toene derselben Rolle zeigen.
+
+
+EIN UMWEG, DER HIER STEHEN BLEIBT
+
+Beim Einbau der neuen Leitern kollidierten `$warm-taupe` und `$pearl-white`
+mit gleichnamigen Variablen in _color-primitives.scss; sie heissen deshalb
+`$neutral-taupe` und `$neutral-pearl`. Der gescheiterte Sass-Lauf hat dann
+`primitives-aus-quelle.cjs` ein unvollstaendiges styles.css untergeschoben,
+worauf der Generator brand, supporting und system stillschweigend GELEERT
+hat — ohne Fehler, ohne Warnung. Aufgefallen ist es erst, als der naechste
+Schritt abstuerzte. In der richtigen Reihenfolge neu aufgebaut, Registry
+wieder vollstaendig.
+
+Die Fragilitaet selbst bleibt: Der Generator liest aus dem Kompilat und
+prueft nicht, ob es plausibel ist. Ein Plausibilitaets-Check ist als eigene
+Aufgabe ausgelagert.

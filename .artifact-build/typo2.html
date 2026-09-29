@@ -1,0 +1,543 @@
+
+<title>Dieselbe Schrift in vier Medien</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+</style>
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Kapitel 03 · Ergänzung</p>
+  <h1>Dieselbe Schrift in vier Medien</h1>
+  <p class="lede">Ein Typografiesystem ist so viel wert, wie sich davon auf einem fremden Rechner reproduzieren lässt. Diese Seite beschreibt, wie die drei Familien in Web, Print, PowerPoint und Word tatsächlich ankommen — und was passiert, wenn sie es nicht tun.</p>
+  <div class="meta">
+    <div><dt>Deckt ab</dt><dd>3.10 bis 3.15</dd></div>
+    <div><dt>Webschnitte</dt><dd>6 woff2, variabel</dd></div>
+    <div><dt>Desktopschnitte</dt><dd>14 ttf, statisch</dd></div>
+    <div><dt>Lizenz</dt><dd>OFL 1.1, fsType 0</dd></div>
+  </div>
+</header>
+
+<h2>Der gemeinsame Ursprung</h2>
+<div class="law">
+  <p>Bildschirm und Papier setzen identisch, weil beide aus derselben Datei derselben Version stammen. Das ist keine Sorgfalt, sondern ein Bauschritt.</p>
+  <p class="src">Die Herkunftsregel</p>
+</div>
+<div class="prose">
+  <p>Die Webschnitte und die Desktopschnitte werden aus <b>denselben Variable Fonts</b> erzeugt — die <span class="m" style="text-transform:none;letter-spacing:0">.ttf</span>-Dateien in <span class="m" style="text-transform:none;letter-spacing:0">fonts/desktop/</span> entstehen per Skript aus den Quellen, aus denen auch die <span class="m" style="text-transform:none;letter-spacing:0">.woff2</span>-Dateien in <span class="m" style="text-transform:none;letter-spacing:0">fonts/</span> gebaut sind. Sie ersetzen einander nicht, sie ergänzen sich.</p>
+  <p>Die Folge ist die einzige Zusicherung, die in diesem Kapitel wirklich zählt: Ein Angebot in Word und dieselbe Seite im Browser haben dieselben Zeichenbreiten und damit dieselben Umbrüche. Sobald jemand eine Schrift aus einer anderen Quelle nachinstalliert, gilt das nicht mehr.</p>
+</div>
+
+<div class="subhead"><span>3.10</span><h3>Web Typography</h3></div>
+<div class="prose">
+  <p>Die Schriften werden <b>selbst gehostet</b>, nicht über Google Fonts geladen. Der Grund ist zuerst rechtlich: Ein <span class="m" style="text-transform:none;letter-spacing:0">@import</span> von Google überträgt die IP-Adresse des Besuchers in die USA, was seit dem Urteil des LG München 2022 abmahnungsrelevant ist. Dazu kommen zwei technische Gründe — ein render-blockierender Fremdaufruf entfällt, und der Layoutsprung beim Nachladen ebenfalls.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Familie</th><th scope="col">Format</th><th scope="col" class="r">Achse</th><th scope="col">Dateien</th><th scope="col">Kursiv</th></tr></thead>
+    <tbody>
+      <tr><td>Manrope</td><td class="m">woff2 variabel</td><td class="m r">200–800</td><td class="m">latin + latin-ext</td><td class="no">keiner</td></tr>
+      <tr><td>Space Grotesk</td><td class="m">woff2 variabel</td><td class="m r">300–700</td><td class="m">latin + latin-ext</td><td class="no">keiner</td></tr>
+      <tr><td>JetBrains Mono</td><td class="m">woff2 variabel</td><td class="m r">100–800</td><td class="m">latin + latin-ext</td><td class="do">echt</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Variable Fonts</p><h3>Kein Faux-Bold</h3><p>Weil die volle Gewichtsachse geladen wird, gibt es kein synthetisches Fetten. Jedes Gewicht zwischen den Achsenenden ist ein echter Schnitt — auch die 500 und 600, die bei statischen Schnitten fehlen würden.</p></div>
+  <div class="card"><p class="lbl">Ladeverhalten</p><h3>font-display: swap</h3><p>Der Text erscheint sofort in der Ersatzschrift und wechselt beim Eintreffen. Das ist die bewusste Wahl gegen unsichtbaren Text — ein kurzer Sprung ist besser als eine leere Seite.</p></div>
+  <div class="card"><p class="lbl">Umfang</p><h3>Zwei Bereiche je Familie</h3><p>Über <span class="m" style="text-transform:none;letter-spacing:0">unicode-range</span> getrennt in <b>latin</b> und <b>latin-ext</b>. Wer keine osteuropäischen Zeichen braucht, lädt die zweite Datei nie.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Eine Falle, die im Betrieb schon zugeschlagen hat.</strong> Drupal serviert die kopierte <span class="m" style="text-transform:none;letter-spacing:0">styles.css</span> aus dem Unterordner <span class="m" style="text-transform:none;letter-spacing:0">css/</span>. Der relative Schriftpfad stimmt dort nicht mehr. Das Theme lädt die Schriften deshalb <b>entkoppelt</b> über eine eigene <span class="m" style="text-transform:none;letter-spacing:0">css/neo-fonts.css</span> mit dem Pfad <span class="m" style="text-transform:none;letter-spacing:0">../fonts/</span> plus <span class="m" style="text-transform:none;letter-spacing:0">&lt;link rel=preload&gt;</span>.</p>
+  <p>Wer die Drupal-<span class="m" style="text-transform:none;letter-spacing:0">styles.css</span> neu erzeugt, <b>muss die <span class="m" style="text-transform:none;letter-spacing:0">@font-face</span>-Regeln daraus entfernen</b>. Sonst gewinnt eine Regel mit falschem Pfad gegen die richtige, und die Seite fällt stumm auf Arial zurück — ohne Fehlermeldung, ohne dass im Build etwas auffällt.</p>
+</div>
+
+<div class="subhead"><span>3.11</span><h3>Print Typography</h3></div>
+<div class="prose">
+  <p>Für Print und alle Desktopanwendungen liegen <b>vierzehn statische Schnitte</b> als <span class="m" style="text-transform:none;letter-spacing:0">.ttf</span> bereit. Statisch, weil Variable Fonts in InDesign und Office nur eingeschränkt tragen; aus derselben Quelle und Version wie die Webschnitte, damit nichts auseinanderläuft.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Familie im Menü</th><th scope="col">Datei</th><th scope="col" class="r">Gewicht</th><th scope="col">Rolle</th></tr></thead>
+    <tbody>
+      <tr><td>Manrope</td><td class="m">Manrope-Regular / -Bold</td><td class="m r">400 / 700</td><td>Fließtext und Auszeichnung</td></tr>
+      <tr><td>Manrope Medium</td><td class="m">ManropeMedium-Regular</td><td class="m r">500</td><td>Tabellenkopf</td></tr>
+      <tr><td>Manrope SemiBold</td><td class="m">ManropeSemiBold-Regular</td><td class="m r">600</td><td>Auszeichnung im Fließtext</td></tr>
+      <tr><td>Manrope ExtraBold</td><td class="m">ManropeExtraBold-Regular</td><td class="m r">800</td><td>schwerste verfügbare Stufe</td></tr>
+      <tr><td>Space Grotesk</td><td class="m">SpaceGrotesk-Regular / -Bold</td><td class="m r">400 / 700</td><td>Überschriften, Titelseiten</td></tr>
+      <tr><td>Space Grotesk Light</td><td class="m">SpaceGroteskLight-Regular</td><td class="m r">300</td><td>sehr große, ruhige Titel</td></tr>
+      <tr><td>Space Grotesk Medium</td><td class="m">SpaceGroteskMedium-Regular</td><td class="m r">500</td><td>Statements</td></tr>
+      <tr><td>Space Grotesk SemiBold</td><td class="m">SpaceGroteskSemiBold-Regular</td><td class="m r">600</td><td>Zwischenstufe zu Bold</td></tr>
+      <tr><td>JetBrains Mono</td><td class="m">vier Stile, inkl. Kursiv</td><td class="m r">400 / 700</td><td>Labels, Kennzahlen, Code</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note">Vierzehn Dateien, neun Einträge im Schriftmenü. Warum aus fünf Manrope-Gewichten vier Familien werden, steht in 3.13.</p>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">PDF</p><h3>Einbettung ist der Regelfall</h3><p>Angebote und Dokumentationen werden als PDF versendet. Damit ist die Schriftfrage gegenstandslos — die Schriften stecken in der Datei. Alle drei Familien tragen <b>fsType 0</b> (Installable Embedding, keine Einschränkung), Einbettung ist also uneingeschränkt zulässig.</p></div>
+  <div class="card"><p class="lbl">Grenze</p><h3>Kein Kursiv, kein 900</h3><p>Manrope und Space Grotesk haben keinen Kursivschnitt; die Schrägstellung aus dem Layoutprogramm ist erkennbar schlechter als eine echte Kursive. Und das Token <span class="m" style="text-transform:none;letter-spacing:0">--fnd-font-weight-black: 900</span> liegt über der Achse aller drei Familien — es existiert weder als Webschnitt noch als Datei.</p></div>
+</div>
+
+<div class="subhead"><span>3.12</span><h3>PowerPoint Typography</h3></div>
+<div class="law">
+  <p>Eine Präsentation wird von Menschen gebaut, die keine Gestalter sind, unter Zeitdruck, oft am Vorabend.</p>
+  <p class="src">Der Prüfstein aus Kapitel 09</p>
+</div>
+<div class="prose">
+  <p>Derselbe Maßstab, der in Kapitel 09 über die Ebenenmechanik entscheidet, gilt für die Schrift: Was eine gestalterische Entscheidung verlangt, wird nicht reproduziert. Typografie in PowerPoint ist deshalb keine Anleitung, sondern eine <b>Mastervorlage</b> — die Größen und Gewichte stehen in den Layouts, nicht in einer Regel, an die sich jemand erinnern muss.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Element</th><th scope="col">Schrift im Master</th><th scope="col" class="r">Größe</th><th scope="col">Risiko</th></tr></thead>
+    <tbody>
+      <tr><td>Titelfolie</td><td>Space Grotesk Bold</td><td class="m r">40–54 pt</td><td>gering — im Layout gesetzt</td></tr>
+      <tr><td>Folienüberschrift</td><td>Space Grotesk SemiBold</td><td class="m r">28–32 pt</td><td>gering</td></tr>
+      <tr><td>Fließtext, Aufzählung</td><td>Manrope Regular</td><td class="m r">16–18 pt</td><td>gering</td></tr>
+      <tr><td>Auszeichnung im Text</td><td>Manrope SemiBold</td><td class="m r">16–18 pt</td><td><b>mittel</b> — eigene Familie, nicht der Fett-Knopf</td></tr>
+      <tr><td>Tabelle, Zahlen</td><td>JetBrains Mono Regular</td><td class="m r">12–14 pt</td><td>mittel — Ausrichtung nötig</td></tr>
+      <tr><td>Kicker, Fußzeile</td><td>JetBrains Mono Regular</td><td class="m r">9–11 pt</td><td>gering</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Pflicht vor dem Versand</p><h3>Schriften einbetten</h3><p><b>Datei › Optionen › Speichern › „Schriftarten in der Datei einbetten"</b>, dazu „Nur die im Dokument verwendeten Zeichen einbetten". Ohne diesen Schalter kommt die Datei beim Empfänger in Ersatzschriften an — und die laufen breiter, wodurch Textfelder überlaufen.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Kursiv gibt es nicht</h3><p>Der Kursiv-Knopf erzeugt eine künstliche Schrägstellung. Auszeichnung läuft über <b>Manrope SemiBold</b>. Wo Kursivierung inhaltlich zwingend ist — Werktitel, fremdsprachige Begriffe — steht JetBrains Mono Italic zur Verfügung.</p></div>
+</div>
+
+<div class="subhead"><span>3.13</span><h3>Word Typography</h3></div>
+<div class="prose">
+  <p>Das Windows-Schriftmodell kennt pro Familie nur <b>vier Stile</b>: Regular, Fett, Kursiv, Fett Kursiv. Alles darüber hinaus muss als eigene Familie auftreten, sonst bietet Word es nicht an. Daraus folgt der Zustand, der im Schriftmenü zunächst nach einem Fehler aussieht:</p>
+</div>
+
+<div class="dodont">
+  <div class="card"><p class="lbl">Im Word-Menü</p><h3>Vier Manrope-Einträge</h3><p style="font-family:var(--f-info);font-size:14.5px;line-height:1.9;color:var(--muted);margin:10px 0 0">Manrope<br>Manrope ExtraBold<br>Manrope Medium<br>Manrope SemiBold</p></div>
+  <div class="card"><p class="lbl">So bedienen</p><h3>Der Fett-Knopf reicht nicht</h3><p>Innerhalb von „Manrope" schaltet der Fett-Knopf auf <b>700</b>. Für 500, 600 oder 800 wählt man die jeweilige Familie aus dem Menü. Das ist kein Umweg, sondern die einzige Art, wie Windows mehr als zwei Gewichte anbietet.</p><p>In InDesign, Illustrator und Figma sieht man davon nichts: Die typografischen Namen (nameID 16/17) verweisen in allen Dateien auf die Basisfamilie, dort erscheinen die Schnitte korrekt unter einem Eintrag gruppiert.</p></div>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Vorlage</p><h3>Formatvorlagen, nicht Direktformatierung</h3><p>Die Gewichtszuordnung gehört in die Word-Formatvorlagen. Wer Schrift und Größe pro Absatz von Hand setzt, verliert sie beim nächsten Kopieren aus einem anderen Dokument.</p></div>
+  <div class="card"><p class="lbl">Auszeichnung</p><h3>SemiBold statt Kursiv</h3><p>Dieselbe Regel wie in PowerPoint, aus demselben Grund. Sie gehört in die Formatvorlage „Hervorhebung", damit sie nicht jedes Mal neu entschieden wird.</p></div>
+  <div class="card"><p class="lbl">Zahlen</p><h3>Tabellen in JetBrains Mono</h3><p>Word bietet keine verlässliche Umschaltung auf Tabellenziffern. Zahlenspalten werden deshalb direkt in JetBrains Mono gesetzt, wo gleiche Ziffernbreite der Normalfall ist.</p></div>
+</div>
+
+<div class="subhead"><span>3.14</span><h3>Fallback Fonts</h3></div>
+<div class="prose">
+  <p>Es gibt <b>zwei getrennte Ersatzkaskaden</b> — eine für den Browser, eine für Office. Sie sind nicht identisch, und das ist der Punkt, an dem dieses Kapitel eine offene Frage hinterlässt.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Familie</th><th scope="col">Im Browser</th><th scope="col">In Office und auf dem Desktop</th></tr></thead>
+    <tbody>
+      <tr><td>Manrope</td><td class="m">Helvetica&nbsp;Neue → Arial → sans-serif</td><td class="m">Aptos → Segoe&nbsp;UI → Helvetica&nbsp;Neue → Arial</td></tr>
+      <tr><td>Space Grotesk</td><td class="m">Helvetica&nbsp;Neue → Arial → sans-serif</td><td class="m">Aptos&nbsp;Display → Segoe&nbsp;UI → Helvetica&nbsp;Neue → Arial</td></tr>
+      <tr><td>JetBrains Mono</td><td class="m">ui-monospace → SFMono → Menlo → Monaco → Consolas → Courier&nbsp;New</td><td class="m">Consolas → Menlo → Courier&nbsp;New</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Die beiden Kaskaden führen auf demselben Rechner zu verschiedenen Ergebnissen.</strong> Auf einem Windows-Arbeitsplatz ohne installierte Schriften landet Word bei <b>Aptos</b>, der Browser dagegen direkt bei <b>Arial</b> — Segoe UI und Aptos stehen im Webstack nicht. Dieselbe Marke sieht dann in zwei Fenstern nebeneinander verschieden aus.</p>
+  <p>Das ist bislang nicht entschieden, sondern gewachsen. Zu klären wäre, ob der Webstack um Aptos und Segoe UI ergänzt wird — dann liefe der Ausfall in beiden Medien gleich.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Folge</p><h3>Ersatzschriften laufen breiter</h3><p>Alle genannten Ersatzschriften sind breiter als Manrope. Ein Layout, das auf die letzte Zeile passt, kippt um. Ein Angebot, das auf Seite drei endet, endet dann auf Seite vier — mit einer verwaisten Unterschriftenzeile.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Kein Angebot als .docx</h3><p>Daraus folgt die einzige harte Versandregel dieses Kapitels: Dokumente, deren Umbruch zählt, verlassen das Haus als <b>PDF</b>. Bearbeitbare Dateien nur, wenn die Bearbeitung der Zweck ist — und dann mit eingebetteten Schriften.</p></div>
+</div>
+
+<div class="subhead"><span>3.15</span><h3>Microsoft 365 Compatibility</h3></div>
+<div class="prose">
+  <p>Die Schriften sind mit Microsoft 365 uneingeschränkt verwendbar. Die Lizenzfrage ist geklärt: Alle drei Familien stehen unter der <b>SIL Open Font License 1.1 ohne Reserved Font Name</b> und tragen <b>fsType 0</b> — Instanzieren, Einbetten und Weitergeben unter dem Originalnamen ist zulässig. Die Lizenztexte müssen bei jeder Weitergabe mitgeliefert werden.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Schritt</th><th scope="col">Windows</th><th scope="col">macOS</th></tr></thead>
+    <tbody>
+      <tr><td>Einzelplatz</td><td>Alle <span class="m" style="text-transform:none;letter-spacing:0">.ttf</span> markieren, Rechtsklick, „Für alle Benutzer installieren"</td><td>Alle <span class="m" style="text-transform:none;letter-spacing:0">.ttf</span> markieren, doppelklicken, „Installieren"</td></tr>
+      <tr><td>Unternehmensweit</td><td>Intune Win32-App oder GPO nach <span class="m" style="text-transform:none;letter-spacing:0">C:\Windows\Fonts</span></td><td>Kopie nach <span class="m" style="text-transform:none;letter-spacing:0">/Library/Fonts</span></td></tr>
+      <tr><td>Danach</td><td colspan="2">Office neu starten — laufende Anwendungen lesen die Schriftliste nicht neu ein</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Vor der Installation</p><h3>Alte Stände entfernen</h3><p>Etwaige frühere Manrope- oder Space-Grotesk-Installationen müssen weg. <b>Zwei Versionen derselben Familie führen zu wechselnden Zeilenumbrüchen zwischen Rechnern</b> — ein Fehlerbild, das sich in einer Videokonferenz nicht klären lässt, weil beide Beteiligten etwas anderes sehen.</p></div>
+  <div class="card"><p class="lbl">Einbettung</p><h3>Word und PowerPoint</h3><p>In beiden: <b>Datei › Optionen › Speichern</b>, dort „Schriftarten in der Datei einbetten" und „Nur die im Dokument verwendeten Zeichen einbetten". Der zweite Haken hält die Datei klein.</p></div>
+  <div class="card"><p class="lbl">Outlook</p><h3>Keine Markenschrift in E-Mails</h3><p>E-Mail-Clients laden keine Schriften nach und ignorieren Einbettungen. HTML-Mails laufen deshalb bewusst auf der Ersatzkaskade — dort ist Arial die Marke, und das ist in Ordnung, solange Farbe und Aufbau tragen.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Was in diesem Kapitel offen bleibt.</strong> Erstens die Angleichung der beiden Ersatzkaskaden (3.14). Zweitens das Token <span class="m" style="text-transform:none;letter-spacing:0">--fnd-font-weight-black: 900</span>, das über der Achse aller drei Familien liegt und weder als Webschnitt noch als Datei existiert — es gehört entweder entfernt oder auf 800 korrigiert. Drittens die Frage, ob Word-Formatvorlagen und PowerPoint-Master als versionierte Dateien ins Repository gehören; heute existieren sie nur als Beschreibung.</p>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Stand 26. August 2026 · Grundlage: <span class="m" style="text-transform:none;letter-spacing:0">scss/scss/02-generic/_fonts.scss</span>, <span class="m" style="text-transform:none;letter-spacing:0">fonts/desktop/LIESMICH.txt</span> und <span class="m" style="text-transform:none;letter-spacing:0">manifest.json</span>, <span class="m" style="text-transform:none;letter-spacing:0">data/design-tokens.json</span> (foundation.typography.fonts).</p>
+</footer>
+
+</div>

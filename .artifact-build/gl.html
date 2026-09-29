@@ -1,0 +1,1406 @@
+
+<title>Die Formensprache</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+</style>
+<style>
+  /* ── Ergänzung Kapitel 8: Schemata und Anwendungsbeispiele ─────────────── */
+  :root{
+    --gl-lime:#37e93d;
+    --gl-menschen:#f39100; --gl-wissen:#a1c513;
+    --gl-systeme:#e5007d;  --gl-daten:#009ee3;
+    --gl-paper:var(--g100); --gl-card:#ffffff;
+    --gl-ink:var(--g950); --gl-line:var(--g300); --gl-kontur:var(--g400);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --gl-paper:var(--g900); --gl-card:var(--g800);
+      --gl-ink:var(--g100); --gl-line:var(--g700); --gl-kontur:var(--g600);
+    }
+  }
+  :root[data-theme="dark"]{
+    --gl-paper:var(--g900); --gl-card:var(--g800);
+    --gl-ink:var(--g100); --gl-line:var(--g700); --gl-kontur:var(--g600);
+  }
+
+  .fig{border:1px solid var(--border);background:var(--surface);margin:0 0 16px}
+  .fig-b{padding:26px 24px 24px;overflow-x:auto}
+  .fig-c{border-top:1px solid var(--hair);padding:13px 24px 15px;font-size:13px;
+         line-height:1.55;color:var(--muted)}
+  .fig-c b{color:var(--text)}
+  .fig-t{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+         color:var(--faint);margin:0 0 16px}
+  .fig svg{display:block;max-width:100%;height:auto}
+  .fig svg text{font-family:var(--f-tech);font-size:9px;fill:var(--muted)}
+  .fig svg text.lbl{fill:var(--text);font-weight:700}
+  .fig svg text.big{font-family:var(--f-brand);font-size:13px;font-weight:700;fill:var(--gl-ink)}
+
+  /* Nebeneinander */
+  .fig-2{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 16px;
+         grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .fig-2 > div{background:var(--surface);padding:22px 22px 20px}
+  .fig-2 .fig-t{margin-bottom:14px}
+  .fig-2 p{font-size:13.5px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+  .fig-2 p b{color:var(--text)}
+
+  /* Formenreihe */
+  .shapes{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end}
+  .shape{text-align:center}
+  .shape-n{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+           color:var(--faint);margin:10px 0 0;display:block}
+
+  /* Linienrollen */
+  .lines-demo{display:flex;flex-direction:column;gap:0;background:var(--gl-paper);
+              border:1px solid var(--gl-kontur);padding:18px 20px}
+  .ld-row{display:flex;align-items:center;gap:16px;padding:11px 0}
+  .ld-name{font-family:var(--f-tech);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+           color:var(--faint);width:116px;flex:none}
+  .ld-vis{flex:1;min-width:90px;height:26px;display:flex;align-items:center}
+
+  /* Flächenstapel */
+  .surf{background:var(--gl-paper);padding:22px;border:1px solid var(--gl-kontur)}
+  .surf-in{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:18px}
+  .surf-sunk{background:var(--g200);border:1px solid var(--gl-line);padding:12px;
+             font-family:var(--f-tech);font-size:10px;color:var(--muted)}
+
+  /* Muster */
+  .pat{height:74px;border:1px solid var(--gl-kontur)}
+  .pat-raster{background-image:radial-gradient(var(--gl-kontur) 1px, transparent 1px);
+              background-size:8px 8px}
+  .pat-h1{background-image:repeating-linear-gradient(45deg,var(--gl-kontur) 0 1px,transparent 1px 3px)}
+  .pat-h2{background-image:repeating-linear-gradient(135deg,var(--gl-kontur) 0 1px,transparent 1px 3px)}
+  .pat-h3{background-image:repeating-linear-gradient(45deg,var(--gl-kontur) 0 1px,transparent 1px 6px)}
+  .pat-h4{background-image:repeating-linear-gradient(135deg,var(--gl-kontur) 0 1px,transparent 1px 6px)}
+
+  /* Radius-Vergleich */
+  .rad{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+       grid-template-columns:repeat(auto-fit,minmax(215px,1fr));margin:0 0 16px}
+  .rad > div{background:var(--surface);padding:20px 20px 22px}
+  .rad-stage{background:var(--gl-paper);padding:16px;margin:0 0 12px}
+  .rad-card{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:13px 14px}
+  .rad-card h5{font-family:var(--f-brand);font-weight:700;font-size:13px;margin:0 0 5px;color:var(--gl-ink)}
+  .rad-card p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.45}
+  .rad-btn{display:inline-block;background:var(--gl-ink);color:var(--gl-paper);
+           font-size:11px;font-weight:700;padding:7px 13px;margin-top:11px}
+  .r0{border-radius:0}.r4{border-radius:4px}.rfull{border-radius:9999px}
+
+  /* Prozess */
+  .proc{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .proc-step{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:13px 15px;
+             flex:1;min-width:104px}
+  .proc-num{font-family:var(--f-tech);font-size:10px;letter-spacing:.12em;color:var(--faint);
+            margin:0 0 6px}
+  .proc-step p{font-size:12px;color:var(--gl-ink);margin:0;line-height:1.35;font-weight:600}
+  .proc-gap{width:26px;flex:none;display:flex;align-items:center;justify-content:center}
+  .proc-tri{width:0;height:0;border-left:8px solid var(--gl-kontur);
+            border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .proc-plain{width:14px;flex:none}
+
+  /* Matrix */
+  .mtx{border-collapse:collapse;font-size:11px;min-width:0;width:100%}
+  .mtx th{font-family:var(--f-tech);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+          color:var(--faint);font-weight:500;padding:7px 9px;text-align:left;border-bottom:1px solid var(--gl-kontur)}
+  .mtx td{padding:9px;border:1px solid var(--gl-line);text-align:center;color:var(--muted)}
+  .mtx td.hit{background:var(--gl-daten);color:#fff;font-weight:700}
+  .mtx th.rw{text-align:left;border-bottom:0;border-right:1px solid var(--gl-kontur);white-space:nowrap}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Neues Kapitel · Entwurf</p>
+  <h1>Die Formensprache ist eine Anordnung, keine Zeichnung</h1>
+  <p class="lede">Node, Layer und Signal sind entschieden. Was fehlte, ist die Ebene darüber: die Regeln, nach denen aus drei Elementen ein Bild wird — und die Bereiche, in denen bisher gar nichts steht. Sechzehn Unterkapitel, davon acht aus dem Bestand abgeleitet und acht neu erarbeitet.</p>
+  <div class="meta">
+    <div><dt>Vorschlag</dt><dd>Kapitel 08</dd></div>
+    <div><dt>Aus dem Bestand</dt><dd>8 Unterkapitel</dd></div>
+    <div><dt>Neu erarbeitet</dt><dd>8 Unterkapitel</dd></div>
+    <div><dt>Entschieden</dt><dd>7 von 9</dd></div>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><strong>Zur Einordnung, bevor es losgeht.</strong> Dieses Kapitel überschneidet sich mit vier bestehenden: <b>Brand Shapes</b> ist der Gegenstand von Kapitel 05 (Node), <b>Surfaces</b> von Kapitel 07 (Layer), <b>Data Visualisation</b> von Kapitel 09 (Data). Ich habe diese drei <em>nicht</em> neu geschrieben, sondern als Zusammenfassung mit Verweis angelegt — sonst entstehen zwei Fassungen derselben Regel, die auseinanderlaufen.</p>
+  <p>Als Position schlage ich <b>08</b> vor, direkt hinter Layer: Das Kapitel bindet 05, 06 und 07 zusammen und muss nach ihnen stehen. Photography rückt damit auf 09, Data auf 10 und so fort.</p>
+</div>
+
+<div class="subhead"><span>8.1</span><h3>Graphic Concept</h3></div>
+<div class="law">
+  <p>Es wird nichts gezeichnet. Es wird angeordnet — und die Aussage entsteht aus der Anordnung.</p>
+  <p class="src">Das Konzeptgesetz</p>
+</div>
+<div class="prose">
+  <p>Die Formensprache besteht aus <b>zwei Elementen und einer Folge</b>: einem Node, einer Fläche und dem, was passiert, wenn beide in Beziehung treten. Ein Element, das man zeichnen muss, braucht in jeder Anwendung eine gestalterische Entscheidung. Ein Ereignis, das sich aus der Anordnung ergibt, entsteht von selbst — auch dann, wenn eine Assistenz am Vorabend eine Folie baut.</p>
+  <p>Das ist keine ästhetische Vorliebe, sondern eine Produktionsentscheidung. Sie liefert zugleich den Prüfstein, an dem jedes künftige Element gemessen wird. Kapitel 06 hat diese vier Kriterien für die Beziehungsdarstellung entwickelt; sie gelten ab hier für <b>jedes</b> grafische Mittel im System.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Kriterium</th><th scope="col">Frage</th><th scope="col">Fällt durch, wenn</th></tr></thead>
+    <tbody>
+      <tr><td><b>Systemfähig</b></td><td>Lässt es sich als Bauteil definieren, statt gezeichnet zu werden?</td><td>Die Geometrie von der Position anderer Elemente abhängt</td></tr>
+      <tr><td><b>Reflow-fest</b></td><td>Übersteht es Umbruch und Größenänderung?</td><td>Es bei 375 px oder nach einem eingefügten Absatz bricht</td></tr>
+      <tr><td><b>Office-fähig</b></td><td>Kann eine Assistenz es in PowerPoint korrekt reproduzieren?</td><td>Es Formen-Subtraktion oder freies Zeichnen verlangt</td></tr>
+      <tr><td><b>Ohne Erklärung lesbar</b></td><td>Versteht ein Kunde es, ohne dass jemand danebensteht?</td><td>Eine Legende nötig ist, um die Grundaussage zu erfassen</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note">Vier Ja, sonst kommt das Mittel nicht ins System. Genau daran ist die gezeichnete Verbindungslinie gescheitert — sie fällt bei den ersten drei durch.</p>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">Fällt durch — gezeichnete Verbindung</p>
+    <svg viewBox="0 0 260 110" role="img" aria-label="Zwei Kästen mit einer Verbindungslinie dazwischen">
+      <rect x="8" y="34" width="72" height="42" fill="none" stroke="var(--gl-kontur)"/>
+      <text x="44" y="59" text-anchor="middle" class="lbl">Mensch</text>
+      <rect x="180" y="34" width="72" height="42" fill="none" stroke="var(--gl-kontur)"/>
+      <text x="216" y="59" text-anchor="middle" class="lbl">Wissen</text>
+      <line x1="80" y1="55" x2="180" y2="55" stroke="var(--gl-kontur)" stroke-dasharray="3 3"/>
+      <text x="130" y="48" text-anchor="middle">nutzt</text>
+      <text x="130" y="98" text-anchor="middle">1 Beziehung · 1 Linie</text>
+    </svg>
+    <p><b>Systemfähig:</b> nein — die Geometrie hängt an beiden Endpunkten. <b>Reflow-fest:</b> nein. <b>Office-fähig:</b> nein. Für zwölf Beziehungen bräuchte es zwölf Linien.</p>
+  </div>
+  <div>
+    <p class="fig-t">Besteht — die Zelle einer Matrix</p>
+    <table class="mtx">
+      <thead><tr><th></th><th>Frontline</th><th>Verwaltung</th><th>IT</th></tr></thead>
+      <tbody>
+        <tr><th class="rw">Rolle</th><td>·</td><td>·</td><td>·</td></tr>
+        <tr><th class="rw">Wissen</th><td>·</td><td class="hit">✦</td><td>·</td></tr>
+        <tr><th class="rw">Daten</th><td>·</td><td>·</td><td>·</td></tr>
+      </tbody>
+    </table>
+    <p><b>Vier Ja.</b> Zeigt neun Beziehungen gleichzeitig, ohne eine einzige Linie — Zeilen und Spalten erledigen das. Die markierte Zelle ist die eine, um die es geht.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.2</span><h3>Brand Shapes</h3></div>
+<div class="prose">
+  <p>Ausführlich in <b>Kapitel 05</b>. Für die Formensprache zählen vier Festlegungen: Die Grundform ist das <b>Quadrat</b>, weil es sich zum Raster verhält und sich überlagern lässt, ohne Zwischenräume zu erzeugen. Der <b>Kreis</b> ist die einzige runde Form im ganzen System und ausschließlich dem Menschen vorbehalten — in einem System aus Rastern ist der Mensch die Abweichung. Die <b>offene Kontur</b> steht für Vorgänge, das <b>Raster kleiner Quadrate</b> für Vielzahl.</p>
+  <p>Seit dieser Fassung gibt es eine <b>fünfte Form</b>: das Richtungsdreieck aus 8.15. Sie ist medienbeschränkt und gilt ausschließlich für Ablaufdarstellungen in PowerPoint — im Web kommt sie nicht vor.</p>
+  <p>Was Kapitel 05 nicht sagt und hier ergänzt gehört: Die vier Node-Größen <b>4 · 8 · 16 · 32 px</b> liegen exakt auf der Abstandsskala des Design Systems (Grundeinheit 4 px, Stufen 01 / 02 / 04 / 07). Das ist der Grund, warum ein Node nie aus dem Raster fällt — nicht Disziplin, sondern Arithmetik.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>Entschieden: Der Radius trennt Bedeutungsträger von Bedienelementen.</strong> <b>Vollflächige Elemente — Layer — bekommen keine Abrundung</b>, in Web, Folie und Print gleichermaßen. Was eine Fläche ist, auf der etwas liegt, bleibt eckig.</p>
+  <p><b>Elemente mit Bediencharakter behalten im Web die bisherigen Radien</b> — Knopf, Chip, Eingabefeld und ausdrücklich auch die Karte. Für Folie und Print bleibt das offen, bis konkrete Anwendungsbeispiele vorliegen.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Zuordnung</p><h3>Nach Rolle, nicht nach Bauteilname</h3><p>Die Grenze läuft nicht am Token entlang. Eine <b>Karte, die man anklicken kann</b>, ist ein Bedienelement und trägt 4 px. Eine Karte, die nur eine Fläche mit Inhalt ist, ist ein Layer und bleibt eckig. Dasselbe Bauteil, zwei Rollen — im Zweifel entscheidet der Einzelfall.</p></div>
+  <div class="card"><p class="lbl">Folge</p><h3>Kapitel 07 braucht eine Ergänzung</h3><p>Dort heißt „erhoben" ausdrücklich <em>Karte, Panel</em> und zählt zum Flächenstapel. Nach dieser Entscheidung kann dieselbe Karte je nach Rolle eckig oder gerundet sein. Das gehört in Kapitel 07 vermerkt, sonst widersprechen sich die beiden Stellen.</p></div>
+  <div class="card"><p class="lbl">Offen · später</p><h3>Radius auf Folie und Papier</h3><p>Bediencharakter gibt es dort kaum — eine Folie hat keine Knöpfe. Zu klären ist, ob eine <b>Karte</b> auf einer Folie oder in einer Broschüre gerundet auftritt. Die Entscheidung fällt anhand von Beispielen, nicht am Schreibtisch.</p></div>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Entschieden · die Grenze läuft an der Rolle, nicht am Bauteilnamen</p>
+    <div class="rad">
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Layer — eckig</p>
+        <div class="rad-stage r0">
+          <div class="rad-card r0"><h5>Bereichsfläche</h5><p>Trägt Inhalt. Nichts daran ist anklickbar.</p></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:0">Radius <b>0</b> · Web, Folie, Print gleichermaßen</p>
+      </div>
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Bedienelement — gerundet</p>
+        <div class="rad-stage r0">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span class="rad-btn r4" style="margin:0">Demo buchen</span>
+            <span class="rfull" style="display:inline-block;border:1px solid var(--gl-kontur);padding:6px 13px;font-size:11px;color:var(--muted)">Filter</span>
+          </div>
+          <div class="r4" style="border:1.5px solid var(--g500);padding:8px 11px;margin-top:11px;font-size:11px;color:var(--muted)">Eingabefeld</div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:0">Radius <b>4 px</b> und <b>full</b> · Web wie bisher</p>
+      </div>
+    </div>
+  </div>
+  <p class="fig-c"><b>Die Karte ist der Grenzfall.</b> Eine Karte, die man anklicken kann, ist ein Bedienelement und trägt 4 px. Eine Karte, die nur eine Fläche mit Inhalt ist, ist ein Layer und bleibt eckig. Dasselbe Bauteil, zwei Rollen — im Zweifel entscheidet der Einzelfall.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Der Grenzfall im Web · dieselbe Karte, zwei Rollen</p>
+    <div class="rad" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+      <div>
+        <div class="rad-stage">
+          <div class="rad-card r0">
+            <h5>Kundenstory</h5>
+            <p>Wie die Stadtwerke ihre Einarbeitung von sechs auf zwei Wochen verkürzt haben.</p>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:0"><b>Layer · eckig.</b> Reine Inhaltsfläche, kein Ziel. Der Text steht, man liest ihn.</p>
+      </div>
+      <div>
+        <div class="rad-stage">
+          <div class="rad-card r4" style="cursor:pointer">
+            <h5>Kundenstory</h5>
+            <p>Wie die Stadtwerke ihre Einarbeitung von sechs auf zwei Wochen verkürzt haben.</p>
+            <span class="rad-btn r4">Lesen</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:0"><b>Bedienelement · 4 px.</b> Die ganze Karte ist ein Ziel. Die Rundung sagt: hier passiert etwas.</p>
+      </div>
+    </div>
+  </div>
+  <p class="fig-c">Der Unterschied ist gering und genau deshalb richtig: <b>Die Rundung ist ein Hinweis, keine Aussage.</b> Wer sie übersieht, verliert nichts — wer sie bemerkt, weiß, dass die Fläche reagiert.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Offen · dieselbe Karte auf Folie und Papier</p>
+    <div class="rad" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Folie · eckig</p>
+        <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:13px;aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:flex-end">
+          <div class="rad-card r0" style="padding:10px 11px"><h5 style="font-size:11.5px">Editionen</h5><p style="font-size:10.5px">Drei Stufen, ein Preis je Nutzer.</p></div>
+        </div>
+      </div>
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Folie · 4 px</p>
+        <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:13px;aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:flex-end">
+          <div class="rad-card r4" style="padding:10px 11px"><h5 style="font-size:11.5px">Editionen</h5><p style="font-size:10.5px">Drei Stufen, ein Preis je Nutzer.</p></div>
+        </div>
+      </div>
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Papier · eckig</p>
+        <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:12px;aspect-ratio:210/297;display:flex;flex-direction:column;justify-content:center">
+          <div class="rad-card r0" style="padding:10px 11px"><h5 style="font-size:11.5px">Editionen</h5><p style="font-size:10.5px">Drei Stufen, ein Preis je Nutzer.</p></div>
+        </div>
+      </div>
+      <div>
+        <p class="fig-t" style="margin-bottom:11px">Papier · 4 px</p>
+        <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:12px;aspect-ratio:210/297;display:flex;flex-direction:column;justify-content:center">
+          <div class="rad-card r4" style="padding:10px 11px"><h5 style="font-size:11.5px">Editionen</h5><p style="font-size:10.5px">Drei Stufen, ein Preis je Nutzer.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="fig-c"><b>Hier ist die Entscheidung fällig.</b> Auf Folie und Papier gibt es keinen Bediencharakter — eine gedruckte Karte reagiert auf nichts. Die Rundung hätte dort also keine Aufgabe mehr und wäre reine Anmutung.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>Meine Empfehlung nach dem Vergleich: eckig auf Folie und Papier.</strong> Die Rundung ist im Web ein <em>Hinweis auf Bedienbarkeit</em>. Wo nichts bedienbar ist, wird aus dem Hinweis eine Anmutung — und Anmutung ohne Aufgabe ist genau das, was dieses System sonst überall aussortiert.</p>
+  <p>Dazu kommt ein praktischer Grund: PowerPoint-Rechtecke sind standardmäßig eckig. Eine Rundung müsste in jeder Vorlage gesetzt und von jedem, der eine Form hinzufügt, wiederholt werden — sie fällt damit beim Kriterium <b>office-fähig</b> aus 8.1 durch. Die Entscheidung liegt trotzdem bei dir; die Beispiele oben zeigen beide Fassungen nebeneinander.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>Entschieden: Die offene Kontur gehört der KI, nicht den Systemen.</strong> Ein System ist normalerweise in sich geschlossen — es hat einen Rand, innerhalb dessen etwas läuft. Die KI hat das nicht; sie ist ein Vorgang, der über etwas anderem liegt.</p>
+  <p><b>Das ändert Kapitel 05.</b> Dort trägt heute „Systeme" die offene Kontur. Mein Vorschlag für die Korrektur: <b>Systeme = geschlossene Kontur</b> (ungefülltes Quadrat mit Rahmen — ein Rahmen, in dem etwas läuft), <b>KI = offene Kontur</b>, die etwas überlagert. Damit stehen sich die beiden Formen gegenüber statt sich zu überschneiden, und die Erläuterung in Kapitel 05 passt endlich zur Form, die sie beschreibt.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Die fünf Formen · Bedeutung liegt in der Form, nicht in der Farbe</p>
+    <div class="shapes">
+      <div class="shape">
+        <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="20" fill="var(--gl-ink)"/></svg>
+        <span class="shape-n">Menschen</span></div>
+      <div class="shape">
+        <svg width="52" height="52" viewBox="0 0 52 52"><rect x="6" y="6" width="40" height="40" fill="var(--gl-ink)"/></svg>
+        <span class="shape-n">Wissen</span></div>
+      <div class="shape">
+        <svg width="52" height="52" viewBox="0 0 52 52"><rect x="7" y="7" width="38" height="38" fill="none" stroke="var(--gl-ink)" stroke-width="2"/></svg>
+        <span class="shape-n">Systeme <b style="color:var(--signal)">neu</b></span></div>
+      <div class="shape">
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <rect x="4" y="16" width="30" height="30" fill="var(--g400)"/>
+          <path d="M18 6 H48 V36 M18 6 V26" fill="none" stroke="var(--gl-ink)" stroke-width="2"/></svg>
+        <span class="shape-n">KI <b style="color:var(--signal)">neu</b></span></div>
+      <div class="shape">
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <g fill="var(--gl-ink)"><rect x="8" y="8" width="8" height="8"/><rect x="22" y="8" width="8" height="8"/><rect x="36" y="8" width="8" height="8"/><rect x="8" y="22" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="36" y="22" width="8" height="8"/><rect x="8" y="36" width="8" height="8"/><rect x="22" y="36" width="8" height="8"/><rect x="36" y="36" width="8" height="8"/></g></svg>
+        <span class="shape-n">Daten</span></div>
+      <div class="shape" style="opacity:.75">
+        <svg width="52" height="52" viewBox="0 0 52 52"><path d="M18 16 L38 26 L18 36 Z" fill="var(--gl-kontur)"/></svg>
+        <span class="shape-n">Richtung <b style="color:var(--faint)">nur PPT</b></span></div>
+    </div>
+  </div>
+  <div class="fig-b" style="border-top:1px solid var(--hair)">
+    <p class="fig-t">Vier Größen · maßstabsgetreu · dazwischen gibt es nichts</p>
+    <div class="shapes" style="align-items:flex-end;gap:34px">
+      <div class="shape"><svg width="32" height="32" viewBox="0 0 32 32"><rect x="14" y="14" width="4" height="4" fill="var(--gl-ink)"/></svg><span class="shape-n">4 px</span></div>
+      <div class="shape"><svg width="32" height="32" viewBox="0 0 32 32"><rect x="12" y="12" width="8" height="8" fill="var(--gl-ink)"/></svg><span class="shape-n">8 px</span></div>
+      <div class="shape"><svg width="32" height="32" viewBox="0 0 32 32"><rect x="8" y="8" width="16" height="16" fill="var(--gl-ink)"/></svg><span class="shape-n">16 px</span></div>
+      <div class="shape"><svg width="32" height="32" viewBox="0 0 32 32"><rect x="0" y="0" width="32" height="32" fill="var(--gl-ink)"/></svg><span class="shape-n">32 px</span></div>
+      <div class="shape" style="margin-left:20px">
+        <svg width="120" height="32" viewBox="0 0 120 32">
+          <rect x="0" y="8" width="16" height="16" fill="none" stroke="var(--gl-ink)" stroke-width="2"/>
+          <path d="M44 8 h16 v16 h-16 z" fill="none" stroke="var(--gl-ink)" stroke-width="2"/>
+          <path d="M44 8 h8 v16 h-8 z" fill="var(--gl-ink)"/>
+          <rect x="88" y="8" width="16" height="16" fill="var(--gl-ink)"/></svg>
+        <span class="shape-n">möglich · in Arbeit · aktiv</span></div>
+    </div>
+  </div>
+  <p class="fig-c">Die vier Größen liegen exakt auf der Abstandsskala (Stufen 01 / 02 / 04 / 07). <b>Ein Node fällt nie aus dem Raster — das ist Arithmetik, nicht Disziplin.</b> Die drei Füllungen tragen den Zustand, ohne dass ein zweites Element nötig wird; das funktioniert bei 8 px genauso wie bei 800.</p>
+</div>
+
+<div class="subhead"><span>8.3</span><h3>Grid</h3></div>
+<div class="prose">
+  <p>Ein Raster, drei Auflösungen, eine Grundeinheit. Alles im System ist ein Vielfaches von <b>4 px</b> — Abstände, Node-Größen, Konturstärken. Das ist der kleinste gemeinsame Nenner, der Bildschirm, Folie und Papier verbindet.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Maß</th><th scope="col" class="r">Wert</th><th scope="col">Gilt für</th></tr></thead>
+    <tbody>
+      <tr><td>Grundeinheit</td><td class="m r">4&nbsp;px</td><td>alles — Abstände, Nodes, Konturen</td></tr>
+      <tr><td>Spalten</td><td class="m r">12</td><td>Website, Folie, Print gleichermaßen</td></tr>
+      <tr><td>Spaltenabstand</td><td class="m r">16 / 24&nbsp;px</td><td>klein / ab mittlerer Breite</td></tr>
+      <tr><td>Inhaltsbreite</td><td class="m r">1090&nbsp;px</td><td>Regelfall</td></tr>
+      <tr><td>Breite Fassung</td><td class="m r">1290&nbsp;px</td><td>Tabellen, Diagramme, Galerien</td></tr>
+      <tr><td>Sehr breit</td><td class="m r">1536&nbsp;px</td><td>Dashboards</td></tr>
+      <tr><td>Satzbreite</td><td class="m r">72&nbsp;ch</td><td>alles, was am Stück gelesen wird</td></tr>
+      <tr><td>Schmal</td><td class="m r">768&nbsp;px</td><td>Formulare, Dialoge</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Abstände</p><h3>Drei semantische Stufen</h3><p>Statt vierzehn Zahlenwerte zu erinnern, gibt es drei benannte Abstände: <b>Abschnitt</b> 120 px, <b>Bauteil</b> 40 px, <b>Element</b> 16 px. Die vollständige Skala von 4 bis 160 px bleibt verfügbar, wird aber nur begründet verlassen.</p></div>
+  <div class="card"><p class="lbl">Seitenverhältnisse</p><h3>Zehn, keine freien</h3><p>Bilder und Medienflächen laufen auf festen Verhältnissen: 1∶1, 3∶2, 4∶3, 16∶9 und ihre Hochformate, dazu 2∶1 und 1∶2. Ein freies Verhältnis ist kein Gestaltungsmittel, sondern ein vergessener Zuschnitt.</p></div>
+  <div class="card"><p class="lbl">Grundeinheit</p><h3>Am Bildschirm 4 px, auf Papier 4 mm</h3><p>Die Einheit wechselt die Maßangabe, nicht das Prinzip. Ränder, Stege und Abstände in Folie und Print sind Vielfache von 4 mm — dieselbe Denkweise wie die 4-px-Einheit am Bildschirm.</p></div>
+</div>
+
+<div class="law">
+  <p>Folie und Papier vereinfachen das Webraster, statt ein eigenes zu haben. Zwölf, sechs, vier — ein Teilerverhältnis.</p>
+  <p class="src">Die Rasterregel</p>
+</div>
+<div class="prose">
+  <p>Die Vereinfachung ist keine neue Zahlenreihe, sondern eine <b>Teilung</b>. Ein Folienfeld sind zwei Webspalten, ein Papierfeld sind drei. <b>12 ∶ 6 ∶ 4 = 1 ∶ 2 ∶ 3.</b> Jede Aufteilung, die auf einer Folie funktioniert, funktioniert damit auch im Web — und niemand muss beim Medienwechsel neu entscheiden.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Medium</th><th scope="col" class="r">Format</th><th scope="col" class="r">Felder</th><th scope="col" class="r">Rand</th><th scope="col" class="r">Steg</th><th scope="col" class="r">Feldbreite</th></tr></thead>
+    <tbody>
+      <tr><td><b>Web</b></td><td class="m r">fluid</td><td class="m r">12</td><td class="m r">—</td><td class="m r">16 / 24&nbsp;px</td><td class="m r">fluid</td></tr>
+      <tr><td><b>Folie</b> 16∶9</td><td class="m r">338,67 × 190,5&nbsp;mm</td><td class="m r">6</td><td class="m r">16&nbsp;mm</td><td class="m r">8&nbsp;mm</td><td class="m r">44,45&nbsp;mm</td></tr>
+      <tr><td><b>Papier</b> A4</td><td class="m r">210 × 297&nbsp;mm</td><td class="m r">4</td><td class="m r">20&nbsp;mm</td><td class="m r">4&nbsp;mm</td><td class="m r">39,5&nbsp;mm</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Folie</p><h3>Sechs Felder, vier Aufteilungen</h3><p>Sechs Felder erlauben Einer, Zweier, Dreier und Sechser — alle üblichen Folienaufteilungen. Rand 16 mm ist das Vierfache der Grundeinheit, Steg 8 mm das Doppelte. Über dem Inhalt liegt eine <b>Titelzone von 32 mm</b>, die nicht am Raster teilnimmt.</p></div>
+  <div class="card"><p class="lbl">Papier</p><h3>Vier Felder, drei Aufteilungen</h3><p>Vier Felder erlauben Einer, Zweier und Vierer. Der Rand ist mit 20 mm größer als auf der Folie, weil Papier in der Hand gehalten wird und der Daumen Platz braucht. Fußsteg 25 mm statt 20 — optischer Ausgleich, keine Rechnung.</p></div>
+  <div class="card"><p class="lbl">Was nicht geht</p><h3>Fünfer und Siebener</h3><p>Weder Folie noch Papier lassen eine fünfteilige Aufteilung zu, das Web ebenfalls nicht. Das ist Absicht: Fünf gleiche Felder gibt es im System nicht — und damit auch keine Versuchung, sie zu bauen.</p></div>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Das Teilerverhältnis · dieselben Kanten, drei Auflösungen</p>
+    <svg viewBox="0 0 660 214" role="img" aria-label="Drei Raster übereinander: zwölf Webspalten, sechs Folienfelder, vier Papierfelder">
+      <text x="0" y="12" class="lbl">WEB · 12 Spalten</text>
+      <g fill="var(--gl-line)">
+        <rect x="3" y="20" width="49" height="44"/><rect x="58" y="20" width="49" height="44"/><rect x="113" y="20" width="49" height="44"/><rect x="168" y="20" width="49" height="44"/>
+        <rect x="223" y="20" width="49" height="44"/><rect x="278" y="20" width="49" height="44"/><rect x="333" y="20" width="49" height="44"/><rect x="388" y="20" width="49" height="44"/>
+        <rect x="443" y="20" width="49" height="44"/><rect x="498" y="20" width="49" height="44"/><rect x="553" y="20" width="49" height="44"/><rect x="608" y="20" width="49" height="44"/>
+      </g>
+      <text x="0" y="87" class="lbl">FOLIE · 6 Felder — je 2 Webspalten</text>
+      <g fill="var(--g400)">
+        <rect x="3" y="95" width="104" height="44"/><rect x="113" y="95" width="104" height="44"/><rect x="223" y="95" width="104" height="44"/>
+        <rect x="333" y="95" width="104" height="44"/><rect x="443" y="95" width="104" height="44"/><rect x="553" y="95" width="104" height="44"/>
+      </g>
+      <text x="0" y="162" class="lbl">PAPIER · 4 Felder — je 3 Webspalten</text>
+      <g fill="var(--gl-kontur)">
+        <rect x="3" y="170" width="159" height="44"/><rect x="168" y="170" width="159" height="44"/><rect x="333" y="170" width="159" height="44"/><rect x="498" y="170" width="159" height="44"/>
+      </g>
+      <g stroke="var(--signal)" stroke-width="1" stroke-dasharray="2 3">
+        <line x1="110" y1="18" x2="110" y2="214"/><line x1="330" y1="18" x2="330" y2="214"/><line x1="550" y1="18" x2="550" y2="214"/>
+      </g>
+    </svg>
+  </div>
+  <p class="fig-c"><b>12 ∶ 6 ∶ 4 = 1 ∶ 2 ∶ 3.</b> Die gestrichelten Linien zeigen die gemeinsamen Kanten: Jede Folien- und Papierteilung fällt auf eine Webspaltenkante. Eine Aufteilung, die auf der Folie funktioniert, funktioniert deshalb auch im Web — beim Medienwechsel entscheidet niemand neu. Fünfer- und Siebenerteilungen gibt es in keinem der drei Medien; das ist Absicht.</p>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">Folie 16∶9 · Geltungsbereich</p>
+    <svg viewBox="0 0 300 176" role="img" aria-label="Folienraster mit Rand, Titelzone und sechs Feldern">
+      <rect x="0" y="0" width="300" height="169" fill="var(--gl-paper)" stroke="var(--gl-kontur)"/>
+      <rect x="14" y="14" width="272" height="28" fill="none" stroke="var(--signal)" stroke-dasharray="3 2"/>
+      <text x="20" y="32" class="lbl">TITELZONE · 32 mm</text>
+      <g fill="var(--g400)">
+        <rect x="14" y="52" width="41" height="103"/><rect x="62" y="52" width="41" height="103"/><rect x="110" y="52" width="41" height="103"/>
+        <rect x="158" y="52" width="41" height="103"/><rect x="206" y="52" width="41" height="103"/><rect x="254" y="52" width="32" height="103"/>
+      </g>
+      <text x="150" y="168" text-anchor="middle">Rand 16 · Steg 8 · Feld 44,45 mm</text>
+    </svg>
+    <p>Sechs Felder erlauben Einer, Zweier, Dreier und Sechser. Die <b>Titelzone nimmt am Raster nicht teil</b> — sie ist gesetzt, damit niemand sie verschiebt.</p>
+  </div>
+  <div>
+    <p class="fig-t">Papier A4 · Geltungsbereich</p>
+    <svg viewBox="0 0 300 176" role="img" aria-label="A4-Raster mit vier Feldern und größerem Fußsteg">
+      <rect x="90" y="0" width="120" height="169" fill="var(--gl-paper)" stroke="var(--gl-kontur)"/>
+      <g fill="var(--gl-kontur)">
+        <rect x="101" y="11" width="26" height="144"/><rect x="129" y="11" width="26" height="144"/>
+        <rect x="157" y="11" width="26" height="144"/><rect x="185" y="11" width="26" height="144"/>
+      </g>
+      <line x1="90" y1="155" x2="210" y2="155" stroke="var(--signal)" stroke-dasharray="3 2"/>
+      <text x="150" y="168" text-anchor="middle">Rand 20 · Steg 4 · Feld 39,5 mm</text>
+    </svg>
+    <p>Vier Felder erlauben Einer, Zweier und Vierer. Der <b>Fußsteg ist mit 25 mm größer</b> als der Kopfsteg — optischer Ausgleich, und der Daumen braucht Platz.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.4</span><h3>Composition</h3></div>
+<div class="prose">
+  <p>Kapitel 07.4 legt die Mittel fest, mit denen Tiefe entsteht — <b>fünf, von denen keines dreidimensional ist</b>: Verdeckung, Anschnitt, Flächenstufe, Kontur gegen Fläche, Maßstab. Verdeckung ist der stärkste Tiefenhinweis, den das menschliche Sehen kennt, und der einzige ohne jede Verformung.</p>
+  <p>Für die Komposition folgen daraus drei Regeln, die bisher nirgends zusammenstehen:</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Regel</p><h3>Eine Kantenform je Komposition</h3><p>Senkrecht oder Band — nie beide im selben Bild. Die Kantenform gibt einer Komposition ihren Zuschnitt; zwei Zuschnitte heben sich gegenseitig auf.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Ein Signal-Node je Komposition</h3><p>Aus Kapitel 05: Ein zweiter bunter Node halbiert die Aussage, ein dritter löscht sie. Das gilt für jedes Bild, jede Folie, jeden Abschnitt — nicht je Seite.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Höchstens zwei Ebenen gleichzeitig</h3><p>Aus Kapitel 07: Der Flächenstapel zeigt nie mehr als zwei Stufen nebeneinander. Was tiefer liegt, wird verdeckt — nicht durch eine dritte Stufe angedeutet.</p></div>
+</div>
+
+<div class="prose">
+  <p>Die Flächenverteilung folgt derselben 60-30-10-Regel wie die Farbe (Kapitel 04.6): 60 % Grundfläche, 30 % Struktur und Fakten, 10 % Signal. Auf einer A4-Seite entsprechen 10 % etwa der Fläche einer Visitenkarte.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Fünf Mittel für Tiefe · keines davon dreidimensional</p>
+    <svg viewBox="0 0 660 104" role="img" aria-label="Fünf Schemata: Verdeckung, Anschnitt, Flächenstufe, Kontur gegen Fläche, Maßstab">
+      <g>
+        <rect x="6" y="20" width="66" height="50" fill="var(--g300)"/>
+        <rect x="40" y="34" width="66" height="50" fill="var(--gl-card)" stroke="var(--gl-kontur)"/>
+        <text x="56" y="100" text-anchor="middle" class="lbl">01 Verdeckung</text>
+      </g>
+      <g>
+        <rect x="150" y="20" width="100" height="64" fill="none" stroke="var(--gl-line)"/>
+        <rect x="196" y="32" width="90" height="40" fill="var(--g300)"/>
+        <rect x="250" y="20" width="40" height="64" fill="var(--surface)"/>
+        <text x="200" y="100" text-anchor="middle" class="lbl">02 Anschnitt</text>
+      </g>
+      <g>
+        <rect x="330" y="20" width="80" height="64" fill="var(--g200)"/>
+        <rect x="346" y="34" width="48" height="36" fill="var(--gl-card)" stroke="var(--gl-kontur)"/>
+        <text x="370" y="100" text-anchor="middle" class="lbl">03 Flächenstufe</text>
+      </g>
+      <g>
+        <rect x="452" y="26" width="46" height="46" fill="none" stroke="var(--gl-ink)" stroke-width="2"/>
+        <rect x="512" y="26" width="46" height="46" fill="var(--gl-ink)"/>
+        <text x="505" y="100" text-anchor="middle" class="lbl">04 Kontur / Fläche</text>
+      </g>
+      <g>
+        <rect x="600" y="52" width="16" height="16" fill="var(--gl-ink)"/>
+        <rect x="626" y="26" width="34" height="42" fill="var(--gl-ink)"/>
+        <text x="630" y="100" text-anchor="middle" class="lbl">05 Maßstab</text>
+      </g>
+    </svg>
+  </div>
+  <p class="fig-c"><b>Verdeckung ist der stärkste Tiefenhinweis, den das menschliche Sehen kennt</b> — und der einzige, der ohne jede Verformung auskommt. Anschnitt ist der zweitstärkste: Was über den Rand hinausläuft, wird als weiter hinten gelesen. Beides ist absolut zweidimensional.</p>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">Zwei Kantenformen · eine je Komposition</p>
+    <svg viewBox="0 0 194 118" role="img" aria-label="Zwei Kantenformen: senkrecht geteilte Fläche und waagerechtes Band">
+      <g><rect x="0" y="8" width="88" height="76" fill="var(--g200)"/><rect x="44" y="8" width="44" height="76" fill="var(--gl-card)" stroke="var(--gl-kontur)"/><text x="44" y="102" text-anchor="middle">senkrecht</text></g>
+      <g><rect x="106" y="8" width="88" height="76" fill="var(--g200)"/><rect x="106" y="54" width="88" height="30" fill="var(--gl-ink)"/><text x="150" y="102" text-anchor="middle">Band</text></g>
+    </svg>
+    <p>Nie beide im selben Bild. <b>Beide Schnitte sind rechtwinklig</b> — eine schräge Kante gibt es im System nicht. Senkrecht teilt längs und stellt eine Textspalte frei; das Band teilt quer und sitzt bündig am unteren Rand.</p>
+  </div>
+  <div>
+    <p class="fig-t">60 ∶ 30 ∶ 10 · Flächenverteilung</p>
+    <svg viewBox="0 0 300 118" role="img" aria-label="Balken mit 60, 30 und 10 Prozent">
+      <rect x="0" y="20" width="180" height="52" fill="var(--gl-paper)" stroke="var(--gl-kontur)"/>
+      <rect x="180" y="20" width="90" height="52" fill="var(--g300)"/>
+      <rect x="270" y="20" width="30" height="52" fill="var(--gl-lime)"/>
+      <text x="90" y="50" text-anchor="middle" class="lbl">60 % Grundfläche</text>
+      <text x="225" y="50" text-anchor="middle" class="lbl">30 %</text>
+      <text x="150" y="94" text-anchor="middle">Struktur und Fakten · Signal</text>
+    </svg>
+    <p>Dieselbe Regel wie bei der Farbe (Kapitel 04.6). Auf einer A4-Seite entsprechen <b>10 % etwa der Fläche einer Visitenkarte</b> — mehr, und das Signal ist keins mehr.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.5</span><h3>Lines / Frames</h3></div>
+<div class="law">
+  <p>Eine Linie begrenzt oder gliedert. Sie verbindet nie.</p>
+  <p class="src">Die Linienregel</p>
+</div>
+<div class="prose">
+  <p>Das ist die folgenreichste Festlegung des ganzen Kapitels, und sie ist in Kapitel 06 bereits begründet: Eine Verbindungslinie ist kein Bauteil, sondern eine Zeichnung. Ihre Geometrie hängt an der Position beider Endpunkte, und sie bricht bei jedem Umbruch. Beziehungen werden deshalb als <b>Matrix</b> gezeigt, nicht als Netz.</p>
+  <p>Was bleibt, sind zwei Linienrollen — und sie sind im Design System bereits getrennt, weil WCAG 1.4.11 nur für die eine gilt:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Rolle</th><th scope="col">Stärke</th><th scope="col">Farbe</th><th scope="col">Aufgabe</th></tr></thead>
+    <tbody>
+      <tr><td><b>Trennlinie</b></td><td class="m">1&nbsp;px</td><td class="m">Graphit 300</td><td>gliedert — Absatzlinien, Tabellenzeilen. Von WCAG ausgenommen, darf blass sein</td></tr>
+      <tr><td><b>Flächenkontur</b></td><td class="m">1&nbsp;px</td><td class="m">Graphit 400</td><td><b>Pflicht</b> für erhobene und schwebende Flächen</td></tr>
+      <tr><td><b>Bedienrahmen</b></td><td class="m">1,5&nbsp;px</td><td class="m">Graphit 500</td><td>macht ein Bedienelement erkennbar — 3∶1 nach WCAG 1.4.11</td></tr>
+      <tr><td><b>Hervorhebung</b></td><td class="m">1,5&nbsp;px</td><td class="m">Graphit 950</td><td>höchster Kontrast, sparsam</td></tr>
+      <tr><td><b>Akzentrahmen</b></td><td class="m">1,5&nbsp;px</td><td class="m">Akzent 700</td><td>Markierung — nie als Schrift, nur als Rahmen</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note">Kapitel 07 formuliert die Konturregel scharf: <b>Jede Fläche, die nicht der Grund ist, trägt eine Kontur.</b> NEO verzichtet als einziges der geprüften Systeme vollständig auf Schatten — Atlassian schreibt die Paarung von Fläche und Schatten im Hellmodus sogar zwingend vor. Wer den Schatten streicht, muss die Kontur zur Pflicht machen; eine Formulierung mit „oft" trägt das nicht.</p>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Fünf Linienrollen · dargestellt in echter Stärke und Farbe</p>
+    <div class="lines-demo">
+      <div class="ld-row"><span class="ld-name">Trennlinie</span>
+        <span class="ld-vis"><span style="display:block;width:100%;height:1px;background:var(--g300)"></span></span>
+        <span style="font-size:12px;color:var(--muted);width:158px;flex:none">1 px · Graphit 300 · gliedert</span></div>
+      <div class="ld-row"><span class="ld-name">Flächenkontur</span>
+        <span class="ld-vis"><span style="display:block;width:100%;height:1px;background:var(--g400)"></span></span>
+        <span style="font-size:12px;color:var(--muted);width:158px;flex:none">1 px · Graphit 400 · <b style="color:var(--text)">Pflicht</b></span></div>
+      <div class="ld-row"><span class="ld-name">Bedienrahmen</span>
+        <span class="ld-vis"><span style="display:block;width:100%;height:1.5px;background:var(--g500)"></span></span>
+        <span style="font-size:12px;color:var(--muted);width:158px;flex:none">1,5 px · Graphit 500 · 3∶1</span></div>
+      <div class="ld-row"><span class="ld-name">Hervorhebung</span>
+        <span class="ld-vis"><span style="display:block;width:100%;height:1.5px;background:var(--gl-ink)"></span></span>
+        <span style="font-size:12px;color:var(--muted);width:158px;flex:none">1,5 px · Graphit 950</span></div>
+      <div class="ld-row"><span class="ld-name">Akzentrahmen</span>
+        <span class="ld-vis"><span style="display:block;width:100%;height:1.5px;background:#009612"></span></span>
+        <span style="font-size:12px;color:var(--muted);width:158px;flex:none">1,5 px · Akzent 700</span></div>
+    </div>
+  </div>
+  <p class="fig-c"><b>Der Unterschied zwischen Graphit 300 und 400 ist der zwischen einer Andeutung und einer Kante</b> — 1,34 gegen 1,92 Kontrast auf dem Grund. NEO verzichtet als einziges der geprüften Systeme vollständig auf Schatten; wer den Schatten streicht, muss die Kontur zur Pflicht machen.</p>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">So nicht · Linie als Verbindung</p>
+    <svg viewBox="0 0 260 96" role="img" aria-label="Vier Kästen mit Verbindungslinien">
+      <g fill="none" stroke="var(--gl-line)">
+        <rect x="6" y="14" width="52" height="28"/><rect x="100" y="14" width="52" height="28"/>
+        <rect x="6" y="56" width="52" height="28"/><rect x="100" y="56" width="52" height="28"/><rect x="194" y="35" width="52" height="28"/>
+        <path d="M58 28 H100 M58 70 H100 M152 28 L194 45 M152 70 L194 55"/>
+      </g>
+      <text x="126" y="94" text-anchor="middle">bricht bei 375 px</text>
+    </svg>
+    <p>Fällt bei drei der vier Kriterien durch. Eine Linie zwischen zwei Punkten ist <b>kein Bauteil, sondern eine Zeichnung</b>.</p>
+  </div>
+  <div>
+    <p class="fig-t">So · Linie als Begrenzung</p>
+    <svg viewBox="0 0 260 96" role="img" aria-label="Karte mit Kontur, Trennlinie und Bedienrahmen">
+      <rect x="6" y="10" width="248" height="76" fill="var(--gl-card)" stroke="var(--gl-kontur)"/>
+      <line x1="18" y1="42" x2="242" y2="42" stroke="var(--g300)"/>
+      <rect x="18" y="54" width="90" height="22" fill="none" stroke="var(--g500)" stroke-width="1.5"/>
+      <text x="20" y="30">Flächenkontur · Trennlinie · Bedienrahmen</text>
+    </svg>
+    <p>Jede Rolle begrenzt oder gliedert. <b>Keine verbindet.</b> Die Geometrie hängt nur am eigenen Element.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.6</span><h3>Surfaces</h3></div>
+<div class="prose">
+  <p>Ausführlich in <b>Kapitel 07</b>. Vier Flächen plus Kontur, keine Transparenz im Stapel: <b>gesenkt</b> (Faktenblock, Eingabefeld), <b>Grund</b> (Seite, Folie, Blatt), <b>erhoben</b> (Karte, Panel), <b>schwebend</b> (Modal, Menü, Tooltip — nie für Layout).</p>
+  <p>Der Grund für die Strenge ist eine Messung, keine Haltung: Die Kontrastabstände benachbarter Flächenstufen liegen zwischen 1,07 und 1,25. Ab 3,0 gilt ein Unterschied als sicher wahrnehmbar. Eine Information, die auf 1,1 zu 1 beruht, ist nicht schwer zu decodieren — sie ist <b>nicht decodierbar</b>. Eine Fläche wird heller oder dunkler, weil etwas darauf liegt, nie weil sie etwas bedeutet.</p>
+  <p>Sechs Füllungen desselben Rechtecks sind vorgesehen: offene Kontur, Fläche, angeschnittener Rahmen, Bild, Interface, Textblock. Das sind keine sechs Elemente.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Der Flächenstapel · vier Stufen plus Kontur</p>
+    <div class="surf">
+      <p style="font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 12px">Grund · Graphit 100</p>
+      <div class="surf-in">
+        <p style="font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 10px">Erhoben · Weiß + Pflichtkontur</p>
+        <div class="surf-sunk">Gesenkt · Graphit 200 — Faktenblock, Eingabefeld</div>
+      </div>
+      <div style="background:var(--gl-card);border:1px solid var(--gl-kontur);padding:11px 14px;margin-top:12px;
+                  font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)">
+        Schwebend · Weiß + Kontur — Modal, Menü, nie für Layout</div>
+    </div>
+  </div>
+  <p class="fig-c">Die Kontrastabstände benachbarter Stufen liegen zwischen <b>1,07 und 1,25</b>. Ab 3,0 gilt ein Unterschied als sicher wahrnehmbar. Eine Information, die auf 1,1 zu 1 beruht, ist nicht schwer zu decodieren — <b>sie ist nicht decodierbar</b>. Deshalb staffelt die Fläche, sie bedeutet nicht.</p>
+</div>
+
+<div class="subhead"><span>8.7</span><h3>Patterns</h3></div>
+<div class="prose">
+  <p>Bisher nicht festgelegt. Es gibt aber bereits <b>zwei Muster im System</b>, die nur nie als solche benannt wurden — beide entstehen aus vorhandenen Regeln, statt hinzuerfunden zu werden.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Muster 01 · abgeleitet</p><h3>Das Raster</h3><p>Der Node „Daten und KI" ist ein Raster kleiner Quadrate. Auf Flächengröße gebracht wird daraus das einzige Füllmuster des Systems: <b>Quadrate von 4 px im Abstand von 4 px</b>, in der Konturfarbe der jeweiligen Fläche.</p><p>Es bedeutet immer dasselbe: <b>Vielzahl</b>. Ein Datenbestand, eine Menge, ein Korpus. Nie Dekoration, nie Hintergrund-Textur.</p></div>
+  <div class="card"><p class="lbl">Muster 02 · vorgeschrieben</p><h3>Die Schraffur</h3><p>Kapitel 04.5 schreibt sie bereits vor, ohne sie zu spezifizieren: In Kontrast-Themes tragen Diagramme ihre Identität über <b>Muster und Beschriftung</b>, nicht über Farbe — vier Schraffuren im 45- und 135-Grad-Winkel, unterschiedliche Strichstärken, direkte Beschriftung jeder Reihe.</p><p><b>Entschieden:</b> Menschen 45° eng, Wissen 135° eng, Systeme 45° weit, Daten und KI 135° weit. Strichstärke durchgängig 1 px, Abstand 3 px eng und 6 px weit. Winkel trennt die Paare, Abstand trennt innerhalb des Paares — zwei Merkmale statt eines, damit auch eine Fotokopie noch trägt.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Die Musterregel, die ich vorschlage:</strong> Ein Muster trägt Bedeutung oder es existiert nicht. Es gibt keine dekorativen Flächenfüllungen — kein Punktraster im Hintergrund, keine diagonale Textur auf einer Titelfolie, kein Wasserzeichen. Beide zulässigen Muster sind Aussagen: <em>viele</em> und <em>diese Kategorie</em>.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Zwei Muster · beide tragen Bedeutung, keines ist Dekoration</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px">
+      <div><div class="pat pat-raster"></div><span class="shape-n" style="text-align:left">Raster · Vielzahl</span></div>
+      <div><div class="pat pat-h1"></div><span class="shape-n" style="text-align:left">Menschen · 45° eng</span></div>
+      <div><div class="pat pat-h2"></div><span class="shape-n" style="text-align:left">Wissen · 135° eng</span></div>
+      <div><div class="pat pat-h3"></div><span class="shape-n" style="text-align:left">Systeme · 45° weit</span></div>
+      <div><div class="pat pat-h4"></div><span class="shape-n" style="text-align:left">Daten und KI · 135° weit</span></div>
+    </div>
+  </div>
+  <p class="fig-c"><b>Winkel trennt die Paare, Abstand trennt innerhalb des Paares</b> — zwei Merkmale statt eines, damit auch eine Fotokopie noch trägt. Die Schraffuren ersetzen in Kontrast-Themes die Ebenenfarben vollständig; dort wird die Farbe auf Tinte und Grundfläche reduziert.</p>
+</div>
+
+<div class="subhead"><span>8.8</span><h3>Gradients</h3></div>
+<div class="law">
+  <p>Es gibt keine.</p>
+  <p class="src">Die kürzeste Regel des Systems</p>
+</div>
+<div class="prose">
+  <p>Verläufe sind in Kapitel 07.4 bereits ausdrücklich verboten, gemeinsam mit Perspektive und Schlagschatten. Die Begründung hat zwei Teile, und der zweite ist der härtere.</p>
+  <p><b>Gestalterisch:</b> Ein Verlauf simuliert eine Lichtquelle und damit einen physischen Raum. Das System behauptet keinen Raum, sondern eine Ordnung. Tiefe entsteht hier aus Verdeckung und Anschnitt — beides absolut zweidimensional.</p>
+  <p><b>Produktionstechnisch:</b> Ein Verlauf ist im Druck eine Rasterfläche, die auf jedem Medium anders ausfällt. Gestrichen und ungestrichen, Digitaldruck und Offset, Großformat und Briefbogen liefern vier verschiedene Ergebnisse derselben Datei. Ein Element, das sich nicht reproduzieren lässt, fällt beim ersten der vier Kriterien aus 8.1 durch.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Die eine Ausnahme</p><h3>Der Scrim</h3><p>Tinte bei 45 % über dem Grund, wenn ein Modal die Seite als nicht bedienbar meldet. Das ist <b>kein Verlauf und kein Layer</b>, sondern ein Zustand: eine gleichmäßige Fläche mit einem Deckungswert. Bei 35 % erreichen weiße Flächen darauf nur 2,69, bei 45 % dagegen 3,65.</p></div>
+  <div class="card"><p class="lbl">Was stattdessen</p><h3>Die Flächenstufe</h3><p>Wo früher zwei durchscheinende Flächen übereinanderlagen, liegt heute eine Fläche der nächsten Stufe. Das Ergebnis ist rechnerisch dasselbe, aber es ist ein benannter Wert statt eines Rechenergebnisses — und im Druck reproduzierbar.</p></div>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">So nicht · Verlauf als Tiefenersatz</p>
+    <div style="height:86px;background:linear-gradient(160deg,var(--g100),var(--g500));border:1px solid var(--gl-kontur)"></div>
+    <p>Simuliert eine Lichtquelle und damit einen physischen Raum. Im Druck eine Rasterfläche, die auf gestrichenem und ungestrichenem Papier, im Digitaldruck und im Offset <b>vier verschiedene Ergebnisse</b> liefert.</p>
+  </div>
+  <div>
+    <p class="fig-t">So · die nächste Flächenstufe</p>
+    <div style="height:86px;border:1px solid var(--gl-kontur);display:flex">
+      <div style="flex:1;background:var(--g100)"></div><div style="flex:1;background:var(--g200)"></div><div style="flex:1;background:var(--g300)"></div>
+    </div>
+    <p>Benannte Werte statt Rechenergebnisse. <b>Rechnerisch dasselbe, im Druck reproduzierbar</b> — und jede Stufe hat einen Namen, den man in einer Vorlage hinterlegen kann.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.9</span><h3>Graphic Devices</h3></div>
+<div class="prose">
+  <p>Die wiederkehrenden Bauformen des Systems. Fünf sind vorhanden — vier davon in anderen Kapiteln beschrieben, hier erstmals als Katalog. Ein sechstes gibt es nicht; wer eines braucht, muss es an den vier Kriterien aus 8.1 messen.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Bauform</th><th scope="col">Was sie zeigt</th><th scope="col">Regel</th><th scope="col">Quelle</th></tr></thead>
+    <tbody>
+      <tr><td><b>Matrix</b></td><td>Beziehungen — die Zelle ist die Aussage</td><td>Primärmechanismus. Zeigt neun Beziehungen ohne eine einzige Linie</td><td class="m">Kap. 06</td></tr>
+      <tr><td><b>Ausschnitt und Ergänzung</b></td><td>Entnahme — die Lücke und das Entnommene</td><td>Sekundärmechanismus. Für Teilmengen und Herkunft</td><td class="m">Kap. 06</td></tr>
+      <tr><td><b>Band</b></td><td>Betonung quer über eine Fläche</td><td>Für Kennzahlen, Zitate, Kapitelmarken. Eine Kantenform</td><td class="m">Kap. 07</td></tr>
+      <tr><td><b>Signalfeld</b></td><td>Eine Aussage, vollflächig im Signal</td><td>Höchstens einmal je Dokument, freigabepflichtig, Schrift in Tinte</td><td class="m">Kap. 04</td></tr>
+      <tr><td><b>Scrim</b></td><td>Zustand: dahinter ist nichts bedienbar</td><td>45 % Tinte. Nimmt am Flächenstapel nicht teil</td><td class="m">Kap. 07</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Fünf Bauformen · mehr gibt es nicht</p>
+    <svg viewBox="0 0 660 120" role="img" aria-label="Matrix, Ausschnitt und Ergänzung, Band, Signalfeld, Scrim">
+      <g><rect x="4" y="14" width="104" height="72" fill="none" stroke="var(--gl-line)"/>
+        <line x1="4" y1="38" x2="108" y2="38" stroke="var(--gl-line)"/><line x1="38" y1="14" x2="38" y2="86" stroke="var(--gl-line)"/><line x1="73" y1="14" x2="73" y2="86" stroke="var(--gl-line)"/><line x1="4" y1="62" x2="108" y2="62" stroke="var(--gl-line)"/>
+        <rect x="38" y="38" width="35" height="24" fill="var(--gl-daten)"/>
+        <text x="56" y="110" text-anchor="middle" class="lbl">Matrix</text></g>
+      <g><rect x="140" y="14" width="72" height="72" fill="var(--g300)"/>
+        <rect x="176" y="38" width="36" height="24" fill="var(--surface)"/>
+        <rect x="226" y="38" width="36" height="24" fill="var(--gl-ink)"/>
+        <text x="200" y="110" text-anchor="middle" class="lbl">Ausschnitt</text></g>
+      <g><rect x="296" y="14" width="104" height="72" fill="var(--g200)"/>
+        <rect x="296" y="38" width="104" height="26" fill="var(--gl-ink)"/>
+        <text x="348" y="110" text-anchor="middle" class="lbl">Band</text></g>
+      <g><rect x="432" y="14" width="104" height="72" fill="var(--gl-lime)"/>
+        <text x="484" y="55" text-anchor="middle" class="big">Aussage</text>
+        <text x="484" y="110" text-anchor="middle" class="lbl">Signalfeld</text></g>
+      <g><rect x="568" y="14" width="88" height="72" fill="var(--gl-card)" stroke="var(--gl-kontur)"/>
+        <rect x="568" y="14" width="88" height="72" fill="var(--g950)" opacity=".45"/>
+        <rect x="586" y="34" width="52" height="32" fill="#fff"/>
+        <text x="612" y="110" text-anchor="middle" class="lbl">Scrim</text></g>
+    </svg>
+  </div>
+  <p class="fig-c">Vier davon sind in anderen Kapiteln beschrieben, hier erstmals als Katalog. Ein sechstes gibt es nicht — <b>wer eines braucht, muss es an den vier Kriterien aus 8.1 messen</b>.</p>
+</div>
+
+<div class="subhead"><span>8.10</span><h3>Technology Motifs</h3></div>
+<div class="prose">
+  <p>Bisher nicht festgelegt — und der Bereich mit dem größten Risiko, weil das Standardvokabular hier besonders erschöpft ist. Kapitel 06 hat die Denkfigur bereits vorgeführt: Das Node-Link-Diagramm ist seit etwa 2017 die Standardbebilderung für alles, was mit Netzwerken oder KI zu tun hat. <em>Es ist nicht falsch, es ist erschöpft.</em> Dasselbe gilt für Platinenleiterbahnen, Hexagon-Waben, leuchtende Gehirne und blaue Datenströme.</p>
+  <p><b>Mein Vorschlag:</b> Technologie wird als <b>Zustand und Struktur</b> gezeigt, nie als Apparat. Vier Motive, alle aus vorhandenen Elementen:</p>
+</div>
+
+<div class="grid g4">
+  <div class="card"><p class="lbl">Motiv 01</p><h3>Die Statuszeile</h3><p style="font-family:var(--f-tech);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:8px 0 10px">Retrieval · 4 Quellen · 128 ms</p><p>JetBrains Mono, gesperrt, klein. Zeigt, dass etwas <b>gerade läuft</b> — Technologie als Vorgang mit Dauer.</p></div>
+  <div class="card"><p class="lbl">Motiv 02</p><h3>Der Pfad</h3><p style="font-family:var(--f-tech);font-size:12px;color:var(--muted);margin:8px 0 10px">layer.intersect(human, knowledge)</p><p>Gemischt gesetzt, ohne Sperrung. Zeigt <b>Struktur statt Oberfläche</b> — was das System tut, in seiner eigenen Sprache.</p></div>
+  <div class="card"><p class="lbl">Motiv 03</p><h3>Die Matrixzelle</h3><p>Ein einzelnes hervorgehobenes Feld in einem Raster von Zeilen und Spalten. Zeigt, dass aus vielen Möglichkeiten <b>eine</b> zutrifft — das ist, was ein Abgleich tut.</p></div>
+  <div class="card"><p class="lbl">Motiv 04</p><h3>Das Raster</h3><p>Die Fläche aus kleinen Quadraten. Zeigt <b>Menge</b> — einen Bestand, aus dem etwas gezogen wird. Aus dem Node „Daten und KI" abgeleitet.</p></div>
+</div>
+
+<div class="dodont">
+  <div class="card"><p class="lbl dont">Ausgeschlossen</p><p>Leiterbahnen · Hexagon-Waben · leuchtende Gehirne · Roboterhände · blaue Datenströme · Partikelwolken · Netzwerkgraphen mit Knoten und Kanten · Binärcode als Textur</p></div>
+  <div class="card"><p class="lbl do">Begründung</p><p>Alle acht sind Bilder <b>über</b> Technologie, keine Bilder <b>von</b> ihr. Sie zeigen, was sich jemand unter dem System vorstellt, statt was es tut — und sie sind austauschbar zwischen jedem Anbieter der Branche.</p></div>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Vier Motive · alle aus vorhandenen Elementen</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px">
+      <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:20px 16px;min-height:88px;display:flex;align-items:center">
+        <span style="font-family:var(--f-tech);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Retrieval · 4 Quellen · 128 ms</span></div>
+      <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:20px 16px;min-height:88px;display:flex;align-items:center">
+        <span style="font-family:var(--f-tech);font-size:11px;color:var(--muted)">layer.intersect(<br>&nbsp;&nbsp;human, knowledge)</span></div>
+      <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:14px;min-height:88px">
+        <table class="mtx" style="font-size:9px"><tbody>
+          <tr><td>·</td><td>·</td><td>·</td></tr><tr><td>·</td><td class="hit">✦</td><td>·</td></tr><tr><td>·</td><td>·</td><td>·</td></tr></tbody></table></div>
+      <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);min-height:88px"
+           class="pat-raster"></div>
+    </div>
+  </div>
+  <p class="fig-c">Statuszeile, Pfad, Matrixzelle, Raster. <b>Technologie wird als Zustand und Struktur gezeigt, nie als Apparat.</b> Leiterbahnen, Hexagon-Waben, leuchtende Gehirne und Datenströme sind Bilder <em>über</em> Technologie — austauschbar zwischen jedem Anbieter der Branche.</p>
+</div>
+
+<div class="subhead"><span>8.11</span><h3>AI Visual Language</h3></div>
+<div class="prose">
+  <p>Die Keimzelle steht in Kapitel 05: <b>KI ist kein Gegenstand, sondern ein Vorgang — sie liegt immer über etwas anderem.</b> Das ist bereits die vollständige Formregel; sie war nur nie ausgeführt.</p>
+  <p><b>Entschieden:</b> KI wird als <b>offene Kontur dargestellt, die etwas überlagert</b> — und die offene Kontur gehört damit ausschließlich ihr, nicht mehr den Systemen (siehe 8.2). Sie hat nie eine eigene Fläche, weil sie nie für sich steht. Der Gegenstand darunter bleibt sichtbar — das ist die Aussage: Die KI arbeitet an etwas, das ohne sie auch da wäre.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Form</p><h3>Immer überlagernd, nie allein</h3><p>Eine offene Kontur über einem Node oder einer Fläche. Steht sie allein, ist sie leer — und das ist richtig so: Eine KI ohne Gegenstand hat keinen Inhalt.</p></div>
+  <div class="card"><p class="lbl">Farbe</p><h3>Nur im Diagramm</h3><p>Die Ebenenfarbe „Daten und KI" (<span class="m" style="text-transform:none;letter-spacing:0">#009ee3</span>) erscheint ausschließlich in Diagrammen. Im Interface und in der Bildwelt bleibt KI monochrom — sonst wird aus einem Vorgang eine Marke.</p></div>
+  <div class="card"><p class="lbl">Kennzeichnung</p><h3>Herkunft ist Pflicht</h3><p>Wo ein Inhalt maschinell erzeugt oder zusammengefasst wurde, trägt er eine Kennzeichnung in der Statuszeilen-Form aus 8.10 — Anzahl der Quellen, Dauer. Das ist zugleich Motiv und Nachweis.</p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Was ausdrücklich nicht vorkommt:</strong> Anthropomorphisierung jeder Art — kein Gesicht, keine Sprechblase, kein Assistent mit Persönlichkeit, kein Funkeln, kein Glühen. Ein Intelligent Workplace verbindet Menschen, Wissen und Systeme; er ersetzt keine der Ebenen. Eine KI, die als Person gezeichnet wird, behauptet genau das Gegenteil.</p>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">So · offene Kontur über einem Gegenstand</p>
+    <svg viewBox="0 0 260 108" role="img" aria-label="Offene Kontur, die einen gefüllten Node überlagert">
+      <rect x="30" y="34" width="60" height="60" fill="var(--gl-ink)"/>
+      <circle cx="150" cy="64" r="22" fill="var(--gl-ink)"/>
+      <path d="M64 14 H210 V70 M64 14 V60" fill="none" stroke="var(--signal)" stroke-width="2.5"/>
+      <text x="130" y="104" text-anchor="middle">liegt über Wissen und Menschen</text>
+    </svg>
+    <p>Die KI hat <b>nie eine eigene Fläche</b>, weil sie nie für sich steht. Der Gegenstand darunter bleibt sichtbar — das ist die Aussage.</p>
+  </div>
+  <div>
+    <p class="fig-t">So nicht · KI als Gegenstand</p>
+    <svg viewBox="0 0 260 108" role="img" aria-label="Ausgeschlossene Darstellungen">
+      <g fill="none" stroke="var(--g400)" stroke-width="1.5">
+        <circle cx="58" cy="54" r="24"/><path d="M48 48 q10 -8 20 0 M48 60 q10 8 20 0"/>
+        <path d="M118 78 v-30 h14 v-14 h28 v14 h14 v30 z"/>
+        <path d="M210 34 l8 14 h-16 z M210 74 l8 -14 h-16 z M196 54 h-14 M224 54 h14"/>
+      </g>
+      <text x="130" y="104" text-anchor="middle">Gesicht · Apparat · Funkeln</text>
+    </svg>
+    <p>Keine Anthropomorphisierung. <b>Eine KI, die als Person gezeichnet wird, behauptet, sie ersetze eine Ebene</b> — das Gegenteil dessen, was ein Intelligent Workplace tut.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.12</span><h3>Data Visualisation</h3></div>
+<div class="prose">
+  <p>Ausführlich in <b>Kapitel 09</b>. Für die Formensprache zählt die Sonderstellung: Datenvisualisierung ist der <b>einzige</b> Bereich, in dem Farbe kategorial arbeitet — und damit der einzige, in dem die vier Ebenenfarben erscheinen. Alles andere bleibt monochrom. Genau dadurch behalten sie ihre Wirkung.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Regel</th><th scope="col">Begründung</th></tr></thead>
+    <tbody>
+      <tr><td>Nie zwei Y-Achsen</td><td>Zwei Größenordnungen bedeuten zwei Diagramme oder eine gemeinsame Indexbasis</td></tr>
+      <tr><td>Farbe folgt der Entität, nie dem Rang</td><td>Ein Filter, der Reihen entfernt, färbt die übrigen nicht um</td></tr>
+      <tr><td>Reihenfolge ist fest</td><td>Menschen, Wissen, Systeme, Daten und KI — nie zyklisch weitergezählt. Die fünfte Kategorie heißt „Sonstige"</td></tr>
+      <tr><td>Sequenziell = ein Farbton, divergierend = zwei Pole</td><td>Nie ein Regenbogen</td></tr>
+      <tr><td>Kein Wert an jedem Punkt</td><td>Beschriftet wird, worauf es ankommt</td></tr>
+      <tr><td>Die Tabellenansicht gehört dazu</td><td>Kein Zugeständnis an Barrierefreiheit: Die Kontraste der Ebenenfarben liegen gegen helle Grundflächen unter 3∶1</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Vier Reihen · direkt beschriftet · Endpunkte betont</p>
+    <svg viewBox="0 0 660 210" role="img" aria-label="Liniendiagramm mit vier Ebenen, Januar bis Juni">
+            <g stroke="var(--g300)" stroke-width="1">
+      <line x1="40" y1="20" x2="530" y2="20"/>
+      <line x1="40" y1="60" x2="530" y2="60"/>
+      <line x1="40" y1="100" x2="530" y2="100"/>
+      <line x1="40" y1="140" x2="530" y2="140"/>
+      </g>
+            <line x1="40" y1="180" x2="530" y2="180" stroke="var(--g400)"/>
+            <g fill="var(--faint)" text-anchor="end">
+      <text x="32" y="24">80</text>
+      <text x="32" y="64">60</text>
+      <text x="32" y="104">40</text>
+      <text x="32" y="144">20</text>
+      <text x="32" y="184">0</text>
+      </g>
+            <g fill="var(--faint)" text-anchor="middle">
+      <text x="40" y="196">JAN</text>
+      <text x="138" y="196">FEB</text>
+      <text x="236" y="196">MÄR</text>
+      <text x="334" y="196">APR</text>
+      <text x="432" y="196">MAI</text>
+      <text x="530" y="196">JUN</text>
+      </g>
+            <g fill="none" stroke-width="2">
+      <polyline points="40,96 138,84 236,78 334,64 432,54 530,32" stroke="var(--gl-menschen)"/>
+      <polyline points="40,172 138,162 236,146 334,124 432,92 530,48" stroke="var(--gl-systeme)"/>
+      <polyline points="40,120 138,114 236,102 334,92 432,88 530,76" stroke="var(--gl-wissen)"/>
+      <polyline points="40,144 138,136 236,126 334,110 432,98 530,82" stroke="var(--gl-daten)"/>
+      </g>
+            <g>
+      <circle cx="530" cy="32" r="4" fill="var(--gl-menschen)"/><text x="542" y="36" class="lbl">Menschen</text>
+      <circle cx="530" cy="48" r="4" fill="var(--gl-systeme)"/><text x="542" y="52" class="lbl">Systeme</text>
+      <circle cx="530" cy="76" r="4" fill="var(--gl-wissen)"/><text x="542" y="72" class="lbl">Wissen</text>
+      <circle cx="530" cy="82" r="4" fill="var(--gl-daten)"/><text x="542" y="90" class="lbl">Daten und KI</text>
+      </g>
+          </svg>
+  </div>
+  <p class="fig-c"><b>Die Aussage ist die Kreuzung:</b> Systeme startet als schwächste Ebene und überholt bis Juni alle anderen. Deshalb ist es ein Liniendiagramm und keine Balken — nur die Linie zeigt den Überholvorgang. Keine zweite Achse, kein Wert an jedem Punkt, kein Verlauf unter den Linien. <b>Die Tabellenansicht gehört dazu</b>, weil die Ebenenfarben gegen helle Grundflächen unter 3∶1 liegen.</p>
+</div>
+
+<div class="subhead"><span>8.13</span><h3>Infographics</h3></div>
+<div class="prose">
+  <p>Bisher nicht festgelegt. Die Abgrenzung ist der eigentliche Inhalt: Eine <b>Datenvisualisierung</b> zeigt Zahlen. Eine <b>Infografik</b> zeigt einen Sachverhalt, für den es keine Zahlenreihe gibt — eine Zuordnung, einen Aufbau, eine Abdeckung.</p>
+  <p><b>Mein Vorschlag:</b> Eine Infografik im NEO-System ist eine <b>Matrix mit Nodes</b>. Sie erfindet keine eigene Bildsprache, sondern setzt die vorhandenen Elemente zusammen: Zeilen und Spalten spannen den Raum auf, Nodes besetzen die Felder, ein Signal-Node markiert die Aussage.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Entschieden</p><h3>Höchstens sechs Kategorien</h3><p>Darüber wird die Grafik geteilt. Sechs ist mehr, als Farbe und Form hergeben — es gibt vier Ebenenfarben und vier Node-Formen. <b>Kategorie fünf und sechs werden deshalb nicht farblich unterschieden, sondern über Zeile und Beschriftung.</b> In einer Matrix ist das kein Mangel: Dort tragen ohnehin Position und Label die Kategorie, nicht die Farbe.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Direkt beschriften</h3><p>Jede Reihe trägt ihre Beschriftung am Element, nicht in einer Legende. Eine Legende zwingt zum Hin- und Herspringen und fällt beim vierten Kriterium aus 8.1 durch.</p></div>
+  <div class="card"><p class="lbl">Regel</p><h3>Keine Illustration</h3><p>Keine Icons als Bedeutungsträger, keine Piktogramme, keine gezeichneten Gegenstände. Ein Node trägt die Bedeutung über seine Form — ein Symbol wäre eine zweite, konkurrierende Sprache.</p></div>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Infografik · Matrix mit Nodes · sechs Kategorien</p>
+    <table class="mtx">
+      <thead><tr><th></th><th>Frontline</th><th>Verwaltung</th><th>IT</th><th>Führung</th></tr></thead>
+      <tbody>
+        <tr><th class="rw">Menschen</th><td>●</td><td>●</td><td>·</td><td>●</td></tr>
+        <tr><th class="rw">Wissen</th><td>■</td><td>■</td><td>·</td><td>·</td></tr>
+        <tr><th class="rw">Systeme</th><td>·</td><td>□</td><td>□</td><td>·</td></tr>
+        <tr><th class="rw">Daten und KI</th><td>·</td><td>·</td><td>▦</td><td>▦</td></tr>
+        <tr><th class="rw">Prozesse</th><td>·</td><td class="hit">✦</td><td>·</td><td>·</td></tr>
+        <tr><th class="rw">Compliance</th><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-c">Vier Kategorien tragen eine <b>Form</b> — Kreis, Fläche, Kontur, Raster. <b>Kategorie fünf und sechs haben keine mehr</b>, und brauchen auch keine: In einer Matrix trägt die <b>Zeile</b> die Kategorie, nicht die Farbe. Deshalb ist sechs möglich, wo eine Legende bei vier endet. Ab sieben wird geteilt.</p>
+</div>
+
+<div class="subhead"><span>8.14</span><h3>Diagram Style</h3></div>
+<div class="prose">
+  <p>Die Setzung, die für alle Diagramme gilt — Datenvisualisierung, Infografik, Prozess und Architektur gleichermaßen. Bisher nur verstreut vorhanden; <b>mein Vorschlag</b> fasst sie zusammen und schließt die Lücken.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Element</th><th scope="col">Festlegung</th><th scope="col">Herkunft</th></tr></thead>
+    <tbody>
+      <tr><td>Achsen und Gitter</td><td>1 px, Graphit 300. Nur die nötigen Gitterlinien, nie ein volles Netz</td><td class="m">Linienrolle „Trennlinie"</td></tr>
+      <tr><td>Datenlinie</td><td>2 px, Ebenenfarbe. Endpunkte betont, dort findet der Vergleich statt</td><td class="m">Kap. 09</td></tr>
+      <tr><td>Flächenkontur</td><td>1 px, Graphit 400 — auch im Diagramm Pflicht</td><td class="m">Konturregel Kap. 07</td></tr>
+      <tr><td>Beschriftung</td><td>JetBrains Mono, 12–13 px, Versalien nur für Achsentitel</td><td class="m">Kap. 03</td></tr>
+      <tr><td>Zahlen</td><td>JetBrains Mono, <span class="m" style="text-transform:none;letter-spacing:0">tabular-nums</span>, rechtsbündig</td><td class="m">Kap. 03.9</td></tr>
+      <tr><td>Node im Diagramm</td><td>8 oder 16 px, Form nach Kategorie</td><td class="m">Kap. 05</td></tr>
+      <tr><td>Kontrast-Themes</td><td>Schraffur statt Farbe, direkte Beschriftung jeder Reihe</td><td class="m">Kap. 04.5</td></tr>
+      <tr><td>Verboten</td><td>3D, Schatten, Verlauf unter Linien, Torten mit mehr als zwei Segmenten</td><td class="m">Kap. 07.4</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Die Setzung im Detail · gilt für alle vier Diagrammarten</p>
+    <svg viewBox="0 0 660 168" role="img" aria-label="Diagramm mit annotierten Stilelementen">
+      <line x1="70" y1="30" x2="470" y2="30" stroke="var(--g300)"/>
+      <line x1="70" y1="80" x2="470" y2="80" stroke="var(--g300)"/>
+      <line x1="70" y1="130" x2="470" y2="130" stroke="var(--g400)"/>
+      <polyline points="70,120 170,96 270,88 370,52 470,38" fill="none" stroke="var(--gl-systeme)" stroke-width="2"/>
+      <rect x="464" y="32" width="12" height="12" fill="var(--gl-systeme)"/>
+      <g fill="var(--faint)" text-anchor="end"><text x="62" y="34">60</text><text x="62" y="84">30</text><text x="62" y="134">0</text></g>
+      <g stroke="var(--signal)" stroke-dasharray="2 2" stroke-width="1">
+        <line x1="270" y1="88" x2="270" y2="150"/><line x1="470" y1="30" x2="560" y2="30"/><line x1="200" y1="30" x2="200" y2="12"/></g>
+      <text x="272" y="160">Datenlinie 2 px · Ebenenfarbe</text>
+      <text x="566" y="34">Endpunkt betont</text>
+      <text x="204" y="10">Gitter 1 px · Graphit 300</text>
+      <text x="70" y="152">Beschriftung: JetBrains Mono 12–13 px</text>
+    </svg>
+  </div>
+  <p class="fig-c">Achsen und Gitter nur, wo nötig — <b>nie ein volles Netz</b>. Flächenkonturen sind auch im Diagramm Pflicht. Zahlen in JetBrains Mono mit <span class="m" style="text-transform:none;letter-spacing:0">tabular-nums</span>, rechtsbündig. Verboten: 3D, Schatten, Verlauf unter Linien, Torten mit mehr als zwei Segmenten.</p>
+</div>
+
+<div class="subhead"><span>8.15</span><h3>Process Graphics</h3></div>
+<div class="prose">
+  <p>Bisher nicht festgelegt — und der schwierigste Fall des Kapitels, weil ein Prozess <b>Reihenfolge</b> zeigen muss und die Linienregel aus 8.5 den naheliegenden Weg versperrt. Ein Pfeil ist eine gezeichnete Verbindung.</p>
+  <p><b>Mein Vorschlag:</b> Reihenfolge wird durch <b>Position und Nummer</b> getragen, nicht durch Pfeile. Die Schritte liegen als gleich große Flächen nebeneinander oder untereinander, jeder trägt eine Ziffer in JetBrains Mono. Die Leserichtung erledigt den Rest — links nach rechts, oben nach unten. Das ist reflow-fest, weil sich die Reihenfolge beim Umbruch nicht ändert, und in PowerPoint mit vier gleichen Rechtecken reproduzierbar.</p>
+</div>
+
+<div class="verdict">
+  <p><strong>Entschieden: Der Pfeil ist eine fünfte Node-Form — aber nur in PowerPoint.</strong> Ein waagerechtes Dreieck von 8&nbsp;px in der Konturfarbe, das im Abstand <em>zwischen</em> zwei Schritten sitzt. Kein gezeichneter Pfeil mit Schaft, sondern ein Node, der eine Richtung trägt.</p>
+  <p>Die Medienbindung ist keine Willkür, sondern folgt der ursprünglichen Begründung aus Kapitel 06: Gegen die gezeichnete Verbindung sprach, dass sie bei jedem Umbruch bricht. <b>Eine Folie bricht nicht um.</b> Sie hat feste Maße, feste Positionen und keinen Reflow — genau die Bedingung, unter der das Argument nicht greift. Im Web, wo dieselbe Darstellung bei 375&nbsp;px umbricht, greift es weiterhin, und dort bleibt es bei Position und Ziffer.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Form</p><h3>Dreieck, 8 px, Konturfarbe</h3><p>Waagerecht, nach rechts oder unten zeigend. Kein Schaft, keine Spitze mit Winkelangabe, keine Kurve. In PowerPoint eines der Standard-Dreiecke aus der Formenbibliothek — ohne Kontur, ohne Effekt.</p></div>
+  <div class="card"><p class="lbl">Ort</p><h3>Im Abstand, nicht am Element</h3><p>Der Pfeil sitzt <b>zwischen</b> zwei Schrittflächen, mittig im Zwischenraum. Er berührt keine der beiden. Damit hängt seine Position nicht an der Geometrie der Nachbarn — er bleibt ein Bauteil und wird keine Zeichnung.</p></div>
+  <div class="card"><p class="lbl">Grenze</p><h3>Nur Ablauf, nur Folie</h3><p>Ausschließlich für Ablaufdarstellungen in PowerPoint. <b>Nicht im Web</b>, nicht in Diagrammen, nicht als Verbindung zwischen Nodes, nicht als Aufzählungszeichen. Eine fünfte Form, die überall auftaucht, ist keine fünfte Form mehr, sondern ein Leck.</p></div>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Entschieden</p><h3>Der Druck folgt der Folie</h3><p>Ein gedrucktes Ablaufschema hat dieselbe Eigenschaft wie eine Folie: feste Maße, kein Umbruch. Damit lautet die Regel nicht „PowerPoint darf, Web darf nicht", sondern <b>statische Medien ja, umbrechende nein</b> — eine Begründung, die man behalten kann, statt einer Liste von Ausnahmen.</p></div>
+  <div class="card"><p class="lbl">Entschieden</p><h3>Der Kreislauf im Web ist ein Bild</h3><p>Wo eine Kreislaufdarstellung im Web nötig ist, wird sie als <b>Grafik eingebunden</b> — SVG, PNG oder ein anderes Bildformat. Nicht als Bauteil aus Flächen und Nodes.</p><p>Das ist konsequent: Die Grafik ist dann ein Bild mit festen Maßen und bricht nicht um, womit die Bedingung aus der Regel oben wieder erfüllt ist. Sie braucht eine <b>Textalternative</b>, weil sie im Gegensatz zu einer Matrix nicht selbst lesbar ist.</p></div>
+</div>
+
+<div class="prose">
+  <p>Für die Zahl der Schritte gilt unverändert die Obergrenze <b>fünf</b>. Darüber wird der Prozess zur Tabelle — mit Spalten für Schritt, Verantwortung und Ergebnis. Das ist ohnehin die ehrlichere Darstellung, sobald es Zuständigkeiten gibt.</p>
+</div>
+
+<div class="fig-2">
+  <div>
+    <p class="fig-t">Folie und Druck · mit Richtungsdreieck</p>
+    <div class="proc">
+      <div class="proc-step"><p class="proc-num">01</p><p>Anfrage</p></div>
+      <div class="proc-gap"><span class="proc-tri"></span></div>
+      <div class="proc-step"><p class="proc-num">02</p><p>Prüfung</p></div>
+      <div class="proc-gap"><span class="proc-tri"></span></div>
+      <div class="proc-step"><p class="proc-num">03</p><p>Angebot</p></div>
+    </div>
+    <p>Das Dreieck sitzt <b>im Abstand, nicht am Element</b> — es berührt keine der beiden Flächen. Damit hängt seine Position nicht an der Geometrie der Nachbarn und es bleibt ein Bauteil.</p>
+  </div>
+  <div>
+    <p class="fig-t">Web · Position und Ziffer</p>
+    <div class="proc">
+      <div class="proc-step"><p class="proc-num">01</p><p>Anfrage</p></div>
+      <div class="proc-plain"></div>
+      <div class="proc-step"><p class="proc-num">02</p><p>Prüfung</p></div>
+      <div class="proc-plain"></div>
+      <div class="proc-step"><p class="proc-num">03</p><p>Angebot</p></div>
+    </div>
+    <p>Die Leserichtung erledigt den Rest. <b>Reflow-fest</b>, weil sich die Reihenfolge beim Umbruch nicht ändert — die Ziffer bleibt bei ihrem Schritt.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>8.16</span><h3>Architecture Diagrams</h3></div>
+<div class="prose">
+  <p>Hier gibt es bereits einen Beleg statt nur einer Regel: Kapitel 07.7 zeigt drei reale Darstellungen — die PIIPE-Systemarchitektur, die Fähigkeitsfelder und die drei Betriebsmodelle. <b>Alle drei sind Matrizen</b> im Sinne von Kapitel 06: Zeilen, Spalten und die Aussage in der Schnittstelle.</p>
+  <p>Daraus folgt die Regel, die ich vorschlage: Eine Architektur wird als <b>Enthaltensein</b> gezeigt, nicht als Verbindung. Ein Dienst liegt <em>in</em> einer Schicht, nicht <em>verbunden mit</em> ihr. Verschachtelte Flächen tragen das ohne eine einzige Linie — und Verdeckung ist ohnehin der stärkste Tiefenhinweis, den das Sehen kennt.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Aufbau</p><h3>Schichten als Zeilen</h3><p>Die Architektur läuft von unten nach oben oder von außen nach innen — nie beides in einem Bild. Jede Schicht ist eine Fläche der nächsten Stufe, jeder Dienst ein Node darin.</p></div>
+  <div class="card"><p class="lbl">Tiefe</p><h3>Höchstens drei Verschachtelungen</h3><p>Kapitel 07 nennt drei Sets für Kontur und Verschachtelung. Mehr Ebenen sind über Flächenstufen nicht mehr unterscheidbar — die Abstände liegen bei 1,07 bis 1,25.</p></div>
+  <div class="card"><p class="lbl">Ehrlichkeit</p><h3>Nähte werden erklärt, nicht versteckt</h3><p>Kapitel 07 macht das vor: „In der Architektur liegt AI LLM bei den Plattformdiensten, in der Außensicht gehört KI zu Position 04. Das bleibt so." Zwei Sichten mit verschiedener Auflösung dürfen sich widersprechen — solange die Naht benannt wird.</p></div>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Architektur als Enthaltensein · höchstens drei Verschachtelungen</p>
+    <div style="background:var(--gl-paper);border:1px solid var(--gl-kontur);padding:16px">
+      <p style="font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 11px">01 · Arbeitsplatz</p>
+      <div style="background:var(--gl-card);border:1px solid var(--gl-kontur);padding:14px">
+        <p style="font-family:var(--f-tech);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 11px">02 · Plattformdienste</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="border:1.5px solid var(--gl-ink);padding:7px 12px;font-size:11px;font-weight:600;color:var(--gl-ink)">Suche</span>
+          <span style="border:1.5px solid var(--gl-ink);padding:7px 12px;font-size:11px;font-weight:600;color:var(--gl-ink)">Kurse</span>
+          <span style="border:1.5px solid var(--gl-ink);padding:7px 12px;font-size:11px;font-weight:600;color:var(--gl-ink)">Identität</span>
+          <span style="border:1.5px dashed var(--signal);padding:7px 12px;font-size:11px;font-weight:600;color:var(--gl-ink)">AI LLM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="fig-c">Ein Dienst liegt <b>in</b> einer Schicht, nicht <b>verbunden mit</b> ihr — verschachtelte Flächen tragen das ohne eine einzige Linie. Der gestrichelte Rahmen markiert die Naht, die Kapitel 07 benennt: In der Architektur liegt AI LLM bei den Plattformdiensten, in der Außensicht gehört KI zu Position 04. <b>Zwei Sichten mit verschiedener Auflösung dürfen sich widersprechen, solange die Naht benannt wird.</b></p>
+</div>
+
+<div class="subhead"><span>—</span><h3>Stand der Entscheidungen</h3></div>
+<div class="prose">
+  <p>Sechs der sieben aufgeworfenen Punkte sind entschieden und oben eingearbeitet. Zwei Dinge bleiben — eines davon bewusst vertagt, eines als Folgeaufgabe in einem anderen Kapitel.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Wo</th><th scope="col">Frage</th><th scope="col">Stand</th></tr></thead>
+    <tbody>
+      <tr><td class="m">8.2</td><td>Eckig oder gerundet?</td><td><b>Entschieden</b> — Layer eckig, Bedienelemente behalten im Web ihre Radien, Einzelfall entscheidet</td></tr>
+      <tr><td class="m">8.2</td><td>Offene Kontur — Systeme oder KI?</td><td><b>Entschieden</b> — die KI. Systeme sind in sich geschlossen</td></tr>
+      <tr><td class="m">8.3</td><td>Raster für Folie und Papier?</td><td><b>Entschieden</b> — 6 und 4 Felder, Teiler des Webrasters</td></tr>
+      <tr><td class="m">8.7</td><td>Schraffurwinkel je Ebene?</td><td><b>Entschieden</b> — 45°/135°, eng und weit</td></tr>
+      <tr><td class="m">8.13</td><td>Obergrenze für Infografik-Kategorien?</td><td><b>Entschieden</b> — sechs, ab fünf über Zeile statt Farbe</td></tr>
+      <tr><td class="m">8.15</td><td>Obergrenze für Prozessschritte?</td><td><b>Entschieden</b> — fünf, darüber Tabelle</td></tr>
+      <tr><td class="m">8.15</td><td>Gilt der Pfeil im Druck?</td><td><b>Entschieden</b> — ja, statische Medien</td></tr>
+      <tr><td class="m">8.2</td><td>Radius auf Folie und Papier</td><td><span class="no">Vertagt</span> — Entscheidung anhand konkreter Beispiele</td></tr>
+      <tr><td class="m">Kap. 05</td><td>Node-Form für „Systeme" korrigieren</td><td><span class="no">Folgeaufgabe</span> — geschlossene Kontur statt offener</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Zwei Folgen für andere Kapitel.</strong> <b>Kapitel 05</b> muss korrigiert werden: Dort trägt „Systeme" noch die offene Kontur, die jetzt der KI gehört. <b>Kapitel 07</b> braucht einen Vermerk, dass eine Karte je nach Rolle eckig oder gerundet auftreten kann — dort heißt „erhoben" heute ausdrücklich <em>Karte, Panel</em> und zählt vorbehaltlos zum Flächenstapel.</p>
+  <p>Beides sind kleine Eingriffe, aber sie gehören gemacht, bevor dieses Kapitel eingegliedert wird. Sonst stehen ab dem ersten Tag zwei Fassungen derselben Regel im Dokument — genau der Zustand, den die Einordnung ganz oben vermeiden sollte.</p>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Entwurf, Stand 26. August 2026 · Übernommen aus NEO Brand Kapitel 01, 04, 05, 06, 07 und 09. Werte aus <span class="m" style="text-transform:none;letter-spacing:0">data/design-tokens.json</span> (foundation.layout, spacing, border, radii) und dem kompilierten <span class="m" style="text-transform:none;letter-spacing:0">styles.css</span>.</p>
+</footer>
+
+</div>

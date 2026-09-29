@@ -1,0 +1,1145 @@
+
+<title>Der Foliensatz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+</style>
+<style>
+  /* ── Ergänzung Kapitel 8: Schemata und Anwendungsbeispiele ─────────────── */
+  :root{
+    --gl-lime:#37e93d;
+    --gl-menschen:#f39100; --gl-wissen:#a1c513;
+    --gl-systeme:#e5007d;  --gl-daten:#009ee3;
+    --gl-paper:var(--g100); --gl-card:#ffffff;
+    --gl-ink:var(--g950); --gl-line:var(--g300); --gl-kontur:var(--g400);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --gl-paper:var(--g900); --gl-card:var(--g800);
+      --gl-ink:var(--g100); --gl-line:var(--g700); --gl-kontur:var(--g600);
+    }
+  }
+  :root[data-theme="dark"]{
+    --gl-paper:var(--g900); --gl-card:var(--g800);
+    --gl-ink:var(--g100); --gl-line:var(--g700); --gl-kontur:var(--g600);
+  }
+
+  .fig{border:1px solid var(--border);background:var(--surface);margin:0 0 16px}
+  .fig-b{padding:26px 24px 24px;overflow-x:auto}
+  .fig-c{border-top:1px solid var(--hair);padding:13px 24px 15px;font-size:13px;
+         line-height:1.55;color:var(--muted)}
+  .fig-c b{color:var(--text)}
+  .fig-t{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+         color:var(--faint);margin:0 0 16px}
+  .fig svg{display:block;max-width:100%;height:auto}
+  .fig svg text{font-family:var(--f-tech);font-size:9px;fill:var(--muted)}
+  .fig svg text.lbl{fill:var(--text);font-weight:700}
+  .fig svg text.big{font-family:var(--f-brand);font-size:13px;font-weight:700;fill:var(--gl-ink)}
+
+  /* Nebeneinander */
+  .fig-2{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 16px;
+         grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .fig-2 > div{background:var(--surface);padding:22px 22px 20px}
+  .fig-2 .fig-t{margin-bottom:14px}
+  .fig-2 p{font-size:13.5px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+  .fig-2 p b{color:var(--text)}
+
+  /* Formenreihe */
+  .shapes{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end}
+  .shape{text-align:center}
+  .shape-n{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+           color:var(--faint);margin:10px 0 0;display:block}
+
+  /* Linienrollen */
+  .lines-demo{display:flex;flex-direction:column;gap:0;background:var(--gl-paper);
+              border:1px solid var(--gl-kontur);padding:18px 20px}
+  .ld-row{display:flex;align-items:center;gap:16px;padding:11px 0}
+  .ld-name{font-family:var(--f-tech);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+           color:var(--faint);width:116px;flex:none}
+  .ld-vis{flex:1;min-width:90px;height:26px;display:flex;align-items:center}
+
+  /* Flächenstapel */
+  .surf{background:var(--gl-paper);padding:22px;border:1px solid var(--gl-kontur)}
+  .surf-in{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:18px}
+  .surf-sunk{background:var(--g200);border:1px solid var(--gl-line);padding:12px;
+             font-family:var(--f-tech);font-size:10px;color:var(--muted)}
+
+  /* Muster */
+  .pat{height:74px;border:1px solid var(--gl-kontur)}
+  .pat-raster{background-image:radial-gradient(var(--gl-kontur) 1px, transparent 1px);
+              background-size:8px 8px}
+  .pat-h1{background-image:repeating-linear-gradient(45deg,var(--gl-kontur) 0 1px,transparent 1px 3px)}
+  .pat-h2{background-image:repeating-linear-gradient(135deg,var(--gl-kontur) 0 1px,transparent 1px 3px)}
+  .pat-h3{background-image:repeating-linear-gradient(45deg,var(--gl-kontur) 0 1px,transparent 1px 6px)}
+  .pat-h4{background-image:repeating-linear-gradient(135deg,var(--gl-kontur) 0 1px,transparent 1px 6px)}
+
+  /* Radius-Vergleich */
+  .rad{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+       grid-template-columns:repeat(auto-fit,minmax(215px,1fr));margin:0 0 16px}
+  .rad > div{background:var(--surface);padding:20px 20px 22px}
+  .rad-stage{background:var(--gl-paper);padding:16px;margin:0 0 12px}
+  .rad-card{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:13px 14px}
+  .rad-card h5{font-family:var(--f-brand);font-weight:700;font-size:13px;margin:0 0 5px;color:var(--gl-ink)}
+  .rad-card p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.45}
+  .rad-btn{display:inline-block;background:var(--gl-ink);color:var(--gl-paper);
+           font-size:11px;font-weight:700;padding:7px 13px;margin-top:11px}
+  .r0{border-radius:0}.r4{border-radius:4px}.rfull{border-radius:9999px}
+
+  /* Prozess */
+  .proc{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .proc-step{background:var(--gl-card);border:1px solid var(--gl-kontur);padding:13px 15px;
+             flex:1;min-width:104px}
+  .proc-num{font-family:var(--f-tech);font-size:10px;letter-spacing:.12em;color:var(--faint);
+            margin:0 0 6px}
+  .proc-step p{font-size:12px;color:var(--gl-ink);margin:0;line-height:1.35;font-weight:600}
+  .proc-gap{width:26px;flex:none;display:flex;align-items:center;justify-content:center}
+  .proc-tri{width:0;height:0;border-left:8px solid var(--gl-kontur);
+            border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .proc-plain{width:14px;flex:none}
+
+  /* Matrix */
+  .mtx{border-collapse:collapse;font-size:11px;min-width:0;width:100%}
+  .mtx th{font-family:var(--f-tech);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+          color:var(--faint);font-weight:500;padding:7px 9px;text-align:left;border-bottom:1px solid var(--gl-kontur)}
+  .mtx td{padding:9px;border:1px solid var(--gl-line);text-align:center;color:var(--muted)}
+  .mtx td.hit{background:var(--gl-daten);color:#fff;font-weight:700}
+  .mtx th.rw{text-align:left;border-bottom:0;border-right:1px solid var(--gl-kontur);white-space:nowrap}
+</style>
+<style>
+  .icons{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+  .ic{text-align:center;min-width:56px}
+  .ic-b{display:flex;align-items:center;justify-content:center;min-height:40px;color:var(--gl-ink)}
+  .ic-b svg{display:block}
+  .ic-n{display:block;font-family:var(--f-tech);font-size:9px;letter-spacing:.06em;
+        color:var(--faint);margin-top:9px;line-height:1.45}
+  .ic-n b{color:var(--text)}
+</style>
+
+<style>
+  /* ── Ergänzung Kapitel 11: Folien-Miniaturen ──────────────────────────── */
+  .slides{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));margin:0 0 16px}
+  .sl{background:var(--surface)}
+  .sl-frame{aspect-ratio:16/9;background:var(--gl-paper);border:1px solid var(--gl-kontur);
+            position:relative;overflow:hidden;padding:7% 5%}
+  .sl-frame.tief{background:var(--g950)}
+  .sl-frame.tief .t,.sl-frame.tief .h{color:var(--g100)}
+  .sl-frame.tief .s{color:var(--g400)}
+  .sl-cap{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.09em;color:var(--faint);
+          margin:8px 0 0;line-height:1.4}
+  .sl-cap b{color:var(--text);letter-spacing:.04em}
+
+  /* Bausteine innerhalb einer Miniatur */
+  .sl .k{font-family:var(--f-tech);font-size:5.5px;letter-spacing:.16em;text-transform:uppercase;
+         color:var(--faint);margin:0 0 4px;display:block}
+  .sl .t{font-family:var(--f-brand);font-weight:700;font-size:13px;line-height:1.02;
+         letter-spacing:-.03em;color:var(--gl-ink);margin:0}
+  .sl .h{font-family:var(--f-brand);font-weight:600;font-size:9px;line-height:1.1;
+         letter-spacing:-.02em;color:var(--gl-ink);margin:0 0 5px}
+  .sl .s{font-size:6px;line-height:1.5;color:var(--muted);margin:0}
+  .sl .bar{height:3px;background:var(--g300);margin:0 0 3px}
+  .sl .bar.w70{width:70%}.sl .bar.w50{width:50%}.sl .bar.w85{width:85%}.sl .bar.w40{width:40%}
+  .sl .box{background:var(--gl-card);border:1px solid var(--gl-kontur)}
+  .sl .img{background:var(--g300)}
+  .sl .sig{background:var(--gl-lime)}
+  .sl .num{font-family:var(--f-brand);font-weight:700;font-size:17px;letter-spacing:-.04em;
+           line-height:1;color:var(--gl-ink)}
+  .sl .foot{position:absolute;left:5%;right:5%;bottom:4%;display:flex;justify-content:space-between;
+            font-family:var(--f-tech);font-size:5px;letter-spacing:.1em;color:var(--faint)}
+  .sl-row{display:flex;gap:5px}
+  .sl-col{display:flex;flex-direction:column;gap:4px}
+
+  /* Rasterraster über einer Folie */
+  .sl-grid{position:absolute;inset:7% 5%;display:grid;grid-template-columns:repeat(6,1fr);
+           gap:2.4%;pointer-events:none}
+  .sl-grid span{background:color-mix(in srgb, var(--signal) 18%, transparent)}
+
+  /* Diagramm- und Tabellenspezifikation */
+  .spec-tbl{border-collapse:collapse;width:100%;font-size:12.5px}
+  .spec-tbl th{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+               color:var(--faint);text-align:left;padding:8px 10px;background:var(--sunk);
+               border-bottom:1px solid var(--border);font-weight:500}
+  .spec-tbl td{padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+  .spec-tbl tr:last-child td{border-bottom:0}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Kapitel 11 · Entwurf</p>
+  <h1>Der Foliensatz ist kein Anhang, sondern ein Produkt</h1>
+  <p class="lede">PowerPoint ist der härteste Test des Systems und zugleich das Medium, in dem der Vertrieb es täglich benutzt. Dieses Kapitel behandelt es als eigenes Sub-System: ein Master, fünfunddreißig Layouts, verbindliche Diagramm- und Tabellenstile — und drei Beispielpräsentationen aus drei Branchen. <b>Master und Decks sind erzeugt und liegen als Datei vor.</b></p>
+  <div class="meta">
+    <div><dt>Master</dt><dd>1 · 16∶9</dd></div>
+    <div><dt>Layouts</dt><dd>35 · gebaut</dd></div>
+    <div><dt>Beispieldecks</dt><dd>3 × 24 Folien</dd></div>
+    <div><dt>Stand</dt><dd>erzeugt, prüfbar</dd></div>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><strong>Zur Einordnung.</strong> Dieses Kapitel schlägt <b>11</b> vor und ersetzt das bestehende Kapitel PowerPoint. Es übernimmt dessen Kern — die Farbtheme-Belegung, den Prüfstein „reproduzierbar ohne gestalterische Entscheidung" und die Bereichspapiere als zweite Achse — und ergänzt, was fehlt: die Layoutliste, die Diagramm- und Tabellenstile und das Beispieldeck.</p>
+  <p>Drei Stellen im Bestand widersprechen inzwischen anderen Kapiteln. Sie stehen in <b>11.9</b>, damit sie nicht in die Vorlage wandern.</p>
+</div>
+
+<div class="subhead"><span>11.1</span><h3>Warum ein eigenes Sub-System</h3></div>
+<div class="law">
+  <p>Eine Präsentation wird von Menschen gebaut, die keine Gestalter sind, unter Zeitdruck, oft am Vorabend.</p>
+  <p class="src">Der Prüfstein aus dem Bestand</p>
+</div>
+<div class="prose">
+  <p>Aus diesem Satz folgt die ganze Architektur dieses Kapitels. Eine <span class="m" style="text-transform:none;letter-spacing:0">.potx</span> mit Hilfslinien und guten Absichten hilft nicht — <b>was nicht als Layout vorliegt, wird improvisiert</b>. Deshalb ist die Vorlage kein Dokument, sondern ein System aus vier Teilen, die zusammen ausgeliefert werden:</p>
+</div>
+
+<div class="grid g4">
+  <div class="card"><p class="lbl">Teil 01</p><h3>Das Farbtheme</h3><p>Eine <span class="m" style="text-transform:none;letter-spacing:0">.thmx</span> mit zwölf belegten Farben. Sie bestimmt auch die Farbfolge jedes Diagramms in PowerPoint <em>und</em> Excel — der wirksamste Hebel im ganzen Paket.</p></div>
+  <div class="card"><p class="lbl">Teil 02</p><h3>Der Master</h3><p>Ein Master, 35 Layouts. Keine leeren Folien. Wer ein Layout benutzt, kann das System nicht brechen; wer keines findet, merkt es.</p></div>
+  <div class="card"><p class="lbl">Teil 03</p><h3>Die Bausteinbibliothek</h3><p>Nodes in vier Größen, das Richtungsdreieck, die Matrixzelle — als Formen im Master abgelegt, damit sie kopiert statt gezeichnet werden.</p></div>
+  <div class="card"><p class="lbl">Teil 04</p><h3>Die Beispieldecks</h3><p>Drei Fälle à 24 Folien aus demselben Layoutsatz. Sie sind die Bedienungsanleitung — schneller gelesen als jede Beschreibung.</p></div>
+</div>
+
+<div class="subhead"><span>11.2</span><h3>Master und Raster</h3></div>
+<div class="prose">
+  <p>Ein Master im Format <b>16∶9</b> — 338,67 × 190,5 mm. Das Raster stammt aus Kapitel 08.3 und ist eine Vereinfachung des Webrasters: <b>sechs Felder statt zwölf Spalten</b>, weil ein Folienfeld genau zwei Webspalten entspricht. Damit ist jede Folienaufteilung auch eine Webaufteilung.</p>
+</div>
+
+<div class="fig">
+  <div class="fig-b">
+    <p class="fig-t">Das Folienraster · sechs Felder, Titelzone außerhalb</p>
+    <div style="max-width:420px">
+      <div class="sl-frame" style="padding:0">
+        <div style="position:absolute;inset:8.4% 4.7%;border:1px dashed var(--signal);opacity:.6"></div>
+        <div class="sl-grid" style="inset:25% 4.7% 8.4%">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p style="position:absolute;left:4.7%;top:10%;font-family:var(--f-tech);font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0">Titelzone · 32 mm</p>
+      </div>
+    </div>
+  </div>
+  <p class="fig-c">Rand <b>16 mm</b> (viermal die Grundeinheit von 4 mm), Steg <b>8 mm</b>, Feldbreite <b>44,45 mm</b>. Die Titelzone von 32 mm nimmt am Raster nicht teil — sie ist gesetzt, damit niemand sie verschiebt. Sechs Felder erlauben Einer-, Zweier-, Dreier- und Sechseraufteilungen; eine Fünferteilung gibt es bewusst nicht.</p>
+</div>
+
+<div class="subhead"><span>11.3</span><h3>Das Farbtheme</h3></div>
+<div class="prose">
+  <p>Eine <span class="m" style="text-transform:none;letter-spacing:0">.thmx</span> kennt zwölf Farben: vier für Text und Hintergrund, sechs Akzente, zwei für Links. <b>Die sechs Akzente belegen zugleich die Farbfolge aller Diagramme</b> — in PowerPoint und in Excel. Ein achtlos eingefügtes Diagramm erzeugt damit von selbst die richtigen Farben in der richtigen Reihenfolge.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Themenplatz</th><th scope="col">Belegung</th><th scope="col">Wert</th><th scope="col">Wirkt auf</th></tr></thead>
+    <tbody>
+      <tr><td class="m">Text/Hintergrund 1</td><td>Tinte</td><td class="m">Graphit 950</td><td>Fließtext, Überschriften</td></tr>
+      <tr><td class="m">Text/Hintergrund 2</td><td>Grund</td><td class="m">Graphit 100</td><td>Folienhintergrund hell</td></tr>
+      <tr><td class="m">Text/Hintergrund 3</td><td>Tinte invers</td><td class="m">Graphit 100</td><td>Schrift auf tiefen Folien</td></tr>
+      <tr><td class="m">Text/Hintergrund 4</td><td>Grund tief</td><td class="m">Graphit 950</td><td>Titel, Abschnitt, Abschluss</td></tr>
+      <tr><td class="m"><b>Akzent 1</b></td><td><b>Signalfarbe</b></td><td class="m">Lime 500</td><td>erste Diagrammreihe, Signalflächen</td></tr>
+      <tr><td class="m">Akzent 2</td><td>Menschen</td><td class="m">#f39100</td><td>zweite Diagrammreihe</td></tr>
+      <tr><td class="m">Akzent 3</td><td>Wissen</td><td class="m">#a1c513</td><td>dritte Diagrammreihe</td></tr>
+      <tr><td class="m">Akzent 4</td><td>Systeme</td><td class="m">#e5007d</td><td>vierte Diagrammreihe</td></tr>
+      <tr><td class="m">Akzent 5</td><td>Daten und KI</td><td class="m">#009ee3</td><td>fünfte Diagrammreihe</td></tr>
+      <tr><td class="m">Akzent 6</td><td>Graphit 500</td><td class="m">#909390</td><td>„Sonstige", Vergleichswerte</td></tr>
+      <tr><td class="m">Link / besucht</td><td>Tinte mit Unterstrich</td><td class="m">Graphit 950</td><td>Verweise</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note"><b>Eine Warnung zur Reihenfolge.</b> Akzent 1 ist die Signalfarbe und damit die <em>erste</em> Diagrammreihe. Das ist beabsichtigt: Die erste Reihe ist fast immer die, um die es geht. Wer mehr als fünf Reihen hat, bekommt ab der sechsten Graphit — und das ist das Zeichen, das Diagramm zu teilen.</p>
+
+<div class="subhead"><span>11.4</span><h3>Schriften im Master</h3></div>
+<div class="prose">
+  <p>Aus Kapitel 03.12 übernommen. Die Größen stehen in den Layouts, nicht in einer Empfehlung — <b>wer eine Textbox anfasst, bekommt die richtige Größe, ohne sie zu wählen</b>.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Rolle</th><th scope="col">Schrift</th><th scope="col" class="r">Größe</th><th scope="col">Risiko in der Bedienung</th></tr></thead>
+    <tbody>
+      <tr><td>Titelfolie</td><td>Space Grotesk Bold</td><td class="m r">40–54 pt</td><td>gering</td></tr>
+      <tr><td>Folienüberschrift</td><td>Space Grotesk SemiBold</td><td class="m r">28–32 pt</td><td>gering</td></tr>
+      <tr><td>Fließtext, Aufzählung</td><td>Manrope Regular</td><td class="m r">16–18 pt</td><td>gering</td></tr>
+      <tr><td>Auszeichnung</td><td>Manrope SemiBold</td><td class="m r">16–18 pt</td><td><b>mittel</b> — eigene Familie, nicht der Fett-Knopf</td></tr>
+      <tr><td>Tabelle, Zahlen</td><td>JetBrains Mono Regular</td><td class="m r">12–14 pt</td><td>mittel — Ausrichtung nötig</td></tr>
+      <tr><td>Kicker, Fußzeile</td><td>JetBrains Mono Regular</td><td class="m r">9–11 pt</td><td>gering</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note"><b>Pflicht vor dem Versand:</b> Datei › Optionen › Speichern › „Schriftarten in der Datei einbetten" plus „Nur die im Dokument verwendeten Zeichen einbetten". Ohne diesen Schalter kommt die Datei in Ersatzschriften an, die breiter laufen — und Textfelder laufen über. Kein Kursiv: Auszeichnung über Manrope SemiBold.</p>
+
+<div class="subhead"><span>11.5</span><h3>Die Layoutliste</h3></div>
+<div class="law">
+  <p>Fünfunddreißig gute Layouts schlagen achtzig Spezialfolien. Was fehlt, wird improvisiert — was zu viel ist, wird nie gefunden.</p>
+  <p class="src">Die Vorlagenregel</p>
+</div>
+<div class="prose">
+  <p><b>35 Layouts auf einem Master.</b> Die Zahl ist keine Schätzung, sondern die Summe der Aufgaben, die ein Vertriebsdeck tatsächlich hat. Jede Zeile unten ist ein Layout mit festen Platzhaltern — keine leere Folie mit Hilfslinie.</p>
+  <p>Die <b>dritte Tabellenvariante</b> ist auf Wunsch dazugekommen: eine <b>Editionstabelle mit hervorgehobener Spalte</b>. Sie unterscheidet sich von den beiden anderen darin, dass eine Spalte die Empfehlung trägt — der häufigste Tabellenfall im Vertrieb und der einzige, in dem eine Signalfläche innerhalb einer Tabelle zulässig ist.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Gruppe</th><th scope="col" class="r">Layouts</th><th scope="col">Varianten</th></tr></thead>
+    <tbody>
+      <tr><td><b>Titel</b></td><td class="m r">4</td><td>Tief · Signalfeld · Bild als Ausschnitt · Kunde (mit Logo-Feld)</td></tr>
+      <tr><td><b>Agenda</b></td><td class="m r">1</td><td>Nummerierte Punkte, aktiver Punkt im Signal</td></tr>
+      <tr><td><b>Abschnitt</b></td><td class="m r">3</td><td>Tief · Bereichspapier · Band mit Kapitelnummer</td></tr>
+      <tr><td><b>Text</b></td><td class="m r">3</td><td>Statement · Fließtext · Text mit Zwischenüberschriften</td></tr>
+      <tr><td><b>Text + Bild</b></td><td class="m r">4</td><td>Bild rechts · Bild links · Bild oben angeschnitten · Bild als Node-Ausschnitt</td></tr>
+      <tr><td><b>Vollbild</b></td><td class="m r">1</td><td>Bild über die ganze Folie, Text nur auf eigener Fläche</td></tr>
+      <tr><td><b>Zitat</b></td><td class="m r">1</td><td>Aussage groß, Quelle klein, kein Anführungszeichenbild</td></tr>
+      <tr><td><b>KPI</b></td><td class="m r">3</td><td>Eine Zahl groß · zwei bis drei · vier</td></tr>
+      <tr><td><b>Vergleich</b></td><td class="m r">2</td><td>Zweispaltig · Matrix</td></tr>
+      <tr><td><b>Timeline</b></td><td class="m r">1</td><td>Waagerecht, höchstens fünf Marken</td></tr>
+      <tr><td><b>Prozess</b></td><td class="m r">2</td><td>Waagerecht mit Richtungsdreieck · senkrecht</td></tr>
+      <tr><td><b>Architektur</b></td><td class="m r">1</td><td>Verschachtelte Flächen, höchstens drei Ebenen</td></tr>
+      <tr><td><b>Screenshot</b></td><td class="m r">2</td><td>Vollflächig im Rahmen · mit Textspalte</td></tr>
+      <tr><td><b>Gerät</b></td><td class="m r">1</td><td>Ein Gerät, eine Oberfläche, kein Schatten</td></tr>
+      <tr><td><b>Diagramm</b></td><td class="m r">2</td><td>Ganzflächig · mit Aussage daneben</td></tr>
+      <tr><td><b>Tabelle</b></td><td class="m r">3</td><td>Ganzflächig · mit Aussage daneben · <b>Editionstabelle mit hervorgehobener Spalte</b></td></tr>
+      <tr><td><b>Abschluss</b></td><td class="m r">1</td><td>Kontakt, ein Signalfeld, kein „Danke"</td></tr>
+      <tr style="background:var(--sunk)"><td><b>Summe</b></td><td class="m r"><b>35</b></td><td>auf <b>einem</b> Master — erzeugt aus <span class="m" style="text-transform:none;letter-spacing:0">scripts/pptx-vorlage.mjs</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>11.6</span><h3>Titel, Abschnitt, Abschluss</h3></div>
+<div class="prose">
+  <p>Die drei Layoutgruppen, die einen Foliensatz gliedern. Alle drei laufen auf dem <b>tiefen Grund</b> (Graphit 950) — das ist die eine Stelle, an der die Präsentation dunkel wird, und sie markiert damit Anfang, Schnitt und Ende.</p>
+</div>
+
+<div class="slides">
+  <div class="sl">
+    <div class="sl-frame tief">
+      <span class="k">Intelligent Workplace</span>
+      <p class="t">Relevanz für jeden. Klarheit für alle.</p>
+      <div class="foot"><span>NEOCOSMO</span><span>03/2026</span></div>
+    </div>
+    <p class="sl-cap"><b>T1 · Titel tief</b><br>Der Regelfall. Aussage, Kicker, Fußzeile.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="background:var(--gl-lime);padding:0">
+      <div style="position:absolute;inset:7% 5%">
+        <p class="t" style="color:#161816">Zwei Wochen statt sechs.</p>
+      </div>
+    </div>
+    <p class="sl-cap"><b>T2 · Signalfeld</b><br>Höchstens einmal je Deck, Schrift in Tinte.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame tief" style="padding:0">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:42%" class="img"></div>
+      <div style="position:absolute;left:48%;right:5%;top:7%;bottom:7%">
+        <span class="k">Kundenstory</span>
+        <p class="t" style="font-size:11px">Stadtwerke Saarbrücken</p>
+      </div>
+    </div>
+    <p class="sl-cap"><b>T3 · Bild als Ausschnitt</b><br>Bild ist Layer, nie Bühne.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame tief">
+      <div style="width:26%;height:11%;background:var(--g700);margin-bottom:9%"></div>
+      <span class="k">Angebot</span>
+      <p class="t" style="font-size:11px">Wissensplattform für 1 200 Beschäftigte</p>
+      <div class="foot"><span>NEOCOSMO</span><span>vertraulich</span></div>
+    </div>
+    <p class="sl-cap"><b>T4 · Kunde</b><br>Feld für das Kundenlogo, oben links.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame tief">
+      <span class="k">03</span>
+      <p class="t" style="font-size:15px">Wie es funktioniert</p>
+    </div>
+    <p class="sl-cap"><b>A1 · Abschnitt tief</b><br>Nummer als Kicker, ein Wortpaar.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="background:#f3f3ea">
+      <span class="k">04 · Menschen und Geschichten</span>
+      <p class="t" style="font-size:13px">Wer damit arbeitet</p>
+    </div>
+    <p class="sl-cap"><b>A2 · Bereichspapier</b><br>Hier Ivory — siehe 11.10.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <div style="position:absolute;left:0;right:0;top:38%;height:24%;background:var(--g950);display:flex;align-items:center;padding:0 5%">
+        <p style="font-family:var(--f-brand);font-weight:700;font-size:10px;color:var(--g100);margin:0;letter-spacing:-.02em">05 Editionen und Preise</p>
+      </div>
+    </div>
+    <p class="sl-cap"><b>A3 · Band</b><br>Kantenform aus Kapitel 08.4.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame tief">
+      <p class="t" style="font-size:11px">Sprechen wir über Ihren Fall.</p>
+      <p class="s" style="margin-top:6%">Frank Milius · frank@neocosmo.de</p>
+      <div style="position:absolute;right:5%;bottom:7%;width:22%;height:14%" class="sig"></div>
+    </div>
+    <p class="sl-cap"><b>Z1 · Abschluss</b><br>Kontakt und ein Signalfeld. Kein „Danke".</p>
+  </div>
+</div>
+
+<div class="subhead"><span>11.7</span><h3>Text, Bild und Zitat</h3></div>
+<div class="prose">
+  <p>Die Arbeitspferde. Sie tragen den größten Teil jedes Decks, und an ihnen entscheidet sich, ob eine Präsentation zusammenhält. <b>Die Regel aus Kapitel 03 gilt unverändert: höchstens drei Größen und zwei Gewichte je Folie.</b></p>
+</div>
+
+<div class="slides">
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="t" style="font-size:11px">Wissen liegt dort, wo niemand danach sucht.</p>
+    </div>
+    <p class="sl-cap"><b>X1 · Statement</b><br>Ein Satz, sonst nichts. Kein Fließtext.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h">Was sich ändert</p>
+      <div class="bar w85"></div><div class="bar w70"></div><div class="bar w85"></div><div class="bar w50"></div>
+    </div>
+    <p class="sl-cap"><b>X2 · Fließtext</b><br>Satzbreite gedeckelt, kein Blocksatz.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h">Drei Dinge, die zusammengehören</p>
+      <div class="sl-col">
+        <div><span class="k" style="margin-bottom:2px">01 Kurse</span><div class="bar w70"></div></div>
+        <div><span class="k" style="margin-bottom:2px">02 Wissensbasis</span><div class="bar w85"></div></div>
+        <div><span class="k" style="margin-bottom:2px">03 Zusammenarbeit</span><div class="bar w50"></div></div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>X3 · Zwischenüberschriften</b><br>Höchstens vier Blöcke.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;left:5%;top:7%;bottom:7%;width:44%">
+        <p class="h">In zwei Wochen einsatzbereit</p>
+        <div class="bar w85"></div><div class="bar w70"></div><div class="bar w50"></div>
+      </div>
+      <div style="position:absolute;right:5%;top:7%;bottom:7%;width:44%" class="img"></div>
+    </div>
+    <p class="sl-cap"><b>B1 · Bild rechts</b><br>Bild trägt Kontur, Text auf eigener Fläche.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;left:0;top:0;right:0;height:52%" class="img"></div>
+      <div style="position:absolute;left:5%;right:5%;top:60%">
+        <p class="h">Werkstatt statt Konferenztisch</p>
+        <div class="bar w70"></div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>B3 · Bild oben angeschnitten</b><br>Keine Kontur an der Schnittkante.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;inset:0" class="img"></div>
+      <div style="position:absolute;left:5%;bottom:7%;background:var(--gl-card);border:1px solid var(--gl-kontur);padding:5% 6%;width:52%">
+        <p class="h" style="margin:0;font-size:8px">Einarbeitung neu gebaut</p>
+      </div>
+    </div>
+    <p class="sl-cap"><b>V1 · Vollbild</b><br>Text niemals direkt auf dem Bild.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="t" style="font-size:10px;max-width:88%">„Nach zwei Wochen hat niemand mehr gefragt, wo etwas steht."</p>
+      <p class="s" style="margin-top:7%">Leiterin Personalentwicklung · Stadtwerke</p>
+    </div>
+    <p class="sl-cap"><b>Q1 · Zitat</b><br>Keine Anführungszeichen als Grafik, kein Porträt.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;inset:7% 5%;display:flex;gap:4%;align-items:center">
+        <div style="width:34%;aspect-ratio:1/1" class="img"></div>
+        <div style="flex:1">
+          <p class="h" style="font-size:8px">Ein Ausschnitt Wirklichkeit</p>
+          <div class="bar w85"></div><div class="bar w50"></div>
+        </div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>B4 · Node-Ausschnitt</b><br>Quadratischer Ausschnitt, 1∶1.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>11.8</span><h3>Zahlen, Vergleich, Ablauf, Architektur</h3></div>
+<div class="prose">
+  <p>Die Layouts, die im Vertrieb die Arbeit machen. Sie sind die Stelle, an der die Formensprache aus Kapitel 08 in PowerPoint ankommt — <b>einschließlich des Richtungsdreiecks, das dort und nur dort erlaubt ist</b>.</p>
+</div>
+
+<div class="slides">
+  <div class="sl">
+    <div class="sl-frame">
+      <span class="k">Einarbeitungszeit</span>
+      <p class="num" style="font-size:30px">−67 %</p>
+      <p class="s" style="margin-top:4%">von sechs auf zwei Wochen</p>
+    </div>
+    <p class="sl-cap"><b>K1 · Eine Zahl</b><br>Space Grotesk Bold, tabellarische Ziffern.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h">Nach zwölf Monaten</p>
+      <div class="sl-row" style="margin-top:6%">
+        <div style="flex:1"><p class="num">1 200</p><span class="k" style="margin-top:3px">Beschäftigte</span></div>
+        <div style="flex:1"><p class="num">94 %</p><span class="k" style="margin-top:3px">aktiv</span></div>
+        <div style="flex:1"><p class="num">−67 %</p><span class="k" style="margin-top:3px">Einarbeitung</span></div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>K2 · Zwei bis drei</b><br>Gleiche Feldbreite, nie unterschiedlich.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;inset:7% 5%;display:flex;gap:3%">
+        <div style="flex:1" class="box" ></div>
+        <div style="flex:1" class="box"></div>
+      </div>
+      <div style="position:absolute;left:5%;top:7%;width:44%;padding:4%">
+        <span class="k">Heute</span><div class="bar w70"></div><div class="bar w85"></div>
+      </div>
+      <div style="position:absolute;right:5%;top:7%;width:44%;padding:4%">
+        <span class="k">Mit NEO</span><div class="bar w85" style="background:var(--gl-lime)"></div><div class="bar w50"></div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>C1 · Vergleich zweispaltig</b><br>Signal markiert genau eine Seite.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h" style="font-size:8px">Wer braucht was</p>
+      <table class="mtx" style="font-size:5.5px">
+        <thead><tr><th></th><th>Frontline</th><th>Verwalt.</th><th>IT</th></tr></thead>
+        <tbody>
+          <tr><th class="rw">Kurse</th><td>●</td><td>●</td><td>·</td></tr>
+          <tr><th class="rw">Wissen</th><td>●</td><td class="hit">✦</td><td>·</td></tr>
+          <tr><th class="rw">Daten</th><td>·</td><td>·</td><td>●</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sl-cap"><b>C2 · Matrix</b><br>Das wichtigste Layout des Satzes.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h" style="font-size:8px">Der Weg bis zum Start</p>
+      <div style="position:relative;margin-top:14%">
+        <div style="height:1px;background:var(--gl-kontur)"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:-3px">
+          <span style="width:6px;height:6px;background:var(--gl-ink)"></span>
+          <span style="width:6px;height:6px;background:var(--gl-ink)"></span>
+          <span style="width:6px;height:6px;background:var(--gl-lime)"></span>
+          <span style="width:6px;height:6px;background:var(--gl-ink)"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px">
+          <span class="k" style="margin:0">Jan</span><span class="k" style="margin:0">Mär</span><span class="k" style="margin:0">Mai</span><span class="k" style="margin:0">Sep</span>
+        </div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>L1 · Timeline</b><br>Höchstens fünf Marken, eine im Signal.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h" style="font-size:8px">Vom Angebot zum Betrieb</p>
+      <div class="proc" style="margin-top:10%">
+        <div class="proc-step" style="padding:5px 6px"><p class="proc-num" style="font-size:5px;margin-bottom:2px">01</p><p style="font-size:6px">Anfrage</p></div>
+        <div class="proc-gap" style="width:14px"><span class="proc-tri" style="border-left-width:5px;border-top-width:3px;border-bottom-width:3px"></span></div>
+        <div class="proc-step" style="padding:5px 6px"><p class="proc-num" style="font-size:5px;margin-bottom:2px">02</p><p style="font-size:6px">Prüfung</p></div>
+        <div class="proc-gap" style="width:14px"><span class="proc-tri" style="border-left-width:5px;border-top-width:3px;border-bottom-width:3px"></span></div>
+        <div class="proc-step" style="padding:5px 6px"><p class="proc-num" style="font-size:5px;margin-bottom:2px">03</p><p style="font-size:6px">Start</p></div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>P1 · Prozess waagerecht</b><br>Richtungsdreieck — nur hier zulässig.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame">
+      <p class="h" style="font-size:8px">Wie es sich einfügt</p>
+      <div style="background:var(--g200);border:1px solid var(--gl-kontur);padding:5%;margin-top:8%">
+        <span class="k" style="margin-bottom:4px">01 Arbeitsplatz</span>
+        <div style="background:var(--gl-card);border:1px solid var(--gl-kontur);padding:5%">
+          <span class="k" style="margin-bottom:3px">02 Plattform</span>
+          <div class="sl-row">
+            <span style="border:1px solid var(--gl-ink);padding:2px 5px;font-size:5px">Suche</span>
+            <span style="border:1px solid var(--gl-ink);padding:2px 5px;font-size:5px">Kurse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>R1 · Architektur</b><br>Enthaltensein, höchstens drei Ebenen.</p>
+  </div>
+  <div class="sl">
+    <div class="sl-frame" style="padding:0">
+      <div style="position:absolute;inset:9% 7%;background:var(--gl-card);border:1px solid var(--gl-kontur)">
+        <div style="height:14%;background:var(--g200);border-bottom:1px solid var(--gl-kontur)"></div>
+        <div style="display:flex;height:86%">
+          <div style="width:24%;background:var(--g100);border-right:1px solid var(--gl-kontur)"></div>
+          <div style="flex:1;padding:6%"><div class="bar w70"></div><div class="bar w85"></div><div class="bar w50"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="sl-cap"><b>S1 · Screenshot</b><br>Kontur statt Schatten, kein Gerätrahmen.</p>
+  </div>
+</div>
+
+<div class="subhead"><span>11.9</span><h3>Drei Widersprüche zum Bestand</h3></div>
+<div class="verdict">
+  <p><strong>Diese drei Stellen stehen heute im Kapitel PowerPoint und widersprechen anderen Kapiteln.</strong> Sie dürfen nicht in die Vorlage wandern, sonst zementiert die <span class="m" style="text-transform:none;letter-spacing:0">.potx</span> einen überholten Stand für Jahre.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Im Bestand</th><th scope="col">Widerspricht</th><th scope="col">Was stattdessen gilt</th></tr></thead>
+    <tbody>
+      <tr><td>Layer als Rechteck mit <b>Transparenz 92 % oder 84 %</b>, Überlagerung erzeugt die Schnittmenge</td><td>Kapitel 07 — dort ist Transparenz im Flächenstapel abgeschafft: „Was entfällt, sind die früheren Dichten 8 %, 16 % und 100 %"</td><td><b>Benannte Flächenstufen</b>: Graphit 100 / 200, im Master als Füllungen hinterlegt. Kein Transparenzwert, den jemand verstellen kann</td></tr>
+      <tr><td>Bereichspapier <b>Salbei</b> für Kundenstories</td><td>Kapitel 08.2 — Salbei ist bei grünem Signal ausgefallen und in die Reserve gegangen</td><td><b>Ivory</b> für „Menschen und Geschichten"</td></tr>
+      <tr><td><span class="m" style="text-transform:none;letter-spacing:0">scripts/generate-pptx.mjs</span> erzeugt Folien mit <b>Arial</b>, <span class="m" style="text-transform:none;letter-spacing:0">primary: 002049</span> und <span class="m" style="text-transform:none;letter-spacing:0">009FE3</span></td><td>Kapitel 03 (Schriften), Kapitel 04 (Graphit ist Primary, Cyan ist #009EE3)</td><td class="do"><b>Nachgezogen.</b> Graphit als Primary, Cyan auf #009EE3, Rückmeldung aus den Systempaletten, alle fünfzehn Arial-Stellen auf die Markenschriften. Im Kopf steht jetzt, dass es ein Einzelstück ist und der Master woanders liegt</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>11.10</span><h3>Bereichspapiere als zweite Achse</h3></div>
+<div class="prose">
+  <p>Jeder Abschnitt eines Foliensatzes läuft auf seinem Bereichspapier (Kapitel 08.2). Der Bestand schlägt dafür vor, „dieselben Layouts fünfmal mit anderem Grundton" zu hinterlegen — das wären <b>170 Layouts</b> und damit genau das Gegenteil des Ziels.</p>
+  <p><b>Entschieden:</b> ein Master, 35 Layouts, und das Papier als <b>Hintergrundformat im Theme</b>. Fünf Hintergrundvarianten, per Auswahl auf markierte Folien anwendbar — ein Klick statt einer Layoutkopie. Die Pflege bleibt bei 35 Layouts statt bei 175. Der Generator setzt den Hintergrund je Folie — genau so sind die drei Beispieldecks entstanden.</p>
+</div>
+
+<div class="slides">
+  <div class="sl"><div class="sl-frame" style="background:#f6f2ea"><span class="k">Lösungen</span><p class="h" style="font-size:8px">Anwendungsfälle</p></div><p class="sl-cap"><b>Beige</b><br>Lösung und Anwendung</p></div>
+  <div class="sl"><div class="sl-frame" style="background:#f1f3f1"><span class="k">Produkte</span><p class="h" style="font-size:8px">Funktionsübersicht</p></div><p class="sl-cap"><b>Graphit</b><br>Produkt und Funktion · Voreinstellung</p></div>
+  <div class="sl"><div class="sl-frame" style="background:#f3f3ea"><span class="k">Inside</span><p class="h" style="font-size:8px">Kundenstories</p></div><p class="sl-cap"><b>Ivory</b><br>Menschen und Geschichten</p></div>
+  <div class="sl"><div class="sl-frame" style="background:#f8f1eb"><span class="k">Unternehmen</span><p class="h" style="font-size:8px">Über uns</p></div><p class="sl-cap"><b>Warm Taupe</b><br>Unternehmen</p></div>
+  <div class="sl"><div class="sl-frame" style="background:#f2f2f2"><span class="k">Editionen</span><p class="h" style="font-size:8px">Preise und Ablauf</p></div><p class="sl-cap"><b>Pearl White</b><br>Zahlen und Konditionen</p></div>
+</div>
+<p class="note">Ein Papier gilt für einen ganzen Abschnitt, nie für einzelne Folien. <b>Zwei Papiere in einem Abschnitt sind ausgeschlossen</b> — dann wird das Papier zur Kategorie statt zum Ort.</p>
+
+<div class="subhead"><span>11.11</span><h3>Diagramme · verbindliche Stile</h3></div>
+<div class="prose">
+  <p>Diagramme sind die Stelle, an der eine Präsentation ihre Sorgfalt zeigt oder verliert. Die Regeln aus Kapitel 08.12 und 08.14 gelten unverändert — hier steht, wie sie in PowerPoint umgesetzt werden.</p>
+</div>
+
+<div class="tbl">
+  <table class="spec-tbl">
+    <thead><tr><th>Element</th><th>Einstellung in PowerPoint</th><th>Warum</th></tr></thead>
+    <tbody>
+      <tr><td><b>Farbfolge</b></td><td>Aus dem Theme, Akzent 1–6. Nicht manuell setzen</td><td>Akzent 1 ist die Signalfarbe — die erste Reihe ist fast immer die, um die es geht</td></tr>
+      <tr><td><b>Gitternetz</b></td><td>Nur waagerecht, Graphit 300, 0,75 pt</td><td>Ein volles Netz konkurriert mit den Daten</td></tr>
+      <tr><td><b>Achsen</b></td><td>Nur die Werteachse beschriftet, keine Achsentitel wenn die Einheit im Untertitel steht</td><td>Doppelte Beschriftung kostet Platz und sagt nichts</td></tr>
+      <tr><td><b>Datenreihen</b></td><td>Linie 2 pt, Endpunkte als Datenpunkt betont</td><td>Der Vergleich findet am Endpunkt statt</td></tr>
+      <tr><td><b>Beschriftung</b></td><td>Direkt an der Reihe, <b>keine Legende</b></td><td>Eine Legende zwingt zum Hin- und Herspringen</td></tr>
+      <tr><td><b>Datenbeschriftung</b></td><td>Nur am Endpunkt oder gar nicht</td><td>Kein Wert an jedem Punkt</td></tr>
+      <tr><td><b>Zahlen</b></td><td>JetBrains Mono, deutsche Schreibweise: 1.284,50 €</td><td>Gleiche Ziffernbreite, Komma untereinander</td></tr>
+      <tr><td class="no"><b>Ausgeschlossen</b></td><td colspan="2">3D, Schatten, Verlauf unter Linien, zweite Werteachse, Torten mit mehr als zwei Segmenten, Farbe nach Rang statt nach Entität</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>11.12</span><h3>Tabellen · verbindliche Stile</h3></div>
+<div class="tbl">
+  <table class="spec-tbl">
+    <thead><tr><th>Element</th><th>Einstellung in PowerPoint</th><th>Warum</th></tr></thead>
+    <tbody>
+      <tr><td><b>Kopfzeile</b></td><td>JetBrains Mono 10 pt, Versalien, Graphit 200 als Füllung</td><td>Kopf ist Beschriftung, nicht Inhalt</td></tr>
+      <tr><td><b>Textzelle</b></td><td>Manrope Regular 14 pt, linksbündig</td><td>Fließtext-Rolle</td></tr>
+      <tr><td><b>Zahlenzelle</b></td><td>JetBrains Mono 14 pt, <b>rechtsbündig</b></td><td>Komma steht untereinander</td></tr>
+      <tr><td><b>Trennlinien</b></td><td>Nur waagerecht, Graphit 300, 0,75 pt. <b>Keine senkrechten</b></td><td>Spalten trennt die Ausrichtung, nicht der Strich</td></tr>
+      <tr><td><b>Zeilenhöhe</b></td><td>Mindestens 1,4× Schriftgröße</td><td>Wenn eine Tabelle ohne Streifung unlesbar ist, ist die Zeile zu eng</td></tr>
+      <tr><td><b>Betonung</b></td><td>Manrope SemiBold, oder Signalfarbe als Zellfüllung für <b>genau eine</b> Zelle</td><td>Eine zweite Betonung halbiert die erste</td></tr>
+      <tr><td class="no"><b>Ausgeschlossen</b></td><td colspan="2">Zebrastreifen als Ersatz für Zeilenhöhe, farbige Kopfzeilen in Akzentfarben, verbundene Zellen über mehr als zwei Spalten, Tabellen mit mehr als sieben Zeilen auf einer Folie</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="subhead"><span>11.13</span><h3>Die Beispielpräsentationen</h3></div>
+<div class="prose">
+  <p><b>Drei Fälle, je 24 Folien, alle aus denselben 35 Layouts.</b> Der Zweck ist nicht die Foliensammlung, sondern der Beleg: Wenn drei so verschiedene Branchen mit demselben Satz auskommen, trägt der Satz.</p>
+  <p>Die Unternehmen sind generisch gehalten und die Zahlen erfunden — <b>jede Folie trägt die Fußzeile BEISPIEL</b>. Der dritte Fall folgt dem Muster der Automatisierungstechnik; Festo Didactic ist dort mit rund 800 Beschäftigten der weltweit führende Ausrüster technischer Bildungseinrichtungen und damit der treffendste Referenztyp. Eine Geschäftsbeziehung wird damit nicht dargestellt.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Fall 01</p><h3>Kommunaler Versorger</h3><p>1 200 Beschäftigte, Netzleitstelle im Schichtbetrieb. Die Aussage: <b>Einarbeitung von sechs auf zwei Wochen</b>.</p></div>
+  <div class="card"><p class="lbl">Fall 02</p><h3>Polizei eines Flächenlandes</h3><p>9 000 Vollzugsbeamte, drei Schichten. Die Aussage: <b>eine Änderung erreicht den Streifendienst in einer Stunde statt in zwei Tagen</b>.</p></div>
+  <div class="card"><p class="lbl">Fall 03</p><h3>Industrie · Automatisierungstechnik</h3><p>60 Länder, 11 Sprachen. Die Aussage: <b>ein Kurs steht nach sechs Wochen in allen Sprachen statt nach neun Monaten</b>.</p></div>
+</div>
+
+<div class="prose">
+  <p>Alle drei folgen derselben Dramaturgie und derselben Papierfolge — das ist der eigentliche Lerninhalt des Decks:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">Folie</th><th scope="col">Inhalt</th><th scope="col">Layout</th><th scope="col">Papier</th></tr></thead>
+    <tbody>
+      <tr><td class="m r">01</td><td>Titel — Wissensplattform für 1 200 Beschäftigte</td><td class="m">T4 Kunde</td><td class="m">tief</td></tr>
+      <tr><td class="m r">02</td><td>Agenda, fünf Punkte</td><td class="m">AG1</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">03</td><td>Abschnitt · Die Lage</td><td class="m">A1</td><td class="m">tief</td></tr>
+      <tr><td class="m r">04</td><td>Statement — Wissen liegt dort, wo niemand sucht</td><td class="m">X1</td><td class="m">Beige</td></tr>
+      <tr><td class="m r">05</td><td>Drei Zahlen aus der Bestandsaufnahme</td><td class="m">K2</td><td class="m">Beige</td></tr>
+      <tr><td class="m r">06</td><td>Matrix — wer braucht was</td><td class="m">C2</td><td class="m">Beige</td></tr>
+      <tr><td class="m r">07</td><td>Werkstattfoto mit Text</td><td class="m">B1</td><td class="m">Beige</td></tr>
+      <tr><td class="m r">08</td><td>Abschnitt · Die Lösung</td><td class="m">A1</td><td class="m">tief</td></tr>
+      <tr><td class="m r">09</td><td>Drei Dinge, die zusammengehören</td><td class="m">X3</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">10</td><td>Screenshot Kursübersicht</td><td class="m">S1</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">11</td><td>Screenshot mit Textspalte</td><td class="m">S2</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">12</td><td>Architektur — wie es sich einfügt</td><td class="m">R1</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">13</td><td>Gerät in der Hand</td><td class="m">G1</td><td class="m">Graphit</td></tr>
+      <tr><td class="m r">14</td><td>Abschnitt · Was andere erlebt haben</td><td class="m">A2</td><td class="m">Ivory</td></tr>
+      <tr><td class="m r">15</td><td>Kundenstory, Bild als Ausschnitt</td><td class="m">B4</td><td class="m">Ivory</td></tr>
+      <tr><td class="m r">16</td><td>Zitat der Personalentwicklung</td><td class="m">Q1</td><td class="m">Ivory</td></tr>
+      <tr><td class="m r">17</td><td>Eine Zahl groß — minus 67 Prozent</td><td class="m">K1</td><td class="m">Ivory</td></tr>
+      <tr><td class="m r">18</td><td>Diagramm — Nutzung über zwölf Monate</td><td class="m">D2</td><td class="m">Ivory</td></tr>
+      <tr><td class="m r">19</td><td>Abschnitt · Der Weg dahin</td><td class="m">A3 Band</td><td class="m">Pearl White</td></tr>
+      <tr><td class="m r">20</td><td>Prozess in vier Schritten</td><td class="m">P1</td><td class="m">Pearl White</td></tr>
+      <tr><td class="m r">21</td><td>Timeline bis zum Start</td><td class="m">L1</td><td class="m">Pearl White</td></tr>
+      <tr><td class="m r">22</td><td>Editionen im Vergleich</td><td class="m">C1</td><td class="m">Pearl White</td></tr>
+      <tr><td class="m r">23</td><td>Tabelle — Leistungsumfang</td><td class="m">TB1</td><td class="m">Pearl White</td></tr>
+      <tr><td class="m r">24</td><td>Abschluss — Kontakt, ein Signalfeld</td><td class="m">Z1</td><td class="m">tief</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Was es zeigt</p><h3>Vier Abschnitte, vier Papiere</h3><p>Lage auf Beige, Lösung auf Graphit, Kundenstories auf Ivory, Konditionen auf Pearl White. <b>Der Betrachter merkt beim Wechsel, dass er woanders ist</b> — und benennt es nie.</p></div>
+  <div class="card"><p class="lbl">Was es zeigt</p><h3>Ein Höhepunkt je Deck</h3><p>Die eine große Zahl auf Folie 17 ist die einzige Stelle, an der eine Zahl die ganze Folie trägt. Ein zweiter Höhepunkt würde den ersten halbieren.</p></div>
+  <div class="card"><p class="lbl">Was es zeigt</p><h3>18 von 35 Layouts</h3><p>Ein echtes Deck benutzt nie alle. Die übrigen siebzehn stehen für andere Anlässe bereit — <b>das ist der Zweck einer Vorlage, nicht ihr Überschuss</b>.</p></div>
+</div>
+
+<div class="subhead"><span>11.14</span><h3>Auslieferung und Pflege</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Datei</th><th scope="col">Was drin ist</th><th scope="col">Wer pflegt</th></tr></thead>
+    <tbody>
+      <tr><td class="m">NEO.thmx</td><td>Farbtheme, Schriftschema — wirkt auch in Word und Excel</td><td>Design System</td></tr>
+      <tr><td class="m">NEO-Master.potx</td><td>Ein Master, 35 Layouts, fünf Hintergrundvarianten, Bausteinbibliothek</td><td>Design System</td></tr>
+      <tr><td class="m">NEO-Beispiel.pptx</td><td>Die 24 Folien aus 11.13</td><td>Vertrieb und Design gemeinsam</td></tr>
+      <tr><td class="m">fonts/desktop/</td><td>Vierzehn Schnitte, Installationsanleitung</td><td>Design System</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Verteilung</p><h3>Nicht per E-Mail</h3><p>Eine Vorlage, die als Anhang kursiert, existiert nach sechs Monaten in vier Fassungen. Auslieferung über einen festen Ort — <b>SharePoint-Vorlagenkatalog oder Intune</b>, damit PowerPoint sie unter „Neu" anbietet.</p></div>
+  <div class="card"><p class="lbl">Änderung</p><h3>Der Master ist die Quelle</h3><p>Eine Änderung am Layout geschieht im Master, nicht auf einer Folie. Wer eine Folie „nur eben" anpasst, erzeugt eine Abweichung, die beim nächsten Kopieren weiterwandert.</p></div>
+</div>
+
+<div class="subhead"><span>11.15</span><h3>Die Fußzeile</h3></div>
+<div class="prose">
+  <p>Drei Angaben, zwei davon automatisch. Sie stehen im Master und damit auf jeder Folie, die ein Layout benutzt — niemand tippt sie, niemand vergisst sie.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Angabe</th><th scope="col">Ort</th><th scope="col">Verhalten</th><th scope="col">Technik</th></tr></thead>
+    <tbody>
+      <tr><td><b>Copyright</b></td><td>links</td><td>fest</td><td class="m">Text im Master</td></tr>
+      <tr><td><b>Datum</b></td><td>rechts</td><td class="do"><b>aktualisiert sich</b></td><td class="m">&lt;a:fld type="datetime1"&gt;</td></tr>
+      <tr><td><b>Seitenzahl</b></td><td>rechts außen</td><td class="do"><b>zählt automatisch</b></td><td class="m">&lt;a:fld type="slidenum"&gt;</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Copyright</p><h3>Ohne Jahreszahl</h3><p>Die Zeile lautet <b>© NEOCOSMO GmbH</b> — bewusst ohne Jahr. Ein festes Jahr ist in zwölf Monaten falsch, und ein Feld für „aktuelles Jahr" gibt es in PowerPoint nicht. Die Aktualität trägt das Datumsfeld daneben.</p></div>
+  <div class="card"><p class="lbl">Befund · Kontrast</p><h3>Eine Farbe reicht nicht</h3><p>Graphit 600 erreicht auf hellem Grund <b>4,18</b> und auf tiefem <b>3,83</b> — beides unter der AA-Schwelle von 4,5. Die Fußzeile trägt deshalb <b>zwei Stufen</b>: Graphit 700 auf hell (6,07), Graphit 400 auf tief (8,34). Der Generator wählt sie am Hintergrund des Layouts.</p></div>
+  <div class="card"><p class="lbl">Wo sie fehlt</p><h3>Vier Layouts ohne</h3><p>Das <b>Signalfeld</b> (eine Aussage, sonst nichts), <b>Vollbild</b> und <b>Screenshot</b> (randlos, eine Fußzeile läge im Bild) sowie <b>Titel mit Bild</b>. Alle übrigen 31 tragen sie; die Seitenzahl steht auf 34 von 35.</p></div>
+</div>
+
+<p class="note"><b>Zur Umsetzung:</b> Die Seitenzahl setzt pptxgenjs über <span class="m" style="text-transform:none;letter-spacing:0">slideNumber</span> als echtes Feld. Ein <b>Datumsfeld kennt die API nicht</b> — der Generator schreibt einen Platzhalter und tauscht ihn nach dem Schreiben im Archiv gegen <span class="m" style="text-transform:none;letter-spacing:0">&lt;a:fld type="datetime1"&gt;</span>. Mit <span class="m" style="text-transform:none;letter-spacing:0">lang="de-DE"</span> rendert PowerPoint es als TT.MM.JJJJ und aktualisiert es beim Öffnen.</p>
+
+<div class="subhead"><span>11.16</span><h3>Wie die Vorlage entsteht</h3></div>
+<div class="law">
+  <p>Die Vorlage ist Code, nicht Handarbeit. Sie ändert sich mit den Tokens statt mit jemandes Gedächtnis.</p>
+  <p class="src">Die Vorlagenregel</p>
+</div>
+<div class="prose">
+  <p><b>Entschieden und gebaut.</b> Der Master entsteht über <span class="m" style="text-transform:none;letter-spacing:0">pptxgenjs</span> mit <span class="m" style="text-transform:none;letter-spacing:0">defineSlideMaster()</span>. Alle Farben, Schriften und Maße kommen aus <span class="m" style="text-transform:none;letter-spacing:0">data/design-tokens.json</span> — ändert sich ein Token, ändert sich die Vorlage beim nächsten Lauf.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Befehl</th><th scope="col">Was entsteht</th><th scope="col">Quelle</th></tr></thead>
+    <tbody>
+      <tr><td class="m">npm run pptx:vorlage</td><td>NEO-Master.pptx — 1 Master, 35 Layouts</td><td class="m">scripts/pptx-vorlage.mjs</td></tr>
+      <tr><td class="m">npm run pptx:beispiel</td><td>Drei Beispieldecks à 24 Folien</td><td class="m">scripts/pptx-beispiel.mjs + data/pptx-beispielfaelle.json</td></tr>
+      <tr><td class="m">npm run pptx</td><td>beides</td><td class="m">—</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g3">
+  <div class="card"><p class="lbl">Was der Generator kann</p><h3>Ein Master, 35 Layouts</h3><p>Nachgeprüft im erzeugten Archiv: <span class="m" style="text-transform:none;letter-spacing:0">slideMaster1.xml</span> plus 35 Layoutdateien, Foliengröße 13,333 × 7,5 Zoll, Space Grotesk, Manrope und JetBrains Mono in den Layouts.</p></div>
+  <div class="card"><p class="lbl">Was er nicht kann</p><h3>Kein .potx</h3><p>pptxgenjs schreibt kein Vorlagenformat. Der letzte Schritt bleibt einmalig von Hand: in PowerPoint öffnen, <b>Speichern unter → PowerPoint-Vorlage</b>. Die Master sind dann vollständig enthalten.</p></div>
+  <div class="card"><p class="lbl">Was noch fehlt</p><h3>Das Farbtheme als Datei</h3><p>Die <span class="m" style="text-transform:none;letter-spacing:0">.thmx</span> aus 11.3 ist beschrieben, aber nicht erzeugt — pptxgenjs schreibt sie nicht. Sie entsteht in PowerPoint aus dem Master und wird dann separat gespeichert.</p></div>
+</div>
+
+<div class="subhead"><span>—</span><h3>Stand der Entscheidungen</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Wo</th><th scope="col">Frage</th><th scope="col">Stand</th></tr></thead>
+    <tbody>
+      <tr><td class="m">11.5</td><td>Aufteilung der Layouts</td><td><b>Entschieden</b> — plus Editionstabelle, jetzt 35</td></tr>
+      <tr><td class="m">11.10</td><td>Papier als Hintergrundvariante statt fünf Master</td><td><b>Entschieden · umgesetzt</b> — der Generator setzt den Hintergrund je Folie</td></tr>
+      <tr><td class="m">11.9</td><td>Transparenzmechanik ersetzen</td><td><b>Entschieden</b> — benannte Flächenstufen im Master</td></tr>
+      <tr><td class="m">11.9</td><td><span class="m" style="text-transform:none;letter-spacing:0">generate-pptx.mjs</span> nachziehen</td><td><b>Erledigt</b> — Farben, Schriften und Kopfkommentar</td></tr>
+      <tr><td class="m">11.13</td><td>Beispielfälle</td><td><b>Erledigt</b> — Versorger, Polizei, Industrie</td></tr>
+      <tr><td class="m">11.14</td><td>Erzeugen statt Handarbeit</td><td><b>Erledigt</b> — 4 Dateien in <span class="m" style="text-transform:none;letter-spacing:0">dist/pptx/</span></td></tr>
+      <tr><td class="m">11.15</td><td>Fußzeile mit Copyright, Datum, Seitenzahl</td><td><b>Erledigt</b> — Datum und Seitenzahl als automatische Felder</td></tr>
+      <tr><td class="m">11.3</td><td><b>Wer erzeugt die .thmx?</b></td><td><span class="no">Offen</span> — einmalig von Hand aus dem Master</td></tr>
+      <tr><td class="m">11.14</td><td><b>Wo wird ausgeliefert?</b></td><td><span class="no">Offen</span> — Vorschlag: SharePoint-Vorlagenkatalog</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Was jetzt vorliegt und was nicht.</strong> Vier Dateien sind erzeugt und prüfbar: der Master mit 35 Layouts und drei Beispieldecks. Sie stammen aus dem Tokensatz, nicht aus einer Nachbildung — wer eine Farbe im Design System ändert, bekommt sie beim nächsten Lauf in der Vorlage.</p>
+  <p>Zwei Schritte bleiben Handarbeit, weil pptxgenjs sie nicht kann: die Umwandlung in <b>.potx</b> und die <b>.thmx</b>. Beides ist je ein Speichervorgang in PowerPoint, kein Projekt. Und beides sollte jemand tun, der die Datei danach auch prüft — <b>ich kann die Layouts erzeugen, aber nicht sehen, wie PowerPoint sie darstellt.</b></p>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Entwurf, Stand 26. August 2026 · Übernommen aus NEO Brand Kapitel 03, 04, 08 und dem bestehenden Kapitel PowerPoint. Raster aus Kapitel 08.3, Schriftgrößen aus 03.12, Diagrammregeln aus 08.12 und 08.14. Befunde geprüft in <span class="m" style="text-transform:none;letter-spacing:0">scripts/generate-pptx.mjs</span>.</p>
+</footer>
+
+</div>

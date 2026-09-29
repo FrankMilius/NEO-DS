@@ -1,0 +1,902 @@
+
+<title>Sechs Säulen unter zwei Wörtern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    /* Graphit-Leiter aus data/design-tokens.json */
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --text:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --deep:var(--g950); --deep-text:var(--g100); --deep-muted:var(--g400); --deep-hair:var(--g800);
+    --signal:#0079ad;
+    --plane:rgba(22,24,22,.09);
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-info:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1180px; --prose:66ch;
+    --u:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+      --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523;
+      --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+      --signal:#33b2e9;
+      --plane:rgba(241,243,241,.10);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0e100e; --surface:#1a1c1a; --sunk:#141614;
+    --text:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523;
+    --deep:#000000; --deep-text:var(--g100); --deep-muted:var(--g500); --deep-hair:var(--g900);
+    --signal:#33b2e9;
+    --plane:rgba(241,243,241,.10);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--text);font-family:var(--f-info);
+       font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 120px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+
+  /* ---------- Masthead ---------- */
+  .mast{padding:80px 0 0}
+  .mast .code{font-family:var(--f-tech);font-size:12px;letter-spacing:.16em;
+              text-transform:uppercase;color:var(--faint);margin:0 0 28px;
+              display:flex;gap:14px;align-items:center}
+  .mast .code::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(42px,7.4vw,86px);
+     line-height:.98;letter-spacing:-.035em;margin:0 0 28px;max-width:14ch;text-wrap:balance}
+  .lede{font-size:20px;line-height:1.52;color:var(--muted);max-width:60ch;margin:0 0 44px}
+
+  /* Ebenen-Hero */
+  .hero{position:relative;height:280px;margin-bottom:44px;background:var(--deep);overflow:hidden}
+  .hero .pl{position:absolute;border:1px solid rgba(241,243,241,.30);background:rgba(241,243,241,.055)}
+  .hero .p1{left:-4%;top:16%;width:52%;height:62%}
+  .hero .p2{left:26%;top:30%;width:52%;height:62%}
+  .hero .p3{left:56%;top:8%;width:52%;height:62%}
+  .hero .nd{position:absolute;width:11px;height:11px;background:var(--deep-text)}
+  .hero .n1{left:34%;top:44%}
+  .hero .n2{left:62%;top:52%}
+  .hero .sg{position:absolute;left:47%;top:38%;width:13px;height:13px;background:#009ee3}
+  .hero .cap{position:absolute;left:0;bottom:0;right:0;padding:16px 22px;
+             font-family:var(--f-tech);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+             color:rgba(241,243,241,.62);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .meta div{padding:16px 30px 16px 0;margin-right:30px;border-right:1px solid var(--hair)}
+  .meta div:last-child{border-right:0;margin-right:0}
+  .meta dt{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 5px}
+  .meta dd{margin:0;font-size:15px;font-weight:600}
+
+  /* ---------- Abschnitte ---------- */
+  section{padding:88px 0 0;scroll-margin-top:20px}
+  .shead{display:grid;grid-template-columns:104px 1fr;gap:28px;align-items:start;
+         border-top:1px solid var(--text);padding-top:20px;margin-bottom:34px}
+  .snum{font-family:var(--f-tech);font-size:13px;font-weight:700;letter-spacing:.1em;
+        color:var(--signal);padding-top:8px}
+  h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(28px,4vw,44px);
+     line-height:1.04;letter-spacing:-.028em;margin:0 0 14px;max-width:20ch;text-wrap:balance}
+  .sdek{font-size:17.5px;color:var(--muted);max-width:var(--prose);margin:0}
+  h3{font-family:var(--f-brand);font-weight:500;font-size:20px;letter-spacing:-.014em;
+     line-height:1.25;margin:0 0 9px}
+  h4{font-family:var(--f-tech);font-size:10.5px;font-weight:400;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  p{margin:0 0 17px}p:last-child{margin-bottom:0}
+  em{font-style:normal;color:var(--text);font-weight:600;
+     box-shadow:inset 0 -0.42em 0 var(--plane)}
+  strong{font-weight:700}
+  code{font-family:var(--f-tech);font-size:.83em;background:var(--sunk);
+       border:1px solid var(--hair);padding:1px 5px}
+  a{color:var(--signal)}
+
+  .law{border-left:3px solid var(--signal);padding:6px 0 6px 24px;margin:0 0 34px}
+  .law p{font-family:var(--f-brand);font-weight:500;font-size:clamp(21px,2.7vw,29px);
+         line-height:1.24;letter-spacing:-.018em;max-width:24ch;margin:0}
+  .law .src{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--faint);margin-top:14px}
+
+  /* Figuren */
+  figure{margin:0 0 20px;border:1px solid var(--border);background:var(--surface)}
+  figure svg{display:block;width:100%;height:auto;max-width:100%}
+  figcaption{font-size:13.5px;color:var(--muted);padding:14px 20px;border-top:1px solid var(--hair);
+             line-height:1.5}
+  figcaption b{color:var(--text);font-weight:600}
+
+  /* Karten-Raster */
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .card{background:var(--surface);padding:26px 26px 28px}
+  .card h3{font-size:18px}
+  .card p{font-size:14.8px;color:var(--muted);margin:0}
+  .card p+p{margin-top:11px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 12px}
+
+  /* Tabellen */
+  .tbl{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin-bottom:16px}
+  table{border-collapse:collapse;width:100%;min-width:700px;font-size:14.3px}
+  thead th{background:var(--surface);font-family:var(--f-tech);font-size:10px;font-weight:400;
+           letter-spacing:.13em;text-transform:uppercase;color:var(--faint);text-align:left;
+           padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+  th.r,td.r{text-align:right}
+  th.c,td.c{text-align:center}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--hair);vertical-align:middle;line-height:1.42}
+  tbody tr:last-child td{border-bottom:0}
+  td.m{font-family:var(--f-tech);font-size:12.5px;white-space:nowrap}
+  .yes{color:var(--signal);font-weight:700}
+  .no{color:var(--faint)}
+  .swatch{display:inline-block;width:22px;height:22px;border:1px solid rgba(0,0,0,.22);vertical-align:-6px}
+
+  .tag{font-family:var(--f-tech);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 8px;white-space:nowrap;display:inline-block;border:1px solid var(--border);color:var(--muted)}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  .tag.off{opacity:.55}
+
+  .note{font-size:13.5px;color:var(--faint);max-width:var(--prose);margin:0 0 34px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 42px;margin-bottom:20px}
+  .cols ul{margin:0;padding-left:19px}
+  .cols li{font-size:15px;color:var(--muted);margin-bottom:9px}
+  .cols li b{color:var(--text);font-weight:600}
+
+  /* Typografie-Spezimen */
+  .spec{background:var(--surface);border:1px solid var(--border);padding:0;margin-bottom:1px}
+  .spec .row{padding:26px 28px;border-bottom:1px solid var(--hair)}
+  .spec .row:last-child{border-bottom:0}
+  .spec .k{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 12px;display:flex;justify-content:space-between;gap:16px}
+  .spec .sample{margin:0;line-height:1.1}
+
+  /* Farbfelder */
+  .sw{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .sw > div{background:var(--surface)}
+  .sw .chip{height:82px;border-bottom:1px solid var(--hair)}
+  .sw .info{padding:14px 16px}
+  .sw .n{font-size:14px;font-weight:600;margin:0 0 3px}
+  .sw .v{font-family:var(--f-tech);font-size:11px;color:var(--muted);margin:0;line-height:1.5}
+
+  /* Node-Formen */
+  .nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .node{background:var(--surface);padding:0 0 24px}
+  .node .stage{height:128px;display:grid;place-items:center;border-bottom:1px solid var(--hair);
+               background:var(--sunk)}
+  .node .txt{padding:20px 22px 0}
+  .node h3{font-size:17px;margin-bottom:6px}
+  .node p{font-size:14px;color:var(--muted);margin:0}
+
+  /* Diagramm-Ebenen dunkel */
+  .darkfig{background:var(--deep);border:1px solid var(--border)}
+  .darkfig figcaption{border-top:1px solid var(--deep-hair);color:var(--deep-muted);background:var(--deep)}
+  .darkfig figcaption b{color:var(--deep-text)}
+
+  .parthead{background:var(--sunk);border:1px solid var(--border);padding:22px 26px;margin:54px 0 0}
+  .parthead span{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+                 color:var(--signal);display:block;margin-bottom:8px}
+  .parthead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.7vw,28px);
+               letter-spacing:-.024em;margin:0 0 8px}
+  .parthead p{font-size:15px;color:var(--muted);margin:0;max-width:66ch}
+  .parthead + .subhead{margin-top:34px;border-top:0;padding-top:0}
+
+  /* ---------- Unterkapitel ---------- */
+  .subhead{display:flex;align-items:baseline;gap:20px;margin:52px 0 20px;
+           padding-top:16px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:12px;color:var(--signal);flex:none;width:84px}
+  .subhead h3{font-family:var(--f-brand);font-weight:700;font-size:clamp(20px,2.6vw,27px);
+              letter-spacing:-.022em;margin:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+         background:var(--border);border:1px solid var(--border);margin:26px 0 8px}
+  .facts > div{background:var(--surface);padding:22px 24px 24px}
+  .facts b{display:block;font-family:var(--f-brand);font-weight:700;
+           font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:9px}
+  .facts span{font-size:13.5px;color:var(--muted);line-height:1.4;display:block}
+
+  .statements{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+              background:var(--border);border:1px solid var(--border);margin-bottom:26px}
+  .stmt{background:var(--surface);padding:28px 30px 30px;display:flex;flex-direction:column}
+  .stmt .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 16px}
+  .stmt .big{font-family:var(--f-brand);font-weight:500;font-size:clamp(18px,2.3vw,23px);
+             line-height:1.26;letter-spacing:-.018em;margin:0 0 auto;padding-bottom:20px}
+  .stmt .foot{font-size:13px;color:var(--faint);margin:0;padding-top:14px;border-top:1px solid var(--hair)}
+
+  td.was{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--border);
+         text-decoration-thickness:1px;width:26%}
+  td.wird{font-weight:600;width:36%}
+
+  .rhythm{display:flex;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+  .rhythm div{flex:1;padding:20px 16px 22px;font-family:var(--f-tech);font-size:10.5px;
+              letter-spacing:.08em;line-height:1.5;min-height:120px}
+  .rhythm div b{display:block;font-family:var(--f-brand);font-size:14px;font-weight:700;
+                letter-spacing:-.01em;margin-bottom:6px}
+  .rhythm div.stage{flex:1.35}
+
+  /* ---------- Verdict, Tags, Verhaeltnis ---------- */
+  .verdict{background:var(--surface);border:1px solid var(--border);
+           border-left:3px solid var(--signal);padding:22px 26px;margin:0 0 26px}
+  .verdict p{font-size:16px;max-width:78ch;margin:0}
+  .verdict p + p{margin-top:12px}
+
+  .tag.ok{border-color:var(--signal);color:var(--signal);opacity:1}
+  .tag.mid{border-color:var(--faint);color:var(--muted);opacity:1}
+  .tag.bad{border-color:var(--faint);color:var(--faint);opacity:1;text-decoration:line-through}
+
+  .ratio{display:flex;border:1px solid var(--border);margin-bottom:14px;height:74px}
+  .ratio div{display:flex;align-items:flex-end;padding:10px 14px;font-family:var(--f-tech);
+             font-size:11px;letter-spacing:.06em}
+
+  /* ---------- Do / Don't ---------- */
+  .dodont{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+          background:var(--border);border:1px solid var(--border);margin-bottom:22px}
+  .dd{background:var(--surface)}
+  .ddvis{height:112px;display:flex;align-items:center;justify-content:center;
+         border-bottom:1px solid var(--hair)}
+  .ddt{font-size:13.8px;color:var(--muted);margin:0;padding:15px 18px 18px;line-height:1.45}
+  .ddt b{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+         text-transform:uppercase;margin-bottom:6px;font-weight:400}
+  .ddt b.do{color:var(--signal)}
+  .ddt b.dont{color:var(--faint)}
+
+  /* ---------- Grundflaechen-Leitern ---------- */
+  .lads{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;
+        background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+  .lad{background:var(--surface);padding:24px 24px 26px}
+  .lhead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px}
+  .lhead h3{margin:0;font-size:19px}
+  .lrole{font-size:14px;color:var(--muted);margin:0 0 18px;min-height:2.9em}
+  .lstrip{display:flex;margin-bottom:2px}
+  .lstrip i{flex:1;height:58px;position:relative;font-style:normal}
+  .lstrip i b{position:absolute;left:7px;bottom:6px;font-family:var(--f-tech);font-size:9.5px;
+              font-weight:400;letter-spacing:.06em;color:#161816;opacity:.72}
+  .lstrip.dk{margin-bottom:18px}
+  .lstrip.dk i b{color:#f1f3f1;opacity:.78}
+  .lmeta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+  .lmeta dt{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--faint);padding-top:2px}
+  .lmeta dd{margin:0;color:var(--muted)}
+
+  /* ---------- Anwendungsbeispiele ---------- */
+  .appfig{margin:0 0 26px;border:1px solid var(--border);background:var(--surface)}
+  .apphead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:15px 20px;border-bottom:1px solid var(--border)}
+  .apphead .t{font-family:var(--f-brand);font-weight:500;font-size:17px;letter-spacing:-.01em}
+  .apphead .m{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--faint)}
+  .appbody{padding:26px;background:var(--sunk)}
+  .appfig figcaption{border-top:1px solid var(--border)}
+  .built{font-family:var(--f-tech);font-size:11.5px;line-height:1.6;color:var(--muted);
+         padding:14px 20px;border-top:1px solid var(--hair);background:var(--sunk)}
+  .built b{color:var(--text);font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+           font-size:9.5px;display:block;margin-bottom:5px;color:var(--faint)}
+
+  /* A — Hero mit diagonaler Ueberlagerung */
+  .mk-hero{position:relative;aspect-ratio:16/8.2;background:#161816;overflow:hidden;
+           font-family:var(--f-info);color:#f1f3f1}
+  .mk-hero .ph{position:absolute;top:0;bottom:0;left:38%;right:0;
+               background-size:cover;background-position:50% 42%}
+  .mk-hero .pane{position:absolute;left:0;top:0;bottom:0;right:0;
+                 background:#161816;
+                 clip-path:polygon(0 0, 72% 0, 72% 18%, 34% 100%, 0 100%);
+                 padding:clamp(16px,3.4%,40px) 0 clamp(16px,3.4%,40px) clamp(16px,3.4%,40px);
+                 display:flex;flex-direction:column;justify-content:center}
+  .mk-hero .kick{font-family:var(--f-tech);font-size:clamp(8px,1.05vw,12px);letter-spacing:.16em;
+                 text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(8px,1.6%,18px);
+                 display:flex;align-items:center;gap:9px}
+  .mk-hero .kick s{width:8px;height:8px;background:#009ee3;display:block;text-decoration:none}
+  .mk-hero h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(17px,3.2vw,39px);
+              line-height:1.02;letter-spacing:-.03em;margin:0 0 clamp(8px,1.6%,16px);
+              max-width:13ch;color:#f1f3f1}
+  .mk-hero p{font-size:clamp(9px,1.2vw,14px);line-height:1.5;color:#b9c0ba;max-width:32ch;
+             margin:0 0 clamp(10px,2.2%,22px)}
+  .mk-hero .btn{font-family:var(--f-tech);font-size:clamp(8px,1.02vw,12px);letter-spacing:.12em;
+                text-transform:uppercase;border:1px solid #f1f3f1;color:#f1f3f1;
+                padding:clamp(5px,.9%,11px) clamp(10px,1.7%,20px);align-self:flex-start}
+
+  /* Kantenformen */
+  .edges{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .edge .ed{position:relative;aspect-ratio:16/10;background:#161816;overflow:hidden;margin-bottom:14px}
+  .edge .ed .a{position:absolute;inset:0 0 0 36%;background-image:var(--ph);
+               background-size:cover;background-position:50% 45%}
+  .edge .ed .b{position:absolute;inset:0;background:#161816;
+               display:flex;align-items:center;padding:0 8% 0 7%}
+  .edge .ed .b em{font-family:var(--f-brand);font-weight:700;font-style:normal;box-shadow:none;
+                  font-size:clamp(11px,1.35vw,16px);line-height:1.06;letter-spacing:-.028em;
+                  color:#f1f3f1;max-width:9ch}
+  .ed-v .b{clip-path:polygon(0 0,64% 0,64% 100%,0 100%)}
+  .ed-d .b{clip-path:polygon(0 0,76% 0,76% 20%,32% 100%,0 100%)}
+  .ed-h .b{clip-path:polygon(0 0,100% 0,100% 58%,0 58%)}
+  .edge .en{font-family:var(--f-brand);font-weight:500;font-size:16px;margin:0 0 5px}
+  .edge .ec{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45}
+
+  /* B — Ausschnitt und Ergaenzung */
+  .mk-cut{position:relative;aspect-ratio:16/9;background:#161816;overflow:hidden;
+          font-family:var(--f-info);color:#f1f3f1}
+  .mk-cut .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+  .mk-cut .pl{position:absolute;background:#161816}
+  .mk-cut .pl-top{left:0;right:0;top:0;height:54%;padding:clamp(14px,3.6%,40px)}
+  .mk-cut .pl-left{left:0;top:54%;width:7%;bottom:0}
+  .mk-cut .pl-right{left:35%;top:54%;right:0;bottom:0}
+  .mk-cut .pl-bot{left:7%;top:90%;width:28%;bottom:0}
+  .mk-cut .kick{font-family:var(--f-tech);font-size:clamp(7px,.95vw,11px);letter-spacing:.16em;
+                text-transform:uppercase;color:#9aa39b;margin:0 0 clamp(6px,1.4%,14px)}
+  .mk-cut h4{font-family:var(--f-brand);font-weight:700;font-size:clamp(15px,2.9vw,35px);
+             line-height:1.04;letter-spacing:-.03em;margin:0 0 clamp(5px,1.1%,12px);
+             max-width:20ch;color:#f1f3f1}
+  .mk-cut .pl-top p:last-child{font-size:clamp(8px,1.1vw,13.5px);line-height:1.5;color:#b9c0ba;
+                               max-width:44ch;margin:0}
+  .mk-cut .hole-lab{position:absolute;left:7%;top:90.8%;width:28%;text-align:center;
+                    font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                    text-transform:uppercase;color:#727572}
+  .mk-cut .erg{position:absolute;left:44%;top:60%;width:28%;height:36%;background:#f1f3f1;color:#161816;
+               padding:clamp(7px,1.5%,16px) clamp(9px,1.8%,18px);display:flex;flex-direction:column;
+               justify-content:center}
+  .mk-cut .erg .n{font-family:var(--f-brand);font-weight:700;font-size:clamp(16px,3.2vw,38px);
+                  letter-spacing:-.035em;line-height:1;margin:0 0 clamp(3px,.8%,8px)}
+  .mk-cut .erg .l{font-size:clamp(7px,1vw,12.5px);line-height:1.32;margin:0;color:#3d403d}
+  .mk-cut .erg .s{font-family:var(--f-tech);font-size:clamp(6px,.78vw,9.5px);color:#727572;
+                  margin:clamp(4px,1%,10px) 0 0;letter-spacing:.05em}
+  .mk-cut .erg-lab{position:absolute;left:44%;top:96.8%;width:28%;text-align:center;
+                   font-family:var(--f-tech);font-size:clamp(6.5px,.8vw,9.5px);letter-spacing:.14em;
+                   text-transform:uppercase;color:#727572}
+
+  hr.rule{border:0;border-top:1px solid var(--border);margin:0}
+  footer{padding-top:44px;margin-top:88px;border-top:1px solid var(--text);
+         font-size:13.5px;color:var(--faint);max-width:var(--prose)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:760px){ .shead{grid-template-columns:1fr;gap:10px} .snum{padding-top:0} }
+  td.do,.do{color:var(--signal);font-weight:600}
+
+  /* ── Botschaftshaus ── */
+  .haus{border:1px solid var(--border);background:var(--surface);margin-bottom:20px;overflow:hidden}
+  .h-lbl{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+         margin:0 0 12px;opacity:.66}
+  .h-dach{background:var(--deep);color:var(--deep-text);padding:30px 30px 34px;text-align:center}
+  .h-dach .h-lbl{color:var(--deep-muted);opacity:1}
+  .h-claim{font-family:var(--f-brand);font-weight:700;font-size:clamp(22px,3.4vw,38px);
+           line-height:1.12;letter-spacing:-.028em;margin:0}
+  .h-raeume{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border)}
+  .h-raum{background:var(--sunk);padding:20px 24px}
+  .h-rn{font-family:var(--f-brand);font-weight:700;font-size:19px;letter-spacing:-.02em;
+        margin:0 0 6px;color:var(--signal)}
+  .h-rd{font-size:14px;color:var(--muted);margin:0;line-height:1.45}
+  .h-saeulen{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);
+             border-top:1px solid var(--border)}
+  .h-s{background:var(--surface);padding:18px 22px 20px}
+  .h-s.h-k{background:var(--sunk)}
+  .h-sn{display:block;font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;
+        color:var(--signal);margin-bottom:7px}
+  .h-s b{display:block;font-family:var(--f-brand);font-weight:500;font-size:16.5px;
+         letter-spacing:-.014em;margin-bottom:5px}
+  .h-s span:not(.h-sn){display:block;font-size:13.3px;color:var(--muted);line-height:1.42}
+  .h-fund{background:var(--deep);color:var(--deep-text);padding:24px 30px 28px;text-align:center;
+          border-top:1px solid var(--border)}
+  .h-fund .h-lbl{color:var(--deep-muted);opacity:1}
+  .h-ft{font-family:var(--f-brand);font-weight:500;font-size:clamp(14px,1.7vw,18px);
+        letter-spacing:-.008em;margin:0 0 12px;line-height:1.5}
+  .h-fn{font-size:13px;color:var(--deep-muted);margin:0;max-width:70ch;
+        margin-left:auto;margin-right:auto;line-height:1.5}
+  @media (min-width:700px){
+    .h-raeume{grid-template-columns:1fr 1fr}
+    .h-saeulen{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (min-width:1000px){ .h-saeulen{grid-template-columns:repeat(6,1fr)} }
+
+  /* ── Säulen-Steckbriefe ── */
+  .pil{border:1px solid var(--border);background:var(--surface);padding:26px 28px 28px;margin-bottom:12px}
+  .pil-k{background:var(--sunk)}
+  .p-kopf{display:flex;gap:16px;align-items:baseline;margin-bottom:14px}
+  .p-n{font-family:var(--f-tech);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--signal)}
+  .p-kopf h4{margin:0 0 2px}
+  .p-t{font-family:var(--f-brand);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+       letter-spacing:-.024em;margin:0;line-height:1.1}
+  .p-k{font-size:17px;color:var(--text);margin:0 0 20px;max-width:62ch;line-height:1.42}
+  .p-grid{display:grid;grid-template-columns:1fr;gap:18px;
+          border-top:1px solid var(--hair);padding-top:18px}
+  .p-l{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+       color:var(--faint);margin:0 0 6px}
+  .p-grid p:not(.p-l){font-size:13.8px;color:var(--muted);margin:0;line-height:1.48}
+  .p-grid b{color:var(--text)}
+  .p-note{font-size:13.8px;color:var(--muted);margin:18px 0 0;padding-top:16px;
+          border-top:1px solid var(--hair);max-width:78ch;line-height:1.5}
+  .p-note b{color:var(--text)}
+  @media (min-width:620px){ .p-grid{grid-template-columns:repeat(2,1fr);gap:20px 26px} }
+  @media (min-width:980px){ .p-grid{grid-template-columns:1.3fr 1.3fr 1fr .8fr} }
+  .tag{display:inline-block;font-family:var(--f-tech);font-size:9px;letter-spacing:.11em;
+       text-transform:uppercase;padding:3px 7px;border:1px solid var(--border);
+       color:var(--faint);margin:0 5px 5px 0}
+  .tag.on{border-color:var(--signal);color:var(--signal)}
+  td.do,.do{color:var(--signal);font-weight:600}
+  .law p{max-width:52ch;font-size:clamp(17px,2vw,21px);line-height:1.42}
+  .h-band{background:var(--sunk);border-top:1px solid var(--border);
+          padding:22px 30px 24px;text-align:center}
+  .h-bt{font-family:var(--f-brand);font-weight:700;font-size:clamp(19px,2.4vw,26px);
+        letter-spacing:-.022em;margin:0 0 8px;color:var(--signal)}
+  .h-bn{font-size:13.5px;color:var(--muted);margin:0;max-width:66ch;
+        margin-left:auto;margin-right:auto;line-height:1.5}
+  .h-bn b{color:var(--text)}
+  td[rowspan]{vertical-align:top;padding-top:14px}
+  .fg{font-family:var(--f-tech);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--signal);margin:10px 0 3px !important}
+  .p-grid p.fg:first-child{margin-top:0 !important}
+  .h-fg{display:grid;grid-template-columns:1fr;gap:1px;background:var(--deep-hair);
+        border:1px solid var(--deep-hair);margin:0 0 14px;text-align:left}
+  .h-f{background:var(--deep);padding:13px 15px}
+  .h-f b{display:block;font-family:var(--f-brand);font-weight:500;font-size:14.5px;
+         letter-spacing:-.012em;margin-bottom:4px;color:var(--deep-text)}
+  .h-f.is-arg b{color:var(--signal)}
+  .h-f span{display:block;font-size:11.8px;color:var(--deep-muted);line-height:1.4}
+  @media (min-width:640px){ .h-fg{grid-template-columns:repeat(3,1fr)} }
+  .h-band2{background:var(--surface)}
+  .h-band2 .h-bt{color:var(--text)}
+  td.grp{font-family:var(--f-tech);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+         background:var(--sunk);color:var(--text);font-weight:500;padding:13px 16px}
+  tbody td{vertical-align:top}
+  .h-rg{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);
+        border:1px solid var(--border);margin:0 0 14px;text-align:left}
+  .h-r{background:var(--surface);padding:12px 15px}
+  .h-rp{font-family:var(--f-tech);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+        color:var(--signal);margin:0 0 5px !important}
+  .h-r p:not(.h-rp){font-size:12.5px;color:var(--muted);margin:0;line-height:1.45}
+  @media (min-width:640px){ .h-rg{grid-template-columns:repeat(3,1fr)} }
+  @media (min-width:640px){ .h-rg4{grid-template-columns:repeat(2,1fr)} }
+  @media (min-width:900px){ .h-rg4{grid-template-columns:repeat(4,1fr)} }
+</style>
+
+
+
+
+
+
+
+
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="code">NEO Brand · Botschaftsarchitektur · Stand nach der Begriffsrunde</p>
+  <h1>Sechs Säulen unter zwei Wörtern</h1>
+  <p class="lede">Ein Claim ist ein Dach. Er trägt nur, wenn darunter etwas steht, dem sich Anwendungsfälle, Funktionen und Branchen zuordnen lassen. Diese Fassung enthält die sechs entschiedenen Säulen, ihre Kernsätze und die Beweisfragen, an denen jede scheitern kann.</p>
+  <div class="meta">
+    <div><dt>Instrument</dt><dd>Message House</dd></div>
+    <div><dt>Säulen</dt><dd>6, je 3 pro Hälfte</dd></div>
+    <div><dt>Käufergruppen</dt><dd>5, inkl. Gremien</dd></div>
+    <div><dt>Stand</dt><dd>Begriffe entschieden</dd></div>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><strong>Das Instrument.</strong> Für die Aufgabe „Claim oben, Begriffe darunter, Belege daran" gibt es ein etabliertes Werkzeug: das <b>Message House</b>. Es leistet zwei Dinge gleichzeitig, die sonst auseinanderfallen — es <b>ordnet die Argumentation</b> und es <b>verteilt die Beweislast</b>. Jede Säule bekommt eine Frage, die sie beantworten muss; was keine Antwort hat, fällt auf.</p>
+  <p><strong>Was unterhalb der Säulen liegt.</strong> Betrieb, Datenhoheit, offener Stack, Integration, Identität und Sicherheit sind keine Versprechen an Menschen, sondern die <b>technische Grundlage</b>, auf der die sechs Säulen überhaupt möglich werden. Sie stehen deshalb im Fundament — aber anders als üblich ist die Hälfte davon nicht selbstverständlich, sondern entscheidend. Abschnitt 05 führt das aus.</p>
+</div>
+
+<div class="subhead"><span>01</span><h3>Das Haus</h3></div>
+
+<div class="haus">
+  <div class="h-dach">
+    <p class="h-lbl">Dach · der Claim</p>
+    <p class="h-claim">Relevanz für jeden. Klarheit für alle.</p>
+  </div>
+  <div class="h-raeume">
+    <div class="h-raum">
+      <p class="h-rn">Relevanz</p>
+      <p class="h-rd">Für jeden einzeln. Was jemanden angeht, findet zu ihm — nicht er zu ihm.</p>
+    </div>
+    <div class="h-raum">
+      <p class="h-rn">Klarheit</p>
+      <p class="h-rd">Für alle zusammen. Aus vielen einzelnen Verständnissen wird ein gemeinsames.</p>
+    </div>
+  </div>
+  <div class="h-saeulen">
+    <div class="h-s"><span class="h-sn">01</span><b>Kontext</b><span>Jeder sieht, was für ihn zählt.</span></div>
+    <div class="h-s"><span class="h-sn">02</span><b>Einbindung</b><span>Jeder ist dabei und jeder wird gehört.</span></div>
+    <div class="h-s"><span class="h-sn">03</span><b>Befähigung</b><span>Jeder lernt dazu und erledigt selbst.</span></div>
+    <div class="h-s h-k"><span class="h-sn">04</span><b>Orientierung</b><span>Informationen und Wissen haben einen Ort und eine Ordnung.</span></div>
+    <div class="h-s h-k"><span class="h-sn">05</span><b>Verbindlichkeit</b><span>Verfahren und Abläufe sind verbindlich beschrieben.</span></div>
+    <div class="h-s h-k"><span class="h-sn">06</span><b>Wirksamkeit</b><span>Aus Zielen werden belegbare Ergebnisse.</span></div>
+  </div>
+  <div class="h-band">
+    <p class="h-lbl">Zwischenebene · wirkt in jede Säule, verspricht selbst nichts</p>
+    <p class="h-bt">Intelligenz</p>
+    <div class="h-rg h-rg4">
+      <div class="h-r"><p class="h-rp">Finden und Auswählen</p><p>Antwortsuche · Empfehlung und Rangfolge · Zusammenfassung</p></div>
+      <div class="h-r"><p class="h-rp">Erzeugen und Übersetzen</p><p>Redaktionsassistenz · Übersetzung · Zugänglichkeit</p></div>
+      <div class="h-r"><p class="h-rp">Ordnen und Auswerten</p><p>Verschlagwortung · Themen · Vorgänge anstoßen</p></div>
+      <div class="h-r"><p class="h-rp">Verantworten</p><p>Betriebsort · Kennzeichnung · Protokoll · Abschaltbarkeit</p></div>
+    </div>
+    <p class="h-bn">Regeln, wo sie reichen — lernende Verfahren, wo sie es nicht tun. <b>Und in beiden Fällen nachvollziehbar, woraufhin.</b></p>
+  </div>
+  <div class="h-band h-band2">
+    <p class="h-lbl">Zwischenebene · quer zu allen Säulen</p>
+    <p class="h-bt">Redaktion und Betrieb</p>
+    <div class="h-rg">
+      <div class="h-r"><p class="h-rp">Herstellen</p><p>Erstellen · Medien · Struktur und Metadaten · Assistenz</p></div>
+      <div class="h-r"><p class="h-rp">Ausspielen</p><p>Publizieren und Freigeben · Zielgruppen und Kanäle · Gestaltung</p></div>
+      <div class="h-r"><p class="h-rp">Betreiben</p><p>Dezentrale Redaktion · Pflege und Governance · Moderation</p></div>
+    </div>
+    <p class="h-bn"><b>Hier entsteht und bleibt, was die Säulen versprechen.</b> Zehn Fachgebiete — der Umfang eines modernen Redaktionssystems, ergänzt um das, was ein Intranet zusätzlich braucht.</p>
+  </div>
+  <div class="h-fund">
+    <p class="h-lbl">Fundament · die technische Grundlage</p>
+    <div class="h-fg">
+      <div class="h-f is-arg"><b>Betrieb</b><span>on premise · Private Cloud in Deutschland · hybrid</span></div>
+      <div class="h-f is-arg"><b>Datenhoheit</b><span>Datenhaltung in Deutschland · Ausstieg ohne Verlust</span></div>
+      <div class="h-f is-arg"><b>Offener Stack</b><span>durchgängig Open Source · offene Standards</span></div>
+      <div class="h-f"><b>Integration</b><span>Open REST-API · Integrationsframework · Konnektoren</span></div>
+      <div class="h-f"><b>Identität und Zugang</b><span>Verzeichnisdienst · SSO · auch ohne Firmengerät</span></div>
+      <div class="h-f"><b>Sicherheit und Konformität</b><span>OWASP-Pentest · BITV-Audit · DSGVO</span></div>
+    </div>
+    <p class="h-fn">Ohne dieses Fundament beginnt kein Gespräch. <b>Die drei markierten Bereiche beenden es nicht nur nicht — sie entscheiden es.</b></p>
+  </div>
+</div>
+
+<div class="subhead"><span>02</span><h3>Die Logik, die die sechs zusammenhält</h3></div>
+<div class="prose">
+  <p>Die Säulen sind nicht sechs gute Begriffe nebeneinander. Sie folgen der Reihe der <b>Handlungsvoraussetzungen</b> — im Führungskontext eingeführt genug, dass ein Vorstand sie ohne Erklärung mitliest:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Voraussetzung</th><th scope="col">Säule</th><th scope="col">Die Frage dahinter</th></tr></thead>
+    <tbody>
+      <tr><td><b>Wissen</b> · persönlich</td><td class="m">01 Kontext</td><td>Erfahre ich, was mich angeht?</td></tr>
+      <tr><td><b>Zugehören</b></td><td class="m">02 Einbindung</td><td>Bin ich dabei, und wird mir zugehört?</td></tr>
+      <tr><td><b>Können</b></td><td class="m">03 Befähigung</td><td>Kann ich es, und habe ich die Mittel?</td></tr>
+      <tr><td><b>Wissen</b> · gemeinsam</td><td class="m">04 Orientierung</td><td>Finde ich mich zurecht, wenn ich selbst suche?</td></tr>
+      <tr><td><b>Dürfen</b></td><td class="m">05 Verbindlichkeit</td><td>Weiß ich, was gilt?</td></tr>
+      <tr><td><b>Wirken</b></td><td class="m">06 Wirksamkeit</td><td>Kommt am Ende etwas heraus, das man zeigen kann?</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Der Befund, der die Struktur erzwungen hat: Empowerment ist keine Säule.</strong> Es ist das Ergebnis von zweien. <b>Empowerment = Dürfen + Können.</b> Wer weiß, was er entscheiden darf, aber nicht die Mittel hat, ist blockiert. Wer die Mittel hat, aber nicht weiß, ob er darf, fragt nach. Erst beides zusammen macht handlungsfähig — und deshalb stehen Befähigung und Verbindlichkeit getrennt, statt in einem Begriff zu verschwimmen.</p>
+  <p>Der Satz, der daraus für ein Gespräch auf Geschäftsführungsebene fällt: <b>Der Engpass ist selten das Wollen. Es ist das Dürfen und das Können.</b></p>
+</div>
+
+<div class="subhead"><span>03</span><h3>Die Säulen im Einzelnen</h3></div>
+<div class="prose">
+  <p>Jede Säule hat vier Felder: den <b>Kernsatz</b>, die <b>Beweisfrage</b>, an der sie scheitern kann, die <b>Funktionen</b>, die sie einlöst, und die <b>Branchen und Käufer</b>, bei denen sie zieht. Die Belege stammen aus den Zahlen, die das Markenbuch bereits führt; <b>die Funktionslisten sind Markensicht und mit dem Produktmanagement abzugleichen.</b></p>
+</div>
+
+<div class="pil">
+  <div class="p-kopf"><span class="p-n">01</span><div><h4>Relevanz</h4><p class="p-t">Kontext</p></div></div>
+  <p class="p-k">Jeder sieht, was für ihn zählt.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Sehen zwei Menschen mit verschiedenen Aufgaben tatsächlich Verschiedenes — oder dieselbe Seite mit einem anderen Namen oben?</p></div>
+    <div><p class="p-l">Funktionen</p><p><b>Personalisierung</b> · Zielgruppensteuerung · Rollen und Rechte · Mehrsprachigkeit · Standort- und Mandantenlogik · Schicht- und Gerätekontext</p></div>
+    <div><p class="p-l">Branchen</p><p>Trägt überall. Am stärksten, wo ein Mandant viele Häuser bedient — Rentenversicherungsträger, Kassenverbünde, Dataport</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">Kommunikation</span><span class="tag on">IT</span></p></div>
+  </div>
+  <p class="p-note"><b>Warum die Säule nicht „Personalisierung" heißt.</b> Alle anderen fünf benennen, was ein Mensch bekommt; Personalisierung benennt, was ein System tut. Sie steht deshalb als erstes Wort in der Funktionsliste — auffindbar in jedem Vergabeverfahren, ohne dass die Mechanik zum Versprechen wird. <b>Und sie ist im Mitbestimmungsgespräch das heikelste Wort des Hauses</b>: Sie klingt zuerst nach Profilbildung. Der Kernsatz nimmt ihr diese Lesart.</p>
+</div>
+
+<div class="pil">
+  <div class="p-kopf"><span class="p-n">02</span><div><h4>Relevanz</h4><p class="p-t">Einbindung</p></div></div>
+  <p class="p-k">Jeder ist dabei und jeder wird gehört.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Erreicht eine Nachricht jemanden ohne Arbeitsplatzrechner, Diensthandy und E-Mail-Adresse — und kann er darauf antworten, ohne jemanden darum zu bitten?</p></div>
+    <div><p class="p-l">Funktionen</p>
+      <p class="fg">Ankommen</p><p>Mobile App ohne Firmengerät · Push · Barrierefreiheit nach WCAG 2.2 und BITV 2.0, auditiert · Mehrsprachigkeit · Aushang und Signage</p>
+      <p class="fg">Zurückkommen</p><p>Kommentare · Chat und Gruppenräume · Reaktionen und Bewertungen · Teilen · Vorschlagswesen</p></div>
+    <div><p class="p-l">Branchen</p><p>Industrie und Fertigung · Pflege und Soziales · Polizei und Einsatzdienste · Wohnungswirtschaft · Handel</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">HR</span><span class="tag on">Personal-/Betriebsrat</span><span class="tag">C-Level</span></p></div>
+  </div>
+  <p class="p-note"><b>Die Säule mit dem stärksten Beleg</b> — die auditierte Konformitätsbewertung ist eine Zahl, die im Angebot steht. Dazu gehört das Gegenstück aus dem Redaktionsband: die <b>Alt-Text-Pflicht mit KI-gestütztem Vorschlag</b>. Das Audit sichert das System, die Pflicht den Alltag. <b>Teilhabe</b> bleibt das Wort, mit dem in Vergabeunterlagen und im Barrierefreiheitsnachweis argumentiert wird; nur das Versprechen heißt anders. Die Zweiteilung der Funktionsliste ist Absicht: Sie zwingt beim Ausfüllen dazu, für <em>beide</em> Richtungen etwas zu nennen.</p>
+</div>
+
+<div class="pil">
+  <div class="p-kopf"><span class="p-n">03</span><div><h4>Relevanz</h4><p class="p-t">Befähigung</p></div></div>
+  <p class="p-k">Jeder lernt dazu und erledigt selbst.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Wie viele Anliegen enden ohne einen Anruf im Serviceteam — und wie viele Beschäftigte haben sich das nötige Können auf der Plattform selbst geholt?</p></div>
+    <div><p class="p-l">Funktionen</p>
+      <p class="fg">Lernen</p><p>Kurse und Qualifizierung · Einarbeitung · Kurzformate · Gemeinschaften und Erfahrungsaustausch</p>
+      <p class="fg">Erledigen</p><p>Formulare und Anträge · Selbstbedienung · Kalender und Veranstaltungen · Marktplatz · Speiseplan</p></div>
+    <div><p class="p-l">Branchen</p><p>Verwaltung und Kassen · Hochschulen und Bildungsträger · überall dort, wo eine Serviceabteilung zum Engpass wird</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">HR</span><span class="tag on">C-Level</span></p></div>
+  </div>
+  <p class="p-note"><b>Mittel allein sind kein Können.</b> Werkzeuge an die Hand zu geben heißt nicht, dass jemand etwas kann — Können entsteht durch Lernen. Deshalb hat diese Säule zwei Wege statt einen, und deshalb gehört die Qualifizierung hierher und nicht zu Orientierung. Sie macht zugleich <b>Speiseplan und Marktplatz argumentierbar</b>: Sie sind die meistgenutzten Anwendungen, weil sie täglich etwas erledigen.</p>
+</div>
+
+<div class="pil pil-k">
+  <div class="p-kopf"><span class="p-n">04</span><div><h4>Klarheit</h4><p class="p-t">Orientierung</p></div></div>
+  <p class="p-k">Informationen und Wissen haben einen Ort und eine Ordnung.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Findet jemand die Antwort, ohne vorher zu wissen, in welchem System sie liegt?</p></div>
+    <div><p class="p-l">Funktionen</p><p>Suche über Systemgrenzen · Wissensräume und Wiki · Struktur und Verschlagwortung · Verweise und Zusammenhänge · Archiv</p></div>
+    <div><p class="p-l">Branchen</p><p>Hochschulen und Bildungsträger · Kassen · Häuser nach Zusammenschlüssen, in denen mehrere Ablagen zusammengeführt werden</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">Kommunikation</span><span class="tag on">IT</span><span class="tag">HR</span></p></div>
+  </div>
+  <p class="p-note">Hier sitzen <b>Wissen, Kontext und Erfahrung</b> aus der Brand Idea. Und der Kernsatz beantwortet nebenbei den einzigen ernsten Einwand gegen Säule 01 — <em>„und wer sieht dann noch das Ganze?"</em>. Jeder sieht, was für ihn zählt; das Wissen hat trotzdem eine Ordnung. <b>Die beiden Säulen stützen sich, statt sich zu widersprechen.</b></p>
+</div>
+
+<div class="pil pil-k">
+  <div class="p-kopf"><span class="p-n">05</span><div><h4>Klarheit</h4><p class="p-t">Verbindlichkeit</p></div></div>
+  <p class="p-k">Verfahren und Abläufe sind verbindlich beschrieben.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Kann jemand belegen, dass die Fassung, nach der er entschieden hat, an dem Tag die gültige war?</p></div>
+    <div><p class="p-l">Funktionen</p><p>Versionierung mit Gültigkeitsdatum · Freigabewege · Kenntnisnahme · Verfahrens- und Dienstanweisungen · Prozessbeschreibungen · Archiv</p></div>
+    <div><p class="p-l">Branchen</p><p><b>Die Säule der öffentlichen Hand.</b> Rentenversicherung, Kassen, Polizei — und in der Industrie das Qualitätsmanagement</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">C-Level</span><span class="tag on">IT</span><span class="tag">Revision</span></p></div>
+  </div>
+  <p class="p-note"><b>Die unterschätzte Säule.</b> Kein Wettbewerber führt sie prominent, weil sie unsexy ist — und in Ausschreibungen der öffentlichen Hand ist sie regelmäßig K.-o.-Kriterium. <b>Das stärkste Argument steht bewusst nicht im Kernsatz:</b> Eine Verfahrensbeschreibung sagt nicht nur, was zu beachten ist, sondern auch, <em>was jemand ohne Rücksprache selbst entscheiden darf</em>. Im Intranet ist diese Befugnis nur implizit dokumentiert — behauptet wird sie deshalb nicht, im Gespräch trägt sie trotzdem.</p>
+</div>
+
+<div class="pil pil-k">
+  <div class="p-kopf"><span class="p-n">06</span><div><h4>Klarheit</h4><p class="p-t">Wirksamkeit</p></div></div>
+  <p class="p-k">Aus Zielen werden belegbare Ergebnisse.</p>
+  <div class="p-grid">
+    <div><p class="p-l">Beweisfrage</p><p>Wissen Sie, welcher Bereich eine Pflichtinformation noch vor sich hat — ohne dafür einzelne Beschäftigte auswerten zu müssen?</p></div>
+    <div><p class="p-l">Funktionen</p>
+      <p class="fg">Messen</p><p>Reichweite je Zielgruppe statt global · Lesequote und Verweildauer · Auswertung nach Bereich, Standort und Schicht · Kanalvergleich</p>
+      <p class="fg">Belegen</p><p>Kenntnisnahme mit Zeitstempel · Unterweisungsnachweis nach Arbeitsschutz · Wissensabfrage nach Pflichtunterweisung · revisionsfester Export</p>
+      <p class="fg">Zurückbekommen</p><p>Anonyme Puls- und Kurzbefragungen · Stimmungsbild · Vorschlagswesen · Meldewege</p>
+      <p class="fg">Nachsteuern</p><p>Erinnerung an Verantwortliche · Erkennen veralteter Inhalte samt Eigentümer · Redaktions- und Kampagnensteuerung</p>
+      <p class="fg">Begrenzen</p><p>Auswertungstiefe konfigurierbar · Mindestgruppengröße · Sperren personenbezogener Berichte · Protokoll der Auswertungsabrufe</p></div>
+    <div><p class="p-l">Branchen</p><p>Trägt überall, am stärksten bei Veränderungsvorhaben, Zusammenschlüssen und dort, wo Nachweispflichten bestehen</p></div>
+    <div><p class="p-l">Käufer</p><p><span class="tag on">C-Level</span><span class="tag on">Kommunikation</span><span class="tag on">Datenschutz</span><span class="tag">Arbeitssicherheit</span></p></div>
+  </div>
+  <p class="p-note"><b>Prinzip zu dieser Säule.</b> Gesteuert wird auf Bereichs- und Standortebene. Personenbezogen wird ausschließlich dokumentiert, wo eine gesetzliche Nachweispflicht besteht — zweckgebunden und in der Betriebsvereinbarung abgebildet.</p>
+  <p class="p-note"><b>Die fünfte Gruppe ist die, die den Abschluss ermöglicht.</b> Eine Plattform, in der sich die Betriebsvereinbarung <em>technisch</em> abbilden lässt statt nur organisatorisch zugesagt zu werden, nimmt dem Gremium seine einzige Sorge. Internationale Anbieter lösen das regelmäßig schlecht, weil ihr Produkt für einen Markt ohne Mitbestimmung gebaut ist. <b>Offen bleibt allein die vierte Stufe:</b> der Nachweis von Verstehen über die Kenntnisnahme hinaus. Eine Wissensabfrage nach einer Unterweisung ist der nächstliegende Weg — und aus dem Bildungshintergrund des Hauses der naheliegendste.</p>
+</div>
+
+<div class="subhead"><span>04</span><h3>Die Intelligenzebene</h3></div>
+<div class="prose">
+  <p>KI gehört nicht ins Systemgesetz — ein Anspruch muss zehn Jahre halten. In der Argumentation darf sie nicht fehlen, weil jede Ausschreibung danach fragt. Sie steht deshalb <b>zwischen Fundament und Säulen</b>: keine Leistung neben den anderen, sondern die Ebene, auf der die anderen zustande kommen.</p>
+  <p>Sie heißt <b>Intelligenz</b> und nicht KI, aus zwei Gründen. Das Haus nennt sein Produkt seit jeher <em>Intelligent Workplace</em> — das Wort steht schon da. Und es ist das einzige sachlich richtige: Der größte Teil der Auswahl läuft über Rolle, Recht, Standort und Schicht, also über Regeln. „KI" zu schreiben wäre eine Falschaussage über das eigene Produkt.</p>
+  <p>Wie beim Redaktionsband braucht der Bereich einen Rahmen, an dem sich Vollständigkeit prüfen lässt. <b>Zehn Fachgebiete in vier Phasen</b>, abgeglichen mit dem, was der Markt 2026 führt:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Fachgebiet</th><th scope="col">Bei NEO</th><th scope="col">Im Markt</th><th scope="col">Beurteilung</th></tr></thead>
+    <tbody>
+      <tr><td colspan="4" class="grp">Finden und Auswählen</td></tr>
+      <tr><td><b>Antwortsuche</b><br><span class="no">semantisch, mit Quellenangabe</span></td><td class="do">eigene KI-Suche auf <b>Customer LLMs</b> — lokal beim Kunden oder bei NEOCOSMO betrieben</td><td>alle acht, durchweg auf Modellen der Hyperscaler</td><td class="do"><b>vorn</b> — und zwar dort, wo es zählt</td></tr>
+      <tr><td><b>Empfehlung und Rangfolge</b></td><td class="do">profil-, interessen-, regel- und sozialbasiert, ohne Sprachmodell</td><td>alle acht</td><td>gleichauf. <b>Regelbasiert ist hier ein Vorzug</b>, weil erklärbar</td></tr>
+      <tr><td><b>Zusammenfassung</b><br><span class="no">für Lesende, nicht für Autoren</span></td><td class="no">nicht vorhanden</td><td>Standard bei Staffbase, Simpplr, Workvivo</td><td class="no"><b>offene Flanke</b></td></tr>
+      <tr><td colspan="4" class="grp">Erzeugen und Übersetzen</td></tr>
+      <tr><td><b>Redaktionsassistenz</b></td><td class="do">NEO Assistent über OpenAI, mit Kennzeichnung</td><td>alle acht</td><td>gleichauf — <b>aber am falschen Betriebsort</b></td></tr>
+      <tr><td><b>Übersetzung</b></td><td class="do">DeepL, Translation Workflows</td><td>alle acht, teils 75+ Sprachen</td><td>gleichauf</td></tr>
+      <tr><td><b>Zugänglichkeit</b><br><span class="no">Alt-Text, Leichte Sprache, Untertitel</span></td><td class="do">KI-gestützte Alt-Text-Vorschläge</td><td>Untertitelung und Transkription bei Unily</td><td>teils — <b>Leichte Sprache und Untertitel fehlen</b></td></tr>
+      <tr><td colspan="4" class="grp">Ordnen und Auswerten</td></tr>
+      <tr><td><b>Verschlagwortung und Ordnung</b><br><span class="no">Auto-Tagging, Dubletten, Veraltetes</span></td><td class="no">nicht vorhanden</td><td>Standard in jedem größeren Redaktionssystem</td><td class="no"><b>offene Flanke</b> — und der billigste Hebel gegen Karteileichen</td></tr>
+      <tr><td><b>Themen und Stimmung</b></td><td class="no">bewusst nicht</td><td>Simpplr, Haiilo, Workvivo führen Sentiment prominent</td><td class="do"><b>keine Lücke, sondern eine Position</b></td></tr>
+      <tr><td><b>Vorgänge anstoßen</b><br><span class="no">Agenten, die etwas tun</span></td><td class="no">nicht vorhanden</td><td>Unily 80+ ausführbare Aktionen · Simpplr AI Agents · Staffbase agentisch</td><td class="no"><b>Die größte offene Flanke</b> — hier bewegt sich der Markt 2026</td></tr>
+      <tr><td colspan="4" class="grp">Verantworten</td></tr>
+      <tr><td><b>KI-Governance</b><br><span class="no">Betriebsort · Kennzeichnung · Protokoll · Abschaltbarkeit</span></td><td class="do">Kennzeichnung „mit KI-Unterstützung erstellt" · souveräner Betrieb der Suche · Personalisierung abschaltbar</td><td class="no">bei keinem der acht als zusammenhängendes Thema geführt</td><td class="do"><b>deutlich vorn — aber unerzählt</b></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict" style="border-left-color:var(--signal)">
+  <p><strong>Ich nehme einen früheren Befund zurück.</strong> Ich hatte geschrieben, die Intelligenzebene widerspreche dem Fundament, weil KI über OpenAI und DeepL läuft. <b>Das war auf halber Information gebaut.</b> Tatsächlich ist die Architektur geteilt — und die Teilung ist die richtige:</p>
+  <p><b>Wo die Inhalte der Organisation selbst verarbeitet werden</b> — die Suche über den gesamten Bestand — läuft ein <b>Customer LLM</b>, lokal beim Kunden oder bei NEOCOSMO betrieben. <b>Wo es eine Bequemlichkeit für eine Handvoll Redakteure ist</b> — Schreibhilfe, Übersetzung — läuft ein externer Dienst als zubuchbare Zusatzleistung.</p>
+  <p>Das ist keine Inkonsequenz, sondern eine Abwägung, die kein internationaler Wettbewerber so trifft: Die acht betreiben ihre KI durchweg auf Modellen der Hyperscaler. <b>Für einen Rentenversicherungsträger, eine Kasse oder eine Polizei ist das der Unterschied zwischen einem Gespräch und einem Ausschlusskriterium.</b> Es steht nur nirgends.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Keine Lücke, sondern eine Haltung</p><h3>Warum keine Stimmungsanalyse</h3>
+    <p>Simpplr, Haiilo und Workvivo führen Sentiment-Analyse prominent. Sie ist zugleich <b>die im deutschen Arbeitsrecht heikelste KI-Funktion überhaupt</b>: die automatisierte Auswertung von Äußerungen Beschäftigter. § 87 Abs. 1 Nr. 6 BetrVG ist unmittelbar berührt.</p>
+    <p>Diese Anbieter führen sie, weil ihr Produkt für Märkte ohne Mitbestimmung gebaut ist. <b>Der Satz „Wir werten die Stimmung Ihrer Beschäftigten nicht aus" gewinnt in Deutschland mehr Gespräche, als die Funktion je gewinnen würde.</b></p>
+    <p><b>Vorschlag für den Mittelweg:</b> aggregierte, anonyme <em>Themenerkennung</em> — worüber gesprochen wird, ab einer Mindestgruppengröße, ohne Bewertung und ohne Personenbezug. Das liefert der Kommunikation den Nutzen und dem Gremium keine Angriffsfläche.</p></div>
+  <div class="card"><p class="lbl">Seit dem 2. August in Kraft</p><h3>Zwei Pflichten aus dem EU AI Act</h3>
+    <p><b>Artikel 50</b> verlangt seit dem 2. August 2026, dass Menschen erkennen können, wenn sie mit einer KI sprechen oder KI-erzeugte Inhalte sehen. Für rein unterstützende Bearbeitung gilt keine pauschale Kennzeichnungspflicht — für <b>Assistenten und Chatbots</b> aber sehr wohl.</p>
+    <p><b>NEO ist hier voraus:</b> Die Kennzeichnung „mit KI-Unterstützung erstellt" existiert bereits. Für die KI-Suche gehört das Gegenstück ergänzt.</p>
+    <p><b>Und Anhang III:</b> Wer KI in Personalverwaltung oder Bildung einsetzt, muss ab demselben Datum ein <b>automatisches Ereignisprotokoll über die gesamte Betriebsdauer</b> führen. Ein Intranet mit Personalprozessen und Qualifizierung berührt das. <b>Zu klären, bevor es jemand fragt.</b></p></div>
+</div>
+
+<div class="subhead"><span>04a</span><h3>Vier Vorschläge, nach Dringlichkeit</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">Nr.</th><th scope="col">Vorschlag</th><th scope="col">Warum in dieser Reihenfolge</th></tr></thead>
+    <tbody>
+      <tr><td class="m r">01</td><td><b>Die KI-Governance erzählen</b> — Betriebsort, Kennzeichnung, Protokoll, Abschaltbarkeit je Funktion, Modellregister</td><td class="do">Alles außer dem Protokoll <b>existiert bereits</b>, wird aber nirgends als Zusammenhang dargestellt. Kein Wettbewerber führt das als eigenes Thema. <b>Der wohlfeilste Gewinn im ganzen Haus: erzählen statt entwickeln.</b></td></tr>
+      <tr><td class="m r">02</td><td><b>Den NEO Assistenten auf denselben Weg bringen wie die Suche</b> — wahlweise Customer LLM statt OpenAI</td><td class="do">Damit wäre die <b>gesamte</b> Ebene souverän betreibbar und die externen Dienste nur noch zubuchbare Bequemlichkeit. Solange der Assistent Entwürfe einer Verfahrensanweisung an OpenAI schickt, bleibt eine Flanke offen, die im Vergabegespräch teuer wird.</td></tr>
+      <tr><td class="m r">03</td><td><b>Automatische Verschlagwortung</b> und Erkennen veralteter Inhalte</td><td>Redaktionsstandard, günstig zu bauen — und es schließt zugleich die Lücke <em>Verantwortliche und Wiedervorlage</em> aus dem Redaktionsband. Zwei offene Punkte, ein Hebel.</td></tr>
+      <tr><td class="m r">04</td><td><b>Vorgänge anstoßen</b> — vom Antworten zum Handeln</td><td>Die größte Flanke, aber auch die teuerste. Unily nennt 80+ ausführbare Aktionen, Simpplr Agenten. <b>Hier bewegt sich der Markt 2026</b> — mit dem vorhandenen Formularmodul und Integrationsframework wäre der Einstieg näher, als er aussieht.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict">
+  <p><strong>Eine Frage, die ich nicht beantworten kann und die vor allen Vorschlägen kommt.</strong> Hält die KI-Suche die <b>Berechtigungsschranke</b> ein? Wenn sie über den gesamten Bestand antwortet, muss sie je Fragestellendem prüfen, was er sehen darf — sonst gibt sie Inhalte aus geschlossenen Bereichen preis, ohne dass ein Link je angeklickt wurde. Das ist die häufigste Fehlerquelle bei Antwortsuchen auf Unternehmensinhalten und die erste Frage jedes Datenschutzbeauftragten.</p>
+  <p>Die Berechtigungs- und Redaktionsgruppen sind vorhanden. Ob die Suche sie zur Antwortzeit anwendet, ist eine Produktauskunft — <b>und sie sollte vorliegen, bevor die Suche als Argument geführt wird.</b></p>
+</div>
+
+<div class="subhead"><span>04b</span><h3>Redaktion und Betrieb</h3></div>
+
+<div class="verdict">
+  <p><strong>Warum ein Band und keine zweite Etage.</strong> Naheliegend wäre, jede Säule in zwei Sichten zu teilen — eine für Endanwender, darunter eine für Autoren. Der Gedanke ist richtig, die Bauform wäre falsch: <b>Von den Redaktionsfunktionen wirken fast alle quer.</b> Das Autorendashboard trägt zu jeder Säule mit Inhalten, die Medienbibliothek zu Kontext, Einbindung und Orientierung gleichermaßen, die Rechteverwaltung zu allen sechs. Eine Aufgliederung würde dieselbe Funktion vier- bis sechsmal wiederholen. Was quer wirkt, wird ein <b>Band</b>, keine Spalte — so wie die Intelligenz.</p>
+  <p>Damit bekommt das Haus eine Herstellungskette: <b>Fundament</b> trägt · <b>Redaktion und Betrieb</b> stellt her und pflegt · <b>Intelligenz</b> wählt aus · <b>die Säulen</b> wirken.</p>
+</div>
+
+<div class="prose">
+  <p>Das Band muss fachlich abdecken, was eine Redaktion braucht — also den Funktionsumfang eines modernen Content-Management-Systems, ergänzt um das, was für ein Intranet hinzukommt. <b>Zehn Fachgebiete in drei Phasen</b>, abgeglichen mit dem, was die Produktübersicht heute nennt:</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Fachgebiet</th><th scope="col">Was dazugehört</th><th scope="col">Bei NEO belegt</th><th scope="col">Lücke</th></tr></thead>
+    <tbody>
+      <tr><td colspan="4" class="grp">Herstellen</td></tr>
+      <tr><td><b>Erstellen</b></td><td>Blockeditor mit Live-Ansicht · Content-Templates je Inhaltstyp · Verschachtelung und Kapitel · Entwurfsstände</td><td class="do">Gutenberg-Editor, 18 Standardblöcke, vier Templates, <b>Vorschau vor Freigabe</b></td><td>gemeinsames Bearbeiten</td></tr>
+      <tr><td><b>Medien</b></td><td>Bibliothek · Formate und Umwandlung · Ordner und Favoriten · Bildausschnitt · Nutzungsrechte und Ablaufdaten</td><td class="do">Medienbibliothek, 14 Formate, Ordner, <b>Alt-Text-Pflicht</b></td><td>Bildausschnitt · Rechteverfall</td></tr>
+      <tr><td><b>Struktur und Metadaten</b></td><td>Rubriken · Schlagworte · Sprachen · Standort und Land als Kontext · Navigation</td><td class="do">vollständig</td><td>—</td></tr>
+      <tr><td><b>Assistenz</b></td><td>Schreibhilfe · Titel- und Zusammenfassungsvorschläge · Übersetzung · Kennzeichnung</td><td class="do">NEO Assistent, DeepL, Kennzeichnung, <b>KI-gestützte Alt-Text-Vorschläge</b></td><td>Leichte Sprache</td></tr>
+      <tr><td colspan="4" class="grp">Ausspielen</td></tr>
+      <tr><td><b>Publizieren und Freigeben</b></td><td>Publikationsprozess · mehrstufige Freigabe · zeitgesteuert · Versionierung · Archivieren</td><td class="do">zeitgesteuert, Versionierung, Archivieren, <b>mehrstufige Freigabe über Rollen und definierbare Workflows</b></td><td>—</td></tr>
+      <tr><td><b>Zielgruppen und Kanäle</b></td><td>Newskanäle · Berechtigungsgruppen · Newsletter · Push · Aushang</td><td class="do">vollständig</td><td>—</td></tr>
+      <tr><td><b>Gestaltung</b></td><td>Corporate Design zentral setzen · Farbe, Logo, Schrift · Startseiten-Sektionen · App-Gestaltung · Responsivität</td><td class="do">Konfigurations- und Design-Management, Box-Store</td><td>—</td></tr>
+      <tr><td colspan="4" class="grp">Betreiben</td></tr>
+      <tr><td><b>Dezentrale Redaktion</b></td><td>Redaktionsgruppen · Rollen · Mandanten · Inhalte teilen · Planung</td><td class="do">Redaktionsgruppen, Mandanten, Content-Sharing</td><td class="no"><b>Redaktionskalender</b> · Aufgabenverteilung</td></tr>
+      <tr><td><b>Pflege und Governance</b></td><td>Autorendashboard · Inhaltsübersicht · Linkprüfung · Wiedervorlage · Verantwortlichkeit je Inhalt</td><td class="do">Autoren-Dashboard, Inhaltsübersicht, Linkchecker, DSGVO-Modul</td><td class="no"><b>Verantwortliche je Inhalt und Wiedervorlage</b></td></tr>
+      <tr><td><b>Moderation</b></td><td>Kommentare prüfen · Meldefunktion · Community-Verwaltung · Regeln durchsetzen</td><td class="no">nur Community-Adminbereich</td><td class="no"><b>Fehlt als Fachgebiet</b> — bei Communities, Blogs, Kommentaren und Schwarzem Brett</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="verdict" style="border-left-color:var(--signal)">
+  <p><strong>Der Abgleich hat etwas anderes gefunden als erwartet.</strong> Vier der Lücken, die ich aus der Produktübersicht abgeleitet hatte, sind <b>längst umgesetzt</b>: Vorschau vor Freigabe, Alt-Text-Pflicht, KI-gestützte Alt-Text-Vorschläge und die mehrstufige Freigabe für Inhalte über Rollen und definierbare Workflows.</p>
+  <p><b>Das ist kein Produktbefund, sondern ein Kommunikationsbefund.</b> Die öffentliche Funktionsübersicht sagt weniger, als die Plattform kann — und zwar ausgerechnet an zwei Stellen, an denen die Marke Belege braucht:</p>
+  <p><b>Die Alt-Text-Pflicht mit KI-Vorschlag</b> ist die alltägliche Absicherung des Barrierefreiheitsversprechens. Ein Audit prüft das ausgelieferte System; die Pflicht beim Hochladen verhindert, dass die Redaktion es täglich untergräbt. <b>Sie gehört als Beleg zu Säule 02, nicht in eine Funktionsliste.</b></p>
+  <p><b>Die mehrstufige Freigabe über definierbare Workflows</b> ist die Grundlage von Säule 05. Ohne sie wäre „Verfahren und Abläufe sind verbindlich beschrieben" nicht einlösbar — mit ihr fehlen dort nur noch zwei Dinge: das <em>Gültigkeitsdatum</em> und die <em>dokumentierte Kenntnisnahme</em>. Beides ist etwas anderes als eine Freigabe: Freigeben heißt, dass etwas veröffentlicht werden darf. Geltung heißt, dass es ab einem Datum bindet.</p>
+</div>
+
+<div class="subhead"><span>04c</span><h3>Zwei Anleihen von außerhalb der Branche</h3></div>
+<div class="prose">
+  <p>Der Blick zu reinen Redaktionsplattformen lohnt an genau zwei Stellen — nicht wegen der Funktionen, sondern wegen einer <b>Umdeutung</b>, die dort seit Jahren Verkaufsargument ist und die NEO bereits kann, aber falsch beschreibt.</p>
+</div>
+
+<div class="grid g2">
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Die wichtigere Anleihe</p><h3>Templates sind keine Bequemlichkeit, sondern eine Garantie</h3>
+    <p>Wix Studio verkauft einen <em>Content-Modus</em>: Der Kunde bekommt Zugriff nur auf das, was Inhalt ist — <b>das Layout kann er nicht kaputt machen</b>. Genau das leisten Content-Templates in PIIPE, sie werden aber als „schnelle, standardisierte Redaktionsarbeit" beschrieben. Das ist eine Effizienzaussage.</p>
+    <p><b>Die richtige Aussage lautet:</b> Zweihundert dezentrale Redakteure in vierzig Fachbereichen können das Corporate Design nicht zerlegen, weil die Bausteine es tragen. Für eine Kommunikationsleiterin, die genau davor Angst hat, ist das ein Argument unter den ersten drei.</p>
+    <p>Und es ist <b>derselbe Satz, auf dem Kapitel 08 des Markenbuchs steht</b>: Aufnahmekriterium ist, dass etwas ohne gestalterische Entscheidung reproduzierbar ist. Designsystem und Redaktionssystem folgen einer Regel.</p></div>
+  <div class="card"><p class="lbl">Die zweite Anleihe</p><h3>Einmal setzen statt je Seite pflegen</h3>
+    <p>Webflow und Wix Studio argumentieren mit <em>globalen Stilen und Komponenten</em>: Farbe, Schrift und Bausteine werden zentral geändert und gelten überall.</p>
+    <p>PIIPE hat das im Konfigurations- und Design-Management — Farbschema, Logo, Schriften, für Plattform <b>und</b> App. Beschrieben ist es als Anpassungsmöglichkeit. <b>Argumentierbar wäre: Ein Rebranding ist eine Konfigurationsänderung, kein Projekt.</b> Für Häuser nach einem Zusammenschluss ist das eine eigene Frage im Vergabegespräch.</p></div>
+</div>
+
+<div class="verdict" style="border-left-color:#c4363f">
+  <p><strong>Was nach der Korrektur an Lücken bleibt:</strong> Bildausschnitt und Rechteverfall in den Medien, gemeinsames Bearbeiten, Leichte Sprache, der Redaktionskalender und — am wichtigsten — <b>Verantwortliche je Inhalt mit Wiedervorlage</b>, das Mittel gegen Karteileichen.</p>
+  <p><strong>Und die eine, die im Vertrieb teuer wird: die Moderation.</strong> Die Plattform hat Communities, Blogs, Kommentare und ein Schwarzes Brett — also vier Orte, an denen Beschäftigte veröffentlichen. Die Übersicht nennt dafür nur den Adminbereich einer Community. <b>Die erste Frage jedes Personalrats zu nutzergenerierten Inhalten lautet, wer eingreift, wenn etwas eskaliert.</b></p>
+</div>
+
+<div class="subhead"><span>05</span><h3>Das Fundament</h3></div>
+
+<div class="verdict">
+  <p><strong>Eine Korrektur an der eigenen Bauform.</strong> Ein Fundament gilt gemeinhin als das Selbstverständliche: notwendig, aber kein Argument. <b>Für diese Marke stimmt das nur zur Hälfte.</b> Integration und Identitätsverwaltung führt jeder Wettbewerber. Aber durchgängiges Open Source, Betrieb im eigenen Rechenzentrum und Datenhaltung in Deutschland führen die wenigsten — die meisten internationalen Anbieter sind reines SaaS und halten ihre Daten anderswo.</p>
+  <p>Das Fundament ist deshalb nicht „das Selbstverständliche", sondern <b>die technische Grundlage, auf der überhaupt verhandelt wird</b> — und die Hälfte davon wird dabei zum Argument. Beworben wird sie trotzdem nicht als Versprechen: Sie steht im Angebot, im Vergabeordner und in der Sicherheitsprüfung, nicht auf dem Plakat.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col" class="r">Nr.</th><th scope="col">Bereich</th><th scope="col">Was darunter fällt</th><th scope="col">Rolle im Gespräch</th></tr></thead>
+    <tbody>
+      <tr><td class="m r">01</td><td><b>Betrieb</b></td><td>On premise · Private Cloud in Deutschland · hybrid · <b>Wechsel jederzeit möglich</b> · Mandantenfähigkeit · Verfügbarkeit und Reaktionszeiten</td><td class="do"><b>entscheidet</b></td></tr>
+      <tr><td class="m r">02</td><td><b>Datenhoheit</b></td><td>Datenhaltung in Deutschland · Auftragsverarbeitung · Löschkonzepte · Datenexport und Ausstieg ohne Formatverlust</td><td class="do"><b>entscheidet</b></td></tr>
+      <tr><td class="m r">03</td><td><b>Offener Stack</b></td><td>Durchgängig Open Source · Drupal-Kern · offene Standards · keine proprietären Formate · kein Lock-in</td><td class="do"><b>entscheidet</b></td></tr>
+      <tr><td class="m r">04</td><td><b>Integration</b></td><td>Open REST-API · Integrationsframework · Konnektoren zu M365, Moodle, Nextcloud, Matrix</td><td>Voraussetzung</td></tr>
+      <tr><td class="m r">05</td><td><b>Identität und Zugang</b></td><td>Verzeichnisdienst und SSO · Rollen- und Rechtemodell · <b>Zugang ohne Firmengerät und ohne dienstliche E-Mail-Adresse</b></td><td>Voraussetzung — <span class="do">mit einer Ausnahme</span></td></tr>
+      <tr><td class="m r">06</td><td><b>Sicherheit und Konformität</b></td><td>Jährlicher Penetrationstest nach OWASP durch unabhängige Prüfer · Barrierefreiheitsaudit nach WCAG 2.2 und BITV 2.0 · <b>Auditberichte auf Anfrage</b> · DSGVO · Protokollierung · Vergabefähigkeit</td><td>Gate</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grid g2">
+  <div class="card"><p class="lbl">Die Ausnahme in Bereich 05</p><h3>Zugang ohne Firmengerät</h3><p>Der Rest der Identitätsverwaltung ist Standard. Dieser eine Punkt ist es nicht: Er ist die <b>technische Voraussetzung für Säule 02</b> — wer kein Firmengerät und keine dienstliche Adresse hat, kommt sonst gar nicht erst hinein.</p><p>Daran scheitern Wettbewerber regelmäßig, weil ihr Produkt eine Unternehmens-Identität voraussetzt. <b>Ohne diesen Punkt ist „Jeder ist dabei" nicht einlösbar.</b></p></div>
+  <div class="card" style="border-left:3px solid var(--signal)"><p class="lbl">Bereich 06</p><h3>Von außen geprüft, nicht selbst erklärt</h3><p>Beide Nachweise stammen von <b>unabhängigen Stellen</b> und werden jährlich erneuert: der Penetrationstest nach OWASP und das Barrierefreiheitsaudit nach WCAG 2.2 / BITV 2.0.</p><p>Entscheidend ist der Zusatz: <b>Die Auditberichte können angefordert werden.</b> Das ist selten — die meisten Anbieter nennen Prüfungen, zeigen sie aber nicht. <b>Ein Haus, das von seinen Kunden Belege verlangt, sollte bei sich selbst anfangen.</b></p></div>
+</div>
+
+<div class="verdict">
+  <p><strong>Was dabei sichtbar wird: Hier werden die Markenwerte technisch belegt.</strong> Die fünf Werte aus Kapitel 1.4 hatten bisher Belege in Prosaform. Das Fundament ordnet sie:</p>
+  <p><b>Betrieb</b> und <b>Datenhoheit</b> belegen <em>Souveränität</em> · <b>Offener Stack</b> und <b>Integration</b> belegen <em>Offenheit</em> · <b>Identität und Zugang</b> sowie das Barrierefreiheitsaudit belegen <em>Zugänglichkeit</em> · <b>Betrieb</b> belegt <em>Verlässlichkeit</em>.</p>
+  <p>Damit stehen die drei Ebenen erstmals in einem Verhältnis zueinander, statt nebeneinander: <b>Die Werte sagen, wie NEOCOSMO sich verhält. Das Fundament belegt sie technisch. Die Säulen beschreiben, was die Plattform für Menschen leistet.</b> Nur <em>Forschungsnähe</em> hat keine technische Entsprechung — sie ist eine Eigenschaft des Hauses, nicht des Produkts.</p>
+</div>
+
+<div class="subhead"><span>06</span><h3>Botschaftskarten je Käufergruppe</h3></div>
+<div class="prose">
+  <p>Das zweite Instrument. Das Haus ordnet die Sache, die Karten ordnen die Ansprache: <b>Jede Gruppe hört denselben Claim, aber über verschiedene Säulen.</b> Wer allen alles erzählt, erreicht niemanden.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Gruppe</th><th scope="col">Woran sie gemessen wird</th><th scope="col">Der Satz für sie</th><th scope="col">Säulen</th></tr></thead>
+    <tbody>
+      <tr><td><b>Geschäftsführung<br>C-Level</b></td><td>Wirkung von Veränderungsvorhaben, Bindung, Kosten der Reibung, Nachweispflichten</td><td>„Entscheidungen, die ankommen — nicht nur solche, die verschickt wurden."</td><td class="m">06 · 05 · 03</td></tr>
+      <tr><td><b>Kommunikation</b></td><td>Reichweite und Relevanz, Kampagnenerfolg, Kanalvielfalt</td><td>„Jede Zielgruppe bekommt das Ihre — und Sie sehen, was daraus wurde."</td><td class="m">01 · 06 · 04</td></tr>
+      <tr><td><b>Personal<br>HR</b></td><td>Einarbeitung, Qualifizierung, Entlastung der Serviceteams, Erreichen aller</td><td>„Auch die, die keinen Schreibtisch haben, sind dabei — und erledigen ihre Anliegen selbst."</td><td class="m">02 · 03 · 04</td></tr>
+      <tr><td><b>IT</b></td><td>Betrieb, Anbindung, Rechte, Souveränität, Ablösung von Altsystemen</td><td>„Ein Rechte- und Zielgruppenmodell, das die vorhandenen Systeme mitnimmt statt ersetzt."</td><td class="m">01 · 05 · Fundament</td></tr>
+      <tr><td><b>Personal- und<br>Betriebsrat</b></td><td>Gleichbehandlung, Mitbestimmung, Datenschutz, Barrierefreiheit</td><td>„Alle sind dabei — und es ist nachvollziehbar, wer was sieht und warum."</td><td class="m">02 · 05 · 06 <span class="no">Begrenzen</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note"><b>Die fünfte Zeile ist keine Höflichkeit.</b> In Verwaltung und Industrie ist die Mitbestimmung ein Tor, an dem Plattformentscheidungen scheitern — und der einzige Gesprächspartner, für den <em>Personalisierung</em> zuerst nach Ungleichbehandlung und Verhaltenskontrolle klingt. Für ihn ist die Reihenfolge umgekehrt: erst Einbindung, dann Nachvollziehbarkeit, dann Kontext.</p>
+
+<div class="subhead"><span>07</span><h3>Wie ein Fall eingehängt wird</h3></div>
+<div class="prose">
+  <p>Das dritte Instrument, und das praktischste: die <b>Beweisleiter</b>. Sie zwingt dazu, von der Funktion zum Nutzen zum Beleg zu gehen — und macht sichtbar, wo ein Beleg fehlt.</p>
+  <p>Sie hat seit dieser Fassung eine fünfte Stufe: <b>Pflege</b>. Sie beantwortet, <em>wer den Fall im Betrieb am Leben hält</em> — und ist damit die Stelle, an der das Band <em>Redaktion und Betrieb</em> in die Argumentation kommt. Ohne sie klingt jeder Fall wie ein einmaliger Zustand statt wie ein Vorgang, der weiterläuft.</p>
+</div>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Stufe</th><th scope="col">Beispiel: geänderte Verfahrensanweisung in einem Rentenversicherungsträger</th></tr></thead>
+    <tbody>
+      <tr><td class="m"><b>Säule</b></td><td>05 · Verbindlichkeit <span class="no">— mit Anschluss an 01 Kontext und 06 Wirksamkeit</span></td></tr>
+      <tr><td class="m"><b>Merkmal</b></td><td>Versionierung mit Gültigkeitsdatum, Freigabeweg, Kenntnisnahme, Zielgruppensteuerung nach Fachbereich und Standort</td></tr>
+      <tr><td class="m"><b>Nutzen</b></td><td>Die Sachbearbeiterin in der Geschäftsstelle sieht die Änderung, die ihren Vorgang betrifft — und sieht, ab wann sie gilt. Sie muss weder ein Rundschreiben durchsuchen noch nachfragen.</td></tr>
+      <tr><td class="m"><b>Pflege</b></td><td>Die Fachredaktion pflegt die Anweisung über das <b>Autoren-Dashboard</b>; Content-Templates sichern die Form, die <b>Versionierung</b> den Stand, der <b>Linkchecker</b> die Verweise. <b>Zeitgesteuertes Archivieren</b> nimmt abgelaufene Fassungen aus dem Umlauf, ohne sie zu löschen. Redaktionsgruppen legen fest, wer den Text überhaupt ändern darf.</td></tr>
+      <tr><td class="m"><b>Beleg</b></td><td class="do">Sieben Träger mit 18.000 Nutzenden in einem Mandantenbetrieb; auditierte Zugänglichkeit; Migration aus Altsystemen</td></tr>
+      <tr><td class="m"><b>Botschaft</b></td><td><b>„Wer nach einem Verfahren arbeitet, muss wissen, dass es gilt."</b></td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note">Nach diesem Muster lassen sich Schichtübergabe, Einarbeitung, Rückruf in der Fertigung, Einsatzlage bei der Polizei und der Speiseplan in derselben Struktur beschreiben. <b>Wo die Zeile „Beleg" leer bleibt, ist die Botschaft eine Behauptung</b> — und gehört nicht ins Angebot.</p>
+
+<div class="subhead"><span>08</span><h3>Der Positionierungssatz</h3></div>
+<div class="prose">
+  <p>Das vierte Instrument, für die interne Abstimmung gedacht und nicht für die Werbung. Es ist die Form, mit der sich prüfen lässt, ob alle dasselbe verkaufen:</p>
+</div>
+<div class="law">
+  <p>Für Organisationen, in denen Menschen an sehr verschiedenen Orten dasselbe Ziel verfolgen, ist NEO der Intelligent Workplace, der jedem das Zutreffende zeigt und allen dieselbe Grundlage gibt. Anders als Plattformen, die vor allem Zugang schaffen, entscheidet NEO, was zutrifft — und macht nachvollziehbar, woraufhin.</p>
+  <p class="src">Positionierung — intern, zur Abstimmung</p>
+</div>
+
+<div class="subhead"><span>—</span><h3>Wie die Begriffe entschieden wurden</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Säule</th><th scope="col">Verworfen</th><th scope="col">Grund</th></tr></thead>
+    <tbody>
+      <tr><td class="m"><b>01</b> Kontext</td><td class="no">Passgenauigkeit · Zuschnitt · Fokus · Personalisierung · Entlastung · Trennschärfe</td><td>Personalisierung benennt eine Mechanik, keinen Nutzen — und ist im Gremium das heikelste Wort. <b>Kontext bindet als einziger Kandidat das Haus an die Brand Idea</b>, in der Wissen, Kontext und Erfahrung stehen.</td></tr>
+      <tr><td class="m"><b>02</b> Einbindung</td><td class="no">Teilhabe · Erreichbarkeit · Beteiligung · Zugehörigkeit · Mitwirkung · Resonanz</td><td><b>Erreichbarkeit ist im deutschen Arbeitskontext negativ besetzt</b> — HR und Gremien arbeiten daran, sie zu begrenzen. Einbindung trägt als eines von drei Wörtern beide Hälften: dabei sein und beitragen können.</td></tr>
+      <tr><td class="m"><b>03</b> Befähigung</td><td class="no">Eigenständigkeit · Autonomie · Handlungsfähigkeit · Ausstattung</td><td>Autonomie stand an der falschen Stelle — sie ist <em>Dürfen</em> und gehört zu Säule 05. Befähigung deckt <em>Können</em>, und zwar auf beiden Wegen: Lernen und Werkzeug.</td></tr>
+      <tr><td class="m"><b>05</b> Verbindlichkeit</td><td class="no">Geltung · Handlungssicherheit</td><td>Geltung war kürzer und präziser, hat aber eine zweite Bedeutung. Der Kernsatz verzichtet bewusst auf die Datierung und auf die Befugnis — beides trägt die Argumentation, nicht das Versprechen.</td></tr>
+      <tr><td class="m"><b>06</b> Wirksamkeit</td><td class="no">drei frühere Kernsätze</td><td>Der erste war inhaltsleer, der zweite beschrieb eine <b>personenbezogene Leistungs- und Verhaltenskontrolle</b> und hätte Datenschutz und Gremien gegen das Haus gestellt. Der dritte war zu lang, weil er die rechtliche Grenze ins Versprechen zog. Sie steht jetzt als Prinzip darunter.</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="note"><b>Ein Muster, das dreimal auftrat und deshalb hier steht:</b> Wörter, die eine Fähigkeit des Systems benennen — Personalisierung, Erreichbarkeit, „wer nicht erreicht wurde, ist bekannt" —, lesen sich im deutschen Arbeitskontext als etwas, das <em>an</em> Menschen ausgeübt wird. <b>Jede künftige Formulierung gehört gegen dieses Ohr geprüft, bevor sie vorgeschlagen wird.</b></p>
+
+<div class="subhead"><span>—</span><h3>Was daraus folgt</h3></div>
+<div class="tbl">
+  <table>
+    <thead><tr><th scope="col">Punkt</th><th scope="col">Stand</th></tr></thead>
+    <tbody>
+      <tr><td>Sechs Säulen, ihre Namen und Kernsätze</td><td class="do"><b>entschieden</b></td></tr>
+      <tr><td>Zugang und Übersicht im Fundament statt in den Säulen</td><td class="do"><b>entschieden</b></td></tr>
+      <tr><td>Zwischenebene „Intelligenz" mit der Nachvollziehbarkeit als Position</td><td class="do"><b>entschieden</b></td></tr>
+      <tr><td>Prinzip zur Auswertungsgrenze unter Säule 06</td><td class="do"><b>gesetzt</b></td></tr>
+      <tr><td>Fundament in sechs Bereichen statt sechs Wörtern</td><td class="do"><b>entschieden</b> — Auffindbarkeit und Übersicht gestrichen, weil in Säule 04 geführt</td></tr>
+      <tr><td>Unabhängige Nachweise in Bereich 06</td><td class="do"><b>belegt</b> — OWASP-Pentest und BITV-Audit, jährlich, Berichte auf Anfrage</td></tr>
+      <tr><td><b>Funktionslisten je Säule</b></td><td><span class="no">mit dem Produktmanagement abzugleichen</span> — Markensicht, keine Bestandsaufnahme</td></tr>
+      <tr><td>Beweisleiter für die übrigen Anwendungsfälle</td><td>ein Muster steht, die weiteren sind Fleißarbeit</td></tr>
+      <tr><td><b>Nachweis von Verstehen über die Kenntnisnahme hinaus</b></td><td><span class="no">offen</span> — Produktentscheidung, siehe Klarheits-Auswertung</td></tr>
+      <tr><td>Wo das im Markenbuch steht</td><td>Vorschlag: als <b>1.8 Botschaftsarchitektur</b> hinter Sprache — nicht als eigenes Kapitel, weil es zur Brand Idea gehört</td></tr>
+      <tr><td>Verhältnis zu den fünf Brand Values in 1.4</td><td>getrennt halten: <b>Werte beschreiben das Haus NEOCOSMO, Säulen die Leistung der Plattform</b></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer style="border-top:1px solid var(--border);padding-top:24px;margin-top:40px">
+  <p class="note" style="margin:0">Botschaftsarchitektur, 31. August 2026 · Instrumente: Message House, Botschaftskarten je Zielgruppe, Beweisleiter (Merkmal–Nutzen–Beleg) und Positionierungssatz. Grundlage: NEO Brand 008 Kapitel 01, die Marktanalyse zu acht Plattformen entlang der sechs Gartner-Anwendungsfälle sowie die Auswertung von <em>(Un)klarheit</em>. <b>Die Zuordnung von Funktionen zu Säulen ist ein Entwurf aus Markensicht</b> und ersetzt keine Produktbestandsaufnahme; die Belege stammen aus den bereits im Markenbuch geführten Zahlen. Rechtliche Hinweise zu Mitbestimmung und Auswertung sind Einordnungen aus Markensicht und ersetzen keine arbeitsrechtliche Prüfung.</p>
+</footer>
+
+</div>

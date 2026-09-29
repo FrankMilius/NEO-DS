@@ -1,0 +1,569 @@
+<title>Das monochrome Thema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    --g50:#f9fbf9; --g100:#f1f3f1; --g200:#e4e6e4; --g300:#d2d4d2; --g400:#afb2af;
+    --g500:#909390; --g600:#727572; --g700:#595c59; --g800:#414341; --g900:#292b29; --g950:#161816;
+
+    --ground:var(--g100); --surface:#ffffff; --sunk:var(--g200);
+    --ink:var(--g950); --muted:var(--g700); --faint:var(--g600);
+    --border:var(--g300); --hair:var(--g200);
+    --signal:#37e93d;
+
+    --f-brand:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+    --f-body:'Manrope','Helvetica Neue',Arial,sans-serif;
+    --f-tech:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --col:1080px; --prose:64ch;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:var(--g950); --surface:var(--g900); --sunk:#0e100e;
+      --ink:var(--g100); --muted:var(--g400); --faint:var(--g500);
+      --border:var(--g800); --hair:#232523; --signal:#37e93d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:var(--g950); --surface:var(--g900); --sunk:#0e100e;
+    --ink:var(--g100); --muted:var(--g400); --faint:var(--g500);
+    --border:var(--g800); --hair:#232523; --signal:#37e93d;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--f-body);
+       font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;margin:0;padding:0 24px 110px}
+  .wrap{max-width:var(--col);margin:0 auto}
+  .prose{max-width:var(--prose)}
+  .prose p{margin:0 0 18px}
+  .prose p:last-child{margin-bottom:0}
+
+  .mast{padding:74px 0 0}
+  .eyebrow{font-family:var(--f-tech);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+           color:var(--faint);margin:0 0 26px;display:flex;gap:14px;align-items:center}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--border)}
+  h1{font-family:var(--f-brand);font-weight:700;font-size:clamp(38px,6.4vw,74px);line-height:1.0;
+     letter-spacing:-.034em;margin:0 0 26px;max-width:16ch;text-wrap:balance}
+  .lede{font-size:19.5px;line-height:1.54;color:var(--muted);max-width:58ch;margin:0 0 34px}
+  .statusbar{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 60px}
+  .chip{font-family:var(--f-tech);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+        padding:7px 12px;border:1px solid var(--border);color:var(--muted);background:var(--surface)}
+  .chip b{color:var(--ink);font-weight:500}
+
+  section{padding:0 0 62px}
+  .subhead{display:flex;align-items:baseline;gap:16px;margin:0 0 22px;padding-top:14px;border-top:1px solid var(--border)}
+  .subhead span{font-family:var(--f-tech);font-size:11px;letter-spacing:.14em;color:var(--faint);
+                text-transform:uppercase;white-space:nowrap}
+  .subhead h2{font-family:var(--f-brand);font-weight:700;font-size:clamp(23px,3vw,31px);
+              letter-spacing:-.02em;margin:0;text-wrap:balance}
+  h3.grp{font-family:var(--f-brand);font-weight:700;font-size:17px;letter-spacing:-.012em;
+         margin:30px 0 11px;color:var(--ink)}
+
+  .scroll{overflow-x:auto;border:1px solid var(--border);background:var(--surface);margin:0 0 14px}
+  table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--hair);vertical-align:top}
+  thead th{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+           color:var(--faint);font-weight:500;background:var(--sunk);border-bottom:1px solid var(--border);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.num,th.num{font-family:var(--f-tech);font-size:12px;font-variant-numeric:tabular-nums;
+                white-space:nowrap;color:var(--muted)}
+  code{font-family:var(--f-tech);font-size:12.5px;color:var(--ink)}
+  .val{font-family:var(--f-tech);font-size:11.5px;display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .dot{width:13px;height:13px;flex:none;border:1px solid rgba(128,128,128,.4)}
+  .ref{display:block;font-family:var(--f-tech);font-size:10px;color:var(--faint);margin-top:3px}
+  .ref.only{margin-top:0;font-size:11px;color:var(--muted)}
+
+  .note{font-size:13.5px;line-height:1.62;color:var(--muted);max-width:74ch;margin:0 0 8px}
+  .note b{color:var(--ink);font-weight:600}
+  .under{color:var(--ink);font-weight:700;border-bottom:2px solid var(--signal);padding-bottom:1px}
+
+  .grid{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 18px;
+        grid-template-columns:repeat(auto-fit,minmax(252px,1fr))}
+  .card{background:var(--surface);padding:22px 22px 24px}
+  .card .lbl{font-family:var(--f-tech);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:0 0 11px}
+  .card h4{font-family:var(--f-brand);font-weight:700;font-size:16.5px;margin:0 0 9px;letter-spacing:-.012em}
+  .card p{font-size:14.3px;color:var(--muted);margin:0}
+  .card p+p{margin-top:10px}
+  .card b{color:var(--ink);font-weight:600}
+
+  /* ---------- Schalter ---------- */
+  .switcher{border:1px solid var(--border);background:var(--surface);padding:17px 20px 15px;margin:0 0 18px}
+  .switchrow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:0 0 11px}
+  .switchrow:last-child{margin-bottom:0}
+  .switchlbl{font-family:var(--f-tech);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+             color:var(--faint);margin:7px 0 0;min-width:56px}
+  .opts{display:flex;gap:7px;flex-wrap:wrap}
+  .opt{font-family:var(--f-body);font-size:13.5px;color:var(--muted);background:var(--ground);
+       border:1px solid var(--border);padding:6px 11px;cursor:pointer;display:flex;align-items:center;gap:7px;line-height:1.3}
+  .opt:hover{border-color:var(--faint)}
+  .opt.is-on{border-color:var(--ink);color:var(--ink);font-weight:600;background:var(--surface)}
+  .opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .swx{width:14px;height:14px;flex:none;border:1px solid rgba(128,128,128,.45)}
+
+  /* ---------- Specimen: rendert das echte Thema ---------- */
+  .spec{
+    --surface-stage:#f1f3f1; --surface-card:#ffffff; --surface-sunken:#f1f3f1;
+    --surface-01:#f9fbf9; --surface-02:#f1f3f1; --surface-03:#e4e6e4;
+    --text-primary:#161816; --text-secondary:#595c59; --text-tertiary:#727572;
+    --text-inverse:#f9fbf9; --text-disabled:#909390;
+    --border-subtle:#e4e6e4; --border-control:#909390; --border-emphasis:#161816;
+    --interactive-default:#292b29; --interactive-on:#f9fbf9; --interactive-quiet-hover:#f1f3f1;
+    --accent-surface:#37e93d; --accent-on:#000000; --accent-line:#009612;
+    --accent-underline:#37e93d; --accent-text:#006f0a;
+    --feedback-success:#24a148; --feedback-warning:#d4a400; --feedback-danger:#fa4d56; --feedback-info:#4589ff;
+    --focus-inner:#161816; --focus-outer:#f9fbf9;
+    --elev-1:0 1px 2px rgb(0 0 0 / .07); --elev-2:0 6px 16px rgb(0 0 0 / .13); --elev-3:0 18px 40px rgb(0 0 0 / .18);
+    --elev-1-s:#ffffff; --elev-2-s:#ffffff; --elev-3-s:#ffffff;
+    background:var(--surface-stage);
+    border:1px solid var(--border);
+    padding:26px;
+    margin:0 0 14px;
+    display:grid;gap:20px;
+    grid-template-columns:1fr;
+  }
+  @media (min-width:820px){.spec{grid-template-columns:1.15fr 1fr}}
+  .panel{background:var(--surface-card);border:1px solid var(--border-subtle);padding:20px 21px 22px}
+  .panel + .panel{margin-top:0}
+  .plbl{font-family:var(--f-tech);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+        color:var(--text-tertiary);margin:0 0 13px}
+  .ph{font-family:var(--f-brand);font-weight:700;font-size:20px;letter-spacing:-.024em;
+      color:var(--text-primary);margin:0 0 9px}
+  .pb{font-size:13.5px;line-height:1.6;color:var(--text-secondary);margin:0 0 15px}
+  .pb a{color:var(--text-primary);text-decoration:none;
+        border-bottom:2px solid var(--accent-underline);padding-bottom:1px}
+  .prow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:0 0 15px}
+  .b-int{background:var(--interactive-default);color:var(--interactive-on);
+         font-size:12.5px;font-weight:600;padding:8px 15px;border:none}
+  .b-acc{background:var(--accent-surface);color:var(--accent-on);
+         font-size:12.5px;font-weight:700;padding:8px 15px;border:none}
+  .b-line{background:transparent;color:var(--text-primary);font-size:12.5px;font-weight:600;
+          padding:7px 14px;border:1.5px solid var(--accent-line)}
+  .b-quiet{background:var(--interactive-quiet-hover);color:var(--text-primary);
+           font-size:12.5px;font-weight:600;padding:8px 15px;border:none}
+  .b-dis{background:transparent;color:var(--text-disabled);font-size:12.5px;font-weight:600;
+         padding:7px 14px;border:1.5px solid var(--border-subtle)}
+  .field{border:1.5px solid var(--border-control);background:var(--surface-card);
+         padding:8px 11px;font-size:12.5px;color:var(--text-tertiary);margin:0 0 11px}
+  .field.is-focus{outline:2px solid var(--focus-inner);outline-offset:2px;
+                  box-shadow:0 0 0 4px var(--focus-outer)}
+  .sunkbox{background:var(--surface-sunken);border:1px solid var(--border-subtle);padding:11px 13px;
+           font-family:var(--f-tech);font-size:11px;color:var(--text-secondary)}
+  .divider{height:1px;background:var(--border-subtle);margin:15px 0}
+  .fb{display:flex;flex-direction:column;gap:9px}
+  .fbrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;color:var(--text-secondary)}
+  .fbdot{width:9px;height:9px;flex:none;transform:translateY(1px)}
+  .fbrow b{font-weight:700}
+  .stack{display:flex;flex-direction:column;gap:11px}
+  .elev{padding:12px 14px;font-size:12px;color:var(--text-secondary);
+        font-family:var(--f-tech);border:1px solid var(--border-subtle)}
+  .e1{background:var(--elev-1-s);box-shadow:var(--elev-1)}
+  .e2{background:var(--elev-2-s);box-shadow:var(--elev-2)}
+  .e3{background:var(--elev-3-s);box-shadow:var(--elev-3)}
+  .emph{border:1.5px solid var(--border-emphasis);padding:11px 13px;font-size:12.5px;
+        color:var(--text-primary);font-weight:600}
+
+  .ladders{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);margin:0 0 14px}
+  .lrow{background:var(--surface);display:flex;align-items:center;gap:0;flex-wrap:wrap;padding:0}
+  .lname{font-family:var(--f-brand);font-weight:700;font-size:13.5px;padding:10px 14px;min-width:148px;color:var(--ink)}
+  .lname em{display:block;font-style:normal;font-family:var(--f-tech);font-size:9.5px;
+            letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:400;margin-top:2px}
+  .lsteps{display:flex;flex:1;min-width:260px}
+  .lstep{flex:1;height:34px}
+
+  footer{border-top:1px solid var(--border);padding-top:22px;margin-top:14px}
+  footer p{font-size:13px;color:var(--faint);margin:0;max-width:72ch}
+  a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">NEO Design System · Ist-Stand</p>
+    <h1>Ein Thema, das keine Farbe hat</h1>
+    <p class="lede">Das monochrome Thema trägt die Website seit August 2026. Es kennt genau eine bunte Farbe — den Akzent — und regelt alles andere über Helligkeitsstufen einer einzigen Leiter. Dies ist, was heute im Stylesheet steht.</p>
+    <div class="statusbar">
+      <span class="chip">Kompiliert und aktiv</span>
+      <span class="chip"><b>42</b> Tokens je Fassung</span>
+      <span class="chip"><b>7</b> Leitern</span>
+      <span class="chip">Klassen <b>.neo-mono-light / -dark</b></span>
+    </div>
+  </header>
+
+  <section>
+    <div class="subhead"><span>Stellung</span><h2>Bewusst daneben, nicht an seiner Stelle</h2></div>
+    <div class="prose">
+      <p>Das monochrome Thema steht <b>neben</b> dem bestehenden Themensatz, nicht an dessen Stelle. <code>:root</code>, <code>.neo-light-theme</code> und <code>.neo-dark-theme</code> bleiben unberührt — die Website färbt sich nicht um, solange niemand die Klasse setzt. Die Umstellung ist damit ein eigener, messbarer Schritt und kein Nebeneffekt eines Sync-Laufs.</p>
+      <p>Der Bereichswechsel läuft über ein Attribut: <code>&lt;html class="neo-mono-light" data-neutral="beige"&gt;</code>. Er funktioniert, weil alle sieben Leitern stufenweise dieselben Helligkeiten tragen. Ein Bereich, der von Graphit auf Beige umschaltet, behält sämtliche Kontrastwerte — nachprüfen muss man nichts.</p>
+      <p>Das gilt aber nur, solange Bauteile die <b>Stufennummer</b> ansprechen und nicht den Hexwert. Ein einziger fest eingetragener Grauton bricht die Umschaltbarkeit für den ganzen Bereich.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Specimen</span><h2>Der Tokensatz, gerendert</h2></div>
+    <div class="prose">
+      <p>Das Feld unten rendert das Thema mit seinen echten Werten. Leiter und Fassung sind umschaltbar — genau die beiden Achsen, die das Thema selbst kennt.</p>
+    </div>
+
+    <div class="switcher">
+      <div class="switchrow">
+        <p class="switchlbl">Leiter</p>
+        <div class="opts" role="group" aria-label="Neutralleiter wählen">
+          <button type="button" class="opt is-on" data-lad="graphit"><span class="swx" style="background:#f1f3f1"></span>Graphit</button>
+          <button type="button" class="opt" data-lad="neutral-beige"><span class="swx" style="background:#f6f2ea"></span>Beige</button>
+          <button type="button" class="opt" data-lad="ivory"><span class="swx" style="background:#f3f3ea"></span>Ivory</button>
+          <button type="button" class="opt" data-lad="neutral-taupe"><span class="swx" style="background:#f8f1eb"></span>Warm Taupe</button>
+          <button type="button" class="opt" data-lad="neutral-pearl"><span class="swx" style="background:#f2f2f2"></span>Pearl White</button>
+          <button type="button" class="opt" data-lad="neutral-salbei"><span class="swx" style="background:#eff4ef"></span>Salbei</button>
+          <button type="button" class="opt" data-lad="neutral-blau"><span class="swx" style="background:#edf3f9"></span>Blaustichig</button>
+        </div>
+      </div>
+      <div class="switchrow">
+        <p class="switchlbl">Fassung</p>
+        <div class="opts" role="group" aria-label="Hell oder dunkel">
+          <button type="button" class="opt is-on" data-mode="light">Hell</button>
+          <button type="button" class="opt" data-mode="dark">Dunkel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec" id="spec">
+      <div>
+        <div class="panel">
+          <p class="plbl">Karte auf der Bühne</p>
+          <h3 class="ph">Relevanz für jeden. Klarheit für alle.</h3>
+          <p class="pb">Fließtext in der sekundären Textfarbe. Ein <a href="#spec">Textlink</a> trägt die Textfarbe und einen Unterstrich im Akzent — nie den Akzent als Schrift, denn der Markenwert erreicht auf Weiß nur 1,63.</p>
+          <div class="prow">
+            <span class="b-int">Bedienelement</span>
+            <span class="b-acc">Akzentfläche</span>
+            <span class="b-line">Akzentrahmen</span>
+            <span class="b-quiet">Leise</span>
+            <span class="b-dis">Gesperrt</span>
+          </div>
+          <div class="field is-focus">Eingabefeld mit Fokusring — zwei Schichten</div>
+          <div class="field">Eingabefeld, Rahmen in border-control</div>
+          <div class="sunkbox">Gesenkte Fläche · surface-sunken</div>
+          <div class="divider"></div>
+          <div class="emph">Hervorgehoben · border-emphasis</div>
+        </div>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:20px">
+          <p class="plbl">Rückmeldung · Systempaletten 500</p>
+          <div class="fb">
+            <div class="fbrow"><span class="fbdot" style="background:var(--feedback-success)"></span><span><b>Erfolg</b> — success 500</span></div>
+            <div class="fbrow"><span class="fbdot" style="background:var(--feedback-warning)"></span><span><b>Warnung</b> — warning 500</span></div>
+            <div class="fbrow"><span class="fbdot" style="background:var(--feedback-danger)"></span><span><b>Fehler</b> — danger 500</span></div>
+            <div class="fbrow"><span class="fbdot" style="background:var(--feedback-info)"></span><span><b>Hinweis</b> — info 500</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <p class="plbl">Erhebung · eigene Achse</p>
+          <div class="stack">
+            <div class="elev e1">elevation-1 · Karte</div>
+            <div class="elev e2">elevation-2 · Menü</div>
+            <div class="elev e3">elevation-3 · Modal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Im Dunkelmodus tragen die ersten beiden Erhebungsstufen <b>keinen Schatten</b>, sondern eine hellere Fläche. Ein Schatten auf schwarzem Grund ist unsichtbar; die Erhebung muss dort über die Fläche laufen. Das ist im Specimen sichtbar, sobald man auf „Dunkel" schaltet.</p>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Leitern</span><h2>Sieben Wege, dieselben Kontraste</h2></div>
+    <div class="ladders" id="ladders"></div>
+    <p class="note">Alle sieben tragen Stufe für Stufe dieselben Helligkeiten. Kontrast gegen Weiß, für jede Leiter gleich: <b>50</b> 1,04 · <b>100</b> 1,12 · <b>200</b> 1,25 · <b>300</b> 1,49 · <b>400</b> 2,14 · <b>500</b> 3,11 · <b>600</b> 4,66 · <b>700</b> 6,77 · <b>800</b> 9,98 · <b>900</b> 14,27 · <b>950</b> 17,85. Graphit ist die Voreinstellung; die übrigen sechs werden über <code>data-neutral</code> gewählt.</p>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Entscheidungen</span><h2>Fünf Stellen, an denen das Thema abweicht</h2></div>
+    <div class="grid">
+      <div class="card">
+        <p class="lbl">Bedienung ≠ Akzent</p>
+        <h4>Zwei getrennte Sätze</h4>
+        <p>Ein sekundärer Knopf ist <b>interaktiv, aber nicht akzentuiert</b>. Ohne diese Trennung färbt ein Kunde, der seine Akzentfarbe wählt, versehentlich jede Schaltfläche im System ein.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Rahmen</p>
+        <h4>Zwei Rollen, nicht eine</h4>
+        <p>WCAG 1.4.11 verlangt 3:1 nur für Rahmen, die ein <b>Bedienelement</b> erkennbar machen — eine Trennlinie ist ausgenommen. Mit einem einzigen Token wird entweder die Trennlinie unnötig hart oder das Eingabefeld unzulässig blass.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Rückmeldung · geändert</p>
+        <h4>Erfolg ist wieder Grün</h4>
+        <p>Bis zum 26. August trug <code>feedback-success</code> ein Petrol, ausdrücklich <b>kein</b> Grün: Bei Protanopie liegt <code>#24a148</code> nur <b>0,6°</b> vom Markenlime <code>#37e93d</code> entfernt — unterschieden werden sie dann allein über die Helligkeit. Das Petrol lag 175,9° entfernt.</p>
+        <p>Auf Weisung sind die Systempaletten des Theme-Konfigurators übernommen. Die Folge ist keine Meinung, sondern eine Auflage: <b>Rückmeldung darf nie allein über die Farbe laufen.</b> Symbol und Beschriftung sind ab hier tragend, nicht Kür.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Fokus</p>
+        <h4>Zwei Schichten</h4>
+        <p>Ein einfarbiger Ring müsste auf <b>jeder</b> Fläche 3:1 erreichen, auf der er auftauchen kann — auch auf dem Akzentknopf. Das schafft keine einzelne Farbe. Innen dunkel, außen hell: gemessen auf sechs Gründen, immer mindestens 10,9:1 auf einer der beiden Schichten.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Akzent</p>
+        <h4>Rahmen und Unterstrich sind nicht dasselbe</h4>
+        <p><code>accent-line</code> ist ein Rahmen und macht ein Element erkennbar — WCAG verlangt hier 3:1, Stufe 700 liefert 3,91. <code>accent-underline</code> ist ein Strich unter Schrift; sein Signal ist, <b>dass</b> er da ist. Deshalb darf dort der Markenwert stehen. Zusammengelegt müsste man sich zwischen richtig und schön entscheiden.</p>
+      </div>
+      <div class="card">
+        <p class="lbl">Erhebung</p>
+        <h4>Eigene Achse neben der Fläche</h4>
+        <p>Die Fläche sagt „worauf liege ich", die Erhebung „wie hoch schwebe ich darüber". Ein Hover-Zustand ändert die <b>Erhebung und nicht die Fläche</b> — genau das war der Fehler im alten Satz, wo Ebenen und Erhebung unverbunden nebeneinanderstanden.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="subhead"><span>Tokensatz</span><h2>Alle 42 Deklarationen</h2></div>
+    <div class="prose">
+      <p>Ausgelesen aus dem kompilierten <code>styles.css</code>, nicht aus der Quelle — das ist, was ausgeliefert wird. Die Referenz unter jedem Wert nennt das Token, über das er kommt; aufgelöst ist auf die Graphit-Leiter.</p>
+    </div>
+    
+
+  <h3 class="grp">Flächen · Modell C — Website</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>surface-stage</code></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td class="num">—</td></tr>
+        <tr><td><code>surface-card</code></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span></td><td><span class="val"><span class="dot" style="background:#292b29"></span>#292b29</span><span class="ref">fnd-neutral-900</span></td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Flächen · Modell A — Anwendung</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>surface-base</code></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td class="num">—</td></tr>
+        <tr><td><code>surface-01</code></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td><span class="val"><span class="dot" style="background:#292b29"></span>#292b29</span><span class="ref">fnd-neutral-900</span></td><td class="num">—</td></tr>
+        <tr><td><code>surface-02</code></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td><span class="val"><span class="dot" style="background:#414341"></span>#414341</span><span class="ref">fnd-neutral-800</span></td><td class="num">—</td></tr>
+        <tr><td><code>surface-03</code></td><td><span class="val"><span class="dot" style="background:#e4e6e4"></span>#e4e6e4</span><span class="ref">fnd-neutral-200</span></td><td><span class="val"><span class="dot" style="background:#595c59"></span>#595c59</span><span class="ref">fnd-neutral-700</span></td><td class="num">—</td></tr>
+        <tr><td><code>surface-sunken</code></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td><span class="val"><span class="dot" style="background:#000000"></span>#000000</span></td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Text</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>text-primary</code></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td class="num"><span>17.85</span> / 12.79</td></tr>
+        <tr><td><code>text-secondary</code></td><td><span class="val"><span class="dot" style="background:#595c59"></span>#595c59</span><span class="ref">fnd-neutral-700</span></td><td><span class="val"><span class="dot" style="background:#afb2af"></span>#afb2af</span><span class="ref">fnd-neutral-400</span></td><td class="num"><span>6.77</span> / 6.67</td></tr>
+        <tr><td><code>text-tertiary</code></td><td><span class="val"><span class="dot" style="background:#727572"></span>#727572</span><span class="ref">fnd-neutral-600</span></td><td><span class="val"><span class="dot" style="background:#909390"></span>#909390</span><span class="ref">fnd-neutral-500</span></td><td class="num"><span>4.66</span> / 4.59</td></tr>
+        <tr><td><code>text-inverse</code></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td class="num">—</td></tr>
+        <tr><td><code>text-disabled</code></td><td><span class="val"><span class="dot" style="background:#909390"></span>#909390</span><span class="ref">fnd-neutral-500</span></td><td><span class="val"><span class="dot" style="background:#727572"></span>#727572</span><span class="ref">fnd-neutral-600</span></td><td class="num"><span>3.11</span> / 3.06</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Rahmen</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>border-subtle</code></td><td><span class="val"><span class="dot" style="background:#e4e6e4"></span>#e4e6e4</span><span class="ref">fnd-neutral-200</span></td><td><span class="val"><span class="dot" style="background:#414341"></span>#414341</span><span class="ref">fnd-neutral-800</span></td><td class="num"><span class="under">1.25</span> / 1.43</td></tr>
+        <tr><td><code>border-control</code></td><td><span class="val"><span class="dot" style="background:#909390"></span>#909390</span><span class="ref">fnd-neutral-500</span></td><td><span class="val"><span class="dot" style="background:#727572"></span>#727572</span><span class="ref">fnd-neutral-600</span></td><td class="num"><span>3.11</span> / 3.06</td></tr>
+        <tr><td><code>border-emphasis</code></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td class="num"><span>17.85</span> / 13.72</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Bedienung</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>interactive-default</code></td><td><span class="val"><span class="dot" style="background:#292b29"></span>#292b29</span><span class="ref">fnd-neutral-900</span></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td class="num"><span>14.27</span> / 12.79</td></tr>
+        <tr><td><code>interactive-hover</code></td><td><span class="val"><span class="dot" style="background:#414341"></span>#414341</span><span class="ref">fnd-neutral-800</span></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span></td><td class="num">—</td></tr>
+        <tr><td><code>interactive-active</code></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td><span class="val"><span class="dot" style="background:#d2d4d2"></span>#d2d4d2</span><span class="ref">fnd-neutral-300</span></td><td class="num">—</td></tr>
+        <tr><td><code>interactive-on</code></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td class="num">—</td></tr>
+        <tr><td><code>interactive-quiet</code></td><td><span class="ref only">transparent</span></td><td><span class="ref only">transparent</span></td><td class="num">—</td></tr>
+        <tr><td><code>interactive-quiet-hover</code></td><td><span class="val"><span class="dot" style="background:#f1f3f1"></span>#f1f3f1</span><span class="ref">fnd-neutral-100</span></td><td><span class="val"><span class="dot" style="background:#414341"></span>#414341</span><span class="ref">fnd-neutral-800</span></td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Akzent</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>accent-surface</code></td><td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span><span class="ref">fnd-accent-500</span></td><td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span><span class="ref">fnd-accent-500</span></td><td class="num">—</td></tr>
+        <tr><td><code>accent-surface-hover</code></td><td><span class="val"><span class="dot" style="background:#00c01a"></span>#00c01a</span><span class="ref">fnd-accent-600</span></td><td><span class="val"><span class="dot" style="background:#3df643"></span>#3df643</span><span class="ref">fnd-accent-400</span></td><td class="num">—</td></tr>
+        <tr><td><code>accent-surface-active</code></td><td><span class="val"><span class="dot" style="background:#009612"></span>#009612</span><span class="ref">fnd-accent-700</span></td><td><span class="val"><span class="dot" style="background:#3df643"></span>#3df643</span><span class="ref">fnd-accent-400</span></td><td class="num">—</td></tr>
+        <tr><td><code>accent-on</code></td><td><span class="val"><span class="dot" style="background:#000000"></span>#000000</span></td><td><span class="val"><span class="dot" style="background:#000000"></span>#000000</span></td><td class="num">—</td></tr>
+        <tr><td><code>accent-line</code></td><td><span class="val"><span class="dot" style="background:#009612"></span>#009612</span><span class="ref">fnd-accent-700</span></td><td><span class="val"><span class="dot" style="background:#00c01a"></span>#00c01a</span><span class="ref">fnd-accent-600</span></td><td class="num"><span>3.91</span> / 5.81</td></tr>
+        <tr><td><code>accent-underline</code></td><td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span><span class="ref">fnd-accent-500</span></td><td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span><span class="ref">fnd-accent-500</span></td><td class="num">—</td></tr>
+        <tr><td><code>accent-text</code></td><td><span class="val"><span class="dot" style="background:#006f0a"></span>#006f0a</span><span class="ref">fnd-accent-800</span></td><td><span class="val"><span class="dot" style="background:#37e93d"></span>#37e93d</span><span class="ref">fnd-accent-500</span></td><td class="num"><span>6.41</span> / 8.75</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Rückmeldung · Systempaletten Stufe 500</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>feedback-success</code></td><td><span class="val"><span class="dot" style="background:#24a148"></span>#24a148</span><span class="ref">fnd-primitive-success-500</span></td><td><span class="val"><span class="dot" style="background:#24a148"></span>#24a148</span><span class="ref">fnd-primitive-success-500</span></td><td class="num"><span>3.35</span> / 4.26</td></tr>
+        <tr><td><code>feedback-warning</code></td><td><span class="val"><span class="dot" style="background:#d4a400"></span>#d4a400</span><span class="ref">fnd-primitive-warning-500</span></td><td><span class="val"><span class="dot" style="background:#d4a400"></span>#d4a400</span><span class="ref">fnd-primitive-warning-500</span></td><td class="num"><span class="under">2.31</span> / 6.19</td></tr>
+        <tr><td><code>feedback-danger</code></td><td><span class="val"><span class="dot" style="background:#fa4d56"></span>#fa4d56</span><span class="ref">fnd-primitive-danger-500</span></td><td><span class="val"><span class="dot" style="background:#fa4d56"></span>#fa4d56</span><span class="ref">fnd-primitive-danger-500</span></td><td class="num"><span>3.35</span> / 4.25</td></tr>
+        <tr><td><code>feedback-info</code></td><td><span class="val"><span class="dot" style="background:#4589ff"></span>#4589ff</span><span class="ref">fnd-primitive-info-500</span></td><td><span class="val"><span class="dot" style="background:#4589ff"></span>#4589ff</span><span class="ref">fnd-primitive-info-500</span></td><td class="num"><span>3.35</span> / 4.26</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Die 500er-Stufen sind <b>Flächenfarben</b>. Als Schrift auf der hellen Karte bleiben alle vier unter der AA-Schwelle von 4,5 — Warning mit <b>2,31</b> auch unter der 3,0 für Bedienelemente. Im Dunkeln tragen sie. Schwarze Tinte <b>auf</b> der Fläche erreicht 5,32 bis 7,74; dort funktionieren die Werte einwandfrei.</p>
+
+  <h3 class="grp">Fokus</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>focus-inner</code></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td><span class="val"><span class="dot" style="background:#161816"></span>#161816</span><span class="ref">fnd-neutral-950</span></td><td class="num">—</td></tr>
+        <tr><td><code>focus-outer</code></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td><span class="val"><span class="dot" style="background:#f9fbf9"></span>#f9fbf9</span><span class="ref">fnd-neutral-50</span></td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="grp">Erhebung</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Hell</th><th>Dunkel</th><th class="num">Kontrast auf der Karte</th></tr></thead>
+      <tbody>
+        <tr><td><code>elevation-0</code></td><td><span class="ref only">none</span></td><td><span class="ref only">none</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-1</code></td><td><span class="ref only">0 1px 2px rgb(0 0 0 / .07)</span></td><td><span class="ref only">none</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-2</code></td><td><span class="ref only">0 6px 16px rgb(0 0 0 / .13)</span></td><td><span class="ref only">none</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-3</code></td><td><span class="ref only">0 18px 40px rgb(0 0 0 / .18)</span></td><td><span class="ref only">0 18px 40px rgb(0 0 0 / .55)</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-1-surface</code></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span><span class="ref">surface-card</span></td><td><span class="val"><span class="dot" style="background:#292b29"></span>#292b29</span><span class="ref">fnd-neutral-900</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-2-surface</code></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span><span class="ref">surface-card</span></td><td><span class="val"><span class="dot" style="background:#414341"></span>#414341</span><span class="ref">fnd-neutral-800</span></td><td class="num">—</td></tr>
+        <tr><td><code>elevation-3-surface</code></td><td><span class="val"><span class="dot" style="background:#ffffff"></span>#ffffff</span><span class="ref">surface-card</span></td><td><span class="val"><span class="dot" style="background:#595c59"></span>#595c59</span><span class="ref">fnd-neutral-700</span></td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  </section>
+
+  <section>
+    <div class="subhead"><span>Offen</span><h2>Wo das Thema vom Styleguide abweicht</h2></div>
+    <div class="prose">
+      <p>Kapitel 07 des Brand Styleguide beschreibt <b>vier Flächen plus Kontur, ohne Transparenz</b>. Das Thema hier führt <b>zwei parallele Modelle</b> mit fünf und zwei Flächen. Es stammt vom 17. August und ist damit älter als die Styleguide-Arbeit.</p>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Styleguide 07 · hell</th><th>Vorgabe</th><th>Thema heute</th><th>Stand</th></tr></thead>
+        <tbody>
+          <tr><td>Gesenkt</td><td>Graphit 200</td><td><code>surface-sunken</code> = Graphit 100</td><td>weicht ab</td></tr>
+          <tr><td>Grund</td><td>Graphit 100</td><td><code>surface-stage</code> = Graphit 100</td><td>Modell C stimmt</td></tr>
+          <tr><td>Erhoben</td><td>Weiß</td><td><code>surface-card</code> = #ffffff</td><td>stimmt</td></tr>
+          <tr><td>Schwebend</td><td>Weiß + Kontur</td><td>—</td><td>fehlt</td></tr>
+          <tr><td>Kontur</td><td>Graphit 300</td><td><code>border-subtle</code> = Graphit 200</td><td>weicht ab</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Im Dunkeln ebenso: Das Thema setzt <code>surface-sunken</code> auf <b>#000000</b>, der Styleguide nennt <b>#0e100e</b>. Und <code>surface-03</code> ist genau die fünfte Zeile, die laut Styleguide entfällt. Eine Angleichung ist ein sichtbarer Eingriff in die laufende Website — kein Nebeneffekt.</p>
+  </section>
+
+  <footer>
+    <p>Stand 26. August 2026 · Quelle: <code>scss/scss/00-settings/_mono-theme.scss</code> und <code>_neutral-ramps.scss</code>, Werte ausgelesen aus dem kompilierten <code>styles.css</code>. Kontraste nach WCAG 2.1, gemessen gegen <code>surface-card</code> der jeweiligen Fassung.</p>
+  </footer>
+
+</div>
+
+<script>var MONO = {"accent": {"50": "#f0ffef", "100": "#d0ffcd", "200": "#a4ff9f", "300": "#61ff61", "400": "#3df643", "500": "#37e93d", "600": "#00c01a", "700": "#009612", "800": "#006f0a", "900": "#004904", "950": "#002801"}, "leitern": {"graphit": {"label": "Graphit", "shades": {"50": "#f9fbf9", "100": "#f1f3f1", "200": "#e4e6e4", "300": "#d2d4d2", "400": "#afb2af", "500": "#909390", "600": "#727572", "700": "#595c59", "800": "#414341", "900": "#292b29", "950": "#161816"}}, "neutral-blau": {"label": "Blaustichig", "shades": {"50": "#f6fbff", "100": "#edf3f9", "200": "#e0e6ec", "300": "#cdd4dc", "400": "#aab2ba", "500": "#8a939d", "600": "#6c7680", "700": "#535c65", "800": "#3c434b", "900": "#252b31", "950": "#13181c"}}, "neutral-beige": {"label": "Beige", "shades": {"50": "#fef9f2", "100": "#f6f2ea", "200": "#eae4dc", "300": "#d8d3ca", "400": "#b7b0a6", "500": "#989185", "600": "#7b7366", "700": "#615a4e", "800": "#474138", "900": "#2e2922", "950": "#1a1710"}}, "neutral-salbei": {"label": "Salbei", "shades": {"50": "#f7fcf7", "100": "#eff4ef", "200": "#e2e7e1", "300": "#d0d5cf", "400": "#adb3ac", "500": "#8d948d", "600": "#6f776f", "700": "#565d56", "800": "#3e443e", "900": "#272c27", "950": "#151814"}}, "ivory": {"label": "Ivory", "shades": {"50": "#fbfbf3", "100": "#f3f3ea", "200": "#e6e6dd", "300": "#d4d4ca", "400": "#b2b2a6", "500": "#939386", "600": "#757567", "700": "#5c5c4f", "800": "#434339", "900": "#2b2b23", "950": "#181810"}}, "neutral-taupe": {"label": "Warm Taupe", "shades": {"50": "#fff9f4", "100": "#f8f1eb", "200": "#ebe4dd", "300": "#dad2ca", "400": "#b8afa7", "500": "#9a9086", "600": "#7d7267", "700": "#63594f", "800": "#494139", "900": "#2f2923", "950": "#1c1611"}}, "neutral-pearl": {"label": "Pearl White", "shades": {"50": "#fafafa", "100": "#f2f2f2", "200": "#e5e5e5", "300": "#d3d3d3", "400": "#b1b1b1", "500": "#929292", "600": "#747474", "700": "#5b5b5b", "800": "#424242", "900": "#2a2a2a", "950": "#171717"}}}};</script>
+<script>
+(function(){
+  var D = MONO;
+  var spec = document.getElementById("spec"), strip = document.getElementById("ladders");
+  if(!spec || !strip) return;
+
+  var ORDER = ["graphit","neutral-beige","ivory","neutral-taupe","neutral-pearl","neutral-salbei","neutral-blau"];
+  var HINT = {graphit:"Voreinstellung",  "neutral-beige":"Lösung und Anwendung", ivory:"Menschen und Geschichten",
+              "neutral-taupe":"Unternehmen", "neutral-pearl":"Zahlen und Konditionen",
+              "neutral-salbei":"Reserve", "neutral-blau":"Reserve"};
+  var STEPS = ["50","100","200","300","400","500","600","700","800","900","950"];
+
+  // n = Neutralstufe, a = Akzentstufe, sonst wörtlich
+  var SPEC = {
+    light:{
+      "surface-stage":"n100","surface-card":"#ffffff","surface-base":"#ffffff","surface-01":"n50",
+      "surface-02":"n100","surface-03":"n200","surface-sunken":"n100",
+      "text-primary":"n950","text-secondary":"n700","text-tertiary":"n600","text-inverse":"n50","text-disabled":"n500",
+      "border-subtle":"n200","border-control":"n500","border-emphasis":"n950",
+      "interactive-default":"n900","interactive-on":"n50","interactive-quiet-hover":"n100",
+      "accent-surface":"a500","accent-on":"#000000","accent-line":"a700","accent-underline":"a500","accent-text":"a800",
+      "feedback-success":"#24a148","feedback-warning":"#d4a400","feedback-danger":"#fa4d56","feedback-info":"#4589ff",
+      "focus-inner":"n950","focus-outer":"n50",
+      "elev-1":"0 1px 2px rgb(0 0 0 / .07)","elev-2":"0 6px 16px rgb(0 0 0 / .13)","elev-3":"0 18px 40px rgb(0 0 0 / .18)",
+      "elev-1-s":"#ffffff","elev-2-s":"#ffffff","elev-3-s":"#ffffff"
+    },
+    dark:{
+      "surface-stage":"n950","surface-card":"n900","surface-base":"n950","surface-01":"n900",
+      "surface-02":"n800","surface-03":"n700","surface-sunken":"#000000",
+      "text-primary":"n100","text-secondary":"n400","text-tertiary":"n500","text-inverse":"n950","text-disabled":"n600",
+      "border-subtle":"n800","border-control":"n600","border-emphasis":"n50",
+      "interactive-default":"n100","interactive-on":"n950","interactive-quiet-hover":"n800",
+      "accent-surface":"a500","accent-on":"#000000","accent-line":"a600","accent-underline":"a500","accent-text":"a500",
+      "feedback-success":"#24a148","feedback-warning":"#d4a400","feedback-danger":"#fa4d56","feedback-info":"#4589ff",
+      "focus-inner":"n950","focus-outer":"n50",
+      "elev-1":"none","elev-2":"none","elev-3":"0 18px 40px rgb(0 0 0 / .55)",
+      "elev-1-s":"n900","elev-2-s":"n800","elev-3-s":"n700"
+    }
+  };
+
+  var curLad = "graphit", curMode = "light";
+
+  function val(token, shades){
+    if(token.charAt(0) === "n") return shades[token.slice(1)];
+    if(token.charAt(0) === "a") return D.accent[token.slice(1)];
+    return token;
+  }
+
+  function apply(){
+    var shades = D.leitern[curLad].shades, s = SPEC[curMode];
+    Object.keys(s).forEach(function(k){
+      spec.style.setProperty("--" + k, val(s[k], shades));
+    });
+    spec.style.colorScheme = curMode;
+  }
+
+  function buildStrip(){
+    var h = "";
+    ORDER.forEach(function(key){
+      var l = D.leitern[key];
+      h += '<div class="lrow"><p class="lname">' + l.label + '<em>' + HINT[key] + '</em></p><div class="lsteps">';
+      STEPS.forEach(function(st){
+        h += '<span class="lstep" style="background:' + l.shades[st] + '" title="' + l.label + ' ' + st + ' · ' + l.shades[st] + '"></span>';
+      });
+      h += '</div></div>';
+    });
+    strip.innerHTML = h;
+  }
+
+  function wire(attr, set){
+    var btns = document.querySelectorAll("[data-" + attr + "]");
+    Array.prototype.forEach.call(btns, function(b){
+      b.setAttribute("aria-pressed", b.classList.contains("is-on") ? "true" : "false");
+      b.addEventListener("click", function(){
+        Array.prototype.forEach.call(btns, function(o){
+          o.classList.remove("is-on"); o.setAttribute("aria-pressed", "false");
+        });
+        b.classList.add("is-on"); b.setAttribute("aria-pressed", "true");
+        set(b.getAttribute("data-" + attr));
+        apply();
+      });
+    });
+  }
+
+  wire("lad", function(v){ curLad = v; });
+  wire("mode", function(v){ curMode = v; });
+  buildStrip();
+  apply();
+})();
+</script>
+
