@@ -23,7 +23,15 @@
       "arena": "apps/theme-configurator/src/components/laboratory/ButtonArena.vue",
       "drupal": [],
       "docs": "docs/button-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "29.09.2026: Token-Gruppe icon-button entfernt — Tokens stehen in der Gruppe icon (SCSS-Abschnitt), doppelte IDs aufgeloest."
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -759,17 +767,6 @@
           "nc-button-fab-shadow-hover"
         ]
       },
-      "icon-button": {
-        "label": "Icon Button",
-        "tokens": [
-          "nc-icon-button-size",
-          "nc-icon-button-padding",
-          "nc-icon-button-radius",
-          "nc-icon-button-bg",
-          "nc-icon-button-bg-hover",
-          "nc-icon-button-color"
-        ]
-      },
       "spinner": {
         "label": "Spinner / Loading",
         "tokens": [
@@ -827,8 +824,14 @@
     }
   },
   "keyboard": {
-    "Enter": { "action": "activate", "note": "Loest den Click-Handler aus." },
-    "Space": { "action": "activate", "note": "Loest den Click-Handler aus. Verhindert Page-Scroll." }
+    "Enter": {
+      "action": "activate",
+      "note": "Loest den Click-Handler aus."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Loest den Click-Handler aus. Verhindert Page-Scroll."
+    }
   },
   "testSelectors": {
     "root": "[data-testid='button']",
@@ -837,7 +840,10 @@
     "spinner": "[data-testid='button-spinner']"
   },
   "events": {
-    "click": { "bubbles": true, "note": "Standard DOM click Event." }
+    "click": {
+      "bubbles": true,
+      "note": "Standard DOM click Event."
+    }
   },
   "specimens": [
     {

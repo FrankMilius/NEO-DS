@@ -184,7 +184,7 @@
   --nc-button-fab-size: 56px;
   --nc-button-fab-radius: var(--fnd-radius-full);
   --nc-button-fab-shadow: var(--fnd-elevation-overlay);
-  --nc-button-fab-shadow-hover: var(--fnd-elevation-navigation);
+  --nc-button-fab-shadow-hover: var(--fnd-elevation-floating);
 
   // -- Disabled State --
   --nc-button-disabled-bg: var(--fnd-color-background-disabled);
@@ -292,7 +292,7 @@
   --nc-card-title-line-height: var(--lh-heading); // kanonisch x1.15 (war 1.3)
 
   // -- Card: Description --
-  --nc-card-description-font-size: var(--fnd-typography-body-m-font-size);
+  --nc-card-description-font-size: var(--fnd-typography-paragraph-m-font-size);
   --nc-card-description-color: var(--fnd-color-text-secondary);
   --nc-card-description-line-height: var(--lh-body); // kanonisch x1.6 (war 1.5)
 
@@ -512,7 +512,7 @@
   --nc-form-label-gap: var(--fnd-spacing-02);                  // 8px gap zum Input
   --nc-form-label-padding-block: 2px;                          // Erweiterter Klickbereich (Fitts' Law)
   --nc-form-label-min-height: 24px;                            // WCAG 2.5.8 Target Size Minimum
-  --nc-form-label-required-color: var(--fnd-color-feedback-danger);
+  --nc-form-label-required-color: var(--fnd-color-text-danger);   // Sternchen ist Schrift: Text-Rolle (AA), nicht feedback 500
   --nc-form-label-optional-color: var(--fnd-color-text-tertiary);
   --nc-form-label-info-color: var(--fnd-color-interactive-default);
 
@@ -594,7 +594,7 @@
 
   // -- Card-Variante --
   --nc-checkbox-card-bg: var(--fnd-color-surface-elevated);
-  --nc-checkbox-card-bg-checked: var(--fnd-color-interactive-subtle);
+  --nc-checkbox-card-bg-checked: var(--fnd-color-background-secondary);
   --nc-checkbox-card-border: var(--fnd-color-border-primary);
   --nc-checkbox-card-border-checked: var(--fnd-color-interactive-default);
   --nc-checkbox-card-border-hover: var(--fnd-color-border-strong);
@@ -637,7 +637,7 @@
 
   // -- Card-Variante --
   --nc-radio-card-bg: var(--fnd-color-surface-elevated);
-  --nc-radio-card-bg-checked: var(--fnd-color-interactive-subtle);
+  --nc-radio-card-bg-checked: var(--fnd-color-background-secondary);
   --nc-radio-card-border: var(--fnd-color-border-primary);
   --nc-radio-card-border-checked: var(--fnd-color-interactive-default);
   --nc-radio-card-border-hover: var(--fnd-color-border-strong);
@@ -752,8 +752,8 @@
   --nc-range-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 
   // -- Floating Tooltip --
-  --nc-range-tooltip-bg: var(--fnd-color-background-inverted);
-  --nc-range-tooltip-color: var(--fnd-color-text-on-inverted);
+  --nc-range-tooltip-bg: var(--fnd-color-background-inverse);
+  --nc-range-tooltip-color: var(--fnd-color-text-inverse);
   --nc-range-tooltip-radius: var(--fnd-radius-sm);
   --nc-range-tooltip-font-size: var(--fs-xs);
   --nc-range-tooltip-padding: var(--fnd-spacing-01) var(--fnd-spacing-02);
@@ -843,7 +843,7 @@
 
   // -- Card-Variante --
   --nc-fieldset-card-bg: var(--fnd-color-background-secondary);
-  --nc-fieldset-card-shadow: var(--fnd-elevation-flat);
+  --nc-fieldset-card-shadow: none;
 
   // -- Density --
   --nc-fieldset-padding-compact: var(--fnd-spacing-04);
@@ -886,7 +886,7 @@
   --nc-dialog-header-border-color: var(--fnd-color-border-secondary);
 
   // Body / Description
-  --nc-dialog-description-font-size: var(--fnd-typography-body-m-font-size);
+  --nc-dialog-description-font-size: var(--fnd-typography-paragraph-m-font-size);
   --nc-dialog-description-color: var(--fnd-color-text-secondary);
 
   // Footer
@@ -931,7 +931,7 @@
   --nc-drawer-title-font-size:  var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size));
   --nc-drawer-title-font-weight: var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold));
   --nc-drawer-title-color:      var(--nc-dialog-title-color, var(--fnd-color-text-primary));
-  --nc-drawer-desc-font-size:   var(--nc-dialog-description-font-size, var(--fnd-typography-body-m-font-size));
+  --nc-drawer-desc-font-size:   var(--nc-dialog-description-font-size, var(--fnd-typography-paragraph-m-font-size));
   --nc-drawer-desc-color:       var(--nc-dialog-description-color, var(--fnd-color-text-secondary));
   --nc-drawer-header-border-color: var(--fnd-color-border-secondary);
 
@@ -1015,11 +1015,11 @@
 
   // Inline-Variante (kein Hintergrund, nur Icon + Text)
   --nc-alert-inline-gap: var(--fnd-spacing-02);
-  --nc-alert-inline-font-size: var(--fnd-typography-body-s-font-size);
+  --nc-alert-inline-font-size: var(--fnd-typography-paragraph-s-font-size);
 
   // Details-Toggle
   --nc-alert-details-margin-top: var(--fnd-spacing-03);
-  --nc-alert-details-font-size: var(--fnd-typography-body-s-font-size);
+  --nc-alert-details-font-size: var(--fnd-typography-paragraph-s-font-size);
 
   // Alert-Dialog Icon (Status-Icon im Header)
   --nc-dialog-icon-size: 24px;
@@ -1121,8 +1121,8 @@
   --nc-accordion-padding-spacious-block:  var(--fnd-spacing-06);
   --nc-accordion-padding-spacious-inline: var(--fnd-spacing-07);
   --nc-accordion-padding-spacious: var(--nc-accordion-padding-spacious-block) var(--nc-accordion-padding-spacious-inline);
-  --nc-accordion-content-font-size: var(--fnd-typography-body-m-font-size);
-  --nc-accordion-content-font-size-compact: var(--fnd-typography-body-s-font-size);
+  --nc-accordion-content-font-size: var(--fnd-typography-paragraph-m-font-size);
+  --nc-accordion-content-font-size-compact: var(--fnd-typography-paragraph-s-font-size);
 
   // Separated & Elevated Varianten
   --nc-accordion-item-gap: var(--fnd-spacing-03);
@@ -2183,7 +2183,7 @@
   --nc-dt-title-font-weight:        var(--fnd-font-weight-semibold);         // ref(card.title.weight)
   --nc-dt-title-color:              var(--fnd-color-text-primary);           // ref(card.title.color)
   --nc-dt-title-line-height:        var(--lh-heading);                       // ref(card.title.lh) x1.15
-  --nc-dt-description-font-size:    var(--fnd-typography-body-m-font-size);
+  --nc-dt-description-font-size:    var(--fnd-typography-paragraph-m-font-size);
   --nc-dt-description-color:        var(--fnd-color-text-secondary);         // ref(card.desc.color)
   --nc-dt-description-line-height:  var(--lh-body);                          // ref(card.desc.lh) x1.6
 }
@@ -2271,7 +2271,7 @@
   --nc-skeleton-radius:         var(--fnd-radius-sm);            // 4px
   --nc-skeleton-radius-circle:  var(--fnd-radius-full);          // 9999px
   --nc-skeleton-duration:       var(--fnd-motion-duration-1000);  // 1s
-  --nc-skeleton-ease:           var(--fnd-motion-ease-ease-in-out);
+  --nc-skeleton-ease:           var(--fnd-motion-ease-focused);
 
   // Groessen
   --nc-skeleton-height-xs:      var(--fnd-spacing-03);           // 12px (Text-Zeile klein)
@@ -2288,8 +2288,8 @@
 :root {
   --nc-spinner-color:           var(--fnd-color-interactive-default);
   --nc-spinner-track-color:     var(--fnd-color-border-secondary);
-  --nc-spinner-duration:        var(--fnd-motion-duration-700);   // 700ms
-  --nc-spinner-ease:            var(--fnd-motion-ease-linear);
+  --nc-spinner-duration:        700ms;   // 700ms
+  --nc-spinner-ease:            var(--fnd-motion-ease-informative);
 
   // Groessen
   --nc-spinner-size-xs:         var(--fnd-spacing-04);           // 16px
@@ -2316,7 +2316,7 @@
   --nc-progress-fill:           var(--fnd-color-interactive-default);
   --nc-progress-radius:         var(--fnd-radius-full);          // Pill
   --nc-progress-transition:     var(--fnd-motion-duration-300);
-  --nc-progress-ease:           var(--fnd-motion-ease-ease-out);
+  --nc-progress-ease:           var(--fnd-motion-ease-expressive);
 
   // Groessen (Balkenhoehe)
   --nc-progress-height-xs:      2px;
@@ -3818,7 +3818,7 @@
   --nc-product-showcase-padding:                var(--fnd-spacing-08);
 
   // Options
-  --nc-product-showcase-option-font-family:     var(--fnd-typography-fonts-heading);
+  --nc-product-showcase-option-font-family:     var(--font-heading);
   --nc-product-showcase-option-font-size:       var(--fs-xl);
   --nc-product-showcase-option-font-weight:     var(--fnd-font-weight-bold);
   --nc-product-showcase-options-align:          center;  // flex-start | center | flex-end
@@ -3829,7 +3829,7 @@
   --nc-product-showcase-option-padding:         var(--fnd-spacing-02) 0;
   --nc-product-showcase-label-family:           var(--font-mono);
   --nc-product-showcase-label-font-size:        var(--nc-mono-label-size);
-  --nc-product-showcase-label-font-family:      var(--fnd-typography-fonts-body);
+  --nc-product-showcase-label-font-family:      var(--font-body);
   --nc-product-showcase-label-color:            var(--fnd-color-text-secondary);
   --nc-product-showcase-indicator-size:         12px;
   --nc-product-showcase-indicator-radius:       var(--fnd-radius-full);
