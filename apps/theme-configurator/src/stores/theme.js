@@ -1110,58 +1110,82 @@ function resetToDefaults() {
 // History (Undo)
 // ---------------------------------------------------------------------------
 
+// Modell (korrigiert 29.09.2026):
+//   pushHistory() wird VOR einer Aenderung aufgerufen und legt den Zustand
+//   davor ab. Der aktuelle Zustand steht deshalb nicht in der History.
+//   historyIndex zeigt auf den Schnappschuss, den das naechste Undo
+//   wiederherstellt (-1 = nichts mehr rueckgaengig zu machen).
+//   Beim ersten Undo an der Spitze wird der aktuelle Zustand nachgetragen,
+//   damit Redo ihn wieder erreicht.
+// Vorher sprang Undo auf history[index-1]: eine einzelne Aenderung liess sich
+// nicht zuruecknehmen, bei mehreren wurde eine uebersprungen, und Redo kam
+// nie beim letzten Stand an.
+
+const HISTORY_KEYS = [
+  'themes', 'foundationOverrides', 'componentOverrides', 'primitiveOverrides',
+  'customFonts', 'focusRingMode', 'componentLocks', 'componentVersions',
+  'variantDefinitions'
+]
+const HISTORY_MAX = 50
+// Aenderungen, die schneller aufeinander folgen (Slider, Farbrad), werden zu
+// EINEM Undo-Schritt zusammengefasst — sonst legt jeder Slider-Tick einen
+// vollstaendigen Schnappschuss an und ein Undo nimmt nur 1 px zurueck.
+const HISTORY_COALESCE_MS = 400
+let lastPushAt = 0
+
+function historySnapshot() {
+  const snap = {}
+  for (const key of HISTORY_KEYS) snap[key] = state[key]
+  return deepClone(snap)
+}
+
+function applyHistorySnapshot(snapshot) {
+  for (const key of HISTORY_KEYS) {
+    if (snapshot[key] !== undefined) Object.assign(state[key], deepClone(snapshot[key]))
+  }
+}
+
 function pushHistory() {
-  const snapshot = deepClone({
-    themes: state.themes,
-    foundationOverrides: state.foundationOverrides,
-    componentOverrides: state.componentOverrides,
-    primitiveOverrides: state.primitiveOverrides,
-    customFonts: state.customFonts,
-    focusRingMode: state.focusRingMode,
-    componentLocks: state.componentLocks,
-    componentVersions: state.componentVersions,
-    variantDefinitions: state.variantDefinitions
-  })
+  const now = Date.now()
+  const atTip = state.historyIndex === state.history.length - 1
+  if (atTip && state.history.length && now - lastPushAt < HISTORY_COALESCE_MS) {
+    lastPushAt = now
+    return
+  }
+  lastPushAt = now
   state.history = state.history.slice(0, state.historyIndex + 1)
-  state.history.push(snapshot)
+  state.history.push(historySnapshot())
   state.historyIndex = state.history.length - 1
-  // Keep max 50 entries
-  if (state.history.length > 50) {
+  if (state.history.length > HISTORY_MAX) {
     state.history.shift()
     state.historyIndex--
   }
 }
 
+function canUndo() {
+  return state.historyIndex >= 0
+}
+
+function canRedo() {
+  return state.historyIndex + 2 <= state.history.length - 1
+}
+
 function undo() {
-  if (state.historyIndex > 0) {
-    state.historyIndex--
-    const snapshot = state.history[state.historyIndex]
-    Object.assign(state.themes, deepClone(snapshot.themes))
-    Object.assign(state.foundationOverrides, deepClone(snapshot.foundationOverrides))
-    Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
-    Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
-    if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
-    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
-    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
-    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
-    if (snapshot.variantDefinitions) Object.assign(state.variantDefinitions, deepClone(snapshot.variantDefinitions))
+  if (!canUndo()) return
+  if (state.historyIndex === state.history.length - 1) {
+    // An der Spitze: aktuellen Zustand sichern, damit Redo ihn erreicht.
+    state.history.push(historySnapshot())
   }
+  applyHistorySnapshot(state.history[state.historyIndex])
+  state.historyIndex--
+  lastPushAt = 0
 }
 
 function redo() {
-  if (state.historyIndex < state.history.length - 1) {
-    state.historyIndex++
-    const snapshot = state.history[state.historyIndex]
-    Object.assign(state.themes, deepClone(snapshot.themes))
-    Object.assign(state.foundationOverrides, deepClone(snapshot.foundationOverrides))
-    Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
-    Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
-    if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
-    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
-    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
-    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
-    if (snapshot.variantDefinitions) Object.assign(state.variantDefinitions, deepClone(snapshot.variantDefinitions))
-  }
+  if (!canRedo()) return
+  applyHistorySnapshot(state.history[state.historyIndex + 2])
+  state.historyIndex++
+  lastPushAt = 0
 }
 
 // ---------------------------------------------------------------------------
@@ -2170,6 +2194,8 @@ export function useThemeStore() {
     resetToDefaults,
     undo,
     redo,
+    canUndo,
+    canRedo,
     // Theme Management
     createTheme,
     saveCurrentTheme,

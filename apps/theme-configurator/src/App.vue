@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useThemeStore } from './stores/theme.js'
 import { useStyleguideSync } from './stores/styleguide-sync.js'
 import AppHeader from './components/layout/AppHeader.vue'
@@ -37,26 +37,39 @@ function toggleSidebar () {
   localStorage.setItem(SIDEBAR_KEY, sidebarCollapsed.value)
 }
 
+// In Eingabefeldern gehoert Cmd+Z dem Browser (Text-Undo), nicht dem Theme.
+function isTextInput (el) {
+  if (!el) return false
+  const tag = el.tagName
+  if (el.isContentEditable || tag === 'TEXTAREA' || tag === 'SELECT') return true
+  if (tag !== 'INPUT') return false
+  return !['checkbox', 'radio', 'range', 'color', 'button', 'submit'].includes(el.type)
+}
+
+function onKeydown (e) {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !isTextInput(e.target)) {
+    e.preventDefault()
+    if (e.shiftKey) {
+      store.redo()
+    } else {
+      store.undo()
+    }
+  }
+  // Toggle Sidebar: Ctrl+B (wie VS Code)
+  if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+    e.preventDefault()
+    toggleSidebar()
+  }
+}
+
 onMounted(() => {
   store.loadFromStorage()
   sync.fetchExistingPalettes()
+  window.addEventListener('keydown', onKeydown)
+})
 
-  // Keyboard shortcuts
-  window.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
-      e.preventDefault()
-      if (e.shiftKey) {
-        store.redo()
-      } else {
-        store.undo()
-      }
-    }
-    // Toggle Sidebar: Ctrl+B (wie VS Code)
-    if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
-      e.preventDefault()
-      toggleSidebar()
-    }
-  })
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKeydown)
 })
 </script>
 

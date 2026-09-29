@@ -18,6 +18,8 @@ vi.mock('../../src/stores/theme.js', () => ({
     },
     undo: vi.fn(),
     redo: vi.fn(),
+    canUndo: vi.fn(() => false),
+    canRedo: vi.fn(() => false),
     loadNeoDefaults: vi.fn(),
     loadTheme: vi.fn(),
     createTheme: vi.fn(),

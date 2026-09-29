@@ -125,7 +125,7 @@
         <button
           class="tb-btn"
           @click="store.undo()"
-          :disabled="store.state.historyIndex <= 0"
+          :disabled="!store.canUndo()"
           title="Undo (Ctrl+Z)"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,7 +135,7 @@
         <button
           class="tb-btn"
           @click="store.redo()"
-          :disabled="store.state.historyIndex >= store.state.history.length - 1"
+          :disabled="!store.canRedo()"
           title="Redo (Ctrl+Shift+Z)"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

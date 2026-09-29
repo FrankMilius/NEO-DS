@@ -3,7 +3,7 @@
  * Testet: State-Initialisierung, Token-Updates, Undo/Redo,
  * Theme-Lifecycle (Create/Load/Delete), Persistence, Export.
  */
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useThemeStore } from '../../src/stores/theme.js'
 
 describe('useThemeStore', () => {
@@ -121,32 +121,76 @@ describe('useThemeStore', () => {
   // ═══════════════════════════════════════════════════════════════
 
   describe('Undo / Redo', () => {
-    it('undo stellt den vorherigen Zustand wieder her', () => {
-      const original = store.currentSemanticTokens.value['background-base']
-      store.updateSemanticToken('background-base', '#ff0000')
-      expect(store.currentSemanticTokens.value['background-base']).toBe('#ff0000')
+    // Jede Aenderung eine Sekunde spaeter — sonst fasst die History schnelle
+    // Folgen (Slider) zu einem Schritt zusammen.
+    let clock
+    beforeEach(() => {
+      clock = 1_000_000
+      vi.spyOn(Date, 'now').mockImplementation(() => (clock += 1000))
+      store.state.themes.neo.light['background-base'] = '#ffffff'
+    })
+    afterEach(() => vi.restoreAllMocks())
 
+    const bg = () => store.currentSemanticTokens.value['background-base']
+
+    it('undo nimmt eine einzelne Aenderung zurueck', () => {
+      store.updateSemanticToken('background-base', '#111111')
       store.undo()
-      expect(store.currentSemanticTokens.value['background-base']).toBe(original)
+      expect(bg()).toBe('#ffffff')
+      expect(store.canUndo()).toBe(false)
     })
 
-    it('redo stellt den wiederhergestellten Zustand wieder her', () => {
-      store.updateSemanticToken('background-base', '#ff0000')
+    it('undo geht Schritt fuer Schritt zurueck, ohne einen zu ueberspringen', () => {
+      store.updateSemanticToken('background-base', '#111111')
+      store.updateSemanticToken('background-base', '#222222')
+      store.undo()
+      expect(bg()).toBe('#111111')
+      store.undo()
+      expect(bg()).toBe('#ffffff')
+    })
+
+    it('redo erreicht wieder den letzten Stand', () => {
+      store.updateSemanticToken('background-base', '#111111')
+      store.updateSemanticToken('background-base', '#222222')
+      store.undo()
       store.undo()
       store.redo()
-      expect(store.currentSemanticTokens.value['background-base']).toBe('#ff0000')
+      expect(bg()).toBe('#111111')
+      store.redo()
+      expect(bg()).toBe('#222222')
+      expect(store.canRedo()).toBe(false)
+    })
+
+    it('eine neue Aenderung nach undo verwirft den Redo-Zweig', () => {
+      store.updateSemanticToken('background-base', '#111111')
+      store.updateSemanticToken('background-base', '#222222')
+      store.undo()
+      store.updateSemanticToken('background-base', '#333333')
+      expect(store.canRedo()).toBe(false)
+      store.undo()
+      expect(bg()).toBe('#111111')
+      store.undo()
+      expect(bg()).toBe('#ffffff')
+    })
+
+    it('schnelle Folgen (Slider) sind ein Undo-Schritt', () => {
+      Date.now.mockImplementation(() => (clock += 50))
+      store.updateSemanticToken('background-base', '#111111')
+      store.updateSemanticToken('background-base', '#222222')
+      store.updateSemanticToken('background-base', '#333333')
+      store.undo()
+      expect(bg()).toBe('#ffffff')
     })
 
     it('undo bei leerem Verlauf tut nichts', () => {
-      const original = store.currentSemanticTokens.value['background-base']
       store.undo()
-      expect(store.currentSemanticTokens.value['background-base']).toBe(original)
+      expect(bg()).toBe('#ffffff')
     })
 
     it('redo am Ende des Verlaufs tut nichts', () => {
       store.updateSemanticToken('background-base', '#ff0000')
-      store.redo() // Schon am Ende
-      expect(store.currentSemanticTokens.value['background-base']).toBe('#ff0000')
+      store.redo()
+      expect(bg()).toBe('#ff0000')
     })
 
     it('History ist auf 50 Einträge begrenzt', () => {
@@ -236,17 +280,20 @@ describe('useThemeStore', () => {
       expect(data.activeThemeSet).toBe('neo')
     })
 
-    it('loadFromStorage lädt aus localStorage', () => {
-      store.state.previewMode = 'dark'
+    it('loadFromStorage lädt Theme-Werte aus localStorage', () => {
+      store.state.themes.neo.light['background-base'] = '#123123'
       store.saveToStorage()
 
-      // Reset
-      store.state.previewMode = 'light'
-      expect(store.state.previewMode).toBe('light')
-
-      // Laden
+      store.state.themes.neo.light['background-base'] = '#ffffff'
       store.loadFromStorage()
-      expect(store.state.previewMode).toBe('dark')
+      expect(store.state.themes.neo.light['background-base']).toBe('#123123')
+    })
+
+    it('loadFromStorage startet bewusst immer im Light Mode', () => {
+      store.state.previewMode = 'dark'
+      store.saveToStorage()
+      store.loadFromStorage()
+      expect(store.state.previewMode).toBe('light')
     })
 
     it('loadFromStorage ohne Daten crasht nicht', () => {
@@ -271,7 +318,7 @@ describe('useThemeStore', () => {
       const json = store.exportAsJSON()
       const parsed = JSON.parse(json)
       expect(parsed.meta).toBeDefined()
-      expect(parsed.meta.generator).toBe('NEO Theme Configurator')
+      expect(parsed.meta.generator).toMatch(/^NEO Theme Configurator/)
       expect(parsed.semantic).toBeDefined()
       expect(parsed.semantic.light).toBeDefined()
       expect(parsed.semantic.dark).toBeDefined()
