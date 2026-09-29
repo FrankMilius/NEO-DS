@@ -132,6 +132,19 @@ for (const [name, stufen] of Object.entries(LEITERN)) {
   neu.neutralleitern[name] = palette(name, stufen);
 }
 
+// Markenpaletten, die Stufe fuer Stufe einer Leiter entsprechen, tragen einen
+// Verweis darauf (P1.1, 29.09.2026). Seit $accent in der SCSS r.$lime IST
+// (wie $primary/$secondary r.$graphit), sind die Werte keine Kopie mehr,
+// sondern dieselbe Leiter. `alias` sagt das ausdruecklich; der DTCG-Export
+// macht daraus {primitives.neutralleitern.<name>.<stufe>}.
+// Ein Kunden-Build (eigene Farben) erzeugt Skalen, die keiner Leiter gleichen —
+// dann entfaellt der Verweis von selbst.
+for (const p of Object.values(neu.brand)) {
+  const treffer = Object.entries(neu.neutralleitern)
+    .find(([, l]) => JSON.stringify(l.shades) === JSON.stringify(p.shades));
+  if (treffer) p.alias = `{primitives.neutralleitern.${treffer[0]}}`;
+}
+
 // ─── Vergleichen ──────────────────────────────────────────────────────
 const registry = JSON.parse(fs.readFileSync(REGISTRY, 'utf8'));
 const alt = registry.primitives ?? {};

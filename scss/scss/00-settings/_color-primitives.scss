@@ -81,7 +81,18 @@ $secondary: if(
 ) !default;
 
 /// Accent Palette (Neo Lime / Customer Accent)
-$accent: fn.generate-shade-scale($_accent-base) !default;
+///
+/// LIME-LEITER STATT ERRECHNETER SKALA — Entscheidung vom 29.09.2026 (P1.1).
+/// Bis dahin gab es zwei Lime-Skalen: diese hier, per generate-shade-scale()
+/// aus #37e93d gemischt, und die handgepflegte Leiter r.$lime, aus der die
+/// Bruecke --fnd-accent-* bedient. Nur Stufe 500 war gleich; der Konfigurator
+/// (brand.accent) zeigte die errechnete, die Oberflaeche die Leiter.
+/// Wie bei $primary gilt: NEO-Vorgabe ist die Leiter, nur eine eigene
+/// Kundenfarbe bekommt eine erzeugte Skala.
+$accent: if(
+  sass($brand-source == 'customer' and $customer-accent-base != null): fn.generate-shade-scale($_accent-base);
+  else: r.$lime
+) !default;
 
 // ---------------------------------------------------------------------------
 // Foundation Colors (Black / White mit Transparenz-Skala 10–100%)
