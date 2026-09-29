@@ -47,6 +47,12 @@ if echo "$STAGED" | grep -qE '^(data/design-tokens\.json|scss/scss/00-settings/|
   fi
 fi
 
+# --- 1b. Docs: Seite muss aus ihrer Inhaltsdatei entstehen ------------------
+if echo "$STAGED" | grep -qE '^docs/(content/|_template\.html|_pages\.json|[a-z0-9-]+-docs\.html$)'; then
+  echo "▸ Docs: Seiten == Inhaltsdateien"
+  node scripts/build-docs.cjs --check || FEHLER=1
+fi
+
 # --- 2. Konfig-App --------------------------------------------------------
 APP_FILES=$(echo "$STAGED" | grep -E '^apps/theme-configurator/(src|tests)/.*\.(js|vue)$' | sed 's#^apps/theme-configurator/##')
 if [ -n "$APP_FILES" ]; then

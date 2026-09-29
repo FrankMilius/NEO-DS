@@ -9,6 +9,12 @@
 //   node scripts/build-docs.cjs          Build alle Seiten
 //   node scripts/build-docs.cjs --watch  Watch-Modus
 //   node scripts/build-docs.cjs --extract  Extrahiere Content aus bestehenden HTML-Dateien
+//   ... --only=a,b      nur diese Seiten (Build und Extract)
+//   ... --extract --force   vorhandene Inhaltsdatei ueberschreiben (Seite -> Quelle)
+//   node scripts/build-docs.cjs --check    Exit 1, wenn eine fertige Seite nicht
+//                                          mehr aus ihrer Inhaltsdatei entsteht
+//                                          (= von Hand geaendert, Entscheidung
+//                                          29.09.2026: Inhaltsdatei ist die Quelle)
 // ==========================================================================
 
 'use strict';
@@ -20,6 +26,11 @@ const DOCS_DIR = path.join(__dirname, '..', 'docs');
 const CONTENT_DIR = path.join(DOCS_DIR, 'content');
 const TEMPLATE_PATH = path.join(DOCS_DIR, '_template.html');
 const PAGES_PATH = path.join(DOCS_DIR, '_pages.json');
+
+const ARGS = process.argv.slice(2);
+const ONLY = (ARGS.find((a) => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean);
+const FORCE = ARGS.includes('--force');
+const auswahl = (pages) => (ONLY.length ? pages.filter((p) => ONLY.includes(p.slug)) : pages);
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -90,7 +101,10 @@ function extractContent(page) {
       const tail = afterToggle[afterToggle.length - 1];
       const scriptMatches = tail.match(/<script[^>]*src="[^"]*"[^>]*><\/script>/g);
       if (scriptMatches) {
-        scripts = scriptMatches.map(s => '  ' + s).join('\n');
+        // Skripte, die die Vorlage schon laedt, nicht doppelt uebernehmen —
+        // sonst binden docs-tabs/docs-toc ihre Handler zweimal.
+        const vorlage = readFile(TEMPLATE_PATH);
+        scripts = scriptMatches.filter(s => !vorlage.includes(s)).map(s => '  ' + s).join('\n');
       }
     }
   }
@@ -119,11 +133,11 @@ function runExtract() {
   let extracted = 0;
   let skipped = 0;
 
-  for (const page of pages) {
+  for (const page of auswahl(pages)) {
     const contentFile = path.join(CONTENT_DIR, `${page.slug}.html`);
 
-    // Nicht überschreiben wenn Content-Fragment bereits existiert
-    if (fileExists(contentFile)) {
+    // Nicht überschreiben wenn Content-Fragment bereits existiert (ausser --force)
+    if (fileExists(contentFile) && !FORCE) {
       console.log(`  EXISTS: ${page.slug}.html (übersprungen)`);
       skipped++;
       continue;
@@ -157,7 +171,7 @@ function runExtract() {
 // Build: Generiere HTML aus Template + Content-Fragmenten
 // ---------------------------------------------------------------------------
 
-function buildPage(page, template) {
+function renderPage(page, template) {
   const slug = page.slug;
   const contentFile = path.join(CONTENT_DIR, `${slug}.html`);
 
@@ -202,12 +216,19 @@ function buildPage(page, template) {
     .replace('{{body}}', body)
     .replace('{{scripts}}', scripts);
 
-  // Ausgabe-Datei
-  const outFile = slug === 'index'
+  return html;
+}
+
+function ausgabeDatei(slug) {
+  return slug === 'index'
     ? path.join(DOCS_DIR, 'index.html')
     : path.join(DOCS_DIR, `${slug}-docs.html`);
+}
 
-  writeFile(outFile, html);
+function buildPage(page, template) {
+  const html = renderPage(page, template);
+  if (html === false) return false;
+  writeFile(ausgabeDatei(page.slug), html);
   return true;
 }
 
@@ -218,7 +239,7 @@ function runBuild() {
   let built = 0;
   let skipped = 0;
 
-  for (const page of pages) {
+  for (const page of auswahl(pages)) {
     if (buildPage(page, template)) {
       console.log(`  BUILD: ${page.slug}-docs.html`);
       built++;
@@ -277,9 +298,31 @@ function runWatch() {
 // CLI
 // ---------------------------------------------------------------------------
 
-const args = process.argv.slice(2);
+function runCheck() {
+  const pages = JSON.parse(readFile(PAGES_PATH));
+  const template = readFile(TEMPLATE_PATH);
+  const abweichend = [];
+  for (const page of auswahl(pages)) {
+    const html = renderPage(page, template);
+    const datei = ausgabeDatei(page.slug);
+    if (html === false) { abweichend.push(path.basename(datei) + ' (Inhaltsdatei fehlt oder unvollstaendig)'); continue; }
+    if (!fileExists(datei) || readFile(datei) !== html) abweichend.push(path.basename(datei));
+  }
+  if (abweichend.length) {
+    console.error(`  ✗ ${abweichend.length} Seite(n) entstehen nicht aus ihrer Inhaltsdatei:`);
+    console.error('    ' + abweichend.join('\n    '));
+    console.error('  → Aenderung in docs/content/<slug>.html machen und `npm run docs:build`,');
+    console.error('    oder den Stand der Seite uebernehmen: node scripts/build-docs.cjs --extract --force --only=<slug>');
+    process.exit(1);
+  }
+  console.log('  ✓ Alle Docs-Seiten entstehen aus ihren Inhaltsdateien.');
+}
 
-if (args.includes('--extract')) {
+const args = ARGS;
+
+if (args.includes('--check')) {
+  runCheck();
+} else if (args.includes('--extract')) {
   console.log('Extracting content fragments from existing HTML files...\n');
   runExtract();
 } else if (args.includes('--watch')) {
