@@ -18,7 +18,7 @@
 /// @param {Number} $base [16] - Base font size
 /// @return {Number} Rem value
 @function rem($px, $base: 16) {
-  @return ($px / $base) * 1rem;
+  @return math.div($px, $base) * 1rem;
 }
 
 /// Convert px to em
@@ -26,7 +26,7 @@
 /// @param {Number} $base [16] - Base font size
 /// @return {Number} Em value
 @function em($px, $base: 16) {
-  @return ($px / $base) * 1em;
+  @return math.div($px, $base) * 1em;
 }
 
 // ---------------------------------------------------------------------------
