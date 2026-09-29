@@ -61,7 +61,7 @@ ersetze_muster(r'<div><dt>Version</dt><dd>\d+</dd></div>',
                '<div><dt>Fassung</dt><dd>Erster Entwurf</dd></div>', "Versionsfeld")
 
 # ══ 2 · Versionshistorie ═════════════════════════════════════════════
-schneide('<p><b>Änderungen 011 → 012:</b>',
+schneide('<p><b>Änderungen 012 → 013:</b>',
          '<p>Dieses Dokument folgt den Regeln, die es beschreibt', "Fussnoten-Historie")
 rep(NOTIZ_12, "")
 # ══ 2b · Fassungshinweise aus 010 ════════════════════════════════════
@@ -136,6 +136,6 @@ if fehler:
 
 D.joinpath("brand-oeffentlich.html").write_text(s)
 print(f"  {getan} Eingriffe · {ausgang} → {len(s)} Zeichen")
-for w in ["ich ", "mein", "Mein", "Änderungen 0", "Version 00", "Living Document", "in 010", "Fassung 010", "in 011", "seit 011", "Bis 010", "seit 012", "bis 011", "in 012"]:
+for w in ["ich ", "mein", "Mein", "Änderungen 0", "Version 00", "Living Document", "in 010", "Fassung 010", "in 011", "seit 011", "Bis 010", "seit 012", "bis 011", "in 012", "seit 013", "in 013", "bis 012"]:
     n = s.count(w)
     print(f"  Rest {w!r}: {n}")
