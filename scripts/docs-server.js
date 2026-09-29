@@ -23,6 +23,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
+// Nur lokal erreichbar (Entscheidung 29.09.2026). Der Server schreibt ins
+// Repo (custom-theme.json, _color-primitives.scss, Docs) — vorher lauschte er
+// auf allen Netzwerk-Interfaces mit CORS *, d. h. jede Webseite im Browser
+// und jeder Rechner im LAN konnte diese Endpunkte aufrufen.
+const HOST = process.env.HOST || '127.0.0.1';
+const MAX_BODY = 2 * 1024 * 1024; // 2 MB reichen fuer jedes Theme
+
+// Erlaubte Herkunft: nur localhost / 127.0.0.1, beliebiger Port (Vite 5173 usw.)
+const LOKAL_ORIGIN = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+// Host-Kopf pruefen gegen DNS-Rebinding (fremde Domain, die auf 127.0.0.1 zeigt)
+const LOKAL_HOST = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+
+// Namen und Werte, die in CSS geschrieben werden: nur harmlose Zeichen.
+const CSS_NAME = /^[a-z0-9][a-z0-9-]{0,80}$/i;
+function pruefeCssName(name, wo) {
+  if (!CSS_NAME.test(name)) throw new Error('Ungueltiger Name in ' + wo + ': ' + String(name).slice(0, 40));
+}
+function pruefeCssWert(wert, wo) {
+  if (typeof wert === 'number') return;
+  if (typeof wert !== 'string' || wert.length > 200 || /[;{}<>\n\r\\]|\/\*|\*\//.test(wert)) {
+    throw new Error('Ungueltiger Wert in ' + wo);
+  }
+}
 const ROOT = path.resolve(__dirname, '..');
 const THEME_FILE = path.join(ROOT, 'website', 'data', 'custom-theme.json');
 
@@ -42,10 +65,37 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
-  // ---- CORS Headers (for local dev) ----
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // ---- Herkunft pruefen ----
+  if (!LOKAL_HOST.test(req.headers.host || '')) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('Forbidden: nur ueber localhost erreichbar');
+    return;
+  }
+  const origin = req.headers.origin;
+  if (origin && LOKAL_ORIGIN.test(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  }
+  if (req.method === 'POST') {
+    // Schreibende Aufrufe nur von lokalen Seiten (ohne Origin: curl, Skripte)
+    if (origin && !LOKAL_ORIGIN.test(origin)) {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'error', message: 'Origin nicht erlaubt' }));
+      return;
+    }
+    // Groessenlimit: grosse Koerper abbrechen, bevor sie im Speicher landen
+    let groesse = 0;
+    req.on('data', (chunk) => {
+      groesse += chunk.length;
+      if (groesse > MAX_BODY && !res.headersSent) {
+        res.writeHead(413, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', message: 'Anfrage zu gross' }));
+        req.destroy();
+      }
+    });
+  }
 
   // ---- Cache Control (dev mode: no caching for HTML/JS/CSS) ----
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -87,7 +137,10 @@ const server = http.createServer((req, res) => {
             if (typeof tokens !== 'object' || tokens === null) {
               throw new Error('semantic.' + variant + ' must be an object');
             }
+            pruefeCssName(variant, 'semantic');
             for (const [id, val] of Object.entries(tokens)) {
+              pruefeCssName(id, 'semantic.' + variant);
+              pruefeCssWert(val, 'semantic.' + variant + '.' + id);
               if (typeof val === 'string' && val.startsWith('#') && !HEX_RE.test(val)) {
                 throw new Error('Invalid hex in semantic.' + variant + '.' + id + ': ' + val);
               }
@@ -101,6 +154,8 @@ const server = http.createServer((req, res) => {
             throw new Error('components must be an object');
           }
           for (const [id, val] of Object.entries(json.components)) {
+            pruefeCssName(id, 'components');
+            pruefeCssWert(val, 'components.' + id);
             if (typeof val === 'string' && val.startsWith('#') && !HEX_RE.test(val)) {
               throw new Error('Invalid hex in components.' + id + ': ' + val);
             }
@@ -111,6 +166,15 @@ const server = http.createServer((req, res) => {
         if (json.foundation) {
           if (typeof json.foundation !== 'object' || json.foundation === null) {
             throw new Error('foundation must be an object');
+          }
+          for (const [category, tokens] of Object.entries(json.foundation)) {
+            if (typeof tokens !== 'object' || tokens === null) continue;
+            pruefeCssName(category, 'foundation');
+            for (const [key, val] of Object.entries(tokens)) {
+              if (val === undefined || val === null) continue;
+              pruefeCssName(key, 'foundation.' + category);
+              pruefeCssWert(val, 'foundation.' + category + '.' + key);
+            }
           }
         }
 
@@ -512,8 +576,10 @@ const server = http.createServer((req, res) => {
 
   let filePath = path.join(ROOT, urlPath);
 
-  // Security: prevent directory traversal
-  if (!filePath.startsWith(ROOT)) {
+  // Security: prevent directory traversal — und keine versteckten Pfade
+  // (.git, .env, .claude ...) ausliefern.
+  const segmente = path.relative(ROOT, filePath).split(path.sep);
+  if ((filePath !== ROOT && !filePath.startsWith(ROOT + path.sep)) || segmente.some((seg) => seg.startsWith('.'))) {
     res.writeHead(403);
     res.end('Forbidden');
     return;
@@ -560,7 +626,7 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, HOST, () => {
   console.log('\n  Design System Docs Server');
   console.log('  ========================\n');
   console.log('  URL:      http://localhost:' + PORT + '/docs/');

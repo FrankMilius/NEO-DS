@@ -83,7 +83,9 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        // 127.0.0.1 statt localhost: der Docs-Server lauscht nur auf IPv4-
+        // Loopback; localhost loest unter macOS zuerst zu ::1 auf.
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true
       }
     }
