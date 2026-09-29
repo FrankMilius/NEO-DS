@@ -1,0 +1,136 @@
+NEO — Schriften für Desktop und Microsoft Office
+================================================
+
+Erzeugt mit scripts/build-desktop-fonts.py aus den Variable-Fonts von
+github.com/google/fonts. Diese Dateien ersetzen NICHT die woff2-Dateien in
+fonts/ — die bleiben für die Website zuständig. Beide stammen aus derselben
+Quelle und derselben Version, damit Bildschirm und Dokument identisch setzen.
+
+
+1. Was hier liegt
+-----------------
+
+Manrope — Fließtext, Tabellen, Formulare
+  Manrope-Regular.ttf                Familie "Manrope", Stil Regular
+  Manrope-Bold.ttf                   Familie "Manrope", Stil Fett
+  ManropeMedium-Regular.ttf          eigene Familie "Manrope Medium"
+  ManropeSemiBold-Regular.ttf        eigene Familie "Manrope SemiBold"
+  ManropeExtraBold-Regular.ttf       eigene Familie "Manrope ExtraBold"
+
+Space Grotesk — Überschriften, Titelfolien, Auszeichnung
+  SpaceGrotesk-Regular.ttf           Familie "Space Grotesk", Stil Regular
+  SpaceGrotesk-Bold.ttf              Familie "Space Grotesk", Stil Fett
+  SpaceGroteskLight-Regular.ttf      eigene Familie "Space Grotesk Light"
+  SpaceGroteskMedium-Regular.ttf     eigene Familie "Space Grotesk Medium"
+  SpaceGroteskSemiBold-Regular.ttf   eigene Familie "Space Grotesk SemiBold"
+
+JetBrains Mono — Code, Kennzahlen, technische Angaben
+  JetBrainsMono-Regular.ttf          Familie "JetBrains Mono", Stil Regular
+  JetBrainsMono-Bold.ttf             Familie "JetBrains Mono", Stil Fett
+  JetBrainsMono-Italic.ttf           Familie "JetBrains Mono", Stil Kursiv
+  JetBrainsMono-BoldItalic.ttf       Familie "JetBrains Mono", Fett Kursiv
+
+
+2. Warum manche Gewichte eigene Familien sind
+---------------------------------------------
+
+Das Windows-Schriftmodell kennt pro Familie nur vier Stile: Regular, Fett,
+Kursiv, Fett Kursiv. Alles darüber hinaus muss als eigene Familie auftreten,
+sonst bietet Word es nicht an.
+
+Im Word-Schriftmenü stehen deshalb "Manrope" und "Manrope SemiBold"
+nebeneinander. Das ist kein Fehler. Der Fett-Knopf innerhalb von "Manrope"
+schaltet auf 700, für 500 oder 600 wählt man die jeweilige Familie.
+
+Die typografischen Namen (nameID 16/17) verweisen in allen Dateien auf die
+Basisfamilie. InDesign, Illustrator und Figma gruppieren die Schnitte deshalb
+korrekt unter einem Eintrag.
+
+
+3. Installation
+---------------
+
+Windows
+  Alle .ttf markieren, Rechtsklick, "Für alle Benutzer installieren".
+  Im Unternehmen besser zentral: Intune Win32-App oder GPO-Verteilung nach
+  C:\Windows\Fonts. Office muss danach neu gestartet werden.
+
+macOS
+  Alle .ttf markieren, doppelklicken, im Schriftsammlung-Fenster
+  "Installieren". Für alle Benutzer: nach /Library/Fonts kopieren.
+
+Wichtig: Vorher etwaige alte Manrope- oder Space-Grotesk-Installationen
+entfernen. Zwei Versionen derselben Familie führen zu wechselnden
+Zeilenumbrüchen zwischen Rechnern.
+
+
+4. Wenn der Empfänger die Schriften nicht hat
+---------------------------------------------
+
+Regelfall: Angebote und Dokumentationen werden als PDF versendet. Dann ist
+die Frage gegenstandslos, weil die Schriften im PDF eingebettet sind.
+
+Muss die Datei bearbeitbar bleiben, Schrifteinbettung aktivieren:
+  Word:       Datei > Optionen > Speichern > "Schriftarten in der Datei
+              einbetten" + "Nur die im Dokument verwendeten Zeichen einbetten"
+  PowerPoint: Datei > Optionen > Speichern > gleiche Option
+
+Das ist lizenzrechtlich zulässig: alle drei Familien haben fsType 0
+(Installable Embedding, keine Einschränkung).
+
+Ersatzkaskade, falls weder Installation noch Einbettung greift — in dieser
+Reihenfolge in den Vorlagen hinterlegen:
+  Manrope        -> Aptos -> Segoe UI -> Helvetica Neue -> Arial
+  Space Grotesk  -> Aptos Display -> Segoe UI -> Helvetica Neue -> Arial
+  JetBrains Mono -> Consolas -> Menlo -> Courier New
+
+Die Ersatzschriften laufen breiter als Manrope. Layouts, die auf die letzte
+Zeile passen, kippen dann um. Deshalb: kein Angebot als .docx versenden.
+
+
+5. Kein Kursivschnitt in Manrope und Space Grotesk
+--------------------------------------------------
+
+Beide Familien haben keinen echten Kursivschnitt — es gibt ihn upstream nicht.
+Word und PowerPoint stellen den Text bei Klick auf "Kursiv" künstlich schräg.
+Das Ergebnis ist erkennbar schlechter als eine echte Kursive.
+
+Regel für die Vorlagen: Auszeichnung im Fließtext über Manrope SemiBold statt
+über Kursiv. Wo Kursivierung inhaltlich zwingend ist — Werktitel, Zitate,
+fremdsprachige Begriffe — JetBrains Mono Italic verwenden oder die Auszeichnung
+umformulieren. Das gehört als Absatz in das Typografie-Kapitel des Styleguides.
+
+
+6. Gewicht 900
+--------------
+
+Das Token --fnd-font-weight-black: 900 liegt über der Achse aller drei
+Familien (Manrope endet bei 800, Space Grotesk bei 700). Es existiert weder
+als Webschnitt noch hier. Nicht in Vorlagen verwenden; die schwerste
+verfügbare Stufe ist Manrope ExtraBold 800.
+
+
+7. Lizenz
+---------
+
+Alle drei Familien stehen unter der SIL Open Font License 1.1, ohne Reserved
+Font Name. Instanzieren und Weitergeben unter dem Originalnamen ist damit
+zulässig. Die Lizenztexte liegen daneben und müssen bei jeder Weitergabe
+mitgeliefert werden:
+
+  OFL-Manrope.txt
+  OFL-SpaceGrotesk.txt
+  OFL-JetBrainsMono.txt
+
+Weitergabe an Agenturen, Druckereien und Dienstleister ist erlaubt. Verkauf
+der Schriften als solche ist es nicht.
+
+
+8. Neu bauen
+------------
+
+  python3 scripts/build-desktop-fonts.py
+
+Lädt die Quellen nach .cache/fontsrc/ und schreibt dieses Verzeichnis neu.
+Nach jedem Update der Webschriften ebenfalls ausführen, sonst laufen Web- und
+Dokumentversion auseinander.
