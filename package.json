@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "tokens": "node scripts/primitives-aus-quelle.cjs --schreiben && node scripts/semantik-aus-bruecke.cjs --schreiben && node scripts/generate-tokens.cjs",
+    "tokens": "node scripts/primitives-aus-quelle.cjs --schreiben && node scripts/semantik-aus-bruecke.cjs --schreiben && node scripts/generate-tokens.cjs && node scripts/export-dtcg.cjs",
+    "tokens:dtcg": "node scripts/export-dtcg.cjs",
+    "tokens:dtcg:check": "node scripts/export-dtcg.cjs --pruefen && node scripts/pruefe-dtcg.mjs",
+    "tokens:dtcg:css": "node scripts/pruefe-dtcg.mjs --css",
     "hooks:install": "git config core.hooksPath .githooks && echo '✓ Git-Hooks aktiv (.githooks)'",
     "tokens:semantik": "node scripts/semantik-aus-bruecke.cjs",
     "tokens:semantik:check": "node scripts/semantik-aus-bruecke.cjs --pruefen",
@@ -121,6 +124,7 @@
     "prismjs": "^1.30.0",
     "sass": "^1.95.0",
     "storybook": "8.6.18",
+    "style-dictionary": "^5.5.5",
     "vitest": "^4.1.1"
   }
 }

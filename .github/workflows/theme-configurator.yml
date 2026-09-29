@@ -48,6 +48,8 @@ jobs:
         run: npm run build:css
       - name: JSON-Semantik == _mono-bridge.scss
         run: npm run tokens:semantik:check
+      - name: DTCG-Export aktuell und verlustfrei (Style Dictionary)
+        run: npm run tokens:dtcg:check
       - name: Generat aktuell (tokens.generated.js)
         run: |
           node scripts/generate-tokens.cjs
