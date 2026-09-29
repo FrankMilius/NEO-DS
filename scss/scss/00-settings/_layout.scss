@@ -66,14 +66,9 @@ $container-query: tokens.$token-container-query;
     --fnd-z-#{$layer}: #{$value};
   }
 
-  // Ergaenzende semantische Z-Index-Stufen
-  // (nicht in design-tokens.json, da sie aus dem Komponentenkontext stammen)
-  --fnd-z-header: 100;
-  --fnd-z-sidebar: 200;
-  --fnd-z-drawer: 300;
-  --fnd-z-notification: 400;
-  --fnd-z-toast: 500;
-  --fnd-z-skip-link: 9999;
+  // Seit 29.09.2026 stehen ALLE Stufen in design-tokens.json (eine Skala,
+  // Token-Audit F6). Vorher ergaenzte diese Datei header/sidebar/drawer/…
+  // mit Werten, die ueber modal (11) und tooltip (20) lagen.
 
   // Content Width (Readability)
   --fnd-content-max-width: 1440px;

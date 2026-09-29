@@ -145,7 +145,7 @@
         <h1 class="docs__title">Border</h1>
         <p class="docs__subtitle">
         6-stufige Border-Width-Skala von <code class="docs__token">0px</code> (null) bis
-        <code class="docs__token">8px</code> (xl/bold) plus 3 Border-Styles.
+        <code class="docs__token">4px</code> (xl) plus 3 Border-Styles.
         Alle Tokens sind als CSS Custom Properties <code class="docs__token">--fnd-border-width-{size}</code>
         und <code class="docs__token">--fnd-border-style-{name}</code> verf&uuml;gbar.
       </p>
@@ -159,7 +159,7 @@
         <h2 class="docs__section-title">Border-Width-Skala</h2>
         <p class="docs__section-desc">
           6 Stufen (null&ndash;xl), erg&auml;nzt durch semantische Aliases f&uuml;r sprechende Benennung.
-          Default ist <code class="docs__token">sm</code> (2px).
+          Default ist <code class="docs__token">sm</code> (1.5px).
         </p>
 
         <div class="border-showcase">
@@ -181,28 +181,28 @@
           <div class="border-card">
             <div class="border-card__sample" style="border-width: var(--fnd-border-width-sm);"></div>
             <span class="border-card__label">sm (default)</span>
-            <span class="border-card__value">2px</span>
+            <span class="border-card__value">1.5px</span>
             <span class="border-card__token">--fnd-border-width-sm</span>
           </div>
           <!-- md -->
           <div class="border-card">
             <div class="border-card__sample" style="border-width: var(--fnd-border-width-md);"></div>
             <span class="border-card__label">md</span>
-            <span class="border-card__value">4px</span>
+            <span class="border-card__value">2px</span>
             <span class="border-card__token">--fnd-border-width-md</span>
           </div>
           <!-- lg -->
           <div class="border-card">
             <div class="border-card__sample" style="border-width: var(--fnd-border-width-lg);"></div>
             <span class="border-card__label">lg</span>
-            <span class="border-card__value">6px</span>
+            <span class="border-card__value">3px</span>
             <span class="border-card__token">--fnd-border-width-lg</span>
           </div>
           <!-- xl -->
           <div class="border-card">
             <div class="border-card__sample" style="border-width: var(--fnd-border-width-xl);"></div>
             <span class="border-card__label">xl</span>
-            <span class="border-card__value">8px</span>
+            <span class="border-card__value">4px</span>
             <span class="border-card__token">--fnd-border-width-xl</span>
           </div>
         </div>
@@ -226,19 +226,19 @@
           </div>
           <div class="border-comparison__item">
             <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-sm);"></div>
-            <span class="border-comparison__label">sm (2px)</span>
+            <span class="border-comparison__label">sm (1.5px)</span>
           </div>
           <div class="border-comparison__item">
             <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-md);"></div>
-            <span class="border-comparison__label">md (4px)</span>
+            <span class="border-comparison__label">md (2px)</span>
           </div>
           <div class="border-comparison__item">
             <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-lg);"></div>
-            <span class="border-comparison__label">lg (6px)</span>
+            <span class="border-comparison__label">lg (3px)</span>
           </div>
           <div class="border-comparison__item">
             <div class="border-comparison__line" style="border-bottom-width: var(--fnd-border-width-xl);"></div>
-            <span class="border-comparison__label">xl (8px)</span>
+            <span class="border-comparison__label">xl (4px)</span>
           </div>
         </div>
       </section>
@@ -280,28 +280,28 @@
               <td><strong>sm</strong></td>
               <td><code class="docs__token">--fnd-border-width-sm</code></td>
               <td><code class="docs__token">border-width('sm')</code></td>
-              <td>2px</td>
+              <td>1.5px</td>
               <td>Default (Buttons LG, Focus-Ring, Akzent)</td>
             </tr>
             <tr>
               <td><strong>md</strong></td>
               <td><code class="docs__token">--fnd-border-width-md</code></td>
               <td><code class="docs__token">border-width('md')</code></td>
-              <td>4px</td>
+              <td>2px</td>
               <td>Betont (Hervorhebungen, Sidebar-Akzent)</td>
             </tr>
             <tr>
               <td><strong>lg</strong></td>
               <td><code class="docs__token">--fnd-border-width-lg</code></td>
               <td><code class="docs__token">border-width('lg')</code></td>
-              <td>6px</td>
+              <td>3px</td>
               <td>Stark (dekorative Borders)</td>
             </tr>
             <tr>
               <td><strong>xl</strong></td>
               <td><code class="docs__token">--fnd-border-width-xl</code></td>
               <td><code class="docs__token">border-width('xl')</code></td>
-              <td>8px</td>
+              <td>4px</td>
               <td>Bold (Hero-Elemente, Keyvisuals)</td>
             </tr>
           </tbody>
@@ -327,34 +327,10 @@
               <td>1px</td>
             </tr>
             <tr>
-              <td><strong>thin</strong></td>
-              <td><code class="docs__token">--fnd-border-width-thin</code></td>
-              <td><code class="docs__token">--fnd-border-width-xs</code></td>
-              <td>1px</td>
-            </tr>
-            <tr>
-              <td><strong>light</strong></td>
-              <td><code class="docs__token">--fnd-border-width-light</code></td>
+              <td><strong>default</strong></td>
+              <td><code class="docs__token">--fnd-border-width-default</code></td>
               <td><code class="docs__token">--fnd-border-width-sm</code></td>
-              <td>2px</td>
-            </tr>
-            <tr>
-              <td><strong>medium</strong></td>
-              <td><code class="docs__token">--fnd-border-width-medium</code></td>
-              <td><code class="docs__token">--fnd-border-width-lg</code></td>
-              <td>6px</td>
-            </tr>
-            <tr>
-              <td><strong>bold</strong></td>
-              <td><code class="docs__token">--fnd-border-width-bold</code></td>
-              <td><code class="docs__token">--fnd-border-width-xl</code></td>
-              <td>8px</td>
-            </tr>
-            <tr>
-              <td><strong>thick</strong></td>
-              <td><code class="docs__token">--fnd-border-width-thick</code></td>
-              <td><code class="docs__token">--fnd-border-width-md</code></td>
-              <td>4px</td>
+              <td>1.5px</td>
             </tr>
           </tbody>
         </table>
@@ -548,7 +524,7 @@
 /* Default-Width */
 .panel {
   border: var(--fnd-border-width-default) solid var(--fnd-color-border-primary);
-  /* = 2px */
+  /* = 1.5px */
 }
 
 /* Border-Style-Token */
@@ -561,7 +537,7 @@
 
 // SCSS-Funktion border-width() liefert den px-Wert
 .element {
-  border-width: border-width('sm');       // 2px
+  border-width: border-width('sm');       // 1.5px
 }
 
 // Semantischer Alias
@@ -645,35 +621,18 @@
               <td><code class="docs__token">--fnd-border-width-hairline</code></td>
               <td>1px</td>
             </tr>
-            <tr>
-              <td><code class="docs__token">thin (1px)</code></td>
-              <td><code class="docs__token">--fnd-border-width-xs</code></td>
-              <td><code class="docs__token">--fnd-border-width-thin</code></td>
-              <td>1px</td>
-            </tr>
-            <tr>
-              <td><code class="docs__token">medium (2px)</code></td>
-              <td><code class="docs__token">--fnd-border-width-sm</code></td>
-              <td>&mdash;</td>
-              <td>2px (Wert ge&auml;ndert: war 2px, medium zeigt jetzt auf lg=6px)</td>
-            </tr>
-            <tr>
-              <td><code class="docs__token">thick (4px)</code></td>
-              <td><code class="docs__token">--fnd-border-width-md</code></td>
-              <td><code class="docs__token">--fnd-border-width-thick</code></td>
-              <td>4px</td>
-            </tr>
           </tbody>
         </table>
       </div>
 
         <div class="docs__code-block">/* Alter Code (funktioniert &uuml;ber Aliases): */
 .legacy { border-width: var(--fnd-border-width-hairline); } /* = 1px */
-.legacy { border-width: var(--fnd-border-width-thick); }    /* = 4px */
+/* thin, light, medium, bold, thick: entfernt am 29.09.2026 (ungenutzt;
+   medium war dicker als thick). Bitte die Skala xs–xl verwenden. */
 
 /* Neuer Code (Scale-Tokens bevorzugt): */
 .modern { border-width: var(--fnd-border-width-xs); }  /* = 1px */
-.modern { border-width: var(--fnd-border-width-md); }  /* = 4px */</div>
+.modern { border-width: var(--fnd-border-width-md); }  /* = 2px */</div>
       </section>
       </div>
 

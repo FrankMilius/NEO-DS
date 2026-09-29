@@ -44,6 +44,9 @@ const LINTER = [
   // "PASSED" hat keine Zahl — dann gilt 0.
   // Token-Audit F1: var() ohne Definition und ohne Rueckfallwert im gebauten CSS.
   { id: 'tote-verweise', befehl: 'node scripts/pruefe-tote-verweise.cjs', muster: /Tote-Verweise:\s*(\d+)/ },
+  // Token-Audit F7: :root-Dubletten mit abweichendem Wert. Rest (65) sind die
+  // alten Farbwerte, die die Mono-Bruecke ueberschreibt — Stufe 2 des Audits.
+  { id: 'root-dubletten', befehl: 'node scripts/pruefe-root-dubletten.cjs', muster: /Root-Dubletten:\s*(\d+)/ },
   // Doku gegen Recipe/CSS (Summe aller Befunde ueber docs/content/*.html).
   { id: 'doku-befunde', befehl: 'node scripts/pruefe-doku-gegen-recipe.cjs --summe', muster: /Doku-Befunde:\s*(\d+)/ },
   { id: 'token-validator', befehl: 'npm run tokens:validate', muster: /Token validation (?:FAILED:\s*(\d+)\s*error|PASSED)/ },

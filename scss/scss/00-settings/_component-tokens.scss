@@ -107,7 +107,7 @@
   --nc-button-transition-duration: var(--fnd-motion-duration-200);
   --nc-button-scale-active: 0.97;
   --nc-button-opacity-disabled: var(--fnd-opacity-disabled);
-  --nc-button-touch-target-min: 44px;                        // WCAG 44px Touch-Target fuer XS/SM
+  --nc-button-touch-target-min: var(--fnd-size-touch-target);                        // WCAG 44px Touch-Target fuer XS/SM
 
   // -- Icon-Spacing pro Größe (gap zwischen Icon und Label) --
   --nc-button-icon-gap-xs: var(--fnd-spacing-01);  // 4px
@@ -227,7 +227,7 @@
   --nc-icon-color-disabled:  var(--fnd-color-text-disabled);
 
   // -- Touch Target --
-  --nc-icon-touch-target: 44px;
+  --nc-icon-touch-target: var(--fnd-size-touch-target);
 
   // -- Button-Icon Size Mapping (4 Stufen, ~1.33× ratio) --
   --nc-button-icon-size-xs: var(--nc-icon-size-xs);   // 16px for 12px font
@@ -1446,13 +1446,8 @@
   --nc-treeview-bordered-radius: var(--fnd-radius-md);
   --nc-treeview-bordered-padding: var(--fnd-spacing-03);
 
-  // ---------------------------------------------------------------------------
-  // Toast/Notification Tokens
-  // ---------------------------------------------------------------------------
-
-  --nc-toast-padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
-  --nc-toast-radius: var(--fnd-radius-sm);
-  --nc-toast-shadow: var(--fnd-elevation-floating);
+  // Toast-Tokens stehen gesammelt im Abschnitt „Toast" weiter unten
+  // (Dublette mit abweichendem Schatten entfernt, Token-Audit F7, 29.09.2026).
 
   // ---------------------------------------------------------------------------
   // Label Tokens
@@ -1689,7 +1684,7 @@
   --nc-chip-height-sm: var(--nc-button-height-xs);     // 24px
   --nc-chip-height-md: var(--nc-button-height-sm);     // 32px (Default)
   --nc-chip-height-lg: var(--nc-button-height-md);     // 40px
-  --nc-chip-touch-target-min: 44px;                     // WCAG Touch-Target Minimum
+  --nc-chip-touch-target-min: var(--fnd-size-touch-target);                     // WCAG Touch-Target Minimum
 
   // -- Basis --
   --nc-chip-padding-x: var(--fnd-spacing-03);          // 12px
@@ -4642,7 +4637,8 @@
   // ohne erkennbaren Anlass.
   --nc-fade-gallery-media-is-active-opacity: 1;
   --nc-fade-gallery-desc-is-visible-opacity: 1;
-  --nc-fade-gallery-tab-aria-selected-true-after-border-radius: var(--fnd-radius-full);
+  // radius-null: der bisher wirksame Wert (die Dublette in _component-tokens-aufgenommen.scss gewann).
+  --nc-fade-gallery-tab-aria-selected-true-after-border-radius: var(--fnd-radius-null);
   --nc-fade-gallery-fade-duration:   0.5s;
   --nc-fade-gallery-headline-size:   var(--fs-2xl);
 }

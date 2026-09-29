@@ -3,7 +3,7 @@
     "name": "neocosmo_design_tokens",
     "version": "2.0.0",
     "description": "Unified token contract for the NEO Design System. Single source of truth for SCSS generation, CSS custom properties, and Theme Configurator app. 3-layer architecture: Primitives > Semantic > Components.",
-    "last_updated": "2026-02-19"
+    "last_updated": "2026-09-29"
   },
   "primitives": {
     "brand": {
@@ -4849,7 +4849,7 @@
             "id": "nc-button-touch-target-min",
             "label": "Touch Target Min",
             "type": "size",
-            "default": "44px"
+            "default": "var(--fnd-size-touch-target)"
           },
           {
             "id": "nc-button-inverted-color",
@@ -6076,7 +6076,7 @@
             "id": "nc-chip-touch-target-min",
             "label": "Touch Target Min",
             "type": "size",
-            "default": "44px"
+            "default": "var(--fnd-size-touch-target)"
           },
           {
             "id": "nc-chip-padding-avatar",
@@ -11525,7 +11525,7 @@
             "id": "nc-icon-touch-target",
             "label": "Touch Target",
             "type": "size",
-            "default": "44px"
+            "default": "var(--fnd-size-touch-target)"
           },
           {
             "id": "nc-icon-button-size",
@@ -23259,12 +23259,7 @@
         "xl": "4px"
       },
       "width_aliases": {
-        "hairline": "xs",
-        "thin": "xs",
-        "light": "sm",
-        "medium": "lg",
-        "bold": "xl",
-        "thick": "md"
+        "hairline": "xs"
       },
       "width_default": "sm",
       "style": {
@@ -23275,7 +23270,8 @@
         "none": "none"
       },
       "_notiz": {
-        "width": "Halbiert gegenueber der urspruenglichen Skala (2/4/6/8px). Bewusste Entscheidung aus der Website-Arbeit, uebernommen am 2026-08-12 im Rahmen der DS-Website-Vereinigung. xs bleibt bei 1px."
+        "width": "Halbiert gegenueber der urspruenglichen Skala (2/4/6/8px). Bewusste Entscheidung aus der Website-Arbeit, uebernommen am 2026-08-12 im Rahmen der DS-Website-Vereinigung. xs bleibt bei 1px.",
+        "width_aliases": "Seit 29.09.2026 nur noch hairline (Token-Audit F5): medium (3px) war dicker als thick (2px); thin/light/medium/bold/thick wurden nirgends benutzt. default ergibt sich aus width_default."
       }
     },
     "shadow": {
@@ -23311,12 +23307,18 @@
     "layout": {
       "z_index": {
         "base": 1,
-        "dropdown": 2,
-        "sticky": 3,
-        "fixed": 9,
-        "modal_backdrop": 10,
-        "modal": 11,
-        "tooltip": 20
+        "dropdown": 100,
+        "sticky": 200,
+        "fixed": 250,
+        "header": 300,
+        "sidebar": 350,
+        "drawer": 400,
+        "modal_backdrop": 500,
+        "modal": 510,
+        "notification": 600,
+        "toast": 610,
+        "tooltip": 700,
+        "skip_link": 9999
       },
       "nav_height": {
         "mobile": "64px",
@@ -23375,6 +23377,9 @@
             "desktop": "130px"
           }
         }
+      },
+      "_notiz": {
+        "z_index": "Eine Skala seit 29.09.2026 (Token-Audit F6): vorher lagen modal (11) unter header (100) und tooltip (20) unter drawer (300). Reihenfolge: base < dropdown < sticky < fixed < header < sidebar < drawer < modal-backdrop < modal < notification < toast < tooltip < skip-link."
       }
     },
     "breakpoints": {
@@ -23485,7 +23490,7 @@
     "a11y": {
       "focus_ring": {
         "width": "2px",
-        "offset": "3px",
+        "offset": "2px",
         "style": "solid",
         "color": "text-primary"
       },
@@ -24092,27 +24097,51 @@
           },
           "dropdown": {
             "label": "Dropdown",
-            "value": 2
+            "value": 100
           },
           "sticky": {
             "label": "Sticky",
-            "value": 3
+            "value": 200
           },
           "fixed": {
             "label": "Fixed",
-            "value": 9
+            "value": 250
+          },
+          "header": {
+            "label": "Header",
+            "value": 300
+          },
+          "sidebar": {
+            "label": "Sidebar",
+            "value": 350
+          },
+          "drawer": {
+            "label": "Drawer",
+            "value": 400
           },
           "modal-backdrop": {
             "label": "Modal Backdrop",
-            "value": 10
+            "value": 500
           },
           "modal": {
             "label": "Modal",
-            "value": 11
+            "value": 510
+          },
+          "notification": {
+            "label": "Notification",
+            "value": 600
+          },
+          "toast": {
+            "label": "Toast",
+            "value": 610
           },
           "tooltip": {
             "label": "Tooltip",
-            "value": 20
+            "value": 700
+          },
+          "skip-link": {
+            "label": "Skip-Link",
+            "value": 9999
           }
         }
       },

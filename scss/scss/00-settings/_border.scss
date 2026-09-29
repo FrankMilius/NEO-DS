@@ -3,32 +3,18 @@
 // ==========================================================================
 // Border-Width und Border-Style Design Tokens
 //
-// BORDER-WIDTH SKALA (6 Stufen):
-//   null = 0px  (keine Border)
-//   xs   = 1px  (Standard-Haarlinie)
-//   sm   = 2px  (default, leicht)
-//   md   = 4px  (mittel)
-//   lg   = 6px  (stark)
-//   xl   = 8px  (bold/fett)
+// BORDER-WIDTH SKALA: Werte stehen in data/design-tokens.json
+//   (foundation.border.width; seit 12.08.2026 halbiert: xs 1px, sm 1.5px,
+//   md 2px, lg 3px, xl 4px). Kommentar bewusst ohne Zahlen, damit er nicht
+//   wieder veraltet (Token-Audit F5).
 //
-// SEMANTISCHE ALIASES:
-//   hairline → xs (1px)
-//   thin     → xs (1px)
-//   light    → sm (2px)
-//   medium   → lg (6px)
-//   bold     → xl (8px)
-//   thick    → md (4px)
-//
-// DEFAULT: sm (2px)
+// ALIASE: nur noch hairline (-> xs) und default (-> width_default).
+//   thin/light/medium/bold/thick entfernt (29.09.2026): ungenutzt, und
+//   medium war dicker als thick.
 //
 // BORDER-STYLE:
 //   solid, dashed, dotted
 //
-// BACKWARD COMPATIBILITY:
-//   --fnd-border-width-hairline → alias für --fnd-border-width-xs (1px)
-//   --fnd-border-width-thin     → alias für --fnd-border-width-xs (1px)
-//   --fnd-border-width-medium   → alias für --fnd-border-width-lg (6px)
-//   --fnd-border-width-thick    → alias für --fnd-border-width-md (4px)
 // ==========================================================================
 
 @use 'sass:map';

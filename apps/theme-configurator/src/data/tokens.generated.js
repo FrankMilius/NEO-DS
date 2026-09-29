@@ -4628,7 +4628,7 @@ export const componentTokenGroups = [
         "id": "nc-button-touch-target-min",
         "label": "Touch Target Min",
         "type": "size",
-        "default": "44px"
+        "default": "var(--fnd-size-touch-target)"
       },
       {
         "id": "nc-button-inverted-color",
@@ -5855,7 +5855,7 @@ export const componentTokenGroups = [
         "id": "nc-chip-touch-target-min",
         "label": "Touch Target Min",
         "type": "size",
-        "default": "44px"
+        "default": "var(--fnd-size-touch-target)"
       },
       {
         "id": "nc-chip-padding-avatar",
@@ -11304,7 +11304,7 @@ export const componentTokenGroups = [
         "id": "nc-icon-touch-target",
         "label": "Touch Target",
         "type": "size",
-        "default": "44px"
+        "default": "var(--fnd-size-touch-target)"
       },
       {
         "id": "nc-icon-button-size",
@@ -23242,33 +23242,63 @@ export const foundationTokens = {
       },
       "dropdown": {
         "label": "Dropdown",
-        "value": 2,
+        "value": 100,
         "cssVar": "--fnd-z-dropdown"
       },
       "sticky": {
         "label": "Sticky",
-        "value": 3,
+        "value": 200,
         "cssVar": "--fnd-z-sticky"
       },
       "fixed": {
         "label": "Fixed",
-        "value": 9,
+        "value": 250,
         "cssVar": "--fnd-z-fixed"
+      },
+      "header": {
+        "label": "Header",
+        "value": 300,
+        "cssVar": "--fnd-z-header"
+      },
+      "sidebar": {
+        "label": "Sidebar",
+        "value": 350,
+        "cssVar": "--fnd-z-sidebar"
+      },
+      "drawer": {
+        "label": "Drawer",
+        "value": 400,
+        "cssVar": "--fnd-z-drawer"
       },
       "modal-backdrop": {
         "label": "Modal Backdrop",
-        "value": 10,
+        "value": 500,
         "cssVar": "--fnd-z-modal-backdrop"
       },
       "modal": {
         "label": "Modal",
-        "value": 11,
+        "value": 510,
         "cssVar": "--fnd-z-modal"
+      },
+      "notification": {
+        "label": "Notification",
+        "value": 600,
+        "cssVar": "--fnd-z-notification"
+      },
+      "toast": {
+        "label": "Toast",
+        "value": 610,
+        "cssVar": "--fnd-z-toast"
       },
       "tooltip": {
         "label": "Tooltip",
-        "value": 20,
+        "value": 700,
         "cssVar": "--fnd-z-tooltip"
+      },
+      "skip-link": {
+        "label": "Skip-Link",
+        "value": 9999,
+        "cssVar": "--fnd-z-skip-link"
       }
     }
   },

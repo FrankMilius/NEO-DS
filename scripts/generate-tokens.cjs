@@ -505,6 +505,7 @@ const bruecke = (configurator, bekannt) => {
   };
 
   const kandidaten = (kat, key) => [
+    ...(kat === 'zindex' ? [`z-${key}`] : []), // --fnd-z-* (eine Skala seit 29.09.2026)
     `${kat}-${key}`,          // radius-md, spacing-06, elevation-base, border-width-sm
     `${kat}-levels-${key}`,   // shadow-levels-xs
     `${kat}-scale-${key}`,    // radii-scale-md
