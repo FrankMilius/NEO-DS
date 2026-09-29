@@ -8,17 +8,33 @@ import path from 'path';
 const pptx = new PptxGenJS();
 
 // ─── Theme ───────────────────────────────────────────────────────────
+// Nachgezogen am 26.08.2026 auf den aktuellen Markenstand:
+//   Primary ist Graphit, nicht mehr Neo Darkblue (Kapitel 04)
+//   Cyan ist #009EE3, nicht #009FE3 (vereinheitlicht mit der Ebenenfarbe)
+//   Rueckmeldung aus den Systempaletten Stufe 500
+//   Schriften statt Arial (Kapitel 03) — muessen installiert sein,
+//   sonst faellt PowerPoint auf die Ersatzkaskade zurueck.
+//
+// ACHTUNG: Dieses Skript ist ein EINZELSTUECK fuer ein Schulungsdeck. Es
+// benutzt addSlide() ohne defineSlideMaster() und ist damit kein
+// Vorlagenwerkzeug. Der Master liegt in scripts/pptx-vorlage.mjs.
 const COLORS = {
-  bg: 'FFFFFF',
-  bgDark: '0A0A1A',
-  primary: '002049',
-  accent: '37E93D',
-  secondary: '009FE3',
-  text: '1A1A1A',
-  textLight: '6B7280',
-  pass: '28A745',
-  warn: 'FFC107',
-  fail: 'DC3545',
+  bg: 'F1F3F1',        // Graphit 100 — Grundflaeche
+  bgDark: '161816',    // Graphit 950 — tiefer Grund
+  primary: '909390',   // Graphit 500
+  accent: '37E93D',    // Lime 500 — Signal
+  secondary: '009EE3', // Neo Blue
+  text: '161816',      // Graphit 950
+  textLight: '595C59', // Graphit 700
+  pass: '24A148',      // success 500
+  warn: 'D4A400',      // warning 500
+  fail: 'FA4D56',      // danger 500
+};
+
+const FONTS = {
+  marke: 'Space Grotesk',
+  info: 'Manrope',
+  technik: 'JetBrains Mono',
 };
 
 pptx.layout = 'LAYOUT_16x9';
@@ -30,41 +46,41 @@ pptx.subject = 'Dev Process Acceleration — Schulung Phase 1–6';
 function titleSlide(title, subtitle) {
   const slide = pptx.addSlide();
   slide.background = { color: COLORS.bgDark };
-  slide.addText(title, { x: 0.8, y: 1.5, w: '85%', h: 1.5, fontSize: 36, bold: true, color: COLORS.accent, fontFace: 'Arial' });
+  slide.addText(title, { x: 0.8, y: 1.5, w: '85%', h: 1.5, fontSize: 36, bold: true, color: COLORS.accent, fontFace: FONTS.marke });
   if (subtitle) {
-    slide.addText(subtitle, { x: 0.8, y: 3.2, w: '85%', h: 0.8, fontSize: 18, color: 'CCCCCC', fontFace: 'Arial' });
+    slide.addText(subtitle, { x: 0.8, y: 3.2, w: '85%', h: 0.8, fontSize: 18, color: 'CCCCCC', fontFace: FONTS.info });
   }
-  slide.addText('NEO Design System', { x: 0.8, y: 6.5, w: 3, h: 0.4, fontSize: 11, color: '666666', fontFace: 'Arial' });
+  slide.addText('NEO Design System', { x: 0.8, y: 6.5, w: 3, h: 0.4, fontSize: 11, color: '666666', fontFace: FONTS.info });
   return slide;
 }
 
 function sectionSlide(phaseNum, title, subtitle) {
   const slide = pptx.addSlide();
   slide.background = { color: COLORS.primary };
-  slide.addText(`PHASE ${phaseNum}`, { x: 0.8, y: 1.0, w: '85%', h: 0.6, fontSize: 14, color: COLORS.accent, bold: true, fontFace: 'Arial' });
-  slide.addText(title, { x: 0.8, y: 1.8, w: '85%', h: 1.5, fontSize: 32, bold: true, color: 'FFFFFF', fontFace: 'Arial' });
+  slide.addText(`PHASE ${phaseNum}`, { x: 0.8, y: 1.0, w: '85%', h: 0.6, fontSize: 14, color: COLORS.accent, bold: true, fontFace: FONTS.info });
+  slide.addText(title, { x: 0.8, y: 1.8, w: '85%', h: 1.5, fontSize: 32, bold: true, color: 'FFFFFF', fontFace: FONTS.marke });
   if (subtitle) {
-    slide.addText(subtitle, { x: 0.8, y: 3.5, w: '85%', h: 0.8, fontSize: 16, color: 'AAAAAA', fontFace: 'Arial' });
+    slide.addText(subtitle, { x: 0.8, y: 3.5, w: '85%', h: 0.8, fontSize: 16, color: 'AAAAAA', fontFace: FONTS.info });
   }
   return slide;
 }
 
 function contentSlide(title, bullets, options = {}) {
   const slide = pptx.addSlide();
-  slide.addText(title, { x: 0.8, y: 0.3, w: '85%', h: 0.7, fontSize: 22, bold: true, color: COLORS.primary, fontFace: 'Arial' });
+  slide.addText(title, { x: 0.8, y: 0.3, w: '85%', h: 0.7, fontSize: 22, bold: true, color: COLORS.primary, fontFace: FONTS.info });
 
   const bulletText = bullets.map(b => ({
     text: b.text || b,
     options: { fontSize: b.size || 14, color: b.color || COLORS.text, bullet: b.bullet !== false, breakLine: true, paraSpaceAfter: 6 },
   }));
 
-  slide.addText(bulletText, { x: 0.8, y: 1.2, w: '85%', h: 5.0, fontFace: 'Arial', valign: 'top' });
+  slide.addText(bulletText, { x: 0.8, y: 1.2, w: '85%', h: 5.0, fontFace: FONTS.info, valign: 'top' });
   return slide;
 }
 
 function tableSlide(title, headers, rows) {
   const slide = pptx.addSlide();
-  slide.addText(title, { x: 0.8, y: 0.3, w: '85%', h: 0.7, fontSize: 22, bold: true, color: COLORS.primary, fontFace: 'Arial' });
+  slide.addText(title, { x: 0.8, y: 0.3, w: '85%', h: 0.7, fontSize: 22, bold: true, color: COLORS.primary, fontFace: FONTS.info });
 
   const tableRows = [
     headers.map(h => ({ text: h, options: { bold: true, fontSize: 11, color: 'FFFFFF', fill: { color: COLORS.primary } } })),
@@ -84,20 +100,20 @@ function tableSlide(title, headers, rows) {
 
 function exampleSlide(phaseNum, exampleNum, title, scenario, command, output) {
   const slide = pptx.addSlide();
-  slide.addText(`Phase ${phaseNum} — Beispiel ${exampleNum}`, { x: 0.8, y: 0.3, w: '85%', h: 0.4, fontSize: 12, color: COLORS.accent, bold: true, fontFace: 'Arial' });
-  slide.addText(title, { x: 0.8, y: 0.7, w: '85%', h: 0.6, fontSize: 20, bold: true, color: COLORS.primary, fontFace: 'Arial' });
+  slide.addText(`Phase ${phaseNum} — Beispiel ${exampleNum}`, { x: 0.8, y: 0.3, w: '85%', h: 0.4, fontSize: 12, color: COLORS.accent, bold: true, fontFace: FONTS.info });
+  slide.addText(title, { x: 0.8, y: 0.7, w: '85%', h: 0.6, fontSize: 20, bold: true, color: COLORS.primary, fontFace: FONTS.info });
 
-  slide.addText('Szenario:', { x: 0.8, y: 1.5, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: 'Arial' });
-  slide.addText(scenario, { x: 0.8, y: 1.8, w: '85%', h: 0.6, fontSize: 13, color: COLORS.text, fontFace: 'Arial' });
+  slide.addText('Szenario:', { x: 0.8, y: 1.5, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: FONTS.info });
+  slide.addText(scenario, { x: 0.8, y: 1.8, w: '85%', h: 0.6, fontSize: 13, color: COLORS.text, fontFace: FONTS.info });
 
   if (command) {
-    slide.addText('Command:', { x: 0.8, y: 2.6, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: 'Arial' });
+    slide.addText('Command:', { x: 0.8, y: 2.6, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: FONTS.info });
     slide.addShape('rect', { x: 0.8, y: 2.9, w: 11.5, h: 0.5, fill: { color: 'F5F5F5' }, rectRadius: 0.05 });
     slide.addText(command, { x: 1.0, y: 2.95, w: 11.0, h: 0.4, fontSize: 12, color: COLORS.primary, fontFace: 'Courier New' });
   }
 
   if (output) {
-    slide.addText('Ergebnis:', { x: 0.8, y: 3.6, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: 'Arial' });
+    slide.addText('Ergebnis:', { x: 0.8, y: 3.6, w: 1.2, h: 0.3, fontSize: 11, bold: true, color: COLORS.textLight, fontFace: FONTS.info });
     slide.addShape('rect', { x: 0.8, y: 3.9, w: 11.5, h: 2.5, fill: { color: '1A1A2E' }, rectRadius: 0.05 });
     slide.addText(output, { x: 1.0, y: 4.0, w: 11.0, h: 2.3, fontSize: 10, color: COLORS.accent, fontFace: 'Courier New', valign: 'top' });
   }
