@@ -535,17 +535,7 @@ const mergeAutoMerged = ref({})
 const mergeConflicts = ref([])
 
 function getMainSnapshot() {
-  return JSON.parse(JSON.stringify({
-    themes: store.state.themes,
-    foundationOverrides: store.state.foundationOverrides,
-    componentOverrides: store.state.componentOverrides,
-    primitiveOverrides: store.state.primitiveOverrides,
-    customFonts: store.state.customFonts,
-    focusRingMode: store.state.focusRingMode,
-    componentLocks: store.state.componentLocks,
-    componentVersions: store.state.componentVersions,
-    activeThemeSet: store.state.activeThemeSet
-  }))
+  return store.snapshotThemeData({ withActiveSet: true })
 }
 
 function handleBranchMerge(branchId) {
@@ -554,16 +544,7 @@ function handleBranchMerge(branchId) {
 
   // First switch to main if not already there
   if (branchStore.state.activeBranchId) {
-    branchStore.switchBranch(null, getMainSnapshot, (snapshot) => {
-      if (snapshot.themes) Object.assign(store.state.themes, snapshot.themes)
-      if (snapshot.foundationOverrides) Object.assign(store.state.foundationOverrides, snapshot.foundationOverrides)
-      if (snapshot.componentOverrides) Object.assign(store.state.componentOverrides, snapshot.componentOverrides)
-      if (snapshot.primitiveOverrides) Object.assign(store.state.primitiveOverrides, snapshot.primitiveOverrides)
-      if (snapshot.customFonts) Object.assign(store.state.customFonts, snapshot.customFonts)
-      if (snapshot.focusRingMode) Object.assign(store.state.focusRingMode, snapshot.focusRingMode)
-      if (snapshot.componentLocks) Object.assign(store.state.componentLocks, snapshot.componentLocks)
-      if (snapshot.componentVersions) Object.assign(store.state.componentVersions, snapshot.componentVersions)
-    })
+    branchStore.switchBranch(null, getMainSnapshot, (snapshot) => store.applyThemeData(snapshot))
   }
 
   // Compute merge

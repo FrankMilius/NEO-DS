@@ -1121,11 +1121,25 @@ function resetToDefaults() {
 // nicht zuruecknehmen, bei mehreren wurde eine uebersprungen, und Redo kam
 // nie beim letzten Stand an.
 
-const HISTORY_KEYS = [
+// EIN Schema fuer alle Theme-Inhalte (H1, 29.09.2026). Undo, benannte
+// Themes, Branches und Merge benutzen dieselbe Liste. Vorher gab es vier
+// Abschriften mit 9, 10 und 24 Feldern: Custom-Tokens, Icons und die
+// semantischen Spacing/Typo-Werte fielen aus Undo und Branches heraus und
+// "leckten" zwischen Branches.
+// Neues Theme-Feld? Hier eintragen — der Test in theme-schema.test.js prueft,
+// dass saveToStorage() es auch persistiert.
+export const THEME_DATA_KEYS = [
   'themes', 'foundationOverrides', 'componentOverrides', 'primitiveOverrides',
   'customFonts', 'focusRingMode', 'componentLocks', 'componentVersions',
-  'variantDefinitions'
+  'variantDefinitions',
+  'customSpacingTokens', 'customRadiiTokens', 'customBorderWidthTokens',
+  'customMediaRatioTokens', 'customShadowTokens', 'customElevationTokens',
+  'customOpacityTokens', 'customZindexTokens', 'customMotionTokens',
+  'customMotionEffectTokens',
+  'iconLibraries', 'iconStrokeWidths', 'iconStrokeColors',
+  'semanticSpacing', 'semanticTypography'
 ]
+const HISTORY_KEYS = THEME_DATA_KEYS
 const HISTORY_MAX = 50
 // Aenderungen, die schneller aufeinander folgen (Slider, Farbrad), werden zu
 // EINEM Undo-Schritt zusammengefasst — sonst legt jeder Slider-Tick einen
@@ -1133,17 +1147,27 @@ const HISTORY_MAX = 50
 const HISTORY_COALESCE_MS = 400
 let lastPushAt = 0
 
-function historySnapshot() {
+/** Tiefe Kopie aller Theme-Inhalte (optional mit activeThemeSet). */
+function snapshotThemeData({ withActiveSet = false } = {}) {
   const snap = {}
-  for (const key of HISTORY_KEYS) snap[key] = state[key]
+  for (const key of THEME_DATA_KEYS) snap[key] = state[key]
+  if (withActiveSet) snap.activeThemeSet = state.activeThemeSet
   return deepClone(snap)
 }
 
-function applyHistorySnapshot(snapshot) {
-  for (const key of HISTORY_KEYS) {
-    if (snapshot[key] !== undefined) Object.assign(state[key], deepClone(snapshot[key]))
+/** Schnappschuss zurueckspielen. Fehlende Felder (aeltere Daten) bleiben. */
+function applyThemeData(snapshot) {
+  if (!snapshot) return
+  for (const key of THEME_DATA_KEYS) {
+    if (snapshot[key] !== undefined && snapshot[key] !== null) {
+      Object.assign(state[key], deepClone(snapshot[key]))
+    }
   }
+  if (snapshot.activeThemeSet) state.activeThemeSet = snapshot.activeThemeSet
 }
+
+const historySnapshot = () => snapshotThemeData()
+const applyHistorySnapshot = (snap) => applyThemeData(snap)
 
 function pushHistory() {
   const now = Date.now()
@@ -1197,18 +1221,7 @@ function generateThemeId() {
 }
 
 function getThemeSnapshot() {
-  return deepClone({
-    themes: state.themes,
-    foundationOverrides: state.foundationOverrides,
-    componentOverrides: state.componentOverrides,
-    primitiveOverrides: state.primitiveOverrides,
-    customFonts: state.customFonts,
-    focusRingMode: state.focusRingMode,
-    componentLocks: state.componentLocks,
-    componentVersions: state.componentVersions,
-    variantDefinitions: state.variantDefinitions,
-    activeThemeSet: state.activeThemeSet
-  })
+  return snapshotThemeData({ withActiveSet: true })
 }
 
 function loadSavedThemesList() {
@@ -1307,16 +1320,7 @@ function loadTheme(themeId) {
     const snapshot = JSON.parse(raw)
     pushHistory()
 
-    if (snapshot.themes) Object.assign(state.themes, deepClone(snapshot.themes))
-    if (snapshot.foundationOverrides) Object.assign(state.foundationOverrides, deepClone(snapshot.foundationOverrides))
-    if (snapshot.componentOverrides) Object.assign(state.componentOverrides, deepClone(snapshot.componentOverrides))
-    if (snapshot.primitiveOverrides) Object.assign(state.primitiveOverrides, deepClone(snapshot.primitiveOverrides))
-    if (snapshot.customFonts) Object.assign(state.customFonts, deepClone(snapshot.customFonts))
-    if (snapshot.focusRingMode) Object.assign(state.focusRingMode, deepClone(snapshot.focusRingMode))
-    if (snapshot.componentLocks) Object.assign(state.componentLocks, deepClone(snapshot.componentLocks))
-    if (snapshot.componentVersions) Object.assign(state.componentVersions, deepClone(snapshot.componentVersions))
-    if (snapshot.variantDefinitions) Object.assign(state.variantDefinitions, deepClone(snapshot.variantDefinitions))
-    if (snapshot.activeThemeSet) state.activeThemeSet = snapshot.activeThemeSet
+    applyThemeData(snapshot)
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
     if (snapshot.meta?.version) state.version = snapshot.meta.version
@@ -2196,6 +2200,8 @@ export function useThemeStore() {
     redo,
     canUndo,
     canRedo,
+    snapshotThemeData,
+    applyThemeData,
     // Theme Management
     createTheme,
     saveCurrentTheme,

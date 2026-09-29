@@ -1,0 +1,79 @@
+# ==========================================================================
+# Theme-Konfigurator + Token-Waechter
+# ==========================================================================
+# Laeuft bei jeder Aenderung an App, Tokens, SCSS oder Skripten.
+# Bis 29.09.2026 lief kein einziger App-Test automatisch: Das Root-
+# vitest.config.js schliesst apps/** aus, ci.yml fuehrt nur agents:full aus.
+# ==========================================================================
+name: Theme-Konfigurator
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/theme-configurator/**'
+      - 'packages/**'
+      - 'data/**'
+      - 'scss/**'
+      - 'scripts/**'
+      - '.github/workflows/theme-configurator.yml'
+  pull_request:
+    paths:
+      - 'apps/theme-configurator/**'
+      - 'packages/**'
+      - 'data/**'
+      - 'scss/**'
+      - 'scripts/**'
+
+concurrency:
+  group: theme-configurator-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tokens:
+    name: Token-Drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: CSS bauen (Quelle fuer die Konfigurator-Bruecke)
+        run: npm run build:css
+      - name: JSON-Semantik == _mono-bridge.scss
+        run: npm run tokens:semantik:check
+      - name: Generat aktuell (tokens.generated.js)
+        run: |
+          node scripts/generate-tokens.cjs
+          # Datumszeile ignorieren, sonst waere jeder Tag eine Abweichung
+          git diff -I 'Generated:' --exit-code -- apps/theme-configurator/src/data/tokens.generated.js \
+            || (echo "::error::tokens.generated.js ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
+      - name: Validator nicht schlechter als der eingefrorene Bestand
+        run: npm run lint:schwellen
+
+  app:
+    name: App — Tests und Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/theme-configurator/package-lock.json
+      - name: Root-Abhaengigkeiten (sass fuer styles.css)
+        run: npm ci
+      - run: npm run build:css
+      - name: App-Abhaengigkeiten
+        working-directory: apps/theme-configurator
+        run: npm ci
+      - name: Unit- und Komponententests
+        working-directory: apps/theme-configurator
+        run: npx vitest run
+      - name: Build
+        working-directory: apps/theme-configurator
+        run: npx vite build

@@ -151,31 +151,13 @@ const showCreateDialog = ref(false)
 const newBranchName = ref('')
 const newBranchDesc = ref('')
 
+// Ein Schema fuer alle Theme-Inhalte: siehe THEME_DATA_KEYS im Store.
 function getSnapshot() {
-  // Deep-clone the current theme state for branch storage
-  return JSON.parse(JSON.stringify({
-    themes: themeStore.state.themes,
-    foundationOverrides: themeStore.state.foundationOverrides,
-    componentOverrides: themeStore.state.componentOverrides,
-    primitiveOverrides: themeStore.state.primitiveOverrides,
-    customFonts: themeStore.state.customFonts,
-    focusRingMode: themeStore.state.focusRingMode,
-    componentLocks: themeStore.state.componentLocks,
-    componentVersions: themeStore.state.componentVersions,
-    activeThemeSet: themeStore.state.activeThemeSet
-  }))
+  return themeStore.snapshotThemeData({ withActiveSet: true })
 }
 
 function applySnapshot(snapshot) {
-  if (snapshot.themes) Object.assign(themeStore.state.themes, snapshot.themes)
-  if (snapshot.foundationOverrides) Object.assign(themeStore.state.foundationOverrides, snapshot.foundationOverrides)
-  if (snapshot.componentOverrides) Object.assign(themeStore.state.componentOverrides, snapshot.componentOverrides)
-  if (snapshot.primitiveOverrides) Object.assign(themeStore.state.primitiveOverrides, snapshot.primitiveOverrides)
-  if (snapshot.customFonts) Object.assign(themeStore.state.customFonts, snapshot.customFonts)
-  if (snapshot.focusRingMode) Object.assign(themeStore.state.focusRingMode, snapshot.focusRingMode)
-  if (snapshot.componentLocks) Object.assign(themeStore.state.componentLocks, snapshot.componentLocks)
-  if (snapshot.componentVersions) Object.assign(themeStore.state.componentVersions, snapshot.componentVersions)
-  if (snapshot.activeThemeSet) themeStore.state.activeThemeSet = snapshot.activeThemeSet
+  themeStore.applyThemeData(snapshot)
 }
 
 function switchToMain() {
