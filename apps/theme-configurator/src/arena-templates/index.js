@@ -7,7 +7,9 @@
 //
 // `m` ist das Modell aus src/lib/recipe-arena.js (baueModell): Klassen aus
 // Basis + Achsen-Modifiern + Zustandsklassen, Attribute aus den State-Rules,
-// m.slot(name) fuer optionale Slots (slotConfig), m.text fuer das Label.
+// m.slot(name) fuer optionale Slots (slotConfig), m.text fuer das Label,
+// m.hat(zustand)/m.deaktiviert, m.wert(achse), m.uid (eindeutig je Zelle),
+// m.basisKlasse/m.attrsOhne(...) wenn der Zustand an ein Kind gehoert.
 //
 // Das Markup stammt aus data/markup/<id>.html (von der Website bzw. den
 // Doku-Seiten geerntet) — dieselbe Quelle wie Storybook. Die Vorlage setzt nur

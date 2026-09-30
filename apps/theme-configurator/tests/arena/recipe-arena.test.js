@@ -4,7 +4,8 @@
  *   - es gibt genau so viele Zellen, wie die SDK-Matrix (Achsen × Zustaende)
  *     ergibt,
  *   - jede Zelle traegt data-token-groups und data-specimen-id,
- *   - jede Zelle enthaelt ein Element mit allen baseClasses des Recipes,
+ *   - jede Zelle enthaelt ein Element mit allen baseClasses des Recipes
+ *     (oder ein ausdruecklich markiertes Wurzelelement, s. u.),
  *   - keine Zelle ist beim Rendern gescheitert.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest'
@@ -50,7 +51,12 @@ describe('RecipeArena — alle Recipes', () => {
         expect(z.attributes('data-specimen-id'), `${id}/${zellId}`).toBeTruthy()
         expect(z.attributes('data-quelle'), `${id}/${zellId}: ${z.text()}`).not.toBe('fehler')
         const live = z.find('.ra-live-component').element
-        expect(live.querySelector(selektor), `${id}/${zellId}: kein ${selektor}`).not.toBeNull()
+        // Ausnahme mit Kennzeichnung: manche Varianten sind im DS ein eigener
+        // Block (divider with-label → .nc-divider-label). Die Vorlage markiert
+        // ihn dann mit data-recipe-wurzel="<Basisklasse>".
+        const wurzel = live.querySelector(selektor) ||
+          live.querySelector(`[data-recipe-wurzel="${recipe.styling.baseClasses[0]}"]`)
+        expect(wurzel, `${id}/${zellId}: kein ${selektor}`).not.toBeNull()
       }
       expect(warnungen.filter((t) => t.includes('RecipeLoader')), id).toEqual([])
       w.unmount()

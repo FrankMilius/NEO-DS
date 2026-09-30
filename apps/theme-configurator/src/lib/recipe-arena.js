@@ -51,7 +51,9 @@ const ZUSTAND_KLASSE = {
 const ZUSTAND_MODIFIER = {
   error: '--error',
   invalid: '--error',
-  disabled: '--disabled'
+  disabled: '--disabled',
+  // Drag-Zustand setzt das DS per JS als Klasse (z. B. nc-file-upload--dragging)
+  dragging: '--dragging'
 }
 
 const ZUSTAND_ATTRIBUTE = {
@@ -68,7 +70,7 @@ const ZUSTAND_ATTRIBUTE = {
 
 /** Zustaende, die sich ohne Pseudoklasse nicht zeigen lassen. */
 export const NUR_INTERAKTIV = new Set([
-  'hover', 'focus', 'focus-visible', 'focus-within', 'dragging', 'swiping'
+  'hover', 'focus', 'focus-visible', 'focus-within', 'swiping'
 ])
 
 const ZUSTAND_LABEL = {
@@ -336,6 +338,7 @@ function beschriftung (specimen, zelle, recipe) {
 export function baueModell (zelle, specimen, recipe, componentId) {
   const root = recipe.styling.baseClasses[0] || componentId
   const klassen = resolveClassList(zelle, recipe)
+  const basisKlassen = [...new Set(klassen.filter(Boolean))]
   const rm = renderModel(zelle, recipe)
   const zustand = zelle.resolvedState || { attributes: {}, tokenGroups: [] }
   const zustaende = (zelle.states || ['default']).filter((s) => s !== 'default')
@@ -373,14 +376,22 @@ export function baueModell (zelle, specimen, recipe, componentId) {
 
   return {
     id: componentId,
+    // eindeutig je Zelle — fuer id/for/name/aria-labelledby in Vorlagen
+    uid: `${componentId}-${specimen.id}-${zelle.id || 'standard'}`.replace(/[^\w-]+/g, '-'),
     zelle,
     specimen,
     recipe,
     root,
     klassen: eindeutig,
     klasse: eindeutig.join(' '),
+    // nur Basis + Achsen-Modifier — fuer Vorlagen, die den Zustand an ein
+    // Kindelement haengen (z. B. selected an die Tabellenzeile)
+    basisKlasse: basisKlassen.join(' '),
     attribute,
     attrs: attributString(attribute),
+    attrsOhne: (...namen) => attributString(Object.fromEntries(
+      Object.entries(attribute).filter(([k]) => !namen.includes(k))
+    )),
     achsen: zelle.axisValues || {},
     wert: (achse) => zelle.axisValues?.[achse],
     zustaende,
