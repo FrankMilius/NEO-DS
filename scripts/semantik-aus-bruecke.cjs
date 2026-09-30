@@ -34,7 +34,6 @@ const BRUECKE = path.join(ROOT, 'scss/scss/00-settings/_mono-bridge.scss');
 const MONO = path.join(ROOT, 'scss/scss/00-settings/_mono-theme.scss');
 const RAMPEN = path.join(ROOT, 'scss/scss/00-settings/_neutral-ramps.scss');
 const JSON_PFAD = path.join(ROOT, 'data/design-tokens.json');
-const WERK_PFAD = path.join(ROOT, 'data/neo-theme-defaults/neo-theme-defaults.json');
 
 const modus = process.argv.includes('--schreiben') ? 'schreiben'
   : process.argv.includes('--pruefen') ? 'pruefen' : 'bericht';
@@ -219,20 +218,6 @@ tokens.semantic.defaults = defaults;
 fs.writeFileSync(JSON_PFAD, JSON.stringify(tokens, null, 2) + '\n');
 console.log('  ✓ data/design-tokens.json: semantic.references + semantic.defaults');
 
-if (fs.existsSync(WERK_PFAD)) {
-  const werk = JSON.parse(fs.readFileSync(WERK_PFAD, 'utf8'));
-  const themen = {
-    neo: { light: defaults['neo-light'], dark: defaults['neo-dark'] },
-    customer: { light: defaults['customer-light'], dark: defaults['customer-dark'] },
-  };
-  // Nur schreiben, wenn sich etwas aendert — sonst erzeugt der Zeitstempel
-  // bei jedem Lauf einen Diff.
-  if (JSON.stringify(werk.themes) !== JSON.stringify(themen)) {
-    werk.themes = themen;
-    werk._meta = { ...werk._meta, generatedAt: new Date().toISOString(), themesSource: 'scripts/semantik-aus-bruecke.cjs' };
-    fs.writeFileSync(WERK_PFAD, JSON.stringify(werk, null, 2) + '\n');
-    console.log('  ✓ neo-theme-defaults.json: themes (Werkseinstellung der Konfig-App)');
-  } else {
-    console.log('  ✓ neo-theme-defaults.json unveraendert');
-  }
-}
+// Die Werkseinstellung der App (neo-theme-defaults.json) schreibt seit dem
+// 30.09.2026 allein scripts/generate-neo-defaults.js — zwei Schreiber an
+// einer Datei waren eine Driftquelle.

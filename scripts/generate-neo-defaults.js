@@ -1,133 +1,99 @@
 #!/usr/bin/env node
 // ==========================================================================
-// Generate NEO Theme Defaults — Secure Snapshot
+// Werkseinstellung der Konfig-App (neo-theme-defaults.json) erzeugen
 // ==========================================================================
-// Reads the token data from the Theme Configurator source and writes a
-// complete, read-only JSON snapshot to data/neo-theme-defaults/.
+//   node scripts/generate-neo-defaults.js            schreiben (nur bei Aenderung)
+//   node scripts/generate-neo-defaults.js --pruefen  Exit 1, wenn die Datei veraltet ist
 //
-// This file serves as the "golden master" for resetting the Neo Theme
-// to factory defaults. It should be regenerated any time the base token
-// data in apps/theme-configurator/src/data/tokens.js changes.
+// Die Datei ist der "Golden Master" fuer "Reset to Defaults" in der App
+// (theme.js → loadNeoDefaults, ueber /api/neo-theme-defaults).
 //
-// Usage:  node scripts/generate-neo-defaults.js
+// WARUM NEU (30.09.2026, Plan v2 Schritt 2.1)
+// Der Generator las apps/theme-configurator/src/data/tokens.js. Diese Datei
+// importiert JSON ohne Import-Attribut — das versteht nur Vite, Node bricht
+// ab. Die Werkseinstellung wurde deshalb seit Februar nicht mehr erzeugt und
+// setzte beim Zuruecksetzen Primary #002049 und Secondary #009fe3 (alte
+// Marke) als Overrides, obwohl die Quelle seit dem 24.08. Graphit fuehrt.
+// Jetzt liest er das reine Generat tokens.generated.js (keine Importe).
+//
+// Stabil: generatedAt aendert sich nur, wenn sich der Inhalt aendert — sonst
+// erzeugte jeder Lauf einen Diff. Die Datei wird nicht mehr schreibgeschuetzt
+// (chmod 444 blockierte semantik-aus-bruecke und Git-Checkouts).
 // ==========================================================================
 
-import { readFileSync, writeFileSync, mkdirSync, chmodSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { dirname, resolve, join } from 'path'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const ROOT = resolve(__dirname, '..')
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const GENERAT = join(ROOT, 'apps/theme-configurator/src/data/tokens.generated.js')
+const OUT_DIR = join(ROOT, 'data/neo-theme-defaults')
+const OUT = join(OUT_DIR, 'neo-theme-defaults.json')
+const PRUEFEN = process.argv.includes('--pruefen')
 
-// We need to extract data from tokens.js which is an ES module.
-// Use dynamic import.
-async function main() {
-  const tokensPath = join(ROOT, 'apps/theme-configurator/src/data/tokens.js')
-  const tokens = await import(tokensPath)
+const kopie = (x) => JSON.parse(JSON.stringify(x))
 
-  const {
-    primitiveColors,
-    supportingPalettes,
-    foundationPalettes,
-    neutralPalette,
-    systemPalettes,
-    semanticDefaults,
-    semanticTokenGroups,
-    componentTokenGroups,
-    foundationTokens,
-    navigationTree
-  } = tokens
+const {
+  primitiveColors, supportingPalettes, foundationPalettes, neutralPalette,
+  systemPalettes, semanticDefaults, foundationTokens,
+} = await import(pathToFileURL(GENERAT).href)
 
-  // Build the foundation overrides (same logic as getDefaultFoundation() in theme.js)
-  const foundationOverrides = {}
-  for (const [category, data] of Object.entries(foundationTokens)) {
-    foundationOverrides[category] = {}
-    for (const [key, token] of Object.entries(data.tokens)) {
-      foundationOverrides[category][key] = token.value
-    }
-  }
-
-  // Complete snapshot — mirrors the store's initial state for the NEO theme
-  const snapshot = {
-    _meta: {
-      generator: 'NEO Theme Configurator — Factory Defaults',
-      description: 'Secure read-only snapshot of the default NEO Theme. Used for reset-to-factory-defaults. DO NOT EDIT MANUALLY.',
-      generatedAt: new Date().toISOString(),
-      version: '1.0.0'
-    },
-
-    // Active configuration
-    activeThemeSet: 'neo',
-
-    // Semantic token values (all 4 themes)
-    themes: {
-      neo: {
-        light: JSON.parse(JSON.stringify(semanticDefaults['neo-light'])),
-        dark: JSON.parse(JSON.stringify(semanticDefaults['neo-dark']))
-      },
-      customer: {
-        light: JSON.parse(JSON.stringify(semanticDefaults['customer-light'])),
-        dark: JSON.parse(JSON.stringify(semanticDefaults['customer-dark']))
-      }
-    },
-
-    // Foundation token defaults
-    foundationOverrides: {
-      neo: JSON.parse(JSON.stringify(foundationOverrides)),
-      customer: JSON.parse(JSON.stringify(foundationOverrides))
-    },
-
-    // Component token defaults (empty = use semantic references)
-    componentOverrides: {
-      neo: {},
-      customer: {}
-    },
-
-    // Primitive color bases
-    primitiveOverrides: {
-      neo: {
-        primary: primitiveColors.primary.base,
-        secondary: primitiveColors.secondary.base,
-        accent: primitiveColors.accent.base
-      },
-      customer: {
-        primary: primitiveColors.primary.base,
-        secondary: primitiveColors.secondary.base,
-        accent: primitiveColors.accent.base
-      }
-    },
-
-    // Full primitive palettes (for reference / validation)
-    primitiveColors: JSON.parse(JSON.stringify(primitiveColors)),
-    supportingPalettes: JSON.parse(JSON.stringify(supportingPalettes)),
-    foundationPalettes: JSON.parse(JSON.stringify(foundationPalettes)),
-    neutralPalette: JSON.parse(JSON.stringify(neutralPalette)),
-    systemPalettes: JSON.parse(JSON.stringify(systemPalettes))
-  }
-
-  // Write to secure folder
-  const outDir = join(ROOT, 'data/neo-theme-defaults')
-  mkdirSync(outDir, { recursive: true })
-
-  const outFile = join(outDir, 'neo-theme-defaults.json')
-  writeFileSync(outFile, JSON.stringify(snapshot, null, 2), 'utf-8')
-
-  // Make the file read-only (owner read-only, no write)
-  try {
-    chmodSync(outFile, 0o444)
-  } catch (e) {
-    console.warn('Could not set read-only permissions:', e.message)
-  }
-
-  console.log(`✓ NEO Theme defaults written to: ${outFile}`)
-  console.log(`  Size: ${(readFileSync(outFile).length / 1024).toFixed(1)} KB`)
-  console.log(`  Themes: neo-light, neo-dark, customer-light, customer-dark`)
-  console.log(`  Primitives: ${Object.keys(primitiveColors).join(', ')}`)
-  console.log(`  Foundation categories: ${Object.keys(foundationTokens).join(', ')}`)
-  console.log(`  Permissions: read-only (444)`)
+// Foundation-Vorgaben — dieselbe Logik wie getDefaultFoundation() in theme.js
+const foundation = {}
+for (const [kat, daten] of Object.entries(foundationTokens)) {
+  if (!daten?.tokens) continue
+  foundation[kat] = {}
+  for (const [key, t] of Object.entries(daten.tokens)) foundation[kat][key] = t.value
 }
 
-main().catch(err => {
-  console.error('Failed to generate NEO defaults:', err)
-  process.exit(1)
+const basen = () => ({
+  primary: primitiveColors.primary.base,
+  secondary: primitiveColors.secondary.base,
+  accent: primitiveColors.accent.base,
 })
+
+const inhalt = {
+  activeThemeSet: 'neo',
+  themes: {
+    neo: { light: kopie(semanticDefaults['neo-light']), dark: kopie(semanticDefaults['neo-dark']) },
+    customer: { light: kopie(semanticDefaults['customer-light']), dark: kopie(semanticDefaults['customer-dark']) },
+  },
+  foundationOverrides: { neo: kopie(foundation), customer: kopie(foundation) },
+  componentOverrides: { neo: {}, customer: {} },
+  primitiveOverrides: { neo: basen(), customer: basen() },
+  primitiveColors: kopie(primitiveColors),
+  supportingPalettes: kopie(supportingPalettes),
+  foundationPalettes: kopie(foundationPalettes),
+  neutralPalette: kopie(neutralPalette),
+  systemPalettes: kopie(systemPalettes),
+}
+
+const alt = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : null
+const ohneMeta = (o) => { if (!o) return null; const { _meta, ...rest } = o; return JSON.stringify(rest) }
+const unveraendert = ohneMeta(alt) === JSON.stringify(inhalt)
+
+if (PRUEFEN) {
+  if (!unveraendert) {
+    console.error('  ✗ data/neo-theme-defaults/neo-theme-defaults.json weicht von der Quelle ab — node scripts/generate-neo-defaults.js')
+    process.exit(1)
+  }
+  console.log('  ✓ Werkseinstellung der Konfig-App entspricht der Quelle.')
+  process.exit(0)
+}
+if (unveraendert) {
+  console.log('  ✓ neo-theme-defaults.json unveraendert')
+  process.exit(0)
+}
+
+const snapshot = {
+  _meta: {
+    generator: 'scripts/generate-neo-defaults.js',
+    description: 'Werkseinstellung der Konfig-App fuer "Reset to Defaults". Erzeugt aus tokens.generated.js — nicht von Hand pflegen.',
+    generatedAt: new Date().toISOString(),
+    version: alt?._meta?.version || '1.0.0',
+  },
+  ...inhalt,
+}
+mkdirSync(OUT_DIR, { recursive: true })
+writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n', 'utf8')
+console.log(`  ✓ neo-theme-defaults.json neu geschrieben — Primary ${inhalt.primitiveOverrides.neo.primary}, Secondary ${inhalt.primitiveOverrides.neo.secondary}, Accent ${inhalt.primitiveOverrides.neo.accent}`)

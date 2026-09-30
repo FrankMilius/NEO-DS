@@ -32,9 +32,12 @@ STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 FEHLER=0
 
 # --- 1. Tokens ------------------------------------------------------------
-if echo "$STAGED" | grep -qE '^(data/design-tokens(\.dtcg)?\.json|scss/scss/00-settings/|scripts/(semantik-aus-bruecke|generate-tokens|validate-tokens|export-dtcg)\.c?js)'; then
+if echo "$STAGED" | grep -qE '^(data/design-tokens(\.dtcg)?\.json|scss/scss/00-settings/|scripts/(semantik-aus-bruecke|generate-tokens|generate-neo-defaults|validate-tokens|export-dtcg)\.c?js|data/neo-theme-defaults/)'; then
   echo "▸ Tokens: Semantik-Abgleich"
   node scripts/semantik-aus-bruecke.cjs --pruefen || FEHLER=1
+
+  echo "▸ Tokens: Werkseinstellung der App aktuell"
+  node scripts/generate-neo-defaults.js --pruefen || FEHLER=1
 
   echo "▸ Tokens: DTCG-Export aktuell"
   node scripts/export-dtcg.cjs --pruefen || FEHLER=1

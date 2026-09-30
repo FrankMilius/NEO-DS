@@ -48,6 +48,8 @@ jobs:
         run: npm run build:css
       - name: JSON-Semantik == _mono-bridge.scss
         run: npm run tokens:semantik:check
+      - name: Werkseinstellung der App == Quelle
+        run: npm run tokens:werk:check
       - name: Foundation-Familien in der JSON == styles.css
         run: npm run tokens:foundation:check
       - name: DTCG-Export aktuell und verlustfrei (Style Dictionary)
