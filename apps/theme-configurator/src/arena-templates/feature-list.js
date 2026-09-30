@@ -1,7 +1,10 @@
-// Vorlage: feature-list — Markup aus data/markup/feature-list.html.
-// variante: with-media/media-left/media-right zeigen das Geraet (media-*
-// tragen dazu --with-media wie im geernteten Markup), valign-* per Modifier;
-// default ohne Medium.
+// Vorlage: feature-list — Markup aus data/markup/feature-list.html, abgeglichen
+// mit block--block-content--neo-feature-list.html.twig (neo_fe). Drupal setzt
+// mit Medium immer alle drei Klassen: --with-media, --media-<links|rechts>
+// und --valign-<oben|mitte|unten>; ohne Medium keine davon. Jede variante
+// ausser default zeigt deshalb das Geraet und ergaenzt die fehlenden
+// Klassen mit den Drupal-Vorgaben (media-left, valign-top). Die Punkte baut
+// Drupal per JS (neo-theme.js) — gleiches Markup wie hier.
 import { BILD_SRC, HAKEN_KREIS } from './_helfer.js'
 
 const PUNKTE = [
@@ -13,10 +16,17 @@ const PUNKTE = [
 
 export default (zelle, m) => {
   const v = m.wert('variante') || 'default'
-  const medium = ['with-media', 'media-left', 'media-right'].includes(v)
-  const extra = v.startsWith('media-') ? ' nc-feature-list--with-media' : ''
+  const medium = v !== 'default'
+  const klassen = [...m.klassen]
+  if (medium) {
+    for (const k of ['nc-feature-list--with-media',
+      v === 'media-right' ? 'nc-feature-list--media-right' : 'nc-feature-list--media-left',
+      v.startsWith('valign-') ? `nc-feature-list--${v}` : 'nc-feature-list--valign-top']) {
+      if (!klassen.includes(k)) klassen.push(k)
+    }
+  }
   return `
-<section class="nc-section ${m.klasse}${extra}"${m.attrs}>
+<section class="nc-section ${klassen.join(' ')}"${m.attrs}>
 <div class="nc-container nc-feature-list__inner">
 ${medium ? `<div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="${BILD_SRC}" alt="Login" loading="lazy" decoding="async"></div></div></div>` : ''}
 <div class="nc-feature-list__content">
@@ -30,7 +40,7 @@ ${medium ? `<div class="nc-feature-list__media nc-feature-list__media--device"><
 ${PUNKTE.map((p) => `<li class="nc-feature-list__item"><span class="nc-feature-list__icon">${HAKEN_KREIS}</span><span class="nc-feature-list__item-text">${p}</span></li>`).join('\n')}
 </ul>
 </div>
-<div class="nc-feature-list__cta"><a href="#" onclick="return false" class="nc-button nc-button--primary">Mehr zur Sicherheit</a></div>
+<div class="nc-feature-list__cta"><a class="nc-button nc-button--accent nc-button--lg" href="#" onclick="return false"><span>Mehr zur Sicherheit</span></a></div>
 </div>
 </div>
 </section>`

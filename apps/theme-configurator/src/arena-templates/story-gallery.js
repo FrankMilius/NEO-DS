@@ -1,6 +1,9 @@
 // Vorlage: story-gallery — Markup aus data/markup/story-gallery.html (drei
 // Karten: Fokus-Crop, Device-Frame, Hotspots). Statisch ohne Scroll-JS; die
-// Paddles stehen unter der Galerie (--nav-below wie in der Ernte).
+// Paddles stehen unter der Galerie (--nav-below wie in der Ernte). Abgeglichen
+// mit block--block-content--neo-story-gallery.html.twig (neo_fe): der Footer
+// mit den Paddles ist Geschwister der Galerie, nicht Kind; Karten und
+// nc-shot-Medien baut Drupal per JS (neo-theme.js, neo-shot.js).
 import { BILD_SRC, PFEIL_LINKS, PFEIL_RECHTS } from './_helfer.js'
 
 export default (zelle, m) => `
@@ -30,10 +33,10 @@ export default (zelle, m) => `
 </li>
 </ul>
 </div>
-<div class="nc-story-gallery__footer">
-<div class="nc-story-gallery__paddles--below">
-<button type="button" class="nc-story-gallery__paddle" aria-label="Zurück">${PFEIL_LINKS}</button>
-<button type="button" class="nc-story-gallery__paddle" aria-label="Weiter">${PFEIL_RECHTS}</button>
 </div>
+<div class="nc-story-gallery__footer">
+<div class="nc-story-gallery__paddles nc-story-gallery__paddles--below">
+<button type="button" class="nc-story-gallery__paddle nc-story-gallery__paddle--prev" aria-label="Zurueck" disabled>${PFEIL_LINKS}</button>
+<button type="button" class="nc-story-gallery__paddle nc-story-gallery__paddle--next" aria-label="Weiter">${PFEIL_RECHTS}</button>
 </div>
 </div>`

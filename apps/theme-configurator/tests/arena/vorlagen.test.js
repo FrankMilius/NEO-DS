@@ -110,3 +110,64 @@ describe('Arena-Vorlagen: Stufe 3 (Organismen)', () => {
     }
   })
 })
+
+describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
+  const alle = (id) => ansichten(id).flatMap((a) => a.zeilen.flatMap((z) => z.zellen)).map((z) => z.html)
+
+  it('text-media: Medienposition als --media-left/--media-right, kein --reversed', () => {
+    const [links, rechts] = alle('text-media')
+    expect(links).toContain('nc-text-media--media-left')
+    expect(rechts).toContain('nc-text-media--media-right')
+    expect(rechts).not.toContain('nc-text-media--reversed')
+  })
+
+  it('testimonial: figure > blockquote.__quote + figcaption.__author > cite.__name', () => {
+    const [h] = alle('testimonial')
+    expect(h.trim()).toMatch(/^<figure class="nc-testimonial/)
+    expect(h).toContain('<blockquote class="nc-testimonial__quote">')
+    expect(h).toContain('<figcaption class="nc-testimonial__author">')
+    expect(h).toContain('<cite class="nc-testimonial__name">')
+  })
+
+  it('testimonial-grid / story-gallery: Navigation steht nach dem Raster, nicht darin', () => {
+    const grid = alle('testimonial-grid').find((h) => h.includes('nc-testimonial-grid__nav'))
+    expect(grid.indexOf('nc-testimonial-grid__nav')).toBeGreaterThan(grid.lastIndexOf('</figure>\n</div>'))
+    const [sg] = alle('story-gallery')
+    expect(sg).toMatch(/<\/ul>\n<\/div>\n<\/div>\n<div class="nc-story-gallery__footer">/)
+    expect(sg).toContain('nc-story-gallery__paddles nc-story-gallery__paddles--below')
+  })
+
+  it('solution-tabs: Features, Schaubild und Tab-Nummer wie neoSolutionTabs', () => {
+    const h = alle('solution-tabs').join('\n')
+    expect(h).toContain('nc-solution-tabs__features')
+    expect(h).toContain('nc-solution-tabs__visual')
+    expect(h).toContain('nc-solution-tabs__tab-index')
+    expect(h).not.toContain('nc-feature-list__item')
+    expect(h).not.toContain('nc-tab-nav')
+  })
+
+  it('tab-nav: Wurzel nc-solution-tabs nc-tab-nav, Modul mit nc-tab-nav__features', () => {
+    const [h] = alle('tab-nav')
+    expect(h).toMatch(/class="nc-solution-tabs nc-tab-nav/)
+    expect(h).toContain('nc-solution-tabs__features nc-tab-nav__features')
+  })
+
+  it('app-store: Store-Abzeichen und QR-Code', () => {
+    const [h] = alle('app-store')
+    expect((h.match(/class="nc-app-store__badge"/g) || []).length).toBe(2)
+    expect(h).toContain('nc-app-store__qr-code')
+  })
+
+  it('feature-list: mit Medium immer with-media + media-* + valign-*', () => {
+    for (const h of alle('feature-list').filter((x) => x.includes('nc-feature-list__media'))) {
+      expect(h).toMatch(/nc-feature-list--with-media/)
+      expect(h).toMatch(/nc-feature-list--media-(left|right)/)
+      expect(h).toMatch(/nc-feature-list--valign-(top|middle|bottom)/)
+    }
+  })
+
+  it('footer / events: CTA-Headline h2, Mehr-laden als secondary', () => {
+    expect(alle('footer').find((h) => h.includes('nc-footer__cta'))).toContain('<h2 class="nc-footer__cta-headline">')
+    expect(alle('events')[0]).toContain('nc-button nc-button--secondary')
+  })
+})

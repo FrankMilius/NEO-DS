@@ -1,4 +1,6 @@
-// Vorlage: footer — Markup aus data/markup/footer.html.
+// Vorlage: footer — Markup aus data/markup/footer.html, abgeglichen mit
+// block--block-content--neo-footer.html.twig (neo_fe): CTA-Headline als h2
+// mit nc-footer__cta-button, kein zusaetzlicher Trenner nach dem CTA.
 // layout: simple blendet Sitemap und Newsletter aus (slotConfig des Recipes),
 // cta-active stellt den Engagement-CTA (nc-footer__cta) voran. columns
 // bestimmt Modifier UND Zahl der Spalten; theme=inverse per Modifier.
@@ -38,12 +40,11 @@ ${SPALTEN.slice(0, anzahl).map(([titel, links]) => `<div class="nc-footer__colum
   const cta = m.slot('cta-area') ? `
 <div class="nc-footer__cta">
 <p class="nc-footer__cta-kicker">Bereit?</p>
-<p class="nc-footer__cta-headline">Lassen Sie uns über Ihren digitalen Arbeitsplatz sprechen.</p>
-<a href="#" onclick="return false" class="nc-button nc-button--accent nc-button--lg">Demo vereinbaren</a>
-</div>
-<div class="nc-footer__separator" aria-hidden="true"></div>` : ''
+<h2 class="nc-footer__cta-headline">Lassen Sie uns über Ihren digitalen Arbeitsplatz sprechen.</h2>
+<a href="#" onclick="return false" class="nc-button nc-button--accent nc-button--lg nc-footer__cta-button">Demo vereinbaren</a>
+</div>` : ''
   return `
-<footer class="${m.klasse}" aria-label="Fußzeile"${m.attrs}>
+<footer class="${m.klasse}" role="contentinfo" aria-label="Footer"${m.attrs}>
 <div class="nc-footer__inner nc-container">${cta}
 <div class="nc-footer__main">
 <div class="nc-footer__brand">

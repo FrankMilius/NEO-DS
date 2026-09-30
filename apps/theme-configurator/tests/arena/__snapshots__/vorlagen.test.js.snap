@@ -327,7 +327,7 @@ exports[`Arena-Vorlagen: Snapshots > facts / default 1`] = `
 exports[`Arena-Vorlagen: Snapshots > footer / columns-comparison 1`] = `
 [
   {
-    "html": "<footer class="nc-footer nc-footer--columns nc-footer--2-col" aria-label="Fußzeile">
+    "html": "<footer class="nc-footer nc-footer--columns nc-footer--2-col" role="contentinfo" aria-label="Footer">
 <div class="nc-footer__inner nc-container">
 <div class="nc-footer__main">
 <div class="nc-footer__brand">
@@ -386,7 +386,7 @@ exports[`Arena-Vorlagen: Snapshots > footer / columns-comparison 1`] = `
     ],
   },
   {
-    "html": "<footer class="nc-footer nc-footer--columns nc-footer--3-col" aria-label="Fußzeile">
+    "html": "<footer class="nc-footer nc-footer--columns nc-footer--3-col" role="contentinfo" aria-label="Footer">
 <div class="nc-footer__inner nc-container">
 <div class="nc-footer__main">
 <div class="nc-footer__brand">
@@ -449,7 +449,7 @@ exports[`Arena-Vorlagen: Snapshots > footer / columns-comparison 1`] = `
     ],
   },
   {
-    "html": "<footer class="nc-footer nc-footer--columns nc-footer--4-col" aria-label="Fußzeile">
+    "html": "<footer class="nc-footer nc-footer--columns nc-footer--4-col" role="contentinfo" aria-label="Footer">
 <div class="nc-footer__inner nc-container">
 <div class="nc-footer__main">
 <div class="nc-footer__brand">
@@ -765,25 +765,19 @@ exports[`Arena-Vorlagen: Snapshots > product-showcase / option-styles 1`] = `
 exports[`Arena-Vorlagen: Snapshots > solution-tabs / vertical 1`] = `
 [
   {
-    "html": "<div class="nc-solution-tabs nc-solution-tabs--vertical nc-tab-nav" data-autoplay="off">
-<div class="nc-solution-tabs__tablist" role="tablist">
-<button class="nc-solution-tabs__tab is-active" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off-t0" aria-controls="solution-tabs-vertical-vertical-line-off-p0" aria-selected="true" tabindex="0">neo workplace</button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off-t1" aria-controls="solution-tabs-vertical-vertical-line-off-p1" aria-selected="false" tabindex="-1">neo app</button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off-t2" aria-controls="solution-tabs-vertical-vertical-line-off-p2" aria-selected="false" tabindex="-1">neo AI</button>
+    "html": "<div class="nc-solution-tabs nc-solution-tabs--vertical" data-orientation="vertical" data-autoplay="off">
+<div class="nc-solution-tabs__tablist" role="tablist" aria-orientation="vertical">
+<button type="button" class="nc-solution-tabs__tab is-active" role="tab" id="solution-tabs-vertical-vertical-line-off-t0" aria-controls="solution-tabs-vertical-vertical-line-off-p0" aria-selected="true" tabindex="0"><span class="nc-solution-tabs__tab-index">01</span>neo workplace<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
+<button type="button" class="nc-solution-tabs__tab" role="tab" id="solution-tabs-vertical-vertical-line-off-t1" aria-controls="solution-tabs-vertical-vertical-line-off-p1" aria-selected="false" tabindex="-1"><span class="nc-solution-tabs__tab-index">02</span>neo app<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
+<button type="button" class="nc-solution-tabs__tab" role="tab" id="solution-tabs-vertical-vertical-line-off-t2" aria-controls="solution-tabs-vertical-vertical-line-off-p2" aria-selected="false" tabindex="-1"><span class="nc-solution-tabs__tab-index">03</span>neo AI<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel is-active" role="tabpanel" id="solution-tabs-vertical-vertical-line-off-p0" aria-labelledby="solution-tabs-vertical-vertical-line-off-t0">
-<div class="nc-tab-nav__panel-body">
+<div class="nc-solution-tabs__panel is-active" role="tabpanel" id="solution-tabs-vertical-vertical-line-off-p0" aria-labelledby="solution-tabs-vertical-vertical-line-off-t0">
+<div>
 <h3 class="nc-solution-tabs__panel-title">Social Intranet und Mitarbeitendenportal</h3>
 <p class="nc-solution-tabs__panel-text">Das soziale Herzstück für Ihre digitale Arbeitswelt. Informationen fließen, Teams arbeiten zusammen, und Ihr Wissen ist auf Knopfdruck verfügbar.</p>
-<div class="nc-tab-nav__module">
-<ul class="nc-feature-list__items">
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Personalisierter News-Feed und Newskanäle</span></li>
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Wissens- und Inhaltsseiten</span></li>
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Vernetzung und Zusammenarbeit</span></li>
-</ul>
-</div>
-<a href="#" onclick="return false" class="nc-button nc-button--accent nc-button--lg nc-solution-tabs__cta"><span>Mehr erfahren</span></a>
-</div>
+<ul class="nc-solution-tabs__features"><li class="nc-solution-tabs__feature">Personalisierter News-Feed und Newskanäle</li><li class="nc-solution-tabs__feature">Wissens- und Inhaltsseiten</li><li class="nc-solution-tabs__feature">Vernetzung und Zusammenarbeit</li></ul>
+<a class="nc-button nc-button--accent nc-button--lg" href="#" onclick="return false"><span>Mehr erfahren</span></a>
+</div><div class="nc-solution-tabs__visual" aria-hidden="true" style="--nc-solution-tabs-accent:#19C8C8"><div class="nc-solution-tabs__visual-bar"><i></i><i></i><i></i></div><div class="nc-solution-tabs__visual-body"><span class="nc-solution-tabs__visual-chip">Social Intranet</span><div class="nc-solution-tabs__visual-name">neo <b>workplace</b></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w80"></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w60"></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w45"></div></div></div>
 </div>
 </div>",
     "id": "vertical-line-off",
@@ -794,25 +788,19 @@ exports[`Arena-Vorlagen: Snapshots > solution-tabs / vertical 1`] = `
     ],
   },
   {
-    "html": "<div class="nc-solution-tabs nc-solution-tabs--vertical nc-tab-nav" data-autoplay="off">
-<div class="nc-solution-tabs__tablist" role="tablist">
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t0" aria-controls="solution-tabs-vertical-vertical-line-off--active-p0" aria-selected="false" tabindex="-1">neo workplace</button>
-<button class="nc-solution-tabs__tab is-active" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t1" aria-controls="solution-tabs-vertical-vertical-line-off--active-p1" aria-selected="true" tabindex="0">neo app</button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t2" aria-controls="solution-tabs-vertical-vertical-line-off--active-p2" aria-selected="false" tabindex="-1">neo AI</button>
+    "html": "<div class="nc-solution-tabs nc-solution-tabs--vertical" data-orientation="vertical" data-autoplay="off">
+<div class="nc-solution-tabs__tablist" role="tablist" aria-orientation="vertical">
+<button type="button" class="nc-solution-tabs__tab" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t0" aria-controls="solution-tabs-vertical-vertical-line-off--active-p0" aria-selected="false" tabindex="-1"><span class="nc-solution-tabs__tab-index">01</span>neo workplace<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
+<button type="button" class="nc-solution-tabs__tab is-active" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t1" aria-controls="solution-tabs-vertical-vertical-line-off--active-p1" aria-selected="true" tabindex="0"><span class="nc-solution-tabs__tab-index">02</span>neo app<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
+<button type="button" class="nc-solution-tabs__tab" role="tab" id="solution-tabs-vertical-vertical-line-off--active-t2" aria-controls="solution-tabs-vertical-vertical-line-off--active-p2" aria-selected="false" tabindex="-1"><span class="nc-solution-tabs__tab-index">03</span>neo AI<span class="nc-solution-tabs__progress" aria-hidden="true"></span></button>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel is-active" role="tabpanel" id="solution-tabs-vertical-vertical-line-off--active-p1" aria-labelledby="solution-tabs-vertical-vertical-line-off--active-t1">
-<div class="nc-tab-nav__panel-body">
+<div class="nc-solution-tabs__panel is-active" role="tabpanel" id="solution-tabs-vertical-vertical-line-off--active-p1" aria-labelledby="solution-tabs-vertical-vertical-line-off--active-t1">
+<div>
 <h3 class="nc-solution-tabs__panel-title">Die Mitarbeiter-App</h3>
 <p class="nc-solution-tabs__panel-text">Alle erreichen — auch ohne Schreibtisch. Informationen, Services und Austausch in einer App.</p>
-<div class="nc-tab-nav__module">
-<ul class="nc-feature-list__items">
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Push-Benachrichtigungen</span></li>
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Login ohne Firmen-E-Mail</span></li>
-<li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="nc-feature-list__item-text">Offline lesen</span></li>
-</ul>
-</div>
-<a href="#" onclick="return false" class="nc-button nc-button--accent nc-button--lg nc-solution-tabs__cta"><span>Mehr erfahren</span></a>
-</div>
+<ul class="nc-solution-tabs__features"><li class="nc-solution-tabs__feature">Push-Benachrichtigungen</li><li class="nc-solution-tabs__feature">Login ohne Firmen-E-Mail</li><li class="nc-solution-tabs__feature">Offline lesen</li></ul>
+<a class="nc-button nc-button--accent nc-button--lg" href="#" onclick="return false"><span>Mehr erfahren</span></a>
+</div><div class="nc-solution-tabs__visual" aria-hidden="true" style="--nc-solution-tabs-accent:#AEF359"><div class="nc-solution-tabs__visual-bar"><i></i><i></i><i></i></div><div class="nc-solution-tabs__visual-body"><span class="nc-solution-tabs__visual-chip">Mitarbeiter-App</span><div class="nc-solution-tabs__visual-name">neo <b>app</b></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w80"></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w60"></div><div class="nc-solution-tabs__skel nc-solution-tabs__skel--w45"></div></div></div>
 </div>
 </div>",
     "id": "vertical-line-off--active",

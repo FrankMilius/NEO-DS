@@ -1,9 +1,18 @@
-// Vorlage: text-media — Markup aus data/markup/text-media.html.
-// layout=media-right setzt --reversed.
+// Vorlage: text-media — Markup aus data/markup/text-media.html, abgeglichen
+// mit block--block-content--neo-text-media.html.twig (neo_fe).
+// Drupal setzt die Medienposition als nc-text-media--media-left|right; nur
+// diese Klasse kennt das SCSS (_text-media.scss). Der Recipe-Modifier
+// nc-text-media--reversed fuer layout=media-right hat dort keine Regel und
+// wird deshalb durch die Drupal-Klasse ersetzt.
 import { BILD_SRC } from './_helfer.js'
 
+function textMediaKlasse (m) {
+  const seite = m.wert('layout') === 'media-right' ? 'right' : 'left'
+  return [...m.klassen.filter((k) => k !== 'nc-text-media--reversed'), `nc-text-media--media-${seite}`].join(' ')
+}
+
 export default (zelle, m) => `
-<div class="${m.klasse}"${m.attrs}>
+<div class="${textMediaKlasse(m)}"${m.attrs}>
 <div class="nc-text-media__grid">
 <div class="nc-text-media__media">
 <img src="${BILD_SRC}" alt="" class="nc-text-media__image nc-media-frame" loading="lazy">
