@@ -1,13 +1,13 @@
 <template>
-  <aside class="laboratory-panel" :class="{ 'laboratory-panel--fullscreen': isFullscreen }">
+  <main class="laboratory-panel" :class="{ 'laboratory-panel--fullscreen': isFullscreen }">
 
     <div class="lab-header">
       <div class="lab-header__row">
-        <h3 class="lab-title">
+        <h2 class="lab-title">
           Theme Arena
           <span v-if="activeArenaLabel" class="lab-breadcrumb-sep">/</span>
           <span v-if="activeArenaLabel" class="lab-breadcrumb-leaf">{{ activeArenaLabel }}</span>
-        </h3>
+        </h2>
         <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
         <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Theme mode">
           <button
@@ -63,7 +63,7 @@
 
       </div><!-- /.lab-viewport-inner -->
     </div>
-  </aside>
+  </main>
 </template>
 
 <script setup>

@@ -1,20 +1,20 @@
 <template>
   <!-- Matrix-Modus: 2×2 Grid mit allen 4 Themes -->
   <div v-if="resolvedArena && store.state.previewMode === 'matrix'" class="theme-matrix">
-    <div class="theme-matrix__quadrant neo-light-theme" @click="store.setActiveThemeSet('neo'); store.setPreviewMode('light')">
-      <span class="theme-matrix__label">Neo Light</span>
-      <component :is="resolvedArena" />
-    </div>
-    <div class="theme-matrix__quadrant neo-dark-theme" @click="store.setActiveThemeSet('neo'); store.setPreviewMode('dark')">
-      <span class="theme-matrix__label">Neo Dark</span>
-      <component :is="resolvedArena" />
-    </div>
-    <div class="theme-matrix__quadrant customer-light-theme" @click="store.setActiveThemeSet('customer'); store.setPreviewMode('light')">
-      <span class="theme-matrix__label">Customer Light</span>
-      <component :is="resolvedArena" />
-    </div>
-    <div class="theme-matrix__quadrant customer-dark-theme" @click="store.setActiveThemeSet('customer'); store.setPreviewMode('dark')">
-      <span class="theme-matrix__label">Customer Dark</span>
+    <!-- Klick in den Quadranten waehlt Theme + Modus (Maus); per Tastatur ueber
+         den Knopf im Quadranten-Kopf (Plan v2, 4.4) -->
+    <div
+      v-for="q in QUADRANTEN"
+      :key="q.klasse"
+      :class="['theme-matrix__quadrant', q.klasse]"
+      @click="waehle(q)"
+    >
+      <button
+        type="button"
+        class="theme-matrix__label cfg-knopf-reset"
+        :aria-label="`${q.label} als aktives Theme wählen`"
+        @click.stop="waehle(q)"
+      >{{ q.label }}</button>
       <component :is="resolvedArena" />
     </div>
   </div>
@@ -37,6 +37,18 @@ const MagazinVorschau = defineAsyncComponent(() => import('../vorschau/MagazinVo
 const store = useThemeStore()
 const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
 const { resolvedArena } = useArenaResolver(activeComponentId)
+
+const QUADRANTEN = [
+  { klasse: 'neo-light-theme', label: 'Neo Light', set: 'neo', modus: 'light' },
+  { klasse: 'neo-dark-theme', label: 'Neo Dark', set: 'neo', modus: 'dark' },
+  { klasse: 'customer-light-theme', label: 'Customer Light', set: 'customer', modus: 'light' },
+  { klasse: 'customer-dark-theme', label: 'Customer Dark', set: 'customer', modus: 'dark' }
+]
+
+function waehle (q) {
+  store.setActiveThemeSet(q.set)
+  store.setPreviewMode(q.modus)
+}
 </script>
 
 <style scoped>
@@ -65,6 +77,9 @@ const { resolvedArena } = useArenaResolver(activeComponentId)
 }
 
 .theme-matrix__label {
+  width: calc(100% + 24px);
+  text-align: left;
+  cursor: pointer;
   position: sticky;
   top: 0;
   display: block;

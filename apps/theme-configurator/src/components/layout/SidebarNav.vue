@@ -1,8 +1,16 @@
 <template>
   <aside class="sidebar-nav" :class="{ 'sidebar-nav--collapsed': collapsed }">
     <!-- Collapse Toggle -->
-    <button class="sidebar-collapse-btn" @click="$emit('toggle')" :title="collapsed ? 'Sidebar einblenden (Ctrl+B)' : 'Sidebar ausblenden (Ctrl+B)'">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <button
+      type="button"
+      class="sidebar-collapse-btn"
+      @click="$emit('toggle')"
+      :title="collapsed ? 'Sidebar einblenden (Ctrl+B)' : 'Sidebar ausblenden (Ctrl+B)'"
+      :aria-label="collapsed ? 'Sidebar einblenden' : 'Sidebar ausblenden'"
+      :aria-expanded="!collapsed"
+      aria-keyshortcuts="Control+B"
+    >
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <template v-if="collapsed">
           <path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/>
         </template>
@@ -12,47 +20,54 @@
       </svg>
     </button>
     <div v-if="!collapsed" class="sidebar-search">
-      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg aria-hidden="true" class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
       </svg>
       <input
         v-model="searchQuery"
         type="text"
         placeholder="Search tokens..."
+        aria-label="Tokens durchsuchen"
         class="search-input"
       />
     </div>
 
-    <nav v-if="!collapsed" class="nav-tree" role="tree">
+    <nav v-if="!collapsed" class="nav-tree" aria-label="Sektionen">
       <div v-for="group in filteredTree" :key="group.id" class="nav-group">
         <button
+          type="button"
           class="nav-group-header"
           @click="toggleGroup(group.id)"
           :aria-expanded="expandedGroups.has(group.id)"
+          :aria-controls="expandedGroups.has(group.id) ? `cfg-nav-gruppe-${group.id}` : undefined"
         >
-          <svg class="nav-chevron" :class="{ expanded: expandedGroups.has(group.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="nav-chevron" :class="{ expanded: expandedGroups.has(group.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"/>
           </svg>
           <span class="nav-group-label">{{ group.label }}</span>
           <span class="nav-group-count">{{ getItemCount(group) }}</span>
         </button>
 
-        <div v-if="expandedGroups.has(group.id)" class="nav-children">
+        <div v-if="expandedGroups.has(group.id)" :id="`cfg-nav-gruppe-${group.id}`" class="nav-children">
           <template v-for="child in group.children" :key="child.id">
             <!-- Subgroup -->
-            <div v-if="child.isSubgroup" class="nav-subgroup">
-              <span class="nav-subgroup-label">{{ child.label }}</span>
+            <div v-if="child.isSubgroup" class="nav-subgroup" role="group" :aria-labelledby="`cfg-nav-untergruppe-${group.id}-${child.id}`">
+              <span :id="`cfg-nav-untergruppe-${group.id}-${child.id}`" class="nav-subgroup-label">{{ child.label }}</span>
               <div class="nav-subgroup-children">
                 <button
                   v-for="item in child.children"
                   :key="item.id"
+                  type="button"
                   :class="['nav-item', { active: store.state.activeSection === item.section, 'no-tokens': !hasTokens(item) }]"
+                  :aria-current="store.state.activeSection === item.section ? 'page' : undefined"
                   @click="handleSelect(item)"
                 >
                   <span class="nav-item-dot" :class="{ modified: isModified(item) }" v-if="hasTokens(item)"></span>
+                  <span v-if="hasTokens(item) && isModified(item)" class="cfg-sr-only">(geändert)</span>
                   <span class="nav-item-dot empty" v-else></span>
                   <span class="nav-item-label">{{ item.label }}</span>
-                  <svg v-if="isItemLocked(item)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <span v-if="isItemLocked(item)" class="cfg-sr-only">(gesperrt)</span>
+                  <svg aria-hidden="true" v-if="isItemLocked(item)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                   </svg>
                   <span v-if="getItemVersion(item)" class="nav-version-badge">{{ getItemVersion(item) }}</span>
@@ -62,13 +77,17 @@
             <!-- Flat item -->
             <button
               v-else
+              type="button"
               :class="['nav-item', { active: store.state.activeSection === child.section, 'no-tokens': !hasTokens(child) }]"
+              :aria-current="store.state.activeSection === child.section ? 'page' : undefined"
               @click="handleSelect(child)"
             >
               <span class="nav-item-dot" :class="{ modified: isModified(child) }" v-if="hasTokens(child)"></span>
+              <span v-if="hasTokens(child) && isModified(child)" class="cfg-sr-only">(geändert)</span>
               <span class="nav-item-dot empty" v-else></span>
               <span class="nav-item-label">{{ child.label }}</span>
-              <svg v-if="isItemLocked(child)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <span v-if="isItemLocked(child)" class="cfg-sr-only">(gesperrt)</span>
+              <svg aria-hidden="true" v-if="isItemLocked(child)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
               <span v-if="getItemVersion(child)" class="nav-version-badge">{{ getItemVersion(child) }}</span>
@@ -79,15 +98,15 @@
     </nav>
 
     <div v-if="!collapsed" class="sidebar-footer">
-      <button class="btn-reset" @click="handleReset">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button type="button" class="btn-reset" @click="handleReset">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
           <path d="M3 3v5h5"/>
         </svg>
         Reset to Defaults
       </button>
-      <button class="btn-export" @click="handleExportJSON">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button type="button" class="btn-export" @click="handleExportJSON">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 12V5a2 2 0 0 1 2-2h7l5 5v4"/><path d="m12 18-4 4-4-4"/><path d="M8 22V12"/>
         </svg>
         Export JSON
@@ -99,6 +118,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
 
 const props = defineProps({
@@ -288,10 +308,14 @@ function getItemVersion(item) {
   return store.getComponentVersion(componentId)
 }
 
-function handleReset() {
-  if (confirm('Reset all tokens to defaults? This cannot be undone.')) {
-    store.resetToDefaults()
-  }
+async function handleReset() {
+  const ok = await bestaetigen({
+    titel: 'Alle Tokens zurücksetzen?',
+    text: 'Alle Tokens des aktiven Themes werden auf die Standardwerte zurückgesetzt.',
+    bestaetigenText: 'Zurücksetzen',
+    gefaehrlich: true
+  })
+  if (ok) store.resetToDefaults()
 }
 
 function handleExportJSON() {

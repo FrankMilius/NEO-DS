@@ -10,35 +10,44 @@
         :class="{ open: openDropdown === cat.key }"
       >
         <button
+          type="button"
           class="filter-trigger"
+          :aria-expanded="openDropdown === cat.key"
+          :aria-controls="openDropdown === cat.key ? `cfg-filter-${cat.key}` : undefined"
           @click="toggleDropdown(cat.key)"
         >
           <span class="filter-trigger__label">{{ cat.label }}</span>
           <span class="filter-trigger__count">{{ selectedCount(cat.key) }}/{{ totalCount(cat.key) }}</span>
-          <svg class="filter-trigger__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="filter-trigger__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </button>
 
         <!-- Dropdown Panel -->
-        <div v-if="openDropdown === cat.key" class="filter-panel">
+        <div v-if="openDropdown === cat.key" :id="`cfg-filter-${cat.key}`" class="filter-panel">
           <div class="filter-panel__actions">
-            <button class="filter-panel__action" @click="selectAll(cat.key)">All</button>
-            <button class="filter-panel__action" @click="deselectAll(cat.key)">None</button>
+            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: alle auswählen`" @click="selectAll(cat.key)">All</button>
+            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: keine auswählen`" @click="deselectAll(cat.key)">None</button>
           </div>
-          <ul class="filter-panel__list">
+          <ul class="filter-panel__list" :aria-label="cat.label">
             <li
               v-for="item in dropdownItems(cat.key)"
               :key="item.id"
-              class="filter-panel__item"
-              @click="toggleDropdownItem(cat.key, item.id)"
             >
-              <span :class="['filter-checkbox', { checked: item.checked }]">
-                <svg v-if="item.checked" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <button
+                type="button"
+                class="filter-panel__item cfg-knopf-reset"
+                role="checkbox"
+                :aria-checked="item.checked ? 'true' : 'false'"
+                @click="toggleDropdownItem(cat.key, item.id)"
+              >
+              <span :class="['filter-checkbox', { checked: item.checked }]" aria-hidden="true">
+                <svg aria-hidden="true" v-if="item.checked" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 6L9 17l-5-5"/>
                 </svg>
               </span>
               <span class="filter-panel__label">{{ item.label }}</span>
+              </button>
             </li>
           </ul>
         </div>
@@ -49,22 +58,29 @@
     <div v-if="chipGroups.length > 0" class="chipbar-row">
       <template v-for="group in chipGroups" :key="group.category">
         <span class="chipbar-group-label">{{ group.label }}:</span>
-        <button
+        <!-- Chip: Umschalten und Entfernen als zwei Knoepfe nebeneinander (Plan v2, 4.4) -->
+        <span
           v-for="chip in group.items"
           :key="group.category + '-' + chip.id"
           :class="['arena-chip', { inactive: !chip.active }]"
-          @click="toggleChip(group.category, chip.id)"
         >
-          <span class="arena-chip__label">{{ chip.label }}</span>
-          <span
-            class="arena-chip__close"
+          <button
+            type="button"
+            class="arena-chip__label cfg-knopf-reset"
+            :aria-pressed="chip.active ? 'true' : 'false'"
+            @click="toggleChip(group.category, chip.id)"
+          >{{ chip.label }}</button>
+          <button
+            type="button"
+            class="arena-chip__close cfg-knopf-reset"
+            :aria-label="`Filter „${chip.label}“ entfernen`"
             @click.stop="removeChip(group.category, chip.id)"
           >
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
             </svg>
-          </span>
-        </button>
+          </button>
+        </span>
       </template>
     </div>
   </div>
@@ -227,6 +243,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
 }
 
 .filter-panel__item {
+  width: 100%;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -324,7 +342,10 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
   opacity: 0.8;
 }
 
+.arena-chip__label { cursor: pointer; }
+
 .arena-chip__close {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

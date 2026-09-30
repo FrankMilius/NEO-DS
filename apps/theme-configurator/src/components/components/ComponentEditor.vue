@@ -11,7 +11,7 @@
           <path d="M9 15l3-3m2-2 1-1"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072"/><path d="M3 3l18 18"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071"/>
         </svg>
         <span class="sync-label">Sync Geometry</span>
-        <button
+        <button aria-label="Geometrie synchronisieren"
           :class="['sync-switch', { on: store.state.syncGeometry }]"
           role="switch"
           :aria-checked="store.state.syncGeometry"
@@ -43,7 +43,7 @@
         <svg class="token-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input
+        <input aria-label="Tokens suchen"
           v-model="searchQuery"
           type="search"
           class="token-search-input"
@@ -75,13 +75,13 @@
         <div v-if="anatomyOpen" class="inspector-section__body">
           <template v-for="sg in anatomySubgroups" :key="sg.id">
             <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
-              <div class="ce-subgroup-header" @click="toggleSubgroup('anat-' + sg.id)">
+              <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has('anat-' + sg.id)" @click="toggleSubgroup('anat-' + sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('anat-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
                 </svg>
                 <span class="ce-subgroup-label">{{ sg.label }}</span>
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
-              </div>
+              </button>
               <div v-if="expandedSubgroups.has('anat-' + sg.id)" class="ce-subgroup-body">
                 <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
                   <div class="anatomy-row__label">
@@ -94,10 +94,10 @@
                   <!-- Color-Tokens: Native Picker + Swatch + Text-Input -->
                   <div v-if="token.type === 'color'" class="anatomy-color-wrap">
                     <label class="anatomy-color-picker">
-                      <input type="color" :value="getTokenValue(token)" @input="updateToken(token, $event.target.value)" class="anatomy-color-native" />
+                      <input type="color" :aria-label="`${token.label}: Farbe wählen`" :value="getTokenValue(token)" @input="updateToken(token, $event.target.value)" class="anatomy-color-native" />
                       <span class="anatomy-color-swatch" :style="{ background: getTokenValue(token) }"></span>
                     </label>
-                    <input type="text" class="anatomy-color-input" :class="{ modified: isOverridden(token) }" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                    <input :aria-label="`${token.label}: Farbwert`" type="text" class="anatomy-color-input" :class="{ modified: isOverridden(token) }" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                   </div>
                   <!-- Size/Other Tokens: GeometryTokenSelect -->
                   <GeometryTokenSelect v-else
@@ -129,16 +129,16 @@
         <div v-if="typographyOpen" class="inspector-section__body">
           <template v-for="sg in typographySubgroups" :key="sg.id">
             <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
-              <div class="ce-subgroup-header" @click="toggleSubgroup('typo-' + sg.id)">
+              <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has('typo-' + sg.id)" @click="toggleSubgroup('typo-' + sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('typo-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
                 </svg>
                 <span class="ce-subgroup-label">{{ sg.label }}</span>
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
-              </div>
+              </button>
               <div v-if="expandedSubgroups.has('typo-' + sg.id)" class="ce-subgroup-body">
                 <template v-for="token in sg.tokens" :key="token.id">
-                  <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+                  <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
                       <div class="token-typo-indicator">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
@@ -164,7 +164,7 @@
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
                       <div v-else class="generic-editor">
-                        <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                       </div>
                       <SemanticTokenPicker v-if="token.ref || token.type === 'size'"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
@@ -210,21 +210,21 @@
           <template v-for="sg in appearanceSubgroups" :key="sg.id">
             <!-- Subgroup Accordion -->
             <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
-              <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
+              <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has(sg.id)" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
                 </svg>
                 <span class="ce-subgroup-label">{{ sg.label }}</span>
-                <div v-if="sg.swatches.length" class="ce-subgroup-swatches">
+                <span v-if="sg.swatches.length" class="ce-subgroup-swatches" aria-hidden="true">
                   <span v-for="(sw, i) in sg.swatches" :key="i" class="ce-swatch-dot" :style="{ background: sw }" :title="['bg', 'color', 'border'][i]"></span>
-                </div>
+                </span>
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
-              </div>
+              </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
                 <template v-for="token in sg.tokens" :key="token.id">
                   <!-- Mirror Row: Light + Dark nebeneinander -->
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
-                    <div class="mirror-row__label">
+                    <div class="mirror-row__label" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @keydown.enter.prevent="selectToken(token)" @keydown.space.prevent="selectToken(token)">
                       <span class="token-label">{{ token.label }}</span>
                       <span v-if="resolveInheritance(token)" class="inheritance-link inheritance-link--compact" :title="resolveInheritance(token).varName">
                         <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -236,7 +236,7 @@
                       <code class="token-value">{{ formatValue(getTokenValueForMode(token, 'light')) }}</code>
                     </div>
                     <!-- Mirror Button -->
-                    <button class="mirror-btn" @click.stop="mirrorValue(token, $event)" title="Light → Dark kopieren (Shift: Dark → Light)">
+                    <button type="button" class="mirror-btn" @click.stop="mirrorValue(token, $event)" title="Light → Dark kopieren (Shift: Dark → Light)" :aria-label="`${token.label}: Light nach Dark kopieren (Umschalt: Dark nach Light)`">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 7h10v10"/><path d="M7 17L17 7"/>
                       </svg>
@@ -254,7 +254,7 @@
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button v-if="isOverridden(token)" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Reset</button>
+                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Reset</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)"
@@ -290,19 +290,19 @@
         <div v-if="statesOpen" class="inspector-section__body">
           <template v-for="sg in stateSubgroups" :key="sg.id">
             <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
-              <div class="ce-subgroup-header" @click="toggleSubgroup(sg.id)">
+              <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has(sg.id)" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
                 </svg>
                 <span class="ce-subgroup-label">{{ sg.label }}</span>
-                <div v-if="sg.swatches.length" class="ce-subgroup-swatches">
+                <span v-if="sg.swatches.length" class="ce-subgroup-swatches" aria-hidden="true">
                   <span v-for="(sw, i) in sg.swatches" :key="i" class="ce-swatch-dot" :style="{ background: sw }"></span>
-                </div>
+                </span>
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
-              </div>
+              </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
                 <template v-for="token in sg.tokens" :key="token.id">
-                  <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+                  <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
                       <div v-if="token.type === 'color'" class="token-swatch" :style="{ background: getTokenValue(token) }"></div>
                       <div v-else-if="token.type === 'size'" class="token-size-indicator">
@@ -331,7 +331,7 @@
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button v-if="isOverridden(token)" class="reset-ref-btn" @click.stop="resetToSemantic(token)">Reset</button>
+                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)">Reset</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
@@ -341,7 +341,7 @@
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
                       <div v-else class="generic-editor">
-                        <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                       </div>
                       <SemanticTokenPicker v-if="token.ref || token.type === 'color' || token.type === 'size'"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
@@ -369,7 +369,7 @@
         </button>
         <div v-if="advancedOpen" class="inspector-section__body">
           <template v-for="token in advancedTokens" :key="token.id">
-            <div :class="['token-row', { selected: selectedId === token.id }]" @click="selectToken(token)">
+            <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
               <div class="token-left">
                 <div class="token-generic-indicator"><span class="indicator-text">{{ token.type }}</span></div>
               </div>
@@ -389,7 +389,7 @@
                   :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                   :title="token.label" :tokenId="token.id" :max="200" />
                 <div v-else class="generic-editor">
-                  <input type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                  <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                 </div>
               </div>
             </transition>
@@ -1682,6 +1682,7 @@ function getContrastTarget(token) {
 .ce-subgroup-header {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 8px;
   padding: 8px 12px;
   cursor: pointer;

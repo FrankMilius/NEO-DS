@@ -1,25 +1,36 @@
 <template>
   <div class="branch-manager" ref="wrapRef">
     <!-- Branch Badge + Dropdown Toggle -->
-    <button class="branch-badge" @click="isOpen = !isOpen" :title="`Branch: ${branchStore.activeBranchName}`">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button
+      ref="badgeRef"
+      type="button"
+      class="branch-badge"
+      @click="isOpen = !isOpen"
+      :title="`Branch: ${branchStore.activeBranchName}`"
+      :aria-label="`Branch: ${branchStore.activeBranchName}`"
+      :aria-expanded="isOpen"
+      :aria-controls="isOpen ? 'cfg-branch-dropdown' : undefined"
+    >
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>
       </svg>
       <span class="branch-name">{{ branchStore.activeBranchName }}</span>
-      <svg class="branch-chevron" :class="{ open: isOpen }" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <svg aria-hidden="true" class="branch-chevron" :class="{ open: isOpen }" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M6 9l6 6 6-6"/>
       </svg>
     </button>
 
     <!-- Dropdown Panel -->
     <Transition name="dropdown">
-      <div v-if="isOpen" class="branch-dropdown">
+      <div v-if="isOpen" id="cfg-branch-dropdown" class="branch-dropdown">
         <!-- Main branch -->
         <button
+          type="button"
           :class="['branch-item', { active: branchStore.isOnMain }]"
+          :aria-current="branchStore.isOnMain ? 'true' : undefined"
           @click="switchToMain"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="6" y1="3" x2="6" y2="15"/><circle cx="6" cy="18" r="3"/>
           </svg>
           <span class="branch-item-name">main</span>
@@ -30,13 +41,15 @@
         <template v-if="branchStore.branchList.length > 0">
           <div class="branch-divider"></div>
           <div class="branch-section-label">Branches</div>
+          <!-- Zeile: Wechseln- und Loeschen-Knopf nebeneinander, nicht verschachtelt (Plan v2, 4.4) -->
+          <div v-for="branch in branchStore.branchList" :key="branch.id" class="branch-row">
           <button
-            v-for="branch in branchStore.branchList"
-            :key="branch.id"
-            :class="['branch-item', { active: branchStore.state.activeBranchId === branch.id }]"
+            type="button"
+            :class="['branch-item', { active: branchStore.state.activeBranchId === branch.id, 'branch-item--mit-loeschen': branchStore.state.activeBranchId !== branch.id }]"
+            :aria-current="branchStore.state.activeBranchId === branch.id ? 'true' : undefined"
             @click="switchToBranch(branch.id)"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>
             </svg>
             <div class="branch-item-info">
@@ -44,24 +57,27 @@
               <span class="branch-item-meta">{{ changeCount(branch.id) }} changes</span>
             </div>
             <span v-if="branchStore.state.activeBranchId === branch.id" class="branch-current-tag">current</span>
-            <button
-              v-else
-              class="branch-delete-btn"
-              @click.stop="handleDelete(branch.id)"
-              title="Delete branch"
-            >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
-              </svg>
-            </button>
           </button>
+          <button
+            v-if="branchStore.state.activeBranchId !== branch.id"
+            type="button"
+            class="branch-delete-btn"
+            @click.stop="handleDelete(branch.id)"
+            title="Delete branch"
+            :aria-label="`Branch „${branch.name}“ löschen`"
+          >
+            <svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
+            </svg>
+          </button>
+          </div>
         </template>
 
         <div class="branch-divider"></div>
 
         <!-- Actions -->
-        <button class="branch-action" @click="showCreateDialog = true; isOpen = false">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button type="button" class="branch-action" @click="openCreateDialog">
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14"/><path d="M5 12h14"/>
           </svg>
           New Branch
@@ -69,17 +85,18 @@
 
         <button
           v-if="!branchStore.isOnMain"
+          type="button"
           class="branch-action branch-action--merge"
-          @click="$emit('merge', branchStore.state.activeBranchId); isOpen = false"
+          @click="closeAndFocusBadge(); $emit('merge', branchStore.state.activeBranchId)"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
           </svg>
           Merge to main
         </button>
 
-        <button class="branch-action branch-action--release" @click="$emit('release'); isOpen = false">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button type="button" class="branch-action branch-action--release" @click="closeAndFocusBadge(); $emit('release')">
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
           </svg>
           Publish Release
@@ -90,29 +107,30 @@
     <!-- Create Branch Dialog -->
     <Transition name="modal">
       <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
-        <div class="modal-dialog">
+        <div ref="createDialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cfg-branch-dialog-titel" tabindex="-1">
           <div class="modal-header">
-            <h3 class="modal-title">New Branch</h3>
-            <button class="modal-close" @click="showCreateDialog = false">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <h2 id="cfg-branch-dialog-titel" class="modal-title">New Branch</h2>
+            <button type="button" class="modal-close" aria-label="Schließen" @click="showCreateDialog = false">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
               </svg>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-field">
-              <label class="form-label">Branch Name</label>
+              <label class="form-label" for="cfg-branch-name">Branch Name</label>
               <input
+                id="cfg-branch-name"
                 class="form-input"
                 v-model="newBranchName"
                 placeholder="e.g. button-redesign"
                 @keydown.enter="confirmCreate"
-                ref="branchNameRef"
               />
             </div>
             <div class="form-field">
-              <label class="form-label">Description (optional)</label>
+              <label class="form-label" for="cfg-branch-beschreibung">Description (optional)</label>
               <input
+                id="cfg-branch-beschreibung"
                 class="form-input"
                 v-model="newBranchDesc"
                 placeholder="What are you working on?"
@@ -123,8 +141,8 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
-            <button class="modal-btn primary" @click="confirmCreate" :disabled="!newBranchName.trim()">
+            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
+            <button type="button" class="modal-btn primary" @click="confirmCreate" :disabled="!newBranchName.trim()">
               Create Branch
             </button>
           </div>
@@ -135,9 +153,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useBranchStore } from '../../stores/branches.js'
 import { useThemeStore } from '../../stores/theme.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
+import { bestaetigen } from '../../composables/useBestaetigung.js'
 
 const emit = defineEmits(['merge', 'release'])
 
@@ -145,7 +165,8 @@ const branchStore = useBranchStore()
 const themeStore = useThemeStore()
 
 const wrapRef = ref(null)
-const branchNameRef = ref(null)
+const badgeRef = ref(null)
+const createDialogRef = ref(null)
 const isOpen = ref(false)
 const showCreateDialog = ref(false)
 const newBranchName = ref('')
@@ -172,6 +193,31 @@ function switchToBranch(id) {
   isOpen.value = false
 }
 
+// Menue schliessen und den Fokus auf den Branch-Knopf legen — Dialoge, die aus
+// dem Menue geoeffnet werden, geben den Fokus beim Schliessen dorthin zurueck.
+function closeAndFocusBadge() {
+  isOpen.value = false
+  badgeRef.value?.focus()
+}
+
+function openCreateDialog() {
+  closeAndFocusBadge()
+  showCreateDialog.value = true
+}
+
+useFokusFalle(createDialogRef, showCreateDialog, {
+  startFokus: '#cfg-branch-name',
+  beiEscape: () => { showCreateDialog.value = false }
+})
+
+// Escape schliesst das Menue und gibt den Fokus an den Branch-Knopf zurueck
+function onDocKeydown(e) {
+  if (e.key !== 'Escape' || !isOpen.value || showCreateDialog.value) return
+  const warDrin = wrapRef.value?.contains(document.activeElement)
+  isOpen.value = false
+  if (warDrin) badgeRef.value?.focus()
+}
+
 function confirmCreate() {
   const name = newBranchName.value.trim()
   if (!name) return
@@ -182,10 +228,17 @@ function confirmCreate() {
   newBranchDesc.value = ''
 }
 
-function handleDelete(id) {
-  if (confirm('Delete this branch? This cannot be undone.')) {
-    branchStore.deleteBranch(id)
-  }
+async function handleDelete(id) {
+  const name = branchStore.state.branches?.[id]?.name || id
+  const ok = await bestaetigen({
+    titel: 'Branch löschen?',
+    text: `Der Branch „${name}“ wird gelöscht. Das lässt sich nicht rückgängig machen.`,
+    bestaetigenText: 'Löschen',
+    gefaehrlich: true
+  })
+  if (!ok) return
+  branchStore.deleteBranch(id)
+  closeAndFocusBadge()
 }
 
 function changeCount(id) {
@@ -201,10 +254,12 @@ function onDocClick(e) {
 
 onMounted(() => {
   document.addEventListener('click', onDocClick, true)
+  document.addEventListener('keydown', onDocKeydown)
   branchStore.loadFromStorage()
 })
 onUnmounted(() => {
   document.removeEventListener('click', onDocClick, true)
+  document.removeEventListener('keydown', onDocKeydown)
 })
 </script>
 
@@ -299,6 +354,14 @@ onUnmounted(() => {
   transition: all 0.1s;
 }
 
+.branch-row { position: relative; }
+.branch-item--mit-loeschen { padding-right: 38px; }
+.branch-row .branch-delete-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .branch-delete-btn:hover { background: #fee2e2; color: #dc2626; }
 
 .branch-divider { height: 1px; background: var(--cfg-border); margin: 4px 0; }

@@ -2,12 +2,12 @@
   <header class="app-header">
     <!-- Brand -->
     <div class="header-brand">
-      <svg class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <svg aria-hidden="true" class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
         <path d="M12 12l8-4.5" /><path d="M12 12v9" /><path d="M12 12L4 7.5" />
       </svg>
       <div class="brand-text">
-        <span class="app-title">Theme Configurator</span>
+        <h1 class="app-title">Theme Configurator</h1>
         <span class="version-tag">v{{ store.state.version }}</span>
       </div>
     </div>
@@ -16,8 +16,8 @@
     <div class="header-toolbar">
       <!-- 1) Create New Theme -->
       <div class="toolbar-group">
-        <button class="tb-btn" @click="showCreateDialog = true" title="Create New Theme">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="tb-btn" @click="openCreateDialog" title="Create New Theme">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 5v14"/><path d="M5 12h14"/>
           </svg>
           <span class="tb-label">New</span>
@@ -29,34 +29,43 @@
       <!-- 2) Theme Dropdown Selector + Load -->
       <div class="toolbar-group theme-selector-group">
         <div class="theme-dropdown-wrap" ref="dropdownRef">
-          <button class="tb-dropdown-btn" @click="toggleDropdown" :title="activeThemeLabel">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button
+            type="button"
+            class="tb-dropdown-btn"
+            @click="toggleDropdown"
+            :title="activeThemeLabel"
+            :aria-label="`Theme wählen, aktiv: ${activeThemeLabel}`"
+            :aria-expanded="dropdownOpen"
+            :aria-controls="dropdownOpen ? 'cfg-theme-dropdown' : undefined"
+          >
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
             </svg>
             <span class="tb-dropdown-label">{{ activeThemeLabel }}</span>
-            <svg class="tb-chevron" :class="{ open: dropdownOpen }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg aria-hidden="true" class="tb-chevron" :class="{ open: dropdownOpen }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 9l6 6 6-6"/>
             </svg>
           </button>
 
           <!-- Dropdown panel -->
           <Transition name="dropdown">
-            <div v-if="dropdownOpen" class="theme-dropdown-panel">
+            <div v-if="dropdownOpen" id="cfg-theme-dropdown" class="theme-dropdown-panel">
               <!-- Default: Neo Theme (protected — cannot be deleted) -->
               <button
                 class="dd-item dd-item-protected"
                 :class="{ active: !store.state.currentThemeMeta }"
+                :aria-current="!store.state.currentThemeMeta ? 'true' : undefined"
                 @click="selectNeoDefault"
                 title="Default NEO Theme — protected, cannot be deleted"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
                 </svg>
                 <div class="dd-item-text">
                   <span class="dd-item-name">Neo Theme</span>
                   <span class="dd-item-meta">Default · Protected</span>
                 </div>
-                <svg class="dd-lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" class="dd-lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
               </button>
@@ -70,9 +79,10 @@
                   :key="theme.id"
                   class="dd-item"
                   :class="{ active: store.state.currentThemeMeta?.id === theme.id }"
+                  :aria-current="store.state.currentThemeMeta?.id === theme.id ? 'true' : undefined"
                   @click="handleLoadTheme(theme.id)"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2 6a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6z"/>
                   </svg>
                   <div class="dd-item-text">
@@ -106,11 +116,12 @@
           @click="handleSaveTheme"
           :disabled="isSaving"
           title="Save Theme (Ctrl+S)"
+          aria-keyshortcuts="Control+S"
         >
-          <svg v-if="!isSaving && !showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" v-if="!isSaving && !showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
           </svg>
-          <svg v-else-if="showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" v-else-if="showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
           <span v-else class="tb-spinner"></span>
@@ -127,8 +138,10 @@
           @click="store.undo()"
           :disabled="!store.canUndo()"
           title="Undo (Ctrl+Z)"
+          aria-label="Rückgängig"
+          aria-keyshortcuts="Control+Z"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/>
           </svg>
         </button>
@@ -137,8 +150,10 @@
           @click="store.redo()"
           :disabled="!store.canRedo()"
           title="Redo (Ctrl+Shift+Z)"
+          aria-label="Wiederherstellen"
+          aria-keyshortcuts="Control+Shift+Z"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 14l5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/>
           </svg>
         </button>
@@ -149,17 +164,25 @@
       <!-- 4) Download Theme -->
       <div class="toolbar-group">
         <div class="download-wrap" ref="downloadRef">
-          <button class="tb-btn" @click="toggleDownload" title="Download Theme">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button
+            ref="downloadBtnRef"
+            type="button"
+            class="tb-btn"
+            @click="toggleDownload"
+            title="Download Theme"
+            :aria-expanded="downloadOpen"
+            :aria-controls="downloadOpen ? 'cfg-export-dropdown' : undefined"
+          >
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             <span class="tb-label">Export</span>
           </button>
 
           <Transition name="dropdown">
-            <div v-if="downloadOpen" class="download-dropdown">
+            <div v-if="downloadOpen" id="cfg-export-dropdown" class="download-dropdown">
               <button class="dd-item" @click="handleDownloadCSS">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                 </svg>
                 <div class="dd-item-text">
@@ -168,7 +191,7 @@
                 </div>
               </button>
               <button class="dd-item" @click="handleDownloadJSON">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                 </svg>
                 <div class="dd-item-text">
@@ -177,7 +200,7 @@
                 </div>
               </button>
               <button class="dd-item" data-test="export-dtcg" @click="handleDownloadDTCG">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13l-2 2 2 2"/><path d="M15 13l2 2-2 2"/>
                 </svg>
                 <div class="dd-item-text">
@@ -187,7 +210,7 @@
               </button>
               <div class="dd-divider"></div>
               <button class="dd-item" @click="handleDownloadDrupal">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                 </svg>
                 <div class="dd-item-text">
@@ -197,7 +220,7 @@
               </button>
               <div class="dd-divider"></div>
               <button class="dd-item" data-test="import-theme" @click="handleImport">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
                 <div class="dd-item-text">
@@ -223,7 +246,7 @@
             ? `${sync.pendingCount} pending merge request(s)`
             : 'No pending merge requests'"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
           </svg>
           <span class="tb-label">Merge</span>
@@ -240,8 +263,9 @@
           @click="handleDeleteTheme"
           :disabled="!store.state.currentThemeMeta"
           :title="!store.state.currentThemeMeta ? 'Default NEO Theme cannot be deleted' : 'Delete current theme'"
+          aria-label="Theme löschen"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
           </svg>
         </button>
@@ -250,20 +274,21 @@
 
     <!-- ═══════════════ CREATE THEME DIALOG ═══════════════ -->
     <Transition name="modal">
-      <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false" @keydown.escape="showCreateDialog = false">
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="create-dialog-title" @keydown="trapFocus">
+      <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
+        <div ref="createDialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="create-dialog-title" tabindex="-1">
           <div class="modal-header">
-            <h3 class="modal-title" id="create-dialog-title">Create New Theme</h3>
-            <button class="modal-close" @click="showCreateDialog = false">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <h2 class="modal-title" id="create-dialog-title">Create New Theme</h2>
+            <button type="button" class="modal-close" aria-label="Schließen" @click="showCreateDialog = false">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
               </svg>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-field">
-              <label class="form-label">Theme Name</label>
+              <label class="form-label" for="cfg-neues-theme-name">Theme Name</label>
               <input
+                id="cfg-neues-theme-name"
                 class="form-input"
                 v-model="newThemeName"
                 placeholder="e.g. My Brand Theme"
@@ -273,18 +298,19 @@
             </div>
             <div class="form-row">
               <div class="form-field">
-                <label class="form-label">Version</label>
-                <input class="form-input" v-model="newThemeVersion" placeholder="1.0.0" />
+                <label class="form-label" for="cfg-neues-theme-version">Version</label>
+                <input id="cfg-neues-theme-version" class="form-input" v-model="newThemeVersion" placeholder="1.0.0" />
               </div>
               <div class="form-field">
-                <label class="form-label">Creation Date</label>
-                <input class="form-input readonly" :value="todayFormatted" readonly />
+                <label class="form-label" for="cfg-neues-theme-datum">Creation Date</label>
+                <input id="cfg-neues-theme-datum" class="form-input readonly" :value="todayFormatted" readonly />
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
+            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
             <button
+              type="button"
               class="modal-btn primary"
               @click="confirmCreateTheme"
               :disabled="!newThemeName.trim()"
@@ -296,25 +322,25 @@
 
     <!-- ═══════════════ DELETE CONFIRM DIALOG ═══════════════ -->
     <Transition name="modal">
-      <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false" @keydown.escape="showDeleteConfirm = false">
-        <div class="modal-dialog modal-sm" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" @keydown="trapFocus">
+      <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false">
+        <div ref="deleteDialogRef" class="modal-dialog modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-text" tabindex="-1">
           <div class="modal-header">
-            <h3 class="modal-title" id="delete-dialog-title">Delete Theme</h3>
-            <button class="modal-close" @click="showDeleteConfirm = false">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <h2 class="modal-title" id="delete-dialog-title">Delete Theme</h2>
+            <button type="button" class="modal-close" aria-label="Schließen" @click="showDeleteConfirm = false">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
               </svg>
             </button>
           </div>
           <div class="modal-body">
-            <p class="delete-warning">
+            <p id="delete-dialog-text" class="delete-warning">
               Are you sure you want to delete <strong>{{ store.state.currentThemeMeta?.name }}</strong>?
               This action cannot be undone.
             </p>
           </div>
           <div class="modal-footer">
-            <button class="modal-btn secondary" @click="showDeleteConfirm = false">Cancel</button>
-            <button class="modal-btn danger" @click="confirmDeleteTheme">Delete</button>
+            <button type="button" class="modal-btn secondary" data-start-fokus @click="showDeleteConfirm = false">Cancel</button>
+            <button type="button" class="modal-btn danger" @click="confirmDeleteTheme">Delete</button>
           </div>
         </div>
       </div>
@@ -344,7 +370,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { useBranchStore } from '../../stores/branches.js'
@@ -353,6 +379,8 @@ import MergeDialog from '../workflow/MergeDialog.vue'
 import ReleaseDialog from '../workflow/ReleaseDialog.vue'
 import DtcgExportDialog from '../workflow/DtcgExportDialog.vue'
 import ThemeImportDialog from '../workflow/ThemeImportDialog.vue'
+import { hinweisen } from '../../composables/useBestaetigung.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -364,6 +392,9 @@ const branchStore = useBranchStore()
 const dropdownRef = ref(null)
 const downloadRef = ref(null)
 const nameInputRef = ref(null)
+const downloadBtnRef = ref(null)
+const createDialogRef = ref(null)
+const deleteDialogRef = ref(null)
 
 // ---------------------------------------------------------------------------
 // Theme Dropdown
@@ -406,7 +437,7 @@ async function handleSaveTheme() {
     setTimeout(() => { showSaved.value = false }, 2000)
   } catch (err) {
     console.error('[Save] Failed:', err)
-    alert('Save failed: ' + err.message)
+    hinweisen({ titel: 'Speichern fehlgeschlagen', text: err.message })
   } finally {
     isSaving.value = false
   }
@@ -415,8 +446,17 @@ async function handleSaveTheme() {
 // Close dropdowns on Escape + Ctrl+S Save shortcut
 function onDocumentKeydown(e) {
   if (e.key === 'Escape') {
-    if (dropdownOpen.value) { dropdownOpen.value = false; e.stopPropagation() }
-    if (downloadOpen.value) { downloadOpen.value = false; e.stopPropagation() }
+    // Fokus zurueck auf den Menue-Knopf, wenn er im Menue lag (Plan v2, 4.4)
+    if (dropdownOpen.value) {
+      dropdownOpen.value = false
+      e.stopPropagation()
+      if (dropdownRef.value?.contains(document.activeElement)) dropdownRef.value.querySelector('.tb-dropdown-btn')?.focus()
+    }
+    if (downloadOpen.value) {
+      downloadOpen.value = false
+      e.stopPropagation()
+      if (downloadRef.value?.contains(document.activeElement)) downloadBtnRef.value?.focus()
+    }
   }
   if ((e.metaKey || e.ctrlKey) && e.key === 's') {
     e.preventDefault()
@@ -470,15 +510,17 @@ const todayFormatted = computed(() => {
   return new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
 })
 
-// Auto-focus the name input when dialog opens
+// Fokus-Falle: Fokus ins Namensfeld, Tab bleibt im Dialog, Escape schliesst,
+// danach zurueck zum Ausloeser (Plan v2, 4.4)
 function openCreateDialog() {
-  showCreateDialog.value = true
   newThemeName.value = ''
   newThemeVersion.value = '1.0.0'
-  nextTick(() => {
-    nameInputRef.value?.focus()
-  })
+  showCreateDialog.value = true
 }
+useFokusFalle(createDialogRef, showCreateDialog, {
+  startFokus: '#cfg-neues-theme-name',
+  beiEscape: () => { showCreateDialog.value = false }
+})
 
 function confirmCreateTheme() {
   const name = newThemeName.value.trim()
@@ -491,6 +533,10 @@ function confirmCreateTheme() {
 // Delete Theme
 // ---------------------------------------------------------------------------
 const showDeleteConfirm = ref(false)
+useFokusFalle(deleteDialogRef, showDeleteConfirm, {
+  startFokus: '[data-start-fokus]',
+  beiEscape: () => { showDeleteConfirm.value = false }
+})
 
 function handleDeleteTheme() {
   // Double-guard: default NEO Theme can NEVER be deleted
@@ -530,13 +576,17 @@ function handleDownloadDrupal() {
 const showDtcgDialog = ref(false)
 const showImportDialog = ref(false)
 
+// Das Menue schliesst sich — der Fokus geht vorher auf „Export“, damit die
+// Dialoge ihn beim Schliessen dorthin zurueckgeben koennen.
 function handleDownloadDTCG() {
   downloadOpen.value = false
+  downloadBtnRef.value?.focus()
   showDtcgDialog.value = true
 }
 
 function handleImport() {
   downloadOpen.value = false
+  downloadBtnRef.value?.focus()
   showImportDialog.value = true
 }
 
@@ -700,23 +750,6 @@ function confirmPublishRelease({ version, notes }) {
   store.state.version = version
   showReleaseDialog.value = false
 }
-
-// Focus trap for modal dialogs
-function trapFocus(e) {
-  if (e.key !== 'Tab') return
-  const dialog = e.currentTarget
-  const focusable = dialog.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
-  if (focusable.length === 0) return
-  const first = focusable[0]
-  const last = focusable[focusable.length - 1]
-  if (e.shiftKey && document.activeElement === first) {
-    e.preventDefault()
-    last.focus()
-  } else if (!e.shiftKey && document.activeElement === last) {
-    e.preventDefault()
-    first.focus()
-  }
-}
 </script>
 
 <style scoped>
@@ -754,6 +787,8 @@ function trapFocus(e) {
 }
 
 .app-title {
+  margin: 0;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
   color: var(--cfg-text);

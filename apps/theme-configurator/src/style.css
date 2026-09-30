@@ -38,6 +38,11 @@
   /* Overlay */
   --cfg-overlay: color-mix(in srgb, var(--fnd-color-background-inverse) 50%, transparent);
 
+  /* Fokus-Ring (Plan v2, 4.4): DS-Fokusfarbe = Textfarbe → ≥ 3:1 auf allen Flächen */
+  --cfg-focus-ring: var(--fnd-focus-ring-color, var(--cfg-text));
+  --cfg-focus-ring-width: 2px;
+  --cfg-focus-ring-offset: 2px;
+
   /* Z-Index-Schichten */
   --cfg-z-hover: 2;
   --cfg-z-sticky: 10;
@@ -118,8 +123,46 @@ code, pre, .token-name {
 
 /* Focus visible */
 :focus-visible {
-  outline: 2px solid var(--cfg-accent);
-  outline-offset: 2px;
+  outline: var(--cfg-focus-ring-width) solid var(--cfg-focus-ring);
+  outline-offset: var(--cfg-focus-ring-offset);
+}
+
+/* App-Chrome: sichtbarer Fokus auch dort, wo Komponenten `outline: none` setzen
+   (Plan v2, 4.4). Nicht in der Arena-Vorschau (.lab-viewport) — dort gilt das DS. */
+:where(.app-header, .sidebar-nav, .inspector-panel, .lab-header, .arena-filterbar,
+  .konfig-dialog, .modal-dialog, .dialog-panel, .unlock-dialog) :focus-visible {
+  outline: var(--cfg-focus-ring-width) solid var(--cfg-focus-ring) !important;
+  outline-offset: var(--cfg-focus-ring-offset) !important;
+}
+:where(.app-header, .sidebar-nav, .inspector-panel, .konfig-dialog, .modal-dialog, .dialog-panel, .unlock-dialog)
+  :is(input, textarea, select):focus-visible {
+  outline-offset: 0 !important;
+}
+
+/* Knopf ohne Browser-Optik — fuer Klickziele, die vorher div/span/li waren */
+.cfg-knopf-reset {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* Nur fuer Screenreader sichtbar */
+.cfg-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Arena Highlight Overlay (Inspector → Arena visual feedback) */

@@ -1,25 +1,47 @@
 <template>
-  <div class="inspector-panel" :style="{ width: panelWidth + 'px' }">
+  <div class="inspector-panel" role="region" aria-label="Inspector" :style="{ width: panelWidth + 'px' }">
     <!-- Drag Handle -->
-    <div class="inspector-resize-handle" @mousedown="startResize"></div>
+    <div
+      class="inspector-resize-handle"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Inspector-Breite ändern (Pfeiltasten)"
+      tabindex="0"
+      :aria-valuenow="panelWidth"
+      :aria-valuemin="MIN_WIDTH"
+      :aria-valuemax="Math.max(MAX_WIDTH, panelWidth)"
+      @mousedown="startResize"
+      @keydown="resizeMitTastatur"
+    ></div>
 
     <!-- Combined Header (mirrors lab-header layout) -->
     <div class="inspector-header">
       <div class="inspector-header__row">
-        <h3 class="inspector-title">
+        <h2 class="inspector-title">
           Inspector
           <span v-if="sectionTitle" class="inspector-breadcrumb-sep">&rsaquo;</span>
           <span v-if="sectionTitle" class="inspector-breadcrumb-leaf">{{ sectionTitle }}</span>
-        </h3>
+        </h2>
         <!-- Info icon with tooltip -->
-        <span v-if="sectionDesc" class="inspector-info-trigger" @mouseenter="showInfoTooltip = true" @mouseleave="showInfoTooltip = false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <button
+          v-if="sectionDesc"
+          type="button"
+          class="inspector-info-trigger cfg-knopf-reset"
+          aria-label="Beschreibung der Sektion"
+          aria-describedby="cfg-inspector-info"
+          @mouseenter="showInfoTooltip = true"
+          @mouseleave="showInfoTooltip = false"
+          @focus="showInfoTooltip = true"
+          @blur="showInfoTooltip = false"
+          @keydown.escape.stop="showInfoTooltip = false"
+        >
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
           </svg>
           <transition name="tooltip-fade">
-            <span v-if="showInfoTooltip" class="inspector-info-tooltip">{{ sectionDesc }}</span>
+            <span v-show="showInfoTooltip" id="cfg-inspector-info" role="tooltip" class="inspector-info-tooltip">{{ sectionDesc }}</span>
           </transition>
-        </span>
+        </button>
       </div>
       <!-- Component Meta Bar -->
       <div v-if="isComponentSection && currentComponentId !== 'grid'" class="inspector-meta-bar">
@@ -32,17 +54,21 @@
         </div>
       </div>
       <!-- Theme-Set Switcher (Neo / Customer) -->
-      <div v-if="isComponentSection || activeSection === 'foundation-colors'" class="theme-set-switcher">
+      <div v-if="isComponentSection || activeSection === 'foundation-colors'" class="theme-set-switcher" role="group" aria-label="Theme-Set">
         <button
+          type="button"
           :class="['tss-btn', { active: store.state.activeThemeSet === 'neo' }]"
+          :aria-pressed="store.state.activeThemeSet === 'neo'"
           @click="store.setActiveThemeSet('neo')"
         >Neo</button>
         <button
+          type="button"
           :class="['tss-btn', { active: store.state.activeThemeSet === 'customer' }]"
+          :aria-pressed="store.state.activeThemeSet === 'customer'"
           @click="store.setActiveThemeSet('customer')"
         >Customer</button>
-        <button class="tss-copy-btn" @click="handleCopyTheme" :title="copyTitle">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="tss-copy-btn" @click="handleCopyTheme" :title="copyTitle" :aria-label="copyTitle">
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
           </svg>
         </button>
@@ -50,12 +76,14 @@
       </div>
 
       <!-- Color Tabs (only for foundation-colors) -->
-      <div v-if="activeSection === 'foundation-colors'" class="color-tabs">
+      <div v-if="activeSection === 'foundation-colors'" class="color-tabs" role="group" aria-label="Farbebene">
         <button
+          type="button"
           :class="['color-tab', { active: store.state.colorActiveTab === 'primitives' }]"
+          :aria-pressed="store.state.colorActiveTab === 'primitives'"
           @click="store.state.colorActiveTab = 'primitives'; store.state.semanticCategory = null; store.state.selectedToken = null"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
             <circle cx="7.5" cy="10.5" r="1" fill="currentColor" /><circle cx="12" cy="7.5" r="1" fill="currentColor" /><circle cx="16.5" cy="10.5" r="1" fill="currentColor" />
           </svg>
@@ -63,10 +91,12 @@
           <span class="tab-badge tier-1">L1</span>
         </button>
         <button
+          type="button"
           :class="['color-tab', { active: store.state.colorActiveTab === 'semantic' }]"
+          :aria-pressed="store.state.colorActiveTab === 'semantic'"
           @click="store.state.colorActiveTab = 'semantic'"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3l4 7h-8z" /><circle cx="17" cy="17" r="3" /><rect x="4" y="14" width="6" height="6" rx="1" />
           </svg>
           <span>Semantic Colors</span>
@@ -96,6 +126,7 @@
 <script setup>
 import { computed, ref, onBeforeUnmount } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
@@ -122,12 +153,15 @@ const themeDiffCount = computed(() => {
   return diff.semantic.length + diff.component.length + diff.foundation.length
 })
 
-function handleCopyTheme () {
+async function handleCopyTheme () {
   const from = store.state.activeThemeSet
   const to = from === 'neo' ? 'customer' : 'neo'
-  if (confirm(`Alle Token-Overrides von "${from}" nach "${to}" kopieren?`)) {
-    store.copyThemeOverrides(from, to)
-  }
+  const ok = await bestaetigen({
+    titel: 'Token-Overrides kopieren?',
+    text: `Alle Token-Overrides von „${from}“ nach „${to}“ kopieren?`,
+    bestaetigenText: 'Kopieren'
+  })
+  if (ok) store.copyThemeOverrides(from, to)
 }
 
 // ---------------------------------------------------------------------------
@@ -135,7 +169,20 @@ function handleCopyTheme () {
 // ---------------------------------------------------------------------------
 const MIN_WIDTH = 360
 const DEFAULT_WIDTH = 600
+const MAX_WIDTH = 1200
 const panelWidth = ref(DEFAULT_WIDTH)
+
+// Tastatur: Pfeil links = breiter, rechts = schmaler (Umschalt: 80 px), Pos1 = Standard
+function resizeMitTastatur (e) {
+  const schritt = e.shiftKey ? 80 : 20
+  let neu = null
+  if (e.key === 'ArrowLeft') neu = panelWidth.value + schritt
+  else if (e.key === 'ArrowRight') neu = panelWidth.value - schritt
+  else if (e.key === 'Home') neu = DEFAULT_WIDTH
+  if (neu === null) return
+  e.preventDefault()
+  panelWidth.value = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, neu))
+}
 let resizing = false
 let startX = 0
 let startWidth = 0
@@ -257,7 +304,8 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 }
 
 .inspector-resize-handle:hover,
-.inspector-resize-handle:active {
+.inspector-resize-handle:active,
+.inspector-resize-handle:focus-visible {
   background: var(--cfg-accent, #7c3aed);
   opacity: 0.3;
 }

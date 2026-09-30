@@ -64,23 +64,24 @@
          ═══════════════════════════════════════════════════════════════ -->
     <div v-if="smartLinks.length" class="ldp-links">
       <div class="ldp-links-label">Verknuepfte Tokens</div>
-      <div
+      <button
         v-for="link in smartLinks"
         :key="link.targetToken"
-        class="ldp-link"
+        type="button"
+        class="ldp-link cfg-knopf-reset"
         @click="navigateTo(link.section)"
       >
-        <div class="ldp-link-header">
+        <span class="ldp-link-header">
           <span class="ldp-link-target">{{ link.targetLabel }}</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          <svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
           <code class="ldp-link-token">--{{ link.targetToken }}</code>
           <span v-if="link.isOverridden" class="ldp-link-modified">modified</span>
-        </div>
-        <div class="ldp-link-value">
+        </span>
+        <span class="ldp-link-value">
           <span class="ldp-link-current">{{ link.currentValue }}</span>
-        </div>
-        <p class="ldp-link-reason">{{ link.reason }}</p>
-      </div>
+        </span>
+        <span class="ldp-link-reason">{{ link.reason }}</span>
+      </button>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
@@ -293,6 +294,8 @@ const {
 }
 
 .ldp-link {
+  width: 100%;
+  text-align: left;
   border: 1px solid var(--cfg-border);
   border-radius: var(--fnd-radius-m);
   padding: var(--fnd-spacing-02) var(--fnd-spacing-03);
