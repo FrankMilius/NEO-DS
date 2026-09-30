@@ -24,6 +24,7 @@ import InspectorPanel from './components/layout/InspectorPanel.vue'
 import LaboratoryPanel from './components/laboratory/LaboratoryPanel.vue'
 import UpdateDialog from './components/components/UpdateDialog.vue'
 import ErrorBoundary from './components/layout/ErrorBoundary.vue'
+import { starteHashRouter } from './navigation/hash-router.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -62,14 +63,20 @@ function onKeydown (e) {
   }
 }
 
+// Deep-Links: Sektion ↔ URL-Hash (Plan v2, 3.4). Start nach loadFromStorage,
+// damit ein Hash in der URL den gespeicherten Stand ueberschreibt.
+let stoppeHashRouter = null
+
 onMounted(() => {
   store.loadFromStorage()
+  stoppeHashRouter = starteHashRouter(store)
   sync.fetchExistingPalettes()
   window.addEventListener('keydown', onKeydown)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
+  stoppeHashRouter?.()
 })
 </script>
 
