@@ -1,5 +1,400 @@
-# Vue 3 + Vite
+# NEO Theme-Konfigurator
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue-App zum Anpassen des NEO-Standard-Themes an das Corporate Design eines
+Kunden: Markenfarben, semantische Rollen (hell/dunkel), Foundation
+(Abstände, Radien, Schatten, Typografie …), Komponenten-Tokens, Schriften,
+Icons. Die Vorschau zeigt echte Komponenten des NEO Design Systems.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+**Zielbild:** Die App wird Teil der Config Tools der **neo Workplace
+Plattform (Drupal 11)**; gespeichert wird pro Kunde in Drupal mit
+Revisionen, Rechten und Kontrast-Prüfung vor dem Veröffentlichen
+([ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md)). Heute läuft sie
+lokal mit dem Docs-Server und speichert im Browser.
+
+| | |
+| --- | --- |
+| App-Version | `package.json` → `1.0.0-rc.1` (Übergabe-Kandidat) |
+| Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
+| Node | 22 (wie CI) |
+| Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
+| API-Entwurf (Drupal) | [`docs/api/theme-konfigurator.openapi.yaml`](../../docs/api/theme-konfigurator.openapi.yaml) |
+
+Pfade ohne `apps/theme-configurator/` davor beziehen sich auf diesen Ordner;
+`<wurzel>` ist das Repository (WEBSITE26).
+
+---
+
+## Schnellstart
+
+```bash
+# im Repository-Wurzelverzeichnis
+npm ci
+npm run build:css        # styles.css — Eingabe für Token-Skripte UND App (main.js importiert sie)
+npm run tokens           # nur nötig, wenn Tokens/SCSS geändert wurden (Generate sind eingecheckt)
+
+cd apps/theme-configurator && npm ci && cd ../..
+npm run config:build     # baut config/theme-configurator/ + config/theme-config.html
+npm run docs             # Docs-Server auf 127.0.0.1:3000
+```
+
+Dann öffnen: **http://localhost:3000/config/theme-config**
+(ohne Build antwortet diese Adresse mit 503 und einer Anleitung).
+
+### Entwicklung mit Hot Reload
+
+```bash
+npm run docs                                   # Terminal 1: API auf :3000
+cd apps/theme-configurator && npm run dev      # Terminal 2: Vite
+```
+
+Öffnen: **http://localhost:5173/config/theme-configurator/** (Vite-`base`).
+Vite leitet `/api` an `http://127.0.0.1:3000` weiter und darf Dateien aus
+der Wurzel lesen (`styles.css`, Schriften, `data/*-recipe.json`), siehe
+`vite.config.js`. Ohne Docs-Server läuft die App, aber Speichern auf den
+Server und der Styleguide-Abgleich schlagen fehl; „Reset“ nutzt dann die
+eingebauten Standardwerte.
+
+### Nützliche Befehle
+
+| Wo | Befehl | Zweck |
+| --- | --- | --- |
+| App | `npm test` / `npx vitest run` | Unit- und Komponententests |
+| App | `npm run e2e` / `npm run e2e:visuell` | Playwright (siehe [e2e/README.md](e2e/README.md)) |
+| App | `npx vite build` | Build nach `<wurzel>/config/theme-configurator/` |
+| Wurzel | `npm run config:build` | Build + Prüfung des Einstiegs |
+| Wurzel | `npm run config:budget` | Bundle-Budget (`bundle-budget.json`) |
+| Wurzel | `npm run tokens` | Token-Pipeline (siehe unten) |
+| Wurzel | `npm run tokens:semantik:check`, `tokens:werk:check`, `tokens:foundation:check`, `tokens:dtcg:check`, `lint:schwellen` | Drift-Wächter wie in CI |
+
+---
+
+## Architektur und Datenfluss
+
+```mermaid
+flowchart LR
+  subgraph Quelle["Quelle (Wurzel)"]
+    SCSS["scss/scss/**<br/>_mono-bridge.scss, _color-primitives.scss"]
+    CSS["styles.css"]
+    JSON["data/design-tokens.json"]
+    REC["data/*-recipe.json<br/>data/markup/*.html"]
+  end
+  SCSS -- "npm run build:css" --> CSS
+  CSS -- "primitives-/foundation-aus-quelle" --> JSON
+  SCSS -- "semantik-aus-bruecke" --> JSON
+  JSON -- "generate-tokens" --> GEN["src/data/tokens.generated.js"]
+  GEN -- "generate-neo-defaults" --> DEF["data/neo-theme-defaults/<br/>neo-theme-defaults.json"]
+  JSON -- "export-dtcg" --> DTCG["data/design-tokens.dtcg.json"]
+
+  subgraph App["Theme-Konfigurator"]
+    TOK["src/data/tokens.js"]
+    STORE["Pinia useThemeStore<br/>(stores/theme/*)"]
+    UI["Labor: Arenen / RecipeArena<br/>Inspector: Editoren"]
+    EXP["Export: JSON · CSS · DTCG · Drupal"]
+    SP["speicher/: lokal | drupal"]
+  end
+  GEN --> TOK --> STORE
+  DEF -- "GET /api/neo-theme-defaults" --> STORE
+  CSS -- "import in main.js" --> UI
+  REC -- "import.meta.glob + recipe-sdk" --> UI
+  STORE <--> UI
+  STORE --> EXP
+  STORE <--> SP
+  SP -- "localStorage + POST /api/save-theme" --> LOK["Browser / Docs-Server"]
+  SP -. "REST (Entwurf, ADR-002)" .-> DRU["Drupal 11"]
+```
+
+- **Token-Quelle** (ADR-001): `data/design-tokens.json`. Übergangsweise
+  folgt sie der SCSS: Primitives und Foundation-Familien werden aus dem
+  **kompilierten** `styles.css` übernommen, die Semantik aus
+  `_mono-bridge.scss`. Deshalb vor `npm run tokens` immer
+  `npm run build:css`. `npm run tokens` führt nacheinander aus:
+  `primitives-aus-quelle` → `foundation-aus-quelle` → `semantik-aus-bruecke`
+  → `generate-tokens` (→ `src/data/tokens.generated.js`, außerdem
+  `data/design-tokens.css`, `_design-tokens.generated.scss`) →
+  `generate-neo-defaults` → `export-dtcg`. Die Generate sind eingecheckt;
+  CI bricht bei Drift ab.
+- **`src/data/tokens.js`** reicht das Generat an die App weiter
+  (`semanticDefaults`, `foundationTokens`, `componentTokenGroups`, …); nie
+  von Hand ändern.
+- **Store** hält beide Theme-Sets (`neo`, `customer`) × hell/dunkel plus
+  alle Overrides; Details unten und in ADR-003.
+- **Vorschau:** `main.js` lädt das gebaute `styles.css` des Design Systems
+  (`--fnd-*`) und `src/style.css` (App-Chrome, `--cfg-*`). Arenen lösen
+  Tokens über `composables/useTokenResolver.js` auf (Override im Store →
+  Komponenten-Token → semantische Rolle → Standard).
+
+### Verzeichnisstruktur
+
+```text
+apps/theme-configurator/
+├── index.html, vite.config.js, vitest.config.js, playwright.config.js
+├── build-info.js          Version/Commit/Build-Datum als Vite-define
+├── bundle-budget.json     Obergrenzen für das Bundle (CI)
+├── src/
+│   ├── main.js, App.vue   Einstieg: Pinia, Header, Sidebar, Labor, Inspector
+│   ├── stores/            theme.js (Fassade) + theme/*.js, branches.js,
+│   │                      styleguide-sync.js, plugins/verlauf.js, pinia.js
+│   ├── navigation/        hash-router.js, sektionen.js (Registry), sektions-ids.js
+│   ├── components/        layout/ (Header, Sidebar, Inspector), laboratory/ (Arenen),
+│   │                      foundation/, components/, editors/, workflow/ (Dialoge),
+│   │                      templates/, ui/
+│   ├── lib/               recipe-arena.js (Recipe → Zellen), app-version.js
+│   ├── arena-templates/   Markup-Vorlagen je Recipe-ID (<id>.js)
+│   ├── composables/       Token-Auflösung, Recipe-Loader, Arena-Resolver, Fokusfalle …
+│   ├── speicher/          index.js (Auswahl), lokal.js, drupal.js, kontrast.js, fehler.js
+│   ├── export/            dtcg.js, drupal-adapter.js, foundation-css.js, type-scale-css.js
+│   ├── import/            theme-import.js (Prüfung + Vorschau)
+│   ├── data/              tokens.generated.js (Generat), tokens.js, navigation-builder.js
+│   └── utils/
+├── tests/                 Vitest (a11y, arena, components, composables, export,
+│                          import, navigation, speicher, stores, utils)
+└── e2e/                   Playwright, axe-Basislinie, Screenshot-Baselines
+```
+
+Außerhalb der App: `<wurzel>/packages/recipe-sdk` und
+`<wurzel>/packages/dtcg-export` (Vite-Aliase `recipe-sdk`, `dtcg-export`),
+`<wurzel>/scripts/docs-server.js`, `<wurzel>/config/theme-config.vorlage.html`.
+
+---
+
+## Store und Verlauf
+
+Entscheidung und Alternativen: [ADR-003](../../docs/adr/ADR-003-store-pinia-setup-stores.md).
+
+- `useThemeStore()` (`stores/theme.js`) ist die einzige Schnittstelle für
+  Komponenten: `state`, abgeleitete Werte (`currentSemanticTokens`,
+  `isDirty`, …) und Aktionen. Umgesetzt sind sie in `stores/theme/*.js`
+  (kern, getter, ui, token-aktionen, komponenten, verlauf, themes,
+  persistenz, export, theme-sets, praesentation).
+- **Theme-Inhalte** = `THEME_DATA_KEYS` (`stores/theme/verlauf.js`). Neues
+  Feld → dort eintragen; `tests/stores/theme-schema.test.js` prüft das.
+- **Undo/Redo:** Aktionen in `VERLAUF_AKTIONEN` legen über das Pinia-Plugin
+  `stores/plugins/verlauf.js` automatisch einen Schritt an (nur bei echter
+  Änderung; Folgen < 400 ms werden zusammengefasst; max. 50 Schritte).
+  Neue ändernde Aktion → Namen in `VERLAUF_AKTIONEN` aufnehmen.
+  Tastatur: Strg/Cmd+Z, Strg/Cmd+Shift+Z (außer in Textfeldern).
+- **Auto-Save:** `stores/theme/persistenz.js` schreibt den Arbeitsstand bei
+  jeder Änderung nach `localStorage`.
+- Weitere Stores: `useBranchStore` (lokale Branches/Releases, Merge) und
+  `useStyleguideSync` (Zusatzpaletten in den Styleguide, nur mit Docs-Server).
+- Pinia-Instanz immer über `erzeugePinia()` (`stores/pinia.js`) – so haben
+  App und Tests dasselbe Plugin.
+
+---
+
+## Navigation und Deep-Links
+
+Die Sidebar entsteht aus `data/component-registry.json`
+(`src/data/navigation-builder.js`; neu erzeugen mit `npm run registry` in der
+Wurzel). `src/navigation/sektionen.js` ordnet jeder Sektion Labor-Ansicht
+und Inspector zu: Foundation-Sektionen fest, `component-*`, `template-*`,
+`module-*`, `utility-*` nach Präfix.
+
+**URL-Schema** (`src/navigation/hash-router.js`): Sektions-ID am ersten `-`
+geteilt.
+
+| Sektion | Hash |
+| --- | --- |
+| `foundation-colors` (Start) | `#/foundation/colors` |
+| `component-button` | `#/component/button` |
+| `component-code-snippet` | `#/component/code-snippet` |
+| Button, Customer-Set, dunkel | `#/component/button?set=customer&modus=dark` |
+
+- `set` (`neo` | `customer`) und `modus` (`light` | `dark` | `split` |
+  `matrix`) stehen nur in der URL, wenn sie vom Standard (`neo`, `light`)
+  abweichen.
+- Sektionswechsel legen einen Browser-Verlaufseintrag an (Zurück/Vor
+  funktioniert), Set-/Modus-Wechsel ersetzen ihn.
+- Beim Start gewinnt ein gültiger Hash vor dem gespeicherten Stand;
+  unbekannte Sektionen führen zur Startsektion.
+- Beispiel: `http://localhost:3000/config/theme-config#/component/badge?modus=dark`
+
+---
+
+## Arenen aus Recipes
+
+Im Regelfall zeigt eine Komponente die **RecipeArena**
+(`components/laboratory/RecipeArena.vue`): Sie baut die Vorschau aus
+demselben Recipe, aus dem auch Drupal und Storybook die Komponente erzeugen.
+Ablauf (`src/lib/recipe-arena.js`): Recipe normalisieren → Specimen-Matrix
+(Achsen × Zustände, `recipe-sdk`) → Modell (Klassen, Attribute, Slots) →
+Zelle aus der Vorlage `src/arena-templates/<id>.js` oder, ohne Vorlage, per
+Slot-Heuristik. 46 Komponenten haben noch eine handgeschriebene Arena
+(`SONDERFAELLE` in `composables/useArenaResolver.js`); sie hat Vorrang.
+
+**Neue Vorlage anlegen**
+
+1. Recipe `<wurzel>/data/<id>-recipe.json` (Schema:
+   `<wurzel>/docs/recipes/schema.md`, `data/recipe-schema.json`; prüfen mit
+   `npm run lint:recipes`). Die App findet es per `import.meta.glob`
+   automatisch (`composables/useRecipeLoader.js`).
+2. Echtes Markup in `<wurzel>/data/markup/<id>.html` ablegen (siehe
+   `data/markup/LIESMICH.md`) – Quelle der Vorlage.
+3. `src/arena-templates/<id>.js` anlegen:
+   `export default (zelle, m) => \`<… class="${m.klasse}"${m.attrs}>…\``.
+   `m` liefert `klasse`, `attrs`, `slot(name)`, `text`, `hat(zustand)`,
+   `deaktiviert`, `wert(achse)`, `uid` (Beschreibung im Kopf von
+   `arena-templates/index.js`). Registrierung ist automatisch; Dateien mit
+   `_` sind Helfer.
+4. In der Navigation erscheint die Komponente über
+   `npm run registry` (Wurzel).
+5. `npx vitest run tests/arena` – `vorlagen.test.js` verlangt, dass jede
+   Zelle aus der Vorlage kommt und jede Vorlage zu einem Recipe gehört.
+   Snapshots nur bei gewollter Änderung aktualisieren (`-u`).
+6. Steht die ID in `SONDERFAELLE`, ist die Vorlage erst sichtbar, wenn der
+   Eintrag dort entfernt wird.
+
+---
+
+## Speichern
+
+Konzept und offene Fragen: [ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md).
+Code: `src/speicher/` (gemeinsame Schnittstelle, JSDoc in `index.js`).
+
+| Adapter | Standard | Verhalten |
+| --- | --- | --- |
+| `lokal` | ja | Arbeitsstand, benannte Themes, Katalog im `localStorage`; „Speichern“ (Strg/Cmd+S) → `POST /api/save-theme` am Docs-Server; NEO-Standard über `GET /api/neo-theme-defaults` |
+| `drupal` | nein, **Entwurf** | REST nach `docs/api/theme-konfigurator.openapi.yaml`: Sitzungs-Cookie + `X-CSRF-Token`, ETag/`If-Match` (412/409 als Konflikt), Revisionen, Veröffentlichen mit Kontrast-Tor (`speicher/kontrast.js`) |
+
+**Konfiguration** (`leseKonfiguration()` in `speicher/index.js`; `window`
+gewinnt vor env):
+
+```html
+<script>
+  window.NEO_KONFIGURATOR = {
+    speicher: 'drupal',                          // 'lokal' | 'drupal'
+    basisUrl: '/api/neo-theme-konfigurator/v1',
+    kunde: 'acme',
+    csrfToken: '…'                               // oder csrfTokenUrl (Standard '/session/token')
+  }
+</script>
+```
+
+Für die Entwicklung alternativ `VITE_NEO_SPEICHER`, `VITE_NEO_BASIS_URL`,
+`VITE_NEO_KUNDE`, `VITE_NEO_CSRF_TOKEN_URL` (z. B. in `.env.local`).
+
+localStorage-Schlüssel (lokal): `neo-theme-configurator` (Arbeitsstand),
+`neo-theme-configurator-saved-themes` (Katalog), `neo-theme-<id>`
+(benannte Themes), `neo-theme-branches`, `neo-theme-releases`.
+
+---
+
+## Export und Import
+
+Alle Exporte beziehen sich auf das **aktive** Theme-Set (Header, Menü „Export“; dort auch Import und DTCG).
+
+| Format | Datei | Inhalt |
+| --- | --- | --- |
+| Theme-JSON | `<name>.theme.json` | `exportAsJSON()`: `meta` (name, version, branch, generated, generator), `components`, `primitives`, `semantic.light/dark`, `foundation`, `typeScale`, `focusRingMode`. Ohne eigene Tokens, Schriften, Icons. |
+| CSS-Variablen | `<name>.theme.css` | `exportAsCSSVars()` |
+| DTCG (W3C Design Tokens) | `<name>.tokens.dtcg.json` | Dialog mit Hinweisliste; derselbe Exporter wie `scripts/export-dtcg.cjs` (`packages/dtcg-export`). Unverändertes NEO-Theme = byte-gleich mit `data/design-tokens.dtcg.json`; nicht Abbildbares steht in `$extensions["de.neocosmo"].themeExport.nichtAbgebildet`. |
+| Drupal | `<name>-override.css`, `<name>-settings.json` | `export/drupal-adapter.js` |
+
+**Import** (`src/import/theme-import.js`, Dialog im Header): nur das
+Theme-JSON-Format. Die Datei wird vollständig geprüft (bekannte Schlüssel,
+Typen, Farbwerte, bis 25 Fundstellen auf einmal) und abgelehnt, wenn ein
+Fehler vorliegt; sonst Vorschau je Bereich, dann Übernahme als ein
+Undo-Schritt. Eigene Tokens, Schriften und Icons bleiben unverändert.
+
+---
+
+## API
+
+### Heute: Docs-Server (`scripts/docs-server.js`)
+
+Nur lokal (`127.0.0.1:3000`, `HOST`/`PORT` änderbar), Host- und
+Origin-Prüfung, max. 2 MB je Anfrage. Details: ADR-004.
+
+| Methode, Pfad | Antwort / Wirkung |
+| --- | --- |
+| `GET /api/neo-theme-defaults` | `{ status: 'ok', defaults }` aus `data/neo-theme-defaults/neo-theme-defaults.json` |
+| `POST /api/save-theme` | Pflicht `primitives`, `theme`; optional `semantic`, `components`, `foundation`, `typeScale`, `meta`. Schreibt `website/data/custom-theme.json` und `data/theme-overrides.css`, ggf. `ddev drush cr`. → `{ status, path, cssPath }`, bei Fehler 400 |
+| `GET /api/styleguide-status` | `{ status, palettes: [{ id, base }] }` |
+| `POST /api/preview-styleguide-update` | Trockenlauf für `{ palettes: [{ id, label, base }] }` → Diffs |
+| `POST /api/update-styleguide` | schreibt neue Paletten in SCSS und Farb-Doku |
+| `GET /*` | statische Dateien aus der Wurzel; `/` → `/docs/` |
+
+### Künftig: Drupal-REST (Entwurf)
+
+[`docs/api/theme-konfigurator.openapi.yaml`](../../docs/api/theme-konfigurator.openapi.yaml)
+(OpenAPI 3.1, Basis `/api/neo-theme-konfigurator/v1`, **nicht abgestimmt**):
+`GET /neo-standard`; `GET|POST /kunden/{kunde}/themes`;
+`GET|PUT|DELETE /kunden/{kunde}/themes/{themeId}`; `…/revisionen`,
+`…/revisionen/{revisionId}`, `POST …/revisionen/{revisionId}/wiederherstellen`;
+`POST …/veroeffentlichen`; `GET …/export?format=json|dtcg|css`.
+Gegenstück in der App: `src/speicher/drupal.js`. `tests/speicher/openapi.test.js`
+prüft, dass jede URL des Adapters in der OpenAPI-Datei steht und deren
+Schemas zur App passen (`THEME_DATA_KEYS`, Theme-JSON, Import-Prüfung).
+
+---
+
+## Tests, CI, Release
+
+| Ebene | Wo | Befehl |
+| --- | --- | --- |
+| Unit/Komponenten | `tests/` (Vitest, happy-dom; 33 Dateien, 780 Tests am 30.09.2026) | `npx vitest run` |
+| E2E | `e2e/` (Playwright gegen das **gebaute** Bundle, Docs-Server auf Port 3100) | `npm run e2e` |
+| Barrierefreiheit | `e2e/axe.spec.js` mit Basislinie `e2e/axe-basislinie.json` (darf nur sinken); `tests/a11y/` | s. [e2e/README.md](e2e/README.md) |
+| Visuell | `e2e/arenen.visuell.spec.js`, Linux-Baselines, kein Gate | `npm run e2e:visuell` |
+
+**CI** (`.github/workflows/theme-configurator.yml`, bei Änderungen an App,
+Paketen, Daten, SCSS, Skripten, Doku, Config): Token-Drift → Vitest → Build →
+Einstieg → Bundle-Budget → Artefakt `theme-configurator-<sha>` (30 Tage) →
+E2E. Screenshot-Vergleich nur per *Run workflow*.
+
+**Release** (`.github/workflows/release-konfigurator.yml`):
+
+1. `version` in `apps/theme-configurator/package.json` setzen (SemVer; bis
+   zur abgestimmten Drupal-Schnittstelle `1.0.0-rc.N`), committen.
+2. `git tag konfigurator-v<version> && git push origin konfigurator-v<version>`
+3. Der Workflow prüft Tag = `package.json`, testet, baut und legt ein
+   GitHub-Release mit `theme-configurator-<version>.zip`
+   (`theme-config.html` + `theme-configurator/`) an.
+
+**Versionsanzeige:** Der Header zeigt „Theme v…“ (Version des bearbeiteten
+Themes, `state.version`, Theme-Metadaten) und daneben „App <version> ·
+<commit>“ (Build, aus `build-info.js`); das Build-Datum steht im Tooltip.
+
+---
+
+## Integration in Drupal
+
+Vorschlag (ADR-004), abhängig von den offenen Fragen in ADR-002:
+
+1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS
+   aus `theme-configurator/assets/` als Library registrieren.
+2. Admin-Route mit `<div id="app"></div>`; vor dem App-Skript
+   `window.NEO_KONFIGURATOR` setzen (z. B. aus `drupalSettings`: `speicher:
+   'drupal'`, `basisUrl`, `kunde`, `csrfToken`).
+3. REST-Endpunkte nach der OpenAPI-Datei umsetzen (Empfehlung ADR-002:
+   revisionierbare Content Entity `neo_theme`, schlanker REST-Controller,
+   App-Schnappschuss als JSON-Feld, If-Match/ETag, Kontrast-Tor mit 422).
+4. Veröffentlichtes Theme im Frontend-Theme einbinden (offene Frage 6).
+
+Offen (ADR-002, „Offene Fragen an die Entwickler“): Anmeldung/CSRF, Rollen
+und Rechte, Mandanten, Freigabe-Workflow, Kontrast-Tor serverseitig,
+Konsum im Frontend-Theme, Konflikte, Auto-Save, NEO-Standard, Validierung.
+
+---
+
+## Bekannte Grenzen
+
+- **Speichern in Drupal ist ein Entwurf:** Adapter und OpenAPI sind nicht mit
+  der Drupal-Entwicklung abgestimmt; ohne Konfiguration speichert die App nur
+  im Browser bzw. über den lokalen Docs-Server.
+- **Vite-`base` fest** auf `/config/theme-configurator/`; ein anderer Pfad in
+  Drupal braucht einen angepassten Build.
+- **Externe Schriften:** Der Einstieg (`config/theme-config.vorlage.html`) lädt
+  Google Fonts; Datenschutz/CSP klären.
+- **Nur mit Docs-Server:** Styleguide-Abgleich, Drupal-Cache-Clear (auf
+  `/opt/homebrew/bin/ddev` und `../DRUPAL11` verdrahtet).
+- **Kontrast-Tor:** Der NEO-Standard besteht es im hellen Modus selbst nicht
+  (`on-danger`/`on-success` 3,35:1, Befund in ADR-002).
+- **Branches/Releases** der App sind lokal und doppeln sich mit
+  Drupal-Revisionen (Vorschlag: im Drupal-Betrieb ausblenden).
+- **Ein Konfigurator je Seite:** Der Store-Zustand liegt auf Modul-Ebene
+  (ADR-003).
+- **Export ist nicht verlustfrei:** Theme-JSON ohne eigene Tokens, Schriften,
+  Icons; DTCG listet nicht Abbildbares; es gibt keinen DTCG-Import.
+- **Handgeschriebene Arenen:** 46 Komponenten laufen noch nicht über die
+  RecipeArena.
