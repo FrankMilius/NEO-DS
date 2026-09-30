@@ -1090,6 +1090,10 @@
         <SizesEditor />
       </template>
 
+      <template v-else-if="store.state.activeSection === 'foundation-praesentation'">
+        <PraesentationLab />
+      </template>
+
       <template v-else-if="store.state.activeSection === 'foundation-border'">
         <BorderEditor />
       </template>
@@ -1743,6 +1747,7 @@ import TypographyEditor from '../foundation/TypographyEditor.vue'
 import SpacingInspector from '../foundation/SpacingInspector.vue'
 import RadiiEditor from '../foundation/RadiiEditor.vue'
 import SizesEditor from '../foundation/SizesEditor.vue'
+import PraesentationLab from '../foundation/PraesentationLab.vue'
 import FocusRingEditor from '../foundation/FocusRingEditor.vue'
 import MediaRatioEditor from '../foundation/MediaRatioEditor.vue'
 import OpacityZindexMotionEditor from '../foundation/OpacityZindexMotionEditor.vue'
@@ -1847,6 +1852,7 @@ const _arenaLabels = {
   'foundation-themes': 'Themes',
   'foundation-icons': 'Icons',
   'foundation-size': 'Sizes',
+  'foundation-praesentation': 'Präsentation',
   'foundation-opacity': 'Opacity & Motion'
 }
 const activeArenaLabel = computed(() => {

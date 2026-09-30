@@ -170,6 +170,7 @@ const FOUNDATION_ITEMS = [
   { id: 'themes', label: 'Themes', icon: 'color-swatch', section: 'foundation-themes' },
   { id: 'shadows', label: 'Shadow & Elevation', icon: 'shadow', section: 'foundation-shadows' },
   { id: 'opacity-zindex-motion', label: 'Opacity, Z-Index & Motion', icon: 'eye', section: 'foundation-opacity' },
+  { id: 'praesentation', label: 'Präsentation', icon: 'presentation', section: 'foundation-praesentation' },
 ]
 
 // ---------------------------------------------------------------------------

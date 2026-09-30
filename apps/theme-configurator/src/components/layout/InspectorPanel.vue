@@ -110,6 +110,11 @@
       <FoundationGeneric category="size" />
     </template>
 
+    <!-- Foundation: Praesentation (Plan v2, 2.5) -->
+    <template v-else-if="activeSection === 'foundation-praesentation'">
+      <PraesentationInspector />
+    </template>
+
     <!-- Foundation: Typography -->
     <template v-else-if="activeSection === 'foundation-typography'">
       <TypographyEditor />
@@ -191,6 +196,7 @@ import GridInspector from '../foundation/GridInspector.vue'
 import BorderEditor from '../foundation/BorderEditor.vue'
 import ElementsOverview from '../foundation/ElementsOverview.vue'
 import ThemesOverview from '../foundation/ThemesOverview.vue'
+import PraesentationInspector from '../foundation/PraesentationInspector.vue'
 import ComponentEditor from '../components/ComponentEditor.vue'
 import ModulePlaceholder from '../templates/ModulePlaceholder.vue'
 import TemplatePlaceholder from '../templates/TemplatePlaceholder.vue'
@@ -274,6 +280,7 @@ const sectionMeta = {
   'foundation-elements': { title: 'Elements', desc: 'HTML-Element-Defaults: Body, Headings, Links, Buttons, Forms.' },
   'foundation-themes': { title: 'Themes', desc: '4-Theme-System: Neo Light/Dark + Customer Light/Dark.' },
   'foundation-opacity': { title: 'Opacity, Z-Index & Motion', desc: 'Opacity-Werte, Z-Index-Schichten und Motion-Tokens.' },
+  'foundation-praesentation': { title: 'Präsentation', desc: 'Folien-Grammatik: Welten, Grünfamilie, Statusampel, Diagrammfarben und Dichtestufen für PowerPoint und Figma Slides.' },
   'foundation-motion': { title: 'Motion', desc: 'Easing curves and duration tokens.' },
   'component-button': { title: 'Button Tokens', desc: 'Button geometry, colors, and variant tokens.' },
   'component-input': { title: 'Input Tokens', desc: 'Input field geometry, colors, and state tokens.' },
