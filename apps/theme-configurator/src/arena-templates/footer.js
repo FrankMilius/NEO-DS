@@ -3,7 +3,9 @@
 // mit nc-footer__cta-button, kein zusaetzlicher Trenner nach dem CTA.
 // layout: simple blendet Sitemap und Newsletter aus (slotConfig des Recipes),
 // cta-active stellt den Engagement-CTA (nc-footer__cta) voran. columns
-// bestimmt Modifier UND Zahl der Spalten; theme=inverse per Modifier.
+// bestimmt Modifier UND Zahl der Spalten; theme=inverse per Modifier (hat im
+// SCSS keine Regel) — dunkel wird die Zelle ueber neo-dark-theme, siehe
+// zellenFlaeche in src/lib/recipe-arena.js.
 import { an } from './_helfer.js'
 
 const SPALTEN = [

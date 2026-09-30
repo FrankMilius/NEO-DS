@@ -26,7 +26,7 @@
                 :data-token-groups="z.tokenGroups.join(',')"
                 :data-quelle="z.quelle"
               >
-                <div class="ra-live-component" v-html="z.html"></div>
+                <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
                 <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
                 <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
               </figure>
@@ -64,7 +64,7 @@ import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
-import { normalisiereRecipe, specimenAnsicht } from '../../lib/recipe-arena.js'
+import { normalisiereRecipe, specimenAnsicht, flaecheKlassen } from '../../lib/recipe-arena.js'
 import { vorlageFuer } from '../../arena-templates/index.js'
 
 const props = defineProps({
@@ -170,6 +170,23 @@ const ansichten = computed(() => {
 }
 
 .ra-live-component { min-width: 0; }
+
+/* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
+   siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
+   nicht aus styles.css — hier dieselbe Regel fuer die Arena. */
+.ra-live-component.ra-flaeche {
+  padding: 16px;
+  border-radius: 6px;
+}
+.ra-live-component.neo-surface {
+  background-color: var(--fnd-color-background-base);
+  color: var(--fnd-color-text-primary);
+}
+.ra-live-component.ra-flaeche--invers {
+  background-color: var(--fnd-color-background-inverse);
+  color: var(--fnd-color-text-inverse);
+  display: inline-flex;
+}
 
 /* Heuristik ohne Vorlage: Slotname statt leerer Flaeche */
 .ra-live-component .ra-slot-name {

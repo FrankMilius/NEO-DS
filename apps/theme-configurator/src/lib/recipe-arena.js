@@ -610,6 +610,42 @@ export function renderZelle (zelle, specimen, recipe, componentId, vorlage) {
   return { html: renderHeuristik(modell), quelle: 'heuristik', modell }
 }
 
+// ---------------------------------------------------------------------------
+// Flaeche (Theme-Achse)
+// ---------------------------------------------------------------------------
+// Dunkle Bereiche schaltet das DS ueber die Theme-Klasse am Wrapper: in
+// .neo-dark-theme wird das komplette --fnd-color-*-Buendel lokal neu gebunden
+// (00-settings/_color-themes.scss). Drupal macht es genauso: field_surface
+// „dunkel" setzt am Block-Wrapper „neo-dark-theme neo-surface"
+// (neo_fe_preprocess_block, neo_fe.theme); .neo-surface malt die Flaeche.
+//   'dunkel'  Theme-/Flaechen-Achse steht auf inverse/dark/on-dark
+//             (footer theme=inverse, app-store surface=dark)
+//   'invers'  Vordergrund fuer dunklen Grund (color=inverse, render.bgVariant
+//             dark): text-inverse gehoert auf background-inverse im
+//             aktuellen Theme — NICHT in .neo-dark-theme, dort kippt inverse.
+const THEMEN_ACHSEN = new Set(['theme', 'surface'])
+const DUNKLE_WERTE = new Set(['inverse', 'dark', 'on-dark'])
+
+export function zellenFlaeche (zelle, specimen) {
+  for (const [achse, wert] of Object.entries(zelle.axisValues || {})) {
+    if (THEMEN_ACHSEN.has(achse) && DUNKLE_WERTE.has(String(wert))) return 'dunkel'
+  }
+  const render = specimen?.render || {}
+  if (render.bgVariant === 'dark' || render.background === 'dark') return 'invers'
+  // Farbvergleiche (color: '*'): die inverse Zelle braucht ihren Grund, sonst
+  // steht Weiss auf Weiss. Kompositionen (z. B. Spinner im Button) bringen
+  // ihren Grund selbst mit.
+  if (zelle.axisValues?.color === 'inverse' && !render.compositionType) return 'invers'
+  return null
+}
+
+/** Klassen fuer den Zellen-Wrapper (RecipeArena). */
+export function flaecheKlassen (flaeche) {
+  if (flaeche === 'dunkel') return 'neo-dark-theme neo-surface ra-flaeche'
+  if (flaeche === 'invers') return 'ra-flaeche ra-flaeche--invers'
+  return ''
+}
+
 /** Beschriftung einer Zelle: variierende Achsenwerte + Zustand. */
 export function zellenLabel (zelle, variierend) {
   const teile = variierend.map((a) => zelle.axisValues?.[a]).filter(Boolean)
@@ -643,6 +679,7 @@ export function specimenAnsicht (specimen, recipe, componentId, vorlage) {
       fehler: ergebnis.fehler,
       tokenGroups: ergebnis.modell.tokenGroups,
       axisValues: zelle.axisValues,
+      flaeche: zellenFlaeche(zelle, specimen),
       nurInteraktiv: (zelle.states || []).some((s) => NUR_INTERAKTIV.has(s))
     }
   })
