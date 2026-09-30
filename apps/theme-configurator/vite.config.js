@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
+import { buildDefine } from './build-info.js'
 
 /**
  * Sync-Plugin: Nach dem Build werden die Asset-Hashes aus dem generierten
@@ -55,6 +56,8 @@ function syncThemeConfigHtml() {
 
 export default defineConfig({
   plugins: [vue(), syncThemeConfigHtml()],
+  // App-Version, Git-Kurz-Hash, Build-Datum fuer den Header (Plan v2, 4.5)
+  define: buildDefine(),
   base: '/config/theme-configurator/',
   resolve: {
     alias: {

@@ -1,9 +1,12 @@
 import { defineConfig, configDefaults } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import { buildDefine } from './build-info.js'
 
 export default defineConfig({
   plugins: [vue()],
+  // Wie vite.config.js: Versionsanzeige im Header (Plan v2, 4.5)
+  define: buildDefine(),
   // Gleicher Alias wie in vite.config.js — sonst lassen sich Komponenten,
   // die Recipes laden (RecipeArena, useRecipeLoader), nicht testen.
   resolve: {

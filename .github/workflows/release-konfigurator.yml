@@ -4,6 +4,7 @@
 # Ein Tag `konfigurator-v<Version>` (z. B. konfigurator-v1.0.0) baut die App,
 # prueft sie und legt ein GitHub-Release mit dem Bundle als ZIP an. Das ist
 # das Paket, das die Entwickler in die neo Workplace Plattform uebernehmen.
+# <Version> muss der "version" in apps/theme-configurator/package.json gleichen.
 #
 #   git tag konfigurator-v1.0.0 && git push origin konfigurator-v1.0.0
 # ==========================================================================
@@ -28,6 +29,14 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             apps/theme-configurator/package-lock.json
+      - name: Tag passt zur App-Version (package.json, Plan v2 4.5)
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#konfigurator-v}"
+          APP_VERSION="$(node -p "require('./apps/theme-configurator/package.json').version")"
+          if [ "$TAG_VERSION" != "$APP_VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME passt nicht zu apps/theme-configurator/package.json ($APP_VERSION)"
+            exit 1
+          fi
       - run: npm ci
       - run: npm run build:css
       - name: App-Abhaengigkeiten

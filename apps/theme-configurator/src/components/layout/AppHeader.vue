@@ -8,7 +8,10 @@
       </svg>
       <div class="brand-text">
         <h1 class="app-title">Theme Configurator</h1>
-        <span class="version-tag">v{{ store.state.version }}</span>
+        <span class="brand-meta">
+          <span class="version-tag" title="Version des bearbeiteten Themes (Theme-Metadaten)">Theme v{{ store.state.version }}</span>
+          <span class="app-version" :title="appVersionTitel">{{ appVersionText }}</span>
+        </span>
       </div>
     </div>
 
@@ -380,9 +383,13 @@ import ReleaseDialog from '../workflow/ReleaseDialog.vue'
 import DtcgExportDialog from '../workflow/DtcgExportDialog.vue'
 import ThemeImportDialog from '../workflow/ThemeImportDialog.vue'
 import { hinweisen } from '../../composables/useBestaetigung.js'
+import { appVersionKurz, appVersionLang } from '../../lib/app-version.js'
 import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const store = useThemeStore()
+// App-Version (Build) — getrennt von der Theme-Version store.state.version
+const appVersionText = appVersionKurz()
+const appVersionTitel = appVersionLang()
 const sync = useStyleguideSync()
 const branchStore = useBranchStore()
 
@@ -794,6 +801,20 @@ function confirmPublishRelease({ version, notes }) {
   color: var(--cfg-text);
   letter-spacing: -0.01em;
   line-height: 1.1;
+}
+
+.brand-meta {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.app-version {
+  font-size: 10px;
+  color: var(--cfg-text-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }
 
 .version-tag {

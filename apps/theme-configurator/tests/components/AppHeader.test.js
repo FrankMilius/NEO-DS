@@ -5,6 +5,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import AppHeader from '../../src/components/layout/AppHeader.vue'
+import { APP_VERSION, APP_COMMIT } from '../../src/lib/app-version.js'
 
 // Mock des Theme-Stores
 vi.mock('../../src/stores/theme.js', () => ({
@@ -59,6 +60,20 @@ describe('AppHeader', () => {
       }
     })
     expect(wrapper.find('.version-tag').text()).toContain('1.0.0')
+  })
+
+  it('trennt Theme-Version und App-Version (Plan v2, 4.5)', () => {
+    const wrapper = mount(AppHeader, {
+      global: {
+        stubs: { Transition: false, Teleport: true }
+      }
+    })
+    // Theme-Version: Metadaten des Themes aus dem Store
+    expect(wrapper.find('.version-tag').text()).toBe('Theme v1.0.0')
+    // App-Version: Build (package.json + Git-Kurz-Hash), Build-Datum im Tooltip
+    const app = wrapper.find('.app-version')
+    expect(app.text()).toBe(`App ${APP_VERSION} · ${APP_COMMIT}`)
+    expect(app.attributes('title')).toContain(`Theme-Konfigurator ${APP_VERSION}`)
   })
 
   it('zeigt Neo Theme als Standard-Label', () => {
