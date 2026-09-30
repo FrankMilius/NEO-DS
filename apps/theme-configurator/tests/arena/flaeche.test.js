@@ -54,7 +54,7 @@ describe('zellenFlaeche', () => {
 describe('RecipeArena: dunkle Zellen im DOM', () => {
   it('footer „Simple (Dark)" steht in einem neo-dark-theme-Wrapper', async () => {
     const w = mount(RecipeArena, { props: { componentId: 'footer' } })
-    for (let i = 0; i < 30 && !w.find('.ra-specimen').exists(); i++) {
+    for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) { // Zeitlimit statt Rundenzahl (Last)
       await flushPromises()
       await new Promise((r) => setTimeout(r, 5))
     }
@@ -75,7 +75,7 @@ describe('RecipeArena: Split-Modus', () => {
     store.state.previewMode = 'split'
     try {
       const w = mount(RecipeArena, { props: { componentId: 'badge' } })
-      for (let i = 0; i < 30 && !w.find('.ra-specimen').exists(); i++) {
+      for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) { // Zeitlimit statt Rundenzahl (Last)
         await flushPromises()
         await new Promise((r) => setTimeout(r, 5))
       }

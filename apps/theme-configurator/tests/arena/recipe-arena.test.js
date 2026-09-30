@@ -16,9 +16,13 @@ import { RECIPE_IDS, rohesRecipe } from './_recipes.js'
 
 async function mountArena (id) {
   const w = mount(RecipeArena, { props: { componentId: id } })
-  for (let i = 0; i < 30 && !w.find('.ra-specimen').exists(); i++) {
+  // Recipes werden per dynamischem Import nachgeladen. Unter Last (volle
+  // Suite, parallele Dateien) dauert das deutlich laenger als 150 ms —
+  // deshalb mit Zeitlimit statt fester Rundenzahl warten.
+  const bis = Date.now() + 8000
+  while (!w.find('.ra-specimen').exists() && Date.now() < bis) {
     await flushPromises()
-    await new Promise((r) => setTimeout(r, 5))
+    await new Promise((r) => setTimeout(r, 10))
   }
   return w
 }

@@ -19,7 +19,7 @@ describe('Form-Bausteine in der Konfig-App', () => {
     it(`${id}: rendert Specimens aus dem Recipe`, async () => {
       if (hasArena(id)) return // eigene Arena vorhanden (z. B. fieldset)
       const w = mount(RecipeArena, { props: { componentId: id } })
-      for (let i = 0; i < 20 && !w.find('.ra-specimen').exists(); i++) {
+      for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) { // Zeitlimit statt Rundenzahl (Last)
         await flushPromises()
         await new Promise((r) => setTimeout(r, 10))
       }
