@@ -14,6 +14,7 @@
  * @returns {string} CSS content
  */
 import { foundationZeilen } from './foundation-css.js'
+import { schriftskalaZeilen } from './type-scale-css.js'
 
 export function generateDrupalCSS(themeJSON) {
   const lines = []
@@ -69,6 +70,15 @@ export function generateDrupalCSS(themeJSON) {
       lines.push(`/* Nicht exportiert — im Design System (noch) nicht vorhanden:`)
       lines.push(`   ${uebersprungen.join(', ')} */\n`)
     }
+  }
+
+  // Fluide Schriftskala — nur wenn veraendert (Plan v2, 2.3)
+  const skalaZeilen = schriftskalaZeilen(themeJSON.typeScale)
+  if (skalaZeilen.length) {
+    lines.push(`/* Schriftskala (--fs-*, geaendert gegenueber dem Design System) */`)
+    lines.push(`:root {`)
+    lines.push(...skalaZeilen)
+    lines.push('}\n')
   }
 
   // Focus ring mode

@@ -671,6 +671,30 @@ const generateThemeApp = () => {
   out += `// --- Papiere: Bereich, Charakter, Kanaele je Papier ---\n`;
   out += `export const papers = ${JSON.stringify(tokens.foundation?.praesentation?.papiere ?? {}, null, 2)}\n\n`;
 
+  // typographyScale — die fluide Schriftskala (Plan v2, 2.3 · 30.09.2026).
+  // Parameter wie in _typography.scss: Stufe = Basis × Verhaeltnis^Schritt,
+  // getrennt fuer Viewport-Minimum und -Maximum; feste Werte fuer die kleinen
+  // Stufen, Boden 12 px ($type-min-floor). Die App rechnet damit dieselben
+  // --fs-* wie das SCSS (Test: tests/utils/fluid-scale.test.js).
+  const T = tokens.foundation?.typography ?? {};
+  const skala = {
+    fluid: {
+      viewport_min: T.fluid?.viewport_min, viewport_max: T.fluid?.viewport_max,
+      base_min_px: T.fluid?.base_min_px, base_max_px: T.fluid?.base_max_px,
+      ratio_min: T.fluid?.ratio_min, ratio_max: T.fluid?.ratio_max,
+      fixed_steps: T.fluid?.fixed_steps ?? {},
+    },
+    floor_px: 12,
+    semantic_steps: T.semantic_steps ?? {},
+    semantic_sizes_px: T.semantic_sizes_px ?? {},
+    line_height: T.line_height ?? {},
+    mappings: T.fluid_mappings ?? {},
+    roles: { display: T.display ?? {}, heading: T.heading ?? {}, paragraph: T.paragraph ?? {} },
+    tracking: tokens.foundation?.tracking ?? {},
+  };
+  out += `// --- Fluide Schriftskala (Typografie-Editor) ---\n`;
+  out += `export const typographyScale = ${JSON.stringify(skala, null, 2)}\n\n`;
+
   // systemPalettes
   out += `// --- System Palettes (Feedback / Status with shade scales) ---\n`;
   out += `export const systemPalettes = ${JSON.stringify(p.system, null, 2)}\n\n`;

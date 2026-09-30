@@ -15,6 +15,7 @@ import {
 } from '../data/tokens.js'
 import { downloadDrupalBundle } from '../export/drupal-adapter.js'
 import { foundationZeilen } from '../export/foundation-css.js'
+import { schriftskalaZeilen } from '../export/type-scale-css.js'
 
 // ---------------------------------------------------------------------------
 // Valid token ID sets (for pruning stale localStorage overrides)
@@ -294,6 +295,13 @@ const state = reactive({
     customer: {}
   },
 
+  // Fluide Schriftskala je Theme-Set (Plan v2, 2.3): nur Abweichungen von der
+  // Quelle — { base_min_px, base_max_px, ratio_min, ratio_max }. Leer = Quelle.
+  typeScale: {
+    neo: {},
+    customer: {}
+  },
+
   // Undo history
   history: [],
   historyIndex: -1,
@@ -427,6 +435,10 @@ const currentSemanticSpacing = computed(() => {
 
 const currentSemanticTypography = computed(() => {
   return state.semanticTypography[state.activeThemeSet]
+})
+
+const currentTypeScale = computed(() => {
+  return state.typeScale[state.activeThemeSet] || {}
 })
 
 const isDirty = computed(() => {
@@ -906,6 +918,22 @@ function removeSemanticTypography(key) {
   delete state.semanticTypography[state.activeThemeSet][key]
 }
 
+// Fluide Schriftskala (Plan v2, 2.3)
+const TYPE_SCALE_KEYS = ['base_min_px', 'base_max_px', 'ratio_min', 'ratio_max']
+
+function updateTypeScale(key, value) {
+  if (!TYPE_SCALE_KEYS.includes(key)) return
+  const zahl = Number(value)
+  if (!Number.isFinite(zahl) || zahl <= 0) return
+  pushHistory()
+  ;(state.typeScale[state.activeThemeSet] ??= {})[key] = zahl
+}
+
+function resetTypeScale() {
+  pushHistory()
+  state.typeScale[state.activeThemeSet] = {}
+}
+
 // ---------------------------------------------------------------------------
 // Component Lock + Versioning
 // ---------------------------------------------------------------------------
@@ -1118,6 +1146,7 @@ function resetToDefaults() {
   }
   state.semanticSpacing[themeSet] = {}
   state.semanticTypography[themeSet] = {}
+  state.typeScale[themeSet] = {}
 }
 
 // ---------------------------------------------------------------------------
@@ -1151,7 +1180,7 @@ export const THEME_DATA_KEYS = [
   'customOpacityTokens', 'customZindexTokens', 'customMotionTokens',
   'customMotionEffectTokens',
   'iconLibraries', 'iconStrokeWidths', 'iconStrokeColors',
-  'semanticSpacing', 'semanticTypography'
+  'semanticSpacing', 'semanticTypography', 'typeScale'
 ]
 const HISTORY_KEYS = THEME_DATA_KEYS
 const HISTORY_MAX = 50
@@ -1423,6 +1452,7 @@ async function loadNeoDefaults() {
         state.componentLocks = { neo: {}, customer: {} }
         state.componentVersions = { neo: {}, customer: {} }
         state.variantDefinitions = { neo: {}, customer: {} }
+        state.typeScale = { neo: {}, customer: {} }
         state.activeThemeSet = 'neo'
         state.currentThemeMeta = null
         state.version = d._meta?.version || '1.0.0'
@@ -1493,6 +1523,7 @@ async function loadNeoDefaults() {
   }
   state.semanticSpacing = { neo: {}, customer: {} }
   state.semanticTypography = { neo: {}, customer: {} }
+  state.typeScale = { neo: {}, customer: {} }
   state.currentThemeMeta = null
   state.version = '1.0.0'
   console.log('[RESET] Loaded NEO defaults from in-memory tokens.js')
@@ -1596,6 +1627,15 @@ function exportAsCSSVars() {
     if (uebersprungen.length) {
       lines.push(`/* Nicht exportiert — im DS nicht vorhanden: ${uebersprungen.join(', ')} */\n`)
     }
+  }
+
+  // === Fluide Schriftskala (Plan v2, 2.3) — nur wenn veraendert ===
+  const skalaZeilen = schriftskalaZeilen(state.typeScale[themeSet])
+  if (skalaZeilen.length) {
+    lines.push(`/* === Schriftskala (--fs-*, geaendert gegenueber dem Design System) === */`)
+    lines.push(`:root {`)
+    lines.push(...skalaZeilen)
+    lines.push('}\n')
   }
 
   // === Focus Ring Mode Override ===
@@ -1750,6 +1790,7 @@ function exportAsJSON() {
       dark: state.themes[themeSet].dark
     },
     foundation: state.foundationOverrides[themeSet],
+    typeScale: state.typeScale[themeSet],
     focusRingMode: state.focusRingMode[themeSet]
   }, null, 2)
 }
@@ -1774,7 +1815,8 @@ async function saveToServer() {
       [themeSet + '-dark']: toRaw(state.themes[themeSet].dark)
     },
     components: toRaw(state.componentOverrides[themeSet]),
-    foundation: toRaw(state.foundationOverrides[themeSet])
+    foundation: toRaw(state.foundationOverrides[themeSet]),
+    typeScale: toRaw(state.typeScale[themeSet])
   }
 
   const res = await fetch('/api/save-theme', {
@@ -1827,6 +1869,7 @@ function saveToStorage() {
       iconStrokeColors: toRaw(state.iconStrokeColors),
       semanticSpacing: toRaw(state.semanticSpacing),
       semanticTypography: toRaw(state.semanticTypography),
+      typeScale: toRaw(state.typeScale),
       currentThemeMeta: toRaw(state.currentThemeMeta),
       activeSection: state.activeSection
     }
@@ -1870,6 +1913,7 @@ function saveToStorage() {
           iconStrokeColors: JSON.parse(JSON.stringify(toRaw(state.iconStrokeColors))),
           semanticSpacing: JSON.parse(JSON.stringify(toRaw(state.semanticSpacing))),
           semanticTypography: JSON.parse(JSON.stringify(toRaw(state.semanticTypography))),
+          typeScale: JSON.parse(JSON.stringify(toRaw(state.typeScale))),
           activeThemeSet: state.activeThemeSet,
           meta: JSON.parse(JSON.stringify(toRaw(meta)))
         }
@@ -1960,6 +2004,7 @@ function loadFromStorage() {
       }
       if (data.semanticSpacing) Object.assign(state.semanticSpacing, data.semanticSpacing)
       if (data.semanticTypography) Object.assign(state.semanticTypography, data.semanticTypography)
+      if (data.typeScale) Object.assign(state.typeScale, data.typeScale)
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
       // previewMode wird NICHT restored — startet immer im Light Mode
       state.previewMode = 'light'
@@ -2035,7 +2080,7 @@ function loadFromStorage() {
 
 // Auto-save on changes
 watch(
-  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode, state.componentLocks, state.componentVersions, state.variantDefinitions, state.customSpacingTokens, state.customRadiiTokens, state.customBorderWidthTokens, state.customMediaRatioTokens, state.customShadowTokens, state.customElevationTokens, state.customOpacityTokens, state.customZindexTokens, state.customMotionTokens, state.customMotionEffectTokens, state.iconLibraries, state.iconStrokeWidths, state.iconStrokeColors, state.semanticSpacing, state.semanticTypography],
+  () => [state.themes, state.foundationOverrides, state.componentOverrides, state.primitiveOverrides, state.customFonts, state.focusRingMode, state.componentLocks, state.componentVersions, state.variantDefinitions, state.customSpacingTokens, state.customRadiiTokens, state.customBorderWidthTokens, state.customMediaRatioTokens, state.customShadowTokens, state.customElevationTokens, state.customOpacityTokens, state.customZindexTokens, state.customMotionTokens, state.customMotionEffectTokens, state.iconLibraries, state.iconStrokeWidths, state.iconStrokeColors, state.semanticSpacing, state.semanticTypography, state.typeScale],
   () => saveToStorage(),
   { deep: true }
 )
@@ -2214,9 +2259,12 @@ export function useThemeStore() {
     currentIconStrokeWidths,
     currentIconStrokeColors,
     currentSemanticTypography,
+    currentTypeScale,
     // Semantic Typography
     updateSemanticTypography,
     removeSemanticTypography,
+    updateTypeScale,
+    resetTypeScale,
     resetToDefaults,
     undo,
     redo,

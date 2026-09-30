@@ -165,13 +165,13 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         FONT WEIGHTS
+         FONT WEIGHTS — alle Stärken aus der Quelle (Plan v2, 2.3)
          ═══════════════════════════════════════════════════════════════════ -->
     <section class="token-section">
-      <h3 class="sub-heading">Font Weights</h3>
+      <h3 class="sub-heading">Font Weights <span class="te-count">{{ weights.length }}</span></h3>
       <div class="weight-strip">
-        <div v-for="weight in weights" :key="weight.id" class="weight-chip">
-          <span class="weight-preview" :style="{ fontWeight: weight.value, fontFamily: bodyFontFamily }">Ag</span>
+        <div v-for="weight in weights" :key="weight.id" class="weight-chip" :title="weight.cssVar">
+          <span class="weight-preview" :style="{ fontWeight: weight.value, fontFamily: weight.mono ? monoFamily : weight.heading ? headingFamily : bodyFontFamily }">Ag</span>
           <span class="weight-label">{{ weight.label }}</span>
           <span class="weight-number">{{ weight.value }}</span>
         </div>
@@ -179,15 +179,80 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         TYPE SCALE
+         FLUIDE SCHRIFTSKALA — wie _typography.scss (Plan v2, 2.3)
          ═══════════════════════════════════════════════════════════════════ -->
     <section class="token-section">
-      <h3 class="sub-heading">Type Scale</h3>
+      <h3 class="sub-heading">
+        Type Scale
+        <span class="te-count">{{ skala.length }} Stufen · fluide {{ p.viewportMin }}–{{ p.viewportMax }} px</span>
+        <span v-if="geaendert" class="te-badge">geändert</span>
+      </h3>
+      <p class="te-desc">
+        Jede Stufe wächst zwischen {{ p.viewportMin }} und {{ p.viewportMax }} px Viewport-Breite von ihrem
+        Minimal- zum Maximalwert: Basis &times; Verhältnis<sup>Stufe</sup>. Die kleinen Stufen sind feste Werte,
+        keine Stufe fällt unter {{ p.boden }} px.
+      </p>
+
+      <div class="te-params">
+        <label class="te-param">
+          <span>Basis bei {{ p.viewportMin }} px</span>
+          <input type="number" step="0.5" min="10" max="32" :value="p.baseMin"
+                 @change="store.updateTypeScale('base_min_px', $event.target.value)" /> px
+        </label>
+        <label class="te-param">
+          <span>Basis bei {{ p.viewportMax }} px</span>
+          <input type="number" step="0.5" min="10" max="32" :value="p.baseMax"
+                 @change="store.updateTypeScale('base_max_px', $event.target.value)" /> px
+        </label>
+        <label class="te-param">
+          <span>Verhältnis klein</span>
+          <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMin"
+                 @change="store.updateTypeScale('ratio_min', $event.target.value)" />
+        </label>
+        <label class="te-param">
+          <span>Verhältnis groß</span>
+          <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMax"
+                 @change="store.updateTypeScale('ratio_max', $event.target.value)" />
+        </label>
+        <button v-if="geaendert" type="button" class="te-reset" @click="store.resetTypeScale()">
+          Auf Design System zurücksetzen
+        </button>
+      </div>
+
+      <label class="te-vw">
+        <span>Vorschau bei <strong>{{ vw }} px</strong> Viewport</span>
+        <input type="range" :min="p.viewportMin" :max="p.viewportMax" step="10" v-model.number="vw"
+               aria-label="Viewport-Breite für die Vorschau" />
+      </label>
+
       <div class="scale-list">
-        <div v-for="size in typeSizes" :key="size.name" class="scale-row">
-          <span class="scale-name">{{ size.name }}</span>
-          <span class="scale-sample" :style="{ fontSize: size.px + 'px', fontFamily: bodyFontFamily }">The quick brown fox</span>
-          <span class="scale-value">{{ size.px }}px</span>
+        <div v-for="s in skala" :key="s.stufe" class="scale-row">
+          <span class="scale-name">
+            {{ s.stufe }}
+            <span v-if="s.fest" class="te-fest" title="fester Wert, nicht aus dem Verhältnis">fest</span>
+          </span>
+          <span class="scale-sample" :style="{ fontSize: groesse(s) + 'px', fontFamily: bodyFontFamily }">The quick brown fox</span>
+          <span class="scale-value" :title="`--fs-${s.stufe}: ${s.css}`">
+            {{ px(groesse(s)) }} <span class="te-range">{{ px(s.minPx) }}–{{ px(s.maxPx) }}</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         TYPO-ROLLEN — heading / paragraph / display
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="token-section">
+      <h3 class="sub-heading">Typo-Rollen <span class="te-count">bei {{ vw }} px</span></h3>
+      <p class="te-desc">
+        Überschriften und Fließtext verweisen auf Stufen der Skala und folgen ihr automatisch;
+        Display-Größen haben eigene Grenzen. Zeilenhöhe: Überschrift &times;{{ lh.heading }}, Text &times;{{ lh.body }}.
+      </p>
+      <div class="scale-list">
+        <div v-for="r in rollen" :key="r.id" class="scale-row">
+          <span class="scale-name te-role">{{ r.id }} <span class="te-range">{{ r.quelle }}</span></span>
+          <span class="scale-sample" :style="{ fontSize: r.px + 'px', lineHeight: r.lh, letterSpacing: r.ls, fontFamily: r.art === 'paragraph' ? bodyFontFamily : headingFamily }">{{ r.art === 'paragraph' ? 'Fließtext liest sich ruhig' : 'Überschrift' }}</span>
+          <span class="scale-value">{{ px(r.px) }}</span>
         </div>
       </div>
     </section>
@@ -198,7 +263,8 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
-import { foundationTokens } from '../../data/tokens.js'
+import { foundationTokens, typographyScale } from '../../data/tokens.js'
+import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
@@ -394,20 +460,47 @@ onUnmounted(() => {
 // ---------------------------------------------------------------------------
 // Font Weights & Type Scale (shared between default and custom themes)
 // ---------------------------------------------------------------------------
-const weights = [
-  { id: 'light', label: 'Light', value: 300 },
-  { id: 'regular', label: 'Regular', value: 400 },
-  { id: 'medium', label: 'Medium', value: 500 },
-  { id: 'semibold', label: 'Semibold', value: 600 },
-  { id: 'bold', label: 'Bold', value: 700 },
-  { id: 'black', label: 'Black', value: 900 }
-]
+// Schriftstaerken aus der Quelle (foundation._configurator.typography)
+const weights = computed(() => Object.entries(typoTokens)
+  .filter(([k]) => k.startsWith('weight-'))
+  .map(([k, t]) => ({
+    id: k, label: t.label, cssVar: t.cssVar,
+    value: store.currentFoundation.value?.typography?.[k] ?? t.value,
+    heading: k.startsWith('weight-heading'), mono: k === 'weight-mono',
+  })))
 
-const typeSizes = [
-  { name: 'xs', px: 10 }, { name: 'sm', px: 12 }, { name: 'base', px: 14 },
-  { name: 'lg', px: 17 }, { name: 'xl', px: 20 }, { name: '2xl', px: 24 },
-  { name: '3xl', px: 29 }, { name: '4xl', px: 35 }, { name: '5xl', px: 42 }
-]
+// Fluide Schriftskala (Plan v2, 2.3) — Rechnung in utils/fluid-scale.js
+const p = computed(() => skalenParameter(typographyScale, store.currentTypeScale.value))
+const skala = computed(() => berechneSkala(p.value))
+const geaendert = computed(() => istGeaendert(typographyScale, store.currentTypeScale.value))
+const vw = ref(1440)
+const groesse = (stufe) => groesseBei(stufe, vw.value, p.value)
+const px = (x) => `${Math.round(x * 10) / 10} px`
+const lh = typographyScale.line_height
+
+const headingFamily = computed(() => store.currentFoundation.value?.typography?.['font-heading'] || typoTokens['font-heading'].value)
+const monoFamily = computed(() => store.currentFoundation.value?.typography?.['font-mono'] || typoTokens['font-mono'].value)
+
+// Rollen: heading/paragraph zeigen auf Stufen, display hat eigene Grenzen (rem)
+const rollen = computed(() => {
+  const m = typographyScale.mappings
+  const stufe = (name) => skala.value.find((s) => s.stufe === name)
+  const ls = (art, groesse) => typographyScale.roles?.[art]?.[groesse]?.letter_spacing
+  const liste = []
+  for (const [g, d] of Object.entries(m.display || {})) {
+    const s = { minPx: d.min_rem * 16, maxPx: d.max_rem * 16 }
+    liste.push({ id: `display-${g}`, art: 'display', quelle: `${d.min_rem}–${d.max_rem} rem`, px: groesse(s), lh: lh.heading, ls: ls('display', g) })
+  }
+  for (const [g, name] of Object.entries(m.heading || {})) {
+    const s = stufe(name)
+    if (s) liste.push({ id: `heading-${g}`, art: 'heading', quelle: `--fs-${name}`, px: groesse(s), lh: lh.heading, ls: ls('heading', g) })
+  }
+  for (const [g, name] of Object.entries(m.paragraph || {})) {
+    const s = stufe(name)
+    if (s) liste.push({ id: `paragraph-${g}`, art: 'paragraph', quelle: `--fs-${name}`, px: groesse(s), lh: lh.body, ls: ls('paragraph', g) })
+  }
+  return liste
+})
 </script>
 
 <style scoped>
@@ -760,4 +853,20 @@ const typeSizes = [
   font-family: monospace;
   color: var(--cfg-text-muted);
 }
+
+/* ── Plan v2, 2.3: fluide Skala ── */
+.te-count { margin-left: 8px; font-size: 10px; font-weight: 600; color: var(--cfg-text-muted); background: var(--cfg-surface-elevated); padding: 2px 6px; border-radius: 4px; }
+.te-badge { margin-left: 6px; font-size: 10px; font-weight: 600; color: var(--cfg-accent); border: 1px solid var(--cfg-accent); padding: 1px 6px; border-radius: 4px; }
+.te-desc { font-size: 12px; color: var(--cfg-text-muted); margin: 0; line-height: 1.5; }
+.te-params { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 12px; align-items: end; }
+.te-param { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--cfg-text-muted); }
+.te-param input { width: 90px; height: 26px; padding: 0 6px; border: 1px solid var(--cfg-border); border-radius: 4px; background: var(--cfg-surface-elevated); color: var(--cfg-text); font-family: monospace; font-size: 11px; }
+.te-param input:focus { outline: none; border-color: var(--cfg-accent); }
+.te-reset { height: 28px; padding: 0 10px; border: 1px solid var(--cfg-border); border-radius: 4px; background: transparent; color: var(--cfg-text); font-size: 11px; cursor: pointer; }
+.te-reset:hover { border-color: var(--cfg-accent); }
+.te-vw { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--cfg-text-muted); }
+.te-vw input { width: 100%; }
+.te-fest { margin-left: 4px; font-size: 9px; color: var(--cfg-text-muted); border: 1px solid var(--cfg-border); padding: 0 4px; border-radius: 3px; }
+.te-range { display: block; font-size: 9px; color: var(--cfg-text-muted); }
+.te-role { min-width: 110px; }
 </style>

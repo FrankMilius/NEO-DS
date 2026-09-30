@@ -19,6 +19,7 @@ export {
   semanticDefaults,
   componentTokenGroups,
   foundationTokens,
+  typographyScale,
 } from './tokens.generated.js'
 
 // Navigation-Tree wird dynamisch aus dem Component Registry generiert

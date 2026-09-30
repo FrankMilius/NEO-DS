@@ -552,6 +552,245 @@ export const papers = {
   ]
 }
 
+// --- Fluide Schriftskala (Typografie-Editor) ---
+export const typographyScale = {
+  "fluid": {
+    "viewport_min": 320,
+    "viewport_max": 1920,
+    "base_min_px": 16,
+    "base_max_px": 18,
+    "ratio_min": 1.15,
+    "ratio_max": 1.2,
+    "fixed_steps": {
+      "2xs": {
+        "min": 12,
+        "max": 13
+      },
+      "xs": {
+        "min": 13,
+        "max": 15
+      },
+      "sm": {
+        "min": 14,
+        "max": 16
+      }
+    }
+  },
+  "floor_px": 12,
+  "semantic_steps": {
+    "2xs": -3,
+    "xs": -2,
+    "sm": -1,
+    "base": 0,
+    "lg": 1,
+    "xl": 2,
+    "2xl": 3,
+    "3xl": 4,
+    "4xl": 5,
+    "5xl": 6,
+    "6xl": 7,
+    "7xl": 8,
+    "8xl": 9,
+    "9xl": 10
+  },
+  "semantic_sizes_px": {
+    "2xs": {
+      "min": 12,
+      "max": 13
+    },
+    "xs": {
+      "min": 13,
+      "max": 15
+    },
+    "sm": {
+      "min": 14,
+      "max": 16
+    },
+    "base": {
+      "min": 16,
+      "max": 18
+    },
+    "lg": {
+      "min": 18.4,
+      "max": 21.6
+    },
+    "xl": {
+      "min": 21.16,
+      "max": 25.92
+    },
+    "2xl": {
+      "min": 24.334,
+      "max": 31.104
+    },
+    "3xl": {
+      "min": 27.984,
+      "max": 37.325
+    },
+    "4xl": {
+      "min": 32.182,
+      "max": 44.79
+    },
+    "5xl": {
+      "min": 37.009,
+      "max": 53.748
+    },
+    "6xl": {
+      "min": 42.56,
+      "max": 64.497
+    },
+    "7xl": {
+      "min": 48.944,
+      "max": 77.397
+    },
+    "8xl": {
+      "min": 56.286,
+      "max": 92.876
+    },
+    "9xl": {
+      "min": 64.729,
+      "max": 111.451
+    }
+  },
+  "line_height": {
+    "tight": 1.05,
+    "heading": 1.15,
+    "body": 1.6
+  },
+  "mappings": {
+    "heading": {
+      "xxs": "base",
+      "xs": "lg",
+      "s": "xl",
+      "m": "2xl",
+      "l": "3xl",
+      "xl": "4xl"
+    },
+    "paragraph": {
+      "s": "xs",
+      "m": "sm",
+      "l": "base",
+      "xl": "lg"
+    },
+    "display": {
+      "s": {
+        "min_rem": 1.5,
+        "max_rem": 2
+      },
+      "m": {
+        "min_rem": 2.25,
+        "max_rem": 3
+      },
+      "l": {
+        "min_rem": 3,
+        "max_rem": 4
+      }
+    }
+  },
+  "roles": {
+    "display": {
+      "s": {
+        "font_size": "clamp(1.5rem, 1.4rem + 0.5vw, 2rem)",
+        "line_height": "calc(clamp(1.5rem, 1.4rem + 0.5vw, 2rem) * 1.15)",
+        "letter_spacing": "-0.02em"
+      },
+      "m": {
+        "font_size": "clamp(2.25rem, 2.1rem + 0.75vw, 3rem)",
+        "line_height": "calc(clamp(2.25rem, 2.1rem + 0.75vw, 3rem) * 1.15)",
+        "letter_spacing": "-0.02em"
+      },
+      "l": {
+        "font_size": "clamp(3rem, 2.8rem + 1vw, 4rem)",
+        "line_height": "calc(clamp(3rem, 2.8rem + 1vw, 4rem) * 1.15)",
+        "letter_spacing": "-0.02em"
+      },
+      "xl": {
+        "font_size": "clamp(3.5rem, 3.2rem + 1.5vw, 5rem)",
+        "line_height": "calc(clamp(3.5rem, 3.2rem + 1.5vw, 5rem) * 1.15)",
+        "letter_spacing": "-0.03em"
+      },
+      "2xl": {
+        "font_size": "clamp(4rem, 3.6rem + 2vw, 6rem)",
+        "line_height": "calc(clamp(4rem, 3.6rem + 2vw, 6rem) * 1.15)",
+        "letter_spacing": "-0.03em"
+      }
+    },
+    "heading": {
+      "xxs": {
+        "font_size": "var(--fs-base)",
+        "line_height": "calc(var(--fs-base) * 1.15)",
+        "letter_spacing": "0"
+      },
+      "xs": {
+        "font_size": "var(--fs-lg)",
+        "line_height": "calc(var(--fs-lg) * 1.15)",
+        "letter_spacing": "0"
+      },
+      "s": {
+        "font_size": "var(--fs-xl)",
+        "line_height": "calc(var(--fs-xl) * 1.15)",
+        "letter_spacing": "-0.01em"
+      },
+      "m": {
+        "font_size": "var(--fs-2xl)",
+        "line_height": "calc(var(--fs-2xl) * 1.15)",
+        "letter_spacing": "-0.01em"
+      },
+      "l": {
+        "font_size": "var(--fs-3xl)",
+        "line_height": "calc(var(--fs-3xl) * 1.15)",
+        "letter_spacing": "-0.02em"
+      },
+      "xl": {
+        "font_size": "var(--fs-4xl)",
+        "line_height": "calc(var(--fs-4xl) * 1.15)",
+        "letter_spacing": "-0.02em"
+      },
+      "2xl": {
+        "font_size": "var(--fs-5xl)",
+        "line_height": "calc(var(--fs-5xl) * 1.15)",
+        "letter_spacing": "-0.02em"
+      }
+    },
+    "paragraph": {
+      "xs": {
+        "font_size": "var(--fs-2xs)",
+        "line_height": "calc(var(--fs-2xs) * 1.6)",
+        "letter_spacing": "0.01em"
+      },
+      "s": {
+        "font_size": "var(--fs-xs)",
+        "line_height": "calc(var(--fs-xs) * 1.6)",
+        "letter_spacing": "0"
+      },
+      "m": {
+        "font_size": "var(--fs-sm)",
+        "line_height": "calc(var(--fs-sm) * 1.6)",
+        "letter_spacing": "0"
+      },
+      "l": {
+        "font_size": "var(--fs-base)",
+        "line_height": "calc(var(--fs-base) * 1.6)",
+        "letter_spacing": "0"
+      },
+      "xl": {
+        "font_size": "var(--fs-lg)",
+        "line_height": "calc(var(--fs-lg) * 1.6)",
+        "letter_spacing": "0"
+      }
+    }
+  },
+  "tracking": {
+    "tighter": "-0.03em",
+    "tight": "-0.02em",
+    "snug": "-0.01em",
+    "normal": "0em",
+    "wide": "0.02em",
+    "wider": "0.05em",
+    "widest": "0.1em",
+    "ultra": "0.2em"
+  }
+}
+
 // --- System Palettes (Feedback / Status with shade scales) ---
 export const systemPalettes = {
   "neutral": {
