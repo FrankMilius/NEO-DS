@@ -30,7 +30,7 @@ describe('Arena-Vorlagen: Abdeckung', () => {
       `[Arena-Vorlagen] Recipes mit Vorlage: ${mit.length} von ${RECIPE_IDS.length}` +
       ` — davon in der App sichtbar (keine Sonderfall-Arena): ${sichtbar.length} von ${ohneArena.length}`
     )
-    expect(mit.length).toBeGreaterThanOrEqual(69)
+    expect(mit.length).toBeGreaterThanOrEqual(77)
   })
 
   for (const id of vorlagenIds()) {
@@ -57,7 +57,16 @@ describe('Arena-Vorlagen: Snapshots', () => {
     ['product-showcase', 'option-styles'],
     ['facts', 'default'],
     ['solution-tabs', 'vertical'],
-    ['expanding-panels', 'default']
+    ['expanding-panels', 'default'],
+    // Stufe 4: restliche Recipes ohne Vorlage
+    ['header', 'default'],
+    ['solutions', 'default'],
+    ['text-only', 'variant-comparison'],
+    ['spacing', 'semantic-roles'],
+    ['square-value', 'orientation-comparison'],
+    ['multiselect', 'default'],
+    ['searchbar', 'default'],
+    ['parallax-bg', 'default']
   ]
   for (const [id, specimenId] of FAELLE) {
     it(`${id} / ${specimenId}`, () => {
