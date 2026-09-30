@@ -1,0 +1,571 @@
+/* ═══════════════════════════════════════════════════════════════════
+   COLORS ARENA — Specimens + Token Detail
+   ═══════════════════════════════════════════════════════════════════ */
+
+.arena-sub-heading {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 16px 0 8px;
+  opacity: .6;
+}
+
+/* ── Specimens Grid ── */
+.arena-specimens-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.arena-specimen {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  cursor: pointer;
+}
+
+.arena-specimen:hover {
+  border-color: color-mix(in srgb, #8b5cf6 25%, transparent);
+}
+
+.arena-specimen--selected {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #8b5cf6 15%, transparent);
+}
+
+.arena-specimen__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  opacity: .5;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--arena-label-bg, transparent);
+}
+
+.arena-specimen__pair {
+  display: flex;
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.arena-specimen__panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.arena-specimen__panel--light {
+  border-right: 1px solid rgba(128,128,128,.15);
+}
+
+/* ── Preview Mode: Light only / Dark only ── */
+.arena-specimens-grid--light .arena-specimen__panel:not(.arena-specimen__panel--light) {
+  display: none;
+}
+.arena-specimens-grid--light .arena-specimen__panel--light {
+  border-right: none;
+}
+.arena-specimens-grid--dark .arena-specimen__panel--light {
+  display: none;
+}
+
+/* ── Pulse ── */
+.arena-specimen--pulse {
+  border-color: var(--cfg-accent, #3b82f6);
+  animation: arena-specimen-pulse .9s ease-out;
+}
+
+@keyframes arena-specimen-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(59,130,246,.45); }
+  40%  { box-shadow: 0 0 0 5px rgba(59,130,246,.18); }
+  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+}
+
+/* ── Arena: Buttons ── */
+.arena-spec-btn {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: default;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+/* ── Arena: Input ── */
+.arena-spec-input-label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.arena-spec-input {
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1px solid;
+  border-radius: 6px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* ── Arena: Badges ── */
+.arena-spec-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.arena-spec-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* ── Arena: Alerts ── */
+.arena-spec-alert {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid;
+  line-height: 1.3;
+}
+
+.arena-spec-alert svg { flex-shrink: 0; }
+
+/* ── Arena: Toggle ── */
+.arena-spec-toggle-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.arena-spec-toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  position: relative;
+  cursor: default;
+}
+
+.arena-spec-toggle__knob {
+  position: absolute;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left .15s ease;
+}
+
+.arena-spec-toggle--on .arena-spec-toggle__knob { left: 21px; }
+.arena-spec-toggle--off .arena-spec-toggle__knob { left: 3px; }
+
+/* ── Arena: Navigation / Links ── */
+.arena-spec-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.arena-spec-link {
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: default;
+}
+
+.arena-spec-link--hover { opacity: .85; }
+.arena-spec-link--visited { font-style: italic; }
+
+/* ── Arena: Text-Block ── */
+.arena-spec-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arena-spec-text__heading {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.arena-spec-text__body {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.arena-spec-text__muted {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.arena-spec-text__disabled {
+  font-size: 12px;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+/* ── Arena: Table Row ── */
+.arena-spec-table {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.arena-spec-table__header,
+.arena-spec-table__row {
+  display: flex;
+  gap: 12px;
+  padding: 6px 10px;
+  border-bottom: 1px solid;
+}
+
+.arena-spec-table__header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.arena-spec-table__row {
+  font-size: 13px;
+  border-bottom: none;
+}
+
+.arena-spec-table__header span,
+.arena-spec-table__row span {
+  flex: 1;
+}
+
+/* ── Arena: Code Snippet ── */
+.arena-spec-code {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* ── Token Detail Hero ── */
+.arena-token-hero {
+  margin-bottom: 8px;
+}
+
+.arena-hero-swatch {
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid rgba(128,128,128,0.15);
+}
+
+.arena-hero-swatch__color {
+  height: 56px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(128,128,128,0.1);
+}
+
+.arena-hero-swatch__hex {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+}
+
+.arena-token-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.arena-token-name {
+  font-size: 12px;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  opacity: .7;
+}
+
+.arena-token-mode-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--cfg-surface-elevated, #f0f0f0);
+  color: var(--cfg-text-muted);
+}
+
+.arena-token-desc {
+  font-size: 12px;
+  opacity: .5;
+}
+
+/* ── Component Dependencies ── */
+.arena-component-deps {
+  margin-top: 8px;
+}
+
+.arena-dep-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.arena-dep-chip {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--cfg-surface-elevated, #f0f0f0);
+  color: var(--cfg-text-muted, #888);
+  white-space: nowrap;
+}
+
+/* ── Empty State ── */
+.arena-empty {
+  font-size: 12px;
+  opacity: .5;
+  text-align: center;
+  padding: 24px 0;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CATEGORY-SPECIFIC ARENA SPECIMENS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Text Category ── */
+.arena-text-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-text-specimen--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.arena-text-h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.arena-text-h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.arena-text-body {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.arena-text-muted {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.arena-text-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.arena-text-hint {
+  font-size: 11px;
+}
+
+/* ── Background Category ── */
+.arena-bg-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arena-bg-layer {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.arena-bg-states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.arena-bg-state {
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Border Category ── */
+.arena-border-specimens {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.arena-border-box {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Interactive Category ── */
+.arena-focus-demo {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid;
+  border-radius: 6px;
+  outline: 2px solid;
+  outline-offset: 2px;
+}
+
+/* ── Feedback Category ── */
+.arena-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Layer / Surface Category ── */
+.arena-layer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.arena-layer-card {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-layer-card--nested {
+  margin-top: 8px;
+}
+
+/* ── On-Color Category ── */
+.arena-on-color-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.arena-on-color-chip {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── Interaktive Varianten Grid ── */
+.arena-variant-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.arena-variant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arena-variant-item .arena-spec-btn {
+  min-width: 90px;
+}
+
+.arena-variant-token {
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: rgba(136, 136, 136, 0.8);
+  white-space: nowrap;
+}
+
+.arena-variant-separator {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 2px 0;
+}
+
+.arena-tab-group {
+  display: flex;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.arena-tab {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: default;
+}
+
+.arena-tab--active {
+  font-weight: 600;
+}
+
+.arena-selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 500;
+}

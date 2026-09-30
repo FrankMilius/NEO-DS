@@ -75,102 +75,14 @@
       </div>
     </div>
 
-    <!-- Foundation: Colors -->
-    <template v-if="activeSection === 'foundation-colors'">
-      <FoundationColors />
-    </template>
-
-    <!-- Foundation: Grid -->
-    <template v-else-if="activeSection === 'foundation-grid' || activeSection === 'component-grid'">
-      <GridInspector />
-    </template>
-
-    <!-- Foundation: Surfaces -->
-    <template v-else-if="activeSection === 'foundation-surfaces'">
-      <SurfaceEditor />
-    </template>
-
-    <!-- Foundation: Radius -->
-    <template v-else-if="activeSection === 'foundation-radius'">
-      <FoundationGeneric category="radius" />
-    </template>
-
-    <!-- Foundation: Shadows -->
-    <template v-else-if="activeSection === 'foundation-shadows'">
-      <ShadowEditor />
-    </template>
-
-    <!-- Foundation: Spacing -->
-    <template v-else-if="activeSection === 'foundation-spacing'">
-      <FoundationGeneric category="spacing" />
-    </template>
-
-    <!-- Foundation: Sizes (Plan v2, 2.4) -->
-    <template v-else-if="activeSection === 'foundation-size'">
-      <FoundationGeneric category="size" />
-    </template>
-
-    <!-- Foundation: Praesentation (Plan v2, 2.5) -->
-    <template v-else-if="activeSection === 'foundation-praesentation'">
-      <PraesentationInspector />
-    </template>
-
-    <!-- Foundation: Typography -->
-    <template v-else-if="activeSection === 'foundation-typography'">
-      <TypographyEditor />
-      <FoundationGeneric category="tracking" sectionLabel="Tracking" />
-    </template>
-
-    <!-- Foundation: Border -->
-    <template v-else-if="activeSection === 'foundation-border'">
-      <BorderEditor />
-    </template>
-
-    <!-- Foundation: Focus Ring -->
-    <template v-else-if="activeSection === 'foundation-focus'">
-      <FoundationGeneric category="focus" />
-    </template>
-
-    <!-- Foundation: Media Ratios -->
-    <template v-else-if="activeSection === 'foundation-media'">
-      <FoundationGeneric category="media" />
-    </template>
-
-    <!-- Foundation: Elements -->
-    <template v-else-if="activeSection === 'foundation-elements'">
-      <ElementsOverview />
-    </template>
-
-    <!-- Foundation: Themes -->
-    <template v-else-if="activeSection === 'foundation-themes'">
-      <ThemesOverview />
-    </template>
-
-    <!-- Foundation: Opacity, Z-Index & Motion -->
-    <template v-else-if="activeSection === 'foundation-opacity'">
-      <FoundationGeneric category="opacity" sectionLabel="Opacity" />
-      <FoundationGeneric category="zindex" sectionLabel="Z-Index" />
-      <FoundationGeneric category="motion" sectionLabel="Motion" />
-    </template>
-
-    <!-- Foundation: Motion (fallback) -->
-    <template v-else-if="activeSection === 'foundation-motion'">
-      <FoundationGeneric category="motion" />
-    </template>
-
-    <!-- Component sections -->
-    <template v-else-if="activeSection.startsWith('component-')">
-      <ComponentEditor :componentId="activeSection.replace('component-', '')" />
-    </template>
-
-    <!-- Module sections -->
-    <template v-else-if="activeSection.startsWith('module-')">
-      <ModulePlaceholder :moduleId="activeSection.replace('module-', '')" />
-    </template>
-
-    <!-- Template sections -->
-    <template v-else-if="activeSection.startsWith('template-')">
-      <TemplatePlaceholder :templateId="activeSection.replace('template-', '')" />
+    <!-- Sektion → Inspector-Bloecke aus der Registry (src/navigation/sektionen.js) -->
+    <template v-if="inspectorBloecke.length">
+      <component
+        v-for="(block, i) in inspectorBloecke"
+        :key="sektion.schluessel + ':' + i"
+        :is="block.komponente"
+        v-bind="block.props"
+      />
     </template>
 
     <template v-else>
@@ -187,22 +99,14 @@ import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
-import FoundationColors from '../foundation/FoundationColors.vue'
-import SurfaceEditor from '../foundation/SurfaceEditor.vue'
-import ShadowEditor from '../foundation/ShadowEditor.vue'
-import TypographyEditor from '../foundation/TypographyEditor.vue'
-import FoundationGeneric from '../foundation/FoundationGeneric.vue'
-import GridInspector from '../foundation/GridInspector.vue'
-import BorderEditor from '../foundation/BorderEditor.vue'
-import ElementsOverview from '../foundation/ElementsOverview.vue'
-import ThemesOverview from '../foundation/ThemesOverview.vue'
-import PraesentationInspector from '../foundation/PraesentationInspector.vue'
-import ComponentEditor from '../components/ComponentEditor.vue'
-import ModulePlaceholder from '../templates/ModulePlaceholder.vue'
-import TemplatePlaceholder from '../templates/TemplatePlaceholder.vue'
+import { sektionAufloesen } from '../../navigation/sektionen.js'
 
 const store = useThemeStore()
 const activeSection = computed(() => store.state.activeSection)
+
+// Sektion → Inspector-Bloecke (Plan v2, 3.4); leer = Hinweis im v-else-Zweig
+const sektion = computed(() => sektionAufloesen(activeSection.value))
+const inspectorBloecke = computed(() => sektion.value.inspector)
 
 // ---------------------------------------------------------------------------
 // Theme-Set Switcher
