@@ -28,6 +28,13 @@ on:
       - 'scripts/**'
       - 'docs/**'
       - 'config/**'
+  # Von Hand: u. a. Screenshot-Baselines der Arenen neu schreiben (Job e2e-visuell)
+  workflow_dispatch:
+    inputs:
+      screenshots_aktualisieren:
+        description: 'Screenshot-Baselines neu schreiben (Artefakt e2e-screenshots-<sha>)'
+        type: boolean
+        default: false
 
 concurrency:
   group: theme-configurator-${{ github.ref }}
@@ -104,3 +111,86 @@ jobs:
             config/theme-config.html
             config/theme-configurator/
           retention-days: 30
+
+  # Plan v2, 4.2: Playwright gegen das gebaute Bundle aus dem Job app.
+  # Smoke je Sektion, Kernablaeufe, axe mit Basislinie — CI-Gate.
+  e2e:
+    name: App — E2E (Playwright)
+    needs: app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/theme-configurator/package-lock.json
+      - name: App-Abhaengigkeiten
+        working-directory: apps/theme-configurator
+        run: npm ci
+      - name: Gebautes Bundle aus dem Job app
+        uses: actions/download-artifact@v4
+        with:
+          name: theme-configurator-${{ github.sha }}
+          path: config
+      - name: Chromium fuer Playwright
+        working-directory: apps/theme-configurator
+        run: npx playwright install --with-deps chromium
+      - name: E2E (Smoke, Ablaeufe, axe)
+        working-directory: apps/theme-configurator
+        run: npm run e2e
+      - name: Report bei Fehlern
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report-${{ github.sha }}
+          path: |
+            apps/theme-configurator/playwright-report/
+            apps/theme-configurator/test-results/
+          retention-days: 14
+
+  # Screenshot-Vergleich der Arenen (@visuell) — NICHT im Gate, nur von Hand.
+  # Anleitung: apps/theme-configurator/e2e/README.md
+  e2e-visuell:
+    name: App — Screenshot-Vergleich (von Hand)
+    if: github.event_name == 'workflow_dispatch'
+    needs: app
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/theme-configurator/package-lock.json
+      - name: App-Abhaengigkeiten
+        working-directory: apps/theme-configurator
+        run: npm ci
+      - name: Gebautes Bundle aus dem Job app
+        uses: actions/download-artifact@v4
+        with:
+          name: theme-configurator-${{ github.sha }}
+          path: config
+      - name: Chromium fuer Playwright
+        working-directory: apps/theme-configurator
+        run: npx playwright install --with-deps chromium
+      - name: Screenshots vergleichen oder neu schreiben
+        working-directory: apps/theme-configurator
+        run: npm run e2e:visuell -- ${{ inputs.screenshots_aktualisieren && '--update-snapshots' || '' }}
+      - name: Baselines als Artefakt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots-${{ github.sha }}
+          path: apps/theme-configurator/e2e/__screenshots__/
+          retention-days: 14
+      - name: Report bei Abweichungen
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-visuell-report-${{ github.sha }}
+          path: |
+            apps/theme-configurator/playwright-report/
+            apps/theme-configurator/test-results/
+          retention-days: 14
