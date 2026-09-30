@@ -1,23 +1,27 @@
 // ==========================================================================
 // Arena Resolver — Dynamic Component Loading fuer LaboratoryPanel
 // ==========================================================================
-// Ersetzt die 56 statischen v-else-if Bloecke in LaboratoryPanel.vue.
-// Nutzt Vue defineAsyncComponent fuer Code-Splitting (Lazy Loading).
+// Regel (Plan v2, 3.5): Arenen entstehen aus den Recipes — so wie die
+// Drupal-Komponenten. Jede Komponente ohne Eintrag in SONDERFAELLE bekommt
+// die RecipeArena (Specimens aus dem Recipe, Markup aus
+// src/arena-templates/<id>.js oder per Slot-Heuristik).
+//
+// SONDERFAELLE sind handgeschriebene Arenen. Sie bleiben vorerst, bis ihre
+// Recipes eine Vorlage haben; neue kommen nur fuer echte Sonderfaelle dazu
+// (z. B. Arenen mit eigener Interaktion oder Canvas).
 //
 // Verwendung:
 //   const { resolvedArena } = useArenaResolver(componentId)
 //   <component :is="resolvedArena" />
 // ==========================================================================
 
-import { computed, defineAsyncComponent, markRaw } from 'vue'
+import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 
 // ---------------------------------------------------------------------------
-// Arena Map: componentId → lazy import
+// Sonderfall-Liste: componentId → handgeschriebene Arena (lazy import)
 // ---------------------------------------------------------------------------
-// Alle 56+ existierenden Arena-Komponenten als lazy imports.
-// Neue Arenas werden hier registriert — EINE Stelle statt LaboratoryPanel.
 
-const ARENA_MAP = {
+const SONDERFAELLE = {
   avatar: () => import('../components/laboratory/AvatarArena.vue'),
   badge: () => import('../components/laboratory/BadgeArena.vue'),
   status: () => import('../components/laboratory/StatusArena.vue'),
@@ -75,8 +79,17 @@ const ARENA_MAP = {
   'psychedelic-bg': () => import('../components/laboratory/PsychedelicBgArena.vue'),
 }
 
-// Fallback: RecipeSpecimenArena fuer Komponenten ohne dedizierte Arena
-const FALLBACK_ARENA = () => import('../components/laboratory/RecipeSpecimenArena.vue')
+// Regelfall: RecipeArena. LaboratoryPanel rendert `<component :is>` ohne
+// Props — die Komponenten-ID wird deshalb hier gebunden. (Vorher bekam der
+// Fallback gar keine ID und blieb leer.)
+const RECIPE_ARENA = () => import('../components/laboratory/RecipeArena.vue')
+
+function recipeArenaFuer (id) {
+  return () => RECIPE_ARENA().then((modul) => ({
+    name: 'RecipeArenaFuer',
+    render: () => h(modul.default, { componentId: id })
+  }))
+}
 
 // Cache fuer bereits erstellte AsyncComponents (vermeidet Neuinstanziierung)
 const _cache = new Map()
@@ -98,7 +111,7 @@ export function useArenaResolver (componentIdRef) {
     // Cache pruefen
     if (_cache.has(id)) return _cache.get(id)
 
-    const loader = ARENA_MAP[id] || FALLBACK_ARENA
+    const loader = SONDERFAELLE[id] || recipeArenaFuer(id)
 
     const asyncComp = markRaw(defineAsyncComponent({
       loader,
@@ -117,7 +130,7 @@ export function useArenaResolver (componentIdRef) {
 
   const hasDedicatedArena = computed(() => {
     const id = typeof componentIdRef === 'string' ? componentIdRef : componentIdRef.value
-    return !!ARENA_MAP[id]
+    return !!SONDERFAELLE[id]
   })
 
   return { resolvedArena, hasDedicatedArena }
@@ -129,7 +142,16 @@ export function useArenaResolver (componentIdRef) {
  * @returns {boolean}
  */
 export function hasArena (componentId) {
-  return !!ARENA_MAP[componentId]
+  return !!SONDERFAELLE[componentId]
+}
+
+/**
+ * Woher kommt die Arena? 'sonderfall' (handgeschrieben) oder 'recipe'.
+ * @param {string} componentId
+ * @returns {'sonderfall'|'recipe'}
+ */
+export function arenaQuelle (componentId) {
+  return SONDERFAELLE[componentId] ? 'sonderfall' : 'recipe'
 }
 
 /**
@@ -137,5 +159,5 @@ export function hasArena (componentId) {
  * @returns {string[]}
  */
 export function getRegisteredArenas () {
-  return Object.keys(ARENA_MAP)
+  return Object.keys(SONDERFAELLE)
 }

@@ -5,7 +5,7 @@
 // Cached geladene Recipes. Nutzt loadRecipe() aus recipe-sdk.
 // ==========================================================================
 
-import { ref, watch, shallowRef } from 'vue'
+import { ref, watch, shallowRef, isRef } from 'vue'
 import { loadRecipe } from 'recipe-sdk'
 
 // ---------------------------------------------------------------------------
@@ -115,8 +115,10 @@ export function useRecipeLoader(componentIdRef) {
     }
   }
 
-  // Watch for changes if ref is reactive
-  if (typeof componentIdRef === 'object' && componentIdRef.value !== undefined) {
+  // Reaktive Quelle beobachten. Frueher stand hier `componentIdRef.value !==
+  // undefined` — ein computed, das anfangs undefined liefert, galt dann als
+  // fester String und wurde nie wieder gelesen.
+  if (isRef(componentIdRef)) {
     watch(componentIdRef, (newId) => load(newId), { immediate: true })
   } else {
     load(componentIdRef)

@@ -1,4 +1,4 @@
-# RecipeSpecimen
+# Recipe
 
 > **Layer:** unknown | **Coverage:** 1/6 (minimal) | **Status:** stable
 
@@ -11,10 +11,10 @@
 | Recipe | — | missing |
 | SCSS | — | missing |
 | Storybook | — | missing |
-| Arena | `apps/theme-configurator/src/components/laboratory/RecipeSpecimenArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
 ## Quick Links
 
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeSpecimenArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
