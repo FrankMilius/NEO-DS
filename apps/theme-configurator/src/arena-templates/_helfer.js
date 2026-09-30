@@ -31,3 +31,14 @@ export const HAKEN_KREIS = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="tr
 
 export const PFEIL_LINKS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>'
 export const PFEIL_RECHTS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'
+
+/**
+ * Position des Achsenwerts dieser Zelle innerhalb des Specimens — fuer
+ * Specimen-Listen wie render.counterValues oder render.labels, die je Zelle
+ * einen Wert vorgeben.
+ */
+export function zellenIndex (m, achse) {
+  const eintrag = m.specimen.matrix?.axes?.[achse]
+  const werte = eintrag === '*' ? Object.keys(m.recipe.axes?.[achse]?.values || {}) : (eintrag || [])
+  return Math.max(0, werte.indexOf(m.wert(achse)))
+}

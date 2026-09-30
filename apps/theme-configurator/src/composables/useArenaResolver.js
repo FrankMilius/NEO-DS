@@ -10,6 +10,11 @@
 // Recipes eine Vorlage haben; neue kommen nur fuer echte Sonderfaelle dazu
 // (z. B. Arenen mit eigener Interaktion oder Canvas).
 //
+// Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
+// spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
+// Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
+// liegen, solange meta.pipeline.arena der Recipes (data/) darauf zeigt.
+//
 // Verwendung:
 //   const { resolvedArena } = useArenaResolver(componentId)
 //   <component :is="resolvedArena" />
@@ -22,9 +27,6 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 // ---------------------------------------------------------------------------
 
 const SONDERFAELLE = {
-  avatar: () => import('../components/laboratory/AvatarArena.vue'),
-  badge: () => import('../components/laboratory/BadgeArena.vue'),
-  status: () => import('../components/laboratory/StatusArena.vue'),
   card: () => import('../components/laboratory/CardArena.vue'),
   button: () => import('../components/laboratory/ButtonArena.vue'),
   switch: () => import('../components/laboratory/SwitchArena.vue'),
@@ -44,14 +46,11 @@ const SONDERFAELLE = {
   pagination: () => import('../components/laboratory/PaginationArena.vue'),
   'segmented-control': () => import('../components/laboratory/SegmentedControlArena.vue'),
   'toggle-group': () => import('../components/laboratory/ToggleGroupArena.vue'),
-  chip: () => import('../components/laboratory/ChipArena.vue'),
-  tag: () => import('../components/laboratory/TagArena.vue'),
   'dropdown-menu': () => import('../components/laboratory/DropdownMenuArena.vue'),
   'form-field': () => import('../components/laboratory/FormFieldArena.vue'),
   fieldset: () => import('../components/laboratory/FieldsetArena.vue'),
   metric: () => import('../components/laboratory/MetricArena.vue'),
   toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
-  progress: () => import('../components/laboratory/ProgressArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
   search: () => import('../components/laboratory/SearchArena.vue'),
   'alert-dialog': () => import('../components/laboratory/AlertDialogArena.vue'),
@@ -65,9 +64,6 @@ const SONDERFAELLE = {
   treeview: () => import('../components/laboratory/TreeviewArena.vue'),
   'input-group': () => import('../components/laboratory/InputGroupArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
-  label: () => import('../components/laboratory/LabelArena.vue'),
-  skeleton: () => import('../components/laboratory/SkeletonArena.vue'),
-  spinner: () => import('../components/laboratory/SpinnerArena.vue'),
   item: () => import('../components/laboratory/ItemArena.vue'),
   table: () => import('../components/laboratory/TableArena.vue'),
   'data-table': () => import('../components/laboratory/DataTableArena.vue'),

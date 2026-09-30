@@ -8,7 +8,7 @@
 import { describe, it, expect } from 'vitest'
 import { vorlagenIds, vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
-import { hasArena } from '../../src/composables/useArenaResolver.js'
+import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, rohesRecipe } from './_recipes.js'
 
 function ansichten (id) {
@@ -30,7 +30,7 @@ describe('Arena-Vorlagen: Abdeckung', () => {
       `[Arena-Vorlagen] Recipes mit Vorlage: ${mit.length} von ${RECIPE_IDS.length}` +
       ` — davon in der App sichtbar (keine Sonderfall-Arena): ${sichtbar.length} von ${ohneArena.length}`
     )
-    expect(mit.length).toBeGreaterThanOrEqual(77)
+    expect(mit.length).toBeGreaterThanOrEqual(81)
   })
 
   for (const id of vorlagenIds()) {
@@ -66,7 +66,18 @@ describe('Arena-Vorlagen: Snapshots', () => {
     ['square-value', 'orientation-comparison'],
     ['multiselect', 'default'],
     ['searchbar', 'default'],
-    ['parallax-bg', 'default']
+    ['parallax-bg', 'default'],
+    // Stufe 4: abgeloeste Sonderfall-Arenen
+    ['tag', 'removable-variants'],
+    ['chip', 'content-types'],
+    ['label', 'interactive-labels'],
+    ['avatar', 'badge-status'],
+    ['avatar', 'group'],
+    ['badge', 'on-avatar'],
+    ['status', 'with-label'],
+    ['skeleton', 'avatar-placeholder'],
+    ['progress', 'with-label'],
+    ['spinner', 'in-button']
   ]
   for (const [id, specimenId] of FAELLE) {
     it(`${id} / ${specimenId}`, () => {
@@ -178,5 +189,47 @@ describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
   it('footer / events: CTA-Headline h2, Mehr-laden als secondary', () => {
     expect(alle('footer').find((h) => h.includes('nc-footer__cta'))).toContain('<h2 class="nc-footer__cta-headline">')
     expect(alle('events')[0]).toContain('nc-button nc-button--secondary')
+  })
+})
+
+describe('Arena-Vorlagen: abgeloeste Sonderfall-Arenen (Stufe 4)', () => {
+  const ABGELOEST = ['avatar', 'badge', 'chip', 'label', 'progress', 'skeleton', 'spinner', 'status', 'tag']
+  const zellen = (id, sp) => ansichten(id).find((a) => a.id === sp).zeilen.flatMap((z) => z.zellen)
+
+  it('laufen ueber die RecipeArena und haben eine Vorlage', () => {
+    for (const id of ABGELOEST) {
+      expect(arenaQuelle(id), id).toBe('recipe')
+      expect(vorlageFuer(id), id).toBeTruthy()
+    }
+  })
+
+  it('chip: Auswahl ueber aria-pressed, nie aria-selected (R3)', () => {
+    const alle = ansichten('chip').flatMap((a) => a.zeilen.flatMap((z) => z.zellen))
+    expect(alle.every((z) => !z.html.includes('aria-selected'))).toBe(true)
+    const [aus, an] = zellen('chip', 'selected-default')
+    expect(aus.html).toContain('aria-pressed="false"')
+    expect(an.html).toContain('aria-pressed="true"')
+    expect(an.html).toContain('nc-chip--selected')
+    expect(zellen('chip', 'chip-group-scroll')[0].html).toContain('nc-chip-group nc-chip-group--scroll')
+  })
+
+  it('Kompositionen haben ihr DS-Markup', () => {
+    expect(zellen('avatar', 'group')[0].html).toContain('nc-avatar-group__count')
+    expect(zellen('avatar', 'badge-status').map((z) => z.html.match(/nc-avatar__badge--(\w+)/)[1]))
+      .toEqual(['online', 'offline', 'busy', 'away', 'verified'])
+    expect(zellen('status', 'with-label')[0].html).toContain('nc-status-label__text')
+    expect(zellen('skeleton', 'text-group')[0].html).toContain('nc-skeleton-group')
+    expect(zellen('progress', 'with-label')[0].html).toContain('nc-progress-labeled__value')
+    expect(zellen('spinner', 'overlay')[0].html).toContain('nc-spinner-overlay')
+    expect(zellen('badge', 'counters').map((z) => z.html.match(/__label">([^<]+)/)[1])).toEqual(['1', '9'])
+    expect(zellen('badge', 'status-strings').map((z) => z.html.match(/__label">([^<]+)/)[1]))
+      .toEqual(['Active', 'Pending', 'Failed', 'Draft'])
+  })
+
+  it('tag/label: interaktiv als <button>, entfernbar mit __remove', () => {
+    expect(zellen('tag', 'interactive-states')[0].html).toMatch(/^<button[^>]*class="nc-tag nc-tag--interactive/)
+    expect(zellen('tag', 'removable-variants')[0].html).toContain('nc-tag__remove')
+    expect(zellen('label', 'interactive-labels')[0].html).toContain('nc-label__remove')
+    expect(zellen('label', 'with-icons')[0].html).toContain('nc-label__icon')
   })
 })
