@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
@@ -25,6 +25,8 @@ export default defineConfig({
     // 130 Recipes × alle Specimens rendern: unter Last (CI, parallele Dateien)
     // reichen die 5 s Standard nicht immer — einmal lokal beobachtet.
     testTimeout: 15000,
-    setupFiles: ['./tests/setup.js']
+    setupFiles: ['./tests/setup.js'],
+    // e2e/ gehoert Playwright (npm run e2e) — *.spec.js dort nicht in Vitest
+    exclude: [...configDefaults.exclude, 'e2e/**', 'playwright-report/**', 'test-results/**']
   }
 })
