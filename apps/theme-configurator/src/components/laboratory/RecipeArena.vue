@@ -171,6 +171,20 @@ const ansichten = computed(() => {
 
 .ra-live-component { min-width: 0; }
 
+/* Heuristik ohne Vorlage: Slotname statt leerer Flaeche */
+.ra-live-component .ra-slot-name {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  border: 1px dashed var(--cfg-border-strong, #94a3b8);
+  border-radius: 4px;
+  font: 500 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--cfg-text-muted, #64748b);
+  background: color-mix(in srgb, var(--cfg-text-muted, #64748b) 6%, transparent);
+  white-space: nowrap;
+}
+
 .ra-fallback {
   display: flex;
   align-items: center;

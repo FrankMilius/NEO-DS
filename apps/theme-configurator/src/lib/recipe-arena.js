@@ -513,6 +513,11 @@ function eingabeAttrs (m) {
   return a
 }
 
+/** Sichtbare Slot-Beschriftung fuer die Heuristik (Klasse ra-slot-name). */
+export function slotBeschriftung (name) {
+  return `<span class="ra-slot-name" aria-hidden="true">${esc(name)}</span>`
+}
+
 function slotHtml (slot, m, kinder, nummer) {
   const tag = slotTag(slot)
   let attrs = ''
@@ -525,6 +530,9 @@ function slotHtml (slot, m, kinder, nummer) {
   if (tag === 'img') attrs = ` alt="" src="${PLATZHALTER_SRC}"`
   let inhalt = kinder.length ? kinder.join('') : slotInhalt(slot, m)
   if (nummer && !kinder.length && inhalt === esc(m.text)) inhalt = `${esc(m.text)} ${nummer}`
+  // Leerer Behaelter ohne Vorlage: Slotnamen zeigen statt einer leeren
+  // grauen Flaeche (die Beschriftung gehoert zur Arena, nicht zum DS).
+  if (!inhalt && !kinder.length && art(slot.name) === 'behaelter' && !VOID.has(tag)) inhalt = slotBeschriftung(slot.name)
   return element(tag, slot.klassen, attrs, inhalt)
 }
 

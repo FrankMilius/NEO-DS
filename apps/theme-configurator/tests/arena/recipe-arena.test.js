@@ -11,7 +11,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
-import { normalisiereRecipe, zellenFuer } from '../../src/lib/recipe-arena.js'
+import { normalisiereRecipe, zellenFuer, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { RECIPE_IDS, rohesRecipe } from './_recipes.js'
 
 async function mountArena (id) {
@@ -62,4 +62,25 @@ describe('RecipeArena — alle Recipes', () => {
       w.unmount()
     })
   }
+})
+
+describe('Slot-Heuristik ohne Vorlage', () => {
+  it('leere Behaelter zeigen ihren Slotnamen statt einer leeren Flaeche', () => {
+    const recipe = normalisiereRecipe({
+      meta: { component: 'probe', layer: 'organism' },
+      anatomy: {
+        root: { element: '.nc-probe' },
+        slots: [
+          { name: 'panel', element: '.nc-probe__panel' },
+          { name: 'title', element: '.nc-probe__title' }
+        ]
+      },
+      styling: { baseClasses: ['nc-probe'] }
+    })
+    const [zelle] = specimenAnsicht(recipe.specimens[0], recipe, 'probe', null).zeilen[0].zellen
+    expect(zelle.quelle).toBe('heuristik')
+    expect(zelle.html).toContain('<div class="nc-probe__panel"><span class="ra-slot-name" aria-hidden="true">panel</span></div>')
+    // Slots mit eigenem Inhalt (Titel) bekommen keine Beschriftung
+    expect(zelle.html).not.toContain('>title</span>')
+  })
 })
