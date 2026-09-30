@@ -11,6 +11,7 @@
       </ErrorBoundary>
     </div>
     <UpdateDialog />
+    <KonfigBestaetigung />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import InspectorPanel from './components/layout/InspectorPanel.vue'
 import LaboratoryPanel from './components/laboratory/LaboratoryPanel.vue'
 import UpdateDialog from './components/components/UpdateDialog.vue'
 import ErrorBoundary from './components/layout/ErrorBoundary.vue'
+import KonfigBestaetigung from './components/ui/KonfigBestaetigung.vue'
 import { starteHashRouter } from './navigation/hash-router.js'
 
 const store = useThemeStore()

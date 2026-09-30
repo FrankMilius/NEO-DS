@@ -1,33 +1,33 @@
 <template>
   <Teleport to="body">
     <transition name="dialog-fade">
-      <div v-if="sync.state.showDialog" class="dialog-overlay" @click.self="sync.dismissDialog" @keydown.escape="sync.dismissDialog">
-        <div class="dialog-panel" role="dialog" aria-modal="true" aria-labelledby="update-dialog-title" @keydown="trapFocus">
+      <div v-if="sync.state.showDialog" class="dialog-overlay" @click.self="sync.dismissDialog">
+        <div ref="dialogRef" class="dialog-panel" role="dialog" aria-modal="true" aria-labelledby="update-dialog-title" aria-describedby="update-dialog-subtitle" tabindex="-1">
 
           <!-- Header with Pipeline Stage Indicator -->
           <div class="dialog-header">
             <div class="dialog-icon" :class="iconClass">
               <!-- Stage-specific icons -->
-              <svg v-if="sync.state.stage === 'forging' || sync.state.stage === 'detecting'" class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" v-if="sync.state.stage === 'forging' || sync.state.stage === 'detecting'" class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
               </svg>
-              <svg v-else-if="sync.state.stage === 'success'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" v-else-if="sync.state.stage === 'success'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              <svg v-else-if="sync.state.stage === 'error'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" v-else-if="sync.state.stage === 'error'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
               </svg>
-              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
                 <path d="M9 18c-4.51 2-5-2-7-2"/>
               </svg>
             </div>
             <div class="dialog-title-group">
-              <h3 class="dialog-title" id="update-dialog-title">{{ dialogTitle }}</h3>
-              <p class="dialog-subtitle">{{ dialogSubtitle }}</p>
+              <h2 class="dialog-title" id="update-dialog-title">{{ dialogTitle }}</h2>
+              <p id="update-dialog-subtitle" class="dialog-subtitle" aria-live="polite">{{ dialogSubtitle }}</p>
             </div>
-            <button class="dialog-close" @click="sync.dismissDialog" title="Close">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" class="dialog-close" @click="sync.dismissDialog" title="Close" aria-label="Schließen">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
             </button>
@@ -74,12 +74,12 @@
             <template v-if="sync.state.stage === 'review' && sync.state.mergeRequest">
               <div class="mr-section">
                 <div class="mr-section-header">
-                  <h4 class="mr-section-title">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <h3 class="mr-section-title">
+                    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
                     </svg>
                     Merge Request
-                  </h4>
+                  </h3>
                   <span class="mr-count">{{ sync.state.mergeRequest.palettes.length }} change{{ sync.state.mergeRequest.palettes.length !== 1 ? 's' : '' }}</span>
                 </div>
                 <p class="mr-summary" v-if="sync.state.mergeRequest.summary">{{ sync.state.mergeRequest.summary }}</p>
@@ -87,13 +87,13 @@
 
               <!-- Palette changes -->
               <div class="mr-section">
-                <h4 class="mr-section-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <h3 class="mr-section-title">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="13.5" cy="6.5" r="0.5"/><circle cx="17.5" cy="10.5" r="0.5"/><circle cx="8.5" cy="7.5" r="0.5"/><circle cx="6.5" cy="12.5" r="0.5"/>
                     <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
                   </svg>
                   Palettes to Add
-                </h4>
+                </h3>
                 <div class="palette-list">
                   <div v-for="pal in sync.state.mergeRequest.palettes" :key="pal.id" class="palette-item">
                     <div class="palette-swatch" :style="{ background: pal.base }"></div>
@@ -108,12 +108,12 @@
 
               <!-- Diff Preview -->
               <div class="mr-section">
-                <h4 class="mr-section-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <h3 class="mr-section-title">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                   </svg>
                   Files Changed ({{ sync.state.mergeRequest.files.length }})
-                </h4>
+                </h3>
                 <div class="diff-files">
                   <div v-for="file in sync.state.mergeRequest.files" :key="file.path" class="diff-file">
                     <div class="diff-file-header">
@@ -148,15 +148,15 @@
 
             <!-- Success state -->
             <div v-if="sync.state.stage === 'success'" class="result-state result-success">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                 <polyline points="22 4 12 14.01 9 11.01"/>
               </svg>
-              <h4 class="result-title">Merge Successful</h4>
+              <h3 class="result-title">Merge Successful</h3>
               <p class="result-message">{{ sync.state.stageMessage }}</p>
               <div v-if="sync.state.lastSync" class="result-details">
                 <div v-for="file in (sync.state.lastSync.files || [])" :key="file" class="result-file">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   <code>{{ file }}</code>
@@ -166,10 +166,10 @@
 
             <!-- Error state -->
             <div v-if="sync.state.stage === 'error'" class="result-state result-error">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
               </svg>
-              <h4 class="result-title">Merge Failed</h4>
+              <h3 class="result-title">Merge Failed</h3>
               <p class="result-message">{{ sync.state.stageMessage }}</p>
             </div>
           </div>
@@ -178,39 +178,39 @@
           <div class="dialog-actions">
             <!-- Review stage: Merge & Skip buttons -->
             <template v-if="sync.state.stage === 'review'">
-              <button class="btn-merge" @click="handleMerge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button type="button" class="btn-merge" @click="handleMerge">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
                 </svg>
                 Merge to Styleguide
               </button>
-              <button class="btn-skip" @click="sync.dismissDialog">
+              <button type="button" class="btn-skip" @click="sync.dismissDialog">
                 Skip for now
               </button>
             </template>
 
             <!-- Error stage: Retry & Cancel -->
             <template v-if="sync.state.stage === 'error'">
-              <button class="btn-merge" @click="sync.retryMerge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button type="button" class="btn-merge" @click="sync.retryMerge">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
                 </svg>
                 Retry Merge
               </button>
-              <button class="btn-skip" @click="sync.dismissDialog">
+              <button type="button" class="btn-skip" @click="sync.dismissDialog">
                 Cancel
               </button>
             </template>
 
             <!-- Processing / Success: just a close button -->
             <template v-if="sync.state.stage === 'success'">
-              <button class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
+              <button type="button" class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
                 Close (auto-closing in 4s)
               </button>
             </template>
 
             <template v-if="sync.state.stage === 'detecting' || sync.state.stage === 'forging' || sync.state.stage === 'merging'">
-              <button class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
+              <button type="button" class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
                 Cancel
               </button>
             </template>
@@ -222,12 +222,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { useThemeStore } from '../../stores/theme.js'
 
 const sync = useStyleguideSync()
 const store = useThemeStore()
+
+// Fokus-Falle, Escape, Fokus-Rueckgabe (Plan v2, 4.4)
+const dialogRef = ref(null)
+useFokusFalle(dialogRef, () => sync.state.showDialog, { beiEscape: () => sync.dismissDialog() })
 
 // Wrapper that passes the theme store for the merge-time security check
 function handleMerge() {
@@ -276,23 +281,6 @@ const dialogSubtitle = computed(() => {
   }
   return map[sync.state.stage] || ''
 })
-
-// Focus trap for dialog
-function trapFocus(e) {
-  if (e.key !== 'Tab') return
-  const dialog = e.currentTarget
-  const focusable = dialog.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')
-  if (focusable.length === 0) return
-  const first = focusable[0]
-  const last = focusable[focusable.length - 1]
-  if (e.shiftKey && document.activeElement === first) {
-    e.preventDefault()
-    last.focus()
-  } else if (!e.shiftKey && document.activeElement === last) {
-    e.preventDefault()
-    first.focus()
-  }
-}
 </script>
 
 <style scoped>

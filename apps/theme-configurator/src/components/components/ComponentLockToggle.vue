@@ -2,16 +2,18 @@
   <div class="lock-toggle">
     <!-- Lock/Unlock Button -->
     <button
+      type="button"
       :class="['lock-btn', { locked: isLocked }]"
+      :aria-pressed="isLocked"
       @click="handleToggle"
       :title="isLocked ? 'Unlock component for editing' : 'Lock component (read-only)'"
     >
       <!-- Locked icon -->
-      <svg v-if="isLocked" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg aria-hidden="true" v-if="isLocked" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
       </svg>
       <!-- Unlocked icon -->
-      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg aria-hidden="true" v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>
       </svg>
       <span class="lock-label">{{ isLocked ? 'Locked' : 'Unlocked' }}</span>
@@ -24,17 +26,19 @@
 
     <!-- Unlock Confirmation Dialog -->
     <div v-if="showUnlockDialog" class="unlock-dialog-overlay" @click.self="showUnlockDialog = false">
-      <div class="unlock-dialog">
-        <h4 class="unlock-dialog-title">Unlock {{ componentLabel }}?</h4>
-        <p class="unlock-dialog-desc">
+      <div ref="dialogRef" class="unlock-dialog" role="dialog" aria-modal="true" :aria-labelledby="`${idBasis}-titel`" :aria-describedby="`${idBasis}-text`" tabindex="-1">
+        <h2 :id="`${idBasis}-titel`" class="unlock-dialog-title">Unlock {{ componentLabel }}?</h2>
+        <p :id="`${idBasis}-text`" class="unlock-dialog-desc">
           This component is locked at <strong>v{{ version }}</strong>.
           Choose a version bump for editing:
         </p>
-        <div class="bump-options">
+        <div class="bump-options" role="group" aria-label="Versionssprung">
           <button
             v-for="opt in bumpOptions"
             :key="opt.type"
+            type="button"
             :class="['bump-btn', { active: selectedBump === opt.type }]"
+            :aria-pressed="selectedBump === opt.type"
             @click="selectedBump = opt.type"
           >
             <span class="bump-type">{{ opt.label }}</span>
@@ -42,8 +46,8 @@
           </button>
         </div>
         <div class="unlock-dialog-actions">
-          <button class="dialog-btn dialog-btn--cancel" @click="showUnlockDialog = false">Cancel</button>
-          <button class="dialog-btn dialog-btn--confirm" @click="confirmUnlock">Unlock</button>
+          <button type="button" class="dialog-btn dialog-btn--cancel" @click="showUnlockDialog = false">Cancel</button>
+          <button type="button" class="dialog-btn dialog-btn--confirm" @click="confirmUnlock">Unlock</button>
         </div>
       </div>
     </div>
@@ -51,8 +55,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({
   componentId: { type: String, required: true },
@@ -65,6 +70,12 @@ const isLocked = computed(() => store.isComponentLocked(props.componentId))
 const version = computed(() => store.getComponentVersion(props.componentId))
 
 const showUnlockDialog = ref(false)
+const dialogRef = ref(null)
+const idBasis = `cfg-entsperren-${useId()}`
+useFokusFalle(dialogRef, showUnlockDialog, {
+  startFokus: '.bump-btn.active',
+  beiEscape: () => { showUnlockDialog.value = false }
+})
 const selectedBump = ref('patch')
 
 const bumpOptions = computed(() => {

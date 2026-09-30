@@ -1,11 +1,11 @@
 <template>
   <Transition name="modal">
-    <div v-if="visible" class="modal-overlay" @click.self="schliessen" @keydown.escape="schliessen">
-      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="dtcg-titel">
+    <div v-if="visible" class="modal-overlay" @click.self="schliessen">
+      <div ref="dialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="dtcg-titel" tabindex="-1">
         <div class="modal-header">
-          <h3 id="dtcg-titel" class="modal-title">DTCG-Export (W3C Design Tokens)</h3>
-          <button class="modal-close" aria-label="Schließen" @click="schliessen">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+          <h2 id="dtcg-titel" class="modal-title">DTCG-Export (W3C Design Tokens)</h2>
+          <button type="button" class="modal-close" aria-label="Schließen" @click="schliessen">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
           </button>
         </div>
 
@@ -15,7 +15,7 @@
             Exporter wie <span class="mono">npm run tokens:dtcg</span> ausgegeben.
           </p>
 
-          <p v-if="laedt" class="status">Export wird erstellt …</p>
+          <p v-if="laedt" class="status" role="status">Export wird erstellt …</p>
           <div v-else-if="fehler" class="box error" data-test="dtcg-fehler">
             <p class="box-label">Export fehlgeschlagen</p>
             <p class="modal-text">{{ fehler }}</p>
@@ -40,8 +40,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="modal-btn secondary" @click="schliessen">Abbrechen</button>
-          <button class="modal-btn primary" :disabled="!ergebnis || laedt" @click="herunterladen">Herunterladen</button>
+          <button type="button" class="modal-btn secondary" @click="schliessen">Abbrechen</button>
+          <button type="button" class="modal-btn primary" :disabled="!ergebnis || laedt" @click="herunterladen">Herunterladen</button>
         </div>
       </div>
     </div>
@@ -53,10 +53,13 @@
 // Theme in die Quelle uebernommen wurde und was sich nicht abbilden laesst.
 import { computed, ref, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({ visible: { type: Boolean, default: false } })
 const emit = defineEmits(['close'])
 const store = useThemeStore()
+const dialogRef = ref(null)
+useFokusFalle(dialogRef, () => props.visible, { beiEscape: () => emit('close') })
 
 const laedt = ref(false)
 const fehler = ref('')

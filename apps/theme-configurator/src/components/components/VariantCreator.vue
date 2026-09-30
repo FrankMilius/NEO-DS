@@ -1,8 +1,8 @@
 <template>
   <div class="variant-creator">
     <!-- Toggle Button -->
-    <button class="vc-toggle" @click="showDialog = true" :disabled="isLocked">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button ref="toggleRef" type="button" class="vc-toggle" @click="showDialog = true" :disabled="isLocked">
+      <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 5v14"/><path d="M5 12h14"/>
       </svg>
       New Variant
@@ -13,8 +13,8 @@
       <div v-for="(def, name) in variants" :key="name" class="vc-variant-chip">
         <span class="vc-variant-name">{{ name }}</span>
         <code class="vc-variant-modifier">.{{ def.modifier }}</code>
-        <button class="vc-variant-delete" @click="handleDelete(name)" title="Delete variant" :disabled="isLocked">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button type="button" class="vc-variant-delete" @click="handleDelete(name)" title="Delete variant" :aria-label="`Variante „${name}“ löschen`" :disabled="isLocked">
+          <svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
           </svg>
         </button>
@@ -24,11 +24,11 @@
     <!-- Creator Dialog -->
     <Transition name="modal">
       <div v-if="showDialog" class="modal-overlay" @click.self="showDialog = false">
-        <div class="modal-dialog">
+        <div ref="dialogRef" class="modal-dialog" role="dialog" aria-modal="true" :aria-labelledby="`${idBasis}-titel`" tabindex="-1">
           <div class="modal-header">
-            <h3 class="modal-title">New Variant — {{ componentLabel }}</h3>
-            <button class="modal-close" @click="showDialog = false">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <h2 :id="`${idBasis}-titel`" class="modal-title">New Variant — {{ componentLabel }}</h2>
+            <button type="button" class="modal-close" aria-label="Schließen" @click="showDialog = false">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
               </svg>
             </button>
@@ -37,8 +37,8 @@
           <div class="modal-body">
             <!-- Axis Selection -->
             <div class="form-field" v-if="variantAxes.length > 0">
-              <label class="form-label">Axis</label>
-              <select class="form-select" v-model="selectedAxis">
+              <label class="form-label" :for="`${idBasis}-achse`">Axis</label>
+              <select :id="`${idBasis}-achse`" class="form-select" v-model="selectedAxis">
                 <option v-for="ax in variantAxes" :key="ax.id" :value="ax.id">
                   {{ ax.label }} ({{ ax.valueCount }} values)
                 </option>
@@ -47,20 +47,23 @@
 
             <!-- Variant Name -->
             <div class="form-field">
-              <label class="form-label">Variant Name</label>
+              <label class="form-label" :for="`${idBasis}-name`">Variant Name</label>
               <input
+                :id="`${idBasis}-name`"
+                :aria-invalid="nameError ? 'true' : undefined"
+                :aria-describedby="nameError ? `${idBasis}-fehler` : undefined"
                 class="form-input"
                 v-model="variantName"
                 placeholder="e.g. gradient"
                 @input="validateName"
               />
-              <span v-if="nameError" class="form-error">{{ nameError }}</span>
+              <span v-if="nameError" :id="`${idBasis}-fehler`" class="form-error" role="alert">{{ nameError }}</span>
             </div>
 
             <!-- Base Variant -->
             <div class="form-field" v-if="baseVariantOptions.length > 0">
-              <label class="form-label">Clone Tokens From</label>
-              <select class="form-select" v-model="selectedBase">
+              <label class="form-label" :for="`${idBasis}-basis`">Clone Tokens From</label>
+              <select :id="`${idBasis}-basis`" class="form-select" v-model="selectedBase">
                 <option v-for="opt in baseVariantOptions" :key="opt.id" :value="opt.id">
                   {{ opt.label }} ({{ opt.tokenCount }} tokens)
                 </option>
@@ -83,8 +86,9 @@
           </div>
 
           <div class="modal-footer">
-            <button class="modal-btn secondary" @click="showDialog = false">Cancel</button>
+            <button type="button" class="modal-btn secondary" @click="showDialog = false">Cancel</button>
             <button
+              type="button"
               class="modal-btn primary"
               @click="handleCreate"
               :disabled="!canCreate"
@@ -97,8 +101,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { bestaetigen } from '../../composables/useBestaetigung.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({
   componentId: { type: String, required: true },
@@ -109,6 +115,13 @@ const props = defineProps({
 
 const store = useThemeStore()
 const showDialog = ref(false)
+const toggleRef = ref(null)
+const dialogRef = ref(null)
+const idBasis = `cfg-variante-${useId()}`
+useFokusFalle(dialogRef, showDialog, {
+  startFokus: `[id="${idBasis}-name"]`,
+  beiEscape: () => { showDialog.value = false }
+})
 const variantName = ref('')
 const nameError = ref('')
 const selectedAxis = ref('')
@@ -223,10 +236,16 @@ function handleCreate() {
   variantName.value = ''
 }
 
-function handleDelete(name) {
-  if (confirm(`Delete custom variant "${name}"? Associated token overrides will be removed.`)) {
-    store.deleteVariant(props.componentId, name)
-  }
+async function handleDelete(name) {
+  const ok = await bestaetigen({
+    titel: 'Variante löschen?',
+    text: `Die Variante „${name}“ wird gelöscht. Zugehörige Token-Overrides werden entfernt.`,
+    bestaetigenText: 'Löschen',
+    gefaehrlich: true
+  })
+  if (!ok) return
+  store.deleteVariant(props.componentId, name)
+  toggleRef.value?.focus()
 }
 </script>
 

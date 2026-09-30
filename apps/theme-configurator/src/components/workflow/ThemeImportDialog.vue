@@ -1,11 +1,11 @@
 <template>
   <Transition name="modal">
-    <div v-if="visible" class="modal-overlay" @click.self="abbrechen" @keydown.escape="abbrechen">
-      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="import-titel">
+    <div v-if="visible" class="modal-overlay" @click.self="abbrechen">
+      <div ref="dialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="import-titel" tabindex="-1">
         <div class="modal-header">
-          <h3 id="import-titel" class="modal-title">Theme importieren</h3>
-          <button class="modal-close" aria-label="Schließen" @click="abbrechen">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+          <h2 id="import-titel" class="modal-title">Theme importieren</h2>
+          <button type="button" class="modal-close" aria-label="Schließen" @click="abbrechen">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
           </button>
         </div>
 
@@ -15,13 +15,13 @@
             erst „Übernehmen“ ändert das aktive Theme ({{ themeSetLabel }}) — als ein Schritt, den „Rückgängig“ zurücknimmt.
           </p>
 
-          <input ref="dateiInput" type="file" accept=".json,application/json" class="visually-hidden" data-test="import-datei" @change="dateiGewaehlt" />
+          <input aria-label="Theme-Datei" ref="dateiInput" type="file" accept=".json,application/json" class="visually-hidden" tabindex="-1" aria-hidden="true" data-test="import-datei" @change="dateiGewaehlt" />
           <div>
-            <button class="modal-btn secondary" @click="dateiInput?.click()">Datei wählen …</button>
+            <button type="button" class="modal-btn secondary" @click="dateiInput?.click()">Datei wählen …</button>
             <span v-if="dateiname" class="status mono"> {{ dateiname }}</span>
           </div>
 
-          <div v-if="pruefung && !pruefung.ok" class="box error" data-test="import-fehler">
+          <div v-if="pruefung && !pruefung.ok" class="box error" role="alert" data-test="import-fehler">
             <p class="box-label">Import abgelehnt — {{ pruefung.fehler.length }} {{ pruefung.fehler.length === 1 ? 'Fehler' : 'Fehler' }}</p>
             <ul class="liste">
               <li v-for="(f, i) in pruefung.fehler" :key="i">{{ f }}</li>
@@ -49,8 +49,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="modal-btn secondary" @click="abbrechen">Abbrechen</button>
-          <button class="modal-btn primary" :disabled="!pruefung?.ok || gesamt === 0" data-test="import-uebernehmen" @click="uebernehmen">Übernehmen</button>
+          <button type="button" class="modal-btn secondary" @click="abbrechen">Abbrechen</button>
+          <button type="button" class="modal-btn primary" :disabled="!pruefung?.ok || gesamt === 0" data-test="import-uebernehmen" @click="uebernehmen">Übernehmen</button>
         </div>
       </div>
     </div>
@@ -63,10 +63,13 @@
 // Abbrechen aendert nichts.
 import { computed, ref, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({ visible: { type: Boolean, default: false } })
 const emit = defineEmits(['close', 'imported'])
 const store = useThemeStore()
+const dialogRef = ref(null)
+useFokusFalle(dialogRef, () => props.visible, { beiEscape: () => abbrechen() })
 
 const dateiInput = ref(null)
 const dateiname = ref('')

@@ -1,13 +1,13 @@
 <template>
   <Transition name="modal">
     <div v-if="visible" class="modal-overlay" @click.self="$emit('close')">
-      <div class="modal-dialog">
+      <div ref="dialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="merge-dialog-titel" tabindex="-1">
         <div class="modal-header">
-          <h3 class="modal-title">
+          <h2 id="merge-dialog-titel" class="modal-title">
             Merge "{{ branchName }}" → main
-          </h3>
-          <button class="modal-close" @click="$emit('close')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          </h2>
+          <button type="button" class="modal-close" aria-label="Schließen" @click="$emit('close')">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
             </svg>
           </button>
@@ -16,7 +16,7 @@
         <div class="modal-body">
           <!-- Auto-merged summary -->
           <div v-if="autoMergedCount > 0" class="merge-summary merge-summary--success">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 6L9 17l-5-5"/>
             </svg>
             {{ autoMergedCount }} token(s) auto-merged
@@ -24,7 +24,7 @@
 
           <!-- No conflicts -->
           <div v-if="conflicts.length === 0" class="merge-summary merge-summary--clean">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>
             </svg>
             No conflicts — ready to merge!
@@ -33,7 +33,7 @@
           <!-- Conflicts -->
           <template v-if="conflicts.length > 0">
             <div class="merge-summary merge-summary--conflict">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
               {{ conflicts.length }} conflict(s) need resolution
@@ -41,8 +41,8 @@
 
             <!-- Bulk actions -->
             <div class="bulk-actions">
-              <button class="bulk-btn" @click="acceptAllOurs">Accept All Ours (branch)</button>
-              <button class="bulk-btn" @click="acceptAllTheirs">Accept All Theirs (main)</button>
+              <button type="button" class="bulk-btn" @click="acceptAllOurs">Accept All Ours (branch)</button>
+              <button type="button" class="bulk-btn" @click="acceptAllTheirs">Accept All Theirs (main)</button>
             </div>
 
             <!-- Conflict list -->
@@ -52,7 +52,7 @@
                   <code class="conflict-key">{{ conflict.key }}</code>
                   <span class="conflict-layer">{{ conflict.layer }}</span>
                 </div>
-                <div class="conflict-values">
+                <div class="conflict-values" role="radiogroup" :aria-label="`Konflikt ${conflict.key}`">
                   <label :class="['conflict-option', { selected: resolutions[i] === 'ours' }]">
                     <input type="radio" :name="'conflict-' + i" value="ours" v-model="resolutions[i]" />
                     <div class="conflict-value-wrap">
@@ -76,8 +76,9 @@
         </div>
 
         <div class="modal-footer">
-          <button class="modal-btn secondary" @click="$emit('close')">Cancel</button>
+          <button type="button" class="modal-btn secondary" @click="$emit('close')">Cancel</button>
           <button
+            type="button"
             class="modal-btn primary"
             @click="handleMerge"
             :disabled="!allResolved"
@@ -92,6 +93,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -101,6 +103,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'merge'])
+
+const dialogRef = ref(null)
+useFokusFalle(dialogRef, () => props.visible, { beiEscape: () => emit('close') })
 
 // Track resolution for each conflict: 'ours' or 'theirs'
 const resolutions = ref({})

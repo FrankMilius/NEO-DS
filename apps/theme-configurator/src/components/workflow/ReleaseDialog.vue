@@ -1,11 +1,11 @@
 <template>
   <Transition name="modal">
     <div v-if="visible" class="modal-overlay" @click.self="$emit('close')">
-      <div class="modal-dialog">
+      <div ref="dialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="release-dialog-titel" tabindex="-1">
         <div class="modal-header">
-          <h3 class="modal-title">Publish Release</h3>
-          <button class="modal-close" @click="$emit('close')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <h2 id="release-dialog-titel" class="modal-title">Publish Release</h2>
+          <button type="button" class="modal-close" aria-label="Schließen" @click="$emit('close')">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
             </svg>
           </button>
@@ -13,13 +13,14 @@
 
         <div class="modal-body">
           <div class="form-field">
-            <label class="form-label">Version</label>
-            <input class="form-input" v-model="version" placeholder="e.g. 2.1.0" />
+            <label class="form-label" for="cfg-release-version">Version</label>
+            <input id="cfg-release-version" class="form-input" v-model="version" placeholder="e.g. 2.1.0" />
           </div>
 
           <div class="form-field">
-            <label class="form-label">Release Notes</label>
+            <label class="form-label" for="cfg-release-notizen">Release Notes</label>
             <textarea
+              id="cfg-release-notizen"
               class="form-textarea"
               v-model="notes"
               rows="4"
@@ -38,7 +39,7 @@
               >
                 {{ comp.id }}
                 <span v-if="comp.version" class="chip-version">v{{ comp.version }}</span>
-                <svg v-if="comp.locked" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg aria-hidden="true" v-if="comp.locked" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
               </span>
@@ -59,8 +60,9 @@
         </div>
 
         <div class="modal-footer">
-          <button class="modal-btn secondary" @click="$emit('close')">Cancel</button>
+          <button type="button" class="modal-btn secondary" @click="$emit('close')">Cancel</button>
           <button
+            type="button"
             class="modal-btn primary"
             @click="handlePublish"
             :disabled="!version.trim()"
@@ -78,12 +80,16 @@ import { ref, computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useBranchStore } from '../../stores/branches.js'
 import { componentTokenGroups } from '../../data/tokens.js'
+import { useFokusFalle } from '../../composables/useFokusFalle.js'
 
 const props = defineProps({
   visible: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['close', 'publish'])
+
+const dialogRef = ref(null)
+useFokusFalle(dialogRef, () => props.visible, { startFokus: '#cfg-release-version', beiEscape: () => emit('close') })
 
 const themeStore = useThemeStore()
 const branchStore = useBranchStore()
