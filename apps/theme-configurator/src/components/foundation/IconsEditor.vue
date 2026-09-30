@@ -5,12 +5,12 @@
     <section class="ie-section">
       <h3 class="ie-heading">
         Icon Libraries
-        <span class="ie-heading__count">{{ store.currentIconLibraries.value.length }}</span>
+        <span class="ie-heading__count">{{ store.currentIconLibraries.length }}</span>
       </h3>
 
       <div class="ie-lib-list">
         <div
-          v-for="lib in store.currentIconLibraries.value"
+          v-for="lib in store.currentIconLibraries"
           :key="lib.id"
           class="ie-lib-row"
           :class="{ 'ie-lib-row--builtin': lib.builtIn, 'ie-lib-row--active': activeLibrary === lib.id }"
@@ -281,16 +281,16 @@ const strokeOptions = ['0.5', '0.75', '1', '1.25', '1.5', '1.75', '2', '2.5', '3
 const activeLibrary = ref('tabler')
 
 const activeLib = computed(() => {
-  return store.currentIconLibraries.value.find(l => l.id === activeLibrary.value) || null
+  return store.currentIconLibraries.find(l => l.id === activeLibrary.value) || null
 })
 
 // Per-library stroke width lookup
 function currentStroke(libId, size) {
-  return store.currentIconStrokeWidths.value?.[libId]?.[size] ?? '1.5'
+  return store.currentIconStrokeWidths?.[libId]?.[size] ?? '1.5'
 }
 
 function currentElementValue(key, fallback) {
-  return store.currentFoundation.value.elements?.[key] ?? fallback
+  return store.currentFoundation.elements?.[key] ?? fallback
 }
 
 // ── Add Library ──
@@ -352,7 +352,7 @@ function toggleColorCard(key) {
 }
 
 function strokeColorValue(libId, mode) {
-  return store.currentIconStrokeColors.value?.[libId]?.[mode] ?? 'currentColor'
+  return store.currentIconStrokeColors?.[libId]?.[mode] ?? 'currentColor'
 }
 
 function resolvedColorHex(libId, mode) {

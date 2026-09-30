@@ -325,22 +325,22 @@ const store = useThemeStore()
 
 // ── Opacity ──
 const opacityTokens = computed(() => foundationTokens.opacity?.tokens || {})
-const customOpacities = computed(() => store.currentCustomOpacityTokens.value || {})
+const customOpacities = computed(() => store.currentCustomOpacityTokens || {})
 const customOpacityCount = computed(() => Object.keys(customOpacities.value).length)
 const totalOpacityCount = computed(() => Object.keys(opacityTokens.value).length + customOpacityCount.value)
 
 function currentOpacity(key) {
-  return store.currentFoundation.value.opacity?.[key] ?? opacityTokens.value[key]?.value ?? ''
+  return store.currentFoundation.opacity?.[key] ?? opacityTokens.value[key]?.value ?? ''
 }
 
 // ── Z-Index ──
 const zindexTokens = computed(() => foundationTokens.zindex?.tokens || {})
-const customZindices = computed(() => store.currentCustomZindexTokens.value || {})
+const customZindices = computed(() => store.currentCustomZindexTokens || {})
 const customZindexCount = computed(() => Object.keys(customZindices.value).length)
 const totalZindexCount = computed(() => Object.keys(zindexTokens.value).length + customZindexCount.value)
 
 function currentZindex(key) {
-  return store.currentFoundation.value.zindex?.[key] ?? zindexTokens.value[key]?.value ?? ''
+  return store.currentFoundation.zindex?.[key] ?? zindexTokens.value[key]?.value ?? ''
 }
 
 function zindexWidth(value) {
@@ -363,12 +363,12 @@ const durationTokens = computed(() => {
   }
   return result
 })
-const customMotions = computed(() => store.currentCustomMotionTokens.value || {})
+const customMotions = computed(() => store.currentCustomMotionTokens || {})
 const customMotionCount = computed(() => Object.keys(customMotions.value).length)
 const totalMotionCount = computed(() => Object.keys(motionTokens.value).length + customMotionCount.value)
 
 function currentMotion(key) {
-  return store.currentFoundation.value.motion?.[key] ?? motionTokens.value[key]?.value ?? ''
+  return store.currentFoundation.motion?.[key] ?? motionTokens.value[key]?.value ?? ''
 }
 
 function durationWidth(value) {
@@ -454,7 +454,7 @@ const effectTokens = computed(() => {
   return result
 })
 
-const customEffects = computed(() => store.currentCustomMotionEffectTokens.value || {})
+const customEffects = computed(() => store.currentCustomMotionEffectTokens || {})
 const customEffectCount = computed(() => Object.keys(customEffects.value).length)
 const totalEffectCount = computed(() => Object.keys(effectTokens.value).length + customEffectCount.value)
 

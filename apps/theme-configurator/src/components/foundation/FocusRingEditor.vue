@@ -230,10 +230,10 @@ const palettes = computed(() => {
   return groups
 })
 
-const currentMode = computed(() => store.currentFocusRingMode.value)
+const currentMode = computed(() => store.currentFocusRingMode)
 
 function currentValue(key) {
-  return store.currentFoundation.value.focus?.[key] ?? focusTokens.value[key]?.value ?? ''
+  return store.currentFoundation.focus?.[key] ?? focusTokens.value[key]?.value ?? ''
 }
 
 // ── Color (per light/dark) — semantic-card pattern ──
@@ -245,9 +245,9 @@ function toggleColorCard(mode) {
 
 function focusColorValue(mode) {
   const modeKey = `color-${mode}`
-  const override = store.currentFoundation.value.focus?.[modeKey]
+  const override = store.currentFoundation.focus?.[modeKey]
   if (override) return override
-  return store.currentFoundation.value.focus?.color ?? focusTokens.value.color?.value ?? 'var(--fnd-color-text-primary)'
+  return store.currentFoundation.focus?.color ?? focusTokens.value.color?.value ?? 'var(--fnd-color-text-primary)'
 }
 
 function resolvedColorHex(mode) {

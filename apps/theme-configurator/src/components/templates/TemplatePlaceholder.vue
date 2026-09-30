@@ -103,7 +103,7 @@ const props = defineProps({
 })
 
 const store = useThemeStore()
-const t = computed(() => store.currentSemanticTokens.value)
+const t = computed(() => store.currentSemanticTokens)
 
 const wireframeStyle = computed(() => ({
   background: t.value['background-base'],

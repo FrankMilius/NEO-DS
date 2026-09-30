@@ -124,7 +124,7 @@ function parsePx(value) {
 // Helper: Token-Wert fuer eine Komponente auflösen
 // ---------------------------------------------------------------------------
 function resolveTokenValue(tokenId, store) {
-  const override = store.currentComponentOverrides.value?.[tokenId]
+  const override = store.currentComponentOverrides?.[tokenId]
   if (override !== undefined) return override
 
   for (const group of componentTokenGroups) {
@@ -166,7 +166,7 @@ export function useCardDependencies() {
       if (!group) continue
       if (group.tokens) {
         for (const tok of group.tokens) {
-          const override = store.currentComponentOverrides.value?.[tok.id]
+          const override = store.currentComponentOverrides?.[tok.id]
           result[tok.id] = override !== undefined ? override : tok.default
         }
       }
@@ -272,7 +272,7 @@ export function useCardDependencies() {
   // ---------------------------------------------------------------------------
   function getTokenStatus(tokenId) {
     const inheritance = inheritanceMap.value[tokenId]
-    const userOverride = store.currentComponentOverrides.value?.[tokenId]
+    const userOverride = store.currentComponentOverrides?.[tokenId]
 
     if (userOverride !== undefined && inheritance) {
       return {

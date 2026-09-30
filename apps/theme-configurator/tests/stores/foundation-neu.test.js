@@ -29,7 +29,7 @@ describe('Neue Foundation-Kategorien', () => {
     localStorage.setItem('neo-theme-configurator', JSON.stringify(data))
 
     store.loadFromStorage()
-    const f = store.currentFoundation.value
+    const f = store.currentFoundation
     expect(f.size['touch-target']).toBe('2.75rem')
     expect(f.tracking.wide).toBe('0.02em')
     expect(f.typography['weight-mono']).toBe(400)
@@ -39,6 +39,6 @@ describe('Neue Foundation-Kategorien', () => {
   it('Bearbeiten einer fehlenden Kategorie stuerzt nicht ab', () => {
     delete store.state.foundationOverrides.neo.size
     expect(() => store.updateFoundationToken('size', 'md', '2.25rem')).not.toThrow()
-    expect(store.currentFoundation.value.size.md).toBe('2.25rem')
+    expect(store.currentFoundation.size.md).toBe('2.25rem')
   })
 })

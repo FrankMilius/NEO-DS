@@ -101,11 +101,11 @@ const allTokens = foundationTokens.media?.tokens || {}
 
 const ratioTokens = computed(() => allTokens)
 
-const customRatioTokens = computed(() => store.currentCustomMediaRatioTokens.value || {})
+const customRatioTokens = computed(() => store.currentCustomMediaRatioTokens || {})
 const totalCount = computed(() => Object.keys(ratioTokens.value).length + Object.keys(customRatioTokens.value).length)
 
 function currentValue(key) {
-  return store.currentFoundation.value.media?.[key] ?? allTokens[key]?.value ?? ''
+  return store.currentFoundation.media?.[key] ?? allTokens[key]?.value ?? ''
 }
 
 // ── Add Custom Token ──

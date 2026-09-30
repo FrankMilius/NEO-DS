@@ -158,7 +158,7 @@ export function useLayoutDependencies(componentId) {
       const group = componentTokenGroups.find(c => c.id === compId)
       if (!group) continue
       for (const tok of group.tokens) {
-        const override = store.currentComponentOverrides.value?.[tok.id]
+        const override = store.currentComponentOverrides?.[tok.id]
         result[tok.id] = override !== undefined ? override : tok.default
       }
     }
@@ -200,7 +200,7 @@ export function useLayoutDependencies(componentId) {
     return relation.value.smartLinks.map(link => {
       const group = componentTokenGroups.find(c => c.id === link.targetComponent)
       const tok = group?.tokens.find(t => t.id === link.targetToken)
-      const override = store.currentComponentOverrides.value?.[link.targetToken]
+      const override = store.currentComponentOverrides?.[link.targetToken]
       const currentValue = override !== undefined ? override : tok?.default || ''
       return {
         ...link,

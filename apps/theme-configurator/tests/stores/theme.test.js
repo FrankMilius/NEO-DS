@@ -56,29 +56,29 @@ describe('useThemeStore', () => {
 
   describe('Computed Properties', () => {
     it('currentThemeKey kombiniert themeSet und previewMode', () => {
-      expect(store.currentThemeKey.value).toBe('neo-light')
+      expect(store.currentThemeKey).toBe('neo-light')
       store.setPreviewMode('dark')
-      expect(store.currentThemeKey.value).toBe('neo-dark')
+      expect(store.currentThemeKey).toBe('neo-dark')
     })
 
     it('currentThemeId mappt auf kanonische Theme-Klasse', () => {
-      expect(store.currentThemeId.value).toBe('neo-light-theme')
+      expect(store.currentThemeId).toBe('neo-light-theme')
       store.setActiveThemeSet('customer')
       store.setPreviewMode('dark')
-      expect(store.currentThemeId.value).toBe('customer-dark-theme')
+      expect(store.currentThemeId).toBe('customer-dark-theme')
     })
 
     it('isNeoDefault ist true wenn neo + kein Theme geladen', () => {
-      expect(store.isNeoDefault.value).toBe(true)
+      expect(store.isNeoDefault).toBe(true)
     })
 
     it('isNeoDefault ist false wenn Theme geladen', () => {
       store.state.currentThemeMeta = { id: 'test', name: 'Test' }
-      expect(store.isNeoDefault.value).toBe(false)
+      expect(store.isNeoDefault).toBe(false)
     })
 
     it('currentSemanticTokens gibt aktive Theme-Tokens zurück', () => {
-      const tokens = store.currentSemanticTokens.value
+      const tokens = store.currentSemanticTokens
       expect(tokens).toBeDefined()
       expect(typeof tokens).toBe('object')
       // Sollte mindestens background-base enthalten
@@ -92,27 +92,27 @@ describe('useThemeStore', () => {
 
   describe('Token-Updates', () => {
     it('updateSemanticToken ändert den Token-Wert', () => {
-      const before = store.currentSemanticTokens.value['background-base']
+      const before = store.currentSemanticTokens['background-base']
       store.updateSemanticToken('background-base', '#ff0000')
-      expect(store.currentSemanticTokens.value['background-base']).toBe('#ff0000')
-      expect(store.currentSemanticTokens.value['background-base']).not.toBe(before)
+      expect(store.currentSemanticTokens['background-base']).toBe('#ff0000')
+      expect(store.currentSemanticTokens['background-base']).not.toBe(before)
     })
 
     it('updateSemanticToken ignoriert unbekannte Token-IDs', () => {
-      const tokensBefore = { ...store.currentSemanticTokens.value }
+      const tokensBefore = { ...store.currentSemanticTokens }
       store.updateSemanticToken('nonexistent-token', '#ff0000')
       // Kein Crash, Token-Objekt unverändert
-      expect(store.currentSemanticTokens.value['background-base']).toBe(tokensBefore['background-base'])
+      expect(store.currentSemanticTokens['background-base']).toBe(tokensBefore['background-base'])
     })
 
     it('updatePrimitive ändert die Primärfarbe', () => {
       store.updatePrimitive('primary', '#123456')
-      expect(store.currentPrimitives.value.primary).toBe('#123456')
+      expect(store.currentPrimitives.primary).toBe('#123456')
     })
 
     it('updateComponentToken setzt einen Override', () => {
       store.updateComponentToken('nc-button-bg', '#aabbcc')
-      expect(store.currentComponentOverrides.value['nc-button-bg']).toBe('#aabbcc')
+      expect(store.currentComponentOverrides['nc-button-bg']).toBe('#aabbcc')
     })
   })
 
@@ -131,7 +131,7 @@ describe('useThemeStore', () => {
     })
     afterEach(() => vi.restoreAllMocks())
 
-    const bg = () => store.currentSemanticTokens.value['background-base']
+    const bg = () => store.currentSemanticTokens['background-base']
 
     it('undo nimmt eine einzelne Aenderung zurueck', () => {
       store.updateSemanticToken('background-base', '#111111')
@@ -332,18 +332,18 @@ describe('useThemeStore', () => {
   describe('resetToDefaults', () => {
     it('setzt Themes auf Defaults zurück', () => {
       store.updateSemanticToken('background-base', '#ff0000')
-      expect(store.currentSemanticTokens.value['background-base']).toBe('#ff0000')
+      expect(store.currentSemanticTokens['background-base']).toBe('#ff0000')
 
       store.resetToDefaults()
-      expect(store.currentSemanticTokens.value['background-base']).not.toBe('#ff0000')
+      expect(store.currentSemanticTokens['background-base']).not.toBe('#ff0000')
     })
 
     it('setzt Component-Overrides zurück', () => {
       store.updateComponentToken('nc-button-bg', '#aabbcc')
-      expect(Object.keys(store.currentComponentOverrides.value).length).toBe(1)
+      expect(Object.keys(store.currentComponentOverrides).length).toBe(1)
 
       store.resetToDefaults()
-      expect(Object.keys(store.currentComponentOverrides.value).length).toBe(0)
+      expect(Object.keys(store.currentComponentOverrides).length).toBe(0)
     })
   })
 })

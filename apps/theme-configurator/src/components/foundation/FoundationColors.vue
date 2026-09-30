@@ -809,13 +809,13 @@ const activeCategoryGroup = computed(() => {
 const selectedToken = ref(null)
 const selectedTokenId = computed(() => selectedToken.value?.id || null)
 
-const currentPrimitives = computed(() => store.currentPrimitives.value)
+const currentPrimitives = computed(() => store.currentPrimitives)
 const themeLabel = computed(() => {
   const labels = {
     'neo-light': 'NEO Light', 'neo-dark': 'NEO Dark',
     'customer-light': 'Customer Light', 'customer-dark': 'Customer Dark'
   }
-  return labels[store.currentThemeKey.value] || ''
+  return labels[store.currentThemeKey] || ''
 })
 
 // ---------------------------------------------------------------------------
@@ -1181,8 +1181,8 @@ watch(() => sync.state.loaded, (loaded) => {
 }, { immediate: true })
 
 // Expose computed values that avoid the .value-on-computed bug
-const hasPending = computed(() => sync.hasPendingUpdates.value)
-const pendingCountValue = computed(() => sync.pendingCount.value)
+const hasPending = computed(() => sync.hasPendingUpdates)
+const pendingCountValue = computed(() => sync.pendingCount)
 
 // Manual sync trigger from the badge button
 async function triggerManualSync() {
@@ -1350,7 +1350,7 @@ const primitiveColorMap = computed(() => {
 })
 
 function getSemanticValue(tokenId) {
-  return store.currentSemanticTokens.value[tokenId] || '#000000'
+  return store.currentSemanticTokens[tokenId] || '#000000'
 }
 
 // Display: show primitive token reference if available, otherwise hex
@@ -1462,7 +1462,7 @@ function relativeLuminance(hex) {
 }
 
 function getContrastTarget(tokenId) {
-  const tokens = store.currentSemanticTokens.value
+  const tokens = store.currentSemanticTokens
   if (tokenId.startsWith('text-') || tokenId.startsWith('on-')) {
     return tokens['background-base'] || '#ffffff'
   }

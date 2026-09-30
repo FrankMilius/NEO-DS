@@ -221,14 +221,14 @@ const tokenMap = computed(() => {
 // Token Value Resolution
 // ---------------------------------------------------------------------------
 function getTokenValue(tokenId) {
-  const override = store.currentComponentOverrides.value?.[tokenId]
+  const override = store.currentComponentOverrides?.[tokenId]
   if (override !== undefined) return override
   const tok = tokenMap.value.get(tokenId)
   return tok?.default || ''
 }
 
 function isOverridden(tokenId) {
-  return store.currentComponentOverrides.value?.[tokenId] !== undefined
+  return store.currentComponentOverrides?.[tokenId] !== undefined
 }
 
 function updateToken(tokenId, value) {

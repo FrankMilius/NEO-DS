@@ -1976,17 +1976,17 @@ function contrastColor(hex) {
 // Font families from store (reactive to edits)
 // ---------------------------------------------------------------------------
 const currentBodyFont = computed(() => {
-  const f = store.currentFoundation.value?.typography?.['font-body']
+  const f = store.currentFoundation?.typography?.['font-body']
   return f || typoTokens['font-body'].value
 })
 
 const currentHeadingFont = computed(() => {
-  const f = store.currentFoundation.value?.typography?.['font-heading']
+  const f = store.currentFoundation?.typography?.['font-heading']
   return f || typoTokens['font-heading'].value
 })
 
 const currentMonoFont = computed(() => {
-  const f = store.currentFoundation.value?.typography?.['font-mono']
+  const f = store.currentFoundation?.typography?.['font-mono']
   return f || typoTokens['font-mono'].value
 })
 

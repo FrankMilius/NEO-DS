@@ -51,7 +51,7 @@ const store = useThemeStore()
 const scaleTokens = computed(() => foundationTokens.size?.tokens || {})
 
 function currentValue(key) {
-  return store.currentFoundation.value.size?.[key] ?? scaleTokens.value[key]?.value ?? ''
+  return store.currentFoundation.size?.[key] ?? scaleTokens.value[key]?.value ?? ''
 }
 
 // rem → px bei 16 px Wurzelgroesse, nur zur Anzeige

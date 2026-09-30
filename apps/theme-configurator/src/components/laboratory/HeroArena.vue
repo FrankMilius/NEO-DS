@@ -133,11 +133,11 @@ const heroData = computed(() => componentTokenGroups.find(c => c.id === 'hero') 
 const tokenMap = computed(() => heroData.value ? new Map(heroData.value.tokens.map(t => [t.id, t])) : new Map())
 
 function resolve(tokenId) {
-  const override = store.currentComponentOverrides.value[tokenId]
+  const override = store.currentComponentOverrides[tokenId]
   if (override !== undefined) return override
   const token = tokenMap.value.get(tokenId)
   if (!token) return ''
-  if (token.ref) return store.currentSemanticTokens.value[token.ref] || token.default || ''
+  if (token.ref) return store.currentSemanticTokens[token.ref] || token.default || ''
   return token.default || ''
 }
 

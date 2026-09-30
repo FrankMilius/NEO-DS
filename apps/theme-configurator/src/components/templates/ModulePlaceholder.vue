@@ -47,7 +47,7 @@ const props = defineProps({
 })
 
 const store = useThemeStore()
-const tokens = computed(() => store.currentSemanticTokens.value)
+const tokens = computed(() => store.currentSemanticTokens)
 
 const titleMap = {
   'header': 'Header Module',

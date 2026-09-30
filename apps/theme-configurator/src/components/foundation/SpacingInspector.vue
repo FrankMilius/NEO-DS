@@ -288,8 +288,8 @@ function pxToKey(px) {
 
 const sortedPrimitiveTokens = computed(() => {
   const tokens = []
-  const overrides = store.currentFoundation.value?.spacing || {}
-  const customs = store.currentCustomSpacingTokens.value || {}
+  const overrides = store.currentFoundation?.spacing || {}
+  const customs = store.currentCustomSpacingTokens || {}
 
   for (const [origKey, tok] of Object.entries(defaultSpacingTokens.value)) {
     const px = parsePx(tok.value)
@@ -370,7 +370,7 @@ const semanticComponentTokens = [
 ]
 
 function getSemanticValue(id) {
-  return store.currentSemanticSpacing.value?.[id] || ''
+  return store.currentSemanticSpacing?.[id] || ''
 }
 
 // Resolve semantic ref to px value for bar preview
@@ -435,7 +435,7 @@ const builtInIds = new Set([
 const allSemanticIds = computed(() => {
   return new Set([
     ...builtInIds,
-    ...Object.keys(store.currentSemanticSpacing.value || {})
+    ...Object.keys(store.currentSemanticSpacing || {})
   ])
 })
 
@@ -449,7 +449,7 @@ function confirmAddSemantic() {
 }
 
 const customSemanticEntries = computed(() => {
-  const semantic = store.currentSemanticSpacing.value || {}
+  const semantic = store.currentSemanticSpacing || {}
   return Object.entries(semantic)
     .filter(([key]) => !builtInIds.has(key))
     .map(([key, value]) => ({ key, value }))

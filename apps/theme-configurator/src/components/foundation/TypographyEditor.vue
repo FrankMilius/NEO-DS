@@ -294,7 +294,7 @@ const defaultFonts = [
 // Active theme font families (editable for non-default)
 // ---------------------------------------------------------------------------
 const activeFonts = computed(() => {
-  const foundation = store.currentFoundation.value
+  const foundation = store.currentFoundation
   const typo = foundation?.typography || {}
   return [
     {
@@ -324,7 +324,7 @@ const activeFonts = computed(() => {
 // Body font family for weight/scale preview
 const bodyFontFamily = computed(() => {
   if (isDefaultNeo.value) return typoTokens['font-body'].value
-  const foundation = store.currentFoundation.value
+  const foundation = store.currentFoundation
   return foundation?.typography?.['font-body'] || typoTokens['font-body'].value
 })
 
@@ -465,21 +465,21 @@ const weights = computed(() => Object.entries(typoTokens)
   .filter(([k]) => k.startsWith('weight-'))
   .map(([k, t]) => ({
     id: k, label: t.label, cssVar: t.cssVar,
-    value: store.currentFoundation.value?.typography?.[k] ?? t.value,
+    value: store.currentFoundation?.typography?.[k] ?? t.value,
     heading: k.startsWith('weight-heading'), mono: k === 'weight-mono',
   })))
 
 // Fluide Schriftskala (Plan v2, 2.3) — Rechnung in utils/fluid-scale.js
-const p = computed(() => skalenParameter(typographyScale, store.currentTypeScale.value))
+const p = computed(() => skalenParameter(typographyScale, store.currentTypeScale))
 const skala = computed(() => berechneSkala(p.value))
-const geaendert = computed(() => istGeaendert(typographyScale, store.currentTypeScale.value))
+const geaendert = computed(() => istGeaendert(typographyScale, store.currentTypeScale))
 const vw = ref(1440)
 const groesse = (stufe) => groesseBei(stufe, vw.value, p.value)
 const px = (x) => `${Math.round(x * 10) / 10} px`
 const lh = typographyScale.line_height
 
-const headingFamily = computed(() => store.currentFoundation.value?.typography?.['font-heading'] || typoTokens['font-heading'].value)
-const monoFamily = computed(() => store.currentFoundation.value?.typography?.['font-mono'] || typoTokens['font-mono'].value)
+const headingFamily = computed(() => store.currentFoundation?.typography?.['font-heading'] || typoTokens['font-heading'].value)
+const monoFamily = computed(() => store.currentFoundation?.typography?.['font-mono'] || typoTokens['font-mono'].value)
 
 // Rollen: heading/paragraph zeigen auf Stufen, display hat eigene Grenzen (rem)
 const rollen = computed(() => {

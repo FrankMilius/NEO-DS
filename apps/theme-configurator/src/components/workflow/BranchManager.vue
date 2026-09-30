@@ -1,11 +1,11 @@
 <template>
   <div class="branch-manager" ref="wrapRef">
     <!-- Branch Badge + Dropdown Toggle -->
-    <button class="branch-badge" @click="isOpen = !isOpen" :title="`Branch: ${branchStore.activeBranchName.value}`">
+    <button class="branch-badge" @click="isOpen = !isOpen" :title="`Branch: ${branchStore.activeBranchName}`">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>
       </svg>
-      <span class="branch-name">{{ branchStore.activeBranchName.value }}</span>
+      <span class="branch-name">{{ branchStore.activeBranchName }}</span>
       <svg class="branch-chevron" :class="{ open: isOpen }" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <path d="M6 9l6 6 6-6"/>
       </svg>
@@ -16,22 +16,22 @@
       <div v-if="isOpen" class="branch-dropdown">
         <!-- Main branch -->
         <button
-          :class="['branch-item', { active: branchStore.isOnMain.value }]"
+          :class="['branch-item', { active: branchStore.isOnMain }]"
           @click="switchToMain"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="6" y1="3" x2="6" y2="15"/><circle cx="6" cy="18" r="3"/>
           </svg>
           <span class="branch-item-name">main</span>
-          <span v-if="branchStore.isOnMain.value" class="branch-current-tag">current</span>
+          <span v-if="branchStore.isOnMain" class="branch-current-tag">current</span>
         </button>
 
         <!-- Branch list -->
-        <template v-if="branchStore.branchList.value.length > 0">
+        <template v-if="branchStore.branchList.length > 0">
           <div class="branch-divider"></div>
           <div class="branch-section-label">Branches</div>
           <button
-            v-for="branch in branchStore.branchList.value"
+            v-for="branch in branchStore.branchList"
             :key="branch.id"
             :class="['branch-item', { active: branchStore.state.activeBranchId === branch.id }]"
             @click="switchToBranch(branch.id)"
@@ -68,7 +68,7 @@
         </button>
 
         <button
-          v-if="!branchStore.isOnMain.value"
+          v-if="!branchStore.isOnMain"
           class="branch-action branch-action--merge"
           @click="$emit('merge', branchStore.state.activeBranchId); isOpen = false"
         >
@@ -119,7 +119,7 @@
               />
             </div>
             <p class="branch-base-note">
-              Branching from <strong>{{ branchStore.activeBranchName.value }}</strong>
+              Branching from <strong>{{ branchStore.activeBranchName }}</strong>
             </p>
           </div>
           <div class="modal-footer">
@@ -161,7 +161,7 @@ function applySnapshot(snapshot) {
 }
 
 function switchToMain() {
-  if (branchStore.isOnMain.value) { isOpen.value = false; return }
+  if (branchStore.isOnMain) { isOpen.value = false; return }
   branchStore.switchBranch(null, getSnapshot, applySnapshot)
   isOpen.value = false
 }

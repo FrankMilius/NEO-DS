@@ -5,23 +5,23 @@
     <!-- Focus Ring: Modus-Toggle (Offset / Inset) -->
     <div v-if="category === 'focus'" class="focus-mode-toggle" role="radiogroup" aria-label="Focus Ring Modus">
       <button
-        :class="['toggle-btn', { active: store.currentFocusRingMode.value === 'offset' }]"
+        :class="['toggle-btn', { active: store.currentFocusRingMode === 'offset' }]"
         @click="store.setFocusRingMode('offset')"
         role="radio"
-        :aria-checked="store.currentFocusRingMode.value === 'offset'"
+        :aria-checked="store.currentFocusRingMode === 'offset'"
       >Offset (aussen)</button>
       <button
-        :class="['toggle-btn', { active: store.currentFocusRingMode.value === 'inset' }]"
+        :class="['toggle-btn', { active: store.currentFocusRingMode === 'inset' }]"
         @click="store.setFocusRingMode('inset')"
         role="radio"
-        :aria-checked="store.currentFocusRingMode.value === 'inset'"
+        :aria-checked="store.currentFocusRingMode === 'inset'"
       >Inset (innen)</button>
     </div>
 
     <!-- Focus Ring: Live-Preview -->
     <div v-if="category === 'focus'" class="focus-preview-container">
       <div class="focus-preview-box" :style="focusPreviewStyle" tabindex="0">Fokus</div>
-      <span class="focus-preview-hint">{{ store.currentFocusRingMode.value === 'offset' ? 'Outline aussen' : 'Outline innen' }}</span>
+      <span class="focus-preview-hint">{{ store.currentFocusRingMode === 'offset' ? 'Outline aussen' : 'Outline innen' }}</span>
     </div>
 
     <div class="token-list">
@@ -91,7 +91,7 @@ function tokenName(key) {
 }
 
 function currentValue(key) {
-  return store.currentFoundation.value[props.category]?.[key] ?? tokens.value[key]?.value ?? ''
+  return store.currentFoundation[props.category]?.[key] ?? tokens.value[key]?.value ?? ''
 }
 
 function zindexWidth(value) {
@@ -106,12 +106,12 @@ function isFocusModeToken(key) {
 
 // Focus Ring Mode: Prueft ob der Token zum aktuellen Modus gehoert
 function isFocusModeActive(key) {
-  return store.currentFocusRingMode.value === key
+  return store.currentFocusRingMode === key
 }
 
 // Focus Ring: Live-Preview-Stil
 const focusPreviewStyle = computed(() => {
-  const mode = store.currentFocusRingMode.value
+  const mode = store.currentFocusRingMode
   const width = currentValue('ring-width') || '2px'
   const color = 'var(--cfg-accent)'
   if (mode === 'inset') {

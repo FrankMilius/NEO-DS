@@ -78,7 +78,7 @@ const suggestions = computed(() => {
     // Semantic color tokens
     for (const group of semanticTokenGroups) {
       const items = group.tokens.map(t => {
-        const resolved = store.currentSemanticTokens.value[t.id] || ''
+        const resolved = store.currentSemanticTokens[t.id] || ''
         return {
           label: t.label,
           tokenName: `--fnd-color-${t.id}`,

@@ -197,18 +197,18 @@
       <div class="toolbar-group">
         <button
           class="tb-btn tb-btn-merge"
-          :class="{ 'has-pending': sync.hasPendingUpdates.value }"
+          :class="{ 'has-pending': sync.hasPendingUpdates }"
           @click="handleMerge"
-          :disabled="!sync.hasPendingUpdates.value"
-          :title="sync.hasPendingUpdates.value
-            ? `${sync.pendingCount.value} pending merge request(s)`
+          :disabled="!sync.hasPendingUpdates"
+          :title="sync.hasPendingUpdates
+            ? `${sync.pendingCount} pending merge request(s)`
             : 'No pending merge requests'"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
           </svg>
           <span class="tb-label">Merge</span>
-          <span v-if="sync.hasPendingUpdates.value" class="merge-badge">{{ sync.pendingCount.value }}</span>
+          <span v-if="sync.hasPendingUpdates" class="merge-badge">{{ sync.pendingCount }}</span>
         </button>
       </div>
 
@@ -505,7 +505,7 @@ function handleDownloadDrupal() {
 // Merge / Styleguide Sync
 // ---------------------------------------------------------------------------
 function handleMerge() {
-  if (!sync.hasPendingUpdates.value) return
+  if (!sync.hasPendingUpdates) return
   // Load custom palettes from localStorage (same source as FoundationColors)
   let customPalettes = []
   try {

@@ -51,12 +51,12 @@ describe('useStyleguideSync', () => {
 
   describe('Computed Properties', () => {
     it('hasPendingUpdates ist false bei leeren pendingPalettes', () => {
-      expect(sync.hasPendingUpdates.value).toBe(false)
+      expect(sync.hasPendingUpdates).toBe(false)
     })
 
     it('hasPendingUpdates ist true bei vorhandenen pendingPalettes', () => {
       sync.state.pendingPalettes = [{ id: 'test', label: 'Test', base: '#ff0000' }]
-      expect(sync.hasPendingUpdates.value).toBe(true)
+      expect(sync.hasPendingUpdates).toBe(true)
     })
 
     it('pendingCount gibt korrekte Anzahl zurück', () => {
@@ -64,26 +64,26 @@ describe('useStyleguideSync', () => {
         { id: 'a', label: 'A', base: '#ff0000' },
         { id: 'b', label: 'B', base: '#00ff00' }
       ]
-      expect(sync.pendingCount.value).toBe(2)
+      expect(sync.pendingCount).toBe(2)
     })
 
     it('isProcessing ist true während detecting/forging/merging', () => {
       sync.state.stage = 'detecting'
-      expect(sync.isProcessing.value).toBe(true)
+      expect(sync.isProcessing).toBe(true)
       sync.state.stage = 'forging'
-      expect(sync.isProcessing.value).toBe(true)
+      expect(sync.isProcessing).toBe(true)
       sync.state.stage = 'merging'
-      expect(sync.isProcessing.value).toBe(true)
+      expect(sync.isProcessing).toBe(true)
       sync.state.stage = 'review'
-      expect(sync.isProcessing.value).toBe(false)
+      expect(sync.isProcessing).toBe(false)
     })
 
     it('canMerge ist nur true bei review + mergeRequest', () => {
-      expect(sync.canMerge.value).toBe(false)
+      expect(sync.canMerge).toBe(false)
       sync.state.stage = 'review'
-      expect(sync.canMerge.value).toBe(false)
+      expect(sync.canMerge).toBe(false)
       sync.state.mergeRequest = { palettes: [] }
-      expect(sync.canMerge.value).toBe(true)
+      expect(sync.canMerge).toBe(true)
     })
   })
 

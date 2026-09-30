@@ -262,7 +262,7 @@ function handleSelect(child) {
 
 function isModified(child) {
   // Check if any tokens in this section have been modified from defaults
-  const overrides = store.currentComponentOverrides.value
+  const overrides = store.currentComponentOverrides
   if (child.section.startsWith('component-')) {
     const componentId = child.section.replace('component-', '')
     return Object.keys(overrides).some(k => k.startsWith(`nc-${componentId}`))

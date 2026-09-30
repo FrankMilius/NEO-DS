@@ -179,7 +179,7 @@ function panelStyle(semanticMap) {
 
   // Component-Token-Overrides vom Store (--nc-card-*)
   for (const token of componentData.value.tokens) {
-    const override = store.currentComponentOverrides.value?.[token.id]
+    const override = store.currentComponentOverrides?.[token.id]
     if (override !== undefined) {
       style[`--${token.id}`] = override
     }

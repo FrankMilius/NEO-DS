@@ -45,7 +45,7 @@ describe('useTokenResolver', () => {
     const componentData = ref({ tokens })
     const { resolveToken } = useTokenResolver({ store, componentData, refs, defaults })
     expect(resolveToken(semantik, 'nc-x-bg')).toBe('#37e93d')
-    store.currentComponentOverrides.value = { 'nc-x-bg': '#000000' }
+    store.currentComponentOverrides = { 'nc-x-bg': '#000000' }
     expect(resolveToken(semantik, 'nc-x-bg')).toBe('#000000')
     componentData.value = null
     expect(resolveToken(semantik, 'nc-x-radius')).toBe('8px')

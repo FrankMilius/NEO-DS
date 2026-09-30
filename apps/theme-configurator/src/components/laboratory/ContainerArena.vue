@@ -358,7 +358,7 @@ function tokenVal(id) {
   if (!group) return ''
   const tok = group.tokens.find(t => t.id === id)
   if (!tok) return ''
-  const override = store.currentComponentOverrides.value[id]
+  const override = store.currentComponentOverrides[id]
   return override !== undefined ? override : tok.default
 }
 

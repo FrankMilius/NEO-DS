@@ -129,12 +129,12 @@ const store = useThemeStore()
 
 const scaleTokens = computed(() => foundationTokens.radius?.tokens || {})
 
-const customTokens = computed(() => store.currentCustomRadiiTokens.value || {})
+const customTokens = computed(() => store.currentCustomRadiiTokens || {})
 const customTokenCount = computed(() => Object.keys(customTokens.value).length)
 const totalTokenCount = computed(() => Object.keys(scaleTokens.value).length + customTokenCount.value)
 
 function currentValue(key) {
-  return store.currentFoundation.value.radius?.[key] ?? scaleTokens.value[key]?.value ?? ''
+  return store.currentFoundation.radius?.[key] ?? scaleTokens.value[key]?.value ?? ''
 }
 
 // ── Add Custom Token ──

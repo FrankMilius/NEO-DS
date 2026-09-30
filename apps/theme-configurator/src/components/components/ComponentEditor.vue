@@ -768,14 +768,14 @@ watch(arenaSelection, async (sel) => {
 // Token Value Resolution
 // ---------------------------------------------------------------------------
 function getTokenValue(token) {
-  const override = store.currentComponentOverrides.value[token.id]
+  const override = store.currentComponentOverrides[token.id]
   if (override !== undefined) return override
-  if (token.ref) return store.currentSemanticTokens.value[token.ref] || token.default || ''
+  if (token.ref) return store.currentSemanticTokens[token.ref] || token.default || ''
   return token.default || ''
 }
 
 function getTokenValueForMode(token, mode) {
-  const override = store.currentComponentOverrides.value[token.id]
+  const override = store.currentComponentOverrides[token.id]
   if (override !== undefined) return override
   if (token.ref) {
     const semanticMap = store.state.themes[store.state.activeThemeSet][mode]
@@ -789,7 +789,7 @@ function tokenValuesDiffer(token) {
 }
 
 function isOverridden(token) {
-  return store.currentComponentOverrides.value[token.id] !== undefined
+  return store.currentComponentOverrides[token.id] !== undefined
 }
 
 function selectToken(token) {
@@ -1079,14 +1079,14 @@ const palettes = computed(() => {
 // ---------------------------------------------------------------------------
 // Action Bar: Reset All + Export CSS
 // ---------------------------------------------------------------------------
-const overrideCount = computed(() => Object.keys(store.currentComponentOverrides.value).length)
+const overrideCount = computed(() => Object.keys(store.currentComponentOverrides).length)
 
 function resetAllTokens() {
   tokens.value.forEach(token => store.resetComponentToken(token.id))
 }
 
 function exportCSS() {
-  const overrides = store.currentComponentOverrides.value
+  const overrides = store.currentComponentOverrides
   if (!Object.keys(overrides).length) return
   const lines = [`:root {`]
   for (const [id, value] of Object.entries(overrides)) {

@@ -125,18 +125,18 @@ const navTokenMap = computed(() => {
 })
 
 function resolveToken(tokenId, fallback) {
-  const override = store.currentComponentOverrides.value[tokenId]
+  const override = store.currentComponentOverrides[tokenId]
   if (override !== undefined) return override
   const token = tokenMap.value.get(tokenId) || navTokenMap.value.get(tokenId)
   if (!token) return fallback
-  if (token.ref) return store.currentSemanticTokens.value[token.ref] || token.default || fallback
+  if (token.ref) return store.currentSemanticTokens[token.ref] || token.default || fallback
   return token.default || fallback
 }
 
 function resolveSemantic(tokenId, semanticKey) {
-  const override = store.currentComponentOverrides.value[tokenId]
+  const override = store.currentComponentOverrides[tokenId]
   if (override !== undefined) return override
-  return store.currentSemanticTokens.value[semanticKey] || t.value[semanticKey] || ''
+  return store.currentSemanticTokens[semanticKey] || t.value[semanticKey] || ''
 }
 
 const tagStyle = computed(() => ({

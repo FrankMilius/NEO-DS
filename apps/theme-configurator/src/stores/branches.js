@@ -7,6 +7,7 @@
 // ==========================================================================
 
 import { reactive, computed, toRaw } from 'vue'
+import { defineStore } from 'pinia'
 
 // ---------------------------------------------------------------------------
 // Deep-clone helper
@@ -458,24 +459,22 @@ function loadFromStorage() {
 // Public API
 // ---------------------------------------------------------------------------
 
-export function useBranchStore() {
-  return {
-    state,
-    // Computed
-    branchList,
-    activeBranch,
-    activeBranchName,
-    isOnMain,
-    // Actions
-    createBranch,
-    switchBranch,
-    saveBranchState,
-    deleteBranch,
-    computeMerge,
-    applyMergeResult,
-    publishRelease,
-    countBranchChanges,
-    // Persistence
-    loadFromStorage
-  }
-}
+export const useBranchStore = defineStore('branches', () => ({
+  state,
+  // Computed
+  branchList,
+  activeBranch,
+  activeBranchName,
+  isOnMain,
+  // Actions
+  createBranch,
+  switchBranch,
+  saveBranchState,
+  deleteBranch,
+  computeMerge,
+  applyMergeResult,
+  publishRelease,
+  countBranchChanges,
+  // Persistence
+  loadFromStorage
+}))

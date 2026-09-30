@@ -22,6 +22,8 @@
 // und nutzt diesen Resolver bewusst nicht.
 // ==========================================================================
 
+import { unref } from 'vue'
+
 /**
  * Reine Aufloesung — ohne Vue, direkt testbar.
  * @param {Record<string,string>} semanticMap  Rolle → Wert (aktuelles Thema)
@@ -53,7 +55,7 @@ export function resolveTokenValue(semanticMap, tokenId, { overrides, tokens, ref
 export function useTokenResolver({ store, componentData, refs = {}, defaults = {} }) {
   function resolveToken(semanticMap, tokenId) {
     return resolveTokenValue(semanticMap, tokenId, {
-      overrides: store.currentComponentOverrides?.value,
+      overrides: unref(store.currentComponentOverrides),
       tokens: componentData?.value?.tokens,
       refs,
       defaults,

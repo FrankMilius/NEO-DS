@@ -18,6 +18,7 @@
 // ==========================================================================
 
 import { reactive, computed, watch } from 'vue'
+import { defineStore } from 'pinia'
 
 // ---------------------------------------------------------------------------
 // Pipeline State
@@ -407,33 +408,31 @@ function retryMerge() {
 // Public API
 // ---------------------------------------------------------------------------
 
-export function useStyleguideSync() {
-  return {
-    state,
+export const useStyleguideSync = defineStore('styleguide-sync', () => ({
+  state,
 
-    // Computed
-    hasPendingUpdates,
-    pendingCount,
-    isProcessing,
-    canMerge,
+  // Computed
+  hasPendingUpdates,
+  pendingCount,
+  isProcessing,
+  canMerge,
 
-    // Security
-    isNeoDefaultTheme,
+  // Security
+  isNeoDefaultTheme,
 
-    // Pipeline stages
-    fetchExistingPalettes,
-    detectPendingUpdates,
-    forgeMergeRequest,
-    mergeToStyleguide,
-    verifyMerge,
+  // Pipeline stages
+  fetchExistingPalettes,
+  detectPendingUpdates,
+  forgeMergeRequest,
+  mergeToStyleguide,
+  verifyMerge,
 
-    // Pipeline orchestration
-    startPipeline,
-    quickDetect,
+  // Pipeline orchestration
+  startPipeline,
+  quickDetect,
 
-    // Dialog
-    promptForUpdate,
-    dismissDialog,
-    retryMerge
-  }
-}
+  // Dialog
+  promptForUpdate,
+  dismissDialog,
+  retryMerge
+}))

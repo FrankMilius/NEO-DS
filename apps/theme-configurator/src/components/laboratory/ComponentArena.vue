@@ -1752,7 +1752,7 @@ function resolveTokens(semanticMap, useDarkDefaults = false) {
   const resolved = {}
   if (!componentData.value) return resolved
   for (const token of componentData.value.tokens) {
-    const override = store.currentComponentOverrides.value[token.id]
+    const override = store.currentComponentOverrides[token.id]
     if (override !== undefined) { resolved[token.id] = override; continue }
     if (token.ref) { resolved[token.id] = semanticMap[token.ref] || token.default || ''; continue }
     if (useDarkDefaults && token.darkDefault) { resolved[token.id] = token.darkDefault; continue }
@@ -2685,7 +2685,7 @@ function triggerPulse(ids) {
 }
 
 watch(
-  () => JSON.stringify(store.currentComponentOverrides.value),
+  () => JSON.stringify(store.currentComponentOverrides),
   (next, prev) => {
     if (!prev || !arenaConfig.value) return
     try {

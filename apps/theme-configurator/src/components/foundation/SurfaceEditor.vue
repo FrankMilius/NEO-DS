@@ -89,7 +89,7 @@ const themeLabel = computed(() => {
     'neo-light': 'NEO Light', 'neo-dark': 'NEO Dark',
     'customer-light': 'Customer Light', 'customer-dark': 'Customer Dark'
   }
-  return labels[store.currentThemeKey.value] || ''
+  return labels[store.currentThemeKey] || ''
 })
 
 const surfaces = [
@@ -99,7 +99,7 @@ const surfaces = [
 ]
 
 function getColor(tokenId) {
-  return store.currentSemanticTokens.value[tokenId] || '#000000'
+  return store.currentSemanticTokens[tokenId] || '#000000'
 }
 
 function normalizeHex(val) {

@@ -22,7 +22,7 @@ describe('Schriftskala im Store', () => {
     store.updateTypeScale('floor_px', 10)
     store.updateTypeScale('base_min_px', -4)
     store.updateTypeScale('ratio_min', 'abc')
-    expect(store.currentTypeScale.value).toEqual({ base_max_px: 19, ratio_max: 1.3 })
+    expect(store.currentTypeScale).toEqual({ base_max_px: 19, ratio_max: 1.3 })
   })
 
   it('Theme-Sets sind getrennt, Reset betrifft nur das aktive', () => {
@@ -30,9 +30,9 @@ describe('Schriftskala im Store', () => {
     store.state.activeThemeSet = 'customer'
     store.updateTypeScale('base_max_px', 20)
     store.resetTypeScale()
-    expect(store.currentTypeScale.value).toEqual({})
+    expect(store.currentTypeScale).toEqual({})
     store.state.activeThemeSet = 'neo'
-    expect(store.currentTypeScale.value).toEqual({ base_max_px: 19 })
+    expect(store.currentTypeScale).toEqual({ base_max_px: 19 })
   })
 
   it('wird gespeichert und wieder geladen', () => {
