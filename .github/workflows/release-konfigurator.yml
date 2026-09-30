@@ -1,0 +1,56 @@
+# ==========================================================================
+# Theme-Konfigurator — Release (Plan v2, 4.3)
+# ==========================================================================
+# Ein Tag `konfigurator-v<Version>` (z. B. konfigurator-v1.0.0) baut die App,
+# prueft sie und legt ein GitHub-Release mit dem Bundle als ZIP an. Das ist
+# das Paket, das die Entwickler in die neo Workplace Plattform uebernehmen.
+#
+#   git tag konfigurator-v1.0.0 && git push origin konfigurator-v1.0.0
+# ==========================================================================
+name: Release Theme-Konfigurator
+
+on:
+  push:
+    tags: ['konfigurator-v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/theme-configurator/package-lock.json
+      - run: npm ci
+      - run: npm run build:css
+      - name: App-Abhaengigkeiten
+        working-directory: apps/theme-configurator
+        run: npm ci
+      - name: Tests
+        working-directory: apps/theme-configurator
+        run: npx vitest run
+      - name: Build
+        working-directory: apps/theme-configurator
+        run: npx vite build
+      - run: node scripts/pruefe-konfig-einstieg.cjs
+      - run: node scripts/pruefe-bundle-budget.cjs
+      - name: Paket schnueren
+        run: |
+          VERSION="${GITHUB_REF_NAME#konfigurator-v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          cd config && zip -qr "../theme-configurator-$VERSION.zip" theme-config.html theme-configurator
+      - name: GitHub-Release anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "theme-configurator-$VERSION.zip" \
+            --title "Theme-Konfigurator $VERSION" \
+            --notes "Gebautes Bundle des Theme-Konfigurators (config/theme-config.html + config/theme-configurator/). Tests, Einstieg und Bundle-Budget in diesem Lauf geprueft." \
+            --verify-tag

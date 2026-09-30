@@ -618,6 +618,17 @@ const server = http.createServer((req, res) => {
         if (!htmlErr) {
           serveFile(htmlFallback);
         } else {
+          if (/^\/config\/theme-config(\.html)?$/.test(urlPath)) {
+            // Plan v2, 4.3: das Bundle liegt nicht mehr im Repo.
+            res.writeHead(503, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end('<!doctype html><meta charset="utf-8"><title>Konfigurator nicht gebaut</title>'
+              + '<body style="font:16px/1.5 system-ui;margin:3rem;max-width:40rem">'
+              + '<h1>Konfigurator noch nicht gebaut</h1>'
+              + '<p>Das App-Bundle liegt nicht im Repository. Einmal im Projektordner ausführen:</p>'
+              + '<pre style="background:#f1f3f1;padding:1rem">npm run config:build</pre>'
+              + '<p>Danach diese Seite neu laden. Fertige Builds gibt es auch als CI-Artefakt oder GitHub-Release.</p>');
+            return;
+          }
           res.writeHead(404, { 'Content-Type': 'text/plain' });
           res.end('404 Not Found: ' + req.url);
         }

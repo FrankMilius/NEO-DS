@@ -62,8 +62,6 @@ jobs:
             || (echo "::error::tokens.generated.js ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
       - name: Docs-Seiten entstehen aus docs/content (keine Handaenderung)
         run: node scripts/build-docs.cjs --check
-      - name: Konfig-Einstieg zeigt auf das committete Bundle
-        run: node scripts/pruefe-konfig-einstieg.cjs
       - name: Validator nicht schlechter als der eingefrorene Bestand
         run: npm run lint:schwellen
 
@@ -91,3 +89,18 @@ jobs:
       - name: Build
         working-directory: apps/theme-configurator
         run: npx vite build
+      # Plan v2, 4.3: das Bundle liegt nicht mehr im Repo. Jeder Build wird
+      # als Artefakt veroeffentlicht (Actions → Lauf → Artifacts), Versionen
+      # als GitHub-Release (release-konfigurator.yml).
+      - name: Einstieg zeigt auf das gebaute Bundle
+        run: node scripts/pruefe-konfig-einstieg.cjs
+      - name: Bundle-Budget
+        run: node scripts/pruefe-bundle-budget.cjs
+      - name: Bundle als Artefakt
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-configurator-${{ github.sha }}
+          path: |
+            config/theme-config.html
+            config/theme-configurator/
+          retention-days: 30

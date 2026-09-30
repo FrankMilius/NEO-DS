@@ -37,25 +37,18 @@ function syncThemeConfigHtml() {
         return
       }
 
-      const basePath = '/config/theme-configurator'
-      const cssRef = `${basePath}/${cssMatch[1]}`
-      const jsRef = `${basePath}/${jsMatch[1]}`
-
-      if (!existsSync(wrapperPath)) {
-        console.warn('[sync] config/theme-config.html fehlt — Hash-Sync uebersprungen')
+            // Seit Plan v2, 4.3 ist der Einstieg ein Build-Ergebnis: er entsteht
+      // bei jedem Build aus der versionierten Vorlage.
+      const vorlagePfad = resolve(__dirname, '../../config/theme-config.vorlage.html')
+      if (!existsSync(vorlagePfad)) {
+        console.warn('[sync] config/theme-config.vorlage.html fehlt — Einstieg nicht erzeugt')
         return
       }
-      let wrapper = readFileSync(wrapperPath, 'utf-8')
-      wrapper = wrapper.replace(
-        /href="\/config\/theme-configurator\/assets\/index-[^"]+\.css"/,
-        `href="${cssRef}"`
-      )
-      wrapper = wrapper.replace(
-        /src="\/config\/theme-configurator\/assets\/index-[^"]+\.js"/,
-        `src="${jsRef}"`
-      )
+      const wrapper = readFileSync(vorlagePfad, 'utf-8')
+        .replace('__KONFIG_CSS__', cssMatch[1])
+        .replace('__KONFIG_JS__', jsMatch[1])
       writeFileSync(wrapperPath, wrapper)
-      console.log(`[sync] theme-config.html aktualisiert → ${cssMatch[1]}, ${jsMatch[1]}`)
+      console.log(`[sync] theme-config.html erzeugt → ${cssMatch[1]}, ${jsMatch[1]}`)
     }
   }
 }

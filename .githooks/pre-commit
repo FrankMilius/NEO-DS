@@ -5,7 +5,7 @@
 # Prueft NUR, was gestaged ist, und nur die schnellen Dinge (< 10 s):
 #   1. Tokens/SCSS geaendert  -> JSON-Semantik == _mono-bridge.scss
 #                                Validator nicht schlechter als die Schwelle
-#   2. Konfig-Bundle geaendert -> theme-config.html zeigt aufs gestagte Bundle
+#   2. Konfig-Bundle gestaged  -> Abbruch (Build gehoert nicht ins Repo)
 #   3. Konfig-App geaendert   -> Tests zu den geaenderten Dateien (vitest related)
 # Alles Langsame (Build, alle Linter) laeuft in der CI.
 #
@@ -60,10 +60,12 @@ if echo "$STAGED" | grep -qE '^docs/(content/|_template\.html|_pages\.json|[a-z0
   node scripts/build-docs.cjs --check || FEHLER=1
 fi
 
-# --- 1c. Konfig-Bundle: Einstieg muss auf das gestagte Bundle zeigen -------
+# --- 1c. Konfig-Bundle gehoert nicht ins Repo (Plan v2, 4.3) --------------
+# Das Bundle baut die CI (Artefakt + Release); lokal `npm run config:build`.
 if echo "$STAGED" | grep -qE '^config/(theme-config\.html|theme-configurator/)'; then
-  echo "▸ Konfig: Einstieg == Bundle"
-  node scripts/pruefe-konfig-einstieg.cjs --staged || FEHLER=1
+  echo "  ✗ Konfig-Bundle ist gestaged — es ist ein Build-Ergebnis und gehoert nicht ins Repo."
+  echo "    git restore --staged config/theme-config.html config/theme-configurator"
+  FEHLER=1
 fi
 
 # --- 2. Konfig-App --------------------------------------------------------
