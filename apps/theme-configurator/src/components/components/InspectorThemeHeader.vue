@@ -42,7 +42,7 @@
         <path d="M9 15l3-3m2-2 1-1"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072"/><path d="M3 3l18 18"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071"/>
       </svg>
       <span class="sync-label">Sync Geometry</span>
-      <button
+      <button aria-label="Geometrie synchronisieren"
         :class="['sync-switch', { on: store.state.syncGeometry }]"
         role="switch"
         :aria-checked="store.state.syncGeometry"

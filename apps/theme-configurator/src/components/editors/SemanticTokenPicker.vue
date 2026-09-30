@@ -12,7 +12,7 @@
     </button>
 
     <div v-if="isOpen" class="picker-dropdown">
-      <input
+      <input aria-label="Semantisches Token suchen"
         ref="searchInput"
         class="picker-search"
         type="text"

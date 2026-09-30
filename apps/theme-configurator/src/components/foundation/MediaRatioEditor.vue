@@ -19,7 +19,7 @@
             <span class="me-token-label">{{ token.label }}</span>
             <code class="me-token-name">--fnd-media-ratio-{{ key }}</code>
           </div>
-          <input
+          <input :aria-label="token.label"
             type="text"
             class="me-value-input"
             :value="currentValue(key)"
@@ -37,7 +37,7 @@
             <span class="me-token-label">{{ token.label }}</span>
             <code class="me-token-name">--fnd-media-ratio-{{ key }}</code>
           </div>
-          <input
+          <input :aria-label="token.label"
             type="text"
             class="me-value-input"
             :value="token.value"
@@ -58,7 +58,7 @@
       </div>
       <div v-else class="me-add-form">
         <div class="me-add-fields">
-          <input
+          <input aria-label="Schlüssel des neuen Seitenverhältnisses"
             ref="addKeyInput"
             type="text"
             class="me-input"
@@ -67,7 +67,7 @@
             @keyup.enter="addToken"
             @keyup.escape="cancelAdd"
           />
-          <input
+          <input aria-label="Wert des neuen Seitenverhältnisses"
             type="text"
             class="me-input"
             v-model="newValue"

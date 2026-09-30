@@ -7,7 +7,7 @@
 
     <div class="editor-body">
       <div class="slider-row">
-        <input
+        <input :aria-label="`${title}: Schieberegler`"
           type="range"
           class="size-slider"
           :value="numericValue"
@@ -17,7 +17,7 @@
           @input="handleSlider"
         />
         <div class="value-input-wrap">
-          <input
+          <input :aria-label="`${title}: Wert`"
             type="text"
             class="value-input"
             :value="modelValue"

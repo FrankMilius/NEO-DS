@@ -32,7 +32,7 @@
             <div class="si-bar" :style="{ width: token.value }"></div>
           </div>
           <div class="si-token-controls">
-            <input
+            <input :aria-label="`Spacing ${token.label || token.key}`"
               type="text"
               class="si-value-input"
               :value="token.value"
@@ -60,7 +60,7 @@
           <div class="si-add-field">
             <label class="si-add-label">Pixelwert</label>
             <div class="si-add-input-row">
-              <input
+              <input aria-label="Pixelwert"
                 type="number"
                 class="si-add-input"
                 v-model.number="newTokenPx"
@@ -155,7 +155,7 @@
             <span class="si-semantic-label">{{ entry.key }}</span>
             <code class="si-semantic-name">--fnd-spacing-{{ entry.key }}</code>
           </div>
-          <select
+          <select :aria-label="`Spacing ${entry.key}`"
             class="si-select"
             :value="entry.value"
             @change="store.updateSemanticSpacing(entry.key, $event.target.value)"
@@ -186,7 +186,7 @@
         <div v-if="showAddSemanticDialog" class="si-add-dialog">
           <div class="si-add-field">
             <label class="si-add-label">Token-Name (z.B. padding-card)</label>
-            <input
+            <input aria-label="Token-Name"
               type="text"
               class="si-add-input si-add-input--wide"
               v-model="newSemanticName"
@@ -195,7 +195,7 @@
           </div>
           <div class="si-add-field">
             <label class="si-add-label">Spacing-Referenz</label>
-            <select class="si-select" v-model="newSemanticRef">
+            <select aria-label="Spacing-Referenz" class="si-select" v-model="newSemanticRef">
               <option value="">— waehlen —</option>
               <option
                 v-for="opt in spacingSelectOptions"
@@ -239,7 +239,7 @@
             <code class="si-semantic-name">--fnd-spacing-{{ token.id }}</code>
             <p class="si-semantic-desc">{{ token.desc }}</p>
           </div>
-          <select
+          <select :aria-label="`Spacing ${token.label}`"
             class="si-select"
             :value="getSemanticValue(token.id)"
             @change="store.updateSemanticSpacing(token.id, $event.target.value)"

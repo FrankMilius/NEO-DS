@@ -46,13 +46,13 @@
                 </div>
               </div>
               <div class="primitive-editor">
-                <input
+                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
                   type="color"
                   :value="currentPrimitives[palette.id]"
                   @input="store.updatePrimitive(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input
+                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="currentPrimitives[palette.id]"
@@ -94,13 +94,13 @@
                 </button>
               </div>
               <div class="primitive-editor">
-                <input
+                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
                   type="color"
                   :value="palette.base"
                   @input="updateCustomMainPaletteColor(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input
+                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="palette.base"
@@ -134,7 +134,7 @@
               <template v-else>
                 <div class="add-form">
                   <label class="add-form-label">Palette Name</label>
-                  <input
+                  <input aria-label="Palette Name"
                     ref="addMainNameInput"
                     type="text"
                     class="hex-input"
@@ -145,12 +145,12 @@
                   />
                   <label class="add-form-label">Base Color (500)</label>
                   <div class="primitive-editor">
-                    <input
+                    <input aria-label="Basisfarbe (500) wählen"
                       type="color"
                       v-model="newMainPaletteColor"
                       class="color-picker-mini"
                     />
-                    <input
+                    <input aria-label="Basisfarbe (500) als HEX-Wert"
                       type="text"
                       class="hex-input"
                       v-model="newMainPaletteColor"
@@ -199,13 +199,13 @@
                 </button>
               </div>
               <div class="primitive-editor">
-                <input
+                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
                   type="color"
                   :value="palette.base"
                   @input="updateCustomMainPaletteColor(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input
+                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="palette.base"
@@ -239,7 +239,7 @@
               <template v-else>
                 <div class="add-form">
                   <label class="add-form-label">Palette Name</label>
-                  <input
+                  <input aria-label="Palette Name"
                     ref="addMainNameInput"
                     type="text"
                     class="hex-input"
@@ -250,12 +250,12 @@
                   />
                   <label class="add-form-label">Base Color (500)</label>
                   <div class="primitive-editor">
-                    <input
+                    <input aria-label="Basisfarbe (500) wählen"
                       type="color"
                       v-model="newMainPaletteColor"
                       class="color-picker-mini"
                     />
-                    <input
+                    <input aria-label="Basisfarbe (500) als HEX-Wert"
                       type="text"
                       class="hex-input"
                       v-model="newMainPaletteColor"
@@ -327,13 +327,13 @@
                 </button>
               </div>
               <div class="primitive-editor">
-                <input
+                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
                   type="color"
                   :value="palette.base"
                   @input="palette.builtin ? updateSupportingPaletteColor(palette.id, $event.target.value) : updateCustomSupportingPaletteColor(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input
+                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="palette.base"
@@ -377,13 +377,13 @@
                 </button>
               </div>
               <div class="primitive-editor">
-                <input
+                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
                   type="color"
                   :value="palette.base"
                   @input="updateCustomThemeSupportingColor(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input
+                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="palette.base"
@@ -418,7 +418,7 @@
             <template v-else>
               <div class="add-form">
                 <label class="add-form-label">Name</label>
-                <input
+                <input aria-label="Name der Palette"
                   ref="addNameInput"
                   type="text"
                   class="hex-input"
@@ -429,12 +429,12 @@
                 />
                 <label class="add-form-label">Base Color (500)</label>
                 <div class="primitive-editor">
-                  <input
+                  <input aria-label="Basisfarbe (500) wählen"
                     type="color"
                     v-model="newPaletteColor"
                     class="color-picker-mini"
                   />
-                  <input
+                  <input aria-label="Basisfarbe (500) als HEX-Wert"
                     type="text"
                     class="hex-input"
                     v-model="newPaletteColor"

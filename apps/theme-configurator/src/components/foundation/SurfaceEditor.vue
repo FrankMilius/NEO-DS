@@ -22,13 +22,13 @@
             <div class="control-row">
               <label class="control-label">Background</label>
               <div class="control-input">
-                <input
+                <input :aria-label="`${surface.label}: Background wählen`"
                   type="color"
                   :value="normalizeHex(getColor(surface.tokenId))"
                   @input="updateToken(surface.tokenId, $event.target.value)"
                   class="color-mini"
                 />
-                <input
+                <input :aria-label="`${surface.label}: Background als HEX-Wert`"
                   type="text"
                   :value="getColor(surface.tokenId)"
                   @change="updateToken(surface.tokenId, $event.target.value)"
@@ -39,13 +39,13 @@
             <div class="control-row">
               <label class="control-label">On-Color</label>
               <div class="control-input">
-                <input
+                <input :aria-label="`${surface.label}: On-Color wählen`"
                   type="color"
                   :value="normalizeHex(getColor(surface.onTokenId))"
                   @input="updateToken(surface.onTokenId, $event.target.value)"
                   class="color-mini"
                 />
-                <input
+                <input :aria-label="`${surface.label}: On-Color als HEX-Wert`"
                   type="text"
                   :value="getColor(surface.onTokenId)"
                   @change="updateToken(surface.onTokenId, $event.target.value)"

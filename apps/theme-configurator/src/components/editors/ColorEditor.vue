@@ -21,7 +21,7 @@
     <div class="hex-row">
       <label class="input-label">HEX</label>
       <div class="hex-input-wrap">
-        <input
+        <input aria-label="HEX-Wert"
           ref="hexInput"
           type="text"
           class="color-text-input"
@@ -35,7 +35,7 @@
             <path d="M11 7l6 6" /><path d="M4 16l11.7 -11.7a1 1 0 0 1 1.4 0l2.6 2.6a1 1 0 0 1 0 1.4l-11.7 11.7h-4v-4z" />
           </svg>
         </button>
-        <input
+        <input tabindex="-1" aria-hidden="true"
           ref="nativePicker"
           type="color"
           class="native-picker-hidden"

@@ -44,7 +44,7 @@
           <div class="font-info">
             <span class="font-role-badge">{{ font.role }}</span>
             <div class="font-edit-row">
-              <input
+              <input :aria-label="`Schrift ${font.role}`"
                 type="text"
                 class="font-input"
                 :value="font.value"
@@ -68,7 +68,7 @@
           <div class="font-info">
             <span class="font-role-badge font-role-badge--custom">Custom</span>
             <div class="font-edit-row">
-              <input
+              <input aria-label="Name der eigenen Schrift"
                 type="text"
                 class="font-input font-input--name"
                 :value="font.name"
@@ -88,7 +88,7 @@
               </button>
             </div>
             <div class="font-edit-row">
-              <input
+              <input aria-label="Schriftfamilie (Font Stack)"
                 type="text"
                 class="font-input"
                 :value="font.family"
@@ -98,7 +98,7 @@
             </div>
             <div class="font-edit-row">
               <label class="font-url-label">Google Fonts URL (optional)</label>
-              <input
+              <input aria-label="Google Fonts URL"
                 type="text"
                 class="font-input font-input--url"
                 :value="font.url"
@@ -123,7 +123,7 @@
           <template v-else>
             <div class="add-form">
               <label class="add-form-label">Font Name</label>
-              <input
+              <input aria-label="Font Name"
                 ref="addFontNameInput"
                 type="text"
                 class="font-input"
@@ -133,7 +133,7 @@
                 @keyup.escape="cancelAddFont"
               />
               <label class="add-form-label">Font Stack</label>
-              <input
+              <input aria-label="Font Stack"
                 type="text"
                 class="font-input"
                 v-model="newFontFamily"
@@ -142,7 +142,7 @@
                 @keyup.escape="cancelAddFont"
               />
               <label class="add-form-label">Google Fonts URL (optional)</label>
-              <input
+              <input aria-label="Google Fonts URL"
                 type="text"
                 class="font-input font-input--url"
                 v-model="newFontUrl"

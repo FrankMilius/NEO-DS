@@ -12,7 +12,7 @@
 
     <!-- Dropdown Panel -->
     <div v-if="isOpen" ref="dropdownEl" class="geo-select__dropdown">
-      <input
+      <input aria-label="Token suchen"
         ref="searchInput"
         class="geo-select__search"
         type="text"
@@ -44,7 +44,7 @@
       <!-- Custom value -->
       <div class="geo-select__custom">
         <span class="geo-select__custom-label">Custom</span>
-        <input
+        <input aria-label="Eigener Wert"
           class="geo-select__custom-input"
           type="text"
           :value="modelValue"

@@ -36,10 +36,10 @@
           <div class="gi-token-control">
             <code class="gi-token-var">--nc-grid-columns</code>
             <div class="gi-input-group">
-              <button class="gi-stepper-btn" @click="adjustColumns(-1)" :disabled="columnsValue <= 1">
+              <button aria-label="Spalten verringern" class="gi-stepper-btn" @click="adjustColumns(-1)" :disabled="columnsValue <= 1">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
               </button>
-              <input
+              <input aria-label="Spaltenanzahl"
                 type="number"
                 class="gi-number-input"
                 :value="columnsValue"
@@ -47,7 +47,7 @@
                 max="24"
                 @change="updateToken('nc-grid-columns', $event.target.value)"
               />
-              <button class="gi-stepper-btn" @click="adjustColumns(1)" :disabled="columnsValue >= 24">
+              <button aria-label="Spalten erhöhen" class="gi-stepper-btn" @click="adjustColumns(1)" :disabled="columnsValue >= 24">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
               </button>
             </div>
@@ -67,7 +67,7 @@
           </p>
           <div class="gi-token-control">
             <code class="gi-token-var">--nc-grid-gap</code>
-            <input
+            <input aria-label="Grid-Abstand"
               type="text"
               class="gi-text-input"
               :value="getTokenValue('nc-grid-gap')"
@@ -118,7 +118,7 @@
           </p>
           <div class="gi-token-control">
             <code class="gi-token-var">--nc-grid-gap-sm</code>
-            <select
+            <select aria-label="Grid-Abstand klein"
               class="gi-select"
               :value="getTokenValue('nc-grid-gap-sm')"
               @change="updateToken('nc-grid-gap-sm', $event.target.value)"
@@ -149,7 +149,7 @@
           </p>
           <div class="gi-token-control">
             <code class="gi-token-var">--nc-grid-gap-lg</code>
-            <select
+            <select aria-label="Grid-Abstand groß"
               class="gi-select"
               :value="getTokenValue('nc-grid-gap-lg')"
               @change="updateToken('nc-grid-gap-lg', $event.target.value)"

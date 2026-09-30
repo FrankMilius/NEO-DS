@@ -20,7 +20,7 @@
           <div class="ozm-token-preview">
             <div class="ozm-opacity-box" :style="{ opacity: currentOpacity(key) }"></div>
           </div>
-          <input
+          <input :aria-label="`Deckkraft ${token.label || key}`"
             type="text"
             class="ozm-value-input"
             :value="currentOpacity(key)"
@@ -39,7 +39,7 @@
           <div class="ozm-token-preview">
             <div class="ozm-opacity-box" :style="{ opacity: token.value }"></div>
           </div>
-          <input
+          <input :aria-label="`Deckkraft ${token.label || key}`"
             type="text"
             class="ozm-value-input"
             :value="token.value"
@@ -59,8 +59,8 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input ref="addOpacityKeyInput" type="text" class="ozm-input" v-model="newOpacityKey" placeholder="Token-Name (z.B. ghost)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
-          <input type="text" class="ozm-input" v-model="newOpacityValue" placeholder="Wert (z.B. 0.04)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
+          <input aria-label="Name des neuen Deckkraft-Tokens" ref="addOpacityKeyInput" type="text" class="ozm-input" v-model="newOpacityKey" placeholder="Token-Name (z.B. ghost)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
+          <input aria-label="Wert des neuen Deckkraft-Tokens" type="text" class="ozm-input" v-model="newOpacityValue" placeholder="Wert (z.B. 0.04)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
         </div>
         <div class="ozm-add-actions">
           <button class="ozm-btn ozm-btn--primary" @click="addOpacity" :disabled="!newOpacityKey.trim() || !newOpacityValue.trim()">Hinzufuegen</button>
@@ -90,7 +90,7 @@
               <div class="ozm-zindex-fill" :style="{ width: zindexWidth(currentZindex(key)) + '%' }"></div>
             </div>
           </div>
-          <input
+          <input :aria-label="`Z-Index ${token.label || key}`"
             type="text"
             class="ozm-value-input"
             :value="currentZindex(key)"
@@ -111,7 +111,7 @@
               <div class="ozm-zindex-fill" :style="{ width: zindexWidth(token.value) + '%' }"></div>
             </div>
           </div>
-          <input
+          <input :aria-label="`Z-Index ${token.label || key}`"
             type="text"
             class="ozm-value-input"
             :value="token.value"
@@ -131,8 +131,8 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input ref="addZindexKeyInput" type="text" class="ozm-input" v-model="newZindexKey" placeholder="Token-Name (z.B. popover)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
-          <input type="text" class="ozm-input" v-model="newZindexValue" placeholder="Wert (z.B. 15)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
+          <input aria-label="Name des neuen Z-Index-Tokens" ref="addZindexKeyInput" type="text" class="ozm-input" v-model="newZindexKey" placeholder="Token-Name (z.B. popover)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
+          <input aria-label="Wert des neuen Z-Index-Tokens" type="text" class="ozm-input" v-model="newZindexValue" placeholder="Wert (z.B. 15)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
         </div>
         <div class="ozm-add-actions">
           <button class="ozm-btn ozm-btn--primary" @click="addZindex" :disabled="!newZindexKey.trim() || !newZindexValue.trim()">Hinzufuegen</button>
@@ -162,7 +162,7 @@
           <div class="ozm-token-preview">
             <div class="ozm-motion-demo" :style="{ transitionTimingFunction: currentMotion(key) }" @mouseenter="animateMotion($event)" @mouseleave="resetMotion($event)"></div>
           </div>
-          <input
+          <input :aria-label="`Easing ${token.label || key}`"
             type="text"
             class="ozm-value-input ozm-value-input--wide"
             :value="currentMotion(key)"
@@ -184,7 +184,7 @@
               <div class="ozm-duration-fill" :style="{ width: durationWidth(currentMotion(key)) + '%' }"></div>
             </div>
           </div>
-          <input
+          <input :aria-label="`Dauer ${token.label || key}`"
             type="text"
             class="ozm-value-input"
             :value="currentMotion(key)"
@@ -218,9 +218,9 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
-          <input type="text" class="ozm-input ozm-input--wide" v-model="newMotionValue" placeholder="Wert (z.B. 0.5s oder ease-out)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
-          <select class="ozm-select" v-model="newMotionType">
+          <input aria-label="Name des neuen Motion-Tokens" ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
+          <input aria-label="Wert des neuen Motion-Tokens" type="text" class="ozm-input ozm-input--wide" v-model="newMotionValue" placeholder="Wert (z.B. 0.5s oder ease-out)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
+          <select aria-label="Art des neuen Motion-Tokens" class="ozm-select" v-model="newMotionType">
             <option value="easing">Easing</option>
             <option value="duration">Duration</option>
             <option value="delay">Delay</option>
@@ -257,7 +257,7 @@
             <div class="ozm-token-preview">
               <code class="ozm-value-ro">{{ token.value }}</code>
             </div>
-            <input
+            <input :aria-label="`Effekt ${token.label || key}`"
               type="text"
               class="ozm-value-input ozm-value-input--wide"
               :value="currentMotion(key)"
@@ -293,12 +293,12 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input ref="addEffectKeyInput" type="text" class="ozm-input" v-model="newEffectKey" placeholder="Effect-Name (z.B. bounce-in)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
-          <input type="text" class="ozm-input ozm-input--wide" v-model="newEffectValue" placeholder="CSS-Wert (z.B. translateY(-4px))" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
+          <input aria-label="Name des neuen Effekts" ref="addEffectKeyInput" type="text" class="ozm-input" v-model="newEffectKey" placeholder="Effect-Name (z.B. bounce-in)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
+          <input aria-label="CSS-Wert des neuen Effekts" type="text" class="ozm-input ozm-input--wide" v-model="newEffectValue" placeholder="CSS-Wert (z.B. translateY(-4px))" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
         </div>
         <div class="ozm-add-fields">
-          <input type="text" class="ozm-input ozm-input--wide" v-model="newEffectTransition" placeholder="Transition (z.B. transform 0.3s ease)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
-          <select class="ozm-select" v-model="newEffectIntent">
+          <input aria-label="Transition des neuen Effekts" type="text" class="ozm-input ozm-input--wide" v-model="newEffectTransition" placeholder="Transition (z.B. transform 0.3s ease)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
+          <select aria-label="Auslöser des neuen Effekts" class="ozm-select" v-model="newEffectIntent">
             <option value="state-change">State Change</option>
             <option value="entrance">Entrance</option>
             <option value="attention">Attention</option>

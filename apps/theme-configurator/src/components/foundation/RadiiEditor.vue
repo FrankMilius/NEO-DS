@@ -25,7 +25,7 @@
           <div class="re-token-preview">
             <div class="re-radius-box" :style="{ borderRadius: currentValue(key) }"></div>
           </div>
-          <input
+          <input :aria-label="`Radius ${token.label || key}`"
             type="text"
             class="re-value-input"
             :value="currentValue(key)"
@@ -58,7 +58,7 @@
           <div class="re-token-preview">
             <div class="re-radius-box" :style="{ borderRadius: token.value }"></div>
           </div>
-          <input
+          <input :aria-label="`Radius ${token.label || key}`"
             type="text"
             class="re-value-input"
             :value="token.value"
@@ -79,7 +79,7 @@
       </div>
       <div v-else class="re-add-form">
         <div class="re-add-fields">
-          <input
+          <input aria-label="Name des neuen Radius-Tokens"
             ref="addKeyInput"
             type="text"
             class="re-input"
@@ -88,7 +88,7 @@
             @keyup.enter="addToken"
             @keyup.escape="cancelAdd"
           />
-          <input
+          <input aria-label="Wert des neuen Radius-Tokens"
             type="text"
             class="re-input"
             v-model="newValue"

@@ -91,11 +91,11 @@
         <span class="fe-heading__count">--fnd-focus-width</span>
       </h3>
       <div class="fe-select-row">
-        <select class="fe-select" :value="widthMode" @change="onWidthModeChange($event.target.value)">
+        <select aria-label="Fokus-Breite" class="fe-select" :value="widthMode" @change="onWidthModeChange($event.target.value)">
           <option v-for="opt in borderWidthOptions" :key="opt.key" :value="opt.key">{{ opt.label }} ({{ opt.value }})</option>
           <option value="__custom__">Eigener Wert...</option>
         </select>
-        <input
+        <input aria-label="Eigene Fokus-Breite"
           v-if="widthMode === '__custom__'"
           type="text"
           class="fe-value-input"
@@ -113,7 +113,7 @@
         <span class="fe-heading__count">--fnd-focus-style</span>
       </h3>
       <div class="fe-select-row">
-        <select class="fe-select" :value="currentValue('style')" @change="store.updateFoundationToken('focus', 'style', $event.target.value)">
+        <select aria-label="Fokus-Stil" class="fe-select" :value="currentValue('style')" @change="store.updateFoundationToken('focus', 'style', $event.target.value)">
           <option v-for="opt in borderStyleOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
         </select>
       </div>
@@ -142,7 +142,7 @@
           <div class="fe-token-preview">
             <div class="fe-size-bar" :style="{ width: currentValue('offset') || '2px' }"></div>
           </div>
-          <input
+          <input aria-label="Fokus-Abstand (Offset)"
             type="text"
             class="fe-value-input"
             :value="currentValue('offset')"
@@ -163,7 +163,7 @@
           <div class="fe-token-preview">
             <div class="fe-size-bar" :style="{ width: currentValue('inset') || '2px' }"></div>
           </div>
-          <input
+          <input aria-label="Fokus-Einzug (Inset)"
             type="text"
             class="fe-value-input"
             :value="currentValue('inset')"

@@ -45,7 +45,7 @@
       </div>
       <div v-else class="ie-add-form">
         <div class="ie-add-fields">
-          <input
+          <input aria-label="Name der Icon-Bibliothek"
             ref="addLibInput"
             type="text"
             class="ie-input"
@@ -54,7 +54,7 @@
             @keyup.enter="addLibrary"
             @keyup.escape="cancelAddLib"
           />
-          <input
+          <input aria-label="npm-Paketname"
             type="text"
             class="ie-input"
             v-model="newLibUrl"
@@ -181,7 +181,7 @@
               <code class="ie-token-name">stroke-width @ {{ size.key }}</code>
             </div>
             <div class="ie-stroke-control">
-              <select
+              <select :aria-label="`Strichstärke ${size.label}`"
                 class="ie-value-select"
                 :value="currentStroke(activeLibrary, size.key)"
                 @change="store.updateIconStrokeWidth(activeLibrary, size.key, $event.target.value)"
@@ -232,7 +232,7 @@
             <span class="ie-token-label">Default Size</span>
             <code class="ie-token-name">icon-default-size</code>
           </div>
-          <select
+          <select aria-label="Standardgröße"
             class="ie-value-select"
             :value="currentElementValue('icon-default-size', 'md')"
             @change="store.updateFoundationToken('elements', 'icon-default-size', $event.target.value)"
@@ -245,7 +245,7 @@
             <span class="ie-token-label">Touch Target Min</span>
             <code class="ie-token-name">icon-touch-target</code>
           </div>
-          <input
+          <input aria-label="Mindestgröße Touch-Ziel"
             type="text"
             class="ie-value-input"
             :value="currentElementValue('icon-touch-target', '44px')"
