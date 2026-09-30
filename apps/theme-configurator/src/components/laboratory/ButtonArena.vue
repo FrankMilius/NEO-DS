@@ -41,6 +41,7 @@ import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
 import { loadRecipe, capitalize } from 'recipe-sdk'
 import recipeRaw from '../../../../../data/button-recipe.json'
+import { useTokenResolver } from '../../composables/useTokenResolver.js'
 
 const store = useThemeStore()
 const { isHighlighted, highlightStyle } = useArenaHighlight('button')
@@ -219,21 +220,8 @@ const TOKEN_REFS = {
   'nc-button-disabled-border':    'border-secondary'
 }
 
-function resolveToken(semanticMap, tokenId) {
-  const override = store.currentComponentOverrides.value?.[tokenId]
-  if (override !== undefined) return override
-  if (componentData.value) {
-    const tok = componentData.value.tokens.find(t => t.id === tokenId)
-    if (tok) {
-      if (tok.ref && semanticMap[tok.ref]) return semanticMap[tok.ref]
-      if (tok.default) return tok.default
-    }
-  }
-  if (TOKEN_REFS[tokenId] && semanticMap[TOKEN_REFS[tokenId]]) {
-    return semanticMap[TOKEN_REFS[tokenId]]
-  }
-  return TOKEN_DEFAULTS[tokenId] || ''
-}
+// Aufloesung zentral: composables/useTokenResolver.js (Plan v2, 3.1)
+const { resolveToken } = useTokenResolver({ store, componentData, refs: TOKEN_REFS, defaults: TOKEN_DEFAULTS })
 
 function resolveAll(semanticMap) {
   const all = {}

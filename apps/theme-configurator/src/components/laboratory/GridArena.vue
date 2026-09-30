@@ -136,6 +136,7 @@ import { computed, defineComponent, h } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { componentTokenGroups } from '../../data/tokens.js'
+import { useTokenResolver } from '../../composables/useTokenResolver.js'
 
 const store = useThemeStore()
 const { isHighlighted, highlightStyle } = useArenaHighlight('grid')
@@ -157,15 +158,10 @@ const TOKEN_DEFAULTS = {
   'nc-grid-gap-lg':  '32px'
 }
 
-function resolveToken(tokenId) {
-  const override = store.currentComponentOverrides.value?.[tokenId]
-  if (override !== undefined) return override
-  if (componentData.value) {
-    const tok = componentData.value.tokens.find(t => t.id === tokenId)
-    if (tok?.default) return tok.default
-  }
-  return TOKEN_DEFAULTS[tokenId] || ''
-}
+// Aufloesung zentral: composables/useTokenResolver.js (Plan v2, 3.1).
+// Grid kennt keine Rollen-Verweise, daher leere semantische Tabelle.
+const { resolveToken: aufloesen } = useTokenResolver({ store, componentData, defaults: TOKEN_DEFAULTS })
+const resolveToken = (tokenId) => aufloesen({}, tokenId)
 
 const columns = computed(() => {
   const val = resolveToken('nc-grid-columns')
