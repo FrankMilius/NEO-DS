@@ -29,7 +29,7 @@
         <!-- Titelfolie -->
         <template v-if="folie === 'titel'">
           <div class="pl-kicker" :style="{ top: z.kicker_y }">NEO Workplace · {{ WELT_LABEL[welt] }}</div>
-          <h2 class="pl-titel pl-titel--gross" :style="{ top: z.titel_y }">Digital Workplace, der mitwächst</h2>
+          <h2 class="pl-titel" :style="{ top: z.titel_y }">Digital Workplace, der mitwächst</h2>
           <div class="pl-haarlinie" :style="{ top: z.haarlinie_y }"></div>
           <p class="pl-text" :style="{ top: z.inhalt_von_y }">Quartalsauftakt für Kundinnen und Kunden aus dem öffentlichen Sektor – Stand, Ausblick und nächste Schritte.</p>
           <div class="pl-marke-flaeche"></div>
@@ -244,7 +244,6 @@ onBeforeUnmount(() => beobachter?.disconnect())
   font-family: var(--font-heading, 'Space Grotesk'), 'Space Grotesk', sans-serif;
   font-size: var(--p-titel-px); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em;
 }
-.pl-titel--gross { font-size: calc(var(--p-titel-px) * 1.5); }
 .pl-haarlinie { width: var(--p-inhalt-breite); height: 2px; background: var(--p-linie); }
 .pl-text { width: var(--p-titel-breite); font-size: var(--p-text-px); line-height: 1.45; }
 .pl-marke-flaeche {
