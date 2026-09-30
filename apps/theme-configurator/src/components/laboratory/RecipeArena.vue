@@ -12,24 +12,34 @@
       >
         <p v-if="sp.description" class="ra-desc">{{ sp.description }}</p>
 
-        <!-- Vorschau: echte DS-Klassen, Styles kommen aus styles.css -->
-        <div class="ra-preview" :class="[previewThemeClass, `ra-preview--${sp.anordnung}`]">
-          <div v-for="zeile in sp.zeilen" :key="zeile.key" class="ra-matrix-row">
-            <span v-if="zeile.label" class="ra-axis-label">{{ zeile.label }}</span>
-            <div class="ra-cells">
-              <figure
-                v-for="z in zeile.zellen"
-                :key="z.id"
-                class="ra-cell"
-                :data-specimen-id="sp.id"
-                :data-cell-id="z.id"
-                :data-token-groups="z.tokenGroups.join(',')"
-                :data-quelle="z.quelle"
-              >
-                <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
-                <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
-                <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
-              </figure>
+        <!-- Vorschau: echte DS-Klassen, Styles kommen aus styles.css. Im
+             Split-Modus steht dieselbe Vorschau hell und dunkel nebeneinander
+             (wie in den handgeschriebenen Arenen). -->
+        <div class="ra-preview-gruppe" :class="{ 'ra-preview-gruppe--split': vorschauThemen.length > 1 }">
+          <div
+            v-for="thema in vorschauThemen"
+            :key="thema"
+            class="ra-preview"
+            :class="[thema, `ra-preview--${sp.anordnung}`]"
+            :data-thema="thema"
+          >
+            <div v-for="zeile in sp.zeilen" :key="zeile.key" class="ra-matrix-row">
+              <span v-if="zeile.label" class="ra-axis-label">{{ zeile.label }}</span>
+              <div class="ra-cells">
+                <figure
+                  v-for="z in zeile.zellen"
+                  :key="z.id"
+                  class="ra-cell"
+                  :data-specimen-id="sp.id"
+                  :data-cell-id="z.id"
+                  :data-token-groups="z.tokenGroups.join(',')"
+                  :data-quelle="z.quelle"
+                >
+                  <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
+                  <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
+                  <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
+                </figure>
+              </div>
             </div>
           </div>
         </div>
@@ -75,9 +85,11 @@ const store = useThemeStore()
 const { recipe } = useRecipeLoader(computed(() => props.componentId))
 const { isHighlighted, highlightStyle } = useArenaHighlight(props.componentId)
 
-const previewThemeClass = computed(() => {
-  const mode = store.state.previewMode === 'split' ? 'light' : store.state.previewMode
-  return mode === 'dark' ? 'neo-dark-theme' : 'neo-light-theme'
+// Theme der Vorschau: hell, dunkel oder im Split-Modus beide nebeneinander.
+const vorschauThemen = computed(() => {
+  const mode = store.state.previewMode
+  if (mode === 'split') return ['neo-light-theme', 'neo-dark-theme']
+  return [mode === 'dark' ? 'neo-dark-theme' : 'neo-light-theme']
 })
 
 const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
@@ -122,6 +134,9 @@ const ansichten = computed(() => {
   background: var(--fnd-color-background-base, #fff);
   color: var(--fnd-color-text-primary, inherit);
 }
+
+.ra-preview-gruppe { display: flex; flex-direction: column; gap: 12px; }
+.ra-preview-gruppe--split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 .ra-matrix-row {
   display: flex;

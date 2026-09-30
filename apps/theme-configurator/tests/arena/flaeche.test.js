@@ -12,6 +12,7 @@ import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
 import { normalisiereRecipe, specimenAnsicht, zellenFlaeche, flaecheKlassen } from '../../src/lib/recipe-arena.js'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { rohesRecipe } from './_recipes.js'
+import { useThemeStore } from '../../src/stores/theme.js'
 
 function zellen (id, specimenId) {
   const r = normalisiereRecipe(rohesRecipe(id))
@@ -65,5 +66,27 @@ describe('RecipeArena: dunkle Zellen im DOM', () => {
     expect(hell.classes()).not.toContain('neo-dark-theme')
     expect(hell.attributes('data-flaeche')).toBeUndefined()
     w.unmount()
+  })
+})
+
+describe('RecipeArena: Split-Modus', () => {
+  it('zeigt jede Vorschau hell und dunkel nebeneinander', async () => {
+    const store = useThemeStore()
+    store.state.previewMode = 'split'
+    try {
+      const w = mount(RecipeArena, { props: { componentId: 'badge' } })
+      for (let i = 0; i < 30 && !w.find('.ra-specimen').exists(); i++) {
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 5))
+      }
+      const erstes = w.find('.ra-specimen')
+      const themen = erstes.findAll('.ra-preview').map((p) => p.attributes('data-thema'))
+      expect(themen).toEqual(['neo-light-theme', 'neo-dark-theme'])
+      const [hell, dunkel] = erstes.findAll('.ra-preview')
+      expect(hell.findAll('.ra-cell').length).toBe(dunkel.findAll('.ra-cell').length)
+      w.unmount()
+    } finally {
+      store.state.previewMode = 'light'
+    }
   })
 })
