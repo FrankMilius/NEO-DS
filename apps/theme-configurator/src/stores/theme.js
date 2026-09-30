@@ -15,6 +15,7 @@ import { bumpComponentVersion, createVariant, deleteVariant, extractComponentId,
 import { VERLAUF_AKTIONEN, applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
 import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeJSON, loadNeoDefaults, loadTheme, saveCurrentTheme } from './theme/themes.js'
 import { exportAsCSSVars, exportAsJSON } from './theme/export.js'
+import { currentPraesentation, resetPraesentation, updatePraesentation } from './theme/praesentation.js'
 import { loadFromStorage, saveToServer, saveToStorage } from './theme/persistenz.js'
 import { copyThemeOverrides, diffThemeSets, resetCustomerToNeo } from './theme/theme-sets.js'
 import './theme/persistenz.js' // registriert das Auto-Save
@@ -121,6 +122,10 @@ export const useThemeStore = defineStore('theme', () => ({
   removeSemanticTypography,
   updateTypeScale,
   resetTypeScale,
+  // Praesentation (Plan v2, 2.5)
+  currentPraesentation,
+  updatePraesentation,
+  resetPraesentation,
   resetToDefaults,
   undo,
   redo,

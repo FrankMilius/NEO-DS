@@ -61,6 +61,8 @@ export function foundationZeilen(overrides, opt = {}) {
 
   for (const [kategorie, tokens] of Object.entries(overrides || {})) {
     if (!tokens || typeof tokens !== 'object') continue
+    // Folien-Grammatik: kein CSS, reist nur im JSON-Export mit (Plan v2, 2.5)
+    if (kategorie === 'praesentation') continue
     for (const [schluessel, wert] of Object.entries(tokens)) {
       const standard = vorgabe(kategorie, schluessel)
       if (nurAbweichungen && standard !== undefined && String(wert) === String(standard)) continue
