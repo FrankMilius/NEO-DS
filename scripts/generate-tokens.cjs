@@ -649,7 +649,11 @@ const generateThemeApp = () => {
     neutral: {
       label: 'Neutral',
       base: '#7a7a7a',
-      shades: p.neutral
+      // Seit 24.08.2026 steht neutral unter primitives.system (wie in
+      // getColorPrimitives oben). Hier stand noch p.neutral: die Stufen fielen
+      // still weg, IconsEditor, FocusRingEditor und ComponentEditor brachen mit
+      // "Cannot convert undefined or null to object" ab (Befund 30.09.2026).
+      shades: p.neutral ?? p.system?.neutral?.shades ?? {}
     }
   };
   out += `export const neutralPalette = ${JSON.stringify(neutralWrapped, null, 2)}\n\n`;

@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-09-29
+// Generated: 2026-09-30
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -293,7 +293,19 @@ export const foundationPalettes = {
 export const neutralPalette = {
   "neutral": {
     "label": "Neutral",
-    "base": "#7a7a7a"
+    "base": "#7a7a7a",
+    "shades": {
+      "100": "#e4e4e4",
+      "200": "#cacaca",
+      "300": "#afafaf",
+      "400": "#959595",
+      "500": "#7a7a7a",
+      "600": "#626262",
+      "700": "#494949",
+      "800": "#313131",
+      "900": "#181818",
+      "950": "#0c0c0c"
+    }
   }
 }
 
