@@ -6,12 +6,20 @@ import { currentThemeId } from './getter.js'
 import { _validComponentTokenIds, state } from './kern.js'
 import { loadSavedThemesList, persistSavedThemesList } from './themes.js'
 import { ergaenzeFoundation } from './token-aktionen.js'
+import { speicher } from '../../speicher/index.js'
+import { LOKALE_SCHLUESSEL, leseArbeitsstand, schreibeArbeitsstand, schreibeTheme } from '../../speicher/lokal.js'
+import { speichereTheme } from './themes.js'
 
 // ---------------------------------------------------------------------------
 // Save to Server (full theme format)
 // ---------------------------------------------------------------------------
 
 export async function saveToServer() {
+  // Plan v2, 2.6: Mit Drupal-Speicher heisst "Speichern" (Strg+S) das
+  // aktuelle Theme als neue Revision ablegen. Lokal bleibt alles wie bisher.
+  const sp = speicher()
+  if (sp.art !== 'lokal') return speichereTheme()
+
   const themeSet = state.activeThemeSet
   const payload = {
     meta: {
@@ -31,23 +39,15 @@ export async function saveToServer() {
     typeScale: toRaw(state.typeScale[themeSet])
   }
 
-  const res = await fetch('/api/save-theme', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  const data = await res.json()
-  if (data.status !== 'ok') {
-    throw new Error(data.message || 'Server save failed')
-  }
-  return data
+  // POST /api/save-theme des Docs-Servers (speicher/lokal.js)
+  return sp.sichereEntwurf(payload)
 }
 
 // ---------------------------------------------------------------------------
 // Persist to localStorage
 // ---------------------------------------------------------------------------
 
-export const STORAGE_KEY = 'neo-theme-configurator'
+export const STORAGE_KEY = LOKALE_SCHLUESSEL.arbeitsstand
 
 // Debounce timer for named-theme auto-save (avoids excessive localStorage writes)
 export let _namedThemeSaveTimer = null
@@ -85,7 +85,7 @@ export function saveToStorage() {
       currentThemeMeta: toRaw(state.currentThemeMeta),
       activeSection: state.activeSection
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    schreibeArbeitsstand(data)
   } catch (e) {
     console.warn('Failed to save theme state:', e)
   }
@@ -129,7 +129,7 @@ export function saveToStorage() {
           activeThemeSet: state.activeThemeSet,
           meta: JSON.parse(JSON.stringify(toRaw(meta)))
         }
-        localStorage.setItem(`neo-theme-${meta.id}`, JSON.stringify(snapshot))
+        schreibeTheme(meta.id, snapshot)
         // Also update the catalogue entry with the new updatedAt timestamp
         const idx = state.savedThemes.findIndex(t => t.id === meta.id)
         if (idx >= 0) {
@@ -145,9 +145,8 @@ export function saveToStorage() {
 
 export function loadFromStorage() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) {
-      const data = JSON.parse(raw)
+    const data = leseArbeitsstand()
+    if (data) {
       if (data.themes) Object.assign(state.themes, data.themes)
       if (data.foundationOverrides) Object.assign(state.foundationOverrides, data.foundationOverrides)
       if (data.componentOverrides) Object.assign(state.componentOverrides, data.componentOverrides)

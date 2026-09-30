@@ -5,9 +5,11 @@ import { primitiveColors, semanticDefaults } from '../../data/tokens.js'
 import { downloadDrupalBundle } from '../../export/drupal-adapter.js'
 import { toRaw } from 'vue'
 import { exportAsCSSVars, exportAsJSON } from './export.js'
-import { SAVED_THEMES_KEY, deepClone, getDefaultFoundation, state } from './kern.js'
+import { deepClone, getDefaultFoundation, state } from './kern.js'
 import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData } from './verlauf.js'
 import { importVorschau, importZiel, pruefeThemeImport } from '../../import/theme-import.js'
+import { SpeicherFehler, pruefeKontrast, speicher } from '../../speicher/index.js'
+import { leseKatalog, leseTheme, loescheTheme, schreibeKatalog, schreibeTheme } from '../../speicher/lokal.js'
 
 // ---------------------------------------------------------------------------
 // Theme Management — Create, Load, Save, Delete
@@ -23,9 +25,8 @@ export function getThemeSnapshot() {
 
 export function loadSavedThemesList() {
   try {
-    const raw = localStorage.getItem(SAVED_THEMES_KEY)
-    if (raw) {
-      const list = JSON.parse(raw)
+    const list = leseKatalog()
+    if (list !== null) {
       state.savedThemes = Array.isArray(list) ? list : []
     }
   } catch (e) {
@@ -36,7 +37,7 @@ export function loadSavedThemesList() {
 
 export function persistSavedThemesList() {
   try {
-    localStorage.setItem(SAVED_THEMES_KEY, JSON.stringify(toRaw(state.savedThemes)))
+    schreibeKatalog(toRaw(state.savedThemes))
   } catch (e) {
     console.warn('Failed to persist saved themes list:', e)
   }
@@ -57,7 +58,7 @@ export function createTheme(name, version = '1.0.0') {
   const snapshot = getThemeSnapshot()
   snapshot.meta = meta
   try {
-    localStorage.setItem(`neo-theme-${id}`, JSON.stringify(snapshot))
+    schreibeTheme(id, snapshot)
   } catch (e) {
     console.warn('Failed to save theme data:', e)
     return null
@@ -92,7 +93,7 @@ export function saveCurrentTheme(name, version) {
   const snapshot = getThemeSnapshot()
   snapshot.meta = deepClone(meta)
   try {
-    localStorage.setItem(`neo-theme-${meta.id}`, JSON.stringify(snapshot))
+    schreibeTheme(meta.id, snapshot)
   } catch (e) {
     console.warn('Failed to save theme data:', e)
   }
@@ -111,10 +112,9 @@ export function saveCurrentTheme(name, version) {
  */
 export function loadTheme(themeId) {
   try {
-    const raw = localStorage.getItem(`neo-theme-${themeId}`)
-    if (!raw) { console.warn('Theme not found:', themeId); return false }
+    const snapshot = leseTheme(themeId)
+    if (!snapshot) { console.warn('Theme not found:', themeId); return false }
 
-    const snapshot = JSON.parse(raw)
     applyThemeData(snapshot)
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
@@ -154,7 +154,7 @@ export function deleteTheme(themeId) {
   }
 
   try {
-    localStorage.removeItem(`neo-theme-${themeId}`)
+    loescheTheme(themeId)
   } catch {}
 
   state.savedThemes = state.savedThemes.filter(t => t.id !== themeId)
@@ -177,38 +177,35 @@ export function deleteTheme(themeId) {
 export async function loadNeoDefaults() {
   // Try server-side golden master first (secure data folder)
   try {
-    const res = await fetch('/api/neo-theme-defaults')
-    if (res.ok) {
-      const data = await res.json()
-      if (data.status === 'ok' && data.defaults) {
-        const d = data.defaults
-        if (d.themes) {
-          state.themes.neo.light = deepClone(d.themes.neo.light)
-          state.themes.neo.dark = deepClone(d.themes.neo.dark)
-          state.themes.customer.light = deepClone(d.themes.customer.light)
-          state.themes.customer.dark = deepClone(d.themes.customer.dark)
-        }
-        if (d.foundationOverrides) {
-          state.foundationOverrides = deepClone(d.foundationOverrides)
-        }
-        if (d.componentOverrides) {
-          state.componentOverrides = deepClone(d.componentOverrides)
-        }
-        if (d.primitiveOverrides) {
-          state.primitiveOverrides = deepClone(d.primitiveOverrides)
-        }
-        state.customFonts = { neo: [], customer: [] }
-        state.focusRingMode = { neo: 'offset', customer: 'offset' }
-        state.componentLocks = { neo: {}, customer: {} }
-        state.componentVersions = { neo: {}, customer: {} }
-        state.variantDefinitions = { neo: {}, customer: {} }
-        state.typeScale = { neo: {}, customer: {} }
-        state.activeThemeSet = 'neo'
-        state.currentThemeMeta = null
-        state.version = d._meta?.version || '1.0.0'
-        console.log('[RESET] Loaded NEO defaults from secure data folder')
-        return
+    // lokal: GET /api/neo-theme-defaults · drupal: GET {basis}/neo-standard
+    const d = await speicher().ladeStandard()
+    if (d) {
+      if (d.themes) {
+        state.themes.neo.light = deepClone(d.themes.neo.light)
+        state.themes.neo.dark = deepClone(d.themes.neo.dark)
+        state.themes.customer.light = deepClone(d.themes.customer.light)
+        state.themes.customer.dark = deepClone(d.themes.customer.dark)
       }
+      if (d.foundationOverrides) {
+        state.foundationOverrides = deepClone(d.foundationOverrides)
+      }
+      if (d.componentOverrides) {
+        state.componentOverrides = deepClone(d.componentOverrides)
+      }
+      if (d.primitiveOverrides) {
+        state.primitiveOverrides = deepClone(d.primitiveOverrides)
+      }
+      state.customFonts = { neo: [], customer: [] }
+      state.focusRingMode = { neo: 'offset', customer: 'offset' }
+      state.componentLocks = { neo: {}, customer: {} }
+      state.componentVersions = { neo: {}, customer: {} }
+      state.variantDefinitions = { neo: {}, customer: {} }
+      state.typeScale = { neo: {}, customer: {} }
+      state.activeThemeSet = 'neo'
+      state.currentThemeMeta = null
+      state.version = d._meta?.version || '1.0.0'
+      console.log('[RESET] Loaded NEO defaults from secure data folder')
+      return
     }
   } catch (err) {
     console.warn('[RESET] Could not fetch server defaults, using in-memory fallback:', err.message)
@@ -374,5 +371,112 @@ export function importTheme(ziel) {
     if (!THEME_DATA_KEYS.includes(k)) continue
     state[k][themeSet] = deepClone(v)
   }
+  return true
+}
+
+// ---------------------------------------------------------------------------
+// Speicher-Abstraktion (Plan v2, 2.6)
+// ---------------------------------------------------------------------------
+// Asynchrone Gegenstuecke zu loadSavedThemesList/loadTheme/saveCurrentTheme,
+// die ueber speicher() laufen. Mit dem Standard-Speicher 'lokal' rufen sie
+// genau die bisherigen Funktionen auf (Verhalten unveraendert). Mit 'drupal'
+// sprechen sie die REST-Schnittstelle (docs/api/theme-konfigurator.openapi.yaml)
+// und fuehren die Revision als currentThemeMeta.etag mit.
+// Konflikte (409/412) werden als SpeicherFehler (istKonflikt) weitergeworfen;
+// die Oberflaeche entscheidet, ob neu geladen wird.
+
+const istLokal = () => speicher().art === 'lokal'
+
+/** Antwort des Speichers als aktuelles Theme uebernehmen (Meta + ETag, Katalog). */
+function uebernehmeMeta(erg) {
+  const meta = { ...deepClone(erg.meta), etag: erg.etag ?? null }
+  state.currentThemeMeta = meta
+  if (meta.version) state.version = meta.version
+  const idx = state.savedThemes.findIndex(t => t.id === meta.id)
+  if (idx >= 0) state.savedThemes[idx] = deepClone(meta)
+  else state.savedThemes.push(deepClone(meta))
+}
+
+/** Katalog laden (lokal: localStorage, drupal: GET …/themes). */
+export async function ladeThemeKatalog() {
+  if (istLokal()) {
+    loadSavedThemesList()
+    return state.savedThemes
+  }
+  state.savedThemes = await speicher().liste()
+  return state.savedThemes
+}
+
+/** Theme oeffnen (lokal: loadTheme). Ein Undo-Schritt (VERLAUF_AKTIONEN). */
+export async function oeffneTheme(themeId) {
+  if (istLokal()) return loadTheme(themeId)
+  const erg = await speicher().lade(themeId)
+  if (!erg) { console.warn('Theme not found:', themeId); return false }
+  applyThemeData(erg.daten)
+  uebernehmeMeta(erg)
+  return true
+}
+
+/**
+ * Aktuelles Theme speichern (lokal: saveCurrentTheme). Mit Drupal: ohne
+ * Theme-ID wird angelegt, sonst mit If-Match gespeichert (neue Revision).
+ */
+export async function speichereTheme(name, version) {
+  if (istLokal()) return saveCurrentTheme(name, version)
+  const alt = state.currentThemeMeta ? deepClone(state.currentThemeMeta) : {}
+  const { etag, ...rest } = alt
+  const meta = {
+    ...rest,
+    name: name || rest.name || 'Untitled Theme',
+    version: version || rest.version || state.version || '1.0.0',
+  }
+  const erg = await speicher().speichere({ meta, daten: getThemeSnapshot(), etag })
+  uebernehmeMeta(erg)
+  return state.currentThemeMeta
+}
+
+/** Kontrast der semantischen Paare des Theme-Sets (hell + dunkel). */
+export function pruefeThemeKontrast(themeSet = state.activeThemeSet) {
+  return pruefeKontrast(toRaw(state.themes[themeSet]))
+}
+
+/**
+ * Gespeicherte Revision veroeffentlichen. Die Kontrast-Pruefung ist das Tor:
+ * nicht bestanden -> SpeicherFehler('ungueltig') ohne Serveraufruf, ausser
+ * `uebergehen` ist gesetzt (ob und fuer wen das erlaubt ist, entscheidet der
+ * Server — offene Frage in ADR-002).
+ */
+export async function veroeffentlicheTheme({ notiz, uebergehen = false } = {}) {
+  const sp = speicher()
+  if (!sp.faehigkeiten.veroeffentlichen) {
+    throw new SpeicherFehler('nicht-unterstuetzt', 'Veroeffentlichen gibt es nur mit Drupal-Speicher.')
+  }
+  const meta = state.currentThemeMeta
+  if (!meta?.id || !meta.etag) {
+    throw new SpeicherFehler('ungueltig', 'Bitte das Theme zuerst speichern.')
+  }
+  const kontrast = pruefeThemeKontrast()
+  if (!kontrast.bestanden && !uebergehen) {
+    throw new SpeicherFehler('ungueltig', 'Kontrast-Pruefung nicht bestanden — Veroeffentlichen gesperrt.', { details: kontrast })
+  }
+  const erg = await sp.veroeffentliche(meta.id, { etag: meta.etag, kontrast: { ...kontrast, uebergangen: !kontrast.bestanden }, notiz })
+  if (erg?.meta) uebernehmeMeta(erg)
+  return { ...erg, kontrast }
+}
+
+/** Revisionen des aktuellen Themes (lokal: keine). */
+export async function ladeRevisionen() {
+  const meta = state.currentThemeMeta
+  if (!meta?.id) return []
+  return speicher().revisionen(meta.id)
+}
+
+/** Revision wiederherstellen — Drupal legt dafuer eine NEUE Revision an. */
+export async function stelleRevisionWiederHer(revisionId) {
+  const meta = state.currentThemeMeta
+  if (!meta?.id) return false
+  const erg = await speicher().stelleWiederHer(meta.id, revisionId, { etag: meta.etag })
+  applyThemeData(erg.daten)
+  uebernehmeMeta(erg)
   return true
 }
