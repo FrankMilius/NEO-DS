@@ -135,6 +135,7 @@ export const VERLAUF_AKTIONEN = [
   'addSemanticSpacingToken',
   'createVariant',
   'deleteVariant',
+  'importTheme',
   'loadNeoDefaults',
   'loadTheme',
   'removeCustomBorderWidthToken',

@@ -176,6 +176,15 @@
                   <span class="dd-item-meta">Full token snapshot</span>
                 </div>
               </button>
+              <button class="dd-item" data-test="export-dtcg" @click="handleDownloadDTCG">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13l-2 2 2 2"/><path d="M15 13l2 2-2 2"/>
+                </svg>
+                <div class="dd-item-text">
+                  <span class="dd-item-name">DTCG (W3C Design Tokens)</span>
+                  <span class="dd-item-meta">Standardformat, derselbe Exporter wie tokens:dtcg</span>
+                </div>
+              </button>
               <div class="dd-divider"></div>
               <button class="dd-item" @click="handleDownloadDrupal">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -184,6 +193,16 @@
                 <div class="dd-item-text">
                   <span class="dd-item-name">Export for Drupal</span>
                   <span class="dd-item-meta">CSS + settings JSON bundle</span>
+                </div>
+              </button>
+              <div class="dd-divider"></div>
+              <button class="dd-item" data-test="import-theme" @click="handleImport">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <div class="dd-item-text">
+                  <span class="dd-item-name">Theme importieren …</span>
+                  <span class="dd-item-meta">JSON aus „Export as JSON“, mit Prüfung und Vorschau</span>
                 </div>
               </button>
             </div>
@@ -317,6 +336,10 @@
       @close="showReleaseDialog = false"
       @publish="confirmPublishRelease"
     />
+
+    <!-- ═══════════════ DTCG-EXPORT / THEME-IMPORT (Plan v2, 2.2) ═══════════════ -->
+    <DtcgExportDialog :visible="showDtcgDialog" @close="showDtcgDialog = false" />
+    <ThemeImportDialog :visible="showImportDialog" @close="showImportDialog = false" />
   </header>
 </template>
 
@@ -328,6 +351,8 @@ import { useBranchStore } from '../../stores/branches.js'
 import BranchManager from '../workflow/BranchManager.vue'
 import MergeDialog from '../workflow/MergeDialog.vue'
 import ReleaseDialog from '../workflow/ReleaseDialog.vue'
+import DtcgExportDialog from '../workflow/DtcgExportDialog.vue'
+import ThemeImportDialog from '../workflow/ThemeImportDialog.vue'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -499,6 +524,20 @@ function handleDownloadJSON() {
 function handleDownloadDrupal() {
   store.downloadDrupalExport()
   downloadOpen.value = false
+}
+
+// DTCG-Export und Theme-Import laufen ueber eigene Dialoge (Plan v2, 2.2)
+const showDtcgDialog = ref(false)
+const showImportDialog = ref(false)
+
+function handleDownloadDTCG() {
+  downloadOpen.value = false
+  showDtcgDialog.value = true
+}
+
+function handleImport() {
+  downloadOpen.value = false
+  showImportDialog.value = true
 }
 
 // ---------------------------------------------------------------------------

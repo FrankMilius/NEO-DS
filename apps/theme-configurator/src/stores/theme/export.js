@@ -4,6 +4,8 @@
 import { foundationZeilen } from '../../export/foundation-css.js'
 import { schriftskalaZeilen } from '../../export/type-scale-css.js'
 import { state } from './kern.js'
+import { semanticDefaults } from '../../data/tokens.js'
+import { erzeugeThemeDtcg, ladeDtcgGrundlagen, themeDatenAusState } from '../../export/dtcg.js'
 import { extractComponentId } from './komponenten.js'
 
 // ---------------------------------------------------------------------------
@@ -230,4 +232,22 @@ export function exportAsJSON() {
     typeScale: state.typeScale[themeSet],
     focusRingMode: state.focusRingMode[themeSet]
   }, null, 2)
+}
+
+// ---------------------------------------------------------------------------
+// DTCG (W3C Design Tokens) — Plan v2, 2.2
+// ---------------------------------------------------------------------------
+// Derselbe Exporter wie scripts/export-dtcg.cjs (packages/dtcg-export). Quelle
+// und styles.css werden erst hier nachgeladen (eigener Chunk).
+
+/**
+ * @returns {Promise<{ text: string, hinweise: string[], uebernommen: object, zusammenfassung: string, dateiname: string }>}
+ */
+export async function exportAsDTCG() {
+  const themeSet = state.activeThemeSet
+  const grundlagen = await ladeDtcgGrundlagen()
+  const name = state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme')
+  const erg = erzeugeThemeDtcg(grundlagen, themeDatenAusState(state, themeSet), { themeSet, semanticDefaults, name })
+  const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase()
+  return { ...erg, dateiname: `${safeName}.tokens.dtcg.json` }
 }

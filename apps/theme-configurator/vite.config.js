@@ -65,7 +65,8 @@ export default defineConfig({
   base: '/config/theme-configurator/',
   resolve: {
     alias: {
-      'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js')
+      'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js'),
+      'dtcg-export': resolve(__dirname, '../../packages/dtcg-export/index.js')
     }
   },
   server: {

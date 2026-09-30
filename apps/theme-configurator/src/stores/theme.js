@@ -13,8 +13,8 @@ import { clearArenaSelection, clearHighlightedToken, getFormVariant, resetArenaF
 import { addCustomBorderWidthToken, addCustomElevationToken, addCustomMediaRatioToken, addCustomMotionEffectToken, addCustomMotionToken, addCustomOpacityToken, addCustomRadiiToken, addCustomShadowToken, addCustomSpacingToken, addCustomZindexToken, addIconLibrary, addSemanticSpacingToken, removeCustomBorderWidthToken, removeCustomElevationToken, removeCustomMediaRatioToken, removeCustomMotionEffectToken, removeCustomMotionToken, removeCustomOpacityToken, removeCustomRadiiToken, removeCustomShadowToken, removeCustomSpacingToken, removeCustomZindexToken, removeIconLibrary, removeSemanticSpacing, removeSemanticTypography, resetComponentToken, resetTypeScale, setFocusRingMode, updateComponentToken, updateFoundationToken, updateIconStrokeColor, updateIconStrokeWidth, updatePrimitive, updateSemanticSpacing, updateSemanticToken, updateSemanticTypography, updateTypeScale } from './theme/token-aktionen.js'
 import { bumpComponentVersion, createVariant, deleteVariant, extractComponentId, getComponentVersion, getVariants, isComponentLocked, lockComponent, unlockComponent } from './theme/komponenten.js'
 import { VERLAUF_AKTIONEN, applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
-import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeJSON, loadNeoDefaults, loadTheme, saveCurrentTheme } from './theme/themes.js'
-import { exportAsCSSVars, exportAsJSON } from './theme/export.js'
+import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeDTCG, downloadThemeJSON, importTheme, loadNeoDefaults, loadTheme, pruefeImport, saveCurrentTheme } from './theme/themes.js'
+import { exportAsCSSVars, exportAsDTCG, exportAsJSON } from './theme/export.js'
 import { currentPraesentation, resetPraesentation, updatePraesentation } from './theme/praesentation.js'
 import { loadFromStorage, saveToServer, saveToStorage } from './theme/persistenz.js'
 import { copyThemeOverrides, diffThemeSets, resetCustomerToNeo } from './theme/theme-sets.js'
@@ -142,9 +142,14 @@ export const useThemeStore = defineStore('theme', () => ({
   downloadThemeJSON,
   downloadThemeCSS,
   downloadDrupalExport,
+  downloadThemeDTCG,
+  // Import (Plan v2, 2.2)
+  pruefeImport,
+  importTheme,
   // Export
   exportAsCSSVars,
   exportAsJSON,
+  exportAsDTCG,
   // Persistence
   saveToServer,
   loadFromStorage,

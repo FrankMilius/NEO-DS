@@ -6,7 +6,8 @@ import { downloadDrupalBundle } from '../../export/drupal-adapter.js'
 import { toRaw } from 'vue'
 import { exportAsCSSVars, exportAsJSON } from './export.js'
 import { SAVED_THEMES_KEY, deepClone, getDefaultFoundation, state } from './kern.js'
-import { applyThemeData, snapshotThemeData } from './verlauf.js'
+import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData } from './verlauf.js'
+import { importVorschau, importZiel, pruefeThemeImport } from '../../import/theme-import.js'
 
 // ---------------------------------------------------------------------------
 // Theme Management — Create, Load, Save, Delete
@@ -316,4 +317,62 @@ export function downloadThemeCSS() {
 export function downloadDrupalExport() {
   const json = exportAsJSON()
   downloadDrupalBundle(json)
+}
+
+/**
+ * Download DTCG-Datei (W3C Design Tokens). Der Text kommt aus exportAsDTCG(),
+ * damit der Export-Dialog vorher die Hinweise zeigen kann.
+ */
+export function downloadThemeDTCG(text, dateiname = 'theme.tokens.dtcg.json') {
+  const blob = new Blob([text], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = dateiname
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+// ---------------------------------------------------------------------------
+// Import (Plan v2, 2.2)
+// ---------------------------------------------------------------------------
+
+/** Werkseinstellung eines Theme-Sets (Grundlage fuer fehlende Werte im Import). */
+function werkseinstellung(themeSet) {
+  const p = themeSet === 'neo' ? 'neo' : 'customer'
+  return {
+    themes: { light: deepClone(semanticDefaults[`${p}-light`]), dark: deepClone(semanticDefaults[`${p}-dark`]) },
+    foundationOverrides: getDefaultFoundation(),
+    primitiveOverrides: { primary: primitiveColors.primary.base, secondary: primitiveColors.secondary.base, accent: primitiveColors.accent.base },
+  }
+}
+
+/**
+ * JSON-Text pruefen und die Vorschau fuer das aktive Theme-Set berechnen.
+ * Veraendert nichts.
+ * @returns {{ ok, fehler: string[], meta, ziel, vorschau }}
+ */
+export function pruefeImport(text) {
+  const erg = pruefeThemeImport(text)
+  if (!erg.ok) return { ...erg, ziel: null, vorschau: [] }
+  const themeSet = state.activeThemeSet
+  const ziel = importZiel(erg.daten, werkseinstellung(themeSet))
+  const aktuell = {}
+  for (const k of Object.keys(ziel)) aktuell[k] = state[k]?.[themeSet]
+  return { ...erg, ziel, vorschau: importVorschau(ziel, aktuell) }
+}
+
+/**
+ * Geprueften Import in das aktive Theme-Set uebernehmen — EINE Aktion,
+ * also ein Undo-Schritt (VERLAUF_AKTIONEN).
+ * @param {object} ziel  pruefeImport(text).ziel
+ */
+export function importTheme(ziel) {
+  if (!ziel || typeof ziel !== 'object') return false
+  const themeSet = state.activeThemeSet
+  for (const [k, v] of Object.entries(ziel)) {
+    if (!THEME_DATA_KEYS.includes(k)) continue
+    state[k][themeSet] = deepClone(v)
+  }
+  return true
 }

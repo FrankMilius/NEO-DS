@@ -25,7 +25,11 @@ vi.mock('../../src/stores/theme.js', () => ({
     createTheme: vi.fn(),
     deleteTheme: vi.fn(),
     downloadThemeCSS: vi.fn(),
-    downloadThemeJSON: vi.fn()
+    downloadThemeJSON: vi.fn(),
+    downloadThemeDTCG: vi.fn(),
+    exportAsDTCG: vi.fn(async () => ({ text: '{}', hinweise: [], uebernommen: {}, zusammenfassung: '', dateiname: 'x.json' })),
+    pruefeImport: vi.fn(() => ({ ok: false, fehler: ['x'], vorschau: [] })),
+    importTheme: vi.fn()
   })
 }))
 
@@ -85,5 +89,22 @@ describe('AppHeader', () => {
     const newBtn = wrapper.findAll('.tb-btn').find(b => b.text().includes('New'))
     await newBtn.trigger('click')
     expect(wrapper.find('.modal-title').text()).toBe('Create New Theme')
+  })
+
+  it('Export-Menü bietet DTCG und Theme-Import und öffnet die Dialoge', async () => {
+    const wrapper = mount(AppHeader, {
+      global: {
+        stubs: { Transition: false, Teleport: true }
+      }
+    })
+    const exportBtn = wrapper.findAll('.tb-btn').find(b => b.text().includes('Export'))
+    await exportBtn.trigger('click')
+    expect(wrapper.find('[data-test="export-dtcg"]').text()).toContain('DTCG (W3C Design Tokens)')
+    await wrapper.find('[data-test="export-dtcg"]').trigger('click')
+    expect(wrapper.text()).toContain('DTCG-Export (W3C Design Tokens)')
+
+    await exportBtn.trigger('click')
+    await wrapper.find('[data-test="import-theme"]').trigger('click')
+    expect(wrapper.text()).toContain('Theme importieren')
   })
 })

@@ -1,0 +1,56 @@
+/* Gemeinsame Dialog-Optik fuer Export/Import (Plan v2, 2.2) — nur --cfg-*-Variablen */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--cfg-overlay);
+  display: flex; align-items: center; justify-content: center;
+  z-index: var(--cfg-z-modal);
+}
+.modal-dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: 84vh;
+  background: var(--cfg-surface);
+  border: 1px solid var(--cfg-border);
+  border-radius: 12px;
+  box-shadow: var(--cfg-shadow-modal);
+  display: flex; flex-direction: column;
+  font-family: var(--cfg-font-body);
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--cfg-border); flex-shrink: 0;
+}
+.modal-title { font-size: 15px; font-weight: 700; color: var(--cfg-text); margin: 0; font-family: var(--cfg-font-heading); }
+.modal-close {
+  width: 28px; height: 28px; border: none; border-radius: 6px;
+  background: transparent; color: var(--cfg-text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--cfg-surface-elevated); }
+.modal-body { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.modal-text { font-size: 12px; line-height: 1.5; color: var(--cfg-text-secondary); margin: 0; }
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 12px 20px; border-top: 1px solid var(--cfg-border); flex-shrink: 0;
+}
+.modal-btn {
+  height: 34px; padding: 0 16px;
+  border: 1px solid var(--cfg-border); border-radius: 6px;
+  font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.modal-btn.secondary { background: var(--cfg-surface); color: var(--cfg-text-secondary); }
+.modal-btn.secondary:hover { background: var(--cfg-surface-elevated); }
+.modal-btn.primary { background: var(--cfg-accent); color: var(--cfg-surface); border-color: var(--cfg-accent); }
+.modal-btn.primary:hover { opacity: 0.9; }
+.modal-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.box { border: 1px solid var(--cfg-border); border-radius: 8px; padding: 12px; }
+.box-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--cfg-text-muted); margin: 0 0 8px;
+}
+.box.warn { border-color: var(--cfg-warning); background: var(--cfg-warning-subtle); }
+.box.error { border-color: var(--cfg-danger-border-subtle); background: var(--cfg-danger-subtle); }
+.liste { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--cfg-text); }
+.mono { font-family: var(--cfg-font-mono); font-size: 11px; }
+.status { font-size: 12px; color: var(--cfg-text-muted); }
+.modal-enter-active, .modal-leave-active { transition: opacity 0.15s; }
+.modal-enter-from, .modal-leave-to { opacity: 0; }
