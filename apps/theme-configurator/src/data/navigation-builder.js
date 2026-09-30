@@ -159,6 +159,7 @@ const FOUNDATION_ITEMS = [
   { id: 'colors', label: 'Color', icon: 'palette', section: 'foundation-colors' },
   { id: 'surfaces', label: 'Surfaces', icon: 'layers-intersect', section: 'foundation-surfaces' },
   { id: 'spacing', label: 'Spacing', icon: 'spacing-horizontal', section: 'foundation-spacing' },
+  { id: 'sizes', label: 'Sizes', icon: 'ruler-measure', section: 'foundation-size' },
   { id: 'typography', label: 'Typography', icon: 'typography', section: 'foundation-typography' },
   { id: 'radius', label: 'Radii', icon: 'border-radius', section: 'foundation-radius' },
   { id: 'border', label: 'Border', icon: 'border-style-2', section: 'foundation-border' },

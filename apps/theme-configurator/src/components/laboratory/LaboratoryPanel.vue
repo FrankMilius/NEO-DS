@@ -1086,6 +1086,10 @@
         <RadiiEditor />
       </template>
 
+      <template v-else-if="store.state.activeSection === 'foundation-size'">
+        <SizesEditor />
+      </template>
+
       <template v-else-if="store.state.activeSection === 'foundation-border'">
         <BorderEditor />
       </template>
@@ -1738,6 +1742,7 @@ import GridArena from './GridArena.vue'
 import TypographyEditor from '../foundation/TypographyEditor.vue'
 import SpacingInspector from '../foundation/SpacingInspector.vue'
 import RadiiEditor from '../foundation/RadiiEditor.vue'
+import SizesEditor from '../foundation/SizesEditor.vue'
 import FocusRingEditor from '../foundation/FocusRingEditor.vue'
 import MediaRatioEditor from '../foundation/MediaRatioEditor.vue'
 import OpacityZindexMotionEditor from '../foundation/OpacityZindexMotionEditor.vue'
@@ -1841,6 +1846,7 @@ const _arenaLabels = {
   'foundation-elements': 'Elements',
   'foundation-themes': 'Themes',
   'foundation-icons': 'Icons',
+  'foundation-size': 'Sizes',
   'foundation-opacity': 'Opacity & Motion'
 }
 const activeArenaLabel = computed(() => {

@@ -532,9 +532,23 @@ function setFocusRingMode(mode) {
   state.focusRingMode[state.activeThemeSet] = mode
 }
 
+function ergaenzeFoundation() {
+  const vorgabe = getDefaultFoundation()
+  for (const themeSet of ['neo', 'customer']) {
+    const set = (state.foundationOverrides[themeSet] ??= {})
+    for (const [kat, werte] of Object.entries(vorgabe)) {
+      const ziel = (set[kat] ??= {})
+      for (const [key, wert] of Object.entries(werte)) if (ziel[key] === undefined) ziel[key] = wert
+    }
+  }
+}
+
 function updateFoundationToken(category, key, value) {
   pushHistory()
-  state.foundationOverrides[state.activeThemeSet][category][key] = value
+  // Kategorie notfalls anlegen: Ein gespeicherter Stand von vor einer neuen
+  // Foundation-Kategorie (z. B. size, tracking seit 30.09.2026) kennt sie nicht.
+  const set = state.foundationOverrides[state.activeThemeSet]
+  ;(set[category] ??= {})[key] = value
 }
 
 // ---------------------------------------------------------------------------
@@ -1957,6 +1971,14 @@ function loadFromStorage() {
   }
   // Also load the saved themes catalogue
   loadSavedThemesList()
+
+  // ---------------------------------------------------------------------------
+  // Fehlende Foundation-Werte aus den Vorgaben ergaenzen (Plan v2, 2.4).
+  // Neue Kategorien und Tokens der Quelle (size, tracking, weight-heading …)
+  // fehlen in aelteren gespeicherten Staenden; ohne Ergaenzung wuerden sie im
+  // Export fehlen. Gesetzte Werte bleiben unberuehrt.
+  // ---------------------------------------------------------------------------
+  ergaenzeFoundation()
 
   // ---------------------------------------------------------------------------
   // Prune stale component overrides (tokens removed during token hygiene)

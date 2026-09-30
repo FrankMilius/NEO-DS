@@ -67,17 +67,57 @@ for (const [name, w] of werte) {
 
 const quelle = JSON.parse(fs.readFileSync(JSON_PFAD, 'utf8'));
 const F = quelle.foundation;
+
+// ─── Konfigurator-Ebene (foundation._configurator) ────────────────────────
+// Plan v2, Schritt 2.4 (30.09.2026): Groessen, Tracking und alle
+// Schriftstaerken erscheinen in der Konfig-App. Ihre Werte werden HIER aus
+// denselben CSS-Werten erzeugt — keine zweite, von Hand gepflegte Liste
+// (die vorhandenen Eintraege hatten schon Drift, z. B. font-mono).
+const gross = (k) => k.toUpperCase();
+const KON = F._configurator || {};
+const konNeu = JSON.parse(JSON.stringify(KON));
+konNeu.size = {
+  label: 'Sizes', icon: 'ruler-measure',
+  tokens: Object.fromEntries(Object.entries(neu.size).map(([k, v]) => [
+    k.replace(/_/g, '-'),
+    { label: k === 'touch_target' ? 'Touch Target (WCAG 2.5.8)' : gross(k), value: v, type: 'size' },
+  ])),
+};
+konNeu.tracking = {
+  label: 'Tracking', icon: 'letter-spacing',
+  tokens: Object.fromEntries(Object.entries(neu.tracking).map(([k, v]) => [
+    k, { label: k[0].toUpperCase() + k.slice(1), value: v, type: 'tracking' },
+  ])),
+};
+const GEWICHT_LABEL = { light: 'Light', regular: 'Regular', medium: 'Medium', semibold: 'Semibold', bold: 'Bold', black: 'Black',
+  heading: 'Heading', heading_strong: 'Heading Strong', body: 'Body', mono: 'Mono' };
+const typoTok = { ...(konNeu.typography?.tokens || {}) };
+for (const [k, v] of Object.entries(neu.font_weight)) {
+  const key = `weight-${k.replace(/_/g, '-')}`;
+  typoTok[key] = { ...(typoTok[key] || {}), label: typoTok[key]?.label || GEWICHT_LABEL[k] || k, value: v, type: 'weight' };
+}
+konNeu.typography = { ...(konNeu.typography || { label: 'Typography' }), tokens: typoTok };
+// Reihenfolge: size hinter spacing, tracking hinter typography
+const konGeordnet = {};
+for (const [k, v] of Object.entries(konNeu)) {
+  if (k === 'size' || k === 'tracking') continue;
+  konGeordnet[k] = v;
+  if (k === 'spacing') konGeordnet.size = konNeu.size;
+  if (k === 'typography') konGeordnet.tracking = konNeu.tracking;
+}
+if (!konGeordnet.size) konGeordnet.size = konNeu.size;
+if (!konGeordnet.tracking) konGeordnet.tracking = konNeu.tracking;
 // Einfuegen: size/tracking/font_weight vor _configurator, die Typo-Rollen in
 // typography. Reihenfolge der uebrigen Schluessel bleibt.
-const vorher = JSON.stringify({ size: F.size, tracking: F.tracking, font_weight: F.font_weight, d: F.typography?.display, h: F.typography?.heading, p: F.typography?.paragraph });
+const vorher = JSON.stringify({ size: F.size, tracking: F.tracking, font_weight: F.font_weight, d: F.typography?.display, h: F.typography?.heading, p: F.typography?.paragraph, kon: KON });
 const ergebnis = {};
 for (const [k, v] of Object.entries(F)) {
   if (['size', 'tracking', 'font_weight'].includes(k)) continue;
   if (k === '_configurator') { ergebnis.size = neu.size; ergebnis.tracking = neu.tracking; ergebnis.font_weight = neu.font_weight; }
-  ergebnis[k] = k === 'typography' ? { ...v, ...neu.typography } : v;
+  ergebnis[k] = k === 'typography' ? { ...v, ...neu.typography } : k === '_configurator' ? konGeordnet : v;
 }
 if (!('size' in ergebnis)) Object.assign(ergebnis, { size: neu.size, tracking: neu.tracking, font_weight: neu.font_weight });
-const nachher = JSON.stringify({ size: ergebnis.size, tracking: ergebnis.tracking, font_weight: ergebnis.font_weight, d: ergebnis.typography.display, h: ergebnis.typography.heading, p: ergebnis.typography.paragraph });
+const nachher = JSON.stringify({ size: ergebnis.size, tracking: ergebnis.tracking, font_weight: ergebnis.font_weight, d: ergebnis.typography.display, h: ergebnis.typography.heading, p: ergebnis.typography.paragraph, kon: ergebnis._configurator });
 
 const anzahl = werte.size;
 if (vorher === nachher) {

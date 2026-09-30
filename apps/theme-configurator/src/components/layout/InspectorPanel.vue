@@ -105,9 +105,15 @@
       <FoundationGeneric category="spacing" />
     </template>
 
+    <!-- Foundation: Sizes (Plan v2, 2.4) -->
+    <template v-else-if="activeSection === 'foundation-size'">
+      <FoundationGeneric category="size" />
+    </template>
+
     <!-- Foundation: Typography -->
     <template v-else-if="activeSection === 'foundation-typography'">
       <TypographyEditor />
+      <FoundationGeneric category="tracking" sectionLabel="Tracking" />
     </template>
 
     <!-- Foundation: Border -->

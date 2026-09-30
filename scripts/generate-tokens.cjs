@@ -480,6 +480,11 @@ const bruecke = (configurator, bekannt) => {
     'typography.weight-semibold':  'fnd-font-weight-semibold',
     'typography.weight-bold':      'fnd-font-weight-bold',
     'typography.weight-black':     'fnd-font-weight-black',
+    // Rollen-Staerken, seit 2.4 (30.09.2026) im Konfigurator
+    'typography.weight-heading':         'fnd-font-weight-heading',
+    'typography.weight-heading-strong':  'fnd-font-weight-heading-strong',
+    'typography.weight-body':            'fnd-font-weight-body',
+    'typography.weight-mono':            'fnd-font-weight-mono',
     'motion.duration-quick':     'fnd-motion-duration-200',  // 0.2s
     'motion.duration-base':      'fnd-motion-duration-300',  // 0.3s
     'motion.duration-slow':      'fnd-motion-duration-450',  // 0.45s

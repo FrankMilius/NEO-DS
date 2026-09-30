@@ -23003,6 +23003,54 @@ export const foundationTokens = {
       }
     }
   },
+  "size": {
+    "label": "Sizes",
+    "icon": "ruler-measure",
+    "tokens": {
+      "xs": {
+        "label": "XS",
+        "value": "1.5rem",
+        "type": "size",
+        "cssVar": "--fnd-size-xs"
+      },
+      "sm": {
+        "label": "SM",
+        "value": "2rem",
+        "type": "size",
+        "cssVar": "--fnd-size-sm"
+      },
+      "md": {
+        "label": "MD",
+        "value": "2.5rem",
+        "type": "size",
+        "cssVar": "--fnd-size-md"
+      },
+      "lg": {
+        "label": "LG",
+        "value": "3rem",
+        "type": "size",
+        "cssVar": "--fnd-size-lg"
+      },
+      "xl": {
+        "label": "XL",
+        "value": "4rem",
+        "type": "size",
+        "cssVar": "--fnd-size-xl"
+      },
+      "2xl": {
+        "label": "2XL",
+        "value": "5rem",
+        "type": "size",
+        "cssVar": "--fnd-size-2xl"
+      },
+      "touch-target": {
+        "label": "Touch Target (WCAG 2.5.8)",
+        "value": "2.75rem",
+        "type": "size",
+        "cssVar": "--fnd-size-touch-target"
+      }
+    }
+  },
   "shadow": {
     "label": "Shadow",
     "icon": "shadow",
@@ -23188,6 +23236,84 @@ export const foundationTokens = {
         "value": 900,
         "type": "weight",
         "cssVar": "--fnd-font-weight-black"
+      },
+      "weight-heading": {
+        "label": "Heading",
+        "value": 400,
+        "type": "weight",
+        "cssVar": "--fnd-font-weight-heading"
+      },
+      "weight-heading-strong": {
+        "label": "Heading Strong",
+        "value": 600,
+        "type": "weight",
+        "cssVar": "--fnd-font-weight-heading-strong"
+      },
+      "weight-body": {
+        "label": "Body",
+        "value": 400,
+        "type": "weight",
+        "cssVar": "--fnd-font-weight-body"
+      },
+      "weight-mono": {
+        "label": "Mono",
+        "value": 400,
+        "type": "weight",
+        "cssVar": "--fnd-font-weight-mono"
+      }
+    }
+  },
+  "tracking": {
+    "label": "Tracking",
+    "icon": "letter-spacing",
+    "tokens": {
+      "tighter": {
+        "label": "Tighter",
+        "value": "-0.03em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-tighter"
+      },
+      "tight": {
+        "label": "Tight",
+        "value": "-0.02em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-tight"
+      },
+      "snug": {
+        "label": "Snug",
+        "value": "-0.01em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-snug"
+      },
+      "normal": {
+        "label": "Normal",
+        "value": "0em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-normal"
+      },
+      "wide": {
+        "label": "Wide",
+        "value": "0.02em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-wide"
+      },
+      "wider": {
+        "label": "Wider",
+        "value": "0.05em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-wider"
+      },
+      "widest": {
+        "label": "Widest",
+        "value": "0.1em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-widest"
+      },
+      "ultra": {
+        "label": "Ultra",
+        "value": "0.2em",
+        "type": "tracking",
+        "cssVar": "--fnd-tracking-ultra"
       }
     }
   },
