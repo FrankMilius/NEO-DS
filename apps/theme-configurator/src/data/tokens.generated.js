@@ -552,6 +552,266 @@ export const papers = {
   ]
 }
 
+// --- Praesentation: Folien-Grammatik (Bereich Praesentation) ---
+export const praesentation = {
+  "format": {
+    "breite_zoll": 13.333,
+    "hoehe_zoll": 7.5
+  },
+  "raster_mm": {
+    "rand": 16,
+    "steg": 8,
+    "feld": 44.45,
+    "felder": 6
+  },
+  "figma": {
+    "format": {
+      "breite": "1920px",
+      "hoehe": "1080px"
+    },
+    "raster": {
+      "rand": "80px",
+      "feld": "260px",
+      "steg": "40px",
+      "felder": 6,
+      "inhalt_breite": "1760px"
+    },
+    "zonen": {
+      "kicker_y": "80px",
+      "titel_y": "140px",
+      "haarlinie_y": "300px",
+      "inhalt_von_y": "330px",
+      "inhalt_bis_y": "930px",
+      "fuss_y": "980px"
+    },
+    "schrift": {
+      "kicker": {
+        "familie": "mono",
+        "groesse": "22px"
+      },
+      "titel": {
+        "familie": "heading",
+        "groesse": "72px",
+        "gewicht": 700
+      },
+      "text": {
+        "familie": "body",
+        "groesse": "34px"
+      },
+      "spalten": {
+        "familie": "body",
+        "groesse": "28px"
+      }
+    },
+    "farbe": {
+      "titel": "black.100",
+      "text": "neutral.700",
+      "mono": "graphit.600"
+    }
+  },
+  "dichtestufen": {
+    "vortrag": {
+      "label": "Vortrag",
+      "dateiname": "NEO-Master-Vortrag",
+      "titelzone_mm": 40,
+      "titel_pt": 36,
+      "text_pt": 22,
+      "kicker_pt": 11,
+      "fuss_pt": 9,
+      "woerter_max": 25
+    },
+    "versand": {
+      "label": "Versand",
+      "dateiname": "NEO-Master-Versand",
+      "titelzone_mm": 32,
+      "titel_pt": 30,
+      "text_pt": 17,
+      "kicker_pt": 10,
+      "fuss_pt": 9,
+      "woerter_max": null
+    }
+  },
+  "status": {
+    "bedeutung": {
+      "gruen": "Im Plan",
+      "gelb": "Maßnahme läuft",
+      "rot": "Entscheidung nötig"
+    },
+    "hell": {
+      "gruen": {
+        "marke": "success.600",
+        "text": "success.700"
+      },
+      "gelb": {
+        "marke": "warning.600",
+        "text": "warning.700"
+      },
+      "rot": {
+        "marke": "danger.600",
+        "text": "danger.700"
+      }
+    },
+    "tief": {
+      "gruen": {
+        "marke": "success.500",
+        "text": "success.500"
+      },
+      "gelb": {
+        "marke": "warning.500",
+        "text": "warning.500"
+      },
+      "rot": {
+        "marke": "danger.500",
+        "text": "danger.500"
+      }
+    }
+  },
+  "diagramm": {
+    "farbfolge": [
+      "graphit.400",
+      "graphit.300",
+      "graphit.200",
+      "lime.500",
+      "graphit.600",
+      "graphit.700"
+    ],
+    "hervorhebung": "lime.500",
+    "achse": "graphit.400",
+    "beschriftung": "graphit.700"
+  },
+  "gruenfamilie": {
+    "forest": {
+      "quelle": "primitives.neutralleitern.forest"
+    },
+    "mint": {
+      "quelle": "primitives.neutralleitern.mint"
+    },
+    "rollen": {
+      "papier": "mint.100",
+      "grund": "forest.800",
+      "grund_tief": "forest.950",
+      "signal": "lime.500",
+      "text_auf_forest": [
+        "mint.100",
+        "lime.200",
+        "graphit.100"
+      ],
+      "mono_auf_forest": "forest.300",
+      "text_auf_mint": [
+        "graphit.950",
+        "forest.600"
+      ],
+      "mono_auf_mint": "forest.600",
+      "flaeche_auf_mint": "mint.200",
+      "flaeche_auf_forest": "forest.700"
+    },
+    "proportion": {
+      "forest": [
+        "forest.800",
+        "mint.100",
+        "lime.500"
+      ],
+      "mint": [
+        "mint.100",
+        "forest.800",
+        "lime.500"
+      ]
+    }
+  },
+  "welten": {
+    "menschen": {
+      "ebene": "#f39100",
+      "hell": "mustard.100",
+      "satt": "dark-orange.500",
+      "tief": "dark-orange.900"
+    },
+    "wissen": {
+      "ebene": "#a1c513",
+      "hell": "mint.100",
+      "satt": "lime.500",
+      "tief": "forest.800"
+    },
+    "systeme": {
+      "ebene": "#e5007d",
+      "hell": "pink.100",
+      "satt": "pink.500",
+      "tief": "burgundy.500"
+    },
+    "daten": {
+      "ebene": "#009ee3",
+      "hell": "neo-blue.100",
+      "satt": "neo-blue.500",
+      "tief": "neo-darkblue.500"
+    }
+  },
+  "papiere": {
+    "liste": [
+      "graphit",
+      "beige",
+      "ivory",
+      "warm-taupe",
+      "pearl-white",
+      "mint"
+    ],
+    "gruende": [
+      "graphit.950",
+      "forest.800"
+    ],
+    "stufe": 100,
+    "attribut": "data-bg-paper",
+    "bereiche": {
+      "graphit": {
+        "bereich": "Produkt und Funktion",
+        "charakter": "neutral — das Produkt spricht selbst",
+        "website": "Produkte",
+        "praesentation": "Funktionsübersichten",
+        "print": "Produktdatenblatt",
+        "voreinstellung": true
+      },
+      "beige": {
+        "bereich": "Lösung und Anwendung",
+        "charakter": "einladend — hier kommt jemand mit einer Frage an",
+        "website": "Lösungen",
+        "praesentation": "Anwendungsfälle, Use Cases",
+        "print": "Branchenflyer"
+      },
+      "ivory": {
+        "bereich": "Menschen und Geschichten",
+        "charakter": "andere erzählen, nicht wir",
+        "website": "Inside",
+        "praesentation": "Kundenstories, Referenzen",
+        "print": "Magazin"
+      },
+      "warm-taupe": {
+        "bereich": "Unternehmen",
+        "charakter": "repräsentativ statt einladend",
+        "website": "Unternehmen",
+        "praesentation": "Über uns, Team",
+        "print": "Imagebroschüre"
+      },
+      "pearl-white": {
+        "bereich": "Zahlen und Konditionen",
+        "charakter": "nichts soll eine Stimmung machen",
+        "website": "Editionen & Preise",
+        "praesentation": "Angebot, Projektablauf",
+        "print": "Angebotsmappe"
+      },
+      "mint": {
+        "bereich": "Wissen und Lernen",
+        "charakter": "frisch — hier wird gelernt, nicht verkauft",
+        "website": "Wissen, Akademie, Hilfe",
+        "praesentation": "Schulung, Workshop",
+        "print": "Leitfaden, Handout",
+        "vorlaeufig": true
+      }
+    },
+    "reserve": [
+      "salbei",
+      "blau"
+    ]
+  }
+}
+
 // --- Fluide Schriftskala (Typografie-Editor) ---
 export const typographyScale = {
   "fluid": {

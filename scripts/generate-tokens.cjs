@@ -583,9 +583,23 @@ const bekannteNamen = () => {
 // CSS Custom Properties (flat output for non-SCSS consumers)
 // ---------------------------------------------------------------------------
 
+// Objekt ohne _-Schluessel (Notizen, _configurator), rekursiv; Listen bleiben
+// Listen. `auch` nennt zusaetzliche Schluessel der obersten Ebene zum Weglassen.
+const ohneUnterstrich = (obj, auch = []) => {
+  if (Array.isArray(obj)) return obj.map((v) => ohneUnterstrich(v));
+  if (!obj || typeof obj !== 'object') return obj;
+  return Object.fromEntries(Object.entries(obj)
+    .filter(([k]) => !k.startsWith('_') && !auch.includes(k))
+    .map(([k, v]) => [k, ohneUnterstrich(v)]));
+};
+
 const generateCss = () => {
   // Flatten the foundation/modules section for CSS custom properties
-  const flatSource = isV2 ? tokens.foundation : modules;
+  // Nicht als Custom Properties: praesentation (Folien-Grammatik mit Verweisen
+  // und Listen, geht als Objekt nach tokens.generated.js), _configurator
+  // (Oberflaechentexte der App) und alle _-Schluessel (Notizen). Vorher
+  // standen hier ~470 ungueltige Zeilen (Notizen und rohe Verweise als Werte).
+  const flatSource = ohneUnterstrich(isV2 ? tokens.foundation : modules, ['praesentation']);
   const flat = flatten(flatSource);
   const cssLines = [':root {'];
   flat.forEach(({ key, value }) => {
@@ -670,6 +684,11 @@ const generateThemeApp = () => {
   out += `export const paperLadders = ${JSON.stringify(p.neutralleitern ?? {}, null, 2)}\n\n`;
   out += `// --- Papiere: Bereich, Charakter, Kanaele je Papier ---\n`;
   out += `export const papers = ${JSON.stringify(tokens.foundation?.praesentation?.papiere ?? {}, null, 2)}\n\n`;
+  // praesentation — Folien-Grammatik (Raster, Zonen, Dichtestufen, Status,
+  // Diagramm, Gruenfamilie, Welten) ohne Notizen. Farben bleiben Verweise
+  // "palette.stufe"; die App loest sie in utils/praes-ref.js auf (Plan v2, 2.5).
+  out += `// --- Praesentation: Folien-Grammatik (Bereich Praesentation) ---\n`;
+  out += `export const praesentation = ${JSON.stringify(ohneUnterstrich(tokens.foundation?.praesentation ?? {}), null, 2)}\n\n`;
 
   // typographyScale — die fluide Schriftskala (Plan v2, 2.3 · 30.09.2026).
   // Parameter wie in _typography.scss: Stufe = Basis × Verhaeltnis^Schritt,

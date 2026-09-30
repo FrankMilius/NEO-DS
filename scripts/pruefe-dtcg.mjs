@@ -111,11 +111,24 @@ const erwartet = (name, soll) => {
 
 // 1. Foundation gegen design-tokens.css
 const alt = new Map([...CSS_ALT.matchAll(/--fnd-([a-z0-9-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2]]));
+const praes = new Map();
+const flachQuelle = (obj, pfad) => {
+  for (const [k, v] of Object.entries(obj)) {
+    if (k.startsWith('_')) continue;
+    const n = [...pfad, k.replace(/_/g, '-')];
+    if (v && typeof v === 'object' && !Array.isArray(v)) flachQuelle(v, n);
+    else praes.set(n.join('-'), String(v));
+  }
+};
+flachQuelle(QUELLE.foundation.praesentation ?? {}, ['praesentation']);
 const f = [];
 for (const [name, wert] of Object.entries(flach)) {
   if (!name.startsWith('foundation-') || name.startsWith('foundation-configurator-')) continue;
   const kurz = name.slice('foundation-'.length);
   if (alt.has(kurz)) f.push([kurz, erwartet(kurz, alt.get(kurz)), wert]);
+  // praesentation steht seit Plan v2, 2.5 nicht mehr in design-tokens.css —
+  // dieselben Werte kommen flach aus der Quelle.
+  else if (praes.has(kurz)) f.push([kurz, erwartet(kurz, praes.get(kurz)), wert]);
 }
 fehler += vergleiche('Foundation == data/design-tokens.css', f);
 
