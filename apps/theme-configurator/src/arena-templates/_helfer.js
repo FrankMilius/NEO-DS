@@ -15,3 +15,19 @@ export const SYMBOL = {
   schliessen: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>',
   pfeil: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
 }
+
+/**
+ * Slot sichtbar, solange das Recipe ihn nicht ausdruecklich abschaltet.
+ * Fuer Inhalte, die im geernteten Markup immer vorkommen, aber in der
+ * Anatomie als optional gefuehrt sind (m.slot() waere dort zu streng).
+ */
+export const an = (m, slot) => m.slotConfig?.[slot] !== false
+
+/** Endzustand einer Scroll-/Einblend-Animation: das DS-JS setzt is-revealed. */
+export const eingeblendet = (m) => m.wert('animation') && m.wert('animation') !== 'none'
+
+/** Haken im gruenen Kreis (feature-list, tbl-icon) — wie im geernteten Markup. */
+export const HAKEN_KREIS = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+
+export const PFEIL_LINKS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>'
+export const PFEIL_RECHTS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'

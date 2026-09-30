@@ -30,7 +30,7 @@ describe('Arena-Vorlagen: Abdeckung', () => {
       `[Arena-Vorlagen] Recipes mit Vorlage: ${mit.length} von ${RECIPE_IDS.length}` +
       ` — davon in der App sichtbar (keine Sonderfall-Arena): ${sichtbar.length} von ${ohneArena.length}`
     )
-    expect(mit.length).toBeGreaterThanOrEqual(30)
+    expect(mit.length).toBeGreaterThanOrEqual(69)
   })
 
   for (const id of vorlagenIds()) {
@@ -49,7 +49,15 @@ describe('Arena-Vorlagen: Snapshots', () => {
     ['stepper', 'all-states'],
     ['empty-state', 'content-variants'],
     ['divider', 'with-label'],
-    ['compare-table', 'selectable']
+    ['compare-table', 'selectable'],
+    // Stufe 3: Organismen und groessere Molekuele
+    ['footer', 'columns-comparison'],
+    ['timeline', 'node-status-variants'],
+    ['logo-wall', 'layouts-comparison'],
+    ['product-showcase', 'option-styles'],
+    ['facts', 'default'],
+    ['solution-tabs', 'vertical'],
+    ['expanding-panels', 'default']
   ]
   for (const [id, specimenId] of FAELLE) {
     it(`${id} / ${specimenId}`, () => {
@@ -64,4 +72,41 @@ describe('Arena-Vorlagen: Snapshots', () => {
       expect(zellen).toMatchSnapshot()
     })
   }
+})
+
+describe('Arena-Vorlagen: Stufe 3 (Organismen)', () => {
+  const html = (id, specimenId) => ansichten(id).find((a) => a.id === specimenId)
+    .zeilen.flatMap((z) => z.zellen).map((z) => z.html)
+
+  it('footer: Spaltenzahl folgt der Achse columns, simple ohne Sitemap', () => {
+    const [zwei, drei, vier] = html('footer', 'columns-comparison')
+    const spalten = (h) => (h.match(/class="nc-footer__column"/g) || []).length
+    expect([spalten(zwei), spalten(drei), spalten(vier)]).toEqual([2, 3, 4])
+    const [simple] = html('footer', 'simple-light')
+    expect(simple).not.toContain('nc-footer__columns')
+    expect(simple).not.toContain('nc-footer__newsletter')
+    expect(html('footer', 'cta-engagement')[0]).toContain('nc-footer__cta')
+  })
+
+  it('timeline: nodeStatus landet an den Knoten', () => {
+    const zellen = html('timeline', 'node-status-variants')
+    expect(zellen.some((h) => h.includes('nc-timeline__node--success'))).toBe(true)
+    expect(zellen.some((h) => h.includes('nc-timeline__node--danger'))).toBe(true)
+  })
+
+  it('expanding-panels: open klappt das erste Panel auf', () => {
+    const [zu, auf] = html('expanding-panels', 'default')
+    expect(zu).not.toContain('aria-expanded="true"')
+    expect(auf).toContain('aria-expanded="true"')
+  })
+
+  it('keine externen Bild-URLs in den Vorlagen', () => {
+    for (const id of vorlagenIds()) {
+      for (const a of ansichten(id)) {
+        for (const z of a.zeilen.flatMap((x) => x.zellen)) {
+          expect(z.html, id).not.toMatch(/(src|poster)="(https?:|\/)/)
+        }
+      }
+    }
+  })
 })
