@@ -1,0 +1,31 @@
+# Abhaengigkeiten aktuell halten (Plan v2, Schritt 4.1 · 30.09.2026).
+# Woechentlich, gebuendelt je Projekt, damit nicht jede Kleinigkeit einen
+# eigenen Pull Request erzeugt. Sicherheits-Updates kommen unabhaengig davon.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /apps/theme-configurator
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      entwicklung:
+        patterns: ["*"]
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    ignore:
+      # PowerPoint-Master ist eingefroren (BACKLOG, Foliensystem)
+      - dependency-name: pptxgenjs
+        update-types: ["version-update:semver-major"]
+    groups:
+      entwicklung:
+        patterns: ["*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
