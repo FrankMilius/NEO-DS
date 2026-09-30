@@ -13,7 +13,7 @@ import { test, expect, oeffneSektion, unbekannteFehler, warteAufRuhe } from './h
 
 // Undo/Redo-Knoepfe haben nur ein Icon; der Name kommt aus title/aria-label
 const undoKnopf = (page) => page.locator('.app-header').getByRole('button', { name: /undo|rückgängig/i })
-const redoKnopf = (page) => page.locator('.app-header').getByRole('button', { name: /redo|wiederholen/i })
+const redoKnopf = (page) => page.locator('.app-header').getByRole('button', { name: /redo|wiederholen|wiederherstellen/i })
 
 test.afterEach(async ({ fehler }, info) => {
   expect(unbekannteFehler(fehler), `Konsolenfehler in „${info.title}"`).toEqual([])

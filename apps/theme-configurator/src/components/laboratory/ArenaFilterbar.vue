@@ -314,7 +314,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 6px 2px 8px;
+  padding: 0 2px 0 8px;
   border: 1px solid var(--cfg-accent);
   border-radius: 10px;
   background: color-mix(in srgb, var(--cfg-accent) 12%, transparent);
@@ -342,15 +342,22 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
   opacity: 0.8;
 }
 
-.arena-chip__label { cursor: pointer; }
+.arena-chip__label {
+  cursor: pointer;
+  /* WCAG 2.2 AA 2.5.8: Klickziel mindestens 24 × 24 px (Plan v2, 4.4) */
+  min-height: 24px;
+  min-width: 24px;
+  display: inline-flex;
+  align-items: center;
+}
 
 .arena-chip__close {
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   opacity: 0.5;
   transition: all 100ms ease;

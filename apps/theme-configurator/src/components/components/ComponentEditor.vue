@@ -1189,8 +1189,7 @@ function getContrastTarget(token) {
 .inspector-section__hint {
   font-size: 10px;
   font-weight: 400;
-  color: var(--cfg-text-muted);
-  opacity: 0.7;
+  color: var(--cfg-text-secondary); /* 3,2:1 → AA (Plan v2, 4.4) */
   margin-left: auto;
   text-transform: none;
   letter-spacing: 0;

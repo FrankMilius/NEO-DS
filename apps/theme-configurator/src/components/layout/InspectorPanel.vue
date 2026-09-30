@@ -506,7 +506,8 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
   font-size: 9px;
   font-weight: 700;
   background: var(--cfg-warning, #f59e0b);
-  color: #fff;
+  /* dunkle Schrift: Weiss auf Warn-Gelb hatte 2,3:1 (Plan v2, 4.4) */
+  color: #161816;
   padding: 1px 6px;
   border-radius: 8px;
   margin-left: 4px;
@@ -570,6 +571,6 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 
 .tab-badge.tier-2 {
   background: #dbeafe;
-  color: #2563eb;
+  color: #1d4ed8; /* 5,9:1 statt 4,2:1 */
 }
 </style>

@@ -866,16 +866,17 @@ function confirmPublishRelease({ version, notes }) {
   border-color: var(--cfg-danger-border-subtle);
 }
 
+/* Text #047857 statt #059669: 4,9:1 statt 3,4:1 auf dem Header-Grund (WCAG AA, Plan v2 4.4) */
 .tb-btn-save {
-  color: #059669;
+  color: #047857;
   border-color: color-mix(in srgb, #059669 25%, transparent);
 }
 .tb-btn-save:hover:not(:disabled) {
   background: color-mix(in srgb, #059669 10%, transparent);
-  border-color: #059669;
+  border-color: #047857;
 }
 .tb-btn-save.saved {
-  color: #059669;
+  color: #047857;
   background: color-mix(in srgb, #059669 12%, transparent);
 }
 .tb-btn-save.saving { opacity: 0.6; cursor: wait; }
