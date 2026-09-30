@@ -22,6 +22,9 @@ export default defineConfig({
     // styles.css?raw muss als Text ankommen (sonst liefert Vitest fuer CSS '').
     css: { include: [/styles\.css/] },
     globals: true,
+    // 130 Recipes × alle Specimens rendern: unter Last (CI, parallele Dateien)
+    // reichen die 5 s Standard nicht immer — einmal lokal beobachtet.
+    testTimeout: 15000,
     setupFiles: ['./tests/setup.js']
   }
 })
