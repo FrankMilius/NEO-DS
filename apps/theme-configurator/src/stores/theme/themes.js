@@ -6,7 +6,7 @@ import { downloadDrupalBundle } from '../../export/drupal-adapter.js'
 import { toRaw } from 'vue'
 import { exportAsCSSVars, exportAsJSON } from './export.js'
 import { SAVED_THEMES_KEY, deepClone, getDefaultFoundation, state } from './kern.js'
-import { applyThemeData, pushHistory, snapshotThemeData } from './verlauf.js'
+import { applyThemeData, snapshotThemeData } from './verlauf.js'
 
 // ---------------------------------------------------------------------------
 // Theme Management — Create, Load, Save, Delete
@@ -114,8 +114,6 @@ export function loadTheme(themeId) {
     if (!raw) { console.warn('Theme not found:', themeId); return false }
 
     const snapshot = JSON.parse(raw)
-    pushHistory()
-
     applyThemeData(snapshot)
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
@@ -176,8 +174,6 @@ export function deleteTheme(themeId) {
  * via the server API. Falls back to in-memory defaults from tokens.js.
  */
 export async function loadNeoDefaults() {
-  pushHistory()
-
   // Try server-side golden master first (secure data folder)
   try {
     const res = await fetch('/api/neo-theme-defaults')

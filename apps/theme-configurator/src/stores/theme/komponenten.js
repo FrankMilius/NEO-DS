@@ -3,7 +3,6 @@
 
 import { componentTokenGroups } from '../../data/tokens.js'
 import { state } from './kern.js'
-import { pushHistory } from './verlauf.js'
 
 // Component Lock + Versioning
 // ---------------------------------------------------------------------------
@@ -94,7 +93,6 @@ export function getComponentVersion(componentId) {
  * @returns {object|null} The created variant definition
  */
 export function createVariant(componentId, variantName, baseVariant, axis, baseTokenIds) {
-  pushHistory()
   const themeSet = state.activeThemeSet
 
   if (!state.variantDefinitions[themeSet][componentId]) {
@@ -145,7 +143,6 @@ export function createVariant(componentId, variantName, baseVariant, axis, baseT
  * Delete a custom variant and its associated token overrides.
  */
 export function deleteVariant(componentId, variantName) {
-  pushHistory()
   const themeSet = state.activeThemeSet
   const variants = state.variantDefinitions[themeSet][componentId]
   if (!variants || !variants[variantName]) return

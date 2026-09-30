@@ -3,17 +3,14 @@
 
 import { getDefaultFoundation, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
-import { pushHistory } from './verlauf.js'
 
 export function updateSemanticToken(tokenId, value) {
   const mode = state.previewMode === 'split' ? 'light' : state.previewMode
   const themeSet = state.activeThemeSet
-  pushHistory()
   state.themes[themeSet][mode][tokenId] = value
 }
 
 export function setFocusRingMode(mode) {
-  pushHistory()
   state.focusRingMode[state.activeThemeSet] = mode
 }
 
@@ -29,7 +26,6 @@ export function ergaenzeFoundation() {
 }
 
 export function updateFoundationToken(category, key, value) {
-  pushHistory()
   // Kategorie notfalls anlegen: Ein gespeicherter Stand von vor einer neuen
   // Foundation-Kategorie (z. B. size, tracking seit 30.09.2026) kennt sie nicht.
   const set = state.foundationOverrides[state.activeThemeSet]
@@ -159,7 +155,6 @@ export function updateComponentToken(tokenId, value) {
     console.warn(`[Theme Store] Cannot update token "${tokenId}": component "${componentId}" is locked.`)
     return false
   }
-  pushHistory()
   state.componentOverrides[state.activeThemeSet][tokenId] = value
 
   // Mirror-Mode: propagiere Aenderungen an abhaengige Tokens
@@ -181,7 +176,6 @@ export function resetComponentToken(tokenId) {
     console.warn(`[Theme Store] Cannot reset token "${tokenId}": component "${componentId}" is locked.`)
     return false
   }
-  pushHistory()
   delete state.componentOverrides[state.activeThemeSet][tokenId]
 
   // Mirror-Mode: propagiere Reset an abhaengige Tokens
@@ -202,12 +196,10 @@ export function resetComponentToken(tokenId) {
 // ---------------------------------------------------------------------------
 
 export function addCustomSpacingToken(key, value) {
-  pushHistory()
   state.customSpacingTokens[state.activeThemeSet][key] = { label: key, value }
 }
 
 export function removeCustomSpacingToken(key) {
-  pushHistory()
   delete state.customSpacingTokens[state.activeThemeSet][key]
   // Also remove any semantic spacing references to this token
   const semantic = state.semanticSpacing[state.activeThemeSet]
@@ -219,42 +211,34 @@ export function removeCustomSpacingToken(key) {
 }
 
 export function addCustomRadiiToken(key, value) {
-  pushHistory()
   state.customRadiiTokens[state.activeThemeSet][key] = { label: key, value }
 }
 
 export function removeCustomRadiiToken(key) {
-  pushHistory()
   delete state.customRadiiTokens[state.activeThemeSet][key]
 }
 
 export function addCustomBorderWidthToken(key, value) {
-  pushHistory()
   state.customBorderWidthTokens[state.activeThemeSet][key] = { label: key, value }
 }
 
 export function removeCustomBorderWidthToken(key) {
-  pushHistory()
   delete state.customBorderWidthTokens[state.activeThemeSet][key]
 }
 
 export function addCustomMediaRatioToken(key, value, label) {
-  pushHistory()
   state.customMediaRatioTokens[state.activeThemeSet][key] = { label: label || key, value }
 }
 
 export function removeCustomMediaRatioToken(key) {
-  pushHistory()
   delete state.customMediaRatioTokens[state.activeThemeSet][key]
 }
 
 export function addCustomShadowToken(key, value, label) {
-  pushHistory()
   state.customShadowTokens[state.activeThemeSet][key] = { label: label || key.toUpperCase(), value }
 }
 
 export function removeCustomShadowToken(key) {
-  pushHistory()
   delete state.customShadowTokens[state.activeThemeSet][key]
   // Remove elevation references pointing to this custom shadow
   const elevations = state.customElevationTokens[state.activeThemeSet]
@@ -264,47 +248,38 @@ export function removeCustomShadowToken(key) {
 }
 
 export function addCustomElevationToken(key, value, label) {
-  pushHistory()
   state.customElevationTokens[state.activeThemeSet][key] = { label: label || key, value }
 }
 
 export function removeCustomElevationToken(key) {
-  pushHistory()
   delete state.customElevationTokens[state.activeThemeSet][key]
 }
 
 export function addCustomOpacityToken(key, value, label) {
-  pushHistory()
   state.customOpacityTokens[state.activeThemeSet][key] = { label: label || key, value: Number(value) }
 }
 
 export function removeCustomOpacityToken(key) {
-  pushHistory()
   delete state.customOpacityTokens[state.activeThemeSet][key]
 }
 
 export function addCustomZindexToken(key, value, label) {
-  pushHistory()
   state.customZindexTokens[state.activeThemeSet][key] = { label: label || key, value: Number(value) }
 }
 
 export function removeCustomZindexToken(key) {
-  pushHistory()
   delete state.customZindexTokens[state.activeThemeSet][key]
 }
 
 export function addCustomMotionToken(key, value, label, type) {
-  pushHistory()
   state.customMotionTokens[state.activeThemeSet][key] = { label: label || key, value, type: type || 'duration' }
 }
 
 export function removeCustomMotionToken(key) {
-  pushHistory()
   delete state.customMotionTokens[state.activeThemeSet][key]
 }
 
 export function addCustomMotionEffectToken(key, value, label, transition, intent) {
-  pushHistory()
   state.customMotionEffectTokens[state.activeThemeSet][key] = {
     label: label || key,
     value,
@@ -314,12 +289,10 @@ export function addCustomMotionEffectToken(key, value, label, transition, intent
 }
 
 export function removeCustomMotionEffectToken(key) {
-  pushHistory()
   delete state.customMotionEffectTokens[state.activeThemeSet][key]
 }
 
 export function addIconLibrary(library) {
-  pushHistory()
   state.iconLibraries[state.activeThemeSet].push(library)
   // Initialisiere per-Library Stroke Defaults
   const ts = state.activeThemeSet
@@ -332,7 +305,6 @@ export function addIconLibrary(library) {
 }
 
 export function removeIconLibrary(id) {
-  pushHistory()
   const ts = state.activeThemeSet
   const libs = state.iconLibraries[ts]
   const idx = libs.findIndex(l => l.id === id)
@@ -345,7 +317,6 @@ export function removeIconLibrary(id) {
 }
 
 export function updateIconStrokeWidth(libraryId, size, value) {
-  pushHistory()
   const ts = state.activeThemeSet
   if (!state.iconStrokeWidths[ts][libraryId]) {
     state.iconStrokeWidths[ts][libraryId] = { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
@@ -354,7 +325,6 @@ export function updateIconStrokeWidth(libraryId, size, value) {
 }
 
 export function updateIconStrokeColor(libraryId, mode, value) {
-  pushHistory()
   const ts = state.activeThemeSet
   if (!state.iconStrokeColors[ts][libraryId]) {
     state.iconStrokeColors[ts][libraryId] = { light: 'currentColor', dark: 'currentColor' }
@@ -363,17 +333,14 @@ export function updateIconStrokeColor(libraryId, mode, value) {
 }
 
 export function updateSemanticSpacing(key, value) {
-  pushHistory()
   state.semanticSpacing[state.activeThemeSet][key] = value
 }
 
 export function removeSemanticSpacing(key) {
-  pushHistory()
   delete state.semanticSpacing[state.activeThemeSet][key]
 }
 
 export function addSemanticSpacingToken(key, spacingRef) {
-  pushHistory()
   state.semanticSpacing[state.activeThemeSet][key] = spacingRef
 }
 
@@ -382,12 +349,10 @@ export function addSemanticSpacingToken(key, spacingRef) {
 // ---------------------------------------------------------------------------
 
 export function updateSemanticTypography(key, value) {
-  pushHistory()
   state.semanticTypography[state.activeThemeSet][key] = value
 }
 
 export function removeSemanticTypography(key) {
-  pushHistory()
   delete state.semanticTypography[state.activeThemeSet][key]
 }
 
@@ -398,18 +363,15 @@ export function updateTypeScale(key, value) {
   if (!TYPE_SCALE_KEYS.includes(key)) return
   const zahl = Number(value)
   if (!Number.isFinite(zahl) || zahl <= 0) return
-  pushHistory()
   ;(state.typeScale[state.activeThemeSet] ??= {})[key] = zahl
 }
 
 export function resetTypeScale() {
-  pushHistory()
   state.typeScale[state.activeThemeSet] = {}
 }
 
 // ---------------------------------------------------------------------------
 
 export function updatePrimitive(palette, color) {
-  pushHistory()
   state.primitiveOverrides[state.activeThemeSet][palette] = color
 }

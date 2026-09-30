@@ -12,7 +12,7 @@ import { currentComponentOverrides, currentCustomBorderWidthTokens, currentCusto
 import { clearArenaSelection, clearHighlightedToken, getFormVariant, resetArenaFilters, selectToken, setActiveSection, setActiveThemeSet, setArenaFilter, setArenaSelection, setFormVariant, setHighlightedToken, setPreviewMode, setSyncGeometry } from './theme/ui.js'
 import { addCustomBorderWidthToken, addCustomElevationToken, addCustomMediaRatioToken, addCustomMotionEffectToken, addCustomMotionToken, addCustomOpacityToken, addCustomRadiiToken, addCustomShadowToken, addCustomSpacingToken, addCustomZindexToken, addIconLibrary, addSemanticSpacingToken, removeCustomBorderWidthToken, removeCustomElevationToken, removeCustomMediaRatioToken, removeCustomMotionEffectToken, removeCustomMotionToken, removeCustomOpacityToken, removeCustomRadiiToken, removeCustomShadowToken, removeCustomSpacingToken, removeCustomZindexToken, removeIconLibrary, removeSemanticSpacing, removeSemanticTypography, resetComponentToken, resetTypeScale, setFocusRingMode, updateComponentToken, updateFoundationToken, updateIconStrokeColor, updateIconStrokeWidth, updatePrimitive, updateSemanticSpacing, updateSemanticToken, updateSemanticTypography, updateTypeScale } from './theme/token-aktionen.js'
 import { bumpComponentVersion, createVariant, deleteVariant, extractComponentId, getComponentVersion, getVariants, isComponentLocked, lockComponent, unlockComponent } from './theme/komponenten.js'
-import { applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
+import { VERLAUF_AKTIONEN, applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
 import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeJSON, loadNeoDefaults, loadTheme, saveCurrentTheme } from './theme/themes.js'
 import { exportAsCSSVars, exportAsJSON } from './theme/export.js'
 import { loadFromStorage, saveToServer, saveToStorage } from './theme/persistenz.js'
@@ -148,4 +148,4 @@ export const useThemeStore = defineStore('theme', () => ({
   copyThemeOverrides,
   diffThemeSets,
   resetCustomerToNeo
-}))
+}), { verlauf: VERLAUF_AKTIONEN })

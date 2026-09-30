@@ -1,11 +1,10 @@
 // Theme-Store · Werkseinstellung, Theme-Daten-Schluessel und Undo/Redo
-// (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
+// (aufgeteilt aus stores/theme.js, Plan v2 3.3a; Undo-Schritte seit 3.3c per Plugin)
 
 import { primitiveColors, semanticDefaults } from '../../data/tokens.js'
 import { deepClone, getDefaultFoundation, state } from './kern.js'
 
 export function resetToDefaults() {
-  pushHistory()
   const themeSet = state.activeThemeSet
   state.themes[themeSet].light = deepClone(semanticDefaults[`${themeSet === 'neo' ? 'neo' : 'customer'}-light`])
   state.themes[themeSet].dark = deepClone(semanticDefaults[`${themeSet === 'neo' ? 'neo' : 'customer'}-dark`])
@@ -53,8 +52,8 @@ export function resetToDefaults() {
 // ---------------------------------------------------------------------------
 
 // Modell (korrigiert 29.09.2026):
-//   pushHistory() wird VOR einer Aenderung aufgerufen und legt den Zustand
-//   davor ab. Der aktuelle Zustand steht deshalb nicht in der History.
+//   Vor einer Aenderung wird der Zustand davor abgelegt (seit 3.3c durch
+//   das Verlauf-Plugin, siehe beginneSchritt/schliesseSchritt). Der aktuelle Zustand steht deshalb nicht in der History.
 //   historyIndex zeigt auf den Schnappschuss, den das naechste Undo
 //   wiederherstellt (-1 = nichts mehr rueckgaengig zu machen).
 //   Beim ersten Undo an der Spitze wird der aktuelle Zustand nachgetragen,
@@ -111,16 +110,87 @@ export function applyThemeData(snapshot) {
 export const historySnapshot = () => snapshotThemeData()
 export const applyHistorySnapshot = (snap) => applyThemeData(snap)
 
-export function pushHistory() {
+// ---------------------------------------------------------------------------
+// Undo-Schritte (Plan v2, 3.3c)
+// ---------------------------------------------------------------------------
+// Die Aktionen rufen den Verlauf nicht mehr selbst auf. Das Pinia-Plugin
+// stores/plugins/verlauf.js klammert jede Aktion aus VERLAUF_AKTIONEN mit
+// beginneSchritt()/schliesseSchritt(). Ein Schritt entsteht nur, wenn die
+// Aktion die Theme-Daten wirklich veraendert hat — abgelehnte Eingaben oder
+// gesperrte Komponenten erzeugen keinen leeren Undo-Schritt mehr.
+
+/** Aktionen des Theme-Stores, die einen Undo-Schritt anlegen. */
+export const VERLAUF_AKTIONEN = [
+  'addCustomBorderWidthToken',
+  'addCustomElevationToken',
+  'addCustomMediaRatioToken',
+  'addCustomMotionEffectToken',
+  'addCustomMotionToken',
+  'addCustomOpacityToken',
+  'addCustomRadiiToken',
+  'addCustomShadowToken',
+  'addCustomSpacingToken',
+  'addCustomZindexToken',
+  'addIconLibrary',
+  'addSemanticSpacingToken',
+  'createVariant',
+  'deleteVariant',
+  'loadNeoDefaults',
+  'loadTheme',
+  'removeCustomBorderWidthToken',
+  'removeCustomElevationToken',
+  'removeCustomMediaRatioToken',
+  'removeCustomMotionEffectToken',
+  'removeCustomMotionToken',
+  'removeCustomOpacityToken',
+  'removeCustomRadiiToken',
+  'removeCustomShadowToken',
+  'removeCustomSpacingToken',
+  'removeCustomZindexToken',
+  'removeIconLibrary',
+  'removeSemanticSpacing',
+  'removeSemanticTypography',
+  'resetComponentToken',
+  'resetToDefaults',
+  'resetTypeScale',
+  'setFocusRingMode',
+  'updateComponentToken',
+  'updateFoundationToken',
+  'updateIconStrokeColor',
+  'updateIconStrokeWidth',
+  'updatePrimitive',
+  'updateSemanticSpacing',
+  'updateSemanticToken',
+  'updateSemanticTypography',
+  'updateTypeScale',
+]
+
+function datenJson() {
+  const daten = {}
+  for (const key of HISTORY_KEYS) daten[key] = state[key]
+  return JSON.stringify(daten)
+}
+
+/**
+ * Vor einer Aktion: Stand merken. null, wenn die Aktion zu einer schnellen
+ * Folge gehoert und in den laufenden Schritt faellt.
+ */
+export function beginneSchritt() {
   const now = Date.now()
   const atTip = state.historyIndex === state.history.length - 1
   if (atTip && state.history.length && now - lastPushAt < HISTORY_COALESCE_MS) {
     lastPushAt = now
-    return
+    return null
   }
-  lastPushAt = now
+  return { vorher: datenJson(), zeit: now }
+}
+
+/** Nach einer Aktion: Schritt ablegen, wenn sich die Daten geaendert haben. */
+export function schliesseSchritt(schritt) {
+  if (!schritt || datenJson() === schritt.vorher) return
+  lastPushAt = schritt.zeit
   state.history = state.history.slice(0, state.historyIndex + 1)
-  state.history.push(historySnapshot())
+  state.history.push(JSON.parse(schritt.vorher))
   state.historyIndex = state.history.length - 1
   if (state.history.length > HISTORY_MAX) {
     state.history.shift()

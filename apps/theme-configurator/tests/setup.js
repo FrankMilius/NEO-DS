@@ -5,15 +5,24 @@
 
 // localStorage mock (jsdom hat bereits eine grundlegende Implementierung,
 // aber wir stellen sicher dass sie für jeden Test frisch ist)
-import { setActivePinia, createPinia } from 'pinia'
+import { setActivePinia } from 'pinia'
+import { createApp } from 'vue'
+import { erzeugePinia } from '../src/stores/pinia.js'
+
+// Pinia wendet Plugins (Verlauf) erst an, wenn die Instanz an einer App haengt.
+function testPinia() {
+  const pinia = erzeugePinia()
+  createApp({}).use(pinia)
+  return pinia
+}
 
 // Pinia: jeder Test bekommt eine frische Instanz (Stores teilen weiter den
 // Modul-State, wie vor der Umstellung).
-setActivePinia(createPinia())
+setActivePinia(testPinia())
 
 beforeEach(() => {
   localStorage.clear()
-  setActivePinia(createPinia())
+  setActivePinia(testPinia())
 })
 
 // Stub für CSS custom properties (getComputedStyle)
