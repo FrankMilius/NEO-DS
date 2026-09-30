@@ -35,7 +35,7 @@
                   :data-token-groups="z.tokenGroups.join(',')"
                   :data-quelle="z.quelle"
                 >
-                  <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
+                  <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :style="variablenFuer(thema, z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
                   <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
                   <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
                 </figure>
@@ -76,6 +76,7 @@ import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen } from '../../lib/recipe-arena.js'
 import { vorlageFuer } from '../../arena-templates/index.js'
+import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 
 const props = defineProps({
   componentId: { type: String, required: true }
@@ -91,6 +92,14 @@ const vorschauThemen = computed(() => {
   if (mode === 'split') return ['neo-light-theme', 'neo-dark-theme']
   return [mode === 'dark' ? 'neo-dark-theme' : 'neo-light-theme']
 })
+
+// Store-Aenderungen und bereichsweises Dunkel in der Vorschau
+// (lib/vorschau-variablen.js). Je Modus einmal berechnet.
+const varsHell = computed(() => vorschauVariablen({ id: props.componentId, modus: 'light', state: store.state }))
+const varsDunkel = computed(() => vorschauVariablen({ id: props.componentId, modus: 'dark', state: store.state }))
+function variablenFuer (thema, flaeche) {
+  return thema === 'neo-dark-theme' || flaeche === 'dunkel' ? varsDunkel.value : varsHell.value
+}
 
 const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
 
