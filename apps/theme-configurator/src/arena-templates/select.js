@@ -25,7 +25,8 @@ export default (zelle, m) => {
   const offen = m.hat('open') || m.specimen.render?.compositionType === 'select-open-state'
   const platzhalter = m.hat('placeholder') || m.specimen.id === 'placeholder-hack'
   const mehrfach = m.wert('type') === 'multiple'
-  const mitIndikator = offen || m.slot('indicator') || (m.specimen.composes || []).includes('indicator')
+  // filled nutzt laut Recipe den Indikator statt des Hintergrundbilds
+  const mitIndikator = offen || m.slot('indicator') || m.wert('variant') === 'filled' || (m.specimen.composes || []).includes('indicator')
   const klasse = m.klassen.filter((k) => k !== 'is-open').join(' ')
   const attrs = m.attrsOhne('data-state', 'aria-expanded')
   const feld = `<select class="${klasse}" aria-label="${esc(m.text || 'Auswahl')}"${attrs}${m.deaktiviert ? ' disabled' : ''}${platzhalter ? ' required' : ''}${mehrfach ? ' multiple size="4"' : ''}>

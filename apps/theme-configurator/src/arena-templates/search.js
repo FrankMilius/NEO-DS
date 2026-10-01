@@ -60,9 +60,10 @@ export default (zelle, m) => {
   const geist = tippen ? '<span class="nc-search__ghost" aria-hidden="true"><span style="visibility:hidden">But</span>ton</span>' : ''
   // Platz fuer die absolut positionierte Liste; das Overlay bleibt in der Zelle.
   const huelle = befehl
-    ? 'position:relative;height:360px;overflow:hidden;border-radius:var(--fnd-radius-md);'
+    ? 'position:relative;width:640px;max-width:100%;height:360px;overflow:hidden;border-radius:var(--fnd-radius-md);'
     : `position:relative;${offen ? 'min-height:' + (m.wert('content') === 'grouped' ? 300 : 240) + 'px;' : ''}`
-  const stilWurzel = befehl ? ' style="position:absolute;padding-top:48px;"' : ''
+  const stilWurzel = befehl ? ' style="position:absolute;inset:0;padding-top:40px;--mod-search-command-max-width:min(520px,90%);"' : ''
+
   return `<div style="${huelle}">
 <div class="${klasse}"${m.attrs}${stilWurzel}>
 <div class="nc-search__input-wrapper">

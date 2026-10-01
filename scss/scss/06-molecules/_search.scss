@@ -126,6 +126,8 @@
   // Such-Icon (links im Input)
   &__icon {
     position: absolute;
+    // ueber dem Input: .nc-input ist selbst positioniert (Komposition)
+    z-index: 1;
     left: var(--fnd-spacing-03);
     display: flex;
     align-items: center;
@@ -141,6 +143,15 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
+  }
+
+  // Mit Bereichs-Knopf steht der Knopf links vom Feld; das Such-Symbol
+  // entfaellt dort, das Feld braucht keinen Platz dafuer.
+  &__input-wrapper:has(> .nc-search__scope-trigger) {
+    gap: var(--fnd-spacing-02);
+
+    > .nc-search__icon { display: none; }
+    > .nc-search__input { padding-inline-start: var(--nc-input-padding-x-md); }
   }
 
   // Input: traegt zusaetzlich .nc-input (Komposition, Recipe search) und
@@ -352,7 +363,8 @@
     padding-inline-start: calc(var(--fnd-spacing-03) + var(--mod-search-item-icon-size, var(--nc-search-item-icon-size)) + var(--fnd-spacing-02));
     padding-inline-end: var(--fnd-spacing-03);
     color: var(--mod-search-ghost-color, var(--nc-search-ghost-color));
-    font-size: inherit;
+    // gleiche Schrift wie das Feld (.nc-input), sonst steht der Vorschlag versetzt
+    font-size: var(--nc-input-font-size-md);
     font-family: inherit;
     pointer-events: none;
     user-select: none;
@@ -419,8 +431,12 @@
     bottom: 0;
     z-index: var(--fnd-z-modal, 1000);
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    // Feld und Liste untereinander, beide mittig. Die Liste steht im Fluss:
+    // absolut bezog sie sich auf das fixe Overlay und landete am unteren
+    // Bildrand (gefunden in der Arena, Plan v3).
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     padding-top: 15vh;
     background-color: var(--mod-search-command-overlay-bg, var(--nc-search-command-overlay-bg));
     width: 100%;
@@ -439,8 +455,7 @@
     .nc-search__results {
       width: var(--mod-search-command-max-width, var(--nc-search-command-max-width));
       max-width: 90vw;
-      left: 50%;
-      transform: translateX(-50%);
+      position: static;
       border-radius: var(--mod-search-command-radius, var(--nc-search-command-radius));
       box-shadow: var(--mod-search-command-shadow, var(--nc-search-command-shadow));
     }

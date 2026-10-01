@@ -31,7 +31,8 @@ export function capitalize(s) {
 
 /**
  * Load and normalize recipe data to canonical v3.1 shape.
- * Returns a full canonical object with all 9 sections populated.
+ * Returns a full canonical object with all 9 sections populated, plus the
+ * optional komposition / keyboard / events (Plan v3).
  *
  * Handles:
  *   v3.0: variantAxes / top-level baseClasses / flat matrix
@@ -61,7 +62,11 @@ export function loadRecipe(raw) {
         tokenGroups: raw.styling?.tokenGroups || {}
       },
       recipes: raw.recipes || { mode: 'derived' },
-      specimens: normalizeSpecimens(raw.specimens || [])
+      specimens: normalizeSpecimens(raw.specimens || []),
+      // Plan v3: Komposition und Verhalten (optional) reichen durch
+      komposition: raw.komposition || [],
+      keyboard: raw.keyboard || null,
+      events: raw.events || null
     };
   }
 
@@ -89,7 +94,10 @@ export function loadRecipe(raw) {
       recipes: typeof raw.recipes === 'string'
         ? { mode: raw.recipes === 'derived' ? 'derived' : 'static' }
         : raw.recipes || { mode: 'derived' },
-      specimens: normalizeSpecimens(raw.specimens || [])
+      specimens: normalizeSpecimens(raw.specimens || []),
+      komposition: raw.komposition || [],
+      keyboard: raw.keyboard || null,
+      events: raw.events || null
     };
   }
 
