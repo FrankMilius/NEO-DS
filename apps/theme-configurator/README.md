@@ -330,6 +330,12 @@ node scripts/drupal-attrappe.mjs --port 3200 --rechte ansehen,bearbeiten \
 - Ohne `--datei` beginnt jeder Start leer. Nicht nachgebildet: Anmeldung,
   Ablage der CSS-Datei im Dateisystem, Cache-Leerung.
 
+**Prüffälle für PHP:** `data/pruefvektoren/speicher-vertrag.json` enthält
+Hash-, ETag-, Abweichungs-, Zusammenführungs-, Kontrast- und Schema-Fälle mit
+dem erwarteten Ergebnis der App. Das Drupal-Modul spielt sie in seinen Tests
+ab. Neu erzeugen mit `npm run drupal:pruefvektoren` (Wurzel), Drift-Prüfung mit
+`npm run drupal:pruefvektoren:check` (läuft in CI).
+
 ---
 
 ## Export und Import

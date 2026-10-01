@@ -1,0 +1,1901 @@
+{
+  "_meta": {
+    "beschreibung": "Prüffälle für die Server-Umsetzung des Speicher-Vertrags 1.0.0 (ADR-002). Jede Umsetzung (PHP im Drupal-Modul) muss für jeden Fall dasselbe Ergebnis liefern wie die Referenz in apps/theme-configurator/src/speicher/. Erzeugt von scripts/erzeuge-pruefvektoren.mjs – nicht von Hand ändern.",
+    "vertrag": "1.0.0",
+    "referenz": {
+      "kanonischesJson": "apps/theme-configurator/src/speicher/inhalts-hash.js",
+      "abweichungen": "apps/theme-configurator/src/speicher/abweichungen.js",
+      "kontrast": "apps/theme-configurator/src/speicher/kontrast.js + data/kontrast-paare.json",
+      "schema": "docs/api/theme-konfigurator.openapi.yaml#/components/schemas/ThemeAbweichungen (Referenzprüfung: scripts/drupal-attrappe.mjs pruefeAbweichungen)"
+    },
+    "hinweisePhp": [
+      "JSON als Objekte dekodieren (json_decode($s, false)) oder leere Objekte gesondert behandeln – sonst wird {} zu [] und Hash und Abweichungen stimmen nicht.",
+      "Kanonisch: Objektschlüssel rekursiv nach Codepunkten sortiert (strcmp), Listen unverändert, keine Leerzeichen, json_encode mit JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES.",
+      "Zahlen wie JavaScript ausgeben: ganze Zahlen ohne Nachkommastellen (1 statt 1.0), sonst kürzeste Darstellung (serialize_precision = -1). Im Vertrag kommen nur Zeichenketten, Wahrheitswerte und kleine Zahlen vor.",
+      "Kontrast: Verhältnis ungerundet mit „mindestens“ vergleichen; im Ergebnis auf 2 Nachkommastellen runden (kaufmännisch). Bewertbar sind Hex-Werte mit 6 Stellen und die Kurzform mit 3 Stellen (#abc = #aabbcc); alles andere (rgba, var(), color-mix …) ergibt verhaeltnis = null und bestanden = null, das Gesamtergebnis ist dann nicht bestanden. Rollen, die im Set fehlen, werden übersprungen; ohne ein einziges geprüftes Paar ist das Gesamtergebnis nicht bestanden.",
+      "Schema: die Fundstellen-Texte sind Beispiele der Referenz; verbindlich ist gueltig (true/false)."
+    ],
+    "groesse": {
+      "maxBytes": 1048576,
+      "status": 413,
+      "gemessen": "Länge des Anfragekörpers in Bytes (UTF-8)"
+    },
+    "standard": {
+      "datei": "data/neo-theme-defaults/neo-theme-defaults.json",
+      "version": "1.0.0"
+    }
+  },
+  "hash": [
+    {
+      "name": "Schlüsselreihenfolge egal",
+      "eingabe": {
+        "b": 1,
+        "a": {
+          "d": 2,
+          "c": 3
+        }
+      },
+      "kanonisch": "{\"a\":{\"c\":3,\"d\":2},\"b\":1}",
+      "sha256": "78d48859c3252943aab7306f76c80f3f07783582e05ab8f944ce0696f2dbfc67"
+    },
+    {
+      "name": "Listen behalten ihre Reihenfolge",
+      "eingabe": {
+        "liste": [
+          3,
+          1,
+          2
+        ]
+      },
+      "kanonisch": "{\"liste\":[3,1,2]}",
+      "sha256": "d6a5c4e76ef0f0c97bdb00ea19bb520ff6c4ab6a928c04b51846c1a599648e0f"
+    },
+    {
+      "name": "leeres Objekt bleibt Objekt (PHP: nicht als Array dekodieren)",
+      "eingabe": {
+        "leer": {},
+        "liste": []
+      },
+      "kanonisch": "{\"leer\":{},\"liste\":[]}",
+      "sha256": "20dda1892822ab992954c889209733dba0e4776797415e2d3987efe58dfe39c1"
+    },
+    {
+      "name": "Unicode und Schrägstrich unmaskiert",
+      "eingabe": {
+        "name": "Grün/Blau – Kunde ä",
+        "pfad": "/a/b"
+      },
+      "kanonisch": "{\"name\":\"Grün/Blau – Kunde ä\",\"pfad\":\"/a/b\"}",
+      "sha256": "0c4a1f1c7a9b7d401ddcace6af64026de72479ca9c23148a35b92295c88775e0"
+    },
+    {
+      "name": "Zahlen: ganze Zahl, Dezimal, negativ",
+      "eingabe": {
+        "a": 1,
+        "b": 1.5,
+        "c": 0.1,
+        "d": -2,
+        "e": 100
+      },
+      "kanonisch": "{\"a\":1,\"b\":1.5,\"c\":0.1,\"d\":-2,\"e\":100}",
+      "sha256": "8a4ada170de52fdf2766dc47fb60e58230256e4d010945f4aae321a817e816b5"
+    },
+    {
+      "name": "null, true, false",
+      "eingabe": {
+        "n": null,
+        "t": true,
+        "f": false
+      },
+      "kanonisch": "{\"f\":false,\"n\":null,\"t\":true}",
+      "sha256": "22e00dc2f7b01420f940fbdbfbdf34fa0667cc6500186495023ba37722cbd05e"
+    },
+    {
+      "name": "Escapes in Zeichenketten",
+      "eingabe": {
+        "s": "Zeile 1\nZeile \"2\"\t\\"
+      },
+      "kanonisch": "{\"s\":\"Zeile 1\\nZeile \\\"2\\\"\\t\\\\\"}",
+      "sha256": "eba6467a24033a56fa558bd4e021097d3eec4e4185f18d6883e60e5d5b155c37"
+    }
+  ],
+  "etag": {
+    "name": "ETag eines Themes = Hash über { meta: { name, version }, abweichungen }",
+    "eingabe": {
+      "meta": {
+        "name": "ACME Corporate",
+        "version": "1.0.0"
+      },
+      "abweichungen": {
+        "activeThemeSet": "customer",
+        "themes": {
+          "customer": {
+            "light": {
+              "background-accent": "#0055aa"
+            }
+          }
+        }
+      }
+    },
+    "kanonisch": "{\"abweichungen\":{\"activeThemeSet\":\"customer\",\"themes\":{\"customer\":{\"light\":{\"background-accent\":\"#0055aa\"}}}},\"meta\":{\"name\":\"ACME Corporate\",\"version\":\"1.0.0\"}}",
+    "etag": "\"119e49e2236135460d785cfcd9fa9f556029922145abb47a44c9d750d8442bbc\""
+  },
+  "abweichungen": {
+    "standard": {
+      "activeThemeSet": "neo",
+      "themes": {
+        "neo": {
+          "light": {
+            "text-primary": "#000000",
+            "background-base": "#ffffff"
+          },
+          "dark": {
+            "text-primary": "#ffffff"
+          }
+        },
+        "customer": {
+          "light": {
+            "text-primary": "#000000",
+            "background-base": "#ffffff"
+          },
+          "dark": {
+            "text-primary": "#ffffff"
+          }
+        }
+      },
+      "foundationOverrides": {
+        "customer": {
+          "radius": {
+            "sm": "4px",
+            "md": "6px"
+          },
+          "spacing": {
+            "01": "4px"
+          }
+        }
+      },
+      "componentOverrides": {
+        "customer": {}
+      },
+      "customFonts": {
+        "customer": [
+          "Manrope"
+        ]
+      }
+    },
+    "faelle": [
+      {
+        "name": "unverändert ergibt leere Abweichung",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "ein Wert geändert",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#fafafa"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "themes": {
+            "customer": {
+              "light": {
+                "background-base": "#fafafa"
+              }
+            }
+          },
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "verschachtelter Wert geändert",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "8px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "md": "8px"
+              }
+            }
+          },
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "neuer Schlüssel hinzugefügt",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {
+              "nc-button-radius": "12px"
+            }
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "componentOverrides": {
+            "customer": {
+              "nc-button-radius": "12px"
+            }
+          },
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "Schlüssel entfernt ($entfernt)",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "foundationOverrides": {
+            "customer": {
+              "spacing": {
+                "$entfernt": true
+              }
+            }
+          },
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "Liste wird als Ganzes ersetzt",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope",
+              "Inter"
+            ]
+          }
+        },
+        "erwartet": {
+          "customFonts": {
+            "customer": [
+              "Manrope",
+              "Inter"
+            ]
+          },
+          "activeThemeSet": "neo"
+        }
+      },
+      {
+        "name": "aktives Set geändert",
+        "stand": {
+          "activeThemeSet": "customer",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": {
+                "sm": "4px",
+                "md": "6px"
+              },
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "activeThemeSet": "customer"
+        }
+      },
+      {
+        "name": "Typwechsel Objekt → Wert",
+        "stand": {
+          "activeThemeSet": "neo",
+          "themes": {
+            "neo": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            },
+            "customer": {
+              "light": {
+                "text-primary": "#000000",
+                "background-base": "#ffffff"
+              },
+              "dark": {
+                "text-primary": "#ffffff"
+              }
+            }
+          },
+          "foundationOverrides": {
+            "customer": {
+              "radius": "none",
+              "spacing": {
+                "01": "4px"
+              }
+            }
+          },
+          "componentOverrides": {
+            "customer": {}
+          },
+          "customFonts": {
+            "customer": [
+              "Manrope"
+            ]
+          }
+        },
+        "erwartet": {
+          "foundationOverrides": {
+            "customer": {
+              "radius": "none"
+            }
+          },
+          "activeThemeSet": "neo"
+        }
+      }
+    ]
+  },
+  "zusammenfuehrenMitStandard": [
+    {
+      "name": "leere Abweichung = Standard",
+      "abweichungen": {},
+      "ergebnisSha256": "750e22e799ccf32327cb4827e31ddada63628727e1aa1a4611e498258d682a6e",
+      "auszug": {
+        "activeThemeSet": null,
+        "themes.customer.light.background-accent": "#37e93d",
+        "foundationOverrides.customer.radius.md": "6px"
+      }
+    },
+    {
+      "name": "Kundenfarbe im hellen Modus",
+      "abweichungen": {
+        "activeThemeSet": "customer",
+        "themes": {
+          "customer": {
+            "light": {
+              "background-accent": "#0055aa"
+            }
+          }
+        }
+      },
+      "ergebnisSha256": "816c51db1ac62dbac1d0bc31ca18235dc34d35d90388028e94646c9c2929c09c",
+      "auszug": {
+        "activeThemeSet": "customer",
+        "themes.customer.light.background-accent": "#0055aa",
+        "foundationOverrides.customer.radius.md": "6px"
+      }
+    },
+    {
+      "name": "entfernter Schlüssel (Radius md im Set customer)",
+      "abweichungen": {
+        "foundationOverrides": {
+          "customer": {
+            "radius": {
+              "md": {
+                "$entfernt": true
+              }
+            }
+          }
+        }
+      },
+      "ergebnisSha256": "384e2f7d492904bdf513425f8c26ec19152e845e6736c78bc8d61d7de4cf36b8",
+      "auszug": {
+        "activeThemeSet": null,
+        "themes.customer.light.background-accent": "#37e93d",
+        "foundationOverrides.customer.radius.md": null
+      }
+    }
+  ],
+  "kontrast": [
+    {
+      "name": "NEO-Standard (Set customer) besteht",
+      "themes": {
+        "light": {
+          "paper": "#e4e6e4",
+          "background-base": "#e4e6e4",
+          "background-secondary": "#d2d4d2",
+          "background-tertiary": "#afb2af",
+          "background-quaternary": "#afb2af",
+          "background-quinary": "#909390",
+          "background-hover": "#e4e6e4",
+          "background-active": "#d2d4d2",
+          "background-disabled": "#e4e6e4",
+          "background-inverse": "#161816",
+          "surface-elevated": "#ffffff",
+          "background-skeleton": "#e4e6e4",
+          "background-skeleton-element": "#d2d4d2",
+          "background-overlay": "#1618168c",
+          "background-transparency-low": "#1618160a",
+          "background-transparency-mid": "#16181614",
+          "layer-01": "#ffffff",
+          "layer-02": "#e4e6e4",
+          "layer-03": "#ffffff",
+          "text-primary": "#161816",
+          "text-secondary": "#595c59",
+          "text-tertiary": "#595c59",
+          "text-disabled": "#909390",
+          "text-inverse": "#f9fbf9",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#1618168c",
+          "text-transparency-mid": "#161816bf",
+          "text-link": "#161816",
+          "text-link-hover": "#414341",
+          "interactive-default": "#292b29",
+          "interactive-hover": "#414341",
+          "interactive-active": "#161816",
+          "interactive-visited": "#414341",
+          "interactive-focus": "#161816",
+          "text-on-interactive": "#f9fbf9",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#00c01a",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#006f0a",
+          "border-primary": "#d2d4d2",
+          "border-secondary": "#e4e6e4",
+          "border-hairline": "#e4e6e4",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#e4e6e4",
+          "border-strong": "#161816",
+          "border-inverse": "#ffffff",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#00717a",
+          "text-warning": "#92500a",
+          "text-danger": "#a31f1f",
+          "text-info": "#2563eb",
+          "border-success": "#00717a",
+          "border-warning": "#92500a",
+          "border-danger": "#a31f1f",
+          "border-info": "#2563eb",
+          "background-success": "#dbfcff",
+          "background-warning": "#fff2e8",
+          "background-danger": "#fff1ef",
+          "background-info": "#eff5ff",
+          "on-success": "#000000",
+          "on-warning": "#000000",
+          "on-danger": "#000000",
+          "on-info": "#000000",
+          "on-surface": "#161816",
+          "on-layer-01": "#161816",
+          "on-layer-02": "#161816",
+          "scrollbar-track": "#f1f3f1",
+          "scrollbar-thumb": "#afb2af",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        },
+        "dark": {
+          "paper": "#161816",
+          "background-base": "#161816",
+          "background-secondary": "#292b29",
+          "background-tertiary": "#414341",
+          "background-quaternary": "#595c59",
+          "background-quinary": "#727572",
+          "background-hover": "#292b29",
+          "background-active": "#414341",
+          "background-disabled": "#414341",
+          "background-inverse": "#f9fbf9",
+          "surface-elevated": "#292b29",
+          "background-skeleton": "#414341",
+          "background-skeleton-element": "#595c59",
+          "background-overlay": "#000000b3",
+          "background-transparency-low": "#f9fbf90f",
+          "background-transparency-mid": "#f9fbf91f",
+          "layer-01": "#292b29",
+          "layer-02": "#414341",
+          "layer-03": "#595c59",
+          "text-primary": "#f1f3f1",
+          "text-secondary": "#afb2af",
+          "text-tertiary": "#909390",
+          "text-disabled": "#727572",
+          "text-inverse": "#161816",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#f9fbf98c",
+          "text-transparency-mid": "#f9fbf9bf",
+          "text-link": "#f1f3f1",
+          "text-link-hover": "#ffffff",
+          "interactive-default": "#f1f3f1",
+          "interactive-hover": "#ffffff",
+          "interactive-active": "#d2d4d2",
+          "interactive-visited": "#d2d4d2",
+          "interactive-focus": "#f9fbf9",
+          "text-on-interactive": "#161816",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#3df643",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#37e93d",
+          "border-primary": "#414341",
+          "border-secondary": "#414341",
+          "border-hairline": "#414341",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#414341",
+          "border-strong": "#f9fbf9",
+          "border-inverse": "#161816",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#0098a4",
+          "text-warning": "#e0a94e",
+          "text-danger": "#f08a8a",
+          "text-info": "#60a5fa",
+          "border-success": "#0098a4",
+          "border-warning": "#e0a94e",
+          "border-danger": "#f08a8a",
+          "border-info": "#60a5fa",
+          "background-success": "#002124",
+          "background-warning": "#261904",
+          "background-danger": "#2c1414",
+          "background-info": "#0e1c2e",
+          "on-success": "#000000",
+          "on-warning": "#000000",
+          "on-danger": "#000000",
+          "on-info": "#000000",
+          "on-surface": "#f1f3f1",
+          "on-layer-01": "#f1f3f1",
+          "on-layer-02": "#f1f3f1",
+          "scrollbar-track": "#292b29",
+          "scrollbar-thumb": "#595c59",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        }
+      },
+      "erwartet": {
+        "bestanden": true,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 5.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 17.85,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 13.72,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 6.04,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 6.26,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 6.27,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.72,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 8.34,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 12.79,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 7.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 6.26,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 6.27,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.83,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 17.17,
+            "mindestens": 3,
+            "bestanden": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "weiße Schrift auf Fehler/Erfolg fällt durch (3,35:1)",
+      "themes": {
+        "light": {
+          "paper": "#e4e6e4",
+          "background-base": "#e4e6e4",
+          "background-secondary": "#d2d4d2",
+          "background-tertiary": "#afb2af",
+          "background-quaternary": "#afb2af",
+          "background-quinary": "#909390",
+          "background-hover": "#e4e6e4",
+          "background-active": "#d2d4d2",
+          "background-disabled": "#e4e6e4",
+          "background-inverse": "#161816",
+          "surface-elevated": "#ffffff",
+          "background-skeleton": "#e4e6e4",
+          "background-skeleton-element": "#d2d4d2",
+          "background-overlay": "#1618168c",
+          "background-transparency-low": "#1618160a",
+          "background-transparency-mid": "#16181614",
+          "layer-01": "#ffffff",
+          "layer-02": "#e4e6e4",
+          "layer-03": "#ffffff",
+          "text-primary": "#161816",
+          "text-secondary": "#595c59",
+          "text-tertiary": "#595c59",
+          "text-disabled": "#909390",
+          "text-inverse": "#f9fbf9",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#1618168c",
+          "text-transparency-mid": "#161816bf",
+          "text-link": "#161816",
+          "text-link-hover": "#414341",
+          "interactive-default": "#292b29",
+          "interactive-hover": "#414341",
+          "interactive-active": "#161816",
+          "interactive-visited": "#414341",
+          "interactive-focus": "#161816",
+          "text-on-interactive": "#f9fbf9",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#00c01a",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#006f0a",
+          "border-primary": "#d2d4d2",
+          "border-secondary": "#e4e6e4",
+          "border-hairline": "#e4e6e4",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#e4e6e4",
+          "border-strong": "#161816",
+          "border-inverse": "#ffffff",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#00717a",
+          "text-warning": "#92500a",
+          "text-danger": "#a31f1f",
+          "text-info": "#2563eb",
+          "border-success": "#00717a",
+          "border-warning": "#92500a",
+          "border-danger": "#a31f1f",
+          "border-info": "#2563eb",
+          "background-success": "#dbfcff",
+          "background-warning": "#fff2e8",
+          "background-danger": "#fff1ef",
+          "background-info": "#eff5ff",
+          "on-success": "#ffffff",
+          "on-warning": "#000000",
+          "on-danger": "#ffffff",
+          "on-info": "#000000",
+          "on-surface": "#161816",
+          "on-layer-01": "#161816",
+          "on-layer-02": "#161816",
+          "scrollbar-track": "#f1f3f1",
+          "scrollbar-thumb": "#afb2af",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        },
+        "dark": {
+          "paper": "#161816",
+          "background-base": "#161816",
+          "background-secondary": "#292b29",
+          "background-tertiary": "#414341",
+          "background-quaternary": "#595c59",
+          "background-quinary": "#727572",
+          "background-hover": "#292b29",
+          "background-active": "#414341",
+          "background-disabled": "#414341",
+          "background-inverse": "#f9fbf9",
+          "surface-elevated": "#292b29",
+          "background-skeleton": "#414341",
+          "background-skeleton-element": "#595c59",
+          "background-overlay": "#000000b3",
+          "background-transparency-low": "#f9fbf90f",
+          "background-transparency-mid": "#f9fbf91f",
+          "layer-01": "#292b29",
+          "layer-02": "#414341",
+          "layer-03": "#595c59",
+          "text-primary": "#f1f3f1",
+          "text-secondary": "#afb2af",
+          "text-tertiary": "#909390",
+          "text-disabled": "#727572",
+          "text-inverse": "#161816",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#f9fbf98c",
+          "text-transparency-mid": "#f9fbf9bf",
+          "text-link": "#f1f3f1",
+          "text-link-hover": "#ffffff",
+          "interactive-default": "#f1f3f1",
+          "interactive-hover": "#ffffff",
+          "interactive-active": "#d2d4d2",
+          "interactive-visited": "#d2d4d2",
+          "interactive-focus": "#f9fbf9",
+          "text-on-interactive": "#161816",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#3df643",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#37e93d",
+          "border-primary": "#414341",
+          "border-secondary": "#414341",
+          "border-hairline": "#414341",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#414341",
+          "border-strong": "#f9fbf9",
+          "border-inverse": "#161816",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#0098a4",
+          "text-warning": "#e0a94e",
+          "text-danger": "#f08a8a",
+          "text-info": "#60a5fa",
+          "border-success": "#0098a4",
+          "border-warning": "#e0a94e",
+          "border-danger": "#f08a8a",
+          "border-info": "#60a5fa",
+          "background-success": "#002124",
+          "background-warning": "#261904",
+          "background-danger": "#2c1414",
+          "background-info": "#0e1c2e",
+          "on-success": "#000000",
+          "on-warning": "#000000",
+          "on-danger": "#000000",
+          "on-info": "#000000",
+          "on-surface": "#f1f3f1",
+          "on-layer-01": "#f1f3f1",
+          "on-layer-02": "#f1f3f1",
+          "scrollbar-track": "#292b29",
+          "scrollbar-thumb": "#595c59",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        }
+      },
+      "erwartet": {
+        "bestanden": false,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 5.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 17.85,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 13.72,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 6.04,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 3.35,
+            "mindestens": 4.5,
+            "bestanden": false
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 3.35,
+            "mindestens": 4.5,
+            "bestanden": false
+          },
+          {
+            "modus": "light",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.72,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 8.34,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 12.79,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 7.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 6.26,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 6.27,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.83,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 17.17,
+            "mindestens": 3,
+            "bestanden": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "kurze Hex-Schreibweise #000 wird zu #000000 erweitert und bewertet",
+      "themes": {
+        "light": {
+          "paper": "#e4e6e4",
+          "background-base": "#e4e6e4",
+          "background-secondary": "#d2d4d2",
+          "background-tertiary": "#afb2af",
+          "background-quaternary": "#afb2af",
+          "background-quinary": "#909390",
+          "background-hover": "#e4e6e4",
+          "background-active": "#d2d4d2",
+          "background-disabled": "#e4e6e4",
+          "background-inverse": "#161816",
+          "surface-elevated": "#ffffff",
+          "background-skeleton": "#e4e6e4",
+          "background-skeleton-element": "#d2d4d2",
+          "background-overlay": "#1618168c",
+          "background-transparency-low": "#1618160a",
+          "background-transparency-mid": "#16181614",
+          "layer-01": "#ffffff",
+          "layer-02": "#e4e6e4",
+          "layer-03": "#ffffff",
+          "text-primary": "#000",
+          "text-secondary": "#595c59",
+          "text-tertiary": "#595c59",
+          "text-disabled": "#909390",
+          "text-inverse": "#f9fbf9",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#1618168c",
+          "text-transparency-mid": "#161816bf",
+          "text-link": "#161816",
+          "text-link-hover": "#414341",
+          "interactive-default": "#292b29",
+          "interactive-hover": "#414341",
+          "interactive-active": "#161816",
+          "interactive-visited": "#414341",
+          "interactive-focus": "#161816",
+          "text-on-interactive": "#f9fbf9",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#00c01a",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#006f0a",
+          "border-primary": "#d2d4d2",
+          "border-secondary": "#e4e6e4",
+          "border-hairline": "#e4e6e4",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#e4e6e4",
+          "border-strong": "#161816",
+          "border-inverse": "#ffffff",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#00717a",
+          "text-warning": "#92500a",
+          "text-danger": "#a31f1f",
+          "text-info": "#2563eb",
+          "border-success": "#00717a",
+          "border-warning": "#92500a",
+          "border-danger": "#a31f1f",
+          "border-info": "#2563eb",
+          "background-success": "#dbfcff",
+          "background-warning": "#fff2e8",
+          "background-danger": "#fff1ef",
+          "background-info": "#eff5ff",
+          "on-success": "#000000",
+          "on-warning": "#000000",
+          "on-danger": "#000000",
+          "on-info": "#000000",
+          "on-surface": "#161816",
+          "on-layer-01": "#161816",
+          "on-layer-02": "#161816",
+          "scrollbar-track": "#f1f3f1",
+          "scrollbar-thumb": "#afb2af",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        },
+        "dark": {
+          "paper": "#161816",
+          "background-base": "#161816",
+          "background-secondary": "#292b29",
+          "background-tertiary": "#414341",
+          "background-quaternary": "#595c59",
+          "background-quinary": "#727572",
+          "background-hover": "#292b29",
+          "background-active": "#414341",
+          "background-disabled": "#414341",
+          "background-inverse": "#f9fbf9",
+          "surface-elevated": "#292b29",
+          "background-skeleton": "#414341",
+          "background-skeleton-element": "#595c59",
+          "background-overlay": "#000000b3",
+          "background-transparency-low": "#f9fbf90f",
+          "background-transparency-mid": "#f9fbf91f",
+          "layer-01": "#292b29",
+          "layer-02": "#414341",
+          "layer-03": "#595c59",
+          "text-primary": "#f1f3f1",
+          "text-secondary": "#afb2af",
+          "text-tertiary": "#909390",
+          "text-disabled": "#727572",
+          "text-inverse": "#161816",
+          "text-difference": "#ffffff",
+          "text-transparency-low": "#f9fbf98c",
+          "text-transparency-mid": "#f9fbf9bf",
+          "text-link": "#f1f3f1",
+          "text-link-hover": "#ffffff",
+          "interactive-default": "#f1f3f1",
+          "interactive-hover": "#ffffff",
+          "interactive-active": "#d2d4d2",
+          "interactive-visited": "#d2d4d2",
+          "interactive-focus": "#f9fbf9",
+          "text-on-interactive": "#161816",
+          "background-accent": "#37e93d",
+          "background-accent-secondary": "#3df643",
+          "on-accent": "#000000",
+          "accent-underline": "#37e93d",
+          "text-accent": "#37e93d",
+          "border-primary": "#414341",
+          "border-secondary": "#414341",
+          "border-hairline": "#414341",
+          "border-mid-dark": "#727572",
+          "border-disabled": "#414341",
+          "border-strong": "#f9fbf9",
+          "border-inverse": "#161816",
+          "border-control": "#727572",
+          "feedback-success": "#24a148",
+          "feedback-warning": "#d4a400",
+          "feedback-danger": "#fa4d56",
+          "feedback-info": "#4589ff",
+          "text-success": "#0098a4",
+          "text-warning": "#e0a94e",
+          "text-danger": "#f08a8a",
+          "text-info": "#60a5fa",
+          "border-success": "#0098a4",
+          "border-warning": "#e0a94e",
+          "border-danger": "#f08a8a",
+          "border-info": "#60a5fa",
+          "background-success": "#002124",
+          "background-warning": "#261904",
+          "background-danger": "#2c1414",
+          "background-info": "#0e1c2e",
+          "on-success": "#000000",
+          "on-warning": "#000000",
+          "on-danger": "#000000",
+          "on-info": "#000000",
+          "on-surface": "#f1f3f1",
+          "on-layer-01": "#f1f3f1",
+          "on-layer-02": "#f1f3f1",
+          "scrollbar-track": "#292b29",
+          "scrollbar-thumb": "#595c59",
+          "selection-bg": "#37e93d",
+          "selection-color": "#000000",
+          "paper-graphit": "#f1f3f1",
+          "paper-beige": "#f6f2ea",
+          "paper-ivory": "#f3f3ea",
+          "paper-warm-taupe": "#f8f1eb",
+          "paper-pearl-white": "#f2f2f2",
+          "paper-mint": "#e9f8e0"
+        }
+      },
+      "erwartet": {
+        "bestanden": true,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.74,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 5.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 21,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 13.72,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 6.04,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 6.26,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 6.27,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.72,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "light",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 14.23,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-secondary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 8.34,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-primary",
+            "hintergrund": "layer-01",
+            "verhaeltnis": 12.79,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-link",
+            "hintergrund": "background-base",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-on-interactive",
+            "hintergrund": "interactive-default",
+            "verhaeltnis": 16.01,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-accent",
+            "hintergrund": "background-accent",
+            "verhaeltnis": 12.89,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "text-danger",
+            "hintergrund": "background-base",
+            "verhaeltnis": 7.4,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-danger",
+            "hintergrund": "feedback-danger",
+            "verhaeltnis": 6.26,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "on-success",
+            "hintergrund": "feedback-success",
+            "verhaeltnis": 6.27,
+            "mindestens": 4.5,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "border-control",
+            "hintergrund": "background-base",
+            "verhaeltnis": 3.83,
+            "mindestens": 3,
+            "bestanden": true
+          },
+          {
+            "modus": "dark",
+            "vordergrund": "interactive-focus",
+            "hintergrund": "background-base",
+            "verhaeltnis": 17.17,
+            "mindestens": 3,
+            "bestanden": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "nicht bewertbarer Wert (rgba) ergibt null und gilt als nicht bestanden",
+      "themes": {
+        "light": {
+          "text-primary": "rgba(0, 0, 0, 0.9)",
+          "background-base": "#ffffff"
+        },
+        "dark": {}
+      },
+      "erwartet": {
+        "bestanden": false,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": null,
+            "mindestens": 4.5,
+            "bestanden": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "knapp über 4,5:1 besteht (#767676 auf #ffffff = 4,54)",
+      "themes": {
+        "light": {
+          "text-primary": "#767676",
+          "background-base": "#ffffff"
+        },
+        "dark": {}
+      },
+      "erwartet": {
+        "bestanden": true,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 4.54,
+            "mindestens": 4.5,
+            "bestanden": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "knapp unter 4,5:1 fällt durch (#777777 auf #ffffff = 4,48)",
+      "themes": {
+        "light": {
+          "text-primary": "#777777",
+          "background-base": "#ffffff"
+        },
+        "dark": {}
+      },
+      "erwartet": {
+        "bestanden": false,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 4.48,
+            "mindestens": 4.5,
+            "bestanden": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "ungerundet vergleichen: 4,4995 zeigt 4.5, fällt aber durch",
+      "themes": {
+        "light": {
+          "text-primary": "#767676",
+          "background-base": "#ffffef"
+        },
+        "dark": {}
+      },
+      "erwartet": {
+        "bestanden": false,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 4.5,
+            "mindestens": 4.5,
+            "bestanden": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "fehlende Rollen werden übersprungen",
+      "themes": {
+        "light": {
+          "text-primary": "#000000",
+          "background-base": "#ffffff"
+        },
+        "dark": {}
+      },
+      "erwartet": {
+        "bestanden": true,
+        "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+        "ergebnisse": [
+          {
+            "modus": "light",
+            "vordergrund": "text-primary",
+            "hintergrund": "background-base",
+            "verhaeltnis": 21,
+            "mindestens": 4.5,
+            "bestanden": true
+          }
+        ]
+      }
+    }
+  ],
+  "schema": [
+    {
+      "name": "leer ist gültig",
+      "abweichungen": {},
+      "gueltig": true,
+      "fundstellen": []
+    },
+    {
+      "name": "bekannte Schlüssel, Sets neo/customer",
+      "abweichungen": {
+        "activeThemeSet": "customer",
+        "themes": {
+          "customer": {
+            "light": {
+              "text-primary": "#111111"
+            }
+          }
+        },
+        "typeScale": {
+          "neo": {
+            "base_max_px": 19
+          }
+        }
+      },
+      "gueltig": true,
+      "fundstellen": []
+    },
+    {
+      "name": "unbekannter Schlüssel",
+      "abweichungen": {
+        "unbekannt": {
+          "customer": {}
+        }
+      },
+      "gueltig": false,
+      "fundstellen": [
+        "abweichungen.unbekannt: unbekannter Schlüssel"
+      ]
+    },
+    {
+      "name": "unbekanntes Set",
+      "abweichungen": {
+        "themes": {
+          "kunde": {}
+        }
+      },
+      "gueltig": false,
+      "fundstellen": [
+        "abweichungen.themes.kunde: erlaubt sind nur die Sets neo, customer"
+      ]
+    },
+    {
+      "name": "activeThemeSet ungültig",
+      "abweichungen": {
+        "activeThemeSet": "dark"
+      },
+      "gueltig": false,
+      "fundstellen": [
+        "abweichungen.activeThemeSet: erlaubt sind neo, customer"
+      ]
+    },
+    {
+      "name": "Wert statt Objekt",
+      "abweichungen": {
+        "themes": "blau"
+      },
+      "gueltig": false,
+      "fundstellen": [
+        "abweichungen.themes: muss ein Objekt sein"
+      ]
+    },
+    {
+      "name": "kein Objekt",
+      "abweichungen": [
+        "a"
+      ],
+      "gueltig": false,
+      "fundstellen": [
+        "abweichungen: muss ein Objekt sein"
+      ]
+    }
+  ]
+}

@@ -200,5 +200,11 @@ Abweichungen), If-Match/412/428 und das Kontrast-Tor.
 3. Serverseitig: JSON-Schema `ThemeAbweichungen` + 1 MB (413), Zusammenführen
    und Kontrastprüfung in PHP nach `abweichungen.js` und
    `data/kontrast-paare.json`, Inhalts-Hash nach `inhalts-hash.js`.
+   Gemeinsamer Maßstab: `data/pruefvektoren/speicher-vertrag.json` (Hash,
+   ETag, Abweichungen, Zusammenführen, Kontrast inkl. Rundungsfalle, Schema,
+   Hinweise für PHP in `_meta.hinweisePhp`). Die PHP-Tests lesen die Datei
+   (z. B. PHPUnit-DataProvider) und müssen jeden Fall bestehen. Die App prüft
+   dieselbe Datei (`tests/speicher/pruefvektoren.test.js`), CI prüft Drift
+   (`npm run drupal:pruefvektoren:check`).
 4. Permissions für die drei Rechte und Übergabe an die App
    (`drupalSettings` → `window.NEO_KONFIGURATOR.rechte`).

@@ -67,6 +67,8 @@ jobs:
           # Datumszeile ignorieren, sonst waere jeder Tag eine Abweichung
           git diff -I 'Generated:' --exit-code -- apps/theme-configurator/src/data/tokens.generated.js apps/theme-configurator/src/data/tokens.generated.d.ts \
             || (echo "::error::tokens.generated.js/.d.ts ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
+      - name: Pruefvektoren fuer Drupal/PHP aktuell (data/pruefvektoren)
+        run: npm run drupal:pruefvektoren:check
       - name: Docs-Seiten entstehen aus docs/content (keine Handaenderung)
         run: node scripts/build-docs.cjs --check
       - name: Validator nicht schlechter als der eingefrorene Bestand
