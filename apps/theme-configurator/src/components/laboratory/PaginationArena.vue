@@ -344,7 +344,6 @@ function renderPagination(tokens, { activePage = 2, pages = [1,2,3,null,10], siz
 }
 
 function renderMinimalPagination(tokens) {
-  const sz = tokens['nc-pagination-item-size'] || '32px'
   return h('nav', {
     style: { display: 'flex', alignItems: 'center', gap: '12px', fontFamily: 'inherit' },
     'aria-label': 'Seitennavigation'

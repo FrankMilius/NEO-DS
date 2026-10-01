@@ -213,15 +213,6 @@ function separatorStyle(tokens) {
   }
 }
 
-function groupLabelStyle(tokens) {
-  return {
-    padding: tokens['nc-dropdown-group-label-padding'],
-    fontSize: tokens['nc-dropdown-group-label-size'],
-    fontWeight: tokens['nc-dropdown-group-label-weight'],
-    color: tokens['nc-dropdown-group-label-color']
-  }
-}
-
 function iconSvg(tokens, path) {
   return h('svg', {
     width: tokens['nc-dropdown-item-icon-size'],

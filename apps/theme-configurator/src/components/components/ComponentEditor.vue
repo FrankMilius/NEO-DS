@@ -479,7 +479,7 @@ const exportFeedback = ref(false)
 // ---------------------------------------------------------------------------
 // Recipe Loader (lazy, cached)
 // ---------------------------------------------------------------------------
-const { recipe, loading: recipeLoading } = useRecipeLoader(toRef(props, 'componentId'))
+const { recipe } = useRecipeLoader(toRef(props, 'componentId'))
 
 const hasRecipeData = computed(() => !!recipe.value?.styling?.tokenGroups)
 
@@ -604,7 +604,7 @@ function buildSwatches(sgTokens, category) {
 // Tokens werden anhand ihrer ID in 5 Sektionen klassifiziert:
 //   Layout | Typography | Fill | Stroke | Effects
 
-import { classifyToken, classifySubgroups as classifySubgroupsFn } from '../../composables/useTokenClassifier.js'
+import { classifyToken } from '../../composables/useTokenClassifier.js'
 
 // Legacy Compatibility: isAnatomySubgroup etc. werden durch den Classifier ersetzt
 // aber die Computed Properties behalten ihre Namen fuer Template-Kompatibilitaet
@@ -839,13 +839,6 @@ const _inheritanceMap = (() => {
   // Spezialfaelle: spacing, shadow, elevation, radius haben konsistente Namensgebung
   // Aber manche Tokens nutzen Kurzformen wie var(--fs-sm), var(--fnd-font-weight-bold)
   // Diese werden separat gemappt
-  const EXTRA_PREFIXES = {
-    'fs': { category: 'Typography', prefix: '--fs' },
-    'font-heading': { category: 'Typography', prefix: '--font-heading' },
-    'font-body': { category: 'Typography', prefix: '--font-body' },
-    'lh-heading': { category: 'Typography', prefix: '--lh-heading' },
-    'lh-body': { category: 'Typography', prefix: '--lh-body' },
-  }
   // Map typography scale: --fs-xs, --fs-sm, --fs-base, etc.
   const typoScales = ['2xs','xs','sm','base','lg','xl','2xl','3xl','4xl','5xl','6xl','7xl','8xl','9xl']
   for (const s of typoScales) {
@@ -923,21 +916,6 @@ function mirrorValue(token, event) {
   const sourceMode = event.shiftKey ? 'dark' : 'light'
   const value = getTokenValueForMode(token, sourceMode)
   store.updateComponentToken(token.id, value)
-}
-
-// ---------------------------------------------------------------------------
-// Highlight Property Mapping (fuer Arena-Overlay)
-// ---------------------------------------------------------------------------
-function mapTokenToProperty(tokenId) {
-  if (tokenId.includes('height')) return 'height'
-  if (tokenId.includes('padding-x') || tokenId.includes('padding-inline')) return 'padding-inline'
-  if (tokenId.includes('padding-y') || tokenId.includes('padding-block')) return 'padding-block'
-  if (tokenId.includes('radius')) return 'border-radius'
-  if (tokenId.includes('gap')) return 'gap'
-  if (tokenId.includes('border-width')) return 'border-width'
-  if (tokenId.includes('font-size')) return 'font-size'
-  if (tokenId.includes('line-height')) return 'line-height'
-  return 'box'
 }
 
 // ---------------------------------------------------------------------------
@@ -1033,15 +1011,6 @@ function resolveConcreteValue(tokenDefault) {
 function getConcreteDisplay(token) {
   if (isOverridden(token)) return null
   // Semantic color tokens: already resolved by getTokenValue
-  if (token.ref) return null
-  return resolveConcreteValue(token.default)
-}
-
-/**
- * Mode-aware concrete value for mirror rows.
- */
-function getConcreteDisplayForMode(token, mode) {
-  if (isOverridden(token)) return null
   if (token.ref) return null
   return resolveConcreteValue(token.default)
 }

@@ -37,7 +37,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { foundationTokens } from '../../data/tokens.js'
 
 const shadows = foundationTokens.shadow.tokens

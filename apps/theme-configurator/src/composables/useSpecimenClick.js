@@ -10,7 +10,7 @@
 //  b) Automatisch via .arena-specimen Container (Label als ID)
 // ==========================================================================
 
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme.js'
 
 /**
@@ -21,7 +21,7 @@ function slugify(text) {
   return text
     .toLowerCase()
     .replace(/[—–]/g, '-')
-    .replace(/[^a-z0-9\-]+/g, '-')
+    .replace(/[^a-z0-9-]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '')
 }

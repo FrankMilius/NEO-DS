@@ -341,7 +341,6 @@ const TreeVariants = defineComponent({
 
         // Resolve border color from token string (may include "1px solid #...")
         const rawBorder = t['nc-treeview-bordered-border'] || '1px solid #e2e8f0'
-        const borderColor = rawBorder.replace(/^[\d.]+px\s+\w+\s+/, '') || '#e2e8f0'
 
         const parentNode = renderNode(t, th, { label: 'Dokumente', type: 'folder', expanded: true, compact })
         const child1 = renderNode(t, th, { label: 'Bericht.pdf', type: 'file', selected: true, compact })
@@ -419,13 +418,6 @@ const TreeBadgesStates = defineComponent({
     return () => {
       const t = props.tokens
       const th = props.theme
-
-      // Focus ring style approximation
-      const focusNodeStyle = {
-        ...nodeStyle(t, { hover: true }),
-        outline: `2px solid ${t['nc-treeview-node-color-selected']}`,
-        outlineOffset: '1px'
-      }
 
       const items = [
         h('div', {

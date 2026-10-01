@@ -810,24 +810,12 @@ const selectedToken = ref(null)
 const selectedTokenId = computed(() => selectedToken.value?.id || null)
 
 const currentPrimitives = computed(() => store.currentPrimitives)
-const themeLabel = computed(() => {
-  const labels = {
-    'neo-light': 'NEO Light', 'neo-dark': 'NEO Dark',
-    'customer-light': 'Customer Light', 'customer-dark': 'Customer Dark'
-  }
-  return labels[store.currentThemeKey] || ''
-})
 
 // ---------------------------------------------------------------------------
 // Is the user on the factory default NEO Theme? (no custom theme loaded)
 // ---------------------------------------------------------------------------
 const isDefaultNeo = computed(() => {
   return store.state.activeThemeSet === 'neo' && store.state.currentThemeMeta === null
-})
-
-const currentThemeName = computed(() => {
-  if (store.state.currentThemeMeta) return store.state.currentThemeMeta.name
-  return store.state.activeThemeSet === 'neo' ? 'Neo Theme' : 'Customer Theme'
 })
 
 // ---------------------------------------------------------------------------
@@ -949,7 +937,6 @@ function palettesToList(obj, regenerate = true) {
   }))
 }
 
-const supportingPaletteList = computed(() => palettesToList(supportingPalettes))
 // Foundation palettes (black/white) use rgba — keep their original shades
 const foundationPaletteList = computed(() => palettesToList(foundationPalettes, false))
 const neutralPaletteList = computed(() => palettesToList(neutralPalette))
@@ -1349,25 +1336,6 @@ const primitiveColorMap = computed(() => {
   return map
 })
 
-function getSemanticValue(tokenId) {
-  return store.currentSemanticTokens[tokenId] || '#000000'
-}
-
-// Display: show primitive token reference if available, otherwise hex
-function getSemanticDisplayValue(tokenId) {
-  const hex = getSemanticValue(tokenId)
-  const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
-  const ref = primitiveColorMap.value[normalized]
-  return ref || hex
-}
-
-// Get the primitive reference token for a semantic value
-function getSemanticRef(tokenId) {
-  const hex = getSemanticValue(tokenId)
-  const normalized = hex.startsWith('#') ? hex.toLowerCase() : hex
-  return primitiveColorMap.value[normalized] || null
-}
-
 // ---------------------------------------------------------------------------
 // Theme-aware helpers: resolve to active previewMode
 // ---------------------------------------------------------------------------
@@ -1450,17 +1418,6 @@ function assignHexToSemantic(tokenId, hex) {
 }
 
 // Contrast helpers
-function relativeLuminance(hex) {
-  if (!hex || hex === 'transparent' || !hex.startsWith('#')) return 0
-  const h = hex.replace('#', '')
-  const [r, g, b] = [
-    parseInt(h.substr(0, 2), 16) / 255,
-    parseInt(h.substr(2, 2), 16) / 255,
-    parseInt(h.substr(4, 2), 16) / 255
-  ].map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4))
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-
 function getContrastTarget(tokenId) {
   const tokens = store.currentSemanticTokens
   if (tokenId.startsWith('text-') || tokenId.startsWith('on-')) {
@@ -1470,23 +1427,6 @@ function getContrastTarget(tokenId) {
     return tokens['text-primary'] || '#000000'
   }
   return ''
-}
-
-function getContrastRatio(tokenId) {
-  const target = getContrastTarget(tokenId)
-  if (!target) return 0
-  const l1 = relativeLuminance(getSemanticValue(tokenId))
-  const l2 = relativeLuminance(target)
-  const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)
-  return Math.round(ratio * 10) / 10
-}
-
-function getContrastLevel(tokenId) {
-  const ratio = getContrastRatio(tokenId)
-  if (ratio >= 7) return 'aaa'
-  if (ratio >= 4.5) return 'aa'
-  if (ratio >= 3) return 'aa-large'
-  return 'fail'
 }
 
 // ---------------------------------------------------------------------------

@@ -180,8 +180,6 @@ function renderBadge(text, type = 'success') {
 
 function renderSortIcon(active, direction = 'asc', activeColor = '#0066cc', mutedColor = '#94a3b8') {
   const color = active ? activeColor : mutedColor
-  const arrowUp   = active && direction === 'asc'  ? '↑' : '↕'
-  const arrowDown = active && direction === 'desc' ? '↓' : ''
   const glyph = active ? (direction === 'asc' ? '↑' : '↓') : '↕'
   return h('span', { style: { fontSize: '11px', color, marginLeft: '4px', opacity: active ? '1' : '0.6' } }, glyph)
 }

@@ -121,29 +121,6 @@ function parsePx(value) {
 }
 
 // ---------------------------------------------------------------------------
-// Helper: Token-Wert fuer eine Komponente auflösen
-// ---------------------------------------------------------------------------
-function resolveTokenValue(tokenId, store) {
-  const override = store.currentComponentOverrides?.[tokenId]
-  if (override !== undefined) return override
-
-  for (const group of componentTokenGroups) {
-    const tok = group.tokens?.find(t => t.id === tokenId)
-    if (tok) return tok.default || ''
-    // Subgroup-Suche
-    if (group.subgroups) {
-      for (const sub of group.subgroups) {
-        if (sub.tokenIds?.includes(tokenId)) {
-          const fullTok = group.tokens?.find(t => t.id === tokenId)
-          return fullTok?.default || ''
-        }
-      }
-    }
-  }
-  return ''
-}
-
-// ---------------------------------------------------------------------------
 // Composable
 // ---------------------------------------------------------------------------
 export function useCardDependencies() {

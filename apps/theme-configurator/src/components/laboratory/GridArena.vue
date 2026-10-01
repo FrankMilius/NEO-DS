@@ -214,10 +214,6 @@ function cellColor(theme, opacity = 1) {
     : interactive
 }
 
-function cellBorder(theme) {
-  return theme['border-primary'] || '#ccc'
-}
-
 function labelColor(theme) {
   return theme['text-secondary'] || '#666'
 }

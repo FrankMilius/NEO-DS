@@ -116,12 +116,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
 
-const props = defineProps({
+defineProps({
   collapsed: { type: Boolean, default: false }
 })
 defineEmits(['toggle'])

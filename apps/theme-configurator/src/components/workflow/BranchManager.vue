@@ -159,7 +159,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useFokusFalle } from '../../composables/useFokusFalle.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
 
-const emit = defineEmits(['merge', 'release'])
+defineEmits(['merge', 'release'])
 
 const branchStore = useBranchStore()
 const themeStore = useThemeStore()

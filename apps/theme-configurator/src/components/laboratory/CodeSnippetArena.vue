@@ -299,7 +299,6 @@ function renderCodeLines(t, { lineNumbers = true } = {}) {
   const cm  = (s) => h('span', { style: { color: t['nc-cs-syntax-comment']   || '#6c7086', fontStyle: 'italic' } }, s)
   const pn  = (s) => h('span', { style: { color: t['nc-cs-syntax-punctuation'] || '#bac2de' } }, s)
   const num = (s) => h('span', { style: { color: t['nc-cs-syntax-number']    || '#fab387' } }, s)
-  const cls = (s) => h('span', { style: { color: t['nc-cs-syntax-class']     || '#f9e2af' } }, s)
   const plain = (s) => h('span', { style: { color: t['nc-cs-color'] || '#cdd6f4' } }, s)
 
   const lines = [

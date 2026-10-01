@@ -150,7 +150,7 @@ const matchedLabel = computed(() => {
   const pxVal = displayValue.value
   for (const [catKey, cat] of Object.entries(foundationTokens)) {
     if (!['sizes', 'spacing', 'radius'].includes(catKey)) continue
-    for (const [key, tok] of Object.entries(cat.tokens)) {
+    for (const tok of Object.values(cat.tokens)) {
       if (tok.value === pxVal) {
         const prefix = catKey === 'sizes' ? 'Size' : catKey === 'spacing' ? 'Spacing' : 'Radius'
         return `${prefix} ${tok.label}`

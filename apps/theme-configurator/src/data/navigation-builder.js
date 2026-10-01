@@ -73,7 +73,7 @@ const COMPONENT_ICONS = {
   shell: 'layout', 'card-grid': 'grid-dots',
   'card-grid-cta': 'grid-dots', 'hero-tom': 'photo',
   'hero-tmob': 'photo', 'story-gallery': 'book',
-  'fade-gallery': 'slideshow', 'logo-wall': 'brand-abstract',
+  'fade-gallery': 'slideshow',
   'navigation-orchestration': 'navigation',
   'scroll-expand': 'arrows-maximize', 'scroll-reveal': 'eye',
   'psychedelic-bg': 'palette', 'parallax-bg': 'layers-intersect',
@@ -127,7 +127,6 @@ const SUBGROUP_MAP = {
   pricing: 'Content', 'security-list': 'Content', 'square-value': 'Content',
   'file-upload': 'Form Inputs', 'otp-input': 'Form Inputs',
   'checkbox-group': 'Form Inputs', 'radio-group': 'Form Inputs',
-  card: 'Data Display',
   // Organisms Subgroups
   hero: 'Content', header: 'Layout', footer: 'Layout',
   navigation: 'Navigation', 'navigation-menu': 'Navigation',
@@ -224,7 +223,7 @@ function buildNavigationTree () {
   }
 
   // 3. Objects aus Registry (Layer 04)
-  for (const [name, entry] of Object.entries(registry.objects || {})) {
+  for (const [name] of Object.entries(registry.objects || {})) {
     if (!groups.has('objects')) {
       groups.set('objects', { ...LAYER_CONFIG.object, children: [] })
     }
@@ -241,7 +240,7 @@ function buildNavigationTree () {
   // 4. Templates aus Registry (Layer 08)
   if (Object.keys(registry.templates || {}).length > 0) {
     const templateGroup = { ...LAYER_CONFIG.template, children: [] }
-    for (const [name, entry] of Object.entries(registry.templates)) {
+    for (const [name] of Object.entries(registry.templates)) {
       templateGroup.children.push({
         id: name,
         label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
@@ -255,7 +254,7 @@ function buildNavigationTree () {
   // 5. Utilities aus Registry (Layer 10)
   if (Object.keys(registry.utilities || {}).length > 0) {
     const utilGroup = { ...LAYER_CONFIG.utility, children: [] }
-    for (const [name, entry] of Object.entries(registry.utilities)) {
+    for (const [name] of Object.entries(registry.utilities)) {
       utilGroup.children.push({
         id: name,
         label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),

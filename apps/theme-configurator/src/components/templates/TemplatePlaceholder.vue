@@ -98,7 +98,7 @@
 import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 
-const props = defineProps({
+defineProps({
   templateId: { type: String, required: true }
 })
 

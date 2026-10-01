@@ -477,7 +477,6 @@ const SearchDefault = defineComponent({
   props: { tokens: Object, theme: Object },
   setup(props) {
     return () => {
-      const t = props.tokens
       const theme = props.theme
       return h('div', { style: { padding: '16px' } }, [
         renderSearchInput(theme, { value: '', placeholder: 'Komponente suchen...' })
@@ -599,7 +598,6 @@ const SearchSizes = defineComponent({
   props: { tokens: Object, theme: Object },
   setup(props) {
     return () => {
-      const t = props.tokens
       const theme = props.theme
       const sizes = [
         { label: 'SM', height: '28px', fontSize: '12px' },
@@ -634,7 +632,6 @@ const SearchClear = defineComponent({
   props: { tokens: Object, theme: Object },
   setup(props) {
     return () => {
-      const t = props.tokens
       const theme = props.theme
       const labelStyle = { fontSize: '11px', fontWeight: '600', color: theme['text-tertiary'] || '#9ca3af', marginBottom: '6px' }
 

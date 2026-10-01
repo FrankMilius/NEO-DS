@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { semanticTokenGroups, foundationTokens } from '../../data/tokens.js'
 

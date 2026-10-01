@@ -107,7 +107,7 @@ const activeComponentId = computed(() => store.state.activeSection.replace('comp
 const { recipe: activeRecipe } = useRecipeLoader(activeComponentId)
 
 // Specimen-Click Delegation: Klicks auf .arena-specimen -> Inspector-Filter
-const { selectedSpecimenId } = useSpecimenClick(labViewportRef, activeComponentId, activeRecipe)
+useSpecimenClick(labViewportRef, activeComponentId, activeRecipe)
 
 const filterOptions = computed(() => {
   if (!activeRecipe.value) return {}
@@ -144,10 +144,6 @@ const BREAKPOINTS = [
   { key: 'xl',  label: 'XL',  width: 1600 },
   { key: 'xxl', label: 'XXL', width: 1920 },
 ]
-
-function toggleFullscreen() {
-  isFullscreen.value = !isFullscreen.value
-}
 
 function onEscKey(e) {
   if (e.key === 'Escape') isFullscreen.value = false

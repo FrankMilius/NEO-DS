@@ -17,7 +17,7 @@
 //   - docs/color-docs.js
 // ==========================================================================
 
-import { reactive, computed, watch } from 'vue'
+import { reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 // ---------------------------------------------------------------------------

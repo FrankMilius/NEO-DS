@@ -391,7 +391,6 @@ const InputAdornments = defineComponent({
   setup(props) {
     return () => {
       const t = props.tokens
-      const base = inputStateStyle(t, 'default', 'md')
       const iconColor = t['nc-input-icon-color'] || TOKEN_DEFAULTS['nc-input-icon-color']
       const affixColor = t['nc-input-affix-color'] || TOKEN_DEFAULTS['nc-input-affix-color']
       const affixBg = t['nc-input-affix-bg'] || TOKEN_DEFAULTS['nc-input-affix-bg']

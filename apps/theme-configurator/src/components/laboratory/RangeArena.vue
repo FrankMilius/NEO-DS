@@ -142,16 +142,6 @@ const SIZE_TRACK_HEIGHT = { xs: '2px', sm: '3px', md: '4px', lg: '6px' }
 const SIZE_THUMB = { xs: '14px', sm: '16px', md: '20px', lg: '26px' }
 const SIZE_LABEL = { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG' }
 
-function trackWrapStyle() {
-  return {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px',
-    width: '100%'
-  }
-}
-
 function trackStyle(tokens, { size = 'md', disabled = false } = {}) {
   const h_ = SIZE_TRACK_HEIGHT[size] || tokens['nc-range-track-height'] || '4px'
   return {

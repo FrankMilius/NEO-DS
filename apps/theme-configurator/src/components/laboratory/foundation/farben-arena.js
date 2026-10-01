@@ -91,11 +91,10 @@ export function useFarbenArena () {
     }, 900)
   }
 
-  let prevColorSnapshot = null
   watch(
     () => JSON.stringify(store.state.themes[store.state.activeThemeSet]),
     (next, prev) => {
-      if (!prev || !isColorsSection.value) { prevColorSnapshot = next; return }
+      if (!prev || !isColorsSection.value) return
       try {
         const oldObj = JSON.parse(prev)
         const newObj = JSON.parse(next)
@@ -114,7 +113,6 @@ export function useFarbenArena () {
           if (affected.size > 0) triggerPulse(affected)
         }
       } catch {}
-      prevColorSnapshot = next
     }
   )
 

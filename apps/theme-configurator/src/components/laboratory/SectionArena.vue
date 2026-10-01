@@ -462,7 +462,7 @@ import { useLayoutDependencies } from '../../composables/useLayoutDependencies.j
 
 const store = useThemeStore()
 const { recipe } = useRecipeLoader('section')
-const { cascadeChain, relevantConflicts, smartLinks, contextualNotes } = useLayoutDependencies('section')
+const { cascadeChain, relevantConflicts, contextualNotes } = useLayoutDependencies('section')
 
 const activeThemeMode = computed(() => store.state.previewMode === 'split' ? 'light' : store.state.previewMode)
 const t = computed(() => store.state.themes[store.state.activeThemeSet][activeThemeMode.value])
