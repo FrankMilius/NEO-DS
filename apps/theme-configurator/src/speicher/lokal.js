@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // Speicher-Adapter "lokal" (Plan v2, 2.6) — heutiges Verhalten
 // ==========================================================================
@@ -98,7 +99,10 @@ function nichtUnterstuetzt(was) {
   return Promise.reject(new SpeicherFehler('nicht-unterstuetzt', `Lokaler Speicher: ${was} gibt es nur mit Drupal.`))
 }
 
-/** @returns {import('./index.js').Speicher} */
+/**
+ * @param {{ fetch?: typeof globalThis.fetch }} [optionen]  fetch fuer Tests
+ * @returns {import('./index.js').Speicher}
+ */
 export function erzeugeLokalenSpeicher({ fetch: f } = {}) {
   const holeFetch = () => f || globalThis.fetch
   return {

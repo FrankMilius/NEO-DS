@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * PsychedelicRenderer — Canvas-based psychedelic background pattern renderer.
  *

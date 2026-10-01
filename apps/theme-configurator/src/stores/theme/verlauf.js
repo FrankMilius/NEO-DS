@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Werkseinstellung, Theme-Daten-Schluessel und Undo/Redo
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a; Undo-Schritte seit 3.3c per Plugin)
 

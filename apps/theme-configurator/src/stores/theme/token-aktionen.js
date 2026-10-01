@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Aenderungen an Semantik-, Foundation-, Komponenten- und Custom-Tokens, Schriftskala, Primitives
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 

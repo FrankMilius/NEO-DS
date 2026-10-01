@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Export als CSS-Variablen und JSON
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 

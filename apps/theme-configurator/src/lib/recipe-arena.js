@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // Recipe-Arena — aus einem Recipe die Vorschau-Zellen bauen
 // ==========================================================================
@@ -660,6 +661,7 @@ export function zellenLabel (zelle, variierend) {
 export function specimenAnsicht (specimen, recipe, componentId, vorlage) {
   const variierend = variierendeAchsen(specimen, recipe)
   const zellen = zellenFuer(specimen, recipe).map((zelle) => {
+    /** @type {{ html: string, quelle: string, fehler?: string, modell: any }} */
     let ergebnis
     try {
       ergebnis = renderZelle(zelle, specimen, recipe, componentId, vorlage)

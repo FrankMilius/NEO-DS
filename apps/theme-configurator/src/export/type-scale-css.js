@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @file
  * CSS-Zeilen fuer die fluide Schriftskala (--fs-*) beim Export (Plan v2, 2.3).

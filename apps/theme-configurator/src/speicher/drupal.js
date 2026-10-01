@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // Speicher-Adapter "drupal" (Plan v2, 2.6)
 // ==========================================================================
@@ -43,8 +44,8 @@ export const MAX_ANFRAGE_BYTES = 1024 * 1024
 export const ALLE_RECHTE = ['ansehen', 'bearbeiten', 'veroeffentlichen']
 
 /**
- * @param {object} konfig
- * @param {string} konfig.basisUrl     z. B. '/api/neo-theme-konfigurator/v1'
+ * @param {object} [konfig]
+ * @param {string} [konfig.basisUrl]     z. B. '/api/neo-theme-konfigurator/v1'
  * @param {string} [konfig.csrfToken]  fertiges Token (z. B. per drupalSettings)
  * @param {string} [konfig.csrfTokenUrl='/session/token']
  * @param {string[]} [konfig.rechte=['ansehen']]  Rechte der angemeldeten Person
@@ -75,6 +76,9 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
   }
 
   /**
+   * @param {string} methode
+   * @param {string} pfad
+   * @param {{ body?: any, etag?: string|null, text?: boolean }} [optionen]
    * @returns {Promise<{ daten: any, etag: string|null, status: number }>}
    */
   async function anfrage(methode, pfad, { body, etag, text = false } = {}) {
@@ -174,6 +178,7 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
       return dokument(await anfrage('PUT', themePfad(meta.id), { body, etag }))
     },
 
+    /** @param {string} id @param {{ etag?: string }} [o] */
     async loesche(id, { etag } = {}) {
       await anfrage('DELETE', themePfad(id), { etag })
     },
@@ -186,7 +191,7 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
 
     /**
      * @param {string} id
-     * @param {{ etag: string, kontrast: object, css: string, notiz?: string }} opt
+     * @param {{ etag?: string, kontrast?: object, css?: string, notiz?: string }} [opt]  css ist Pflicht (Laufzeitpruefung)
      * @returns {Promise<{ meta: object, css: { pfad, url?, version, hash, ausgeliefert }, etag }>}
      */
     async veroeffentliche(id, { etag, kontrast, css, notiz } = {}) {

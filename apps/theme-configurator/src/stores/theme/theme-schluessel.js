@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Liste der Theme-Daten-Schluessel (Plan v2, 2.6)
 // Reines Modul ohne Vue und Tokens: Store, Speicher-Adapter und Node-Werkzeuge
 // (scripts/pruefe-kunden-themes.mjs) benutzen dieselbe Liste.

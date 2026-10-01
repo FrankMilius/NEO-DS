@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // Speicher-Abstraktion des Theme-Konfigurators (Plan v2, 2.6)
 // ==========================================================================
@@ -20,21 +21,24 @@
 // Lokal hat man alle Rechte; mit Drupal die aus der Konfiguration (ohne
 // Angabe nur 'ansehen'). darf(recht) blendet in der App aus und verhindert
 // unnoetige Aufrufe — verbindlich prueft der Server (403).
-//
-// @typedef {object} Speicher
-// @property {'lokal'|'drupal'} art
-// @property {{ veroeffentlichen: boolean, aktivieren: boolean, konflikterkennung: boolean, branchesUndReleases: boolean }} faehigkeiten
-// @property {string[]} rechte                                    Teilmenge von RECHTE
-// @property {() => Promise<object[]>} liste                      Katalog (ThemeMeta[], drupal mit `aktiv`)
-// @property {(id: string) => Promise<{meta, daten, etag}|null>} lade
-// @property {(e: {meta, daten, etag?}) => Promise<{meta, daten?, etag}>} speichere
-// @property {(id: string, o?: {etag}) => Promise<void>} loesche
-// @property {(id: string) => Promise<object[]>} aktiviere        nur drupal: genau ein Theme aktiv
-// @property {(id: string, o: {etag, kontrast, css, notiz?}) => Promise<object>} veroeffentliche
-// @property {(id: string, format: 'css'|'abweichungen') => Promise<string>} exportiere
-// @property {() => Promise<object|null>} ladeStandard            NEO-Standard (Werkseinstellung)
-// @property {(payload: object) => Promise<object>} sichereEntwurf nur lokal: POST /api/save-theme
 // ==========================================================================
+
+/**
+ * Schnittstelle beider Adapter (lokal.js, drupal.js).
+ * @typedef {object} Speicher
+ * @property {'lokal'|'drupal'} art
+ * @property {{ veroeffentlichen: boolean, aktivieren: boolean, konflikterkennung: boolean, branchesUndReleases: boolean }} faehigkeiten
+ * @property {string[]} rechte                                    Teilmenge von RECHTE
+ * @property {() => Promise<object[]>} liste                      Katalog (ThemeMeta[], drupal mit `aktiv`)
+ * @property {(id: string) => Promise<{meta, daten, etag}|null>} lade
+ * @property {(e: {meta, daten, etag?}) => Promise<{meta, daten?, etag}>} speichere
+ * @property {(id: string, o?: {etag}) => Promise<void>} loesche
+ * @property {(id: string) => Promise<object[]>} aktiviere        nur drupal: genau ein Theme aktiv
+ * @property {(id: string, o: {etag, kontrast, css, notiz?}) => Promise<object>} veroeffentliche
+ * @property {(id: string, format: 'css'|'abweichungen') => Promise<string>} exportiere
+ * @property {() => Promise<object|null>} ladeStandard            NEO-Standard (Werkseinstellung)
+ * @property {(payload: object) => Promise<object>} sichereEntwurf nur lokal: POST /api/save-theme
+ */
 
 import { erzeugeLokalenSpeicher } from './lokal.js'
 import { erzeugeDrupalSpeicher } from './drupal.js'
@@ -50,7 +54,11 @@ export const RECHTE = ['ansehen', 'bearbeiten', 'veroeffentlichen']
 
 const ARTEN = ['lokal', 'drupal']
 
-/** Konfiguration aus window.NEO_KONFIGURATOR und import.meta.env zusammensetzen. */
+/**
+ * Konfiguration aus window.NEO_KONFIGURATOR und import.meta.env zusammensetzen.
+ * @param {object} [fenster]
+ * @param {Partial<ImportMetaEnv>} [env]
+ */
 export function leseKonfiguration(
   fenster = globalThis.NEO_KONFIGURATOR,
   env = (typeof import.meta !== 'undefined' && import.meta.env) || {}

@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Abgeleitete Werte (computed) fuer das aktive Theme-Set
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 

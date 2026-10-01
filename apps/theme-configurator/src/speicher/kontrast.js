@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // Kontrast-Pruefung fuer das Veroeffentlichen (Plan v2, 2.6)
 // ==========================================================================
@@ -26,6 +27,7 @@ import PAARLISTE from '../../../../data/kontrast-paare.json' with { type: 'json'
  * Standard uebernimmt, besteht die Pruefung nicht, bis das Design System
  * sie korrigiert (Entscheidung G; tests/speicher/kontrast.test.js).
  */
+/** @type {Array<[string, string, number]>} vordergrund, hintergrund, mindestens */
 export const KONTRAST_PAARE = PAARLISTE.paare.map(p => [p.vordergrund, p.hintergrund, p.mindestens])
 
 /** Verfahrensangabe im Ergebnis (aus der Paarliste). */
@@ -39,6 +41,7 @@ function hexZuRgb(hex) {
   return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16) / 255)
 }
 
+/** @param {number[]} rgb */
 function luminanz([r, g, b]) {
   const k = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
   return 0.2126 * k(r) + 0.7152 * k(g) + 0.0722 * k(b)

@@ -1,3 +1,4 @@
+// @ts-check
 // ==========================================================================
 // NEO Theme Configurator — Branch Management Store
 // ==========================================================================
@@ -37,7 +38,7 @@ const state = reactive({
 
 const branchList = computed(() => {
   return Object.values(state.branches).sort((a, b) => {
-    return new Date(b.createdAt) - new Date(a.createdAt)
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   })
 })
 

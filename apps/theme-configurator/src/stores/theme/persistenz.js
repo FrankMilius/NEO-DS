@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Speichern auf Server und in localStorage, Laden, Auto-Save
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 

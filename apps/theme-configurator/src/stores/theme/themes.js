@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Gespeicherte Themes, NEO-Defaults vom Server, Downloads
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
@@ -461,6 +462,8 @@ export function pruefeThemeKontrast(themeSet = state.activeThemeSet) {
  * ihr Ergebnis und das CSS (exportAsCSSVars) mit; der Server prueft den
  * Kontrast verbindlich selbst (422) und legt das CSS dort ab, wo der
  * Library-Override des Frontend-Themes es erwartet (Frage 6).
+ *
+ * @param {{ notiz?: string }} [optionen]
  */
 export async function veroeffentlicheTheme({ notiz } = {}) {
   const sp = speicher()

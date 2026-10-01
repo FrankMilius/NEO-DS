@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Bereich Praesentation (Plan v2, 2.5)
 // ==========================================================================
 // Quelle ist foundation.praesentation (tokens.generated.js). Abweichungen

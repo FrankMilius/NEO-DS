@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @file
  * Erzeugt die CSS-Zeilen fuer Foundation-Tokens beim Export.

@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @file
  * CSS-Variablen fuer die Recipe-Vorschau (Plan v2, 3.5 · 30.09.2026).

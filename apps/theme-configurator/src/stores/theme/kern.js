@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Kern: gueltige Token-IDs, deepClone, reaktiver State, Foundation-Defaults
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
@@ -311,7 +312,7 @@ export function getDefaultFoundation() {
   const result = {}
   for (const [category, data] of Object.entries(foundationTokens)) {
     result[category] = {}
-    if (!data.tokens) continue
+    if (!('tokens' in data) || !data.tokens) continue  // z. B. elements, themes
     for (const [key, token] of Object.entries(data.tokens)) {
       result[category][key] = token.value
     }

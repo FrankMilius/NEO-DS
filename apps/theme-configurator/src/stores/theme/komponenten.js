@@ -1,3 +1,4 @@
+// @ts-check
 // Theme-Store · Komponenten-Sperre, Versionen und eigene Varianten
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
