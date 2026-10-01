@@ -3,36 +3,33 @@
 // ==========================================================================
 // Rechnet WCAG-2.1-Kontraste der wichtigsten semantischen Paare eines
 // Theme-Sets (hell und dunkel). Das Ergebnis geht beim Veroeffentlichen an
-// den Server; ob Drupal es als Tor benutzt, selbst nachrechnet oder ein
-// Recht zum Uebergehen kennt, ist offen (ADR-002, offene Fragen).
+// den Server. Die App zeigt das Ergebnis sofort; der Server prueft beim
+// Veroeffentlichen verbindlich mit derselben Paarliste (ADR-002, Frage 5).
+// Ein Recht zum Uebergehen gibt es nicht (Frage 2).
 //
 // Nur Hex-Werte werden bewertet. Alles andere (rgba, var(), color-mix) ist
 // "ungeklaert" und zaehlt NICHT als bestanden.
 // ==========================================================================
 
+import PAARLISTE from '../../../../data/kontrast-paare.json' with { type: 'json' }
+
 /**
- * [Vordergrund, Hintergrund, Mindestwert]
+ * Die Paarliste steht seit Plan v2, 2.6 in data/kontrast-paare.json — eine
+ * Quelle fuer App, Pruefwerkzeug (scripts/pruefe-kunden-themes.mjs) und den
+ * Drupal-Server, der beim Veroeffentlichen verbindlich nachrechnet
+ * (Entscheidung Frage 5). Hier als [Vordergrund, Hintergrund, Mindestwert].
  *
  * BEFUND 30.09.2026: Im NEO-Standard (hell) erreichen on-danger/on-success
  * auf feedback-danger/-success nur 3,35:1 (#ffffff auf #fa4d56 bzw. dem
  * Erfolgs-Gruen). Beide Paare tragen Text (Banner, Badge, Label solid) —
  * deshalb bleiben sie im Tor. Folge: Ein Theme, das diese Werte vom
  * Standard uebernimmt, besteht die Pruefung nicht, bis das Design System
- * sie korrigiert (siehe tests/speicher/kontrast.test.js und ADR-002).
+ * sie korrigiert (Entscheidung G; tests/speicher/kontrast.test.js).
  */
-export const KONTRAST_PAARE = [
-  ['text-primary', 'background-base', 4.5],
-  ['text-secondary', 'background-base', 4.5],
-  ['text-primary', 'layer-01', 4.5],
-  ['text-link', 'background-base', 4.5],
-  ['text-on-interactive', 'interactive-default', 4.5],
-  ['on-accent', 'background-accent', 4.5],
-  ['text-danger', 'background-base', 4.5],
-  ['on-danger', 'feedback-danger', 4.5],
-  ['on-success', 'feedback-success', 4.5],
-  ['border-control', 'background-base', 3],
-  ['interactive-focus', 'background-base', 3],
-]
+export const KONTRAST_PAARE = PAARLISTE.paare.map(p => [p.vordergrund, p.hintergrund, p.mindestens])
+
+/** Verfahrensangabe im Ergebnis (aus der Paarliste). */
+export const KONTRAST_VERFAHREN = PAARLISTE._meta.verfahren
 
 function hexZuRgb(hex) {
   if (typeof hex !== 'string') return null
@@ -79,7 +76,7 @@ export function pruefeKontrast(themes, paare = KONTRAST_PAARE) {
   }
   return {
     bestanden: ergebnisse.length > 0 && ergebnisse.every(e => e.bestanden === true),
-    verfahren: 'WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1',
+    verfahren: KONTRAST_VERFAHREN,
     geprueftAm: new Date().toISOString(),
     ergebnisse,
   }

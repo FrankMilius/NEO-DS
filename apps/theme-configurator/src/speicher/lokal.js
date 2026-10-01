@@ -9,7 +9,8 @@
 // Die synchronen Helfer unten sind die EINZIGE Stelle, die diese Schluessel
 // kennt; persistenz.js und themes.js rufen sie auf (vorher standen die
 // localStorage-Aufrufe dort direkt — Verhalten unveraendert).
-// Keine Revisionen, kein Veroeffentlichen, keine Konflikterkennung.
+// Kein Veroeffentlichen, kein Aktivieren, keine Konflikterkennung; alle
+// Rechte (es gibt keine Anmeldung). Branches/Releases bleiben lokal verfuegbar.
 // ==========================================================================
 
 import { SpeicherFehler } from './fehler.js'
@@ -102,7 +103,8 @@ export function erzeugeLokalenSpeicher({ fetch: f } = {}) {
   const holeFetch = () => f || globalThis.fetch
   return {
     art: 'lokal',
-    faehigkeiten: { revisionen: false, veroeffentlichen: false, konflikterkennung: false },
+    faehigkeiten: { veroeffentlichen: false, aktivieren: false, konflikterkennung: false, branchesUndReleases: true },
+    rechte: ['ansehen', 'bearbeiten', 'veroeffentlichen'],
 
     async liste() {
       const liste = leseKatalog()
@@ -134,8 +136,7 @@ export function erzeugeLokalenSpeicher({ fetch: f } = {}) {
       if (Array.isArray(katalog)) schreibeKatalog(katalog.filter(t => t.id !== id))
     },
 
-    async revisionen() { return [] },
-    stelleWiederHer() { return nichtUnterstuetzt('Revisionen') },
+    aktiviere() { return nichtUnterstuetzt('Aktivieren') },
     veroeffentliche() { return nichtUnterstuetzt('Veroeffentlichen') },
     exportiere() { return nichtUnterstuetzt('Server-Export') },
 

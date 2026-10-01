@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { kontrastVerhaeltnis, pruefeKontrast, KONTRAST_PAARE } from '../../src/speicher/kontrast.js'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { kontrastVerhaeltnis, pruefeKontrast, KONTRAST_PAARE, KONTRAST_VERFAHREN } from '../../src/speicher/kontrast.js'
 import { semanticDefaults } from '../../src/data/tokens.js'
 
 describe('Kontrast-Pruefung (Tor vor dem Veroeffentlichen)', () => {
@@ -32,6 +34,27 @@ describe('Kontrast-Pruefung (Tor vor dem Veroeffentlichen)', () => {
       const durchgefallen = erg.ergebnisse.filter(e => e.bestanden !== true)
         .map(e => `${e.modus}:${e.vordergrund}/${e.hintergrund}`)
       expect(durchgefallen, set).toEqual(['light:on-danger/feedback-danger', 'light:on-success/feedback-success'])
+    }
+  })
+
+  // Plan v2, 2.6: Die Paarliste liegt als JSON fuer App UND PHP-Server vor
+  // (data/kontrast-paare.json). Beide muessen identisch pruefen.
+  it('Paarliste aus data/kontrast-paare.json ist dieselbe, die die App prueft', () => {
+    const datei = JSON.parse(readFileSync(resolve(__dirname, '../../../../data/kontrast-paare.json'), 'utf8'))
+    const ausDatei = datei.paare.map(p => [p.vordergrund, p.hintergrund, p.mindestens])
+    expect(KONTRAST_PAARE).toEqual(ausDatei)
+    expect(KONTRAST_VERFAHREN).toBe(datei._meta.verfahren)
+    expect(datei._meta.modi).toEqual(['light', 'dark'])
+    for (const p of datei.paare) {
+      expect(Object.keys(p).sort()).toEqual(['hintergrund', 'mindestens', 'vordergrund'])
+      expect([3, 4.5]).toContain(p.mindestens)
+    }
+    for (const set of ['neo', 'customer']) {
+      const themes = { light: semanticDefaults[`${set}-light`], dark: semanticDefaults[`${set}-dark`] }
+      const a = pruefeKontrast(themes)
+      const b = pruefeKontrast(themes, ausDatei)
+      expect(a.ergebnisse).toEqual(b.ergebnisse)
+      expect(a.bestanden).toBe(b.bestanden)
     }
   })
 })

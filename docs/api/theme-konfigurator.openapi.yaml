@@ -1,37 +1,55 @@
 openapi: 3.1.0
 info:
-  title: NEO Theme-Konfigurator – Speicher-Schnittstelle (Entwurf)
-  version: 0.1.0-entwurf
+  title: NEO Theme-Konfigurator – Speicher-Schnittstelle
+  version: 1.0.0
   description: |
-    ENTWURF als Gespraechsgrundlage mit den Drupal-Entwicklern (Plan v2, 2.6).
-    Nichts hiervon ist abgestimmt. Hintergrund, Optionen und offene Fragen:
-    docs/adr/ADR-002-speichern-in-drupal.md.
+    Vertrag zwischen Theme-Konfigurator (Vue-App) und Drupal 11 (neo Workplace,
+    Config Tools), abgestimmt mit der Drupal-Entwicklung am 01.10.2026
+    (Plan v2, 2.6). Entscheidungen und Folgen: docs/adr/ADR-002-speichern-in-drupal.md.
 
-    Der Theme-Konfigurator ist Teil der Config Tools der neo Workplace
-    Plattform (Drupal 11). Administratorinnen und Administratoren passen damit
-    das NEO-Standard-Theme an das Corporate Design eines Kunden an.
-
-    Grundsaetze
-    - Ein Theme gehoert genau einem Kunden (Pfadsegment {kunde}). Laeuft je
-      Kunde eine eigene Drupal-Instanz, entfaellt das Segment oder ist fest.
-    - Versionierung ausschliesslich ueber Drupal-Revisionen.
-    - Optimistische Sperre: jede Antwort mit einem Theme liefert den Header
-      ETag (= Revisions-ID). Aendernde Aufrufe senden If-Match. Passt er
-      nicht, antwortet der Server mit 412 und dem aktuellen ETag.
-    - Veroeffentlichen nur mit bestandener Kontrast-Pruefung (Tor).
+    Grundsätze
+    - Eine Drupal-Instanz je Kunde, daher kein Kunden-Segment im Pfad.
+      Mehrere Themes je Instanz, genau eines ist aktiv.
+    - Ablage als Config Entity, ohne Drupal-Revisionen. Es gibt keinen
+      Verlauf und kein Zurücksetzen im Server.
+    - Gespeichert werden nur die ABWEICHUNGEN vom NEO-Standard
+      (Schema ThemeAbweichungen). Beim Lesen führt die App sie mit dem
+      aktuellen Standard (GET /neo-standard) zusammen; ein neuer Standard
+      wirkt dadurch automatisch auf alle Themes.
+    - Konflikterkennung ohne Sperre: Jede Antwort mit einem Theme liefert
+      den Header ETag = SHA-256 des kanonischen JSON von
+      { meta: { name, version }, abweichungen } (Hex, in Anführungszeichen).
+      Ändernde Aufrufe senden If-Match. Fehlt er, antwortet der Server mit
+      428, passt er nicht, mit 412 und dem aktuellen ETag. Die App lädt dann
+      neu und lässt die Person entscheiden.
+    - Kanonisches JSON: Objektschlüssel rekursiv sortiert, Listen in ihrer
+      Reihenfolge, keine Leerzeichen, Unicode und Schrägstriche unmaskiert.
+      Prüfvektor: { "meta": { "name": "Beispiel", "version": "1.0.0" },
+      "abweichungen": {} } ergibt
+      21bd9c5994626d8dce75705b8e20cd10683c9bc3efa98ad7e649ac12eab92a33.
+    - Validierung: Der Server prüft jeden Theme-Körper gegen das JSON-Schema
+      (ThemeAbweichungen) und weist Anfragen über 1 MB (1 048 576 Bytes) mit
+      413 ab (Erweiterung x-neo-max-bytes am Request-Body).
+    - Veröffentlichen nur mit bestandener Kontrast-Prüfung. Die App schickt
+      ihr Ergebnis mit, der Server rechnet verbindlich selbst nach (gleiche
+      Paarliste data/kontrast-paare.json) und lehnt mit 422 ab. Ein Recht zum
+      Übergehen gibt es nicht.
+    - Rechte je Operation in der Erweiterung x-neo-recht: ansehen,
+      bearbeiten, veroeffentlichen (Drupal-Permissions, siehe ADR-002).
+      Fehlt das Recht, antwortet der Server mit 403.
+    - Anmeldung über die Drupal-Sitzung (Cookie); die App ist in eine
+      Drupal-Seite eingebettet. Ändernde Aufrufe mit X-CSRF-Token (per
+      drupalSettings oder GET /session/token).
     - Fehler als application/problem+json (RFC 9457).
-    - Anmeldung ueber die Drupal-Sitzung (Cookie), aendernde Aufrufe mit
-      X-CSRF-Token (Drupal-Core: GET /session/token).
 
-    Gegenstueck in der App: apps/theme-configurator/src/speicher/drupal.js.
+    Gegenstück in der App: apps/theme-configurator/src/speicher/drupal.js.
 servers:
   - url: /api/neo-theme-konfigurator/v1
-    description: Relativ zur Drupal-Instanz (Vorschlag)
+    description: Relativ zur Drupal-Instanz des Kunden
 security:
   - drupalSitzung: []
 tags:
   - name: Themes
-  - name: Revisionen
   - name: Veroeffentlichen
   - name: Standard
   - name: Export
@@ -40,30 +58,36 @@ paths:
     get:
       tags: [Standard]
       operationId: ladeNeoStandard
-      summary: NEO-Standard-Theme (Werkseinstellung) lesen
+      summary: NEO-Standard (Werkseinstellung) mit Version lesen
+      x-neo-recht: ansehen
       description: |
-        Entspricht heute GET /api/neo-theme-defaults des lokalen Docs-Servers
-        (Datei data/neo-theme-defaults/neo-theme-defaults.json). Ausgangspunkt
-        fuer jedes Kunden-Theme; wird mit dem Design System ausgeliefert.
+        Inhalt von data/neo-theme-defaults/neo-theme-defaults.json, das mit dem
+        Design System ausgeliefert wird (Entscheidung Frage 9a). Grundlage für
+        das Zusammenführen der Abweichungen. Die Version steht in _meta.version
+        und zusätzlich im Header ETag.
       responses:
         '200':
           description: NEO-Standard
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NeoStandard'
         '401':
           $ref: '#/components/responses/NichtAngemeldet'
-  /kunden/{kunde}/themes:
-    parameters:
-      - $ref: '#/components/parameters/Kunde'
+        '403':
+          $ref: '#/components/responses/Verboten'
+  /themes:
     get:
       tags: [Themes]
       operationId: listeThemes
-      summary: Themes eines Kunden auflisten
+      summary: Themes der Instanz auflisten (mit aktiv)
+      x-neo-recht: ansehen
       responses:
         '200':
-          description: Katalog (nur Metadaten, ohne Theme-Daten)
+          description: Katalog (nur Metadaten); genau ein Eintrag hat aktiv = true, solange überhaupt eines aktiviert wurde
           content:
             application/json:
               schema:
@@ -75,12 +99,14 @@ paths:
     post:
       tags: [Themes]
       operationId: legeThemeAn
-      summary: Theme anlegen (erste Revision)
+      summary: Theme anlegen
+      x-neo-recht: bearbeiten
       security:
         - drupalSitzung: []
           csrfToken: []
       requestBody:
         required: true
+        x-neo-max-bytes: 1048576
         content:
           application/json:
             schema:
@@ -103,19 +129,21 @@ paths:
           $ref: '#/components/responses/NichtAngemeldet'
         '403':
           $ref: '#/components/responses/Verboten'
+        '413':
+          $ref: '#/components/responses/ZuGross'
         '422':
           $ref: '#/components/responses/Ungueltig'
-  /kunden/{kunde}/themes/{themeId}:
+  /themes/{themeId}:
     parameters:
-      - $ref: '#/components/parameters/Kunde'
       - $ref: '#/components/parameters/ThemeId'
     get:
       tags: [Themes]
       operationId: ladeTheme
-      summary: Theme lesen (neueste Revision)
+      summary: Theme lesen (Abweichungen vom Standard)
+      x-neo-recht: ansehen
       responses:
         '200':
-          description: Theme mit Daten
+          description: Theme mit Abweichungen; ETag = Inhalts-Hash
           headers:
             ETag:
               $ref: '#/components/headers/ETag'
@@ -132,12 +160,14 @@ paths:
     put:
       tags: [Themes]
       operationId: speichereTheme
-      summary: Theme speichern (neue Revision, mit Konflikterkennung)
+      summary: Theme speichern (mit Konflikterkennung)
+      x-neo-recht: bearbeiten
       description: |
-        Legt eine neue Revision an. If-Match ist Pflicht und muss der ETag der
-        Revision sein, auf der die Aenderung beruht. Hat inzwischen jemand
+        Überschreibt die Config Entity. If-Match ist Pflicht und muss der ETag
+        des Stands sein, auf dem die Änderung beruht. Hat inzwischen jemand
         anderes gespeichert, antwortet der Server mit 412 und dem aktuellen
-        ETag; die App laedt dann neu und laesst die Person entscheiden.
+        ETag. Ein veröffentlichtes Theme behält seine veröffentlichte CSS-Datei,
+        sein Status wird geaendert-seit-veroeffentlichung.
       security:
         - drupalSitzung: []
           csrfToken: []
@@ -145,6 +175,7 @@ paths:
         - $ref: '#/components/parameters/IfMatch'
       requestBody:
         required: true
+        x-neo-max-bytes: 1048576
         content:
           application/json:
             schema:
@@ -165,19 +196,20 @@ paths:
           $ref: '#/components/responses/Verboten'
         '404':
           $ref: '#/components/responses/NichtGefunden'
-        '409':
-          $ref: '#/components/responses/Konflikt'
         '412':
           $ref: '#/components/responses/Veraltet'
+        '413':
+          $ref: '#/components/responses/ZuGross'
         '422':
           $ref: '#/components/responses/Ungueltig'
         '428':
-          $ref: '#/components/responses/RevisionFehlt'
+          $ref: '#/components/responses/IfMatchFehlt'
     delete:
       tags: [Themes]
       operationId: loescheTheme
-      summary: Theme loeschen
-      description: Ein veroeffentlichtes Theme kann nicht geloescht werden (409).
+      summary: Theme löschen
+      x-neo-recht: bearbeiten
+      description: Das aktive Theme kann nicht gelöscht werden (409).
       security:
         - drupalSitzung: []
           csrfToken: []
@@ -185,7 +217,7 @@ paths:
         - $ref: '#/components/parameters/IfMatch'
       responses:
         '204':
-          description: Geloescht
+          description: Gelöscht
         '403':
           $ref: '#/components/responses/Verboten'
         '404':
@@ -194,94 +226,61 @@ paths:
           $ref: '#/components/responses/Konflikt'
         '412':
           $ref: '#/components/responses/Veraltet'
-  /kunden/{kunde}/themes/{themeId}/revisionen:
+        '428':
+          $ref: '#/components/responses/IfMatchFehlt'
+  /themes/{themeId}/aktivieren:
     parameters:
-      - $ref: '#/components/parameters/Kunde'
       - $ref: '#/components/parameters/ThemeId'
-    get:
-      tags: [Revisionen]
-      operationId: listeRevisionen
-      summary: Revisionen eines Themes (neueste zuerst)
-      responses:
-        '200':
-          description: Revisionsliste
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RevisionsListe'
-        '403':
-          $ref: '#/components/responses/Verboten'
-        '404':
-          $ref: '#/components/responses/NichtGefunden'
-  /kunden/{kunde}/themes/{themeId}/revisionen/{revisionId}:
-    parameters:
-      - $ref: '#/components/parameters/Kunde'
-      - $ref: '#/components/parameters/ThemeId'
-      - $ref: '#/components/parameters/RevisionId'
-    get:
-      tags: [Revisionen]
-      operationId: ladeRevision
-      summary: Eine bestimmte Revision lesen (zum Vergleichen)
-      responses:
-        '200':
-          description: Theme im Stand dieser Revision
-          headers:
-            ETag:
-              $ref: '#/components/headers/ETag'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ThemeDokument'
-        '404':
-          $ref: '#/components/responses/NichtGefunden'
-  /kunden/{kunde}/themes/{themeId}/revisionen/{revisionId}/wiederherstellen:
-    parameters:
-      - $ref: '#/components/parameters/Kunde'
-      - $ref: '#/components/parameters/ThemeId'
-      - $ref: '#/components/parameters/RevisionId'
     post:
-      tags: [Revisionen]
-      operationId: stelleRevisionWiederHer
-      summary: Revision wiederherstellen (als neue Revision)
+      tags: [Veroeffentlichen]
+      operationId: aktiviereTheme
+      summary: Theme aktivieren (genau eines ist aktiv)
+      x-neo-recht: veroeffentlichen
       description: |
-        Wie "Revert" in Drupal: der Stand der alten Revision wird als NEUE
-        Revision gespeichert, die Historie bleibt vollstaendig.
+        Macht dieses Theme zum aktiven und nimmt dem bisherigen den Status.
+        Nur ein veröffentlichtes Theme kann aktiviert werden (sonst 409). Der
+        Server legt die veröffentlichte CSS-Datei des Themes an den Pfad, den
+        der Library-Override des Frontend-Themes referenziert, und leert die
+        betroffenen Caches. Antwort ist die neue Liste.
       security:
         - drupalSitzung: []
           csrfToken: []
-      parameters:
-        - $ref: '#/components/parameters/IfMatch'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         '200':
-          description: Wiederhergestellt
-          headers:
-            ETag:
-              $ref: '#/components/headers/ETag'
+          description: Aktiviert
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ThemeDokument'
+                $ref: '#/components/schemas/ThemeListe'
         '403':
           $ref: '#/components/responses/Verboten'
         '404':
           $ref: '#/components/responses/NichtGefunden'
-        '412':
-          $ref: '#/components/responses/Veraltet'
-  /kunden/{kunde}/themes/{themeId}/veroeffentlichen:
+        '409':
+          $ref: '#/components/responses/Konflikt'
+  /themes/{themeId}/veroeffentlichen:
     parameters:
-      - $ref: '#/components/parameters/Kunde'
       - $ref: '#/components/parameters/ThemeId'
     post:
       tags: [Veroeffentlichen]
       operationId: veroeffentlicheTheme
-      summary: Revision veroeffentlichen (Kontrast-Pruefung als Tor)
+      summary: Theme veröffentlichen (Kontrast-Prüfung als Tor, CSS ablegen)
+      x-neo-recht: veroeffentlichen
       description: |
-        Veroeffentlicht die Revision aus If-Match. Die App schickt ihr
-        Kontrast-Ergebnis mit. Der Server lehnt mit 422 ab, wenn es nicht
-        bestanden ist (offen: Nachrechnen auf dem Server, Recht zum
-        Uebergehen). Ist If-Match nicht die neueste Revision, antwortet er
-        mit 409. Nach Erfolg erzeugt der Server die CSS-Datei, die das
-        Frontend-Theme einbindet (offen: wer erzeugt sie – siehe ADR-002).
+        Veröffentlicht den gespeicherten Stand aus If-Match (412, wenn er nicht
+        mehr aktuell ist). Die App schickt ihr Kontrast-Ergebnis und das CSS
+        (exportAsCSSVars) mit. Der Server führt Standard und Abweichungen
+        selbst zusammen, prüft den Kontrast verbindlich mit
+        data/kontrast-paare.json und lehnt mit 422 ab (Befunde im Feld
+        kontrast). Bei Erfolg legt er das CSS versioniert ab; ist das Theme
+        aktiv, liefert er es sofort über den Library-Override aus und leert
+        die Caches.
       security:
         - drupalSitzung: []
           csrfToken: []
@@ -289,13 +288,14 @@ paths:
         - $ref: '#/components/parameters/IfMatch'
       requestBody:
         required: true
+        x-neo-max-bytes: 1048576
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/VeroeffentlichenAnfrage'
       responses:
         '200':
-          description: Veroeffentlicht
+          description: Veröffentlicht
           headers:
             ETag:
               $ref: '#/components/headers/ETag'
@@ -305,33 +305,37 @@ paths:
                 $ref: '#/components/schemas/VeroeffentlichenAntwort'
         '403':
           $ref: '#/components/responses/Verboten'
-        '409':
-          $ref: '#/components/responses/Konflikt'
+        '404':
+          $ref: '#/components/responses/NichtGefunden'
         '412':
           $ref: '#/components/responses/Veraltet'
+        '413':
+          $ref: '#/components/responses/ZuGross'
         '422':
-          $ref: '#/components/responses/Ungueltig'
-  /kunden/{kunde}/themes/{themeId}/export:
+          $ref: '#/components/responses/KontrastNichtBestanden'
+        '428':
+          $ref: '#/components/responses/IfMatchFehlt'
+  /themes/{themeId}/export:
     parameters:
-      - $ref: '#/components/parameters/Kunde'
       - $ref: '#/components/parameters/ThemeId'
     get:
       tags: [Export]
       operationId: exportiereTheme
-      summary: Theme exportieren (CSS, DTCG oder Theme-JSON)
+      summary: Theme exportieren (veröffentlichtes CSS oder gespeicherte Abweichungen)
+      x-neo-recht: ansehen
+      description: |
+        format=css liefert die zuletzt veröffentlichte CSS-Datei (404, wenn
+        nie veröffentlicht). format=abweichungen liefert das gespeicherte
+        ThemeDokument, Eingabe für das Prüfwerkzeug
+        scripts/pruefe-kunden-themes.mjs vor dem Ausrollen eines neuen
+        NEO-Standards. DTCG und Theme-JSON exportiert die App selbst.
       parameters:
         - name: format
           in: query
           required: true
           schema:
             type: string
-            enum: [css, dtcg, json]
-        - name: revision
-          in: query
-          required: false
-          description: Ohne Angabe die veroeffentlichte Revision, sonst die genannte.
-          schema:
-            type: string
+            enum: [css, abweichungen]
       responses:
         '200':
           description: Exportdatei
@@ -339,13 +343,11 @@ paths:
             text/css:
               schema:
                 type: string
-            application/design-tokens+json:
-              schema:
-                type: object
-                description: W3C Design Tokens (DTCG), wie exportAsDTCG()
             application/json:
               schema:
-                $ref: '#/components/schemas/ThemeExportJson'
+                $ref: '#/components/schemas/ThemeDokument'
+        '403':
+          $ref: '#/components/responses/Verboten'
         '404':
           $ref: '#/components/responses/NichtGefunden'
 components:
@@ -359,38 +361,26 @@ components:
       type: apiKey
       in: header
       name: X-CSRF-Token
-      description: Token von GET /session/token (Drupal-Core)
+      description: Token per drupalSettings oder von GET /session/token (Drupal-Core)
   parameters:
-    Kunde:
-      name: kunde
-      in: path
-      required: true
-      description: Kunden-/Mandantenkennung (offen, siehe ADR-002)
-      schema:
-        type: string
-        pattern: '^[a-z0-9-]+$'
     ThemeId:
       name: themeId
       in: path
       required: true
+      description: Maschinenname der Config Entity
       schema:
         type: string
-    RevisionId:
-      name: revisionId
-      in: path
-      required: true
-      schema:
-        type: string
+        pattern: '^[a-z0-9_]+$'
     IfMatch:
       name: If-Match
       in: header
       required: true
-      description: ETag der Revision, auf der die Aenderung beruht
+      description: ETag (Inhalts-Hash) des Stands, auf dem die Änderung beruht
       schema:
         type: string
   headers:
     ETag:
-      description: Revisions-ID der gelieferten Revision (starker ETag, in Anfuehrungszeichen)
+      description: Starker ETag in Anführungszeichen, SHA-256 (Hex) des kanonischen JSON von { meta { name, version }, abweichungen }; bei /neo-standard die Standard-Version
       schema:
         type: string
   responses:
@@ -401,7 +391,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
     Verboten:
-      description: Recht fehlt oder CSRF-Token ungueltig
+      description: Recht fehlt (x-neo-recht) oder CSRF-Token ungültig
       content:
         application/problem+json:
           schema:
@@ -413,7 +403,7 @@ components:
           schema:
             $ref: '#/components/schemas/Problem'
     Konflikt:
-      description: Zustandskonflikt (z. B. nicht die neueste Revision veroeffentlichen)
+      description: Zustandskonflikt (aktives Theme löschen, nicht veröffentlichtes Theme aktivieren)
       content:
         application/problem+json:
           schema:
@@ -427,14 +417,26 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-    RevisionFehlt:
+    IfMatchFehlt:
       description: If-Match fehlt
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+    ZuGross:
+      description: Anfrage größer als 1 MB (1 048 576 Bytes)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
     Ungueltig:
-      description: Daten abgelehnt (Schema, Farbwerte, Kontrast-Tor)
+      description: Daten abgelehnt (JSON-Schema ThemeAbweichungen, Farbwerte)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    KontrastNichtBestanden:
+      description: Server-Kontrastprüfung nicht bestanden (Befunde in kontrast) oder Daten ungültig
       content:
         application/problem+json:
           schema:
@@ -442,7 +444,7 @@ components:
   schemas:
     Problem:
       type: object
-      description: RFC 9457, ergaenzt um aktuellerEtag und fehler
+      description: RFC 9457, ergänzt um aktuellerEtag, fehler und kontrast
       properties:
         type:
           type: string
@@ -454,19 +456,21 @@ components:
           type: string
         aktuellerEtag:
           type: string
-          description: Bei 409/412 – ETag der neuesten Revision
+          description: Bei 412 – ETag des aktuellen Stands
         fehler:
           type: array
-          description: Fundstellen (z. B. Schemafehler, Kontrast-Paare)
+          description: Fundstellen (Schemafehler, Kontrast-Paare)
           items:
             type: string
+        kontrast:
+          $ref: '#/components/schemas/KontrastErgebnis'
     ThemeSet:
       type: string
       enum: [neo, customer]
-    ProSet:
+    TeilProSet:
       type: object
-      description: Ein Wert je Theme-Set (neo = NEO-Standard, customer = Kunden-Theme)
-      required: [neo, customer]
+      description: Abweichung je Theme-Set; nur die Sets, die vom Standard abweichen
+      additionalProperties: false
       properties:
         neo: {}
         customer: {}
@@ -476,7 +480,7 @@ components:
       properties:
         id:
           type: string
-          readOnly: true
+          description: Maschinenname; beim Anlegen vom Server vergeben, beim Speichern gleich dem Pfad
         name:
           type: string
         version:
@@ -490,126 +494,117 @@ components:
           type: string
           format: date-time
           readOnly: true
-        revision:
+        hash:
           type: string
           readOnly: true
-          description: Drupal-Revisions-ID dieser Fassung (= ETag)
+          description: Inhalts-Hash (= ETag ohne Anführungszeichen)
+        aktiv:
+          type: boolean
+          readOnly: true
+          description: Genau ein Theme der Instanz ist aktiv
         status:
           type: string
           readOnly: true
           enum: [entwurf, veroeffentlicht, geaendert-seit-veroeffentlichung]
-        veroeffentlichteRevision:
+        veroeffentlichtAm:
           type: [string, 'null']
+          format: date-time
           readOnly: true
         geaendertVon:
           type: string
           readOnly: true
-          description: Anzeigename der Person, die die Revision angelegt hat
-    ThemeDaten:
+          description: Anzeigename der Person, die zuletzt gespeichert hat
+    ThemeAbweichungen:
       type: object
+      x-neo-max-bytes: 1048576
+      additionalProperties: false
       description: |
-        Speicherformat = Schnappschuss der App (snapshotThemeData, eine Liste
-        THEME_DATA_KEYS in apps/theme-configurator/src/stores/theme/verlauf.js).
-        Jeder Schluessel haelt einen Wert je Theme-Set. Verlustfrei – enthaelt
-        auch eigene Tokens, Schriften und Icons, die im Theme-JSON-Export fehlen.
-        Fuer Drupal ein undurchsichtiger JSON-Wert, den das JSON-Schema prueft.
-      required:
-        - themes
-        - foundationOverrides
-        - componentOverrides
-        - primitiveOverrides
-        - customFonts
-        - focusRingMode
-        - componentLocks
-        - componentVersions
-        - variantDefinitions
-        - customSpacingTokens
-        - customRadiiTokens
-        - customBorderWidthTokens
-        - customMediaRatioTokens
-        - customShadowTokens
-        - customElevationTokens
-        - customOpacityTokens
-        - customZindexTokens
-        - customMotionTokens
-        - customMotionEffectTokens
-        - iconLibraries
-        - iconStrokeWidths
-        - iconStrokeColors
-        - semanticSpacing
-        - semanticTypography
-        - typeScale
+        Speicherformat (Entscheidung C, auf Abweichungen reduziert) –
+        Teilmenge von ThemeDaten. Gleiche Struktur wie der App-Stand
+        (THEME_DATA_KEYS in apps/theme-configurator/src/stores/theme/theme-schluessel.js),
+        aber nur die Schlüssel und Werte, die vom NEO-Standard abweichen.
+        Objekte werden rekursiv verglichen, Listen und Werte anderen Typs als
+        Ganzes ersetzt. Ein Schlüssel, den der Standard hat, das Theme aber
+        nicht, steht als Objekt mit genau dem Feld $entfernt = true darin.
+        Ein leeres Objekt heißt Theme gleich Standard. Referenz für
+        Berechnen und Zusammenführen (auch für PHP):
+        apps/theme-configurator/src/speicher/abweichungen.js.
       properties:
         activeThemeSet:
           $ref: '#/components/schemas/ThemeSet'
         themes:
-          description: Semantische Farben je Set und Modus – { neo, customer } × { light, dark } × Token → Farbwert
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         foundationOverrides:
-          description: Foundation-Werte (Abstaende, Radien, Schrift …) je Set
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         componentOverrides:
-          description: Komponenten-Tokens (nc-*) je Set
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         primitiveOverrides:
-          description: Markenfarben primary/secondary/accent je Set
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customFonts:
-          description: Eigene Schriften je Set (Liste)
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         focusRingMode:
-          description: offset oder inset je Set
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         componentLocks:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         componentVersions:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         variantDefinitions:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customSpacingTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customRadiiTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customBorderWidthTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customMediaRatioTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customShadowTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customElevationTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customOpacityTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customZindexTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customMotionTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         customMotionEffectTokens:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         iconLibraries:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         iconStrokeWidths:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         iconStrokeColors:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         semanticSpacing:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         semanticTypography:
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
         typeScale:
-          description: Fluide Schriftskala (--fs-*) je Set
-          $ref: '#/components/schemas/ProSet'
+          $ref: '#/components/schemas/TeilProSet'
+      example:
+        activeThemeSet: customer
+        primitiveOverrides:
+          customer:
+            primary: '#0b5cad'
+        themes:
+          customer:
+            light:
+              text-link: '#0b5cad'
+        foundationOverrides:
+          neo:
+            $entfernt: true
     ThemeDokument:
       type: object
-      required: [meta, daten]
+      required: [meta, abweichungen]
       properties:
         meta:
           $ref: '#/components/schemas/ThemeMeta'
-        daten:
-          $ref: '#/components/schemas/ThemeDaten'
-        revisionsnotiz:
-          type: string
-          description: Wird als Drupal-Revisionsprotokoll gespeichert (nur Anfrage)
+        abweichungen:
+          $ref: '#/components/schemas/ThemeAbweichungen'
+        standardVersion:
+          type: [string, 'null']
+          description: Version des NEO-Standards, gegen den die App die Abweichungen berechnet hat (nur zur Information; geladen wird immer gegen den aktuellen Standard)
     ThemeListe:
       type: object
       required: [themes]
@@ -618,42 +613,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ThemeMeta'
-    Revision:
-      type: object
-      required: [revision, erstelltAm]
-      properties:
-        revision:
-          type: string
-        erstelltAm:
-          type: string
-          format: date-time
-        autor:
-          type: string
-        notiz:
-          type: string
-        veroeffentlicht:
-          type: boolean
-        version:
-          type: string
-          description: meta.version zum Zeitpunkt der Revision
-    RevisionsListe:
-      type: object
-      required: [revisionen]
-      properties:
-        revisionen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Revision'
     KontrastErgebnis:
       type: object
-      description: Ergebnis von pruefeKontrast() (apps/theme-configurator/src/speicher/kontrast.js)
+      description: Ergebnis von pruefeKontrast() (apps/theme-configurator/src/speicher/kontrast.js) mit der Paarliste data/kontrast-paare.json
       required: [bestanden, verfahren, ergebnisse]
       properties:
         bestanden:
           type: boolean
-        uebergangen:
-          type: boolean
-          description: true, wenn trotz Nicht-Bestehen veroeffentlicht werden soll (Recht offen)
         verfahren:
           type: string
         geprueftAm:
@@ -678,132 +644,63 @@ components:
                 type: number
               bestanden:
                 type: [boolean, 'null']
-                description: null = nicht bewertbar (kein Hex-Wert)
+                description: null = nicht bewertbar (kein Hex-Wert), zählt als nicht bestanden
     VeroeffentlichenAnfrage:
       type: object
-      required: [kontrast]
+      required: [kontrast, css]
       properties:
         kontrast:
           $ref: '#/components/schemas/KontrastErgebnis'
+        css:
+          type: string
+          description: CSS-Variablen des aktiven Theme-Sets, erzeugt von exportAsCSSVars() der App
         notiz:
           type: string
+          description: Wird protokolliert (Drupal-Log)
     VeroeffentlichenAntwort:
       type: object
-      required: [meta]
+      required: [meta, css]
       properties:
         meta:
           $ref: '#/components/schemas/ThemeMeta'
         css:
           type: object
-          description: Vorschlag – vom Frontend-Theme eingebundene Datei
+          required: [pfad, version]
           properties:
+            pfad:
+              type: string
+              description: Stream-Pfad der Datei, z. B. public://neo-theme/theme.css (vom Modul festgelegt)
             url:
               type: string
+              description: Öffentliche URL mit Versionsparameter
+            version:
+              type: string
+              description: Version der Datei (zählt bei jedem Veröffentlichen hoch)
             hash:
               type: string
+              description: SHA-256 des CSS
+            ausgeliefert:
+              type: boolean
+              description: true, wenn das Theme aktiv ist und die Datei über den Library-Override ausgeliefert wird
     NeoStandard:
       type: object
-      description: Inhalt von data/neo-theme-defaults/neo-theme-defaults.json
+      description: Inhalt von data/neo-theme-defaults/neo-theme-defaults.json (mit dem Design System ausgeliefert)
+      required: [_meta, themes, foundationOverrides, componentOverrides, primitiveOverrides]
       properties:
         _meta:
           type: object
+          required: [version]
           properties:
             version:
               type: string
-        themes:
-          $ref: '#/components/schemas/ProSet'
-        foundationOverrides:
-          $ref: '#/components/schemas/ProSet'
-        componentOverrides:
-          $ref: '#/components/schemas/ProSet'
-        primitiveOverrides:
-          $ref: '#/components/schemas/ProSet'
-    ThemeExportJson:
-      type: object
-      description: |
-        Format von exportAsJSON() (apps/theme-configurator/src/stores/theme/export.js)
-        – nur das aktive Theme-Set, nur Farben, Foundation, Komponenten,
-        Schriftskala, Fokusring. Dasselbe Format liest der Import
-        (pruefeThemeImport). Austauschformat, NICHT Speicherformat.
-      required: [meta, components, primitives, semantic, foundation, typeScale, focusRingMode]
-      properties:
-        meta:
-          type: object
-          required: [name, version, generated, generator]
-          properties:
-            name:
-              type: string
-            version:
-              type: string
-            branch:
-              type: string
-            generated:
+            generatedAt:
               type: string
               format: date-time
-            generator:
-              type: string
-        components:
+        themes:
           type: object
-          additionalProperties:
-            type: object
-            properties:
-              version:
-                type: [string, 'null']
-              locked:
-                type: boolean
-              overrides:
-                type: object
-              customVariants:
-                type: object
-        primitives:
+        foundationOverrides:
           type: object
-          properties:
-            primary:
-              type: string
-            secondary:
-              type: string
-            accent:
-              type: string
-        semantic:
+        componentOverrides:
           type: object
-          required: [light, dark]
-          properties:
-            light:
-              type: object
-            dark:
-              type: object
-        foundation:
+        primitiveOverrides:
           type: object
-        typeScale:
-          type: object
-        focusRingMode:
-          type: string
-          enum: [offset, inset]
-      example:
-        meta:
-          name: Kunde Beispiel
-          version: 1.0.0
-          branch: main
-          generated: '2026-09-30T10:00:00.000Z'
-          generator: NEO Theme Configurator v2
-        components:
-          button:
-            version: 1.0.0
-            locked: false
-            overrides:
-              nc-button-accent-bg: '#0b5cad'
-            customVariants: {}
-        primitives:
-          primary: '#0b5cad'
-          secondary: '#1f2937'
-          accent: '#f59e0b'
-        semantic:
-          light:
-            text-primary: '#111111'
-            background-base: '#ffffff'
-          dark:
-            text-primary: '#f5f5f5'
-            background-base: '#111111'
-        foundation: {}
-        typeScale: {}
-        focusRingMode: offset

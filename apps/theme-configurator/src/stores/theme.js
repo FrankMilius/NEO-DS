@@ -13,7 +13,7 @@ import { clearArenaSelection, clearHighlightedToken, getFormVariant, resetArenaF
 import { addCustomBorderWidthToken, addCustomElevationToken, addCustomMediaRatioToken, addCustomMotionEffectToken, addCustomMotionToken, addCustomOpacityToken, addCustomRadiiToken, addCustomShadowToken, addCustomSpacingToken, addCustomZindexToken, addIconLibrary, addSemanticSpacingToken, removeCustomBorderWidthToken, removeCustomElevationToken, removeCustomMediaRatioToken, removeCustomMotionEffectToken, removeCustomMotionToken, removeCustomOpacityToken, removeCustomRadiiToken, removeCustomShadowToken, removeCustomSpacingToken, removeCustomZindexToken, removeIconLibrary, removeSemanticSpacing, removeSemanticTypography, resetComponentToken, resetTypeScale, setFocusRingMode, updateComponentToken, updateFoundationToken, updateIconStrokeColor, updateIconStrokeWidth, updatePrimitive, updateSemanticSpacing, updateSemanticToken, updateSemanticTypography, updateTypeScale } from './theme/token-aktionen.js'
 import { bumpComponentVersion, createVariant, deleteVariant, extractComponentId, getComponentVersion, getVariants, isComponentLocked, lockComponent, unlockComponent } from './theme/komponenten.js'
 import { VERLAUF_AKTIONEN, applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
-import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeDTCG, downloadThemeJSON, importTheme, ladeRevisionen, ladeThemeKatalog, loadNeoDefaults, loadTheme, oeffneTheme, pruefeImport, pruefeThemeKontrast, saveCurrentTheme, speichereTheme, stelleRevisionWiederHer, veroeffentlicheTheme } from './theme/themes.js'
+import { createTheme, deleteTheme, downloadDrupalExport, downloadThemeCSS, downloadThemeDTCG, downloadThemeJSON, aktiviereTheme, importTheme, ladeThemeKatalog, loadNeoDefaults, loadTheme, oeffneTheme, pruefeImport, pruefeThemeKontrast, saveCurrentTheme, speichereTheme, veroeffentlicheTheme } from './theme/themes.js'
 import { exportAsCSSVars, exportAsDTCG, exportAsJSON } from './theme/export.js'
 import { currentPraesentation, resetPraesentation, updatePraesentation } from './theme/praesentation.js'
 import { loadFromStorage, saveToServer, saveToStorage } from './theme/persistenz.js'
@@ -156,8 +156,7 @@ export const useThemeStore = defineStore('theme', () => ({
   speichereTheme,
   veroeffentlicheTheme,
   pruefeThemeKontrast,
-  ladeRevisionen,
-  stelleRevisionWiederHer,
+  aktiviereTheme,
   // Persistence
   saveToServer,
   loadFromStorage,

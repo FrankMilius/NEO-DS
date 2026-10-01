@@ -7,23 +7,31 @@
 // docs/api/theme-konfigurator.openapi.yaml.
 //
 // Auswahl (Standard: 'lokal', also Verhalten wie bisher):
-//   1. window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, kunde,
-//        csrfToken | csrfTokenUrl }        — setzt die Drupal-Seite im Einstieg
-//   2. import.meta.env: VITE_NEO_SPEICHER, VITE_NEO_BASIS_URL, VITE_NEO_KUNDE,
-//        VITE_NEO_CSRF_TOKEN_URL           — fuer lokale Entwicklung
+//   1. window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl,
+//        csrfToken | csrfTokenUrl, rechte: ['ansehen', 'bearbeiten',
+//        'veroeffentlichen'] }   — setzt die Drupal-Seite im Einstieg
+//        (aus drupalSettings; eine Instanz je Kunde, daher kein `kunde`)
+//   2. import.meta.env: VITE_NEO_SPEICHER, VITE_NEO_BASIS_URL,
+//        VITE_NEO_CSRF_TOKEN_URL, VITE_NEO_RECHTE (kommagetrennt)
+//                                       — fuer lokale Entwicklung
 // window gewinnt vor env.
+//
+// Rechte (Entscheidung Frage 2): ansehen, bearbeiten, veroeffentlichen.
+// Lokal hat man alle Rechte; mit Drupal die aus der Konfiguration (ohne
+// Angabe nur 'ansehen'). darf(recht) blendet in der App aus und verhindert
+// unnoetige Aufrufe — verbindlich prueft der Server (403).
 //
 // @typedef {object} Speicher
 // @property {'lokal'|'drupal'} art
-// @property {{ revisionen: boolean, veroeffentlichen: boolean, konflikterkennung: boolean }} faehigkeiten
-// @property {() => Promise<object[]>} liste                      Katalog (ThemeMeta[])
+// @property {{ veroeffentlichen: boolean, aktivieren: boolean, konflikterkennung: boolean, branchesUndReleases: boolean }} faehigkeiten
+// @property {string[]} rechte                                    Teilmenge von RECHTE
+// @property {() => Promise<object[]>} liste                      Katalog (ThemeMeta[], drupal mit `aktiv`)
 // @property {(id: string) => Promise<{meta, daten, etag}|null>} lade
-// @property {(e: {meta, daten, etag?, notiz?}) => Promise<{meta, daten?, etag}>} speichere
+// @property {(e: {meta, daten, etag?}) => Promise<{meta, daten?, etag}>} speichere
 // @property {(id: string, o?: {etag}) => Promise<void>} loesche
-// @property {(id: string) => Promise<object[]>} revisionen
-// @property {(id: string, revisionId: string, o?: {etag}) => Promise<{meta, daten, etag}>} stelleWiederHer
-// @property {(id: string, o: {etag, kontrast, notiz?}) => Promise<object>} veroeffentliche
-// @property {(id: string, format: 'css'|'dtcg'|'json') => Promise<string>} exportiere
+// @property {(id: string) => Promise<object[]>} aktiviere        nur drupal: genau ein Theme aktiv
+// @property {(id: string, o: {etag, kontrast, css, notiz?}) => Promise<object>} veroeffentliche
+// @property {(id: string, format: 'css'|'abweichungen') => Promise<string>} exportiere
 // @property {() => Promise<object|null>} ladeStandard            NEO-Standard (Werkseinstellung)
 // @property {(payload: object) => Promise<object>} sichereEntwurf nur lokal: POST /api/save-theme
 // ==========================================================================
@@ -34,6 +42,11 @@ import { SpeicherFehler } from './fehler.js'
 
 export { SpeicherFehler } from './fehler.js'
 export { pruefeKontrast } from './kontrast.js'
+export { abweichungenBerechnen, zusammenfuehren } from './abweichungen.js'
+export { inhaltsHash, kanonischesJson } from './inhalts-hash.js'
+
+/** Die drei Rechte (Entscheidung Frage 2). Ein Recht zum Uebergehen des Kontrast-Tors gibt es nicht. */
+export const RECHTE = ['ansehen', 'bearbeiten', 'veroeffentlichen']
 
 const ARTEN = ['lokal', 'drupal']
 
@@ -45,8 +58,8 @@ export function leseKonfiguration(
   const ausEnv = {
     speicher: env.VITE_NEO_SPEICHER,
     basisUrl: env.VITE_NEO_BASIS_URL,
-    kunde: env.VITE_NEO_KUNDE,
     csrfTokenUrl: env.VITE_NEO_CSRF_TOKEN_URL,
+    rechte: env.VITE_NEO_RECHTE ? String(env.VITE_NEO_RECHTE).split(',').map(r => r.trim()).filter(Boolean) : undefined,
   }
   const k = { ...ausEnv, ...(fenster || {}) }
   for (const s of Object.keys(k)) if (k[s] === undefined || k[s] === '') delete k[s]
@@ -73,4 +86,13 @@ export function speicher() {
 /** Speicher ersetzen (Tests, Einbettung). null = beim naechsten Aufruf neu aus der Konfiguration. */
 export function setzeSpeicher(adapter) {
   aktiv = adapter
+}
+
+/**
+ * Hat die angemeldete Person dieses Recht? Lokal: immer. Drupal: laut
+ * Konfiguration (window.NEO_KONFIGURATOR.rechte).
+ * @param {'ansehen'|'bearbeiten'|'veroeffentlichen'} recht
+ */
+export function darf(recht, sp = speicher()) {
+  return RECHTE.includes(recht) && Array.isArray(sp?.rechte) && sp.rechte.includes(recht)
 }

@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "beschreibung": "Kontrast-Paarliste für das Veröffentlichen von Kunden-Themes (Plan v2, 2.6, ADR-002). Eine Quelle für die App (apps/theme-configurator/src/speicher/kontrast.js), das Prüfwerkzeug (scripts/pruefe-kunden-themes.mjs) und den Drupal-Server (PHP). Geprüft werden die semantischen Farben eines Theme-Sets im hellen und dunklen Modus; nur Hex-Werte sind bewertbar, alles andere zählt als nicht bestanden.",
+    "version": "1",
+    "verfahren": "WCAG 2.1 AA (1.4.3 / 1.4.11), Konfigurator-Paare v1",
+    "modi": ["light", "dark"],
+    "befund": "30.09.2026: Im NEO-Standard (hell) erreichen on-danger/on-success auf feedback-danger/feedback-success nur 3,35:1. Beide Paare tragen Text und bleiben im Tor; das Design System korrigiert die Werte (Entscheidung G)."
+  },
+  "paare": [
+    { "vordergrund": "text-primary", "hintergrund": "background-base", "mindestens": 4.5 },
+    { "vordergrund": "text-secondary", "hintergrund": "background-base", "mindestens": 4.5 },
+    { "vordergrund": "text-primary", "hintergrund": "layer-01", "mindestens": 4.5 },
+    { "vordergrund": "text-link", "hintergrund": "background-base", "mindestens": 4.5 },
+    { "vordergrund": "text-on-interactive", "hintergrund": "interactive-default", "mindestens": 4.5 },
+    { "vordergrund": "on-accent", "hintergrund": "background-accent", "mindestens": 4.5 },
+    { "vordergrund": "text-danger", "hintergrund": "background-base", "mindestens": 4.5 },
+    { "vordergrund": "on-danger", "hintergrund": "feedback-danger", "mindestens": 4.5 },
+    { "vordergrund": "on-success", "hintergrund": "feedback-success", "mindestens": 4.5 },
+    { "vordergrund": "border-control", "hintergrund": "background-base", "mindestens": 3 },
+    { "vordergrund": "interactive-focus", "hintergrund": "background-base", "mindestens": 3 }
+  ]
+}

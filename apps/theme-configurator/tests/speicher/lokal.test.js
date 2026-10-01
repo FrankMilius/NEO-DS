@@ -8,7 +8,7 @@ import { useThemeStore } from '../../src/stores/theme.js'
 import { SAVED_THEMES_KEY } from '../../src/stores/theme/kern.js'
 import { STORAGE_KEY } from '../../src/stores/theme/persistenz.js'
 import { LOKALE_SCHLUESSEL, erzeugeLokalenSpeicher } from '../../src/speicher/lokal.js'
-import { erzeugeSpeicher, leseKonfiguration, setzeSpeicher, speicher, SpeicherFehler } from '../../src/speicher/index.js'
+import { darf, erzeugeSpeicher, leseKonfiguration, setzeSpeicher, speicher, SpeicherFehler } from '../../src/speicher/index.js'
 import { antwort, fetchAttrappe } from './_hilfen.js'
 
 let store
@@ -31,14 +31,29 @@ describe('Konfiguration', () => {
   })
 
   it('window.NEO_KONFIGURATOR gewinnt vor import.meta.env', () => {
-    const k = leseKonfiguration({ speicher: 'drupal', basisUrl: '/api/x' }, { VITE_NEO_SPEICHER: 'lokal', VITE_NEO_KUNDE: 'acme' })
-    expect(k).toMatchObject({ speicher: 'drupal', basisUrl: '/api/x', kunde: 'acme' })
+    const k = leseKonfiguration({ speicher: 'drupal', basisUrl: '/api/x' }, { VITE_NEO_SPEICHER: 'lokal', VITE_NEO_CSRF_TOKEN_URL: '/token' })
+    expect(k).toMatchObject({ speicher: 'drupal', basisUrl: '/api/x', csrfTokenUrl: '/token' })
+    expect(k.kunde).toBeUndefined()
+  })
+
+  it('Rechte aus window.NEO_KONFIGURATOR oder VITE_NEO_RECHTE (kommagetrennt)', () => {
+    expect(leseKonfiguration(undefined, { VITE_NEO_RECHTE: 'ansehen, bearbeiten' }).rechte).toEqual(['ansehen', 'bearbeiten'])
+    expect(leseKonfiguration({ rechte: ['ansehen'] }, { VITE_NEO_RECHTE: 'ansehen,bearbeiten' }).rechte).toEqual(['ansehen'])
+    expect(leseKonfiguration(undefined, {}).rechte).toBeUndefined()
+  })
+
+  it('lokal hat alle Rechte; Branches/Releases nur lokal', () => {
+    expect(speicher().rechte).toEqual(['ansehen', 'bearbeiten', 'veroeffentlichen'])
+    for (const r of ['ansehen', 'bearbeiten', 'veroeffentlichen']) expect(darf(r), r).toBe(true)
+    expect(darf('kontrast-uebergehen')).toBe(false)
+    expect(speicher().faehigkeiten.branchesUndReleases).toBe(true)
+    expect(erzeugeSpeicher({ speicher: 'drupal', basisUrl: '/api' }).faehigkeiten.branchesUndReleases).toBe(false)
   })
 
   it('unbekannte Art und unvollstaendige Drupal-Konfiguration werden abgelehnt', () => {
     expect(() => erzeugeSpeicher({ speicher: 'ftp' })).toThrow(SpeicherFehler)
-    expect(() => erzeugeSpeicher({ speicher: 'drupal', kunde: 'acme' })).toThrow(/basisUrl/)
-    expect(() => erzeugeSpeicher({ speicher: 'drupal', basisUrl: '/api' })).toThrow(/kunde/)
+    expect(() => erzeugeSpeicher({ speicher: 'drupal' })).toThrow(/basisUrl/)
+    expect(erzeugeSpeicher({ speicher: 'drupal', basisUrl: '/api' }).art).toBe('drupal')   // kein `kunde` noetig
   })
 })
 
@@ -129,7 +144,7 @@ describe('Adapter lokal — gleiche Schluessel und Formate wie bisher', () => {
     store.state.savedThemes = []
     expect((await store.ladeThemeKatalog()).map(t => t.id)).toEqual([meta.id])
     expect(await store.oeffneTheme(meta.id)).toBe(true)
-    expect(await store.ladeRevisionen()).toEqual([])
+    await expect(store.aktiviereTheme(meta.id)).rejects.toMatchObject({ art: 'nicht-unterstuetzt' })
     await expect(store.veroeffentlicheTheme()).rejects.toMatchObject({ art: 'nicht-unterstuetzt' })
   })
 })

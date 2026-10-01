@@ -3,6 +3,7 @@
 
 import { primitiveColors, semanticDefaults } from '../../data/tokens.js'
 import { deepClone, getDefaultFoundation, state } from './kern.js'
+import { THEME_DATA_KEYS } from './theme-schluessel.js'
 
 export function resetToDefaults() {
   const themeSet = state.activeThemeSet
@@ -62,24 +63,10 @@ export function resetToDefaults() {
 // nicht zuruecknehmen, bei mehreren wurde eine uebersprungen, und Redo kam
 // nie beim letzten Stand an.
 
-// EIN Schema fuer alle Theme-Inhalte (H1, 29.09.2026). Undo, benannte
-// Themes, Branches und Merge benutzen dieselbe Liste. Vorher gab es vier
-// Abschriften mit 9, 10 und 24 Feldern: Custom-Tokens, Icons und die
-// semantischen Spacing/Typo-Werte fielen aus Undo und Branches heraus und
-// "leckten" zwischen Branches.
-// Neues Theme-Feld? Hier eintragen — der Test in theme-schema.test.js prueft,
-// dass saveToStorage() es auch persistiert.
-export const THEME_DATA_KEYS = [
-  'themes', 'foundationOverrides', 'componentOverrides', 'primitiveOverrides',
-  'customFonts', 'focusRingMode', 'componentLocks', 'componentVersions',
-  'variantDefinitions',
-  'customSpacingTokens', 'customRadiiTokens', 'customBorderWidthTokens',
-  'customMediaRatioTokens', 'customShadowTokens', 'customElevationTokens',
-  'customOpacityTokens', 'customZindexTokens', 'customMotionTokens',
-  'customMotionEffectTokens',
-  'iconLibraries', 'iconStrokeWidths', 'iconStrokeColors',
-  'semanticSpacing', 'semanticTypography', 'typeScale'
-]
+// EIN Schema fuer alle Theme-Inhalte (H1, 29.09.2026) — die Liste steht seit
+// Plan v2, 2.6 in theme-schluessel.js (ohne Vue/Tokens, damit auch Node-
+// Werkzeuge wie scripts/pruefe-kunden-themes.mjs sie benutzen koennen).
+export { THEME_DATA_KEYS }
 export const HISTORY_KEYS = THEME_DATA_KEYS
 export const HISTORY_MAX = 50
 // Aenderungen, die schneller aufeinander folgen (Slider, Farbrad), werden zu
@@ -157,7 +144,6 @@ export const VERLAUF_AKTIONEN = [
   'resetToDefaults',
   'resetTypeScale',
   'setFocusRingMode',
-  'stelleRevisionWiederHer',
   'updateComponentToken',
   'updateFoundationToken',
   'updateIconStrokeColor',

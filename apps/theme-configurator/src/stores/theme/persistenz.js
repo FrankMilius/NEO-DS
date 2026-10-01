@@ -16,7 +16,8 @@ import { speichereTheme } from './themes.js'
 
 export async function saveToServer() {
   // Plan v2, 2.6: Mit Drupal-Speicher heisst "Speichern" (Strg+S) das
-  // aktuelle Theme als neue Revision ablegen. Lokal bleibt alles wie bisher.
+  // aktuelle Theme in Drupal speichern (Abweichungen vom Standard, If-Match).
+  // Lokal bleibt alles wie bisher.
   const sp = speicher()
   if (sp.art !== 'lokal') return speichereTheme()
 

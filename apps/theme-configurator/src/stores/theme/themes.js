@@ -8,7 +8,7 @@ import { exportAsCSSVars, exportAsJSON } from './export.js'
 import { deepClone, getDefaultFoundation, state } from './kern.js'
 import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData } from './verlauf.js'
 import { importVorschau, importZiel, pruefeThemeImport } from '../../import/theme-import.js'
-import { SpeicherFehler, pruefeKontrast, speicher } from '../../speicher/index.js'
+import { SpeicherFehler, darf, pruefeKontrast, speicher } from '../../speicher/index.js'
 import { leseKatalog, leseTheme, loescheTheme, schreibeKatalog, schreibeTheme } from '../../speicher/lokal.js'
 
 // ---------------------------------------------------------------------------
@@ -380,12 +380,18 @@ export function importTheme(ziel) {
 // Asynchrone Gegenstuecke zu loadSavedThemesList/loadTheme/saveCurrentTheme,
 // die ueber speicher() laufen. Mit dem Standard-Speicher 'lokal' rufen sie
 // genau die bisherigen Funktionen auf (Verhalten unveraendert). Mit 'drupal'
-// sprechen sie die REST-Schnittstelle (docs/api/theme-konfigurator.openapi.yaml)
-// und fuehren die Revision als currentThemeMeta.etag mit.
-// Konflikte (409/412) werden als SpeicherFehler (istKonflikt) weitergeworfen;
-// die Oberflaeche entscheidet, ob neu geladen wird.
+// sprechen sie die REST-Schnittstelle (docs/api/theme-konfigurator.openapi.yaml,
+// ADR-002) und fuehren den Inhalts-Hash als currentThemeMeta.etag mit.
+// Drupal speichert Config Entities ohne Revisionen — es gibt kein
+// Zuruecksetzen auf fruehere Staende im Server (lokal bleiben Branches und
+// Releases). Konflikte (409/412) werden als SpeicherFehler (istKonflikt)
+// weitergeworfen; die Oberflaeche laesst neu laden und entscheiden.
 
 const istLokal = () => speicher().art === 'lokal'
+
+function brauchtRecht(recht, was) {
+  if (!darf(recht)) throw new SpeicherFehler('verboten', `${was}: Dafür fehlt die Berechtigung „${recht}“.`)
+}
 
 /** Antwort des Speichers als aktuelles Theme uebernehmen (Meta + ETag, Katalog). */
 function uebernehmeMeta(erg) {
@@ -397,7 +403,7 @@ function uebernehmeMeta(erg) {
   else state.savedThemes.push(deepClone(meta))
 }
 
-/** Katalog laden (lokal: localStorage, drupal: GET …/themes). */
+/** Katalog laden (lokal: localStorage, drupal: GET …/themes inkl. `aktiv`). */
 export async function ladeThemeKatalog() {
   if (istLokal()) {
     loadSavedThemesList()
@@ -407,7 +413,11 @@ export async function ladeThemeKatalog() {
   return state.savedThemes
 }
 
-/** Theme oeffnen (lokal: loadTheme). Ein Undo-Schritt (VERLAUF_AKTIONEN). */
+/**
+ * Theme oeffnen (lokal: loadTheme). Ein Undo-Schritt (VERLAUF_AKTIONEN).
+ * Drupal liefert Abweichungen; der Adapter fuehrt sie mit dem aktuellen
+ * NEO-Standard zusammen.
+ */
 export async function oeffneTheme(themeId) {
   if (istLokal()) return loadTheme(themeId)
   const erg = await speicher().lade(themeId)
@@ -418,11 +428,13 @@ export async function oeffneTheme(themeId) {
 }
 
 /**
- * Aktuelles Theme speichern (lokal: saveCurrentTheme). Mit Drupal: ohne
- * Theme-ID wird angelegt, sonst mit If-Match gespeichert (neue Revision).
+ * Aktuelles Theme speichern (lokal: saveCurrentTheme). Mit Drupal (Recht
+ * „bearbeiten“): ohne Theme-ID wird angelegt, sonst mit If-Match (Inhalts-
+ * Hash) gespeichert. Der Adapter sendet nur die Abweichungen vom Standard.
  */
 export async function speichereTheme(name, version) {
   if (istLokal()) return saveCurrentTheme(name, version)
+  brauchtRecht('bearbeiten', 'Speichern')
   const alt = state.currentThemeMeta ? deepClone(state.currentThemeMeta) : {}
   const { etag, ...rest } = alt
   const meta = {
@@ -441,42 +453,44 @@ export function pruefeThemeKontrast(themeSet = state.activeThemeSet) {
 }
 
 /**
- * Gespeicherte Revision veroeffentlichen. Die Kontrast-Pruefung ist das Tor:
- * nicht bestanden -> SpeicherFehler('ungueltig') ohne Serveraufruf, ausser
- * `uebergehen` ist gesetzt (ob und fuer wen das erlaubt ist, entscheidet der
- * Server — offene Frage in ADR-002).
+ * Gespeichertes Theme veroeffentlichen (Recht „veroeffentlichen“). Die
+ * Kontrast-Pruefung ist das Tor: nicht bestanden -> SpeicherFehler('ungueltig')
+ * ohne Serveraufruf. Ein Uebergehen gibt es nicht (Frage 2). Die App schickt
+ * ihr Ergebnis und das CSS (exportAsCSSVars) mit; der Server prueft den
+ * Kontrast verbindlich selbst (422) und legt das CSS dort ab, wo der
+ * Library-Override des Frontend-Themes es erwartet (Frage 6).
  */
-export async function veroeffentlicheTheme({ notiz, uebergehen = false } = {}) {
+export async function veroeffentlicheTheme({ notiz } = {}) {
   const sp = speicher()
   if (!sp.faehigkeiten.veroeffentlichen) {
     throw new SpeicherFehler('nicht-unterstuetzt', 'Veroeffentlichen gibt es nur mit Drupal-Speicher.')
   }
+  brauchtRecht('veroeffentlichen', 'Veröffentlichen')
   const meta = state.currentThemeMeta
   if (!meta?.id || !meta.etag) {
     throw new SpeicherFehler('ungueltig', 'Bitte das Theme zuerst speichern.')
   }
   const kontrast = pruefeThemeKontrast()
-  if (!kontrast.bestanden && !uebergehen) {
-    throw new SpeicherFehler('ungueltig', 'Kontrast-Pruefung nicht bestanden — Veroeffentlichen gesperrt.', { details: kontrast })
+  if (!kontrast.bestanden) {
+    throw new SpeicherFehler('ungueltig', 'Kontrast-Prüfung nicht bestanden — Veröffentlichen gesperrt.', { details: kontrast })
   }
-  const erg = await sp.veroeffentliche(meta.id, { etag: meta.etag, kontrast: { ...kontrast, uebergangen: !kontrast.bestanden }, notiz })
+  const erg = await sp.veroeffentliche(meta.id, { etag: meta.etag, kontrast, css: exportAsCSSVars(), notiz })
   if (erg?.meta) uebernehmeMeta(erg)
   return { ...erg, kontrast }
 }
 
-/** Revisionen des aktuellen Themes (lokal: keine). */
-export async function ladeRevisionen() {
-  const meta = state.currentThemeMeta
-  if (!meta?.id) return []
-  return speicher().revisionen(meta.id)
-}
-
-/** Revision wiederherstellen — Drupal legt dafuer eine NEUE Revision an. */
-export async function stelleRevisionWiederHer(revisionId) {
-  const meta = state.currentThemeMeta
-  if (!meta?.id) return false
-  const erg = await speicher().stelleWiederHer(meta.id, revisionId, { etag: meta.etag })
-  applyThemeData(erg.daten)
-  uebernehmeMeta(erg)
-  return true
+/**
+ * Theme aktivieren (nur Drupal, Recht „veroeffentlichen“): genau eines ist
+ * aktiv; der Server liefert dessen veroeffentlichtes CSS aus. Gibt die neue
+ * Liste zurueck (mit `aktiv`).
+ */
+export async function aktiviereTheme(themeId = state.currentThemeMeta?.id) {
+  const sp = speicher()
+  if (!sp.faehigkeiten.aktivieren) {
+    throw new SpeicherFehler('nicht-unterstuetzt', 'Aktivieren gibt es nur mit Drupal-Speicher.')
+  }
+  brauchtRecht('veroeffentlichen', 'Aktivieren')
+  if (!themeId) throw new SpeicherFehler('ungueltig', 'Kein Theme gewählt.')
+  state.savedThemes = await sp.aktiviere(themeId)
+  return state.savedThemes
 }
