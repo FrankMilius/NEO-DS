@@ -1,21 +1,23 @@
 # ADR-002: Theme-Konfigurator speichert in Drupal
 
-- **Status:** vorgeschlagen — Gespraechsgrundlage fuer die Abstimmung mit den Entwicklern
-- **Datum:** 30.09.2026
+- **Status:** angenommen (01.10.2026)
+- **Datum:** 30.09.2026 (Vorschlag), 01.10.2026 (Entscheidung)
 - **Entscheider:** Frank Milius (Zielbild), Drupal-Entwicklung (Schnittstelle)
-- **Plan:** v2, Schritt 2.6 „Speichern"
-- **Begleitdateien:** `docs/api/theme-konfigurator.openapi.yaml` (API-Entwurf),
-  `apps/theme-configurator/src/speicher/` (App-Vorbereitung)
+- **Bezug:** Mail „Entscheidungen“ vom 01.10.2026 (Abstimmung mit dem Entwicklerteam, 17 Beschlüsse)
+- **Plan:** v2, Schritt 2.6 „Speichern in Drupal“
+- **Begleitdateien:** `docs/api/theme-konfigurator.openapi.yaml` (Vertrag 1.0.0),
+  `apps/theme-configurator/src/speicher/` (App-Seite),
+  `data/kontrast-paare.json` (Paarliste für App und Server),
+  `scripts/pruefe-kunden-themes.mjs` (Prüfwerkzeug vor dem Ausrollen eines neuen Standards)
 
 ## Kontext
 
-**Zielbild (Entscheidung 30.09.2026):** Der Theme-Konfigurator wird Teil der
-Config Tools der neo Workplace Plattform (Drupal 11). Administratorinnen und
+**Zielbild (30.09.2026):** Der Theme-Konfigurator wird Teil der Config Tools
+der neo Workplace Plattform (Drupal 11). Administratorinnen und
 Administratoren passen damit das NEO-Standard-Theme an das Corporate Design
-eines Kunden an. Mehrere Personen arbeiten mit der App. Festgelegt sind:
-Speichern **pro Kunde in Drupal**, **Drupal-Revisionen** statt eigener
-Versionierung, **Rollen/Rechte**, **Kontrast-Pruefung als Tor** vor dem
-Veroeffentlichen. Offen ist die konkrete Schnittstelle.
+eines Kunden an. Mehrere Personen arbeiten mit der App. Festgelegt waren:
+Speichern in Drupal, Rollen/Rechte, Kontrast-Prüfung als Tor vor dem
+Veröffentlichen. Offen war die konkrete Schnittstelle.
 
 ### Bestandsaufnahme: was die App heute speichert (30.09.2026)
 
@@ -24,135 +26,177 @@ Mehrbenutzerbetrieb noch Konflikterkennung.
 
 | Was | Wo | Format |
 | --- | --- | --- |
-| Arbeitsstand (Auto-Save bei jeder Aenderung) | `localStorage['neo-theme-configurator']` | alle `THEME_DATA_KEYS` fuer **beide** Sets (`neo`, `customer`) + `activeThemeSet`, `previewMode`, `currentThemeMeta`, `activeSection` |
-| Benannte Themes (Schnappschuss) | `localStorage['neo-theme-{id}']` | `snapshotThemeData({ withActiveSet })` + `meta` `{ id, name, version, createdAt, updatedAt }`; Auto-Save 500 ms entprellt |
+| Arbeitsstand (Auto-Save bei jeder Änderung) | `localStorage['neo-theme-configurator']` | alle `THEME_DATA_KEYS` für **beide** Sets (`neo`, `customer`) + `activeThemeSet`, `previewMode`, `currentThemeMeta`, `activeSection` |
+| Benannte Themes (Schnappschuss) | `localStorage['neo-theme-{id}']` | `snapshotThemeData({ withActiveSet })` + `meta` `{ id, name, version, createdAt, updatedAt }` |
 | Katalog der benannten Themes | `localStorage['neo-theme-configurator-saved-themes']` | Liste der `meta` |
-| Branches (git-artig) | `localStorage['neo-theme-branches']` | `{ branches: { [id]: … }, activeBranchId }` (eigener Store `stores/branches.js`) |
-| Releases (unveraenderliche Schnappschuesse) | `localStorage['neo-theme-releases']` | Liste |
-| Alt-Schriften (Migration) | `neo-cfg-custom-fonts[-{id}]` | wird beim Laden in den Store uebernommen und geloescht |
-| „Speichern" (Strg+S) | `POST /api/save-theme` (lokaler Docs-Server `scripts/docs-server.js`) | nur aktives Set: `meta, theme, primitives, semantic{set-light,set-dark}, components, foundation, typeScale` → `website/data/custom-theme.json` |
-| NEO-Standard (Werkseinstellung) | `GET /api/neo-theme-defaults` | `data/neo-theme-defaults/neo-theme-defaults.json`; Rueckfall `tokens.js` |
-| Export/Import | Datei-Download / Upload | `exportAsJSON()` (nur aktives Set, **ohne** eigene Tokens, Schriften, Icons), CSS-Variablen, DTCG, Drupal-Bundle |
+| Branches (git-artig) | `localStorage['neo-theme-branches']` | eigener Store `stores/branches.js` |
+| Releases (unveränderliche Schnappschüsse) | `localStorage['neo-theme-releases']` | Liste |
+| „Speichern“ (Strg+S) | `POST /api/save-theme` (lokaler Docs-Server) | nur aktives Set → `website/data/custom-theme.json` |
+| NEO-Standard (Werkseinstellung) | `GET /api/neo-theme-defaults` | `data/neo-theme-defaults/neo-theme-defaults.json`; Rückfall `tokens.js` |
+| Export/Import | Datei | `exportAsJSON()`, CSS-Variablen, DTCG, Drupal-Bundle |
 
-`THEME_DATA_KEYS` (`stores/theme/verlauf.js`) sind das eine Schema fuer alle
-Theme-Inhalte (25 Schluessel: `themes`, `foundationOverrides`,
-`componentOverrides`, `primitiveOverrides`, `customFonts`, `focusRingMode`,
-`componentLocks`, `componentVersions`, `variantDefinitions`, zehn
-`custom*Tokens`, `iconLibraries`, `iconStrokeWidths`, `iconStrokeColors`,
-`semanticSpacing`, `semanticTypography`, `typeScale`).
+`THEME_DATA_KEYS` (seit 2.6 in `stores/theme/theme-schluessel.js`) sind das
+eine Schema für alle Theme-Inhalte (25 Schlüssel).
 
-Branches und Releases der App sind eine eigene, lokale Versionierung. Mit
-Drupal-Revisionen werden sie fuer den Drupal-Betrieb ueberfluessig (siehe Folgen).
+## Entscheidungsoptionen (Stand 30.09.2026)
 
-## Entscheidungsoptionen
+### A. Entitätstyp in Drupal
 
-### A. Entitaetstyp in Drupal
-
-| | A1 Config Entity `neo_theme` je Kunde | A2 Content Entity `neo_theme`, revisionierbar |
+| | A1 Config Entity `neo_theme` | A2 Content Entity `neo_theme`, revisionierbar |
 | --- | --- | --- |
-| Revisionen | keine (nur ueber Config-Export/Git) | Drupal-Revisionen eingebaut, inkl. Autor, Zeit, Protokoll, „Revert" |
-| Veroeffentlichen | eigener Mechanismus | `EntityPublishedInterface` oder Content Moderation (Entwurf → Freigabe → veroeffentlicht) |
-| Mehrere Admins | letzte Schreibaktion gewinnt | `changed`-Pruefung vorhanden, ETag/If-Match leicht ergaenzbar |
-| Deployment | per Config-Sync zwischen Umgebungen | Inhalt, wandert nicht mit Config-Sync |
-| Rechte | eine Admin-Permission | Entity Access + eigene Permissions je Operation |
+| Revisionen | keine (nur über Config-Export/Git) | eingebaut, inkl. Autor, Zeit, „Revert“ |
+| Veröffentlichen | eigener Mechanismus | `EntityPublishedInterface` oder Content Moderation |
+| Mehrere Admins | eigene Konflikterkennung nötig | `changed`-Prüfung vorhanden |
+| Deployment | wandert mit Config-Sync | Inhalt, wandert nicht mit |
+| Rechte | eigene Permissions | Entity Access + Permissions |
 
 ### B. Schnittstelle
 
 | | B1 JSON:API (Core) | B2 eigener REST-Controller (kleines Modul) |
 | --- | --- | --- |
-| Aufwand | gering fuer CRUD | mittel |
-| Revisionen lesen | nur eingeschraenkt (`resourceVersion`), Wiederherstellen fehlt | frei |
-| Aktionen (Veroeffentlichen mit Tor, Export) | nicht vorgesehen | frei |
+| Aufwand | gering für CRUD | mittel |
+| Aktionen (Veröffentlichen mit Tor, Aktivieren, Export) | nicht vorgesehen | frei |
 | Optimistische Sperre (If-Match/412) | nicht eingebaut | frei |
-| Nutzlast | JSON:API-Umschlag (`data.attributes`) | schlankes Theme-Dokument |
+| Nutzlast | JSON:API-Umschlag | schlankes Theme-Dokument |
 
 ### C. Speicherformat
 
-| | C1 App-Schnappschuss (`THEME_DATA_KEYS`) | C2 Theme-JSON (`exportAsJSON`, nur Abweichungen) | C3 vollstaendiges DTCG |
+| | C1 App-Stand (`THEME_DATA_KEYS`) | C2 Theme-JSON (`exportAsJSON`) | C3 vollständiges DTCG |
 | --- | --- | --- | --- |
-| verlustfrei fuer die App | ja | nein (eigene Tokens, Schriften, Icons fehlen) | nein (Sperren, Versionen, Varianten fehlen) |
-| Umrechnung | keine | Import-Pfad vorhanden | Exporter vorhanden, kein Import |
-| lesbar fuer Drupal/Frontend | JSON-Wert, per Schema pruefbar | ja | ja, Standard |
-| Groesse | mittel | klein | gross |
+| verlustfrei für die App | ja | nein | nein |
+| Umrechnung | keine | Import-Pfad vorhanden | kein Import |
+| per Schema prüfbar | ja | ja | ja |
 
-## Empfehlung
+## Entscheidung (01.10.2026)
 
-1. **A2 — Content Entity `neo_theme`, revisionierbar**, ein Eintrag je Kunde
-   und Theme. Nur A2 erfuellt „Drupal-Revisionen statt eigener
-   Versionierung" ohne Zusatzbau. Das veroeffentlichte Ergebnis (CSS-Datei)
-   kann zusaetzlich als Config oder Datei abgelegt werden, wenn es mit
-   Config-Sync wandern soll.
-2. **B2 — schlanker eigener REST-Controller** nach dem Entwurf in
-   `docs/api/theme-konfigurator.openapi.yaml`. Gruende: Veroeffentlichen mit
-   Kontrast-Tor, Revision wiederherstellen, Export und If-Match/412 sind
-   Aktionen, die JSON:API nicht abbildet; der Controller bleibt duenn
-   (Entity API + Access-Pruefung), die Logik liegt in Drupal-Services.
-3. **C1 — App-Schnappschuss als JSON-Feld speichern**, per JSON-Schema aus
-   der OpenAPI-Datei (`ThemeDaten`) geprueft. Verlustfrei, keine
-   Umrechnung, die App laedt genau das, was sie gespeichert hat. C2 und C3
-   bleiben **Exportformate** (`GET …/export?format=json|dtcg|css`).
-4. **Optimistische Sperre:** ETag = Revisions-ID; PUT, DELETE,
-   Wiederherstellen und Veroeffentlichen verlangen `If-Match`; 412 bei
-   veraltetem Stand, 428 ohne `If-Match`, 409 bei Zustandskonflikten.
-   Die App loest Konflikte nicht selbst, sie laedt neu und laesst die
-   Person entscheiden.
-5. **Kontrast-Tor:** Die App prueft vor dem Veroeffentlichen
-   (`src/speicher/kontrast.js`, WCAG 2.1 AA, feste Paarliste) und schickt
-   das Ergebnis mit; der Server lehnt mit 422 ab, wenn es nicht bestanden
-   ist.
+Abgestimmt mit dem Entwicklerteam; verbindlich.
 
-## Folgen
+| Nr. | Thema | Beschluss |
+| --- | --- | --- |
+| A | Entitätstyp | **Config Entity** (nicht Content Entity) — **keine Drupal-Revisionen** |
+| B | Schnittstelle | eigenes schlankes Drupal-Modul mit **REST-Controller** (nicht JSON:API) |
+| C | Speicherformat | **kompletter App-Stand** (`THEME_DATA_KEYS`), per JSON-Schema geprüft — gespeichert als Abweichungen vom NEO-Standard (siehe Folge 3) |
+| E | Branches/Releases | im Drupal-Betrieb **ausblenden**; lokal bleiben sie |
+| G | Kontrast-Befund | das Design System wird korrigiert, **dann** wird das Tor scharf (eigene Aufgabe) |
+| 1 | Einbettung/Anmeldung | App eingebettet in eine Drupal-Seite; Sitzung + CSRF-Token (`window.NEO_KONFIGURATOR` aus `drupalSettings`) |
+| 2 | Rechte | drei Rechte: **ansehen, bearbeiten, veröffentlichen**; kein Recht zum Übergehen des Kontrast-Tors |
+| 3a | Mandanten | eine Drupal-Instanz je Kunde → **kein `{kunde}` im Pfad** |
+| 3b | Themes je Kunde | mehrere Themes, **genau eines aktiv** |
+| 4 | Freigabe | keine Vier-Augen-Freigabe; **veröffentlicht ja/nein** |
+| 5 | Kontrast | App zeigt sofort, **Server prüft verbindlich** (gleiche Paarliste) |
+| 6 | Auslieferung | über einen **Override in der Theme-Library** des Frontend-Themes |
+| 7 | Konflikte | Konflikterkennung beim Speichern (**If-Match/412**, „neu laden und entscheiden“), **keine Sperre** |
+| 8 | Arbeitsstand | bleibt im Browser; **Speichern (Strg+S) schreibt in Drupal** |
+| 9a | NEO-Standard | als **Datei mit dem DS** ausgeliefert (`data/neo-theme-defaults/neo-theme-defaults.json`) |
+| 9b | neuer Standard | wird **automatisch** übernommen |
+| 10 | Validierung | Server prüft gegen **JSON-Schema** + **Größenlimit 1 MB** |
 
-- Positiv: Ein Stand je Kunde fuer alle Admins, nachvollziehbar (wer, wann,
-  warum), ruecksetzbar; kein stilles Ueberschreiben bei parallelem Arbeiten.
-- Positiv: Die App ist vorbereitet, ohne das heutige Verhalten zu aendern:
-  `src/speicher/` mit Adapter `lokal` (Standard, localStorage + Docs-Server,
-  unveraendert) und `drupal` (gegen den Entwurf). Umschalten per
-  `window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, kunde,
-  csrfToken }` im Einstieg oder `VITE_NEO_*`.
-- Negativ: Branches/Releases der App und Drupal-Revisionen ueberschneiden
-  sich. Vorschlag: im Drupal-Betrieb Branches/Releases ausblenden; lokal
-  bleiben sie.
-- Negativ: Das Frontend-Theme muss das Ergebnis einbinden (siehe offene
-  Fragen) — neue Abhaengigkeit zwischen Config Tools und Theme.
-- **Befund 30.09.2026:** Der NEO-Standard besteht das Kontrast-Tor selbst
-  nicht: im hellen Modus `on-danger` auf `feedback-danger` und `on-success`
-  auf `feedback-success` nur **3,35:1** (Text in Banner, Badge, Label).
-  Bevor das Tor scharf geschaltet wird, muss das Design System diese Werte
-  korrigieren — sonst kann kein vom Standard abgeleitetes Theme
-  veroeffentlicht werden.
+### Verworfene Empfehlungen aus dem Vorschlag vom 30.09.2026
 
-## Offene Fragen an die Entwickler
+- **A2 Content Entity mit Revisionen — verworfen.** Das Team bevorzugt eine
+  Config Entity: kleiner, ohne Revisionstabellen, passt zu „Konfiguration
+  eines Kunden“. Versionsgeschichte im Server wird nicht gebraucht; lokal
+  bleiben Branches/Releases.
+- **ETag = Revisions-ID — verworfen** (es gibt keine Revisionen). Ersetzt
+  durch den Inhalts-Hash (Folge 1).
+- **Revisionen lesen / wiederherstellen (`…/revisionen…`) — verworfen**,
+  Endpunkte und App-Funktionen sind entfernt.
+- **Export `format=dtcg|json` im Server — verworfen.** DTCG und Theme-JSON
+  erzeugt nur der JS-Exporter; die App exportiert sie weiter selbst. Der
+  Server liefert `css` und `abweichungen`.
+- **Recht „Kontrast übergehen“ (`uebergangen`) — verworfen** (Frage 2).
+- **Pfadsegment `{kunde}` — verworfen** (Frage 3a).
 
-1. **Anmeldung/CSRF:** Laeuft die App in einer Drupal-Seite (Sitzungscookie
-   + `X-CSRF-Token` von `/session/token`, Token per `drupalSettings`)? Oder
-   eigenstaendig mit OAuth (`simple_oauth`)? CORS?
-2. **Rollen/Rechte:** Welche Permissions? Vorschlag: `neo theme ansehen`,
-   `neo theme bearbeiten`, `neo theme veroeffentlichen`,
-   `neo theme kontrast uebergehen` (falls es das geben soll). Wer vergibt sie
-   je Kunde?
-3. **Mandant/Kunde:** Eine Drupal-Instanz je Kunde (dann entfaellt
-   `{kunde}` im Pfad) oder mehrere Kunden in einer Instanz (Group, Domain
-   Access …)? Mehrere Themes je Kunde oder genau eines?
-4. **Revisionen/Freigabe:** Reicht „veroeffentlicht ja/nein" oder braucht es
-   Content Moderation mit Freigabeschritt (Vier-Augen-Prinzip)?
-   Aufbewahrung alter Revisionen?
-5. **Kontrast-Tor:** Vertraut der Server dem Ergebnis der App, rechnet er
-   selbst nach (PHP, gleiche Paarliste) oder beides? Darf jemand das Tor
-   uebergehen, und wird das protokolliert?
-6. **Konsum im Frontend-Theme:** Erzeugt der Server beim Veroeffentlichen
-   eine CSS-Variablen-Datei (`public://neo-theme/{kunde}/theme.{hash}.css`,
-   eingebunden per `hook_page_attachments`, Cache-Tags invalidieren)? Oder
-   schickt die App das fertige CSS mit (Exporter existiert nur in JS)? Oder
-   Libraries-Override im Theme?
-7. **Konflikt zweier Admins:** Genuegt If-Match/412 mit „neu laden" oder
-   wird ein Hinweis „X bearbeitet gerade" (Sperre mit Ablaufzeit,
-   Content Lock) gewuenscht?
-8. **Auto-Save:** Bleibt der Arbeitsstand wie heute nur im Browser (Vorschlag)
-   oder sollen Entwuerfe automatisch als Revision gespeichert werden
-   (Revisionsflut)?
-9. **NEO-Standard:** Woher liest Drupal ihn — mit dem Design System als
-   Datei ausgeliefert (`data/neo-theme-defaults/`) oder als eigener Eintrag?
-   Wie wird ein neuer Standard auf bestehende Kunden-Themes angewendet?
-10. **Validierung:** JSON-Schema aus der OpenAPI-Datei serverseitig pruefen
-    (z. B. `justinrainbow/json-schema`)? Groessenlimit?
+Beibehalten wurden B2 (eigener REST-Controller), C1 (App-Stand, jetzt als
+Abweichungen), If-Match/412/428 und das Kontrast-Tor.
+
+## Folgen und Umgang mit den Wechselwirkungen
+
+### 1. Config Entity ohne Revisionen
+
+- **Kein Verlauf, kein Zurücksetzen in Drupal.** Die App bietet im
+  Drupal-Betrieb kein „Revision wiederherstellen“ mehr (Store-Aktionen
+  `ladeRevisionen`/`stelleRevisionWiederHer` entfernt). Undo/Redo der
+  laufenden Sitzung bleibt; Branches/Releases bleiben lokal (Beschluss E;
+  `speicher().faehigkeiten.branchesUndReleases` ist im Drupal-Betrieb
+  `false` — das Ausblenden in der Oberfläche ist Teil 2).
+- **Konfliktkennung = Inhalts-Hash.** `ETag = "<hex(SHA-256(kanonisches JSON))>"`
+  über `{ meta: { name, version }, abweichungen }`. Kanonisch heißt:
+  Objektschlüssel rekursiv sortiert, Listen in ihrer Reihenfolge, keine
+  Leerzeichen, Unicode und `/` unmaskiert. Referenz und Prüfvektor:
+  `src/speicher/inhalts-hash.js`, `tests/speicher/inhalts-hash.test.js`.
+  PHP-Hinweis: JSON als Objekte dekodieren (nicht `assoc`), sonst wird aus
+  `{}` ein `[]` und der Hash stimmt nicht.
+- **Risiko Deployment:** `drush cim` überschreibt Config — damit würden
+  Änderungen der Admins beim nächsten Deployment verloren gehen.
+  **Annahme/Anforderung an die Entwicklung (offen):** Die Theme-Konfiguration
+  (`neo_theme_konfigurator.theme.*` o. ä.) wird per `config_ignore` (oder
+  gleichwertig, z. B. eigener Config-Storage) vom Import ausgenommen und
+  nicht exportiert. **Offene Umsetzungsanforderung**, Abnahme durch das Team.
+
+### 2. Auslieferung über die Theme-Library
+
+- **Annahme:** Beim Veröffentlichen schickt die App das fertige CSS mit
+  (vorhandener Exporter `exportAsCSSVars()`); der Server erzeugt kein CSS
+  selbst. Er prüft vorher den Kontrast verbindlich (Folge 3, Frage 5).
+- **Anforderung an die Entwicklung:** Der Server legt das CSS versioniert ab
+  und, wenn das Theme aktiv ist (oder aktiviert wird), an den Pfad, den der
+  Library-Override referenziert — z. B. `public://neo-theme/theme.css` oder
+  ein vom Modul definierter Pfad — und leert die betroffenen Caches
+  (Library-Discovery, Render-Cache, Aggregation). Die Antwort nennt Pfad,
+  URL, Version und Hash der Datei. Wie der Override genau aussieht
+  (`libraries-override` in der Theme-Info oder `hook_library_info_alter`,
+  z. B. für `css/theme-overrides.css` in `neo_fe/global-styling`), entscheidet
+  das Team.
+- Aktivieren (`POST /themes/{id}/aktivieren`) nur für veröffentlichte Themes
+  (sonst 409); genau eines ist aktiv.
+
+### 3. Neuer NEO-Standard wird automatisch übernommen (9b)
+
+- Kunden-Themes speichern nur **Abweichungen** vom NEO-Standard. Format C
+  bleibt der App-Stand, aber reduziert: nur geänderte oder neue Werte,
+  Listen als Ganzes, entfernte Schlüssel als `{ "$entfernt": true }`
+  (Schema `ThemeAbweichungen`; Referenz `src/speicher/abweichungen.js`,
+  Garantie `zusammenfuehren(standard, abweichungenBerechnen(x, standard)) == x`).
+- Beim Laden führt die App die Abweichungen mit dem **aktuellen** Standard
+  (`GET /neo-standard`) zusammen. Ein neuer Standard wirkt so überall, außer
+  an Stellen, die ein Kunde bewusst geändert hat. Der Server führt für die
+  Kontrastprüfung genauso zusammen.
+- **Vor jedem Ausrollen eines neuen Standards** läuft die Kontrastprüfung
+  über alle Kunden-Themes: Abweichungen je Instanz exportieren
+  (`GET /themes/{id}/export?format=abweichungen`), dann
+  `node scripts/pruefe-kunden-themes.mjs --standard <neuer Standard> <Ordner>`.
+  Exit-Code ≠ 0 heißt: Befunde klären, bevor der Standard ausgerollt wird.
+- Die Paarliste liegt als `data/kontrast-paare.json` vor; App, Prüfwerkzeug
+  und Server lesen dieselbe Datei.
+
+### Weitere Folgen
+
+- Positiv: ein Stand je Theme für alle Admins, kein stilles Überschreiben;
+  kleine, lesbare Datensätze; ein neuer Standard verteilt sich ohne Migration.
+- Positiv: Der Adapter `lokal` und das heutige Verhalten bleiben; Umschalten
+  per `window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, csrfToken,
+  rechte }`. `darf(recht)` liest die Rechte (lokal: alle).
+- Negativ: kein Zurücksetzen auf frühere Stände im Server; wer das braucht,
+  exportiert vorher (`format=abweichungen`).
+- Negativ: neue Abhängigkeit zwischen Config Tools und Frontend-Theme
+  (Library-Override, Folge 2).
+- **Befund 30.09.2026 (Beschluss G):** Der NEO-Standard besteht das Tor
+  selbst nicht — im hellen Modus `on-danger`/`feedback-danger` und
+  `on-success`/`feedback-success` nur **3,35:1**. Bis das Design System die
+  Werte korrigiert, kann kein vom Standard abgeleitetes Theme ohne eigene
+  Korrektur veröffentlicht werden.
+- Bekannt, harmlos: Der Rückfall `getDefaultFoundation()` (ohne Server)
+  legt leere Foundation-Kategorien (`elements`, `themes`) an, die
+  Standard-Datei nicht. Ergebnis ist höchstens die Abweichung
+  `{ elements: {}, themes: {} }`.
+
+## Offene Umsetzungsanforderungen an die Entwicklung
+
+1. `config_ignore` (o. ä.) für die Theme-Konfiguration (Folge 1).
+2. Library-Override, Ablagepfad und Cache-Invalidierung (Folge 2).
+3. Serverseitig: JSON-Schema `ThemeAbweichungen` + 1 MB (413), Zusammenführen
+   und Kontrastprüfung in PHP nach `abweichungen.js` und
+   `data/kontrast-paare.json`, Inhalts-Hash nach `inhalts-hash.js`.
+4. Permissions für die drei Rechte und Übergabe an die App
+   (`drupalSettings` → `window.NEO_KONFIGURATOR.rechte`).

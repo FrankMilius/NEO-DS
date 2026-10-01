@@ -6,9 +6,10 @@ Kunden: Markenfarben, semantische Rollen (hell/dunkel), Foundation
 Icons. Die Vorschau zeigt echte Komponenten des NEO Design Systems.
 
 **Zielbild:** Die App wird Teil der Config Tools der **neo Workplace
-Plattform (Drupal 11)**; gespeichert wird pro Kunde in Drupal mit
-Revisionen, Rechten und Kontrast-Prüfung vor dem Veröffentlichen
-([ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md)). Heute läuft sie
+Plattform (Drupal 11)**; gespeichert wird in der Drupal-Instanz des Kunden
+als Config Entity (nur Abweichungen vom NEO-Standard, ohne Revisionen), mit
+Rechten und Kontrast-Prüfung vor dem Veröffentlichen
+([ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md), angenommen 01.10.2026). Heute läuft sie
 lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
@@ -248,13 +249,13 @@ Slot-Heuristik. 46 Komponenten haben noch eine handgeschriebene Arena
 
 ## Speichern
 
-Konzept und offene Fragen: [ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md).
+Entscheidungen und Folgen: [ADR-002](../../docs/adr/ADR-002-speichern-in-drupal.md).
 Code: `src/speicher/` (gemeinsame Schnittstelle, JSDoc in `index.js`).
 
 | Adapter | Standard | Verhalten |
 | --- | --- | --- |
 | `lokal` | ja | Arbeitsstand, benannte Themes, Katalog im `localStorage`; „Speichern“ (Strg/Cmd+S) → `POST /api/save-theme` am Docs-Server; NEO-Standard über `GET /api/neo-theme-defaults` |
-| `drupal` | nein, **Entwurf** | REST nach `docs/api/theme-konfigurator.openapi.yaml`: Sitzungs-Cookie + `X-CSRF-Token`, ETag/`If-Match` (412/409 als Konflikt), Revisionen, Veröffentlichen mit Kontrast-Tor (`speicher/kontrast.js`) |
+| `drupal` | nein | REST nach `docs/api/theme-konfigurator.openapi.yaml` (Vertrag 1.0.0): Sitzungs-Cookie + `X-CSRF-Token`, ETag = Inhalts-Hash/`If-Match` (412 veraltet, 428 fehlt, 409 Zustand), nur Abweichungen vom NEO-Standard (`speicher/abweichungen.js`), Aktivieren (genau eines aktiv), Veröffentlichen mit CSS und Kontrast-Tor (`speicher/kontrast.js`, Paarliste `data/kontrast-paare.json`) |
 
 **Konfiguration** (`leseKonfiguration()` in `speicher/index.js`; `window`
 gewinnt vor env):
@@ -264,14 +265,15 @@ gewinnt vor env):
   window.NEO_KONFIGURATOR = {
     speicher: 'drupal',                          // 'lokal' | 'drupal'
     basisUrl: '/api/neo-theme-konfigurator/v1',
-    kunde: 'acme',
-    csrfToken: '…'                               // oder csrfTokenUrl (Standard '/session/token')
+    csrfToken: '…',                              // oder csrfTokenUrl (Standard '/session/token')
+    rechte: ['ansehen', 'bearbeiten']            // aus drupalSettings; lokal: alle
   }
 </script>
 ```
 
 Für die Entwicklung alternativ `VITE_NEO_SPEICHER`, `VITE_NEO_BASIS_URL`,
-`VITE_NEO_KUNDE`, `VITE_NEO_CSRF_TOKEN_URL` (z. B. in `.env.local`).
+`VITE_NEO_CSRF_TOKEN_URL`, `VITE_NEO_RECHTE` (kommagetrennt; z. B. in
+`.env.local`). Rechte abfragen: `darf('veroeffentlichen')` aus `speicher/index.js`.
 
 localStorage-Schlüssel (lokal): `neo-theme-configurator` (Arbeitsstand),
 `neo-theme-configurator-saved-themes` (Katalog), `neo-theme-<id>`
@@ -314,17 +316,21 @@ Origin-Prüfung, max. 2 MB je Anfrage. Details: ADR-004.
 | `POST /api/update-styleguide` | schreibt neue Paletten in SCSS und Farb-Doku |
 | `GET /*` | statische Dateien aus der Wurzel; `/` → `/docs/` |
 
-### Künftig: Drupal-REST (Entwurf)
+### Drupal-REST (Vertrag 1.0.0, 01.10.2026)
 
 [`docs/api/theme-konfigurator.openapi.yaml`](../../docs/api/theme-konfigurator.openapi.yaml)
-(OpenAPI 3.1, Basis `/api/neo-theme-konfigurator/v1`, **nicht abgestimmt**):
-`GET /neo-standard`; `GET|POST /kunden/{kunde}/themes`;
-`GET|PUT|DELETE /kunden/{kunde}/themes/{themeId}`; `…/revisionen`,
-`…/revisionen/{revisionId}`, `POST …/revisionen/{revisionId}/wiederherstellen`;
-`POST …/veroeffentlichen`; `GET …/export?format=json|dtcg|css`.
+(OpenAPI 3.1, Basis `/api/neo-theme-konfigurator/v1`, eine Instanz je Kunde):
+`GET /neo-standard`; `GET|POST /themes` (Liste mit `aktiv`);
+`GET|PUT|DELETE /themes/{themeId}` (If-Match Pflicht); `POST …/aktivieren`;
+`POST …/veroeffentlichen` (Kontrast + CSS); `GET …/export?format=css|abweichungen`.
+Rechte je Operation in `x-neo-recht`, Größenlimit 1 MB (`x-neo-max-bytes`, 413).
 Gegenstück in der App: `src/speicher/drupal.js`. `tests/speicher/openapi.test.js`
-prüft, dass jede URL des Adapters in der OpenAPI-Datei steht und deren
-Schemas zur App passen (`THEME_DATA_KEYS`, Theme-JSON, Import-Prüfung).
+prüft, dass jede URL des Adapters in der OpenAPI-Datei steht und
+`ThemeAbweichungen` zu `THEME_DATA_KEYS` passt.
+
+**Vor dem Ausrollen eines neuen NEO-Standards:** Abweichungen aller Themes
+exportieren und `node scripts/pruefe-kunden-themes.mjs --standard <neu.json> <ordner>`
+laufen lassen (Exit ≠ 0 = Kontrast-Befund).
 
 ---
 
@@ -364,23 +370,23 @@ Vorschlag (ADR-004), abhängig von den offenen Fragen in ADR-002:
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS
    aus `theme-configurator/assets/` als Library registrieren.
 2. Admin-Route mit `<div id="app"></div>`; vor dem App-Skript
-   `window.NEO_KONFIGURATOR` setzen (z. B. aus `drupalSettings`: `speicher:
-   'drupal'`, `basisUrl`, `kunde`, `csrfToken`).
-3. REST-Endpunkte nach der OpenAPI-Datei umsetzen (Empfehlung ADR-002:
-   revisionierbare Content Entity `neo_theme`, schlanker REST-Controller,
-   App-Schnappschuss als JSON-Feld, If-Match/ETag, Kontrast-Tor mit 422).
-4. Veröffentlichtes Theme im Frontend-Theme einbinden (offene Frage 6).
+   `window.NEO_KONFIGURATOR` setzen (aus `drupalSettings`: `speicher:
+   'drupal'`, `basisUrl`, `csrfToken`, `rechte`).
+3. REST-Endpunkte nach der OpenAPI-Datei umsetzen (ADR-002: Config Entity
+   ohne Revisionen, schlanker REST-Controller, Abweichungen vom Standard,
+   If-Match/Inhalts-Hash, Kontrast-Tor serverseitig mit 422).
+4. Veröffentlichtes CSS über einen Override in der Theme-Library ausliefern.
 
-Offen (ADR-002, „Offene Fragen an die Entwickler“): Anmeldung/CSRF, Rollen
-und Rechte, Mandanten, Freigabe-Workflow, Kontrast-Tor serverseitig,
-Konsum im Frontend-Theme, Konflikte, Auto-Save, NEO-Standard, Validierung.
+Offene Umsetzungsanforderungen (ADR-002): `config_ignore` für die
+Theme-Konfiguration, Library-Override mit Ablagepfad und Cache-Leerung,
+Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
 
 ---
 
 ## Bekannte Grenzen
 
-- **Speichern in Drupal ist ein Entwurf:** Adapter und OpenAPI sind nicht mit
-  der Drupal-Entwicklung abgestimmt; ohne Konfiguration speichert die App nur
+- **Speichern in Drupal:** Vertrag und App-Seite stehen (ADR-002, 01.10.2026),
+  der Server ist noch nicht gebaut; ohne Konfiguration speichert die App nur
   im Browser bzw. über den lokalen Docs-Server.
 - **Vite-`base` fest** auf `/config/theme-configurator/`; ein anderer Pfad in
   Drupal braucht einen angepassten Build.
@@ -390,8 +396,9 @@ Konsum im Frontend-Theme, Konflikte, Auto-Save, NEO-Standard, Validierung.
   `/opt/homebrew/bin/ddev` und `../DRUPAL11` verdrahtet).
 - **Kontrast-Tor:** Der NEO-Standard besteht es im hellen Modus selbst nicht
   (`on-danger`/`on-success` 3,35:1, Befund in ADR-002).
-- **Branches/Releases** der App sind lokal und doppeln sich mit
-  Drupal-Revisionen (Vorschlag: im Drupal-Betrieb ausblenden).
+- **Branches/Releases** der App sind lokal; im Drupal-Betrieb werden sie
+  ausgeblendet (Beschluss E, `faehigkeiten.branchesUndReleases`; Oberfläche
+  folgt in Teil 2).
 - **Ein Konfigurator je Seite:** Der Store-Zustand liegt auf Modul-Ebene
   (ADR-003).
 - **Export ist nicht verlustfrei:** Theme-JSON ohne eigene Tokens, Schriften,

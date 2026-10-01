@@ -37,7 +37,7 @@ Store-Datei `stores/theme.js`. Befunde (29.09.2026):
    | `token-aktionen.js` | Token ändern/anlegen/entfernen (Semantik, Foundation, Komponenten, eigene Tokens, Icons, Schriftskala) |
    | `komponenten.js` | Sperren, Versionen, eigene Varianten |
    | `verlauf.js` | `THEME_DATA_KEYS`, Schnappschuss, Undo/Redo, Werkseinstellung |
-   | `themes.js` | benannte Themes, NEO-Standard laden, Import, Speicher-Abstraktion (`speichereTheme`, `veroeffentlicheTheme`, Revisionen) |
+   | `themes.js` | benannte Themes, NEO-Standard laden, Import, Speicher-Abstraktion (`speichereTheme`, `veroeffentlicheTheme`, `aktiviereTheme`) |
    | `persistenz.js` | Auto-Save des Arbeitsstands (localStorage), `saveToServer` |
    | `export.js` | JSON-, CSS-Variablen-, DTCG-Export |
    | `theme-sets.js` | Sets vergleichen/kopieren, Customer auf NEO zurücksetzen |
@@ -84,6 +84,5 @@ Store-Datei `stores/theme.js`. Befunde (29.09.2026):
   Fassade nur durchgereicht. Mehrere Pinia-Instanzen teilen ihn (in Tests
   bewusst so, siehe `tests/setup.js`); zwei unabhängige Konfiguratoren auf
   einer Seite gehen damit nicht.
-- Offen: Im Drupal-Betrieb überschneiden sich lokale Branches/Releases
-  (`branches.js`) mit Drupal-Revisionen – Vorschlag in ADR-002: dort
-  ausblenden.
+- Im Drupal-Betrieb werden lokale Branches/Releases (`branches.js`)
+  ausgeblendet (ADR-002, Beschluss E; Drupal speichert ohne Revisionen).

@@ -60,8 +60,9 @@ der Config Tools der neo Workplace Plattform (Drupal 11), Speichern in Drupal
 6. **Integration in Drupal (Vorschlag):** Ein Drupal-Modul (Config Tools)
    liefert die Dateien aus dem Release als Library aus, rendert eine
    Admin-Route mit `<div id="app"></div>` und setzt **vor** dem App-Skript
-   `window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, kunde,
-   csrfToken }` (z. B. aus `drupalSettings`). Die App spricht dann nicht mehr
+   `window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, csrfToken,
+   rechte }` (aus `drupalSettings`; eine Instanz je Kunde, daher kein
+   `kunde` — ADR-002, angenommen 01.10.2026). Die App spricht dann nicht mehr
    den Docs-Server, sondern die REST-Schnittstelle aus
    `docs/api/theme-konfigurator.openapi.yaml` (Adapter `src/speicher/drupal.js`).
 
@@ -72,7 +73,7 @@ der Config Tools der neo Workplace Plattform (Drupal 11), Speichern in Drupal
 | Bundle weiter im Repo | große Diffs bei jedem Build, Stand nicht nachvollziehbar, Konflikte zwischen Branches. |
 | Docs-Server als Produktionsserver | schreibt ins Repository, keine Anmeldung/Rechte, kein Mehrbenutzerbetrieb – Aufgabe von Drupal (ADR-002). |
 | npm-Paket statt ZIP | Drupal-Seite nutzt kein npm-Registry-Deployment; ZIP genügt für eine Library. Später möglich. |
-| App als eigenständige Seite außerhalb Drupals (OAuth, CORS) | eigene Anmeldung und CORS nötig; offene Frage 1 in ADR-002. |
+| App als eigenständige Seite außerhalb Drupals (OAuth, CORS) | eigene Anmeldung und CORS nötig; verworfen in ADR-002 (Frage 1: eingebettet in eine Drupal-Seite). |
 
 ## Folgen
 
