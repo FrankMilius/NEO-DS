@@ -28,6 +28,7 @@ Tests laufen offline.
 | `ablaeufe.spec.js` | Token ändern → Undo/Redo (Knöpfe und Strg+Z) · Theme-Set Neo → Customer inkl. URL · DTCG-Export-Dialog · Import lehnt ungültige Dateien ab · Präsentations-Bühne folgt Farbwechsel. |
 | `axe.spec.js` | axe (WCAG 2.0/2.1 A+AA, 2.2 AA) auf Start, Farben (Semantic), Typografie, Präsentation, Recipe-Arena (Badge), DTCG-Dialog. Geprüft wird die App-Oberfläche; `.lab-viewport` (Arenen) ist ausgenommen. |
 | `arenen.visuell.spec.js` | `@visuell`: Screenshots des Labor-Viewports ausgewählter Arenen. |
+| `drupal.spec.js` | Projekt `drupal` gegen die Drupal-Attrappe (`scripts/drupal-attrappe.mjs`, Port 3101 — `E2E_DRUPAL_PORT`): Theme anlegen → ändern → speichern, zweite Sitzung → Konfliktdialog, Veröffentlichen mit Kontrast-Befund (NEO-Standard) und Server-422, korrigiertes Theme veröffentlichen + aktivieren, Löschen, Rechte (nur ansehen / ohne veröffentlichen), Branches ausgeblendet, axe auf Header und Dialog. `npm run e2e` startet beide Server; einzeln: `npm run e2e:drupal`. |
 
 Bekannte, noch nicht behobene Konsolenfehler stehen mit Grund in
 `BEKANNTE_FEHLER` (`hilfen.js`) — nach der Behebung dort entfernen.

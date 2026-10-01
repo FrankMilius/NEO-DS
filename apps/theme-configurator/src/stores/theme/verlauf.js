@@ -123,6 +123,7 @@ export const VERLAUF_AKTIONEN = [
   'createVariant',
   'deleteVariant',
   'importTheme',
+  'legeThemeAusStandardAn',
   'loadNeoDefaults',
   'loadTheme',
   'oeffneTheme',
@@ -155,6 +156,15 @@ export const VERLAUF_AKTIONEN = [
   'updateSemanticTypography',
   'updateTypeScale',
 ]
+
+/**
+ * Aktionen, die im Drupal-Betrieb ohne Recht „bearbeiten“ gesperrt sind
+ * (Plan v2, 2.6; stores/plugins/schreibschutz.js): alle Undo-Aktionen außer
+ * Öffnen/Laden — ansehen darf man jedes Theme.
+ */
+export const SCHREIBSCHUTZ_AKTIONEN = VERLAUF_AKTIONEN.filter(
+  (a) => !['oeffneTheme', 'loadTheme', 'loadNeoDefaults'].includes(a)
+)
 
 function datenJson() {
   const daten = {}

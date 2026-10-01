@@ -1,6 +1,7 @@
 <template>
-  <div class="app-shell" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
+  <div class="app-shell" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'mit-hinweis': nurAnsicht }">
     <AppHeader @toggle-sidebar="toggleSidebar" :sidebarCollapsed="sidebarCollapsed" />
+    <DrupalRechteHinweis v-if="nurAnsicht" />
     <div class="app-body">
       <SidebarNav :collapsed="sidebarCollapsed" @toggle="toggleSidebar" />
       <ErrorBoundary panelLabel="Laboratory">
@@ -27,9 +28,18 @@ import UpdateDialog from './components/components/UpdateDialog.vue'
 import ErrorBoundary from './components/layout/ErrorBoundary.vue'
 import KonfigBestaetigung from './components/ui/KonfigBestaetigung.vue'
 import { starteHashRouter } from './navigation/hash-router.js'
+import DrupalRechteHinweis from './components/drupal/DrupalRechteHinweis.vue'
+import { darf, speicher } from './speicher/index.js'
+import { starteDrupalBetrieb } from './composables/useDrupalBetrieb.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
+
+// Drupal-Betrieb (Plan v2, 2.6): Katalog aus Drupal, Speicherstatus;
+// ohne Recht „bearbeiten“ nur Ansicht. Lokal bleibt alles wie bisher.
+const drupal = speicher().art === 'drupal'
+const nurAnsicht = drupal && !darf('bearbeiten')
+let stoppeDrupal = null
 
 // Sidebar collapse state (persisted)
 const SIDEBAR_KEY = 'neo-cfg-sidebar-collapsed'
@@ -72,13 +82,19 @@ let stoppeHashRouter = null
 onMounted(() => {
   store.loadFromStorage()
   stoppeHashRouter = starteHashRouter(store)
-  sync.fetchExistingPalettes()
+  if (drupal) {
+    // Styleguide-Abgleich spricht den lokalen Docs-Server — nicht in Drupal
+    starteDrupalBetrieb(store).then((stopp) => { stoppeDrupal = stopp })
+  } else {
+    sync.fetchExistingPalettes()
+  }
   window.addEventListener('keydown', onKeydown)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
   stoppeHashRouter?.()
+  stoppeDrupal?.()
 })
 </script>
 
@@ -95,6 +111,11 @@ onBeforeUnmount(() => {
 
 .app-shell.sidebar-collapsed {
   grid-template-columns: 44px 1fr auto;
+}
+
+/* Drupal-Betrieb ohne Recht „bearbeiten“: Hinweiszeile unter dem Header */
+.app-shell.mit-hinweis {
+  grid-template-rows: 44px auto 1fr;
 }
 
 .app-shell > :first-child {

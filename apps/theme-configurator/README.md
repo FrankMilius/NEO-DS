@@ -277,7 +277,56 @@ Für die Entwicklung alternativ `VITE_NEO_SPEICHER`, `VITE_NEO_BASIS_URL`,
 
 localStorage-Schlüssel (lokal): `neo-theme-configurator` (Arbeitsstand),
 `neo-theme-configurator-saved-themes` (Katalog), `neo-theme-<id>`
-(benannte Themes), `neo-theme-branches`, `neo-theme-releases`.
+(benannte Themes), `neo-theme-branches`, `neo-theme-releases`. Im
+Drupal-Betrieb zusätzlich `neo-theme-configurator-drupal-stand`
+(Fingerabdruck des zuletzt gespeicherten Stands für die Statusanzeige).
+
+### Oberfläche im Drupal-Betrieb
+
+Lokal bleibt die Oberfläche unverändert. Mit `speicher: 'drupal'` ersetzt
+`components/drupal/DrupalWerkzeuge.vue` im Header Neu/Theme-Auswahl/
+Branches/Speichern/Löschen/Merge; Zustand und Abläufe in
+`composables/useDrupalBetrieb.js`.
+
+| Was | Verhalten |
+| --- | --- |
+| Theme-Auswahl | Themes der Instanz mit „aktiv“ und Status (Entwurf / Veröffentlicht / Geändert), Öffnen (fragt bei ungespeicherten Änderungen), **Neu anlegen** vom NEO-Standard (Set „Customer“), **Aktivieren** (nur veröffentlichte, Recht „veröffentlichen“), **Löschen** mit Bestätigung (das aktive nicht) |
+| Speichern | Knopf und Strg/Cmd+S → `PUT` mit `If-Match`; Status „Gespeichert“ / „Ungespeicherte Änderungen“ / Fehler. Ohne Drupal-Theme: Dialog „Als neues Theme speichern“ |
+| Konflikt (412) | Dialog „Das Theme wurde inzwischen geändert“: **Neu laden** (eigene Änderungen verwerfen) oder **Abbrechen** (weiterarbeiten, nichts gespeichert) |
+| Veröffentlichen | Dialog mit der Kontrastprüfung der App (bestanden oder Befundliste mit Paaren und Werten); nur bei bestanden und gespeichertem Stand. Server-422 zeigt die Befunde des Servers; Erfolg erklärt die Auslieferung über die Theme-Library und bietet „Jetzt aktivieren“ |
+| Rechte | ohne „bearbeiten“: Banner „Nur Ansicht“, Editoren im Inspector gesperrt (`<fieldset disabled>`), ändernde Store-Aktionen angehalten (`stores/plugins/schreibschutz.js`); ohne „veröffentlichen“: Veröffentlichen/Aktivieren gesperrt |
+| Fehler | Netzwerk, 403 (Recht, CSRF), 413 u. a. als Hinweis-Dialog (`meldungFuer()` in `speicher/fehler.js`) |
+| Ausgeblendet | Branches/Releases (Beschluss E), Styleguide-Merge (braucht den lokalen Docs-Server) |
+
+### Drupal-Betrieb lokal ausprobieren
+
+`scripts/drupal-attrappe.mjs` bildet den Vertrag 1.0.0 im Speicher nach (nur
+Node-Builtins) — zum Ausprobieren, für die E2E-Tests und als lauffähige
+Referenz für die Drupal-Entwicklung. ETag, Zusammenführen und Kontrastprüfung
+rechnet sie mit denselben Modulen wie die App (`inhalts-hash.js`,
+`abweichungen.js`, `kontrast.js` + `data/kontrast-paare.json`).
+
+```bash
+npm run config:build                 # Wurzel: App bauen (einmal)
+npm run drupal:attrappe              # http://127.0.0.1:3200/
+# mit Optionen:
+node scripts/drupal-attrappe.mjs --port 3200 --rechte ansehen,bearbeiten \
+     --datei /tmp/neo-themes.json --csrf-token geheim
+```
+
+- `/` zeigt Links zum Konfigurator mit allen Rechten, ohne „veröffentlichen“
+  und „nur ansehen“; `/konfigurator?rechte=ansehen,bearbeiten` startet die App
+  mit `window.NEO_KONFIGURATOR = { speicher: 'drupal', basisUrl, csrfToken, rechte }`
+  und merkt die Rechte als Cookie (wie eine Drupal-Sitzung).
+- Rechte für einzelne Anfragen: Kopfzeile `X-Neo-Rechte: ansehen,bearbeiten`
+  (Vorrang vor Cookie und `--rechte`). CSRF-Token: `GET /session/token`.
+- Prüft wie der Vertrag: `If-Match` (428/412 mit `aktuellerEtag`), 409
+  (aktives löschen, Entwurf aktivieren), 422 (Schema `ThemeAbweichungen`,
+  Kontrast-Tor auf dem gespeicherten Stand), 413 (> 1 MB), 403 (Recht, CSRF).
+- Ohne `--datei` beginnt jeder Start leer. Nicht nachgebildet: Anmeldung,
+  Ablage der CSS-Datei im Dateisystem, Cache-Leerung.
+- Hinweis: Der heutige NEO-Standard besteht das Kontrast-Tor nicht (Befund G);
+  zum Veröffentlichen im hellen Modus `on-danger`/`on-success` korrigieren.
 
 ---
 
@@ -339,7 +388,7 @@ laufen lassen (Exit ≠ 0 = Kontrast-Befund).
 | Ebene | Wo | Befehl |
 | --- | --- | --- |
 | Unit/Komponenten | `tests/` (Vitest, happy-dom; 33 Dateien, 780 Tests am 30.09.2026) | `npx vitest run` |
-| E2E | `e2e/` (Playwright gegen das **gebaute** Bundle, Docs-Server auf Port 3100) | `npm run e2e` |
+| E2E | `e2e/` (Playwright gegen das **gebaute** Bundle, Docs-Server auf Port 3100; Projekt `drupal` gegen die Drupal-Attrappe auf Port 3101) | `npm run e2e` |
 | Barrierefreiheit | `e2e/axe.spec.js` mit Basislinie `e2e/axe-basislinie.json` (darf nur sinken); `tests/a11y/` | s. [e2e/README.md](e2e/README.md) |
 | Visuell | `e2e/arenen.visuell.spec.js`, Linux-Baselines, kein Gate | `npm run e2e:visuell` |
 
@@ -385,9 +434,10 @@ Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
 
 ## Bekannte Grenzen
 
-- **Speichern in Drupal:** Vertrag und App-Seite stehen (ADR-002, 01.10.2026),
-  der Server ist noch nicht gebaut; ohne Konfiguration speichert die App nur
-  im Browser bzw. über den lokalen Docs-Server.
+- **Speichern in Drupal:** Vertrag, App-Seite und Oberfläche stehen (ADR-002,
+  01.10.2026); der Drupal-Server ist noch nicht gebaut — lokal übernimmt die
+  Drupal-Attrappe. Ohne Konfiguration speichert die App nur im Browser bzw.
+  über den lokalen Docs-Server.
 - **Vite-`base` fest** auf `/config/theme-configurator/`; ein anderer Pfad in
   Drupal braucht einen angepassten Build.
 - **Externe Schriften:** Der Einstieg (`config/theme-config.vorlage.html`) lädt
@@ -397,8 +447,7 @@ Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
 - **Kontrast-Tor:** Der NEO-Standard besteht es im hellen Modus selbst nicht
   (`on-danger`/`on-success` 3,35:1, Befund in ADR-002).
 - **Branches/Releases** der App sind lokal; im Drupal-Betrieb werden sie
-  ausgeblendet (Beschluss E, `faehigkeiten.branchesUndReleases`; Oberfläche
-  folgt in Teil 2).
+  ausgeblendet (Beschluss E, `faehigkeiten.branchesUndReleases`).
 - **Ein Konfigurator je Seite:** Der Store-Zustand liegt auf Modul-Ebene
   (ADR-003).
 - **Export ist nicht verlustfrei:** Theme-JSON ohne eigene Tokens, Schriften,

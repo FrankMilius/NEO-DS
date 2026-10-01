@@ -70,3 +70,47 @@ export const MELDUNGEN = {
   'nicht-unterstuetzt': 'Diese Funktion gibt es beim gewählten Speicher nicht.',
   'konfiguration': 'Der Speicher ist nicht richtig eingerichtet.',
 }
+
+/** CSRF-Ablehnung (403 mit Problem-Typ …/csrf oder Titel mit „CSRF“)? */
+export function istCsrfFehler(fehler) {
+  if (fehler?.art !== 'verboten') return false
+  const d = fehler.details || {}
+  return /csrf/i.test(String(d.type || '')) || /csrf/i.test(String(d.title || ''))
+}
+
+/**
+ * Titel und Text für einen Hinweis-Dialog (Plan v2, 2.6, Teil 2). Nimmt
+ * SpeicherFehler und beliebige Fehler; die Meldung des Servers (detail)
+ * steht im Text, wo sie hilft.
+ * @param {any} fehler
+ * @param {string} [was]  Was gerade passiert ist, z. B. „Speichern“
+ * @returns {{ titel: string, text: string }}
+ */
+export function meldungFuer(fehler, was = 'Die Aktion') {
+  const art = fehler?.art
+  const text = fehler?.message || MELDUNGEN.server
+  if (istCsrfFehler(fehler)) {
+    return { titel: 'Sicherheits-Token ungültig', text: 'Drupal hat die Anfrage abgelehnt, weil das Sicherheits-Token (CSRF) nicht passt — meist ist die Sitzung abgelaufen. Bitte die Seite neu laden; dein Arbeitsstand bleibt im Browser erhalten.' }
+  }
+  switch (art) {
+    case 'netzwerk':
+      return { titel: 'Keine Verbindung zu Drupal', text: `${MELDUNGEN.netzwerk} ${was} hat nicht geklappt. Bitte die Verbindung prüfen und es erneut versuchen; dein Arbeitsstand bleibt im Browser erhalten.` }
+    case 'verboten':
+      return { titel: 'Keine Berechtigung', text: `${text} Wende dich an die Administration, wenn du das Recht brauchst.` }
+    case 'nicht-angemeldet':
+      return { titel: 'Nicht angemeldet', text: MELDUNGEN['nicht-angemeldet'] }
+    case 'zu-gross':
+      return { titel: 'Theme zu groß', text: `${MELDUNGEN['zu-gross']} Bitte nicht benötigte eigene Schriften, Icons oder Token entfernen.` }
+    case 'veraltet':
+    case 'konflikt':
+      return { titel: 'Das Theme wurde inzwischen geändert', text }
+    case 'revision-fehlt':
+      return { titel: 'Stand unbekannt', text: MELDUNGEN['revision-fehlt'] }
+    case 'nicht-gefunden':
+      return { titel: 'Nicht gefunden', text }
+    case 'ungueltig':
+      return { titel: 'Daten abgelehnt', text }
+    default:
+      return { titel: `${was} fehlgeschlagen`, text }
+  }
+}

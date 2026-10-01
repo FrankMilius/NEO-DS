@@ -94,7 +94,9 @@ export function saveToStorage() {
   // Also persist to the named theme slot (debounced, 500ms)
   // This ensures that when a named theme is loaded and the user edits tokens,
   // the individual theme snapshot stays in sync with the working state.
-  if (state.currentThemeMeta) {
+  // Plan v2, 2.6: Mit Drupal-Speicher gibt es keinen lokalen Theme-Platz —
+  // gespeichert wird nur per Strg+S in Drupal; der Arbeitsstand oben bleibt.
+  if (state.currentThemeMeta && speicher().art === 'lokal') {
     clearTimeout(_namedThemeSaveTimer)
     _namedThemeSaveTimer = setTimeout(() => {
       try {

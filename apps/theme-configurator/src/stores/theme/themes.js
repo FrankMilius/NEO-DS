@@ -9,6 +9,8 @@ import { deepClone, getDefaultFoundation, state } from './kern.js'
 import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData } from './verlauf.js'
 import { importVorschau, importZiel, pruefeThemeImport } from '../../import/theme-import.js'
 import { SpeicherFehler, darf, pruefeKontrast, speicher } from '../../speicher/index.js'
+import { standardDaten } from '../../speicher/standard.js'
+import { alsEtag } from '../../speicher/inhalts-hash.js'
 import { leseKatalog, leseTheme, loescheTheme, schreibeKatalog, schreibeTheme } from '../../speicher/lokal.js'
 
 // ---------------------------------------------------------------------------
@@ -493,4 +495,46 @@ export async function aktiviereTheme(themeId = state.currentThemeMeta?.id) {
   if (!themeId) throw new SpeicherFehler('ungueltig', 'Kein Theme gewählt.')
   state.savedThemes = await sp.aktiviere(themeId)
   return state.savedThemes
+}
+
+/**
+ * Neues Theme in Drupal anlegen, ausgehend vom NEO-Standard (Recht
+ * „bearbeiten“). Die App-Daten werden auf den vollständigen Standard
+ * gesetzt (beide Sets, Set „customer“ aktiv — ein Kunden-Theme) und als
+ * neues Theme gespeichert (POST, Abweichungen = leer bis auf das Set).
+ * Ein Undo-Schritt (VERLAUF_AKTIONEN).
+ */
+export async function legeThemeAusStandardAn(name, version = '1.0.0') {
+  const sp = speicher()
+  if (sp.art === 'lokal') return createTheme(name, version)
+  brauchtRecht('bearbeiten', 'Neu anlegen')
+  const datei = await sp.ladeStandard()
+  applyThemeData({ ...standardDaten(datei), activeThemeSet: 'customer' })
+  state.currentThemeMeta = null
+  state.version = version
+  return speichereTheme(name, version)
+}
+
+/**
+ * Gespeichertes Theme in Drupal löschen (Recht „bearbeiten“). If-Match ist
+ * der Inhalts-Hash aus dem Katalog; das aktive Theme lehnt der Server ab
+ * (409). War es das geöffnete Theme, arbeitet die App danach ohne
+ * Drupal-Theme weiter (Daten bleiben, bis etwas anderes geöffnet wird).
+ */
+export async function loescheGespeichertesTheme(themeId) {
+  const sp = speicher()
+  if (sp.art === 'lokal') return deleteTheme(themeId)
+  brauchtRecht('bearbeiten', 'Löschen')
+  const eintrag = state.savedThemes.find(t => t.id === themeId)
+  if (!eintrag) throw new SpeicherFehler('nicht-gefunden', 'Das Theme wurde nicht gefunden.')
+  if (eintrag.aktiv) throw new SpeicherFehler('konflikt', 'Das aktive Theme kann nicht gelöscht werden.')
+  const etag = state.currentThemeMeta?.id === themeId && state.currentThemeMeta.etag
+    ? state.currentThemeMeta.etag
+    : (eintrag.hash ? alsEtag(eintrag.hash) : null)
+  await sp.loesche(themeId, { etag })
+  state.savedThemes = state.savedThemes.filter(t => t.id !== themeId)
+  if (state.currentThemeMeta?.id === themeId) {
+    state.currentThemeMeta = null
+  }
+  return true
 }

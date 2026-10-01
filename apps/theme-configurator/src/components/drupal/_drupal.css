@@ -1,0 +1,74 @@
+/* Gemeinsame Optik der Drupal-Werkzeuge (Plan v2, 2.6, Teil 2) — nur --cfg-*-Variablen */
+.dk-knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 30px;
+  min-width: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dk-knopf:hover:not(:disabled) { background: var(--cfg-surface-elevated); }
+.dk-knopf:disabled { opacity: 0.45; cursor: not-allowed; }
+.dk-knopf--primaer { background: var(--cfg-accent); border-color: var(--cfg-accent); color: var(--cfg-surface); }
+.dk-knopf--primaer:hover:not(:disabled) { background: var(--cfg-accent); opacity: 0.9; }
+.dk-knopf--klein { min-height: 26px; padding: 0 8px; font-size: 11px; }
+.dk-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cfg-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.dk-symbol:hover:not(:disabled) { background: var(--cfg-danger-subtle); color: var(--cfg-danger); border-color: var(--cfg-danger-border-subtle); }
+.dk-symbol:disabled { opacity: 0.35; cursor: not-allowed; }
+.dk-marke {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  border: 1px solid var(--cfg-border);
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.dk-marke--aktiv { border-color: var(--cfg-accent); background: var(--cfg-accent-subtle); }
+.dk-marke--veroeffentlicht { border-color: var(--cfg-success); background: var(--cfg-success-subtle); }
+.dk-marke--geaendert-seit-veroeffentlichung { border-color: var(--cfg-warning); background: var(--cfg-warning-subtle); }
+.dk-feld { display: flex; flex-direction: column; gap: 4px; }
+.dk-feld label { font-size: 11px; font-weight: 600; color: var(--cfg-text-secondary); }
+.dk-feld input {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text);
+  font-family: inherit;
+  font-size: 13px;
+}
+.dk-kasten { border: 1px solid var(--cfg-border); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.dk-kasten--ok { border-color: var(--cfg-success); background: var(--cfg-success-subtle); }
+.dk-kasten--warnung { border-color: var(--cfg-warning); background: var(--cfg-warning-subtle); }
+.dk-kasten--fehler { border-color: var(--cfg-danger-border-subtle); background: var(--cfg-danger-subtle); }
+.dk-kasten-titel { margin: 0; font-size: 13px; font-weight: 700; color: var(--cfg-text); }
+.dk-text { margin: 0; font-size: 12px; line-height: 1.5; color: var(--cfg-text); }
+.dk-mono { font-family: var(--cfg-font-mono); font-size: 11px; }

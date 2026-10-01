@@ -17,6 +17,15 @@
 
     <!-- ═══════════════ TOOLBAR ═══════════════ -->
     <div class="header-toolbar">
+      <!-- Drupal-Betrieb (Plan v2, 2.6): Theme-Auswahl, Speichern, Veröffentlichen -->
+      <template v-if="drupal">
+        <div class="toolbar-group">
+          <DrupalWerkzeuge />
+        </div>
+        <div class="toolbar-divider"></div>
+      </template>
+
+      <template v-else>
       <!-- 1) Create New Theme -->
       <div class="toolbar-group">
         <button type="button" class="tb-btn" @click="openCreateDialog" title="Create New Theme">
@@ -100,8 +109,10 @@
       </div>
 
       <div class="toolbar-divider"></div>
+      </template>
 
-      <!-- 2b) Branch Manager -->
+      <!-- 2b) Branch Manager (im Drupal-Betrieb ausgeblendet, Beschluss E) -->
+      <template v-if="zeigeBranches">
       <div class="toolbar-group">
         <BranchManager
           @merge="handleBranchMerge"
@@ -110,8 +121,10 @@
       </div>
 
       <div class="toolbar-divider"></div>
+      </template>
 
       <!-- 3) Save Theme -->
+      <template v-if="!drupal">
       <div class="toolbar-group">
         <button
           class="tb-btn tb-btn-save"
@@ -133,6 +146,7 @@
       </div>
 
       <div class="toolbar-divider"></div>
+      </template>
 
       <!-- 4) Undo -->
       <div class="toolbar-group">
@@ -236,6 +250,7 @@
         </div>
       </div>
 
+      <template v-if="!drupal">
       <div class="toolbar-divider"></div>
 
       <!-- 5) Merge / Styleguide Sync -->
@@ -273,6 +288,7 @@
           </svg>
         </button>
       </div>
+      </template>
     </div>
 
     <!-- ═══════════════ CREATE THEME DIALOG ═══════════════ -->
@@ -351,6 +367,7 @@
 
     <!-- ═══════════════ MERGE DIALOG ═══════════════ -->
     <MergeDialog
+      v-if="zeigeBranches"
       :visible="showMergeDialog"
       :branchName="mergeBranchName"
       :autoMerged="mergeAutoMerged"
@@ -361,6 +378,7 @@
 
     <!-- ═══════════════ RELEASE DIALOG ═══════════════ -->
     <ReleaseDialog
+      v-if="zeigeBranches"
       :visible="showReleaseDialog"
       @close="showReleaseDialog = false"
       @publish="confirmPublishRelease"
@@ -385,6 +403,9 @@ import ThemeImportDialog from '../workflow/ThemeImportDialog.vue'
 import { hinweisen } from '../../composables/useBestaetigung.js'
 import { appVersionKurz, appVersionLang } from '../../lib/app-version.js'
 import { useFokusFalle } from '../../composables/useFokusFalle.js'
+import DrupalWerkzeuge from '../drupal/DrupalWerkzeuge.vue'
+import { speicher } from '../../speicher/index.js'
+import { speichern as drupalSpeichern } from '../../composables/useDrupalBetrieb.js'
 
 const store = useThemeStore()
 // App-Version (Build) — getrennt von der Theme-Version store.state.version
@@ -392,6 +413,11 @@ const appVersionText = appVersionKurz()
 const appVersionTitel = appVersionLang()
 const sync = useStyleguideSync()
 const branchStore = useBranchStore()
+
+// Plan v2, 2.6: Drupal-Betrieb (window.NEO_KONFIGURATOR.speicher = 'drupal')
+// — eigene Werkzeuge, Branches/Releases ausgeblendet. Lokal unveraendert.
+const drupal = speicher().art === 'drupal'
+const zeigeBranches = speicher().faehigkeiten.branchesUndReleases !== false
 
 // ---------------------------------------------------------------------------
 // Refs
@@ -467,7 +493,8 @@ function onDocumentKeydown(e) {
   }
   if ((e.metaKey || e.ctrlKey) && e.key === 's') {
     e.preventDefault()
-    handleSaveTheme()
+    if (drupal) drupalSpeichern()
+    else handleSaveTheme()
   }
 }
 

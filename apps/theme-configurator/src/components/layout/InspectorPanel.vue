@@ -106,7 +106,17 @@
     </div>
 
     <!-- Sektion → Inspector-Bloecke aus der Registry (src/navigation/sektionen.js) -->
-    <template v-if="inspectorBloecke.length">
+    <!-- Drupal-Betrieb ohne Recht „bearbeiten“ (Plan v2, 2.6): Editoren gesperrt -->
+    <fieldset v-if="inspectorBloecke.length && nurAnsicht" disabled class="inspector-nur-ansicht" data-test="inspector-nur-ansicht">
+      <legend class="inspector-nur-ansicht__legende">Nur Ansicht – Bearbeiten nicht erlaubt</legend>
+      <component
+        v-for="(block, i) in inspectorBloecke"
+        :key="sektion.schluessel + ':' + i"
+        :is="block.komponente"
+        v-bind="block.props"
+      />
+    </fieldset>
+    <template v-else-if="inspectorBloecke.length">
       <component
         v-for="(block, i) in inspectorBloecke"
         :key="sektion.schluessel + ':' + i"
@@ -131,6 +141,10 @@ import { componentTokenGroups } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
+import { darf, speicher } from '../../speicher/index.js'
+
+// Drupal-Betrieb ohne Recht „bearbeiten“: Editoren per <fieldset disabled> sperren
+const nurAnsicht = speicher().art === 'drupal' && !darf('bearbeiten')
 
 const store = useThemeStore()
 const activeSection = computed(() => store.state.activeSection)
@@ -283,6 +297,13 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 </script>
 
 <style scoped>
+/* Plan v2, 2.6: Schreibschutz ohne eigenes Layout — die Bloecke bleiben
+   direkte Kinder des Panels; die Legende ist nur fuer Screenreader. */
+.inspector-nur-ansicht { display: contents; border: 0; margin: 0; padding: 0; min-width: 0; }
+.inspector-nur-ansicht__legende {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 .inspector-panel {
   position: relative;
   min-width: 360px;

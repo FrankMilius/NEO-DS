@@ -40,7 +40,7 @@ import { erzeugeLokalenSpeicher } from './lokal.js'
 import { erzeugeDrupalSpeicher } from './drupal.js'
 import { SpeicherFehler } from './fehler.js'
 
-export { SpeicherFehler } from './fehler.js'
+export { SpeicherFehler, meldungFuer, istCsrfFehler } from './fehler.js'
 export { pruefeKontrast } from './kontrast.js'
 export { abweichungenBerechnen, zusammenfuehren } from './abweichungen.js'
 export { inhaltsHash, kanonischesJson } from './inhalts-hash.js'
