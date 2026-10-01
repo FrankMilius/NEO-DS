@@ -67,7 +67,11 @@ $state-categories: (
 /// @param {String} $category ['bold'] — Interaktions-Kategorie ('bold' oder 'subtle')
 /// @param {Boolean} $include-base [true] — Ob der Base-Token mit ausgegeben wird
 
-@mixin state-colors($prefix, $base, $category: 'bold', $include-base: true) {
+/// @param {String} $target [var(--fnd-state-mix-target)] — Mischziel. Flaechen
+///   mit DUNKLER Schrift (z. B. Status-Buttons, Entscheidung G) mischen zu
+///   var(--fnd-color-always-light), damit Hover/Active den Kontrast erhoehen
+///   statt senken.
+@mixin state-colors($prefix, $base, $category: 'bold', $include-base: true, $target: var(--fnd-state-mix-target)) {
   $steps: map.get($state-categories, $category);
   $hover-keep:  map.get($steps, 'hover');
   $active-keep: map.get($steps, 'active');
@@ -75,8 +79,8 @@ $state-categories: (
   @if $include-base {
     #{$prefix}: #{$base};
   }
-  #{$prefix}-hover:  color-mix(in srgb, #{$base} #{$hover-keep}#{'%'}, var(--fnd-state-mix-target));
-  #{$prefix}-active: color-mix(in srgb, #{$base} #{$active-keep}#{'%'}, var(--fnd-state-mix-target));
+  #{$prefix}-hover:  color-mix(in srgb, #{$base} #{$hover-keep}#{'%'}, #{$target});
+  #{$prefix}-active: color-mix(in srgb, #{$base} #{$active-keep}#{'%'}, #{$target});
 }
 
 // ---------------------------------------------------------------------------

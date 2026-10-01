@@ -146,10 +146,13 @@
   --fnd-color-background-warning: #fff2e8;   //                  5,67
   --fnd-color-background-danger:  #fff1ef;   //                  6,88
   --fnd-color-background-info:    #eff5ff;   //                  4,72
-  --fnd-color-on-success: #ffffff;
-  --fnd-color-on-warning: #ffffff;
-  --fnd-color-on-danger:  #ffffff;
-  --fnd-color-on-info:    #ffffff;
+  // Schrift auf den gesaettigten Statusflaechen (feedback-*-500) ist dunkel:
+  // Weiss erreichte nur 3,35:1 (Warnung 2,31:1), Schwarz 6,26 bis 9,11:1.
+  // Entscheidung G, 01.10.2026 (ADR-002) — wie im dunklen Modus und on-accent.
+  --fnd-color-on-success: #000000;   // auf #24a148  6,27
+  --fnd-color-on-warning: #000000;   // auf #d4a400  9,11
+  --fnd-color-on-danger:  #000000;   // auf #fa4d56  6,26
+  --fnd-color-on-info:    #000000;   // auf #4589ff  6,28
   --fnd-color-on-surface:  var(--fnd-neutral-950);
   --fnd-color-on-layer-01: var(--fnd-neutral-950);
   --fnd-color-on-layer-02: var(--fnd-neutral-950);

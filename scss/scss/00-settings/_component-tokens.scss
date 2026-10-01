@@ -151,8 +151,8 @@
   --nc-button-accent-border: transparent;
 
   // -- Success Variant --
-  @include state.state-colors(--nc-button-success-bg, var(--fnd-color-feedback-success));
-  --nc-button-success-color: var(--fnd-color-always-light);
+  @include state.state-colors(--nc-button-success-bg, var(--fnd-color-feedback-success), $target: var(--fnd-color-always-light));
+  --nc-button-success-color: var(--fnd-color-on-success); // dunkel, s. _mono-bridge (Entscheidung G)
   --nc-button-success-border: transparent;
 
   // -- Warning Variant --
@@ -161,13 +161,13 @@
   --nc-button-warning-border: transparent;
 
   // -- Info Variant --
-  @include state.state-colors(--nc-button-info-bg, var(--fnd-color-feedback-info));
-  --nc-button-info-color: var(--fnd-color-always-light);
+  @include state.state-colors(--nc-button-info-bg, var(--fnd-color-feedback-info), $target: var(--fnd-color-always-light));
+  --nc-button-info-color: var(--fnd-color-on-info);
   --nc-button-info-border: transparent;
 
   // -- Error Variant (canonical, formerly "destructive") --
-  @include state.state-colors(--nc-button-error-bg, var(--fnd-color-feedback-danger));
-  --nc-button-error-color: var(--fnd-color-always-light);
+  @include state.state-colors(--nc-button-error-bg, var(--fnd-color-feedback-danger), $target: var(--fnd-color-always-light));
+  --nc-button-error-color: var(--fnd-color-on-danger);
   --nc-button-error-border: var(--fnd-color-feedback-danger);
 
   // -- Inverted Variant (fuer dunkle/bildlastige Hintergruende) --

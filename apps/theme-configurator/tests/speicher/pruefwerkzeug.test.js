@@ -33,6 +33,21 @@ function korrigierterStandard() {
   return { datei, inhalt: s }
 }
 
+// Ein neuer Standard, der weisse Schrift auf die Statusflaechen zurueckbringt
+// (der Zustand vor dem 01.10.2026) — damit laesst sich zeigen, dass ein
+// schlechterer Standard alle Kunden-Themes durchfallen laesst.
+function verschlechterterStandard() {
+  const s = JSON.parse(JSON.stringify(STANDARD))
+  s._meta.version = '1.2.0'
+  for (const set of ['neo', 'customer']) {
+    s.themes[set].light['on-danger'] = '#ffffff'
+    s.themes[set].light['on-success'] = '#ffffff'
+  }
+  const datei = join(mkdtempSync(join(tmpdir(), 'neo-standard-')), 'neo-theme-defaults.json')
+  writeFileSync(datei, JSON.stringify(s))
+  return { datei, inhalt: s }
+}
+
 describe('pruefe-kunden-themes (Node)', () => {
   it('ACME (behebt den Befund selbst) besteht, Beta faellt durch -> Exit 1 mit Befund', () => {
     const r = lauf(ACME, BETA)
@@ -54,11 +69,15 @@ describe('pruefe-kunden-themes (Node)', () => {
     const { datei } = korrigierterStandard()
     const leer = join(mkdtempSync(join(tmpdir(), 'neo-kunde-')), 'kunde-leer.json')
     writeFileSync(leer, JSON.stringify({ meta: { name: 'Leer' }, abweichungen: {} }))
-    expect(lauf(leer).status).toBe(1)                          // heutiger Standard: Befund 30.09.2026
+    expect(lauf(leer).status).toBe(0)                          // heutiger Standard besteht (Befund G behoben)
     const r = lauf('--standard', datei, leer, ACME)
     expect(r.stdout).toMatch(/NEO-Standard 1\.1\.0/)
     expect(r.status).toBe(0)
     expect(r.stdout).toMatch(/alle bestanden/)
+    // Ein schlechterer Standard wirkt ebenso automatisch durch — und faellt auf
+    const schlecht = lauf('--standard', verschlechterterStandard().datei, leer)
+    expect(schlecht.status).toBe(1)
+    expect(schlecht.stdout).toMatch(/on-danger/)
   })
 
   it('Aufruf- und Lesefehler -> Exit 2', () => {

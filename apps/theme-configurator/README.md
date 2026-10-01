@@ -325,8 +325,6 @@ node scripts/drupal-attrappe.mjs --port 3200 --rechte ansehen,bearbeiten \
   Kontrast-Tor auf dem gespeicherten Stand), 413 (> 1 MB), 403 (Recht, CSRF).
 - Ohne `--datei` beginnt jeder Start leer. Nicht nachgebildet: Anmeldung,
   Ablage der CSS-Datei im Dateisystem, Cache-Leerung.
-- Hinweis: Der heutige NEO-Standard besteht das Kontrast-Tor nicht (Befund G);
-  zum Veröffentlichen im hellen Modus `on-danger`/`on-success` korrigieren.
 
 ---
 
@@ -444,8 +442,6 @@ Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
   Google Fonts; Datenschutz/CSP klären.
 - **Nur mit Docs-Server:** Styleguide-Abgleich, Drupal-Cache-Clear (auf
   `/opt/homebrew/bin/ddev` und `../DRUPAL11` verdrahtet).
-- **Kontrast-Tor:** Der NEO-Standard besteht es im hellen Modus selbst nicht
-  (`on-danger`/`on-success` 3,35:1, Befund in ADR-002).
 - **Branches/Releases** der App sind lokal; im Drupal-Betrieb werden sie
   ausgeblendet (Beschluss E, `faehigkeiten.branchesUndReleases`).
 - **Ein Konfigurator je Seite:** Der Store-Zustand liegt auf Modul-Ebene

@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-09-30
+// Generated: 2026-10-01
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -1729,10 +1729,10 @@ export const semanticDefaults = {
     "background-warning": "#fff2e8",
     "background-danger": "#fff1ef",
     "background-info": "#eff5ff",
-    "on-success": "#ffffff",
-    "on-warning": "#ffffff",
-    "on-danger": "#ffffff",
-    "on-info": "#ffffff",
+    "on-success": "#000000",
+    "on-warning": "#000000",
+    "on-danger": "#000000",
+    "on-info": "#000000",
     "on-surface": "#161816",
     "on-layer-01": "#161816",
     "on-layer-02": "#161816",
@@ -1929,10 +1929,10 @@ export const semanticDefaults = {
     "background-warning": "#fff2e8",
     "background-danger": "#fff1ef",
     "background-info": "#eff5ff",
-    "on-success": "#ffffff",
-    "on-warning": "#ffffff",
-    "on-danger": "#ffffff",
-    "on-info": "#ffffff",
+    "on-success": "#000000",
+    "on-warning": "#000000",
+    "on-danger": "#000000",
+    "on-info": "#000000",
     "on-surface": "#161816",
     "on-layer-01": "#161816",
     "on-layer-02": "#161816",

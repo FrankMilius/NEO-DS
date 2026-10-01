@@ -181,11 +181,13 @@ Abweichungen), If-Match/412/428 und das Kontrast-Tor.
   exportiert vorher (`format=abweichungen`).
 - Negativ: neue Abhängigkeit zwischen Config Tools und Frontend-Theme
   (Library-Override, Folge 2).
-- **Befund 30.09.2026 (Beschluss G):** Der NEO-Standard besteht das Tor
-  selbst nicht — im hellen Modus `on-danger`/`feedback-danger` und
-  `on-success`/`feedback-success` nur **3,35:1**. Bis das Design System die
-  Werte korrigiert, kann kein vom Standard abgeleitetes Theme ohne eigene
-  Korrektur veröffentlicht werden.
+- **Befund 30.09.2026 (Beschluss G) — behoben am 01.10.2026:** Der
+  NEO-Standard bestand das Tor selbst nicht (hell: `on-danger`/`on-success`
+  auf `feedback-danger`/`feedback-success` 3,35:1, `on-warning` 2,31:1).
+  Korrektur im Design System: Schrift auf allen vier Statusflächen ist dunkel
+  (`#000000`, 6,26–9,11:1), in allen Theme-Klassen; die Status-Buttons
+  (Erfolg, Info, Fehler) folgen den `on-*`-Rollen und hellen bei Hover/Aktiv
+  auf statt abzudunkeln. Der NEO-Standard besteht das Tor.
 - Bekannt, harmlos: Der Rückfall `getDefaultFoundation()` (ohne Server)
   legt leere Foundation-Kategorien (`elements`, `themes`) an, die
   Standard-Datei nicht. Ergebnis ist höchstens die Abweichung

@@ -338,9 +338,22 @@ describe('Veröffentlichen-Dialog', () => {
     return d
   }
 
-  it('NEO-Standard: Befundliste (Paare, Werte), Veröffentlichen gesperrt, kein Serveraufruf', async () => {
+  const weissAufStatus = () => {
+    const d = standardDaten(STANDARD)
+    d.activeThemeSet = 'customer'
+    d.themes.customer.light['on-danger'] = '#ffffff'
+    d.themes.customer.light['on-success'] = '#ffffff'
+    return d
+  }
+
+  it('NEO-Standard besteht die Prüfung', async () => {
+    const w = await dialogMit(adapter(), { ...standardDaten(STANDARD), activeThemeSet: 'customer' })
+    expect(knopf(w, 'kontrast-ergebnis').text()).toContain('Kontrastprüfung bestanden')
+  })
+
+  it('Weiße Schrift auf Statusflächen: Befundliste (Paare, Werte), Veröffentlichen gesperrt, kein Serveraufruf', async () => {
     const sp = adapter()
-    const w = await dialogMit(sp, { ...standardDaten(STANDARD), activeThemeSet: 'customer' })
+    const w = await dialogMit(sp, weissAufStatus())
     expect(knopf(w, 'kontrast-ergebnis').text()).toContain('Kontrastprüfung nicht bestanden')
     const zeilen = w.findAll('[data-test="kontrast-befunde"] tbody tr')
     expect(zeilen.map(z => z.text())).toEqual([

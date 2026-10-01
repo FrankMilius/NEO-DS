@@ -28,12 +28,12 @@ describe('Kontrast-Pruefung (Tor vor dem Veroeffentlichen)', () => {
   // Befund 30.09.2026 (ADR-002): im hellen Modus erreichen on-danger und
   // on-success nur 3,35:1. Aendert das Design System die Werte, schlaegt
   // dieser Test fehl — dann die Liste hier leeren.
-  it('NEO-Standard: nur die bekannten Befunde fallen durch', () => {
+  it('NEO-Standard besteht das Tor (Befund G am 01.10.2026 im DS behoben)', () => {
     for (const set of ['neo', 'customer']) {
       const erg = pruefeKontrast({ light: semanticDefaults[`${set}-light`], dark: semanticDefaults[`${set}-dark`] })
       const durchgefallen = erg.ergebnisse.filter(e => e.bestanden !== true)
         .map(e => `${e.modus}:${e.vordergrund}/${e.hintergrund}`)
-      expect(durchgefallen, set).toEqual(['light:on-danger/feedback-danger', 'light:on-success/feedback-success'])
+      expect(durchgefallen, set).toEqual([])
     }
   })
 

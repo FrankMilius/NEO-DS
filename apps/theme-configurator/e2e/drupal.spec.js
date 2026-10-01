@@ -7,8 +7,8 @@
 // basisUrl, csrfToken, rechte } (Rechte per ?rechte=…, als Cookie gemerkt).
 //
 // Abgedeckt: Theme anlegen → ändern → speichern · zweiter Kontext ändert →
-// Konfliktdialog (Abbrechen / Neu laden) · Veröffentlichen-Dialog mit
-// Kontrast-Befund des heutigen NEO-Standards (Befund G) und Server-Tor (422) ·
+// Konfliktdialog (Abbrechen / Neu laden) · NEO-Standard besteht · Theme mit
+// weißer Schrift auf Statusflächen: Befund und Server-Tor (422) ·
 // korrigiertes Theme veröffentlichen + aktivieren · nur „ansehen“ →
 // schreibgeschützt · Branches/Releases ausgeblendet · axe ohne Befund.
 // ==========================================================================
@@ -134,10 +134,24 @@ test('Theme anlegen, ändern, speichern — zweite Sitzung ändert → Konfliktd
   await expect(status(page)).toHaveAttribute('data-status', 'gespeichert')
 })
 
-test('Veröffentlichen: NEO-Standard fällt durch (Befund G) — App sperrt, Server lehnt ab (422)', async ({ page }) => {
+test('Veröffentlichen: neues Theme vom NEO-Standard besteht die Kontrastprüfung', async ({ page }) => {
   const name = eindeutig('E2E Standard')
   await oeffneDrupal(page)
   await themeAnlegen(page, name)
+  await page.locator('[data-test="drupal-veroeffentlichen"]').click()
+  const dialog = page.getByRole('dialog', { name: 'Theme veröffentlichen' })
+  await expect(dialog.locator('[data-test="kontrast-ergebnis"]')).toContainText('Kontrastprüfung bestanden')
+  await dialog.getByRole('button', { name: 'Abbrechen' }).click()
+})
+
+test('Veröffentlichen: weiße Schrift auf Statusflächen fällt durch — App sperrt, Server lehnt ab (422)', async ({ page }) => {
+  const name = eindeutig('E2E Weiss')
+  await themePerApi(page.request, name, {
+    activeThemeSet: 'customer',
+    themes: { customer: { light: { 'on-danger': '#ffffff', 'on-success': '#ffffff' } } },
+  })
+  await oeffneDrupal(page)
+  await themeOeffnen(page, name)
 
   await page.locator('[data-test="drupal-veroeffentlichen"]').click()
   const dialog = page.getByRole('dialog', { name: 'Theme veröffentlichen' })

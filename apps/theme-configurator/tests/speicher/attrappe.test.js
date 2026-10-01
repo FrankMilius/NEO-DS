@@ -46,6 +46,8 @@ function fetch (adresse, o = {}) {
 }
 const KORRIGIERT = { activeThemeSet: 'customer', themes: { customer: { light: { 'on-danger': '#000000', 'on-success': '#000000' } } } }
 const KONTRAST_OK = { bestanden: true, verfahren: 'x', ergebnisse: [] }
+// Weisse Schrift auf den Statusflaechen (Stand vor dem 01.10.2026) faellt durch
+const WEISS = { activeThemeSet: 'customer', themes: { customer: { light: { 'on-danger': '#ffffff', 'on-success': '#ffffff' } } } }
 
 function starte (o = {}) {
   const server = erzeugeAttrappe({ standard: STANDARD, csrfToken: TOKEN, ...o })
@@ -147,8 +149,8 @@ describe('Drupal-Attrappe — Vertrag 1.0.0', () => {
     expect((await api('POST', `/themes/${t.daten.meta.id}/aktivieren`, { rechte: 'ansehen,bearbeiten' })).status).toBe(403)
   })
 
-  it('Veröffentlichen: 422 mit Kontrast-Befund des NEO-Standards (Befund G), auch wenn die App „bestanden“ meldet', async () => {
-    const t = await lege({})
+  it('Veröffentlichen: 422 mit Kontrast-Befund (weiße Schrift auf Statusflächen), auch wenn die App „bestanden“ meldet', async () => {
+    const t = await lege(WEISS)
     const r = await api('POST', `/themes/${t.daten.meta.id}/veroeffentlichen`, { etag: t.etag, body: { css: ':root{}', kontrast: KONTRAST_OK } })
     expect(r.status).toBe(422)
     expect(r.daten.kontrast.bestanden).toBe(false)
