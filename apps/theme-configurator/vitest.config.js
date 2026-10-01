@@ -12,7 +12,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js'),
-      'dtcg-export': resolve(__dirname, '../../packages/dtcg-export/index.js')
+      'dtcg-export': resolve(__dirname, '../../packages/dtcg-export/index.js'),
+      'neo-behaviors': resolve(__dirname, '../../packages/neo-behaviors/index.js')
     }
   },
   // Der DTCG-Export (Plan v2, 2.2) laedt data/design-tokens.json und

@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-arena" v-if="ansichten.length" :data-component-id="componentId">
+  <div ref="wurzel" class="recipe-arena" v-if="ansichten.length" :data-component-id="componentId" :data-modus="modus">
     <!-- Komposition (Plan v3): woraus das Bauteil besteht. Aendert man dort
          etwas, aendert es sich hier mit. -->
     <nav v-if="komposition.length" class="ra-komposition" aria-label="Besteht aus">
@@ -8,7 +8,14 @@
         {{ k.name }}<span v-if="k.art === 'teilt'" class="ra-komposition__art">Tokens</span>
       </a>
     </nav>
-    <template v-for="sp in ansichten" :key="sp.id">
+    <!-- Zustaende (feste Matrix) oder Ausprobieren (lebendige Instanz mit dem
+         Verhalten aus packages/neo-behaviors — derselben Datei wie in Drupal). -->
+    <div v-if="hatVerhalten" class="ra-modus" role="group" aria-label="Ansicht der Arena">
+      <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'zustaende'" @click="modus = 'zustaende'">Zustände</button>
+      <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">Ausprobieren</button>
+      <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.</span>
+    </div>
+    <template v-for="sp in sichtbareAnsichten" :key="sp.id">
       <div class="arena-category-divider">
         <span class="arena-category-label">{{ sp.label }}</span>
       </div>
@@ -52,7 +59,7 @@
           </div>
         </div>
 
-        <p v-if="sp.nurInteraktiv" class="ra-hinweis">
+        <p v-if="sp.nurInteraktiv && modus === 'zustaende'" class="ra-hinweis">
           * Hover und Fokus kennt das Design System nur als Pseudoklasse — die Zelle zeigt den
           Ruhezustand. Zum Prüfen mit der Maus darüberfahren bzw. per Tab-Taste fokussieren.
         </p>
@@ -78,7 +85,8 @@
 // Zelle gerendert — mit Vorlage aus src/arena-templates/<id>.js, sonst per
 // Slot-Heuristik. Siehe src/lib/recipe-arena.js.
 // ==========================================================================
-import { computed } from 'vue'
+import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
@@ -122,6 +130,32 @@ const ansichten = computed(() => {
   const vorlage = vorlageFuer(props.componentId)
   return r.specimens.map((sp) => specimenAnsicht(sp, r, props.componentId, vorlage))
 })
+
+// --- Ausprobieren (Plan v3, Phase 2) ---------------------------------------
+// Je Specimen eine lebendige Instanz (die erste Zelle), an die das Verhalten
+// aus packages/neo-behaviors gebunden wird. Die Zustandsmatrix bleibt
+// unberuehrt: dort zeigt jede Zelle einen festen Zustand.
+const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId))
+const modus = ref('zustaende')
+watch(() => props.componentId, () => { modus.value = 'zustaende' })
+
+const sichtbareAnsichten = computed(() => {
+  if (modus.value !== 'ausprobieren') return ansichten.value
+  return ansichten.value.map((sp) => {
+    const zelle = sp.zeilen[0]?.zellen[0]
+    return { ...sp, zeilen: zelle ? [{ key: 'live', label: '', zellen: [{ ...zelle, label: 'Ausprobieren' }] }] : [] }
+  })
+})
+
+const wurzel = ref(null)
+let aufraeumen = null
+function binde () {
+  aufraeumen?.()
+  aufraeumen = null
+  if (modus.value === 'ausprobieren' && wurzel.value) aufraeumen = anbinden(wurzel.value, [props.componentId])
+}
+watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
+onBeforeUnmount(() => aufraeumen?.())
 </script>
 
 <style>
@@ -305,5 +339,35 @@ const ansichten = computed(() => {
 .ra-komposition__art {
   font-size: 10px;
   opacity: 0.7;
+}
+.ra-modus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 16px;
+  font-size: 12px;
+}
+.ra-modus__knopf {
+  padding: 4px 12px;
+  border: 1px solid var(--cfg-border, #e2e8f0);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.ra-modus__knopf[aria-pressed='true'] {
+  border-color: var(--cfg-accent, #2563eb);
+  color: var(--cfg-accent, #2563eb);
+  font-weight: 600;
+}
+.ra-modus__knopf:focus-visible {
+  outline: 2px solid var(--cfg-accent, #2563eb);
+  outline-offset: 2px;
+}
+.ra-modus__hinweis {
+  color: var(--cfg-text-muted, #64748b);
+  margin-left: 4px;
 }
 </style>

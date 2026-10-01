@@ -1,0 +1,48 @@
+// @ts-check
+// ==========================================================================
+// neo-behaviors — Verhalten der NEO-Bauteile (Plan v3, Phase 2)
+// ==========================================================================
+// Eine Quelle fuer Drupal, Doku und Theme-Konfigurator (Entscheidung
+// 01.10.2026). Das Soll steht im Recipe (`keyboard`, `events`, State-Regeln);
+// die Tests in tests/behaviors/ pruefen es dagegen.
+//
+//   import { anbinden, abbinden } from 'neo-behaviors'
+//   const aufraeumen = anbinden(document)        // oder ein Teilbereich
+//
+// Drupal (Library mit dieser Datei als Modul):
+//   Drupal.behaviors.neoBehaviors = {
+//     attach: (context) => NeoBehaviors.anbinden(context),
+//     detach: (context, settings, trigger) => { if (trigger === 'unload') NeoBehaviors.abbinden(context) }
+//   }
+// ==========================================================================
+import { bindeAlle, loeseAlle } from './kern.js'
+import { tabs } from './tabs.js'
+import { akkordeon } from './accordion.js'
+import { select } from './select.js'
+import { suche } from './suche.js'
+
+/** Alle Behaviors, Schluessel = Recipe-ID. */
+export const BEHAVIORS = Object.freeze({ tabs, accordion: akkordeon, select, search: suche })
+
+/** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
+export const MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS))
+
+/**
+ * Bindet alle (oder die genannten) Behaviors im Bereich. Mehrfaches Aufrufen
+ * ist harmlos: jede Wurzel wird nur einmal gebunden.
+ * @param {ParentNode & Node} bereich
+ * @param {string[]} [nur] Recipe-IDs
+ * @returns {() => void} Aufraeumen
+ */
+export function anbinden (bereich, nur) {
+  return bindeAlle(bereich, waehle(nur))
+}
+
+/** @param {ParentNode & Node} bereich @param {string[]} [nur] */
+export function abbinden (bereich, nur) {
+  loeseAlle(bereich, waehle(nur))
+}
+
+function waehle (nur) {
+  return (nur || Object.keys(BEHAVIORS)).map((id) => BEHAVIORS[id]).filter(Boolean)
+}
