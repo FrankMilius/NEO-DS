@@ -35,7 +35,7 @@ export const Default = {
 </line>
 </svg>
 </span>
-<input class="nc-search__input" type="search" value="Button" aria-label="Suchen">
+<input class="nc-input nc-search__input" type="search" value="Button" aria-label="Suchen">
 </div>
 <div class="nc-search__results">
 <div class="nc-search__group">

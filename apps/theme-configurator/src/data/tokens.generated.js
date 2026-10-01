@@ -16280,7 +16280,7 @@ export const componentTokenGroups = [
         "id": "nc-search-input-height",
         "label": "Input Height",
         "type": "size",
-        "default": "var(--fnd-size-md)"
+        "default": "var(--nc-input-height-md)"
       },
       {
         "id": "nc-search-scope-bg",

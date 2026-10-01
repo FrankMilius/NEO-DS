@@ -256,6 +256,23 @@
       }
     },
 
+    "komposition": {
+      "type": "array",
+      "description": "Woraus das Bauteil besteht (Plan v3, Phase 1). 'enthaelt': das Markup traegt die Wurzelklasse eines anderen Recipes (z. B. Suche enthaelt Input). 'teilt': gleiche Token-Basis ohne eigenes Kind-Element (z. B. Select teilt die Input-Tokens). Geprueft von scripts/pruefe-komposition.mjs.",
+      "items": {
+        "type": "object",
+        "required": ["art", "recipe"],
+        "additionalProperties": true,
+        "properties": {
+          "art": { "type": "string", "enum": ["enthaelt", "teilt"] },
+          "recipe": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "ID des anderen Recipes." },
+          "element": { "type": "string", "description": "Nur bei 'enthaelt': Element im eigenen Markup, das die Wurzelklasse des anderen Recipes traegt (z. B. .nc-search__input)." },
+          "tokenPraefix": { "type": "string", "description": "Nur bei 'teilt': Token-Praefix, den das eigene SCSS nutzt (z. B. nc-input-)." },
+          "tokens": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Eigenes Token -> Token des anderen Recipes, auf das es im Standard per var() zeigt." },
+          "hinweis": { "type": "string" }
+        }
+      }
+    },
     "specimens": {
       "type": "array",
       "items": { "$ref": "#/$defs/specimen" },

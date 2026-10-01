@@ -147,6 +147,7 @@
                     <div class="token-info">
                       <span class="token-label">{{ token.label }}</span>
                       <code class="token-name">--{{ token.id }}</code>
+                      <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
                     </div>
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
@@ -313,6 +314,7 @@
                     <div class="token-info">
                       <span class="token-label">{{ token.label }}</span>
                       <code class="token-name">--{{ token.id }}</code>
+                      <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
                     </div>
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
@@ -376,6 +378,7 @@
               <div class="token-info">
                 <span class="token-label">{{ token.label }}</span>
                 <code class="token-name">--{{ token.id }}</code>
+                      <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
               </div>
               <div class="token-value-wrap">
                 <code class="token-value">{{ getTokenValue(token) }}</code>
@@ -605,6 +608,7 @@ function buildSwatches(sgTokens, category) {
 //   Layout | Typography | Fill | Stroke | Effects
 
 import { classifyToken } from '../../composables/useTokenClassifier.js'
+import { komponentenErbe, komponentenLink } from '../../lib/token-erbe.js'
 
 // Legacy Compatibility: isAnatomySubgroup etc. werden durch den Classifier ersetzt
 // aber die Computed Properties behalten ihre Namen fuer Template-Kompatibilitaet
@@ -878,6 +882,10 @@ function resolveInheritance(token) {
   // 2) Foundation inheritance via var(--fnd-*) in default
   const defaultVal = token.default
   if (!defaultVal || typeof defaultVal !== 'string') return null
+
+  // 2a) Erbe von einer anderen Komponente (Plan v3: z. B. Suche → Input)
+  const erbe = komponentenErbe(defaultVal, props.componentId)
+  if (erbe) return erbe
 
   // Direct match: entire default is a var() reference
   const directMatch = _inheritanceMap[defaultVal]
@@ -1938,6 +1946,18 @@ function getContrastTarget(token) {
 }
 
 /* In der Anatomy-Row: unter dem Label */
+.inheritance-link--komponente {
+  align-self: flex-start;
+  width: max-content;
+  margin-top: 2px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.inheritance-link--komponente:hover,
+.inheritance-link--komponente:focus-visible {
+  text-decoration: underline;
+}
+
 .anatomy-row__label .inheritance-link {
   display: flex;
   margin-top: 2px;

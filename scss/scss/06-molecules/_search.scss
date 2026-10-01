@@ -143,9 +143,14 @@
     }
   }
 
-  // Input (nutzt nc-input Tokens, extra padding links fuer Icon)
+  // Input: traegt zusaetzlich .nc-input (Komposition, Recipe search) und
+  // erbt so Rahmen, Hintergrund, Fokus und Zustaende vom Input. Hoehe und
+  // Radius zeigen im Standard auf die Input-Tokens, sind aber je Suche
+  // ueberschreibbar. Extra Abstand links fuer das Such-Icon.
   &__input {
     width: 100%;
+    height: var(--mod-search-input-height, var(--nc-search-input-height));
+    border-radius: var(--mod-search-input-radius, var(--nc-search-input-radius));
     padding-inline-start: calc(var(--fnd-spacing-03) + var(--mod-search-item-icon-size, var(--nc-search-item-icon-size)) + var(--fnd-spacing-02));
   }
 

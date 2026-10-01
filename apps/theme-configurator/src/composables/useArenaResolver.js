@@ -10,6 +10,9 @@
 // Recipes eine Vorlage haben; neue kommen nur fuer echte Sonderfaelle dazu
 // (z. B. Arenen mit eigener Interaktion oder Canvas).
 //
+// Abgeloest (Plan v3, Phase 1): select, search — echtes DS-Markup, Komposition
+// mit dem Input (natives Select, Entscheidung 01.10.2026).
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -36,7 +39,6 @@ const SONDERFAELLE = {
   rating: () => import('../components/laboratory/RatingArena.vue'),
   input: () => import('../components/laboratory/InputArena.vue'),
   textarea: () => import('../components/laboratory/TextareaArena.vue'),
-  select: () => import('../components/laboratory/SelectArena.vue'),
   alert: () => import('../components/laboratory/AlertArena.vue'),
   toast: () => import('../components/laboratory/ToastArena.vue'),
   banner: () => import('../components/laboratory/BannerArena.vue'),
@@ -52,7 +54,6 @@ const SONDERFAELLE = {
   metric: () => import('../components/laboratory/MetricArena.vue'),
   toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
-  search: () => import('../components/laboratory/SearchArena.vue'),
   'alert-dialog': () => import('../components/laboratory/AlertDialogArena.vue'),
   modal: () => import('../components/laboratory/ModalArena.vue'),
   drawer: () => import('../components/laboratory/DrawerArena.vue'),

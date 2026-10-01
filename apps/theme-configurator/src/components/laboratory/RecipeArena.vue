@@ -1,5 +1,13 @@
 <template>
   <div class="recipe-arena" v-if="ansichten.length" :data-component-id="componentId">
+    <!-- Komposition (Plan v3): woraus das Bauteil besteht. Aendert man dort
+         etwas, aendert es sich hier mit. -->
+    <nav v-if="komposition.length" class="ra-komposition" aria-label="Besteht aus">
+      <span class="ra-komposition__titel">Besteht aus</span>
+      <a v-for="k in komposition" :key="k.art + k.recipe" class="ra-komposition__teil" :href="`#/component/${k.recipe}`" :title="k.hinweis || (k.art === 'teilt' ? 'teilt die Tokens' : 'enthält das Bauteil')">
+        {{ k.name }}<span v-if="k.art === 'teilt'" class="ra-komposition__art">Tokens</span>
+      </a>
+    </nav>
     <template v-for="sp in ansichten" :key="sp.id">
       <div class="arena-category-divider">
         <span class="arena-category-label">{{ sp.label }}</span>
@@ -102,6 +110,11 @@ function variablenFuer (thema, flaeche) {
 }
 
 const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
+
+const komposition = computed(() => (recipe.value?.komposition || []).map((k) => ({
+  ...k,
+  name: k.recipe.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
+})))
 
 const ansichten = computed(() => {
   const r = normalisiert.value
@@ -262,5 +275,35 @@ const ansichten = computed(() => {
 .ra-token-pill {
   background: color-mix(in srgb, var(--fnd-color-feedback-success, #22c55e) 8%, transparent);
   color: var(--fnd-color-feedback-success, #22c55e);
+}
+.ra-komposition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+.ra-komposition__titel {
+  color: var(--cfg-text-muted, #64748b);
+  margin-right: 2px;
+}
+.ra-komposition__teil {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--cfg-border, #e2e8f0);
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+}
+.ra-komposition__teil:hover,
+.ra-komposition__teil:focus-visible {
+  border-color: currentColor;
+}
+.ra-komposition__art {
+  font-size: 10px;
+  opacity: 0.7;
 }
 </style>
