@@ -41,7 +41,7 @@ export const MIRROR_TOKEN_MAP = {
   'nc-input-height-sm':    ['nc-input-group-height-sm'],
   'nc-input-height-md':    ['nc-input-group-height-md'],
   'nc-input-height-lg':    ['nc-input-group-height-lg'],
-  'nc-input-radius':       ['nc-input-group-radius'],
+  'nc-input-radius':       ['nc-input-group-radius', 'nc-toggle-group-radius', 'nc-item-radius', 'nc-toolbar-radius'],
   'nc-input-border-width': ['nc-input-group-border-width'],
   // Form Control Shared → Input aliases (cascade via CSS var(), mirror for inspector sync)
   'nc-form-control-bg':                          ['nc-input-bg'],
@@ -73,25 +73,25 @@ export const MIRROR_TOKEN_MAP = {
   'nc-toast-error-icon-color':                   ['nc-toast-error-progress-bg'],
   'nc-toast-info-icon-color':                    ['nc-toast-info-progress-bg'],
   // Notification: Radius folgt Card-Radius, Shadow folgt Popover-Shadow
-  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius'],
+  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius', 'nc-accordion-media-radius', 'nc-avatar-radius-square'],
   // (moved to bottom with nav-menu-viewport-shadow)
   // Drawer: BG/Shadow/Overlay folgen Dialog-Tokens
   'nc-dialog-bg':                                ['nc-drawer-bg'],
-  'nc-dialog-shadow':                            ['nc-drawer-shadow'],
+  'nc-dialog-shadow':                            ['nc-drawer-shadow', 'nc-search-command-shadow'],
   'nc-dialog-overlay-bg':                        ['nc-drawer-overlay-bg'],
   // Alert ↔ Alert-Dialog: Danger-Farben muessen konsistent sein
   'nc-alert-danger-icon-color':                  ['nc-dialog-danger-icon-color'],
   'nc-alert-danger-bg':                          ['nc-dialog-danger-action-bg'],
   // Accordion: Media-Radius erbt von Card-Radius (Konsistenz)
-  'nc-card-radius':                              ['nc-accordion-media-radius'],
+  // → 'nc-card-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Accordion: Item-Radius folgt Card-Radius (Separated Cards = Cards)
   'nc-accordion-item-radius':                    ['nc-accordion-media-radius'],
   // Toggle Group: Radius folgt Input-Radius (Formular-Konsistenz)
-  'nc-input-radius':                             ['nc-toggle-group-radius'],
+  // → 'nc-input-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Toggle Group: Underline-Color folgt Selected-BG (visuelle Kohaerenz)
   'nc-toggle-group-item-selected-bg':            ['nc-toggle-group-underline-color'],
   // Input-Radius: Item + Toolbar folgen (Formular-Konsistenz)
-  'nc-input-radius':                             ['nc-item-radius', 'nc-toolbar-radius'],
+  // → 'nc-input-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Item: Selected-Border und Accent-Color folgen Interactive-Default (Markenfarbe)
   'nc-item-selected-border':                     ['nc-item-accent-color'],
   // Item: Thumbnail-Radius folgt Media-Radius (Konsistenz)
@@ -99,7 +99,7 @@ export const MIRROR_TOKEN_MAP = {
   // Search: Results-Shadow folgt Dropdown-Shadow (Overlay-Konsistenz)
   'nc-dropdown-shadow':                          ['nc-search-results-shadow'],
   // Search: Command-Shadow folgt Dialog-Shadow (Modal-Konsistenz)
-  'nc-dialog-shadow':                            ['nc-search-command-shadow'],
+  // → 'nc-dialog-shadow' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Toolbar: Gap folgt Button-Gap (Hierarchie-Konsistenz)
   'nc-button-gap':                               ['nc-toolbar-gap'],
   // Navigation-Menu: Viewport-Shadow folgt Popover-Shadow (Overlay-Konsistenz)
@@ -127,7 +127,7 @@ export const MIRROR_TOKEN_MAP = {
   // Avatar: Badge-Away folgt Warning-Farbe
   'nc-badge-warning-bg':                         ['nc-avatar-badge-away'],
   // Avatar: Square-Radius folgt Card-Radius (Entity-Konsistenz)
-  'nc-card-radius':                              ['nc-avatar-radius-square'],
+  // → 'nc-card-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Chip: Avatar-Size folgt Avatar-XS (Proportionskonsistenz)
   'nc-avatar-size-xs':                           ['nc-chip-avatar-size'],
   // Chip: Radius folgt Button-Radius (Systemkonsistenz)
