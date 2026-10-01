@@ -6,7 +6,8 @@
 #   1. Tokens/SCSS geaendert  -> JSON-Semantik == _mono-bridge.scss
 #                                Validator nicht schlechter als die Schwelle
 #   2. Konfig-Bundle gestaged  -> Abbruch (Build gehoert nicht ins Repo)
-#   3. Konfig-App geaendert   -> Tests zu den geaenderten Dateien (vitest related)
+#   3. Konfig-App geaendert   -> ESLint auf die gestagten Dateien,
+#                                Tests zu den geaenderten Dateien (vitest related)
 # Alles Langsame (Build, alle Linter) laeuft in der CI.
 #
 # Einmalig aktivieren:   npm run hooks:install
@@ -70,14 +71,22 @@ fi
 
 # --- 2. Konfig-App --------------------------------------------------------
 APP_FILES=$(echo "$STAGED" | grep -E '^apps/theme-configurator/(src|tests)/.*\.(js|vue)$' | sed 's#^apps/theme-configurator/##')
-if [ -n "$APP_FILES" ]; then
+# ESLint nur auf gestagte Dateien (Plan v2, 3.2) — auch e2e/ und Konfig-Dateien
+LINT_FILES=$(echo "$STAGED" | grep -E '^apps/theme-configurator/([^/]+\.(js|cjs|mjs)|(src|tests|e2e)/.*\.(js|cjs|mjs|vue))$' | sed 's#^apps/theme-configurator/##')
+if [ -n "$APP_FILES$LINT_FILES" ]; then
   # node_modules muss zur Plattform passen (macOS-Pakete laufen z. B. nicht
   # in einer Linux-VM). Sonst ueberspringen statt faelschlich abbrechen.
   if [ -d apps/theme-configurator/node_modules ] && (cd apps/theme-configurator && node -e "require('rollup/dist/native.js')" >/dev/null 2>&1); then
-    echo "▸ Konfig-App: Tests zu den geaenderten Dateien"
-    (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $APP_FILES) || FEHLER=1
+    if [ -n "$LINT_FILES" ]; then
+      echo "▸ Konfig-App: ESLint auf die gestagten Dateien"
+      (cd apps/theme-configurator && npx --no-install eslint --no-warn-ignored $LINT_FILES) || FEHLER=1
+    fi
+    if [ -n "$APP_FILES" ]; then
+      echo "▸ Konfig-App: Tests zu den geaenderten Dateien"
+      (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $APP_FILES) || FEHLER=1
+    fi
   else
-    echo "  (App-Abhaengigkeiten fehlen oder passen nicht zur Plattform — App-Tests uebersprungen, die CI prueft)"
+    echo "  (App-Abhaengigkeiten fehlen oder passen nicht zur Plattform — ESLint und App-Tests uebersprungen, die CI prueft)"
   fi
 fi
 

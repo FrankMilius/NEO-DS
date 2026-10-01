@@ -60,6 +60,7 @@ eingebauten Standardwerte.
 | Wo | Befehl | Zweck |
 | --- | --- | --- |
 | App | `npm test` / `npx vitest run` | Unit- und Komponententests |
+| App | `npm run lint` / `npm run typecheck` | ESLint und Typprüfung (siehe „Lint und Typen“) |
 | App | `npm run e2e` / `npm run e2e:visuell` | Playwright (siehe [e2e/README.md](e2e/README.md)) |
 | App | `npx vite build` | Build nach `<wurzel>/config/theme-configurator/` |
 | Wurzel | `npm run config:build` | Build + Prüfung des Einstiegs |
@@ -243,7 +244,10 @@ Slot-Heuristik. 46 Komponenten haben noch eine handgeschriebene Arena
    Zelle aus der Vorlage kommt und jede Vorlage zu einem Recipe gehört.
    Snapshots nur bei gewollter Änderung aktualisieren (`-u`).
 6. Steht die ID in `SONDERFAELLE`, ist die Vorlage erst sichtbar, wenn der
-   Eintrag dort entfernt wird.
+   Eintrag dort entfernt wird. Danach `meta.pipeline.arena` im Recipe (und
+   in `specs/<id>.spec.json`) auf `RecipeArena.vue` setzen und die alte
+   `<Name>Arena.vue` löschen – `tests/arena/recipe-pipeline.test.js` prüft,
+   dass der Pfad existiert.
 
 ---
 
@@ -381,6 +385,51 @@ laufen lassen (Exit ≠ 0 = Kontrast-Befund).
 
 ---
 
+## Lint und Typen
+
+**ESLint** (`eslint.config.js`, ESLint 9 flat config, `eslint-plugin-vue`
+„recommended“): `npm run lint` prüft `src/`, `tests/`, `e2e/` und die
+Konfigurationsdateien und muss **0 Fehler** melden. Fehler-Regeln sind die
+inhaltlichen (`no-undef`, `no-unused-vars`, `no-dupe-keys`,
+`vue/no-mutating-props` …). Die reinen Layout-Regeln von eslint-plugin-vue
+(Attribute je Zeile, Einrückung, Self-Closing …) sind aus, weil der Code
+einen eigenen, konsistenten Stil hat; `vue/no-v-html` und
+`vue/no-template-shadow` bleiben als Warnung sichtbar. Ungenutzte Parameter
+sind erlaubt (Render-Helfer mit fester Signatur), ungenutzte Variablen und
+Importe nicht; bewusst Ungenutztes beginnt mit `_`.
+
+**Prettier** ist bewusst nicht eingebunden: Schon „nur geänderte Dateien“
+würde jede berührte Datei komplett umformatieren (Arenen mit langen
+Render-Zeilen, ausgerichtete Token-Tabellen wie `MIRROR_TOKEN_MAP`) und
+Diffs unlesbar machen. Formatierung bleibt Review-Sache.
+
+**Typprüfung** ohne Umstellung auf TypeScript: `npm run typecheck`
+(`tsc -p jsconfig.json`, TypeScript 5.9). Geprüft werden nur Dateien mit
+`// @ts-check` in der ersten Zeile – heute alle Dateien unter
+`src/stores/**`, `src/speicher/**`, `src/export/**` und `src/lib/**`.
+Typen kommen aus JSDoc (`@param`, `@typedef`, z. B. `Speicher` in
+`speicher/index.js`) und aus:
+
+- `src/data/tokens.generated.d.ts` – erzeugt von
+  `scripts/generate-tokens.cjs` (`npm run tokens`) neben
+  `tokens.generated.js`: die Struktur jedes Exports, aus den Daten
+  abgeleitet, plus `ThemeKey`, `SemanticTokenId`, `ComponentGroupId`.
+  Nicht von Hand ändern; die CI prüft, dass sie aktuell ist.
+- `src/env.d.ts` – Vite-`define` (`__APP_VERSION__` …) und
+  `import.meta.env.VITE_NEO_*`.
+- `src/pinia-optionen.d.ts` – Store-Optionen `verlauf` und `schreibschutz`
+  der eigenen Pinia-Plugins.
+
+Der Modus ist bewusst locker (`strict: false`). Weitere Dateien kommen
+dazu, indem man `// @ts-check` ergänzt und die Meldungen behebt.
+
+**Pre-Commit-Hook** (`.githooks/pre-commit`): ESLint läuft nur auf den
+gestagten `.js`/`.vue`-Dateien der App (wie die Tests per `vitest
+related`). **CI** (Job *App*): `npm run lint` und `npm run typecheck` vor
+den Tests.
+
+---
+
 ## Tests, CI, Release
 
 | Ebene | Wo | Befehl |
@@ -391,9 +440,9 @@ laufen lassen (Exit ≠ 0 = Kontrast-Befund).
 | Visuell | `e2e/arenen.visuell.spec.js`, Linux-Baselines, kein Gate | `npm run e2e:visuell` |
 
 **CI** (`.github/workflows/theme-configurator.yml`, bei Änderungen an App,
-Paketen, Daten, SCSS, Skripten, Doku, Config): Token-Drift → Vitest → Build →
-Einstieg → Bundle-Budget → Artefakt `theme-configurator-<sha>` (30 Tage) →
-E2E. Screenshot-Vergleich nur per *Run workflow*.
+Paketen, Daten, SCSS, Skripten, Doku, Config): Token-Drift → Lint → Typen →
+Vitest → Build → Einstieg → Bundle-Budget → Artefakt
+`theme-configurator-<sha>` (30 Tage) → E2E. Screenshot-Vergleich nur per *Run workflow*.
 
 **Release** (`.github/workflows/release-konfigurator.yml`):
 

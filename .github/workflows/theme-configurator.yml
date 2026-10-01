@@ -61,12 +61,12 @@ jobs:
         run: npm run tokens:foundation:check
       - name: DTCG-Export aktuell und verlustfrei (Style Dictionary)
         run: npm run tokens:dtcg:check
-      - name: Generat aktuell (tokens.generated.js)
+      - name: Generat aktuell (tokens.generated.js + .d.ts)
         run: |
           node scripts/generate-tokens.cjs
           # Datumszeile ignorieren, sonst waere jeder Tag eine Abweichung
-          git diff -I 'Generated:' --exit-code -- apps/theme-configurator/src/data/tokens.generated.js \
-            || (echo "::error::tokens.generated.js ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
+          git diff -I 'Generated:' --exit-code -- apps/theme-configurator/src/data/tokens.generated.js apps/theme-configurator/src/data/tokens.generated.d.ts \
+            || (echo "::error::tokens.generated.js/.d.ts ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
       - name: Docs-Seiten entstehen aus docs/content (keine Handaenderung)
         run: node scripts/build-docs.cjs --check
       - name: Validator nicht schlechter als der eingefrorene Bestand
@@ -90,6 +90,13 @@ jobs:
       - name: App-Abhaengigkeiten
         working-directory: apps/theme-configurator
         run: npm ci
+      # Plan v2, 3.2: 0 ESLint-Fehler; Typpruefung der @ts-check-Dateien
+      - name: Lint (ESLint)
+        working-directory: apps/theme-configurator
+        run: npm run lint
+      - name: Typen (tsc, @ts-check)
+        working-directory: apps/theme-configurator
+        run: npm run typecheck
       - name: Unit- und Komponententests
         working-directory: apps/theme-configurator
         run: npx vitest run
