@@ -11,7 +11,7 @@
 | Recipe | `data/tag-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_tag.scss` | present |
 | Storybook | `stories/atoms/tag.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/TagArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/tag-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/tag-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_tag.scss)
 - [Storybook Story](../stories/atoms/tag.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/TagArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/tag-docs.html)

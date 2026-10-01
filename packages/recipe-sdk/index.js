@@ -5,7 +5,7 @@
 //
 // Konsumiert von:
 //   - lint-recipes.mjs (CI-Gate)
-//   - ButtonArena.vue, BadgeArena.vue (Theme Configurator)
+//   - ButtonArena.vue, RecipeArena.vue (Theme Configurator)
 //   - zukuenftig: Docs-Generator, Figma-Plugin
 //
 // Alle Funktionen sind pure (kein Seiteneffekt, kein State, kein fs/path).

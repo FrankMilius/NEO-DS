@@ -11,7 +11,7 @@
 | Recipe | `data/progress-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_progress.scss` | present |
 | Storybook | `stories/organisms/progress.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ProgressArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/progress-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/progress-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_progress.scss)
 - [Storybook Story](../stories/organisms/progress.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ProgressArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/progress-docs.html)

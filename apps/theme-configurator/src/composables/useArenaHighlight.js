@@ -2,7 +2,7 @@
  * useArenaHighlight — Composable fuer visuelles Feedback zwischen Inspector und Arena.
  *
  * Liest store.state.highlightedToken und liefert computed-Refs fuer das Highlight-Overlay.
- * Wird in Arena-Komponenten (ButtonArena, BadgeArena, etc.) importiert.
+ * Wird in Arena-Komponenten (ButtonArena, RecipeArena, etc.) importiert.
  */
 import { computed } from 'vue'
 import { useThemeStore } from '../stores/theme.js'

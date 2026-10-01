@@ -11,7 +11,7 @@
 | Recipe | `data/skeleton-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_skeleton.scss` | present |
 | Storybook | `stories/organisms/skeleton.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SkeletonArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/skeleton-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/skeleton-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_skeleton.scss)
 - [Storybook Story](../stories/organisms/skeleton.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SkeletonArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/skeleton-docs.html)

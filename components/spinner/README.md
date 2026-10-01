@@ -11,7 +11,7 @@
 | Recipe | `data/spinner-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_spinner.scss` | present |
 | Storybook | `stories/atoms/spinner.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SpinnerArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/spinner-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/spinner-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_spinner.scss)
 - [Storybook Story](../stories/atoms/spinner.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SpinnerArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/spinner-docs.html)

@@ -11,7 +11,7 @@
 | Recipe | `data/avatar-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_avatar.scss` | present |
 | Storybook | `stories/atoms/avatar.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/AvatarArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/avatar-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/avatar-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_avatar.scss)
 - [Storybook Story](../stories/atoms/avatar.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/AvatarArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/avatar-docs.html)

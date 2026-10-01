@@ -11,7 +11,7 @@
 | Recipe | `data/status-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_status.scss` | present |
 | Storybook | `stories/organisms/status.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/StatusArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/status-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/status-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_status.scss)
 - [Storybook Story](../stories/organisms/status.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/StatusArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/status-docs.html)

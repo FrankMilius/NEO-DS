@@ -11,7 +11,7 @@
 | Recipe | `data/chip-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_chip.scss` | present |
 | Storybook | `stories/atoms/chip.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ChipArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/chip-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/chip-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_chip.scss)
 - [Storybook Story](../stories/atoms/chip.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ChipArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/chip-docs.html)

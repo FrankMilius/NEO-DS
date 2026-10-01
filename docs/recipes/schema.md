@@ -517,7 +517,7 @@ Haelt das SDK browser-sicher (kein fs/path). Ohne Parameter: nur Phase 2 (Semant
 | Konsument | Datei | Nutzt |
 |---|---|---|
 | CI Lint | `scripts/lint-recipes.mjs` | loadRecipe, validateRecipe, validateTokenCoverage, validateScssParity, validateSpecimenSanity |
-| Theme Configurator | `ButtonArena.vue`, `BadgeArena.vue` | loadRecipe, expandSpecimenMatrix, specimenTokenGroups, groupCellsByAxis, capitalize |
+| Theme Configurator | `ButtonArena.vue`, `RecipeArena.vue` | loadRecipe, expandSpecimenMatrix, specimenTokenGroups, groupCellsByAxis, capitalize |
 | Docs (zukuenftig) | — | loadRecipe, expandSpecimenMatrix, resolveA11y |
 | Figma Plugin (zukuenftig) | — | loadRecipe, resolveClassList, renderModel |
 
