@@ -24,6 +24,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf `.nc-treeview__node` | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
 | `navigation-menu` | Menü-Leiste mit Panels (WAI-ARIA Menubar): roving tabindex, Pfeil rechts/links/Pos1/Ende in der Leiste, Pfeil runter/Enter/Leertaste öffnen (erster Eintrag), Pfeil hoch (letzter); im Panel Pfeil runter/hoch, rechts/links zum Nachbarn, Escape/Tab/Klick außen schließen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
 | `toolbar` | eine Tab-Station (roving tabindex über alle Knöpfe, Links und Felder, auch in eingebetteten Gruppen); Pfeil rechts/links (rundum), Pos1, Ende; in Eingabefeldern bleiben Pfeile/Pos1/Ende im Feld, Tab/Shift+Tab gehen vom Feld zum Nachbarn (am Rand raus) | `toolbar-focus` { value, previousValue } |
+| `sidebar` | Untermenü-Knopf (`aria-controls`) klappt per `[hidden]`; `__toggle` schaltet `--collapsed` (+ aria-label der Einträge); Mobil-Lage: Knopf mit `aria-controls` öffnet `--open` + Backdrop, Escape/Backdrop/Knopf schließen, Fokus zurück | `sidebar-submenu-toggle` { value, open }, `sidebar-collapse` { collapsed }, `sidebar-toggle` { open, reason } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -118,3 +119,10 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Rand die Leiste. Das Markup darf ohne `tabindex` kommen — ohne JS bleibt so
   jeder Knopf erreichbar; beim Lösen stellt das Behavior die alten Werte
   wieder her. `.is-scrolled` der Sticky-Toolbar setzt es nicht.
+- **Sidebar** — Untermenü über `[hidden]` am Container
+  (`.nc-sidebar__submenu-items`), Einklappen über `.nc-sidebar--collapsed`,
+  Mobil-Lage über `.nc-sidebar--open` und den Backdrop
+  `.nc-sidebar-backdrop[hidden]` — genau die Zustände des SCSS. Der Backdrop
+  wird als Geschwister der Sidebar gesucht; der öffnende Knopf ist ein
+  beliebiger Knopf mit `aria-controls="<id der Sidebar>"`. Keine Fokus-Falle
+  in der Mobil-Lage (die Sidebar ist kein Dialog).

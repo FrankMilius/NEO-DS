@@ -486,3 +486,87 @@ describe('Toolbar (toolbar-recipe.json)', () => {
     for (const t of tastenAus('toolbar')) it(t, () => pruefungen[t]())
   })
 })
+
+// ---------------------------------------------------------------------------
+describe('Sidebar (sidebar-recipe.json)', () => {
+  function aufbau (specimen) {
+    const b = buehne(lebendigesMarkup('sidebar', specimen))
+    anbinden(b)
+    const wurzel = b.querySelector('.nc-sidebar')
+    return { b, wurzel }
+  }
+  const unter = (s) => s.wurzel.querySelector('button.nc-sidebar__item[aria-controls]')
+  const panel = (s) => document.getElementById(unter(s).getAttribute('aria-controls'))
+
+  it('Untermenue: Klick klappt zu und auf ([hidden], aria-expanded); sidebar-submenu-toggle wie im Recipe', () => {
+    const s = aufbau('nested-submenu')
+    const ev = sammle(s.wurzel, 'sidebar-submenu-toggle')
+    expect(panel(s).hidden).toBe(false)
+    unter(s).click()
+    expect(unter(s).getAttribute('aria-expanded')).toBe('false')
+    expect(panel(s).hidden).toBe(true)
+    unter(s).click()
+    expect(panel(s).hidden).toBe(false)
+    expect(ev.map((e) => e.detail)).toEqual([{ value: 'Einstellungen', open: false }, { value: 'Einstellungen', open: true }])
+    for (const e of ev) passtZumRecipe('sidebar', e)
+  })
+
+  it('Einklappen: --collapsed, aria-expanded/-label am Knopf, Eintraege bekommen aria-label; sidebar-collapse', () => {
+    const s = aufbau('full-sidebar')
+    const knopf = s.wurzel.querySelector('.nc-sidebar__toggle')
+    const ev = sammle(s.wurzel, 'sidebar-collapse')
+    const eintrag = s.wurzel.querySelector('.nc-sidebar__nav a.nc-sidebar__item')
+    expect(knopf.getAttribute('aria-expanded')).toBe('true')
+    knopf.click()
+    expect(s.wurzel.classList.contains('nc-sidebar--collapsed')).toBe(true)
+    expect(knopf.getAttribute('aria-expanded')).toBe('false')
+    expect(knopf.getAttribute('aria-label')).toBe('Navigation ausklappen')
+    expect(eintrag.getAttribute('aria-label')).toBe('Dashboard')
+    knopf.click()
+    expect(s.wurzel.classList.contains('nc-sidebar--collapsed')).toBe(false)
+    expect(knopf.getAttribute('aria-label')).toBe('Navigation einklappen')
+    expect(eintrag.hasAttribute('aria-label')).toBe(false)
+    expect(ev.map((e) => e.detail)).toEqual([{ collapsed: true }, { collapsed: false }])
+    for (const e of ev) passtZumRecipe('sidebar', e)
+  })
+
+  it('Mobil-Lage: startet zu, Knopf oeffnet (Fokus in die Sidebar), Backdrop schliesst; sidebar-toggle', () => {
+    const s = aufbau('mobile-overlay')
+    const knopf = s.b.querySelector('button[aria-controls]')
+    const hinten = s.b.querySelector('.nc-sidebar-backdrop')
+    const ev = sammle(s.wurzel, 'sidebar-toggle')
+    expect(s.wurzel.classList.contains('nc-sidebar--open')).toBe(false)
+    expect(hinten.hidden).toBe(true)
+    knopf.click()
+    expect(s.wurzel.classList.contains('nc-sidebar--open')).toBe(true)
+    expect(hinten.hidden).toBe(false)
+    expect(knopf.getAttribute('aria-expanded')).toBe('true')
+    expect(aktiv()).toBe(s.wurzel.querySelector('[aria-current="page"]'))
+    hinten.click()
+    expect(s.wurzel.classList.contains('nc-sidebar--open')).toBe(false)
+    expect(hinten.hidden).toBe(true)
+    expect(aktiv()).toBe(knopf)
+    expect(ev.map((e) => e.detail)).toEqual([{ open: true, reason: 'trigger' }, { open: false, reason: 'overlay-click' }])
+    for (const e of ev) passtZumRecipe('sidebar', e)
+  })
+
+  describe('Tasten aus dem Recipe', () => {
+    const pruefungen = {
+      Enter: () => {
+        const s = aufbau('nested-submenu'); taste(unter(s), 'Enter'); expect(panel(s).hidden).toBe(true)
+        const v = aufbau('full-sidebar'); taste(v.wurzel.querySelector('.nc-sidebar__toggle'), 'Enter'); expect(v.wurzel.classList.contains('nc-sidebar--collapsed')).toBe(true)
+      },
+      Space: () => { const s = aufbau('nested-submenu'); taste(unter(s), 'Space'); expect(unter(s).getAttribute('aria-expanded')).toBe('false') },
+      Escape: () => {
+        const s = aufbau('mobile-overlay'); const knopf = s.b.querySelector('button[aria-controls]'); const ev = sammle(s.wurzel, 'sidebar-toggle')
+        taste(knopf, 'Enter'); expect(s.wurzel.classList.contains('nc-sidebar--open')).toBe(true)
+        const e = taste(aktiv(), 'Escape')
+        expect(e.defaultPrevented).toBe(true); expect(s.wurzel.classList.contains('nc-sidebar--open')).toBe(false); expect(aktiv()).toBe(knopf)
+        expect(ev.at(-1).detail).toEqual({ open: false, reason: 'escape' })
+        expect(taste(knopf, 'Escape').defaultPrevented).toBe(false) // zu: Escape bleibt frei
+      }
+    }
+    it('jede Taste hat eine Pruefung', () => deckeTastenAb('sidebar', pruefungen))
+    for (const t of tastenAus('sidebar')) it(t, () => pruefungen[t]())
+  })
+})

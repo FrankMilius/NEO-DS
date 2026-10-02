@@ -394,6 +394,10 @@ onBeforeUnmount(() => aufraeumen?.())
   background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
   z-index: calc(var(--fnd-z-sidebar) - 1);
 }
+/* wie im DS: der Backdrop mit [hidden] ist weg (Ausprobieren: zu) */
+.ra-live-component .ra-buehne--mobil .nc-sidebar-backdrop[hidden] { display: none; }
+/* Ausprobieren: Platz um den Knopf, der die Sidebar oeffnet */
+.ra-live-component .ra-buehne--mobil > .nc-button { margin: 16px; }
 
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,

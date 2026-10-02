@@ -29,7 +29,7 @@ import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['breadcrumb', 'pagination', 'navigation', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
 // Mit Verhalten in neo-behaviors (keyboard/events im Recipe, „Ausprobieren")
-const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'navigation-menu', 'treeview', 'toolbar']
+const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
 
 function zellen (id, specimenId, optionen = {}) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -91,7 +91,8 @@ function enthaelt (id, gesehen = new Set()) {
 // navigation-orchestration teilt die Wurzel nc-header mit navigation.
 const ERLAUBT = {
   navigation: { button: 'CTA in __actions (docs/navigation-docs.html)', 'navigation-orchestration': 'teilt die Wurzel nc-header' },
-  'navigation-menu': { button: 'CTA in __actions der Kopfzeile (composition-header, site.js)', 'navigation-orchestration': 'Kopfzeile nc-header (composition-header)' }
+  'navigation-menu': { button: 'CTA in __actions der Kopfzeile (composition-header, site.js)', 'navigation-orchestration': 'Kopfzeile nc-header (composition-header)' },
+  sidebar: { button: 'Knopf, der die Mobil-Lage oeffnet (Ausprobieren, aria-controls)' }
 }
 
 // Zustandsklassen, die das DS fuer das Bauteil kennt (SCSS) — alle anderen
@@ -629,6 +630,19 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     expect(knoepfe[1].attributes('tabindex')).toBe('0')
     expect(knoepfe[0].attributes('tabindex')).toBe('-1')
     expect(z.findAll('.nc-toolbar [tabindex="0"]').length).toBe(1)
+    w.unmount()
+  })
+
+  it('sidebar: Mobil-Lage startet zu, der Knopf oeffnet, Escape schliesst', async () => {
+    const w = await ausprobieren('sidebar')
+    const z = zelle(w, 'mobile-overlay')
+    const nav = z.find('nav.nc-sidebar')
+    expect(nav.classes()).not.toContain('nc-sidebar--open')
+    expect(z.find('.nc-sidebar-backdrop').attributes('hidden')).toBeDefined()
+    await z.find(`button[aria-controls="${nav.attributes('id')}"]`).trigger('click')
+    expect(nav.classes()).toContain('nc-sidebar--open')
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
+    expect(nav.classes()).not.toContain('nc-sidebar--open')
     w.unmount()
   })
 })

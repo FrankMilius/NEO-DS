@@ -23,8 +23,10 @@
 // Arena-Rahmen ra-buehne ra-buehne--mobil. Das DS schaltet die Mobil-Lage
 // nur ueber die Fensterbreite (< md) — die Arena stellt sie im Rahmen mit
 // den Werten des DS dar (siehe RecipeArena.vue).
-// Verhalten (Submenue auf/zu, Einklappen, Mobil schliessen): kein Behavior
-// in neo-behaviors, keine keyboard/events im Recipe — nur „Zustände".
+// Verhalten: neo-behaviors/sidebar.js nach keyboard/events im Recipe
+// (Untermenue auf/zu, Einklappen, Mobil-Lage oeffnen/schliessen mit Escape
+// und Backdrop). In „Ausprobieren" (m.ausprobieren) startet die Mobil-Lage
+// zu: ein Knopf mit aria-controls oeffnet sie, der Backdrop ist [hidden].
 import { esc } from './_helfer.js'
 import { wurzelKlassen } from './_overlay.js'
 
@@ -93,7 +95,7 @@ function navigation (m) {
   return `${erste}\n${zweite}`
 }
 
-function leiste (m, extra = []) {
+function leiste (m, extra = [], id = '') {
   const voll = (m.wert('content') || 'flat') === 'full'
   const eingeklappt = m.wert('variant') === 'collapsed'
   const kopf = voll
@@ -104,7 +106,7 @@ function leiste (m, extra = []) {
     : ''
   const fuss = voll ? `\n<div class="nc-sidebar__footer">\n${eintrag(m, 'Abmelden', 'abmelden')}\n</div>` : ''
   const klassen = [wurzelKlassen(m), ...extra].join(' ')
-  return `<nav class="${klassen}" aria-label="Seitennavigation">
+  return `<nav${id ? ` id="${id}"` : ''} class="${klassen}" aria-label="Seitennavigation">
 ${kopf}<div class="nc-sidebar__nav">
 ${navigation(m)}
 </div>${fuss}
@@ -112,6 +114,14 @@ ${navigation(m)}
 }
 
 export default (zelle, m) => {
+  if (m.specimen.render?.compositionType === 'sidebar-mobile' && m.ausprobieren) {
+    const id = `${m.uid}-sidebar`
+    return `<div class="ra-buehne ra-buehne--mobil">
+<button type="button" class="nc-button nc-button--secondary nc-button--sm" aria-controls="${id}" aria-expanded="false">Navigation öffnen</button>
+<div class="nc-sidebar-backdrop" hidden></div>
+${leiste(m, [], id)}
+</div>`
+  }
   if (m.specimen.render?.compositionType === 'sidebar-mobile') {
     return `<div class="ra-buehne ra-buehne--mobil">
 <div class="nc-sidebar-backdrop"></div>

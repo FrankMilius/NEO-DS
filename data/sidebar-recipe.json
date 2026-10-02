@@ -373,6 +373,45 @@
       ]
     }
   },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf einem Untermenue-Knopf (button.nc-sidebar__item[aria-controls]): klappt auf/zu. Auf dem Einklapp-Knopf (.nc-sidebar__toggle): klappt die Sidebar ein/aus. Auf Links: folgt dem Link (nativ)."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Auf Knoepfen wie Enter."
+    },
+    "Escape": {
+      "action": "close-mobile",
+      "note": "Mobil-Lage (.nc-sidebar--open): schliesst die Sidebar, Fokus zurueck auf den oeffnenden Knopf."
+    }
+  },
+  "events": {
+    "sidebar-submenu-toggle": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "open": "boolean"
+      },
+      "note": "Gefeuert beim Auf- und Zuklappen eines Untermenues. value: Label des Knopfs."
+    },
+    "sidebar-collapse": {
+      "bubbles": true,
+      "detail": {
+        "collapsed": "boolean"
+      },
+      "note": "Gefeuert beim Ein- und Ausklappen der Sidebar (.nc-sidebar--collapsed)."
+    },
+    "sidebar-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean",
+        "reason": "string"
+      },
+      "note": "Mobil-Lage: gefeuert beim Oeffnen und Schliessen (.nc-sidebar--open). reason: 'trigger', 'escape', 'overlay-click'."
+    }
+  },
   "specimens": [
     {
       "id": "default",
