@@ -29,7 +29,7 @@ import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['breadcrumb', 'pagination', 'navigation', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
 // Mit Verhalten in neo-behaviors (keyboard/events im Recipe, „Ausprobieren")
-const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb']
+const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'treeview']
 
 function zellen (id, specimenId, optionen = {}) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -582,6 +582,18 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     await z.find('.nc-breadcrumb__ellipsis').trigger('click')
     expect(z.find('.nc-breadcrumb__dropdown').classes()).toContain('is-open')
     expect(z.find('.nc-breadcrumb__ellipsis').attributes('aria-expanded')).toBe('true')
+    w.unmount()
+  })
+
+  it('treeview: Pfeil rechts klappt auf, Klick waehlt', async () => {
+    const w = await ausprobieren('treeview')
+    const z = zelle(w, 'states')
+    const vorlagen = z.findAll('.nc-treeview__item').find((li) => li.find(':scope > .nc-treeview__node .nc-treeview__label').text() === 'Vorlagen')
+    await vorlagen.find('.nc-treeview__node').trigger('keydown', { key: 'ArrowRight' })
+    expect(vorlagen.attributes('aria-expanded')).toBe('true')
+    await vorlagen.find('.nc-treeview__node').trigger('click')
+    expect(vorlagen.attributes('aria-selected')).toBe('true')
+    expect(vorlagen.classes()).toContain('nc-treeview__item--selected')
     w.unmount()
   })
 })

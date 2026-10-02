@@ -21,6 +21,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `drawer` | wie Modal; Klick auf den Hintergrund schließt immer; `is-scrolled` am Drawer | `drawer-open`, `drawer-close` { reason } |
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf Abbrechen (`[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück | `alert-dialog-open`, `alert-dialog-close` { reason } |
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
+| `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf `.nc-treeview__node` | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -91,3 +92,10 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Markup stehen; `js/breadcrumb.js` (Doku/Website) baut es dagegen aus
   `data-breadcrumb-hidden-items` und bindet selbst — beide nicht auf
   derselben Breadcrumb einsetzen.
+- **Treeview** — WAI-ARIA Tree. Fokus und roving tabindex liegen auf der
+  Zeile `.nc-treeview__node` (dort zeichnet das SCSS den Fokusring), die
+  Zustände am `li[role=treeitem]`: `aria-expanded`, `aria-selected` (+
+  `.nc-treeview__item--selected`, die Auswahl gestaltet das SCSS über die
+  Klasse), im Checkbox-Modus `aria-checked` (true/false/mixed) samt
+  `checked`/`indeterminate` der Checkbox. Ziehen & Ablegen und die
+  Aktionen im Zeilen-Slot sind nicht Teil des Behaviors.

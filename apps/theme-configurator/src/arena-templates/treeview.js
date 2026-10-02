@@ -26,8 +26,10 @@
 // Slots per render.slotConfig des Specimens: actions, badge, icon.
 // drag-drop: --dragging am gezogenen Eintrag, Drop-Anzeigen
 // --drop-before/-inside/-after.
-// Verhalten: das Recipe nennt die Tasten nur in a11y.base.note, nicht als
-// keyboard/events; neo-behaviors hat keins — deshalb nur „Zustände".
+// Verhalten: neo-behaviors/treeview.js nach keyboard/events im Recipe
+// (Pfeiltasten, Pos1/Ende, Auf-/Zuklappen, Auswahl). Das Markup ist in
+// „Zustände" und „Ausprobieren" gleich — der roving tabindex (genau eine
+// Zeile mit tabindex="0") steht schon in der Vorlage, wie im DS-Markup.
 import { esc } from './_helfer.js'
 import { wurzelKlassen } from './_overlay.js'
 

@@ -1234,6 +1234,209 @@
     }
   };
 
+  // packages/neo-behaviors/treeview.js
+  var EINTRAG3 = ".nc-treeview__item";
+  var treeview = {
+    id: "treeview",
+    selektor: ".nc-treeview",
+    binde(wurzel, signal) {
+      const baum = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector('[role="tree"]') || wurzel.querySelector(".nc-treeview__list")
+      );
+      if (!baum) return;
+      const mehrfach = baum.getAttribute("aria-multiselectable") === "true" || wurzel.classList.contains("nc-treeview--checkboxes");
+      const alle = () => (
+        /** @type {HTMLElement[]} */
+        [...baum.querySelectorAll(EINTRAG3)]
+      );
+      const zeile = (li) => (
+        /** @type {HTMLElement|null} */
+        li.querySelector(":scope > .nc-treeview__node")
+      );
+      const eltern = (li) => {
+        var _a;
+        const p = (
+          /** @type {HTMLElement|null} */
+          ((_a = li.parentElement) == null ? void 0 : _a.closest(EINTRAG3)) || null
+        );
+        return p && baum.contains(p) ? p : null;
+      };
+      const kinder = (li) => alle().filter((x) => eltern(x) === li);
+      const zweig = (li) => li.hasAttribute("aria-expanded");
+      const offen = (li) => li.getAttribute("aria-expanded") === "true";
+      const gesperrtE = (li) => gesperrt(li) || li.classList.contains("nc-treeview__item--disabled");
+      const sichtbar = (li) => {
+        for (let p = eltern(li); p; p = eltern(p)) if (!offen(p)) return false;
+        return true;
+      };
+      const bedienbar = () => alle().filter((li) => sichtbar(li) && !gesperrtE(li) && zeile(li));
+      const wertVon2 = (li) => {
+        var _a, _b;
+        return li.dataset.value || (((_b = (_a = zeile(li)) == null ? void 0 : _a.querySelector(".nc-treeview__label, .nc-treeview__link")) == null ? void 0 : _b.textContent) || "").trim();
+      };
+      const gewaehlt = (li) => li.getAttribute(mehrfach ? "aria-checked" : "aria-selected") === "true";
+      const tabStopp = (li, fokus = false) => {
+        var _a;
+        for (const x of alle()) {
+          const z = zeile(x);
+          if (z) z.tabIndex = x === li ? 0 : -1;
+        }
+        if (fokus) (_a = zeile(li)) == null ? void 0 : _a.focus();
+      };
+      const moegliche = bedienbar();
+      const start = moegliche.find((li) => {
+        var _a;
+        return ((_a = zeile(li)) == null ? void 0 : _a.getAttribute("tabindex")) === "0";
+      }) || moegliche.find(gewaehlt) || moegliche[0];
+      if (start) tabStopp(start);
+      if (!mehrfach) {
+        for (const li of alle()) if (!li.hasAttribute("aria-selected")) li.setAttribute("aria-selected", "false");
+      }
+      const klappe = (li, an) => {
+        if (!zweig(li) || gesperrtE(li) || offen(li) === an) return;
+        li.setAttribute("aria-expanded", String(an));
+        if (!an) {
+          const aktiv = wurzel.ownerDocument.activeElement;
+          const stopp = alle().find((x) => {
+            var _a;
+            return ((_a = zeile(x)) == null ? void 0 : _a.tabIndex) === 0;
+          });
+          if (aktiv && li.contains(aktiv) && aktiv !== zeile(li)) tabStopp(li, true);
+          else if (stopp && stopp !== li && li.contains(stopp)) tabStopp(li);
+        }
+        sende(wurzel, "treeview-toggle", { value: wertVon2(li), expanded: an });
+      };
+      const melde = (li) => sende(wurzel, "treeview-select", { value: wertVon2(li), selected: gewaehlt(li), values: alle().filter(gewaehlt).map(wertVon2) });
+      const setzeHaken = (li, wert) => {
+        var _a;
+        li.setAttribute("aria-checked", wert);
+        const box = (
+          /** @type {HTMLInputElement|null} */
+          ((_a = zeile(li)) == null ? void 0 : _a.querySelector(".nc-treeview__checkbox")) || null
+        );
+        if (box) {
+          box.checked = wert === "true";
+          box.indeterminate = wert === "mixed";
+        }
+      };
+      const hake = (li) => {
+        const neu = li.getAttribute("aria-checked") === "true" ? "false" : "true";
+        for (const x of [li, ...li.querySelectorAll(EINTRAG3)]) if (!gesperrtE(
+          /** @type {HTMLElement} */
+          x
+        )) setzeHaken(x, neu);
+        for (let p = eltern(li); p; p = eltern(p)) {
+          const werte = new Set(kinder(p).map((k) => k.getAttribute("aria-checked") || "false"));
+          setzeHaken(p, werte.size === 1 ? [...werte][0] : "mixed");
+        }
+        melde(li);
+      };
+      const waehle2 = (li) => {
+        if (gesperrtE(li)) return;
+        if (mehrfach) {
+          hake(li);
+          return;
+        }
+        if (gewaehlt(li)) return;
+        for (const x of alle()) {
+          x.setAttribute("aria-selected", String(x === li));
+          x.classList.toggle("nc-treeview__item--selected", x === li);
+        }
+        melde(li);
+      };
+      baum.addEventListener("keydown", (e) => {
+        var _a;
+        const z = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (!((_a = z.classList) == null ? void 0 : _a.contains("nc-treeview__node"))) return;
+        const li = (
+          /** @type {HTMLElement} */
+          z.closest(EINTRAG3)
+        );
+        const liste = bedienbar();
+        const i = liste.indexOf(li);
+        let ziel = null;
+        switch (e.key) {
+          case "ArrowDown":
+            ziel = liste[i + 1] || null;
+            break;
+          case "ArrowUp":
+            ziel = i > 0 ? liste[i - 1] : null;
+            break;
+          case "Home":
+            ziel = liste[0] || null;
+            break;
+          case "End":
+            ziel = liste.at(-1) || null;
+            break;
+          case "ArrowRight":
+            e.preventDefault();
+            if (zweig(li) && !offen(li)) klappe(li, true);
+            else if (zweig(li)) ziel = kinder(li).find((k) => !gesperrtE(k)) || null;
+            break;
+          case "ArrowLeft":
+            e.preventDefault();
+            if (zweig(li) && offen(li)) klappe(li, false);
+            else ziel = eltern(li);
+            break;
+          case "Enter":
+          case " ": {
+            e.preventDefault();
+            waehle2(li);
+            const link = (
+              /** @type {HTMLElement|null} */
+              z.querySelector(".nc-treeview__link")
+            );
+            if (e.key === "Enter" && link) link.click();
+            return;
+          }
+          default:
+            return;
+        }
+        if (!ziel) return;
+        e.preventDefault();
+        tabStopp(ziel, true);
+      }, { signal });
+      baum.addEventListener("click", (e) => {
+        const ziel = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        const z = (
+          /** @type {HTMLElement|null} */
+          ziel.closest(".nc-treeview__node")
+        );
+        if (!z || !baum.contains(z)) return;
+        const li = (
+          /** @type {HTMLElement} */
+          z.closest(EINTRAG3)
+        );
+        if (gesperrtE(li)) return;
+        if (ziel.closest(".nc-treeview__actions, .nc-treeview__drag-handle")) return;
+        tabStopp(li, true);
+        if (ziel.closest(".nc-treeview__toggle")) {
+          klappe(li, !offen(li));
+          return;
+        }
+        waehle2(li);
+      }, { signal });
+      baum.addEventListener("focusin", (e) => {
+        var _a;
+        const z = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (((_a = z.classList) == null ? void 0 : _a.contains("nc-treeview__node")) && z.tabIndex !== 0) tabStopp(
+          /** @type {HTMLElement} */
+          z.closest(EINTRAG3)
+        );
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -1251,7 +1454,9 @@
     modal,
     drawer,
     "alert-dialog": alertDialog,
-    breadcrumb
+    breadcrumb,
+    breadcrumb,
+    treeview
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

@@ -542,6 +542,63 @@
       ]
     }
   },
+  "keyboard": {
+    "ArrowDown": {
+      "action": "focus-next-item",
+      "note": "Naechster sichtbarer Eintrag (kein Rundum, gesperrte uebersprungen)."
+    },
+    "ArrowUp": {
+      "action": "focus-prev-item",
+      "note": "Vorheriger sichtbarer Eintrag."
+    },
+    "ArrowRight": {
+      "action": "expand-or-focus-child",
+      "note": "Zweig zu: klappt auf (Fokus bleibt). Zweig offen: erstes Kind. Blatt: nichts."
+    },
+    "ArrowLeft": {
+      "action": "collapse-or-focus-parent",
+      "note": "Zweig offen: klappt zu. Sonst: Eltern-Eintrag."
+    },
+    "Home": {
+      "action": "focus-first-item",
+      "note": "Erster Eintrag des Baums."
+    },
+    "End": {
+      "action": "focus-last-item",
+      "note": "Letzter sichtbarer Eintrag."
+    },
+    "Enter": {
+      "action": "select",
+      "note": "Waehlt den Eintrag (single: aria-selected) bzw. hakt ihn an (multiple: aria-checked samt Nachfahren). Steht ein Link in der Zeile (__link), folgt Enter ihm."
+    },
+    "Space": {
+      "action": "select",
+      "note": "Wie Enter, ohne dem Link zu folgen."
+    },
+    "Tab": {
+      "action": "leave-tree",
+      "note": "Genau eine Zeile (.nc-treeview__node) ist im Tab-Fluss (roving tabindex); Tab verlaesst den Baum."
+    }
+  },
+  "events": {
+    "treeview-toggle": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "expanded": "boolean"
+      },
+      "note": "Gefeuert beim Auf- und Zuklappen eines Zweigs."
+    },
+    "treeview-select": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "selected": "boolean",
+        "values": "string[]"
+      },
+      "note": "Gefeuert bei Auswahl (single) bzw. Anhaken (multiple). values: alle gewaehlten Eintraege nach der Aenderung."
+    }
+  },
   "specimens": [
     {
       "id": "variant-comparison",
