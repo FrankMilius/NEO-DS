@@ -69,6 +69,7 @@
       "Wrapper um Trigger + Content. Content wird absolut positioniert.",
       "role='tooltip' auf Content. aria-describedby auf Trigger → verlinkt mit Content-ID.",
       "Erscheint auf :hover UND :focus-within (Keyboard-Support, kein JS noetig fuer Basis).",
+      "Fester sichtbarer Zustand: Klasse .is-open am Wrapper (.nc-tooltip.is-open) zeigt den Inhalt ohne Hover/Fokus — fuer Doku, Arena und Onboarding-Hinweise. Das Escape-[hidden] von neo-behaviors hat Vorrang. Entscheidung 02.10.2026.",
       "Tooltip-Inhalt ist ergaenzend, nie essenziell — kein interaktiver Inhalt erlaubt.",
       "Disabled Trigger: Wrapper <span tabindex='0'> fuer Fokussierbarkeit.",
       "Arrow ist rein dekorativ — rotiertes CSS-Quadrat, uebernimmt bg, kein DOM-Bedarf fuer a11y.",
@@ -116,7 +117,7 @@
     "rules": [
       {
         "state": "visible",
-        "note": "Sichtbar bei :hover oder :focus-within auf dem Wrapper. CSS-gesteuert mit transition-delay (300ms Intent). Scale+Fade Animation."
+        "note": "Sichtbar bei :hover oder :focus-within auf dem Wrapper (CSS, transition-delay 300ms Intent, Scale+Fade) oder fest per Klasse .is-open am Wrapper (Mixin tooltip-visible, ohne Hover/Fokus). [hidden] am Inhalt (Escape-Dismiss) hat Vorrang. Entscheidung 02.10.2026."
       }
     ],
     "interactive": false

@@ -26,6 +26,10 @@
 //     dafuer steht das Panel im Markup OHNE [hidden].
 //     Nur fuer nicht-interaktive Inhalte (sonst Tooltip verwenden).
 //
+// ZUSTAND OFFEN:
+//   .is-open an .nc-popover zeigt das Panel fest (auch im Hover-Modus).
+//   [hidden] am Panel hat Vorrang — is-open oeffnet kein verborgenes Panel.
+//
 // AUTO-PLACEMENT:
 //   Empfehlung: Floating UI (computePosition + flip + shift + offset).
 //   CSS-Positionen als Fallback — JS setzt data-placement="top|bottom|…".
@@ -58,6 +62,7 @@
 //   .nc-popover__body                 Hauptinhalt
 //   .nc-popover__footer               Footer mit Aktionen
 //   .nc-popover__close                Schliessen-Button
+//   .nc-popover.is-open               Zustand: Panel fest sichtbar
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -147,9 +152,20 @@
 
   // Touch: kein Oeffnen per :hover (wie Tooltip) — Fokus bleibt.
   @media (pointer: coarse) {
-    &--hover-trigger:not([data-neo-behavior~='popover']):hover:not(:focus-within) > .nc-popover__panel {
+    &--hover-trigger:not([data-neo-behavior~='popover']):not(.is-open):hover:not(:focus-within) > .nc-popover__panel {
       display: none;
     }
+  }
+
+  // -- Fester offener Zustand (.is-open) --
+  // .is-open an der Wurzel zeigt das Panel unabhaengig von Hover und Fokus
+  // (Doku, Arena „Zustände", serverseitig offen gerendert). neo-behaviors
+  // setzt die Klasse beim Oeffnen und nimmt sie beim Schliessen.
+  // [hidden] behaelt Vorrang: im Klick-Modus regelt das Attribut, is-open
+  // ueberstimmt es nicht (auch die Utility [hidden] ist !important).
+  // Entscheidung 02.10.2026.
+  &.is-open > .nc-popover__panel:not([hidden]) {
+    display: block;
   }
 
   // -- Positionen --

@@ -200,9 +200,11 @@ describe('Popover (popover-recipe.json)', () => {
     p.ausloeser.click()
     expect(p.panel.hidden).toBe(false)
     expect(p.ausloeser.getAttribute('aria-expanded')).toBe('true')
+    expect(p.wurzel.classList.contains('is-open')).toBe(true) // Zustand .is-open (02.10.2026)
     expect(aktiv()).toBe(p.schliessen)
     p.schliessen.click()
     expect(p.panel.hidden).toBe(true)
+    expect(p.wurzel.classList.contains('is-open')).toBe(false)
     expect(aktiv()).toBe(p.ausloeser)
     expect(ev.map((e) => e.detail)).toEqual([{ open: true, reason: 'trigger' }, { open: false, reason: 'close-button' }])
     passtZumRecipe('popover', ev[0])
@@ -229,9 +231,11 @@ describe('Popover (popover-recipe.json)', () => {
     expect(p.panel.hidden).toBe(true)
     vi.advanceTimersByTime(1)
     expect(p.panel.hidden).toBe(false)
+    expect(p.wurzel.classList.contains('is-open')).toBe(true)
     p.wurzel.dispatchEvent(new MouseEvent('mouseleave'))
     vi.advanceTimersByTime(200)
     expect(p.panel.hidden).toBe(true)
+    expect(p.wurzel.classList.contains('is-open')).toBe(false)
     p.ausloeser.focus()
     expect(p.panel.hidden).toBe(false)
   })
@@ -239,8 +243,20 @@ describe('Popover (popover-recipe.json)', () => {
   it('Hover-Modus ohne [hidden] im Markup (CSS-Rueckfall): beim Binden schliesst JS das Panel', () => {
     const p = aufbau({ hover: true, ohneHidden: true })
     expect(p.panel.hidden).toBe(true)
+    expect(p.wurzel.classList.contains('is-open')).toBe(false)
     expect(p.ausloeser.getAttribute('aria-expanded')).toBe('false')
     expect(p.wurzel.getAttribute('data-neo-behavior')).toContain('popover')
+  })
+
+  it('.is-open beim Binden mit dem Panel abgeglichen: offen gerendert bleibt offen, verborgen verliert die Klasse', () => {
+    const offen = buehne(popoverHtml({ ohneHidden: true }).replace('class="nc-popover"', 'class="nc-popover is-open"'))
+    anbinden(offen)
+    expect(offen.querySelector('.nc-popover').classList.contains('is-open')).toBe(true)
+    expect(offen.querySelector('.nc-popover__trigger').getAttribute('aria-expanded')).toBe('true')
+    document.body.innerHTML = ''
+    const zu = buehne(popoverHtml().replace('class="nc-popover"', 'class="nc-popover is-open"'))
+    anbinden(zu)
+    expect(zu.querySelector('.nc-popover').classList.contains('is-open')).toBe(false)
   })
 
   describe('Tasten aus dem Recipe', () => {

@@ -17,6 +17,9 @@
 //     Oeffnet nach 300 ms Verweilen oder sofort bei Fokus auf dem Ausloeser,
 //     schliesst 200 ms nach Verlassen bzw. wenn der Fokus das Bauteil
 //     verlaesst; Escape schliesst. Keine Fokus-Falle.
+//   Zustand: .is-open an .nc-popover folgt dem Panel (gesetzt beim Oeffnen,
+//     entfernt beim Schliessen; beim Binden abgeglichen) — Entscheidung
+//     02.10.2026. Sichtbar macht weiterhin [hidden] (hat Vorrang im CSS).
 //
 // Ereignis `popover-toggle` { open, reason } — reason: 'trigger', 'escape',
 // 'close-button', 'outside', 'hover', 'focus'.
@@ -43,10 +46,12 @@ export const popover = {
 
     if (!ausloeser.hasAttribute('aria-haspopup')) ausloeser.setAttribute('aria-haspopup', 'dialog')
     ausloeser.setAttribute('aria-expanded', String(offen()))
+    wurzel.classList.toggle('is-open', offen())
 
     const setze = (an, grund) => {
       if (offen() === an) return
       panel.hidden = !an
+      wurzel.classList.toggle('is-open', an)
       ausloeser.setAttribute('aria-expanded', String(an))
       sende(wurzel, 'popover-toggle', { open: an, reason: grund })
       if (an && !hover) {

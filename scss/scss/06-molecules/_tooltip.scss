@@ -35,11 +35,13 @@
 //   .nc-tooltip--bottom            Position unten
 //   .nc-tooltip--left              Position links
 //   .nc-tooltip--right             Position rechts
+//   .nc-tooltip.is-open            Zustand: fest sichtbar (ohne Hover/Fokus)
 //
 // ACCESSIBILITY:
 //   role="tooltip" auf Content
 //   aria-describedby auf Trigger → verlinkt mit Content-ID
-//   Erscheint auf :hover UND :focus-within (Keyboard-Support)
+//   Erscheint auf :hover UND :focus-within (Keyboard-Support);
+//   .is-open zeigt ihn fest (Entscheidung 02.10.2026)
 //   Disabled Buttons: Wrapper <span> mit tabindex="0"
 //   Tooltip-Inhalt ist ergaenzend, nie essenziell
 //   ESC schliesst sichtbaren Tooltip (JS, WCAG 1.4.13)
@@ -212,6 +214,14 @@
     @include tooltip-visible;
   }
 
+  // -- Fester sichtbarer Zustand (.is-open) --
+  // Zeigt den Tooltip ohne Hover und Fokus (Doku, Arena „Zustände").
+  // [hidden] am Inhalt (Escape-Dismiss von neo-behaviors) behaelt Vorrang.
+  // Entscheidung 02.10.2026.
+  &.is-open > .nc-tooltip__content {
+    @include tooltip-visible;
+  }
+
   // -- Position: unten --
 
   &--bottom > .nc-tooltip__content {
@@ -261,8 +271,9 @@
       pointer-events: none;
     }
 
-    // Focus-within bleibt aktiv fuer Keyboard-Accessibility
-    &:focus-within > .nc-tooltip__content {
+    // Focus-within und .is-open bleiben aktiv (Keyboard, fester Zustand)
+    &:focus-within > .nc-tooltip__content,
+    &.is-open > .nc-tooltip__content {
       @include tooltip-visible;
     }
   }
@@ -277,7 +288,8 @@
     }
 
     &:hover > .nc-tooltip__content,
-    &:focus-within > .nc-tooltip__content {
+    &:focus-within > .nc-tooltip__content,
+    &.is-open > .nc-tooltip__content {
       opacity: 1;
       visibility: visible;
       transform: none !important;

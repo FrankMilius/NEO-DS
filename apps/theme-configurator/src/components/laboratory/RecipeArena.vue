@@ -293,18 +293,6 @@ onBeforeUnmount(() => aufraeumen?.())
 .ra-live-component .ra-anker--zentriert { align-items: center; }
 .ra-live-component .ra-anker--ende { justify-content: flex-end; }
 
-/* Tooltip: das DS kennt fuer „sichtbar" nur :hover/:focus-within (keine
-   Klasse, kein Attribut). In „Zustände" stellt die Arena den sichtbaren
-   Endzustand mit den Werten des DS dar (tooltip-visible in
-   06-molecules/_tooltip.scss, Lage aus --_tooltip-transform-visible). */
-.ra-live-component .ra-anker--offen .nc-tooltip__content {
-  opacity: 1;
-  visibility: visible;
-  transform: var(--_tooltip-transform-visible, translateX(-50%) scale(1));
-  pointer-events: auto;
-  transition-delay: 0ms;
-}
-
 /* ra-buehne: Rahmen fuer Modal, Drawer und Alert-Dialog. Die Dialoge sind
    position: fixed; contain macht den Rahmen zu ihrem Bezugsrahmen (statt des
    Fensters), der Rahmen ist damit ein kleiner Bildschirm mit Hintergrund-

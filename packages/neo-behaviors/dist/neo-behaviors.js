@@ -851,9 +851,11 @@
       const offen = () => !panel.hidden;
       if (!ausloeser.hasAttribute("aria-haspopup")) ausloeser.setAttribute("aria-haspopup", "dialog");
       ausloeser.setAttribute("aria-expanded", String(offen()));
+      wurzel.classList.toggle("is-open", offen());
       const setze = (an, grund) => {
         if (offen() === an) return;
         panel.hidden = !an;
+        wurzel.classList.toggle("is-open", an);
         ausloeser.setAttribute("aria-expanded", String(an));
         sende(wurzel, "popover-toggle", { open: an, reason: grund });
         if (an && !hover) {

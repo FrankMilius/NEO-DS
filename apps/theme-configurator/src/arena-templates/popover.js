@@ -17,8 +17,10 @@
 //              Light Dismiss, Fokus aufs erste Feld)
 //   trigger    hover: nc-popover--hover-trigger, Panel OHNE [hidden]
 //              (Recipe-domNotes: ohne JS oeffnet es per CSS)
-// Zustaende: das Recipe kennt nur default. „Zustände" zeigt das Panel offen
-//   (aria-expanded="true"), „Ausprobieren" geschlossen ([hidden]).
+// Zustaende: open (Recipe-State) — „Zustände" zeigt das Panel fest offen
+//   ueber die DS-Klasse .is-open an der Wurzel (auch im Hover-Modus) und
+//   aria-expanded="true"; „Ausprobieren" geschlossen ([hidden], Hover-Modus
+//   ohne [hidden] — das Behavior setzt is-open beim Oeffnen).
 // Specimens: default, placement-variants, content-variants, with-arrow,
 //   full-popover, alignment-variants, inline-filter (composes form-field,
 //   button), light-dismiss, overlay-hierarchy (Inhalt erklaert den Fall).
@@ -76,7 +78,7 @@ export default (zelle, m) => {
   ].filter(Boolean).join(' ')
 
   return `<div class="${anker}">
-<div class="${wurzelKlassen(m)}">
+<div class="${wurzelKlassen(m, auf ? ['is-open'] : [])}">
 <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="${auf}" aria-controls="${m.uid}-panel">${istFormular ? 'Filter' : 'Einstellungen'}</button>
 <div class="${panelKlasse}" id="${m.uid}-panel" role="dialog"${name}${verborgen}>
 ${teile.join('\n')}

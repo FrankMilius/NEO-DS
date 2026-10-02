@@ -8,11 +8,10 @@
 // Verzoegerung); neo-behaviors (tooltip.js) ergaenzt Escape (WCAG 1.4.13).
 //
 // Achsen: position per Modifier an der Wurzel (top = Standard ohne Modifier).
-// Zustaende: visible — das DS kennt dafuer nur :hover/:focus-within. In
-//   „Zustände" stellt die Arena den sichtbaren Endzustand ueber die
-//   Arena-Klasse ra-anker--offen dar (Werte des DS, siehe RecipeArena.vue);
-//   default zeigt den verborgenen Ruhezustand. „Ausprobieren": nie fest
-//   sichtbar — Maus darueber oder Tab, Escape blendet aus.
+// Zustaende: visible — „Zustände" zeigt den Tooltip fest sichtbar ueber die
+//   DS-Klasse .is-open an der Wurzel (Entscheidung 02.10.2026); default
+//   zeigt den verborgenen Ruhezustand. „Ausprobieren": nie fest sichtbar —
+//   Maus darueber oder Tab, Escape blendet aus.
 // Specimens: all-positions, default-hidden, with-arrow (__arrow),
 //   long-content, hover-intent, hoverable-content, on-disabled-trigger
 //   (deaktivierter Knopf in <span tabindex="0">, domNotes).
@@ -42,11 +41,10 @@ export default (zelle, m) => {
 
   const anker = ['ra-anker', 'ra-anker--zentriert', 'ra-anker--mitte',
     lang ? '' : 'ra-anker--flach',
-    lage === 'left' || lage === 'right' ? 'ra-anker--breit' : '',
-    sichtbar ? 'ra-anker--offen' : ''].filter(Boolean).join(' ')
+    lage === 'left' || lage === 'right' ? 'ra-anker--breit' : ''].filter(Boolean).join(' ')
 
   return `<div class="${anker}">
-<span class="${wurzelKlassen(m)}">
+<span class="${wurzelKlassen(m, sichtbar ? ['is-open'] : [])}">
 ${ausloeser}
 <span class="nc-tooltip__content" role="tooltip" id="${id}">${esc(text)}${pfeil ? '<span class="nc-tooltip__arrow" aria-hidden="true"></span>' : ''}</span>
 </span>

@@ -3,7 +3,8 @@
 //
 // Zwei Ansichten (RecipeArena):
 //   Zustände      offen und fest: Panel ohne [hidden], aria-expanded="true",
-//                 Dialoge mit [open] in einem Arena-Rahmen (ra-buehne)
+//                 Popover und Tooltip mit der DS-Klasse .is-open an der
+//                 Wurzel, Dialoge mit [open] in einem Arena-Rahmen (ra-buehne)
 //   Ausprobieren  geschlossen (m.ausprobieren): neo-behaviors oeffnet per
 //                 Klick und Tastatur, Escape schliesst, Fokus kehrt zurueck
 import { SYMBOL } from './_helfer.js'
@@ -13,8 +14,10 @@ export const offen = (m) => !m.ausprobieren
 
 /**
  * Klassen der Wurzel: Basis + Wurzel-Modifier aus dem Recipe. Modifier fuer
- * Kinder (z. B. nc-popover__panel--top) und Zustandsklassen, die das DS am
- * Bauteil nicht kennt (is-open, is-active, <wurzel>--disabled …), bleiben weg.
+ * Kinder (z. B. nc-popover__panel--top) und Zustandsklassen aus der Matrix
+ * (is-active, <wurzel>--disabled …) bleiben weg. Zustandsklassen, die das DS
+ * am Bauteil kennt (is-open bei Popover und Tooltip), gibt die Vorlage als
+ * `extra` mit.
  * @param {any} m
  * @param {string[]} [extra]
  */

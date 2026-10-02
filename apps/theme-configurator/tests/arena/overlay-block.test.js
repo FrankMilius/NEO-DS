@@ -123,7 +123,10 @@ describe('Overlay-Block aus dem Recipe', () => {
         for (const z of [...zellen(id), ...zellen(id, null, { ausprobieren: true })]) {
           const d = dom(z.html)
           expect(d.querySelector('[style]'), `${id}/${z.specimen.id}`).toBeNull()
-          expect(d.querySelector('.is-active, .is-open, .is-selected, .is-disabled'), `${id}/${z.specimen.id}`).toBeNull()
+          // .is-open kennt das DS an Popover und Tooltip (fester offener Zustand, 02.10.2026)
+          const fremd = [...d.querySelectorAll('.is-active, .is-open, .is-selected, .is-disabled')]
+            .filter((el) => !el.matches('.nc-popover.is-open, .nc-tooltip.is-open'))
+          expect(fremd, `${id}/${z.specimen.id}`).toEqual([])
           expect(d.querySelector(`.${WURZELN[id]}--disabled, [data-state]`), `${id}/${z.specimen.id}`).toBeNull()
         }
       })
@@ -157,6 +160,13 @@ describe('Overlay-Block aus dem Recipe', () => {
       })
     })
   }
+
+  it('fester offener Zustand: styles.css kennt .is-open an Popover und Tooltip, [hidden] hat Vorrang', () => {
+    const css = readFileSync(STYLES, 'utf8')
+    expect(css).toContain('.nc-popover.is-open>.nc-popover__panel:not([hidden])')
+    expect(css).toMatch(/\.nc-tooltip\.is-open>\.nc-tooltip__content\{[^}]*opacity:1[^}]*visibility:visible/)
+    expect(css).not.toContain('ra-anker--offen')
+  })
 
   it('Kennzahl: alle sechs ohne Sonderfall', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
@@ -213,12 +223,13 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     expect(alle('dropdown-menu', 'full-featured')[0].querySelectorAll('.nc-dropdown__group [role="menuitemradio"]').length).toBe(3)
   })
 
-  it('popover: Panel offen, Lage am Panel, Inhalte nach content, Formular', () => {
+  it('popover: Panel offen (.is-open), Lage am Panel, Inhalte nach content, Formular', () => {
     for (const d of alle('popover')) {
       const ausloeser = d.querySelector('.nc-popover > button.nc-popover__trigger[aria-haspopup="dialog"]')
       const panel = d.querySelector('.nc-popover > .nc-popover__panel[role="dialog"]')
       expect(ausloeser.getAttribute('aria-expanded')).toBe('true')
       expect(panel.hidden).toBe(false)
+      expect(d.querySelector('.nc-popover').classList.contains('is-open')).toBe(true)
       expect(panel.getAttribute('aria-labelledby') || panel.getAttribute('aria-label')).toBeTruthy()
       expect(d.querySelector('.nc-popover').className).not.toMatch(/__panel--/)
     }
@@ -235,14 +246,15 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     expect(filter.querySelectorAll('.nc-popover__body .nc-form-field > input.nc-input').length).toBe(2)
   })
 
-  it('tooltip: sichtbar ueber die Arena-Flaeche, verborgen im Standard, Bezug per aria-describedby', () => {
+  it('tooltip: sichtbar ueber .is-open (DS), verborgen im Standard, Bezug per aria-describedby', () => {
     for (const z of zellen('tooltip')) {
       const d = dom(z.html)
       const inhalt = d.querySelector('.nc-tooltip > .nc-tooltip__content[role="tooltip"]')
       expect(d.querySelector(`[aria-describedby="${inhalt.id}"]`)).not.toBeNull()
-      expect(!!d.querySelector('.ra-anker--offen'), `${z.specimen.id}/${z.id}`).toBe(z.specimen.id !== 'default-hidden')
+      expect(!!d.querySelector('.nc-tooltip.is-open'), `${z.specimen.id}/${z.id}`).toBe(z.specimen.id !== 'default-hidden')
+      expect(d.querySelector('.ra-anker--offen')).toBeNull() // keine Arena-Nachbildung mehr
     }
-    expect(alle('tooltip', 'all-positions').map((d) => d.querySelector('.nc-tooltip').className)).toEqual(['nc-tooltip', 'nc-tooltip nc-tooltip--bottom', 'nc-tooltip nc-tooltip--left', 'nc-tooltip nc-tooltip--right'])
+    expect(alle('tooltip', 'all-positions').map((d) => d.querySelector('.nc-tooltip').className)).toEqual(['nc-tooltip is-open', 'nc-tooltip nc-tooltip--bottom is-open', 'nc-tooltip nc-tooltip--left is-open', 'nc-tooltip nc-tooltip--right is-open'])
     for (const d of alle('tooltip', 'with-arrow')) expect(d.querySelector('.nc-tooltip__content > .nc-tooltip__arrow[aria-hidden="true"]')).not.toBeNull()
     expect(alle('tooltip', 'all-positions')[0].querySelector('.nc-tooltip__arrow')).toBeNull()
     const gesperrt = alle('tooltip', 'on-disabled-trigger')[0]
@@ -319,7 +331,7 @@ describe('Overlay-Block: Ausprobieren (geschlossen, neo-behaviors bedient)', () 
     for (const id of BLOCK) {
       for (const z of zellen(id, null, { ausprobieren: true })) {
         const d = dom(z.html)
-        expect(d.querySelector('[aria-expanded="true"], dialog[open], .ra-anker--offen, .ra-buehne'), `${id}/${z.specimen.id}`).toBeNull()
+        expect(d.querySelector('[aria-expanded="true"], dialog[open], .is-open, .ra-buehne'), `${id}/${z.specimen.id}`).toBeNull()
         for (const p of d.querySelectorAll('.nc-dropdown__menu, .nc-popover__panel')) {
           if (!p.closest('.nc-popover--hover-trigger')) expect(p.hidden, `${id}/${z.specimen.id}`).toBe(true)
         }
@@ -438,7 +450,7 @@ describe('Overlay-Block: Ausprobieren in der RecipeArena', () => {
       await new Promise((r) => setTimeout(r, 10))
     }
     // Zustände: offen, ohne Verhalten
-    expect(w.find('[aria-expanded="true"], dialog[open], .ra-anker--offen').exists()).toBe(true)
+    expect(w.find('[aria-expanded="true"], dialog[open], .is-open').exists()).toBe(true)
     expect(w.find('[data-neo-behavior]').exists()).toBe(false)
     await w.findAll('.ra-modus__knopf')[1].trigger('click')
     await flushPromises()
@@ -463,12 +475,13 @@ describe('Overlay-Block: Ausprobieren in der RecipeArena', () => {
     expect(zelle.find('.nc-popover__panel').element.hidden).toBe(true)
     await zelle.find('.nc-popover__trigger').trigger('click')
     expect(zelle.find('.nc-popover__panel').element.hidden).toBe(false)
+    expect(zelle.find('.nc-popover').classes()).toContain('is-open')
     w.unmount()
   })
 
   it('tooltip: nicht fest sichtbar, Behavior gebunden', async () => {
     const w = await ausprobieren('tooltip')
-    expect(w.find('.ra-anker--offen').exists()).toBe(false)
+    expect(w.find('.nc-tooltip.is-open').exists()).toBe(false)
     w.unmount()
   })
 

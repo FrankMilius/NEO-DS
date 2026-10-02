@@ -72,7 +72,7 @@
     "domNotes": [
       "Root: inline-flex Wrapper mit Trigger und Panel.",
       "Trigger: <button aria-haspopup='dialog' aria-expanded='true|false'>.",
-      "Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden].",
+      "Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden]; fest offen per .is-open an der Wurzel ([hidden] hat Vorrang).",
       "Unterschied zu Tooltip: Popover ist interaktiv, Focus-Trap, bleibt offen bis geschlossen.",
       "Positionen: --bottom (default), --top, --left, --right — jeweils zentriert via translate.",
       "Alignment: --bottom-start, --bottom-end fuer left/right-ausgerichtetes Panel.",
@@ -89,7 +89,8 @@
       "Trigger-Modi: 'click' (Standard): Toggle bei Klick. 'hover' (optional): Oeffnet nach 300ms Delay, schliesst bei Mausverlust mit 200ms Delay. Hover-Modus nur fuer nicht-interaktive Vorschau-Inhalte — sobald der Nutzer im Panel interagieren muss, click verwenden.",
       "Light Dismiss: Klick ausserhalb des Panels schliesst das Popover (JS). Optional: Scroll des Eltern-Containers schliesst (data-dismiss-on-scroll='true'). Pattern: document.addEventListener('click', (e) => { if (!popover.contains(e.target) && !trigger.contains(e.target)) close(); });",
       "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible.",
-      "Hover-Modus (nc-popover--hover-trigger): Panel im Markup OHNE [hidden]. Ohne JS oeffnet es per CSS bei :hover/:focus-within (wie Tooltip); neo-behaviors setzt beim Binden [hidden] und steuert dann mit 300/200 ms Verzoegerung. Entscheidung 02.10.2026."
+      "Hover-Modus (nc-popover--hover-trigger): Panel im Markup OHNE [hidden]. Ohne JS oeffnet es per CSS bei :hover/:focus-within (wie Tooltip); neo-behaviors setzt beim Binden [hidden] und steuert dann mit 300/200 ms Verzoegerung. Entscheidung 02.10.2026.",
+      "Fester offener Zustand (.is-open an .nc-popover): zeigt das Panel ohne Hover/Klick — fuer Doku, Arena und serverseitig offen gerendertes Markup. Im Klick-Modus regelt [hidden] (is-open ueberstimmt es nicht), im Hover-Modus steht das Panel ohne [hidden] und is-open oeffnet es. neo-behaviors haelt is-open mit dem Panel synchron. Entscheidung 02.10.2026."
     ]
   },
   "axes": {
@@ -208,12 +209,20 @@
   },
   "states": {
     "supported": [
-      "default"
+      "default",
+      "open"
     ],
     "precedence": [
+      "open",
       "default"
     ],
-    "rules": [],
+    "rules": [
+      {
+        "state": "open",
+        "unless": [],
+        "note": "Offen: Klasse .is-open an .nc-popover zeigt das Panel fest (auch im Hover-Modus ohne Hover), Ausloeser aria-expanded='true'. [hidden] am Panel hat Vorrang — is-open oeffnet kein verborgenes Panel. neo-behaviors setzt is-open beim Oeffnen und nimmt es beim Schliessen. Entscheidung 02.10.2026."
+      }
+    ],
     "interactive": true
   },
   "a11y": {
