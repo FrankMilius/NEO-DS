@@ -35,6 +35,40 @@
   font-size: inherit;
 }
 
+// Eintraege mit Symbol: Symbol und Beschriftung nebeneinander. Das Symbol
+// ist ein SVG aus der Icon-Bibliothek (Drupal: neo_fe_icon()), eingefaerbt
+// ueber currentColor — die Leiste hatte bisher nur eine leere Klasse
+// nc-icon--<name> ohne Styling (0 x 0 px, Fix 02.10.2026).
+.nc-shell__linkbar a,
+.nc-shell__linkbar-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-shell__linkbar-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--nc-shell-linkbar-icon-size, 16px);
+  height: var(--nc-shell-linkbar-icon-size, 16px);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Schalter in der Leiste: Die Standardwerte des Switch (Spur = background-
+// secondary, Knopf = background-base) verschwinden auf der Leistenflaeche
+// (hell 1,2:1, dunkel 1:1 — Spur gleich Leiste). In der Leiste traegt die
+// Spur im Aus-Zustand die Farbe des Sekundaertexts (>= 3:1, WCAG 1.4.11).
+// Der Knopf behaelt background-base: hell auf dunkler Spur, dunkel auf der
+// hellen An-Spur im dunklen Theme.
+.nc-shell__linkbar {
+  --nc-switch-bg: var(--fnd-color-text-tertiary);
+  --nc-switch-bg-hover: var(--fnd-color-text-secondary);
+}
+
 .nc-shell__linkbar .nc-button--xs {
   font-size: var(--nc-shell-linkbar-nc-button-xs-font-size);
   padding: var(--nc-shell-linkbar-nc-button-xs-padding);
