@@ -572,7 +572,7 @@
   --nc-checkbox-bg: var(--fnd-color-surface-elevated);
   --nc-checkbox-border: var(--fnd-color-border-strong);
   --nc-checkbox-border-hover: var(--fnd-color-interactive-hover);
-  --nc-checkbox-bg-checked: var(--fnd-color-interactive-default);
+  --nc-checkbox-bg-checked: var(--nc-button-primary-bg);
   --nc-checkbox-border-checked: var(--fnd-color-interactive-default);
   --nc-checkbox-bg-indeterminate: var(--fnd-color-interactive-default);
 
@@ -891,7 +891,7 @@
 
   // Footer
   --nc-dialog-footer-gap: var(--fnd-spacing-03);                 // 12px
-  --nc-dialog-footer-border-color: var(--fnd-color-border-secondary);
+  --nc-dialog-footer-border-color: var(--nc-dialog-header-border-color);
 
   // Close-Button
   --nc-dialog-close-size: 36px;
@@ -901,7 +901,7 @@
   --nc-dialog-close-icon-size: 18px;
 
   // Danger Intent
-  --nc-dialog-danger-icon-color: var(--fnd-color-feedback-danger);
+  --nc-dialog-danger-icon-color: var(--nc-alert-danger-icon-color);
   --nc-dialog-danger-action-bg: var(--fnd-color-feedback-danger);
   --nc-dialog-danger-action-color: var(--fnd-color-on-danger);
 
@@ -924,7 +924,7 @@
   --nc-drawer-padding:          var(--fnd-spacing-06);
   --nc-drawer-radius:           var(--fnd-radius-4xl);
   --nc-drawer-bg:               var(--nc-dialog-bg, var(--fnd-color-surface-elevated));
-  --nc-drawer-shadow:           var(--fnd-elevation-modal);          // L3, gleiche Ebene wie Modal
+  --nc-drawer-shadow:           var(--nc-dialog-shadow);          // L3, gleiche Ebene wie Modal
   --nc-drawer-overlay-bg:       var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay));
 
   // Header
@@ -1132,7 +1132,7 @@
   --nc-accordion-elevated-shadow: var(--fnd-shadow-md);
 
   // Media Slot
-  --nc-accordion-media-radius: var(--fnd-radius-sm);
+  --nc-accordion-media-radius: var(--nc-accordion-item-radius);
   --nc-accordion-media-max-height: 200px;
   --nc-accordion-media-gap: var(--fnd-spacing-04);
 
@@ -1199,22 +1199,22 @@
   --nc-badge-outline-border: var(--fnd-color-border-primary);
 
   // Success
-  --nc-badge-success-bg: var(--fnd-color-background-success);
+  --nc-badge-success-bg: var(--nc-tag-success-bg);
   --nc-badge-success-color: var(--fnd-color-text-success);
   --nc-badge-success-border: transparent;
 
   // Warning
-  --nc-badge-warning-bg: var(--fnd-color-background-warning);
+  --nc-badge-warning-bg: var(--nc-tag-warning-bg);
   --nc-badge-warning-color: var(--fnd-color-text-warning);
   --nc-badge-warning-border: transparent;
 
   // Error
-  --nc-badge-error-bg: var(--fnd-color-background-danger);
+  --nc-badge-error-bg: var(--nc-tag-error-bg);
   --nc-badge-error-color: var(--fnd-color-text-danger);
   --nc-badge-error-border: transparent;
 
   // Info
-  --nc-badge-info-bg: var(--fnd-color-background-info);
+  --nc-badge-info-bg: var(--nc-tag-info-bg);
   --nc-badge-info-color: var(--fnd-color-text-info);
   --nc-badge-info-border: transparent;
 
@@ -1427,7 +1427,7 @@
 
   // -- Badge --
   --nc-treeview-badge-font-size: var(--fs-2xs);
-  --nc-treeview-badge-radius: var(--fnd-radius-full);
+  --nc-treeview-badge-radius: var(--nc-badge-radius);
   --nc-treeview-badge-padding: 0 var(--fnd-spacing-02);
   --nc-treeview-badge-bg: var(--fnd-color-background-tertiary);
   --nc-treeview-badge-color: var(--fnd-color-text-secondary);
@@ -1474,7 +1474,7 @@
   --nc-label-font-size: var(--fs-2xs);                       // 11px
   --nc-label-font-size-xs: 10px;
   --nc-label-font-size-md: var(--fs-xs);                     // 12px
-  --nc-label-font-weight: var(--fnd-font-weight-semibold);
+  --nc-label-font-weight: var(--nc-badge-font-weight);
   --nc-label-gap: var(--fnd-spacing-01);                     // 4px (Icon-Text)
   --nc-label-container-gap: var(--fnd-spacing-02);           // 8px (Label-zu-Label)
   --nc-label-transition-duration: var(--fnd-motion-duration-200);
@@ -1555,25 +1555,25 @@
   --nc-label-accent-bg-hover: color-mix(in srgb, var(--fnd-color-interactive-default) 18%, transparent);
 
   // -- Success (Subtle) --
-  --nc-label-success-bg: var(--fnd-color-background-success);
+  --nc-label-success-bg: var(--nc-tag-success-bg);
   --nc-label-success-color: var(--fnd-color-text-success);
   --nc-label-success-border: transparent;
   @include state.state-hover(--nc-label-success-bg, var(--fnd-color-background-success));
 
   // -- Warning (Subtle) --
-  --nc-label-warning-bg: var(--fnd-color-background-warning);
+  --nc-label-warning-bg: var(--nc-tag-warning-bg);
   --nc-label-warning-color: var(--fnd-color-text-warning);
   --nc-label-warning-border: transparent;
   @include state.state-hover(--nc-label-warning-bg, var(--fnd-color-background-warning));
 
   // -- Danger (Subtle) --
-  --nc-label-danger-bg: var(--fnd-color-background-danger);
+  --nc-label-danger-bg: var(--nc-tag-error-bg);
   --nc-label-danger-color: var(--fnd-color-text-danger);
   --nc-label-danger-border: transparent;
   @include state.state-hover(--nc-label-danger-bg, var(--fnd-color-background-danger));
 
   // -- Info (Subtle) --
-  --nc-label-info-bg: var(--fnd-color-background-info);
+  --nc-label-info-bg: var(--nc-tag-info-bg);
   --nc-label-info-color: var(--fnd-color-text-info);
   --nc-label-info-border: transparent;
   @include state.state-hover(--nc-label-info-bg, var(--fnd-color-background-info));
@@ -1755,7 +1755,7 @@
   --nc-item-gap: var(--fnd-spacing-03);
   --nc-item-padding-x: var(--fnd-spacing-04);
   --nc-item-padding-y: var(--fnd-spacing-03);
-  --nc-item-radius: var(--fnd-radius-sm);
+  --nc-item-radius: var(--nc-input-radius);
   --nc-item-align: center;
   --nc-item-border-width: var(--fnd-border-width-xs);
   --nc-item-transition: var(--fnd-motion-duration-200);
@@ -1782,7 +1782,7 @@
 
   // -- Accent Border (hover/active) --
   --nc-item-accent-width: 2px;
-  --nc-item-accent-color: var(--fnd-color-interactive-default);
+  --nc-item-accent-color: var(--nc-item-selected-border);
 
   // -- Media --
   --nc-item-media-size: 40px;
@@ -1793,7 +1793,7 @@
   // -- Thumbnail (16:9) --
   --nc-item-thumbnail-ratio: 16 / 9;
   --nc-item-thumbnail-width: 120px;
-  --nc-item-thumbnail-radius: var(--fnd-radius-sm);
+  --nc-item-thumbnail-radius: var(--nc-item-media-radius);
 
   // -- Density: Compact --
   --nc-item-compact-padding-x: var(--fnd-spacing-02);
@@ -1837,7 +1837,7 @@
 
   // -- Underline Indicator --
   --nc-toggle-group-underline-width: 2px;
-  --nc-toggle-group-underline-color: var(--fnd-color-interactive-default);
+  --nc-toggle-group-underline-color: var(--nc-toggle-group-item-selected-bg);
 
   // -- Divider (subtile Trennlinie statt voller Border) --
   --nc-toggle-group-divider-width: 1px;
@@ -1938,35 +1938,35 @@
   --nc-toast-default-color: var(--fnd-color-text-primary);
   --nc-toast-default-border: var(--fnd-color-border-primary);
   --nc-toast-default-icon-color: var(--fnd-color-text-secondary);
-  --nc-toast-default-progress-bg: var(--fnd-color-text-secondary);
+  --nc-toast-default-progress-bg: var(--nc-toast-default-icon-color);
 
   // -- Success Variant --
   --nc-toast-success-bg: var(--fnd-color-background-success);
   --nc-toast-success-color: var(--fnd-color-text-primary);
   --nc-toast-success-border: var(--fnd-color-border-success);
   --nc-toast-success-icon-color: var(--fnd-color-feedback-success);
-  --nc-toast-success-progress-bg: var(--fnd-color-feedback-success);
+  --nc-toast-success-progress-bg: var(--nc-toast-success-icon-color);
 
   // -- Warning Variant --
   --nc-toast-warning-bg: var(--fnd-color-background-warning);
   --nc-toast-warning-color: var(--fnd-color-text-primary);
   --nc-toast-warning-border: var(--fnd-color-feedback-warning);
   --nc-toast-warning-icon-color: var(--fnd-color-feedback-warning);
-  --nc-toast-warning-progress-bg: var(--fnd-color-feedback-warning);
+  --nc-toast-warning-progress-bg: var(--nc-toast-warning-icon-color);
 
   // -- Error Variant --
   --nc-toast-error-bg: var(--fnd-color-background-danger);
   --nc-toast-error-color: var(--fnd-color-text-primary);
   --nc-toast-error-border: var(--fnd-color-border-danger);
   --nc-toast-error-icon-color: var(--fnd-color-feedback-danger);
-  --nc-toast-error-progress-bg: var(--fnd-color-feedback-danger);
+  --nc-toast-error-progress-bg: var(--nc-toast-error-icon-color);
 
   // -- Info Variant --
   --nc-toast-info-bg: var(--fnd-color-background-info);
   --nc-toast-info-color: var(--fnd-color-text-primary);
   --nc-toast-info-border: var(--fnd-color-feedback-info);
   --nc-toast-info-icon-color: var(--fnd-color-feedback-info);
-  --nc-toast-info-progress-bg: var(--fnd-color-feedback-info);
+  --nc-toast-info-progress-bg: var(--nc-toast-info-icon-color);
 
   // ---------------------------------------------------------------------------
   // Aspect Ratio Tokens
@@ -2217,7 +2217,7 @@
 
   // -- Row --
   --nc-table-row-border-color: var(--fnd-color-border-secondary);
-  --nc-table-row-border-width: var(--fnd-border-width-xs);
+  --nc-table-row-border-width: var(--nc-table-border-width);
 
   // -- Row Hover --
   --nc-table-row-bg-hover: var(--fnd-color-background-secondary);
@@ -2452,7 +2452,7 @@
 
   // Seitenbutton (Zahl)
   --nc-pagination-item-size:        var(--fnd-size-sm);              // 32px
-  --nc-pagination-item-radius:      var(--fnd-radius-sm);            // 4px
+  --nc-pagination-item-radius:      var(--nc-button-radius-sm);            // 4px
   --nc-pagination-item-bg:          transparent;
   --nc-pagination-item-bg-hover:    var(--fnd-color-background-hover);
   --nc-pagination-item-bg-active:   var(--fnd-color-interactive-default);
@@ -2552,7 +2552,7 @@
   // Footer
   --nc-dropdown-footer-padding:     var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
   --nc-dropdown-footer-bg:          var(--fnd-color-background-secondary);
-  --nc-dropdown-footer-border-color: var(--fnd-color-border-secondary);
+  --nc-dropdown-footer-border-color: var(--nc-dropdown-separator-color);
 }
 
 // ---------------------------------------------------------------------------
@@ -2640,7 +2640,7 @@
   // Container
   --nc-notification-padding:             var(--fnd-spacing-05);           // 20px
   --nc-notification-radius:              var(--fnd-radius-md);           // card-radius Referenz
-  --nc-notification-shadow:              var(--fnd-elevation-overlay);   // popover-shadow Referenz (L2)
+  --nc-notification-shadow:              var(--nc-popover-shadow);   // popover-shadow Referenz (L2)
   --nc-notification-bg:                  var(--fnd-color-surface-elevated);
   --nc-notification-border-width:        var(--fnd-border-width-xs);
   --nc-notification-border-color:        var(--fnd-color-border-secondary);
@@ -2743,7 +2743,7 @@
 
   // Arrow (optional, dezent — Select/Dropdown haben keinen Pfeil)
   --nc-popover-arrow-size:        8px;
-  --nc-popover-arrow-bg:          var(--fnd-color-surface-elevated);
+  --nc-popover-arrow-bg:          var(--nc-popover-bg);
   --nc-popover-arrow-border:      var(--fnd-color-border-secondary);
 
   // Header (optionaler Titel im Popover)
@@ -2755,7 +2755,7 @@
 
   // Footer
   --nc-popover-footer-padding:    var(--fnd-spacing-03) var(--fnd-spacing-04);
-  --nc-popover-footer-border:     var(--fnd-color-border-secondary);
+  --nc-popover-footer-border:     var(--nc-popover-header-border);
 
   // Close-Button (im Header)
   --nc-popover-close-size:        24px;
@@ -2919,11 +2919,11 @@
 :root {
   --nc-toolbar-height:            var(--fnd-size-lg);              // 48px
   --nc-toolbar-padding:           var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
-  --nc-toolbar-gap:               var(--fnd-spacing-02);           // 8px
+  --nc-toolbar-gap:               var(--nc-button-gap);           // 8px
   --nc-toolbar-bg:                var(--fnd-color-background-base);
   --nc-toolbar-border:            var(--fnd-color-border-secondary);
   --nc-toolbar-border-width:      var(--fnd-border-width-xs);      // 1px
-  --nc-toolbar-radius:            var(--fnd-radius-sm);            // 4px
+  --nc-toolbar-radius:            var(--nc-input-radius);            // 4px
 
   // Gruppen-Separator
   --nc-toolbar-separator-color:   var(--fnd-color-border-secondary);
@@ -2995,7 +2995,7 @@
   --nc-nav-mol-link-padding-x:     0.75rem;
   --nc-nav-mol-link-padding-y:     0.5rem;
   --nc-nav-mol-link-radius:        var(--fnd-radius-sm);
-  --nc-nav-mol-link-color:         var(--fnd-color-text-primary);
+  --nc-nav-mol-link-color:         var(--nc-nav-atom-icon-color);
   --nc-nav-mol-link-hover-bg:      var(--fnd-color-background-secondary);
   --nc-nav-mol-link-hover-color:   var(--fnd-color-interactive-default);
   --nc-nav-mol-link-active-weight: var(--fnd-font-weight-semibold);
@@ -3117,7 +3117,7 @@
 
   // Trigger (Top-Level Button/Link)
   --nc-nav-menu-trigger-color:       var(--fnd-color-text-primary);
-  --nc-nav-menu-trigger-hover-bg:    var(--fnd-color-background-secondary);
+  --nc-nav-menu-trigger-hover-bg:    var(--nc-nav-mol-link-hover-bg);
   --nc-nav-menu-trigger-active-bg:   var(--fnd-color-background-tertiary);
   --nc-nav-menu-trigger-radius:      var(--fnd-radius-sm);
   --nc-nav-menu-trigger-font-size:   var(--nc-type-label-size);
@@ -3126,9 +3126,9 @@
   --nc-nav-menu-trigger-padding-y:   0.5rem;
 
   // Viewport (Dropdown-Container)
-  --nc-nav-menu-viewport-bg:         var(--fnd-color-surface-elevated);
-  --nc-nav-menu-viewport-border:     var(--fnd-color-border-secondary);
-  --nc-nav-menu-viewport-radius:     var(--fnd-radius-sm);
+  --nc-nav-menu-viewport-bg:         var(--nc-popover-bg);
+  --nc-nav-menu-viewport-border:     var(--nc-popover-border);
+  --nc-nav-menu-viewport-radius:     var(--nc-popover-radius);
   --nc-nav-menu-viewport-shadow:     var(--fnd-elevation-floating);
   --nc-nav-menu-viewport-width:      500px;
 
@@ -3142,7 +3142,7 @@
   --nc-nav-menu-link-padding:        0.75rem;
 
   // Indicator (Unterstrich / Pfeil)
-  --nc-nav-menu-indicator-color:     var(--fnd-color-interactive-default);
+  --nc-nav-menu-indicator-color:     var(--nc-nav-mol-link-active-border);
   --nc-nav-menu-indicator-height:    2px;
 
   // Mega-Menu (Grid-Layout)
@@ -3867,7 +3867,7 @@
   --nc-search-results-border:     var(--fnd-color-border-secondary);
   --nc-search-results-border-width: var(--fnd-border-width-xs);    // 1px
   --nc-search-results-radius:     var(--fnd-radius-sm);            // 4px
-  --nc-search-results-shadow:     var(--fnd-elevation-floating);
+  --nc-search-results-shadow:     var(--nc-dropdown-shadow);
   --nc-search-results-max-height: 400px;
   --nc-search-results-padding:    var(--fnd-spacing-01);           // 4px
   --nc-search-results-z-index:    var(--fnd-z-dropdown);
@@ -3985,7 +3985,7 @@
   --nc-cs-copy-color:          var(--fnd-color-text-secondary);
   --nc-cs-copy-color-hover:    var(--fnd-color-text-primary);
   --nc-cs-copy-border:         var(--fnd-color-border-secondary);
-  --nc-cs-copy-radius:         var(--fnd-radius-sm);             // 4px
+  --nc-cs-copy-radius:         var(--nc-button-radius-sm);             // 4px
   --nc-cs-copy-icon-size:      16px;
 
   // Show More/Less (Multi-Line)

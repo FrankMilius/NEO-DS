@@ -42,7 +42,7 @@ export const MIRROR_TOKEN_MAP = {
   'nc-input-height-sm':    ['nc-input-group-height-sm'],
   'nc-input-height-md':    ['nc-input-group-height-md'],
   'nc-input-height-lg':    ['nc-input-group-height-lg'],
-  'nc-input-radius':       ['nc-input-group-radius', 'nc-toggle-group-radius', 'nc-item-radius', 'nc-toolbar-radius'],
+  'nc-input-radius':       ['nc-input-group-radius', 'nc-toggle-group-radius'],
   'nc-input-border-width': ['nc-input-group-border-width'],
   // Form Control Shared → Input aliases (cascade via CSS var(), mirror for inspector sync)
   'nc-form-control-bg':                          ['nc-input-bg'],
@@ -59,68 +59,68 @@ export const MIRROR_TOKEN_MAP = {
   // Slider: Track-Fill-Farbe → Range-Fill-Farbe (Konsistenz)
   'nc-range-track-bg-active':                   ['nc-range-range-fill-bg'],
   // Dropdown: Separator-Farbe → Footer-Border-Farbe (Konsistenz)
-  'nc-dropdown-separator-color':                 ['nc-dropdown-footer-border-color'],
+  // nc-dropdown-separator-color → nc-dropdown-footer-border-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Dialog/Modal: Header-Border → Footer-Border (Konsistenz bei Scroll-Borders)
-  'nc-dialog-header-border-color':               ['nc-dialog-footer-border-color'],
+  // nc-dialog-header-border-color → nc-dialog-footer-border-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Popover: Header-Border → Footer-Border (Konsistenz)
-  'nc-popover-header-border':                    ['nc-popover-footer-border'],
+  // nc-popover-header-border → nc-popover-footer-border: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Popover: BG → Arrow-BG (Arrow-Hintergrund muss zum Panel passen)
   // (moved to bottom with nav-menu-viewport-bg)
   // Toast: Default-Progress-BG folgt Default-Icon-Color (visueller Gleichklang)
-  'nc-toast-default-icon-color':                 ['nc-toast-default-progress-bg'],
+  // nc-toast-default-icon-color → nc-toast-default-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Toast: Severity-Progress-BG folgt Severity-Icon-Color (Konsistenz pro Variante)
-  'nc-toast-success-icon-color':                 ['nc-toast-success-progress-bg'],
-  'nc-toast-warning-icon-color':                 ['nc-toast-warning-progress-bg'],
-  'nc-toast-error-icon-color':                   ['nc-toast-error-progress-bg'],
-  'nc-toast-info-icon-color':                    ['nc-toast-info-progress-bg'],
+  // nc-toast-success-icon-color → nc-toast-success-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-toast-warning-icon-color → nc-toast-warning-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-toast-error-icon-color → nc-toast-error-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-toast-info-icon-color → nc-toast-info-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Notification: Radius folgt Card-Radius, Shadow folgt Popover-Shadow
   'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius', 'nc-accordion-media-radius', 'nc-avatar-radius-square'],
   // (moved to bottom with nav-menu-viewport-shadow)
   // Drawer: BG/Shadow/Overlay folgen Dialog-Tokens
   'nc-dialog-bg':                                ['nc-drawer-bg'],
-  'nc-dialog-shadow':                            ['nc-drawer-shadow', 'nc-search-command-shadow'],
+  'nc-dialog-shadow':                            ['nc-search-command-shadow'],
   'nc-dialog-overlay-bg':                        ['nc-drawer-overlay-bg'],
   // Alert ↔ Alert-Dialog: Danger-Farben muessen konsistent sein
-  'nc-alert-danger-icon-color':                  ['nc-dialog-danger-icon-color'],
+  // nc-alert-danger-icon-color → nc-dialog-danger-icon-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   'nc-alert-danger-bg':                          ['nc-dialog-danger-action-bg'],
   // Accordion: Media-Radius erbt von Card-Radius (Konsistenz)
   // → 'nc-card-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Accordion: Item-Radius folgt Card-Radius (Separated Cards = Cards)
-  'nc-accordion-item-radius':                    ['nc-accordion-media-radius'],
+  // nc-accordion-item-radius → nc-accordion-media-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Toggle Group: Radius folgt Input-Radius (Formular-Konsistenz)
   // → 'nc-input-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Toggle Group: Underline-Color folgt Selected-BG (visuelle Kohaerenz)
-  'nc-toggle-group-item-selected-bg':            ['nc-toggle-group-underline-color'],
+  // nc-toggle-group-item-selected-bg → nc-toggle-group-underline-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Input-Radius: Item + Toolbar folgen (Formular-Konsistenz)
   // → 'nc-input-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Item: Selected-Border und Accent-Color folgen Interactive-Default (Markenfarbe)
-  'nc-item-selected-border':                     ['nc-item-accent-color'],
+  // nc-item-selected-border → nc-item-accent-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Item: Thumbnail-Radius folgt Media-Radius (Konsistenz)
-  'nc-item-media-radius':                        ['nc-item-thumbnail-radius'],
+  // nc-item-media-radius → nc-item-thumbnail-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Search: Results-Shadow folgt Dropdown-Shadow (Overlay-Konsistenz)
-  'nc-dropdown-shadow':                          ['nc-search-results-shadow'],
+  // nc-dropdown-shadow → nc-search-results-shadow: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Search: Command-Shadow folgt Dialog-Shadow (Modal-Konsistenz)
   // → 'nc-dialog-shadow' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Toolbar: Gap folgt Button-Gap (Hierarchie-Konsistenz)
-  'nc-button-gap':                               ['nc-toolbar-gap'],
+  // nc-button-gap → nc-toolbar-gap: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Navigation-Menu: Viewport-Shadow folgt Popover-Shadow (Overlay-Konsistenz)
-  'nc-popover-shadow':                           ['nc-notification-shadow', 'nc-nav-menu-viewport-shadow'],
+  'nc-popover-shadow':                           ['nc-nav-menu-viewport-shadow'],
   // Navigation-Menu: Viewport-BG/Border/Radius folgen Popover (Overlay-Konsistenz)
-  'nc-popover-bg':                               ['nc-popover-arrow-bg', 'nc-nav-menu-viewport-bg'],
-  'nc-popover-border':                           ['nc-nav-menu-viewport-border'],
-  'nc-popover-radius':                           ['nc-nav-menu-viewport-radius'],
+  // nc-popover-bg → nc-popover-arrow-bg, nc-nav-menu-viewport-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-popover-border → nc-nav-menu-viewport-border: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-popover-radius → nc-nav-menu-viewport-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Nav Molecules → Navigation Menu: Shared Interaction Tokens
-  'nc-nav-mol-link-hover-bg':                    ['nc-nav-menu-trigger-hover-bg'],
-  'nc-nav-mol-link-active-border':               ['nc-nav-menu-indicator-color'],
+  // nc-nav-mol-link-hover-bg → nc-nav-menu-trigger-hover-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-nav-mol-link-active-border → nc-nav-menu-indicator-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Nav Atoms → Nav Molecules: Icon-Color Kaskade
-  'nc-nav-atom-icon-color':                      ['nc-nav-mol-link-color'],
+  // nc-nav-atom-icon-color → nc-nav-mol-link-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Governance: Label ↔ Tag ↔ Badge — Konsistente Semantik-Farben
-  'nc-tag-success-bg':                           ['nc-label-success-bg', 'nc-badge-success-bg'],
-  'nc-tag-warning-bg':                           ['nc-label-warning-bg', 'nc-badge-warning-bg'],
-  'nc-tag-error-bg':                             ['nc-label-danger-bg', 'nc-badge-error-bg'],
-  'nc-tag-info-bg':                              ['nc-label-info-bg', 'nc-badge-info-bg'],
+  // nc-tag-success-bg → nc-label-success-bg, nc-badge-success-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-tag-warning-bg → nc-label-warning-bg, nc-badge-warning-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-tag-error-bg → nc-label-danger-bg, nc-badge-error-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
+  // nc-tag-info-bg → nc-label-info-bg, nc-badge-info-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Badge → Label: Typografie-Konsistenz
-  'nc-badge-font-weight':                        ['nc-label-font-weight'],
+  // nc-badge-font-weight → nc-label-font-weight: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Avatar: Badge-Online folgt Success-Farbe (Konsistenz mit Badge/Label)
   'nc-badge-success-bg':                         ['nc-avatar-badge-online'],
   // Avatar: Badge-Busy folgt Danger-Farbe
@@ -134,19 +134,19 @@ export const MIRROR_TOKEN_MAP = {
   // Chip: Radius folgt Button-Radius (Systemkonsistenz)
   'nc-button-radius':                            ['nc-chip-radius'],
   // Button: Primary-BG → Checkbox Checked-BG (Markenfarbe fuer Auswahl)
-  'nc-button-primary-bg':                        ['nc-checkbox-bg-checked'],
+  // nc-button-primary-bg → nc-checkbox-bg-checked: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Button: Radius-MD → Input-Radius (Formular-Konsistenz)
   'nc-button-radius-md':                         ['nc-input-radius'],
   // TreeView: Gap folgt Item-Gap (Konsistenz Navigations-Elemente)
   'nc-item-gap':                                 ['nc-treeview-gap'],
   // TreeView: Badge-Radius folgt globalem Badge-Radius
-  'nc-badge-radius':                             ['nc-treeview-badge-radius'],
+  // nc-badge-radius → nc-treeview-badge-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Compare-Table: Shadow folgt Card-Shadow (Elevation-Konsistenz)
   'nc-card-shadow':                              ['nc-table-shadow', 'nc-dt-card-shadow', 'nc-dt-batch-shadow', 'nc-fieldset-card-shadow'],
   // Compare-Table: Border-Width folgt globalem Border-Width-XS
-  'nc-table-border-width':                       ['nc-table-row-border-width'],
+  // nc-table-border-width → nc-table-row-border-width: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // DataTable: Radius folgt Button-Radius (Formular-Konsistenz)
-  'nc-button-radius-sm':                         ['nc-dt-radius', 'nc-pagination-item-radius', 'nc-cs-copy-radius']
+  'nc-button-radius-sm':                         ['nc-dt-radius']
 }
 
 export function updateComponentToken(tokenId, value) {

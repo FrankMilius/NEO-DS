@@ -62,6 +62,37 @@ export function komponentenDeklarationen(id, sheets = globalThis.document?.style
   return ziel
 }
 
+let _alleRoot = null
+
+/** Alle :root-Deklarationen `--nc-*` (Rohtext), einmal gelesen. */
+export function alleKomponentenDeklarationen(sheets = globalThis.document?.styleSheets) {
+  if (_alleRoot && sheets === globalThis.document?.styleSheets) return _alleRoot
+  const ziel = {}
+  for (const sheet of sheets || []) {
+    let regeln
+    try { regeln = sheet.cssRules } catch { continue }
+    if (regeln) sammle(regeln, '--nc-', ziel)
+  }
+  if (Object.keys(ziel).length && sheets === globalThis.document?.styleSheets) _alleRoot = ziel
+  return ziel
+}
+
+/** Fuegt die Deklarationen aller per var(--nc-…) erreichten Tokens hinzu (transitiv). */
+export function ergaenzeKetten(vars, sheets) {
+  const alle = alleKomponentenDeklarationen(sheets)
+  const offen = Object.values(vars)
+  for (let runde = 0; offen.length && runde < 500; runde++) {
+    const wert = offen.shift()
+    for (const m of String(wert).matchAll(/var\(\s*(--nc-[\w-]+)/g)) {
+      const name = m[1]
+      if (name in vars || !(name in alle)) continue
+      vars[name] = alle[name]
+      offen.push(alle[name])
+    }
+  }
+  return vars
+}
+
 /** "  --x: y;" → { '--x': 'y' } */
 export function zeilenZuObjekt(zeilen = []) {
   const obj = {}
@@ -83,6 +114,12 @@ export function zeilenZuObjekt(zeilen = []) {
 export function vorschauVariablen({ id, modus, state, sheets }) {
   const set = state.activeThemeSet || 'neo'
   const vars = { ...komponentenDeklarationen(id, sheets) }
+  // Ketten zu Tokens anderer Komponenten (Plan v3, Komposition): z. B.
+  // --nc-search-input-radius: var(--nc-input-radius) oder --nc-badge-
+  // success-bg: var(--nc-tag-success-bg). Auch diese Ziele werden hier neu
+  // deklariert, sonst gelten sie mit dem auf :root aufgeloesten (hellen)
+  // Wert — dunkle Zellen zeigten dann helle Farben.
+  ergaenzeKetten(vars, sheets)
   const semantik = state.themes?.[set]?.[modus] || {}
   for (const [rolle, wert] of Object.entries(semantik)) {
     if (wert) vars[`--fnd-color-${rolle}`] = wert
@@ -93,5 +130,7 @@ export function vorschauVariablen({ id, modus, state, sheets }) {
   for (const [token, wert] of Object.entries(state.componentOverrides?.[set] || {})) {
     if (wert !== '' && wert != null) vars[`--${token}`] = wert
   }
+  // Store-Werte koennen selbst auf andere Komponenten-Tokens zeigen
+  ergaenzeKetten(vars, sheets)
   return vars
 }

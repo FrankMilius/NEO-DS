@@ -2154,7 +2154,7 @@ export const componentTokenGroups = [
         "id": "nc-accordion-media-radius",
         "label": "Media Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-accordion-item-radius)"
       },
       {
         "id": "nc-accordion-media-max-height",
@@ -3428,7 +3428,8 @@ export const componentTokenGroups = [
         "id": "nc-badge-success-bg",
         "label": "Success BG",
         "type": "color",
-        "ref": "background-success"
+        "ref": "background-success",
+        "default": "var(--nc-tag-success-bg)"
       },
       {
         "id": "nc-badge-success-color",
@@ -3440,7 +3441,8 @@ export const componentTokenGroups = [
         "id": "nc-badge-error-bg",
         "label": "Error BG",
         "type": "color",
-        "ref": "background-danger"
+        "ref": "background-danger",
+        "default": "var(--nc-tag-error-bg)"
       },
       {
         "id": "nc-badge-error-color",
@@ -3452,7 +3454,7 @@ export const componentTokenGroups = [
         "id": "nc-badge-info-bg",
         "label": "Info BG",
         "type": "color",
-        "default": "rgba(69, 137, 255, 0.15)"
+        "default": "var(--nc-tag-info-bg)"
       },
       {
         "id": "nc-badge-info-color",
@@ -3464,7 +3466,7 @@ export const componentTokenGroups = [
         "id": "nc-badge-warning-bg",
         "label": "Warning BG",
         "type": "color",
-        "default": "rgba(212, 164, 0, 0.15)"
+        "default": "var(--nc-tag-warning-bg)"
       },
       {
         "id": "nc-badge-warning-color",
@@ -6075,7 +6077,8 @@ export const componentTokenGroups = [
         "id": "nc-checkbox-bg-checked",
         "label": "BG Checked",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "default": "var(--nc-button-primary-bg)"
       },
       {
         "id": "nc-checkbox-border-checked",
@@ -6902,7 +6905,7 @@ export const componentTokenGroups = [
         "id": "nc-cs-copy-radius",
         "label": "Copy Radius",
         "type": "size",
-        "default": "4px"
+        "default": "var(--nc-button-radius-sm)"
       },
       {
         "id": "nc-cs-copy-icon-size",
@@ -8402,7 +8405,8 @@ export const componentTokenGroups = [
         "id": "nc-dialog-footer-border-color",
         "label": "Footer Border Color",
         "type": "color",
-        "ref": "border-secondary"
+        "ref": "border-secondary",
+        "default": "var(--nc-dialog-header-border-color)"
       },
       {
         "id": "nc-dialog-close-size",
@@ -8438,7 +8442,8 @@ export const componentTokenGroups = [
         "id": "nc-dialog-danger-icon-color",
         "label": "Danger Icon Color",
         "type": "color",
-        "ref": "feedback-danger"
+        "ref": "feedback-danger",
+        "default": "var(--nc-alert-danger-icon-color)"
       },
       {
         "id": "nc-dialog-danger-action-bg",
@@ -8708,7 +8713,7 @@ export const componentTokenGroups = [
         "id": "nc-drawer-shadow",
         "label": "Shadow",
         "type": "color",
-        "default": "var(--fnd-elevation-modal)"
+        "default": "var(--nc-dialog-shadow)"
       },
       {
         "id": "nc-drawer-overlay-bg",
@@ -12633,7 +12638,7 @@ export const componentTokenGroups = [
         "id": "nc-item-radius",
         "label": "Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-input-radius)"
       },
       {
         "id": "nc-item-align",
@@ -12747,7 +12752,8 @@ export const componentTokenGroups = [
         "id": "nc-item-accent-color",
         "label": "Accent Color",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "default": "var(--nc-item-selected-border)"
       },
       {
         "id": "nc-item-media-size",
@@ -12789,7 +12795,7 @@ export const componentTokenGroups = [
         "id": "nc-item-thumbnail-radius",
         "label": "Thumbnail Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-item-media-radius)"
       },
       {
         "id": "nc-item-compact-padding-x",
@@ -13103,7 +13109,7 @@ export const componentTokenGroups = [
         "id": "nc-label-font-weight",
         "label": "Font Weight",
         "type": "fontWeight",
-        "default": "var(--fnd-font-weight-semibold)"
+        "default": "var(--nc-badge-font-weight)"
       },
       {
         "id": "nc-label-gap",
@@ -13181,7 +13187,8 @@ export const componentTokenGroups = [
         "id": "nc-label-success-bg",
         "label": "Success BG",
         "type": "color",
-        "ref": "background-success"
+        "ref": "background-success",
+        "default": "var(--nc-tag-success-bg)"
       },
       {
         "id": "nc-label-success-color",
@@ -13199,7 +13206,8 @@ export const componentTokenGroups = [
         "id": "nc-label-warning-bg",
         "label": "Warning BG",
         "type": "color",
-        "ref": "background-warning"
+        "ref": "background-warning",
+        "default": "var(--nc-tag-warning-bg)"
       },
       {
         "id": "nc-label-warning-color",
@@ -13217,7 +13225,8 @@ export const componentTokenGroups = [
         "id": "nc-label-danger-bg",
         "label": "Danger BG",
         "type": "color",
-        "ref": "background-danger"
+        "ref": "background-danger",
+        "default": "var(--nc-tag-error-bg)"
       },
       {
         "id": "nc-label-danger-color",
@@ -13235,7 +13244,8 @@ export const componentTokenGroups = [
         "id": "nc-label-info-bg",
         "label": "Info BG",
         "type": "color",
-        "ref": "background-info"
+        "ref": "background-info",
+        "default": "var(--nc-tag-info-bg)"
       },
       {
         "id": "nc-label-info-color",
@@ -14233,7 +14243,7 @@ export const componentTokenGroups = [
         "id": "nc-notification-shadow",
         "label": "Shadow",
         "type": "color",
-        "default": "var(--fnd-elevation-overlay)"
+        "default": "var(--nc-popover-shadow)"
       },
       {
         "id": "nc-notification-bg",
@@ -14530,7 +14540,7 @@ export const componentTokenGroups = [
         "id": "nc-pagination-item-radius",
         "label": "Item Radius",
         "type": "size",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-button-radius-sm)"
       },
       {
         "id": "nc-pagination-item-bg",
@@ -14788,7 +14798,7 @@ export const componentTokenGroups = [
         "id": "nc-popover-arrow-bg",
         "label": "Arrow Background",
         "type": "color",
-        "default": "var(--fnd-color-background-base)"
+        "default": "var(--nc-popover-bg)"
       },
       {
         "id": "nc-popover-arrow-border",
@@ -14830,7 +14840,7 @@ export const componentTokenGroups = [
         "id": "nc-popover-footer-border",
         "label": "Footer Border",
         "type": "color",
-        "default": "var(--fnd-color-border-secondary)"
+        "default": "var(--nc-popover-header-border)"
       },
       {
         "id": "nc-popover-header-color",
@@ -16142,7 +16152,7 @@ export const componentTokenGroups = [
         "id": "nc-search-results-shadow",
         "label": "Results Shadow",
         "type": "shadow",
-        "default": "var(--fnd-elevation-floating)"
+        "default": "var(--nc-dropdown-shadow)"
       },
       {
         "id": "nc-search-results-max-height",
@@ -18656,7 +18666,7 @@ export const componentTokenGroups = [
         "id": "nc-table-row-border-width",
         "label": "Row Border Width",
         "type": "size",
-        "default": "var(--fnd-border-width-xs)"
+        "default": "var(--nc-table-border-width)"
       },
       {
         "id": "nc-table-row-bg-hover",
@@ -20342,7 +20352,7 @@ export const componentTokenGroups = [
         "id": "nc-toast-default-progress-bg",
         "label": "Default Progress",
         "type": "color",
-        "default": "var(--fnd-color-text-secondary)"
+        "default": "var(--nc-toast-default-icon-color)"
       },
       {
         "id": "nc-toast-success-bg",
@@ -20372,7 +20382,7 @@ export const componentTokenGroups = [
         "id": "nc-toast-success-progress-bg",
         "label": "Success Progress",
         "type": "color",
-        "default": "var(--fnd-color-feedback-success)"
+        "default": "var(--nc-toast-success-icon-color)"
       },
       {
         "id": "nc-toast-warning-bg",
@@ -20402,7 +20412,7 @@ export const componentTokenGroups = [
         "id": "nc-toast-warning-progress-bg",
         "label": "Warning Progress",
         "type": "color",
-        "default": "var(--fnd-color-feedback-warning)"
+        "default": "var(--nc-toast-warning-icon-color)"
       },
       {
         "id": "nc-toast-error-bg",
@@ -20432,7 +20442,7 @@ export const componentTokenGroups = [
         "id": "nc-toast-error-progress-bg",
         "label": "Error Progress",
         "type": "color",
-        "default": "var(--fnd-color-feedback-danger)"
+        "default": "var(--nc-toast-error-icon-color)"
       },
       {
         "id": "nc-toast-info-bg",
@@ -20462,7 +20472,7 @@ export const componentTokenGroups = [
         "id": "nc-toast-info-progress-bg",
         "label": "Info Progress",
         "type": "color",
-        "default": "var(--fnd-color-feedback-info)"
+        "default": "var(--nc-toast-info-icon-color)"
       },
       {
         "id": "nc-toast-close-size",
@@ -20686,7 +20696,8 @@ export const componentTokenGroups = [
         "id": "nc-toggle-group-underline-color",
         "label": "Underline Color",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "default": "var(--nc-toggle-group-item-selected-bg)"
       },
       {
         "id": "nc-toggle-group-divider-width",
@@ -20805,7 +20816,7 @@ export const componentTokenGroups = [
         "id": "nc-toolbar-gap",
         "label": "Gap",
         "type": "size",
-        "default": "var(--fnd-spacing-02)"
+        "default": "var(--nc-button-gap)"
       },
       {
         "id": "nc-toolbar-bg",
@@ -20829,7 +20840,7 @@ export const componentTokenGroups = [
         "id": "nc-toolbar-radius",
         "label": "Border Radius",
         "type": "size",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-input-radius)"
       },
       {
         "id": "nc-toolbar-separator-color",
@@ -21395,7 +21406,7 @@ export const componentTokenGroups = [
         "id": "nc-treeview-badge-radius",
         "label": "Badge Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-full)"
+        "default": "var(--nc-badge-radius)"
       },
       {
         "id": "nc-treeview-badge-padding",
@@ -21642,7 +21653,8 @@ export const componentTokenGroups = [
         "id": "nc-dropdown-footer-border-color",
         "label": "Footer Border Color",
         "type": "color",
-        "ref": "border-secondary"
+        "ref": "border-secondary",
+        "default": "var(--nc-dropdown-separator-color)"
       }
     ]
   },
@@ -22128,7 +22140,8 @@ export const componentTokenGroups = [
         "id": "nc-nav-mol-link-color",
         "label": "Mol Link Color",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "default": "var(--nc-nav-atom-icon-color)"
       },
       {
         "id": "nc-nav-mol-link-hover-bg",
@@ -22530,7 +22543,8 @@ export const componentTokenGroups = [
         "id": "nc-nav-menu-trigger-hover-bg",
         "label": "Menu Trigger Hover BG",
         "type": "color",
-        "ref": "background-secondary"
+        "ref": "background-secondary",
+        "default": "var(--nc-nav-mol-link-hover-bg)"
       },
       {
         "id": "nc-nav-menu-trigger-active-bg",
@@ -22572,19 +22586,20 @@ export const componentTokenGroups = [
         "id": "nc-nav-menu-viewport-bg",
         "label": "Menu Viewport BG",
         "type": "color",
-        "default": "var(--fnd-color-surface-elevated)"
+        "default": "var(--nc-popover-bg)"
       },
       {
         "id": "nc-nav-menu-viewport-border",
         "label": "Menu Viewport Border",
         "type": "color",
-        "ref": "border-secondary"
+        "ref": "border-secondary",
+        "default": "var(--nc-popover-border)"
       },
       {
         "id": "nc-nav-menu-viewport-radius",
         "label": "Menu Viewport Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-popover-radius)"
       },
       {
         "id": "nc-nav-menu-viewport-shadow",
@@ -22632,7 +22647,8 @@ export const componentTokenGroups = [
         "id": "nc-nav-menu-indicator-color",
         "label": "Menu Indicator Color",
         "type": "color",
-        "ref": "interactive-default"
+        "ref": "interactive-default",
+        "default": "var(--nc-nav-mol-link-active-border)"
       },
       {
         "id": "nc-nav-menu-indicator-height",

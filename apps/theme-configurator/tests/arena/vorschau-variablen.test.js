@@ -72,3 +72,23 @@ describe('RecipeArena mit Store-Aenderungen', () => {
     store.state.themes.neo.light['background-secondary'] = alt
   })
 })
+
+describe('Ketten zu anderen Komponenten (Plan v3)', () => {
+  const kettenSheets = [{ cssRules: [
+    { selectorText: ':root', style: fakeStyle({
+      '--nc-badge-success-bg': 'var(--nc-tag-success-bg)',
+      '--nc-tag-success-bg': 'var(--nc-tag-basis)',
+      '--nc-tag-basis': 'var(--fnd-color-background-success)',
+      '--nc-fremd-x': 'green'
+    }) }
+  ] }]
+
+  it('deklariert erreichte Tokens anderer Komponenten transitiv mit (dunkle Zellen)', () => {
+    const store = useThemeStore()
+    const v = vorschauVariablen({ id: 'badge', modus: 'dark', state: store.state, sheets: kettenSheets })
+    expect(v['--nc-badge-success-bg']).toBe('var(--nc-tag-success-bg)')
+    expect(v['--nc-tag-success-bg']).toBe('var(--nc-tag-basis)')
+    expect(v['--nc-tag-basis']).toBe('var(--fnd-color-background-success)')
+    expect(v['--nc-fremd-x']).toBeUndefined()
+  })
+})
