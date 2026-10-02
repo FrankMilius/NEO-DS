@@ -29,7 +29,7 @@ export const Default = {
 <div class="nc-toolbar__group">
 <span class="nc-toolbar__label">3 ausgewählt</span>
 </div>
-<div class="nc-toolbar__separator" role="separator" aria-orientation="vertical">
+<div class="nc-toolbar__separator" aria-hidden="true">
 </div>
 <div class="nc-toolbar__group">
 <button class="nc-button nc-button--sm nc-button--secondary">Exportieren</button>
