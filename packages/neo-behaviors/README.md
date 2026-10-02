@@ -69,9 +69,10 @@ Drupal-Entwicklung festlegen, welche Bauteile das Paket übernimmt (`nur`).
 Das Soll steht im Recipe (`keyboard`, `events`, State-Regeln). Die Tests in
 `apps/theme-configurator/tests/behaviors/` binden an genau das Markup, das die
 Arena aus dem Recipe baut, prüfen jede Taste aus `keyboard` und jedes Ereignis
-gegen `events`. Dropdown-Menü, Popover, Tooltip, Modal und Drawer haben noch
-handgeschriebene Arenen (Sonderfälle) — ihre Tests nutzen DS-Markup nach SCSS
-und Recipe; „Ausprobieren" in der Arena folgt mit Phase 3.
+gegen `events`. Die Overlays (Dropdown-Menü, Popover, Tooltip, Modal, Drawer,
+Alert-Dialog) kommen seit Phase 3 ebenfalls aus Recipe-Vorlagen; ihre Tests
+nutzen zusätzlich DS-Markup nach SCSS und Recipe, „Ausprobieren" gibt es für
+alle sechs.
 
 Bewusst ohne JS: das schwebende Label des Inputs (`:placeholder-shown`,
 `:focus-within`), die Hover-Vorschau des Ratings und das Ein-/Ausblenden des

@@ -116,3 +116,16 @@ Dinge fehlten aber:
   Listenabstand aus `li`-Elementstilen in Treeview, Breadcrumb und Pagination;
   Marke und Links der transparenten Kopfzeile bleiben dunkel) sind gemeldet,
   nicht stillschweigend behoben.
+- Overlays, drei Entscheidungen (02.10.2026): (1) Fester offener Zustand per
+  Klasse `.is-open` an `.nc-popover` (Panel sichtbar, auch im Hover-Modus;
+  `[hidden]` hat Vorrang) und `.nc-tooltip` (Mixin `tooltip-visible`); das
+  Popover-Behavior hält `is-open` mit dem Panel synchron, die Arena zeigt
+  „Zustände" darüber statt mit eigener Nachbildung (`ra-anker--offen`
+  entfällt). (2) Modifier `nc-modal--sheet`: Bottom-Sheet auf jeder
+  Fensterbreite; die Regeln liegen im Mixin `modal-bottom-sheet`, das auch
+  die automatische Umschaltung unter sm nutzt; Recipe-Achse `layout`
+  (dialog | sheet). (3) Alert-Dialog-Verhalten nach WAI-ARIA alertdialog:
+  Behavior `alert-dialog` (Fokus auf Abbrechen, Fokus-Falle, Escape =
+  Abbrechen, Hintergrund schließt nicht, `data-action` schließt mit
+  reason), Recipe mit `keyboard`/`events`, „Ausprobieren" jetzt für alle
+  sechs Overlays.
