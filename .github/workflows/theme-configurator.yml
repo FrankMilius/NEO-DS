@@ -117,7 +117,7 @@ jobs:
       - name: Bundle-Budget
         run: node scripts/pruefe-bundle-budget.cjs
       - name: Bundle als Artefakt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: theme-configurator-${{ github.sha }}
           path: |
@@ -154,7 +154,7 @@ jobs:
         run: npm run e2e
       - name: Report bei Fehlern
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-report-${{ github.sha }}
           path: |
@@ -193,14 +193,14 @@ jobs:
         run: npm run e2e:visuell -- ${{ inputs.screenshots_aktualisieren && '--update-snapshots' || '' }}
       - name: Baselines als Artefakt
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-screenshots-${{ github.sha }}
           path: apps/theme-configurator/e2e/__screenshots__/
           retention-days: 14
       - name: Report bei Abweichungen
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-visuell-report-${{ github.sha }}
           path: |
