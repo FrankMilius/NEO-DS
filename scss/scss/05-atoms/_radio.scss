@@ -72,6 +72,10 @@
   > .nc-radio__control {
     @include form-check-size($size, 'radio');
   }
+
+  > .nc-radio__label {
+    @include form-check-label-align($size, 'radio');
+  }
 }
 
 /// Label-Text neben dem Radio.
@@ -146,6 +150,7 @@
 
   &__label {
     @include radio-label;
+    @include form-check-label-align('md', 'radio');
   }
 
   // -- Groessen-Modifier --

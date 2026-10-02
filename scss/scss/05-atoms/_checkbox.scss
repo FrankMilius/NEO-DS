@@ -63,6 +63,10 @@
   > .nc-checkbox__control {
     @include form-check-size($size, 'checkbox');
   }
+
+  > .nc-checkbox__label {
+    @include form-check-label-align($size, 'checkbox');
+  }
 }
 
 /// Label-Text neben der Checkbox.
@@ -143,6 +147,7 @@
 
   &__label {
     @include checkbox-label;
+    @include form-check-label-align('md', 'checkbox');
   }
 
   // -- Groessen-Modifier --

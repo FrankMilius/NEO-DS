@@ -260,6 +260,15 @@
   // Reduced Motion: global abgedeckt durch _reset.scss
 }
 
+/// Gegenstueck zu form-check-size fuer das Label: Ist das Control hoeher als
+/// eine Textzeile (z. B. lg), rueckt das Label nach unten, damit die erste
+/// Zeile mittig zum Control steht. Anwenden auf __label.
+/// @param {String} $size - 'sm' | 'md' | 'lg'
+/// @param {String} $component - 'checkbox' | 'radio'
+@mixin form-check-label-align($size: 'md', $component: 'checkbox') {
+  margin-block-start: max(0px, calc((var(--nc-#{$component}-size-#{$size}) - var(--lh-normal) * 1em) / 2));
+}
+
 /// Groessen-System fuer Checkbox/Radio Control.
 /// Setzt auch den Abstand nach oben, der das Control mittig zur ersten
 /// Zeile des Labels stellt (Entscheidung 02.10.2026, ersetzt nc-radio--top).
