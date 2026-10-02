@@ -13,6 +13,10 @@
 // Abgeloest (Plan v3, Phase 1): select, search — echtes DS-Markup, Komposition
 // mit dem Input (natives Select, Entscheidung 01.10.2026).
 //
+// Abgeloest (Plan v3, Phase 3, Block Formular): input, textarea, form-field, input-group
+// — native Felder echt und bedienbar, Zustaende ueber
+// DS-Klassen und -Attribute statt Inline-Stilen.
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -32,13 +36,14 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 const SONDERFAELLE = {
   card: () => import('../components/laboratory/CardArena.vue'),
   button: () => import('../components/laboratory/ButtonArena.vue'),
-  switch: () => import('../components/laboratory/SwitchArena.vue'),
   checkbox: () => import('../components/laboratory/CheckboxArena.vue'),
   radio: () => import('../components/laboratory/RadioArena.vue'),
+  switch: () => import('../components/laboratory/SwitchArena.vue'),
   range: () => import('../components/laboratory/RangeArena.vue'),
   rating: () => import('../components/laboratory/RatingArena.vue'),
-  input: () => import('../components/laboratory/InputArena.vue'),
-  textarea: () => import('../components/laboratory/TextareaArena.vue'),
+  'segmented-control': () => import('../components/laboratory/SegmentedControlArena.vue'),
+  'toggle-group': () => import('../components/laboratory/ToggleGroupArena.vue'),
+  fieldset: () => import('../components/laboratory/FieldsetArena.vue'),
   alert: () => import('../components/laboratory/AlertArena.vue'),
   toast: () => import('../components/laboratory/ToastArena.vue'),
   banner: () => import('../components/laboratory/BannerArena.vue'),
@@ -46,11 +51,7 @@ const SONDERFAELLE = {
   accordion: () => import('../components/laboratory/AccordionArena.vue'),
   breadcrumb: () => import('../components/laboratory/BreadcrumbArena.vue'),
   pagination: () => import('../components/laboratory/PaginationArena.vue'),
-  'segmented-control': () => import('../components/laboratory/SegmentedControlArena.vue'),
-  'toggle-group': () => import('../components/laboratory/ToggleGroupArena.vue'),
   'dropdown-menu': () => import('../components/laboratory/DropdownMenuArena.vue'),
-  'form-field': () => import('../components/laboratory/FormFieldArena.vue'),
-  fieldset: () => import('../components/laboratory/FieldsetArena.vue'),
   metric: () => import('../components/laboratory/MetricArena.vue'),
   toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
@@ -63,7 +64,6 @@ const SONDERFAELLE = {
   'navigation-menu': () => import('../components/laboratory/NavigationMenuArena.vue'),
   navigation: () => import('../components/laboratory/NavigationArena.vue'),
   treeview: () => import('../components/laboratory/TreeviewArena.vue'),
-  'input-group': () => import('../components/laboratory/InputGroupArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
   item: () => import('../components/laboratory/ItemArena.vue'),
   table: () => import('../components/laboratory/TableArena.vue'),

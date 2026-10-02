@@ -42,3 +42,19 @@ export function zellenIndex (m, achse) {
   const werte = eintrag === '*' ? Object.keys(m.recipe.axes?.[achse]?.values || {}) : (eintrag || [])
   return Math.max(0, werte.indexOf(m.wert(achse)))
 }
+
+/**
+ * Klassen des Modells ohne die genannten. Das Modell haengt fuer Zustaende
+ * pauschal is-disabled/is-active/is-selected und <root>--disabled an; viele
+ * Formular-Bauteile kennen dafuer nur das native Attribut (disabled,
+ * aria-checked …). Was das DS nicht kennt, bleibt weg.
+ */
+export function klassenOhne (m, ...weg) {
+  return m.klassen.filter((k) => !weg.includes(k)).join(' ')
+}
+
+/** Zustandsklassen, die die Formular-Bauteile nicht als Klasse kennen. */
+export const FREMDE_ZUSTANDSKLASSEN = ['is-disabled', 'is-active', 'is-selected']
+
+/** Attribute des Modells, die die Vorlage nativ setzt (disabled, readonly, checked). */
+export const NATIVE_ARIA = ['aria-disabled', 'aria-readonly', 'aria-selected', 'aria-invalid']

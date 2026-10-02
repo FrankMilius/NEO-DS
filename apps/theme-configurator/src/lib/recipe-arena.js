@@ -640,6 +640,26 @@ export function zellenFlaeche (zelle, specimen) {
   return null
 }
 
+// ---------------------------------------------------------------------------
+// Split-Modus: dieselbe Zelle zweimal im Dokument
+// ---------------------------------------------------------------------------
+// Hell und dunkel stehen im Split-Modus nebeneinander — dasselbe Markup also
+// zweimal. Doppelte ids brechen for/aria-*-Bezuege, und Radios mit gleichem
+// name bilden EINE Gruppe: das zweite `checked` hebt das erste auf. Die
+// zweite Vorschau bekommt deshalb eigene ids und names.
+const BEZUGS_ATTRIBUTE = /(\s(?:id|for|name|aria-labelledby|aria-describedby|aria-controls|aria-owns|aria-activedescendant|list|form)=")([^"]*)"/g
+
+/**
+ * @param {string} html
+ * @param {string} suffix  z. B. '-t2'
+ * @returns {string}
+ */
+export function fuerWeiteresThema (html, suffix) {
+  return html.replace(BEZUGS_ATTRIBUTE, (_, anfang, wert) => (
+    `${anfang}${wert.split(/\s+/).filter(Boolean).map((t) => t + suffix).join(' ')}"`
+  ))
+}
+
 /** Klassen fuer den Zellen-Wrapper (RecipeArena). */
 export function flaecheKlassen (flaeche) {
   if (flaeche === 'dunkel') return 'neo-dark-theme neo-surface ra-flaeche'

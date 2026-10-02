@@ -11,7 +11,7 @@
 | Recipe | `data/input-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_input.scss` | present |
 | Storybook | `stories/atoms/input.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/InputArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/input-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/input-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_input.scss)
 - [Storybook Story](../stories/atoms/input.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/InputArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/input-docs.html)

@@ -11,7 +11,7 @@
 | Recipe | `data/form-field-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_form-field.scss` | present |
 | Storybook | `stories/molecules/form-field.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/FormFieldArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/form-field-docs.html` | present |
 | Drupal | — | missing |
 
@@ -33,5 +33,5 @@
 - [Recipe JSON](../data/form-field-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_form-field.scss)
 - [Storybook Story](../stories/molecules/form-field.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/FormFieldArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/form-field-docs.html)

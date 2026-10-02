@@ -32,7 +32,7 @@
              (wie in den handgeschriebenen Arenen). -->
         <div class="ra-preview-gruppe" :class="{ 'ra-preview-gruppe--split': vorschauThemen.length > 1 }">
           <div
-            v-for="thema in vorschauThemen"
+            v-for="(thema, ti) in vorschauThemen"
             :key="thema"
             class="ra-preview"
             :class="[thema, `ra-preview--${sp.anordnung}`]"
@@ -50,7 +50,7 @@
                   :data-token-groups="z.tokenGroups.join(',')"
                   :data-quelle="z.quelle"
                 >
-                  <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :style="variablenFuer(thema, z.flaeche)" :data-flaeche="z.flaeche || null" v-html="z.html"></div>
+                  <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :style="variablenFuer(thema, z.flaeche)" :data-flaeche="z.flaeche || null" v-html="ti ? fuerWeiteresThema(z.html, `-t${ti + 1}`) : z.html"></div>
                   <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
                   <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
                 </figure>
@@ -85,13 +85,13 @@
 // Zelle gerendert — mit Vorlage aus src/arena-templates/<id>.js, sonst per
 // Slot-Heuristik. Siehe src/lib/recipe-arena.js.
 // ==========================================================================
-import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
-import { normalisiereRecipe, specimenAnsicht, flaecheKlassen } from '../../lib/recipe-arena.js'
-import { vorlageFuer } from '../../arena-templates/index.js'
+import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
+import { vorlageFuer, einrichtungFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 
 const props = defineProps({
@@ -149,12 +149,23 @@ const sichtbareAnsichten = computed(() => {
 
 const wurzel = ref(null)
 let aufraeumen = null
+
+// Nach dem Rendern: was die Vorlage als DOM-Eigenschaft setzen muss (z. B.
+// checkbox.indeterminate) — siehe einrichten() in src/arena-templates.
+function richteEin () {
+  const einrichten = einrichtungFuer(props.componentId)
+  if (!einrichten || !wurzel.value) return
+  for (const zelle of wurzel.value.querySelectorAll('.ra-live-component')) einrichten(zelle)
+}
+
 function binde () {
+  richteEin()
   aufraeumen?.()
   aufraeumen = null
   if (modus.value === 'ausprobieren' && wurzel.value) aufraeumen = anbinden(wurzel.value, [props.componentId])
 }
 watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
+onMounted(() => nextTick(binde))
 onBeforeUnmount(() => aufraeumen?.())
 </script>
 
@@ -241,6 +252,13 @@ onBeforeUnmount(() => aufraeumen?.())
 }
 
 .ra-live-component { min-width: 0; }
+
+/* Layout-Huellen fuer Vorlagen, die mehrere Exemplare in eine Zelle stellen
+   (z. B. deaktiviert aus und an). Nur Anordnung, keine Gestaltung. */
+.ra-live-component .ra-reihe { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.ra-live-component .ra-stapel { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.ra-live-component .ra-feld { width: 280px; max-width: 100%; }
+.ra-live-component .ra-feld--breit { width: 520px; }
 
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,

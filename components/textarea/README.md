@@ -11,7 +11,7 @@
 | Recipe | `data/textarea-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_textarea.scss` | present |
 | Storybook | `stories/atoms/textarea.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/TextareaArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/textarea-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/textarea-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_textarea.scss)
 - [Storybook Story](../stories/atoms/textarea.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/TextareaArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/textarea-docs.html)

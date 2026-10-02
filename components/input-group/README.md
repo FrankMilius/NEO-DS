@@ -11,7 +11,7 @@
 | Recipe | `data/input-group-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_input-group.scss` | present |
 | Storybook | `stories/molecules/input-group.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/InputGroupArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/input-group-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,5 +29,5 @@
 - [Recipe JSON](../data/input-group-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_input-group.scss)
 - [Storybook Story](../stories/molecules/input-group.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/InputGroupArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/input-group-docs.html)
