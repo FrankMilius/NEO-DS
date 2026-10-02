@@ -10,8 +10,8 @@
 // Achsen: orientation/mode/display/validation per Modifier aus dem Recipe;
 // display steuert Tooltip (with-tooltip, full), Ausgabe (with-output) und
 // Min/Max-Beschriftung (with-labels, full). mode=range: zwei ueberlagerte
-// Regler (zweimal __input; die Klasse __input--max nennt das SCSS, gestaltet
-// sie aber nicht) ueber __track/__fill.
+// Regler (zweimal __input, der obere mit __input--max, den das SCSS nach
+// oben legt) ueber __track/__fill.
 // Zustaende: disabled nativ + nc-range--disabled; hover/focus/active nur
 // echt (der Tooltip erscheint bei Hover, Fokus und Ziehen).
 // with-form-field stellt den Regler mit Label in ein Formularfeld.
@@ -38,7 +38,7 @@ export default (zelle, m) => {
     stil = '--nc-range-progress-min: 20; --nc-range-progress-max: 70; --nc-range-progress: 70'
     innen = `<div class="nc-range__track"><div class="nc-range__fill"></div></div>
 <input class="nc-range__input" type="range" min="0" max="100" value="20" aria-label="Preis von"${aus}>
-<input class="nc-range__input" type="range" min="0" max="100" value="70" aria-label="Preis bis"${aus}>
+<input class="nc-range__input nc-range__input--max" type="range" min="0" max="100" value="70" aria-label="Preis bis"${aus}>
 ${tooltip ? '<span class="nc-range__tooltip" aria-hidden="true">20 – 70 €</span>' : ''}`
   } else {
     stil = `--nc-range-progress: ${WERT}`

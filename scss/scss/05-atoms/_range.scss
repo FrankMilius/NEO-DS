@@ -328,6 +328,11 @@
         pointer-events: auto;
       }
 
+      // Oberer Regler liegt oben — unabhaengig von der Reihenfolge im Markup
+      &--max {
+        z-index: 1;
+      }
+
       // Firefox-Fortschritt deaktivieren im Range-Modus
       &::-moz-range-progress {
         background-color: transparent;
@@ -395,14 +400,40 @@
   // -- Vertikale Variante --
 
   &--vertical {
-    writing-mode: vertical-lr;
-    direction: rtl; // Bottom-to-top Wert-Richtung
-    height: 200px;
+    // Nur der Regler steht senkrecht — der Block bleibt horizontal, damit
+    // Ausgabe und Beschriftungen lesbar bleiben.
+    display: inline-flex;
+    flex-direction: row;
+    align-items: stretch;
     width: auto;
+    height: 200px;
 
     .nc-range__input {
       writing-mode: vertical-lr;
-      direction: rtl;
+      direction: rtl; // Wert waechst von unten nach oben
+      width: var(--mod-range-thumb-touch-size, var(--nc-range-thumb-touch-size));
+      height: 100%;
+
+      &::-webkit-slider-runnable-track {
+        width: var(--mod-range-track-height, var(--nc-range-track-height));
+        height: 100%;
+      }
+
+      &::-webkit-slider-thumb {
+        margin-top: 0;
+        margin-inline-start: 0;
+        margin-left: calc((var(--mod-range-track-height, var(--nc-range-track-height)) - var(--mod-range-thumb-size, var(--nc-range-thumb-size))) / 2);
+      }
+
+      &::-moz-range-track {
+        width: var(--mod-range-track-height, var(--nc-range-track-height));
+        height: 100%;
+      }
+
+      &::-moz-range-progress {
+        width: var(--mod-range-track-height, var(--nc-range-track-height));
+        height: auto;
+      }
     }
 
     // Tooltip bei Vertikal: rechts neben dem Track
