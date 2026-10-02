@@ -31,6 +31,7 @@ import { tooltip } from './tooltip.js'
 import { modal } from './modal.js'
 import { drawer } from './drawer.js'
 import { alertDialog } from './alert-dialog.js'
+import { breadcrumb } from './breadcrumb.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -50,7 +51,8 @@ export const BEHAVIORS = Object.freeze({
   tooltip,
   modal,
   drawer,
-  'alert-dialog': alertDialog
+  'alert-dialog': alertDialog,
+  breadcrumb
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
@@ -72,6 +74,9 @@ export function abbinden (bereich, nur) {
   loeseAlle(bereich, waehle(nur))
 }
 
+// Immer in der Reihenfolge von BEHAVIORS: aeussere Bauteile (z. B. die
+// Toolbar um eine Toggle-Group) binden nach den inneren und setzen ihren
+// roving tabindex zuletzt.
 function waehle (nur) {
-  return (nur || Object.keys(BEHAVIORS)).map((id) => BEHAVIORS[id]).filter(Boolean)
+  return Object.keys(BEHAVIORS).filter((id) => !nur || nur.includes(id)).map((id) => BEHAVIORS[id])
 }

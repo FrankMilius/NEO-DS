@@ -1135,6 +1135,105 @@
     }
   });
 
+  // packages/neo-behaviors/breadcrumb.js
+  var EINTRAG2 = ".nc-breadcrumb__dropdown-item";
+  var breadcrumb = {
+    id: "breadcrumb",
+    selektor: ".nc-breadcrumb",
+    binde(wurzel, signal) {
+      const knopf = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-breadcrumb__ellipsis")
+      );
+      const menue = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-breadcrumb__dropdown")
+      );
+      if (!knopf || !menue) return;
+      const dok = wurzel.ownerDocument;
+      const huelle = (
+        /** @type {HTMLElement} */
+        knopf.closest(".nc-breadcrumb__ellipsis-wrap") || knopf.parentElement || wurzel
+      );
+      const eintraege = () => (
+        /** @type {HTMLElement[]} */
+        [...menue.querySelectorAll(EINTRAG2)]
+      );
+      const offen = () => menue.classList.contains("is-open");
+      for (const e of eintraege()) e.tabIndex = -1;
+      if (!knopf.hasAttribute("aria-haspopup")) knopf.setAttribute("aria-haspopup", "true");
+      knopf.setAttribute("aria-expanded", String(offen()));
+      const setze = (an, fokus = null) => {
+        var _a;
+        if (offen() !== an) {
+          menue.classList.toggle("is-open", an);
+          knopf.setAttribute("aria-expanded", String(an));
+          sende(wurzel, "breadcrumb-toggle", { open: an });
+        }
+        if (an && fokus) (_a = ersterBedienbar(eintraege(), fokus === "letzter")) == null ? void 0 : _a.focus();
+      };
+      const schliesse = (fokusZurueck) => {
+        if (!offen()) return;
+        setze(false);
+        if (fokusZurueck) knopf.focus();
+      };
+      knopf.addEventListener("click", () => {
+        if (gesperrt(knopf)) return;
+        if (offen()) schliesse(false);
+        else setze(true, "erster");
+      }, { signal });
+      knopf.addEventListener("keydown", (e) => {
+        if (gesperrt(knopf)) return;
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setze(true, "erster");
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setze(true, "letzter");
+        } else if (e.key === "Escape") schliesse(true);
+      }, { signal });
+      menue.addEventListener("keydown", (e) => {
+        const eintrag = (
+          /** @type {HTMLElement} */
+          e.target.closest(EINTRAG2)
+        );
+        if (!eintrag) return;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          schliesse(true);
+          return;
+        }
+        if (e.key === "Tab") {
+          schliesse(false);
+          return;
+        }
+        const ziel = zielFuerTaste(e.key, eintraege(), eintrag, "vertikal");
+        if (!ziel) return;
+        e.preventDefault();
+        ziel.focus();
+      }, { signal });
+      menue.addEventListener("click", (e) => {
+        if (
+          /** @type {HTMLElement} */
+          e.target.closest(EINTRAG2)
+        ) schliesse(false);
+      }, { signal });
+      dok.addEventListener("click", (e) => {
+        if (offen() && !huelle.contains(
+          /** @type {Node} */
+          e.target
+        )) schliesse(false);
+      }, { signal, capture: true });
+      huelle.addEventListener("focusout", (e) => {
+        const nach = (
+          /** @type {Node|null} */
+          e.relatedTarget
+        );
+        if (nach && !huelle.contains(nach)) schliesse(false);
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -1151,7 +1250,8 @@
     tooltip,
     modal,
     drawer,
-    "alert-dialog": alertDialog
+    "alert-dialog": alertDialog,
+    breadcrumb
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {
@@ -1161,7 +1261,7 @@
     loeseAlle(bereich, waehle(nur));
   }
   function waehle(nur) {
-    return (nur || Object.keys(BEHAVIORS)).map((id) => BEHAVIORS[id]).filter(Boolean);
+    return Object.keys(BEHAVIORS).filter((id) => !nur || nur.includes(id)).map((id) => BEHAVIORS[id]);
   }
 
   // packages/neo-behaviors/package.json

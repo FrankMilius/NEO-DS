@@ -9,8 +9,11 @@
  *     DS-Instanzwert --_level des Treeviews), keine fremden Zustandsklassen
  *   - Zustaende je Specimen (offene Dropdowns/Viewports, aktuelle Seite,
  *     Rand-Zustaende, scrolled/hidden, Auswahl, Checkbox-Modus, Drag & Drop)
- *   - kein Verhalten: keines der sieben Recipes gibt keyboard/events vor,
- *     neo-behaviors hat keins — die Arena zeigt nur „Zustände"
+ *   - Verhalten (Entscheidung 02.10.2026): breadcrumb, treeview,
+ *     navigation-menu, toolbar und sidebar geben keyboard/events vor und
+ *     haben ein Behavior — die Arena bietet „Ausprobieren" (Markup mit
+ *     m.ausprobieren, geprueft wie „Zustände"); pagination und navigation
+ *     zeigen weiter nur „Zustände"
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
@@ -25,14 +28,19 @@ import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['breadcrumb', 'pagination', 'navigation', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
+// Mit Verhalten in neo-behaviors (keyboard/events im Recipe, „Ausprobieren")
+const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb']
 
-function zellen (id, specimenId) {
+function zellen (id, specimenId, optionen = {}) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
   return recipe.specimens
     .filter((sp) => !specimenId || sp.id === specimenId)
-    .flatMap((sp) => specimenAnsicht(sp, recipe, id, vorlageFuer(id)).zeilen
+    .flatMap((sp) => specimenAnsicht(sp, recipe, id, vorlageFuer(id), optionen).zeilen
       .flatMap((z) => z.zellen.map((c) => ({ ...c, specimen: sp }))))
 }
+
+/** Alle Zellen in „Zustände" und — bei Bauteilen mit Verhalten — in „Ausprobieren". */
+const beideModi = (id) => [...zellen(id), ...(MIT_VERHALTEN_IM_BLOCK.includes(id) ? zellen(id, null, { ausprobieren: true }) : [])]
 
 function dom (html) {
   const d = document.createElement('div')
@@ -120,7 +128,7 @@ describe('Navigation-Block aus dem Recipe', () => {
 
       it('echtes DS-Element mit Basisklasse, nur Klassen aus styles.css bzw. der Anatomie', () => {
         const anatomie = anatomieKlassen(id)
-        for (const z of zellen(id)) {
+        for (const z of beideModi(id)) {
           const d = dom(z.html)
           expect(d.querySelector(`.${WURZELN[id]}`), `${z.specimen.id}/${z.id}`).not.toBeNull()
           for (const el of d.querySelectorAll('[class]')) {
@@ -133,7 +141,7 @@ describe('Navigation-Block aus dem Recipe', () => {
       })
 
       it('keine Inline-Gestaltung, keine fremden Zustandsklassen', () => {
-        for (const z of zellen(id)) {
+        for (const z of beideModi(id)) {
           const d = dom(z.html)
           for (const el of d.querySelectorAll('[style]')) {
             // einzig erlaubt: Einrueckung des Treeviews (DS-Instanzwert)
@@ -158,7 +166,7 @@ describe('Navigation-Block aus dem Recipe', () => {
 
       it('andere Bauteile sind erklaert (komposition, composes oder begruendet)', () => {
         const erklaert = enthaelt(id)
-        for (const z of zellen(id)) {
+        for (const z of beideModi(id)) {
           const klassen = new Set([...dom(z.html).querySelectorAll('[class]')].flatMap((el) => [...el.classList]))
           const composes = new Set((z.specimen.composes || []).flatMap((c) => (WURZELN[c] ? [c, ...enthaelt(c)] : [])))
           for (const [anderes, k] of Object.entries(WURZELN)) {
@@ -170,7 +178,7 @@ describe('Navigation-Block aus dem Recipe', () => {
       })
 
       it('ids sind je Zelle eindeutig, Bezuege zeigen auf vorhandene Elemente, Landmarken beschriftet', () => {
-        for (const z of zellen(id)) {
+        for (const z of beideModi(id)) {
           const d = dom(z.html)
           const ids = [...d.querySelectorAll('[id]')].map((e) => e.id)
           expect(new Set(ids).size, `${id}/${z.specimen.id}`).toBe(ids.length)
@@ -192,7 +200,7 @@ describe('Navigation-Block aus dem Recipe', () => {
       })
 
       it('Split-Modus: zweites Thema bekommt eigene ids', () => {
-        for (const z of zellen(id)) {
+        for (const z of beideModi(id)) {
           const d = dom(z.html + fuerWeiteresThema(z.html, '-t2'))
           const ids = [...d.querySelectorAll('[id]')].map((e) => e.id)
           expect(new Set(ids).size).toBe(ids.length)
@@ -205,13 +213,18 @@ describe('Navigation-Block aus dem Recipe', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
   })
 
-  it('kein Verhalten: keine keyboard/events im Recipe, kein Behavior — nur „Zustände"', () => {
+  it('Verhalten: keyboard/events im Recipe genau bei den Bauteilen mit Behavior', () => {
     for (const id of BLOCK) {
       const r = rohesRecipe(id)
-      expect(r.keyboard, id).toBeUndefined()
-      expect(r.events, id).toBeUndefined()
+      if (MIT_VERHALTEN_IM_BLOCK.includes(id)) {
+        expect(Object.keys(r.keyboard || {}).length, id).toBeGreaterThan(0)
+        expect(Object.keys(r.events || {}).length, id).toBeGreaterThan(0)
+      } else {
+        expect(r.keyboard, id).toBeUndefined()
+        expect(r.events, id).toBeUndefined()
+      }
     }
-    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual([])
+    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(MIT_VERHALTEN_IM_BLOCK)
   })
 })
 
@@ -520,11 +533,12 @@ describe('Navigation-Block in der RecipeArena', () => {
   }
 
   for (const id of BLOCK) {
-    it(`${id}: alle Specimens, kein Umschalter (kein Verhalten), keine Heuristik`, async () => {
+    const mitVerhalten = MIT_VERHALTEN_IM_BLOCK.includes(id)
+    it(`${id}: alle Specimens, ${mitVerhalten ? 'Umschalter „Ausprobieren"' : 'kein Umschalter (kein Verhalten)'}, keine Heuristik`, async () => {
       const w = await arena(id)
       const recipe = normalisiereRecipe(rohesRecipe(id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
-      expect(w.find('.ra-modus').exists()).toBe(false)
+      expect(w.find('.ra-modus').exists()).toBe(mitVerhalten)
       expect(w.find('[data-quelle="heuristik"], .ra-fallback').exists()).toBe(false)
       expect(w.find(`.${WURZELN[id]}`).exists()).toBe(true)
       w.unmount()
@@ -538,6 +552,36 @@ describe('Navigation-Block in der RecipeArena', () => {
     const boxen = w.findAll('.ra-specimen[data-specimen-id="checkbox-mode"] .nc-treeview__checkbox[data-unbestimmt]')
     expect(boxen.length).toBeGreaterThan(0)
     for (const b of boxen) expect(b.element.indeterminate).toBe(true)
+    w.unmount()
+  })
+})
+
+describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
+  beforeEach(() => setActivePinia(createPinia()))
+  afterEach(() => { document.body.innerHTML = '' })
+
+  async function ausprobieren (id) {
+    const w = mount(RecipeArena, { props: { componentId: id }, attachTo: document.body })
+    for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 10))
+    }
+    await w.findAll('.ra-modus__knopf')[1].trigger('click')
+    await flushPromises()
+    await new Promise((r) => setTimeout(r, 0))
+    expect(w.find(`[data-neo-behavior~="${id}"]`).exists()).toBe(true)
+    return w
+  }
+  const zelle = (w, sp) => w.find(`.ra-specimen[data-specimen-id="${sp}"] .ra-cell`)
+
+  it('breadcrumb: „Dropdown Open" startet zu, Klick auf die Ellipsis oeffnet', async () => {
+    const w = await ausprobieren('breadcrumb')
+    const z = zelle(w, 'truncated-dropdown')
+    expect(z.find('.ra-anker > nav.nc-breadcrumb').exists()).toBe(true)
+    expect(z.find('.nc-breadcrumb__dropdown').classes()).not.toContain('is-open')
+    await z.find('.nc-breadcrumb__ellipsis').trigger('click')
+    expect(z.find('.nc-breadcrumb__dropdown').classes()).toContain('is-open')
+    expect(z.find('.nc-breadcrumb__ellipsis').attributes('aria-expanded')).toBe('true')
     w.unmount()
   })
 })

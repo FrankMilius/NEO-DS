@@ -20,6 +20,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `modal` | `<dialog>` per Knopf mit `aria-controls` öffnen (showModal), Escape, Schließen-Knopf, Fokus-Falle, Fokus zurück; Hintergrund nur mit `data-backdrop-close="true"`; `--scrollable`: `is-scrolled-top/-bottom` | `modal-open`, `modal-close` { reason } |
 | `drawer` | wie Modal; Klick auf den Hintergrund schließt immer; `is-scrolled` am Drawer | `drawer-open`, `drawer-close` { reason } |
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf Abbrechen (`[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück | `alert-dialog-open`, `alert-dialog-close` { reason } |
+| `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -77,3 +78,16 @@ alle sechs.
 Bewusst ohne JS: das schwebende Label des Inputs (`:placeholder-shown`,
 `:focus-within`), die Hover-Vorschau des Ratings und das Ein-/Ausblenden des
 Tooltips (`:hover`, `:focus-within`) — das kann das CSS des DS allein.
+
+## Navigation (Entscheidung 02.10.2026)
+
+Die Navigations-Bauteile binden nur an Klassen und Attribute, die das SCSS
+kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
+`aria-current`, `tabindex`) bzw. dort, wo das SCSS sie liest.
+
+- **Breadcrumb** — nur die gekürzte Fassung hat Verhalten: der Knopf
+  `.nc-breadcrumb__ellipsis` klappt `.nc-breadcrumb__dropdown` auf
+  (`.is-open` + `aria-expanded`, so liest es das SCSS). Das Menü muss im
+  Markup stehen; `js/breadcrumb.js` (Doku/Website) baut es dagegen aus
+  `data-breadcrumb-hidden-items` und bindet selbst — beide nicht auf
+  derselben Breadcrumb einsetzen.

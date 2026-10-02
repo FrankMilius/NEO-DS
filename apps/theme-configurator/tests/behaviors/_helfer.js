@@ -15,6 +15,17 @@ export function zellenMarkup (id, specimenId, zeile = 0, zelle = 0) {
   return specimenAnsicht(sp, recipe, id, vorlageFuer(id)).zeilen[zeile].zellen[zelle].html
 }
 
+/**
+ * Markup der lebendigen Instanz im Modus „Ausprobieren" (erste Zelle des
+ * Specimens, { ausprobieren: true }) — wie die RecipeArena sie bindet.
+ */
+export function lebendigesMarkup (id, specimenId) {
+  const recipe = normalisiereRecipe(rohesRecipe(id))
+  const sp = recipe.specimens.find((s) => s.id === specimenId)
+  if (!sp) throw new Error(`${id}: Specimen ${specimenId} fehlt`)
+  return specimenAnsicht(sp, recipe, id, vorlageFuer(id), { ausprobieren: true }).zeilen[0].zellen[0].html
+}
+
 /** Markup der ersten Zelle des Specimens, deren HTML `test` erfuellt. */
 export function zelleMit (id, specimenId, test) {
   const recipe = normalisiereRecipe(rohesRecipe(id))

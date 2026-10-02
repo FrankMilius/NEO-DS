@@ -31,7 +31,7 @@ afterEach(() => { document.body.innerHTML = '' })
 describe('neo-behaviors: Grundlagen', () => {
   it('kennt die Bauteile mit Verhalten', () => {
     expect([...MIT_VERHALTEN].sort()).toEqual([
-      'accordion', 'alert-dialog', 'drawer', 'dropdown-menu', 'input', 'modal', 'popover', 'rating',
+      'accordion', 'alert-dialog', 'breadcrumb', 'drawer', 'dropdown-menu', 'input', 'modal', 'popover', 'rating',
       'search', 'segmented-control', 'select', 'switch', 'tabs', 'toggle-group', 'tooltip'
     ])
   })

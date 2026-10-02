@@ -22,12 +22,13 @@
 //   variant=truncated        Home + Ellipsis-Dropdown + letzte zwei Ebenen
 //   variant=back-link        nur „← Eltern-Seite" mit aria-label
 // Zustaende: hover/focus nur echt (data-zustand am ersten Link); open =
-//   Dropdown der Ellipsis offen (.is-open, aria-expanded="true").
+//   Dropdown der Ellipsis offen (.is-open, aria-expanded="true") — nur in
+//   „Zustände"; in „Ausprobieren" (m.ausprobieren) startet es zu und das
+//   Behavior (neo-behaviors/breadcrumb.js) klappt es auf.
 // Kompositionen (render.compositionType): breadcrumb-long (langer Pfad,
 //   bricht im schmalen Feld um), breadcrumb-minimal (Home + Seite).
-// Verhalten: das DS hat js/breadcrumb.js (Dropdown der Ellipsis), aber kein
-//   Behavior in neo-behaviors und keine keyboard/events im Recipe — deshalb
-//   nur „Zustände".
+// Verhalten: neo-behaviors/breadcrumb.js nach keyboard/events im Recipe
+//   (Ellipsis-Menue auf/zu, Pfeiltasten, Escape, Tab, Klick ausserhalb).
 import { esc } from './_helfer.js'
 import { wurzelKlassen, kindModifier } from './_overlay.js'
 
@@ -65,8 +66,11 @@ const seite = (text) => `<li class="nc-breadcrumb__item">
 <span class="nc-breadcrumb__page" aria-current="page">${esc(text)}</span>
 </li>`
 
+/** Dropdown offen: fest in „Zustände", in „Ausprobieren" oeffnet das Behavior. */
+const offen = (m) => m.hat('open') && !m.ausprobieren
+
 function ellipsis (m) {
-  const auf = m.hat('open')
+  const auf = offen(m)
   const eintraege = VERSTECKT.map((t) => `<li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">${esc(t)}</a></li>`).join('\n')
   return `<li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">
 <button type="button" class="nc-breadcrumb__ellipsis" aria-label="Weitere Seiten anzeigen" aria-haspopup="true" aria-expanded="${auf}" aria-controls="${m.uid}-ebenen">${PUNKTE}</button>
@@ -99,8 +103,9 @@ ${liste(m)}
 </ol>
 </nav>`
   // Offenes Dropdown liegt absolut unter der Ellipsis — die Flaeche haelt
-  // ihm den Platz in der Zelle frei. Der lange Pfad bricht im Feld um.
-  if (m.hat('open')) return `<div class="ra-anker">\n${nav}\n</div>`
+  // ihm den Platz in der Zelle frei (in „Ausprobieren" fuer jede gekuerzte
+  // Fassung, das Behavior oeffnet dort). Der lange Pfad bricht im Feld um.
+  if (offen(m) || (m.ausprobieren && m.wert('variant') === 'truncated')) return `<div class="ra-anker">\n${nav}\n</div>`
   if (m.specimen.render?.compositionType === 'breadcrumb-long') return `<div class="ra-feld">\n${nav}\n</div>`
   return nav
 }
