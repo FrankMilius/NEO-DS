@@ -72,21 +72,21 @@
               Im produktiven Einsatz wird das Panel via JavaScript und <code class="docs__token">hidden</code>-Attribut gesteuert.
             </p>
             <div style="position: relative; min-height: 280px; padding: var(--fnd-spacing-08); margin-block-end: var(--fnd-spacing-06);">
-              <div style="display: inline-block; position: relative;">
-                <button class="nc-button nc-button--sm">Trigger</button>
-                <div class="nc-popover" style="position: absolute; top: 100%; left: 0; margin-top: 8px; z-index: 10;">
-                  <div class="nc-popover__header">
-                    <span class="">Einstellungen</span>
-                    <button class="nc-popover__close" aria-label="Schlie&szlig;en">
-                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
-                    </button>
-                  </div>
-                  <div class="nc-popover__body">
-                    <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Hier k&ouml;nnen Einstellungen vorgenommen werden. Der Body-Bereich kann beliebige Inhalte enthalten.</p>
-                  </div>
-                  <div class="nc-popover__footer">
-                    <button class="nc-button nc-button--sm">Speichern</button>
-                  </div>
+              <div class="nc-popover">
+                <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="true" aria-controls="popover-demo-1">Trigger</button>
+                <div class="nc-popover__panel nc-popover__panel--bottom-start" id="popover-demo-1" role="dialog" aria-labelledby="popover-demo-1-titel">
+                    <div class="nc-popover__header">
+                      <span id="popover-demo-1-titel">Einstellungen</span>
+                      <button class="nc-popover__close" aria-label="Schlie&szlig;en">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                      </button>
+                    </div>
+                    <div class="nc-popover__body">
+                      <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Hier k&ouml;nnen Einstellungen vorgenommen werden. Der Body-Bereich kann beliebige Inhalte enthalten.</p>
+                    </div>
+                    <div class="nc-popover__footer">
+                      <button class="nc-button nc-button--sm">Speichern</button>
+                    </div>
                 </div>
               </div>
             </div>
@@ -94,17 +94,22 @@
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
             <div class="docs-snippet">
               <pre>&lt;div class="nc-popover"&gt;
-  &lt;div class="nc-popover__header"&gt;
-    &lt;span class=""&gt;Einstellungen&lt;/span&gt;
-    &lt;button class="nc-popover__close" aria-label="Schlie&szlig;en"&gt;
-      &lt;svg&gt;...&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-popover__body"&gt;
-    &lt;p&gt;Inhalt...&lt;/p&gt;
-  &lt;/div&gt;
-  &lt;div class="nc-popover__footer"&gt;
-    &lt;button class="nc-button nc-button--sm"&gt;Speichern&lt;/button&gt;
+  &lt;button type="button" class="nc-popover__trigger nc-button nc-button--sm"
+          aria-haspopup="dialog" aria-expanded="false" aria-controls="einstellungen"&gt;Trigger&lt;/button&gt;
+  &lt;div class="nc-popover__panel" id="einstellungen" role="dialog"
+       aria-labelledby="einstellungen-titel" hidden&gt;
+    &lt;div class="nc-popover__header"&gt;
+      &lt;span id="einstellungen-titel"&gt;Einstellungen&lt;/span&gt;
+      &lt;button class="nc-popover__close" aria-label="Schlie&szlig;en"&gt;
+        &lt;svg&gt;...&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="nc-popover__body"&gt;
+      &lt;p&gt;Inhalt...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="nc-popover__footer"&gt;
+      &lt;button class="nc-button nc-button--sm"&gt;Speichern&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</pre>
             </div>
@@ -117,12 +122,12 @@
               Nur mit Body-Inhalt, ohne Header und Footer &mdash; f&uuml;r einfache Hinweise.
             </p>
             <div style="position: relative; min-height: 120px; padding: var(--fnd-spacing-08); margin-block-end: var(--fnd-spacing-06);">
-              <div style="display: inline-block; position: relative;">
-                <button class="nc-button nc-button--sm">Info</button>
-                <div class="nc-popover" style="position: absolute; top: 100%; left: 0; margin-top: 8px; z-index: 10;">
-                  <div class="nc-popover__body">
-                    <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Kurzer Hinweistext zu diesem Element.</p>
-                  </div>
+              <div class="nc-popover">
+                <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="true" aria-controls="popover-demo-2">Info</button>
+                <div class="nc-popover__panel nc-popover__panel--bottom-start" id="popover-demo-2" role="dialog" aria-label="Info">
+                    <div class="nc-popover__body">
+                      <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Kurzer Hinweistext zu diesem Element.</p>
+                    </div>
                 </div>
               </div>
             </div>
@@ -135,27 +140,27 @@
               Popover kann Formularelemente enthalten &mdash; z.B. f&uuml;r Inline-Bearbeitung.
             </p>
             <div style="position: relative; min-height: 300px; padding: var(--fnd-spacing-08); margin-block-end: var(--fnd-spacing-06);">
-              <div style="display: inline-block; position: relative;">
-                <button class="nc-button nc-button--sm">Bearbeiten</button>
-                <div class="nc-popover" style="position: absolute; top: 100%; left: 0; margin-top: 8px; z-index: 10; min-width: 280px;">
-                  <div class="nc-popover__header">
-                    <span class="">Notiz bearbeiten</span>
-                    <button class="nc-popover__close" aria-label="Schlie&szlig;en">
-                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
-                    </button>
-                  </div>
-                  <div class="nc-popover__body">
-                    <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-03);">
-                      <label style="font-size: var(--fs-sm); font-weight: var(--fnd-font-weight-medium); color: var(--fnd-color-text-primary);">Titel</label>
-                      <input class="nc-input nc-input--sm" type="text" value="Meine Notiz" />
-                      <label style="font-size: var(--fs-sm); font-weight: var(--fnd-font-weight-medium); color: var(--fnd-color-text-primary);">Beschreibung</label>
-                      <textarea class="nc-input nc-input--sm" rows="2" style="resize: vertical;">Notiz-Inhalt hier...</textarea>
+              <div class="nc-popover">
+                <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="true" aria-controls="popover-demo-3">Bearbeiten</button>
+                <div class="nc-popover__panel nc-popover__panel--bottom-start" id="popover-demo-3" role="dialog" aria-labelledby="popover-demo-3-titel" style="min-width: 280px;">
+                    <div class="nc-popover__header">
+                      <span id="popover-demo-3-titel">Notiz bearbeiten</span>
+                      <button class="nc-popover__close" aria-label="Schlie&szlig;en">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                      </button>
                     </div>
-                  </div>
-                  <div class="nc-popover__footer" style="display: flex; justify-content: flex-end; gap: var(--fnd-spacing-02);">
-                    <button class="nc-button nc-button--sm nc-button--secondary">Abbrechen</button>
-                    <button class="nc-button nc-button--sm">Speichern</button>
-                  </div>
+                    <div class="nc-popover__body">
+                      <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-03);">
+                        <label style="font-size: var(--fs-sm); font-weight: var(--fnd-font-weight-medium); color: var(--fnd-color-text-primary);">Titel</label>
+                        <input class="nc-input nc-input--sm" type="text" value="Meine Notiz" />
+                        <label style="font-size: var(--fs-sm); font-weight: var(--fnd-font-weight-medium); color: var(--fnd-color-text-primary);">Beschreibung</label>
+                        <textarea class="nc-input nc-input--sm" rows="2" style="resize: vertical;">Notiz-Inhalt hier...</textarea>
+                      </div>
+                    </div>
+                    <div class="nc-popover__footer" style="display: flex; justify-content: flex-end; gap: var(--fnd-spacing-02);">
+                      <button class="nc-button nc-button--sm nc-button--secondary">Abbrechen</button>
+                      <button class="nc-button nc-button--sm">Speichern</button>
+                    </div>
                 </div>
               </div>
             </div>
@@ -268,30 +273,35 @@
 
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;!-- Trigger-Element (beliebig) --&gt;
-&lt;button class="nc-button"&gt;Trigger&lt;/button&gt;
+            <div class="docs__code-block">&lt;!-- Wurzel: haelt Ausloeser und Panel zusammen --&gt;
+&lt;div class="nc-popover [nc-popover--hover-trigger]"&gt;
 
-&lt;!-- Popover Panel --&gt;
-&lt;div class="nc-popover [--position]" hidden&gt;
+  &lt;!-- Ausloeser --&gt;
+  &lt;button type="button" class="nc-popover__trigger nc-button"
+          aria-haspopup="dialog" aria-expanded="false" aria-controls="p1"&gt;Trigger&lt;/button&gt;
 
-  &lt;!-- Slot 1: Header (optional) --&gt;
-  &lt;div class="nc-popover__header"&gt;
-    &lt;span class=""&gt;Titel&lt;/span&gt;
-    &lt;button class="nc-popover__close" aria-label="Schlie&szlig;en"&gt;
-      &lt;svg&gt;...&lt;/svg&gt;
-    &lt;/button&gt;
+  &lt;!-- Panel (Position per nc-popover__panel--top|left|right|bottom-start|bottom-end) --&gt;
+  &lt;div class="nc-popover__panel" id="p1" role="dialog" aria-labelledby="p1-titel" hidden&gt;
+
+    &lt;!-- Slot 1: Header (optional) --&gt;
+    &lt;div class="nc-popover__header"&gt;
+      &lt;span id="p1-titel"&gt;Titel&lt;/span&gt;
+      &lt;button class="nc-popover__close" aria-label="Schlie&szlig;en"&gt;
+        &lt;svg&gt;...&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Slot 2: Body --&gt;
+    &lt;div class="nc-popover__body"&gt;
+      Inhalt...
+    &lt;/div&gt;
+
+    &lt;!-- Slot 3: Footer (optional) --&gt;
+    &lt;div class="nc-popover__footer"&gt;
+      &lt;button class="nc-button"&gt;Aktion&lt;/button&gt;
+    &lt;/div&gt;
+
   &lt;/div&gt;
-
-  &lt;!-- Slot 2: Body --&gt;
-  &lt;div class="nc-popover__body"&gt;
-    Inhalt...
-  &lt;/div&gt;
-
-  &lt;!-- Slot 3: Footer (optional) --&gt;
-  &lt;div class="nc-popover__footer"&gt;
-    &lt;button class="nc-button"&gt;Aktion&lt;/button&gt;
-  &lt;/div&gt;
-
 &lt;/div&gt;</div>
           </section>
 

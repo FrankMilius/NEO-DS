@@ -95,8 +95,10 @@
   display: inline-flex;
 
   // Trigger — Styling wird vom nutzenden Element geerbt
+  // Aussehen kommt vom nutzenden Element (meist nc-button); im
+  // inline-flex-Wurzelelement wird der Ausloeser nicht gestaucht.
   &__trigger {
-    // Kein eigenes Styling
+    flex-shrink: 0;
   }
 
   // Panel
