@@ -1,7 +1,7 @@
 # ADR-005: Komposition im Recipe, Verhalten als gemeinsames Paket
 
 - **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
-  Blöcke Formular und Overlays umgesetzt (Plan v3, Stand 02.10.2026)
+  Blöcke Formular, Overlays und Navigation umgesetzt (Plan v3, Stand 02.10.2026)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -97,3 +97,22 @@ Dinge fehlten aber:
   des Dropdowns im `overflow` des Menüs hängen, und die Eingangsanimation des
   Popovers überschreibt dessen Zentrierung (`transform`). Sie sind nicht
   stillschweigend behoben, sondern als Befunde zur Entscheidung gemeldet.
+- Phase 3, Block Navigation (02.10.2026): breadcrumb, pagination, navigation,
+  navigation-menu, sidebar, treeview, toolbar kommen aus Recipe-Vorlagen;
+  sieben `*Arena.vue` gelöscht. Markup nach SCSS-Struktur, Doku und
+  `data/markup` (Navigationsmenü nach `website/js/site.js`). Keines der sieben
+  Recipes gibt `keyboard`/`events` vor, `neo-behaviors` hat für sie kein
+  Verhalten — alle zeigen nur „Zustände". Offene Zustände stehen fest
+  (Breadcrumb-Dropdown `.is-open`, Viewport des Navigationsmenüs
+  `data-state="open"`). Neue Arena-Rahmen: `ra-kopf` (Kopfzeile in
+  Desktop-Breite, schneidet `.is-hidden` ab), `ra-kulisse` (dunkler Grund für
+  transparente/geblurrte Flächen), `ra-spalte` (Höhe für die Sidebar),
+  `ra-anker--desktop` (offenes Navigationsmenü) und `ra-buehne--mobil` (die
+  Sidebar als Mobil-Overlay; das DS schaltet diese Lage nur über die
+  Fensterbreite, die Arena stellt sie im Rahmen mit den DS-Werten dar).
+  Die Arena gilt dem DS-Bauteil `.nc-header`/`.nc-nav`; ob die
+  Website-Navigation „V3 Tab-Mega" (Drupal-Modul `neo_nav`) ein eigenes Recipe
+  bekommt, ist offen. Auch hier sichtbar gewordene DS-Befunde (u. a.
+  Listenabstand aus `li`-Elementstilen in Treeview, Breadcrumb und Pagination;
+  Marke und Links der transparenten Kopfzeile bleiben dunkel) sind gemeldet,
+  nicht stillschweigend behoben.
