@@ -218,7 +218,14 @@ describe('CSS Output Quality', () => {
     // Wachstum anschlagen, nicht Vorrat verwalten. Wer sie anhebt, sollte
     // vorher in die Wochenbilanz sehen — dort steht, ob das CSS wächst.
     expect(sizeKB, `CSS zu klein: ${sizeKB.toFixed(0)}KB`).toBeGreaterThan(150);
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1200);
+    //
+    // 02.10.2026: 1200 → 1230 KB. Die Website-Hauptnavigation (V3 Tab-Mega,
+    // Recipe navigation-tab-mega) ist aus neo-nav.css ins DS aufgenommen,
+    // +32 KB roh (gzip +4 KB). Die Website laedt dieselben Regeln heute als
+    // eigene Datei; nach der Umstellung entfaellt die. Vorbelegt, zur
+    // Entscheidung gemeldet (Alternative: eigenes Stylesheet fuer
+    // Website-Organismen).
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1230);
   });
 
   it('CSS Build hat keine Fehler', () => {

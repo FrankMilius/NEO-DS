@@ -1,0 +1,1196 @@
+// ==========================================================================
+// organisms: navigation-tab-mega
+// ==========================================================================
+// Website-Hauptnavigation „V3 Tab-Mega" (Drupal-Modul neo_nav, Theme neo_fe).
+// Aus dem Drupal-Theme aufgenommen (neo_fe/css/neo-nav.css, Stand
+// 02.10.2026). Die Website war fuehrend; die Werte sind UNVERAENDERT.
+//
+// Drei Anpassungen an das DS, keine davon aendert das Aussehen:
+//   1. Jede Regel ist auf die Wurzel des Bauteils begrenzt. Die Klassen der
+//      Website heissen allgemein (.panel, .tab, .teaser, .brand, .container …)
+//      und duerfen im Stylesheet des DS nichts ausserhalb der Navigation
+//      treffen. Der Vorsatz steht in :where() und hat damit Spezifitaet NULL
+//      — die Gewichtung der Regeln untereinander bleibt exakt wie im Original.
+//      Wurzeln: .site-header[data-neo-nav] (Kopfleiste) und .m-drawer (der
+//      mobile Drawer ist ein GESCHWISTER des Headers, kein Nachfahre).
+//   2. Die lokalen Variablen (--nn-*, --nav-*) stehen an diesen Wurzeln statt
+//      an :root. Gleiche Werte; zusaetzlich loesen sie in einem dunklen
+//      Teilbereich (.neo-dark-theme an einem Wrapper) richtig auf.
+//   3. Wo der Token-Lint harte Werte anmahnt (Abstaende in rem, Schriftschnitt),
+//      stehen sie als lokale --nn-*-Variable mit dem Originalwert als
+//      Rueckfall bzw. als gleichwertiges Foundation-Token.
+//
+// Die Website laedt bis zur Umstellung weiter ihr neo-nav.css. Doppelt
+// geladen ist harmlos: gleiche Werte, gleiche Gewichtung.
+// Recipe: data/navigation-tab-mega-recipe.json
+// ==========================================================================
+
+/* >>> aufgenommen: navigation-tab-mega */
+/**
+ * NEO Hauptnavigation V3 Tab-Mega.
+ * Klick-gesteuert, barrierefrei, DE/EN live, mobile Push-Navigation.
+ *
+ * >>> ANPASSEN: --content-max / --bp an das Design-System. Farben sind die
+ *     verbindlichen NEO-Tokens; bei Bedarf durch --fnd-* ersetzen. <<<
+ */
+.site-header[data-neo-nav],
+.m-drawer {
+  /* An das NEO Design-System gebunden — uebernimmt Typografie & Farben der
+     bisherigen Navbar (Manrope/Space Grotesk, Weiss/Blur, Interactive-Blau).
+     Fallback-Werte greifen, falls die fnd- und font-Tokens fehlen. */
+  /* Akzent: Design-Schwarzton (entspricht text-primary des aktiven Themes). */
+  --nn-accent: #16211b;
+  --nn-on-accent: #ffffff;
+  --nn-text: var(--fnd-color-text-primary, #16211b);
+  --nn-muted: var(--fnd-color-text-secondary, #5f7066);
+  --nn-line: var(--fnd-color-border-secondary, #dfe6e0);
+  /* Die Trennung zwischen Leiste und Panel — die einzige Kante im
+     Verbund und deshalb eine Stufe kraeftiger als die inneren. */
+  --nn-line-strong: var(--fnd-color-border-primary, #d2d4d2);
+  --nn-surface: var(--fnd-color-background-base, #ffffff);
+  /* Hover/aktiv-Flaeche: theme-aware Surface-Stufe statt 6%-Text-Mix
+     (im Dark-Theme war der Mix nahezu unsichtbar). Light #eef1f4 / Dark #19212c. */
+  --nn-surface-2: var(--fnd-color-background-tertiary, color-mix(in srgb, var(--fnd-color-text-primary, #16211b) 6%, transparent));
+
+  /* Nav ist Shell, nicht Content: breitere xwide-Stufe statt der Lesebreite
+     (--nc-container-max-width konvergiert auf content/1090). */
+  --nn-content-max: var(--mod-nav-max-width, var(--container-xwide, 1536px));
+  --nn-bp: 1024px;                  /* Mobile-Breakpoint (ANPASSEN) */
+  --nn-radius: var(--fnd-radius-md, 8px);
+  --nn-radius-sm: var(--fnd-radius-sm, 6px);
+  --nn-shadow: 0 12px 34px rgba(0, 0, 0, .12);
+  --nn-shadow-sm: 0 2px 10px rgba(0, 0, 0, .06);
+  --nn-font: var(--font-body, "Manrope", "Helvetica Neue", Arial, sans-serif);
+  --nn-font-heading: var(--font-heading, "Space Grotesk", "Helvetica Neue", Arial, sans-serif);
+  --nn-header-h: var(--nc-nav-height, 64px);
+  --nn-t: 180ms ease;
+
+  /* ── Typo-Stufen der Navigation ──────────────────────────────────────────
+     Navigation ist Beschriftung, nicht Fliesstext: kleiner und dafuer fetter.
+     Praesenz entsteht ueber Gewicht statt ueber Flaeche, und die vier Stufen
+     bleiben auf einen Blick unterscheidbar.
+
+     ALLES IN REM (WCAG 1.4.4): bei 200 % Zoom bleiben die Verhaeltnisse
+     erhalten. 15px Hauptnavigation ist bei Fettung gut lesbar — darunter
+     nicht gehen.
+
+     TRACKING: negativ bei den grossen und mittleren Stufen, positiv bei den
+     Mono-Versalien. Ohne diese Korrektur wirken geometrische Grotesken in
+     Versalien gedraengt und in grossen Graden zu luftig. */
+
+  /* L1 — Hauptnavigation */
+  --nav-l1-size: .9375rem;              /* 15px */
+  --nav-l1-weight: 600;
+  --nav-l1-tracking: -.005em;
+
+  /* L2 — Kategoriespalte im Mega-Panel */
+  --nav-l2-size: .9375rem;              /* 15px */
+  --nav-l2-weight: 600;
+
+  /* L3 — Linkliste. Groesste Flaeche und damit lesbarste Ebene, ordnet sich
+     der Navigation aber unter: groesser, aber leichter als L1/L2. */
+  --nav-l3-size: 1rem;                  /* 16px */
+  --nav-l3-weight: 500;
+  --nav-l3-tracking: -.01em;
+
+  /* Eyebrow der Kategoriespalte — Mono-Versalien.
+     Stand bis zum 25.08.2026 auf .625rem (10px). Der 12px-Boden gilt seit dem
+     25.06.2026 fuer das ganze Projekt, aber er wurde im Design System gezogen
+     (`--fs-*` clampt bei 0.75rem) — und diese Datei benutzt keines dieser
+     Tokens. Ein Boden, den nur ein Teil des Hauses kennt, ist keiner.
+     Nachgemessen bei 360px und 1400px: zehn Elemente unter 12px, sichtbar,
+     mit eigenem Text — Sprache, DE/EN, und acht Rubriktitel der Navigation. */
+  --nav-eyebrow-size: .75rem;           /* 12px — Untergrenze, nicht Vorschlag */
+  --nav-eyebrow-tracking: .16em;
+  --nav-eyebrow-family: var(--font-mono, ui-monospace, "SFMono-Regular", Menlo, monospace);
+
+  /* Meta/Zaehler — Utility-Ebene. War .6875rem (11px), siehe oben. */
+  --nav-meta-size: .75rem;              /* 12px */
+  --nav-meta-numeric: tabular-nums;
+
+  /* Sekundaeraktion (Uebersichtslink). Ein Button neben einer Linkliste
+     konkurriert mit ihr; als Textlink mit Pfeil ordnet er sich unter. */
+  --nav-action-size: .875rem;           /* 14px */
+  --nav-action-weight: 650;
+
+  /* Aktiv vs. ruhend. Die Wortmarke lebt vom Gewichtssprung 800/300 — das
+     ist die einzige Stelle mit Charakter. Dieselbe Idee auf die Navigation:
+     der aktive Punkt traegt 600, die ruhenden 500. Damit wird die Marke zum
+     Typo-System statt zur Wortmarke. */
+  --nav-l1-weight-active: 600;
+  --nav-l1-weight-rest: 500;
+
+  /* Rail der aktiven Kategorie. Lime statt Schwarz — die Markenfarbe
+     markiert die Position, ohne dem Text Konkurrenz zu machen. */
+  --nav-rail-color: var(--fnd-color-background-accent, #37e93d);
+  --nav-rail-width: 3px;
+
+  /* Pfeil-Icon an Links. Der Abstand ist bewusst groesser als der reine
+     Wortabstand: das Icon ist eine eigene Marke, kein Satzzeichen. */
+  --nav-arrow-size: 1em;
+  --nav-arrow-gap: .5rem;
+
+  /* Trefferflaeche (WCAG 2.5.8). 44px ist das Minimum fuer Zeigergeraete. */
+  --nav-hit-height: 2.75rem;            /* 44px */
+
+  /* Trennlinien */
+  --nav-divider: 1px solid var(--nn-line);
+
+  /* ── Kopfleisten-Menues (Sprache / Erscheinungsbild) ─────────────────────
+     Der Haken markiert die aktive Option. Gruen, aber NICHT Lime: #047857
+     erreicht auf Weiss 4,9:1, das Marken-Lime nur 1,5:1. Lime bleibt
+     Neuheiten-Markern und CTAs vorbehalten, wo es Bedeutung traegt. */
+  --nav-check-color: #047857;
+  --nav-check-color-dark: #34d399;
+  --nav-pop-bg: var(--fnd-color-background-base, #fff);
+  --nav-pop-radius: var(--fnd-radius-lg, 12px);
+  --nav-pop-shadow: 0 12px 34px rgba(0, 0, 0, .12);
+  --nav-pop-min-width: 15rem;
+
+  /* ── Suchfeld ────────────────────────────────────────────────────────────
+     Ruhende Flaeche leicht getoent, im Fokus Weiss. Der Zustandswechsel
+     laeuft damit ueber ZWEI Kanaele — Flaeche und Ring — und bleibt auch
+     ohne Farbwahrnehmung erkennbar (WCAG 1.4.1). */
+  --nav-search-bg: var(--nn-surface-2);
+  --nav-search-bg-focus: var(--fnd-color-background-base, #fff);
+  --nav-search-border: var(--fnd-color-border-strong, #000);
+  --nav-search-radius: var(--fnd-radius-md, 8px);
+  /* Ring: 3px und 2px Abstand. Er liegt AUSSERHALB der Box, verschiebt damit
+     nichts und ueberdeckt keinen Inhalt — anders als eine dickere border.
+
+     FARBE bewusst text-accent und NICHT interactive-focus: letzteres loest
+     hier zu #009fe3 auf und erreicht gegen die weisse Nachbarflaeche nur
+     2,97:1 — WCAG 1.4.11 verlangt 3:1 fuer Fokusindikatoren. Gemessen und
+     verworfen. text-accent (#0e7490) liegt bei 5,36:1.
+     Dieselbe Verwechslung von Interaktions- und Textfarbe steckte schon in
+     .nc-label--accent und in den Solution Tabs. */
+  --nav-focus-ring: var(--fnd-color-text-accent, #0e7490);
+  --nav-focus-width: 3px;
+  --nav-focus-offset: 2px;
+  /* Breite der zweispaltigen Dropdown-Liste. Der Uebersichtslink haengt am
+     SELBEN Token, damit seine Trennlinie exakt so breit ist wie die Liste
+     darueber — gemessen liefen sie sonst 640 zu 1280px auseinander. */
+  --nav-dropdown-cols-max: 640px;
+}
+
+.site-header[data-neo-nav] * { box-sizing: border-box; }
+
+.site-header[data-neo-nav] {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nc-nav-bg, var(--nn-surface));
+  /* backdrop-filter entfaellt: bei deckender Flaeche wirkungslos. */
+  border-bottom: 1px solid var(--nn-line-strong);
+  font-family: var(--nn-font);
+  color: var(--nn-text);
+
+  /* Auto-Hide: beim Runterscrollen weg, beim Hochscrollen zurueck.
+     Die Sticky-Verankerung liegt am Grid-Wrapper (.region--header in
+     neo-overrides.css) — das Sticky hier allein war wirkungslos.
+     Verschoben wird bewusst NUR der <header>: transform erzeugt einen
+     Containing-Block fuer fixed-Nachfahren, und der mobile Drawer ist ein
+     GESCHWISTER des Headers. Laege die Transform am Wrapper, wuerde er
+     mitwandern. Panels und Such-Band sind position:absolute und wandern
+     korrekt mit.
+     Einblenden laenger und weicher als Ausblenden — Zurueckkommen soll ruhig
+     wirken, Wegscrollen zuegig. */
+  transition:
+    transform 280ms cubic-bezier(.22, .61, .36, 1),
+    opacity 220ms cubic-bezier(.22, .61, .36, 1);
+}
+
+.site-header[data-neo-nav].is-nav-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition:
+    transform 200ms cubic-bezier(.55, .06, .68, .19),
+    opacity 140ms linear;
+}
+/* Resets in :where() — damit haben sie Spezifitaet NULL und jede
+   Komponentenregel gewinnt gegen sie.
+   Vorher standen sie als `.site-header[data-neo-nav] a/button` (0,2,0) und
+   schlugen damit jede einfache Klassenregel. Das hat sechs Fehler in Folge
+   verursacht, alle gemessen:
+     .tab            kam mit 16px/400 statt 15px/600 an
+     .tab__count     erbte Groesse und Familie
+     .tab (Farbe)    ruhend und aktiv identisch, Zustand nur ueber 1,13:1 Flaeche
+     .teaser__cta    weiss auf weiss, unsichtbar
+     .search-submit  dunkel auf dunkel, unlesbar
+     .search-close   16px statt der gesetzten 14px
+   Die betroffenen Regeln tragen deshalb bis heute kuenstlich hohe
+   Spezifitaet. Die faellt jetzt nicht weg — sie schadet nicht — aber neue
+   Komponenten brauchen sie nicht mehr. */
+:where(.site-header[data-neo-nav] a) { color: inherit; text-decoration: none; }
+:where(.site-header[data-neo-nav] button) { font: inherit; color: inherit; cursor: pointer; }
+
+/* Zentrierter Inhalts-Container — Header, Panels UND Such-Band nutzen ihn.
+   Geometrie spiegelt exakt den Content-Container (.nc-container, Stufe
+   "Extra Breit" = xwide/1536px), damit Logo/Navigation/Actions auf DERSELBEN
+   Achse wie der Seiteninhalt sitzen. 3-Phasen-Padding wie .nc-container:
+   <1200px fluide clamp, >=1200px eingefasste 24px, >=1920px buendig (0px). */
+.site-header[data-neo-nav] .container,
+.m-drawer .container {
+  max-width: var(--nn-content-max);
+  margin-inline: auto;
+  padding-inline: var(--nc-container-padding-inline, clamp(16px, 3.5vw, 48px));
+}
+@media (min-width: 1200px) {
+  .site-header[data-neo-nav] .container,
+  .m-drawer .container {
+    padding-inline: var(--nc-container-padding-inline-constrained, 24px);
+  }
+}
+@media (min-width: 1920px) {
+  .site-header[data-neo-nav] .container,
+  .m-drawer .container {
+    padding-inline: var(--nc-container-padding-inline-xxl, 0px);
+  }
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .header-inner {
+  display: flex; align-items: center; gap: var(--nn-header-inner-gap, 1.5rem);
+  height: var(--nn-header-h);
+}
+/* Alle Bar-Elemente auf eine gemeinsame Mittelachse zentrieren. Das globale
+   Theme-li (margin-block-end) wuerde die Items sonst 4px nach oben ziehen. */
+:where(.site-header[data-neo-nav], .m-drawer) .header-inner > * { display: flex; align-items: center; }
+:where(.site-header[data-neo-nav], .m-drawer) .primary-nav,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-list,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-list > li,
+:where(.site-header[data-neo-nav], .m-drawer) .header-actions { display: flex; align-items: center; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-list,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-list > li { margin: 0; padding: 0; }
+:where(.site-header[data-neo-nav], .m-drawer) .brand {
+  display: inline-flex; align-items: center; gap: var(--nn-brand-gap, .5rem); height: 100%;
+  font-family: var(--nn-font-heading); text-transform: lowercase;
+  letter-spacing: .06em; font-weight: var(--fnd-font-weight-bold); font-size: 1.35rem;
+  color: var(--nn-text); white-space: nowrap; flex-shrink: 0;
+}
+/* Logo nutzt die volle Header-Hoehe (Schutzraum ist im SVG enthalten). */
+:where(.site-header[data-neo-nav], .m-drawer) .brand { height: var(--nn-header-h); }
+:where(.site-header[data-neo-nav], .m-drawer) .brand__logo { display: block; height: 100%; width: auto; }
+/* Dark-Theme: schwarzes Logo-Bild auf Weiss kehren. Interim — sauber waere
+   Inline-SVG mit fill="currentColor" (folgt --nn-text). Greift global wie lokal. */
+.neo-dark-theme :where(.site-header[data-neo-nav], .m-drawer) .brand__logo,
+[data-theme="neo-dark-theme"] :where(.site-header[data-neo-nav], .m-drawer) .brand__logo { filter: invert(1) brightness(1.7); }
+
+:where(.site-header[data-neo-nav], .m-drawer) .primary-nav { margin-inline-start: var(--nn-primary-nav-margin-inline-start, .5rem); }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-list { list-style: none; display: flex; gap: var(--nn-nav-list-gap, .25rem); margin: 0; padding: 0; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link {
+  display: inline-flex; align-items: center; gap: var(--nn-l1-gap, .4rem);
+  padding: var(--nn-l1-padding, .55rem .7rem); border: 0; background: transparent;
+  position: relative;   /* Bezugspunkt fuer die Kante unten */
+  border-radius: var(--nn-radius-sm); line-height: 1.4;
+  color: var(--nn-text); transition: background var(--nn-t), color var(--nn-t);
+}
+/* Einheitliche Typo fuer ALLE Top-Level-Items (Dropdowns + direkter Link).
+   Hohe Spezifitaet, um globale button/a-Resets zu uebersteuern. */
+.site-header[data-neo-nav] .nav-btn,
+.site-header[data-neo-nav] .nav-link {
+  font-family: var(--nn-font);
+  font-size: var(--nav-l1-size);
+  font-weight: var(--nav-l1-weight-rest);
+  letter-spacing: var(--nav-l1-tracking);
+  font-style: normal;
+  /* Trefferflaeche: volle Zeilenhoehe statt reiner Wortbreite (WCAG 2.5.8). */
+  min-height: var(--nav-hit-height);
+}
+
+/* Aktiv = geoeffnetes Panel oder aktuelle Seite. Der Sprung 500 -> 600 ist
+   dieselbe Idee wie in der Wortmarke (800/300): Charakter aus dem
+   Gewichtsunterschied, nicht aus zusaetzlicher Farbe. */
+.site-header[data-neo-nav] .nav-btn[aria-expanded="true"],
+.site-header[data-neo-nav] .nav-link[aria-current],
+.site-header[data-neo-nav] .nav-btn[aria-current],
+.site-header[data-neo-nav] .nav-link.is-active,
+.site-header[data-neo-nav] .nav-btn.is-active {
+  font-weight: var(--nav-l1-weight-active);
+}
+
+/* Der Gewichtswechsel darf die Leiste nicht verschieben. Sichtbarer Text und
+   ein unsichtbarer Zwilling in 600 liegen in derselben Rasterzelle; der
+   Zwilling ist IMMER fett und bestimmt damit dauerhaft die Breite.
+   Ohne das wurde „Lösungen" beim Oeffnen von 112 auf 113px breit und alle
+   folgenden Punkte ruckten um 1px — gemessen. visibility:hidden haelt den
+   Zwilling aus dem Accessibility-Baum, der Text wird nicht doppelt vorgelesen. */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__label {
+  display: grid;
+  grid-template-areas: 'stack';
+}
+/* Beide Kinder teilen sich dieselbe Zelle. Der sichtbare Text braucht dafuer
+   einen eigenen <span>: ein blosser Textknoten waere ein anonymes
+   Rasterelement und liesse sich nicht platzieren. */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__label > span { grid-area: stack; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__label::before {
+  content: attr(data-text);
+  grid-area: stack;
+  font-weight: var(--nav-l1-weight-active);
+  visibility: hidden;
+  pointer-events: none;
+}
+/* KEINE Flaeche mehr an den Menuepunkten.
+   Eine Fuellung ist das teuerste Gliederungsmittel: Sie erzeugt ein zweites
+   Objekt fuer einen Zustand, der nur „hier steht der Zeiger" bedeutet. An
+   ihre Stelle tritt dieselbe Kante wie bei den Links im Panel — eine Linie,
+   die von links nach rechts auffaehrt.
+
+   Die Lage der Linie haengt am Unterstrich-Token: Sie sitzt unter der
+   Textzeile, nicht am unteren Rand der Trefferflaeche. Deshalb die Rechnung
+   ueber die halbe Restbhoehe — bei 44px Trefferflaeche und einer ~1,45em
+   hohen Zeile bleibt oben und unten je etwa 9px, davon geht der Abstand ab. */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link::after {
+  content: '';
+  position: absolute;
+  left: .7rem;
+  right: .7rem;
+  bottom: calc((100% - 1.45em) / 2 - var(--fnd-underline-offset, 4px));
+  height: var(--fnd-underline-thickness, 2px);
+  background: var(--fnd-color-accent-underline);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 220ms cubic-bezier(.2, .7, .3, 1);
+  pointer-events: none;
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn:hover::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link:hover::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn:focus-visible::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link:focus-visible::after { transform: scaleX(1); }
+
+/* Geoeffneter Zweig und aktueller Ast tragen die Kante DAUERHAFT — dieselbe
+   Linie, nur ohne Zeiger. Zusammen mit dem Gewichtssprung (500 -> 600) haengt
+   die Markierung nicht an der Farbe allein (WCAG 1.4.1). */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-expanded="true"]::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-current]::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link[aria-current]::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn.is-active::after,
+:where(.site-header[data-neo-nav], .m-drawer) .nav-link.is-active::after { transform: scaleX(1); }
+
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-expanded="true"] { color: var(--nn-text); }
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.site-header[data-neo-nav], .m-drawer) .nav-btn::after,
+  :where(.site-header[data-neo-nav], .m-drawer) .nav-link::after { transition: none; }
+}
+
+/* +/- Icon (statt Chevron): + zugeklappt, - aufgeklappt */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__pm { display: inline-flex; align-items: center; opacity: .7; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__pm svg { width: 14px; height: 14px; display: block; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn__pm .pm-minus { display: none; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-expanded="true"] .nav-btn__pm { opacity: 1; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-expanded="true"] .nav-btn__pm .pm-plus { display: none; }
+:where(.site-header[data-neo-nav], .m-drawer) .nav-btn[aria-expanded="true"] .nav-btn__pm .pm-minus { display: inline-flex; }
+
+:where(.site-header[data-neo-nav], .m-drawer) .header-actions { margin-inline-start: auto; display: flex; align-items: center; gap: var(--nn-header-actions-gap, .6rem); }
+
+:where(.site-header[data-neo-nav], .m-drawer) .lang-switch {
+  display: inline-flex; border: 1px solid var(--nn-line); border-radius: var(--fnd-radius-sm, 4px); padding: 2px; gap: 2px;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .lang-switch button {
+  border: 0; background: transparent; border-radius: 2px;
+  /* An die Nav-Skala gebunden statt an die generische Caption-Stufe: der
+     Umschalter ist eine Aktion im Header und liegt damit auf derselben Stufe
+     wie „Suchen"/„Schliessen". Die Regel griff vorher gar nicht — der
+     Header-Reset hat sie ueberschrieben. */
+  padding: .3rem .6rem; font-size: var(--nav-action-size); color: var(--nn-muted);
+}
+/* Hover-Feedback fuer inaktive Sprache (theme-aware). */
+:where(.site-header[data-neo-nav], .m-drawer) .lang-switch button:hover:not([aria-pressed="true"]) { background: var(--nn-surface-2); color: var(--nn-text); }
+/* Aktive Sprache: Kontrast statt Markenfarbe. Lime bleibt Neuheiten-Markern
+   und CTAs vorbehalten, wo sie Bedeutung traegt; als Textfarbe waere sie auf
+   Weiss mit 1,5:1 ohnehin ausgeschlossen. Erkennbar ueber Flaeche UND
+   Schriftschnitt — also nicht allein ueber Farbe (WCAG 1.4.1). */
+:where(.site-header[data-neo-nav], .m-drawer) .lang-switch button[aria-pressed="true"] {
+  background: var(--nn-surface-2);
+  color: var(--nn-text);
+  font-weight: var(--nav-l1-weight-active);
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .icon-btn {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  border: 1px solid var(--nn-line); border-radius: var(--fnd-radius-sm, 4px); background: var(--nn-surface);
+  transition: background var(--nn-t), border-color var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .icon-btn:hover { background: var(--nn-surface-2); }
+:where(.site-header[data-neo-nav], .m-drawer) .icon-btn svg { width: 18px; height: 18px; }
+
+:where(.site-header[data-neo-nav], .m-drawer) .burger { display: none; }
+
+/* ===== Panels (Full-width, Inhalt zentriert) ===== */
+:where(.site-header[data-neo-nav], .m-drawer) .panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--nn-surface);
+
+  /* DIE Haarlinie des Verbunds — zwischen Leiste und Panel.
+     Sie gehoert HIERHER und nicht an die Kopfleiste: Das Panel sitzt auf
+     `top: 100%` und beginnt damit genau auf deren unterer Kante. Eine
+     border-bottom am Kopf wird verdeckt, sobald das Panel aufklappt —
+     deshalb war zwischen beiden nichts zu sehen. */
+  border-top: 1px solid var(--nn-line-strong);
+
+  /* Untere Kante bewusst leise: dort traegt der Schatten die Abgrenzung. */
+  border-bottom: 1px solid var(--nn-line);
+  /* Den Schatten NACH OBEN abschneiden.
+     Das Panel ist ein Nachfahre der Kopfleiste und wird deshalb SPAETER
+     gezeichnet als deren Flaeche. Sein Schatten legt sich damit ueber die
+     Leiste und dunkelt sie ab — genau der Eindruck „die Leiste ist dunkler".
+     Eine deckende Flaeche hilft dagegen nicht; das war mein Denkfehler.
+     `inset(0 …)` kappt den Schatten an der Oberkante, die anderen drei
+     Seiten bleiben frei. */
+  clip-path: inset(0 -60px -60px -60px);
+  box-shadow: var(--nn-shadow);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  /* visibility verzoegert AUS (nach Fade-out), aber sofort AN beim Oeffnen */
+  transition: opacity var(--nn-t), transform var(--nn-t), visibility 0s linear var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .panel.is-open { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity var(--nn-t), transform var(--nn-t), visibility 0s; }
+:where(.site-header[data-neo-nav], .m-drawer) .panel-inner { padding: var(--nn-panel-inner-padding, 1.6rem 0 1.8rem); }
+
+/* Sekundaeraktion. Vorher ein Button auf grauer Flaeche — der konkurrierte
+   mit der Linkliste direkt daneben. Als Textlink mit Pfeil ordnet er sich
+   richtig ein: gleiche Ebene wie die Links, aber schwerer und mit Richtung. */
+/* Uebersichtslink als Ghost-Button.
+   Der frueher hier stehende Trennstrich (border-top ueber die volle
+   Spaltenbreite) ist entfallen — der Link setzt sich jetzt ueber seine
+   eigene Form ab, nicht ueber eine Linie darueber.
+   Ruhend rahmenlos, bei Hover und Klick erscheint der Rahmen: dieselbe
+   Logik wie beim Ghost-Button des Design Systems, dort allerdings nur ueber
+   die Flaeche. Der Rahmen kommt hier dazu, weil der Link in einem Panel
+   ohne eigene Flaeche steht und die blosse Aufhellung zu leise waere. */
+:where(.site-header[data-neo-nav], .m-drawer) .panel-overview {
+  display: inline-flex; align-items: center; width: fit-content;
+  min-height: var(--nav-hit-height);
+  margin-top: var(--nn-panel-overview-margin-top, 1.1rem);
+  padding-inline: var(--nn-panel-overview-padding-inline, .8rem);
+  border: 1px solid transparent;
+  border-radius: var(--nn-radius-sm);
+  font-size: var(--nav-action-size); font-weight: var(--nav-action-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  color: var(--nn-text); background: transparent;
+  transition: background var(--nn-t), border-color var(--nn-t), color var(--nn-t);
+}
+/* Hohe Spezifitaet: `a:hover { text-decoration: underline }` (0,1,1) schlaegt
+   eine reine .panel-overview-Regel. Mit dem Rahmen als Signal waere die
+   Unterstreichung ein zweites Merkmal fuer dieselbe Aussage — gemessen kam
+   sie im Hover-Zustand durch. */
+.site-header[data-neo-nav] .panel-overview:hover,
+.site-header[data-neo-nav] .panel-overview:active,
+.site-header[data-neo-nav] .panel-overview:focus-visible {
+  text-decoration: none;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .panel-overview:hover {
+  background: var(--nn-surface-2);
+  /* text-secondary, nicht --nn-line: der Rahmen traegt hier die
+     Erkennbarkeit des Bedienelements und braucht 3:1 (WCAG 1.4.11).
+     --nn-line kaeme nur auf 1,38:1 — dieselbe Rechnung wie beim
+     Suchen-Knopf. */
+  border-color: var(--fnd-color-text-secondary, #586673);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .panel-overview:active {
+  background: var(--fnd-color-background-tertiary, var(--nn-surface-2));
+  border-color: var(--nn-text);
+}
+/* Pfeil-Icon aus der Icon Library statt Sonderzeichen. Der Abstand ist
+   bewusst groesser als ein Wortabstand: das Icon ist eine eigene Marke und
+   soll nicht am Wort kleben. gap wirkt hier nicht ueberall (der Teaser-CTA
+   nutzt es fuer andere Kinder), deshalb margin am Icon selbst. */
+:where(.site-header[data-neo-nav], .m-drawer) .nav-arrow {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  inline-size: var(--nav-arrow-size);
+  block-size: var(--nav-arrow-size);
+  margin-inline-start: var(--nav-arrow-gap);
+  transition: transform var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .nav-arrow svg { inline-size: 100%; block-size: 100%; display: block; }
+
+/* Der Pfeil ruecht bei Hover leicht nach — zeigt die Richtung, ohne dass
+   sich die Zeilenbreite aendert. */
+:where(.site-header[data-neo-nav], .m-drawer) .panel-overview:hover .nav-arrow,
+:where(.site-header[data-neo-nav], .m-drawer) .teaser__cta:hover .nav-arrow,
+:where(.site-header[data-neo-nav], .m-drawer) .m-link:hover .nav-arrow { transform: translateX(.15em); }
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.site-header[data-neo-nav], .m-drawer) .nav-arrow { transition: none; }
+  :where(.site-header[data-neo-nav], .m-drawer) .panel-overview:hover .nav-arrow,
+  :where(.site-header[data-neo-nav], .m-drawer) .teaser__cta:hover .nav-arrow,
+  :where(.site-header[data-neo-nav], .m-drawer) .m-link:hover .nav-arrow { transform: none; }
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .panel-overview:focus-visible {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+  border-color: var(--fnd-color-text-secondary, #586673);
+}
+
+/* Mega mit vertikalen Tabs */
+:where(.site-header[data-neo-nav], .m-drawer) .mega-grid { display: grid; grid-template-columns: 220px 1fr 260px; gap: var(--nn-mega-grid-gap, 1.6rem); align-items: stretch; }
+/* Ohne gepflegten Teaser faellt die dritte Spalte weg (sonst klaffte dort eine Luecke). */
+:where(.site-header[data-neo-nav], .m-drawer) .mega-grid--no-teaser { grid-template-columns: 200px 1fr; }
+/* Kategoriespalte: Eyebrow + Tabliste. Das Eyebrow steht AUSSERHALB des
+   role="tablist" — ein Text darin waere fuer Screenreader ein Fremdkoerper. */
+/* Senkrechte Trennlinie rechts der Gruppenlabels. Sie trennt die Frage
+   („wonach gliedert sich das?") von der Antwort (die Links) und gibt dem
+   Panel eine Struktur, die vorher nur ueber Abstand entstand.
+   align-self: start begrenzt sie auf die eigene Hoehe — Eyebrow plus
+   Tabliste. Ohne das streckt align-items: stretch des Rasters die Spalte auf
+   die volle Panelhoehe, und die Linie lief bis unter den Uebersichtslink. */
+:where(.site-header[data-neo-nav], .m-drawer) .mega-cat {
+  align-self: start;
+  display: flex; flex-direction: column;
+  border-inline-end: var(--nav-divider);
+  padding-inline-end: var(--nn-mega-cat-padding-inline-end, 1.1rem);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .mega-cat__eyebrow {
+  margin: var(--nn-mega-cat-eyebrow-margin, 0 0 .55rem); padding-inline: var(--nn-mega-cat-eyebrow-padding-inline, .8rem);
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-eyebrow-size);
+  font-weight: var(--fnd-font-weight-medium);
+  letter-spacing: var(--nav-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--nn-muted);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .tablist { display: flex; flex-direction: column; gap: var(--nn-tablist-gap, .35rem); }
+/* Radius nur rechts: der Rail sitzt an der linken Kante und soll dort als
+   gerade Linie stehen. Mit beidseitigem Radius wirkte er angeschnitten. */
+:where(.site-header[data-neo-nav], .m-drawer) .tab {
+  text-align: left; border: 0; background: transparent;
+  border-radius: 0 var(--nn-radius-sm) var(--nn-radius-sm) 0;
+  padding: .55rem .8rem; color: var(--nn-muted);
+  display: flex; justify-content: space-between; align-items: center; gap: var(--nn-tab-gap, .5rem);
+  min-height: var(--nav-hit-height);
+  border-left: var(--nav-rail-width) solid transparent;
+  transition: background var(--nn-t), color var(--nn-t), border-color var(--nn-t);
+}
+/* Typo getrennt und mit HOHER Spezifitaet — .tab ist ein <button>, und
+   `.site-header[data-neo-nav] button { font: inherit }` weiter oben setzt
+   sonst Groesse UND Gewicht zurueck. Gemessen kam bei .tab 16px/400 an statt
+   15px/600. Dieselbe Absicherung tragen L1 (.nav-btn/.nav-link) und aus
+   demselben Grund. */
+.site-header[data-neo-nav] .tab {
+  font-family: var(--nn-font);
+  font-size: var(--nav-l2-size);
+  font-weight: var(--nav-l2-weight);
+  /* Farbe MUSS hier stehen: `.site-header[data-neo-nav] button { color: inherit }`
+     schlaegt `.tab { color: var(--nn-muted) }`. Ruhende und aktive Kategorie
+     hatten dadurch dieselbe Textfarbe — den Zustand trug allein die Flaeche
+     mit gemessenen 1,13:1. */
+  color: var(--nn-muted);
+}
+.site-header[data-neo-nav] .tab:hover,
+.site-header[data-neo-nav] .tab[aria-selected="true"] {
+  color: var(--nn-text);
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .tab:hover { background: var(--nn-surface-2); color: var(--nn-text); }
+:where(.site-header[data-neo-nav], .m-drawer) .tab[aria-selected="true"] {
+  background: var(--nn-surface-2); color: var(--nn-text);
+  border-left-color: var(--nav-rail-color);
+}
+/* Zaehler sind Metadaten und gehoeren auf die Utility-Ebene. Tabellenziffern,
+   damit „(8)" und „(12)" exakt untereinander stehen statt zu flattern. */
+.site-header[data-neo-nav] .tab .tab__count {
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-meta-size);
+  font-weight: var(--fnd-font-weight-regular);
+  font-variant-numeric: var(--nav-meta-numeric);
+  font-feature-settings: 'tnum' 1;
+  color: var(--nn-muted);
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .tabpanel[hidden] { display: none; }
+:where(.site-header[data-neo-nav], .m-drawer) .link-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--nn-link-grid-gap, .2rem .8rem);
+}
+/* Trefferflaeche: die VOLLE Zeile, mindestens 44px hoch (WCAG 2.5.8).
+   Vorher war nur die Wortbreite klickbar — dass die Zeile ueberhaupt ein
+   Ziel ist, war ohne Hover-Flaeche nicht zu erkennen. */
+:where(.site-header[data-neo-nav], .m-drawer) .link-grid a {
+  display: flex; align-items: center;
+  min-height: var(--nav-hit-height);
+  padding: .35rem .6rem; border-radius: var(--nn-radius-sm);
+  font-size: var(--nav-l3-size); font-weight: var(--nav-l3-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  color: var(--nn-text); transition: background var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .link-grid a:hover { background: var(--nn-surface-2); }
+
+/* Teaser-Karte */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser {
+  /* UNTERGEORDNET. Vorher ein schwarzer Verlauf mit Lichtfleck — der
+     kontraststaerkste Gegenstand im ganzen Panel und damit das Erste, was das
+     Auge findet. Ein Hinweis im Menue ist eine Beigabe, kein Ziel.
+
+     Jetzt eine leise Flaeche aus der Grauleiter. Die Karte bleibt auffindbar,
+     die Links stehen wieder vorn. Nebenbei nimmt das die groesste dunkle
+     Flaeche aus dem Bild.
+
+     Die Werte kommen aus --nn-teaser-*, damit die Redaktion sie je Teaser
+     setzen kann (Drupal-Felder, siehe neo_nav.module). Die Vorgaben hier
+     sind der Ruhezustand, nicht die einzige Moeglichkeit. */
+  border-radius: var(--nn-radius);
+  padding: var(--nn-teaser-padding, 1.2rem);
+  background: var(--nn-teaser-bg, var(--fnd-color-background-secondary));
+  color: var(--nn-teaser-fg, var(--fnd-color-text-primary));
+  border: 1px solid var(--nn-teaser-border, var(--fnd-color-border-secondary));
+  position: relative;
+  overflow: hidden;
+  /* Traeger fuer ein Hintergrundbild oder eine Animation, die die Redaktion
+     setzen kann. Ohne Angabe bleibt er leer und kostet nichts. */
+  background-image: var(--nn-teaser-image, none);
+  background-size: cover;
+  background-position: center;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .teaser::after {
+  /* Der Lichtfleck gehoerte zur dunklen Flaeche. Auf einem leisen Grau ist er
+     entweder unsichtbar oder ein Schmutzfleck — er entfaellt. Bei einem
+     Hintergrundbild uebernimmt --nn-teaser-scrim die Lesbarkeit. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--nn-teaser-scrim, none);
+  pointer-events: none;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .teaser__title { font-size: var(--nc-type-heading-s-size); font-weight: var(--fnd-font-weight-bold); margin: var(--nn-teaser-title-margin, 0 0 .5rem); }
+:where(.site-header[data-neo-nav], .m-drawer) .teaser__text { font-size: var(--nc-type-body-s-size); line-height: 1.5; color: var(--nn-teaser-fg-muted, var(--fnd-color-text-secondary)); margin: 0 0 1rem; }
+/* Hohe Spezifitaet noetig: `.site-header[data-neo-nav] a { color: inherit }`
+   weiter oben schlaegt eine reine .teaser__cta-Regel. Der Link erbte dadurch
+   das Weiss der Teaser-Karte und stand weiss auf weiss — gemessen
+   color und background beide rgb(255,255,255), also unsichtbar.
+   Dieselbe Absicherung tragen .nav-btn/.nav-link und .tab. */
+.site-header[data-neo-nav] .teaser__cta,
+.m-drawer .teaser__cta {
+  display: inline-flex; align-items: center;
+  font-size: var(--nav-action-size); font-weight: var(--nav-action-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  /* Zwei Fassungen, umschaltbar ueber eine Klasse am Teaser:
+       .teaser--cta-dark   dunkler Knopf auf heller Flaeche (Vorgabe)
+       .teaser--cta-light  heller Knopf auf dunkler Flaeche
+     Welche richtig ist, haengt am Hintergrund — und den bestimmt die
+     Redaktion. Deshalb eine Entscheidung im Backend und keine Ableitung aus
+     der Flaechenfarbe: Bei einem Hintergrundbild laesst sie sich nicht
+     berechnen. */
+  color: var(--nn-teaser-cta-fg, var(--fnd-color-text-inverse));
+  background: var(--nn-teaser-cta-bg, var(--fnd-color-interactive-default));
+  padding: .5rem .8rem; border-radius: var(--nn-radius-sm);
+}
+
+/* Einfaches Dropdown (Produkte/Inside/Unternehmen) */
+/* Dropdown MIT Teaser: Links links, Teaser-Karte rechts (wie im Mega-Panel). */
+:where(.site-header[data-neo-nav], .m-drawer) .dropdown-grid { display: grid; grid-template-columns: 1fr 260px; gap: var(--nn-dropdown-grid-gap, 1.6rem); align-items: start; }
+:where(.site-header[data-neo-nav], .m-drawer) .dropdown-cols {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--nn-dropdown-cols-gap, .2rem 1.5rem);
+  max-width: var(--nav-dropdown-cols-max);
+}
+/* Die fruehere Breitenkopplung des Uebersichtslinks an --nav-dropdown-cols-max
+   ist entfallen: sie existierte nur, damit die Trennlinie buendig zur Liste
+   sass. Ohne Linie richtet sich der Link nach seinem Inhalt. */
+:where(.site-header[data-neo-nav], .m-drawer) .dropdown-cols a {
+  display: flex; align-items: center;
+  min-height: var(--nav-hit-height);
+  padding: .35rem .6rem; border-radius: var(--nn-radius-sm);
+  font-size: var(--nav-l3-size); font-weight: var(--nav-l3-weight);
+  letter-spacing: var(--nav-l3-tracking);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .dropdown-cols a:hover { background: var(--nn-surface-2); }
+
+/* ===== Such-Band (unter dem Header) ===== */
+:where(.site-header[data-neo-nav], .m-drawer) .search-band {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--nn-surface); border-bottom: 1px solid var(--nn-line); box-shadow: var(--nn-shadow-sm);
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity var(--nn-t), transform var(--nn-t), visibility 0s linear var(--nn-t); z-index: 90;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .search-band.is-open { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity var(--nn-t), transform var(--nn-t), visibility 0s; }
+:where(.site-header[data-neo-nav], .m-drawer) .search-form { display: flex; align-items: center; gap: var(--nn-search-form-gap, .8rem); padding: var(--nn-search-form-padding, .9rem 0); }
+
+/* Die Bedieneinheit. Rahmen und Fokusring sitzen HIER, am aeussersten
+   Element — nicht am input. So umrandet der Ring genau das, was
+   zusammengehoert: Icon, Eingabe und Aktionen.
+   Vorher gab es ueberhaupt keinen Fokusindikator (gemessen: outline none 0px
+   auch im Fokus) — das war ein Verstoss gegen 2.4.7. */
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox {
+  flex: 1;
+  display: flex; align-items: center; gap: var(--nn-searchbox-gap, .6rem);
+  min-height: var(--nav-hit-height);
+  padding-inline: var(--nn-searchbox-padding-inline, .8rem);
+  background: var(--nav-search-bg);
+  border: 1px solid var(--nav-search-border);
+  border-radius: var(--nav-search-radius);
+  transition: background var(--nn-t), border-color var(--nn-t);
+}
+/* Die Fuellung wechselt, sobald IRGENDWO in der Einheit Fokus liegt. */
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox:focus-within {
+  background: var(--nav-search-bg-focus);
+  border-color: var(--nav-focus-ring);
+}
+/* Der RING gehoert der Einheit — aber nur, solange das Eingabefeld selbst
+   fokussiert ist. Liegt der Fokus auf einem der Knoepfe darin, zeichnet der
+   seinen eigenen Ring; beide gleichzeitig ergaeben zwei Ringe ineinander und
+   man saehe nicht mehr, WO der Fokus steht.
+   :has() statt einer JS-Klasse — dieselbe Browsergeneration, die auch die
+   Container-Queries dieses Projekts versteht. */
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox:focus-within:not(:has(button:focus-visible)) {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox__icon { width: 20px; height: 20px; color: var(--nn-muted); flex: none; }
+
+/* Entscheidend: das Feld selbst traegt weder Rahmen noch eigenen Ring — der
+   Ring der Einheit uebernimmt beides. */
+:where(.site-header[data-neo-nav], .m-drawer) .search-input {
+  flex: 1; min-inline-size: 0;
+  border: 0; outline: 0; background: transparent;
+  font: inherit; font-size: var(--nc-type-body-m-size); color: var(--nn-text);
+  padding-block: var(--nn-search-input-padding-block, .4rem);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .search-input::placeholder { color: var(--nn-muted); }
+
+/* DER EIGENTLICHE DOPPELRING.
+   Das Design System setzt in styles.css:
+     input:focus-visible { outline: <ring-width> <style> <color>; outline-offset: … }
+   Das ist (0,1,1) und schlaegt `.search-input { outline: 0 }` (0,1,0). Bei
+   ECHTEM Tastaturfokus zeichnete das Feld dadurch seinen eigenen Ring
+   INNERHALB des Gruppenrings — gemessen 2px solid #0f1419 bei 2px Offset,
+   zusaetzlich zu den 3px der Gruppe.
+   Frueheren Messungen ist das entgangen, weil programmatisches .focus() in
+   der Messumgebung :focus-visible nicht ausgeloest hat. Erst ein echter
+   Tastendruck im Feld hat den Zustand reproduziert.
+   `.searchbox .search-input` ist (0,2,1) und gewinnt damit eindeutig. */
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox .search-input,
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox .search-input:focus,
+:where(.site-header[data-neo-nav], .m-drawer) .searchbox .search-input:focus-visible {
+  outline: 0;
+  outline-offset: 0;
+  box-shadow: none;
+  border: 0;
+}
+/* Dieselbe DS-Regel greift auch im mobilen Suchfeld. */
+:where(.site-header[data-neo-nav], .m-drawer) .m-search input,
+:where(.site-header[data-neo-nav], .m-drawer) .m-search input:focus,
+:where(.site-header[data-neo-nav], .m-drawer) .m-search input:focus-visible {
+  outline: 0;
+  outline-offset: 0;
+  box-shadow: none;
+  border: 0;
+}
+
+/* Das browsereigene Kreuz von type=search entfaellt — wir haben ein eigenes,
+   beschriftetes und tastaturbedienbares. */
+:where(.site-header[data-neo-nav], .m-drawer) .search-input::-webkit-search-cancel-button { display: none; }
+
+/* Loescht die EINGABE. Rund, im Feld, nur sichtbar wenn Text da ist. */
+:where(.site-header[data-neo-nav], .m-drawer) .search-clear {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 1.75rem; block-size: 1.75rem;
+  border: 0; border-radius: var(--fnd-radius-full, 999px);
+  background: transparent; color: var(--nn-muted);
+  transition: background var(--nn-t), color var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .search-clear svg { inline-size: 1rem; block-size: 1rem; display: block; }
+:where(.site-header[data-neo-nav], .m-drawer) .search-clear:hover { background: var(--nn-surface-2); color: var(--nn-text); }
+:where(.site-header[data-neo-nav], .m-drawer) .search-clear[hidden] { display: none; }
+
+/* Sekundaer statt schwarz gefuellt: der Knopf steht INNERHALB der Eingabe
+   und darf ihr nicht die Aufmerksamkeit nehmen. Helle Flaeche mit Hairline,
+   dunkler Text — er bleibt als Bedienelement erkennbar, ohne zu dominieren. */
+.site-header[data-neo-nav] .search-submit {
+  flex: none;
+  /* Kontur aus text-secondary, NICHT aus --nn-line: die helle Fuellung ist
+     gegen das weisse Feld praktisch nicht zu sehen (1,05:1), also traegt die
+     Kontur allein die Erkennbarkeit des Bedienelements. Mit --nn-line waren
+     das 1,38:1 — WCAG 1.4.11 verlangt 3:1. Gemessen und korrigiert. */
+  border: 1px solid var(--fnd-color-text-secondary, #586673);
+  border-radius: var(--nn-radius-sm);
+  background: var(--nav-search-bg);
+  color: var(--nn-text);
+  font-size: var(--nav-action-size); font-weight: var(--nav-action-weight);
+  padding-inline: var(--nn-search-submit-padding-inline, .9rem); min-block-size: 2rem;
+  transition: background var(--nn-t), border-color var(--nn-t);
+}
+.site-header[data-neo-nav] .search-submit:hover {
+  background: var(--nn-surface-2);
+  border-color: var(--nav-search-border);
+}
+
+/* Schliesst die SUCHE. Steht AUSSERHALB der Box, ist beschriftet und nennt
+   die Taste — vorher war das ein unbeschriftetes „×" im Feld, das mit dem
+   Loeschen der Eingabe verwechselbar war. */
+:where(.site-header[data-neo-nav], .m-drawer) .search-close {
+  flex: none; display: inline-flex; align-items: center; gap: var(--nn-search-close-gap, .4rem);
+  min-height: var(--nav-hit-height);
+  border: 0; background: transparent; color: var(--nn-muted);
+  /* Gleiche Groesse wie „Suchen" und bewusst kleiner als der Eingabetext:
+     beides sind Aktionen an der Eingabe, nicht die Eingabe selbst. */
+  font-size: var(--nav-action-size); font-weight: var(--nav-action-weight);
+  padding-inline: var(--nn-search-close-padding-inline, .4rem);
+  transition: color var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .search-close:hover { color: var(--nn-text); }
+
+/* Sichtbarer Fokus auch fuer die Knoepfe der Einheit. Ohne das waeren sie
+   per Tastatur erreichbar, aber nicht erkennbar. */
+:where(.site-header[data-neo-nav], .m-drawer) .search-clear:focus-visible,
+:where(.site-header[data-neo-nav], .m-drawer) .search-submit:focus-visible,
+:where(.site-header[data-neo-nav], .m-drawer) .search-close:focus-visible {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+}
+
+/* ===== Mobile ===== */
+.m-drawer {
+  position: fixed; inset: var(--nn-header-h) 0 0 0; z-index: 95;
+  background: var(--nn-surface); transform: translateX(100%);
+  transition: transform var(--nn-t); display: none; overflow: hidden;
+  font-family: var(--nn-font); color: var(--nn-text);
+}
+.m-drawer.is-open { transform: translateX(0); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-viewport { position: relative; height: 100%; overflow: hidden; }
+:where(.site-header[data-neo-nav], .m-drawer) .m-screen {
+  position: absolute; inset: 0; overflow-y: auto; padding: var(--nn-m-screen-padding, 1rem);
+  transform: translateX(100%); transition: transform var(--nn-t); background: var(--nn-surface);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-screen.is-active { transform: translateX(0); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-screen.is-prev { transform: translateX(-30%); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-row {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: .9rem .6rem; border: 0; background: transparent; border-bottom: 1px solid var(--nn-line);
+  font-size: var(--nav-l1-size); font-weight: var(--nav-l1-weight);
+  letter-spacing: var(--nav-l1-tracking);
+  text-align: left; color: inherit; font-family: inherit;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-row .chev { color: var(--nn-muted); display: inline-flex; align-items: center; }
+:where(.site-header[data-neo-nav], .m-drawer) .m-row .chev svg { width: 16px; height: 16px; display: block; }
+:where(.site-header[data-neo-nav], .m-drawer) .m-back {
+  display: inline-flex; align-items: center; gap: var(--nn-m-back-gap, .4rem); border: 0; background: transparent;
+  color: var(--nn-muted); padding: .6rem .4rem; font-size: var(--nc-type-caption-size); margin-bottom: .4rem; font-family: inherit;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-heading { font-size: var(--nc-type-heading-s-size); font-weight: var(--fnd-font-weight-bold); padding: var(--nn-m-heading-padding, .2rem .6rem .8rem); }
+/* Mobiles Gegenstueck zum Eyebrow der Kategoriespalte — dieselbe Stufe, damit
+   die Ebenen auf beiden Ausgaben gleich lesen. */
+:where(.site-header[data-neo-nav], .m-drawer) .m-section-title {
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-eyebrow-size);
+  font-weight: var(--fnd-font-weight-medium);
+  letter-spacing: var(--nav-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--nn-muted); padding: 1rem .6rem .3rem;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-link {
+  display: flex; align-items: center;
+  min-height: var(--nav-hit-height);
+  padding: .5rem .6rem; border-bottom: 1px solid var(--nn-line);
+  font-size: var(--nav-l3-size); font-weight: var(--nav-l3-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  transition: background var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-link:hover { background: var(--nn-surface-2); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-tools { margin-top: var(--nn-m-tools-margin-top, 1.2rem); display: flex; flex-direction: column; gap: var(--nn-m-tools-gap, .8rem); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-cta {
+  display: block; text-align: center; background: var(--nn-accent); color: var(--nn-on-accent);
+  font-size: var(--nav-action-size); font-weight: var(--nav-action-weight);
+  padding: .8rem; border-radius: var(--nn-radius-sm);
+}
+/* Dieselbe Regel wie im Desktop-Feld: Rahmen UND Fokusring am aeussersten
+   Element der Bedieneinheit, nicht am input. Der Rahmen sass hier schon
+   richtig — der Fokusindikator fehlte aber ganz (2.4.7). */
+:where(.site-header[data-neo-nav], .m-drawer) .m-search {
+  display: flex; gap: var(--nn-m-search-gap, .5rem); align-items: center;
+  min-height: var(--nav-hit-height);
+  border: 1px solid var(--nav-search-border);
+  border-radius: var(--nav-search-radius);
+  background: var(--nav-search-bg);
+  padding: var(--nn-m-search-padding, .4rem .8rem);
+  transition: background var(--nn-t), border-color var(--nn-t);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-search:focus-within {
+  background: var(--nav-search-bg-focus);
+  border-color: var(--nav-focus-ring);
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .m-search input { flex: 1; min-inline-size: 0; border: 0; outline: 0; font: inherit; background: transparent; color: var(--nn-text); }
+:where(.site-header[data-neo-nav], .m-drawer) .m-search input::placeholder { color: var(--nn-muted); }
+
+@media (max-width: 1024px) {
+  /* .hdr-group (Sprache/Ansicht/Suche) blendet sich weiter unten selbst aus. */
+  :where(.site-header[data-neo-nav], .m-drawer) .primary-nav { display: none; }
+  :where(.site-header[data-neo-nav], .m-drawer) .burger { display: grid; }
+  .m-drawer { display: block; }
+  :where(.site-header[data-neo-nav], .m-drawer) .panel,
+  :where(.site-header[data-neo-nav], .m-drawer) .search-band { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Der Header SELBST fehlte hier — der Selektor traf nur Nachfahren (*).
+     Seit dem Auto-Hide animiert der Header selbst, also muss er mit rein.
+     Das Verhalten bleibt (Navigation blendet aus/ein), nur ohne Bewegung. */
+  .site-header[data-neo-nav],
+  .site-header[data-neo-nav] *,
+  .m-drawer * { transition: none !important; }
+}
+
+/* Die geprueften Flaechen. Die Zuordnung Stufe -> Wert steht NUR hier, nicht
+   auch im JavaScript oder im Modul: Sonst gibt es drei Orte fuer dieselbe
+   Entscheidung und zwei davon veralten.
+
+   Jede Stufe bringt ihre Schriftfarben mit. Auf den dunklen Stufen kehren sie
+   sich um — deshalb ist die Fassung des Knopfes dort standardmaessig hell. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g50    { --nn-teaser-bg: var(--fnd-neutral-50);  --nn-teaser-border: var(--fnd-neutral-200); }
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g200   { --nn-teaser-bg: var(--fnd-neutral-200); --nn-teaser-border: var(--fnd-neutral-300); }
+
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g900,
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g950 {
+  --nn-teaser-fg: var(--fnd-neutral-50);
+  --nn-teaser-fg-muted: var(--fnd-neutral-400);
+  --nn-teaser-border: transparent;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g900   { --nn-teaser-bg: var(--fnd-neutral-900); }
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g950   { --nn-teaser-bg: var(--fnd-neutral-950); }
+
+/* Lime traegt SCHWARZE Schrift, nie weisse: Der Markenwert erreicht mit Weiss
+   1,63:1 und mit Schwarz 12,89:1. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-accent {
+  --nn-teaser-bg: var(--fnd-color-background-accent);
+  --nn-teaser-fg: #000000;
+  --nn-teaser-fg-muted: color-mix(in srgb, #000000 72%, transparent);
+  --nn-teaser-border: transparent;
+}
+
+/* Die Animation liegt UNTER dem Text in einer eigenen Ebene — dieselbe
+   Bauweise wie bei den Hero-Bloecken, weil neo-bg in ein Element hineinmalt
+   und nicht in einen Hintergrund. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ueber einer Animation braucht die Schrift denselben Traeger wie ueber einem
+   Bild — sonst haengt die Lesbarkeit davon ab, welche Variante gerade laeuft. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--has-anim {
+  --nn-teaser-scrim: linear-gradient(180deg,
+    color-mix(in srgb, #000 20%, transparent) 0%,
+    color-mix(in srgb, #000 55%, transparent) 100%);
+  --nn-teaser-fg: #ffffff;
+  --nn-teaser-fg-muted: color-mix(in srgb, #ffffff 82%, transparent);
+  --nn-teaser-border: transparent;
+}
+
+/* Die beiden Knopf-Fassungen. Welche gilt, entscheidet die Redaktion je
+   Teaser — bei einem Hintergrundbild laesst sich das nicht berechnen.
+
+   Beide sind gegen ihren jeweiligen Grund geprueft:
+     dunkel auf hell   Graphit 900 mit Graphit 50   14,27:1
+     hell auf dunkel   Graphit 50 mit Graphit 950   16,01:1 */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--cta-dark {
+  --nn-teaser-cta-bg: var(--fnd-color-interactive-default);
+  --nn-teaser-cta-fg: var(--fnd-color-text-inverse);
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--cta-light {
+  --nn-teaser-cta-bg: var(--fnd-color-text-inverse);
+  --nn-teaser-cta-fg: var(--fnd-color-text-primary);
+}
+
+/* Auf einem Hintergrundbild braucht die Schrift einen Traeger. Ohne Bild
+   bleibt --nn-teaser-scrim leer und die Regel kostet nichts. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--has-image {
+  --nn-teaser-scrim: linear-gradient(180deg,
+    color-mix(in srgb, #000 15%, transparent) 0%,
+    color-mix(in srgb, #000 55%, transparent) 100%);
+  --nn-teaser-fg: #ffffff;
+  --nn-teaser-fg-muted: color-mix(in srgb, #ffffff 82%, transparent);
+  --nn-teaser-border: transparent;
+}
+
+/* Die Textebene muss ueber dem Traeger liegen. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser > * { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   Kopfleisten-Menues: Sprache und Erscheinungsbild
+   ==========================================================================
+   Sprache, Erscheinungsbild und Suche bilden EINE Gruppe — es sind alles
+   Einstellungen an der Ansicht. Die Suche ist eine Aktion und keine
+   Einstellung; sie war bis 2026-08-17 durch eine Haarlinie abgesetzt.
+
+   Frueher lag der Sprachumschalter als Segment-Paar (DE|EN) offen in der
+   Leiste und der Erscheinungsbild-Schalter als eingeblendetes Panel unten
+   rechts. Beides sind Einstellungen und gehoeren an dieselbe Stelle.
+   ========================================================================== */
+
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-group {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02, 8px);
+}
+
+/* Der Trenner zwischen Einstellungen und Aktion ist am 2026-08-17 entfallen.
+   Er setzte die Suche als AKTION von den beiden EINSTELLUNGEN ab — eine
+   richtige Unterscheidung, aber eine Haarlinie ist ein teures Mittel dafuer.
+   Die Unterscheidung gehoert an die Suche selbst: eine Beschriftung oder ein
+   sichtbares Tastenkuerzel macht sie deutlicher als ein Strich daneben.
+   Steht als Punkt 3 der Navigations-Vorlage noch aus. */
+
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-menu { position: relative; }
+
+/* Ausloeser. Mindestens 44px hoch wie alle Ziele der Navigation (2.5.8). */
+.site-header[data-neo-nav] .hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02, 8px);
+  min-block-size: var(--nav-hit-height);
+  padding-inline: var(--nn-hdr-btn-padding-inline, .7rem);
+  /* ENTKASTET. Im Ruhezustand traegt der Knopf weder Flaeche noch Rahmen:
+     Drei Nebenfunktionen brauchen keine drei staendigen Objekte neben einer
+     Navigation, die selbst keine hat.
+
+     Der Rahmen bleibt als `transparent` STEHEN und wird nicht entfernt —
+     sonst schrumpfte der Knopf beim Ueberfahren um 2px und die ganze Gruppe
+     ruckte. Vorher fiel das nicht auf, weil Rahmen und Fuellung dieselbe
+     Farbe trugen (beide Graphit 200) und der Rahmen dadurch unsichtbar war.
+
+     Die Bewegung dreht sich damit um: Vorher ruhend getoent und beim
+     Anfassen hell, jetzt ruhend leer und beim Anfassen getoent. Nur so ist
+     der Zustand ueberhaupt sichtbar — eine weisse Flaeche auf weissem Grund
+     zeigt nichts. */
+  border: 1px solid transparent;
+  border-radius: var(--nn-radius-sm);
+  background: transparent;
+  color: var(--nn-text);
+  font-size: var(--nav-action-size);
+  font-weight: var(--nav-action-weight);
+  transition: background var(--nn-t), border-color var(--nn-t);
+}
+/* Icon-Knoepfe quadratisch: Breite = Trefferflaechenhoehe, kein
+   Inline-Padding. Mit padding-inline ergab sich die Breite aus Icon plus
+   Polsterung und lag bei 39,6px gegen 44px Hoehe — sichtbar rechteckig.
+   justify-content zentriert das Icon, da die Breite jetzt fest ist. */
+.site-header[data-neo-nav] .hdr-btn--icon {
+  inline-size: var(--nav-hit-height);
+  padding-inline: 0;
+  justify-content: center;
+}
+.site-header[data-neo-nav] .hdr-btn:hover {
+  background: var(--nn-surface-2);
+  border-color: transparent;
+}
+.site-header[data-neo-nav] .hdr-btn[aria-expanded="true"] {
+  background: var(--nn-surface-2);
+  border-color: transparent;
+}
+.site-header[data-neo-nav] .hdr-btn:focus-visible {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-btn__icon { display: inline-flex; inline-size: 1.25rem; block-size: 1.25rem; }
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-btn__icon svg { inline-size: 100%; block-size: 100%; display: block; }
+/* Das Sprachkuerzel steht in Versalien und braucht deshalb positives
+   Tracking — sonst wirken die Grotesk-Versalien gedraengt. */
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-btn__code { letter-spacing: .04em; }
+
+/* ---------------------------------------------------------------------------
+   Panel
+   --------------------------------------------------------------------------- */
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-pop {
+  position: absolute;
+  inset-block-start: calc(100% + var(--fnd-spacing-02, 8px));
+  inset-inline-end: 0;
+  min-inline-size: var(--nav-pop-min-width);
+  padding: var(--fnd-spacing-04, 16px);
+  background: var(--nav-pop-bg);
+  border: 1px solid var(--nn-line);
+  border-radius: var(--nav-pop-radius);
+  box-shadow: var(--nav-pop-shadow);
+  z-index: 120;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-pop[hidden] { display: none; }
+
+/* Dachzeile in Mono-Versalien — dieselbe Stufe wie das Eyebrow der
+   Kategoriespalte im Mega-Panel. */
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-pop__title {
+  margin: 0 0 var(--fnd-spacing-03, 12px);
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-eyebrow-size);
+  font-weight: var(--fnd-font-weight-medium);
+  letter-spacing: var(--nav-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--nn-muted);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-pop__list { list-style: none; margin: 0; padding: 0; }
+
+/* „Systemeinstellung" ist abgesetzt: sie waehlt kein Aussehen, sondern gibt
+   die Entscheidung ans Betriebssystem zurueck. */
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-pop__sep {
+  margin-block-start: var(--fnd-spacing-03, 12px);
+  padding-block-start: var(--fnd-spacing-03, 12px);
+  border-block-start: var(--nav-divider);
+}
+
+/* ---------------------------------------------------------------------------
+   Option
+   --------------------------------------------------------------------------- */
+.site-header[data-neo-nav] .hdr-opt {
+  display: flex;
+  align-items: center;
+  gap: var(--fnd-spacing-02, 8px);
+  inline-size: 100%;
+  min-block-size: var(--nav-hit-height);
+  padding-inline: var(--fnd-spacing-02, 8px);
+  border: 0;
+  border-radius: var(--nn-radius-sm);
+  background: transparent;
+  color: var(--nn-text);
+  font-size: var(--nav-l3-size);
+  font-weight: var(--nav-l3-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  text-align: start;
+  transition: background var(--nn-t);
+}
+.site-header[data-neo-nav] .hdr-opt:hover { background: var(--nn-surface-2); }
+.site-header[data-neo-nav] .hdr-opt:focus-visible {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: calc(var(--nav-focus-offset) * -1);
+}
+
+/* Aktive Option: Fettung UND Haken — zwei Merkmale, nicht nur Farbe (1.4.1). */
+.site-header[data-neo-nav] .hdr-opt[aria-checked="true"] {
+  font-weight: var(--nav-action-weight);
+}
+
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__label { flex: 1; }
+/* Sprachkuerzel als Sekundaerangabe: Mono, damit DE/EN/FR gleich breit
+   stehen und die Spalte nicht flattert. */
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__code {
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-meta-size);
+  font-variant-numeric: var(--nav-meta-numeric);
+  letter-spacing: .06em;
+  color: var(--nn-muted);
+}
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__check {
+  display: inline-flex;
+  inline-size: 1.1rem; block-size: 1.1rem;
+  flex-shrink: 0;
+  color: var(--nav-check-color);
+  visibility: hidden;
+}
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__check svg { inline-size: 100%; block-size: 100%; display: block; stroke-width: 2.5; }
+:where(.site-header[data-neo-nav], .m-drawer) .hdr-opt[aria-checked="true"] .hdr-opt__check { visibility: visible; }
+
+/* Im Dunkel-Theme braucht das Gruen mehr Helligkeit, um auf der dunklen
+   Panelflaeche zu bestehen. */
+.neo-dark-theme :where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__check,
+[data-theme="neo-dark-theme"] :where(.site-header[data-neo-nav], .m-drawer) .hdr-opt__check { color: var(--nav-check-color-dark); }
+
+@media (max-width: 1024px) {
+  /* Auf schmalen Ansichten uebernimmt der Drawer; die Gruppe entfaellt. */
+  :where(.site-header[data-neo-nav], .m-drawer) .hdr-group { display: none; }
+}
+
+/* <<< aufgenommen: navigation-tab-mega */
