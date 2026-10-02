@@ -11,7 +11,7 @@
 | Recipe | `data/switch-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_switch.scss` | present |
 | Storybook | `stories/atoms/switch.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SwitchArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/switch-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/switch-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_switch.scss)
 - [Storybook Story](../stories/atoms/switch.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SwitchArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/switch-docs.html)

@@ -13,12 +13,12 @@
 import { describe, it, expect } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { vorlageFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
-const BLOCK = ['input', 'textarea', 'form-field', 'input-group']
+const BLOCK = ['input', 'textarea', 'checkbox', 'radio', 'switch', 'form-field', 'input-group', 'fieldset']
 
 function zellen (id, specimenId) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -167,8 +167,50 @@ describe('Formular-Block: Zustaende', () => {
     expect(form.querySelector('.nc-form-field > label.nc-form-label').getAttribute('for')).toBe(form.querySelector('textarea').id)
   })
 
+  it('checkbox: angehakt, unbestimmt (per einrichten), deaktiviert, Fehler, Karte', () => {
+    const z = alle('checkbox', 'all-states')
+    const feld = (d) => d.querySelector('input.nc-checkbox__input[type="checkbox"]')
+    expect(z.some((d) => feld(d).checked)).toBe(true)
+    expect(z.some((d) => feld(d).disabled)).toBe(true)
+    const unbestimmt = z.find((d) => feld(d).hasAttribute('data-indeterminate'))
+    expect(feld(unbestimmt).indeterminate).toBe(false)
+    einrichtungFuer('checkbox')(unbestimmt)
+    expect(feld(unbestimmt).indeterminate).toBe(true)
+    for (const d of alle('checkbox', 'error-state')) {
+      expect(d.querySelector('.nc-checkbox--error')).not.toBeNull()
+      expect(feld(d).getAttribute('aria-invalid')).toBe('true')
+    }
+    const [aus, an] = alle('checkbox', 'disabled-states')[0].querySelectorAll('input')
+    expect([aus.disabled, aus.checked, an.disabled, an.checked]).toEqual([true, false, true, true])
+    expect(alle('checkbox', 'card-variant')[0].querySelector('label.nc-checkbox--card .nc-checkbox__label')).not.toBeNull()
+  })
 
+  it('radio: angehakt, Ausrichtung top, Gruppe im Fieldset mit eigenem name', () => {
+    const z = alle('radio', 'all-states')
+    expect(z.some((d) => d.querySelector('input.nc-radio__input').checked)).toBe(true)
+    expect(z.some((d) => d.querySelector('input.nc-radio__input').disabled)).toBe(true)
+    expect(alle('radio', 'alignment-comparison').some((d) => d.querySelector('.nc-radio--top'))).toBe(true)
+    const gruppe = alle('radio', 'radio-group')
+    const namen = gruppe.map((d) => [...new Set([...d.querySelectorAll('input')].map((i) => i.name))])
+    for (const n of namen) expect(n.length).toBe(1)
+    expect(new Set(namen.flat()).size).toBe(gruppe.length)
+    expect(gruppe[0].querySelector('fieldset.nc-fieldset > legend.nc-fieldset__legend')).not.toBeNull()
+  })
 
+  it('switch: Knopf-Muster ueber aria-checked, Checkbox-Muster nativ', () => {
+    const z = alle('switch', 'default-states')
+    const spur = (d) => d.querySelector('button.nc-switch__track[role="switch"]')
+    expect(z.map((d) => spur(d).getAttribute('aria-checked'))).toContain('true')
+    expect(z.some((d) => spur(d).disabled)).toBe(true)
+    for (const d of alle('switch', 'checked-states')) expect(spur(d).getAttribute('aria-checked')).toBe('true')
+    const muster = alle('switch', 'pattern-comparison')
+    const nativ = muster.filter((d) => d.querySelector('input.nc-switch__input[role="switch"]'))
+    expect(nativ.length).toBe(2)
+    expect(nativ.some((d) => d.querySelector('input').checked)).toBe(true)
+    expect(alle('switch', 'with-indicators')[0].querySelector('.nc-switch--indicators .nc-switch__indicator-off')).not.toBeNull()
+    const [aus, an] = alle('switch', 'disabled-states')[0].querySelectorAll('button')
+    expect([aus.disabled, aus.getAttribute('aria-checked'), an.getAttribute('aria-checked')]).toEqual([true, 'false', 'true'])
+  })
 
 
 
@@ -210,6 +252,20 @@ describe('Formular-Block: Zustaende', () => {
     expect(kopie.querySelector('.nc-input-group > button.nc-button[aria-label="Kopieren"]:last-child')).not.toBeNull()
   })
 
+  it('fieldset: Legende, Helfer per aria-describedby, natives disabled, Checkboxen/Radios', () => {
+    for (const d of alle('fieldset')) expect(d.querySelector('fieldset.nc-fieldset > legend.nc-fieldset__legend')).not.toBeNull()
+    const aus = alle('fieldset', 'disabled')[0].querySelector('fieldset')
+    expect(aus.disabled).toBe(true)
+    expect(aus.classList.contains('nc-fieldset--disabled')).toBe(true)
+    const helfer = alle('fieldset', 'with-helper')[0]
+    const ref = helfer.querySelector('fieldset').getAttribute('aria-describedby')
+    expect(helfer.querySelector(`#${ref}.nc-fieldset__helper`)).not.toBeNull()
+    expect(alle('fieldset', 'required-group')[0].querySelector('.nc-fieldset__legend .nc-fieldset__required')).not.toBeNull()
+    expect(alle('fieldset', 'with-checkboxes')[0].querySelectorAll('input.nc-checkbox__input').length).toBe(3)
+    expect(alle('fieldset', 'with-radios')[0].querySelectorAll('input.nc-radio__input').length).toBe(3)
+    expect(alle('fieldset', 'nested-form')[0].querySelector('fieldset.nc-fieldset--card fieldset.nc-fieldset--borderless')).not.toBeNull()
+    expect(alle('fieldset', 'legend-centered')[0].querySelector('.nc-fieldset--legend-center')).not.toBeNull()
+  })
 })
 
 describe('Split-Modus: zweite Vorschau mit eigenen ids und names', () => {
@@ -218,4 +274,12 @@ describe('Split-Modus: zweite Vorschau mit eigenen ids und names', () => {
     expect(fuerWeiteresThema(html, '-t2')).toBe('<label for="a-t2">x</label><input id="a-t2" name="g-t2" aria-describedby="h1-t2 h2-t2"><p id="h1-t2"></p><span data-for="z"></span>')
   })
 
+  it('angehakte Radios bleiben in beiden Vorschauen angehakt', () => {
+    const [z] = zellen('radio', 'checked-unchecked').filter((c) => c.label.includes('Angehakt'))
+    const wurzel = document.createElement('div')
+    wurzel.innerHTML = z.html + fuerWeiteresThema(z.html, '-t2')
+    document.body.appendChild(wurzel)
+    expect([...wurzel.querySelectorAll('input[type="radio"]')].map((i) => i.checked)).toEqual([true, true])
+    wurzel.remove()
+  })
 })

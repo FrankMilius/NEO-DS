@@ -11,7 +11,7 @@
 | Recipe | `data/fieldset-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_fieldset.scss` | present |
 | Storybook | `stories/organisms/fieldset.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/FieldsetArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -31,4 +31,4 @@
 - [Recipe JSON](../data/fieldset-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_fieldset.scss)
 - [Storybook Story](../stories/organisms/fieldset.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/FieldsetArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

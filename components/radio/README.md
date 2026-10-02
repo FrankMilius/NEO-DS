@@ -11,7 +11,7 @@
 | Recipe | `data/radio-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_radio.scss` | present |
 | Storybook | `stories/atoms/radio.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/RadioArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/radio-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/radio-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_radio.scss)
 - [Storybook Story](../stories/atoms/radio.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RadioArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/radio-docs.html)

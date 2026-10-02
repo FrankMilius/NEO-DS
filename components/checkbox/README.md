@@ -11,7 +11,7 @@
 | Recipe | `data/checkbox-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_checkbox.scss` | present |
 | Storybook | `stories/atoms/checkbox.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/CheckboxArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/checkbox-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/checkbox-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_checkbox.scss)
 - [Storybook Story](../stories/atoms/checkbox.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/CheckboxArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/checkbox-docs.html)
