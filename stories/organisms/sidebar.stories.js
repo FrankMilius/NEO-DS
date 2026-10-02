@@ -28,7 +28,7 @@ export const Default = {
   render: () => `<nav class="nc-sidebar" aria-label="Applikations-Navigation" style="position: absolute; inset: 0; overflow-y: auto;">
 <!-- Logo/Brand -->
 <div class="nc-sidebar__header">
-<span style="font-weight: var(--fnd-font-weight-bold); font-size: var(--fs-base); color: var(--fnd-color-text-primary);">MyApp</span>
+<a class="nc-sidebar__logo" href="#">MyApp</a>
 </div>
 <!-- Group: Allgemein -->
 <div class="nc-sidebar__group">
@@ -101,6 +101,7 @@ export const Default = {
 <span class="nc-sidebar__item-label">Benutzer</span>
 <span class="nc-sidebar__item-badge">12</span>
 </a>
+<div class="nc-sidebar__submenu">
 <button class="nc-sidebar__item" aria-expanded="true" aria-controls="sidebar-demo-settings">
 <span class="nc-sidebar__item-icon" aria-hidden="true">
 <!-- Tabler: settings -->
@@ -134,6 +135,7 @@ export const Default = {
 <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
 <span class="nc-sidebar__item-label">Integrationen</span>
 </a>
+</div>
 </div>
 </div>
 <!-- Group: System -->

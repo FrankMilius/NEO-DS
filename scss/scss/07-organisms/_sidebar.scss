@@ -14,6 +14,7 @@
 // STRUKTUR:
 //   nav.nc-sidebar (aria-label)
 //     div.nc-sidebar__header (Logo/Titel)
+//       a.nc-sidebar__logo + button.nc-sidebar__toggle
 //     div.nc-sidebar__nav
 //       div.nc-sidebar__group
 //         span.nc-sidebar__group-label
@@ -22,11 +23,15 @@
 //           span.nc-sidebar__item-label
 //           span.nc-sidebar__item-badge
 //         div.nc-sidebar__submenu
-//           a.nc-sidebar__item (nested)
+//           button.nc-sidebar__item[aria-expanded] (+ __item-chevron)
+//           div.nc-sidebar__submenu-items
+//             a.nc-sidebar__item.nc-sidebar__item--sub
 //     div.nc-sidebar__footer
 //
 // KLASSEN:
 //   .nc-sidebar (kanonisch, BEM)
+//   .nc-sidebar--collapsed            Eingeklappt (nur Symbole)
+//   .nc-sidebar--open                 Overlay offen (Mobil-Lage)
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -310,11 +315,13 @@
   &--collapsed {
     width: var(--mod-sidebar-width-collapsed, var(--nc-sidebar-width-collapsed));
 
+    // Untermenue: nur die Unterpunkte aus — der Knopf bleibt als Symbol
+    // erreichbar (wie die anderen Eintraege)
     .nc-sidebar__item-label,
     .nc-sidebar__item-badge,
     .nc-sidebar__item-chevron,
     .nc-sidebar__group-label,
-    .nc-sidebar__submenu {
+    .nc-sidebar__submenu-items {
       display: none;
     }
 

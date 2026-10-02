@@ -76,7 +76,7 @@
 
                 <!-- Logo/Brand -->
                 <div class="nc-sidebar__header">
-                  <span class="" style="font-weight: var(--fnd-font-weight-bold); font-size: var(--fs-base); color: var(--fnd-color-text-primary);">MyApp</span>
+                  <a class="nc-sidebar__logo" href="#">MyApp</a>
                 </div>
 
                 <!-- Group: Allgemein -->
@@ -117,27 +117,29 @@
                     <span class="nc-sidebar__item-label">Benutzer</span>
                     <span class="nc-sidebar__item-badge">12</span>
                   </a>
-                  <button class="nc-sidebar__item" aria-expanded="true" aria-controls="sidebar-demo-settings">
-                    <span class="nc-sidebar__item-icon" aria-hidden="true">
-                      <!-- Tabler: settings -->
-                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.573 1.066c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.066 -2.573c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
-                    </span>
-                    <span class="nc-sidebar__item-label">Einstellungen</span>
-                    <span class="nc-sidebar__item-chevron" aria-hidden="true">
-                      <!-- Tabler: chevron-right (rotiert 90° bei aria-expanded="true") -->
-                      <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg>
-                    </span>
-                  </button>
-                  <div class="nc-sidebar__submenu-items" id="sidebar-demo-settings">
-                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
-                      <span class="nc-sidebar__item-label">Profil</span>
-                    </a>
-                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
-                      <span class="nc-sidebar__item-label">Sicherheit</span>
-                    </a>
-                    <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
-                      <span class="nc-sidebar__item-label">Integrationen</span>
-                    </a>
+                  <div class="nc-sidebar__submenu">
+                    <button class="nc-sidebar__item" aria-expanded="true" aria-controls="sidebar-demo-settings">
+                      <span class="nc-sidebar__item-icon" aria-hidden="true">
+                        <!-- Tabler: settings -->
+                        <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.573 1.066c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.066 -2.573c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+                      </span>
+                      <span class="nc-sidebar__item-label">Einstellungen</span>
+                      <span class="nc-sidebar__item-chevron" aria-hidden="true">
+                        <!-- Tabler: chevron-right (rotiert 90° bei aria-expanded="true") -->
+                        <svg viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6"/></svg>
+                      </span>
+                    </button>
+                    <div class="nc-sidebar__submenu-items" id="sidebar-demo-settings">
+                      <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                        <span class="nc-sidebar__item-label">Profil</span>
+                      </a>
+                      <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                        <span class="nc-sidebar__item-label">Sicherheit</span>
+                      </a>
+                      <a class="nc-sidebar__item nc-sidebar__item--sub" href="#">
+                        <span class="nc-sidebar__item-label">Integrationen</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -160,7 +162,7 @@
             <div class="docs-snippet">
               <pre>&lt;nav class="nc-sidebar" aria-label="Navigation"&gt;
   &lt;div class="nc-sidebar__header"&gt;
-    &lt;span class=""&gt;MyApp&lt;/span&gt;
+    &lt;a class="nc-sidebar__logo" href="#"&gt;MyApp&lt;/a&gt;
   &lt;/div&gt;
   &lt;div class="nc-sidebar__group"&gt;
     &lt;span class="nc-sidebar__group-label"&gt;Gruppe&lt;/span&gt;
@@ -230,7 +232,9 @@
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
             <div class="docs__code-block">.nc-sidebar                     // Block (Container, nav)
 .nc-sidebar__header             // Header/Brand-Bereich
-.nc-sidebar__brand              // Brand/Logo-Text
+.nc-sidebar__logo               // Logo/Marke (Link)
+.nc-sidebar__toggle             // Einklappen-Knopf im Header
+.nc-sidebar__nav                // Navigations-Bereich (Gruppen)
 .nc-sidebar__group              // Navigations-Gruppe
 .nc-sidebar__group-label        // Gruppen-&Uuml;berschrift (uppercase)
 .nc-sidebar__item               // Navigations-Item (a/button)
@@ -240,11 +244,16 @@
 .nc-sidebar__item-chevron       // Submen&uuml;-Pfeil
 .nc-sidebar__submenu            // Submen&uuml;-Container
 .nc-sidebar__submenu-items      // Submen&uuml;-Items Container
+.nc-sidebar__footer             // Fu&szlig;bereich (unten)
+
+// Block-Modifier
+.nc-sidebar--collapsed          // Eingeklappt (nur Symbole)
+.nc-sidebar--open               // Overlay ge&ouml;ffnet
 
 // Item-Modifier
 .nc-sidebar__item--active       // Aktives Item (hervorgehoben)
-.nc-sidebar__item--has-submenu  // Item mit Submen&uuml; (button statt a)
-.nc-sidebar__item--sub          // Submen&uuml;-Item (einger&uuml;ckt)</div>
+.nc-sidebar__item--sub          // Submen&uuml;-Item (einger&uuml;ckt)
+// Item mit Submen&uuml;: button.nc-sidebar__item[aria-expanded] in .nc-sidebar__submenu</div>
           </section>
 
         </div>
@@ -274,7 +283,9 @@
               <tbody>
                 <tr><td><code class="docs__token">.nc-sidebar</code></td><td>Block</td><td>Sidebar-Container (nav-Element).</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__header</code></td><td>Element</td><td>Header mit Brand/Logo.</td></tr>
-                <tr><td><code class="docs__token">.nc-sidebar__brand</code></td><td>Element</td><td>Brand-Text oder Logo.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__logo</code></td><td>Element</td><td>Logo/Marke (Link).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__toggle</code></td><td>Element</td><td>Einklappen-Knopf im Header.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__nav</code></td><td>Element</td><td>Navigations-Bereich.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__group</code></td><td>Element</td><td>Navigations-Gruppe.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__group-label</code></td><td>Element</td><td>Gruppen-Titel (uppercase).</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__item</code></td><td>Element</td><td>Navigations-Item.</td></tr>
@@ -284,8 +295,10 @@
                 <tr><td><code class="docs__token">.nc-sidebar__item-chevron</code></td><td>Element</td><td>Submen&uuml;-Pfeil.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__submenu</code></td><td>Element</td><td>Submen&uuml; Wrapper.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__submenu-items</code></td><td>Element</td><td>Submen&uuml;-Items Container.</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar__footer</code></td><td>Element</td><td>Fu&szlig;bereich (unten).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar--collapsed</code></td><td>Modifier</td><td>Eingeklappt (nur Symbole, Untermen&uuml;-Knopf bleibt).</td></tr>
+                <tr><td><code class="docs__token">.nc-sidebar--open</code></td><td>Modifier</td><td>Overlay ge&ouml;ffnet.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__item--active</code></td><td>Modifier</td><td>Aktives Item.</td></tr>
-                <tr><td><code class="docs__token">.nc-sidebar__item--has-submenu</code></td><td>Modifier</td><td>Item mit Submen&uuml;.</td></tr>
                 <tr><td><code class="docs__token">.nc-sidebar__item--sub</code></td><td>Modifier</td><td>Submen&uuml;-Item.</td></tr>
               </tbody>
             </table>
@@ -297,7 +310,7 @@
 
   &lt;!-- Slot 1: Header (optional) --&gt;
   &lt;div class="nc-sidebar__header"&gt;
-    &lt;span class=""&gt;AppName&lt;/span&gt;
+    &lt;a class="nc-sidebar__logo" href="#"&gt;AppName&lt;/a&gt;
   &lt;/div&gt;
 
   &lt;!-- Slot 2: Groups (wiederholbar) --&gt;
