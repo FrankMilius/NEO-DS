@@ -1,0 +1,778 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "navigation-tab-mega",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "organism",
+  "tags": [
+    "navigation",
+    "header",
+    "mega-menu",
+    "interactive",
+    "website"
+  ],
+  "anatomy": {
+    "rootElement": ".site-header",
+    "slots": [
+      {
+        "name": "inner",
+        "selector": ".header-inner",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "brand",
+        "selector": ".brand",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "brand-logo",
+        "selector": ".brand__logo",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "brand-name",
+        "selector": ".brand__name",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "primary-nav",
+        "selector": ".primary-nav",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "list",
+        "selector": ".nav-list",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "trigger",
+        "selector": ".nav-btn",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "trigger-label",
+        "selector": ".nav-btn__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "trigger-icon",
+        "selector": ".nav-btn__pm",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "link",
+        "selector": ".nav-link",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "actions",
+        "selector": ".header-actions",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "settings",
+        "selector": ".hdr-group",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "settings-menu",
+        "selector": ".hdr-menu",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "settings-trigger",
+        "selector": ".hdr-btn",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "settings-panel",
+        "selector": ".hdr-pop",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "settings-option",
+        "selector": ".hdr-opt",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "search-toggle",
+        "selector": ".search-toggle",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "burger",
+        "selector": ".burger",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "panel",
+        "selector": ".panel",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "panel-inner",
+        "selector": ".panel-inner",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "panel-overview",
+        "selector": ".panel-overview",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-grid",
+        "selector": ".mega-grid",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-cat",
+        "selector": ".mega-cat",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-eyebrow",
+        "selector": ".mega-cat__eyebrow",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tablist",
+        "selector": ".tablist",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tab",
+        "selector": ".tab",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tab-count",
+        "selector": ".tab__count",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "tabpanel",
+        "selector": ".tabpanel",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "link-grid",
+        "selector": ".link-grid",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "dropdown-grid",
+        "selector": ".dropdown-grid",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "dropdown-cols",
+        "selector": ".dropdown-cols",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "teaser",
+        "selector": ".teaser",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "teaser-title",
+        "selector": ".teaser__title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "teaser-text",
+        "selector": ".teaser__text",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "teaser-cta",
+        "selector": ".teaser__cta",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "teaser-bg",
+        "selector": ".teaser__bg",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "arrow",
+        "selector": ".nav-arrow",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "search-band",
+        "selector": ".search-band",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "searchbox",
+        "selector": ".searchbox",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "search-input",
+        "selector": ".search-input",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "search-clear",
+        "selector": ".search-clear",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "search-submit",
+        "selector": ".search-submit",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "search-close",
+        "selector": ".search-close",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer",
+        "selector": ".m-drawer",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-viewport",
+        "selector": ".m-viewport",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-screen",
+        "selector": ".m-screen",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-row",
+        "selector": ".m-row",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-back",
+        "selector": ".m-back",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drawer-heading",
+        "selector": ".m-heading",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drawer-section-title",
+        "selector": ".m-section-title",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drawer-link",
+        "selector": ".m-link",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drawer-tools",
+        "selector": ".m-tools",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-search",
+        "selector": ".m-search",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-lang",
+        "selector": ".lang-switch",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-lang-mobil",
+        "selector": ".m-lang",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "drawer-cta",
+        "selector": ".m-cta",
+        "required": false,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Wurzel ist <header class=\"site-header\" data-neo-nav>. Das Attribut data-neo-nav ist Pflicht: alle Regeln haengen an .site-header[data-neo-nav] bzw. an :where(.site-header[data-neo-nav], .m-drawer).",
+      "Der mobile Drawer .m-drawer ist ein GESCHWISTER des Headers, kein Nachfahre — er ist die zweite Wurzel. Grund: transform am Header (Auto-Hide) erzeugt einen Containing-Block fuer position: fixed; laege der Drawer darin, wanderte er mit.",
+      "Das Twig (neo-nav.html.twig) liefert nur die Huelle und einen serverseitigen Top-Level-Fallback (a.nav-link je Punkt, crawlbar, ohne JS). Menuepunkte, Panels (#panelHost) und Drawer-Bildschirme (#mViewport) baut neo-nav.js aus drupalSettings.neoNav.",
+      "Panel-Typ aus der Menuestruktur, ohne Auswahlfeld: Ebene 1 ohne Kinder = a.nav-link; mit Kindern = Dropdown (ul.dropdown-cols, zweispaltig); mit Enkeln = Mega-Panel (div.mega-grid: Kategoriespalte .mega-cat mit role=tablist, Linkliste je .tabpanel, optional Teaser).",
+      "Teaser-Karte aside.teaser am Menuepunkt der Ebene 1 gepflegt (Titel leer = kein Teaser). Ohne Teaser im Mega-Panel: .mega-grid--no-teaser (zweispaltig). Flaeche ueber .teaser--bg-{g50|g200|g900|g950|accent}, Knopf ueber .teaser--cta-{dark|light}, Bild ueber --nn-teaser-image + .teaser--has-image, Animation ueber div.teaser__bg[data-neo-bg] + .teaser--has-anim.",
+      "Punkte ohne eigene Seite (<nolink>) haben keinen Uebersichtslink .panel-overview.",
+      "Sprache, Erscheinungsbild und Suche bilden eine Gruppe .hdr-group (role=group). Die aktive Option traegt Haken UND Fettung, keine Markenfarbe.",
+      "Breiten-Zwilling: .nav-btn__label traegt data-text mit der Beschriftung; das CSS legt daraus einen unsichtbaren Zwilling in 600 in dieselbe Rasterzelle, damit der Gewichtswechsel die Leiste nicht verschiebt.",
+      "Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "offen": {
+      "label": "Geöffnet",
+      "description": "Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.",
+      "values": [
+        {
+          "value": "keins",
+          "cssModifier": null,
+          "default": false,
+          "label": "keins"
+        },
+        {
+          "value": "mega",
+          "cssModifier": null,
+          "default": false,
+          "label": "mega"
+        },
+        {
+          "value": "dropdown",
+          "cssModifier": null,
+          "default": false,
+          "label": "dropdown"
+        },
+        {
+          "value": "suche",
+          "cssModifier": null,
+          "default": false,
+          "label": "suche"
+        },
+        {
+          "value": "sprache",
+          "cssModifier": null,
+          "default": false,
+          "label": "sprache"
+        },
+        {
+          "value": "ansicht",
+          "cssModifier": null,
+          "default": false,
+          "label": "ansicht"
+        }
+      ]
+    },
+    "teaser": {
+      "label": "Teaser",
+      "description": "Teaser-Karte im Panel. Redaktionell am Menuepunkt gepflegt; ohne Titel entfaellt sie samt Spalte.",
+      "values": [
+        {
+          "value": "mit",
+          "cssModifier": null,
+          "default": false,
+          "label": "mit"
+        },
+        {
+          "value": "ohne",
+          "cssModifier": null,
+          "default": false,
+          "label": "ohne"
+        }
+      ]
+    },
+    "teaserFlaeche": {
+      "label": "Teaser-Fläche",
+      "description": "Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "g50",
+          "cssModifier": "teaser--bg-g50",
+          "default": false,
+          "label": "g50"
+        },
+        {
+          "value": "g200",
+          "cssModifier": "teaser--bg-g200",
+          "default": false,
+          "label": "g200"
+        },
+        {
+          "value": "g900",
+          "cssModifier": "teaser--bg-g900",
+          "default": false,
+          "label": "g900"
+        },
+        {
+          "value": "g950",
+          "cssModifier": "teaser--bg-g950",
+          "default": false,
+          "label": "g950"
+        },
+        {
+          "value": "accent",
+          "cssModifier": "teaser--bg-accent",
+          "default": false,
+          "label": "accent"
+        }
+      ]
+    },
+    "teaserKnopf": {
+      "label": "Teaser-Knopf",
+      "description": "Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.",
+      "values": [
+        {
+          "value": "dark",
+          "cssModifier": "teaser--cta-dark",
+          "default": false,
+          "label": "dark"
+        },
+        {
+          "value": "light",
+          "cssModifier": "teaser--cta-light",
+          "default": false,
+          "label": "light"
+        }
+      ]
+    },
+    "ausgabe": {
+      "label": "Ausgabe",
+      "description": "Desktop (Leiste mit Panels) oder mobil (Burger + Push-Navigation im Drawer). Umschaltung im Bauteil allein ueber die Fensterbreite (max-width: 1024px).",
+      "values": [
+        {
+          "value": "desktop",
+          "cssModifier": null,
+          "default": false,
+          "label": "desktop"
+        },
+        {
+          "value": "mobil",
+          "cssModifier": null,
+          "default": false,
+          "label": "mobil"
+        }
+      ]
+    },
+    "drawer": {
+      "label": "Drawer",
+      "description": "Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Push-Navigation, der vorige Bildschirm rueckt um 30 % nach links).",
+      "values": [
+        {
+          "value": "zu",
+          "cssModifier": null,
+          "default": false,
+          "label": "zu"
+        },
+        {
+          "value": "start",
+          "cssModifier": null,
+          "default": false,
+          "label": "start"
+        },
+        {
+          "value": "unterseite",
+          "cssModifier": null,
+          "default": false,
+          "label": "unterseite"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "active",
+      "hidden"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "active",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hidden",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "site-header"
+    ],
+    "tokenGroups": {
+      "Leiste": [
+        {
+          "token": "--nn-text"
+        },
+        {
+          "token": "--nn-muted"
+        },
+        {
+          "token": "--nn-line"
+        },
+        {
+          "token": "--nn-line-strong"
+        },
+        {
+          "token": "--nn-surface"
+        },
+        {
+          "token": "--nn-surface-2"
+        },
+        {
+          "token": "--nn-content-max"
+        },
+        {
+          "token": "--nn-header-h"
+        },
+        {
+          "token": "--nn-radius-sm"
+        },
+        {
+          "token": "--nav-l1-size"
+        },
+        {
+          "token": "--nav-l1-weight-rest"
+        },
+        {
+          "token": "--nav-l1-weight-active"
+        },
+        {
+          "token": "--nav-hit-height"
+        },
+        {
+          "token": "--nav-focus-ring"
+        }
+      ],
+      "Panel": [
+        {
+          "token": "--nn-shadow"
+        },
+        {
+          "token": "--nn-t"
+        },
+        {
+          "token": "--nav-l2-size"
+        },
+        {
+          "token": "--nav-l3-size"
+        },
+        {
+          "token": "--nav-eyebrow-size"
+        },
+        {
+          "token": "--nav-rail-color"
+        },
+        {
+          "token": "--nav-rail-width"
+        },
+        {
+          "token": "--nav-action-size"
+        },
+        {
+          "token": "--nav-dropdown-cols-max"
+        }
+      ],
+      "Teaser": [
+        {
+          "token": "--nn-teaser-bg"
+        },
+        {
+          "token": "--nn-teaser-fg"
+        },
+        {
+          "token": "--nn-teaser-fg-muted"
+        },
+        {
+          "token": "--nn-teaser-border"
+        },
+        {
+          "token": "--nn-teaser-cta-bg"
+        },
+        {
+          "token": "--nn-teaser-cta-fg"
+        },
+        {
+          "token": "--nn-teaser-image"
+        },
+        {
+          "token": "--nn-teaser-scrim"
+        }
+      ],
+      "Suche": [
+        {
+          "token": "--nav-search-bg"
+        },
+        {
+          "token": "--nav-search-bg-focus"
+        },
+        {
+          "token": "--nav-search-border"
+        },
+        {
+          "token": "--nav-search-radius"
+        },
+        {
+          "token": "--nav-focus-width"
+        },
+        {
+          "token": "--nav-focus-offset"
+        }
+      ],
+      "Kopfleisten-Menü": [
+        {
+          "token": "--nav-pop-bg"
+        },
+        {
+          "token": "--nav-pop-radius"
+        },
+        {
+          "token": "--nav-pop-shadow"
+        },
+        {
+          "token": "--nav-pop-min-width"
+        },
+        {
+          "token": "--nav-check-color"
+        },
+        {
+          "token": "--nav-check-color-dark"
+        }
+      ],
+      "Drawer": [
+        {
+          "token": "--nn-accent"
+        },
+        {
+          "token": "--nn-on-accent"
+        },
+        {
+          "token": "--nn-header-h"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-panel",
+      "note": "Auf einem Menuepunkt mit Unterpunkten (button.nav-btn): oeffnet bzw. schliesst sein Panel (native Button-Aktivierung). Nur ein Panel gleichzeitig; Oeffnen schliesst Such-Band und Kopfleisten-Menues."
+    },
+    "Space": {
+      "action": "toggle-panel",
+      "note": "Wie Enter."
+    },
+    "ArrowDown": {
+      "action": "next-tab-or-option",
+      "note": "Im Mega-Panel auf einem Tab: naechster Tab, aktiviert ihn sofort (rundum). Im Sprach-/Erscheinungsbild-Menue: naechste Option (rundum)."
+    },
+    "ArrowUp": {
+      "action": "prev-tab-or-option",
+      "note": "Wie ArrowDown, rueckwaerts."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst in dieser Reihenfolge: Kopfleisten-Menue, Such-Band, Panel, Drawer — Fokus zurueck auf den Ausloeser (beim Drawer ohne Fokusrueckgabe)."
+    }
+  },
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "3px solid text-accent (#0e7490, 5,36:1) mit 2px Abstand — NICHT interactive-focus (2,97:1 gegen Weiss)",
+    "assertions": [
+      "hasAccessibleName",
+      "supportsKeyboard",
+      "hasVisibleFocus",
+      "targetSize44"
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "teaserFlaeche": [
+              "g900",
+              "g950"
+            ]
+          }
+        },
+        "require": [],
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Dunkle Flaechen: Schrift kehrt sich um; Knopf-Fassung light vorsehen (hell auf dunkel 16,01:1)."
+      }
+    ]
+  },
+  "dependencies": [
+    "kbd"
+  ],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_navigation-tab-mega.scss"
+    ],
+    "story": "stories/organisms/navigation-tab-mega.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [
+      "neo-nav.html.twig"
+    ],
+    "docs": null
+  }
+}

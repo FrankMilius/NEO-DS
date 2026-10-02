@@ -1,0 +1,584 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "navigation-tab-mega",
+    "version": "1.0.0",
+    "status": "stable",
+    "tags": [
+      "navigation",
+      "header",
+      "mega-menu",
+      "interactive",
+      "website"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "label": "Hauptnavigation V3 Tab-Mega",
+    "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
+    "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Aufnahme aus dem Drupal-Theme (neo_fe/css/neo-nav.css, 02.10.2026). Werte unveraendert; Regeln auf die Wurzeln .site-header[data-neo-nav] und .m-drawer begrenzt, lokale Variablen an den Wurzeln statt an :root."
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_navigation-tab-mega.scss"
+      ],
+      "story": "stories/organisms/navigation-tab-mega.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "neo-nav.html.twig"
+      ],
+      "docs": null
+    },
+    "dependencies": [
+      "kbd"
+    ],
+    "source": {
+      "drupal": {
+        "module": "web/modules/custom/neo_nav (README.md, neo_nav.module, src/Plugin/Block/NeoMainNavBlock.php)",
+        "template": "web/themes/custom/neo_fe/templates/navigation/neo-nav.html.twig",
+        "css": "web/themes/custom/neo_fe/css/neo-nav.css",
+        "js": "web/themes/custom/neo_fe/js/neo-nav.js"
+      }
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".site-header"
+    },
+    "slots": [
+      { "name": "inner", "element": ".header-inner", "optional": false },
+      { "name": "brand", "element": ".brand", "optional": false },
+      { "name": "brand-logo", "element": ".brand__logo", "optional": true },
+      { "name": "brand-name", "element": ".brand__name", "optional": true },
+      { "name": "primary-nav", "element": ".primary-nav", "optional": false },
+      { "name": "list", "element": ".nav-list", "optional": false },
+      { "name": "trigger", "element": ".nav-btn", "optional": true },
+      { "name": "trigger-label", "element": ".nav-btn__label", "optional": true },
+      { "name": "trigger-icon", "element": ".nav-btn__pm", "optional": true },
+      { "name": "link", "element": ".nav-link", "optional": true },
+      { "name": "actions", "element": ".header-actions", "optional": false },
+      { "name": "settings", "element": ".hdr-group", "optional": false },
+      { "name": "settings-menu", "element": ".hdr-menu", "optional": false },
+      { "name": "settings-trigger", "element": ".hdr-btn", "optional": false },
+      { "name": "settings-panel", "element": ".hdr-pop", "optional": false },
+      { "name": "settings-option", "element": ".hdr-opt", "optional": false },
+      { "name": "search-toggle", "element": ".search-toggle", "optional": false },
+      { "name": "burger", "element": ".burger", "optional": false },
+      { "name": "panel", "element": ".panel", "optional": true },
+      { "name": "panel-inner", "element": ".panel-inner", "optional": true },
+      { "name": "panel-overview", "element": ".panel-overview", "optional": true },
+      { "name": "mega-grid", "element": ".mega-grid", "optional": true },
+      { "name": "mega-cat", "element": ".mega-cat", "optional": true },
+      { "name": "mega-eyebrow", "element": ".mega-cat__eyebrow", "optional": true },
+      { "name": "tablist", "element": ".tablist", "optional": true },
+      { "name": "tab", "element": ".tab", "optional": true },
+      { "name": "tab-count", "element": ".tab__count", "optional": true },
+      { "name": "tabpanel", "element": ".tabpanel", "optional": true },
+      { "name": "link-grid", "element": ".link-grid", "optional": true },
+      { "name": "dropdown-grid", "element": ".dropdown-grid", "optional": true },
+      { "name": "dropdown-cols", "element": ".dropdown-cols", "optional": true },
+      { "name": "teaser", "element": ".teaser", "optional": true },
+      { "name": "teaser-title", "element": ".teaser__title", "optional": true },
+      { "name": "teaser-text", "element": ".teaser__text", "optional": true },
+      { "name": "teaser-cta", "element": ".teaser__cta", "optional": true },
+      { "name": "teaser-bg", "element": ".teaser__bg", "optional": true },
+      { "name": "arrow", "element": ".nav-arrow", "optional": true },
+      { "name": "search-band", "element": ".search-band", "optional": false },
+      { "name": "searchbox", "element": ".searchbox", "optional": false },
+      { "name": "search-input", "element": ".search-input", "optional": false },
+      { "name": "search-clear", "element": ".search-clear", "optional": false },
+      { "name": "search-submit", "element": ".search-submit", "optional": false },
+      { "name": "search-close", "element": ".search-close", "optional": false },
+      { "name": "drawer", "element": ".m-drawer", "optional": false },
+      { "name": "drawer-viewport", "element": ".m-viewport", "optional": false },
+      { "name": "drawer-screen", "element": ".m-screen", "optional": false },
+      { "name": "drawer-row", "element": ".m-row", "optional": false },
+      { "name": "drawer-back", "element": ".m-back", "optional": true },
+      { "name": "drawer-heading", "element": ".m-heading", "optional": true },
+      { "name": "drawer-section-title", "element": ".m-section-title", "optional": true },
+      { "name": "drawer-link", "element": ".m-link", "optional": true },
+      { "name": "drawer-tools", "element": ".m-tools", "optional": false },
+      { "name": "drawer-search", "element": ".m-search", "optional": false },
+      { "name": "drawer-lang", "element": ".lang-switch", "optional": false },
+      { "name": "drawer-lang-mobil", "element": ".m-lang", "optional": false },
+      { "name": "drawer-cta", "element": ".m-cta", "optional": true }
+    ],
+    "domNotes": [
+      "Wurzel ist <header class=\"site-header\" data-neo-nav>. Das Attribut data-neo-nav ist Pflicht: alle Regeln haengen an .site-header[data-neo-nav] bzw. an :where(.site-header[data-neo-nav], .m-drawer).",
+      "Der mobile Drawer .m-drawer ist ein GESCHWISTER des Headers, kein Nachfahre — er ist die zweite Wurzel. Grund: transform am Header (Auto-Hide) erzeugt einen Containing-Block fuer position: fixed; laege der Drawer darin, wanderte er mit.",
+      "Das Twig (neo-nav.html.twig) liefert nur die Huelle und einen serverseitigen Top-Level-Fallback (a.nav-link je Punkt, crawlbar, ohne JS). Menuepunkte, Panels (#panelHost) und Drawer-Bildschirme (#mViewport) baut neo-nav.js aus drupalSettings.neoNav.",
+      "Panel-Typ aus der Menuestruktur, ohne Auswahlfeld: Ebene 1 ohne Kinder = a.nav-link; mit Kindern = Dropdown (ul.dropdown-cols, zweispaltig); mit Enkeln = Mega-Panel (div.mega-grid: Kategoriespalte .mega-cat mit role=tablist, Linkliste je .tabpanel, optional Teaser).",
+      "Teaser-Karte aside.teaser am Menuepunkt der Ebene 1 gepflegt (Titel leer = kein Teaser). Ohne Teaser im Mega-Panel: .mega-grid--no-teaser (zweispaltig). Flaeche ueber .teaser--bg-{g50|g200|g900|g950|accent}, Knopf ueber .teaser--cta-{dark|light}, Bild ueber --nn-teaser-image + .teaser--has-image, Animation ueber div.teaser__bg[data-neo-bg] + .teaser--has-anim.",
+      "Punkte ohne eigene Seite (<nolink>) haben keinen Uebersichtslink .panel-overview.",
+      "Sprache, Erscheinungsbild und Suche bilden eine Gruppe .hdr-group (role=group). Die aktive Option traegt Haken UND Fettung, keine Markenfarbe.",
+      "Breiten-Zwilling: .nav-btn__label traegt data-text mit der Beschriftung; das CSS legt daraus einen unsichtbaren Zwilling in 600 in dieselbe Rasterzelle, damit der Gewichtswechsel die Leiste nicht verschiebt.",
+      "Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen."
+    ]
+  },
+  "axes": {
+    "offen": {
+      "label": "Geöffnet",
+      "description": "Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.",
+      "values": {
+        "keins": { "modifier": null, "tokenGroups": ["leiste"], "renderHint": "tabmega-zu", "description": "Alles zu." },
+        "mega": { "modifier": null, "tokenGroups": ["leiste", "panel"], "renderHint": "tabmega-mega", "description": "Mega-Panel (Loesungen) offen: vertikale Tabs, Linkraster, optional Teaser." },
+        "dropdown": { "modifier": null, "tokenGroups": ["leiste", "panel"], "renderHint": "tabmega-dropdown", "description": "Dropdown-Panel (Produkte) offen: zweispaltige Linkliste, optional Teaser." },
+        "suche": { "modifier": null, "tokenGroups": ["leiste", "suche"], "renderHint": "tabmega-suche", "description": "Such-Band unter der Leiste offen." },
+        "sprache": { "modifier": null, "tokenGroups": ["leiste", "kopfmenue"], "renderHint": "tabmega-sprache", "description": "Sprachmenue offen." },
+        "ansicht": { "modifier": null, "tokenGroups": ["leiste", "kopfmenue"], "renderHint": "tabmega-ansicht", "description": "Erscheinungsbild-Menue offen." }
+      }
+    },
+    "teaser": {
+      "label": "Teaser",
+      "description": "Teaser-Karte im Panel. Redaktionell am Menuepunkt gepflegt; ohne Titel entfaellt sie samt Spalte.",
+      "values": {
+        "mit": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "tabmega-teaser" },
+        "ohne": { "modifier": null, "tokenGroups": [], "renderHint": "tabmega-ohne-teaser", "description": "Mega-Panel zweispaltig (.mega-grid--no-teaser), Dropdown ohne .dropdown-grid." }
+      }
+    },
+    "teaserFlaeche": {
+      "label": "Teaser-Fläche",
+      "description": "Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.",
+      "values": {
+        "standard": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-standard", "description": "background-secondary" },
+        "g50": { "modifier": "teaser--bg-g50", "tokenGroups": ["teaser"], "renderHint": "teaser-g50" },
+        "g200": { "modifier": "teaser--bg-g200", "tokenGroups": ["teaser"], "renderHint": "teaser-g200" },
+        "g900": { "modifier": "teaser--bg-g900", "tokenGroups": ["teaser"], "renderHint": "teaser-g900" },
+        "g950": { "modifier": "teaser--bg-g950", "tokenGroups": ["teaser"], "renderHint": "teaser-g950" },
+        "accent": { "modifier": "teaser--bg-accent", "tokenGroups": ["teaser"], "renderHint": "teaser-accent", "description": "Lime traegt schwarze Schrift (12,89:1), nie weisse (1,63:1)." }
+      }
+    },
+    "teaserKnopf": {
+      "label": "Teaser-Knopf",
+      "description": "Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.",
+      "values": {
+        "dark": { "modifier": "teaser--cta-dark", "tokenGroups": ["teaser"], "renderHint": "teaser-cta-dark", "description": "Dunkler Knopf auf heller Flaeche (Vorgabe)." },
+        "light": { "modifier": "teaser--cta-light", "tokenGroups": ["teaser"], "renderHint": "teaser-cta-light", "description": "Heller Knopf auf dunkler Flaeche." }
+      }
+    },
+    "ausgabe": {
+      "label": "Ausgabe",
+      "description": "Desktop (Leiste mit Panels) oder mobil (Burger + Push-Navigation im Drawer). Umschaltung im Bauteil allein ueber die Fensterbreite (max-width: 1024px).",
+      "values": {
+        "desktop": { "modifier": null, "tokenGroups": ["leiste"], "renderHint": "tabmega-desktop" },
+        "mobil": { "modifier": null, "tokenGroups": ["drawer"], "renderHint": "tabmega-mobil" }
+      }
+    },
+    "drawer": {
+      "label": "Drawer",
+      "description": "Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Push-Navigation, der vorige Bildschirm rueckt um 30 % nach links).",
+      "values": {
+        "zu": { "modifier": null, "tokenGroups": [], "renderHint": "drawer-zu" },
+        "start": { "modifier": null, "tokenGroups": ["drawer"], "renderHint": "drawer-start" },
+        "unterseite": { "modifier": null, "tokenGroups": ["drawer"], "renderHint": "drawer-unterseite" }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "active",
+      "hidden"
+    ],
+    "precedence": [
+      "hidden",
+      "active",
+      "default"
+    ],
+    "rules": [
+      {
+        "state": "active",
+        "condition": "Aktueller Ast: aria-current=\"page\" (der Punkt IST die Seite) bzw. aria-current=\"true\" (der Zweig ENTHAELT sie) und .is-active am Menuepunkt — Kante unter dem Wort plus Gewicht 600 (WCAG 1.4.1)."
+      },
+      {
+        "state": "hidden",
+        "condition": ".is-nav-hidden am Header — Auto-Hide beim Runterscrollen (ab 120 px, Schwelle 8 px). Gesperrt, solange ein Panel, das Such-Band oder der Drawer offen ist oder der Fokus im Header liegt."
+      }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "focusIndicator": "3px solid text-accent (#0e7490, 5,36:1) mit 2px Abstand — NICHT interactive-focus (2,97:1 gegen Weiss)",
+      "assertions": [
+        "hasAccessibleName",
+        "supportsKeyboard",
+        "hasVisibleFocus",
+        "targetSize44"
+      ],
+      "note": "nav.primary-nav mit aria-label. Ausloeser sind <button> mit aria-expanded/aria-controls/aria-haspopup, Panels role=region mit aria-label. Mega-Panel: role=tablist (aria-orientation vertical) ausserhalb des Eyebrows, role=tab/tabpanel mit aria-selected, roving tabindex. Kopfleisten-Menues: role=menu mit menuitemradio und aria-checked. Klick-gesteuert, kein Hover-Oeffnen."
+    },
+    "notes": [
+      "Trefferflaechen mindestens 44 px (--nav-hit-height, WCAG 2.5.8), alle Groessen in rem (WCAG 1.4.4); 12 px als Untergrenze fuer Eyebrow und Zaehler.",
+      "Zustand nie nur ueber Farbe: aktiver Punkt = Kante + Gewicht, aktive Option = Haken + Gewicht, Suchfeld im Fokus = Flaeche + Ring (WCAG 1.4.1).",
+      "Rahmen und Fokusring der Suche gehoeren an .searchbox (aeusserstes Element der Bedieneinheit), nicht an das Eingabefeld; das Feld hat ein visuell verstecktes Label (WCAG 3.3.2).",
+      "Konturen von Bedienelementen aus text-secondary, nicht aus --nn-line (1,38:1) — WCAG 1.4.11 verlangt 3:1.",
+      "Auto-Hide sperrt, solange der Fokus im Header liegt (WCAG 2.4.11).",
+      "prefers-reduced-motion: alle Uebergaenge in Header und Drawer entfallen, das Auto-Hide bleibt ohne Bewegung."
+    ],
+    "overrides": [
+      {
+        "when": {
+          "axes": {
+            "teaserFlaeche": [
+              "g900",
+              "g950"
+            ]
+          }
+        },
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Dunkle Flaechen: Schrift kehrt sich um; Knopf-Fassung light vorsehen (hell auf dunkel 16,01:1)."
+      }
+    ]
+  },
+  "constraints": {
+    "rules": [
+      {
+        "when": {},
+        "require": [
+          "data-neo-nav",
+          "nav-element",
+          "aria-label"
+        ],
+        "notes": [
+          "Ohne data-neo-nav greift keine Regel des Bauteils.",
+          "Maximale Menuetiefe 3; tiefere Ebenen ignoriert das Modul."
+        ]
+      },
+      {
+        "when": {
+          "states": [
+            "hidden"
+          ]
+        },
+        "require": [
+          "scroll-listener"
+        ],
+        "notes": [
+          "Verschoben wird nur der <header>; Panels und Such-Band sind position:absolute und wandern mit, der Drawer als Geschwister nicht."
+        ]
+      }
+    ],
+    "copy": {
+      "overview": { "de": "Zur Übersicht", "en": "View overview" },
+      "searchPlaceholder": { "de": "Website durchsuchen …", "en": "Search the website …" },
+      "contact": { "de": "Kontakt", "en": "Contact" },
+      "back": { "de": "Zurück", "en": "Back" }
+    }
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-panel",
+      "note": "Auf einem Menuepunkt mit Unterpunkten (button.nav-btn): oeffnet bzw. schliesst sein Panel (native Button-Aktivierung). Nur ein Panel gleichzeitig; Oeffnen schliesst Such-Band und Kopfleisten-Menues."
+    },
+    "Space": {
+      "action": "toggle-panel",
+      "note": "Wie Enter."
+    },
+    "ArrowDown": {
+      "action": "next-tab-or-option",
+      "note": "Im Mega-Panel auf einem Tab: naechster Tab, aktiviert ihn sofort (rundum). Im Sprach-/Erscheinungsbild-Menue: naechste Option (rundum)."
+    },
+    "ArrowUp": {
+      "action": "prev-tab-or-option",
+      "note": "Wie ArrowDown, rueckwaerts."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst in dieser Reihenfolge: Kopfleisten-Menue, Such-Band, Panel, Drawer — Fokus zurueck auf den Ausloeser (beim Drawer ohne Fokusrueckgabe)."
+    }
+  },
+  "styling": {
+    "baseClasses": [
+      "site-header"
+    ],
+    "baseTokenGroups": [
+      "leiste"
+    ],
+    "tokenGroups": {
+      "leiste": {
+        "label": "Leiste",
+        "description": "Lokale Variablen des Bauteils (an .site-header[data-neo-nav] und .m-drawer, nicht im Konfigurator). Farben folgen den Foundation-Tokens mit Rueckfallwert.",
+        "tokens": [
+          "nn-text",
+          "nn-muted",
+          "nn-line",
+          "nn-line-strong",
+          "nn-surface",
+          "nn-surface-2",
+          "nn-content-max",
+          "nn-header-h",
+          "nn-radius-sm",
+          "nav-l1-size",
+          "nav-l1-weight-rest",
+          "nav-l1-weight-active",
+          "nav-hit-height",
+          "nav-focus-ring"
+        ]
+      },
+      "panel": {
+        "label": "Panel",
+        "tokens": [
+          "nn-shadow",
+          "nn-t",
+          "nav-l2-size",
+          "nav-l3-size",
+          "nav-eyebrow-size",
+          "nav-rail-color",
+          "nav-rail-width",
+          "nav-action-size",
+          "nav-dropdown-cols-max"
+        ]
+      },
+      "teaser": {
+        "label": "Teaser",
+        "tokens": [
+          "nn-teaser-bg",
+          "nn-teaser-fg",
+          "nn-teaser-fg-muted",
+          "nn-teaser-border",
+          "nn-teaser-cta-bg",
+          "nn-teaser-cta-fg",
+          "nn-teaser-image",
+          "nn-teaser-scrim"
+        ]
+      },
+      "suche": {
+        "label": "Suche",
+        "tokens": [
+          "nav-search-bg",
+          "nav-search-bg-focus",
+          "nav-search-border",
+          "nav-search-radius",
+          "nav-focus-width",
+          "nav-focus-offset"
+        ]
+      },
+      "kopfmenue": {
+        "label": "Kopfleisten-Menü",
+        "tokens": [
+          "nav-pop-bg",
+          "nav-pop-radius",
+          "nav-pop-shadow",
+          "nav-pop-min-width",
+          "nav-check-color",
+          "nav-check-color-dark"
+        ]
+      },
+      "drawer": {
+        "label": "Drawer",
+        "tokens": [
+          "nn-accent",
+          "nn-on-accent",
+          "nn-header-h"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups",
+        "axes.*.values.*.tokenGroups"
+      ]
+    }
+  },
+  "komposition": [
+    { "art": "enthaelt", "recipe": "kbd", "hinweis": "Tastenhinweis „Esc“ im Schliessen-Knopf des Such-Bands" },
+    { "art": "teilt", "recipe": "navigation", "tokenPraefix": "nc-nav-", "hinweis": "Flaeche (--nc-nav-bg) und Hoehe (--nc-nav-height) der Kopfleiste kommen aus den Tokens der DS-Navigation" }
+  ],
+  "specimens": [
+    {
+      "id": "desktop-geschlossen",
+      "label": "Desktop — geschlossen",
+      "description": "Leiste mit allen Punkten, alles zu. Aktiv: aktueller Ast (Kante + Gewicht). Verborgen: Auto-Hide beim Runterscrollen — der Rahmen schneidet ab, wie die Seite.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["keins"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": ["zu"]
+        },
+        "states": [
+          "default",
+          "active",
+          "hidden"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Aktiver Punkt: aria-current + Kante + Gewicht."
+      }
+    },
+    {
+      "id": "panel-offen",
+      "label": "Desktop — Panel offen",
+      "description": "Mega-Panel (Loesungen: Kategoriespalte mit Tabs, Linkraster, Uebersichtslink) und Dropdown (Produkte: zweispaltige Liste) — je mit und ohne Teaser-Karte.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["mega", "dropdown"],
+          "teaser": "*",
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": ["zu"]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "offen"
+      },
+      "render": {
+        "label": "{offen} · {teaser}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ausloeser aria-expanded=true, Panel role=region. Tabs: aria-selected, roving tabindex."
+      }
+    },
+    {
+      "id": "kopfleiste-offen",
+      "label": "Desktop — Suche und Kopfleisten-Menüs",
+      "description": "Such-Band unter der Leiste, Sprachmenue und Erscheinungsbild-Menue. Aktive Option: Haken und Fettung.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["suche", "sprache", "ansicht"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": ["zu"]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{offen}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Suche: Label visuell versteckt, Ring an .searchbox. Menues: role=menu, menuitemradio, aria-checked."
+      }
+    },
+    {
+      "id": "teaser-flaechen",
+      "label": "Teaser — Flächen",
+      "description": "Die geprueften Flaechen der Teaser-Karte im Dropdown, Knopf in der Vorgabe (dark).",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["dropdown"],
+          "teaser": ["mit"],
+          "teaserFlaeche": "*",
+          "teaserKnopf": ["dark"],
+          "drawer": ["zu"]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{teaserFlaeche}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Dunkle Flaechen kehren die Schrift um; Lime traegt Schwarz."
+      }
+    },
+    {
+      "id": "teaser-knopf",
+      "label": "Teaser — Knopf",
+      "description": "Beide Knopf-Fassungen auf dunkler Flaeche (Graphit 950).",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["dropdown"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["g950"],
+          "teaserKnopf": "*",
+          "drawer": ["zu"]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{teaserKnopf}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "hell auf dunkel 16,01:1; dunkel auf hell 14,27:1."
+      }
+    },
+    {
+      "id": "mobil",
+      "label": "Mobil — Drawer",
+      "description": "Unter 1025 px: Burger statt Leiste, Push-Navigation im Drawer. Zu, Startbildschirm (Punkte, Suche, Sprache, Kontakt) und Unterseite (Loesungen mit Rubriken).",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["mobil"],
+          "offen": ["keins"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{drawer}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Burger: aria-expanded/aria-controls, Beschriftung wechselt (Menü öffnen/schließen)."
+      }
+    }
+  ]
+}

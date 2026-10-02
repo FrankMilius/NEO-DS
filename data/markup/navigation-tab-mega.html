@@ -1,0 +1,1280 @@
+<!-- @quelle: Drupal-Theme neo_fe — neo-nav.html.twig nach dem Aufbau durch neo-nav.js (drupalSettings.neoNav), Inhalte nach README/neo_nav_get_strings(); erzeugt aus apps/theme-configurator/src/arena-templates/navigation-tab-mega.js, ids wie auf der Website -->
+<!-- @fassung: Desktop — geschlossen -->
+<header class="site-header" id="siteHeader" data-neo-nav>
+<div class="container header-inner">
+<a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
+<nav class="primary-nav" aria-label="Hauptnavigation">
+<ul class="nav-list" id="navList">
+<li><button class="nav-btn" type="button" id="trigger-nav-loesungen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-loesungen" data-trigger="nav-loesungen"><span class="nav-btn__label" data-text="Lösungen"><span>Lösungen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-produkte" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-produkte" data-trigger="nav-produkte"><span class="nav-btn__label" data-text="Produkte"><span>Produkte</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-unternehmen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-unternehmen" data-trigger="nav-unternehmen"><span class="nav-btn__label" data-text="Unternehmen"><span>Unternehmen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-inside" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-inside" data-trigger="nav-inside"><span class="nav-btn__label" data-text="Inside"><span>Inside</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><a class="nav-link" href="/editionen-preise">Editionen &amp; Preise</a></li>
+</ul>
+</nav>
+<div class="header-actions">
+<div class="hdr-group" role="group" aria-label="Ansicht und Suche">
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn" id="langToggle" aria-expanded="false" aria-haspopup="true" aria-controls="langPanel">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg></span>
+<span class="hdr-btn__code" data-lang-code>DE</span>
+<span class="visually-hidden">Sprache wählen</span>
+</button>
+<div class="hdr-pop" id="langPanel" hidden>
+<p class="hdr-pop__title" id="langPanelTitle">Sprache</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="langPanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="de" aria-checked="true">
+<span class="hdr-opt__label">Deutsch</span>
+<span class="hdr-opt__code">DE</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="en" aria-checked="false">
+<span class="hdr-opt__label">English</span>
+<span class="hdr-opt__code">EN</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn hdr-btn--icon" id="themeToggle" aria-expanded="false" aria-haspopup="true" aria-controls="themePanel">
+<span class="hdr-btn__icon" data-theme-icon aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg></span>
+<span class="visually-hidden">Erscheinungsbild wählen</span>
+</button>
+<div class="hdr-pop" id="themePanel" hidden>
+<p class="hdr-pop__title" id="themePanelTitle">Erscheinungsbild</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="themePanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-light-theme" aria-checked="false">
+<span class="hdr-opt__label">Hell</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-dark-theme" aria-checked="false">
+<span class="hdr-opt__label">Dunkel</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none" class="hdr-pop__sep">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="system" aria-checked="true">
+<span class="hdr-opt__label">Systemeinstellung</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<button type="button" class="hdr-btn hdr-btn--icon search-toggle" id="searchToggle" aria-expanded="false" aria-controls="searchBand" aria-label="Suche öffnen">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+</button>
+</div>
+<button type="button" class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mDrawer" aria-label="Menü öffnen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</div>
+<div id="panelHost">
+<div class="panel" id="panel-nav-loesungen" data-panel="nav-loesungen" role="region" aria-label="Lösungen" hidden>
+<div class="container"><div class="panel-inner">
+<div class="mega-grid">
+<div class="mega-cat">
+<p class="mega-cat__eyebrow">Lösungen nach</p>
+<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Lösungen">
+<button class="tab" type="button" id="tab-nav-loesungen-tab-branchen" role="tab" aria-selected="true" aria-controls="tabpanel-nav-loesungen-tab-branchen" tabindex="0"><span>Branchen</span><span class="tab__count">(6)</span></button>
+<button class="tab" type="button" id="tab-nav-loesungen-tab-anwendungsfaelle" role="tab" aria-selected="false" aria-controls="tabpanel-nav-loesungen-tab-anwendungsfaelle" tabindex="-1"><span>Anwendungsfälle</span><span class="tab__count">(5)</span></button>
+</div>
+</div>
+<div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-branchen" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-branchen">
+<ul class="link-grid">
+<li><a href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a></li>
+<li><a href="/gesundheitswesen">Gesundheitswesen</a></li>
+<li><a href="/energie-versorgung">Energie &amp; Versorgung</a></li>
+<li><a href="/industrie-produktion">Industrie &amp; Produktion</a></li>
+<li><a href="/finanzdienstleistung">Finanzdienstleistung</a></li>
+<li><a href="/handel-logistik">Handel &amp; Logistik</a></li>
+</ul>
+</div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-anwendungsfaelle" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-anwendungsfaelle" hidden>
+<ul class="link-grid">
+<li><a href="/interne-kommunikation">Interne Kommunikation</a></li>
+<li><a href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a></li>
+<li><a href="/wissensmanagement">Wissensmanagement</a></li>
+<li><a href="/onboarding">Onboarding</a></li>
+<li><a href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a></li>
+</ul>
+</div>
+<a class="panel-overview" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">Neu: NEO AI</p>
+<p class="teaser__text">Antworten aus Ihrem Intranet — in natürlicher Sprache und mit Quellenangabe.</p>
+<a class="teaser__cta" href="/produkte/ai"><span>Mehr erfahren</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-produkte" data-panel="nav-produkte" role="region" aria-label="Produkte" hidden>
+<div class="container"><div class="panel-inner">
+<div class="dropdown-grid">
+<div>
+<ul class="dropdown-cols">
+<li><a href="/social-intranet">Social Intranet</a></li>
+<li><a href="/mitarbeiter-app">Mitarbeiter-App</a></li>
+<li><a href="/neo-ai">NEO AI</a></li>
+<li><a href="/wissensdatenbank">Wissensdatenbank</a></li>
+<li><a href="/digitale-formulare">Digitale Formulare</a></li>
+<li><a href="/team-raeume">Team-Räume</a></li>
+<li><a href="/integrationen">Integrationen</a></li>
+</ul>
+<a class="panel-overview" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">NEO kostenlos testen</p>
+<p class="teaser__text">30 Tage, alle Funktionen, ohne Kreditkarte.</p>
+<a class="teaser__cta" href="/testzugang"><span>Testzugang anlegen</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-unternehmen" data-panel="nav-unternehmen" role="region" aria-label="Unternehmen" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/ueber-uns">Über uns</a></li>
+<li><a href="/team">Team</a></li>
+<li><a href="/karriere">Karriere</a></li>
+<li><a href="/partner">Partner</a></li>
+<li><a href="/kontakt">Kontakt</a></li>
+</ul>
+
+</div></div>
+</div>
+<div class="panel" id="panel-nav-inside" data-panel="nav-inside" role="region" aria-label="Inside" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/blog">Blog</a></li>
+<li><a href="/webinare">Webinare</a></li>
+<li><a href="/kundenstimmen">Kundenstimmen</a></li>
+<li><a href="/presse">Presse</a></li>
+</ul>
+
+</div></div>
+</div>
+</div>
+<div class="search-band" id="searchBand" role="region" aria-label="Suche" hidden>
+<div class="container">
+<form class="search-form" id="searchForm" role="search" action="/" method="get">
+<div class="searchbox">
+<svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<label for="searchInput" class="visually-hidden">Website durchsuchen</label>
+<input type="search" class="search-input" id="searchInput" name="search" autocomplete="off" placeholder="Website durchsuchen …">
+<button type="button" class="search-clear" id="searchClear" hidden aria-label="Eingabe löschen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+<button type="submit" class="search-submit">Suchen</button>
+</div>
+<button type="button" class="search-close" id="searchClose">
+Schließen <kbd class="nc-kbd">Esc</kbd>
+</button>
+</form>
+</div>
+</div>
+</header>
+<div class="m-drawer" id="mDrawer" aria-label="Mobile Navigation">
+<div class="m-viewport" id="mViewport">
+<div class="m-screen is-active" data-screen="root">
+<button class="m-row" type="button"><span>Lösungen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Produkte</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Unternehmen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Inside</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<a class="m-row" href="/editionen-preise"><span>Editionen &amp; Preise</span></a>
+<div class="m-tools">
+<form class="m-search" role="search" action="/" method="get">
+<label class="visually-hidden" for="mSearchInput">Website durchsuchen</label>
+<input type="search" name="search" id="mSearchInput" placeholder="Website durchsuchen …">
+</form>
+<div class="lang-switch m-lang" role="group" aria-label="Sprache">
+<button type="button" data-lang="de" aria-pressed="true">DE</button>
+<button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+<a class="m-cta" href="/kontakt">Kontakt</a>
+</div>
+</div>
+<div class="m-screen" data-screen="nav-loesungen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Lösungen</div>
+<div class="m-section-title">Branchen</div>
+<a class="m-link" href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a>
+<a class="m-link" href="/gesundheitswesen">Gesundheitswesen</a>
+<a class="m-link" href="/energie-versorgung">Energie &amp; Versorgung</a>
+<a class="m-link" href="/industrie-produktion">Industrie &amp; Produktion</a>
+<a class="m-link" href="/finanzdienstleistung">Finanzdienstleistung</a>
+<a class="m-link" href="/handel-logistik">Handel &amp; Logistik</a>
+<div class="m-section-title">Anwendungsfälle</div>
+<a class="m-link" href="/interne-kommunikation">Interne Kommunikation</a>
+<a class="m-link" href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a>
+<a class="m-link" href="/wissensmanagement">Wissensmanagement</a>
+<a class="m-link" href="/onboarding">Onboarding</a>
+<a class="m-link" href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a>
+<a class="m-link" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-produkte">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Produkte</div>
+<a class="m-link" href="/social-intranet">Social Intranet</a>
+<a class="m-link" href="/mitarbeiter-app">Mitarbeiter-App</a>
+<a class="m-link" href="/neo-ai">NEO AI</a>
+<a class="m-link" href="/wissensdatenbank">Wissensdatenbank</a>
+<a class="m-link" href="/digitale-formulare">Digitale Formulare</a>
+<a class="m-link" href="/team-raeume">Team-Räume</a>
+<a class="m-link" href="/integrationen">Integrationen</a>
+<a class="m-link" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-unternehmen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Unternehmen</div>
+<a class="m-link" href="/ueber-uns">Über uns</a>
+<a class="m-link" href="/team">Team</a>
+<a class="m-link" href="/karriere">Karriere</a>
+<a class="m-link" href="/partner">Partner</a>
+<a class="m-link" href="/kontakt">Kontakt</a>
+</div>
+<div class="m-screen" data-screen="nav-inside">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Inside</div>
+<a class="m-link" href="/blog">Blog</a>
+<a class="m-link" href="/webinare">Webinare</a>
+<a class="m-link" href="/kundenstimmen">Kundenstimmen</a>
+<a class="m-link" href="/presse">Presse</a>
+</div>
+</div>
+</div>
+
+<!-- @fassung: Desktop — Mega-Panel offen (Lösungen) -->
+<header class="site-header" id="siteHeader" data-neo-nav>
+<div class="container header-inner">
+<a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
+<nav class="primary-nav" aria-label="Hauptnavigation">
+<ul class="nav-list" id="navList">
+<li><button class="nav-btn is-active" type="button" id="trigger-nav-loesungen" aria-haspopup="true" aria-expanded="true" aria-controls="panel-nav-loesungen" data-trigger="nav-loesungen" aria-current="true"><span class="nav-btn__label" data-text="Lösungen"><span>Lösungen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-produkte" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-produkte" data-trigger="nav-produkte"><span class="nav-btn__label" data-text="Produkte"><span>Produkte</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-unternehmen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-unternehmen" data-trigger="nav-unternehmen"><span class="nav-btn__label" data-text="Unternehmen"><span>Unternehmen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-inside" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-inside" data-trigger="nav-inside"><span class="nav-btn__label" data-text="Inside"><span>Inside</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><a class="nav-link" href="/editionen-preise">Editionen &amp; Preise</a></li>
+</ul>
+</nav>
+<div class="header-actions">
+<div class="hdr-group" role="group" aria-label="Ansicht und Suche">
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn" id="langToggle" aria-expanded="false" aria-haspopup="true" aria-controls="langPanel">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg></span>
+<span class="hdr-btn__code" data-lang-code>DE</span>
+<span class="visually-hidden">Sprache wählen</span>
+</button>
+<div class="hdr-pop" id="langPanel" hidden>
+<p class="hdr-pop__title" id="langPanelTitle">Sprache</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="langPanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="de" aria-checked="true">
+<span class="hdr-opt__label">Deutsch</span>
+<span class="hdr-opt__code">DE</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="en" aria-checked="false">
+<span class="hdr-opt__label">English</span>
+<span class="hdr-opt__code">EN</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn hdr-btn--icon" id="themeToggle" aria-expanded="false" aria-haspopup="true" aria-controls="themePanel">
+<span class="hdr-btn__icon" data-theme-icon aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg></span>
+<span class="visually-hidden">Erscheinungsbild wählen</span>
+</button>
+<div class="hdr-pop" id="themePanel" hidden>
+<p class="hdr-pop__title" id="themePanelTitle">Erscheinungsbild</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="themePanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-light-theme" aria-checked="false">
+<span class="hdr-opt__label">Hell</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-dark-theme" aria-checked="false">
+<span class="hdr-opt__label">Dunkel</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none" class="hdr-pop__sep">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="system" aria-checked="true">
+<span class="hdr-opt__label">Systemeinstellung</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<button type="button" class="hdr-btn hdr-btn--icon search-toggle" id="searchToggle" aria-expanded="false" aria-controls="searchBand" aria-label="Suche öffnen">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+</button>
+</div>
+<button type="button" class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mDrawer" aria-label="Menü öffnen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</div>
+<div id="panelHost">
+<div class="panel is-open" id="panel-nav-loesungen" data-panel="nav-loesungen" role="region" aria-label="Lösungen">
+<div class="container"><div class="panel-inner">
+<div class="mega-grid">
+<div class="mega-cat">
+<p class="mega-cat__eyebrow">Lösungen nach</p>
+<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Lösungen">
+<button class="tab" type="button" id="tab-nav-loesungen-tab-branchen" role="tab" aria-selected="true" aria-controls="tabpanel-nav-loesungen-tab-branchen" tabindex="0"><span>Branchen</span><span class="tab__count">(6)</span></button>
+<button class="tab" type="button" id="tab-nav-loesungen-tab-anwendungsfaelle" role="tab" aria-selected="false" aria-controls="tabpanel-nav-loesungen-tab-anwendungsfaelle" tabindex="-1"><span>Anwendungsfälle</span><span class="tab__count">(5)</span></button>
+</div>
+</div>
+<div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-branchen" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-branchen">
+<ul class="link-grid">
+<li><a href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a></li>
+<li><a href="/gesundheitswesen">Gesundheitswesen</a></li>
+<li><a href="/energie-versorgung">Energie &amp; Versorgung</a></li>
+<li><a href="/industrie-produktion">Industrie &amp; Produktion</a></li>
+<li><a href="/finanzdienstleistung">Finanzdienstleistung</a></li>
+<li><a href="/handel-logistik">Handel &amp; Logistik</a></li>
+</ul>
+</div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-anwendungsfaelle" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-anwendungsfaelle" hidden>
+<ul class="link-grid">
+<li><a href="/interne-kommunikation">Interne Kommunikation</a></li>
+<li><a href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a></li>
+<li><a href="/wissensmanagement">Wissensmanagement</a></li>
+<li><a href="/onboarding">Onboarding</a></li>
+<li><a href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a></li>
+</ul>
+</div>
+<a class="panel-overview" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">Neu: NEO AI</p>
+<p class="teaser__text">Antworten aus Ihrem Intranet — in natürlicher Sprache und mit Quellenangabe.</p>
+<a class="teaser__cta" href="/produkte/ai"><span>Mehr erfahren</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-produkte" data-panel="nav-produkte" role="region" aria-label="Produkte" hidden>
+<div class="container"><div class="panel-inner">
+<div class="dropdown-grid">
+<div>
+<ul class="dropdown-cols">
+<li><a href="/social-intranet">Social Intranet</a></li>
+<li><a href="/mitarbeiter-app">Mitarbeiter-App</a></li>
+<li><a href="/neo-ai">NEO AI</a></li>
+<li><a href="/wissensdatenbank">Wissensdatenbank</a></li>
+<li><a href="/digitale-formulare">Digitale Formulare</a></li>
+<li><a href="/team-raeume">Team-Räume</a></li>
+<li><a href="/integrationen">Integrationen</a></li>
+</ul>
+<a class="panel-overview" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">NEO kostenlos testen</p>
+<p class="teaser__text">30 Tage, alle Funktionen, ohne Kreditkarte.</p>
+<a class="teaser__cta" href="/testzugang"><span>Testzugang anlegen</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-unternehmen" data-panel="nav-unternehmen" role="region" aria-label="Unternehmen" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/ueber-uns">Über uns</a></li>
+<li><a href="/team">Team</a></li>
+<li><a href="/karriere">Karriere</a></li>
+<li><a href="/partner">Partner</a></li>
+<li><a href="/kontakt">Kontakt</a></li>
+</ul>
+
+</div></div>
+</div>
+<div class="panel" id="panel-nav-inside" data-panel="nav-inside" role="region" aria-label="Inside" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/blog">Blog</a></li>
+<li><a href="/webinare">Webinare</a></li>
+<li><a href="/kundenstimmen">Kundenstimmen</a></li>
+<li><a href="/presse">Presse</a></li>
+</ul>
+
+</div></div>
+</div>
+</div>
+<div class="search-band" id="searchBand" role="region" aria-label="Suche" hidden>
+<div class="container">
+<form class="search-form" id="searchForm" role="search" action="/" method="get">
+<div class="searchbox">
+<svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<label for="searchInput" class="visually-hidden">Website durchsuchen</label>
+<input type="search" class="search-input" id="searchInput" name="search" autocomplete="off" placeholder="Website durchsuchen …">
+<button type="button" class="search-clear" id="searchClear" hidden aria-label="Eingabe löschen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+<button type="submit" class="search-submit">Suchen</button>
+</div>
+<button type="button" class="search-close" id="searchClose">
+Schließen <kbd class="nc-kbd">Esc</kbd>
+</button>
+</form>
+</div>
+</div>
+</header>
+<div class="m-drawer" id="mDrawer" aria-label="Mobile Navigation">
+<div class="m-viewport" id="mViewport">
+<div class="m-screen is-active" data-screen="root">
+<button class="m-row" type="button"><span>Lösungen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Produkte</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Unternehmen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Inside</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<a class="m-row" href="/editionen-preise"><span>Editionen &amp; Preise</span></a>
+<div class="m-tools">
+<form class="m-search" role="search" action="/" method="get">
+<label class="visually-hidden" for="mSearchInput">Website durchsuchen</label>
+<input type="search" name="search" id="mSearchInput" placeholder="Website durchsuchen …">
+</form>
+<div class="lang-switch m-lang" role="group" aria-label="Sprache">
+<button type="button" data-lang="de" aria-pressed="true">DE</button>
+<button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+<a class="m-cta" href="/kontakt">Kontakt</a>
+</div>
+</div>
+<div class="m-screen" data-screen="nav-loesungen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Lösungen</div>
+<div class="m-section-title">Branchen</div>
+<a class="m-link" href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a>
+<a class="m-link" href="/gesundheitswesen">Gesundheitswesen</a>
+<a class="m-link" href="/energie-versorgung">Energie &amp; Versorgung</a>
+<a class="m-link" href="/industrie-produktion">Industrie &amp; Produktion</a>
+<a class="m-link" href="/finanzdienstleistung">Finanzdienstleistung</a>
+<a class="m-link" href="/handel-logistik">Handel &amp; Logistik</a>
+<div class="m-section-title">Anwendungsfälle</div>
+<a class="m-link" href="/interne-kommunikation">Interne Kommunikation</a>
+<a class="m-link" href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a>
+<a class="m-link" href="/wissensmanagement">Wissensmanagement</a>
+<a class="m-link" href="/onboarding">Onboarding</a>
+<a class="m-link" href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a>
+<a class="m-link" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-produkte">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Produkte</div>
+<a class="m-link" href="/social-intranet">Social Intranet</a>
+<a class="m-link" href="/mitarbeiter-app">Mitarbeiter-App</a>
+<a class="m-link" href="/neo-ai">NEO AI</a>
+<a class="m-link" href="/wissensdatenbank">Wissensdatenbank</a>
+<a class="m-link" href="/digitale-formulare">Digitale Formulare</a>
+<a class="m-link" href="/team-raeume">Team-Räume</a>
+<a class="m-link" href="/integrationen">Integrationen</a>
+<a class="m-link" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-unternehmen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Unternehmen</div>
+<a class="m-link" href="/ueber-uns">Über uns</a>
+<a class="m-link" href="/team">Team</a>
+<a class="m-link" href="/karriere">Karriere</a>
+<a class="m-link" href="/partner">Partner</a>
+<a class="m-link" href="/kontakt">Kontakt</a>
+</div>
+<div class="m-screen" data-screen="nav-inside">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Inside</div>
+<a class="m-link" href="/blog">Blog</a>
+<a class="m-link" href="/webinare">Webinare</a>
+<a class="m-link" href="/kundenstimmen">Kundenstimmen</a>
+<a class="m-link" href="/presse">Presse</a>
+</div>
+</div>
+</div>
+
+<!-- @fassung: Desktop — Dropdown offen (Produkte) -->
+<header class="site-header" id="siteHeader" data-neo-nav>
+<div class="container header-inner">
+<a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
+<nav class="primary-nav" aria-label="Hauptnavigation">
+<ul class="nav-list" id="navList">
+<li><button class="nav-btn" type="button" id="trigger-nav-loesungen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-loesungen" data-trigger="nav-loesungen"><span class="nav-btn__label" data-text="Lösungen"><span>Lösungen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-produkte" aria-haspopup="true" aria-expanded="true" aria-controls="panel-nav-produkte" data-trigger="nav-produkte"><span class="nav-btn__label" data-text="Produkte"><span>Produkte</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-unternehmen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-unternehmen" data-trigger="nav-unternehmen"><span class="nav-btn__label" data-text="Unternehmen"><span>Unternehmen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-inside" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-inside" data-trigger="nav-inside"><span class="nav-btn__label" data-text="Inside"><span>Inside</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><a class="nav-link" href="/editionen-preise">Editionen &amp; Preise</a></li>
+</ul>
+</nav>
+<div class="header-actions">
+<div class="hdr-group" role="group" aria-label="Ansicht und Suche">
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn" id="langToggle" aria-expanded="false" aria-haspopup="true" aria-controls="langPanel">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg></span>
+<span class="hdr-btn__code" data-lang-code>DE</span>
+<span class="visually-hidden">Sprache wählen</span>
+</button>
+<div class="hdr-pop" id="langPanel" hidden>
+<p class="hdr-pop__title" id="langPanelTitle">Sprache</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="langPanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="de" aria-checked="true">
+<span class="hdr-opt__label">Deutsch</span>
+<span class="hdr-opt__code">DE</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="en" aria-checked="false">
+<span class="hdr-opt__label">English</span>
+<span class="hdr-opt__code">EN</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn hdr-btn--icon" id="themeToggle" aria-expanded="false" aria-haspopup="true" aria-controls="themePanel">
+<span class="hdr-btn__icon" data-theme-icon aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg></span>
+<span class="visually-hidden">Erscheinungsbild wählen</span>
+</button>
+<div class="hdr-pop" id="themePanel" hidden>
+<p class="hdr-pop__title" id="themePanelTitle">Erscheinungsbild</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="themePanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-light-theme" aria-checked="false">
+<span class="hdr-opt__label">Hell</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-dark-theme" aria-checked="false">
+<span class="hdr-opt__label">Dunkel</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none" class="hdr-pop__sep">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="system" aria-checked="true">
+<span class="hdr-opt__label">Systemeinstellung</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<button type="button" class="hdr-btn hdr-btn--icon search-toggle" id="searchToggle" aria-expanded="false" aria-controls="searchBand" aria-label="Suche öffnen">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+</button>
+</div>
+<button type="button" class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mDrawer" aria-label="Menü öffnen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</div>
+<div id="panelHost">
+<div class="panel" id="panel-nav-loesungen" data-panel="nav-loesungen" role="region" aria-label="Lösungen" hidden>
+<div class="container"><div class="panel-inner">
+<div class="mega-grid">
+<div class="mega-cat">
+<p class="mega-cat__eyebrow">Lösungen nach</p>
+<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Lösungen">
+<button class="tab" type="button" id="tab-nav-loesungen-tab-branchen" role="tab" aria-selected="true" aria-controls="tabpanel-nav-loesungen-tab-branchen" tabindex="0"><span>Branchen</span><span class="tab__count">(6)</span></button>
+<button class="tab" type="button" id="tab-nav-loesungen-tab-anwendungsfaelle" role="tab" aria-selected="false" aria-controls="tabpanel-nav-loesungen-tab-anwendungsfaelle" tabindex="-1"><span>Anwendungsfälle</span><span class="tab__count">(5)</span></button>
+</div>
+</div>
+<div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-branchen" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-branchen">
+<ul class="link-grid">
+<li><a href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a></li>
+<li><a href="/gesundheitswesen">Gesundheitswesen</a></li>
+<li><a href="/energie-versorgung">Energie &amp; Versorgung</a></li>
+<li><a href="/industrie-produktion">Industrie &amp; Produktion</a></li>
+<li><a href="/finanzdienstleistung">Finanzdienstleistung</a></li>
+<li><a href="/handel-logistik">Handel &amp; Logistik</a></li>
+</ul>
+</div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-anwendungsfaelle" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-anwendungsfaelle" hidden>
+<ul class="link-grid">
+<li><a href="/interne-kommunikation">Interne Kommunikation</a></li>
+<li><a href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a></li>
+<li><a href="/wissensmanagement">Wissensmanagement</a></li>
+<li><a href="/onboarding">Onboarding</a></li>
+<li><a href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a></li>
+</ul>
+</div>
+<a class="panel-overview" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">Neu: NEO AI</p>
+<p class="teaser__text">Antworten aus Ihrem Intranet — in natürlicher Sprache und mit Quellenangabe.</p>
+<a class="teaser__cta" href="/produkte/ai"><span>Mehr erfahren</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel is-open" id="panel-nav-produkte" data-panel="nav-produkte" role="region" aria-label="Produkte">
+<div class="container"><div class="panel-inner">
+<div class="dropdown-grid">
+<div>
+<ul class="dropdown-cols">
+<li><a href="/social-intranet">Social Intranet</a></li>
+<li><a href="/mitarbeiter-app">Mitarbeiter-App</a></li>
+<li><a href="/neo-ai">NEO AI</a></li>
+<li><a href="/wissensdatenbank">Wissensdatenbank</a></li>
+<li><a href="/digitale-formulare">Digitale Formulare</a></li>
+<li><a href="/team-raeume">Team-Räume</a></li>
+<li><a href="/integrationen">Integrationen</a></li>
+</ul>
+<a class="panel-overview" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">NEO kostenlos testen</p>
+<p class="teaser__text">30 Tage, alle Funktionen, ohne Kreditkarte.</p>
+<a class="teaser__cta" href="/testzugang"><span>Testzugang anlegen</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-unternehmen" data-panel="nav-unternehmen" role="region" aria-label="Unternehmen" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/ueber-uns">Über uns</a></li>
+<li><a href="/team">Team</a></li>
+<li><a href="/karriere">Karriere</a></li>
+<li><a href="/partner">Partner</a></li>
+<li><a href="/kontakt">Kontakt</a></li>
+</ul>
+
+</div></div>
+</div>
+<div class="panel" id="panel-nav-inside" data-panel="nav-inside" role="region" aria-label="Inside" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/blog">Blog</a></li>
+<li><a href="/webinare">Webinare</a></li>
+<li><a href="/kundenstimmen">Kundenstimmen</a></li>
+<li><a href="/presse">Presse</a></li>
+</ul>
+
+</div></div>
+</div>
+</div>
+<div class="search-band" id="searchBand" role="region" aria-label="Suche" hidden>
+<div class="container">
+<form class="search-form" id="searchForm" role="search" action="/" method="get">
+<div class="searchbox">
+<svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<label for="searchInput" class="visually-hidden">Website durchsuchen</label>
+<input type="search" class="search-input" id="searchInput" name="search" autocomplete="off" placeholder="Website durchsuchen …">
+<button type="button" class="search-clear" id="searchClear" hidden aria-label="Eingabe löschen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+<button type="submit" class="search-submit">Suchen</button>
+</div>
+<button type="button" class="search-close" id="searchClose">
+Schließen <kbd class="nc-kbd">Esc</kbd>
+</button>
+</form>
+</div>
+</div>
+</header>
+<div class="m-drawer" id="mDrawer" aria-label="Mobile Navigation">
+<div class="m-viewport" id="mViewport">
+<div class="m-screen is-active" data-screen="root">
+<button class="m-row" type="button"><span>Lösungen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Produkte</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Unternehmen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Inside</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<a class="m-row" href="/editionen-preise"><span>Editionen &amp; Preise</span></a>
+<div class="m-tools">
+<form class="m-search" role="search" action="/" method="get">
+<label class="visually-hidden" for="mSearchInput">Website durchsuchen</label>
+<input type="search" name="search" id="mSearchInput" placeholder="Website durchsuchen …">
+</form>
+<div class="lang-switch m-lang" role="group" aria-label="Sprache">
+<button type="button" data-lang="de" aria-pressed="true">DE</button>
+<button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+<a class="m-cta" href="/kontakt">Kontakt</a>
+</div>
+</div>
+<div class="m-screen" data-screen="nav-loesungen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Lösungen</div>
+<div class="m-section-title">Branchen</div>
+<a class="m-link" href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a>
+<a class="m-link" href="/gesundheitswesen">Gesundheitswesen</a>
+<a class="m-link" href="/energie-versorgung">Energie &amp; Versorgung</a>
+<a class="m-link" href="/industrie-produktion">Industrie &amp; Produktion</a>
+<a class="m-link" href="/finanzdienstleistung">Finanzdienstleistung</a>
+<a class="m-link" href="/handel-logistik">Handel &amp; Logistik</a>
+<div class="m-section-title">Anwendungsfälle</div>
+<a class="m-link" href="/interne-kommunikation">Interne Kommunikation</a>
+<a class="m-link" href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a>
+<a class="m-link" href="/wissensmanagement">Wissensmanagement</a>
+<a class="m-link" href="/onboarding">Onboarding</a>
+<a class="m-link" href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a>
+<a class="m-link" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-produkte">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Produkte</div>
+<a class="m-link" href="/social-intranet">Social Intranet</a>
+<a class="m-link" href="/mitarbeiter-app">Mitarbeiter-App</a>
+<a class="m-link" href="/neo-ai">NEO AI</a>
+<a class="m-link" href="/wissensdatenbank">Wissensdatenbank</a>
+<a class="m-link" href="/digitale-formulare">Digitale Formulare</a>
+<a class="m-link" href="/team-raeume">Team-Räume</a>
+<a class="m-link" href="/integrationen">Integrationen</a>
+<a class="m-link" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-unternehmen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Unternehmen</div>
+<a class="m-link" href="/ueber-uns">Über uns</a>
+<a class="m-link" href="/team">Team</a>
+<a class="m-link" href="/karriere">Karriere</a>
+<a class="m-link" href="/partner">Partner</a>
+<a class="m-link" href="/kontakt">Kontakt</a>
+</div>
+<div class="m-screen" data-screen="nav-inside">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Inside</div>
+<a class="m-link" href="/blog">Blog</a>
+<a class="m-link" href="/webinare">Webinare</a>
+<a class="m-link" href="/kundenstimmen">Kundenstimmen</a>
+<a class="m-link" href="/presse">Presse</a>
+</div>
+</div>
+</div>
+
+<!-- @fassung: Desktop — Suche offen -->
+<header class="site-header" id="siteHeader" data-neo-nav>
+<div class="container header-inner">
+<a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
+<nav class="primary-nav" aria-label="Hauptnavigation">
+<ul class="nav-list" id="navList">
+<li><button class="nav-btn" type="button" id="trigger-nav-loesungen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-loesungen" data-trigger="nav-loesungen"><span class="nav-btn__label" data-text="Lösungen"><span>Lösungen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-produkte" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-produkte" data-trigger="nav-produkte"><span class="nav-btn__label" data-text="Produkte"><span>Produkte</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-unternehmen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-unternehmen" data-trigger="nav-unternehmen"><span class="nav-btn__label" data-text="Unternehmen"><span>Unternehmen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-inside" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-inside" data-trigger="nav-inside"><span class="nav-btn__label" data-text="Inside"><span>Inside</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><a class="nav-link" href="/editionen-preise">Editionen &amp; Preise</a></li>
+</ul>
+</nav>
+<div class="header-actions">
+<div class="hdr-group" role="group" aria-label="Ansicht und Suche">
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn" id="langToggle" aria-expanded="false" aria-haspopup="true" aria-controls="langPanel">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg></span>
+<span class="hdr-btn__code" data-lang-code>DE</span>
+<span class="visually-hidden">Sprache wählen</span>
+</button>
+<div class="hdr-pop" id="langPanel" hidden>
+<p class="hdr-pop__title" id="langPanelTitle">Sprache</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="langPanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="de" aria-checked="true">
+<span class="hdr-opt__label">Deutsch</span>
+<span class="hdr-opt__code">DE</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="en" aria-checked="false">
+<span class="hdr-opt__label">English</span>
+<span class="hdr-opt__code">EN</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn hdr-btn--icon" id="themeToggle" aria-expanded="false" aria-haspopup="true" aria-controls="themePanel">
+<span class="hdr-btn__icon" data-theme-icon aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg></span>
+<span class="visually-hidden">Erscheinungsbild wählen</span>
+</button>
+<div class="hdr-pop" id="themePanel" hidden>
+<p class="hdr-pop__title" id="themePanelTitle">Erscheinungsbild</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="themePanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-light-theme" aria-checked="false">
+<span class="hdr-opt__label">Hell</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-dark-theme" aria-checked="false">
+<span class="hdr-opt__label">Dunkel</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none" class="hdr-pop__sep">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="system" aria-checked="true">
+<span class="hdr-opt__label">Systemeinstellung</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<button type="button" class="hdr-btn hdr-btn--icon search-toggle" id="searchToggle" aria-expanded="true" aria-controls="searchBand" aria-label="Suche öffnen">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+</button>
+</div>
+<button type="button" class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mDrawer" aria-label="Menü öffnen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+</button>
+</div>
+</div>
+<div id="panelHost">
+<div class="panel" id="panel-nav-loesungen" data-panel="nav-loesungen" role="region" aria-label="Lösungen" hidden>
+<div class="container"><div class="panel-inner">
+<div class="mega-grid">
+<div class="mega-cat">
+<p class="mega-cat__eyebrow">Lösungen nach</p>
+<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Lösungen">
+<button class="tab" type="button" id="tab-nav-loesungen-tab-branchen" role="tab" aria-selected="true" aria-controls="tabpanel-nav-loesungen-tab-branchen" tabindex="0"><span>Branchen</span><span class="tab__count">(6)</span></button>
+<button class="tab" type="button" id="tab-nav-loesungen-tab-anwendungsfaelle" role="tab" aria-selected="false" aria-controls="tabpanel-nav-loesungen-tab-anwendungsfaelle" tabindex="-1"><span>Anwendungsfälle</span><span class="tab__count">(5)</span></button>
+</div>
+</div>
+<div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-branchen" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-branchen">
+<ul class="link-grid">
+<li><a href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a></li>
+<li><a href="/gesundheitswesen">Gesundheitswesen</a></li>
+<li><a href="/energie-versorgung">Energie &amp; Versorgung</a></li>
+<li><a href="/industrie-produktion">Industrie &amp; Produktion</a></li>
+<li><a href="/finanzdienstleistung">Finanzdienstleistung</a></li>
+<li><a href="/handel-logistik">Handel &amp; Logistik</a></li>
+</ul>
+</div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-anwendungsfaelle" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-anwendungsfaelle" hidden>
+<ul class="link-grid">
+<li><a href="/interne-kommunikation">Interne Kommunikation</a></li>
+<li><a href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a></li>
+<li><a href="/wissensmanagement">Wissensmanagement</a></li>
+<li><a href="/onboarding">Onboarding</a></li>
+<li><a href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a></li>
+</ul>
+</div>
+<a class="panel-overview" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">Neu: NEO AI</p>
+<p class="teaser__text">Antworten aus Ihrem Intranet — in natürlicher Sprache und mit Quellenangabe.</p>
+<a class="teaser__cta" href="/produkte/ai"><span>Mehr erfahren</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-produkte" data-panel="nav-produkte" role="region" aria-label="Produkte" hidden>
+<div class="container"><div class="panel-inner">
+<div class="dropdown-grid">
+<div>
+<ul class="dropdown-cols">
+<li><a href="/social-intranet">Social Intranet</a></li>
+<li><a href="/mitarbeiter-app">Mitarbeiter-App</a></li>
+<li><a href="/neo-ai">NEO AI</a></li>
+<li><a href="/wissensdatenbank">Wissensdatenbank</a></li>
+<li><a href="/digitale-formulare">Digitale Formulare</a></li>
+<li><a href="/team-raeume">Team-Räume</a></li>
+<li><a href="/integrationen">Integrationen</a></li>
+</ul>
+<a class="panel-overview" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">NEO kostenlos testen</p>
+<p class="teaser__text">30 Tage, alle Funktionen, ohne Kreditkarte.</p>
+<a class="teaser__cta" href="/testzugang"><span>Testzugang anlegen</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-unternehmen" data-panel="nav-unternehmen" role="region" aria-label="Unternehmen" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/ueber-uns">Über uns</a></li>
+<li><a href="/team">Team</a></li>
+<li><a href="/karriere">Karriere</a></li>
+<li><a href="/partner">Partner</a></li>
+<li><a href="/kontakt">Kontakt</a></li>
+</ul>
+
+</div></div>
+</div>
+<div class="panel" id="panel-nav-inside" data-panel="nav-inside" role="region" aria-label="Inside" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/blog">Blog</a></li>
+<li><a href="/webinare">Webinare</a></li>
+<li><a href="/kundenstimmen">Kundenstimmen</a></li>
+<li><a href="/presse">Presse</a></li>
+</ul>
+
+</div></div>
+</div>
+</div>
+<div class="search-band is-open" id="searchBand" role="region" aria-label="Suche">
+<div class="container">
+<form class="search-form" id="searchForm" role="search" action="/" method="get">
+<div class="searchbox">
+<svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<label for="searchInput" class="visually-hidden">Website durchsuchen</label>
+<input type="search" class="search-input" id="searchInput" name="search" autocomplete="off" placeholder="Website durchsuchen …">
+<button type="button" class="search-clear" id="searchClear" hidden aria-label="Eingabe löschen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+<button type="submit" class="search-submit">Suchen</button>
+</div>
+<button type="button" class="search-close" id="searchClose">
+Schließen <kbd class="nc-kbd">Esc</kbd>
+</button>
+</form>
+</div>
+</div>
+</header>
+<div class="m-drawer" id="mDrawer" aria-label="Mobile Navigation">
+<div class="m-viewport" id="mViewport">
+<div class="m-screen is-active" data-screen="root">
+<button class="m-row" type="button"><span>Lösungen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Produkte</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Unternehmen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Inside</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<a class="m-row" href="/editionen-preise"><span>Editionen &amp; Preise</span></a>
+<div class="m-tools">
+<form class="m-search" role="search" action="/" method="get">
+<label class="visually-hidden" for="mSearchInput">Website durchsuchen</label>
+<input type="search" name="search" id="mSearchInput" placeholder="Website durchsuchen …">
+</form>
+<div class="lang-switch m-lang" role="group" aria-label="Sprache">
+<button type="button" data-lang="de" aria-pressed="true">DE</button>
+<button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+<a class="m-cta" href="/kontakt">Kontakt</a>
+</div>
+</div>
+<div class="m-screen" data-screen="nav-loesungen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Lösungen</div>
+<div class="m-section-title">Branchen</div>
+<a class="m-link" href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a>
+<a class="m-link" href="/gesundheitswesen">Gesundheitswesen</a>
+<a class="m-link" href="/energie-versorgung">Energie &amp; Versorgung</a>
+<a class="m-link" href="/industrie-produktion">Industrie &amp; Produktion</a>
+<a class="m-link" href="/finanzdienstleistung">Finanzdienstleistung</a>
+<a class="m-link" href="/handel-logistik">Handel &amp; Logistik</a>
+<div class="m-section-title">Anwendungsfälle</div>
+<a class="m-link" href="/interne-kommunikation">Interne Kommunikation</a>
+<a class="m-link" href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a>
+<a class="m-link" href="/wissensmanagement">Wissensmanagement</a>
+<a class="m-link" href="/onboarding">Onboarding</a>
+<a class="m-link" href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a>
+<a class="m-link" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-produkte">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Produkte</div>
+<a class="m-link" href="/social-intranet">Social Intranet</a>
+<a class="m-link" href="/mitarbeiter-app">Mitarbeiter-App</a>
+<a class="m-link" href="/neo-ai">NEO AI</a>
+<a class="m-link" href="/wissensdatenbank">Wissensdatenbank</a>
+<a class="m-link" href="/digitale-formulare">Digitale Formulare</a>
+<a class="m-link" href="/team-raeume">Team-Räume</a>
+<a class="m-link" href="/integrationen">Integrationen</a>
+<a class="m-link" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-unternehmen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Unternehmen</div>
+<a class="m-link" href="/ueber-uns">Über uns</a>
+<a class="m-link" href="/team">Team</a>
+<a class="m-link" href="/karriere">Karriere</a>
+<a class="m-link" href="/partner">Partner</a>
+<a class="m-link" href="/kontakt">Kontakt</a>
+</div>
+<div class="m-screen" data-screen="nav-inside">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Inside</div>
+<a class="m-link" href="/blog">Blog</a>
+<a class="m-link" href="/webinare">Webinare</a>
+<a class="m-link" href="/kundenstimmen">Kundenstimmen</a>
+<a class="m-link" href="/presse">Presse</a>
+</div>
+</div>
+</div>
+
+<!-- @fassung: Mobil — Drawer offen -->
+<header class="site-header" id="siteHeader" data-neo-nav>
+<div class="container header-inner">
+<a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
+<nav class="primary-nav" aria-label="Hauptnavigation">
+<ul class="nav-list" id="navList">
+<li><button class="nav-btn" type="button" id="trigger-nav-loesungen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-loesungen" data-trigger="nav-loesungen"><span class="nav-btn__label" data-text="Lösungen"><span>Lösungen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-produkte" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-produkte" data-trigger="nav-produkte"><span class="nav-btn__label" data-text="Produkte"><span>Produkte</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-unternehmen" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-unternehmen" data-trigger="nav-unternehmen"><span class="nav-btn__label" data-text="Unternehmen"><span>Unternehmen</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><button class="nav-btn" type="button" id="trigger-nav-inside" aria-haspopup="true" aria-expanded="false" aria-controls="panel-nav-inside" data-trigger="nav-inside"><span class="nav-btn__label" data-text="Inside"><span>Inside</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span><span class="pm-minus"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span></span></button></li>
+<li><a class="nav-link" href="/editionen-preise">Editionen &amp; Preise</a></li>
+</ul>
+</nav>
+<div class="header-actions">
+<div class="hdr-group" role="group" aria-label="Ansicht und Suche">
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn" id="langToggle" aria-expanded="false" aria-haspopup="true" aria-controls="langPanel">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg></span>
+<span class="hdr-btn__code" data-lang-code>DE</span>
+<span class="visually-hidden">Sprache wählen</span>
+</button>
+<div class="hdr-pop" id="langPanel" hidden>
+<p class="hdr-pop__title" id="langPanelTitle">Sprache</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="langPanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="de" aria-checked="true">
+<span class="hdr-opt__label">Deutsch</span>
+<span class="hdr-opt__code">DE</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-lang="en" aria-checked="false">
+<span class="hdr-opt__label">English</span>
+<span class="hdr-opt__code">EN</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<div class="hdr-menu" data-hdr-menu>
+<button type="button" class="hdr-btn hdr-btn--icon" id="themeToggle" aria-expanded="false" aria-haspopup="true" aria-controls="themePanel">
+<span class="hdr-btn__icon" data-theme-icon aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg></span>
+<span class="visually-hidden">Erscheinungsbild wählen</span>
+</button>
+<div class="hdr-pop" id="themePanel" hidden>
+<p class="hdr-pop__title" id="themePanelTitle">Erscheinungsbild</p>
+<ul class="hdr-pop__list" role="menu" aria-labelledby="themePanelTitle">
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-light-theme" aria-checked="false">
+<span class="hdr-opt__label">Hell</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="neo-dark-theme" aria-checked="false">
+<span class="hdr-opt__label">Dunkel</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+<li role="none" class="hdr-pop__sep">
+<button type="button" class="hdr-opt" role="menuitemradio" data-theme-value="system" aria-checked="true">
+<span class="hdr-opt__label">Systemeinstellung</span>
+<span class="hdr-opt__check" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg></span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<button type="button" class="hdr-btn hdr-btn--icon search-toggle" id="searchToggle" aria-expanded="false" aria-controls="searchBand" aria-label="Suche öffnen">
+<span class="hdr-btn__icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg></span>
+</button>
+</div>
+<button type="button" class="icon-btn burger" id="burger" aria-expanded="true" aria-controls="mDrawer" aria-label="Menü schließen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+</button>
+</div>
+</div>
+<div id="panelHost">
+<div class="panel" id="panel-nav-loesungen" data-panel="nav-loesungen" role="region" aria-label="Lösungen" hidden>
+<div class="container"><div class="panel-inner">
+<div class="mega-grid">
+<div class="mega-cat">
+<p class="mega-cat__eyebrow">Lösungen nach</p>
+<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Lösungen">
+<button class="tab" type="button" id="tab-nav-loesungen-tab-branchen" role="tab" aria-selected="true" aria-controls="tabpanel-nav-loesungen-tab-branchen" tabindex="0"><span>Branchen</span><span class="tab__count">(6)</span></button>
+<button class="tab" type="button" id="tab-nav-loesungen-tab-anwendungsfaelle" role="tab" aria-selected="false" aria-controls="tabpanel-nav-loesungen-tab-anwendungsfaelle" tabindex="-1"><span>Anwendungsfälle</span><span class="tab__count">(5)</span></button>
+</div>
+</div>
+<div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-branchen" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-branchen">
+<ul class="link-grid">
+<li><a href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a></li>
+<li><a href="/gesundheitswesen">Gesundheitswesen</a></li>
+<li><a href="/energie-versorgung">Energie &amp; Versorgung</a></li>
+<li><a href="/industrie-produktion">Industrie &amp; Produktion</a></li>
+<li><a href="/finanzdienstleistung">Finanzdienstleistung</a></li>
+<li><a href="/handel-logistik">Handel &amp; Logistik</a></li>
+</ul>
+</div>
+<div class="tabpanel" id="tabpanel-nav-loesungen-tab-anwendungsfaelle" role="tabpanel" aria-labelledby="tab-nav-loesungen-tab-anwendungsfaelle" hidden>
+<ul class="link-grid">
+<li><a href="/interne-kommunikation">Interne Kommunikation</a></li>
+<li><a href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a></li>
+<li><a href="/wissensmanagement">Wissensmanagement</a></li>
+<li><a href="/onboarding">Onboarding</a></li>
+<li><a href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a></li>
+</ul>
+</div>
+<a class="panel-overview" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">Neu: NEO AI</p>
+<p class="teaser__text">Antworten aus Ihrem Intranet — in natürlicher Sprache und mit Quellenangabe.</p>
+<a class="teaser__cta" href="/produkte/ai"><span>Mehr erfahren</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-produkte" data-panel="nav-produkte" role="region" aria-label="Produkte" hidden>
+<div class="container"><div class="panel-inner">
+<div class="dropdown-grid">
+<div>
+<ul class="dropdown-cols">
+<li><a href="/social-intranet">Social Intranet</a></li>
+<li><a href="/mitarbeiter-app">Mitarbeiter-App</a></li>
+<li><a href="/neo-ai">NEO AI</a></li>
+<li><a href="/wissensdatenbank">Wissensdatenbank</a></li>
+<li><a href="/digitale-formulare">Digitale Formulare</a></li>
+<li><a href="/team-raeume">Team-Räume</a></li>
+<li><a href="/integrationen">Integrationen</a></li>
+</ul>
+<a class="panel-overview" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<aside class="teaser teaser--cta-dark">
+<p class="teaser__title">NEO kostenlos testen</p>
+<p class="teaser__text">30 Tage, alle Funktionen, ohne Kreditkarte.</p>
+<a class="teaser__cta" href="/testzugang"><span>Testzugang anlegen</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</aside>
+</div>
+</div></div>
+</div>
+<div class="panel" id="panel-nav-unternehmen" data-panel="nav-unternehmen" role="region" aria-label="Unternehmen" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/ueber-uns">Über uns</a></li>
+<li><a href="/team">Team</a></li>
+<li><a href="/karriere">Karriere</a></li>
+<li><a href="/partner">Partner</a></li>
+<li><a href="/kontakt">Kontakt</a></li>
+</ul>
+
+</div></div>
+</div>
+<div class="panel" id="panel-nav-inside" data-panel="nav-inside" role="region" aria-label="Inside" hidden>
+<div class="container"><div class="panel-inner">
+<ul class="dropdown-cols">
+<li><a href="/blog">Blog</a></li>
+<li><a href="/webinare">Webinare</a></li>
+<li><a href="/kundenstimmen">Kundenstimmen</a></li>
+<li><a href="/presse">Presse</a></li>
+</ul>
+
+</div></div>
+</div>
+</div>
+<div class="search-band" id="searchBand" role="region" aria-label="Suche" hidden>
+<div class="container">
+<form class="search-form" id="searchForm" role="search" action="/" method="get">
+<div class="searchbox">
+<svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+<label for="searchInput" class="visually-hidden">Website durchsuchen</label>
+<input type="search" class="search-input" id="searchInput" name="search" autocomplete="off" placeholder="Website durchsuchen …">
+<button type="button" class="search-clear" id="searchClear" hidden aria-label="Eingabe löschen">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+<button type="submit" class="search-submit">Suchen</button>
+</div>
+<button type="button" class="search-close" id="searchClose">
+Schließen <kbd class="nc-kbd">Esc</kbd>
+</button>
+</form>
+</div>
+</div>
+</header>
+<div class="m-drawer is-open" id="mDrawer" aria-label="Mobile Navigation">
+<div class="m-viewport" id="mViewport">
+<div class="m-screen is-active" data-screen="root">
+<button class="m-row" type="button"><span>Lösungen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Produkte</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Unternehmen</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<button class="m-row" type="button"><span>Inside</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></span></button>
+<a class="m-row" href="/editionen-preise"><span>Editionen &amp; Preise</span></a>
+<div class="m-tools">
+<form class="m-search" role="search" action="/" method="get">
+<label class="visually-hidden" for="mSearchInput">Website durchsuchen</label>
+<input type="search" name="search" id="mSearchInput" placeholder="Website durchsuchen …">
+</form>
+<div class="lang-switch m-lang" role="group" aria-label="Sprache">
+<button type="button" data-lang="de" aria-pressed="true">DE</button>
+<button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
+<a class="m-cta" href="/kontakt">Kontakt</a>
+</div>
+</div>
+<div class="m-screen" data-screen="nav-loesungen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Lösungen</div>
+<div class="m-section-title">Branchen</div>
+<a class="m-link" href="/oeffentliche-verwaltung">Öffentliche Verwaltung</a>
+<a class="m-link" href="/gesundheitswesen">Gesundheitswesen</a>
+<a class="m-link" href="/energie-versorgung">Energie &amp; Versorgung</a>
+<a class="m-link" href="/industrie-produktion">Industrie &amp; Produktion</a>
+<a class="m-link" href="/finanzdienstleistung">Finanzdienstleistung</a>
+<a class="m-link" href="/handel-logistik">Handel &amp; Logistik</a>
+<div class="m-section-title">Anwendungsfälle</div>
+<a class="m-link" href="/interne-kommunikation">Interne Kommunikation</a>
+<a class="m-link" href="/mitarbeitende-ohne-schreibtisch">Mitarbeitende ohne Schreibtisch</a>
+<a class="m-link" href="/wissensmanagement">Wissensmanagement</a>
+<a class="m-link" href="/onboarding">Onboarding</a>
+<a class="m-link" href="/zusammenarbeit-im-team">Zusammenarbeit im Team</a>
+<a class="m-link" href="/loesungen"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-produkte">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Produkte</div>
+<a class="m-link" href="/social-intranet">Social Intranet</a>
+<a class="m-link" href="/mitarbeiter-app">Mitarbeiter-App</a>
+<a class="m-link" href="/neo-ai">NEO AI</a>
+<a class="m-link" href="/wissensdatenbank">Wissensdatenbank</a>
+<a class="m-link" href="/digitale-formulare">Digitale Formulare</a>
+<a class="m-link" href="/team-raeume">Team-Räume</a>
+<a class="m-link" href="/integrationen">Integrationen</a>
+<a class="m-link" href="/produkte"><span>Zur Übersicht</span><span class="nav-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg></span></a>
+</div>
+<div class="m-screen" data-screen="nav-unternehmen">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Unternehmen</div>
+<a class="m-link" href="/ueber-uns">Über uns</a>
+<a class="m-link" href="/team">Team</a>
+<a class="m-link" href="/karriere">Karriere</a>
+<a class="m-link" href="/partner">Partner</a>
+<a class="m-link" href="/kontakt">Kontakt</a>
+</div>
+<div class="m-screen" data-screen="nav-inside">
+<button class="m-back" type="button">‹ <span>Zurück</span></button>
+<div class="m-heading">Inside</div>
+<a class="m-link" href="/blog">Blog</a>
+<a class="m-link" href="/webinare">Webinare</a>
+<a class="m-link" href="/kundenstimmen">Kundenstimmen</a>
+<a class="m-link" href="/presse">Presse</a>
+</div>
+</div>
+</div>
