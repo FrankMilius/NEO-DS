@@ -1697,6 +1697,86 @@
     }
   };
 
+  // packages/neo-behaviors/toolbar.js
+  var BEDIENELEMENT = 'button, a[href], input:not([type="hidden"]), select, textarea, [contenteditable="true"], [role="button"], [role="radio"], [role="checkbox"], [role="switch"]';
+  var KEIN_FELD = ["button", "submit", "reset", "checkbox", "radio", "image", "file", "color"];
+  function istFeld(el) {
+    if (el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable || el.getAttribute("contenteditable") === "true") return true;
+    return el.tagName === "INPUT" && !KEIN_FELD.includes(
+      /** @type {HTMLInputElement} */
+      el.type
+    );
+  }
+  var nameVon = (el) => (el.getAttribute("aria-label") || el.textContent || el.getAttribute("placeholder") || el.getAttribute("name") || "").trim();
+  var toolbar = {
+    id: "toolbar",
+    selektor: ".nc-toolbar",
+    binde(wurzel, signal) {
+      const elemente = () => (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(BEDIENELEMENT)].filter((e) => !e.hasAttribute("disabled") && !e.closest('[hidden], [inert], [role="menu"], [role="listbox"], [role="dialog"]') && e.closest(".nc-toolbar") === wurzel)
+      );
+      if (!elemente().length) return;
+      const vorher = new Map(elemente().map((e) => [e, e.getAttribute("tabindex")]));
+      let aktuell = (
+        /** @type {HTMLElement|null} */
+        null
+      );
+      const tabStopp = (el, melden = true) => {
+        for (const e of elemente()) e.tabIndex = e === el ? 0 : -1;
+        const alt = aktuell;
+        aktuell = el;
+        if (melden && alt !== el) sende(wurzel, "toolbar-focus", { value: nameVon(el), previousValue: alt ? nameVon(alt) : null });
+      };
+      tabStopp(elemente().find((e) => !gesperrt(e)) || elemente()[0], false);
+      wurzel.addEventListener("keydown", (e) => {
+        const el = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        const liste = elemente();
+        if (!liste.includes(el)) return;
+        if (istFeld(el)) {
+          if (e.key !== "Tab" || e.altKey || e.ctrlKey || e.metaKey) return;
+          const bedienbar = liste.filter((x) => x === el || !gesperrt(x));
+          const ziel2 = bedienbar[bedienbar.indexOf(el) + (e.shiftKey ? -1 : 1)];
+          if (!ziel2) return;
+          e.preventDefault();
+          tabStopp(ziel2);
+          ziel2.focus();
+          return;
+        }
+        const ziel = zielFuerTaste(e.key, liste, el, "horizontal");
+        if (!ziel) return;
+        e.preventDefault();
+        e.stopPropagation();
+        tabStopp(ziel);
+        ziel.focus();
+      }, { signal, capture: true });
+      wurzel.addEventListener("focusin", (e) => {
+        const el = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (el !== aktuell && elemente().includes(el)) tabStopp(el);
+      }, { signal });
+      wurzel.addEventListener("click", (e) => {
+        const el = (
+          /** @type {HTMLElement|null} */
+          /** @type {HTMLElement} */
+          e.target.closest(BEDIENELEMENT)
+        );
+        if (el && elemente().includes(el)) tabStopp(el);
+      }, { signal });
+      signal.addEventListener("abort", () => {
+        for (const [e, wert] of vorher) {
+          if (wert === null) e.removeAttribute("tabindex");
+          else e.setAttribute("tabindex", wert);
+        }
+      });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -1717,7 +1797,8 @@
     breadcrumb,
     breadcrumb,
     treeview,
-    "navigation-menu": navigationMenu
+    "navigation-menu": navigationMenu,
+    toolbar
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

@@ -34,6 +34,7 @@ import { alertDialog } from './alert-dialog.js'
 import { breadcrumb } from './breadcrumb.js'
 import { treeview } from './treeview.js'
 import { navigationMenu } from './navigation-menu.js'
+import { toolbar } from './toolbar.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -57,7 +58,8 @@ export const BEHAVIORS = Object.freeze({
   breadcrumb,
   breadcrumb,
   treeview,
-  'navigation-menu': navigationMenu
+  'navigation-menu': navigationMenu,
+  toolbar
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */

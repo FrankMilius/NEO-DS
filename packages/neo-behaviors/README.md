@@ -23,6 +23,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf `.nc-treeview__node` | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
 | `navigation-menu` | Menü-Leiste mit Panels (WAI-ARIA Menubar): roving tabindex, Pfeil rechts/links/Pos1/Ende in der Leiste, Pfeil runter/Enter/Leertaste öffnen (erster Eintrag), Pfeil hoch (letzter); im Panel Pfeil runter/hoch, rechts/links zum Nachbarn, Escape/Tab/Klick außen schließen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
+| `toolbar` | eine Tab-Station (roving tabindex über alle Knöpfe, Links und Felder, auch in eingebetteten Gruppen); Pfeil rechts/links (rundum), Pos1, Ende; in Eingabefeldern bleiben Pfeile/Pos1/Ende im Feld, Tab/Shift+Tab gehen vom Feld zum Nachbarn (am Rand raus) | `toolbar-focus` { value, previousValue } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -107,3 +108,13 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   `left`/`width` wie in `site.js`). Die Vorlagen bekommen `inert`, sonst wären
   sie per Tab erreichbar und doppelt im Barrierefreiheits-Baum. Das DS blendet
   das Menü unter 1200 px aus — die Mobil-Navigation ist ein anderes Bauteil.
+- **Toolbar** — eine Tab-Station: genau ein Bedienelement trägt
+  `tabindex="0"`. Die Pfeiltasten laufen flach über alle Bedienelemente, auch
+  über die Knöpfe eingebetteter Toggle-Groups und Segmented Controls (die
+  Toolbar hört in der Capture-Phase und hält deren eigene Pfeiltasten an;
+  Enter/Leertaste/Klick bleiben bei der Gruppe). In Eingabefeldern bleiben
+  Pfeiltasten, Pos1 und Ende im Feld (Entscheidung 02.10.2026); Tab/Shift+Tab
+  verlassen das Feld zum nächsten/vorherigen Bedienelement der Leiste, am
+  Rand die Leiste. Das Markup darf ohne `tabindex` kommen — ohne JS bleibt so
+  jeder Knopf erreichbar; beim Lösen stellt das Behavior die alten Werte
+  wieder her. `.is-scrolled` der Sticky-Toolbar setzt es nicht.

@@ -18,10 +18,15 @@
 // blurred: auf einem Arena-Grund (ra-kulisse), sonst ist nichts zu
 // verwischen.
 //
-// Verhalten: das Recipe fordert roving tabindex (constraints, a11y.note),
-// gibt aber keine keyboard/events vor, neo-behaviors hat keins. Ohne
-// Verhalten blieben Knoepfe mit tabindex="-1" unerreichbar — die Arena laesst
-// deshalb alle Knoepfe in der Tab-Folge (offene Entscheidung im Bericht).
+// Verhalten: neo-behaviors/toolbar.js nach keyboard/events im Recipe
+// (roving tabindex, Pfeiltasten, Pos1/Ende; in Feldern bleiben die
+// Pfeiltasten im Feld).
+//   Ausprobieren  Markup mit roving tabindex wie im Recipe (a11y.note):
+//                 erstes Bedienelement tabindex="0", alle anderen "-1" — das
+//                 Behavior bindet und fuehrt den Tab-Stopp weiter.
+//   Zustände      kein Verhalten gebunden: alle Knoepfe bleiben in der
+//                 Tab-Folge, sonst waeren die mit tabindex="-1" per Tastatur
+//                 unerreichbar (WCAG 2.1.1) — so wie bisher.
 import { esc } from './_helfer.js'
 import { wurzelKlassen } from './_overlay.js'
 
@@ -97,11 +102,21 @@ const NAMEN = {
   'toolbar-table': 'Tabellen-Aktionen'
 }
 
+/** Roving tabindex fuer „Ausprobieren": erstes Bedienelement 0, alle anderen -1. */
+function roving (html) {
+  let erstes = true
+  return html.replace(/<(button|input)\b([^>]*)>/g, (_, tag, attrs) => {
+    const wert = erstes ? 0 : -1
+    erstes = false
+    return `<${tag} tabindex="${wert}"${attrs.replace(/\s+tabindex="-?\d+"/, '')}>`
+  })
+}
+
 export default (zelle, m) => {
   const klassen = [wurzelKlassen(m), m.hat('scrolled') ? 'is-scrolled' : ''].filter(Boolean).join(' ')
   const name = NAMEN[m.specimen.render?.compositionType] || 'Aktionen'
   const leiste = `<div class="${klassen}" role="toolbar" aria-label="${name}">
-${inhalt(m)}
+${m.ausprobieren ? roving(inhalt(m)) : inhalt(m)}
 </div>`
   const breit = m.specimen.render?.compositionType === 'toolbar-table' ? 'ra-feld--sehr-breit' : 'ra-feld--breit'
   const feld = `<div class="ra-feld ${breit}">\n${leiste}\n</div>`

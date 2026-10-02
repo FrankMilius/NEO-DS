@@ -453,6 +453,42 @@
   "komposition": [
     { "art": "enthaelt", "recipe": "button" }
   ],
+  "keyboard": {
+    "ArrowRight": {
+      "action": "focus-next-control",
+      "note": "Naechstes Bedienelement der Leiste (rundum, gesperrte uebersprungen; auch in eingebetteten Gruppen wie Toggle-Group). In Eingabefeldern bleibt die Taste im Feld (Cursor)."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-control",
+      "note": "Vorheriges Bedienelement (rundum). In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "Home": {
+      "action": "focus-first-control",
+      "note": "Erstes Bedienelement. In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "End": {
+      "action": "focus-last-control",
+      "note": "Letztes Bedienelement. In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "Tab": {
+      "action": "leave-toolbar",
+      "note": "Die Leiste ist eine Tab-Station (roving tabindex); Tab verlaesst sie. Aus einem Eingabefeld: naechstes Bedienelement der Leiste, am Rand raus."
+    },
+    "Shift+Tab": {
+      "action": "leave-toolbar-backwards",
+      "note": "Wie Tab, rueckwaerts. Aus einem Eingabefeld: vorheriges Bedienelement der Leiste, am Rand raus."
+    }
+  },
+  "events": {
+    "toolbar-focus": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn ein anderes Bedienelement die Tab-Station uebernimmt (Pfeiltaste, Klick, Fokus). value: aria-label, Text oder placeholder des Elements."
+    }
+  },
   "specimens": [
     {
       "id": "variant-comparison",

@@ -6,8 +6,8 @@
  * geprueft, jedes Ereignis gegen `events`.
  */
 import { describe, it, expect, afterEach, vi } from 'vitest'
-import { anbinden } from 'neo-behaviors'
-import { lebendigesMarkup, zelleMit, buehne, taste, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
+import { anbinden, abbinden } from 'neo-behaviors'
+import { lebendigesMarkup, zellenMarkup, zelleMit, buehne, taste, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
 
 afterEach(() => { document.body.innerHTML = ''; vi.useRealTimers() })
 
@@ -380,5 +380,109 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     }
     it('jede Taste hat eine Pruefung', () => deckeTastenAb('navigation-menu', pruefungen))
     for (const t of tastenAus('navigation-menu')) it(t, () => pruefungen[t]())
+  })
+})
+
+// ---------------------------------------------------------------------------
+describe('Toolbar (toolbar-recipe.json)', () => {
+  const STEUER = 'button, input'
+  function aufbau (specimen = 'content-variants', html = lebendigesMarkup('toolbar', specimen)) {
+    const b = buehne(`<button type="button" id="davor">davor</button>\n${html}\n<button type="button" id="danach">danach</button>`)
+    anbinden(b)
+    const wurzel = b.querySelector('.nc-toolbar')
+    return { b, wurzel, el: [...wurzel.querySelectorAll(STEUER)] }
+  }
+  const stopps = (t) => t.el.filter((e) => e.tabIndex === 0)
+
+  it('eine Tab-Station: Ausprobieren-Markup kommt mit roving tabindex, das Behavior fuehrt ihn', () => {
+    const t = aufbau()
+    expect(t.el.map((e) => e.getAttribute('tabindex'))).toEqual(['0', '-1', '-1', '-1'])
+    expect(stopps(t)).toEqual([t.el[0]])
+  })
+
+  it('Markup ohne tabindex (wie in „Zustände"): Behavior setzt den roving tabindex, Loesen stellt ihn zurueck', () => {
+    const t = aufbau(null, zellenMarkup('toolbar', 'content-variants'))
+    expect(t.el.map((e) => e.tabIndex)).toEqual([0, -1, -1, -1])
+    abbinden(t.b)
+    expect(t.el.some((e) => e.hasAttribute('tabindex'))).toBe(false)
+  })
+
+  it('Klick und Fokus verschieben die Tab-Station; toolbar-focus wie im Recipe', () => {
+    const t = aufbau()
+    const ev = sammle(t.wurzel, 'toolbar-focus')
+    t.el[2].click()
+    expect(stopps(t)).toEqual([t.el[2]])
+    t.el[3].focus()
+    expect(stopps(t)).toEqual([t.el[3]])
+    expect(ev.map((e) => e.detail)).toEqual([
+      { value: 'Exportieren', previousValue: 'Neu' },
+      { value: 'Archivieren', previousValue: 'Exportieren' }
+    ])
+    for (const e of ev) passtZumRecipe('toolbar', e)
+  })
+
+  it('Eingabefeld: Pfeiltasten, Pos1 und Ende bleiben im Feld', () => {
+    const t = aufbau('table-toolbar')
+    const feld = t.wurzel.querySelector('input')
+    feld.focus()
+    expect(stopps(t)).toEqual([feld])
+    for (const k of ['ArrowLeft', 'ArrowRight', 'Home', 'End']) {
+      const e = taste(feld, k)
+      expect(e.defaultPrevented, k).toBe(false)
+      expect(aktiv()).toBe(feld)
+    }
+  })
+
+  it('Eingabefeld am Rand: Tab verlaesst die Leiste', () => {
+    const t = aufbau(null, '<div class="nc-toolbar" role="toolbar" aria-label="Test"><div class="nc-toolbar__group"><button type="button" class="nc-button">A</button><input class="nc-input" type="text" aria-label="Feld"></div></div>')
+    const feld = t.wurzel.querySelector('input')
+    feld.focus()
+    expect(taste(feld, 'Tab').defaultPrevented).toBe(false)
+    expect(taste(feld, 'Shift+Tab').defaultPrevented).toBe(true)
+    expect(aktiv()).toBe(t.el[0])
+  })
+
+  it('eingebettete Toggle-Groups: Pfeile laufen flach durch, waehlen nicht; Klick waehlt (Toggle-Group), eine Tab-Station bleibt', () => {
+    const t = aufbau('editor-toolbar')
+    const radios = [...t.wurzel.querySelectorAll('[role="radio"]')]
+    const vor = radios.map((r) => r.getAttribute('aria-checked'))
+    expect(t.wurzel.querySelector('.nc-toggle-group').getAttribute('data-neo-behavior')).toBe('toggle-group')
+    radios[0].focus()
+    taste(radios[0], 'ArrowRight')
+    expect(aktiv()).toBe(radios[1])
+    expect(radios.map((r) => r.getAttribute('aria-checked'))).toEqual(vor)
+    radios[2].click()
+    expect(radios[2].getAttribute('aria-checked')).toBe('true')
+    expect(stopps(t)).toEqual([radios[2]])
+    // Mehrfachauswahl (aria-pressed): Leertaste schaltet ueber die Toggle-Group
+    const fett = t.wurzel.querySelector('[aria-pressed]')
+    taste(fett, 'Space')
+    expect(fett.getAttribute('aria-pressed')).toBe('false')
+  })
+
+  describe('Tasten aus dem Recipe', () => {
+    const pruefungen = {
+      ArrowRight: () => {
+        const t = aufbau(); t.el[0].focus()
+        taste(t.el[0], 'ArrowRight'); expect(aktiv()).toBe(t.el[1]); expect(stopps(t)).toEqual([t.el[1]])
+        taste(t.el[3], 'ArrowRight'); expect(aktiv()).toBe(t.el[0]) // rundum
+      },
+      ArrowLeft: () => { const t = aufbau(); taste(t.el[0], 'ArrowLeft'); expect(aktiv()).toBe(t.el[3]) },
+      Home: () => { const t = aufbau(); taste(t.el[2], 'Home'); expect(aktiv()).toBe(t.el[0]) },
+      End: () => { const t = aufbau(); taste(t.el[0], 'End'); expect(aktiv()).toBe(t.el[3]); expect(stopps(t)).toEqual([t.el[3]]) },
+      Tab: () => {
+        const t = aufbau(); expect(taste(t.el[1], 'Tab').defaultPrevented).toBe(false)
+        const tab = aufbau('table-toolbar'); const feld = tab.wurzel.querySelector('input'); feld.focus()
+        const e = taste(feld, 'Tab'); expect(e.defaultPrevented).toBe(true)
+        expect(aktiv().textContent).toBe('Exportieren'); expect(stopps(tab)).toEqual([aktiv()])
+      },
+      'Shift+Tab': () => {
+        const t = aufbau(); expect(taste(t.el[1], 'Shift+Tab').defaultPrevented).toBe(false)
+        const tab = aufbau('table-toolbar'); const feld = tab.wurzel.querySelector('input'); feld.focus()
+        taste(feld, 'Shift+Tab'); expect(aktiv().textContent).toBe('Filter')
+      }
+    }
+    it('jede Taste hat eine Pruefung', () => deckeTastenAb('toolbar', pruefungen))
+    for (const t of tastenAus('toolbar')) it(t, () => pruefungen[t]())
   })
 })

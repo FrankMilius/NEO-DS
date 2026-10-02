@@ -139,6 +139,16 @@ const ansichten = computed(() => {
 // „Zustände" ihren offenen Zustand fest, hier starten sie geschlossen und
 // das Verhalten oeffnet sie (Plan v3, Phase 3, Block Overlays).
 const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId))
+// Gebunden wird das Bauteil selbst und, was es enthaelt (komposition
+// „enthaelt", Specimen composes) und selbst Verhalten hat — z. B. die
+// Toggle-Groups und die Suche in der Toolbar. Die Reihenfolge macht
+// neo-behaviors (aeussere Bauteile zuletzt).
+const verhaltenIds = computed(() => {
+  const ids = new Set([props.componentId])
+  for (const k of recipe.value?.komposition || []) if (k.art === 'enthaelt') ids.add(k.recipe)
+  for (const sp of recipe.value?.specimens || []) for (const c of sp.composes || []) ids.add(c)
+  return [...ids].filter((id) => MIT_VERHALTEN.includes(id))
+})
 const modus = ref('zustaende')
 watch(() => props.componentId, () => { modus.value = 'zustaende' })
 
@@ -172,7 +182,7 @@ function binde () {
   richteEin()
   aufraeumen?.()
   aufraeumen = null
-  if (modus.value === 'ausprobieren' && wurzel.value) aufraeumen = anbinden(wurzel.value, [props.componentId])
+  if (modus.value === 'ausprobieren' && wurzel.value) aufraeumen = anbinden(wurzel.value, verhaltenIds.value)
 }
 watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
 onMounted(() => nextTick(binde))

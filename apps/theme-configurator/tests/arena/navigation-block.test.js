@@ -29,7 +29,7 @@ import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['breadcrumb', 'pagination', 'navigation', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
 // Mit Verhalten in neo-behaviors (keyboard/events im Recipe, „Ausprobieren")
-const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'navigation-menu', 'treeview']
+const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'navigation-menu', 'treeview', 'toolbar']
 
 function zellen (id, specimenId, optionen = {}) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -506,6 +506,15 @@ describe('Navigation-Block: Zustände und Inhalte', () => {
     expect(gescrollt.querySelector('.nc-toolbar').className).toBe('nc-toolbar nc-toolbar--sticky is-scrolled')
   })
 
+  it('toolbar: Ausprobieren mit roving tabindex — genau ein Bedienelement in der Tab-Folge', () => {
+    for (const z of zellen('toolbar', null, { ausprobieren: true })) {
+      const leiste = dom(z.html).querySelector('.nc-toolbar')
+      const steuer = [...leiste.querySelectorAll('button, input')]
+      expect(steuer.length, z.specimen.id).toBeGreaterThan(0)
+      expect(steuer.map((e) => e.getAttribute('tabindex')), z.specimen.id).toEqual(steuer.map((_, i) => (i ? '-1' : '0')))
+    }
+  })
+
   it('toolbar: Kompositionen — Editoren mit Toggle-Groups, Tabelle mit Suche', () => {
     const schwebend = alle('toolbar', 'floating-editor')[0]
     expect(schwebend.querySelector('.nc-toolbar--floating.nc-toolbar--align-center .nc-toggle-group[role="radiogroup"] > button.nc-toggle-group__item[role="radio"]')).not.toBeNull()
@@ -608,6 +617,18 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     expect(z.find('.nc-navigation-menu__viewport > .nc-navigation-menu__content--two-col .nc-navigation-menu__callout').exists()).toBe(true)
     expect(z.find('.ra-kopf').exists()).toBe(false)
     expect(zelle(w, 'composition-header').find('.ra-kopf.ra-anker--desktop').exists()).toBe(true)
+    w.unmount()
+  })
+
+  it('toolbar: Pfeiltaste wandert, eingebettete Toggle-Groups sind mitgebunden', async () => {
+    const w = await ausprobieren('toolbar')
+    const z = zelle(w, 'editor-toolbar')
+    expect(z.find('.nc-toggle-group[data-neo-behavior~="toggle-group"]').exists()).toBe(true)
+    const knoepfe = z.findAll('.nc-toolbar button')
+    await knoepfe[0].trigger('keydown', { key: 'ArrowRight' })
+    expect(knoepfe[1].attributes('tabindex')).toBe('0')
+    expect(knoepfe[0].attributes('tabindex')).toBe('-1')
+    expect(z.findAll('.nc-toolbar [tabindex="0"]').length).toBe(1)
     w.unmount()
   })
 })
