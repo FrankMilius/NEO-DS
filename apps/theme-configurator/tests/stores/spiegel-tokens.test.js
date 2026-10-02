@@ -12,9 +12,13 @@ describe('MIRROR_TOKEN_MAP', () => {
   it('fuehrt alle Ziele je Quelle (keine verlorenen Doppel-Eintraege)', () => {
     // Plan v3 (02.10.2026): item/toolbar-Radius erben per CSS-Kette, nicht mehr per Spiegel
     expect(MIRROR_TOKEN_MAP['nc-input-radius']).toEqual(['nc-input-group-radius', 'nc-toggle-group-radius'])
-    expect(MIRROR_TOKEN_MAP['nc-card-radius']).toEqual(
-      ['nc-notification-radius', 'nc-metric-radius', 'nc-accordion-media-radius', 'nc-avatar-radius-square'])
-    expect(MIRROR_TOKEN_MAP['nc-dialog-shadow']).toEqual(['nc-search-command-shadow'])
+    // Entscheidung 02.10.2026: Akkordeon-Medien und Avatar entkoppelt
+    expect(MIRROR_TOKEN_MAP['nc-card-radius']).toEqual(['nc-notification-radius', 'nc-metric-radius'])
+    // Befehlspalette erbt per CSS-Kette vom Dialog (Entscheidung 02.10.2026)
+    expect(MIRROR_TOKEN_MAP['nc-dialog-shadow']).toBeUndefined()
+    for (const z of ['nc-avatar-badge-online', 'nc-avatar-badge-busy', 'nc-avatar-badge-away', 'nc-dialog-danger-action-bg', 'nc-treeview-gap', 'nc-dt-radius', 'nc-table-shadow', 'nc-dt-batch-shadow', 'nc-fieldset-card-shadow']) {
+      expect(Object.values(MIRROR_TOKEN_MAP).flat(), z).not.toContain(z)
+    }
   })
 
   describe('Spiegeln im Store', () => {
@@ -48,6 +52,7 @@ describe('MIRROR_TOKEN_MAP', () => {
     expect(standard('nc-toolbar-radius')).toBe('var(--nc-input-radius)')
     expect(standard('nc-item-radius')).toBe('var(--nc-input-radius)')
     expect(standard('nc-drawer-shadow')).toBe('var(--nc-dialog-shadow)')
+    expect(standard('nc-search-command-shadow')).toBe('var(--nc-dialog-shadow)')
     expect(standard('nc-badge-success-bg')).toBe('var(--nc-tag-success-bg)')
     expect(Object.values(MIRROR_TOKEN_MAP).flat()).not.toContain('nc-toolbar-radius')
   })

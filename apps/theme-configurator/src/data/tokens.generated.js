@@ -16392,7 +16392,7 @@ export const componentTokenGroups = [
         "id": "nc-search-command-shadow",
         "label": "Command Shadow",
         "type": "color",
-        "default": "var(--fnd-shadow-xl)"
+        "default": "var(--nc-dialog-shadow)"
       },
       {
         "id": "nc-search-command-radius",

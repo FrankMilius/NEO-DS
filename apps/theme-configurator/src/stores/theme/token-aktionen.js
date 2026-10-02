@@ -74,15 +74,15 @@ export const MIRROR_TOKEN_MAP = {
   // nc-toast-error-icon-color → nc-toast-error-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // nc-toast-info-icon-color → nc-toast-info-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Notification: Radius folgt Card-Radius, Shadow folgt Popover-Shadow
-  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius', 'nc-accordion-media-radius', 'nc-avatar-radius-square'],
+  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius'],  // entkoppelt: nc-accordion-media-radius, nc-avatar-radius-square (02.10.2026)
   // (moved to bottom with nav-menu-viewport-shadow)
   // Drawer: BG/Shadow/Overlay folgen Dialog-Tokens
   'nc-dialog-bg':                                ['nc-drawer-bg'],
-  'nc-dialog-shadow':                            ['nc-search-command-shadow'],
+  // nc-dialog-shadow → nc-search-command-shadow: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   'nc-dialog-overlay-bg':                        ['nc-drawer-overlay-bg'],
   // Alert ↔ Alert-Dialog: Danger-Farben muessen konsistent sein
   // nc-alert-danger-icon-color → nc-dialog-danger-icon-color: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
-  'nc-alert-danger-bg':                          ['nc-dialog-danger-action-bg'],
+  // nc-alert-danger-bg → nc-dialog-danger-action-bg: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   // Accordion: Media-Radius erbt von Card-Radius (Konsistenz)
   // → 'nc-card-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Accordion: Item-Radius folgt Card-Radius (Separated Cards = Cards)
@@ -122,11 +122,11 @@ export const MIRROR_TOKEN_MAP = {
   // Badge → Label: Typografie-Konsistenz
   // nc-badge-font-weight → nc-label-font-weight: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Avatar: Badge-Online folgt Success-Farbe (Konsistenz mit Badge/Label)
-  'nc-badge-success-bg':                         ['nc-avatar-badge-online'],
+  // nc-badge-success-bg → nc-avatar-badge-online: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   // Avatar: Badge-Busy folgt Danger-Farbe
-  'nc-badge-error-bg':                           ['nc-avatar-badge-busy'],
+  // nc-badge-error-bg → nc-avatar-badge-busy: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   // Avatar: Badge-Away folgt Warning-Farbe
-  'nc-badge-warning-bg':                         ['nc-avatar-badge-away'],
+  // nc-badge-warning-bg → nc-avatar-badge-away: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   // Avatar: Square-Radius folgt Card-Radius (Entity-Konsistenz)
   // → 'nc-card-radius' oben zusammengefuehrt (doppelter Schluessel ueberschrieb fruehere Ziele)
   // Chip: Avatar-Size folgt Avatar-XS (Proportionskonsistenz)
@@ -138,15 +138,15 @@ export const MIRROR_TOKEN_MAP = {
   // Button: Radius-MD → Input-Radius (Formular-Konsistenz)
   'nc-button-radius-md':                         ['nc-input-radius'],
   // TreeView: Gap folgt Item-Gap (Konsistenz Navigations-Elemente)
-  'nc-item-gap':                                 ['nc-treeview-gap'],
+  // nc-item-gap → nc-treeview-gap: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
   // TreeView: Badge-Radius folgt globalem Badge-Radius
   // nc-badge-radius → nc-treeview-badge-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Compare-Table: Shadow folgt Card-Shadow (Elevation-Konsistenz)
-  'nc-card-shadow':                              ['nc-table-shadow', 'nc-dt-card-shadow', 'nc-dt-batch-shadow', 'nc-fieldset-card-shadow'],
+  'nc-card-shadow':                              ['nc-dt-card-shadow'],  // entkoppelt: nc-table-shadow, nc-dt-batch-shadow, nc-fieldset-card-shadow (02.10.2026)
   // Compare-Table: Border-Width folgt globalem Border-Width-XS
   // nc-table-border-width → nc-table-row-border-width: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // DataTable: Radius folgt Button-Radius (Formular-Konsistenz)
-  'nc-button-radius-sm':                         ['nc-dt-radius']
+  // nc-button-radius-sm → nc-dt-radius: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
 }
 
 export function updateComponentToken(tokenId, value) {
