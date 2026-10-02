@@ -142,7 +142,7 @@ jobs:
         working-directory: apps/theme-configurator
         run: npm ci
       - name: Gebautes Bundle aus dem Job app
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: theme-configurator-${{ github.sha }}
           path: config
@@ -181,7 +181,7 @@ jobs:
         working-directory: apps/theme-configurator
         run: npm ci
       - name: Gebautes Bundle aus dem Job app
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: theme-configurator-${{ github.sha }}
           path: config
