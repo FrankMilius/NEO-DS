@@ -106,6 +106,9 @@
   // Panel
   &__panel {
     @include popover-panel-base;
+    // Breite nach Inhalt (bis max-width) — die Wurzel ist nur so breit wie
+    // der Ausloeser, sonst fiele das Panel auf min-width zusammen.
+    width: max-content;
 
     &[hidden] {
       display: none;
@@ -150,45 +153,48 @@
   }
 
   // -- Positionen --
+  // Zentrierung ueber die Eigenschaft `translate`, nicht `transform`: die
+  // Eingangsanimation fnd-scale-in setzt transform (forwards) und hob die
+  // Zentrierung sonst auf (Panel rutschte nach rechts/unten).
 
   // Bottom (default)
   &__panel--bottom,
   &__panel:not([class*='--top']):not([class*='--left']):not([class*='--right']) {
     top: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     left: 50%;
-    transform: translateX(-50%);
+    translate: -50% 0;
   }
 
   &__panel--top {
     bottom: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     left: 50%;
-    transform: translateX(-50%);
+    translate: -50% 0;
   }
 
   &__panel--left {
     right: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     top: 50%;
-    transform: translateY(-50%);
+    translate: 0 -50%;
   }
 
   &__panel--right {
     left: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     top: 50%;
-    transform: translateY(-50%);
+    translate: 0 -50%;
   }
 
   // Alignment-Varianten (Start/End)
   &__panel--bottom-start {
     top: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     left: 0;
-    transform: none;
+    translate: none;
   }
 
   &__panel--bottom-end {
     top: calc(100% + var(--mod-popover-offset, var(--nc-popover-offset)));
     right: 0;
     left: auto;
-    transform: none;
+    translate: none;
   }
 
   // -- Arrow --
