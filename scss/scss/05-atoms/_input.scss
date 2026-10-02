@@ -207,6 +207,9 @@
 
   &__icon {
     @include input-icon;
+    // Das Feld ist position: relative (Touch-Flaeche) — ohne z-index deckt es
+    // ein Symbol zu, das im Markup vor dem Feld steht.
+    z-index: 1;
 
     // Default: links positioniert
     inset-inline-start: var(--mod-input-padding-x-md, var(--nc-input-padding-x-md));
