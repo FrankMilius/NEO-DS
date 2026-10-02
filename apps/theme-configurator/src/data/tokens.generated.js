@@ -16605,7 +16605,7 @@ export const componentTokenGroups = [
         "id": "nc-searchbar-input-border",
         "label": "Input Border",
         "type": "color",
-        "default": "var(--fnd-color-border-secondary)"
+        "default": "var(--nc-input-border)"
       },
       {
         "id": "nc-searchbar-input-border-focus",
@@ -16617,7 +16617,7 @@ export const componentTokenGroups = [
         "id": "nc-searchbar-input-bg",
         "label": "Input Background",
         "type": "color",
-        "default": "var(--fnd-color-background-base)"
+        "default": "var(--nc-input-bg)"
       },
       {
         "id": "nc-searchbar-input-color",
