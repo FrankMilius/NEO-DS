@@ -12,6 +12,8 @@
 //     Klick ausserhalb schliesst (Light Dismiss) — nicht bei Formularen im
 //     Panel oder data-light-dismiss="false" (Datenverlust).
 //   Hover-Modus (.nc-popover--hover-trigger)
+//     Panel ohne [hidden] im Markup — ohne JS oeffnet es per CSS; beim
+//     Binden setzt JS [hidden] und steuert ab dann selbst.
 //     Oeffnet nach 300 ms Verweilen oder sofort bei Fokus auf dem Ausloeser,
 //     schliesst 200 ms nach Verlassen bzw. wenn der Fokus das Bauteil
 //     verlaesst; Escape schliesst. Keine Fokus-Falle.
@@ -33,6 +35,9 @@ export const popover = {
     if (!ausloeser || !panel) return
     const dok = wurzel.ownerDocument
     const hover = wurzel.classList.contains('nc-popover--hover-trigger')
+    // Hover-Modus: Das Panel kommt ohne [hidden] (so oeffnet es ohne JS per
+    // CSS). Beim Binden uebernimmt JS und schliesst es, ausser der Fokus ist drin.
+    if (hover && !panel.hidden && !wurzel.contains(dok.activeElement)) panel.hidden = true
     const lichtAus = () => wurzel.dataset.lightDismiss !== 'false' && !panel.querySelector('form, input, select, textarea')
     const offen = () => !panel.hidden
 

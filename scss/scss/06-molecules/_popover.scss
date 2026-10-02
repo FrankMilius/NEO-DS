@@ -21,7 +21,9 @@
 //
 // TRIGGER-MODI:
 //   click (Standard): Toggle bei Klick auf Trigger
-//   hover (optional): Oeffnet nach Delay (300ms), schliesst bei Mausverlust.
+//   hover (optional, .nc-popover--hover-trigger): Oeffnet nach Delay (300ms),
+//     schliesst bei Mausverlust. Ohne JS per CSS (:hover/:focus-within);
+//     dafuer steht das Panel im Markup OHNE [hidden].
 //     Nur fuer nicht-interaktive Inhalte (sonst Tooltip verwenden).
 //
 // AUTO-PLACEMENT:
@@ -106,6 +108,43 @@
     @include popover-panel-base;
 
     &[hidden] {
+      display: none;
+    }
+  }
+
+  // -- Hover-Modus (.nc-popover--hover-trigger) --
+  // Ohne JavaScript oeffnet das Panel per CSS bei Hover und Fokus (Muster wie
+  // beim Tooltip). Sobald neo-behaviors bindet (data-neo-behavior~="popover"),
+  // steuert JS: Verzoegerung 300/200 ms, aria-expanded, Escape.
+  // Entscheidung 02.10.2026.
+  &--hover-trigger {
+    // Unsichtbare Bruecke ueber den Abstand zum Ausloeser: der Zeiger
+    // verliert auf dem Weg ins Panel nicht den Hover.
+    > .nc-popover__panel::before {
+      content: '';
+      position: absolute;
+      inset: calc(-1 * var(--mod-popover-offset, var(--nc-popover-offset)));
+      z-index: -1;
+    }
+  }
+
+  // Ruhe: Das Panel steht im Hover-Modus ohne [hidden] im Markup (die
+  // Utility [hidden] ist !important und liesse sich per CSS nicht oeffnen).
+  &--hover-trigger > .nc-popover__panel {
+    display: none;
+  }
+
+  // Ohne JS: oeffnen bei Hover und Fokus. Mit JS (data-neo-behavior) entscheidet
+  // das [hidden]-Attribut, das neo-behaviors setzt.
+  &--hover-trigger:not([data-neo-behavior~='popover']):hover > .nc-popover__panel,
+  &--hover-trigger:not([data-neo-behavior~='popover']):focus-within > .nc-popover__panel,
+  &--hover-trigger[data-neo-behavior~='popover'] > .nc-popover__panel {
+    display: block;
+  }
+
+  // Touch: kein Oeffnen per :hover (wie Tooltip) — Fokus bleibt.
+  @media (pointer: coarse) {
+    &--hover-trigger:not([data-neo-behavior~='popover']):hover:not(:focus-within) > .nc-popover__panel {
       display: none;
     }
   }

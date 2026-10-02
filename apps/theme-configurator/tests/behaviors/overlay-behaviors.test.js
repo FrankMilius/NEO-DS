@@ -175,10 +175,10 @@ describe('Dropdown-Menue (dropdown-menu-recipe.json)', () => {
 // ---------------------------------------------------------------------------
 // Popover — Struktur aus scss/scss/06-molecules/_popover.scss
 // ---------------------------------------------------------------------------
-const popoverHtml = ({ hover = false, form = false } = {}) => `<button type="button" id="draussen">draussen</button>
+const popoverHtml = ({ hover = false, form = false, ohneHidden = false } = {}) => `<button type="button" id="draussen">draussen</button>
 <div class="nc-popover${hover ? ' nc-popover--hover-trigger' : ''}">
   <button type="button" class="nc-button nc-popover__trigger" aria-haspopup="dialog" aria-expanded="false">Einstellungen</button>
-  <div class="nc-popover__panel" role="dialog" aria-labelledby="pt" hidden>
+  <div class="nc-popover__panel" role="dialog" aria-labelledby="pt"${ohneHidden ? '' : ' hidden'}>
     <div class="nc-popover__arrow" aria-hidden="true"></div>
     <div class="nc-popover__header"><span id="pt">Einstellungen</span><button type="button" class="nc-popover__close" aria-label="Schließen">×</button></div>
     <div class="nc-popover__body">${form ? '<label>Name <input class="nc-input" type="text"></label>' : '<p>Inhalt</p>'}</div>
@@ -234,6 +234,13 @@ describe('Popover (popover-recipe.json)', () => {
     expect(p.panel.hidden).toBe(true)
     p.ausloeser.focus()
     expect(p.panel.hidden).toBe(false)
+  })
+
+  it('Hover-Modus ohne [hidden] im Markup (CSS-Rueckfall): beim Binden schliesst JS das Panel', () => {
+    const p = aufbau({ hover: true, ohneHidden: true })
+    expect(p.panel.hidden).toBe(true)
+    expect(p.ausloeser.getAttribute('aria-expanded')).toBe('false')
+    expect(p.wurzel.getAttribute('data-neo-behavior')).toContain('popover')
   })
 
   describe('Tasten aus dem Recipe', () => {

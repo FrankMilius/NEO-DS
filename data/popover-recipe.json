@@ -88,7 +88,8 @@
       "Auto-Placement (Floating UI empfohlen): computePosition({ placement, middleware: [offset(nc-popover-offset), flip(), shift({ padding: 16 })] }). Feste CSS-Positionen als Fallback. JS setzt data-placement='top|bottom|left|right' auf dem Panel.",
       "Trigger-Modi: 'click' (Standard): Toggle bei Klick. 'hover' (optional): Oeffnet nach 300ms Delay, schliesst bei Mausverlust mit 200ms Delay. Hover-Modus nur fuer nicht-interaktive Vorschau-Inhalte — sobald der Nutzer im Panel interagieren muss, click verwenden.",
       "Light Dismiss: Klick ausserhalb des Panels schliesst das Popover (JS). Optional: Scroll des Eltern-Containers schliesst (data-dismiss-on-scroll='true'). Pattern: document.addEventListener('click', (e) => { if (!popover.contains(e.target) && !trigger.contains(e.target)) close(); });",
-      "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible."
+      "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible.",
+      "Hover-Modus (nc-popover--hover-trigger): Panel im Markup OHNE [hidden]. Ohne JS oeffnet es per CSS bei :hover/:focus-within (wie Tooltip); neo-behaviors setzt beim Binden [hidden] und steuert dann mit 300/200 ms Verzoegerung. Entscheidung 02.10.2026."
     ]
   },
   "axes": {

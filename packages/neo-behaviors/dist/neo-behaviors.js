@@ -846,6 +846,7 @@
       if (!ausloeser || !panel) return;
       const dok = wurzel.ownerDocument;
       const hover = wurzel.classList.contains("nc-popover--hover-trigger");
+      if (hover && !panel.hidden && !wurzel.contains(dok.activeElement)) panel.hidden = true;
       const lichtAus = () => wurzel.dataset.lightDismiss !== "false" && !panel.querySelector("form, input, select, textarea");
       const offen = () => !panel.hidden;
       if (!ausloeser.hasAttribute("aria-haspopup")) ausloeser.setAttribute("aria-haspopup", "dialog");
