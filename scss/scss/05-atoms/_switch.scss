@@ -179,20 +179,12 @@
 
   // -- Kompakte Variante (36x20) --
 
+  // Die Masse kommen als lokale Tokens — so rechnen Checkbox- und
+  // Button-Muster, Checked-Versatz und Squash beim Druecken mit 36/20/14.
   &--sm {
-    .nc-switch__track {
-      width: 36px;
-      height: 20px;
-    }
-
-    .nc-switch__thumb {
-      width: 14px;
-      height: 14px;
-    }
-
-    .nc-switch__track[aria-checked='true'] > .nc-switch__thumb {
-      transform: translateX(calc(36px - 14px - 2 * var(--mod-switch-thumb-offset, var(--nc-switch-thumb-offset)))) translateY(-50%);
-    }
+    --nc-switch-width: 36px;
+    --nc-switch-height: 20px;
+    --nc-switch-thumb-size: 14px;
   }
 
   // -- Track-Indikatoren (I/O Labels) --
