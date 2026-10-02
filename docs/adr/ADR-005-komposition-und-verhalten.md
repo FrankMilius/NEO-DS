@@ -1,6 +1,7 @@
 # ADR-005: Komposition im Recipe, Verhalten als gemeinsames Paket
 
-- **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt (Plan v3)
+- **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
+  Blöcke Formular und Overlays umgesetzt (Plan v3, Stand 02.10.2026)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -75,3 +76,24 @@ Dinge fehlten aber:
   (`setzeIndikator`), die Arena-Vorlage nutzt dieselbe Funktion.
   „Ausprobieren" gibt es für die Formular-Bauteile; die Overlays folgen, wenn
   ihre Sonderfall-Arenen in Phase 3 Recipe-Vorlagen bekommen.
+- Phase 3, Block Formular (02.10.2026): input, textarea, checkbox, radio,
+  switch, range, rating, segmented-control, toggle-group, form-field,
+  input-group, fieldset kommen aus Recipe-Vorlagen (`src/arena-templates`);
+  zwölf `*Arena.vue` gelöscht. Native Felder sind echt und bedienbar.
+- Phase 3, Block Overlays (02.10.2026): dropdown-menu, popover, tooltip, modal,
+  drawer, alert-dialog kommen aus Recipe-Vorlagen; sechs `*Arena.vue`
+  gelöscht. Das Arena-Modell trägt `m.ausprobieren`: In „Zustände" stehen die
+  Overlays fest offen (Panel ohne `[hidden]`, `aria-expanded="true"`, Dialoge
+  mit `[open]`), in „Ausprobieren" starten sie geschlossen und das Behavior
+  öffnet sie. Damit nichts über die App ragt, liegen Menü, Popover und Tooltip
+  in einer Platzfläche (`ra-anker`) und die Dialoge in einem Rahmen
+  (`ra-buehne`), den `contain: layout paint` zum Bezugsrahmen der
+  `position: fixed`-Dialoge macht; `showModal()` öffnet in „Ausprobieren"
+  wie in Drupal über dem ganzen Fenster. „Ausprobieren" gibt es für alle
+  Overlays mit Behavior; der Alert-Dialog hat noch keins (Recipe ohne
+  `keyboard`/`events`) und zeigt nur „Zustände".
+- Die Arena macht DS-Fehler der Overlays sichtbar, die die handgeschriebenen
+  Arenen (eigene Inline-Stile) verdeckt hatten — u. a. bleibt das Untermenü
+  des Dropdowns im `overflow` des Menüs hängen, und die Eingangsanimation des
+  Popovers überschreibt dessen Zentrierung (`transform`). Sie sind nicht
+  stillschweigend behoben, sondern als Befunde zur Entscheidung gemeldet.
