@@ -1,9 +1,9 @@
 /**
  * neo-behaviors, Overlays (Plan v3, Phase 2): Dropdown-Menue, Popover,
- * Tooltip, Modal, Drawer. Diese Bauteile haben noch handgeschriebene
- * Vue-Arenen (useArenaResolver SONDERFAELLE, Inline-Stile ohne DS-Klassen)
- * — getestet wird deshalb gegen DS-Markup nach SCSS-Struktur und Recipe
- * (anatomy, domNotes). „Ausprobieren" in der Arena folgt mit Phase 3.
+ * Tooltip, Modal, Drawer — getestet gegen DS-Markup nach SCSS-Struktur und
+ * Recipe (anatomy, domNotes). Seit Phase 3 (Block Overlays) kommt die Arena
+ * aus dem Recipe; „Ausprobieren" auf genau diesem Arena-Markup pruefen
+ * tests/arena/overlay-block.test.js.
  */
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { anbinden } from 'neo-behaviors'
