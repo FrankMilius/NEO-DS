@@ -104,7 +104,7 @@ export const MIRROR_TOKEN_MAP = {
   // Toolbar: Gap folgt Button-Gap (Hierarchie-Konsistenz)
   // nc-button-gap → nc-toolbar-gap: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Navigation-Menu: Viewport-Shadow folgt Popover-Shadow (Overlay-Konsistenz)
-  'nc-popover-shadow':                           ['nc-nav-menu-viewport-shadow'],
+  // nc-popover-shadow → nc-nav-menu-viewport-shadow: jetzt CSS-Kette im SCSS (Entscheidung 02.10.2026)
   // Navigation-Menu: Viewport-BG/Border/Radius folgen Popover (Overlay-Konsistenz)
   // nc-popover-bg → nc-popover-arrow-bg, nc-nav-menu-viewport-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // nc-popover-border → nc-nav-menu-viewport-border: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)

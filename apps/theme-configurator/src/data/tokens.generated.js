@@ -22605,7 +22605,7 @@ export const componentTokenGroups = [
         "id": "nc-nav-menu-viewport-shadow",
         "label": "Menu Viewport Shadow",
         "type": "color",
-        "default": "var(--fnd-elevation-floating)"
+        "default": "var(--nc-popover-shadow)"
       },
       {
         "id": "nc-nav-menu-viewport-width",
