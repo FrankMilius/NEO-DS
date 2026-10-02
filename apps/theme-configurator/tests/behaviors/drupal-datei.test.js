@@ -1,0 +1,76 @@
+/**
+ * Fertige Datei fuer die Drupal-Library (packages/neo-behaviors/dist/
+ * neo-behaviors.js, gebaut von scripts/baue-behaviors.mjs): laeuft ohne
+ * Module im Browser, stellt window.NeoBehaviors bereit und meldet sich als
+ * Drupal.behaviors.neoBehaviors an (attach/detach, drupalSettings.neoBehaviors).
+ */
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { vorlageFuer } from '../../src/arena-templates/index.js'
+import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
+import { rohesRecipe } from '../arena/_recipes.js'
+import paket from '../../../../packages/neo-behaviors/package.json'
+
+const DATEI = readFileSync(resolve(__dirname, '../../../../packages/neo-behaviors/dist/neo-behaviors.js'), 'utf8')
+
+function tabsMarkup () {
+  const recipe = normalisiereRecipe(rohesRecipe('tabs'))
+  return specimenAnsicht(recipe.specimens[0], recipe, 'tabs', vorlageFuer('tabs')).zeilen[0].zellen[0].html
+}
+
+function lade () {
+  // wie ein <script>-Tag: globaler Kontext, keine Module
+  new Function(DATEI)()
+}
+
+describe('dist/neo-behaviors.js (Drupal-Library)', () => {
+  beforeEach(() => {
+    delete globalThis.NeoBehaviors
+    globalThis.Drupal = { behaviors: {} }
+    document.body.innerHTML = ''
+  })
+  afterEach(() => { delete globalThis.Drupal; delete globalThis.NeoBehaviors })
+
+  it('enthaelt keine import/export-Anweisungen und traegt die Paketversion', () => {
+    expect(DATEI).not.toMatch(/^\s*(import|export)\s/m)
+    expect(DATEI).toContain(`neo-behaviors ${paket.version}`)
+  })
+
+  it('stellt window.NeoBehaviors bereit und registriert Drupal.behaviors.neoBehaviors', () => {
+    lade()
+    expect(globalThis.NeoBehaviors.version).toBe(paket.version)
+    expect(globalThis.NeoBehaviors.MIT_VERHALTEN).toContain('tabs')
+    expect(typeof globalThis.Drupal.behaviors.neoBehaviors.attach).toBe('function')
+  })
+
+  it('attach bindet im Kontext, detach (unload) loest wieder', () => {
+    lade()
+    document.body.innerHTML = tabsMarkup()
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    b.attach(document, {})
+    const tabs = [...document.querySelectorAll('.nc-tabs__trigger')]
+    tabs[2].click()
+    expect(tabs[2].getAttribute('aria-selected')).toBe('true')
+    b.detach(document, {}, 'unload')
+    expect(document.querySelector('[data-neo-behavior]')).toBeNull()
+  })
+
+  it('drupalSettings.neoBehaviors: nur bestimmte Bauteile oder aus', () => {
+    lade()
+    document.body.innerHTML = tabsMarkup()
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    b.attach(document, { neoBehaviors: { aus: true } })
+    expect(document.querySelector('[data-neo-behavior]')).toBeNull()
+    b.attach(document, { neoBehaviors: { nur: ['select'] } })
+    expect(document.querySelector('[data-neo-behavior]')).toBeNull()
+    b.attach(document, { neoBehaviors: { nur: ['tabs'] } })
+    expect(document.querySelector('.nc-tabs').getAttribute('data-neo-behavior')).toBe('tabs')
+  })
+
+  it('ohne Drupal: nur window.NeoBehaviors (Doku, Storybook)', () => {
+    delete globalThis.Drupal
+    lade()
+    expect(globalThis.NeoBehaviors.anbinden).toBeTypeOf('function')
+  })
+})

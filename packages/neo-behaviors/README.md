@@ -28,14 +28,42 @@ aufraeumen()                                // bzw. abbinden(bereich)
 anbinden(bereich, ['tabs'])                 // nur bestimmte Bauteile
 ```
 
-Drupal (sobald die Library-Datei gebaut wird):
+## Drupal: fertige Datei
 
-```js
-Drupal.behaviors.neoBehaviors = {
-  attach: (context) => NeoBehaviors.anbinden(context),
-  detach: (context, settings, trigger) => { if (trigger === 'unload') NeoBehaviors.abbinden(context) }
-}
+`dist/neo-behaviors.js` ist die fertige Datei für die Drupal-Library (IIFE,
+ohne Module, ES2019, nicht minifiziert — Drupal aggregiert selbst). Sie entsteht
+mit `npm run behaviors:build` aus `drupal.js`; CI prüft mit
+`npm run behaviors:check`, dass sie aktuell ist. Nicht von Hand ändern.
+
+Die Datei stellt `window.NeoBehaviors` bereit (`anbinden`, `abbinden`,
+`BEHAVIORS`, `MIT_VERHALTEN`, `version`) und meldet sich selbst als
+`Drupal.behaviors.neoBehaviors` an (attach bindet im Kontext, detach beim
+`unload` löst wieder). Kein eigener Glue-Code nötig.
+
+Einbinden im Theme `neo_fe` (`neo_fe.libraries.yml`):
+
+```yaml
+neo-behaviors:
+  version: 0.2.0
+  js:
+    js/neo-behaviors.js: { attributes: { defer: true } }
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
 ```
+
+Aktivieren: `{{ attach_library('neo_fe/neo-behaviors') }}` in einem Template
+oder als Abhängigkeit von `global-styling`. Steuern über `drupalSettings`:
+
+```php
+$build['#attached']['drupalSettings']['neoBehaviors'] = ['nur' => ['tabs', 'select']]; // nur diese
+$build['#attached']['drupalSettings']['neoBehaviors'] = ['aus' => TRUE];              // nichts binden
+```
+
+Achtung beim Aktivieren: `neo-theme.js` hat eigene Behaviors (z. B.
+`neoAccordion` für `[data-neo-accordion]`, Tab-Nav, Suche). Doppelt gebunden
+wird nichts Schädliches, aber vor dem globalen Einschalten mit der
+Drupal-Entwicklung festlegen, welche Bauteile das Paket übernimmt (`nur`).
 
 Das Soll steht im Recipe (`keyboard`, `events`, State-Regeln). Die Tests in
 `apps/theme-configurator/tests/behaviors/` binden an genau das Markup, das die

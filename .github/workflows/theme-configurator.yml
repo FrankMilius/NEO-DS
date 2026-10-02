@@ -69,6 +69,8 @@ jobs:
             || (echo "::error::tokens.generated.js/.d.ts ist veraltet — npm run tokens ausfuehren und committen"; exit 1)
       - name: Komposition der Recipes haelt (Markup, geteilte Tokens, Token-Ketten)
         run: npm run lint:komposition
+      - name: neo-behaviors fuer Drupal aktuell (packages/neo-behaviors/dist)
+        run: npm run behaviors:check
       - name: Pruefvektoren fuer Drupal/PHP aktuell (data/pruefvektoren)
         run: npm run drupal:pruefvektoren:check
       - name: Docs-Seiten entstehen aus docs/content (keine Handaenderung)
