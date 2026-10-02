@@ -86,10 +86,10 @@
                 <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
                   <div class="anatomy-row__label">
                     {{ token.label }}
-                    <span v-if="resolveInheritance(token)" class="inheritance-link" :title="`Erbt von ${resolveInheritance(token).category} › ${resolveInheritance(token).varName}`">
+                    <component :is="resolveInheritance(token).source === 'komponente' ? 'a' : 'span'" v-if="resolveInheritance(token)" class="inheritance-link" :href="resolveInheritance(token).source === 'komponente' ? komponentenLink(resolveInheritance(token).gruppe) : undefined" :title="`Erbt von ${resolveInheritance(token).category} › ${resolveInheritance(token).varName}`">
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                       {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
-                    </span>
+                    </component>
                   </div>
                   <!-- Color-Tokens: Native Picker + Swatch + Text-Input -->
                   <div v-if="token.type === 'color'" class="anatomy-color-wrap">
@@ -227,10 +227,10 @@
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
                     <div class="mirror-row__label" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @keydown.enter.prevent="selectToken(token)" @keydown.space.prevent="selectToken(token)">
                       <span class="token-label">{{ token.label }}</span>
-                      <span v-if="resolveInheritance(token)" class="inheritance-link inheritance-link--compact" :title="resolveInheritance(token).varName">
+                      <component :is="resolveInheritance(token).source === 'komponente' ? 'a' : 'span'" v-if="resolveInheritance(token)" class="inheritance-link inheritance-link--compact" :href="resolveInheritance(token).source === 'komponente' ? komponentenLink(resolveInheritance(token).gruppe) : undefined" :title="resolveInheritance(token).varName">
                         <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
-                      </span>
+                      </component>
                     </div>
                     <div class="mirror-row__light">
                       <div v-if="token.type === 'color'" class="token-swatch token-swatch--sm" :style="{ background: getTokenValueForMode(token, 'light') }"></div>

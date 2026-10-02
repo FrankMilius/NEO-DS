@@ -34,3 +34,30 @@ export function komponentenErbe (standardWert, eigeneGruppe) {
 
 /** Link auf die Komponente im Konfigurator (Hash-Router). */
 export const komponentenLink = (gruppe) => `#/component/${gruppe}`
+
+/** Standardwert je Komponenten-Token (aus tokens.generated). */
+const STANDARD = new Map()
+for (const g of componentTokenGroups) for (const t of g.tokens || []) if (!STANDARD.has(t.id)) STANDARD.set(t.id, t.default)
+
+/**
+ * Loest eine Kette aus Komponenten-Tokens auf, bis ein Wert ohne
+ * var(--nc-…) entsteht: zuerst der Wert aus dem Store (Override), sonst der
+ * Standard. Foundation-Verweise (var(--fnd-…)) bleiben stehen — die zeigt der
+ * Inspector schon mit Namen an.
+ * @param {string} wert
+ * @param {Record<string,string>} [overrides] componentOverrides des aktiven Sets
+ * @returns {{ wert: string, quelle: string|null }} quelle = erstes Token der Kette
+ */
+export function loeseKette (wert, overrides = {}) {
+  let aktuell = wert
+  let quelle = null
+  for (let i = 0; i < 8 && typeof aktuell === 'string'; i++) {
+    const m = /^var\(--(nc-[a-z0-9-]+)\)$/.exec(aktuell.trim())
+    if (!m) break
+    quelle ??= m[1]
+    const naechster = overrides[m[1]] || STANDARD.get(m[1])
+    if (!naechster) break
+    aktuell = naechster
+  }
+  return { wert: aktuell, quelle }
+}

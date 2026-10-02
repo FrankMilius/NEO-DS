@@ -50,21 +50,22 @@
   padding-left: var(--nc-searchbar-input-padding-left);
   padding-right: var(--nc-searchbar-input-padding-right);
   font-size: var(--nc-type-body-m-size);
-  border-radius: var(--fnd-radius-md);
-  border: 1px solid var(--fnd-color-border-secondary);
-  background: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-primary);
+  // Feld erbt vom Input (Token-Kette, Recipe searchbar: teilt input)
+  border-radius: var(--mod-searchbar-input-radius, var(--nc-searchbar-input-radius));
+  border: var(--mod-searchbar-input-border-width, var(--nc-searchbar-input-border-width)) solid var(--mod-searchbar-input-border, var(--nc-searchbar-input-border));
+  background: var(--mod-searchbar-input-bg, var(--nc-searchbar-input-bg));
+  color: var(--mod-searchbar-input-color, var(--nc-searchbar-input-color));
   transition: border-color 0.15s ease;
 }
 
 .nc-searchbar__input:focus {
   outline: none;
-  border-color: var(--fnd-color-interactive-focus);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fnd-color-interactive-focus) 25%, transparent);
+  border-color: var(--mod-searchbar-input-border-focus, var(--nc-searchbar-input-border-focus));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mod-searchbar-input-border-focus, var(--nc-searchbar-input-border-focus)) 25%, transparent);
 }
 
 .nc-searchbar__input::placeholder {
-  color: var(--fnd-color-text-tertiary);
+  color: var(--mod-searchbar-input-placeholder, var(--nc-searchbar-input-placeholder));
 }
 
 .nc-searchbar__shortcut {

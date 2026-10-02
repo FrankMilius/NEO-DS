@@ -8,7 +8,7 @@ import { describe, it, expect } from 'vitest'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { hasArena } from '../../src/composables/useArenaResolver.js'
-import { komponentenErbe } from '../../src/lib/token-erbe.js'
+import { komponentenErbe, loeseKette } from '../../src/lib/token-erbe.js'
 import { rohesRecipe } from './_recipes.js'
 
 function zellen (id, specimenId) {
@@ -101,5 +101,12 @@ describe('Token-Erbe zwischen Komponenten', () => {
     expect(komponentenErbe('var(--fnd-size-md)', 'search')).toBeNull()
     expect(komponentenErbe('320px', 'search')).toBeNull()
     expect(komponentenErbe('var(--nc-input-height-md)', 'input')).toBeNull()
+  })
+  it('loeseKette folgt der Kette mit Store-Aenderungen bis zum Foundation-Wert', () => {
+    // Standard: Suche → Input → Formular-Basis → Foundation
+    expect(loeseKette('var(--nc-search-input-radius)', {})).toEqual({ wert: '4px', quelle: 'nc-search-input-radius' })
+    expect(loeseKette('var(--nc-input-radius)', { 'nc-input-radius': 'var(--fnd-radius-lg)' })).toEqual({ wert: 'var(--fnd-radius-lg)', quelle: 'nc-input-radius' })
+    expect(loeseKette('var(--nc-search-input-radius)', { 'nc-input-radius': 'var(--fnd-radius-lg)' }).wert).toBe('var(--fnd-radius-lg)')
+    expect(loeseKette('12px', {})).toEqual({ wert: '12px', quelle: null })
   })
 })

@@ -72,8 +72,12 @@
 // ---------------------------------------------------------------------------
 // Search Input (global fuer type=search)
 // ---------------------------------------------------------------------------
+// :where() = Spezifitaet 0: Die Regel ist nur ein Rueckfall fuer Suchfelder
+// ohne eigene Klasse. Vorher (0,1,1) schlug sie jede Bauteil-Klasse (0,1,0),
+// z. B. .nc-searchbar__input, und setzte deren Radius fest auf den Wert von
+// :root — Aenderungen am Input kamen dort nicht an (Abnahme Plan v3, 02.10.2026).
 
-input[type='search'] {
+:where(input[type='search']) {
   border-radius: var(--mod-search-input-radius, var(--nc-search-input-radius, var(--nc-input-radius)));
 
   // Browser-nativen Cancel-Button entfernen (blaues × in Chrome/Safari)

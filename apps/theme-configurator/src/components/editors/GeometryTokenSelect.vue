@@ -60,6 +60,8 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { foundationTokens } from '../../data/tokens.js'
+import { useThemeStore } from '../../stores/theme.js'
+import { loeseKette, komponentenErbe } from '../../lib/token-erbe.js'
 
 const props = defineProps({
   token: { type: Object, required: true },
@@ -113,8 +115,19 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onClickOutside))
 // ---------------------------------------------------------------------------
 // Display value — resolve var() references to px
 // ---------------------------------------------------------------------------
-const displayValue = computed(() => {
+// Erbt der Wert von einer anderen Komponente (var(--nc-…), Plan v3), zeigt
+// der Inspector den aufgeloesten Wert — mit Store-Aenderungen — statt des
+// rohen Verweises, und nennt die Herkunft.
+const store = useThemeStore()
+const kette = computed(() => {
   const val = props.modelValue
+  if (!val || !/^var\(--nc-/.test(val)) return null
+  return loeseKette(val, store.state.componentOverrides?.[store.state.activeThemeSet] || {})
+})
+const erbe = computed(() => (kette.value ? komponentenErbe(props.modelValue, '') : null))
+
+const displayValue = computed(() => {
+  const val = kette.value ? kette.value.wert : props.modelValue
   if (!val) return ''
   // If it's a var() reference, try to resolve it
   const varMatch = val.match(/^var\(--fnd-(size|spacing|radius)-(.+)\)$/)
@@ -131,6 +144,7 @@ const displayValue = computed(() => {
 // Match current value to a foundation token label
 // ---------------------------------------------------------------------------
 const matchedLabel = computed(() => {
+  if (erbe.value) return `erbt von ${erbe.value.category}`
   const val = props.modelValue
   if (!val) return ''
 

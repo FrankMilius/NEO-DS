@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-01
+// Generated: 2026-10-02
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -16364,7 +16364,7 @@ export const componentTokenGroups = [
         "id": "nc-search-xl-radius",
         "label": "XL Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-md)"
+        "default": "var(--nc-input-radius)"
       },
       {
         "id": "nc-search-xl-shadow",
@@ -16388,7 +16388,7 @@ export const componentTokenGroups = [
         "id": "nc-search-command-radius",
         "label": "Command Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-md)"
+        "default": "var(--nc-input-radius)"
       },
       {
         "id": "nc-search-command-overlay-bg",
@@ -16537,7 +16537,14 @@ export const componentTokenGroups = [
           "nc-searchbar-input-padding-right",
           "nc-searchbar-shortcut-font-size",
           "nc-searchbar-shortcut-padding",
-          "nc-searchbar-close-background"
+          "nc-searchbar-close-background",
+          "nc-searchbar-input-radius",
+          "nc-searchbar-input-border-width",
+          "nc-searchbar-input-border",
+          "nc-searchbar-input-border-focus",
+          "nc-searchbar-input-bg",
+          "nc-searchbar-input-color",
+          "nc-searchbar-input-placeholder"
         ]
       }
     ],
@@ -16571,6 +16578,48 @@ export const componentTokenGroups = [
         "label": "Close Background",
         "type": "color",
         "default": "transparent"
+      },
+      {
+        "id": "nc-searchbar-input-radius",
+        "label": "Input Radius",
+        "type": "radius",
+        "default": "var(--nc-input-radius)"
+      },
+      {
+        "id": "nc-searchbar-input-border-width",
+        "label": "Input Border Width",
+        "type": "size",
+        "default": "var(--nc-input-border-width)"
+      },
+      {
+        "id": "nc-searchbar-input-border",
+        "label": "Input Border",
+        "type": "color",
+        "default": "var(--fnd-color-border-secondary)"
+      },
+      {
+        "id": "nc-searchbar-input-border-focus",
+        "label": "Input Border Focus",
+        "type": "color",
+        "default": "var(--nc-input-border-focus)"
+      },
+      {
+        "id": "nc-searchbar-input-bg",
+        "label": "Input Background",
+        "type": "color",
+        "default": "var(--fnd-color-background-base)"
+      },
+      {
+        "id": "nc-searchbar-input-color",
+        "label": "Input Color",
+        "type": "color",
+        "default": "var(--nc-input-color)"
+      },
+      {
+        "id": "nc-searchbar-input-placeholder",
+        "label": "Input Placeholder",
+        "type": "color",
+        "default": "var(--nc-input-placeholder)"
       }
     ]
   },

@@ -24,6 +24,15 @@ describe('Komposition', () => {
     expect(input.tokens).toMatchObject({ 'nc-search-input-height': 'nc-input-height-md', 'nc-search-input-radius': 'nc-input-radius' })
   })
 
+  it('alle Feld-Radien der Suche und die Searchbar erben vom Input (Entscheidung 02.10.2026)', () => {
+    const r = ladeRecipes()
+    const suche = r.search.daten.komposition.find((k) => k.recipe === 'input').tokens
+    expect(suche).toMatchObject({ 'nc-search-xl-radius': 'nc-input-radius', 'nc-search-command-radius': 'nc-input-radius' })
+    const leiste = r.searchbar.daten.komposition.find((k) => k.recipe === 'input')
+    expect(leiste.art).toBe('teilt')
+    expect(leiste.tokens).toMatchObject({ 'nc-searchbar-input-radius': 'nc-input-radius', 'nc-searchbar-input-border-focus': 'nc-input-border-focus' })
+  })
+
   it('Formularfelder teilen die Input-Basis', () => {
     const r = ladeRecipes()
     for (const id of ['select', 'textarea', 'otp-input']) {

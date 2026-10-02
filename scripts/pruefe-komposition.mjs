@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url'
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DATA = join(WURZEL, 'data')
-const TOKENS_SCSS = join(WURZEL, 'scss/scss/00-settings/_component-tokens.scss')
+const TOKENS_DIR = join(WURZEL, 'scss/scss/00-settings')
 
 // Fundstellen im geernteten Markup, die keine Komposition sind.
 export const AUSNAHMEN = {
@@ -66,9 +66,14 @@ function markupKlassen (id) {
 }
 
 function tokenWerte () {
+  // Alle Komponenten-Token-Dateien (_component-tokens.scss, -aufgenommen …),
+  // erste Deklaration gewinnt (hell; der Dunkel-Block folgt spaeter)
   const werte = {}
-  for (const m of readFileSync(TOKENS_SCSS, 'utf8').matchAll(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/gm)) {
-    if (!(m[1] in werte)) werte[m[1]] = m[2].trim()
+  const dateien = readdirSync(TOKENS_DIR).filter((f) => /^_component-tokens.*\.scss$/.test(f)).sort()
+  for (const f of dateien) {
+    for (const m of readFileSync(join(TOKENS_DIR, f), 'utf8').matchAll(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/gm)) {
+      if (!(m[1] in werte)) werte[m[1]] = m[2].trim()
+    }
   }
   return werte
 }
@@ -129,12 +134,20 @@ export function pruefe () {
           else if (!treffer.every((l) => l.includes(klasse))) fehler.push(`${ort}: ${k.element} traegt nicht die Klasse ${klasse}`)
         } else if (!klassen.some((l) => l.includes(klasse))) fehler.push(`${ort}: Klasse ${klasse} fehlt im Markup`)
       } else if (k.art === 'teilt') {
-        if (!k.tokenPraefix) fehler.push(`${ort}: tokenPraefix fehlt`)
-        else {
+        if (!k.tokenPraefix && !k.tokens) fehler.push(`${ort}: tokenPraefix oder tokens fehlt`)
+        else if (k.tokenPraefix) {
           const scss = scssDateien(id).filter(existsSync).map((p) => readFileSync(p, 'utf8')).join('\n')
           if (!scss.includes(`var(--${k.tokenPraefix}`)) fehler.push(`${ort}: SCSS nutzt keine --${k.tokenPraefix}*-Tokens`)
         }
       } else fehler.push(`${ort}: unbekannte art`)
+      // Abgeleitete Tokens muessen im SCSS des Bauteils auch benutzt werden —
+      // sonst kommt die Kette nicht an (ein ungenutztes Token erbt ins Leere).
+      if (k.tokens) {
+        const scss = scssDateien(id).filter(existsSync).map((p) => readFileSync(p, 'utf8')).join('\n')
+        for (const eigen of Object.keys(k.tokens)) {
+          if (!scss.includes(`var(--${eigen}`) && !scss.includes(`var(--mod-${eigen.replace(/^nc-/, '')}, var(--${eigen}`)) fehler.push(`${ort}: --${eigen} wird im SCSS von ${id} nicht benutzt`)
+        }
+      }
       for (const [eigen, quelle] of Object.entries(k.tokens || {})) {
         if (!(eigen in werte)) fehler.push(`${ort}: Token --${eigen} gibt es nicht`)
         else if (!(quelle in werte)) fehler.push(`${ort}: Token --${quelle} gibt es nicht`)
