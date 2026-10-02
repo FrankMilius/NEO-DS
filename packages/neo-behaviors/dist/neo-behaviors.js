@@ -1921,7 +1921,6 @@
     drawer,
     "alert-dialog": alertDialog,
     breadcrumb,
-    breadcrumb,
     treeview,
     "navigation-menu": navigationMenu,
     toolbar,

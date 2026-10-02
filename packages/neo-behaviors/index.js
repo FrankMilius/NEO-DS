@@ -57,7 +57,6 @@ export const BEHAVIORS = Object.freeze({
   drawer,
   'alert-dialog': alertDialog,
   breadcrumb,
-  breadcrumb,
   treeview,
   'navigation-menu': navigationMenu,
   toolbar,
