@@ -87,10 +87,13 @@
 }
 
 /// Breadcrumb-Item (<li>).
+/// margin: 0 hebt den Listenabstand der li-Elementregel auf
+/// (03-elements/_typography.scss) — wie .nc-nav__item.
 @mixin breadcrumb-item {
   display: inline-flex;
   align-items: center;
   gap: var(--mod-breadcrumb-gap, var(--nc-breadcrumb-gap));
+  margin: 0;
 }
 
 /// Breadcrumb-Link (<a>).
@@ -265,6 +268,11 @@
 
   &.is-open {
     display: block;
+  }
+
+  // Eintraege (<li role="none">): ohne Listenabstand der li-Elementregel
+  > li {
+    margin: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
