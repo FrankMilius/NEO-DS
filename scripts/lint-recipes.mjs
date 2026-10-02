@@ -62,7 +62,12 @@ try {
 // Load SCSS component tokens (for parity check)
 let scssContent = '';
 try {
-  scssContent = fs.readFileSync(SCSS_TOKENS_FILE, 'utf8');
+  // Alle Komponenten-Token-Dateien (auch _component-tokens-aufgenommen.scss),
+  // sonst fehlen z. B. die Searchbar-Tokens scheinbar im SCSS (02.10.2026)
+  const settings = path.dirname(SCSS_TOKENS_FILE);
+  scssContent = fs.readdirSync(settings)
+    .filter(f => /^_component-tokens.*\.scss$/.test(f)).sort()
+    .map(f => fs.readFileSync(path.join(settings, f), 'utf8')).join('\n');
 } catch (e) {
   console.error(`  ⚠ Kann _component-tokens.scss nicht laden: ${e.message}`);
 }

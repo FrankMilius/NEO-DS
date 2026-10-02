@@ -42,6 +42,12 @@ export function capitalize(s) {
  * @param {Object} raw - Raw recipe JSON
  * @returns {Object} Canonical v3.1 recipe
  */
+function optionaleFelder(raw) {
+  const o = {};
+  for (const k of ['komposition', 'keyboard', 'events']) if (raw[k] != null) o[k] = raw[k];
+  return o;
+}
+
 export function loadRecipe(raw) {
   const version = raw.meta?.schemaVersion || raw.schemaVersion || '1.0.0';
   const isV31 = version.startsWith('3.1');
@@ -63,10 +69,9 @@ export function loadRecipe(raw) {
       },
       recipes: raw.recipes || { mode: 'derived' },
       specimens: normalizeSpecimens(raw.specimens || []),
-      // Plan v3: Komposition und Verhalten (optional) reichen durch
-      komposition: raw.komposition || [],
-      keyboard: raw.keyboard || null,
-      events: raw.events || null
+      // Plan v3: Komposition und Verhalten (optional) nur durchreichen, wenn
+      // vorhanden — null/[] fielen sonst in der Schema-Pruefung als Fehler auf
+      ...optionaleFelder(raw)
     };
   }
 
@@ -95,9 +100,7 @@ export function loadRecipe(raw) {
         ? { mode: raw.recipes === 'derived' ? 'derived' : 'static' }
         : raw.recipes || { mode: 'derived' },
       specimens: normalizeSpecimens(raw.specimens || []),
-      komposition: raw.komposition || [],
-      keyboard: raw.keyboard || null,
-      events: raw.events || null
+      ...optionaleFelder(raw)
     };
   }
 
