@@ -42,7 +42,7 @@
     "behaviors:build": "node scripts/baue-behaviors.mjs",
     "behaviors:check": "node scripts/baue-behaviors.mjs --pruefen",
     "drupal:pruefvektoren:check": "node scripts/erzeuge-pruefvektoren.mjs --pruefen",
-    "config:build": "cd apps/theme-configurator && npx vite build && cd ../.. && node scripts/pruefe-konfig-einstieg.cjs",
+    "config:build": "node scripts/pruefe-abhaengigkeiten.cjs && cd apps/theme-configurator && npx vite build && cd ../.. && node scripts/pruefe-konfig-einstieg.cjs",
     "config:budget": "node scripts/pruefe-bundle-budget.cjs",
     "konfig:einstieg:check": "node scripts/pruefe-konfig-einstieg.cjs",
     "docs:build": "node scripts/build-docs.cjs && npm run docs:sidebar && npm run docs:index",
