@@ -12,8 +12,8 @@ describe('MIRROR_TOKEN_MAP', () => {
   it('fuehrt alle Ziele je Quelle (keine verlorenen Doppel-Eintraege)', () => {
     // Plan v3 (02.10.2026): item/toolbar-Radius erben per CSS-Kette, nicht mehr per Spiegel
     expect(MIRROR_TOKEN_MAP['nc-input-radius']).toEqual(['nc-input-group-radius', 'nc-toggle-group-radius'])
-    // Entscheidung 02.10.2026: Akkordeon-Medien und Avatar entkoppelt
-    expect(MIRROR_TOKEN_MAP['nc-card-radius']).toEqual(['nc-notification-radius', 'nc-metric-radius'])
+    // Entscheidung 02.10.2026: Benachrichtigung/Kennzahl per CSS-Kette, Akkordeon-Medien und Avatar entkoppelt
+    expect(MIRROR_TOKEN_MAP['nc-card-radius']).toBeUndefined()
     // Befehlspalette erbt per CSS-Kette vom Dialog (Entscheidung 02.10.2026)
     expect(MIRROR_TOKEN_MAP['nc-dialog-shadow']).toBeUndefined()
     for (const z of ['nc-avatar-badge-online', 'nc-avatar-badge-busy', 'nc-avatar-badge-away', 'nc-dialog-danger-action-bg', 'nc-treeview-gap', 'nc-dt-radius', 'nc-table-shadow', 'nc-dt-batch-shadow', 'nc-fieldset-card-shadow']) {
@@ -40,10 +40,10 @@ describe('MIRROR_TOKEN_MAP', () => {
     })
 
     it('Reset nimmt alle gespiegelten Ziele mit', () => {
-      store.updateComponentToken('nc-card-radius', '20px')
-      store.resetComponentToken('nc-card-radius')
+      store.updateComponentToken('nc-input-radius', '20px')
+      store.resetComponentToken('nc-input-radius')
       const o = store.state.componentOverrides.neo
-      for (const id of MIRROR_TOKEN_MAP['nc-card-radius']) expect(o[id]).toBeUndefined()
+      for (const id of MIRROR_TOKEN_MAP['nc-input-radius']) expect(o[id]).toBeUndefined()
     })
   })
 

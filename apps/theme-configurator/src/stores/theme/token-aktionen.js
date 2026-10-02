@@ -74,7 +74,7 @@ export const MIRROR_TOKEN_MAP = {
   // nc-toast-error-icon-color → nc-toast-error-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // nc-toast-info-icon-color → nc-toast-info-progress-bg: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Notification: Radius folgt Card-Radius, Shadow folgt Popover-Shadow
-  'nc-card-radius':                              ['nc-notification-radius', 'nc-metric-radius'],  // entkoppelt: nc-accordion-media-radius, nc-avatar-radius-square (02.10.2026)
+  // nc-card-radius → nc-notification-radius, nc-metric-radius: jetzt CSS-Kette (Freigabe 02.10.2026); Akkordeon-Medien, Avatar entkoppelt
   // (moved to bottom with nav-menu-viewport-shadow)
   // Drawer: BG/Shadow/Overlay folgen Dialog-Tokens
   'nc-dialog-bg':                                ['nc-drawer-bg'],
@@ -142,7 +142,7 @@ export const MIRROR_TOKEN_MAP = {
   // TreeView: Badge-Radius folgt globalem Badge-Radius
   // nc-badge-radius → nc-treeview-badge-radius: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // Compare-Table: Shadow folgt Card-Shadow (Elevation-Konsistenz)
-  'nc-card-shadow':                              ['nc-dt-card-shadow'],  // entkoppelt: nc-table-shadow, nc-dt-batch-shadow, nc-fieldset-card-shadow (02.10.2026)
+  // nc-card-shadow → nc-dt-card-shadow: jetzt CSS-Kette (Freigabe 02.10.2026); Tabelle, Sammelleiste, Fieldset entkoppelt
   // Compare-Table: Border-Width folgt globalem Border-Width-XS
   // nc-table-border-width → nc-table-row-border-width: jetzt CSS-Kette im SCSS (Plan v3, 02.10.2026)
   // DataTable: Radius folgt Button-Radius (Formular-Konsistenz)

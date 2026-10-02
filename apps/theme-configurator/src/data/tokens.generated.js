@@ -8062,7 +8062,7 @@ export const componentTokenGroups = [
         "id": "nc-dt-card-shadow",
         "label": "Nc Dt Card Shadow",
         "type": "color",
-        "default": "var(--fnd-elevation-raised)"
+        "default": "var(--nc-card-shadow)"
       },
       {
         "id": "nc-dt-card-bg",
@@ -13728,7 +13728,7 @@ export const componentTokenGroups = [
         "id": "nc-metric-radius",
         "label": "Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-sm)"
+        "default": "var(--nc-card-radius)"
       },
       {
         "id": "nc-metric-padding",
@@ -14237,7 +14237,7 @@ export const componentTokenGroups = [
         "id": "nc-notification-radius",
         "label": "Radius",
         "type": "radius",
-        "default": "var(--fnd-radius-md)"
+        "default": "var(--nc-card-radius)"
       },
       {
         "id": "nc-notification-shadow",
