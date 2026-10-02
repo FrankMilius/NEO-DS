@@ -115,7 +115,11 @@
 @mixin button-size($size: 'md') {
   @if $size == 'xs' {
     min-height: var(--mod-button-height-xs, var(--nc-button-height-xs));                     // 24px
-    padding: var(--mod-button-padding-y-xs, var(--nc-button-padding-y-xs)) var(--mod-button-padding-x-xs, var(--nc-button-padding-x-xs));
+    // Hoehe = Token: das Polster oben/unten ist hoechstens padding-y und
+    // sonst so gross, dass Zeile + Rahmen + Polster die Hoehe ergeben
+    // (Entscheidung 02.10.2026; vorher war min-height nur Untergrenze).
+    padding-block: max(0px, min(var(--mod-button-padding-y-xs, var(--nc-button-padding-y-xs)), calc((var(--mod-button-height-xs, var(--nc-button-height-xs)) - var(--mod-button-line-height, var(--nc-button-line-height)) * 1em - 2 * var(--mod-button-border-width-sm, var(--nc-button-border-width-sm))) / 2)));
+    padding-inline: var(--mod-button-padding-x-xs, var(--nc-button-padding-x-xs));
     font-size: var(--mod-button-font-size-xs, var(--nc-button-font-size-xs));                   // 12px (fest)
     line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
     border-radius: var(--mod-button-radius-xs, var(--nc-button-radius-xs));                  // 2px
@@ -129,7 +133,11 @@
     }
   } @else if $size == 'sm' {
     min-height: var(--mod-button-height-sm, var(--nc-button-height-sm));                     // 32px
-    padding: var(--mod-button-padding-y-sm, var(--nc-button-padding-y-sm)) var(--mod-button-padding-x-sm, var(--nc-button-padding-x-sm));
+    // Hoehe = Token: das Polster oben/unten ist hoechstens padding-y und
+    // sonst so gross, dass Zeile + Rahmen + Polster die Hoehe ergeben
+    // (Entscheidung 02.10.2026; vorher war min-height nur Untergrenze).
+    padding-block: max(0px, min(var(--mod-button-padding-y-sm, var(--nc-button-padding-y-sm)), calc((var(--mod-button-height-sm, var(--nc-button-height-sm)) - var(--mod-button-line-height, var(--nc-button-line-height)) * 1em - 2 * var(--mod-button-border-width-sm, var(--nc-button-border-width-sm))) / 2)));
+    padding-inline: var(--mod-button-padding-x-sm, var(--nc-button-padding-x-sm));
     font-size: var(--mod-button-font-size-sm, var(--nc-button-font-size-sm));                   // 12px (fest)
     line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
     border-radius: var(--mod-button-radius-sm, var(--nc-button-radius-sm));                  // 4px
@@ -143,7 +151,11 @@
     }
   } @else if $size == 'md' {
     min-height: var(--mod-button-height-md, var(--nc-button-height-md));                     // 40px
-    padding: var(--mod-button-padding-y-md, var(--nc-button-padding-y-md)) var(--mod-button-padding-x-md, var(--nc-button-padding-x-md));
+    // Hoehe = Token: das Polster oben/unten ist hoechstens padding-y und
+    // sonst so gross, dass Zeile + Rahmen + Polster die Hoehe ergeben
+    // (Entscheidung 02.10.2026; vorher war min-height nur Untergrenze).
+    padding-block: max(0px, min(var(--mod-button-padding-y-md, var(--nc-button-padding-y-md)), calc((var(--mod-button-height-md, var(--nc-button-height-md)) - var(--mod-button-line-height, var(--nc-button-line-height)) * 1em - 2 * var(--mod-button-border-width-sm, var(--nc-button-border-width-sm))) / 2)));
+    padding-inline: var(--mod-button-padding-x-md, var(--nc-button-padding-x-md));
     font-size: var(--mod-button-font-size-md, var(--nc-button-font-size-md));                   // 16px (fest)
     line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
     border-radius: var(--mod-button-radius-md, var(--nc-button-radius-md));                  // 6px
@@ -157,7 +169,11 @@
     }
   } @else if $size == 'lg' {
     min-height: var(--mod-button-height-lg, var(--nc-button-height-lg));                     // 48px
-    padding: var(--mod-button-padding-y-lg, var(--nc-button-padding-y-lg)) var(--mod-button-padding-x-lg, var(--nc-button-padding-x-lg));
+    // Hoehe = Token: das Polster oben/unten ist hoechstens padding-y und
+    // sonst so gross, dass Zeile + Rahmen + Polster die Hoehe ergeben
+    // (Entscheidung 02.10.2026; vorher war min-height nur Untergrenze).
+    padding-block: max(0px, min(var(--mod-button-padding-y-lg, var(--nc-button-padding-y-lg)), calc((var(--mod-button-height-lg, var(--nc-button-height-lg)) - var(--mod-button-line-height, var(--nc-button-line-height)) * 1em - 2 * var(--mod-button-border-width-lg, var(--nc-button-border-width-lg))) / 2)));
+    padding-inline: var(--mod-button-padding-x-lg, var(--nc-button-padding-x-lg));
     font-size: var(--mod-button-font-size-lg, var(--nc-button-font-size-lg));                   // 16px (fest)
     line-height: var(--mod-button-line-height, var(--nc-button-line-height));                  // 1.25
     border-radius: var(--mod-button-radius-lg, var(--nc-button-radius-lg));                  // 8px
