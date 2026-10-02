@@ -19,10 +19,11 @@
 // erste Eintrag die aktuelle Seite.
 // Die Leiste ist im DS 100 % hoch (Footer unten per margin-top:auto): die
 // Arena gibt ihr einen Rahmen mit fester Hoehe (ra-spalte).
-// mobile-overlay: Overlay-Zustand (--open + .nc-sidebar-backdrop) im
-// Arena-Rahmen ra-buehne ra-buehne--mobil. Das DS schaltet die Mobil-Lage
-// nur ueber die Fensterbreite (< md) — die Arena stellt sie im Rahmen mit
-// den Werten des DS dar (siehe RecipeArena.vue).
+// mobile-overlay: Mobil-Lage per DS-Klasse (.nc-sidebar--overlay +
+// .nc-sidebar-backdrop--overlay, Entscheidung 02.10.2026) — sonst schaltet
+// das DS sie nur ueber die Fensterbreite (< md). Offen: --open. Der Rahmen
+// ra-buehne ra-buehne--mobil ist per contain Bezugsrahmen der
+// position: fixed-Leiste (wie bei den Dialogen).
 // Verhalten: neo-behaviors/sidebar.js nach keyboard/events im Recipe
 // (Untermenue auf/zu, Einklappen, Mobil-Lage oeffnen/schliessen mit Escape
 // und Backdrop). In „Ausprobieren" (m.ausprobieren) startet die Mobil-Lage
@@ -118,14 +119,14 @@ export default (zelle, m) => {
     const id = `${m.uid}-sidebar`
     return `<div class="ra-buehne ra-buehne--mobil">
 <button type="button" class="nc-button nc-button--secondary nc-button--sm" aria-controls="${id}" aria-expanded="false">Navigation öffnen</button>
-<div class="nc-sidebar-backdrop" hidden></div>
-${leiste(m, [], id)}
+<div class="nc-sidebar-backdrop nc-sidebar-backdrop--overlay" hidden></div>
+${leiste(m, ['nc-sidebar--overlay'], id)}
 </div>`
   }
   if (m.specimen.render?.compositionType === 'sidebar-mobile') {
     return `<div class="ra-buehne ra-buehne--mobil">
-<div class="nc-sidebar-backdrop"></div>
-${leiste(m, ['nc-sidebar--open'])}
+<div class="nc-sidebar-backdrop nc-sidebar-backdrop--overlay"></div>
+${leiste(m, ['nc-sidebar--overlay', 'nc-sidebar--open'])}
 </div>`
   }
   const hoch = (m.wert('content') || 'flat') === 'full'

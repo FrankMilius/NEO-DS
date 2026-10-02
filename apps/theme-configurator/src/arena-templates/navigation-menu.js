@@ -30,6 +30,7 @@
 //
 // Hinweis: das DS blendet .nc-navigation-menu unter 1200 px FENSTERbreite
 // aus (@media max-width 1199px) — die Arena zeigt, was das Fenster vorgibt.
+// In einer Kopfzeile mit .nc-header--mobile bleibt es auf jeder Breite aus.
 // Verhalten: neo-behaviors/navigation-menu.js nach keyboard/events im Recipe
 // (Menue-Leiste mit Panels). In „Ausprobieren" (m.ausprobieren) starten alle
 // Panels zu, die Flaeche haelt dem Viewport trotzdem den Platz frei.

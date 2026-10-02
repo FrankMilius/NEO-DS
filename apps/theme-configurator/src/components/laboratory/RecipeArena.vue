@@ -406,28 +406,11 @@ onBeforeUnmount(() => aufraeumen?.())
 }
 .ra-live-component .ra-spalte--hoch { height: 760px; }
 
-/* ra-buehne--mobil: Sidebar als Mobil-Overlay (--open + Backdrop). Das DS
-   schaltet die Mobil-Lage nur ueber die Fensterbreite (respond-to-max('md')
-   in 07-organisms/_sidebar.scss); im Rahmen stellt die Arena sie mit den
-   Werten des DS dar — 100vh wird zur Rahmenhoehe (wie bei ra-buehne). */
+/* ra-buehne--mobil: Rahmen fuer die Sidebar in der Mobil-Lage. Die Lage
+   selbst kommt aus dem DS (.nc-sidebar--overlay, .nc-sidebar-backdrop--overlay);
+   ra-buehne macht den Rahmen per contain zum Bezugsrahmen der festen
+   Leiste. Hier nur der Seitengrund. */
 .ra-live-component .ra-buehne--mobil { background: var(--fnd-color-background-secondary); }
-.ra-live-component .ra-buehne--mobil .nc-sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  transform: translateX(-100%);
-}
-.ra-live-component .ra-buehne--mobil .nc-sidebar--open { transform: translateX(0); }
-.ra-live-component .ra-buehne--mobil .nc-sidebar-backdrop {
-  display: block;
-  position: fixed;
-  inset: 0;
-  background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
-  z-index: calc(var(--fnd-z-sidebar) - 1);
-}
-/* wie im DS: der Backdrop mit [hidden] ist weg (Ausprobieren: zu) */
-.ra-live-component .ra-buehne--mobil .nc-sidebar-backdrop[hidden] { display: none; }
 /* Ausprobieren: Platz um den Knopf, der die Sidebar oeffnet */
 .ra-live-component .ra-buehne--mobil > .nc-button { margin: 16px; }
 

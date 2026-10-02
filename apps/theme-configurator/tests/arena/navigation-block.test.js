@@ -417,6 +417,8 @@ describe('Navigation-Block: Zustände und Inhalte', () => {
     expect(alle('sidebar', 'full-sidebar')[0].querySelector('.nc-sidebar__submenu')).not.toBeNull()
     const mobil = alle('sidebar', 'mobile-overlay')[0]
     expect(mobil.querySelector('.ra-buehne.ra-buehne--mobil > .nc-sidebar-backdrop + nav.nc-sidebar.nc-sidebar--open')).not.toBeNull()
+    // Mobil-Lage per DS-Klasse (Entscheidung 02.10.2026), nicht per Fensterbreite
+    expect(mobil.querySelector('.nc-sidebar-backdrop.nc-sidebar-backdrop--overlay + nav.nc-sidebar.nc-sidebar--overlay.nc-sidebar--open')).not.toBeNull()
   })
 
   it('treeview: tree > treeitem mit Ebene, Zweige mit aria-expanded und __children, Einrueckung --_level', () => {

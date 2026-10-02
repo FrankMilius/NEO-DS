@@ -12,6 +12,10 @@
 //   Transparent: Komplett durchsichtig, weisse Schrift
 //   Solid: Voller Hintergrund
 //
+// LAGE:
+//   --mobile        — Mobil-Lage (Burger) auf jeder Fensterbreite; sonst
+//                     schaltet die Fensterbreite (ab lg Desktop-Lage)
+//
 // ALIGNMENT (Links):
 //   --align-center  — Links zentriert (Landingpage-Stil)
 //   --align-right   — Links rechts
@@ -25,6 +29,50 @@
 // ==========================================================================
 
 @use '../01-tools' as *;
+
+// ---------------------------------------------------------------------------
+// Lage der Kopfzeile
+// ---------------------------------------------------------------------------
+// Mobil-Lage = Grundregeln (Burger, Flex-Zeile), Desktop-Lage ab lg per
+// Media Query (Mixins unten). Der Modifier .nc-header--mobile haelt die
+// Kopfzeile auf jeder Fensterbreite in der Mobil-Lage: die Desktop-Regeln
+// gelten nur ausserhalb davon. Der Zusatz :not(:where(…)) hat Spezifitaet 0 —
+// fuer Seiten ohne die Klasse bleibt jede Regel gleich stark und gleich
+// wirksam.
+$nicht-mobil: ':not(:where(.nc-header--mobile *))';
+
+/// Innenleiste ab lg: 3-Spalten-Grid, eingefasst wie der Container.
+@mixin nav-inner-desktop {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: minmax(0, 1fr);
+  max-width: var(--mod-nav-max-width, var(--nc-nav-max-width));
+  padding-inline: var(--mod-nav-padding-inline-constrained, var(--nc-nav-padding-inline-constrained));
+}
+
+/// Teile der Kopfzeile ab lg: Liste, Aktionen, Werkzeuge sichtbar,
+/// Burger und Mobil-Panel aus — nicht in .nc-header--mobile.
+@mixin nav-teile-desktop {
+  .nc-mobile-toggle#{$nicht-mobil} {
+    display: none !important;
+  }
+
+  .nc-nav__list#{$nicht-mobil} {
+    display: flex;
+  }
+
+  .nc-nav__actions#{$nicht-mobil} {
+    display: flex;
+  }
+
+  .nc-tools#{$nicht-mobil} {
+    display: flex;
+  }
+
+  .nc-mobile-panel#{$nicht-mobil} {
+    display: none !important;
+  }
+}
 
 .nc-header {
   position: sticky;
@@ -99,17 +147,18 @@
   padding-inline: var(--mod-nav-padding-inline, var(--nc-nav-padding-inline));
 
   // Ab lg (1200px): 3-Spalten Grid + Container-Padding-Alignment
+  // (nicht in .nc-header--mobile)
   @include respond-to('lg') {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: minmax(0, 1fr);
-    max-width: var(--mod-nav-max-width, var(--nc-nav-max-width));
-    padding-inline: var(--mod-nav-padding-inline-constrained, var(--nc-nav-padding-inline-constrained));
+    &#{$nicht-mobil} {
+      @include nav-inner-desktop;
+    }
   }
 
   // Ab xxl (1920px): kein Padding (max-width allein genuegt)
   @include respond-to('xxl') {
-    padding-inline: var(--mod-nav-padding-inline-xxl, var(--nc-nav-padding-inline-xxl));
+    &#{$nicht-mobil} {
+      padding-inline: var(--mod-nav-padding-inline-xxl, var(--nc-nav-padding-inline-xxl));
+    }
   }
 }
 
@@ -285,26 +334,17 @@
 
 // Burger-Toggle: sichtbar unter 1200px, versteckt ab 1200px (gleicher Breakpoint wie Menu)
 @include respond-to('lg') {
-  .nc-mobile-toggle {
-    display: none !important;
-  }
-
-  .nc-nav__list {
-    display: flex;
-  }
-
-  .nc-nav__actions {
-    display: flex;
-  }
-
-  .nc-tools {
-    display: flex;
-  }
-
-  .nc-mobile-panel {
-    display: none !important;
-  }
+  @include nav-teile-desktop;
 }
+
+// ---------------------------------------------------------------------------
+// Mobil-Lage per Klasse: .nc-header--mobile
+// ---------------------------------------------------------------------------
+// Erzwingt die Mobil-Lage auf jeder Fensterbreite (z. B. schmale Spalten,
+// Vorschauen, Apps mit eigener Seitenleiste): die Desktop-Regeln oben
+// gelten darin nicht, es bleiben die Grundregeln. Das Navigationsmenue
+// blendet _navigation-menu.scss aus (Mixin navigation-menu-mobil).
+// Seiten ohne die Klasse schalten wie bisher ueber die Fensterbreite.
 
 // ---------------------------------------------------------------------------
 // >>> aufgenommen: Logo-Umkehr im dunklen Thema

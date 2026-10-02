@@ -31,7 +31,10 @@
 // KLASSEN:
 //   .nc-sidebar (kanonisch, BEM)
 //   .nc-sidebar--collapsed            Eingeklappt (nur Symbole)
-//   .nc-sidebar--open                 Overlay offen (Mobil-Lage)
+//   .nc-sidebar--overlay              Mobil-Lage auf jeder Breite (sonst
+//                                     automatisch unter md)
+//   .nc-sidebar--open                 Overlay offen
+//   .nc-sidebar-backdrop(--overlay)   Backdrop hinter dem Overlay
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -92,6 +95,41 @@
   &:hover {
     background-color: var(--mod-sidebar-item-bg-active, var(--nc-sidebar-item-bg-active));
     color: var(--mod-sidebar-item-color-active, var(--nc-sidebar-item-color-active));
+  }
+}
+
+// -- Mobil-Lage (Overlay) --
+// Unter md automatisch (Media Query), auf jeder Breite per Modifier
+// .nc-sidebar--overlay (+ .nc-sidebar-backdrop--overlay) — beide nutzen
+// dieselben Mixins.
+
+/// Leiste als Overlay: fest am linken Rand, ausserhalb des Bildes, bis
+/// .nc-sidebar--open sie hereinschiebt.
+@mixin sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--mod-sidebar-width, var(--nc-sidebar-width));
+  transform: translateX(-100%);
+  @include transition-quick((transform));
+}
+
+/// Geoeffnetes Overlay.
+@mixin sidebar-overlay-open {
+  transform: translateX(0);
+}
+
+/// Backdrop hinter dem Overlay ([hidden] blendet ihn aus).
+@mixin sidebar-backdrop-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
+  z-index: calc(var(--fnd-z-sidebar) - 1);
+
+  &[hidden] {
+    display: none;
   }
 }
 
@@ -335,19 +373,23 @@
     }
   }
 
-  // -- Mobile Overlay (unter lg Breakpoint) --
+  // -- Mobile Overlay (unter md automatisch) --
 
   @include respond-to-max('md') {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: var(--mod-sidebar-width, var(--nc-sidebar-width));
-    transform: translateX(-100%);
-    @include transition-quick((transform));
+    @include sidebar-overlay;
 
     &--open {
-      transform: translateX(0);
+      @include sidebar-overlay-open;
+    }
+  }
+
+  // -- Mobil-Lage per Klasse (jede Fensterbreite) --
+
+  &--overlay {
+    @include sidebar-overlay;
+
+    &.nc-sidebar--open {
+      @include sidebar-overlay-open;
     }
   }
 }
@@ -360,14 +402,11 @@
   display: none;
 
   @include respond-to-max('md') {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
-    z-index: calc(var(--fnd-z-sidebar) - 1);
+    @include sidebar-backdrop-overlay;
+  }
 
-    &[hidden] {
-      display: none;
-    }
+  // Mobil-Lage per Klasse (zur .nc-sidebar--overlay)
+  &--overlay {
+    @include sidebar-backdrop-overlay;
   }
 }

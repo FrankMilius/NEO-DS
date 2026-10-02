@@ -29,6 +29,13 @@
 
 @use '../01-tools' as *;
 
+/// Navigationsmenue in der Mobil-Lage: aus (die Kopfzeile zeigt den Burger).
+/// Unter 1200 px Fensterbreite automatisch, per .nc-header--mobile
+/// (07-organisms/_navigation.scss) auf jeder Breite.
+@mixin navigation-menu-mobil {
+  display: none;
+}
+
 // ---------------------------------------------------------------------------
 // Root
 // ---------------------------------------------------------------------------
@@ -787,6 +794,11 @@
 
 @media (max-width: 1199px) {
   .nc-navigation-menu {
-    display: none;
+    @include navigation-menu-mobil;
   }
+}
+
+// Mobil-Lage per Klasse (07-organisms/_navigation.scss, .nc-header--mobile)
+.nc-header--mobile .nc-navigation-menu {
+  @include navigation-menu-mobil;
 }

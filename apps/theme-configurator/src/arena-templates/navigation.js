@@ -20,7 +20,9 @@
 //
 // Hinweis: Liste, Aktionen und Burger schaltet das DS ueber die Breite des
 // FENSTERS (ab 1200 px Liste/Aktionen, darunter Burger) — nicht ueber die
-// Zellenbreite. Die Arena zeigt deshalb, was das Fenster vorgibt.
+// Zellenbreite. Die Arena zeigt deshalb, was das Fenster vorgibt. Die
+// Mobil-Lage unabhaengig vom Fenster gibt es per DS-Klasse .nc-header--mobile
+// (Entscheidung 02.10.2026); das Recipe hat dafuer noch kein Specimen.
 //
 // Die Website-Navigation „V3 Tab-Mega" (Drupal-Modul neo_nav) ist NICHT
 // Gegenstand dieses Recipes — sie hat ein eigenes: navigation-tab-mega
