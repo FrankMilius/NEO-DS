@@ -215,8 +215,9 @@
   transition: opacity var(--mod-rating-transition-duration, var(--nc-rating-transition-duration)) var(--mod-rating-transition-timing, var(--nc-rating-transition-timing));
   border-radius: var(--fnd-radius-sm);
 
-  // Sichtbar wenn ein Wert ausgewaehlt ist
-  .nc-rating:has(.nc-rating__input:checked) & {
+  // Sichtbar wenn ein Wert ausgewaehlt ist — der versteckte Null-Radio
+  // (__input--clear) zaehlt nicht als Wert.
+  .nc-rating:has(.nc-rating__input:not(.nc-rating__input--clear):checked) & {
     opacity: 1;
   }
 
