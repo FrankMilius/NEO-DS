@@ -9,8 +9,9 @@
 // zeigt ihn eine Kopie im Viewport (.__viewport-wrapper > .__viewport).
 // Zustaende wie im SCSS: data-state="open|closed" an Ausloeser, Inhalt,
 // Huelle und Viewport, aria-expanded am Ausloeser, data-motion fuer den
-// Panel-Wechsel, Indikator data-state="visible|hidden" (Lage per left/width
-// wie in site.js).
+// Panel-Wechsel, Indikator data-state="visible|hidden" (Lage per Custom
+// Property --_indicator-left/--_indicator-width, die das SCSS liest; site.js
+// setzt left/width noch als Inline-Stil, das bleibt gueltig).
 //   Leiste    roving tabindex (eine Tab-Station); Pfeil rechts/links
 //             (rundum), Pos1, Ende; ist ein Panel offen, folgt es dem Fokus.
 //             Pfeil runter, Enter, Leertaste oeffnen → erster Eintrag;
@@ -94,8 +95,8 @@ export const navigationMenu = {
           const r = a.getBoundingClientRect()
           const n = wurzel.getBoundingClientRect()
           zeiger.dataset.state = 'visible'
-          zeiger.style.left = `${r.left - n.left + r.width / 2 - 5}px`
-          zeiger.style.width = '10px'
+          zeiger.style.setProperty('--_indicator-left', `${r.left - n.left + r.width / 2 - 5}px`)
+          zeiger.style.setProperty('--_indicator-width', '10px')
         }
         sende(wurzel, 'navigation-menu-change', { value: name(a), previousValue: vorher ? name(vorher) : null })
       }

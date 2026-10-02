@@ -276,7 +276,12 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     expect(kopie.hasAttribute('inert')).toBe(false)
     expect(n.panel().length).toBe(3)
     expect(n.panel().every((e) => e.tabIndex === -1)).toBe(true)
-    expect(n.wurzel.querySelector('.nc-navigation-menu__indicator').dataset.state).toBe('visible')
+    const zeiger = n.wurzel.querySelector('.nc-navigation-menu__indicator')
+    expect(zeiger.dataset.state).toBe('visible')
+    // Lage per Custom Property (das SCSS liest sie), kein Inline-left/width
+    expect(zeiger.style.getPropertyValue('--_indicator-left')).toMatch(/px$/)
+    expect(zeiger.style.getPropertyValue('--_indicator-width')).toBe('10px')
+    expect(zeiger.style.left).toBe('')
     n.services.click()
     expect(offenIst(n, n.services)).toBe(true)
     expect(n.produkte.dataset.state).toBe('closed')

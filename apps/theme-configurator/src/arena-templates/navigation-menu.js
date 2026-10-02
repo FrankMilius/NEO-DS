@@ -23,7 +23,8 @@
 // Zustaende: open = erster Ausloeser offen (data-state="open",
 //   aria-expanded="true"), Viewport offen mit dem Inhalt; hover/focus nur
 //   echt (data-zustand am ersten Ausloeser). Der Indikator braucht seine Lage
-//   als Inline-Stil vom Skript — die Arena zeigt ihn nicht (bleibt hidden).
+//   vom Skript (Custom Property --_indicator-left, gemessen am Ausloeser) —
+//   in „Zustaende" zeigt die Arena ihn nicht (bleibt hidden).
 // Komposition composition-header: Kopfzeile (navigation) mit Marke,
 //   Navigationsmenue, Aktionen und Burger wie in site.js.
 //

@@ -1550,8 +1550,8 @@
             const r = a.getBoundingClientRect();
             const n = wurzel.getBoundingClientRect();
             zeiger.dataset.state = "visible";
-            zeiger.style.left = `${r.left - n.left + r.width / 2 - 5}px`;
-            zeiger.style.width = "10px";
+            zeiger.style.setProperty("--_indicator-left", `${r.left - n.left + r.width / 2 - 5}px`);
+            zeiger.style.setProperty("--_indicator-width", "10px");
           }
           sende(wurzel, "navigation-menu-change", { value: name(a), previousValue: vorher ? name(vorher) : null });
         }

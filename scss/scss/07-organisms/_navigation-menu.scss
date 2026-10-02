@@ -230,15 +230,23 @@
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__content {
-  // Im Item versteckt — dient nur als Daten-Template fuer den Viewport
+  // Im Item versteckt — dient nur als Daten-Template fuer den Viewport.
+  // visibility: hidden nimmt die Vorlage aus Tab-Folge und
+  // Barrierefreiheits-Baum — auch ohne [inert] (das Behavior setzt es,
+  // website/js/site.js nicht). [hidden] blendet sie ganz aus.
   .nc-navigation-menu__item > & {
     position: absolute;
     width: 0;
     height: 0;
     overflow: hidden;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     clip: rect(0, 0, 0, 0);
+  }
+
+  .nc-navigation-menu__item > &[hidden] {
+    display: none;
   }
 
   // Sichtbar nur innerhalb des Viewports
@@ -248,6 +256,7 @@
     height: auto;
     overflow: visible;
     opacity: 1;
+    visibility: visible;
     clip: auto;
     pointer-events: auto;
     padding: var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)) 0;
@@ -645,9 +654,14 @@
 // Indicator (animierter Unterstrich unter aktivem Trigger)
 // ---------------------------------------------------------------------------
 
+// Lage per Custom Property vom Skript (--_indicator-left/-width, wie beim
+// Segmented Control); ohne Wert bleibt die Lage wie bisher (auto).
+// Ein Inline-Stil left/width (website/js/site.js) hat weiter Vorrang.
 .nc-navigation-menu__indicator {
   position: absolute;
   bottom: 0;
+  left: var(--_indicator-left, auto);
+  width: var(--_indicator-width, auto);
   height: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
   background-color: var(--mod-nav-menu-indicator-color, var(--nc-nav-menu-indicator-color));
   border-radius: var(--mod-nav-menu-indicator-height, var(--nc-nav-menu-indicator-height));
