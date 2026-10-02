@@ -12,7 +12,9 @@
 // Scroll-Klassen) kommt aus neo-behaviors (modal.js, _dialog.js).
 //
 // Achsen: size (sm/lg/full), content (scrollable = nc-modal--scrollable),
-//   intent (danger = nc-modal--danger) per Modifier an der Wurzel;
+//   intent (danger = nc-modal--danger), layout (sheet = nc-modal--sheet:
+//   Bottom-Sheet auf jeder Fensterbreite, Entscheidung 02.10.2026) per
+//   Modifier an der Wurzel;
 //   content waehlt die Slots: simple (nur Body), with-header, with-footer,
 //   full, scrollable (langer Body, Kopf und Fuss bleiben stehen).
 // Zustaende: default/open — „Zustände" zeigt den Dialog offen ([open]) im
@@ -23,7 +25,9 @@
 // Specimens: default, size-variants, content-variants, scrollable,
 //   danger-confirmation, with-form (composes form, form-field),
 //   mobile-bottom-sheet (das SCSS schaltet erst unter dem sm-Breakpoint des
-//   FENSTERS um — im Rahmen erscheint das Modal wie default),
+//   FENSTERS um — im Rahmen erscheint das Modal wie default), sheet
+//   (nc-modal--sheet: im Rahmen unten angedockt, in „Ausprobieren" am
+//   unteren Fensterrand),
 //   backdrop-close (data-backdrop-close="true"), overlay-hierarchy.
 import { esc } from './_helfer.js'
 import { offen, wurzelKlassen, schliessen, dialogHuelle, WARNUNG, absaetze } from './_overlay.js'
@@ -32,6 +36,7 @@ const TEXT = {
   'modal-default': 'Die Änderungen werden für alle Mitglieder des Bereichs sichtbar. Sie können sie später jederzeit zurücknehmen.',
   'modal-danger': 'Der Bereich „Marketing" und alle 128 Beiträge darin werden endgültig gelöscht. Dieser Schritt lässt sich nicht rückgängig machen.',
   'modal-bottom-sheet': 'Unter dem sm-Breakpoint des Fensters gleitet das Modal als Bottom-Sheet von unten herein (volle Breite, obere Ecken gerundet).',
+  'modal-sheet': 'Mit nc-modal--sheet ist das Modal auf jeder Fensterbreite ein Bottom-Sheet: volle Breite, unten angedockt, obere Ecken gerundet.',
   'modal-backdrop-close': 'Ein Klick auf den abgedunkelten Hintergrund schließt dieses Modal (data-backdrop-close="true"). Bei Formularen nicht verwenden.',
   'modal-overlay-hierarchy': 'Ebene 3 der Overlays: über Dropdown-Menü (Ebene 1) und Popover (Ebene 2) — Schatten elevation-modal.'
 }

@@ -293,6 +293,18 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     expect(alle('modal', 'default')[0].querySelector('dialog[data-backdrop-close]')).toBeNull()
   })
 
+  it('modal: Bottom-Sheet per Modifier (layout: sheet) — dieselben Regeln wie die automatische Umschaltung', () => {
+    const [sheet] = alle('modal', 'sheet')
+    expect(sheet.querySelector('.ra-buehne > dialog.nc-modal.nc-modal--sheet[open]')).not.toBeNull()
+    expect(alle('modal', 'mobile-bottom-sheet')[0].querySelector('.nc-modal--sheet')).toBeNull()
+    const css = readFileSync(STYLES, 'utf8')
+    const regeln = 'inset:auto 0 0 0;margin:0;width:100%;max-width:100%;max-height:var(--mod-dialog-mobile-max-height'
+    expect(css).toContain(`.nc-modal--sheet{${regeln}`)
+    expect(css).toMatch(new RegExp(`@media\\(max-width: ?\\d+px\\)\\{\\.nc-modal\\{${regeln.replace(/[()|.*+?^$[\]\\]/g, '\\$&')}`))
+    expect(css).toContain('@starting-style{.nc-modal--sheet[open]{opacity:0;translate:0 100%}}')
+    expect(css).toContain('.nc-modal--sheet:not([open]){translate:0 100%}')
+  })
+
   it('drawer: Richtungen, Griff nur oben/unten, gescrollt, Formular', () => {
     const richtungen = alle('drawer', 'direction-comparison')
     expect(richtungen.map((d) => d.querySelector('dialog').className)).toEqual(['nc-drawer', 'nc-drawer nc-drawer--top', 'nc-drawer nc-drawer--left', 'nc-drawer nc-drawer--right'])

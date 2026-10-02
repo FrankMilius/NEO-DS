@@ -74,6 +74,7 @@
       "Scroll-Detection JS Pattern: const body = modal.querySelector('.nc-modal__body'); body.addEventListener('scroll', () => { modal.classList.toggle('is-scrolled-top', body.scrollTop > 0); modal.classList.toggle('is-scrolled-bottom', body.scrollTop + body.clientHeight < body.scrollHeight); });",
       "Backdrop-Close JS Pattern: dialog.addEventListener('click', (e) => { if (e.target === dialog && dialog.dataset.backdropClose === 'true') dialog.close(); });",
       "Mobile Bottom-Sheet: Unter sm-Breakpoint gleitet das Modal von unten herein (translate: 0 100% → 0 0), volle Breite, abgerundete obere Ecken (nc-dialog-mobile-radius). Max-Hoehe begrenzt (nc-dialog-mobile-max-height: 90vh).",
+      "Bottom-Sheet auf jeder Fensterbreite: Modifier nc-modal--sheet (Achse layout: sheet). Dieselben Regeln wie die automatische Umschaltung unter sm (SCSS-Mixin modal-bottom-sheet); die automatische Umschaltung bleibt. Entscheidung 02.10.2026.",
       "Overlay-Konsistenz: nc-dialog-bg = surface-elevated (wie Dropdown/Popover). nc-dialog-shadow = elevation-modal (Level 3, hoechster Schatten). Dropdown: elevation-floating (Level 1). Popover: elevation-overlay (Level 2).",
       "Danger-Intent: Header-Icon-Bereich und primaere Footer-Action uebernehmen danger-Markenfarbe. Visuelles Signal fuer destruktive Aktion.",
       "Close-Button: <button class='nc-modal__close' aria-label='Schliessen'>. 36px Target, focus-visible Ring."
@@ -174,6 +175,24 @@
             "danger"
           ],
           "renderHint": "intent-danger"
+        }
+      }
+    },
+    "layout": {
+      "label": "Layout",
+      "description": "Darstellung — dialog (zentriert; unter dem sm-Breakpoint des Fensters automatisch Bottom-Sheet), sheet (Bottom-Sheet auf jeder Fensterbreite, nc-modal--sheet). Entscheidung 02.10.2026.",
+      "values": {
+        "dialog": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "layout-dialog"
+        },
+        "sheet": {
+          "modifier": "nc-modal--sheet",
+          "tokenGroups": [
+            "mobile"
+          ],
+          "renderHint": "layout-sheet"
         }
       }
     }
@@ -366,7 +385,8 @@
         "styling.baseClasses",
         "axes.size.values.*.modifier",
         "axes.content.values.*.modifier",
-        "axes.intent.values.*.modifier"
+        "axes.intent.values.*.modifier",
+        "axes.layout.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -606,6 +626,39 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Bottom-Sheet: Gleiche A11y wie zentriertes Modal. ESC + Close-Button. Optional: Swipe-to-dismiss."
+      }
+    },
+    {
+      "id": "sheet",
+      "label": "Bottom-Sheet (Modifier)",
+      "description": "nc-modal--sheet: Bottom-Sheet auf jeder Fensterbreite — volle Breite, unten angedockt, obere Ecken gerundet. Dieselben Regeln wie die automatische Umschaltung unter sm.",
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "content": [
+            "full"
+          ],
+          "intent": [
+            "default"
+          ],
+          "layout": [
+            "sheet"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "modal-sheet",
+        "label": "sheet"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Gleiche A11y wie das zentrierte Modal: <dialog> mit showModal(), ESC + Close-Button, Fokus-Falle, Fokus zurueck."
       }
     },
     {

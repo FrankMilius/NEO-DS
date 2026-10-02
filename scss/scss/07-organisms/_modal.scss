@@ -689,7 +689,8 @@ body:has(.theme-switcher-modal[open]) {
 //   Natives <dialog> + showModal(). Fokus-Trap nativ.
 //   Oeffnung: opacity + translate (16px hoch). @starting-style.
 //   Schliessen: ESC nativ, Close-Button, optional Backdrop-Klick.
-//   Mobile: Bottom-Sheet Pattern via @media.
+//   Mobile: Bottom-Sheet Pattern via @media (unter sm automatisch);
+//   .nc-modal--sheet erzwingt das Bottom-Sheet auf jeder Fensterbreite.
 //
 // BEM-KLASSEN:
 //   .nc-modal                       Block (<dialog>, fixed, centered)
@@ -703,6 +704,7 @@ body:has(.theme-switcher-modal[open]) {
 //   .nc-modal--full                 100% Breite + Hoehe
 //   .nc-modal--danger               Destruktive Bestaetigungsabsicht
 //   .nc-modal--scrollable           Aktiviert sticky Header/Footer
+//   .nc-modal--sheet                Bottom-Sheet auf jeder Fensterbreite
 //
 // ACCESSIBILITY:
 //   Natives <dialog> liefert role="dialog", aria-modal="true" bei showModal().
@@ -854,6 +856,29 @@ body:has(.theme-switcher-modal[open]) {
   transition: border-color var(--fnd-motion-duration-200) var(--fnd-motion-ease-focused);
 }
 
+/// Bottom-Sheet — volle Breite, unten angedockt, obere Ecken gerundet,
+/// gleitet von unten herein. Genutzt automatisch unter dem sm-Breakpoint
+/// und vom Modifier .nc-modal--sheet (jede Fensterbreite).
+@mixin modal-bottom-sheet {
+  inset: auto 0 0 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: var(--mod-dialog-mobile-max-height, var(--nc-dialog-mobile-max-height));
+  border-radius: var(--mod-dialog-mobile-radius, var(--nc-dialog-mobile-radius));
+
+  &[open] {
+    @starting-style {
+      opacity: 0;
+      translate: 0 100%;
+    }
+  }
+
+  &:not([open]) {
+    translate: 0 100%;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -970,27 +995,17 @@ body:has(.theme-switcher-modal[open]) {
     }
   }
 
-  // -- Mobile Bottom-Sheet --
-  // Unter md Breakpoint: Modal gleitet von unten rein, volle Breite.
+  // -- Bottom-Sheet --
+  // Automatisch unter dem sm-Breakpoint des Fensters: Modal gleitet von
+  // unten rein, volle Breite. Mit --sheet auf jeder Fensterbreite
+  // (Entscheidung 02.10.2026) — dieselben Regeln (Mixin modal-bottom-sheet).
 
   @include respond-to-max('sm') {
-    inset: auto 0 0 0;
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    max-height: var(--mod-dialog-mobile-max-height, var(--nc-dialog-mobile-max-height));
-    border-radius: var(--mod-dialog-mobile-radius, var(--nc-dialog-mobile-radius));
+    @include modal-bottom-sheet;
+  }
 
-    &[open] {
-      @starting-style {
-        opacity: 0;
-        translate: 0 100%;
-      }
-    }
-
-    &:not([open]) {
-      translate: 0 100%;
-    }
+  &--sheet {
+    @include modal-bottom-sheet;
   }
 
   // -- High Contrast Mode --

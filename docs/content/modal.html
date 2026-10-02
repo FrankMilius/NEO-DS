@@ -360,7 +360,7 @@ modal.addEventListener('click', (e) => {
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-paragraph-m-font-size)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
     </tbody>
     </table>
@@ -371,7 +371,7 @@ modal.addEventListener('click', (e) => {
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--nc-dialog-header-border-color)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -393,7 +393,7 @@ modal.addEventListener('click', (e) => {
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--nc-alert-danger-icon-color)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-color</code></td><td>var(--fnd-color-on-danger)</td><td></td></tr>
     </tbody>
@@ -405,7 +405,7 @@ modal.addEventListener('click', (e) => {
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-dialog-header-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--nc-dialog-header-border-color)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -496,6 +496,16 @@ modal.addEventListener('click', (e) => {
     </tbody>
     </table>
   </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>dialog</td><td>Darstellung — dialog (zentriert; unter dem sm-Breakpoint des Fensters automatisch Bottom-Sheet), sheet (Bottom-Sheet auf jeder Fensterbreite, nc-modal--sheet). Entscheidung 02.10.2026.</td></tr>
+      <tr><td><code class="docs__token">.nc-modal--sheet</code></td><td>sheet</td><td>Darstellung — dialog (zentriert; unter dem sm-Breakpoint des Fensters automatisch Bottom-Sheet), sheet (Bottom-Sheet auf jeder Fensterbreite, nc-modal--sheet). Entscheidung 02.10.2026.</td></tr>
+    </tbody>
+    </table>
+  </div>
 </section>
 <section class="docs__section" id="api-tokens">
   <h2 class="docs__section-title">CSS Custom Properties</h2>
@@ -522,11 +532,11 @@ modal.addEventListener('click', (e) => {
       <tr><td><code class="docs__token">--nc-dialog-header-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-header-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Body</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td>var(--fnd-typography-body-m-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-paragraph-m-font-size)</td><td>var(--fnd-typography-paragraph-m-font-size)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Footer</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--nc-dialog-header-border-color)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Close Button</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-close-size</code></td><td>36px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-close-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
@@ -534,12 +544,12 @@ modal.addEventListener('click', (e) => {
       <tr><td><code class="docs__token">--nc-dialog-close-bg-hover</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-close-icon-size</code></td><td>18px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Danger Intent</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--nc-alert-danger-icon-color)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-color</code></td><td>var(--fnd-color-on-danger)</td><td>var(--fnd-color-on-danger)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Scroll Borders</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-header-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-footer-border-color</code></td><td>var(--nc-dialog-header-border-color)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Mobile Bottom-Sheet</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-mobile-radius</code></td><td>var(--fnd-radius-xl) var(--fnd-radius-xl) 0 0</td><td>var(--fnd-radius-xl) var(--fnd-radius-xl) 0 0</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-mobile-max-height</code></td><td>90vh</td><td>&mdash;</td></tr>
@@ -560,6 +570,7 @@ modal.addEventListener('click', (e) => {
     <li>Scroll-Detection JS Pattern: const body = modal.querySelector('.nc-modal__body'); body.addEventListener('scroll', () =&gt; { modal.classList.toggle('is-scrolled-top', body.scrollTop &gt; 0); modal.classList.toggle('is-scrolled-bottom', body.scrollTop + body.clientHeight &lt; body.scrollHeight); });</li>
     <li>Backdrop-Close JS Pattern: dialog.addEventListener('click', (e) =&gt; { if (e.target === dialog &amp;&amp; dialog.dataset.backdropClose === 'true') dialog.close(); });</li>
     <li>Mobile Bottom-Sheet: Unter sm-Breakpoint gleitet das Modal von unten herein (translate: 0 100% → 0 0), volle Breite, abgerundete obere Ecken (nc-dialog-mobile-radius). Max-Hoehe begrenzt (nc-dialog-mobile-max-height: 90vh).</li>
+    <li>Bottom-Sheet auf jeder Fensterbreite: Modifier nc-modal--sheet (Achse layout: sheet). Dieselben Regeln wie die automatische Umschaltung unter sm (SCSS-Mixin modal-bottom-sheet); die automatische Umschaltung bleibt. Entscheidung 02.10.2026.</li>
     <li>Overlay-Konsistenz: nc-dialog-bg = surface-elevated (wie Dropdown/Popover). nc-dialog-shadow = elevation-modal (Level 3, hoechster Schatten). Dropdown: elevation-floating (Level 1). Popover: elevation-overlay (Level 2).</li>
     <li>Danger-Intent: Header-Icon-Bereich und primaere Footer-Action uebernehmen danger-Markenfarbe. Visuelles Signal fuer destruktive Aktion.</li>
     <li>Close-Button: &lt;button class='nc-modal__close' aria-label='Schliessen'&gt;. 36px Target, focus-visible Ring.</li>
