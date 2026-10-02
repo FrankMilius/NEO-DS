@@ -238,6 +238,12 @@
     background-color: var(--mod-drawer-handle-bg, var(--nc-drawer-handle-bg));
   }
 
+  // Von oben: der Griff gehoert an die Unterkante (zur Seite hin, an der
+  // man zieht), nicht an die Oberkante.
+  .nc-drawer--top & {
+    order: 99;
+  }
+
   // Verstecken bei Left/Right Drawers
   .nc-drawer--left &,
   .nc-drawer--right & {

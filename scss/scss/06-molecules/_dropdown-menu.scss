@@ -127,8 +127,10 @@
   display: inline-flex;
 
   // Trigger
+  // Aussehen kommt vom nutzenden Button (nc-button, nc-icon-button); im
+  // inline-flex-Wurzelelement wird der Ausloeser nicht gestaucht.
   &__trigger {
-    // Styling wird vom nutzenden Button geerbt (nc-button, nc-icon-button)
+    flex-shrink: 0;
   }
 
   // Menu-Panel
@@ -142,6 +144,23 @@
   }
 
   // -- Positionierung --
+  // Ohne Lageklasse gilt bottom-start (Standard laut Recipe) — sonst saesse
+  // das Menue auf dem Ausloeser. Untermenues positioniert die Regel weiter
+  // unten (gleiche Spezifitaet, spaeter im Code).
+
+  &__menu:not([class*='__menu--']) {
+    top: 100%;
+    left: 0;
+    margin-top: var(--fnd-spacing-01);
+  }
+
+  // Menue mit Untermenue: nicht abschneiden. overflow-y: auto der Menue-
+  // flaeche schnitt das seitlich herausragende Untermenue ab; solche Menues
+  // scrollen dafuer nicht (sie sind in der Praxis kurz).
+  &__menu:has(> .nc-dropdown__item--has-submenu),
+  &__menu:has(> .nc-dropdown__group > .nc-dropdown__item--has-submenu) {
+    overflow: visible;
+  }
 
   &__menu--bottom-start {
     top: 100%;
@@ -193,6 +212,10 @@
 
   // Item mit Submenu (Pfeil rechts, kein Klick → Hover oeffnet Submenu)
   &__item--has-submenu {
+    // Bezugspunkt fuer das Untermenue: es oeffnet neben DIESEM Eintrag,
+    // nicht neben dem Menueanfang.
+    position: relative;
+
     .nc-dropdown__submenu-indicator {
       opacity: 1;
     }

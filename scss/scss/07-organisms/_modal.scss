@@ -879,6 +879,31 @@ body:has(.theme-switcher-modal[open]) {
 
   &__body {
     @include modal-body;
+
+    // Ohne Kopf bzw. Fuss klebte der Text am Rand (nur seitliches Polster).
+    &:first-child {
+      padding-block-start: var(--mod-dialog-padding, var(--nc-dialog-padding));
+    }
+
+    &:last-child {
+      padding-block-end: var(--mod-dialog-padding, var(--nc-dialog-padding));
+    }
+  }
+
+  // Symbol im Kopf: Groesse und Layout wie beim Alert-Dialog (bisher nur
+  // Farbe bei --danger; ein SVG ohne Masse wurde 300 px breit).
+  &__header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--mod-dialog-icon-size, var(--nc-dialog-icon-size));
+    height: var(--mod-dialog-icon-size, var(--nc-dialog-icon-size));
+
+    > svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   // -- Footer --

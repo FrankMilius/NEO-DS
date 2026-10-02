@@ -182,8 +182,10 @@
   }
 
   // Destructive-Intent: Action-Button mit Danger-Farben
+  // Nur die bestaetigende Aktion — [data-action] allein faerbte auch
+  // „Abbrechen“ (data-action='cancel') rot. Wie beim Modal.
   &--destructive &__footer .nc-button--primary,
-  &--destructive &__footer [data-action] {
+  &--destructive &__footer [data-action='confirm'] {
     background-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
     color: var(--mod-dialog-danger-action-color, var(--nc-dialog-danger-action-color));
     border-color: var(--mod-dialog-danger-action-bg, var(--nc-dialog-danger-action-bg));
