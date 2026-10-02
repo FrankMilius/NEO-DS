@@ -30,6 +30,7 @@ import { popover } from './popover.js'
 import { tooltip } from './tooltip.js'
 import { modal } from './modal.js'
 import { drawer } from './drawer.js'
+import { alertDialog } from './alert-dialog.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -48,7 +49,8 @@ export const BEHAVIORS = Object.freeze({
   popover,
   tooltip,
   modal,
-  drawer
+  drawer,
+  'alert-dialog': alertDialog
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */

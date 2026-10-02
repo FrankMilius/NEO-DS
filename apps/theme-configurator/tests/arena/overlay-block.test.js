@@ -172,8 +172,8 @@ describe('Overlay-Block aus dem Recipe', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
   })
 
-  it('Ausprobieren fuer alle mit Verhalten — alert-dialog hat (noch) keins', () => {
-    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(['dropdown-menu', 'popover', 'tooltip', 'modal', 'drawer'])
+  it('Ausprobieren fuer alle sechs (alert-dialog seit 02.10.2026)', () => {
+    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(BLOCK)
   })
 })
 
@@ -332,6 +332,8 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     const [normal, destruktiv] = alle('alert-dialog', 'intent-comparison')
     expect(normal.querySelector('.nc-alert-dialog--destructive')).toBeNull()
     expect(destruktiv.querySelector('dialog.nc-alert-dialog--destructive .nc-alert-dialog__footer [data-action="confirm"]')).not.toBeNull()
+    // sichere Aktion fuer das Behavior: Abbrechen mit data-action="cancel"
+    for (const d of alle('alert-dialog')) expect(d.querySelector('.nc-alert-dialog__footer > button.nc-button--outline[data-action="cancel"]')).not.toBeNull()
   })
 })
 
@@ -441,6 +443,28 @@ describe('Overlay-Block: Ausprobieren (geschlossen, neo-behaviors bedient)', () 
     })
   }
 
+  for (const sp of ['default', 'destructive', 'session-timeout']) {
+    it(`alert-dialog (${sp}): Ausloeser oeffnet, Fokus auf Abbrechen, Escape bricht ab, Hintergrund schliesst nicht`, () => {
+      const b = buehne(lebendig('alert-dialog', sp))
+      anbinden(b, ['alert-dialog'])
+      const ausloeser = b.querySelector('button[aria-controls]')
+      const dialog = b.querySelector('dialog.nc-alert-dialog')
+      expect(ausloeser.getAttribute('aria-controls')).toBe(dialog.id)
+      const zu = []
+      dialog.addEventListener('alert-dialog-close', (e) => zu.push(e.detail.reason))
+      ausloeser.focus()
+      ausloeser.click()
+      expect(dialog.open).toBe(true)
+      expect(aktiv()).toBe(dialog.querySelector('[data-action="cancel"]'))
+      dialog.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: 1, clientY: 1 }))
+      expect(dialog.open).toBe(true)
+      taste(aktiv(), 'Escape')
+      expect(dialog.open).toBe(false)
+      expect(zu).toEqual(['escape'])
+      expect(aktiv()).toBe(ausloeser)
+    })
+  }
+
   it('modal: Gefahr — Fokus startet auf Abbrechen (autofocus nur am geschlossenen Dialog)', () => {
     const b = buehne(lebendig('modal', 'danger-confirmation'))
     anbinden(b, ['modal'])
@@ -509,14 +533,15 @@ describe('Overlay-Block: Ausprobieren in der RecipeArena', () => {
     })
   }
 
-  it('alert-dialog: kein Umschalter (kein Verhalten), Zustände zeigt den Dialog offen', async () => {
-    const w = mount(RecipeArena, { props: { componentId: 'alert-dialog' }, attachTo: document.body })
-    for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) {
-      await flushPromises()
-      await new Promise((r) => setTimeout(r, 10))
-    }
-    expect(w.find('.ra-modus').exists()).toBe(false)
-    expect(w.find('.ra-buehne > dialog.nc-alert-dialog[open]').exists()).toBe(true)
+  it('alert-dialog: Umschalter da, geschlossen, Ausloeser oeffnet, Fokus auf Abbrechen', async () => {
+    const w = await ausprobieren('alert-dialog')
+    expect(w.find('dialog[open]').exists()).toBe(false)
+    const zelle = w.find('.ra-cell')
+    await zelle.find('button[aria-controls]').trigger('click')
+    const dialog = zelle.find('dialog').element
+    expect(dialog.open).toBe(true)
+    expect(document.activeElement).toBe(dialog.querySelector('[data-action="cancel"]'))
+    dialog.close()
     w.unmount()
   })
 })

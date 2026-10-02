@@ -122,7 +122,7 @@
           <!-- Code Output -->
           <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
           <div class="docs-snippet">
-            <pre id="stage-code">&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
+            <pre id="stage-code">&lt;dialog class="nc-alert-dialog" id="dlg" role="alertdialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
   &lt;div class="nc-alert-dialog__header"&gt;
     &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;Sind Sie sicher?&lt;/h2&gt;
     &lt;p class="nc-alert-dialog__description" id="dlg-desc"&gt;
@@ -130,8 +130,8 @@
     &lt;/p&gt;
   &lt;/div&gt;
   &lt;div class="nc-alert-dialog__footer"&gt;
-    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
-    &lt;button class="nc-button nc-button--danger" autofocus&gt;L&ouml;schen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--outline" data-action="cancel" autofocus&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger" data-action="confirm"&gt;L&ouml;schen&lt;/button&gt;
   &lt;/div&gt;
 &lt;/dialog&gt;</pre>
           </div>
@@ -142,9 +142,9 @@
           <section class="docs__section" id="basis-alert-dialog">
             <h2 class="docs__section-title">Basis Alert Dialog</h2>
             <p class="docs__section-desc">
-              Kanonische HTML-Struktur eines Alert Dialogs. Der Dialog wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und ist ein modales Overlay.
+              Kanonische HTML-Struktur eines Alert Dialogs. Der Dialog wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und ist ein modales Overlay. Mit neo-behaviors &ouml;ffnet ein Knopf mit <code class="docs__token">aria-controls="dlg"</code> den Dialog; der Fokus liegt dann auf Abbrechen (<code class="docs__token">data-action="cancel"</code>), Escape bricht ab, ein Klick auf den Hintergrund schlie&szlig;t nicht (WAI-ARIA alertdialog).
             </p>
-            <div class="docs__code-block">&lt;dialog class="nc-alert-dialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
+            <div class="docs__code-block">&lt;dialog class="nc-alert-dialog" id="dlg" role="alertdialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
   &lt;div class="nc-alert-dialog__header"&gt;
     &lt;h2 class="nc-alert-dialog__title" id="dlg-title"&gt;Sind Sie sicher?&lt;/h2&gt;
     &lt;p class="nc-alert-dialog__description" id="dlg-desc"&gt;
@@ -152,8 +152,8 @@
     &lt;/p&gt;
   &lt;/div&gt;
   &lt;div class="nc-alert-dialog__footer"&gt;
-    &lt;button class="nc-button nc-button--outline"&gt;Abbrechen&lt;/button&gt;
-    &lt;button class="nc-button nc-button--danger" autofocus&gt;L&ouml;schen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--outline" data-action="cancel" autofocus&gt;Abbrechen&lt;/button&gt;
+    &lt;button class="nc-button nc-button--danger" data-action="confirm"&gt;L&ouml;schen&lt;/button&gt;
   &lt;/div&gt;
 &lt;/dialog&gt;</div>
           </section>
@@ -246,7 +246,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-paragraph-m-font-size)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
     </tbody>
@@ -266,7 +266,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--nc-alert-danger-icon-color)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-color</code></td><td>var(--fnd-color-on-danger)</td><td></td></tr>
     </tbody>
@@ -358,13 +358,13 @@ dialog.addEventListener('cancel', (e) =&gt; {
       <tr><td><code class="docs__token">--nc-dialog-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-header-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Footer &amp; Description</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-body-m-font-size)</td><td>var(--fnd-typography-body-m-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-description-font-size</code></td><td>var(--fnd-typography-paragraph-m-font-size)</td><td>var(--fnd-typography-paragraph-m-font-size)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-description-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-footer-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Status Icon</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-icon-size</code></td><td>24px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Destructive Intent</td></tr>
-      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-dialog-danger-icon-color</code></td><td>var(--nc-alert-danger-icon-color)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
       <tr><td><code class="docs__token">--nc-dialog-danger-action-color</code></td><td>var(--fnd-color-on-danger)</td><td>var(--fnd-color-on-danger)</td></tr>
     </tbody>
@@ -383,8 +383,9 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <li>Backdrop: ::backdrop mit overlay-bg Fade-in Animation.</li>
     <li>Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.</li>
     <li>Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.</li>
-    <li>Focus-Management: Bei default: autofocus auf Action-Button (primaere Aktion). Bei destructive: autofocus auf Cancel-Button (verhindert versehentliches Loeschen = Anti-Slipping-Pattern).</li>
+    <li>Focus-Management (WAI-ARIA alertdialog, Entscheidung 02.10.2026): Beim Oeffnen geht der Fokus auf die sichere Aktion — Abbrechen mit data-action='cancel', sonst das erste bedienbare Element (neo-behaviors setzt ihn, auch gegen ein [autofocus] auf der Aktion). Anti-Slipping: schnelles Enter loest nie die bestaetigende Aktion aus.</li>
     <li>Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt.</li>
+    <li>Verhalten (neo-behaviors alert-dialog): Ausloeser mit aria-controls oeffnet per showModal(); Fokus-Falle; Escape schliesst wie Abbrechen (reason 'escape'); Klick auf den Hintergrund schliesst NICHT; Knoepfe mit data-action schliessen mit reason = data-action ('cancel', 'confirm', eigene Werte); danach Fokus zurueck auf den Ausloeser.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -398,7 +399,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
-<p class="docs__section-desc">Natives &lt;dialog&gt; liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. ESC schliesst nativ. Fokus-Trap nativ.</p>
+<p class="docs__section-desc">Natives &lt;dialog&gt; mit role='alertdialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. Escape schliesst wie Abbrechen, Klick auf den Hintergrund schliesst nicht. Fokus-Falle, Fokus beim Oeffnen auf Abbrechen, danach zurueck zum Ausloeser (neo-behaviors).</p>
 <div class="docs-a11y-block">
   <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
   <div class="docs-a11y-block__content">
@@ -423,8 +424,8 @@ dialog.addEventListener('cancel', (e) =&gt; {
   <div class="docs-a11y-block__content">
     <h4>Wenn: intent = default</h4>
     <ul>
-      <li><strong>Empfohlen:</strong> <code class="docs__token">autofocus-action</code></li>
-      <li>Default: autofocus auf Action-Button (primaere Aktion) fuer direkten Keyboard-Zugriff.</li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">autofocus-cancel</code></li>
+      <li>Default: Fokus beim Oeffnen auf Abbrechen (sichere Aktion, WAI-ARIA alertdialog) — wie bei destructive. Entscheidung 02.10.2026; vorher autofocus auf der Aktion.</li>
     </ul>
   </div>
 </div>
@@ -434,7 +435,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <h4>Wenn: intent = destructive</h4>
     <ul>
       <li><strong>Pflicht:</strong> <code class="docs__token">autofocus-cancel</code></li>
-      <li>Destructive: autofocus auf Cancel-Button statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Best-Practice fuer destruktive Aktionen.</li>
+      <li>Destructive: Fokus auf Abbrechen statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Gilt seit 02.10.2026 fuer jede Absicht (neo-behaviors).</li>
     </ul>
   </div>
 </div>

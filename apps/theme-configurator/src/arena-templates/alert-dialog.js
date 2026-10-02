@@ -5,20 +5,23 @@
 //   dialog.nc-alert-dialog  role="alertdialog" aria-labelledby aria-describedby
 //     span.nc-alert-dialog__icon (dekorativ, aria-hidden)
 //     div.nc-alert-dialog__header > h2.__title + p.__description
-//     div.nc-alert-dialog__footer > Abbrechen (nc-button--outline) +
-//       Aktion (nc-button--primary, data-action="confirm")
+//     div.nc-alert-dialog__footer > Abbrechen (nc-button--outline,
+//       data-action="cancel") + Aktion (nc-button--primary,
+//       data-action="confirm")
+// Das Verhalten (showModal ueber aria-controls, Fokus auf Abbrechen,
+// Fokus-Falle, Escape = Abbrechen, Hintergrund schliesst nicht, Fokus
+// zurueck) kommt aus neo-behaviors (alert-dialog.js, _dialog.js).
 //
 // Achsen: intent (destructive = nc-alert-dialog--destructive: Symbol und
 //   Aktion in Gefahrenfarbe) per Modifier; content waehlt die Slots:
 //   with-description, title-only, with-icon (Symbol + Beschreibung).
-// Fokus beim Oeffnen (Recipe a11y): default → autofocus auf der Aktion,
-//   destructive → autofocus auf Abbrechen (Anti-Slipping) — nur am
-//   geschlossenen Dialog (m.ausprobieren); offen eingefuegt nimmt autofocus
-//   sonst der App den Fokus.
+// Fokus beim Oeffnen (WAI-ARIA alertdialog, Entscheidung 02.10.2026): auf
+//   Abbrechen, bei jeder Absicht — das Behavior setzt ihn; autofocus am
+//   Abbrechen-Knopf nur am geschlossenen Dialog (m.ausprobieren), offen
+//   eingefuegt nimmt autofocus sonst der App den Fokus.
 // Zustaende: default/open — „Zustände" zeigt den Dialog offen ([open]) im
 //   Arena-Rahmen ra-buehne (Bezugsrahmen statt Fenster, RecipeArena.vue).
-//   Ein Verhalten gibt es in neo-behaviors (noch) nicht — die Arena bietet
-//   deshalb kein „Ausprobieren" an (Recipe ohne keyboard/events).
+//   „Ausprobieren": Ausloeser + geschlossener <dialog>, showModal() oeffnet.
 // Specimens: default, destructive (composes button), intent-comparison,
 //   content-variants, destructive-with-icon, session-timeout,
 //   unsaved-changes.
@@ -46,8 +49,8 @@ export default (zelle, m) => {
   teile.push(`<div class="nc-alert-dialog__header"><h2 class="nc-alert-dialog__title" id="${m.uid}-titel">${esc(titel)}</h2>${mitText ? `<p class="nc-alert-dialog__description" id="${m.uid}-beschreibung">${esc(beschreibung)}</p>` : ''}</div>`)
   // autofocus nur am geschlossenen Dialog (Ausprobieren): ein offen
   // eingefuegter Dialog nimmt sonst der App den Fokus.
-  const fokus = (an) => an && m.ausprobieren ? ' autofocus' : ''
-  teile.push(`<div class="nc-alert-dialog__footer"><button type="button" class="nc-button nc-button--outline"${fokus(gefahr)}>Abbrechen</button><button type="button" class="nc-button nc-button--primary" data-action="confirm"${fokus(!gefahr)}>${esc(aktion)}</button></div>`)
+  const fokus = m.ausprobieren ? ' autofocus' : ''
+  teile.push(`<div class="nc-alert-dialog__footer"><button type="button" class="nc-button nc-button--outline" data-action="cancel"${fokus}>Abbrechen</button><button type="button" class="nc-button nc-button--primary" data-action="confirm">${esc(aktion)}</button></div>`)
 
   const beschrieben = mitText ? ` aria-describedby="${m.uid}-beschreibung"` : ''
   const dialog = `<dialog class="${wurzelKlassen(m)}" id="${m.uid}-dialog" role="alertdialog" aria-labelledby="${m.uid}-titel"${beschrieben}${offen(m) ? ' open' : ''}>

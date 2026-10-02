@@ -1,6 +1,6 @@
 /**
  * neo-behaviors, Overlays (Plan v3, Phase 2): Dropdown-Menue, Popover,
- * Tooltip, Modal, Drawer — getestet gegen DS-Markup nach SCSS-Struktur und
+ * Tooltip, Modal, Drawer, Alert-Dialog (02.10.2026) — getestet gegen DS-Markup nach SCSS-Struktur und
  * Recipe (anatomy, domNotes). Seit Phase 3 (Block Overlays) kommt die Arena
  * aus dem Recipe; „Ausprobieren" auf genau diesem Arena-Markup pruefen
  * tests/arena/overlay-block.test.js.
@@ -422,12 +422,126 @@ it('Modal und Drawer: Recipe-Ereignisse decken die Gruende ab', () => {
 })
 
 // ---------------------------------------------------------------------------
+// Alert-Dialog — WAI-ARIA alertdialog (alert-dialog-recipe.json,
+// Entscheidung 02.10.2026). Struktur aus 07-organisms/_alert-dialog.scss.
+// ---------------------------------------------------------------------------
+const alertHtml = ({ autofocusAktion = false, ohneAbbrechen = false, drei = false } = {}) => `<button type="button" id="oeffner" aria-haspopup="dialog" aria-controls="ad">Löschen</button>
+<dialog class="nc-alert-dialog nc-alert-dialog--destructive" id="ad" role="alertdialog" aria-labelledby="ad-t" aria-describedby="ad-b">
+  <div class="nc-alert-dialog__header"><h2 class="nc-alert-dialog__title" id="ad-t">Konto löschen?</h2><p class="nc-alert-dialog__description" id="ad-b">Nicht rückgängig zu machen.</p></div>
+  <div class="nc-alert-dialog__footer">${drei ? '<button type="button" class="nc-button nc-button--ghost" data-action="discard">Verwerfen</button>' : ''}${ohneAbbrechen ? '' : '<button type="button" class="nc-button nc-button--outline" data-action="cancel">Abbrechen</button>'}<button type="button" class="nc-button nc-button--primary" data-action="confirm"${autofocusAktion ? ' autofocus' : ''}>Endgültig löschen</button></div>
+</dialog>`
+
+describe('Alert-Dialog (alert-dialog-recipe.json)', () => {
+  function aufbau (opt) {
+    const b = buehne(alertHtml(opt))
+    anbinden(b)
+    const dialog = b.querySelector('dialog')
+    return {
+      b,
+      dialog,
+      oeffner: b.querySelector('#oeffner'),
+      abbrechen: dialog.querySelector('[data-action="cancel"]'),
+      bestaetigen: dialog.querySelector('[data-action="confirm"]'),
+      knoepfe: [...dialog.querySelectorAll('button')]
+    }
+  }
+  const offen = (opt) => { const d = aufbau(opt); d.oeffner.focus(); d.oeffner.click(); return d }
+
+  it('Ausloeser (aria-controls) oeffnet per showModal, Fokus auf Abbrechen; alert-dialog-open wie im Recipe', () => {
+    const d = aufbau()
+    const auf = sammle(d.dialog, 'alert-dialog-open')
+    d.oeffner.focus()
+    d.oeffner.click()
+    expect(d.dialog.open).toBe(true)
+    expect(d.dialog.getAttribute('data-neo-behavior')).toBe('alert-dialog')
+    expect(aktiv()).toBe(d.abbrechen)
+    expect(auf).toHaveLength(1)
+    passtZumRecipe('alert-dialog', auf[0])
+  })
+
+  it('Fokus auf Abbrechen auch gegen [autofocus] auf der Aktion; ohne Abbrechen das erste Element', () => {
+    const d = offen({ autofocusAktion: true })
+    expect(aktiv()).toBe(d.abbrechen)
+    document.body.innerHTML = ''
+    const o = offen({ ohneAbbrechen: true })
+    expect(aktiv()).toBe(o.knoepfe[0])
+  })
+
+  it('Klick auf den Hintergrund schliesst nicht', () => {
+    const d = offen()
+    const zu = sammle(d.dialog, 'alert-dialog-close')
+    d.dialog.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: 5, clientY: 5 }))
+    expect(d.dialog.open).toBe(true)
+    expect(zu).toHaveLength(0)
+  })
+
+  it('Knoepfe mit data-action schliessen, reason = data-action; Fokus zurueck; alert-dialog-close wie im Recipe', () => {
+    for (const [opt, knopf, grund] of [[{}, 'abbrechen', 'cancel'], [{}, 'bestaetigen', 'confirm'], [{ drei: true }, null, 'discard']]) {
+      const d = offen(opt)
+      const zu = sammle(d.dialog, 'alert-dialog-close')
+      ;(knopf ? d[knopf] : d.dialog.querySelector('[data-action="discard"]')).click()
+      expect(d.dialog.open).toBe(false)
+      expect(zu.map((e) => e.detail)).toEqual([{ reason: grund }])
+      passtZumRecipe('alert-dialog', zu[0])
+      expect(aktiv()).toBe(d.oeffner)
+      document.body.innerHTML = ''
+    }
+  })
+
+  it('Klick auf Text im Dialog schliesst nicht; dialog.close() meldet reason programmatic', () => {
+    const d = offen()
+    const zu = sammle(d.dialog, 'alert-dialog-close')
+    d.dialog.querySelector('.nc-alert-dialog__title').click()
+    expect(d.dialog.open).toBe(true)
+    d.dialog.close()
+    expect(zu.map((e) => e.detail.reason)).toEqual(['programmatic'])
+  })
+
+  it('Recipe-Ereignis nennt alle Gruende', () => {
+    expect(rohesRecipe('alert-dialog').events['alert-dialog-close'].note).toMatch(/cancel.*confirm.*escape.*programmatic/)
+  })
+
+  describe('Tasten aus dem Recipe', () => {
+    const pruefungen = {
+      Escape: () => {
+        const d = offen()
+        const zu = sammle(d.dialog, 'alert-dialog-close')
+        const e = taste(aktiv(), 'Escape')
+        expect(e.defaultPrevented).toBe(true)
+        expect(d.dialog.open).toBe(false)
+        expect(zu.map((x) => x.detail)).toEqual([{ reason: 'escape' }])
+        expect(aktiv()).toBe(d.oeffner)
+        // Escape ohne keydown (Zurueck-Geste): der Browser meldet cancel
+        const n = offen()
+        const zu2 = sammle(n.dialog, 'alert-dialog-close')
+        n.dialog.dispatchEvent(new Event('cancel', { cancelable: true }))
+        expect(n.dialog.open).toBe(false)
+        expect(zu2[0].detail.reason).toBe('escape')
+      },
+      Enter: () => {
+        // Fokus liegt beim Oeffnen auf Abbrechen: Enter bricht ab, loescht nicht
+        const d = offen()
+        const zu = sammle(d.dialog, 'alert-dialog-close')
+        taste(aktiv(), 'Enter')
+        expect(d.dialog.open).toBe(false)
+        expect(zu[0].detail.reason).toBe('cancel')
+      },
+      Tab: () => { const d = offen(); const letztes = d.knoepfe.at(-1); letztes.focus(); const e = taste(letztes, 'Tab'); expect(e.defaultPrevented).toBe(true); expect(aktiv()).toBe(d.knoepfe[0]) },
+      'Shift+Tab': () => { const d = offen(); d.knoepfe[0].focus(); const e = taste(d.knoepfe[0], 'Shift+Tab'); expect(e.defaultPrevented).toBe(true); expect(aktiv()).toBe(d.knoepfe.at(-1)) }
+    }
+    it('jede Taste hat eine Pruefung', () => deckeTastenAb('alert-dialog', pruefungen))
+    for (const t of tastenAus('alert-dialog')) it(t, () => pruefungen[t]())
+  })
+})
+
+// ---------------------------------------------------------------------------
 describe('Overlay-Behaviors: anbinden/abbinden', () => {
   const FAELLE = [
     ['dropdown-menu', DROPDOWN, (b) => b.querySelector('.nc-dropdown__trigger').click(), 'dropdown-toggle'],
     ['popover', popoverHtml(), (b) => b.querySelector('.nc-popover__trigger').click(), 'popover-toggle'],
     ['modal', DIALOGE.modal(), (b) => { b.querySelector('#oeffner').click(); b.querySelector('dialog').close() }, 'modal-open'],
     ['drawer', DIALOGE.drawer(), (b) => { b.querySelector('#oeffner').click(); b.querySelector('dialog').close() }, 'drawer-open'],
+    ['alert-dialog', alertHtml(), (b) => { b.querySelector('#oeffner').click(); b.querySelector('dialog').close() }, 'alert-dialog-open'],
     ['tooltip', '<span class="nc-tooltip"><button type="button">x</button><span class="nc-tooltip__content">y</span></span>', (b) => { b.querySelector('button').focus(); taste(b.querySelector('button'), 'Escape'); b.querySelector('button').blur(); b.querySelector('.nc-tooltip__content').hidden = false }, 'tooltip-dismiss']
   ]
   for (const [id, html, tu, name] of FAELLE) {

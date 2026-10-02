@@ -1009,14 +1009,19 @@
           null
         );
         const oeffne = (ausloeser) => {
+          var _a2;
           if (dialog.open) return;
           zurueck = ausloeser;
           dialog.showModal();
-          const ziel = (
-            /** @type {HTMLElement|null} */
-            dialog.querySelector("[autofocus]") || fokussierbare(dialog)[0]
-          );
-          if (ziel && !dialog.contains(dok.activeElement)) ziel.focus();
+          const eigen = (_a2 = art.fokusZiel) == null ? void 0 : _a2.call(art, dialog);
+          if (eigen) eigen.focus();
+          else {
+            const ziel = (
+              /** @type {HTMLElement|null} */
+              dialog.querySelector("[autofocus]") || fokussierbare(dialog)[0]
+            );
+            if (ziel && !dialog.contains(dok.activeElement)) ziel.focus();
+          }
           sende(dialog, `${art.praefix}-open`, {});
         };
         const schliesse = (warum) => {
@@ -1059,7 +1064,8 @@
             if (draussen && art.hintergrundSchliesst(dialog)) schliesse("overlay-click");
             return;
           }
-          if (ziel.closest(`${art.schliessen}, [data-action="close"], [data-action="cancel"]`)) schliesse("close-button");
+          const warum = art.aktion ? art.aktion(ziel, dialog) : ziel.closest(`${art.schliessen}, [data-action="close"], [data-action="cancel"]`) ? "close-button" : null;
+          if (warum) schliesse(warum);
         }, { signal });
         dialog.addEventListener("close", () => {
           sende(dialog, `${art.praefix}-close`, { reason: grund || "programmatic" });
@@ -1105,6 +1111,30 @@
     }
   });
 
+  // packages/neo-behaviors/alert-dialog.js
+  var alertDialog = dialogBehavior({
+    id: "alert-dialog",
+    selektor: "dialog.nc-alert-dialog",
+    praefix: "alert-dialog",
+    schliessen: "[data-action]",
+    hintergrundSchliesst: () => false,
+    fokusZiel: (dialog) => {
+      const abbrechen = (
+        /** @type {HTMLElement|null} */
+        dialog.querySelector('[data-action="cancel"]')
+      );
+      return abbrechen && !gesperrt(abbrechen) ? abbrechen : fokussierbare(dialog)[0] || null;
+    },
+    aktion: (ziel, dialog) => {
+      const knopf = (
+        /** @type {HTMLElement|null} */
+        ziel.closest("[data-action]")
+      );
+      if (!knopf || !dialog.contains(knopf) || gesperrt(knopf)) return null;
+      return knopf.getAttribute("data-action") || null;
+    }
+  });
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -1120,7 +1150,8 @@
     popover,
     tooltip,
     modal,
-    drawer
+    drawer,
+    "alert-dialog": alertDialog
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

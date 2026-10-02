@@ -1,6 +1,6 @@
 // @ts-check
 // ==========================================================================
-// Gemeinsamer Teil von Modal und Drawer (natives <dialog>)
+// Gemeinsamer Teil von Modal, Drawer und Alert-Dialog (natives <dialog>)
 // ==========================================================================
 // Oeffnen: ein Knopf mit aria-controls="<id des Dialogs>" (empfohlen mit
 // aria-haspopup="dialog") irgendwo im Dokument → showModal(). Der Fokus geht
@@ -15,12 +15,20 @@
 //
 // Ereignisse `<praefix>-open` {} und `<praefix>-close` { reason } —
 // reason: 'escape', 'overlay-click', 'close-button', 'programmatic'.
+//
+// Abweichungen je Bauteil (optional):
+//   fokusZiel(dialog)     Element, das beim Oeffnen den Fokus bekommt —
+//                         ueberstimmt [autofocus] (Alert-Dialog: Abbrechen)
+//   aktion(ziel, dialog)  Grund fuer einen Klick im Dialog, der schliesst
+//                         (oder null) — ersetzt die Schliessen-Knoepfe oben
 // ==========================================================================
 import { sende, fokussierbare, fokusFalle } from './kern.js'
 
 /**
  * @param {{ id: string, selektor: string, praefix: string, schliessen: string,
  *   hintergrundSchliesst: (d: HTMLElement) => boolean,
+ *   fokusZiel?: (d: HTMLElement) => HTMLElement|null,
+ *   aktion?: (ziel: HTMLElement, d: HTMLElement) => string|null,
  *   scroll?: (d: HTMLElement, signal: AbortSignal) => void }} art
  */
 export function dialogBehavior (art) {
@@ -39,8 +47,12 @@ export function dialogBehavior (art) {
         if (dialog.open) return
         zurueck = ausloeser
         dialog.showModal()
-        const ziel = /** @type {HTMLElement|null} */ (dialog.querySelector('[autofocus]')) || fokussierbare(dialog)[0]
-        if (ziel && !dialog.contains(dok.activeElement)) ziel.focus()
+        const eigen = art.fokusZiel?.(dialog)
+        if (eigen) eigen.focus()
+        else {
+          const ziel = /** @type {HTMLElement|null} */ (dialog.querySelector('[autofocus]')) || fokussierbare(dialog)[0]
+          if (ziel && !dialog.contains(dok.activeElement)) ziel.focus()
+        }
         sende(dialog, `${art.praefix}-open`, {})
       }
       const schliesse = (warum) => {
@@ -73,7 +85,10 @@ export function dialogBehavior (art) {
           if (draussen && art.hintergrundSchliesst(dialog)) schliesse('overlay-click')
           return
         }
-        if (ziel.closest(`${art.schliessen}, [data-action="close"], [data-action="cancel"]`)) schliesse('close-button')
+        const warum = art.aktion
+          ? art.aktion(ziel, dialog)
+          : ziel.closest(`${art.schliessen}, [data-action="close"], [data-action="cancel"]`) ? 'close-button' : null
+        if (warum) schliesse(warum)
       }, { signal })
 
       dialog.addEventListener('close', () => {

@@ -119,14 +119,14 @@
                 + '    </p>';
     }
 
-    var code = '<dialog class="nc-alert-dialog" aria-labelledby="dlg-title"' + ariaDesc + '>\n'
+    var code = '<dialog class="nc-alert-dialog" id="dlg" role="alertdialog" aria-labelledby="dlg-title"' + ariaDesc + '>\n'
              + '  <div class="nc-alert-dialog__header">\n'
              + '    <h2 class="nc-alert-dialog__title" id="dlg-title">Sind Sie sicher?</h2>'
              + descBlock + '\n'
              + '  </div>\n'
              + '  <div class="nc-alert-dialog__footer">\n'
-             + '    <button class="nc-button nc-button--outline">Abbrechen</button>\n'
-             + '    <button class="nc-button' + actionClass + '" autofocus>' + actionLabel + '</button>\n'
+             + '    <button class="nc-button nc-button--outline" data-action="cancel" autofocus>Abbrechen</button>\n'
+             + '    <button class="nc-button' + actionClass + '" data-action="confirm">' + actionLabel + '</button>\n'
              + '  </div>\n'
              + '</dialog>';
 

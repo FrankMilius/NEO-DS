@@ -91,8 +91,9 @@
       "Backdrop: ::backdrop mit overlay-bg Fade-in Animation.",
       "Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.",
       "Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.",
-      "Focus-Management: Bei default: autofocus auf Action-Button (primaere Aktion). Bei destructive: autofocus auf Cancel-Button (verhindert versehentliches Loeschen = Anti-Slipping-Pattern).",
-      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt."
+      "Focus-Management (WAI-ARIA alertdialog, Entscheidung 02.10.2026): Beim Oeffnen geht der Fokus auf die sichere Aktion — Abbrechen mit data-action='cancel', sonst das erste bedienbare Element (neo-behaviors setzt ihn, auch gegen ein [autofocus] auf der Aktion). Anti-Slipping: schnelles Enter loest nie die bestaetigende Aktion aus.",
+      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt.",
+      "Verhalten (neo-behaviors alert-dialog): Ausloeser mit aria-controls oeffnet per showModal(); Fokus-Falle; Escape schliesst wie Abbrechen (reason 'escape'); Klick auf den Hintergrund schliesst NICHT; Knoepfe mit data-action schliessen mit reason = data-action ('cancel', 'confirm', eigene Werte); danach Fokus zurueck auf den Ausloeser."
     ]
   },
   "axes": {
@@ -172,7 +173,7 @@
         "supportsKeyboard",
         "focusTrap"
       ],
-      "note": "Natives <dialog> liefert role='dialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. ESC schliesst nativ. Fokus-Trap nativ."
+      "note": "Natives <dialog> mit role='alertdialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. Escape schliesst wie Abbrechen, Klick auf den Hintergrund schliesst nicht. Fokus-Falle, Fokus beim Oeffnen auf Abbrechen, danach zurueck zum Ausloeser (neo-behaviors)."
     },
     "overrides": [
       {
@@ -184,9 +185,9 @@
           }
         },
         "suggest": [
-          "autofocus-action"
+          "autofocus-cancel"
         ],
-        "note": "Default: autofocus auf Action-Button (primaere Aktion) fuer direkten Keyboard-Zugriff."
+        "note": "Default: Fokus beim Oeffnen auf Abbrechen (sichere Aktion, WAI-ARIA alertdialog) — wie bei destructive. Entscheidung 02.10.2026; vorher autofocus auf der Aktion."
       },
       {
         "when": {
@@ -199,7 +200,7 @@
         "require": [
           "autofocus-cancel"
         ],
-        "note": "Destructive: autofocus auf Cancel-Button statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Best-Practice fuer destruktive Aktionen."
+        "note": "Destructive: Fokus auf Abbrechen statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Gilt seit 02.10.2026 fuer jede Absicht (neo-behaviors)."
       },
       {
         "when": {
@@ -376,7 +377,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "aria-labelledby → Title. aria-describedby → Description. Action: autofocus."
+        "note": "aria-labelledby → Title. aria-describedby → Description. Fokus beim Oeffnen auf Abbrechen."
       }
     },
     {
@@ -437,7 +438,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Default: Action autofocus. Destructive: Cancel autofocus. Icon verstaerkt Intent."
+        "note": "Beide Absichten: Fokus beim Oeffnen auf Abbrechen (sichere Aktion). Icon verstaerkt Intent."
       }
     },
     {
@@ -522,7 +523,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Session-Timeout: Verlaengern autofocus. Timer ggf. als aria-live Region."
+        "note": "Session-Timeout: Fokus beim Oeffnen auf Abbrechen (data-action='cancel'). Timer ggf. als aria-live Region."
       }
     },
     {
@@ -552,5 +553,36 @@
         "note": "3 Buttons: Speichern, Verwerfen, Abbrechen. Cancel (Abbrechen) autofocus."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Escape": {
+      "action": "cancel",
+      "note": "Schliesst wie Abbrechen (alert-dialog-close reason 'escape'), Fokus zurueck auf den Ausloeser."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Loest die fokussierte Aktion aus (nativer Knopf). Beim Oeffnen liegt der Fokus auf Abbrechen — Enter bricht ab (reason 'cancel')."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Dialog (Fokus-Falle)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle."
+    }
+  },
+  "events": {
+    "alert-dialog-open": {
+      "bubbles": true,
+      "note": "Gefeuert wenn der Alert-Dialog geoeffnet wird (Fokus liegt dann auf Abbrechen)."
+    },
+    "alert-dialog-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen. reason: 'cancel', 'confirm', 'escape', 'programmatic' oder ein eigener data-action-Wert (z. B. 'discard'). Klick auf den Hintergrund schliesst nicht."
+    }
+  }
 }

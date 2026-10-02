@@ -21,11 +21,12 @@
 //   .nc-alert-dialog--destructive   Destructive-Intent (danger-icon, danger-action)
 //
 // ACCESSIBILITY:
-//   Natives <dialog> liefert role="dialog", aria-modal="true" automatisch
-//   bei showModal(). aria-labelledby → Title, aria-describedby → Description.
-//   ESC schliesst nativ. Fokus-Trap ist nativ bei showModal().
-//   Fokus kehrt automatisch zum Trigger zurueck.
-//   Action-Button mit autofocus fuer direkten Keyboard-Zugriff.
+//   <dialog role="alertdialog">, aria-modal="true" bei showModal().
+//   aria-labelledby → Title, aria-describedby → Description.
+//   Verhalten (neo-behaviors alert-dialog, WAI-ARIA alertdialog,
+//   Entscheidung 02.10.2026): Fokus beim Oeffnen auf Abbrechen
+//   ([data-action='cancel']), Fokus-Falle, Escape = Abbrechen, Klick auf den
+//   Hintergrund schliesst NICHT, Fokus zurueck zum Ausloeser.
 // ==========================================================================
 
 @use '../01-tools' as *;
