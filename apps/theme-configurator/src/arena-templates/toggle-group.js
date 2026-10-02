@@ -2,7 +2,7 @@
 //   type=single    role="radiogroup", Knoepfe mit role="radio" aria-checked
 //   type=multiple  role="group", Knoepfe mit aria-pressed (0–n gewaehlt)
 // Die Auswahl zeigt das DS ueber aria-checked/aria-pressed; Umschalten
-// uebernimmt im DS das JS.
+// uebernimmt neo-behaviors (Arena: Ausprobieren).
 //
 // Achsen: size/variant/indicator/width per Modifier; content waehlt Text,
 // Symbol + Text oder nur Symbol (__icon, mit aria-label).

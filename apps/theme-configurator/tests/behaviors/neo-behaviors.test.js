@@ -9,6 +9,7 @@ import { anbinden, abbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { rohesRecipe } from '../arena/_recipes.js'
+import { taste as bediene, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
 
 function erstesMarkup (id, specimenId) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -29,7 +30,18 @@ afterEach(() => { document.body.innerHTML = '' })
 
 describe('neo-behaviors: Grundlagen', () => {
   it('kennt die Bauteile mit Verhalten', () => {
-    expect([...MIT_VERHALTEN].sort()).toEqual(['accordion', 'search', 'select', 'tabs'])
+    expect([...MIT_VERHALTEN].sort()).toEqual([
+      'accordion', 'drawer', 'dropdown-menu', 'input', 'modal', 'popover', 'rating',
+      'search', 'segmented-control', 'select', 'switch', 'tabs', 'toggle-group', 'tooltip'
+    ])
+  })
+
+  it('jedes Bauteil mit Verhalten beschreibt Tastatur und Ereignisse im Recipe', () => {
+    for (const id of MIT_VERHALTEN) {
+      const r = rohesRecipe(id)
+      expect(Object.keys(r.keyboard || {}).length, `${id}: keyboard fehlt`).toBeGreaterThan(0)
+      expect(Object.keys(r.events || {}).length, `${id}: events fehlt`).toBeGreaterThan(0)
+    }
   })
 
   it('bindet jede Wurzel nur einmal und loest wieder', () => {
@@ -213,5 +225,75 @@ describe('Suche (search-recipe.json)', () => {
     feld.dispatchEvent(new FocusEvent('focus'))
     taste(feld, 'Escape')
     expect(liste.hidden).toBe(true)
+  })
+})
+
+describe('Select: Tasten aus dem Recipe', () => {
+  function feld () {
+    const b = buehne(erstesMarkup('select', 'with-indicator'))
+    anbinden(b)
+    return { wrapper: b.querySelector('.nc-select-wrapper'), feld: b.querySelector('select') }
+  }
+  const oeffnet = (t) => () => { const s = feld(); bediene(s.feld, t); expect(s.wrapper.classList.contains('is-open')).toBe(true) }
+  const schliesst = (t) => () => { const s = feld(); bediene(s.feld, 'Space'); bediene(s.feld, t); expect(s.wrapper.classList.contains('is-open')).toBe(false) }
+  const pruefungen = {
+    Space: oeffnet('Space'),
+    Enter: oeffnet('Enter'),
+    'Alt+ArrowDown': oeffnet('Alt+ArrowDown'),
+    F4: oeffnet('F4'),
+    Escape: schliesst('Escape'),
+    Tab: schliesst('Tab')
+  }
+  it('jede Taste hat eine Pruefung', () => deckeTastenAb('select', pruefungen))
+  for (const t of tastenAus('select')) it(t, () => pruefungen[t]())
+
+  it('Ereignis change kommt nativ vom Feld', () => {
+    const s = feld()
+    const ev = sammle(s.feld, 'change')
+    s.feld.value = s.feld.options[1].value
+    s.feld.dispatchEvent(new Event('change', { bubbles: true }))
+    passtZumRecipe('select', ev[0])
+  })
+})
+
+describe('Suche: Tasten und Ereignisse aus dem Recipe', () => {
+  function suche () {
+    const b = buehne(erstesMarkup('search', 'default') + '<button type="button" id="weiter">weiter</button>')
+    anbinden(b)
+    const wurzel = b.querySelector('.nc-search')
+    const feld = b.querySelector('.nc-search__input')
+    feld.focus()
+    feld.dispatchEvent(new FocusEvent('focus'))
+    return { wurzel, feld, liste: b.querySelector('.nc-search__results') }
+  }
+  const sichtbare = (liste) => [...liste.querySelectorAll('.nc-search__item')].filter((e) => !e.hidden)
+  const markiert = (liste) => sichtbare(liste).findIndex((e) => e.getAttribute('aria-selected') === 'true')
+  const pruefungen = {
+    ArrowDown: () => { const s = suche(); bediene(s.feld, 'ArrowDown'); bediene(s.feld, 'ArrowDown'); expect(markiert(s.liste)).toBe(1) },
+    ArrowUp: () => { const s = suche(); bediene(s.feld, 'ArrowUp'); expect(markiert(s.liste)).toBe(sichtbare(s.liste).length - 1) },
+    Enter: () => {
+      const s = suche()
+      const ev = sammle(s.wurzel, 'search-select')
+      bediene(s.feld, 'ArrowDown'); bediene(s.feld, 'Enter')
+      expect(ev).toHaveLength(1); passtZumRecipe('search', ev[0]); expect(s.liste.hidden).toBe(true)
+    },
+    Escape: () => { const s = suche(); bediene(s.feld, 'Escape'); expect(s.liste.hidden).toBe(true) },
+    Tab: () => {
+      const s = suche()
+      const weiter = document.getElementById('weiter')
+      s.feld.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: weiter }))
+      expect(s.liste.hidden).toBe(true)
+    }
+  }
+  it('jede Taste hat eine Pruefung', () => deckeTastenAb('search', pruefungen))
+  for (const t of tastenAus('search')) it(t, () => pruefungen[t]())
+
+  it('search-open { open } wie im Recipe', () => {
+    const b = buehne(erstesMarkup('search', 'default'))
+    anbinden(b)
+    const ev = sammle(b.querySelector('.nc-search'), 'search-open')
+    b.querySelector('.nc-search__input').dispatchEvent(new FocusEvent('focus'))
+    expect(ev.map((e) => e.detail)).toEqual([{ open: true }])
+    passtZumRecipe('search', ev[0])
   })
 })

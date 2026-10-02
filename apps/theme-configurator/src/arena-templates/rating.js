@@ -5,7 +5,7 @@
 //                     (__input--clear) und je Stern <input class="nc-rating__input">
 //                     + <label class="nc-rating__item"> — echte Radios, per
 //                     Tastatur und Maus waehlbar. Das Einfaerben bis zum
-//                     gewaehlten Stern (__item--active) setzt im DS das JS;
+//                     gewaehlten Stern (__item--active) setzt neo-behaviors;
 //                     die Vorlage zeigt den Startwert 3.
 // Der Versatz der Hover-Kaskade kommt ueber --nc-rating-item-index je Stern
 // (so im DS vorgesehen).

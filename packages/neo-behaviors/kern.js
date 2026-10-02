@@ -80,3 +80,51 @@ export function ersterBedienbar (liste, vonHinten = false) {
   const bedienbar = liste.filter((e) => !e.hasAttribute('disabled') && e.getAttribute('aria-disabled') !== 'true')
   return vonHinten ? bedienbar.at(-1) : bedienbar[0]
 }
+
+/**
+ * Ziel einer Pfeil-/Pos1-/Ende-Taste in einer Liste (rundum, gesperrte
+ * uebersprungen). `richtung`: 'beide' (rechts/runter vor, links/hoch zurueck),
+ * 'horizontal' oder 'vertikal'. Andere Tasten → null.
+ * @param {string} key @param {HTMLElement[]} liste @param {Element} aktuell
+ * @param {'beide'|'horizontal'|'vertikal'} [richtung]
+ * @returns {HTMLElement|null}
+ */
+export function zielFuerTaste (key, liste, aktuell, richtung = 'beide') {
+  const vor = richtung === 'horizontal' ? ['ArrowRight'] : richtung === 'vertikal' ? ['ArrowDown'] : ['ArrowRight', 'ArrowDown']
+  const zurueck = richtung === 'horizontal' ? ['ArrowLeft'] : richtung === 'vertikal' ? ['ArrowUp'] : ['ArrowLeft', 'ArrowUp']
+  if (vor.includes(key)) return nachbar(liste, aktuell, 1)
+  if (zurueck.includes(key)) return nachbar(liste, aktuell, -1)
+  if (key === 'Home') return ersterBedienbar(liste) || null
+  if (key === 'End') return ersterBedienbar(liste, true) || null
+  return null
+}
+
+const FOKUSSIERBAR = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]), summary'
+
+/** Per Tab erreichbare Elemente im Bereich (sichtbar im Sinne von nicht [hidden]). */
+export function fokussierbare (bereich) {
+  return /** @type {HTMLElement[]} */ ([...bereich.querySelectorAll(FOKUSSIERBAR)])
+    .filter((e) => !e.closest('[hidden], [inert]') && e.getAttribute('aria-hidden') !== 'true')
+}
+
+/**
+ * Fokus-Falle: Tab vom letzten springt zum ersten, Shift+Tab vom ersten zum
+ * letzten Element im Bereich. Aufrufen im keydown-Handler.
+ * @param {KeyboardEvent} e @param {HTMLElement} bereich
+ */
+export function fokusFalle (e, bereich) {
+  if (e.key !== 'Tab') return
+  const liste = fokussierbare(bereich)
+  if (!liste.length) { e.preventDefault(); return }
+  const erstes = liste[0]
+  const letztes = liste.at(-1)
+  const aktiv = /** @type {HTMLElement|null} */ (bereich.ownerDocument.activeElement)
+  const drin = aktiv && bereich.contains(aktiv)
+  if (e.shiftKey && (aktiv === erstes || !drin)) { e.preventDefault(); letztes.focus() }
+  else if (!e.shiftKey && (aktiv === letztes || !drin)) { e.preventDefault(); erstes.focus() }
+}
+
+/** Gesperrt per disabled oder aria-disabled. */
+export function gesperrt (el) {
+  return !!el && (el.hasAttribute('disabled') || el.getAttribute('aria-disabled') === 'true')
+}

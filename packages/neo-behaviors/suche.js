@@ -24,7 +24,7 @@ export const suche = {
     const eintraege = () => /** @type {HTMLElement[]} */ ([...liste.querySelectorAll('.nc-search__item')])
     // Ursprungstext je Eintrag merken, damit Markierungen neu gesetzt werden koennen
     for (const e of eintraege()) {
-      const label = e.querySelector('.nc-search__item-label') || e
+      const label = /** @type {HTMLElement} */ (e.querySelector('.nc-search__item-label') || e)
       if (!label.dataset.neoText) label.dataset.neoText = label.textContent
     }
     let leer = /** @type {HTMLElement|null} */ (liste.querySelector('.nc-search__empty'))
@@ -80,7 +80,8 @@ export const suche = {
         setze(true)
         if (!sichtbare.length) return
         const i = aktuell ? sichtbare.indexOf(aktuell) : -1
-        const n = e.key === 'ArrowDown' ? (i + 1) % sichtbare.length : (i - 1 + sichtbare.length) % sichtbare.length
+        // Ohne Markierung: runter → erster, hoch → letzter Eintrag
+        const n = e.key === 'ArrowDown' ? (i + 1) % sichtbare.length : (i < 0 ? sichtbare.length - 1 : (i - 1 + sichtbare.length) % sichtbare.length)
         markiere(sichtbare[n])
       } else if (e.key === 'Enter' && aktuell) {
         e.preventDefault()

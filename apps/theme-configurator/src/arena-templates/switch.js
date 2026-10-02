@@ -1,7 +1,7 @@
 // Vorlage: switch — beide Muster aus scss/scss/05-atoms/_switch.scss:
 //   pattern=button    <button class="nc-switch__track" role="switch"
 //                     aria-checked> (Zustand per aria-checked; Umschalten
-//                     uebernimmt im DS das JS)
+//                     uebernimmt neo-behaviors)
 //   pattern=checkbox  natives <input class="nc-switch__input" role="switch">
 //                     vor dem Track (Markup aus data/markup/switch.html) —
 //                     echt und bedienbar

@@ -20,9 +20,36 @@ import { tabs } from './tabs.js'
 import { akkordeon } from './accordion.js'
 import { select } from './select.js'
 import { suche } from './suche.js'
+import { segmentedControl } from './segmented-control.js'
+import { toggleGroup } from './toggle-group.js'
+import { schalter } from './switch.js'
+import { rating } from './rating.js'
+import { eingabe } from './input.js'
+import { dropdownMenu } from './dropdown-menu.js'
+import { popover } from './popover.js'
+import { tooltip } from './tooltip.js'
+import { modal } from './modal.js'
+import { drawer } from './drawer.js'
+
+export { setzeIndikator } from './segmented-control.js'
 
 /** Alle Behaviors, Schluessel = Recipe-ID. */
-export const BEHAVIORS = Object.freeze({ tabs, accordion: akkordeon, select, search: suche })
+export const BEHAVIORS = Object.freeze({
+  tabs,
+  accordion: akkordeon,
+  select,
+  search: suche,
+  'segmented-control': segmentedControl,
+  'toggle-group': toggleGroup,
+  switch: schalter,
+  rating,
+  input: eingabe,
+  'dropdown-menu': dropdownMenu,
+  popover,
+  tooltip,
+  modal,
+  drawer
+})
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
 export const MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS))

@@ -1,16 +1,17 @@
 // Vorlage: segmented-control — Markup aus data/markup/segmented-control.html:
 // role="radiogroup" mit <button class="nc-segmented-control__item"
 // role="radio" aria-checked>. Die Auswahl zeigt das DS ueber aria-checked;
-// Umschalten (roving tabindex, Pfeiltasten) uebernimmt im DS das JS.
+// Umschalten (roving tabindex, Pfeiltasten) uebernimmt neo-behaviors (Arena: Ausprobieren).
 //
 // Achsen: size und width per Modifier; content waehlt Text, Symbol + Text,
 // nur Symbol (mit aria-label) oder Text + Zaehler (__badge);
 // indicator=sliding stellt __indicator als erstes Kind in die Leiste —
-// einrichten() legt ihn wie das DS-JS unter das gewaehlte Segment
-// (--_indicator-left/-width).
+// einrichten() legt ihn mit setzeIndikator() aus neo-behaviors unter das
+// gewaehlte Segment (--_indicator-left/-width).
 // Zustaende am Segment: Standard = erstes Segment gewaehlt, selected = das
 // zweite; disabled = ganze Leiste aus (disabled-mixed: Standard mit einem
 // deaktivierten Segment); hover/focus nur echt.
+import { setzeIndikator } from 'neo-behaviors'
 import { esc, klassenOhne, FREMDE_ZUSTANDSKLASSEN, NATIVE_ARIA } from './_helfer.js'
 
 const SYMBOL = {
@@ -48,12 +49,10 @@ ${indikator}${liste.map((s, i) => segment(m, s, i, gewaehlt, ganzAus || (einzeln
   return m.wert('width') === 'full-width' || scroll ? `<div class="ra-feld">${leiste}</div>` : leiste
 }
 
-/** Legt den gleitenden Indikator unter das gewaehlte Segment (wie das DS-JS). */
+/**
+ * Legt den gleitenden Indikator unter das gewaehlte Segment — dieselbe
+ * Funktion wie im Behavior (packages/neo-behaviors/segmented-control.js).
+ */
 export function einrichten (element) {
-  for (const leiste of element.querySelectorAll('.nc-segmented-control')) {
-    const gewaehlt = leiste.querySelector('.nc-segmented-control__item[aria-checked="true"]')
-    if (!gewaehlt || !leiste.querySelector('.nc-segmented-control__indicator')) continue
-    leiste.style.setProperty('--_indicator-left', `${gewaehlt.offsetLeft}px`)
-    leiste.style.setProperty('--_indicator-width', `${gewaehlt.offsetWidth}px`)
-  }
+  for (const leiste of element.querySelectorAll('.nc-segmented-control')) setzeIndikator(leiste)
 }

@@ -9,6 +9,16 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `accordion` | `<details>` klappt nativ; Pfeiltasten, Pos1, Ende zwischen den Kopfzeilen; `data-neo-accordion="einzeln"` = nur eines offen | `accordion-toggle` { itemId, open } |
 | `select` | natives Feld; `.is-open` am `.nc-select-wrapper` solange die Liste offen ist (Chevron dreht) | — |
 | `search` | Fokus/Tippen öffnet, Tippen filtert und markiert, Leerhinweis, Pfeiltasten + Enter wählen, Escape/Verlassen schließt, Bereichs-Menü | `search-open` { open }, `search-select` { value } |
+| `segmented-control` | Klick, Pfeiltasten, Pos1, Ende wählen ein Segment (Radio-Muster, roving tabindex); gesperrte übersprungen; gleitender Indikator (`setzeIndikator`, auch von der Arena-Vorlage genutzt) | `segment-change` { value, previousValue } |
+| `toggle-group` | `single` (radiogroup): Klick/Pfeiltasten wählen, aria-checked; `multiple` (group): Klick/Enter/Leertaste schalten aria-pressed, Pfeiltasten bewegen nur den Fokus | `toggle-change` { value, selected, values } |
+| `switch` | Button-Muster (`role="switch"`): Klick/Leertaste/Enter schalten aria-checked; Checkbox-Muster nativ | `switch-change` { checked } |
+| `rating` | Klick wählt (nativ), färbt bis zum Wert (`__item--active`), Sentiment-Stufe, `__value`; Pfeiltasten ±1 (bis 0), Pos1, Ende; Reset-Knopf; Hover-Vorschau macht das CSS | `rating-change` { value, previousValue } |
+| `input` | nur Löschknopf (`__clear`: leeren, `input` melden, Fokus zurück) und `data-empty`-Rückfall für Felder ohne placeholder — schwebendes Label ist reines CSS | `input-clear` { previousValue } |
+| `dropdown-menu` | Menu Button: Auslöser (Klick, Enter, Leertaste, Pfeil runter/hoch) öffnet, Pfeiltasten/Pos1/Ende im Menü, Escape/Tab/Klick außen schließen, Fokus zurück; Untermenü (Pfeil rechts/links, 300 ms Hover); menuitemradio/-checkbox | `dropdown-toggle` { open }, `dropdown-select` { value, checked } |
+| `popover` | Klick schaltet, Fokus ins Panel, Fokus-Falle, Escape/Schließen-Knopf, Klick außen (nicht bei Formularen); `--hover-trigger`: 300 ms öffnen, 200 ms schließen, Fokus öffnet | `popover-toggle` { open, reason } |
+| `tooltip` | Hover/Fokus macht das CSS; Escape blendet aus, bis Maus und Fokus weg sind (WCAG 1.4.13); ergänzt aria-describedby | `tooltip-dismiss` { reason } |
+| `modal` | `<dialog>` per Knopf mit `aria-controls` öffnen (showModal), Escape, Schließen-Knopf, Fokus-Falle, Fokus zurück; Hintergrund nur mit `data-backdrop-close="true"`; `--scrollable`: `is-scrolled-top/-bottom` | `modal-open`, `modal-close` { reason } |
+| `drawer` | wie Modal; Klick auf den Hintergrund schließt immer; `is-scrolled` am Drawer | `drawer-open`, `drawer-close` { reason } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -29,4 +39,11 @@ Drupal.behaviors.neoBehaviors = {
 
 Das Soll steht im Recipe (`keyboard`, `events`, State-Regeln). Die Tests in
 `apps/theme-configurator/tests/behaviors/` binden an genau das Markup, das die
-Arena aus dem Recipe baut.
+Arena aus dem Recipe baut, prüfen jede Taste aus `keyboard` und jedes Ereignis
+gegen `events`. Dropdown-Menü, Popover, Tooltip, Modal und Drawer haben noch
+handgeschriebene Arenen (Sonderfälle) — ihre Tests nutzen DS-Markup nach SCSS
+und Recipe; „Ausprobieren" in der Arena folgt mit Phase 3.
+
+Bewusst ohne JS: das schwebende Label des Inputs (`:placeholder-shown`,
+`:focus-within`), die Hover-Vorschau des Ratings und das Ein-/Ausblenden des
+Tooltips (`:hover`, `:focus-within`) — das kann das CSS des DS allein.
