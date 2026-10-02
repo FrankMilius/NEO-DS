@@ -231,6 +231,32 @@
     @include input-group-addon;
   }
 
+  // -- Einheitliche Hoehe --
+  // Feld, Zusaetze und Knoepfe stehen auf der Gruppenhoehe (Kette zum Input:
+  // --nc-input-group-height-* = --nc-input-height-*). Ohne das waeren Zusaetze
+  // nur so hoch wie ihr Text und Knoepfe hoeher als das Feld.
+  > .nc-input,
+  > .nc-button,
+  > .nc-input-group__prepend,
+  > .nc-input-group__append {
+    height: var(--mod-input-group-height-md, var(--nc-input-group-height-md));
+    min-height: 0;
+  }
+
+  &--sm > .nc-input,
+  &--sm > .nc-button,
+  &--sm > .nc-input-group__prepend,
+  &--sm > .nc-input-group__append {
+    height: var(--mod-input-group-height-sm, var(--nc-input-group-height-sm));
+  }
+
+  &--lg > .nc-input,
+  &--lg > .nc-button,
+  &--lg > .nc-input-group__prepend,
+  &--lg > .nc-input-group__append {
+    height: var(--mod-input-group-height-lg, var(--nc-input-group-height-lg));
+  }
+
   // -- Enthaltener Input nimmt verbleibenden Platz ein --
 
   > .nc-input {
