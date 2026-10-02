@@ -23,8 +23,8 @@
 // Zellenbreite. Die Arena zeigt deshalb, was das Fenster vorgibt.
 //
 // Die Website-Navigation „V3 Tab-Mega" (Drupal-Modul neo_nav) ist NICHT
-// Gegenstand dieses Recipes (siehe Bericht Plan v3, Phase 3, Block
-// Navigation: offene Entscheidung).
+// Gegenstand dieses Recipes — sie hat ein eigenes: navigation-tab-mega
+// (Entscheidung 02.10.2026).
 import { wurzelKlassen, kindModifier } from './_overlay.js'
 
 const LINKS = ['Produkte', 'Lösungen', 'Kunden', 'News', 'Über uns']

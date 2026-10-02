@@ -75,6 +75,7 @@ const COMPONENT_ICONS = {
   'hero-tmob': 'photo', 'story-gallery': 'book',
   'fade-gallery': 'slideshow',
   'navigation-orchestration': 'navigation',
+  'navigation-tab-mega': 'layout-navbar',
   'scroll-expand': 'arrows-maximize', 'scroll-reveal': 'eye',
   'psychedelic-bg': 'palette', 'parallax-bg': 'layers-intersect',
   // Templates
@@ -131,6 +132,7 @@ const SUBGROUP_MAP = {
   hero: 'Content', header: 'Layout', footer: 'Layout',
   navigation: 'Navigation', 'navigation-menu': 'Navigation',
   'navigation-orchestration': 'Navigation',
+  'navigation-tab-mega': 'Navigation',
   modal: 'Feedback', drawer: 'Feedback', 'alert-dialog': 'Feedback',
   notification: 'Feedback', banner: 'Feedback',
   sidebar: 'Layout', shell: 'Layout',

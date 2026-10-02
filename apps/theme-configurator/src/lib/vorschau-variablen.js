@@ -27,6 +27,15 @@ import { schriftskalaZeilen } from '../export/type-scale-css.js'
 
 const _deklarationen = new Map()
 
+/**
+ * Bauteile, die Tokens einer ANDEREN Komponente unter deren Praefix nutzen,
+ * ohne eigene --nc-<id>-*-Tokens zu haben. Deren :root-Deklarationen werden
+ * mit neu gesetzt, sonst bleiben sie in dunklen Vorschau-Zellen hell.
+ *   navigation-tab-mega  Website-Navigation, Flaeche aus --nc-nav-bg der
+ *                        DS-Navigation (komposition: teilt navigation)
+ */
+const GETEILTE_TOKENS = { 'navigation-tab-mega': ['nav'] }
+
 function sammle(regeln, praefix, ziel) {
   for (const regel of regeln) {
     if (regel.cssRules && !regel.selectorText) {
@@ -114,6 +123,9 @@ export function zeilenZuObjekt(zeilen = []) {
 export function vorschauVariablen({ id, modus, state, sheets }) {
   const set = state.activeThemeSet || 'neo'
   const vars = { ...komponentenDeklarationen(id, sheets) }
+  for (const fremd of GETEILTE_TOKENS[id] || []) {
+    for (const [k, v] of Object.entries(komponentenDeklarationen(fremd, sheets))) if (!(k in vars)) vars[k] = v
+  }
   // Ketten zu Tokens anderer Komponenten (Plan v3, Komposition): z. B.
   // --nc-search-input-radius: var(--nc-input-radius) oder --nc-badge-
   // success-bg: var(--nc-tag-success-bg). Auch diese Ziele werden hier neu

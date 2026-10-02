@@ -354,6 +354,38 @@ onBeforeUnmount(() => aufraeumen?.())
   background: var(--fnd-color-background-secondary);
 }
 
+/* ra-kopf--offen: Website-Navigation „V3 Tab-Mega" (navigation-tab-mega)
+   mit offenem Panel, Such-Band oder Kopfleisten-Menue. Alles davon haengt
+   absolut unter bzw. an der Leiste — der Rahmen haelt ihm die Hoehe frei. */
+.ra-live-component .ra-kopf--offen { min-height: 520px; }
+
+/* ra-nav-mobil: navigation-tab-mega in der Mobil-Lage. Das Bauteil schaltet
+   sie nur ueber die Fensterbreite (@media (max-width: 1024px) in
+   07-organisms/_navigation-tab-mega.scss); im Rahmen stellt die Arena sie
+   mit denselben Werten dar. contain macht den Rahmen zum Bezugsrahmen des
+   position: fixed-Drawers (wie bei ra-buehne). */
+.ra-live-component .ra-nav-mobil {
+  position: relative;
+  width: 390px;
+  max-width: 100%;
+  height: 640px;
+  overflow: hidden;
+  contain: layout paint;
+  border-radius: 6px;
+  background: var(--fnd-color-background-secondary);
+  /* Seitenrand des Containers wie bei 390 px Fensterbreite:
+     clamp(16px, 3.5vw, 48px) = 16px. Das Fenster des Konfigurators ist
+     breiter und schaltet sonst auf die eingefasste Stufe (ab 1200 px). */
+  --nc-container-padding-inline-constrained: 16px;
+  --nc-container-padding-inline-xxl: 16px;
+}
+.ra-live-component .ra-nav-mobil .primary-nav,
+.ra-live-component .ra-nav-mobil .hdr-group,
+.ra-live-component .ra-nav-mobil .panel,
+.ra-live-component .ra-nav-mobil .search-band { display: none; }
+.ra-live-component .ra-nav-mobil .burger { display: grid; }
+.ra-live-component .ra-nav-mobil .m-drawer { display: block; }
+
 /* ra-kulisse: dunkler Grund fuer Bauteile, die ueber Bildern liegen
    (Kopfzeile transparent, Toolbar blurred) — sonst Weiss auf Weiss. */
 .ra-live-component .ra-kulisse {
