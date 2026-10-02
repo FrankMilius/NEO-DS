@@ -22,6 +22,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf Abbrechen (`[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück | `alert-dialog-open`, `alert-dialog-close` { reason } |
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf `.nc-treeview__node` | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
+| `navigation-menu` | Menü-Leiste mit Panels (WAI-ARIA Menubar): roving tabindex, Pfeil rechts/links/Pos1/Ende in der Leiste, Pfeil runter/Enter/Leertaste öffnen (erster Eintrag), Pfeil hoch (letzter); im Panel Pfeil runter/hoch, rechts/links zum Nachbarn, Escape/Tab/Klick außen schließen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -99,3 +100,10 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Klasse), im Checkbox-Modus `aria-checked` (true/false/mixed) samt
   `checked`/`indeterminate` der Checkbox. Ziehen & Ablegen und die
   Aktionen im Zeilen-Slot sind nicht Teil des Behaviors.
+- **Navigationsmenü** — Menü-Leiste mit Panels nach dem Markup von
+  `website/js/site.js`: Der Inhalt im Item ist nur Vorlage, offen zeigt ihn
+  eine Kopie im Viewport (`data-state="open"` an Auslöser, Inhalt, Hülle und
+  Viewport; `data-motion` beim Wechsel; Indikator `data-state="visible"` mit
+  `left`/`width` wie in `site.js`). Die Vorlagen bekommen `inert`, sonst wären
+  sie per Tab erreichbar und doppelt im Barrierefreiheits-Baum. Das DS blendet
+  das Menü unter 1200 px aus — die Mobil-Navigation ist ein anderes Bauteil.

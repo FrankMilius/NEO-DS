@@ -346,6 +346,58 @@
       ]
     }
   },
+  "keyboard": {
+    "ArrowRight": {
+      "action": "focus-next-top-item",
+      "note": "In der Leiste: naechster Eintrag (rundum); ist ein Panel offen, oeffnet das des neuen Eintrags. Im Panel: schliesst es und geht zum naechsten Leisten-Eintrag (dessen Panel oeffnet, Fokus bleibt in der Leiste)."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-top-item",
+      "note": "Wie ArrowRight, rueckwaerts."
+    },
+    "ArrowDown": {
+      "action": "open-or-focus-next",
+      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den ersten Eintrag. Im Panel: naechster Eintrag (rundum)."
+    },
+    "ArrowUp": {
+      "action": "open-or-focus-prev",
+      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den letzten Eintrag. Im Panel: vorheriger Eintrag (rundum)."
+    },
+    "Home": {
+      "action": "focus-first",
+      "note": "Erster Eintrag der Leiste bzw. des Panels."
+    },
+    "End": {
+      "action": "focus-last",
+      "note": "Letzter Eintrag der Leiste bzw. des Panels."
+    },
+    "Enter": {
+      "action": "open",
+      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den ersten Eintrag. Auf Links: folgt dem Link (nativ)."
+    },
+    "Space": {
+      "action": "open",
+      "note": "Auf einem Ausloeser wie Enter."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst das Panel, Fokus zurueck auf den Ausloeser."
+    },
+    "Tab": {
+      "action": "close",
+      "note": "Schliesst das Panel, der Fokus geht normal weiter. Die Leiste ist eine Tab-Station (roving tabindex)."
+    }
+  },
+  "events": {
+    "navigation-menu-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn ein Panel oeffnet, wechselt oder schliesst. value: Name des offenen Panels (Text des Ausloesers), null wenn alle zu."
+    }
+  },
   "specimens": [
     {
       "id": "default-dropdown",

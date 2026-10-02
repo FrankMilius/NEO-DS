@@ -29,7 +29,7 @@ import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['breadcrumb', 'pagination', 'navigation', 'navigation-menu', 'sidebar', 'treeview', 'toolbar']
 // Mit Verhalten in neo-behaviors (keyboard/events im Recipe, „Ausprobieren")
-const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'treeview']
+const MIT_VERHALTEN_IM_BLOCK = ['breadcrumb', 'navigation-menu', 'treeview']
 
 function zellen (id, specimenId, optionen = {}) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -594,6 +594,20 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     await vorlagen.find('.nc-treeview__node').trigger('click')
     expect(vorlagen.attributes('aria-selected')).toBe('true')
     expect(vorlagen.classes()).toContain('nc-treeview__item--selected')
+    w.unmount()
+  })
+
+  it('navigation-menu: „Geöffnet" startet zu, Klick oeffnet das Panel im Viewport', async () => {
+    const w = await ausprobieren('navigation-menu')
+    const z = zelle(w, 'two-col-callout')
+    expect(z.find('.ra-anker.ra-anker--desktop > nav.nc-navigation-menu').exists()).toBe(true)
+    const huelle = z.find('.nc-navigation-menu__viewport-wrapper')
+    expect(huelle.attributes('data-state')).toBe('closed')
+    await z.find('.nc-navigation-menu__trigger').trigger('click')
+    expect(huelle.attributes('data-state')).toBe('open')
+    expect(z.find('.nc-navigation-menu__viewport > .nc-navigation-menu__content--two-col .nc-navigation-menu__callout').exists()).toBe(true)
+    expect(z.find('.ra-kopf').exists()).toBe(false)
+    expect(zelle(w, 'composition-header').find('.ra-kopf.ra-anker--desktop').exists()).toBe(true)
     w.unmount()
   })
 })

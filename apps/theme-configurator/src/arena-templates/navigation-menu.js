@@ -29,8 +29,9 @@
 //
 // Hinweis: das DS blendet .nc-navigation-menu unter 1200 px FENSTERbreite
 // aus (@media max-width 1199px) — die Arena zeigt, was das Fenster vorgibt.
-// Verhalten: keine keyboard/events im Recipe, kein Behavior in neo-behaviors
-// (offene Entscheidung im Bericht) — deshalb nur „Zustände".
+// Verhalten: neo-behaviors/navigation-menu.js nach keyboard/events im Recipe
+// (Menue-Leiste mit Panels). In „Ausprobieren" (m.ausprobieren) starten alle
+// Panels zu, die Flaeche haelt dem Viewport trotzdem den Platz frei.
 import { esc } from './_helfer.js'
 import { kindModifier } from './_overlay.js'
 
@@ -101,7 +102,7 @@ ${innen}
 
 /** Das Navigationsmenue allein (auch in der Kopfzeile verwendet). */
 function menue (m) {
-  const auf = m.hat('open')
+  const auf = m.hat('open') && !m.ausprobieren
   const marke = m.attribute['data-zustand']
   const eintraege = BEREICHE.map((b, i) => {
     const offen = auf && i === 0
@@ -127,7 +128,8 @@ ${[...eintraege, ...direkt].join('\n')}
 
 export default (zelle, m) => {
   if (m.specimen.render?.compositionType === 'nav-full-header') {
-    return `<div class="ra-kopf">
+    // Ausprobieren: Platz unter der Kopfzeile fuer das Panel
+    return `<div class="ra-kopf${m.ausprobieren ? ' ra-anker--desktop' : ''}">
 <header class="nc-header">
 <nav class="nc-nav" aria-label="Kopfzeile">
 <div class="nc-nav__inner">
@@ -144,6 +146,6 @@ ${menue(m)}
   }
   // Offen: der Viewport liegt absolut unter der Liste — die Flaeche haelt
   // ihm den Platz in der Zelle frei.
-  if (m.hat('open')) return `<div class="ra-anker ra-anker--desktop">\n${menue(m)}\n</div>`
+  if (m.hat('open') || m.ausprobieren) return `<div class="ra-anker ra-anker--desktop">\n${menue(m)}\n</div>`
   return `<div class="ra-feld ra-feld--sehr-breit">\n${menue(m)}\n</div>`
 }
