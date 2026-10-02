@@ -577,6 +577,79 @@
       ]
     }
   },
+  "keyboard": {
+    "Enter": {
+      "action": "open-or-activate",
+      "note": "Auf dem Ausloeser: oeffnet, Fokus auf den ersten Eintrag. Im Menue: loest den Eintrag aus (Untermenue: oeffnet es)."
+    },
+    "Space": {
+      "action": "open-or-activate",
+      "note": "Wie Enter."
+    },
+    "ArrowDown": {
+      "action": "focus-next-item",
+      "note": "Auf dem Ausloeser: oeffnet, erster Eintrag. Im Menue: naechster Eintrag (rundum, gesperrte uebersprungen)."
+    },
+    "ArrowUp": {
+      "action": "focus-prev-item",
+      "note": "Auf dem Ausloeser: oeffnet, letzter Eintrag. Im Menue: vorheriger Eintrag (rundum)."
+    },
+    "Home": {
+      "action": "focus-first-item",
+      "note": "Erster Eintrag."
+    },
+    "End": {
+      "action": "focus-last-item",
+      "note": "Letzter Eintrag."
+    },
+    "ArrowRight": {
+      "action": "open-submenu",
+      "note": "Oeffnet das Untermenue, Fokus auf dessen ersten Eintrag.",
+      "onlyWhen": {
+        "axes": {
+          "content": [
+            "with-submenu"
+          ]
+        }
+      }
+    },
+    "ArrowLeft": {
+      "action": "close-submenu",
+      "note": "Schliesst das Untermenue, Fokus zurueck auf den Eltern-Eintrag.",
+      "onlyWhen": {
+        "axes": {
+          "content": [
+            "with-submenu"
+          ]
+        }
+      }
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst das (Unter-)Menue, Fokus zurueck auf den Ausloeser bzw. Eltern-Eintrag."
+    },
+    "Tab": {
+      "action": "close",
+      "note": "Schliesst das Menue, der Fokus geht normal weiter."
+    }
+  },
+  "events": {
+    "dropdown-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert beim Oeffnen und Schliessen des Menues."
+    },
+    "dropdown-select": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "checked": "boolean|null"
+      },
+      "note": "Gefeuert wenn ein Eintrag ausgeloest wird. checked: neuer Zustand bei menuitemradio/menuitemcheckbox, sonst null."
+    }
+  },
   "specimens": [
     {
       "id": "all-states",

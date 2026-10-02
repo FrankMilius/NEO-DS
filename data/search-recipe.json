@@ -785,6 +785,44 @@
       "hinweis": "Das Suchfeld ist ein Input: Rahmen, Hintergrund, Fokus und Zustaende kommen vom Input; alle Feld-Radien (Standard, XL, Befehlspalette) zeigen auf den Input-Radius (Entscheidung 02.10.2026). Ergebnisliste und Menues behalten ihren Radius."
     }
   ],
+  "keyboard": {
+    "ArrowDown": {
+      "action": "highlight-next",
+      "note": "Oeffnet die Liste und markiert den naechsten sichtbaren Eintrag (rundum, aria-activedescendant)."
+    },
+    "ArrowUp": {
+      "action": "highlight-prev",
+      "note": "Oeffnet die Liste und markiert den vorherigen sichtbaren Eintrag (rundum)."
+    },
+    "Enter": {
+      "action": "select-highlighted",
+      "note": "Uebernimmt den markierten Eintrag ins Feld und schliesst die Liste."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst die Ergebnisliste."
+    },
+    "Tab": {
+      "action": "close",
+      "note": "Fokus verlaesst die Suche — die Liste schliesst."
+    }
+  },
+  "events": {
+    "search-open": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert wenn die Ergebnisliste auf- oder zugeht."
+    },
+    "search-select": {
+      "bubbles": true,
+      "detail": {
+        "value": "string"
+      },
+      "note": "Gefeuert wenn ein Eintrag gewaehlt wird (Enter oder Klick)."
+    }
+  },
   "specimens": [
     {
       "id": "default",

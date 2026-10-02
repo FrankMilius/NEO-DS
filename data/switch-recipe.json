@@ -361,6 +361,39 @@
       ]
     }
   },
+  "keyboard": {
+    "Space": {
+      "action": "toggle",
+      "note": "Schaltet um (Button-Muster: aria-checked; Checkbox-Muster: nativ)."
+    },
+    "Enter": {
+      "action": "toggle",
+      "note": "Schaltet um — nur Button-Muster (nativer Klick des <button>).",
+      "onlyWhen": {
+        "axes": {
+          "pattern": [
+            "button"
+          ]
+        }
+      }
+    }
+  },
+  "events": {
+    "switch-change": {
+      "bubbles": true,
+      "detail": {
+        "checked": "boolean"
+      },
+      "note": "Gefeuert beim Umschalten des Button-Musters. Das Checkbox-Muster meldet das native change.",
+      "onlyWhen": {
+        "axes": {
+          "pattern": [
+            "button"
+          ]
+        }
+      }
+    }
+  },
   "specimens": [
     {
       "id": "default-states",

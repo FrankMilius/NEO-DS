@@ -329,6 +329,33 @@
       ]
     }
   },
+  "keyboard": {
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst den Drawer, Fokus zurueck auf den Ausloeser."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Drawer (Fokus-Falle)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle."
+    }
+  },
+  "events": {
+    "drawer-open": {
+      "bubbles": true,
+      "note": "Gefeuert wenn der Drawer geoeffnet wird."
+    },
+    "drawer-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen. reason: 'escape', 'overlay-click', 'close-button', 'programmatic'."
+    }
+  },
   "specimens": [
     {
       "id": "bottom-sheet",

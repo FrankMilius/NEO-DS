@@ -471,6 +471,91 @@
       ]
     }
   },
+  "keyboard": {
+    "ArrowRight": {
+      "action": "increase",
+      "note": "Ein Stern mehr (bis zum Hoechstwert).",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    },
+    "ArrowUp": {
+      "action": "increase",
+      "note": "Wie ArrowRight.",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    },
+    "ArrowLeft": {
+      "action": "decrease",
+      "note": "Ein Stern weniger; vom ersten Stern auf 0 (Null-Radio).",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    },
+    "ArrowDown": {
+      "action": "decrease",
+      "note": "Wie ArrowLeft.",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    },
+    "Home": {
+      "action": "select-first",
+      "note": "Ein Stern.",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    },
+    "End": {
+      "action": "select-last",
+      "note": "Hoechstwert.",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    }
+  },
+  "events": {
+    "rating-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "number",
+        "previousValue": "number"
+      },
+      "note": "Gefeuert wenn sich der Wert aendert (Klick, Tastatur, Reset-Knopf). 0 = keine Bewertung.",
+      "onlyWhen": {
+        "axes": {
+          "mode": [
+            "interactive"
+          ]
+        }
+      }
+    }
+  },
   "specimens": [
     {
       "id": "interactive-states",

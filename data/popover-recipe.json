@@ -405,6 +405,52 @@
   "komposition": [
     { "art": "enthaelt", "recipe": "button" }
   ],
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf dem Ausloeser: oeffnet/schliesst (nativer Klick). Beim Oeffnen geht der Fokus ins Panel."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Wie Enter."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst, Fokus zurueck auf den Ausloeser."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Panel (Fokus-Falle), solange es offen ist.",
+      "onlyWhen": {
+        "axes": {
+          "trigger": [
+            "click"
+          ]
+        }
+      }
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle.",
+      "onlyWhen": {
+        "axes": {
+          "trigger": [
+            "click"
+          ]
+        }
+      }
+    }
+  },
+  "events": {
+    "popover-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Oeffnen und Schliessen. reason: 'trigger', 'escape', 'close-button', 'outside', 'hover', 'focus'."
+    }
+  },
   "specimens": [
     {
       "id": "default",

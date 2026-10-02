@@ -479,6 +479,55 @@
       ]
     }
   },
+  "keyboard": {
+    "ArrowRight": {
+      "action": "focus-next-item",
+      "note": "Fokussiert den naechsten Knopf (rundum); bei type=single wird er zugleich gewaehlt."
+    },
+    "ArrowDown": {
+      "action": "focus-next-item",
+      "note": "Wie ArrowRight."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-item",
+      "note": "Fokussiert den vorherigen Knopf (rundum); bei type=single wird er zugleich gewaehlt."
+    },
+    "ArrowUp": {
+      "action": "focus-prev-item",
+      "note": "Wie ArrowLeft."
+    },
+    "Home": {
+      "action": "focus-first-item",
+      "note": "Erster bedienbarer Knopf (single: zugleich gewaehlt)."
+    },
+    "End": {
+      "action": "focus-last-item",
+      "note": "Letzter bedienbarer Knopf (single: zugleich gewaehlt)."
+    },
+    "Space": {
+      "action": "toggle-item",
+      "note": "Schaltet den fokussierten Knopf um (multiple) bzw. waehlt ihn (single). Nativ als Klick."
+    },
+    "Enter": {
+      "action": "toggle-item",
+      "note": "Wie Space."
+    },
+    "Tab": {
+      "action": "focus-group",
+      "note": "single: nur der gewaehlte Knopf im Tab-Fluss (roving tabindex). multiple: alle Knoepfe im Tab-Fluss."
+    }
+  },
+  "events": {
+    "toggle-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "selected": "boolean",
+        "values": "string[]"
+      },
+      "note": "Gefeuert wenn sich die Auswahl aendert. values: alle gewaehlten Werte danach."
+    }
+  },
   "specimens": [
     {
       "id": "all-states",

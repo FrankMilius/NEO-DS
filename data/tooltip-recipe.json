@@ -262,6 +262,25 @@
       ]
     }
   },
+  "keyboard": {
+    "Escape": {
+      "action": "dismiss",
+      "note": "Blendet den sichtbaren Tooltip aus, bis Maus und Fokus das Bauteil verlassen (WCAG 1.4.13)."
+    },
+    "Tab": {
+      "action": "show-on-focus",
+      "note": "Fokus auf dem Ausloeser zeigt den Tooltip (CSS :focus-within, kein JS)."
+    }
+  },
+  "events": {
+    "tooltip-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert wenn der Tooltip per Escape ausgeblendet wird (reason: 'escape')."
+    }
+  },
   "specimens": [
     {
       "id": "all-positions",
