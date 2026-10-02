@@ -58,6 +58,13 @@
     border-color: var(--mod-nav-transparent-border, var(--nc-nav-transparent-border));
     color: var(--mod-nav-transparent-color, var(--nc-nav-transparent-color));
 
+    // Marke und Links in der hellen Kopfzeilen-Farbe — sie setzen ihre Farbe
+    // selbst und erben sie nicht. Nicht beim Scrollen (dann wieder Flaeche).
+    &:not(.is-scrolled) {
+      --nc-nav-brand-color: var(--mod-nav-transparent-color, var(--nc-nav-transparent-color));
+      --nc-nav-mol-link-color: var(--mod-nav-transparent-color, var(--nc-nav-transparent-color));
+    }
+
     // Beim Scrollen: Blur einblenden
     &.is-scrolled {
       background: var(--mod-nav-bg, var(--nc-nav-bg));
