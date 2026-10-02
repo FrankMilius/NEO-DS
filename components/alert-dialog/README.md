@@ -11,7 +11,7 @@
 | Recipe | `data/alert-dialog-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_alert-dialog.scss` | present |
 | Storybook | `stories/organisms/alert-dialog.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/AlertDialogArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/alert-dialog-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,5 +29,5 @@
 - [Recipe JSON](../data/alert-dialog-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_alert-dialog.scss)
 - [Storybook Story](../stories/organisms/alert-dialog.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/AlertDialogArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/alert-dialog-docs.html)

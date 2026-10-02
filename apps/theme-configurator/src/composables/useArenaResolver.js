@@ -19,8 +19,10 @@
 // DS-Klassen und -Attribute statt Inline-Stilen.
 //
 // Abgeloest (Plan v3, Phase 3, Block Overlays): dropdown-menu, popover,
-// tooltip — DS-Markup nach SCSS-Struktur, in „Zustände" fest geoeffnet,
-// in „Ausprobieren" geschlossen und per neo-behaviors bedienbar.
+// tooltip, modal, drawer, alert-dialog — DS-Markup nach SCSS-Struktur, in
+// „Zustände" fest geoeffnet (Panel sichtbar, Dialoge im Arena-Rahmen
+// ra-buehne), in „Ausprobieren" geschlossen und per neo-behaviors bedienbar
+// (alert-dialog: noch ohne Verhalten).
 //
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
@@ -50,9 +52,6 @@ const SONDERFAELLE = {
   metric: () => import('../components/laboratory/MetricArena.vue'),
   toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
-  'alert-dialog': () => import('../components/laboratory/AlertDialogArena.vue'),
-  modal: () => import('../components/laboratory/ModalArena.vue'),
-  drawer: () => import('../components/laboratory/DrawerArena.vue'),
   notification: () => import('../components/laboratory/NotificationArena.vue'),
   sidebar: () => import('../components/laboratory/SidebarArena.vue'),
   'navigation-menu': () => import('../components/laboratory/NavigationMenuArena.vue'),

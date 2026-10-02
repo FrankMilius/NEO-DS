@@ -11,7 +11,7 @@
 | Recipe | `data/modal-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_modal.scss` | present |
 | Storybook | `stories/organisms/modal.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ModalArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/modal-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/modal-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_modal.scss)
 - [Storybook Story](../stories/organisms/modal.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ModalArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/modal-docs.html)
