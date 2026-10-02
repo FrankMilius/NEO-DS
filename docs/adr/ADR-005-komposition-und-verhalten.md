@@ -1,6 +1,6 @@
 # ADR-005: Komposition im Recipe, Verhalten als gemeinsames Paket
 
-- **Status:** angenommen; Phase 1 umgesetzt, Phase 2 begonnen (Plan v3)
+- **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt (Plan v3)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -67,3 +67,11 @@ Dinge fehlten aber:
   Build als Datei für die Drupal-Library (IIFE) und der Umstieg von
   `neo-theme.js` — mit der Drupal-Entwicklung abzustimmen.
 - `recipe-sdk` `loadRecipe()` reicht `komposition`, `keyboard`, `events` durch.
+- `neo-behaviors` 0.2.0 (02.10.2026): zusätzlich Segmented Control, Toggle-Group,
+  Switch, Rating, Input (nur Löschknopf), Dropdown-Menü, Popover, Tooltip,
+  Modal, Drawer. `keyboard`/`events` stehen jetzt in 15 Recipes (11 neu, darunter
+  Suche und Select); die Tests prüfen jede Taste und jede detail-Struktur.
+  Der gleitende Indikator des Segmented Control kommt aus dem Paket
+  (`setzeIndikator`), die Arena-Vorlage nutzt dieselbe Funktion.
+  „Ausprobieren" gibt es für die Formular-Bauteile; die Overlays folgen, wenn
+  ihre Sonderfall-Arenen in Phase 3 Recipe-Vorlagen bekommen.
