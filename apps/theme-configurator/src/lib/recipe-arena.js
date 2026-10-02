@@ -335,8 +335,12 @@ function beschriftung (specimen, zelle, recipe) {
 
 /**
  * Das Modell, das Vorlagen und Heuristik bekommen.
+ * `optionen.ausprobieren`: die Zelle wird als lebendige Instanz gebunden
+ * (RecipeArena „Ausprobieren") — Overlays starten dann geschlossen, das
+ * Verhalten aus neo-behaviors oeffnet sie (m.ausprobieren).
+ * @param {{ ausprobieren?: boolean }} [optionen]
  */
-export function baueModell (zelle, specimen, recipe, componentId) {
+export function baueModell (zelle, specimen, recipe, componentId, optionen = {}) {
   const root = recipe.styling.baseClasses[0] || componentId
   const klassen = resolveClassList(zelle, recipe)
   const basisKlassen = [...new Set(klassen.filter(Boolean))]
@@ -409,7 +413,8 @@ export function baueModell (zelle, specimen, recipe, componentId) {
     elementHint: rm.elementHint,
     templateId: rm.templateId,
     tokenGroups,
-    nurInteraktiv: zustaende.filter((s) => NUR_INTERAKTIV.has(s))
+    nurInteraktiv: zustaende.filter((s) => NUR_INTERAKTIV.has(s)),
+    ausprobieren: !!optionen.ausprobieren
   }
 }
 
@@ -601,10 +606,11 @@ export function renderHeuristik (m) {
 // ---------------------------------------------------------------------------
 
 /**
+ * @param {{ ausprobieren?: boolean }} [optionen]
  * @returns {{ html: string, quelle: 'vorlage'|'heuristik', modell: object }}
  */
-export function renderZelle (zelle, specimen, recipe, componentId, vorlage) {
-  const modell = baueModell(zelle, specimen, recipe, componentId)
+export function renderZelle (zelle, specimen, recipe, componentId, vorlage, optionen = {}) {
+  const modell = baueModell(zelle, specimen, recipe, componentId, optionen)
   if (vorlage) {
     return { html: vorlage(zelle, modell), quelle: 'vorlage', modell }
   }
@@ -677,14 +683,15 @@ export function zellenLabel (zelle, variierend) {
 
 /**
  * Alles, was die Arena fuer ein Specimen braucht, in einem Aufruf.
+ * @param {{ ausprobieren?: boolean }} [optionen] siehe baueModell()
  */
-export function specimenAnsicht (specimen, recipe, componentId, vorlage) {
+export function specimenAnsicht (specimen, recipe, componentId, vorlage, optionen = {}) {
   const variierend = variierendeAchsen(specimen, recipe)
   const zellen = zellenFuer(specimen, recipe).map((zelle) => {
     /** @type {{ html: string, quelle: string, fehler?: string, modell: any }} */
     let ergebnis
     try {
-      ergebnis = renderZelle(zelle, specimen, recipe, componentId, vorlage)
+      ergebnis = renderZelle(zelle, specimen, recipe, componentId, vorlage, optionen)
     } catch (err) {
       ergebnis = {
         html: `<div class="ra-fallback">Vorschau nicht darstellbar: ${esc(err.message)}</div>`,

@@ -11,7 +11,7 @@
 | Recipe | `data/tooltip-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_tooltip.scss` | present |
 | Storybook | `stories/atoms/tooltip.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/TooltipArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/tooltip-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/tooltip-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_tooltip.scss)
 - [Storybook Story](../stories/atoms/tooltip.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/TooltipArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/tooltip-docs.html)

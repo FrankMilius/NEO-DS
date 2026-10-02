@@ -11,7 +11,7 @@
 | Recipe | `data/dropdown-menu-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_dropdown-menu.scss` | present |
 | Storybook | `stories/molecules/dropdown-menu.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/DropdownMenuArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/dropdown-menu-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/dropdown-menu-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_dropdown-menu.scss)
 - [Storybook Story](../stories/molecules/dropdown-menu.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/DropdownMenuArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/dropdown-menu-docs.html)

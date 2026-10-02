@@ -11,7 +11,7 @@
 | Recipe | `data/popover-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_popover.scss` | present |
 | Storybook | `stories/molecules/popover.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/PopoverArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/popover-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/popover-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_popover.scss)
 - [Storybook Story](../stories/molecules/popover.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/PopoverArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/popover-docs.html)

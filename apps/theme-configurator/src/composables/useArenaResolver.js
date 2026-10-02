@@ -18,6 +18,10 @@
 // input-group, fieldset — native Felder echt und bedienbar, Zustaende ueber
 // DS-Klassen und -Attribute statt Inline-Stilen.
 //
+// Abgeloest (Plan v3, Phase 3, Block Overlays): dropdown-menu, popover,
+// tooltip — DS-Markup nach SCSS-Struktur, in „Zustände" fest geoeffnet,
+// in „Ausprobieren" geschlossen und per neo-behaviors bedienbar.
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -40,11 +44,9 @@ const SONDERFAELLE = {
   alert: () => import('../components/laboratory/AlertArena.vue'),
   toast: () => import('../components/laboratory/ToastArena.vue'),
   banner: () => import('../components/laboratory/BannerArena.vue'),
-  tooltip: () => import('../components/laboratory/TooltipArena.vue'),
   accordion: () => import('../components/laboratory/AccordionArena.vue'),
   breadcrumb: () => import('../components/laboratory/BreadcrumbArena.vue'),
   pagination: () => import('../components/laboratory/PaginationArena.vue'),
-  'dropdown-menu': () => import('../components/laboratory/DropdownMenuArena.vue'),
   metric: () => import('../components/laboratory/MetricArena.vue'),
   toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
@@ -52,7 +54,6 @@ const SONDERFAELLE = {
   modal: () => import('../components/laboratory/ModalArena.vue'),
   drawer: () => import('../components/laboratory/DrawerArena.vue'),
   notification: () => import('../components/laboratory/NotificationArena.vue'),
-  popover: () => import('../components/laboratory/PopoverArena.vue'),
   sidebar: () => import('../components/laboratory/SidebarArena.vue'),
   'navigation-menu': () => import('../components/laboratory/NavigationMenuArena.vue'),
   navigation: () => import('../components/laboratory/NavigationArena.vue'),

@@ -135,13 +135,23 @@ const ansichten = computed(() => {
 // Je Specimen eine lebendige Instanz (die erste Zelle), an die das Verhalten
 // aus packages/neo-behaviors gebunden wird. Die Zustandsmatrix bleibt
 // unberuehrt: dort zeigt jede Zelle einen festen Zustand.
+// Die Instanz wird mit { ausprobieren: true } gebaut: Overlays zeigen in
+// „Zustände" ihren offenen Zustand fest, hier starten sie geschlossen und
+// das Verhalten oeffnet sie (Plan v3, Phase 3, Block Overlays).
 const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId))
 const modus = ref('zustaende')
 watch(() => props.componentId, () => { modus.value = 'zustaende' })
 
+const lebendigeAnsichten = computed(() => {
+  const r = normalisiert.value
+  if (!r || modus.value !== 'ausprobieren') return []
+  const vorlage = vorlageFuer(props.componentId)
+  return r.specimens.map((sp) => specimenAnsicht(sp, r, props.componentId, vorlage, { ausprobieren: true }))
+})
+
 const sichtbareAnsichten = computed(() => {
   if (modus.value !== 'ausprobieren') return ansichten.value
-  return ansichten.value.map((sp) => {
+  return lebendigeAnsichten.value.map((sp) => {
     const zelle = sp.zeilen[0]?.zellen[0]
     return { ...sp, zeilen: zelle ? [{ key: 'live', label: '', zellen: [{ ...zelle, label: 'Ausprobieren' }] }] : [] }
   })
@@ -259,6 +269,64 @@ onBeforeUnmount(() => aufraeumen?.())
 .ra-live-component .ra-stapel { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .ra-live-component .ra-feld { width: 280px; max-width: 100%; }
 .ra-live-component .ra-feld--breit { width: 520px; }
+
+/* Overlays (Plan v3, Phase 3, Block Overlays). Nur Platz und Rahmen — die
+   Bauteile selbst gestaltet allein styles.css.
+   ra-anker: Flaeche um Ausloeser + Panel. Menue, Popover-Panel und Tooltip
+   liegen absolut am Ausloeser; die Flaeche haelt ihnen den Platz frei,
+   damit sie in der Zelle bleiben und nichts ueberdecken. */
+.ra-live-component .ra-anker {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 240px;
+  min-height: 240px;
+  padding: 8px;
+}
+.ra-live-component .ra-anker--hoch { min-height: 380px; }
+.ra-live-component .ra-anker--flach { min-height: 150px; }
+.ra-live-component .ra-anker--breit { min-width: 460px; }
+.ra-live-component .ra-anker--sehr-breit { min-width: 640px; }
+.ra-live-component .ra-anker--oben { align-items: flex-end; }
+.ra-live-component .ra-anker--mitte { justify-content: center; }
+.ra-live-component .ra-anker--zentriert { align-items: center; }
+.ra-live-component .ra-anker--ende { justify-content: flex-end; }
+
+/* Tooltip: das DS kennt fuer „sichtbar" nur :hover/:focus-within (keine
+   Klasse, kein Attribut). In „Zustände" stellt die Arena den sichtbaren
+   Endzustand mit den Werten des DS dar (tooltip-visible in
+   06-molecules/_tooltip.scss, Lage aus --_tooltip-transform-visible). */
+.ra-live-component .ra-anker--offen .nc-tooltip__content {
+  opacity: 1;
+  visibility: visible;
+  transform: var(--_tooltip-transform-visible, translateX(-50%) scale(1));
+  pointer-events: auto;
+  transition-delay: 0ms;
+}
+
+/* ra-buehne: Rahmen fuer Modal, Drawer und Alert-Dialog. Die Dialoge sind
+   position: fixed; contain macht den Rahmen zu ihrem Bezugsrahmen (statt des
+   Fensters), der Rahmen ist damit ein kleiner Bildschirm mit Hintergrund-
+   Abdunklung (Token des Backdrops). In „Ausprobieren" oeffnet showModal()
+   den Dialog in der obersten Ebene — dann ueber dem ganzen Fenster, wie in
+   Drupal. */
+.ra-live-component .ra-buehne {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: 420px;
+  overflow: hidden;
+  contain: layout paint;
+  border-radius: 6px;
+  background: var(--nc-dialog-overlay-bg);
+}
+.ra-live-component .ra-buehne--drawer { background: var(--nc-drawer-overlay-bg); }
+.ra-live-component .ra-buehne--niedrig { height: 300px; }
+.ra-live-component .ra-buehne--hoch { height: 520px; }
+/* Scrollender Inhalt: die Hoehenbegrenzung des DS rechnet mit 100vh; im
+   Rahmen gilt dieselbe Formel gegen die Rahmenhoehe (DS-Instanzwert). */
+.ra-live-component .ra-buehne--begrenzt { --mod-dialog-max-height: calc(100% - var(--fnd-spacing-08)); }
 
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
