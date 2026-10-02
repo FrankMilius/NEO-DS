@@ -282,8 +282,10 @@
   align-content: start;
 }
 
-// Callouts-Bereich: Trennlinie links (wenn Links-Area davor steht)
-.nc-navigation-menu__links-area + .nc-navigation-menu__callouts-area {
+// Trennlinie zwischen den Bereichen — in beiden Reihenfolgen:
+// Links → Callouts und Callouts → Links (Layout two-col)
+.nc-navigation-menu__links-area + .nc-navigation-menu__callouts-area,
+.nc-navigation-menu__callouts-area + .nc-navigation-menu__links-area {
   border-inline-start: 1px solid var(--fnd-color-border-secondary);
   padding-inline-start: var(--fnd-spacing-06);
 }
@@ -306,14 +308,13 @@
   padding-bottom: 0;
 }
 
-// Content-Layout: Two-Column (Callouts links + Links rechts)
-.nc-navigation-menu__content--two-col {
-  // Grid wird durch flex-Layout in content-grid ersetzt
-}
-
-// Content-Layout: Full-Width fuer grosse Mega-Menues
-.nc-navigation-menu__content--full {
-  // Keine Width-Einschraenkung, Viewport-Max-Width gilt
+// Content-Layout: Two-Column (Callout links + Links rechts, Recipe-Achse
+// layout=two-col). Die Callout-Spalte behaelt ihre Breite (Callouts-Bereich
+// schrumpft nicht), die zweite Spalte fuellt den Rest und darf schrumpfen —
+// sonst laeuft sie bei schmalem Viewport aus dem Panel.
+.nc-navigation-menu__content--two-col > .nc-navigation-menu__content-grid > :last-child {
+  flex: 1;
+  min-width: 0;
 }
 
 // -- Mega-Menu: Spaltenanzahl via Custom Property --

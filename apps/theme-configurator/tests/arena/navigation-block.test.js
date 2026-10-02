@@ -59,8 +59,7 @@ function dsKlassen () {
 
 /**
  * Klassen aus der Recipe-Anatomie und den Achsen-Modifiern — auch ohne
- * eigene Regel im CSS (z. B. nc-navigation-menu__content--two-col: die
- * SCSS-Regel ist leer und faellt beim Kompilieren weg).
+ * eigene Regel im CSS (Modifier, die nur als Markierung dienen).
  */
 function anatomieKlassen (id) {
   const r = rohesRecipe(id)
