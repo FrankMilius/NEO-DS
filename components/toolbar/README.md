@@ -11,7 +11,7 @@
 | Recipe | `data/toolbar-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_toolbar.scss` | present |
 | Storybook | `stories/organisms/toolbar.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ToolbarArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/toolbar-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/toolbar-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_toolbar.scss)
 - [Storybook Story](../stories/organisms/toolbar.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ToolbarArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/toolbar-docs.html)

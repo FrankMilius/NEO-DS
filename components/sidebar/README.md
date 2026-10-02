@@ -11,7 +11,7 @@
 | Recipe | `data/sidebar-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_sidebar.scss` | present |
 | Storybook | `stories/organisms/sidebar.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SidebarArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/sidebar-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/sidebar-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_sidebar.scss)
 - [Storybook Story](../stories/organisms/sidebar.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SidebarArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/sidebar-docs.html)

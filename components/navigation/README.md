@@ -11,7 +11,7 @@
 | Recipe | `data/navigation-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_navigation.scss` | present |
 | Storybook | `stories/organisms/navigation.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/NavigationArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/navigation-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,5 +29,5 @@
 - [Recipe JSON](../data/navigation-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_navigation.scss)
 - [Storybook Story](../stories/organisms/navigation.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/NavigationArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/navigation-docs.html)

@@ -11,7 +11,7 @@
 | Recipe | `data/pagination-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_pagination.scss` | present |
 | Storybook | `stories/organisms/pagination.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/PaginationArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/pagination-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/pagination-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_pagination.scss)
 - [Storybook Story](../stories/organisms/pagination.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/PaginationArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/pagination-docs.html)

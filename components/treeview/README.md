@@ -11,7 +11,7 @@
 | Recipe | `data/treeview-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_treeview.scss` | present |
 | Storybook | `stories/organisms/treeview.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/TreeviewArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/treeview-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/treeview-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_treeview.scss)
 - [Storybook Story](../stories/organisms/treeview.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/TreeviewArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/treeview-docs.html)

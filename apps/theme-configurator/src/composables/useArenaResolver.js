@@ -24,6 +24,14 @@
 // ra-buehne), in „Ausprobieren" geschlossen und per neo-behaviors bedienbar
 // (alert-dialog: noch ohne Verhalten).
 //
+// Abgeloest (Plan v3, Phase 3, Block Navigation): breadcrumb, pagination,
+// navigation, navigation-menu, sidebar, treeview, toolbar — DS-Markup nach
+// SCSS-Struktur und Doku (navigation-menu nach website/js/site.js), nur
+// „Zustände": keines der Recipes gibt keyboard/events vor, neo-behaviors hat
+// fuer sie kein Verhalten. Offene Zustaende fest (Breadcrumb-Dropdown,
+// Navigationsmenue-Viewport), Arena-Rahmen ra-kopf/ra-kulisse/ra-spalte und
+// ra-buehne--mobil fuer die Mobil-Lage der Sidebar.
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -47,16 +55,9 @@ const SONDERFAELLE = {
   toast: () => import('../components/laboratory/ToastArena.vue'),
   banner: () => import('../components/laboratory/BannerArena.vue'),
   accordion: () => import('../components/laboratory/AccordionArena.vue'),
-  breadcrumb: () => import('../components/laboratory/BreadcrumbArena.vue'),
-  pagination: () => import('../components/laboratory/PaginationArena.vue'),
   metric: () => import('../components/laboratory/MetricArena.vue'),
-  toolbar: () => import('../components/laboratory/ToolbarArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
   notification: () => import('../components/laboratory/NotificationArena.vue'),
-  sidebar: () => import('../components/laboratory/SidebarArena.vue'),
-  'navigation-menu': () => import('../components/laboratory/NavigationMenuArena.vue'),
-  navigation: () => import('../components/laboratory/NavigationArena.vue'),
-  treeview: () => import('../components/laboratory/TreeviewArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
   item: () => import('../components/laboratory/ItemArena.vue'),
   table: () => import('../components/laboratory/TableArena.vue'),

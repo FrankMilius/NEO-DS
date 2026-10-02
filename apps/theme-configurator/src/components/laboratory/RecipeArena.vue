@@ -328,6 +328,75 @@ onBeforeUnmount(() => aufraeumen?.())
    Rahmen gilt dieselbe Formel gegen die Rahmenhoehe (DS-Instanzwert). */
 .ra-live-component .ra-buehne--begrenzt { --mod-dialog-max-height: calc(100% - var(--fnd-spacing-08)); }
 
+/* Navigation (Plan v3, Phase 3, Block Navigation). Wieder nur Platz und
+   Rahmen.
+   ra-feld--sehr-breit: Leisten mit vielen Teilen (Navigationsmenue, Toolbar
+   mit Suche) — Ausrichtung und Spacer brauchen Breite. */
+.ra-live-component .ra-feld--sehr-breit { width: 720px; }
+
+/* ra-anker--desktop: offenes Navigationsmenue. Der Viewport liegt absolut
+   unter der Liste, ist so breit wie das Menue und fuer Desktop-Breite
+   gebaut (Callout-Karten, Mega-Spalten) — Platz in beide Richtungen. */
+.ra-live-component .ra-anker--desktop { min-width: 1080px; min-height: 560px; }
+
+/* ra-kopf: Rahmen fuer die Kopfzeile (nc-header). Der Header ist sticky
+   und schiebt sich mit .is-hidden um seine Hoehe nach oben — der Rahmen
+   schneidet ab, die Zelle zeigt dann den leeren Kopfbereich wie die Seite.
+   Grund: Seitenhintergrund, damit Blur und 90 % Deckkraft sichtbar sind.
+   Breite: die Kopfzeile ist fuer Fensterbreiten ab 1200 px gebaut (Liste
+   und Aktionen erst ab lg) — schmaler bricht die Liste in die feste Hoehe
+   um. Der Rahmen haelt Desktop-Breite, die Vorschau scrollt waagrecht. */
+.ra-live-component .ra-kopf {
+  position: relative;
+  width: 100%;
+  min-width: 1080px;
+  min-height: var(--nc-nav-height);
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--fnd-color-background-secondary);
+}
+
+/* ra-kulisse: dunkler Grund fuer Bauteile, die ueber Bildern liegen
+   (Kopfzeile transparent, Toolbar blurred) — sonst Weiss auf Weiss. */
+.ra-live-component .ra-kulisse {
+  padding: 16px;
+  border-radius: 6px;
+  background: var(--fnd-color-background-inverse);
+}
+.ra-live-component .ra-kopf.ra-kulisse { padding: 0; }
+
+/* ra-spalte: die Sidebar ist im DS 100 % hoch (Footer per margin-top:auto
+   unten) — der Rahmen gibt ihr eine Hoehe. */
+.ra-live-component .ra-spalte {
+  display: flex;
+  height: 400px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--fnd-color-background-secondary);
+}
+.ra-live-component .ra-spalte--hoch { height: 760px; }
+
+/* ra-buehne--mobil: Sidebar als Mobil-Overlay (--open + Backdrop). Das DS
+   schaltet die Mobil-Lage nur ueber die Fensterbreite (respond-to-max('md')
+   in 07-organisms/_sidebar.scss); im Rahmen stellt die Arena sie mit den
+   Werten des DS dar — 100vh wird zur Rahmenhoehe (wie bei ra-buehne). */
+.ra-live-component .ra-buehne--mobil { background: var(--fnd-color-background-secondary); }
+.ra-live-component .ra-buehne--mobil .nc-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transform: translateX(-100%);
+}
+.ra-live-component .ra-buehne--mobil .nc-sidebar--open { transform: translateX(0); }
+.ra-live-component .ra-buehne--mobil .nc-sidebar-backdrop {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--fnd-color-background-base) 50%, transparent);
+  z-index: calc(var(--fnd-z-sidebar) - 1);
+}
+
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
    nicht aus styles.css — hier dieselbe Regel fuer die Arena. */

@@ -11,7 +11,7 @@
 | Recipe | `data/breadcrumb-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_breadcrumb.scss` | present |
 | Storybook | `stories/molecules/breadcrumb.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/BreadcrumbArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/breadcrumb-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/breadcrumb-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_breadcrumb.scss)
 - [Storybook Story](../stories/molecules/breadcrumb.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/BreadcrumbArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/breadcrumb-docs.html)
