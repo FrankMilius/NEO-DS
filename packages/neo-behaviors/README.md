@@ -50,7 +50,7 @@ Einbinden im Theme `neo_fe` (`neo_fe.libraries.yml`):
 
 ```yaml
 neo-behaviors:
-  version: 0.2.0
+  version: 0.3.0
   js:
     js/neo-behaviors.js: { attributes: { defer: true } }
   dependencies:
@@ -78,6 +78,9 @@ gegen `events`. Die Overlays (Dropdown-Menü, Popover, Tooltip, Modal, Drawer,
 Alert-Dialog) kommen seit Phase 3 ebenfalls aus Recipe-Vorlagen; ihre Tests
 nutzen zusätzlich DS-Markup nach SCSS und Recipe, „Ausprobieren" gibt es für
 alle sechs.
+gegen `events`. Die Overlay-Tests nutzen DS-Markup nach SCSS und Recipe; die
+Navigations-Tests (`navigation-behaviors.test.js`) binden an das Markup, das
+die Arena im Modus „Ausprobieren" baut.
 
 Bewusst ohne JS: das schwebende Label des Inputs (`:placeholder-shown`,
 `:focus-within`), die Hover-Vorschau des Ratings und das Ein-/Ausblenden des

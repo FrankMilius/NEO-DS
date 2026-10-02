@@ -1,7 +1,8 @@
 # ADR-005: Komposition im Recipe, Verhalten als gemeinsames Paket
 
 - **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
-  Blöcke Formular, Overlays und Navigation umgesetzt (Plan v3, Stand 02.10.2026)
+  Blöcke Formular, Overlays und Navigation umgesetzt, Verhalten der
+  Navigations-Bauteile ergänzt (Plan v3, Stand 02.10.2026)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -129,3 +130,34 @@ Dinge fehlten aber:
   Abbrechen, Hintergrund schließt nicht, `data-action` schließt mit
   reason), Recipe mit `keyboard`/`events`, „Ausprobieren" jetzt für alle
   sechs Overlays.
+- Verhalten der Navigations-Bauteile (Entscheidung 02.10.2026): `keyboard` und
+  `events` jetzt auch in breadcrumb, treeview, navigation-menu, toolbar und
+  sidebar (20 Recipes); `neo-behaviors` 0.3.0 mit fünf neuen Behaviors —
+  Breadcrumb (Ellipsis-Menü), Treeview (WAI-ARIA Tree mit Auswahl und
+  Checkbox-Kaskade), Navigationsmenü (Menü-Leiste mit Panels, Kopie der
+  Item-Vorlage im Viewport wie `site.js`), Toolbar (eine Tab-Station, roving
+  tabindex; in Eingabefeldern bleiben die Pfeiltasten im Feld, Tab/Shift+Tab
+  verlassen das Feld zum Nachbarn in der Leiste) und Sidebar (Untermenü,
+  Einklappen, Mobil-Lage mit Escape und Backdrop). Zustände nur über das, was
+  das SCSS kennt: ARIA, `[hidden]`, `data-state` und die vorhandenen
+  Zustandsklassen (`.is-open`, `--selected`, `--collapsed`, `--open`); keine
+  SCSS-Änderung. Pagination und Navigation (Kopfzeile) bleiben ohne Verhalten.
+- „Ausprobieren" gibt es damit für alle fünf. Offene Zustände (Breadcrumb-
+  Dropdown, Panels des Navigationsmenüs, Mobil-Sidebar) starten dort zu; die
+  Mobil-Sidebar bekommt einen Öffner mit `aria-controls`. Die Toolbar-Vorlage
+  liefert in „Ausprobieren" das Markup mit roving tabindex, in „Zustände"
+  bleiben alle Knöpfe in der Tab-Folge (dort bindet kein Verhalten — Knöpfe
+  mit `tabindex="-1"` wären per Tastatur unerreichbar). Die Arena bindet
+  neben dem Bauteil auch enthaltene Bauteile mit Verhalten (`komposition`
+  „enthaelt", Specimen `composes`), z. B. die Toggle-Groups der Toolbar;
+  `anbinden()` bindet immer in der Reihenfolge von `BEHAVIORS`, äußere
+  Bauteile zuletzt.
+- Sichtbar gewordene DS-Befunde (gemeldet, nicht behoben): der Fokus des
+  Treeviews liegt auf `.nc-treeview__node` (ohne Rolle) statt auf dem
+  `treeitem`, Auswahl und Sperre gestaltet das SCSS nur über Klassen,
+  zugeklappte Kinder sind nur per Grid/Deckkraft versteckt; die Vorlagen des
+  Navigationsmenüs im Item sind fokussierbar (das Behavior setzt `inert`);
+  die geschlossene Mobil-Sidebar bleibt in der Tab-Folge (nur verschoben),
+  das Untermenü der eingeklappten Sidebar ist ganz ausgeblendet und damit
+  unerreichbar; `js/breadcrumb.js` würde auf Markup mit vorhandenem Menü
+  ein zweites bauen.
