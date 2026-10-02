@@ -161,3 +161,12 @@ Dinge fehlten aber:
   das Untermenü der eingeklappten Sidebar ist ganz ausgeblendet und damit
   unerreichbar; `js/breadcrumb.js` würde auf Markup mit vorhandenem Menü
   ein zweites bauen.
+- Entscheidung 02.10.2026: Die Website-Hauptnavigation „V3 Tab-Mega" bekommt
+  ein eigenes Recipe `navigation-tab-mega` (Wurzel `.site-header[data-neo-nav]`,
+  zweite Wurzel `.m-drawer`). `neo-nav.css` ist als
+  `07-organisms/_navigation-tab-mega.scss` mit unveränderten Werten
+  aufgenommen, jede Regel auf die Wurzeln begrenzt (`:where()`, Spezifität
+  unverändert); Arena-Vorlage, `data/markup` und Story kommen aus dem Markup,
+  das `neo-nav.js` aufbaut. Das Recipe nennt `keyboard` (aus `neo-nav.js`),
+  ein Behavior in `neo-behaviors` gibt es dafür noch nicht — die Arena zeigt
+  nur „Zustände". Drupal lädt bis zur Umstellung weiter sein `neo-nav.css`.
