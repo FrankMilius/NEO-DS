@@ -30,8 +30,8 @@
 //   .nc-pagination__item              Seitenbutton (--active)
 //   .nc-pagination__ellipsis          Nicht-interaktives Auslassungszeichen
 //   .nc-pagination__prev / __next     Navigationspfeile
-//   .nc-pagination__info              Minimal-Variante Info-Text
-//   .nc-pagination__jumper            Go-to-Page Input
+//   .nc-pagination__info              Info-Text (sichtbar, v. a. in --minimal)
+//   .nc-pagination__jumper            Go-to-Page Input (nur mit --with-jumper)
 //   .nc-pagination--sm                Kleinere Variante (28px)
 //   .nc-pagination--center/--end/--between  Alignment
 //   .nc-pagination--minimal           Nur Prev + Info + Next
@@ -180,7 +180,8 @@
     @include pagination-nav-button;
   }
 
-  // Info-Text (Minimal-Variante: "Seite X von Y")
+  // Info-Text ("Seite X von Y") — Grundzustand sichtbar (optionaler Slot,
+  // Recipe-Anatomie); die Minimal-Variante zeigt ihn statt der Liste.
   &__info {
     display: inline-flex;
     align-items: center;
@@ -192,8 +193,10 @@
     padding: 0 var(--fnd-spacing-02);
   }
 
-  // Go-to-Page Input
+  // Go-to-Page Input — Grundzustand ausgeblendet; sichtbar erst mit
+  // .nc-pagination--with-jumper (Recipe-Achse features=with-jumper).
   &__jumper {
+    display: none;
     width: var(--mod-pagination-jumper-width, var(--nc-pagination-jumper-width));
     height: var(--mod-pagination-jumper-height, var(--nc-pagination-jumper-height));
     border: var(--mod-pagination-jumper-border, var(--nc-pagination-jumper-border));
