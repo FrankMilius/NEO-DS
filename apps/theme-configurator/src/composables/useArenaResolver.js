@@ -13,8 +13,9 @@
 // Abgeloest (Plan v3, Phase 1): select, search — echtes DS-Markup, Komposition
 // mit dem Input (natives Select, Entscheidung 01.10.2026).
 //
-// Abgeloest (Plan v3, Phase 3, Block Formular): input, textarea, checkbox, radio, switch, form-field, input-group, fieldset
-// — native Felder echt und bedienbar, Zustaende ueber
+// Abgeloest (Plan v3, Phase 3, Block Formular): input, textarea, checkbox,
+// radio, switch, range, rating, segmented-control, toggle-group, form-field,
+// input-group, fieldset — native Felder echt und bedienbar, Zustaende ueber
 // DS-Klassen und -Attribute statt Inline-Stilen.
 //
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
@@ -36,10 +37,6 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 const SONDERFAELLE = {
   card: () => import('../components/laboratory/CardArena.vue'),
   button: () => import('../components/laboratory/ButtonArena.vue'),
-  range: () => import('../components/laboratory/RangeArena.vue'),
-  rating: () => import('../components/laboratory/RatingArena.vue'),
-  'segmented-control': () => import('../components/laboratory/SegmentedControlArena.vue'),
-  'toggle-group': () => import('../components/laboratory/ToggleGroupArena.vue'),
   alert: () => import('../components/laboratory/AlertArena.vue'),
   toast: () => import('../components/laboratory/ToastArena.vue'),
   banner: () => import('../components/laboratory/BannerArena.vue'),

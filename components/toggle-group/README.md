@@ -11,7 +11,7 @@
 | Recipe | `data/toggle-group-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_toggle-group.scss` | present |
 | Storybook | `stories/organisms/toggle-group.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ToggleGroupArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -25,4 +25,4 @@
 - [Recipe JSON](../data/toggle-group-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_toggle-group.scss)
 - [Storybook Story](../stories/organisms/toggle-group.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ToggleGroupArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

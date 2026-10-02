@@ -11,7 +11,7 @@
 | Recipe | `data/rating-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_rating.scss` | present |
 | Storybook | `stories/organisms/rating.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/RatingArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/rating-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/rating-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_rating.scss)
 - [Storybook Story](../stories/organisms/rating.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RatingArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/rating-docs.html)

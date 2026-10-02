@@ -87,6 +87,9 @@
   height: var(--mod-range-thumb-touch-size, var(--nc-range-thumb-touch-size));
   margin: 0;
   padding: 0;
+  // Rahmen aus 03-elements/_forms.scss (input {border…}) zuruecksetzen —
+  // sonst steht um jeden Regler ein Eingabefeld-Kasten.
+  border: none;
   background: transparent;
   appearance: none;
   cursor: pointer;
@@ -306,6 +309,10 @@
   // JS steuert --nc-range-progress-min und --nc-range-progress-max.
 
   &--range {
+    // Die Regler liegen absolut — die Hoehe kommt vom Klickbereich, sonst
+    // faellt der Block auf die Spurhoehe zusammen.
+    min-height: var(--mod-range-thumb-touch-size, var(--nc-range-thumb-touch-size));
+
     .nc-range__input {
       position: absolute;
       top: 0;
@@ -325,10 +332,24 @@
       &::-moz-range-progress {
         background-color: transparent;
       }
+
+      // Die Spur der beiden Regler bleibt durchsichtig — sonst deckt der
+      // obere Regler die Fuellung (__fill) zu.
+      &::-webkit-slider-runnable-track {
+        background-color: transparent;
+      }
+
+      &::-moz-range-track {
+        background-color: transparent;
+      }
     }
 
-    // Track-Container ist der sichtbare Bezugsrahmen
+    // Track-Container ist der sichtbare Bezugsrahmen: mittig unter den
+    // Spuren der Regler
     .nc-range__track {
+      position: absolute;
+      inset-inline: 0;
+      top: calc((var(--mod-range-thumb-touch-size, var(--nc-range-thumb-touch-size)) - var(--mod-range-track-height, var(--nc-range-track-height))) / 2);
       height: var(--mod-range-track-height, var(--nc-range-track-height));
     }
 

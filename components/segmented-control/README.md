@@ -11,7 +11,7 @@
 | Recipe | `data/segmented-control-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_segmented-control.scss` | present |
 | Storybook | `stories/organisms/segmented-control.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SegmentedControlArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/segmented-control-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/segmented-control-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_segmented-control.scss)
 - [Storybook Story](../stories/organisms/segmented-control.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SegmentedControlArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/segmented-control-docs.html)

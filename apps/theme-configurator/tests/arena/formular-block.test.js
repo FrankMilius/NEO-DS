@@ -18,7 +18,10 @@ import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../sr
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
-const BLOCK = ['input', 'textarea', 'checkbox', 'radio', 'switch', 'form-field', 'input-group', 'fieldset']
+const BLOCK = [
+  'input', 'textarea', 'checkbox', 'radio', 'switch', 'range', 'rating',
+  'segmented-control', 'toggle-group', 'form-field', 'input-group', 'fieldset'
+]
 
 function zellen (id, specimenId) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -121,7 +124,7 @@ describe('Formular-Block aus dem Recipe', () => {
     })
   }
 
-  it('Kennzahl: abgeloeste ohne Sonderfall', () => {
+  it('Kennzahl: alle zwoelf ohne Sonderfall', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
   })
 })
@@ -212,9 +215,67 @@ describe('Formular-Block: Zustaende', () => {
     expect([aus.disabled, aus.getAttribute('aria-checked'), an.getAttribute('aria-checked')]).toEqual([true, 'false', 'true'])
   })
 
+  it('range: nc-range statt nc-slider, Fortschritt als Token, Doppelregler, deaktiviert', () => {
+    for (const z of zellen('range')) expect(z.html).not.toContain('nc-slider')
+    const regler = alle('range', 'all-states')
+    expect(regler.every((d) => d.querySelector('.nc-range > input.nc-range__input[type="range"]'))).toBe(true)
+    const aus = regler.find((d) => d.querySelector('input').disabled)
+    expect(aus.querySelector('.nc-range--disabled')).not.toBeNull()
+    expect(regler[0].querySelector('.nc-range').getAttribute('style')).toContain('--nc-range-progress: 40')
+    const doppel = alle('range', 'range-slider')[0]
+    expect(doppel.querySelectorAll('.nc-range--range input[type="range"]').length).toBe(2)
+    expect([...doppel.querySelectorAll('input')].map((i) => i.value)).toEqual(['20', '70'])
+    expect(alle('range', 'error-state')[0].querySelector('.nc-range--error input').getAttribute('aria-invalid')).toBe('true')
+    const anzeige = alle('range', 'display-variants')
+    expect(anzeige.some((d) => d.querySelector('output.nc-range__output'))).toBe(true)
+    expect(anzeige.some((d) => d.querySelector('.nc-range__labels .nc-range__label-max'))).toBe(true)
+    expect(anzeige.some((d) => d.querySelector('.nc-range--tooltip .nc-range__tooltip'))).toBe(true)
+  })
 
+  it('rating: Radios im interaktiven Modus, Anzeige mit halben Sternen und Stimmung', () => {
+    const z = alle('rating', 'interactive-states')
+    for (const d of z) {
+      const gruppe = d.querySelector('.nc-rating[role="radiogroup"]')
+      expect(gruppe.querySelectorAll('input.nc-rating__input[type="radio"]').length).toBe(6)
+      expect(gruppe.querySelectorAll('label.nc-rating__item--active').length).toBe(3)
+    }
+    const aus = z.find((d) => d.querySelector('.nc-rating--disabled'))
+    expect([...aus.querySelectorAll('input')].every((i) => i.disabled)).toBe(true)
+    expect(alle('rating', 'half-stars')[0].querySelectorAll('.nc-rating__item--half').length).toBe(3)
+    const stimmung = alle('rating', 'sentiment-scale')[0]
+    for (const k of ['low', 'mid', 'high']) expect(stimmung.querySelector(`.nc-rating--sentiment.nc-rating--sentiment-${k}`)).not.toBeNull()
+    expect(alle('rating', 'error-state')[0].querySelector('.nc-rating--error')).not.toBeNull()
+    expect(alle('rating', 'clear-reset')[0].querySelector('button.nc-rating__clear')).not.toBeNull()
+    expect(alle('rating', 'icon-types').map((d) => d.querySelector('.nc-rating').dataset.icon).sort()).toEqual(['heart', 'smiley', 'star', 'thumb'])
+  })
 
+  it('segmented-control: Auswahl ueber aria-checked, Indikator per einrichten', () => {
+    const z = alle('segmented-control', 'all-states')
+    const gewaehlt = (d) => [...d.querySelectorAll('.nc-segmented-control__item')].findIndex((b) => b.getAttribute('aria-checked') === 'true')
+    expect(z.map(gewaehlt)).toEqual([0, 0, 1, 0, 0])
+    const aus = z.find((d) => d.querySelector('.nc-segmented-control__item:disabled'))
+    expect([...aus.querySelectorAll('.nc-segmented-control__item')].every((b) => b.disabled)).toBe(true)
+    const gemischt = alle('segmented-control', 'disabled-mixed')
+    expect(gemischt[0].querySelectorAll('.nc-segmented-control__item:disabled').length).toBe(1)
+    const gleit = alle('segmented-control', 'sliding-indicator')[1]
+    const leiste = gleit.querySelector('.nc-segmented-control')
+    expect(leiste.firstElementChild.classList.contains('nc-segmented-control__indicator')).toBe(true)
+    einrichtungFuer('segmented-control')(gleit)
+    expect(leiste.style.getPropertyValue('--_indicator-width')).toMatch(/px$/)
+    expect(alle('segmented-control', 'with-badge')[0].querySelector('.nc-segmented-control__badge')).not.toBeNull()
+  })
 
+  it('toggle-group: single als radiogroup, multiple mit aria-pressed', () => {
+    const [einzeln, , mehrfach, mehrfachGewaehlt] = alle('toggle-group', 'single-vs-multiple')
+    expect(einzeln.querySelector('.nc-toggle-group[role="radiogroup"] [role="radio"][aria-checked="true"]')).not.toBeNull()
+    expect(mehrfach.querySelector('.nc-toggle-group[role="group"] [aria-pressed="true"]')).not.toBeNull()
+    expect(mehrfachGewaehlt.querySelectorAll('[aria-pressed="true"]').length).toBe(2)
+    expect(alle('toggle-group', 'all-states').some((d) => [...d.querySelectorAll('button')].every((b) => b.disabled))).toBe(true)
+    expect(alle('toggle-group', 'divider-variant')[0].querySelector('.nc-toggle-group--divider')).not.toBeNull()
+    for (const d of alle('toggle-group', 'toolbar-pattern')) {
+      for (const b of d.querySelectorAll('button')) expect(b.getAttribute('aria-label')).toBeTruthy()
+    }
+  })
 
   it('form-field: Label/Feld verbunden, Pflicht, Fehler, Hinweis, deaktiviert, Fieldset', () => {
     for (const z of zellen('form-field').filter((c) => c.specimen.id !== 'fieldset-grouping')) {
