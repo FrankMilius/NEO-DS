@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "radio",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -16,6 +16,12 @@
       "docs": "/docs/radio-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Achse alignment und Modifier nc-radio--top entfernt: Das Control steht immer mittig zur ersten Textzeile (wie die Checkbox). Entscheidung 02.10.2026."
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -66,8 +72,8 @@
       ":focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.",
       "Radio-Buttons in einer Gruppe teilen sich den gleichen name-Attribut. Nur einer kann gleichzeitig checked sein.",
       "Error kann per .nc-radio--error gesetzt werden.",
-      "Alignment --top: Control obenbuendig bei mehrzeiligen Labels (margin-top: 0.15em).",
-      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
+      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border.",
+      "Ausrichtung: Das Control steht mittig zur ersten Zeile des Labels (margin-block-start aus Zeilenhoehe und Control-Groesse) — bei ein- und mehrzeiligen Labels, ohne Modifier."
     ]
   },
   "axes": {
@@ -85,20 +91,6 @@
         },
         "lg": {
           "modifier": "nc-radio--lg",
-          "tokenGroups": []
-        }
-      }
-    },
-    "alignment": {
-      "label": "Alignment",
-      "description": "Vertikale Ausrichtung des Controls zum Label — center (Standard, zentriert), top (obenbuendig, fuer mehrzeilige Labels)",
-      "values": {
-        "center": {
-          "modifier": null,
-          "tokenGroups": []
-        },
-        "top": {
-          "modifier": "nc-radio--top",
           "tokenGroups": []
         }
       }
@@ -336,7 +328,6 @@
       "classList": [
         "styling.baseClasses",
         "axes.size.values.*.modifier",
-        "axes.alignment.values.*.modifier",
         "axes.variant.values.*.modifier",
         "axes.validation.values.*.modifier"
       ],
@@ -355,9 +346,6 @@
         "axes": {
           "size": [
             "md"
-          ],
-          "alignment": [
-            "center"
           ],
           "variant": [
             "default"
@@ -390,9 +378,6 @@
       "matrix": {
         "axes": {
           "size": "*",
-          "alignment": [
-            "center"
-          ],
           "variant": [
             "default"
           ],
@@ -421,15 +406,12 @@
       }
     },
     {
-      "id": "alignment-comparison",
-      "label": "Alignment: Center vs Top",
-      "description": "Vergleich der vertikalen Ausrichtung bei mehrzeiligem Label",
+      "id": "multiline-label",
+      "label": "Mehrzeiliges Label",
+      "description": "Control mittig zur ersten Textzeile — in allen drei Groessen",
       "matrix": {
         "axes": {
-          "size": [
-            "md"
-          ],
-          "alignment": "*",
+          "size": "*",
           "variant": [
             "default"
           ],
@@ -443,15 +425,15 @@
       },
       "layout": "grid",
       "layoutConfig": {
-        "rowAxis": "alignment"
+        "rowAxis": "size"
       },
       "render": {
         "compositionType": "radio-multiline-label",
-        "label": "{alignment}"
+        "label": "{size}"
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Bei top-Alignment: Control bleibt an erster Textzeile ausgerichtet. Touch-Target muss weiterhin 44px erfuellen."
+        "note": "Control steht an der ersten Textzeile. Touch-Target muss weiterhin 44px erfuellen."
       }
     },
     {
@@ -462,9 +444,6 @@
         "axes": {
           "size": [
             "md"
-          ],
-          "alignment": [
-            "center"
           ],
           "variant": [
             "default"
@@ -503,9 +482,6 @@
           "size": [
             "md"
           ],
-          "alignment": [
-            "center"
-          ],
           "variant": [
             "default"
           ],
@@ -540,9 +516,6 @@
           "size": [
             "md"
           ],
-          "alignment": [
-            "center"
-          ],
           "variant": [
             "default"
           ],
@@ -575,9 +548,6 @@
         "axes": {
           "size": [
             "md"
-          ],
-          "alignment": [
-            "center"
           ],
           "variant": [
             "default"
@@ -612,9 +582,6 @@
       "matrix": {
         "axes": {
           "size": "*",
-          "alignment": [
-            "center"
-          ],
           "variant": [
             "default"
           ],
@@ -652,9 +619,6 @@
           "size": [
             "md"
           ],
-          "alignment": [
-            "center"
-          ],
           "variant": [
             "card"
           ],
@@ -689,9 +653,6 @@
         "axes": {
           "size": [
             "md"
-          ],
-          "alignment": [
-            "center"
           ],
           "variant": "*",
           "validation": [

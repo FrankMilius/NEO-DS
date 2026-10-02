@@ -1,5 +1,5 @@
 # radio Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.1.0 | Status: stable | Layer: atom
 
 Tags: `interactive`, `form`, `selection`
 
@@ -20,8 +20,8 @@ Root element: `.nc-radio`
 - :focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.
 - Radio-Buttons in einer Gruppe teilen sich den gleichen name-Attribut. Nur einer kann gleichzeitig checked sein.
 - Error kann per .nc-radio--error gesetzt werden.
-- Alignment --top: Control obenbuendig bei mehrzeiligen Labels (margin-top: 0.15em).
 - Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border.
+- Ausrichtung: Das Control steht mittig zur ersten Zeile des Labels (margin-block-start aus Zeilenhoehe und Control-Groesse) — bei ein- und mehrzeiligen Labels, ohne Modifier.
 
 ## Variants
 ### Size (`size`)
@@ -32,14 +32,6 @@ Root element: `.nc-radio`
 | sm | `.nc-radio--sm` |  |
 | md | — |  |
 | lg | `.nc-radio--lg` |  |
-
-### Alignment (`alignment`)
-Vertikale Ausrichtung des Controls zum Label — center (Standard, zentriert), top (obenbuendig, fuer mehrzeilige Labels)
-
-| Value | CSS Modifier | Default |
-| --- | --- | --- |
-| center | — |  |
-| top | `.nc-radio--top` |  |
 
 ### Variant (`variant`)
 Visuelle Variante — default (Standard-Radio), card (umgebender Rahmen mit Checked-Hintergrund)
@@ -69,59 +61,59 @@ Base classes: `nc-radio`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-size-sm` | — | — |
-| `nc-radio-size-md` | — | — |
-| `nc-radio-size-lg` | — | — |
-| `nc-radio-border-width` | — | — |
+| `--nc-radio-size-sm` | — | `--mod-radio-size-sm` |
+| `--nc-radio-size-md` | — | `--mod-radio-size-md` |
+| `--nc-radio-size-lg` | — | `--mod-radio-size-lg` |
+| `--nc-radio-border-width` | — | `--mod-radio-border-width` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-bg` | — | — |
-| `nc-radio-border` | — | — |
-| `nc-radio-border-hover` | — | — |
+| `--nc-radio-bg` | — | `--mod-radio-bg` |
+| `--nc-radio-border` | — | `--mod-radio-border` |
+| `--nc-radio-border-hover` | — | `--mod-radio-border-hover` |
 
 ### Checked
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-bg-checked` | — | — |
-| `nc-radio-border-checked` | — | — |
-| `nc-radio-dot-color` | — | — |
-| `nc-radio-dot-scale` | — | — |
+| `--nc-radio-bg-checked` | — | `--mod-radio-bg-checked` |
+| `--nc-radio-border-checked` | — | `--mod-radio-border-checked` |
+| `--nc-radio-dot-color` | — | `--mod-radio-dot-color` |
+| `--nc-radio-dot-scale` | — | `--mod-radio-dot-scale` |
 
 ### Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-disabled-bg` | — | — |
-| `nc-radio-disabled-border` | — | — |
-| `nc-radio-disabled-opacity` | — | — |
+| `--nc-radio-disabled-bg` | — | `--mod-radio-disabled-bg` |
+| `--nc-radio-disabled-border` | — | `--mod-radio-disabled-border` |
+| `--nc-radio-disabled-opacity` | — | `--mod-radio-disabled-opacity` |
 
 ### Error
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-border-error` | — | — |
+| `--nc-radio-border-error` | — | `--mod-radio-border-error` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-label-gap` | — | — |
-| `nc-radio-label-color` | — | — |
+| `--nc-radio-label-gap` | — | `--mod-radio-label-gap` |
+| `--nc-radio-label-color` | — | `--mod-radio-label-color` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-transition-duration` | — | — |
+| `--nc-radio-transition-duration` | — | `--mod-radio-transition-duration` |
 
 ### Card Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-card-bg` | — | — |
-| `nc-radio-card-bg-checked` | — | — |
-| `nc-radio-card-border` | — | — |
-| `nc-radio-card-border-checked` | — | — |
-| `nc-radio-card-border-hover` | — | — |
-| `nc-radio-card-radius` | — | — |
-| `nc-radio-card-padding` | — | — |
+| `--nc-radio-card-bg` | — | `--mod-radio-card-bg` |
+| `--nc-radio-card-bg-checked` | — | `--mod-radio-card-bg-checked` |
+| `--nc-radio-card-border` | — | `--mod-radio-card-border` |
+| `--nc-radio-card-border-checked` | — | `--mod-radio-card-border-checked` |
+| `--nc-radio-card-border-hover` | — | `--mod-radio-card-border-hover` |
+| `--nc-radio-card-radius` | — | `--mod-radio-card-radius` |
+| `--nc-radio-card-padding` | — | `--mod-radio-card-padding` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)
@@ -134,7 +126,7 @@ Derived from anatomy for potential `<nc-radio>` custom element:
 
 ```js
 class NcRadio extends HTMLElement {
-  static observedAttributes = ['size', 'alignment', 'variant', 'validation'];
+  static observedAttributes = ['size', 'variant', 'validation'];
   // Slots: <slot name="input">, <slot name="control">
 }
 ```

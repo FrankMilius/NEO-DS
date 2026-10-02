@@ -261,6 +261,8 @@
 }
 
 /// Groessen-System fuer Checkbox/Radio Control.
+/// Setzt auch den Abstand nach oben, der das Control mittig zur ersten
+/// Zeile des Labels stellt (Entscheidung 02.10.2026, ersetzt nc-radio--top).
 /// @param {String} $size - 'sm' | 'md' | 'lg'
 /// @param {String} $component - 'checkbox' | 'radio' (fuer Token-Prefix)
 @mixin form-check-size($size: 'md', $component: 'checkbox') {
@@ -268,13 +270,19 @@
     width: var(--nc-#{$component}-size-sm);
     height: var(--nc-#{$component}-size-sm);
     min-width: var(--nc-#{$component}-size-sm);
+    // Mittig zur ersten Textzeile (Label erbt die Schriftgroesse des Wrappers)
+    margin-block-start: max(0px, calc((var(--lh-normal) * 1em - var(--nc-#{$component}-size-sm)) / 2));
   } @else if $size == 'md' {
     width: var(--nc-#{$component}-size-md);
     height: var(--nc-#{$component}-size-md);
     min-width: var(--nc-#{$component}-size-md);
+    // Mittig zur ersten Textzeile (Label erbt die Schriftgroesse des Wrappers)
+    margin-block-start: max(0px, calc((var(--lh-normal) * 1em - var(--nc-#{$component}-size-md)) / 2));
   } @else if $size == 'lg' {
     width: var(--nc-#{$component}-size-lg);
     height: var(--nc-#{$component}-size-lg);
     min-width: var(--nc-#{$component}-size-lg);
+    // Mittig zur ersten Textzeile (Label erbt die Schriftgroesse des Wrappers)
+    margin-block-start: max(0px, calc((var(--lh-normal) * 1em - var(--nc-#{$component}-size-lg)) / 2));
   }
 }

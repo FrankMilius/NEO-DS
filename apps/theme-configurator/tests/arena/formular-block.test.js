@@ -188,11 +188,13 @@ describe('Formular-Block: Zustaende', () => {
     expect(alle('checkbox', 'card-variant')[0].querySelector('label.nc-checkbox--card .nc-checkbox__label')).not.toBeNull()
   })
 
-  it('radio: angehakt, Ausrichtung top, Gruppe im Fieldset mit eigenem name', () => {
+  it('radio: angehakt, mehrzeiliges Label, Gruppe im Fieldset mit eigenem name', () => {
     const z = alle('radio', 'all-states')
     expect(z.some((d) => d.querySelector('input.nc-radio__input').checked)).toBe(true)
     expect(z.some((d) => d.querySelector('input.nc-radio__input').disabled)).toBe(true)
-    expect(alle('radio', 'alignment-comparison').some((d) => d.querySelector('.nc-radio--top'))).toBe(true)
+    const mehrzeilig = alle('radio', 'multiline-label')
+    expect(mehrzeilig.length).toBe(3)
+    expect(mehrzeilig.some((d) => d.querySelector('.nc-radio--top'))).toBe(false)
     const gruppe = alle('radio', 'radio-group')
     const namen = gruppe.map((d) => [...new Set([...d.querySelectorAll('input')].map((i) => i.name))])
     for (const n of namen) expect(n.length).toBe(1)

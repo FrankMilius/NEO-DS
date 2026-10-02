@@ -3,11 +3,11 @@
 // __control und optionalem __label. Das Feld ist echt und bedienbar; jede
 // Zelle hat einen eigenen name, damit sich die Zellen nicht abwaehlen.
 //
-// Achsen: size/alignment/variant/validation per Modifier aus dem Recipe;
+// Achsen: size/variant/validation per Modifier aus dem Recipe;
 // validation=error zusaetzlich aria-invalid="true".
 // Zustaende: checked und disabled als native Attribute; hover/focus nur echt.
-// Specimens: alignment-comparison mit mehrzeiligem Label (top richtet den
-// Punkt an der ersten Zeile aus), radio-group als Gruppe in einem Fieldset,
+// Specimens: multiline-label mit mehrzeiligem Label (der Punkt steht in
+// jeder Groesse mittig zur ersten Zeile), radio-group als Gruppe in einem Fieldset,
 // disabled-states zeigt aus und an nebeneinander.
 import { klassenOhne, FREMDE_ZUSTANDSKLASSEN, NATIVE_ARIA } from './_helfer.js'
 

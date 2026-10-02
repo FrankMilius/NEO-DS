@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "radio",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -39,8 +39,8 @@
       ":focus-visible auf dem Native Input delegiert den Focus-Ring auf __control.",
       "Radio-Buttons in einer Gruppe teilen sich den gleichen name-Attribut. Nur einer kann gleichzeitig checked sein.",
       "Error kann per .nc-radio--error gesetzt werden.",
-      "Alignment --top: Control obenbuendig bei mehrzeiligen Labels (margin-top: 0.15em).",
-      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border."
+      "Card-Variante (--card): Wrapper bekommt Padding, Border, Radius. Checked-State zeigt aktiven BG + Border.",
+      "Ausrichtung: Das Control steht mittig zur ersten Zeile des Labels (margin-block-start aus Zeilenhoehe und Control-Groesse) — bei ein- und mehrzeiligen Labels, ohne Modifier."
     ]
   },
   "api": null,
@@ -66,24 +66,6 @@
           "cssModifier": "nc-radio--lg",
           "default": false,
           "label": "lg"
-        }
-      ]
-    },
-    "alignment": {
-      "label": "Alignment",
-      "description": "Vertikale Ausrichtung des Controls zum Label — center (Standard, zentriert), top (obenbuendig, fuer mehrzeilige Labels)",
-      "values": [
-        {
-          "value": "center",
-          "cssModifier": null,
-          "default": false,
-          "label": "center"
-        },
-        {
-          "value": "top",
-          "cssModifier": "nc-radio--top",
-          "default": false,
-          "label": "top"
         }
       ]
     },
