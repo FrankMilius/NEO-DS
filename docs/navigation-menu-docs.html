@@ -64,7 +64,7 @@
             <div class="docs__hero">
         <h1 class="docs__title">Navigation Menu</h1>
         <p class="docs__subtitle">
-        shadcn-inspiriertes NavigationMenu mit Viewport-Pattern, Chevron-Trigger, Callout-Bereich und Content-Animationen.
+        Hauptnavigation nach dem WAI-ARIA Disclosure-Muster (Recipe 3.0.0): Ausloeser mit <code class="docs__token">aria-expanded</code>/<code class="docs__token">aria-controls</code>, Panel im Item, Chevron-Trigger, Callout-Bereich und Content-Animationen.
         Kanonische Klasse: <code class="docs__token">.nc-navigation-menu</code> (BEM).
         Alle Werte kommen aus internen <code class="docs__token">--_nav-menu-*</code> Component-Tokens.
       </p>
@@ -207,16 +207,26 @@
           <!-- AUTO:STYLE:START -->
 <section class="docs__section" id="style-tokens">
   <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">List / Items</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-nav-menu-item-gap</code></td><td>0.125rem</td><td>2px — Abstand zwischen Items</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-item-margin</code></td><td>0</td><td>Margin pro Item (oben/unten)</td></tr>
+    </tbody>
+    </table>
+  </div>
   <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Trigger</h3>
   <div class="nc-data-table nc-data-table--static nc-data-table--striped">
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-trigger-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-trigger-hover-bg</code></td><td>var(--nc-nav-mol-link-hover-bg)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-size</code></td><td>var(--nc-type-label-size)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-padding-x</code></td><td>0.75rem</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-padding-y</code></td><td>0.5rem</td><td></td></tr>
@@ -228,11 +238,13 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-border</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-shadow</code></td><td>var(--fnd-elevation-floating)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-bg</code></td><td>var(--nc-popover-bg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-border</code></td><td>var(--nc-popover-border)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-radius</code></td><td>var(--nc-popover-radius)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-shadow</code></td><td>var(--nc-popover-shadow)</td><td>Kette (02.10.2026); im SCSS derzeit nicht genutzt</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-viewport-width</code></td><td>500px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-content-padding</code></td><td>1rem</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-content-width</code></td><td>500px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -254,7 +266,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-nav-menu-indicator-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-indicator-color</code></td><td>var(--nc-nav-mol-link-active-border)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-indicator-height</code></td><td>2px</td><td></td></tr>
     </tbody>
     </table>
@@ -323,7 +335,6 @@
       <tr><td><code class="docs__token">.nc-navigation-menu__featured</code></td><td>Element (optional)</td><td>featured</td></tr>
       <tr><td><code class="docs__token">.nc-navigation-menu__callout</code></td><td>Element (optional)</td><td>callout</td></tr>
       <tr><td><code class="docs__token">.nc-navigation-menu__indicator</code></td><td>Element (optional)</td><td>indicator</td></tr>
-      <tr><td><code class="docs__token">.nc-navigation-menu__viewport</code></td><td>Element (optional)</td><td>viewport</td></tr>
     </tbody>
     </table>
   </div>
@@ -358,21 +369,26 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">List / Items</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-item-gap</code></td><td>0.125rem</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-item-margin</code></td><td>0</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Trigger</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-trigger-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-trigger-hover-bg</code></td><td>var(--nc-nav-mol-link-hover-bg)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-size</code></td><td>var(--nc-type-label-size)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>var(--fnd-font-weight-medium)</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-padding-x</code></td><td>0.75rem</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-trigger-padding-y</code></td><td>0.5rem</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Viewport</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td>var(--fnd-color-surface-elevated)</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-border</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-viewport-shadow</code></td><td>var(--fnd-elevation-floating)</td><td>var(--fnd-elevation-floating)</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-bg</code></td><td>var(--nc-popover-bg)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-border</code></td><td>var(--nc-popover-border)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-radius</code></td><td>var(--nc-popover-radius)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-viewport-shadow</code></td><td>var(--nc-popover-shadow)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-viewport-width</code></td><td>500px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-content-padding</code></td><td>1rem</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-content-width</code></td><td>500px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Link</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-link-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-link-hover-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
@@ -380,7 +396,7 @@
       <tr><td><code class="docs__token">--nc-nav-menu-content-padding</code></td><td>1rem</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-content-width</code></td><td>500px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Indicator</td></tr>
-      <tr><td><code class="docs__token">--nc-nav-menu-indicator-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-menu-indicator-color</code></td><td>var(--nc-nav-mol-link-active-border)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-indicator-height</code></td><td>2px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Mega Menu</td></tr>
       <tr><td><code class="docs__token">--nc-nav-menu-mega-columns</code></td><td>2</td><td>&mdash;</td></tr>
@@ -398,14 +414,16 @@
 <section class="docs__section" id="api-dom-notes">
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
-    <li>Radix-UI Pattern: nav &gt; ul &gt; li &gt; trigger/content.</li>
-    <li>Data-Attributes: [data-state=open|closed] auf Trigger/Content, [data-active] auf Links.</li>
-    <li>Viewport: animierter Container fuer Dropdown-Inhalte, teilt Tokens mit Popover.</li>
-    <li>Indicator: 2px Unterstrich-Balken mit layout-transition (sanftes Hergleiten statt Springen).</li>
-    <li>Mega-Menu: --mega Modifier, Grid mit konfigurierbaren Spalten (default 2).</li>
+    <li>WAI-ARIA Disclosure-Navigation: nav[aria-label] &gt; ul &gt; li &gt; button[aria-expanded][aria-controls] + Panel (.nc-navigation-menu__content#id) bzw. a.nc-navigation-menu__link--top.</li>
+    <li>Keine Rollen menubar/menu/menuitem/none, kein roving tabindex — jeder Top-Level-Eintrag ist eine Tab-Station.</li>
+    <li>Zu: Panel mit [hidden], aria-expanded='false'. Offen: aria-expanded='true', Panel ohne [hidden]; das SCSS zeigt es unter der Leiste in voller Breite der Wurzel.</li>
+    <li>Aktuelle Seite: aria-current='page' am Link; enthaelt ein Panel die aktuelle Seite, zeigt sein Ausloeser den Unterstrich dauerhaft (alternativ data-current='true').</li>
+    <li>Indicator: dekorativer Unterstrich/Pfeil, data-state='visible|hidden', Lage per Custom Property --_indicator-left/--_indicator-width.</li>
+    <li>Mega-Menu: --mega Modifier am Panel, Grid mit konfigurierbaren Spalten (default 3).</li>
     <li>Featured Item: Grafischer Highlight-Slot, volle Breite im Grid (grid-column: 1 / -1).</li>
-    <li>Callout: Highlight-Bereich im Mega-Menu (linke Spalte, Gradient-BG).</li>
+    <li>Callout: Highlight-Bereich (linke Spalte, Gradient-BG) im Layout two-col.</li>
     <li>Trigger-Mode: data-trigger='hover' (Desktop) vs 'click' (Touch/komplexe Menus).</li>
+    <li>Veraltet (Recipe 2.x, website/js/site.js): Menubar-Rollen, data-state='open|closed', .nc-navigation-menu__viewport(-wrapper) mit Kopie des Panels — das SCSS liest es weiter.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -419,7 +437,7 @@
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
-<p class="docs__section-desc">nav mit aria-label. Trigger: aria-expanded, aria-haspopup. Keyboard: Arrow-Keys, Escape, Tab. Focus-Ring auf allen interaktiven Elementen.</p>
+<p class="docs__section-desc">Disclosure-Navigation (WAI-ARIA APG): nav mit aria-label; Ausloeser button[type=button] mit aria-expanded und aria-controls; Panel [hidden] wenn zu; aria-current='page' fuer die aktuelle Seite. Keyboard: Tab, Enter/Leertaste, Escape; optional Pfeiltasten. Focus-Ring auf allen interaktiven Elementen.</p>
 <div class="docs-a11y-block">
   <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
   <div class="docs-a11y-block__content">
@@ -451,6 +469,28 @@
 </div>
 <!-- AUTO:A11Y:END -->
 
+<section class="docs__section" id="a11y-tastatur">
+  <h2 class="docs__section-title">Tastatur (WAI-ARIA Disclosure-Navigation)</h2>
+  <p class="docs__section-desc">Seit Recipe 3.0.0 (Entscheidung 03.10.2026) folgt das Menue dem <a href="https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/">Disclosure-Muster der APG</a> statt einer Menubar: keine Menue-Rollen, kein roving tabindex. Die Pfeiltasten sind optional (die APG erlaubt sie) und von <code class="docs__token">neo-behaviors</code> umgesetzt. Ereignis: <code class="docs__token">navigation-menu-change</code> { value, previousValue }.</p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Taste</th><th>Verhalten</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>Tab</kbd></td><td>Durch alle Links und Ausloeser der obersten Ebene (jeder eine Tab-Station), vom offenen Ausloeser in sein Panel. Verlaesst der Fokus das offene Item oder das Menue, schliesst das Panel.</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Auf einem Ausloeser: oeffnet bzw. schliesst sein Panel (nativer Klick), der Fokus bleibt; ein anderes offenes Panel schliesst. Auf Links: folgt dem Link.</td></tr>
+      <tr><td><kbd>Space</kbd></td><td>Auf einem Ausloeser wie Enter.</td></tr>
+      <tr><td><kbd>Escape</kbd></td><td>Schliesst das offene Panel, Fokus auf dessen Ausloeser (vom Ausloeser oder aus dem Panel).</td></tr>
+      <tr><td><kbd>ArrowRight</kbd></td><td>Optional (APG): naechster Eintrag der obersten Ebene (rundum). Das Panel bleibt, wie es ist — verlaesst der Fokus das offene Item, schliesst es.</td></tr>
+      <tr><td><kbd>ArrowLeft</kbd></td><td>Optional: wie ArrowRight, rueckwaerts.</td></tr>
+      <tr><td><kbd>ArrowDown</kbd></td><td>Optional: auf einem Ausloeser oeffnet es das Panel und fokussiert den ersten Link darin; im Panel naechster Link (rundum).</td></tr>
+      <tr><td><kbd>ArrowUp</kbd></td><td>Optional: im Panel vorheriger Link (rundum).</td></tr>
+      <tr><td><kbd>Home</kbd></td><td>Optional: erster Eintrag der obersten Ebene bzw. erster Link im Panel.</td></tr>
+      <tr><td><kbd>End</kbd></td><td>Optional: letzter Eintrag der obersten Ebene bzw. letzter Link im Panel.</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
         </div>
 
       </div>
@@ -474,6 +514,7 @@
   <script src="docs-toc.js"></script>
   <script src="docs-stage-controls.js"></script>
   <script src="docs-recipe-tab.js"></script>
+  <script src="../packages/neo-behaviors/dist/neo-behaviors.js"></script>
   <script src="navigation-menu-docs.js"></script>
 
 </body>

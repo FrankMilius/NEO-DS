@@ -122,8 +122,13 @@
   ];
 
   // -----------------------------------------------------------------------
-  // 4. buildNavigationMenu (standalone copy for docs)
+  // 4. buildNavigationMenu — Markup nach Recipe 3.0.0 (WAI-ARIA
+  //    Disclosure-Navigation, Entscheidung 03.10.2026). Das Verhalten kommt
+  //    aus neo-behaviors (../packages/neo-behaviors/dist/neo-behaviors.js),
+  //    dieselbe Quelle wie Drupal und Theme-Konfigurator.
   // -----------------------------------------------------------------------
+
+  var panelNummer = 0;
 
   function createEl(tag, className, text) {
     var el = document.createElement(tag);
@@ -135,143 +140,59 @@
   function buildNavigationMenu(links) {
     var menuNav = createEl('nav', 'nc-navigation-menu');
     menuNav.setAttribute('aria-label', 'Hauptnavigation');
+    menuNav.dataset.trigger = 'hover';
     menuNav.style.display = 'flex'; // Override responsive hide for docs
 
     var list = createEl('ul', 'nc-navigation-menu__list');
-    list.setAttribute('role', 'menubar');
-
-    var viewportWrapper = createEl('div', 'nc-navigation-menu__viewport-wrapper');
-    var viewport = createEl('div', 'nc-navigation-menu__viewport');
-    viewport.dataset.state = 'closed';
-    viewportWrapper.appendChild(viewport);
 
     var indicator = createEl('div', 'nc-navigation-menu__indicator');
     indicator.dataset.state = 'hidden';
-    var indicatorArrow = createEl('div', 'nc-navigation-menu__indicator-arrow');
-    indicator.appendChild(indicatorArrow);
-
-    var activeItem = null;
-    var closeTimeout = null;
-
-    function openItem(item, content, trigger) {
-      if (closeTimeout) { clearTimeout(closeTimeout); closeTimeout = null; }
-
-      var items = Array.from(list.children);
-      var prevIndex = activeItem ? items.indexOf(activeItem) : -1;
-      var nextIndex = items.indexOf(item);
-
-      if (activeItem && activeItem !== item) {
-        var prevContent = activeItem.querySelector('.nc-navigation-menu__content');
-        var prevTrigger = activeItem.querySelector('.nc-navigation-menu__trigger');
-        if (prevContent) {
-          prevContent.dataset.state = 'closed';
-          prevContent.dataset.motion = prevIndex < nextIndex ? 'to-start' : 'to-end';
-        }
-        if (prevTrigger) prevTrigger.dataset.state = 'closed';
-      }
-
-      activeItem = item;
-      trigger.dataset.state = 'open';
-      content.dataset.state = 'open';
-      content.dataset.motion = prevIndex >= 0
-        ? (prevIndex < nextIndex ? 'from-end' : 'from-start')
-        : '';
-
-      viewport.dataset.state = 'open';
-      viewport.innerHTML = '';
-      viewport.appendChild(content.cloneNode(true));
-
-      var contentWidth = content.offsetWidth || 500;
-      viewport.style.width = contentWidth + 'px';
-
-      var triggerRect = trigger.getBoundingClientRect();
-      var navRect = menuNav.getBoundingClientRect();
-      indicator.dataset.state = 'visible';
-      indicator.style.left = (triggerRect.left - navRect.left + triggerRect.width / 2 - 5) + 'px';
-      indicator.style.width = '10px';
-    }
-
-    function closeAll() {
-      if (activeItem) {
-        var prevContent = activeItem.querySelector('.nc-navigation-menu__content');
-        var prevTrigger = activeItem.querySelector('.nc-navigation-menu__trigger');
-        if (prevContent) prevContent.dataset.state = 'closed';
-        if (prevTrigger) prevTrigger.dataset.state = 'closed';
-      }
-      activeItem = null;
-      viewport.dataset.state = 'closed';
-      indicator.dataset.state = 'hidden';
-    }
-
-    function scheduleClose() {
-      closeTimeout = setTimeout(closeAll, 150);
-    }
-
-    function cancelClose() {
-      if (closeTimeout) { clearTimeout(closeTimeout); closeTimeout = null; }
-    }
+    indicator.appendChild(createEl('div', 'nc-navigation-menu__indicator-arrow'));
 
     links.forEach(function (link) {
       var li = createEl('li', 'nc-navigation-menu__item');
-      li.setAttribute('role', 'none');
 
       if (link.children && link.children.length) {
+        var id = 'docs-navigation-menu-panel-' + (++panelNummer);
         var trigger = createEl('button', 'nc-navigation-menu__trigger');
         trigger.type = 'button';
-        trigger.setAttribute('role', 'menuitem');
-        trigger.setAttribute('aria-haspopup', 'true');
         trigger.setAttribute('aria-expanded', 'false');
-        trigger.dataset.state = 'closed';
+        trigger.setAttribute('aria-controls', id);
 
-        var labelSpan = createEl('span', '', link.label);
         var chevron = createEl('span', 'nc-navigation-menu__trigger-icon');
         chevron.innerHTML = CHEVRON_SVG;
-        trigger.append(labelSpan, chevron);
+        trigger.append(createEl('span', '', link.label), chevron);
 
         var content = createEl('div', 'nc-navigation-menu__content nc-navigation-menu__content--two-col');
-        content.dataset.state = 'closed';
-        content.setAttribute('role', 'menu');
+        content.id = id;
+        content.hidden = true;
 
         var contentGrid = createEl('div', 'nc-navigation-menu__content-grid');
 
+        var calloutsArea = createEl('div', 'nc-navigation-menu__callouts-area');
         var callout = createEl('a', 'nc-navigation-menu__callout');
         callout.href = link.href;
-        var calloutTitle = createEl('div', 'nc-navigation-menu__callout-title', link.label);
-        var calloutDesc = createEl('p', 'nc-navigation-menu__callout-desc', link.description || '');
-        callout.append(calloutTitle, calloutDesc);
+        callout.append(
+          createEl('div', 'nc-navigation-menu__callout-title', link.label),
+          createEl('p', 'nc-navigation-menu__callout-desc', link.description || '')
+        );
+        calloutsArea.appendChild(callout);
 
-        var linksGrid = createEl('div', 'nc-navigation-menu__content-grid');
+        var linksArea = createEl('div', 'nc-navigation-menu__links-area');
         link.children.forEach(function (child) {
           var childLink = createEl('a', 'nc-navigation-menu__link');
           childLink.href = child.href;
-          childLink.setAttribute('role', 'menuitem');
-          var title = createEl('div', 'nc-navigation-menu__link-title', child.label);
-          childLink.appendChild(title);
-          if (child.description) {
-            var desc = createEl('p', 'nc-navigation-menu__link-desc', child.description);
-            childLink.appendChild(desc);
-          }
-          linksGrid.appendChild(childLink);
+          childLink.appendChild(createEl('div', 'nc-navigation-menu__link-title', child.label));
+          if (child.description) childLink.appendChild(createEl('p', 'nc-navigation-menu__link-desc', child.description));
+          linksArea.appendChild(childLink);
         });
 
-        contentGrid.append(callout, linksGrid);
+        contentGrid.append(calloutsArea, linksArea);
         content.appendChild(contentGrid);
-
-        li.addEventListener('mouseenter', function () { openItem(li, content, trigger); });
-        li.addEventListener('mouseleave', scheduleClose);
-        trigger.addEventListener('click', function () {
-          if (trigger.dataset.state === 'open') { closeAll(); }
-          else { openItem(li, content, trigger); }
-        });
-        trigger.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') { closeAll(); trigger.focus(); }
-        });
-
         li.append(trigger, content);
       } else {
         var a = createEl('a', 'nc-navigation-menu__link--top');
         a.href = link.href;
-        a.setAttribute('role', 'menuitem');
         a.textContent = link.label;
         li.appendChild(a);
       }
@@ -279,15 +200,13 @@
       list.appendChild(li);
     });
 
-    viewportWrapper.addEventListener('mouseenter', cancelClose);
-    viewportWrapper.addEventListener('mouseleave', scheduleClose);
-
-    document.addEventListener('click', function (event) {
-      if (!menuNav.contains(event.target)) closeAll();
-    });
-
-    menuNav.append(list, indicator, viewportWrapper);
+    menuNav.append(list, indicator);
     return menuNav;
+  }
+
+  /** Verhalten aus neo-behaviors binden (falls geladen). */
+  function binde(bereich) {
+    if (window.NeoBehaviors) window.NeoBehaviors.anbinden(bereich, ['navigation-menu']);
   }
 
   // -----------------------------------------------------------------------
@@ -311,29 +230,32 @@
     preview.classList.add(theme);
 
     // Clear & rebuild
+    if (window.NeoBehaviors) window.NeoBehaviors.abbinden(preview);
     preview.innerHTML = '';
     var links = variant === 'simple' ? simpleLinks : defaultLinks;
     var navMenu = buildNavigationMenu(links);
     preview.appendChild(navMenu);
+    binde(preview);
 
     // Update code output
     if (codeOutput) {
-      codeOutput.textContent = '<nav class="nc-navigation-menu" aria-label="Hauptnavigation">\n'
-        + '  <ul class="nc-navigation-menu__list" role="menubar">\n'
+      var nr = 0;
+      codeOutput.textContent = '<nav class="nc-navigation-menu" aria-label="Hauptnavigation" data-trigger="hover">\n'
+        + '  <ul class="nc-navigation-menu__list">\n'
         + links.map(function (link) {
             if (link.children && link.children.length) {
-              return '    <li class="nc-navigation-menu__item" role="none">\n'
-                + '      <button class="nc-navigation-menu__trigger" data-state="closed">...</button>\n'
-                + '      <div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" data-state="closed">...</div>\n'
+              nr += 1;
+              return '    <li class="nc-navigation-menu__item">\n'
+                + '      <button type="button" class="nc-navigation-menu__trigger" aria-expanded="false" aria-controls="nav-panel-' + nr + '">...</button>\n'
+                + '      <div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" id="nav-panel-' + nr + '" hidden>...</div>\n'
                 + '    </li>';
             }
-            return '    <li class="nc-navigation-menu__item" role="none">\n'
+            return '    <li class="nc-navigation-menu__item">\n'
               + '      <a class="nc-navigation-menu__link--top" href="' + link.href + '">' + link.label + '</a>\n'
               + '    </li>';
           }).join('\n')
         + '\n  </ul>\n'
         + '  <div class="nc-navigation-menu__indicator" data-state="hidden">...</div>\n'
-        + '  <div class="nc-navigation-menu__viewport-wrapper">...</div>\n'
         + '</nav>';
     }
   }
@@ -351,11 +273,13 @@
   var showcaseDefault = document.getElementById('showcase-default');
   if (showcaseDefault) {
     showcaseDefault.appendChild(buildNavigationMenu(defaultLinks));
+    binde(showcaseDefault);
   }
 
   var showcaseSimple = document.getElementById('showcase-simple');
   if (showcaseSimple) {
     showcaseSimple.appendChild(buildNavigationMenu(simpleLinks));
+    binde(showcaseSimple);
   }
 
 })();

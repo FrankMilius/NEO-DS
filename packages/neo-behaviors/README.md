@@ -22,7 +22,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf die markierte sichere Aktion (`[autofocus]`, sonst Abbrechen `[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück; mit `data-close="manuell"` am `<dialog>` schließt Bestätigen nicht, sondern meldet nur (`open: true`) — das Programm schließt mit `dialog.close()` | `alert-dialog-open`, `alert-dialog-close` { reason, action, open } |
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf `.nc-treeview__node` | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
-| `navigation-menu` | Menü-Leiste mit Panels (WAI-ARIA Menubar): roving tabindex, Pfeil rechts/links/Pos1/Ende in der Leiste, Pfeil runter/Enter/Leertaste öffnen (erster Eintrag), Pfeil hoch (letzter); im Panel Pfeil runter/hoch, rechts/links zum Nachbarn, Escape/Tab/Klick außen schließen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
+| `navigation-menu` | WAI-ARIA Disclosure-Navigation (Recipe 3.0.0): Auslöser mit `aria-expanded`/`aria-controls`, Panel `[hidden]` im Item; Tab durch alle Einträge (kein roving tabindex), Enter/Leertaste/Klick schalten, Escape schließt (Fokus auf den Auslöser), optional Pfeil rechts/links/Pos1/Ende oben, Pfeil runter ins Panel, Pfeil runter/hoch/Pos1/Ende im Panel; Fokus verlässt das offene Item oder Klick außen schließen; höchstens ein Panel offen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
 | `toolbar` | eine Tab-Station (roving tabindex über alle Knöpfe, Links und Felder, auch in eingebetteten Gruppen); Pfeil rechts/links (rundum), Pos1, Ende; in Eingabefeldern bleiben Pfeile/Pos1/Ende im Feld, Tab/Shift+Tab gehen vom Feld zum Nachbarn (am Rand raus); `nc-toolbar--sticky` bekommt `is-scrolled`, solange sie angeheftet ist (IntersectionObserver) | `toolbar-focus` { value, previousValue } |
 | `sidebar` | Untermenü-Knopf (`aria-controls`) klappt per `[hidden]`; `__toggle` schaltet `--collapsed` (+ aria-label der Einträge); Mobil-Lage: Knopf mit `aria-controls` öffnet `--open` + Backdrop, Escape/Backdrop/Knopf schließen, Fokus zurück | `sidebar-submenu-toggle` { value, open }, `sidebar-collapse` { collapsed }, `sidebar-toggle` { open, reason } |
 
@@ -110,13 +110,20 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   hat sie im Tab-Fluss — Tab vom Eintrag in seine Aktionen, Escape zurück.
   Zugeklappte Kinder blendet das SCSS aus (auch für Tastatur/Screenreader).
   Ziehen & Ablegen ist nicht Teil des Behaviors.
-- **Navigationsmenü** — Menü-Leiste mit Panels nach dem Markup von
-  `website/js/site.js`: Der Inhalt im Item ist nur Vorlage, offen zeigt ihn
-  eine Kopie im Viewport (`data-state="open"` an Auslöser, Inhalt, Hülle und
-  Viewport; `data-motion` beim Wechsel; Indikator `data-state="visible"` mit
-  `left`/`width` wie in `site.js`). Die Vorlagen bekommen `inert`, sonst wären
-  sie per Tab erreichbar und doppelt im Barrierefreiheits-Baum. Das DS blendet
-  das Menü unter 1200 px aus — die Mobil-Navigation ist ein anderes Bauteil.
+- **Navigationsmenü** — WAI-ARIA Disclosure-Navigation (Entscheidung
+  03.10.2026, Recipe 3.0.0; vorher Menubar): keine Menü-Rollen, kein roving
+  tabindex. Das Panel liegt im Item direkt nach seinem Auslöser, offen =
+  `aria-expanded="true"` + Panel ohne `[hidden]` — genau das liest das SCSS
+  (kein Viewport, keine Kopie, kein `inert` mehr). Fehlen `id`/`aria-controls`,
+  vergibt das Behavior sie. Die Pfeiltasten sind optional (APG erlaubt sie);
+  Enter/Leertaste bleiben der native Klick des Knopfs. Fokus aus dem offenen
+  Item (Tab weiter, anderer Eintrag) schließt; ein Mausdruck auf einen
+  anderen Auslöser wechselt direkt (ein Ereignis). `data-motion` beim
+  Wechsel, Indikator `data-state="visible"` mit `--_indicator-left/-width`.
+  Das DS blendet das Menü unter 1200 px aus — die Mobil-Navigation ist ein
+  anderes Bauteil. Das alte Markup aus `website/js/site.js` (Menubar mit
+  Viewport-Kopie) ist nicht mehr Vorlage des Behaviors; das SCSS zeigt es
+  unverändert weiter (`site.js` lädt keine neo-behaviors).
 - **Toolbar** — eine Tab-Station: genau ein Bedienelement trägt
   `tabindex="0"`. Die Pfeiltasten laufen flach über alle Bedienelemente, auch
   über die Knöpfe eingebetteter Toggle-Groups und Segmented Controls (die

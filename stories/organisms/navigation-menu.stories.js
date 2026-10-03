@@ -1,6 +1,6 @@
 // ============================================================
 // NavigationMenu — Auto-generated from navigation-menu-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 3.0.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**NavigationMenu** v2.0.0 (stable)
+        component: `**NavigationMenu** v3.0.0 (stable)
 
-Radix-UI Pattern: nav > ul > li > trigger/content.
+WAI-ARIA Disclosure-Navigation: nav[aria-label] > ul > li > button[aria-expanded][aria-controls] + Panel (.nc-navigation-menu__content#id) bzw. a.nc-navigation-menu__link--top.
 
 
 `,
@@ -25,10 +25,10 @@ Radix-UI Pattern: nav > ul > li > trigger/content.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<nav class="nc-navigation-menu" aria-label="Hauptnavigation" style="display: flex;">
-<ul class="nc-navigation-menu__list" role="menubar">
-<li class="nc-navigation-menu__item" role="none">
-<button class="nc-navigation-menu__trigger" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false" data-state="closed">
+  render: () => `<nav class="nc-navigation-menu" aria-label="Hauptnavigation" data-trigger="hover" style="display: flex;">
+<ul class="nc-navigation-menu__list">
+<li class="nc-navigation-menu__item">
+<button class="nc-navigation-menu__trigger" type="button" aria-expanded="false" aria-controls="nav-panel-1">
 <span>Produkte</span>
 <span class="nc-navigation-menu__trigger-icon">
 <svg viewBox="0 0 12 12" aria-hidden="true">
@@ -37,22 +37,24 @@ export const Default = {
 </svg>
 </span>
 </button>
-<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" data-state="closed" role="menu">
+<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" id="nav-panel-1" hidden>
 <div class="nc-navigation-menu__content-grid">
+<div class="nc-navigation-menu__callouts-area">
 <a class="nc-navigation-menu__callout" href="#">
 <div class="nc-navigation-menu__callout-title">Produkte</div>
 <p class="nc-navigation-menu__callout-desc">Plattform-Bausteine für Intranet, App und Magazin.</p>
 </a>
-<div class="nc-navigation-menu__content-grid">
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+</div>
+<div class="nc-navigation-menu__links-area">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Social Intranet</div>
 <p class="nc-navigation-menu__link-desc">News, Communities und Knowledge Hubs.</p>
 </a>
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Mitarbeiter App</div>
 <p class="nc-navigation-menu__link-desc">Mobile Kommunikation für alle Teams.</p>
 </a>
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Magazin</div>
 <p class="nc-navigation-menu__link-desc">Editorial Content und Storytelling.</p>
 </a>
@@ -60,8 +62,8 @@ export const Default = {
 </div>
 </div>
 </li>
-<li class="nc-navigation-menu__item" role="none">
-<button class="nc-navigation-menu__trigger" type="button" role="menuitem" aria-haspopup="true" aria-expanded="false" data-state="closed">
+<li class="nc-navigation-menu__item">
+<button class="nc-navigation-menu__trigger" type="button" aria-expanded="false" aria-controls="nav-panel-2">
 <span>Services</span>
 <span class="nc-navigation-menu__trigger-icon">
 <svg viewBox="0 0 12 12" aria-hidden="true">
@@ -70,22 +72,24 @@ export const Default = {
 </svg>
 </span>
 </button>
-<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" data-state="closed" role="menu">
+<div class="nc-navigation-menu__content nc-navigation-menu__content--two-col" id="nav-panel-2" hidden>
 <div class="nc-navigation-menu__content-grid">
+<div class="nc-navigation-menu__callouts-area">
 <a class="nc-navigation-menu__callout" href="#">
 <div class="nc-navigation-menu__callout-title">Services</div>
 <p class="nc-navigation-menu__callout-desc">Einführung, Support und langfristiger Erfolg.</p>
 </a>
-<div class="nc-navigation-menu__content-grid">
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+</div>
+<div class="nc-navigation-menu__links-area">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Einführungsberatung</div>
 <p class="nc-navigation-menu__link-desc">Strategie, Rollout und Enablement.</p>
 </a>
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Support</div>
 <p class="nc-navigation-menu__link-desc">Schnelle Hilfe mit klaren SLAs.</p>
 </a>
-<a class="nc-navigation-menu__link" href="#" role="menuitem">
+<a class="nc-navigation-menu__link" href="#">
 <div class="nc-navigation-menu__link-title">Customer Success</div>
 <p class="nc-navigation-menu__link-desc">Adoption, KPIs und Wachstum.</p>
 </a>
@@ -93,22 +97,18 @@ export const Default = {
 </div>
 </div>
 </li>
-<li class="nc-navigation-menu__item" role="none">
-<a class="nc-navigation-menu__link--top" href="#" role="menuitem">Kunden</a>
+<li class="nc-navigation-menu__item">
+<a class="nc-navigation-menu__link--top" href="#">Kunden</a>
 </li>
-<li class="nc-navigation-menu__item" role="none">
-<a class="nc-navigation-menu__link--top" href="#" role="menuitem">News</a>
+<li class="nc-navigation-menu__item">
+<a class="nc-navigation-menu__link--top" href="#">News</a>
 </li>
-<li class="nc-navigation-menu__item" role="none">
-<a class="nc-navigation-menu__link--top" href="#" role="menuitem">Über uns</a>
+<li class="nc-navigation-menu__item">
+<a class="nc-navigation-menu__link--top" href="#">Über uns</a>
 </li>
 </ul>
 <div class="nc-navigation-menu__indicator" data-state="hidden">
 <div class="nc-navigation-menu__indicator-arrow">
-</div>
-</div>
-<div class="nc-navigation-menu__viewport-wrapper">
-<div class="nc-navigation-menu__viewport" data-state="closed">
 </div>
 </div>
 </nav>`,
