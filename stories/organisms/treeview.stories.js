@@ -1,6 +1,6 @@
 // ============================================================
 // Treeview — Auto-generated from treeview-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Treeview** v2.0.0 (stable)
+        component: `**Treeview** v2.1.0 (stable)
 
 Hierarchische Baumstruktur mit role=tree und role=treeitem.
 

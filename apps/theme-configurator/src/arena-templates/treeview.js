@@ -4,8 +4,11 @@
 //     ul.nc-treeview__list  role="tree"
 //       li.nc-treeview__item.nc-treeview__item--branch|--leaf  role="treeitem"
 //         aria-level aria-expanded (Zweige) aria-selected
+//         aria-labelledby (→ Label, sonst zaehlte der ganze Ast zum Namen)
+//         tabindex (0 am ersten, sonst -1 — der Fokus liegt auf dem
+//         treeitem, Entscheidung 03.10.2026)
 //         style="--_level: N"  (Einrueckung — DS-Instanzwert laut SCSS)
-//         div.nc-treeview__node  tabindex (0 am ersten, sonst -1)
+//         div.nc-treeview__node  (Zeile, nicht fokussierbar)
 //           button.nc-treeview__drag-handle (draggable)
 //           button|span.nc-treeview__toggle (Blatt: span, unsichtbar)
 //           input.nc-treeview__checkbox (multiple)
@@ -24,12 +27,14 @@
 // multiple: aria-checked am Eintrag (true/false/mixed), die Checkbox zeigt
 // dasselbe (checked bzw. indeterminate per einrichten()).
 // Slots per render.slotConfig des Specimens: actions, badge, icon.
+// Aktionen: tabindex="0" nur in der Zeile mit dem Tab-Stopp (Tab vom
+// Eintrag in seine Aktionen), sonst -1.
 // drag-drop: --dragging am gezogenen Eintrag, Drop-Anzeigen
 // --drop-before/-inside/-after.
 // Verhalten: neo-behaviors/treeview.js nach keyboard/events im Recipe
 // (Pfeiltasten, Pos1/Ende, Auf-/Zuklappen, Auswahl). Das Markup ist in
-// „Zustände" und „Ausprobieren" gleich — der roving tabindex (genau eine
-// Zeile mit tabindex="0") steht schon in der Vorlage, wie im DS-Markup.
+// „Zustände" und „Ausprobieren" gleich — der roving tabindex (genau ein
+// treeitem mit tabindex="0") steht schon in der Vorlage.
 import { esc } from './_helfer.js'
 import { wurzelKlassen } from './_overlay.js'
 
@@ -93,13 +98,16 @@ function knoten (m, opt, [text, offen, kinder, merk], ebene, zaehler) {
   if (opt.ziehen && merk.ziehen) klassen.push('nc-treeview__item--dragging')
   if (opt.ziehen && merk.drop) klassen.push(`nc-treeview__item--drop-${merk.drop}`)
 
+  const nr = zaehler.n++
+  const erster = nr === 0
+  const labelId = `${m.uid}-tv-${nr}`
   let attrs = ` role="treeitem" aria-level="${ebene + 1}"`
   if (zweig) attrs += ` aria-expanded="${auf}"`
   if (opt.multiple) attrs += ` aria-checked="${merk.check ?? false}"`
   else attrs += ` aria-selected="${auswahl}"`
   if (gesperrt) attrs += ' aria-disabled="true"'
+  attrs += ` aria-labelledby="${labelId}" tabindex="${erster ? 0 : -1}"`
 
-  const erster = zaehler.n++ === 0
   const markierung = ziel && m.attribute['data-zustand'] ? ` data-zustand="${m.attribute['data-zustand']}"` : ''
   const teile = []
   if (opt.ziehen) teile.push(`<button type="button" class="nc-treeview__drag-handle" tabindex="-1" aria-label="${esc(text)} verschieben">${GRIFF}</button>`)
@@ -111,16 +119,16 @@ function knoten (m, opt, [text, offen, kinder, merk], ebene, zaehler) {
     teile.push(`<input class="nc-treeview__checkbox" type="checkbox" tabindex="-1" aria-hidden="true"${wert === true ? ' checked' : ''}${wert === 'mixed' ? ' data-unbestimmt' : ''}>`)
   }
   if (opt.icon) teile.push(`<span class="nc-treeview__icon" aria-hidden="true">${zweig ? ORDNER : DATEI}</span>`)
-  teile.push(`<span class="nc-treeview__label">${esc(text)}</span>`)
+  teile.push(`<span class="nc-treeview__label" id="${labelId}">${esc(text)}</span>`)
   if (opt.badge && merk.badge) teile.push(`<span class="nc-treeview__badge">${merk.badge}</span>`)
   if (opt.actions) {
-    teile.push(`<div class="nc-treeview__actions"><button type="button" class="nc-treeview__action" tabindex="-1" aria-label="Weitere Aktionen für ${esc(text)}">${PUNKTE}</button><button type="button" class="nc-treeview__action" tabindex="-1" aria-label="${esc(text)} löschen">${PAPIERKORB}</button></div>`)
+    teile.push(`<div class="nc-treeview__actions"><button type="button" class="nc-treeview__action" tabindex="${erster ? 0 : -1}" aria-label="Weitere Aktionen für ${esc(text)}">${PUNKTE}</button><button type="button" class="nc-treeview__action" tabindex="${erster ? 0 : -1}" aria-label="${esc(text)} löschen">${PAPIERKORB}</button></div>`)
   }
   const unter = zweig
     ? `\n<div class="nc-treeview__children">\n<ul class="nc-treeview__list" role="group">\n${kinder.map((k) => knoten(m, opt, k, ebene + 1, zaehler)).join('\n')}\n</ul>\n</div>`
     : ''
   return `<li class="${klassen.join(' ')}"${attrs} style="--_level: ${ebene};">
-<div class="nc-treeview__node" tabindex="${erster ? 0 : -1}"${markierung}>${teile.join('')}</div>${unter}
+<div class="nc-treeview__node"${markierung}>${teile.join('')}</div>${unter}
 </li>`
 }
 

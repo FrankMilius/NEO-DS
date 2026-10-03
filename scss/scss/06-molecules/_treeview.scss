@@ -56,7 +56,7 @@
 //   .nc-treeview__item--drop-inside     Drop-Indikator gesamt
 //   .nc-treeview__item--drop-after      Drop-Indikator unten
 //   .nc-treeview__item--dragging        Aktuell gezogenes Item
-//   .nc-treeview__node                  Interaktive Zeile (div)
+//   .nc-treeview__node                  Zeile (div, nicht fokussierbar)
 //   .nc-treeview__toggle                Chevron-Button (Expand/Collapse)
 //   .nc-treeview__checkbox              Checkbox (Multi-Select)
 //   .nc-treeview__icon                  Icon-Slot (optional, Media)
@@ -70,13 +70,18 @@
 //
 // ACCESSIBILITY:
 //   role="tree" auf Root-<ul>
-//   role="treeitem" auf jedem <li>
+//   role="treeitem" auf jedem <li> — traegt den Fokus (roving tabindex,
+//     Entscheidung 03.10.2026); der Fokusring erscheint auf der Zeile
+//   aria-labelledby am treeitem → __label (Name ohne den Ast)
 //   role="group" auf verschachtelten <ul>
 //   aria-expanded="true/false" auf Branch-Items
 //   aria-selected="true/false" fuer Selection
 //   aria-disabled="true" fuer deaktivierte Items
 //   aria-checked="true/false/mixed" fuer Checkbox-Mode
-//   Keyboard: ArrowUp/Down, ArrowLeft/Right, Home/End, Enter/Space
+//   Keyboard: ArrowUp/Down, ArrowLeft/Right, Home/End, Enter/Space,
+//     Tab in die Aktionen der fokussierten Zeile, Escape zurueck
+//   Zugeklappte Kinder: visibility: hidden bzw. display: none — auch fuer
+//     Tastatur und Screenreader weg, ohne JS
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -114,11 +119,19 @@
 // Children: .nc-treeview__children (animierte Wrapper fuer nested groups)
 // ---------------------------------------------------------------------------
 
+// Zugeklappt zusaetzlich visibility: hidden — so sind die Kinder auch fuer
+// Tastatur und Screenreader weg, auch ohne JS (Entscheidung 03.10.2026,
+// nav-a11y). visibility laeuft in der Transition mit: beim Zuklappen bleibt
+// der Inhalt bis zum Ende sichtbar, beim Aufklappen ist er sofort da — die
+// Slide-Animation bleibt erhalten. Offen: `inherit` statt `visible`, damit
+// ein offener Ast in einem zugeklappten Eltern-Ast nicht wieder sichtbar wird.
 .nc-treeview__children {
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows var(--mod-treeview-expand-duration, var(--nc-treeview-expand-duration)) ease;
+  visibility: hidden;
+  transition: grid-template-rows var(--mod-treeview-expand-duration, var(--nc-treeview-expand-duration)) ease,
+              visibility var(--mod-treeview-expand-duration, var(--nc-treeview-expand-duration));
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -137,6 +150,7 @@
   // Expanded: children sichtbar
   [aria-expanded='true'] > & {
     grid-template-rows: 1fr;
+    visibility: inherit;
 
     > .nc-treeview__list {
       opacity: 1;
@@ -158,6 +172,16 @@
   position: relative;
   // ohne Listenabstand der li-Elementregel (03-elements/_typography.scss)
   margin: 0;
+
+  // Der Fokus liegt auf dem treeitem; der Ring gehoert an die Zeile, nicht
+  // um den ganzen Ast
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible > .nc-treeview__node {
+    @include focus-ring;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -372,9 +396,10 @@
     transition: none;
   }
 
-  // Sichtbar bei Hover/Focus auf dem Node
+  // Sichtbar bei Hover/Focus auf dem Node bzw. dem Eintrag (treeitem)
   .nc-treeview__node:hover &,
-  .nc-treeview__node:focus-within & {
+  .nc-treeview__node:focus-within &,
+  .nc-treeview__item:focus > .nc-treeview__node & {
     opacity: 1;
   }
 }

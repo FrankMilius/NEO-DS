@@ -434,9 +434,20 @@ describe('Navigation-Block: Zustände und Inhalte', () => {
         expect(zweig || li.classList.contains('nc-treeview__item--leaf')).toBe(true)
         expect(li.hasAttribute('aria-expanded')).toBe(zweig)
         if (zweig) expect(li.querySelector(':scope > .nc-treeview__children > ul.nc-treeview__list[role="group"]')).not.toBeNull()
-        expect(li.querySelector(':scope > .nc-treeview__node > .nc-treeview__label')).not.toBeNull()
+        const label = li.querySelector(':scope > .nc-treeview__node > .nc-treeview__label')
+        expect(label).not.toBeNull()
+        // Name nur aus dem Label, nicht aus dem ganzen Ast
+        expect(label.id).toBeTruthy()
+        expect(li.getAttribute('aria-labelledby')).toBe(label.id)
       }
-      expect(baum.querySelectorAll('.nc-treeview__node[tabindex="0"]').length).toBe(1)
+      // roving tabindex am treeitem, nicht an der Zeile (Entscheidung 03.10.2026)
+      expect(baum.querySelectorAll('li[role="treeitem"][tabindex="0"]').length).toBe(1)
+      expect(baum.querySelectorAll('li[role="treeitem"]:not([tabindex])').length).toBe(0)
+      expect(baum.querySelectorAll('.nc-treeview__node[tabindex]').length).toBe(0)
+      // Aktionen nur in der Zeile mit dem Tab-Stopp im Tab-Fluss
+      for (const a of baum.querySelectorAll('.nc-treeview__action')) {
+        expect(a.getAttribute('tabindex')).toBe(a.closest('li').getAttribute('tabindex') === '0' ? '0' : '-1')
+      }
     }
     expect(alle('treeview', 'variant-comparison').map((d) => d.querySelector('nav').className)).toEqual(['nc-treeview', 'nc-treeview nc-treeview--bordered', 'nc-treeview nc-treeview--compact', 'nc-treeview nc-treeview--flush'])
     expect(alle('treeview', 'guide-lines').map((d) => d.querySelector('nav').className)).toEqual(['nc-treeview', 'nc-treeview nc-treeview--lines-solid', 'nc-treeview nc-treeview--lines-dashed'])
@@ -600,7 +611,7 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     const w = await ausprobieren('treeview')
     const z = zelle(w, 'states')
     const vorlagen = z.findAll('.nc-treeview__item').find((li) => li.find(':scope > .nc-treeview__node .nc-treeview__label').text() === 'Vorlagen')
-    await vorlagen.find('.nc-treeview__node').trigger('keydown', { key: 'ArrowRight' })
+    await vorlagen.trigger('keydown', { key: 'ArrowRight' }) // Fokus liegt auf dem treeitem
     expect(vorlagen.attributes('aria-expanded')).toBe('true')
     await vorlagen.find('.nc-treeview__node').trigger('click')
     expect(vorlagen.attributes('aria-selected')).toBe('true')

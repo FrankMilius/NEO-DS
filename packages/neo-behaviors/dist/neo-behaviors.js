@@ -1247,10 +1247,14 @@
 
   // packages/neo-behaviors/treeview.js
   var EINTRAG3 = ".nc-treeview__item";
+  var AKTION = ".nc-treeview__action";
+  var zaehler = 0;
+  var NIE_IM_TAB = ".nc-treeview__toggle, .nc-treeview__checkbox, .nc-treeview__link, .nc-treeview__drag-handle";
   var treeview = {
     id: "treeview",
     selektor: ".nc-treeview",
     binde(wurzel, signal) {
+      var _a, _b, _c;
       const baum = (
         /** @type {HTMLElement|null} */
         wurzel.querySelector('[role="tree"]') || wurzel.querySelector(".nc-treeview__list")
@@ -1266,10 +1270,10 @@
         li.querySelector(":scope > .nc-treeview__node")
       );
       const eltern = (li) => {
-        var _a;
+        var _a2;
         const p = (
           /** @type {HTMLElement|null} */
-          ((_a = li.parentElement) == null ? void 0 : _a.closest(EINTRAG3)) || null
+          ((_a2 = li.parentElement) == null ? void 0 : _a2.closest(EINTRAG3)) || null
         );
         return p && baum.contains(p) ? p : null;
       };
@@ -1283,24 +1287,55 @@
       };
       const bedienbar = () => alle().filter((li) => sichtbar(li) && !gesperrtE(li) && zeile(li));
       const wertVon2 = (li) => {
-        var _a, _b;
-        return li.dataset.value || (((_b = (_a = zeile(li)) == null ? void 0 : _a.querySelector(".nc-treeview__label, .nc-treeview__link")) == null ? void 0 : _b.textContent) || "").trim();
+        var _a2, _b2;
+        return li.dataset.value || (((_b2 = (_a2 = zeile(li)) == null ? void 0 : _a2.querySelector(".nc-treeview__label, .nc-treeview__link")) == null ? void 0 : _b2.textContent) || "").trim();
       };
       const gewaehlt = (li) => li.getAttribute(mehrfach ? "aria-checked" : "aria-selected") === "true";
+      const aktionen = (li) => {
+        var _a2;
+        return (
+          /** @type {HTMLElement[]} */
+          [...((_a2 = zeile(li)) == null ? void 0 : _a2.querySelectorAll(AKTION)) || []]
+        );
+      };
+      const kinderBox = (li) => (
+        /** @type {HTMLElement|null} */
+        li.querySelector(":scope > .nc-treeview__children, :scope > .nc-treeview__list")
+      );
+      const eintragVon = (el) => {
+        var _a2;
+        return (
+          /** @type {HTMLElement|null} */
+          ((_a2 = el == null ? void 0 : el.closest) == null ? void 0 : _a2.call(el, EINTRAG3)) || null
+        );
+      };
       const tabStopp = (li, fokus = false) => {
-        var _a;
         for (const x of alle()) {
-          const z = zeile(x);
-          if (z) z.tabIndex = x === li ? 0 : -1;
+          x.tabIndex = x === li ? 0 : -1;
+          for (const a of aktionen(x)) a.tabIndex = x === li ? 0 : -1;
         }
-        if (fokus) (_a = zeile(li)) == null ? void 0 : _a.focus();
+        if (fokus) li.focus();
       };
       const moegliche = bedienbar();
       const start = moegliche.find((li) => {
-        var _a;
-        return ((_a = zeile(li)) == null ? void 0 : _a.getAttribute("tabindex")) === "0";
+        var _a2;
+        return li.getAttribute("tabindex") === "0" || ((_a2 = zeile(li)) == null ? void 0 : _a2.getAttribute("tabindex")) === "0";
       }) || moegliche.find(gewaehlt) || moegliche[0];
+      for (const li of alle()) {
+        (_a = zeile(li)) == null ? void 0 : _a.removeAttribute("tabindex");
+        for (const el of ((_b = zeile(li)) == null ? void 0 : _b.querySelectorAll(NIE_IM_TAB)) || []) el.tabIndex = -1;
+      }
       if (start) tabStopp(start);
+      for (const li of alle()) {
+        if (li.hasAttribute("aria-label") || li.hasAttribute("aria-labelledby")) continue;
+        const name = (
+          /** @type {HTMLElement|null} */
+          ((_c = zeile(li)) == null ? void 0 : _c.querySelector(".nc-treeview__label, .nc-treeview__link")) || null
+        );
+        if (!name) continue;
+        if (!name.id) name.id = `nc-treeview-name-${++zaehler}`;
+        li.setAttribute("aria-labelledby", name.id);
+      }
       if (!mehrfach) {
         for (const li of alle()) if (!li.hasAttribute("aria-selected")) li.setAttribute("aria-selected", "false");
       }
@@ -1308,23 +1343,21 @@
         if (!zweig(li) || gesperrtE(li) || offen(li) === an) return;
         li.setAttribute("aria-expanded", String(an));
         if (!an) {
+          const box = kinderBox(li);
           const aktiv = wurzel.ownerDocument.activeElement;
-          const stopp = alle().find((x) => {
-            var _a;
-            return ((_a = zeile(x)) == null ? void 0 : _a.tabIndex) === 0;
-          });
-          if (aktiv && li.contains(aktiv) && aktiv !== zeile(li)) tabStopp(li, true);
-          else if (stopp && stopp !== li && li.contains(stopp)) tabStopp(li);
+          const stopp = alle().find((x) => x.tabIndex === 0);
+          if (box && aktiv && box.contains(aktiv)) tabStopp(li, true);
+          else if (box && stopp && box.contains(stopp)) tabStopp(li);
         }
         sende(wurzel, "treeview-toggle", { value: wertVon2(li), expanded: an });
       };
       const melde = (li) => sende(wurzel, "treeview-select", { value: wertVon2(li), selected: gewaehlt(li), values: alle().filter(gewaehlt).map(wertVon2) });
       const setzeHaken = (li, wert) => {
-        var _a;
+        var _a2;
         li.setAttribute("aria-checked", wert);
         const box = (
           /** @type {HTMLInputElement|null} */
-          ((_a = zeile(li)) == null ? void 0 : _a.querySelector(".nc-treeview__checkbox")) || null
+          ((_a2 = zeile(li)) == null ? void 0 : _a2.querySelector(".nc-treeview__checkbox")) || null
         );
         if (box) {
           box.checked = wert === "true";
@@ -1357,16 +1390,23 @@
         melde(li);
       };
       baum.addEventListener("keydown", (e) => {
-        var _a;
-        const z = (
+        var _a2, _b2;
+        const ziel0 = (
           /** @type {HTMLElement} */
           e.target
         );
-        if (!((_a = z.classList) == null ? void 0 : _a.contains("nc-treeview__node"))) return;
-        const li = (
-          /** @type {HTMLElement} */
-          z.closest(EINTRAG3)
-        );
+        if ((_a2 = ziel0.closest) == null ? void 0 : _a2.call(ziel0, AKTION)) {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            const li2 = eintragVon(ziel0);
+            if (li2) tabStopp(li2, true);
+          }
+          return;
+        }
+        if (!((_b2 = ziel0.matches) == null ? void 0 : _b2.call(ziel0, EINTRAG3)) || !baum.contains(ziel0)) return;
+        const li = ziel0;
+        const z = zeile(li);
+        if (!z) return;
         const liste = bedienbar();
         const i = liste.indexOf(li);
         let ziel = null;
@@ -1426,7 +1466,10 @@
           z.closest(EINTRAG3)
         );
         if (gesperrtE(li)) return;
-        if (ziel.closest(".nc-treeview__actions, .nc-treeview__drag-handle")) return;
+        if (ziel.closest(".nc-treeview__actions, .nc-treeview__drag-handle")) {
+          tabStopp(li);
+          return;
+        }
         tabStopp(li, true);
         if (ziel.closest(".nc-treeview__toggle")) {
           klappe(li, !offen(li));
@@ -1435,15 +1478,13 @@
         waehle2(li);
       }, { signal });
       baum.addEventListener("focusin", (e) => {
-        var _a;
-        const z = (
+        const el = (
           /** @type {HTMLElement} */
           e.target
         );
-        if (((_a = z.classList) == null ? void 0 : _a.contains("nc-treeview__node")) && z.tabIndex !== 0) tabStopp(
-          /** @type {HTMLElement} */
-          z.closest(EINTRAG3)
-        );
+        const li = eintragVon(el);
+        if (!li || !baum.contains(li) || li.tabIndex === 0) return;
+        if (el === li || el.closest(AKTION)) tabStopp(li);
       }, { signal });
     }
   };

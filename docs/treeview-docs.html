@@ -362,7 +362,7 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-treeview-badge-font-size</code></td><td>var(--fs-2xs)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-treeview-badge-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-treeview-badge-radius</code></td><td>var(--nc-badge-radius)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-padding</code></td><td>0 var(--fnd-spacing-02)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
@@ -635,7 +635,7 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
       <tr><td><code class="docs__token">--nc-treeview-checkbox-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Badge</td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-font-size</code></td><td>var(--fs-2xs)</td><td>var(--fs-2xs)</td></tr>
-      <tr><td><code class="docs__token">--nc-treeview-badge-radius</code></td><td>var(--fnd-radius-full)</td><td>var(--fnd-radius-full)</td></tr>
+      <tr><td><code class="docs__token">--nc-treeview-badge-radius</code></td><td>var(--nc-badge-radius)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-padding</code></td><td>0 var(--fnd-spacing-02)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
       <tr><td><code class="docs__token">--nc-treeview-badge-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
@@ -659,11 +659,15 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
   <ul>
     <li>Hierarchische Baumstruktur mit role=tree und role=treeitem.</li>
     <li>Toggle-Chevron rotiert sanft 0° auf 90° bei Expand (CSS transition).</li>
-    <li>Children-Slot nutzt CSS-Grid 0fr→1fr Animation fuer Slide-Down.</li>
-    <li>Action-Slot (rechts) wird nur bei Hover/Focus-within sichtbar.</li>
+    <li>Children-Slot nutzt CSS-Grid 0fr→1fr Animation fuer Slide-Down. Zugeklappt (aria-expanded ungleich true) ist der Slot zusaetzlich visibility: hidden — die Eigenschaft laeuft in der Transition mit, die Kinder sind also auch fuer Tastatur und Screenreader weg, ohne JS und ohne die Animation zu brechen (Entscheidung 03.10.2026, nav-a11y). Ohne __children-Wrapper: display: none.</li>
+    <li>Action-Slot (rechts) wird bei Hover, Focus-within und Fokus auf dem Eintrag (treeitem) sichtbar.</li>
     <li>Guide-Lines: Vertikale Linien verbinden Eltern mit Kindern (optional).</li>
     <li>Checkbox-Mode: Checkboxen pro Node fuer Multi-Select (aria-checked).</li>
     <li>Drag-Handle: 6-dots Griff, nur bei --draggable Modifier sichtbar.</li>
+    <li>Fokus (Entscheidung 03.10.2026, nav-a11y): roving tabindex auf dem li[role=treeitem] — genau ein Eintrag hat tabindex='0', alle anderen '-1'; .nc-treeview__node ist nicht fokussierbar. Der Fokusring liegt sichtbar auf der Zeile (.nc-treeview__item:focus-visible &gt; .nc-treeview__node). Toggle, Checkbox, Link und Ziehgriff tragen tabindex='-1' (Bedienung ueber die Tasten am Eintrag).</li>
+    <li>Name: aria-labelledby am treeitem verweist auf .nc-treeview__label bzw. __link — sonst zaehlte der ganze Ast zum Namen. neo-behaviors ergaenzt es, wenn es fehlt.</li>
+    <li>Zeilen-Aktionen (Entscheidung 03.10.2026, nav-a11y): .nc-treeview__action tragen tabindex='0' nur in der Zeile mit dem Tab-Stopp, sonst '-1' — Tab fuehrt vom fokussierten Eintrag in dessen Aktionen und danach aus dem Baum, Shift+Tab zurueck, Escape in einer Aktion zurueck auf den Eintrag. Pfeiltasten bleiben dem Baum vorbehalten (WAI-ARIA Tree View: keine Pfeilnavigation in die Zeile).</li>
+    <li>Gesperrte Eintraege (Entscheidung 03.10.2026, tree-gesperrt = Ueberspringen): Pfeiltasten, Pos1 und Ende ueberspringen sie, sie sind nicht waehlbar und nicht klappbar — einheitlich mit Tabs, Segmented Control usw.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -785,7 +789,7 @@ tree.querySelectorAll('.nc-treeview__item--branch').forEach(i =&gt; {
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
-<p class="docs__section-desc">role=tree auf Root-&lt;ul&gt;. role=treeitem auf &lt;li&gt;. role=group auf verschachtelten &lt;ul&gt;. aria-expanded fuer Branch-Items. Keyboard: ArrowUp/Down navigiert, ArrowLeft/Right collapsed/expanded, Home/End springt, Enter/Space selektiert.</p>
+<p class="docs__section-desc">role=tree auf Root-&lt;ul&gt;. role=treeitem auf &lt;li&gt; — der Fokus liegt auf dem treeitem (roving tabindex), Name per aria-labelledby aus dem Label. role=group auf verschachtelten &lt;ul&gt;; zugeklappte Gruppen sind auch fuer Screenreader und Tastatur ausgeblendet. aria-expanded fuer Branch-Items. Keyboard: ArrowUp/Down navigiert, ArrowLeft/Right collapsed/expanded, Home/End springt, Enter/Space selektiert, Tab in die Zeilen-Aktionen des fokussierten Eintrags, Escape zurueck. Gesperrte Eintraege werden uebersprungen (Entscheidung 03.10.2026).</p>
 <div class="docs-a11y-block">
   <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
   <div class="docs-a11y-block__content">

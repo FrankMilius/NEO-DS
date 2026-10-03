@@ -110,14 +110,69 @@ describe('Treeview (treeview-recipe.json)', () => {
     const zeile = (text) => li(text).querySelector(':scope > .nc-treeview__node')
     return { b, wurzel, li, zeile }
   }
-  const stopps = (b) => [...b.querySelectorAll('.nc-treeview__node')].filter((z) => z.tabIndex === 0)
+  const stopps = (b) => [...b.querySelectorAll(ITEM)].filter((li) => li.tabIndex === 0)
 
-  it('roving tabindex: genau eine Zeile im Tab-Fluss, Fokus per Klick wird Tab-Stopp', () => {
+  it('roving tabindex am treeitem: genau ein Eintrag im Tab-Fluss, Fokus per Klick wird Tab-Stopp', () => {
     const t = aufbau()
-    expect(stopps(t.b)).toEqual([t.zeile('Dokumente')])
+    expect(stopps(t.b)).toEqual([t.li('Dokumente')])
     t.zeile('Notizen.txt').click()
-    expect(stopps(t.b)).toEqual([t.zeile('Notizen.txt')])
-    expect(aktiv()).toBe(t.zeile('Notizen.txt'))
+    expect(stopps(t.b)).toEqual([t.li('Notizen.txt')])
+    expect(aktiv()).toBe(t.li('Notizen.txt'))
+  })
+
+  it('Fokus auf dem treeitem, nicht auf der Zeile; Bedienteile der Zeile aus der Tab-Folge', () => {
+    const t = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+    expect(t.b.querySelectorAll('.nc-treeview__node[tabindex]')).toHaveLength(0)
+    for (const el of t.b.querySelectorAll('.nc-treeview__toggle, .nc-treeview__checkbox, .nc-treeview__link, .nc-treeview__drag-handle')) {
+      if (el.tagName !== 'SPAN') expect(el.tabIndex).toBe(-1)
+    }
+    t.zeile('Notizen.txt').click()
+    expect(aktiv()).toBe(t.li('Notizen.txt'))
+    expect(aktiv().getAttribute('role')).toBe('treeitem')
+  })
+
+  it('aelteres Markup (tabindex an der Zeile, ohne aria-labelledby): wird umgestellt, Name aus dem Label', () => {
+    const html = `<nav class="nc-treeview" aria-label="Baum"><ul class="nc-treeview__list" role="tree">
+<li class="nc-treeview__item nc-treeview__item--branch" role="treeitem" aria-expanded="true"><div class="nc-treeview__node" tabindex="-1"><span class="nc-treeview__label">A</span></div>
+<ul class="nc-treeview__list" role="group"><li class="nc-treeview__item nc-treeview__item--leaf" role="treeitem"><div class="nc-treeview__node" tabindex="0"><a class="nc-treeview__link" href="#b">B</a></div></li></ul></li>
+</ul></nav>`
+    const b = buehne(html)
+    anbinden(b)
+    const [a, bb] = b.querySelectorAll('li')
+    expect(b.querySelectorAll('.nc-treeview__node[tabindex]')).toHaveLength(0)
+    expect(bb.tabIndex).toBe(0) // vorhandener Tab-Stopp bleibt
+    expect(a.tabIndex).toBe(-1)
+    expect(b.querySelector('.nc-treeview__link').tabIndex).toBe(-1)
+    expect(document.getElementById(a.getAttribute('aria-labelledby')).textContent).toBe('A')
+    expect(document.getElementById(bb.getAttribute('aria-labelledby')).textContent).toBe('B')
+  })
+
+  it('Zeilen-Aktionen: nur die Zeile mit dem Tab-Stopp hat sie im Tab-Fluss, sie wandern mit', () => {
+    const t = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+    const aktionen = (text) => [...t.zeile(text).querySelectorAll('.nc-treeview__action')]
+    const imFluss = () => [...t.b.querySelectorAll('.nc-treeview__action')].filter((a) => a.tabIndex === 0)
+    expect(imFluss()).toEqual(aktionen('Dokumente'))
+    t.li('Dokumente').focus()
+    taste(t.li('Dokumente'), 'ArrowDown')
+    expect(imFluss()).toEqual(aktionen('Projekte'))
+    // Fokus direkt auf eine Aktion einer anderen Zeile: diese Zeile wird Tab-Stopp
+    aktionen('Notizen.txt')[1].focus()
+    expect(stopps(t.b)).toEqual([t.li('Notizen.txt')])
+    expect(imFluss()).toEqual(aktionen('Notizen.txt'))
+    // Klick auf eine Aktion waehlt nicht
+    const auswahl = sammle(t.wurzel, 'treeview-select')
+    aktionen('Notizen.txt')[0].click()
+    expect(auswahl).toHaveLength(0)
+    // Pfeiltasten in der Aktion bleiben nativ
+    expect(taste(aktionen('Notizen.txt')[0], 'ArrowDown').defaultPrevented).toBe(false)
+  })
+
+  it('Zuklappen mit dem Fokus in einer Aktion im Ast holt den Fokus auf den Zweig', () => {
+    const t = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+    t.zeile('Budget-2026.xlsx').querySelector('.nc-treeview__action').focus()
+    taste(t.li('Projekte'), 'ArrowLeft')
+    expect(t.li('Projekte').getAttribute('aria-expanded')).toBe('false')
+    expect(aktiv()).toBe(t.li('Projekte'))
   })
 
   it('Klick waehlt (single): aria-selected + --selected wandern; treeview-select wie im Recipe', () => {
@@ -150,17 +205,17 @@ describe('Treeview (treeview-recipe.json)', () => {
 
   it('Zuklappen mit dem Fokus im Ast holt den Fokus auf den Zweig', () => {
     const t = aufbau()
-    t.zeile('Budget-2026.xlsx').focus()
+    t.li('Budget-2026.xlsx').focus()
     t.zeile('Projekte').querySelector('.nc-treeview__toggle').click()
     expect(t.li('Projekte').getAttribute('aria-expanded')).toBe('false')
-    expect(stopps(t.b)).toEqual([t.zeile('Projekte')])
+    expect(stopps(t.b)).toEqual([t.li('Projekte')])
   })
 
   it('gesperrter Eintrag: wird uebersprungen, nicht gewaehlt, nicht geklappt', () => {
     const t = aufbau(zelleMit('treeview', 'states', (h) => h.includes('nc-treeview__item--disabled')))
     expect(t.li('Vorlagen').getAttribute('aria-disabled')).toBe('true')
-    taste(t.zeile('Budget-2026.xlsx'), 'ArrowDown')
-    expect(aktiv()).toBe(t.zeile('Notizen.txt'))
+    taste(t.li('Budget-2026.xlsx'), 'ArrowDown')
+    expect(aktiv()).toBe(t.li('Notizen.txt'))
     t.zeile('Vorlagen').click()
     expect(t.li('Vorlagen').getAttribute('aria-selected')).toBe('false')
     expect(t.li('Vorlagen').getAttribute('aria-expanded')).toBe('false')
@@ -194,48 +249,70 @@ describe('Treeview (treeview-recipe.json)', () => {
   describe('Tasten aus dem Recipe', () => {
     const pruefungen = {
       ArrowDown: () => {
-        const t = aufbau(); t.zeile('Dokumente').focus()
-        taste(t.zeile('Dokumente'), 'ArrowDown'); expect(aktiv()).toBe(t.zeile('Projekte'))
-        taste(t.zeile('Notizen.txt'), 'ArrowDown'); expect(aktiv()).toBe(t.zeile('Bilder')) // Vorlagen zu: Kinder uebersprungen
-        taste(t.zeile('Archiv'), 'ArrowDown'); expect(aktiv()).toBe(t.zeile('Bilder')) // kein Rundum
-        expect(stopps(t.b)).toEqual([t.zeile('Bilder')])
+        const t = aufbau(); t.li('Dokumente').focus()
+        taste(t.li('Dokumente'), 'ArrowDown'); expect(aktiv()).toBe(t.li('Projekte'))
+        taste(t.li('Notizen.txt'), 'ArrowDown'); expect(aktiv()).toBe(t.li('Bilder')) // Vorlagen zu: Kinder uebersprungen
+        taste(t.li('Archiv'), 'ArrowDown'); expect(aktiv()).toBe(t.li('Bilder')) // kein Rundum
+        expect(stopps(t.b)).toEqual([t.li('Bilder')])
       },
       ArrowUp: () => {
-        const t = aufbau(); taste(t.zeile('Projekte'), 'ArrowUp'); expect(aktiv()).toBe(t.zeile('Dokumente'))
-        const e = taste(t.zeile('Dokumente'), 'ArrowUp'); expect(e.defaultPrevented).toBe(false)
+        const t = aufbau(); taste(t.li('Projekte'), 'ArrowUp'); expect(aktiv()).toBe(t.li('Dokumente'))
+        const e = taste(t.li('Dokumente'), 'ArrowUp'); expect(e.defaultPrevented).toBe(false)
       },
       ArrowRight: () => {
         const t = aufbau(); const ev = sammle(t.wurzel, 'treeview-toggle')
-        t.zeile('Vorlagen').focus(); taste(t.zeile('Vorlagen'), 'ArrowRight')
-        expect(t.li('Vorlagen').getAttribute('aria-expanded')).toBe('true'); expect(aktiv()).toBe(t.zeile('Vorlagen'))
-        taste(t.zeile('Vorlagen'), 'ArrowRight'); expect(aktiv()).toBe(t.zeile('Angebot.docx'))
-        taste(t.zeile('Angebot.docx'), 'ArrowRight'); expect(aktiv()).toBe(t.zeile('Angebot.docx')) // Blatt
+        t.li('Vorlagen').focus(); taste(t.li('Vorlagen'), 'ArrowRight')
+        expect(t.li('Vorlagen').getAttribute('aria-expanded')).toBe('true'); expect(aktiv()).toBe(t.li('Vorlagen'))
+        taste(t.li('Vorlagen'), 'ArrowRight'); expect(aktiv()).toBe(t.li('Angebot.docx'))
+        taste(t.li('Angebot.docx'), 'ArrowRight'); expect(aktiv()).toBe(t.li('Angebot.docx')) // Blatt
         expect(ev).toHaveLength(1)
       },
       ArrowLeft: () => {
         const t = aufbau()
-        taste(t.zeile('Budget-2026.xlsx'), 'ArrowLeft'); expect(aktiv()).toBe(t.zeile('Projekte'))
-        taste(t.zeile('Projekte'), 'ArrowLeft'); expect(t.li('Projekte').getAttribute('aria-expanded')).toBe('false')
-        taste(t.zeile('Projekte'), 'ArrowLeft'); expect(aktiv()).toBe(t.zeile('Dokumente'))
+        taste(t.li('Budget-2026.xlsx'), 'ArrowLeft'); expect(aktiv()).toBe(t.li('Projekte'))
+        taste(t.li('Projekte'), 'ArrowLeft'); expect(t.li('Projekte').getAttribute('aria-expanded')).toBe('false')
+        taste(t.li('Projekte'), 'ArrowLeft'); expect(aktiv()).toBe(t.li('Dokumente'))
       },
-      Home: () => { const t = aufbau(); taste(t.zeile('Archiv'), 'Home'); expect(aktiv()).toBe(t.zeile('Dokumente')) },
+      Home: () => { const t = aufbau(); taste(t.li('Archiv'), 'Home'); expect(aktiv()).toBe(t.li('Dokumente')) },
       End: () => {
-        const t = aufbau(); taste(t.zeile('Dokumente'), 'End'); expect(aktiv()).toBe(t.zeile('Archiv'))
-        taste(t.zeile('Archiv'), 'ArrowRight'); taste(t.zeile('Archiv'), 'Home'); taste(t.zeile('Dokumente'), 'End'); expect(aktiv()).toBe(t.zeile('2025'))
+        const t = aufbau(); taste(t.li('Dokumente'), 'End'); expect(aktiv()).toBe(t.li('Archiv'))
+        taste(t.li('Archiv'), 'ArrowRight'); taste(t.li('Archiv'), 'Home'); taste(t.li('Dokumente'), 'End'); expect(aktiv()).toBe(t.li('2025'))
       },
       Enter: () => {
         const t = aufbau(); const ev = sammle(t.wurzel, 'treeview-select')
-        const e = taste(t.zeile('Notizen.txt'), 'Enter')
+        const e = taste(t.li('Notizen.txt'), 'Enter')
         expect(e.defaultPrevented).toBe(true); expect(t.li('Notizen.txt').getAttribute('aria-selected')).toBe('true'); expect(ev).toHaveLength(1)
       },
       Space: () => {
         const t = aufbau(lebendigesMarkup('treeview', 'checkbox-mode'))
-        taste(t.zeile('Archiv'), 'Space'); expect(t.li('Archiv').getAttribute('aria-checked')).toBe('true')
+        taste(t.li('Archiv'), 'Space'); expect(t.li('Archiv').getAttribute('aria-checked')).toBe('true')
         expect(t.li('2025').getAttribute('aria-checked')).toBe('true')
       },
       Tab: () => {
-        const t = aufbau(); const e = taste(t.zeile('Dokumente'), 'Tab')
+        const t = aufbau(); const e = taste(t.li('Dokumente'), 'Tab')
         expect(e.defaultPrevented).toBe(false); expect(stopps(t.b)).toHaveLength(1)
+        // mit Aktionen: die naechsten Tab-Stationen sind die Aktionen dieser Zeile, sonst keine im Baum
+        const a = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+        const fluss = [...a.b.querySelectorAll('li, button, a[href], input')].filter((el) => el.tabIndex >= 0)
+        expect(fluss).toEqual([a.li('Dokumente'), ...a.zeile('Dokumente').querySelectorAll('.nc-treeview__action')])
+        expect(taste(a.li('Dokumente'), 'Tab').defaultPrevented).toBe(false)
+      },
+      'Shift+Tab': () => {
+        const t = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+        const erste = t.zeile('Dokumente').querySelector('.nc-treeview__action')
+        erste.focus()
+        // nativ: der Eintrag steht im Dokument vor seinen Aktionen und ist der Tab-Stopp
+        expect(taste(erste, 'Shift+Tab').defaultPrevented).toBe(false)
+        expect(t.li('Dokumente').tabIndex).toBe(0)
+        expect(t.li('Dokumente').compareDocumentPosition(erste) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      },
+      Escape: () => {
+        const t = aufbau(lebendigesMarkup('treeview', 'with-actions'))
+        const aktion = t.zeile('Projekte').querySelectorAll('.nc-treeview__action')[1]
+        aktion.focus()
+        const e = taste(aktion, 'Escape')
+        expect(e.defaultPrevented).toBe(true); expect(aktiv()).toBe(t.li('Projekte'))
+        expect(taste(t.li('Projekte'), 'Escape').defaultPrevented).toBe(false) // am Eintrag: frei
       }
     }
     it('jede Taste hat eine Pruefung', () => deckeTastenAb('treeview', pruefungen))
