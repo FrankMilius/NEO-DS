@@ -366,37 +366,45 @@ describe('Treeview (treeview-recipe.json)', () => {
 
 // ---------------------------------------------------------------------------
 describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
+  // WAI-ARIA Disclosure-Navigation (Recipe 3.0.0, Entscheidung 03.10.2026)
   function aufbau (specimen = 'default-dropdown') {
     const b = buehne(`${lebendigesMarkup('navigation-menu', specimen)}\n<button type="button" id="draussen">draussen</button>`)
     anbinden(b)
     const wurzel = b.querySelector('.nc-navigation-menu')
     const oben = [...wurzel.querySelectorAll('.nc-navigation-menu__list > .nc-navigation-menu__item > :first-child')]
     const [produkte, services] = oben
-    const huelle = wurzel.querySelector('.nc-navigation-menu__viewport-wrapper')
-    const sicht = wurzel.querySelector('.nc-navigation-menu__viewport')
-    const panel = () => [...sicht.querySelectorAll('[role="menuitem"]')]
-    return { b, wurzel, oben, produkte, services, huelle, sicht, panel }
+    const panelVon = (a) => document.getElementById(a.getAttribute('aria-controls'))
+    const links = (a) => [...panelVon(a).querySelectorAll('a[href]')]
+    return { b, wurzel, oben, produkte, services, panelVon, links }
   }
-  const offenIst = (n, a) => a.dataset.state === 'open' && a.getAttribute('aria-expanded') === 'true' && n.huelle.dataset.state === 'open' && n.sicht.dataset.state === 'open'
-  const zu = (n) => n.huelle.dataset.state === 'closed' && n.sicht.children.length === 0 && n.oben.every((a) => a.dataset.state !== 'open')
+  const offenIst = (n, a) => a.getAttribute('aria-expanded') === 'true' && !n.panelVon(a).hidden
+  const offene = (n) => [n.produkte, n.services].filter((a) => a.getAttribute('aria-expanded') === 'true' || !n.panelVon(a).hidden)
+  const zu = (n) => offene(n).length === 0
 
-  it('Ausprobieren startet zu (auch „Geöffnet"); Vorlagen im Item inert; eine Tab-Station', () => {
+  it('Markup: keine Menue-Rollen, kein roving tabindex, Panels im Item mit aria-controls und [hidden]', () => {
     const n = aufbau('mega-menu')
+    expect(n.wurzel.querySelector('[role]')).toBeNull()
+    expect(n.wurzel.querySelector('[aria-haspopup]')).toBeNull()
+    expect(n.wurzel.querySelector('[tabindex]')).toBeNull()
+    expect(n.wurzel.querySelector('.nc-navigation-menu__viewport, .nc-navigation-menu__viewport-wrapper, [inert]')).toBeNull()
     expect(zu(n)).toBe(true)
-    for (const v of n.wurzel.querySelectorAll('.nc-navigation-menu__item > .nc-navigation-menu__content')) expect(v.hasAttribute('inert')).toBe(true)
-    expect(n.oben.map((a) => a.tabIndex)).toEqual([0, -1, -1, -1, -1])
+    for (const a of [n.produkte, n.services]) {
+      expect(a.getAttribute('type')).toBe('button')
+      expect(a.getAttribute('aria-expanded')).toBe('false')
+      expect(a.nextElementSibling).toBe(n.panelVon(a))
+      expect(n.panelVon(a).hidden).toBe(true)
+    }
+    // jeder Top-Level-Eintrag eine eigene Tab-Station
+    expect(n.oben.every((a) => a.tabIndex === 0)).toBe(true)
   })
 
-  it('Klick oeffnet: Kopie im Viewport (nicht inert), data-state/aria-expanded, Indikator; navigation-menu-change wie im Recipe', () => {
+  it('Klick schaltet: aria-expanded/[hidden], Indikator, nur ein Panel offen; navigation-menu-change wie im Recipe', () => {
     const n = aufbau()
     const ev = sammle(n.wurzel, 'navigation-menu-change')
     n.produkte.click()
     expect(offenIst(n, n.produkte)).toBe(true)
-    const kopie = n.sicht.querySelector(':scope > .nc-navigation-menu__content')
-    expect(kopie.dataset.state).toBe('open')
-    expect(kopie.hasAttribute('inert')).toBe(false)
-    expect(n.panel().length).toBe(3)
-    expect(n.panel().every((e) => e.tabIndex === -1)).toBe(true)
+    expect(offene(n)).toEqual([n.produkte])
+    expect(n.links(n.produkte).length).toBe(3)
     const zeiger = n.wurzel.querySelector('.nc-navigation-menu__indicator')
     expect(zeiger.dataset.state).toBe('visible')
     // Lage per Custom Property (das SCSS liest sie), kein Inline-left/width
@@ -404,21 +412,31 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     expect(zeiger.style.getPropertyValue('--_indicator-width')).toBe('10px')
     expect(zeiger.style.left).toBe('')
     n.services.click()
-    expect(offenIst(n, n.services)).toBe(true)
-    expect(n.produkte.dataset.state).toBe('closed')
-    expect(n.sicht.querySelector('.nc-navigation-menu__content').dataset.motion).toBe('from-end')
-    n.services.click()
+    expect(offene(n)).toEqual([n.services])
+    expect(n.panelVon(n.services).dataset.motion).toBe('from-end')
+    n.produkte.click()
+    expect(n.panelVon(n.produkte).dataset.motion).toBe('from-start')
+    n.produkte.click()
     expect(zu(n)).toBe(true)
-    expect(n.wurzel.querySelector('.nc-navigation-menu__indicator').dataset.state).toBe('hidden')
+    expect(zeiger.dataset.state).toBe('hidden')
     expect(ev.map((e) => e.detail)).toEqual([
       { value: 'Produkte', previousValue: null },
       { value: 'Services', previousValue: 'Produkte' },
-      { value: null, previousValue: 'Services' }
+      { value: 'Produkte', previousValue: 'Services' },
+      { value: null, previousValue: 'Produkte' }
     ])
     for (const e of ev) passtZumRecipe('navigation-menu', e)
   })
 
-  it('Klick ausserhalb und Fokusverlust schliessen', () => {
+  it('Klick auf einen Link im Panel schliesst', () => {
+    const n = aufbau()
+    n.produkte.click()
+    n.links(n.produkte)[1].addEventListener('click', (e) => e.preventDefault())
+    n.links(n.produkte)[1].click()
+    expect(zu(n)).toBe(true)
+  })
+
+  it('Klick ausserhalb und Fokus verlaesst das Menue schliessen', () => {
     const n = aufbau()
     n.produkte.click()
     document.getElementById('draussen').click()
@@ -428,7 +446,49 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     expect(zu(n)).toBe(true)
   })
 
-  it('data-trigger="hover": oeffnet nach 150 ms, Viewport haelt offen, schliesst 150 ms nach Verlassen', () => {
+  it('Fokus wandert aus dem offenen Item (Tab weiter, anderer Eintrag) → zu; im Panel bleibt es offen', () => {
+    const n = aufbau()
+    n.produkte.focus(); n.produkte.click()
+    n.links(n.produkte)[0].focus()
+    expect(offenIst(n, n.produkte)).toBe(true)
+    n.links(n.produkte)[2].focus()
+    expect(offenIst(n, n.produkte)).toBe(true)
+    n.services.focus() // Tab vom letzten Link zum naechsten Eintrag
+    expect(zu(n)).toBe(true)
+    n.services.click()
+    n.oben[2].focus()
+    expect(zu(n)).toBe(true)
+  })
+
+  it('Mausdruck auf einen anderen Ausloeser wechselt direkt (ein Ereignis)', () => {
+    const n = aufbau()
+    n.produkte.click()
+    const ev = sammle(n.wurzel, 'navigation-menu-change')
+    n.services.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+    n.services.focus()
+    n.services.click()
+    expect(offene(n)).toEqual([n.services])
+    expect(ev.map((e) => e.detail)).toEqual([{ value: 'Services', previousValue: 'Produkte' }])
+  })
+
+  it('aria-controls fehlt: das Behavior vergibt ids und verknuepft', () => {
+    const html = lebendigesMarkup('navigation-menu', 'default-dropdown').replace(/ aria-controls="[^"]*"/g, '').replace(/ id="[^"]*-panel-\d"/g, '')
+    const b = buehne(html)
+    anbinden(b)
+    const a = b.querySelector('.nc-navigation-menu__trigger')
+    const p = document.getElementById(a.getAttribute('aria-controls'))
+    expect(p).toBe(a.nextElementSibling)
+    expect(p.hidden).toBe(true)
+  })
+
+  it('abbinden: keine Reaktion mehr', () => {
+    const n = aufbau()
+    abbinden(n.b)
+    n.produkte.click()
+    expect(n.produkte.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('data-trigger="hover": oeffnet nach 150 ms, das Panel gehoert zum Item, schliesst 150 ms nach Verlassen', () => {
     vi.useFakeTimers()
     const n = aufbau()
     expect(n.wurzel.dataset.trigger).toBe('hover')
@@ -438,11 +498,14 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     expect(zu(n)).toBe(true)
     vi.advanceTimersByTime(1)
     expect(offenIst(n, n.produkte)).toBe(true)
+    expect(item.contains(n.panelVon(n.produkte))).toBe(true)
     item.dispatchEvent(new MouseEvent('mouseleave'))
-    n.huelle.dispatchEvent(new MouseEvent('mouseenter'))
+    vi.advanceTimersByTime(149)
+    expect(offenIst(n, n.produkte)).toBe(true)
+    item.dispatchEvent(new MouseEvent('mouseenter')) // zurueck vor Ablauf: bleibt offen
     vi.advanceTimersByTime(500)
     expect(offenIst(n, n.produkte)).toBe(true)
-    n.huelle.dispatchEvent(new MouseEvent('mouseleave'))
+    item.dispatchEvent(new MouseEvent('mouseleave'))
     vi.advanceTimersByTime(150)
     expect(zu(n)).toBe(true)
   })
@@ -453,55 +516,82 @@ describe('Navigationsmenue (navigation-menu-recipe.json)', () => {
     anbinden(b)
     b.querySelector('.nc-navigation-menu__item').dispatchEvent(new MouseEvent('mouseenter'))
     vi.advanceTimersByTime(500)
-    expect(b.querySelector('.nc-navigation-menu__trigger').dataset.state).toBe('closed')
+    expect(b.querySelector('.nc-navigation-menu__trigger').getAttribute('aria-expanded')).toBe('false')
   })
 
   describe('Tasten aus dem Recipe', () => {
     const pruefungen = {
-      ArrowRight: () => {
-        const n = aufbau(); n.produkte.focus()
-        taste(n.produkte, 'ArrowRight'); expect(aktiv()).toBe(n.services); expect(n.oben.map((a) => a.tabIndex)).toEqual([-1, 0, -1, -1, -1])
-        taste(n.oben[4], 'ArrowRight'); expect(aktiv()).toBe(n.produkte) // rundum
-        // Panel offen: folgt dem Fokus; aus dem Panel heraus zum naechsten Eintrag
-        taste(n.produkte, 'ArrowDown'); taste(aktiv(), 'ArrowRight')
-        expect(aktiv()).toBe(n.services); expect(offenIst(n, n.services)).toBe(true)
-        taste(n.services, 'ArrowRight'); expect(aktiv()).toBe(n.oben[2]); expect(zu(n)).toBe(true)
-      },
-      ArrowLeft: () => {
-        const n = aufbau(); taste(n.produkte, 'ArrowLeft'); expect(aktiv()).toBe(n.oben[4])
-        taste(n.services, 'ArrowDown'); taste(aktiv(), 'ArrowLeft'); expect(aktiv()).toBe(n.produkte); expect(offenIst(n, n.produkte)).toBe(true)
-      },
-      ArrowDown: () => {
-        const n = aufbau(); taste(n.produkte, 'ArrowDown')
-        expect(offenIst(n, n.produkte)).toBe(true); expect(aktiv()).toBe(n.panel()[0])
-        taste(n.panel()[0], 'ArrowDown'); expect(aktiv()).toBe(n.panel()[1])
-        taste(n.panel()[1], 'ArrowDown'); taste(n.panel()[2], 'ArrowDown'); expect(aktiv()).toBe(n.panel()[0]) // rundum
-      },
-      ArrowUp: () => {
-        const n = aufbau(); taste(n.produkte, 'ArrowUp'); expect(aktiv()).toBe(n.panel()[2])
-        taste(n.panel()[2], 'ArrowUp'); expect(aktiv()).toBe(n.panel()[1])
-      },
-      Home: () => {
-        const n = aufbau(); taste(n.oben[3], 'Home'); expect(aktiv()).toBe(n.produkte)
-        taste(n.produkte, 'ArrowDown'); taste(n.panel()[0], 'End'); taste(n.panel()[2], 'Home'); expect(aktiv()).toBe(n.panel()[0])
-      },
-      End: () => {
-        const n = aufbau(); taste(n.produkte, 'End'); expect(aktiv()).toBe(n.oben[4])
-        taste(n.produkte, 'ArrowDown'); taste(n.panel()[0], 'End'); expect(aktiv()).toBe(n.panel()[2])
+      Tab: () => {
+        // Tab ist nativ: das Behavior verhindert nichts, die Tab-Folge ergibt
+        // sich aus dem DOM (Ausloeser → eigenes Panel → naechster Eintrag)
+        const n = aufbau(); n.produkte.click()
+        const e = taste(n.produkte, 'Tab')
+        expect(e.defaultPrevented).toBe(false)
+        const folge = [...n.wurzel.querySelectorAll('a[href], button')].filter((el) => !el.closest('[hidden]'))
+        expect(folge.slice(0, 5)).toEqual([n.produkte, ...n.links(n.produkte), n.services])
+        expect(offenIst(n, n.produkte)).toBe(true)
+        n.services.focus(); expect(zu(n)).toBe(true)
       },
       Enter: () => {
-        const n = aufbau(); const e = taste(n.produkte, 'Enter')
-        expect(e.defaultPrevented).toBe(true); expect(offenIst(n, n.produkte)).toBe(true); expect(aktiv()).toBe(n.panel()[0])
+        // Nativer Klick (taste() loest ihn aus wie der Browser): kein preventDefault, kein Doppel-Schalten
+        const n = aufbau(); n.produkte.focus()
+        const e = taste(n.produkte, 'Enter')
+        expect(e.defaultPrevented).toBe(false)
+        expect(offenIst(n, n.produkte)).toBe(true); expect(aktiv()).toBe(n.produkte)
+        taste(n.produkte, 'Enter'); expect(zu(n)).toBe(true)
+        // Links: das Behavior greift nicht ein
+        n.produkte.click(); const l = n.links(n.produkte)[0]; l.focus()
+        expect(taste(l, 'Enter').defaultPrevented).toBe(false)
       },
-      Space: () => { const n = aufbau(); taste(n.services, 'Space'); expect(offenIst(n, n.services)).toBe(true); expect(aktiv()).toBe(n.panel()[0]) },
+      Space: () => {
+        const n = aufbau(); n.services.focus()
+        expect(taste(n.services, 'Space').defaultPrevented).toBe(false)
+        expect(offene(n)).toEqual([n.services]); expect(aktiv()).toBe(n.services)
+        taste(n.produkte, 'Space'); expect(offene(n)).toEqual([n.produkte])
+        taste(n.produkte, 'Space'); expect(zu(n)).toBe(true)
+      },
       Escape: () => {
-        const n = aufbau(); taste(n.produkte, 'ArrowDown'); taste(n.panel()[1], 'Escape')
+        const n = aufbau(); n.produkte.click(); const l = n.links(n.produkte)[1]; l.focus()
+        expect(taste(l, 'Escape').defaultPrevented).toBe(true)
         expect(zu(n)).toBe(true); expect(aktiv()).toBe(n.produkte)
-        n.produkte.click(); taste(n.produkte, 'Escape'); expect(zu(n)).toBe(true)
+        n.produkte.click(); taste(n.produkte, 'Escape'); expect(zu(n)).toBe(true); expect(aktiv()).toBe(n.produkte)
+        // nichts offen: Escape bleibt unberuehrt
+        expect(taste(n.produkte, 'Escape').defaultPrevented).toBe(false)
       },
-      Tab: () => {
-        const n = aufbau(); taste(n.produkte, 'ArrowDown'); const e = taste(n.panel()[0], 'Tab')
-        expect(zu(n)).toBe(true); expect(e.defaultPrevented).toBe(false)
+      ArrowRight: () => {
+        const n = aufbau(); n.produkte.focus()
+        taste(n.produkte, 'ArrowRight'); expect(aktiv()).toBe(n.services)
+        expect(n.oben.every((a) => a.tabIndex === 0)).toBe(true) // kein roving tabindex
+        taste(n.oben[4], 'ArrowRight'); expect(aktiv()).toBe(n.produkte) // rundum
+        // offenes Panel: Fokus verlaesst das Item → zu
+        n.produkte.click(); taste(n.produkte, 'ArrowRight'); expect(aktiv()).toBe(n.services); expect(zu(n)).toBe(true)
+      },
+      ArrowLeft: () => {
+        const n = aufbau(); n.produkte.focus(); taste(n.produkte, 'ArrowLeft'); expect(aktiv()).toBe(n.oben[4])
+        taste(n.oben[4], 'ArrowLeft'); expect(aktiv()).toBe(n.oben[3])
+      },
+      ArrowDown: () => {
+        const n = aufbau(); n.produkte.focus(); taste(n.produkte, 'ArrowDown')
+        expect(offenIst(n, n.produkte)).toBe(true); expect(aktiv()).toBe(n.links(n.produkte)[0])
+        const l = n.links(n.produkte)
+        taste(l[0], 'ArrowDown'); expect(aktiv()).toBe(l[1])
+        taste(l[1], 'ArrowDown'); taste(l[2], 'ArrowDown'); expect(aktiv()).toBe(l[0]) // rundum
+        // auf einem direkten Link: nichts
+        n.oben[2].focus(); expect(taste(n.oben[2], 'ArrowDown').defaultPrevented).toBe(false)
+      },
+      ArrowUp: () => {
+        const n = aufbau(); n.produkte.focus(); taste(n.produkte, 'ArrowDown')
+        const l = n.links(n.produkte)
+        taste(l[0], 'ArrowUp'); expect(aktiv()).toBe(l[2]) // rundum
+        taste(l[2], 'ArrowUp'); expect(aktiv()).toBe(l[1])
+      },
+      Home: () => {
+        const n = aufbau(); n.oben[3].focus(); taste(n.oben[3], 'Home'); expect(aktiv()).toBe(n.produkte)
+        taste(n.produkte, 'ArrowDown'); const l = n.links(n.produkte); taste(l[0], 'End'); taste(l[2], 'Home'); expect(aktiv()).toBe(l[0])
+      },
+      End: () => {
+        const n = aufbau(); n.produkte.focus(); taste(n.produkte, 'End'); expect(aktiv()).toBe(n.oben[4])
+        n.produkte.focus(); taste(n.produkte, 'ArrowDown'); const l = n.links(n.produkte); taste(l[0], 'End'); expect(aktiv()).toBe(l[2])
       }
     }
     it('jede Taste hat eine Pruefung', () => deckeTastenAb('navigation-menu', pruefungen))

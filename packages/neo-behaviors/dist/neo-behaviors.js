@@ -1492,7 +1492,8 @@
   // packages/neo-behaviors/navigation-menu.js
   var VERWEILEN2 = 150;
   var OBEN = ":scope > .nc-navigation-menu__item > .nc-navigation-menu__trigger, :scope > .nc-navigation-menu__item > .nc-navigation-menu__link--top";
-  var EINTRAG4 = '[role="menuitem"], a[href], button:not([disabled])';
+  var LINK = "a[href], button:not([disabled])";
+  var laufnummer = 0;
   var navigationMenu = {
     id: "navigation-menu",
     selektor: ".nc-navigation-menu",
@@ -1503,14 +1504,6 @@
       );
       if (!leiste) return;
       const dok = wurzel.ownerDocument;
-      const huelle = (
-        /** @type {HTMLElement|null} */
-        wurzel.querySelector(":scope > .nc-navigation-menu__viewport-wrapper")
-      );
-      const sicht = (
-        /** @type {HTMLElement|null} */
-        (huelle == null ? void 0 : huelle.querySelector(":scope > .nc-navigation-menu__viewport")) || null
-      );
       const zeiger = (
         /** @type {HTMLElement|null} */
         wurzel.querySelector(":scope > .nc-navigation-menu__indicator")
@@ -1521,124 +1514,96 @@
         [...leiste.querySelectorAll(OBEN)]
       );
       const istAusloeser = (el) => el.classList.contains("nc-navigation-menu__trigger");
-      const vorlage = (a) => {
+      const ausloeser = () => oben().filter(istAusloeser);
+      const panel = (a) => {
         var _a;
+        const nachbar2 = (_a = a.parentElement) == null ? void 0 : _a.querySelector(":scope > .nc-navigation-menu__content");
+        if (nachbar2) return (
+          /** @type {HTMLElement} */
+          nachbar2
+        );
+        const id = a.getAttribute("aria-controls");
+        if (!id) return null;
         return (
           /** @type {HTMLElement|null} */
-          ((_a = a.parentElement) == null ? void 0 : _a.querySelector(":scope > .nc-navigation-menu__content")) || null
+          wurzel.querySelector(`[id="${CSS.escape(id)}"]`) || dok.getElementById(id)
         );
       };
       const name = (a) => {
         var _a;
         return (((_a = a.querySelector("span")) == null ? void 0 : _a.textContent) || a.textContent || "").trim();
       };
-      const eintraege = () => sicht ? (
-        /** @type {HTMLElement[]} */
-        [...sicht.querySelectorAll(EINTRAG4)]
-      ) : [];
+      const links = (a) => {
+        const p = panel(a);
+        return p ? (
+          /** @type {HTMLElement[]} */
+          [...p.querySelectorAll(LINK)]
+        ) : [];
+      };
       let offen = (
         /** @type {HTMLElement|null} */
         null
       );
       let uhr = 0;
-      for (const a of oben()) {
-        const v = istAusloeser(a) && vorlage(a);
-        if (v) v.setAttribute("inert", "");
+      for (const a of ausloeser()) {
+        const p = panel(a);
+        if (!p) continue;
+        if (!p.id) p.id = `nc-navigation-menu-panel-${++laufnummer}`;
+        a.setAttribute("aria-controls", p.id);
+        const auf = a.getAttribute("aria-expanded") === "true" && !offen;
+        a.setAttribute("aria-expanded", String(auf));
+        p.hidden = !auf;
+        if (auf) offen = a;
       }
-      const start = oben().find((a) => a.dataset.state === "open" || a.dataset.current === "true" || a.getAttribute("aria-current") === "page") || oben()[0];
-      const tabStopp = (el) => {
-        for (const a of oben()) a.tabIndex = a === el ? 0 : -1;
+      const zeigerAuf = (a) => {
+        if (!zeiger) return;
+        if (!a) {
+          zeiger.dataset.state = "hidden";
+          return;
+        }
+        const r = a.getBoundingClientRect();
+        const n = wurzel.getBoundingClientRect();
+        zeiger.dataset.state = "visible";
+        zeiger.style.setProperty("--_indicator-left", `${r.left - n.left + r.width / 2 - 5}px`);
+        zeiger.style.setProperty("--_indicator-width", "10px");
       };
-      if (start) tabStopp(start);
-      for (const a of oben()) if (istAusloeser(a) && !a.hasAttribute("aria-expanded")) a.setAttribute("aria-expanded", "false");
-      const zustand = (el, an) => {
-        if (el) el.dataset.state = an ? "open" : "closed";
+      if (offen) zeigerAuf(offen);
+      const zu = (a) => {
+        a.setAttribute("aria-expanded", "false");
+        const p = panel(a);
+        if (p) p.hidden = true;
       };
-      const oeffne = (a, fokus = (
-        /** @type {'erster'|'letzter'|null} */
-        null
-      )) => {
-        var _a;
-        const v = vorlage(a);
-        if (!sicht || !v || a.hasAttribute("disabled")) return;
+      const oeffne = (a) => {
+        const p = panel(a);
         clearTimeout(uhr);
-        if (offen !== a) {
-          const liste = oben();
-          const vorher = offen;
-          if (vorher) {
-            zustand(vorher, false);
-            vorher.setAttribute("aria-expanded", "false");
-            const alt = vorlage(vorher);
-            zustand(alt, false);
-            if (alt) alt.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? "to-start" : "to-end";
-          }
-          offen = a;
-          zustand(a, true);
-          a.setAttribute("aria-expanded", "true");
-          zustand(v, true);
-          if (vorher) v.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? "from-end" : "from-start";
-          else delete v.dataset.motion;
-          const kopie = (
-            /** @type {HTMLElement} */
-            v.cloneNode(true)
-          );
-          kopie.removeAttribute("inert");
-          sicht.replaceChildren(kopie);
-          for (const e of eintraege()) e.tabIndex = -1;
-          zustand(huelle, true);
-          zustand(sicht, true);
-          if (zeiger) {
-            const r = a.getBoundingClientRect();
-            const n = wurzel.getBoundingClientRect();
-            zeiger.dataset.state = "visible";
-            zeiger.style.setProperty("--_indicator-left", `${r.left - n.left + r.width / 2 - 5}px`);
-            zeiger.style.setProperty("--_indicator-width", "10px");
-          }
-          sende(wurzel, "navigation-menu-change", { value: name(a), previousValue: vorher ? name(vorher) : null });
-        }
-        if (fokus) {
-          const liste = eintraege();
-          (_a = fokus === "letzter" ? liste.at(-1) : liste[0]) == null ? void 0 : _a.focus();
-        }
+        if (!p || a.hasAttribute("disabled") || offen === a) return;
+        const vorher = offen;
+        const liste = oben();
+        if (vorher) zu(vorher);
+        offen = a;
+        a.setAttribute("aria-expanded", "true");
+        if (vorher) p.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? "from-end" : "from-start";
+        else delete p.dataset.motion;
+        p.hidden = false;
+        zeigerAuf(a);
+        sende(wurzel, "navigation-menu-change", { value: name(a), previousValue: vorher ? name(vorher) : null });
       };
       const schliesse = (fokusZurueck = false) => {
         clearTimeout(uhr);
         const a = offen;
         if (!a) return;
         offen = null;
-        zustand(a, false);
-        a.setAttribute("aria-expanded", "false");
-        zustand(vorlage(a), false);
-        zustand(huelle, false);
-        zustand(sicht, false);
-        sicht == null ? void 0 : sicht.replaceChildren();
-        if (zeiger) zeiger.dataset.state = "hidden";
+        zu(a);
+        zeigerAuf(null);
         sende(wurzel, "navigation-menu-change", { value: null, previousValue: name(a) });
         if (fokusZurueck) a.focus();
       };
-      const wechsle = (ziel, panelMit) => {
-        tabStopp(ziel);
-        ziel.focus();
-        if (panelMit && istAusloeser(ziel)) oeffne(ziel);
-        else if (panelMit) schliesse();
-      };
-      leiste.addEventListener("keydown", (e) => {
-        const a = (
+      wurzel.addEventListener("keydown", (e) => {
+        var _a;
+        const el = (
           /** @type {HTMLElement} */
           e.target
         );
-        if (!oben().includes(a)) return;
-        const ausloeser = istAusloeser(a);
-        if (ausloeser && (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ")) {
-          e.preventDefault();
-          oeffne(a, "erster");
-          return;
-        }
-        if (ausloeser && e.key === "ArrowUp") {
-          e.preventDefault();
-          oeffne(a, "letzter");
-          return;
-        }
         if (e.key === "Escape") {
           if (offen) {
             e.preventDefault();
@@ -1646,99 +1611,65 @@
           }
           return;
         }
-        if (e.key === "Tab") {
-          schliesse();
-          return;
-        }
-        const ziel = zielFuerTaste(e.key, oben(), a, "horizontal");
-        if (!ziel) return;
-        e.preventDefault();
-        wechsle(ziel, !!offen);
-      }, { signal });
-      sicht == null ? void 0 : sicht.addEventListener("keydown", (e) => {
-        const eintrag = (
-          /** @type {HTMLElement} */
-          e.target
-        );
-        if (!offen || !eintraege().includes(eintrag)) return;
-        const a = offen;
-        if (e.key === "Escape") {
+        if (oben().includes(el)) {
+          if (e.key === "ArrowDown" && istAusloeser(el)) {
+            e.preventDefault();
+            oeffne(el);
+            (_a = links(el)[0]) == null ? void 0 : _a.focus();
+            return;
+          }
+          const ziel = zielFuerTaste(e.key, oben(), el, "horizontal");
+          if (!ziel) return;
           e.preventDefault();
-          schliesse(true);
+          ziel.focus();
           return;
         }
-        if (e.key === "Tab") {
-          schliesse();
-          return;
-        }
-        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        if (offen) {
+          const liste = links(offen);
+          if (!liste.includes(el)) return;
+          const ziel = zielFuerTaste(e.key, liste, el, "vertikal");
+          if (!ziel) return;
           e.preventDefault();
-          const ziel2 = zielFuerTaste(e.key, oben(), a, "horizontal");
-          schliesse();
-          if (ziel2) wechsle(ziel2, true);
-          return;
+          ziel.focus();
         }
-        const ziel = zielFuerTaste(e.key, eintraege(), eintrag, "vertikal");
-        if (!ziel) return;
-        e.preventDefault();
-        ziel.focus();
       }, { signal });
       leiste.addEventListener("click", (e) => {
-        const a = (
-          /** @type {HTMLElement} */
-          e.target.closest(".nc-navigation-menu__trigger")
-        );
-        if (!a || !leiste.contains(a)) return;
-        tabStopp(
-          /** @type {HTMLElement} */
-          a
-        );
-        if (offen === a) schliesse();
-        else oeffne(
-          /** @type {HTMLElement} */
-          a
-        );
-      }, { signal });
-      sicht == null ? void 0 : sicht.addEventListener("click", (e) => {
-        if (
-          /** @type {HTMLElement} */
-          e.target.closest("a[href]")
-        ) schliesse();
-      }, { signal });
-      leiste.addEventListener("focusin", (e) => {
-        const a = (
-          /** @type {HTMLElement} */
-          e.target
-        );
-        if (oben().includes(a) && a.tabIndex !== 0) tabStopp(a);
-      }, { signal });
-      const spaeter = (fn) => {
-        clearTimeout(uhr);
-        uhr = window.setTimeout(fn, VERWEILEN2);
-      };
-      if (perHover) {
-        for (const a of oben().filter(istAusloeser)) {
-          const item = (
-            /** @type {HTMLElement} */
-            a.parentElement
-          );
-          item.addEventListener("mouseenter", () => spaeter(() => oeffne(a)), { signal });
-          item.addEventListener("mouseleave", () => spaeter(() => schliesse()), { signal });
-        }
-        huelle == null ? void 0 : huelle.addEventListener("mouseenter", () => clearTimeout(uhr), { signal });
-        huelle == null ? void 0 : huelle.addEventListener("mouseleave", () => spaeter(() => schliesse()), { signal });
-      }
-      signal.addEventListener("abort", () => {
         var _a;
-        clearTimeout(uhr);
-        for (const a of oben()) (_a = vorlage(a)) == null ? void 0 : _a.removeAttribute("inert");
-      });
-      dok.addEventListener("click", (e) => {
-        if (offen && !wurzel.contains(
-          /** @type {Node} */
+        const ziel = (
+          /** @type {HTMLElement} */
           e.target
-        )) schliesse();
-      }, { signal, capture: true });
+        );
+        const a = (
+          /** @type {HTMLElement|null} */
+          ziel.closest(".nc-navigation-menu__trigger")
+        );
+        if (a && leiste.contains(a)) {
+          if (offen === a) schliesse();
+          else oeffne(a);
+          return;
+        }
+        if (offen && ziel.closest("a[href]") && ((_a = panel(offen)) == null ? void 0 : _a.contains(ziel))) schliesse();
+      }, { signal });
+      let druck = (
+        /** @type {HTMLElement|null} */
+        null
+      );
+      leiste.addEventListener("mousedown", (e) => {
+        druck = /** @type {HTMLElement} */
+        e.target.closest(".nc-navigation-menu__trigger");
+        window.setTimeout(() => {
+          druck = null;
+        }, 0);
+      }, { signal });
+      wurzel.addEventListener("focusin", (e) => {
+        var _a;
+        const el = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (!offen || ((_a = offen.parentElement) == null ? void 0 : _a.contains(el)) || druck && druck === el) return;
+        schliesse();
+      }, { signal });
       wurzel.addEventListener("focusout", (e) => {
         const nach = (
           /** @type {Node|null} */
@@ -1746,6 +1677,29 @@
         );
         if (offen && nach && !wurzel.contains(nach)) schliesse();
       }, { signal });
+      const spaeter = (fn) => {
+        clearTimeout(uhr);
+        uhr = window.setTimeout(fn, VERWEILEN2);
+      };
+      if (perHover) {
+        for (const a of ausloeser()) {
+          const item = (
+            /** @type {HTMLElement} */
+            a.parentElement
+          );
+          item.addEventListener("mouseenter", () => spaeter(() => oeffne(a)), { signal });
+          item.addEventListener("mouseleave", () => spaeter(() => {
+            if (offen === a) schliesse();
+          }), { signal });
+        }
+      }
+      signal.addEventListener("abort", () => clearTimeout(uhr));
+      dok.addEventListener("click", (e) => {
+        if (offen && !wurzel.contains(
+          /** @type {Node} */
+          e.target
+        )) schliesse();
+      }, { signal, capture: true });
     }
   };
 

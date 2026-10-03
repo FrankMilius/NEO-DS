@@ -7,7 +7,7 @@
  *   - echtes DS-Markup: Basisklasse, nur Klassen aus styles.css (oder der
  *     Recipe-Anatomie), keine Inline-Gestaltung (erlaubt nur der
  *     DS-Instanzwert --_level des Treeviews), keine fremden Zustandsklassen
- *   - Zustaende je Specimen (offene Dropdowns/Viewports, aktuelle Seite,
+ *   - Zustaende je Specimen (offene Dropdowns/Panels, aktuelle Seite,
  *     Rand-Zustaende, scrolled/hidden, Auswahl, Checkbox-Modus, Drag & Drop)
  *   - Verhalten (Entscheidung 02.10.2026): breadcrumb, treeview,
  *     navigation-menu, toolbar und sidebar geben keyboard/events vor und
@@ -90,7 +90,7 @@ function enthaelt (id, gesehen = new Set()) {
 // navigation-orchestration teilt die Wurzel nc-header mit navigation.
 const ERLAUBT = {
   navigation: { button: 'CTA in __actions (docs/navigation-docs.html)', 'navigation-orchestration': 'teilt die Wurzel nc-header' },
-  'navigation-menu': { button: 'CTA in __actions der Kopfzeile (composition-header, site.js)', 'navigation-orchestration': 'Kopfzeile nc-header (composition-header)' },
+  'navigation-menu': { button: 'CTA in __actions der Kopfzeile (composition-header)', 'navigation-orchestration': 'Kopfzeile nc-header (composition-header)' },
   sidebar: { button: 'Knopf, der die Mobil-Lage oeffnet (Ausprobieren, aria-controls)' }
 }
 
@@ -324,40 +324,47 @@ describe('Navigation-Block: Zustände und Inhalte', () => {
     expect(landing.querySelector('.ra-kulisse header.nc-header--transparent nav.nc-nav--align-center')).not.toBeNull()
   })
 
-  it('navigation-menu: Ausloeser, Inhalte als Vorlage im Item, Viewport zu bzw. offen', () => {
-    for (const z of zellen('navigation-menu')) {
+  it('navigation-menu: Disclosure — Ausloeser mit aria-expanded/aria-controls, Panel im Item, keine Menue-Rollen', () => {
+    // „Zustände": „Geöffnet" zeigt das erste Panel offen; „Ausprobieren": alle zu
+    const modi = [...zellen('navigation-menu').map((z) => [z, false]), ...zellen('navigation-menu', null, { ausprobieren: true }).map((z) => [z, true])]
+    for (const [z, ausprobieren] of modi) {
       const d = dom(z.html)
-      const offen = z.label.includes('Geöffnet')
+      const offen = !ausprobieren && z.label.includes('Geöffnet')
       const nav = d.querySelector('nav.nc-navigation-menu[aria-label]')
-      expect(nav.dataset.trigger).toBe(z.axisValues.trigger)
-      expect(nav.querySelectorAll(':scope > ul.nc-navigation-menu__list[role="menubar"] > li.nc-navigation-menu__item[role="none"]').length).toBe(5)
-      expect(nav.querySelectorAll('.nc-navigation-menu__item > a.nc-navigation-menu__link--top[role="menuitem"]').length).toBe(3)
-      const ausloeser = [...nav.querySelectorAll('button.nc-navigation-menu__trigger[role="menuitem"][aria-haspopup="true"]')]
-      expect(ausloeser.length).toBe(2)
+      const ort = `${z.specimen.id}/${z.label}`
+      expect(nav.dataset.trigger, ort).toBe(z.axisValues.trigger)
+      expect(nav.querySelector('[role]'), ort).toBeNull()
+      expect(nav.querySelector('[aria-haspopup], [tabindex], [inert]'), ort).toBeNull()
+      expect(nav.querySelector('.nc-navigation-menu__viewport, .nc-navigation-menu__viewport-wrapper'), ort).toBeNull()
+      expect(nav.querySelectorAll(':scope > ul.nc-navigation-menu__list > li.nc-navigation-menu__item').length).toBe(5)
+      expect(nav.querySelectorAll('.nc-navigation-menu__item > a.nc-navigation-menu__link--top[href]').length).toBe(3)
+      const ausloeser = [...nav.querySelectorAll('.nc-navigation-menu__item > button.nc-navigation-menu__trigger[type="button"][aria-expanded][aria-controls]')]
+      expect(ausloeser.length, ort).toBe(2)
       for (const a of ausloeser) {
-        expect(a.querySelector('.nc-navigation-menu__trigger-icon > svg')).not.toBeNull()
-        expect(a.nextElementSibling.classList.contains('nc-navigation-menu__content')).toBe(true)
-        expect(a.nextElementSibling.dataset.state).toBe(a.dataset.state)
+        expect(a.querySelector('.nc-navigation-menu__trigger-icon > svg[aria-hidden="true"]')).not.toBeNull()
+        const panel = a.nextElementSibling
+        expect(panel.classList.contains('nc-navigation-menu__content')).toBe(true)
+        expect(panel.id).toBe(a.getAttribute('aria-controls'))
+        expect(d.querySelectorAll(`[id="${panel.id}"]`).length).toBe(1)
+        expect(panel.hidden).toBe(a.getAttribute('aria-expanded') !== 'true')
       }
-      expect(ausloeser[0].dataset.state).toBe(offen ? 'open' : 'closed')
-      expect(ausloeser[0].getAttribute('aria-expanded')).toBe(String(offen))
-      expect(ausloeser[1].dataset.state).toBe('closed')
-      const huelle = nav.querySelector(':scope > .nc-navigation-menu__viewport-wrapper')
-      expect(huelle.dataset.state).toBe(offen ? 'open' : 'closed')
-      const sicht = huelle.querySelector(':scope > .nc-navigation-menu__viewport')
-      expect(sicht.querySelectorAll(':scope > .nc-navigation-menu__content[data-state="open"]').length).toBe(offen ? 1 : 0)
+      expect(ausloeser[0].getAttribute('aria-expanded'), ort).toBe(String(offen))
+      expect(ausloeser[1].getAttribute('aria-expanded')).toBe('false')
       expect(nav.querySelector(':scope > .nc-navigation-menu__indicator[data-state="hidden"]')).not.toBeNull()
       if (offen) expect(d.querySelector('.ra-anker > nav.nc-navigation-menu')).not.toBeNull()
     }
+    // ids je Zelle eindeutig (mehrere Zellen auf einer Seite)
+    const ids = zellen('navigation-menu').flatMap((z) => [...dom(z.html).querySelectorAll('[id]')].map((e) => e.id))
+    expect(new Set(ids).size).toBe(ids.length)
     const [, hover] = alle('navigation-menu', 'indicator-states')
     expect(hover.querySelector('.nc-navigation-menu__trigger').dataset.zustand).toBe('hover')
   })
 
-  it('navigation-menu: Layout am Inhalt — Liste, zwei Spalten mit Callout, Mega mit Featured und Gruppen', () => {
-    const inhalt = (sp) => alle('navigation-menu', sp)[1].querySelector('.nc-navigation-menu__viewport > .nc-navigation-menu__content')
+  it('navigation-menu: Layout am Panel — Liste, zwei Spalten mit Callout, Mega mit Featured und Gruppen', () => {
+    const inhalt = (sp) => alle('navigation-menu', sp)[1].querySelector('.nc-navigation-menu__trigger[aria-expanded="true"] + .nc-navigation-menu__content:not([hidden])')
     const einfach = inhalt('default-dropdown')
     expect(einfach.className).toBe('nc-navigation-menu__content')
-    expect(einfach.querySelectorAll(':scope > .nc-navigation-menu__links-area > a.nc-navigation-menu__link[role="menuitem"] > .nc-navigation-menu__link-title + .nc-navigation-menu__link-desc').length).toBe(3)
+    expect(einfach.querySelectorAll(':scope > .nc-navigation-menu__links-area > a.nc-navigation-menu__link > .nc-navigation-menu__link-title + .nc-navigation-menu__link-desc').length).toBe(3)
     const zwei = inhalt('two-col-callout')
     expect(zwei.className).toBe('nc-navigation-menu__content nc-navigation-menu__content--two-col')
     expect(zwei.querySelector(':scope > .nc-navigation-menu__content-grid > .nc-navigation-menu__callouts-area > a.nc-navigation-menu__callout > .nc-navigation-menu__callout-title + .nc-navigation-menu__callout-desc')).not.toBeNull()
@@ -369,7 +376,7 @@ describe('Navigation-Block: Zustände und Inhalte', () => {
     expect(flaeche.querySelectorAll(':scope > .nc-navigation-menu__link-group > .nc-navigation-menu__group-kicker').length).toBe(3)
   })
 
-  it('navigation-menu: Kopfzeile (composition-header) wie site.js', () => {
+  it('navigation-menu: Kopfzeile (composition-header)', () => {
     const d = alle('navigation-menu', 'composition-header')[0]
     const inner = d.querySelector('.ra-kopf > header.nc-header > nav.nc-nav > .nc-nav__inner')
     expect(inner.querySelector(':scope > a.nc-brand + nav.nc-navigation-menu + .nc-nav__actions + button.nc-mobile-toggle')).not.toBeNull()
@@ -619,15 +626,34 @@ describe('Navigation-Block: Ausprobieren in der RecipeArena', () => {
     w.unmount()
   })
 
-  it('navigation-menu: „Geöffnet" startet zu, Klick oeffnet das Panel im Viewport', async () => {
+  it('navigation-menu: „Geöffnet" startet zu, Klick oeffnet das Panel im Item, Escape schliesst', async () => {
     const w = await ausprobieren('navigation-menu')
     const z = zelle(w, 'two-col-callout')
     expect(z.find('.ra-anker.ra-anker--desktop > nav.nc-navigation-menu').exists()).toBe(true)
-    const huelle = z.find('.nc-navigation-menu__viewport-wrapper')
-    expect(huelle.attributes('data-state')).toBe('closed')
-    await z.find('.nc-navigation-menu__trigger').trigger('click')
-    expect(huelle.attributes('data-state')).toBe('open')
-    expect(z.find('.nc-navigation-menu__viewport > .nc-navigation-menu__content--two-col .nc-navigation-menu__callout').exists()).toBe(true)
+    const [produkte, services] = z.findAll('.nc-navigation-menu__trigger')
+    const panel = (k) => z.find(`[id="${k.attributes('aria-controls')}"]`)
+    expect(produkte.attributes('aria-expanded')).toBe('false')
+    expect(panel(produkte).attributes('hidden')).toBeDefined()
+    await produkte.trigger('click')
+    expect(produkte.attributes('aria-expanded')).toBe('true')
+    expect(panel(produkte).attributes('hidden')).toBeUndefined()
+    expect(panel(produkte).find('.nc-navigation-menu__callout').exists()).toBe(true)
+    // nur ein Panel offen
+    await services.trigger('click')
+    expect(produkte.attributes('aria-expanded')).toBe('false')
+    expect(panel(produkte).attributes('hidden')).toBeDefined()
+    expect(services.attributes('aria-expanded')).toBe('true')
+    // Escape aus dem Panel: zu, Fokus auf den Ausloeser
+    const link = panel(services).find('a[href]')
+    link.element.focus()
+    await link.trigger('keydown', { key: 'Escape' })
+    expect(services.attributes('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(services.element)
+    // Klick ausserhalb schliesst
+    await produkte.trigger('click')
+    document.body.click()
+    await flushPromises()
+    expect(produkte.attributes('aria-expanded')).toBe('false')
     expect(z.find('.ra-kopf').exists()).toBe(false)
     expect(zelle(w, 'composition-header').find('.ra-kopf.ra-anker--desktop').exists()).toBe(true)
     w.unmount()

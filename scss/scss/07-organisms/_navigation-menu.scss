@@ -1,30 +1,35 @@
 // ==========================================================================
 // 07-Organisms: Navigation Menu
 // ==========================================================================
-// shadcn-inspiriertes NavigationMenu mit Radix-UI Patterns
+// WAI-ARIA Disclosure-Navigation (Recipe 3.0.0, Entscheidung 03.10.2026)
 //
 // Struktur:
-//   .nc-navigation-menu                 → Root (nav)
-//     .nc-navigation-menu__list         → Liste (ul)
+//   .nc-navigation-menu                 → Root (nav, aria-label)
+//     .nc-navigation-menu__list         → Liste (ul, keine Rolle)
 //       .nc-navigation-menu__item       → Eintrag (li)
 //         .nc-navigation-menu__trigger  → Button mit Chevron
-//         .nc-navigation-menu__content  → Dropdown-Inhalt
-//           .nc-navigation-menu__link   → Link im Dropdown
+//                                         (aria-expanded, aria-controls)
+//         .nc-navigation-menu__content  → Panel (id, [hidden] wenn zu)
+//           .nc-navigation-menu__link   → Link im Panel
 //       .nc-navigation-menu__item
-//         .nc-navigation-menu__link     → Direkter Top-Level-Link
-//     .nc-navigation-menu__indicator    → Animierter Indikator (Unterstrich)
-//     .nc-navigation-menu__viewport     → Viewport-Container
+//         .nc-navigation-menu__link--top → Direkter Top-Level-Link
+//     .nc-navigation-menu__indicator    → Animierter Indikator (dekorativ)
 //
-// Data-Attributes:
-//   [data-state="open|closed"]  → Trigger + Content State
-//   [data-active]               → Aktiver Navigationslink
-//   [data-trigger="hover|click"] → Trigger-Modus
+// Zustaende:
+//   [aria-expanded="true"] am Ausloeser + Panel ohne [hidden] → offen; das
+//     Panel liegt unter der Leiste in voller Breite des Menues
+//   [aria-current="page"]       → aktuelle Seite (Top-Level-Link; ein
+//                                 Panel mit aktueller Seite markiert den
+//                                 Ausloeser)
+//   [data-trigger="hover|click"] → Trigger-Modus (Verhalten)
+//
+// Altes Markup (Recipe 2.x, Menubar mit Viewport-Kopie: website/js/site.js)
+// bleibt lesbar: [data-state="open"], [data-active] und
+// .nc-navigation-menu__viewport(-wrapper) wirken weiter (veraltet).
 //
 // VARIANTEN:
-//   Default: Radix-Dropdown mit Viewport
-//   --mega: Grid-Layout im Content fuer Mega-Menus
-//
-// Inspiriert von shadcn NavigationMenu / Radix NavigationMenu
+//   Default: Panel mit Link-Liste
+//   --two-col / --mega: Layout im Content
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -67,8 +72,9 @@
 // Item
 // ---------------------------------------------------------------------------
 
+// Ohne eigene Positionierung: das offene Panel richtet sich an der Wurzel
+// aus (volle Breite des Menues), nicht am Item.
 .nc-navigation-menu__item {
-  position: relative;
   height: 100%;
   margin-block: var(--mod-nav-menu-item-margin, var(--nc-nav-menu-item-margin));
 }
@@ -108,6 +114,8 @@
     @include focus-ring;
   }
 
+  // Offen (Disclosure); [data-state='open'] = altes Markup (site.js)
+  &[aria-expanded='true'],
   &[data-state='open'] {
     background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
@@ -129,8 +137,10 @@
     @include transition-quick((transform));
   }
 
-  // Aktueller Navigationsast: Indikator dauerhaft sichtbar
-  &[data-current='true']::after {
+  // Aktueller Navigationsast: Indikator dauerhaft sichtbar — per
+  // data-current oder weil das Panel die aktuelle Seite enthaelt
+  &[data-current='true']::after,
+  &:has(+ .nc-navigation-menu__content [aria-current='page'])::after {
     transform: scaleX(1);
   }
 
@@ -183,6 +193,7 @@
   flex-shrink: 0;
   transition: transform var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
+  [aria-expanded='true'] > &,
   [data-state='open'] > & {
     transform: rotate(180deg);
   }
@@ -227,20 +238,21 @@
     @include focus-ring;
   }
 
+  &[aria-current='page'],
   &[data-active] {
     background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 }
 
 // ---------------------------------------------------------------------------
-// Content (Dropdown-Panel)
+// Content (Panel)
 // ---------------------------------------------------------------------------
 
 .nc-navigation-menu__content {
-  // Im Item versteckt — dient nur als Daten-Template fuer den Viewport.
-  // visibility: hidden nimmt die Vorlage aus Tab-Folge und
-  // Barrierefreiheits-Baum — auch ohne [inert] (das Behavior setzt es,
-  // website/js/site.js nicht). [hidden] blendet sie ganz aus.
+  // Zu: [hidden] blendet das Panel ganz aus. Ohne offenen Ausloeser bleibt
+  // es auch ohne [hidden] unsichtbar (visibility: hidden nimmt es aus
+  // Tab-Folge und Barrierefreiheits-Baum) — so dient es im alten Markup
+  // (site.js) weiter als Vorlage fuer die Viewport-Kopie.
   .nc-navigation-menu__item > & {
     position: absolute;
     width: 0;
@@ -256,7 +268,44 @@
     display: none;
   }
 
-  // Sichtbar nur innerhalb des Viewports
+  // Offen (Disclosure, erkennbar an aria-controls — das alte Markup hat es
+  // nicht und zeigt weiter die Viewport-Kopie): direkt nach dem Ausloeser
+  // im Item, sichtbar unter der Leiste in voller Breite der Wurzel —
+  // Flaeche, Schatten und Abstaende wie bisher Viewport-Huelle + Viewport +
+  // Inhalt zusammen.
+  .nc-navigation-menu__item > .nc-navigation-menu__trigger[aria-expanded='true'][aria-controls] + &:not([hidden]) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: var(--fnd-z-dropdown);
+    width: auto;
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    visibility: visible;
+    clip: auto;
+    pointer-events: auto;
+    padding-block: calc(2 * var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)));
+    // Inhalt auf Container-Breite zentriert, Flaeche volle Breite
+    padding-inline: max(0px, calc((100% - var(--mod-container-max-width, var(--nc-container-max-width))) / 2));
+    background-color: var(--mod-nav-menu-viewport-bg, var(--nc-nav-menu-viewport-bg));
+    box-shadow: var(--mod-nav-sticky-shadow, var(--nc-nav-sticky-shadow));
+  }
+
+  // Oeffnen blendet ein (wie bisher die Viewport-Huelle); ein Wechsel
+  // animiert zusaetzlich per data-motion (unten)
+  @media (prefers-reduced-motion: no-preference) {
+    .nc-navigation-menu__item > .nc-navigation-menu__trigger[aria-expanded='true'][aria-controls] + &:not([hidden]) {
+      transition: opacity var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+
+  // Altes Markup (site.js): sichtbar nur als Kopie im Viewport
   .nc-navigation-menu__viewport & {
     position: static;
     width: auto;
@@ -429,8 +478,9 @@
 }
 
 // ---------------------------------------------------------------------------
-// Viewport (Full-Width Container fuer Content-Panels, Celonis-Stil)
+// Viewport (veraltet seit Recipe 3.0.0 — nur altes Markup, site.js)
 // ---------------------------------------------------------------------------
+// Das Disclosure-Markup braucht keinen Viewport: das Panel bleibt im Item.
 // Der Viewport-Wrapper spannt die volle Viewport-Breite auf.
 // Der Viewport selbst begrenzt den Content auf max-width.
 
@@ -460,7 +510,9 @@
   }
 }
 
-// Nav-Schatten ausblenden wenn ein Dropdown offen ist
+// Nav-Schatten ausblenden wenn ein Panel offen ist (Disclosure bzw. altes
+// Markup mit Viewport)
+.nc-header:has(.nc-navigation-menu__trigger[aria-expanded='true']),
 .nc-header:has(.nc-navigation-menu__viewport-wrapper[data-state='open']) {
   box-shadow: none !important;
 }

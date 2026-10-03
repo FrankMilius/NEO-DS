@@ -2,30 +2,34 @@
 // ==========================================================================
 // Navigationsmenue — nach data/navigation-menu-recipe.json (keyboard, events)
 // ==========================================================================
-// Menue-Leiste mit Panels (WAI-ARIA Menubar, Markup wie im SCSS und in
-// website/js/site.js): ul.__list[role=menubar] > li.__item mit
-// button.__trigger (Panel) oder a.__link--top (direkter Link). Der Inhalt
-// .__content im Item ist nur Vorlage (das SCSS blendet ihn dort aus); offen
-// zeigt ihn eine Kopie im Viewport (.__viewport-wrapper > .__viewport).
-// Zustaende wie im SCSS: data-state="open|closed" an Ausloeser, Inhalt,
-// Huelle und Viewport, aria-expanded am Ausloeser, data-motion fuer den
-// Panel-Wechsel, Indikator data-state="visible|hidden" (Lage per Custom
-// Property --_indicator-left/--_indicator-width, die das SCSS liest; site.js
-// setzt left/width noch als Inline-Stil, das bleibt gueltig).
-//   Leiste    roving tabindex (eine Tab-Station); Pfeil rechts/links
-//             (rundum), Pos1, Ende; ist ein Panel offen, folgt es dem Fokus.
-//             Pfeil runter, Enter, Leertaste oeffnen → erster Eintrag;
-//             Pfeil hoch → letzter Eintrag
-//   Panel     Pfeil runter/hoch (rundum), Pos1, Ende; Pfeil rechts/links
-//             schliesst und geht zum naechsten/vorherigen Leisten-Eintrag
-//             (dessen Panel oeffnet, Fokus bleibt in der Leiste); Escape
-//             schliesst, Fokus zurueck; Tab schliesst und geht weiter
-//   Maus      data-trigger="hover": oeffnet nach 150 ms Verweilen, schliesst
-//             150 ms nach Verlassen (Viewport haelt offen);
-//             data-trigger="click": nur Klick. Klick auf den Ausloeser
-//             schaltet immer; Klick ausserhalb und Fokusverlust schliessen.
-// Die Vorlagen im Item bekommen `inert` (sonst per Tab erreichbar und
-// doppelt im Barrierefreiheits-Baum), die Kopie im Viewport nicht.
+// WAI-ARIA Disclosure-Navigation (Recipe 3.0.0, Entscheidung 03.10.2026;
+// https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/).
+// Markup:
+//   nav.nc-navigation-menu[aria-label] > ul.__list > li.__item mit
+//     button.__trigger[type=button][aria-expanded][aria-controls] + div.__content#id[hidden]
+//     oder a.__link--top (aria-current="page" fuer die aktuelle Seite)
+//   div.__indicator (dekorativ, data-state="visible|hidden")
+// Keine Rollen menubar/menu/menuitem/none, kein roving tabindex: jeder Link
+// und jeder Ausloeser der obersten Ebene ist eine eigene Tab-Station. Das
+// Panel liegt im Item direkt nach seinem Ausloeser, die Tab-Folge fuehrt
+// also vom offenen Ausloeser in sein Panel. Offen = aria-expanded="true" am
+// Ausloeser und kein [hidden] am Panel (das SCSS liest genau das).
+//   Ausloeser  Enter/Leertaste (nativer Klick) und Klick schalten das Panel
+//   Escape     schliesst das offene Panel, Fokus auf dessen Ausloeser
+//   Pfeile     (optional, APG erlaubt es) Pfeil rechts/links, Pos1, Ende
+//              zwischen den Eintraegen der obersten Ebene (rundum, Panel
+//              bleibt wie es ist); Pfeil runter auf einem Ausloeser oeffnet
+//              und fokussiert den ersten Link im Panel; im Panel Pfeil
+//              runter/hoch (rundum), Pos1, Ende zwischen den Links
+//   Schliessen Fokus verlaesst das offene Item (Tab weiter, anderer
+//              Eintrag) oder das Menue, Klick ausserhalb, Klick auf einen
+//              Link im Panel; es ist immer hoechstens ein Panel offen
+//   Maus       data-trigger="hover": oeffnet nach 150 ms Verweilen am Item,
+//              schliesst 150 ms nach Verlassen (das Panel gehoert zum Item);
+//              data-trigger="click": nur Klick
+// Panel-Wechsel: data-motion (from-start|from-end) am neuen Panel fuer die
+// Animation im SCSS. Indikator: Lage per Custom Property
+// --_indicator-left/--_indicator-width.
 //
 // Ereignis `navigation-menu-change` { value, previousValue } — Name des
 // offenen Panels (Text des Ausloesers), null = alle zu.
@@ -34,7 +38,8 @@ import { sende, zielFuerTaste } from './kern.js'
 
 const VERWEILEN = 150
 const OBEN = ':scope > .nc-navigation-menu__item > .nc-navigation-menu__trigger, :scope > .nc-navigation-menu__item > .nc-navigation-menu__link--top'
-const EINTRAG = '[role="menuitem"], a[href], button:not([disabled])'
+const LINK = 'a[href], button:not([disabled])'
+let laufnummer = 0
 
 export const navigationMenu = {
   id: 'navigation-menu',
@@ -43,67 +48,69 @@ export const navigationMenu = {
     const leiste = /** @type {HTMLElement|null} */ (wurzel.querySelector(':scope > .nc-navigation-menu__list'))
     if (!leiste) return
     const dok = wurzel.ownerDocument
-    const huelle = /** @type {HTMLElement|null} */ (wurzel.querySelector(':scope > .nc-navigation-menu__viewport-wrapper'))
-    const sicht = /** @type {HTMLElement|null} */ (huelle?.querySelector(':scope > .nc-navigation-menu__viewport') || null)
     const zeiger = /** @type {HTMLElement|null} */ (wurzel.querySelector(':scope > .nc-navigation-menu__indicator'))
     const perHover = wurzel.dataset.trigger !== 'click'
 
     const oben = () => /** @type {HTMLElement[]} */ ([...leiste.querySelectorAll(OBEN)])
     const istAusloeser = (el) => el.classList.contains('nc-navigation-menu__trigger')
-    const vorlage = (a) => /** @type {HTMLElement|null} */ (a.parentElement?.querySelector(':scope > .nc-navigation-menu__content') || null)
+    const ausloeser = () => oben().filter(istAusloeser)
+    /** Panel eines Ausloesers: der Nachbar im Item, sonst per aria-controls (zuerst im Menue). */
+    const panel = (a) => {
+      const nachbar = a.parentElement?.querySelector(':scope > .nc-navigation-menu__content')
+      if (nachbar) return /** @type {HTMLElement} */ (nachbar)
+      const id = a.getAttribute('aria-controls')
+      if (!id) return null
+      return /** @type {HTMLElement|null} */ (wurzel.querySelector(`[id="${CSS.escape(id)}"]`) || dok.getElementById(id))
+    }
     const name = (a) => (a.querySelector('span')?.textContent || a.textContent || '').trim()
-    const eintraege = () => sicht ? /** @type {HTMLElement[]} */ ([...sicht.querySelectorAll(EINTRAG)]) : []
+    const links = (a) => { const p = panel(a); return p ? /** @type {HTMLElement[]} */ ([...p.querySelectorAll(LINK)]) : [] }
     let offen = /** @type {HTMLElement|null} */ (null)
     let uhr = 0
 
-    // Startzustand: Vorlagen inert, eine Tab-Station in der Leiste
-    for (const a of oben()) { const v = istAusloeser(a) && vorlage(a); if (v) v.setAttribute('inert', '') }
-    const start = oben().find((a) => a.dataset.state === 'open' || a.dataset.current === 'true' || a.getAttribute('aria-current') === 'page') || oben()[0]
-    const tabStopp = (el) => { for (const a of oben()) a.tabIndex = a === el ? 0 : -1 }
-    if (start) tabStopp(start)
-    for (const a of oben()) if (istAusloeser(a) && !a.hasAttribute('aria-expanded')) a.setAttribute('aria-expanded', 'false')
+    // Startzustand: jeder Ausloeser mit aria-expanded und aria-controls,
+    // jedes Panel ohne offenen Ausloeser [hidden]
+    for (const a of ausloeser()) {
+      const p = panel(a)
+      if (!p) continue
+      if (!p.id) p.id = `nc-navigation-menu-panel-${++laufnummer}`
+      a.setAttribute('aria-controls', p.id)
+      const auf = a.getAttribute('aria-expanded') === 'true' && !offen
+      a.setAttribute('aria-expanded', String(auf))
+      p.hidden = !auf
+      if (auf) offen = a
+    }
 
-    const zustand = (el, an) => { if (el) el.dataset.state = an ? 'open' : 'closed' }
+    const zeigerAuf = (a) => {
+      if (!zeiger) return
+      if (!a) { zeiger.dataset.state = 'hidden'; return }
+      const r = a.getBoundingClientRect()
+      const n = wurzel.getBoundingClientRect()
+      zeiger.dataset.state = 'visible'
+      zeiger.style.setProperty('--_indicator-left', `${r.left - n.left + r.width / 2 - 5}px`)
+      zeiger.style.setProperty('--_indicator-width', '10px')
+    }
+    if (offen) zeigerAuf(offen)
 
-    const oeffne = (a, fokus = /** @type {'erster'|'letzter'|null} */ (null)) => {
-      const v = vorlage(a)
-      if (!sicht || !v || a.hasAttribute('disabled')) return
+    const zu = (a) => {
+      a.setAttribute('aria-expanded', 'false')
+      const p = panel(a)
+      if (p) p.hidden = true
+    }
+
+    const oeffne = (a) => {
+      const p = panel(a)
       clearTimeout(uhr)
-      if (offen !== a) {
-        const liste = oben()
-        const vorher = offen
-        if (vorher) {
-          zustand(vorher, false)
-          vorher.setAttribute('aria-expanded', 'false')
-          const alt = vorlage(vorher)
-          zustand(alt, false)
-          if (alt) alt.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? 'to-start' : 'to-end'
-        }
-        offen = a
-        zustand(a, true)
-        a.setAttribute('aria-expanded', 'true')
-        zustand(v, true)
-        if (vorher) v.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? 'from-end' : 'from-start'
-        else delete v.dataset.motion
-        const kopie = /** @type {HTMLElement} */ (v.cloneNode(true))
-        kopie.removeAttribute('inert')
-        sicht.replaceChildren(kopie)
-        for (const e of eintraege()) e.tabIndex = -1
-        zustand(huelle, true)
-        zustand(sicht, true)
-        if (zeiger) {
-          const r = a.getBoundingClientRect()
-          const n = wurzel.getBoundingClientRect()
-          zeiger.dataset.state = 'visible'
-          zeiger.style.setProperty('--_indicator-left', `${r.left - n.left + r.width / 2 - 5}px`)
-          zeiger.style.setProperty('--_indicator-width', '10px')
-        }
-        sende(wurzel, 'navigation-menu-change', { value: name(a), previousValue: vorher ? name(vorher) : null })
-      }
-      if (fokus) {
-        const liste = eintraege()
-        ;(fokus === 'letzter' ? liste.at(-1) : liste[0])?.focus()
-      }
+      if (!p || a.hasAttribute('disabled') || offen === a) return
+      const vorher = offen
+      const liste = oben()
+      if (vorher) zu(vorher)
+      offen = a
+      a.setAttribute('aria-expanded', 'true')
+      if (vorher) p.dataset.motion = liste.indexOf(vorher) < liste.indexOf(a) ? 'from-end' : 'from-start'
+      else delete p.dataset.motion
+      p.hidden = false
+      zeigerAuf(a)
+      sende(wurzel, 'navigation-menu-change', { value: name(a), previousValue: vorher ? name(vorher) : null })
     }
 
     const schliesse = (fokusZurueck = false) => {
@@ -111,97 +118,86 @@ export const navigationMenu = {
       const a = offen
       if (!a) return
       offen = null
-      zustand(a, false)
-      a.setAttribute('aria-expanded', 'false')
-      zustand(vorlage(a), false)
-      zustand(huelle, false)
-      zustand(sicht, false)
-      sicht?.replaceChildren()
-      if (zeiger) zeiger.dataset.state = 'hidden'
+      zu(a)
+      zeigerAuf(null)
       sende(wurzel, 'navigation-menu-change', { value: null, previousValue: name(a) })
       if (fokusZurueck) a.focus()
     }
 
-    /** Fokus auf einen Leisten-Eintrag; ist ein Panel offen, folgt es. */
-    const wechsle = (ziel, panelMit) => {
-      tabStopp(ziel)
-      ziel.focus()
-      if (panelMit && istAusloeser(ziel)) oeffne(ziel)
-      else if (panelMit) schliesse()
-    }
-
-    leiste.addEventListener('keydown', (e) => {
-      const a = /** @type {HTMLElement} */ (e.target)
-      if (!oben().includes(a)) return
-      const ausloeser = istAusloeser(a)
-      if (ausloeser && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); oeffne(a, 'erster'); return }
-      if (ausloeser && e.key === 'ArrowUp') { e.preventDefault(); oeffne(a, 'letzter'); return }
-      if (e.key === 'Escape') { if (offen) { e.preventDefault(); schliesse(true) } return }
-      if (e.key === 'Tab') { schliesse(); return }
-      const ziel = zielFuerTaste(e.key, oben(), a, 'horizontal')
-      if (!ziel) return
-      e.preventDefault()
-      wechsle(ziel, !!offen)
-    }, { signal })
-
-    sicht?.addEventListener('keydown', (e) => {
-      const eintrag = /** @type {HTMLElement} */ (e.target)
-      if (!offen || !eintraege().includes(eintrag)) return
-      const a = offen
-      if (e.key === 'Escape') { e.preventDefault(); schliesse(true); return }
-      if (e.key === 'Tab') { schliesse(); return }
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        e.preventDefault()
-        const ziel = zielFuerTaste(e.key, oben(), a, 'horizontal')
-        schliesse()
-        if (ziel) wechsle(ziel, true)
+    wurzel.addEventListener('keydown', (e) => {
+      const el = /** @type {HTMLElement} */ (e.target)
+      if (e.key === 'Escape') {
+        if (offen) { e.preventDefault(); schliesse(true) }
         return
       }
-      const ziel = zielFuerTaste(e.key, eintraege(), eintrag, 'vertikal')
-      if (!ziel) return
-      e.preventDefault()
-      ziel.focus()
+      // Oberste Ebene: Pfeil rechts/links, Pos1, Ende; Pfeil runter ins Panel
+      if (oben().includes(el)) {
+        if (e.key === 'ArrowDown' && istAusloeser(el)) {
+          e.preventDefault()
+          oeffne(el)
+          links(el)[0]?.focus()
+          return
+        }
+        const ziel = zielFuerTaste(e.key, oben(), el, 'horizontal')
+        if (!ziel) return
+        e.preventDefault()
+        ziel.focus()
+        return
+      }
+      // Im offenen Panel: Pfeil runter/hoch, Pos1, Ende zwischen den Links
+      if (offen) {
+        const liste = links(offen)
+        if (!liste.includes(el)) return
+        const ziel = zielFuerTaste(e.key, liste, el, 'vertikal')
+        if (!ziel) return
+        e.preventDefault()
+        ziel.focus()
+      }
     }, { signal })
 
     leiste.addEventListener('click', (e) => {
-      const a = /** @type {HTMLElement} */ (e.target).closest('.nc-navigation-menu__trigger')
-      if (!a || !leiste.contains(a)) return
-      tabStopp(/** @type {HTMLElement} */ (a))
-      if (offen === a) schliesse()
-      else oeffne(/** @type {HTMLElement} */ (a))
-    }, { signal })
-    sicht?.addEventListener('click', (e) => {
-      if (/** @type {HTMLElement} */ (e.target).closest('a[href]')) schliesse()
+      const ziel = /** @type {HTMLElement} */ (e.target)
+      const a = /** @type {HTMLElement|null} */ (ziel.closest('.nc-navigation-menu__trigger'))
+      if (a && leiste.contains(a)) {
+        if (offen === a) schliesse()
+        else oeffne(a)
+        return
+      }
+      if (offen && ziel.closest('a[href]') && panel(offen)?.contains(ziel)) schliesse()
     }, { signal })
 
-    leiste.addEventListener('focusin', (e) => {
-      const a = /** @type {HTMLElement} */ (e.target)
-      if (oben().includes(a) && a.tabIndex !== 0) tabStopp(a)
+    // Fokus verlaesst das offene Item (anderer Eintrag, Tab hinaus) → zu.
+    // Ausnahme: Mausdruck auf einen anderen Ausloeser — der Klick wechselt
+    // dann direkt das Panel (ein Ereignis, Animation mit Richtung).
+    let druck = /** @type {HTMLElement|null} */ (null)
+    leiste.addEventListener('mousedown', (e) => {
+      druck = /** @type {HTMLElement} */ (e.target).closest('.nc-navigation-menu__trigger')
+      window.setTimeout(() => { druck = null }, 0)
+    }, { signal })
+    wurzel.addEventListener('focusin', (e) => {
+      const el = /** @type {HTMLElement} */ (e.target)
+      if (!offen || offen.parentElement?.contains(el) || (druck && druck === el)) return
+      schliesse()
+    }, { signal })
+    wurzel.addEventListener('focusout', (e) => {
+      const nach = /** @type {Node|null} */ (e.relatedTarget)
+      if (offen && nach && !wurzel.contains(nach)) schliesse()
     }, { signal })
 
     // Maus (data-trigger="hover"): Verweilen oeffnet, Verlassen schliesst
     const spaeter = (fn) => { clearTimeout(uhr); uhr = window.setTimeout(fn, VERWEILEN) }
     if (perHover) {
-      for (const a of oben().filter(istAusloeser)) {
+      for (const a of ausloeser()) {
         const item = /** @type {HTMLElement} */ (a.parentElement)
         item.addEventListener('mouseenter', () => spaeter(() => oeffne(a)), { signal })
-        item.addEventListener('mouseleave', () => spaeter(() => schliesse()), { signal })
+        item.addEventListener('mouseleave', () => spaeter(() => { if (offen === a) schliesse() }), { signal })
       }
-      huelle?.addEventListener('mouseenter', () => clearTimeout(uhr), { signal })
-      huelle?.addEventListener('mouseleave', () => spaeter(() => schliesse()), { signal })
     }
-    signal.addEventListener('abort', () => {
-      clearTimeout(uhr)
-      for (const a of oben()) vorlage(a)?.removeAttribute('inert')
-    })
+    signal.addEventListener('abort', () => clearTimeout(uhr))
 
-    // Light Dismiss: Klick ausserhalb, Fokus verlaesst das Menue
+    // Light Dismiss: Klick ausserhalb
     dok.addEventListener('click', (e) => {
       if (offen && !wurzel.contains(/** @type {Node} */ (e.target))) schliesse()
     }, { signal, capture: true })
-    wurzel.addEventListener('focusout', (e) => {
-      const nach = /** @type {Node|null} */ (e.relatedTarget)
-      if (offen && nach && !wurzel.contains(nach)) schliesse()
-    }, { signal })
   }
 }

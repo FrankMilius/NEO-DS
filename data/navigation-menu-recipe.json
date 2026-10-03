@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-menu",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,17 @@
       "docs": "/docs/navigation-menu-docs"
     },
     "changelog": [
+      {
+        "version": "3.0.0",
+        "changes": [
+          "BREAKING (Entscheidung 03.10.2026): WAI-ARIA Disclosure-Navigation statt Menubar — keine Rollen menubar/menu/menuitem/none, kein roving tabindex, kein aria-haspopup",
+          "Markup: nav[aria-label] > ul > li mit Links bzw. button[type=button][aria-expanded][aria-controls] + Panel .nc-navigation-menu__content#id[hidden]; das Panel liegt im Item direkt nach dem Ausloeser (Tab-Folge Ausloeser → Panel)",
+          "Viewport (.nc-navigation-menu__viewport-wrapper/__viewport) und Panel-Kopie entfallen; das SCSS zeigt das offene Panel unter der Leiste in voller Breite (Aussehen unveraendert, per Screenshot geprueft)",
+          "Zustaende ueber aria-expanded/[hidden] statt data-state; aria-current='page' fuer die aktuelle Seite (Top-Level-Link; ein Panel mit aktueller Seite markiert seinen Ausloeser)",
+          "Tastatur: Tab durch alle Eintraege, Enter/Leertaste schalten (nativ), Escape schliesst mit Fokus auf den Ausloeser; optionale Pfeiltasten zwischen den Top-Level-Eintraegen und im Panel; Fokus verlaesst das offene Item, Klick ausserhalb → zu; hoechstens ein Panel offen",
+          "Altes Markup (2.x, website/js/site.js) bleibt im SCSS lesbar (data-state, data-active, Viewport — veraltet)"
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -94,23 +105,20 @@
         "name": "indicator",
         "element": ".nc-navigation-menu__indicator",
         "optional": true
-      },
-      {
-        "name": "viewport",
-        "element": ".nc-navigation-menu__viewport",
-        "optional": true
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Radix-UI Pattern: nav > ul > li > trigger/content.",
-      "Data-Attributes: [data-state=open|closed] auf Trigger/Content, [data-active] auf Links.",
-      "Viewport: animierter Container fuer Dropdown-Inhalte, teilt Tokens mit Popover.",
-      "Indicator: 2px Unterstrich-Balken mit layout-transition (sanftes Hergleiten statt Springen).",
-      "Mega-Menu: --mega Modifier, Grid mit konfigurierbaren Spalten (default 2).",
+      "WAI-ARIA Disclosure-Navigation: nav[aria-label] > ul > li > button[aria-expanded][aria-controls] + Panel (.nc-navigation-menu__content#id) bzw. a.nc-navigation-menu__link--top.",
+      "Keine Rollen menubar/menu/menuitem/none, kein roving tabindex — jeder Top-Level-Eintrag ist eine Tab-Station.",
+      "Zu: Panel mit [hidden], aria-expanded='false'. Offen: aria-expanded='true', Panel ohne [hidden]; das SCSS zeigt es unter der Leiste in voller Breite der Wurzel.",
+      "Aktuelle Seite: aria-current='page' am Link; enthaelt ein Panel die aktuelle Seite, zeigt sein Ausloeser den Unterstrich dauerhaft (alternativ data-current='true').",
+      "Indicator: dekorativer Unterstrich/Pfeil, data-state='visible|hidden', Lage per Custom Property --_indicator-left/--_indicator-width.",
+      "Mega-Menu: --mega Modifier am Panel, Grid mit konfigurierbaren Spalten (default 3).",
       "Featured Item: Grafischer Highlight-Slot, volle Breite im Grid (grid-column: 1 / -1).",
-      "Callout: Highlight-Bereich im Mega-Menu (linke Spalte, Gradient-BG).",
-      "Trigger-Mode: data-trigger='hover' (Desktop) vs 'click' (Touch/komplexe Menus)."
+      "Callout: Highlight-Bereich (linke Spalte, Gradient-BG) im Layout two-col.",
+      "Trigger-Mode: data-trigger='hover' (Desktop) vs 'click' (Touch/komplexe Menus).",
+      "Veraltet (Recipe 2.x, website/js/site.js): Menubar-Rollen, data-state='open|closed', .nc-navigation-menu__viewport(-wrapper) mit Kopie des Panels — das SCSS liest es weiter."
     ]
   },
   "axes": {
@@ -181,7 +189,7 @@
     "rules": [
       {
         "state": "open",
-        "condition": "[data-state=open] auf Trigger"
+        "condition": "aria-expanded='true' am Ausloeser, Panel ohne [hidden]"
       },
       {
         "state": "hover",
@@ -198,7 +206,7 @@
         "hasAccessibleName",
         "supportsKeyboard"
       ],
-      "note": "nav mit aria-label. Trigger: aria-expanded, aria-haspopup. Keyboard: Arrow-Keys, Escape, Tab. Focus-Ring auf allen interaktiven Elementen."
+      "note": "Disclosure-Navigation (WAI-ARIA APG): nav mit aria-label; Ausloeser button[type=button] mit aria-expanded und aria-controls; Panel [hidden] wenn zu; aria-current='page' fuer die aktuelle Seite. Keyboard: Tab, Enter/Leertaste, Escape; optional Pfeiltasten. Focus-Ring auf allen interaktiven Elementen."
     },
     "overrides": [
       {
@@ -222,10 +230,10 @@
         "when": {},
         "require": [
           "aria-expanded",
-          "aria-haspopup"
+          "aria-controls"
         ],
         "notes": [
-          "Trigger: aria-expanded + aria-haspopup='true'."
+          "Ausloeser: button[type=button] mit aria-expanded und aria-controls (id des Panels). Kein aria-haspopup, keine Menue-Rollen."
         ]
       },
       {
@@ -234,7 +242,7 @@
           "keyboard-navigation"
         ],
         "notes": [
-          "Arrow Left/Right zwischen Top-Level-Items. Arrow Down in offenes Menu. Escape schliesst."
+          "Tab durch alle Top-Level-Eintraege (kein roving tabindex). Enter/Leertaste schalten, Escape schliesst mit Fokus auf den Ausloeser. Pfeiltasten optional (APG)."
         ]
       }
     ],
@@ -347,45 +355,45 @@
     }
   },
   "keyboard": {
-    "ArrowRight": {
-      "action": "focus-next-top-item",
-      "note": "In der Leiste: naechster Eintrag (rundum); ist ein Panel offen, oeffnet das des neuen Eintrags. Im Panel: schliesst es und geht zum naechsten Leisten-Eintrag (dessen Panel oeffnet, Fokus bleibt in der Leiste)."
-    },
-    "ArrowLeft": {
-      "action": "focus-prev-top-item",
-      "note": "Wie ArrowRight, rueckwaerts."
-    },
-    "ArrowDown": {
-      "action": "open-or-focus-next",
-      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den ersten Eintrag. Im Panel: naechster Eintrag (rundum)."
-    },
-    "ArrowUp": {
-      "action": "open-or-focus-prev",
-      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den letzten Eintrag. Im Panel: vorheriger Eintrag (rundum)."
-    },
-    "Home": {
-      "action": "focus-first",
-      "note": "Erster Eintrag der Leiste bzw. des Panels."
-    },
-    "End": {
-      "action": "focus-last",
-      "note": "Letzter Eintrag der Leiste bzw. des Panels."
+    "Tab": {
+      "action": "sequential-focus",
+      "note": "Durch alle Links und Ausloeser der obersten Ebene (jeder eine Tab-Station), vom offenen Ausloeser in sein Panel. Verlaesst der Fokus das offene Item oder das Menue, schliesst das Panel."
     },
     "Enter": {
-      "action": "open",
-      "note": "Auf einem Ausloeser: oeffnet das Panel, Fokus auf den ersten Eintrag. Auf Links: folgt dem Link (nativ)."
+      "action": "toggle",
+      "note": "Auf einem Ausloeser: oeffnet bzw. schliesst sein Panel (nativer Klick), der Fokus bleibt; ein anderes offenes Panel schliesst. Auf Links: folgt dem Link."
     },
     "Space": {
-      "action": "open",
+      "action": "toggle",
       "note": "Auf einem Ausloeser wie Enter."
     },
     "Escape": {
       "action": "close",
-      "note": "Schliesst das Panel, Fokus zurueck auf den Ausloeser."
+      "note": "Schliesst das offene Panel, Fokus auf dessen Ausloeser (vom Ausloeser oder aus dem Panel)."
     },
-    "Tab": {
-      "action": "close",
-      "note": "Schliesst das Panel, der Fokus geht normal weiter. Die Leiste ist eine Tab-Station (roving tabindex)."
+    "ArrowRight": {
+      "action": "focus-next-top-item",
+      "note": "Optional (APG): naechster Eintrag der obersten Ebene (rundum). Das Panel bleibt, wie es ist — verlaesst der Fokus das offene Item, schliesst es."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-top-item",
+      "note": "Optional: wie ArrowRight, rueckwaerts."
+    },
+    "ArrowDown": {
+      "action": "open-or-focus-next",
+      "note": "Optional: auf einem Ausloeser oeffnet es das Panel und fokussiert den ersten Link darin; im Panel naechster Link (rundum)."
+    },
+    "ArrowUp": {
+      "action": "focus-prev",
+      "note": "Optional: im Panel vorheriger Link (rundum)."
+    },
+    "Home": {
+      "action": "focus-first",
+      "note": "Optional: erster Eintrag der obersten Ebene bzw. erster Link im Panel."
+    },
+    "End": {
+      "action": "focus-last",
+      "note": "Optional: letzter Eintrag der obersten Ebene bzw. letzter Link im Panel."
     }
   },
   "events": {
@@ -395,7 +403,7 @@
         "value": "string",
         "previousValue": "string"
       },
-      "note": "Gefeuert wenn ein Panel oeffnet, wechselt oder schliesst. value: Name des offenen Panels (Text des Ausloesers), null wenn alle zu."
+      "note": "Gefeuert wenn ein Panel oeffnet, wechselt oder schliesst (Klick, Tastatur, Hover, Escape, Fokusverlust, Klick ausserhalb). value: Name des offenen Panels (Text des Ausloesers), null wenn alle zu. Ein Wechsel ist ein Ereignis (value = neues, previousValue = altes Panel)."
     }
   },
   "specimens": [
@@ -424,7 +432,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "aria-expanded, keyboard-navigation."
+        "note": "aria-expanded + aria-controls, Panel [hidden] wenn zu."
       }
     },
     {
@@ -480,7 +488,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Mega-Menu: role='menu' optional. Featured Item: dekorativ oder fokussierbar."
+        "note": "Disclosure: Panel ohne Menue-Rolle. Featured Item: normaler Link."
       }
     },
     {
@@ -538,7 +546,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Skip-Link, aria-label auf nav, roving tabindex."
+        "note": "Skip-Link, aria-label auf beiden nav (unterschiedlich), Disclosure ohne roving tabindex."
       }
     }
   ]
