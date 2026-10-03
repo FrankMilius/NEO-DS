@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "toolbar",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -57,8 +57,9 @@
       "Floating: Card-aehnlich mit surface-elevated BG, Shadow, groesserem Radius. Ideal fuer Canvas-Editoren.",
       "Blurred: Glassmorphism — halbtransparenter BG + backdrop-filter:blur. Fuer Shell-Integration.",
       "Compact: 32px Desktop / 48px Mobile (Touch-Target Compliance).",
-      "Sticky: position:sticky, top:0. Schatten via .is-scrolled Klasse (JS-gesteuert).",
-      "Alignment: --align-center (zentriert), --align-justify (space-between)."
+      "Sticky: position:sticky, top:0. Schatten via .is-scrolled — setzt neo-behaviors toolbar, solange die Leiste angeheftet ist (IntersectionObserver auf der Leiste mit um top+1px verkleinertem Rahmen; ohne IO bleibt die Klasse aus).",
+      "Alignment: --align-center (zentriert), --align-justify (space-between).",
+      "Tastatur (Entscheidungen 03.10.2026): Tab aus einem Eingabefeld geht zum Nachbarn in der Leiste, am Rand raus (toolbar-tab); eingebettete Gruppen (Toggle-Group, Segmented) laufen flach mit (toolbar-gruppen); Ereignis toolbar-focus bleibt (toolbar-ereignis)."
     ]
   },
   "api": null,
@@ -344,9 +345,43 @@
       "--mod-toolbar-overflow-trigger-size"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "ArrowRight": {
+      "action": "focus-next-control",
+      "note": "Naechstes Bedienelement der Leiste (rundum, gesperrte uebersprungen; auch in eingebetteten Gruppen wie Toggle-Group). In Eingabefeldern bleibt die Taste im Feld (Cursor). Eingebettete Gruppen flach (Entscheidung 03.10.2026, toolbar-gruppen)."
+    },
+    "ArrowLeft": {
+      "action": "focus-prev-control",
+      "note": "Vorheriges Bedienelement (rundum). In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "Home": {
+      "action": "focus-first-control",
+      "note": "Erstes Bedienelement. In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "End": {
+      "action": "focus-last-control",
+      "note": "Letztes Bedienelement. In Eingabefeldern bleibt die Taste im Feld."
+    },
+    "Tab": {
+      "action": "leave-toolbar",
+      "note": "Die Leiste ist eine Tab-Station (roving tabindex); Tab verlaesst sie. Aus einem Eingabefeld: naechstes Bedienelement der Leiste, am Rand raus (Entscheidung 03.10.2026, toolbar-tab)."
+    },
+    "Shift+Tab": {
+      "action": "leave-toolbar-backwards",
+      "note": "Wie Tab, rueckwaerts. Aus einem Eingabefeld: vorheriges Bedienelement der Leiste, am Rand raus (Entscheidung 03.10.2026, toolbar-tab)."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "toolbar-focus": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn ein anderes Bedienelement die Tab-Station uebernimmt (Pfeiltaste, Klick, Fokus). value: aria-label, Text oder placeholder des Elements. Bleibt (Entscheidung 03.10.2026, toolbar-ereignis)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

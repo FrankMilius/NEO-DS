@@ -300,8 +300,9 @@
     <li>Floating: Card-aehnlich mit surface-elevated BG, Shadow, groesserem Radius. Ideal fuer Canvas-Editoren.</li>
     <li>Blurred: Glassmorphism — halbtransparenter BG + backdrop-filter:blur. Fuer Shell-Integration.</li>
     <li>Compact: 32px Desktop / 48px Mobile (Touch-Target Compliance).</li>
-    <li>Sticky: position:sticky, top:0. Schatten via .is-scrolled Klasse (JS-gesteuert).</li>
+    <li>Sticky: position:sticky, top:0. Schatten via .is-scrolled — setzt neo-behaviors toolbar, solange die Leiste angeheftet ist (IntersectionObserver auf der Leiste mit um top+1px verkleinertem Rahmen; ohne IO bleibt die Klasse aus).</li>
     <li>Alignment: --align-center (zentriert), --align-justify (space-between).</li>
+    <li>Tastatur (Entscheidungen 03.10.2026): Tab aus einem Eingabefeld geht zum Nachbarn in der Leiste, am Rand raus (toolbar-tab); eingebettete Gruppen (Toggle-Group, Segmented) laufen flach mit (toolbar-gruppen); Ereignis toolbar-focus bleibt (toolbar-ereignis).</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

@@ -1718,11 +1718,31 @@
       el.type
     );
   }
+  function beobachteSticky(wurzel, signal) {
+    if (!wurzel.classList.contains("nc-toolbar--sticky")) return;
+    const fenster = wurzel.ownerDocument.defaultView;
+    const IO = fenster == null ? void 0 : fenster.IntersectionObserver;
+    if (typeof IO !== "function") return;
+    const vorher = wurzel.classList.contains("is-scrolled");
+    const oben = parseFloat(fenster.getComputedStyle(wurzel).top) || 0;
+    const beobachter = new IO((eintraege) => {
+      for (const e of eintraege) {
+        const rahmenOben = e.rootBounds ? e.rootBounds.top : oben + 1;
+        wurzel.classList.toggle("is-scrolled", e.intersectionRatio < 1 && e.boundingClientRect.top < rahmenOben);
+      }
+    }, { rootMargin: `-${oben + 1}px 0px 0px 0px`, threshold: [1] });
+    beobachter.observe(wurzel);
+    signal.addEventListener("abort", () => {
+      beobachter.disconnect();
+      wurzel.classList.toggle("is-scrolled", vorher);
+    });
+  }
   var nameVon = (el) => (el.getAttribute("aria-label") || el.textContent || el.getAttribute("placeholder") || el.getAttribute("name") || "").trim();
   var toolbar = {
     id: "toolbar",
     selektor: ".nc-toolbar",
     binde(wurzel, signal) {
+      beobachteSticky(wurzel, signal);
       const elemente = () => (
         /** @type {HTMLElement[]} */
         [...wurzel.querySelectorAll(BEDIENELEMENT)].filter((e) => !e.hasAttribute("disabled") && !e.closest('[hidden], [inert], [role="menu"], [role="listbox"], [role="dialog"]') && e.closest(".nc-toolbar") === wurzel)

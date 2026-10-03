@@ -1,5 +1,5 @@
 # toolbar Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `interactive`, `layout`, `action`, `editor`
 
@@ -27,8 +27,9 @@ Root element: `.nc-toolbar`
 - Floating: Card-aehnlich mit surface-elevated BG, Shadow, groesserem Radius. Ideal fuer Canvas-Editoren.
 - Blurred: Glassmorphism — halbtransparenter BG + backdrop-filter:blur. Fuer Shell-Integration.
 - Compact: 32px Desktop / 48px Mobile (Touch-Target Compliance).
-- Sticky: position:sticky, top:0. Schatten via .is-scrolled Klasse (JS-gesteuert).
+- Sticky: position:sticky, top:0. Schatten via .is-scrolled — setzt neo-behaviors toolbar, solange die Leiste angeheftet ist (IntersectionObserver auf der Leiste mit um top+1px verkleinertem Rahmen; ohne IO bleibt die Klasse aus).
 - Alignment: --align-center (zentriert), --align-justify (space-between).
+- Tastatur (Entscheidungen 03.10.2026): Tab aus einem Eingabefeld geht zum Nachbarn in der Leiste, am Rand raus (toolbar-tab); eingebettete Gruppen (Toggle-Group, Segmented) laufen flach mit (toolbar-gruppen); Ereignis toolbar-focus bleibt (toolbar-ereignis).
 
 ## Variants
 ### Variant (`variant`)
@@ -89,61 +90,76 @@ Base classes: `nc-toolbar`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-height` | — | — |
-| `nc-toolbar-padding` | — | — |
-| `nc-toolbar-gap` | — | — |
-| `nc-toolbar-bg` | — | — |
-| `nc-toolbar-border` | — | — |
-| `nc-toolbar-border-width` | — | — |
-| `nc-toolbar-radius` | — | — |
+| `--nc-toolbar-height` | — | `--mod-toolbar-height` |
+| `--nc-toolbar-padding` | — | `--mod-toolbar-padding` |
+| `--nc-toolbar-gap` | — | `--mod-toolbar-gap` |
+| `--nc-toolbar-bg` | — | `--mod-toolbar-bg` |
+| `--nc-toolbar-border` | — | `--mod-toolbar-border` |
+| `--nc-toolbar-border-width` | — | `--mod-toolbar-border-width` |
+| `--nc-toolbar-radius` | — | `--mod-toolbar-radius` |
 
 ### Separator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-separator-color` | — | — |
-| `nc-toolbar-separator-width` | — | — |
-| `nc-toolbar-separator-margin` | — | — |
-| `nc-toolbar-separator-height` | — | — |
+| `--nc-toolbar-separator-color` | — | `--mod-toolbar-separator-color` |
+| `--nc-toolbar-separator-width` | — | `--mod-toolbar-separator-width` |
+| `--nc-toolbar-separator-margin` | — | `--mod-toolbar-separator-margin` |
+| `--nc-toolbar-separator-height` | — | `--mod-toolbar-separator-height` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-label-color` | — | — |
-| `nc-toolbar-label-size` | — | — |
-| `nc-toolbar-label-weight` | — | — |
+| `--nc-toolbar-label-color` | — | `--mod-toolbar-label-color` |
+| `--nc-toolbar-label-size` | — | `--mod-toolbar-label-size` |
+| `--nc-toolbar-label-weight` | — | `--mod-toolbar-label-weight` |
 
 ### Compact
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-compact-height` | — | — |
-| `nc-toolbar-compact-gap` | — | — |
-| `nc-toolbar-compact-padding` | — | — |
+| `--nc-toolbar-compact-height` | — | `--mod-toolbar-compact-height` |
+| `--nc-toolbar-compact-gap` | — | `--mod-toolbar-compact-gap` |
+| `--nc-toolbar-compact-padding` | — | `--mod-toolbar-compact-padding` |
 
 ### Floating
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-floating-bg` | — | — |
-| `nc-toolbar-floating-radius` | — | — |
-| `nc-toolbar-floating-shadow` | — | — |
-| `nc-toolbar-floating-border` | — | — |
+| `--nc-toolbar-floating-bg` | — | `--mod-toolbar-floating-bg` |
+| `--nc-toolbar-floating-radius` | — | `--mod-toolbar-floating-radius` |
+| `--nc-toolbar-floating-shadow` | — | `--mod-toolbar-floating-shadow` |
+| `--nc-toolbar-floating-border` | — | `--mod-toolbar-floating-border` |
 
 ### Blurred (Glassmorphism)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-blurred-bg` | — | — |
-| `nc-toolbar-blurred-blur` | — | — |
-| `nc-toolbar-blurred-border` | — | — |
+| `--nc-toolbar-blurred-bg` | — | `--mod-toolbar-blurred-bg` |
+| `--nc-toolbar-blurred-blur` | — | `--mod-toolbar-blurred-blur` |
+| `--nc-toolbar-blurred-border` | — | `--mod-toolbar-blurred-border` |
 
 ### Sticky
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-sticky-shadow` | — | — |
-| `nc-toolbar-sticky-z-index` | — | — |
+| `--nc-toolbar-sticky-shadow` | — | `--mod-toolbar-sticky-shadow` |
+| `--nc-toolbar-sticky-z-index` | — | `--mod-toolbar-sticky-z-index` |
 
 ### Overflow
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toolbar-overflow-trigger-size` | — | — |
+| `--nc-toolbar-overflow-trigger-size` | — | `--mod-toolbar-overflow-trigger-size` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `ArrowRight` | focus-next-control | Naechstes Bedienelement der Leiste (rundum, gesperrte uebersprungen; auch in eingebetteten Gruppen wie Toggle-Group). In Eingabefeldern bleibt die Taste im Feld (Cursor). Eingebettete Gruppen flach (Entscheidung 03.10.2026, toolbar-gruppen). |
+| `ArrowLeft` | focus-prev-control | Vorheriges Bedienelement (rundum). In Eingabefeldern bleibt die Taste im Feld. |
+| `Home` | focus-first-control | Erstes Bedienelement. In Eingabefeldern bleibt die Taste im Feld. |
+| `End` | focus-last-control | Letztes Bedienelement. In Eingabefeldern bleibt die Taste im Feld. |
+| `Tab` | leave-toolbar | Die Leiste ist eine Tab-Station (roving tabindex); Tab verlaesst sie. Aus einem Eingabefeld: naechstes Bedienelement der Leiste, am Rand raus (Entscheidung 03.10.2026, toolbar-tab). |
+| `Shift+Tab` | leave-toolbar-backwards | Wie Tab, rueckwaerts. Aus einem Eingabefeld: vorheriges Bedienelement der Leiste, am Rand raus (Entscheidung 03.10.2026, toolbar-tab). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `toolbar-focus` | Yes | `{"value":"string","previousValue":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

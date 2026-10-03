@@ -9,8 +9,8 @@
 //
 // Achsen: variant, density, alignment, sticky — Modifier an der Wurzel;
 // content waehlt die Slots (buttons-only, with-separator, with-spacer,
-// with-label, full). Zustand scrolled: .is-scrolled (setzt in Drupal das
-// Scroll-Skript). Die Leiste braucht Breite, damit Ausrichtung und Spacer
+// with-label, full). Zustand scrolled: .is-scrolled (live setzt es
+// neo-behaviors toolbar, solange die Sticky-Leiste angeheftet ist). Die Leiste braucht Breite, damit Ausrichtung und Spacer
 // sichtbar werden: ra-feld--breit bzw. --sehr-breit.
 // Kompositionen (Specimen composes): floating-editor und editor-toolbar mit
 // Toggle-Groups (Markup wie src/arena-templates/toggle-group.js),

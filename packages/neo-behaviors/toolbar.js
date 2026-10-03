@@ -20,6 +20,16 @@
 // Der Tab-Stopp folgt dem Fokus (Klick, Tab zurueck in die Leiste). Beim
 // Loesen bekommen die Elemente ihren alten tabindex zurueck.
 // Elemente in eingebetteten Menues, Listen und Dialogen zaehlen nicht mit.
+// Entscheidungen 03.10.2026 (bestaetigt): Tab aus dem Feld zum Nachbarn
+// (toolbar-tab), eingebettete Gruppen flach (toolbar-gruppen), Ereignis
+// toolbar-focus bleibt (toolbar-ereignis).
+//
+// Sticky (nc-toolbar--sticky): .is-scrolled, solange die Leiste angeheftet
+// ist (Schatten + Linie laut SCSS). Ein IntersectionObserver beobachtet die
+// Leiste selbst mit einem um (top + 1px) verkleinerten Rahmen oben: klebt
+// sie, ragt sie 1px darueber hinaus (Anteil < 1, Oberkante ueber dem
+// Rahmen). Kein zusaetzliches Element im DOM. Ohne IntersectionObserver
+// passiert nichts. Beim Loesen: Beobachter weg, Klasse wie vorher.
 //
 // Ereignis `toolbar-focus` { value, previousValue } — Name des Elements,
 // das die Tab-Station uebernimmt (aria-label, Text oder placeholder).
@@ -35,12 +45,34 @@ function istFeld (el) {
   return el.tagName === 'INPUT' && !KEIN_FELD.includes(/** @type {HTMLInputElement} */ (el).type)
 }
 
+/** .is-scrolled an einer Sticky-Leiste, solange sie angeheftet ist. */
+function beobachteSticky (wurzel, signal) {
+  if (!wurzel.classList.contains('nc-toolbar--sticky')) return
+  const fenster = wurzel.ownerDocument.defaultView
+  const IO = fenster?.IntersectionObserver
+  if (typeof IO !== 'function') return
+  const vorher = wurzel.classList.contains('is-scrolled')
+  const oben = parseFloat(fenster.getComputedStyle(wurzel).top) || 0
+  const beobachter = new IO((eintraege) => {
+    for (const e of eintraege) {
+      const rahmenOben = e.rootBounds ? e.rootBounds.top : oben + 1
+      wurzel.classList.toggle('is-scrolled', e.intersectionRatio < 1 && e.boundingClientRect.top < rahmenOben)
+    }
+  }, { rootMargin: `-${oben + 1}px 0px 0px 0px`, threshold: [1] })
+  beobachter.observe(wurzel)
+  signal.addEventListener('abort', () => {
+    beobachter.disconnect()
+    wurzel.classList.toggle('is-scrolled', vorher)
+  })
+}
+
 const nameVon = (el) => (el.getAttribute('aria-label') || el.textContent || el.getAttribute('placeholder') || el.getAttribute('name') || '').trim()
 
 export const toolbar = {
   id: 'toolbar',
   selektor: '.nc-toolbar',
   binde (wurzel, signal) {
+    beobachteSticky(wurzel, signal)
     const elemente = () => /** @type {HTMLElement[]} */ ([...wurzel.querySelectorAll(BEDIENELEMENT)])
       .filter((e) => !e.hasAttribute('disabled') && !e.closest('[hidden], [inert], [role="menu"], [role="listbox"], [role="dialog"]') && e.closest('.nc-toolbar') === wurzel)
     if (!elemente().length) return

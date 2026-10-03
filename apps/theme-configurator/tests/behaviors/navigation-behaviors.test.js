@@ -485,6 +485,63 @@ describe('Toolbar (toolbar-recipe.json)', () => {
     it('jede Taste hat eine Pruefung', () => deckeTastenAb('toolbar', pruefungen))
     for (const t of tastenAus('toolbar')) it(t, () => pruefungen[t]())
   })
+
+  describe('Sticky: .is-scrolled solange angeheftet (IntersectionObserver)', () => {
+    // Gemockter IntersectionObserver: merkt sich Beobachter und Optionen
+    let beobachter
+    class IOAttrappe {
+      constructor (rueckruf, optionen) { this.rueckruf = rueckruf; this.optionen = optionen; this.ziele = []; this.getrennt = false; beobachter.push(this) }
+      observe (el) { this.ziele.push(el) }
+      unobserve () {}
+      disconnect () { this.getrennt = true }
+      melde (ratio, oben, rahmenOben = 1) { this.rueckruf([{ target: this.ziele[0], intersectionRatio: ratio, boundingClientRect: { top: oben }, rootBounds: { top: rahmenOben } }], this) }
+    }
+    const sticky = (html = lebendigesMarkup('toolbar', 'sticky-scrolled')) => {
+      beobachter = []
+      vi.stubGlobal('IntersectionObserver', IOAttrappe)
+      return aufbau(null, html)
+    }
+    afterEach(() => vi.unstubAllGlobals())
+
+    it('Ausprobieren-Markup der Sticky-Specimen ist nc-toolbar--sticky', () => {
+      const t = sticky()
+      expect(t.wurzel.classList.contains('nc-toolbar--sticky')).toBe(true)
+    })
+
+    it('angeheftet (Oberkante ueber dem um 1px verkleinerten Rahmen) setzt die Klasse, sonst nicht', () => {
+      const t = sticky()
+      expect(beobachter).toHaveLength(1)
+      const io = beobachter[0]
+      expect(io.ziele).toEqual([t.wurzel])
+      expect(io.optionen).toMatchObject({ rootMargin: '-1px 0px 0px 0px', threshold: [1] })
+      io.melde(1, 40)
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(false)
+      io.melde(0.98, 0)
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(true)
+      // Unten angeschnitten (Leiste ragt unten aus dem Fenster): nicht angeheftet
+      io.melde(0.5, 600)
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(false)
+    })
+
+    it('Abbinden trennt den Beobachter und raeumt die Klasse auf', () => {
+      const t = sticky()
+      beobachter[0].melde(0.9, 0)
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(true)
+      abbinden(t.b)
+      expect(beobachter[0].getrennt).toBe(true)
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(false)
+    })
+
+    it('ohne Sticky-Modifier kein Beobachter; ohne IntersectionObserver nichts', () => {
+      sticky(lebendigesMarkup('toolbar', 'content-variants'))
+      expect(beobachter).toHaveLength(0)
+      document.body.innerHTML = ''
+      vi.stubGlobal('IntersectionObserver', undefined)
+      const t = aufbau(null, lebendigesMarkup('toolbar', 'sticky-scrolled'))
+      expect(t.wurzel.classList.contains('is-scrolled')).toBe(false)
+      expect(stopps(t)).toHaveLength(1) // Tastatur arbeitet trotzdem
+    })
+  })
 })
 
 // ---------------------------------------------------------------------------
