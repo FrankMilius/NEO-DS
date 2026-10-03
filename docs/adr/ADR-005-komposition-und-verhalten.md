@@ -189,3 +189,12 @@ Dinge fehlten aber:
   `aria-current="page"` markiert die aktuelle Seite. Ereignis
   `navigation-menu-change` unverändert. Die Website (Drupal, „V3 Tab-Mega")
   nutzt das DS-Navigationsmenü nicht und ist nicht betroffen.
+- Entscheidung 03.10.2026 (tabmega-umstellen = „Jetzt umstellen"): Drupal
+  lädt `neo-nav.css` nicht mehr; die Library `neo_fe/neo-nav` hat kein
+  eigenes Stylesheet, die Regeln kommen aus `styles.css` (global-styling),
+  `css/neo-nav.css` ist gelöscht. Die Kaskade ändert sich nur in der
+  Reihenfolge (vorher nach, jetzt vor `theme-overrides.css` und
+  `neo-overrides.css`); beide enthalten keine Navigations-Selektoren.
+  Nachgemessen mit Twig + `neo-nav.js` in Drupal-Reihenfolge: 0 abweichende
+  berechnete Stile (alle Knoten in Header und Drawer inkl. `::before`/
+  `::after`, neun Zustände, hell/dunkel) und 0 abweichende Pixel.
