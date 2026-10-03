@@ -334,6 +334,12 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     expect(destruktiv.querySelector('dialog.nc-alert-dialog--destructive .nc-alert-dialog__footer [data-action="confirm"]')).not.toBeNull()
     // sichere Aktion fuer das Behavior: Abbrechen mit data-action="cancel"
     for (const d of alle('alert-dialog')) expect(d.querySelector('.nc-alert-dialog__footer > button.nc-button--outline[data-action="cancel"]')).not.toBeNull()
+    // unsaved-changes: drei Knoepfe laut Recipe (Speichern, Abbrechen, Verwerfen)
+    const [ungespeichert] = alle('alert-dialog', 'unsaved-changes')
+    const knoepfe = [...ungespeichert.querySelectorAll('.nc-alert-dialog__footer > button')]
+    expect(knoepfe.map((k) => [k.getAttribute('data-action'), k.textContent])).toEqual([['save', 'Speichern'], ['cancel', 'Abbrechen'], ['confirm', 'Verwerfen']])
+    expect(ungespeichert.querySelector('dialog.nc-alert-dialog--destructive')).not.toBeNull()
+    for (const sp of ['default', 'destructive', 'session-timeout']) expect(alle('alert-dialog', sp)[0].querySelectorAll('.nc-alert-dialog__footer > button')).toHaveLength(2)
   })
 })
 
@@ -443,8 +449,11 @@ describe('Overlay-Block: Ausprobieren (geschlossen, neo-behaviors bedient)', () 
     })
   }
 
-  for (const sp of ['default', 'destructive', 'session-timeout']) {
-    it(`alert-dialog (${sp}): Ausloeser oeffnet, Fokus auf Abbrechen, Escape bricht ab, Hintergrund schliesst nicht`, () => {
+  // Sichere Aktion per Markierung (Entscheidung 03.10.2026): bei
+  // „Sitzung laeuft ab“ traegt „Angemeldet bleiben“ autofocus.
+  const SICHER = { default: 'cancel', destructive: 'cancel', 'session-timeout': 'confirm', 'unsaved-changes': 'cancel' }
+  for (const sp of Object.keys(SICHER)) {
+    it(`alert-dialog (${sp}): Ausloeser oeffnet, Fokus auf die sichere Aktion (${SICHER[sp]}), Escape bricht ab, Hintergrund schliesst nicht`, () => {
       const b = buehne(lebendig('alert-dialog', sp))
       anbinden(b, ['alert-dialog'])
       const ausloeser = b.querySelector('button[aria-controls]')
@@ -455,7 +464,8 @@ describe('Overlay-Block: Ausprobieren (geschlossen, neo-behaviors bedient)', () 
       ausloeser.focus()
       ausloeser.click()
       expect(dialog.open).toBe(true)
-      expect(aktiv()).toBe(dialog.querySelector('[data-action="cancel"]'))
+      expect(aktiv()).toBe(dialog.querySelector(`[data-action="${SICHER[sp]}"]`))
+      expect(dialog.querySelectorAll('[autofocus]')).toHaveLength(1)
       dialog.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: 1, clientY: 1 }))
       expect(dialog.open).toBe(true)
       taste(aktiv(), 'Escape')
