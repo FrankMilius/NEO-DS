@@ -9,8 +9,10 @@
  *   - Zustaende je Specimen: offenes Panel/Such-Band/Menue, Teaser mit/ohne,
  *     Teaser-Flaechen und -Knoepfe, aktueller Ast, Auto-Hide, mobiler Drawer
  *   - ids/Bezuege/Landmarken/Knopfnamen, Split-Modus
- *   - kein Verhalten (neo-behaviors hat keins) — die Arena zeigt nur
- *     „Zustände"; data/markup und Pipeline-Eintraege vorhanden
+ *   - Verhalten aus neo-behaviors (navigation-tab-mega, Entscheidung
+ *     03.10.2026): „Ausprobieren" startet zu, das Behavior oeffnet (Tests
+ *     des Verhaltens: tests/behaviors/navigation-tab-mega.test.js);
+ *     data/markup und Pipeline-Eintraege vorhanden
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
@@ -370,9 +372,9 @@ describe('navigation-tab-mega in der RecipeArena', () => {
     expect(rohesRecipe(ID).komposition).toContainEqual(expect.objectContaining({ art: 'teilt', recipe: 'navigation', tokenPraefix: 'nc-nav-' }))
   })
 
-  it('kein Verhalten: nicht in neo-behaviors, alle Specimens, kein Umschalter, keine Heuristik', async () => {
-    expect(MIT_VERHALTEN.includes(ID)).toBe(false)
-    expect(rohesRecipe(ID).events).toBeUndefined()
+  it('Verhalten: in neo-behaviors, alle Specimens, Umschalter; Ausprobieren startet zu und oeffnet per Klick', async () => {
+    expect(MIT_VERHALTEN.includes(ID)).toBe(true)
+    expect(Object.keys(rohesRecipe(ID).events)).toContain('navigation-tab-mega-panel')
     const w = mount(RecipeArena, { props: { componentId: ID }, attachTo: document.body })
     for (const bis = Date.now() + 8000; !w.find('.ra-specimen').exists() && Date.now() < bis;) {
       await flushPromises()
@@ -381,9 +383,20 @@ describe('navigation-tab-mega in der RecipeArena', () => {
     const recipe = normalisiereRecipe(rohesRecipe(ID))
     expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
     expect(w.findAll('.ra-cell').length).toBe(21)
-    expect(w.find('.ra-modus').exists()).toBe(false)
+    expect(w.find('.ra-modus').exists()).toBe(true)
     expect(w.find('[data-quelle="heuristik"], .ra-fallback').exists()).toBe(false)
     expect(w.findAll('header.site-header[data-neo-nav]').length).toBe(21)
+    expect(w.find('[data-neo-behavior]').exists()).toBe(false)
+    await w.findAll('.ra-modus__knopf')[1].trigger('click')
+    await flushPromises()
+    await new Promise((r) => setTimeout(r, 0))
+    expect(w.findAll('.ra-cell').length).toBe(recipe.specimens.length)
+    const kopf = w.find('.ra-specimen[data-specimen-id="panel-offen"] header.site-header')
+    expect(kopf.attributes('data-neo-behavior')).toContain(ID)
+    expect(kopf.find('.panel.is-open').exists()).toBe(false)
+    await kopf.find('.nav-btn').trigger('click')
+    expect(kopf.find('.nav-btn').attributes('aria-expanded')).toBe('true')
+    expect(kopf.find('.panel.is-open').exists()).toBe(true)
     w.unmount()
   })
 })

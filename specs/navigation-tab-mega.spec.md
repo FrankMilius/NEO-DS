@@ -1,5 +1,5 @@
 # navigation-tab-mega Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `header`, `mega-menu`, `interactive`, `website`
 
@@ -68,13 +68,16 @@ Root element: `.site-header`
 ### DOM Notes
 - Wurzel ist <header class="site-header" data-neo-nav>. Das Attribut data-neo-nav ist Pflicht: alle Regeln haengen an .site-header[data-neo-nav] bzw. an :where(.site-header[data-neo-nav], .m-drawer).
 - Der mobile Drawer .m-drawer ist ein GESCHWISTER des Headers, kein Nachfahre — er ist die zweite Wurzel. Grund: transform am Header (Auto-Hide) erzeugt einen Containing-Block fuer position: fixed; laege der Drawer darin, wanderte er mit.
-- Das Twig (neo-nav.html.twig) liefert nur die Huelle und einen serverseitigen Top-Level-Fallback (a.nav-link je Punkt, crawlbar, ohne JS). Menuepunkte, Panels (#panelHost) und Drawer-Bildschirme (#mViewport) baut neo-nav.js aus drupalSettings.neoNav.
+- Das Twig (neo-nav.html.twig) rendert das komplette Markup serverseitig aus den Daten des Moduls neo_nav (Menuepunkte, Panels, Drawer-Bildschirme; crawlbar, ohne JS lesbar). Das Verhalten kommt aus neo-behaviors (navigation-tab-mega) und baut nichts — vor dem 03.10.2026 baute neo-nav.js Panels und Drawer aus drupalSettings.neoNav.
 - Panel-Typ aus der Menuestruktur, ohne Auswahlfeld: Ebene 1 ohne Kinder = a.nav-link; mit Kindern = Dropdown (ul.dropdown-cols, zweispaltig); mit Enkeln = Mega-Panel (div.mega-grid: Kategoriespalte .mega-cat mit role=tablist, Linkliste je .tabpanel, optional Teaser).
 - Teaser-Karte aside.teaser am Menuepunkt der Ebene 1 gepflegt (Titel leer = kein Teaser). Ohne Teaser im Mega-Panel: .mega-grid--no-teaser (zweispaltig). Flaeche ueber .teaser--bg-{g50|g200|g900|g950|accent}, Knopf ueber .teaser--cta-{dark|light}, Bild ueber --nn-teaser-image + .teaser--has-image, Animation ueber div.teaser__bg[data-neo-bg] + .teaser--has-anim.
 - Punkte ohne eigene Seite (<nolink>) haben keinen Uebersichtslink .panel-overview.
 - Sprache, Erscheinungsbild und Suche bilden eine Gruppe .hdr-group (role=group). Die aktive Option traegt Haken UND Fettung, keine Markenfarbe.
 - Breiten-Zwilling: .nav-btn__label traegt data-text mit der Beschriftung; das CSS legt daraus einen unsichtbaren Zwilling in 600 in dieselbe Rasterzelle, damit der Gewichtswechsel die Leiste nicht verschiebt.
 - Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen.
+- Sprache live (DE/EN ohne Neuladen): jede uebersetzbare Beschriftung traegt beide Fassungen als data-neo-i18n='{"de":…,"en":…}'; mit data-neo-i18n-attr (aria-label, placeholder, data-text) wird statt des Texts das Attribut gesetzt. Gerendert wird die Sprache der Seite; das Behavior beschriftet beim Wechsel neu und setzt lang an Header und Drawer (nicht an <html> — der Seiteninhalt wechselt nicht).
+- Drawer-Push: button.m-row[aria-controls] verweist auf seinen Unterbildschirm (.m-screen[id][data-screen]); .m-back geht zurueck. Gefunden werden Panel, Such-Band, Kopfleisten-Menue und Drawer ueber aria-controls, nicht ueber feste ids.
+- data-neo-nav-autohide="aus" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts.
 
 ## Variants
 ### Geöffnet (`offen`)
@@ -216,11 +219,24 @@ Base classes: `site-header`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Enter` | toggle-panel | Auf einem Menuepunkt mit Unterpunkten (button.nav-btn): oeffnet bzw. schliesst sein Panel (native Button-Aktivierung). Nur ein Panel gleichzeitig; Oeffnen schliesst Such-Band und Kopfleisten-Menues. |
+| `Enter` | toggle-panel | Auf einem Menuepunkt mit Unterpunkten (button.nav-btn): oeffnet bzw. schliesst sein Panel (native Button-Aktivierung). Nur ein Panel gleichzeitig; Oeffnen schliesst Such-Band und Kopfleisten-Menues. Schliessen gibt den Fokus an den Ausloeser. Auf Such-, Menue-, Burger- und Drawer-Knoepfen: deren Aktion (nativ). |
 | `Space` | toggle-panel | Wie Enter. |
 | `ArrowDown` | next-tab-or-option | Im Mega-Panel auf einem Tab: naechster Tab, aktiviert ihn sofort (rundum). Im Sprach-/Erscheinungsbild-Menue: naechste Option (rundum). |
 | `ArrowUp` | prev-tab-or-option | Wie ArrowDown, rueckwaerts. |
-| `Escape` | close | Schliesst in dieser Reihenfolge: Kopfleisten-Menue, Such-Band, Panel, Drawer — Fokus zurueck auf den Ausloeser (beim Drawer ohne Fokusrueckgabe). |
+| `Escape` | close | Schliesst in dieser Reihenfolge: Kopfleisten-Menue, Such-Band, Panel, Drawer — Fokus zurueck auf den Ausloeser (beim Drawer nur, wenn der Fokus im Drawer lag: der geschlossene Drawer ist inert). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `navigation-tab-mega-panel` | Yes | `{"value":"string","open":"boolean"}` |
+| `navigation-tab-mega-tab` | Yes | `{"value":"string","previousValue":"string"}` |
+| `navigation-tab-mega-search` | Yes | `{"open":"boolean"}` |
+| `navigation-tab-mega-menu` | Yes | `{"value":"string","open":"boolean"}` |
+| `navigation-tab-mega-select` | Yes | `{"menu":"string","value":"string"}` |
+| `navigation-tab-mega-language` | Yes | `{"value":"string"}` |
+| `navigation-tab-mega-drawer` | Yes | `{"open":"boolean","reason":"string"}` |
+| `navigation-tab-mega-screen` | Yes | `{"value":"string"}` |
+| `navigation-tab-mega-hidden` | Yes | `{"hidden":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

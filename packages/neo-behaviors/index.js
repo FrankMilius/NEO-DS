@@ -36,6 +36,7 @@ import { treeview } from './treeview.js'
 import { navigationMenu } from './navigation-menu.js'
 import { toolbar } from './toolbar.js'
 import { sidebar } from './sidebar.js'
+import { navigationTabMega } from './navigation-tab-mega.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -60,7 +61,8 @@ export const BEHAVIORS = Object.freeze({
   treeview,
   'navigation-menu': navigationMenu,
   toolbar,
-  sidebar
+  sidebar,
+  'navigation-tab-mega': navigationTabMega
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */

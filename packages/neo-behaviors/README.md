@@ -25,6 +25,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `navigation-menu` | WAI-ARIA Disclosure-Navigation (Recipe 3.0.0): Auslöser mit `aria-expanded`/`aria-controls`, Panel `[hidden]` im Item; Tab durch alle Einträge (kein roving tabindex), Enter/Leertaste/Klick schalten, Escape schließt (Fokus auf den Auslöser), optional Pfeil rechts/links/Pos1/Ende oben, Pfeil runter ins Panel, Pfeil runter/hoch/Pos1/Ende im Panel; Fokus verlässt das offene Item oder Klick außen schließen; höchstens ein Panel offen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
 | `toolbar` | eine Tab-Station (roving tabindex über alle Knöpfe, Links und Felder, auch in eingebetteten Gruppen); Pfeil rechts/links (rundum), Pos1, Ende; in Eingabefeldern bleiben Pfeile/Pos1/Ende im Feld, Tab/Shift+Tab gehen vom Feld zum Nachbarn (am Rand raus); `nc-toolbar--sticky` bekommt `is-scrolled`, solange sie angeheftet ist (IntersectionObserver) | `toolbar-focus` { value, previousValue } |
 | `sidebar` | Untermenü-Knopf (`aria-controls`) klappt per `[hidden]`; `__toggle` schaltet `--collapsed` (+ aria-label der Einträge); Mobil-Lage: Knopf mit `aria-controls` öffnet `--open` + Backdrop, Escape/Backdrop/Knopf schließen, Fokus zurück | `sidebar-submenu-toggle` { value, open }, `sidebar-collapse` { collapsed }, `sidebar-toggle` { open, reason } |
+| `navigation-tab-mega` | Website-Hauptnavigation (Drupal `neo_nav`) auf fertigem Markup: Panels per Klick/Enter/Leertaste (nur eines, Fokus zurück), Mega-Tabs (Klick, Pfeil runter/hoch rundum), Such-Band (Fokus ins Feld, Löschen-Knopf), Sprach-/Erscheinungsbild-Menü (Pfeile, Auswahl), Sprache live über `data-neo-i18n`, Escape (Menü → Suche → Panel → Drawer), Klick außen, Drawer mit Push-Navigation (geschlossener Drawer und verschobene Bildschirme `inert`), aktueller Ast (`aria-current`), Auto-Hide beim Scrollen | `navigation-tab-mega-panel` { value, open }, `-tab` { value, previousValue }, `-search` { open }, `-menu` { value, open }, `-select` { menu, value }, `-language` { value }, `-drawer` { open, reason }, `-screen` { value }, `-hidden` { hidden } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -145,3 +146,16 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   bekommen `inert` — beim Schließen und Abbinden entfernt das Behavior nur
   das eigene `inert`. Geschlossen hält das SCSS sie per `visibility` aus der
   Tab-Folge. Desktop-Lage: keine Falle.
+- **Hauptnavigation V3 Tab-Mega** (Entscheidung 03.10.2026) — löst
+  `neo_fe/js/neo-nav.js` ab. Das Twig rendert das komplette Markup (Panels,
+  Tabs, Such-Band, Drawer-Bildschirme), das Behavior baut nichts. Teile
+  werden über `aria-controls` gefunden (Panel, Such-Band, Menü, Drawer,
+  Drawer-Unterseite), nicht über feste ids. Sprache live ohne Neuladen:
+  jede übersetzbare Beschriftung trägt `data-neo-i18n='{"de":…,"en":…}'`
+  (mit `data-neo-i18n-attr` für `aria-label`, `placeholder`, `data-text`);
+  `lang` wechselt an Header und Drawer, nicht an `<html>`. Das
+  Erscheinungsbild schaltet die Website selbst (Ereignis
+  `navigation-tab-mega-select`). `data-neo-nav-autohide="aus"` schaltet das
+  Auto-Hide ab (Arena), `data-neo-nav-pfad` ersetzt `location.pathname`.
+  Drupal: `drupalSettings.neoBehaviors.nur[] = 'navigation-tab-mega'` am
+  Block `neo_main_nav`.

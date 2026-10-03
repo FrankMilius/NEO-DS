@@ -1957,6 +1957,557 @@
     }
   };
 
+  // packages/neo-behaviors/navigation-tab-mega.js
+  var AUSBLENDEN = 200;
+  var FOKUS_NACH = 130;
+  var OBEN_FREI = 120;
+  var SCHWELLE = 8;
+  var BURGER_ZU = '<path d="M3 6h18M3 12h18M3 18h18"/>';
+  var BURGER_OFFEN = '<path d="M6 6l12 12M18 6L6 18"/>';
+  var navigationTabMega = {
+    id: "navigation-tab-mega",
+    selektor: ".site-header[data-neo-nav]",
+    binde(wurzel, signal) {
+      var _a, _b;
+      const dok = wurzel.ownerDocument;
+      const fenster = dok.defaultView || window;
+      const perId = (id) => (
+        /** @type {HTMLElement|null} */
+        id ? dok.getElementById(id) : null
+      );
+      const ziel = (el) => perId((el == null ? void 0 : el.getAttribute("aria-controls")) || "");
+      const uhren = /* @__PURE__ */ new Set();
+      const spaeter = (fn, ms) => {
+        const u = fenster.setTimeout(() => {
+          uhren.delete(u);
+          fn();
+        }, ms);
+        uhren.add(u);
+      };
+      const fokus = (el) => {
+        try {
+          el == null ? void 0 : el.focus({ preventScroll: true });
+        } catch {
+          el == null ? void 0 : el.focus();
+        }
+      };
+      const ausloeser = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nav-btn[aria-controls]")].filter((b) => ziel(b))
+      );
+      const suchKnopf = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".search-toggle")
+      );
+      const band = ziel(suchKnopf);
+      const feld = (
+        /** @type {HTMLInputElement|null} */
+        (band == null ? void 0 : band.querySelector(".search-input")) || null
+      );
+      const loeschen = (
+        /** @type {HTMLElement|null} */
+        (band == null ? void 0 : band.querySelector(".search-clear")) || null
+      );
+      const schliessKnopf = (
+        /** @type {HTMLElement|null} */
+        (band == null ? void 0 : band.querySelector(".search-close")) || null
+      );
+      const menues = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll("[data-hdr-menu]")].map((m) => {
+          const knopf = (
+            /** @type {HTMLElement|null} */
+            m.querySelector(".hdr-btn")
+          );
+          const pop = ziel(knopf) || /** @type {HTMLElement|null} */
+          m.querySelector(".hdr-pop");
+          const art = (pop == null ? void 0 : pop.querySelector("[data-lang]")) ? "sprache" : (pop == null ? void 0 : pop.querySelector("[data-theme-value]")) ? "ansicht" : (knopf == null ? void 0 : knopf.id) || "";
+          return { m, knopf, pop, art };
+        }).filter((x) => x.knopf && x.pop)
+      );
+      const burger = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".burger")
+      );
+      const drawer2 = ziel(burger);
+      const bereiche = () => drawer2 ? [wurzel, drawer2] : [wurzel];
+      let offen = (
+        /** @type {HTMLElement|null} */
+        null
+      );
+      const panelName = (b) => {
+        var _a2;
+        return ((_a2 = ziel(b)) == null ? void 0 : _a2.dataset.panel) || b.dataset.trigger || b.id;
+      };
+      const oeffnePanel = (b) => {
+        if (offen === b) return;
+        schliessePanel();
+        schliesseSuche();
+        schliesseMenues();
+        const p = (
+          /** @type {HTMLElement} */
+          ziel(b)
+        );
+        p.hidden = false;
+        void p.offsetWidth;
+        p.classList.add("is-open");
+        b.setAttribute("aria-expanded", "true");
+        offen = b;
+        sende(wurzel, "navigation-tab-mega-panel", { value: panelName(b), open: true });
+      };
+      const schliessePanel = (fokusZurueck = false) => {
+        const b = offen;
+        if (!b) return;
+        const p = (
+          /** @type {HTMLElement} */
+          ziel(b)
+        );
+        p.classList.remove("is-open");
+        b.setAttribute("aria-expanded", "false");
+        spaeter(() => {
+          if (!p.classList.contains("is-open")) p.hidden = true;
+        }, AUSBLENDEN);
+        offen = null;
+        if (fokusZurueck) fokus(b);
+        sende(wurzel, "navigation-tab-mega-panel", { value: panelName(b), open: false });
+      };
+      for (const b of ausloeser) {
+        const p = (
+          /** @type {HTMLElement} */
+          ziel(b)
+        );
+        if (p.classList.contains("is-open") && !p.hidden && !offen) {
+          offen = b;
+          b.setAttribute("aria-expanded", "true");
+        } else b.setAttribute("aria-expanded", "false");
+      }
+      const tabsVon = (tab) => {
+        var _a2;
+        return (
+          /** @type {HTMLElement[]} */
+          [...((_a2 = tab.closest('[role="tablist"]')) == null ? void 0 : _a2.querySelectorAll('[role="tab"]')) || []]
+        );
+      };
+      const waehleTab = (tab) => {
+        const liste2 = tabsVon(tab);
+        const vorher = liste2.find((t) => t.getAttribute("aria-selected") === "true") || null;
+        for (const t of liste2) {
+          const an = t === tab;
+          t.setAttribute("aria-selected", String(an));
+          t.tabIndex = an ? 0 : -1;
+          const tp = ziel(t);
+          if (tp) tp.hidden = !an;
+        }
+        if (vorher !== tab) sende(wurzel, "navigation-tab-mega-tab", { value: tab.id, previousValue: vorher ? vorher.id : null });
+      };
+      let sucheOffen = !!(band && !band.hidden && band.classList.contains("is-open"));
+      if (suchKnopf) suchKnopf.setAttribute("aria-expanded", String(sucheOffen));
+      const loeschenAbgleichen = () => {
+        if (loeschen && feld) loeschen.hidden = feld.value.length === 0;
+      };
+      const oeffneSuche = () => {
+        if (!band || sucheOffen) return;
+        schliessePanel();
+        schliesseMenues();
+        band.hidden = false;
+        void band.offsetWidth;
+        band.classList.add("is-open");
+        suchKnopf == null ? void 0 : suchKnopf.setAttribute("aria-expanded", "true");
+        sucheOffen = true;
+        const insFeld = () => {
+          if (sucheOffen) fokus(feld);
+        };
+        insFeld();
+        spaeter(insFeld, FOKUS_NACH);
+        loeschenAbgleichen();
+        sende(wurzel, "navigation-tab-mega-search", { open: true });
+      };
+      const schliesseSuche = (fokusZurueck = false) => {
+        if (!band || !sucheOffen) return;
+        band.classList.remove("is-open");
+        suchKnopf == null ? void 0 : suchKnopf.setAttribute("aria-expanded", "false");
+        spaeter(() => {
+          if (!band.classList.contains("is-open")) band.hidden = true;
+        }, AUSBLENDEN);
+        sucheOffen = false;
+        if (fokusZurueck) fokus(suchKnopf);
+        sende(wurzel, "navigation-tab-mega-search", { open: false });
+      };
+      feld == null ? void 0 : feld.addEventListener("input", loeschenAbgleichen, { signal });
+      feld == null ? void 0 : feld.addEventListener("change", loeschenAbgleichen, { signal });
+      loeschenAbgleichen();
+      const menueOffen = (x) => !x.pop.hidden;
+      for (const x of menues) x.knopf.setAttribute("aria-expanded", String(menueOffen(x)));
+      const schliesseMenue = (x, fokusZurueck = false) => {
+        if (!menueOffen(x)) return;
+        x.pop.hidden = true;
+        x.knopf.setAttribute("aria-expanded", "false");
+        if (fokusZurueck) fokus(x.knopf);
+        sende(wurzel, "navigation-tab-mega-menu", { value: x.art, open: false });
+      };
+      function schliesseMenues(ausser = null) {
+        for (const x of menues) if (x !== ausser) schliesseMenue(x);
+      }
+      const optionen = (x) => (
+        /** @type {HTMLElement[]} */
+        [...x.pop.querySelectorAll(".hdr-opt")]
+      );
+      const oeffneMenue = (x) => {
+        schliesseMenues(x);
+        schliessePanel();
+        schliesseSuche();
+        x.pop.hidden = false;
+        x.knopf.setAttribute("aria-expanded", "true");
+        fokus(optionen(x)[0]);
+        sende(wurzel, "navigation-tab-mega-menu", { value: x.art, open: true });
+      };
+      const codeEl = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-lang-code]")
+      );
+      let sprache = ((codeEl == null ? void 0 : codeEl.textContent) || ((_a = wurzel.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "de").trim().toLowerCase();
+      const setzeSprache = (lc) => {
+        var _a2, _b2;
+        if (!lc) return;
+        const wechsel = lc !== sprache;
+        sprache = lc;
+        for (const b of bereiche()) {
+          for (const x of b.querySelectorAll(".lang-switch button[data-lang]")) x.setAttribute("aria-pressed", String(
+            /** @type {HTMLElement} */
+            x.dataset.lang === lc
+          ));
+          for (const x of b.querySelectorAll(".hdr-opt[data-lang]")) x.setAttribute("aria-checked", String(
+            /** @type {HTMLElement} */
+            x.dataset.lang === lc
+          ));
+          for (const el of b.querySelectorAll("[data-neo-i18n]")) {
+            let texte;
+            try {
+              texte = JSON.parse(el.getAttribute("data-neo-i18n") || "");
+            } catch {
+              continue;
+            }
+            if (!texte || typeof texte !== "object") continue;
+            const wert = (_b2 = (_a2 = texte[lc]) != null ? _a2 : texte.de) != null ? _b2 : "";
+            const attr = el.getAttribute("data-neo-i18n-attr");
+            if (attr) el.setAttribute(attr, wert);
+            else el.textContent = wert;
+          }
+          b.setAttribute("lang", lc);
+        }
+        if (codeEl) codeEl.textContent = lc.toUpperCase();
+        if (wechsel) sende(wurzel, "navigation-tab-mega-language", { value: lc });
+      };
+      const bildschirme = () => (
+        /** @type {HTMLElement[]} */
+        drawer2 ? [...drawer2.querySelectorAll(".m-screen")] : []
+      );
+      const startBild = () => bildschirme().find((s) => s.dataset.screen === "root") || bildschirme()[0];
+      let stapel = (
+        /** @type {HTMLElement[]} */
+        []
+      );
+      let rufer = (
+        /** @type {HTMLElement[]} */
+        []
+      );
+      const drawerOffen = () => !!(drawer2 == null ? void 0 : drawer2.classList.contains("is-open"));
+      const sperre = () => {
+        if (!drawer2) return;
+        drawer2.toggleAttribute("inert", !drawerOffen());
+        const oben = stapel.at(-1);
+        for (const s of bildschirme()) s.toggleAttribute("inert", s !== oben);
+      };
+      const zeigeStapel = (melden = true) => {
+        const oben = stapel.at(-1);
+        for (const s of bildschirme()) {
+          s.classList.remove("is-active", "is-prev");
+          if (s === oben) s.classList.add("is-active");
+          else if (stapel.includes(s)) s.classList.add("is-prev");
+        }
+        sperre();
+        if (melden) sende(wurzel, "navigation-tab-mega-screen", { value: (oben == null ? void 0 : oben.dataset.screen) || "root" });
+      };
+      if (drawer2) {
+        const aktiv = bildschirme().find((s) => s.classList.contains("is-active"));
+        const start = startBild();
+        stapel = start ? aktiv && aktiv !== start ? [start, aktiv] : [start] : [];
+        sperre();
+      }
+      const zielBild = (zeile) => {
+        var _a2;
+        const z = ziel(zeile);
+        if (z) return z;
+        const zeilen = [...((_a2 = startBild()) == null ? void 0 : _a2.querySelectorAll("button.m-row")) || []];
+        return bildschirme().filter((s) => s !== startBild())[zeilen.indexOf(zeile)] || null;
+      };
+      const schiebe = (zeile) => {
+        const s = zielBild(zeile);
+        if (!s || stapel.includes(s)) return;
+        stapel.push(s);
+        rufer.push(zeile);
+        zeigeStapel();
+        fokus(
+          /** @type {HTMLElement|null} */
+          s.querySelector(".m-back")
+        );
+      };
+      const zurueck = () => {
+        if (stapel.length < 2) return;
+        stapel.pop();
+        const z = rufer.pop();
+        zeigeStapel();
+        fokus(z);
+      };
+      const setzeDrawer = (an, grund) => {
+        if (!drawer2 || !burger || drawerOffen() === an) return;
+        if (!an && drawer2.contains(dok.activeElement)) fokus(burger);
+        drawer2.classList.toggle("is-open", an);
+        burger.setAttribute("aria-expanded", String(an));
+        burger.setAttribute("aria-label", an ? burger.dataset.labelOffen || "Menü schließen" : burger.dataset.labelZu || "Menü öffnen");
+        const svg = burger.querySelector("svg");
+        if (svg) svg.innerHTML = an ? BURGER_OFFEN : BURGER_ZU;
+        if (!an) {
+          const start = startBild();
+          stapel = start ? [start] : [];
+          rufer = [];
+          zeigeStapel();
+        } else sperre();
+        sende(wurzel, "navigation-tab-mega-drawer", { open: an, reason: grund });
+      };
+      dok.addEventListener("click", (e) => {
+        var _a2;
+        const t = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (!t || !t.closest) return;
+        const b = (
+          /** @type {HTMLElement|null} */
+          t.closest(".nav-btn[aria-controls]")
+        );
+        if (b && ausloeser.includes(b)) {
+          if (offen === b) schliessePanel(true);
+          else oeffnePanel(b);
+          return;
+        }
+        if (suchKnopf && t.closest(".search-toggle") === suchKnopf) {
+          if (sucheOffen) schliesseSuche(true);
+          else oeffneSuche();
+          return;
+        }
+        for (const x of menues) {
+          if (t.closest(".hdr-btn") === x.knopf) {
+            if (menueOffen(x)) schliesseMenue(x);
+            else oeffneMenue(x);
+            return;
+          }
+          const opt = (
+            /** @type {HTMLElement|null} */
+            t.closest(".hdr-opt")
+          );
+          if (opt && x.pop.contains(opt)) {
+            const wert = opt.dataset.lang || opt.dataset.themeValue || "";
+            if (opt.dataset.lang) setzeSprache(opt.dataset.lang);
+            sende(wurzel, "navigation-tab-mega-select", { menu: x.art, value: wert });
+            schliesseMenue(x, true);
+            return;
+          }
+        }
+        if (schliessKnopf && t.closest(".search-close") === schliessKnopf) {
+          schliesseSuche(true);
+          return;
+        }
+        if (loeschen && t.closest(".search-clear") === loeschen && feld) {
+          feld.value = "";
+          loeschenAbgleichen();
+          feld.dispatchEvent(new Event("input", { bubbles: true }));
+          fokus(feld);
+          return;
+        }
+        const tab = (
+          /** @type {HTMLElement|null} */
+          t.closest('[role="tab"]')
+        );
+        if (tab && wurzel.contains(tab)) {
+          waehleTab(tab);
+          return;
+        }
+        if (burger && t.closest(".burger") === burger) {
+          setzeDrawer(!drawerOffen(), "trigger");
+          return;
+        }
+        if (drawer2 && drawer2.contains(t)) {
+          const zeile = (
+            /** @type {HTMLElement|null} */
+            t.closest("button.m-row")
+          );
+          if (zeile) {
+            schiebe(zeile);
+            return;
+          }
+          if (t.closest(".m-back")) {
+            zurueck();
+            return;
+          }
+        }
+        const sprachKnopf = (
+          /** @type {HTMLElement|null} */
+          t.closest(".lang-switch button[data-lang]")
+        );
+        if (sprachKnopf && bereiche().some((x) => x.contains(sprachKnopf))) {
+          setzeSprache(sprachKnopf.dataset.lang || "");
+          return;
+        }
+        if (offen && !((_a2 = ziel(offen)) == null ? void 0 : _a2.contains(t))) schliessePanel();
+        if (sucheOffen && band && !band.contains(t)) schliesseSuche();
+        for (const x of menues) if (menueOffen(x) && !x.m.contains(t)) schliesseMenue(x);
+      }, { signal });
+      wurzel.addEventListener("keydown", (e) => {
+        const t = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+        const schritt = e.key === "ArrowDown" ? 1 : -1;
+        if (t.getAttribute("role") === "tab" && t.closest('[role="tablist"]')) {
+          e.preventDefault();
+          const n = nachbar(tabsVon(t), t, schritt);
+          if (n) {
+            waehleTab(n);
+            fokus(n);
+          }
+          return;
+        }
+        const x = menues.find((m) => m.pop.contains(t));
+        if (x) {
+          e.preventDefault();
+          const liste2 = optionen(x);
+          const i = liste2.indexOf(t);
+          fokus(liste2[(i + schritt + liste2.length) % liste2.length]);
+        }
+      }, { signal });
+      dok.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        const x = menues.find(menueOffen);
+        if (x) {
+          e.preventDefault();
+          schliesseMenue(x, true);
+          return;
+        }
+        if (sucheOffen) {
+          e.preventDefault();
+          schliesseSuche(true);
+          return;
+        }
+        if (offen) {
+          e.preventDefault();
+          schliessePanel(true);
+          return;
+        }
+        if (drawerOffen()) {
+          e.preventDefault();
+          setzeDrawer(false, "escape");
+        }
+      }, { signal });
+      const liste = wurzel.querySelector(".nav-list");
+      if (liste && !liste.querySelector("[aria-current]")) {
+        const norm = (p) => {
+          try {
+            p = decodeURI(p || "");
+          } catch {
+          }
+          p = p.split("?")[0].split("#")[0];
+          return p.length > 1 ? p.replace(/\/+$/, "") : p;
+        };
+        const hier = norm(wurzel.dataset.neoNavPfad || ((_b = fenster.location) == null ? void 0 : _b.pathname) || "");
+        let bester = (
+          /** @type {HTMLElement|null} */
+          null
+        );
+        let laenge = -1;
+        let seite = false;
+        const href = (a) => a.getAttribute("href") || "";
+        for (
+          const punkt of
+          /** @type {HTMLElement[]} */
+          [...liste.querySelectorAll(".nav-btn[aria-controls], a.nav-link")]
+        ) {
+          const p = punkt.classList.contains("nav-btn") ? ziel(punkt) : null;
+          const ueber = p == null ? void 0 : p.querySelector(".panel-overview");
+          const eigenes = p ? ueber ? norm(href(ueber)) : null : norm(href(punkt));
+          const ziele = (p ? [...p.querySelectorAll(".link-grid a, .dropdown-cols a, .panel-overview")].map(href) : [href(punkt)]).map(norm).filter((h) => h && h !== "#");
+          for (const z of ziele) {
+            let treffer = false;
+            let genau = false;
+            if (z === hier) {
+              treffer = true;
+              genau = z === eigenes;
+            } else if (z !== "/" && hier.indexOf(z + "/") === 0) treffer = true;
+            if (!treffer) continue;
+            if (z.length > laenge || z.length === laenge && genau) {
+              laenge = z.length;
+              bester = punkt;
+              seite = genau;
+            }
+          }
+        }
+        if (bester) {
+          bester.setAttribute("aria-current", seite ? "page" : "true");
+          bester.classList.add("is-active");
+        }
+      }
+      if (wurzel.dataset.neoNavAutohide !== "aus") {
+        const VERSTECKT = "is-nav-hidden";
+        let zuletzt = fenster.scrollY || 0;
+        let wartet = false;
+        const gesperrt2 = () => wurzel.contains(dok.activeElement) || !!wurzel.querySelector('[aria-expanded="true"], .is-open') || drawerOffen();
+        const setze = (an) => {
+          if (wurzel.classList.contains(VERSTECKT) === an) return;
+          wurzel.classList.toggle(VERSTECKT, an);
+          sende(wurzel, "navigation-tab-mega-hidden", { hidden: an });
+        };
+        const pruefe = () => {
+          wartet = false;
+          const y = Math.max(0, fenster.scrollY || 0);
+          if (dok.documentElement.hasAttribute("data-neo-sprung")) {
+            zuletzt = y;
+            return;
+          }
+          if (gesperrt2() || y <= OBEN_FREI) {
+            setze(false);
+            zuletzt = y;
+            return;
+          }
+          const d = y - zuletzt;
+          if (d > SCHWELLE) {
+            setze(true);
+            zuletzt = y;
+          } else if (d < -SCHWELLE) {
+            setze(false);
+            zuletzt = y;
+          }
+        };
+        const naechsterFrame = (fn) => fenster.requestAnimationFrame ? fenster.requestAnimationFrame(fn) : spaeter(fn, 16);
+        fenster.addEventListener("scroll", () => {
+          if (!wartet) {
+            wartet = true;
+            naechsterFrame(pruefe);
+          }
+        }, { passive: true, signal });
+        wurzel.addEventListener("focusin", () => setze(false), { signal });
+        wurzel.addEventListener("click", () => naechsterFrame(pruefe), { signal });
+        pruefe();
+      }
+      signal.addEventListener("abort", () => {
+        for (const u of uhren) fenster.clearTimeout(u);
+        uhren.clear();
+        drawer2 == null ? void 0 : drawer2.removeAttribute("inert");
+        for (const s of bildschirme()) s.removeAttribute("inert");
+      });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -1978,7 +2529,8 @@
     treeview,
     "navigation-menu": navigationMenu,
     toolbar,
-    sidebar
+    sidebar,
+    "navigation-tab-mega": navigationTabMega
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

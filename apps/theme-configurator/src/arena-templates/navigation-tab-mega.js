@@ -1,9 +1,9 @@
 // Vorlage: navigation-tab-mega — die Website-Hauptnavigation „V3 Tab-Mega"
-// (Drupal-Modul neo_nav, Theme neo_fe). Markup wie im Browser nach dem
-// Aufbau durch neo_fe/js/neo-nav.js: die statische Huelle aus
-// templates/navigation/neo-nav.html.twig plus das, was das Skript aus
-// drupalSettings.neoNav einhaengt (Menuepunkte, Panels, Drawer-Bildschirme).
-// Dieselbe Struktur steht in data/markup/navigation-tab-mega.html.
+// (Drupal-Modul neo_nav, Theme neo_fe). Markup wie es
+// templates/navigation/neo-nav.html.twig serverseitig rendert (Menuepunkte,
+// Panels, Drawer-Bildschirme; bis 03.10.2026 baute neo-nav.js dasselbe im
+// Browser aus drupalSettings.neoNav). Dieselbe Struktur steht in
+// data/markup/navigation-tab-mega.html.
 //
 //   header.site-header[data-neo-nav] (+ .is-nav-hidden)
 //     div.container.header-inner
@@ -21,9 +21,17 @@
 // Ast: aria-current + .is-active am Menuepunkt), hidden (.is-nav-hidden am
 // Header — setzt in Drupal das Auto-Hide beim Runterscrollen).
 //
-// Kein Verhalten: neo-behaviors hat fuer dieses Bauteil keins (offener
-// Punkt, siehe ADR-005). Offene Zustaende stehen deshalb fest im Markup —
-// genau so, wie neo-nav.js sie setzt (hidden weg, .is-open, aria-expanded).
+// Verhalten: neo-behaviors `navigation-tab-mega` (Entscheidung 03.10.2026,
+// loest neo-nav.js ab). In „Zustände" stehen offene Zustaende fest im Markup
+// (hidden weg, .is-open, aria-expanded); in „Ausprobieren" (m.ausprobieren)
+// startet alles zu, das Behavior oeffnet. Dort ist das Auto-Hide
+// abgeschaltet (data-neo-nav-autohide="aus"), sonst verschwaende die Leiste
+// beim Scrollen des Konfigurators.
+//
+// Sprache: jede uebersetzbare Beschriftung traegt beide Fassungen in
+// data-neo-i18n (JSON {de, en}; mit data-neo-i18n-attr fuer ein Attribut) —
+// genau so rendert neo-nav.html.twig sie; das Behavior beschriftet beim
+// Sprachwechsel daraus neu.
 //
 // Arena-Rahmen: ra-kopf (Desktop-Breite, schneidet .is-nav-hidden ab),
 // ra-kopf--offen (Platz fuer die Panels unter der Leiste) und ra-nav-mobil
@@ -82,6 +90,31 @@ export const NAV = [
 // Feste UI-Texte — neo_nav_get_strings()
 const T = { overview: 'Zur Übersicht', searchPlaceholder: 'Website durchsuchen …', contact: 'Kontakt', contactHref: '/kontakt', back: 'Zurück' }
 
+// Englische Fassungen (Uebersetzung der Menue-Links bzw. neo_nav_get_strings());
+// was fehlt, faellt wie im Modul auf Deutsch zurueck.
+export const EN = {
+  'Lösungen': 'Solutions',
+  'Lösungen nach': 'Solutions by',
+  Branchen: 'Industries',
+  'Anwendungsfälle': 'Use cases',
+  Produkte: 'Products',
+  Unternehmen: 'Company',
+  'Editionen & Preise': 'Editions & pricing',
+  'Öffentliche Verwaltung': 'Public sector',
+  Gesundheitswesen: 'Healthcare',
+  'Interne Kommunikation': 'Internal communication',
+  'Über uns': 'About us',
+  Karriere: 'Careers',
+  'Neu: NEO AI': 'New: NEO AI',
+  'Mehr erfahren': 'Learn more',
+  'NEO kostenlos testen': 'Try NEO for free',
+  'Testzugang anlegen': 'Create trial account',
+  [T.overview]: 'View overview',
+  [T.searchPlaceholder]: 'Search the website …',
+  [T.contact]: 'Contact',
+  [T.back]: 'Back'
+}
+
 // --- Symbole: neo-nav.js bzw. Icon Library (neo_fe_icon, Heroicons) ---------
 const SVG_PLUS = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>'
 const SVG_MINUS = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>'
@@ -102,18 +135,22 @@ const pfeil = () => `<span class="nav-arrow" aria-hidden="true">${SVG_ARROW}</sp
 const attr = (bed, text) => (bed ? ` ${text}` : '')
 // ids wie auf der Website; in der Arena mit Praefix je Zelle (m.uid)
 const I = (o, name) => (o.uid ? `${o.uid}-${name}` : name)
+// beide Sprachfassungen fuer das Behavior (Text bzw. Attribut)
+const tr = (de, attr = '') => ` data-neo-i18n="${esc(JSON.stringify({ de, en: EN[de] || de }))}"${attr ? ` data-neo-i18n-attr="${attr}"` : ''}`
 
 /** Huelle der Vorlage: welche Teile offen sind, welche Inhalte gelten. */
 export function optionen (m) {
   const wert = (a, vorgabe) => m.wert(a) ?? vorgabe
+  const live = !!m.ausprobieren
   return {
     uid: m.uid,
-    offen: wert('offen', 'keins'),
+    live,
+    offen: live ? 'keins' : wert('offen', 'keins'),
     teaser: wert('teaser', 'mit') === 'mit',
     teaserKlassen: m.klassen.filter((k) => k.startsWith('teaser--')),
     aktiv: m.hat('active'),
     versteckt: m.hat('hidden'),
-    drawer: wert('drawer', 'zu')
+    drawer: live ? 'zu' : wert('drawer', 'zu')
   }
 }
 
@@ -126,21 +163,21 @@ function teaserKarte (t, o) {
   const fassung = o.teaserKlassen.find((k) => k.startsWith('teaser--cta-')) || 'teaser--cta-dark'
   const flaeche = o.teaserKlassen.filter((k) => k.startsWith('teaser--bg-'))
   return `<aside class="${['teaser', fassung, ...flaeche].join(' ')}">
-<p class="teaser__title">${esc(t.title)}</p>
-<p class="teaser__text">${esc(t.text)}</p>
-<a class="teaser__cta" href="${t.href}"><span>${esc(t.cta)}</span>${pfeil()}</a>
+<p class="teaser__title"${tr(t.title)}>${esc(t.title)}</p>
+<p class="teaser__text"${tr(t.text)}>${esc(t.text)}</p>
+<a class="teaser__cta" href="${t.href}"><span${tr(t.cta)}>${esc(t.cta)}</span>${pfeil()}</a>
 </aside>`
 }
 
 function uebersicht (item) {
   if (!item.href) return ''
-  return `<a class="panel-overview" href="${item.href}"><span>${T.overview}</span>${pfeil()}</a>`
+  return `<a class="panel-overview" href="${item.href}"><span${tr(T.overview)}>${T.overview}</span>${pfeil()}</a>`
 }
 
-const linkLi = (text) => `<li><a href="${pfad(text)}">${esc(text)}</a></li>`
+const linkLi = (text) => `<li><a href="${pfad(text)}"${tr(text)}>${esc(text)}</a></li>`
 
 function megaInhalt (item, o) {
-  const tabs = item.tabs.map((tab, i) => `<button class="tab" type="button" id="${I(o, `tab-${item.id}-${tab.id}`)}" role="tab" aria-selected="${i === 0}" aria-controls="${I(o, `tabpanel-${item.id}-${tab.id}`)}" tabindex="${i === 0 ? 0 : -1}"><span>${esc(tab.label)}</span><span class="tab__count">(${tab.links.length})</span></button>`).join('\n')
+  const tabs = item.tabs.map((tab, i) => `<button class="tab" type="button" id="${I(o, `tab-${item.id}-${tab.id}`)}" role="tab" aria-selected="${i === 0}" aria-controls="${I(o, `tabpanel-${item.id}-${tab.id}`)}" tabindex="${i === 0 ? 0 : -1}"><span${tr(tab.label)}>${esc(tab.label)}</span><span class="tab__count">(${tab.links.length})</span></button>`).join('\n')
   const panels = item.tabs.map((tab, i) => `<div class="tabpanel" id="${I(o, `tabpanel-${item.id}-${tab.id}`)}" role="tabpanel" aria-labelledby="${I(o, `tab-${item.id}-${tab.id}`)}"${attr(i > 0, 'hidden')}>
 <ul class="link-grid">
 ${tab.links.map(linkLi).join('\n')}
@@ -149,7 +186,7 @@ ${tab.links.map(linkLi).join('\n')}
   const mitTeaser = o.teaser && item.teaser
   return `<div class="mega-grid${mitTeaser ? '' : ' mega-grid--no-teaser'}">
 <div class="mega-cat">
-${item.eyebrow ? `<p class="mega-cat__eyebrow">${esc(item.eyebrow)}</p>\n` : ''}<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="${esc(item.label)}">
+${item.eyebrow ? `<p class="mega-cat__eyebrow"${tr(item.eyebrow)}>${esc(item.eyebrow)}</p>\n` : ''}<div class="tablist" role="tablist" aria-orientation="vertical" aria-label="${esc(item.label)}"${tr(item.label, 'aria-label')}>
 ${tabs}
 </div>
 </div>
@@ -177,7 +214,7 @@ ${teaserKarte(item.teaser, o)}
 
 function panel (item, o) {
   const auf = offenerPunkt(o) === item
-  return `<div class="panel${auf ? ' is-open' : ''}" id="${I(o, `panel-${item.id}`)}" data-panel="${item.id}" role="region" aria-label="${esc(item.label)}"${attr(!auf, 'hidden')}>
+  return `<div class="panel${auf ? ' is-open' : ''}" id="${I(o, `panel-${item.id}`)}" data-panel="${item.id}" role="region" aria-label="${esc(item.label)}"${tr(item.label, 'aria-label')}${attr(!auf, 'hidden')}>
 <div class="container"><div class="panel-inner">
 ${item.type === 'mega' ? megaInhalt(item, o) : dropdownInhalt(item, o)}
 </div></div>
@@ -186,9 +223,9 @@ ${item.type === 'mega' ? megaInhalt(item, o) : dropdownInhalt(item, o)}
 
 function menuepunkt (item, o) {
   const aktiv = o.aktiv && item.id === 'nav-loesungen'
-  if (item.type === 'link') return `<li><a class="nav-link" href="${item.href}">${esc(item.label)}</a></li>`
+  if (item.type === 'link') return `<li><a class="nav-link" href="${item.href}"${tr(item.label)}>${esc(item.label)}</a></li>`
   const auf = offenerPunkt(o) === item
-  return `<li><button class="nav-btn${aktiv ? ' is-active' : ''}" type="button" id="${I(o, `trigger-${item.id}`)}" aria-haspopup="true" aria-expanded="${auf}" aria-controls="${I(o, `panel-${item.id}`)}" data-trigger="${item.id}"${attr(aktiv, 'aria-current="true"')}><span class="nav-btn__label" data-text="${esc(item.label)}"><span>${esc(item.label)}</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus">${SVG_PLUS}</span><span class="pm-minus">${SVG_MINUS}</span></span></button></li>`
+  return `<li><button class="nav-btn${aktiv ? ' is-active' : ''}" type="button" id="${I(o, `trigger-${item.id}`)}" aria-haspopup="true" aria-expanded="${auf}" aria-controls="${I(o, `panel-${item.id}`)}" data-trigger="${item.id}"${attr(aktiv, 'aria-current="true"')}><span class="nav-btn__label" data-text="${esc(item.label)}"${tr(item.label, 'data-text')}><span${tr(item.label)}>${esc(item.label)}</span></span><span class="nav-btn__pm" aria-hidden="true"><span class="pm-plus">${SVG_PLUS}</span><span class="pm-minus">${SVG_MINUS}</span></span></button></li>`
 }
 
 function option (wert, label, an, code = '') {
@@ -256,7 +293,7 @@ function suchBand (o) {
 <div class="searchbox">
 <svg class="searchbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
 <label for="${I(o, 'searchInput')}" class="visually-hidden">Website durchsuchen</label>
-<input type="search" class="search-input" id="${I(o, 'searchInput')}" name="search" autocomplete="off" placeholder="${T.searchPlaceholder}">
+<input type="search" class="search-input" id="${I(o, 'searchInput')}" name="search" autocomplete="off" placeholder="${T.searchPlaceholder}"${tr(T.searchPlaceholder, 'placeholder')}>
 <button type="button" class="search-clear" id="${I(o, 'searchClear')}" hidden aria-label="Eingabe löschen">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6L6 18M6 6l12 12"/></svg>
 </button>
@@ -273,7 +310,7 @@ Schließen <kbd class="nc-kbd">Esc</kbd>
 /** Kopfleiste: header.site-header mit Panels und Such-Band. */
 export function kopf (o) {
   const drawerAuf = o.drawer !== 'zu'
-  return `<header class="site-header${o.versteckt ? ' is-nav-hidden' : ''}" id="${I(o, 'siteHeader')}" data-neo-nav>
+  return `<header class="site-header${o.versteckt ? ' is-nav-hidden' : ''}" id="${I(o, 'siteHeader')}" data-neo-nav${o.live ? ' data-neo-nav-autohide="aus"' : ''}>
 <div class="container header-inner">
 <a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
 <nav class="primary-nav" aria-label="Hauptnavigation">
@@ -295,23 +332,24 @@ ${suchBand(o)}
 </header>`
 }
 
-function mobilUnterseite (item, aktiv) {
+function mobilUnterseite (item, aktiv, o) {
+  const mLink = (t) => `<a class="m-link" href="${pfad(t)}"${tr(t)}>${esc(t)}</a>`
   const links = item.type === 'mega'
-    ? item.tabs.map((tab) => `<div class="m-section-title">${esc(tab.label)}</div>\n${tab.links.map((t) => `<a class="m-link" href="${pfad(t)}">${esc(t)}</a>`).join('\n')}`).join('\n')
-    : item.links.map((t) => `<a class="m-link" href="${pfad(t)}">${esc(t)}</a>`).join('\n')
-  return `<div class="m-screen${aktiv ? ' is-active' : ''}" data-screen="${item.id}">
-<button class="m-back" type="button">‹ <span>${T.back}</span></button>
-<div class="m-heading">${esc(item.label)}</div>
+    ? item.tabs.map((tab) => `<div class="m-section-title"${tr(tab.label)}>${esc(tab.label)}</div>\n${tab.links.map(mLink).join('\n')}`).join('\n')
+    : item.links.map(mLink).join('\n')
+  return `<div class="m-screen${aktiv ? ' is-active' : ''}" id="${I(o, `m-screen-${item.id}`)}" data-screen="${item.id}">
+<button class="m-back" type="button">‹ <span${tr(T.back)}>${T.back}</span></button>
+<div class="m-heading"${tr(item.label)}>${esc(item.label)}</div>
 ${links}
-${item.href ? `<a class="m-link" href="${item.href}"><span>${T.overview}</span>${pfeil()}</a>\n` : ''}</div>`
+${item.href ? `<a class="m-link" href="${item.href}"><span${tr(T.overview)}>${T.overview}</span>${pfeil()}</a>\n` : ''}</div>`
 }
 
 /** Mobiler Drawer: Push-Navigation mit Start- und Unterseiten. */
 export function drawer (o) {
   const unten = o.drawer === 'unterseite'
   const zeilen = NAV.map((item) => (item.type === 'link'
-    ? `<a class="m-row" href="${item.href}"><span>${esc(item.label)}</span></a>`
-    : `<button class="m-row" type="button"><span>${esc(item.label)}</span><span class="chev" aria-hidden="true">${SVG_PLUS}</span></button>`)).join('\n')
+    ? `<a class="m-row" href="${item.href}"><span${tr(item.label)}>${esc(item.label)}</span></a>`
+    : `<button class="m-row" type="button" aria-controls="${I(o, `m-screen-${item.id}`)}"><span${tr(item.label)}>${esc(item.label)}</span><span class="chev" aria-hidden="true">${SVG_PLUS}</span></button>`)).join('\n')
   return `<div class="m-drawer${o.drawer !== 'zu' ? ' is-open' : ''}" id="${I(o, 'mDrawer')}" aria-label="Mobile Navigation">
 <div class="m-viewport" id="${I(o, 'mViewport')}">
 <div class="m-screen ${unten ? 'is-prev' : 'is-active'}" data-screen="root">
@@ -319,16 +357,16 @@ ${zeilen}
 <div class="m-tools">
 <form class="m-search" role="search" action="/" method="get">
 <label class="visually-hidden" for="${I(o, 'mSearchInput')}">Website durchsuchen</label>
-<input type="search" name="search" id="${I(o, 'mSearchInput')}" placeholder="${T.searchPlaceholder}">
+<input type="search" name="search" id="${I(o, 'mSearchInput')}" placeholder="${T.searchPlaceholder}"${tr(T.searchPlaceholder, 'placeholder')}>
 </form>
 <div class="lang-switch m-lang" role="group" aria-label="Sprache">
 <button type="button" data-lang="de" aria-pressed="true">DE</button>
 <button type="button" data-lang="en" aria-pressed="false">EN</button>
 </div>
-<a class="m-cta" href="${T.contactHref}">${T.contact}</a>
+<a class="m-cta" href="${T.contactHref}"${tr(T.contact)}>${T.contact}</a>
 </div>
 </div>
-${NAV.filter((item) => item.type !== 'link').map((item) => mobilUnterseite(item, unten && item.id === 'nav-loesungen')).join('\n')}
+${NAV.filter((item) => item.type !== 'link').map((item) => mobilUnterseite(item, unten && item.id === 'nav-loesungen', o)).join('\n')}
 </div>
 </div>`
 }

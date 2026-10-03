@@ -68,6 +68,20 @@ describe('dist/neo-behaviors.js (Drupal-Library)', () => {
     expect(document.querySelector('.nc-tabs').getAttribute('data-neo-behavior')).toBe('tabs')
   })
 
+  it('Hauptnavigation (navigation-tab-mega): nur = [\'navigation-tab-mega\'] wie in neo_fe bindet Header und Drawer', () => {
+    lade()
+    const recipe = normalisiereRecipe(rohesRecipe('navigation-tab-mega'))
+    const sp = recipe.specimens.find((s) => s.id === 'mobil')
+    document.body.innerHTML = specimenAnsicht(sp, recipe, 'navigation-tab-mega', vorlageFuer('navigation-tab-mega'), { ausprobieren: true }).zeilen[0].zellen[0].html
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    b.attach(document, { neoBehaviors: { nur: ['navigation-tab-mega'] } })
+    expect(document.querySelector('header.site-header').getAttribute('data-neo-behavior')).toBe('navigation-tab-mega')
+    document.querySelector('.burger').click()
+    expect(document.querySelector('.m-drawer').classList.contains('is-open')).toBe(true)
+    b.detach(document, {}, 'unload')
+    expect(document.querySelector('[data-neo-behavior]')).toBeNull()
+  })
+
   it('ohne Drupal: nur window.NeoBehaviors (Doku, Storybook)', () => {
     delete globalThis.Drupal
     lade()

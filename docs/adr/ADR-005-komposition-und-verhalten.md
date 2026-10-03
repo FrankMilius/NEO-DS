@@ -198,3 +198,21 @@ Dinge fehlten aber:
   Nachgemessen mit Twig + `neo-nav.js` in Drupal-Reihenfolge: 0 abweichende
   berechnete Stile (alle Knoten in Header und Drawer inkl. `::before`/
   `::after`, neun Zustände, hell/dunkel) und 0 abweichende Pixel.
+- Entscheidung 03.10.2026 (tabmega-verhalten = „Markup per Twig, Verhalten
+  in neo-behaviors"): Behavior `navigation-tab-mega` arbeitet auf fertigem
+  Markup und deckt alles ab, was `neo-nav.js` konnte (Panels, Mega-Tabs,
+  Such-Band, Kopfleisten-Menüs, Sprache live, Escape, Klick außen, Drawer
+  mit Push-Navigation, aktueller Ast, Auto-Hide) — außer dem Aufbau des
+  Markups. Recipe 1.1.0 mit `events`; Klassen und Größengrenze unverändert
+  (tabmega-klassen, tabmega-groesse = lassen). DE/EN bleibt live ohne
+  Neuladen: das Twig rendert die Seitensprache und legt beide Fassungen in
+  `data-neo-i18n` ab (ein Neuladen in der anderen Sprache hätte
+  Sprach-URLs und übersetzte Inhalte vorausgesetzt, die die Website nicht
+  zusagt). Bewusste Abweichungen von `neo-nav.js`: Öffnen von Panel/Suche
+  schließt auch die Kopfleisten-Menüs, Escape schließt auch ein Menü ohne
+  Fokus darin (beides wie im Recipe), `lang` wechselt an Header und Drawer
+  statt an `<html>`, die Push-Navigation führt den Fokus (Zurück bzw.
+  Zeile), der geschlossene Drawer und die verschobenen Bildschirme sind
+  `inert` (vorher per Tab erreichbar, obwohl aus dem Bild geschoben; liegt
+  der Fokus beim Schließen im Drawer, geht er zum Burger). „Ausprobieren" für die Arena; dort startet alles zu und das
+  Auto-Hide ist aus.
