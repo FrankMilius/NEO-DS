@@ -1068,7 +1068,8 @@
           if (warum) schliesse(warum);
         }, { signal });
         dialog.addEventListener("close", () => {
-          sende(dialog, `${art.praefix}-close`, { reason: grund || "programmatic" });
+          const reason = grund || "programmatic";
+          sende(dialog, `${art.praefix}-close`, art.schliessDetail ? art.schliessDetail(reason) : { reason });
           grund = null;
           if (zurueck && zurueck.isConnected) zurueck.focus();
           zurueck = null;
@@ -1112,18 +1113,23 @@
   });
 
   // packages/neo-behaviors/alert-dialog.js
+  var OHNE_KNOPF = ["escape", "programmatic"];
   var alertDialog = dialogBehavior({
     id: "alert-dialog",
     selektor: "dialog.nc-alert-dialog",
     praefix: "alert-dialog",
     schliessen: "[data-action]",
     hintergrundSchliesst: () => false,
+    schliessDetail: (reason) => ({ reason, action: OHNE_KNOPF.includes(reason) ? null : reason, open: false }),
     fokusZiel: (dialog) => {
+      const bedienbar = fokussierbare(dialog).filter((e) => !gesperrt(e));
+      const markiert = bedienbar.find((e) => e.hasAttribute("autofocus"));
+      if (markiert) return markiert;
       const abbrechen = (
         /** @type {HTMLElement|null} */
         dialog.querySelector('[data-action="cancel"]')
       );
-      return abbrechen && !gesperrt(abbrechen) ? abbrechen : fokussierbare(dialog)[0] || null;
+      return abbrechen && !gesperrt(abbrechen) ? abbrechen : bedienbar[0] || fokussierbare(dialog)[0] || null;
     },
     aktion: (ziel, dialog) => {
       const knopf = (
@@ -1131,7 +1137,12 @@
         ziel.closest("[data-action]")
       );
       if (!knopf || !dialog.contains(knopf) || gesperrt(knopf)) return null;
-      return knopf.getAttribute("data-action") || null;
+      const wert = knopf.getAttribute("data-action") || null;
+      if (wert === "confirm" && dialog.getAttribute("data-close") === "manuell") {
+        sende(dialog, "alert-dialog-close", { reason: "confirm", action: "confirm", open: true });
+        return null;
+      }
+      return wert;
     }
   });
 

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "alert-dialog",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -54,8 +54,11 @@
       "Backdrop: ::backdrop mit overlay-bg Fade-in Animation.",
       "Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.",
       "Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.",
-      "Focus-Management: Bei default: autofocus auf Action-Button (primaere Aktion). Bei destructive: autofocus auf Cancel-Button (verhindert versehentliches Loeschen = Anti-Slipping-Pattern).",
-      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt."
+      "Focus-Management (WAI-ARIA alertdialog, Entscheidung 03.10.2026 — sichere Aktion per Markierung): Beim Oeffnen geht der Fokus auf das bedienbare Element mit [autofocus] im Dialog; ohne Markierung auf Abbrechen (data-action='cancel'), sonst das erste bedienbare Element. Die sichere Aktion haengt vom Inhalt ab: meist Abbrechen, bei 'Sitzung laeuft ab' die Aktion 'Angemeldet bleiben'. Anti-Slipping: destruktive Aktionen nie markieren.",
+      "Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt.",
+      "Verhalten (neo-behaviors alert-dialog): Ausloeser mit aria-controls oeffnet per showModal(); Fokus-Falle; Escape schliesst wie Abbrechen (reason 'escape'); Klick auf den Hintergrund schliesst NICHT; Knoepfe mit data-action schliessen mit reason = data-action ('cancel', 'confirm', eigene Werte); danach Fokus zurueck auf den Ausloeser.",
+      "Manuelles Schliessen (Entscheidung 03.10.2026): data-close='manuell' am <dialog> (nicht am Knopf — es beschreibt den Ablauf des Dialogs). Ein Klick auf data-action='confirm' schliesst dann NICHT, sondern meldet nur alert-dialog-close { reason: 'confirm', action: 'confirm', open: true }; das Programm zeigt z. B. einen Ladezustand (Knopf aria-disabled='true') und schliesst selbst mit dialog.close() (Ereignis reason 'programmatic', open false; Fokus zurueck zum Ausloeser). Abbrechen, eigene data-action-Werte und Escape schliessen weiter sofort.",
+      "Unsaved-Changes: drei Knoepfe im Footer — Speichern (nc-button--secondary, data-action='save'), Abbrechen (data-action='cancel'), Verwerfen (data-action='confirm', bei destructive in Gefahrenfarbe)."
     ]
   },
   "api": null,
@@ -209,9 +212,40 @@
       "--mod-dialog-danger-action-color"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Escape": {
+      "action": "cancel",
+      "note": "Schliesst wie Abbrechen (alert-dialog-close reason 'escape'), Fokus zurueck auf den Ausloeser."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Loest die fokussierte Aktion aus (nativer Knopf). Beim Oeffnen liegt der Fokus auf der sicheren Aktion ([autofocus], sonst Abbrechen) — Enter loest nie versehentlich eine destruktive Aktion aus."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Dialog (Fokus-Falle)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "alert-dialog-open": {
+      "bubbles": true,
+      "note": "Gefeuert wenn der Alert-Dialog geoeffnet wird (Fokus liegt dann auf der sicheren Aktion: [autofocus], sonst Abbrechen)."
+    },
+    "alert-dialog-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string",
+        "action": "string",
+        "open": "boolean"
+      },
+      "note": "Gefeuert beim Schliessen. reason: 'cancel', 'confirm', 'escape', 'programmatic' oder ein eigener data-action-Wert (z. B. 'discard'); action: data-action des geklickten Knopfs (bei 'escape'/'programmatic' null); open: false. Mit data-close='manuell' meldet Bestaetigen { reason: 'confirm', action: 'confirm', open: true } und der Dialog bleibt offen, bis das Programm dialog.close() ruft (dann reason 'programmatic'). Klick auf den Hintergrund schliesst nicht."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,
@@ -233,9 +267,9 @@
         },
         "require": [],
         "suggest": [
-          "autofocus-action"
+          "autofocus-cancel"
         ],
-        "note": "Default: autofocus auf Action-Button (primaere Aktion) fuer direkten Keyboard-Zugriff."
+        "note": "Default: Fokus beim Oeffnen auf die sichere Aktion — ohne Markierung Abbrechen (WAI-ARIA alertdialog); ist eine andere Aktion die sichere (z. B. 'Angemeldet bleiben'), traegt sie autofocus. Entscheidung 03.10.2026 (vorher 02.10.2026: immer Abbrechen)."
       },
       {
         "when": {
@@ -249,7 +283,7 @@
           "autofocus-cancel"
         ],
         "suggest": [],
-        "note": "Destructive: autofocus auf Cancel-Button statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Best-Practice fuer destruktive Aktionen."
+        "note": "Destructive: Fokus auf Abbrechen statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Die destruktive Aktion nie mit autofocus markieren."
       },
       {
         "when": {

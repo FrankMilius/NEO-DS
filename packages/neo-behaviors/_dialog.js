@@ -18,9 +18,13 @@
 //
 // Abweichungen je Bauteil (optional):
 //   fokusZiel(dialog)     Element, das beim Oeffnen den Fokus bekommt —
-//                         ueberstimmt [autofocus] (Alert-Dialog: Abbrechen)
+//                         ueberstimmt die Suche oben (Alert-Dialog:
+//                         [autofocus], sonst Abbrechen)
 //   aktion(ziel, dialog)  Grund fuer einen Klick im Dialog, der schliesst
-//                         (oder null) — ersetzt die Schliessen-Knoepfe oben
+//                         (oder null = bleibt offen) — ersetzt die
+//                         Schliessen-Knoepfe oben
+//   schliessDetail(reason) detail fuer `<praefix>-close` (Standard
+//                         { reason }; Alert-Dialog: { reason, action, open })
 // ==========================================================================
 import { sende, fokussierbare, fokusFalle } from './kern.js'
 
@@ -92,7 +96,8 @@ export function dialogBehavior (art) {
       }, { signal })
 
       dialog.addEventListener('close', () => {
-        sende(dialog, `${art.praefix}-close`, { reason: grund || 'programmatic' })
+        const reason = grund || 'programmatic'
+        sende(dialog, `${art.praefix}-close`, art.schliessDetail ? art.schliessDetail(reason) : { reason })
         grund = null
         if (zurueck && zurueck.isConnected) zurueck.focus()
         zurueck = null

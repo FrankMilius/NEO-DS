@@ -425,8 +425,8 @@ it('Modal und Drawer: Recipe-Ereignisse decken die Gruende ab', () => {
 // Alert-Dialog — WAI-ARIA alertdialog (alert-dialog-recipe.json,
 // Entscheidung 02.10.2026). Struktur aus 07-organisms/_alert-dialog.scss.
 // ---------------------------------------------------------------------------
-const alertHtml = ({ autofocusAktion = false, ohneAbbrechen = false, drei = false } = {}) => `<button type="button" id="oeffner" aria-haspopup="dialog" aria-controls="ad">Löschen</button>
-<dialog class="nc-alert-dialog nc-alert-dialog--destructive" id="ad" role="alertdialog" aria-labelledby="ad-t" aria-describedby="ad-b">
+const alertHtml = ({ autofocusAktion = false, ohneAbbrechen = false, drei = false, manuell = false } = {}) => `<button type="button" id="oeffner" aria-haspopup="dialog" aria-controls="ad">Löschen</button>
+<dialog class="nc-alert-dialog nc-alert-dialog--destructive" id="ad" role="alertdialog" aria-labelledby="ad-t" aria-describedby="ad-b"${manuell ? ' data-close="manuell"' : ''}>
   <div class="nc-alert-dialog__header"><h2 class="nc-alert-dialog__title" id="ad-t">Konto löschen?</h2><p class="nc-alert-dialog__description" id="ad-b">Nicht rückgängig zu machen.</p></div>
   <div class="nc-alert-dialog__footer">${drei ? '<button type="button" class="nc-button nc-button--ghost" data-action="discard">Verwerfen</button>' : ''}${ohneAbbrechen ? '' : '<button type="button" class="nc-button nc-button--outline" data-action="cancel">Abbrechen</button>'}<button type="button" class="nc-button nc-button--primary" data-action="confirm"${autofocusAktion ? ' autofocus' : ''}>Endgültig löschen</button></div>
 </dialog>`
@@ -459,12 +459,69 @@ describe('Alert-Dialog (alert-dialog-recipe.json)', () => {
     passtZumRecipe('alert-dialog', auf[0])
   })
 
-  it('Fokus auf Abbrechen auch gegen [autofocus] auf der Aktion; ohne Abbrechen das erste Element', () => {
+  it('Fokus auf die markierte sichere Aktion ([autofocus], Entscheidung 03.10.2026); ohne Markierung Abbrechen, ohne Abbrechen das erste Element', () => {
     const d = offen({ autofocusAktion: true })
-    expect(aktiv()).toBe(d.abbrechen)
+    expect(aktiv()).toBe(d.bestaetigen)
+    document.body.innerHTML = ''
+    const ohne = offen()
+    expect(aktiv()).toBe(ohne.abbrechen)
     document.body.innerHTML = ''
     const o = offen({ ohneAbbrechen: true })
     expect(aktiv()).toBe(o.knoepfe[0])
+  })
+
+  it('gesperrtes [autofocus] zaehlt nicht: dann Abbrechen', () => {
+    const d = aufbau({ autofocusAktion: true })
+    d.bestaetigen.setAttribute('aria-disabled', 'true')
+    d.oeffner.focus()
+    d.oeffner.click()
+    expect(aktiv()).toBe(d.abbrechen)
+  })
+
+  describe('data-close="manuell" (Entscheidung 03.10.2026)', () => {
+    it('Bestaetigen schliesst nicht, meldet alert-dialog-close { reason, action, open: true } wie im Recipe', () => {
+      const d = offen({ manuell: true })
+      const zu = sammle(d.dialog, 'alert-dialog-close')
+      d.bestaetigen.click()
+      expect(d.dialog.open).toBe(true)
+      expect(zu.map((e) => e.detail)).toEqual([{ reason: 'confirm', action: 'confirm', open: true }])
+      passtZumRecipe('alert-dialog', zu[0])
+    })
+
+    it('das Programm schliesst mit dialog.close(): reason programmatic, Fokus zurueck zum Ausloeser', () => {
+      const d = offen({ manuell: true })
+      const zu = sammle(d.dialog, 'alert-dialog-close')
+      d.bestaetigen.focus()
+      d.bestaetigen.click()
+      d.dialog.close()
+      expect(d.dialog.open).toBe(false)
+      expect(zu.map((e) => e.detail)).toEqual([{ reason: 'confirm', action: 'confirm', open: true }, { reason: 'programmatic', action: null, open: false }])
+      passtZumRecipe('alert-dialog', zu[1])
+      expect(aktiv()).toBe(d.oeffner)
+    })
+
+    it('gesperrtes Bestaetigen (Ladezustand) meldet nichts', () => {
+      const d = offen({ manuell: true })
+      const zu = sammle(d.dialog, 'alert-dialog-close')
+      d.bestaetigen.setAttribute('aria-disabled', 'true')
+      d.bestaetigen.click()
+      expect(zu).toHaveLength(0)
+      expect(d.dialog.open).toBe(true)
+    })
+
+    it('Abbrechen, eigene Aktionen und Escape schliessen weiter sofort', () => {
+      for (const [knopf, grund] of [['abbrechen', 'cancel'], [null, 'discard'], ['escape', 'escape']]) {
+        const d = offen({ manuell: true, drei: true })
+        const zu = sammle(d.dialog, 'alert-dialog-close')
+        if (knopf === 'escape') taste(aktiv(), 'Escape')
+        else (knopf ? d[knopf] : d.dialog.querySelector('[data-action="discard"]')).click()
+        expect(d.dialog.open).toBe(false)
+        expect(zu.map((e) => e.detail.reason)).toEqual([grund])
+        expect(zu[0].detail.open).toBe(false)
+        expect(aktiv()).toBe(d.oeffner)
+        document.body.innerHTML = ''
+      }
+    })
   })
 
   it('Klick auf den Hintergrund schliesst nicht', () => {
@@ -481,7 +538,7 @@ describe('Alert-Dialog (alert-dialog-recipe.json)', () => {
       const zu = sammle(d.dialog, 'alert-dialog-close')
       ;(knopf ? d[knopf] : d.dialog.querySelector('[data-action="discard"]')).click()
       expect(d.dialog.open).toBe(false)
-      expect(zu.map((e) => e.detail)).toEqual([{ reason: grund }])
+      expect(zu.map((e) => e.detail)).toEqual([{ reason: grund, action: grund, open: false }])
       passtZumRecipe('alert-dialog', zu[0])
       expect(aktiv()).toBe(d.oeffner)
       document.body.innerHTML = ''
@@ -509,7 +566,7 @@ describe('Alert-Dialog (alert-dialog-recipe.json)', () => {
         const e = taste(aktiv(), 'Escape')
         expect(e.defaultPrevented).toBe(true)
         expect(d.dialog.open).toBe(false)
-        expect(zu.map((x) => x.detail)).toEqual([{ reason: 'escape' }])
+        expect(zu.map((x) => x.detail)).toEqual([{ reason: 'escape', action: null, open: false }])
         expect(aktiv()).toBe(d.oeffner)
         // Escape ohne keydown (Zurueck-Geste): der Browser meldet cancel
         const n = offen()
@@ -519,7 +576,7 @@ describe('Alert-Dialog (alert-dialog-recipe.json)', () => {
         expect(zu2[0].detail.reason).toBe('escape')
       },
       Enter: () => {
-        // Fokus liegt beim Oeffnen auf Abbrechen: Enter bricht ab, loescht nicht
+        // Ohne Markierung liegt der Fokus beim Oeffnen auf Abbrechen: Enter bricht ab, loescht nicht
         const d = offen()
         const zu = sammle(d.dialog, 'alert-dialog-close')
         taste(aktiv(), 'Enter')

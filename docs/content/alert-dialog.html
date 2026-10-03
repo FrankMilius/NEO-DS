@@ -142,7 +142,7 @@
           <section class="docs__section" id="basis-alert-dialog">
             <h2 class="docs__section-title">Basis Alert Dialog</h2>
             <p class="docs__section-desc">
-              Kanonische HTML-Struktur eines Alert Dialogs. Der Dialog wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und ist ein modales Overlay. Mit neo-behaviors &ouml;ffnet ein Knopf mit <code class="docs__token">aria-controls="dlg"</code> den Dialog; der Fokus liegt dann auf Abbrechen (<code class="docs__token">data-action="cancel"</code>), Escape bricht ab, ein Klick auf den Hintergrund schlie&szlig;t nicht (WAI-ARIA alertdialog).
+              Kanonische HTML-Struktur eines Alert Dialogs. Der Dialog wird per <code class="docs__token">showModal()</code> ge&ouml;ffnet und ist ein modales Overlay. Mit neo-behaviors &ouml;ffnet ein Knopf mit <code class="docs__token">aria-controls="dlg"</code> den Dialog; der Fokus liegt dann auf der markierten sicheren Aktion (<code class="docs__token">autofocus</code>), ohne Markierung auf Abbrechen (<code class="docs__token">data-action="cancel"</code>), Escape bricht ab, ein Klick auf den Hintergrund schlie&szlig;t nicht (WAI-ARIA alertdialog).
             </p>
             <div class="docs__code-block">&lt;dialog class="nc-alert-dialog" id="dlg" role="alertdialog" aria-labelledby="dlg-title" aria-describedby="dlg-desc"&gt;
   &lt;div class="nc-alert-dialog__header"&gt;
@@ -201,6 +201,21 @@ dialog.addEventListener('close', () =&gt; {
 // Event: ESC gedr&uuml;ckt
 dialog.addEventListener('cancel', (e) =&gt; {
   // Optional: e.preventDefault() um ESC zu blockieren
+});</div>
+            <p class="docs__section-desc">
+              Manuelles Schlie&szlig;en (Entscheidung 03.10.2026): Mit <code class="docs__token">data-close="manuell"</code> am <code class="docs__token">&lt;dialog&gt;</code> schlie&szlig;t ein Klick auf <code class="docs__token">data-action="confirm"</code> den Dialog nicht, sondern meldet nur <code class="docs__token">alert-dialog-close</code> mit <code class="docs__token">open: true</code>. Das Programm schlie&szlig;t selbst mit <code class="docs__token">dialog.close()</code>; der Fokus geht zur&uuml;ck zum Ausl&ouml;ser. Abbrechen und Escape schlie&szlig;en weiter sofort.
+            </p>
+            <div class="docs__code-block">// &lt;dialog class="nc-alert-dialog" data-close="manuell" ...&gt;
+dialog.addEventListener('alert-dialog-close', async (e) =&gt; {
+  if (!e.detail.open) return; // schon geschlossen (cancel, escape, programmatic)
+  const knopf = dialog.querySelector('[data-action="confirm"]');
+  knopf.setAttribute('aria-disabled', 'true'); // Ladezustand, meldet nicht doppelt
+  try {
+    await speichern();
+    dialog.close(); // alert-dialog-close { reason: 'programmatic', open: false }
+  } finally {
+    knopf.removeAttribute('aria-disabled');
+  }
 });</div>
           </section>
 
@@ -383,9 +398,11 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <li>Backdrop: ::backdrop mit overlay-bg Fade-in Animation.</li>
     <li>Body Scroll Lock: body:has(.nc-alert-dialog[open]) { overflow: hidden }.</li>
     <li>Destructive-Modifier: .nc-alert-dialog--destructive setzt Icon-Farbe auf danger und styled Action-Button als Danger-Button.</li>
-    <li>Focus-Management (WAI-ARIA alertdialog, Entscheidung 02.10.2026): Beim Oeffnen geht der Fokus auf die sichere Aktion — Abbrechen mit data-action='cancel', sonst das erste bedienbare Element (neo-behaviors setzt ihn, auch gegen ein [autofocus] auf der Aktion). Anti-Slipping: schnelles Enter loest nie die bestaetigende Aktion aus.</li>
+    <li>Focus-Management (WAI-ARIA alertdialog, Entscheidung 03.10.2026 — sichere Aktion per Markierung): Beim Oeffnen geht der Fokus auf das bedienbare Element mit [autofocus] im Dialog; ohne Markierung auf Abbrechen (data-action='cancel'), sonst das erste bedienbare Element. Die sichere Aktion haengt vom Inhalt ab: meist Abbrechen, bei 'Sitzung laeuft ab' die Aktion 'Angemeldet bleiben'. Anti-Slipping: destruktive Aktionen nie markieren.</li>
     <li>Visuelle Synergie: Danger-Farben (bg, border, icon-color) sind identisch mit .nc-alert--danger, sodass ein Danger-Alert im Formular visuell exakt zum darauf folgenden Destructive-Alert-Dialog passt.</li>
     <li>Verhalten (neo-behaviors alert-dialog): Ausloeser mit aria-controls oeffnet per showModal(); Fokus-Falle; Escape schliesst wie Abbrechen (reason 'escape'); Klick auf den Hintergrund schliesst NICHT; Knoepfe mit data-action schliessen mit reason = data-action ('cancel', 'confirm', eigene Werte); danach Fokus zurueck auf den Ausloeser.</li>
+    <li>Manuelles Schliessen (Entscheidung 03.10.2026): data-close='manuell' am &lt;dialog&gt; (nicht am Knopf — es beschreibt den Ablauf des Dialogs). Ein Klick auf data-action='confirm' schliesst dann NICHT, sondern meldet nur alert-dialog-close { reason: 'confirm', action: 'confirm', open: true }; das Programm zeigt z. B. einen Ladezustand (Knopf aria-disabled='true') und schliesst selbst mit dialog.close() (Ereignis reason 'programmatic', open false; Fokus zurueck zum Ausloeser). Abbrechen, eigene data-action-Werte und Escape schliessen weiter sofort.</li>
+    <li>Unsaved-Changes: drei Knoepfe im Footer — Speichern (nc-button--secondary, data-action='save'), Abbrechen (data-action='cancel'), Verwerfen (data-action='confirm', bei destructive in Gefahrenfarbe).</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -399,7 +416,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
-<p class="docs__section-desc">Natives &lt;dialog&gt; mit role='alertdialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. Escape schliesst wie Abbrechen, Klick auf den Hintergrund schliesst nicht. Fokus-Falle, Fokus beim Oeffnen auf Abbrechen, danach zurueck zum Ausloeser (neo-behaviors).</p>
+<p class="docs__section-desc">Natives &lt;dialog&gt; mit role='alertdialog', aria-modal='true' bei showModal(). aria-labelledby → Title. aria-describedby → Description. Escape schliesst wie Abbrechen, Klick auf den Hintergrund schliesst nicht. Fokus-Falle, Fokus beim Oeffnen auf die markierte sichere Aktion ([autofocus], sonst Abbrechen), danach zurueck zum Ausloeser (neo-behaviors).</p>
 <div class="docs-a11y-block">
   <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
   <div class="docs-a11y-block__content">
@@ -425,7 +442,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <h4>Wenn: intent = default</h4>
     <ul>
       <li><strong>Empfohlen:</strong> <code class="docs__token">autofocus-cancel</code></li>
-      <li>Default: Fokus beim Oeffnen auf Abbrechen (sichere Aktion, WAI-ARIA alertdialog) — wie bei destructive. Entscheidung 02.10.2026; vorher autofocus auf der Aktion.</li>
+      <li>Default: Fokus beim Oeffnen auf die sichere Aktion — ohne Markierung Abbrechen (WAI-ARIA alertdialog); ist eine andere Aktion die sichere (z. B. 'Angemeldet bleiben'), traegt sie autofocus. Entscheidung 03.10.2026 (vorher 02.10.2026: immer Abbrechen).</li>
     </ul>
   </div>
 </div>
@@ -435,7 +452,7 @@ dialog.addEventListener('cancel', (e) =&gt; {
     <h4>Wenn: intent = destructive</h4>
     <ul>
       <li><strong>Pflicht:</strong> <code class="docs__token">autofocus-cancel</code></li>
-      <li>Destructive: Fokus auf Abbrechen statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Gilt seit 02.10.2026 fuer jede Absicht (neo-behaviors).</li>
+      <li>Destructive: Fokus auf Abbrechen statt Action — verhindert Slipping-Fehler (versehentliches Loeschen bei schnellem Enter). Die destruktive Aktion nie mit autofocus markieren.</li>
     </ul>
   </div>
 </div>
