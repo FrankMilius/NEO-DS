@@ -170,3 +170,22 @@ Dinge fehlten aber:
   das `neo-nav.js` aufbaut. Das Recipe nennt `keyboard` (aus `neo-nav.js`),
   ein Behavior in `neo-behaviors` gibt es dafür noch nicht — die Arena zeigt
   nur „Zustände". Drupal lädt bis zur Umstellung weiter sein `neo-nav.css`.
+- Entscheidung 03.10.2026 (navmenu-muster): Das DS-Navigationsmenü folgt dem
+  WAI-ARIA Disclosure-Navigationsmuster statt der Menubar (Recipe
+  `navigation-menu` 3.0.0, Major — das Markup bricht). Markup:
+  `nav[aria-label] > ul > li` mit Links bzw.
+  `button[type=button][aria-expanded][aria-controls]` und dem Panel
+  `.nc-navigation-menu__content#id[hidden]` direkt danach im Item — keine
+  Rollen `menubar`/`menu`/`menuitem`/`none`, kein roving tabindex, kein
+  Viewport und keine Kopie mehr (damit entfällt auch `inert`). Das SCSS zeigt
+  das offene Panel (`aria-expanded="true"` + `aria-controls`, ohne `[hidden]`)
+  unter der Leiste in voller Breite; Vorher/Nachher-Screenshot der Arena
+  pixelgleich. Das alte Markup (`data-state`, Viewport — `website/js/site.js`
+  der Prototyp-Seiten) liest das SCSS weiter (veraltet). Verhalten: Tab durch
+  alle Einträge, Enter/Leertaste (nativer Klick) schalten, Escape schließt
+  mit Fokus auf den Auslöser, Fokus aus dem offenen Item oder Klick außen
+  schließt, höchstens ein Panel offen; optionale Pfeiltasten (oben
+  rechts/links/Pos1/Ende, Pfeil runter ins Panel, im Panel runter/hoch).
+  `aria-current="page"` markiert die aktuelle Seite. Ereignis
+  `navigation-menu-change` unverändert. Die Website (Drupal, „V3 Tab-Mega")
+  nutzt das DS-Navigationsmenü nicht und ist nicht betroffen.
