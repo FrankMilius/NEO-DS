@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "sidebar",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -111,7 +111,8 @@
       "Submenu: verschachtelte Items, padding-left: nested-indent. hidden-Attribut.",
       "Footer: margin-top:auto, border-top. Wird ans Ende gedrueckt.",
       "Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels und Unterpunkte (__submenu-items) hidden, Items zentriert; der Untermenue-Knopf bleibt.",
-      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter. --overlay (+ .nc-sidebar-backdrop--overlay) erzwingt diese Lage auf jeder Fensterbreite."
+      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter. --overlay (+ .nc-sidebar-backdrop--overlay) erzwingt diese Lage auf jeder Fensterbreite. Geschlossen ist die Overlay-Sidebar visibility: hidden (laeuft in der Transition mit) und damit auch ohne JS aus der Tab-Folge (Entscheidung 03.10.2026, nav-a11y).",
+      "Fokus-Falle (Entscheidung 03.10.2026, sidebar-falle): Die offene Overlay-Sidebar mit Backdrop verhaelt sich wie ein Dialog — Fokus beim Oeffnen in die Sidebar (aria-current, sonst erstes Element), Tab/Shift+Tab bleiben drin, Escape und Klick auf den Backdrop schliessen, Geschwister der Sidebar und ihrer Vorfahren (ausser dem Backdrop) werden inert; beim Schliessen entfernt neo-behaviors nur das inert, das es selbst gesetzt hat, und gibt den Fokus an den Ausloeser zurueck. Desktop-Lage (kein Overlay): keine Falle."
     ]
   },
   "axes": {
@@ -227,7 +228,7 @@
         "hasAccessibleName",
         "supportsKeyboard"
       ],
-      "note": "Root: <nav aria-label='Seitennavigation'>. Items: <a> oder <button>. Aktives Item: aria-current='page'. Sub-Menu-Trigger: aria-expanded='true|false'. Collapsed-Toggle: aria-label='Navigation einklappen/ausklappen'. Mobile: Backdrop schliesst Sidebar (Escape + Klick)."
+      "note": "Root: <nav aria-label='Seitennavigation'>. Items: <a> oder <button>. Aktives Item: aria-current='page'. Sub-Menu-Trigger: aria-expanded='true|false'. Collapsed-Toggle: aria-label='Navigation einklappen/ausklappen'. Mobile: modal wie ein Dialog — Fokus-Falle, Rest der Seite inert, Escape und Klick auf den Backdrop schliessen, Fokus zurueck zum Ausloeser; geschlossen nicht in der Tab-Folge (Entscheidung 03.10.2026)."
     },
     "overrides": [
       {
@@ -384,7 +385,15 @@
     },
     "Escape": {
       "action": "close-mobile",
-      "note": "Mobil-Lage (.nc-sidebar--open): schliesst die Sidebar, Fokus zurueck auf den oeffnenden Knopf."
+      "note": "Mobil-Lage (.nc-sidebar--open): schliesst die Sidebar, gibt den inert gesetzten Rest der Seite frei, Fokus zurueck auf den oeffnenden Knopf."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Offene Overlay-Sidebar mit Backdrop: Fokus bleibt in der Sidebar (vom letzten zum ersten Element). Sonst normaler Tab-Fluss; die geschlossene Overlay-Sidebar ist nicht in der Tab-Folge."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Offene Overlay-Sidebar mit Backdrop: vom ersten zum letzten Element der Sidebar."
     }
   },
   "events": {

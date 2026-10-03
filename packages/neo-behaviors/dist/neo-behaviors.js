@@ -1889,6 +1889,29 @@
         null
       );
       if (hinten) hinten.hidden = !offen();
+      const ansicht = dok.defaultView;
+      const istOverlay = () => !!hinten && (wurzel.classList.contains("nc-sidebar--overlay") || (ansicht == null ? void 0 : ansicht.getComputedStyle(wurzel).position) === "fixed");
+      const vonUnsInert = (
+        /** @type {Set<Element>} */
+        /* @__PURE__ */ new Set()
+      );
+      let falle = false;
+      const sperreRest = () => {
+        for (let el = (
+          /** @type {Element} */
+          wurzel
+        ); el.parentElement && el !== dok.body; el = el.parentElement) {
+          for (const g2 of el.parentElement.children) {
+            if (g2 === el || g2 === hinten || g2.hasAttribute("inert")) continue;
+            g2.setAttribute("inert", "");
+            vonUnsInert.add(g2);
+          }
+        }
+      };
+      const gibRestFrei = () => {
+        for (const g2 of vonUnsInert) g2.removeAttribute("inert");
+        vonUnsInert.clear();
+      };
       const setze = (an, grund, knopf = null) => {
         if (offen() === an) return;
         wurzel.classList.toggle("nc-sidebar--open", an);
@@ -1896,12 +1919,16 @@
         if (an) {
           oeffner = knopf;
           oeffner == null ? void 0 : oeffner.setAttribute("aria-expanded", "true");
+          falle = istOverlay();
+          if (falle) sperreRest();
           const start = (
             /** @type {HTMLElement|null} */
             wurzel.querySelector('[aria-current="page"]') || fokussierbare(wurzel)[0]
           );
           start == null ? void 0 : start.focus();
         } else {
+          falle = false;
+          gibRestFrei();
           const zurueck = oeffner;
           oeffner = null;
           zurueck == null ? void 0 : zurueck.setAttribute("aria-expanded", "false");
@@ -1909,6 +1936,7 @@
         }
         sende(wurzel, "sidebar-toggle", { open: an, reason: grund });
       };
+      signal.addEventListener("abort", gibRestFrei);
       if (wurzel.id) {
         for (const k of dok.querySelectorAll(`[aria-controls="${CSS.escape(wurzel.id)}"]`)) if (!wurzel.contains(k)) k.setAttribute("aria-expanded", String(offen()));
         dok.addEventListener("click", (e) => {
@@ -1929,7 +1957,7 @@
         if (e.key === "Escape" && offen()) {
           e.preventDefault();
           setze(false, "escape");
-        }
+        } else if (falle && offen() && wurzel.isConnected) fokusFalle(e, wurzel);
       }, { signal });
     }
   };

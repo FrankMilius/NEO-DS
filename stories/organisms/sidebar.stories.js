@@ -1,6 +1,6 @@
 // ============================================================
 // Sidebar — Auto-generated from sidebar-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Sidebar** v1.0.0 (stable)
+        component: `**Sidebar** v1.1.0 (stable)
 
 Root: <nav aria-label='Seitennavigation'>. Flex-column, volle Hoehe, border-right.
 

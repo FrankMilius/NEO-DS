@@ -15,14 +15,27 @@
 //                oeffnet (.nc-sidebar--open, Backdrop .nc-sidebar-backdrop
 //                ohne [hidden], aria-expanded am Knopf), Fokus in die
 //                Sidebar. Escape, Klick auf den Backdrop oder erneut der
-//                Knopf schliessen, Fokus zurueck auf den Knopf. Das SCSS
-//                zeigt --open nur unter md; darueber ist die Klasse wirkungslos.
+//                Knopf (nur ohne Fokus-Falle erreichbar) schliessen, Fokus
+//                zurueck auf den Knopf. Das SCSS
+//                zeigt --open nur unter md (oder mit .nc-sidebar--overlay);
+//                darueber ist die Klasse wirkungslos.
+//   Fokus-Falle  in der Overlay-Lage mit Backdrop verhaelt sich die offene
+//                Sidebar wie ein Dialog (Entscheidung 03.10.2026,
+//                sidebar-falle): Tab/Shift+Tab bleiben in der Sidebar
+//                (fokusFalle aus kern.js, wie beim Drawer), der Rest der
+//                Seite wird inert — Geschwister der Sidebar und ihrer
+//                Vorfahren bis <body>, ausser dem Backdrop. Beim Schliessen
+//                (und beim Abbinden) nimmt das Behavior nur das inert
+//                zurueck, das es selbst gesetzt hat. Desktop-Lage (kein
+//                Overlay): unveraendert, keine Falle.
+//                Die geschlossene Overlay-Sidebar ist schon per SCSS aus der
+//                Tab-Folge (visibility: hidden nach dem Herausschieben).
 //
 // Ereignisse `sidebar-submenu-toggle` { value, open },
 // `sidebar-collapse` { collapsed }, `sidebar-toggle` { open, reason } —
 // reason: 'trigger', 'escape', 'overlay-click'.
 // ==========================================================================
-import { sende, fokussierbare, gesperrt } from './kern.js'
+import { sende, fokussierbare, fokusFalle, gesperrt } from './kern.js'
 
 const UNTER = 'button.nc-sidebar__item[aria-controls]'
 const EINKLAPPEN = 'Navigation einklappen'
@@ -88,6 +101,26 @@ export const sidebar = {
     let oeffner = /** @type {HTMLElement|null} */ (null)
     if (hinten) hinten.hidden = !offen()
 
+    // Overlay-Lage mit Backdrop = modal: per Klasse oder (unter md) per
+    // Media Query, erkennbar an position: fixed
+    const ansicht = dok.defaultView
+    const istOverlay = () => !!hinten && (wurzel.classList.contains('nc-sidebar--overlay') || ansicht?.getComputedStyle(wurzel).position === 'fixed')
+    const vonUnsInert = /** @type {Set<Element>} */ (new Set())
+    let falle = false
+    const sperreRest = () => {
+      for (let el = /** @type {Element} */ (wurzel); el.parentElement && el !== dok.body; el = el.parentElement) {
+        for (const g of el.parentElement.children) {
+          if (g === el || g === hinten || g.hasAttribute('inert')) continue
+          g.setAttribute('inert', '')
+          vonUnsInert.add(g)
+        }
+      }
+    }
+    const gibRestFrei = () => {
+      for (const g of vonUnsInert) g.removeAttribute('inert')
+      vonUnsInert.clear()
+    }
+
     const setze = (an, grund, knopf = null) => {
       if (offen() === an) return
       wurzel.classList.toggle('nc-sidebar--open', an)
@@ -95,9 +128,13 @@ export const sidebar = {
       if (an) {
         oeffner = knopf
         oeffner?.setAttribute('aria-expanded', 'true')
+        falle = istOverlay()
+        if (falle) sperreRest()
         const start = /** @type {HTMLElement|null} */ (wurzel.querySelector('[aria-current="page"]')) || fokussierbare(wurzel)[0]
         start?.focus()
       } else {
+        falle = false
+        gibRestFrei()
         const zurueck = oeffner
         oeffner = null
         zurueck?.setAttribute('aria-expanded', 'false')
@@ -105,6 +142,7 @@ export const sidebar = {
       }
       sende(wurzel, 'sidebar-toggle', { open: an, reason: grund })
     }
+    signal.addEventListener('abort', gibRestFrei)
 
     if (wurzel.id) {
       for (const k of dok.querySelectorAll(`[aria-controls="${CSS.escape(wurzel.id)}"]`)) if (!wurzel.contains(k)) k.setAttribute('aria-expanded', String(offen()))
@@ -119,6 +157,7 @@ export const sidebar = {
     hinten?.addEventListener('click', () => setze(false, 'overlay-click'), { signal })
     dok.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && offen()) { e.preventDefault(); setze(false, 'escape') }
+      else if (falle && offen() && wurzel.isConnected) fokusFalle(e, wurzel)
     }, { signal })
   }
 }

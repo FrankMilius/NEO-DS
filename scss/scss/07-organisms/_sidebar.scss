@@ -104,7 +104,12 @@
 // dieselben Mixins.
 
 /// Leiste als Overlay: fest am linken Rand, ausserhalb des Bildes, bis
-/// .nc-sidebar--open sie hereinschiebt.
+/// .nc-sidebar--open sie hereinschiebt. Geschlossen ist sie unsichtbar
+/// (visibility: hidden) und damit aus Tab-Folge und Screenreader — auch
+/// ohne JS (Entscheidung 03.10.2026, nav-a11y). visibility laeuft in der
+/// Transition mit: beim Schliessen bleibt sie bis zum Ende der 200 ms
+/// sichtbar, beim Oeffnen ist sie sofort sichtbar — die Schiebe-Animation
+/// bleibt in beide Richtungen erhalten.
 @mixin sidebar-overlay {
   position: fixed;
   top: 0;
@@ -112,12 +117,14 @@
   height: 100vh;
   width: var(--mod-sidebar-width, var(--nc-sidebar-width));
   transform: translateX(-100%);
-  @include transition-quick((transform));
+  visibility: hidden;
+  @include transition-quick((transform, visibility));
 }
 
 /// Geoeffnetes Overlay.
 @mixin sidebar-overlay-open {
   transform: translateX(0);
+  visibility: visible;
 }
 
 /// Backdrop hinter dem Overlay ([hidden] blendet ihn aus).

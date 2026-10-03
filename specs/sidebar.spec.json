@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "sidebar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -103,8 +103,9 @@
       "Chevron: 16px, rotiert 90° bei aria-expanded='true'.",
       "Submenu: verschachtelte Items, padding-left: nested-indent. hidden-Attribut.",
       "Footer: margin-top:auto, border-top. Wird ans Ende gedrueckt.",
-      "Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels hidden, Items zentriert.",
-      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter."
+      "Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels und Unterpunkte (__submenu-items) hidden, Items zentriert; der Untermenue-Knopf bleibt.",
+      "Mobile (<md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter. --overlay (+ .nc-sidebar-backdrop--overlay) erzwingt diese Lage auf jeder Fensterbreite. Geschlossen ist die Overlay-Sidebar visibility: hidden (laeuft in der Transition mit) und damit auch ohne JS aus der Tab-Folge (Entscheidung 03.10.2026, nav-a11y).",
+      "Fokus-Falle (Entscheidung 03.10.2026, sidebar-falle): Die offene Overlay-Sidebar mit Backdrop verhaelt sich wie ein Dialog — Fokus beim Oeffnen in die Sidebar (aria-current, sonst erstes Element), Tab/Shift+Tab bleiben drin, Escape und Klick auf den Backdrop schliessen, Geschwister der Sidebar und ihrer Vorfahren (ausser dem Backdrop) werden inert; beim Schliessen entfernt neo-behaviors nur das inert, das es selbst gesetzt hat, und gibt den Fokus an den Ausloeser zurueck. Desktop-Lage (kein Overlay): keine Falle."
     ]
   },
   "api": null,
@@ -332,9 +333,54 @@
       "--mod-sidebar-badge-radius"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf einem Untermenue-Knopf (button.nc-sidebar__item[aria-controls]): klappt auf/zu. Auf dem Einklapp-Knopf (.nc-sidebar__toggle): klappt die Sidebar ein/aus. Auf Links: folgt dem Link (nativ)."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Auf Knoepfen wie Enter."
+    },
+    "Escape": {
+      "action": "close-mobile",
+      "note": "Mobil-Lage (.nc-sidebar--open): schliesst die Sidebar, gibt den inert gesetzten Rest der Seite frei, Fokus zurueck auf den oeffnenden Knopf."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Offene Overlay-Sidebar mit Backdrop: Fokus bleibt in der Sidebar (vom letzten zum ersten Element). Sonst normaler Tab-Fluss; die geschlossene Overlay-Sidebar ist nicht in der Tab-Folge."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Offene Overlay-Sidebar mit Backdrop: vom ersten zum letzten Element der Sidebar."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "sidebar-submenu-toggle": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "open": "boolean"
+      },
+      "note": "Gefeuert beim Auf- und Zuklappen eines Untermenues. value: Label des Knopfs."
+    },
+    "sidebar-collapse": {
+      "bubbles": true,
+      "detail": {
+        "collapsed": "boolean"
+      },
+      "note": "Gefeuert beim Ein- und Ausklappen der Sidebar (.nc-sidebar--collapsed)."
+    },
+    "sidebar-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean",
+        "reason": "string"
+      },
+      "note": "Mobil-Lage: gefeuert beim Oeffnen und Schliessen (.nc-sidebar--open). reason: 'trigger', 'escape', 'overlay-click'."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

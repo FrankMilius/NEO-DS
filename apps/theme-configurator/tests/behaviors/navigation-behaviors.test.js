@@ -612,8 +612,78 @@ describe('Sidebar (sidebar-recipe.json)', () => {
     for (const e of ev) passtZumRecipe('sidebar', e)
   })
 
+  // Fokus-Falle in der Overlay-Lage (Entscheidung 03.10.2026, sidebar-falle)
+  function mobil () {
+    const s = aufbau('mobile-overlay')
+    const knopf = s.b.querySelector('button[aria-controls]')
+    const hinten = s.b.querySelector('.nc-sidebar-backdrop')
+    // Inhalt neben der Buehne: wird inert; ein schon inertes Element bleibt es
+    const davor = document.createElement('main'); davor.innerHTML = '<a href="#">Inhalt</a>'
+    const schonInert = document.createElement('aside'); schonInert.setAttribute('inert', '')
+    document.body.prepend(davor, schonInert)
+    const liste = () => [...s.wurzel.querySelectorAll('a[href], button:not([disabled])')]
+    return { ...s, knopf, hinten, davor, schonInert, liste }
+  }
+
+  it('Overlay offen: Rest der Seite inert (Backdrop und Sidebar nicht), Schliessen gibt nur das eigene inert frei', () => {
+    const s = mobil()
+    s.knopf.click()
+    expect(s.knopf.hasAttribute('inert')).toBe(true)
+    expect(s.davor.hasAttribute('inert')).toBe(true)
+    expect(s.hinten.hasAttribute('inert')).toBe(false)
+    expect(s.wurzel.closest('[inert]')).toBeNull()
+    taste(aktiv(), 'Escape')
+    expect(s.knopf.hasAttribute('inert')).toBe(false)
+    expect(s.davor.hasAttribute('inert')).toBe(false)
+    expect(s.schonInert.hasAttribute('inert')).toBe(true)
+    expect(aktiv()).toBe(s.knopf)
+  })
+
+  it('Overlay offen: Tab und Shift+Tab bleiben in der Sidebar', () => {
+    const s = mobil()
+    s.knopf.click()
+    const liste = s.liste()
+    liste.at(-1).focus()
+    expect(taste(liste.at(-1), 'Tab').defaultPrevented).toBe(true)
+    expect(aktiv()).toBe(liste[0])
+    expect(taste(liste[0], 'Shift+Tab').defaultPrevented).toBe(true)
+    expect(aktiv()).toBe(liste.at(-1))
+    liste[0].focus()
+    expect(taste(liste[0], 'Tab').defaultPrevented).toBe(false) // mitten drin: nativ
+  })
+
+  it('Abbinden bei offener Sidebar gibt den Rest der Seite frei', () => {
+    const s = mobil()
+    s.knopf.click()
+    abbinden(s.b)
+    expect(s.davor.hasAttribute('inert')).toBe(false)
+    expect(s.knopf.hasAttribute('inert')).toBe(false)
+  })
+
+  it('Desktop-Lage (kein Overlay): keine Falle, nichts inert', () => {
+    const b = buehne(lebendigesMarkup('sidebar', 'mobile-overlay').replace(' nc-sidebar--overlay', ''))
+    anbinden(b)
+    const wurzel = b.querySelector('.nc-sidebar')
+    const knopf = b.querySelector('button[aria-controls]')
+    knopf.click()
+    expect(wurzel.classList.contains('nc-sidebar--open')).toBe(true)
+    expect(knopf.hasAttribute('inert')).toBe(false)
+    const letzter = [...wurzel.querySelectorAll('a[href], button')].at(-1)
+    letzter.focus()
+    expect(taste(letzter, 'Tab').defaultPrevented).toBe(false)
+  })
+
   describe('Tasten aus dem Recipe', () => {
     const pruefungen = {
+      Tab: () => {
+        const s = mobil(); s.knopf.click(); const l = s.liste(); l.at(-1).focus()
+        expect(taste(l.at(-1), 'Tab').defaultPrevented).toBe(true); expect(aktiv()).toBe(l[0])
+        const v = aufbau('full-sidebar'); expect(taste(v.wurzel.querySelector('.nc-sidebar__toggle'), 'Tab').defaultPrevented).toBe(false)
+      },
+      'Shift+Tab': () => {
+        const s = mobil(); s.knopf.click(); const l = s.liste()
+        expect(taste(l[0], 'Shift+Tab').defaultPrevented).toBe(true); expect(aktiv()).toBe(l.at(-1))
+      },
       Enter: () => {
         const s = aufbau('nested-submenu'); taste(unter(s), 'Enter'); expect(panel(s).hidden).toBe(true)
         const v = aufbau('full-sidebar'); taste(v.wurzel.querySelector('.nc-sidebar__toggle'), 'Enter'); expect(v.wurzel.classList.contains('nc-sidebar--collapsed')).toBe(true)
