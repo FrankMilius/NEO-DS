@@ -284,14 +284,12 @@
             <h2 class="docs__section-title">Truncated mit Dropdown</h2>
             <p class="docs__section-desc">
               Klick auf den Ellipsis-Button &ouml;ffnet ein Dropdown mit den versteckten Zwischenebenen.
-              Opt-In via <code class="docs__token">data-breadcrumb-truncated</code> +
-              <code class="docs__token">data-breadcrumb-hidden-items</code> auf dem
-              <code class="docs__token">&lt;nav&gt;</code>-Element.
+              Das Men&uuml; <code class="docs__token">.nc-breadcrumb__dropdown</code> steht im Markup;
+              das Verhalten (auf/zu, Pfeiltasten, Escape) kommt allein aus neo-behaviors
+              (<code class="docs__token">breadcrumb</code>).
             </p>
             <div style="margin-block-end: var(--fnd-spacing-06);">
-              <nav class="nc-breadcrumb" aria-label="Breadcrumb"
-                   data-breadcrumb-truncated
-                   data-breadcrumb-hidden-items='[{"label":"Dashboard","href":"#"},{"label":"Einstellungen","href":"#"},{"label":"Benutzer","href":"#"}]'>
+              <nav class="nc-breadcrumb" aria-label="Breadcrumb">
                 <ol class="nc-breadcrumb__list">
                   <li class="nc-breadcrumb__item">
                     <a class="nc-breadcrumb__link" href="#">Home</a>
@@ -299,10 +297,15 @@
                       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                     </span>
                   </li>
-                  <li class="nc-breadcrumb__item">
-                    <button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen">
+                  <li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">
+                    <button type="button" class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen" aria-haspopup="true" aria-expanded="false">
                       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
                     </button>
+                    <ul class="nc-breadcrumb__dropdown" role="menu">
+                      <li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Dashboard</a></li>
+                      <li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Einstellungen</a></li>
+                      <li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="#">Benutzer</a></li>
+                    </ul>
                     <span class="nc-breadcrumb__separator" aria-hidden="true">
                       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                     </span>
@@ -319,24 +322,24 @@
                 </ol>
               </nav>
             </div>
-            <div class="docs__code-block">&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"
-     data-breadcrumb-truncated
-     data-breadcrumb-hidden-items='[
-       {"label":"Dashboard","href":"/dashboard"},
-       {"label":"Einstellungen","href":"/settings"},
-       {"label":"Benutzer","href":"/users"}
-     ]'&gt;
+            <div class="docs__code-block">&lt;nav class="nc-breadcrumb" aria-label="Breadcrumb"&gt;
   &lt;ol class="nc-breadcrumb__list"&gt;
     &lt;li class="nc-breadcrumb__item"&gt;
       &lt;a class="nc-breadcrumb__link" href="/"&gt;Home&lt;/a&gt;
       &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
     &lt;/li&gt;
-    &lt;li class="nc-breadcrumb__item"&gt;
-      &lt;button class="nc-breadcrumb__ellipsis"
-              aria-label="Versteckte Seiten anzeigen"&gt;
+    &lt;li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap"&gt;
+      &lt;button type="button" class="nc-breadcrumb__ellipsis"
+              aria-label="Versteckte Seiten anzeigen"
+              aria-haspopup="true" aria-expanded="false"&gt;
         &lt;svg viewBox="0 0 24 24" width="16" height="16"&gt;...&lt;/svg&gt;
       &lt;/button&gt;
-      &lt;!-- Dropdown wird von js/breadcrumb.js dynamisch erzeugt --&gt;
+      &lt;!-- Menue im Markup; Verhalten: neo-behaviors (breadcrumb) --&gt;
+      &lt;ul class="nc-breadcrumb__dropdown" role="menu"&gt;
+        &lt;li role="none"&gt;&lt;a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="none"&gt;&lt;a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="/settings"&gt;Einstellungen&lt;/a&gt;&lt;/li&gt;
+        &lt;li role="none"&gt;&lt;a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="/users"&gt;Benutzer&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
       &lt;span class="nc-breadcrumb__separator" aria-hidden="true"&gt;...&lt;/span&gt;
     &lt;/li&gt;
     &lt;li class="nc-breadcrumb__item"&gt;
@@ -857,7 +860,7 @@
   <script src="docs-toc.js"></script>
   <script src="docs-stage-controls.js"></script>
   <script src="docs-recipe-tab.js"></script>
-  <script src="../js/breadcrumb.js"></script>
+  <script src="../packages/neo-behaviors/dist/neo-behaviors.js"></script>
   <script src="breadcrumb-docs.js"></script>
 
 </body>

@@ -8,6 +8,9 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { anbinden, abbinden } from 'neo-behaviors'
 import { lebendigesMarkup, zellenMarkup, zelleMit, buehne, taste, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
+import { readFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { WURZEL } from '../arena/_recipes.js'
 
 afterEach(() => { document.body.innerHTML = ''; vi.useRealTimers() })
 
@@ -60,6 +63,47 @@ describe('Breadcrumb (breadcrumb-recipe.json)', () => {
     d.knopf.click()
     d.eintraege[0].dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: document.getElementById('draussen') }))
     expect(istOffen(d)).toBe(false)
+  })
+
+  // nav-a11y (Entscheidung 03.10.2026): die Doku baute mit js/breadcrumb.js
+  // ein zweites Menue neben das im Markup — jetzt wirkt nur neo-behaviors
+  it('Doku: nur neo-behaviors, je Breadcrumb genau ein Menue (Showcase und Buehne)', () => {
+    expect(existsSync(join(WURZEL, 'js/breadcrumb.js'))).toBe(false)
+    const quelle = readFileSync(join(WURZEL, 'docs/content/breadcrumb.html'), 'utf8')
+    expect(quelle).not.toMatch(/js\/breadcrumb\.js"/)
+    expect(quelle).toContain('<script src="../packages/neo-behaviors/dist/neo-behaviors.js"></script>')
+    expect(quelle).not.toMatch(/data-breadcrumb-(truncated|hidden-items)\s*[=>\n]/)
+    const koerper = quelle.replace(/<script[\s\S]*?<\/script>/g, '')
+    const b = buehne(koerper)
+    window.NeoBehaviors = { anbinden, abbinden }
+    try {
+      new Function(readFileSync(join(WURZEL, 'docs/breadcrumb-docs.js'), 'utf8'))()
+      // Navs mit Menue (der Abschnitt „Mit Ellipsis" zeigt nur den Knopf)
+      const pruefe = (bereich) => {
+        const mitMenue = [...bereich.querySelectorAll('nav.nc-breadcrumb')].filter((n) => n.querySelector('.nc-breadcrumb__dropdown'))
+        expect(mitMenue.length).toBeGreaterThan(0)
+        for (const nav of mitMenue) {
+          expect(nav.querySelectorAll('.nc-breadcrumb__dropdown')).toHaveLength(1)
+          const knopf = nav.querySelector('.nc-breadcrumb__ellipsis')
+          knopf.click()
+          expect(nav.querySelector('.nc-breadcrumb__dropdown').classList.contains('is-open')).toBe(true)
+          expect(knopf.getAttribute('aria-expanded')).toBe('true')
+          knopf.click()
+          expect(knopf.getAttribute('aria-expanded')).toBe('false')
+        }
+      }
+      pruefe(b)
+      // Buehne mit Ellipsis neu zeichnen (Regler): genau ein Menue, gebunden;
+      // ein zweites Zeichnen bindet die neue Instanz wieder
+      const stufe = b.querySelector('#stage-items')
+      stufe.value = stufe.options[stufe.options.length - 1].value
+      const chk = b.querySelector('#stage-ellipsis')
+      chk.checked = true
+      chk.dispatchEvent(new Event('change'))
+      pruefe(b.querySelector('#stage-preview'))
+      stufe.dispatchEvent(new Event('change'))
+      pruefe(b.querySelector('#stage-preview'))
+    } finally { delete window.NeoBehaviors }
   })
 
   it('volle Pfade ohne Ellipsis: nichts gebunden', () => {

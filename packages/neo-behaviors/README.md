@@ -95,9 +95,9 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
 - **Breadcrumb** — nur die gekürzte Fassung hat Verhalten: der Knopf
   `.nc-breadcrumb__ellipsis` klappt `.nc-breadcrumb__dropdown` auf
   (`.is-open` + `aria-expanded`, so liest es das SCSS). Das Menü muss im
-  Markup stehen; `js/breadcrumb.js` (Doku/Website) baut es dagegen aus
-  `data-breadcrumb-hidden-items` und bindet selbst — beide nicht auf
-  derselben Breadcrumb einsetzen.
+  Markup stehen; das Behavior ist das einzige Verhalten dafür (das frühere
+  `js/breadcrumb.js` der Doku baute ein zweites Menü und ist entfernt,
+  Entscheidung 03.10.2026).
 - **Treeview** — WAI-ARIA Tree. Fokus und roving tabindex liegen auf der
   Zeile `.nc-treeview__node` (dort zeichnet das SCSS den Fokusring), die
   Zustände am `li[role=treeitem]`: `aria-expanded`, `aria-selected` (+

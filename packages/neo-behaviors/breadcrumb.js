@@ -15,9 +15,10 @@
 //   Aussen     Klick ausserhalb oder Fokus verlaesst das Bauteil → zu
 // Die Eintraege bleiben ausserhalb der Tab-Folge (tabindex="-1").
 //
-// js/breadcrumb.js (Doku/Website) baut das Menue aus
-// data-breadcrumb-hidden-items selbst; dieses Behavior erwartet das Menue im
-// Markup (wie data/markup/breadcrumb.html und die Arena).
+// Das Menue steht im Markup (wie data/markup/breadcrumb.html, Doku und
+// Arena); dieses Behavior ist das einzige Verhalten dafuer. Das fruehere
+// js/breadcrumb.js der Doku baute aus data-breadcrumb-hidden-items ein
+// zweites Menue daneben und ist entfernt (Entscheidung 03.10.2026, nav-a11y).
 //
 // Ereignis `breadcrumb-toggle` { open }.
 // ==========================================================================

@@ -25,7 +25,7 @@ Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<nav class="nc-breadcrumb" aria-label="Breadcrumb" data-breadcrumb-truncated="" data-breadcrumb-hidden-items="[{&quot;label&quot;:&quot;Dashboard&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Einstellungen&quot;,&quot;href&quot;:&quot;#&quot;},{&quot;label&quot;:&quot;Benutzer&quot;,&quot;href&quot;:&quot;#&quot;}]">
+  render: () => `<nav class="nc-breadcrumb" aria-label="Breadcrumb">
 <ol class="nc-breadcrumb__list">
 <li class="nc-breadcrumb__item">
 <a class="nc-breadcrumb__link" href="#">Home</a>
@@ -37,7 +37,7 @@ export const Default = {
 </span>
 </li>
 <li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">
-<button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen" aria-haspopup="true" aria-expanded="false">
+<button type="button" class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen" aria-haspopup="true" aria-expanded="false">
 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
 <circle cx="5" cy="12" r="2">
 </circle>

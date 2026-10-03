@@ -3,10 +3,17 @@
 // ==========================================================================
 // Tabs: Benutzung | Style | API | Accessibility
 // Staging Area: Theme, Items, Separator, Ellipsis
+// Verhalten des Ellipsis-Menues: allein neo-behaviors (breadcrumb), das Menue
+// steht im Markup. Das fruehere js/breadcrumb.js baute es aus
+// data-breadcrumb-hidden-items zusaetzlich — auf geerntetem Markup mit
+// vorhandenem Menue entstand so ein zweites (Entscheidung 03.10.2026).
 // ==========================================================================
 
 (function () {
   'use strict';
+
+  // Statische Beispiele (Showcase): Ellipsis-Menue per neo-behaviors
+  if (window.NeoBehaviors) window.NeoBehaviors.anbinden(document, ['breadcrumb']);
 
   // -----------------------------------------------------------------------
   // 1. Tab Navigation
@@ -135,11 +142,8 @@
       for (var p = 1; p < itemCount - 2; p++) {
         preHiddenItems.push({ label: items[p], href: '#' });
       }
-      var hiddenJson = JSON.stringify(preHiddenItems);
-      html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb" data-breadcrumb-truncated data-breadcrumb-hidden-items=\'' + hiddenJson + '\'>';
-      code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb"\n';
-      code += '     data-breadcrumb-truncated\n';
-      code += '     data-breadcrumb-hidden-items=\'' + hiddenJson + '\'>\n';
+      html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">';
+      code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">\n';
     } else {
       html += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">';
       code += '<nav class="nc-breadcrumb" aria-label="Breadcrumb">\n';
@@ -166,16 +170,28 @@
       code += sepCode + '\n';
       code += '    </li>\n';
 
-      // Ellipsis button
-      html += '<li class="nc-breadcrumb__item">';
-      html += '<button class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen">' + ellipsisSvg + '</button>';
+      // Ellipsis-Knopf + Menue der ausgeblendeten Ebenen (im Markup)
+      var menuHtml = '<ul class="nc-breadcrumb__dropdown" role="menu">';
+      var menuCode = '      <ul class="nc-breadcrumb__dropdown" role="menu">\n';
+      preHiddenItems.forEach(function (it) {
+        menuHtml += '<li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="' + it.href + '">' + it.label + '</a></li>';
+        menuCode += '        <li role="none"><a class="nc-breadcrumb__dropdown-item" role="menuitem" tabindex="-1" href="' + it.href + '">' + it.label + '</a></li>\n';
+      });
+      menuHtml += '</ul>';
+      menuCode += '      </ul>\n';
+
+      html += '<li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">';
+      html += '<button type="button" class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen" aria-haspopup="true" aria-expanded="false">' + ellipsisSvg + '</button>';
+      html += menuHtml;
       html += sepHtml;
       html += '</li>';
 
-      code += '    <li class="nc-breadcrumb__item">\n';
-      code += '      <button class="nc-breadcrumb__ellipsis" aria-label="Weitere Seiten anzeigen">\n';
+      code += '    <li class="nc-breadcrumb__item nc-breadcrumb__ellipsis-wrap">\n';
+      code += '      <button type="button" class="nc-breadcrumb__ellipsis" aria-label="Versteckte Seiten anzeigen"\n';
+      code += '              aria-haspopup="true" aria-expanded="false">\n';
       code += '        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>\n';
       code += '      </button>\n';
+      code += menuCode;
       code += sepCode + '\n';
       code += '    </li>\n';
 
@@ -232,13 +248,12 @@
     code += '  </ol>\n';
     code += '</nav>';
 
+    // neo-behaviors: alte Instanz loesen, neue binden (nur Breadcrumb)
+    var nb = window.NeoBehaviors;
+    if (nb) nb.abbinden(preview, ['breadcrumb']);
     preview.innerHTML = html;
     codeOutput.textContent = code;
-
-    // Breadcrumb-Dropdown JS re-initialisieren (falls geladen)
-    if (ellipsis && itemCount > 2 && typeof window.initBreadcrumbDropdowns === 'function') {
-      window.initBreadcrumbDropdowns(preview);
-    }
+    if (nb) nb.anbinden(preview, ['breadcrumb']);
   }
 
   // -----------------------------------------------------------------------
