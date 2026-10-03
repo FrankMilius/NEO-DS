@@ -98,13 +98,18 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Markup stehen; das Behavior ist das einzige Verhalten dafür (das frühere
   `js/breadcrumb.js` der Doku baute ein zweites Menü und ist entfernt,
   Entscheidung 03.10.2026).
-- **Treeview** — WAI-ARIA Tree. Fokus und roving tabindex liegen auf der
-  Zeile `.nc-treeview__node` (dort zeichnet das SCSS den Fokusring), die
-  Zustände am `li[role=treeitem]`: `aria-expanded`, `aria-selected` (+
-  `.nc-treeview__item--selected`, die Auswahl gestaltet das SCSS über die
-  Klasse), im Checkbox-Modus `aria-checked` (true/false/mixed) samt
-  `checked`/`indeterminate` der Checkbox. Ziehen & Ablegen und die
-  Aktionen im Zeilen-Slot sind nicht Teil des Behaviors.
+- **Treeview** — WAI-ARIA Tree. Fokus und roving tabindex liegen auf dem
+  `li[role=treeitem]` (Entscheidung 03.10.2026; den Fokusring zeichnet das
+  SCSS an der Zeile `.nc-treeview__node`), ebenso die Zustände:
+  `aria-expanded`, `aria-selected` (+ `.nc-treeview__item--selected`, die
+  Auswahl gestaltet das SCSS über die Klasse), im Checkbox-Modus
+  `aria-checked` (true/false/mixed) samt `checked`/`indeterminate` der
+  Checkbox. Älteres Markup mit `tabindex` an der Zeile wird beim Binden
+  umgestellt; fehlt `aria-labelledby`, verweist das Behavior auf das Label.
+  Zeilen-Aktionen (`.nc-treeview__action`): nur die Zeile mit dem Tab-Stopp
+  hat sie im Tab-Fluss — Tab vom Eintrag in seine Aktionen, Escape zurück.
+  Zugeklappte Kinder blendet das SCSS aus (auch für Tastatur/Screenreader).
+  Ziehen & Ablegen ist nicht Teil des Behaviors.
 - **Navigationsmenü** — Menü-Leiste mit Panels nach dem Markup von
   `website/js/site.js`: Der Inhalt im Item ist nur Vorlage, offen zeigt ihn
   eine Kopie im Viewport (`data-state="open"` an Auslöser, Inhalt, Hülle und
@@ -127,5 +132,9 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Mobil-Lage über `.nc-sidebar--open` und den Backdrop
   `.nc-sidebar-backdrop[hidden]` — genau die Zustände des SCSS. Der Backdrop
   wird als Geschwister der Sidebar gesucht; der öffnende Knopf ist ein
-  beliebiger Knopf mit `aria-controls="<id der Sidebar>"`. Keine Fokus-Falle
-  in der Mobil-Lage (die Sidebar ist kein Dialog).
+  beliebiger Knopf mit `aria-controls="<id der Sidebar>"`. In der
+  Overlay-Lage mit Backdrop ist die offene Sidebar modal (Entscheidung
+  03.10.2026): Fokus-Falle, Geschwister bis `<body>` (außer dem Backdrop)
+  bekommen `inert` — beim Schließen und Abbinden entfernt das Behavior nur
+  das eigene `inert`. Geschlossen hält das SCSS sie per `visibility` aus der
+  Tab-Folge. Desktop-Lage: keine Falle.
