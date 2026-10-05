@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-tab-mega",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,6 +21,12 @@
     "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
     "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
     "changelog": [
+      {
+        "version": "1.1.1",
+        "changes": [
+          "Listen-Links im Mega-Panel (.link-grid) und im Dropdown (.dropdown-cols) ohne Fliesstext-Unterstrich: Die Element-Regel aus 03-elements/_mono-elements.scss (a:not([class]) unter .neo-light-theme/.neo-dark-theme, 0,2,1) schlug die Komponentenregeln in BEIDEN Themes (Akzent-Unterstrich, 550 statt L3-Gewicht, eigene Transition); sichtbar fiel es nur dunkel auf (1,46:1 hell gegen 10,95:1 dunkel). Die Wurzel nimmt die Regel jetzt zurueck (:is(.site-header[data-neo-nav], .m-drawer) a:not([class]), 0,3,1). Ruhezustand gemessen identisch mit dem Stand ohne Themenregel (0 Pixel). Freigabe ausstehend."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [

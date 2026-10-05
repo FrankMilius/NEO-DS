@@ -222,6 +222,28 @@
 :where(.site-header[data-neo-nav] a) { color: inherit; text-decoration: none; }
 :where(.site-header[data-neo-nav] button) { font: inherit; color: inherit; cursor: pointer; }
 
+/* Fliesstext-Link-Regel des Themas hier zuruecknehmen.
+   03-elements/_mono-elements.scss gestaltet unter .neo-light-theme UND
+   .neo-dark-theme jeden Link ohne Klasse als Fliesstext-Link: 550,
+   Unterstrich im Akzent, eigene Transition. Die Listen-Links im Mega-Panel
+   (.link-grid) und im Dropdown (.dropdown-cols) tragen keine Klasse — die
+   Regel (0,2,1) schlug damit die Komponentenregeln (0,1,1, Wurzel in :where)
+   in BEIDEN Themes. Gemessen: Unterstrich rgb(55,233,61) auf beiden Flaechen,
+   aber auf hellem Grund nur 1,46:1, auf dunklem 10,95:1 — deshalb fiel er nur
+   im dunklen Theme auf.
+   Hier bewusst :is() statt :where(): die Wurzel muss Spezifitaet tragen,
+   (0,3,1) schlaegt die Themenregel samt :active (gleichauf, spaeter im
+   Quelltext). Die Werte sind die der Komponenten (Stufe L3, Flaechen-Hover),
+   damit nichts anders aussieht als ohne die Themenregel. Die allgemeine
+   Link-Regel bleibt unveraendert — fuer Fliesstext ist sie richtig. */
+:is(.site-header[data-neo-nav], .m-drawer) a:not([class]),
+:is(.site-header[data-neo-nav], .m-drawer) a:not([class]):active {
+  color: inherit;
+  font-weight: var(--nav-l3-weight);
+  text-decoration: none;
+  transition: background var(--nn-t), color var(--nn-t);
+}
+
 /* Zentrierter Inhalts-Container — Header, Panels UND Such-Band nutzen ihn.
    Geometrie spiegelt exakt den Content-Container (.nc-container, Stufe
    "Extra Breit" = xwide/1536px), damit Logo/Navigation/Actions auf DERSELBEN
