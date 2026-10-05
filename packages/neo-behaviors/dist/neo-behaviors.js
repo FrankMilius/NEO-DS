@@ -2558,6 +2558,7 @@
   // packages/neo-behaviors/toast.js
   var MIT_AKTION_MINDESTENS = 1e4;
   var STANDARD_DAUER = 5e3;
+  var STEHEND = ".nc-toast--error, .nc-toast--warning";
   var OFFEN = /* @__PURE__ */ new Set();
   function zeitwert(text, ersatz) {
     const t = String(text || "").trim();
@@ -2571,7 +2572,7 @@
     return ((_a = el.ownerDocument.defaultView) == null ? void 0 : _a.getComputedStyle(el).getPropertyValue(name)) || "";
   }
   function dauerAus(wurzel) {
-    if (!wurzel.hasAttribute("data-duration")) return 0;
+    if (!wurzel.hasAttribute("data-duration") || wurzel.matches(STEHEND)) return 0;
     const roh = wurzel.getAttribute("data-duration") || "";
     let dauer = roh === "" || roh === "auto" ? zeitwert(token(wurzel, "--nc-toast-auto-dismiss-duration"), STANDARD_DAUER) : zeitwert(roh, 0);
     if (dauer > 0 && wurzel.querySelector(".nc-toast__action")) dauer = Math.max(dauer, MIT_AKTION_MINDESTENS);
@@ -2637,6 +2638,8 @@
           intern.abort();
         });
       };
+      const balkenWeg = Boolean(balken && !dauer && !balken.hidden && wurzel.hasAttribute("data-duration") && wurzel.matches(STEHEND));
+      if (balken && balkenWeg) balken.hidden = true;
       if (balken && dauer) {
         balken.style.animationName = "nc-toast-progress";
         balken.style.animationDuration = `${dauer}ms`;
@@ -2759,6 +2762,7 @@
         wischEnde();
         wurzel.style.removeProperty("--_toast-swipe-x");
         if (balken) {
+          if (balkenWeg) balken.hidden = false;
           for (const p of ["animation-name", "animation-duration", "animation-timing-function", "animation-fill-mode", "animation-play-state"]) balken.style.removeProperty(p);
         }
       });

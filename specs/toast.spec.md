@@ -1,5 +1,5 @@
 # toast Component Spec
-> Version 2.1.0 | Status: stable | Layer: molecule
+> Version 2.2.0 | Status: stable | Layer: molecule
 
 Tags: `feedback`, `notification`, `interactive`, `overlay`
 
@@ -29,8 +29,8 @@ Root element: `.nc-toast`
 - Queue: JS begrenzt sichtbare Toasts auf --nc-toast-max-visible (Standard: 3).
 - Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal.
 - Verhalten (neo-behaviors toast): .nc-toast__close schliesst; Escape schliesst den Toast mit dem Fokus, sonst den neuesten (nicht, solange ein modaler Dialog offen ist); geschlossen: .is-leaving, danach aus dem DOM, Fokus geht zum naechsten Bedienelement.
-- Auto-Ausblenden nur mit data-duration (ms; ohne Wert/'auto' = --nc-toast-auto-dismiss-duration). Ohne data-duration bleibt der Toast (WCAG 2.2.1). Toasts mit Aktion mindestens 10 s. Timer und Balken halten bei Hover, Fokus und verborgener Seite an und laufen mit der Restzeit weiter.
-- Balken: JS setzt animation-name/-duration/-timing-function/-fill-mode einzeln (nicht die Kurzform animation, die als Inline-Stil animation-play-state ueberstimmt und die Pause per :hover/:focus-within verhindert).
+- Auto-Ausblenden nur mit data-duration (ms; ohne Wert/'auto' = --nc-toast-auto-dismiss-duration). Ohne data-duration bleibt der Toast (WCAG 2.2.1). Fehler und Warnung (nc-toast--error, nc-toast--warning) bleiben immer stehen: data-duration wird ignoriert, kein Timer, kein Ablauf des Balkens. Toasts mit Aktion mindestens 10 s. Timer und Balken halten bei Hover, Fokus und verborgener Seite an und laufen mit der Restzeit weiter.
+- Balken: JS setzt animation-name/-duration/-timing-function/-fill-mode einzeln (nicht die Kurzform animation, die als Inline-Stil animation-play-state ueberstimmt und die Pause per :hover/:focus-within verhindert). Stehender Toast (Fehler/Warnung mit data-duration): der Balken ist [hidden] — er zeigte einen Ablauf, den es nicht gibt (ohne Animation hat er keine Breite); beim Abbinden wieder sichtbar.
 - Aktion: .nc-toast__action meldet toast-action { action } (data-action, data-undo = 'undo', sonst Knopftext) und schliesst den Toast.
 
 ## Variants
@@ -173,7 +173,7 @@ Base classes: `nc-toast`
 | Key | Action | Notes |
 | --- | --- | --- |
 | `Escape` | dismiss | Schliesst den Toast, in dem der Fokus liegt, sonst den neuesten offenen (toast-dismiss reason 'escape'). Nicht, solange ein modaler Dialog offen ist — der bekommt Escape. |
-| `Tab` | pause-on-focus | Fokus auf Aktion oder Schliessen-Knopf haelt Timer und Balken an (WCAG 2.2.1); Reihenfolge: Aktion vor Schliessen (Recipe a11y Undo). |
+| `Tab` | pause-on-focus | Fokus auf Aktion oder Schliessen-Knopf haelt Timer und Balken an (WCAG 2.2.1); Reihenfolge: Aktion vor Schliessen (Recipe a11y Undo). Fehler/Warnung laufen nie ab — Escape oder Schliessen-Knopf. |
 
 ## Events
 | Event | Bubbles | Detail |

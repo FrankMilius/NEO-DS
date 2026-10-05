@@ -595,8 +595,8 @@
     <li>Queue: JS begrenzt sichtbare Toasts auf --nc-toast-max-visible (Standard: 3).</li>
     <li>Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal.</li>
     <li>Verhalten (neo-behaviors toast): .nc-toast__close schliesst; Escape schliesst den Toast mit dem Fokus, sonst den neuesten (nicht, solange ein modaler Dialog offen ist); geschlossen: .is-leaving, danach aus dem DOM, Fokus geht zum naechsten Bedienelement.</li>
-    <li>Auto-Ausblenden nur mit data-duration (ms; ohne Wert/'auto' = --nc-toast-auto-dismiss-duration). Ohne data-duration bleibt der Toast (WCAG 2.2.1). Toasts mit Aktion mindestens 10 s. Timer und Balken halten bei Hover, Fokus und verborgener Seite an und laufen mit der Restzeit weiter.</li>
-    <li>Balken: JS setzt animation-name/-duration/-timing-function/-fill-mode einzeln (nicht die Kurzform animation, die als Inline-Stil animation-play-state ueberstimmt und die Pause per :hover/:focus-within verhindert).</li>
+    <li>Auto-Ausblenden nur mit data-duration (ms; ohne Wert/'auto' = --nc-toast-auto-dismiss-duration). Ohne data-duration bleibt der Toast (WCAG 2.2.1). Fehler und Warnung (nc-toast--error, nc-toast--warning) bleiben immer stehen: data-duration wird ignoriert, kein Timer, kein Ablauf des Balkens. Toasts mit Aktion mindestens 10 s. Timer und Balken halten bei Hover, Fokus und verborgener Seite an und laufen mit der Restzeit weiter.</li>
+    <li>Balken: JS setzt animation-name/-duration/-timing-function/-fill-mode einzeln (nicht die Kurzform animation, die als Inline-Stil animation-play-state ueberstimmt und die Pause per :hover/:focus-within verhindert). Stehender Toast (Fehler/Warnung mit data-duration): der Balken ist [hidden] — er zeigte einen Ablauf, den es nicht gibt (ohne Animation hat er keine Breite); beim Abbinden wieder sichtbar.</li>
     <li>Aktion: .nc-toast__action meldet toast-action { action } (data-action, data-undo = 'undo', sonst Knopftext) und schliesst den Toast.</li>
   </ul>
 </section>
@@ -637,7 +637,8 @@
     <h4>Wenn: severity = error, warning</h4>
     <ul>
       <li><strong>Empfohlen:</strong> <code class="docs__token">role-alert</code></li>
-      <li>Error/Warning: role='alert' statt role='status' fuer dringende Meldungen.</li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">no-auto-dismiss</code></li>
+      <li>Error/Warning: role='alert' statt role='status' fuer dringende Meldungen. Kein Auto-Ausblenden: data-duration wird ignoriert, der Toast bleibt bis Schliessen/Escape (WCAG 2.2.1, Entscheidung 05.10.2026).</li>
     </ul>
   </div>
 </div>

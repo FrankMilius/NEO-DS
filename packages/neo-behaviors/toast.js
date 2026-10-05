@@ -22,11 +22,18 @@
 //                haelt an, solange Maus oder Fokus im Toast sind (wie der
 //                Fortschrittsbalken per CSS) und solange die Seite verborgen
 //                ist; danach laeuft die Restzeit weiter.
+//                Fehler und Warnung (.nc-toast--error, .nc-toast--warning)
+//                bleiben stehen: data-duration wird ignoriert, kein Timer,
+//                kein 'timeout' (Entscheidung 05.10.2026) — wer die Meldung
+//                verpasst, soll sie noch lesen koennen.
 //   Balken       .nc-toast__progress laeuft ueber die Dauer ab (Animation
 //                nc-toast-progress des DS). Gesetzt werden nur Name, Dauer,
 //                Verlauf und Fuellmodus — NICHT die Kurzform `animation`,
 //                die als Inline-Stil das Anhalten per :hover/:focus-within
-//                des SCSS ueberstimmen wuerde.
+//                des SCSS ueberstimmen wuerde. Bei einem stehenden Toast
+//                (Fehler/Warnung mit data-duration) ist der Balken [hidden]:
+//                er zeigte einen Ablauf an, den es nicht gibt (ohne Animation
+//                haette er ohnehin keine Breite).
 //   Warteschlange im .nc-toaster hoechstens --nc-toast-max-visible (Standard
 //                3) offene Toasts; der aelteste geht (reason 'queue').
 //   Eintritt     .is-entering faellt nach der Animation weg.
@@ -39,6 +46,8 @@ import { ausblenden, fokusWeiter } from './_meldung.js'
 
 const MIT_AKTION_MINDESTENS = 10000
 const STANDARD_DAUER = 5000
+/** Varianten, die nie von selbst gehen (Entscheidung 05.10.2026). */
+const STEHEND = '.nc-toast--error, .nc-toast--warning'
 
 /** Offene Toasts in Bindungs-Reihenfolge (der letzte ist der neueste). */
 const OFFEN = new Set()
@@ -58,7 +67,7 @@ function token (el, name) {
 
 /** @param {HTMLElement} wurzel */
 function dauerAus (wurzel) {
-  if (!wurzel.hasAttribute('data-duration')) return 0
+  if (!wurzel.hasAttribute('data-duration') || wurzel.matches(STEHEND)) return 0
   const roh = wurzel.getAttribute('data-duration') || ''
   let dauer = roh === '' || roh === 'auto'
     ? zeitwert(token(wurzel, '--nc-toast-auto-dismiss-duration'), STANDARD_DAUER)
@@ -125,6 +134,9 @@ export const toast = {
     }
 
     // -- Balken ---------------------------------------------------------
+    // Stehender Toast trotz data-duration: kein Ablauf, also kein Balken
+    const balkenWeg = Boolean(balken && !dauer && !balken.hidden && wurzel.hasAttribute('data-duration') && wurzel.matches(STEHEND))
+    if (balken && balkenWeg) balken.hidden = true
     if (balken && dauer) {
       balken.style.animationName = 'nc-toast-progress'
       balken.style.animationDuration = `${dauer}ms`
@@ -244,6 +256,7 @@ export const toast = {
       wischEnde()
       wurzel.style.removeProperty('--_toast-swipe-x')
       if (balken) {
+        if (balkenWeg) balken.hidden = false
         for (const p of ['animation-name', 'animation-duration', 'animation-timing-function', 'animation-fill-mode', 'animation-play-state']) balken.style.removeProperty(p)
       }
     })

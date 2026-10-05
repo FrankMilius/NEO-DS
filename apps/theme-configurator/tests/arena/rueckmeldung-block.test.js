@@ -174,7 +174,7 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
     })
   }
 
-  const VERSION = { toast: '2.1.0', notification: '2.1.0', alert: '2.2.0', banner: '2.2.0' }
+  const VERSION = { toast: '2.2.0', notification: '2.1.0', alert: '2.2.0', banner: '2.2.0' }
   it('Kennzahl: alle vier ohne Sonderfall, alle vier mit Verhalten (keyboard/events im Recipe)', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
     expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(BLOCK)

@@ -133,6 +133,36 @@ describe('Toast (toast-recipe.json)', () => {
     expect(b.querySelector('.nc-toast').isConnected).toBe(true)
   })
 
+  it('Fehler und Warnung bleiben trotz data-duration stehen, info/success/default laufen ab (Entscheidung 05.10.2026)', () => {
+    vi.useFakeTimers()
+    const balken = '<div class="nc-toast__progress" aria-hidden="true"></div>'
+    const t = (sev, dauer = ' data-duration="3000"') => `<div class="nc-toast nc-toast--${sev}" role="${sev === 'error' || sev === 'warning' ? 'alert' : 'status'}"${dauer}><div class="nc-toast__content"><p class="nc-toast__title">${sev}</p></div><button type="button" class="nc-toast__close" aria-label="Schließen"></button>${balken}</div>`
+    const b = buehne(`<div class="nc-toaster" style="--nc-toast-max-visible: 9">${['error', 'warning', 'info', 'success', 'default'].map((s) => t(s)).join('')}${t('error', ' data-duration')}</div>`)
+    const ev = sammle(document, 'toast-dismiss')
+    anbinden(b, ['toast'])
+    const [fehler, warnung, info, erfolg, standard, fehlerAuto] = b.querySelectorAll('.nc-toast')
+    // Stehende Toasts: kein Ablauf des Balkens, der Balken ist verborgen
+    for (const st of [fehler, warnung, fehlerAuto]) {
+      const p = st.querySelector('.nc-toast__progress')
+      expect(p.hidden).toBe(true)
+      expect(p.style.animationName).toBe('')
+    }
+    expect(info.querySelector('.nc-toast__progress').style.animationName).toBe('nc-toast-progress')
+    expect(info.querySelector('.nc-toast__progress').hidden).toBe(false)
+    vi.advanceTimersByTime(3000)
+    expect([info, erfolg, standard].map((x) => x.isConnected)).toEqual([false, false, false])
+    expect(ev.map((e) => e.detail.reason)).toEqual(['timeout', 'timeout', 'timeout'])
+    vi.advanceTimersByTime(120000)
+    expect([fehler, warnung, fehlerAuto].map((x) => x.isConnected)).toEqual([true, true, true])
+    // Schliessen geht weiter wie gewohnt
+    fehler.querySelector('.nc-toast__close').click()
+    expect(fehler.isConnected).toBe(false)
+    expect(ev.at(-1).detail).toEqual({ reason: 'close' })
+    // Abbinden: der Balken ist wieder sichtbar
+    abbinden(b)
+    expect(warnung.querySelector('.nc-toast__progress').hidden).toBe(false)
+  })
+
   it('data-duration ohne Wert: Dauer aus dem Token (Standard 5 s); mit Aktion mindestens 10 s', () => {
     vi.useFakeTimers()
     const b = buehne(`<div class="nc-toaster"><div class="nc-toast" role="status" data-duration><div class="nc-toast__content"><p class="nc-toast__title">A</p></div></div>

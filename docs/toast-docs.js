@@ -161,6 +161,8 @@
 
     var toastId = 'nc-toast-' + (++toastIdCounter);
     var role = (opts.variant === 'error' || opts.variant === 'warning') ? 'alert' : 'status';
+    // Fehler und Warnung bleiben stehen, wie in neo-behaviors (Entscheidung 05.10.2026)
+    if (role === 'alert') opts.duration = 0;
 
     var toaster = getToaster(opts.position, opts.parent);
 
@@ -375,6 +377,8 @@
     var duration = parseInt(durationSelect.value, 10);
 
     var role = (variant === 'error' || variant === 'warning') ? 'alert' : 'status';
+    // Fehler und Warnung bleiben stehen: neo-behaviors ignoriert data-duration
+    if (role === 'alert') duration = 0;
 
     var code = '<!-- Toaster Container -->\n';
     code += '<div class="nc-toaster nc-toaster--' + position + '"\n';
