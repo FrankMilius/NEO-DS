@@ -52,10 +52,16 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Runner fest auf ubuntu-24.04 (Plan v3, Aufraeumen 05.10.2026): ubuntu-latest
+# wechselt ab 19.10.2026 auf Ubuntu 26.04. Ein stiller Wechsel aendert
+# Systemschriften, Chromium-Abhaengigkeiten und Toolchain — Playwright-Baselines
+# und Budgets kippen dann ohne Codeaenderung. Umstieg bewusst als eigener
+# Commit; pruefen spaetestens zum 30.06.2027 oder sobald GitHub die
+# Abkuendigung von ubuntu-24.04 ankuendigt.
 jobs:
   build:
     name: Build Storybook
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -86,7 +92,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
