@@ -33,7 +33,8 @@ import { sende, fokussierbare, fokusFalle } from './kern.js'
  *   hintergrundSchliesst: (d: HTMLElement) => boolean,
  *   fokusZiel?: (d: HTMLElement) => HTMLElement|null,
  *   aktion?: (ziel: HTMLElement, d: HTMLElement) => string|null,
- *   scroll?: (d: HTMLElement, signal: AbortSignal) => void }} art
+ *   scroll?: (d: HTMLElement, signal: AbortSignal) => void,
+ *   schliessDetail?: (reason: string) => Record<string, unknown> }} art
  */
 export function dialogBehavior (art) {
   return {
