@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "notification",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "feedback",
@@ -17,6 +17,13 @@
       "docs": "/docs/notification-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Verhalten in neo-behaviors (notification): Schliessen mit Einklapp-Animation, Gelesen beim Klick (--unread, Punkt und Praefix im aria-label fallen weg) (keyboard/events)",
+          "Arena aus dem Recipe (RecipeArena, Plan v3 Phase 3 Block Rueckmeldung)"
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -124,7 +131,8 @@
       "Dismiss-Animation: max-height + padding + opacity → 0. JS fuegt .is-dismissing hinzu.",
       "Shell-Integration: In Notification-Panel (Popover/Drawer) als Liste von .nc-notification Items.",
       "Read-Receipt JS: Unread-Status per localStorage oder API. JS entfernt --unread Modifier nach Klick/Lesen.",
-      "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen."
+      "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen.",
+      "Verhalten (neo-behaviors notification): .nc-notification__close (nicht bei --permanent) setzt --_notification-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Klick in eine ungelesene Notification (auch eine Aktion) entfernt --unread und __unread, streicht 'Ungelesen:' aus aria-label und meldet notification-read — speichern macht das Programm."
     ]
   },
   "axes": {
@@ -669,5 +677,32 @@
         "note": "Reduced Motion: Dismiss ohne Animation (display:none). pointer-events:none waehrend Animation."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-order",
+      "note": "Reihenfolge Aktionen (Footer) → Schliessen-Knopf, aus der DOM-Reihenfolge."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einer Aktion: loest sie aus und markiert die Notification als gelesen. Auf dem Schliessen-Knopf: klappt sie ein und entfernt sie."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter auf Knoepfen (Schliessen, Aktion als <button>)."
+    }
+  },
+  "events": {
+    "notification-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen (reason: 'close')."
+    },
+    "notification-read": {
+      "bubbles": true,
+      "note": "Gefeuert, wenn eine ungelesene Notification gelesen wird (Klick, Aktion)."
+    }
+  }
 }

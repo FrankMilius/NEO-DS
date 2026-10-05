@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "banner",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "feedback",
@@ -16,6 +16,13 @@
       "docs": "/docs/banner-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Verhalten in neo-behaviors (banner): Schliessen mit Einklapp-Animation, Merken per data-banner-id (localStorage), Platz fuer --fixed am Elternelement (keyboard/events)",
+          "Arena aus dem Recipe (RecipeArena, Plan v3 Phase 3 Block Rueckmeldung)"
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -95,7 +102,8 @@
       "Layout-Shift-Vermeidung: Bei --fixed sollte JS den body/shell padding-top um die Banner-Hoehe erhoehen. Beim Dismiss padding-top zuruecksetzen.",
       "Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.",
       "Reduced Motion: Dismiss ohne Animation (display:none).",
-      "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight."
+      "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight.",
+      "Verhalten (neo-behaviors banner): .nc-banner__close setzt --_banner-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Mit data-banner-id merkt localStorage ('neo-banner:<id>') das Schliessen, beim naechsten Binden ist das Banner [hidden]. --fixed: das Elternelement bekommt oben die Banner-Hoehe als Innenabstand (bis zum Schliessen bzw. Abbinden)."
     ]
   },
   "axes": {
@@ -760,5 +768,25 @@
         "note": "Close-Button: aria-label='Banner schliessen'. localStorage: Banner nicht erneut anzeigen."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "dismiss",
+      "note": "Auf dem Schliessen-Knopf (nativer Knopf): klappt das Banner ein und entfernt es (banner-dismiss). Auf dem CTA-Link: folgt dem Link."
+    },
+    "Space": {
+      "action": "dismiss",
+      "note": "Wie Enter auf dem Schliessen-Knopf."
+    }
+  },
+  "events": {
+    "banner-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string",
+        "id": "string"
+      },
+      "note": "Gefeuert beim Schliessen (reason: 'close'). id: data-banner-id oder null."
+    }
+  }
 }

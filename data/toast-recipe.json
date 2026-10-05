@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "toast",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "feedback",
@@ -17,6 +17,13 @@
       "docs": "/docs/toast-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Verhalten in neo-behaviors (toast): Schliessen-Knopf, Escape (Toast mit Fokus, sonst der neueste), Auto-Ausblenden nur mit data-duration und Pause bei Hover/Fokus/verborgener Seite, Wischen, Warteschlange, Aktion (keyboard/events)",
+          "Arena aus dem Recipe (RecipeArena, Plan v3 Phase 3 Block Rueckmeldung)"
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -102,7 +109,11 @@
       "Swipe-to-Dismiss: JS setzt --_toast-swipe-x + --_toast-swipe-opacity. CSS: .is-swiping / .is-swipe-out.",
       "Stack-Transition: .nc-toaster > .nc-toast nutzt transition fuer sanftes Nachruecken.",
       "Queue: JS begrenzt sichtbare Toasts auf --nc-toast-max-visible (Standard: 3).",
-      "Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal."
+      "Overlay-Hierarchie: Toast nutzt elevation-overlay (L2), z-index ueber Modal.",
+      "Verhalten (neo-behaviors toast): .nc-toast__close schliesst; Escape schliesst den Toast mit dem Fokus, sonst den neuesten (nicht, solange ein modaler Dialog offen ist); geschlossen: .is-leaving, danach aus dem DOM, Fokus geht zum naechsten Bedienelement.",
+      "Auto-Ausblenden nur mit data-duration (ms; ohne Wert/'auto' = --nc-toast-auto-dismiss-duration). Ohne data-duration bleibt der Toast (WCAG 2.2.1). Toasts mit Aktion mindestens 10 s. Timer und Balken halten bei Hover, Fokus und verborgener Seite an und laufen mit der Restzeit weiter.",
+      "Balken: JS setzt animation-name/-duration/-timing-function/-fill-mode einzeln (nicht die Kurzform animation, die als Inline-Stil animation-play-state ueberstimmt und die Pause per :hover/:focus-within verhindert).",
+      "Aktion: .nc-toast__action meldet toast-action { action } (data-action, data-undo = 'undo', sonst Knopftext) und schliesst den Toast."
     ]
   },
   "axes": {
@@ -790,5 +801,31 @@
         "note": "role='alert': sofortige Ankuendigung. Error-Icon + Text + Farbe."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Escape": {
+      "action": "dismiss",
+      "note": "Schliesst den Toast, in dem der Fokus liegt, sonst den neuesten offenen (toast-dismiss reason 'escape'). Nicht, solange ein modaler Dialog offen ist — der bekommt Escape."
+    },
+    "Tab": {
+      "action": "pause-on-focus",
+      "note": "Fokus auf Aktion oder Schliessen-Knopf haelt Timer und Balken an (WCAG 2.2.1); Reihenfolge: Aktion vor Schliessen (Recipe a11y Undo)."
+    }
+  },
+  "events": {
+    "toast-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen, bevor der Toast aus dem DOM geht. reason: 'close', 'escape', 'timeout', 'swipe', 'action', 'queue'."
+    },
+    "toast-action": {
+      "bubbles": true,
+      "detail": {
+        "action": "string"
+      },
+      "note": "Gefeuert beim Klick auf .nc-toast__action (danach schliesst der Toast mit reason 'action'). action: data-action, bei data-undo 'undo', sonst der Knopftext."
+    }
+  }
 }

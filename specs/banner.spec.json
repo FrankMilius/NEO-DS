@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "banner",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -59,7 +59,8 @@
       "Layout-Shift-Vermeidung: Bei --fixed sollte JS den body/shell padding-top um die Banner-Hoehe erhoehen. Beim Dismiss padding-top zuruecksetzen.",
       "Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.",
       "Reduced Motion: Dismiss ohne Animation (display:none).",
-      "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight."
+      "High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight.",
+      "Verhalten (neo-behaviors banner): .nc-banner__close setzt --_banner-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Mit data-banner-id merkt localStorage ('neo-banner:<id>') das Schliessen, beim naechsten Binden ist das Banner [hidden]. --fixed: das Elternelement bekommt oben die Banner-Hoehe als Innenabstand (bis zum Schliessen bzw. Abbinden)."
     ]
   },
   "api": null,
@@ -317,9 +318,27 @@
       "--mod-banner-title-weight"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "dismiss",
+      "note": "Auf dem Schliessen-Knopf (nativer Knopf): klappt das Banner ein und entfernt es (banner-dismiss). Auf dem CTA-Link: folgt dem Link."
+    },
+    "Space": {
+      "action": "dismiss",
+      "note": "Wie Enter auf dem Schliessen-Knopf."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "banner-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string",
+        "id": "string"
+      },
+      "note": "Gefeuert beim Schliessen (reason: 'close'). id: data-banner-id oder null."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

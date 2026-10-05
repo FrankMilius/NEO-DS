@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "alert",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -68,7 +68,8 @@
       "Inline-Variante (--inline): Kein Hintergrund, kein Border, kein Padding. Nur Icon + farbiger Text. Ideal als Alternative zu form-hint direkt an Eingabefeldern.",
       "Banner-Abgrenzung: Alert ist kontextuell/lokal (innerhalb einer Section). Banner (.nc-banner) ist global (oberer Seitenrand, volle Breite, sticky). Verwende Alert fuer Formular-Feedback, Banner fuer systemweite Meldungen.",
       "Deprecated: --destructive ist Alias fuer --danger.",
-      "Farbe nie alleiniges Signal — immer mit Icon + Text (R7)."
+      "Farbe nie alleiniges Signal — immer mit Icon + Text (R7).",
+      "Verhalten (neo-behaviors alert): .nc-alert__close nimmt den Alert aus dem DOM (keine Ausblend-Animation im SCSS) und meldet alert-dismiss; lag der Fokus auf dem Knopf, geht er zum naechsten Bedienelement. Details (<details>) und Aktion brauchen kein Behavior."
     ]
   },
   "api": null,
@@ -300,9 +301,26 @@
       "--mod-alert-details-font-size"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "dismiss",
+      "note": "Auf dem Schliessen-Knopf (nativer Knopf): schliesst den Alert, Fokus zum naechsten Bedienelement."
+    },
+    "Space": {
+      "action": "dismiss",
+      "note": "Wie Enter auf dem Schliessen-Knopf; auf <summary> klappt die Details nativ auf/zu."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "alert-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen, bevor der Alert aus dem DOM geht (reason: 'close')."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

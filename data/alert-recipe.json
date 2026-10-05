@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "alert",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "static",
@@ -17,6 +17,13 @@
       "docs": "/docs/alert-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Verhalten in neo-behaviors (alert): Schliessen-Knopf nimmt den Alert aus dem DOM, Fokus geht weiter (keyboard/events)",
+          "Arena aus dem Recipe (RecipeArena, Plan v3 Phase 3 Block Rueckmeldung)"
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -102,7 +109,8 @@
       "Inline-Variante (--inline): Kein Hintergrund, kein Border, kein Padding. Nur Icon + farbiger Text. Ideal als Alternative zu form-hint direkt an Eingabefeldern.",
       "Banner-Abgrenzung: Alert ist kontextuell/lokal (innerhalb einer Section). Banner (.nc-banner) ist global (oberer Seitenrand, volle Breite, sticky). Verwende Alert fuer Formular-Feedback, Banner fuer systemweite Meldungen.",
       "Deprecated: --destructive ist Alias fuer --danger.",
-      "Farbe nie alleiniges Signal — immer mit Icon + Text (R7)."
+      "Farbe nie alleiniges Signal — immer mit Icon + Text (R7).",
+      "Verhalten (neo-behaviors alert): .nc-alert__close nimmt den Alert aus dem DOM (keine Ausblend-Animation im SCSS) und meldet alert-dismiss; lag der Fokus auf dem Knopf, geht er zum naechsten Bedienelement. Details (<details>) und Aktion brauchen kein Behavior."
     ]
   },
   "axes": {
@@ -688,5 +696,24 @@
         "note": "Inline-Alert: Kein BG/Border — Icon-Farbe und Text muessen gegen den Seiten-Hintergrund 4.5:1 Kontrast einhalten."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "dismiss",
+      "note": "Auf dem Schliessen-Knopf (nativer Knopf): schliesst den Alert, Fokus zum naechsten Bedienelement."
+    },
+    "Space": {
+      "action": "dismiss",
+      "note": "Wie Enter auf dem Schliessen-Knopf; auf <summary> klappt die Details nativ auf/zu."
+    }
+  },
+  "events": {
+    "alert-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen, bevor der Alert aus dem DOM geht (reason: 'close')."
+    }
+  }
 }

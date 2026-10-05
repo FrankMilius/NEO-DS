@@ -1,5 +1,5 @@
 # notification Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `feedback`, `news-alert`, `floating-card`, `in-app`
 
@@ -35,6 +35,7 @@ Root element: `.nc-notification`
 - Shell-Integration: In Notification-Panel (Popover/Drawer) als Liste von .nc-notification Items.
 - Read-Receipt JS: Unread-Status per localStorage oder API. JS entfernt --unread Modifier nach Klick/Lesen.
 - Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen.
+- Verhalten (neo-behaviors notification): .nc-notification__close (nicht bei --permanent) setzt --_notification-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Klick in eine ungelesene Notification (auch eine Aktion) entfernt --unread und __unread, streicht 'Ungelesen:' aus aria-label und meldet notification-read — speichern macht das Programm.
 
 ## Variants
 ### Priority (`priority`)
@@ -74,79 +75,92 @@ Base classes: `nc-notification`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-padding` | — | — |
-| `nc-notification-radius` | — | — |
-| `nc-notification-shadow` | — | — |
-| `nc-notification-bg` | — | — |
-| `nc-notification-border-width` | — | — |
-| `nc-notification-border-color` | — | — |
-| `nc-notification-max-width` | — | — |
-| `nc-notification-gap` | — | — |
+| `--nc-notification-padding` | — | `--mod-notification-padding` |
+| `--nc-notification-radius` | — | `--mod-notification-radius` |
+| `--nc-notification-shadow` | — | `--mod-notification-shadow` |
+| `--nc-notification-bg` | — | `--mod-notification-bg` |
+| `--nc-notification-border-width` | — | `--mod-notification-border-width` |
+| `--nc-notification-border-color` | — | `--mod-notification-border-color` |
+| `--nc-notification-max-width` | — | `--mod-notification-max-width` |
+| `--nc-notification-gap` | — | `--mod-notification-gap` |
 
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-header-gap` | — | — |
-| `nc-notification-title-size` | — | — |
-| `nc-notification-title-weight` | — | — |
-| `nc-notification-title-color` | — | — |
-| `nc-notification-meta-size` | — | — |
-| `nc-notification-meta-color` | — | — |
+| `--nc-notification-header-gap` | — | `--mod-notification-header-gap` |
+| `--nc-notification-title-size` | — | `--mod-notification-title-size` |
+| `--nc-notification-title-weight` | — | `--mod-notification-title-weight` |
+| `--nc-notification-title-color` | — | `--mod-notification-title-color` |
+| `--nc-notification-meta-size` | — | `--mod-notification-meta-size` |
+| `--nc-notification-meta-color` | — | `--mod-notification-meta-color` |
 
 ### Body
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-body-size` | — | — |
-| `nc-notification-body-color` | — | — |
-| `nc-notification-body-line-height` | — | — |
+| `--nc-notification-body-size` | — | `--mod-notification-body-size` |
+| `--nc-notification-body-color` | — | `--mod-notification-body-color` |
+| `--nc-notification-body-line-height` | — | `--mod-notification-body-line-height` |
 
 ### Media Slot
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-media-size` | — | — |
-| `nc-notification-media-radius` | — | — |
+| `--nc-notification-media-size` | — | `--mod-notification-media-size` |
+| `--nc-notification-media-radius` | — | `--mod-notification-media-radius` |
 
 ### Unread Indicator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-unread-dot-size` | — | — |
-| `nc-notification-unread-dot-color` | — | — |
-| `nc-notification-unread-bg` | — | — |
+| `--nc-notification-unread-dot-size` | — | `--mod-notification-unread-dot-size` |
+| `--nc-notification-unread-dot-color` | — | `--mod-notification-unread-dot-color` |
+| `--nc-notification-unread-bg` | — | `--mod-notification-unread-bg` |
 
 ### Close Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-close-size` | — | — |
-| `nc-notification-close-radius` | — | — |
-| `nc-notification-close-opacity` | — | — |
-| `nc-notification-close-opacity-hover` | — | — |
+| `--nc-notification-close-size` | — | `--mod-notification-close-size` |
+| `--nc-notification-close-radius` | — | `--mod-notification-close-radius` |
+| `--nc-notification-close-opacity` | — | `--mod-notification-close-opacity` |
+| `--nc-notification-close-opacity-hover` | — | `--mod-notification-close-opacity-hover` |
 
 ### Footer / Actions
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-footer-gap` | — | — |
-| `nc-notification-action-size` | — | — |
-| `nc-notification-action-weight` | — | — |
-| `nc-notification-action-color` | — | — |
+| `--nc-notification-footer-gap` | — | `--mod-notification-footer-gap` |
+| `--nc-notification-action-size` | — | `--mod-notification-action-size` |
+| `--nc-notification-action-weight` | — | `--mod-notification-action-weight` |
+| `--nc-notification-action-color` | — | `--mod-notification-action-color` |
 
 ### Priority (High)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-priority-border-width` | — | — |
-| `nc-notification-priority-border-color` | — | — |
+| `--nc-notification-priority-border-width` | — | `--mod-notification-priority-border-width` |
+| `--nc-notification-priority-border-color` | — | `--mod-notification-priority-border-color` |
 
 ### Type Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-feature-color` | — | — |
-| `nc-notification-system-color` | — | — |
-| `nc-notification-promo-color` | — | — |
+| `--nc-notification-feature-color` | — | `--mod-notification-feature-color` |
+| `--nc-notification-system-color` | — | `--mod-notification-system-color` |
+| `--nc-notification-promo-color` | — | `--mod-notification-promo-color` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-notification-transition-duration` | — | — |
-| `nc-notification-dismiss-duration` | — | — |
+| `--nc-notification-transition-duration` | — | `--mod-notification-transition-duration` |
+| `--nc-notification-dismiss-duration` | — | `--mod-notification-dismiss-duration` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-order | Reihenfolge Aktionen (Footer) → Schliessen-Knopf, aus der DOM-Reihenfolge. |
+| `Enter` | activate | Auf einer Aktion: loest sie aus und markiert die Notification als gelesen. Auf dem Schliessen-Knopf: klappt sie ein und entfernt sie. |
+| `Space` | activate | Wie Enter auf Knoepfen (Schliessen, Aktion als <button>). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `notification-dismiss` | Yes | `{"reason":"string"}` |
+| `notification-read` | Yes | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

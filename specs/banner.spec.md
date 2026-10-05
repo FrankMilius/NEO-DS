@@ -1,5 +1,5 @@
 # banner Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `feedback`, `notification`, `layout`
 
@@ -31,6 +31,7 @@ Root element: `.nc-banner`
 - Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.
 - Reduced Motion: Dismiss ohne Animation (display:none).
 - High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight.
+- Verhalten (neo-behaviors banner): .nc-banner__close setzt --_banner-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Mit data-banner-id merkt localStorage ('neo-banner:<id>') das Schliessen, beim naechsten Binden ist das Banner [hidden]. --fixed: das Elternelement bekommt oben die Banner-Hoehe als Innenabstand (bis zum Schliessen bzw. Abbinden).
 
 ## Variants
 ### Severity (`severity`)
@@ -83,62 +84,73 @@ Base classes: `nc-banner`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-padding` | — | — |
-| `nc-banner-gap` | — | — |
-| `nc-banner-z-index` | — | — |
-| `nc-banner-font-size` | — | — |
-| `nc-banner-font-weight` | — | — |
-| `nc-banner-icon-size` | — | — |
+| `--nc-banner-padding` | — | `--mod-banner-padding` |
+| `--nc-banner-gap` | — | `--mod-banner-gap` |
+| `--nc-banner-z-index` | — | `--mod-banner-z-index` |
+| `--nc-banner-font-size` | — | `--mod-banner-font-size` |
+| `--nc-banner-font-weight` | — | `--mod-banner-font-weight` |
+| `--nc-banner-icon-size` | — | `--mod-banner-icon-size` |
 
 ### Info
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-info-bg` | — | — |
-| `nc-banner-info-color` | — | — |
+| `--nc-banner-info-bg` | — | `--mod-banner-info-bg` |
+| `--nc-banner-info-color` | — | `--mod-banner-info-color` |
 
 ### Warning
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-warning-bg` | — | — |
-| `nc-banner-warning-color` | — | — |
+| `--nc-banner-warning-bg` | — | `--mod-banner-warning-bg` |
+| `--nc-banner-warning-color` | — | `--mod-banner-warning-color` |
 
 ### Danger
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-danger-bg` | — | — |
-| `nc-banner-danger-color` | — | — |
+| `--nc-banner-danger-bg` | — | `--mod-banner-danger-bg` |
+| `--nc-banner-danger-color` | — | `--mod-banner-danger-color` |
 
 ### Success
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-success-bg` | — | — |
-| `nc-banner-success-color` | — | — |
+| `--nc-banner-success-bg` | — | `--mod-banner-success-bg` |
+| `--nc-banner-success-color` | — | `--mod-banner-success-color` |
 
 ### Border-Accent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-accent-border-width` | — | — |
-| `nc-banner-accent-border-color` | — | — |
+| `--nc-banner-accent-border-width` | — | `--mod-banner-accent-border-width` |
+| `--nc-banner-accent-border-color` | — | `--mod-banner-accent-border-color` |
 
 ### Close Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-close-size` | — | — |
-| `nc-banner-close-radius` | — | — |
-| `nc-banner-close-opacity` | — | — |
-| `nc-banner-close-opacity-hover` | — | — |
+| `--nc-banner-close-size` | — | `--mod-banner-close-size` |
+| `--nc-banner-close-radius` | — | `--mod-banner-close-radius` |
+| `--nc-banner-close-opacity` | — | `--mod-banner-close-opacity` |
+| `--nc-banner-close-opacity-hover` | — | `--mod-banner-close-opacity-hover` |
 
 ### Link
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-link-weight` | — | — |
-| `nc-banner-link-underline` | — | — |
+| `--nc-banner-link-weight` | — | `--mod-banner-link-weight` |
+| `--nc-banner-link-underline` | — | `--mod-banner-link-underline` |
 
 ### Dismiss Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-banner-dismiss-duration` | — | — |
-| `nc-banner-title-weight` | — | — |
+| `--nc-banner-dismiss-duration` | — | `--mod-banner-dismiss-duration` |
+| `--nc-banner-title-weight` | — | `--mod-banner-title-weight` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | dismiss | Auf dem Schliessen-Knopf (nativer Knopf): klappt das Banner ein und entfernt es (banner-dismiss). Auf dem CTA-Link: folgt dem Link. |
+| `Space` | dismiss | Wie Enter auf dem Schliessen-Knopf. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `banner-dismiss` | Yes | `{"reason":"string","id":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

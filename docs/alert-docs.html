@@ -386,7 +386,7 @@
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-alert-inline-gap</code></td><td>var(--fnd-spacing-02)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-alert-inline-font-size</code></td><td>var(--fnd-typography-body-s-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-alert-inline-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -396,7 +396,7 @@
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-alert-details-margin-top</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-alert-details-font-size</code></td><td>var(--fnd-typography-body-s-font-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-alert-details-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -519,10 +519,10 @@
       <tr><td><code class="docs__token">--nc-alert-danger-icon-color</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Inline Variant</td></tr>
       <tr><td><code class="docs__token">--nc-alert-inline-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
-      <tr><td><code class="docs__token">--nc-alert-inline-font-size</code></td><td>var(--fnd-typography-body-s-font-size)</td><td>var(--fnd-typography-body-s-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-alert-inline-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td>var(--fnd-typography-paragraph-s-font-size)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Details Toggle</td></tr>
       <tr><td><code class="docs__token">--nc-alert-details-margin-top</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
-      <tr><td><code class="docs__token">--nc-alert-details-font-size</code></td><td>var(--fnd-typography-body-s-font-size)</td><td>var(--fnd-typography-body-s-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-alert-details-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td>var(--fnd-typography-paragraph-s-font-size)</td></tr>
     </tbody>
     </table>
   </div>
@@ -542,6 +542,7 @@
     <li>Banner-Abgrenzung: Alert ist kontextuell/lokal (innerhalb einer Section). Banner (.nc-banner) ist global (oberer Seitenrand, volle Breite, sticky). Verwende Alert fuer Formular-Feedback, Banner fuer systemweite Meldungen.</li>
     <li>Deprecated: --destructive ist Alias fuer --danger.</li>
     <li>Farbe nie alleiniges Signal — immer mit Icon + Text (R7).</li>
+    <li>Verhalten (neo-behaviors alert): .nc-alert__close nimmt den Alert aus dem DOM (keine Ausblend-Animation im SCSS) und meldet alert-dismiss; lag der Fokus auf dem Knopf, geht er zum naechsten Bedienelement. Details (&lt;details&gt;) und Aktion brauchen kein Behavior.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

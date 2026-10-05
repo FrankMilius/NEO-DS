@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "notification",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -89,7 +89,8 @@
       "Dismiss-Animation: max-height + padding + opacity → 0. JS fuegt .is-dismissing hinzu.",
       "Shell-Integration: In Notification-Panel (Popover/Drawer) als Liste von .nc-notification Items.",
       "Read-Receipt JS: Unread-Status per localStorage oder API. JS entfernt --unread Modifier nach Klick/Lesen.",
-      "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen."
+      "Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen.",
+      "Verhalten (neo-behaviors notification): .nc-notification__close (nicht bei --permanent) setzt --_notification-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Klick in eine ungelesene Notification (auch eine Aktion) entfernt --unread und __unread, streicht 'Ungelesen:' aus aria-label und meldet notification-read — speichern macht das Programm."
     ]
   },
   "api": null,
@@ -354,9 +355,34 @@
       "--mod-notification-dismiss-duration"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-order",
+      "note": "Reihenfolge Aktionen (Footer) → Schliessen-Knopf, aus der DOM-Reihenfolge."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einer Aktion: loest sie aus und markiert die Notification als gelesen. Auf dem Schliessen-Knopf: klappt sie ein und entfernt sie."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter auf Knoepfen (Schliessen, Aktion als <button>)."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "notification-dismiss": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Schliessen (reason: 'close')."
+    },
+    "notification-read": {
+      "bubbles": true,
+      "note": "Gefeuert, wenn eine ungelesene Notification gelesen wird (Klick, Aktion)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

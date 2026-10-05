@@ -234,8 +234,8 @@
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-notification-padding</code></td><td>20px</td><td>var(--fnd-spacing-05)</td></tr>
-      <tr><td><code class="docs__token">--nc-notification-radius</code></td><td>var(--fnd-radius-md)</td><td>card-radius Referenz</td></tr>
-      <tr><td><code class="docs__token">--nc-notification-shadow</code></td><td>var(--fnd-elevation-overlay)</td><td>popover-shadow Referenz (L2)</td></tr>
+      <tr><td><code class="docs__token">--nc-notification-radius</code></td><td>var(--nc-card-radius)</td><td>Kette zur Karte (Entscheidung 02.10.2026)</td></tr>
+      <tr><td><code class="docs__token">--nc-notification-shadow</code></td><td>var(--nc-popover-shadow)</td><td>popover-shadow Referenz (L2)</td></tr>
       <tr><td><code class="docs__token">--nc-notification-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-notification-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-notification-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
@@ -434,8 +434,8 @@
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
       <tr><td><code class="docs__token">--nc-notification-padding</code></td><td>20px</td><td>var(--fnd-spacing-05)</td></tr>
-      <tr><td><code class="docs__token">--nc-notification-radius</code></td><td>var(--fnd-radius-md)</td><td>var(--fnd-radius-md)</td></tr>
-      <tr><td><code class="docs__token">--nc-notification-shadow</code></td><td>var(--fnd-elevation-overlay)</td><td>var(--fnd-elevation-overlay)</td></tr>
+      <tr><td><code class="docs__token">--nc-notification-radius</code></td><td>var(--nc-card-radius)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-notification-shadow</code></td><td>var(--nc-popover-shadow)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-notification-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td>var(--fnd-color-surface-elevated)</td></tr>
       <tr><td><code class="docs__token">--nc-notification-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
       <tr><td><code class="docs__token">--nc-notification-border-color</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
@@ -501,6 +501,7 @@
     <li>Shell-Integration: In Notification-Panel (Popover/Drawer) als Liste von .nc-notification Items.</li>
     <li>Read-Receipt JS: Unread-Status per localStorage oder API. JS entfernt --unread Modifier nach Klick/Lesen.</li>
     <li>Keyboard: Tab durchlaeuft Header → Actions → Close. Fokus-Ring auf interaktiven Elementen.</li>
+    <li>Verhalten (neo-behaviors notification): .nc-notification__close (nicht bei --permanent) setzt --_notification-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Klick in eine ungelesene Notification (auch eine Aktion) entfernt --unread und __unread, streicht 'Ungelesen:' aus aria-label und meldet notification-read — speichern macht das Programm.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

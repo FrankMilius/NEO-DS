@@ -26,6 +26,10 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `toolbar` | eine Tab-Station (roving tabindex über alle Knöpfe, Links und Felder, auch in eingebetteten Gruppen); Pfeil rechts/links (rundum), Pos1, Ende; in Eingabefeldern bleiben Pfeile/Pos1/Ende im Feld, Tab/Shift+Tab gehen vom Feld zum Nachbarn (am Rand raus); `nc-toolbar--sticky` bekommt `is-scrolled`, solange sie angeheftet ist (IntersectionObserver) | `toolbar-focus` { value, previousValue } |
 | `sidebar` | Untermenü-Knopf (`aria-controls`) klappt per `[hidden]`; `__toggle` schaltet `--collapsed` (+ aria-label der Einträge); Mobil-Lage: Knopf mit `aria-controls` öffnet `--open` + Backdrop, Escape/Backdrop/Knopf schließen, Fokus zurück | `sidebar-submenu-toggle` { value, open }, `sidebar-collapse` { collapsed }, `sidebar-toggle` { open, reason } |
 | `navigation-tab-mega` | Website-Hauptnavigation (Drupal `neo_nav`) auf fertigem Markup: Panels per Klick/Enter/Leertaste (nur eines, Fokus zurück), Mega-Tabs (Klick, Pfeil runter/hoch rundum), Such-Band (Fokus ins Feld, Löschen-Knopf), Sprach-/Erscheinungsbild-Menü (Pfeile, Auswahl), Sprache live über `data-neo-i18n`, Escape (Menü → Suche → Panel → Drawer), Klick außen, Drawer mit Push-Navigation (geschlossener Drawer und verschobene Bildschirme `inert`), aktueller Ast (`aria-current`), Auto-Hide beim Scrollen | `navigation-tab-mega-panel` { value, open }, `-tab` { value, previousValue }, `-search` { open }, `-menu` { value, open }, `-select` { menu, value }, `-language` { value }, `-drawer` { open, reason }, `-screen` { value }, `-hidden` { hidden } |
+| `toast` | Schließen-Knopf, Escape (Toast mit Fokus, sonst der neueste; nicht bei offenem modalem Dialog), Auto-Ausblenden nur mit `data-duration` (ms; leer/`auto` = Token), mit Aktion mindestens 10 s, Pause bei Maus/Fokus/verborgener Seite mit Restzeit, Balken per Einzel-Eigenschaften der Animation, Wischen (Touch/Stift, Schwelle aus Token), Warteschlange im `.nc-toaster` (`--nc-toast-max-visible`), `.is-entering`/`.is-leaving`; danach aus dem DOM, Fokus weiter | `toast-dismiss` { reason }, `toast-action` { action } |
+| `notification` | Schließen-Knopf (nicht `--permanent`): `.is-dismissing` mit `--_notification-height`, danach aus dem DOM, Fokus weiter; Klick/Aktion in einer ungelesenen nimmt `--unread`, den Punkt und „Ungelesen:" aus `aria-label` | `notification-dismiss` { reason }, `notification-read` |
+| `alert` | Schließen-Knopf nimmt den Alert aus dem DOM (keine Animation im SCSS), Fokus weiter; Details nativ | `alert-dismiss` { reason } |
+| `banner` | Schließen-Knopf: `.is-dismissing` mit `--_banner-height`, danach aus dem DOM, Fokus weiter; `data-banner-id` merkt das Schließen (localStorage `neo-banner:<id>`, dann `[hidden]`); `--fixed` gibt dem Elternelement oben Platz | `banner-dismiss` { reason, id } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -159,3 +163,29 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Auto-Hide ab (Arena), `data-neo-nav-pfad` ersetzt `location.pathname`.
   Drupal: `drupalSettings.neoBehaviors.nur[] = 'navigation-tab-mega'` am
   Block `neo_main_nav`.
+
+## Rückmeldungen (Plan v3, Phase 3, Block Rückmeldung)
+
+Toast, Benachrichtigung, Alert und Banner binden an fertiges Markup und
+verschwinden beim Schließen aus dem Dokument (gemeinsamer Teil in
+`_meldung.js`): Klasse der Ausblend-Animation des DS setzen, auf
+`animationend` warten (ohne Animation, z. B. bei `prefers-reduced-motion`,
+sofort; mit Zeitlimit), dann entfernen. Lag der Fokus in der Meldung, geht er
+zum nächsten Bedienelement danach, sonst davor (WCAG 2.4.3).
+
+- **Toast** — Auto-Ausblenden ist Absicht des Programms: nur mit
+  `data-duration`. Ohne Angabe bleibt der Toast, bis man ihn schließt
+  (WCAG 2.2.1). Der Timer hält an, solange Maus oder Fokus im Toast sind oder
+  die Seite verborgen ist, und läuft mit der Restzeit weiter; den Balken hält
+  das CSS des DS (`:hover`/`:focus-within`) an — deshalb setzt das Behavior
+  die Animation in Einzel-Eigenschaften, nicht als Kurzform `animation`
+  (die als Inline-Stil `animation-play-state` überstimmt). Toasts mit Aktion
+  laufen mindestens 10 s (Recipe: extended-timeout). Escape trifft den Toast
+  mit dem Fokus, sonst den neuesten — nicht, solange ein `dialog[open]` da
+  ist. Ein geschlossener Toast löst seine Dokument-Ereignisse selbst.
+- **Banner** — das feste Banner (`--fixed`) gibt seinem Elternelement oben
+  Platz (`padding-block-start: calc(<bisher> + <Höhe>)`, mit ResizeObserver);
+  in Drupal steht das Banner zuerst im `<body>`.
+- **Benachrichtigung** — „gelesen" speichert das Programm auf
+  `notification-read` hin (localStorage oder API).
+

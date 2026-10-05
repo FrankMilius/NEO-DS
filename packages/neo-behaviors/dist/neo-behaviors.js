@@ -2508,6 +2508,393 @@
     }
   };
 
+  // packages/neo-behaviors/_meldung.js
+  function fokusWeiter(el) {
+    var _a, _b;
+    const dok = el.ownerDocument;
+    if (!el.contains(dok.activeElement)) return;
+    const liste = fokussierbare(dok.body).filter((e) => !el.contains(e));
+    const danach = liste.find((e) => el.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING);
+    const davor = liste.filter((e) => el.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_PRECEDING).at(-1);
+    const ziel = danach || davor;
+    if (ziel) ziel.focus();
+    else (_b = (_a = dok.activeElement) == null ? void 0 : _a.blur) == null ? void 0 : _b.call(_a);
+  }
+  function animationsDauer(el) {
+    var _a;
+    const stil = (_a = el.ownerDocument.defaultView) == null ? void 0 : _a.getComputedStyle(el);
+    if (!stil || !stil.animationName || stil.animationName === "none") return 0;
+    const ms = (t) => (t.trim().endsWith("ms") ? parseFloat(t) : parseFloat(t) * 1e3) || 0;
+    const dauern = (stil.animationDuration || "0s").split(",").map(ms);
+    const verzug = (stil.animationDelay || "0s").split(",").map(ms);
+    return Math.max(0, ...dauern.map((d, i) => d + (verzug[i] || 0)));
+  }
+  function ausblenden(el, klasse, fertig) {
+    el.classList.add(klasse);
+    const dauer = animationsDauer(el);
+    if (!dauer) {
+      fertig();
+      return;
+    }
+    let erledigt = false;
+    const einmal = () => {
+      if (erledigt) return;
+      erledigt = true;
+      clearTimeout(notfall);
+      el.removeEventListener("animationend", beiEnde);
+      fertig();
+    };
+    const beiEnde = (e) => {
+      if (e.target === el) einmal();
+    };
+    const notfall = setTimeout(einmal, dauer + 100);
+    el.addEventListener("animationend", beiEnde);
+  }
+  function merkeHoehe(el, eigenschaft) {
+    const hoehe = el.getBoundingClientRect().height;
+    if (hoehe > 0) el.style.setProperty(eigenschaft, `${Math.ceil(hoehe)}px`);
+  }
+
+  // packages/neo-behaviors/toast.js
+  var MIT_AKTION_MINDESTENS = 1e4;
+  var STANDARD_DAUER = 5e3;
+  var OFFEN = /* @__PURE__ */ new Set();
+  function zeitwert(text, ersatz) {
+    const t = String(text || "").trim();
+    if (!t) return ersatz;
+    const zahl = parseFloat(t);
+    if (Number.isNaN(zahl)) return ersatz;
+    return t.endsWith("ms") || !t.endsWith("s") ? zahl : zahl * 1e3;
+  }
+  function token(el, name) {
+    var _a;
+    return ((_a = el.ownerDocument.defaultView) == null ? void 0 : _a.getComputedStyle(el).getPropertyValue(name)) || "";
+  }
+  function dauerAus(wurzel) {
+    if (!wurzel.hasAttribute("data-duration")) return 0;
+    const roh = wurzel.getAttribute("data-duration") || "";
+    let dauer = roh === "" || roh === "auto" ? zeitwert(token(wurzel, "--nc-toast-auto-dismiss-duration"), STANDARD_DAUER) : zeitwert(roh, 0);
+    if (dauer > 0 && wurzel.querySelector(".nc-toast__action")) dauer = Math.max(dauer, MIT_AKTION_MINDESTENS);
+    return dauer > 0 ? dauer : 0;
+  }
+  function aktionsWert(knopf) {
+    if (knopf.dataset.action) return knopf.dataset.action;
+    if (knopf.hasAttribute("data-undo")) return "undo";
+    return (knopf.textContent || "").trim();
+  }
+  var toast = {
+    id: "toast",
+    selektor: ".nc-toast",
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      var _a;
+      const dok = wurzel.ownerDocument;
+      const intern = new AbortController();
+      signal.addEventListener("abort", () => intern.abort(), { once: true });
+      const sig = intern.signal;
+      const balken = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-toast__progress")
+      );
+      const dauer = dauerAus(wurzel);
+      let rest = dauer;
+      let start = 0;
+      let uhr = 0;
+      let zu = false;
+      const halt = /* @__PURE__ */ new Set();
+      OFFEN.add(wurzel);
+      const laufe = () => {
+        if (!dauer || zu || halt.size || uhr) return;
+        start = Date.now();
+        uhr = setTimeout(() => schliesse("timeout"), rest);
+        if (balken) balken.style.animationPlayState = "";
+      };
+      const pausiere = () => {
+        if (!uhr) return;
+        clearTimeout(uhr);
+        uhr = 0;
+        rest = Math.max(0, rest - (Date.now() - start));
+      };
+      const halte = (grund, an) => {
+        if (an) {
+          halt.add(grund);
+          pausiere();
+        } else {
+          halt.delete(grund);
+          laufe();
+        }
+        if (balken && grund === "verborgen") balken.style.animationPlayState = an ? "paused" : "";
+      };
+      const schliesse = (reason) => {
+        if (zu) return;
+        zu = true;
+        pausiere();
+        OFFEN.delete(wurzel);
+        sende(wurzel, "toast-dismiss", { reason });
+        fokusWeiter(wurzel);
+        ausblenden(wurzel, "is-leaving", () => {
+          wurzel.remove();
+          intern.abort();
+        });
+      };
+      if (balken && dauer) {
+        balken.style.animationName = "nc-toast-progress";
+        balken.style.animationDuration = `${dauer}ms`;
+        balken.style.animationTimingFunction = "linear";
+        balken.style.animationFillMode = "forwards";
+      }
+      if (wurzel.classList.contains("is-entering")) {
+        ausblenden(wurzel, "is-entering", () => wurzel.classList.remove("is-entering"));
+      }
+      wurzel.addEventListener("click", (e) => {
+        const ziel = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (ziel.closest(".nc-toast__close")) {
+          schliesse("close");
+          return;
+        }
+        const aktion = (
+          /** @type {HTMLElement|null} */
+          ziel.closest(".nc-toast__action")
+        );
+        if (aktion) {
+          sende(wurzel, "toast-action", { action: aktionsWert(aktion) });
+          schliesse("action");
+        }
+      }, { signal: sig });
+      wurzel.addEventListener("mouseenter", () => halte("maus", true), { signal: sig });
+      wurzel.addEventListener("mouseleave", () => halte("maus", false), { signal: sig });
+      wurzel.addEventListener("focusin", () => halte("fokus", true), { signal: sig });
+      wurzel.addEventListener("focusout", (e) => {
+        const nach = (
+          /** @type {Node|null} */
+          e.relatedTarget
+        );
+        if (!nach || !wurzel.contains(nach)) halte("fokus", false);
+      }, { signal: sig });
+      dok.addEventListener("visibilitychange", () => halte("verborgen", dok.visibilityState === "hidden"), { signal: sig });
+      dok.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape" || zu || e.defaultPrevented) return;
+        const aktiv = dok.activeElement;
+        const mitFokus = [...OFFEN].find((t) => t.contains(aktiv));
+        if (!mitFokus && dok.querySelector("dialog[open]")) return;
+        const neuester = [...OFFEN].filter((t) => t.ownerDocument === dok && t.isConnected).at(-1);
+        if ((mitFokus || neuester) !== wurzel) return;
+        e.preventDefault();
+        schliesse("escape");
+      }, { signal: sig });
+      let wisch = (
+        /** @type {{ id: number, x: number, dx: number }|null} */
+        null
+      );
+      const schwelle = () => parseFloat(token(wurzel, "--nc-toast-swipe-threshold")) || 100;
+      const wischEnde = () => {
+        wurzel.classList.remove("is-swiping");
+        wurzel.removeAttribute("aria-busy");
+        wurzel.style.removeProperty("--_toast-swipe-opacity");
+      };
+      wurzel.addEventListener("pointerdown", (e) => {
+        if (zu || e.pointerType !== "touch" && e.pointerType !== "pen") return;
+        if (
+          /** @type {HTMLElement} */
+          e.target.closest("button, a, input, select, textarea")
+        ) return;
+        wisch = { id: e.pointerId, x: e.clientX, dx: 0 };
+      }, { signal: sig });
+      wurzel.addEventListener("pointermove", (e) => {
+        if (!wisch || e.pointerId !== wisch.id) return;
+        wisch.dx = e.clientX - wisch.x;
+        if (!wurzel.classList.contains("is-swiping")) {
+          if (Math.abs(wisch.dx) < 5) return;
+          wurzel.classList.add("is-swiping");
+          wurzel.setAttribute("aria-busy", "true");
+          halte("wischen", true);
+        }
+        wurzel.style.setProperty("--_toast-swipe-x", `${wisch.dx}px`);
+        wurzel.style.setProperty("--_toast-swipe-opacity", String(Math.max(0.2, 1 - Math.abs(wisch.dx) / (schwelle() * 2))));
+      }, { signal: sig });
+      const loslassen = (e) => {
+        if (!wisch || e.pointerId !== wisch.id) return;
+        const { dx } = wisch;
+        wisch = null;
+        if (!wurzel.classList.contains("is-swiping")) return;
+        wischEnde();
+        if (Math.abs(dx) >= schwelle() && e.type === "pointerup") {
+          zu = true;
+          pausiere();
+          OFFEN.delete(wurzel);
+          wurzel.style.setProperty("--_toast-swipe-x", `${Math.sign(dx) * 120}%`);
+          sende(wurzel, "toast-dismiss", { reason: "swipe" });
+          fokusWeiter(wurzel);
+          wurzel.classList.add("is-swipe-out");
+          const weg = () => {
+            if (wurzel.isConnected) wurzel.remove();
+            intern.abort();
+          };
+          wurzel.addEventListener("transitionend", weg, { once: true });
+          setTimeout(weg, 250);
+          return;
+        }
+        wurzel.style.removeProperty("--_toast-swipe-x");
+        halte("wischen", false);
+      };
+      wurzel.addEventListener("pointerup", loslassen, { signal: sig });
+      wurzel.addEventListener("pointercancel", loslassen, { signal: sig });
+      const toaster = ((_a = wurzel.parentElement) == null ? void 0 : _a.classList.contains("nc-toaster")) ? wurzel.parentElement : null;
+      if (toaster) {
+        const hoechstens = parseInt(token(toaster, "--nc-toast-max-visible"), 10) || 3;
+        const offene = [...toaster.children].filter((k) => OFFEN.has(k));
+        for (const alt of offene.slice(0, Math.max(0, offene.length - hoechstens))) {
+          alt.dispatchEvent(new CustomEvent("neo-toast-queue"));
+        }
+      }
+      wurzel.addEventListener("neo-toast-queue", () => schliesse("queue"), { signal: sig });
+      laufe();
+      sig.addEventListener("abort", () => {
+        clearTimeout(uhr);
+        OFFEN.delete(wurzel);
+        if (zu) return;
+        wischEnde();
+        wurzel.style.removeProperty("--_toast-swipe-x");
+        if (balken) {
+          for (const p of ["animation-name", "animation-duration", "animation-timing-function", "animation-fill-mode", "animation-play-state"]) balken.style.removeProperty(p);
+        }
+      });
+    }
+  };
+
+  // packages/neo-behaviors/notification.js
+  var PRAEFIX = /^\s*Ungelesen:\s*/i;
+  var notification = {
+    id: "notification",
+    selektor: ".nc-notification",
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      let zu = false;
+      const gelesen = () => {
+        var _a;
+        if (!wurzel.classList.contains("nc-notification--unread")) return;
+        wurzel.classList.remove("nc-notification--unread");
+        (_a = wurzel.querySelector(".nc-notification__unread")) == null ? void 0 : _a.remove();
+        const name = wurzel.getAttribute("aria-label");
+        if (name && PRAEFIX.test(name)) wurzel.setAttribute("aria-label", name.replace(PRAEFIX, ""));
+        sende(wurzel, "notification-read");
+      };
+      wurzel.addEventListener("click", (e) => {
+        const knopf = (
+          /** @type {HTMLElement} */
+          e.target.closest(".nc-notification__close")
+        );
+        if (!knopf) {
+          gelesen();
+          return;
+        }
+        if (zu || wurzel.classList.contains("nc-notification--permanent")) return;
+        zu = true;
+        sende(wurzel, "notification-dismiss", { reason: "close" });
+        fokusWeiter(wurzel);
+        merkeHoehe(wurzel, "--_notification-height");
+        ausblenden(wurzel, "is-dismissing", () => wurzel.remove());
+      }, { signal });
+    }
+  };
+
+  // packages/neo-behaviors/alert.js
+  var alert = {
+    id: "alert",
+    selektor: ".nc-alert",
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      wurzel.addEventListener("click", (e) => {
+        const knopf = (
+          /** @type {HTMLElement} */
+          e.target.closest(".nc-alert__close")
+        );
+        if (!knopf || knopf.closest(".nc-alert") !== wurzel) return;
+        sende(wurzel, "alert-dismiss", { reason: "close" });
+        fokusWeiter(wurzel);
+        wurzel.remove();
+      }, { signal });
+    }
+  };
+
+  // packages/neo-behaviors/banner.js
+  var SCHLUESSEL = (id) => `neo-banner:${id}`;
+  function speicher(dok) {
+    var _a;
+    try {
+      return ((_a = dok.defaultView) == null ? void 0 : _a.localStorage) || null;
+    } catch {
+      return null;
+    }
+  }
+  var banner = {
+    id: "banner",
+    selektor: ".nc-banner",
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      var _a, _b;
+      const dok = wurzel.ownerDocument;
+      const id = wurzel.getAttribute("data-banner-id");
+      const ablage = id ? speicher(dok) : null;
+      try {
+        if (ablage && ablage.getItem(SCHLUESSEL(id)) === "geschlossen") {
+          wurzel.hidden = true;
+          return;
+        }
+      } catch {
+      }
+      const eltern = wurzel.matches(".nc-banner--fixed") ? wurzel.parentElement : null;
+      const vorher = eltern ? eltern.style.paddingBlockStart : "";
+      const basis = eltern ? ((_a = dok.defaultView) == null ? void 0 : _a.getComputedStyle(eltern).paddingBlockStart) || "0px" : "0px";
+      const setzePlatz = () => {
+        if (eltern) eltern.style.paddingBlockStart = `calc(${basis} + ${Math.ceil(wurzel.getBoundingClientRect().height)}px)`;
+      };
+      const gibPlatzFrei = () => {
+        if (eltern) eltern.style.paddingBlockStart = vorher;
+      };
+      let beobachter = (
+        /** @type {ResizeObserver|null} */
+        null
+      );
+      if (eltern) {
+        setzePlatz();
+        const RO = (_b = dok.defaultView) == null ? void 0 : _b.ResizeObserver;
+        if (RO) {
+          beobachter = new RO(setzePlatz);
+          beobachter.observe(wurzel);
+        }
+      }
+      let zu = false;
+      wurzel.addEventListener("click", (e) => {
+        const knopf = (
+          /** @type {HTMLElement} */
+          e.target.closest(".nc-banner__close")
+        );
+        if (!knopf || zu) return;
+        zu = true;
+        try {
+          if (ablage) ablage.setItem(SCHLUESSEL(id), "geschlossen");
+        } catch {
+        }
+        sende(wurzel, "banner-dismiss", { reason: "close", id });
+        fokusWeiter(wurzel);
+        merkeHoehe(wurzel, "--_banner-height");
+        beobachter == null ? void 0 : beobachter.disconnect();
+        ausblenden(wurzel, "is-dismissing", () => {
+          gibPlatzFrei();
+          wurzel.remove();
+        });
+      }, { signal });
+      signal.addEventListener("abort", () => {
+        beobachter == null ? void 0 : beobachter.disconnect();
+        if (!zu) gibPlatzFrei();
+      });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -2530,7 +2917,11 @@
     "navigation-menu": navigationMenu,
     toolbar,
     sidebar,
-    "navigation-tab-mega": navigationTabMega
+    "navigation-tab-mega": navigationTabMega,
+    toast,
+    notification,
+    alert,
+    banner
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

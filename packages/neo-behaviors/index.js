@@ -37,6 +37,10 @@ import { navigationMenu } from './navigation-menu.js'
 import { toolbar } from './toolbar.js'
 import { sidebar } from './sidebar.js'
 import { navigationTabMega } from './navigation-tab-mega.js'
+import { toast } from './toast.js'
+import { notification } from './notification.js'
+import { alert } from './alert.js'
+import { banner } from './banner.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -62,7 +66,11 @@ export const BEHAVIORS = Object.freeze({
   'navigation-menu': navigationMenu,
   toolbar,
   sidebar,
-  'navigation-tab-mega': navigationTabMega
+  'navigation-tab-mega': navigationTabMega,
+  toast,
+  notification,
+  alert,
+  banner
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */

@@ -297,6 +297,7 @@
     <li>Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.</li>
     <li>Reduced Motion: Dismiss ohne Animation (display:none).</li>
     <li>High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight.</li>
+    <li>Verhalten (neo-behaviors banner): .nc-banner__close setzt --_banner-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Mit data-banner-id merkt localStorage ('neo-banner:&lt;id&gt;') das Schliessen, beim naechsten Binden ist das Banner [hidden]. --fixed: das Elternelement bekommt oben die Banner-Hoehe als Innenabstand (bis zum Schliessen bzw. Abbinden).</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
