@@ -15,11 +15,6 @@
 | Docs | `docs/table-docs.html` | present |
 | Drupal | `block--block-content--neo-table.html.twig, block--inline-block--neo-table.html.twig` | present |
 
-## Spec
-
-- [Component Spec (Markdown)](../specs/table.spec.md)
-- [Component Spec (JSON)](../specs/table.spec.json)
-
 ## Quick Links
 
 - [Recipe JSON](../data/table-recipe.json)
