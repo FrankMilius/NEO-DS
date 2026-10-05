@@ -1,8 +1,9 @@
 # ADR-005: Komposition im Recipe, Verhalten als gemeinsames Paket
 
 - **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
-  Blöcke Formular, Overlays und Navigation umgesetzt, Verhalten der
-  Navigations-Bauteile ergänzt (Plan v3, Stand 02.10.2026)
+  Blöcke Formular, Overlays, Navigation und Rückmeldung umgesetzt, Verhalten
+  der Navigations-Bauteile und der Rückmeldungen ergänzt (Plan v3, Stand
+  05.10.2026)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -216,3 +217,22 @@ Dinge fehlten aber:
   `inert` (vorher per Tab erreichbar, obwohl aus dem Bild geschoben; liegt
   der Fokus beim Schließen im Drawer, geht er zum Burger). „Ausprobieren" für die Arena; dort startet alles zu und das
   Auto-Hide ist aus.
+- Phase 3, Block Rückmeldung (05.10.2026): toast, notification, alert und
+  banner kommen aus Recipe-Vorlagen; vier `*Arena.vue` gelöscht. Markup nach
+  SCSS-Struktur und `data/markup` (alert, banner). Toaster und festes Banner
+  (`position: fixed`) liegen im Arena-Rahmen `ra-bildschirm` (per `contain`
+  ihr Bezugsrahmen); Ausblend-Zustände (`.is-dismissing`, `.is-leaving` der
+  verdrängte Toast in der Warteschlange) stehen als Standbild
+  (`ra-standbild`: Animation des DS angehalten). `.is-swiping` zeigt die
+  Vorlage mit den Instanzwerten des JS (Wischen ist damit kein „nur
+  interaktiv"-Zustand mehr). Sammelzellen: liefert die Vorlage für eine Zelle
+  `''`, entfällt sie (mehrere Toasts in einem Toaster). Alle vier haben
+  Verhalten in `neo-behaviors` (toast, notification, alert, banner;
+  gemeinsamer Teil `_meldung.js`: Ausblend-Animation abwarten, Fokus
+  weiterreichen), `keyboard`/`events` in den Recipes (2.1.0), „Ausprobieren"
+  mit „Erneut zeigen". Toast: Auto-Ausblenden nur mit `data-duration`
+  (WCAG 2.2.1), Pause bei Maus/Fokus/verborgener Seite. Eindeutige DS-Fehler
+  behoben (Toast-Text, zentrierter Toaster, Kopf der Benachrichtigung);
+  offene Fragen (Rolle des Banners, Schrift im Alert, Auto-Ausblenden bei
+  Fehlern) zur Entscheidung gemeldet. Keines der vier Bauteile ist auf der
+  Website im Einsatz.
