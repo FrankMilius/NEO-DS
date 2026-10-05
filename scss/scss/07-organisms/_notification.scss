@@ -187,6 +187,12 @@
     gap: var(--mod-notification-header-gap, var(--nc-notification-header-gap));
   }
 
+  // Platz fuer den Schliessen-Knopf: er liegt absolut oben rechts, die
+  // Meta-Zeile (rechtsbuendig, nowrap) liefe sonst darunter.
+  &:not(.nc-notification--permanent):has(> .nc-notification__close) &__header {
+    padding-inline-end: var(--mod-notification-close-size, var(--nc-notification-close-size));
+  }
+
   // -- Title --
 
   &__title {
@@ -207,7 +213,9 @@
 
   // -- Body --
 
+  // margin: 0 — der Body ist oft ein <p> (Elementregel mit Abstand unten)
   &__body {
+    margin: 0;
     font-size: var(--mod-notification-body-size, var(--nc-notification-body-size));
     color: var(--mod-notification-body-color, var(--nc-notification-body-color));
     line-height: var(--mod-notification-body-line-height, var(--nc-notification-body-line-height));
