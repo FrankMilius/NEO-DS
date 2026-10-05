@@ -66,36 +66,36 @@ Base classes: `nc-container`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-container-max-width` | — | — |
-| `nc-container-padding-inline` | — | — |
-| `nc-container-padding-inline-xxl` | — | — |
-| `nc-container-max-width-wide` | — | — |
+| `--nc-container-max-width` | — | `--mod-container-max-width` |
+| `--nc-container-padding-inline` | — | `--mod-container-padding-inline` |
+| `--nc-container-padding-inline-xxl` | — | `--mod-container-padding-inline-xxl` |
+| `--nc-container-max-width-wide` | — | `--mod-container-max-width-wide` |
 
 ### Wide
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-container-max-width-wide` | — | — |
+| `--nc-container-max-width-wide` | — | `--mod-container-max-width-wide` |
 
 ### Vertical Spacing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-container-padding-block-sm` | — | — |
-| `nc-container-padding-block-md` | — | — |
-| `nc-container-padding-block-lg` | — | — |
+| `--nc-container-padding-block-sm` | — | `--mod-container-padding-block-sm` |
+| `--nc-container-padding-block-md` | — | `--mod-container-padding-block-md` |
+| `--nc-container-padding-block-lg` | — | `--mod-container-padding-block-lg` |
 
 ### Alignment
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-container-margin-start` | — | — |
-| `nc-container-margin-end` | — | — |
+| `--nc-container-margin-start` | — | `--mod-container-margin-start` |
+| `--nc-container-margin-end` | — | `--mod-container-margin-end` |
 
 ### Surface
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-container-surface-bg` | — | — |
-| `nc-container-surface-radius` | — | — |
-| `nc-container-surface-shadow` | — | — |
-| `nc-container-surface-padding` | — | — |
+| `--nc-container-surface-bg` | — | `--mod-container-surface-bg` |
+| `--nc-container-surface-radius` | — | `--mod-container-surface-radius` |
+| `--nc-container-surface-shadow` | — | `--mod-container-surface-shadow` |
+| `--nc-container-surface-padding` | — | `--mod-container-surface-padding` |
 
 ## Accessibility
 - Container ist ein reines Layout-Element ohne semantische Rolle.

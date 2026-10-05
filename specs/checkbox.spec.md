@@ -60,60 +60,60 @@ Base classes: `nc-checkbox`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-size-sm` | — | — |
-| `nc-checkbox-size-md` | — | — |
-| `nc-checkbox-size-lg` | — | — |
-| `nc-checkbox-radius` | — | — |
-| `nc-checkbox-border-width` | — | — |
+| `--nc-checkbox-size-sm` | — | `--mod-checkbox-size-sm` |
+| `--nc-checkbox-size-md` | — | `--mod-checkbox-size-md` |
+| `--nc-checkbox-size-lg` | — | `--mod-checkbox-size-lg` |
+| `--nc-checkbox-radius` | — | `--mod-checkbox-radius` |
+| `--nc-checkbox-border-width` | — | `--mod-checkbox-border-width` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-bg` | — | — |
-| `nc-checkbox-border` | — | — |
-| `nc-checkbox-border-hover` | — | — |
+| `--nc-checkbox-bg` | — | `--mod-checkbox-bg` |
+| `--nc-checkbox-border` | — | `--mod-checkbox-border` |
+| `--nc-checkbox-border-hover` | — | `--mod-checkbox-border-hover` |
 
 ### Checked
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-bg-checked` | — | — |
-| `nc-checkbox-border-checked` | — | — |
-| `nc-checkbox-bg-indeterminate` | — | — |
+| `--nc-checkbox-bg-checked` | — | `--mod-checkbox-bg-checked` |
+| `--nc-checkbox-border-checked` | — | `--mod-checkbox-border-checked` |
+| `--nc-checkbox-bg-indeterminate` | — | `--mod-checkbox-bg-indeterminate` |
 
 ### Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-disabled-bg` | — | — |
-| `nc-checkbox-disabled-border` | — | — |
-| `nc-checkbox-disabled-opacity` | — | — |
+| `--nc-checkbox-disabled-bg` | — | `--mod-checkbox-disabled-bg` |
+| `--nc-checkbox-disabled-border` | — | `--mod-checkbox-disabled-border` |
+| `--nc-checkbox-disabled-opacity` | — | `--mod-checkbox-disabled-opacity` |
 
 ### Error
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-border-error` | — | — |
+| `--nc-checkbox-border-error` | — | `--mod-checkbox-border-error` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-label-gap` | — | — |
-| `nc-checkbox-label-color` | — | — |
+| `--nc-checkbox-label-gap` | — | `--mod-checkbox-label-gap` |
+| `--nc-checkbox-label-color` | — | `--mod-checkbox-label-color` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-transition-duration` | — | — |
-| `nc-checkbox-focus-ring-offset` | — | — |
+| `--nc-checkbox-transition-duration` | — | `--mod-checkbox-transition-duration` |
+| `--nc-checkbox-focus-ring-offset` | — | `--mod-checkbox-focus-ring-offset` |
 
 ### Card Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-checkbox-card-bg` | — | — |
-| `nc-checkbox-card-bg-checked` | — | — |
-| `nc-checkbox-card-border` | — | — |
-| `nc-checkbox-card-border-checked` | — | — |
-| `nc-checkbox-card-border-hover` | — | — |
-| `nc-checkbox-card-radius` | — | — |
-| `nc-checkbox-card-padding` | — | — |
+| `--nc-checkbox-card-bg` | — | `--mod-checkbox-card-bg` |
+| `--nc-checkbox-card-bg-checked` | — | `--mod-checkbox-card-bg-checked` |
+| `--nc-checkbox-card-border` | — | `--mod-checkbox-card-border` |
+| `--nc-checkbox-card-border-checked` | — | `--mod-checkbox-card-border-checked` |
+| `--nc-checkbox-card-border-hover` | — | `--mod-checkbox-card-border-hover` |
+| `--nc-checkbox-card-radius` | — | `--mod-checkbox-card-radius` |
+| `--nc-checkbox-card-padding` | — | `--mod-checkbox-card-padding` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

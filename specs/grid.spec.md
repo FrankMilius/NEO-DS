@@ -84,22 +84,22 @@ Base classes: `o-grid`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-grid-columns` | — | — |
-| `nc-grid-gap` | — | — |
-| `nc-grid-gap-sm` | — | — |
-| `nc-grid-gap-lg` | — | — |
+| `--nc-grid-columns` | — | `--mod-grid-columns` |
+| `--nc-grid-gap` | — | `--mod-grid-gap` |
+| `--nc-grid-gap-sm` | — | `--mod-grid-gap-sm` |
+| `--nc-grid-gap-lg` | — | `--mod-grid-gap-lg` |
 
 ### Gap-Varianten
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-grid-gap-sm` | — | — |
-| `nc-grid-gap-lg` | — | — |
+| `--nc-grid-gap-sm` | — | `--mod-grid-gap-sm` |
+| `--nc-grid-gap-lg` | — | `--mod-grid-gap-lg` |
 
 ### Responsive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-grid-mobile-columns` | — | — |
-| `nc-grid-tablet-columns` | — | — |
+| `--nc-grid-mobile-columns` | — | `--mod-grid-mobile-columns` |
+| `--nc-grid-tablet-columns` | — | `--mod-grid-tablet-columns` |
 
 ## Accessibility
 - Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.

@@ -82,107 +82,107 @@ Base classes: `nc-label`
 ### Geometry (SM Default)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-height-sm` | — | — |
-| `nc-label-padding-x` | — | — |
-| `nc-label-radius` | — | — |
-| `nc-label-font-size` | — | — |
-| `nc-label-font-weight` | — | — |
-| `nc-label-gap` | — | — |
-| `nc-label-letter-spacing` | — | — |
-| `nc-label-icon-size` | — | — |
+| `--nc-label-height-sm` | — | `--mod-label-height-sm` |
+| `--nc-label-padding-x` | — | `--mod-label-padding-x` |
+| `--nc-label-radius` | — | `--mod-label-radius` |
+| `--nc-label-font-size` | — | `--mod-label-font-size` |
+| `--nc-label-font-weight` | — | `--mod-label-font-weight` |
+| `--nc-label-gap` | — | `--mod-label-gap` |
+| `--nc-label-letter-spacing` | — | `--mod-label-letter-spacing` |
+| `--nc-label-icon-size` | — | `--mod-label-icon-size` |
 
 ### Geometry (XS)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-height-xs` | — | — |
-| `nc-label-padding-x-xs` | — | — |
-| `nc-label-font-size-xs` | — | — |
+| `--nc-label-height-xs` | — | `--mod-label-height-xs` |
+| `--nc-label-padding-x-xs` | — | `--mod-label-padding-x-xs` |
+| `--nc-label-font-size-xs` | — | `--mod-label-font-size-xs` |
 
 ### Geometry (MD)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-height-md` | — | — |
-| `nc-label-padding-x-md` | — | — |
-| `nc-label-font-size-md` | — | — |
+| `--nc-label-height-md` | — | `--mod-label-height-md` |
+| `--nc-label-padding-x-md` | — | `--mod-label-padding-x-md` |
+| `--nc-label-font-size-md` | — | `--mod-label-font-size-md` |
 
 ### Shape (Pill)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-radius-pill` | — | — |
-| `nc-label-radius` | — | — |
+| `--nc-label-radius-pill` | — | `--mod-label-radius-pill` |
+| `--nc-label-radius` | — | `--mod-label-radius` |
 
 ### Colors (Default)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-default-bg` | — | — |
-| `nc-label-default-color` | — | — |
-| `nc-label-default-border` | — | — |
-| `nc-label-default-bg-hover` | — | — |
+| `--nc-label-default-bg` | — | `--mod-label-default-bg` |
+| `--nc-label-default-color` | — | `--mod-label-default-color` |
+| `--nc-label-default-border` | — | `--mod-label-default-border` |
+| `--nc-label-default-bg-hover` | — | `--mod-label-default-bg-hover` |
 
 ### Colors (Accent)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-accent-bg` | — | — |
-| `nc-label-accent-color` | — | — |
-| `nc-label-accent-border` | — | — |
-| `nc-label-accent-bg-hover` | — | — |
+| `--nc-label-accent-bg` | — | `--mod-label-accent-bg` |
+| `--nc-label-accent-color` | — | `--mod-label-accent-color` |
+| `--nc-label-accent-border` | — | `--mod-label-accent-border` |
+| `--nc-label-accent-bg-hover` | — | `--mod-label-accent-bg-hover` |
 
 ### Colors (Success)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-success-bg` | — | — |
-| `nc-label-success-color` | — | — |
-| `nc-label-success-border` | — | — |
-| `nc-label-success-bg-hover` | — | — |
+| `--nc-label-success-bg` | — | `--mod-label-success-bg` |
+| `--nc-label-success-color` | — | `--mod-label-success-color` |
+| `--nc-label-success-border` | — | `--mod-label-success-border` |
+| `--nc-label-success-bg-hover` | — | `--mod-label-success-bg-hover` |
 
 ### Colors (Warning)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-warning-bg` | — | — |
-| `nc-label-warning-color` | — | — |
-| `nc-label-warning-border` | — | — |
-| `nc-label-warning-bg-hover` | — | — |
+| `--nc-label-warning-bg` | — | `--mod-label-warning-bg` |
+| `--nc-label-warning-color` | — | `--mod-label-warning-color` |
+| `--nc-label-warning-border` | — | `--mod-label-warning-border` |
+| `--nc-label-warning-bg-hover` | — | `--mod-label-warning-bg-hover` |
 
 ### Colors (Danger)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-danger-bg` | — | — |
-| `nc-label-danger-color` | — | — |
-| `nc-label-danger-border` | — | — |
-| `nc-label-danger-bg-hover` | — | — |
+| `--nc-label-danger-bg` | — | `--mod-label-danger-bg` |
+| `--nc-label-danger-color` | — | `--mod-label-danger-color` |
+| `--nc-label-danger-border` | — | `--mod-label-danger-border` |
+| `--nc-label-danger-bg-hover` | — | `--mod-label-danger-bg-hover` |
 
 ### Colors (Info)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-info-bg` | — | — |
-| `nc-label-info-color` | — | — |
-| `nc-label-info-border` | — | — |
-| `nc-label-info-bg-hover` | — | — |
+| `--nc-label-info-bg` | — | `--mod-label-info-bg` |
+| `--nc-label-info-color` | — | `--mod-label-info-color` |
+| `--nc-label-info-border` | — | `--mod-label-info-border` |
+| `--nc-label-info-bg-hover` | — | `--mod-label-info-bg-hover` |
 
 ### Solid Emphasis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-solid-default-bg` | — | — |
-| `nc-label-solid-default-color` | — | — |
+| `--nc-label-solid-default-bg` | — | `--mod-label-solid-default-bg` |
+| `--nc-label-solid-default-color` | — | `--mod-label-solid-default-color` |
 
 ### Outline Emphasis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-outline-border-width` | — | — |
+| `--nc-label-outline-border-width` | — | `--mod-label-outline-border-width` |
 
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-transition-duration` | — | — |
-| `nc-label-remove-size` | — | — |
-| `nc-label-remove-hover-bg` | — | — |
-| `nc-label-disabled-opacity` | — | — |
+| `--nc-label-transition-duration` | — | `--mod-label-transition-duration` |
+| `--nc-label-remove-size` | — | `--mod-label-remove-size` |
+| `--nc-label-remove-hover-bg` | — | `--mod-label-remove-hover-bg` |
+| `--nc-label-disabled-opacity` | — | `--mod-label-disabled-opacity` |
 
 ### Container (Gruppen-Layout)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-label-container-gap` | — | — |
-| `nc-label-gap` | — | — |
+| `--nc-label-container-gap` | — | `--mod-label-container-gap` |
+| `--nc-label-gap` | — | `--mod-label-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

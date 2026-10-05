@@ -44,32 +44,32 @@ Base classes: `nc-spinner`
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-spinner-color` | — | — |
-| `nc-spinner-track-color` | — | — |
+| `--nc-spinner-color` | — | `--mod-spinner-color` |
+| `--nc-spinner-track-color` | — | `--mod-spinner-track-color` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-spinner-duration` | — | — |
-| `nc-spinner-ease` | — | — |
+| `--nc-spinner-duration` | — | `--mod-spinner-duration` |
+| `--nc-spinner-ease` | — | `--mod-spinner-ease` |
 
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-spinner-size-xs` | — | — |
-| `nc-spinner-size-sm` | — | — |
-| `nc-spinner-size-md` | — | — |
-| `nc-spinner-size-lg` | — | — |
-| `nc-spinner-size-xl` | — | — |
+| `--nc-spinner-size-xs` | — | `--mod-spinner-size-xs` |
+| `--nc-spinner-size-sm` | — | `--mod-spinner-size-sm` |
+| `--nc-spinner-size-md` | — | `--mod-spinner-size-md` |
+| `--nc-spinner-size-lg` | — | `--mod-spinner-size-lg` |
+| `--nc-spinner-size-xl` | — | `--mod-spinner-size-xl` |
 
 ### Border Width
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-spinner-border-width-xs` | — | — |
-| `nc-spinner-border-width-sm` | — | — |
-| `nc-spinner-border-width-md` | — | — |
-| `nc-spinner-border-width-lg` | — | — |
-| `nc-spinner-border-width-xl` | — | — |
+| `--nc-spinner-border-width-xs` | — | `--mod-spinner-border-width-xs` |
+| `--nc-spinner-border-width-sm` | — | `--mod-spinner-border-width-sm` |
+| `--nc-spinner-border-width-md` | — | `--mod-spinner-border-width-md` |
+| `--nc-spinner-border-width-lg` | — | `--mod-spinner-border-width-lg` |
+| `--nc-spinner-border-width-xl` | — | `--mod-spinner-border-width-xl` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

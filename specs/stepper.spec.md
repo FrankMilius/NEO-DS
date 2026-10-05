@@ -55,16 +55,16 @@ Base classes: `nc-stepper`
 ### Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-stepper-button-size` | — | — |
-| `nc-stepper-button-radius` | — | — |
-| `nc-stepper-button-bg` | — | — |
-| `nc-stepper-button-bg-hover` | — | — |
-| `nc-stepper-button-color` | — | — |
+| `--nc-stepper-button-size` | — | `--mod-stepper-button-size` |
+| `--nc-stepper-button-radius` | — | `--mod-stepper-button-radius` |
+| `--nc-stepper-button-bg` | — | `--mod-stepper-button-bg` |
+| `--nc-stepper-button-bg-hover` | — | `--mod-stepper-button-bg-hover` |
+| `--nc-stepper-button-color` | — | `--mod-stepper-button-color` |
 
 ### Input
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-stepper-input-width` | — | — |
+| `--nc-stepper-input-width` | — | `--mod-stepper-input-width` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

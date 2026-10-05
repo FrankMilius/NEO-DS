@@ -26,6 +26,7 @@ Root element: `.nc-modal`
 - Scroll-Detection JS Pattern: const body = modal.querySelector('.nc-modal__body'); body.addEventListener('scroll', () => { modal.classList.toggle('is-scrolled-top', body.scrollTop > 0); modal.classList.toggle('is-scrolled-bottom', body.scrollTop + body.clientHeight < body.scrollHeight); });
 - Backdrop-Close JS Pattern: dialog.addEventListener('click', (e) => { if (e.target === dialog && dialog.dataset.backdropClose === 'true') dialog.close(); });
 - Mobile Bottom-Sheet: Unter sm-Breakpoint gleitet das Modal von unten herein (translate: 0 100% → 0 0), volle Breite, abgerundete obere Ecken (nc-dialog-mobile-radius). Max-Hoehe begrenzt (nc-dialog-mobile-max-height: 90vh).
+- Bottom-Sheet auf jeder Fensterbreite: Modifier nc-modal--sheet (Achse layout: sheet). Dieselben Regeln wie die automatische Umschaltung unter sm (SCSS-Mixin modal-bottom-sheet); die automatische Umschaltung bleibt. Entscheidung 02.10.2026.
 - Overlay-Konsistenz: nc-dialog-bg = surface-elevated (wie Dropdown/Popover). nc-dialog-shadow = elevation-modal (Level 3, hoechster Schatten). Dropdown: elevation-floating (Level 1). Popover: elevation-overlay (Level 2).
 - Danger-Intent: Header-Icon-Bereich und primaere Footer-Action uebernehmen danger-Markenfarbe. Visuelles Signal fuer destruktive Aktion.
 - Close-Button: <button class='nc-modal__close' aria-label='Schliessen'>. 36px Target, focus-visible Ring.
@@ -60,6 +61,14 @@ Absicht — default (neutral, informativ), danger (destruktive Aktion wie Loesch
 | default | — |  |
 | danger | `.nc-modal--danger` |  |
 
+### Layout (`layout`)
+Darstellung — dialog (zentriert; unter dem sm-Breakpoint des Fensters automatisch Bottom-Sheet), sheet (Bottom-Sheet auf jeder Fensterbreite, nc-modal--sheet). Entscheidung 02.10.2026.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| dialog | — |  |
+| sheet | `.nc-modal--sheet` |  |
+
 ## States
 Supported: `default`, `open`
 
@@ -71,63 +80,63 @@ Base classes: `nc-modal`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-max-width` | — | — |
-| `nc-dialog-max-height` | — | — |
-| `nc-dialog-padding` | — | — |
-| `nc-dialog-radius` | — | — |
-| `nc-dialog-bg` | — | — |
-| `nc-dialog-shadow` | — | — |
-| `nc-dialog-overlay-bg` | — | — |
-| `nc-dialog-section-gap` | — | — |
+| `--nc-dialog-max-width` | — | `--mod-dialog-max-width` |
+| `--nc-dialog-max-height` | — | `--mod-dialog-max-height` |
+| `--nc-dialog-padding` | — | `--mod-dialog-padding` |
+| `--nc-dialog-radius` | — | `--mod-dialog-radius` |
+| `--nc-dialog-bg` | — | `--mod-dialog-bg` |
+| `--nc-dialog-shadow` | — | `--mod-dialog-shadow` |
+| `--nc-dialog-overlay-bg` | — | `--mod-dialog-overlay-bg` |
+| `--nc-dialog-section-gap` | — | `--mod-dialog-section-gap` |
 
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-title-font-size` | — | — |
-| `nc-dialog-title-font-weight` | — | — |
-| `nc-dialog-title-color` | — | — |
-| `nc-dialog-header-gap` | — | — |
-| `nc-dialog-header-border-color` | — | — |
+| `--nc-dialog-title-font-size` | — | `--mod-dialog-title-font-size` |
+| `--nc-dialog-title-font-weight` | — | `--mod-dialog-title-font-weight` |
+| `--nc-dialog-title-color` | — | `--mod-dialog-title-color` |
+| `--nc-dialog-header-gap` | — | `--mod-dialog-header-gap` |
+| `--nc-dialog-header-border-color` | — | `--mod-dialog-header-border-color` |
 
 ### Body
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-description-font-size` | — | — |
-| `nc-dialog-description-color` | — | — |
+| `--nc-dialog-description-font-size` | — | `--mod-dialog-description-font-size` |
+| `--nc-dialog-description-color` | — | `--mod-dialog-description-color` |
 
 ### Footer
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-footer-gap` | — | — |
-| `nc-dialog-footer-border-color` | — | — |
+| `--nc-dialog-footer-gap` | — | `--mod-dialog-footer-gap` |
+| `--nc-dialog-footer-border-color` | — | `--mod-dialog-footer-border-color` |
 
 ### Close Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-close-size` | — | — |
-| `nc-dialog-close-radius` | — | — |
-| `nc-dialog-close-bg` | — | — |
-| `nc-dialog-close-bg-hover` | — | — |
-| `nc-dialog-close-icon-size` | — | — |
+| `--nc-dialog-close-size` | — | `--mod-dialog-close-size` |
+| `--nc-dialog-close-radius` | — | `--mod-dialog-close-radius` |
+| `--nc-dialog-close-bg` | — | `--mod-dialog-close-bg` |
+| `--nc-dialog-close-bg-hover` | — | `--mod-dialog-close-bg-hover` |
+| `--nc-dialog-close-icon-size` | — | `--mod-dialog-close-icon-size` |
 
 ### Danger Intent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-danger-icon-color` | — | — |
-| `nc-dialog-danger-action-bg` | — | — |
-| `nc-dialog-danger-action-color` | — | — |
+| `--nc-dialog-danger-icon-color` | — | `--mod-dialog-danger-icon-color` |
+| `--nc-dialog-danger-action-bg` | — | `--mod-dialog-danger-action-bg` |
+| `--nc-dialog-danger-action-color` | — | `--mod-dialog-danger-action-color` |
 
 ### Scroll Borders
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-header-border-color` | — | — |
-| `nc-dialog-footer-border-color` | — | — |
+| `--nc-dialog-header-border-color` | — | `--mod-dialog-header-border-color` |
+| `--nc-dialog-footer-border-color` | — | `--mod-dialog-footer-border-color` |
 
 ### Mobile Bottom-Sheet
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-dialog-mobile-radius` | — | — |
-| `nc-dialog-mobile-max-height` | — | — |
+| `--nc-dialog-mobile-radius` | — | `--mod-dialog-mobile-radius` |
+| `--nc-dialog-mobile-max-height` | — | `--mod-dialog-mobile-max-height` |
 
 ## Keyboard Interactions
 | Key | Action | Notes |
@@ -164,7 +173,7 @@ Derived from anatomy for potential `<nc-modal>` custom element:
 
 ```js
 class NcModal extends HTMLElement {
-  static observedAttributes = ['size', 'content', 'intent'];
+  static observedAttributes = ['size', 'content', 'intent', 'layout'];
   // Slots: <slot name="body">
 }
 ```

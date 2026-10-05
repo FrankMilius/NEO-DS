@@ -431,9 +431,26 @@
       "--mod-input-transition-duration"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "clear-input",
+      "note": "Auf dem Loeschknopf (.nc-input__clear): leert das Feld, Fokus zurueck ins Feld. Nativer Klick des <button>."
+    },
+    "Space": {
+      "action": "clear-input",
+      "note": "Wie Enter."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "input-clear": {
+      "bubbles": true,
+      "detail": {
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn der Loeschknopf ein gefuelltes Feld leert. Zusaetzlich feuert das Feld ein natives input-Ereignis."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

@@ -66,49 +66,49 @@ Base classes: `nc-fieldset`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-border-width` | — | — |
-| `nc-fieldset-border-color` | — | — |
-| `nc-fieldset-border-radius` | — | — |
-| `nc-fieldset-padding` | — | — |
-| `nc-fieldset-gap` | — | — |
+| `--nc-fieldset-border-width` | — | `--mod-fieldset-border-width` |
+| `--nc-fieldset-border-color` | — | `--mod-fieldset-border-color` |
+| `--nc-fieldset-border-radius` | — | `--mod-fieldset-border-radius` |
+| `--nc-fieldset-padding` | — | `--mod-fieldset-padding` |
+| `--nc-fieldset-gap` | — | `--mod-fieldset-gap` |
 
 ### Legend
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-legend-size` | — | — |
-| `nc-fieldset-legend-weight` | — | — |
-| `nc-fieldset-legend-color` | — | — |
-| `nc-fieldset-legend-padding` | — | — |
+| `--nc-fieldset-legend-size` | — | `--mod-fieldset-legend-size` |
+| `--nc-fieldset-legend-weight` | — | `--mod-fieldset-legend-weight` |
+| `--nc-fieldset-legend-color` | — | `--mod-fieldset-legend-color` |
+| `--nc-fieldset-legend-padding` | — | `--mod-fieldset-legend-padding` |
 
 ### Helper-Text
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-helper-size` | — | — |
-| `nc-fieldset-helper-color` | — | — |
-| `nc-fieldset-helper-margin-top` | — | — |
+| `--nc-fieldset-helper-size` | — | `--mod-fieldset-helper-size` |
+| `--nc-fieldset-helper-color` | — | `--mod-fieldset-helper-color` |
+| `--nc-fieldset-helper-margin-top` | — | `--mod-fieldset-helper-margin-top` |
 
 ### Card-Variante
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-card-bg` | — | — |
-| `nc-fieldset-card-shadow` | — | — |
+| `--nc-fieldset-card-bg` | — | `--mod-fieldset-card-bg` |
+| `--nc-fieldset-card-shadow` | — | `--mod-fieldset-card-shadow` |
 
 ### Density Compact
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-padding-compact` | — | — |
-| `nc-fieldset-gap-compact` | — | — |
+| `--nc-fieldset-padding-compact` | — | `--mod-fieldset-padding-compact` |
+| `--nc-fieldset-gap-compact` | — | `--mod-fieldset-gap-compact` |
 
 ### Density Loose
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-padding-loose` | — | — |
-| `nc-fieldset-gap-loose` | — | — |
+| `--nc-fieldset-padding-loose` | — | `--mod-fieldset-padding-loose` |
+| `--nc-fieldset-gap-loose` | — | `--mod-fieldset-gap-loose` |
 
 ### Required-Indikator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-fieldset-required-color` | — | — |
+| `--nc-fieldset-required-color` | — | `--mod-fieldset-required-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

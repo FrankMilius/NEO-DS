@@ -72,95 +72,95 @@ Base classes: `nc-chip`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-height-sm` | — | — |
-| `nc-chip-height-md` | — | — |
-| `nc-chip-height-lg` | — | — |
-| `nc-chip-padding-x` | — | — |
-| `nc-chip-padding-y` | — | — |
-| `nc-chip-radius` | — | — |
+| `--nc-chip-height-sm` | — | `--mod-chip-height-sm` |
+| `--nc-chip-height-md` | — | `--mod-chip-height-md` |
+| `--nc-chip-height-lg` | — | `--mod-chip-height-lg` |
+| `--nc-chip-padding-x` | — | `--mod-chip-padding-x` |
+| `--nc-chip-padding-y` | — | `--mod-chip-padding-y` |
+| `--nc-chip-radius` | — | `--mod-chip-radius` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-font-size` | — | — |
-| `nc-chip-font-size-sm` | — | — |
-| `nc-chip-font-size-lg` | — | — |
-| `nc-chip-font-weight` | — | — |
+| `--nc-chip-font-size` | — | `--mod-chip-font-size` |
+| `--nc-chip-font-size-sm` | — | `--mod-chip-font-size-sm` |
+| `--nc-chip-font-size-lg` | — | `--mod-chip-font-size-lg` |
+| `--nc-chip-font-weight` | — | `--mod-chip-font-weight` |
 
 ### Default Colors (Filled)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-default-bg` | — | — |
-| `nc-chip-default-color` | — | — |
-| `nc-chip-default-border` | — | — |
-| `nc-chip-default-bg-hover` | — | — |
+| `--nc-chip-default-bg` | — | `--mod-chip-default-bg` |
+| `--nc-chip-default-color` | — | `--mod-chip-default-color` |
+| `--nc-chip-default-border` | — | `--mod-chip-default-border` |
+| `--nc-chip-default-bg-hover` | — | `--mod-chip-default-bg-hover` |
 
 ### Outline Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-outline-bg` | — | — |
-| `nc-chip-outline-color` | — | — |
-| `nc-chip-outline-border` | — | — |
-| `nc-chip-outline-bg-hover` | — | — |
+| `--nc-chip-outline-bg` | — | `--mod-chip-outline-bg` |
+| `--nc-chip-outline-color` | — | `--mod-chip-outline-color` |
+| `--nc-chip-outline-border` | — | `--mod-chip-outline-border` |
+| `--nc-chip-outline-bg-hover` | — | `--mod-chip-outline-bg-hover` |
 
 ### Ghost Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-ghost-bg` | — | — |
-| `nc-chip-ghost-color` | — | — |
-| `nc-chip-ghost-border` | — | — |
-| `nc-chip-ghost-bg-hover` | — | — |
+| `--nc-chip-ghost-bg` | — | `--mod-chip-ghost-bg` |
+| `--nc-chip-ghost-color` | — | `--mod-chip-ghost-color` |
+| `--nc-chip-ghost-border` | — | `--mod-chip-ghost-border` |
+| `--nc-chip-ghost-bg-hover` | — | `--mod-chip-ghost-bg-hover` |
 
 ### Selected
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-selected-bg` | — | — |
-| `nc-chip-selected-color` | — | — |
-| `nc-chip-selected-border` | — | — |
-| `nc-chip-selected-bg-hover` | — | — |
+| `--nc-chip-selected-bg` | — | `--mod-chip-selected-bg` |
+| `--nc-chip-selected-color` | — | `--mod-chip-selected-color` |
+| `--nc-chip-selected-border` | — | `--mod-chip-selected-border` |
+| `--nc-chip-selected-bg-hover` | — | `--mod-chip-selected-bg-hover` |
 
 ### Elements
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-icon-size` | — | — |
-| `nc-chip-avatar-size` | — | — |
-| `nc-chip-remove-size` | — | — |
-| `nc-chip-padding-avatar` | — | — |
+| `--nc-chip-icon-size` | — | `--mod-chip-icon-size` |
+| `--nc-chip-avatar-size` | — | `--mod-chip-avatar-size` |
+| `--nc-chip-remove-size` | — | `--mod-chip-remove-size` |
+| `--nc-chip-padding-avatar` | — | `--mod-chip-padding-avatar` |
 
 ### Count Badge
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-count-font-size` | — | — |
-| `nc-chip-count-height` | — | — |
-| `nc-chip-count-min-width` | — | — |
-| `nc-chip-count-padding-x` | — | — |
-| `nc-chip-count-bg` | — | — |
-| `nc-chip-count-radius` | — | — |
+| `--nc-chip-count-font-size` | — | `--mod-chip-count-font-size` |
+| `--nc-chip-count-height` | — | `--mod-chip-count-height` |
+| `--nc-chip-count-min-width` | — | `--mod-chip-count-min-width` |
+| `--nc-chip-count-padding-x` | — | `--mod-chip-count-padding-x` |
+| `--nc-chip-count-bg` | — | `--mod-chip-count-bg` |
+| `--nc-chip-count-radius` | — | `--mod-chip-count-radius` |
 
 ### Touch Target
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-touch-target-min` | — | — |
+| `--nc-chip-touch-target-min` | — | `--mod-chip-touch-target-min` |
 
 ### Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-disabled-bg` | — | — |
-| `nc-chip-disabled-color` | — | — |
-| `nc-chip-disabled-border` | — | — |
-| `nc-chip-opacity-disabled` | — | — |
+| `--nc-chip-disabled-bg` | — | `--mod-chip-disabled-bg` |
+| `--nc-chip-disabled-color` | — | `--mod-chip-disabled-color` |
+| `--nc-chip-disabled-border` | — | `--mod-chip-disabled-border` |
+| `--nc-chip-opacity-disabled` | — | `--mod-chip-opacity-disabled` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-gap` | — | — |
-| `nc-chip-transition-duration` | — | — |
-| `nc-chip-scale-active` | — | — |
+| `--nc-chip-gap` | — | `--mod-chip-gap` |
+| `--nc-chip-transition-duration` | — | `--mod-chip-transition-duration` |
+| `--nc-chip-scale-active` | — | `--mod-chip-scale-active` |
 
 ### Group
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-chip-group-gap` | — | — |
+| `--nc-chip-group-gap` | — | `--mod-chip-group-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

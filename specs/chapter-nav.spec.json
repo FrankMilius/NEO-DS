@@ -1,0 +1,210 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "chapter-nav",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "07-organisms",
+  "tags": [
+    "navigation",
+    "anchor",
+    "sticky",
+    "long-page",
+    "editorial"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-chapter-nav",
+    "slots": [
+      {
+        "name": "Leiste, quer scrollbar",
+        "selector": ".nc-chapter-nav__inner",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "Kapitelverweis",
+        "selector": ".nc-chapter-nav__link",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "Verzeichnis am Seitenanfang",
+        "selector": ".nc-chapter-toc",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "Nummerierte Kapitelliste",
+        "selector": ".nc-chapter-toc__list",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "Sprungziel am Block",
+        "selector": ".nc-chapter-anchor",
+        "required": true,
+        "description": null
+      }
+    ],
+    "notes": [
+      "Dieses Recipe schrieb bis zum 24.08.2026 root als Zeichenkette und die Slots ohne fuehrenden Punkt — anders als alle 130 uebrigen. Damit war das Bauteil fuer jede Pruefung unsichtbar: die Verwendungsmessung sah null Zeugen, obwohl es live auf den Landing Pages steht, und die Markup-Ernte fand keinen Wurzelselektor.",
+      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapter-nav; das ist eine eigene Unstimmigkeit und steht im BACKLOG."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "form": {
+      "label": "Form",
+      "description": "Genau eine Form je Seite. Leiste UND Verzeichnis gleichzeitig sagen dasselbe zweimal untereinander und ueberladen die Seite — deshalb keine Kombination, sondern eine Wahl.",
+      "values": [
+        {
+          "value": "leiste",
+          "cssModifier": null,
+          "default": false,
+          "label": "leiste"
+        },
+        {
+          "value": "verzeichnis",
+          "cssModifier": "nc-chapter-toc",
+          "default": false,
+          "label": "verzeichnis"
+        },
+        {
+          "value": "keine",
+          "cssModifier": null,
+          "default": false,
+          "label": "keine"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [],
+    "interactive": null,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-chapter-nav",
+      "nc-chapter-toc"
+    ],
+    "tokenGroups": {
+      "Kapitelleiste": [
+        {
+          "token": "--nc-chapter-nav-bg"
+        },
+        {
+          "token": "--nc-chapter-nav-border"
+        },
+        {
+          "token": "--nc-chapter-nav-gap"
+        },
+        {
+          "token": "--nc-chapter-nav-padding-block"
+        },
+        {
+          "token": "--nc-chapter-nav-padding"
+        },
+        {
+          "token": "--nc-chapter-nav-family"
+        },
+        {
+          "token": "--nc-chapter-nav-size"
+        },
+        {
+          "token": "--nc-chapter-nav-weight"
+        },
+        {
+          "token": "--nc-chapter-nav-color"
+        },
+        {
+          "token": "--nc-chapter-nav-color-active"
+        },
+        {
+          "token": "--nc-chapter-nav-marker"
+        },
+        {
+          "token": "--nc-chapter-nav-marker-height"
+        },
+        {
+          "token": "--nc-chapter-nav-top"
+        }
+      ],
+      "Verzeichnis": [
+        {
+          "token": "--nc-chapter-nav-toc-bg"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-border"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-radius"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-padding"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-gap"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-title-size"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-title-color"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-size"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-color"
+        },
+        {
+          "token": "--nc-chapter-nav-toc-number-color"
+        }
+      ],
+      "Sprungziel": [
+        {
+          "token": "--nc-chapter-nav-scroll-margin"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-chapter-nav-bg",
+      "--mod-chapter-nav-border",
+      "--mod-chapter-nav-gap",
+      "--mod-chapter-nav-padding-block",
+      "--mod-chapter-nav-padding",
+      "--mod-chapter-nav-family",
+      "--mod-chapter-nav-size",
+      "--mod-chapter-nav-weight",
+      "--mod-chapter-nav-color",
+      "--mod-chapter-nav-color-active",
+      "--mod-chapter-nav-marker",
+      "--mod-chapter-nav-marker-height",
+      "--mod-chapter-nav-top",
+      "--mod-chapter-nav-toc-bg",
+      "--mod-chapter-nav-toc-border",
+      "--mod-chapter-nav-toc-radius",
+      "--mod-chapter-nav-toc-padding",
+      "--mod-chapter-nav-toc-gap",
+      "--mod-chapter-nav-toc-title-size",
+      "--mod-chapter-nav-toc-title-color",
+      "--mod-chapter-nav-toc-size",
+      "--mod-chapter-nav-toc-color",
+      "--mod-chapter-nav-toc-number-color",
+      "--mod-chapter-nav-scroll-margin"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": null,
+    "contrastTarget": null,
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": null
+}

@@ -36,26 +36,26 @@ Base classes: `nc-kbd`
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-kbd-bg` | — | — |
-| `nc-kbd-color` | — | — |
-| `nc-kbd-border` | — | — |
+| `--nc-kbd-bg` | — | `--mod-kbd-bg` |
+| `--nc-kbd-color` | — | `--mod-kbd-color` |
+| `--nc-kbd-border` | — | `--mod-kbd-border` |
 
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-kbd-border-width` | — | — |
-| `nc-kbd-radius` | — | — |
-| `nc-kbd-padding-x` | — | — |
-| `nc-kbd-padding-y` | — | — |
-| `nc-kbd-shadow` | — | — |
+| `--nc-kbd-border-width` | — | `--mod-kbd-border-width` |
+| `--nc-kbd-radius` | — | `--mod-kbd-radius` |
+| `--nc-kbd-padding-x` | — | `--mod-kbd-padding-x` |
+| `--nc-kbd-padding-y` | — | `--mod-kbd-padding-y` |
+| `--nc-kbd-shadow` | — | `--mod-kbd-shadow` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-kbd-font-family` | — | — |
-| `nc-kbd-font-size` | — | — |
-| `nc-kbd-font-weight` | — | — |
-| `nc-kbd-line-height` | — | — |
+| `--nc-kbd-font-family` | — | `--mod-kbd-font-family` |
+| `--nc-kbd-font-size` | — | `--mod-kbd-font-size` |
+| `--nc-kbd-font-weight` | — | `--mod-kbd-font-weight` |
+| `--nc-kbd-line-height` | — | `--mod-kbd-line-height` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

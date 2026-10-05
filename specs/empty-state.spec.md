@@ -59,29 +59,29 @@ Base classes: `nc-empty-state`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-empty-state-padding` | — | — |
-| `nc-empty-state-gap` | — | — |
-| `nc-empty-state-max-width` | — | — |
+| `--nc-empty-state-padding` | — | `--mod-empty-state-padding` |
+| `--nc-empty-state-gap` | — | `--mod-empty-state-gap` |
+| `--nc-empty-state-max-width` | — | `--mod-empty-state-max-width` |
 
 ### Icon
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-empty-state-icon-size` | — | — |
-| `nc-empty-state-icon-color` | — | — |
+| `--nc-empty-state-icon-size` | — | `--mod-empty-state-icon-size` |
+| `--nc-empty-state-icon-color` | — | `--mod-empty-state-icon-color` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-empty-state-title-size` | — | — |
-| `nc-empty-state-title-weight` | — | — |
-| `nc-empty-state-title-color` | — | — |
-| `nc-empty-state-desc-size` | — | — |
-| `nc-empty-state-desc-color` | — | — |
+| `--nc-empty-state-title-size` | — | `--mod-empty-state-title-size` |
+| `--nc-empty-state-title-weight` | — | `--mod-empty-state-title-weight` |
+| `--nc-empty-state-title-color` | — | `--mod-empty-state-title-color` |
+| `--nc-empty-state-desc-size` | — | `--mod-empty-state-desc-size` |
+| `--nc-empty-state-desc-color` | — | `--mod-empty-state-desc-color` |
 
 ### Action
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-empty-state-action-gap` | — | — |
+| `--nc-empty-state-action-gap` | — | `--mod-empty-state-action-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

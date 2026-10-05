@@ -1,51 +1,45 @@
 # carousel Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.0.0 | Status: stable | Layer: molecule
 
-Tags: `display`, `interactive`, `slider`
+Tags: `layout`, `media`, `carousel`
 
 ## Anatomy
-Root element: `.carousel`
+Root element: `.nc-carousel`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| slides-wrapper | `.carousel-slides-wrapper` | Yes | — |
-| bottom-nav | `.carousel-bottom-nav-wrapper` | Yes | — |
-| line-wrapper | `.carousel-line-wrapper` | No | — |
-| navigations | `.carousel-navigations-wrapper` | No | — |
+| track | `.nc-carousel__track` | Yes | Waagerechte Spur mit scroll-snap. Jedes direkte Kind rastet am Anfang ein. |
+| controls | `.nc-carousel__controls` | No | Blaetter-Schaltflaechen, rechtsbuendig unter der Spur. |
 
 ### DOM Notes
-- Slides: ul/li, flex nowrap, dynamische Breite via carousel-slide-width-{1-12}.
-- Progress-Lines: 2px Hoehe, active-Line 112px breit, autoplay mit CSS-Animation.
-- Navigation-Buttons: 32×32, icon-only, :disabled state, focus-ring.
+- Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebeneinander, unabhaengig von ihrer Zahl.
+- Spaltenbreite minmax(360px, 1fr), unter 720px minmax(260px, 85vw). Der angeschnittene Rest der naechsten Karte zeigt, dass es weitergeht.
+- scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern.
 
 ## Variants
-### Variant (`variant`)
-Variante — default, autoplay
+### Medien-Variante (`media`)
+Fuer randlose Inhalte: nimmt die Polsterung heraus und gibt die Spaltenbreite frei, statt sie auf 360px zu zwingen.
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
-| autoplay | — |  |
+| media | `.nc-carousel--media` |  |
 
 ## States
-Supported: `default`, `disabled`
-
-- **disabled**: 
+Supported: `default`
 
 ## CSS Token API
-Base classes: `carousel`
+Base classes: `nc-carousel`
 
-### Base
+### Layout
 ## Accessibility
-Contrast Target: WCAG AA normal text (4.5:1)
-
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-carousel>` custom element:
 
 ```js
 class NcCarousel extends HTMLElement {
-  static observedAttributes = ['variant'];
-  // Slots: <slot name="slides-wrapper">, <slot name="bottom-nav">
+  static observedAttributes = ['media'];
+  // Slots: <slot name="track">
 }
 ```
 

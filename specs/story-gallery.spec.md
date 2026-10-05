@@ -26,30 +26,30 @@ Base classes: `nc-story-gallery`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-story-gallery-card-height` | — | — |
-| `nc-story-gallery-gap` | — | — |
-| `nc-story-gallery-radius` | — | — |
-| `nc-story-gallery-headline-size` | — | — |
+| `--nc-story-gallery-card-height` | — | `--mod-story-gallery-card-height` |
+| `--nc-story-gallery-gap` | — | `--mod-story-gallery-gap` |
+| `--nc-story-gallery-radius` | — | `--mod-story-gallery-radius` |
+| `--nc-story-gallery-headline-size` | — | `--mod-story-gallery-headline-size` |
 
 ### Title
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-story-gallery-title-size` | — | — |
-| `nc-story-gallery-title-weight` | — | — |
-| `nc-story-gallery-title-color` | — | — |
+| `--nc-story-gallery-title-size` | — | `--mod-story-gallery-title-size` |
+| `--nc-story-gallery-title-weight` | — | `--mod-story-gallery-title-weight` |
+| `--nc-story-gallery-title-color` | — | `--mod-story-gallery-title-color` |
 
 ### Description
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-story-gallery-desc-size` | — | — |
-| `nc-story-gallery-desc-color` | — | — |
+| `--nc-story-gallery-desc-size` | — | `--mod-story-gallery-desc-size` |
+| `--nc-story-gallery-desc-color` | — | `--mod-story-gallery-desc-color` |
 
 ### Paddles
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-story-gallery-paddle-size` | — | — |
-| `nc-story-gallery-paddle-bg` | — | — |
-| `nc-story-gallery-paddle-shadow` | — | — |
+| `--nc-story-gallery-paddle-size` | — | `--mod-story-gallery-paddle-size` |
+| `--nc-story-gallery-paddle-bg` | — | `--mod-story-gallery-paddle-bg` |
+| `--nc-story-gallery-paddle-shadow` | — | `--mod-story-gallery-paddle-shadow` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -83,83 +83,83 @@ Base classes: `nc-gallery`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-height` | — | — |
-| `nc-gallery-min-height` | — | — |
-| `nc-gallery-max-height` | — | — |
-| `nc-gallery-padding-block` | — | — |
-| `nc-gallery-padding-inline` | — | — |
-| `nc-gallery-content-max-width` | — | — |
-| `nc-gallery-content-gap` | — | — |
-| `nc-gallery-content-align` | — | — |
+| `--nc-gallery-height` | — | `--mod-gallery-height` |
+| `--nc-gallery-min-height` | — | `--mod-gallery-min-height` |
+| `--nc-gallery-max-height` | — | `--mod-gallery-max-height` |
+| `--nc-gallery-padding-block` | — | `--mod-gallery-padding-block` |
+| `--nc-gallery-padding-inline` | — | `--mod-gallery-padding-inline` |
+| `--nc-gallery-content-max-width` | — | `--mod-gallery-content-max-width` |
+| `--nc-gallery-content-gap` | — | `--mod-gallery-content-gap` |
+| `--nc-gallery-content-align` | — | `--mod-gallery-content-align` |
 
 ### Overlay
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-overlay-start` | — | — |
-| `nc-gallery-overlay-end` | — | — |
-| `nc-gallery-overlay-direction` | — | — |
+| `--nc-gallery-overlay-start` | — | `--mod-gallery-overlay-start` |
+| `--nc-gallery-overlay-end` | — | `--mod-gallery-overlay-end` |
+| `--nc-gallery-overlay-direction` | — | `--mod-gallery-overlay-direction` |
 
 ### Title
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-title-size` | — | — |
-| `nc-gallery-title-weight` | — | — |
-| `nc-gallery-title-color` | — | — |
-| `nc-gallery-title-line-height` | — | — |
+| `--nc-gallery-title-size` | — | `--mod-gallery-title-size` |
+| `--nc-gallery-title-weight` | — | `--mod-gallery-title-weight` |
+| `--nc-gallery-title-color` | — | `--mod-gallery-title-color` |
+| `--nc-gallery-title-line-height` | — | `--mod-gallery-title-line-height` |
 
 ### Description
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-desc-size` | — | — |
-| `nc-gallery-desc-color` | — | — |
-| `nc-gallery-desc-max-width` | — | — |
-| `nc-gallery-desc-line-height` | — | — |
+| `--nc-gallery-desc-size` | — | `--mod-gallery-desc-size` |
+| `--nc-gallery-desc-color` | — | `--mod-gallery-desc-color` |
+| `--nc-gallery-desc-max-width` | — | `--mod-gallery-desc-max-width` |
+| `--nc-gallery-desc-line-height` | — | `--mod-gallery-desc-line-height` |
 
 ### Tag
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-tag-size` | — | — |
-| `nc-gallery-tag-weight` | — | — |
-| `nc-gallery-tag-bg` | — | — |
-| `nc-gallery-tag-color` | — | — |
-| `nc-gallery-tag-radius` | — | — |
-| `nc-gallery-tag-padding` | — | — |
+| `--nc-gallery-tag-size` | — | `--mod-gallery-tag-size` |
+| `--nc-gallery-tag-weight` | — | `--mod-gallery-tag-weight` |
+| `--nc-gallery-tag-bg` | — | `--mod-gallery-tag-bg` |
+| `--nc-gallery-tag-color` | — | `--mod-gallery-tag-color` |
+| `--nc-gallery-tag-radius` | — | `--mod-gallery-tag-radius` |
+| `--nc-gallery-tag-padding` | — | `--mod-gallery-tag-padding` |
 
 ### Logo
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-logo-max-height` | — | — |
-| `nc-gallery-logo-max-width` | — | — |
+| `--nc-gallery-logo-max-height` | — | `--mod-gallery-logo-max-height` |
+| `--nc-gallery-logo-max-width` | — | `--mod-gallery-logo-max-width` |
 
 ### Navigation Dots
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-dot-size` | — | — |
-| `nc-gallery-dot-gap` | — | — |
-| `nc-gallery-dot-color` | — | — |
-| `nc-gallery-dot-color-active` | — | — |
-| `nc-gallery-dot-radius` | — | — |
+| `--nc-gallery-dot-size` | — | `--mod-gallery-dot-size` |
+| `--nc-gallery-dot-gap` | — | `--mod-gallery-dot-gap` |
+| `--nc-gallery-dot-color` | — | `--mod-gallery-dot-color` |
+| `--nc-gallery-dot-color-active` | — | `--mod-gallery-dot-color-active` |
+| `--nc-gallery-dot-radius` | — | `--mod-gallery-dot-radius` |
 
 ### Paddles
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-paddle-size` | — | — |
-| `nc-gallery-paddle-bg` | — | — |
-| `nc-gallery-paddle-bg-hover` | — | — |
-| `nc-gallery-paddle-color` | — | — |
-| `nc-gallery-paddle-radius` | — | — |
+| `--nc-gallery-paddle-size` | — | `--mod-gallery-paddle-size` |
+| `--nc-gallery-paddle-bg` | — | `--mod-gallery-paddle-bg` |
+| `--nc-gallery-paddle-bg-hover` | — | `--mod-gallery-paddle-bg-hover` |
+| `--nc-gallery-paddle-color` | — | `--mod-gallery-paddle-color` |
+| `--nc-gallery-paddle-radius` | — | `--mod-gallery-paddle-radius` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-animation-duration` | — | — |
-| `nc-gallery-animation-easing` | — | — |
+| `--nc-gallery-animation-duration` | — | `--mod-gallery-animation-duration` |
+| `--nc-gallery-animation-easing` | — | `--mod-gallery-animation-easing` |
 
 ### Autoplay
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-gallery-autoplay-interval` | — | — |
-| `nc-gallery-autoplay-progress-color` | — | — |
+| `--nc-gallery-autoplay-interval` | — | `--mod-gallery-autoplay-interval` |
+| `--nc-gallery-autoplay-progress-color` | — | `--mod-gallery-autoplay-progress-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

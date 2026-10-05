@@ -26,11 +26,11 @@ Base classes: `nc-parallax-bg`
 ### Core
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-parallax-radius` | — | — |
-| `nc-parallax-gap` | — | — |
-| `nc-parallax-bg` | — | — |
-| `nc-parallax-square-color` | — | — |
-| `nc-parallax-opacity` | — | — |
+| `--nc-parallax-radius` | — | `--mod-parallax-radius` |
+| `--nc-parallax-gap` | — | `--mod-parallax-gap` |
+| `--nc-parallax-bg` | — | `--mod-parallax-bg` |
+| `--nc-parallax-square-color` | — | `--mod-parallax-square-color` |
+| `--nc-parallax-opacity` | — | `--mod-parallax-opacity` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

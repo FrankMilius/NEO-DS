@@ -50,9 +50,9 @@ Base classes: `nc-form-section`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-section-gap` | — | — |
-| `nc-form-gap` | — | — |
-| `nc-form-divider-color` | — | — |
+| `--nc-form-section-gap` | — | `--mod-form-section-gap` |
+| `--nc-form-gap` | — | `--mod-form-gap` |
+| `--nc-form-divider-color` | — | `--mod-form-divider-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

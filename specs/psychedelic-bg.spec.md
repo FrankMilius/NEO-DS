@@ -12,6 +12,7 @@ Root element: `.nc-psychedelic-bg`
 
 ### DOM Notes
 - Canvas mit position:absolute fuellt den Container. requestAnimationFrame fuer 60fps Rendering. ResizeObserver passt Canvas-Groesse automatisch an.
+- Stand 25.08.2026: beschrieben, nicht gebaut — keine SCSS-Datei, keine Zeile CSS. Status `experimental` trifft das bereits. Bewusst behalten (Entscheidung 25.08.).
 
 ## Variants
 ### Form (`shape`)
@@ -68,55 +69,55 @@ Base classes: `nc-psychedelic-bg`
 ### Muster
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-line-width` | — | — |
-| `nc-psychedelic-bg-frequency` | — | — |
-| `nc-psychedelic-bg-amplitude` | — | — |
-| `nc-psychedelic-bg-speed` | — | — |
-| `nc-psychedelic-bg-phase` | — | — |
+| `--nc-psychedelic-bg-line-width` | — | `--mod-psychedelic-bg-line-width` |
+| `--nc-psychedelic-bg-frequency` | — | `--mod-psychedelic-bg-frequency` |
+| `--nc-psychedelic-bg-amplitude` | — | `--mod-psychedelic-bg-amplitude` |
+| `--nc-psychedelic-bg-speed` | — | `--mod-psychedelic-bg-speed` |
+| `--nc-psychedelic-bg-phase` | — | `--mod-psychedelic-bg-phase` |
 
 ### Dichte
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-density` | — | — |
-| `nc-psychedelic-bg-gap` | — | — |
-| `nc-psychedelic-bg-scale` | — | — |
+| `--nc-psychedelic-bg-density` | — | `--mod-psychedelic-bg-density` |
+| `--nc-psychedelic-bg-gap` | — | `--mod-psychedelic-bg-gap` |
+| `--nc-psychedelic-bg-scale` | — | `--mod-psychedelic-bg-scale` |
 
 ### Maus-Interaktion
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-mouse-radius` | — | — |
-| `nc-psychedelic-bg-mouse-strength` | — | — |
-| `nc-psychedelic-bg-mouse-smoothing` | — | — |
+| `--nc-psychedelic-bg-mouse-radius` | — | `--mod-psychedelic-bg-mouse-radius` |
+| `--nc-psychedelic-bg-mouse-strength` | — | `--mod-psychedelic-bg-mouse-strength` |
+| `--nc-psychedelic-bg-mouse-smoothing` | — | `--mod-psychedelic-bg-mouse-smoothing` |
 
 ### Einfarbig
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-color` | — | — |
-| `nc-psychedelic-bg-bg-color` | — | — |
-| `nc-psychedelic-bg-opacity` | — | — |
+| `--nc-psychedelic-bg-color` | — | `--mod-psychedelic-bg-color` |
+| `--nc-psychedelic-bg-bg-color` | — | `--mod-psychedelic-bg-bg-color` |
+| `--nc-psychedelic-bg-opacity` | — | `--mod-psychedelic-bg-opacity` |
 
 ### Farbpalette
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-palette` | — | — |
-| `nc-psychedelic-bg-bg-color` | — | — |
-| `nc-psychedelic-bg-opacity` | — | — |
+| `--nc-psychedelic-bg-palette` | — | `--mod-psychedelic-bg-palette` |
+| `--nc-psychedelic-bg-bg-color` | — | `--mod-psychedelic-bg-bg-color` |
+| `--nc-psychedelic-bg-opacity` | — | `--mod-psychedelic-bg-opacity` |
 
 ### Farbverlauf
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-gradient-start` | — | — |
-| `nc-psychedelic-bg-gradient-end` | — | — |
-| `nc-psychedelic-bg-bg-color` | — | — |
-| `nc-psychedelic-bg-opacity` | — | — |
+| `--nc-psychedelic-bg-gradient-start` | — | `--mod-psychedelic-bg-gradient-start` |
+| `--nc-psychedelic-bg-gradient-end` | — | `--mod-psychedelic-bg-gradient-end` |
+| `--nc-psychedelic-bg-bg-color` | — | `--mod-psychedelic-bg-bg-color` |
+| `--nc-psychedelic-bg-opacity` | — | `--mod-psychedelic-bg-opacity` |
 
 ### Region-Koordinaten
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-psychedelic-bg-region-x1` | — | — |
-| `nc-psychedelic-bg-region-y1` | — | — |
-| `nc-psychedelic-bg-region-x2` | — | — |
-| `nc-psychedelic-bg-region-y2` | — | — |
+| `--nc-psychedelic-bg-region-x1` | — | `--mod-psychedelic-bg-region-x1` |
+| `--nc-psychedelic-bg-region-y1` | — | `--mod-psychedelic-bg-region-y1` |
+| `--nc-psychedelic-bg-region-x2` | — | `--mod-psychedelic-bg-region-x2` |
+| `--nc-psychedelic-bg-region-y2` | — | `--mod-psychedelic-bg-region-y2` |
 
 ## Accessibility
 Contrast Target: Dekoratives Element, kein Kontrastziel

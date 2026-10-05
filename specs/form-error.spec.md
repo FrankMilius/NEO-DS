@@ -45,15 +45,25 @@ Base classes: `nc-form-error`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-error-font-size` | — | — |
-| `nc-form-error-font-weight` | — | — |
-| `nc-form-error-icon-size` | — | — |
-| `nc-form-error-gap` | — | — |
+| `--nc-form-error-font-size` | — | `--mod-form-error-font-size` |
+| `--nc-form-error-font-weight` | — | `--mod-form-error-font-weight` |
+| `--nc-form-error-icon-size` | — | `--mod-form-error-icon-size` |
+| `--nc-form-error-gap` | — | `--mod-form-error-gap` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-error-color` | — | — |
+| `--nc-form-error-color` | — | `--mod-form-error-color` |
+
+### Severity Warning
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-form-error-warning-color` | — | `--mod-form-error-warning-color` |
+
+### Severity Success
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-form-error-success-color` | — | `--mod-form-error-success-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

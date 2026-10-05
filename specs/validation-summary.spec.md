@@ -43,11 +43,11 @@ Base classes: `nc-validation-summary`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-validation-summary-bg` | — | — |
-| `nc-validation-summary-border` | — | — |
-| `nc-validation-summary-color` | — | — |
-| `nc-validation-summary-radius` | — | — |
-| `nc-validation-summary-padding` | — | — |
+| `--nc-validation-summary-bg` | — | `--mod-validation-summary-bg` |
+| `--nc-validation-summary-border` | — | `--mod-validation-summary-border` |
+| `--nc-validation-summary-color` | — | `--mod-validation-summary-color` |
+| `--nc-validation-summary-radius` | — | `--mod-validation-summary-radius` |
+| `--nc-validation-summary-padding` | — | `--mod-validation-summary-padding` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -80,42 +80,57 @@ Base classes: `nc-select`
 ### Indicator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-select-indicator-size` | — | — |
-| `nc-select-indicator-color` | — | — |
+| `--nc-select-indicator-size` | — | `--mod-select-indicator-size` |
+| `--nc-select-indicator-color` | — | `--mod-select-indicator-color` |
 
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-select-padding-right` | — | — |
+| `--nc-select-padding-right` | — | `--mod-select-padding-right` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-bg` | — | — |
-| `nc-form-control-border-color` | — | — |
-| `nc-form-control-color` | — | — |
+| `--nc-form-control-bg` | — | `--mod-form-control-bg` |
+| `--nc-form-control-border-color` | — | `--mod-form-control-border-color` |
+| `--nc-form-control-color` | — | `--mod-form-control-color` |
 
 ### Colors (Filled)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-filled-bg` | — | — |
-| `nc-form-control-filled-border-bottom` | — | — |
-| `nc-form-control-filled-color` | — | — |
+| `--nc-form-control-filled-bg` | — | `--mod-form-control-filled-bg` |
+| `--nc-form-control-filled-border-bottom` | — | `--mod-form-control-filled-border-bottom` |
+| `--nc-form-control-filled-color` | — | `--mod-form-control-filled-color` |
 
 ### Colors (Borderless)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-minimal-bg-hover` | — | — |
-| `nc-form-control-minimal-border-focus` | — | — |
+| `--nc-form-control-minimal-bg-hover` | — | `--mod-form-control-minimal-bg-hover` |
+| `--nc-form-control-minimal-border-focus` | — | `--mod-form-control-minimal-border-focus` |
 
 ### Optgroup
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-select-optgroup-font-weight` | — | — |
-| `nc-select-optgroup-padding-left` | — | — |
+| `--nc-select-optgroup-font-weight` | — | `--mod-select-optgroup-font-weight` |
+| `--nc-select-optgroup-padding-left` | — | `--mod-select-optgroup-padding-left` |
 
 ### Error
 ### Success
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Space` | open | Oeffnet die native Liste (.is-open am Wrapper, Chevron dreht). |
+| `Enter` | open | Wie Space (sofern die Liste geschlossen ist). |
+| `Alt+ArrowDown` | open | Oeffnet die native Liste. |
+| `F4` | open | Oeffnet die native Liste (Windows). |
+| `Escape` | close | Schliesst die Liste, .is-open entfaellt. |
+| `Tab` | close | Fokus verlaesst das Feld, .is-open entfaellt. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `change` | Yes | — |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 

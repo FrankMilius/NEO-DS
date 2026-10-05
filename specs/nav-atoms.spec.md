@@ -38,25 +38,25 @@ Base classes: `nc-nav__icon`
 ### Icon
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-atom-icon-size` | — | — |
-| `nc-nav-atom-icon-color` | — | — |
-| `nc-nav-atom-icon-stroke` | — | — |
+| `--nc-nav-atom-icon-size` | — | `--mod-nav-atom-icon-size` |
+| `--nc-nav-atom-icon-color` | — | `--mod-nav-atom-icon-color` |
+| `--nc-nav-atom-icon-stroke` | — | `--mod-nav-atom-icon-stroke` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-atom-label-size` | — | — |
-| `nc-nav-atom-label-weight` | — | — |
-| `nc-nav-atom-label-color` | — | — |
+| `--nc-nav-atom-label-size` | — | `--mod-nav-atom-label-size` |
+| `--nc-nav-atom-label-weight` | — | `--mod-nav-atom-label-weight` |
+| `--nc-nav-atom-label-color` | — | `--mod-nav-atom-label-color` |
 
 ### Badge Dot
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-atom-badge-size` | — | — |
-| `nc-nav-atom-badge-color` | — | — |
-| `nc-nav-atom-badge-offset` | — | — |
-| `nc-nav-atom-badge-ring-width` | — | — |
-| `nc-nav-atom-badge-ring-color` | — | — |
+| `--nc-nav-atom-badge-size` | — | `--mod-nav-atom-badge-size` |
+| `--nc-nav-atom-badge-color` | — | `--mod-nav-atom-badge-color` |
+| `--nc-nav-atom-badge-offset` | — | `--mod-nav-atom-badge-offset` |
+| `--nc-nav-atom-badge-ring-width` | — | `--mod-nav-atom-badge-ring-width` |
+| `--nc-nav-atom-badge-ring-color` | — | `--mod-nav-atom-badge-ring-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

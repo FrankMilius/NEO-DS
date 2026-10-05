@@ -123,118 +123,133 @@ Base classes: `nc-search`
 ### Input Area
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-width` | — | — |
-| `nc-search-max-width` | — | — |
-| `nc-search-input-radius` | — | — |
-| `nc-search-input-height` | — | — |
+| `--nc-search-width` | — | `--mod-search-width` |
+| `--nc-search-max-width` | — | `--mod-search-max-width` |
+| `--nc-search-input-radius` | — | `--mod-search-input-radius` |
+| `--nc-search-input-height` | — | `--mod-search-input-height` |
 
 ### Results Panel
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-results-bg` | — | — |
-| `nc-search-results-border` | — | — |
-| `nc-search-results-border-width` | — | — |
-| `nc-search-results-radius` | — | — |
-| `nc-search-results-shadow` | — | — |
-| `nc-search-results-max-height` | — | — |
-| `nc-search-results-padding` | — | — |
-| `nc-search-results-z-index` | — | — |
-| `nc-search-results-animation` | — | — |
-| `nc-search-results-top-offset` | — | — |
+| `--nc-search-results-bg` | — | `--mod-search-results-bg` |
+| `--nc-search-results-border` | — | `--mod-search-results-border` |
+| `--nc-search-results-border-width` | — | `--mod-search-results-border-width` |
+| `--nc-search-results-radius` | — | `--mod-search-results-radius` |
+| `--nc-search-results-shadow` | — | `--mod-search-results-shadow` |
+| `--nc-search-results-max-height` | — | `--mod-search-results-max-height` |
+| `--nc-search-results-padding` | — | `--mod-search-results-padding` |
+| `--nc-search-results-z-index` | — | `--mod-search-results-z-index` |
+| `--nc-search-results-animation` | — | `--mod-search-results-animation` |
+| `--nc-search-results-top-offset` | — | `--mod-search-results-top-offset` |
 
 ### Item
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-item-height` | — | — |
-| `nc-search-item-padding` | — | — |
-| `nc-search-item-radius` | — | — |
-| `nc-search-item-color` | — | — |
-| `nc-search-item-bg-hover` | — | — |
-| `nc-search-item-icon-size` | — | — |
-| `nc-search-item-icon-color` | — | — |
-| `nc-search-item-gap` | — | — |
-| `nc-search-item-font-size` | — | — |
+| `--nc-search-item-height` | — | `--mod-search-item-height` |
+| `--nc-search-item-padding` | — | `--mod-search-item-padding` |
+| `--nc-search-item-radius` | — | `--mod-search-item-radius` |
+| `--nc-search-item-color` | — | `--mod-search-item-color` |
+| `--nc-search-item-bg-hover` | — | `--mod-search-item-bg-hover` |
+| `--nc-search-item-icon-size` | — | `--mod-search-item-icon-size` |
+| `--nc-search-item-icon-color` | — | `--mod-search-item-icon-color` |
+| `--nc-search-item-gap` | — | `--mod-search-item-gap` |
+| `--nc-search-item-font-size` | — | `--mod-search-item-font-size` |
 
 ### Highlight
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-highlight-bg` | — | — |
-| `nc-search-highlight-color` | — | — |
+| `--nc-search-highlight-bg` | — | `--mod-search-highlight-bg` |
+| `--nc-search-highlight-color` | — | `--mod-search-highlight-color` |
 
 ### Group Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-group-label-color` | — | — |
-| `nc-search-group-label-size` | — | — |
-| `nc-search-group-label-weight` | — | — |
-| `nc-search-group-label-padding` | — | — |
+| `--nc-search-group-label-color` | — | `--mod-search-group-label-color` |
+| `--nc-search-group-label-size` | — | `--mod-search-group-label-size` |
+| `--nc-search-group-label-weight` | — | `--mod-search-group-label-weight` |
+| `--nc-search-group-label-padding` | — | `--mod-search-group-label-padding` |
 
 ### Shortcut
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-shortcut-color` | — | — |
-| `nc-search-shortcut-size` | — | — |
+| `--nc-search-shortcut-color` | — | `--mod-search-shortcut-color` |
+| `--nc-search-shortcut-size` | — | `--mod-search-shortcut-size` |
 
 ### Clear Trigger
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-clear-size` | — | — |
-| `nc-search-clear-color` | — | — |
-| `nc-search-clear-color-hover` | — | — |
+| `--nc-search-clear-size` | — | `--mod-search-clear-size` |
+| `--nc-search-clear-color` | — | `--mod-search-clear-color` |
+| `--nc-search-clear-color-hover` | — | `--mod-search-clear-color-hover` |
 
 ### Scope
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-scope-bg` | — | — |
-| `nc-search-scope-color` | — | — |
-| `nc-search-scope-border` | — | — |
-| `nc-search-scope-radius` | — | — |
-| `nc-search-scope-font-size` | — | — |
-| `nc-search-scope-padding` | — | — |
-| `nc-search-scope-gap` | — | — |
+| `--nc-search-scope-bg` | — | `--mod-search-scope-bg` |
+| `--nc-search-scope-color` | — | `--mod-search-scope-color` |
+| `--nc-search-scope-border` | — | `--mod-search-scope-border` |
+| `--nc-search-scope-radius` | — | `--mod-search-scope-radius` |
+| `--nc-search-scope-font-size` | — | `--mod-search-scope-font-size` |
+| `--nc-search-scope-padding` | — | `--mod-search-scope-padding` |
+| `--nc-search-scope-gap` | — | `--mod-search-scope-gap` |
 
 ### Minimal (Header)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-minimal-bg` | — | — |
-| `nc-search-minimal-border` | — | — |
-| `nc-search-minimal-border-focus` | — | — |
+| `--nc-search-minimal-bg` | — | `--mod-search-minimal-bg` |
+| `--nc-search-minimal-border` | — | `--mod-search-minimal-border` |
+| `--nc-search-minimal-border-focus` | — | `--mod-search-minimal-border-focus` |
 
 ### XL (Hero)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-xl-height` | — | — |
-| `nc-search-xl-font-size` | — | — |
-| `nc-search-xl-icon-size` | — | — |
-| `nc-search-xl-radius` | — | — |
-| `nc-search-xl-shadow` | — | — |
+| `--nc-search-xl-height` | — | `--mod-search-xl-height` |
+| `--nc-search-xl-font-size` | — | `--mod-search-xl-font-size` |
+| `--nc-search-xl-icon-size` | — | `--mod-search-xl-icon-size` |
+| `--nc-search-xl-radius` | — | `--mod-search-xl-radius` |
+| `--nc-search-xl-shadow` | — | `--mod-search-xl-shadow` |
 
 ### Command Palette
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-command-max-width` | — | — |
-| `nc-search-command-shadow` | — | — |
-| `nc-search-command-radius` | — | — |
-| `nc-search-command-overlay-bg` | — | — |
+| `--nc-search-command-max-width` | — | `--mod-search-command-max-width` |
+| `--nc-search-command-shadow` | — | `--mod-search-command-shadow` |
+| `--nc-search-command-radius` | — | `--mod-search-command-radius` |
+| `--nc-search-command-overlay-bg` | — | `--mod-search-command-overlay-bg` |
 
 ### Type-Ahead
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-ghost-color` | — | — |
+| `--nc-search-ghost-color` | — | `--mod-search-ghost-color` |
 
 ### Mobile Full-Screen
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-mobile-header-height` | — | — |
-| `nc-search-mobile-results-max-height` | — | — |
-| `nc-search-mobile-bg` | — | — |
+| `--nc-search-mobile-header-height` | — | `--mod-search-mobile-header-height` |
+| `--nc-search-mobile-results-max-height` | — | `--mod-search-mobile-results-max-height` |
+| `--nc-search-mobile-bg` | — | `--mod-search-mobile-bg` |
 
 ### Backdrop (Nav-Integration)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-search-backdrop-bg` | — | — |
-| `nc-search-backdrop-opacity` | — | — |
-| `nc-search-backdrop-z-index` | — | — |
+| `--nc-search-backdrop-bg` | — | `--mod-search-backdrop-bg` |
+| `--nc-search-backdrop-opacity` | — | `--mod-search-backdrop-opacity` |
+| `--nc-search-backdrop-z-index` | — | `--mod-search-backdrop-z-index` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `ArrowDown` | highlight-next | Oeffnet die Liste und markiert den naechsten sichtbaren Eintrag (rundum, aria-activedescendant). |
+| `ArrowUp` | highlight-prev | Oeffnet die Liste und markiert den vorherigen sichtbaren Eintrag (rundum). |
+| `Enter` | select-highlighted | Uebernimmt den markierten Eintrag ins Feld und schliesst die Liste. |
+| `Escape` | close | Schliesst die Ergebnisliste. |
+| `Tab` | close | Fokus verlaesst die Suche — die Liste schliesst. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `search-open` | Yes | `{"open":"boolean"}` |
+| `search-select` | Yes | `{"value":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

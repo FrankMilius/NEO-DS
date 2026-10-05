@@ -68,36 +68,36 @@ Base classes: `section`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-section-padding-block` | — | — |
-| `nc-section-padding-block-sm` | — | — |
-| `nc-section-padding-block-lg` | — | — |
+| `--nc-section-padding-block` | — | `--mod-section-padding-block` |
+| `--nc-section-padding-block-sm` | — | `--mod-section-padding-block-sm` |
+| `--nc-section-padding-block-lg` | — | `--mod-section-padding-block-lg` |
 
 ### Surface
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-section-bg` | — | — |
-| `nc-section-color` | — | — |
+| `--nc-section-bg` | — | `--mod-section-bg` |
+| `--nc-section-color` | — | `--mod-section-color` |
 
 ### Accent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-section-accent-bg` | — | — |
-| `nc-section-accent-color` | — | — |
-| `nc-section-accent-color-secondary` | — | — |
+| `--nc-section-accent-bg` | — | `--mod-section-accent-bg` |
+| `--nc-section-accent-color` | — | `--mod-section-accent-color` |
+| `--nc-section-accent-color-secondary` | — | `--mod-section-accent-color-secondary` |
 
 ### Divider
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-section-divider-color` | — | — |
-| `nc-section-divider-width` | — | — |
-| `nc-section-divider-style` | — | — |
+| `--nc-section-divider-color` | — | `--mod-section-divider-color` |
+| `--nc-section-divider-width` | — | `--mod-section-divider-width` |
+| `--nc-section-divider-style` | — | `--mod-section-divider-style` |
 
 ### Edge Shape
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-section-edge-height` | — | — |
-| `nc-section-edge-angle` | — | — |
-| `nc-section-edge-fill` | — | — |
+| `--nc-section-edge-height` | — | `--mod-section-edge-height` |
+| `--nc-section-edge-angle` | — | `--mod-section-edge-angle` |
+| `--nc-section-edge-fill` | — | `--mod-section-edge-fill` |
 
 ## Accessibility
 Contrast Target: AA

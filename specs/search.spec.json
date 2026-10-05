@@ -638,9 +638,45 @@
       "--mod-search-backdrop-z-index"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "ArrowDown": {
+      "action": "highlight-next",
+      "note": "Oeffnet die Liste und markiert den naechsten sichtbaren Eintrag (rundum, aria-activedescendant)."
+    },
+    "ArrowUp": {
+      "action": "highlight-prev",
+      "note": "Oeffnet die Liste und markiert den vorherigen sichtbaren Eintrag (rundum)."
+    },
+    "Enter": {
+      "action": "select-highlighted",
+      "note": "Uebernimmt den markierten Eintrag ins Feld und schliesst die Liste."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst die Ergebnisliste."
+    },
+    "Tab": {
+      "action": "close",
+      "note": "Fokus verlaesst die Suche — die Liste schliesst."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "search-open": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert wenn die Ergebnisliste auf- oder zugeht."
+    },
+    "search-select": {
+      "bubbles": true,
+      "detail": {
+        "value": "string"
+      },
+      "note": "Gefeuert wenn ein Eintrag gewaehlt wird (Enter oder Klick)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

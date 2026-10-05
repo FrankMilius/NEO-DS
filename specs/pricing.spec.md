@@ -9,7 +9,7 @@ Root element: `.nc-pricing-card`
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
 | price | `.nc-price` | Yes | — |
-| feature-list | `.nc-feature-list` | No | — |
+| feature-list | `.nc-pricing-features` | No | — |
 
 ### DOM Notes
 - Card: background-base, radius-xl, elevation-raised.

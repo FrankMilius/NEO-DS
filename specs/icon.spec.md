@@ -60,26 +60,26 @@ Base classes: `icon`
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-icon-size-xs` | — | — |
-| `nc-icon-size-sm` | — | — |
-| `nc-icon-size-md` | — | — |
-| `nc-icon-size-lg` | — | — |
-| `nc-icon-size-xl` | — | — |
-| `nc-icon-size-2xl` | — | — |
+| `--nc-icon-size-xs` | — | `--mod-icon-size-xs` |
+| `--nc-icon-size-sm` | — | `--mod-icon-size-sm` |
+| `--nc-icon-size-md` | — | `--mod-icon-size-md` |
+| `--nc-icon-size-lg` | — | `--mod-icon-size-lg` |
+| `--nc-icon-size-xl` | — | `--mod-icon-size-xl` |
+| `--nc-icon-size-2xl` | — | `--mod-icon-size-2xl` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-icon-color-default` | — | — |
-| `nc-icon-color-secondary` | — | — |
-| `nc-icon-color-tertiary` | — | — |
-| `nc-icon-color-inverse` | — | — |
-| `nc-icon-color-disabled` | — | — |
+| `--nc-icon-color-default` | — | `--mod-icon-color-default` |
+| `--nc-icon-color-secondary` | — | `--mod-icon-color-secondary` |
+| `--nc-icon-color-tertiary` | — | `--mod-icon-color-tertiary` |
+| `--nc-icon-color-inverse` | — | `--mod-icon-color-inverse` |
+| `--nc-icon-color-disabled` | — | `--mod-icon-color-disabled` |
 
 ### Touch Target
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-icon-touch-target` | — | — |
+| `--nc-icon-touch-target` | — | `--mod-icon-touch-target` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

@@ -44,28 +44,28 @@ Base classes: `nc-skeleton`
 ### Appearance
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-skeleton-bg` | — | — |
-| `nc-skeleton-shimmer` | — | — |
-| `nc-skeleton-radius` | — | — |
+| `--nc-skeleton-bg` | — | `--mod-skeleton-bg` |
+| `--nc-skeleton-shimmer` | — | `--mod-skeleton-shimmer` |
+| `--nc-skeleton-radius` | — | `--mod-skeleton-radius` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-skeleton-duration` | — | — |
-| `nc-skeleton-ease` | — | — |
+| `--nc-skeleton-duration` | — | `--mod-skeleton-duration` |
+| `--nc-skeleton-ease` | — | `--mod-skeleton-ease` |
 
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-skeleton-height-xs` | — | — |
-| `nc-skeleton-height-sm` | — | — |
-| `nc-skeleton-height-md` | — | — |
-| `nc-skeleton-height-lg` | — | — |
+| `--nc-skeleton-height-xs` | — | `--mod-skeleton-height-xs` |
+| `--nc-skeleton-height-sm` | — | `--mod-skeleton-height-sm` |
+| `--nc-skeleton-height-md` | — | `--mod-skeleton-height-md` |
+| `--nc-skeleton-height-lg` | — | `--mod-skeleton-height-lg` |
 
 ### Circle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-skeleton-radius-circle` | — | — |
+| `--nc-skeleton-radius-circle` | — | `--mod-skeleton-radius-circle` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

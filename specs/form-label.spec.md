@@ -63,31 +63,31 @@ Base classes: `nc-form-label`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-label-font-size` | — | — |
-| `nc-form-label-font-weight` | — | — |
-| `nc-form-label-gap` | — | — |
-| `nc-form-label-padding-block` | — | — |
-| `nc-form-label-min-height` | — | — |
+| `--nc-form-label-font-size` | — | `--mod-form-label-font-size` |
+| `--nc-form-label-font-weight` | — | `--mod-form-label-font-weight` |
+| `--nc-form-label-gap` | — | `--mod-form-label-gap` |
+| `--nc-form-label-padding-block` | — | `--mod-form-label-padding-block` |
+| `--nc-form-label-min-height` | — | `--mod-form-label-min-height` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-label-color` | — | — |
-| `nc-form-label-required-color` | — | — |
-| `nc-form-label-optional-color` | — | — |
-| `nc-form-label-info-color` | — | — |
+| `--nc-form-label-color` | — | `--mod-form-label-color` |
+| `--nc-form-label-required-color` | — | `--mod-form-label-required-color` |
+| `--nc-form-label-optional-color` | — | `--mod-form-label-optional-color` |
+| `--nc-form-label-info-color` | — | `--mod-form-label-info-color` |
 
 ### Size SM Overrides
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-label-sm-font-size` | — | — |
-| `nc-form-label-sm-font-weight` | — | — |
+| `--nc-form-label-sm-font-size` | — | `--mod-form-label-sm-font-size` |
+| `--nc-form-label-sm-font-weight` | — | `--mod-form-label-sm-font-weight` |
 
 ### Size Emphasis Overrides
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-label-emphasis-font-size` | — | — |
-| `nc-form-label-emphasis-font-weight` | — | — |
+| `--nc-form-label-emphasis-font-size` | — | `--mod-form-label-emphasis-font-size` |
+| `--nc-form-label-emphasis-font-weight` | — | `--mod-form-label-emphasis-font-weight` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

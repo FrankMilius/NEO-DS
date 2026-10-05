@@ -63,52 +63,63 @@ Base classes: `nc-switch`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-width` | — | — |
-| `nc-switch-height` | — | — |
-| `nc-switch-radius` | — | — |
-| `nc-switch-touch-padding` | — | — |
-| `nc-switch-focus-ring-offset` | — | — |
+| `--nc-switch-width` | — | `--mod-switch-width` |
+| `--nc-switch-height` | — | `--mod-switch-height` |
+| `--nc-switch-radius` | — | `--mod-switch-radius` |
+| `--nc-switch-touch-padding` | — | `--mod-switch-touch-padding` |
+| `--nc-switch-focus-ring-offset` | — | `--mod-switch-focus-ring-offset` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-bg` | — | — |
-| `nc-switch-bg-hover` | — | — |
-| `nc-switch-bg-checked` | — | — |
+| `--nc-switch-bg` | — | `--mod-switch-bg` |
+| `--nc-switch-bg-hover` | — | `--mod-switch-bg-hover` |
+| `--nc-switch-bg-checked` | — | `--mod-switch-bg-checked` |
 
 ### Thumb
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-thumb-size` | — | — |
-| `nc-switch-thumb-color` | — | — |
-| `nc-switch-thumb-offset` | — | — |
-| `nc-switch-thumb-shadow` | — | — |
+| `--nc-switch-thumb-size` | — | `--mod-switch-thumb-size` |
+| `--nc-switch-thumb-color` | — | `--mod-switch-thumb-color` |
+| `--nc-switch-thumb-offset` | — | `--mod-switch-thumb-offset` |
+| `--nc-switch-thumb-shadow` | — | `--mod-switch-thumb-shadow` |
 
 ### Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-disabled-bg` | — | — |
-| `nc-switch-disabled-thumb` | — | — |
-| `nc-switch-disabled-opacity` | — | — |
+| `--nc-switch-disabled-bg` | — | `--mod-switch-disabled-bg` |
+| `--nc-switch-disabled-thumb` | — | `--mod-switch-disabled-thumb` |
+| `--nc-switch-disabled-opacity` | — | `--mod-switch-disabled-opacity` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-label-gap` | — | — |
-| `nc-switch-label-color` | — | — |
+| `--nc-switch-label-gap` | — | `--mod-switch-label-gap` |
+| `--nc-switch-label-color` | — | `--mod-switch-label-color` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-transition-duration` | — | — |
-| `nc-switch-transition-timing` | — | — |
-| `nc-switch-thumb-active-scale` | — | — |
+| `--nc-switch-transition-duration` | — | `--mod-switch-transition-duration` |
+| `--nc-switch-transition-timing` | — | `--mod-switch-transition-timing` |
+| `--nc-switch-thumb-active-scale` | — | `--mod-switch-thumb-active-scale` |
 
 ### Track Indicators
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-switch-indicator-color` | — | — |
-| `nc-switch-indicator-checked-color` | — | — |
+| `--nc-switch-indicator-color` | — | `--mod-switch-indicator-color` |
+| `--nc-switch-indicator-checked-color` | — | `--mod-switch-indicator-checked-color` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Space` | toggle | Schaltet um (Button-Muster: aria-checked; Checkbox-Muster: nativ). |
+| `Enter` | toggle | Schaltet um — nur Button-Muster (nativer Klick des <button>). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `switch-change` | Yes | `{"checked":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

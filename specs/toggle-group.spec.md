@@ -90,61 +90,79 @@ Base classes: `nc-toggle-group`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-gap` | — | — |
-| `nc-toggle-group-radius` | — | — |
-| `nc-toggle-group-border` | — | — |
-| `nc-toggle-group-bg` | — | — |
-| `nc-toggle-group-shadow` | — | — |
+| `--nc-toggle-group-gap` | — | `--mod-toggle-group-gap` |
+| `--nc-toggle-group-radius` | — | `--mod-toggle-group-radius` |
+| `--nc-toggle-group-border` | — | `--mod-toggle-group-border` |
+| `--nc-toggle-group-bg` | — | `--mod-toggle-group-bg` |
+| `--nc-toggle-group-shadow` | — | `--mod-toggle-group-shadow` |
 
 ### Item Default
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-item-bg` | — | — |
-| `nc-toggle-group-item-color` | — | — |
-| `nc-toggle-group-item-border` | — | — |
+| `--nc-toggle-group-item-bg` | — | `--mod-toggle-group-item-bg` |
+| `--nc-toggle-group-item-color` | — | `--mod-toggle-group-item-color` |
+| `--nc-toggle-group-item-border` | — | `--mod-toggle-group-item-border` |
 
 ### Item Hover
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-item-bg-hover` | — | — |
+| `--nc-toggle-group-item-bg-hover` | — | `--mod-toggle-group-item-bg-hover` |
 
 ### Item Selected
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-item-selected-bg` | — | — |
-| `nc-toggle-group-item-selected-color` | — | — |
-| `nc-toggle-group-item-selected-border` | — | — |
+| `--nc-toggle-group-item-selected-bg` | — | `--mod-toggle-group-item-selected-bg` |
+| `--nc-toggle-group-item-selected-color` | — | `--mod-toggle-group-item-selected-color` |
+| `--nc-toggle-group-item-selected-border` | — | `--mod-toggle-group-item-selected-border` |
 
 ### Soft Selected
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-item-soft-bg` | — | — |
-| `nc-toggle-group-item-soft-color` | — | — |
+| `--nc-toggle-group-item-soft-bg` | — | `--mod-toggle-group-item-soft-bg` |
+| `--nc-toggle-group-item-soft-color` | — | `--mod-toggle-group-item-soft-color` |
 
 ### Underline Indicator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-underline-width` | — | — |
-| `nc-toggle-group-underline-color` | — | — |
+| `--nc-toggle-group-underline-width` | — | `--mod-toggle-group-underline-width` |
+| `--nc-toggle-group-underline-color` | — | `--mod-toggle-group-underline-color` |
 
 ### Divider
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-divider-width` | — | — |
-| `nc-toggle-group-divider-height` | — | — |
-| `nc-toggle-group-divider-color` | — | — |
+| `--nc-toggle-group-divider-width` | — | `--mod-toggle-group-divider-width` |
+| `--nc-toggle-group-divider-height` | — | `--mod-toggle-group-divider-height` |
+| `--nc-toggle-group-divider-color` | — | `--mod-toggle-group-divider-color` |
 
 ### Item Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-item-disabled-bg` | — | — |
-| `nc-toggle-group-item-disabled-color` | — | — |
-| `nc-toggle-group-item-disabled-opacity` | — | — |
+| `--nc-toggle-group-item-disabled-bg` | — | `--mod-toggle-group-item-disabled-bg` |
+| `--nc-toggle-group-item-disabled-color` | — | `--mod-toggle-group-item-disabled-color` |
+| `--nc-toggle-group-item-disabled-opacity` | — | `--mod-toggle-group-item-disabled-opacity` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-toggle-group-transition-duration` | — | — |
+| `--nc-toggle-group-transition-duration` | — | `--mod-toggle-group-transition-duration` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `ArrowRight` | focus-next-item | Fokussiert den naechsten Knopf (rundum); bei type=single wird er zugleich gewaehlt. |
+| `ArrowDown` | focus-next-item | Wie ArrowRight. |
+| `ArrowLeft` | focus-prev-item | Fokussiert den vorherigen Knopf (rundum); bei type=single wird er zugleich gewaehlt. |
+| `ArrowUp` | focus-prev-item | Wie ArrowLeft. |
+| `Home` | focus-first-item | Erster bedienbarer Knopf (single: zugleich gewaehlt). |
+| `End` | focus-last-item | Letzter bedienbarer Knopf (single: zugleich gewaehlt). |
+| `Space` | toggle-item | Schaltet den fokussierten Knopf um (multiple) bzw. waehlt ihn (single). Nativ als Klick. |
+| `Enter` | toggle-item | Wie Space. |
+| `Tab` | focus-group | single: nur der gewaehlte Knopf im Tab-Fluss (roving tabindex). multiple: alle Knoepfe im Tab-Fluss. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `toggle-change` | Yes | `{"value":"string","selected":"boolean","values":"string[]"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

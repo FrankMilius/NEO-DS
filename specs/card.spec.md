@@ -80,104 +80,104 @@ Base classes: `nc-card`
 ### Basis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-bg` | — | — |
-| `nc-card-color` | — | — |
-| `nc-card-border` | — | — |
-| `nc-card-radius` | — | — |
-| `nc-card-padding` | — | — |
-| `nc-card-shadow` | — | — |
-| `nc-card-shadow-hover` | — | — |
-| `nc-card-border-width` | — | — |
-| `nc-card-disabled-opacity` | — | — |
+| `--nc-card-bg` | — | `--mod-card-bg` |
+| `--nc-card-color` | — | `--mod-card-color` |
+| `--nc-card-border` | — | `--mod-card-border` |
+| `--nc-card-radius` | — | `--mod-card-radius` |
+| `--nc-card-padding` | — | `--mod-card-padding` |
+| `--nc-card-shadow` | — | `--mod-card-shadow` |
+| `--nc-card-shadow-hover` | — | `--mod-card-shadow-hover` |
+| `--nc-card-border-width` | — | `--mod-card-border-width` |
+| `--nc-card-disabled-opacity` | — | `--mod-card-disabled-opacity` |
 
 ### Spacing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-header-padding` | — | — |
-| `nc-card-header-gap` | — | — |
-| `nc-card-content-padding` | — | — |
-| `nc-card-footer-padding` | — | — |
-| `nc-card-footer-gap` | — | — |
+| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-header-gap` | — | `--mod-card-header-gap` |
+| `--nc-card-content-padding` | — | `--mod-card-content-padding` |
+| `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
+| `--nc-card-footer-gap` | — | `--mod-card-footer-gap` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-title-font-size` | — | — |
-| `nc-card-title-font-weight` | — | — |
-| `nc-card-title-color` | — | — |
-| `nc-card-title-line-height` | — | — |
-| `nc-card-description-font-size` | — | — |
-| `nc-card-description-color` | — | — |
-| `nc-card-description-line-height` | — | — |
+| `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
+| `--nc-card-title-font-weight` | — | `--mod-card-title-font-weight` |
+| `--nc-card-title-color` | — | `--mod-card-title-color` |
+| `--nc-card-title-line-height` | — | `--mod-card-title-line-height` |
+| `--nc-card-description-font-size` | — | `--mod-card-description-font-size` |
+| `--nc-card-description-color` | — | `--mod-card-description-color` |
+| `--nc-card-description-line-height` | — | `--mod-card-description-line-height` |
 
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-transition-duration` | — | — |
-| `nc-card-hover-border` | — | — |
-| `nc-card-nav-color-hover` | — | — |
-| `nc-card-link-decoration` | — | — |
-| `nc-card-link-hover-decoration` | — | — |
+| `--nc-card-transition-duration` | — | `--mod-card-transition-duration` |
+| `--nc-card-hover-border` | — | `--mod-card-hover-border` |
+| `--nc-card-nav-color-hover` | — | `--mod-card-nav-color-hover` |
+| `--nc-card-link-decoration` | — | `--mod-card-link-decoration` |
+| `--nc-card-link-hover-decoration` | — | `--mod-card-link-hover-decoration` |
 
 ### Selectable
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-selected-border` | — | — |
-| `nc-card-selected-bg` | — | — |
-| `nc-card-selected-ring-width` | — | — |
+| `--nc-card-selected-border` | — | `--mod-card-selected-border` |
+| `--nc-card-selected-bg` | — | `--mod-card-selected-bg` |
+| `--nc-card-selected-ring-width` | — | `--mod-card-selected-ring-width` |
 
 ### Expandable
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-summary-font-weight` | — | — |
-| `nc-card-summary-padding` | — | — |
-| `nc-card-details-content-padding` | — | — |
-| `nc-card-expand-icon-size` | — | — |
+| `--nc-card-summary-font-weight` | — | `--mod-card-summary-font-weight` |
+| `--nc-card-summary-padding` | — | `--mod-card-summary-padding` |
+| `--nc-card-details-content-padding` | — | `--mod-card-details-content-padding` |
+| `--nc-card-expand-icon-size` | — | `--mod-card-expand-icon-size` |
 
 ### Status
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-status-border-width` | — | — |
-| `nc-card-status-success-border` | — | — |
-| `nc-card-status-warning-border` | — | — |
-| `nc-card-status-danger-border` | — | — |
-| `nc-card-status-info-border` | — | — |
+| `--nc-card-status-border-width` | — | `--mod-card-status-border-width` |
+| `--nc-card-status-success-border` | — | `--mod-card-status-success-border` |
+| `--nc-card-status-warning-border` | — | `--mod-card-status-warning-border` |
+| `--nc-card-status-danger-border` | — | `--mod-card-status-danger-border` |
+| `--nc-card-status-info-border` | — | `--mod-card-status-info-border` |
 
 ### Preview
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-preview-media-ratio` | — | — |
-| `nc-card-preview-title-size` | — | — |
+| `--nc-card-preview-media-ratio` | — | `--mod-card-preview-media-ratio` |
+| `--nc-card-preview-title-size` | — | `--mod-card-preview-title-size` |
 
 ### Summary
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-summary-avatar-size` | — | — |
-| `nc-card-summary-avatar-radius` | — | — |
+| `--nc-card-summary-avatar-size` | — | `--mod-card-summary-avatar-size` |
+| `--nc-card-summary-avatar-radius` | — | `--mod-card-summary-avatar-radius` |
 
 ### Action
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-action-icon-size` | — | — |
+| `--nc-card-action-icon-size` | — | `--mod-card-action-icon-size` |
 
 ### Tight Context
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-padding` | — | — |
-| `nc-card-header-padding` | — | — |
-| `nc-card-content-padding` | — | — |
-| `nc-card-footer-padding` | — | — |
-| `nc-card-title-font-size` | — | — |
-| `nc-card-description-font-size` | — | — |
+| `--nc-card-padding` | — | `--mod-card-padding` |
+| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-content-padding` | — | `--mod-card-content-padding` |
+| `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
+| `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
+| `--nc-card-description-font-size` | — | `--mod-card-description-font-size` |
 
 ### Display Context
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-padding` | — | — |
-| `nc-card-title-font-size` | — | — |
-| `nc-card-title-font-weight` | — | — |
-| `nc-card-title-line-height` | — | — |
-| `nc-card-shadow` | — | — |
+| `--nc-card-padding` | — | `--mod-card-padding` |
+| `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
+| `--nc-card-title-font-weight` | — | `--mod-card-title-font-weight` |
+| `--nc-card-title-line-height` | — | `--mod-card-title-line-height` |
+| `--nc-card-shadow` | — | `--mod-card-shadow` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -86,71 +86,71 @@ Base classes: `nc-pagination`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-gap` | — | — |
-| `nc-pagination-padding` | — | — |
-| `nc-pagination-color` | — | — |
-| `nc-pagination-font-size` | — | — |
+| `--nc-pagination-gap` | — | `--mod-pagination-gap` |
+| `--nc-pagination-padding` | — | `--mod-pagination-padding` |
+| `--nc-pagination-color` | — | `--mod-pagination-color` |
+| `--nc-pagination-font-size` | — | `--mod-pagination-font-size` |
 
 ### Page Item
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-item-size` | — | — |
-| `nc-pagination-item-radius` | — | — |
-| `nc-pagination-item-bg` | — | — |
-| `nc-pagination-item-bg-hover` | — | — |
-| `nc-pagination-item-bg-active` | — | — |
-| `nc-pagination-item-color` | — | — |
-| `nc-pagination-item-color-active` | — | — |
-| `nc-pagination-item-font-weight` | — | — |
+| `--nc-pagination-item-size` | — | `--mod-pagination-item-size` |
+| `--nc-pagination-item-radius` | — | `--mod-pagination-item-radius` |
+| `--nc-pagination-item-bg` | — | `--mod-pagination-item-bg` |
+| `--nc-pagination-item-bg-hover` | — | `--mod-pagination-item-bg-hover` |
+| `--nc-pagination-item-bg-active` | — | `--mod-pagination-item-bg-active` |
+| `--nc-pagination-item-color` | — | `--mod-pagination-item-color` |
+| `--nc-pagination-item-color-active` | — | `--mod-pagination-item-color-active` |
+| `--nc-pagination-item-font-weight` | — | `--mod-pagination-item-font-weight` |
 
 ### Navigation (Prev/Next)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-nav-color` | — | — |
-| `nc-pagination-nav-color-disabled` | — | — |
+| `--nc-pagination-nav-color` | — | `--mod-pagination-nav-color` |
+| `--nc-pagination-nav-color-disabled` | — | `--mod-pagination-nav-color-disabled` |
 
 ### Ellipsis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-ellipsis-color` | — | — |
+| `--nc-pagination-ellipsis-color` | — | `--mod-pagination-ellipsis-color` |
 
 ### Active Indicator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-active-indicator-height` | — | — |
-| `nc-pagination-active-indicator-color` | — | — |
+| `--nc-pagination-active-indicator-height` | — | `--mod-pagination-active-indicator-height` |
+| `--nc-pagination-active-indicator-color` | — | `--mod-pagination-active-indicator-color` |
 
 ### Raised (Shadow)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-item-shadow-active` | — | — |
+| `--nc-pagination-item-shadow-active` | — | `--mod-pagination-item-shadow-active` |
 
 ### Touch Target
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-touch-min` | — | — |
+| `--nc-pagination-touch-min` | — | `--mod-pagination-touch-min` |
 
 ### Minimal-Variante
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-minimal-info-color` | — | — |
-| `nc-pagination-minimal-info-size` | — | — |
+| `--nc-pagination-minimal-info-color` | — | `--mod-pagination-minimal-info-color` |
+| `--nc-pagination-minimal-info-size` | — | `--mod-pagination-minimal-info-size` |
 
 ### Jumper (Go-to-Page)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-jumper-width` | — | — |
-| `nc-pagination-jumper-height` | — | — |
-| `nc-pagination-jumper-radius` | — | — |
-| `nc-pagination-jumper-border` | — | — |
-| `nc-pagination-jumper-font-size` | — | — |
-| `nc-pagination-jumper-color` | — | — |
+| `--nc-pagination-jumper-width` | — | `--mod-pagination-jumper-width` |
+| `--nc-pagination-jumper-height` | — | `--mod-pagination-jumper-height` |
+| `--nc-pagination-jumper-radius` | — | `--mod-pagination-jumper-radius` |
+| `--nc-pagination-jumper-border` | — | `--mod-pagination-jumper-border` |
+| `--nc-pagination-jumper-font-size` | — | `--mod-pagination-jumper-font-size` |
+| `--nc-pagination-jumper-color` | — | `--mod-pagination-jumper-color` |
 
 ### Outline-Variante
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-pagination-outline-border` | — | — |
-| `nc-pagination-outline-border-active` | — | — |
+| `--nc-pagination-outline-border` | — | `--mod-pagination-outline-border` |
+| `--nc-pagination-outline-border-active` | — | `--mod-pagination-outline-border-active` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

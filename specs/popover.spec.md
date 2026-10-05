@@ -19,7 +19,7 @@ Root element: `.nc-popover`
 ### DOM Notes
 - Root: inline-flex Wrapper mit Trigger und Panel.
 - Trigger: <button aria-haspopup='dialog' aria-expanded='true|false'>.
-- Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden].
+- Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden]; fest offen per .is-open an der Wurzel ([hidden] hat Vorrang).
 - Unterschied zu Tooltip: Popover ist interaktiv, Focus-Trap, bleibt offen bis geschlossen.
 - Positionen: --bottom (default), --top, --left, --right — jeweils zentriert via translate.
 - Alignment: --bottom-start, --bottom-end fuer left/right-ausgerichtetes Panel.
@@ -36,6 +36,8 @@ Root element: `.nc-popover`
 - Trigger-Modi: 'click' (Standard): Toggle bei Klick. 'hover' (optional): Oeffnet nach 300ms Delay, schliesst bei Mausverlust mit 200ms Delay. Hover-Modus nur fuer nicht-interaktive Vorschau-Inhalte — sobald der Nutzer im Panel interagieren muss, click verwenden.
 - Light Dismiss: Klick ausserhalb des Panels schliesst das Popover (JS). Optional: Scroll des Eltern-Containers schliesst (data-dismiss-on-scroll='true'). Pattern: document.addEventListener('click', (e) => { if (!popover.contains(e.target) && !trigger.contains(e.target)) close(); });
 - High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible.
+- Hover-Modus (nc-popover--hover-trigger): Panel im Markup OHNE [hidden]. Ohne JS oeffnet es per CSS bei :hover/:focus-within (wie Tooltip); neo-behaviors setzt beim Binden [hidden] und steuert dann mit 300/200 ms Verzoegerung. Entscheidung 02.10.2026.
+- Fester offener Zustand (.is-open an .nc-popover): zeigt das Panel ohne Hover/Klick — fuer Doku, Arena und serverseitig offen gerendertes Markup. Im Klick-Modus regelt [hidden] (is-open ueberstimmt es nicht), im Hover-Modus steht das Panel ohne [hidden] und is-open oeffnet es. neo-behaviors haelt is-open mit dem Panel synchron. Entscheidung 02.10.2026.
 
 ## Variants
 ### Placement (`placement`)
@@ -71,7 +73,9 @@ Interaktionsmodus — click (Standard: Toggle bei Klick), hover (oeffnet nach 30
 | hover | `.nc-popover--hover-trigger` |  |
 
 ## States
-Supported: `default`
+Supported: `default`, `open`
+
+- **open**: 
 
 ## CSS Token API
 Base classes: `nc-popover`
@@ -79,47 +83,61 @@ Base classes: `nc-popover`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-popover-bg` | — | — |
-| `nc-popover-border` | — | — |
-| `nc-popover-border-width` | — | — |
-| `nc-popover-radius` | — | — |
-| `nc-popover-shadow` | — | — |
-| `nc-popover-padding` | — | — |
-| `nc-popover-min-width` | — | — |
-| `nc-popover-max-width` | — | — |
-| `nc-popover-z-index` | — | — |
-| `nc-popover-offset` | — | — |
-| `nc-popover-animation-duration` | — | — |
+| `--nc-popover-bg` | — | `--mod-popover-bg` |
+| `--nc-popover-border` | — | `--mod-popover-border` |
+| `--nc-popover-border-width` | — | `--mod-popover-border-width` |
+| `--nc-popover-radius` | — | `--mod-popover-radius` |
+| `--nc-popover-shadow` | — | `--mod-popover-shadow` |
+| `--nc-popover-padding` | — | `--mod-popover-padding` |
+| `--nc-popover-min-width` | — | `--mod-popover-min-width` |
+| `--nc-popover-max-width` | — | `--mod-popover-max-width` |
+| `--nc-popover-z-index` | — | `--mod-popover-z-index` |
+| `--nc-popover-offset` | — | `--mod-popover-offset` |
+| `--nc-popover-animation-duration` | — | `--mod-popover-animation-duration` |
 
 ### Arrow
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-popover-arrow-size` | — | — |
-| `nc-popover-arrow-bg` | — | — |
-| `nc-popover-arrow-border` | — | — |
+| `--nc-popover-arrow-size` | — | `--mod-popover-arrow-size` |
+| `--nc-popover-arrow-bg` | — | `--mod-popover-arrow-bg` |
+| `--nc-popover-arrow-border` | — | `--mod-popover-arrow-border` |
 
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-popover-header-padding` | — | — |
-| `nc-popover-header-border` | — | — |
-| `nc-popover-header-font-size` | — | — |
-| `nc-popover-header-font-weight` | — | — |
-| `nc-popover-header-color` | — | — |
+| `--nc-popover-header-padding` | — | `--mod-popover-header-padding` |
+| `--nc-popover-header-border` | — | `--mod-popover-header-border` |
+| `--nc-popover-header-font-size` | — | `--mod-popover-header-font-size` |
+| `--nc-popover-header-font-weight` | — | `--mod-popover-header-font-weight` |
+| `--nc-popover-header-color` | — | `--mod-popover-header-color` |
 
 ### Footer
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-popover-footer-padding` | — | — |
-| `nc-popover-footer-border` | — | — |
+| `--nc-popover-footer-padding` | — | `--mod-popover-footer-padding` |
+| `--nc-popover-footer-border` | — | `--mod-popover-footer-border` |
 
 ### Close Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-popover-close-size` | — | — |
-| `nc-popover-close-radius` | — | — |
-| `nc-popover-close-bg-hover` | — | — |
-| `nc-popover-close-icon-size` | — | — |
+| `--nc-popover-close-size` | — | `--mod-popover-close-size` |
+| `--nc-popover-close-radius` | — | `--mod-popover-close-radius` |
+| `--nc-popover-close-bg-hover` | — | `--mod-popover-close-bg-hover` |
+| `--nc-popover-close-icon-size` | — | `--mod-popover-close-icon-size` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | toggle | Auf dem Ausloeser: oeffnet/schliesst (nativer Klick). Beim Oeffnen geht der Fokus ins Panel. |
+| `Space` | toggle | Wie Enter. |
+| `Escape` | close | Schliesst, Fokus zurueck auf den Ausloeser. |
+| `Tab` | trap-focus | Fokus bleibt im Panel (Fokus-Falle), solange es offen ist. |
+| `Shift+Tab` | trap-focus-reverse | Rueckwaerts innerhalb der Fokus-Falle. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `popover-toggle` | Yes | `{"open":"boolean","reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

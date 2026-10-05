@@ -337,9 +337,113 @@
       "--mod-breadcrumb-dropdown-min-width"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-menu",
+      "note": "Auf dem Ellipsis-Knopf: oeffnet das Menue der ausgeblendeten Ebenen, Fokus auf den ersten Eintrag (bzw. schliesst es). Im Menue: folgt dem Link (nativ).",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "Space": {
+      "action": "toggle-menu",
+      "note": "Auf dem Ellipsis-Knopf wie Enter.",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "ArrowDown": {
+      "action": "focus-next-item",
+      "note": "Auf dem Ellipsis-Knopf: oeffnet, erster Eintrag. Im Menue: naechster Eintrag (rundum).",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "ArrowUp": {
+      "action": "focus-prev-item",
+      "note": "Auf dem Ellipsis-Knopf: oeffnet, letzter Eintrag. Im Menue: vorheriger Eintrag (rundum).",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "Home": {
+      "action": "focus-first-item",
+      "note": "Im Menue: erster Eintrag.",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "End": {
+      "action": "focus-last-item",
+      "note": "Im Menue: letzter Eintrag.",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst das Menue, Fokus zurueck auf den Ellipsis-Knopf.",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    },
+    "Tab": {
+      "action": "close",
+      "note": "Schliesst das Menue, der Fokus geht normal weiter. Die Eintraege selbst sind nicht in der Tab-Folge (tabindex=-1).",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "breadcrumb-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert beim Oeffnen und Schliessen des Ellipsis-Menues.",
+      "onlyWhen": {
+        "axes": {
+          "variant": [
+            "truncated"
+          ]
+        }
+      }
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

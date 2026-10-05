@@ -59,39 +59,39 @@ Base classes: `nc-progress`
 ### Appearance
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-progress-bg` | — | — |
-| `nc-progress-fill` | — | — |
-| `nc-progress-radius` | — | — |
+| `--nc-progress-bg` | — | `--mod-progress-bg` |
+| `--nc-progress-fill` | — | `--mod-progress-fill` |
+| `--nc-progress-radius` | — | `--mod-progress-radius` |
 
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-progress-height-xs` | — | — |
-| `nc-progress-height-sm` | — | — |
-| `nc-progress-height-md` | — | — |
-| `nc-progress-height-lg` | — | — |
+| `--nc-progress-height-xs` | — | `--mod-progress-height-xs` |
+| `--nc-progress-height-sm` | — | `--mod-progress-height-sm` |
+| `--nc-progress-height-md` | — | `--mod-progress-height-md` |
+| `--nc-progress-height-lg` | — | `--mod-progress-height-lg` |
 
 ### Feedback Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-progress-fill-success` | — | — |
-| `nc-progress-fill-warning` | — | — |
-| `nc-progress-fill-danger` | — | — |
-| `nc-progress-fill-info` | — | — |
+| `--nc-progress-fill-success` | — | `--mod-progress-fill-success` |
+| `--nc-progress-fill-warning` | — | `--mod-progress-fill-warning` |
+| `--nc-progress-fill-danger` | — | `--mod-progress-fill-danger` |
+| `--nc-progress-fill-info` | — | `--mod-progress-fill-info` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-progress-label-color` | — | — |
-| `nc-progress-label-size` | — | — |
-| `nc-progress-label-weight` | — | — |
-| `nc-progress-label-gap` | — | — |
+| `--nc-progress-label-color` | — | `--mod-progress-label-color` |
+| `--nc-progress-label-size` | — | `--mod-progress-label-size` |
+| `--nc-progress-label-weight` | — | `--mod-progress-label-weight` |
+| `--nc-progress-label-gap` | — | `--mod-progress-label-gap` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-progress-transition` | — | — |
-| `nc-progress-ease` | — | — |
+| `--nc-progress-transition` | — | `--mod-progress-transition` |
+| `--nc-progress-ease` | — | `--mod-progress-ease` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

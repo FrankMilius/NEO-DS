@@ -26,28 +26,28 @@ Base classes: `nc-card-grid-cta`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-cta-columns` | — | — |
-| `nc-card-grid-cta-gap` | — | — |
-| `nc-card-grid-cta-padding` | — | — |
-| `nc-card-grid-cta-radius` | — | — |
+| `--nc-card-grid-cta-columns` | — | `--mod-card-grid-cta-columns` |
+| `--nc-card-grid-cta-gap` | — | `--mod-card-grid-cta-gap` |
+| `--nc-card-grid-cta-padding` | — | `--mod-card-grid-cta-padding` |
+| `--nc-card-grid-cta-radius` | — | `--mod-card-grid-cta-radius` |
 
 ### Title
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-cta-title-size` | — | — |
-| `nc-card-grid-cta-title-weight` | — | — |
-| `nc-card-grid-cta-title-color` | — | — |
+| `--nc-card-grid-cta-title-size` | — | `--mod-card-grid-cta-title-size` |
+| `--nc-card-grid-cta-title-weight` | — | `--mod-card-grid-cta-title-weight` |
+| `--nc-card-grid-cta-title-color` | — | `--mod-card-grid-cta-title-color` |
 
 ### Overlay
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-cta-overlay-start` | — | — |
-| `nc-card-grid-cta-overlay-end` | — | — |
+| `--nc-card-grid-cta-overlay-start` | — | `--mod-card-grid-cta-overlay-start` |
+| `--nc-card-grid-cta-overlay-end` | — | `--mod-card-grid-cta-overlay-end` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-cta-hover-scale` | — | — |
+| `--nc-card-grid-cta-hover-scale` | — | `--mod-card-grid-cta-hover-scale` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

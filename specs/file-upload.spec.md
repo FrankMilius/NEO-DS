@@ -78,19 +78,19 @@ Base classes: `nc-file-upload`
 ### Dropzone
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-file-upload-border` | — | — |
-| `nc-file-upload-border-style` | — | — |
-| `nc-file-upload-border-hover` | — | — |
-| `nc-file-upload-bg` | — | — |
-| `nc-file-upload-bg-hover` | — | — |
-| `nc-file-upload-radius` | — | — |
-| `nc-file-upload-padding` | — | — |
+| `--nc-file-upload-border` | — | `--mod-file-upload-border` |
+| `--nc-file-upload-border-style` | — | `--mod-file-upload-border-style` |
+| `--nc-file-upload-border-hover` | — | `--mod-file-upload-border-hover` |
+| `--nc-file-upload-bg` | — | `--mod-file-upload-bg` |
+| `--nc-file-upload-bg-hover` | — | `--mod-file-upload-bg-hover` |
+| `--nc-file-upload-radius` | — | `--mod-file-upload-radius` |
+| `--nc-file-upload-padding` | — | `--mod-file-upload-padding` |
 
 ### Icon
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-file-upload-icon-size` | — | — |
-| `nc-file-upload-icon-color` | — | — |
+| `--nc-file-upload-icon-size` | — | `--mod-file-upload-icon-size` |
+| `--nc-file-upload-icon-color` | — | `--mod-file-upload-icon-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -87,114 +87,114 @@ Base classes: `nc-code-snippet`
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-font-family` | — | — |
-| `nc-cs-font-size` | — | — |
-| `nc-cs-line-height` | — | — |
-| `nc-cs-font-weight` | — | — |
-| `nc-cs-tab-size` | — | — |
+| `--nc-cs-font-family` | — | `--mod-cs-font-family` |
+| `--nc-cs-font-size` | — | `--mod-cs-font-size` |
+| `--nc-cs-line-height` | — | `--mod-cs-line-height` |
+| `--nc-cs-font-weight` | — | `--mod-cs-font-weight` |
+| `--nc-cs-tab-size` | — | `--mod-cs-tab-size` |
 
 ### Block Surface
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-bg` | — | — |
-| `nc-cs-color` | — | — |
-| `nc-cs-border` | — | — |
-| `nc-cs-border-width` | — | — |
-| `nc-cs-radius` | — | — |
-| `nc-cs-padding` | — | — |
-| `nc-cs-padding-inline` | — | — |
+| `--nc-cs-bg` | — | `--mod-cs-bg` |
+| `--nc-cs-color` | — | `--mod-cs-color` |
+| `--nc-cs-border` | — | `--mod-cs-border` |
+| `--nc-cs-border-width` | — | `--mod-cs-border-width` |
+| `--nc-cs-radius` | — | `--mod-cs-radius` |
+| `--nc-cs-padding` | — | `--mod-cs-padding` |
+| `--nc-cs-padding-inline` | — | `--mod-cs-padding-inline` |
 
 ### Inline
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-inline-bg` | — | — |
-| `nc-cs-inline-color` | — | — |
-| `nc-cs-inline-radius` | — | — |
-| `nc-cs-inline-padding-x` | — | — |
-| `nc-cs-inline-padding-y` | — | — |
-| `nc-cs-inline-font-size` | — | — |
+| `--nc-cs-inline-bg` | — | `--mod-cs-inline-bg` |
+| `--nc-cs-inline-color` | — | `--mod-cs-inline-color` |
+| `--nc-cs-inline-radius` | — | `--mod-cs-inline-radius` |
+| `--nc-cs-inline-padding-x` | — | `--mod-cs-inline-padding-x` |
+| `--nc-cs-inline-padding-y` | — | `--mod-cs-inline-padding-y` |
+| `--nc-cs-inline-font-size` | — | `--mod-cs-inline-font-size` |
 
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-header-bg` | — | — |
-| `nc-cs-header-color` | — | — |
-| `nc-cs-header-height` | — | — |
-| `nc-cs-header-padding` | — | — |
-| `nc-cs-header-font-size` | — | — |
-| `nc-cs-header-font-weight` | — | — |
-| `nc-cs-header-border` | — | — |
+| `--nc-cs-header-bg` | — | `--mod-cs-header-bg` |
+| `--nc-cs-header-color` | — | `--mod-cs-header-color` |
+| `--nc-cs-header-height` | — | `--mod-cs-header-height` |
+| `--nc-cs-header-padding` | — | `--mod-cs-header-padding` |
+| `--nc-cs-header-font-size` | — | `--mod-cs-header-font-size` |
+| `--nc-cs-header-font-weight` | — | `--mod-cs-header-font-weight` |
+| `--nc-cs-header-border` | — | `--mod-cs-header-border` |
 
 ### macOS Dots
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-header-dot-size` | — | — |
-| `nc-cs-header-dot-gap` | — | — |
-| `nc-cs-header-dot-close` | — | — |
-| `nc-cs-header-dot-minimize` | — | — |
-| `nc-cs-header-dot-maximize` | — | — |
+| `--nc-cs-header-dot-size` | — | `--mod-cs-header-dot-size` |
+| `--nc-cs-header-dot-gap` | — | `--mod-cs-header-dot-gap` |
+| `--nc-cs-header-dot-close` | — | `--mod-cs-header-dot-close` |
+| `--nc-cs-header-dot-minimize` | — | `--mod-cs-header-dot-minimize` |
+| `--nc-cs-header-dot-maximize` | — | `--mod-cs-header-dot-maximize` |
 
 ### Line Numbers
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-line-numbers-color` | — | — |
-| `nc-cs-line-numbers-width` | — | — |
-| `nc-cs-line-numbers-padding` | — | — |
-| `nc-cs-line-numbers-border` | — | — |
+| `--nc-cs-line-numbers-color` | — | `--mod-cs-line-numbers-color` |
+| `--nc-cs-line-numbers-width` | — | `--mod-cs-line-numbers-width` |
+| `--nc-cs-line-numbers-padding` | — | `--mod-cs-line-numbers-padding` |
+| `--nc-cs-line-numbers-border` | — | `--mod-cs-line-numbers-border` |
 
 ### Line Highlight
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-line-highlight-bg` | — | — |
-| `nc-cs-line-highlight-border` | — | — |
-| `nc-cs-line-highlight-width` | — | — |
+| `--nc-cs-line-highlight-bg` | — | `--mod-cs-line-highlight-bg` |
+| `--nc-cs-line-highlight-border` | — | `--mod-cs-line-highlight-border` |
+| `--nc-cs-line-highlight-width` | — | `--mod-cs-line-highlight-width` |
 
 ### Copy Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-copy-size` | — | — |
-| `nc-cs-copy-bg` | — | — |
-| `nc-cs-copy-bg-hover` | — | — |
-| `nc-cs-copy-color` | — | — |
-| `nc-cs-copy-color-hover` | — | — |
-| `nc-cs-copy-border` | — | — |
-| `nc-cs-copy-radius` | — | — |
-| `nc-cs-copy-icon-size` | — | — |
-| `nc-cs-copy-success-color` | — | — |
+| `--nc-cs-copy-size` | — | `--mod-cs-copy-size` |
+| `--nc-cs-copy-bg` | — | `--mod-cs-copy-bg` |
+| `--nc-cs-copy-bg-hover` | — | `--mod-cs-copy-bg-hover` |
+| `--nc-cs-copy-color` | — | `--mod-cs-copy-color` |
+| `--nc-cs-copy-color-hover` | — | `--mod-cs-copy-color-hover` |
+| `--nc-cs-copy-border` | — | `--mod-cs-copy-border` |
+| `--nc-cs-copy-radius` | — | `--mod-cs-copy-radius` |
+| `--nc-cs-copy-icon-size` | — | `--mod-cs-copy-icon-size` |
+| `--nc-cs-copy-success-color` | — | `--mod-cs-copy-success-color` |
 
 ### Copy Tooltip
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-copy-tooltip-bg` | — | — |
-| `nc-cs-copy-tooltip-color` | — | — |
-| `nc-cs-copy-tooltip-radius` | — | — |
-| `nc-cs-copy-tooltip-font-size` | — | — |
+| `--nc-cs-copy-tooltip-bg` | — | `--mod-cs-copy-tooltip-bg` |
+| `--nc-cs-copy-tooltip-color` | — | `--mod-cs-copy-tooltip-color` |
+| `--nc-cs-copy-tooltip-radius` | — | `--mod-cs-copy-tooltip-radius` |
+| `--nc-cs-copy-tooltip-font-size` | — | `--mod-cs-copy-tooltip-font-size` |
 
 ### Show More
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-multi-max-height` | — | — |
-| `nc-cs-show-more-bg` | — | — |
-| `nc-cs-show-more-color` | — | — |
-| `nc-cs-show-more-font-size` | — | — |
-| `nc-cs-show-more-height` | — | — |
+| `--nc-cs-multi-max-height` | — | `--mod-cs-multi-max-height` |
+| `--nc-cs-show-more-bg` | — | `--mod-cs-show-more-bg` |
+| `--nc-cs-show-more-color` | — | `--mod-cs-show-more-color` |
+| `--nc-cs-show-more-font-size` | — | `--mod-cs-show-more-font-size` |
+| `--nc-cs-show-more-height` | — | `--mod-cs-show-more-height` |
 
 ### Syntax Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-cs-syntax-comment` | — | — |
-| `nc-cs-syntax-keyword` | — | — |
-| `nc-cs-syntax-string` | — | — |
-| `nc-cs-syntax-number` | — | — |
-| `nc-cs-syntax-function` | — | — |
-| `nc-cs-syntax-operator` | — | — |
-| `nc-cs-syntax-class` | — | — |
-| `nc-cs-syntax-property` | — | — |
-| `nc-cs-syntax-tag` | — | — |
-| `nc-cs-syntax-attr-name` | — | — |
-| `nc-cs-syntax-attr-value` | — | — |
-| `nc-cs-syntax-selector` | — | — |
-| `nc-cs-syntax-punctuation` | — | — |
+| `--nc-cs-syntax-comment` | — | `--mod-cs-syntax-comment` |
+| `--nc-cs-syntax-keyword` | — | `--mod-cs-syntax-keyword` |
+| `--nc-cs-syntax-string` | — | `--mod-cs-syntax-string` |
+| `--nc-cs-syntax-number` | — | `--mod-cs-syntax-number` |
+| `--nc-cs-syntax-function` | — | `--mod-cs-syntax-function` |
+| `--nc-cs-syntax-operator` | — | `--mod-cs-syntax-operator` |
+| `--nc-cs-syntax-class` | — | `--mod-cs-syntax-class` |
+| `--nc-cs-syntax-property` | — | `--mod-cs-syntax-property` |
+| `--nc-cs-syntax-tag` | — | `--mod-cs-syntax-tag` |
+| `--nc-cs-syntax-attr-name` | — | `--mod-cs-syntax-attr-name` |
+| `--nc-cs-syntax-attr-value` | — | `--mod-cs-syntax-attr-value` |
+| `--nc-cs-syntax-selector` | — | `--mod-cs-syntax-selector` |
+| `--nc-cs-syntax-punctuation` | — | `--mod-cs-syntax-punctuation` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

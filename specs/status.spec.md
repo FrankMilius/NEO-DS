@@ -51,45 +51,45 @@ Base classes: `nc-status`
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-size-xs` | — | — |
-| `nc-status-size-sm` | — | — |
-| `nc-status-size-md` | — | — |
+| `--nc-status-size-xs` | — | `--mod-status-size-xs` |
+| `--nc-status-size-sm` | — | `--mod-status-size-sm` |
+| `--nc-status-size-md` | — | `--mod-status-size-md` |
 
 ### Online
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-online` | — | — |
+| `--nc-status-online` | — | `--mod-status-online` |
 
 ### Offline
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-offline` | — | — |
+| `--nc-status-offline` | — | `--mod-status-offline` |
 
 ### Busy
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-busy` | — | — |
+| `--nc-status-busy` | — | `--mod-status-busy` |
 
 ### Away
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-away` | — | — |
+| `--nc-status-away` | — | `--mod-status-away` |
 
 ### Neutral
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-neutral` | — | — |
+| `--nc-status-neutral` | — | `--mod-status-neutral` |
 
 ### Ring
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-ring-width` | — | — |
-| `nc-status-ring-color` | — | — |
+| `--nc-status-ring-width` | — | `--mod-status-ring-width` |
+| `--nc-status-ring-color` | — | `--mod-status-ring-color` |
 
 ### Pulse
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-status-pulse-duration` | — | — |
+| `--nc-status-pulse-duration` | — | `--mod-status-pulse-duration` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

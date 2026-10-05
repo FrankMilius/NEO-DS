@@ -60,37 +60,37 @@ Base classes: `nc-radio-group`
 ### Geometry (Gap)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-group-gap` | — | — |
-| `nc-group-gap-sm` | — | — |
-| `nc-group-gap-lg` | — | — |
-| `nc-group-gap-horizontal` | — | — |
+| `--nc-group-gap` | — | `--mod-group-gap` |
+| `--nc-group-gap-sm` | — | `--mod-group-gap-sm` |
+| `--nc-group-gap-lg` | — | `--mod-group-gap-lg` |
+| `--nc-group-gap-horizontal` | — | `--mod-group-gap-horizontal` |
 
 ### Hint
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-group-hint-margin-top` | — | — |
+| `--nc-group-hint-margin-top` | — | `--mod-group-hint-margin-top` |
 
 ### Segmented Control
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-segmented-bg` | — | — |
-| `nc-radio-segmented-bg-checked` | — | — |
-| `nc-radio-segmented-color` | — | — |
-| `nc-radio-segmented-color-checked` | — | — |
-| `nc-radio-segmented-radius` | — | — |
-| `nc-radio-segmented-padding` | — | — |
-| `nc-radio-segmented-border` | — | — |
+| `--nc-radio-segmented-bg` | — | `--mod-radio-segmented-bg` |
+| `--nc-radio-segmented-bg-checked` | — | `--mod-radio-segmented-bg-checked` |
+| `--nc-radio-segmented-color` | — | `--mod-radio-segmented-color` |
+| `--nc-radio-segmented-color-checked` | — | `--mod-radio-segmented-color-checked` |
+| `--nc-radio-segmented-radius` | — | `--mod-radio-segmented-radius` |
+| `--nc-radio-segmented-padding` | — | `--mod-radio-segmented-padding` |
+| `--nc-radio-segmented-border` | — | `--mod-radio-segmented-border` |
 
 ### Card Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-radio-card-bg` | — | — |
-| `nc-radio-card-bg-checked` | — | — |
-| `nc-radio-card-border` | — | — |
-| `nc-radio-card-border-checked` | — | — |
-| `nc-radio-card-border-hover` | — | — |
-| `nc-radio-card-radius` | — | — |
-| `nc-radio-card-padding` | — | — |
+| `--nc-radio-card-bg` | — | `--mod-radio-card-bg` |
+| `--nc-radio-card-bg-checked` | — | `--mod-radio-card-bg-checked` |
+| `--nc-radio-card-border` | — | `--mod-radio-card-border` |
+| `--nc-radio-card-border-checked` | — | `--mod-radio-card-border-checked` |
+| `--nc-radio-card-border-hover` | — | `--mod-radio-card-border-hover` |
+| `--nc-radio-card-radius` | — | `--mod-radio-card-radius` |
+| `--nc-radio-card-padding` | — | `--mod-radio-card-padding` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

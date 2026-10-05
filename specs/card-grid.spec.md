@@ -41,17 +41,17 @@ Base classes: `nc-card-grid`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-columns` | — | — |
-| `nc-card-grid-gap` | — | — |
-| `nc-card-grid-title-size` | — | — |
-| `nc-card-grid-title-margin` | — | — |
+| `--nc-card-grid-columns` | — | `--mod-card-grid-columns` |
+| `--nc-card-grid-gap` | — | `--mod-card-grid-gap` |
+| `--nc-card-grid-title-size` | — | `--mod-card-grid-title-size` |
+| `--nc-card-grid-title-margin` | — | `--mod-card-grid-title-margin` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-card-grid-anim-duration` | — | — |
-| `nc-card-grid-anim-delay` | — | — |
-| `nc-card-grid-anim-translate-y` | — | — |
+| `--nc-card-grid-anim-duration` | — | `--mod-card-grid-anim-duration` |
+| `--nc-card-grid-anim-delay` | — | `--mod-card-grid-anim-delay` |
+| `--nc-card-grid-anim-translate-y` | — | `--mod-card-grid-anim-translate-y` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

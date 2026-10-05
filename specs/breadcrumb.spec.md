@@ -96,51 +96,68 @@ Base classes: `nc-breadcrumb`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-gap` | — | — |
-| `nc-breadcrumb-font-size` | — | — |
+| `--nc-breadcrumb-gap` | — | `--mod-breadcrumb-gap` |
+| `--nc-breadcrumb-font-size` | — | `--mod-breadcrumb-font-size` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-color` | — | — |
-| `nc-breadcrumb-color-current` | — | — |
-| `nc-breadcrumb-color-hover` | — | — |
+| `--nc-breadcrumb-color` | — | `--mod-breadcrumb-color` |
+| `--nc-breadcrumb-color-current` | — | `--mod-breadcrumb-color-current` |
+| `--nc-breadcrumb-color-hover` | — | `--mod-breadcrumb-color-hover` |
 
 ### Separator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-separator-color` | — | — |
-| `nc-breadcrumb-separator-opacity` | — | — |
-| `nc-breadcrumb-separator-size` | — | — |
-| `nc-breadcrumb-separator-min-width` | — | — |
-| `nc-breadcrumb-separator-custom` | — | — |
+| `--nc-breadcrumb-separator-color` | — | `--mod-breadcrumb-separator-color` |
+| `--nc-breadcrumb-separator-opacity` | — | `--mod-breadcrumb-separator-opacity` |
+| `--nc-breadcrumb-separator-size` | — | `--mod-breadcrumb-separator-size` |
+| `--nc-breadcrumb-separator-min-width` | — | `--mod-breadcrumb-separator-min-width` |
+| `--nc-breadcrumb-separator-custom` | — | `--mod-breadcrumb-separator-custom` |
 
 ### Size SM
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-font-size-sm` | — | — |
+| `--nc-breadcrumb-font-size-sm` | — | `--mod-breadcrumb-font-size-sm` |
 
 ### Ghost Variant
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-ghost-color` | — | — |
-| `nc-breadcrumb-ghost-color-hover` | — | — |
+| `--nc-breadcrumb-ghost-color` | — | `--mod-breadcrumb-ghost-color` |
+| `--nc-breadcrumb-ghost-color-hover` | — | `--mod-breadcrumb-ghost-color-hover` |
 
 ### Back-Link
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-back-icon-size` | — | — |
-| `nc-breadcrumb-back-gap` | — | — |
+| `--nc-breadcrumb-back-icon-size` | — | `--mod-breadcrumb-back-icon-size` |
+| `--nc-breadcrumb-back-gap` | — | `--mod-breadcrumb-back-gap` |
 
 ### Home Icon
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-separator-size` | — | — |
+| `--nc-breadcrumb-separator-size` | — | `--mod-breadcrumb-separator-size` |
 
 ### Dropdown
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-breadcrumb-dropdown-min-width` | — | — |
+| `--nc-breadcrumb-dropdown-min-width` | — | `--mod-breadcrumb-dropdown-min-width` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | toggle-menu | Auf dem Ellipsis-Knopf: oeffnet das Menue der ausgeblendeten Ebenen, Fokus auf den ersten Eintrag (bzw. schliesst es). Im Menue: folgt dem Link (nativ). |
+| `Space` | toggle-menu | Auf dem Ellipsis-Knopf wie Enter. |
+| `ArrowDown` | focus-next-item | Auf dem Ellipsis-Knopf: oeffnet, erster Eintrag. Im Menue: naechster Eintrag (rundum). |
+| `ArrowUp` | focus-prev-item | Auf dem Ellipsis-Knopf: oeffnet, letzter Eintrag. Im Menue: vorheriger Eintrag (rundum). |
+| `Home` | focus-first-item | Im Menue: erster Eintrag. |
+| `End` | focus-last-item | Im Menue: letzter Eintrag. |
+| `Escape` | close | Schliesst das Menue, Fokus zurueck auf den Ellipsis-Knopf. |
+| `Tab` | close | Schliesst das Menue, der Fokus geht normal weiter. Die Eintraege selbst sind nicht in der Tab-Folge (tabindex=-1). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `breadcrumb-toggle` | Yes | `{"open":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

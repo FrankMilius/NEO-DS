@@ -72,104 +72,104 @@ Base classes: `nc-badge`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-height-sm` | — | — |
-| `nc-badge-height-md` | — | — |
-| `nc-badge-radius` | — | — |
-| `nc-badge-padding-x-sm` | — | — |
-| `nc-badge-padding-x-md` | — | — |
-| `nc-badge-gap` | — | — |
+| `--nc-badge-height-sm` | — | `--mod-badge-height-sm` |
+| `--nc-badge-height-md` | — | `--mod-badge-height-md` |
+| `--nc-badge-radius` | — | `--mod-badge-radius` |
+| `--nc-badge-padding-x-sm` | — | `--mod-badge-padding-x-sm` |
+| `--nc-badge-padding-x-md` | — | `--mod-badge-padding-x-md` |
+| `--nc-badge-gap` | — | `--mod-badge-gap` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-font-size-sm` | — | — |
-| `nc-badge-font-size-md` | — | — |
-| `nc-badge-font-weight` | — | — |
-| `nc-badge-letter-spacing` | — | — |
-| `nc-badge-line-height` | — | — |
-| `nc-badge-label-max-width` | — | — |
+| `--nc-badge-font-size-sm` | — | `--mod-badge-font-size-sm` |
+| `--nc-badge-font-size-md` | — | `--mod-badge-font-size-md` |
+| `--nc-badge-font-weight` | — | `--mod-badge-font-weight` |
+| `--nc-badge-letter-spacing` | — | `--mod-badge-letter-spacing` |
+| `--nc-badge-line-height` | — | `--mod-badge-line-height` |
+| `--nc-badge-label-max-width` | — | `--mod-badge-label-max-width` |
 
 ### Extras (Dot / Icon)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-dot-size` | — | — |
-| `nc-badge-dot-radius` | — | — |
-| `nc-badge-icon-size` | — | — |
+| `--nc-badge-dot-size` | — | `--mod-badge-dot-size` |
+| `--nc-badge-dot-radius` | — | `--mod-badge-dot-radius` |
+| `--nc-badge-icon-size` | — | `--mod-badge-icon-size` |
 
 ### Default
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-default-bg` | — | — |
-| `nc-badge-default-color` | — | — |
-| `nc-badge-default-border` | — | — |
+| `--nc-badge-default-bg` | — | `--mod-badge-default-bg` |
+| `--nc-badge-default-color` | — | `--mod-badge-default-color` |
+| `--nc-badge-default-border` | — | `--mod-badge-default-border` |
 
 ### Secondary
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-secondary-bg` | — | — |
-| `nc-badge-secondary-color` | — | — |
-| `nc-badge-secondary-border` | — | — |
+| `--nc-badge-secondary-bg` | — | `--mod-badge-secondary-bg` |
+| `--nc-badge-secondary-color` | — | `--mod-badge-secondary-color` |
+| `--nc-badge-secondary-border` | — | `--mod-badge-secondary-border` |
 
 ### Success
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-success-bg` | — | — |
-| `nc-badge-success-color` | — | — |
-| `nc-badge-success-border` | — | — |
+| `--nc-badge-success-bg` | — | `--mod-badge-success-bg` |
+| `--nc-badge-success-color` | — | `--mod-badge-success-color` |
+| `--nc-badge-success-border` | — | `--mod-badge-success-border` |
 
 ### Warning
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-warning-bg` | — | — |
-| `nc-badge-warning-color` | — | — |
-| `nc-badge-warning-border` | — | — |
+| `--nc-badge-warning-bg` | — | `--mod-badge-warning-bg` |
+| `--nc-badge-warning-color` | — | `--mod-badge-warning-color` |
+| `--nc-badge-warning-border` | — | `--mod-badge-warning-border` |
 
 ### Error
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-error-bg` | — | — |
-| `nc-badge-error-color` | — | — |
-| `nc-badge-error-border` | — | — |
+| `--nc-badge-error-bg` | — | `--mod-badge-error-bg` |
+| `--nc-badge-error-color` | — | `--mod-badge-error-color` |
+| `--nc-badge-error-border` | — | `--mod-badge-error-border` |
 
 ### Info
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-info-bg` | — | — |
-| `nc-badge-info-color` | — | — |
-| `nc-badge-info-border` | — | — |
+| `--nc-badge-info-bg` | — | `--mod-badge-info-bg` |
+| `--nc-badge-info-color` | — | `--mod-badge-info-color` |
+| `--nc-badge-info-border` | — | `--mod-badge-info-border` |
 
 ### Outline
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-outline-bg` | — | — |
-| `nc-badge-outline-color` | — | — |
-| `nc-badge-outline-border` | — | — |
-| `nc-badge-border-width` | — | — |
+| `--nc-badge-outline-bg` | — | `--mod-badge-outline-bg` |
+| `--nc-badge-outline-color` | — | `--mod-badge-outline-color` |
+| `--nc-badge-outline-border` | — | `--mod-badge-outline-border` |
+| `--nc-badge-border-width` | — | `--mod-badge-border-width` |
 
 ### Soft
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-soft-opacity` | — | — |
+| `--nc-badge-soft-opacity` | — | `--mod-badge-soft-opacity` |
 
 ### Positioning (Decorator)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-top-offset` | — | — |
-| `nc-badge-right-offset` | — | — |
-| `nc-badge-ring-width` | — | — |
-| `nc-badge-ring-color` | — | — |
+| `--nc-badge-top-offset` | — | `--mod-badge-top-offset` |
+| `--nc-badge-right-offset` | — | `--mod-badge-right-offset` |
+| `--nc-badge-ring-width` | — | `--mod-badge-ring-width` |
+| `--nc-badge-ring-color` | — | `--mod-badge-ring-color` |
 
 ### Pulse Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-pulse-duration` | — | — |
-| `nc-badge-pulse-scale` | — | — |
-| `nc-badge-pulse-opacity` | — | — |
+| `--nc-badge-pulse-duration` | — | `--mod-badge-pulse-duration` |
+| `--nc-badge-pulse-scale` | — | `--mod-badge-pulse-scale` |
+| `--nc-badge-pulse-opacity` | — | `--mod-badge-pulse-opacity` |
 
 ### Status String
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-badge-status-font-weight` | — | — |
+| `--nc-badge-status-font-weight` | — | `--mod-badge-status-font-weight` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

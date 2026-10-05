@@ -69,46 +69,46 @@ Base classes: `nc-footer`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-footer-bg` | — | — |
-| `nc-footer-color` | — | — |
-| `nc-footer-padding-block` | — | — |
-| `nc-footer-padding-inline` | — | — |
-| `nc-footer-max-width` | — | — |
-| `nc-footer-separator-color` | — | — |
-| `nc-footer-link-color` | — | — |
-| `nc-footer-link-hover-color` | — | — |
+| `--nc-footer-bg` | — | `--mod-footer-bg` |
+| `--nc-footer-color` | — | `--mod-footer-color` |
+| `--nc-footer-padding-block` | — | `--mod-footer-padding-block` |
+| `--nc-footer-padding-inline` | — | `--mod-footer-padding-inline` |
+| `--nc-footer-max-width` | — | `--mod-footer-max-width` |
+| `--nc-footer-separator-color` | — | `--mod-footer-separator-color` |
+| `--nc-footer-link-color` | — | `--mod-footer-link-color` |
+| `--nc-footer-link-hover-color` | — | `--mod-footer-link-hover-color` |
 
 ### Columns
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-footer-col-gap` | — | — |
-| `nc-footer-heading-size` | — | — |
-| `nc-footer-heading-weight` | — | — |
-| `nc-footer-heading-color` | — | — |
-| `nc-footer-heading-transform` | — | — |
-| `nc-footer-link-size` | — | — |
+| `--nc-footer-col-gap` | — | `--mod-footer-col-gap` |
+| `--nc-footer-heading-size` | — | `--mod-footer-heading-size` |
+| `--nc-footer-heading-weight` | — | `--mod-footer-heading-weight` |
+| `--nc-footer-heading-color` | — | `--mod-footer-heading-color` |
+| `--nc-footer-heading-transform` | — | `--mod-footer-heading-transform` |
+| `--nc-footer-link-size` | — | `--mod-footer-link-size` |
 
 ### CTA Area
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-footer-cta-kicker-size` | — | — |
-| `nc-footer-cta-headline-size` | — | — |
-| `nc-footer-cta-headline-weight` | — | — |
-| `nc-footer-cta-gap` | — | — |
+| `--nc-footer-cta-kicker-size` | — | `--mod-footer-cta-kicker-size` |
+| `--nc-footer-cta-headline-size` | — | `--mod-footer-cta-headline-size` |
+| `--nc-footer-cta-headline-weight` | — | `--mod-footer-cta-headline-weight` |
+| `--nc-footer-cta-gap` | — | `--mod-footer-cta-gap` |
 
 ### Social Links
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-footer-social-icon-size` | — | — |
-| `nc-footer-social-gap` | — | — |
-| `nc-footer-social-color` | — | — |
-| `nc-footer-social-hover-color` | — | — |
+| `--nc-footer-social-icon-size` | — | `--mod-footer-social-icon-size` |
+| `--nc-footer-social-gap` | — | `--mod-footer-social-gap` |
+| `--nc-footer-social-color` | — | `--mod-footer-social-color` |
+| `--nc-footer-social-hover-color` | — | `--mod-footer-social-hover-color` |
 
 ### Legal Area
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-footer-legal-size` | — | — |
-| `nc-footer-legal-color` | — | — |
+| `--nc-footer-legal-size` | — | `--mod-footer-legal-size` |
+| `--nc-footer-legal-color` | — | `--mod-footer-legal-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

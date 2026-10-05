@@ -92,38 +92,53 @@ Base classes: `nc-rating`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-rating-size` | — | — |
-| `nc-rating-gap` | — | — |
-| `nc-rating-touch-padding` | — | — |
+| `--nc-rating-size` | — | `--mod-rating-size` |
+| `--nc-rating-gap` | — | `--mod-rating-gap` |
+| `--nc-rating-touch-padding` | — | `--mod-rating-touch-padding` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-rating-color-active` | — | — |
-| `nc-rating-color-inactive` | — | — |
-| `nc-rating-hover-color` | — | — |
-| `nc-rating-count-color` | — | — |
-| `nc-rating-error-color` | — | — |
+| `--nc-rating-color-active` | — | `--mod-rating-color-active` |
+| `--nc-rating-color-inactive` | — | `--mod-rating-color-inactive` |
+| `--nc-rating-hover-color` | — | `--mod-rating-hover-color` |
+| `--nc-rating-count-color` | — | `--mod-rating-count-color` |
+| `--nc-rating-error-color` | — | `--mod-rating-error-color` |
 
 ### Sentiment Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-rating-sentiment-low` | — | — |
-| `nc-rating-sentiment-mid` | — | — |
-| `nc-rating-sentiment-high` | — | — |
+| `--nc-rating-sentiment-low` | — | `--mod-rating-sentiment-low` |
+| `--nc-rating-sentiment-mid` | — | `--mod-rating-sentiment-mid` |
+| `--nc-rating-sentiment-high` | — | `--mod-rating-sentiment-high` |
 
 ### Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-rating-transition-duration` | — | — |
-| `nc-rating-transition-timing` | — | — |
-| `nc-rating-stagger-delay` | — | — |
-| `nc-rating-bounce-scale` | — | — |
+| `--nc-rating-transition-duration` | — | `--mod-rating-transition-duration` |
+| `--nc-rating-transition-timing` | — | `--mod-rating-transition-timing` |
+| `--nc-rating-stagger-delay` | — | `--mod-rating-stagger-delay` |
+| `--nc-rating-bounce-scale` | — | `--mod-rating-bounce-scale` |
 
 ### Disabled
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-rating-disabled-opacity` | — | — |
+| `--nc-rating-disabled-opacity` | — | `--mod-rating-disabled-opacity` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `ArrowRight` | increase | Ein Stern mehr (bis zum Hoechstwert). |
+| `ArrowUp` | increase | Wie ArrowRight. |
+| `ArrowLeft` | decrease | Ein Stern weniger; vom ersten Stern auf 0 (Null-Radio). |
+| `ArrowDown` | decrease | Wie ArrowLeft. |
+| `Home` | select-first | Ein Stern. |
+| `End` | select-last | Hoechstwert. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `rating-change` | Yes | `{"value":"number","previousValue":"number"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

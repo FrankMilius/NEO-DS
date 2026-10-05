@@ -61,24 +61,24 @@ Base classes: `nc-divider`
 ### Line
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-divider-color` | — | — |
-| `nc-divider-width` | — | — |
-| `nc-divider-style` | — | — |
-| `nc-divider-spacing` | — | — |
+| `--nc-divider-color` | — | `--mod-divider-color` |
+| `--nc-divider-width` | — | `--mod-divider-width` |
+| `--nc-divider-style` | — | `--mod-divider-style` |
+| `--nc-divider-spacing` | — | `--mod-divider-spacing` |
 
 ### Strong
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-divider-strong-color` | — | — |
-| `nc-divider-strong-width` | — | — |
+| `--nc-divider-strong-color` | — | `--mod-divider-strong-color` |
+| `--nc-divider-strong-width` | — | `--mod-divider-strong-width` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-divider-label-color` | — | — |
-| `nc-divider-label-size` | — | — |
-| `nc-divider-label-weight` | — | — |
-| `nc-divider-label-gap` | — | — |
+| `--nc-divider-label-color` | — | `--mod-divider-label-color` |
+| `--nc-divider-label-size` | — | `--mod-divider-label-size` |
+| `--nc-divider-label-weight` | — | `--mod-divider-label-weight` |
+| `--nc-divider-label-gap` | — | `--mod-divider-label-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

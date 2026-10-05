@@ -45,7 +45,7 @@ Base classes: `nc-form-actions`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-actions-gap` | — | — |
+| `--nc-form-actions-gap` | — | `--mod-form-actions-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

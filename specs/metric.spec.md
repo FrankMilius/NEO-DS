@@ -64,80 +64,80 @@ Base classes: `nc-metric`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-bg` | — | — |
-| `nc-metric-color` | — | — |
-| `nc-metric-radius` | — | — |
-| `nc-metric-padding` | — | — |
-| `nc-metric-gap` | — | — |
+| `--nc-metric-bg` | — | `--mod-metric-bg` |
+| `--nc-metric-color` | — | `--mod-metric-color` |
+| `--nc-metric-radius` | — | `--mod-metric-radius` |
+| `--nc-metric-padding` | — | `--mod-metric-padding` |
+| `--nc-metric-gap` | — | `--mod-metric-gap` |
 
 ### Value (Big Number)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-value-font-family` | — | — |
-| `nc-metric-value-font-size` | — | — |
-| `nc-metric-value-font-weight` | — | — |
-| `nc-metric-value-color` | — | — |
-| `nc-metric-value-line-height` | — | — |
+| `--nc-metric-value-font-family` | — | `--mod-metric-value-font-family` |
+| `--nc-metric-value-font-size` | — | `--mod-metric-value-font-size` |
+| `--nc-metric-value-font-weight` | — | `--mod-metric-value-font-weight` |
+| `--nc-metric-value-color` | — | `--mod-metric-value-color` |
+| `--nc-metric-value-line-height` | — | `--mod-metric-value-line-height` |
 
 ### Unit
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-unit-font-size` | — | — |
-| `nc-metric-unit-color` | — | — |
-| `nc-metric-unit-font-weight` | — | — |
+| `--nc-metric-unit-font-size` | — | `--mod-metric-unit-font-size` |
+| `--nc-metric-unit-color` | — | `--mod-metric-unit-color` |
+| `--nc-metric-unit-font-weight` | — | `--mod-metric-unit-font-weight` |
 
 ### Label
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-label-font-size` | — | — |
-| `nc-metric-label-color` | — | — |
-| `nc-metric-label-font-weight` | — | — |
-| `nc-metric-label-opacity` | — | — |
+| `--nc-metric-label-font-size` | — | `--mod-metric-label-font-size` |
+| `--nc-metric-label-color` | — | `--mod-metric-label-color` |
+| `--nc-metric-label-font-weight` | — | `--mod-metric-label-font-weight` |
+| `--nc-metric-label-opacity` | — | `--mod-metric-label-opacity` |
 
 ### Trend Indicator
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-trend-font-size` | — | — |
-| `nc-metric-trend-font-weight` | — | — |
-| `nc-metric-trend-gap` | — | — |
-| `nc-metric-trend-icon-size` | — | — |
-| `nc-metric-trend-up-color` | — | — |
-| `nc-metric-trend-down-color` | — | — |
-| `nc-metric-trend-neutral-color` | — | — |
+| `--nc-metric-trend-font-size` | — | `--mod-metric-trend-font-size` |
+| `--nc-metric-trend-font-weight` | — | `--mod-metric-trend-font-weight` |
+| `--nc-metric-trend-gap` | — | `--mod-metric-trend-gap` |
+| `--nc-metric-trend-icon-size` | — | `--mod-metric-trend-icon-size` |
+| `--nc-metric-trend-up-color` | — | `--mod-metric-trend-up-color` |
+| `--nc-metric-trend-down-color` | — | `--mod-metric-trend-down-color` |
+| `--nc-metric-trend-neutral-color` | — | `--mod-metric-trend-neutral-color` |
 
 ### Footer
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-footer-font-size` | — | — |
-| `nc-metric-footer-color` | — | — |
-| `nc-metric-footer-opacity` | — | — |
+| `--nc-metric-footer-font-size` | — | `--mod-metric-footer-font-size` |
+| `--nc-metric-footer-color` | — | `--mod-metric-footer-color` |
+| `--nc-metric-footer-opacity` | — | `--mod-metric-footer-opacity` |
 
 ### Subtle Emphasis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-subtle-bg` | — | — |
-| `nc-metric-subtle-color` | — | — |
-| `nc-metric-subtle-value-color` | — | — |
-| `nc-metric-subtle-label-color` | — | — |
-| `nc-metric-subtle-label-opacity` | — | — |
-| `nc-metric-subtle-footer-color` | — | — |
-| `nc-metric-subtle-footer-opacity` | — | — |
+| `--nc-metric-subtle-bg` | — | `--mod-metric-subtle-bg` |
+| `--nc-metric-subtle-color` | — | `--mod-metric-subtle-color` |
+| `--nc-metric-subtle-value-color` | — | `--mod-metric-subtle-value-color` |
+| `--nc-metric-subtle-label-color` | — | `--mod-metric-subtle-label-color` |
+| `--nc-metric-subtle-label-opacity` | — | `--mod-metric-subtle-label-opacity` |
+| `--nc-metric-subtle-footer-color` | — | `--mod-metric-subtle-footer-color` |
+| `--nc-metric-subtle-footer-opacity` | — | `--mod-metric-subtle-footer-opacity` |
 
 ### Size MD
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-md-padding` | — | — |
-| `nc-metric-md-value-font-size` | — | — |
-| `nc-metric-md-unit-font-size` | — | — |
-| `nc-metric-md-label-font-size` | — | — |
+| `--nc-metric-md-padding` | — | `--mod-metric-md-padding` |
+| `--nc-metric-md-value-font-size` | — | `--mod-metric-md-value-font-size` |
+| `--nc-metric-md-unit-font-size` | — | `--mod-metric-md-unit-font-size` |
+| `--nc-metric-md-label-font-size` | — | `--mod-metric-md-label-font-size` |
 
 ### Size XL
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-metric-xl-padding` | — | — |
-| `nc-metric-xl-value-font-size` | — | — |
-| `nc-metric-xl-unit-font-size` | — | — |
-| `nc-metric-xl-label-font-size` | — | — |
+| `--nc-metric-xl-padding` | — | `--mod-metric-xl-padding` |
+| `--nc-metric-xl-value-font-size` | — | `--mod-metric-xl-value-font-size` |
+| `--nc-metric-xl-unit-font-size` | — | `--mod-metric-xl-unit-font-size` |
+| `--nc-metric-xl-label-font-size` | — | `--mod-metric-xl-label-font-size` |
 
 ## Accessibility
 Contrast Target: WCAG AA large text (3:1)

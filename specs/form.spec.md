@@ -35,38 +35,7 @@ Base classes: `nc-form`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-gap` | — | — |
-
-### Label
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `nc-form-label-font-size` | — | — |
-| `nc-form-label-font-weight` | — | — |
-| `nc-form-label-color` | — | — |
-| `nc-form-label-gap` | — | — |
-| `nc-form-label-required-color` | — | — |
-| `nc-form-label-optional-color` | — | — |
-
-### Hint
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `nc-form-hint-font-size` | — | — |
-| `nc-form-hint-color` | — | — |
-| `nc-form-hint-gap` | — | — |
-
-### Error
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `nc-form-error-font-size` | — | — |
-| `nc-form-error-font-weight` | — | — |
-| `nc-form-error-color` | — | — |
-| `nc-form-error-icon-size` | — | — |
-| `nc-form-error-gap` | — | — |
-
-### Field
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `nc-form-field-gap` | — | — |
+| `--nc-form-gap` | — | `--mod-form-gap` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

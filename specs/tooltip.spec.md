@@ -15,6 +15,7 @@ Root element: `.nc-tooltip`
 - Wrapper um Trigger + Content. Content wird absolut positioniert.
 - role='tooltip' auf Content. aria-describedby auf Trigger → verlinkt mit Content-ID.
 - Erscheint auf :hover UND :focus-within (Keyboard-Support, kein JS noetig fuer Basis).
+- Fester sichtbarer Zustand: Klasse .is-open am Wrapper (.nc-tooltip.is-open) zeigt den Inhalt ohne Hover/Fokus — fuer Doku, Arena und Onboarding-Hinweise. Das Escape-[hidden] von neo-behaviors hat Vorrang. Entscheidung 02.10.2026.
 - Tooltip-Inhalt ist ergaenzend, nie essenziell — kein interaktiver Inhalt erlaubt.
 - Disabled Trigger: Wrapper <span tabindex='0'> fuer Fokussierbarkeit.
 - Arrow ist rein dekorativ — rotiertes CSS-Quadrat, uebernimmt bg, kein DOM-Bedarf fuer a11y.
@@ -47,30 +48,41 @@ Base classes: `nc-tooltip`
 ### Appearance
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-tooltip-bg` | — | — |
-| `nc-tooltip-color` | — | — |
-| `nc-tooltip-padding` | — | — |
-| `nc-tooltip-radius` | — | — |
-| `nc-tooltip-shadow` | — | — |
+| `--nc-tooltip-bg` | — | `--mod-tooltip-bg` |
+| `--nc-tooltip-color` | — | `--mod-tooltip-color` |
+| `--nc-tooltip-padding` | — | `--mod-tooltip-padding` |
+| `--nc-tooltip-radius` | — | `--mod-tooltip-radius` |
+| `--nc-tooltip-shadow` | — | `--mod-tooltip-shadow` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-tooltip-font-size` | — | — |
-| `nc-tooltip-max-width` | — | — |
+| `--nc-tooltip-font-size` | — | `--mod-tooltip-font-size` |
+| `--nc-tooltip-max-width` | — | `--mod-tooltip-max-width` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-tooltip-transition-duration` | — | — |
-| `nc-tooltip-transition-timing` | — | — |
-| `nc-tooltip-offset` | — | — |
-| `nc-tooltip-delay` | — | — |
+| `--nc-tooltip-transition-duration` | — | `--mod-tooltip-transition-duration` |
+| `--nc-tooltip-transition-timing` | — | `--mod-tooltip-transition-timing` |
+| `--nc-tooltip-offset` | — | `--mod-tooltip-offset` |
+| `--nc-tooltip-delay` | — | `--mod-tooltip-delay` |
 
 ### Arrow
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-tooltip-arrow-size` | — | — |
+| `--nc-tooltip-arrow-size` | — | `--mod-tooltip-arrow-size` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Escape` | dismiss | Blendet den sichtbaren Tooltip aus, bis Maus und Fokus das Bauteil verlassen (WCAG 1.4.13). |
+| `Tab` | show-on-focus | Fokus auf dem Ausloeser zeigt den Tooltip (CSS :focus-within, kein JS). |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `tooltip-dismiss` | Yes | `{"reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

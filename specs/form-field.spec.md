@@ -37,13 +37,13 @@ Anordnung — vertical (Standard, Label oben), horizontal (Label links, Input re
 | horizontal | `.nc-form-field--horizontal` |  |
 
 ### Requirement (`requirement`)
-Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label)
+Pflichtfeld-Markierung — none (kein Indikator), required (Sternchen '*' am Label), optional ('(Optional)' am Label) — Kompositionsachse: Pflicht/Optional zeigt die Form-Label-Komponente (Slot required/optional), der Wrapper hat dafuer keine eigene Klasse.
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | none | — |  |
-| required | `.nc-form-field--required` |  |
-| optional | `.nc-form-field--optional` |  |
+| required | — |  |
+| optional | — |  |
 
 ### Validation (`validation`)
 Validierungs-State — none (Standard), error (Fehler), success (Erfolg)
@@ -82,13 +82,13 @@ Base classes: `nc-form-field`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-field-gap` | — | — |
+| `--nc-form-field-gap` | — | `--mod-form-field-gap` |
 
 ### Requirement Indicators
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-label-required-color` | — | — |
-| `nc-form-label-optional-color` | — | — |
+| `--nc-form-label-required-color` | — | `--mod-form-label-required-color` |
+| `--nc-form-label-optional-color` | — | `--mod-form-label-optional-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

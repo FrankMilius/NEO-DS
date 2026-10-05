@@ -59,7 +59,7 @@
     "notes": [
       "Root: inline-flex Wrapper mit Trigger und Panel.",
       "Trigger: <button aria-haspopup='dialog' aria-expanded='true|false'>.",
-      "Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden].",
+      "Panel: position:absolute, role='dialog' aria-labelledby. Versteckt via [hidden]; fest offen per .is-open an der Wurzel ([hidden] hat Vorrang).",
       "Unterschied zu Tooltip: Popover ist interaktiv, Focus-Trap, bleibt offen bis geschlossen.",
       "Positionen: --bottom (default), --top, --left, --right — jeweils zentriert via translate.",
       "Alignment: --bottom-start, --bottom-end fuer left/right-ausgerichtetes Panel.",
@@ -75,7 +75,9 @@
       "Auto-Placement (Floating UI empfohlen): computePosition({ placement, middleware: [offset(nc-popover-offset), flip(), shift({ padding: 16 })] }). Feste CSS-Positionen als Fallback. JS setzt data-placement='top|bottom|left|right' auf dem Panel.",
       "Trigger-Modi: 'click' (Standard): Toggle bei Klick. 'hover' (optional): Oeffnet nach 300ms Delay, schliesst bei Mausverlust mit 200ms Delay. Hover-Modus nur fuer nicht-interaktive Vorschau-Inhalte — sobald der Nutzer im Panel interagieren muss, click verwenden.",
       "Light Dismiss: Klick ausserhalb des Panels schliesst das Popover (JS). Optional: Scroll des Eltern-Containers schliesst (data-dismiss-on-scroll='true'). Pattern: document.addEventListener('click', (e) => { if (!popover.contains(e.target) && !trigger.contains(e.target)) close(); });",
-      "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible."
+      "High Contrast Mode: Panel erhaelt 1px solid ButtonText. Close-Button: 2px solid Highlight bei focus-visible.",
+      "Hover-Modus (nc-popover--hover-trigger): Panel im Markup OHNE [hidden]. Ohne JS oeffnet es per CSS bei :hover/:focus-within (wie Tooltip); neo-behaviors setzt beim Binden [hidden] und steuert dann mit 300/200 ms Verzoegerung. Entscheidung 02.10.2026.",
+      "Fester offener Zustand (.is-open an .nc-popover): zeigt das Panel ohne Hover/Klick — fuer Doku, Arena und serverseitig offen gerendertes Markup. Im Klick-Modus regelt [hidden] (is-open ueberstimmt es nicht), im Hover-Modus steht das Panel ohne [hidden] und is-open oeffnet es. neo-behaviors haelt is-open mit dem Panel synchron. Entscheidung 02.10.2026."
     ]
   },
   "api": null,
@@ -185,10 +187,18 @@
   },
   "states": {
     "supported": [
-      "default"
+      "default",
+      "open"
     ],
     "interactive": true,
-    "rules": []
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
   },
   "cssApi": {
     "baseClasses": [
@@ -309,9 +319,53 @@
       "--mod-popover-close-icon-size"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf dem Ausloeser: oeffnet/schliesst (nativer Klick). Beim Oeffnen geht der Fokus ins Panel."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Wie Enter."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst, Fokus zurueck auf den Ausloeser."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Panel (Fokus-Falle), solange es offen ist.",
+      "onlyWhen": {
+        "axes": {
+          "trigger": [
+            "click"
+          ]
+        }
+      }
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle.",
+      "onlyWhen": {
+        "axes": {
+          "trigger": [
+            "click"
+          ]
+        }
+      }
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "popover-toggle": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert beim Oeffnen und Schliessen. reason: 'trigger', 'escape', 'close-button', 'outside', 'hover', 'focus'."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

@@ -69,45 +69,45 @@ Base classes: `nc-input-group`
 ### Mirror (from Input)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-height-sm` | — | — |
-| `nc-input-group-height-md` | — | — |
-| `nc-input-group-height-lg` | — | — |
-| `nc-input-group-radius` | — | — |
-| `nc-input-group-border-width` | — | — |
+| `--nc-input-group-height-sm` | — | `--mod-input-group-height-sm` |
+| `--nc-input-group-height-md` | — | `--mod-input-group-height-md` |
+| `--nc-input-group-height-lg` | — | `--mod-input-group-height-lg` |
+| `--nc-input-group-radius` | — | `--mod-input-group-radius` |
+| `--nc-input-group-border-width` | — | `--mod-input-group-border-width` |
 
 ### Addon Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-addon-bg` | — | — |
-| `nc-input-group-addon-color` | — | — |
-| `nc-input-group-addon-border` | — | — |
-| `nc-input-group-addon-padding-x` | — | — |
-| `nc-input-group-addon-font-size` | — | — |
+| `--nc-input-group-addon-bg` | — | `--mod-input-group-addon-bg` |
+| `--nc-input-group-addon-color` | — | `--mod-input-group-addon-color` |
+| `--nc-input-group-addon-border` | — | `--mod-input-group-addon-border` |
+| `--nc-input-group-addon-padding-x` | — | `--mod-input-group-addon-padding-x` |
+| `--nc-input-group-addon-font-size` | — | `--mod-input-group-addon-font-size` |
 
 ### Addon Interaction
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-addon-hover-bg` | — | — |
-| `nc-input-group-addon-active-bg` | — | — |
-| `nc-input-group-inner-radius` | — | — |
+| `--nc-input-group-addon-hover-bg` | — | `--mod-input-group-addon-hover-bg` |
+| `--nc-input-group-addon-active-bg` | — | `--mod-input-group-addon-active-bg` |
+| `--nc-input-group-inner-radius` | — | `--mod-input-group-inner-radius` |
 
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-inner-radius` | — | — |
-| `nc-input-group-height-sm` | — | — |
-| `nc-input-group-height-md` | — | — |
-| `nc-input-group-height-lg` | — | — |
+| `--nc-input-group-inner-radius` | — | `--mod-input-group-inner-radius` |
+| `--nc-input-group-height-sm` | — | `--mod-input-group-height-sm` |
+| `--nc-input-group-height-md` | — | `--mod-input-group-height-md` |
+| `--nc-input-group-height-lg` | — | `--mod-input-group-height-lg` |
 
 ### Validation Error
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-addon-border-error` | — | — |
+| `--nc-input-group-addon-border-error` | — | `--mod-input-group-addon-border-error` |
 
 ### Validation Success
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-input-group-addon-border-success` | — | — |
+| `--nc-input-group-addon-border-success` | — | `--mod-input-group-addon-border-success` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

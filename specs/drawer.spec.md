@@ -54,57 +54,70 @@ Base classes: `nc-drawer`
 ### Container
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-max-width` | — | — |
-| `nc-drawer-max-height` | — | — |
-| `nc-drawer-width` | — | — |
-| `nc-drawer-side-width` | — | — |
-| `nc-drawer-padding` | — | — |
-| `nc-drawer-radius` | — | — |
-| `nc-drawer-bg` | — | — |
-| `nc-drawer-shadow` | — | — |
-| `nc-drawer-overlay-bg` | — | — |
+| `--nc-drawer-max-width` | — | `--mod-drawer-max-width` |
+| `--nc-drawer-max-height` | — | `--mod-drawer-max-height` |
+| `--nc-drawer-width` | — | `--mod-drawer-width` |
+| `--nc-drawer-side-width` | — | `--mod-drawer-side-width` |
+| `--nc-drawer-padding` | — | `--mod-drawer-padding` |
+| `--nc-drawer-radius` | — | `--mod-drawer-radius` |
+| `--nc-drawer-bg` | — | `--mod-drawer-bg` |
+| `--nc-drawer-shadow` | — | `--mod-drawer-shadow` |
+| `--nc-drawer-overlay-bg` | — | `--mod-drawer-overlay-bg` |
 
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-title-font-size` | — | — |
-| `nc-drawer-title-font-weight` | — | — |
-| `nc-drawer-title-color` | — | — |
-| `nc-drawer-desc-font-size` | — | — |
-| `nc-drawer-desc-color` | — | — |
-| `nc-drawer-header-gap` | — | — |
-| `nc-drawer-header-border-color` | — | — |
+| `--nc-drawer-title-font-size` | — | `--mod-drawer-title-font-size` |
+| `--nc-drawer-title-font-weight` | — | `--mod-drawer-title-font-weight` |
+| `--nc-drawer-title-color` | — | `--mod-drawer-title-color` |
+| `--nc-drawer-desc-font-size` | — | `--mod-drawer-desc-font-size` |
+| `--nc-drawer-desc-color` | — | `--mod-drawer-desc-color` |
+| `--nc-drawer-header-gap` | — | `--mod-drawer-header-gap` |
+| `--nc-drawer-header-border-color` | — | `--mod-drawer-header-border-color` |
 
 ### Content & Footer
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-section-gap` | — | — |
-| `nc-drawer-footer-gap` | — | — |
-| `nc-drawer-footer-border-color` | — | — |
+| `--nc-drawer-section-gap` | — | `--mod-drawer-section-gap` |
+| `--nc-drawer-footer-gap` | — | `--mod-drawer-footer-gap` |
+| `--nc-drawer-footer-border-color` | — | `--mod-drawer-footer-border-color` |
 
 ### Handle (Bottom-Sheet)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-handle-width` | — | — |
-| `nc-drawer-handle-height` | — | — |
-| `nc-drawer-handle-radius` | — | — |
-| `nc-drawer-handle-bg` | — | — |
+| `--nc-drawer-handle-width` | — | `--mod-drawer-handle-width` |
+| `--nc-drawer-handle-height` | — | `--mod-drawer-handle-height` |
+| `--nc-drawer-handle-radius` | — | `--mod-drawer-handle-radius` |
+| `--nc-drawer-handle-bg` | — | `--mod-drawer-handle-bg` |
 
 ### Close Button
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-close-size` | — | — |
-| `nc-drawer-close-radius` | — | — |
-| `nc-drawer-close-bg` | — | — |
-| `nc-drawer-close-bg-hover` | — | — |
-| `nc-drawer-close-icon-size` | — | — |
-| `nc-drawer-close-offset` | — | — |
+| `--nc-drawer-close-size` | — | `--mod-drawer-close-size` |
+| `--nc-drawer-close-radius` | — | `--mod-drawer-close-radius` |
+| `--nc-drawer-close-bg` | — | `--mod-drawer-close-bg` |
+| `--nc-drawer-close-bg-hover` | — | `--mod-drawer-close-bg-hover` |
+| `--nc-drawer-close-icon-size` | — | `--mod-drawer-close-icon-size` |
+| `--nc-drawer-close-offset` | — | `--mod-drawer-close-offset` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-drawer-duration` | — | — |
-| `nc-drawer-ease` | — | — |
+| `--nc-drawer-duration` | — | `--mod-drawer-duration` |
+| `--nc-drawer-ease` | — | `--mod-drawer-ease` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Escape` | close | Schliesst den Drawer, Fokus zurueck auf den Ausloeser. |
+| `Tab` | trap-focus | Fokus bleibt im Drawer (Fokus-Falle). |
+| `Shift+Tab` | trap-focus-reverse | Rueckwaerts innerhalb der Fokus-Falle. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `drawer-open` | Yes | — |
+| `drawer-close` | Yes | `{"reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

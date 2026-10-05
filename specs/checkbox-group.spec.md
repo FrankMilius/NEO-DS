@@ -51,21 +51,21 @@ Base classes: `nc-checkbox-group`
 ### Geometry (Gap)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-group-gap` | — | — |
-| `nc-group-gap-sm` | — | — |
-| `nc-group-gap-lg` | — | — |
-| `nc-group-gap-horizontal` | — | — |
+| `--nc-group-gap` | — | `--mod-group-gap` |
+| `--nc-group-gap-sm` | — | `--mod-group-gap-sm` |
+| `--nc-group-gap-lg` | — | `--mod-group-gap-lg` |
+| `--nc-group-gap-horizontal` | — | `--mod-group-gap-horizontal` |
 
 ### Header (Select-All)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-group-header-gap` | — | — |
-| `nc-group-header-border` | — | — |
+| `--nc-group-header-gap` | — | `--mod-group-header-gap` |
+| `--nc-group-header-border` | — | `--mod-group-header-border` |
 
 ### Hint
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-group-hint-margin-top` | — | — |
+| `--nc-group-hint-margin-top` | — | `--mod-group-hint-margin-top` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

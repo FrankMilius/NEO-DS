@@ -297,9 +297,47 @@
       "--mod-segmented-transition-duration"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "ArrowRight": {
+      "action": "select-next-segment",
+      "note": "Fokussiert und waehlt das naechste Segment (rundum, gesperrte uebersprungen)."
+    },
+    "ArrowDown": {
+      "action": "select-next-segment",
+      "note": "Wie ArrowRight (Radio-Muster)."
+    },
+    "ArrowLeft": {
+      "action": "select-prev-segment",
+      "note": "Fokussiert und waehlt das vorherige Segment (rundum)."
+    },
+    "ArrowUp": {
+      "action": "select-prev-segment",
+      "note": "Wie ArrowLeft (Radio-Muster)."
+    },
+    "Home": {
+      "action": "select-first-segment",
+      "note": "Waehlt das erste bedienbare Segment."
+    },
+    "End": {
+      "action": "select-last-segment",
+      "note": "Waehlt das letzte bedienbare Segment."
+    },
+    "Tab": {
+      "action": "focus-group",
+      "note": "Nur das gewaehlte Segment steht im Tab-Fluss (roving tabindex)."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "segment-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert wenn das gewaehlte Segment wechselt. value: data-value, aria-label oder Text des Segments."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

@@ -64,21 +64,21 @@ Base classes: `nc-otp-input`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-otp-cell-size` | — | — |
-| `nc-otp-cell-gap` | — | — |
-| `nc-otp-cell-radius` | — | — |
+| `--nc-otp-cell-size` | — | `--mod-otp-cell-size` |
+| `--nc-otp-cell-gap` | — | `--mod-otp-cell-gap` |
+| `--nc-otp-cell-radius` | — | `--mod-otp-cell-radius` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-otp-cell-font-size` | — | — |
-| `nc-otp-cell-font-weight` | — | — |
+| `--nc-otp-cell-font-size` | — | `--mod-otp-cell-font-size` |
+| `--nc-otp-cell-font-weight` | — | `--mod-otp-cell-font-weight` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-otp-cell-border` | — | — |
-| `nc-otp-cell-border-focus` | — | — |
+| `--nc-otp-cell-border` | — | `--mod-otp-cell-border` |
+| `--nc-otp-cell-border-focus` | — | `--mod-otp-cell-border-focus` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

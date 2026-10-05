@@ -92,87 +92,87 @@ Base classes: `nc-avatar`
 ### Sizing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-size-xs` | — | — |
-| `nc-avatar-size-sm` | — | — |
-| `nc-avatar-size-md` | — | — |
-| `nc-avatar-size-lg` | — | — |
-| `nc-avatar-size-xl` | — | — |
+| `--nc-avatar-size-xs` | — | `--mod-avatar-size-xs` |
+| `--nc-avatar-size-sm` | — | `--mod-avatar-size-sm` |
+| `--nc-avatar-size-md` | — | `--mod-avatar-size-md` |
+| `--nc-avatar-size-lg` | — | `--mod-avatar-size-lg` |
+| `--nc-avatar-size-xl` | — | `--mod-avatar-size-xl` |
 
 ### Typography
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-font-size-xs` | — | — |
-| `nc-avatar-font-size-sm` | — | — |
-| `nc-avatar-font-size-md` | — | — |
-| `nc-avatar-font-size-lg` | — | — |
-| `nc-avatar-font-size-xl` | — | — |
-| `nc-avatar-font-weight` | — | — |
+| `--nc-avatar-font-size-xs` | — | `--mod-avatar-font-size-xs` |
+| `--nc-avatar-font-size-sm` | — | `--mod-avatar-font-size-sm` |
+| `--nc-avatar-font-size-md` | — | `--mod-avatar-font-size-md` |
+| `--nc-avatar-font-size-lg` | — | `--mod-avatar-font-size-lg` |
+| `--nc-avatar-font-size-xl` | — | `--mod-avatar-font-size-xl` |
+| `--nc-avatar-font-weight` | — | `--mod-avatar-font-weight` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-bg` | — | — |
-| `nc-avatar-color` | — | — |
-| `nc-avatar-border-color` | — | — |
+| `--nc-avatar-bg` | — | `--mod-avatar-bg` |
+| `--nc-avatar-color` | — | `--mod-avatar-color` |
+| `--nc-avatar-border-color` | — | `--mod-avatar-border-color` |
 
 ### Fallback
 ### Hash-Color Fallback
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-hash-bg` | — | — |
-| `nc-avatar-hash-color` | — | — |
+| `--nc-avatar-hash-bg` | — | `--mod-avatar-hash-bg` |
+| `--nc-avatar-hash-color` | — | `--mod-avatar-hash-color` |
 
 ### Image Loading
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-image-fade-duration` | — | — |
+| `--nc-avatar-image-fade-duration` | — | `--mod-avatar-image-fade-duration` |
 
 ### Circle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-radius` | — | — |
+| `--nc-avatar-radius` | — | `--mod-avatar-radius` |
 
 ### Square (Entity)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-radius-square` | — | — |
+| `--nc-avatar-radius-square` | — | `--mod-avatar-radius-square` |
 
 ### Ring
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-ring-width` | — | — |
-| `nc-avatar-ring-color` | — | — |
-| `nc-avatar-ring-shadow` | — | — |
+| `--nc-avatar-ring-width` | — | `--mod-avatar-ring-width` |
+| `--nc-avatar-ring-color` | — | `--mod-avatar-ring-color` |
+| `--nc-avatar-ring-shadow` | — | `--mod-avatar-ring-shadow` |
 
 ### Badge
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-badge-size` | — | — |
-| `nc-avatar-badge-border-width` | — | — |
-| `nc-avatar-badge-border-color` | — | — |
-| `nc-avatar-badge-online` | — | — |
-| `nc-avatar-badge-offline` | — | — |
-| `nc-avatar-badge-busy` | — | — |
-| `nc-avatar-badge-away` | — | — |
-| `nc-avatar-badge-verified` | — | — |
+| `--nc-avatar-badge-size` | — | `--mod-avatar-badge-size` |
+| `--nc-avatar-badge-border-width` | — | `--mod-avatar-badge-border-width` |
+| `--nc-avatar-badge-border-color` | — | `--mod-avatar-badge-border-color` |
+| `--nc-avatar-badge-online` | — | `--mod-avatar-badge-online` |
+| `--nc-avatar-badge-offline` | — | `--mod-avatar-badge-offline` |
+| `--nc-avatar-badge-busy` | — | `--mod-avatar-badge-busy` |
+| `--nc-avatar-badge-away` | — | `--mod-avatar-badge-away` |
+| `--nc-avatar-badge-verified` | — | `--mod-avatar-badge-verified` |
 
 ### Interactive (Link/Button)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-hover-scale` | — | — |
-| `nc-avatar-hover-shadow` | — | — |
-| `nc-avatar-active-scale` | — | — |
-| `nc-avatar-focus-ring-width` | — | — |
-| `nc-avatar-focus-ring-color` | — | — |
-| `nc-avatar-focus-ring-offset` | — | — |
-| `nc-avatar-transition-duration` | — | — |
+| `--nc-avatar-hover-scale` | — | `--mod-avatar-hover-scale` |
+| `--nc-avatar-hover-shadow` | — | `--mod-avatar-hover-shadow` |
+| `--nc-avatar-active-scale` | — | `--mod-avatar-active-scale` |
+| `--nc-avatar-focus-ring-width` | — | `--mod-avatar-focus-ring-width` |
+| `--nc-avatar-focus-ring-color` | — | `--mod-avatar-focus-ring-color` |
+| `--nc-avatar-focus-ring-offset` | — | `--mod-avatar-focus-ring-offset` |
+| `--nc-avatar-transition-duration` | — | `--mod-avatar-transition-duration` |
 
 ### Group
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-avatar-group-spacing` | — | — |
-| `nc-avatar-group-ring-width` | — | — |
-| `nc-avatar-group-ring-color` | — | — |
+| `--nc-avatar-group-spacing` | — | `--mod-avatar-group-spacing` |
+| `--nc-avatar-group-ring-width` | — | `--mod-avatar-group-ring-width` |
+| `--nc-avatar-group-ring-color` | — | `--mod-avatar-group-ring-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA non-text (3:1)

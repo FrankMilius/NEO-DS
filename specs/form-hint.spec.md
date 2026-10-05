@@ -51,16 +51,16 @@ Base classes: `nc-form-hint`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-hint-font-size` | — | — |
-| `nc-form-hint-gap` | — | — |
-| `nc-form-hint-list-gap` | — | — |
+| `--nc-form-hint-font-size` | — | `--mod-form-hint-font-size` |
+| `--nc-form-hint-gap` | — | `--mod-form-hint-gap` |
+| `--nc-form-hint-list-gap` | — | `--mod-form-hint-list-gap` |
 
 ### Colors
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-hint-color` | — | — |
-| `nc-form-hint-link-color` | — | — |
-| `nc-form-hint-muted-color` | — | — |
+| `--nc-form-hint-color` | — | `--mod-form-hint-color` |
+| `--nc-form-hint-link-color` | — | `--mod-form-hint-link-color` |
+| `--nc-form-hint-muted-color` | — | `--mod-form-hint-muted-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

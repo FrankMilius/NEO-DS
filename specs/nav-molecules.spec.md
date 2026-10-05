@@ -47,45 +47,45 @@ Base classes: `nc-nav__link`
 ### Nav Link
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-mol-link-gap` | — | — |
-| `nc-nav-mol-link-padding-x` | — | — |
-| `nc-nav-mol-link-padding-y` | — | — |
-| `nc-nav-mol-link-radius` | — | — |
-| `nc-nav-mol-link-color` | — | — |
-| `nc-nav-mol-link-hover-bg` | — | — |
-| `nc-nav-mol-link-hover-color` | — | — |
-| `nc-nav-mol-link-active-weight` | — | — |
-| `nc-nav-mol-link-active-border` | — | — |
-| `nc-nav-mol-link-active-width` | — | — |
+| `--nc-nav-mol-link-gap` | — | `--mod-nav-mol-link-gap` |
+| `--nc-nav-mol-link-padding-x` | — | `--mod-nav-mol-link-padding-x` |
+| `--nc-nav-mol-link-padding-y` | — | `--mod-nav-mol-link-padding-y` |
+| `--nc-nav-mol-link-radius` | — | `--mod-nav-mol-link-radius` |
+| `--nc-nav-mol-link-color` | — | `--mod-nav-mol-link-color` |
+| `--nc-nav-mol-link-hover-bg` | — | `--mod-nav-mol-link-hover-bg` |
+| `--nc-nav-mol-link-hover-color` | — | `--mod-nav-mol-link-hover-color` |
+| `--nc-nav-mol-link-active-weight` | — | `--mod-nav-mol-link-active-weight` |
+| `--nc-nav-mol-link-active-border` | — | `--mod-nav-mol-link-active-border` |
+| `--nc-nav-mol-link-active-width` | — | `--mod-nav-mol-link-active-width` |
 
 ### Mobile Toggle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-mol-toggle-size` | — | — |
-| `nc-nav-mol-toggle-bar-height` | — | — |
-| `nc-nav-mol-toggle-bar-gap` | — | — |
-| `nc-nav-mol-toggle-bar-radius` | — | — |
-| `nc-nav-mol-toggle-bar-color` | — | — |
+| `--nc-nav-mol-toggle-size` | — | `--mod-nav-mol-toggle-size` |
+| `--nc-nav-mol-toggle-bar-height` | — | `--mod-nav-mol-toggle-bar-height` |
+| `--nc-nav-mol-toggle-bar-gap` | — | `--mod-nav-mol-toggle-bar-gap` |
+| `--nc-nav-mol-toggle-bar-radius` | — | `--mod-nav-mol-toggle-bar-radius` |
+| `--nc-nav-mol-toggle-bar-color` | — | `--mod-nav-mol-toggle-bar-color` |
 
 ### Mobile Panel
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-mol-mobile-bg` | — | — |
-| `nc-nav-mol-mobile-border` | — | — |
-| `nc-nav-mol-mobile-padding` | — | — |
-| `nc-nav-mol-mobile-gap` | — | — |
-| `nc-nav-mol-mobile-link-padding` | — | — |
-| `nc-nav-mol-mobile-link-border` | — | — |
+| `--nc-nav-mol-mobile-bg` | — | `--mod-nav-mol-mobile-bg` |
+| `--nc-nav-mol-mobile-border` | — | `--mod-nav-mol-mobile-border` |
+| `--nc-nav-mol-mobile-padding` | — | `--mod-nav-mol-mobile-padding` |
+| `--nc-nav-mol-mobile-gap` | — | `--mod-nav-mol-mobile-gap` |
+| `--nc-nav-mol-mobile-link-padding` | — | `--mod-nav-mol-mobile-link-padding` |
+| `--nc-nav-mol-mobile-link-border` | — | `--mod-nav-mol-mobile-link-border` |
 
 ### Lang Toggle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-mol-lang-bg` | — | — |
-| `nc-nav-mol-lang-radius` | — | — |
-| `nc-nav-mol-lang-padding` | — | — |
-| `nc-nav-mol-lang-active-bg` | — | — |
-| `nc-nav-mol-lang-active-color` | — | — |
-| `nc-nav-mol-lang-active-radius` | — | — |
+| `--nc-nav-mol-lang-bg` | — | `--mod-nav-mol-lang-bg` |
+| `--nc-nav-mol-lang-radius` | — | `--mod-nav-mol-lang-radius` |
+| `--nc-nav-mol-lang-padding` | — | `--mod-nav-mol-lang-padding` |
+| `--nc-nav-mol-lang-active-bg` | — | `--mod-nav-mol-lang-active-bg` |
+| `--nc-nav-mol-lang-active-color` | — | `--mod-nav-mol-lang-active-color` |
+| `--nc-nav-mol-lang-active-radius` | — | `--mod-nav-mol-lang-active-radius` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

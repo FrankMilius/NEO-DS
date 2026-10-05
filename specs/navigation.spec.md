@@ -23,6 +23,7 @@ Root element: `.nc-header`
 - Intelligent Sticky: is-hidden beim Runterscrollen (mehr Content-Platz), is-scrolled beim Hochscrollen.
 - Alignment: --align-center zentriert Links (Landingpage), --align-right rechtsbuendig.
 - Mobile: Hamburger-Toggle oeffnet nc-drawer mit vertikal gestapelten Links.
+- Lage: unter lg Mobil-Lage (Burger), ab lg Desktop-Lage (Liste, Aktionen). --mobile (an nc-header) haelt die Mobil-Lage auf jeder Fensterbreite, auch das Navigationsmenue bleibt aus.
 
 ## Variants
 ### Emphasis (`emphasis`)
@@ -55,40 +56,40 @@ Base classes: `nc-header`
 ### Header
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-height` | — | — |
-| `nc-nav-bg` | — | — |
-| `nc-nav-bg-solid` | — | — |
-| `nc-nav-border` | — | — |
-| `nc-nav-border-width` | — | — |
-| `nc-nav-blur` | — | — |
-| `nc-nav-z-index` | — | — |
-| `nc-nav-padding-block` | — | — |
-| `nc-nav-padding-inline` | — | — |
-| `nc-nav-gap` | — | — |
-| `nc-nav-sticky-shadow` | — | — |
+| `--nc-nav-height` | — | `--mod-nav-height` |
+| `--nc-nav-bg` | — | `--mod-nav-bg` |
+| `--nc-nav-bg-solid` | — | `--mod-nav-bg-solid` |
+| `--nc-nav-border` | — | `--mod-nav-border` |
+| `--nc-nav-border-width` | — | `--mod-nav-border-width` |
+| `--nc-nav-blur` | — | `--mod-nav-blur` |
+| `--nc-nav-z-index` | — | `--mod-nav-z-index` |
+| `--nc-nav-padding-block` | — | `--mod-nav-padding-block` |
+| `--nc-nav-padding-inline` | — | `--mod-nav-padding-inline` |
+| `--nc-nav-gap` | — | `--mod-nav-gap` |
+| `--nc-nav-sticky-shadow` | — | `--mod-nav-sticky-shadow` |
 
 ### Brand / Logo
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-brand-size` | — | — |
-| `nc-nav-brand-weight` | — | — |
-| `nc-nav-brand-color` | — | — |
-| `nc-nav-brand-gap` | — | — |
-| `nc-nav-brand-logo-height` | — | — |
-| `nc-nav-brand-letter-spacing` | — | — |
+| `--nc-nav-brand-size` | — | `--mod-nav-brand-size` |
+| `--nc-nav-brand-weight` | — | `--mod-nav-brand-weight` |
+| `--nc-nav-brand-color` | — | `--mod-nav-brand-color` |
+| `--nc-nav-brand-gap` | — | `--mod-nav-brand-gap` |
+| `--nc-nav-brand-logo-height` | — | `--mod-nav-brand-logo-height` |
+| `--nc-nav-brand-letter-spacing` | — | `--mod-nav-brand-letter-spacing` |
 
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-justify-content` | — | — |
-| `nc-nav-align-items` | — | — |
+| `--nc-nav-justify-content` | — | `--mod-nav-justify-content` |
+| `--nc-nav-align-items` | — | `--mod-nav-align-items` |
 
 ### Transparent (Hero)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-nav-transparent-bg` | — | — |
-| `nc-nav-transparent-border` | — | — |
-| `nc-nav-transparent-color` | — | — |
+| `--nc-nav-transparent-bg` | — | `--mod-nav-transparent-bg` |
+| `--nc-nav-transparent-border` | — | `--mod-nav-transparent-border` |
+| `--nc-nav-transparent-color` | — | `--mod-nav-transparent-color` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

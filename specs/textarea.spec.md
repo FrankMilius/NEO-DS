@@ -83,41 +83,41 @@ Base classes: `nc-textarea`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-textarea-min-height` | — | — |
-| `nc-textarea-max-height` | — | — |
-| `nc-textarea-padding` | — | — |
-| `nc-textarea-resize` | — | — |
+| `--nc-textarea-min-height` | — | `--mod-textarea-min-height` |
+| `--nc-textarea-max-height` | — | `--mod-textarea-max-height` |
+| `--nc-textarea-padding` | — | `--mod-textarea-padding` |
+| `--nc-textarea-resize` | — | `--mod-textarea-resize` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-bg` | — | — |
-| `nc-form-control-border-color` | — | — |
-| `nc-form-control-color` | — | — |
+| `--nc-form-control-bg` | — | `--mod-form-control-bg` |
+| `--nc-form-control-border-color` | — | `--mod-form-control-border-color` |
+| `--nc-form-control-color` | — | `--mod-form-control-color` |
 
 ### Colors (Filled)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-filled-bg` | — | — |
-| `nc-form-control-filled-border-bottom` | — | — |
-| `nc-form-control-filled-color` | — | — |
+| `--nc-form-control-filled-bg` | — | `--mod-form-control-filled-bg` |
+| `--nc-form-control-filled-border-bottom` | — | `--mod-form-control-filled-border-bottom` |
+| `--nc-form-control-filled-color` | — | `--mod-form-control-filled-color` |
 
 ### Colors (Borderless)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-form-control-minimal-bg-hover` | — | — |
-| `nc-form-control-minimal-border-focus` | — | — |
+| `--nc-form-control-minimal-bg-hover` | — | `--mod-form-control-minimal-bg-hover` |
+| `--nc-form-control-minimal-border-focus` | — | `--mod-form-control-minimal-border-focus` |
 
 ### Scrollbar
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-textarea-scrollbar-width` | — | — |
+| `--nc-textarea-scrollbar-width` | — | `--mod-textarea-scrollbar-width` |
 
 ### Actions
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `nc-textarea-actions-gap` | — | — |
-| `nc-textarea-actions-padding` | — | — |
+| `--nc-textarea-actions-gap` | — | `--mod-textarea-actions-gap` |
+| `--nc-textarea-actions-padding` | — | `--mod-textarea-actions-padding` |
 
 ### Error
 ### Success
