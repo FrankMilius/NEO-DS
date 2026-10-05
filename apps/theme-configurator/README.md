@@ -395,12 +395,19 @@ laufen lassen (Exit ≠ 0 = Kontrast-Befund).
 
 **ESLint** (`eslint.config.js`, ESLint 9 flat config, `eslint-plugin-vue`
 „recommended“): `npm run lint` prüft `src/`, `tests/`, `e2e/` und die
-Konfigurationsdateien und muss **0 Fehler** melden. Fehler-Regeln sind die
+Konfigurationsdateien und muss **0 Fehler und 0 Warnungen** melden
+(`--max-warnings 0`, seit 05.10.2026 – neue Warnungen brechen CI und
+`npm run ci:lokal`). Fehler-Regeln sind die
 inhaltlichen (`no-undef`, `no-unused-vars`, `no-dupe-keys`,
 `vue/no-mutating-props` …). Die reinen Layout-Regeln von eslint-plugin-vue
 (Attribute je Zeile, Einrückung, Self-Closing …) sind aus, weil der Code
 einen eigenen, konsistenten Stil hat; `vue/no-v-html` und
-`vue/no-template-shadow` bleiben als Warnung sichtbar. Ungenutzte Parameter
+`vue/no-template-shadow` sind Warnungen – wegen `--max-warnings 0` aber
+ebenso verbindlich. Ein `v-html` mit Inhalt aus dem Repo (Recipes) bekommt
+pro Stelle ein begründetes
+`<!-- eslint-disable-next-line vue/no-v-html -- Quelle: … -->`; kann
+Inhalt aus Nutzereingaben (Konfigurator-Felder, importierte Themes,
+localStorage) stammen, wird maskiert oder bereinigt statt unterdrückt. Ungenutzte Parameter
 sind erlaubt (Render-Helfer mit fester Signatur), ungenutzte Variablen und
 Importe nicht; bewusst Ungenutztes beginnt mit `_`.
 

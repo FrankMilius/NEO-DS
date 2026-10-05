@@ -61,7 +61,8 @@ export default [
       'vue/one-component-per-file': 'off',
       // Props ohne Default sind in den Arenen ueblich (undefined = „nicht gesetzt“)
       'vue/require-default-prop': 'off',
-      // Bleiben als Hinweis sichtbar, brechen aber nichts
+      // Warnungen, aber verbindlich: npm run lint laeuft mit --max-warnings 0.
+      // v-html nur mit begruendetem eslint-disable-next-line (Quelle im Repo).
       'vue/no-v-html': 'warn',
       'vue/no-template-shadow': 'warn',
     },
