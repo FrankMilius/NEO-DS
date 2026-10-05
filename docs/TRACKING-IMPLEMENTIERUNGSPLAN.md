@@ -5,6 +5,13 @@
 **Projekt:** WEBSITE26 — Neocosmo Marketing-Website
 **Status:** Analyse abgeschlossen, Implementierung ausstehend
 
+> **Gegenstandslos seit 05.10.2026 (Entscheidung sitejs-zukunft = „Stilllegen“):**
+> Der statische Prototyp, auf den sich dieser Plan bezieht (`index.html`,
+> `products.html` … `use-cases.html`, `website/js/site.js`,
+> `website/data/site-data.json`), ist aus dem Repo entfernt. Die Website
+> neocosmo.de laeuft auf Drupal; Tracking gehoert dort ins Theme. Das Dokument
+> bleibt nur als Analyse-Archiv stehen.
+
 ---
 
 ## Inhaltsverzeichnis
