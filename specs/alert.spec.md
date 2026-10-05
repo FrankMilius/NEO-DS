@@ -1,5 +1,5 @@
 # alert Component Spec
-> Version 2.1.0 | Status: stable | Layer: atom
+> Version 2.2.0 | Status: stable | Layer: atom
 
 Tags: `static`, `feedback`, `notification`, `inline`
 
@@ -19,6 +19,7 @@ Root element: `.nc-alert`
 ### DOM Notes
 - Alert ist ein <div class='nc-alert' role='alert|status'>.
 - Layout: Flex Row — Icon | Content (Title + Description + Details + Action) | Close.
+- Schrift: --nc-alert-font-size (Absatzgroesse S) und --nc-alert-line-height am Block; .nc-alert__title und .nc-alert__description erben sie (font-size/line-height: inherit), auch als <p> — die Absatzgroesse der Elementregel p greift nicht. --inline setzt am Block --nc-alert-inline-font-size.
 - 4 semantische Varianten: info (Standard), success, warning, danger.
 - role='alert' fuer danger/warning (urgent, unterbricht Screen Reader).
 - role='status' fuer info/success (polite, unterbricht nicht).
@@ -75,6 +76,8 @@ Base classes: `nc-alert`
 | `--nc-alert-border-width` | — | `--mod-alert-border-width` |
 | `--nc-alert-icon-size` | — | `--mod-alert-icon-size` |
 | `--nc-alert-gap` | — | `--mod-alert-gap` |
+| `--nc-alert-font-size` | — | `--mod-alert-font-size` |
+| `--nc-alert-line-height` | — | `--mod-alert-line-height` |
 | `--nc-alert-title-font-weight` | — | `--mod-alert-title-font-weight` |
 | `--nc-alert-description-opacity` | — | `--mod-alert-description-opacity` |
 | `--nc-alert-close-size` | — | `--mod-alert-close-size` |

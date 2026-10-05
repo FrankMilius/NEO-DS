@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-02
+// Generated: 2026-10-05
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -2581,6 +2581,18 @@ export const componentTokenGroups = [
         "default": "var(--fnd-spacing-03)"
       },
       {
+        "id": "nc-alert-font-size",
+        "label": "Font Size",
+        "type": "size",
+        "default": "var(--fnd-typography-paragraph-s-font-size)"
+      },
+      {
+        "id": "nc-alert-line-height",
+        "label": "Line Height",
+        "type": "generic",
+        "default": "var(--lh-relaxed)"
+      },
+      {
         "id": "nc-alert-info-bg",
         "label": "Info BG",
         "type": "color",
@@ -2786,6 +2798,8 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
+          "nc-alert-font-size",
+          "nc-alert-line-height",
           "nc-alert-title-font-weight",
           "nc-alert-inline-font-size",
           "nc-alert-details-font-size"

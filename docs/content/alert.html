@@ -268,6 +268,8 @@
       <tr><td><code class="docs__token">--nc-alert-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
       <tr><td><code class="docs__token">--nc-alert-icon-size</code></td><td>20px</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-alert-gap</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-alert-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td>Absatzgroesse S (Titel + Beschreibung)</td></tr>
+      <tr><td><code class="docs__token">--nc-alert-line-height</code></td><td>var(--lh-relaxed)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-alert-title-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-alert-description-opacity</code></td><td>var(--fnd-opacity-subtle)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-alert-close-size</code></td><td>20px</td><td></td></tr>
@@ -436,6 +438,8 @@
       <tr><td><code class="docs__token">--nc-alert-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
       <tr><td><code class="docs__token">--nc-alert-icon-size</code></td><td>20px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-alert-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-alert-font-size</code></td><td>var(--fnd-typography-paragraph-s-font-size)</td><td>var(--fnd-typography-paragraph-s-font-size)</td></tr>
+      <tr><td><code class="docs__token">--nc-alert-line-height</code></td><td>var(--lh-relaxed)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-alert-title-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
       <tr><td><code class="docs__token">--nc-alert-description-opacity</code></td><td>var(--fnd-opacity-subtle)</td><td>var(--fnd-opacity-subtle)</td></tr>
       <tr><td><code class="docs__token">--nc-alert-close-size</code></td><td>20px</td><td>&mdash;</td></tr>
@@ -474,6 +478,7 @@
   <ul>
     <li>Alert ist ein &lt;div class='nc-alert' role='alert|status'&gt;.</li>
     <li>Layout: Flex Row — Icon | Content (Title + Description + Details + Action) | Close.</li>
+    <li>Schrift: --nc-alert-font-size (Absatzgroesse S) und --nc-alert-line-height am Block; .nc-alert__title und .nc-alert__description erben sie (font-size/line-height: inherit), auch als &lt;p&gt; — die Absatzgroesse der Elementregel p greift nicht. --inline setzt am Block --nc-alert-inline-font-size.</li>
     <li>4 semantische Varianten: info (Standard), success, warning, danger.</li>
     <li>role='alert' fuer danger/warning (urgent, unterbricht Screen Reader).</li>
     <li>role='status' fuer info/success (polite, unterbricht nicht).</li>

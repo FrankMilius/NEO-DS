@@ -18,6 +18,9 @@
 //   .nc-alert__content            Flex-1 Text-Bereich
 //   .nc-alert__title              Titel (font-weight 600)
 //   .nc-alert__description        Beschreibungstext
+//   Schrift: --nc-alert-font-size (Absatzgroesse S) und
+//   --nc-alert-line-height am Block; Titel und Beschreibung erben sie,
+//   auch wenn sie im Markup <p> sind (die Absatzgroesse greift nicht).
 //   .nc-alert__details            Progressive Disclosure (Accordion-Toggle)
 //   .nc-alert__action             Optionaler Button-Bereich
 //   .nc-alert__close              Schliessen-Button
@@ -51,7 +54,8 @@
   border: var(--mod-alert-border-width, var(--nc-alert-border-width)) solid var(--_alert-border, var(--mod-alert-info-border, var(--nc-alert-info-border)));
   background-color: var(--_alert-bg, var(--mod-alert-info-bg, var(--nc-alert-info-bg)));
   color: var(--_alert-color, var(--mod-alert-info-color, var(--nc-alert-info-color)));
-  line-height: var(--lh-relaxed);
+  font-size: var(--mod-alert-font-size, var(--nc-alert-font-size));
+  line-height: var(--mod-alert-line-height, var(--nc-alert-line-height));
 
   // Default: info
   @include alert-variant-info;
@@ -118,14 +122,22 @@
 }
 
 /// Titel.
+/// Schrift vom Alert (--nc-alert-font-size, --nc-alert-line-height):
+/// Titel und Beschreibung sind im Markup <p> — ohne inherit setzte die
+/// Elementregel p (03-elements, paragraph l) Groesse und Zeilenhoehe
+/// (Entscheidung 05.10.2026: eigener Token).
 @mixin alert-title {
+  font-size: inherit;
+  line-height: inherit;
   font-weight: var(--mod-alert-title-font-weight, var(--nc-alert-title-font-weight));
   margin: 0 0 var(--fnd-spacing-01) 0;
 }
 
-/// Beschreibung.
+/// Beschreibung (Schrift wie der Titel vom Alert geerbt).
 @mixin alert-description {
   margin: 0;
+  font-size: inherit;
+  line-height: inherit;
   opacity: var(--mod-alert-description-opacity, var(--nc-alert-description-opacity));
 }
 

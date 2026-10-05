@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "alert",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -59,6 +59,7 @@
     "notes": [
       "Alert ist ein <div class='nc-alert' role='alert|status'>.",
       "Layout: Flex Row — Icon | Content (Title + Description + Details + Action) | Close.",
+      "Schrift: --nc-alert-font-size (Absatzgroesse S) und --nc-alert-line-height am Block; .nc-alert__title und .nc-alert__description erben sie (font-size/line-height: inherit), auch als <p> — die Absatzgroesse der Elementregel p greift nicht. --inline setzt am Block --nc-alert-inline-font-size.",
       "4 semantische Varianten: info (Standard), success, warning, danger.",
       "role='alert' fuer danger/warning (urgent, unterbricht Screen Reader).",
       "role='status' fuer info/success (polite, unterbricht nicht).",
@@ -188,6 +189,12 @@
           "token": "--nc-alert-gap"
         },
         {
+          "token": "--nc-alert-font-size"
+        },
+        {
+          "token": "--nc-alert-line-height"
+        },
+        {
           "token": "--nc-alert-title-font-weight"
         },
         {
@@ -276,6 +283,8 @@
       "--mod-alert-border-width",
       "--mod-alert-icon-size",
       "--mod-alert-gap",
+      "--mod-alert-font-size",
+      "--mod-alert-line-height",
       "--mod-alert-title-font-weight",
       "--mod-alert-description-opacity",
       "--mod-alert-close-size",

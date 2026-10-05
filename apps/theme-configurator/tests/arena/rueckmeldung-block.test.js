@@ -174,7 +174,7 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
     })
   }
 
-  const VERSION = { toast: '2.1.0', notification: '2.1.0', alert: '2.1.0', banner: '2.2.0' }
+  const VERSION = { toast: '2.1.0', notification: '2.1.0', alert: '2.2.0', banner: '2.2.0' }
   it('Kennzahl: alle vier ohne Sonderfall, alle vier mit Verhalten (keyboard/events im Recipe)', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
     expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(BLOCK)
@@ -194,6 +194,17 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
     expect(css).toMatch(/\.nc-toaster--bottom-center\{bottom:0;left:0;right:0;align-items:center;flex-direction:column-reverse\}/)
     expect(css).toContain('.nc-notification:not(.nc-notification--permanent):has(>.nc-notification__close) .nc-notification__header{padding-inline-end:')
     expect(css).toMatch(/\.nc-notification__body\{margin:0;/)
+  })
+
+  it('alert: eigener Schrift-Token am Block, Titel und Beschreibung erben ihn (Entscheidung 05.10.2026)', () => {
+    const css = readFileSync(STYLES, 'utf8')
+    expect(css).toContain('--nc-alert-font-size: var(--fnd-typography-paragraph-s-font-size)')
+    expect(css).toMatch(/\.nc-alert\{[^}]*font-size:var\(--mod-alert-font-size, var\(--nc-alert-font-size\)\);line-height:var\(--mod-alert-line-height, var\(--nc-alert-line-height\)\)/)
+    expect(css).toMatch(/\.nc-alert__title\{font-size:inherit;line-height:inherit;/)
+    expect(css).toMatch(/\.nc-alert__description\{[^}]*font-size:inherit;line-height:inherit/)
+    // Konfigurator steuert ihn ueber das Recipe
+    const tokens = rohesRecipe('alert').styling.tokenGroups['core-geometry'].tokens
+    expect(tokens).toEqual(expect.arrayContaining(['nc-alert-font-size', 'nc-alert-line-height']))
   })
 })
 
