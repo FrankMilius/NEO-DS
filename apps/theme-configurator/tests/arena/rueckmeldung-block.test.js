@@ -174,6 +174,7 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
     })
   }
 
+  const VERSION = { toast: '2.1.0', notification: '2.1.0', alert: '2.1.0', banner: '2.2.0' }
   it('Kennzahl: alle vier ohne Sonderfall, alle vier mit Verhalten (keyboard/events im Recipe)', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
     expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(BLOCK)
@@ -181,7 +182,8 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
       const r = rohesRecipe(id)
       expect(Object.keys(r.keyboard || {}).length, id).toBeGreaterThan(0)
       expect(Object.keys(r.events || {}).length, id).toBeGreaterThan(0)
-      expect(r.meta.version, id).toBe('2.1.0')
+      // 2.1.0: Verhalten; 2.2.0: Entscheidungen vom 05.10.2026 (toast, alert, banner)
+      expect(r.meta.version, id).toBe(VERSION[id])
     }
   })
 
@@ -267,10 +269,13 @@ describe('Rückmeldungs-Block: Zustände und Inhalte', () => {
     expect(alle('alert', 'all-variants').some((d) => d.querySelector('.nc-alert__close'))).toBe(false)
   })
 
-  it('banner: Rolle (danger: alert, sonst banner), Slots nach content, Stil und Lage als Modifier', () => {
+  it('banner: Rolle (danger: alert, sonst benannte Region „Hinweis", nie banner), Slots nach content, Stil und Lage als Modifier', () => {
     for (const d of alle('banner')) {
       const b = d.querySelector('.nc-banner')
-      expect(b.getAttribute('role')).toBe(b.classList.contains('nc-banner--danger') ? 'alert' : 'banner')
+      const gefahr = b.classList.contains('nc-banner--danger')
+      expect(b.getAttribute('role')).toBe(gefahr ? 'alert' : 'region')
+      expect(b.getAttribute('aria-label')).toBe(gefahr ? null : 'Hinweis')
+      expect(d.querySelector('[role="banner"]')).toBeNull()
       expect(b.querySelector(':scope > .nc-banner__content > span')).not.toBeNull()
     }
     const slots = alle('banner', 'content-variants').map((d) => ['__icon', '__title', '__link', '__close'].filter((s) => d.querySelector(`.nc-banner${s}`)))

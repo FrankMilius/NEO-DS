@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "banner",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "feedback",
@@ -16,6 +16,12 @@
       "docs": "/docs/banner-docs"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "Rolle als benannte Region (Entscheidung 05.10.2026): role='region' mit aria-label (Standard 'Hinweis', im Markup ueberschreibbar); danger bleibt role='alert'. Kein role='banner' mehr — das ist der Seitenkopf-Landmark und darf je Seite nur einmal vorkommen."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -88,6 +94,7 @@
     "convenience": [],
     "domNotes": [
       "Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.",
+      "Rolle: role='region' + aria-label (Standard 'Hinweis', im Markup ueberschreibbar, z. B. 'Wartungshinweis'); danger: role='alert' (ohne aria-label-Pflicht, der Text wird angesagt). Nie role='banner' — das ist der Landmark des Seitenkopfs (<header>).",
       "Root: flex-Layout, zentriert, volle Breite. Farbe via private Custom Props --_banner-bg/--_banner-color.",
       "Icon: Token-gesteuert (--nc-banner-icon-size), dekorativ (aria-hidden), optional links.",
       "Content: flex-wrap, zentriert. Text + optionaler CTA-Link.",
@@ -260,7 +267,7 @@
       "assertions": [
         "hasAccessibleName"
       ],
-      "note": "role='banner' fuer allgemeine Hinweise, role='alert' fuer dringende Meldungen (danger). Close-Button: aria-label='Banner schliessen'. Link: normales <a> oder <button>. Wird als erstes im DOM platziert fuer korrekte Screen-Reader-Reihenfolge."
+      "note": "role='region' mit aria-label (Standard 'Hinweis', im Markup ueberschreibbar) fuer allgemeine Hinweise — eine benannte Region, die Screen-Reader-Nutzer per Landmark-Navigation finden. role='alert' fuer dringende Meldungen (danger). Kein role='banner': das ist der Seitenkopf-Landmark (einmal je Seite). Close-Button: aria-label='Banner schliessen'. Link: normales <a> oder <button>. Wird als erstes im DOM platziert fuer korrekte Screen-Reader-Reihenfolge."
     },
     "overrides": [
       {
@@ -285,9 +292,9 @@
           }
         },
         "suggest": [
-          "role-alert"
+          "role-region"
         ],
-        "note": "Warning: role='alert' oder aria-live='polite' je nach Dringlichkeit."
+        "note": "Warning: role='region' mit aria-label wie info/success (z. B. 'Wartungshinweis'). role='alert' bleibt danger vorbehalten."
       },
       {
         "when": {
@@ -309,10 +316,10 @@
       {
         "when": {},
         "require": [
-          "role-banner-or-alert"
+          "role-region-or-alert"
         ],
         "notes": [
-          "Banner braucht role='banner' (allgemein) oder role='alert' (dringend)."
+          "Banner braucht role='region' mit aria-label (allgemein, Standard 'Hinweis') oder role='alert' (danger). Kein role='banner'."
         ]
       },
       {
@@ -501,7 +508,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Text-on-Color muss 4.5:1 Kontrast gegen Severity-BG haben."
+        "note": "Text-on-Color muss 4.5:1 Kontrast gegen Severity-BG haben. info/warning/success: role='region' + aria-label='Hinweis'; danger: role='alert'."
       }
     },
     {

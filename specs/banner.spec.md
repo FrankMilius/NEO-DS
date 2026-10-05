@@ -1,5 +1,5 @@
 # banner Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.2.0 | Status: stable | Layer: organism
 
 Tags: `feedback`, `notification`, `layout`
 
@@ -16,6 +16,7 @@ Root element: `.nc-banner`
 
 ### DOM Notes
 - Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.
+- Rolle: role='region' + aria-label (Standard 'Hinweis', im Markup ueberschreibbar, z. B. 'Wartungshinweis'); danger: role='alert' (ohne aria-label-Pflicht, der Text wird angesagt). Nie role='banner' — das ist der Landmark des Seitenkopfs (<header>).
 - Root: flex-Layout, zentriert, volle Breite. Farbe via private Custom Props --_banner-bg/--_banner-color.
 - Icon: Token-gesteuert (--nc-banner-icon-size), dekorativ (aria-hidden), optional links.
 - Content: flex-wrap, zentriert. Text + optionaler CTA-Link.

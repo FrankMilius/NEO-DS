@@ -13,7 +13,10 @@
 //   Layout-Shift-Vermeidung: body padding-top Anpassung bei fixed (domNotes).
 //
 // SEMANTIK:
-//   R1: role="banner" oder role="alert" (je nach Dringlichkeit)
+//   R1: role="region" + aria-label (Standard "Hinweis", im Markup
+//       ueberschreibbar) fuer allgemeine Hinweise; role="alert" nur bei
+//       danger. Kein role="banner" — das ist der Landmark des Seitenkopfs
+//       (Entscheidung 05.10.2026).
 //   R2: Close-Button: aria-label="Banner schliessen"
 //   R3: Link/CTA innerhalb des Banners: normales <a> oder <button>
 //   R4: Wird als erstes im DOM platziert fuer Screen-Reader-Reihenfolge
@@ -45,7 +48,7 @@
 //   .nc-banner.is-dismissing    Dismiss-Animation (Hoehe → 0)
 //
 // ACCESSIBILITY:
-//   role="banner" fuer allgemeine Hinweise
+//   role="region" + aria-label="Hinweis" fuer allgemeine Hinweise
 //   role="alert" fuer dringende Meldungen (danger)
 //   Close-Button: aria-label="Banner schliessen"
 //   Farbe nie alleiniges Signal — Icon + Text + Border

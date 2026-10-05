@@ -73,7 +73,7 @@
             <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
 
               <!-- Info -->
-              <div class="nc-banner nc-banner--info" role="status">
+              <div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis">
                 <span class="nc-banner__icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </span>
@@ -87,7 +87,7 @@
               </div>
 
               <!-- Warning -->
-              <div class="nc-banner nc-banner--warning" role="status">
+              <div class="nc-banner nc-banner--warning" role="region" aria-label="Hinweis">
                 <span class="nc-banner__icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 </span>
@@ -115,7 +115,7 @@
               </div>
 
               <!-- Success -->
-              <div class="nc-banner nc-banner--success" role="status">
+              <div class="nc-banner nc-banner--success" role="region" aria-label="Hinweis">
                 <span class="nc-banner__icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </span>
@@ -131,7 +131,7 @@
 
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
             <div class="docs-snippet">
-              <pre>&lt;div class="nc-banner nc-banner--info" role="status"&gt;
+              <pre>&lt;div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis"&gt;
   &lt;span class="nc-banner__icon" aria-hidden="true"&gt;
     &lt;svg&gt;...&lt;/svg&gt;
   &lt;/span&gt;
@@ -153,7 +153,7 @@
               Banner kann auch ohne Link und ohne Close-Button verwendet werden.
             </p>
             <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
-              <div class="nc-banner nc-banner--info" role="status">
+              <div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis">
                 <span class="nc-banner__icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </span>
@@ -172,7 +172,7 @@
               Diese Variante verwendet <code>position: sticky; top: 0;</code> und einen erh&ouml;hten z-index.
             </p>
             <div class="docs-snippet">
-              <pre>&lt;div class="nc-banner nc-banner--warning nc-banner--sticky" role="status"&gt;
+              <pre>&lt;div class="nc-banner nc-banner--warning nc-banner--sticky" role="region" aria-label="Hinweis"&gt;
   ...
 &lt;/div&gt;</pre>
             </div>
@@ -246,7 +246,7 @@
                 <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_banner.scss</code></td></tr>
                 <tr><td><strong>Interaktivit&auml;t</strong></td><td>Ja (Close-Button, optionaler Link)</td></tr>
                 <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
-                <tr><td><strong>ARIA-Rolle</strong></td><td><code class="docs__token">role="status"</code> (info/warning/success), <code class="docs__token">role="alert"</code> (danger)</td></tr>
+                <tr><td><strong>ARIA-Rolle</strong></td><td><code class="docs__token">role="region"</code> + <code class="docs__token">aria-label="Hinweis"</code> (info/warning/success, Name im Markup &uuml;berschreibbar), <code class="docs__token">role="alert"</code> (danger); nie <code class="docs__token">role="banner"</code> (Seitenkopf-Landmark)</td></tr>
               </tbody>
             </table>
           </section>
@@ -273,7 +273,7 @@
 
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;div class="nc-banner nc-banner--info [--sticky]" role="status"&gt;
+            <div class="docs__code-block">&lt;div class="nc-banner nc-banner--info [--sticky]" role="region" aria-label="Hinweis"&gt;
 
   &lt;!-- Slot 1: Icon (optional) --&gt;
   &lt;span class="nc-banner__icon" aria-hidden="true"&gt;

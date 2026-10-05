@@ -1,8 +1,9 @@
 // Vorlage: banner — Markup aus data/markup/banner.html (geerntet von der
 // Doku) und der SCSS-Struktur (scss/scss/07-organisms/_banner.scss):
 //   div.nc-banner[.nc-banner--<severity>][.nc-banner--accent]
-//     [.nc-banner--sticky|--fixed]  role="banner" (allgemein) bzw.
-//     role="alert" (danger; Recipe a11y/constraints)
+//     [.nc-banner--sticky|--fixed]  role="region" aria-label="Hinweis"
+//     (allgemein, benannte Region) bzw. role="alert" (danger; Recipe
+//     a11y/constraints, Entscheidung 05.10.2026 — kein role="banner")
 //     span.nc-banner__icon (aria-hidden)                    with-icon, full
 //     div.nc-banner__content
 //       strong.nc-banner__title („Wartung:")               with-title, full
@@ -51,7 +52,8 @@ export default (zelle, m) => {
   const position = m.wert('position') || 'static'
   const slots = new Set(SLOTS[content] || [])
   const [titel, text, symbol, link] = INHALT[severity] || INHALT.info
-  const rolle = severity === 'danger' ? 'alert' : 'banner'
+  // danger: sofort angesagt; sonst benannte Region (Standardname „Hinweis")
+  const rolle = severity === 'danger' ? 'role="alert"' : 'role="region" aria-label="Hinweis"'
   const schliesst = m.hat('dismissing') && !m.ausprobieren
 
   const teile = []
@@ -63,7 +65,7 @@ export default (zelle, m) => {
   teile.push(`<div class="nc-banner__content">${inhalt.join('')}</div>`)
   if (slots.has('close')) teile.push(schliessKnopf('nc-banner__close', 'Banner schließen'))
 
-  const banner = `<div class="${wurzelKlassen(m, schliesst ? ['is-dismissing'] : [])}" role="${rolle}">
+  const banner = `<div class="${wurzelKlassen(m, schliesst ? ['is-dismissing'] : [])}" ${rolle}>
 ${teile.join('\n')}
 </div>`
 
