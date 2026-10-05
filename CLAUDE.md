@@ -9,7 +9,8 @@ npm run dev              # Start all watchers + docs server (localhost:3000)
 npm run build            # Full production build: tokens + icons + CSS
 npm run build:css        # Compile SCSS → styles.css (compressed)
 npm run watch            # SCSS watcher only (Dart Sass, poll mode)
-npm test                 # Build + lint tokens + lint docs (CI gate)
+npm test                 # Build + lint tokens + lint docs (Teil des CI-Gates)
+npm run ci:lokal         # ALLE Schritte aus .github/workflows/theme-configurator.yml lokal (vor jedem Push; --e2e mit Playwright)
 npm run tokens:pipeline  # Full token pipeline: validate → generate → build → test
 npm run docs             # Docs server only (port 3000)
 npm run docs:watch       # Docs content watcher only
