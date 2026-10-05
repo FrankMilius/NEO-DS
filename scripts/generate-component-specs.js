@@ -20,6 +20,7 @@
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
+import { pathToFileURL } from 'url';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const DATA_DIR = join(ROOT, 'data');
@@ -28,8 +29,6 @@ const args = process.argv.slice(2);
 
 const SINGLE = args.find(a => a.startsWith('--component='))?.split('=')[1];
 const FORMAT = args.find(a => a.startsWith('--format='))?.split('=')[1] || 'both';
-
-if (!existsSync(SPECS_DIR)) mkdirSync(SPECS_DIR, { recursive: true });
 
 // ---------------------------------------------------------------------------
 // Recipe → Spec Transformation
@@ -425,7 +424,54 @@ function toPascal(str) {
 // Hauptlogik
 // ---------------------------------------------------------------------------
 
+/**
+ * Fuehrt neu erzeugte Index-Eintraege mit dem bestehenden specs/index.json
+ * zusammen.
+ *
+ * Vollstaendiger Lauf: der Index entsteht neu (nur die erzeugten Eintraege,
+ * Datum = heute).
+ *
+ * Einzellauf (--component): bis 05.10.2026 schrieb er den Index mit nur
+ * EINEM Eintrag — alle anderen Specs verschwanden aus dem Verzeichnis. Jetzt
+ * wird nur der Eintrag des Bauteils ersetzt (an seiner Stelle) oder, falls
+ * neu, in Dateinamen-Reihenfolge eingefuegt (wie readdirSync die Recipes
+ * liefert, z. B. alert-dialog vor alert). Uebrige Eintraege, ihre
+ * Reihenfolge und das Datum `generated` bleiben unveraendert — das Datum
+ * beschreibt den letzten vollstaendigen Lauf.
+ *
+ * @param {{ generated?: string, specs?: Record<string, object> } | null} bestehend
+ * @param {Record<string, object>} eintraege  neu erzeugt, Name -> Eintrag
+ * @param {{ einzeln: boolean, heute: string }} optionen
+ */
+export function indexZusammenfuehren(bestehend, eintraege, { einzeln, heute }) {
+  if (!einzeln || !bestehend || typeof bestehend.specs !== 'object') {
+    return { generated: heute, specs: { ...eintraege } };
+  }
+  const reihenfolge = Object.keys(bestehend.specs);
+  const dateiname = (name) => `${name}-recipe.json`;
+  for (const name of Object.keys(eintraege)) {
+    if (reihenfolge.includes(name)) continue;
+    const nach = reihenfolge.findIndex((k) => dateiname(k) > dateiname(name));
+    reihenfolge.splice(nach === -1 ? reihenfolge.length : nach, 0, name);
+  }
+  const specs = {};
+  for (const name of reihenfolge) specs[name] = eintraege[name] ?? bestehend.specs[name];
+  return { ...bestehend, specs };
+}
+
+function bestehenderIndex() {
+  const pfad = join(SPECS_DIR, 'index.json');
+  if (!existsSync(pfad)) return null;
+  try {
+    return JSON.parse(readFileSync(pfad, 'utf-8'));
+  } catch {
+    return null;
+  }
+}
+
 function main() {
+  if (!existsSync(SPECS_DIR)) mkdirSync(SPECS_DIR, { recursive: true });
+
   const recipeFiles = readdirSync(DATA_DIR)
     .filter(f => f.endsWith('-recipe.json'))
     .filter(f => !SINGLE || f === `${SINGLE}-recipe.json`);
@@ -471,8 +517,13 @@ function main() {
     }
   }
 
-  // Index schreiben
-  writeFileSync(join(SPECS_DIR, 'index.json'), JSON.stringify(index, null, 2) + '\n');
+  // Index schreiben — beim Einzellauf nur den einen Eintrag ersetzen
+  const gesamt = indexZusammenfuehren(
+    SINGLE ? bestehenderIndex() : null,
+    index.specs,
+    { einzeln: !!SINGLE, heute: index.generated },
+  );
+  writeFileSync(join(SPECS_DIR, 'index.json'), JSON.stringify(gesamt, null, 2) + '\n');
 
   console.log(`✓ ${count} Component Specs generiert → specs/`);
   console.log(`  JSON: ${FORMAT !== 'md' ? count : 0} | Markdown: ${FORMAT !== 'json' ? count : 0}`);
@@ -485,4 +536,7 @@ function main() {
   console.log(`  Keyboard: ${withKeyboard}/${count} | TestSelectors: ${withTestSelectors}/${count} | Events: ${withEvents}/${count}`);
 }
 
-main();
+// Nur als Skript ausfuehren, nicht beim Import (Tests)
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  main();
+}
