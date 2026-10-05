@@ -231,5 +231,7 @@ describe('CSS Output Quality', () => {
   it('CSS Build hat keine Fehler', () => {
     const result = execSync('npm run build:css 2>&1', { cwd: ROOT, encoding: 'utf-8' });
     expect(result).not.toContain('Error');
-  });
+    // Zeitgrenze: Der Sass-Build braucht allein 4–7 s (unter Last mehr);
+    // vitest-Standard 5 s liess den Test sporadisch scheitern (05.10.2026).
+  }, 60_000);
 });
