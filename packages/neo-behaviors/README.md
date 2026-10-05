@@ -126,9 +126,9 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   anderen Auslöser wechselt direkt (ein Ereignis). `data-motion` beim
   Wechsel, Indikator `data-state="visible"` mit `--_indicator-left/-width`.
   Das DS blendet das Menü unter 1200 px aus — die Mobil-Navigation ist ein
-  anderes Bauteil. Das alte Markup aus `website/js/site.js` (Menubar mit
-  Viewport-Kopie) ist nicht mehr Vorlage des Behaviors; das SCSS zeigt es
-  unverändert weiter (`site.js` lädt keine neo-behaviors).
+  anderes Bauteil. Das alte Markup aus Recipe 2.x (Menubar mit
+  Viewport-Kopie) ist weder Vorlage des Behaviors noch wird es seit
+  05.10.2026 vom SCSS gestaltet (Prototyp stillgelegt).
 - **Toolbar** — eine Tab-Station: genau ein Bedienelement trägt
   `tabindex="0"`. Die Pfeiltasten laufen flach über alle Bedienelemente, auch
   über die Knöpfe eingebetteter Toggle-Groups und Segmented Controls (die

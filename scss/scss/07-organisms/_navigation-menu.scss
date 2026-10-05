@@ -23,9 +23,9 @@
 //                                 Ausloeser)
 //   [data-trigger="hover|click"] → Trigger-Modus (Verhalten)
 //
-// Altes Markup (Recipe 2.x, Menubar mit Viewport-Kopie: website/js/site.js)
-// bleibt lesbar: [data-state="open"], [data-active] und
-// .nc-navigation-menu__viewport(-wrapper) wirken weiter (veraltet).
+// Das alte Markup (Recipe 2.x: Menubar mit Viewport-Kopie, [data-state],
+// [data-active]) liest das SCSS seit 05.10.2026 nicht mehr — der Prototyp,
+// der es erzeugte, ist stillgelegt.
 //
 // VARIANTEN:
 //   Default: Panel mit Link-Liste
@@ -114,9 +114,8 @@
     @include focus-ring;
   }
 
-  // Offen (Disclosure); [data-state='open'] = altes Markup (site.js)
-  &[aria-expanded='true'],
-  &[data-state='open'] {
+  // Offen (Disclosure)
+  &[aria-expanded='true'] {
     background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 
@@ -193,8 +192,7 @@
   flex-shrink: 0;
   transition: transform var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 
-  [aria-expanded='true'] > &,
-  [data-state='open'] > & {
+  [aria-expanded='true'] > & {
     transform: rotate(180deg);
   }
 
@@ -238,8 +236,7 @@
     @include focus-ring;
   }
 
-  &[aria-current='page'],
-  &[data-active] {
+  &[aria-current='page'] {
     background-color: var(--mod-nav-menu-trigger-active-bg, var(--nc-nav-menu-trigger-active-bg));
   }
 }
@@ -251,8 +248,7 @@
 .nc-navigation-menu__content {
   // Zu: [hidden] blendet das Panel ganz aus. Ohne offenen Ausloeser bleibt
   // es auch ohne [hidden] unsichtbar (visibility: hidden nimmt es aus
-  // Tab-Folge und Barrierefreiheits-Baum) — so dient es im alten Markup
-  // (site.js) weiter als Vorlage fuer die Viewport-Kopie.
+  // Tab-Folge und Barrierefreiheits-Baum).
   .nc-navigation-menu__item > & {
     position: absolute;
     width: 0;
@@ -268,11 +264,10 @@
     display: none;
   }
 
-  // Offen (Disclosure, erkennbar an aria-controls — das alte Markup hat es
-  // nicht und zeigt weiter die Viewport-Kopie): direkt nach dem Ausloeser
-  // im Item, sichtbar unter der Leiste in voller Breite der Wurzel —
-  // Flaeche, Schatten und Abstaende wie bisher Viewport-Huelle + Viewport +
-  // Inhalt zusammen.
+  // Offen (Disclosure: Ausloeser mit aria-expanded und aria-controls):
+  // direkt nach dem Ausloeser im Item, sichtbar unter der Leiste in voller
+  // Breite der Wurzel — Flaeche, Schatten und Abstaende wie frueher
+  // Viewport-Huelle + Viewport + Inhalt zusammen.
   .nc-navigation-menu__item > .nc-navigation-menu__trigger[aria-expanded='true'][aria-controls] + &:not([hidden]) {
     position: absolute;
     top: 100%;
@@ -293,7 +288,7 @@
     box-shadow: var(--mod-nav-sticky-shadow, var(--nc-nav-sticky-shadow));
   }
 
-  // Oeffnen blendet ein (wie bisher die Viewport-Huelle); ein Wechsel
+  // Oeffnen blendet ein; ein Wechsel
   // animiert zusaetzlich per data-motion (unten)
   @media (prefers-reduced-motion: no-preference) {
     .nc-navigation-menu__item > .nc-navigation-menu__trigger[aria-expanded='true'][aria-controls] + &:not([hidden]) {
@@ -303,19 +298,6 @@
         opacity: 0;
       }
     }
-  }
-
-  // Altes Markup (site.js): sichtbar nur als Kopie im Viewport
-  .nc-navigation-menu__viewport & {
-    position: static;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    opacity: 1;
-    visibility: visible;
-    clip: auto;
-    pointer-events: auto;
-    padding: var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)) 0;
   }
 }
 
@@ -477,50 +459,9 @@
   line-height: var(--lh-relaxed);
 }
 
-// ---------------------------------------------------------------------------
-// Viewport (veraltet seit Recipe 3.0.0 — nur altes Markup, site.js)
-// ---------------------------------------------------------------------------
-// Das Disclosure-Markup braucht keinen Viewport: das Panel bleibt im Item.
-// Der Viewport-Wrapper spannt die volle Viewport-Breite auf.
-// Der Viewport selbst begrenzt den Content auf max-width.
-
-// Viewport-Wrapper: volle Viewport-Breite, direkt unter dem Header.
-// WICHTIG: position: absolute (nicht fixed!), da backdrop-filter auf dem
-// Header (.nc-header) einen neuen Containing Block erzeugt (CSS-Spec).
-// Der Wrapper sitzt im DOM direkt im <header>, daher ist
-// top: 100% = direkt unter dem Header, width: 100% = volle Header-Breite.
-.nc-navigation-menu__viewport-wrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: var(--fnd-z-dropdown);
-  pointer-events: none;
-  opacity: 0;
-  // Full-width Hintergrund, direkt anschliessend an Nav (kein gap)
-  background-color: var(--mod-nav-menu-viewport-bg, var(--nc-nav-menu-viewport-bg));
-  // Schatten NUR auf dem Viewport-Wrapper (ersetzt Nav-Schatten bei offenem Menu)
-  box-shadow: var(--mod-nav-sticky-shadow, var(--nc-nav-sticky-shadow));
-  @include transition-quick((opacity));
-
-  &[data-state='open'] {
-    pointer-events: auto;
-    opacity: 1;
-  }
-}
-
-// Nav-Schatten ausblenden wenn ein Panel offen ist (Disclosure bzw. altes
-// Markup mit Viewport)
-.nc-header:has(.nc-navigation-menu__trigger[aria-expanded='true']),
-.nc-header:has(.nc-navigation-menu__viewport-wrapper[data-state='open']) {
+// Nav-Schatten ausblenden, wenn ein Panel offen ist
+.nc-header:has(.nc-navigation-menu__trigger[aria-expanded='true']) {
   box-shadow: none !important;
-}
-
-.nc-navigation-menu__viewport {
-  max-width: var(--mod-container-max-width, var(--nc-container-max-width));
-  margin-inline: auto;
-  padding: var(--mod-nav-menu-content-padding, var(--nc-nav-menu-content-padding)) 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -715,7 +656,6 @@
 
 // Lage per Custom Property vom Skript (--_indicator-left/-width, wie beim
 // Segmented Control); ohne Wert bleibt die Lage wie bisher (auto).
-// Ein Inline-Stil left/width (website/js/site.js) hat weiter Vorrang.
 .nc-navigation-menu__indicator {
   position: absolute;
   bottom: 0;
@@ -763,7 +703,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Animations (Keyframes fuer Viewport Enter/Exit)
+// Animations (Keyframes fuer den Panel-Wechsel)
 // ---------------------------------------------------------------------------
 
 @keyframes nc-navigation-menu-enter-from-right {
@@ -788,29 +728,7 @@
   }
 }
 
-@keyframes nc-navigation-menu-exit-to-right {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-}
-
-@keyframes nc-navigation-menu-exit-to-left {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-}
-
-// Content-Animation bei Wechsel im Viewport
+// Content-Animation beim Panel-Wechsel (data-motion vom Behavior)
 .nc-navigation-menu__content[data-motion='from-start'] {
   animation: nc-navigation-menu-enter-from-left var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
@@ -819,21 +737,12 @@
   animation: nc-navigation-menu-enter-from-right var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
 }
 
-.nc-navigation-menu__content[data-motion='to-start'] {
-  animation: nc-navigation-menu-exit-to-left var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
-}
-
-.nc-navigation-menu__content[data-motion='to-end'] {
-  animation: nc-navigation-menu-exit-to-right var(--mod-nav-menu-duration, var(--nc-nav-menu-duration)) var(--mod-nav-menu-ease, var(--nc-nav-menu-ease));
-}
-
 // Reduced Motion
 @media (prefers-reduced-motion: reduce) {
   .nc-navigation-menu__content[data-motion] {
     animation: none;
   }
 
-  .nc-navigation-menu__viewport,
   .nc-navigation-menu__trigger-icon,
   .nc-navigation-menu__indicator {
     transition: none;

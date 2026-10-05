@@ -1,5 +1,5 @@
 # navigation-menu Component Spec
-> Version 3.0.0 | Status: stable | Layer: organism
+> Version 3.0.1 | Status: stable | Layer: organism
 
 Tags: `navigation`, `interactive`, `dropdown`, `mega-menu`
 
@@ -27,7 +27,6 @@ Root element: `.nc-navigation-menu`
 - Featured Item: Grafischer Highlight-Slot, volle Breite im Grid (grid-column: 1 / -1).
 - Callout: Highlight-Bereich (linke Spalte, Gradient-BG) im Layout two-col.
 - Trigger-Mode: data-trigger='hover' (Desktop) vs 'click' (Touch/komplexe Menus).
-- Veraltet (Recipe 2.x, website/js/site.js): Menubar-Rollen, data-state='open|closed', .nc-navigation-menu__viewport(-wrapper) mit Kopie des Panels — das SCSS liest es weiter.
 
 ## Variants
 ### Layout (`layout`)

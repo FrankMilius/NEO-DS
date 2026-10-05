@@ -26,7 +26,7 @@
 //
 // Abgeloest (Plan v3, Phase 3, Block Navigation): breadcrumb, pagination,
 // navigation, navigation-menu, sidebar, treeview, toolbar — DS-Markup nach
-// SCSS-Struktur und Doku (navigation-menu nach website/js/site.js), nur
+// SCSS-Struktur und Doku (navigation-menu damals nach dem Prototyp), nur
 // „Zustände": keines der Recipes gibt keyboard/events vor, neo-behaviors hat
 // fuer sie kein Verhalten. Offene Zustaende fest (Breadcrumb-Dropdown,
 // Navigationsmenue-Viewport), Arena-Rahmen ra-kopf/ra-kulisse/ra-spalte und

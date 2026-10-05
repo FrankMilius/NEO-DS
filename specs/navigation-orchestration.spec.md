@@ -1,5 +1,5 @@
 # navigation-orchestration Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.0.1 | Status: stable | Layer: organism
 
 Tags: `navigation`, `orchestration`, `composition`, `governance`
 
@@ -16,7 +16,6 @@ Root element: `.nc-header`
 | menu-list | `.nc-navigation-menu__list` | No | — |
 | menu-item | `.nc-navigation-menu__item` | No | — |
 | menu-trigger | `.nc-navigation-menu__trigger` | No | — |
-| menu-viewport | `.nc-navigation-menu__viewport` | No | — |
 | nav-link | `.nc-nav__link` | No | — |
 | nav-icon | `.nc-nav__icon` | No | — |
 | nav-label | `.nc-nav__label` | No | — |

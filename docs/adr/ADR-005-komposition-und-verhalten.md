@@ -182,7 +182,8 @@ Dinge fehlten aber:
   das offene Panel (`aria-expanded="true"` + `aria-controls`, ohne `[hidden]`)
   unter der Leiste in voller Breite; Vorher/Nachher-Screenshot der Arena
   pixelgleich. Das alte Markup (`data-state`, Viewport — `website/js/site.js`
-  der Prototyp-Seiten) liest das SCSS weiter (veraltet). Verhalten: Tab durch
+  der Prototyp-Seiten) las das SCSS zunächst weiter; seit 05.10.2026 ist der
+  Prototyp stillgelegt und der Altpfad aus dem SCSS entfernt. Verhalten: Tab durch
   alle Einträge, Enter/Leertaste (nativer Klick) schalten, Escape schließt
   mit Fokus auf den Auslöser, Fokus aus dem offenen Item oder Klick außen
   schließt, höchstens ein Panel offen; optionale Pfeiltasten (oben
