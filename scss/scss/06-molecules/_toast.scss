@@ -240,7 +240,12 @@
 }
 
 /// Titel.
+/// Schrift vom Toast (--nc-toast-font-size, line-height): Titel und
+/// Beschreibung sind im Markup <p> — ohne inherit setzte die Elementregel
+/// p (03-elements, paragraph l) Groesse und Zeilenhoehe.
 @mixin toast-title {
+  font-size: inherit;
+  line-height: inherit;
   font-weight: var(--fnd-font-weight-semibold);
   margin: 0 0 var(--fnd-spacing-01) 0;
 }
@@ -248,6 +253,7 @@
 /// Beschreibung.
 @mixin toast-description {
   margin: 0;
+  line-height: inherit;
   opacity: var(--fnd-opacity-prominent);
   font-size: var(--mod-toast-description-font-size, var(--nc-toast-description-font-size));
 }
