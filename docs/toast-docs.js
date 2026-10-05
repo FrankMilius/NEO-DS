@@ -233,7 +233,13 @@
     if (opts.showProgress && opts.duration > 0) {
       var progress = document.createElement('div');
       progress.className = 'nc-toast__progress';
-      progress.style.animation = 'nc-toast-progress ' + opts.duration + 'ms linear forwards';
+      // Einzel-Eigenschaften statt der Kurzform `animation`: als Inline-Stil
+      // setzte sie animation-play-state und hebelte die Pause per
+      // :hover/:focus-within des SCSS aus (wie neo-behaviors toast).
+      progress.style.animationName = 'nc-toast-progress';
+      progress.style.animationDuration = opts.duration + 'ms';
+      progress.style.animationTimingFunction = 'linear';
+      progress.style.animationFillMode = 'forwards';
       toast.appendChild(progress);
     }
 
@@ -251,12 +257,32 @@
       toast.classList.remove('is-entering');
     }, animDuration);
 
-    // Auto-dismiss
+    // Auto-dismiss — der Timer haelt bei Maus und Fokus im Toast an (wie der
+    // Balken per CSS) und laeuft danach mit der Restzeit weiter (WCAG 2.2.1)
     var timer = null;
     if (opts.duration > 0) {
-      timer = setTimeout(function () {
-        dismissToast(toastId);
-      }, opts.duration);
+      var rest = opts.duration;
+      var start = 0;
+      var maus = false;
+      var laufe = function () {
+        if (timer || maus || toast.contains(document.activeElement)) return;
+        start = Date.now();
+        timer = setTimeout(function () { dismissToast(toastId); }, rest);
+        if (activeToasts[toastId]) activeToasts[toastId].timer = timer;
+      };
+      var halte = function () {
+        if (!timer) return;
+        clearTimeout(timer);
+        timer = null;
+        rest = Math.max(0, rest - (Date.now() - start));
+      };
+      toast.addEventListener('mouseenter', function () { maus = true; halte(); });
+      toast.addEventListener('mouseleave', function () { maus = false; laufe(); });
+      toast.addEventListener('focusin', halte);
+      toast.addEventListener('focusout', function (e) {
+        if (!e.relatedTarget || !toast.contains(e.relatedTarget)) setTimeout(laufe, 0);
+      });
+      laufe();
     }
 
     // Track
@@ -357,7 +383,7 @@
 
     code += '  <!-- Toast -->\n';
     code += '  <div class="nc-toast nc-toast--' + variant + '"\n';
-    code += '       role="' + role + '">\n';
+    code += '       role="' + role + '"' + (duration > 0 ? ' data-duration="' + duration + '"' : '') + '>\n';
     code += '    <span class="nc-toast__icon" aria-hidden="true">\n';
     code += '      <svg><!-- ' + variant + ' icon --></svg>\n';
     code += '    </span>\n';
@@ -383,8 +409,8 @@
     }
 
     if (showProgress && duration > 0) {
-      code += '    <div class="nc-toast__progress"\n';
-      code += '         style="animation: nc-toast-progress ' + duration + 'ms linear forwards;"></div>\n';
+      code += '    <!-- laeuft per neo-behaviors (data-duration) ab -->\n';
+      code += '    <div class="nc-toast__progress" aria-hidden="true"></div>\n';
     }
 
     code += '  </div>\n';
