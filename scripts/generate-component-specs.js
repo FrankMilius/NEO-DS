@@ -34,7 +34,16 @@ const FORMAT = args.find(a => a.startsWith('--format='))?.split('=')[1] || 'both
 // Recipe → Spec Transformation
 // ---------------------------------------------------------------------------
 
-function recipeToSpec(recipe) {
+/**
+ * Textliste aus dem Recipe ohne leere Eintraege. Ein leerer String in
+ * domNotes (hero, bis 05.10.2026) ergab sonst eine leere Aufzaehlungszeile
+ * `- ` im Markdown und einen leeren Eintrag im JSON.
+ */
+export function textListe(liste) {
+  return (Array.isArray(liste) ? liste : []).filter((t) => typeof t === 'string' && t.trim() !== '');
+}
+
+export function recipeToSpec(recipe) {
   const meta = recipe.meta;
   const spec = {
     $schema: '../data/component-spec-schema.json',
@@ -53,7 +62,7 @@ function recipeToSpec(recipe) {
         required: !s.optional,
         description: s.description || null,
       })),
-      notes: recipe.anatomy?.domNotes || [],
+      notes: textListe(recipe.anatomy?.domNotes),
     },
 
     // --- HTML API ---
@@ -216,7 +225,7 @@ function extractA11y(recipe) {
     interactive: recipe.a11y.base?.interactive ?? null,
     contrastTarget: recipe.a11y.base?.contrastTarget || null,
     focusIndicator: recipe.a11y.base?.focusIndicator || null,
-    assertions: recipe.a11y.base?.assertions || [],
+    assertions: textListe(recipe.a11y.base?.assertions),
     overrides: (recipe.a11y.overrides || []).map(o => ({
       when: o.when,
       require: o.require || [],
@@ -230,7 +239,7 @@ function extractA11y(recipe) {
 // Spec → Markdown
 // ---------------------------------------------------------------------------
 
-function specToMarkdown(spec) {
+export function specToMarkdown(spec) {
   const lines = [];
   const h = (level, text) => lines.push(`${'#'.repeat(level)} ${text}`);
   const p = (text) => lines.push(`${text}\n`);
