@@ -2,20 +2,20 @@
   <div class="component-arena">
 
     <!-- Pro Variante ein eigener Specimen-Container -->
-    <template v-for="variant in visibleVariants" :key="variant">
+    <template v-for="variante in visibleVariants" :key="variante">
       <div class="arena-category-divider">
-        <span class="arena-category-label">{{ capitalize(variant) }}</span>
+        <span class="arena-category-label">{{ capitalize(variante) }}</span>
       </div>
       <div class="arena-specimen">
 
         <!-- Split mode: light + dark panels -->
         <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="{ background: tLight['background-secondary'], position: 'relative' }">
-            <VariantContent :variant="variant" :tokens="tokensLight" :theme="tLight" mode="light" />
+            <VariantContent :variant="variante" :tokens="tokensLight" :theme="tLight" mode="light" />
             <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
           <div class="arena-specimen__panel" :style="{ background: tDark['background-base'], position: 'relative' }">
-            <VariantContent :variant="variant" :tokens="tokensDark" :theme="tDark" mode="dark" />
+            <VariantContent :variant="variante" :tokens="tokensDark" :theme="tDark" mode="dark" />
             <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
         </div>
@@ -23,7 +23,7 @@
         <!-- Single mode -->
         <div v-else class="arena-specimen__single">
           <div class="arena-specimen__panel arena-specimen__panel--full" :style="{ background: activeBg, position: 'relative' }">
-            <VariantContent :variant="variant" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
+            <VariantContent :variant="variante" :tokens="activeTokens" :theme="activeTheme" :mode="arenaMode" />
             <div v-if="isHighlighted" class="arena-highlight-overlay" :style="highlightStyle"></div>
           </div>
         </div>

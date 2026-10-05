@@ -50,6 +50,7 @@
                   :data-token-groups="z.tokenGroups.join(',')"
                   :data-quelle="z.quelle"
                 >
+                  <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/*-recipe.json ueber specimenAnsicht() und arena-templates (im Repo, Texte mit esc() maskiert); Theme-Werte gehen nur in :style -->
                   <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :style="variablenFuer(thema, z.flaeche)" :data-flaeche="z.flaeche || null" v-html="ti ? fuerWeiteresThema(z.html, `-t${ti + 1}`) : z.html"></div>
                   <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
                   <figcaption class="ra-cell-label">{{ z.label }}</figcaption>

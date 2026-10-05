@@ -23,18 +23,24 @@
         <!-- Split View -->
         <div v-if="isSplit" class="arena-specimen__pair">
           <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-else v-html="recipe.html"></div>
           </div>
           <div class="arena-specimen__panel" :style="panelStyle(tDark)">
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-else v-html="recipe.html"></div>
           </div>
         </div>
         <!-- Single View -->
         <div v-else class="arena-specimen__single">
           <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-if="showGrid && recipe.grid" :class="recipe.grid" v-html="repeatedHtml(recipe)"></div>
+            <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json (statischer Import, vertrauenswuerdig, im Repo) -->
             <div v-else v-html="recipe.html"></div>
           </div>
         </div>
@@ -50,22 +56,22 @@
           <div v-if="isSplit" class="arena-specimen__pair">
             <div class="arena-specimen__panel arena-specimen__panel--light" :style="panelStyle(tLight)">
               <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-                <div v-for="level in recipe.statusLevels" :key="level"
-                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+                <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json, statusLevels aus demselben Recipe (vertrauenswuerdig, im Repo) -->
+                <div v-for="level in recipe.statusLevels" :key="level" v-html="statusHtml(recipe, level)"></div>
               </div>
             </div>
             <div class="arena-specimen__panel" :style="panelStyle(tDark)">
               <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-                <div v-for="level in recipe.statusLevels" :key="level"
-                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+                <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json, statusLevels aus demselben Recipe (vertrauenswuerdig, im Repo) -->
+                <div v-for="level in recipe.statusLevels" :key="level" v-html="statusHtml(recipe, level)"></div>
               </div>
             </div>
           </div>
           <div v-else class="arena-specimen__single">
             <div class="arena-specimen__panel arena-specimen__panel--full" :style="panelStyle(activeTheme)">
               <div :class="showGrid ? 'nc-card-grid' : 'arena-card-status-row'">
-                <div v-for="level in recipe.statusLevels" :key="level"
-                  v-html="recipe.html.replace('status-success', 'status-' + level).replace('Erfolgreich', level).replace('Alle Tests bestanden', 'Status: ' + level).replace('€ 1.2M', level)"></div>
+                <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/card-recipes.json, statusLevels aus demselben Recipe (vertrauenswuerdig, im Repo) -->
+                <div v-for="level in recipe.statusLevels" :key="level" v-html="statusHtml(recipe, level)"></div>
               </div>
             </div>
           </div>
@@ -125,6 +131,17 @@ import recipesData from '../../../../../data/card-recipes.json'
 const recipes = computed(() => recipesData.recipes || [])
 
 const showGrid = ref(false)
+
+// Status-Variante: Beispiel-Card des Recipes mit ausgetauschtem Status.
+// Alle Eingaben (html, statusLevels) stammen aus data/card-recipes.json —
+// keine Nutzereingaben, daher v-html ohne Sanitizer (siehe Template).
+function statusHtml(recipe, level) {
+  return recipe.html
+    .replace('status-success', 'status-' + level)
+    .replace('Erfolgreich', level)
+    .replace('Alle Tests bestanden', 'Status: ' + level)
+    .replace('€ 1.2M', level)
+}
 
 // Wiederholtes HTML fuer Grid-Kontext (3 Kopien)
 function repeatedHtml(recipe) {
