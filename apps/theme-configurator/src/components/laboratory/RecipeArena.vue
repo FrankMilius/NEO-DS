@@ -415,6 +415,50 @@ onBeforeUnmount(() => aufraeumen?.())
 /* Ausprobieren: Platz um den Knopf, der die Sidebar oeffnet */
 .ra-live-component .ra-buehne--mobil > .nc-button { margin: 16px; }
 
+/* Rueckmeldungen (Plan v3, Phase 3, Block Rueckmeldung). Nur Platz und
+   Rahmen.
+   ra-bildschirm: kleiner Bildschirm fuer Toaster (position: fixed) und das
+   feste Banner. contain macht den Rahmen zu ihrem Bezugsrahmen (wie bei
+   ra-buehne) — sonst saessen sie am Fenster ueber der App. Grund: Seite
+   (background-secondary), damit Rand und Schatten des Toasts sichtbar sind.
+   Hoehe: der Toaster traegt nichts zur Hoehe bei, der Rahmen haelt sie. */
+.ra-live-component .ra-bildschirm {
+  position: relative;
+  /* Toast-Breite (356 px) + Abstand des Toasters; schmaler schnitte der
+     Rahmen den Toast ab — die Vorschau scrollt dann waagrecht */
+  width: 420px;
+  flex-shrink: 0;
+  height: 150px;
+  overflow: hidden;
+  contain: layout paint;
+  border-radius: 6px;
+  background: var(--fnd-color-background-secondary);
+}
+.ra-live-component .ra-bildschirm--breit { width: 560px; }
+.ra-live-component .ra-bildschirm--voll { width: 100%; height: auto; min-height: 120px; }
+.ra-live-component .ra-bildschirm--mittel { height: 190px; }
+.ra-live-component .ra-bildschirm--hoch { height: 400px; }
+/* festes Banner: liegt ueber dem Seitentext, der Rahmen haelt Platz fuer
+   ein umbrechendes Banner */
+.ra-live-component .ra-bildschirm--fest { min-height: 220px; }
+/* Seiteninhalt unter dem Banner (Lage static/sticky/fixed im Vergleich) */
+.ra-live-component .ra-seitentext {
+  margin: 0;
+  padding: 16px;
+  font-size: 13px;
+  color: var(--fnd-color-text-secondary);
+}
+/* ra-standbild: Ausblend-Animation des DS (is-dismissing, is-leaving)
+   angehalten, nach 40 % ihrer Dauer (300 ms) — die Zelle zeigt den Zustand
+   „Schließt" halb ausgeblendet, statt leer zu sein. */
+.ra-live-component .ra-standbild .is-dismissing,
+.ra-live-component .ra-standbild .is-leaving {
+  animation-play-state: paused;
+  animation-delay: -120ms;
+}
+.ra-live-component .ra-stapel--breit { align-items: stretch; }
+.ra-live-component .ra-stapel--breit > .nc-button { align-self: flex-start; }
+
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
    nicht aus styles.css — hier dieselbe Regel fuer die Arena. */

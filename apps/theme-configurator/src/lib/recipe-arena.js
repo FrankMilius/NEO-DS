@@ -69,9 +69,13 @@ const ZUSTAND_ATTRIBUTE = {
   readonly: { 'aria-readonly': 'true' }
 }
 
-/** Zustaende, die sich ohne Pseudoklasse nicht zeigen lassen. */
+/**
+ * Zustaende, die sich ohne Pseudoklasse nicht zeigen lassen. (swiping nicht:
+ * das DS kennt .is-swiping am Toast, die Vorlage zeigt es mit den Werten,
+ * die das JS waehrend der Geste setzt.)
+ */
 export const NUR_INTERAKTIV = new Set([
-  'hover', 'focus', 'focus-visible', 'focus-within', 'swiping'
+  'hover', 'focus', 'focus-visible', 'focus-within'
 ])
 
 const ZUSTAND_LABEL = {
@@ -711,7 +715,9 @@ export function specimenAnsicht (specimen, recipe, componentId, vorlage, optione
       flaeche: zellenFlaeche(zelle, specimen),
       nurInteraktiv: (zelle.states || []).some((s) => NUR_INTERAKTIV.has(s))
     }
-  })
+  // Leere Ausgabe der Vorlage: die Zelle gehoert zu einer Sammelzelle (z. B.
+  // mehrere Toasts in EINEM Toaster — die erste Zelle zeigt alle).
+  }).filter((z) => z.html !== '')
 
   const rowAxis = specimen.layoutConfig?.rowAxis
   let zeilen

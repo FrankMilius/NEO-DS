@@ -11,7 +11,7 @@
 | Recipe | `data/notification-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_notification.scss` | present |
 | Storybook | `stories/organisms/notification.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/NotificationArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/notification-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/notification-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_notification.scss)
 - [Storybook Story](../stories/organisms/notification.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/NotificationArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/notification-docs.html)

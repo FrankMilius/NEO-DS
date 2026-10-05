@@ -11,7 +11,7 @@
 | Recipe | `data/toast-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_toast.scss` | present |
 | Storybook | `stories/molecules/toast.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ToastArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/toast-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/toast-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_toast.scss)
 - [Storybook Story](../stories/molecules/toast.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ToastArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/toast-docs.html)

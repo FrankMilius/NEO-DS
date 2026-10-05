@@ -32,6 +32,13 @@
 // Navigationsmenue-Viewport), Arena-Rahmen ra-kopf/ra-kulisse/ra-spalte und
 // ra-buehne--mobil fuer die Mobil-Lage der Sidebar.
 //
+// Abgeloest (Plan v3, Phase 3, Block Rueckmeldung): toast, notification,
+// alert, banner — DS-Markup nach SCSS-Struktur und data/markup, Toaster und
+// festes Banner im Arena-Rahmen ra-bildschirm, Ausblend-Zustaende als
+// Standbild (ra-standbild); „Ausprobieren" mit den neuen Behaviors aus
+// neo-behaviors (Schliessen, Escape, Auto-Ausblenden mit Pause, Wischen,
+// Gelesen) und „Erneut zeigen".
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -51,13 +58,9 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 const SONDERFAELLE = {
   card: () => import('../components/laboratory/CardArena.vue'),
   button: () => import('../components/laboratory/ButtonArena.vue'),
-  alert: () => import('../components/laboratory/AlertArena.vue'),
-  toast: () => import('../components/laboratory/ToastArena.vue'),
-  banner: () => import('../components/laboratory/BannerArena.vue'),
   accordion: () => import('../components/laboratory/AccordionArena.vue'),
   metric: () => import('../components/laboratory/MetricArena.vue'),
   'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
-  notification: () => import('../components/laboratory/NotificationArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
   item: () => import('../components/laboratory/ItemArena.vue'),
   table: () => import('../components/laboratory/TableArena.vue'),

@@ -11,7 +11,7 @@
 | Recipe | `data/banner-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_banner.scss` | present |
 | Storybook | `stories/organisms/banner.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/BannerArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/banner-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/banner-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_banner.scss)
 - [Storybook Story](../stories/organisms/banner.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/BannerArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/banner-docs.html)

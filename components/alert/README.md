@@ -11,7 +11,7 @@
 | Recipe | `data/alert-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_alert.scss` | present |
 | Storybook | `stories/organisms/alert.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/AlertArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/alert-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,5 +29,5 @@
 - [Recipe JSON](../data/alert-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_alert.scss)
 - [Storybook Story](../stories/organisms/alert.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/AlertArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/alert-docs.html)
