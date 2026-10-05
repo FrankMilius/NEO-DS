@@ -780,3 +780,52 @@ footer {
   outline-offset: 2px;
 }
 /* <<< aufgenommen: footer */
+
+// ---------------------------------------------------------------------------
+// Links ohne Klasse: Fliesstext-Link-Regel des Themas zuruecknehmen
+// ---------------------------------------------------------------------------
+/* 03-elements/_mono-elements.scss gestaltet unter .neo-light-theme UND
+   .neo-dark-theme jeden Link ohne Klasse als Fliesstext-Link: 550,
+   Unterstrich im Akzent, eigene Transition. Die Rechtslinks in
+   .nc-footer__legal-links (Impressum, Datenschutz, Barrierefreiheit,
+   Cookie-Einstellungen) tragen keine Klasse, ebenso Spaltenlinks aus einem
+   Menueblock (Drupal, website/js/site.js) — die Regel (0,2,1) schlug die
+   Komponentenregeln (0,1,1) in BEIDEN Themes. Gemessen (Playwright,
+   data/markup/footer.html): Unterstrich rgb(55,233,61), 2px, Gewicht 550,
+   hell wie dunkel; klassenlose Spaltenlinks zusaetzlich in Textfarbe statt
+   --nc-footer-link-color.
+   Die Wurzel traegt Spezifitaet (0,3,1) und schlaegt damit die Themenregel
+   samt Hover; :active (0,4,1) ebenso. Die Werte sind die der Komponente;
+   Hover wie im Recipe: Farbwechsel + Unterstrich (in Schriftfarbe, nicht im
+   Akzent). Der Fokus bleibt bei den Komponentenregeln oben.
+   NICHT betroffen: der Datenschutz-Link im Newsletter-Hinweis
+   (.nc-footer__newsletter-consent) — das ist Fliesstext und bleibt
+   unterstrichen. Die allgemeine Link-Regel bleibt unveraendert. */
+.nc-footer :is(.nc-footer__legal-links, .nc-footer__column) a:not([class]),
+.nc-footer :is(.nc-footer__legal-links, .nc-footer__column) a:not([class]):active {
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.nc-footer .nc-footer__legal-links a:not([class]),
+.nc-footer .nc-footer__legal-links a:not([class]):active {
+  color: var(--nc-footer-legal-color);
+  transition: color 0.15s ease;
+}
+
+.nc-footer .nc-footer__column a:not([class]),
+.nc-footer .nc-footer__column a:not([class]):active {
+  color: var(--nc-footer-link-color);
+  transition: opacity 0.15s ease;
+}
+
+.nc-footer .nc-footer__legal-links a:not([class]):hover {
+  color: var(--nc-footer-link-hover-color);
+  text-decoration: underline;
+}
+
+.nc-footer .nc-footer__column a:not([class]):hover {
+  color: var(--nc-footer-link-hover-color);
+  opacity: var(--fnd-opacity-high);
+  text-decoration: underline;
+}

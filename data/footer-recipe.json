@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "footer",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,12 @@
       "docs": "/docs/footer-docs"
     },
     "changelog": [
+      {
+        "version": "2.0.1",
+        "changes": [
+          "Rechtslinks (.nc-footer__legal-links) und klassenlose Spaltenlinks (.nc-footer__column, Menueblock) ohne Fliesstext-Unterstrich: Die Element-Regel aus 03-elements/_mono-elements.scss (a:not([class]) unter .neo-light-theme/.neo-dark-theme, 0,2,1) schlug die Komponentenregeln (0,1,1) in BEIDEN Themes (Akzent-Unterstrich 2px, Gewicht 550; Spaltenlinks zusaetzlich in Textfarbe). Die Wurzel nimmt die Regel jetzt zurueck (.nc-footer :is(.nc-footer__legal-links, .nc-footer__column) a:not([class]), 0,3,1) mit den Komponentenwerten; Hover wie unter states vorgesehen: Farbwechsel + Unterstrich in Schriftfarbe. Der Datenschutz-Link im Newsletter-Hinweis ist Fliesstext und bleibt unterstrichen. Nebenwirkung mobil: die fetten Rechtslinks liefen bei 390px 6px ueber die Seitenbreite, das entfaellt. Freigabe ausstehend."
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
