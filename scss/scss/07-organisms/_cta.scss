@@ -3,16 +3,32 @@
 // ==========================================================================
 // Multi-column call-to-action section with newsletter and demo forms.
 // Extracted from _site.scss for proper ITCSS placement.
+//
+// FLAECHE UND RASTER (Entscheidung 06.10.2026):
+//   - Eigene Flaeche --nc-cta-bg (Standard always-dark), damit der Text in
+//     always-light auf jedem Untergrund lesbar ist (vorher kam der Grund
+//     vom Elternelement — auf heller Seite Weiss auf Weiss)
+//   - Unter md eine Spalte; ab md eine Spalte je VORHANDENEM Bereich
+//     (__left, __mid, __right): fehlt einer, faellt seine Spalte weg
+//     (vorher repeat(3, 1fr) mit leeren Spalten und Mindestbreiten, die
+//     schmale Fenster sprengten)
 // ==========================================================================
 
 @use '../01-tools' as *;
 
 .nc-cta {
+  background: var(--mod-cta-bg, var(--nc-cta-bg));
   color: var(--fnd-color-always-light);
   padding: var(--fnd-spacing-09);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--fnd-spacing-08);
+
+  @include respond-to('md') {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
 }
 
 .nc-cta .nc-section-title,
@@ -27,22 +43,16 @@
 .nc-cta__left {
   display: grid;
   gap: var(--fnd-spacing-03);
-  flex: 1 1 40%;
-  min-width: 260px;
 }
 
 .nc-cta__mid {
   display: grid;
   gap: var(--fnd-spacing-06);
-  flex: 1 1 45%;
-  min-width: 280px;
 }
 
 .nc-cta__right {
   display: grid;
   gap: var(--fnd-spacing-06);
-  flex: 1 1 45%;
-  min-width: 280px;
 }
 
 .nc-cta__form {

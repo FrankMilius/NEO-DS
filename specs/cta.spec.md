@@ -1,5 +1,5 @@
 # cta Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `conversion`
 
@@ -15,7 +15,7 @@ Root element: `.nc-cta`
 | note | `.nc-cta__note` | No | — |
 
 ### DOM Notes
-- 3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.
+- Eigene Flaeche --nc-cta-bg (Standard always-dark, --mod-cta-bg), Text always-light. Raster: unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (__left, __mid, __right).
 - Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.
 - Responsive: Form wird 2fr+1fr ab 768px.
 
@@ -34,6 +34,10 @@ Supported: `default`
 Base classes: `nc-cta`
 
 ### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-cta-bg` | — | `--mod-cta-bg` |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 

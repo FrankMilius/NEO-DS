@@ -3,8 +3,15 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "cta",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Eigene Flaeche (Entscheidung 06.10.2026): background var(--mod-cta-bg, var(--nc-cta-bg)), Standard always-dark — der always-light-Text ist ohne dunkles Elternelement lesbar; Arena ohne den Rahmen ra-grund-dunkel",
+          "Responsives Raster (Entscheidung 06.10.2026): unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (grid-auto-flow column) — fehlende Bereiche lassen keine leere Spalte; flex/min-width der Bereiche entfernt (wirkungslos im Raster bzw. zu breit fuer schmale Fenster)"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -68,7 +75,7 @@
     ],
     "convenience": [],
     "domNotes": [
-      "3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.",
+      "Eigene Flaeche --nc-cta-bg (Standard always-dark, --mod-cta-bg), Text always-light. Raster: unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (__left, __mid, __right).",
       "Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.",
       "Responsive: Form wird 2fr+1fr ab 768px."
     ]
@@ -117,7 +124,9 @@
     "tokenGroups": {
       "base": {
         "label": "Base",
-        "tokens": []
+        "tokens": [
+          "nc-cta-bg"
+        ]
       }
     }
   },
@@ -153,7 +162,7 @@
     {
       "id": "default",
       "label": "CTA Section",
-      "description": "Call-to-Action mit Newsletter und Demo. .nc-cta bringt keine Fläche mit (Text always-light) — die Arena stellt den Block auf dunklen Grund (always-dark), wie die Doku auf eine kräftige Fläche.",
+      "description": "Call-to-Action mit Newsletter und Demo auf der eigenen Fläche (--nc-cta-bg, Standard always-dark).",
       "matrix": {
         "axes": {
           "variant": [
@@ -176,7 +185,7 @@
     {
       "id": "nur-newsletter",
       "label": "Nur Newsletter",
-      "description": "Ohne Demo-Spalte (right).",
+      "description": "Ohne Demo-Spalte (right) — zwei Spalten.",
       "matrix": {
         "axes": {
           "variant": [
@@ -198,7 +207,7 @@
     {
       "id": "nur-demo",
       "label": "Nur Demo",
-      "description": "Ohne Newsletter-Spalte (mid).",
+      "description": "Ohne Newsletter-Spalte (mid) — zwei Spalten.",
       "matrix": {
         "axes": {
           "variant": [
@@ -220,7 +229,7 @@
     {
       "id": "nur-text",
       "label": "Nur Text",
-      "description": "Nur die linke Spalte — das Raster behält drei Spalten.",
+      "description": "Nur die linke Spalte — die übrigen Spalten fallen weg.",
       "matrix": {
         "axes": {
           "variant": [

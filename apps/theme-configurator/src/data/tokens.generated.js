@@ -7378,6 +7378,28 @@ export const componentTokenGroups = [
     ]
   },
   {
+    "id": "cta",
+    "label": "CTA",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "alle",
+        "label": "Alle Tokens",
+        "tokenIds": [
+          "nc-cta-bg"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-cta-bg",
+        "label": "Background",
+        "type": "color",
+        "default": "var(--fnd-color-always-dark)"
+      }
+    ]
+  },
+  {
     "id": "data-table",
     "label": "Data Table",
     "icon": "table",

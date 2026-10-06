@@ -264,10 +264,14 @@ describe('Bloecke 1: Specimens im Einzelnen', () => {
     expect(links.findIndex((a) => a.hasAttribute('aria-current'))).toBe(1)
   })
 
-  it('cta: auf dunklem Arena-Grund (in beiden Themes), optionale Spalten per Specimen', () => {
+  it('cta: eigene Flaeche (--nc-cta-bg), Spalten nur fuer vorhandene Bereiche, optionale Spalten per Specimen (Entscheidung 06.10.2026)', () => {
+    expect(css()).toMatch(/\.nc-cta\{background:var\(--mod-cta-bg, ?var\(--nc-cta-bg\)\)/)
+    expect(css()).toMatch(/--nc-cta-bg: ?var\(--fnd-color-always-dark\)/)
+    expect(css()).toMatch(/\.nc-cta\{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax\(0, ?1fr\)\}/)
     for (const z of zellen('cta')) {
       expect(z.flaeche, z.specimen.id).toBeNull()
-      expect(dom(z.html).querySelector('.ra-desktop > .ra-grund-dunkel > .nc-cta'), z.specimen.id).not.toBeNull()
+      expect(dom(z.html).querySelector('.ra-desktop > .nc-cta'), z.specimen.id).not.toBeNull()
+      expect(dom(z.html).querySelector('.ra-grund-dunkel'), z.specimen.id).toBeNull()
     }
     const teile = (sp) => ['mid', 'right'].filter((t) => alle('cta', sp)[0].querySelector(`.nc-cta__${t}`))
     expect(teile('default')).toEqual(['mid', 'right'])

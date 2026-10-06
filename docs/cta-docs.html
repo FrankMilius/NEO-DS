@@ -149,7 +149,7 @@
               </select>
             </div>
 
-            <div class="docs-stage__preview" id="stage-preview" style="background: var(--fnd-color-background-accent-bold); padding: 0;">
+            <div class="docs-stage__preview" id="stage-preview" style="padding: 0;">
               <div class="nc-cta">
                 <!-- Left Column -->
                 <div class="nc-cta__left">
@@ -199,7 +199,7 @@
             <p class="docs__section-desc">
               Die CTA-Sektion besteht aus drei Spalten im CSS-Grid. Auf Bildschirmen unter 768px brechen die Spalten untereinander.
             </p>
-            <div style="background: var(--fnd-color-background-accent-bold); margin-block-end: var(--fnd-spacing-06);">
+            <div style="margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-cta">
                 <div class="nc-cta__left">
                   <h2 class="nc-section-title">Jetzt starten</h2>
@@ -243,6 +243,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
+      <tr><td><code class="docs__token">--nc-cta-bg</code></td><td>var(--fnd-color-always-dark)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -307,6 +308,7 @@
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+      <tr><td><code class="docs__token">--nc-cta-bg</code></td><td>var(--fnd-color-always-dark)</td><td>var(--fnd-color-always-dark)</td></tr>
     </tbody>
     </table>
   </div>
@@ -314,7 +316,7 @@
 <section class="docs__section" id="api-dom-notes">
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
-    <li>3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.</li>
+    <li>Eigene Flaeche --nc-cta-bg (Standard always-dark, --mod-cta-bg), Text always-light. Raster: unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (__left, __mid, __right).</li>
     <li>Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.</li>
     <li>Responsive: Form wird 2fr+1fr ab 768px.</li>
   </ul>

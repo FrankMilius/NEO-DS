@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "cta",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -44,7 +44,7 @@
       }
     ],
     "notes": [
-      "3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.",
+      "Eigene Flaeche --nc-cta-bg (Standard always-dark, --mod-cta-bg), Text always-light. Raster: unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (__left, __mid, __right).",
       "Sub-Components: nc-newsletter-cta, nc-demo-cta mit eigenen Forms.",
       "Responsive: Form wird 2fr+1fr ab 768px."
     ]
@@ -76,9 +76,15 @@
       "nc-cta"
     ],
     "tokenGroups": {
-      "Base": []
+      "Base": [
+        {
+          "token": "--nc-cta-bg"
+        }
+      ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-cta-bg"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

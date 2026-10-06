@@ -120,6 +120,7 @@ export type ComponentGroupId =
   | "compare-table"
   | "container"
   | "content"
+  | "cta"
   | "data-table"
   | "device"
   | "dialog"

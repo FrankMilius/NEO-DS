@@ -1,18 +1,15 @@
 // Vorlage: cta — Markup aus data/markup/cta.html. Die Farbangaben stehen so
 // im geernteten Markup (Text auf dunkler CTA-Flaeche).
 //
-// .nc-cta bringt keine eigene Flaeche mit (Text always-light, der Grund
-// kommt vom Elternelement — die Doku stellt den Block auf
-// background-accent-bold). Die Arena stellt ihn in den Rahmen
-// ra-grund-dunkel (always-dark, in hell und dunkel gleich — der inverse
-// Grund kippte im dunklen Theme auf hell). Optionale Spalten
-// (mid, right) und Teile (form, note) per render.slotConfig des Specimens
-// (Plan v3, Phase 4). Rahmen ra-desktop: drei Spalten mit Mindestbreiten
-// passen erst in Seitenbreite.
+// .nc-cta bringt seit der Entscheidung 06.10.2026 eine eigene Flaeche mit
+// (--nc-cta-bg, Standard always-dark) — kein Arena-Grund mehr noetig.
+// Optionale Spalten (mid, right) und Teile (form, note) per
+// render.slotConfig des Specimens (Plan v3, Phase 4); ab md bekommt jeder
+// vorhandene Bereich eine Spalte, fehlende fallen weg. Rahmen ra-desktop:
+// die Spalten erst in Seitenbreite.
 import { slotAn, desktop } from './_bloecke-1.js'
 
 export default (zelle, m) => desktop(`
-<div class="ra-grund-dunkel">
 <div class="${m.klasse}"${m.attrs}>
 <div class="nc-cta__left">
 <h2 class="nc-section-title">Jetzt starten</h2>
@@ -37,6 +34,5 @@ ${slotAn(m, 'right') ? `<div class="nc-cta__right">
 </div>
 </div>
 </div>` : ''}
-</div>
 </div>
 `)
