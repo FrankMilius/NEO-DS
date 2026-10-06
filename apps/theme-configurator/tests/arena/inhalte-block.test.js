@@ -373,6 +373,8 @@ describe('Inhalte-Block: Zustände und Inhalte', () => {
     const stapel = zelle('data-table', 'stacked-layout', 'Standard')
     expect(stapel.querySelector('.nc-data-table--stacked')).not.toBeNull()
     expect([...stapel.querySelectorAll('tbody td')].every((td) => td.dataset.label)).toBe(true)
+    // Container Query (Entscheidung 06.10.2026): schmale Zelle der Arena
+    expect(stapel.querySelector('.ra-schmal > .nc-data-table--stacked')).not.toBeNull()
     const fest = zelle('data-table', 'sticky-columns', 'Standard')
     expect(fest.querySelector('.nc-data-table--sticky-col-start.nc-data-table--sticky-col-end colgroup')).not.toBeNull()
     expect(fest.querySelectorAll('.nc-data-table__action-menu[aria-label]').length).toBe(4)
@@ -388,6 +390,24 @@ describe('Inhalte-Block: Zustände und Inhalte', () => {
     expect(regel).not.toBeNull()
     expect(regel[1]).toContain('white-space:normal')
     expect(regel[1]).not.toMatch(/display/)
+  })
+})
+
+describe('Datentabelle: Stapel-Layout per Container Query (Entscheidung 06.10.2026)', () => {
+  it('styles.css: --stacked ist Container (data-table), Karten-Ansicht per @container statt @media', () => {
+    const css = readFileSync(STYLES, 'utf8')
+    expect(css).toMatch(/\.nc-data-table--stacked\{container-type:inline-size;container-name:data-table\}/)
+    const cq = css.match(/@container data-table \(max-width: ?(\d+)px\)\{(.*?\}\})/)
+    expect(cq, '@container data-table fehlt').not.toBeNull()
+    expect(Number(cq[1])).toBe(600)
+    expect(cq[2]).toContain('.nc-data-table--stacked .nc-data-table__thead')
+    expect(cq[2]).toContain('.nc-data-table--stacked .nc-data-table__row{display:flex')
+    // keine Media Query mehr fuer das Stapel-Layout
+    for (const m of css.matchAll(/@media[^{]*\{((?:[^{}]*\{[^{}]*\})*)\}/g)) {
+      expect(m[1], m[0].slice(0, 80)).not.toContain('.nc-data-table--stacked')
+    }
+    // nur der Modifier macht die Wurzel zum Container
+    expect(css).not.toMatch(/\.nc-data-table\{[^}]*container-type/)
   })
 })
 

@@ -19,6 +19,10 @@
 // waehlen und aufklappen macht in der Doku js/data-table.js). Die Arena zeigt
 // nur „Zustände".
 //
+// Stapel-Layout (nc-data-table--stacked): Container Query auf die Breite
+// des Tabellen-Wrappers (Entscheidung 06.10.2026); die Zelle steht im
+// Arena-Rahmen ra-schmal (360 px), damit die Karten-Ansicht greift.
+//
 // Sortierte Spalte: das DS blendet die Richtungs-Symbole
 // ([data-dt-sort-icon=asc|desc]) aus, bis das JS sie zeigt. Die Vorlage setzt
 // fuer die sortierte Spalte nur das aufsteigende Symbol ohne JS-Haken.
@@ -161,7 +165,7 @@ export default (zelle, m) => {
   const breiten = typ === 'dt-sticky-cols'
     ? '<colgroup><col style="width: 260px"><col style="width: 160px"><col style="width: 180px"><col style="width: 180px"><col style="width: 64px"></colgroup>\n'
     : ''
-  return `<div class="${klasse}"${m.hat('loading') ? ' aria-busy="true"' : ''}>
+  const tabelle = `<div class="${klasse}"${m.hat('loading') ? ' aria-busy="true"' : ''}>
 ${titel}${leiste}<div class="nc-data-table__scroll-container">
 <table class="nc-data-table__table">
 <caption class="u-sr-only">Benutzerkonten</caption>
@@ -170,4 +174,8 @@ ${koerper(m, art)}
 </table>
 </div>${typ === 'dt-full' ? '\n' + seiten(m) : ''}
 </div>`
+  // Stapel-Layout: die Tabelle reagiert auf die Breite ihres Wrappers
+  // (Container Query, Entscheidung 06.10.2026) — die Arena zeigt sie in
+  // einer schmalen Zelle (ra-schmal, 360 px), unabhaengig vom Fenster.
+  return art.stapel ? `<div class="ra-schmal">\n${tabelle}\n</div>` : tabelle
 }

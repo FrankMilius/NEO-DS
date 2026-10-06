@@ -42,7 +42,7 @@ Root element: `.nc-data-table`
 - Striped: nth-child(even of :not(expand-row)). Bordered: border-inline-end.
 - Sticky Header: position:sticky top:0 auf <th>.
 - Sticky Columns: erste/letzte Spalte fixiert mit Schatten-Indikator.
-- Stacked Layout: Mobile Card-View via data-label auf <td>.
+- Stacked Layout: Card-View via data-label auf <td>, sobald der Tabellen-Wrapper schmaler als 600px ist (Container Query data-table, Schwelle container_query.data_table.stack) — nicht die Fensterbreite.
 - Card Variante: erhobene Tabelle mit elevation-raised Shadow.
 - Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.
 - Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.

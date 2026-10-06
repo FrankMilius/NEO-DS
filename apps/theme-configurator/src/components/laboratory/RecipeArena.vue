@@ -551,6 +551,14 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
    dem Seitengrund, ohne Kante waere die Polsterung unsichtbar. */
 .ra-live-component .ra-seite > * { outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
 
+/* ra-schmal: schmale Spalte (360 px) fuer Bauteile mit Container Query —
+   z. B. das Stapel-Layout der Datentabelle (nc-data-table--stacked reagiert
+   auf die Breite des Tabellen-Wrappers, Entscheidung 06.10.2026). */
+.ra-live-component .ra-schmal {
+  width: 360px;
+  max-width: 100%;
+}
+
 /* ra-mobil: Raster in der Mobil-Lage (390 px). Das DS schaltet unter 768 px
    Fensterbreite auf --nc-grid-mobile-columns (4) Spalten, Spannen ueber 4
    laufen ueber die volle Breite (04-objects/_grid.scss, mobile-only). Der

@@ -1002,14 +1002,23 @@
   }
 
   // -----------------------------------------------------------------------
-  // Modifier: Stacked Layout (Mobile Card View)
+  // Modifier: Stacked Layout (Card View in schmalen Containern)
   // -----------------------------------------------------------------------
-  // Unterhalb des Breakpoints wird jede <tr> als eigenstaendige Card
-  // dargestellt. Spaltenkoepfe werden via data-label als Inline-Label
-  // vor dem Wert angezeigt.
+  // Ist die TABELLE schmaler als die Schwelle, wird jede <tr> als
+  // eigenstaendige Card dargestellt. Spaltenkoepfe werden via data-label als
+  // Inline-Label vor dem Wert angezeigt.
+  //
+  // Entscheidung 06.10.2026 (dt-stapel): Container Query statt Media Query —
+  // die Tabelle reagiert auf die Breite ihres eigenen Wrappers (Spalte,
+  // Sidebar, Dialog), nicht auf die Fensterbreite. Muster wie bei der Karte:
+  // container-context am Wurzel-Element, Schwelle aus den Layout-Tokens
+  // (container_query.data_table.stack, max-width). Nur der Modifier macht
+  // die Wurzel zum Container — Tabellen ohne --stacked bleiben unveraendert.
 
   &--stacked {
-    @include respond-to-max('md') {
+    @include container-context(data-table);
+
+    @include container-max(data-table, 'data-table-stack') {
       .nc-data-table__scroll-container {
         overflow-x: visible;
       }
