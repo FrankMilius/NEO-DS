@@ -7,6 +7,12 @@
 // (hoch/runter, Pos1, Ende) zwischen den Kopfzeilen, „nur eines offen" per
 // data-neo-accordion="einzeln" (zusaetzlich zum name-Attribut) und das
 // Ereignis `accordion-toggle` { itemId, open }.
+//
+// Gesperrte Eintraege (Ausloeser mit aria-disabled="true", Recipe-Zustand
+// disabled): das DS nimmt ihnen nur die Maus (pointer-events: none) — Enter
+// und Leertaste loesen am <summary> trotzdem einen Klick aus und klappten
+// auf. Das Behavior verwirft diesen Klick; die Pfeiltasten ueberspringen
+// gesperrte Ausloeser (nachbar/ersterBedienbar).
 // ==========================================================================
 import { sende, nachbar, ersterBedienbar } from './kern.js'
 
@@ -24,6 +30,11 @@ export const akkordeon = {
       if (einzeln && item.open) for (const andere of eintraege()) if (andere !== item && andere.open) andere.open = false
       sende(wurzel, 'accordion-toggle', { itemId: item.id || null, open: item.open })
     }, { signal, capture: true })
+
+    wurzel.addEventListener('click', (e) => {
+      const kopf = /** @type {HTMLElement} */ (e.target).closest?.('.nc-accordion__trigger')
+      if (kopf?.getAttribute('aria-disabled') === 'true' && wurzel.contains(kopf)) e.preventDefault()
+    }, { signal })
 
     wurzel.addEventListener('keydown', (e) => {
       const kopf = /** @type {HTMLElement} */ (e.target).closest('.nc-accordion__trigger')

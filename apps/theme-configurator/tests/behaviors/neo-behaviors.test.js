@@ -9,7 +9,7 @@ import { anbinden, abbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { rohesRecipe } from '../arena/_recipes.js'
-import { taste as bediene, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
+import { taste as bediene, tastenAus, deckeTastenAb, sammle, passtZumRecipe, zelleMit, lebendigesMarkup } from './_helfer.js'
 
 function erstesMarkup (id, specimenId) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -151,6 +151,49 @@ describe('Akkordeon (accordion-recipe.json)', () => {
     bb.dispatchEvent(new Event('toggle'))
     expect(a.open).toBe(false)
     expect(ereignisse).toContainEqual({ itemId: 'b', open: true })
+  })
+
+  // Block Inhalte (06.10.2026): Markup aus der Arena-Vorlage
+  it('Arena-Markup: gesperrter Eintrag klappt weder per Klick noch per Tastatur auf, Pfeiltasten ueberspringen ihn', () => {
+    const b = buehne(zelleMit('accordion', 'all-states', (h) => h.includes('aria-disabled="true"')))
+    anbinden(b)
+    const [gesperrt, frei] = b.querySelectorAll('.nc-accordion__item')
+    const kopf = gesperrt.querySelector('.nc-accordion__trigger')
+    expect(kopf.getAttribute('aria-disabled')).toBe('true')
+    const klick = new MouseEvent('click', { bubbles: true, cancelable: true })
+    kopf.dispatchEvent(klick)
+    // Der verworfene Klick haelt <details> im Browser zu (in Chromium
+    // nachgemessen: Enter, Leertaste und Klick); jsdom klappt trotzdem auf —
+    // geprueft wird deshalb das Verwerfen selbst.
+    expect(klick.defaultPrevented).toBe(true)
+    // freier Eintrag: Klick bleibt unberuehrt
+    const klick2 = new MouseEvent('click', { bubbles: true, cancelable: true })
+    frei.querySelector('.nc-accordion__trigger').dispatchEvent(klick2)
+    expect(klick2.defaultPrevented).toBe(false)
+    const freierKopf = frei.querySelector('.nc-accordion__trigger')
+    freierKopf.focus()
+    taste(freierKopf, 'ArrowDown')
+    expect(document.activeElement).toBe(freierKopf)
+    taste(freierKopf, 'Home')
+    expect(document.activeElement).toBe(freierKopf)
+  })
+
+  it('Arena-Markup „Ausprobieren": ghost-compact ist einzeln (data-neo-accordion, gemeinsames name), alles startet zu', () => {
+    const b = buehne(lebendigesMarkup('accordion', 'ghost-compact'))
+    anbinden(b)
+    const wurzel = b.querySelector('.nc-accordion')
+    expect(wurzel.dataset.neoAccordion).toBe('einzeln')
+    const eintraege = [...b.querySelectorAll('.nc-accordion__item')]
+    expect(eintraege.every((e) => !e.open)).toBe(true)
+    expect(new Set(eintraege.map((e) => e.getAttribute('name'))).size).toBe(1)
+    const ereignisse = []
+    b.addEventListener('accordion-toggle', (e) => ereignisse.push(e.detail))
+    eintraege[0].open = true
+    eintraege[0].dispatchEvent(new Event('toggle'))
+    eintraege[1].open = true
+    eintraege[1].dispatchEvent(new Event('toggle'))
+    expect(eintraege[0].open).toBe(false)
+    expect(ereignisse.at(-1)).toEqual({ itemId: eintraege[1].id, open: true })
   })
 })
 

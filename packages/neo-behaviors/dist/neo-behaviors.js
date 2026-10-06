@@ -190,6 +190,14 @@
         }
         sende(wurzel, "accordion-toggle", { itemId: item.id || null, open: item.open });
       }, { signal, capture: true });
+      wurzel.addEventListener("click", (e) => {
+        var _a, _b;
+        const kopf = (
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-accordion__trigger")
+        );
+        if ((kopf == null ? void 0 : kopf.getAttribute("aria-disabled")) === "true" && wurzel.contains(kopf)) e.preventDefault();
+      }, { signal });
       wurzel.addEventListener("keydown", (e) => {
         const kopf = (
           /** @type {HTMLElement} */
