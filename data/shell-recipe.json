@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "shell",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -15,6 +15,14 @@
       "storybook": "",
       "docs": "/docs/shell-docs"
     },
+    "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Verhalten in neo-behaviors (shell, Entscheidung 06.10.2026, shell-verhalten): Drawer der Mobil-Lage (unter lg) — Knopf mit aria-controls/aria-expanded oeffnet .nc-shell--sidebar-{left,right}-drawer-open und das Overlay, Fokus-Falle, Rest der Seite inert, Escape/Overlay/Knopf schliessen, Fokus zurueck zum Ausloeser (keyboard/events). Arena: Ausprobieren im Mobil-Fenster. Drupal bindet es nicht ein."
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [],
@@ -130,14 +138,15 @@
       "Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).",
       "Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.",
       "Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts.",
-      "Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar fuer Collapse/Drawer.",
+      "Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar mit aria-controls=\"<id der Sidebar>\" und aria-expanded. Unter lg oeffnet das Behavior shell (neo-behaviors) damit den Drawer; ab lg ist der Knopf ohne Verhalten (Collapse setzt die Seite selbst).",
       "Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.",
       "Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.",
       "Content-Body Alignment: --left (max-width links), --center (max-width zentriert), Default: volle Breite.",
       "Footerbar: sticky-bottom, 3-Zonen-Grid (left/center/right). Default: display:none. Mobile-Verhalten per data-footerbar-mobile='hide|static' steuerbar (Default: sticky).",
       "Z-Index Governance: Feste Rangfolge ueber --nc-shell-z-* Tokens. linkbar (base) < footerbar (sticky) < navbar (header) < sidebar (sidebar) < overlay (drawer-1) < drawer (drawer). Verhindert Z-Index-Kriege.",
       "RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.",
-      "Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto."
+      "Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto.",
+      "Drawer-Verhalten (neo-behaviors shell, Mobil-Lage = Sidebar position: fixed): hoechstens ein Drawer offen, Fokus auf das erste bedienbare Element der Sidebar (sonst die Sidebar mit tabindex=-1), Fokus-Falle, Geschwister bis <body> ausser dem Overlay inert, Schliessen per Escape, Overlay-Klick, Knopf oder Wechsel ueber lg; Fokus zurueck zum Ausloeser. Fehlt .nc-shell__sidebar-overlay, legt das Behavior es an."
     ]
   },
   "axes": {
@@ -393,7 +402,7 @@
           "focus-trap",
           "escape-close"
         ],
-        "note": "Mobile Drawer braucht Focus-Trap und Escape-Key zum Schliessen."
+        "note": "Mobile Drawer braucht Focus-Trap und Escape-Key zum Schliessen — liefert das Behavior shell (neo-behaviors): Fokus-Falle, Rest inert, Escape/Overlay schliessen, Fokus zurueck zum Ausloeser."
       }
     ]
   },
@@ -976,5 +985,38 @@
         "note": "Dark Mode: Linkbar/Sidebars/Footerbar nutzen surface-elevated (nicht background-base) fuer visuellen Lift."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-drawer",
+      "note": "Auf dem Knopf mit aria-controls=\"<id der Sidebar>\" (nativer Knopf, Mobil-Lage unter lg): oeffnet den Drawer, Fokus in die Sidebar. Ab lg ohne Verhalten."
+    },
+    "Space": {
+      "action": "toggle-drawer",
+      "note": "Wie Enter auf dem Knopf."
+    },
+    "Escape": {
+      "action": "close-drawer",
+      "note": "Offener Drawer: schliesst ihn, gibt den inert gesetzten Rest der Seite frei, Fokus zurueck auf den Ausloeser. Geschlossen: Escape bleibt frei."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Offener Drawer: Fokus bleibt in der Sidebar (vom letzten zum ersten Element). Sonst normaler Tab-Fluss; der geschlossene Drawer ist per display: none nicht in der Tab-Folge."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Offener Drawer: vom ersten zum letzten Element der Sidebar."
+    }
+  },
+  "events": {
+    "shell-drawer-toggle": {
+      "bubbles": true,
+      "detail": {
+        "side": "string",
+        "open": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert an .nc-shell beim Oeffnen und Schliessen eines Drawers. side: 'left' | 'right'; reason: 'trigger', 'escape', 'overlay-click', 'resize' (Fenster waechst ueber lg)."
+    }
+  }
 }

@@ -201,14 +201,15 @@ describe('Layout-Block aus dem Recipe', () => {
     }
   })
 
-  it('Kennzahl: alle sechs ohne Sonderfall; Verhalten nur psychedelic-bg (Arena), keines in neo-behaviors', () => {
+  it('Kennzahl: alle sechs ohne Sonderfall; Verhalten: shell in neo-behaviors (Entscheidung 06.10.2026), psychedelic-bg aus der Arena', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
-    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual([])
+    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(['shell'])
     expect(BLOCK.filter((id) => ausprobierenFuer(id))).toEqual(['psychedelic-bg'])
     for (const id of BLOCK) {
       const r = rohesRecipe(id)
-      expect(Object.keys(r.keyboard || {}), id).toEqual([])
-      expect(Object.keys(r.events || {}), id).toEqual([])
+      const mitVerhalten = id === 'shell'
+      expect(Object.keys(r.keyboard || {}).length > 0, id).toBe(mitVerhalten)
+      expect(Object.keys(r.events || {}).length > 0, id).toBe(mitVerhalten)
     }
   })
 
@@ -464,6 +465,33 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(d.querySelector('.neo-dark-theme > .ra-fenster > .nc-shell')).not.toBeNull()
   })
 
+  it('shell: Ausprobieren (Entscheidung 06.10.2026) — Shells mit Sidebar im Mobil-Fenster, Drawer-Knopf je Sidebar, Overlay geschlossen', () => {
+    let mitSidebar = 0
+    for (const z of zellen('shell', null, { ausprobieren: true })) {
+      for (const shell of dom(z.html).querySelectorAll('.nc-shell')) {
+        const seiten = [...shell.querySelectorAll('aside')]
+        if (!seiten.length) {
+          expect(shell.querySelector('[data-shell-toggle]'), z.specimen.id).toBeNull()
+          continue
+        }
+        mitSidebar++
+        expect(shell.closest('.ra-fenster--mobil'), z.specimen.id).not.toBeNull()
+        for (const a of seiten) {
+          const knopf = shell.querySelector(`.nc-shell__navbar button[data-shell-toggle][aria-controls="${a.id}"]`)
+          expect(knopf, `${z.specimen.id}: Knopf fuer ${a.className}`).not.toBeNull()
+          expect(knopf.getAttribute('aria-expanded')).toBe('false')
+          expect(knopf.getAttribute('aria-label')).toBeTruthy()
+          expect(a.querySelectorAll('a[href]').length).toBeGreaterThan(0)
+        }
+        expect(shell.querySelector(':scope > .nc-shell__sidebar-overlay[aria-hidden="true"]:not(.nc-shell__sidebar-overlay--visible)'), z.specimen.id).not.toBeNull()
+        expect(shell.className).not.toMatch(/drawer-open/)
+      }
+    }
+    expect(mitSidebar).toBeGreaterThan(0)
+    // Zustaende: keine Knoepfe, keine ids an den Sidebars
+    for (const z of zellen('shell')) expect(dom(z.html).querySelector('[data-shell-toggle], aside[id]')).toBeNull()
+  })
+
   it('psychedelic-bg: Canvas aria-hidden im Rahmen ra-effekt, Muster aus den Achsen, Standbild bzw. lebendig', () => {
     const recipe = rohesRecipe('psychedelic-bg')
     for (const z of zellen('psychedelic-bg')) {
@@ -543,15 +571,23 @@ describe('Layout-Block in der RecipeArena', () => {
   }
 
   for (const id of BLOCK) {
-    const mitAusprobieren = id === 'psychedelic-bg'
-    it(`${id}: alle Specimens, ${mitAusprobieren ? 'Umschalter „Ausprobieren" (Renderer der Arena)' : 'kein Umschalter'}, keine Heuristik`, async () => {
+    const mitAusprobieren = id === 'psychedelic-bg' || id === 'shell'
+    it(`${id}: alle Specimens, ${mitAusprobieren ? 'Umschalter „Ausprobieren"' : 'kein Umschalter'}, keine Heuristik`, async () => {
       const w = await arena(id)
       const recipe = normalisiereRecipe(rohesRecipe(id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
       expect(w.find('.ra-modus').exists()).toBe(mitAusprobieren)
       expect(w.find('[data-quelle="heuristik"]').exists()).toBe(false)
       expect(w.find(`.${WURZELN[id]}, [data-nicht-gebaut]`).exists()).toBe(true)
-      if (mitAusprobieren) {
+      if (id === 'shell') {
+        await w.findAll('.ra-modus__knopf')[1].trigger('click')
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 0))
+        expect(w.findAll('.ra-cell')).toHaveLength(recipe.specimens.length)
+        expect(w.find('[data-neo-behavior~="shell"]').exists()).toBe(true)
+        expect(w.find('[data-shell-toggle]').exists()).toBe(true)
+      }
+      if (id === 'psychedelic-bg') {
         await w.findAll('.ra-modus__knopf')[1].trigger('click')
         await flushPromises()
         expect(w.find('.ra-modus__hinweis').text()).toBe(ausprobierenFuer(id).hinweis)

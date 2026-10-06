@@ -3018,6 +3018,141 @@
     }
   };
 
+  // packages/neo-behaviors/shell.js
+  var SEITEN = (
+    /** @type {const} */
+    ["left", "right"]
+  );
+  var OFFEN2 = (seite) => `nc-shell--sidebar-${seite}-drawer-open`;
+  var SICHTBAR = "nc-shell__sidebar-overlay--visible";
+  var shell = {
+    id: "shell",
+    selektor: ".nc-shell",
+    binde(wurzel, signal) {
+      const dok = wurzel.ownerDocument;
+      const ansicht = dok.defaultView;
+      const leiste = (seite) => (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(`.nc-shell__sidebar-${seite}`)
+      );
+      const seiteVon = (el) => SEITEN.find((s) => leiste(s) === el) || null;
+      const istMobil = (el) => (ansicht == null ? void 0 : ansicht.getComputedStyle(el).position) === "fixed";
+      let overlay = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-shell__sidebar-overlay")
+      );
+      let eigenesOverlay = false;
+      const holeOverlay = () => {
+        if (overlay) return overlay;
+        overlay = dok.createElement("div");
+        overlay.className = "nc-shell__sidebar-overlay";
+        overlay.setAttribute("aria-hidden", "true");
+        wurzel.append(overlay);
+        eigenesOverlay = true;
+        overlay.addEventListener("click", () => {
+          if (offen) schliesse("overlay-click");
+        }, { signal });
+        return overlay;
+      };
+      let offen = null;
+      const vonUnsInert = (
+        /** @type {Set<Element>} */
+        /* @__PURE__ */ new Set()
+      );
+      const sperreRest = (panel) => {
+        for (let el = (
+          /** @type {Element} */
+          panel
+        ); el.parentElement && el !== dok.body; el = el.parentElement) {
+          for (const g2 of el.parentElement.children) {
+            if (g2 === el || g2 === overlay || g2.hasAttribute("inert")) continue;
+            g2.setAttribute("inert", "");
+            vonUnsInert.add(g2);
+          }
+        }
+      };
+      const gibRestFrei = () => {
+        for (const g2 of vonUnsInert) g2.removeAttribute("inert");
+        vonUnsInert.clear();
+      };
+      const knoepfeFuer = (panel) => panel.id ? (
+        /** @type {HTMLElement[]} */
+        [...dok.querySelectorAll(`[aria-controls="${CSS.escape(panel.id)}"]`)].filter((k) => !panel.contains(k))
+      ) : [];
+      function oeffne(seite, panel, knopf) {
+        if (offen) schliesse("trigger", false);
+        wurzel.classList.add(OFFEN2(seite));
+        holeOverlay().classList.add(SICHTBAR);
+        for (const k of knoepfeFuer(panel)) k.setAttribute("aria-expanded", "true");
+        sperreRest(panel);
+        const start = fokussierbare(panel)[0];
+        const tabindex = !start && !panel.hasAttribute("tabindex");
+        if (tabindex) panel.setAttribute("tabindex", "-1");
+        offen = { seite, panel, knopf, tabindex };
+        (start || panel).focus();
+        sende(wurzel, "shell-drawer-toggle", { side: seite, open: true, reason: "trigger" });
+      }
+      function schliesse(grund, fokusZurueck = true) {
+        if (!offen) return;
+        const { seite, panel, knopf, tabindex } = offen;
+        offen = null;
+        wurzel.classList.remove(OFFEN2(seite));
+        overlay == null ? void 0 : overlay.classList.remove(SICHTBAR);
+        gibRestFrei();
+        for (const k of knoepfeFuer(panel)) k.setAttribute("aria-expanded", "false");
+        const fokusDrin = panel.contains(dok.activeElement);
+        if (tabindex) panel.removeAttribute("tabindex");
+        if (fokusZurueck && knopf && (fokusDrin || grund !== "trigger")) knopf.focus();
+        sende(wurzel, "shell-drawer-toggle", { side: seite, open: false, reason: grund });
+      }
+      for (const seite of SEITEN) {
+        const panel = leiste(seite);
+        if (panel) for (const k of knoepfeFuer(panel)) k.setAttribute("aria-expanded", String(wurzel.classList.contains(OFFEN2(seite))));
+      }
+      dok.addEventListener("click", (e) => {
+        var _a, _b;
+        const knopf = (
+          /** @type {HTMLElement|null} */
+          /** @type {HTMLElement} */
+          ((_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, "[aria-controls]")) || null
+        );
+        if (!knopf || gesperrt(knopf)) return;
+        const panel = dok.getElementById(knopf.getAttribute("aria-controls") || "");
+        const seite = panel && wurzel.contains(panel) ? seiteVon(panel) : null;
+        if (!panel || !seite || panel.contains(knopf) || !istMobil(panel)) return;
+        e.preventDefault();
+        if ((offen == null ? void 0 : offen.panel) === panel) schliesse("trigger");
+        else oeffne(seite, panel, knopf);
+      }, { signal });
+      overlay == null ? void 0 : overlay.addEventListener("click", () => {
+        if (offen) schliesse("overlay-click");
+      }, { signal });
+      dok.addEventListener("keydown", (e) => {
+        if (!offen) return;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          schliesse("escape");
+        } else if (wurzel.isConnected) fokusFalle(e, offen.panel);
+      }, { signal });
+      ansicht == null ? void 0 : ansicht.addEventListener("resize", () => {
+        if (offen && !istMobil(offen.panel)) schliesse("resize");
+      }, { signal });
+      signal.addEventListener("abort", () => {
+        if (offen) {
+          wurzel.classList.remove(OFFEN2(offen.seite));
+          if (offen.tabindex) offen.panel.removeAttribute("tabindex");
+          offen = null;
+        }
+        gibRestFrei();
+        overlay == null ? void 0 : overlay.classList.remove(SICHTBAR);
+        if (eigenesOverlay) {
+          overlay == null ? void 0 : overlay.remove();
+          overlay = null;
+        }
+      });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3047,7 +3182,9 @@
     notification,
     alert,
     banner,
-    "code-snippet": codeSnippet
+    "code-snippet": codeSnippet,
+    // zuletzt: die Shell ist das aeusserste Bauteil (Drawer der Mobil-Lage)
+    shell
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

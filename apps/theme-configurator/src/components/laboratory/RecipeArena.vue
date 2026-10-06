@@ -622,6 +622,7 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 .ra-live-component .ra-fenster--mobil .nc-shell__sidebar-left { inset-inline-start: 0; }
 .ra-live-component .ra-fenster--mobil .nc-shell__sidebar-right { inset-inline-end: 0; }
 .ra-live-component .ra-fenster--mobil .nc-shell--sidebar-left-drawer-open .nc-shell__sidebar-left { display: block; }
+.ra-live-component .ra-fenster--mobil .nc-shell--sidebar-right-drawer-open .nc-shell__sidebar-right { display: block; }
 .ra-live-component .ra-fenster--mobil [data-footerbar-mobile='hide'] .nc-shell__footerbar { display: none; }
 .ra-live-component .ra-fenster--mobil [data-footerbar-mobile='static'] .nc-shell__footerbar { position: static; }
 /* Platzhalter in den Zonen der Shell */
@@ -633,10 +634,16 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 .ra-live-component .ra-zone--navbar {
   display: flex;
   align-items: center;
+  gap: 8px;
   height: var(--nc-nav-height);
   border-block-end: 1px solid var(--fnd-color-border-secondary);
   background: var(--fnd-color-background-base);
 }
+/* Ausprobieren (Shell): Text der Navbar zwischen den Drawer-Knoepfen, Links
+   in der Sidebar untereinander */
+.ra-live-component .ra-zone--navbar > span { flex: 1; }
+.ra-live-component .ra-zone--links { display: flex; flex-direction: column; gap: 12px; }
+.ra-live-component .ra-zone--links a { color: var(--fnd-color-text-primary); }
 
 /* ra-effekt: Flaeche fuer den Canvas-Effekt (psychedelic-bg). Das DS hat
    fuer .nc-psychedelic-bg kein CSS (Entscheidung 25.08.2026); laut Anatomie

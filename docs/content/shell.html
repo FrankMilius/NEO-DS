@@ -577,6 +577,27 @@ const shell = setupShell(el, {
 &lt;/button&gt;</code></pre>
           </div>
 
+          <h4>Drawer-Verhalten aus neo-behaviors</h4>
+          <p>
+            Seit dem 06.10.2026 liefert das Paket <code>neo-behaviors</code> (Behavior <code>shell</code>) den Drawer der Mobil-Lage
+            &mdash; dieselbe Quelle wie fuer Drupal, Doku und Konfigurator. Ein Knopf mit
+            <code>aria-controls="&lt;id der Sidebar&gt;"</code> und <code>aria-expanded</code> (ueblich
+            <code>[data-shell-toggle]</code> in der Navbar) oeffnet unter <code>lg</code>
+            <code>.nc-shell--sidebar-left-drawer-open</code> bzw. <code>--sidebar-right-drawer-open</code> und das Overlay
+            (<code>.nc-shell__sidebar-overlay--visible</code>). Der Fokus springt in die Sidebar und bleibt dort
+            (Fokus-Falle), der Rest der Seite ist <code>inert</code>. Escape, Klick auf das Overlay, der Knopf oder ein Wechsel
+            ueber <code>lg</code> schliessen; der Fokus geht zurueck zum Ausloeser. Ereignis
+            <code>shell-drawer-toggle</code> { side, open, reason }. Ab <code>lg</code> tut der Knopf nichts.
+            Drupal bindet das Behavior (noch) nicht ein.
+          </p>
+          <div class="nc-code-snippet nc-code-snippet--multi">
+            <div class="nc-code-snippet__header">
+              <span class="nc-code-snippet__label">JS</span>
+            </div>
+            <pre class="nc-code-snippet__pre"><code>import { anbinden } from 'neo-behaviors'
+anbinden(document, ['shell'])</code></pre>
+          </div>
+
           <h4>Off-Canvas (Mobile)</h4>
           <p>
             Unter dem <code>lg</code>-Breakpoint (1024px) oeffnen Sidebars als Off-Canvas-Drawer mit Overlay.

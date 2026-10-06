@@ -21,6 +21,13 @@
 // stellt sie mit denselben Werten dar (wie ra-nav-mobil im Block
 // Navigation).
 //
+// Ausprobieren (Entscheidung 06.10.2026, shell-verhalten): Shells mit
+// Sidebar stehen im Mobil-Fenster, die Navbar traegt je Sidebar einen Knopf
+// [data-shell-toggle] mit aria-controls/aria-expanded, die Sidebars ids und
+// ein paar Links (damit Fokus und Falle etwas zu fassen haben), das Overlay
+// steht geschlossen im Markup. Das Verhalten kommt aus neo-behaviors
+// (shell.js) — wie es eine Seite einbinden wuerde; Drupal tut es nicht.
+//
 // Linkbar: Aufbau wie auf der Website (Symbol + Beschriftung, Trenner,
 // Schalter) — Freigabe G1 vom 02.10.2026; die Vorlage zeigt sie nur, am
 // Bauteil aendert sie nichts.
@@ -36,6 +43,18 @@ const SYMBOL_TELEFON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 const SYMBOL_KOFFER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
 
 const zone = (text) => `<div class="ra-zone">${esc(text)}</div>`
+
+const SYMBOL_MENUE = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'
+const SYMBOL_LISTE = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>'
+
+const umschalter = (ziel, label, symbol) => `<button type="button" data-shell-toggle aria-controls="${ziel}" aria-expanded="false" aria-label="${esc(label)}"><span class="nc-shell__toggle-icon">${symbol}</span></button>`
+
+/** Inhalt einer Sidebar; lebendig mit Links, damit der Fokus etwas findet. */
+function sidebarInhalt (text, lebendig) {
+  if (!lebendig) return zone(text)
+  const links = ['Übersicht', 'Berichte', 'Einstellungen'].map((t) => `<a href="#" onclick="return false">${t}</a>`).join('')
+  return `<div class="ra-zone ra-zone--links">${esc(text)}${links}</div>`
+}
 
 function linkbar (uid) {
   return `<div class="nc-shell__linkbar">
@@ -55,7 +74,7 @@ function linkbar (uid) {
 /**
  * Eine Shell.
  * @param {object} m Modell
- * @param {{ preset: string, suffix?: string, density?: string, footerMobil?: string, mobil?: boolean, hinweis?: string }} o
+ * @param {{ preset: string, suffix?: string, density?: string, footerMobil?: string, mobil?: boolean, hinweis?: string, lebendig?: boolean }} o
  */
 function shell (m, o) {
   const uid = m.uid + (o.suffix || '')
@@ -64,32 +83,40 @@ function shell (m, o) {
   const attrs = [`data-layout="${preset}"`]
   if (o.density && o.density !== 'standard') attrs.push(`data-sidebar-density="${o.density}"`)
   if (o.footerMobil && o.footerMobil !== 'sticky') attrs.push(`data-footerbar-mobile="${o.footerMobil}"`)
-  const drawer = m.klassen.includes('nc-shell--sidebar-left-drawer-open')
+  // Ausprobieren: Drawer-Knoepfe, ids, Overlay — der Drawer startet
+  // geschlossen, das Verhalten oeffnet ihn (wie bei den Overlays)
+  const lebendig = !!o.lebendig && seiten.length > 0
+  const drawer = !lebendig && m.klassen.includes('nc-shell--sidebar-left-drawer-open')
+  const idLinks = `${uid}-sidebar-links`
+  const idRechts = `${uid}-sidebar-rechts`
   // Inhalt: Ausrichtung als Modifier am Content-Body (Recipe contentAlign)
   const bodyKlassen = ['nc-shell__content-body', ...m.klassen.filter((k) => k.startsWith('nc-shell__content-body--'))]
-  const blockKlassen = m.klassen.filter((k) => !k.startsWith('nc-shell__content-body--'))
+  const blockKlassen = m.klassen.filter((k) => !k.startsWith('nc-shell__content-body--') && !(lebendig && /-drawer-open$/.test(k)))
 
   const teile = [
     `<a class="nc-shell__skip-link" href="#${uid}-inhalt">Zum Inhalt springen</a>`,
     preset === 'landing' ? linkbar(uid) : '',
-    `<header class="nc-shell__navbar"><nav class="ra-zone ra-zone--navbar" aria-label="Hauptnavigation">Navbar</nav></header>`,
+    lebendig
+      ? `<header class="nc-shell__navbar"><nav class="ra-zone ra-zone--navbar" aria-label="Hauptnavigation">${seiten.includes('links') ? umschalter(idLinks, 'Bereichsnavigation öffnen', SYMBOL_MENUE) : ''}<span>Navbar</span>${seiten.includes('rechts') ? umschalter(idRechts, 'Auf dieser Seite öffnen', SYMBOL_LISTE) : ''}</nav></header>`
+      : `<header class="nc-shell__navbar"><nav class="ra-zone ra-zone--navbar" aria-label="Hauptnavigation">Navbar</nav></header>`,
     `<div class="nc-shell__stage">
-${seiten.includes('links') ? `<aside class="nc-shell__sidebar-left" aria-label="Bereichsnavigation">${zone('Sidebar links')}</aside>` : ''}
+${seiten.includes('links') ? `<aside class="nc-shell__sidebar-left"${lebendig ? ` id="${idLinks}"` : ''} aria-label="Bereichsnavigation">${sidebarInhalt('Sidebar links', lebendig)}</aside>` : ''}
 <main class="nc-shell__main" id="${uid}-inhalt">
 ${['docs', 'content-page', 'settings'].includes(preset) ? `<div class="nc-shell__content-header">${zone('Seitentitel')}</div>` : ''}
 <div class="${bodyKlassen.join(' ')}">${zone(o.hinweis || 'Inhalt')}</div>
 </main>
-${seiten.includes('rechts') ? `<aside class="nc-shell__sidebar-right" aria-label="Auf dieser Seite">${zone('Sidebar rechts')}</aside>` : ''}
+${seiten.includes('rechts') ? `<aside class="nc-shell__sidebar-right"${lebendig ? ` id="${idRechts}"` : ''} aria-label="Auf dieser Seite">${sidebarInhalt('Sidebar rechts', lebendig)}</aside>` : ''}
 </div>`,
     preset === 'focused' ? '' : `<footer class="nc-shell__footerbar">
 <div class="nc-shell__footerbar-left">Build 2.1.0</div>
 <div class="nc-shell__footerbar-center">Footerbar</div>
 <div class="nc-shell__footerbar-right">Stand 06.10.2026</div>
 </footer>`,
-    drawer ? '<div class="nc-shell__sidebar-overlay nc-shell__sidebar-overlay--visible" aria-hidden="true"></div>' : ''
+    drawer ? '<div class="nc-shell__sidebar-overlay nc-shell__sidebar-overlay--visible" aria-hidden="true"></div>' : '',
+    lebendig && !drawer ? '<div class="nc-shell__sidebar-overlay" aria-hidden="true"></div>' : ''
   ].filter(Boolean).join('\n')
 
-  const rahmen = o.mobil ? 'ra-fenster ra-fenster--mobil' : 'ra-fenster'
+  const rahmen = o.mobil || lebendig ? 'ra-fenster ra-fenster--mobil' : 'ra-fenster'
   return `<div class="${rahmen}">
 <div class="${blockKlassen.join(' ')}" ${attrs.join(' ')}${m.attrs}>
 ${teile}
@@ -109,10 +136,12 @@ export default (zelle, m) => {
   if (art === 'shell-dark-mode') {
     // Hell und dunkel nebeneinander, unabhaengig vom Vorschau-Modus
     return `<div class="ra-reihe">
-<div class="neo-light-theme">${shell(m, { preset, density, suffix: '-hell', hinweis: 'neo-light-theme' })}</div>
-<div class="neo-dark-theme">${shell(m, { preset, density, suffix: '-dunkel', hinweis: 'neo-dark-theme' })}</div>
+<div class="neo-light-theme">${shell(m, { preset, density, suffix: '-hell', hinweis: 'neo-light-theme', lebendig: m.ausprobieren })}</div>
+<div class="neo-dark-theme">${shell(m, { preset, density, suffix: '-dunkel', hinweis: 'neo-dark-theme', lebendig: m.ausprobieren })}</div>
 </div>`
   }
-  const hinweis = art === 'shell-skip-link' ? 'Tab-Taste im Rahmen: der Skip-Link erscheint oben links' : undefined
-  return shell(m, { preset, density, footerMobil, mobil, hinweis })
+  const hinweis = m.ausprobieren && SIDEBARS[preset]
+    ? 'Menü-Knopf in der Navbar öffnet den Drawer — Escape, Overlay oder Tab-Falle ausprobieren'
+    : art === 'shell-skip-link' ? 'Tab-Taste im Rahmen: der Skip-Link erscheint oben links' : undefined
+  return shell(m, { preset, density, footerMobil, mobil, hinweis, lebendig: m.ausprobieren })
 }

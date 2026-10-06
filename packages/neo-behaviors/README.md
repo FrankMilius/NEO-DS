@@ -32,6 +32,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `alert` | Schließen-Knopf nimmt den Alert aus dem DOM (keine Animation im SCSS), Fokus weiter; Details nativ | `alert-dismiss` { reason } |
 | `banner` | Schließen-Knopf: `.is-dismissing` mit `--_banner-height`, danach aus dem DOM, Fokus weiter; `data-banner-id` merkt das Schließen (localStorage `neo-banner:<id>`, dann `[hidden]`); `--fixed` gibt dem Elternelement oben Platz | `banner-dismiss` { reason, id } |
 | `code-snippet` | Block-Snippets (nicht `--inline`): Kopieren-Knopf schreibt den Code in die Zwischenablage (Ersatzweg ohne Clipboard-API), Erfolg 2 s als `__copy--success` + aria-label „Kopiert!“; „Mehr anzeigen“ schaltet `--expanded`, aria-expanded und den Text; Knopf `[hidden]`, wenn der Code in die eingeklappte Höhe passt. Syntax-Hervorhebung bringt das Markup mit | `code-snippet-copy` { ok }, `code-snippet-toggle` { expanded } |
+| `shell` | Drawer der Mobil-Lage (unter lg, Sidebar `position: fixed`): Knopf mit `aria-controls="<id der Sidebar>"` öffnet `--sidebar-{left,right}-drawer-open` + Overlay `--visible` (höchstens ein Drawer), Fokus in die Sidebar, Fokus-Falle, Rest der Seite `inert`; Escape, Overlay, Knopf oder Wechsel über lg schließen, Fokus zurück. Ab lg: kein Verhalten | `shell-drawer-toggle` { side, open, reason } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'
@@ -165,6 +166,22 @@ kennt; Zustände stehen in ARIA (`aria-expanded`, `aria-selected`,
   Auto-Hide ab (Arena), `data-neo-nav-pfad` ersetzt `location.pathname`.
   Drupal: `drupalSettings.neoBehaviors.nur[] = 'navigation-tab-mega'` am
   Block `neo_main_nav`.
+
+- **Shell** (Entscheidung 06.10.2026, shell-verhalten) — nur der Drawer der
+  Mobil-Lage. Zustände wie im SCSS (`08-templates/_shell.scss`):
+  `.nc-shell--sidebar-left-drawer-open` / `--sidebar-right-drawer-open` und
+  `.nc-shell__sidebar-overlay--visible`. Mobil-Lage heißt: die Sidebar ist
+  `position: fixed` (unter lg; die Arena stellt sie im Rahmen
+  `ra-fenster--mobil` dar). Der Auslöser ist ein beliebiger Knopf mit
+  `aria-controls="<id der Sidebar>"` (üblich `[data-shell-toggle]` in der
+  Navbar). Die offene Sidebar ist modal wie die Sidebar in der Overlay-Lage:
+  Fokus-Falle, Geschwister bis `<body>` (außer dem Overlay) bekommen `inert`,
+  beim Schließen und Abbinden nur das eigene zurück. Fehlt das Overlay im
+  Markup, legt das Behavior es beim ersten Öffnen an. Ab lg tut der Knopf
+  nichts (Einklappen auf dem Desktop gehört nicht dazu). Drupal bindet die
+  Shell nicht ein (eigene Entscheidung): neo_fe setzt
+  `drupalSettings.neoBehaviors.nur` (Hauptnavigation), `shell` steht nicht
+  darin — ein Aufruf ohne `nur` würde sie mitbinden.
 
 ## Rückmeldungen (Plan v3, Phase 3, Block Rückmeldung)
 

@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -36,7 +36,7 @@ Root element: `.nc-shell`
 - Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).
 - Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.
 - Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts.
-- Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar fuer Collapse/Drawer.
+- Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar mit aria-controls="<id der Sidebar>" und aria-expanded. Unter lg oeffnet das Behavior shell (neo-behaviors) damit den Drawer; ab lg ist der Knopf ohne Verhalten (Collapse setzt die Seite selbst).
 - Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.
 - Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.
 - Content-Body Alignment: --left (max-width links), --center (max-width zentriert), Default: volle Breite.
@@ -44,6 +44,7 @@ Root element: `.nc-shell`
 - Z-Index Governance: Feste Rangfolge ueber --nc-shell-z-* Tokens. linkbar (base) < footerbar (sticky) < navbar (header) < sidebar (sidebar) < overlay (drawer-1) < drawer (drawer). Verhindert Z-Index-Kriege.
 - RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.
 - Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto.
+- Drawer-Verhalten (neo-behaviors shell, Mobil-Lage = Sidebar position: fixed): hoechstens ein Drawer offen, Fokus auf das erste bedienbare Element der Sidebar (sonst die Sidebar mit tabindex=-1), Fokus-Falle, Geschwister bis <body> ausser dem Overlay inert, Schliessen per Escape, Overlay-Klick, Knopf oder Wechsel ueber lg; Fokus zurueck zum Ausloeser. Fehlt .nc-shell__sidebar-overlay, legt das Behavior es an.
 
 ## Variants
 ### Preset (`preset`)
@@ -165,6 +166,20 @@ Base classes: `nc-shell`
 | `--nc-shell-banner-color` | — | `--mod-shell-banner-color` |
 | `--nc-shell-banner-padding` | — | `--mod-shell-banner-padding` |
 | `--nc-shell-banner-font-size` | — | `--mod-shell-banner-font-size` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | toggle-drawer | Auf dem Knopf mit aria-controls="<id der Sidebar>" (nativer Knopf, Mobil-Lage unter lg): oeffnet den Drawer, Fokus in die Sidebar. Ab lg ohne Verhalten. |
+| `Space` | toggle-drawer | Wie Enter auf dem Knopf. |
+| `Escape` | close-drawer | Offener Drawer: schliesst ihn, gibt den inert gesetzten Rest der Seite frei, Fokus zurueck auf den Ausloeser. Geschlossen: Escape bleibt frei. |
+| `Tab` | trap-focus | Offener Drawer: Fokus bleibt in der Sidebar (vom letzten zum ersten Element). Sonst normaler Tab-Fluss; der geschlossene Drawer ist per display: none nicht in der Tab-Folge. |
+| `Shift+Tab` | trap-focus-reverse | Offener Drawer: vom ersten zum letzten Element der Sidebar. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `shell-drawer-toggle` | Yes | `{"side":"string","open":"boolean","reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

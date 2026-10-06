@@ -43,6 +43,7 @@ import { alert } from './alert.js'
 import { banner } from './banner.js'
 import { codeSnippet } from './code-snippet.js'
 import { button } from './button.js'
+import { shell } from './shell.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -75,7 +76,9 @@ export const BEHAVIORS = Object.freeze({
   notification,
   alert,
   banner,
-  'code-snippet': codeSnippet
+  'code-snippet': codeSnippet,
+  // zuletzt: die Shell ist das aeusserste Bauteil (Drawer der Mobil-Lage)
+  shell
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
