@@ -225,7 +225,13 @@ describe('CSS Output Quality', () => {
     // eigene Datei; nach der Umstellung entfaellt die. Vorbelegt, zur
     // Entscheidung gemeldet (Alternative: eigenes Stylesheet fuer
     // Website-Organismen).
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1230);
+    //
+    // 06.10.2026: 1230 → 1245 KB. Entschiedene Bauten aus Phase 3 (Container-,
+    // Raster- und Section-Modifier, Akkordeon-Varianten, Karten-Kontexte,
+    // Datentabelle per Container Query, Website-Korrekturen) = +3 KB roh
+    // bis dahin; Puffer fuer die ausstehenden Freigabe-Branches. Kein Vorrat
+    // darueber hinaus.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1245);
   });
 
   it('CSS Build hat keine Fehler', () => {
