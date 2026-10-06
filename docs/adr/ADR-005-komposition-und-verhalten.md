@@ -288,3 +288,19 @@ Dinge fehlten aber:
   content-page; Linkbar-Links mit Fließtext-Unterstrich) sind gemeldet,
   nicht stillschweigend behoben. Container, Grid, Section, Hero und Shell
   (Linkbar) sind auf der Website im Einsatz.
+- Phase 4, Gruppe bewegung (06.10.2026): mobile-drawer, table-info-modal,
+  navigation-orchestration, scroll-expand und scroll-reveal haben jetzt
+  Recipe-Vorlagen (vorher Slot-Heuristik); keines nennt `keyboard`/`events`,
+  neue Behaviors gibt es nicht. Animierte Website-Blöcke (hero-tom, hero-tmob,
+  story-gallery, marquee, parallax-bg, fade-gallery, carousel, scroll-reveal,
+  scroll-expand) zeigen in „Zustände“ ihren statischen Zustand; die Taste
+  „Abspielen“ (Vorlage: `export abspielen`, `arena-templates/_bewegung.js`)
+  stellt die Bewegung nur mit DS-Mitteln nach — Zustandsklassen, die das SCSS
+  überblendet (fade-gallery), Blättern der Spur über scroll-behavior/
+  scroll-snap des DS (story-gallery, carousel), DS-Keyframes `marquee`
+  (marquee). Kein GSAP im Konfigurator-Bundle. Wo es die Bewegung nur als
+  GSAP-Logik der Website gibt (hero-tom, hero-tmob, parallax-bg) oder das
+  Bauteil nicht gebaut ist (scroll-*), bleibt die Taste mit sichtbarem Grund
+  gesperrt — zur Entscheidung gemeldet; bei prefers-reduced-motion ebenso.
+  Recipes mit `meta.status` „draft“ tragen in Navigation und Arena-Kopf das
+  Kennzeichen „Entwurf“.
