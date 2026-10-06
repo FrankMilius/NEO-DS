@@ -13,6 +13,7 @@
  *   - Website-Bloecke (data/markup/<id>.html): die Klassen der geernteten
  *     Wurzel stehen im Markup der Arena
  *   - „nicht gebaut": beschriebene Klassen ohne CSS zeigen den Hinweis
+ *     (security-list __icon/__text seit der Entscheidung 06.10.2026 gebaut)
  *   - animierte Website-Bloecke (question, tab-nav): Standbild in jeder
  *     Zelle, Animation nur mit der Taste „Abspielen" der Arena (export
  *     abspielen, gemeinsamer Mechanismus), kein „Ausprobieren"
@@ -24,7 +25,6 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { MIT_VERHALTEN } from 'neo-behaviors'
 import { vorlageFuer, ausprobierenFuer, abspielenFuer } from '../../src/arena-templates/index.js'
-import { NICHT_GEBAUT_SLOTS } from '../../src/arena-templates/security-list.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
@@ -205,12 +205,19 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
     })
   }
 
-  it('nicht gebaut: security-list zeigt __icon/__text als Hinweis, die Klassen fehlen in styles.css', () => {
-    for (const k of NICHT_GEBAUT_SLOTS) expect(bekannt.has(k), `${k} ist inzwischen gebaut`).toBe(false)
+  it('security-list: Symbol und Text gebaut (Entscheidung 06.10.2026) — Item mit __icon und __text, Beschreibung unter dem Titel', () => {
+    for (const k of ['nc-security-list__icon', 'nc-security-list__text']) expect(bekannt.has(k), k).toBe(true)
+    expect(css()).toMatch(/\.nc-security-list__item:has\(>\s?\.nc-security-list__icon\)\{display:grid/)
     const z = zellen('security-list').find((c) => c.specimen.id === 'mit-symbol')
-    const hinweis = dom(z.html).querySelector('[data-nicht-gebaut]')
-    expect(hinweis.getAttribute('data-nicht-gebaut').split(' ')).toEqual(NICHT_GEBAUT_SLOTS)
-    for (const k of NICHT_GEBAUT_SLOTS) expect(hinweis.textContent).toContain(`.${k}`)
+    const d = dom(z.html)
+    expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
+    const items = [...d.querySelectorAll('.nc-security-list > .nc-security-list__item')]
+    expect(items).toHaveLength(3)
+    for (const li of items) {
+      expect(li.querySelector(':scope > svg.nc-security-list__icon[aria-hidden="true"]')).not.toBeNull()
+      expect(li.querySelector(':scope > .nc-security-list__text')).not.toBeNull()
+    }
+    expect(items[1].querySelectorAll('.nc-security-list__text > *')).toHaveLength(2)
   })
 
   describe('animierte Website-Bloecke: Standbild, „Abspielen" auf Wunsch', () => {

@@ -15,8 +15,45 @@
 }
 
 .nc-security-list__item {
+  // Eigene Schrift (Entscheidung 06.10.2026): body-m — die Beschreibung im
+  // Text (body-s) bleibt so in jedem Umfeld kleiner als der Titel
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--nc-type-body-m-lh);
   background: var(--fnd-color-background-base);
   border-radius: var(--fnd-radius-4xl);
   border: 1px solid var(--fnd-color-border-secondary);
   padding: var(--fnd-spacing-04) var(--fnd-spacing-05);
+}
+
+// ---------------------------------------------------------------------------
+// Item mit Symbol und Text (Entscheidung 06.10.2026)
+// ---------------------------------------------------------------------------
+// Muster aus der Doku: Symbol links, rechts der Text — eine Zeile oder Titel
+// mit Beschreibung darunter. Ohne Symbol bleibt das Item wie bisher (Text
+// direkt im Item).
+
+.nc-security-list__item:has(> .nc-security-list__icon) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--fnd-spacing-03);
+}
+
+.nc-security-list__icon {
+  inline-size: var(--nc-icon-size-md);
+  block-size: var(--nc-icon-size-md);
+  color: var(--fnd-color-text-accent);
+}
+
+.nc-security-list__text {
+  display: grid;
+  gap: var(--fnd-spacing-01);
+  min-inline-size: 0;
+}
+
+// Beschreibung unter dem Titel: jedes weitere Kind des Textes
+.nc-security-list__text > * + * {
+  font-size: var(--nc-type-body-s-size);
+  line-height: var(--nc-type-body-s-lh);
+  color: var(--fnd-color-text-secondary);
 }

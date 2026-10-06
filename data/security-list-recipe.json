@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "security-list",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -26,6 +26,14 @@
       "docs": "docs/security-list-docs.html"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Slots icon und text gebaut (Entscheidung 06.10.2026, Muster aus der Doku): Item mit eigener Schrift body-m; Item mit __icon wird ein Raster Symbol | Text (gap spacing-03); __icon 24px (--nc-icon-size-md) in text-accent; __text als Stapel, jedes weitere Kind (Beschreibung) in body-s und text-secondary",
+          "Specimen mit-symbol zeigt echtes Markup statt „nicht gebaut\"; Slot text optional (ohne Symbol steht der Text direkt im Item)",
+          "Doku: Inline-Gestaltung der Items, Symbole (nicht vorhandener Token background-accent-green) und Beschreibungen durch die Klassen ersetzt"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -54,14 +62,14 @@
       {
         "name": "text",
         "element": ".nc-security-list__text",
-        "optional": false
+        "optional": true
       }
     ],
     "convenience": [],
     "domNotes": [
       "Liste: ul.nc-security-list ohne Aufzaehlungszeichen, Grid mit gap spacing-03.",
-      "Item: li.nc-security-list__item als Kachel — background-base, Rahmen border-secondary, radius-4xl, Polsterung spacing-04/05; der Text steht direkt im Item.",
-      "Slots icon und text (__icon, __text) sind beschrieben, aber nicht gebaut: styles.css kennt sie nicht (Entscheidung offen)."
+      "Item: li.nc-security-list__item als Kachel — Schrift body-m, background-base, Rahmen border-secondary, radius-4xl, Polsterung spacing-04/05; der Text steht direkt im Item.",
+      "Mit Symbol (Entscheidung 06.10.2026): svg.nc-security-list__icon (24px, text-accent) + .nc-security-list__text; das Item wird dann ein Raster Symbol | Text. Im Text: eine Zeile oder Titel (z. B. <strong>) mit Beschreibung — jedes weitere Kind in body-s, text-secondary."
     ]
   },
   "axes": {
@@ -139,7 +147,7 @@
     {
       "id": "default",
       "label": "Security List",
-      "description": "Liste mit Sicherheits-Features und Icons",
+      "description": "Liste mit Sicherheits-Features, Text direkt im Item",
       "matrix": {
         "axes": {
           "variant": [
@@ -162,7 +170,7 @@
     {
       "id": "mit-symbol",
       "label": "Mit Symbol",
-      "description": "Item mit Symbol und Text (Slots icon/text) — beschrieben, nicht gebaut",
+      "description": "Item mit Symbol (__icon) und Text (__text) — eine Zeile oder Titel mit Beschreibung",
       "matrix": {
         "axes": {
           "variant": [
