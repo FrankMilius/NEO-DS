@@ -33,8 +33,17 @@ Tab-Darstellung — die Wurzel ist zugleich nc-solution-tabs und nimmt deren Mod
 | line | — |  |
 | contained | `.nc-solution-tabs--contained` |  |
 
+## States
+Supported: `default`, `active`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-tab-nav`
+
+### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-tab-nav-badges-gap` | — | `--mod-tab-nav-badges-gap` |
+| `--nc-tab-nav-badges-margin-block` | — | `--mod-tab-nav-badges-margin-block` |
 
 ## Accessibility
 ## Web Components Mapping

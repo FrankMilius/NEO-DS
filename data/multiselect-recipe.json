@@ -19,8 +19,9 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Zustaende open und error ergaenzt (is-open am Feld, nc-form-field--invalid aus _form-field.scss); Specimens default (geschlossen/geoeffnet), zustaende (hover, focus, error) und leer (nc-multiselect__value--empty)",
-          "komposition: enthaelt form-field, form-label, checkbox, form-error — das Markup aus neo-theme.js",
-          "domNotes nach dem Markup statt aus den Klassennamen abgeleitet; Vorlage ohne Inline-Gestaltung (Rahmen ra-anker/ra-feld)"
+          "Specimens composes: form-field, form-label, checkbox, form-error — das Markup aus neo-theme.js",
+          "domNotes nach dem Markup statt aus den Klassennamen abgeleitet; Vorlage ohne Inline-Gestaltung (Rahmen ra-anker/ra-feld)",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -78,20 +79,46 @@
       "Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'); ein Verhalten in neo-behaviors gibt es nicht."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "hover",
-    "focus",
-    "open",
-    "error"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "multiselect-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open",
+      "error"
+    ],
+    "precedence": [
+      "error",
+      "open",
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-multiselect-option-padding",
@@ -101,30 +128,84 @@
       "--nc-multiselect-trigger-font-size",
       "--nc-multiselect-trigger-gap",
       "--nc-multiselect-trigger-padding"
-    ]
+    ],
+    "baseClasses": [
+      "nc-multiselect"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-multiselect-option-padding",
+          "nc-multiselect-panel-box-shadow",
+          "nc-multiselect-panel-gap",
+          "nc-multiselect-panel-padding",
+          "nc-multiselect-trigger-font-size",
+          "nc-multiselect-trigger-gap",
+          "nc-multiselect-trigger-padding"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "specimens": [
     {
       "id": "default",
       "label": "Standard",
       "description": "multiselect wie auf der Website — mit Auswahl, geschlossen und geoeffnet",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default",
           "open"
         ]
       },
       "layout": "row",
-      "render": {}
+      "render": {},
+      "composes": [
+        "checkbox",
+        "form-error",
+        "form-field",
+        "form-label"
+      ]
     },
     {
       "id": "zustaende",
       "label": "Zustände",
       "description": "Hover und Fokus am Knopf (nur echt), Fehler mit nc-form-field--invalid und Meldung",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "hover",
           "focus",
@@ -132,14 +213,24 @@
         ]
       },
       "layout": "row",
-      "render": {}
+      "render": {},
+      "composes": [
+        "checkbox",
+        "form-error",
+        "form-field",
+        "form-label"
+      ]
     },
     {
       "id": "leer",
       "label": "Ohne Auswahl",
       "description": "Platzhalter nc-multiselect__value--empty im Knopf, Panel ohne Haken",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default",
           "open"
@@ -148,25 +239,13 @@
       "layout": "row",
       "render": {
         "compositionType": "leer"
-      }
-    }
-  ],
-  "komposition": [
-    {
-      "art": "enthaelt",
-      "recipe": "form-field"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "form-label"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "checkbox"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "form-error"
+      },
+      "composes": [
+        "checkbox",
+        "form-error",
+        "form-field",
+        "form-label"
+      ]
     }
   ]
 }

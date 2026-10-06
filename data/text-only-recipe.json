@@ -32,7 +32,7 @@
           "Plan v3, Phase 4 (bloecke-2): Specimen ohne-knopf (nur der Absatz); Vorlage im Rahmen ra-desktop, has-scroll nicht mehr an der Wurzel (kein CSS — die Einfaerbung macht p.visible)",
           "Befund (Entscheidungsfall): die Recipe-Klassen nc-text-only*, __scroll-text und der Modifier has-scroll haben kein CSS; gebaut sind .text-only/.text-only-wrapper",
           "pipeline.arena zeigt auf die RecipeArena",
-          "komposition: enthaelt button (Button-Container)"
+          "Specimens composes: button (Button-Container)"
         ]
       }
     ]
@@ -165,7 +165,10 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Scroll-Variante: reduced-motion beachten."
-      }
+      },
+      "composes": [
+        "button"
+      ]
     },
     {
       "id": "ohne-knopf",
@@ -181,19 +184,16 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "ohne-knopf"
       },
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)"
-      }
-    }
-  ],
-  "komposition": [
-    {
-      "art": "enthaelt",
-      "recipe": "button"
+      },
+      "composes": [
+        "button"
+      ]
     }
   ]
 }

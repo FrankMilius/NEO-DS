@@ -20,14 +20,26 @@ Root element: `.nc-tbl-cell`
 - Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise.
 
 ## Variants
-### undefined (`0`)
+### Variante (`variante`)
+Variante — default, icon
+
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
 | icon | `.nc-tbl-cell--icon` |  |
 
+## States
+Supported: `default`, `hover`, `focus`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-tbl-cell`
+
+### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-tbl-cell-info-btn-hover-opacity` | — | `--mod-tbl-cell-info-btn-hover-opacity` |
+| `--nc-tbl-cell-info-btn-padding` | — | `--mod-tbl-cell-info-btn-padding` |
+| `--nc-tbl-cell-sub-line-height` | — | `--mod-tbl-cell-sub-line-height` |
 
 ## Accessibility
 ## Web Components Mapping
@@ -35,7 +47,7 @@ Derived from anatomy for potential `<nc-tbl-cell>` custom element:
 
 ```js
 class NcTblCell extends HTMLElement {
-  static observedAttributes = ['0'];
+  static observedAttributes = ['variante'];
   // Slots: <slot name="icon-block">, <slot name="info-btn">, <slot name="sub">, <slot name="text">
 }
 ```

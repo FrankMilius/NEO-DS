@@ -19,8 +19,28 @@ Root element: `.nc-searchbar`
 - Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 - Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
 
+## Variants
+### Variant (`variant`)
+Einzige Variante
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| default | — |  |
+
+## States
+Supported: `default`, `hover`, `focus`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-searchbar`
+
+### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-searchbar-close-background` | — | `--mod-searchbar-close-background` |
+| `--nc-searchbar-input-padding-left` | — | `--mod-searchbar-input-padding-left` |
+| `--nc-searchbar-input-padding-right` | — | `--mod-searchbar-input-padding-right` |
+| `--nc-searchbar-shortcut-font-size` | — | `--mod-searchbar-shortcut-font-size` |
+| `--nc-searchbar-shortcut-padding` | — | `--mod-searchbar-shortcut-padding` |
 
 ## Accessibility
 ## Web Components Mapping
@@ -28,7 +48,7 @@ Derived from anatomy for potential `<nc-searchbar>` custom element:
 
 ```js
 class NcSearchbar extends HTMLElement {
-  static observedAttributes = [];
+  static observedAttributes = ['variant'];
   // Slots: <slot name="close">, <slot name="field">, <slot name="icon">, <slot name="inner">, <slot name="input">, <slot name="shortcut">
 }
 ```

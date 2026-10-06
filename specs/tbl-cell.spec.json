@@ -45,8 +45,9 @@
   },
   "api": null,
   "variants": {
-    "0": {
-      "description": null,
+    "variante": {
+      "label": "Variante",
+      "description": "Variante — default, icon",
       "values": [
         {
           "value": "default",
@@ -64,14 +65,36 @@
     }
   },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
-    "tokenGroups": {},
-    "modTokens": []
+    "baseClasses": [
+      "nc-tbl-cell"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "--nc-tbl-cell-info-btn-hover-opacity"
+        },
+        {
+          "token": "--nc-tbl-cell-info-btn-padding"
+        },
+        {
+          "token": "--nc-tbl-cell-sub-line-height"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-tbl-cell-info-btn-hover-opacity",
+      "--mod-tbl-cell-info-btn-padding",
+      "--mod-tbl-cell-sub-line-height"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

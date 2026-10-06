@@ -54,16 +54,59 @@
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
-    "tokenGroups": {},
-    "modTokens": []
+    "baseClasses": [
+      "nc-searchbar"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "--nc-searchbar-close-background"
+        },
+        {
+          "token": "--nc-searchbar-input-padding-left"
+        },
+        {
+          "token": "--nc-searchbar-input-padding-right"
+        },
+        {
+          "token": "--nc-searchbar-shortcut-font-size"
+        },
+        {
+          "token": "--nc-searchbar-shortcut-padding"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-searchbar-close-background",
+      "--mod-searchbar-input-padding-left",
+      "--mod-searchbar-input-padding-right",
+      "--mod-searchbar-shortcut-font-size",
+      "--mod-searchbar-shortcut-padding"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

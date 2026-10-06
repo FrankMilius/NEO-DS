@@ -19,7 +19,8 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Specimens default (Zeilenkopf und Wertzelle), info-knopf (hover/focus), untertitel (__sub), werte (Haken/Strich) und symbol-ueber-text (__icon-block); jede Zelle steht in einer Tabelle (Rahmen ra-tabelle), weil das SCSS nach th[scope=row]/td unterscheidet",
-          "domNotes nach SCSS und geerntetem Markup"
+          "domNotes nach SCSS und geerntetem Markup",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -66,41 +67,91 @@
       "Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise."
     ]
   },
-  "axes": [
-    {
-      "name": "variante",
-      "values": [
-        {
-          "value": "default",
-          "modifier": null
+  "axes": {
+    "variante": {
+      "label": "Variante",
+      "description": "Variante — default, icon",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "tbl-cell-default"
         },
-        {
-          "value": "icon",
-          "modifier": "nc-tbl-cell--icon"
+        "icon": {
+          "modifier": "nc-tbl-cell--icon",
+          "tokenGroups": [],
+          "renderHint": "tbl-cell-icon"
         }
-      ],
-      "default": "default"
+      }
     }
-  ],
-  "states": [
-    "default",
-    "hover",
-    "focus"
-  ],
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-tbl-cell-info-btn-hover-opacity",
       "--nc-tbl-cell-info-btn-padding",
       "--nc-tbl-cell-sub-line-height"
-    ]
+    ],
+    "baseClasses": [
+      "nc-tbl-cell"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-tbl-cell-info-btn-hover-opacity",
+          "nc-tbl-cell-info-btn-padding",
+          "nc-tbl-cell-sub-line-height"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "specimens": [
     {
       "id": "default",

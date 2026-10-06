@@ -33,8 +33,9 @@
   },
   "api": null,
   "variants": {
-    "0": {
-      "description": null,
+    "variante": {
+      "label": "Variante",
+      "description": "Variante — default, carousel, cols-2, cols-3",
       "values": [
         {
           "value": "default",
@@ -64,14 +65,33 @@
     }
   },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
-    "tokenGroups": {},
-    "modTokens": []
+    "baseClasses": [
+      "nc-testimonial-grid"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "--nc-testimonial-grid-btn-border-radius"
+        },
+        {
+          "token": "--nc-testimonial-grid-btn-disabled-opacity"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-testimonial-grid-btn-border-radius",
+      "--mod-testimonial-grid-btn-disabled-opacity"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

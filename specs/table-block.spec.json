@@ -19,16 +19,46 @@
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "scrolled"
+    ],
+    "interactive": false,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
-    "tokenGroups": {},
-    "modTokens": []
+    "baseClasses": [
+      "nc-table-block"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity"
+        },
+        {
+          "token": "--nc-table-block-thead-th-letter-spacing"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
+      "--mod-table-block-thead-th-letter-spacing"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

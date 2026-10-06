@@ -19,7 +19,8 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Specimens default (Raster mit einer, zwei, drei Spalten) und carousel (Zustaende hover/focus am Knopf, disabled: „Zurück“ gesperrt); Navigation nur beim Karussell (vorher in jeder Zelle, weil der Slot nav als Pflicht gilt)",
-          "komposition: enthaelt testimonial; domNotes nach SCSS"
+          "Specimens composes: testimonial; domNotes nach SCSS",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -56,49 +57,101 @@
       "Aus dem Drupal-Theme uebernommen (block--block-content--neo-testimonial-grid.html.twig)."
     ]
   },
-  "axes": [
-    {
-      "name": "variante",
-      "values": [
-        {
-          "value": "default",
-          "modifier": null
+  "axes": {
+    "variante": {
+      "label": "Variante",
+      "description": "Variante — default, carousel, cols-2, cols-3",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "testimonial-grid-default"
         },
-        {
-          "value": "carousel",
-          "modifier": "nc-testimonial-grid--carousel"
+        "carousel": {
+          "modifier": "nc-testimonial-grid--carousel",
+          "tokenGroups": [],
+          "renderHint": "testimonial-grid-carousel"
         },
-        {
-          "value": "cols-2",
-          "modifier": "nc-testimonial-grid--cols-2"
+        "cols-2": {
+          "modifier": "nc-testimonial-grid--cols-2",
+          "tokenGroups": [],
+          "renderHint": "testimonial-grid-cols-2"
         },
-        {
-          "value": "cols-3",
-          "modifier": "nc-testimonial-grid--cols-3"
+        "cols-3": {
+          "modifier": "nc-testimonial-grid--cols-3",
+          "tokenGroups": [],
+          "renderHint": "testimonial-grid-cols-3"
         }
-      ],
-      "default": "default"
+      }
     }
-  ],
-  "states": [
-    "default",
-    "hover",
-    "focus",
-    "disabled"
-  ],
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "disabled"
+    ],
+    "precedence": [
+      "disabled",
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-testimonial-grid-btn-border-radius",
       "--nc-testimonial-grid-btn-disabled-opacity"
-    ]
+    ],
+    "baseClasses": [
+      "nc-testimonial-grid"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-testimonial-grid-btn-border-radius",
+          "nc-testimonial-grid-btn-disabled-opacity"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "specimens": [
     {
       "id": "default",
@@ -116,10 +169,13 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "label": "{variante}"
-      }
+      },
+      "composes": [
+        "testimonial"
+      ]
     },
     {
       "id": "carousel",
@@ -138,14 +194,11 @@
           "disabled"
         ]
       },
-      "layout": "block",
-      "render": {}
-    }
-  ],
-  "komposition": [
-    {
-      "art": "enthaelt",
-      "recipe": "testimonial"
+      "layout": "composition",
+      "render": {},
+      "composes": [
+        "testimonial"
+      ]
     }
   ]
 }

@@ -57,16 +57,69 @@
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open",
+      "error"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
-    "tokenGroups": {},
-    "modTokens": []
+    "baseClasses": [
+      "nc-multiselect"
+    ],
+    "tokenGroups": {
+      "Base": [
+        {
+          "token": "--nc-multiselect-option-padding"
+        },
+        {
+          "token": "--nc-multiselect-panel-box-shadow"
+        },
+        {
+          "token": "--nc-multiselect-panel-gap"
+        },
+        {
+          "token": "--nc-multiselect-panel-padding"
+        },
+        {
+          "token": "--nc-multiselect-trigger-font-size"
+        },
+        {
+          "token": "--nc-multiselect-trigger-gap"
+        },
+        {
+          "token": "--nc-multiselect-trigger-padding"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-multiselect-option-padding",
+      "--mod-multiselect-panel-box-shadow",
+      "--mod-multiselect-panel-gap",
+      "--mod-multiselect-panel-padding",
+      "--mod-multiselect-trigger-font-size",
+      "--mod-multiselect-trigger-gap",
+      "--mod-multiselect-trigger-padding"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

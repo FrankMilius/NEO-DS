@@ -20,8 +20,9 @@
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Achse variant (line/contained — Modifier von solution-tabs an der gemeinsamen Wurzel; die Website nutzt contained) und Specimens default (Zustand active), variant-comparison sowie die Inhaltsmodule der Website (modul-features, modul-bento, modul-panels) nach data/markup/tab-nav.html",
           "Animierter Website-Block: „Zustände“ zeigt das Standbild (autoplay off), „Abspielen“ setzt data-autoplay=on (Fortschrittsbalken per CSS, kein GSAP)",
-          "komposition: enthaelt solution-tabs, feature-list, bento-grid, expanding-panels, button; domNotes nach dem geernteten Markup",
-          "Anatomie: Slots panel (.nc-tab-nav__panel), features und xpanels aus dem geernteten Markup"
+          "komposition: enthaelt solution-tabs, bento-grid, expanding-panels, button; domNotes nach dem geernteten Markup",
+          "Anatomie: Slots panel (.nc-tab-nav__panel), features und xpanels aus dem geernteten Markup",
+          "Recipe-Form nach recipe-schema.json: states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -105,32 +106,74 @@
       }
     }
   },
-  "states": [
-    "default",
-    "active"
-  ],
+  "states": {
+    "supported": [
+      "default",
+      "active"
+    ],
+    "precedence": [
+      "active",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-tab-nav-badges-gap",
       "--nc-tab-nav-badges-margin-block"
-    ]
+    ],
+    "baseClasses": [
+      "nc-tab-nav"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-tab-nav-badges-gap",
+          "nc-tab-nav-badges-margin-block"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "komposition": [
     {
       "art": "enthaelt",
       "recipe": "solution-tabs",
       "hinweis": "Wurzel „nc-solution-tabs nc-tab-nav“: Tableiste, Tabs, Fortschritt und Panel kommen von solution-tabs"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "feature-list"
     },
     {
       "art": "enthaelt",
@@ -161,7 +204,7 @@
           "active"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "feature-liste"
       }
@@ -178,7 +221,7 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "feature-liste",
         "label": "{variant}"
@@ -198,7 +241,7 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "features"
       }
@@ -217,7 +260,7 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "bento"
       }
@@ -236,7 +279,7 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "panels"
       }

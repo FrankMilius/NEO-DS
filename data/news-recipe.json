@@ -19,7 +19,8 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Specimen ohne-bild (Hero ohne hero-media/hero-overlay); Vorlage im Rahmen ra-desktop, Bild als Hintergrundbild von __hero-media (background-size: cover im SCSS) statt <img> mit Inline-Gestaltung",
-          "komposition: enthaelt button (CTA im Hero) und container (__hero-inner, __body, __footer tragen nc-container)"
+          "Specimens composes: button (CTA im Hero) und container (__hero-inner, __body, __footer tragen nc-container)",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -104,16 +105,38 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [],
-  "states": [
-    "default"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "news-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-news-eyebrow-gap",
@@ -124,47 +147,94 @@
       "--nc-news-title-font-size",
       "--nc-news-title-font-weight",
       "--nc-news-title-line-height"
-    ]
+    ],
+    "baseClasses": [
+      "nc-news"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-news-eyebrow-gap",
+          "nc-news-footer-a-font-weight",
+          "nc-news-hero-overlay-background",
+          "nc-news-lead-font-size",
+          "nc-news-lead-line-height",
+          "nc-news-title-font-size",
+          "nc-news-title-font-weight",
+          "nc-news-title-line-height"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "specimens": [
     {
       "id": "default",
       "label": "Standard",
       "description": "news wie im Drupal-Theme — Hero mit Bild und Overlay, Text, Fusszeile",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
-      "render": {}
+      "layout": "composition",
+      "render": {},
+      "composes": [
+        "button",
+        "container"
+      ]
     },
     {
       "id": "ohne-bild",
       "label": "Ohne Bild",
       "description": "Hero ohne Medium und Overlay — Text auf der Grundflaeche",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "ohne-bild"
-      }
-    }
-  ],
-  "komposition": [
-    {
-      "art": "enthaelt",
-      "recipe": "button"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "container"
+      },
+      "composes": [
+        "button",
+        "container"
+      ]
     }
   ]
 }

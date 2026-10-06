@@ -19,8 +19,9 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Specimens zustaende (hover am Schliessen-Knopf, focus im Feld — data-zustand am Element der Pseudoklasse) und eingabe (Feld mit Suchbegriff); Vorlage ohne Inline-Gestaltung (Rahmen ra-feld--breit)",
-          "komposition: enthaelt container (__inner traegt nc-container)",
-          "Befund (Entscheidungsfall): der Shortcut-Hinweis __shortcut ist nie sichtbar — die Leiste erscheint nur mit data-state=open, und genau dann blendet das SCSS den Shortcut aus"
+          "Specimens composes: container (__inner traegt nc-container)",
+          "Befund (Entscheidungsfall): der Shortcut-Hinweis __shortcut ist nie sichtbar — die Leiste erscheint nur mit data-state=open, und genau dann blendet das SCSS den Shortcut aus",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -75,18 +76,42 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "hover",
-    "focus"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "searchbar-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-searchbar-close-background",
@@ -94,9 +119,47 @@
       "--nc-searchbar-input-padding-right",
       "--nc-searchbar-shortcut-font-size",
       "--nc-searchbar-shortcut-padding"
-    ]
+    ],
+    "baseClasses": [
+      "nc-searchbar"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-searchbar-close-background",
+          "nc-searchbar-input-padding-left",
+          "nc-searchbar-input-padding-right",
+          "nc-searchbar-shortcut-font-size",
+          "nc-searchbar-shortcut-padding"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "komposition": [
     {
       "art": "teilt",
@@ -111,10 +174,6 @@
         "nc-searchbar-input-bg": "nc-input-bg"
       },
       "hinweis": "Das Feld der Kopfleiste uebernimmt Radius, Rahmen, Hintergrund, Text-, Platzhalter- und Fokusfarbe des Inputs ueber Token-Ketten; Hoehe (44px) und Abstaende bleiben eigene Werte (Entscheidung 02.10.2026, Freigabe G1)."
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "container"
     }
   ],
   "specimens": [
@@ -123,42 +182,63 @@
       "label": "Standard",
       "description": "searchbar wie auf der Website — geoeffnet (data-state=open), sonst display:none",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
-      "render": {}
+      "layout": "composition",
+      "render": {},
+      "composes": [
+        "container"
+      ]
     },
     {
       "id": "zustaende",
       "label": "Zustände",
       "description": "Hover am Schliessen-Knopf, Fokus im Feld (nur echt)",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "hover",
           "focus"
         ]
       },
-      "layout": "block",
-      "render": {}
+      "layout": "composition",
+      "render": {},
+      "composes": [
+        "container"
+      ]
     },
     {
       "id": "eingabe",
       "label": "Mit Suchbegriff",
       "description": "Feld mit Eingabe",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "compositionType": "eingabe"
-      }
+      },
+      "composes": [
+        "container"
+      ]
     }
   ]
 }

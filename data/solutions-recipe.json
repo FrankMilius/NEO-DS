@@ -31,7 +31,7 @@
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Vorlage mit der Mobil-Tableiste als erstem Kind des Wrappers (Slot mobile-tabs) — vorher war .solutions das erste Kind und auf dem Desktop display:none, die Arena blieb leer",
           "Specimen default zeigt default und open (eine andere Loesung offen, immer genau eine); Rahmen ra-desktop",
-          "komposition: enthaelt label (Labels-Container) und button",
+          "Specimens composes: label (Labels-Container) und button",
           "pipeline.arena zeigt auf die RecipeArena"
         ]
       }
@@ -178,17 +178,11 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Accordion nativ. Progress: reduced-motion."
-      }
-    }
-  ],
-  "komposition": [
-    {
-      "art": "enthaelt",
-      "recipe": "label"
-    },
-    {
-      "art": "enthaelt",
-      "recipe": "button"
+      },
+      "composes": [
+        "button",
+        "label"
+      ]
     }
   ]
 }

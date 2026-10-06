@@ -22,8 +22,30 @@ Root element: `.nc-multiselect`
 - Ohne Auswahl: .nc-multiselect__value--empty mit Platzhaltertext. Fehler: .nc-form-field--invalid faerbt den Rahmen des Knopfs.
 - Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'); ein Verhalten in neo-behaviors gibt es nicht.
 
+## Variants
+### Variant (`variant`)
+Einzige Variante
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| default | — |  |
+
+## States
+Supported: `default`, `hover`, `focus`, `open`, `error`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-multiselect`
+
+### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-multiselect-option-padding` | — | `--mod-multiselect-option-padding` |
+| `--nc-multiselect-panel-box-shadow` | — | `--mod-multiselect-panel-box-shadow` |
+| `--nc-multiselect-panel-gap` | — | `--mod-multiselect-panel-gap` |
+| `--nc-multiselect-panel-padding` | — | `--mod-multiselect-panel-padding` |
+| `--nc-multiselect-trigger-font-size` | — | `--mod-multiselect-trigger-font-size` |
+| `--nc-multiselect-trigger-gap` | — | `--mod-multiselect-trigger-gap` |
+| `--nc-multiselect-trigger-padding` | — | `--mod-multiselect-trigger-padding` |
 
 ## Accessibility
 ## Web Components Mapping
@@ -31,7 +53,7 @@ Derived from anatomy for potential `<nc-multiselect>` custom element:
 
 ```js
 class NcMultiselect extends HTMLElement {
-  static observedAttributes = [];
+  static observedAttributes = ['variant'];
   // Slots: <slot name="caret">, <slot name="option">, <slot name="panel">, <slot name="trigger">, <slot name="value">, <slot name="value--empty">
 }
 ```

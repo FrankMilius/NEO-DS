@@ -12,8 +12,25 @@ Root element: `.nc-table-block`
 - Scrollen: unter data-scroll-bp setzt neo-theme.js data-scroll-active=true (Tabelle max-content, waagerecht scrollbar) und beim Scrollen .is-scrolled (Schatten der festen ersten Spalte).
 - Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise (data/markup/table-block.html).
 
+## Variants
+### Variant (`variant`)
+Einzige Variante
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| default | — |  |
+
+## States
+Supported: `default`, `scrolled`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-table-block`
+
+### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity` | — | `--mod-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity` |
+| `--nc-table-block-thead-th-letter-spacing` | — | `--mod-table-block-thead-th-letter-spacing` |
 
 ## Accessibility
 ## Web Components Mapping
@@ -21,7 +38,7 @@ Derived from anatomy for potential `<nc-table-block>` custom element:
 
 ```js
 class NcTableBlock extends HTMLElement {
-  static observedAttributes = [];
+  static observedAttributes = ['variant'];
   // Slots: default
 }
 ```

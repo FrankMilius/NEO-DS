@@ -19,7 +19,8 @@
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Zustand scrolled (data-scroll-active=true und .is-scrolled, wie neo-theme.js sie setzt — Schatten der festen ersten Spalte) im Specimen default",
-          "Vorlage nach der Website: Tabelle mit --sticky-header und --sticky-col, Rubrik als normale Zeile, Zeilenkopf mit Info-Knopf; domNotes nach dem geernteten Markup"
+          "Vorlage nach der Website: Tabelle mit --sticky-header und --sticky-col, Rubrik als normale Zeile, Zeilenkopf mit Info-Knopf; domNotes nach dem geernteten Markup",
+          "Recipe-Form nach recipe-schema.json: axes, states, constraints, recipes, baseClasses, tokenGroups als Objekt bzw. ergaenzt (Draft aus der Aufnahme hatte Listen) — Lint-Fehler weniger"
         ]
       },
       {
@@ -45,24 +46,82 @@
       "Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise (data/markup/table-block.html)."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "scrolled"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "table-block-default"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "scrolled"
+    ],
+    "precedence": [
+      "scrolled",
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
       "--nc-table-block-thead-th-letter-spacing"
-    ]
+    ],
+    "baseClasses": [
+      "nc-table-block"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
+          "nc-table-block-thead-th-letter-spacing"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "komposition": [
     {
       "art": "enthaelt",
@@ -79,13 +138,17 @@
       "label": "Standard",
       "description": "table-block wie auf der Website — und gescrollt (schmal, data-scroll-active, is-scrolled)",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default",
           "scrolled"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {}
     }
   ]
