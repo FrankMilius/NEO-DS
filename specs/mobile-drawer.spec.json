@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "mobile-drawer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -76,7 +76,8 @@
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
       "Markup nach den BEM-Klassen des SCSS (kein geerntetes Markup): Backdrop als Geschwister vor aside.nc-mobile-drawer; __header (__title, __close), __nav > __list > li > __link (+ __sublist > li > __sublink).",
-      "Unter 1200 px Fensterbreite; darueber blendet das DS Drawer und Backdrop aus. Oeffnen und Schliessen steuert neo-theme.js — ein Behavior in neo-behaviors gibt es nicht."
+      "Unter 1200 px Fensterbreite; darueber blendet das DS Drawer und Backdrop aus. Oeffnen und Schliessen: Behavior mobile-drawer (neo-behaviors) — Ausloeser ist ein Knopf mit aria-controls=\"<id des Drawers>\" (auf der Website .nc-mobile-toggle); Backdrop ist das Geschwister .nc-mobile-drawer__backdrop. Auf der Website steuert es bis zur Umstellung noch neo-theme.js (neoMobileNav).",
+      "Modal (neo-behaviors mobile-drawer): offen role=dialog + aria-modal, Fokus auf das erste bedienbare Element, Fokus-Falle, Geschwister bis <body> ausser dem Backdrop inert, body.u-no-scroll (gestaltet das Theme); geschlossen inert + aria-hidden=\"true\" — der aus dem Bild geschobene Drawer ist sonst per Tab erreichbar. Ab 1200 px (display: none) tut der Knopf nichts, ein offener Drawer schliesst (reason resize)."
     ]
   },
   "api": null,
@@ -115,9 +116,42 @@
     "tokenGroups": {},
     "modTokens": []
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "toggle-drawer",
+      "note": "Auf dem Knopf mit aria-controls=\"<id des Drawers>\" (nativer Knopf): oeffnet den Drawer, Fokus auf das erste bedienbare Element (Schliessen-Knopf). Erneut: schliesst."
+    },
+    "Space": {
+      "action": "toggle-drawer",
+      "note": "Wie Enter auf dem Knopf."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Offener Drawer: schliesst, gibt den Rest der Seite frei, Fokus zurueck auf den Ausloeser."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Offener Drawer: Fokus bleibt im Drawer (vom letzten zum ersten Element)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Offener Drawer: vom ersten zum letzten Element."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "mobile-drawer-open": {
+      "bubbles": true,
+      "note": "Gefeuert am Drawer, wenn er geoeffnet wird."
+    },
+    "mobile-drawer-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert am Drawer beim Schliessen. reason: 'escape', 'overlay-click', 'close-button', 'trigger', 'resize'."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": null,

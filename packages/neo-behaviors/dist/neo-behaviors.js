@@ -3153,6 +3153,178 @@
     }
   };
 
+  // packages/neo-behaviors/_ueberlagerung.js
+  function ueberlagerungBehavior(art) {
+    return {
+      id: art.id,
+      selektor: art.selektor,
+      /** @param {HTMLElement} panel @param {AbortSignal} signal */
+      binde(panel, signal) {
+        const dok = panel.ownerDocument;
+        const ansicht = dok.defaultView;
+        const hinten = art.hintergrund(panel);
+        const vorher = {
+          inert: panel.hasAttribute("inert"),
+          ariaHidden: panel.getAttribute("aria-hidden"),
+          ariaModal: panel.getAttribute("aria-modal"),
+          role: panel.getAttribute("role")
+        };
+        let offen = null;
+        const vonUnsInert = (
+          /** @type {Set<Element>} */
+          /* @__PURE__ */ new Set()
+        );
+        const knoepfe = () => panel.id ? (
+          /** @type {HTMLElement[]} */
+          [...dok.querySelectorAll(`[aria-controls="${CSS.escape(panel.id)}"]`)].filter((k) => !panel.contains(k))
+        ) : [];
+        const sperreRest = () => {
+          for (let el = (
+            /** @type {Element} */
+            panel
+          ); el.parentElement && el !== dok.body; el = el.parentElement) {
+            for (const g2 of el.parentElement.children) {
+              if (g2 === el || g2 === hinten || g2.hasAttribute("inert")) continue;
+              g2.setAttribute("inert", "");
+              vonUnsInert.add(g2);
+            }
+          }
+        };
+        const gibRestFrei = () => {
+          for (const g2 of vonUnsInert) g2.removeAttribute("inert");
+          vonUnsInert.clear();
+        };
+        const zu = () => {
+          panel.classList.remove(art.offenKlasse);
+          if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art.hintergrundKlasse);
+          panel.setAttribute("aria-hidden", "true");
+          panel.setAttribute("inert", "");
+          if (art.seiteSperren) dok.body.classList.remove(art.seiteSperren);
+        };
+        function oeffne(knopf) {
+          var _a;
+          if (offen) return;
+          (_a = art.beimOeffnen) == null ? void 0 : _a.call(art, panel, knopf);
+          panel.classList.add(art.offenKlasse);
+          if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.add(art.hintergrundKlasse);
+          panel.removeAttribute("inert");
+          panel.setAttribute("aria-hidden", "false");
+          if (art.seiteSperren) dok.body.classList.add(art.seiteSperren);
+          for (const k of knoepfe()) k.setAttribute("aria-expanded", "true");
+          sperreRest();
+          const start = (
+            /** @type {HTMLElement|null} */
+            panel.querySelector("[autofocus]") || fokussierbare(panel)[0] || null
+          );
+          const tabindex = !start && !panel.hasAttribute("tabindex");
+          if (tabindex) panel.setAttribute("tabindex", "-1");
+          offen = { knopf, tabindex };
+          (start || panel).focus();
+          sende(panel, `${art.praefix}-open`, {});
+        }
+        function schliesse(grund) {
+          if (!offen) return;
+          const { knopf, tabindex } = offen;
+          offen = null;
+          zu();
+          gibRestFrei();
+          for (const k of knoepfe()) k.setAttribute("aria-expanded", "false");
+          if (tabindex) panel.removeAttribute("tabindex");
+          if (knopf && knopf.isConnected) knopf.focus();
+          sende(panel, `${art.praefix}-close`, { reason: grund });
+        }
+        if (panel.classList.contains(art.offenKlasse)) {
+          offen = { knopf: null, tabindex: false };
+          sperreRest();
+        } else zu();
+        if (!panel.hasAttribute("role")) panel.setAttribute("role", "dialog");
+        panel.setAttribute("aria-modal", "true");
+        for (const k of knoepfe()) k.setAttribute("aria-expanded", String(panel.classList.contains(art.offenKlasse)));
+        dok.addEventListener("click", (e) => {
+          var _a, _b;
+          const knopf = (
+            /** @type {HTMLElement|null} */
+            /** @type {HTMLElement} */
+            ((_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, "[aria-controls]")) || null
+          );
+          if (!knopf || !panel.id || knopf.getAttribute("aria-controls") !== panel.id || panel.contains(knopf) || gesperrt(knopf)) return;
+          if (art.nochDa && !art.nochDa(panel)) return;
+          e.preventDefault();
+          if (offen) schliesse("trigger");
+          else oeffne(knopf);
+        }, { signal });
+        panel.addEventListener("click", (e) => {
+          var _a;
+          if (!offen) return;
+          const ziel = (
+            /** @type {HTMLElement} */
+            e.target
+          );
+          if (hinten && panel.contains(hinten) && hinten.contains(ziel)) schliesse("overlay-click");
+          else if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, art.schliessen)) schliesse("close-button");
+        }, { signal });
+        if (hinten && !panel.contains(hinten)) hinten.addEventListener("click", () => schliesse("overlay-click"), { signal });
+        dok.addEventListener("keydown", (e) => {
+          if (!offen) return;
+          if (e.key === "Escape") {
+            e.preventDefault();
+            schliesse("escape");
+          } else fokusFalle(e, panel);
+        }, { signal });
+        if (art.nochDa) ansicht == null ? void 0 : ansicht.addEventListener("resize", () => {
+          var _a;
+          if (offen && !((_a = art.nochDa) == null ? void 0 : _a.call(art, panel))) schliesse("resize");
+        }, { signal });
+        signal.addEventListener("abort", () => {
+          if (offen == null ? void 0 : offen.tabindex) panel.removeAttribute("tabindex");
+          if (offen) {
+            panel.classList.remove(art.offenKlasse);
+            if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art.hintergrundKlasse);
+          }
+          offen = null;
+          gibRestFrei();
+          if (art.seiteSperren) dok.body.classList.remove(art.seiteSperren);
+          if (vorher.inert) panel.setAttribute("inert", "");
+          else panel.removeAttribute("inert");
+          for (
+            const [attr, wert] of
+            /** @type {const} */
+            [["aria-hidden", vorher.ariaHidden], ["aria-modal", vorher.ariaModal], ["role", vorher.role]]
+          ) {
+            if (wert === null) panel.removeAttribute(attr);
+            else panel.setAttribute(attr, wert);
+          }
+        });
+      }
+    };
+  }
+
+  // packages/neo-behaviors/mobile-drawer.js
+  var mobileDrawer = {
+    ...ueberlagerungBehavior({
+      id: "mobile-drawer",
+      selektor: ".nc-mobile-drawer",
+      praefix: "mobile-drawer",
+      offenKlasse: "nc-mobile-drawer--open",
+      hintergrund: (p) => {
+        var _a;
+        return (
+          /** @type {HTMLElement|null} */
+          ((_a = p.parentElement) == null ? void 0 : _a.querySelector(":scope > .nc-mobile-drawer__backdrop, :scope > [data-mobile-backdrop]")) || null
+        );
+      },
+      hintergrundKlasse: "nc-mobile-drawer__backdrop--visible",
+      schliessen: ".nc-mobile-drawer__close, [data-mobile-close]",
+      seiteSperren: "u-no-scroll",
+      nochDa: (p) => {
+        var _a;
+        return ((_a = p.ownerDocument.defaultView) == null ? void 0 : _a.getComputedStyle(p).display) !== "none";
+      }
+    }),
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3172,6 +3344,9 @@
     modal,
     drawer,
     "alert-dialog": alertDialog,
+    // Website-Bauteile aus dem Drupal-Theme (Entscheidung 06.10.2026): binden
+    // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
+    "mobile-drawer": mobileDrawer,
     breadcrumb,
     treeview,
     "navigation-menu": navigationMenu,
@@ -3187,6 +3362,10 @@
     shell
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
+  var NUR_AUSDRUECKLICH = Object.freeze(Object.keys(BEHAVIORS).filter((id) => (
+    /** @type {any} */
+    BEHAVIORS[id].nurAusdruecklich === true
+  )));
   function anbinden(bereich, nur) {
     return bindeAlle(bereich, waehle(nur));
   }
@@ -3211,7 +3390,8 @@
   };
 
   // packages/neo-behaviors/drupal.js
-  var NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, version: package_default.version });
+  var NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, version: package_default.version });
+  var STANDARD = MIT_VERHALTEN.filter((id) => !NUR_AUSDRUECKLICH.includes(id));
   var g = (
     /** @type {any} */
     globalThis
@@ -3222,7 +3402,7 @@
       attach(context, settings) {
         const s = settings && settings.neoBehaviors || {};
         if (s.aus) return;
-        anbinden(context || document, Array.isArray(s.nur) ? s.nur : void 0);
+        anbinden(context || document, Array.isArray(s.nur) ? s.nur : STANDARD);
       },
       detach(context, settings, trigger) {
         if (trigger === "unload") abbinden(context || document);

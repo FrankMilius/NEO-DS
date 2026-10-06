@@ -68,6 +68,20 @@ describe('dist/neo-behaviors.js (Drupal-Library)', () => {
     expect(document.querySelector('.nc-tabs').getAttribute('data-neo-behavior')).toBe('tabs')
   })
 
+  it('Website-Bauteile (NUR_AUSDRUECKLICH) binden nur, wenn nur sie nennt (Entscheidung 06.10.2026)', () => {
+    lade()
+    const recipe = normalisiereRecipe(rohesRecipe('mobile-drawer'))
+    const sp = recipe.specimens.find((s) => s.id === 'zustand')
+    document.body.innerHTML = tabsMarkup() + specimenAnsicht(sp, recipe, 'mobile-drawer', vorlageFuer('mobile-drawer'), { ausprobieren: true }).zeilen[0].zellen[0].html
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    expect(globalThis.NeoBehaviors.NUR_AUSDRUECKLICH).toContain('mobile-drawer')
+    b.attach(document, {})
+    expect(document.querySelector('.nc-tabs').getAttribute('data-neo-behavior')).toBe('tabs')
+    expect(document.querySelector('.nc-mobile-drawer').hasAttribute('data-neo-behavior')).toBe(false)
+    b.attach(document, { neoBehaviors: { nur: ['mobile-drawer'] } })
+    expect(document.querySelector('.nc-mobile-drawer').getAttribute('data-neo-behavior')).toBe('mobile-drawer')
+  })
+
   it('Hauptnavigation (navigation-tab-mega): nur = [\'navigation-tab-mega\'] wie in neo_fe bindet Header und Drawer', () => {
     lade()
     const recipe = normalisiereRecipe(rohesRecipe('navigation-tab-mega'))

@@ -11,12 +11,17 @@
 // Steuerung ueber drupalSettings (optional):
 //   drupalSettings.neoBehaviors = { nur: ['tabs', 'select'] }   nur diese Bauteile
 //   drupalSettings.neoBehaviors = { aus: true }                 nichts binden
-// Ohne Angabe werden alle Bauteile gebunden, die im Kontext vorkommen.
+// Ohne Angabe werden alle Bauteile gebunden, die im Kontext vorkommen —
+// AUSSER denen in NUR_AUSDRUECKLICH (Website-Bauteile, deren Verhalten heute
+// neo-theme.js liefert; Behaviors mit nurAusdruecklich: true). Die binden
+// nur, wenn `nur` sie nennt (Entscheidung 06.10.2026) — so wird ein neues
+// Behavior nicht still auf der Website aktiv.
 // ==========================================================================
-import { anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN } from './index.js'
+import { anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH } from './index.js'
 import paket from './package.json' with { type: 'json' }
 
-const NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, version: paket.version })
+const NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, version: paket.version })
+const STANDARD = MIT_VERHALTEN.filter((id) => !NUR_AUSDRUECKLICH.includes(id))
 
 const g = /** @type {any} */ (globalThis)
 g.NeoBehaviors = NeoBehaviors
@@ -26,7 +31,7 @@ if (g.Drupal && g.Drupal.behaviors) {
     attach (context, settings) {
       const s = (settings && settings.neoBehaviors) || {}
       if (s.aus) return
-      anbinden(context || document, Array.isArray(s.nur) ? s.nur : undefined)
+      anbinden(context || document, Array.isArray(s.nur) ? s.nur : STANDARD)
     },
     detach (context, settings, trigger) {
       if (trigger === 'unload') abbinden(context || document)

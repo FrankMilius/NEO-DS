@@ -169,8 +169,24 @@ describe('Bewegung-Block aus dem Recipe', () => {
     }
   })
 
-  it('kein Recipe nennt keyboard/events, keines hat ein Behavior — kein „Ausprobieren"', () => {
-    for (const id of BLOCK) {
+  // Overlays mit Behavior in neo-behaviors (Entscheidung 06.10.2026,
+  // overlay-verhalten) — „Ausprobieren" ueber MIT_VERHALTEN, Tests in
+  // tests/behaviors/website-behaviors.test.js
+  const MIT_BEHAVIOR = ['mobile-drawer']
+  it('Overlays mit Behavior: keyboard/events im Recipe, Ausprobieren ueber neo-behaviors', () => {
+    for (const id of MIT_BEHAVIOR) {
+      const r = rohesRecipe(id)
+      expect(Object.keys(r.keyboard || {}).length, id).toBeGreaterThan(0)
+      expect(Object.keys(r.events || {}).length, id).toBeGreaterThan(0)
+      expect(MIT_VERHALTEN.includes(id), id).toBe(true)
+    }
+    const [drawer] = zellen('mobile-drawer', 'zustand', { ausprobieren: true }).map((z) => dom(z.html))
+    expect(drawer.querySelector(`.ra-buehne--mobil-drawer > .nc-button[aria-controls="${drawer.querySelector('.nc-mobile-drawer').id}"]`)).not.toBeNull()
+    expect(drawer.querySelector('.nc-mobile-drawer').className).toBe('nc-mobile-drawer')
+  })
+
+  it('kein anderes Recipe nennt keyboard/events, keines hat ein Behavior — kein „Ausprobieren"', () => {
+    for (const id of BLOCK.filter((b) => !MIT_BEHAVIOR.includes(b))) {
       const r = rohesRecipe(id)
       expect(Object.keys(r.keyboard || {}).length, id).toBe(0)
       expect(Object.keys(r.events || {}).length, id).toBe(0)
@@ -396,7 +412,8 @@ describe('Bewegung-Block: Abspielen', () => {
     expect(tom.find('[data-test="abspielen-hinweis"]').text()).toMatch(/GSAP/)
     tom.unmount()
 
-    const knopf = await arena('mobile-drawer')
+    // ohne Abspielen und ohne Behavior (mobile-drawer hat seit 06.10.2026 eines)
+    const knopf = await arena('navigation-orchestration')
     expect(knopf.find('[data-test="abspielen"]').exists()).toBe(false)
     expect(knopf.find('.ra-modus').exists()).toBe(false)
     knopf.unmount()

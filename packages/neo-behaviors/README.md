@@ -21,6 +21,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `modal` | `<dialog>` per Knopf mit `aria-controls` öffnen (showModal), Escape, Schließen-Knopf, Fokus-Falle, Fokus zurück; Hintergrund nur mit `data-backdrop-close="true"`; `--scrollable`: `is-scrolled-top/-bottom` | `modal-open`, `modal-close` { reason } |
 | `drawer` | wie Modal; Klick auf den Hintergrund schließt immer; `is-scrolled` am Drawer | `drawer-open`, `drawer-close` { reason } |
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf die markierte sichere Aktion (`[autofocus]`, sonst Abbrechen `[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück; mit `data-close="manuell"` am `<dialog>` schließt Bestätigen nicht, sondern meldet nur (`open: true`) — das Programm schließt mit `dialog.close()` | `alert-dialog-open`, `alert-dialog-close` { reason, action, open } |
+| `mobile-drawer` | Website (Drupal-Theme): Knopf mit `aria-controls="<id des Drawers>"` öffnet `.nc-mobile-drawer--open` + Backdrop `--visible` (+ `body.u-no-scroll`), Fokus in den Drawer, Fokus-Falle, Rest der Seite `inert`; Escape, Schließen-Knopf, Backdrop oder erneut der Knopf schließen, Fokus zurück; geschlossen `inert` + `aria-hidden`; ab 1200 px (DS blendet aus) ohne Verhalten. In Drupal nur per `nur` | `mobile-drawer-open`, `mobile-drawer-close` { reason } |
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf dem `li[role=treeitem]`; Zeilen-Aktionen per Tab vom Eintrag, Escape zurück | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
 | `navigation-menu` | WAI-ARIA Disclosure-Navigation (Recipe 3.0.0): Auslöser mit `aria-expanded`/`aria-controls`, Panel `[hidden]` im Item; Tab durch alle Einträge (kein roving tabindex), Enter/Leertaste/Klick schalten, Escape schließt (Fokus auf den Auslöser), optional Pfeil rechts/links/Pos1/Ende oben, Pfeil runter ins Panel, Pfeil runter/hoch/Pos1/Ende im Panel; Fokus verlässt das offene Item oder Klick außen schließen; höchstens ein Panel offen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
@@ -73,6 +74,16 @@ oder als Abhängigkeit von `global-styling`. Steuern über `drupalSettings`:
 $build['#attached']['drupalSettings']['neoBehaviors'] = ['nur' => ['tabs', 'select']]; // nur diese
 $build['#attached']['drupalSettings']['neoBehaviors'] = ['aus' => TRUE];              // nichts binden
 ```
+
+Website-Bauteile (Entscheidung 06.10.2026): Behaviors mit
+`nurAusdruecklich: true` (Liste `NUR_AUSDRUECKLICH`) bindet die Drupal-Datei
+**nur**, wenn `drupalSettings.neoBehaviors.nur` sie nennt — ein Aufruf ohne
+`nur` lässt sie aus. Es sind Bauteile, deren Verhalten heute noch
+`neo-theme.js` liefert; so wird keines still auf der Website aktiv und
+nichts doppelt gebunden. Umstellen je Bauteil: `nur[] = '<id>'` setzen und
+die alte Funktion in `neo-theme.js` entfernen (siehe Abschnitt
+„Website-Bauteile“). `anbinden()` aus dem Modul (Arena, Doku) bindet ohne
+`nur` weiter alle.
 
 Achtung beim Aktivieren: `neo-theme.js` hat eigene Behaviors (z. B.
 `neoAccordion` für `[data-neo-accordion]`, Tab-Nav, Suche). Doppelt gebunden
@@ -211,3 +222,16 @@ zum nächsten Bedienelement danach, sonst davor (WCAG 2.4.3).
 - **Benachrichtigung** — „gelesen" speichert das Programm auf
   `notification-read` hin (localStorage oder API).
 
+## Website-Bauteile (Entscheidung 06.10.2026)
+
+Verhalten, das heute `neo_fe/js/neo-theme.js` liefert, steht jetzt auch hier
+— 1:1 nach der Website, mit den Verbesserungen für Barrierefreiheit. Auf der
+Website ändert sich nichts, bis Drupal die Bauteile per `nur` einbindet und
+die alte Funktion entfernt (Freigabe).
+
+- **Mobile-Drawer** (overlay-verhalten) —
+  Überlagerung ohne natives `<dialog>`, gemeinsamer Teil `_ueberlagerung.js`
+  (Muster aus `_dialog.js`/`shell.js`, Hilfen aus `kern.js`). Neu gegenüber
+  der Website: Fokus-Falle, Rest der Seite `inert`, Fokus zurück auch nach
+  Klick, geschlossen `inert` (vorher per Tab erreichbar, obwohl unsichtbar),
+  `role="dialog"`/`aria-modal`.

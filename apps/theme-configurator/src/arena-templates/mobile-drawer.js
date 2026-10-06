@@ -17,8 +17,13 @@
 //
 // Specimens: zustand (geschlossen gegen offen), unterpunkte (offen, mit
 // Unterliste und aktuellem Ast), hover (nur interaktiv: data-zustand am
-// ersten Link). Das Recipe nennt weder keyboard noch events — kein
-// „Ausprobieren"; auf der Website oeffnet neo-theme.js den Drawer.
+// ersten Link).
+//
+// „Ausprobieren" (Entscheidung 06.10.2026, overlay-verhalten): Knopf
+// „Menü öffnen" mit aria-controls im Rahmen, Drawer startet geschlossen; das
+// Behavior mobile-drawer aus neo-behaviors oeffnet ihn (Fokus-Falle,
+// Escape, Backdrop, Fokus zurueck). Auf der Website steuert ihn bis zur
+// Umstellung neo-theme.js (neoMobileNav).
 import { esc, SYMBOL } from './_helfer.js'
 
 const PUNKTE = [
@@ -29,7 +34,7 @@ const PUNKTE = [
 ]
 
 export default (zelle, m) => {
-  const offen = m.wert('variante') === 'open'
+  const offen = m.wert('variante') === 'open' && !m.ausprobieren
   const mitUnterpunkten = m.specimen.render?.unterpunkte === true
   const marke = m.attribute['data-zustand']
   const klassen = ['nc-mobile-drawer', offen ? 'nc-mobile-drawer--open' : ''].filter(Boolean).join(' ')
@@ -40,8 +45,11 @@ export default (zelle, m) => {
     const extra = i === 0 && marke ? ` data-zustand="${marke}"` : ''
     return `<li><a class="nc-mobile-drawer__link" href="#"${extra}>${esc(titel)}</a>${liste}</li>`
   }).join('\n')
+  const knopf = m.ausprobieren
+    ? `<button type="button" class="nc-button nc-button--outline" aria-controls="${m.uid}-drawer" aria-expanded="false">Menü öffnen</button>\n`
+    : ''
   return `<div class="ra-buehne ra-buehne--mobil-drawer">
-<div class="nc-mobile-drawer__backdrop${offen ? ' nc-mobile-drawer__backdrop--visible' : ''}" aria-hidden="true"></div>
+${knopf}<div class="nc-mobile-drawer__backdrop${offen ? ' nc-mobile-drawer__backdrop--visible' : ''}" aria-hidden="true"></div>
 <aside class="${klassen}" id="${m.uid}-drawer" aria-label="Menü"${offen ? '' : ' aria-hidden="true"'}>
 <div class="nc-mobile-drawer__header">
 <span class="nc-mobile-drawer__title">Menü</span>

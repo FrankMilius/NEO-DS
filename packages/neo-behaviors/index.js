@@ -44,6 +44,7 @@ import { banner } from './banner.js'
 import { codeSnippet } from './code-snippet.js'
 import { button } from './button.js'
 import { shell } from './shell.js'
+import { mobileDrawer } from './mobile-drawer.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -66,6 +67,9 @@ export const BEHAVIORS = Object.freeze({
   modal,
   drawer,
   'alert-dialog': alertDialog,
+  // Website-Bauteile aus dem Drupal-Theme (Entscheidung 06.10.2026): binden
+  // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
+  'mobile-drawer': mobileDrawer,
   breadcrumb,
   treeview,
   'navigation-menu': navigationMenu,
@@ -83,6 +87,15 @@ export const BEHAVIORS = Object.freeze({
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
 export const MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS))
+
+/**
+ * Recipe-IDs, die Drupal nur bindet, wenn `drupalSettings.neoBehaviors.nur`
+ * sie ausdruecklich nennt (Behavior mit `nurAusdruecklich: true`). Das sind
+ * die Website-Bauteile, deren Verhalten heute noch neo-theme.js liefert —
+ * ein Aufruf ohne `nur` soll es nicht doppelt binden (Entscheidung
+ * 06.10.2026). anbinden()/abbinden() ohne `nur` binden weiter alle.
+ */
+export const NUR_AUSDRUECKLICH = Object.freeze(Object.keys(BEHAVIORS).filter((id) => /** @type {any} */ (BEHAVIORS[id]).nurAusdruecklich === true))
 
 /**
  * Bindet alle (oder die genannten) Behaviors im Bereich. Mehrfaches Aufrufen

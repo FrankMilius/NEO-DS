@@ -11,7 +11,7 @@
 // der Konfigurator dieselbe Datei nutzen koennen.
 // ==========================================================================
 
-/** @typedef {{ id: string, selektor: string, binde: (wurzel: HTMLElement, signal: AbortSignal) => void }} Behavior */
+/** @typedef {{ id: string, selektor: string, binde: (wurzel: HTMLElement, signal: AbortSignal) => void, nurAusdruecklich?: boolean }} Behavior */
 
 const GEBUNDEN = new WeakMap() // Element → Map<behaviorId, AbortController>
 
