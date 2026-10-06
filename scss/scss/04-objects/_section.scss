@@ -40,6 +40,27 @@
   --nc-section-color: var(--fnd-color-on-accent);
 }
 
+// -- Divider (Entscheidung 06.10.2026, layout-section-modifier) --
+// Trennlinie oben, unten oder beidseitig als Rahmenkante der Section (kein
+// Pseudo-Element: bleibt ohne position-Kontext und ueberlagert nichts).
+// Farbe, Staerke und Stil aus --nc-section-divider-*; auf der Akzent-Flaeche
+// die gedaempfte On-Accent-Farbe (--nc-section-accent-color-secondary),
+// sonst verschwaende die Linie im Akzent.
+
+.section--divider-top,
+.section--divider-both {
+  border-block-start: var(--mod-section-divider-width, var(--nc-section-divider-width)) var(--mod-section-divider-style, var(--nc-section-divider-style)) var(--mod-section-divider-color, var(--nc-section-divider-color));
+}
+
+.section--divider-bottom,
+.section--divider-both {
+  border-block-end: var(--mod-section-divider-width, var(--nc-section-divider-width)) var(--mod-section-divider-style, var(--nc-section-divider-style)) var(--mod-section-divider-color, var(--nc-section-divider-color));
+}
+
+.section--accent:is(.section--divider-top, .section--divider-bottom, .section--divider-both) {
+  --nc-section-divider-color: var(--nc-section-accent-color-secondary);
+}
+
 // ---------------------------------------------------------------------------
 // Neocosmo Container
 // ---------------------------------------------------------------------------

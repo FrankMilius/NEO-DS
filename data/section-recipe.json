@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "section",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -14,6 +14,15 @@
     "links": {
       "docs": "/docs/layout-architecture-docs.html"
     },
+    "changelog": [
+      {
+        "version": "3.0.0",
+        "changes": [
+          "Divider gebaut (Entscheidung 06.10.2026, layout-section-modifier): section--divider-top/-bottom/-both als Rahmenkante aus --nc-section-divider-color/-width/-style; auf section--accent mit --nc-section-accent-color-secondary. Trennfarbe auf base, elevated und muted einheitlich border-primary (vorher im Recipe border-secondary fuer elevated/muted und das nicht vorhandene fnd-color-border-on-accent). Neue Klassen, bestehende Regeln unveraendert.",
+          "Achse edge (section--edge-slanted, section--edge-curved), Token-Gruppe edge und Specimen edge-variants gestrichen (Entscheidung 06.10.2026) — nie gebaut. Breaking fuer Recipe-Leser, die die Achse erwarten. Die Tokens --nc-section-edge-* bleiben vorerst in _component-tokens.scss (ohne Verwendung)."
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [],
@@ -49,8 +58,7 @@
       "Nesting: .section > .nc-container > .o-grid > .o-col-* > Content",
       "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
       "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
-      "Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.",
-      "Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.",
+      "Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.",
       "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
     ]
   },
@@ -158,35 +166,6 @@
           "description": "Trennlinien oben und unten."
         }
       }
-    },
-    "edge": {
-      "label": "Edge Shape",
-      "description": "Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.",
-      "values": {
-        "straight": {
-          "modifier": null,
-          "tokenGroups": [
-            "geometry"
-          ],
-          "description": "Gerade Kante (Standard)."
-        },
-        "slanted": {
-          "modifier": "section--edge-slanted",
-          "tokenGroups": [
-            "geometry",
-            "edge"
-          ],
-          "description": "Diagonaler Schnitt: 2–4° Neigung via clip-path polygon()."
-        },
-        "curved": {
-          "modifier": "section--edge-curved",
-          "tokenGroups": [
-            "geometry",
-            "edge"
-          ],
-          "description": "Wellenfoermige Kante via SVG-Mask oder clip-path ellipse."
-        }
-      }
     }
   },
   "dependencies": {
@@ -225,8 +204,8 @@
             "role": "Primaere Textfarbe"
           },
           {
-            "token": "fnd-color-border-secondary",
-            "role": "Divider-Farbe (subtil)"
+            "token": "fnd-color-border-primary",
+            "role": "Divider-Farbe"
           }
         ]
       },
@@ -242,7 +221,7 @@
             "role": "Primaere Textfarbe"
           },
           {
-            "token": "fnd-color-border-secondary",
+            "token": "fnd-color-border-primary",
             "role": "Divider-Farbe"
           }
         ]
@@ -263,7 +242,7 @@
             "role": "Sekundaere Textfarbe (on-accent)"
           },
           {
-            "token": "fnd-color-border-on-accent",
+            "token": "nc-section-accent-color-secondary",
             "role": "Divider-Farbe auf Akzent"
           }
         ]
@@ -288,7 +267,6 @@
         "Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).",
         "Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.",
         "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund.",
-        "Edge-Shapes duerfen keine Inhalte verdecken — clip-path muss den Padding-Bereich respektieren.",
         "Divider-Linien haben ausreichenden Kontrast (mindestens 3:1) gegen den jeweiligen Hintergrund."
       ]
     },
@@ -332,14 +310,6 @@
           "nc-section-divider-color",
           "nc-section-divider-width",
           "nc-section-divider-style"
-        ]
-      },
-      "edge": {
-        "label": "Edge Shape",
-        "tokens": [
-          "nc-section-edge-height",
-          "nc-section-edge-angle",
-          "nc-section-edge-fill"
         ]
       }
     }
@@ -392,20 +362,6 @@
       "matrix": {
         "axes": {
           "divider": "*"
-        },
-        "states": [
-          "default"
-        ]
-      },
-      "layout": "row"
-    },
-    {
-      "id": "edge-variants",
-      "label": "Edge Shapes",
-      "description": "Kantenformen: straight, slanted, curved.",
-      "matrix": {
-        "axes": {
-          "edge": "*"
         },
         "states": [
           "default"

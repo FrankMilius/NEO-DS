@@ -174,7 +174,8 @@ describe('Layout-Block aus dem Recipe', () => {
         expect(bekannt.has(k) || k in NICHT_GEBAUT, `${id}: Modifier ${k} weder in styles.css noch in NICHT_GEBAUT`).toBe(true)
       }
     }
-    expect(new Set(Object.values(NICHT_GEBAUT))).toEqual(new Set(['layout-section-modifier']))
+    // Entscheidung 06.10.2026: alles gebaut oder gestrichen
+    expect(NICHT_GEBAUT).toEqual({})
   })
 
   it('nicht gebaut: genau die Zellen mit fehlendem Modifier zeigen den Hinweis, mit Namen der Klasse', () => {
@@ -296,6 +297,22 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(alle('section', 'surface-variants').map((d) => d.querySelector('section').className))
       .toEqual(['section', 'section section--elevated', 'section section--muted', 'section section--accent'])
     expect(alle('section', 'density-x-surface')).toHaveLength(12)
+  })
+
+  it('section: Divider (Entscheidung 06.10.2026) als echte Modifier, Kantenformen gestrichen', () => {
+    const divider = alle('section', 'divider-variants')
+    expect(divider.map((d) => d.querySelector('.ra-seite > section').className)).toEqual([
+      'section', 'section section--divider-top', 'section section--divider-bottom', 'section section--divider-both'
+    ])
+    for (const d of alle('section', 'surface-x-divider')) expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
+    expect(alle('section', 'surface-x-divider')).toHaveLength(8)
+    const r = rohesRecipe('section')
+    expect(r.meta.version).toBe('3.0.0')
+    expect(r.axes.edge).toBeUndefined()
+    expect(r.styling.tokenGroups.edge).toBeUndefined()
+    expect(r.specimens.map((s) => s.id)).not.toContain('edge-variants')
+    const k = dsKlassen()
+    for (const m of ['top', 'bottom', 'both']) expect(k.has(`section--divider-${m}`), m).toBe(true)
   })
 
   it('hero: mit Medium im __grid (Bild, buendig, Attrappe), Inhalt immer zuerst, Desktop-Rahmen', () => {

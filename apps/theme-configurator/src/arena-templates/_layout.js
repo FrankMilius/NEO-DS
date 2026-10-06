@@ -4,22 +4,19 @@
 import { esc } from '../lib/recipe-arena.js'
 
 /**
- * Modifier, die das Recipe beschreibt, die es in styles.css aber nicht gibt
- * (Stand 06.10.2026). Bauen oder aus dem Recipe streichen ist eine
- * Entscheidung — bis dahin zeigt die Arena die Zelle als „nicht gebaut",
+ * Modifier, die das Recipe beschreibt, die es in styles.css aber nicht gibt.
+ * Bauen oder aus dem Recipe streichen ist eine Entscheidung — bis dahin
+ * zeigt die Arena die Zelle als „nicht gebaut",
  * statt eine Klasse zu setzen, die nichts gestaltet. Der Test
  * (tests/arena/layout-block.test.js) prueft beide Richtungen: jede Klasse
  * hier fehlt in styles.css, und jeder fehlende Modifier der sechs Recipes
  * steht hier. Wird einer gebaut, faellt der Test auf und der Eintrag geht.
+ *
+ * Leer seit der Entscheidung vom 06.10.2026: container (vspace, align,
+ * surface), grid (flow-col, dense, mobile-1/2/6) und section (divider-*)
+ * sind gebaut; subgrid und edge-* sind aus den Recipes gestrichen.
  */
-export const NICHT_GEBAUT = {
-  // Entscheidungsfall layout-section-modifier
-  'section--divider-top': 'layout-section-modifier',
-  'section--divider-bottom': 'layout-section-modifier',
-  'section--divider-both': 'layout-section-modifier',
-  'section--edge-slanted': 'layout-section-modifier',
-  'section--edge-curved': 'layout-section-modifier'
-}
+export const NICHT_GEBAUT = {}
 
 /** Klassen des Modells, die nicht gebaut sind (leer = alles gebaut). */
 export const fehlendeKlassen = (m) => m.klassen.filter((k) => k in NICHT_GEBAUT)

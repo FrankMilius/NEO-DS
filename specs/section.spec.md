@@ -1,5 +1,5 @@
 # section Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 3.0.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `section`, `orchestrator`
 
@@ -16,8 +16,7 @@ Root element: `.section`
 - Nesting: .section > .nc-container > .o-grid > .o-col-* > Content
 - Section referenziert Container, Grid und Spacing — nicht umgekehrt.
 - Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.
-- Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.
-- Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.
+- Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.
 - Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.
 
 ## Variants
@@ -49,15 +48,6 @@ Horizontale Trennlinien am oberen und/oder unteren Rand der Section. Besonders n
 | top | `.section--divider-top` |  |
 | bottom | `.section--divider-bottom` |  |
 | both | `.section--divider-both` |  |
-
-### Edge Shape (`edge`)
-Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.
-
-| Value | CSS Modifier | Default |
-| --- | --- | --- |
-| straight | — |  |
-| slanted | `.section--edge-slanted` |  |
-| curved | `.section--edge-curved` |  |
 
 ## States
 Supported: `default`
@@ -92,20 +82,12 @@ Base classes: `section`
 | `--nc-section-divider-width` | — | `--mod-section-divider-width` |
 | `--nc-section-divider-style` | — | `--mod-section-divider-style` |
 
-### Edge Shape
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-section-edge-height` | — | `--mod-section-edge-height` |
-| `--nc-section-edge-angle` | — | `--mod-section-edge-angle` |
-| `--nc-section-edge-fill` | — | `--mod-section-edge-fill` |
-
 ## Accessibility
 Contrast Target: AA
 
 - Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).
 - Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.
 - Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund.
-- Edge-Shapes duerfen keine Inhalte verdecken — clip-path muss den Padding-Bereich respektieren.
 - Divider-Linien haben ausreichenden Kontrast (mindestens 3:1) gegen den jeweiligen Hintergrund.
 
 ## Dependencies
@@ -116,7 +98,7 @@ Derived from anatomy for potential `<nc-section>` custom element:
 
 ```js
 class NcSection extends HTMLElement {
-  static observedAttributes = ['density', 'surface', 'divider', 'edge'];
+  static observedAttributes = ['density', 'surface', 'divider'];
   // Slots: <slot name="container">, <slot name="content">
 }
 ```

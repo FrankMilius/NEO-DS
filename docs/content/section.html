@@ -261,17 +261,6 @@
     </tbody>
     </table>
   </div>
-  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Edge Shape</h3>
-  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-    <table class="nc-data-table__table">
-    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-    <tbody>
-      <tr><td><code class="docs__token">--nc-section-edge-height</code></td><td>48px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-section-edge-angle</code></td><td>3deg</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-section-edge-fill</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
-    </tbody>
-    </table>
-  </div>
 </section>
 <!-- AUTO:STYLE:END -->
 
@@ -345,17 +334,6 @@
     </tbody>
     </table>
   </div>
-  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Edge Shape-Modifier</h3>
-  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
-    <table class="nc-data-table__table">
-    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
-    <tbody>
-      <tr><td><em>(kein Modifier)</em></td><td>straight</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
-      <tr><td><code class="docs__token">.section--edge-slanted</code></td><td>slanted</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
-      <tr><td><code class="docs__token">.section--edge-curved</code></td><td>curved</td><td>Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.</td></tr>
-    </tbody>
-    </table>
-  </div>
 </section>
 <section class="docs__section" id="api-tokens">
   <h2 class="docs__section-title">CSS Custom Properties</h2>
@@ -381,10 +359,6 @@
       <tr><td><code class="docs__token">--nc-section-divider-color</code></td><td>var(--fnd-color-border-primary)</td><td>var(--fnd-color-border-primary)</td></tr>
       <tr><td><code class="docs__token">--nc-section-divider-width</code></td><td>1px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-section-divider-style</code></td><td>solid</td><td>&mdash;</td></tr>
-      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Edge Shape</td></tr>
-      <tr><td><code class="docs__token">--nc-section-edge-height</code></td><td>48px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-section-edge-angle</code></td><td>3deg</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-section-edge-fill</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
     </tbody>
     </table>
   </div>
@@ -396,8 +370,7 @@
     <li>Nesting: .section &gt; .nc-container &gt; .o-grid &gt; .o-col-* &gt; Content</li>
     <li>Section referenziert Container, Grid und Spacing — nicht umgekehrt.</li>
     <li>Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.</li>
-    <li>Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.</li>
-    <li>Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.</li>
+    <li>Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.</li>
     <li>Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.</li>
   </ul>
 </section>

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "section",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -31,8 +31,7 @@
       "Nesting: .section > .nc-container > .o-grid > .o-col-* > Content",
       "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
       "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
-      "Divider-Linien werden via ::before/::after Pseudo-Elemente realisiert.",
-      "Edge-Shapes (slanted, curved) nutzen clip-path oder SVG-Masks am unteren/oberen Rand.",
+      "Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.",
       "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
     ]
   },
@@ -121,30 +120,6 @@
           "label": "both"
         }
       ]
-    },
-    "edge": {
-      "label": "Edge Shape",
-      "description": "Dekorative Kantenform am unteren Rand der Section. Erzeugt visuelle Uebergaenge zwischen Sections via clip-path oder SVG-Mask.",
-      "values": [
-        {
-          "value": "straight",
-          "cssModifier": null,
-          "default": false,
-          "label": "straight"
-        },
-        {
-          "value": "slanted",
-          "cssModifier": "section--edge-slanted",
-          "default": false,
-          "label": "slanted"
-        },
-        {
-          "value": "curved",
-          "cssModifier": "section--edge-curved",
-          "default": false,
-          "label": "curved"
-        }
-      ]
     }
   },
   "states": {
@@ -199,17 +174,6 @@
         {
           "token": "--nc-section-divider-style"
         }
-      ],
-      "Edge Shape": [
-        {
-          "token": "--nc-section-edge-height"
-        },
-        {
-          "token": "--nc-section-edge-angle"
-        },
-        {
-          "token": "--nc-section-edge-fill"
-        }
       ]
     },
     "modTokens": [
@@ -223,10 +187,7 @@
       "--mod-section-accent-color-secondary",
       "--mod-section-divider-color",
       "--mod-section-divider-width",
-      "--mod-section-divider-style",
-      "--mod-section-edge-height",
-      "--mod-section-edge-angle",
-      "--mod-section-edge-fill"
+      "--mod-section-divider-style"
     ]
   },
   "keyboard": null,
@@ -241,7 +202,6 @@
       "Section dient als visueller Trennbereich — kein semantisches Landmark (ausser wenn <section> mit aria-labelledby).",
       "Farbkontrast zwischen Section-Hintergrund und Text muss WCAG AA erfuellen.",
       "Accent-Variante: On-Accent-Farbe hat mindestens 4.5:1 Kontrast gegen Akzent-Hintergrund.",
-      "Edge-Shapes duerfen keine Inhalte verdecken — clip-path muss den Padding-Bereich respektieren.",
       "Divider-Linien haben ausreichenden Kontrast (mindestens 3:1) gegen den jeweiligen Hintergrund."
     ],
     "overrides": []
