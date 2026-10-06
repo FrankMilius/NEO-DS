@@ -45,7 +45,7 @@ Root element: `.nc-data-table`
 - Stacked Layout: Card-View via data-label auf <td>, sobald der Tabellen-Wrapper schmaler als 600px ist (Container Query data-table, Schwelle container_query.data_table.stack) — nicht die Fensterbreite.
 - Card Variante: erhobene Tabelle mit elevation-raised Shadow.
 - Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.
-- Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.
+- Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen. Die Leiste setzt fuer Ghost-, Secondary- und Outline-Knoepfe die Override-Stufe (--mod-button-*): Schrift/Rahmen in --nc-dt-batch-color, Hover/Active als Schleier daraus (Kontrast >= 4,5:1 hell und dunkel, Entscheidung 06.10.2026).
 - Skeleton Varianten: avatar (rund), numeric (schmal), text (75%).
 - Content Wrapping: --wrap Modifier fuer mehrzeiligen Zelleninhalt.
 

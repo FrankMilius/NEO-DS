@@ -411,6 +411,20 @@ describe('Datentabelle: Stapel-Layout per Container Query (Entscheidung 06.10.20
   })
 })
 
+describe('Datentabelle: Batch-Leiste setzt Knopffarben (Entscheidung 06.10.2026)', () => {
+  it('styles.css: Override-Stufe --mod-button-* fuer ghost/secondary/outline aus --nc-dt-batch-color', () => {
+    const css = readFileSync(STYLES, 'utf8')
+    const regel = css.match(/\.nc-data-table__batch-bar\{([^}]*)\}/)
+    expect(regel).not.toBeNull()
+    for (const v of ['ghost', 'secondary', 'outline']) {
+      expect(regel[1]).toContain(`--mod-button-${v}-color: var(--_dt-batch-knopf)`)
+      expect(regel[1]).toContain(`--mod-button-${v}-bg-hover: var(--_dt-batch-knopf-hover)`)
+      expect(regel[1]).toContain(`--mod-button-${v}-bg-active: var(--_dt-batch-knopf-active)`)
+    }
+    expect(regel[1]).toMatch(/--_dt-batch-knopf: ?var\(--mod-dt-batch-color, ?var\(--nc-dt-batch-color\)\)/)
+  })
+})
+
 describe('Inhalte-Block: Ausprobieren', () => {
   it('accordion: lebendige Instanz startet zu, ohne festen Zustand (kein open, aria-disabled, data-zustand)', () => {
     const recipe = normalisiereRecipe(rohesRecipe('accordion'))

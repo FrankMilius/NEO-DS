@@ -21,7 +21,8 @@
         "version": "2.2.0",
         "changes": [
           "06.10.2026: Token --nc-dt-cell-line-clamp gestrichen (Entscheidung 06.10.2026, dt-zeilen): der Wrap-Modus bricht um, begrenzt aber keine Zeilen; Token-Gruppe content entfernt (war nur dieses Token).",
-          "06.10.2026: Stapel-Layout per Container Query (Entscheidung 06.10.2026, dt-stapel): nc-data-table--stacked ist Container data-table und stapelt unter 600px Wrapper-Breite (neue Layout-Schwelle container_query.data_table.stack) statt unter dem md-Breakpoint des Fensters; Arena zeigt es in einer schmalen Zelle (ra-schmal)."
+          "06.10.2026: Stapel-Layout per Container Query (Entscheidung 06.10.2026, dt-stapel): nc-data-table--stacked ist Container data-table und stapelt unter 600px Wrapper-Breite (neue Layout-Schwelle container_query.data_table.stack) statt unter dem md-Breakpoint des Fensters; Arena zeigt es in einer schmalen Zelle (ra-schmal).",
+          "06.10.2026: Batch-Leiste setzt Knopffarben (Entscheidung 06.10.2026, dt-batch): --mod-button-ghost-/secondary-/outline-* aus --nc-dt-batch-color, Hover 12 %, Active 20 % Schleier. Gemessen (Schrift auf Knopf ueber Leiste): hell 9,24–17,17:1, dunkel 11,23–17,17:1; vorher Ghost 1,0:1 (hell) bzw. 1,07:1 (dunkel)."
         ]
       },
       {
@@ -190,7 +191,7 @@
       "Stacked Layout: Card-View via data-label auf <td>, sobald der Tabellen-Wrapper schmaler als 600px ist (Container Query data-table, Schwelle container_query.data_table.stack) — nicht die Fensterbreite.",
       "Card Variante: erhobene Tabelle mit elevation-raised Shadow.",
       "Glass Variante: transparente Zeilen mit backdrop-filter fuer Dashboards.",
-      "Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen.",
+      "Batch-Bar v2: Zaehler (aria-live) + Clear-All Button + Aktionen. Die Leiste setzt fuer Ghost-, Secondary- und Outline-Knoepfe die Override-Stufe (--mod-button-*): Schrift/Rahmen in --nc-dt-batch-color, Hover/Active als Schleier daraus (Kontrast >= 4,5:1 hell und dunkel, Entscheidung 06.10.2026).",
       "Skeleton Varianten: avatar (rund), numeric (schmal), text (75%).",
       "Content Wrapping: --wrap Modifier fuer mehrzeiligen Zelleninhalt."
     ]

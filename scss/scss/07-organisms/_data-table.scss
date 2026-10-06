@@ -754,6 +754,33 @@
     @include dt-batch-bar;
     box-shadow: var(--mod-dt-batch-shadow, var(--nc-dt-batch-shadow));
 
+    // Knoepfe in der Leiste (Entscheidung 06.10.2026, dt-batch): Die Leiste
+    // liegt auf der inversen Flaeche (--nc-dt-batch-bg) — Ghost, Secondary
+    // und Outline zeichnen ihre Schrift sonst in der Farbe der normalen
+    // Flaeche (text-primary bzw. interactive-default) und verschwinden.
+    // Die Leiste setzt deshalb die Override-Stufe der Buttons (--mod-button-*):
+    // Schrift und Rahmen in der Leistenfarbe, Hover/Active als Schleier aus
+    // ihr (wie __batch-cancel). Gemessen >= 4,5:1 hell und dunkel (auch im
+    // Hover/Active). Gefuellte Varianten (primary, error …) bleiben, wie sie
+    // sind: sie bringen ihre eigene Flaeche mit.
+    --_dt-batch-knopf: var(--mod-dt-batch-color, var(--nc-dt-batch-color));
+    --_dt-batch-knopf-hover: color-mix(in srgb, var(--_dt-batch-knopf) 12%, transparent);
+    --_dt-batch-knopf-active: color-mix(in srgb, var(--_dt-batch-knopf) 20%, transparent);
+
+    --mod-button-ghost-color: var(--_dt-batch-knopf);
+    --mod-button-ghost-bg-hover: var(--_dt-batch-knopf-hover);
+    --mod-button-ghost-bg-active: var(--_dt-batch-knopf-active);
+
+    --mod-button-secondary-color: var(--_dt-batch-knopf);
+    --mod-button-secondary-border: var(--_dt-batch-knopf);
+    --mod-button-secondary-bg-hover: var(--_dt-batch-knopf-hover);
+    --mod-button-secondary-bg-active: var(--_dt-batch-knopf-active);
+
+    --mod-button-outline-color: var(--_dt-batch-knopf);
+    --mod-button-outline-border: color-mix(in srgb, var(--_dt-batch-knopf) 60%, transparent);
+    --mod-button-outline-bg-hover: var(--_dt-batch-knopf-hover);
+    --mod-button-outline-bg-active: var(--_dt-batch-knopf-active);
+
     &[hidden] {
       display: none;
     }
