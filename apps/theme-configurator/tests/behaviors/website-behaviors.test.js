@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer', 'table-info-modal']) {
+    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }
@@ -209,5 +209,133 @@ describe('Tabellen-Info-Modal (table-info-modal-recipe.json)', () => {
     expect(dialog.querySelector('.nc-table-info-modal__body').textContent).toBe('Text')
     klick(dialog.querySelector('.nc-table-info-modal__backdrop'))
     expect(zu[0].detail.reason).toBe('overlay-click')
+  })
+})
+
+describe('Multiselect (multiselect-recipe.json)', () => {
+  const bau = (specimen = 'default') => {
+    const b = buehne(lebendigesMarkup('multiselect', specimen))
+    anbinden(b, ['multiselect'])
+    const feld = /** @type {HTMLElement} */ (b.querySelector('.nc-multiselect'))
+    return {
+      b,
+      feld,
+      knopf: /** @type {HTMLButtonElement} */ (feld.querySelector('.nc-multiselect__trigger')),
+      panel: /** @type {HTMLElement} */ (feld.querySelector('.nc-multiselect__panel')),
+      boxen: /** @type {HTMLInputElement[]} */ ([...feld.querySelectorAll('input[type="checkbox"]')]),
+      wert: () => /** @type {HTMLElement} */ (feld.querySelector('.nc-multiselect__value'))
+    }
+  }
+  const waehle = (box) => { box.checked = !box.checked; box.dispatchEvent(new Event('change', { bubbles: true })) }
+
+  it('geschlossen: Panel [hidden], aria-expanded=false, aria-controls aufs Panel', () => {
+    const { feld, knopf, panel } = bau()
+    expect(panel.hidden).toBe(true)
+    // DS-SCSS ohne .nc-multiselect__panel[hidden]: display: flex gewaenne —
+    // das Behavior blendet inline aus
+    expect(panel.style.display).toBe('none')
+    expect(knopf.getAttribute('aria-expanded')).toBe('false')
+    expect(knopf.getAttribute('aria-controls')).toBe(panel.id)
+    expect(feld.classList.contains('is-open')).toBe(false)
+  })
+
+  it('Klick schaltet: .is-open, aria-expanded, Panel sichtbar; zweiter Klick schliesst', () => {
+    const { feld, knopf, panel } = bau()
+    klick(knopf)
+    expect(panel.hidden).toBe(false)
+    expect(panel.style.display).toBe('')
+    expect(feld.classList.contains('is-open')).toBe(true)
+    expect(knopf.getAttribute('aria-expanded')).toBe('true')
+    klick(knopf)
+    expect(panel.hidden).toBe(true)
+    expect(panel.style.display).toBe('none')
+    expect(feld.classList.contains('is-open')).toBe(false)
+  })
+
+  it('Zusammenfassung wie die Website: zwei Namen, dann „<n> ausgewählt“, leer der Platzhalter; Ereignis mit values', () => {
+    const { feld, knopf, boxen, wert } = bau('leer')
+    expect(wert().textContent).toBe('Bitte wählen')
+    const ereignisse = sammle(feld, 'multiselect-change')
+    klick(knopf)
+    waehle(boxen[1])
+    expect(wert().textContent).toBe('Wissensmanagement')
+    expect(wert().classList.contains('nc-multiselect__value--empty')).toBe(false)
+    waehle(boxen[3])
+    expect(wert().textContent).toBe('Wissensmanagement, Intranet-KI')
+    waehle(boxen[0])
+    expect(wert().textContent).toBe('3 ausgewählt')
+    expect(ereignisse.at(-1).detail.values).toEqual(['0', '1', '3'])
+    passtZumRecipe('multiselect', ereignisse.at(-1))
+    for (const b of [boxen[0], boxen[1], boxen[3]]) waehle(b)
+    expect(wert().textContent).toBe('Bitte wählen')
+    expect(wert().classList.contains('nc-multiselect__value--empty')).toBe(true)
+    expect(ereignisse.at(-1).detail.values).toEqual([])
+  })
+
+  it('Klick ausserhalb und Fokus aus dem Feld schliessen', () => {
+    const { knopf, panel, boxen } = bau()
+    const draussen = document.createElement('button')
+    document.body.append(draussen)
+    klick(knopf)
+    klick(draussen)
+    expect(panel.hidden).toBe(true)
+    klick(knopf)
+    boxen.at(-1).focus()
+    boxen.at(-1).dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: draussen }))
+    expect(panel.hidden).toBe(true)
+  })
+
+  it('Tasten aus dem Recipe', () => {
+    const { knopf, panel, boxen, feld } = bau()
+    const pruefungen = {
+      Enter: () => {
+        taste(knopf, 'Enter')
+        expect(panel.hidden).toBe(false)
+        expect(document.activeElement).toBe(boxen[0])
+      },
+      ArrowDown: () => {
+        taste(boxen[0], 'ArrowDown'); expect(document.activeElement).toBe(boxen[1])
+        taste(boxen.at(-1), 'ArrowDown'); expect(document.activeElement).toBe(boxen[0])
+      },
+      ArrowUp: () => { taste(boxen[0], 'ArrowUp'); expect(document.activeElement).toBe(boxen.at(-1)) },
+      Home: () => { taste(boxen[2], 'Home'); expect(document.activeElement).toBe(boxen[0]) },
+      End: () => { taste(boxen[0], 'End'); expect(document.activeElement).toBe(boxen.at(-1)) },
+      Escape: () => {
+        taste(boxen[1], 'Escape')
+        expect(panel.hidden).toBe(true)
+        expect(document.activeElement).toBe(knopf)
+      },
+      Space: () => {
+        const e = taste(knopf, 'Space')
+        expect(e.defaultPrevented).toBe(true)
+        expect(panel.hidden).toBe(false)
+        expect(document.activeElement).toBe(boxen[0])
+      },
+      Tab: () => {
+        const weiter = document.createElement('button')
+        feld.after(weiter)
+        boxen.at(-1).dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: weiter }))
+        expect(panel.hidden).toBe(true)
+      }
+    }
+    deckeTastenAb('multiselect', pruefungen)
+    for (const p of ['Enter', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'Escape', 'Space', 'Tab']) pruefungen[p]()
+    // Pfeil runter auf dem geschlossenen Knopf oeffnet ebenfalls
+    taste(knopf, 'ArrowDown')
+    expect(panel.hidden).toBe(false)
+    expect(document.activeElement).toBe(boxen[0])
+  })
+
+  it('Abbinden: aria-controls, Panel-id und Inline-display wie vorher', () => {
+    const b = buehne(`<div class="nc-form-field nc-multiselect"><button type="button" class="nc-multiselect__trigger" aria-expanded="false"><span class="nc-multiselect__value nc-multiselect__value--empty">Bitte wählen…</span></button><div class="nc-multiselect__panel" role="group" hidden><label class="nc-checkbox nc-multiselect__option"><input type="checkbox" class="nc-checkbox__input" value="a"><span class="nc-checkbox__label">A</span></label></div></div>`)
+    anbinden(b, ['multiselect'])
+    const knopf = b.querySelector('.nc-multiselect__trigger')
+    const panel = b.querySelector('.nc-multiselect__panel')
+    expect(knopf.getAttribute('aria-controls')).toBe(panel.id)
+    expect(panel.style.display).toBe('none')
+    abbinden(b, ['multiselect'])
+    expect(knopf.hasAttribute('aria-controls')).toBe(false)
+    expect(panel.hasAttribute('id')).toBe(false)
+    expect(panel.style.display).toBe('')
   })
 })

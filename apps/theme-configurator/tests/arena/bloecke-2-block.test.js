@@ -17,8 +17,9 @@
  *   - animierte Website-Bloecke (question, tab-nav): Standbild in jeder
  *     Zelle, Animation nur mit der Taste „Abspielen" der Arena (export
  *     abspielen, gemeinsamer Mechanismus), kein „Ausprobieren"
- *   - Formular-Bauteile ohne Verhalten (multiselect, searchbar): kein
- *     „Ausprobieren" (neues Behavior = Entscheidungsfall)
+ *   - searchbar ohne Verhalten: kein „Ausprobieren"; multiselect hat seit
+ *     06.10.2026 ein Behavior (neo-behaviors, Tests in
+ *     tests/behaviors/website-behaviors.test.js)
  */
 import { describe, it, expect } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
@@ -256,11 +257,17 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
     })
   })
 
-  it('Formular-Bauteile ohne Verhalten: multiselect und searchbar ohne „Ausprobieren"', () => {
-    for (const id of ['multiselect', 'searchbar']) {
-      expect(MIT_VERHALTEN).not.toContain(id)
-      expect(ausprobierenFuer(id)).toBeNull()
-    }
+  it('searchbar ohne Verhalten und ohne „Ausprobieren"; multiselect mit Behavior (Entscheidung 06.10.2026)', () => {
+    expect(MIT_VERHALTEN).not.toContain('searchbar')
+    expect(ausprobierenFuer('searchbar')).toBeNull()
+    expect(MIT_VERHALTEN).toContain('multiselect')
+    // Ausprobieren: Panel im Markup, geschlossen [hidden], Knopf zeigt per aria-controls darauf
+    const z = zellen('multiselect', { ausprobieren: true })
+    const d = dom(z[0].html)
+    const panel = d.querySelector('.nc-multiselect__panel[hidden]')
+    expect(panel).not.toBeNull()
+    expect(d.querySelector('.nc-multiselect').classList.contains('is-open')).toBe(false)
+    expect(d.querySelector('.nc-multiselect__trigger').getAttribute('aria-controls')).toBe(panel.id)
   })
 
   it('multiselect: offen mit Panel, Fehler mit nc-form-field--invalid und Meldung', () => {

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "multiselect",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -51,9 +51,9 @@
     "notes": [
       "Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Knopf).",
       "Optionen sind Checkboxen: label.nc-checkbox.nc-multiselect__option mit .nc-checkbox__input/__control/__label.",
-      "Geoeffnet: .is-open am Feld dreht den Pfeil (.nc-multiselect__caret), das Panel ist nur dann im DOM bzw. sichtbar (neo-theme.js).",
+      "Geoeffnet: .is-open am Feld dreht den Pfeil (.nc-multiselect__caret); das Panel steht im Markup und ist geschlossen [hidden]. Achtung: display: flex des Panels gewinnt gegen [hidden] — das Behavior setzt geschlossen zusaetzlich display: none inline. Knopf mit aria-controls auf das Panel (setzt das Behavior, falls es fehlt).",
       "Ohne Auswahl: .nc-multiselect__value--empty mit Platzhaltertext. Fehler: .nc-form-field--invalid faerbt den Rahmen des Knopfs.",
-      "Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'); ein Verhalten in neo-behaviors gibt es nicht."
+      "Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'). Verhalten: Behavior multiselect (neo-behaviors) — Oeffnen/Schliessen, Pfeiltasten, Escape, Klick ausserhalb, Zusammenfassung im Knopf (bis zwei Namen, sonst „<n> ausgewählt“, leer: Platzhalter aus data-placeholder bzw. dem Anfangstext), Ereignis multiselect-change. Pflichtfeld-Pruefung bleibt beim Formular."
     ]
   },
   "api": null,
@@ -121,9 +121,50 @@
       "--mod-multiselect-trigger-padding"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "open",
+      "note": "Auf dem geschlossenen Knopf: oeffnet das Panel, Fokus auf die erste Checkbox (wie die Website). Offen: schaltet per Klick zu."
+    },
+    "Space": {
+      "action": "open-or-toggle-option",
+      "note": "Auf dem geschlossenen Knopf: wie Enter. Auf einer Checkbox: waehlt bzw. waehlt ab (nativ), Zusammenfassung und multiselect-change folgen."
+    },
+    "ArrowDown": {
+      "action": "open-or-next",
+      "note": "Auf dem geschlossenen Knopf: oeffnet, Fokus auf die erste Checkbox. In der Liste: naechste Checkbox (rundum)."
+    },
+    "ArrowUp": {
+      "action": "previous",
+      "note": "In der Liste: vorherige Checkbox (rundum)."
+    },
+    "Home": {
+      "action": "first",
+      "note": "In der Liste: erste Checkbox."
+    },
+    "End": {
+      "action": "last",
+      "note": "In der Liste: letzte Checkbox."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst das Panel; aus der Liste Fokus zurueck auf den Knopf."
+    },
+    "Tab": {
+      "action": "close-on-leave",
+      "note": "Normaler Tab-Fluss durch Knopf und Checkboxen; verlaesst der Fokus das Feld, schliesst das Panel."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "multiselect-change": {
+      "bubbles": true,
+      "detail": {
+        "values": "string[]"
+      },
+      "note": "Gefeuert am Feld (.nc-multiselect) bei jeder Aenderung der Auswahl. values: value der gewaehlten Checkboxen in Dokumentreihenfolge."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": null,

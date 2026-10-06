@@ -15,6 +15,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `button` | nur Umschaltknöpfe (`.nc-button--toggle`, Entscheidung 06.10.2026): Klick, Enter, Leertaste (nativer Klick) schalten `aria-pressed`; gesperrte (`disabled`, `aria-disabled`) bleiben unverändert; alle anderen Buttons ohne JS | `button-toggle` { pressed, value } |
 | `rating` | Klick wählt (nativ), färbt bis zum Wert (`__item--active`), Sentiment-Stufe, `__value`; Pfeiltasten ±1 (bis 0), Pos1, Ende; Reset-Knopf; Hover-Vorschau macht das CSS | `rating-change` { value, previousValue } |
 | `input` | nur Löschknopf (`__clear`: leeren, `input` melden, Fokus zurück) und `data-empty`-Rückfall für Felder ohne placeholder — schwebendes Label ist reines CSS | `input-clear` { previousValue } |
+| `multiselect` | Website (Formularfeld des Drupal-Theme): Knopf schaltet das Panel (`[hidden]` + inline `display: none`, weil `display: flex` des Panels sonst gewinnt; `aria-expanded`, `aria-controls`, `.is-open`), Enter/Leertaste/Pfeil runter öffnen mit Fokus auf die erste Checkbox, Pfeiltasten/Pos1/Ende in der Liste, Leertaste wählt (nativ), Escape schließt + Fokus zurück, Klick außen und Fokus aus dem Feld schließen; Zusammenfassung im Knopf (bis zwei Namen, sonst „n ausgewählt“, leer: Platzhalter). In Drupal nur per `nur` | `multiselect-change` { values } |
 | `dropdown-menu` | Menu Button: Auslöser (Klick, Enter, Leertaste, Pfeil runter/hoch) öffnet, Pfeiltasten/Pos1/Ende im Menü, Escape/Tab/Klick außen schließen, Fokus zurück; Untermenü (Pfeil rechts/links, 300 ms Hover); menuitemradio/-checkbox | `dropdown-toggle` { open }, `dropdown-select` { value, checked } |
 | `popover` | Klick schaltet, Fokus ins Panel, Fokus-Falle, Escape/Schließen-Knopf, Klick außen (nicht bei Formularen); `--hover-trigger`: 300 ms öffnen, 200 ms schließen, Fokus öffnet; `.is-open` an der Wurzel folgt dem Panel | `popover-toggle` { open, reason } |
 | `tooltip` | Hover/Fokus macht das CSS; Escape blendet aus, bis Maus und Fokus weg sind (WCAG 1.4.13); ergänzt aria-describedby | `tooltip-dismiss` { reason } |
@@ -237,3 +238,13 @@ die alte Funktion entfernt (Freigabe).
   Klick, geschlossen `inert` (vorher per Tab erreichbar, obwohl unsichtbar),
   `role="dialog"`/`aria-modal`. Der Info-Text kommt als Text aus `data-info`
   (die Website setzte HTML per `innerHTML`).
+- **Multiselect** (multiselect-verhalten) — das Formularfeld aus `neoForm`
+  (case `'multiselect'`). Drupal rendert Label, Knopf und Panel fertig
+  (Panel `[hidden]`), das Behavior übernimmt Öffnen, Tastatur und
+  Zusammenfassung. Pflichtfeld-Prüfung bleibt beim Formular. Neu: Pfeiltasten
+  in der Liste, `aria-controls`, Schließen auch beim Verlassen per Tab aus
+  der Liste (vorher nur beim Verlassen des Knopfs). Die Suchleiste
+  (`searchbar`, „/“ öffnet) ist nicht umgesetzt: das Recipe kennt keine
+  Taste „/“ (die Website nutzt Strg/⌘+K; der Shortcut-Hinweis ist laut
+  Recipe nie sichtbar), und die Suche der Website liegt heute im Such-Band
+  von `navigation-tab-mega`.

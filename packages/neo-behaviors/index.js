@@ -46,6 +46,7 @@ import { button } from './button.js'
 import { shell } from './shell.js'
 import { mobileDrawer } from './mobile-drawer.js'
 import { tableInfoModal } from './table-info-modal.js'
+import { multiselect } from './multiselect.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -62,6 +63,8 @@ export const BEHAVIORS = Object.freeze({
   button,
   rating,
   input: eingabe,
+  // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
+  multiselect,
   'dropdown-menu': dropdownMenu,
   popover,
   tooltip,

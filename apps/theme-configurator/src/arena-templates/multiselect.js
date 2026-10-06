@@ -13,8 +13,12 @@
 //            nc-form-error unter dem Feld, aria-invalid am Knopf
 // render.compositionType „leer": keine Auswahl — Platzhalter
 // nc-multiselect__value--empty statt der Liste.
-// Ein Verhalten in neo-behaviors gibt es nicht (Oeffnen, Escape,
-// Zusammenfassung im Knopf macht neo-theme.js) — Entscheidung offen.
+// „Ausprobieren" (Entscheidung 06.10.2026, multiselect-verhalten): das
+// Panel steht immer im Markup, geschlossen mit [hidden] (wie die Website;
+// das Behavior blendet zusaetzlich inline aus, siehe neo-behaviors/multiselect.js);
+// das Behavior multiselect aus neo-behaviors oeffnet, bewegt den Fokus mit
+// den Pfeiltasten, fasst die Auswahl im Knopf zusammen und meldet
+// multiselect-change. Auf der Website bis zur Umstellung neo-theme.js.
 import { SYMBOL } from './_helfer.js'
 
 const OPTIONEN = ['Interne Kommunikation', 'Wissensmanagement', 'Mitarbeiter-App', 'Intranet-KI']
@@ -23,7 +27,7 @@ const GEWAEHLT = new Set([0, 2])
 export default (zelle, m) => {
   const id = m.uid
   const leer = m.specimen.render?.compositionType === 'leer'
-  const offen = m.hat('open')
+  const offen = m.hat('open') && !m.ausprobieren
   const fehler = m.hat('error')
   const gewaehlt = (i) => !leer && GEWAEHLT.has(i)
   const wert = leer
@@ -34,15 +38,15 @@ export default (zelle, m) => {
   const meldung = fehler
     ? `<p class="nc-form-error" role="alert" id="${id}-meldung"><span class="nc-form-error__icon">${SYMBOL.fehler}</span><span class="nc-form-error__text">Bitte mindestens ein Interesse wählen.</span></p>`
     : ''
-  const panel = offen
-    ? `<div class="nc-multiselect__panel" role="group" aria-labelledby="${id}-label">
+  const panel = offen || m.ausprobieren
+    ? `<div class="nc-multiselect__panel" id="${id}-panel" role="group" aria-labelledby="${id}-label"${offen ? '' : ' hidden'}>
 ${OPTIONEN.map((o, i) => `<label class="nc-checkbox nc-multiselect__option"><input type="checkbox" class="nc-checkbox__input" name="${id}[]" value="${i}"${gewaehlt(i) ? ' checked' : ''}><span class="nc-checkbox__control"></span><span class="nc-checkbox__label">${o}</span></label>`).join('\n')}
 </div>`
     : ''
   return `<div class="ra-anker${offen ? ' ra-anker--hoch' : ' ra-anker--flach'}"><div class="ra-feld">
 <div class="${klasse}">
 <span class="nc-form-label" id="${id}-label"><span class="nc-form-label__text">Interessen</span><span class="nc-form-label__optional"> (optional)</span></span>
-<button type="button" class="nc-multiselect__trigger" id="${id}-trigger" aria-haspopup="true" aria-expanded="${offen}" aria-labelledby="${id}-label ${id}-trigger"${fehler ? ` aria-invalid="true" aria-describedby="${id}-meldung"` : ''}${zustand}>${wert}<span class="nc-multiselect__caret" aria-hidden="true">▾</span></button>
+<button type="button" class="nc-multiselect__trigger" id="${id}-trigger" aria-haspopup="true" aria-expanded="${offen}"${offen || m.ausprobieren ? ` aria-controls="${id}-panel"` : ''} aria-labelledby="${id}-label ${id}-trigger"${fehler ? ` aria-invalid="true" aria-describedby="${id}-meldung"` : ''}${zustand}>${wert}<span class="nc-multiselect__caret" aria-hidden="true">▾</span></button>
 ${panel}${meldung}
 </div>
 </div></div>`
