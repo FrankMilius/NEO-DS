@@ -471,7 +471,11 @@ function generateRegistry() {
   // form-section, form-field, form-actions und validation-summary, keine
   // Komponente. Vorher layer 'unknown' — damit fiel es aus der Konfig-App-
   // Navigation, obwohl es eine Arena hat.
-  const PATTERNS = new Set(['form-layout']);
+  // Entscheidung 06.10.2026: FormLayoutArena gestrichen — form-layout hat
+  // damit weder Arena noch Recipe und faellt aus der Registry; die
+  // Komposition zeigt die RecipeArena von `form`. Die Liste bleibt fuer
+  // kuenftige Muster.
+  const PATTERNS = new Set([]);
 
   // --- Components (Layer 05-07) ---
   const sortedNames = [...allNames].sort();

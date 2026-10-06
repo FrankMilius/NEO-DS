@@ -12,7 +12,7 @@
  *     mit aria-selected/aria-disabled; Kennzahl: Trend als Text; Code-Snippet:
  *     Kopf, Zeilen, Hervorhebung, eingeklappt/aufgeklappt)
  *   - „Ausprobieren" nur, wo neo-behaviors Verhalten hat: code-snippet
- *   - form-layout bleibt Sonderfall (kein Recipe, Entscheidung offen)
+ *   - form-layout: Arena gestrichen (Entscheidung 06.10.2026), keine Sektion mehr
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
@@ -23,7 +23,8 @@ import { MIT_VERHALTEN } from 'neo-behaviors'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
-import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
+import { hasArena, arenaQuelle, arenaRecipe, getRegisteredArenas } from '../../src/composables/useArenaResolver.js'
+import { NAVIGATIONS_SEKTIONEN } from '../../src/navigation/sektions-ids.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const BLOCK = ['button', 'item', 'metric', 'code-snippet']
@@ -159,16 +160,24 @@ describe('Bausteine-Block aus dem Recipe', () => {
     })
   }
 
-  it('Kennzahl: alle vier ohne Sonderfall; Verhalten nur beim Code-Snippet; form-layout bleibt Sonderfall', () => {
+  it('Kennzahl: alle vier ohne Sonderfall; Verhalten nur beim Code-Snippet', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
     expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(['code-snippet'])
     for (const id of ['button', 'item', 'metric']) {
       expect(rohesRecipe(id).events?.['code-snippet-copy']).toBeUndefined()
     }
     for (const id of BLOCK) expect(rohesRecipe(id).meta.version, id).toBe('2.1.0')
-    // Muster ohne Recipe: die Vue-Arena bleibt, bis entschieden ist
-    expect(hasArena('form-layout')).toBe(true)
+  })
+
+  it('form-layout: Arena gestrichen, keine Sektion, form zeigt die RecipeArena (Entscheidung 06.10.2026)', () => {
+    expect(hasArena('form-layout')).toBe(false)
+    expect(getRegisteredArenas()).toEqual([])
+    expect(existsSync(resolve(WURZEL, 'apps/theme-configurator/src/components/laboratory/FormLayoutArena.vue'))).toBe(false)
     expect(RECIPE_IDS).not.toContain('form-layout')
+    expect(NAVIGATIONS_SEKTIONEN).not.toContain('component-form-layout')
+    expect(NAVIGATIONS_SEKTIONEN).toContain('component-form')
+    expect(arenaQuelle('form')).toBe('recipe')
+    expect(arenaRecipe('form')).toBe('form')
   })
 })
 

@@ -44,8 +44,15 @@
 // Specimens der Recipes (Toggle mit nc-button--toggle, Loading mit
 // nc-button--loading, Item-Zustaende als Optionen einer Listbox, Kennzahlen
 // im nc-metric-grid); „Ausprobieren" nur beim Code-Snippet (Kopieren,
-// Mehr/Weniger aus neo-behaviors). form-layout bleibt Sonderfall: es hat
-// kein Recipe (Muster, Entscheidung offen).
+// Mehr/Weniger aus neo-behaviors).
+//
+// Gestrichen (Entscheidung 06.10.2026): FormLayoutArena — die letzte
+// handgeschriebene Arena. form-layout war ein Muster ohne Recipe und ohne
+// SCSS; dieselbe Komposition (form-section, form-field, form-actions,
+// validation-summary) zeigt die RecipeArena von `form`, die in der
+// Navigation schon als eigene Sektion „Form" unter „Form Structure" steht.
+// Ein Alias form-layout → form haette diese Sektion nur verdoppelt; die
+// Sektion component-form-layout entfaellt deshalb (Registry ohne Eintrag).
 //
 // Abgeloest (Plan v3, Phase 3, Block Inhalte): card, accordion, data-table
 // und table — DS-Markup nach SCSS-Struktur und data/markup (Website: Karte
@@ -83,9 +90,10 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 // Sonderfall-Liste: componentId → handgeschriebene Arena (lazy import)
 // ---------------------------------------------------------------------------
 
-const SONDERFAELLE = {
-  'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
-}
+// Derzeit leer (Entscheidung 06.10.2026: FormLayoutArena gestrichen). Die
+// Liste bleibt fuer kuenftige echte Sonderfaelle.
+/** @type {Record<string, () => Promise<any>>} */
+const SONDERFAELLE = {}
 
 // Sektionen ohne eigenes Recipe, deren Bauteil unter anderer ID im Recipe
 // steht: Sektion → Recipe-ID. Die Arena ist dann die RecipeArena des Recipes.
