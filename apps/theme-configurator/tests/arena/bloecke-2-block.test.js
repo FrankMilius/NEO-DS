@@ -13,8 +13,9 @@
  *   - Website-Bloecke (data/markup/<id>.html): die Klassen der geernteten
  *     Wurzel stehen im Markup der Arena
  *   - „nicht gebaut": beschriebene Klassen ohne CSS zeigen den Hinweis
- *   - animierte Website-Bloecke (question, tab-nav): Standbild in
- *     „Zustände", Animation nur mit „Abspielen"
+ *   - animierte Website-Bloecke (question, tab-nav): Standbild in jeder
+ *     Zelle, Animation nur mit der Taste „Abspielen" der Arena (export
+ *     abspielen, gemeinsamer Mechanismus), kein „Ausprobieren"
  *   - Formular-Bauteile ohne Verhalten (multiselect, searchbar): kein
  *     „Ausprobieren" (neues Behavior = Entscheidungsfall)
  */
@@ -22,7 +23,7 @@ import { describe, it, expect } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { MIT_VERHALTEN } from 'neo-behaviors'
-import { vorlageFuer, ausprobierenFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, ausprobierenFuer, abspielenFuer } from '../../src/arena-templates/index.js'
 import { NICHT_GEBAUT_SLOTS } from '../../src/arena-templates/security-list.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
@@ -213,10 +214,15 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
 
   describe('animierte Website-Bloecke: Standbild, „Abspielen" auf Wunsch', () => {
     it('question: Laufzeilen nur mit Abspielen (.question-animate)', () => {
-      expect(ausprobierenFuer('question')?.knopf).toBe('Abspielen')
-      for (const z of zellen('question')) expect(dom(z.html).querySelector('.question-animate')).toBeNull()
-      for (const z of zellen('question', { ausprobieren: true })) {
-        expect(dom(z.html).querySelectorAll('.question-text-row.question-animate').length).toBe(2)
+      expect(ausprobierenFuer('question')).toBeNull()
+      expect(abspielenFuer('question').gesperrt).toBeFalsy()
+      for (const z of beideModi('question')) {
+        const d = dom(z.html)
+        expect(d.querySelector('.question-animate')).toBeNull()
+        const anhalten = abspielenFuer('question').starten(d)
+        expect(d.querySelectorAll('.question-text-row.question-animate').length).toBe(2)
+        anhalten()
+        expect(d.querySelector('.question-animate')).toBeNull()
       }
     })
 
@@ -227,10 +233,18 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
       expect(d.querySelector('section.question.with-text')).toBeNull()
     })
 
-    it('tab-nav: autoplay off in Zustände, on mit Abspielen', () => {
-      expect(ausprobierenFuer('tab-nav')?.knopf).toBe('Abspielen')
-      for (const z of zellen('tab-nav')) expect(dom(z.html).querySelector('.nc-tab-nav').getAttribute('data-autoplay')).toBe('off')
-      for (const z of zellen('tab-nav', { ausprobieren: true })) expect(dom(z.html).querySelector('.nc-tab-nav').getAttribute('data-autoplay')).toBe('on')
+    it('tab-nav: autoplay off in jeder Zelle, on mit Abspielen', () => {
+      expect(ausprobierenFuer('tab-nav')).toBeNull()
+      expect(abspielenFuer('tab-nav').gesperrt).toBeFalsy()
+      for (const z of beideModi('tab-nav')) {
+        const d = dom(z.html)
+        const wurzel = d.querySelector('.nc-tab-nav')
+        expect(wurzel.getAttribute('data-autoplay')).toBe('off')
+        const anhalten = abspielenFuer('tab-nav').starten(d)
+        expect(wurzel.getAttribute('data-autoplay')).toBe('on')
+        anhalten()
+        expect(wurzel.getAttribute('data-autoplay')).toBe('off')
+      }
     })
   })
 

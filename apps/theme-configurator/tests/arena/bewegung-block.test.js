@@ -35,6 +35,9 @@ const BLOCK = [...new Set([...NEU, ...ANIMIERT])]
 const SPIELBAR = ['carousel', 'fade-gallery', 'marquee', 'story-gallery']
 const NUR_GSAP = ['hero-tmob', 'hero-tom', 'parallax-bg']
 const NICHT_GEBAUT = ['scroll-expand', 'scroll-reveal']
+// Derselbe Mechanismus fuer die animierten Bloecke der Gruppen bloecke-1/-2
+// (bento-grid, question, tab-nav; Tests dort)
+const AUS_BLOECKE = ['bento-grid', 'question', 'tab-nav']
 
 // Inline-Stile ausser Custom Properties — Instanzwerte, die die Website
 // setzt, bzw. Komponenten-CSS der Website, das styles.css nicht hat
@@ -295,8 +298,8 @@ describe('Bewegung-Block: Abspielen', () => {
 
   it('genau die animierten Bloecke haben die Taste; spielbar mit starten(), sonst gesperrt mit Grund', () => {
     const mit = RECIPE_IDS.filter((id) => abspielenFuer(id))
-    expect(mit.sort()).toEqual([...ANIMIERT].sort())
-    for (const id of SPIELBAR) {
+    expect(mit.sort()).toEqual([...ANIMIERT, ...AUS_BLOECKE].sort())
+    for (const id of [...SPIELBAR, ...AUS_BLOECKE]) {
       expect(abspielenFuer(id).starten, id).toBeTypeOf('function')
       expect(abspielenFuer(id).gesperrt, id).toBeFalsy()
       expect(abspielenFuer(id).hinweis.length, id).toBeGreaterThan(20)

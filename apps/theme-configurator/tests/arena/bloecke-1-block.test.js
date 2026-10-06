@@ -13,8 +13,10 @@
  *   - je Bauteil die Specimen-Besonderheiten (Formen der Kapitelnavigation,
  *     Abspielen der Einblendung, Bildlagen, Ton, Leerzustand …)
  *   - „Ausprobieren" nur fuer faq und feature-accordion (natives <details>;
- *     das Akkordeon-Verhalten bindet nur .nc-accordion), Entwurf-Kennzeichen
- *     fuer Recipes mit meta.status „draft"
+ *     das Akkordeon-Verhalten bindet nur .nc-accordion), „Abspielen" nur fuer
+ *     bento-grid (gemeinsamer Mechanismus der RecipeArena), Entwurf laut
+ *     meta.status in der Liste der Navigation (src/data/recipe-entwuerfe.js;
+ *     das Kennzeichen selbst prueft tests/navigation/entwuerfe.test.js)
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
@@ -23,7 +25,8 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { setActivePinia, createPinia } from 'pinia'
 import { MIT_VERHALTEN } from 'neo-behaviors'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
-import { vorlageFuer, einrichtungFuer, ausprobierenFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, ausprobierenFuer, abspielenFuer } from '../../src/arena-templates/index.js'
+import { istEntwurf } from '../../src/data/recipe-entwuerfe.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { WURZEL, rohesRecipe } from './_recipes.js'
@@ -41,6 +44,7 @@ const WURZEL_SEL = {
 const wurzelSel = (id) => WURZEL_SEL[id] || `.nc-${id}`
 
 const MIT_AUSPROBIEREN = ['faq', 'feature-accordion']
+const MIT_ABSPIELEN = ['bento-grid']
 const ENTWURF = ['card-cta', 'event', 'events', 'feature-list']
 
 function zellen (id, specimenId, optionen) {
@@ -186,27 +190,26 @@ describe('Bloecke 1: Specimens im Einzelnen', () => {
   it('bento-grid: Spalten per Modifier, Einblenden als Endzustand mit „Abspielen", Bildlagen aus dem SCSS', async () => {
     expect(alle('bento-grid', 'spalten').map((d) => d.querySelector('.nc-bento-grid').classList.contains('nc-bento-grid--cols-3'))).toEqual([false, true])
     const [statisch] = alle('bento-grid', 'default-4col')
-    expect(statisch.querySelector('[data-animation], [data-abspielen]')).toBeNull()
+    expect(statisch.querySelector('[data-animation]')).toBeNull()
 
     const [einblenden] = alle('bento-grid', 'einblenden')
     const raster = einblenden.querySelector('.nc-bento-grid')
     expect(raster.matches('[data-animation="reveal"].is-revealed')).toBe(true)
-    const knopf = einblenden.querySelector('button[data-abspielen]')
-    expect(knopf.className).toBe('ra-modus__knopf')
-    expect(knopf.closest('.nc-bento-grid')).toBeNull()
+    // keine eigene Taste im Zellen-Markup: „Abspielen" ist die Taste der Arena
+    expect(einblenden.querySelector('button:not(.nc-button)')).toBeNull()
 
     document.body.appendChild(einblenden)
-    const weg = einrichtungFuer('bento-grid')(einblenden)
-    knopf.click()
+    const anhalten = abspielenFuer('bento-grid').starten(einblenden)
     expect(raster.classList.contains('is-revealed')).toBe(false)
     await new Promise((r) => requestAnimationFrame(r))
     expect(raster.classList.contains('is-revealed')).toBe(true)
-    knopf.click()
-    weg()
+    anhalten()
     expect(raster.classList.contains('is-revealed')).toBe(true)
     einblenden.remove()
-    // ohne Animation gibt es nichts zu binden
-    expect(einrichtungFuer('bento-grid')(statisch)).toBeUndefined()
+    // ohne Einblendung bleibt die Zelle unberuehrt
+    const vorher = statisch.innerHTML
+    abspielenFuer('bento-grid').starten(statisch)()
+    expect(statisch.innerHTML).toBe(vorher)
 
     const [medien] = alle('bento-grid', 'medienlagen')
     const lagen = [...medien.querySelectorAll('.nc-bento-grid__cell')].map((c) => c.dataset.mediaPos)
@@ -374,17 +377,20 @@ describe('Bloecke 1 in der RecipeArena', () => {
 
   for (const id of BLOCK) {
     const ausprobieren = MIT_AUSPROBIEREN.includes(id)
+    const abspielen = MIT_ABSPIELEN.includes(id)
     const entwurf = ENTWURF.includes(id)
-    it(`${id}: alle Specimens${ausprobieren ? ', „Ausprobieren"' : ''}${entwurf ? ', Kennzeichen Entwurf' : ''}, keine Heuristik`, async () => {
+    it(`${id}: alle Specimens${ausprobieren ? ', „Ausprobieren"' : ''}${abspielen ? ', „Abspielen"' : ''}${entwurf ? ', Entwurf' : ''}, keine Heuristik`, async () => {
       expect(MIT_VERHALTEN.includes(id)).toBe(false)
       expect(!!ausprobierenFuer(id)).toBe(ausprobieren)
+      expect(!!abspielenFuer(id)).toBe(abspielen)
       expect(rohesRecipe(id).meta.status === 'draft').toBe(entwurf)
+      expect(istEntwurf(id)).toBe(entwurf)
       const w = await arena(id)
       const recipe = normalisiereRecipe(rohesRecipe(id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
       expect(w.find('[data-quelle="heuristik"]').exists()).toBe(false)
-      expect(w.find('.ra-modus').exists()).toBe(ausprobieren)
-      expect(w.find('.ra-entwurf').exists()).toBe(entwurf)
+      expect(w.find('.ra-modus').exists()).toBe(ausprobieren || abspielen)
+      expect(w.find('[data-test="abspielen"]').exists()).toBe(abspielen)
       if (ausprobieren) {
         await w.findAll('.ra-modus__knopf')[1].trigger('click')
         await flushPromises()

@@ -39,6 +39,9 @@
 // Bewegung nur als GSAP-Logik der Website (neo-theme.js) oder ist das
 // Bauteil nicht gebaut, nennt `gesperrt` den Grund: die Taste bleibt dann
 // deaktiviert. Bei prefers-reduced-motion deaktiviert die Arena die Taste.
+// Das ist der EINZIGE Mechanismus fuer animierte Website-Bloecke (in Phase 4
+// vereinheitlicht: kein eigener Knopf im Zellen-Markup, kein umbenanntes
+// „Ausprobieren"); Helfer in _bewegung.js (imTakt, blaettere, spieleEin).
 //
 // Ohne Vorlage rendert die Arena per Slot-Heuristik. Dateien mit `_` am
 // Anfang sind Helfer, keine Vorlagen.

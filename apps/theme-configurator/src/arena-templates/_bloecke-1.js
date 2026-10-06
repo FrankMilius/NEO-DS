@@ -17,52 +17,6 @@ export function slotAn (m, slot) {
 export const vorgabe = (m, schluessel, sonst) => m.specimen.render?.[schluessel] ?? sonst
 
 /**
- * Taste „Abspielen" fuer animierte Website-Bloecke (Plan v3, Phase 4). Die
- * Zelle zeigt den Endzustand der Animation fest; die Taste spielt sie einmal
- * ab. Arena-Markup, kein DS-Element — gebunden wird sie von abspielenBinden()
- * aus einrichten() der Vorlage. Kein GSAP im Konfigurator: abgespielt wird
- * die CSS-Animation des DS (Klasse an/aus).
- */
-export const abspielenKnopf = (beschriftung = 'Abspielen') =>
-  `<div class="ra-reihe"><button type="button" class="ra-modus__knopf" data-abspielen>${beschriftung}</button></div>`
-
-/**
- * Bindet die Taste: entfernt die Endzustands-Klasse am Ziel, wartet einen
- * Frame (der Browser uebernimmt den Ausgangszustand) und setzt sie wieder —
- * die Transition des DS laeuft dann einmal ab. Gibt das Aufraeumen zurueck.
- * @param {Element} zelle
- * @param {string} ziel Selektor des animierten Elements
- * @param {string} klasse Endzustand (z. B. is-revealed)
- */
-export function abspielenBinden (zelle, ziel, klasse) {
-  const knopf = zelle.querySelector('[data-abspielen]')
-  const element = zelle.querySelector(ziel)
-  if (!knopf || !element) return undefined
-  let frame = 0
-  const spielen = () => {
-    cancelAnimationFrame(frame)
-    element.classList.remove(klasse)
-    // Das Entfernen startet die Transition rueckwaerts (Ausblenden) — sofort
-    // ans Ende springen, sonst beginnt das Abspielen fast beim Endzustand.
-    // Nur Transitionen: Endlos-Animationen (Mesh, Badge-Puls) liessen sich
-    // nicht beenden (finish() wirft dort).
-    for (const a of element.getAnimations?.({ subtree: true }) || []) {
-      if (typeof CSSTransition !== 'undefined' && a instanceof CSSTransition) a.finish()
-    }
-    // Layout erzwingen: ohne das faellt das Entfernen und Wiedersetzen in
-    // denselben Frame und es gibt nichts zu animieren.
-    void (/** @type {HTMLElement} */ (element)).offsetWidth
-    frame = requestAnimationFrame(() => element.classList.add(klasse))
-  }
-  knopf.addEventListener('click', spielen)
-  return () => {
-    cancelAnimationFrame(frame)
-    knopf.removeEventListener('click', spielen)
-    element.classList.add(klasse)
-  }
-}
-
-/**
  * Hochkantes Platzhalterbild im Mass der App-Screenshots (1206 x 2622, wie
  * --nc-device-ratio) — fuer den Geraeterahmen. BILD_SRC ist quer; im Rahmen
  * (object-fit: contain) stuende es als schmaler Streifen.

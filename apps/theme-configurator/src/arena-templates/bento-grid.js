@@ -5,8 +5,9 @@
 // Plan v3, Phase 4:
 // - Einblenden ist eine Website-Animation (das Drupal-JS setzt is-revealed
 //   beim Scrollen). Die Zelle zeigt den Endzustand fest; die Taste
-//   „Abspielen" nimmt is-revealed weg und setzt es wieder — die Transition
-//   des DS laeuft einmal ab (kein GSAP im Konfigurator).
+//   „Abspielen" der RecipeArena (export abspielen, Mechanismus aus
+//   arena-templates/index.js) nimmt is-revealed im Takt weg und setzt es
+//   wieder — die Transition des DS laeuft ab (kein GSAP im Konfigurator).
 // - Specimen „medienlagen" (render.medienLagen): Zellen mit Bild, wie das
 //   aus dem Drupal-Theme aufgenommene SCSS sie kennt — data-media-pos an der
 //   Zelle (cover, top, bottom, left, right), Bild in .nc-bento-grid__media,
@@ -15,7 +16,8 @@
 //   neo-dark-theme (heller Text auf dem Bild; Regel
 //   .nc-bento-grid__cell.neo-dark-theme).
 import { BILD_SRC } from './_helfer.js'
-import { slotAn, vorgabe, abspielenKnopf, abspielenBinden, desktop } from './_bloecke-1.js'
+import { slotAn, vorgabe, desktop } from './_bloecke-1.js'
+import { spieleEin, alle } from './_bewegung.js'
 
 const ICON = {
   code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C7.2 1.6 6.1 1.9 6.1 1.9a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.7 8.3c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V20"></path></svg>',
@@ -65,17 +67,18 @@ ${slotAn(m, 'text') ? `<p class="nc-bento-grid__text">${z.text}</p>` : ''}
   const raster = `<div class="${m.klasse}${reveal ? ' is-revealed' : ''}"${reveal ? ' data-animation="reveal"' : ''}${m.attrs}>
 ${inhalt}
 </div>`
-  // Rahmen ra-desktop: das Raster ist fuer die Seitenbreite gebaut; die
-  // Taste steht ausserhalb (lesbar, nicht verkleinert)
-  if (!reveal) return desktop(raster)
-  return `
-<div class="ra-stapel">
-${abspielenKnopf()}
-${desktop(raster)}
-</div>`
+  // Rahmen ra-desktop: das Raster ist fuer die Seitenbreite gebaut
+  return desktop(raster)
 }
 
-/** „Abspielen" der Einblendung (is-revealed weg und wieder an). */
-export function einrichten (element) {
-  return abspielenBinden(element, '.nc-bento-grid[data-animation="reveal"]', 'is-revealed')
+/**
+ * „Abspielen" der Einblendung (Plan v3, Phase 4): in jeder Zelle mit
+ * animation=reveal is-revealed weg und wieder an, im Takt; Anhalten stellt
+ * den Endzustand her. Zellen ohne Einblendung bleiben unberuehrt.
+ */
+export const abspielen = {
+  hinweis: 'Einblenden (animation=reveal): is-revealed weg und wieder an — die Transition des DS läuft ab. Auf der Website setzt das Drupal-JS die Klasse beim Scrollen.',
+  starten (zelle) {
+    return alle([...zelle.querySelectorAll('.nc-bento-grid[data-animation="reveal"]')].map((raster) => spieleEin(raster, 'is-revealed')))
+  }
 }

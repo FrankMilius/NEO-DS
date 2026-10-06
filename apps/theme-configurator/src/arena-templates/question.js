@@ -3,9 +3,10 @@
 //
 // Animierter Website-Block: die Laufzeilen bewegen sich nur mit
 // .question-animate (07-organisms/_question.scss, Keyframes marquee/
-// marquee-reverse). „Zustände" zeigt das Standbild (ohne die Klasse, keine
-// Inline-Gestaltung), „Abspielen" setzt sie — kein JS, kein GSAP. Bei
-// prefers-reduced-motion stoppt das DS jede Animation (02-generic/_reset).
+// marquee-reverse). Die Zellen zeigen das Standbild (ohne die Klasse, keine
+// Inline-Gestaltung); die Taste „Abspielen" der RecipeArena (export
+// abspielen) setzt sie und nimmt sie beim Anhalten wieder weg — kein GSAP.
+// Bei prefers-reduced-motion sperrt die Arena die Taste.
 //
 // Rahmen ra-desktop: der Block ist fuer die Seitenbreite gebaut (Knoepfe im
 // 12-Spalten-Raster des Containers).
@@ -22,11 +23,10 @@ const ZEILEN = [
 export default (zelle, m) => {
   const mitText = m.wert('variant') === 'with-text'
   const wurzel = m.klassen.filter((k) => k !== 'with-text').join(' ')
-  const lauf = m.ausprobieren ? ' question-animate' : ''
   return `<div class="ra-desktop">
 <section class="${wurzel}"${m.attrs}>
 ${ZEILEN.map(([a, b]) => `<hr>
-<div class="question-text-row${lauf}" aria-hidden="true">
+<div class="question-text-row" aria-hidden="true">
 <span class="question-text">${a} ${ICON} ${b} ${ICON} ${a} ${ICON} ${b} ${ICON}</span>
 </div>`).join('\n')}
 <hr>
@@ -42,8 +42,12 @@ ${mitText ? '<div class="question-text-container question-paragraphs"><p>Gute Fr
 </div>`
 }
 
-/** Animierter Block: Standbild in „Zustände", Laufschrift auf Wunsch. */
-export const ausprobieren = {
-  knopf: 'Abspielen',
-  hinweis: 'Laufzeilen mit .question-animate (CSS-Keyframes des DS). Bei „Bewegung reduzieren" bleibt es beim Standbild.'
+/** Animierter Block: Standbild, Laufzeilen mit „Abspielen" (Plan v3, Phase 4). */
+export const abspielen = {
+  hinweis: 'Laufzeilen mit .question-animate (CSS-Keyframes des DS); Anhalten zeigt wieder das Standbild.',
+  starten (zelle) {
+    const zeilen = [...zelle.querySelectorAll('.question-text-row')]
+    for (const z of zeilen) z.classList.add('question-animate')
+    return () => { for (const z of zeilen) z.classList.remove('question-animate') }
+  }
 }

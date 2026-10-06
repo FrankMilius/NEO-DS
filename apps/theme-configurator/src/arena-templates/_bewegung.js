@@ -1,4 +1,5 @@
-// Helfer fuer die Taste „Abspielen" (Plan v3, Phase 4, Gruppe bewegung) —
+// Helfer fuer die Taste „Abspielen" (Plan v3, Phase 4; aus Gruppe bewegung,
+// fuer alle animierten Website-Bloecke vereinheitlicht) —
 // keine Vorlage (`_` am Anfang). Siehe arena-templates/index.js.
 //
 // Nachgestellt wird nur, was das DS hergibt: Klassen-/Zustandswechsel, die
@@ -47,6 +48,38 @@ export function blaettere (spur, glieder, beiSchritt) {
   }
   const anhalten = imTakt((n) => gehe(n % glieder.length, true))
   return () => { anhalten(); gehe(0, false) }
+}
+
+/**
+ * Einblendung erneut abspielen: entfernt die Endzustands-Klasse, springt
+ * laufende Transitionen ans Ende (sonst beginnt das Abspielen fast beim
+ * Endzustand), erzwingt ein Layout und setzt die Klasse im naechsten Frame
+ * wieder — die Transition des DS laeuft einmal ab. Nur Transitionen werden
+ * beendet: Endlos-Animationen (Mesh, Badge-Puls) liessen sich nicht beenden
+ * (finish() wirft dort). Aus Gruppe bloecke-1 (bento-grid) uebernommen.
+ * @param {Element} element  Traeger der Endzustands-Klasse
+ * @param {string} klasse    Endzustand (z. B. is-revealed)
+ * @returns {() => void} Frame abbrechen, Endzustand setzen
+ */
+export function spieleEin (element, klasse) {
+  let frame = 0
+  const spielen = () => {
+    if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame)
+    element.classList.remove(klasse)
+    for (const a of element.getAnimations?.({ subtree: true }) || []) {
+      if (typeof CSSTransition !== 'undefined' && a instanceof CSSTransition) a.finish()
+    }
+    void (/** @type {HTMLElement} */ (element)).offsetWidth
+    if (typeof requestAnimationFrame === 'function') frame = requestAnimationFrame(() => element.classList.add(klasse))
+    else element.classList.add(klasse)
+  }
+  spielen()
+  const anhalten = imTakt(spielen)
+  return () => {
+    anhalten()
+    if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame)
+    element.classList.add(klasse)
+  }
 }
 
 /** Mehrere Aufraeum-Funktionen zu einer. */
