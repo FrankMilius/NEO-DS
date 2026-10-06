@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "button",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "status": "stable",
     "tags": [
       "interactive",
@@ -25,6 +25,12 @@
       "docs": "docs/button-docs.html"
     },
     "changelog": [
+      {
+        "version": "2.2.1",
+        "changes": [
+          "06.10.2026 (Entscheidung button-loading, \"Variantenfarbe bei aria-busy\"): Im Zustand loading setzt das Recipe aria-busy UND aria-disabled; das Gesperrt-Aussehen (graue Flaeche, halbe Deckkraft) griff deshalb auch beim ladenden Knopf. Jetzt gilt es nur ohne aria-busy/data-loading: der ladende Knopf behaelt die Farbe seiner Variante, Cursor wait, pointer-events none wie gesperrt. Auch natives disabled + aria-busy behaelt volle Deckkraft. Freigabe ausstehend."
+        ]
+      },
       {
         "version": "2.2.0",
         "changes": [
@@ -371,7 +377,7 @@
         "tokenGroups": [
           "spinner"
         ],
-        "note": "Loading hat Vorrang vor disabled — Spinner bleibt primaere Information."
+        "note": "Loading hat Vorrang vor disabled — Spinner bleibt primaere Information, die Variantenfarbe bleibt (kein Gesperrt-Aussehen); Interaktion gesperrt wie bei disabled."
       },
       {
         "state": "disabled",

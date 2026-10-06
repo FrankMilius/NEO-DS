@@ -168,7 +168,7 @@ describe('Bausteine-Block aus dem Recipe', () => {
       expect(rohesRecipe(id).events?.['code-snippet-copy']).toBeUndefined()
     }
     for (const id of ['item', 'metric', 'code-snippet']) expect(rohesRecipe(id).meta.version, id).toBe('2.1.0')
-    expect(rohesRecipe('button').meta.version).toBe('2.2.0')
+    expect(rohesRecipe('button').meta.version).toBe('2.2.1') // 2.2.1: Variantenfarbe bei aria-busy (Freigabe ausstehend)
   })
 
   it('form-layout: Arena gestrichen, keine Sektion, form zeigt die RecipeArena (Entscheidung 06.10.2026)', () => {

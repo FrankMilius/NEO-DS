@@ -1,5 +1,5 @@
 # button Component Spec
-> Version 2.2.0 | Status: stable | Layer: atom
+> Version 2.2.1 | Status: stable | Layer: atom
 
 Tags: `interactive`, `control`
 

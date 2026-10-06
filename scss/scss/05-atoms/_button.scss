@@ -89,8 +89,15 @@
     transform: scale(var(--mod-button-scale-active, var(--nc-button-scale-active)));
   }
 
-  &:disabled,
-  &[aria-disabled='true'] {
+  // Gesperrt-Aussehen nur ohne Laden. Das Recipe setzt im Zustand loading
+  // aria-busy UND aria-disabled; vorher griff deshalb das Gesperrt-Aussehen
+  // (graue Flaeche, Deckkraft) auch beim ladenden Knopf, und "Loading hat
+  // Vorrang vor disabled" galt nur fuer den Cursor. Entscheidung 06.10.2026
+  // (button-loading, "Variantenfarbe bei aria-busy"): Der ladende Knopf
+  // behaelt die Farbe seiner Variante; gesperrt bleibt er im Verhalten.
+  // (Kompakt als :is()/:not()-Liste: button-base wird je Variante erneut
+  // ausgegeben, jede Selektor-Laenge zaehlt rund zwei Dutzend Mal.)
+  &:is(:disabled, [aria-disabled='true']):not([aria-busy='true'], [data-loading='true']) {
     background-color: var(--mod-button-disabled-bg, var(--nc-button-disabled-bg));
     color: var(--mod-button-disabled-color, var(--nc-button-disabled-color));
     border-color: var(--mod-button-disabled-border, var(--nc-button-disabled-border));
@@ -100,7 +107,8 @@
     transform: none;
   }
 
-  // Loading hat Vorrang vor disabled — Spinner bleibt primaere Info
+  // Loading hat Vorrang vor disabled — Spinner bleibt primaere Info,
+  // Variantenfarbe bleibt; Interaktion gesperrt wie bei disabled.
   &[data-loading='true'],
   &[aria-busy='true'] {
     pointer-events: none;
@@ -764,6 +772,14 @@
   &--micro-a   { @include button-micro-variant-a; }
   &--micro-b   { @include button-micro-variant-b; }
   &--micro-c   { @include button-micro-variant-c; }
+}
+
+// Natives disabled + Laden: die Element-Regel button:disabled
+// (03-elements/_buttons.scss) halbiert sonst die Deckkraft — der ladende
+// Knopf behaelt auch dann seine Variantenfarbe (Entscheidung 06.10.2026).
+// Einmal ausgegeben statt je Variante.
+.nc-button:disabled:is([aria-busy='true'], [data-loading='true']) {
+  opacity: 1;
 }
 
 .nc-button-group {
