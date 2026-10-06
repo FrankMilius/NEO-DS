@@ -14,10 +14,10 @@
 //
 // Geschlossen setzt das Behavior neben [hidden] auch display: none inline:
 // .nc-multiselect__panel hat display: flex, das gegen das [hidden] des
-// Browsers gewinnt, und eine Regel .nc-multiselect__panel[hidden] gibt es
-// im DS (noch) nicht — sie ist website-sichtbar und wartet auf Freigabe.
-// So bleibt das Behavior auch ohne diese Regel richtig; mit ihr ist die
-// Inline-Angabe nur doppelt.
+// Browsers gewinnt. Die Regel .nc-multiselect__panel[hidden] im DS
+// (06-molecules/_multiselect.scss) blendet ebenfalls aus — sie ist
+// website-sichtbar und wartet auf Freigabe; die Inline-Angabe haelt das
+// Behavior auch ohne sie richtig (mit ihr nur doppelt).
 //
 //   Oeffnen      Klick auf den Knopf (schaltet); Enter, Leertaste, Pfeil
 //                runter auf dem Knopf oeffnen und setzen den Fokus auf die

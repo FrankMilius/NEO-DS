@@ -81,6 +81,15 @@
   box-shadow: var(--nc-multiselect-panel-box-shadow);
 }
 
+// Geschlossen: das Verhalten (neo-theme.js, neo-behaviors multiselect) setzt
+// [hidden] am Panel. Ohne diese Regel gewinnt display: flex oben gegen das
+// [hidden] des Browsers und das Panel bliebe sichtbar (wie bei Dropdown und
+// Popover). Das Behavior setzt zur Absicherung zusaetzlich display: none
+// inline — mit dieser Regel doppelt, aber unschaedlich.
+.nc-multiselect__panel[hidden] {
+  display: none;
+}
+
 .nc-multiselect__option {
   margin: 0;
   padding: var(--nc-multiselect-option-padding);
