@@ -260,3 +260,29 @@ Dinge fehlten aber:
   Kontext-Modifier und Flächenregeln der Karte ohne SCSS, Kontrast der
   gewählten Karte, Zeilenbegrenzung und Stapel-Layout der Datentabelle,
   Ghost-Knopf auf der dunklen Batch-Leiste.
+- Phase 3, Block Layout (06.10.2026): container, grid, section, hero, shell
+  und psychedelic-bg kommen aus Recipe-Vorlagen; fünf `*Arena.vue`
+  gelöscht, `GridArena.vue` bleibt als `foundation/GridBuehne.vue` der
+  Foundation-Sektion (`component-grid` ist jetzt eine Komponente wie jede
+  andere). Statt Schemazeichnungen echtes DS-Markup in Arena-Rahmen, die nur
+  Platz und Maßstab geben: `ra-massstab` (Desktop-Seite 1600 px, 1:2,5 — die
+  Containerbreiten greifen erst ab 1200 px Fenster), `ra-desktop` (Hero),
+  `ra-seite` (Kante der Section), `ra-mobil` (Raster mit
+  `--nc-grid-mobile-columns`), `ra-fenster`/`--mobil` (Shell als Miniatur;
+  Drawer und Footerbar-Lage unter lg mit den DS-Werten), `ra-effekt`
+  (Canvas). Modifier, die ein Recipe beschreibt und `styles.css` nicht kennt
+  (19 in container, grid, section), zeigt die Arena als „nicht gebaut“
+  (`arena-templates/_layout.js`, vom Test in beide Richtungen bewacht) —
+  bauen oder streichen ist zur Entscheidung gemeldet. Keines der sechs
+  Recipes gibt `keyboard`/`events` vor; psychedelic-bg bekommt
+  „Ausprobieren“ mit dem vorhandenen Canvas-Renderer des Konfigurators
+  (Vorlagen können ein eigenes Ausprobieren melden, `einrichten()` darf
+  aufräumen), im DS bleibt es „beschrieben, nicht gebaut“. Hero-Recipe
+  2.1.x: Ausrichtung ohne Medium, Specimens für die Kennzahlen-Achsen;
+  behoben (Freigabe ausstehend): `nc-hero--mark-tint` fing `.nc-hero__mark`
+  nicht. Sichtbar gewordene Befunde (Containerbreiten Standard 1536 px >
+  Wide 1290 px gegen Recipe 1200/1440; Sidebar-Dichte setzt die Breite der
+  Sidebar, nicht der Rasterspalte; Inhaltsausrichtung gegen Preset
+  content-page; Linkbar-Links mit Fließtext-Unterstrich) sind gemeldet,
+  nicht stillschweigend behoben. Container, Grid, Section, Hero und Shell
+  (Linkbar) sind auf der Website im Einsatz.
