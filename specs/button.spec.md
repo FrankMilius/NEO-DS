@@ -1,5 +1,5 @@
 # button Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.1.0 | Status: stable | Layer: atom
 
 Tags: `interactive`, `control`
 
@@ -14,7 +14,7 @@ Root element: `.nc-button`
 
 ### DOM Notes
 - Buttons muessen immer ein zugaengliches Label haben — entweder sichtbarer Text oder aria-label fuer Icon-Only.
-- Spinner wird im State 'loading' angezeigt und blockiert Interaktion.
+- Spinner (.nc-button__spinner) wird im State 'loading' angezeigt und blockiert Interaktion: Modifier .nc-button--loading plus aria-busy='true' — erst der Modifier zeichnet den Spinner.
 - XS/SM Buttons haben unsichtbaren ::before Touch-Target (44px Minimum, WCAG 2.5.8).
 - Loading nutzt visibility:hidden statt opacity:0 — Label-Breite bleibt erhalten, kein Layout-Shift.
 
@@ -86,7 +86,7 @@ Kompositions-/Verwendungsform
 | --- | --- | --- |
 | single | — |  |
 | group | — |  |
-| toggle | — |  |
+| toggle | `.nc-button--toggle` |  |
 | fab | `.nc-button--fab` |  |
 | link | — |  |
 
