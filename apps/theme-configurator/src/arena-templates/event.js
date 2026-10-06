@@ -33,8 +33,8 @@ ${an(m, 'hero-overlay') ? '<div class="nc-event__hero-overlay"></div>' : ''}` : 
 <div class="nc-event__hero-content nc-container">
 ${an(m, 'tags') ? `<div class="nc-event__tags">
 <span class="nc-event__tag nc-event__tag--type">Konferenz</span>
-<span class="nc-event__tag nc-event__tag--format">Hybrid</span>
-<span class="nc-event__tag nc-event__tag--lang">Deutsch &amp; English</span>
+<span class="nc-event__tag">Hybrid</span>
+<span class="nc-event__tag">Deutsch &amp; English</span>
 </div>` : ''}
 <h2 class="nc-event__title"><span>Digital Workplace Summit 2026</span></h2>
 ${an(m, 'subtitle') ? '<p class="nc-event__subtitle">Die Konferenz für den digitalen Arbeitsplatz</p>' : ''}

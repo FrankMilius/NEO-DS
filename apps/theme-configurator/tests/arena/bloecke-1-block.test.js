@@ -80,9 +80,9 @@ function anatomieKlassen (id) {
 
 // Klassen, die das geerntete Website-Markup traegt (Drupal gibt sie aus), das
 // DS aber nicht gestaltet — gemeldet, nicht stillschweigend gebaut.
-const GEERNTET_OHNE_CSS = {
-  event: ['nc-event__tag--format', 'nc-event__tag--lang', 'nc-section--muted']
-}
+// Stand 06.10.2026 (Entscheidung event-klassen): nc-section--muted ist gebaut,
+// die Tag-Modifier --format/--lang sind aus Markup und Vorlage gestrichen.
+const GEERNTET_OHNE_CSS = {}
 
 // Inline-Stile, die das geerntete Markup bzw. ein Instanzwert traegt — alles
 // andere ist Gestaltung an der Vorlage vorbei.

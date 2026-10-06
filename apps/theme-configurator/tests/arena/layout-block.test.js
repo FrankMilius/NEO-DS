@@ -311,7 +311,8 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     for (const d of alle('section', 'surface-x-divider')) expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
     expect(alle('section', 'surface-x-divider')).toHaveLength(8)
     const r = rohesRecipe('section')
-    expect(r.meta.version).toBe('3.1.0')
+    // 3.0.0 Divider, 3.1.0 Website-Klassen, 3.2.0 nc-section--muted (event-klassen)
+    expect(r.meta.changelog.map((c) => c.version)).toEqual(expect.arrayContaining(['3.0.0', '3.1.0']))
     expect(r.axes.edge).toBeUndefined()
     expect(r.styling.tokenGroups.edge).toBeUndefined()
     expect(r.specimens.map((s) => s.id)).not.toContain('edge-variants')
@@ -321,10 +322,11 @@ describe('Layout-Block: Zustände und Aufbau', () => {
 
   it('recipe-namen (Entscheidung 06.10.2026): section und grid beschreiben die Website-Klassen; Specimens zeigen sie', () => {
     const k = dsKlassen()
-    const erwartet = { section: ['nc-section', 'nc-section--full'], grid: ['nc-grid--split', 'nc-grid--with-sidebar'] }
+    // section: --muted seit Entscheidung event-klassen (06.10.2026, section 3.2.0)
+    const erwartet = { section: ['nc-section', 'nc-section--full', 'nc-section--muted'], grid: ['nc-grid--split', 'nc-grid--with-sidebar'] }
     for (const [id, klassen] of Object.entries(erwartet)) {
       const r = rohesRecipe(id)
-      expect(r.meta.version, id).toBe('3.1.0')
+      expect(r.meta.changelog.map((c) => c.version), id).toContain('3.1.0')
       expect(r.website.klassen.map((w) => w.klasse)).toEqual(klassen)
       for (const w of r.website.klassen) {
         expect(k.has(w.klasse), `${w.klasse} fehlt in styles.css`).toBe(true)
@@ -339,6 +341,8 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(sektion.querySelector('.section')).toBeNull()
     const [voll] = alle('section', 'website-nc-section-full')
     expect(voll.querySelector('section').className).toBe('nc-section nc-section--full')
+    const [gedaempft] = alle('section', 'website-nc-section-muted')
+    expect(gedaempft.querySelector('section').className).toBe('nc-section nc-section--muted')
     const [split] = alle('grid', 'website-split')
     expect(split.querySelectorAll(':scope > .nc-grid--split > div > .ra-platzhalter')).toHaveLength(2)
     expect(split.querySelector('.o-grid, [class^="o-col-"]')).toBeNull()

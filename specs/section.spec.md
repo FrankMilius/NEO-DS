@@ -1,5 +1,5 @@
 # section Component Spec
-> Version 3.1.0 | Status: stable | Layer: organism
+> Version 3.2.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `section`, `orchestrator`
 
@@ -18,7 +18,7 @@ Root element: `.section`
 - Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.
 - Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.
 - Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.
-- Website-Form: neocosmo.de (Drupal) setzt .nc-section statt .section — <section class="nc-section"><div class="nc-container">…</div></section>. Nur Polsterung: padding-block var(--nc-section-padding-block, var(--fnd-spacing-10)); .nc-section--full setzt sie auf 0 (randlose Abschnitte polstern innen). Die Dichte-, Flaechen- und Divider-Modifier gelten nur fuer .section (siehe Block website).
+- Website-Form: neocosmo.de (Drupal) setzt .nc-section statt .section — <section class="nc-section"><div class="nc-container">…</div></section>. Nur Polsterung: padding-block var(--nc-section-padding-block, var(--fnd-spacing-10)); .nc-section--full setzt sie auf 0 (randlose Abschnitte polstern innen); .nc-section--muted malt die gedaempfte Flaeche (background-secondary). Die uebrigen Dichte-, Flaechen- und Divider-Modifier gelten nur fuer .section (siehe Block website).
 
 ## Variants
 ### Dichte (`density`)

@@ -335,6 +335,16 @@
   padding-block: 0;
 }
 
+// Gedaempfte Flaeche wie .section--muted (background-secondary). Drupal setzt
+// sie auf der Event-Detailseite um die Agenda (node--event--full.html.twig);
+// bis zum 06.10.2026 ohne Regel, die Flaeche blieb seitengleich. Der Wert
+// wird hier am Element aufgeloest, nicht ueber ein :root-Token — sonst bliebe
+// er in einem verschachtelten .neo-dark-theme hell (Entscheidung
+// event-klassen, 06.10.2026).
+.nc-section--muted {
+  background-color: var(--mod-section-bg, var(--fnd-color-background-secondary));
+}
+
 // Text-Media legt eine Flaeche HINTER den Abschnitt. Ohne das Beschneiden
 // laeuft sie ueber die Abschnittskante hinaus.
 .nc-section:has(.nc-text-media) {

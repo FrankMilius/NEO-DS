@@ -1,6 +1,6 @@
 // ============================================================
 // Event — Auto-generated from event-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 1.3.0 | Status: draft
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Event** v1.0.0 (draft)
+        component: `**Event** v1.3.0 (draft)
 
 Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 
@@ -30,8 +30,8 @@ export const Default = {
 <div class="nc-event__hero-content nc-container">
 <div class="nc-event__tags">
 <span class="nc-event__tag nc-event__tag--type">Konferenz</span>
-<span class="nc-event__tag nc-event__tag--format">Hybrid</span>
-<span class="nc-event__tag nc-event__tag--lang">Deutsch &amp; English</span>
+<span class="nc-event__tag">Hybrid</span>
+<span class="nc-event__tag">Deutsch &amp; English</span>
 </div>
 <h1 class="nc-event__title">
 <span>Digital Workplace Summit 2026</span>

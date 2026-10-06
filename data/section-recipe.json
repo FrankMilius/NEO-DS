@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "section",
-    "version": "3.1.0",
+    "version": "3.2.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -15,6 +15,12 @@
       "docs": "/docs/layout-architecture-docs.html"
     },
     "changelog": [
+      {
+        "version": "3.2.0",
+        "changes": [
+          "Entscheidung event-klassen (06.10.2026): .nc-section--muted gebaut (background-secondary wie section--muted, am Element aufgeloest) — Website-Klasse im Block website, Specimen website-nc-section-muted. Website-sichtbar (Agenda der Event-Detailseite wird grau), Freigabe ausstehend."
+        ]
+      },
       {
         "version": "3.1.0",
         "changes": [
@@ -66,7 +72,7 @@
       "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
       "Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.",
       "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.",
-      "Website-Form: neocosmo.de (Drupal) setzt .nc-section statt .section — <section class=\"nc-section\"><div class=\"nc-container\">…</div></section>. Nur Polsterung: padding-block var(--nc-section-padding-block, var(--fnd-spacing-10)); .nc-section--full setzt sie auf 0 (randlose Abschnitte polstern innen). Die Dichte-, Flaechen- und Divider-Modifier gelten nur fuer .section (siehe Block website)."
+      "Website-Form: neocosmo.de (Drupal) setzt .nc-section statt .section — <section class=\"nc-section\"><div class=\"nc-container\">…</div></section>. Nur Polsterung: padding-block var(--nc-section-padding-block, var(--fnd-spacing-10)); .nc-section--full setzt sie auf 0 (randlose Abschnitte polstern innen); .nc-section--muted malt die gedaempfte Flaeche (background-secondary). Die uebrigen Dichte-, Flaechen- und Divider-Modifier gelten nur fuer .section (siehe Block website)."
     ]
   },
   "axes": {
@@ -263,7 +269,7 @@
         "klasse": "nc-section",
         "element": "section",
         "scss": "scss/scss/04-objects/_section.scss",
-        "beschreibung": "Abschnitt der Website: padding-block aus --nc-section-padding-block (Fallback --fnd-spacing-10). Kein Hintergrund, keine Dichte-Modifier. Mit .nc-text-media darin: position relative, overflow hidden, der Container darueber (z-index 2).",
+        "beschreibung": "Abschnitt der Website: padding-block aus --nc-section-padding-block (Fallback --fnd-spacing-10). Kein Hintergrund (ausser mit --muted), keine Dichte-Modifier. Mit .nc-text-media darin: position relative, overflow hidden, der Container darueber (z-index 2).",
         "tokens": [
           "nc-section-padding-block",
           "fnd-spacing-10"
@@ -280,6 +286,18 @@
         "tokens": [],
         "markup": "<section class=\"nc-section nc-section--full\">…</section>",
         "specimen": "website-nc-section-full"
+      },
+      {
+        "klasse": "nc-section--muted",
+        "basis": "nc-section",
+        "element": "section",
+        "scss": "scss/scss/04-objects/_section.scss",
+        "beschreibung": "Gedaempfte Flaeche: background-color background-secondary (wie section--muted), am Element aufgeloest. Drupal: Agenda der Event-Detailseite (node--event--full.html.twig).",
+        "tokens": [
+          "fnd-color-background-secondary"
+        ],
+        "markup": "<section class=\"nc-section nc-section--muted\"><div class=\"nc-container\">…</div></section>",
+        "specimen": "website-nc-section-muted"
       }
     ]
   },
@@ -482,6 +500,26 @@
       "render": {
         "website": "nc-section nc-section--full",
         "label": ".nc-section--full"
+      }
+    },
+    {
+      "id": "website-nc-section-muted",
+      "label": "Website: .nc-section--muted",
+      "description": "Website-Abschnitt mit gedaempfter Flaeche (background-secondary), z. B. die Agenda der Event-Detailseite.",
+      "matrix": {
+        "axes": {
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": "nc-section nc-section--muted",
+        "label": ".nc-section--muted"
       }
     }
   ]
