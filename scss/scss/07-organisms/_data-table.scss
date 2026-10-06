@@ -1106,13 +1106,19 @@
   // Modifier: Content Wrap (mehrzeiliger Zelleninhalt)
   // -----------------------------------------------------------------------
 
+  // Die Zelle bleibt eine Tabellenzelle. Bis zum 06.10.2026 stand hier
+  // display: -webkit-box (fuer line-clamp) — damit war <td> keine
+  // Tabellenzelle mehr: alle Zellen einer Zeile rutschten untereinander in die
+  // erste Spalte, die Tabelle zerfiel (sichtbar erst in der Arena aus dem
+  // Recipe; die alte Arena zeichnete die Tabelle mit eigenen Stilen nach).
+  // -webkit-line-clamp wirkt ohne -webkit-box nicht; wie die Zeilenbegrenzung
+  // (--nc-dt-cell-line-clamp) kuenftig greift, ist zur Entscheidung gemeldet
+  // (dt-zeilenbegrenzung).
   &--wrap &__td {
     white-space: normal;
     overflow: visible;
     text-overflow: clip;
     -webkit-line-clamp: var(--mod-dt-cell-line-clamp, var(--nc-dt-cell-line-clamp));
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
   }
 
   // -----------------------------------------------------------------------
