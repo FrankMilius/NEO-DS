@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-05
+// Generated: 2026-10-06
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -8107,12 +8107,6 @@ export const componentTokenGroups = [
         "label": "Nc Dt Glass Backdrop Blur",
         "type": "size",
         "default": "8px"
-      },
-      {
-        "id": "nc-dt-cell-line-clamp",
-        "label": "Nc Dt Cell Line Clamp",
-        "type": "size",
-        "default": "1"
       }
     ],
     "subgroups": [
@@ -8134,8 +8128,7 @@ export const componentTokenGroups = [
         "label": "Typografie",
         "tokenIds": [
           "nc-dt-stacked-label-font-weight",
-          "nc-dt-batch-count-font-size",
-          "nc-dt-cell-line-clamp"
+          "nc-dt-batch-count-font-size"
         ]
       },
       {

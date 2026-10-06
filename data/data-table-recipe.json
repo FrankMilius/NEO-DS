@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "data-table",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "data",
@@ -17,6 +17,12 @@
       "docs": "/docs/data-table-docs"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "06.10.2026: Token --nc-dt-cell-line-clamp gestrichen (Entscheidung 06.10.2026, dt-zeilen): der Wrap-Modus bricht um, begrenzt aber keine Zeilen; Token-Gruppe content entfernt (war nur dieses Token)."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -337,7 +343,7 @@
     },
     "content": {
       "label": "Content",
-      "description": "Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)",
+      "description": "Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig, ohne Zeilenbegrenzung)",
       "values": {
         "truncate": {
           "modifier": null,
@@ -345,9 +351,7 @@
         },
         "wrap": {
           "modifier": "nc-data-table--wrap",
-          "tokenGroups": [
-            "content"
-          ],
+          "tokenGroups": [],
           "renderHint": "dt-wrap"
         }
       }
@@ -743,12 +747,6 @@
           "nc-dt-glass-header-bg",
           "nc-dt-glass-border",
           "nc-dt-glass-backdrop-blur"
-        ]
-      },
-      "content": {
-        "label": "Content Wrapping",
-        "tokens": [
-          "nc-dt-cell-line-clamp"
         ]
       }
     }

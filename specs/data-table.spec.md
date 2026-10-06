@@ -1,5 +1,5 @@
 # data-table Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.2.0 | Status: stable | Layer: organism
 
 Tags: `data`, `interactive`, `table`, `composite`
 
@@ -90,7 +90,7 @@ Visuelles Layout — flat (Standard), striped, bordered, card (erhobene Card), g
 | glass | `.nc-data-table--glass` |  |
 
 ### Content (`content`)
-Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig)
+Zelleninhalt-Behandlung — truncate (Ellipsis, Standard), wrap (mehrzeilig, ohne Zeilenbegrenzung)
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
@@ -308,11 +308,6 @@ Base classes: `nc-data-table`
 | `--nc-dt-glass-header-bg` | — | `--mod-dt-glass-header-bg` |
 | `--nc-dt-glass-border` | — | `--mod-dt-glass-border` |
 | `--nc-dt-glass-backdrop-blur` | — | `--mod-dt-glass-backdrop-blur` |
-
-### Content Wrapping
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-dt-cell-line-clamp` | — | `--mod-dt-cell-line-clamp` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
