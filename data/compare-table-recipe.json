@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "compare-table",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "status": "stable",
     "tags": [
       "data",
@@ -20,14 +20,23 @@
       "scss": [
         "scss/scss/05-atoms/_table.scss"
       ],
-      "story": "stories/organisms/table.stories.js",
-      "arena": "apps/theme-configurator/src/components/laboratory/TableArena.vue",
+      "story": "stories/organisms/compare-table.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-table.html.twig",
         "block--inline-block--neo-table.html.twig"
       ],
       "docs": "docs/table-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.0.1",
+        "changes": [
+          "pipeline.arena: RecipeArena.vue (Vorlage src/arena-templates/compare-table.js); TableArena.vue ist geloescht — die Konfigurator-Sektion „Table“ (Tokens --nc-table-*) zeigt diese Arena (Plan v3, Phase 3, Block Inhalte)",
+          "pipeline.story: stories/organisms/compare-table.stories.js (table.stories.js gibt es seit der Zusammenlegung am 25.08.2026 nicht mehr)"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {

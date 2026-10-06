@@ -104,6 +104,7 @@ const ZUSTAND_LABEL = {
   swiping: 'Wischen',
   unread: 'Ungelesen',
   skeleton: 'Platzhalter',
+  empty: 'Leer',
   'mobile-open': 'Mobil geöffnet'
 }
 

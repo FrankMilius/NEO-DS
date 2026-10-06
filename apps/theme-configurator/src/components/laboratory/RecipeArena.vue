@@ -96,12 +96,16 @@ import { vorlageFuer, einrichtungFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 
 const props = defineProps({
-  componentId: { type: String, required: true }
+  componentId: { type: String, required: true },
+  // Sektion des Konfigurators, falls sie anders heisst als das Recipe
+  // (useArenaResolver ALIASE, z. B. table → compare-table): ihre Tokens
+  // (--nc-<sektion>-*) heben die Arena hervor.
+  sektion: { type: String, default: null }
 })
 
 const store = useThemeStore()
 const { recipe } = useRecipeLoader(computed(() => props.componentId))
-const { isHighlighted, highlightStyle } = useArenaHighlight(props.componentId)
+const { isHighlighted, highlightStyle } = useArenaHighlight(props.sektion || props.componentId)
 
 // Theme der Vorschau: hell, dunkel oder im Split-Modus beide nebeneinander.
 const vorschauThemen = computed(() => {
@@ -458,6 +462,18 @@ onBeforeUnmount(() => aufraeumen?.())
 }
 .ra-live-component .ra-stapel--breit { align-items: stretch; }
 .ra-live-component .ra-stapel--breit > .nc-button { align-self: flex-start; }
+
+/* Inhalte (Plan v3, Phase 3, Block Inhalte). Nur Platz und Rahmen.
+   ra-flaechen-probe: die Section-Flaeche (.section--muted/--accent) um eine
+   Karte — die Section bringt ihre Seitenabstaende mit (padding-block der
+   Section-Tokens); hier nur ein kleiner Rand, damit die Flaeche sichtbar
+   bleibt, ohne die Zelle zu sprengen. */
+/* ra-reihe--oben: Karten unterschiedlicher Hoehe oben buendig statt mittig */
+.ra-live-component .ra-reihe--oben { align-items: flex-start; }
+.ra-live-component .ra-flaechen-probe {
+  padding: 24px;
+  border-radius: 6px;
+}
 
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,

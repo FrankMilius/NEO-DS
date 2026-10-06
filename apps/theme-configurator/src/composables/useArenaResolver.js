@@ -47,6 +47,15 @@
 // Mehr/Weniger aus neo-behaviors). form-layout bleibt Sonderfall: es hat
 // kein Recipe (Muster, Entscheidung offen).
 //
+// Abgeloest (Plan v3, Phase 3, Block Inhalte): card, accordion, data-table
+// und table — DS-Markup nach SCSS-Struktur und data/markup (Website: Karte
+// und Akkordeon), statt nachgezeichneter Inline-Stile. „Ausprobieren" nur fuer
+// das Akkordeon (neo-behaviors accordion); Karte und Datentabelle nennen im
+// Recipe weder keyboard noch events. `table` hat kein eigenes Recipe mehr: es
+// wurde am 25.08.2026 mit compare-table zusammengelegt (dieselbe Wurzel
+// .nc-compare-table, dieselben --nc-table-*-Tokens, 05-atoms/_table.scss) —
+// die Sektion „Table" zeigt deshalb die Arena von compare-table (ALIASE).
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -64,11 +73,7 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 // ---------------------------------------------------------------------------
 
 const SONDERFAELLE = {
-  card: () => import('../components/laboratory/CardArena.vue'),
-  accordion: () => import('../components/laboratory/AccordionArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
-  table: () => import('../components/laboratory/TableArena.vue'),
-  'data-table': () => import('../components/laboratory/DataTableArena.vue'),
   grid: () => import('../components/laboratory/GridArena.vue'),
   hero: () => import('../components/laboratory/HeroArena.vue'),
   container: () => import('../components/laboratory/ContainerArena.vue'),
@@ -77,15 +82,26 @@ const SONDERFAELLE = {
   'psychedelic-bg': () => import('../components/laboratory/PsychedelicBgArena.vue'),
 }
 
+// Sektionen ohne eigenes Recipe, deren Bauteil unter anderer ID im Recipe
+// steht: Sektion → Recipe-ID. Die Arena ist dann die RecipeArena des Recipes.
+const ALIASE = {
+  // Zusammengelegt am 25.08.2026 (Dublette): Inhalt aus table, Name aus der
+  // Wurzelklasse .nc-compare-table. Die Sektion „Table" traegt die
+  // --nc-table-*-Tokens weiter — sie gehoeren zu diesem Bauteil.
+  table: 'compare-table'
+}
+
 // Regelfall: RecipeArena. LaboratoryPanel rendert `<component :is>` ohne
 // Props — die Komponenten-ID wird deshalb hier gebunden. (Vorher bekam der
 // Fallback gar keine ID und blieb leer.)
 const RECIPE_ARENA = () => import('../components/laboratory/RecipeArena.vue')
 
-function recipeArenaFuer (id) {
+function recipeArenaFuer (id, sektion = id) {
   return () => RECIPE_ARENA().then((modul) => ({
     name: 'RecipeArenaFuer',
-    render: () => h(modul.default, { componentId: id })
+    // sektion: fuer die Token-Hervorhebung (--nc-<sektion>-*), wenn die
+    // Sektion anders heisst als das Recipe (ALIASE)
+    render: () => h(modul.default, { componentId: id, sektion })
   }))
 }
 
@@ -109,7 +125,7 @@ export function useArenaResolver (componentIdRef) {
     // Cache pruefen
     if (_cache.has(id)) return _cache.get(id)
 
-    const loader = SONDERFAELLE[id] || recipeArenaFuer(id)
+    const loader = SONDERFAELLE[id] || recipeArenaFuer(ALIASE[id] || id, id)
 
     const asyncComp = markRaw(defineAsyncComponent({
       loader,
@@ -150,6 +166,15 @@ export function hasArena (componentId) {
  */
 export function arenaQuelle (componentId) {
   return SONDERFAELLE[componentId] ? 'sonderfall' : 'recipe'
+}
+
+/**
+ * Recipe-ID, deren RecipeArena die Sektion zeigt (ALIASE), sonst die ID selbst.
+ * @param {string} componentId
+ * @returns {string}
+ */
+export function arenaRecipe (componentId) {
+  return ALIASE[componentId] || componentId
 }
 
 /**

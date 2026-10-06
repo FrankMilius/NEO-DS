@@ -47,13 +47,9 @@ export function sektionsUrl (id, query = '') {
  * Grund — neue Fehler lassen den Test scheitern. Eintraege entfernen, sobald
  * die Ursache behoben ist.
  */
-export const BEKANNTE_FEHLER = [
-  {
-    sektion: 'component-card',
-    muster: /\/config\/(event|story|avatar|berlin|galerie)\.jpg$/,
-    grund: 'data/card-recipes.json verweist auf relative Bildpfade (event.jpg …), die unter /config/ nicht existieren (404)',
-  },
-]
+// Leer seit 06.10.2026: die Card-Bilder (404 aus data/card-recipes.json) sind
+// mit der Karten-Arena aus dem Recipe weg (Plan v3, Phase 3, Block Inhalte).
+export const BEKANNTE_FEHLER = []
 
 function istEigeneQuelle (url, basisUrl) {
   if (!url) return true // Fehler ohne Ort (z. B. console.error aus der App) zaehlen immer

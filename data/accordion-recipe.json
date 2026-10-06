@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "accordion",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -19,6 +19,15 @@
       "docs": "/docs/accordion-docs"
     },
     "changelog": [
+      {
+        "version": "3.1.0",
+        "changes": [
+          "Arena aus dem Recipe (Plan v3, Phase 3, Block Inhalte): Vorlage src/arena-templates/accordion.js statt AccordionArena.vue; Markup wie data/markup/accordion.html",
+          "Neues Specimen media-layouts: Medium ueber (top) und neben (side) dem Text — die Website nutzt --media-top",
+          "Specimens selection-checkable, actionable-header, separated-with-footer und faq-pattern nennen ihre Kompositionen (composes: checkbox, badge, button)",
+          "disabled: gesperrter Ausloeser klappt auch per Tastatur nicht auf (neo-behaviors accordion verwirft den Klick)"
+        ]
+      },
       {
         "version": "3.0.0",
         "changes": [
@@ -54,7 +63,7 @@
         "scss/scss/06-molecules/_accordion.scss"
       ],
       "story": "stories/molecules/accordion.stories.js",
-      "arena": "apps/theme-configurator/src/components/laboratory/AccordionArena.vue",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-accordion.html.twig",
         "block--inline-block--neo-accordion.html.twig"
@@ -394,7 +403,7 @@
       {
         "state": "disabled",
         "unless": [],
-        "note": "Opacity reduziert, pointer-events:none."
+        "note": "Opacity reduziert, pointer-events:none (Ausloeser mit aria-disabled=\"true\"). Enter/Leertaste klappen nicht auf: neo-behaviors verwirft den Klick am gesperrten Ausloeser; Pfeiltasten ueberspringen ihn."
       },
       {
         "state": "selected",
@@ -923,7 +932,10 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Checkbox: aria-checked. Visueller Selected-State auch geschlossen."
-      }
+      },
+      "composes": [
+        "checkbox"
+      ]
     },
     {
       "id": "actionable-header",
@@ -963,7 +975,11 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Action-Buttons: eigener Tabstop, stopPropagation auf Trigger-Click."
-      }
+      },
+      "composes": [
+        "badge",
+        "button"
+      ]
     },
     {
       "id": "sticky-trigger",
@@ -1075,6 +1091,48 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Tab-Navigation durch alle Trigger."
+      },
+      "composes": [
+        "button"
+      ]
+    },
+    {
+      "id": "media-layouts",
+      "label": "Media Layouts",
+      "description": "Medium im offenen Eintrag: ueber dem Text (top, wie auf der Website) und daneben (side).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "flush"
+          ],
+          "density": [
+            "default"
+          ],
+          "behavior": [
+            "multiple"
+          ],
+          "media-layout": [
+            "top",
+            "side"
+          ],
+          "sticky": [
+            "off"
+          ]
+        },
+        "states": [
+          "open"
+        ]
+      },
+      "focusTokenGroups": [
+        "media"
+      ],
+      "layout": "grid",
+      "render": {
+        "label": "{media-layout}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Bild mit Alternativtext; dekorative Medien mit alt=\"\"."
       }
     },
     {
@@ -1116,7 +1174,10 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Footer-Buttons: eigene Tabstops."
-      }
+      },
+      "composes": [
+        "button"
+      ]
     },
     {
       "id": "ghost-compact",

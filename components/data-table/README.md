@@ -11,7 +11,7 @@
 | Recipe | `data/data-table-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_data-table.scss` | present |
 | Storybook | `stories/organisms/data-table.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/DataTableArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/data-table-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/data-table-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_data-table.scss)
 - [Storybook Story](../stories/organisms/data-table.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/DataTableArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/data-table-docs.html)

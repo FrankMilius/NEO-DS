@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "data-table",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "data",
@@ -16,13 +16,23 @@
       "storybook": "",
       "docs": "/docs/data-table-docs"
     },
+    "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Arena aus dem Recipe (Plan v3, Phase 3, Block Inhalte): Vorlage src/arena-templates/data-table.js statt DataTableArena.vue; Markup wie data/markup/data-table.html und die Doku",
+          "Neues Specimen states: Zustaende hover, selected, error und empty (waren unterstuetzt, aber in keinem Specimen zu sehen)",
+          "full-featured composes input und select statt search und pagination: Suchfeld und Seitenleiste der Tabelle sind nc-input/nc-select bzw. eigene __pagination-Elemente; radio-selection composes radio"
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [
         "scss/scss/07-organisms/_data-table.scss"
       ],
       "story": "stories/organisms/data-table.stories.js",
-      "arena": "apps/theme-configurator/src/components/laboratory/DataTableArena.vue",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/data-table-docs.html"
     }
@@ -925,7 +935,10 @@
       "render": {
         "compositionType": "dt-radio",
         "label": "radio"
-      }
+      },
+      "composes": [
+        "radio"
+      ]
     },
     {
       "id": "expandable",
@@ -1095,12 +1108,44 @@
       }
     },
     {
+      "id": "states",
+      "label": "States",
+      "description": "Auswahl-Tabelle in allen Zustaenden: Standard, Hover (nur echt), ausgewaehlt (Batch-Leiste mit Zaehler), Fehler und leer",
+      "matrix": {
+        "axes": {
+          "density": [
+            "default"
+          ],
+          "feature": [
+            "selectable"
+          ],
+          "selection": [
+            "checkbox"
+          ],
+          "variant": [
+            "flat"
+          ]
+        },
+        "states": [
+          "default",
+          "hover",
+          "selected",
+          "error",
+          "empty"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      }
+    },
+    {
       "id": "full-featured",
       "label": "Full Featured",
       "description": "Komplett: Title-Bar + Toolbar + Sortable + Selectable + Pagination + Striped",
       "composes": [
-        "pagination",
-        "search"
+        "input",
+        "select"
       ],
       "matrix": {
         "axes": {

@@ -33,8 +33,13 @@ const _deklarationen = new Map()
  * mit neu gesetzt, sonst bleiben sie in dunklen Vorschau-Zellen hell.
  *   navigation-tab-mega  Website-Navigation, Flaeche aus --nc-nav-bg der
  *                        DS-Navigation (komposition: teilt navigation)
+ *   data-table           Tokens heissen --nc-dt-* (Kurzform)
+ *   compare-table        Tokens heissen --nc-table-* (Recipe am 25.08.2026
+ *                        aus table und compare-table zusammengelegt)
+ * Ohne diese Eintraege blieben Datentabelle und Vergleichstabelle in der
+ * dunklen Vorschau hell (Plan v3, Phase 3, Block Inhalte).
  */
-const GETEILTE_TOKENS = { 'navigation-tab-mega': ['nav'] }
+const GETEILTE_TOKENS = { 'navigation-tab-mega': ['nav'], 'data-table': ['dt'], 'compare-table': ['table'] }
 
 function sammle(regeln, praefix, ziel) {
   for (const regel of regeln) {

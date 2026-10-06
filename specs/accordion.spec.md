@@ -1,5 +1,5 @@
 # accordion Component Spec
-> Version 3.0.0 | Status: stable | Layer: molecule
+> Version 3.1.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `disclosure`, `content`, `navigation`, `faq`, `selection`
 
