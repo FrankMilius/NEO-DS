@@ -8,6 +8,13 @@
         {{ k.name }}<span v-if="k.art === 'teilt'" class="ra-komposition__art">Tokens</span>
       </a>
     </nav>
+    <!-- Entwurf (Plan v3, Phase 4): Recipes mit meta.status „draft" — meist
+         aus dem Drupal-Theme aufgenommen, Anatomie und Achsen nicht
+         freigegeben. Die Arena zeigt sie trotzdem, aber gekennzeichnet. -->
+    <p v-if="entwurf" class="ra-entwurf" role="note">
+      <strong class="ra-entwurf__marke">Entwurf</strong>
+      Recipe-Status „draft“: Anatomie und Achsen sind noch nicht freigegeben.
+    </p>
     <!-- Zustaende (feste Matrix) oder Ausprobieren (lebendige Instanz mit dem
          Verhalten aus packages/neo-behaviors — derselben Datei wie in Drupal). -->
     <div v-if="hatVerhalten || abspielInfo" class="ra-modus" role="group" aria-label="Ansicht der Arena">
@@ -140,6 +147,9 @@ function variablenFuer (thema, flaeche) {
 }
 
 const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
+
+// Recipe-Status „draft" (meta.status) — Kennzeichen ueber der Arena
+const entwurf = computed(() => recipe.value?.meta?.status === 'draft')
 
 const komposition = computed(() => (recipe.value?.komposition || []).map((k) => ({
   ...k,
@@ -853,6 +863,24 @@ onBeforeUnmount(() => {
 .ra-komposition__art {
   font-size: 10px;
   opacity: 0.7;
+}
+.ra-entwurf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--cfg-text-muted, #64748b);
+}
+.ra-entwurf__marke {
+  padding: 1px 8px;
+  border: 1px dashed currentColor;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 11px;
 }
 .ra-modus {
   display: flex;
