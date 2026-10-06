@@ -1,5 +1,5 @@
 # aspect-ratio Component Spec
-> Version 1.0.0 | Status: stable | Layer: unknown
+> Version 1.1.0 | Status: stable | Layer: unknown
 
 Tags: `layout`, `object`, `media`
 
@@ -31,6 +31,9 @@ Vordefiniertes Seitenverhaeltnis.
 | Tall Portrait (1:2) | `.nc-aspect-ratio--1-2` |  |
 | Classic Landscape (3:2) | `.nc-aspect-ratio--3-2` |  |
 | Classic Portrait (2:3) | `.nc-aspect-ratio--2-3` |  |
+
+## States
+Supported: `default`
 
 ## CSS Token API
 Base classes: `.nc-aspect-ratio`

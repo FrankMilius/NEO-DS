@@ -1,5 +1,5 @@
 # chapter-nav Component Spec
-> Version 1.0.0 | Status: stable | Layer: 07-organisms
+> Version 1.1.0 | Status: stable | Layer: 07-organisms
 
 Tags: `navigation`, `anchor`, `sticky`, `long-page`, `editorial`
 
@@ -28,8 +28,13 @@ Genau eine Form je Seite. Leiste UND Verzeichnis gleichzeitig sagen dasselbe zwe
 | verzeichnis | `.nc-chapter-toc` |  |
 | keine | — |  |
 
+## States
+Supported: `default`, `current`
+
+- **current**: 
+
 ## CSS Token API
-Base classes: `nc-chapter-nav`, `nc-chapter-toc`
+Base classes: `nc-chapter-nav`
 
 ### Kapitelleiste
 | Token | CSS Property | Override |

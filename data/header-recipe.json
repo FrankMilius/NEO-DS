@@ -3,7 +3,16 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "header",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimen default zeigt die Zustaende default/hidden; neu ohne-conversion",
+          "Arena-Rahmen ra-bildschirm statt Inline-Stilen am DS-Element (position: fixed bezieht sich auf die Zelle)"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,7 +30,7 @@
         "scss/scss/07-organisms/_header.scss"
       ],
       "story": "stories/organisms/header.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/header-docs.html"
     }
@@ -130,7 +139,31 @@
     {
       "id": "default",
       "label": "Header",
-      "description": "Fixed Header mit Navigation und Conversion-Button",
+      "description": "Kopfzeile mit Navigation und Conversion-Knopf. Verborgen: .nav-hidden (opacity 0, keine Klicks) — der Conversion-Knopf bleibt.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "hidden"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "header"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "role banner, nav aria-label, skip-link."
+      }
+    },
+    {
+      "id": "ohne-conversion",
+      "label": "Ohne Conversion",
+      "description": "Optionaler Slot conversion aus.",
       "matrix": {
         "axes": {
           "variant": [
@@ -143,11 +176,10 @@
       },
       "layout": "row",
       "render": {
-        "label": "header"
-      },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "role banner, nav aria-label, skip-link."
+        "label": "ohne conversion",
+        "slotConfig": {
+          "conversion": false
+        }
       }
     }
   ]

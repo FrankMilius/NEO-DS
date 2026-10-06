@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "event",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens hero-bild, infokarte (Teile aus dem SCSS, im geernteten Markup nicht belegt) und minimal (optionale Slots aus)",
+          "Status bleibt draft",
+          "Form ans Schema angeglichen: states als supported/precedence, styling.baseClasses nc-event, Achse variant (default) fuer die Specimen-Matrix, Specimen-Layout composition"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -142,10 +150,27 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [],
-  "states": [
-    "default"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": []
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -153,6 +178,10 @@
   },
   "constraints": [],
   "styling": {
+    "baseClasses": [
+      "nc-event"
+    ],
+    "baseTokenGroups": [],
     "tokens": [
       "--nc-event-tag-letter-spacing",
       "--nc-event-tag-padding",
@@ -171,13 +200,79 @@
       "label": "Standard",
       "description": "event wie auf der Website",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {}
+    },
+    {
+      "id": "hero-bild",
+      "label": "Mit Hero-Bild",
+      "description": "Bild im Hero (.nc-event__hero-media) mit Verlauf (.nc-event__hero-overlay) — Teile aus dem aufgenommenen SCSS, im geernteten Markup nicht belegt.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "heroBild": true
+      }
+    },
+    {
+      "id": "infokarte",
+      "label": "Mit Infokarte",
+      "description": "Agenda und Infokarte nebeneinander (.nc-event__content-grid ab 768 px): .nc-event__info-card mit dl.nc-event__info-list und Knopf .nc-event__info-cta.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "infokarte": true
+      }
+    },
+    {
+      "id": "minimal",
+      "label": "Nur Pflichtteile",
+      "description": "Ohne Tags, Untertitel, Meta und weitere Events (optionale Slots aus).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "tags": false,
+          "subtitle": false,
+          "meta": false,
+          "related-grid": false
+        }
+      }
     }
   ]
 }

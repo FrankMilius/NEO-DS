@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "events",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens leer (Leerzustand) und nur-raster (optionale Slots aus)",
+          "Status bleibt draft",
+          "Form ans Schema angeglichen: states als supported/precedence, styling.baseClasses nc-events, Achse variant (default) fuer die Specimen-Matrix, Specimen-Layout composition"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -122,11 +130,29 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "hover"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "precedence": [
+      "hover",
+      "default"
+    ],
+    "rules": []
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -134,6 +160,10 @@
   },
   "constraints": [],
   "styling": {
+    "baseClasses": [
+      "nc-events"
+    ],
+    "baseTokenGroups": [],
     "tokens": [
       "--nc-events-card-meta-item-gap",
       "--nc-events-card-title-line-height",
@@ -147,13 +177,59 @@
       "label": "Standard",
       "description": "events wie auf der Website",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {}
+    },
+    {
+      "id": "leer",
+      "label": "Keine Treffer",
+      "description": "Leerzustand: Trefferzahl 0, .nc-events__empty statt Raster und „Mehr laden\".",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "leer": true
+      }
+    },
+    {
+      "id": "nur-raster",
+      "label": "Nur Raster",
+      "description": "Ohne Filterleiste, Trefferzahl und „Mehr laden\" (optionale Slots aus).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "filter-bar": false,
+          "results-count": false,
+          "load-more": false
+        }
+      }
     }
   ]
 }

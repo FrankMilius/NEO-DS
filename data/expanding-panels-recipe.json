@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "expanding-panels",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/expanding-panels-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimen ohne-deko (Slots num und bg aus); default beschreibt die Zustaende (Standard ohne Skript, Geoeffnet wie auf der Website)"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -35,7 +41,7 @@
         "scss/scss/07-organisms/_expanding-panels.scss"
       ],
       "story": "stories/organisms/expanding-panels.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-expanding-panels.html.twig",
         "block--inline-block--neo-expanding-panels.html.twig"
@@ -206,7 +212,7 @@
     {
       "id": "default",
       "label": "Expanding Panels",
-      "description": "Vier horizontale Panels, erstes aktiv. Hover/Klick expandiert, Body wird sichtbar.",
+      "description": "Vier horizontale Panels. Standard: alle zu (ohne Skript); Geöffnet: erstes Panel offen, so startet die Website. Hover und Fokus erweitern per CSS.",
       "matrix": {
         "axes": {
           "variant": [
@@ -231,6 +237,30 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Label und Body-Text 4.5:1 gegen Surface."
+      }
+    },
+    {
+      "id": "ohne-deko",
+      "label": "Ohne Nummer und Hintergrund",
+      "description": "Optionale Slots num und bg aus.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "open"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "expanding-panels",
+        "label": "ohne num/bg",
+        "slotConfig": {
+          "num": false,
+          "bg": false
+        }
       }
     }
   ]

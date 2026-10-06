@@ -1,5 +1,5 @@
 # app-store Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `media`, `app`, `app-store`
 

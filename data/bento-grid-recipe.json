@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "bento-grid",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/bento-grid-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens spalten (columns: 4/3), einblenden (reveal als Endzustand mit „Abspielen\") und medienlagen (data-media-pos cover/top/bottom/right/left aus dem aufgenommenen SCSS)"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -36,7 +42,7 @@
         "scss/scss/07-organisms/_bento-grid.scss"
       ],
       "story": "stories/organisms/bento-grid.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-bento-grid.html.twig",
         "block--inline-block--neo-bento-grid.html.twig"
@@ -264,6 +270,83 @@
       "layoutConfig": {
         "rowAxis": "columns",
         "colAxis": "animation"
+      }
+    },
+    {
+      "id": "spalten",
+      "label": "Spalten",
+      "description": "4 Spalten (Standard) und 3 Spalten (nc-bento-grid--cols-3, ab 860 px Fenster).",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "4",
+            "3"
+          ],
+          "animation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "layoutConfig": {
+        "rowAxis": "columns"
+      },
+      "render": {
+        "label": "{columns} Spalten"
+      }
+    },
+    {
+      "id": "einblenden",
+      "label": "Einblenden (Website-Animation)",
+      "description": "data-animation=\"reveal\": auf der Website setzt das Skript is-revealed beim Scrollen. Die Zelle zeigt den Endzustand; „Abspielen\" spielt die Einblendung einmal ab.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "4"
+          ],
+          "animation": [
+            "reveal"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "Einblenden"
+      }
+    },
+    {
+      "id": "medienlagen",
+      "label": "Zellen mit Bild",
+      "description": "Bildlagen aus dem Drupal-Theme (data-media-pos an der Zelle): cover mit Verlauf (.nc-bento-grid__scrim) und hellem Text (Zellen-Thema neo-dark-theme), top, bottom, right, left; Text in .nc-bento-grid__content.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "4"
+          ],
+          "animation": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "Bildlagen",
+        "medienLagen": [
+          "cover",
+          "top",
+          "bottom",
+          "right",
+          "left"
+        ]
       }
     }
   ]

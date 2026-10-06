@@ -173,7 +173,8 @@ describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
   })
 
   it('app-store: Store-Abzeichen und QR-Code', () => {
-    const [h] = alle('app-store')
+    // erstes Specimen „website" zeigt die Musterseite ohne Abzeichen (Phase 4)
+    const h = alle('app-store').find((x) => x.includes('nc-app-store__badges'))
     expect((h.match(/class="nc-app-store__badge"/g) || []).length).toBe(2)
     expect(h).toContain('nc-app-store__qr-code')
   })

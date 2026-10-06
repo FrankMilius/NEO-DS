@@ -1,5 +1,5 @@
 # feature-list Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `organisms`
 
@@ -25,7 +25,9 @@ Root element: `.nc-feature-list`
 - Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
 
 ## Variants
-### undefined (`0`)
+### Variante (`variante`)
+Klassen, die Drupal am Block setzt (mit Medium immer with-media, media-* und valign-*).
+
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
@@ -36,8 +38,11 @@ Root element: `.nc-feature-list`
 | valign-top | `.nc-feature-list--valign-top` |  |
 | with-media | `.nc-feature-list--with-media` |  |
 
+## States
+Supported: `default`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-feature-list`
 
 ## Accessibility
 ## Web Components Mapping
@@ -45,7 +50,7 @@ Derived from anatomy for potential `<nc-feature-list>` custom element:
 
 ```js
 class NcFeatureList extends HTMLElement {
-  static observedAttributes = ['0'];
+  static observedAttributes = ['variante'];
   // Slots: <slot name="content">, <slot name="cta">, <slot name="icon">, <slot name="inner">, <slot name="item">, <slot name="item-text">
 }
 ```

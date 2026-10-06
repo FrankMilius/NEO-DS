@@ -424,7 +424,8 @@ exports[`Arena-Vorlagen: Snapshots > empty-state / content-variants 1`] = `
 exports[`Arena-Vorlagen: Snapshots > expanding-panels / default 1`] = `
 [
   {
-    "html": "<div class="nc-expanding-panels" role="group" aria-label="Warum neo workplace?">
+    "html": "<div class="ra-desktop">
+<div class="nc-expanding-panels" role="group" aria-label="Warum neo workplace?">
 <button type="button" class="nc-expanding-panels__panel" aria-expanded="false">
 <span class="nc-expanding-panels__bg" aria-hidden="true"></span>
 <span class="nc-expanding-panels__num">01</span>
@@ -465,6 +466,7 @@ exports[`Arena-Vorlagen: Snapshots > expanding-panels / default 1`] = `
 <span class="nc-expanding-panels__text">WCAG-konform und BITV-ready – Zugänglichkeit als Qualitätsmerkmal des gesamten Produkts.</span>
 </span>
 </button>
+</div>
 </div>",
     "id": "default",
     "label": "Standard",
@@ -473,7 +475,8 @@ exports[`Arena-Vorlagen: Snapshots > expanding-panels / default 1`] = `
     ],
   },
   {
-    "html": "<div class="nc-expanding-panels is-open" role="group" aria-label="Warum neo workplace?">
+    "html": "<div class="ra-desktop">
+<div class="nc-expanding-panels" role="group" aria-label="Warum neo workplace?">
 <button type="button" class="nc-expanding-panels__panel" aria-expanded="true">
 <span class="nc-expanding-panels__bg" aria-hidden="true"></span>
 <span class="nc-expanding-panels__num">01</span>
@@ -514,6 +517,7 @@ exports[`Arena-Vorlagen: Snapshots > expanding-panels / default 1`] = `
 <span class="nc-expanding-panels__text">WCAG-konform und BITV-ready – Zugänglichkeit als Qualitätsmerkmal des gesamten Produkts.</span>
 </span>
 </button>
+</div>
 </div>",
     "id": "default--open",
     "label": "Geöffnet",
@@ -813,8 +817,9 @@ exports[`Arena-Vorlagen: Snapshots > form-label / all-states 1`] = `
 exports[`Arena-Vorlagen: Snapshots > header / default 1`] = `
 [
   {
-    "html": "<header class="header" style="min-height: 72px;">
-<div class="nav-wrapper" style="position: relative;">
+    "html": "<div class="ra-desktop"><div class="ra-bildschirm ra-bildschirm--voll">
+<header class="header">
+<div class="nav-wrapper">
 <nav aria-label="Hauptnavigation">
 <div class="nav-brand"><a href="#" onclick="return false" aria-label="Startseite"><strong>neocosmo</strong></a></div>
 <div class="nav-sections"><div class="default-content-wrapper">
@@ -823,10 +828,30 @@ exports[`Arena-Vorlagen: Snapshots > header / default 1`] = `
 <div class="nav-tools"><div class="default-content-wrapper"><a href="#" onclick="return false" class="search-link" aria-label="Suche">Suche</a></div></div>
 </nav>
 </div>
-<div class="conversion" style="position: static; margin-top: 8px;"><p class="button-container"><a href="#" onclick="return false" class="nc-button nc-button--accent"><span>Demo anfragen</span></a></p></div>
-</header>",
+<div class="conversion"><p class="button-container"><a href="#" onclick="return false" class="nc-button nc-button--accent"><span>Demo anfragen</span></a></p></div>
+</header>
+</div></div>",
     "id": "default",
     "label": "Standard",
+    "tokenGroups": [],
+  },
+  {
+    "html": "<div class="ra-desktop"><div class="ra-bildschirm ra-bildschirm--voll">
+<header class="header">
+<div class="nav-wrapper nav-hidden">
+<nav aria-label="Hauptnavigation">
+<div class="nav-brand"><a href="#" onclick="return false" aria-label="Startseite"><strong>neocosmo</strong></a></div>
+<div class="nav-sections"><div class="default-content-wrapper">
+<ul class="main-nav"><li aria-current="page"><a href="#" onclick="return false">Produkte</a></li><li><a href="#" onclick="return false">Lösungen</a></li><li><a href="#" onclick="return false">Kunden</a></li><li><a href="#" onclick="return false">Unternehmen</a></li></ul>
+</div></div>
+<div class="nav-tools"><div class="default-content-wrapper"><a href="#" onclick="return false" class="search-link" aria-label="Suche">Suche</a></div></div>
+</nav>
+</div>
+<div class="conversion"><p class="button-container"><a href="#" onclick="return false" class="nc-button nc-button--accent"><span>Demo anfragen</span></a></p></div>
+</header>
+</div></div>",
+    "id": "default--hidden",
+    "label": "Verborgen",
     "tokenGroups": [],
   },
 ]

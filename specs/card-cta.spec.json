@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card-cta",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -48,14 +48,38 @@
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "ton": {
+      "label": "Ton",
+      "description": "data-theme am Wurzelelement: Farbe von Titel und Verlauf ueber dem Bild (06-molecules/_card-cta.scss).",
+      "values": [
+        {
+          "value": "dunkel",
+          "cssModifier": null,
+          "default": false,
+          "label": "dunkel"
+        },
+        {
+          "value": "hell",
+          "cssModifier": null,
+          "default": false,
+          "label": "hell"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
+    "supported": [
+      "default",
+      "hover"
+    ],
     "interactive": null,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
+    "baseClasses": [
+      "nc-card-cta"
+    ],
     "tokenGroups": {},
     "modTokens": []
   },

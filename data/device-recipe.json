@@ -3,7 +3,15 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "device",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens groessen, neigung, aussparung und mit-beschriftung — bisher keines"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "media",
@@ -190,5 +198,101 @@
       ]
     }
   },
-  "specimens": []
+  "specimens": [
+    {
+      "id": "groessen",
+      "label": "Größen",
+      "description": "sm, Standard, lg — die Breite ist fluid (clamp).",
+      "matrix": {
+        "axes": {
+          "size": "*",
+          "tilt": [
+            "none"
+          ],
+          "notch": [
+            "on"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{size}"
+      }
+    },
+    {
+      "id": "neigung",
+      "label": "Neigung",
+      "description": "Statische Drehung (nur Zierde, keine Bewegung).",
+      "matrix": {
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "tilt": "*",
+          "notch": [
+            "on"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{tilt}"
+      }
+    },
+    {
+      "id": "aussparung",
+      "label": "Aussparung",
+      "description": "Mit Aussparung (Standard) und ohne (nc-device--plain, für Screenshots mit eigener Statusleiste).",
+      "matrix": {
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "tilt": [
+            "none"
+          ],
+          "notch": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{notch}"
+      }
+    },
+    {
+      "id": "mit-beschriftung",
+      "label": "Mit Beschriftung",
+      "description": "figure.nc-device-figure mit figcaption (Name und Text) — Fassung aus data/markup/device.html.",
+      "matrix": {
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "tilt": [
+            "none"
+          ],
+          "notch": [
+            "on"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "Mit Beschriftung",
+        "beschriftung": true
+      }
+    }
+  ]
 }

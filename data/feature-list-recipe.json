@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "feature-list",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens: default wie auf der Website (Medium rechts, Geraet), ohne-medium, medienlage, ausrichtung, mit-bild — default zeigte bisher die Variante ohne Medium",
+          "Status bleibt draft",
+          "Form ans Schema angeglichen: Achse variante als Objekt, states als supported/precedence, styling.baseClasses nc-feature-list, Specimen-Layout composition"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -92,45 +100,51 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [
-    {
-      "name": "variante",
-      "values": [
-        {
-          "value": "default",
-          "modifier": null
+  "axes": {
+    "variante": {
+      "label": "Variante",
+      "description": "Klassen, die Drupal am Block setzt (mit Medium immer with-media, media-* und valign-*).",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
         },
-        {
-          "value": "media-left",
-          "modifier": "nc-feature-list--media-left"
+        "media-left": {
+          "modifier": "nc-feature-list--media-left",
+          "tokenGroups": []
         },
-        {
-          "value": "media-right",
-          "modifier": "nc-feature-list--media-right"
+        "media-right": {
+          "modifier": "nc-feature-list--media-right",
+          "tokenGroups": []
         },
-        {
-          "value": "valign-bottom",
-          "modifier": "nc-feature-list--valign-bottom"
+        "valign-bottom": {
+          "modifier": "nc-feature-list--valign-bottom",
+          "tokenGroups": []
         },
-        {
-          "value": "valign-middle",
-          "modifier": "nc-feature-list--valign-middle"
+        "valign-middle": {
+          "modifier": "nc-feature-list--valign-middle",
+          "tokenGroups": []
         },
-        {
-          "value": "valign-top",
-          "modifier": "nc-feature-list--valign-top"
+        "valign-top": {
+          "modifier": "nc-feature-list--valign-top",
+          "tokenGroups": []
         },
-        {
-          "value": "with-media",
-          "modifier": "nc-feature-list--with-media"
+        "with-media": {
+          "modifier": "nc-feature-list--with-media",
+          "tokenGroups": []
         }
-      ],
-      "default": "default"
+      }
     }
-  ],
-  "states": [
-    "default"
-  ],
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": []
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -138,6 +152,10 @@
   },
   "constraints": [],
   "styling": {
+    "baseClasses": [
+      "nc-feature-list"
+    ],
+    "baseTokenGroups": [],
     "tokens": [
       "--nc-feature-list-icon-margin-top"
     ]
@@ -150,16 +168,103 @@
   "specimens": [
     {
       "id": "default",
-      "label": "Standard",
-      "description": "feature-list wie auf der Website",
+      "label": "Wie auf der Website",
+      "description": "Mit Gerät rechts, oben bündig (with-media, media-right, valign-top) — geerntet von /produkte/app.",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variante": [
+            "media-right"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {}
+    },
+    {
+      "id": "ohne-medium",
+      "label": "Ohne Medium",
+      "description": "Nur Text und Liste — ohne Medium setzt Drupal keine der Medien-Klassen.",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {}
+    },
+    {
+      "id": "medienlage",
+      "label": "Lage des Mediums",
+      "description": "Medium links (Drupal-Vorgabe) und rechts.",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "media-left",
+            "media-right"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "layoutConfig": {
+        "rowAxis": "variante"
+      },
+      "render": {
+        "label": "{variante}"
+      }
+    },
+    {
+      "id": "ausrichtung",
+      "label": "Senkrechte Ausrichtung",
+      "description": "Text oben, mittig, unten neben dem Medium.",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "valign-top",
+            "valign-middle",
+            "valign-bottom"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "layoutConfig": {
+        "rowAxis": "variante"
+      },
+      "render": {
+        "label": "{variante}"
+      }
+    },
+    {
+      "id": "mit-bild",
+      "label": "Mit Bild statt Gerät",
+      "description": "Flächiges Bild im Medienbereich (4:3, Mindesthöhe) statt des Geräterahmens.",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "media-left"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "medium": "bild"
+      }
     }
   ]
 }

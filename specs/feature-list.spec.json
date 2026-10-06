@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "feature-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -85,8 +85,9 @@
   },
   "api": null,
   "variants": {
-    "0": {
-      "description": null,
+    "variante": {
+      "label": "Variante",
+      "description": "Klassen, die Drupal am Block setzt (mit Medium immer with-media, media-* und valign-*).",
       "values": [
         {
           "value": "default",
@@ -134,12 +135,16 @@
     }
   },
   "states": {
-    "supported": [],
+    "supported": [
+      "default"
+    ],
     "interactive": null,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
+    "baseClasses": [
+      "nc-feature-list"
+    ],
     "tokenGroups": {},
     "modTokens": []
   },

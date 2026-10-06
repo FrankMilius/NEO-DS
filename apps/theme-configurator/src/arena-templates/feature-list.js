@@ -5,7 +5,12 @@
 // ausser default zeigt deshalb das Geraet und ergaenzt die fehlenden
 // Klassen mit den Drupal-Vorgaben (media-left, valign-top). Die Punkte baut
 // Drupal per JS (neo-theme.js) — gleiches Markup wie hier.
+//
+// render.medium (Plan v3, Phase 4): 'geraet' (Standard, wie auf der Website:
+// .nc-feature-list__media--device mit .nc-device) oder 'bild' (flaechiges
+// Bild im Medienbereich, 4:3 mit Mindesthoehe).
 import { BILD_SRC, HAKEN_KREIS } from './_helfer.js'
+import { vorgabe, SCREEN_SRC, desktop } from './_bloecke-1.js'
 
 const PUNKTE = [
   'Anmeldung mit Benutzername/E-Mail und Passwort',
@@ -14,7 +19,7 @@ const PUNKTE = [
   'Kopplung an bestehende Nutzerkonten von neo workplace'
 ]
 
-export default (zelle, m) => {
+const vorlage = (zelle, m) => {
   const v = m.wert('variante') || 'default'
   const medium = v !== 'default'
   const klassen = [...m.klassen]
@@ -28,7 +33,9 @@ export default (zelle, m) => {
   return `
 <section class="nc-section ${klassen.join(' ')}"${m.attrs}>
 <div class="nc-container nc-feature-list__inner">
-${medium ? `<div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="${BILD_SRC}" alt="Login" loading="lazy" decoding="async"></div></div></div>` : ''}
+${medium ? (vorgabe(m, 'medium', 'geraet') === 'bild'
+    ? `<div class="nc-feature-list__media"><img src="${BILD_SRC}" alt="Anmeldemaske" loading="lazy" decoding="async"></div>`
+    : `<div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="${SCREEN_SRC}" alt="Login" loading="lazy" decoding="async"></div></div></div>`) : ''}
 <div class="nc-feature-list__content">
 <div class="nc-section-header nc-section-header--flush">
 <span class="nc-section-header__label">Authentifizierung und Login</span>
@@ -45,3 +52,6 @@ ${PUNKTE.map((p) => `<li class="nc-feature-list__item"><span class="nc-feature-l
 </div>
 </section>`
 }
+
+// Rahmen ra-desktop: fuer die Seitenbreite gebaut (Plan v3, Phase 4)
+export default (zelle, m) => desktop(vorlage(zelle, m))

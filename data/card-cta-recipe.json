@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-cta",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Achse ton (data-theme dark/light, beide im SCSS gestaltet) und Specimens ton und hover; default nennt den Ton der Website",
+          "Status bleibt draft",
+          "Form ans Schema angeglichen: states als supported/precedence, styling.baseClasses nc-card-cta, Specimen-Layout composition"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -62,11 +70,35 @@
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "hover"
-  ],
+  "axes": {
+    "ton": {
+      "label": "Ton",
+      "description": "data-theme am Wurzelelement: Farbe von Titel und Verlauf ueber dem Bild (06-molecules/_card-cta.scss).",
+      "values": {
+        "dunkel": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "data-theme=\"dark\" — heller Titel, dunkler Verlauf (wie auf der Website)."
+        },
+        "hell": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "data-theme=\"light\" — Titel in text-primary, heller Verlauf (Regeln .nc-card-cta[data-theme=\"light\"])."
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "precedence": [
+      "hover",
+      "default"
+    ],
+    "rules": []
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -74,6 +106,10 @@
   },
   "constraints": [],
   "styling": {
+    "baseClasses": [
+      "nc-card-cta"
+    ],
+    "baseTokenGroups": [],
     "tokens": []
   },
   "recipes": [],
@@ -84,14 +120,53 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "card-cta wie auf der Website",
+      "description": "card-cta wie auf der Website (data-theme=\"dark\").",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "ton": [
+            "dunkel"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
+      "render": {}
+    },
+    {
+      "id": "ton",
+      "label": "Ton",
+      "description": "Dunkel (Website) und hell — data-theme am Wurzelelement.",
+      "matrix": {
+        "axes": {
+          "ton": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{ton}"
+      }
+    },
+    {
+      "id": "hover",
+      "label": "Hover",
+      "description": "Beim Überfahren zoomt das Bild (scale 1.03); nur als Pseudoklasse — mit der Maus prüfen.",
+      "matrix": {
+        "axes": {
+          "ton": [
+            "dunkel"
+          ]
+        },
+        "states": [
+          "default",
+          "hover"
+        ]
+      },
+      "layout": "row",
       "render": {}
     }
   ]

@@ -3,7 +3,17 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "chapter-nav",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens formen (leiste/verzeichnis/keine) und schmal (quer scrollbare Leiste) — bisher keines",
+          "styling.baseClasses nur noch nc-chapter-nav: mit nc-chapter-toc in der Basis trug die Leiste die Gestaltung des Verzeichnisses (Rand, Polster). Das Verzeichnis ist ein eigener Block (.nc-chapter-toc ohne .nc-chapter-nav, sonst klebte es); die Vorlage setzt die Wurzel je Form",
+          "states ans Schema angeglichen (supported/precedence/rules; current per [aria-current])"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "navigation",
@@ -93,10 +103,21 @@
     }
   },
   "states": {
-    "current": {
-      "selector": "[aria-current]",
-      "description": "Das laufende Kapitel. Marke UND Gewicht UND Farbe — Farbe allein waere nach WCAG 1.4.1 kein zulaessiges Unterscheidungsmerkmal."
-    }
+    "supported": [
+      "default",
+      "current"
+    ],
+    "precedence": [
+      "current",
+      "default"
+    ],
+    "rules": [
+      {
+        "state": "current",
+        "selector": "[aria-current]",
+        "note": "Das laufende Kapitel. Marke UND Gewicht UND Farbe — Farbe allein waere nach WCAG 1.4.1 kein zulaessiges Unterscheidungsmerkmal."
+      }
+    ]
   },
   "a11y": {
     "notes": [
@@ -117,8 +138,7 @@
   ],
   "styling": {
     "baseClasses": [
-      "nc-chapter-nav",
-      "nc-chapter-toc"
+      "nc-chapter-nav"
     ],
     "baseTokenGroups": [
       "leiste",
@@ -174,5 +194,58 @@
   "komposition": [
     { "art": "enthaelt", "recipe": "container" }
   ],
-  "specimens": []
+  "specimens": [
+    {
+      "id": "formen",
+      "label": "Formen",
+      "description": "Leiste (klebt, laufendes Kapitel mit aria-current), Verzeichnis (eigener Block .nc-chapter-toc, nummeriert, ohne Skript und im Druck) und keine (nur Sprungziele an den Blöcken).",
+      "matrix": {
+        "axes": {
+          "form": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "layoutConfig": {
+        "rowAxis": "form"
+      },
+      "render": {
+        "label": "{form}"
+      }
+    },
+    {
+      "id": "schmal",
+      "label": "Leiste, schmal",
+      "description": "Neun Kapitel auf schmaler Breite (360 px): die Leiste scrollt quer statt umzubrechen.",
+      "matrix": {
+        "axes": {
+          "form": [
+            "leiste"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "Leiste, quer scrollbar",
+        "schmal": true,
+        "aktuell": 1,
+        "kapitel": [
+          "Überblick",
+          "Kommunikation",
+          "Wissen",
+          "Events",
+          "Vernetzung",
+          "Anwendungen",
+          "Sicherheit",
+          "Betrieb",
+          "Preise"
+        ]
+      }
+    }
+  ]
 }

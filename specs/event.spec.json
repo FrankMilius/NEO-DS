@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "event",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -144,14 +144,31 @@
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
+    "supported": [
+      "default"
+    ],
     "interactive": null,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
+    "baseClasses": [
+      "nc-event"
+    ],
     "tokenGroups": {},
     "modTokens": []
   },

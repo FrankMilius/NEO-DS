@@ -3,7 +3,16 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "app-store",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens website (Stand der Musterseite, ohne Abzeichen und QR), flaeche (surface: light/dark) und ausrichtung (align: start/center) — bisher keines",
+          "Arena aus der Vorlage (RecipeArena), Slots per render.slotConfig"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "media",
@@ -159,5 +168,77 @@
       ]
     }
   },
-  "specimens": []
+  "specimens": [
+    {
+      "id": "website",
+      "label": "Wie auf der Musterseite",
+      "description": "Titel, Lead und Hinweis — ohne Store-Abzeichen und QR-Code: Drupal gibt sie nur mit hinterlegter Store-Adresse aus (geerntet von /musterseite-bauteile).",
+      "matrix": {
+        "axes": {
+          "surface": [
+            "light"
+          ],
+          "align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "badges": false,
+          "qr": false
+        }
+      }
+    },
+    {
+      "id": "flaeche",
+      "label": "Fläche",
+      "description": "Vollständig (Abzeichen, QR-Code, Hinweis) auf heller und dunkler Fläche — nc-app-store--on-dark tauscht die Farben der Abzeichen.",
+      "matrix": {
+        "axes": {
+          "surface": "*",
+          "align": [
+            "start"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "surface"
+      },
+      "render": {
+        "label": "{surface}"
+      }
+    },
+    {
+      "id": "ausrichtung",
+      "label": "Ausrichtung",
+      "description": "Linksbündig (Standard) und zentriert (nc-app-store--center, auch die Abzeichen).",
+      "matrix": {
+        "axes": {
+          "surface": [
+            "light"
+          ],
+          "align": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "align"
+      },
+      "render": {
+        "label": "{align}"
+      }
+    }
+  ]
 }

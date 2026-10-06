@@ -3,7 +3,16 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "feature-accordion",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimen default zeigt die Zustaende default/open; neu ohne-titel",
+          "„Ausprobieren\" in der Arena: Eintraege per <details>; der Kapitelwechsel ueber die Links ist Website-Skript (nicht neo-behaviors)"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "display",
@@ -21,7 +30,7 @@
         "scss/scss/07-organisms/_feature-accordion.scss"
       ],
       "story": "stories/organisms/feature-accordion.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/feature-accordion-docs.html"
     }
@@ -131,7 +140,31 @@
     {
       "id": "default",
       "label": "Feature Accordion",
-      "description": "2-Spalten Layout mit Nav-Links und expandierbaren Chapters",
+      "description": "2-Spalten-Layout mit Kapitel-Links und aufklappbaren Einträgen. Standard: erster Eintrag offen; Geöffnet: zusätzlich der zweite.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "feature-accordion"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "aria-expanded, keyboard-navigierbar."
+      }
+    },
+    {
+      "id": "ohne-titel",
+      "label": "Ohne Titel",
+      "description": "Optionaler Titel links aus — Lead und Links bleiben.",
       "matrix": {
         "axes": {
           "variant": [
@@ -144,11 +177,10 @@
       },
       "layout": "row",
       "render": {
-        "label": "feature-accordion"
-      },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "aria-expanded, keyboard-navigierbar."
+        "label": "ohne Titel",
+        "slotConfig": {
+          "title": false
+        }
       }
     }
   ]

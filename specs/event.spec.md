@@ -1,5 +1,5 @@
 # event Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `organisms`
 
@@ -34,8 +34,19 @@ Root element: `.nc-event`
 - Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
 - Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
 
+## Variants
+### Variant (`variant`)
+Einzige Variante
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| default | — |  |
+
+## States
+Supported: `default`
+
 ## CSS Token API
-Base classes: 
+Base classes: `nc-event`
 
 ## Accessibility
 ## Web Components Mapping
@@ -43,7 +54,7 @@ Derived from anatomy for potential `<nc-event>` custom element:
 
 ```js
 class NcEvent extends HTMLElement {
-  static observedAttributes = [];
+  static observedAttributes = ['variant'];
   // Slots: <slot name="agenda">, <slot name="content-grid">, <slot name="cta">, <slot name="hero">, <slot name="hero-content">, <slot name="hero-media">
 }
 ```

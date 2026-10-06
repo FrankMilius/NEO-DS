@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-grid-cta",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,12 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimen ohne-instanzwerte (3 Spalten, 16/9, sechs Kacheln); default heisst „Wie auf der Website\" und nennt die Instanzwerte"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA."
@@ -28,7 +34,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/card-grid-cta.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-card-grid-cta.html.twig",
         "block--inline-block--neo-card-grid-cta.html.twig"
@@ -162,8 +168,8 @@
   "specimens": [
     {
       "id": "default",
-      "label": "Card Grid CTA",
-      "description": "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.",
+      "label": "Wie auf der Website",
+      "description": "Instanzwerte aus Drupal: --cgc-columns: 2, --cgc-ratio: 4/3 (geerntet von /musterseite-bauteile).",
       "matrix": {
         "axes": {
           "variant": [
@@ -180,7 +186,7 @@
         "overlay",
         "interaction"
       ],
-      "layout": "single",
+      "layout": "composition",
       "render": {
         "compositionType": "card-grid-cta-default",
         "label": "card-grid-cta"
@@ -188,6 +194,27 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": ""
+      }
+    },
+    {
+      "id": "ohne-instanzwerte",
+      "label": "Ohne Instanzwerte",
+      "description": "Vorgaben des SCSS: 3 Spalten, Karten 16/9 — sechs Kacheln.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "card-grid-cta",
+        "instanz": null,
+        "kacheln": 6
       }
     }
   ]

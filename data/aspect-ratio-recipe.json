@@ -3,7 +3,16 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "aspect-ratio",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimen eigenes-verhaeltnis (Instanzwert --nc-aspect-ratio-ratio statt Preset-Modifier)",
+          "Form ans Schema angeglichen: Achse ratio als Objekt (Werte mit tokenGroups), states mit default, Specimen-Layout row"
+        ]
+      }
+    ],
     "status": "stable",
     "tags": [
       "layout",
@@ -17,7 +26,7 @@
     "pipeline": {
       "scss": [],
       "story": null,
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": null
     }
@@ -45,58 +54,63 @@
     "ratio": {
       "label": "Seitenverhaeltnis",
       "description": "Vordefiniertes Seitenverhaeltnis.",
-      "values": [
-        {
-          "value": "1-1",
+      "values": {
+        "1-1": {
           "modifier": "nc-aspect-ratio--1-1",
-          "label": "Square (1:1)"
+          "label": "Square (1:1)",
+          "tokenGroups": []
         },
-        {
-          "value": "4-3",
+        "4-3": {
           "modifier": "nc-aspect-ratio--4-3",
-          "label": "Landscape Klassisch (4:3)"
+          "label": "Landscape Klassisch (4:3)",
+          "tokenGroups": []
         },
-        {
-          "value": "3-4",
+        "3-4": {
           "modifier": "nc-aspect-ratio--3-4",
-          "label": "Portrait Klassisch (3:4)"
+          "label": "Portrait Klassisch (3:4)",
+          "tokenGroups": []
         },
-        {
-          "value": "16-9",
+        "16-9": {
           "modifier": "nc-aspect-ratio--16-9",
           "label": "Widescreen (16:9, Default)",
-          "default": true
+          "default": true,
+          "tokenGroups": []
         },
-        {
-          "value": "9-16",
+        "9-16": {
           "modifier": "nc-aspect-ratio--9-16",
-          "label": "Vertikal / Stories (9:16)"
+          "label": "Vertikal / Stories (9:16)",
+          "tokenGroups": []
         },
-        {
-          "value": "2-1",
+        "2-1": {
           "modifier": "nc-aspect-ratio--2-1",
-          "label": "Panorama (2:1)"
+          "label": "Panorama (2:1)",
+          "tokenGroups": []
         },
-        {
-          "value": "1-2",
+        "1-2": {
           "modifier": "nc-aspect-ratio--1-2",
-          "label": "Tall Portrait (1:2)"
+          "label": "Tall Portrait (1:2)",
+          "tokenGroups": []
         },
-        {
-          "value": "3-2",
+        "3-2": {
           "modifier": "nc-aspect-ratio--3-2",
-          "label": "Classic Landscape (3:2)"
+          "label": "Classic Landscape (3:2)",
+          "tokenGroups": []
         },
-        {
-          "value": "2-3",
+        "2-3": {
           "modifier": "nc-aspect-ratio--2-3",
-          "label": "Classic Portrait (2:3)"
+          "label": "Classic Portrait (2:3)",
+          "tokenGroups": []
         }
-      ]
+      }
     }
   },
   "states": {
-    "supported": [],
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
     "rules": []
   },
   "styling": {
@@ -124,7 +138,28 @@
         "axes": {
           "ratio": "*"
         }
-      }
+      },
+      "layout": "row"
+    },
+    {
+      "id": "eigenes-verhaeltnis",
+      "label": "Eigenes Verhältnis",
+      "description": "Eigenes Verhältnis als Instanzwert über die Komponenten-Variable (style=\"--nc-aspect-ratio-ratio: 21 / 9\"), wie im SCSS-Kopf beschrieben — überschreibt das Preset 16:9 am selben Element.",
+      "matrix": {
+        "axes": {
+          "ratio": [
+            "16-9"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "render": {
+        "eigenesVerhaeltnis": "21 / 9",
+        "label": "Eigenes Verhältnis 21:9"
+      },
+      "layout": "row"
     }
   ],
   "a11y": {

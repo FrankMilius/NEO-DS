@@ -1,5 +1,5 @@
 # faq Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `content`, `interactive`, `accordion`
 

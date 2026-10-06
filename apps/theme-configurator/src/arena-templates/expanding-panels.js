@@ -1,7 +1,12 @@
 // Vorlage: expanding-panels — Markup aus data/markup/expanding-panels.html.
-// Zustand open klappt das erste Panel auf (aria-expanded), default zeigt
-// alle Panels zugeklappt.
-import { an } from './_helfer.js'
+// Zustand open klappt das erste Panel auf (aria-expanded) — so startet die
+// Website (das Drupal-Skript setzt das aktive Panel); default zeigt alle
+// Panels zugeklappt (Stand ohne Skript). Hover und Fokus klappen per CSS auf
+// (:hover, :focus-within). Optionale Slots num/bg per render.slotConfig
+// (Plan v3, Phase 4). Den Klick (Single-Open) macht auf der Website
+// neo-theme.js, nicht neo-behaviors — kein „Ausprobieren".
+import { klassenOhne } from './_helfer.js'
+import { slotAn as an, desktop } from './_bloecke-1.js'
 
 const PANELS = [
   ['01', 'Open Source', 'GPL / MIT', '100 % Open Source', 'Transparenter, auditierbarer Code ohne Vendor-Lock-in. Digitale Souveränität für Unternehmen und öffentliche Hand.'],
@@ -10,10 +15,10 @@ const PANELS = [
   ['04', 'Barrierefrei', 'WCAG 2.1 AA', 'Barrierefrei', 'WCAG-konform und BITV-ready – Zugänglichkeit als Qualitätsmerkmal des gesamten Produkts.']
 ]
 
-export default (zelle, m) => {
+const vorlage = (zelle, m) => {
   const offen = m.hat('open')
   return `
-<div class="${m.klasse}" role="group" aria-label="Warum neo workplace?"${m.attrsOhne('aria-expanded', 'data-state')}>
+<div class="${klassenOhne(m, 'is-open')}" role="group" aria-label="Warum neo workplace?"${m.attrsOhne('aria-expanded', 'data-state')}>
 ${PANELS.map(([nr, label, chip, titel, text], i) => `<button type="button" class="nc-expanding-panels__panel" aria-expanded="${offen && i === 0}">
 ${an(m, 'bg') ? '<span class="nc-expanding-panels__bg" aria-hidden="true"></span>' : ''}
 ${an(m, 'num') ? `<span class="nc-expanding-panels__num">${nr}</span>` : ''}
@@ -26,3 +31,6 @@ ${an(m, 'num') ? `<span class="nc-expanding-panels__num">${nr}</span>` : ''}
 </button>`).join('\n')}
 </div>`
 }
+
+// Rahmen ra-desktop: fuer die Seitenbreite gebaut (Plan v3, Phase 4)
+export default (zelle, m) => desktop(vorlage(zelle, m))
