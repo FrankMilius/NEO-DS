@@ -1,5 +1,5 @@
 # button Component Spec
-> Version 2.1.0 | Status: stable | Layer: atom
+> Version 2.2.0 | Status: stable | Layer: atom
 
 Tags: `interactive`, `control`
 
@@ -301,8 +301,8 @@ Base classes: `nc-button`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Enter` | activate | Loest den Click-Handler aus. |
-| `Space` | activate | Loest den Click-Handler aus. Verhindert Page-Scroll. |
+| `Enter` | activate | Loest den Click-Handler aus (nativ). Toggle (.nc-button--toggle): schaltet aria-pressed um (neo-behaviors button). |
+| `Space` | activate | Loest den Click-Handler aus (nativ, beim Loslassen). Verhindert Page-Scroll. Toggle: schaltet aria-pressed um wie Enter. |
 
 ## Test Selectors
 | Slot | Selector |
@@ -316,6 +316,7 @@ Base classes: `nc-button`
 | Event | Bubbles | Detail |
 | --- | --- | --- |
 | `click` | Yes | — |
+| `button-toggle` | Yes | `{"pressed":"boolean","value":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

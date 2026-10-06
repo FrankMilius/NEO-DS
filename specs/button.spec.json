@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "button",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -843,11 +843,11 @@
   "keyboard": {
     "Enter": {
       "action": "activate",
-      "note": "Loest den Click-Handler aus."
+      "note": "Loest den Click-Handler aus (nativ). Toggle (.nc-button--toggle): schaltet aria-pressed um (neo-behaviors button)."
     },
     "Space": {
       "action": "activate",
-      "note": "Loest den Click-Handler aus. Verhindert Page-Scroll."
+      "note": "Loest den Click-Handler aus (nativ, beim Loslassen). Verhindert Page-Scroll. Toggle: schaltet aria-pressed um wie Enter."
     }
   },
   "testSelectors": {
@@ -860,6 +860,21 @@
     "click": {
       "bubbles": true,
       "note": "Standard DOM click Event."
+    },
+    "button-toggle": {
+      "bubbles": true,
+      "detail": {
+        "pressed": "boolean",
+        "value": "string"
+      },
+      "note": "Gefeuert, wenn ein Umschaltknopf (.nc-button--toggle) aria-pressed wechselt. value: data-value, sonst aria-label, sonst die Beschriftung. Gesperrte Knoepfe melden nichts.",
+      "onlyWhen": {
+        "axes": {
+          "composition": [
+            "toggle"
+          ]
+        }
+      }
     }
   },
   "a11y": {

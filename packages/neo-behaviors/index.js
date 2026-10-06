@@ -42,6 +42,7 @@ import { notification } from './notification.js'
 import { alert } from './alert.js'
 import { banner } from './banner.js'
 import { codeSnippet } from './code-snippet.js'
+import { button } from './button.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -54,6 +55,8 @@ export const BEHAVIORS = Object.freeze({
   'segmented-control': segmentedControl,
   'toggle-group': toggleGroup,
   switch: schalter,
+  // vor Toolbar/Gruppen: Umschaltknoepfe sind innere Bauteile
+  button,
   rating,
   input: eingabe,
   'dropdown-menu': dropdownMenu,

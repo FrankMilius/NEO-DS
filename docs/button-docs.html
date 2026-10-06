@@ -707,10 +707,10 @@
 
             <!-- Toggle -->
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Toggle Button</h3>
-            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button--toggle</code> mit <code class="docs__token">aria-pressed</code>.</p>
+            <p class="docs__section-desc">Klasse: <code class="docs__token">.nc-button--toggle</code> mit <code class="docs__token">aria-pressed</code>. Das Umschalten kommt aus <code class="docs__token">neo-behaviors</code> (Bauteil <code class="docs__token">button</code>, nur Knöpfe mit <code class="docs__token">.nc-button--toggle</code>): Klick, Enter oder Leertaste schalten <code class="docs__token">aria-pressed</code> um, gesperrte Knöpfe (<code class="docs__token">disabled</code>, <code class="docs__token">aria-disabled="true"</code>) bleiben unverändert. Ereignis: <code class="docs__token">button-toggle</code> { pressed, value } — value aus <code class="docs__token">data-value</code>, sonst <code class="docs__token">aria-label</code>, sonst der Beschriftung. Die Beschriftung bleibt gleich; der Zustand steht allein in <code class="docs__token">aria-pressed</code>.</p>
             <div style="display: flex; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
-              <button class="nc-button nc-button--toggle" aria-pressed="false">Inaktiv</button>
-              <button class="nc-button nc-button--toggle" aria-pressed="true">Aktiv</button>
+              <button type="button" class="nc-button nc-button--toggle" aria-pressed="false">Fett</button>
+              <button type="button" class="nc-button nc-button--toggle" aria-pressed="true">Kursiv</button>
             </div>
 
             <!-- Link als Button -->
@@ -1611,6 +1611,7 @@
   <script src="docs-toc.js"></script>
   <script src="docs-stage-controls.js"></script>
   <script src="docs-recipe-tab.js"></script>
+  <script src="../packages/neo-behaviors/dist/neo-behaviors.js"></script>
   <script src="button-docs.js"></script>
 
 </body>

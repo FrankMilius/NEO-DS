@@ -10,6 +10,10 @@
 (function () {
   'use strict';
 
+  function bindeUmschalter(bereich) {
+    if (window.NeoBehaviors) window.NeoBehaviors.anbinden(bereich, ['button']);
+  }
+
   // -----------------------------------------------------------------------
   // 1. Tab Navigation
   // -----------------------------------------------------------------------
@@ -149,10 +153,12 @@
 
     } else if (variant === '__toggle') {
       // Toggle
+      // Beschriftung bleibt fest: der Zustand steht in aria-pressed
+      // (umschalten: neo-behaviors button, Entscheidung 06.10.2026)
       var cls = 'nc-button nc-button--toggle' + sizeMod;
-      html = '<button class="' + cls + '" aria-pressed="false"' + disabledAttr + '>Inaktiv</button>';
-      html += ' <button class="' + cls + '" aria-pressed="true"' + disabledAttr + '>Aktiv</button>';
-      codeStr = '<button class="' + cls + '" aria-pressed="false">Toggle</button>';
+      html = '<button type="button" class="' + cls + '" aria-pressed="false"' + disabledAttr + '>Fett</button>';
+      html += ' <button type="button" class="' + cls + '" aria-pressed="true"' + disabledAttr + '>Kursiv</button>';
+      codeStr = '<button type="button" class="' + cls + '" aria-pressed="false">Fett</button>';
 
     } else {
       // ----- Standard variants (primary, secondary, tertiary, ghost, outline, accent, etc.) -----
@@ -187,6 +193,7 @@
 
     preview.innerHTML = html;
     codeOutput.textContent = codeStr;
+    bindeUmschalter(preview);
   }
 
   // Event listeners
@@ -200,17 +207,16 @@
   updateStage();
 
   // -----------------------------------------------------------------------
-  // 3. Toggle Button Demo (make interactive)
+  // 3. Toggle Button — Verhalten aus neo-behaviors (button)
   // -----------------------------------------------------------------------
+  // Entscheidung 06.10.2026: kein eigenes Umschalten mehr. Das Behavior
+  // `button` (../packages/neo-behaviors/dist/neo-behaviors.js) schaltet
+  // aria-pressed an .nc-button--toggle um und meldet `button-toggle`
+  // { pressed, value }; gesperrte Knoepfe bleiben unveraendert.
+  // anbinden() ist mehrfach harmlos — nach jedem Neuzeichnen der Buehne
+  // werden nur die neuen Knoepfe gebunden.
 
-  document.addEventListener('click', function (e) {
-    // Support both .nc-button--toggle and legacy .button.toggle
-    var toggle = e.target.closest('.nc-button--toggle, .button.toggle');
-    if (!toggle) return;
-    var pressed = toggle.getAttribute('aria-pressed') === 'true';
-    toggle.setAttribute('aria-pressed', String(!pressed));
-    toggle.textContent = pressed ? 'Inaktiv' : 'Aktiv';
-  });
+  bindeUmschalter(document);
 
   // -----------------------------------------------------------------------
   // 4. Micro Animation Ripple (click position based)

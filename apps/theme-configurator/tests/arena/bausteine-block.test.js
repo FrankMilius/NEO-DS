@@ -11,7 +11,8 @@
  *     Loading, Toggle, Gruppe, Link; Item: Media am Media-Element, Optionen
  *     mit aria-selected/aria-disabled; Kennzahl: Trend als Text; Code-Snippet:
  *     Kopf, Zeilen, Hervorhebung, eingeklappt/aufgeklappt)
- *   - „Ausprobieren" nur, wo neo-behaviors Verhalten hat: code-snippet
+ *   - „Ausprobieren" nur, wo neo-behaviors Verhalten hat: code-snippet und
+ *     button (Toggle, Entscheidung 06.10.2026)
  *   - form-layout: Arena gestrichen (Entscheidung 06.10.2026), keine Sektion mehr
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
@@ -160,13 +161,14 @@ describe('Bausteine-Block aus dem Recipe', () => {
     })
   }
 
-  it('Kennzahl: alle vier ohne Sonderfall; Verhalten nur beim Code-Snippet', () => {
+  it('Kennzahl: alle vier ohne Sonderfall; Verhalten beim Code-Snippet und beim Button (Toggle)', () => {
     expect(BLOCK.filter((id) => hasArena(id))).toEqual([])
-    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(['code-snippet'])
+    expect(BLOCK.filter((id) => MIT_VERHALTEN.includes(id))).toEqual(['button', 'code-snippet'])
     for (const id of ['button', 'item', 'metric']) {
       expect(rohesRecipe(id).events?.['code-snippet-copy']).toBeUndefined()
     }
-    for (const id of BLOCK) expect(rohesRecipe(id).meta.version, id).toBe('2.1.0')
+    for (const id of ['item', 'metric', 'code-snippet']) expect(rohesRecipe(id).meta.version, id).toBe('2.1.0')
+    expect(rohesRecipe('button').meta.version).toBe('2.2.0')
   })
 
   it('form-layout: Arena gestrichen, keine Sektion, form zeigt die RecipeArena (Entscheidung 06.10.2026)', () => {
@@ -360,7 +362,20 @@ describe('Bausteine-Block in der RecipeArena', () => {
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
       expect(w.findAll('.ra-cell[data-quelle="heuristik"], .ra-cell[data-quelle="fehler"]')).toHaveLength(0)
       const knoepfe = w.findAll('.ra-modus__knopf')
-      if (id !== 'code-snippet') {
+      if (id === 'button') {
+        // Ausprobieren: der Toggle schaltet per neo-behaviors (Entscheidung 06.10.2026)
+        await knoepfe[1].trigger('click')
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 0))
+        const gebunden = w.findAll('[data-neo-behavior~="button"]').map((k) => k.element)
+        expect(gebunden.length).toBeGreaterThan(0)
+        expect(gebunden.every((k) => k.classList.contains('nc-button--toggle'))).toBe(true)
+        const zelle = w.find('.ra-specimen[data-specimen-id="toggle"] .ra-cell').element
+        const kursiv = zelle.querySelectorAll('.nc-button--toggle')[1]
+        expect(kursiv.getAttribute('aria-pressed')).toBe('false')
+        kursiv.click()
+        expect(kursiv.getAttribute('aria-pressed')).toBe('true')
+      } else if (id !== 'code-snippet') {
         expect(knoepfe).toHaveLength(0)
       } else {
         await knoepfe[1].trigger('click')

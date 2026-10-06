@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "button",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -25,6 +25,12 @@
       "docs": "docs/button-docs.html"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "06.10.2026: Verhalten fuer den Umschaltknopf (Entscheidung 06.10.2026) — neo-behaviors `button` bindet nur .nc-button--toggle: Klick, Enter, Leertaste (nativer Klick) schalten aria-pressed um, gesperrte Knoepfe (disabled, aria-disabled) bleiben unveraendert; Ereignis button-toggle { pressed, value }. Arena: „Ausprobieren“ fuer den Toggle."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -834,11 +840,11 @@
   "keyboard": {
     "Enter": {
       "action": "activate",
-      "note": "Loest den Click-Handler aus."
+      "note": "Loest den Click-Handler aus (nativ). Toggle (.nc-button--toggle): schaltet aria-pressed um (neo-behaviors button)."
     },
     "Space": {
       "action": "activate",
-      "note": "Loest den Click-Handler aus. Verhindert Page-Scroll."
+      "note": "Loest den Click-Handler aus (nativ, beim Loslassen). Verhindert Page-Scroll. Toggle: schaltet aria-pressed um wie Enter."
     }
   },
   "testSelectors": {
@@ -851,6 +857,21 @@
     "click": {
       "bubbles": true,
       "note": "Standard DOM click Event."
+    },
+    "button-toggle": {
+      "bubbles": true,
+      "detail": {
+        "pressed": "boolean",
+        "value": "string"
+      },
+      "note": "Gefeuert, wenn ein Umschaltknopf (.nc-button--toggle) aria-pressed wechselt. value: data-value, sonst aria-label, sonst die Beschriftung. Gesperrte Knoepfe melden nichts.",
+      "onlyWhen": {
+        "axes": {
+          "composition": [
+            "toggle"
+          ]
+        }
+      }
     }
   },
   "specimens": [

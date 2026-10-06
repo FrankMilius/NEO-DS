@@ -3004,6 +3004,20 @@
     }
   };
 
+  // packages/neo-behaviors/button.js
+  var button = {
+    id: "button",
+    selektor: ".nc-button--toggle",
+    binde(knopf, signal) {
+      knopf.addEventListener("click", () => {
+        if (gesperrt(knopf)) return;
+        const gedrueckt = knopf.getAttribute("aria-pressed") !== "true";
+        knopf.setAttribute("aria-pressed", String(gedrueckt));
+        sende(knopf, "button-toggle", { pressed: gedrueckt, value: wertVon(knopf) });
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3013,6 +3027,8 @@
     "segmented-control": segmentedControl,
     "toggle-group": toggleGroup,
     switch: schalter,
+    // vor Toolbar/Gruppen: Umschaltknoepfe sind innere Bauteile
+    button,
     rating,
     input: eingabe,
     "dropdown-menu": dropdownMenu,
