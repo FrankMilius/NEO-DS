@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "marquee",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -28,7 +28,7 @@
     "notes": [
       "Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.",
       "Text: uppercase, letter-spacing 0.08em, clamp font-size.",
-      "Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab."
+      "Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht."
     ]
   },
   "api": null,
@@ -58,9 +58,15 @@
       "nc-marquee"
     ],
     "tokenGroups": {
-      "Base": []
+      "Base": [
+        {
+          "token": "--nc-marquee-duration"
+        }
+      ]
     },
-    "modTokens": []
+    "modTokens": [
+      "--mod-marquee-duration"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,

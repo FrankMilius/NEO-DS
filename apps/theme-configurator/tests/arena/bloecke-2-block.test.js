@@ -129,7 +129,8 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
       it('Recipe-Version ab 1.1.0 mit Changelog-Eintrag der Phase 4', () => {
         const meta = rohesRecipe(id).meta
         expect(meta.changelog[0].version).toBe(meta.version)
-        expect(meta.changelog[0].changes.join(' ')).toMatch(/Plan v3, Phase 4/)
+        // Spaetere Entscheidungen (06.10.2026) duerfen davor stehen
+        expect(meta.changelog.some((e) => /Plan v3, Phase 4/.test(e.changes.join(' ')))).toBe(true)
       })
 
       it('Wurzel aus dem Recipe, nur Klassen aus styles.css bzw. der Anatomie, Arena-Klassen nie an DS-Elementen', () => {

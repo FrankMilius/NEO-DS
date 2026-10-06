@@ -3,6 +3,12 @@
 // ==========================================================================
 // Horizontal scrolling text/logo ticker.
 // Extracted from _site.scss for proper ITCSS placement.
+//
+// BEWEGUNG (Entscheidung 06.10.2026): Die Spur laeuft endlos mit den
+// DS-Keyframes `marquee` (02-generic/_animations.scss, translate um die
+// halbe Spur). Dafuer traegt die Spur den Inhalt zweimal hintereinander.
+// Dauer ueber --nc-marquee-duration (Ueberschreibung --mod-marquee-duration).
+// prefers-reduced-motion: keine Bewegung, die Spur steht.
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -16,8 +22,16 @@
   display: inline-flex;
   align-items: center;
   gap: var(--fnd-spacing-08);
+  // Abstand auch nach dem letzten Glied: die halbe Spur ist dann genau ein
+  // Glied plus ein Abstand — der Sprung am Ende des Durchlaufs ist unsichtbar.
+  padding-inline-end: var(--fnd-spacing-08);
   white-space: nowrap;
   will-change: transform;
+  animation: marquee var(--mod-marquee-duration, var(--nc-marquee-duration)) linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .nc-marquee__text {

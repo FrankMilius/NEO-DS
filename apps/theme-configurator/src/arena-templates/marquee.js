@@ -6,12 +6,12 @@
 // `.nc-container > .nc-marquee`, 04-objects/_section.scss: der Container-
 // Abstand geht an den Lauftext).
 //
-// Zustände: statisch — das DS gestaltet Spur und Text, bewegt sie aber
-// nicht: .nc-marquee__track hat nur will-change: transform, keine Animation.
-// Abspielen: die Arena haengt die DS-Keyframes `marquee`
-// (02-generic/_animations.scss, translate3d auf --marquise-item-width,
-// Standard -50 %) an die Spur — so, wie es die Doku-Seite per Inline-Stil tut.
-// Gemeldet: ob die Bewegung (samt prefers-reduced-motion) ins SCSS gehoert.
+// Bewegung (Entscheidung 06.10.2026): das DS laesst .nc-marquee__track
+// endlos laufen (Keyframes `marquee`, Dauer --nc-marquee-duration; bei
+// prefers-reduced-motion steht sie). Zustände: Standbild — die Zelle steht
+// im Rahmen ra-standbild, der die Animation des DS anhaelt.
+// Abspielen: nimmt ra-standbild weg, die echte Animation des DS laeuft;
+// Anhalten setzt den Rahmen wieder.
 import { alle } from './_bewegung.js'
 
 const TEXT = 'Kommunikation — Wissen — Events — Vernetzung — Anwendungen — '
@@ -23,21 +23,18 @@ export default (zelle, m) => {
 <span class="nc-marquee__text">${TEXT}</span>
 </div>
 </div>`
-  if (m.specimen.render?.compositionType === 'marquee-in-container') {
-    return `<div class="nc-container">\n${lauf}\n</div>`
-  }
-  return lauf
+  const inhalt = m.specimen.render?.compositionType === 'marquee-in-container'
+    ? `<div class="nc-container">\n${lauf}\n</div>`
+    : lauf
+  return `<div class="ra-standbild">\n${inhalt}\n</div>`
 }
 
-/** Dauer eines Durchlaufs in der Arena (die Doku-Seite nutzt 8 s fuer kurzen Text). */
-export const DAUER = '20s'
-
 export const abspielen = {
-  hinweis: 'Die Spur läuft mit den DS-Keyframes „marquee“ (02-generic/_animations.scss); das Bauteil selbst bewegt sie nicht.',
+  hinweis: 'Die Spur läuft mit der Animation des DS (.nc-marquee__track, Keyframes „marquee“, Dauer --nc-marquee-duration); bei reduzierter Bewegung steht sie.',
   starten (zelle) {
-    return alle([...zelle.querySelectorAll('.nc-marquee__track')].map((spur) => {
-      spur.style.animation = `marquee ${DAUER} linear infinite`
-      return () => { spur.style.animation = '' }
+    return alle([...zelle.querySelectorAll('.ra-standbild')].map((rahmen) => {
+      rahmen.classList.remove('ra-standbild')
+      return () => { rahmen.classList.add('ra-standbild') }
     }))
   }
 }

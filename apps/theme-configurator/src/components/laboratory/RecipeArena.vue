@@ -581,6 +581,11 @@ onBeforeUnmount(() => {
   animation-play-state: paused;
   animation-delay: -120ms;
 }
+/* ra-standbild am Lauftext (Entscheidung 06.10.2026): die Endlos-Animation
+   des DS steht in „Zustände"; „Abspielen" nimmt den Rahmen weg. */
+.ra-live-component .ra-standbild .nc-marquee__track {
+  animation-play-state: paused;
+}
 .ra-live-component .ra-stapel--breit { align-items: stretch; }
 .ra-live-component .ra-stapel--breit > .nc-button { align-self: flex-start; }
 

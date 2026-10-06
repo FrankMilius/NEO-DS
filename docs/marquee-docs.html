@@ -270,6 +270,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
+      <tr><td><code class="docs__token">--nc-marquee-duration</code></td><td>20s</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -331,6 +332,7 @@
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+      <tr><td><code class="docs__token">--nc-marquee-duration</code></td><td>20s</td><td>&mdash;</td></tr>
     </tbody>
     </table>
   </div>
@@ -340,7 +342,7 @@
   <ul>
     <li>Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.</li>
     <li>Text: uppercase, letter-spacing 0.08em, clamp font-size.</li>
-    <li>Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab.</li>
+    <li>Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

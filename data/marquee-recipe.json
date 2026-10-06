@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "marquee",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -26,6 +26,14 @@
       "docs": "docs/marquee-docs.html"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Bewegung im SCSS (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos mit den DS-Keyframes marquee, Dauer --nc-marquee-duration (20s, Ueberschreibung --mod-marquee-duration); prefers-reduced-motion: animation none. Die Spur traegt den Abstand auch nach dem letzten Glied (padding-inline-end), damit die halbe Spur nahtlos wiederholt",
+          "Arena: Zellen als Standbild (Rahmen ra-standbild haelt die Animation an), „Abspielen\" laesst die echte Animation des DS laufen",
+          "Richtung und Pause bei Hover/Fokus: das Recipe nennt keine — nicht gebaut"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -55,7 +63,7 @@
     "domNotes": [
       "Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.",
       "Text: uppercase, letter-spacing 0.08em, clamp font-size.",
-      "Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab."
+      "Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht."
     ]
   },
   "axes": {
@@ -102,7 +110,9 @@
     "tokenGroups": {
       "base": {
         "label": "Base",
-        "tokens": []
+        "tokens": [
+          "nc-marquee-duration"
+        ]
       }
     }
   },

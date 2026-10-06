@@ -100,12 +100,14 @@ describe('Bloecke 1 aus dem Recipe (Plan v3, Phase 4)', () => {
 
   for (const id of BLOCK) {
     describe(id, () => {
-      it('mindestens zwei Specimens, Recipe 1.1.0 mit Changelog-Eintrag der Phase 4', () => {
+      it('mindestens zwei Specimens, Recipe ab 1.1.0 mit Changelog-Eintrag der Phase 4', () => {
         const r = rohesRecipe(id)
         expect(r.specimens.length).toBeGreaterThanOrEqual(2)
-        expect(r.meta.version).toBe('1.1.0')
-        expect(r.meta.changelog[0].version).toBe('1.1.0')
-        expect(r.meta.changelog[0].changes[0]).toContain('Plan v3, Phase 4')
+        // Spaetere Entscheidungen (z. B. 06.10.2026) setzen die Version weiter
+        // hoch — der Eintrag der Phase 4 bleibt im Changelog.
+        expect(r.meta.changelog[0].version).toBe(r.meta.version)
+        const p4 = r.meta.changelog.find((e) => e.changes[0]?.includes('Plan v3, Phase 4'))
+        expect(p4?.version).toBe('1.1.0')
         expect(new Set(r.specimens.map((s) => s.id)).size).toBe(r.specimens.length)
       })
 

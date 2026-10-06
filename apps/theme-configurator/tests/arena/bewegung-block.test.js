@@ -186,7 +186,7 @@ describe('Bewegung-Block aus dem Recipe', () => {
     for (const id of BLOCK) {
       const r = rohesRecipe(id)
       expect(r.meta.changelog[0].version, id).toBe(r.meta.version)
-      expect(r.meta.changelog[0].changes.join(' '), id).toContain('Phase 4')
+      expect(r.meta.changelog.some((e) => e.changes.join(' ').includes('Phase 4')), id).toBe(true)
     }
   })
 })
@@ -336,14 +336,18 @@ describe('Bewegung-Block: Abspielen', () => {
     expect(zelle.querySelectorAll('.nc-fade-gallery__desc')[0].classList.contains('is-visible')).toBe(true)
   })
 
-  it('marquee: DS-Keyframes „marquee" an der Spur, Anhalten nimmt sie wieder weg', () => {
+  it('marquee: die Spur laeuft per DS (Keyframes „marquee", reduced-motion steht); Standbild in der Zelle, Abspielen nimmt ra-standbild weg (Entscheidung 06.10.2026)', () => {
     expect(css()).toMatch(/@keyframes marquee\{/)
+    expect(css()).toMatch(/\.nc-marquee__track\{[^}]*animation:marquee var\(--mod-marquee-duration, ?var\(--nc-marquee-duration\)\) linear infinite/)
+    expect(css()).toMatch(/prefers-reduced-motion: ?reduce\)\{\.nc-marquee__track\{animation:none\}/)
     const zelle = dom(zellen('marquee', 'default')[0].html)
     const spur = zelle.querySelector('.nc-marquee__track')
+    expect(spur.closest('.ra-standbild')).not.toBeNull()
     const anhalten = abspielenFuer('marquee').starten(zelle)
-    expect(spur.style.animationName || spur.style.animation).toMatch(/^marquee\b/)
+    expect(spur.closest('.ra-standbild')).toBeNull()
+    expect(spur.getAttribute('style')).toBeNull()
     anhalten()
-    expect(spur.getAttribute('style') || '').toBe('')
+    expect(spur.closest('.ra-standbild')).not.toBeNull()
   })
 
   it('story-gallery und carousel: die Spur blaettert per scrollTo (Bewegung aus dem DS), Paddles sperren sich, Anhalten springt zurueck', () => {

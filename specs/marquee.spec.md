@@ -1,5 +1,5 @@
 # marquee Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `animation`, `decorative`
 
@@ -14,7 +14,7 @@ Root element: `.nc-marquee`
 ### DOM Notes
 - Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.
 - Text: uppercase, letter-spacing 0.08em, clamp font-size.
-- Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab.
+- Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht.
 
 ## Variants
 ### Variant (`variant`)
@@ -31,6 +31,10 @@ Supported: `default`
 Base classes: `nc-marquee`
 
 ### Base
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-marquee-duration` | — | `--mod-marquee-duration` |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 

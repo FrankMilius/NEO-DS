@@ -13570,6 +13570,28 @@ export const componentTokenGroups = [
     ]
   },
   {
+    "id": "marquee",
+    "label": "Marquee",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "alle",
+        "label": "Alle Tokens",
+        "tokenIds": [
+          "nc-marquee-duration"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-marquee-duration",
+        "label": "Duration",
+        "type": "generic",
+        "default": "20s"
+      }
+    ]
+  },
+  {
     "id": "media-frame",
     "label": "Media Frame",
     "icon": "components",

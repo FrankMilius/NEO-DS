@@ -153,6 +153,7 @@ export type ComponentGroupId =
   | "kbd"
   | "label"
   | "logo-wall"
+  | "marquee"
   | "media-frame"
   | "metric"
   | "mobile-drawer"
