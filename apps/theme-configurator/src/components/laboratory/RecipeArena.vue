@@ -10,10 +10,27 @@
     </nav>
     <!-- Zustaende (feste Matrix) oder Ausprobieren (lebendige Instanz mit dem
          Verhalten aus packages/neo-behaviors — derselben Datei wie in Drupal). -->
-    <div v-if="hatVerhalten" class="ra-modus" role="group" aria-label="Ansicht der Arena">
-      <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'zustaende'" @click="modus = 'zustaende'">Zustände</button>
-      <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">Ausprobieren</button>
-      <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">{{ eigenesAusprobieren ? eigenesAusprobieren.hinweis : 'Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.' }}</span>
+    <div v-if="hatVerhalten || abspielInfo" class="ra-modus" role="group" aria-label="Ansicht der Arena">
+      <template v-if="hatVerhalten">
+        <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'zustaende'" @click="modus = 'zustaende'">Zustände</button>
+        <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">Ausprobieren</button>
+        <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">{{ eigenesAusprobieren ? eigenesAusprobieren.hinweis : 'Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.' }}</span>
+      </template>
+      <!-- Abspielen (Plan v3, Phase 4): Bewegung eines Website-Blocks mit
+           den Mitteln des DS nachgestellt; gesperrt mit Grund, wenn es sie
+           nur als GSAP-Logik der Website gibt (arena-templates/index.js) -->
+      <template v-if="abspielInfo">
+        <button
+          type="button"
+          class="ra-modus__knopf ra-modus__knopf--abspielen"
+          data-test="abspielen"
+          :aria-pressed="laeuft"
+          :disabled="!!abspielSperre"
+          :aria-describedby="`${componentId}-abspielen-hinweis`"
+          @click="schalteAbspielen"
+        >Abspielen</button>
+        <span :id="`${componentId}-abspielen-hinweis`" class="ra-modus__hinweis" data-test="abspielen-hinweis">{{ abspielSperre || abspielInfo.hinweis }}</span>
+      </template>
     </div>
     <template v-for="sp in sichtbareAnsichten" :key="sp.id">
       <div class="arena-category-divider">
@@ -92,7 +109,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
-import { vorlageFuer, einrichtungFuer, ausprobierenFuer } from '../../arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 
 const props = defineProps({
@@ -206,6 +223,54 @@ function binde () {
 watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
 onMounted(() => nextTick(binde))
 onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
+
+// --- Abspielen (Plan v3, Phase 4, Gruppe bewegung) -------------------------
+// Animierte Website-Bloecke zeigen in „Zustände" ihren statischen Zustand.
+// Die Taste stellt die Bewegung mit den Mitteln des DS nach (Vorlage:
+// export abspielen.starten) — in allen sichtbaren Zellen. Kein GSAP.
+// Gesperrt, wenn die Vorlage einen Grund nennt (Bewegung nur als GSAP-Logik
+// der Website, Bauteil nicht gebaut) oder das System Bewegung reduziert.
+const abspielInfo = computed(() => abspielenFuer(props.componentId))
+const bewegungReduziert = ref(false)
+const abspielSperre = computed(() => {
+  if (!abspielInfo.value) return null
+  if (abspielInfo.value.gesperrt) return abspielInfo.value.gesperrt
+  if (bewegungReduziert.value) return 'Bewegung reduziert (prefers-reduced-motion): die Arena zeigt den statischen Zustand.'
+  return null
+})
+const laeuft = ref(false)
+let abspielenWeg = []
+function stoppeAbspielen () {
+  for (const weg of abspielenWeg) weg()
+  abspielenWeg = []
+  laeuft.value = false
+}
+function schalteAbspielen () {
+  if (laeuft.value) { stoppeAbspielen(); return }
+  const starten = abspielInfo.value?.starten
+  if (abspielSperre.value || typeof starten !== 'function' || !wurzel.value) return
+  for (const zelle of wurzel.value.querySelectorAll('.ra-live-component')) {
+    const weg = starten(zelle)
+    if (typeof weg === 'function') abspielenWeg.push(weg)
+  }
+  laeuft.value = true
+}
+// Vor jedem neuen Rendern anhalten (flush 'pre': die Aufraeum-Funktionen
+// stellen den statischen Zustand am alten DOM her, nicht am neuen)
+watch([modus, sichtbareAnsichten, () => store.state.previewMode, () => props.componentId], stoppeAbspielen)
+watch(abspielSperre, (sperre) => { if (sperre) stoppeAbspielen() })
+let bewegungsAbfrage = null
+const merkeBewegung = (e) => { bewegungReduziert.value = !!e.matches }
+onMounted(() => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
+  bewegungsAbfrage = window.matchMedia('(prefers-reduced-motion: reduce)')
+  bewegungReduziert.value = !!bewegungsAbfrage.matches
+  bewegungsAbfrage.addEventListener?.('change', merkeBewegung)
+})
+onBeforeUnmount(() => {
+  stoppeAbspielen()
+  bewegungsAbfrage?.removeEventListener?.('change', merkeBewegung)
+})
 </script>
 
 <style>
@@ -662,6 +727,35 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 .ra-live-component .ra-effekt > .nc-psychedelic-bg { position: absolute; inset: 0; }
 .ra-live-component .ra-effekt canvas { display: block; }
 
+/* Bewegung (Plan v3, Phase 4, Gruppe bewegung). Nur Platz und Rahmen.
+   ra-kopf--mobil: Kopfzeile in der Mobil-Lage (.nc-header--mobile) in
+   Telefonbreite; mit .is-mobile-open haengt das Panel unter der Leiste
+   (ra-kopf--offen haelt die Hoehe frei). */
+.ra-live-component .ra-kopf--mobil { min-width: 0; width: 390px; max-width: 100%; }
+.ra-live-component .ra-kopf--mobil.ra-kopf--offen { min-height: 360px; }
+/* ra-buehne--mobil-drawer: Drawer der Mobil-Navigation (mobile-drawer). Das
+   DS blendet Drawer und Backdrop ab 1200 px FENSTERbreite aus
+   (display: none !important, 07-organisms/_mobile-drawer.scss); im Rahmen
+   gilt die Lage darunter — dieselbe Ausnahme wie ra-nav-mobil. */
+.ra-live-component .ra-buehne--mobil-drawer {
+  max-width: 420px;
+  background: var(--fnd-color-background-secondary);
+}
+.ra-live-component .ra-buehne--mobil-drawer :is(.nc-mobile-drawer, .nc-mobile-drawer__backdrop) { display: block !important; }
+/* ra-legende: Erlaeuterung neben echtem Markup (Token-Kette, Schichten) —
+   Arena-Text, kein DS-Element */
+.ra-live-component .ra-legende {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--fnd-color-text-secondary);
+}
+.ra-live-component .ra-legende > div { display: flex; gap: 8px; }
+.ra-live-component .ra-legende dt { min-width: 120px; font-weight: 600; color: var(--fnd-color-text-primary); }
+.ra-live-component .ra-legende dd { margin: 0; }
+.ra-live-component .ra-legende code { font: 500 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
    nicht aus styles.css — hier dieselbe Regel fuer die Arena. */
@@ -789,5 +883,11 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 .ra-modus__hinweis {
   color: var(--cfg-text-muted, #64748b);
   margin-left: 4px;
+}
+.ra-modus__knopf--abspielen { margin-left: 8px; }
+.ra-modus__knopf--abspielen:first-child { margin-left: 0; }
+.ra-modus__knopf:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 </style>

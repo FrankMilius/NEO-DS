@@ -29,6 +29,17 @@
 // Bauteile, deren Verhalten nur die Arena selbst mitbringt (psychedelic-bg:
 // Canvas-Renderer des Konfigurators, im DS nicht gebaut).
 //
+// Optional exportiert eine Vorlage `abspielen = { hinweis, gesperrt?, starten? }`
+// (Plan v3, Phase 4, Gruppe bewegung): die Arena bietet dann die Taste
+// „Abspielen" an. starten(zelle) stellt die Bewegung des Website-Blocks mit
+// den Mitteln des DS nach — Klassen-/Zustandswechsel, die das SCSS animiert
+// (is-active, is-visible), scroll-behavior/scroll-snap des DS oder DS-
+// Keyframes — und gibt eine Aufraeum-Funktion zurueck, die den statischen
+// Zustand wiederherstellt. Kein GSAP im Konfigurator-Bundle. Gibt es die
+// Bewegung nur als GSAP-Logik der Website (neo-theme.js) oder ist das
+// Bauteil nicht gebaut, nennt `gesperrt` den Grund: die Taste bleibt dann
+// deaktiviert. Bei prefers-reduced-motion deaktiviert die Arena die Taste.
+//
 // Ohne Vorlage rendert die Arena per Slot-Heuristik. Dateien mit `_` am
 // Anfang sind Helfer, keine Vorlagen.
 // ==========================================================================
@@ -38,11 +49,13 @@ const MODULE = import.meta.glob(['./*.js', '!./index.js', '!./_*.js'], { eager: 
 const VORLAGEN = {}
 const EINRICHTUNG = {}
 const AUSPROBIEREN = {}
+const ABSPIELEN = {}
 for (const [pfad, modul] of Object.entries(MODULE)) {
   const id = pfad.slice(2, -3)
   if (typeof modul.default === 'function') VORLAGEN[id] = modul.default
   if (typeof modul.einrichten === 'function') EINRICHTUNG[id] = modul.einrichten
   if (modul.ausprobieren && typeof modul.ausprobieren === 'object') AUSPROBIEREN[id] = modul.ausprobieren
+  if (modul.abspielen && typeof modul.abspielen === 'object') ABSPIELEN[id] = modul.abspielen
 }
 
 export function vorlageFuer (id) {
@@ -57,6 +70,11 @@ export function einrichtungFuer (id) {
 /** Eigenes „Ausprobieren" der Vorlage ({ hinweis }) oder null. */
 export function ausprobierenFuer (id) {
   return AUSPROBIEREN[id] || null
+}
+
+/** Taste „Abspielen" der Vorlage ({ hinweis, gesperrt?, starten? }) oder null. */
+export function abspielenFuer (id) {
+  return ABSPIELEN[id] || null
 }
 
 export function hatVorlage (id) {
