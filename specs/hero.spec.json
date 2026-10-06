@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -47,7 +47,7 @@
         "name": "mark",
         "selector": ".nc-hero__mark",
         "required": false,
-        "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
+        "description": "Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
       }
     ],
     "notes": [
@@ -153,7 +153,7 @@
     },
     "markStyle": {
       "label": "Headline Mark",
-      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert.",
+      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert. Der Modifier tint wirkt nur auf <mark>; .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026).",
       "values": [
         {
           "value": "bar",

@@ -21,6 +21,10 @@
 // von rund 550 px stuende er gequetscht. Der Rahmen ist eine Desktop-Seite
 // von 1280 px im Massstab 1:2,4; darin gelten die echten Werte.
 //
+// Hervorhebung: <span class="nc-hero__mark"> wie auf der Website. Sie bleibt
+// auch in der Zeile markStyle=tint ein Balken — nc-hero--mark-tint faerbt nur
+// <mark> (Entscheidung 06.10.2026, Recipe 2.2.0).
+//
 // <section> ohne Namen wie im geernteten Markup (kein Landmark).
 import { BILD_SRC, esc } from './_helfer.js'
 

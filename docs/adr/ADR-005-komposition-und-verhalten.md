@@ -279,8 +279,10 @@ Dinge fehlten aber:
   (Vorlagen können ein eigenes Ausprobieren melden, `einrichten()` darf
   aufräumen), im DS bleibt es „beschrieben, nicht gebaut“. Hero-Recipe
   2.1.x: Ausrichtung ohne Medium, Specimens für die Kennzahlen-Achsen;
-  behoben (Freigabe ausstehend): `nc-hero--mark-tint` fing `.nc-hero__mark`
-  nicht. Sichtbar gewordene Befunde (Containerbreiten Standard 1536 px >
+  `nc-hero--mark-tint` faengt `.nc-hero__mark` nicht — Entscheidung
+  06.10.2026: so bleibt es (Website unveraendert); der Modifier faerbt nur
+  `<mark>`, `.nc-hero__mark` bleibt Balken (Tinte dort per
+  `.nc-hero__mark--tint`); Recipe und Doku beschreiben das. Sichtbar gewordene Befunde (Containerbreiten Standard 1536 px >
   Wide 1290 px gegen Recipe 1200/1440; Sidebar-Dichte setzt die Breite der
   Sidebar, nicht der Rasterspalte; Inhaltsausrichtung gegen Preset
   content-page; Linkbar-Links mit Fließtext-Unterstrich) sind gemeldet,

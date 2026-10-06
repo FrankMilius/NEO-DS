@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -13,7 +13,7 @@ Root element: `.nc-hero`
 | actions | `.nc-hero__actions` | No | Primaere und sekundaere CTA-Buttons unterhalb der Highlights. |
 | footer | `.nc-hero__footer` | No | Badges und Kennzahlen unter den Aktionen. |
 | cards | `.nc-hero__cards` | No | Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil. |
-| mark | `.nc-hero__mark` | No | Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste. |
+| mark | `.nc-hero__mark` | No | Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste. |
 
 ### DOM Notes
 - Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem.
@@ -65,7 +65,7 @@ Auf welcher Seite das Medium steht. Der Inhalt bleibt im Markup zuerst; die Umst
 | start | `.nc-hero--media-start` |  |
 
 ### Headline Mark (`markStyle`)
-Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert.
+Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert. Der Modifier tint wirkt nur auf <mark>; .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026).
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |

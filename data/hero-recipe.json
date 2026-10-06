@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "06.10.2026: markStyle ehrlich beschrieben (Entscheidung 06.10.2026, hero-mark): nc-hero--mark-tint faerbt nur <mark> in Titel/Untertitel; .nc-hero__mark bleibt Balken, auch mit mark-tint (so nutzt es die Website, die unveraendert bleibt). Tinte an .nc-hero__mark nur per Element-Modifier .nc-hero__mark--tint. SCSS unveraendert."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -77,7 +83,7 @@
         "name": "mark",
         "element": ".nc-hero__mark",
         "optional": true,
-        "description": "Hervorhebung INNERHALB der Ueberschrift. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
+        "description": "Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
       }
     ],
     "convenience": [
@@ -242,7 +248,7 @@
     },
     "markStyle": {
       "label": "Headline Mark",
-      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert.",
+      "description": "Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert. Der Modifier tint wirkt nur auf <mark>; .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026).",
       "values": {
         "bar": {
           "modifier": null,
@@ -256,7 +262,7 @@
           "tokenGroups": [
             "mark"
           ],
-          "description": "Faerbt den Text. Wert ist flaechenabhaengig."
+          "description": "Faerbt den Text von <mark> in Titel/Untertitel. Wert ist flaechenabhaengig. .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026) — dafuer .nc-hero__mark--tint am Element."
         }
       }
     },
@@ -773,7 +779,7 @@
     {
       "id": "mark-comparison",
       "label": "Hervorhebung in der Ueberschrift",
-      "description": "Balken gegen Tinte, je Flaeche. Der Balken laesst die Schriftfarbe unangetastet, die Tinte ersetzt sie.",
+      "description": "Balken gegen Tinte, je Flaeche. Der Balken laesst die Schriftfarbe unangetastet, die Tinte ersetzt sie. Die Arena nutzt wie die Website <span class=\"nc-hero__mark\">: sie bleibt auch in der Zeile tint ein Balken — nc-hero--mark-tint faerbt nur <mark> (Entscheidung 06.10.2026).",
       "matrix": {
         "axes": {
           "markStyle": "*",

@@ -277,6 +277,8 @@
       <tr><td><code class="docs__token">.nc-hero__media</code></td><td>Element (optional)</td><td>media</td></tr>
       <tr><td><code class="docs__token">.nc-hero__picture</code></td><td>Element (optional)</td><td>picture</td></tr>
       <tr><td><code class="docs__token">.nc-hero__card</code></td><td>Element (optional)</td><td>card</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__mark</code></td><td>Element (optional)</td><td>Hervorhebung in Titel/Untertitel: immer Balken hinter dem Text &mdash; auch mit <code class="docs__token">.nc-hero--mark-tint</code> (Entscheidung 06.10.2026). Tinte an diesem Element nur mit <code class="docs__token">.nc-hero__mark--tint</code>.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__mark--tint</code></td><td>Element-Modifier</td><td>F&auml;rbt den Text der Hervorhebung (Token <code class="docs__token">--nc-hero-mark-tint</code>, fl&auml;chenabh&auml;ngig) statt Balken.</td></tr>
     </tbody>
     </table>
   </div>
@@ -287,6 +289,7 @@
     <tbody>
       <tr><td><em>(kein Modifier)</em></td><td>picture</td><td>Variante — picture, card</td></tr>
       <tr><td><em>(kein Modifier)</em></td><td>card</td><td>Variante — picture, card</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--mark-tint</code></td><td>markStyle: tint</td><td>F&auml;rbt NUR <code class="docs__token">&lt;mark&gt;</code> in Titel/Untertitel (Text statt Balken). <code class="docs__token">.nc-hero__mark</code> bleibt Balken &mdash; so nutzt es die Website (Entscheidung 06.10.2026).</td></tr>
     </tbody>
     </table>
   </div>
@@ -312,6 +315,7 @@
     <li>Title: fs-4xl, max-width 18ch. Highlights: Bullet-Liste mit accent-Punkt.</li>
     <li>Card-Variante: radial-gradient dark BG, radius-3xl, Metric + Pulse-Animation.</li>
     <li>Picture-Variante: radius-sm, elevation-overlay.</li>
+    <li>Hervorhebung im Titel: <code class="docs__token">.nc-hero__mark</code> und <code class="docs__token">&lt;mark&gt;</code> zeigen standardm&auml;&szlig;ig einen Balken hinter dem Text (Kontrast der Schrift bleibt unber&uuml;hrt). <code class="docs__token">.nc-hero--mark-tint</code> schaltet nur <code class="docs__token">&lt;mark&gt;</code> auf Tinte um; <code class="docs__token">.nc-hero__mark</code> bleibt auch dann Balken (Entscheidung 06.10.2026, Website unver&auml;ndert). Tinte an <code class="docs__token">.nc-hero__mark</code>: Element-Modifier <code class="docs__token">.nc-hero__mark--tint</code>.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

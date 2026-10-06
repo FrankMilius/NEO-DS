@@ -342,9 +342,19 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     for (const z of zellen('hero')) expect(dom(z.html).querySelector('.nc-hero').className).not.toMatch(/nc-hero__cards/)
   })
 
-  it('hero: Recipe 2.1.0 — Specimens fuer jede Achse', () => {
+  it('hero: mark-tint faerbt nur <mark>, .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026)', () => {
+    const css = readFileSync(STYLES, 'utf8')
+    const tinte = css.match(/([^{}]*)\{background-image:none;color:var\(--mod-hero-mark-tint/)
+    expect(tinte).not.toBeNull()
+    const selektoren = tinte[1].split(',')
+    expect(selektoren.some((x) => /\.nc-hero--mark-tint \.nc-hero__title mark$/.test(x))).toBe(true)
+    expect(selektoren.some((x) => /nc-hero--mark-tint[^,]*\.nc-hero__mark(?!--)/.test(x))).toBe(false)
+    expect(rohesRecipe('hero').axes.markStyle.values.tint.description).toContain('.nc-hero__mark bleibt Balken')
+  })
+
+  it('hero: Recipe 2.2.0 — Specimens fuer jede Achse', () => {
     const r = rohesRecipe('hero')
-    expect(r.meta.version).toBe('2.1.0')
+    expect(r.meta.version).toBe('2.2.0')
     const genutzt = new Set(r.specimens.flatMap((s) => Object.keys(s.matrix.axes)))
     for (const achse of Object.keys(r.axes)) expect(genutzt.has(achse), achse).toBe(true)
   })
