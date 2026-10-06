@@ -42,7 +42,7 @@ const lazy = (loader) => markRaw(defineAsyncComponent(loader))
 export const LABOR = Object.freeze({
   farben: lazy(() => import('../components/laboratory/foundation/FarbenArena.vue')),
   typografie: lazy(() => import('../components/laboratory/foundation/TypografieBuehne.vue')),
-  grid: lazy(() => import('../components/laboratory/GridArena.vue')),
+  grid: lazy(() => import('../components/laboratory/foundation/GridBuehne.vue')),
   spacing: lazy(() => import('../components/foundation/SpacingInspector.vue')),
   radius: lazy(() => import('../components/foundation/RadiiEditor.vue')),
   size: lazy(() => import('../components/foundation/SizesEditor.vue')),
@@ -127,10 +127,10 @@ function erzeugeEintrag (id) {
   const art = trenner < 0 ? id : id.slice(0, trenner)
   const name = trenner < 0 ? '' : id.slice(trenner + 1)
 
-  if (id === 'component-grid') {
-    // Grid ist Foundation und Objekt zugleich: gleiche Arena, gleicher Inspector
-    return eintrag(id, { label: 'Grid', labor: LABOR.grid, inspector: [block(GridInspector)], schluessel: 'grid' })
-  }
+  // component-grid teilte bis 06.10.2026 Arena und Inspector mit
+  // foundation-grid. Seit Plan v3, Phase 3 (Block Layout) ist es eine
+  // Komponente wie jede andere: RecipeArena mit dem echten .o-grid, Inspector
+  // ComponentEditor. Die Grid-Buehne bleibt der Foundation.
   switch (art) {
     case 'component':
       return eintrag(id, {

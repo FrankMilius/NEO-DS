@@ -713,7 +713,9 @@ export function specimenAnsicht (specimen, recipe, componentId, vorlage, optione
       fehler: ergebnis.fehler,
       tokenGroups: ergebnis.modell.tokenGroups,
       axisValues: zelle.axisValues,
-      flaeche: zellenFlaeche(zelle, specimen),
+      // Vorlagen mit eigener Flaechen-Achse (Hero: surface ist die Flaeche
+      // des Blocks, nicht das Seiten-Thema) setzen vorlage.eigeneFlaeche
+      flaeche: vorlage?.eigeneFlaeche ? null : zellenFlaeche(zelle, specimen),
       nurInteraktiv: (zelle.states || []).some((s) => NUR_INTERAKTIV.has(s))
     }
   // Leere Ausgabe der Vorlage: die Zelle gehoert zu einer Sammelzelle (z. B.

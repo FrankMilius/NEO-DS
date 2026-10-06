@@ -20,6 +20,15 @@
 // Markup nicht gibt und die im DS das JS setzt (z. B. checkbox.indeterminate,
 // Lage des gleitenden Indikators im Segmented Control).
 //
+// Gibt einrichten() eine Funktion zurueck, ruft die RecipeArena sie vor dem
+// naechsten Rendern und beim Verlassen auf (Aufraeumen, z. B. Canvas-
+// Renderer mit requestAnimationFrame — psychedelic-bg).
+//
+// Optional exportiert eine Vorlage `ausprobieren = { hinweis }`: die Arena
+// bietet dann „Ausprobieren" an, auch ohne Behavior in neo-behaviors — fuer
+// Bauteile, deren Verhalten nur die Arena selbst mitbringt (psychedelic-bg:
+// Canvas-Renderer des Konfigurators, im DS nicht gebaut).
+//
 // Ohne Vorlage rendert die Arena per Slot-Heuristik. Dateien mit `_` am
 // Anfang sind Helfer, keine Vorlagen.
 // ==========================================================================
@@ -28,10 +37,12 @@ const MODULE = import.meta.glob(['./*.js', '!./index.js', '!./_*.js'], { eager: 
 
 const VORLAGEN = {}
 const EINRICHTUNG = {}
+const AUSPROBIEREN = {}
 for (const [pfad, modul] of Object.entries(MODULE)) {
   const id = pfad.slice(2, -3)
   if (typeof modul.default === 'function') VORLAGEN[id] = modul.default
   if (typeof modul.einrichten === 'function') EINRICHTUNG[id] = modul.einrichten
+  if (modul.ausprobieren && typeof modul.ausprobieren === 'object') AUSPROBIEREN[id] = modul.ausprobieren
 }
 
 export function vorlageFuer (id) {
@@ -41,6 +52,11 @@ export function vorlageFuer (id) {
 /** Nachbereitung nach dem Rendern (DOM-Eigenschaften ohne Markup) oder null. */
 export function einrichtungFuer (id) {
   return EINRICHTUNG[id] || null
+}
+
+/** Eigenes „Ausprobieren" der Vorlage ({ hinweis }) oder null. */
+export function ausprobierenFuer (id) {
+  return AUSPROBIEREN[id] || null
 }
 
 export function hatVorlage (id) {

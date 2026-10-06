@@ -18,8 +18,8 @@
 //   })
 //   resolveToken(semanticMap, 'nc-button-bg')
 //
-// ShellArena loest anders auf (Rueckfallwert je Aufruf, zwei Token-Tabellen)
-// und nutzt diesen Resolver bewusst nicht.
+// (Die fruehere ShellArena loeste anders auf und nutzte diesen Resolver
+// bewusst nicht; seit 06.10.2026 kommt die Shell aus dem Recipe.)
 // ==========================================================================
 
 import { unref } from 'vue'

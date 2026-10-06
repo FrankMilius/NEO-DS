@@ -62,8 +62,12 @@ describe('RecipeArena — alle Recipes', () => {
         // Ausnahme mit Kennzeichnung: manche Varianten sind im DS ein eigener
         // Block (divider with-label → .nc-divider-label). Die Vorlage markiert
         // ihn dann mit data-recipe-wurzel="<Basisklasse>".
+        // Zweite Ausnahme (Plan v3, Phase 3, Block Layout): beschreibt das
+        // Recipe einen Modifier, den styles.css nicht kennt, zeigt die Zelle
+        // „nicht gebaut" (data-nicht-gebaut, arena-templates/_layout.js).
         const wurzel = live.querySelector(selektor) ||
-          live.querySelector(`[data-recipe-wurzel="${recipe.styling.baseClasses[0]}"]`)
+          live.querySelector(`[data-recipe-wurzel="${recipe.styling.baseClasses[0]}"]`) ||
+          live.querySelector('[data-nicht-gebaut]')
         expect(wurzel, `${id}/${zellId}: kein ${selektor}`).not.toBeNull()
       }
       expect(warnungen.filter((t) => t.includes('RecipeLoader')), id).toEqual([])

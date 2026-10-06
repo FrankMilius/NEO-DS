@@ -11,7 +11,7 @@
 | Recipe | `data/shell-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/shell.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ShellArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/shell-docs.html` | present |
 | Drupal | — | missing |
 
@@ -24,5 +24,5 @@
 
 - [Recipe JSON](../data/shell-recipe.json)
 - [Storybook Story](../stories/organisms/shell.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ShellArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/shell-docs.html)

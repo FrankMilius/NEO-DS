@@ -11,7 +11,7 @@
 | Recipe | `data/psychedelic-bg-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/psychedelic-bg.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/PsychedelicBgArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -24,4 +24,4 @@
 
 - [Recipe JSON](../data/psychedelic-bg-recipe.json)
 - [Storybook Story](../stories/organisms/psychedelic-bg.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/PsychedelicBgArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

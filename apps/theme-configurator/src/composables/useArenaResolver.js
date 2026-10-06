@@ -56,6 +56,17 @@
 // .nc-compare-table, dieselben --nc-table-*-Tokens, 05-atoms/_table.scss) —
 // die Sektion „Table" zeigt deshalb die Arena von compare-table (ALIASE).
 //
+// Abgeloest (Plan v3, Phase 3, Block Layout): container, grid, section,
+// hero, shell, psychedelic-bg — echtes DS-Markup statt Schemazeichnungen.
+// Layout-Bauteile in Arena-Rahmen: ra-massstab (Desktop-Seite 1:2,5 fuer
+// die Containerbreiten), ra-seite (Kante der Section), ra-mobil (Raster in
+// der Mobil-Lage), ra-fenster/--mobil (Shell als Miniatur, Drawer und
+// Footerbar unter lg), ra-effekt (Canvas). Modifier, die das Recipe
+// beschreibt und styles.css nicht kennt, zeigt die Arena als „nicht gebaut"
+// (arena-templates/_layout.js). psychedelic-bg: „Ausprobieren" mit dem
+// Canvas-Renderer des Konfigurators (kein Behavior in neo-behaviors).
+// Die Grid-Buehne der Foundation liegt unter laboratory/foundation/.
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -74,12 +85,6 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 
 const SONDERFAELLE = {
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
-  grid: () => import('../components/laboratory/GridArena.vue'),
-  hero: () => import('../components/laboratory/HeroArena.vue'),
-  container: () => import('../components/laboratory/ContainerArena.vue'),
-  section: () => import('../components/laboratory/SectionArena.vue'),
-  shell: () => import('../components/laboratory/ShellArena.vue'),
-  'psychedelic-bg': () => import('../components/laboratory/PsychedelicBgArena.vue'),
 }
 
 // Sektionen ohne eigenes Recipe, deren Bauteil unter anderer ID im Recipe

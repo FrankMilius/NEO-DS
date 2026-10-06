@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -16,13 +16,23 @@
       "storybook": "",
       "docs": "/docs/hero-docs"
     },
+    "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3 Phase 3 Block Layout)",
+          "Specimen alignment-comparison ohne Medium (render.slots): nc-hero--center greift nur ohne .nc-hero__media",
+          "Specimens fuer die Kennzahlen-Karten ergaenzt: cards-surface-comparison, cards-rule-comparison, cards-align-comparison (die Achsen cardsSurface, cardsRule, cardsAlign hatten kein Specimen)"
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [
         "scss/scss/07-organisms/_hero.scss"
       ],
       "story": "stories/organisms/hero.stories.js",
-      "arena": "apps/theme-configurator/src/components/laboratory/HeroArena.vue",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-hero.html.twig",
         "block--inline-block--neo-hero.html.twig"
@@ -656,7 +666,7 @@
     {
       "id": "alignment-comparison",
       "label": "Alignment",
-      "description": "Start vs Center Ausrichtung",
+      "description": "Start vs Center Ausrichtung — ohne Medium: nc-hero--center greift nur, wenn der Hero kein .nc-hero__media hat (mit Medium wuerde die Zentrierung die zwei Spalten auseinanderziehen).",
       "matrix": {
         "axes": {
           "variant": [
@@ -676,7 +686,11 @@
         "rowAxis": "alignment"
       },
       "render": {
-        "label": "{alignment}"
+        "label": "{alignment}",
+        "slots": [
+          "content",
+          "actions"
+        ]
       },
       "a11y": {
         "contrastTarget": "WCAG AA large text (3:1)",
@@ -849,6 +863,99 @@
       "a11y": {
         "contrastTarget": "—",
         "note": "Die Umstellung laeuft ueber order. Vorlesewerkzeuge erreichen den Inhalt deshalb unabhaengig von der Seite zuerst."
+      }
+    },
+    {
+      "id": "cards-surface-comparison",
+      "label": "Kennzahlen: Flaeche der Karten",
+      "description": "Ohne Flaeche erben die Karten die Hero-Schrift; mit Flaeche kommt die Schrift aus den Thementoken.",
+      "matrix": {
+        "axes": {
+          "cardsSurface": "*",
+          "surface": [
+            "dark"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "footer"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "cardsSurface"
+      },
+      "render": {
+        "label": "Karten {cardsSurface}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA (4.5:1)",
+        "note": "Gefuellte Karten erben NICHT die Hero-Schriftfarbe — gemessen auf weisser Karte: Wert 17,85:1, Beschriftung 6,77:1."
+      }
+    },
+    {
+      "id": "cards-rule-comparison",
+      "label": "Kennzahlen: Trennlinien",
+      "description": "Haarlinie zwischen den Karten in drei Staerken und in der Akzentfarbe (nc-hero__cards--ruled).",
+      "matrix": {
+        "axes": {
+          "cardsRule": "*",
+          "surface": [
+            "dark"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "footer"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "cardsRule"
+      },
+      "render": {
+        "label": "Linie {cardsRule}"
+      },
+      "a11y": {
+        "contrastTarget": "—",
+        "note": "Die Trennlinien gliedern nur und kennzeichnen kein Bedienelement — 1.4.11 greift dort nicht."
+      }
+    },
+    {
+      "id": "cards-align-comparison",
+      "label": "Kennzahlen: Ausrichtung",
+      "description": "Inhalt der Karten am Anfang, mittig oder am Ende — auf getoenten Karten, damit die Kartenbreite sichtbar ist.",
+      "matrix": {
+        "axes": {
+          "cardsAlign": "*",
+          "cardsSurface": [
+            "secondary"
+          ],
+          "surface": [
+            "light"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "footer"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "cardsAlign"
+      },
+      "render": {
+        "label": "Karten {cardsAlign}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA (4.5:1)",
+        "note": "Zentrierte Kennzahlen nur bei kurzen Werten — lange Werte brechen sonst unruhig um."
       }
     }
   ]

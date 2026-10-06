@@ -13,7 +13,7 @@
     <div v-if="hatVerhalten" class="ra-modus" role="group" aria-label="Ansicht der Arena">
       <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'zustaende'" @click="modus = 'zustaende'">Zustände</button>
       <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">Ausprobieren</button>
-      <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.</span>
+      <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">{{ eigenesAusprobieren ? eigenesAusprobieren.hinweis : 'Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.' }}</span>
     </div>
     <template v-for="sp in sichtbareAnsichten" :key="sp.id">
       <div class="arena-category-divider">
@@ -92,7 +92,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
-import { vorlageFuer, einrichtungFuer } from '../../arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer, ausprobierenFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 
 const props = defineProps({
@@ -143,7 +143,11 @@ const ansichten = computed(() => {
 // Die Instanz wird mit { ausprobieren: true } gebaut: Overlays zeigen in
 // „Zustände" ihren offenen Zustand fest, hier starten sie geschlossen und
 // das Verhalten oeffnet sie (Plan v3, Phase 3, Block Overlays).
-const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId))
+// Ohne Behavior in neo-behaviors kann die Vorlage ein eigenes „Ausprobieren"
+// mitbringen (psychedelic-bg: Canvas-Renderer der Arena, siehe
+// src/arena-templates/index.js).
+const eigenesAusprobieren = computed(() => (MIT_VERHALTEN.includes(props.componentId) ? null : ausprobierenFuer(props.componentId)))
+const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId) || !!eigenesAusprobieren.value)
 // Gebunden wird das Bauteil selbst und, was es enthaelt (komposition
 // „enthaelt", Specimen composes) und selbst Verhalten hat — z. B. die
 // Toggle-Groups und die Suche in der Toolbar. Die Reihenfolge macht
@@ -174,13 +178,23 @@ const sichtbareAnsichten = computed(() => {
 
 const wurzel = ref(null)
 let aufraeumen = null
+// Aufraeum-Funktionen, die einrichten() zurueckgibt (z. B. Canvas-Renderer)
+let einrichtungWeg = []
+function raeumeEinrichtungAuf () {
+  for (const weg of einrichtungWeg) weg()
+  einrichtungWeg = []
+}
 
 // Nach dem Rendern: was die Vorlage als DOM-Eigenschaft setzen muss (z. B.
 // checkbox.indeterminate) — siehe einrichten() in src/arena-templates.
 function richteEin () {
+  raeumeEinrichtungAuf()
   const einrichten = einrichtungFuer(props.componentId)
   if (!einrichten || !wurzel.value) return
-  for (const zelle of wurzel.value.querySelectorAll('.ra-live-component')) einrichten(zelle)
+  for (const zelle of wurzel.value.querySelectorAll('.ra-live-component')) {
+    const weg = einrichten(zelle)
+    if (typeof weg === 'function') einrichtungWeg.push(weg)
+  }
 }
 
 function binde () {
@@ -191,7 +205,7 @@ function binde () {
 }
 watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
 onMounted(() => nextTick(binde))
-onBeforeUnmount(() => aufraeumen?.())
+onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 </script>
 
 <style>
@@ -474,6 +488,151 @@ onBeforeUnmount(() => aufraeumen?.())
   padding: 24px;
   border-radius: 6px;
 }
+
+/* Layout (Plan v3, Phase 3, Block Layout): container, grid, section, hero,
+   shell, psychedelic-bg. Wieder nur Platz, Rahmen und Platzhalter — die
+   Bauteile gestaltet allein styles.css.
+   ra-platzhalter: Inhalt ohne Bedeutung, damit Breite, Polsterung und
+   Abstaende des Layout-Bauteils sichtbar werden (getoent, gestrichelt,
+   beschriftet; Farbe aus currentColor). */
+.ra-live-component .ra-platzhalter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  /* aus der Schriftfarbe der Umgebung — bleibt auf jeder Flaeche sichtbar
+     (auch auf der Akzent-Section, deren Grund interactive-default ist) */
+  border: 1px dashed color-mix(in srgb, currentColor 45%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  color: inherit;
+  font: 500 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: center;
+}
+.ra-live-component .ra-platzhalter--mittel { min-height: 88px; }
+.ra-live-component .ra-platzhalter--hoch { min-height: 136px; }
+
+/* Nicht gebaut: Modifier im Recipe ohne CSS (src/arena-templates/_layout.js) */
+.ra-live-component .ra-nicht-gebaut {
+  justify-content: flex-start;
+  min-width: 260px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.ra-live-component .ra-nicht-gebaut code { font: 600 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ra-massstab: Desktop-Seite (1600 px) im Massstab 1:2,5. Der Container
+   begrenzt seine Breite erst ab 1200 px Fenster — in einer Zelle waeren
+   sonst alle Breiten gleich. Die Kante des Containers zeichnet die Arena
+   nach (Umriss, ohne Einfluss aufs Layout); die Schrift des Platzhalters
+   ist fuer den Massstab vergroessert. */
+.ra-live-component .ra-massstab {
+  width: 1600px;
+  zoom: 0.375;
+  padding-block: 32px;
+  border-radius: 16px;
+  background: var(--fnd-color-background-secondary);
+}
+.ra-live-component .ra-massstab > * { outline: 4px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
+.ra-live-component .ra-massstab .ra-platzhalter { min-height: 160px; font-size: 32px; border-width: 3px; }
+
+/* ra-desktop: Desktop-Seite (1280 px) im Massstab 1:2,4 fuer Bauteile, die
+   fuer die Seitenbreite gebaut sind (Hero: zwei Spalten, buendiges Medium).
+   Die Fensterbreite (Media Queries) bleibt die des Konfigurators. */
+.ra-live-component .ra-desktop {
+  width: 1280px;
+  zoom: 0.42;
+  flex-shrink: 0;
+}
+
+/* ra-seite: Kante der Section gestrichelt — die Standard-Flaeche ist gleich
+   dem Seitengrund, ohne Kante waere die Polsterung unsichtbar. */
+.ra-live-component .ra-seite > * { outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
+
+/* ra-mobil: Raster in der Mobil-Lage (390 px). Das DS schaltet unter 768 px
+   Fensterbreite auf --nc-grid-mobile-columns (4) Spalten, Spannen ueber 4
+   laufen ueber die volle Breite (04-objects/_grid.scss, mobile-only). Der
+   Rahmen setzt dieselben Werte ueber die Override-Stufe des Rasters. */
+.ra-live-component .ra-mobil {
+  width: 390px;
+  max-width: 100%;
+  padding: 16px;
+  border-radius: 6px;
+  background: var(--fnd-color-background-secondary);
+  --mod-grid-columns: var(--nc-grid-mobile-columns, 4);
+}
+.ra-live-component .ra-mobil :is(.o-col-5, .o-col-6, .o-col-7, .o-col-8, .o-col-9, .o-col-10, .o-col-11, .o-col-12) { grid-column: 1 / -1; }
+
+/* ra-fenster: Shell als Miniatur — Desktop-Fenster 1200 x 640 px im
+   Massstab 1:2,2 (passt neben die Zeilenbeschriftung). Scroll-Container (Navbar und Footerbar kleben oben/unten),
+   contain macht ihn zum Bezugsrahmen der festen Elemente (Skip-Link im
+   Fokus, Drawer, Overlay). Die Shell fuellt darin min. 100dvh. */
+.ra-live-component .ra-fenster {
+  position: relative;
+  width: 1200px;
+  height: 640px;
+  zoom: 0.45;
+  flex-shrink: 0;
+  overflow: hidden;
+  contain: layout paint;
+  border: 2px solid var(--fnd-color-border-secondary);
+  border-radius: 12px;
+  --ra-zone-schrift: 22px;
+}
+/* ra-fenster--mobil: 390 px im Massstab 3:4. Drawer und Footerbar-Lage
+   schaltet das DS nur unter lg (respond-to-max('lg') in
+   08-templates/_shell.scss) — hier dieselben Werte im Rahmen. */
+.ra-live-component .ra-fenster--mobil {
+  width: 390px;
+  height: 600px;
+  zoom: 0.75;
+  --ra-zone-schrift: 16px;
+}
+.ra-live-component .ra-fenster--mobil .nc-shell__stage {
+  grid-template-columns: 1fr;
+  grid-template-areas: 'main';
+}
+.ra-live-component .ra-fenster--mobil :is(.nc-shell__sidebar-left, .nc-shell__sidebar-right) {
+  display: none;
+  position: fixed;
+  inset-block: 0;
+  z-index: var(--nc-shell-z-drawer);
+  width: min(300px, 85%);
+  height: auto;
+}
+.ra-live-component .ra-fenster--mobil .nc-shell__sidebar-left { inset-inline-start: 0; }
+.ra-live-component .ra-fenster--mobil .nc-shell__sidebar-right { inset-inline-end: 0; }
+.ra-live-component .ra-fenster--mobil .nc-shell--sidebar-left-drawer-open .nc-shell__sidebar-left { display: block; }
+.ra-live-component .ra-fenster--mobil [data-footerbar-mobile='hide'] .nc-shell__footerbar { display: none; }
+.ra-live-component .ra-fenster--mobil [data-footerbar-mobile='static'] .nc-shell__footerbar { position: static; }
+/* Platzhalter in den Zonen der Shell */
+.ra-live-component .ra-zone {
+  padding: 16px 24px;
+  color: var(--fnd-color-text-secondary);
+  font: 500 var(--ra-zone-schrift, 13px)/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.ra-live-component .ra-zone--navbar {
+  display: flex;
+  align-items: center;
+  height: var(--nc-nav-height);
+  border-block-end: 1px solid var(--fnd-color-border-secondary);
+  background: var(--fnd-color-background-base);
+}
+
+/* ra-effekt: Flaeche fuer den Canvas-Effekt (psychedelic-bg). Das DS hat
+   fuer .nc-psychedelic-bg kein CSS (Entscheidung 25.08.2026); laut Anatomie
+   fuellt das Canvas den Container absolut — der Rahmen gibt die Groesse. */
+.ra-live-component .ra-effekt {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--fnd-color-background-secondary);
+}
+.ra-live-component .ra-effekt > .nc-psychedelic-bg { position: absolute; inset: 0; }
+.ra-live-component .ra-effekt canvas { display: block; }
 
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,

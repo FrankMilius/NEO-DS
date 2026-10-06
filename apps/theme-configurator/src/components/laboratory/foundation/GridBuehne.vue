@@ -132,11 +132,20 @@
 </template>
 
 <script setup>
+// ==========================================================================
+// Grid-Buehne der Foundation (foundation-grid)
+// ==========================================================================
+// Schematische Darstellung der Raster-Tokens (--nc-grid-*). Bis 06.10.2026
+// hiess die Datei GridArena.vue und diente auch als Arena der Komponente
+// grid. Die Komponente kommt jetzt aus dem Recipe (RecipeArena mit
+// src/arena-templates/grid.js, echtes .o-grid); diese Buehne bleibt der
+// Foundation-Sektion (Plan v3, Phase 3, Block Layout).
+// ==========================================================================
 import { computed, defineComponent, h } from 'vue'
-import { useThemeStore } from '../../stores/theme.js'
-import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
-import { componentTokenGroups } from '../../data/tokens.js'
-import { useTokenResolver } from '../../composables/useTokenResolver.js'
+import { useThemeStore } from '../../../stores/theme.js'
+import { useArenaHighlight } from '../../../composables/useArenaHighlight.js'
+import { componentTokenGroups } from '../../../data/tokens.js'
+import { useTokenResolver } from '../../../composables/useTokenResolver.js'
 
 const store = useThemeStore()
 const { isHighlighted, highlightStyle } = useArenaHighlight('grid')

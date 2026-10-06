@@ -11,7 +11,7 @@
 | Recipe | `data/container-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/container.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ContainerArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/container-docs.html` | present |
 | Drupal | — | missing |
 
@@ -28,5 +28,5 @@
 
 - [Recipe JSON](../data/container-recipe.json)
 - [Storybook Story](../stories/organisms/container.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ContainerArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/container-docs.html)

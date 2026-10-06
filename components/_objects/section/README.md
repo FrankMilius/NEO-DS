@@ -11,7 +11,7 @@
 | Recipe | `data/section-recipe.json` | present |
 | SCSS | `scss/scss/04-objects/_section.scss` | present |
 | Storybook | `stories/organisms/section.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SectionArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/section-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/section-recipe.json)
 - [SCSS](../scss/scss/04-objects/_section.scss)
 - [Storybook Story](../stories/organisms/section.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SectionArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/section-docs.html)

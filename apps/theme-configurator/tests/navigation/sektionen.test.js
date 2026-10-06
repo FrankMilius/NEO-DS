@@ -61,12 +61,14 @@ describe('Registry', () => {
     expect(e.schluessel).toBe('component')
   })
 
-  it('component-grid teilt Arena und Inspector mit foundation-grid', () => {
+  it('component-grid ist eine Komponente wie jede andere (Plan v3, Phase 3, Block Layout); foundation-grid behaelt die Grid-Buehne', () => {
     const a = sektionAufloesen('component-grid')
     const b = sektionAufloesen('foundation-grid')
-    expect(a.labor).toBe(b.labor)
-    expect(a.inspector[0].komponente).toBe(b.inspector[0].komponente)
-    expect(a.schluessel).toBe(b.schluessel)
+    expect(a.labor).toBe(LABOR.komponente)
+    expect(a.inspector[0].props).toEqual({ componentId: 'grid' })
+    expect(a.schluessel).toBe('component')
+    expect(b.labor).toBe(LABOR.grid)
+    expect(b.schluessel).toBe('grid')
   })
 
   it('Typografie und Opacity bringen mehrere Inspector-Bloecke mit', () => {

@@ -11,7 +11,7 @@
 | Recipe | `data/hero-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_hero.scss` | present |
 | Storybook | `stories/organisms/hero.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/HeroArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/hero-docs.html` | present |
 | Drupal | `block--block-content--neo-hero.html.twig, block--inline-block--neo-hero.html.twig` | present |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/hero-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_hero.scss)
 - [Storybook Story](../stories/organisms/hero.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/HeroArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/hero-docs.html)
