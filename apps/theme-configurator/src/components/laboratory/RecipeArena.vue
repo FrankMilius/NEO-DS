@@ -550,6 +550,10 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 /* ra-seite: Kante der Section gestrichelt — die Standard-Flaeche ist gleich
    dem Seitengrund, ohne Kante waere die Polsterung unsichtbar. */
 .ra-live-component .ra-seite > * { outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
+/* ra-seite--kante: Section mit Divider — der Umriss steht 6 px ab, damit die
+   Trennlinie (Rahmenkante der Section) sichtbar bleibt. */
+.ra-live-component .ra-seite--kante { padding-block: 8px; }
+.ra-live-component .ra-seite--kante > * { outline-offset: 6px; }
 
 /* ra-schmal: schmale Spalte (360 px) fuer Bauteile mit Container Query —
    z. B. das Stapel-Layout der Datentabelle (nc-data-table--stacked reagiert

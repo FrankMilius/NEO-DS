@@ -34,7 +34,9 @@ ${platzhalter(website.split(' ').map((k) => '.' + k).join(' '))}
   const fehlend = fehlendeKlassen(m)
   if (fehlend.length) return nichtGebaut(m, fehlend)
   const teile = ['density', 'surface', 'divider'].map((a) => m.wert(a)).filter(Boolean)
-  return `<div class="ra-seite">
+  // Divider: Umriss der Arena mit Abstand, sonst laege er auf der Linie
+  const divider = m.wert('divider') && m.wert('divider') !== 'none'
+  return `<div class="ra-seite${divider ? ' ra-seite--kante' : ''}">
 <section class="${m.klasse}"${m.attrs}>
 <div class="nc-container">
 ${platzhalter(teile.length ? teile.join(' · ') : 'Inhalt')}
