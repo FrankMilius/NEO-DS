@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.1.2 | Status: stable | Layer: organism
+> Version 2.1.3 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -32,7 +32,7 @@ Root element: `.nc-shell`
 - Inneres Grid (.nc-shell__stage): Sidebars + Main-Content. Spalten-Definition per Preset.
 - Presets via data-layout='...' auf <body>: dashboard, content-page, docs, landing, focused, settings.
 - Skip-Link: Erstes Element in .nc-shell. <a href='#main-content' class='nc-shell__skip-link'>Zum Inhalt springen</a>. Unsichtbar bis :focus, dann fixed ueber allen Zonen (z-index: skip-link).
-- Linkbar: 32px Leiste ueber der Navigation. Default: display:none, Preset schaltet ein.
+- Linkbar: 32px Leiste ueber der Navigation. Default: display:none, Preset schaltet ein. Links (auch ohne Klasse, wie Drupal sie rendert) in Leistenfarbe mit Unterstrich in Schriftfarbe (--fnd-underline-thickness/-offset); Hover Primaertext, Unterstrich 1px dicker.
 - Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).
 - Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.
 - Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px; Docs 240/200px, Settings 220px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts. Die Dichte setzt die Spaltenvariable --nc-shell-sidebar-*-width; in Docs und Settings ersetzt narrow/wide die Preset-Breite.

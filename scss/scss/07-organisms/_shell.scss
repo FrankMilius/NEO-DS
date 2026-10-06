@@ -58,6 +58,40 @@
   }
 }
 
+// Links ohne Klasse in der Leiste: Fliesstext-Unterstrich des Themas
+// zuruecknehmen, Link bleibt erkennbar (Entscheidung linkbar-links,
+// 06.10.2026: "Beheben wie Navigation/Footer").
+// Drupal rendert die Linkbar-Links ohne Klasse (<a><span
+// class="nc-shell__linkbar-icon">…</span><span>Titel</span></a>).
+// 03-elements/_mono-elements.scss gestaltet unter .neo-light-theme UND
+// .neo-dark-theme jeden Link ohne Klasse als Fliesstext-Link (Gewicht 550,
+// Unterstrich im Akzent); die Regel (0,2,1) schlug .nc-shell__linkbar a
+// (0,1,1, 08-templates/_shell.scss). Gemessen: Unterstrich rgb(55,233,61)
+// 2px, Gewicht 550, hell wie dunkel.
+// Freigabe 02.10.2026: der Linkbar-Link soll als Link erkennbar sein und die
+// definierte Link-Gestaltung tragen. Das Recipe nennt fuer die Linkbar keinen
+// eigenen Linkstil; die Leiste selbst sieht im Ruhezustand keinen Unterstrich
+// vor. Deshalb bleibt der Unterstrich — in Schriftfarbe statt im Akzent, mit
+// Dicke und Abstand der Link-Tokens; Gewicht wie die Leiste. Hover wie in der
+// Leiste vorgesehen (Primaertext) und wie beim Link dicker. Fokus bleibt bei
+// .nc-shell__linkbar a:focus-visible. Die Wurzel .nc-shell traegt die
+// Spezifitaet (0,3,1, :hover/:active 0,4,1). Die allgemeine Link-Regel
+// bleibt unveraendert.
+.nc-shell .nc-shell__linkbar a:not([class]),
+.nc-shell .nc-shell__linkbar a:not([class]):active {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: var(--fnd-underline-thickness);
+  text-underline-offset: var(--fnd-underline-offset);
+}
+
+.nc-shell .nc-shell__linkbar a:not([class]):hover {
+  color: var(--fnd-color-text-primary);
+  text-decoration-thickness: calc(var(--fnd-underline-thickness) + 1px);
+}
+
 // Schalter in der Leiste: Die Standardwerte des Switch (Spur = background-
 // secondary, Knopf = background-base) verschwinden auf der Leistenflaeche
 // (hell 1,2:1, dunkel 1:1 — Spur gleich Leiste). In der Leiste traegt die
