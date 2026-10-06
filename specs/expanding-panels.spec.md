@@ -1,5 +1,5 @@
 # expanding-panels Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `interactive`, `disclosure`
 
@@ -20,8 +20,8 @@ Root element: `.nc-expanding-panels`
 - Label (.nc-expanding-panels__label): writing-mode:vertical-rl + rotate(180deg); opacity:0 wenn Panel aktiv.
 - Body (.nc-expanding-panels__body): position:absolute, justify-content:flex-end; opacity:0/translateY bis aktiv.
 - Chip im Body: margin-bottom:auto schiebt ihn nach oben.
-- Single-Open: JS setzt aria-expanded='true' am geklickten Panel, 'false' an allen anderen; initial erstes Panel aktiv.
-- Tastatur: Enter/Space aktiviert (nativer Button-Klick); ArrowLeft/Right wechselt das aktive Panel.
+- Single-Open (neo-behaviors expanding-panels): aria-expanded='true' am geklickten Panel, 'false' an allen anderen; ist beim Binden keines offen, oeffnet das erste. Ein offenes Panel schliesst per Klick nicht (kein „alle zu“).
+- Tastatur: Enter/Space aktiviert (nativer Button-Klick); Pfeil rechts/runter und links/hoch wechseln das aktive Panel rundum und nehmen den Fokus mit, Pos1/Ende springen ans erste/letzte. Alle Panels bleiben in der Tab-Folge.
 - Responsive 820px: flex-direction:column (vertikales Akkordeon); Label horizontal; Body zentriert.
 - prefers-reduced-motion: keine Transitions.
 
@@ -59,6 +59,23 @@ Base classes: `nc-expanding-panels`
 | `--nc-expanding-panels-accent` | — | `--mod-expanding-panels-accent` |
 | `--nc-expanding-panels-title` | — | `--mod-expanding-panels-title` |
 | `--nc-expanding-panels-text` | — | `--mod-expanding-panels-text` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | activate | Auf einem Panel (nativer Knopf-Klick): oeffnet es, die anderen schliessen. |
+| `Space` | activate | Wie Enter. |
+| `ArrowRight` | next | Naechstes Panel (rundum) oeffnen und fokussieren. |
+| `ArrowDown` | next | Wie Pfeil rechts (gestapelte Lage unter 820 px). |
+| `ArrowLeft` | previous | Vorheriges Panel (rundum) oeffnen und fokussieren. |
+| `ArrowUp` | previous | Wie Pfeil links. |
+| `Home` | first | Erstes Panel oeffnen und fokussieren. |
+| `End` | last | Letztes Panel oeffnen und fokussieren. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `expanding-panels-change` | Yes | `{"index":"number","previousIndex":"number"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

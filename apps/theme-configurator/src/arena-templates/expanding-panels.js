@@ -3,8 +3,11 @@
 // Website (das Drupal-Skript setzt das aktive Panel); default zeigt alle
 // Panels zugeklappt (Stand ohne Skript). Hover und Fokus klappen per CSS auf
 // (:hover, :focus-within). Optionale Slots num/bg per render.slotConfig
-// (Plan v3, Phase 4). Den Klick (Single-Open) macht auf der Website
-// neo-theme.js, nicht neo-behaviors — kein „Ausprobieren".
+// (Plan v3, Phase 4). „Ausprobieren" (Entscheidung 06.10.2026,
+// website-verhalten): das Behavior expanding-panels aus neo-behaviors
+// oeffnet beim Binden das erste Panel und macht Single-Open per Klick und
+// Pfeiltasten (Pos1/Ende). Auf der Website bis zur Umstellung neo-theme.js
+// (NeoExpandingPanels.render).
 import { klassenOhne } from './_helfer.js'
 import { slotAn as an, desktop } from './_bloecke-1.js'
 

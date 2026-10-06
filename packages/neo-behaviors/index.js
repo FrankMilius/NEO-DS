@@ -48,6 +48,7 @@ import { mobileDrawer } from './mobile-drawer.js'
 import { tableInfoModal } from './table-info-modal.js'
 import { multiselect } from './multiselect.js'
 import { chapterNav } from './chapter-nav.js'
+import { expandingPanels } from './expanding-panels.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -84,6 +85,7 @@ export const BEHAVIORS = Object.freeze({
   'navigation-tab-mega': navigationTabMega,
   // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
   'chapter-nav': chapterNav,
+  'expanding-panels': expandingPanels,
   toast,
   notification,
   alert,

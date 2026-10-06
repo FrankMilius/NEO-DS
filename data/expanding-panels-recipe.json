@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "expanding-panels",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/expanding-panels-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Verhalten in neo-behaviors (expanding-panels, Entscheidung 06.10.2026, website-verhalten) — ersetzt die Verdrahtung in NeoExpandingPanels.render (neo-theme.js: activate, Klick, Pfeiltasten): Single-Open per aria-expanded, beim Binden das erste Panel offen, falls keines; Klick oeffnet, Pfeil rechts/runter und links/hoch wechseln rundum mit Fokus, neu Pos1/Ende; gesperrte uebersprungen (keyboard/events). Arena: Ausprobieren. In Drupal nur per drupalSettings.neoBehaviors.nur."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -91,8 +97,8 @@
       "Label (.nc-expanding-panels__label): writing-mode:vertical-rl + rotate(180deg); opacity:0 wenn Panel aktiv.",
       "Body (.nc-expanding-panels__body): position:absolute, justify-content:flex-end; opacity:0/translateY bis aktiv.",
       "Chip im Body: margin-bottom:auto schiebt ihn nach oben.",
-      "Single-Open: JS setzt aria-expanded='true' am geklickten Panel, 'false' an allen anderen; initial erstes Panel aktiv.",
-      "Tastatur: Enter/Space aktiviert (nativer Button-Klick); ArrowLeft/Right wechselt das aktive Panel.",
+      "Single-Open (neo-behaviors expanding-panels): aria-expanded='true' am geklickten Panel, 'false' an allen anderen; ist beim Binden keines offen, oeffnet das erste. Ein offenes Panel schliesst per Klick nicht (kein „alle zu“).",
+      "Tastatur: Enter/Space aktiviert (nativer Button-Klick); Pfeil rechts/runter und links/hoch wechseln das aktive Panel rundum und nehmen den Fokus mit, Pos1/Ende springen ans erste/letzte. Alle Panels bleiben in der Tab-Folge.",
       "Responsive 820px: flex-direction:column (vertikales Akkordeon); Label horizontal; Body zentriert.",
       "prefers-reduced-motion: keine Transitions."
     ]
@@ -133,7 +139,7 @@
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [],
-      "note": "Panels sind <button> mit aria-expanded. Sichtbarer Fokusring. Body-Titel als h3 (Sektions-h2 davor). Hintergrund-Layer dekorativ. Keyboard: Enter/Space aktiviert, ArrowLeft/Right navigiert."
+      "note": "Panels sind <button> mit aria-expanded. Sichtbarer Fokusring. Body-Titel als h3 (Sektions-h2 davor). Hintergrund-Layer dekorativ. Keyboard (neo-behaviors expanding-panels): Enter/Space aktiviert, Pfeiltasten wechseln rundum mit Fokus, Pos1/Ende."
     },
     "overrides": []
   },
@@ -263,5 +269,49 @@
         }
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einem Panel (nativer Knopf-Klick): oeffnet es, die anderen schliessen."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    },
+    "ArrowRight": {
+      "action": "next",
+      "note": "Naechstes Panel (rundum) oeffnen und fokussieren."
+    },
+    "ArrowDown": {
+      "action": "next",
+      "note": "Wie Pfeil rechts (gestapelte Lage unter 820 px)."
+    },
+    "ArrowLeft": {
+      "action": "previous",
+      "note": "Vorheriges Panel (rundum) oeffnen und fokussieren."
+    },
+    "ArrowUp": {
+      "action": "previous",
+      "note": "Wie Pfeil links."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Erstes Panel oeffnen und fokussieren."
+    },
+    "End": {
+      "action": "last",
+      "note": "Letztes Panel oeffnen und fokussieren."
+    }
+  },
+  "events": {
+    "expanding-panels-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein anderes Panel aufgeht (Klick, Pfeil, Pos1, Ende). previousIndex -1, wenn vorher keines offen war."
+    }
+  }
 }

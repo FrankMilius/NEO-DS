@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav']) {
+    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav', 'expanding-panels']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }
@@ -443,5 +443,68 @@ describe('Kapitelnavigation (chapter-nav-recipe.json)', () => {
     abbinden(b, ['chapter-nav'])
     expect(aktuell(links)).toEqual(['Kommunikation'])
     expect(ziele[4].hasAttribute('tabindex')).toBe(false)
+  })
+})
+
+describe('Expanding Panels (expanding-panels-recipe.json)', () => {
+  const bau = () => {
+    const b = buehne(lebendigesMarkup('expanding-panels', 'default'))
+    const wurzel = /** @type {HTMLElement} */ (b.querySelector('.nc-expanding-panels'))
+    const panels = /** @type {HTMLButtonElement[]} */ ([...wurzel.querySelectorAll('.nc-expanding-panels__panel')])
+    const vorher = panels.map((p) => p.getAttribute('aria-expanded'))
+    anbinden(b, ['expanding-panels'])
+    return { b, wurzel, panels, vorher }
+  }
+  const offen = (panels) => panels.map((p) => p.getAttribute('aria-expanded') === 'true')
+
+  it('beim Binden das erste Panel offen, wenn keines offen ist (wie die Website)', () => {
+    const { panels, vorher } = bau()
+    expect(vorher.every((v) => v === 'false')).toBe(true)
+    expect(offen(panels)).toEqual([true, false, false, false])
+  })
+
+  it('Single-Open per Klick; ein offenes bleibt offen; Ereignis', () => {
+    const { wurzel, panels } = bau()
+    const wechsel = sammle(wurzel, 'expanding-panels-change')
+    panels[2].click()
+    expect(offen(panels)).toEqual([false, false, true, false])
+    expect(wechsel[0].detail).toEqual({ index: 2, previousIndex: 0 })
+    passtZumRecipe('expanding-panels', wechsel[0])
+    panels[2].click()
+    expect(offen(panels)).toEqual([false, false, true, false])
+    expect(wechsel).toHaveLength(1)
+  })
+
+  it('Tasten aus dem Recipe', () => {
+    const { panels } = bau()
+    const pruefungen = {
+      Enter: () => { taste(panels[1], 'Enter'); expect(offen(panels)).toEqual([false, true, false, false]) },
+      Space: () => { taste(panels[3], 'Space'); expect(offen(panels)).toEqual([false, false, false, true]) },
+      ArrowRight: () => { taste(panels[3], 'ArrowRight'); expect(offen(panels)).toEqual([true, false, false, false]); expect(document.activeElement).toBe(panels[0]) },
+      ArrowDown: () => { taste(panels[0], 'ArrowDown'); expect(offen(panels)).toEqual([false, true, false, false]); expect(document.activeElement).toBe(panels[1]) },
+      ArrowLeft: () => { taste(panels[0], 'ArrowLeft'); expect(offen(panels)).toEqual([false, false, false, true]); expect(document.activeElement).toBe(panels[3]) },
+      ArrowUp: () => { taste(panels[3], 'ArrowUp'); expect(offen(panels)).toEqual([false, false, true, false]); expect(document.activeElement).toBe(panels[2]) },
+      Home: () => { taste(panels[2], 'Home'); expect(offen(panels)).toEqual([true, false, false, false]) },
+      End: () => { taste(panels[0], 'End'); expect(offen(panels)).toEqual([false, false, false, true]); expect(document.activeElement).toBe(panels[3]) }
+    }
+    deckeTastenAb('expanding-panels', pruefungen)
+    for (const p of Object.values(pruefungen)) p()
+  })
+
+  it('gesperrtes Panel wird uebersprungen; Abbinden stellt aria-expanded wieder her', () => {
+    const { b, panels, vorher } = bau()
+    panels[1].setAttribute('aria-disabled', 'true')
+    taste(panels[0], 'ArrowRight')
+    expect(offen(panels)).toEqual([false, false, true, false])
+    panels[1].click()
+    expect(offen(panels)).toEqual([false, false, true, false])
+    abbinden(b, ['expanding-panels'])
+    expect(panels.map((p) => p.getAttribute('aria-expanded'))).toEqual(vorher)
+  })
+
+  it('Website-Markup (geerntet, erstes Panel offen) bleibt beim Binden unveraendert', () => {
+    const b = buehne(`<div class="nc-expanding-panels" role="group"><button type="button" class="nc-expanding-panels__panel" aria-expanded="false">A</button><button type="button" class="nc-expanding-panels__panel" aria-expanded="true">B</button></div>`)
+    anbinden(b, ['expanding-panels'])
+    expect(offen([...b.querySelectorAll('.nc-expanding-panels__panel')])).toEqual([false, true])
   })
 })

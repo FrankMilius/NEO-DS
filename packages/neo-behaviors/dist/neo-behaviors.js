@@ -3640,6 +3640,65 @@
     return null;
   }
 
+  // packages/neo-behaviors/expanding-panels.js
+  var expandingPanels = {
+    id: "expanding-panels",
+    selektor: ".nc-expanding-panels",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const panels = () => (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(":scope > .nc-expanding-panels__panel")]
+      );
+      const vorher = new Map(panels().map((p) => [p, p.getAttribute("aria-expanded")]));
+      const offenIndex = () => panels().findIndex((p) => p.getAttribute("aria-expanded") === "true");
+      function aktiviere(panel) {
+        const liste = panels();
+        const davor = offenIndex();
+        const i = liste.indexOf(panel);
+        if (i < 0 || gesperrt(panel)) return;
+        liste.forEach((p, j) => p.setAttribute("aria-expanded", String(j === i)));
+        if (i !== davor) sende(wurzel, "expanding-panels-change", { index: i, previousIndex: davor });
+      }
+      if (offenIndex() < 0) {
+        const erstes = panels().find((p) => !gesperrt(p));
+        if (erstes) panels().forEach((p) => p.setAttribute("aria-expanded", String(p === erstes)));
+      }
+      wurzel.addEventListener("click", (e) => {
+        var _a, _b;
+        const panel = (
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-expanding-panels__panel")
+        );
+        if (panel && panel.parentElement === wurzel) aktiviere(
+          /** @type {HTMLElement} */
+          panel
+        );
+      }, { signal });
+      wurzel.addEventListener("keydown", (e) => {
+        var _a, _b;
+        const panel = (
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-expanding-panels__panel")
+        );
+        if (!panel || panel.parentElement !== wurzel) return;
+        const ziel = zielFuerTaste(e.key, panels(), panel);
+        if (!ziel) return;
+        e.preventDefault();
+        aktiviere(ziel);
+        ziel.focus();
+      }, { signal });
+      signal.addEventListener("abort", () => {
+        for (const [p, wert] of vorher) {
+          if (wert === null) p.removeAttribute("aria-expanded");
+          else p.setAttribute("aria-expanded", wert);
+        }
+      });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3673,6 +3732,7 @@
     "navigation-tab-mega": navigationTabMega,
     // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
     "chapter-nav": chapterNav,
+    "expanding-panels": expandingPanels,
     toast,
     notification,
     alert,
