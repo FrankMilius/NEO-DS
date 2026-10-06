@@ -45,7 +45,7 @@ const WURZEL_SEL = {
 }
 const wurzelSel = (id) => WURZEL_SEL[id] || `.nc-${id}`
 
-const MIT_BEHAVIOR = ['chapter-nav', 'expanding-panels']
+const MIT_BEHAVIOR = ['chapter-nav', 'expanding-panels', 'feature-accordion']
 const MIT_AUSPROBIEREN = ['faq', 'feature-accordion'].filter((id) => !MIT_BEHAVIOR.includes(id))
 const MIT_ABSPIELEN = ['bento-grid']
 const ENTWURF = ['card-cta', 'event', 'events', 'feature-list']

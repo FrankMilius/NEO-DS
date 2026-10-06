@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav', 'expanding-panels']) {
+    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav', 'expanding-panels', 'feature-accordion']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }
@@ -506,5 +506,104 @@ describe('Expanding Panels (expanding-panels-recipe.json)', () => {
     const b = buehne(`<div class="nc-expanding-panels" role="group"><button type="button" class="nc-expanding-panels__panel" aria-expanded="false">A</button><button type="button" class="nc-expanding-panels__panel" aria-expanded="true">B</button></div>`)
     anbinden(b, ['expanding-panels'])
     expect(offen([...b.querySelectorAll('.nc-expanding-panels__panel')])).toEqual([false, true])
+  })
+})
+
+describe('Feature-Akkordeon (feature-accordion-recipe.json)', () => {
+  // jsdom ohne Layout: Spalte und Kapitel bekommen Kanten je Test; die
+  // rechte Spalte gilt als scrollend (overflow-y aus dem SCSS, hier inline)
+  let kanten = {}
+  const bau = ({ spalte = true } = {}) => {
+    const b = buehne(lebendigesMarkup('feature-accordion', 'default'))
+    const wurzel = /** @type {HTMLElement} */ (b.querySelector('.nc-feature-accordeon'))
+    const rechts = /** @type {HTMLElement} */ (wurzel.querySelector('.nc-feature-accordeon__right'))
+    const links = /** @type {HTMLButtonElement[]} */ ([...wurzel.querySelectorAll('.nc-feature-accordeon__link')])
+    const kapitel = /** @type {HTMLElement[]} */ ([...wurzel.querySelectorAll('.nc-feature-accordeon__chapter')])
+    if (spalte) {
+      rechts.style.overflowY = 'auto'
+      Object.defineProperty(rechts, 'scrollHeight', { configurable: true, value: 1200 })
+      Object.defineProperty(rechts, 'clientHeight', { configurable: true, value: 500 })
+    }
+    kanten = { rechts: 100, k0: 100, k1: 500, k2: 900 }
+    const rect = (top) => ({ top, bottom: top + 300, left: 0, right: 0, width: 0, height: 300, x: 0, y: top, toJSON () {} })
+    rechts.getBoundingClientRect = () => rect(kanten.rechts)
+    kapitel.forEach((k, i) => { k.getBoundingClientRect = () => rect(kanten[`k${i}`]) })
+    anbinden(b, ['feature-accordion'])
+    return { b, wurzel, rechts, links, kapitel }
+  }
+  const aktiv = (links) => links.map((l) => l.classList.contains('is-active') && l.getAttribute('aria-current') === 'true')
+
+  afterEach(() => { vi.restoreAllMocks(); vi.useRealTimers() })
+
+  it('drei Kapitel in „Ausprobieren“; der aktive Link traegt is-active und aria-current', () => {
+    const { links, kapitel } = bau()
+    expect(kapitel).toHaveLength(3)
+    expect(aktiv(links)).toEqual([true, false, false])
+  })
+
+  it('Klick wechselt das Kapitel: markiert, scrollt die rechte Spalte, Fokus aufs Kapitel; Ereignis', () => {
+    const { wurzel, rechts, links, kapitel } = bau()
+    const wechsel = sammle(wurzel, 'feature-accordion-change')
+    rechts.scrollTo = vi.fn()
+    links[2].click()
+    expect(aktiv(links)).toEqual([false, false, true])
+    expect(rechts.scrollTo).toHaveBeenCalledWith({ top: 800, behavior: expect.any(String) })
+    expect(document.activeElement).toBe(kapitel[2])
+    expect(wechsel[0].detail).toEqual({ index: 2, previousIndex: 0 })
+    passtZumRecipe('feature-accordion', wechsel[0])
+  })
+
+  it('gestapelt (Spalte scrollt nicht): das Kapitel scrollt in der Seite', () => {
+    const { links, kapitel } = bau({ spalte: false })
+    kapitel[1].scrollIntoView = vi.fn()
+    links[1].click()
+    expect(kapitel[1].scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: expect.any(String) })
+  })
+
+  it('Scroll-Spy der rechten Spalte: das letzte Kapitel ueber ihrem Anfang; ruht waehrend des Sprungs', () => {
+    vi.useFakeTimers()
+    const { rechts, links } = bau()
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    Object.assign(kanten, { k0: -300, k1: 110, k2: 500 })
+    rechts.dispatchEvent(new Event('scroll'))
+    expect(aktiv(links)).toEqual([false, true, false])
+    rechts.scrollTo = vi.fn()
+    links[2].click()
+    Object.assign(kanten, { k1: -100, k2: 300 })
+    rechts.dispatchEvent(new Event('scroll'))
+    expect(aktiv(links)).toEqual([false, false, true])
+    vi.advanceTimersByTime(200)
+    Object.assign(kanten, { k0: 100, k1: 500, k2: 900 })
+    rechts.dispatchEvent(new Event('scroll'))
+    expect(aktiv(links)).toEqual([true, false, false])
+  })
+
+  it('Tasten aus dem Recipe', () => {
+    const { rechts, links, kapitel, wurzel } = bau()
+    rechts.scrollTo = vi.fn()
+    const summary = /** @type {HTMLElement} */ (wurzel.querySelector('.nc-feature-accordeon__item-summary'))
+    const pruefungen = {
+      Enter: () => { taste(links[1], 'Enter'); expect(aktiv(links)).toEqual([false, true, false]); expect(document.activeElement).toBe(kapitel[1]) },
+      Space: () => { taste(links[0], 'Space'); expect(aktiv(links)).toEqual([true, false, false]) },
+      // Tab: Links bleiben Knoepfe in der Tab-Folge, die Eintraege natives <summary>
+      Tab: () => { for (const l of links) expect(l.hasAttribute('tabindex')).toBe(false); expect(summary.tagName).toBe('SUMMARY') }
+    }
+    deckeTastenAb('feature-accordion', pruefungen)
+    for (const p of Object.values(pruefungen)) p()
+  })
+
+  it('Zuordnung per aria-controls; Abbinden stellt is-active, aria-current und tabindex wieder her', () => {
+    const { b, rechts, links, kapitel } = bau()
+    rechts.scrollTo = vi.fn()
+    links[1].click()
+    abbinden(b, ['feature-accordion'])
+    expect(links.map((l) => l.classList.contains('is-active'))).toEqual([true, false, false])
+    expect(links.some((l) => l.hasAttribute('aria-current'))).toBe(false)
+    expect(kapitel[1].hasAttribute('tabindex')).toBe(false)
+    kapitel[2].id = 'k-drei'
+    links[0].setAttribute('aria-controls', 'k-drei')
+    anbinden(b, ['feature-accordion'])
+    links[0].click()
+    expect(document.activeElement).toBe(kapitel[2])
   })
 })

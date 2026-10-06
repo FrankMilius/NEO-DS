@@ -49,6 +49,7 @@ import { tableInfoModal } from './table-info-modal.js'
 import { multiselect } from './multiselect.js'
 import { chapterNav } from './chapter-nav.js'
 import { expandingPanels } from './expanding-panels.js'
+import { featureAccordion } from './feature-accordion.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -86,6 +87,7 @@ export const BEHAVIORS = Object.freeze({
   // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
   'chapter-nav': chapterNav,
   'expanding-panels': expandingPanels,
+  'feature-accordion': featureAccordion,
   toast,
   notification,
   alert,

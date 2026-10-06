@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "feature-accordion",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -28,7 +28,8 @@
     "notes": [
       "2-Spalten Grid: nav-links (left) + expandable chapters (right).",
       "Left: grid, align-content start, gap 1.5rem. Title: heading font, clamp 2-3.2rem, max-width 16ch.",
-      "Gap: clamp(2rem, 4vw, 4.5rem). Columns: minmax(260px, 0.95fr) + minmax(320px, 1fr)."
+      "Gap: clamp(2rem, 4vw, 4.5rem). Columns: minmax(260px, 0.95fr) + minmax(320px, 1fr).",
+      "Verhalten (neo-behaviors feature-accordion): Link i gehoert zu Kapitel i (oder per aria-controls zur id des Kapitels). Aktiver Link: .is-active + aria-current=\"true\". Klick scrollt das Kapitel an den Anfang von __right (overflow-y auto in der zweispaltigen Lage) bzw. die Seite (gestapelt), Fokus aufs Kapitel (tabindex=-1); Scrollen der Spalte markiert das letzte Kapitel, dessen Oberkante ihren Anfang + 24 px passiert hat. Die <details> klappt der Browser."
     ]
   },
   "api": null,
@@ -70,9 +71,31 @@
     },
     "modTokens": []
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "jump-or-toggle",
+      "note": "Auf einem Link (nativer Knopf): markiert ihn, scrollt sein Kapitel an den Anfang der rechten Spalte, Fokus aufs Kapitel. Auf einem Eintrag (<summary>): klappt auf/zu (nativ)."
+    },
+    "Space": {
+      "action": "jump-or-toggle",
+      "note": "Wie Enter."
+    },
+    "Tab": {
+      "action": "native",
+      "note": "Links und Eintraege in Dokumentreihenfolge (kein roving tabindex); nach einem Sprung geht Tab im Kapitel weiter."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "feature-accordion-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein anderer Link aktiv wird (Klick oder Scrollen der rechten Spalte)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,

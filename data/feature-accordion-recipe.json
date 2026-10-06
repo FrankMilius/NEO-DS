@@ -3,8 +3,14 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "feature-accordion",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Verhalten in neo-behaviors (feature-accordion, Entscheidung 06.10.2026, website-verhalten): Kapitelwechsel, wie ihn die Doku beschreibt (is-active „wenn gescrollt oder ein Kapitel geklickt wird“) — Klick/Enter/Leertaste auf einen Link markiert ihn (.is-active + aria-current), scrollt sein Kapitel an den Anfang der rechten Spalte (zweispaltig: die Spalte, gestapelt: die Seite), Fokus aufs Kapitel; Scroll-Spy der rechten Spalte markiert das letzte Kapitel ueber ihrem Anfang (keyboard/events). In neo-theme.js gibt es dafuer keine Funktion. Arena: Ausprobieren mit drei Kapiteln. In Drupal nur per drupalSettings.neoBehaviors.nur."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -55,7 +61,8 @@
     "domNotes": [
       "2-Spalten Grid: nav-links (left) + expandable chapters (right).",
       "Left: grid, align-content start, gap 1.5rem. Title: heading font, clamp 2-3.2rem, max-width 16ch.",
-      "Gap: clamp(2rem, 4vw, 4.5rem). Columns: minmax(260px, 0.95fr) + minmax(320px, 1fr)."
+      "Gap: clamp(2rem, 4vw, 4.5rem). Columns: minmax(260px, 0.95fr) + minmax(320px, 1fr).",
+      "Verhalten (neo-behaviors feature-accordion): Link i gehoert zu Kapitel i (oder per aria-controls zur id des Kapitels). Aktiver Link: .is-active + aria-current=\"true\". Klick scrollt das Kapitel an den Anfang von __right (overflow-y auto in der zweispaltigen Lage) bzw. die Seite (gestapelt), Fokus aufs Kapitel (tabindex=-1); Scrollen der Spalte markiert das letzte Kapitel, dessen Oberkante ihren Anfang + 24 px passiert hat. Die <details> klappt der Browser."
     ]
   },
   "axes": {
@@ -93,7 +100,7 @@
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [],
-      "note": "Accordion-Items: aria-expanded. Navigation-Links: fokussierbar, aria-current. Keyboard: Enter/Space toggle."
+      "note": "Accordion-Items: <details>/<summary> (nativ, Enter/Space toggle). Navigation-Links: Knoepfe in der Tab-Folge, der aktive mit aria-current=\"true\" (zusaetzlich fett, WCAG 1.4.1). Klick/Enter auf einen Link setzt den Fokus aufs Kapitel (neo-behaviors feature-accordion, WCAG 2.4.3); sanftes Scrollen nur ohne prefers-reduced-motion."
     },
     "overrides": []
   },
@@ -183,5 +190,29 @@
         }
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "jump-or-toggle",
+      "note": "Auf einem Link (nativer Knopf): markiert ihn, scrollt sein Kapitel an den Anfang der rechten Spalte, Fokus aufs Kapitel. Auf einem Eintrag (<summary>): klappt auf/zu (nativ)."
+    },
+    "Space": {
+      "action": "jump-or-toggle",
+      "note": "Wie Enter."
+    },
+    "Tab": {
+      "action": "native",
+      "note": "Links und Eintraege in Dokumentreihenfolge (kein roving tabindex); nach einem Sprung geht Tab im Kapitel weiter."
+    }
+  },
+  "events": {
+    "feature-accordion-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein anderer Link aktiv wird (Klick oder Scrollen der rechten Spalte)."
+    }
+  }
 }
