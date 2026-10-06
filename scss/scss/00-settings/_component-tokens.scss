@@ -4544,6 +4544,27 @@
   --nc-section-header-subtitle-color: var(--nc-block-lead-color, var(--fnd-color-text-secondary));
 }
 
+// Section-Header in Theme-BEREICHEN neu binden (Entscheidung app-store-dunkel,
+// 06.10.2026). Eine Ableitung wie var(--fnd-color-text-primary) wird an dem
+// Element aufgeloest, das sie deklariert — hier :root. Ein Block mit
+// .neo-dark-theme (Drupal: Block-Wrapper „neo-dark-theme neo-surface" aus
+// field_surface) bindet zwar --fnd-* neu, erbt aber den am :root schon
+// aufgeloesten HELLEN Wert: Titel schwarz auf Schwarz, Lead kaum lesbar
+// (gesehen am App-Store-Block). Umgekehrt ein heller Bereich auf dunkler
+// Seite. Seitenweites Dunkel (Klasse auf <html>) war nie betroffen.
+// Gleiches Muster wie --nc-segmented-* und --nc-cs-*; der Lead mit, weil
+// --nc-section-header-subtitle-color auf --nc-block-lead-color zeigt (dessen
+// Neubindung steht bei seiner Definition, 10-utilities/_block-roles.scss).
+// Das Label (--nc-section-header-label-color, Primitive neutral-800) bleibt
+// aussen vor: es ist themenunabhaengig und im Dunkeln auch seitenweit dunkel.
+.neo-light-theme,
+.neo-dark-theme,
+.customer-light-theme,
+.customer-dark-theme {
+  --nc-section-header-title-color: var(--fnd-color-text-primary);
+  --nc-section-header-subtitle-color: var(--nc-block-lead-color, var(--fnd-color-text-secondary));
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --nc-segmented-bg: var(--fnd-color-background-secondary);
