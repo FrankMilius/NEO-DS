@@ -1,5 +1,5 @@
 # faq Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `content`, `interactive`, `accordion`
 
@@ -14,7 +14,7 @@ Root element: `.nc-faq`
 
 ### DOM Notes
 - Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.
-- Question: semibold, cursor:pointer. Answer: text-secondary.
+- Question: body-m, semibold, cursor:pointer. Answer: body-s (--nc-type-body-s-*), text-secondary — kleiner als die Frage.
 - Aufklappbar via <details>/<summary> oder JS.
 
 ## Variants

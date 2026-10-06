@@ -3,8 +3,14 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "faq",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Antwort .nc-faq__answer in body-s, Frage .nc-faq__question in body-m (Entscheidung 06.10.2026): font-size/line-height aus --nc-type-body-*; vorher erbte das <p> der Antwort paragraph-l (--fs-base, bis 18px) und die Frage die Umgebungsschrift — die Antwort war groesser als die Frage. Mit eigener Groesse der Frage gilt Antwort < Frage in jedem Umfeld"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -59,7 +65,7 @@
     "convenience": [],
     "domNotes": [
       "Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.",
-      "Question: semibold, cursor:pointer. Answer: text-secondary.",
+      "Question: body-m, semibold, cursor:pointer. Answer: body-s (--nc-type-body-s-*), text-secondary — kleiner als die Frage.",
       "Aufklappbar via <details>/<summary> oder JS."
     ]
   },

@@ -19,11 +19,23 @@
   padding: var(--fnd-spacing-02) var(--fnd-spacing-04);
 }
 
+// Frage in body-m (Entscheidung 06.10.2026): eigene Groesse statt geerbter,
+// damit die Antwort (body-s) in jedem Umfeld kleiner bleibt — auch dort, wo
+// die Umgebung eine kleinere Grundschrift setzt (z. B. 14px).
 .nc-faq__question {
+  font-size: var(--nc-type-body-m-size);
+  line-height: var(--nc-type-body-m-lh);
   font-weight: var(--fnd-font-weight-semibold);
   cursor: pointer;
 }
 
+// Antwort in body-s (Entscheidung 06.10.2026): nie groesser als die Frage
+// (body-m). Ohne eigene Schrift erbte das <p> der Antwort paragraph('l')
+// aus 03-elements/_typography.scss (--fs-base, fluid 16–18px) und stand
+// groesser da als die geerbte Schrift der Frage.
 .nc-faq__answer {
+  font-size: var(--nc-type-body-s-size);
+  line-height: var(--nc-type-body-s-lh);
+  letter-spacing: var(--nc-type-body-s-ls);
   color: var(--fnd-color-text-secondary);
 }
