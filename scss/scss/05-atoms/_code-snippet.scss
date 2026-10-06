@@ -279,6 +279,13 @@
 // Einzelne Zeilen hervorheben (z.B. fuer Erlaeuterungen).
 
 .nc-code-snippet--line-highlight {
+  // Zeilen als Block (wie bei den Zeilennummern): sonst liegt die
+  // Hervorhebung nur hinter dem Text und die negativen Raender greifen nicht.
+  // Zeilen ohne Zeilenumbruch dazwischen auszeichnen (je Zeile ein Element).
+  .nc-code-snippet__line {
+    display: block;
+  }
+
   .nc-code-snippet__line--highlighted {
     background-color: var(--mod-cs-line-highlight-bg, var(--nc-cs-line-highlight-bg));
     border-left: var(--mod-cs-line-highlight-width, var(--nc-cs-line-highlight-width)) solid var(--mod-cs-line-highlight-border, var(--nc-cs-line-highlight-border));
