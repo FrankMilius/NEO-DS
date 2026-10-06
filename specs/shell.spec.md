@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.1.1 | Status: stable | Layer: organism
+> Version 2.1.2 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -39,7 +39,7 @@ Root element: `.nc-shell`
 - Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar mit aria-controls="<id der Sidebar>" und aria-expanded. Unter lg oeffnet das Behavior shell (neo-behaviors) damit den Drawer; ab lg ist der Knopf ohne Verhalten (Collapse setzt die Seite selbst).
 - Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.
 - Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.
-- Content-Body Alignment: --left (max-width links), --center (max-width zentriert), Default: volle Breite.
+- Content-Body Alignment: --left (max-width links, margin-inline: 0 — auch in content-page und focused), --center (max-width zentriert), Default: volle Breite (Presets content-page/focused zentrieren).
 - Footerbar: sticky-bottom, 3-Zonen-Grid (left/center/right). Default: display:none. Mobile-Verhalten per data-footerbar-mobile='hide|static' steuerbar (Default: sticky).
 - Z-Index Governance: Feste Rangfolge ueber --nc-shell-z-* Tokens. linkbar (base) < footerbar (sticky) < navbar (header) < sidebar (sidebar) < overlay (drawer-1) < drawer (drawer). Verhindert Z-Index-Kriege.
 - RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.

@@ -296,6 +296,7 @@
 
 .nc-shell__content-body--left {
   max-width: var(--nc-shell-content-max-width);
+  margin-inline: 0;
 }
 
 .nc-shell__content-body--center {
@@ -661,4 +662,17 @@
   [data-layout='settings'] :is([data-sidebar-density='narrow'], [data-sidebar-density='wide']) {
     --nc-shell-settings-sidebar-left-width: var(--nc-shell-sidebar-left-width);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Linke Inhaltsausrichtung auch in Presets mit zentriertem Inhalt
+// ---------------------------------------------------------------------------
+// content-page und focused zentrieren .nc-shell__content-body mit
+// margin-inline: auto ([data-layout] .nc-shell__content-body, 0,2,0) und
+// schlugen damit den Modifier --left (0,1,0): der Inhalt blieb zentriert
+// (Entscheidung shell-ausrichtung, 06.10.2026). Hier gleiche Spezifitaet,
+// spaeter im Quelltext. Ohne --left bleibt alles wie bisher.
+
+[data-layout] .nc-shell__content-body--left {
+  margin-inline: 0;
 }
