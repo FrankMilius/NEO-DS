@@ -1,5 +1,5 @@
 # card Component Spec
-> Version 3.1.0 | Status: stable | Layer: molecule
+> Version 3.2.0 | Status: stable | Layer: molecule
 
 Tags: `container`, `surface`, `interactive`, `layout`
 
@@ -174,6 +174,9 @@ Base classes: `nc-card`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-card-padding` | — | `--mod-card-padding` |
+| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-content-padding` | — | `--mod-card-content-padding` |
+| `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
 | `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
 | `--nc-card-title-font-weight` | — | `--mod-card-title-font-weight` |
 | `--nc-card-title-line-height` | — | `--mod-card-title-line-height` |

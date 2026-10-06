@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card",
-    "version": "3.1.0",
+    "version": "3.2.0",
     "status": "stable",
     "tags": [
       "container",
@@ -17,6 +17,13 @@
       "docs": "/docs/card-docs"
     },
     "changelog": [
+      {
+        "version": "3.2.0",
+        "changes": [
+          "06.10.2026: Achse context gebaut (Entscheidung 06.10.2026, nur tight/display): .nc-card--tight und .nc-card--display in scss/scss/06-molecules/_card.scss setzen die Karten-Tokens der Gruppen context-tight/context-display (Padding, Titel-/Beschreibungsgroesse) — keine Flaechenregeln. Vorher beschrieben, aber ohne SCSS.",
+          "06.10.2026: dependencyRules tight-grid-context/few-columns-display nennen die gebauten Werte (vorher --fnd-spacing-sm/-xl, die es nicht gibt, und fs-sm/fs-lg)."
+        ]
+      },
       {
         "version": "3.1.0",
         "changes": [
@@ -281,14 +288,14 @@
           "tokenGroups": [
             "context-tight"
           ],
-          "description": "Enger Grid (compact, gap <= spacing-04). Reduziertes Padding, kleinere Title-Size."
+          "description": "Enger Grid (compact, gap <= spacing-04). Padding spacing-04, Titel fs-lg, Beschreibung paragraph-s (eine Stufe kleiner)."
         },
         "display": {
           "modifier": "nc-card--display",
           "tokenGroups": [
             "context-display"
           ],
-          "description": "Breiter/hervorgehobener Kontext (pair grid, featured). Groesseres Padding und Typografie."
+          "description": "Breiter/hervorgehobener Kontext (pair grid, featured). Padding spacing-08, Titel fs-2xl (eine Stufe groesser). Keine Flaechenregeln."
         }
       }
     }
@@ -472,11 +479,12 @@
         "threshold": "16px"
       },
       "effects": {
-        "nc-card-padding": "var(--fnd-spacing-sm)",
-        "nc-card-header-padding": "var(--fnd-spacing-sm)",
-        "nc-card-content-padding": "var(--fnd-spacing-sm)",
-        "nc-card-footer-padding": "var(--fnd-spacing-sm)",
-        "nc-card-title-font-size": "var(--fs-sm)"
+        "nc-card-padding": "var(--fnd-spacing-04)",
+        "nc-card-header-padding": "var(--fnd-spacing-04) var(--fnd-spacing-04) 0",
+        "nc-card-content-padding": "var(--fnd-spacing-04)",
+        "nc-card-footer-padding": "0 var(--fnd-spacing-04) var(--fnd-spacing-04)",
+        "nc-card-title-font-size": "var(--fs-lg)",
+        "nc-card-description-font-size": "var(--fnd-typography-paragraph-s-font-size)"
       },
       "label": "Tight Grid Context",
       "description": "Grid mit Gap ≤ 16px: Card wechselt zu kompaktem Padding und kleinerer Typografie."
@@ -491,9 +499,13 @@
         "threshold": "2"
       },
       "effects": {
-        "nc-card-padding": "var(--fnd-spacing-xl)",
-        "nc-card-title-font-size": "var(--fs-lg)",
-        "nc-card-title-font-weight": "var(--fnd-font-weight-semibold)"
+        "nc-card-padding": "var(--fnd-spacing-08)",
+        "nc-card-header-padding": "var(--fnd-spacing-08) var(--fnd-spacing-08) 0",
+        "nc-card-content-padding": "var(--fnd-spacing-08)",
+        "nc-card-footer-padding": "0 var(--fnd-spacing-08) var(--fnd-spacing-08)",
+        "nc-card-title-font-size": "var(--fs-2xl)",
+        "nc-card-title-font-weight": "var(--fnd-font-weight-semibold)",
+        "nc-card-title-line-height": "var(--lh-heading)"
       },
       "label": "Few Columns Display",
       "description": "Grid mit ≤ 2 Spalten: Card nutzt groesseres Padding und prominentere Typografie."
@@ -824,6 +836,9 @@
         "description": "Token-Overrides fuer hervorgehobene Darstellung (≤ 2 Spalten, Hero-Bereich)",
         "tokens": [
           "nc-card-padding",
+          "nc-card-header-padding",
+          "nc-card-content-padding",
+          "nc-card-footer-padding",
           "nc-card-title-font-size",
           "nc-card-title-font-weight",
           "nc-card-title-line-height",

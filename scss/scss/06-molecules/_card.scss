@@ -624,6 +624,39 @@
   }
 }
 
+// ---------------------------------------------------------------------------
+// Layout-Kontext: --tight / --display (Entscheidung 06.10.2026)
+// ---------------------------------------------------------------------------
+// Achse context des Recipes (data/card-recipe.json). Nur Abstaende und
+// Typografie ueber die vorhandenen Karten-Tokens (Token-Gruppen
+// context-tight / context-display) — KEINE Flaechenregeln (Hintergrund,
+// Rahmen, Schatten bleiben beim Basis-Satz bzw. bei --mod-card-*).
+// Gesetzt werden die --nc-card-*-Tokens am Element: die Override-Stufe
+// --mod-card-* schlaegt weiterhin durch.
+
+.nc-card--tight {
+  // Enger Raster-Kontext (compact, Gap <= spacing-04): reduziertes Padding,
+  // kleinere Titel- und Beschreibungsgroesse (je eine Stufe unter Standard)
+  --nc-card-padding: var(--fnd-spacing-04);
+  --nc-card-header-padding: var(--fnd-spacing-04) var(--fnd-spacing-04) 0;
+  --nc-card-content-padding: var(--fnd-spacing-04);
+  --nc-card-footer-padding: 0 var(--fnd-spacing-04) var(--fnd-spacing-04);
+  --nc-card-title-font-size: var(--fs-lg);
+  --nc-card-description-font-size: var(--fnd-typography-paragraph-s-font-size);
+}
+
+.nc-card--display {
+  // Hervorgehobener Kontext (<= 2 Spalten, featured): groesseres Padding,
+  // prominentere Titel-Typografie (eine Stufe ueber Standard)
+  --nc-card-padding: var(--fnd-spacing-08);
+  --nc-card-header-padding: var(--fnd-spacing-08) var(--fnd-spacing-08) 0;
+  --nc-card-content-padding: var(--fnd-spacing-08);
+  --nc-card-footer-padding: 0 var(--fnd-spacing-08) var(--fnd-spacing-08);
+  --nc-card-title-font-size: var(--fs-2xl);
+  --nc-card-title-font-weight: var(--fnd-font-weight-semibold);
+  --nc-card-title-line-height: var(--lh-heading);
+}
+
 // ==========================================================================
 // Card Grid
 // ==========================================================================
