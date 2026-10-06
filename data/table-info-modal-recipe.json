@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "table-info-modal",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Verhalten in neo-behaviors (table-info-modal, Entscheidung 06.10.2026, overlay-verhalten) — ersetzt openInfoModal/closeInfoModal in Drupal.behaviors.neoTable (neo-theme.js): Knopf mit aria-controls=\"<id des Dialogs>\" oeffnet .is-open (Text aus data-info des Knopfs als Absaetze in __body), Fokus auf den Schliessen-Knopf, Fokus-Falle, Rest der Seite inert; Escape, Schliessen-Knopf, Backdrop schliessen, Fokus zurueck zum Info-Knopf; geschlossen inert + aria-hidden (keyboard/events). Arena: Ausprobieren. In Drupal nur per drupalSettings.neoBehaviors.nur."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -65,9 +71,10 @@
     "domNotes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
       "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
-      "Markup wie data/markup/table-info-modal.html: div[role=dialog] mit __backdrop und __content (__close, __body); den Text der Zelle setzt neo-theme.js in __body.",
+      "Markup wie data/markup/table-info-modal.html: div[role=dialog] mit __backdrop und __content (__close, __body). Den Text der Zelle setzt das Behavior table-info-modal aus data-info des Ausloesers (als Text, Zeilenumbruch = Absatz) in __body; auf der Website bis zur Umstellung noch neo-theme.js (neoTable, openInfoModal).",
       "Zustand open = .is-open (SCSS blendet per opacity ein). hover/focus nur am Schliessen-Knopf.",
-      "Die Ernte hat keinen Namen am Dialog (aria-labelledby) und kein aria-modal — die Arena ergaenzt beides."
+      "Die Ernte hat keinen Namen am Dialog (aria-labelledby) und kein aria-modal — die Arena ergaenzt beides.",
+      "Ausloeser: Info-Knopf der Zelle (.nc-tbl-cell__info-btn) mit aria-controls=\"<id des Dialogs>\", aria-haspopup=\"dialog\" und aria-label. Modal (neo-behaviors table-info-modal): aria-modal, Fokus auf den Schliessen-Knopf, Fokus-Falle, Rest der Seite inert; geschlossen inert + aria-hidden=\"true\" (sonst bleibt der unsichtbare Schliessen-Knopf per Tab erreichbar). Ohne Namen am Dialog nimmt er den des Ausloesers."
     ]
   },
   "axes": {
@@ -100,7 +107,10 @@
   },
   "a11y": {
     "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
+      "Verhalten (neo-behaviors table-info-modal): modaler Dialog — Fokus auf den Schliessen-Knopf, Fokus-Falle, Rest der Seite inert, Escape schliesst, Fokus zurueck zum Info-Knopf (WCAG 2.1.2, 2.4.3).",
+      "Geschlossen inert und aria-hidden: der per opacity ausgeblendete Dialog ist nicht per Tab erreichbar (WCAG 2.4.3).",
+      "Name: aria-labelledby im Markup empfohlen (die Ernte hat keinen); sonst uebernimmt das Behavior das aria-label des Ausloesers (WCAG 4.1.2).",
+      "Gestaltung nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
     ]
   },
   "constraints": [],
@@ -185,5 +195,40 @@
         "note": ""
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "open",
+      "note": "Auf dem Info-Knopf mit aria-controls (nativer Knopf): oeffnet den Dialog, Fokus auf den Schliessen-Knopf."
+    },
+    "Space": {
+      "action": "open",
+      "note": "Wie Enter auf dem Info-Knopf."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst den Dialog, Fokus zurueck auf den Info-Knopf."
+    },
+    "Tab": {
+      "action": "trap-focus",
+      "note": "Fokus bleibt im Dialog (Fokus-Falle)."
+    },
+    "Shift+Tab": {
+      "action": "trap-focus-reverse",
+      "note": "Rueckwaerts innerhalb der Fokus-Falle."
+    }
+  },
+  "events": {
+    "table-info-modal-open": {
+      "bubbles": true,
+      "note": "Gefeuert am Dialog, wenn er geoeffnet wird."
+    },
+    "table-info-modal-close": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert am Dialog beim Schliessen. reason: 'escape', 'overlay-click', 'close-button', 'trigger'."
+    }
+  }
 }

@@ -45,6 +45,7 @@ import { codeSnippet } from './code-snippet.js'
 import { button } from './button.js'
 import { shell } from './shell.js'
 import { mobileDrawer } from './mobile-drawer.js'
+import { tableInfoModal } from './table-info-modal.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -70,6 +71,7 @@ export const BEHAVIORS = Object.freeze({
   // Website-Bauteile aus dem Drupal-Theme (Entscheidung 06.10.2026): binden
   // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
   'mobile-drawer': mobileDrawer,
+  'table-info-modal': tableInfoModal,
   breadcrumb,
   treeview,
   'navigation-menu': navigationMenu,

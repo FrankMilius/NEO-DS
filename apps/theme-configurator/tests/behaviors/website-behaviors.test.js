@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer']) {
+    for (const id of ['mobile-drawer', 'table-info-modal']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }
@@ -123,5 +123,91 @@ describe('Mobile-Drawer (mobile-drawer-recipe.json)', () => {
     expect(drawer.hasAttribute('role')).toBe(false)
     expect(drawer.getAttribute('aria-hidden')).toBe('true')
     expect(document.body.classList.contains('u-no-scroll')).toBe(false)
+  })
+})
+
+describe('Tabellen-Info-Modal (table-info-modal-recipe.json)', () => {
+  const bau = () => {
+    const b = buehne(lebendigesMarkup('table-info-modal', 'zustand'))
+    anbinden(b, ['table-info-modal'])
+    return {
+      b,
+      knopf: /** @type {HTMLButtonElement} */ (b.querySelector('.nc-tbl-cell__info-btn')),
+      dialog: /** @type {HTMLElement} */ (b.querySelector('.nc-table-info-modal'))
+    }
+  }
+
+  it('Info-Knopf oeffnet: Text aus data-info als Absaetze (Text, kein HTML), Name vom Knopf, Fokus auf Schliessen', () => {
+    const { knopf, dialog } = bau()
+    expect(dialog.hasAttribute('inert')).toBe(true)
+    knopf.setAttribute('data-info', knopf.getAttribute('data-info') + '\n<img src=x onerror=alert(1)>')
+    const auf = sammle(dialog, 'table-info-modal-open')
+    knopf.focus(); klick(knopf)
+    expect(dialog.classList.contains('is-open')).toBe(true)
+    expect(dialog.getAttribute('aria-hidden')).toBe('false')
+    const absaetze = dialog.querySelectorAll('.nc-table-info-modal__body > p')
+    expect(absaetze).toHaveLength(3)
+    expect(dialog.querySelector('.nc-table-info-modal__body img')).toBeNull()
+    expect(absaetze[2].textContent).toBe('<img src=x onerror=alert(1)>')
+    expect(dialog.getAttribute('aria-label')).toBe('Mehr Informationen zu Single Sign-on')
+    expect(document.activeElement).toBe(dialog.querySelector('.nc-table-info-modal__close'))
+    expect(knopf.closest('.nc-tbl-cell').hasAttribute('inert')).toBe(true)
+    passtZumRecipe('table-info-modal', auf[0])
+  })
+
+  it('Escape, Schliessen-Knopf und Backdrop schliessen; Fokus zurueck zum Info-Knopf', () => {
+    const { knopf, dialog } = bau()
+    const zu = sammle(dialog, 'table-info-modal-close')
+    for (const [schliesse, grund] of [
+      [() => taste(dialog.querySelector('.nc-table-info-modal__close'), 'Escape'), 'escape'],
+      [() => klick(dialog.querySelector('.nc-table-info-modal__close')), 'close-button'],
+      [() => klick(dialog.querySelector('.nc-table-info-modal__backdrop')), 'overlay-click']
+    ]) {
+      knopf.focus(); klick(knopf)
+      schliesse()
+      expect(dialog.classList.contains('is-open'), grund).toBe(false)
+      expect(dialog.hasAttribute('inert')).toBe(true)
+      expect(document.activeElement).toBe(knopf)
+      expect(zu.at(-1).detail.reason).toBe(grund)
+      passtZumRecipe('table-info-modal', zu.at(-1))
+    }
+  })
+
+  it('Tasten aus dem Recipe', () => {
+    const { knopf, dialog } = bau()
+    const offen = () => dialog.classList.contains('is-open')
+    const pruefungen = {
+      Enter: () => { taste(knopf, 'Enter'); expect(offen()).toBe(true); taste(document.activeElement, 'Escape') },
+      Space: () => { taste(knopf, 'Space'); expect(offen()).toBe(true) },
+      Tab: () => {
+        // einziges Element: Tab bleibt auf dem Schliessen-Knopf
+        const zu = dialog.querySelector('.nc-table-info-modal__close')
+        expect(taste(zu, 'Tab').defaultPrevented).toBe(true)
+        expect(document.activeElement).toBe(zu)
+      },
+      'Shift+Tab': () => {
+        const zu = dialog.querySelector('.nc-table-info-modal__close')
+        expect(taste(zu, 'Shift+Tab').defaultPrevented).toBe(true)
+        expect(document.activeElement).toBe(zu)
+      },
+      Escape: () => { taste(document.activeElement, 'Escape'); expect(offen()).toBe(false); expect(document.activeElement).toBe(knopf) }
+    }
+    deckeTastenAb('table-info-modal', pruefungen)
+    for (const p of ['Enter', 'Space', 'Tab', 'Shift+Tab', 'Escape']) pruefungen[p]()
+  })
+
+  it('Website-Markup (geerntet): Backdrop und Knopf mit data-modal-close schliessen', () => {
+    const b = buehne(`<button type="button" class="nc-tbl-cell__info-btn" aria-label="Mehr Informationen" aria-controls="tm" data-info="Text">i</button>
+<div class="nc-table-info-modal" id="tm" data-table-modal="" aria-hidden="true" role="dialog">
+<div class="nc-table-info-modal__backdrop" data-modal-close=""></div>
+<div class="nc-table-info-modal__content"><button class="nc-table-info-modal__close" data-modal-close="" aria-label="Schliessen">x</button><div class="nc-table-info-modal__body"></div></div>
+</div>`)
+    anbinden(b, ['table-info-modal'])
+    const dialog = b.querySelector('.nc-table-info-modal')
+    const zu = sammle(dialog, 'table-info-modal-close')
+    klick(b.querySelector('.nc-tbl-cell__info-btn'))
+    expect(dialog.querySelector('.nc-table-info-modal__body').textContent).toBe('Text')
+    klick(dialog.querySelector('.nc-table-info-modal__backdrop'))
+    expect(zu[0].detail.reason).toBe('overlay-click')
   })
 })

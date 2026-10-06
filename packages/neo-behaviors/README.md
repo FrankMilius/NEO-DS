@@ -22,6 +22,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `drawer` | wie Modal; Klick auf den Hintergrund schließt immer; `is-scrolled` am Drawer | `drawer-open`, `drawer-close` { reason } |
 | `alert-dialog` | WAI-ARIA alertdialog: `<dialog>` per Knopf mit `aria-controls` öffnen, Fokus auf die markierte sichere Aktion (`[autofocus]`, sonst Abbrechen `[data-action="cancel"]`, sonst erstes Element), Fokus-Falle, Escape = Abbrechen, Hintergrund schließt nicht, Knöpfe mit `data-action` schließen, Fokus zurück; mit `data-close="manuell"` am `<dialog>` schließt Bestätigen nicht, sondern meldet nur (`open: true`) — das Programm schließt mit `dialog.close()` | `alert-dialog-open`, `alert-dialog-close` { reason, action, open } |
 | `mobile-drawer` | Website (Drupal-Theme): Knopf mit `aria-controls="<id des Drawers>"` öffnet `.nc-mobile-drawer--open` + Backdrop `--visible` (+ `body.u-no-scroll`), Fokus in den Drawer, Fokus-Falle, Rest der Seite `inert`; Escape, Schließen-Knopf, Backdrop oder erneut der Knopf schließen, Fokus zurück; geschlossen `inert` + `aria-hidden`; ab 1200 px (DS blendet aus) ohne Verhalten. In Drupal nur per `nur` | `mobile-drawer-open`, `mobile-drawer-close` { reason } |
+| `table-info-modal` | Website (Drupal-Theme): Info-Knopf mit `aria-controls="<id des Dialogs>"` öffnet `.is-open`, Text aus `data-info` des Knopfs als Absätze in `__body` (als Text), Fokus auf Schließen, Fokus-Falle, Rest `inert`; Escape, Schließen-Knopf, Backdrop schließen, Fokus zurück; geschlossen `inert` + `aria-hidden`; ohne Namen am Dialog `aria-label` des Knopfs. In Drupal nur per `nur` | `table-info-modal-open`, `table-info-modal-close` { reason } |
 | `breadcrumb` | Ellipsis-Menü (Smart-Truncation): Klick, Enter, Leertaste, Pfeil runter/hoch öffnen; Pfeiltasten/Pos1/Ende im Menü; Escape/Tab/Klick außen schließen | `breadcrumb-toggle` { open } |
 | `treeview` | WAI-ARIA Tree: Pfeil runter/hoch, rechts (auf / erstes Kind), links (zu / Eltern), Pos1, Ende; Enter/Leertaste/Klick wählen (single, `aria-selected` + `--selected`) bzw. haken an (multiple, `aria-checked` mit mixed-Eltern); Chevron klappt; roving tabindex auf dem `li[role=treeitem]`; Zeilen-Aktionen per Tab vom Eintrag, Escape zurück | `treeview-toggle` { value, expanded }, `treeview-select` { value, selected, values } |
 | `navigation-menu` | WAI-ARIA Disclosure-Navigation (Recipe 3.0.0): Auslöser mit `aria-expanded`/`aria-controls`, Panel `[hidden]` im Item; Tab durch alle Einträge (kein roving tabindex), Enter/Leertaste/Klick schalten, Escape schließt (Fokus auf den Auslöser), optional Pfeil rechts/links/Pos1/Ende oben, Pfeil runter ins Panel, Pfeil runter/hoch/Pos1/Ende im Panel; Fokus verlässt das offene Item oder Klick außen schließen; höchstens ein Panel offen; `data-trigger="hover"` 150 ms | `navigation-menu-change` { value, previousValue } |
@@ -229,9 +230,10 @@ Verhalten, das heute `neo_fe/js/neo-theme.js` liefert, steht jetzt auch hier
 Website ändert sich nichts, bis Drupal die Bauteile per `nur` einbindet und
 die alte Funktion entfernt (Freigabe).
 
-- **Mobile-Drawer** (overlay-verhalten) —
-  Überlagerung ohne natives `<dialog>`, gemeinsamer Teil `_ueberlagerung.js`
+- **Mobile-Drawer** und **Tabellen-Info-Modal** (overlay-verhalten) —
+  Überlagerungen ohne natives `<dialog>`, gemeinsamer Teil `_ueberlagerung.js`
   (Muster aus `_dialog.js`/`shell.js`, Hilfen aus `kern.js`). Neu gegenüber
   der Website: Fokus-Falle, Rest der Seite `inert`, Fokus zurück auch nach
   Klick, geschlossen `inert` (vorher per Tab erreichbar, obwohl unsichtbar),
-  `role="dialog"`/`aria-modal`.
+  `role="dialog"`/`aria-modal`. Der Info-Text kommt als Text aus `data-info`
+  (die Website setzte HTML per `innerHTML`).

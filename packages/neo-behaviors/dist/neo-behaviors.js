@@ -3325,6 +3325,40 @@
     nurAusdruecklich: true
   };
 
+  // packages/neo-behaviors/table-info-modal.js
+  var tableInfoModal = {
+    ...ueberlagerungBehavior({
+      id: "table-info-modal",
+      selektor: ".nc-table-info-modal",
+      praefix: "table-info-modal",
+      offenKlasse: "is-open",
+      hintergrund: (p) => (
+        /** @type {HTMLElement|null} */
+        p.querySelector(":scope > .nc-table-info-modal__backdrop")
+      ),
+      schliessen: ".nc-table-info-modal__close, [data-modal-close]",
+      beimOeffnen(panel, knopf) {
+        var _a;
+        if (!knopf) return;
+        const text = knopf.getAttribute("data-info");
+        const body = panel.querySelector(".nc-table-info-modal__body");
+        if (text !== null && body) {
+          body.replaceChildren(...text.split("\n").map((zeile) => {
+            const p = panel.ownerDocument.createElement("p");
+            p.textContent = zeile;
+            return p;
+          }));
+        }
+        if (!panel.hasAttribute("aria-labelledby") && !panel.hasAttribute("aria-label")) {
+          const name = knopf.getAttribute("aria-label") || ((_a = knopf.textContent) == null ? void 0 : _a.trim());
+          if (name) panel.setAttribute("aria-label", name);
+        }
+      }
+    }),
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3347,6 +3381,7 @@
     // Website-Bauteile aus dem Drupal-Theme (Entscheidung 06.10.2026): binden
     // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
     "mobile-drawer": mobileDrawer,
+    "table-info-modal": tableInfoModal,
     breadcrumb,
     treeview,
     "navigation-menu": navigationMenu,

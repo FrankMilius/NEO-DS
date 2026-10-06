@@ -172,7 +172,7 @@ describe('Bewegung-Block aus dem Recipe', () => {
   // Overlays mit Behavior in neo-behaviors (Entscheidung 06.10.2026,
   // overlay-verhalten) — „Ausprobieren" ueber MIT_VERHALTEN, Tests in
   // tests/behaviors/website-behaviors.test.js
-  const MIT_BEHAVIOR = ['mobile-drawer']
+  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal']
   it('Overlays mit Behavior: keyboard/events im Recipe, Ausprobieren ueber neo-behaviors', () => {
     for (const id of MIT_BEHAVIOR) {
       const r = rohesRecipe(id)
@@ -183,6 +183,9 @@ describe('Bewegung-Block aus dem Recipe', () => {
     const [drawer] = zellen('mobile-drawer', 'zustand', { ausprobieren: true }).map((z) => dom(z.html))
     expect(drawer.querySelector(`.ra-buehne--mobil-drawer > .nc-button[aria-controls="${drawer.querySelector('.nc-mobile-drawer').id}"]`)).not.toBeNull()
     expect(drawer.querySelector('.nc-mobile-drawer').className).toBe('nc-mobile-drawer')
+    const [info] = zellen('table-info-modal', 'zustand', { ausprobieren: true }).map((z) => dom(z.html))
+    expect(info.querySelector(`.nc-tbl-cell__info-btn[aria-controls="${info.querySelector('.nc-table-info-modal').id}"][data-info]`)).not.toBeNull()
+    expect(info.querySelector('.nc-table-info-modal').className).toBe('nc-table-info-modal')
   })
 
   it('kein anderes Recipe nennt keyboard/events, keines hat ein Behavior — kein „Ausprobieren"', () => {
