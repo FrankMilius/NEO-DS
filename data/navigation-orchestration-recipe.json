@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-orchestration",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,12 @@
       "docs": "/docs/navigation-orchestration-docs"
     },
     "changelog": [
+      {
+        "version": "2.0.0",
+        "changes": [
+          "Dichte compact gestrichen (Entscheidung 06.10.2026): Achse density, Token-Gruppe compact und Specimen compact-density entfernt — .nc-header--compact war nie gebaut; die Achse hatte danach nur noch einen Wert"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -145,8 +151,7 @@
       "Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.",
       "Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.",
       "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer.",
-      "Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel.",
-      "density compact: .nc-header--compact steht hier, aber nicht in styles.css — die Arena zeigt „nicht gebaut\"."
+      "Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel."
     ]
   },
   "axes": {
@@ -169,24 +174,6 @@
             "mobile"
           ],
           "renderHint": "nav-orchestration-mobile"
-        }
-      }
-    },
-    "density": {
-      "label": "Density",
-      "description": "Gesamtdichte der Navigation — default, compact (reduzierte Hoehe/Gaps)",
-      "values": {
-        "default": {
-          "modifier": null,
-          "tokenGroups": [],
-          "renderHint": "nav-density-default"
-        },
-        "compact": {
-          "modifier": "nc-header--compact",
-          "tokenGroups": [
-            "compact"
-          ],
-          "renderHint": "nav-density-compact"
         }
       }
     }
@@ -328,15 +315,6 @@
           "nc-nav-orch-mobile-breakpoint",
           "nc-nav-orch-mobile-drawer-width"
         ]
-      },
-      "compact": {
-        "label": "Compact Density",
-        "description": "Reduzierte Navigationshoehe fuer kompakte Layouts",
-        "tokens": [
-          "nc-nav-orch-compact-height",
-          "nc-nav-orch-compact-gap",
-          "nc-nav-orch-compact-padding"
-        ]
       }
     }
   },
@@ -356,8 +334,7 @@
     },
     "resolution": {
       "classList": [
-        "styling.baseClasses",
-        "axes.density.values.*.modifier"
+        "styling.baseClasses"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups",
@@ -550,9 +527,6 @@
         "axes": {
           "viewport": [
             "desktop"
-          ],
-          "density": [
-            "default"
           ]
         },
         "states": [
@@ -579,9 +553,6 @@
         "axes": {
           "viewport": [
             "desktop"
-          ],
-          "density": [
-            "default"
           ]
         },
         "states": [
@@ -606,9 +577,6 @@
         "axes": {
           "viewport": [
             "mobile"
-          ],
-          "density": [
-            "default"
           ]
         },
         "states": [
@@ -627,33 +595,6 @@
       }
     },
     {
-      "id": "compact-density",
-      "label": "Compact Density",
-      "description": "Reduzierte Hoehe fuer Dashboard-Layouts",
-      "matrix": {
-        "axes": {
-          "viewport": [
-            "desktop"
-          ],
-          "density": [
-            "compact"
-          ]
-        },
-        "states": [
-          "default"
-        ]
-      },
-      "layout": "single",
-      "render": {
-        "compositionType": "nav-orchestration-compact",
-        "label": "compact"
-      },
-      "a11y": {
-        "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Touch-Targets: min 44px trotz compact."
-      }
-    },
-    {
       "id": "z-index-governance",
       "label": "Z-Index Governance",
       "description": "Shell-Z-Schichten: Linkbar < Footerbar < Navbar < Sidebar < Overlay < Drawer",
@@ -661,9 +602,6 @@
         "axes": {
           "viewport": [
             "desktop"
-          ],
-          "density": [
-            "default"
           ]
         },
         "states": [

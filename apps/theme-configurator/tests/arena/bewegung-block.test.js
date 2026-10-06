@@ -6,7 +6,8 @@
  *   - echtes DS-Markup: nur Klassen aus styles.css oder der Recipe-Anatomie,
  *     Arena-Klassen nie an DS-Elementen, Inline-Stile nur als Instanzwert
  *     (Custom Properties bzw. die begruendeten Ausnahmen unten)
- *   - „nicht gebaut": scroll-expand, scroll-reveal und .nc-header--compact
+ *   - „nicht gebaut": scroll-expand und scroll-reveal (.nc-header--compact
+ *     ist seit der Entscheidung 06.10.2026 aus dem Recipe gestrichen)
  *     zeigen den Hinweis statt einer wirkungslosen Klasse; jeder andere
  *     Modifier der zwoelf Recipes steht in styles.css
  *   - Abspielen: statischer Zustand in „Zustände", die Taste stellt die
@@ -149,7 +150,7 @@ describe('Bewegung-Block aus dem Recipe', () => {
     })
   }
 
-  it('nicht gebaut: scroll-expand, scroll-reveal und .nc-header--compact zeigen den Hinweis; alle anderen Modifier stehen in styles.css', () => {
+  it('nicht gebaut: scroll-expand und scroll-reveal zeigen den Hinweis; alle anderen Modifier stehen in styles.css', () => {
     for (const id of NICHT_GEBAUT) {
       const wurzel = rohesRecipe(id).anatomy.root.element.slice(1)
       expect(bekannt.has(wurzel), `${wurzel} ist inzwischen gebaut — Vorlage und Test anpassen`).toBe(false)
@@ -158,12 +159,11 @@ describe('Bewegung-Block aus dem Recipe', () => {
         expect(d.querySelector(`.${wurzel}`)).toBeNull()
       }
     }
-    expect(bekannt.has('nc-header--compact')).toBe(false)
-    const [kompakt] = alle('navigation-orchestration', 'compact-density')
-    expect(kompakt.querySelector('[data-nicht-gebaut]').textContent).toContain('.nc-header--compact')
+    // .nc-header--compact: aus dem Recipe gestrichen (Entscheidung 06.10.2026)
+    expect(rohesRecipe('navigation-orchestration').axes.density).toBeUndefined()
+    expect(rohesRecipe('navigation-orchestration').specimens.some((s) => s.id === 'compact-density')).toBe(false)
     for (const id of BLOCK) {
       for (const k of modifier(id)) {
-        if (k === 'nc-header--compact') continue
         expect(bekannt.has(k), `${id}: Modifier ${k} fehlt in styles.css`).toBe(true)
       }
     }

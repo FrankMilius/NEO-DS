@@ -1,5 +1,5 @@
 # navigation-orchestration Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 2.0.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `orchestration`, `composition`, `governance`
 
@@ -32,7 +32,6 @@ Root element: `.nc-header`
 - Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.
 - Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer.
 - Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel.
-- density compact: .nc-header--compact steht hier, aber nicht in styles.css — die Arena zeigt „nicht gebaut".
 
 ## Variants
 ### Viewport (`viewport`)
@@ -42,14 +41,6 @@ Responsive Modus — desktop (Navigation-Menu sichtbar), mobile (Hamburger → D
 | --- | --- | --- |
 | desktop | — |  |
 | mobile | — |  |
-
-### Density (`density`)
-Gesamtdichte der Navigation — default, compact (reduzierte Hoehe/Gaps)
-
-| Value | CSS Modifier | Default |
-| --- | --- | --- |
-| default | — |  |
-| compact | `.nc-header--compact` |  |
 
 ## States
 Supported: `default`, `scrolled`, `hidden`, `mobile-open`
@@ -86,13 +77,6 @@ Base classes: `nc-header`
 | `--nc-nav-orch-mobile-breakpoint` | — | `--mod-nav-orch-mobile-breakpoint` |
 | `--nc-nav-orch-mobile-drawer-width` | — | `--mod-nav-orch-mobile-drawer-width` |
 
-### Compact Density
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-nav-orch-compact-height` | — | `--mod-nav-orch-compact-height` |
-| `--nc-nav-orch-compact-gap` | — | `--mod-nav-orch-compact-gap` |
-| `--nc-nav-orch-compact-padding` | — | `--mod-nav-orch-compact-padding` |
-
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 
@@ -108,7 +92,7 @@ Derived from anatomy for potential `<nc-navigation-orchestration>` custom elemen
 
 ```js
 class NcNavigationOrchestration extends HTMLElement {
-  static observedAttributes = ['viewport', 'density'];
+  static observedAttributes = ['viewport'];
   // Slots: <slot name="shell-slot">, <slot name="header">, <slot name="nav-inner">, <slot name="brand">
 }
 ```

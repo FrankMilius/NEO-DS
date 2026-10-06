@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "navigation-orchestration",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -111,8 +111,7 @@
       "Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.",
       "Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.",
       "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer.",
-      "Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel.",
-      "density compact: .nc-header--compact steht hier, aber nicht in styles.css — die Arena zeigt „nicht gebaut\"."
+      "Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel."
     ]
   },
   "api": null,
@@ -132,24 +131,6 @@
           "cssModifier": null,
           "default": false,
           "label": "mobile"
-        }
-      ]
-    },
-    "density": {
-      "label": "Density",
-      "description": "Gesamtdichte der Navigation — default, compact (reduzierte Hoehe/Gaps)",
-      "values": [
-        {
-          "value": "default",
-          "cssModifier": null,
-          "default": false,
-          "label": "default"
-        },
-        {
-          "value": "compact",
-          "cssModifier": "nc-header--compact",
-          "default": false,
-          "label": "compact"
         }
       ]
     }
@@ -232,17 +213,6 @@
         {
           "token": "--nc-nav-orch-mobile-drawer-width"
         }
-      ],
-      "Compact Density": [
-        {
-          "token": "--nc-nav-orch-compact-height"
-        },
-        {
-          "token": "--nc-nav-orch-compact-gap"
-        },
-        {
-          "token": "--nc-nav-orch-compact-padding"
-        }
       ]
     },
     "modTokens": [
@@ -258,10 +228,7 @@
       "--mod-nav-orch-sync-elevation",
       "--mod-nav-orch-sync-spacing",
       "--mod-nav-orch-mobile-breakpoint",
-      "--mod-nav-orch-mobile-drawer-width",
-      "--mod-nav-orch-compact-height",
-      "--mod-nav-orch-compact-gap",
-      "--mod-nav-orch-compact-padding"
+      "--mod-nav-orch-mobile-drawer-width"
     ]
   },
   "keyboard": null,
