@@ -631,7 +631,8 @@ export function renderZelle (zelle, specimen, recipe, componentId, vorlage, opti
 // „dunkel" setzt am Block-Wrapper „neo-dark-theme neo-surface"
 // (neo_fe_preprocess_block, neo_fe.theme); .neo-surface malt die Flaeche.
 //   'dunkel'  Theme-/Flaechen-Achse steht auf inverse/dark/on-dark
-//             (footer theme=inverse, app-store surface=dark)
+//             (footer theme=inverse, app-store surface=dark) oder das
+//             Specimen verlangt die Flaeche (render.flaeche: 'dunkel')
 //   'invers'  Vordergrund fuer dunklen Grund (color=inverse, render.bgVariant
 //             dark): text-inverse gehoert auf background-inverse im
 //             aktuellen Theme — NICHT in .neo-dark-theme, dort kippt inverse.
@@ -643,6 +644,9 @@ export function zellenFlaeche (zelle, specimen) {
     if (THEMEN_ACHSEN.has(achse) && DUNKLE_WERTE.has(String(wert))) return 'dunkel'
   }
   const render = specimen?.render || {}
+  // Block auf dunkler Flaeche wie in Drupal (field_surface „dunkel" am
+  // Block-Wrapper), ohne Achse im Recipe — z. B. video-section
+  if (render.flaeche === 'dunkel') return 'dunkel'
   if (render.bgVariant === 'dark' || render.background === 'dark') return 'invers'
   // Farbvergleiche (color: '*'): die inverse Zelle braucht ihren Grund, sonst
   // steht Weiss auf Weiss. Kompositionen (z. B. Spinner im Button) bringen

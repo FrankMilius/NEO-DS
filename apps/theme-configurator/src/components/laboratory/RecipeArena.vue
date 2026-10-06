@@ -20,7 +20,7 @@
     <div v-if="hatVerhalten || abspielInfo" class="ra-modus" role="group" aria-label="Ansicht der Arena">
       <template v-if="hatVerhalten">
         <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'zustaende'" @click="modus = 'zustaende'">Zustände</button>
-        <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">Ausprobieren</button>
+        <button type="button" class="ra-modus__knopf" :aria-pressed="modus === 'ausprobieren'" @click="modus = 'ausprobieren'">{{ eigenesAusprobieren?.knopf || 'Ausprobieren' }}</button>
         <span v-if="modus === 'ausprobieren'" class="ra-modus__hinweis">{{ eigenesAusprobieren ? eigenesAusprobieren.hinweis : 'Klicken, tippen, Tastatur — das Verhalten kommt aus neo-behaviors, wie in Drupal.' }}</span>
       </template>
       <!-- Abspielen (Plan v3, Phase 4): Bewegung eines Website-Blocks mit
@@ -172,7 +172,9 @@ const ansichten = computed(() => {
 // das Verhalten oeffnet sie (Plan v3, Phase 3, Block Overlays).
 // Ohne Behavior in neo-behaviors kann die Vorlage ein eigenes „Ausprobieren"
 // mitbringen (psychedelic-bg: Canvas-Renderer der Arena, siehe
-// src/arena-templates/index.js).
+// src/arena-templates/index.js). Animierte Website-Bloecke nennen den Knopf
+// „Abspielen" (ausprobieren.knopf): „Zustände" zeigt sie als Standbild, die
+// Animation laeuft nur auf Wunsch (Plan v3, Phase 4).
 const eigenesAusprobieren = computed(() => (MIT_VERHALTEN.includes(props.componentId) ? null : ausprobierenFuer(props.componentId)))
 const hatVerhalten = computed(() => MIT_VERHALTEN.includes(props.componentId) || !!eigenesAusprobieren.value)
 // Gebunden wird das Bauteil selbst und, was es enthaelt (komposition
@@ -480,6 +482,43 @@ onBeforeUnmount(() => {
 .ra-live-component .ra-nav-mobil .burger { display: grid; }
 .ra-live-component .ra-nav-mobil .m-drawer { display: block; }
 
+/* ra-abstand: Foundation Spacing (Plan v3, Phase 4). Zwei getoente Flaechen
+   im Abstand der semantischen Rolle (data-rolle) — vertikal, horizontal
+   (inline, gutter) oder als Innenabstand (inset). Das Recipe hat keine
+   Klasse, die Arena zeigt nur den Token. */
+.ra-live-component .ra-abstand { display: inline-flex; flex-direction: column; gap: 6px; }
+.ra-live-component .ra-abstand__paar { display: flex; flex-direction: column; gap: var(--ra-abstand); }
+.ra-live-component .ra-abstand__paar--waagerecht { flex-direction: row; }
+.ra-live-component .ra-abstand__flaeche {
+  width: 120px;
+  height: 20px;
+  border: 1px dashed color-mix(in srgb, var(--fnd-color-interactive-default) 45%, transparent);
+  border-radius: var(--fnd-radius-sm);
+  background: color-mix(in srgb, var(--fnd-color-interactive-default) 14%, transparent);
+}
+.ra-live-component .ra-abstand__paar--waagerecht .ra-abstand__flaeche { width: 48px; height: 32px; }
+.ra-live-component .ra-abstand__flaeche--innen { width: auto; height: auto; padding: var(--ra-abstand); }
+.ra-live-component .ra-abstand__inhalt { padding: 4px 8px; font-size: 12px; background: var(--fnd-color-background-secondary); }
+.ra-live-component .ra-abstand__token { font: 500 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--fnd-color-text-secondary); }
+.ra-live-component .ra-abstand[data-rolle='section'] { --ra-abstand: var(--fnd-spacing-section); }
+.ra-live-component .ra-abstand[data-rolle='component'] { --ra-abstand: var(--fnd-spacing-component); }
+.ra-live-component .ra-abstand[data-rolle='element'] { --ra-abstand: var(--fnd-spacing-element); }
+.ra-live-component .ra-abstand[data-rolle='gutter'] { --ra-abstand: var(--fnd-spacing-gutter); }
+.ra-live-component .ra-abstand[data-rolle='inline'] { --ra-abstand: var(--fnd-spacing-inline); }
+.ra-live-component .ra-abstand[data-rolle='stack'] { --ra-abstand: var(--fnd-spacing-stack); }
+.ra-live-component .ra-abstand[data-rolle='inset'] { --ra-abstand: var(--fnd-spacing-inset); }
+
+/* ra-typskala: Umgebung mit kleinerer Typo-Skala. nc-section-title und
+   nc-lead multiplizieren mit --type-scale, das ein uebergeordnetes Element
+   setzt (Doku text-blocks, „Type Scale"). Der Rahmen ist dieses Element. */
+.ra-live-component .ra-typskala { --type-scale: 0.85; }
+
+/* ra-tabelle: Tabellenumgebung fuer einzelne Zellen (tbl-cell). Die Zelle
+   gestaltet sich nach ihrem Ort (th[scope=row] links und fett, td mittig) —
+   der Rahmen gibt ihr den Ort, ohne Gestaltung der Vergleichstabelle. */
+.ra-live-component .ra-tabelle { border-collapse: collapse; min-width: 240px; }
+.ra-live-component .ra-tabelle :is(th, td) { padding: 8px 12px; border: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 25%, transparent); }
+
 /* ra-kulisse: dunkler Grund fuer Bauteile, die ueber Bildern liegen
    (Kopfzeile transparent, Toolbar blurred) — sonst Weiss auf Weiss. */
 .ra-live-component .ra-kulisse {
@@ -488,6 +527,9 @@ onBeforeUnmount(() => {
   background: var(--fnd-color-background-inverse);
 }
 .ra-live-component .ra-kopf.ra-kulisse { padding: 0; }
+/* ra-kulisse--invers: dazu die inverse Schriftfarbe — fuer Text, der selbst
+   keine Farbe setzt (square white: weisser Marker vor Fliesstext). */
+.ra-live-component .ra-kulisse--invers { display: inline-block; color: var(--fnd-color-text-inverse); }
 
 /* ra-spalte: die Sidebar ist im DS 100 % hoch (Footer per margin-top:auto
    unten) — der Rahmen gibt ihr eine Hoehe. */
