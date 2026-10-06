@@ -174,7 +174,7 @@ describe('Layout-Block aus dem Recipe', () => {
         expect(bekannt.has(k) || k in NICHT_GEBAUT, `${id}: Modifier ${k} weder in styles.css noch in NICHT_GEBAUT`).toBe(true)
       }
     }
-    expect(new Set(Object.values(NICHT_GEBAUT))).toEqual(new Set(['layout-container-modifier', 'layout-grid-modifier', 'layout-section-modifier']))
+    expect(new Set(Object.values(NICHT_GEBAUT))).toEqual(new Set(['layout-grid-modifier', 'layout-section-modifier']))
   })
 
   it('nicht gebaut: genau die Zellen mit fehlendem Modifier zeigen den Hinweis, mit Namen der Klasse', () => {
@@ -228,6 +228,19 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     for (const sp of ['vertical-spacing-scale', 'alignment-options', 'surface-variants']) {
       expect(alle('container', sp)[0].querySelector('.ra-massstab > .nc-container').className).toBe('nc-container')
     }
+  })
+
+  it('container: gebaute Modifier (Entscheidung 06.10.2026) als echte Klassen im Massstab, kein „nicht gebaut"', () => {
+    const klasse = (sp) => alle('container', sp).map((d) => {
+      expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
+      return d.querySelector('.ra-massstab > .nc-container').className
+    })
+    expect(klasse('vertical-spacing-scale')).toEqual(['nc-container', 'nc-container nc-container--vspace-sm', 'nc-container nc-container--vspace-md', 'nc-container nc-container--vspace-lg'])
+    expect(klasse('alignment-options')).toEqual(['nc-container', 'nc-container nc-container--align-start', 'nc-container nc-container--align-end'])
+    expect(klasse('surface-variants')).toEqual(['nc-container', 'nc-container nc-container--surface'])
+    const k = dsKlassen()
+    for (const m of ['vspace-sm', 'vspace-md', 'vspace-lg', 'align-start', 'align-end', 'surface']) expect(k.has(`nc-container--${m}`), m).toBe(true)
+    expect(rohesRecipe('container').meta.version).toBe('2.1.0')
   })
 
   it('grid: Spannen als .o-col-N, Auto-fit ohne Spannen, Ausrichtung mit verschieden hohen Kindern', () => {

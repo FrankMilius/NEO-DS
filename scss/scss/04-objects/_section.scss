@@ -116,6 +116,56 @@
   }
 }
 
+// -- Surface (Entscheidung 06.10.2026, layout-container-modifier) --
+// Flaeche auf Layout-Ebene: Hintergrund, Radius, Schatten und Polsterung aus
+// den Tokens --nc-container-surface-*. Ab xxl entfaellt das Inline-Padding
+// des Containers (0px) — die Flaeche behaelt dort ihre eigene Polsterung,
+// sonst stuende der Inhalt an der Kante. --container-pad zieht mit, damit
+// Full-Bleed-Kinder buendig bleiben.
+
+.nc-container--surface {
+  background-color: var(--mod-container-surface-bg, var(--nc-container-surface-bg));
+  border-radius: var(--mod-container-surface-radius, var(--nc-container-surface-radius));
+  box-shadow: var(--mod-container-surface-shadow, var(--nc-container-surface-shadow));
+  padding-block: var(--mod-container-surface-padding, var(--nc-container-surface-padding));
+
+  @include respond-to('xxl') {
+    padding-inline: var(--mod-container-surface-padding, var(--nc-container-surface-padding));
+    --container-pad: var(--mod-container-surface-padding, var(--nc-container-surface-padding));
+  }
+}
+
+// -- Vertical Spacing (Entscheidung 06.10.2026, layout-container-modifier) --
+// padding-block aus --nc-container-padding-block-sm/md/lg (fluid). Steht
+// nach --surface: ein ausdruecklicher Abstand gewinnt gegen die Polsterung
+// der Flaeche.
+
+.nc-container--vspace-sm {
+  padding-block: var(--mod-container-padding-block-sm, var(--nc-container-padding-block-sm));
+}
+
+.nc-container--vspace-md {
+  padding-block: var(--mod-container-padding-block-md, var(--nc-container-padding-block-md));
+}
+
+.nc-container--vspace-lg {
+  padding-block: var(--mod-container-padding-block-lg, var(--nc-container-padding-block-lg));
+}
+
+// -- Alignment (Entscheidung 06.10.2026, layout-container-modifier) --
+// Wirkt, sobald max-width greift (ab lg); darunter ist der Container ohnehin
+// volle Breite. Ausrichtung ueber --nc-container-margin-start/-end (Standard
+// auto/auto = zentriert): der Modifier setzt die eine Seite auf 0.
+
+.nc-container--align-start,
+.nc-container--align-end {
+  margin-inline-start: var(--mod-container-margin-start, var(--nc-container-margin-start));
+  margin-inline-end: var(--mod-container-margin-end, var(--nc-container-margin-end));
+}
+
+.nc-container--align-start { --nc-container-margin-start: 0px; }
+.nc-container--align-end   { --nc-container-margin-end: 0px; }
+
 // ---------------------------------------------------------------------------
 // Full-Bleed Children
 // ---------------------------------------------------------------------------

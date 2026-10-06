@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "container",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -13,6 +13,14 @@
     "links": {
       "docs": "/docs/layout-architecture-docs.html"
     },
+    "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Modifier gebaut (Entscheidung 06.10.2026, layout-container-modifier): --vspace-sm/md/lg (padding-block aus --nc-container-padding-block-*), --align-start/--align-end (ueber --nc-container-margin-start/-end, wirksam ab lg), --surface (Hintergrund, Radius, Schatten, Polsterung aus --nc-container-surface-*; ab xxl eigene Inline-Polsterung). Neue Klassen, bestehende Regeln unveraendert."
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [],
@@ -44,7 +52,8 @@
       "Full-bleed Kinder (z.B. .nc-hero) brechen per negativem Margin aus dem Container aus.",
       "Vertical Spacing (padding-block) definiert den Abstand zur umgebenden Section/Shell.",
       "Alignment steuert die horizontale Ausrichtung (zentriert, links, rechts).",
-      "Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene."
+      "Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene.",
+      "Vertical Spacing und Surface setzen padding-block; ein --vspace-* gewinnt gegen die Polsterung von --surface (steht spaeter im CSS)."
     ]
   },
   "axes": {
@@ -100,7 +109,7 @@
             "geometry",
             "vertical-spacing"
           ],
-          "description": "Kleiner vertikaler Abstand: 16px – 24px (fluid)."
+          "description": "Kleiner vertikaler Abstand: 16px – 24px (fluid, --nc-container-padding-block-sm)."
         },
         "md": {
           "modifier": "nc-container--vspace-md",
@@ -108,7 +117,7 @@
             "geometry",
             "vertical-spacing"
           ],
-          "description": "Mittlerer vertikaler Abstand: 32px – 48px (fluid)."
+          "description": "Mittlerer vertikaler Abstand: 32px – 48px (fluid, --nc-container-padding-block-md)."
         },
         "lg": {
           "modifier": "nc-container--vspace-lg",
@@ -116,7 +125,7 @@
             "geometry",
             "vertical-spacing"
           ],
-          "description": "Grosser vertikaler Abstand: 48px – 80px (fluid)."
+          "description": "Grosser vertikaler Abstand: 48px – 80px (fluid, --nc-container-padding-block-lg)."
         }
       }
     },
@@ -137,7 +146,7 @@
             "geometry",
             "alignment"
           ],
-          "description": "Linksbuendig: margin-inline-start: 0; margin-inline-end: auto."
+          "description": "Linksbuendig: margin-inline-start: 0; margin-inline-end: auto. Wirksam ab lg (dort greift max-width)."
         },
         "end": {
           "modifier": "nc-container--align-end",
@@ -145,7 +154,7 @@
             "geometry",
             "alignment"
           ],
-          "description": "Rechtsbuendig: margin-inline-start: auto; margin-inline-end: 0."
+          "description": "Rechtsbuendig: margin-inline-start: auto; margin-inline-end: 0. Wirksam ab lg (dort greift max-width)."
         }
       }
     },
@@ -166,7 +175,7 @@
             "geometry",
             "surface"
           ],
-          "description": "Surface-Container mit Hintergrundfarbe, Border-Radius und optionalem Schatten."
+          "description": "Surface-Container mit Hintergrundfarbe, Border-Radius, Schatten und Polsterung (--nc-container-surface-*). Ab xxl behaelt er seine Inline-Polsterung."
         }
       }
     }

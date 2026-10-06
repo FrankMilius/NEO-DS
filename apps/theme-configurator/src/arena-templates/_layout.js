@@ -13,13 +13,6 @@ import { esc } from '../lib/recipe-arena.js'
  * steht hier. Wird einer gebaut, faellt der Test auf und der Eintrag geht.
  */
 export const NICHT_GEBAUT = {
-  // Entscheidungsfall layout-container-modifier
-  'nc-container--vspace-sm': 'layout-container-modifier',
-  'nc-container--vspace-md': 'layout-container-modifier',
-  'nc-container--vspace-lg': 'layout-container-modifier',
-  'nc-container--align-start': 'layout-container-modifier',
-  'nc-container--align-end': 'layout-container-modifier',
-  'nc-container--surface': 'layout-container-modifier',
   // Entscheidungsfall layout-grid-modifier
   'o-grid--flow-col': 'layout-grid-modifier',
   'o-grid--dense': 'layout-grid-modifier',

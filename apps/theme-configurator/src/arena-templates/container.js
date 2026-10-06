@@ -10,8 +10,11 @@
 // Der Platzhalter (ra-platzhalter) ist Arena-Inhalt; die gestrichelte Kante
 // um den Container zeichnet die Arena (Umriss, kein Layout-Einfluss).
 //
-// Modifier ohne CSS (vspace, align, surface) zeigen „nicht gebaut" —
-// Entscheidungsfall layout-container-modifier, siehe _layout.js.
+// vspace, align und surface sind seit dem 06.10.2026 gebaut (Entscheidung
+// layout-container-modifier) und erscheinen als echte Modifier: vspace als
+// Polsterung oben/unten, align erst im Massstab sichtbar (max-width ab lg),
+// surface mit Flaeche, Radius und Schatten. Was das Recipe kuenftig ohne
+// CSS beschreibt, zeigt „nicht gebaut" (siehe _layout.js).
 import { fehlendeKlassen, nichtGebaut, platzhalter, wertBeschreibung } from './_layout.js'
 
 const ACHSEN = ['width', 'vertical-spacing', 'alignment', 'surface']

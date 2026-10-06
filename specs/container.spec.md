@@ -1,5 +1,5 @@
 # container Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `container`
 
@@ -18,6 +18,7 @@ Root element: `.nc-container`
 - Vertical Spacing (padding-block) definiert den Abstand zur umgebenden Section/Shell.
 - Alignment steuert die horizontale Ausrichtung (zentriert, links, rechts).
 - Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene.
+- Vertical Spacing und Surface setzen padding-block; ein --vspace-* gewinnt gegen die Polsterung von --surface (steht spaeter im CSS).
 
 ## Variants
 ### Breite (`width`)

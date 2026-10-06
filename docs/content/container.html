@@ -247,9 +247,10 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>1200px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline</code></td><td>clamp(16px, 3.5vw, 48px)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline-xxl</code></td><td>0px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -258,7 +259,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1440px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -486,11 +487,12 @@
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>1200px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline</code></td><td>clamp(16px, 3.5vw, 48px)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline-xxl</code></td><td>0px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Wide</td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1440px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Vertical Spacing</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-block-sm</code></td><td>clamp(16px, 2vw, 24px)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-block-md</code></td><td>clamp(32px, 4vw, 48px)</td><td>&mdash;</td></tr>
@@ -517,6 +519,7 @@
     <li>Vertical Spacing (padding-block) definiert den Abstand zur umgebenden Section/Shell.</li>
     <li>Alignment steuert die horizontale Ausrichtung (zentriert, links, rechts).</li>
     <li>Surface-Variante erlaubt Hintergrundfarbe und Schatten auf Layout-Ebene.</li>
+    <li>Vertical Spacing und Surface setzen padding-block; ein --vspace-* gewinnt gegen die Polsterung von --surface (steht spaeter im CSS).</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
