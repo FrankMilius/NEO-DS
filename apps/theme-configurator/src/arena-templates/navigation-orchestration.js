@@ -6,6 +6,10 @@
 //   2 Kopf      header.nc-header (+ .is-scrolled / .is-hidden / .is-mobile-open)
 //   3 Menue     nav.nc-nav > .nc-nav__inner > nav.nc-navigation-menu
 //   4 Link      a.nc-nav__link in den Werkzeugen (.nc-tools)
+//               Die Werkzeuge stehen IN .nc-nav__actions: ab 1200 px ist
+//               .nc-nav__inner ein Raster mit drei Spalten (Marke | Menue |
+//               Aktionen) — als viertes Kind (wie im Code-Beispiel der Doku)
+//               rutschten sie in eine zweite Zeile (gemeldet)
 //   5 Atome     .nc-nav__icon + .nc-nav__label (+ .nc-nav__badge)
 //   mobil       button.nc-mobile-toggle + div.nc-mobile-panel
 //
@@ -84,10 +88,10 @@ function kopf (m, { mobil = false } = {}) {
 <div class="nc-nav__inner">
 <a class="nc-brand" href="#">neocosmo</a>
 ${mobil ? '' : menue()}
-${mobil ? '' : `<div class="nc-nav__actions">
+${mobil ? werkzeuge() : `<div class="nc-nav__actions">
+${werkzeuge()}
 <a class="nc-button nc-button--primary" href="#">Demo anfragen</a>
 </div>`}
-${werkzeuge()}
 <button type="button" class="nc-mobile-toggle" aria-expanded="${offen}" aria-controls="${m.uid}-panel" aria-label="${offen ? 'Navigation schließen' : 'Navigation öffnen'}"><span class="nc-mobile-toggle__icon" aria-hidden="true"></span></button>
 </div>
 </nav>
@@ -106,7 +110,7 @@ export default (zelle, m) => {
   if (art === 'nav-orchestration-mobile') {
     return `<div class="ra-kopf ra-kopf--mobil${m.hat('mobile-open') ? ' ra-kopf--offen' : ''}">\n${kopf(m, { mobil: true })}\n</div>`
   }
-  const leiste = `<div class="ra-kopf ra-kopf--breit">\n${kopf(m)}\n</div>`
+  const leiste = `<div class="ra-kopf">\n${kopf(m)}\n</div>`
   if (art === 'nav-orchestration-cascade') {
     return `<div class="ra-stapel ra-stapel--breit">\n${leiste}\n${legende('Token-Kette von der Shell bis zum Symbol', KASKADE)}\n</div>`
   }

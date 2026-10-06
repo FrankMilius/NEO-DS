@@ -272,7 +272,7 @@ describe('Bewegung-Block: Zustände und Aufbau', () => {
 
   it('navigation-orchestration: fuenf Ebenen; Zustaende am Header; Mobil-Lage mit Panel; Legenden', () => {
     const [standard, gescrollt, versteckt] = alle('navigation-orchestration', 'full-composition')
-    for (const sel of ['.nc-shell__navbar > .nc-header', '.nc-nav__inner > .nc-navigation-menu .nc-navigation-menu__trigger', '.nc-tools > .nc-nav__link > .nc-nav__icon + .nc-nav__label + .nc-nav__badge']) {
+    for (const sel of ['.nc-shell__navbar > .nc-header', '.nc-nav__inner > .nc-navigation-menu .nc-navigation-menu__trigger', '.nc-nav__actions > .nc-tools > .nc-nav__link > .nc-nav__icon + .nc-nav__label + .nc-nav__badge']) {
       expect(standard.querySelector(sel), sel).not.toBeNull()
     }
     expect(standard.querySelector('.nc-header').className).toBe('nc-header')

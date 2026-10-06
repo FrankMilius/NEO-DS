@@ -731,9 +731,6 @@ onBeforeUnmount(() => {
    ra-kopf--mobil: Kopfzeile in der Mobil-Lage (.nc-header--mobile) in
    Telefonbreite; mit .is-mobile-open haengt das Panel unter der Leiste
    (ra-kopf--offen haelt die Hoehe frei). */
-/* ra-kopf--breit: Kopfzeile mit Menue, Aktionen und Werkzeugen (navigation-
-   orchestration) — braucht mehr als 1080 px, sonst bricht die Leiste um */
-.ra-live-component .ra-kopf--breit { min-width: 1360px; }
 .ra-live-component .ra-kopf--mobil { min-width: 0; width: 390px; max-width: 100%; }
 .ra-live-component .ra-kopf--mobil.ra-kopf--offen { min-height: 360px; }
 /* ra-buehne--mobil-drawer: Drawer der Mobil-Navigation (mobile-drawer). Das
