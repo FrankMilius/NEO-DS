@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "text-only",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "status": "stable",
     "tags": [
       "display",
@@ -27,6 +27,13 @@
     },
     "changelog": [
       {
+        "version": "2.0.0",
+        "changes": [
+          "Recipe auf die gebauten Klassen umgestellt (Entscheidung 06.10.2026): Wurzel .text-only (baseClasses text-only), Slots wrapper (.text-only-wrapper, Flaeche), text (Absatz) und button-container; die nie gebauten nc-text-only, __title, __text, __scroll-text und der Modifier has-scroll sind gestrichen",
+          "Variante scroll ohne Modifier: die Woerter stehen als <span> im Absatz, p.visible faerbt sie ein (Keyframes change-color) — gezeigt wird der Endzustand"
+        ]
+      },
+      {
         "version": "1.1.0",
         "changes": [
           "Plan v3, Phase 4 (bloecke-2): Specimen ohne-knopf (nur der Absatz); Vorlage im Rahmen ra-desktop, has-scroll nicht mehr an der Wurzel (kein CSS — die Einfaerbung macht p.visible)",
@@ -39,36 +46,36 @@
   },
   "anatomy": {
     "root": {
-      "element": ".nc-text-only"
+      "element": ".text-only"
     },
     "slots": [
       {
-        "name": "title",
-        "element": ".nc-text-only__title",
+        "name": "wrapper",
+        "element": ".text-only-wrapper",
         "optional": true
       },
       {
         "name": "text",
-        "element": ".nc-text-only__text",
+        "element": ".text-only p:not(.button-container)",
         "optional": false
       },
       {
-        "name": "scroll-text",
-        "element": ".nc-text-only__scroll-text",
+        "name": "button-container",
+        "element": ".text-only .button-container",
         "optional": true
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Container: max-width, padding. Title: heading-Stil.",
-      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.",
-      "Gebaut sind die Altklassen: .text-only-wrapper > .text-only > div > div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen)."
+      "Aufbau: .text-only-wrapper (Flaeche background-base) > .text-only (Spalte, padding spacing-10, ab desktop-up spacing-12) > div > div (ab desktop-up 12-Spalten-Raster).",
+      "Absatz: p in heading-s, ab desktop-up Spalten 1–7. Knopf: p.button-container mit Abstand spacing-08/09.",
+      "Variante scroll: die Woerter stehen als <span> im Absatz (text-transparency-low); p.visible faerbt sie per Keyframes change-color ein — das Setzen von .visible beim Scrollen uebernimmt das Skript der Seite (kein Behavior im DS). Einen Modifier an der Wurzel gibt es nicht."
     ]
   },
   "axes": {
     "variant": {
       "label": "Variant",
-      "description": "Variante — default, scroll",
+      "description": "Variante — default (Absatz), scroll (Wort-Spans, p.visible faerbt ein)",
       "values": {
         "default": {
           "modifier": null,
@@ -76,7 +83,7 @@
           "renderHint": "text-only-default"
         },
         "scroll": {
-          "modifier": "has-scroll",
+          "modifier": null,
           "tokenGroups": [],
           "renderHint": "text-only-scroll"
         }
@@ -108,7 +115,7 @@
   },
   "styling": {
     "baseClasses": [
-      "nc-text-only"
+      "text-only"
     ],
     "baseTokenGroups": [],
     "tokenGroups": {
@@ -134,8 +141,7 @@
     },
     "resolution": {
       "classList": [
-        "styling.baseClasses",
-        "axes.variant.values.*.modifier"
+        "styling.baseClasses"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups"

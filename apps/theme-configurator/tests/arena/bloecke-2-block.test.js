@@ -81,9 +81,9 @@ const INLINE_ERLAUBT = {
 
 // Recipe-Modifier ohne CSS, deren Wirkung das DS anders herstellt —
 // Entscheidungsfall im Bericht (Plan v3, Phase 4).
-const MODIFIER_OHNE_CSS = {
-  'text-only': { 'has-scroll': 'Einfaerbung ueber p.visible und Wort-Spans (.text-only p.visible span)' }
-}
+// (text-only has-scroll: seit der Entscheidung 06.10.2026 aus dem Recipe
+// gestrichen — die Einfaerbung macht p.visible)
+const MODIFIER_OHNE_CSS = {}
 
 const modifier = (id) => Object.values(normalisiereRecipe(rohesRecipe(id)).axes || {})
   .flatMap((a) => Object.values(a.values || {}))

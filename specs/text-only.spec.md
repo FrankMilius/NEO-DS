@@ -1,36 +1,36 @@
 # text-only Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 2.0.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `text`
 
 ## Anatomy
-Root element: `.nc-text-only`
+Root element: `.text-only`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| title | `.nc-text-only__title` | No | — |
-| text | `.nc-text-only__text` | Yes | — |
-| scroll-text | `.nc-text-only__scroll-text` | No | — |
+| wrapper | `.text-only-wrapper` | No | — |
+| text | `.text-only p:not(.button-container)` | Yes | — |
+| button-container | `.text-only .button-container` | No | — |
 
 ### DOM Notes
-- Container: max-width, padding. Title: heading-Stil.
-- Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.
-- Gebaut sind die Altklassen: .text-only-wrapper > .text-only > div > div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen).
+- Aufbau: .text-only-wrapper (Flaeche background-base) > .text-only (Spalte, padding spacing-10, ab desktop-up spacing-12) > div > div (ab desktop-up 12-Spalten-Raster).
+- Absatz: p in heading-s, ab desktop-up Spalten 1–7. Knopf: p.button-container mit Abstand spacing-08/09.
+- Variante scroll: die Woerter stehen als <span> im Absatz (text-transparency-low); p.visible faerbt sie per Keyframes change-color ein — das Setzen von .visible beim Scrollen uebernimmt das Skript der Seite (kein Behavior im DS). Einen Modifier an der Wurzel gibt es nicht.
 
 ## Variants
 ### Variant (`variant`)
-Variante — default, scroll
+Variante — default (Absatz), scroll (Wort-Spans, p.visible faerbt ein)
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
-| scroll | `.has-scroll` |  |
+| scroll | — |  |
 
 ## States
 Supported: `default`
 
 ## CSS Token API
-Base classes: `nc-text-only`
+Base classes: `text-only`
 
 ### Base
 ## Accessibility

@@ -273,9 +273,9 @@
   <div class="nc-data-table nc-data-table--static nc-data-table--striped">
     <table class="nc-data-table__table">
     <tbody>
-      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-text-only</code></td></tr>
-      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-text-only</code></td></tr>
-      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-text-only-*</code></td></tr>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.text-only</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">text-only</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--text-only-*</code></td></tr>
       <tr><td><strong>Status</strong></td><td>stable</td></tr>
       <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
     </tbody>
@@ -289,10 +289,10 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">.nc-text-only</code></td><td>Block</td><td>text-only-Container</td></tr>
-      <tr><td><code class="docs__token">.nc-text-only__title</code></td><td>Element (optional)</td><td>title</td></tr>
-      <tr><td><code class="docs__token">.nc-text-only__text</code></td><td>Element</td><td>text</td></tr>
-      <tr><td><code class="docs__token">.nc-text-only__scroll-text</code></td><td>Element (optional)</td><td>scroll-text</td></tr>
+      <tr><td><code class="docs__token">.text-only</code></td><td>Block</td><td>text-only-Container</td></tr>
+      <tr><td><code class="docs__token">.text-only-wrapper</code></td><td>Element (optional)</td><td>wrapper</td></tr>
+      <tr><td><code class="docs__token">.text-only p:not(.button-container)</code></td><td>Element</td><td>text</td></tr>
+      <tr><td><code class="docs__token">.text-only .button-container</code></td><td>Element (optional)</td><td>button-container</td></tr>
     </tbody>
     </table>
   </div>
@@ -301,8 +301,8 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Variante — default, scroll</td></tr>
-      <tr><td><code class="docs__token">.has-scroll</code></td><td>scroll</td><td>Variante — default, scroll</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Variante — default (Absatz), scroll (Wort-Spans, p.visible faerbt ein)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>scroll</td><td>Variante — default (Absatz), scroll (Wort-Spans, p.visible faerbt ein)</td></tr>
     </tbody>
     </table>
   </div>
@@ -324,9 +324,9 @@
 <section class="docs__section" id="api-dom-notes">
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
-    <li>Container: max-width, padding. Title: heading-Stil.</li>
-    <li>Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.</li>
-    <li>Gebaut sind die Altklassen: .text-only-wrapper &gt; .text-only &gt; div &gt; div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen).</li>
+    <li>Aufbau: .text-only-wrapper (Flaeche background-base) &gt; .text-only (Spalte, padding spacing-10, ab desktop-up spacing-12) &gt; div &gt; div (ab desktop-up 12-Spalten-Raster).</li>
+    <li>Absatz: p in heading-s, ab desktop-up Spalten 1–7. Knopf: p.button-container mit Abstand spacing-08/09.</li>
+    <li>Variante scroll: die Woerter stehen als &lt;span&gt; im Absatz (text-transparency-low); p.visible faerbt sie per Keyframes change-color ein — das Setzen von .visible beim Scrollen uebernimmt das Skript der Seite (kein Behavior im DS). Einen Modifier an der Wurzel gibt es nicht.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
