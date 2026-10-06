@@ -3,7 +3,7 @@
 - **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
   Blöcke Formular, Overlays, Navigation und Rückmeldung umgesetzt, Verhalten
   der Navigations-Bauteile und der Rückmeldungen ergänzt (Plan v3, Stand
-  05.10.2026)
+  05.10.2026); Phase 4 „Dünne Recipes“ umgesetzt (06.10.2026)
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -304,3 +304,29 @@ Dinge fehlten aber:
   gesperrt — zur Entscheidung gemeldet; bei prefers-reduced-motion ebenso.
   Recipes mit `meta.status` „draft“ tragen in Navigation und Arena-Kopf das
   Kennzeichen „Entwurf“.
+- Phase 4, zusammengeführt (06.10.2026): Die Gruppen bloecke-1 (app-store,
+  aspect-ratio, bento-grid, card-cta, card-grid-cta, chapter-nav, cta,
+  device, event, events, expanding-panels, facts, faq, feature-accordion,
+  feature-list, header) und bloecke-2 (link-with-arrow, multiselect, news,
+  pricing, question, searchbar, security-list, solutions, spacing, square,
+  tab-nav, table-block, tbl-cell, testimonial-grid, testimonial, text-blocks,
+  text-only, video-section) haben Specimens und Vorlagen aus dem Recipe;
+  keine neuen Behaviors (multiselect/searchbar ohne „Ausprobieren“ —
+  Entscheidungsfall). Die drei parallel gebauten Gruppen hatten Kennzeichen
+  „Entwurf“ und „Abspielen“ je für sich gebaut; es gibt jetzt je genau einen
+  Mechanismus: „Entwurf“ in Navigation und Arena-Kopf aus
+  `src/data/recipe-entwuerfe.js` (Test gegen `meta.status` in beide
+  Richtungen), „Abspielen“ als Taste der RecipeArena über `export abspielen`
+  der Vorlage — auch für bento-grid (Einblenden, `spieleEin` in
+  `_bewegung.js`), question (`.question-animate`) und tab-nav
+  (`data-autoplay`). Weder eine Taste im Zellen-Markup noch ein umbenanntes
+  „Ausprobieren“ (`ausprobieren.knopf`) bleiben; „Ausprobieren“ heißt
+  Interaktion, „Abspielen“ Bewegung. Neue Arena-Rahmen (nur Platz und Ort):
+  `ra-abstand`, `ra-typskala`, `ra-tabelle`, `ra-kulisse--invers`,
+  `ra-grund-dunkel`; `render.flaeche: 'dunkel'` stellt ein Specimen ohne
+  Achse auf die dunkle Fläche wie `field_surface` in Drupal. Die Drafts der
+  Gruppe bloecke-2 haben Recipe-Form (Achsen/Zustände als Objekt,
+  `composes` je Specimen statt ungeprüfter `komposition`); der Recipe-Lint
+  meldet dadurch deutlich weniger Fehler. Kein SCSS geändert, nichts
+  website-sichtbar; Befunde an Website-Blöcken sind als Entscheidungsfälle
+  gemeldet.
