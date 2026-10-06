@@ -1,5 +1,5 @@
 # facts Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `data`
 
@@ -14,7 +14,7 @@ Root element: `.nc-facts-block`
 | desc | `.nc-facts-desc` | Yes | — |
 
 ### DOM Notes
-- Block: background-base, radius-xl, elevation-raised.
+- Block: background-base, radius-xl, elevation-raised, padding spacing-05.
 - List: CSS Grid 2-Spalten (auto 1fr). Term: semibold. Desc: text-secondary.
 
 ## Variants
