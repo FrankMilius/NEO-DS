@@ -7247,13 +7247,13 @@ export const componentTokenGroups = [
         "id": "nc-container-max-width",
         "label": "Max Width",
         "type": "size",
-        "default": "1200px"
+        "default": "var(--container-xwide)"
       },
       {
         "id": "nc-container-max-width-wide",
         "label": "Max Width (Wide)",
         "type": "size",
-        "default": "1440px"
+        "default": "1600px"
       },
       {
         "id": "nc-container-padding-inline",

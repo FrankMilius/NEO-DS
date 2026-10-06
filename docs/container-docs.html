@@ -201,7 +201,7 @@
           <section class="docs__section" id="usage-nc-container-wide">
             <h2 class="docs__section-title">.nc-container--wide</h2>
             <p class="docs__section-desc">
-              Breiter Container mit <code class="docs__token">width: min(1440px, 94vw)</code>. Verwendet <code class="docs__token">container-padding-wide</code> f&uuml;r eine gr&ouml;&szlig;ere maximale Breite am xxl-Breakpoint.
+              Breiter Container mit <code class="docs__token">max-width: 1600px</code> (breiter als der Standard, 1536px). Verwendet <code class="docs__token">container-padding-wide</code> f&uuml;r eine gr&ouml;&szlig;ere maximale Breite am xxl-Breakpoint.
             </p>
             <div style="background: var(--fnd-color-background-secondary); padding: var(--fnd-spacing-02); border-radius: var(--fnd-radius-lg); margin-block-end: var(--fnd-spacing-06);">
               <div class="nc-container--wide" style="background: var(--fnd-color-background-base); min-height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--fnd-radius-md);">
@@ -305,10 +305,10 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide) = 1536px</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline</code></td><td>clamp(16px, 3.5vw, 48px)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline-xxl</code></td><td>0px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1600px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -317,7 +317,7 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1600px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -373,8 +373,8 @@
                 </tr>
                 <tr>
                   <td><code class="docs__token">.nc-container--wide</code></td>
-                  <td>width: min(1440px, 94vw) + @include container-padding-wide</td>
-                  <td>Breiter Container: begrenzt auf 1440px oder 94vw</td>
+                  <td>max-width: 1600px (Standard 1536px)</td>
+                  <td>Breiter Container: begrenzt auf 1600px</td>
                 </tr>
                 <tr>
                   <td><code class="docs__token">.section--cq</code></td>
@@ -545,12 +545,12 @@
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width</code></td><td>var(--container-xwide) = 1536px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline</code></td><td>clamp(16px, 3.5vw, 48px)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-inline-xxl</code></td><td>0px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1600px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Wide</td></tr>
-      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>var(--container-wide)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-container-max-width-wide</code></td><td>1600px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Vertical Spacing</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-block-sm</code></td><td>clamp(16px, 2vw, 24px)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-container-padding-block-md</code></td><td>clamp(32px, 4vw, 48px)</td><td>&mdash;</td></tr>
@@ -600,7 +600,7 @@
                 <tr>
                   <td><code class="docs__token">.nc-container--wide</code></td>
                   <td>Modifier</td>
-                  <td>Breiter Container. Begrenzt auf min(1440px, 94vw). Empfohlen f&uuml;r extra-breite Layouts.</td>
+                  <td>Breiter Container. Begrenzt auf 1600px (breiter als der Standard, 1536px). Empfohlen f&uuml;r extra-breite Layouts.</td>
                 </tr>
                 <tr>
                   <td><code class="docs__token">.section--cq</code></td>

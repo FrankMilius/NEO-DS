@@ -1,5 +1,5 @@
 # container Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.1.1 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `container`
 

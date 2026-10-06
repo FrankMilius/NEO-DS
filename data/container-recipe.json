@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "container",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "status": "stable",
     "tags": [
       "layout",
@@ -14,6 +14,12 @@
       "docs": "/docs/layout-architecture-docs.html"
     },
     "changelog": [
+      {
+        "version": "2.1.1",
+        "changes": [
+          "06.10.2026 (Entscheidung container-breiten, \"Wide breiter als Standard\"): --nc-container-max-width-wide 1600px statt --container-wide (1290px) — Wide war schmaler als der Standard (--container-xwide, 1536px). Beschreibungen nannten noch 1200/1440px. --container-xwide unveraendert (Shell-Breite Navigation Tab-Mega). Freigabe ausstehend."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -66,7 +72,7 @@
           "tokenGroups": [
             "geometry"
           ],
-          "description": "Standard-Container: max-width 1200px."
+          "description": "Standard-Container: max-width 1536px (--container-xwide, wie Navigation und Footer)."
         },
         "wide": {
           "modifier": "nc-container--wide",
@@ -74,7 +80,7 @@
             "geometry",
             "wide"
           ],
-          "description": "Breiter Container: max-width 1440px."
+          "description": "Breiter Container: max-width 1600px — breiter als der Standard (1536px)."
         },
         "narrow": {
           "modifier": "nc-container--narrow",

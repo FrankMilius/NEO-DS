@@ -4280,7 +4280,14 @@
   // auf 72ch (gemessen 703px), .nc-prose ebenso. Nur Komponenten ohne
   // eigene Kappe waren betroffen — siehe solution-tabs__panel-text.
   --nc-container-max-width: var(--container-xwide);
-  --nc-container-max-width-wide: var(--container-wide);
+  // Wide ist BREITER als der Standard (Entscheidung container-breiten,
+  // 06.10.2026). Vorher zeigte Wide auf --container-wide (1290px) und war
+  // damit schmaler als der Standard (xwide, 1536px). Die Intent-Skala hat
+  // ueber xwide nur noch full (100%) — das ist schon .nc-container--full.
+  // Deshalb die naechste Stufe der Layout-Builder-Groessen: 1600px
+  // (.nc-container--xxl, zugleich Breakpoint xl). --container-xwide selbst
+  // bleibt unveraendert (Shell-Breite der Navigation Tab-Mega).
+  --nc-container-max-width-wide: 1600px;
   --nc-container-max-width-narrow: var(--container-narrow);
   --nc-container-max-width-content: var(--container-content);
 

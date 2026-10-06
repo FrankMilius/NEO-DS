@@ -245,7 +245,7 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(klasse('surface-variants')).toEqual(['nc-container', 'nc-container nc-container--surface'])
     const k = dsKlassen()
     for (const m of ['vspace-sm', 'vspace-md', 'vspace-lg', 'align-start', 'align-end', 'surface']) expect(k.has(`nc-container--${m}`), m).toBe(true)
-    expect(rohesRecipe('container').meta.version).toBe('2.1.0')
+    expect(rohesRecipe('container').meta.version).toBe('2.1.1') // 2.1.1: Wide 1600px breiter als der Standard (Freigabe ausstehend)
   })
 
   it('grid: Spannen als .o-col-N, Auto-fit ohne Spannen, Ausrichtung mit verschieden hohen Kindern', () => {
