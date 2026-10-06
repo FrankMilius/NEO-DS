@@ -3,14 +3,16 @@
 //
 // .nc-cta bringt keine eigene Flaeche mit (Text always-light, der Grund
 // kommt vom Elternelement — die Doku stellt den Block auf
-// background-accent-bold). Die Specimens setzen deshalb render.bgVariant
-// „dark": die Arena gibt der Zelle den inversen Grund. Optionale Spalten
+// background-accent-bold). Die Arena stellt ihn in den Rahmen
+// ra-grund-dunkel (always-dark, in hell und dunkel gleich — der inverse
+// Grund kippte im dunklen Theme auf hell). Optionale Spalten
 // (mid, right) und Teile (form, note) per render.slotConfig des Specimens
 // (Plan v3, Phase 4). Rahmen ra-desktop: drei Spalten mit Mindestbreiten
 // passen erst in Seitenbreite.
 import { slotAn, desktop } from './_bloecke-1.js'
 
 export default (zelle, m) => desktop(`
+<div class="ra-grund-dunkel">
 <div class="${m.klasse}"${m.attrs}>
 <div class="nc-cta__left">
 <h2 class="nc-section-title">Jetzt starten</h2>
@@ -35,5 +37,6 @@ ${slotAn(m, 'right') ? `<div class="nc-cta__right">
 </div>
 </div>
 </div>` : ''}
+</div>
 </div>
 `)

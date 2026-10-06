@@ -9,7 +9,7 @@
         "version": "1.1.0",
         "changes": [
           "06.10.2026 (Plan v3, Phase 4, duenne Recipes): Specimens nur-newsletter, nur-demo, nur-text (optionale Spalten mid/right per render.slotConfig)",
-          "Alle Specimens mit render.bgVariant dark: .nc-cta hat keine eigene Flaeche, heller Text stand in der Arena auf hellem Grund"
+          "Arena-Rahmen ra-grund-dunkel (always-dark): .nc-cta hat keine eigene Flaeche, heller Text stand in der Arena auf hellem Grund"
         ]
       }
     ],
@@ -153,7 +153,7 @@
     {
       "id": "default",
       "label": "CTA Section",
-      "description": "Call-to-Action mit Newsletter und Demo. .nc-cta bringt keine Fläche mit (Text always-light) — die Arena stellt den Block auf den inversen Grund.",
+      "description": "Call-to-Action mit Newsletter und Demo. .nc-cta bringt keine Fläche mit (Text always-light) — die Arena stellt den Block auf dunklen Grund (always-dark), wie die Doku auf eine kräftige Fläche.",
       "matrix": {
         "axes": {
           "variant": [
@@ -166,8 +166,7 @@
       },
       "layout": "row",
       "render": {
-        "label": "cta",
-        "bgVariant": "dark"
+        "label": "cta"
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
@@ -191,7 +190,6 @@
       "layout": "row",
       "render": {
         "label": "ohne right",
-        "bgVariant": "dark",
         "slotConfig": {
           "right": false
         }
@@ -214,7 +212,6 @@
       "layout": "row",
       "render": {
         "label": "ohne mid",
-        "bgVariant": "dark",
         "slotConfig": {
           "mid": false
         }
@@ -237,7 +234,6 @@
       "layout": "row",
       "render": {
         "label": "nur left",
-        "bgVariant": "dark",
         "slotConfig": {
           "mid": false,
           "right": false

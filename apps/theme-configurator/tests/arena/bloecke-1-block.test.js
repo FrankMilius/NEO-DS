@@ -259,8 +259,11 @@ describe('Bloecke 1: Specimens im Einzelnen', () => {
     expect(links.findIndex((a) => a.hasAttribute('aria-current'))).toBe(1)
   })
 
-  it('cta: auf inversem Grund, optionale Spalten per Specimen', () => {
-    for (const z of zellen('cta')) expect(z.flaeche, z.specimen.id).toBe('invers')
+  it('cta: auf dunklem Arena-Grund (in beiden Themes), optionale Spalten per Specimen', () => {
+    for (const z of zellen('cta')) {
+      expect(z.flaeche, z.specimen.id).toBeNull()
+      expect(dom(z.html).querySelector('.ra-desktop > .ra-grund-dunkel > .nc-cta'), z.specimen.id).not.toBeNull()
+    }
     const teile = (sp) => ['mid', 'right'].filter((t) => alle('cta', sp)[0].querySelector(`.nc-cta__${t}`))
     expect(teile('default')).toEqual(['mid', 'right'])
     expect(teile('nur-newsletter')).toEqual(['mid'])

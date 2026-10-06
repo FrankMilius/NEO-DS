@@ -630,6 +630,11 @@ onBeforeUnmount(() => {
 .ra-live-component .ra-seite--kante { padding-block: 8px; }
 .ra-live-component .ra-seite--kante > * { outline-offset: 6px; }
 
+/* ra-grund-dunkel: dunkler Grund fuer Bloecke ohne eigene Flaeche mit
+   festem hellem Text (cta: always-light) — in hell und dunkel gleich
+   (Plan v3, Phase 4). */
+.ra-live-component .ra-grund-dunkel { background: var(--fnd-color-always-dark); }
+
 /* ra-schmal: schmale Spalte (360 px) fuer Bauteile mit Container Query —
    z. B. das Stapel-Layout der Datentabelle (nc-data-table--stacked reagiert
    auf die Breite des Tabellen-Wrappers, Entscheidung 06.10.2026). */
