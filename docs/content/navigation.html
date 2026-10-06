@@ -132,11 +132,11 @@
               <thead><tr><th>Bereich</th><th>Klasse</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td>Header-Container</td><td><code class="docs__token">.nc-header</code></td><td>Sticky, Glassmorphism-Hintergrund, z-index header</td></tr>
-                <tr><td>Inner-Layout</td><td><code class="docs__token">.nc-nav__inner</code></td><td>Flex-Zeile, Container-Padding, max-width zentriert</td></tr>
+                <tr><td>Inner-Layout</td><td><code class="docs__token">.nc-nav__inner</code></td><td>Flex-Zeile, ab 1200&nbsp;px Raster mit drei Spalten (Marke | Liste | Aktionen), Container-Padding, max-width zentriert</td></tr>
                 <tr><td>Branding</td><td><code class="docs__token">.nc-brand</code></td><td>Logo/Wortmarke, heading-Font, lowercase</td></tr>
                 <tr><td>Nav-Liste</td><td><code class="docs__token">.nc-nav__list</code></td><td>Horizontale Link-Liste, ab 1200&nbsp;px sichtbar</td></tr>
-                <tr><td>Aktionen</td><td><code class="docs__token">.nc-nav__actions</code></td><td>CTA-Buttons, ab 1200&nbsp;px sichtbar</td></tr>
-                <tr><td>Tools</td><td><code class="docs__token">.nc-tools</code></td><td>Icon-Buttons (Suche, Profil), ab 1200&nbsp;px sichtbar</td></tr>
+                <tr><td>Aktionen</td><td><code class="docs__token">.nc-nav__actions</code></td><td>Dritte Spalte: Tools und CTA-Buttons, ab 1200&nbsp;px sichtbar</td></tr>
+                <tr><td>Tools</td><td><code class="docs__token">.nc-tools</code></td><td>Icon-Buttons (Suche, Profil) in <code class="docs__token">.nc-nav__actions</code>, ab 1200&nbsp;px sichtbar</td></tr>
                 <tr><td>Mega-Menu</td><td><code class="docs__token">.nc-mega</code></td><td>Full-width Dropdown, fixed, slide-in Animation</td></tr>
                 <tr><td>Suchoverlay</td><td><code class="docs__token">.nc-search-panel</code></td><td>Fixed Overlay mit Backdrop, Slide-in</td></tr>
               </tbody>
@@ -325,7 +325,7 @@
 
 .nc-brand                       // Block: Logo/Wortmarke
 
-.nc-tools                       // Block: Icon-Button-Leiste (Suche, Profil, ab 1200px)
+.nc-tools                       // Block: Icon-Button-Leiste (Suche, Profil, ab 1200px) — in .nc-nav__actions
 
 .nc-search-panel                // Block: Suchoverlay (fixed, full-screen)
 .nc-search-panel__inner         // Element: Weisser Suchfeld-Container
@@ -468,7 +468,7 @@
                 <tr><td><code class="docs__token">.nc-nav__item</code></td><td>Element</td><td>Einzelner Navigationspunkt. Relative-Positionierung f&uuml;r Mega-Menu.</td></tr>
                 <tr><td><code class="docs__token">.nc-nav__item.is-open</code></td><td>State</td><td>Aktiviert das untergeordnete <code>.nc-mega</code>.</td></tr>
                 <tr><td><code class="docs__token">.nc-brand</code></td><td>Block</td><td>Wortmarke, Heading-Font, lowercase, letter-spacing 0.06em, font-size 1.5rem.</td></tr>
-                <tr><td><code class="docs__token">.nc-tools</code></td><td>Block</td><td>Icon-Button-Bereich. Responsiv wie nav__list.</td></tr>
+                <tr><td><code class="docs__token">.nc-tools</code></td><td>Block</td><td>Icon-Button-Bereich. Steht in <code>.nc-nav__actions</code> (nicht als viertes Kind von <code>.nc-nav__inner</code> — das Raster ab 1200px hat drei Spalten). Responsiv wie nav__list.</td></tr>
               </tbody>
             </table>
           </div>
@@ -578,14 +578,13 @@
         &lt;/li&gt;
       &lt;/ul&gt;
 
-      &lt;!-- Desktop Actions (ab 1200px) --&gt;
+      &lt;!-- Desktop Actions (ab 1200px): dritte Spalte des Rasters,
+           Tools und CTA stehen darin --&gt;
       &lt;div class="nc-nav__actions"&gt;
+        &lt;div class="nc-tools"&gt;
+          &lt;button aria-label="Suche"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/button&gt;
+        &lt;/div&gt;
         &lt;button class="nc-button nc-button--primary"&gt;Kontakt&lt;/button&gt;
-      &lt;/div&gt;
-
-      &lt;!-- Desktop Tools (ab 1200px) --&gt;
-      &lt;div class="nc-tools"&gt;
-        &lt;button aria-label="Suche"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/button&gt;
       &lt;/div&gt;
 
     &lt;/div&gt;

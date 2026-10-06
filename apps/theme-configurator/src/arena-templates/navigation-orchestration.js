@@ -8,8 +8,8 @@
 //   4 Link      a.nc-nav__link in den Werkzeugen (.nc-tools)
 //               Die Werkzeuge stehen IN .nc-nav__actions: ab 1200 px ist
 //               .nc-nav__inner ein Raster mit drei Spalten (Marke | Menue |
-//               Aktionen) — als viertes Kind (wie im Code-Beispiel der Doku)
-//               rutschten sie in eine zweite Zeile (gemeldet)
+//               Aktionen) — als viertes Kind rutschten sie in eine zweite
+//               Zeile (Doku seit der Entscheidung 06.10.2026 korrigiert)
 //   5 Atome     .nc-nav__icon + .nc-nav__label (+ .nc-nav__badge)
 //   mobil       button.nc-mobile-toggle + div.nc-mobile-panel
 //

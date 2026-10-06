@@ -210,15 +210,18 @@
       }
     });
 
-    // Tools
+    // Tools — in .nc-nav__actions: ab 1200px ist .nc-nav__inner ein Raster mit
+    // drei Spalten (Marke | Liste | Aktionen); als viertes Kind rutschten die
+    // Tools in eine zweite Zeile (Entscheidung 06.10.2026)
+    var actions = createEl('div', 'nc-nav__actions');
     var tools = createEl('div', 'nc-tools');
-    tools.style.display = 'flex';
     var searchBtn = createEl('button', '');
     searchBtn.type = 'button';
     searchBtn.setAttribute('aria-label', 'Suche \u00f6ffnen');
     searchBtn.innerHTML = ICON_SEARCH;
     searchBtn.style.cssText = 'background: none; border: none; cursor: pointer; padding: 6px; border-radius: var(--fnd-radius-md); color: var(--fnd-color-text-high);';
     tools.appendChild(searchBtn);
+    actions.appendChild(tools);
 
     // Mobile toggle (visible only on small screens via CSS)
     var mobileToggle = createEl('button', 'nc-mobile-toggle');
@@ -227,7 +230,7 @@
     mobileToggle.innerHTML = ICON_MENU;
     mobileToggle.style.cssText = 'background: none; border: none; cursor: pointer; color: var(--fnd-color-text-high);';
 
-    inner.append(brand, list, tools, mobileToggle);
+    inner.append(brand, list, actions, mobileToggle);
     nav.appendChild(inner);
     header.appendChild(nav);
 
@@ -270,7 +273,9 @@
               return '        <li class="nc-nav__item"><a href="#">' + l.label + '</a></li>';
             }).join('\n')
           + '\n      </ul>\n'
-          + '      <div class="nc-tools"><!-- Icon-Buttons --></div>\n'
+          + '      <div class="nc-nav__actions">\n'
+          + '        <div class="nc-tools"><!-- Icon-Buttons --></div>\n'
+          + '      </div>\n'
           + '    </div>\n'
           + '  </nav>\n'
           + '</header>';
@@ -296,7 +301,9 @@
           + '        </li>\n'
           + '        <li class="nc-nav__item"><a href="#">Kunden</a></li>\n'
           + '      </ul>\n'
-          + '      <div class="nc-tools"><!-- Icon-Buttons --></div>\n'
+          + '      <div class="nc-nav__actions">\n'
+          + '        <div class="nc-tools"><!-- Icon-Buttons --></div>\n'
+          + '      </div>\n'
           + '    </div>\n'
           + '  </nav>\n'
           + '</header>';
