@@ -3,8 +3,14 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "faq",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Entscheidung 06.10.2026 (website-verhalten d): kein eigenes Behavior — <details>/<summary> genuegt. neo-theme.js bindet am FAQ nichts (neoAccordion nur [data-neo-accordion] mit .nc-accordion__item), das heutige Verhalten ist also das native. Enter/Leertaste/Klick, Zustand fuer Screenreader und die Suche im Dokument liefert der Browser; „nur eine offen“ geht ohne Skript ueber das name-Attribut an den <details>; Pfeiltasten sind im APG-Muster optional — Tab reicht fuer eine Liste unabhaengiger Fragen. Wer Sprungziele, „Alle aufklappen“ oder Pfeiltasten braucht, nimmt das Akkordeon (.nc-accordion, Behavior accordion)."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -66,7 +72,7 @@
     "domNotes": [
       "Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.",
       "Question: body-m, semibold, cursor:pointer. Answer: body-s (--nc-type-body-s-*), text-secondary — kleiner als die Frage.",
-      "Aufklappbar via <details>/<summary> oder JS."
+      "Aufklappbar via <details>/<summary> — ohne Skript (Entscheidung 06.10.2026: kein eigenes Behavior). Nur eine Frage offen: gleiches name-Attribut an allen <details> des Blocks (exklusive Gruppe, nativ)."
     ]
   },
   "axes": {
@@ -108,7 +114,7 @@
         "hasAccessibleName",
         "supportsKeyboard"
       ],
-      "note": "FAQ via <details>/<summary> oder aria-expanded. Keyboard: Enter/Space oeffnet."
+      "note": "FAQ via <details>/<summary>: Enter/Space oeffnet, der Zustand wird nativ angesagt, Tab geht von Frage zu Frage (kein Skript, Entscheidung 06.10.2026). Pfeiltasten, Sprungziele und „Alle aufklappen“ bietet das Akkordeon (accordion)."
     },
     "overrides": []
   },

@@ -10,9 +10,10 @@
 // am FAQ beides nicht, der Zustand steht am <details>.
 //
 // „Ausprobieren": Auf- und Zuklappen macht der Browser (<details>), wie auf
-// der Website. Das Akkordeon-Verhalten aus neo-behaviors (Pfeiltasten,
-// „nur eines offen", Ereignis accordion-toggle) bindet nur .nc-accordion —
-// am FAQ greift es nicht.
+// der Website. Entscheidung 06.10.2026 (website-verhalten d): kein eigenes
+// Behavior — neo-theme.js bindet am FAQ nichts; „nur eine offen" ginge
+// nativ ueber das name-Attribut. Pfeiltasten, Sprungziele und „Alle
+// aufklappen" hat das Akkordeon (.nc-accordion, Behavior accordion).
 import { esc, klassenOhne } from './_helfer.js'
 import { vorgabe } from './_bloecke-1.js'
 
@@ -25,7 +26,7 @@ const FRAGEN = [
 ]
 
 export const ausprobieren = {
-  hinweis: 'Klicken oder Enter/Leertaste auf eine Frage — auf- und zuklappen macht der Browser (<details>), wie auf der Website. Pfeiltasten und „nur eines offen" des Akkordeons greifen am FAQ nicht.'
+  hinweis: 'Klicken oder Enter/Leertaste auf eine Frage — auf- und zuklappen macht der Browser (<details>), wie auf der Website; ein eigenes Behavior gibt es bewusst nicht. Pfeiltasten und Sprungziele bietet das Akkordeon.'
 }
 
 export default (zelle, m) => {

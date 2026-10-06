@@ -267,3 +267,12 @@ die alte Funktion entfernt (Freigabe).
   die Doku beschreibt: `.is-active` „wenn gescrollt oder ein Kapitel
   geklickt wird“. Zuordnung Link → Kapitel per `aria-controls`, sonst
   Reihenfolge.
+- **FAQ** (website-verhalten d) — **kein eigenes Behavior**, `<details>`
+  genügt. Begründung: `neo-theme.js` bindet am FAQ nichts (`neoAccordion`
+  greift nur bei `[data-neo-accordion]` mit `.nc-accordion__item`), das
+  heutige Website-Verhalten ist also das native — 1:1 heißt ohne Skript.
+  Enter/Leertaste/Klick, die Ansage des Zustands und die Suche im Dokument
+  liefert der Browser; „nur eine offen“ geht nativ über ein gemeinsames
+  `name` an den `<details>`; Pfeiltasten sind im APG-Muster optional, Tab
+  reicht für eine Liste unabhängiger Fragen. Wer Sprungziele, „Alle
+  aufklappen“ oder Pfeiltasten braucht, nimmt das Akkordeon (`accordion`).
