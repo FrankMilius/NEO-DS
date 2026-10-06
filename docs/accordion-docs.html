@@ -612,6 +612,9 @@
       <tr><td><code class="docs__token">.nc-accordion__content</code></td><td>Element</td><td>content</td></tr>
       <tr><td><code class="docs__token">.nc-accordion__content-inner</code></td><td>Element</td><td>content-inner</td></tr>
       <tr><td><code class="docs__token">.nc-accordion__media</code></td><td>Element (optional)</td><td>media</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion__trigger-prefix</code></td><td>Element (optional)</td><td>Checkbox, Radio oder Status-Zeichen links im Ausl&ouml;ser (Mindestgr&ouml;&szlig;e <code class="docs__token">--nc-accordion-selection-indicator-size</code>)</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion__trigger-suffix</code></td><td>Element (optional)</td><td>Badges und Aktionen rechts vor dem Zeichen (<code class="docs__token">--nc-accordion-actions-*</code>)</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion__footer</code></td><td>Element (optional)</td><td>Handlungsleiste am Ende des Inhalts, rechtsb&uuml;ndig, Trennlinie &uuml;ber die volle Breite (<code class="docs__token">--nc-accordion-footer-*</code>)</td></tr>
     </tbody>
     </table>
   </div>
@@ -625,6 +628,8 @@
       <tr><td><code class="docs__token">.nc-accordion--ghost</code></td><td>ghost</td><td>Visueller Stil — default (Border-getrennt), flush (kein aeusserer Rahmen), ghost (keine Borders/BG), separated (Cards mit Gap/Shadow), elevated (geoeffnetes Item hervorgehoben)</td></tr>
       <tr><td><code class="docs__token">.nc-accordion--separated</code></td><td>separated</td><td>Visueller Stil — default (Border-getrennt), flush (kein aeusserer Rahmen), ghost (keine Borders/BG), separated (Cards mit Gap/Shadow), elevated (geoeffnetes Item hervorgehoben)</td></tr>
       <tr><td><code class="docs__token">.nc-accordion--elevated</code></td><td>elevated</td><td>Visueller Stil — default (Border-getrennt), flush (kein aeusserer Rahmen), ghost (keine Borders/BG), separated (Cards mit Gap/Shadow), elevated (geoeffnetes Item hervorgehoben)</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion--nested</code></td><td>nested</td><td>Zweite Ebene (.nc-accordion im Inhalt) einger&uuml;ckt mit F&uuml;hrungslinie und kleinerem Zeichen (<code class="docs__token">--nc-accordion-nested-*</code>) &mdash; gebaut 06.10.2026</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion--selection</code></td><td>selection</td><td>Checkbox/Radio im Pr&auml;fix; gew&auml;hlter Eintrag mit Rahmen und Fl&auml;che in der Interaktionsfarbe, auch geschlossen (<code class="docs__token">--nc-accordion-selection-*</code>) &mdash; gebaut 06.10.2026</td></tr>
     </tbody>
     </table>
   </div>
@@ -716,6 +721,8 @@
     <li>Separated-Variante: Items als eigenstaendige Cards mit Gap, Border-Radius, Shadow.</li>
     <li>Elevated-Variante: Geoeffnetes Item bekommt staerkeren Schatten (z-index: 1, position: relative).</li>
     <li>Ghost-Variante: Keine Borders/BG, nur Text + Icon. Hover zeigt dezenten Hintergrund mit border-radius.</li>
+    <li>Ausl&ouml;ser-Layout: [Pr&auml;fix] [Text] [Suffix] [Zeichen]. Mit Pr&auml;fix steht der Text direkt daneben; das Suffix schiebt sich mit dem Zeichen an den rechten Rand (Entscheidung 06.10.2026).</li>
+    <li>Fu&szlig;: hebt das waagerechte Polster des Inhalts auf, damit die Trennlinie &uuml;ber die volle Eintragsbreite l&auml;uft; in den b&uuml;ndigen Fassungen (flush, ghost, register, lese) bleibt er auf der Textkante.</li>
     <li>prefers-reduced-motion: Transitions werden deaktiviert.</li>
     <li>Legacy: .accordion-item / .accordion-item-summary (non-BEM, migriert von solutions.css) — am Ende der SCSS-Datei erhalten.</li>
   </ul>

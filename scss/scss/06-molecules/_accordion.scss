@@ -373,6 +373,109 @@
   }
 
   // ═══════════════════════════════════════════════════════════════
+  // Bereiche im Ausloeser und im Inhalt: Praefix, Suffix, Fuss
+  // ═══════════════════════════════════════════════════════════════
+  // Gebaut am 06.10.2026 (Entscheidung akk-varianten) aus den Tokens, die
+  // seit Recipe 3.0 bereitstanden, aber keine Regel hatten. Ausloeser-Layout
+  // laut Recipe: [Praefix] [Text] [Suffix] [Zeichen].
+  //
+  // WEBSITE UNBERUEHRT: Alle Selektoren hier treffen nur die neuen Klassen
+  // (__trigger-prefix, __trigger-suffix, __footer, --nested, --selection).
+  // Kein bestehender Selektor (__trigger, __trigger-body, __trigger-text,
+  // __icon, --flush, --media-top, --sticky) bekommt eine neue Deklaration —
+  // geprueft per Pixelvergleich von data/markup/accordion.html hell/dunkel.
+
+  // Praefix — Checkbox, Radio oder Status-Zeichen links im Ausloeser
+  &__trigger-prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-inline-size: var(--mod-accordion-selection-indicator-size, var(--nc-accordion-selection-indicator-size));
+    min-block-size: var(--mod-accordion-selection-indicator-size, var(--nc-accordion-selection-indicator-size));
+  }
+
+  // Mit Praefix steht der Text direkt daneben statt mittig (space-between
+  // des Ausloesers verteilte sonst den Rest links UND rechts vom Text).
+  &__trigger-prefix + &__trigger-body {
+    flex: 1 1 auto;
+  }
+
+  // Suffix — Badges und Aktionen rechts, vor dem Zeichen. margin-inline-start
+  // auto schiebt Suffix und Zeichen gemeinsam an den rechten Rand.
+  &__trigger-suffix {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap));
+    margin-inline-start: auto;
+    color: var(--mod-accordion-actions-color, var(--nc-accordion-actions-color));
+    // Ghost-Knoepfe im Suffix in der Aktionsfarbe (Override-Stufe des Buttons)
+    --mod-button-ghost-color: var(--mod-accordion-actions-color, var(--nc-accordion-actions-color));
+
+    > :is(a, button):hover:not(:disabled):not([aria-disabled='true']) {
+      color: var(--mod-accordion-actions-hover-color, var(--nc-accordion-actions-hover-color));
+    }
+  }
+
+  // Fuss — Handlungsleiste am Ende des Inhalts (z. B. Abbrechen/Weiter).
+  // Die Trennlinie laeuft ueber die volle Breite des Eintrags: der Fuss hebt
+  // das waagerechte Polster des Inhalts per negativem Rand auf und bringt
+  // sein eigenes mit (--nc-accordion-footer-padding).
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap));
+    margin-block-start: var(--fnd-spacing-04);
+    margin-inline: calc(-1 * var(--mod-accordion-padding-inline, var(--nc-accordion-padding-inline)));
+    margin-block-end: calc(-1 * var(--mod-accordion-padding-block, var(--nc-accordion-padding-block)));
+    padding: var(--mod-accordion-footer-padding, var(--nc-accordion-footer-padding));
+    border-block-start: var(--fnd-border-width-xs) solid var(--mod-accordion-footer-border, var(--nc-accordion-footer-border));
+  }
+
+  &--compact &__footer {
+    margin-inline: calc(-1 * var(--mod-accordion-padding-compact-inline, var(--nc-accordion-padding-compact-inline)));
+    margin-block-end: calc(-1 * var(--mod-accordion-padding-compact-block, var(--nc-accordion-padding-compact-block)));
+  }
+
+  &--spacious &__footer {
+    margin-inline: calc(-1 * var(--mod-accordion-padding-spacious-inline, var(--nc-accordion-padding-spacious-inline)));
+    margin-block-end: calc(-1 * var(--mod-accordion-padding-spacious-block, var(--nc-accordion-padding-spacious-block)));
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Variante: Verschachtelt (--nested)
+  // ═══════════════════════════════════════════════════════════════
+  // Ein zweites .nc-accordion im Inhalt eines Eintrags: eingerueckt, mit
+  // Fuehrungslinie am Anfang und kleinerem Zeichen. Nur die innere Ebene
+  // aendert sich; die aeussere bleibt wie ihre Basis.
+  &--nested &__content-inner > .nc-accordion {
+    inline-size: auto;
+    margin-inline-start: var(--mod-accordion-nested-indent, var(--nc-accordion-nested-indent));
+    border-inline-start: var(--mod-accordion-nested-border-width, var(--nc-accordion-nested-border-width)) solid var(--mod-accordion-border, var(--nc-accordion-border));
+  }
+
+  &--nested .nc-accordion &__icon {
+    width: var(--mod-accordion-nested-icon-size, var(--nc-accordion-nested-icon-size));
+    height: var(--mod-accordion-nested-icon-size, var(--nc-accordion-nested-icon-size));
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Variante: Auswahl (--selection)
+  // ═══════════════════════════════════════════════════════════════
+  // Checkbox/Radio im Praefix. Ein gewaehlter Eintrag zeigt Rahmen und
+  // Flaeche in der Interaktionsfarbe — auch geschlossen (Recipe domNotes).
+  // Der Rahmen ist eine Kontur nach innen, damit die Trennlinien der
+  // Eintraege nicht springen.
+  &--selection &__item:has(> &__trigger &__trigger-prefix :checked) {
+    background: var(--mod-accordion-selection-bg-active, var(--nc-accordion-selection-bg-active));
+    outline: var(--fnd-border-width-xs) solid var(--mod-accordion-selection-border-active, var(--nc-accordion-selection-border-active));
+    outline-offset: calc(-1 * var(--fnd-border-width-xs));
+  }
+
+  // ═══════════════════════════════════════════════════════════════
   // Reduced Motion
   // ═══════════════════════════════════════════════════════════════
   @media (prefers-reduced-motion: reduce) {
@@ -534,6 +637,15 @@
     // Kastens: Bei zweizeiligen Ueberschriften rutschte es sonst nach unten weg.
     margin-block-start: calc((1em * var(--nc-accordion-trigger-lh) - var(--nc-accordion-icon-size)) / 2);
   }
+}
+
+// Fuss in den buendigen Fassungen: der Inhalt hat dort kein waagerechtes
+// Polster, also hebt der Fuss auch keines auf und bleibt auf der Textkante
+// (Entscheidung 06.10.2026, akk-varianten — eigener Selektor, die Regel
+// oben bleibt unveraendert).
+:is(.nc-accordion--flush, .nc-accordion--ghost, .nc-accordion--register, .nc-accordion--lese) .nc-accordion__footer {
+  margin-inline: 0;
+  padding-inline: 0;
 }
 
 // ===========================================================================

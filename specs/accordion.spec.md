@@ -1,5 +1,5 @@
 # accordion Component Spec
-> Version 3.1.0 | Status: stable | Layer: molecule
+> Version 3.2.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `disclosure`, `content`, `navigation`, `faq`, `selection`
 
@@ -23,13 +23,13 @@ Root element: `.nc-accordion`
 - BEM: .nc-accordion > __item > __trigger + __content > __content-inner.
 - CSS-Grid-Animation: grid-template-rows 0fr→1fr fuer fluessige Hoehen-Animation.
 - Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox.
-- Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Eingerueckt via padding-left.
+- Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Innere Ebene eingerueckt (margin-inline-start: --nc-accordion-nested-indent) mit Fuehrungslinie (--nc-accordion-nested-border-width) und kleinerem Zeichen (--nc-accordion-nested-icon-size).
 - Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.
-- Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon).
+- Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).
 - Sticky Trigger: position:sticky auf dem Trigger bei offenem Item (nur bei langem Content).
 - Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.
 - Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.
-- Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button).
+- Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button), rechtsbuendig, Trennlinie ueber die volle Eintragsbreite (--nc-accordion-footer-padding/-border); in den buendigen Fassungen auf der Textkante.
 - prefers-reduced-motion: Transitions deaktiviert.
 - .nc-accordion__text ist ein <div>, kein <p>: die Antwort darf Listen enthalten, und ein <ul> in einem <p> bricht den Absatz im Browser auf.
 - Erlaubte Auszeichnung in der Antwort: p, br, strong, em, b, i, ul, ol, li, a, code, abbr. Alles andere wird verworfen (Drupal: Xss::filter im Preprocess _neo_fe_acc_antwort).
