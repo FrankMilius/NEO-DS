@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.1.1 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -35,7 +35,7 @@ Root element: `.nc-shell`
 - Linkbar: 32px Leiste ueber der Navigation. Default: display:none, Preset schaltet ein.
 - Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).
 - Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.
-- Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts.
+- Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px; Docs 240/200px, Settings 220px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts. Die Dichte setzt die Spaltenvariable --nc-shell-sidebar-*-width; in Docs und Settings ersetzt narrow/wide die Preset-Breite.
 - Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar mit aria-controls="<id der Sidebar>" und aria-expanded. Unter lg oeffnet das Behavior shell (neo-behaviors) damit den Drawer; ab lg ist der Knopf ohne Verhalten (Collapse setzt die Seite selbst).
 - Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.
 - Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.

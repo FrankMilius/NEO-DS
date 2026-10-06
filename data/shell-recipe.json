@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "shell",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "status": "stable",
     "tags": [
       "layout",
@@ -16,6 +16,12 @@
       "docs": "/docs/shell-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.1",
+        "changes": [
+          "06.10.2026 (Entscheidung shell-dichte, \"Dichte setzt die Spaltenvariable\"): data-sidebar-density setzt --nc-shell-sidebar-left-width/--nc-shell-sidebar-right-width (die Grid-Spalte) statt der width der Sidebar — vorher blieb die Spalte bei 260px (Docs 240/200, Settings 220), narrow liess eine Luecke, wide lief ueber den Inhalt bzw. 100px ueber die Seite. Presets docs/settings fuehren ihre Breiten in eigenen Variablen (--nc-shell-docs-sidebar-left-width/-right-width, --nc-shell-settings-sidebar-left-width); mit narrow/wide uebernimmt die Spalte die Breite der Dichte, auch wenn data-layout und data-sidebar-density auf demselben <body> stehen. Ohne Attribut unveraendert. Freigabe ausstehend."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -137,7 +143,7 @@
       "Linkbar: 32px Leiste ueber der Navigation. Default: display:none, Preset schaltet ein.",
       "Navbar: sticky, z-index: nc-shell-z-navbar. Bei Landing-Preset: Linkbar darueber (z-index + 1).",
       "Sidebars: Default versteckt. Desktop (ab lg): sticky, unabhaengiges Scrollen (height: calc(100dvh - nav-height)). Mobile (<lg): Fixed Off-Canvas-Drawer mit translateX-Animation.",
-      "Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts.",
+      "Sidebar-Density: data-sidebar-density='narrow|wide' auf .nc-shell oder <body>. Standard: kein Attribut noetig (260px; Docs 240/200px, Settings 220px). Narrow: 200px links / 160px rechts. Wide: 320px links / 300px rechts. Die Dichte setzt die Spaltenvariable --nc-shell-sidebar-*-width; in Docs und Settings ersetzt narrow/wide die Preset-Breite.",
       "Sidebar-Toggle: [data-shell-toggle] Buttons in der Navbar mit aria-controls=\"<id der Sidebar>\" und aria-expanded. Unter lg oeffnet das Behavior shell (neo-behaviors) damit den Drawer; ab lg ist der Knopf ohne Verhalten (Collapse setzt die Seite selbst).",
       "Sidebar-Collapsed: .nc-shell--sidebar-left-collapsed / --sidebar-right-collapsed — Width 0, visibility hidden, sanfte Transition.",
       "Sidebar-Drawer (Mobile): .nc-shell--sidebar-left-drawer-open / --sidebar-right-drawer-open — translateX(0) + Overlay-Backdrop.",

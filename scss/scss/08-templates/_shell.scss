@@ -484,16 +484,22 @@
 // ---------------------------------------------------------------------------
 // Steuert Sidebar-Breiten ueber data-sidebar-density auf .nc-shell oder <body>.
 // Standard ist der Default (kein Attribut noetig).
+//
+// Die Dichte setzt die SPALTENVARIABLE (--nc-shell-sidebar-*-width), aus der
+// die Presets ihre grid-template-columns bauen — nicht die Breite der
+// Sidebar. Vorher bekam nur das Element width, die Grid-Spalte blieb bei
+// 260px: narrow liess eine Luecke neben der Sidebar, wide lief ueber den
+// Inhalt (Entscheidung shell-dichte, 06.10.2026).
 
 @include respond-to('lg') {
   [data-sidebar-density='narrow'] {
-    .nc-shell__sidebar-left  { width: var(--nc-shell-sidebar-left-width-narrow); }
-    .nc-shell__sidebar-right { width: var(--nc-shell-sidebar-right-width-narrow); }
+    --nc-shell-sidebar-left-width:  var(--nc-shell-sidebar-left-width-narrow);
+    --nc-shell-sidebar-right-width: var(--nc-shell-sidebar-right-width-narrow);
   }
 
   [data-sidebar-density='wide'] {
-    .nc-shell__sidebar-left  { width: var(--nc-shell-sidebar-left-width-wide); }
-    .nc-shell__sidebar-right { width: var(--nc-shell-sidebar-right-width-wide); }
+    --nc-shell-sidebar-left-width:  var(--nc-shell-sidebar-left-width-wide);
+    --nc-shell-sidebar-right-width: var(--nc-shell-sidebar-right-width-wide);
   }
 }
 
@@ -542,9 +548,12 @@
 // ---------------------------------------------------------------------------
 
 [data-layout='docs'] {
-  // Docs-spezifische Sidebar-Breiten (schmaler als Standard)
-  --nc-shell-sidebar-left-width: 240px;
-  --nc-shell-sidebar-right-width: 200px;
+  // Docs-spezifische Sidebar-Breiten (schmaler als Standard) in EIGENEN
+  // Variablen: setzte das Preset --nc-shell-sidebar-*-width selbst, haette es
+  // bei data-layout und data-sidebar-density auf demselben <body> die Dichte
+  // ueberschrieben (gleiche Spezifitaet, Preset spaeter im Quelltext).
+  --nc-shell-docs-sidebar-left-width: 240px;
+  --nc-shell-docs-sidebar-right-width: 200px;
 
   .nc-shell__footerbar {
     display: grid;
@@ -552,7 +561,7 @@
 
   @include respond-to('lg') {
     .nc-shell__stage {
-      grid-template-columns: var(--nc-shell-sidebar-left-width) 1fr var(--nc-shell-sidebar-right-width);
+      grid-template-columns: var(--nc-shell-docs-sidebar-left-width) 1fr var(--nc-shell-docs-sidebar-right-width);
       grid-template-areas: 'sidebar-l main sidebar-r';
     }
 
@@ -610,8 +619,9 @@
 // ---------------------------------------------------------------------------
 
 [data-layout='settings'] {
-  // Settings-spezifische Sidebar-Breite (schmaler)
-  --nc-shell-sidebar-left-width: 220px;
+  // Settings-spezifische Sidebar-Breite (schmaler) in eigener Variable —
+  // siehe Docs-Preset.
+  --nc-shell-settings-sidebar-left-width: 220px;
 
   .nc-shell__footerbar {
     display: grid;
@@ -619,7 +629,7 @@
 
   @include respond-to('lg') {
     .nc-shell__stage {
-      grid-template-columns: var(--nc-shell-sidebar-left-width) 1fr;
+      grid-template-columns: var(--nc-shell-settings-sidebar-left-width) 1fr;
       grid-template-areas: 'sidebar-l main';
     }
 
@@ -630,5 +640,25 @@
 
   .nc-shell__content-body {
     max-width: 960px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dichte in den Presets Docs und Settings
+// ---------------------------------------------------------------------------
+// Ohne Dichte-Attribut gelten die Preset-Breiten (240/200 bzw. 220px). Mit
+// narrow oder wide uebernimmt die Spalte die Breite der Dichte — gleich, ob
+// das Attribut auf demselben <body> steht wie data-layout oder auf .nc-shell.
+
+@include respond-to('lg') {
+  [data-layout='docs']:is([data-sidebar-density='narrow'], [data-sidebar-density='wide']),
+  [data-layout='docs'] :is([data-sidebar-density='narrow'], [data-sidebar-density='wide']) {
+    --nc-shell-docs-sidebar-left-width: var(--nc-shell-sidebar-left-width);
+    --nc-shell-docs-sidebar-right-width: var(--nc-shell-sidebar-right-width);
+  }
+
+  [data-layout='settings']:is([data-sidebar-density='narrow'], [data-sidebar-density='wide']),
+  [data-layout='settings'] :is([data-sidebar-density='narrow'], [data-sidebar-density='wide']) {
+    --nc-shell-settings-sidebar-left-width: var(--nc-shell-sidebar-left-width);
   }
 }
