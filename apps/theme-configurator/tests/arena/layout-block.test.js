@@ -120,7 +120,10 @@ describe('Layout-Block aus dem Recipe', () => {
         const anatomie = anatomieKlassen(id)
         for (const z of beideModi(id)) {
           const d = dom(z.html)
-          expect(d.querySelector(`.${WURZELN[id]}, [data-nicht-gebaut]`), `${z.specimen.id}/${z.id}`).not.toBeNull()
+          // Website-Specimens (Recipe-Block website): die Klasse, die Drupal setzt
+          const website = z.specimen.render?.website
+          const wurzel = website ? '.' + website.split(' ').join('.') : `.${WURZELN[id]}, [data-nicht-gebaut]`
+          expect(d.querySelector(wurzel), `${z.specimen.id}/${z.id}`).not.toBeNull()
           for (const el of d.querySelectorAll('[class]')) {
             for (const k of el.classList) {
               if (/^(nc|fnd|u|o)-/.test(k) || /^section(--|$)/.test(k)) {
@@ -281,7 +284,7 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(spalte.querySelectorAll('.o-grid > .o-col-3')).toHaveLength(6)
     expect(zeile.querySelector('.ra-platzhalter').textContent).toBe('1 · 8')
     const r = rohesRecipe('grid')
-    expect(r.meta.version).toBe('3.0.0')
+    expect(r.meta.version).toBe('3.1.0')
     expect(r.axes.subgrid).toBeUndefined()
     expect(r.specimens.map((s) => s.id)).not.toContain('subgrid-modes')
     const k = dsKlassen()
@@ -308,12 +311,39 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     for (const d of alle('section', 'surface-x-divider')) expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
     expect(alle('section', 'surface-x-divider')).toHaveLength(8)
     const r = rohesRecipe('section')
-    expect(r.meta.version).toBe('3.0.0')
+    expect(r.meta.version).toBe('3.1.0')
     expect(r.axes.edge).toBeUndefined()
     expect(r.styling.tokenGroups.edge).toBeUndefined()
     expect(r.specimens.map((s) => s.id)).not.toContain('edge-variants')
     const k = dsKlassen()
     for (const m of ['top', 'bottom', 'both']) expect(k.has(`section--divider-${m}`), m).toBe(true)
+  })
+
+  it('recipe-namen (Entscheidung 06.10.2026): section und grid beschreiben die Website-Klassen; Specimens zeigen sie', () => {
+    const k = dsKlassen()
+    const erwartet = { section: ['nc-section', 'nc-section--full'], grid: ['nc-grid--split', 'nc-grid--with-sidebar'] }
+    for (const [id, klassen] of Object.entries(erwartet)) {
+      const r = rohesRecipe(id)
+      expect(r.meta.version, id).toBe('3.1.0')
+      expect(r.website.klassen.map((w) => w.klasse)).toEqual(klassen)
+      for (const w of r.website.klassen) {
+        expect(k.has(w.klasse), `${w.klasse} fehlt in styles.css`).toBe(true)
+        const sp = r.specimens.find((s) => s.id === w.specimen)
+        expect(sp, w.specimen).toBeTruthy()
+        expect(sp.render.website.split(' ')).toContain(w.klasse)
+      }
+      expect(r.anatomy.domNotes.some((n) => n.startsWith('Website-Form')), id).toBe(true)
+    }
+    const [sektion] = alle('section', 'website-nc-section')
+    expect(sektion.querySelector('.ra-seite > section.nc-section > .nc-container > .ra-platzhalter')).not.toBeNull()
+    expect(sektion.querySelector('.section')).toBeNull()
+    const [voll] = alle('section', 'website-nc-section-full')
+    expect(voll.querySelector('section').className).toBe('nc-section nc-section--full')
+    const [split] = alle('grid', 'website-split')
+    expect(split.querySelectorAll(':scope > .nc-grid--split > div > .ra-platzhalter')).toHaveLength(2)
+    expect(split.querySelector('.o-grid, [class^="o-col-"]')).toBeNull()
+    const [seite] = alle('grid', 'website-with-sidebar')
+    expect(seite.querySelector(':scope > .nc-grid--with-sidebar').children).toHaveLength(2)
   })
 
   it('hero: mit Medium im __grid (Bild, buendig, Attrappe), Inhalt immer zuerst, Desktop-Rahmen', () => {

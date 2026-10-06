@@ -16,6 +16,9 @@
 //   fuellen dann Spalte fuer Spalte.
 //   Mobil: alle Werte im Rahmen ra-mobil (die Lage schaltet das DS ueber die
 //   Fensterbreite; der Rahmen setzt dieselben Werte).
+// Website-Specimens (render.website): .nc-grid--split und
+// .nc-grid--with-sidebar, wie der Layout Builder sie setzt — Recipe-Block
+// website.
 // Was das Recipe kuenftig ohne CSS beschreibt, zeigt „nicht gebaut" (siehe
 // _layout.js).
 import { fehlendeKlassen, nichtGebaut, platzhalter } from './_layout.js'
@@ -42,6 +45,16 @@ function inhalt (m) {
 }
 
 export default (zelle, m) => {
+  // Website-Form (Recipe-Block website, Entscheidung 06.10.2026): eigenstaendige
+  // Aufteilung ohne .o-grid, die Kinder sind die Spalten
+  const website = m.specimen.render?.website
+  if (website) {
+    const [a, b] = website === 'nc-grid--with-sidebar' ? ['Inhalt · 2fr', 'Seitenspalte · 1fr'] : ['1fr', '1fr']
+    return `<div class="${website}" data-recipe-wurzel="${m.root}">
+<div>${platzhalter(a)}</div>
+<div>${platzhalter(b)}</div>
+</div>`
+  }
   const fehlend = fehlendeKlassen(m)
   if (fehlend.length) return nichtGebaut(m, fehlend)
   const raster = `<div class="${m.klasse}"${m.attrs}>

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "grid",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -14,6 +14,12 @@
       "docs": "/docs/grid-docs.html"
     },
     "changelog": [
+      {
+        "version": "3.1.0",
+        "changes": [
+          "Website-Klassen beschrieben (Entscheidung 06.10.2026, recipe-namen): .nc-grid--split und .nc-grid--with-sidebar, wie der Layout Builder von neocosmo.de (Drupal) sie setzt — Block Website im Recipe, domNote, Specimens website-split und website-with-sidebar. Keine SCSS-Aenderung an diesen Klassen."
+        ]
+      },
       {
         "version": "3.0.0",
         "changes": [
@@ -49,7 +55,8 @@
       "Mobile-Spalten konfigurierbar: Standard 4, alternativ 1, 2 oder 6 Spalten (o-grid--mobile-*, setzt --nc-grid-mobile-columns).",
       "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).",
       "Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.",
-      "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging."
+      "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging.",
+      "Website-Form: der Layout Builder von neocosmo.de setzt eigenstaendige Aufteilungen ohne .o-grid — .nc-grid--split (1fr 1fr) und .nc-grid--with-sidebar (2fr 1fr), beide einspaltig bis 768px, gap --fnd-spacing-08. Keine Spannen (.o-col-*), die Kinder sind die Spalten. Nicht mit .o-grid kombinieren (siehe Block website)."
     ]
   },
   "axes": {
@@ -196,6 +203,33 @@
     },
     "overrides": []
   },
+  "website": {
+    "description": "Klassen, die die Website (Drupal, Layout Builder) fuer Aufteilungen setzt. Sie stehen in styles.css (aufgenommen aus neo-overrides.css) und werden hier nur beschrieben — Aenderungen daran sind website-sichtbar und brauchen eine Freigabe.",
+    "klassen": [
+      {
+        "klasse": "nc-grid--split",
+        "element": "div",
+        "scss": "scss/scss/04-objects/_grid.scss",
+        "beschreibung": "Zwei gleich breite Spalten ab 768px (grid-template-columns 1fr 1fr), darunter einspaltig; gap --fnd-spacing-08. Eigenstaendig: display grid ohne .o-grid.",
+        "tokens": [
+          "fnd-spacing-08"
+        ],
+        "markup": "<div class=\"nc-grid--split\"><div>…</div><div>…</div></div>",
+        "specimen": "website-split"
+      },
+      {
+        "klasse": "nc-grid--with-sidebar",
+        "element": "div",
+        "scss": "scss/scss/04-objects/_grid.scss",
+        "beschreibung": "Inhalt und Seitenspalte ab 768px (grid-template-columns 2fr 1fr), darunter einspaltig; gap --fnd-spacing-08. Eigenstaendig: display grid ohne .o-grid.",
+        "tokens": [
+          "fnd-spacing-08"
+        ],
+        "markup": "<div class=\"nc-grid--with-sidebar\"><div>…</div><aside>…</aside></div>",
+        "specimen": "website-with-sidebar"
+      }
+    ]
+  },
   "styling": {
     "baseClasses": [
       "o-grid"
@@ -329,6 +363,46 @@
       "layoutConfig": {
         "rowAxis": "mobile-columns",
         "colAxis": "gap"
+      }
+    },
+    {
+      "id": "website-split",
+      "label": "Website: .nc-grid--split",
+      "description": "Aufteilung des Layout Builders: zwei gleich breite Spalten ab 768px, darunter untereinander.",
+      "matrix": {
+        "axes": {
+          "gap": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": "nc-grid--split",
+        "label": ".nc-grid--split"
+      }
+    },
+    {
+      "id": "website-with-sidebar",
+      "label": "Website: .nc-grid--with-sidebar",
+      "description": "Aufteilung des Layout Builders: Inhalt (2fr) und Seitenspalte (1fr) ab 768px, darunter untereinander.",
+      "matrix": {
+        "axes": {
+          "gap": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": "nc-grid--with-sidebar",
+        "label": ".nc-grid--with-sidebar"
       }
     }
   ]

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "section",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -15,6 +15,12 @@
       "docs": "/docs/layout-architecture-docs.html"
     },
     "changelog": [
+      {
+        "version": "3.1.0",
+        "changes": [
+          "Website-Klassen beschrieben (Entscheidung 06.10.2026, recipe-namen): .nc-section und .nc-section--full, wie neocosmo.de (Drupal) sie setzt — Block Website im Recipe, domNote, Specimens website-nc-section und website-nc-section-full. Keine SCSS-Aenderung an diesen Klassen."
+        ]
+      },
       {
         "version": "3.0.0",
         "changes": [
@@ -59,7 +65,8 @@
       "Section referenziert Container, Grid und Spacing — nicht umgekehrt.",
       "Section-Modifikatoren (--compact, --spacious) ueberschreiben --nc-section-padding-block.",
       "Divider-Linien sind Rahmenkanten (border-block-start/-end) der Section aus --nc-section-divider-*; auf der Akzent-Flaeche in --nc-section-accent-color-secondary.",
-      "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast."
+      "Accent-Section invertiert Textfarben auf On-Accent fuer WCAG-Kontrast.",
+      "Website-Form: neocosmo.de (Drupal) setzt .nc-section statt .section — <section class=\"nc-section\"><div class=\"nc-container\">…</div></section>. Nur Polsterung: padding-block var(--nc-section-padding-block, var(--fnd-spacing-10)); .nc-section--full setzt sie auf 0 (randlose Abschnitte polstern innen). Die Dichte-, Flaechen- und Divider-Modifier gelten nur fuer .section (siehe Block website)."
     ]
   },
   "axes": {
@@ -249,6 +256,33 @@
       }
     ]
   },
+  "website": {
+    "description": "Klassen, die die Website (Drupal, Theme neo_fe) fuer diesen Baustein setzt. Sie stehen in styles.css (aufgenommen aus neo-overrides.css) und werden hier nur beschrieben — Aenderungen daran sind website-sichtbar und brauchen eine Freigabe.",
+    "klassen": [
+      {
+        "klasse": "nc-section",
+        "element": "section",
+        "scss": "scss/scss/04-objects/_section.scss",
+        "beschreibung": "Abschnitt der Website: padding-block aus --nc-section-padding-block (Fallback --fnd-spacing-10). Kein Hintergrund, keine Dichte-Modifier. Mit .nc-text-media darin: position relative, overflow hidden, der Container darueber (z-index 2).",
+        "tokens": [
+          "nc-section-padding-block",
+          "fnd-spacing-10"
+        ],
+        "markup": "<section class=\"nc-section\"><div class=\"nc-container\">…</div></section>",
+        "specimen": "website-nc-section"
+      },
+      {
+        "klasse": "nc-section--full",
+        "basis": "nc-section",
+        "element": "section",
+        "scss": "scss/scss/04-objects/_section.scss",
+        "beschreibung": "Randloser Abschnitt: padding-block 0, der Inhalt traegt seine Polsterung selbst.",
+        "tokens": [],
+        "markup": "<section class=\"nc-section nc-section--full\">…</section>",
+        "specimen": "website-nc-section-full"
+      }
+    ]
+  },
   "states": {
     "supported": [
       "default"
@@ -408,6 +442,46 @@
       "layoutConfig": {
         "rowAxis": "surface",
         "colAxis": "divider"
+      }
+    },
+    {
+      "id": "website-nc-section",
+      "label": "Website: .nc-section",
+      "description": "Wie neocosmo.de (Drupal) den Abschnitt setzt: .nc-section > .nc-container. Polsterung --nc-section-padding-block, kein Hintergrund.",
+      "matrix": {
+        "axes": {
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": "nc-section",
+        "label": ".nc-section"
+      }
+    },
+    {
+      "id": "website-nc-section-full",
+      "label": "Website: .nc-section--full",
+      "description": "Randloser Website-Abschnitt: padding-block 0.",
+      "matrix": {
+        "axes": {
+          "density": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": "nc-section nc-section--full",
+        "label": ".nc-section--full"
       }
     }
   ]

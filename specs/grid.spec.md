@@ -1,5 +1,5 @@
 # grid Component Spec
-> Version 3.0.0 | Status: stable | Layer: organism
+> Version 3.1.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `grid`
 
@@ -17,6 +17,7 @@ Root element: `.o-grid`
 - Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).
 - Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.
 - Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging.
+- Website-Form: der Layout Builder von neocosmo.de setzt eigenstaendige Aufteilungen ohne .o-grid — .nc-grid--split (1fr 1fr) und .nc-grid--with-sidebar (2fr 1fr), beide einspaltig bis 768px, gap --fnd-spacing-08. Keine Spannen (.o-col-*), die Kinder sind die Spalten. Nicht mit .o-grid kombinieren (siehe Block website).
 
 ## Variants
 ### Gap (`gap`)
