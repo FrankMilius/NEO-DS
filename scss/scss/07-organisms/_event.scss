@@ -84,6 +84,15 @@
   max-width: 800px;
 }
 
+// Im Hero steht der Titel auf always-dark. Die Element-Regel fuer h1–h6
+// (03-elements/_headings.scss) setzt text-primary und schlaegt das Erben —
+// im hellen Theme stand er schwarz auf Schwarz. Hier erbt er wieder den
+// Vordergrund des Heros (always-light). Ausserhalb des Heros bleibt die
+// Element-Farbe (Entscheidung event-titel, 06.10.2026).
+.nc-event__hero .nc-event__title {
+  color: inherit;
+}
+
 .nc-event__subtitle {
   font-size: var(--nc-type-body-l-size);
   opacity: var(--fnd-opacity-prominent);

@@ -3,8 +3,8 @@
  * aspect-ratio, bento-grid, card-cta, card-grid-cta, chapter-nav, cta,
  * device, event, events, expanding-panels, facts, faq, feature-accordion,
  * feature-list, header. Geprueft wird:
- *   - mindestens zwei Specimens je Recipe, Recipe-Version 1.1.0 mit Eintrag
- *     im Changelog; jede Zelle jedes Specimens aus der Vorlage (beide
+ *   - mindestens zwei Specimens je Recipe, Recipe-Version ab 1.1.0 mit
+ *     Phase-4-Eintrag im Changelog; jede Zelle jedes Specimens aus der Vorlage (beide
  *     Ansichten), keine Sonderfall-Arena
  *   - echtes DS-Markup: Wurzel des Bauteils, nur Klassen aus styles.css bzw.
  *     der Anatomie, Arena-Klassen nie an DS-Elementen; Inline-Stile nur, wo
