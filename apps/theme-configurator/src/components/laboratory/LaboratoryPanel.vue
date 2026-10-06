@@ -7,6 +7,7 @@
           Theme Arena
           <span v-if="activeArenaLabel" class="lab-breadcrumb-sep">/</span>
           <span v-if="activeArenaLabel" class="lab-breadcrumb-leaf">{{ activeArenaLabel }}</span>
+          <span v-if="istEntwurfAktiv" class="lab-entwurf" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
         </h2>
         <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
         <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Theme mode">
@@ -74,6 +75,7 @@ import ArenaFilterbar from './ArenaFilterbar.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useSpecimenClick } from '../../composables/useSpecimenClick.js'
+import { istEntwurf, ENTWURF_HINWEIS } from '../../data/recipe-entwuerfe.js'
 
 const store = useThemeStore()
 const labViewportRef = ref(null)
@@ -108,6 +110,14 @@ const { recipe: activeRecipe } = useRecipeLoader(activeComponentId)
 
 // Specimen-Click Delegation: Klicks auf .arena-specimen -> Inspector-Filter
 useSpecimenClick(labViewportRef, activeComponentId, activeRecipe)
+
+// Kennzeichen „Entwurf" (Plan v3, Phase 4): Status aus dem geladenen Recipe,
+// solange es laedt aus der Liste der Navigation
+const istEntwurfAktiv = computed(() => {
+  if (!isComponentSection.value) return false
+  const status = activeRecipe.value?.meta?.status
+  return status ? status === 'draft' : istEntwurf(activeComponentId.value)
+})
 
 const filterOptions = computed(() => {
   if (!activeRecipe.value) return {}
@@ -271,6 +281,18 @@ const viewportClass = computed(() => {
 
 .lab-breadcrumb-leaf {
   font-weight: 500;
+  color: var(--cfg-text-muted);
+}
+
+/* Recipe-Status draft (Plan v3, Phase 4) */
+.lab-entwurf {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border: 1px dashed currentColor;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
   color: var(--cfg-text-muted);
 }
 

@@ -10,6 +10,7 @@
 
 import registry from '../../../../data/component-registry.json'
 import { componentTokenGroups } from './tokens.generated.js'
+import { istEntwurf } from './recipe-entwuerfe.js'
 
 // ---------------------------------------------------------------------------
 // Icon-Mapping pro Komponente (bekannte Zuordnungen aus dem alten Tree)
@@ -214,6 +215,8 @@ function buildNavigationTree () {
       _coverage: entry.coverageScore,
       _layer: layer,
     }
+    // Recipe-Status draft: Kennzeichen „Entwurf" in der Navigation (Plan v3, Phase 4)
+    if (istEntwurf(name)) navItem.entwurf = true
 
     // Subgroup-Zuordnung
     const subgroupLabel = SUBGROUP_MAP[name]

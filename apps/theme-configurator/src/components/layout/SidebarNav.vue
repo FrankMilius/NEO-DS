@@ -70,6 +70,7 @@
                   <svg aria-hidden="true" v-if="isItemLocked(item)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                   </svg>
+                  <span v-if="item.entwurf" class="nav-entwurf-badge" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
                   <span v-if="getItemVersion(item)" class="nav-version-badge">{{ getItemVersion(item) }}</span>
                 </button>
               </div>
@@ -90,6 +91,7 @@
               <svg aria-hidden="true" v-if="isItemLocked(child)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
+              <span v-if="child.entwurf" class="nav-entwurf-badge" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
               <span v-if="getItemVersion(child)" class="nav-version-badge">{{ getItemVersion(child) }}</span>
             </button>
           </template>
@@ -116,6 +118,7 @@
 </template>
 
 <script setup>
+import { ENTWURF_HINWEIS } from '../../data/recipe-entwuerfe.js'
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
@@ -553,6 +556,17 @@ function handleExportJSON() {
   flex-shrink: 0;
   color: #d97706;
   margin-left: auto;
+}
+
+/* Recipe-Status draft (Plan v3, Phase 4) */
+.nav-entwurf-badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px dashed currentColor;
+  color: var(--cfg-text-muted);
 }
 
 .nav-version-badge {
