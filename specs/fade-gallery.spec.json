@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "fade-gallery",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -12,9 +12,53 @@
   ],
   "anatomy": {
     "rootElement": ".nc-fade-gallery",
-    "slots": [],
+    "slots": [
+      {
+        "name": "viewport",
+        "selector": ".nc-fade-gallery__viewport",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "media",
+        "selector": ".nc-fade-gallery__media",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "nav-row",
+        "selector": ".nc-fade-gallery__nav-row",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "tabs",
+        "selector": ".nc-fade-gallery__tabs",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "tab",
+        "selector": ".nc-fade-gallery__tab",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "caption",
+        "selector": ".nc-fade-gallery__caption",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "desc",
+        "selector": ".nc-fade-gallery__desc",
+        "required": true,
+        "description": null
+      }
+    ],
     "notes": [
-      "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein."
+      "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.",
+      "Zustaende der Ansicht: .is-active am Medium, .is-visible an der Beschreibung (die anderen [hidden]), aria-selected am Tab — das SCSS blendet ueber (opacity 0.5 s / 0.4 s, ohne bei prefers-reduced-motion)."
     ]
   },
   "api": null,
@@ -43,7 +87,7 @@
         },
         {
           "value": "paddles",
-          "cssModifier": "nc-fade-gallery__nav-row",
+          "cssModifier": null,
           "default": false,
           "label": "paddles"
         }
@@ -157,7 +201,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/fade-gallery.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [
       "block--block-content--neo-fade-gallery.html.twig",
       "block--inline-block--neo-fade-gallery.html.twig"

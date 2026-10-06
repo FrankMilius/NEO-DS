@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "table-info-modal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -38,18 +38,41 @@
     ],
     "notes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
+      "Markup wie data/markup/table-info-modal.html: div[role=dialog] mit __backdrop und __content (__close, __body); den Text der Zelle setzt neo-theme.js in __body.",
+      "Zustand open = .is-open (SCSS blendet per opacity ein). hover/focus nur am Schliessen-Knopf.",
+      "Die Ernte hat keinen Namen am Dialog (aria-labelledby) und kein aria-modal — die Arena ergaenzt beides."
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "open",
+      "hover",
+      "focus"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
+    "baseClasses": [
+      "nc-table-info-modal"
+    ],
     "tokenGroups": {},
     "modTokens": []
   },
@@ -65,5 +88,7 @@
     "overrides": []
   },
   "dependencies": [],
-  "pipeline": null
+  "pipeline": {
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
+  }
 }

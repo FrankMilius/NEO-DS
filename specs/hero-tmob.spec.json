@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero-tmob",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -12,9 +12,49 @@
   ],
   "anatomy": {
     "rootElement": ".nc-hero-tmob",
-    "slots": [],
+    "slots": [
+      {
+        "name": "content",
+        "selector": ".nc-hero-tmob__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "text",
+        "selector": ".nc-hero-tmob__text",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "headline",
+        "selector": ".nc-hero-tmob__headline",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "subtext",
+        "selector": ".nc-hero-tmob__subtext",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "media",
+        "selector": ".nc-hero-tmob__media",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "badges",
+        "selector": ".nc-hero-tmob__badges",
+        "required": false,
+        "description": null
+      }
+    ],
     "notes": [
-      "Headline + Subtext + Media ueber konfigurierbarem Hintergrund."
+      "Headline + Subtext + Media ueber konfigurierbarem Hintergrund.",
+      "Markup wie data/markup/hero-tmob.html (Website). Die Grundfarbe setzt Drupal je Block inline (background-color); ohne --light steht die Schrift in always-light.",
+      "Ein Parallax-Grund (.nc-parallax-bg) darf im Hero liegen: DS-Regel .nc-hero-tmob .nc-parallax-bg (absolut, volle Hoehe, unter dem Text).",
+      "Bewegung (Einfahren, Parallax) steuert auf der Website GSAP in neo-theme.js — das DS hat dafuer keine Klassen oder Zustaende."
     ]
   },
   "api": null,
@@ -28,6 +68,72 @@
           "cssModifier": null,
           "default": false,
           "label": "default"
+        }
+      ]
+    },
+    "tone": {
+      "label": "Ton",
+      "description": "Schrift fuer dunklen (Standard) oder hellen Grund.",
+      "values": [
+        {
+          "value": "dark",
+          "cssModifier": null,
+          "default": false,
+          "label": "dark"
+        },
+        {
+          "value": "light",
+          "cssModifier": "nc-hero-tmob--light",
+          "default": false,
+          "label": "light"
+        }
+      ]
+    },
+    "contentWidth": {
+      "label": "Inhaltsbreite",
+      "description": "Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Block. 07-organisms/_hero-tom.scss.",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "prose",
+          "cssModifier": "nc-hero-tmob--cw-prose",
+          "default": false,
+          "label": "prose"
+        },
+        {
+          "value": "narrow",
+          "cssModifier": "nc-hero-tmob--cw-narrow",
+          "default": false,
+          "label": "narrow"
+        },
+        {
+          "value": "content",
+          "cssModifier": "nc-hero-tmob--cw-content",
+          "default": false,
+          "label": "content"
+        },
+        {
+          "value": "wide",
+          "cssModifier": "nc-hero-tmob--cw-wide",
+          "default": false,
+          "label": "wide"
+        },
+        {
+          "value": "xwide",
+          "cssModifier": "nc-hero-tmob--cw-xwide",
+          "default": false,
+          "label": "xwide"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-hero-tmob--cw-full",
+          "default": false,
+          "label": "full"
         }
       ]
     }
@@ -113,7 +219,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/hero-tmob.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [
       "block--block-content--neo-hero-tmob.html.twig",
       "block--inline-block--neo-hero-tmob.html.twig"

@@ -1,5 +1,5 @@
 # scroll-reveal Component Spec
-> Version 1.0.0 | Status: draft | Layer: organism
+> Version 1.0.1 | Status: draft | Layer: organism
 
 Tags: `animation`, `scroll`, `fade-in`
 

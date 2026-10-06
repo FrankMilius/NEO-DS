@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "table-info-modal",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -16,6 +16,13 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): Vorlage aus data/markup/table-info-modal.html",
+          "Zustand open (.is-open, in styles.css) ergaenzt; Specimens default (offen), zustand, schliessen"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
@@ -23,7 +30,10 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "pipeline": {
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
+    }
   },
   "anatomy": {
     "root": {
@@ -54,15 +64,40 @@
     "convenience": [],
     "domNotes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
+      "Markup wie data/markup/table-info-modal.html: div[role=dialog] mit __backdrop und __content (__close, __body); den Text der Zelle setzt neo-theme.js in __body.",
+      "Zustand open = .is-open (SCSS blendet per opacity ein). hover/focus nur am Schliessen-Knopf.",
+      "Die Ernte hat keinen Namen am Dialog (aria-labelledby) und kein aria-modal — die Arena ergaenzt beides."
     ]
   },
-  "axes": [],
-  "states": [
-    "default",
-    "hover",
-    "focus"
-  ],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Standard",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": []
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "open",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "open",
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -72,6 +107,9 @@
   "styling": {
     "tokens": [
       "--nc-table-info-modal-is-open-opacity"
+    ],
+    "baseClasses": [
+      "nc-table-info-modal"
     ]
   },
   "recipes": [],
@@ -79,15 +117,73 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "table-info-modal wie auf der Website",
+      "description": "table-info-modal offen, wie auf der Website nach dem Klick auf das Info-Symbol.",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
         "states": [
-          "default"
+          "open"
         ]
       },
       "layout": "block",
-      "render": {}
+      "render": {
+        "label": "offen"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "zustand",
+      "label": "Geschlossen und offen",
+      "description": "Geschlossen ist der Dialog unsichtbar (opacity 0) — der Rahmen bleibt leer.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "schliessen",
+      "label": "Schliessen-Knopf",
+      "description": "Hover und Fokus am Schliessen-Knopf (nur interaktiv), Dialog offen.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "hover",
+          "focus"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
     }
   ]
 }

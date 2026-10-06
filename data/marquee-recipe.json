@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "marquee",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,10 +21,19 @@
         "scss/scss/06-molecules/_marquee.scss"
       ],
       "story": "stories/organisms/marquee.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/marquee-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): statisch, „Abspielen\" mit den DS-Keyframes marquee",
+          "Specimen im-container (DS-Regel .nc-container > .nc-marquee)"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -45,7 +54,8 @@
     "convenience": [],
     "domNotes": [
       "Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.",
-      "Text: uppercase, letter-spacing 0.08em, clamp font-size."
+      "Text: uppercase, letter-spacing 0.08em, clamp font-size.",
+      "Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab."
     ]
   },
   "axes": {
@@ -137,6 +147,30 @@
       "layout": "row",
       "render": {
         "label": "marquee"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Reduced Motion: Animation stoppen."
+      }
+    },
+    {
+      "id": "im-container",
+      "label": "Im Container",
+      "description": "DS-Regel .nc-container > .nc-marquee (04-objects/_section.scss): der Container-Abstand geht an den Lauftext.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "compositionType": "marquee-in-container",
+        "label": "im Container"
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",

@@ -1,5 +1,5 @@
 # navigation-orchestration Component Spec
-> Version 1.0.1 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `orchestration`, `composition`, `governance`
 
@@ -31,6 +31,8 @@ Root element: `.nc-header`
 - Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.
 - Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.
 - Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer.
+- Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel.
+- density compact: .nc-header--compact steht hier, aber nicht in styles.css — die Arena zeigt „nicht gebaut".
 
 ## Variants
 ### Viewport (`viewport`)

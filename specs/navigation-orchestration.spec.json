@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "navigation-orchestration",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -110,7 +110,9 @@
       "Ebene 3 — NavigationMenu: .nc-navigation-menu sitzt in .nc-nav__inner. Steuert Link-Verteilung und Dropdowns.",
       "Ebene 4 — Nav-Molecules: .nc-nav__link wird als Item im Menu gerendert. Shared Hover/Active Tokens.",
       "Ebene 5 — Nav-Atoms: .nc-nav__icon + .nc-nav__label werden innerhalb der Links genutzt. Konsistente 24px Icons.",
-      "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer."
+      "Mobile: Unterhalb lg wird .nc-navigation-menu ausgeblendet, .nc-mobile-toggle eingeblendet → Shell Drawer.",
+      "Mobil-Lage unabhaengig vom Fenster per .nc-header--mobile (Entscheidung 02.10.2026); .is-mobile-open zeigt .nc-mobile-panel.",
+      "density compact: .nc-header--compact steht hier, aber nicht in styles.css — die Arena zeigt „nicht gebaut\"."
     ]
   },
   "api": null,
@@ -301,7 +303,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/navigation-orchestration.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": null
   }

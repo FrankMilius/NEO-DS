@@ -1,13 +1,31 @@
 # story-gallery Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
 ## Anatomy
 Root element: `.nc-story-gallery`
 
+| Slot | Selector | Required | Description |
+| --- | --- | --- | --- |
+| scroll | `.nc-story-gallery__scroll` | Yes | — |
+| track | `.nc-story-gallery__track` | Yes | — |
+| card | `.nc-story-gallery__card` | Yes | — |
+| media | `.nc-story-gallery__media` | Yes | — |
+| caption | `.nc-story-gallery__caption` | Yes | — |
+| title | `.nc-story-gallery__title` | Yes | — |
+| desc | `.nc-story-gallery__desc` | No | — |
+| footer | `.nc-story-gallery__footer` | No | — |
+| paddles | `.nc-story-gallery__paddles` | No | — |
+| paddle | `.nc-story-gallery__paddle` | No | — |
+| cursor-paddle | `.nc-story-gallery__cursor-paddle` | No | — |
+| cursor-icon | `.nc-story-gallery__cursor-icon` | No | — |
+
 ### DOM Notes
 - Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
+- Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.
+- Nicht im DS gestaltet: .nc-story-gallery--nav-below (Website-Klasse) und .nc-shot* (Medien-Bauteil der Website, neo-shot.js) — die Arena laesst sie weg.
+- Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 
 ## Variants
 ### Variant (`variant`)
@@ -16,6 +34,22 @@ Standard
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
+
+### Paddles (`navigation`)
+Lage der Blaetter-Knoepfe.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| below | — |  |
+| overlay | — |  |
+
+### Endlos (`loop`)
+Spur ohne Einzug, Cursor-Paddle statt Mauszeiger.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| off | — |  |
+| on | `.nc-story-gallery--loop` |  |
 
 ## States
 Supported: `default`
@@ -59,8 +93,8 @@ Derived from anatomy for potential `<nc-story-gallery>` custom element:
 
 ```js
 class NcStoryGallery extends HTMLElement {
-  static observedAttributes = ['variant'];
-  // Slots: default
+  static observedAttributes = ['variant', 'navigation', 'loop'];
+  // Slots: <slot name="scroll">, <slot name="track">, <slot name="card">, <slot name="media">, <slot name="caption">, <slot name="title">
 }
 ```
 

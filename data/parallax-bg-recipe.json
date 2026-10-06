@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "parallax-bg",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "type": "animation",
     "tags": [
@@ -18,6 +18,14 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): Endzustand, „Abspielen\" gesperrt — die Bewegung gibt es nur als GSAP-Logik der Website",
+          "Anatomie: grid, square, bar (Drupal-Komponente)",
+          "Specimen im-hero"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Staircase Grid Reveal mit animierten Quadraten."
@@ -28,7 +36,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/parallax-bg.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": null
     }
@@ -37,10 +45,28 @@
     "root": {
       "element": ".nc-parallax-bg"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "grid",
+        "element": ".nc-parallax-grid",
+        "optional": false
+      },
+      {
+        "name": "square",
+        "element": ".nc-parallax-square",
+        "optional": false
+      },
+      {
+        "name": "bar",
+        "element": ".nc-parallax-bar",
+        "optional": true
+      }
+    ],
     "convenience": [],
     "domNotes": [
-      "Staircase Grid Reveal mit animierten Quadraten."
+      "Staircase Grid Reveal mit animierten Quadraten.",
+      "Markup wie components/parallax-bg/parallax-bg.twig (neo_fe, SDC). Grid, Flaechen und Balken gestaltet die Drupal-Komponente (parallax-bg.css), nicht styles.css; im DS gibt es nur .nc-hero-tmob .nc-parallax-bg.",
+      "Bewegung: die Deckkraft der Flaechen steuert GSAP/ScrollTrigger (parallax-bg.js). Die Arena zeigt den Endzustand (targetOpacity)."
     ]
   },
   "axes": {
@@ -141,7 +167,7 @@
     {
       "id": "default",
       "label": "Parallax Background",
-      "description": "Staircase Grid Reveal mit animierten Quadraten.",
+      "description": "Staircase Grid Reveal, Endzustand der Deckkraft — statisch; die Bewegung steuert auf der Website GSAP.",
       "matrix": {
         "axes": {
           "variant": [
@@ -163,6 +189,33 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "prefers-reduced-motion respektieren."
+      }
+    },
+    {
+      "id": "im-hero",
+      "label": "Im Hero TMOB",
+      "description": "Die Flaeche als Grund des Hero TMOB (DS-Regel .nc-hero-tmob .nc-parallax-bg: absolut, volle Hoehe, unter dem Text).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "imHero": true,
+        "label": "im Hero"
+      },
+      "focusTokenGroups": [
+        "core"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Dekorativ (aria-hidden). prefers-reduced-motion respektieren."
       }
     }
   ]

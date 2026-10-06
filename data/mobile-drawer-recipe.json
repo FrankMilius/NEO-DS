@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "mobile-drawer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -16,6 +16,13 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): Vorlage nach den BEM-Klassen des SCSS",
+          "Specimens: default (offen), zustand (geschlossen/offen), unterpunkte, hover"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Aus dem Drupal-Theme aufgenommen (neo-overrides.css).",
@@ -23,7 +30,10 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "pipeline": {
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
+    }
   },
   "anatomy": {
     "root": {
@@ -84,29 +94,41 @@
     "convenience": [],
     "domNotes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
+      "Markup nach den BEM-Klassen des SCSS (kein geerntetes Markup): Backdrop als Geschwister vor aside.nc-mobile-drawer; __header (__title, __close), __nav > __list > li > __link (+ __sublist > li > __sublink).",
+      "Unter 1200 px Fensterbreite; darueber blendet das DS Drawer und Backdrop aus. Oeffnen und Schliessen steuert neo-theme.js — ein Behavior in neo-behaviors gibt es nicht."
     ]
   },
-  "axes": [
-    {
-      "name": "variante",
-      "values": [
-        {
-          "value": "default",
-          "modifier": null
+  "axes": {
+    "variante": {
+      "label": "Variante",
+      "description": "Geschlossen (aus dem Bild geschoben) oder offen.",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "geschlossen: translateX(100%)"
         },
-        {
-          "value": "open",
-          "modifier": "nc-mobile-drawer--open"
+        "open": {
+          "modifier": "nc-mobile-drawer--open",
+          "tokenGroups": [],
+          "description": "offen, dazu __backdrop--visible"
         }
-      ],
-      "default": "default"
+      }
     }
-  ],
-  "states": [
-    "default",
-    "hover"
-  ],
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "precedence": [
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": true
+  },
   "a11y": {
     "notes": [
       "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
@@ -118,6 +140,9 @@
       "--nc-mobile-drawer-backdrop-visible-opacity",
       "--nc-mobile-drawer-close-background",
       "--nc-mobile-drawer-root-box-shadow"
+    ],
+    "baseClasses": [
+      "nc-mobile-drawer"
     ]
   },
   "recipes": [],
@@ -125,15 +150,93 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "mobile-drawer wie auf der Website",
+      "description": "mobile-drawer offen, wie auf der Website nach dem Burger.",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variante": [
+            "open"
+          ]
+        },
         "states": [
           "default"
         ]
       },
       "layout": "block",
-      "render": {}
+      "render": {
+        "label": "offen"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "zustand",
+      "label": "Geschlossen und offen",
+      "description": "Geschlossen ist der Drawer aus dem Bild geschoben (translateX(100%)), der Backdrop unsichtbar; offen --open und __backdrop--visible.",
+      "matrix": {
+        "axes": {
+          "variante": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{variante}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "unterpunkte",
+      "label": "Mit Unterpunkten",
+      "description": "Unterliste (__sublist, __sublink) mit aktuellem Ast.",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "open"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "unterpunkte": true,
+        "label": "Unterpunkte"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "hover",
+      "label": "Hover",
+      "description": "Hover an Link und Schliessen-Knopf (nur interaktiv).",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "open"
+          ]
+        },
+        "states": [
+          "hover"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{state}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero-tom",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -11,9 +11,61 @@
   ],
   "anatomy": {
     "rootElement": ".nc-hero-tom",
-    "slots": [],
+    "slots": [
+      {
+        "name": "media",
+        "selector": ".nc-hero-tom__media",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "scrim",
+        "selector": ".nc-hero-tom__scrim",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "content",
+        "selector": ".nc-hero-tom__content",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "copy",
+        "selector": ".nc-hero-tom__copy",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "kicker",
+        "selector": ".nc-hero-tom__kicker",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "headline",
+        "selector": ".nc-hero-tom__headline",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "subtext",
+        "selector": ".nc-hero-tom__subtext",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "badges",
+        "selector": ".nc-hero-tom__badges",
+        "required": false,
+        "description": null
+      }
+    ],
     "notes": [
-      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
+      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
+      "Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).",
+      "Das DS gestaltet davon nur die Inhaltsbreite (--cw-*, begrenzt __content) und die Badge-Zeile (__badges, 05-atoms/_badge-row.scss). Wurzel, Medium, Scrim und Text gestaltet das Drupal-Theme (neo_fe), nicht styles.css.",
+      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand am Medium; das DS kennt die Eigenschaft nicht. Die Arena zeigt den Endzustand (--tom-expand: 1)."
     ]
   },
   "api": null,
@@ -27,6 +79,54 @@
           "cssModifier": null,
           "default": false,
           "label": "default"
+        }
+      ]
+    },
+    "contentWidth": {
+      "label": "Inhaltsbreite",
+      "description": "Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Block. 07-organisms/_hero-tom.scss.",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        },
+        {
+          "value": "prose",
+          "cssModifier": "nc-hero-tom--cw-prose",
+          "default": false,
+          "label": "prose"
+        },
+        {
+          "value": "narrow",
+          "cssModifier": "nc-hero-tom--cw-narrow",
+          "default": false,
+          "label": "narrow"
+        },
+        {
+          "value": "content",
+          "cssModifier": "nc-hero-tom--cw-content",
+          "default": false,
+          "label": "content"
+        },
+        {
+          "value": "wide",
+          "cssModifier": "nc-hero-tom--cw-wide",
+          "default": false,
+          "label": "wide"
+        },
+        {
+          "value": "xwide",
+          "cssModifier": "nc-hero-tom--cw-xwide",
+          "default": false,
+          "label": "xwide"
+        },
+        {
+          "value": "full",
+          "cssModifier": "nc-hero-tom--cw-full",
+          "default": false,
+          "label": "full"
         }
       ]
     }
@@ -110,7 +210,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/hero-tom.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [
       "block--block-content--neo-hero-tom.html.twig",
       "block--inline-block--neo-hero-tom.html.twig"

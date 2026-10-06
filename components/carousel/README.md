@@ -11,7 +11,7 @@
 | Recipe | `data/carousel-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_carousel.scss` | present |
 | Storybook | `stories/organisms/carousel.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/carousel-docs.html` | present |
 | Drupal | — | missing |
 

@@ -11,7 +11,7 @@
 | Recipe | `data/fade-gallery-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/fade-gallery.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block--block-content--neo-fade-gallery.html.twig, block--inline-block--neo-fade-gallery.html.twig` | present |
 

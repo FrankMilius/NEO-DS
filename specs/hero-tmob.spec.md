@@ -1,13 +1,25 @@
 # hero-tmob Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `hero`, `display`, `parallax`, `media`
 
 ## Anatomy
 Root element: `.nc-hero-tmob`
 
+| Slot | Selector | Required | Description |
+| --- | --- | --- | --- |
+| content | `.nc-hero-tmob__content` | Yes | — |
+| text | `.nc-hero-tmob__text` | Yes | — |
+| headline | `.nc-hero-tmob__headline` | Yes | — |
+| subtext | `.nc-hero-tmob__subtext` | No | — |
+| media | `.nc-hero-tmob__media` | No | — |
+| badges | `.nc-hero-tmob__badges` | No | — |
+
 ### DOM Notes
 - Headline + Subtext + Media ueber konfigurierbarem Hintergrund.
+- Markup wie data/markup/hero-tmob.html (Website). Die Grundfarbe setzt Drupal je Block inline (background-color); ohne --light steht die Schrift in always-light.
+- Ein Parallax-Grund (.nc-parallax-bg) darf im Hero liegen: DS-Regel .nc-hero-tmob .nc-parallax-bg (absolut, volle Hoehe, unter dem Text).
+- Bewegung (Einfahren, Parallax) steuert auf der Website GSAP in neo-theme.js — das DS hat dafuer keine Klassen oder Zustaende.
 
 ## Variants
 ### Variant (`variant`)
@@ -16,6 +28,27 @@ Standard
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | default | — |  |
+
+### Ton (`tone`)
+Schrift fuer dunklen (Standard) oder hellen Grund.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| dark | — |  |
+| light | `.nc-hero-tmob--light` |  |
+
+### Inhaltsbreite (`contentWidth`)
+Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Block. 07-organisms/_hero-tom.scss.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| default | — |  |
+| prose | `.nc-hero-tmob--cw-prose` |  |
+| narrow | `.nc-hero-tmob--cw-narrow` |  |
+| content | `.nc-hero-tmob--cw-content` |  |
+| wide | `.nc-hero-tmob--cw-wide` |  |
+| xwide | `.nc-hero-tmob--cw-xwide` |  |
+| full | `.nc-hero-tmob--cw-full` |  |
 
 ## States
 Supported: `default`
@@ -60,8 +93,8 @@ Derived from anatomy for potential `<nc-hero-tmob>` custom element:
 
 ```js
 class NcHeroTmob extends HTMLElement {
-  static observedAttributes = ['variant'];
-  // Slots: default
+  static observedAttributes = ['variant', 'tone', 'contentWidth'];
+  // Slots: <slot name="content">, <slot name="text">, <slot name="headline">
 }
 ```
 

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "story-gallery",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -12,9 +12,85 @@
   ],
   "anatomy": {
     "rootElement": ".nc-story-gallery",
-    "slots": [],
+    "slots": [
+      {
+        "name": "scroll",
+        "selector": ".nc-story-gallery__scroll",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "track",
+        "selector": ".nc-story-gallery__track",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "card",
+        "selector": ".nc-story-gallery__card",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "media",
+        "selector": ".nc-story-gallery__media",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "caption",
+        "selector": ".nc-story-gallery__caption",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "title",
+        "selector": ".nc-story-gallery__title",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "desc",
+        "selector": ".nc-story-gallery__desc",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-story-gallery__footer",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "paddles",
+        "selector": ".nc-story-gallery__paddles",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "paddle",
+        "selector": ".nc-story-gallery__paddle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "cursor-paddle",
+        "selector": ".nc-story-gallery__cursor-paddle",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "cursor-icon",
+        "selector": ".nc-story-gallery__cursor-icon",
+        "required": false,
+        "description": null
+      }
+    ],
     "notes": [
-      "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style)."
+      "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).",
+      "Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.",
+      "Nicht im DS gestaltet: .nc-story-gallery--nav-below (Website-Klasse) und .nc-shot* (Medien-Bauteil der Website, neo-shot.js) — die Arena laesst sie weg.",
+      "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto)."
     ]
   },
   "api": null,
@@ -28,6 +104,42 @@
           "cssModifier": null,
           "default": false,
           "label": "default"
+        }
+      ]
+    },
+    "navigation": {
+      "label": "Paddles",
+      "description": "Lage der Blaetter-Knoepfe.",
+      "values": [
+        {
+          "value": "below",
+          "cssModifier": null,
+          "default": false,
+          "label": "below"
+        },
+        {
+          "value": "overlay",
+          "cssModifier": null,
+          "default": false,
+          "label": "overlay"
+        }
+      ]
+    },
+    "loop": {
+      "label": "Endlos",
+      "description": "Spur ohne Einzug, Cursor-Paddle statt Mauszeiger.",
+      "values": [
+        {
+          "value": "off",
+          "cssModifier": null,
+          "default": false,
+          "label": "off"
+        },
+        {
+          "value": "on",
+          "cssModifier": "nc-story-gallery--loop",
+          "default": false,
+          "label": "on"
         }
       ]
     }
@@ -119,7 +231,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/story-gallery.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [
       "block--block-content--neo-story-gallery.html.twig",
       "block--inline-block--neo-story-gallery.html.twig"

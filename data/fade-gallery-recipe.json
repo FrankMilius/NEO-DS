@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "fade-gallery",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,14 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): „Abspielen\" wechselt die Ansichten ueber die Zustandsklassen, die das SCSS ueberblendet",
+          "Achse navigation: paddles ohne Modifier — nc-fade-gallery__nav-row ist das Kind, das immer da ist, kein Modifier der Wurzel (die Arena setzte die Klasse an die Wurzel)",
+          "Specimens navigation und zweite-ansicht; Anatomie aus dem geernteten Markup"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein."
@@ -28,7 +36,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/fade-gallery.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-fade-gallery.html.twig",
         "block--inline-block--neo-fade-gallery.html.twig"
@@ -40,10 +48,47 @@
     "root": {
       "element": ".nc-fade-gallery"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "viewport",
+        "element": ".nc-fade-gallery__viewport",
+        "optional": false
+      },
+      {
+        "name": "media",
+        "element": ".nc-fade-gallery__media",
+        "optional": false
+      },
+      {
+        "name": "nav-row",
+        "element": ".nc-fade-gallery__nav-row",
+        "optional": false
+      },
+      {
+        "name": "tabs",
+        "element": ".nc-fade-gallery__tabs",
+        "optional": false
+      },
+      {
+        "name": "tab",
+        "element": ".nc-fade-gallery__tab",
+        "optional": false
+      },
+      {
+        "name": "caption",
+        "element": ".nc-fade-gallery__caption",
+        "optional": false
+      },
+      {
+        "name": "desc",
+        "element": ".nc-fade-gallery__desc",
+        "optional": false
+      }
+    ],
     "convenience": [],
     "domNotes": [
-      "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein."
+      "Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.",
+      "Zustaende der Ansicht: .is-active am Medium, .is-visible an der Beschreibung (die anderen [hidden]), aria-selected am Tab — das SCSS blendet ueber (opacity 0.5 s / 0.4 s, ohne bei prefers-reduced-motion)."
     ]
   },
   "axes": {
@@ -190,6 +235,9 @@
         "axes": {
           "variant": [
             "default"
+          ],
+          "navigation": [
+            "tabs"
           ]
         },
         "states": [
@@ -207,6 +255,64 @@
         "compositionType": "fade-gallery-default",
         "label": "fade-gallery"
       },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "Nur Tabs gegen Tabs mit Paddles.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "navigation": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{navigation}"
+      },
+      "focusTokenGroups": [
+        "tabs"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "zweite-ansicht",
+      "label": "Zweite Ansicht aktiv",
+      "description": "Zustand nach einem Tab-Klick: is-active am zweiten Medium, is-visible an seiner Beschreibung, aria-selected am Tab.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "navigation": [
+            "tabs"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "aktiv": 1,
+        "label": "zweite Ansicht"
+      },
+      "focusTokenGroups": [
+        "tabs",
+        "caption"
+      ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": ""

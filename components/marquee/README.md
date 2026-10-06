@@ -11,7 +11,7 @@
 | Recipe | `data/marquee-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_marquee.scss` | present |
 | Storybook | `stories/organisms/marquee.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/marquee-docs.html` | present |
 | Drupal | — | missing |
 

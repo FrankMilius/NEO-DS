@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "parallax-bg",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -11,9 +11,30 @@
   ],
   "anatomy": {
     "rootElement": ".nc-parallax-bg",
-    "slots": [],
+    "slots": [
+      {
+        "name": "grid",
+        "selector": ".nc-parallax-grid",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "square",
+        "selector": ".nc-parallax-square",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "bar",
+        "selector": ".nc-parallax-bar",
+        "required": false,
+        "description": null
+      }
+    ],
     "notes": [
-      "Staircase Grid Reveal mit animierten Quadraten."
+      "Staircase Grid Reveal mit animierten Quadraten.",
+      "Markup wie components/parallax-bg/parallax-bg.twig (neo_fe, SDC). Grid, Flaechen und Balken gestaltet die Drupal-Komponente (parallax-bg.css), nicht styles.css; im DS gibt es nur .nc-hero-tmob .nc-parallax-bg.",
+      "Bewegung: die Deckkraft der Flaechen steuert GSAP/ScrollTrigger (parallax-bg.js). Die Arena zeigt den Endzustand (targetOpacity)."
     ]
   },
   "api": null,
@@ -99,7 +120,7 @@
   "pipeline": {
     "scss": [],
     "story": "stories/organisms/parallax-bg.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": null
   }

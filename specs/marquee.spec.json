@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "marquee",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -27,7 +27,8 @@
     ],
     "notes": [
       "Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.",
-      "Text: uppercase, letter-spacing 0.08em, clamp font-size."
+      "Text: uppercase, letter-spacing 0.08em, clamp font-size.",
+      "Bewegung: das DS bewegt die Spur nicht (nur will-change: transform). Die Doku-Seite haengt eine Animation inline an; die DS-Keyframes `marquee` (02-generic/_animations.scss) nutzt bisher nur question. Die Arena spielt die Spur mit diesen Keyframes ab."
     ]
   },
   "api": null,
@@ -78,7 +79,7 @@
       "scss/scss/06-molecules/_marquee.scss"
     ],
     "story": "stories/organisms/marquee.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": "docs/marquee-docs.html"
   }

@@ -1,13 +1,24 @@
 # fade-gallery Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `tabs`, `fade`
 
 ## Anatomy
 Root element: `.nc-fade-gallery`
 
+| Slot | Selector | Required | Description |
+| --- | --- | --- | --- |
+| viewport | `.nc-fade-gallery__viewport` | Yes | — |
+| media | `.nc-fade-gallery__media` | Yes | — |
+| nav-row | `.nc-fade-gallery__nav-row` | Yes | — |
+| tabs | `.nc-fade-gallery__tabs` | Yes | — |
+| tab | `.nc-fade-gallery__tab` | Yes | — |
+| caption | `.nc-fade-gallery__caption` | Yes | — |
+| desc | `.nc-fade-gallery__desc` | Yes | — |
+
 ### DOM Notes
 - Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
+- Zustaende der Ansicht: .is-active am Medium, .is-visible an der Beschreibung (die anderen [hidden]), aria-selected am Tab — das SCSS blendet ueber (opacity 0.5 s / 0.4 s, ohne bei prefers-reduced-motion).
 
 ## Variants
 ### Variant (`variant`)
@@ -23,7 +34,7 @@ Zusaetzlich zu Tabs bzw. Scrollen: Blaettern ueber .nc-gallery__paddle und eine 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | tabs | — |  |
-| paddles | `.nc-fade-gallery__nav-row` |  |
+| paddles | — |  |
 
 ## States
 Supported: `default`
@@ -73,7 +84,7 @@ Derived from anatomy for potential `<nc-fade-gallery>` custom element:
 ```js
 class NcFadeGallery extends HTMLElement {
   static observedAttributes = ['variant', 'navigation'];
-  // Slots: default
+  // Slots: <slot name="viewport">, <slot name="media">, <slot name="nav-row">, <slot name="tabs">, <slot name="tab">, <slot name="caption">, <slot name="desc">
 }
 ```
 

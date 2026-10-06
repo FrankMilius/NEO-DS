@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "carousel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -50,6 +50,24 @@
           "label": "media"
         }
       ]
+    },
+    "controls": {
+      "label": "Steuerung",
+      "description": "Blaetter-Knoepfe (.nc-carousel__controls) — Zugabe, kein Ersatz fuer die bedienbare Spur.",
+      "values": [
+        {
+          "value": "with",
+          "cssModifier": null,
+          "default": false,
+          "label": "with"
+        },
+        {
+          "value": "without",
+          "cssModifier": null,
+          "default": false,
+          "label": "without"
+        }
+      ]
     }
   },
   "states": {
@@ -83,6 +101,7 @@
   "pipeline": {
     "scss": [
       "scss/scss/06-molecules/_carousel.scss"
-    ]
+    ],
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
   }
 }

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "carousel",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -19,10 +19,20 @@
     "pipeline": {
       "scss": [
         "scss/scss/06-molecules/_carousel.scss"
-      ]
+      ],
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
     },
     "renamedFrom": "slider",
-    "renameNote": "Hiess bis zum 18.08.2026 slider und teilte sich den Namen mit einem Range-Regler in 05-atoms. Dieses Molekuel lud spaeter und ueberschrieb die Wurzel des Reglers mit display:grid. Zwei Bauteile, ein Name — geloest durch Umbenennen beider, nicht durch Loeschen eines von beiden."
+    "renameNote": "Hiess bis zum 18.08.2026 slider und teilte sich den Namen mit einem Range-Regler in 05-atoms. Dieses Molekuel lud spaeter und ueberschrieb die Wurzel des Reglers mit display:grid. Zwei Bauteile, ein Name — geloest durch Umbenennen beider, nicht durch Loeschen eines von beiden.",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): „Abspielen\" blaettert die Spur (scroll-snap des DS)",
+          "Achse controls (Slot) mit Specimen controls"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -61,6 +71,26 @@
           "modifier": "nc-carousel--media",
           "tokenGroups": [],
           "description": "Setzt zusaetzlich .nc-carousel__track--media."
+        }
+      }
+    },
+    "controls": {
+      "label": "Steuerung",
+      "description": "Blaetter-Knoepfe (.nc-carousel__controls) — Zugabe, kein Ersatz fuer die bedienbare Spur.",
+      "values": {
+        "with": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "controls": true
+          }
+        },
+        "without": {
+          "modifier": null,
+          "tokenGroups": [],
+          "slotConfig": {
+            "controls": false
+          }
         }
       }
     }
@@ -169,6 +199,33 @@
       "a11y": {
         "contrastTarget": "—",
         "note": "Die Spur muss den Fokus annehmen koennen; sonst ist der Inhalt rechts der Kante nur mit der Maus erreichbar."
+      }
+    },
+    {
+      "id": "controls",
+      "label": "Steuerung",
+      "description": "Mit und ohne Blaetter-Knoepfe; ohne bleibt die Spur per Tastatur (tabindex) und Wischen bedienbar.",
+      "matrix": {
+        "axes": {
+          "media": [
+            "default"
+          ],
+          "controls": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{controls}"
+      },
+      "focusTokenGroups": [
+        "layout"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Die Spur muss den Fokus annehmen koennen."
       }
     }
   ]

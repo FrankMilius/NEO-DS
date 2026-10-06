@@ -1,5 +1,5 @@
 # carousel Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `layout`, `media`, `carousel`
 
@@ -25,6 +25,14 @@ Fuer randlose Inhalte: nimmt die Polsterung heraus und gibt die Spaltenbreite fr
 | default | — |  |
 | media | `.nc-carousel--media` |  |
 
+### Steuerung (`controls`)
+Blaetter-Knoepfe (.nc-carousel__controls) — Zugabe, kein Ersatz fuer die bedienbare Spur.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| with | — |  |
+| without | — |  |
+
 ## States
 Supported: `default`
 
@@ -38,7 +46,7 @@ Derived from anatomy for potential `<nc-carousel>` custom element:
 
 ```js
 class NcCarousel extends HTMLElement {
-  static observedAttributes = ['media'];
+  static observedAttributes = ['media', 'controls'];
   // Slots: <slot name="track">
 }
 ```

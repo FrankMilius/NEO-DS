@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero-tom",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "hero",
@@ -17,6 +17,14 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): statischer Endzustand, „Abspielen\" gesperrt — die Expand-Bewegung gibt es nur als GSAP-Logik der Website",
+          "Anatomie: Slots aus dem geernteten Markup (media, scrim, content, copy, kicker, headline, subtext, badges); Hinweis, was das DS davon gestaltet",
+          "Achse contentWidth (nc-hero-tom--cw-*, in styles.css) mit Specimen content-width; Specimen badges"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
@@ -27,7 +35,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/hero-tom.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-hero-tom.html.twig",
         "block--inline-block--neo-hero-tom.html.twig"
@@ -42,10 +50,54 @@
     "root": {
       "element": ".nc-hero-tom"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "media",
+        "element": ".nc-hero-tom__media",
+        "optional": false
+      },
+      {
+        "name": "scrim",
+        "element": ".nc-hero-tom__scrim",
+        "optional": false
+      },
+      {
+        "name": "content",
+        "element": ".nc-hero-tom__content",
+        "optional": false
+      },
+      {
+        "name": "copy",
+        "element": ".nc-hero-tom__copy",
+        "optional": false
+      },
+      {
+        "name": "kicker",
+        "element": ".nc-hero-tom__kicker",
+        "optional": true
+      },
+      {
+        "name": "headline",
+        "element": ".nc-hero-tom__headline",
+        "optional": false
+      },
+      {
+        "name": "subtext",
+        "element": ".nc-hero-tom__subtext",
+        "optional": true
+      },
+      {
+        "name": "badges",
+        "element": ".nc-hero-tom__badges",
+        "optional": true
+      }
+    ],
     "convenience": [],
     "domNotes": [
-      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand."
+      "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
+      "Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).",
+      "Das DS gestaltet davon nur die Inhaltsbreite (--cw-*, begrenzt __content) und die Badge-Zeile (__badges, 05-atoms/_badge-row.scss). Wurzel, Medium, Scrim und Text gestaltet das Drupal-Theme (neo_fe), nicht styles.css.",
+      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand am Medium; das DS kennt die Eigenschaft nicht. Die Arena zeigt den Endzustand (--tom-expand: 1)."
     ]
   },
   "axes": {
@@ -63,6 +115,47 @@
             "expand"
           ],
           "renderHint": "hero-tom-default"
+        }
+      }
+    },
+    "contentWidth": {
+      "label": "Inhaltsbreite",
+      "description": "Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Block. 07-organisms/_hero-tom.scss.",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Ohne Begrenzung (Breite des Blocks)"
+        },
+        "prose": {
+          "modifier": "nc-hero-tom--cw-prose",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-prose)"
+        },
+        "narrow": {
+          "modifier": "nc-hero-tom--cw-narrow",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-narrow)"
+        },
+        "content": {
+          "modifier": "nc-hero-tom--cw-content",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-content)"
+        },
+        "wide": {
+          "modifier": "nc-hero-tom--cw-wide",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-wide)"
+        },
+        "xwide": {
+          "modifier": "nc-hero-tom--cw-xwide",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-xwide)"
+        },
+        "full": {
+          "modifier": "nc-hero-tom--cw-full",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-full)"
         }
       }
     }
@@ -164,7 +257,7 @@
     {
       "id": "default",
       "label": "Hero — Text over Media",
-      "description": "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
+      "description": "Text ueber Hintergrund-Medium, Endzustand des Expand (--tom-expand: 1) — statisch; die Bewegung steuert auf der Website GSAP.",
       "matrix": {
         "axes": {
           "variant": [
@@ -187,6 +280,61 @@
         "compositionType": "hero-tom-default",
         "label": "hero-tom"
       },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "content-width",
+      "label": "Inhaltsbreite",
+      "description": "Die sechs Begrenzungen von __content (--cw-*) gegen ohne.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "contentWidth": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{contentWidth}"
+      },
+      "focusTokenGroups": [
+        "headline",
+        "subtext"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "badges",
+      "label": "Mit Badge-Zeile",
+      "description": "Badges ueber dem Kicker (.nc-badge-row.nc-hero-tom__badges) — auf dunklem Medium mit eigenem Schleier.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "badges": true,
+        "label": "badges"
+      },
+      "focusTokenGroups": [
+        "kicker"
+      ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": ""

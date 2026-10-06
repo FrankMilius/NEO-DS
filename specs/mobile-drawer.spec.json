@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "mobile-drawer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -74,13 +74,16 @@
     ],
     "notes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
+      "Markup nach den BEM-Klassen des SCSS (kein geerntetes Markup): Backdrop als Geschwister vor aside.nc-mobile-drawer; __header (__title, __close), __nav > __list > li > __link (+ __sublist > li > __sublink).",
+      "Unter 1200 px Fensterbreite; darueber blendet das DS Drawer und Backdrop aus. Oeffnen und Schliessen steuert neo-theme.js — ein Behavior in neo-behaviors gibt es nicht."
     ]
   },
   "api": null,
   "variants": {
-    "0": {
-      "description": null,
+    "variante": {
+      "label": "Variante",
+      "description": "Geschlossen (aus dem Bild geschoben) oder offen.",
       "values": [
         {
           "value": "default",
@@ -98,12 +101,17 @@
     }
   },
   "states": {
-    "supported": [],
-    "interactive": null,
+    "supported": [
+      "default",
+      "hover"
+    ],
+    "interactive": true,
     "rules": []
   },
   "cssApi": {
-    "baseClasses": [],
+    "baseClasses": [
+      "nc-mobile-drawer"
+    ],
     "tokenGroups": {},
     "modTokens": []
   },
@@ -119,5 +127,7 @@
     "overrides": []
   },
   "dependencies": [],
-  "pipeline": null
+  "pipeline": {
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
+  }
 }

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero-tmob",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "hero",
@@ -18,6 +18,14 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): statischer Endzustand, „Abspielen\" gesperrt — die Bewegung gibt es nur als GSAP-Logik der Website",
+          "Anatomie: Slots aus dem geernteten Markup",
+          "Achsen tone (nc-hero-tmob--light) und contentWidth (nc-hero-tmob--cw-*), beide in styles.css; Specimens tone, content-width, badges, parallax"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Headline + Subtext + Media ueber konfigurierbarem Hintergrund."
@@ -28,7 +36,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/hero-tmob.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-hero-tmob.html.twig",
         "block--inline-block--neo-hero-tmob.html.twig"
@@ -43,10 +51,44 @@
     "root": {
       "element": ".nc-hero-tmob"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "content",
+        "element": ".nc-hero-tmob__content",
+        "optional": false
+      },
+      {
+        "name": "text",
+        "element": ".nc-hero-tmob__text",
+        "optional": false
+      },
+      {
+        "name": "headline",
+        "element": ".nc-hero-tmob__headline",
+        "optional": false
+      },
+      {
+        "name": "subtext",
+        "element": ".nc-hero-tmob__subtext",
+        "optional": true
+      },
+      {
+        "name": "media",
+        "element": ".nc-hero-tmob__media",
+        "optional": true
+      },
+      {
+        "name": "badges",
+        "element": ".nc-hero-tmob__badges",
+        "optional": true
+      }
+    ],
     "convenience": [],
     "domNotes": [
-      "Headline + Subtext + Media ueber konfigurierbarem Hintergrund."
+      "Headline + Subtext + Media ueber konfigurierbarem Hintergrund.",
+      "Markup wie data/markup/hero-tmob.html (Website). Die Grundfarbe setzt Drupal je Block inline (background-color); ohne --light steht die Schrift in always-light.",
+      "Ein Parallax-Grund (.nc-parallax-bg) darf im Hero liegen: DS-Regel .nc-hero-tmob .nc-parallax-bg (absolut, volle Hoehe, unter dem Text).",
+      "Bewegung (Einfahren, Parallax) steuert auf der Website GSAP in neo-theme.js — das DS hat dafuer keine Klassen oder Zustaende."
     ]
   },
   "axes": {
@@ -63,6 +105,63 @@
             "media"
           ],
           "renderHint": "hero-tmob-default"
+        }
+      }
+    },
+    "tone": {
+      "label": "Ton",
+      "description": "Schrift fuer dunklen (Standard) oder hellen Grund.",
+      "values": {
+        "dark": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Schrift always-light, fuer dunklen Grund"
+        },
+        "light": {
+          "modifier": "nc-hero-tmob--light",
+          "tokenGroups": [],
+          "description": "Schrift text-primary, fuer hellen Grund"
+        }
+      }
+    },
+    "contentWidth": {
+      "label": "Inhaltsbreite",
+      "description": "Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Block. 07-organisms/_hero-tom.scss.",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Ohne Begrenzung (Breite des Blocks)"
+        },
+        "prose": {
+          "modifier": "nc-hero-tmob--cw-prose",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-prose)"
+        },
+        "narrow": {
+          "modifier": "nc-hero-tmob--cw-narrow",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-narrow)"
+        },
+        "content": {
+          "modifier": "nc-hero-tmob--cw-content",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-content)"
+        },
+        "wide": {
+          "modifier": "nc-hero-tmob--cw-wide",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-wide)"
+        },
+        "xwide": {
+          "modifier": "nc-hero-tmob--cw-xwide",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-xwide)"
+        },
+        "full": {
+          "modifier": "nc-hero-tmob--cw-full",
+          "tokenGroups": [],
+          "description": "__content max. var(--container-full)"
         }
       }
     }
@@ -159,7 +258,7 @@
     {
       "id": "default",
       "label": "Hero — Text + Media over BG",
-      "description": "Headline + Subtext + Media ueber konfigurierbarem Hintergrund.",
+      "description": "Headline, Subtext und Medium ueber dunklem Grund — statischer Endzustand; die Bewegung steuert auf der Website GSAP.",
       "matrix": {
         "axes": {
           "variant": [
@@ -185,6 +284,118 @@
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": ""
       }
+    },
+    {
+      "id": "tone",
+      "label": "Ton",
+      "description": "Dunkler Grund (Standard) gegen hellen Grund mit --light.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "tone": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{tone}"
+      },
+      "focusTokenGroups": [
+        "headline",
+        "subtext"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "content-width",
+      "label": "Inhaltsbreite",
+      "description": "Begrenzungen von __content (--cw-*) gegen ohne.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "contentWidth": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{contentWidth}"
+      },
+      "focusTokenGroups": [
+        "content"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "badges",
+      "label": "Mit Badge-Zeile",
+      "description": "Badges ueber der Headline (.nc-badge-row.nc-hero-tmob__badges).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "badges": true,
+        "label": "badges"
+      },
+      "focusTokenGroups": [
+        "headline"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "parallax",
+      "label": "Mit Parallax-Grund",
+      "description": "Parallax-Flaeche im Hero (Endzustand) — DS-Regel .nc-hero-tmob .nc-parallax-bg.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "parallax": true,
+        "label": "parallax"
+      },
+      "focusTokenGroups": [
+        "content"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Dekorativ (aria-hidden)."
+      },
+      "composes": [
+        "parallax-bg"
+      ]
     }
   ]
 }

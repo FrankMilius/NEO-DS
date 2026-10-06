@@ -11,7 +11,7 @@
 | Recipe | `data/hero-tmob-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/hero-tmob.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block--block-content--neo-hero-tmob.html.twig, block--inline-block--neo-hero-tmob.html.twig` | present |
 

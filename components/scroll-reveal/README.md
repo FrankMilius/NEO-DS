@@ -11,7 +11,7 @@
 | Recipe | `data/scroll-reveal-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/scroll-reveal.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 

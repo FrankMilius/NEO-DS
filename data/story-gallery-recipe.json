@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,14 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): „Abspielen\" blaettert die Spur (scroll-behavior des DS)",
+          "Anatomie: Slots aus dem geernteten Markup; .nc-story-gallery--nav-below und .nc-shot* (Website, nicht im DS) benannt",
+          "Achsen navigation (below/overlay) und loop (nc-story-gallery--loop) mit Specimens navigation und loop"
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style)."
@@ -28,7 +36,7 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/story-gallery.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-story-gallery.html.twig",
         "block--inline-block--neo-story-gallery.html.twig"
@@ -40,10 +48,74 @@
     "root": {
       "element": ".nc-story-gallery"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "scroll",
+        "element": ".nc-story-gallery__scroll",
+        "optional": false
+      },
+      {
+        "name": "track",
+        "element": ".nc-story-gallery__track",
+        "optional": false
+      },
+      {
+        "name": "card",
+        "element": ".nc-story-gallery__card",
+        "optional": false
+      },
+      {
+        "name": "media",
+        "element": ".nc-story-gallery__media",
+        "optional": false
+      },
+      {
+        "name": "caption",
+        "element": ".nc-story-gallery__caption",
+        "optional": false
+      },
+      {
+        "name": "title",
+        "element": ".nc-story-gallery__title",
+        "optional": false
+      },
+      {
+        "name": "desc",
+        "element": ".nc-story-gallery__desc",
+        "optional": true
+      },
+      {
+        "name": "footer",
+        "element": ".nc-story-gallery__footer",
+        "optional": true
+      },
+      {
+        "name": "paddles",
+        "element": ".nc-story-gallery__paddles",
+        "optional": true
+      },
+      {
+        "name": "paddle",
+        "element": ".nc-story-gallery__paddle",
+        "optional": true
+      },
+      {
+        "name": "cursor-paddle",
+        "element": ".nc-story-gallery__cursor-paddle",
+        "optional": true
+      },
+      {
+        "name": "cursor-icon",
+        "element": ".nc-story-gallery__cursor-icon",
+        "optional": true
+      }
+    ],
     "convenience": [],
     "domNotes": [
-      "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style)."
+      "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).",
+      "Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.",
+      "Nicht im DS gestaltet: .nc-story-gallery--nav-below (Website-Klasse) und .nc-shot* (Medien-Bauteil der Website, neo-shot.js) — die Arena laesst sie weg.",
+      "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto)."
     ]
   },
   "axes": {
@@ -60,6 +132,43 @@
             "paddles"
           ],
           "renderHint": "story-gallery-default"
+        }
+      }
+    },
+    "navigation": {
+      "label": "Paddles",
+      "description": "Lage der Blaetter-Knoepfe.",
+      "values": {
+        "below": {
+          "modifier": null,
+          "tokenGroups": [
+            "paddles"
+          ],
+          "description": "__footer > __paddles--below unter der Galerie"
+        },
+        "overlay": {
+          "modifier": null,
+          "tokenGroups": [
+            "paddles"
+          ],
+          "description": "__paddles--overlay ueber den Karten (unter 768 px ausgeblendet)"
+        }
+      }
+    },
+    "loop": {
+      "label": "Endlos",
+      "description": "Spur ohne Einzug, Cursor-Paddle statt Mauszeiger.",
+      "values": {
+        "off": {
+          "modifier": null,
+          "tokenGroups": []
+        },
+        "on": {
+          "modifier": "nc-story-gallery--loop",
+          "tokenGroups": [
+            "paddles"
+          ],
+          "description": "Cursor-Paddle (.nc-story-gallery__cursor-paddle.is-visible) folgt der Maus"
         }
       }
     }
@@ -158,11 +267,17 @@
     {
       "id": "default",
       "label": "Story Gallery",
-      "description": "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).",
+      "description": "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style), Paddles darunter — statisch am Anfang der Spur.",
       "matrix": {
         "axes": {
           "variant": [
             "default"
+          ],
+          "navigation": [
+            "below"
+          ],
+          "loop": [
+            "off"
           ]
         },
         "states": [
@@ -180,6 +295,68 @@
         "compositionType": "story-gallery-default",
         "label": "story-gallery"
       },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "navigation",
+      "label": "Lage der Paddles",
+      "description": "Unter der Galerie (Website-Standard) gegen ueber den Karten.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "navigation": "*",
+          "loop": [
+            "off"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{navigation}"
+      },
+      "focusTokenGroups": [
+        "paddles"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "loop",
+      "label": "Endlos mit Cursor-Paddle",
+      "description": "--loop: Spur ohne Einzug; das Cursor-Paddle (folgt sonst der Maus) steht sichtbar an fester Stelle.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "navigation": [
+            "below"
+          ],
+          "loop": [
+            "on"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "loop"
+      },
+      "focusTokenGroups": [
+        "paddles"
+      ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": ""

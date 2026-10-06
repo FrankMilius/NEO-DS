@@ -11,7 +11,7 @@
 | Recipe | `data/story-gallery-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/story-gallery.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block--block-content--neo-story-gallery.html.twig, block--inline-block--neo-story-gallery.html.twig` | present |
 
