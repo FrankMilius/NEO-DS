@@ -1,20 +1,19 @@
 // Vorlage: hero-tom (Text ueber Medium) — Markup aus
 // data/markup/hero-tom.html (geerntet von der Website).
 //
-// Was das DS davon gestaltet: nur die Inhaltsbreite (.nc-hero-tom--cw-*
-// begrenzt .nc-hero-tom__content, 07-organisms/_hero-tom.scss) und die
-// Badge-Zeile (.nc-hero-tom__badges, 05-atoms/_badge-row.scss). Wurzel,
-// Medium, Scrim und Text gestaltet das Drupal-Theme (neo_fe), nicht
-// styles.css — die Arena zeigt deshalb, was das DS hergibt (gemeldet).
-// Die Klassen stehen als Anatomie im Recipe.
+// Was das DS davon gestaltet (seit 06.10.2026 vollstaendig, Entscheidung
+// hero-tom-gestaltung): Wurzel, Medium, Scrim, Text, Ton hell (--light),
+// Inhaltsbreite (.nc-hero-tom--cw-*, 07-organisms/_hero-tom.scss) und die
+// Badge-Zeile (.nc-hero-tom__badges, 05-atoms/_badge-row.scss).
 //
 // Expand-Animation: auf der Website setzt GSAP/ScrollTrigger (neo-theme.js)
-// beim Scrollen --tom-expand am Medium; das DS kennt die Eigenschaft nicht.
-// Zustände zeigt den ausgefahrenen Endzustand (--tom-expand: 1, wie in der
-// Ernte), „Abspielen" bleibt mit Grund gesperrt (Entscheidungsfall).
+// beim Scrollen --tom-expand am Medium; das DS liest den Wert (Inset und
+// Radius), setzt ihn aber nicht. Zustände zeigt den ausgefahrenen Endzustand
+// (--tom-expand: 1, wie in der Ernte), „Abspielen" bleibt mit Grund gesperrt
+// (Entscheidungsfall).
 //
 // Specimens: default, content-width (Achse contentWidth: Modifier
-// --cw-* an der Wurzel), badges (render.badges: Badge-Zeile ueber dem
+// --cw-* an der Wurzel), ton (Achse ton: --light), badges (render.badges: Badge-Zeile ueber dem
 // Kicker, wie im Hero).
 import { BILD_SRC, esc } from './_helfer.js'
 import { nurGsap } from './_bewegung.js'

@@ -8,6 +8,152 @@
 
 @use '../01-tools' as *;
 
+// ---------------------------------------------------------------------------
+// Grundgestaltung: Wurzel, Medium, Scrim, Text (Entscheidung
+// hero-tom-gestaltung, 06.10.2026)
+// ---------------------------------------------------------------------------
+// WIEDERHERGESTELLT. Diese Regeln kamen am 12.08.2026 mit 55058ab9 aus
+// neo-overrides.css ins DS (dort danach entfernt). Noch am selben Tag ersetzte
+// der zweite Aufnahme-Lauf (8b04d29c, „hero-tom: 6 Regeln, Nachzuegler")
+// den markierten Block >>> aufgenommen: hero-tom <<< vollstaendig durch die
+// sechs --cw-*-Regeln — scripts/komponente-aufnehmen.js ersetzt zwischen
+// den Markern, statt zu ergaenzen. Seitdem fehlten Wurzel, Medium, Scrim und
+// Text in styles.css (und im neo_fe-Theme, das nur noch auf das DS
+// verweist). Deshalb stehen sie jetzt AUSSERHALB der Marker: ein weiterer
+// Lauf fuer hero-tom kann sie nicht mehr loeschen.
+//
+// Werte wie in 55058ab9 (= Stand der Website vor dem 12.08.2026). An die
+// heutigen Konventionen angepasst, ohne Bildwirkung: logische Eigenschaften
+// (inline-/block-size, inset-inline-*), die Inhaltsbreite ueber den
+// vorhandenen Token --nc-hero-tom-content-max-width (800px); die zwei
+// Medienabfragen, die headline und kicker auf denselben Wert setzten, sind
+// entfallen. Die uebrigen --nc-hero-tom-*-Tokens (Mono-Kicker, fs-5xl-Headline,
+// Scrim-Farbe, Expand-Radius) sind weiterhin NICHT verdrahtet — das wuerde den
+// Hero sichtbar aendern und braucht eine eigene Entscheidung.
+
+.nc-hero-tom {
+  position: relative;
+  min-block-size: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--fnd-color-always-light);
+}
+
+// Ton hell (field_tom_theme = light): dunkle Schrift, heller Scrim
+.nc-hero-tom--light {
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-hero-tom__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.nc-hero-tom__media img,
+.nc-hero-tom__media video {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+// Radialer Scrim fuer den Textkontrast in der Bildmitte
+.nc-hero-tom__scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-dark) 15%, transparent) 70%);
+  pointer-events: none;
+}
+
+.nc-hero-tom--light .nc-hero-tom__scrim {
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--fnd-color-always-light) 50%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-light) 15%, transparent) 70%);
+}
+
+.nc-hero-tom__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  inline-size: 100%;
+  padding-block: var(--fnd-spacing-12);
+  padding-inline: var(--fnd-spacing-06);
+}
+
+.nc-hero-tom__copy {
+  max-inline-size: var(--nc-hero-tom-content-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--fnd-spacing-04);
+}
+
+.nc-hero-tom__kicker {
+  font-size: var(--nc-type-caption-size);
+  font-weight: var(--nc-hero-tom-kicker-weight);
+  text-transform: var(--nc-kicker-text-transform);
+  letter-spacing: var(--nc-kicker-letter-spacing);
+  opacity: var(--fnd-opacity-high);
+  margin: 0;
+}
+
+.nc-hero-tom__headline {
+  font-size: var(--nc-type-display-m-size);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+.nc-hero-tom__subtext {
+  font-size: var(--nc-hero-tom-subtext-size);
+  line-height: var(--lh-body);
+  opacity: var(--fnd-opacity-prominent);
+  max-inline-size: 600px; // Lesebreite des Leads, wie auf der Website
+}
+
+.nc-hero-tom__subtext p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+// Medien-Modus expand: das Medium startet auf Inhaltsbreite mit Radius und
+// faehrt beim Scrollen auf volle Breite aus (--tom-expand 0 → 1 setzt
+// neo-theme.js inline am Medium).
+.nc-hero-tom--expand .nc-hero-tom__media {
+  --tom-expand: 0;
+  --tom-inset: calc((100vw - var(--nc-container-max-width, 1440px)) / 2 * (1 - var(--tom-expand)));
+  --tom-radius: calc(var(--fnd-radius-xl, 10px) * (1 - var(--tom-expand)));
+  inset-inline-start: var(--tom-inset);
+  inset-inline-end: var(--tom-inset);
+  border-radius: var(--tom-radius);
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .nc-hero-tom--expand .nc-hero-tom__media {
+    --tom-inset: calc(var(--fnd-spacing-04) * (1 - var(--tom-expand)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-hero-tom--expand .nc-hero-tom__media {
+    --tom-expand: 1;
+    border-radius: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Inhaltsbreite --cw-* (aus der Aufnahme 8b04d29c, generator-verwaltet)
+// ---------------------------------------------------------------------------
+
 /* >>> aufgenommen: hero-tom */
 .nc-hero-tom--cw-prose   .nc-hero-tom__content,
 .nc-hero-tmob--cw-prose  .nc-hero-tmob__content {

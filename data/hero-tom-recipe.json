@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero-tom",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "hero",
@@ -16,6 +16,12 @@
       "docs": "/docs/hero-tom-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Entscheidung hero-tom-gestaltung (06.10.2026): Grundgestaltung wiederhergestellt — Wurzel, Medium, Scrim, Text, --light und --expand (aus 55058ab9, am selben Tag durch den zweiten Aufnahme-Lauf 8b04d29c verloren). Logische Eigenschaften, Inhaltsbreite ueber --nc-hero-tom-content-max-width; pixelgleich zu den Regeln von 55058ab9. Achse ton (dark/light) und Specimen ton neu; domNotes. Website-sichtbar (Regression seit 12.08.2026 behoben), Freigabe ausstehend."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -96,8 +102,8 @@
     "domNotes": [
       "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
       "Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).",
-      "Das DS gestaltet davon nur die Inhaltsbreite (--cw-*, begrenzt __content) und die Badge-Zeile (__badges, 05-atoms/_badge-row.scss). Wurzel, Medium, Scrim und Text gestaltet das Drupal-Theme (neo_fe), nicht styles.css.",
-      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand am Medium; das DS kennt die Eigenschaft nicht. Die Arena zeigt den Endzustand (--tom-expand: 1)."
+      "Seit 06.10.2026 (Entscheidung hero-tom-gestaltung) gestaltet das DS den Block vollstaendig: Wurzel (always-light, min-block-size 100svh), Medium (absolut, object-fit cover), radialer Scrim, Text (Kicker, Display-Headline, Subtext), Ton hell (--light), Expand (--expand), Inhaltsbreite (--cw-*) und die Badge-Zeile (05-atoms/_badge-row.scss). Die Regeln waren am 12.08.2026 (8b04d29c) beim zweiten Aufnahme-Lauf verloren gegangen.",
+      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1)."
     ]
   },
   "axes": {
@@ -156,6 +162,26 @@
           "modifier": "nc-hero-tom--cw-full",
           "tokenGroups": [],
           "description": "__content max. var(--container-full)"
+        }
+      }
+    },
+    "ton": {
+      "label": "Ton",
+      "description": "Drupal-Feld field_tom_theme: dark (Standard) oder light. 07-organisms/_hero-tom.scss.",
+      "values": {
+        "dark": {
+          "modifier": null,
+          "tokenGroups": [
+            "scrim"
+          ],
+          "description": "Helle Schrift (always-light), dunkler radialer Scrim"
+        },
+        "light": {
+          "modifier": "nc-hero-tom--light",
+          "tokenGroups": [
+            "scrim"
+          ],
+          "description": "Dunkle Schrift (text-primary), heller radialer Scrim"
         }
       }
     }
@@ -307,6 +333,33 @@
       "focusTokenGroups": [
         "headline",
         "subtext"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": ""
+      }
+    },
+    {
+      "id": "ton",
+      "label": "Ton",
+      "description": "Ton dunkel (Standard) und hell (nc-hero-tom--light): Schriftfarbe und radialer Scrim wechseln.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "ton": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "label": "{ton}"
+      },
+      "focusTokenGroups": [
+        "scrim"
       ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",

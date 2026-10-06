@@ -1,5 +1,5 @@
 # hero-tom Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `hero`, `display`, `parallax`
 
@@ -20,8 +20,8 @@ Root element: `.nc-hero-tom`
 ### DOM Notes
 - Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.
 - Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).
-- Das DS gestaltet davon nur die Inhaltsbreite (--cw-*, begrenzt __content) und die Badge-Zeile (__badges, 05-atoms/_badge-row.scss). Wurzel, Medium, Scrim und Text gestaltet das Drupal-Theme (neo_fe), nicht styles.css.
-- Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand am Medium; das DS kennt die Eigenschaft nicht. Die Arena zeigt den Endzustand (--tom-expand: 1).
+- Seit 06.10.2026 (Entscheidung hero-tom-gestaltung) gestaltet das DS den Block vollstaendig: Wurzel (always-light, min-block-size 100svh), Medium (absolut, object-fit cover), radialer Scrim, Text (Kicker, Display-Headline, Subtext), Ton hell (--light), Expand (--expand), Inhaltsbreite (--cw-*) und die Badge-Zeile (05-atoms/_badge-row.scss). Die Regeln waren am 12.08.2026 (8b04d29c) beim zweiten Aufnahme-Lauf verloren gegangen.
+- Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1).
 
 ## Variants
 ### Variant (`variant`)
@@ -43,6 +43,14 @@ Begrenzt den Inhalt (__content) auf eine Containerbreite — Drupal-Feld je Bloc
 | wide | `.nc-hero-tom--cw-wide` |  |
 | xwide | `.nc-hero-tom--cw-xwide` |  |
 | full | `.nc-hero-tom--cw-full` |  |
+
+### Ton (`ton`)
+Drupal-Feld field_tom_theme: dark (Standard) oder light. 07-organisms/_hero-tom.scss.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| dark | — |  |
+| light | `.nc-hero-tom--light` |  |
 
 ## States
 Supported: `default`
@@ -90,7 +98,7 @@ Derived from anatomy for potential `<nc-hero-tom>` custom element:
 
 ```js
 class NcHeroTom extends HTMLElement {
-  static observedAttributes = ['variant', 'contentWidth'];
+  static observedAttributes = ['variant', 'contentWidth', 'ton'];
   // Slots: <slot name="media">, <slot name="scrim">, <slot name="content">, <slot name="copy">, <slot name="headline">
 }
 ```

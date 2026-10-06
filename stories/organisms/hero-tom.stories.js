@@ -1,6 +1,6 @@
 // ============================================================
 // HeroTom — Auto-generated from hero-tom-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**HeroTom** v1.0.0 (stable)
+        component: `**HeroTom** v1.2.0 (stable)
 
 Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.
 
