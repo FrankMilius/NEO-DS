@@ -3,8 +3,14 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "chapter-nav",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Verhalten in neo-behaviors (chapter-nav, Entscheidung 06.10.2026, website-verhalten) — ersetzt die Library neo_fe/neo-chapter-nav; Scroll-Spy wie neoRefpageToc in neo-theme.js (letztes Kapitel ueber der Linie, Hoehe der Kopfzeile aus .site-header[data-neo-nav]): aria-current am laufenden Kapitel, Klick markiert sofort und springt mit Versatz von Kopfzeile und Leiste (mindestens scroll-margin-top), Fokus aufs Kapitel, Anker in der Adresse, markierter Verweis in der Leiste sichtbar (keyboard/events). Arena: Ausprobieren in einer kleinen Seite. In Drupal nur per drupalSettings.neoBehaviors.nur."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -65,7 +71,8 @@
     ],
     "domNotes": [
       "Dieses Recipe schrieb bis zum 24.08.2026 root als Zeichenkette und die Slots ohne fuehrenden Punkt — anders als alle 130 uebrigen. Damit war das Bauteil fuer jede Pruefung unsichtbar: die Verwendungsmessung sah null Zeugen, obwohl es live auf den Landing Pages steht, und die Markup-Ernte fand keinen Wurzelselektor.",
-      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapter-nav; das ist eine eigene Unstimmigkeit und steht im BACKLOG."
+      "meta.component hiess bis zum 24.08.2026 \"chapternav\" und wich damit als einziges der 131 Recipes vom Dateinamen ab. Der Story-Generator sucht die Markup-Datei ueber diesen Namen und fand deshalb chapternav.html statt chapter-nav.html — das Bauteil blieb ohne Markup, obwohl es geerntet war. Die CSS-Klasse heisst weiterhin .nc-chapter-nav; das ist eine eigene Unstimmigkeit und steht im BACKLOG.",
+      "Verhalten (neo-behaviors chapter-nav, Leiste .nc-chapter-nav mit a.nc-chapter-nav__link[href=\"#<id>\"], Kapitel per id im Dokument): Scroll-Spy setzt aria-current=\"true\" am Verweis des LETZTEN Kapitels, dessen Oberkante die Linie passiert hat (Linie = max(scroll-margin-top, Kopfzeile .site-header[data-neo-nav] + Leiste) + 24 px); ueber dem ersten Kapitel bleibt das erste markiert. Klick: markiert sofort, Spy ruht bis das Scrollen steht, sanfter Sprung (reduced motion: sofort), pushState des Ankers, Fokus aufs Kapitel (tabindex=-1). Scroll-Container: naechster Vorfahr mit overflow-y auto/scroll, sonst das Fenster."
     ]
   },
   "axes": {
@@ -125,7 +132,8 @@
       "Das laufende Kapitel traegt aria-current='true' und zusaetzlich Marke und Schriftschnitt (WCAG 1.4.1).",
       "scroll-margin-top an den Kapiteln: ohne ihn verschwindet jedes Sprungziel unter den klebenden Leisten (WCAG 2.4.7).",
       "Der Scroll-Spy liest denselben scroll-margin-top als Schwelle. Ein geratener Zuschlag laesst ein gerade angesprungenes Kapitel unmarkiert.",
-      "Ein Klick markiert sofort, in beide Richtungen. Ohne das laeuft die Markierung bei einem Sprung nach unten durch alle dazwischenliegenden Kapitel — bei fuenf Kapiteln vier Wechsel, bevor der richtige stehen bleibt."
+      "Ein Klick markiert sofort, in beide Richtungen. Ohne das laeuft die Markierung bei einem Sprung nach unten durch alle dazwischenliegenden Kapitel — bei fuenf Kapiteln vier Wechsel, bevor der richtige stehen bleibt.",
+      "Verhalten (neo-behaviors chapter-nav): Klick bzw. Enter setzt den Fokus aufs angesprungene Kapitel (WCAG 2.4.3); Bewegung nur sanft, wenn prefers-reduced-motion es zulaesst (WCAG 2.3.3)."
     ]
   },
   "constraints": [
@@ -192,7 +200,10 @@
   },
   "recipes": [],
   "komposition": [
-    { "art": "enthaelt", "recipe": "container" }
+    {
+      "art": "enthaelt",
+      "recipe": "container"
+    }
   ],
   "specimens": [
     {
@@ -247,5 +258,25 @@
         ]
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Enter": {
+      "action": "jump",
+      "note": "Auf einem Kapitelverweis: markiert ihn sofort (aria-current), scrollt das Kapitel unter Kopfzeile und Leiste und setzt den Fokus aufs Kapitel — Tab geht von dort im Inhalt weiter."
+    },
+    "Tab": {
+      "action": "native",
+      "note": "Die Verweise sind normale Links in der Tab-Folge (kein roving tabindex)."
+    }
+  },
+  "events": {
+    "chapter-nav-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert an der Leiste, wenn das markierte Kapitel wechselt (Scroll-Spy oder Klick). value/previousValue: id des Kapitels (previousValue null beim ersten Wechsel ohne Markierung)."
+    }
+  }
 }

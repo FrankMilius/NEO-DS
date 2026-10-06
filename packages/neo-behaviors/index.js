@@ -47,6 +47,7 @@ import { shell } from './shell.js'
 import { mobileDrawer } from './mobile-drawer.js'
 import { tableInfoModal } from './table-info-modal.js'
 import { multiselect } from './multiselect.js'
+import { chapterNav } from './chapter-nav.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -81,6 +82,8 @@ export const BEHAVIORS = Object.freeze({
   toolbar,
   sidebar,
   'navigation-tab-mega': navigationTabMega,
+  // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
+  'chapter-nav': chapterNav,
   toast,
   notification,
   alert,

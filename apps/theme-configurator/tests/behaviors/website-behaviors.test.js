@@ -7,7 +7,7 @@
  * Ereignis aus `events` wird geprueft. Soll ist das heutige Verhalten in
  * neo_fe/js/neo-theme.js, mit den Verbesserungen fuer Barrierefreiheit.
  */
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { anbinden, abbinden, BEHAVIORS, NUR_AUSDRUECKLICH } from 'neo-behaviors'
 import { buehne, lebendigesMarkup, taste, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
 
@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect']) {
+    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }
@@ -337,5 +337,111 @@ describe('Multiselect (multiselect-recipe.json)', () => {
     expect(knopf.hasAttribute('aria-controls')).toBe(false)
     expect(panel.hasAttribute('id')).toBe(false)
     expect(panel.style.display).toBe('')
+  })
+})
+
+describe('Kapitelnavigation (chapter-nav-recipe.json)', () => {
+  // jsdom rechnet kein Layout: Oberkanten der Kapitel relativ zum Fenster
+  // werden je Test gesetzt (wie nach einem Scroll), offsetHeight der Leiste
+  // und der Kopfzeile ebenso.
+  let oben = {}
+  const bau = ({ kopf = 0 } = {}) => {
+    window.history.replaceState(null, '', '/')
+    const b = buehne((kopf ? `<header class="site-header" data-neo-nav></header>` : '') + lebendigesMarkup('chapter-nav', 'formen'))
+    const nav = /** @type {HTMLElement} */ (b.querySelector('.nc-chapter-nav'))
+    const links = /** @type {HTMLAnchorElement[]} */ ([...nav.querySelectorAll('.nc-chapter-nav__link')])
+    const ziele = links.map((a) => /** @type {HTMLElement} */ (document.getElementById(a.getAttribute('href').slice(1))))
+    oben = Object.fromEntries(ziele.map((z, i) => [z.id, 500 + i * 400]))
+    for (const z of ziele) z.getBoundingClientRect = () => ({ top: oben[z.id], bottom: oben[z.id] + 300, left: 0, right: 0, width: 0, height: 300, x: 0, y: oben[z.id], toJSON () {} })
+    Object.defineProperty(nav, 'offsetHeight', { configurable: true, value: 56 })
+    if (kopf) Object.defineProperty(b.querySelector('.site-header'), 'offsetHeight', { configurable: true, value: kopf })
+    anbinden(b, ['chapter-nav'])
+    return { b, nav, links, ziele }
+  }
+  const scrolle = (stand) => {
+    Object.assign(oben, stand)
+    window.dispatchEvent(new Event('scroll'))
+  }
+  const aktuell = (links) => links.filter((a) => a.getAttribute('aria-current') === 'true').map((a) => a.textContent)
+
+  afterEach(() => { vi.restoreAllMocks(); vi.useRealTimers() })
+
+  it('Anfang: das erste Kapitel ist markiert (ueber dem ersten Abschnitt, Seite oben)', () => {
+    const { links } = bau()
+    expect(aktuell(links)).toEqual(['Kommunikation'])
+  })
+
+  it('Scroll-Spy: das LETZTE Kapitel ueber der Linie (Leiste 56 px + 24), nicht das oberste sichtbare; Ereignis', async () => {
+    const { nav, links, ziele } = bau()
+    const wechsel = sammle(nav, 'chapter-nav-change')
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    // Wissen hat die Linie (80 px) passiert, Events noch nicht; Kommunikation ragt weit nach oben
+    scrolle({ [ziele[0].id]: -900, [ziele[1].id]: 70, [ziele[2].id]: 81 })
+    expect(aktuell(links)).toEqual(['Wissen'])
+    expect(wechsel.at(-1).detail).toEqual({ value: ziele[1].id, previousValue: ziele[0].id })
+    passtZumRecipe('chapter-nav', wechsel.at(-1))
+    scrolle({ [ziele[2].id]: 80 })
+    expect(aktuell(links)).toEqual(['Events'])
+  })
+
+  it('Linie mit Kopfzeile: Hoehe aus .site-header[data-neo-nav] (offsetHeight) + Leiste', () => {
+    const { links, ziele } = bau({ kopf: 72 })
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    // Linie = 72 + 56 + 24 = 152
+    scrolle({ [ziele[0].id]: -500, [ziele[1].id]: 150 })
+    expect(aktuell(links)).toEqual(['Wissen'])
+    scrolle({ [ziele[1].id]: 153 })
+    expect(aktuell(links)).toEqual(['Kommunikation'])
+  })
+
+  it('Klick markiert sofort, springt mit Versatz, setzt Anker und Fokus; der Spy ruht bis das Scrollen steht', () => {
+    vi.useFakeTimers()
+    const { links, ziele } = bau({ kopf: 72 })
+    const sprung = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    links[3].click()
+    expect(aktuell(links)).toEqual(['Vernetzung'])
+    // Ziel: Oberkante 1700 + scrollY 0 - (72 + 56)
+    expect(sprung).toHaveBeenCalledWith({ top: 1700 - 128, behavior: expect.any(String) })
+    expect(window.location.hash).toBe(`#${ziele[3].id}`)
+    expect(document.activeElement).toBe(ziele[3])
+    expect(ziele[3].getAttribute('tabindex')).toBe('-1')
+    // waehrend des Scrollens laeuft die Markierung nicht durch die Kapitel dazwischen
+    scrolle({ [ziele[1].id]: 0, [ziele[2].id]: 400 })
+    expect(aktuell(links)).toEqual(['Vernetzung'])
+    // Scrollen steht: Spy wertet wieder aus
+    scrolle({ [ziele[0].id]: -1700, [ziele[1].id]: -1300, [ziele[2].id]: -900, [ziele[3].id]: 128, [ziele[4].id]: 528 })
+    vi.advanceTimersByTime(200)
+    expect(aktuell(links)).toEqual(['Vernetzung'])
+  })
+
+  it('prefers-reduced-motion: Sprung ohne Animation', () => {
+    const { links } = bau()
+    window.matchMedia = vi.fn().mockReturnValue({ matches: true })
+    const sprung = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    links[1].click()
+    expect(sprung.mock.calls[0][0].behavior).toBe('auto')
+    delete window.matchMedia
+  })
+
+  it('Tasten aus dem Recipe', () => {
+    const { links, ziele } = bau()
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const pruefungen = {
+      // Enter auf einem Link loest im Browser den Klick aus
+      Enter: () => { links[2].focus(); links[2].click(); expect(aktuell(links)).toEqual(['Events']); expect(document.activeElement).toBe(ziele[2]) },
+      Tab: () => { for (const a of links) expect(a.hasAttribute('tabindex')).toBe(false) }
+    }
+    deckeTastenAb('chapter-nav', pruefungen)
+    for (const p of Object.values(pruefungen)) p()
+  })
+
+  it('Abbinden: aria-current und tabindex wie vorher', () => {
+    const { b, links, ziele } = bau()
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    links[4].click()
+    abbinden(b, ['chapter-nav'])
+    expect(aktuell(links)).toEqual(['Kommunikation'])
+    expect(ziele[4].hasAttribute('tabindex')).toBe(false)
   })
 })

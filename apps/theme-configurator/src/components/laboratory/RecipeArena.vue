@@ -768,6 +768,19 @@ onBeforeUnmount(() => {
   background: var(--fnd-color-background-secondary);
 }
 .ra-live-component .ra-buehne--mobil-drawer :is(.nc-mobile-drawer, .nc-mobile-drawer__backdrop) { display: block !important; }
+/* ra-kapitelseite: kleine Seite fuer die Kapitelnavigation in „Ausprobieren"
+   (Entscheidung 06.10.2026, website-verhalten) — eigener Scroll-Container,
+   die Leiste klebt darin oben, die Kapitel sind hohe Platzhalter, damit der
+   Scroll-Spy etwas zu tun hat. */
+.ra-live-component .ra-kapitelseite {
+  width: 560px;
+  max-width: 100%;
+  height: 360px;
+  overflow-y: auto;
+  background: var(--fnd-color-background-base);
+  border: 1px solid var(--fnd-color-border-primary);
+}
+.ra-live-component .ra-platzhalter--kapitel { min-height: 280px; margin: 16px; }
 /* ra-legende: Erlaeuterung neben echtem Markup (Token-Kette, Schichten) —
    Arena-Text, kein DS-Element */
 .ra-live-component .ra-legende {

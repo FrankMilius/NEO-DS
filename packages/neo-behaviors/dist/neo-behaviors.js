@@ -3480,6 +3480,166 @@
     }
   };
 
+  // packages/neo-behaviors/chapter-nav.js
+  var TOLERANZ = 24;
+  var chapterNav = {
+    id: "chapter-nav",
+    selektor: ".nc-chapter-nav",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} nav @param {AbortSignal} signal */
+    binde(nav, signal) {
+      var _a;
+      const dok = nav.ownerDocument;
+      const ansicht = (
+        /** @type {Window} */
+        dok.defaultView
+      );
+      const leiste = (
+        /** @type {HTMLElement|null} */
+        nav.querySelector(".nc-chapter-nav__inner")
+      );
+      const idVon = (a) => {
+        const href = a.getAttribute("href") || "";
+        return href.startsWith("#") ? decodeURIComponent(href.slice(1)) : "";
+      };
+      const kapitel = [];
+      for (
+        const link of
+        /** @type {HTMLAnchorElement[]} */
+        [...nav.querySelectorAll(".nc-chapter-nav__link")]
+      ) {
+        const id = idVon(link);
+        const ziel = id ? dok.getElementById(id) : null;
+        if (ziel) kapitel.push({ link, ziel, id });
+      }
+      if (!kapitel.length) return;
+      const scroller = naechsterScroller(nav);
+      const scrollTop = () => scroller ? scroller.scrollTop : ansicht.scrollY;
+      const obenKante = () => scroller ? scroller.getBoundingClientRect().top : 0;
+      const versatz = (ziel) => {
+        const kopf = scroller ? null : dok.querySelector(".site-header[data-neo-nav]");
+        const kopfHoehe = kopf ? (
+          /** @type {HTMLElement} */
+          kopf.offsetHeight || 64
+        ) : 0;
+        const rand = parseFloat(ansicht.getComputedStyle(ziel).scrollMarginTop) || 0;
+        return Math.max(rand, kopfHoehe + nav.offsetHeight);
+      };
+      let aktiv = ((_a = kapitel.find((k) => k.link.getAttribute("aria-current") === "true")) == null ? void 0 : _a.id) || null;
+      const vorher = new Map(kapitel.map((k) => [k.link, k.link.getAttribute("aria-current")]));
+      const eigenerTabindex = /* @__PURE__ */ new Set();
+      function markiere(id) {
+        var _a2;
+        if (!id || id === aktiv) return;
+        const davor = aktiv;
+        aktiv = id;
+        for (const k of kapitel) {
+          if (k.id === id) k.link.setAttribute("aria-current", "true");
+          else k.link.removeAttribute("aria-current");
+        }
+        zeigeInLeiste((_a2 = kapitel.find((k) => k.id === id)) == null ? void 0 : _a2.link);
+        sende(nav, "chapter-nav-change", { value: id, previousValue: davor });
+      }
+      function zeigeInLeiste(link) {
+        if (!leiste || !link) return;
+        const l = leiste.getBoundingClientRect();
+        const r = link.getBoundingClientRect();
+        if (r.left < l.left) leiste.scrollLeft -= l.left - r.left;
+        else if (r.right > l.right) leiste.scrollLeft += r.right - l.right;
+      }
+      let ruht = false;
+      function auswerten() {
+        if (ruht) return;
+        const oben = obenKante();
+        let treffer = null;
+        for (const k of kapitel) {
+          if (k.ziel.getBoundingClientRect().top - oben - (versatz(k.ziel) + TOLERANZ) <= 0) treffer = k;
+        }
+        if (!treffer && scrollTop() < 10) treffer = kapitel[0];
+        if (treffer) markiere(treffer.id);
+      }
+      let laeuft = false;
+      let ruheUhr = 0;
+      const ruheBis = () => {
+        ansicht.clearTimeout(ruheUhr);
+        ruheUhr = ansicht.setTimeout(() => {
+          ruht = false;
+          auswerten();
+        }, 150);
+      };
+      (scroller || ansicht).addEventListener("scroll", () => {
+        if (ruht) {
+          ruheBis();
+          return;
+        }
+        if (laeuft) return;
+        laeuft = true;
+        ansicht.requestAnimationFrame(() => {
+          laeuft = false;
+          auswerten();
+        });
+      }, { signal, passive: true });
+      if (typeof ansicht.IntersectionObserver === "function") {
+        const beobachter = new ansicht.IntersectionObserver(() => auswerten(), {
+          root: scroller,
+          rootMargin: `-${versatz(kapitel[0].ziel) + TOLERANZ}px 0px 0px 0px`,
+          threshold: 0
+        });
+        for (const k of kapitel) beobachter.observe(k.ziel);
+        signal.addEventListener("abort", () => beobachter.disconnect());
+      }
+      nav.addEventListener("click", (e) => {
+        var _a2, _b, _c;
+        const link = (
+          /** @type {HTMLElement} */
+          (_b = (_a2 = e.target).closest) == null ? void 0 : _b.call(_a2, ".nc-chapter-nav__link")
+        );
+        const k = kapitel.find((x) => x.link === link);
+        if (!k || e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        markiere(k.id);
+        ruht = true;
+        ruheBis();
+        const ziel = k.ziel.getBoundingClientRect().top - obenKante() + scrollTop() - versatz(k.ziel);
+        const sanft = !((_c = ansicht.matchMedia) == null ? void 0 : _c.call(ansicht, "(prefers-reduced-motion: reduce)").matches);
+        const flaeche = scroller || ansicht;
+        if (typeof flaeche.scrollTo === "function") flaeche.scrollTo({ top: Math.max(0, ziel), behavior: sanft ? "smooth" : "auto" });
+        else if (scroller) scroller.scrollTop = Math.max(0, ziel);
+        if (!scroller && ansicht.location.hash !== `#${k.id}`) {
+          try {
+            ansicht.history.pushState(null, "", `#${encodeURIComponent(k.id)}`);
+          } catch {
+          }
+        }
+        if (!k.ziel.hasAttribute("tabindex")) {
+          k.ziel.setAttribute("tabindex", "-1");
+          eigenerTabindex.add(k.ziel);
+        }
+        k.ziel.focus({ preventScroll: true });
+      }, { signal });
+      const anker = !scroller && ansicht.location.hash ? decodeURIComponent(ansicht.location.hash.slice(1)) : "";
+      if (anker && kapitel.some((k) => k.id === anker)) markiere(anker);
+      else auswerten();
+      signal.addEventListener("abort", () => {
+        ansicht.clearTimeout(ruheUhr);
+        for (const [link, wert] of vorher) {
+          if (wert === null) link.removeAttribute("aria-current");
+          else link.setAttribute("aria-current", wert);
+        }
+        for (const z of eigenerTabindex) z.removeAttribute("tabindex");
+      });
+    }
+  };
+  function naechsterScroller(el) {
+    const ansicht = el.ownerDocument.defaultView;
+    for (let p = el.parentElement; p && p !== el.ownerDocument.body && p !== el.ownerDocument.documentElement; p = p.parentElement) {
+      const oy = ansicht == null ? void 0 : ansicht.getComputedStyle(p).overflowY;
+      if (oy === "auto" || oy === "scroll") return p;
+    }
+    return null;
+  }
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -3511,6 +3671,8 @@
     toolbar,
     sidebar,
     "navigation-tab-mega": navigationTabMega,
+    // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
+    "chapter-nav": chapterNav,
     toast,
     notification,
     alert,

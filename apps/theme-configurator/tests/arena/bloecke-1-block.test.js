@@ -12,8 +12,10 @@
  *     Zustandsklassen, die das DS am Bauteil nicht kennt
  *   - je Bauteil die Specimen-Besonderheiten (Formen der Kapitelnavigation,
  *     Abspielen der Einblendung, Bildlagen, Ton, Leerzustand …)
- *   - „Ausprobieren" nur fuer faq und feature-accordion (natives <details>;
- *     das Akkordeon-Verhalten bindet nur .nc-accordion), „Abspielen" nur fuer
+ *   - „Ausprobieren" fuer die Bauteile mit Behavior in neo-behaviors
+ *     (MIT_BEHAVIOR, Entscheidung 06.10.2026, website-verhalten; Tests in
+ *     tests/behaviors/website-behaviors.test.js) und fuer faq (natives
+ *     <details>, eigener Hinweis der Vorlage), „Abspielen" nur fuer
  *     bento-grid (gemeinsamer Mechanismus der RecipeArena), Entwurf laut
  *     meta.status in der Liste der Navigation (src/data/recipe-entwuerfe.js;
  *     das Kennzeichen selbst prueft tests/navigation/entwuerfe.test.js)
@@ -43,7 +45,8 @@ const WURZEL_SEL = {
 }
 const wurzelSel = (id) => WURZEL_SEL[id] || `.nc-${id}`
 
-const MIT_AUSPROBIEREN = ['faq', 'feature-accordion']
+const MIT_BEHAVIOR = ['chapter-nav']
+const MIT_AUSPROBIEREN = ['faq', 'feature-accordion'].filter((id) => !MIT_BEHAVIOR.includes(id))
 const MIT_ABSPIELEN = ['bento-grid']
 const ENTWURF = ['card-cta', 'event', 'events', 'feature-list']
 
@@ -92,6 +95,8 @@ function stilErlaubt (id, el) {
   if (id === 'aspect-ratio' && el.matches('.nc-aspect-ratio')) return /^--nc-aspect-ratio-ratio: [\d\s/]+;$/.test(stil)
   // cta: Farbangaben aus data/markup/cta.html (Text auf dunkler Flaeche)
   if (id === 'cta') return el.closest('.nc-cta') && /always-light/.test(stil)
+  // chapter-nav „Ausprobieren": Instanzwerte am Rahmen der kleinen Seite
+  if (id === 'chapter-nav' && el.matches('.ra-kapitelseite')) return stil.split(';').map((t) => t.trim()).filter(Boolean).every((t) => t.startsWith('--mod-chapternav-'))
   return false
 }
 
@@ -382,11 +387,12 @@ describe('Bloecke 1 in der RecipeArena', () => {
   }
 
   for (const id of BLOCK) {
+    const behavior = MIT_BEHAVIOR.includes(id)
     const ausprobieren = MIT_AUSPROBIEREN.includes(id)
     const abspielen = MIT_ABSPIELEN.includes(id)
     const entwurf = ENTWURF.includes(id)
-    it(`${id}: alle Specimens${ausprobieren ? ', „Ausprobieren"' : ''}${abspielen ? ', „Abspielen"' : ''}${entwurf ? ', Entwurf' : ''}, keine Heuristik`, async () => {
-      expect(MIT_VERHALTEN.includes(id)).toBe(false)
+    it(`${id}: alle Specimens${ausprobieren || behavior ? ', „Ausprobieren"' : ''}${abspielen ? ', „Abspielen"' : ''}${entwurf ? ', Entwurf' : ''}, keine Heuristik`, async () => {
+      expect(MIT_VERHALTEN.includes(id)).toBe(behavior)
       expect(!!ausprobierenFuer(id)).toBe(ausprobieren)
       expect(!!abspielenFuer(id)).toBe(abspielen)
       expect(rohesRecipe(id).meta.status === 'draft').toBe(entwurf)
@@ -395,7 +401,7 @@ describe('Bloecke 1 in der RecipeArena', () => {
       const recipe = normalisiereRecipe(rohesRecipe(id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
       expect(w.find('[data-quelle="heuristik"]').exists()).toBe(false)
-      expect(w.find('.ra-modus').exists()).toBe(ausprobieren || abspielen)
+      expect(w.find('.ra-modus').exists()).toBe(ausprobieren || abspielen || behavior)
       expect(w.find('[data-test="abspielen"]').exists()).toBe(abspielen)
       if (ausprobieren) {
         await w.findAll('.ra-modus__knopf')[1].trigger('click')
@@ -404,6 +410,13 @@ describe('Bloecke 1 in der RecipeArena', () => {
         expect(w.find('.ra-modus__hinweis').text()).toContain('<details>')
         // natives <details>: keine Bindung aus neo-behaviors
         expect(w.find('[data-neo-behavior]').exists()).toBe(false)
+      }
+      if (behavior) {
+        await w.findAll('.ra-modus__knopf')[1].trigger('click')
+        await flushPromises()
+        await new Promise((r) => setTimeout(r, 0))
+        expect(w.findAll('.ra-cell')).toHaveLength(recipe.specimens.length)
+        expect(w.find(`[data-neo-behavior~="${id}"]`).exists()).toBe(true)
       }
       w.unmount()
     })
