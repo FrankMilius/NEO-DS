@@ -7,13 +7,20 @@
 
 @use '../01-tools' as *;
 
+// Polster und Rahmen (Entscheidung 06.10.2026): vorher kamen beide nur als
+// Inline-Stil aus der Doku — die Karte selbst hatte keinen Innenabstand,
+// und is-featured faerbte einen Rahmen, den es nicht gab.
 .nc-pricing-card {
+  padding: var(--fnd-spacing-06);
   background: var(--fnd-color-background-base);
+  border: var(--fnd-border-width-hairline) solid var(--fnd-color-border-secondary);
   border-radius: var(--fnd-radius-xl);
   box-shadow: var(--fnd-elevation-raised);
 }
 
+// Hervorgehobener Tarif: Akzentrahmen, kraeftiger als der Standardrahmen
 .nc-pricing-card.is-featured {
+  border-width: var(--fnd-border-width-md);
   border-color: var(--fnd-color-background-accent);
   box-shadow: var(--fnd-elevation-floating);
 }

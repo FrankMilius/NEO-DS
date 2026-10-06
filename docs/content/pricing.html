@@ -90,7 +90,7 @@
             </div>
 
             <div class="docs-stage__preview" id="stage-preview" style="align-items: flex-start;">
-              <div class="nc-pricing-card" style="padding: var(--fnd-spacing-07); max-width: 280px; border: 1px solid var(--fnd-color-border-secondary);">
+              <div class="nc-pricing-card" style="max-width: 280px;">
                 <div style="margin-block-end: var(--fnd-spacing-03);">
                   <strong style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Starter</strong>
                 </div>
@@ -104,7 +104,7 @@
                 <a href="#" class="nc-button" style="display: block; text-align: center; margin-block-start: var(--fnd-spacing-05);">Kostenlos starten</a>
               </div>
 
-              <div class="nc-pricing-card is-featured" style="padding: var(--fnd-spacing-07); max-width: 280px; border: 2px solid var(--fnd-color-background-accent-green);">
+              <div class="nc-pricing-card is-featured" style="max-width: 280px;">
                 <div style="margin-block-end: var(--fnd-spacing-03);">
                   <strong style="font-size: var(--fs-sm); color: var(--fnd-color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Pro</strong>
                   <span style="margin-inline-start: var(--fnd-spacing-02); font-size: var(--fs-xs); background: var(--fnd-color-background-accent-green); color: var(--fnd-color-text-inverse); border-radius: var(--fnd-radius-full); padding: 2px 8px;">Beliebt</span>
@@ -141,10 +141,11 @@
             <h2 class="docs__section-title">Standard-Karte</h2>
             <p class="docs__section-desc">
               <code class="docs__token">.nc-pricing-card</code> nutzt <code class="docs__token">--fnd-color-background-base</code>
-              als Hintergrund und <code class="docs__token">--fnd-elevation-raised</code> als Schatten.
+              als Hintergrund, <code class="docs__token">--fnd-elevation-raised</code> als Schatten, das Polster
+              <code class="docs__token">--fnd-spacing-06</code> und einen Rahmen in <code class="docs__token">--fnd-color-border-secondary</code>.
             </p>
             <div style="max-width: 300px;">
-              <div class="nc-pricing-card" style="padding: var(--fnd-spacing-06); border: 1px solid var(--fnd-color-border-secondary);">
+              <div class="nc-pricing-card">
                 <div class="nc-price" style="margin-block-end: var(--fnd-spacing-04);">€ 0</div>
                 <ul class="nc-pricing-features">
                   <li class="nc-pricing-features__item">Feature A</li>
@@ -158,11 +159,12 @@
           <section class="docs__section" id="featured">
             <h2 class="docs__section-title">Featured-Variante</h2>
             <p class="docs__section-desc">
-              <code class="docs__token">.is-featured</code> setzt einen gr&uuml;nen Rahmen (Accent-Green)
+              <code class="docs__token">.is-featured</code> setzt einen Akzentrahmen
+              (<code class="docs__token">--fnd-color-background-accent</code>, <code class="docs__token">--fnd-border-width-md</code>)
               und einen erh&ouml;hten Schatten.
             </p>
             <div style="max-width: 300px;">
-              <div class="nc-pricing-card is-featured" style="padding: var(--fnd-spacing-06); border: 2px solid var(--fnd-color-background-accent-green);">
+              <div class="nc-pricing-card is-featured">
                 <div class="nc-price" style="margin-block-end: var(--fnd-spacing-04);">€ 29</div>
                 <ul class="nc-pricing-features">
                   <li class="nc-pricing-features__item">Feature A</li>
@@ -274,8 +276,8 @@
 <section class="docs__section" id="api-dom-notes">
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
-    <li>Card: background-base, radius-xl, elevation-raised.</li>
-    <li>Featured (.is-featured): accent Border, elevation-floating.</li>
+    <li>Card: background-base, radius-xl, elevation-raised, padding spacing-06, Rahmen border-secondary (hairline).</li>
+    <li>Featured (.is-featured): Akzentrahmen (border-width-md, background-accent), elevation-floating.</li>
     <li>Price: font-heading, fs-xl. Feature-List: Checkmark-Icon, accent-Farbe.</li>
   </ul>
 </section>

@@ -1,5 +1,5 @@
 # pricing Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `commerce`
 
@@ -12,8 +12,8 @@ Root element: `.nc-pricing-card`
 | feature-list | `.nc-pricing-features` | No | — |
 
 ### DOM Notes
-- Card: background-base, radius-xl, elevation-raised.
-- Featured (.is-featured): accent Border, elevation-floating.
+- Card: background-base, radius-xl, elevation-raised, padding spacing-06, Rahmen border-secondary (hairline).
+- Featured (.is-featured): Akzentrahmen (border-width-md, background-accent), elevation-floating.
 - Price: font-heading, fs-xl. Feature-List: Checkmark-Icon, accent-Farbe.
 
 ## Variants

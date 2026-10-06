@@ -1,8 +1,7 @@
 // Vorlage: pricing — Markup aus data/markup/pricing.html (Karte mit Preis und
 // Featureliste nc-pricing-features). variant=featured → is-featured.
-// Plan v3, Phase 4: ohne die Inline-Polsterung und den Inline-Rahmen der
-// Ernte — die Karte zeigt, was styles.css gestaltet (Polsterung und Rahmen
-// fehlen dort, Entscheidungsfall). render.compositionType „raster": drei
+// Polster und Rahmen gestaltet styles.css (Entscheidung 06.10.2026; die
+// Inline-Stile der Doku sind entfernt). render.compositionType „raster": drei
 // Tarife im Seitenraster nc-pricing-grid (04-objects/_section.scss), der
 // mittlere hervorgehoben.
 const TARIFE = [
