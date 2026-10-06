@@ -1,5 +1,5 @@
 # question Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `animation`, `marquee`
 
@@ -16,7 +16,7 @@ Root element: `.question`
 ### DOM Notes
 - Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).
 - Geschwindigkeit: --px-per-sec (80 mobile, 160 desktop). Icon-Separatoren zwischen Texten.
-- Action-Section: Buttons + Paragraphs. with-text Variante: side-by-side Layout ab Tablet.
+- Action-Section: Buttons (.question-buttons > .nc-button: mobil volle Breite, ab Tablet halbe Breite plus Rinne) + Paragraphs. with-text Variante: side-by-side Layout ab Tablet.
 
 ## Variants
 ### Variant (`variant`)
