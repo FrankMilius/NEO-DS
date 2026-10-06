@@ -373,6 +373,41 @@
   }
 
   // ═══════════════════════════════════════════════════════════════
+  // Sticky (--sticky): Kopfzeile des offenen Eintrags haftet oben
+  // ═══════════════════════════════════════════════════════════════
+  // Gebaut am 06.10.2026 (Entscheidung akk-varianten, "Bauen, mit sticky")
+  // aus den Tokens, die seit Recipe 3.0 bereitstanden
+  // (--nc-accordion-trigger-sticky-z/-bg). Die Website setzt --sticky schon
+  // lange — bis hierher ohne Wirkung.
+  //
+  // Recipe: "position:sticky auf dem Trigger bei offenem Item (nur bei langem
+  // Content)". Die Grenze von sticky ist das <details> selbst: Der Ausloeser
+  // haftet nur, solange sein Eintrag durchs Bild laeuft, und das Ende des
+  // Eintrags schiebt ihn wieder hinaus. Kurze Antworten bemerken davon nichts
+  // — "nur bei langem Content" ergibt sich ohne Messung.
+  //
+  // Versatz: 0 ohne Hauptnavigation; auf Seiten mit .site-header[data-neo-nav]
+  // unter ihr (--nc-nav-height, wie Kapitelleiste und Akkordeon-Block-Kopf),
+  // siehe unten. Ein fester Versatz ohne Navigation (Arena, Storybook) haette
+  // einen Eintrag nahe der Oberkante im Ruhezustand 64px nach unten ueber
+  // seine eigene Antwort geschoben.
+  //
+  // Flaeche deckend (sticky-bg), sonst liefe die Antwort sichtbar unter der
+  // Frage durch. Hover legt seine Toenung als Schicht darueber, statt die
+  // Flaeche zu ersetzen — die Hover-Farbe ist durchscheinend.
+  &--sticky &__item[open] > &__trigger {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--mod-accordion-trigger-sticky-z, var(--nc-accordion-trigger-sticky-z));
+    background-color: var(--mod-accordion-trigger-sticky-bg, var(--nc-accordion-trigger-sticky-bg));
+    transition-property: background-color, inset-block-start;
+  }
+
+  &--sticky &__item[open] > &__trigger:hover:not([disabled]):not([aria-disabled='true']) {
+    background-image: linear-gradient(var(--mod-accordion-trigger-hover-bg, var(--nc-accordion-trigger-hover-bg)) 0 0);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
   // Bereiche im Ausloeser und im Inhalt: Praefix, Suffix, Fuss
   // ═══════════════════════════════════════════════════════════════
   // Gebaut am 06.10.2026 (Entscheidung akk-varianten) aus den Tokens, die
@@ -382,7 +417,8 @@
   // WEBSITE UNBERUEHRT: Alle Selektoren hier treffen nur die neuen Klassen
   // (__trigger-prefix, __trigger-suffix, __footer, --nested, --selection).
   // Kein bestehender Selektor (__trigger, __trigger-body, __trigger-text,
-  // __icon, --flush, --media-top, --sticky) bekommt eine neue Deklaration —
+  // __icon, --flush, --media-top) bekommt eine neue Deklaration (--sticky
+  // hat seit dem 06.10.2026 einen eigenen Abschnitt weiter oben) —
   // geprueft per Pixelvergleich von data/markup/accordion.html hell/dunkel.
 
   // Praefix — Checkbox, Radio oder Status-Zeichen links im Ausloeser
@@ -485,7 +521,23 @@
     &__icon {
       transition: none;
     }
+    &--sticky &__trigger {
+      transition: none;
+    }
   }
+}
+
+// Sticky unter der Hauptnavigation der Website (sticky, Hoehe --nc-nav-height)
+// und mit ihr nach oben, wenn sie sich wegschiebt (.site-header.is-nav-hidden,
+// translateY(-100%)) — dieselbe Lesart wie .nc-chapter-nav: kein eigener
+// Scroll-Beobachter, :has() liest den Zustand, den das Navigationsverhalten
+// ohnehin setzt. Gleiche Spezifitaet, die ausgeblendete Lage steht spaeter.
+body:has(.site-header[data-neo-nav]) .nc-accordion--sticky [open] > .nc-accordion__trigger {
+  inset-block-start: var(--nc-nav-height, 64px);
+}
+
+body:has(.site-header.is-nav-hidden) .nc-accordion--sticky [open] > .nc-accordion__trigger {
+  inset-block-start: 0;
 }
 
 // ---------------------------------------------------------------------------

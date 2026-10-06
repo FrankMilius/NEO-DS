@@ -84,9 +84,9 @@ function enthaelt (id, gesehen = new Set()) {
 // zur Entscheidung gemeldet (Bericht Block Inhalte). Faellt eine weg, weil
 // das SCSS sie bekommt, schlaegt der letzte Test hier an: Liste kuerzen.
 const OHNE_SCSS = {
-  // nested, selection, __trigger-prefix/-suffix, __footer gebaut am 06.10.2026
-  // (akk-varianten); --sticky folgt auf einem Freigabe-Branch
-  accordion: ['nc-accordion--sticky', 'nc-accordion__trigger-text'],
+  // nested, selection, __trigger-prefix/-suffix, __footer und --sticky gebaut
+  // am 06.10.2026 (akk-varianten); __trigger-text traegt keine eigene Regel
+  accordion: ['nc-accordion__trigger-text'],
   // Merkmal-Modifier ohne eigene Regel: die Gestaltung kommt aus den
   // Elementen (Sortierknopf, Auswahl- und Aufklapp-Zelle) — kein Befund
   'data-table': ['nc-data-table--sortable', 'nc-data-table--selectable', 'nc-data-table--expandable']
@@ -181,7 +181,7 @@ describe('Inhalte-Block aus dem Recipe', () => {
       expect(r.keyboard, id).toBeUndefined()
       expect(r.events, id).toBeUndefined()
     }
-    const VERSION = { card: '3.2.1', accordion: '3.2.0', 'data-table': '2.2.0', 'compare-table': '2.0.1' }
+    const VERSION = { card: '3.2.1', accordion: '3.3.0', 'data-table': '2.2.0', 'compare-table': '2.0.1' }
     for (const [id, v] of Object.entries(VERSION)) expect(rohesRecipe(id).meta.version, id).toBe(v)
   })
 

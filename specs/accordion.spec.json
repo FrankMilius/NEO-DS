@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "accordion",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -78,7 +78,7 @@
       "Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Innere Ebene eingerueckt (margin-inline-start: --nc-accordion-nested-indent) mit Fuehrungslinie (--nc-accordion-nested-border-width) und kleinerem Zeichen (--nc-accordion-nested-icon-size).",
       "Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
       "Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).",
-      "Sticky Trigger: position:sticky auf dem Trigger bei offenem Item (nur bei langem Content).",
+      "Sticky Trigger: .nc-accordion--sticky — position:sticky auf dem Trigger des offenen Items (wirkt nur bei langem Content, Grenze ist das <details>). Versatz 0; mit .site-header[data-neo-nav] auf der Seite unter der Hauptnavigation (--nc-nav-height), bei .site-header.is-nav-hidden wieder 0. Flaeche --nc-accordion-trigger-sticky-bg, Ebene --nc-accordion-trigger-sticky-z.",
       "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
       "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
       "Footer: Optionaler Aktionsbereich am Content-Ende (z.B. 'Weiter'-Button), rechtsbuendig, Trennlinie ueber die volle Eintragsbreite (--nc-accordion-footer-padding/-border); in den buendigen Fassungen auf der Textkante.",

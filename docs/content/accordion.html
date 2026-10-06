@@ -607,6 +607,16 @@
     </tbody>
     </table>
   </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Sticky-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>off</td><td>Ausl&ouml;ser scrollt mit dem Eintrag weg</td></tr>
+      <tr><td><code class="docs__token">.nc-accordion--sticky</code></td><td>on</td><td>Ausl&ouml;ser eines offenen Eintrags haftet bei langem Inhalt unter der Hauptnavigation der Website (<code class="docs__token">--nc-nav-height</code>; ohne Navigation oder bei ausgeblendeter an der Oberkante), deckende Fl&auml;che <code class="docs__token">--nc-accordion-trigger-sticky-bg</code>, Ebene <code class="docs__token">--nc-accordion-trigger-sticky-z</code> &mdash; gebaut 06.10.2026</td></tr>
+    </tbody>
+    </table>
+  </div>
 </section>
 <section class="docs__section" id="api-tokens">
   <h2 class="docs__section-title">CSS Custom Properties</h2>
@@ -665,6 +675,7 @@
     <li>Ghost-Variante: Keine Borders/BG, nur Text + Icon. Hover zeigt dezenten Hintergrund mit border-radius.</li>
     <li>Ausl&ouml;ser-Layout: [Pr&auml;fix] [Text] [Suffix] [Zeichen]. Mit Pr&auml;fix steht der Text direkt daneben; das Suffix schiebt sich mit dem Zeichen an den rechten Rand (Entscheidung 06.10.2026).</li>
     <li>Fu&szlig;: hebt das waagerechte Polster des Inhalts auf, damit die Trennlinie &uuml;ber die volle Eintragsbreite l&auml;uft; in den b&uuml;ndigen Fassungen (flush, ghost, register, lese) bleibt er auf der Textkante.</li>
+    <li>Sticky (.nc-accordion--sticky): position: sticky auf dem Ausl&ouml;ser des offenen Eintrags; Grenze ist das &lt;details&gt;, deshalb wirkt es nur bei Inhalt, der l&auml;nger ist als der sichtbare Bereich. Versatz 0; auf Seiten mit .site-header[data-neo-nav] --nc-nav-height, bei .site-header.is-nav-hidden wieder 0.</li>
     <li>prefers-reduced-motion: Transitions werden deaktiviert.</li>
     <li>Legacy: .accordion-item / .accordion-item-summary (non-BEM, migriert von solutions.css) — am Ende der SCSS-Datei erhalten.</li>
   </ul>
