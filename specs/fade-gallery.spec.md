@@ -1,5 +1,5 @@
 # fade-gallery Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.1.1 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `tabs`, `fade`
 
@@ -19,6 +19,7 @@ Root element: `.nc-fade-gallery`
 ### DOM Notes
 - Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
 - Zustaende der Ansicht: .is-active am Medium, .is-visible an der Beschreibung (die anderen [hidden]), aria-selected am Tab — das SCSS blendet ueber (opacity 0.5 s / 0.4 s, ohne bei prefers-reduced-motion).
+- Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Twig block--block-content--neo-fade-gallery.html.twig) — kein CSS im DS; das Blaettern bindet neo-theme.js ueber data-fg-prev/data-fg-next.
 
 ## Variants
 ### Variant (`variant`)

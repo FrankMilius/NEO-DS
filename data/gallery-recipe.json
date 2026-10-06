@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "gallery",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "status": "stable",
     "tags": [
       "interactive",
@@ -18,6 +18,12 @@
       "docs": "/docs/gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.0.1",
+        "changes": [
+          "Website-only-Klassen dokumentiert (Entscheidung 06.10.2026): Paddle-Haken .nc-gallery__paddle--prev/--next als Website-only in den domNotes"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -147,6 +153,7 @@
       }
     ],
     "domNotes": [
+      "Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Markup der Website, data-gallery-prev/-next) — kein CSS im DS.",
       "Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-height.",
       "Track: display:flex, transform:translate3d(-Nx100%, 0, 0). will-change:transform.",
       "Slide: flex:0 0 100%, position:relative. Aktiver Slide via JS-Klasse .is-active.",

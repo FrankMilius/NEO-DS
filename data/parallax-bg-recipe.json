@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "parallax-bg",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "status": "stable",
     "type": "animation",
     "tags": [
@@ -17,6 +17,12 @@
       "docs": "/docs/parallax-bg-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.1",
+        "changes": [
+          "Website-only-Klassen dokumentiert (Entscheidung 06.10.2026): Raster, Flaechen und Balken (.nc-parallax-grid, .nc-parallax-square, .nc-parallax-bar) als Website-only in den domNotes"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -66,7 +72,8 @@
     "domNotes": [
       "Staircase Grid Reveal mit animierten Quadraten.",
       "Markup wie components/parallax-bg/parallax-bg.twig (neo_fe, SDC). Grid, Flaechen und Balken gestaltet die Drupal-Komponente (parallax-bg.css), nicht styles.css; im DS gibt es nur .nc-hero-tmob .nc-parallax-bg.",
-      "Bewegung: die Deckkraft der Flaechen steuert GSAP/ScrollTrigger (parallax-bg.js). Die Arena zeigt den Endzustand (targetOpacity)."
+      "Bewegung: die Deckkraft der Flaechen steuert GSAP/ScrollTrigger (parallax-bg.js). Die Arena zeigt den Endzustand (targetOpacity).",
+      "Website-only: .nc-parallax-grid, .nc-parallax-square (die Flaechen) und .nc-parallax-bar gestaltet die Drupal-Komponente (components/parallax-bg/parallax-bg.css, SDC), ihre Deckkraft steuert parallax-bg.js (GSAP) — kein CSS in styles.css; die Arena traegt diese Regeln deshalb inline."
     ]
   },
   "axes": {

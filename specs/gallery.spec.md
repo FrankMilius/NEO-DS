@@ -1,5 +1,5 @@
 # gallery Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.0.1 | Status: stable | Layer: organism
 
 Tags: `interactive`, `display`, `carousel`, `hero`, `media`
 
@@ -20,6 +20,7 @@ Root element: `.nc-gallery`
 | autoplay | `.nc-gallery__autoplay` | No | Play/Pause Toggle-Button. Deaktiviert bei prefers-reduced-motion. |
 
 ### DOM Notes
+- Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Markup der Website, data-gallery-prev/-next) — kein CSS im DS.
 - Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-height.
 - Track: display:flex, transform:translate3d(-Nx100%, 0, 0). will-change:transform.
 - Slide: flex:0 0 100%, position:relative. Aktiver Slide via JS-Klasse .is-active.

@@ -1,5 +1,5 @@
 # parallax-bg Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.1.1 | Status: stable | Layer: organism
 
 Tags: `animation`, `decoration`, `scroll`
 
@@ -16,6 +16,7 @@ Root element: `.nc-parallax-bg`
 - Staircase Grid Reveal mit animierten Quadraten.
 - Markup wie components/parallax-bg/parallax-bg.twig (neo_fe, SDC). Grid, Flaechen und Balken gestaltet die Drupal-Komponente (parallax-bg.css), nicht styles.css; im DS gibt es nur .nc-hero-tmob .nc-parallax-bg.
 - Bewegung: die Deckkraft der Flaechen steuert GSAP/ScrollTrigger (parallax-bg.js). Die Arena zeigt den Endzustand (targetOpacity).
+- Website-only: .nc-parallax-grid, .nc-parallax-square (die Flaechen) und .nc-parallax-bar gestaltet die Drupal-Komponente (components/parallax-bg/parallax-bg.css, SDC), ihre Deckkraft steuert parallax-bg.js (GSAP) — kein CSS in styles.css; die Arena traegt diese Regeln deshalb inline.
 
 ## Variants
 ### Variant (`variant`)

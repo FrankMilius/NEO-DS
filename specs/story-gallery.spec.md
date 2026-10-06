@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.1.1 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -24,7 +24,7 @@ Root element: `.nc-story-gallery`
 ### DOM Notes
 - Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 - Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.
-- Nicht im DS gestaltet: .nc-story-gallery--nav-below (Website-Klasse) und .nc-shot* (Medien-Bauteil der Website, neo-shot.js) — die Arena laesst sie weg.
+- Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen; .nc-shot, .nc-shot--shadow, .nc-shot__* — Medien-Bauteil der Website (neo_fe js/neo-shot.js + css/neo-shot.css: Fokus-Crop und Praesentations-Presets im Medium). Ob nc-shot ins DS gehoert, ist offen (Bericht 06.10.2026).
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 
 ## Variants
