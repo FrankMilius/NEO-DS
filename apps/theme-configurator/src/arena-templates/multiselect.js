@@ -8,7 +8,8 @@
 //   default  geschlossen, Auswahl im Knopf zusammengefasst
 //   hover / focus  nur echt (data-zustand am Knopf, Pseudoklasse im DS)
 //   open     is-open am Feld, aria-expanded, Panel sichtbar (das Panel ist im
-//            DS absolut positioniert — der Rahmen ra-anker haelt ihm Platz frei)
+//            DS absolut unter dem Feld positioniert, inset-block-start 100% +
+//            spacing-01 — der Rahmen ra-anker haelt ihm Platz frei)
 //   error    nc-form-field--invalid (Rahmen des Knopfs in Danger), Meldung
 //            nc-form-error unter dem Feld, aria-invalid am Knopf
 // render.compositionType „leer": keine Auswahl — Platzhalter

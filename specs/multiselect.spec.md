@@ -1,5 +1,5 @@
 # multiselect Component Spec
-> Version 1.2.0 | Status: draft | Layer: unknown
+> Version 1.3.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `molecules`
 
@@ -16,7 +16,7 @@ Root element: `.nc-multiselect`
 | value--empty | `.nc-multiselect__value--empty` | Yes | — |
 
 ### DOM Notes
-- Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Knopf).
+- Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Feld: inset-block-start calc(100% + spacing-01); neo-theme.js bzw. das Behavior multiselect setzen die Lage beim Oeffnen zusaetzlich inline).
 - Optionen sind Checkboxen: label.nc-checkbox.nc-multiselect__option mit .nc-checkbox__input/__control/__label.
 - Geoeffnet: .is-open am Feld dreht den Pfeil (.nc-multiselect__caret); das Panel steht im Markup und ist geschlossen [hidden]. Achtung: display: flex des Panels gewinnt gegen [hidden] — das Behavior setzt geschlossen zusaetzlich display: none inline. Knopf mit aria-controls auf das Panel (setzt das Behavior, falls es fehlt).
 - Ohne Auswahl: .nc-multiselect__value--empty mit Platzhaltertext. Fehler: .nc-form-field--invalid faerbt den Rahmen des Knopfs.

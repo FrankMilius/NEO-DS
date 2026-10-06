@@ -61,6 +61,12 @@
 
 .nc-multiselect__panel {
   position: absolute;
+  // Unter das Feld, nicht ueber Label und Knopf (Entscheidung
+  // multiselect-panel, 06.10.2026). Ohne inset-block-start lag das Panel im
+  // Flex-Feld an dessen Oberkante. Die Website setzt die Lage zusaetzlich
+  // inline (neo-theme.js: Unterkante des Knopfs + 4px) — dort aendert sich
+  // nichts; das Feld endet ohne Meldung mit dem Knopf, also derselbe Abstand.
+  inset-block-start: calc(100% + var(--fnd-spacing-01));
   inset-inline: 0;
   z-index: 30;
   display: flex;
