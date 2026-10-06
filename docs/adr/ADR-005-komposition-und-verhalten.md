@@ -237,3 +237,26 @@ Dinge fehlten aber:
   offene Fragen (Rolle des Banners, Schrift im Alert, Auto-Ausblenden bei
   Fehlern) zur Entscheidung gemeldet. Keines der vier Bauteile ist auf der
   Website im Einsatz.
+- Phase 3, Block Inhalte (06.10.2026): card, accordion und data-table kommen
+  aus Recipe-Vorlagen; `CardArena.vue`, `AccordionArena.vue`,
+  `DataTableArena.vue` und `TableArena.vue` gelöscht. Markup nach
+  `data/markup` (Karte und Akkordeon von der Website, Datentabelle aus der
+  Doku) und der SCSS-Struktur; die alten Arenen hatten alle drei mit
+  Inline-Stilen nachgezeichnet. `table` hat kein Recipe mehr (am 25.08.2026
+  mit compare-table zusammengelegt: dieselbe Wurzel `.nc-compare-table`,
+  dieselben `--nc-table-*`-Tokens) — die Sektion „Table" zeigt über
+  `ALIASE` im Arena-Resolver die RecipeArena von compare-table, die
+  Hervorhebung läuft über die Sektion (`sektion`-Prop). Neue Specimens:
+  accordion `media-layouts` (die Website nutzt `--media-top`), card
+  `anwendungen` (Muster der alten Arena aus `card-recipes.json`), data-table
+  `states` (hover, selected, error, empty). „Ausprobieren" nur beim Akkordeon;
+  Karte und Datentabelle nennen weder `keyboard` noch `events`. Das
+  Akkordeon-Behavior verwirft den Klick auf gesperrte Auslöser (Enter und
+  Leertaste klappten sie auf). Die dunkle Vorschau bindet jetzt auch Tokens
+  mit Kurzpräfix neu (`--nc-dt-*`, `--nc-table-*`). Behoben: der Wrap-Modus
+  der Datentabelle machte `<td>` zu `display: -webkit-box` und ließ die
+  Tabelle zerfallen. Zur Entscheidung gemeldet: Recipe-Varianten des
+  Akkordeons ohne SCSS (nested, selection, sticky, Präfix/Suffix/Fuß),
+  Kontext-Modifier und Flächenregeln der Karte ohne SCSS, Kontrast der
+  gewählten Karte, Zeilenbegrenzung und Stapel-Layout der Datentabelle,
+  Ghost-Knopf auf der dunklen Batch-Leiste.
