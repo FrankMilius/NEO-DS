@@ -11,7 +11,7 @@
 | Recipe | `data/code-snippet-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_code-snippet.scss` | present |
 | Storybook | `stories/organisms/code-snippet.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/CodeSnippetArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/code-snippet-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/code-snippet-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_code-snippet.scss)
 - [Storybook Story](../stories/organisms/code-snippet.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/CodeSnippetArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/code-snippet-docs.html)

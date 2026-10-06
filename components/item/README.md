@@ -11,7 +11,7 @@
 | Recipe | `data/item-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_item.scss` | present |
 | Storybook | `stories/organisms/item.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ItemArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/item-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/item-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_item.scss)
 - [Storybook Story](../stories/organisms/item.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ItemArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/item-docs.html)

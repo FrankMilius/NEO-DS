@@ -347,7 +347,7 @@
       <tr><td><code class="docs__token">--nc-item-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--nc-item-selected-border)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td></td></tr>
     </tbody>
     </table>
@@ -360,9 +360,10 @@
       <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--nc-input-radius)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-border-width</code></td><td>var(--fnd-border-width-xs)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -409,7 +410,7 @@
     <tbody>
       <tr><td><code class="docs__token">--nc-item-thumbnail-ratio</code></td><td>16 / 9</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-item-thumbnail-width</code></td><td>120px</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--nc-item-media-radius)</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -552,15 +553,16 @@
       <tr><td><code class="docs__token">--nc-item-active-bg</code></td><td>var(--fnd-color-background-tertiary)</td><td>var(--fnd-color-background-tertiary)</td></tr>
       <tr><td><code class="docs__token">--nc-item-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
       <tr><td><code class="docs__token">--nc-item-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
-      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-color</code></td><td>var(--nc-item-selected-border)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
       <tr><td><code class="docs__token">--nc-item-gap</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
       <tr><td><code class="docs__token">--nc-item-padding-x</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
       <tr><td><code class="docs__token">--nc-item-padding-y</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
-      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-radius</code></td><td>var(--nc-input-radius)</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-item-border-width</code></td><td>var(--fnd-border-width-xs)</td><td>var(--fnd-border-width-xs)</td></tr>
       <tr><td><code class="docs__token">--nc-item-align</code></td><td>center</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-item-accent-width</code></td><td>2px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
       <tr><td><code class="docs__token">--nc-item-title-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
       <tr><td><code class="docs__token">--nc-item-title-font-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
@@ -579,7 +581,7 @@
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Thumbnail</td></tr>
       <tr><td><code class="docs__token">--nc-item-thumbnail-ratio</code></td><td>16 / 9</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-item-thumbnail-width</code></td><td>120px</td><td>&mdash;</td></tr>
-      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-item-thumbnail-radius</code></td><td>var(--nc-item-media-radius)</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Density: Compact</td></tr>
       <tr><td><code class="docs__token">--nc-item-compact-padding-x</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
       <tr><td><code class="docs__token">--nc-item-compact-padding-y</code></td><td>var(--fnd-spacing-01)</td><td>var(--fnd-spacing-01)</td></tr>

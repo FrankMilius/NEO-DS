@@ -659,7 +659,7 @@ Jeder Komponenten-Deep-Dive folgt dieser Struktur:
 | **composition** | single, group, toggle, fab, link | `.nc-button--fab` |
 
 ### Konfig-App
-- **Arena:** `ButtonArena.vue`
+- **Arena:** `RecipeArena.vue` (Vorlage `arena-templates/button.js`)
 - **Token-Gruppen:** Geometry (16 Tokens), Typography (10), Primary/Secondary/... (je 5), Interaction (3), FAB (4), Icon Button (6)
 - **Gesamt: 80+ Tokens** — der tokenreichste Atom im System
 - **Export:** Token-Werte als CSS Custom Properties Datei

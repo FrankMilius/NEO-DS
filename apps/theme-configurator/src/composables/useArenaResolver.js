@@ -39,6 +39,14 @@
 // neo-behaviors (Schliessen, Escape, Auto-Ausblenden mit Pause, Wischen,
 // Gelesen) und „Erneut zeigen".
 //
+// Abgeloest (Plan v3, Phase 3, Block Bausteine): button, item, metric,
+// code-snippet — DS-Markup nach SCSS-Struktur und data/markup, alle
+// Specimens der Recipes (Toggle mit nc-button--toggle, Loading mit
+// nc-button--loading, Item-Zustaende als Optionen einer Listbox, Kennzahlen
+// im nc-metric-grid); „Ausprobieren" nur beim Code-Snippet (Kopieren,
+// Mehr/Weniger aus neo-behaviors). form-layout bleibt Sonderfall: es hat
+// kein Recipe (Muster, Entscheidung offen).
+//
 // Abgeloest (Stufe 4): avatar, badge, chip, label, progress, skeleton,
 // spinner, status, tag — Vorlage vorhanden, alle Recipe-Specimens inkl.
 // Kompositionen, Split-Modus hell/dunkel. Die *Arena.vue-Dateien bleiben
@@ -57,12 +65,8 @@ import { computed, defineAsyncComponent, markRaw, h } from 'vue'
 
 const SONDERFAELLE = {
   card: () => import('../components/laboratory/CardArena.vue'),
-  button: () => import('../components/laboratory/ButtonArena.vue'),
   accordion: () => import('../components/laboratory/AccordionArena.vue'),
-  metric: () => import('../components/laboratory/MetricArena.vue'),
-  'code-snippet': () => import('../components/laboratory/CodeSnippetArena.vue'),
   'form-layout': () => import('../components/laboratory/FormLayoutArena.vue'),
-  item: () => import('../components/laboratory/ItemArena.vue'),
   table: () => import('../components/laboratory/TableArena.vue'),
   'data-table': () => import('../components/laboratory/DataTableArena.vue'),
   grid: () => import('../components/laboratory/GridArena.vue'),

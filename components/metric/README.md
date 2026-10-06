@@ -11,7 +11,7 @@
 | Recipe | `data/metric-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_metric.scss` | present |
 | Storybook | `stories/organisms/metric.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/MetricArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/metric-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/metric-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_metric.scss)
 - [Storybook Story](../stories/organisms/metric.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/MetricArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/metric-docs.html)

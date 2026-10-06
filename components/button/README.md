@@ -11,7 +11,7 @@
 | Recipe | `data/button-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_button.scss` | present |
 | Storybook | `stories/atoms/button.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/ButtonArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/button-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/button-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_button.scss)
 - [Storybook Story](../stories/atoms/button.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/ButtonArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/button-docs.html)

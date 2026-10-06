@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "item",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,13 @@
       "docs": "/docs/item-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "06.10.2026: Arena aus dem Recipe (RecipeArena, Vorlage arena-templates/item.js) statt ItemArena.vue (Plan v3, Phase 3).",
+          "06.10.2026: Specimens nennen, was sie enthalten (composes): media-comparison den Avatar, dropdown-integration die Tastenkuerzel (kbd)."
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -45,7 +52,7 @@
         "scss/scss/06-molecules/_item.scss"
       ],
       "story": "stories/organisms/item.stories.js",
-      "arena": "apps/theme-configurator/src/components/laboratory/ItemArena.vue",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/item-docs.html"
     }
@@ -546,7 +553,10 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Thumbnails: alt-Text pflegen. Dekorative Icons: aria-hidden."
-      }
+      },
+      "composes": [
+        "avatar"
+      ]
     },
     {
       "id": "interactive-states",
@@ -726,7 +736,10 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Dropdown: role=menuitem, Shortcuts via aria-keyshortcuts."
-      }
+      },
+      "composes": [
+        "kbd"
+      ]
     }
   ]
 }
