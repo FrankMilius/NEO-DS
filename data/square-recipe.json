@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "square",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "decorative",
@@ -20,10 +20,20 @@
         "scss/scss/05-atoms/_square.scss"
       ],
       "story": "stories/organisms/square.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/square-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimens size-comparison, legende und liste (Anwendungsbeispiele der Doku); alle Zellen aus der Vorlage",
+          "Varianten als eigene Klassen beschrieben (white-square, dark-square, adaptive-square, blinking-square ersetzen .square — so in Doku und SCSS); die Vorlage setzt genau eine, white im Rahmen ra-kulisse statt Inline-Gestaltung",
+          "pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -34,7 +44,8 @@
     "domNotes": [
       "Dekoratives Quadrat via ::before Pseudo-Element.",
       "Varianten: default (accent/gruen), white, dark, adaptive (inverse), blinking.",
-      "Groessen: default (10px), square-l (12px), square-s (8px)."
+      "Groessen: default (10px), square-l (12px), square-s (8px).",
+      "Varianten sind eigene Klassen, keine Modifier: genau eine von .square, .white-square, .dark-square, .adaptive-square, .blinking-square; Groesse zusaetzlich mit .square-s/.square-l."
     ]
   },
   "axes": {
@@ -45,27 +56,32 @@
         "default": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "square-default"
+          "renderHint": "square-default",
+          "description": ".square: Akzentfarbe."
         },
         "white": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "square-white"
+          "renderHint": "square-white",
+          "description": "Eigene Klasse .white-square (ersetzt .square): weisses Quadrat fuer dunklen Grund."
         },
         "dark": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "square-dark"
+          "renderHint": "square-dark",
+          "description": "Eigene Klasse .dark-square (ersetzt .square): always-dark."
         },
         "adaptive": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "square-adaptive"
+          "renderHint": "square-adaptive",
+          "description": "Eigene Klasse .adaptive-square (ersetzt .square): background-inverse, folgt dem Theme."
         },
         "blinking": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "square-blinking"
+          "renderHint": "square-blinking",
+          "description": "Eigene Klasse .blinking-square (ersetzt .square): Akzent, blinkt (animations-flash)."
         }
       }
     },
@@ -177,6 +193,82 @@
       "a11y": {
         "contrastTarget": "WCAG AA non-text (3:1)",
         "note": "Dekorativ — kein Kontrastziel erforderlich."
+      }
+    },
+    {
+      "id": "size-comparison",
+      "label": "Größen",
+      "description": "sm (8px), md (10px), lg (12px)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{size}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Dekorativ — die Bedeutung steht im Text daneben."
+      }
+    },
+    {
+      "id": "legende",
+      "label": "Legende",
+      "description": "Marker als Legende — aktiv, inaktiv (adaptive), live (blinking), wie in der Doku",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "md"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "compositionType": "legende"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Blinken bei „Bewegung reduzieren“ aus (02-generic/_reset)."
+      }
+    },
+    {
+      "id": "liste",
+      "label": "Aufzählung",
+      "description": "Marker als Aufzaehlungszeichen untereinander",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ],
+          "size": [
+            "md"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "compositionType": "liste"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA non-text (3:1)",
+        "note": "Dekorativ — die Bedeutung steht im Text daneben."
       }
     }
   ]

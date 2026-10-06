@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "news",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimen ohne-bild (Hero ohne hero-media/hero-overlay); Vorlage im Rahmen ra-desktop, Bild als Hintergrundbild von __hero-media (background-size: cover im SCSS) statt <img> mit Inline-Gestaltung",
+          "komposition: enthaelt button (CTA im Hero) und container (__hero-inner, __body, __footer tragen nc-container)"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -124,7 +131,7 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "news wie auf der Website",
+      "description": "news wie im Drupal-Theme — Hero mit Bild und Overlay, Text, Fusszeile",
       "matrix": {
         "axes": {},
         "states": [
@@ -133,6 +140,31 @@
       },
       "layout": "block",
       "render": {}
+    },
+    {
+      "id": "ohne-bild",
+      "label": "Ohne Bild",
+      "description": "Hero ohne Medium und Overlay — Text auf der Grundflaeche",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "ohne-bild"
+      }
+    }
+  ],
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "container"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "solutions",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -35,13 +35,20 @@
         "selector": ".solutions-wrapper",
         "required": false,
         "description": null
+      },
+      {
+        "name": "mobile-tabs",
+        "selector": ".solutions-wrapper > div:first-child",
+        "required": true,
+        "description": null
       }
     ],
     "notes": [
       "Desktop: 3-Spalten Grid (6+1+5) mit grid-areas accordion/side/content.",
       "Mobile: Horizontal-Scroll Accordion mit scroll-snap, Tabs oben.",
       "Accordion-Items: Details/Summary, progress-bar Animation (12s linear).",
-      "Side/Content Panels: nur Desktop sichtbar, grid-area overlay."
+      "Side/Content Panels: nur Desktop sichtbar, grid-area overlay.",
+      "Wrapper: erstes Kind ist die Mobil-Tableiste (div > ul > li[.selected] > span), auf dem Desktop ausgeblendet; danach .solutions. Fehlt die Tableiste, ist .solutions das erste Kind und auf dem Desktop unsichtbar."
     ]
   },
   "api": null,
@@ -100,7 +107,7 @@
       "scss/scss/07-organisms/_solutions.scss"
     ],
     "story": "stories/organisms/solutions.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": "docs/solutions-docs.html"
   }

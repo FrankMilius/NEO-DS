@@ -1,5 +1,5 @@
 # text-only Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `text`
 
@@ -15,6 +15,7 @@ Root element: `.nc-text-only`
 ### DOM Notes
 - Container: max-width, padding. Title: heading-Stil.
 - Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.
+- Gebaut sind die Altklassen: .text-only-wrapper > .text-only > div > div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen).
 
 ## Variants
 ### Variant (`variant`)

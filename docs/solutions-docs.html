@@ -309,6 +309,7 @@
       <tr><td><code class="docs__token">.solutions &gt; :nth-child(1)</code></td><td>Element (optional)</td><td>side-panel</td></tr>
       <tr><td><code class="docs__token">.solutions &gt; :last-child</code></td><td>Element (optional)</td><td>content-panel</td></tr>
       <tr><td><code class="docs__token">.solutions-wrapper</code></td><td>Element (optional)</td><td>wrapper</td></tr>
+      <tr><td><code class="docs__token">.solutions-wrapper &gt; div:first-child</code></td><td>Element</td><td>mobile-tabs</td></tr>
     </tbody>
     </table>
   </div>
@@ -343,6 +344,7 @@
     <li>Mobile: Horizontal-Scroll Accordion mit scroll-snap, Tabs oben.</li>
     <li>Accordion-Items: Details/Summary, progress-bar Animation (12s linear).</li>
     <li>Side/Content Panels: nur Desktop sichtbar, grid-area overlay.</li>
+    <li>Wrapper: erstes Kind ist die Mobil-Tableiste (div &gt; ul &gt; li[.selected] &gt; span), auf dem Desktop ausgeblendet; danach .solutions. Fehlt die Tableiste, ist .solutions das erste Kind und auf dem Desktop unsichtbar.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

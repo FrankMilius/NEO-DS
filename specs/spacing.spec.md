@@ -1,5 +1,5 @@
 # spacing Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `foundation`, `spacing`, `scale`
 
@@ -11,6 +11,7 @@ Root element: `.fnd-spacing`
 - 13-Stufen-Skala auf 4px-Basegrid: 4px bis 160px.
 - Stufen 01-05 sind statisch, Stufen 06-13 skalieren fluid mit clamp().
 - Semantische Aliase: section, component, element, gutter, inline, stack, inset.
+- Keine Klassen: die Rollen sind Tokens (--fnd-spacing-<rolle>), keine Modifier. Die Skala fuehrt data/foundation-spacing.json; im Konfigurator ist Spacing eine Foundation.
 
 ## Variants
 ### Rolle (`role`)
@@ -18,13 +19,13 @@ Semantische Spacing-Rolle.
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
-| section | `.section` |  |
-| component | `.component` |  |
-| element | `.element` |  |
-| gutter | `.gutter` |  |
-| inline | `.inline` |  |
-| stack | `.stack` |  |
-| inset | `.inset` |  |
+| section | — |  |
+| component | — |  |
+| element | — |  |
+| gutter | — |  |
+| inline | — |  |
+| stack | — |  |
+| inset | — |  |
 
 ## States
 Supported: `default`

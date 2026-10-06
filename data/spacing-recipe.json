@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "spacing",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "foundation",
@@ -17,10 +17,20 @@
     "pipeline": {
       "scss": [],
       "story": "stories/organisms/spacing.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/spacing-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Rollen ohne Modifier — die Werte section, component, element, gutter, inline, stack und inset waren als Klassen beschrieben, die es nicht gibt (und .section ist das Section-Objekt); die Rolle ist der Token --fnd-spacing-<rolle>",
+          "Vorlage ohne Inline-Gestaltung (Arena-Rahmen ra-abstand); pipeline.arena zeigt auf die RecipeArena",
+          "Befund (Entscheidungsfall): spacing ist kein Bauteil, sondern eine Foundation (keine Klasse, kein SCSS, data/foundation-spacing.json)"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -31,7 +41,8 @@
       "Spacing ist kein gerendertes Element, sondern eine Foundation-Skala.",
       "13-Stufen-Skala auf 4px-Basegrid: 4px bis 160px.",
       "Stufen 01-05 sind statisch, Stufen 06-13 skalieren fluid mit clamp().",
-      "Semantische Aliase: section, component, element, gutter, inline, stack, inset."
+      "Semantische Aliase: section, component, element, gutter, inline, stack, inset.",
+      "Keine Klassen: die Rollen sind Tokens (--fnd-spacing-<rolle>), keine Modifier. Die Skala fuehrt data/foundation-spacing.json; im Konfigurator ist Spacing eine Foundation."
     ]
   },
   "axes": {
@@ -40,49 +51,49 @@
       "description": "Semantische Spacing-Rolle.",
       "values": {
         "section": {
-          "modifier": "section",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Abstand zwischen Sektionen: var(--fnd-spacing-section) = spacing-12."
         },
         "component": {
-          "modifier": "component",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Abstand zwischen Komponenten: var(--fnd-spacing-component) = spacing-08."
         },
         "element": {
-          "modifier": "element",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Abstand zwischen Elementen: var(--fnd-spacing-element) = spacing-04."
         },
         "gutter": {
-          "modifier": "gutter",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Grid-Gutter: var(--fnd-spacing-gutter) = spacing-04."
         },
         "inline": {
-          "modifier": "inline",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Horizontaler Abstand: var(--fnd-spacing-inline) = spacing-03."
         },
         "stack": {
-          "modifier": "stack",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],
           "description": "Vertikaler Stapel: var(--fnd-spacing-stack) = spacing-04."
         },
         "inset": {
-          "modifier": "inset",
+          "modifier": null,
           "tokenGroups": [
             "semantic"
           ],

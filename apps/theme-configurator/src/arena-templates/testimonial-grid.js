@@ -1,7 +1,10 @@
 // Vorlage: testimonial-grid — wie block--block-content--neo-testimonial-grid
 // .html.twig (neo_fe): das Raster enthaelt die Testimonial-Figures; die
 // Navigation (nur bei carousel) steht als Geschwister NACH dem Raster, nicht
-// darin. variante per Modifier; disabled sperrt „Zurueck".
+// darin. variante per Modifier; disabled sperrt „Zurueck" (Anfang des
+// Karussells). Plan v3, Phase 4: Navigation nur noch bei carousel (vorher
+// immer, weil der Slot nav als Pflicht gilt); Rahmen ra-feld--sehr-breit.
+// hover/focus nur echt — data-zustand am Knopf „Weiter".
 import { testimonialHtml } from './_testimonial.js'
 
 const STIMMEN = [
@@ -16,12 +19,13 @@ const WEITER = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stro
 export default (zelle, m) => {
   const karussell = m.wert('variante') === 'carousel'
   const rolle = karussell ? ' role="group" aria-roledescription="Karussell" aria-label="Testimonials" tabindex="0"' : ''
-  return `
-<div class="${m.klasse}"${rolle}${m.attrs}>
+  return `<div class="ra-feld ra-feld--sehr-breit">
+<div class="${m.klassen.filter((k) => k !== 'is-disabled' && k !== 'nc-testimonial-grid--disabled').join(' ')}"${rolle}${m.attrsOhne('aria-disabled', 'data-zustand')}>
 ${STIMMEN.map(([zitat, name, r]) => testimonialHtml({ zitat, name, rolle: r })).join('\n')}
 </div>
-${karussell || m.slot('nav') ? `<div class="nc-testimonial-grid__nav">
+${karussell ? `<div class="nc-testimonial-grid__nav">
 <button type="button" class="nc-testimonial-grid__btn" aria-label="Vorherige Testimonials"${m.deaktiviert ? ' disabled' : ''}>${ZURUECK}</button>
-<button type="button" class="nc-testimonial-grid__btn" aria-label="Weitere Testimonials">${WEITER}</button>
-</div>` : ''}`
+<button type="button" class="nc-testimonial-grid__btn" aria-label="Weitere Testimonials"${m.attribute['data-zustand'] ? ` data-zustand="${m.attribute['data-zustand']}"` : ''}>${WEITER}</button>
+</div>` : ''}
+</div>`
 }

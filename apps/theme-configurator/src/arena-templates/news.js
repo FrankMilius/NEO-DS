@@ -2,13 +2,22 @@
 // Drupal-Theme aufgenommen; eine Markup-Ernte gibt es nicht). Hero mit Bild,
 // Overlay, Eyebrow (Kicker + Datum), Titel, Lead und CTA; darunter Text und
 // Fusszeile. Texte aus data/markup/card-grid.html (Produktnews).
+// Plan v3, Phase 4:
+//   - Rahmen ra-desktop: der Block ist fuer die Seitenbreite gebaut
+//     (Container-Breite, Hero min. 400 px hoch)
+//   - __hero-media ist eine Flaeche mit background-size: cover — das Bild
+//     kommt als Hintergrundbild (Instanzwert wie in Drupal), kein <img>
+//   - render.compositionType „ohne-bild": Hero ohne Medium und Overlay (die
+//     Slots hero-media/hero-overlay fehlen, der Hero steht auf background-base)
 import { BILD_SRC, an } from './_helfer.js'
 
-export default (zelle, m) => `
+export default (zelle, m) => {
+  const bild = m.specimen.render?.compositionType !== 'ohne-bild'
+  return `<div class="ra-desktop">
 <article class="${m.klasse}"${m.attrs}>
 <header class="nc-news__hero">
-${an(m, 'hero-media') ? `<div class="nc-news__hero-media"><img src="${BILD_SRC}" alt="" decoding="async" style="width: 100%; height: 100%; object-fit: cover;"></div>` : ''}
-${an(m, 'hero-overlay') ? '<div class="nc-news__hero-overlay" aria-hidden="true"></div>' : ''}
+${bild && an(m, 'hero-media') ? `<div class="nc-news__hero-media" style="background-image: url(&quot;${BILD_SRC}&quot;);" aria-hidden="true"></div>` : ''}
+${bild && an(m, 'hero-overlay') ? '<div class="nc-news__hero-overlay" aria-hidden="true"></div>' : ''}
 <div class="nc-news__hero-inner nc-container">
 <div class="nc-news__eyebrow">
 ${an(m, 'kicker') ? '<span class="nc-news__kicker">Produktnews</span>' : ''}
@@ -26,4 +35,6 @@ ${an(m, 'lead') ? '<p class="nc-news__lead">Mit dem Einzug von KI und dem funkti
 <a href="#" onclick="return false">Alle News</a>
 <a href="#" onclick="return false">Pressekontakt</a>
 </footer>
-</article>`
+</article>
+</div>`
+}

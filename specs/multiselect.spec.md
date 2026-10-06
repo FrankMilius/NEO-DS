@@ -1,5 +1,5 @@
 # multiselect Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `molecules`
 
@@ -16,8 +16,11 @@ Root element: `.nc-multiselect`
 | value--empty | `.nc-multiselect__value--empty` | Yes | — |
 
 ### DOM Notes
-- Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
-- Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
+- Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Knopf).
+- Optionen sind Checkboxen: label.nc-checkbox.nc-multiselect__option mit .nc-checkbox__input/__control/__label.
+- Geoeffnet: .is-open am Feld dreht den Pfeil (.nc-multiselect__caret), das Panel ist nur dann im DOM bzw. sichtbar (neo-theme.js).
+- Ohne Auswahl: .nc-multiselect__value--empty mit Platzhaltertext. Fehler: .nc-form-field--invalid faerbt den Rahmen des Knopfs.
+- Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'); ein Verhalten in neo-behaviors gibt es nicht.
 
 ## CSS Token API
 Base classes: 

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "text-only",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,10 +21,21 @@
         "scss/scss/06-molecules/_text-only.scss"
       ],
       "story": "stories/organisms/text-only.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/text-only-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimen ohne-knopf (nur der Absatz); Vorlage im Rahmen ra-desktop, has-scroll nicht mehr an der Wurzel (kein CSS — die Einfaerbung macht p.visible)",
+          "Befund (Entscheidungsfall): die Recipe-Klassen nc-text-only*, __scroll-text und der Modifier has-scroll haben kein CSS; gebaut sind .text-only/.text-only-wrapper",
+          "pipeline.arena zeigt auf die RecipeArena",
+          "komposition: enthaelt button (Button-Container)"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -50,7 +61,8 @@
     "convenience": [],
     "domNotes": [
       "Container: max-width, padding. Title: heading-Stil.",
-      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert."
+      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.",
+      "Gebaut sind die Altklassen: .text-only-wrapper > .text-only > div > div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen)."
     ]
   },
   "axes": {
@@ -154,6 +166,34 @@
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Scroll-Variante: reduced-motion beachten."
       }
+    },
+    {
+      "id": "ohne-knopf",
+      "label": "Ohne Knopf",
+      "description": "Nur der Absatz (Doku „Standard-Ansicht“)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "ohne-knopf"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)"
+      }
+    }
+  ],
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "button"
     }
   ]
 }

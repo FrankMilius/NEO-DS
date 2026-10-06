@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "text-only",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -33,7 +33,8 @@
     ],
     "notes": [
       "Container: max-width, padding. Title: heading-Stil.",
-      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert."
+      "Scroll-Text: perspective 600px, 3D-Rotation mit scroll-animation, rotateX + translateZ + scale. Reduced-Motion: Animation deaktiviert.",
+      "Gebaut sind die Altklassen: .text-only-wrapper > .text-only > div > div (Raster ab desktop-up), p mit Wort-Spans (p.visible faerbt sie ein), .button-container. nc-text-only, __title, __text, __scroll-text und has-scroll haben kein CSS (Entscheidung offen)."
     ]
   },
   "api": null,
@@ -90,7 +91,7 @@
       "scss/scss/06-molecules/_text-only.scss"
     ],
     "story": "stories/organisms/text-only.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": "docs/text-only-docs.html"
   }

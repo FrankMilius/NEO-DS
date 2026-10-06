@@ -1,5 +1,5 @@
 # square Component Spec
-> Version 1.0.0 | Status: stable | Layer: atom
+> Version 1.1.0 | Status: stable | Layer: atom
 
 Tags: `decorative`, `display`
 
@@ -10,6 +10,7 @@ Root element: `.square`
 - Dekoratives Quadrat via ::before Pseudo-Element.
 - Varianten: default (accent/gruen), white, dark, adaptive (inverse), blinking.
 - Groessen: default (10px), square-l (12px), square-s (8px).
+- Varianten sind eigene Klassen, keine Modifier: genau eine von .square, .white-square, .dark-square, .adaptive-square, .blinking-square; Groesse zusaetzlich mit .square-s/.square-l.
 
 ## Variants
 ### Variant (`variant`)

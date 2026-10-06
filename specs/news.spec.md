@@ -1,5 +1,5 @@
 # news Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `organisms`
 

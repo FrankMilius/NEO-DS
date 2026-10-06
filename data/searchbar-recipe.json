@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "searchbar",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimens zustaende (hover am Schliessen-Knopf, focus im Feld — data-zustand am Element der Pseudoklasse) und eingabe (Feld mit Suchbegriff); Vorlage ohne Inline-Gestaltung (Rahmen ra-feld--breit)",
+          "komposition: enthaelt container (__inner traegt nc-container)",
+          "Befund (Entscheidungsfall): der Shortcut-Hinweis __shortcut ist nie sichtbar — die Leiste erscheint nur mit data-state=open, und genau dann blendet das SCSS den Shortcut aus"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -103,13 +111,17 @@
         "nc-searchbar-input-bg": "nc-input-bg"
       },
       "hinweis": "Das Feld der Kopfleiste uebernimmt Radius, Rahmen, Hintergrund, Text-, Platzhalter- und Fokusfarbe des Inputs ueber Token-Ketten; Hoehe (44px) und Abstaende bleiben eigene Werte (Entscheidung 02.10.2026, Freigabe G1)."
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "container"
     }
   ],
   "specimens": [
     {
       "id": "default",
       "label": "Standard",
-      "description": "searchbar wie auf der Website",
+      "description": "searchbar wie auf der Website — geoeffnet (data-state=open), sonst display:none",
       "matrix": {
         "axes": {},
         "states": [
@@ -118,6 +130,35 @@
       },
       "layout": "block",
       "render": {}
+    },
+    {
+      "id": "zustaende",
+      "label": "Zustände",
+      "description": "Hover am Schliessen-Knopf, Fokus im Feld (nur echt)",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "hover",
+          "focus"
+        ]
+      },
+      "layout": "block",
+      "render": {}
+    },
+    {
+      "id": "eingabe",
+      "label": "Mit Suchbegriff",
+      "description": "Feld mit Eingabe",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "eingabe"
+      }
     }
   ]
 }

@@ -1,5 +1,5 @@
 # testimonial-grid Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `molecules`
 
@@ -12,8 +12,10 @@ Root element: `.nc-testimonial-grid`
 | nav | `.nc-testimonial-grid__nav` | Yes | — |
 
 ### DOM Notes
-- Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
-- Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
+- Raster: .nc-testimonial-grid (grid, gap spacing-05) mit Testimonial-Figures (figure.nc-testimonial); Spalten per --cols-2/--cols-3 (unter 60em zwei, unter 36em eine Spalte), ohne Modifier eine Spalte.
+- Karussell: --carousel (flex, scroll-snap, Karten min(360px, 85 %)); die Navigation .nc-testimonial-grid__nav mit zwei .nc-testimonial-grid__btn steht NACH dem Raster und nur beim Karussell.
+- disabled: der Knopf am Anfang bzw. Ende ist [disabled] (Opacity-Token).
+- Aus dem Drupal-Theme uebernommen (block--block-content--neo-testimonial-grid.html.twig).
 
 ## Variants
 ### undefined (`0`)

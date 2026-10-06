@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "square",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -14,7 +14,8 @@
     "notes": [
       "Dekoratives Quadrat via ::before Pseudo-Element.",
       "Varianten: default (accent/gruen), white, dark, adaptive (inverse), blinking.",
-      "Groessen: default (10px), square-l (12px), square-s (8px)."
+      "Groessen: default (10px), square-l (12px), square-s (8px).",
+      "Varianten sind eigene Klassen, keine Modifier: genau eine von .square, .white-square, .dark-square, .adaptive-square, .blinking-square; Groesse zusaetzlich mit .square-s/.square-l."
     ]
   },
   "api": null,
@@ -113,7 +114,7 @@
       "scss/scss/05-atoms/_square.scss"
     ],
     "story": "stories/organisms/square.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": "docs/square-docs.html"
   }

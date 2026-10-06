@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "multiselect",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Zustaende open und error ergaenzt (is-open am Feld, nc-form-field--invalid aus _form-field.scss); Specimens default (geschlossen/geoeffnet), zustaende (hover, focus, error) und leer (nc-multiselect__value--empty)",
+          "komposition: enthaelt form-field, form-label, checkbox, form-error — das Markup aus neo-theme.js",
+          "domNotes nach dem Markup statt aus den Klassennamen abgeleitet; Vorlage ohne Inline-Gestaltung (Rahmen ra-anker/ra-feld)"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -63,15 +71,20 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Knopf).",
+      "Optionen sind Checkboxen: label.nc-checkbox.nc-multiselect__option mit .nc-checkbox__input/__control/__label.",
+      "Geoeffnet: .is-open am Feld dreht den Pfeil (.nc-multiselect__caret), das Panel ist nur dann im DOM bzw. sichtbar (neo-theme.js).",
+      "Ohne Auswahl: .nc-multiselect__value--empty mit Platzhaltertext. Fehler: .nc-form-field--invalid faerbt den Rahmen des Knopfs.",
+      "Aus dem Drupal-Theme uebernommen (neo-theme.js, case 'multiselect'); ein Verhalten in neo-behaviors gibt es nicht."
     ]
   },
   "axes": [],
   "states": [
     "default",
     "hover",
-    "focus"
+    "focus",
+    "open",
+    "error"
   ],
   "a11y": {
     "notes": [
@@ -95,15 +108,65 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "multiselect wie auf der Website",
+      "description": "multiselect wie auf der Website — mit Auswahl, geschlossen und geoeffnet",
       "matrix": {
         "axes": {},
         "states": [
-          "default"
+          "default",
+          "open"
         ]
       },
-      "layout": "block",
+      "layout": "row",
       "render": {}
+    },
+    {
+      "id": "zustaende",
+      "label": "Zustände",
+      "description": "Hover und Fokus am Knopf (nur echt), Fehler mit nc-form-field--invalid und Meldung",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "hover",
+          "focus",
+          "error"
+        ]
+      },
+      "layout": "row",
+      "render": {}
+    },
+    {
+      "id": "leer",
+      "label": "Ohne Auswahl",
+      "description": "Platzhalter nc-multiselect__value--empty im Knopf, Panel ohne Haken",
+      "matrix": {
+        "axes": {},
+        "states": [
+          "default",
+          "open"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "leer"
+      }
+    }
+  ],
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "form-field"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "form-label"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "checkbox"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "form-error"
     }
   ]
 }
