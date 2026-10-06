@@ -1,5 +1,5 @@
 # text-blocks Component Spec
-> Version 1.0.0 | Status: stable | Layer: atom
+> Version 1.1.0 | Status: stable | Layer: atom
 
 Tags: `typography`, `display`, `content`
 
@@ -9,8 +9,9 @@ Root element: `.nc-section-title`
 ### DOM Notes
 - Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead (.nc-lead).
 - Section-Title: font-heading, fs-3xl, margin-bottom 4rem.
-- Eyebrow: uppercase, fs-xs, letter-spacing 0.2em, text-secondary.
+- Eyebrow: kanonischer Kicker (Token-Satz --nc-kicker-*: Schrift, Groesse, Laufweite, Versalien, Farbe, Abstand).
 - Lead: fs-lg, text-secondary, max-width 56ch.
+- Titel und Lead skalieren mit --type-scale (Standard 1) — ein umgebendes Element darf den Wert setzen.
 
 ## Variants
 ### Variant (`variant`)

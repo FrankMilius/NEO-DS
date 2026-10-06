@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tab-nav",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,15 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Achse variant (line/contained — Modifier von solution-tabs an der gemeinsamen Wurzel; die Website nutzt contained) und Specimens default (Zustand active), variant-comparison sowie die Inhaltsmodule der Website (modul-features, modul-bento, modul-panels) nach data/markup/tab-nav.html",
+          "Animierter Website-Block: „Zustände“ zeigt das Standbild (autoplay off), „Abspielen“ setzt data-autoplay=on (Fortschrittsbalken per CSS, kein GSAP)",
+          "komposition: enthaelt solution-tabs, feature-list, bento-grid, expanding-panels, button; domNotes nach dem geernteten Markup",
+          "Anatomie: Slots panel (.nc-tab-nav__panel), features und xpanels aus dem geernteten Markup"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -49,15 +58,53 @@
         "name": "panel-body",
         "element": ".nc-tab-nav__panel-body",
         "optional": false
+      },
+      {
+        "name": "panel",
+        "element": ".nc-tab-nav__panel",
+        "optional": false
+      },
+      {
+        "name": "features",
+        "element": ".nc-tab-nav__features",
+        "optional": true
+      },
+      {
+        "name": "xpanels",
+        "element": ".nc-tab-nav__xpanels",
+        "optional": true
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Wurzel: .nc-solution-tabs.nc-tab-nav (data-orientation, data-autoplay) — Tableiste und Tabs von solution-tabs, Panel .nc-solution-tabs__panel.nc-tab-nav__panel > .nc-tab-nav__panel-body.",
+      "Panel-Body: Titel, Text, Inhaltsmodul .nc-tab-nav__module und CTA (nc-button--accent nc-button--lg).",
+      "Inhaltsmodule der Website: Feature-Liste (nc-feature-list__items), Features (nc-solution-tabs__features nc-tab-nav__features), Bento-Raster (nc-bento-grid nc-tab-nav__bento), Expanding Panels (nc-expanding-panels nc-tab-nav__xpanels).",
+      "Autoplay: data-autoplay=on laesst den Fortschrittsbalken des aktiven Tabs laufen (CSS); den Tabwechsel macht neo-theme.js.",
+      "Slots badges (.nc-tab-nav__badges) und bento sind gebaut; badges ist leer ausgeblendet und kommt im geernteten Markup nicht vor.",
+      "Slots panel, features und xpanels sind Haken der Website am jeweiligen Element (kein eigenes CSS); gestaltet wird ueber solution-tabs, bento-grid und expanding-panels."
     ]
   },
-  "axes": [],
+  "axes": {
+    "variant": {
+      "label": "Variant",
+      "description": "Tab-Darstellung — die Wurzel ist zugleich nc-solution-tabs und nimmt deren Modifier",
+      "values": {
+        "line": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "tab-nav-line",
+          "description": "Unterstrich-Indikator (Standard von solution-tabs)"
+        },
+        "contained": {
+          "modifier": "nc-solution-tabs--contained",
+          "tokenGroups": [],
+          "renderHint": "tab-nav-contained",
+          "description": "Tabs in einer Flaeche — so auf der Website (/node/1)"
+        }
+      }
+    }
+  },
   "states": [
     "default",
     "active"
@@ -76,21 +123,123 @@
   },
   "recipes": [],
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" }
+    {
+      "art": "enthaelt",
+      "recipe": "solution-tabs",
+      "hinweis": "Wurzel „nc-solution-tabs nc-tab-nav“: Tableiste, Tabs, Fortschritt und Panel kommen von solution-tabs"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "feature-list"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "bento-grid"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "expanding-panels"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
   ],
   "specimens": [
     {
       "id": "default",
       "label": "Standard",
-      "description": "tab-nav wie auf der Website",
+      "description": "tab-nav wie auf der Website — contained, Feature-Liste; erster und zweiter Tab aktiv",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variant": [
+            "contained"
+          ]
+        },
+        "states": [
+          "default",
+          "active"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "feature-liste"
+      }
+    },
+    {
+      "id": "variant-comparison",
+      "label": "Varianten",
+      "description": "line und contained (Modifier von solution-tabs an der gemeinsamen Wurzel)",
+      "matrix": {
+        "axes": {
+          "variant": "*"
+        },
         "states": [
           "default"
         ]
       },
       "layout": "block",
-      "render": {}
+      "render": {
+        "compositionType": "feature-liste",
+        "label": "{variant}"
+      }
+    },
+    {
+      "id": "modul-features",
+      "label": "Modul: Features",
+      "description": "Panel mit nc-solution-tabs__features nc-tab-nav__features (Website: neo chat)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "contained"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "features"
+      }
+    },
+    {
+      "id": "modul-bento",
+      "label": "Modul: Bento-Raster",
+      "description": "Panel mit nc-bento-grid nc-tab-nav__bento (Website: neo AI)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "contained"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "bento"
+      }
+    },
+    {
+      "id": "modul-panels",
+      "label": "Modul: Expanding Panels",
+      "description": "Panel mit nc-expanding-panels nc-tab-nav__xpanels (Website: neo app)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "contained"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "panels"
+      }
     }
   ]
 }

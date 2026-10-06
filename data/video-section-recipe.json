@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "video-section",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,12 +21,22 @@
         "scss/scss/07-organisms/_video-section.scss"
       ],
       "story": "stories/organisms/video-section.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/video-section-docs.html"
     },
     "dependencies": [
       "video"
+    ],
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Zustand playing im Specimen default; Specimens auf-dunkel (render.flaeche dunkel — wie Drupal mit neo-dark-theme am Block) und video-element (<video poster>); Rahmen ra-desktop",
+          "Befund (Entscheidungsfall, website-sichtbar): .nc-video__title und __text sind always-light — auf heller Flaeche Weiss auf Hell",
+          "pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
     ]
   },
   "anatomy": {
@@ -152,13 +162,40 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
   ],
   "specimens": [
     {
       "id": "default",
       "label": "Video Section",
-      "description": "Video mit Content und Play-Overlay",
+      "description": "Video mit Content und Play-Overlay — Vorschau und abspielend (Overlay ausgeblendet)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default",
+          "playing"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "video-section"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Play-Button: aria-label. Video: captions."
+      }
+    },
+    {
+      "id": "auf-dunkel",
+      "label": "Auf dunkler Fläche",
+      "description": "Wie in Drupal mit Flaeche „dunkel“ (neo-dark-theme am Block) — Titel und Text sind always-light",
       "matrix": {
         "axes": {
           "variant": [
@@ -169,13 +206,36 @@
           "default"
         ]
       },
-      "layout": "row",
+      "layout": "block",
       "render": {
-        "label": "video-section"
+        "flaeche": "dunkel"
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Play-Button: aria-label. Video: captions."
+        "note": "always-light auf dunklem Grund."
+      }
+    },
+    {
+      "id": "video-element",
+      "label": "Mit nativem Video-Element",
+      "description": "<video> mit Vorschaubild (poster) statt <img>",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "block",
+      "render": {
+        "compositionType": "video"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Video mit Namen; Untertitel liefert die Quelle."
       }
     }
   ]

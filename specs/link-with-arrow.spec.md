@@ -1,5 +1,5 @@
 # link-with-arrow Component Spec
-> Version 1.0.0 | Status: stable | Layer: atom
+> Version 1.1.0 | Status: stable | Layer: atom
 
 Tags: `navigation`, `interactive`, `link`
 

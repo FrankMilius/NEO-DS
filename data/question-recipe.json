@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "question",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,10 +21,21 @@
         "scss/scss/07-organisms/_question.scss"
       ],
       "story": "stories/organisms/question.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/question-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): animierter Website-Block — „Zustände“ zeigt das Standbild (Laufzeilen ohne .question-animate, ohne Inline-Gestaltung), „Abspielen“ setzt .question-animate (CSS-Keyframes des DS, kein JS/GSAP)",
+          "Vorlage: with-text sitzt am Aktionsbereich wie im SCSS (.question-action-section.with-text), nicht mehr zusaetzlich an der Wurzel; Rahmen ra-desktop (Seitenbreite)",
+          "Befund (Entscheidungsfall, website-sichtbar): .question-buttons .button greift nicht — die Website setzt .nc-button",
+          "pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -72,7 +83,8 @@
         "with-text": {
           "modifier": "with-text",
           "tokenGroups": [],
-          "renderHint": "question-with-text"
+          "renderHint": "question-with-text",
+          "description": "Modifier am Aktionsbereich (.question-action-section.with-text): Absatz links, Knoepfe rechts."
         }
       }
     }
@@ -136,8 +148,14 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" },
-    { "art": "enthaelt", "recipe": "icon" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "icon"
+    }
   ],
   "specimens": [
     {

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "link-with-arrow",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,10 +21,19 @@
         "scss/scss/05-atoms/_link-with-arrow.scss"
       ],
       "story": "stories/molecules/link-with-arrow.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/link-with-arrow-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimens standard-verwendung, anwendungen (am Ende eines Textabschnitts) und in-karte (Kartenfuss, composes: card) aus den Doku-Beispielen; alle Zellen aus der Vorlage src/arena-templates/link-with-arrow.js",
+          "pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -161,6 +170,78 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Link-Text 4.5:1 gegen Hintergrund. Pfeil-Icon dekorativ."
+      }
+    },
+    {
+      "id": "standard-verwendung",
+      "label": "Standard-Verwendung",
+      "description": "Mehrere Links untereinander — Text und Pfeil, wie in der Doku",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "single",
+      "render": {
+        "compositionType": "liste"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Jeder Link mit eigenem, eindeutigem Linktext."
+      }
+    },
+    {
+      "id": "anwendungen",
+      "label": "Anwendungsbeispiele",
+      "description": "Am Ende eines Textabschnitts und im Fuss einer Karte (Doku „Anwendungsbeispiele“)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "text"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Linktext beschreibt das Ziel auch ohne den Absatz davor."
+      }
+    },
+    {
+      "id": "in-karte",
+      "label": "In einer Karte",
+      "description": "Link im Kartenfuss (nc-card__footer)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "karte"
+      },
+      "composes": [
+        "card"
+      ],
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Die Karte selbst bleibt statisch (nc-card ohne navigational) — nur der Link ist das Ziel."
       }
     }
   ]

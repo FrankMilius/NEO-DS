@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "table-block",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Zustand scrolled (data-scroll-active=true und .is-scrolled, wie neo-theme.js sie setzt — Schatten der festen ersten Spalte) im Specimen default",
+          "Vorlage nach der Website: Tabelle mit --sticky-header und --sticky-col, Rubrik als normale Zeile, Zeilenkopf mit Info-Knopf; domNotes nach dem geernteten Markup"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -32,12 +39,16 @@
     "slots": [],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe."
+      "Block: .nc-table-block (data-neo-table, data-width, data-scroll-bp, data-sticky-col) um .nc-compare-table --striped --sticky-header --full-width --sticky-col; Zellen sind .nc-tbl-cell (tbl-cell).",
+      "Kopfzeile: thead th in Versalien auf --tbl-header-bg (Drupal setzt die Farbe je Block inline, Vorgabe background-tertiary).",
+      "Scrollen: unter data-scroll-bp setzt neo-theme.js data-scroll-active=true (Tabelle max-content, waagerecht scrollbar) und beim Scrollen .is-scrolled (Schatten der festen ersten Spalte).",
+      "Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise (data/markup/table-block.html)."
     ]
   },
   "axes": [],
   "states": [
-    "default"
+    "default",
+    "scrolled"
   ],
   "a11y": {
     "notes": [
@@ -53,18 +64,25 @@
   },
   "recipes": [],
   "komposition": [
-    { "art": "enthaelt", "recipe": "compare-table" },
-    { "art": "enthaelt", "recipe": "tbl-cell" }
+    {
+      "art": "enthaelt",
+      "recipe": "compare-table"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "tbl-cell"
+    }
   ],
   "specimens": [
     {
       "id": "default",
       "label": "Standard",
-      "description": "table-block wie auf der Website",
+      "description": "table-block wie auf der Website — und gescrollt (schmal, data-scroll-active, is-scrolled)",
       "matrix": {
         "axes": {},
         "states": [
-          "default"
+          "default",
+          "scrolled"
         ]
       },
       "layout": "block",

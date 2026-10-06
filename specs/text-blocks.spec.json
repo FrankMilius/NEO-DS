@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "text-blocks",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -15,8 +15,9 @@
     "notes": [
       "Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead (.nc-lead).",
       "Section-Title: font-heading, fs-3xl, margin-bottom 4rem.",
-      "Eyebrow: uppercase, fs-xs, letter-spacing 0.2em, text-secondary.",
-      "Lead: fs-lg, text-secondary, max-width 56ch."
+      "Eyebrow: kanonischer Kicker (Token-Satz --nc-kicker-*: Schrift, Groesse, Laufweite, Versalien, Farbe, Abstand).",
+      "Lead: fs-lg, text-secondary, max-width 56ch.",
+      "Titel und Lead skalieren mit --type-scale (Standard 1) — ein umgebendes Element darf den Wert setzen."
     ]
   },
   "api": null,
@@ -81,7 +82,7 @@
       "scss/scss/05-atoms/_text-blocks.scss"
     ],
     "story": "stories/organisms/text-blocks.stories.js",
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [],
     "docs": "docs/text-blocks-docs.html"
   }

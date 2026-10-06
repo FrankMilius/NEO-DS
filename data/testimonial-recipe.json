@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "testimonial",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,10 +21,19 @@
         "scss/scss/06-molecules/_testimonial.scss"
       ],
       "story": "stories/organisms/testimonial.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/testimonial-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimens ergebnisse (__results, __context), person (__avatar, __logo, __socials), video (__video-facade, __video-play) und ohne-rolle — alles Teile, die _testimonial.scss gestaltet; Standard wie die Ernte (Zitat, Name, Rolle)",
+          "domNotes nach dem Drupal-Twig und dem SCSS; pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -59,8 +68,9 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap-align.",
-      "Quote: fs-lg, line-height 1.25. Author: flex, gap 0.75rem. Name: semibold. Role: fs-xs, text-secondary."
+      "figure.nc-testimonial (Karte: background-secondary, radius-4xl, Polsterung spacing-05, Grid gap spacing-05) > blockquote.__quote, optional ul.__results, figcaption.__author > div.__meta > cite.__name + span.__role, optional p.__context.",
+      "Optional (aufgenommen aus neo-overrides.css): img.__avatar vor den Meta-Angaben, img.__logo rechts im Autorenblock, __socials > a.__social unter Name/Rolle, __video (Vorschau __video-facade > __video-play, per order oben).",
+      "Drupal zeigt jeden optionalen Teil nur, wenn das Feld gefuellt ist."
     ]
   },
   "axes": {
@@ -156,6 +166,97 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Quote und Author kontrastreich auf secondary BG."
+      }
+    },
+    {
+      "id": "ergebnisse",
+      "label": "Mit Ergebnissen",
+      "description": "Messbare Ergebnisse (__results) und Kontext (__context)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "ergebnisse"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ergebnisliste mit aria-label „Messbare Ergebnisse“."
+      }
+    },
+    {
+      "id": "person",
+      "label": "Mit Avatar und Logo",
+      "description": "Avatar, Firmenlogo und Social-Link im Autorenblock",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "person"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Avatar dekorativ (alt leer), Logo mit Alternativtext, Social-Link mit Namen."
+      }
+    },
+    {
+      "id": "video",
+      "label": "Mit Video",
+      "description": "Video-Vorschau mit Abspiel-Knopf oben in der Karte",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "video"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Abspiel-Knopf mit Namen („Video mit … abspielen“)."
+      }
+    },
+    {
+      "id": "ohne-rolle",
+      "label": "Ohne Rolle",
+      "description": "Nur Name unter dem Zitat (Slot role leer)",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "ohne-rolle"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)"
       }
     }
   ]

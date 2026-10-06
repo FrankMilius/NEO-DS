@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "security-list",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -21,10 +21,20 @@
         "scss/scss/06-molecules/_security-list.scss"
       ],
       "story": "stories/organisms/security-list.stories.js",
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/security-list-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimen mit-symbol zeigt „nicht gebaut“ — .nc-security-list__icon und __text stehen in der Anatomie, nicht in styles.css (Doku baut das Muster mit Inline-Gestaltung)",
+          "domNotes nach dem SCSS: Kachel-Items (Rahmen, radius-4xl, Polsterung) statt „flex, border-bottom, Icon accent“",
+          "pipeline.arena zeigt auf die RecipeArena"
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -49,8 +59,9 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Grid-Layout mit gap. Items: flex, align-items center, border-bottom.",
-      "Icon: accent-Farbe. Text: font-size base."
+      "Liste: ul.nc-security-list ohne Aufzaehlungszeichen, Grid mit gap spacing-03.",
+      "Item: li.nc-security-list__item als Kachel — background-base, Rahmen border-secondary, radius-4xl, Polsterung spacing-04/05; der Text steht direkt im Item.",
+      "Slots icon und text (__icon, __text) sind beschrieben, aber nicht gebaut: styles.css kennt sie nicht (Entscheidung offen)."
     ]
   },
   "axes": {
@@ -146,6 +157,25 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Icons dekorativ, Text kontrastreich."
+      }
+    },
+    {
+      "id": "mit-symbol",
+      "label": "Mit Symbol",
+      "description": "Item mit Symbol und Text (Slots icon/text) — beschrieben, nicht gebaut",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "mit-symbol"
       }
     }
   ]

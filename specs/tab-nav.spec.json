@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "tab-nav",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -34,15 +34,56 @@
         "selector": ".nc-tab-nav__panel-body",
         "required": true,
         "description": null
+      },
+      {
+        "name": "panel",
+        "selector": ".nc-tab-nav__panel",
+        "required": true,
+        "description": null
+      },
+      {
+        "name": "features",
+        "selector": ".nc-tab-nav__features",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "xpanels",
+        "selector": ".nc-tab-nav__xpanels",
+        "required": false,
+        "description": null
       }
     ],
     "notes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Wurzel: .nc-solution-tabs.nc-tab-nav (data-orientation, data-autoplay) — Tableiste und Tabs von solution-tabs, Panel .nc-solution-tabs__panel.nc-tab-nav__panel > .nc-tab-nav__panel-body.",
+      "Panel-Body: Titel, Text, Inhaltsmodul .nc-tab-nav__module und CTA (nc-button--accent nc-button--lg).",
+      "Inhaltsmodule der Website: Feature-Liste (nc-feature-list__items), Features (nc-solution-tabs__features nc-tab-nav__features), Bento-Raster (nc-bento-grid nc-tab-nav__bento), Expanding Panels (nc-expanding-panels nc-tab-nav__xpanels).",
+      "Autoplay: data-autoplay=on laesst den Fortschrittsbalken des aktiven Tabs laufen (CSS); den Tabwechsel macht neo-theme.js.",
+      "Slots badges (.nc-tab-nav__badges) und bento sind gebaut; badges ist leer ausgeblendet und kommt im geernteten Markup nicht vor.",
+      "Slots panel, features und xpanels sind Haken der Website am jeweiligen Element (kein eigenes CSS); gestaltet wird ueber solution-tabs, bento-grid und expanding-panels."
     ]
   },
   "api": null,
-  "variants": {},
+  "variants": {
+    "variant": {
+      "label": "Variant",
+      "description": "Tab-Darstellung — die Wurzel ist zugleich nc-solution-tabs und nimmt deren Modifier",
+      "values": [
+        {
+          "value": "line",
+          "cssModifier": null,
+          "default": false,
+          "label": "line"
+        },
+        {
+          "value": "contained",
+          "cssModifier": "nc-solution-tabs--contained",
+          "default": false,
+          "label": "contained"
+        }
+      ]
+    }
+  },
   "states": {
     "supported": [],
     "interactive": null,

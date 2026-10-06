@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tbl-cell",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v3, Phase 4 (bloecke-2): Specimens default (Zeilenkopf und Wertzelle), info-knopf (hover/focus), untertitel (__sub), werte (Haken/Strich) und symbol-ueber-text (__icon-block); jede Zelle steht in einer Tabelle (Rahmen ra-tabelle), weil das SCSS nach th[scope=row]/td unterscheidet",
+          "domNotes nach SCSS und geerntetem Markup"
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -53,8 +60,10 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Zelle der Vergleichstabelle: .nc-tbl-cell (flex) in th oder td — der Ort gestaltet sie: th[scope=row] links mit fettem Text, td mittig.",
+      "Zeilenkopf: p.nc-tbl-cell__text mit optionalem Info-Knopf .nc-tbl-cell__info-btn (aria-label), darunter optional .nc-tbl-cell__sub.",
+      "Wertzelle: .nc-tbl-cell--icon mit Haken (nc-tbl-icon--check) oder Strich (nc-tbl-icon--dash); .nc-tbl-cell__icon-block stellt ein Symbol ueber Text.",
+      "Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise."
     ]
   },
   "axes": [
@@ -96,15 +105,97 @@
     {
       "id": "default",
       "label": "Standard",
-      "description": "tbl-cell wie auf der Website",
+      "description": "Zeilenkopf mit Info-Knopf und Wertzelle mit Haken — je in ihrer Tabellenzelle",
       "matrix": {
-        "axes": {},
+        "axes": {
+          "variante": [
+            "default",
+            "icon"
+          ]
+        },
         "states": [
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "row",
+      "render": {
+        "label": "{variante}"
+      }
+    },
+    {
+      "id": "info-knopf",
+      "label": "Info-Knopf",
+      "description": "Hover und Fokus am Info-Knopf (nur echt)",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "default"
+          ]
+        },
+        "states": [
+          "hover",
+          "focus"
+        ]
+      },
+      "layout": "row",
       "render": {}
+    },
+    {
+      "id": "untertitel",
+      "label": "Mit Untertitel",
+      "description": "Zeilenkopf mit __sub unter dem Text",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "untertitel"
+      }
+    },
+    {
+      "id": "werte",
+      "label": "Werte",
+      "description": "Enthalten (Haken) und nicht enthalten (Strich)",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "icon"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "werte"
+      }
+    },
+    {
+      "id": "symbol-ueber-text",
+      "label": "Symbol über Text",
+      "description": "Wertzelle mit __icon-block und Text darunter",
+      "matrix": {
+        "axes": {
+          "variante": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "compositionType": "symbol"
+      }
     }
   ]
 }

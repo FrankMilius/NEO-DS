@@ -143,7 +143,8 @@ describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
 
   it('testimonial: figure > blockquote.__quote + figcaption.__author > cite.__name', () => {
     const [h] = alle('testimonial')
-    expect(h.trim()).toMatch(/^<figure class="nc-testimonial/)
+    // im Arena-Rahmen ra-feld (Plan v3, Phase 4): die Figure ist das erste DS-Element
+    expect(h.trim()).toMatch(/^<div class="ra-feld[^"]*">\s*<figure class="nc-testimonial/)
     expect(h).toContain('<blockquote class="nc-testimonial__quote">')
     expect(h).toContain('<figcaption class="nc-testimonial__author">')
     expect(h).toContain('<cite class="nc-testimonial__name">')
@@ -166,10 +167,15 @@ describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
     expect(h).not.toContain('nc-tab-nav')
   })
 
-  it('tab-nav: Wurzel nc-solution-tabs nc-tab-nav, Modul mit nc-tab-nav__features', () => {
+  it('tab-nav: Wurzel nc-solution-tabs nc-tab-nav, Module wie auf der Website', () => {
     const [h] = alle('tab-nav')
     expect(h).toMatch(/class="nc-solution-tabs nc-tab-nav/)
-    expect(h).toContain('nc-solution-tabs__features nc-tab-nav__features')
+    // Standard der Website: Feature-Liste; die anderen Module je Specimen (Plan v3, Phase 4)
+    expect(h).toContain('nc-tab-nav__module"><ul class="nc-feature-list__items">')
+    const alleHtml = alle('tab-nav').join('\n')
+    expect(alleHtml).toContain('nc-solution-tabs__features nc-tab-nav__features')
+    expect(alleHtml).toContain('nc-bento-grid nc-tab-nav__bento')
+    expect(alleHtml).toContain('nc-expanding-panels nc-tab-nav__xpanels')
   })
 
   it('app-store: Store-Abzeichen und QR-Code', () => {

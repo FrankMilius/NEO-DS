@@ -1,5 +1,5 @@
 # security-list Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `trust`
 
@@ -13,8 +13,9 @@ Root element: `.nc-security-list`
 | text | `.nc-security-list__text` | Yes | — |
 
 ### DOM Notes
-- Grid-Layout mit gap. Items: flex, align-items center, border-bottom.
-- Icon: accent-Farbe. Text: font-size base.
+- Liste: ul.nc-security-list ohne Aufzaehlungszeichen, Grid mit gap spacing-03.
+- Item: li.nc-security-list__item als Kachel — background-base, Rahmen border-secondary, radius-4xl, Polsterung spacing-04/05; der Text steht direkt im Item.
+- Slots icon und text (__icon, __text) sind beschrieben, aber nicht gebaut: styles.css kennt sie nicht (Entscheidung offen).
 
 ## Variants
 ### Variant (`variant`)

@@ -1,5 +1,5 @@
 # question Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `display`, `animation`, `marquee`
 

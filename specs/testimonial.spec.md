@@ -1,5 +1,5 @@
 # testimonial Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.1.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `social-proof`
 
@@ -15,8 +15,9 @@ Root element: `.nc-testimonial`
 | role | `.nc-testimonial__role` | No | — |
 
 ### DOM Notes
-- Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap-align.
-- Quote: fs-lg, line-height 1.25. Author: flex, gap 0.75rem. Name: semibold. Role: fs-xs, text-secondary.
+- figure.nc-testimonial (Karte: background-secondary, radius-4xl, Polsterung spacing-05, Grid gap spacing-05) > blockquote.__quote, optional ul.__results, figcaption.__author > div.__meta > cite.__name + span.__role, optional p.__context.
+- Optional (aufgenommen aus neo-overrides.css): img.__avatar vor den Meta-Angaben, img.__logo rechts im Autorenblock, __socials > a.__social unter Name/Rolle, __video (Vorschau __video-facade > __video-play, per order oben).
+- Drupal zeigt jeden optionalen Teil nur, wenn das Feld gefuellt ist.
 
 ## Variants
 ### Variant (`variant`)

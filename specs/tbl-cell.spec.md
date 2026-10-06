@@ -1,5 +1,5 @@
 # tbl-cell Component Spec
-> Version 1.0.0 | Status: draft | Layer: unknown
+> Version 1.1.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `atoms`
 
@@ -14,8 +14,10 @@ Root element: `.nc-tbl-cell`
 | text | `.nc-tbl-cell__text` | Yes | — |
 
 ### DOM Notes
-- Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
-- Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.
+- Zelle der Vergleichstabelle: .nc-tbl-cell (flex) in th oder td — der Ort gestaltet sie: th[scope=row] links mit fettem Text, td mittig.
+- Zeilenkopf: p.nc-tbl-cell__text mit optionalem Info-Knopf .nc-tbl-cell__info-btn (aria-label), darunter optional .nc-tbl-cell__sub.
+- Wertzelle: .nc-tbl-cell--icon mit Haken (nc-tbl-icon--check) oder Strich (nc-tbl-icon--dash); .nc-tbl-cell__icon-block stellt ein Symbol ueber Text.
+- Aus dem Drupal-Theme uebernommen; Markup aus der Website /events/editionen-preise.
 
 ## Variants
 ### undefined (`0`)
