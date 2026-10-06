@@ -578,12 +578,12 @@ ORDER BY c.category, t.name;</code></pre>
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
       <tr><td><code class="docs__token">--nc-cs-copy-size</code></td><td>32px</td><td>var(--fnd-size-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-cs-copy-bg</code></td><td>var(--fnd-color-background-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-cs-copy-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-border</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
-      <tr><td><code class="docs__token">--nc-cs-copy-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-cs-copy-radius</code></td><td>4px</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-icon-size</code></td><td>16px</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-success-color</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
     </tbody>
@@ -655,7 +655,7 @@ ORDER BY c.category, t.name;</code></pre>
       <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-code-snippet</code></td></tr>
       <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-code-snippet-*</code></td></tr>
       <tr><td><strong>Status</strong></td><td>stable</td></tr>
-      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
     </tbody>
     </table>
   </div>
@@ -788,12 +788,12 @@ ORDER BY c.category, t.name;</code></pre>
       <tr><td><code class="docs__token">--nc-cs-line-highlight-width</code></td><td>3px</td><td>&mdash;</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Copy Button</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-size</code></td><td>32px</td><td>var(--fnd-size-sm)</td></tr>
-      <tr><td><code class="docs__token">--nc-cs-copy-bg</code></td><td>var(--fnd-color-background-base)</td><td>var(--fnd-color-background-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-cs-copy-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td>var(--fnd-color-surface-elevated)</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-bg-hover</code></td><td>var(--fnd-color-background-secondary)</td><td>var(--fnd-color-background-secondary)</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-border</code></td><td>var(--fnd-color-border-secondary)</td><td>var(--fnd-color-border-secondary)</td></tr>
-      <tr><td><code class="docs__token">--nc-cs-copy-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-cs-copy-radius</code></td><td>4px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-icon-size</code></td><td>16px</td><td>&mdash;</td></tr>
       <tr><td><code class="docs__token">--nc-cs-copy-success-color</code></td><td>var(--fnd-color-feedback-success)</td><td>var(--fnd-color-feedback-success)</td></tr>
       <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Copy Tooltip</td></tr>
@@ -841,6 +841,7 @@ ORDER BY c.category, t.name;</code></pre>
     <li>Wrap: white-space:pre-wrap statt horizontalem Scroll.</li>
     <li>Sprach-Label (optional): Badge oben links mit Sprach-Kennung (z.B. 'HTML', 'SCSS').</li>
     <li>Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt.</li>
+    <li>Verhalten (neo-behaviors code-snippet): Kopieren setzt .nc-code-snippet__copy--success und aria-label='Kopiert!' fuer 2 s; Mehr anzeigen schaltet .nc-code-snippet--expanded und aria-expanded; passt der Code in die eingeklappte Hoehe, ist der Knopf [hidden].</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

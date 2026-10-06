@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "code-snippet",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "atom",
   "tags": [
@@ -68,7 +68,8 @@
       "Zeilen-Highlight: .nc-code-snippet__line--highlighted — farbige Hervorhebung.",
       "Wrap: white-space:pre-wrap statt horizontalem Scroll.",
       "Sprach-Label (optional): Badge oben links mit Sprach-Kennung (z.B. 'HTML', 'SCSS').",
-      "Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt."
+      "Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt.",
+      "Verhalten (neo-behaviors code-snippet): Kopieren setzt .nc-code-snippet__copy--success und aria-label='Kopiert!' fuer 2 s; Mehr anzeigen schaltet .nc-code-snippet--expanded und aria-expanded; passt der Code in die eingeklappte Hoehe, ist der Knopf [hidden]."
     ]
   },
   "api": null,
@@ -193,7 +194,7 @@
       "default",
       "expanded"
     ],
-    "interactive": false,
+    "interactive": true,
     "rules": [
       {
         "state": "expanded",
@@ -506,9 +507,37 @@
       "--mod-cs-syntax-punctuation"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Enter": {
+      "action": "activate",
+      "note": "Auf dem Kopieren- bzw. Mehr-anzeigen-Knopf (native Knoepfe): kopiert den Code bzw. klappt auf/zu."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter auf den beiden Knoepfen."
+    },
+    "Tab": {
+      "action": "focus-next",
+      "note": "Der <pre> ist per tabindex=0 erreichbar (waagrechtes Scrollen per Pfeiltasten), danach Kopieren und Mehr anzeigen."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "code-snippet-copy": {
+      "bubbles": true,
+      "detail": {
+        "ok": "boolean"
+      },
+      "note": "Gefeuert nach dem Kopieren; ok=false, wenn die Zwischenablage nicht erreichbar war (dann kein Erfolgs-Feedback)."
+    },
+    "code-snippet-toggle": {
+      "bubbles": true,
+      "detail": {
+        "expanded": "boolean"
+      },
+      "note": "Gefeuert beim Auf- oder Zuklappen (nur multi)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

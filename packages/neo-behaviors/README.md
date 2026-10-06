@@ -30,6 +30,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `notification` | Schließen-Knopf (nicht `--permanent`): `.is-dismissing` mit `--_notification-height`, danach aus dem DOM, Fokus weiter; Klick/Aktion in einer ungelesenen nimmt `--unread`, den Punkt und „Ungelesen:" aus `aria-label` | `notification-dismiss` { reason }, `notification-read` |
 | `alert` | Schließen-Knopf nimmt den Alert aus dem DOM (keine Animation im SCSS), Fokus weiter; Details nativ | `alert-dismiss` { reason } |
 | `banner` | Schließen-Knopf: `.is-dismissing` mit `--_banner-height`, danach aus dem DOM, Fokus weiter; `data-banner-id` merkt das Schließen (localStorage `neo-banner:<id>`, dann `[hidden]`); `--fixed` gibt dem Elternelement oben Platz | `banner-dismiss` { reason, id } |
+| `code-snippet` | Block-Snippets (nicht `--inline`): Kopieren-Knopf schreibt den Code in die Zwischenablage (Ersatzweg ohne Clipboard-API), Erfolg 2 s als `__copy--success` + aria-label „Kopiert!“; „Mehr anzeigen“ schaltet `--expanded`, aria-expanded und den Text; Knopf `[hidden]`, wenn der Code in die eingeklappte Höhe passt. Syntax-Hervorhebung bringt das Markup mit | `code-snippet-copy` { ok }, `code-snippet-toggle` { expanded } |
 
 ```js
 import { anbinden, abbinden } from 'neo-behaviors'

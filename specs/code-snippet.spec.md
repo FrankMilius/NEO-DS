@@ -1,5 +1,5 @@
 # code-snippet Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.1.0 | Status: stable | Layer: atom
 
 Tags: `static`, `content`, `code`
 
@@ -30,6 +30,7 @@ Root element: `.nc-code-snippet`
 - Wrap: white-space:pre-wrap statt horizontalem Scroll.
 - Sprach-Label (optional): Badge oben links mit Sprach-Kennung (z.B. 'HTML', 'SCSS').
 - Syntax-Highlighting via Prism.js — .token-Klassen werden auf --nc-cs-syntax-* Tokens gemappt.
+- Verhalten (neo-behaviors code-snippet): Kopieren setzt .nc-code-snippet__copy--success und aria-label='Kopiert!' fuer 2 s; Mehr anzeigen schaltet .nc-code-snippet--expanded und aria-expanded; passt der Code in die eingeklappte Hoehe, ist der Knopf [hidden].
 
 ## Variants
 ### Variant (`variant`)
@@ -195,6 +196,19 @@ Base classes: `nc-code-snippet`
 | `--nc-cs-syntax-attr-value` | — | `--mod-cs-syntax-attr-value` |
 | `--nc-cs-syntax-selector` | — | `--mod-cs-syntax-selector` |
 | `--nc-cs-syntax-punctuation` | — | `--mod-cs-syntax-punctuation` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Enter` | activate | Auf dem Kopieren- bzw. Mehr-anzeigen-Knopf (native Knoepfe): kopiert den Code bzw. klappt auf/zu. |
+| `Space` | activate | Wie Enter auf den beiden Knoepfen. |
+| `Tab` | focus-next | Der <pre> ist per tabindex=0 erreichbar (waagrechtes Scrollen per Pfeiltasten), danach Kopieren und Mehr anzeigen. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `code-snippet-copy` | Yes | `{"ok":"boolean"}` |
+| `code-snippet-toggle` | Yes | `{"expanded":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

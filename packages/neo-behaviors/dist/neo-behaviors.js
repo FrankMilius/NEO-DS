@@ -2899,6 +2899,103 @@
     }
   };
 
+  // packages/neo-behaviors/code-snippet.js
+  var DAUER = 2e3;
+  var NAME = "Code kopieren";
+  async function inZwischenablage(text, doc) {
+    var _a, _b;
+    try {
+      const ablage = (_b = (_a = doc.defaultView) == null ? void 0 : _a.navigator) == null ? void 0 : _b.clipboard;
+      if (ablage == null ? void 0 : ablage.writeText) {
+        await ablage.writeText(text);
+        return true;
+      }
+    } catch {
+    }
+    try {
+      const feld = doc.createElement("textarea");
+      feld.value = text;
+      feld.setAttribute("readonly", "");
+      feld.style.position = "fixed";
+      feld.style.opacity = "0";
+      doc.body.append(feld);
+      feld.select();
+      const ok = typeof doc.execCommand === "function" && doc.execCommand("copy");
+      feld.remove();
+      return !!ok;
+    } catch {
+      return false;
+    }
+  }
+  var codeSnippet = {
+    id: "code-snippet",
+    selektor: ".nc-code-snippet:not(.nc-code-snippet--inline)",
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const eigen = (el) => !!el && el.closest(".nc-code-snippet") === wurzel;
+      let zeit = (
+        /** @type {ReturnType<typeof setTimeout>|undefined} */
+        void 0
+      );
+      signal.addEventListener("abort", () => clearTimeout(zeit));
+      wurzel.addEventListener("click", async (e) => {
+        const ziel = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        const kopieren = (
+          /** @type {HTMLElement|null} */
+          ziel.closest(".nc-code-snippet__copy")
+        );
+        if (kopieren && eigen(kopieren)) {
+          const code = wurzel.querySelector(".nc-code-snippet__code");
+          const ok = await inZwischenablage((code == null ? void 0 : code.textContent) || "", wurzel.ownerDocument);
+          if (signal.aborted) return;
+          if (ok) {
+            clearTimeout(zeit);
+            kopieren.classList.add("nc-code-snippet__copy--success");
+            kopieren.setAttribute("aria-label", "Kopiert!");
+            zeit = setTimeout(() => {
+              kopieren.classList.remove("nc-code-snippet__copy--success");
+              kopieren.setAttribute("aria-label", NAME);
+            }, DAUER);
+          }
+          sende(wurzel, "code-snippet-copy", { ok });
+          return;
+        }
+        const mehr2 = (
+          /** @type {HTMLElement|null} */
+          ziel.closest(".nc-code-snippet__show-more")
+        );
+        if (mehr2 && eigen(mehr2)) {
+          const offen = wurzel.classList.toggle("nc-code-snippet--expanded");
+          mehr2.setAttribute("aria-expanded", String(offen));
+          const text = mehr2.querySelector(".nc-code-snippet__show-more-label");
+          if (text) text.textContent = offen ? "Weniger anzeigen" : "Mehr anzeigen";
+          sende(wurzel, "code-snippet-toggle", { expanded: offen });
+        }
+      }, { signal });
+      const mehr = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-code-snippet__show-more")
+      );
+      const pre = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-code-snippet__pre")
+      );
+      if (mehr && pre && pre.scrollHeight > 0) {
+        const sicht = wurzel.ownerDocument.defaultView;
+        const max = parseFloat((sicht == null ? void 0 : sicht.getComputedStyle(wurzel).getPropertyValue("--nc-cs-multi-max-height")) || "") || 240;
+        if (pre.scrollHeight <= max && !wurzel.classList.contains("nc-code-snippet--expanded")) {
+          mehr.hidden = true;
+          signal.addEventListener("abort", () => {
+            mehr.hidden = false;
+          });
+        }
+      }
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -2925,7 +3022,8 @@
     toast,
     notification,
     alert,
-    banner
+    banner,
+    "code-snippet": codeSnippet
   });
   var MIT_VERHALTEN = Object.freeze(Object.keys(BEHAVIORS));
   function anbinden(bereich, nur) {

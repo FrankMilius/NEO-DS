@@ -41,6 +41,7 @@ import { toast } from './toast.js'
 import { notification } from './notification.js'
 import { alert } from './alert.js'
 import { banner } from './banner.js'
+import { codeSnippet } from './code-snippet.js'
 
 export { setzeIndikator } from './segmented-control.js'
 
@@ -70,7 +71,8 @@ export const BEHAVIORS = Object.freeze({
   toast,
   notification,
   alert,
-  banner
+  banner,
+  'code-snippet': codeSnippet
 })
 
 /** Recipe-IDs mit Verhalten — die Arena bietet fuer sie „Ausprobieren" an. */
