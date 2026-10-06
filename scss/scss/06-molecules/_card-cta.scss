@@ -60,8 +60,12 @@ video.nc-card-cta__media {
   color: var(--fnd-color-always-light);
 }
 
+// Heller Ton = heller Verlauf ueber dem Bild, also bleibt die Schrift dunkel
+// — unabhaengig vom Seitenthema. text-primary kippte im dunklen Theme auf
+// Hell und stand hell auf hellem Verlauf (Entscheidung card-cta-hell,
+// 06.10.2026).
 .nc-card-cta[data-theme="light"] .nc-card-cta__title {
-  color: var(--fnd-color-text-primary);
+  color: var(--fnd-color-always-dark);
 }
 
 .nc-card-cta[data-theme="light"] .nc-card-cta__overlay {
