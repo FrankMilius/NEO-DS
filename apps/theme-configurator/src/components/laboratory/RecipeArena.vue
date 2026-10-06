@@ -562,16 +562,25 @@ onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 /* ra-mobil: Raster in der Mobil-Lage (390 px). Das DS schaltet unter 768 px
    Fensterbreite auf --nc-grid-mobile-columns (4) Spalten, Spannen ueber 4
    laufen ueber die volle Breite (04-objects/_grid.scss, mobile-only). Der
-   Rahmen setzt dieselben Werte ueber die Override-Stufe des Rasters. */
+   Rahmen setzt dieselben Werte ueber die Override-Stufe des Rasters — am
+   Raster selbst, damit o-grid--mobile-1/2/6 (setzen --nc-grid-mobile-columns
+   am Raster) greifen; die Spannen-Regeln der Modifier wie im DS. */
 .ra-live-component .ra-mobil {
   width: 390px;
   max-width: 100%;
   padding: 16px;
   border-radius: 6px;
   background: var(--fnd-color-background-secondary);
-  --mod-grid-columns: var(--nc-grid-mobile-columns, 4);
 }
+.ra-live-component .ra-mobil .o-grid { --mod-grid-columns: var(--nc-grid-mobile-columns, 4); }
 .ra-live-component .ra-mobil :is(.o-col-5, .o-col-6, .o-col-7, .o-col-8, .o-col-9, .o-col-10, .o-col-11, .o-col-12) { grid-column: 1 / -1; }
+.ra-live-component .ra-mobil .o-grid--mobile-1 > * { grid-column: 1 / -1; }
+.ra-live-component .ra-mobil .o-grid--mobile-2 > :is(.o-col-3, .o-col-4) { grid-column: 1 / -1; }
+.ra-live-component .ra-mobil .o-grid--mobile-6 > .o-col-5 { grid-column: span 5; }
+.ra-live-component .ra-mobil .o-grid--mobile-6 > .o-col-6 { grid-column: span 6; }
+/* ra-zeilen: gibt dem Raster zwei Zeilen vor, wie es eine Seite taete —
+   erst dann fuellt o-grid--flow-col sichtbar Spalte fuer Spalte. */
+.ra-live-component .ra-zeilen > .o-grid { grid-template-rows: repeat(2, auto); }
 
 /* ra-fenster: Shell als Miniatur — Desktop-Fenster 1200 x 640 px im
    Massstab 1:2,2 (passt neben die Zeilenbeschriftung). Scroll-Container (Navbar und Footerbar kleben oben/unten),

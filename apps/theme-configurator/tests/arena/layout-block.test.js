@@ -174,7 +174,7 @@ describe('Layout-Block aus dem Recipe', () => {
         expect(bekannt.has(k) || k in NICHT_GEBAUT, `${id}: Modifier ${k} weder in styles.css noch in NICHT_GEBAUT`).toBe(true)
       }
     }
-    expect(new Set(Object.values(NICHT_GEBAUT))).toEqual(new Set(['layout-grid-modifier', 'layout-section-modifier']))
+    expect(new Set(Object.values(NICHT_GEBAUT))).toEqual(new Set(['layout-section-modifier']))
   })
 
   it('nicht gebaut: genau die Zellen mit fehlendem Modifier zeigen den Hinweis, mit Namen der Klasse', () => {
@@ -255,16 +255,35 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(autofit.querySelector('.o-grid > [class^="o-col-"]')).toBeNull()
     expect(alle('grid', 'alignment').map((d) => d.querySelector('.o-grid').className)).toEqual(['o-grid', 'o-grid o-grid--center', 'o-grid o-grid--end'])
     expect(alle('grid', 'alignment')[0].querySelector('.ra-platzhalter--hoch')).not.toBeNull()
-    // verschachtelt ohne Subgrid: eigenes Raster in einer Spalte
-    expect(alle('grid', 'subgrid-modes')[0].querySelector('.o-grid > .o-col-8 > .o-grid > .o-col-6')).not.toBeNull()
   })
 
-  it('grid: Mobil-Lage (4 Spalten) im Rahmen ra-mobil, auch in der Matrix je Gap', () => {
-    const mobil = alle('grid', 'mobile-breakpoints').filter((d) => d.querySelector('.ra-mobil'))
-    expect(mobil).toHaveLength(1)
+  it('grid: Mobil-Lage im Rahmen ra-mobil — Standard und gebaute Modifier mobile-1/2/6, auch in der Matrix je Gap', () => {
+    const mobil = alle('grid', 'mobile-breakpoints')
+    expect(mobil.map((d) => d.querySelector('.ra-mobil > .o-grid').className)).toEqual([
+      'o-grid o-grid--mobile-1', 'o-grid o-grid--mobile-2', 'o-grid', 'o-grid o-grid--mobile-6'
+    ])
+    for (const d of mobil) expect(d.querySelector('[data-nicht-gebaut]')).toBeNull()
     expect(mobil[0].querySelector('.ra-mobil > .o-grid > .o-col-6')).not.toBeNull()
-    const matrix = alle('grid', 'responsive-matrix').filter((d) => d.querySelector('.ra-mobil'))
-    expect(matrix.map((d) => d.querySelector('.o-grid').className)).toEqual(['o-grid', 'o-grid o-grid--gap-sm', 'o-grid o-grid--gap-lg'])
+    const matrix = alle('grid', 'responsive-matrix')
+    expect(matrix).toHaveLength(12)
+    for (const d of matrix) expect(d.querySelector('.ra-mobil > .o-grid')).not.toBeNull()
+    expect(matrix.filter((d) => /mobile-/.test(d.querySelector('.o-grid').className) === false).map((d) => d.querySelector('.o-grid').className))
+      .toEqual(['o-grid', 'o-grid o-grid--gap-sm', 'o-grid o-grid--gap-lg'])
+  })
+
+  it('grid: Flow (Entscheidung 06.10.2026) — row/dense mit Luecke, column mit vorgegebenen Zeilen; Subgrid gestrichen', () => {
+    const [zeile, spalte, dicht] = alle('grid', 'flow-variants')
+    expect([zeile, spalte, dicht].map((d) => d.querySelector('.o-grid').className)).toEqual(['o-grid', 'o-grid o-grid--flow-col', 'o-grid o-grid--dense'])
+    for (const d of [zeile, dicht]) expect([...d.querySelectorAll('.o-grid > [class^="o-col-"]')].map((e) => e.className)).toEqual(['o-col-8', 'o-col-6', 'o-col-4', 'o-col-2'])
+    expect(spalte.querySelector('.ra-zeilen > .o-grid--flow-col')).not.toBeNull()
+    expect(spalte.querySelectorAll('.o-grid > .o-col-3')).toHaveLength(6)
+    expect(zeile.querySelector('.ra-platzhalter').textContent).toBe('1 · 8')
+    const r = rohesRecipe('grid')
+    expect(r.meta.version).toBe('3.0.0')
+    expect(r.axes.subgrid).toBeUndefined()
+    expect(r.specimens.map((s) => s.id)).not.toContain('subgrid-modes')
+    const k = dsKlassen()
+    for (const m of ['flow-col', 'dense', 'mobile-1', 'mobile-2', 'mobile-6']) expect(k.has(`o-grid--${m}`), m).toBe(true)
   })
 
   it('section: .section > .nc-container > Inhalt im Rahmen ra-seite, Dichte und Flaeche als Modifier, kein Landmark', () => {

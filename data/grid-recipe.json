@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "grid",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -13,6 +13,15 @@
     "links": {
       "docs": "/docs/grid-docs.html"
     },
+    "changelog": [
+      {
+        "version": "3.0.0",
+        "changes": [
+          "Modifier gebaut (Entscheidung 06.10.2026, layout-grid-modifier): o-grid--flow-col (grid-auto-flow: column), o-grid--dense (grid-auto-flow: row dense), o-grid--mobile-1/2/6 (Spaltenzahl unter 768px ueber --nc-grid-mobile-columns; zu breite Spannen laufen ueber die volle Breite, bei 6 Spalten behalten Spannen 5 und 6 ihre Breite). Neue Klassen, bestehende Regeln unveraendert.",
+          "Achse subgrid (o-grid--subgrid, --subgrid-rows, --subgrid-both) und Specimen subgrid-modes gestrichen (Entscheidung 06.10.2026) — nie gebaut. Breaking fuer Recipe-Leser, die die Achse erwarten."
+        ]
+      }
+    ],
     "layer": "organism",
     "pipeline": {
       "scss": [],
@@ -37,10 +46,9 @@
     "domNotes": [
       "12-Spalten-Grid basierend auf CSS Grid.",
       "Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).",
-      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 2 oder 6 Spalten.",
+      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 1, 2 oder 6 Spalten (o-grid--mobile-*, setzt --nc-grid-mobile-columns).",
       "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).",
       "Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.",
-      "Subgrid erlaubt verschachtelte Grids die das Eltern-Raster uebernehmen (z.B. fuer Header-Alignment in Cards).",
       "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging."
     ]
   },
@@ -123,12 +131,12 @@
         "column": {
           "modifier": "o-grid--flow-col",
           "tokenGroups": [],
-          "description": "Fluss nach Spalten (grid-auto-flow: column). Items fuellen Spalten zuerst."
+          "description": "Fluss nach Spalten (grid-auto-flow: column). Items fuellen Spalten zuerst — sichtbar, wenn die Seite Zeilen vorgibt (grid-template-rows); sonst entstehen implizite Spalten."
         },
         "dense": {
           "modifier": "o-grid--dense",
           "tokenGroups": [],
-          "description": "Fuellt Luecken im Grid optimal aus (grid-auto-flow: dense). Ideal fuer Masonry-aehnliche Layouts."
+          "description": "Fuellt Luecken im Grid nach Zeilen auf (grid-auto-flow: row dense). Ideal fuer Masonry-aehnliche Layouts; visuelle Reihenfolge kann von der DOM-Reihenfolge abweichen."
         }
       }
     },
@@ -141,14 +149,14 @@
           "tokenGroups": [
             "responsive"
           ],
-          "description": "1 Spalte auf Mobile. Full-width Stacking aller Items."
+          "description": "1 Spalte auf Mobile (< 768px). Full-width Stacking aller Items."
         },
         "2": {
           "modifier": "o-grid--mobile-2",
           "tokenGroups": [
             "responsive"
           ],
-          "description": "2 Spalten auf Mobile. Ideal fuer einfache Listen-Layouts."
+          "description": "2 Spalten auf Mobile (< 768px). Spannen > 2 laufen ueber die volle Breite. Ideal fuer einfache Listen-Layouts."
         },
         "4": {
           "modifier": null,
@@ -162,33 +170,7 @@
           "tokenGroups": [
             "responsive"
           ],
-          "description": "6 Spalten auf Mobile. Fuer dichte Dashboard-UIs mit kleinen Widgets."
-        }
-      }
-    },
-    "subgrid": {
-      "label": "Subgrid",
-      "description": "Verschachteltes Grid das das Spaltenraster des Eltern-Grids uebernimmt.",
-      "values": {
-        "none": {
-          "modifier": null,
-          "tokenGroups": [],
-          "description": "Kein Subgrid (Standard). Verschachtelte Grids sind unabhaengig."
-        },
-        "columns": {
-          "modifier": "o-grid--subgrid",
-          "tokenGroups": [],
-          "description": "Subgrid auf Spaltenachse. Kind-Grid erbt grid-template-columns vom Eltern."
-        },
-        "rows": {
-          "modifier": "o-grid--subgrid-rows",
-          "tokenGroups": [],
-          "description": "Subgrid auf Zeilenachse. Ermoeglicht Header-Alignment ueber mehrere Cards."
-        },
-        "both": {
-          "modifier": "o-grid--subgrid-both",
-          "tokenGroups": [],
-          "description": "Subgrid auf beiden Achsen. Vollstaendige Rasteruebernahme."
+          "description": "6 Spalten auf Mobile (< 768px). Spannen 5 und 6 behalten ihre Breite, groessere laufen ueber die volle Breite. Fuer dichte Dashboard-UIs."
         }
       }
     }
@@ -209,8 +191,7 @@
       "assertions": [
         "Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.",
         "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt.",
-        "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch.",
-        "Subgrid aendert keine Semantik — nur das visuelle Raster wird geteilt."
+        "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch."
       ]
     },
     "overrides": []
@@ -324,20 +305,6 @@
       "matrix": {
         "axes": {
           "mobile-columns": "*"
-        },
-        "states": [
-          "default"
-        ]
-      },
-      "layout": "row"
-    },
-    {
-      "id": "subgrid-modes",
-      "label": "Subgrid",
-      "description": "Verschachteltes Raster mit Eltern-Uebernahme.",
-      "matrix": {
-        "axes": {
-          "subgrid": "*"
         },
         "states": [
           "default"

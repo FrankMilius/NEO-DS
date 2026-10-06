@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "grid",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -22,10 +22,9 @@
     "notes": [
       "12-Spalten-Grid basierend auf CSS Grid.",
       "Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).",
-      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 2 oder 6 Spalten.",
+      "Mobile-Spalten konfigurierbar: Standard 4, alternativ 1, 2 oder 6 Spalten (o-grid--mobile-*, setzt --nc-grid-mobile-columns).",
       "Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).",
       "Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.",
-      "Subgrid erlaubt verschachtelte Grids die das Eltern-Raster uebernehmen (z.B. fuer Header-Alignment in Cards).",
       "Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging."
     ]
   },
@@ -150,36 +149,6 @@
           "label": "6"
         }
       ]
-    },
-    "subgrid": {
-      "label": "Subgrid",
-      "description": "Verschachteltes Grid das das Spaltenraster des Eltern-Grids uebernimmt.",
-      "values": [
-        {
-          "value": "none",
-          "cssModifier": null,
-          "default": false,
-          "label": "none"
-        },
-        {
-          "value": "columns",
-          "cssModifier": "o-grid--subgrid",
-          "default": false,
-          "label": "columns"
-        },
-        {
-          "value": "rows",
-          "cssModifier": "o-grid--subgrid-rows",
-          "default": false,
-          "label": "rows"
-        },
-        {
-          "value": "both",
-          "cssModifier": "o-grid--subgrid-both",
-          "default": false,
-          "label": "both"
-        }
-      ]
     }
   },
   "states": {
@@ -247,8 +216,7 @@
     "assertions": [
       "Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.",
       "Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt.",
-      "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch.",
-      "Subgrid aendert keine Semantik — nur das visuelle Raster wird geteilt."
+      "Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch."
     ],
     "overrides": []
   },

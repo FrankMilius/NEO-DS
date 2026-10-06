@@ -97,6 +97,53 @@
 }
 
 // ---------------------------------------------------------------------------
+// Grid Flow (Entscheidung 06.10.2026, layout-grid-modifier)
+// ---------------------------------------------------------------------------
+// Automatische Platzierung. --flow-col fuellt Spalten zuerst — sichtbar nur,
+// wenn die Seite Zeilen vorgibt (grid-template-rows), sonst entstehen
+// implizite Spalten. --dense fuellt Luecken nach Zeilen auf; die visuelle
+// Reihenfolge weicht dann von der DOM-Reihenfolge ab (Recipe a11y).
+
+.o-grid--flow-col {
+  grid-auto-flow: column;
+}
+
+.o-grid--dense {
+  grid-auto-flow: row dense;
+}
+
+// ---------------------------------------------------------------------------
+// Mobile Spalten (Entscheidung 06.10.2026, layout-grid-modifier)
+// ---------------------------------------------------------------------------
+// Unter 768px stellt das Raster auf 4 Spalten um (siehe oben). Die Modifier
+// waehlen 1, 2 oder 6 Spalten ueber --nc-grid-mobile-columns. Spannen, die
+// breiter als das Mobil-Raster sind, laufen ueber die volle Breite; bei 6
+// Spalten behalten Spannen 5 und 6 ihre Breite.
+
+.o-grid--mobile-1 { --nc-grid-mobile-columns: 1; }
+.o-grid--mobile-2 { --nc-grid-mobile-columns: 2; }
+.o-grid--mobile-6 { --nc-grid-mobile-columns: 6; }
+
+@include mobile-only {
+  .o-grid--mobile-1,
+  .o-grid--mobile-2,
+  .o-grid--mobile-6 {
+    --columns: var(--mod-grid-mobile-columns, var(--nc-grid-mobile-columns));
+  }
+
+  .o-grid--mobile-1 > * {
+    grid-column: 1 / -1;
+  }
+
+  .o-grid--mobile-2 > :is(.o-col-3, .o-col-4) {
+    grid-column: 1 / -1;
+  }
+
+  .o-grid--mobile-6 > .o-col-5 { grid-column: span 5; }
+  .o-grid--mobile-6 > .o-col-6 { grid-column: span 6; }
+}
+
+// ---------------------------------------------------------------------------
 // >>> aufgenommen: .nc-grid-Varianten aus neo-overrides.css
 // ---------------------------------------------------------------------------
 // Zwei Aufteilungen, die der Layout Builder anbietet. Beide beginnen einspaltig

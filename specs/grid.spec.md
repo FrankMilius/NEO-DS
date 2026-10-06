@@ -1,5 +1,5 @@
 # grid Component Spec
-> Version 2.0.0 | Status: stable | Layer: organism
+> Version 3.0.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `grid`
 
@@ -13,10 +13,9 @@ Root element: `.o-grid`
 ### DOM Notes
 - 12-Spalten-Grid basierend auf CSS Grid.
 - Gap skaliert fluid von 12px (Mobile) bis 24px (Desktop).
-- Mobile-Spalten konfigurierbar: Standard 4, alternativ 2 oder 6 Spalten.
+- Mobile-Spalten konfigurierbar: Standard 4, alternativ 1, 2 oder 6 Spalten (o-grid--mobile-*, setzt --nc-grid-mobile-columns).
 - Responsive Spans ueber .o-col-sm-* (Tablet) und .o-col-lg-* (Desktop).
 - Flow-Achse steuert grid-auto-flow: row (Standard), column oder dense.
-- Subgrid erlaubt verschachtelte Grids die das Eltern-Raster uebernehmen (z.B. fuer Header-Alignment in Cards).
 - Grid-Overlay kann im Konfigurator persistiert werden fuer visuelles Debugging.
 
 ## Variants
@@ -65,16 +64,6 @@ Spaltenanzahl auf Mobile-Viewports (< 768px). Standard: 4 Spalten.
 | 4 | — |  |
 | 6 | `.o-grid--mobile-6` |  |
 
-### Subgrid (`subgrid`)
-Verschachteltes Grid das das Spaltenraster des Eltern-Grids uebernimmt.
-
-| Value | CSS Modifier | Default |
-| --- | --- | --- |
-| none | — |  |
-| columns | `.o-grid--subgrid` |  |
-| rows | `.o-grid--subgrid-rows` |  |
-| both | `.o-grid--subgrid-both` |  |
-
 ## States
 Supported: `default`
 
@@ -105,14 +94,13 @@ Base classes: `o-grid`
 - Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.
 - Spalten-Umordnung per CSS (order) nur wenn Lesereihenfolge identisch bleibt.
 - Dense-Modus kann visuelle Reihenfolge von DOM-Reihenfolge abweichen — fuer Screen Reader problematisch.
-- Subgrid aendert keine Semantik — nur das visuelle Raster wird geteilt.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-grid>` custom element:
 
 ```js
 class NcGrid extends HTMLElement {
-  static observedAttributes = ['gap', 'layout', 'alignment', 'flow', 'mobile-columns', 'subgrid'];
+  static observedAttributes = ['gap', 'layout', 'alignment', 'flow', 'mobile-columns'];
   // Slots: <slot name="column">
 }
 ```
