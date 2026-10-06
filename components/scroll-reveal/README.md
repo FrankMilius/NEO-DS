@@ -1,6 +1,6 @@
 # ScrollReveal
 
-> **Layer:** organism | **Coverage:** 2/6 (minimal) | **Status:** stable
+> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -24,3 +24,4 @@
 
 - [Recipe JSON](../data/scroll-reveal-recipe.json)
 - [Storybook Story](../stories/organisms/scroll-reveal.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

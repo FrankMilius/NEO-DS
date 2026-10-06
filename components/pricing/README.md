@@ -1,6 +1,6 @@
 # Pricing
 
-> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/pricing-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_pricing.scss` | present |
 | Storybook | `stories/organisms/pricing.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/pricing-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/pricing-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_pricing.scss)
 - [Storybook Story](../stories/organisms/pricing.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/pricing-docs.html)

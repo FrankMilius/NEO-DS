@@ -1,6 +1,6 @@
 # Spacing
 
-> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/spacing-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | `stories/organisms/spacing.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/spacing-docs.html` | present |
 | Drupal | — | missing |
 
@@ -24,4 +24,5 @@
 
 - [Recipe JSON](../data/spacing-recipe.json)
 - [Storybook Story](../stories/organisms/spacing.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/spacing-docs.html)

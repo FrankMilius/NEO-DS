@@ -1,6 +1,6 @@
 # Header
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/header-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_header.scss` | present |
 | Storybook | `stories/organisms/header.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/header-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/header-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_header.scss)
 - [Storybook Story](../stories/organisms/header.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/header-docs.html)

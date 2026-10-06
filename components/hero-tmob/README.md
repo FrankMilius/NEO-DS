@@ -1,6 +1,6 @@
 # HeroTmob
 
-> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -28,3 +28,4 @@
 
 - [Recipe JSON](../data/hero-tmob-recipe.json)
 - [Storybook Story](../stories/organisms/hero-tmob.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

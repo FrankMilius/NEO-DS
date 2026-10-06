@@ -1,6 +1,6 @@
 # VideoSection
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/video-section-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_video-section.scss` | present |
 | Storybook | `stories/organisms/video-section.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/video-section-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,4 +29,5 @@
 - [Recipe JSON](../data/video-section-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_video-section.scss)
 - [Storybook Story](../stories/organisms/video-section.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/video-section-docs.html)

@@ -1,6 +1,6 @@
 # LinkWithArrow
 
-> **Layer:** atom | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** atom | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/link-with-arrow-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_link-with-arrow.scss` | present |
 | Storybook | `stories/molecules/link-with-arrow.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/link-with-arrow-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/link-with-arrow-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_link-with-arrow.scss)
 - [Storybook Story](../stories/molecules/link-with-arrow.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/link-with-arrow-docs.html)

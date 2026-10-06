@@ -1,6 +1,6 @@
 # Square
 
-> **Layer:** atom | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** atom | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/square-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_square.scss` | present |
 | Storybook | `stories/organisms/square.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/square-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/square-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_square.scss)
 - [Storybook Story](../stories/organisms/square.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/square-docs.html)

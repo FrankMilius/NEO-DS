@@ -1,6 +1,6 @@
 # ParallaxBg
 
-> **Layer:** organism | **Coverage:** 2/6 (minimal) | **Status:** stable
+> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -20,7 +20,12 @@
 - [Component Spec (Markdown)](../specs/parallax-bg.spec.md)
 - [Component Spec (JSON)](../specs/parallax-bg.spec.json)
 
+## Dependencies
+
+- [`hero`](../hero/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/parallax-bg-recipe.json)
 - [Storybook Story](../stories/organisms/parallax-bg.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

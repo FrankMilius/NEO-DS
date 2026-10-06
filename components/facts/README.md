@@ -1,6 +1,6 @@
 # Facts
 
-> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/facts-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_facts.scss` | present |
 | Storybook | `stories/organisms/facts.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/facts-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/facts-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_facts.scss)
 - [Storybook Story](../stories/organisms/facts.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/facts-docs.html)

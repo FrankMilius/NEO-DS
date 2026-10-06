@@ -1,6 +1,6 @@
 # AspectRatio
 
-> **Layer:** unknown | **Coverage:** 1/6 (minimal) | **Status:** stable
+> **Layer:** unknown | **Coverage:** 2/6 (minimal) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/aspect-ratio-recipe.json` | present |
 | SCSS | — | missing |
 | Storybook | — | missing |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -23,3 +23,4 @@
 ## Quick Links
 
 - [Recipe JSON](../data/aspect-ratio-recipe.json)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

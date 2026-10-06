@@ -1,6 +1,6 @@
 # Carousel
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/carousel-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_carousel.scss)
 - [Storybook Story](../stories/organisms/carousel.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/carousel-docs.html)

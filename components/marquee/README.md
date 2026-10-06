@@ -1,6 +1,6 @@
 # Marquee
 
-> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -20,9 +20,14 @@
 - [Component Spec (Markdown)](../specs/marquee.spec.md)
 - [Component Spec (JSON)](../specs/marquee.spec.json)
 
+## Dependencies
+
+- [`container`](../container/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/marquee-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_marquee.scss)
 - [Storybook Story](../stories/organisms/marquee.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/marquee-docs.html)
