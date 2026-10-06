@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "searchbar",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Shortcut-Hinweis __shortcut gestrichen (Entscheidung 06.10.2026): Slot shortcut und die Tokens --nc-searchbar-shortcut-* aus dem Recipe, <kbd> aus der Vorlage — er war nie zu sehen (die Leiste erscheint nur mit data-state=open, und genau dann blendete das SCSS ihn aus)",
+          "SCSS-Regel .nc-searchbar__shortcut bleibt vorerst stehen (gemeldet): js/neo-theme.js bindet #nc-searchbar und Ctrl/⌘+K, das Seiten-Template der Website liegt nicht in der Referenz — ob es den <kbd> ausgibt, ist offen; ohne die Regel wuerde er sichtbar"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -63,17 +70,12 @@
         "name": "input",
         "element": ".nc-searchbar__input",
         "optional": false
-      },
-      {
-        "name": "shortcut",
-        "element": ".nc-searchbar__shortcut",
-        "optional": false
       }
     ],
     "convenience": [],
     "domNotes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet (close, field, icon, inner, input). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026)."
     ]
   },
   "axes": {
@@ -116,9 +118,7 @@
     "tokens": [
       "--nc-searchbar-close-background",
       "--nc-searchbar-input-padding-left",
-      "--nc-searchbar-input-padding-right",
-      "--nc-searchbar-shortcut-font-size",
-      "--nc-searchbar-shortcut-padding"
+      "--nc-searchbar-input-padding-right"
     ],
     "baseClasses": [
       "nc-searchbar"
@@ -130,9 +130,7 @@
         "tokens": [
           "nc-searchbar-close-background",
           "nc-searchbar-input-padding-left",
-          "nc-searchbar-input-padding-right",
-          "nc-searchbar-shortcut-font-size",
-          "nc-searchbar-shortcut-padding"
+          "nc-searchbar-input-padding-right"
         ]
       }
     }

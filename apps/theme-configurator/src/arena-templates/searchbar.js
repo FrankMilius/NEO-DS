@@ -1,11 +1,11 @@
 // Vorlage: searchbar — Struktur aus COMPONENTS-CSS.md des Drupal-Themes
 // (neo_fe, Abschnitt 3.2) und _searchbar.scss: .nc-searchbar[data-state]
-// > __inner.nc-container > __field mit __icon, __input, __shortcut, __close.
-// Plan v3, Phase 4.
+// > __inner.nc-container > __field mit __icon, __input, __close.
+// Plan v3, Phase 4. Den Shortcut-Hinweis (__shortcut) gibt es nicht mehr
+// (Entscheidung 06.10.2026) — er war nie zu sehen.
 //
 // Ohne data-state="open" ist die Leiste display:none — jede Zelle zeigt sie
-// geoeffnet (dann blendet das DS den Shortcut aus, wie auf der Website; der
-// Shortcut ist damit nie zu sehen — Entscheidungsfall).
+// geoeffnet.
 // Zustaende: hover (Schliessen-Knopf) und focus (Feld) nur echt — data-zustand
 // am Element, an dem die Pseudoklasse greift. render.compositionType
 // „eingabe": Feld mit Suchbegriff. Rahmen ra-feld--breit (die Leiste ist
@@ -25,7 +25,6 @@ export default (zelle, m) => {
 <div class="nc-searchbar__field">
 ${LUPE}
 <input class="nc-searchbar__input" type="search" placeholder="Suchen…" aria-label="Website durchsuchen"${wert}${am('input')}>
-<kbd class="nc-searchbar__shortcut">/</kbd>
 <button type="button" class="nc-searchbar__close" aria-label="Suche schließen"${am('close')}>${KREUZ}</button>
 </div>
 </div>

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "searchbar",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "draft",
   "layer": "unknown",
   "tags": [
@@ -40,17 +40,11 @@
         "selector": ".nc-searchbar__input",
         "required": true,
         "description": null
-      },
-      {
-        "name": "shortcut",
-        "selector": ".nc-searchbar__shortcut",
-        "required": true,
-        "description": null
       }
     ],
     "notes": [
       "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Slots sind aus Klassennamen abgeleitet (close, field, icon, inner, input). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026)."
     ]
   },
   "api": null,
@@ -91,21 +85,13 @@
         },
         {
           "token": "--nc-searchbar-input-padding-right"
-        },
-        {
-          "token": "--nc-searchbar-shortcut-font-size"
-        },
-        {
-          "token": "--nc-searchbar-shortcut-padding"
         }
       ]
     },
     "modTokens": [
       "--mod-searchbar-close-background",
       "--mod-searchbar-input-padding-left",
-      "--mod-searchbar-input-padding-right",
-      "--mod-searchbar-shortcut-font-size",
-      "--mod-searchbar-shortcut-padding"
+      "--mod-searchbar-input-padding-right"
     ]
   },
   "keyboard": null,
