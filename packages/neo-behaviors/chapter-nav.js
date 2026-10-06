@@ -122,8 +122,9 @@ export const chapterNav = {
       ansicht.requestAnimationFrame(() => { laeuft = false; auswerten() })
     }, { signal, passive: true })
 
-    if (typeof ansicht.IntersectionObserver === 'function') {
-      const beobachter = new ansicht.IntersectionObserver(() => auswerten(), {
+    const Beobachter = /** @type {typeof IntersectionObserver|undefined} */ (/** @type {any} */ (ansicht).IntersectionObserver)
+    if (typeof Beobachter === 'function') {
+      const beobachter = new Beobachter(() => auswerten(), {
         root: scroller,
         rootMargin: `-${versatz(kapitel[0].ziel) + TOLERANZ}px 0px 0px 0px`,
         threshold: 0
