@@ -1,5 +1,5 @@
 # tab-nav Component Spec
-> Version 1.1.0 | Status: draft | Layer: unknown
+> Version 1.2.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `molecules`
 
@@ -15,14 +15,17 @@ Root element: `.nc-tab-nav`
 | panel | `.nc-tab-nav__panel` | Yes | — |
 | features | `.nc-tab-nav__features` | No | — |
 | xpanels | `.nc-tab-nav__xpanels` | No | — |
+| section | `.nc-solution-tabs-section` | No | — |
 
 ### DOM Notes
+- Flaeche: wie im Drupal-Twig steht der Block in section.nc-section.nc-section--full.nc-solution-tabs-section > .nc-container (davor der Block-Kopf nc-section-header). Die Section setzt die Farb-Tokens von Titel, Text und Tabs (--nc-solution-tabs-title, -text, -tab-color, -tab-color-hover, -tab-color-active, -accent) und padding-block spacing-12 — ohne sie fehlen dem Block seine Textfarben.
 - Wurzel: .nc-solution-tabs.nc-tab-nav (data-orientation, data-autoplay) — Tableiste und Tabs von solution-tabs, Panel .nc-solution-tabs__panel.nc-tab-nav__panel > .nc-tab-nav__panel-body.
 - Panel-Body: Titel, Text, Inhaltsmodul .nc-tab-nav__module und CTA (nc-button--accent nc-button--lg).
 - Inhaltsmodule der Website: Feature-Liste (nc-feature-list__items), Features (nc-solution-tabs__features nc-tab-nav__features), Bento-Raster (nc-bento-grid nc-tab-nav__bento), Expanding Panels (nc-expanding-panels nc-tab-nav__xpanels).
 - Autoplay: data-autoplay=on laesst den Fortschrittsbalken des aktiven Tabs laufen (CSS); den Tabwechsel macht neo-theme.js.
 - Slots badges (.nc-tab-nav__badges) und bento sind gebaut; badges ist leer ausgeblendet und kommt im geernteten Markup nicht vor.
 - Slots panel, features und xpanels sind Haken der Website am jeweiligen Element (kein eigenes CSS); gestaltet wird ueber solution-tabs, bento-grid und expanding-panels.
+- Website-only: der Haken .nc-tab-nav-section an der Section (kein CSS im DS) und die Flaeche als Inline-Stil aus dem Feld field_st_bg (Standard var(--fnd-color-background-base)).
 
 ## Variants
 ### Variant (`variant`)

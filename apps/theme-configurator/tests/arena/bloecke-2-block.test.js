@@ -301,6 +301,14 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
     }
   })
 
+  it('tab-nav: auf der Flaeche wie im Drupal-Twig — Section setzt die Farb-Tokens (Entscheidung 06.10.2026)', () => {
+    expect(css()).toMatch(/\.nc-solution-tabs-section\{[^}]*--nc-solution-tabs-tab-color:/)
+    for (const z of beideModi('tab-nav')) {
+      const d = dom(z.html)
+      expect(d.querySelector('section.nc-section.nc-section--full.nc-solution-tabs-section > .nc-container > .nc-solution-tabs.nc-tab-nav'), z.specimen.id).not.toBeNull()
+    }
+  })
+
   it('square: genau eine Variantenklasse je Marker (die Varianten ersetzen .square)', () => {
     const varianten = ['square', 'white-square', 'dark-square', 'adaptive-square', 'blinking-square']
     for (const z of zellen('square')) {

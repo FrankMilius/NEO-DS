@@ -12,9 +12,17 @@
 // (export abspielen) schaltet autoplay an, Anhalten wieder aus — den
 // Tabwechsel danach macht auf der Website neo-theme.js, die Arena nicht.
 // Rahmen ra-desktop: der Block ist fuer die Seitenbreite gebaut.
+// Flaeche (Entscheidung 06.10.2026): wie im Twig steht der Block in
+// section.nc-section.nc-section--full.nc-solution-tabs-section > .nc-container
+// — die Section setzt die Farb-Tokens der Tabs und Texte
+// (--nc-solution-tabs-title/-text/-tab-color…) und den Abstand. Der
+// Haken nc-tab-nav-section und die Inline-Flaeche (field_st_bg, Standard
+// background-base) sind Website-only und fehlen hier.
 import { loesungsTabs } from './_loesungs-tabs.js'
 
-export default (zelle, m) => `<div class="ra-desktop">${loesungsTabs(m, `nc-solution-tabs ${m.basisKlasse}`, {
+export default (zelle, m) => `<div class="ra-desktop">
+<section class="nc-section nc-section--full nc-solution-tabs-section">
+<div class="nc-container">${loesungsTabs(m, `nc-solution-tabs ${m.basisKlasse}`, {
   modus: 'tab-nav',
   aktiv: m.hat('active') ? 1 : 0,
   vertikal: false,
@@ -22,7 +30,9 @@ export default (zelle, m) => `<div class="ra-desktop">${loesungsTabs(m, `nc-solu
   fortschritt: true,
   modul: m.specimen.render?.compositionType || 'feature-liste',
   cta: true
-})}</div>`
+})}</div>
+</section>
+</div>`
 
 /** Animierter Block: Standbild, Autoplay-Fortschritt mit „Abspielen" (Plan v3, Phase 4). */
 export const abspielen = {
