@@ -525,7 +525,20 @@
   // Selektierter Zustand
   &:has(.nc-card__input:checked) {
     border-color: var(--mod-card-selected-border, var(--nc-card-selected-border));
-    background: var(--mod-card-selected-bg, var(--nc-card-selected-bg));
+    // Toenung als Schicht ueber der Kartenflaeche: die Flaeche bleibt die der
+    // Karte (auch bei --mod-card-bg oder Section-Flaechen), die Toenung legt
+    // sich darueber. Vorher ersetzte die Akzentflaeche (accent-600) den Grund;
+    // Sekundaertext stand darauf mit 2,76:1.
+    background:
+      linear-gradient(var(--mod-card-selected-bg, var(--nc-card-selected-bg)) 0 0),
+      var(--mod-card-bg, var(--nc-card-bg));
+
+    // Meta-Zeile (text-tertiary) haelt auf der dunklen Kartenflaeche knapp
+    // 4,59:1 — jede Toenung drueckt sie darunter (gemessen 3,64:1). In der
+    // gewaehlten Karte deshalb Sekundaertext (dunkel 5,28:1, hell 5,84:1).
+    .nc-card__meta {
+      color: var(--fnd-color-text-secondary);
+    }
     box-shadow: 0 0 0 var(--mod-card-selected-ring-width, var(--nc-card-selected-ring-width)) var(--mod-card-selected-border, var(--nc-card-selected-border));
   }
 

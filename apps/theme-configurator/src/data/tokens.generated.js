@@ -5601,7 +5601,7 @@ export const componentTokenGroups = [
         "label": "Selected Background",
         "type": "color",
         "group": "selectable",
-        "ref": "background-accent-secondary"
+        "default": "color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent)"
       },
       {
         "id": "nc-card-selected-ring-width",

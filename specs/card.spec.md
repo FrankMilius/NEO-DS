@@ -1,5 +1,5 @@
 # card Component Spec
-> Version 3.2.0 | Status: stable | Layer: molecule
+> Version 3.2.1 | Status: stable | Layer: molecule
 
 Tags: `container`, `surface`, `interactive`, `layout`
 

@@ -323,7 +323,10 @@
 
   // -- Card: Selectable --
   --nc-card-selected-border: var(--fnd-color-interactive-default);
-  --nc-card-selected-bg: var(--fnd-color-background-accent-secondary);
+  // Zarte Toenung statt Akzentflaeche (Entscheidung card-auswahl, 06.10.2026):
+  // eine Schicht ueber der Kartenflaeche, wie beim Item (--nc-item-selected-bg).
+  // Die Auswahl zeigen Rahmen und Ring; die Texte behalten ihren Kontrast.
+  --nc-card-selected-bg: color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent);
   --nc-card-selected-ring-width: 2px;
 
   // -- Card: Disabled --

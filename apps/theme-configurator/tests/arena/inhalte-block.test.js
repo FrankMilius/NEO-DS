@@ -181,7 +181,7 @@ describe('Inhalte-Block aus dem Recipe', () => {
       expect(r.keyboard, id).toBeUndefined()
       expect(r.events, id).toBeUndefined()
     }
-    const VERSION = { card: '3.2.0', accordion: '3.2.0', 'data-table': '2.2.0', 'compare-table': '2.0.1' }
+    const VERSION = { card: '3.2.1', accordion: '3.2.0', 'data-table': '2.2.0', 'compare-table': '2.0.1' }
     for (const [id, v] of Object.entries(VERSION)) expect(rohesRecipe(id).meta.version, id).toBe(v)
   })
 
