@@ -2,7 +2,16 @@
   "$schema": "./foundation-recipe-schema.json",
   "meta": {
     "category": "spacing",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Semantische Rollen aus dem gestrichenen Recipe spacing uebernommen (Entscheidung 06.10.2026): section, component, element, gutter, gutter-lg, inline, stack, inset, inset-squish — Werte wie in scss/scss/00-settings/_spacing.scss",
+          "Fluide Stufen 06–13 nach der Token-Quelle korrigiert (data/design-tokens.json foundation.spacing.fluid: min/max); die alten Werte waren veraltet"
+        ]
+      }
+    ],
     "status": "stable",
     "tokenSource": "foundation.spacing",
     "pipeline": {
@@ -19,14 +28,23 @@
     { "token": "--fnd-spacing-03", "value": "12px", "category": "static", "usage": "Input Padding, Badge Spacing" },
     { "token": "--fnd-spacing-04", "value": "16px", "category": "static", "usage": "Standard Padding, Card Content, List Items" },
     { "token": "--fnd-spacing-05", "value": "20px", "category": "static", "usage": "Etwas groesserer Standard-Abstand" },
-    { "token": "--fnd-spacing-06", "value": "clamp(24px, ..., 28px)", "category": "fluid", "usage": "Section Gaps, Accordion Spacing" },
-    { "token": "--fnd-spacing-07", "value": "clamp(28px, ..., 36px)", "category": "fluid", "usage": "Container Padding, Modal Padding" },
-    { "token": "--fnd-spacing-08", "value": "clamp(32px, ..., 48px)", "category": "fluid", "usage": "Section Padding, Hero Spacing" },
-    { "token": "--fnd-spacing-09", "value": "clamp(40px, ..., 56px)", "category": "fluid", "usage": "Groesse Section-Abstaende" },
+    { "token": "--fnd-spacing-06", "value": "clamp(20px, ..., 24px)", "category": "fluid", "usage": "Section Gaps, Accordion Spacing" },
+    { "token": "--fnd-spacing-07", "value": "clamp(24px, ..., 32px)", "category": "fluid", "usage": "Container Padding, Modal Padding" },
+    { "token": "--fnd-spacing-08", "value": "clamp(32px, ..., 40px)", "category": "fluid", "usage": "Section Padding, Hero Spacing" },
+    { "token": "--fnd-spacing-09", "value": "clamp(36px, ..., 48px)", "category": "fluid", "usage": "Grosse Section-Abstaende" },
     { "token": "--fnd-spacing-10", "value": "clamp(48px, ..., 64px)", "category": "fluid", "usage": "Grosse Abschnitt-Trennungen" },
-    { "token": "--fnd-spacing-11", "value": "clamp(64px, ..., 96px)", "category": "fluid", "usage": "Page-Level Spacing" },
+    { "token": "--fnd-spacing-11", "value": "clamp(56px, ..., 80px)", "category": "fluid", "usage": "Page-Level Spacing" },
     { "token": "--fnd-spacing-12", "value": "clamp(80px, ..., 120px)", "category": "fluid", "usage": "Hero-Abstaende, Major Sections" },
-    { "token": "--fnd-spacing-13", "value": "clamp(96px, ..., 144px)", "category": "fluid", "usage": "Maximaler Abstand, Page Top/Bottom" }
+    { "token": "--fnd-spacing-13", "value": "clamp(112px, ..., 160px)", "category": "fluid", "usage": "Maximaler Abstand, Page Top/Bottom" },
+    { "token": "--fnd-spacing-section", "value": "var(--fnd-spacing-12)", "category": "semantic", "usage": "Abstand zwischen Sektionen" },
+    { "token": "--fnd-spacing-component", "value": "var(--fnd-spacing-08)", "category": "semantic", "usage": "Abstand zwischen Komponenten" },
+    { "token": "--fnd-spacing-element", "value": "var(--fnd-spacing-04)", "category": "semantic", "usage": "Abstand zwischen Elementen" },
+    { "token": "--fnd-spacing-gutter", "value": "var(--fnd-spacing-04)", "category": "semantic", "usage": "Grid-Gutter (Standard)" },
+    { "token": "--fnd-spacing-gutter-lg", "value": "var(--fnd-spacing-06)", "category": "semantic", "usage": "Grid-Gutter (weit)" },
+    { "token": "--fnd-spacing-inline", "value": "var(--fnd-spacing-03)", "category": "semantic", "usage": "Horizontaler Abstand zwischen Nachbarn" },
+    { "token": "--fnd-spacing-stack", "value": "var(--fnd-spacing-04)", "category": "semantic", "usage": "Vertikaler Stapel" },
+    { "token": "--fnd-spacing-inset", "value": "var(--fnd-spacing-04)", "category": "semantic", "usage": "Gleichmaessiges Padding" },
+    { "token": "--fnd-spacing-inset-squish", "value": "var(--fnd-spacing-02) var(--fnd-spacing-04)", "category": "semantic", "usage": "Gestauchtes Padding (vertikal halb so viel)" }
   ],
   "usage": {
     "do": [

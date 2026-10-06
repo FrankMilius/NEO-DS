@@ -1,12 +1,12 @@
 /**
  * Plan v3, Phase 4 (Gruppe „bloecke-2"): duenne Recipes bekommen Specimens
  * aus ihrer Vorlage — link-with-arrow, multiselect, news, pricing, question,
- * searchbar, security-list, solutions, spacing, square, tab-nav, table-block,
+ * searchbar, security-list, solutions, square, tab-nav, table-block,
  * tbl-cell, testimonial-grid, testimonial, text-blocks, text-only,
  * video-section. Geprueft wird:
  *   - keine Sonderfall-Arena, jede Zelle jedes Specimens aus der Vorlage
- *     (Zustaende und Ausprobieren/Abspielen), mehr als ein Specimen (ausser
- *     spacing: Foundation, kein Bauteil)
+ *     (Zustaende und Ausprobieren/Abspielen), mehr als ein Specimen
+ *     (spacing ist seit der Entscheidung 06.10.2026 kein Recipe mehr)
  *   - echtes DS-Markup: Wurzel aus dem Recipe, nur Klassen aus styles.css
  *     bzw. der Anatomie, Arena-Klassen nie an DS-Elementen, keine Inline-
  *     Gestaltung (ausser Instanzwerten wie in Drupal)
@@ -29,8 +29,9 @@ import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../sr
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
+// spacing: seit der Entscheidung 06.10.2026 kein Recipe mehr (Foundation)
 const BLOCK = ['link-with-arrow', 'multiselect', 'news', 'pricing', 'question', 'searchbar',
-  'security-list', 'solutions', 'spacing', 'square', 'tab-nav', 'table-block', 'tbl-cell',
+  'security-list', 'solutions', 'square', 'tab-nav', 'table-block', 'tbl-cell',
   'testimonial-grid', 'testimonial', 'text-blocks', 'text-only', 'video-section']
 
 function zellen (id, optionen) {
@@ -119,9 +120,8 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
         const gezeigt = new Set(recipe.specimens.flatMap((sp) => sp.matrix.states))
         for (const s of recipe.states.supported) expect(gezeigt.has(s), `${id}: Zustand ${s} ohne Zelle`).toBe(true)
         // mehr als ein Specimen, wo Recipe und SCSS mehr hergeben als die Matrix
-        // (question, solutions, table-block: eine Matrix deckt alles ab;
-        // spacing ist Foundation)
-        if (!['question', 'solutions', 'table-block', 'spacing'].includes(id)) {
+        // (question, solutions, table-block: eine Matrix deckt alles ab)
+        if (!['question', 'solutions', 'table-block'].includes(id)) {
           expect(recipe.specimens.length, id).toBeGreaterThan(1)
         }
       })
@@ -285,13 +285,19 @@ describe('Bloecke-2 aus dem Recipe (Plan v3, Phase 4)', () => {
     }
   })
 
-  it('spacing: Foundation ohne Modifier, Rolle als Token in data-rolle', () => {
-    expect(modifier('spacing')).toEqual([])
-    for (const z of zellen('spacing')) {
-      const d = dom(z.html)
-      const rolle = z.axisValues.role
-      expect(d.querySelector(`.ra-abstand[data-rolle="${rolle}"] > .fnd-spacing`)).not.toBeNull()
-      expect(d.textContent).toContain(`--fnd-spacing-${rolle}`)
+  it('spacing: kein Recipe mehr, die Rollen fuehrt data/foundation-spacing.json mit den Werten aus styles.css (Entscheidung 06.10.2026)', () => {
+    expect(RECIPE_IDS).not.toContain('spacing')
+    expect(vorlageFuer('spacing')).toBeFalsy()
+    const f = JSON.parse(readFileSync(resolve(WURZEL, 'data/foundation-spacing.json'), 'utf8'))
+    const rollen = f.tokens.filter((t) => t.category === 'semantic')
+    expect(rollen.map((t) => t.token.replace('--fnd-spacing-', ''))).toEqual(
+      ['section', 'component', 'element', 'gutter', 'gutter-lg', 'inline', 'stack', 'inset', 'inset-squish'])
+    const c = css()
+    for (const t of rollen) expect(c, t.token).toContain(`${t.token}: ${t.value}`)
+    // fluide Stufen wie die Token-Quelle (clamp(min, …, max))
+    const quelle = JSON.parse(readFileSync(resolve(WURZEL, 'data/design-tokens.json'), 'utf8')).foundation.spacing.fluid.fluid_steps
+    for (const [stufe, { min, max }] of Object.entries(quelle)) {
+      expect(f.tokens.find((t) => t.token === `--fnd-spacing-${stufe}`).value, stufe).toBe(`clamp(${min}, ..., ${max})`)
     }
   })
 

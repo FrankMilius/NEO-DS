@@ -62,7 +62,6 @@ describe('Arena-Vorlagen: Snapshots', () => {
     ['header', 'default'],
     ['solutions', 'default'],
     ['text-only', 'variant-comparison'],
-    ['spacing', 'semantic-roles'],
     ['square-value', 'orientation-comparison'],
     ['multiselect', 'default'],
     ['searchbar', 'default'],

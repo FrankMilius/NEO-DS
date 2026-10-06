@@ -472,32 +472,6 @@ onBeforeUnmount(() => {
 .ra-live-component .ra-nav-mobil .burger { display: grid; }
 .ra-live-component .ra-nav-mobil .m-drawer { display: block; }
 
-/* ra-abstand: Foundation Spacing (Plan v3, Phase 4). Zwei getoente Flaechen
-   im Abstand der semantischen Rolle (data-rolle) — vertikal, horizontal
-   (inline, gutter) oder als Innenabstand (inset). Das Recipe hat keine
-   Klasse, die Arena zeigt nur den Token. */
-.ra-live-component .ra-abstand { display: inline-flex; flex-direction: column; gap: 6px; }
-.ra-live-component .ra-abstand__paar { display: flex; flex-direction: column; gap: var(--ra-abstand); }
-.ra-live-component .ra-abstand__paar--waagerecht { flex-direction: row; }
-.ra-live-component .ra-abstand__flaeche {
-  width: 120px;
-  height: 20px;
-  border: 1px dashed color-mix(in srgb, var(--fnd-color-interactive-default) 45%, transparent);
-  border-radius: var(--fnd-radius-sm);
-  background: color-mix(in srgb, var(--fnd-color-interactive-default) 14%, transparent);
-}
-.ra-live-component .ra-abstand__paar--waagerecht .ra-abstand__flaeche { width: 48px; height: 32px; }
-.ra-live-component .ra-abstand__flaeche--innen { width: auto; height: auto; padding: var(--ra-abstand); }
-.ra-live-component .ra-abstand__inhalt { padding: 4px 8px; font-size: 12px; background: var(--fnd-color-background-secondary); }
-.ra-live-component .ra-abstand__token { font: 500 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--fnd-color-text-secondary); }
-.ra-live-component .ra-abstand[data-rolle='section'] { --ra-abstand: var(--fnd-spacing-section); }
-.ra-live-component .ra-abstand[data-rolle='component'] { --ra-abstand: var(--fnd-spacing-component); }
-.ra-live-component .ra-abstand[data-rolle='element'] { --ra-abstand: var(--fnd-spacing-element); }
-.ra-live-component .ra-abstand[data-rolle='gutter'] { --ra-abstand: var(--fnd-spacing-gutter); }
-.ra-live-component .ra-abstand[data-rolle='inline'] { --ra-abstand: var(--fnd-spacing-inline); }
-.ra-live-component .ra-abstand[data-rolle='stack'] { --ra-abstand: var(--fnd-spacing-stack); }
-.ra-live-component .ra-abstand[data-rolle='inset'] { --ra-abstand: var(--fnd-spacing-inset); }
-
 /* ra-typskala: Umgebung mit kleinerer Typo-Skala. nc-section-title und
    nc-lead multiplizieren mit --type-scale, das ein uebergeordnetes Element
    setzt (Doku text-blocks, „Type Scale"). Der Rahmen ist dieses Element. */
