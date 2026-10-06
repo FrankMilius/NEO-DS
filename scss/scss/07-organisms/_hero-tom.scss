@@ -41,9 +41,12 @@
   color: var(--fnd-color-always-light);
 }
 
-// Ton hell (field_tom_theme = light): dunkle Schrift, heller Scrim
+// Ton hell (field_tom_theme = light): dunkle Schrift, heller Scrim.
+// always-dark statt text-primary: der helle Scrim bleibt im dunklen
+// Seitenthema hell, text-primary kippte dort auf Hell (Folge zu
+// hero-tom-gestaltung, Muster wie card-cta-hell, 06.10.2026).
 .nc-hero-tom--light {
-  color: var(--fnd-color-text-primary);
+  color: var(--fnd-color-always-dark);
 }
 
 .nc-hero-tom__media {
@@ -103,6 +106,10 @@
 }
 
 .nc-hero-tom__headline {
+  // Erbt den Vordergrund des Heros. Ohne diese Zeile setzt die Element-Regel
+  // h1–h6 text-primary: im hellen Seitenthema dunkel auf dem Bild (Muster
+  // wie event-titel, 06.10.2026).
+  color: inherit;
   font-size: var(--nc-type-display-m-size);
   font-weight: var(--fnd-font-weight-bold);
   line-height: var(--lh-tight);

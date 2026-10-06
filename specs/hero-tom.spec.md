@@ -1,5 +1,5 @@
 # hero-tom Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `hero`, `display`, `parallax`
 
