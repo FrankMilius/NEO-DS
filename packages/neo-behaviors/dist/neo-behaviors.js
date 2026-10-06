@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.8.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.9.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -3882,7 +3882,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.8.0",
+    version: "0.9.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",
