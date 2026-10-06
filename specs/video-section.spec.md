@@ -1,5 +1,5 @@
 # video-section Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `media`, `content`
 
@@ -20,6 +20,7 @@ Root element: `.nc-video`
 - Media: 16:9 aspect-ratio, always-dark BG, radius-sm, overflow hidden.
 - Play-Overlay: Gradient-Overlay, 72×72 runder Button mit Play-Triangle.
 - is-playing: Overlay ausblenden (opacity 0, pointer-events none).
+- Titel und Text: text-primary — die Farbe kommt aus dem Farbkontext (helle oder dunkle Flaeche), nicht fest always-light (Entscheidung 06.10.2026).
 
 ## Variants
 ### Variant (`variant`)

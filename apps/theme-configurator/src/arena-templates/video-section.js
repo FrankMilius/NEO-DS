@@ -5,9 +5,9 @@
 //     --container-max-width — der Block ist fuer die Seitenbreite gebaut
 //   - render.compositionType „video": natives <video> mit Vorschaubild
 //     (poster) statt <img> (Doku „Mit nativem Video-Element")
-//   - render.flaeche „dunkel": auf dunkler Flaeche wie in Drupal
-//     (neo-dark-theme am Block-Wrapper). Titel und Text sind always-light —
-//     auf heller Flaeche Weiss auf Hell (Befund, Entscheidungsfall)
+//   - render.flaeche „dunkel": auf dunkler Flaeche (neo-dark-theme am
+//     Block-Wrapper). Titel und Text sind text-primary und folgen der
+//     Flaeche (Entscheidung 06.10.2026)
 import { BILD_SRC } from './_helfer.js'
 
 export default (zelle, m) => {

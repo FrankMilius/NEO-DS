@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "video-section",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -29,6 +29,12 @@
       "video"
     ],
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Titel und Text (.nc-video__title, .nc-video__text) in text-primary (Entscheidung 06.10.2026): folgen dem Farbkontext — auf heller Flaeche dunkel, auf dunkler Flaeche (dunkles Theme am Block) hell; vorher always-light (Weiss auf Hell)"
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -80,7 +86,8 @@
       "2-Spalten Grid: media + content, gap 4rem. Single-Column unter 900px.",
       "Media: 16:9 aspect-ratio, always-dark BG, radius-sm, overflow hidden.",
       "Play-Overlay: Gradient-Overlay, 72×72 runder Button mit Play-Triangle.",
-      "is-playing: Overlay ausblenden (opacity 0, pointer-events none)."
+      "is-playing: Overlay ausblenden (opacity 0, pointer-events none).",
+      "Titel und Text: text-primary — die Farbe kommt aus dem Farbkontext (helle oder dunkle Flaeche), nicht fest always-light (Entscheidung 06.10.2026)."
     ]
   },
   "axes": {
@@ -118,7 +125,7 @@
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [],
-      "note": "Play-Button: role button, aria-label. Video: captions. always-light Text auf dark BG Kontrast. Overlay-Icon: 3:1 gegen Gradient."
+      "note": "Play-Button: role button, aria-label. Video: captions. Titel/Text text-primary: Kontrast folgt der Flaeche. Overlay-Icon: 3:1 gegen Gradient."
     },
     "overrides": []
   },
@@ -171,7 +178,7 @@
     {
       "id": "default",
       "label": "Video Section",
-      "description": "Video mit Content und Play-Overlay — Vorschau und abspielend (Overlay ausgeblendet)",
+      "description": "Video mit Content und Play-Overlay auf heller Fläche — Vorschau und abspielend (Overlay ausgeblendet)",
       "matrix": {
         "axes": {
           "variant": [
@@ -195,7 +202,7 @@
     {
       "id": "auf-dunkel",
       "label": "Auf dunkler Fläche",
-      "description": "Wie in Drupal mit Flaeche „dunkel“ (neo-dark-theme am Block) — Titel und Text sind always-light",
+      "description": "Auf dunkler Fläche (neo-dark-theme am Block) — Titel und Text (text-primary) werden hell",
       "matrix": {
         "axes": {
           "variant": [
@@ -212,7 +219,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "always-light auf dunklem Grund."
+        "note": "text-primary des dunklen Themes auf dunklem Grund."
       }
     },
     {
