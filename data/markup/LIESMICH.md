@@ -165,6 +165,23 @@ Die Reihenfolge ist kein Zufall:
 Bis Schritt 4 ist nichts verloren, wenn man abbricht. Deshalb steht die Sperre
 davor und nicht am Anfang.
 
+**Ein weiterer Lauf ergänzt, er ersetzt nicht (seit 07.10.2026).** SCSS und
+Tokens stehen zwischen `/* >>> aufgenommen: <name> */` und
+`/* <<< aufgenommen: <name> */`. Läuft die Aufnahme für ein Bauteil ein zweites
+Mal (Nachzügler: Regeln, die erst später erfasst werden), hängt das Skript nur
+die neuen Regeln und Tokens an. Gleiche Regel mit gleichem Inhalt wird nicht
+gedoppelt; gleicher Selektor (im selben `@media`) mit **anderem** Inhalt ist ein
+Konflikt — Abbruch, bevor eine Datei geschrieben wird. Vor dem Schreiben prüft
+das Skript, dass kein Selektor und kein Token aus dem Abschnitt fehlt. Der
+Konfigurator-Eintrag behält seine Untergruppen. Ohne `--anwenden` zeigt der
+Trockenlauf, was ergänzt würde. Nur `--ersetzen` ersetzt die Abschnitte
+ausdrücklich und listet, was dabei entfällt.
+
+Anlass: Bis dahin ersetzte ein zweiter Lauf den Abschnitt. Weil der erste Lauf
+die Regeln im Theme schon entfernt hatte, sah der zweite nur noch die
+Nachzügler — so verlor `hero-tom` am 12.08.2026 (8b04d29c) seine
+Grundgestaltung, aufgefallen erst am 06.10.2026.
+
 **Warum überhaupt eine Sperre.** Am 21.08.2026 trugen alle 131 Stories Markup,
 das aus Klassennamen abgeleitet war — es sah nach Bauteil aus und war keines.
 Vier Phasen Arbeit haben das aufgeholt. Ohne Sperre fällt es beim nächsten

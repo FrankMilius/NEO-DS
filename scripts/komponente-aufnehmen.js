@@ -36,6 +36,35 @@
  * Damit die Ernte ueberhaupt greifen kann, legt dieses Skript zuvor das
  * Recipe an: sie sucht den Wurzelselektor, den nur das Recipe kennt.
  *
+ * WEITERER LAUF ERGAENZT, ERSETZT NICHT (seit 07.10.2026)
+ *
+ *   npm run aufnehmen -- nc-hero-tom                       Trockenlauf: zeigt, was ergaenzt wuerde
+ *   npm run aufnehmen -- nc-hero-tom --anwenden            ergaenzt die Abschnitte
+ *   npm run aufnehmen -- nc-hero-tom --anwenden --ersetzen ersetzt sie (nur bewusst!)
+ *
+ * SCSS-Partial und Token-Datei tragen je Komponente einen Abschnitt zwischen
+ * `>>> aufgenommen: <name>` und `<<< aufgenommen: <name>`. Bis 07.10.2026
+ * ersetzte ein weiterer Lauf diesen Abschnitt. Da der erste Lauf die Regeln im
+ * Theme bereits entfernt, findet ein weiterer nur noch NACHZUEGLER (Regeln,
+ * die erst eine geaenderte Zuordnung erfasst oder die spaeter ins Theme kamen)
+ * — und loeschte alles Uebrige. So fehlte hero-tom vom 12.08. (8b04d29c) bis
+ * 06.10.2026 die Grundgestaltung.
+ *
+ * Jetzt (scripts/aufnahme-abschnitt.mjs):
+ * - neue Regeln/Tokens werden an den Abschnitt angehaengt;
+ * - gleicher Selektor im selben @-Kontext mit gleichem Inhalt wird nicht
+ *   gedoppelt (auch nicht gegenueber Regeln ausserhalb der Marker);
+ * - gleicher Selektor mit anderem Inhalt ist ein KONFLIKT: Abbruch, bevor
+ *   irgendeine Datei geschrieben ist;
+ * - Schutzpruefung: fehlt nach dem Zusammenfuehren ein Selektor/Token, der
+ *   vorher im Abschnitt stand, wird nichts geschrieben;
+ * - der Konfigurator-Eintrag behaelt seine Untergruppen, neue tokenIds kommen
+ *   in die Untergruppe „alle“;
+ * - die Ebene einer schon aufgenommenen Komponente gilt weiter, auch ohne
+ *   --molekuel/--atom.
+ * `--ersetzen` stellt das alte Verhalten fuer genau diesen Lauf wieder her und
+ * listet, was dabei entfaellt.
+ *
  * SKALEN-ANBINDUNG
  * Ein harter px-Wert wird an die Foundation-Skala gebunden, wenn der Abstand
  * unter 2px liegt; sonst behaelt er seinen Wert und wird mit „eigener Wert"
@@ -43,19 +72,25 @@
  * sich ihr Aussehen verschiebt.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { abschnittPlanen, planMelden } from './aufnahme-abschnitt.mjs';
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const argv = process.argv.slice(2);
+// --wurzel=<pfad> nur fuer Tests: dort liegen styles.css, scss/, data/ und
+// daneben ../DRUPAL11/… als Attrappe. Ohne Angabe gilt das Repo selbst.
+const wurzelArg = argv.find((a) => a.startsWith('--wurzel='));
+const wurzel = wurzelArg
+  ? resolve(wurzelArg.slice('--wurzel='.length))
+  : resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OV = resolve(wurzel, '../DRUPAL11/web/themes/custom/neo_fe/css/neo-overrides.css');
 const DS = resolve(wurzel, 'styles.css');
 const THEME_TOKENS = resolve(wurzel, '../DRUPAL11/web/themes/custom/neo_fe/css/theme-overrides.css');
 
-const argv = process.argv.slice(2);
 const ziel = (argv.find((a) => !a.startsWith('--')) || '').replace(/^\.?/, '');
 const schreiben = argv.includes('--schreiben');
-if (!ziel) { console.error('Aufruf: npm run aufnehmen -- <nc-komponente> [--schreiben]'); process.exit(1); }
+if (!ziel) { console.error('Aufruf: npm run aufnehmen -- <nc-komponente> [--schreiben] [--anwenden [--atom|--molekuel] [--ersetzen]]'); process.exit(1); }
 
 const ov = readFileSync(OV, 'utf8');
 const ds = readFileSync(DS, 'utf8');
@@ -272,7 +307,7 @@ console.log('  ' + JSON.stringify(eintrag, null, 2).split('\n').join('\n  '));
 
 if (schreiben) {
   const ablage = resolve(wurzel, 'data/aufnahme');
-  if (!existsSync(ablage)) require('node:fs').mkdirSync(ablage, { recursive: true });
+  if (!existsSync(ablage)) mkdirSync(ablage, { recursive: true });
   writeFileSync(resolve(ablage, `${name}.json`), JSON.stringify({
     komponente: ziel, tokens: Object.fromEntries(tokens), scss, eintrag,
   }, null, 2));
@@ -280,45 +315,147 @@ if (schreiben) {
 }
 
 // ---------------------------------------------------------------------------
-// Anwenden
+// Abschnitte planen — im Trockenlauf UND vor dem Anwenden
 // ---------------------------------------------------------------------------
-// Schreibt in vier Dateien. Jeder Abschnitt bekommt Marker, damit ein zweiter
-// Lauf ersetzt statt anhaengt — und damit von Hand erkennbar bleibt, was aus
-// der Aufnahme stammt.
+// SCSS und Tokens stehen in markierten Abschnitten
+//   /* >>> aufgenommen: <name> */ … /* <<< aufgenommen: <name> */
+// Ein weiterer Lauf ERGAENZT sie (scripts/aufnahme-abschnitt.mjs): neue
+// Regeln/Tokens werden angehaengt, gleiche nicht gedoppelt, abweichende als
+// Konflikt gemeldet. Erst wenn der Plan fuer ALLE Dateien sauber ist, wird
+// geschrieben — ein Konflikt bricht ab, bevor irgendeine Datei angefasst ist.
+//
+// Frueher ersetzte ein zweiter Lauf den Abschnitt. Weil der erste Lauf die
+// Regeln im Theme schon entfernt hat, fand der zweite nur die Nachzuegler und
+// loeschte alles Uebrige (hero-tom, 12.08.2026, 8b04d29c).
 
-function abschnitt(datei, marke, inhalt) {
-  const auf = `/* >>> aufgenommen: ${marke} */`;
-  const zu  = `/* <<< aufgenommen: ${marke} */`;
-  let t = existsSync(datei) ? readFileSync(datei, 'utf8') : '';
-  const block = `${auf}\n${inhalt}\n${zu}`;
-  const i = t.indexOf(auf), j = t.indexOf(zu);
-  if (i >= 0 && j > i) t = t.slice(0, i) + block + t.slice(j + zu.length);
-  else t = t.replace(/\s*$/, '') + `\n\n${block}\n`;
-  writeFileSync(datei, t);
+const anwenden = argv.includes('--anwenden');
+const ersetzen = argv.includes('--ersetzen');
+const vermerk = `// ergaenzt am ${new Date().toISOString().slice(0, 10)} (weiterer Aufnahme-Lauf)`;
+
+// Ebene: ausdruecklich (--atom/--molekuel) oder dort, wo die Komponente schon
+// aufgenommen ist. Sonst legte ein weiterer Lauf ohne --molekuel eine zweite
+// Datei in 07-organisms an.
+const EBENEN = ['05-atoms', '06-molecules', '07-organisms'];
+const ebeneArg = argv.includes('--atom') ? '05-atoms' : argv.includes('--molekuel') ? '06-molecules' : null;
+const bestehendeEbenen = EBENEN.filter((e) => {
+  const d = resolve(wurzel, `scss/scss/${e}/_${name}.scss`);
+  return existsSync(d) && readFileSync(d, 'utf8').includes(`/* >>> aufgenommen: ${name} */`);
+});
+if (ebeneArg && bestehendeEbenen.length && !bestehendeEbenen.includes(ebeneArg)) {
+  console.error(`\n  ABBRUCH — ${name} ist bereits in ${bestehendeEbenen.join(', ')} aufgenommen, nicht in ${ebeneArg}.`);
+  console.error('  Ebene weglassen (dann gilt die bestehende) oder die Datei zuerst von Hand umziehen.\n');
+  process.exit(1);
+}
+const ebene = ebeneArg || bestehendeEbenen[0] || '07-organisms';
+
+// 1. SCSS
+const scssText = scss.map((b) => {
+  const kern = `${b.sel} {\n${b.zeilen.join('\n')}\n}`;
+  // Den @-Kontext wieder darumlegen, sonst gilt eine Mobilregel ueberall.
+  return (b.at || []).reduceRight((inner, at) =>
+    `${at} {\n${inner.split('\n').map((z) => '  ' + z).join('\n')}\n}`, kern);
+}).join('\n\n');
+const scssDatei = resolve(wurzel, `scss/scss/${ebene}/_${name}.scss`);
+const kopf = existsSync(scssDatei) ? '' :
+  `// ==========================================================================\n` +
+  `// ${ebene.split('-')[1]}: ${name}\n` +
+  `// ==========================================================================\n` +
+  `// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war\n` +
+  `// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-\n` +
+  `// entscheidung tragen.\n` +
+  `// ==========================================================================\n\n@use '../01-tools' as *;\n`;
+
+/** Plant einen Abschnitt; ein unlesbarer Abschnitt ist selbst ein Abbruchgrund. */
+function planen(datei, opts) {
+  try {
+    return abschnittPlanen({ marke: name, ersetzen, vermerk, ...opts });
+  } catch (e) {
+    console.error(`\n  ABBRUCH — ${datei}: ${e.message}. Nichts geschrieben.\n`);
+    process.exit(1);
+  }
 }
 
-if (argv.includes('--anwenden')) {
-  const ebene = argv.includes('--atom') ? '05-atoms'
-    : argv.includes('--molekuel') ? '06-molecules' : '07-organisms';
+const plaene = [];
+plaene.push({
+  datei: scssDatei,
+  plan: planen(scssDatei, { text: existsSync(scssDatei) ? readFileSync(scssDatei, 'utf8') : kopf, neu: scssText, modus: 'regeln' }),
+});
 
-  // 1. SCSS
-  const scssText = scss.map((b) => {
-    const kern = `${b.sel} {\n${b.zeilen.join('\n')}\n}`;
-    // Den @-Kontext wieder darumlegen, sonst gilt eine Mobilregel ueberall.
-    return (b.at || []).reduceRight((inner, at) =>
-      `${at} {\n${inner.split('\n').map((z) => '  ' + z).join('\n')}\n}`, kern);
-  }).join('\n\n');
-  const scssDatei = resolve(wurzel, `scss/scss/${ebene}/_${name}.scss`);
-  const kopf = existsSync(scssDatei) ? '' :
-    `// ==========================================================================\n` +
-    `// ${ebene.split('-')[1]}: ${name}\n` +
-    `// ==========================================================================\n` +
-    `// Aus dem Drupal-Theme aufgenommen (neo-overrides.css). Die Website war\n` +
-    `// fuehrend; harte Werte wurden tokenisiert, wo sie eine Gestaltungs-\n` +
-    `// entscheidung tragen.\n` +
-    `// ==========================================================================\n\n@use '../01-tools' as *;\n`;
-  if (kopf) writeFileSync(scssDatei, kopf);
-  abschnitt(scssDatei, name, scssText);
+// 2. Tokens
+const tokenDatei = resolve(wurzel, 'scss/scss/00-settings/_component-tokens-aufgenommen.scss');
+if (tokens.size) {
+  const tText = [`:root {`, `  // ── ${name} (aufgenommen) ──`,
+    ...[...tokens].map(([n, t]) => `  ${n}: ${t.skala || t.wert};${t.skala ? '' : '  // eigener Wert'}`),
+    `}`].join('\n');
+  plaene.push({
+    datei: tokenDatei,
+    plan: planen(tokenDatei, { text: existsSync(tokenDatei) ? readFileSync(tokenDatei, 'utf8') : null, neu: tText, modus: 'deklarationen' }),
+  });
+}
+
+// 3. Konfigurator — gleiche Regel: vorhandene Untergruppen und tokenIds
+// bleiben, fehlende tokenIds kommen in die Untergruppe „alle“. Frueher
+// ueberschrieb der Lauf `subgroups` komplett (shell, 12.08.2026: vier von
+// Hand gepflegte Untergruppen verschwanden).
+const jsonDatei = resolve(wurzel, 'data/design-tokens.json');
+const konfigJson = JSON.parse(readFileSync(jsonDatei, 'utf8'));
+const gruppen = konfigJson.components.groups;
+const vorhanden = gruppen.findIndex((g) => g.id === name);
+const neueIds = eintrag.subgroups[0].tokenIds;
+let konfigNeu = [];
+if (tokens.size) {
+  if (vorhanden < 0) { gruppen.push(eintrag); konfigNeu = neueIds; }
+  else if (ersetzen) { gruppen[vorhanden] = { ...gruppen[vorhanden], ...eintrag }; konfigNeu = neueIds; }
+  else {
+    const g = gruppen[vorhanden];
+    g.subgroups = g.subgroups || [];
+    const bekannt = new Set(g.subgroups.flatMap((s) => s.tokenIds || []));
+    konfigNeu = neueIds.filter((id) => !bekannt.has(id));
+    if (konfigNeu.length) {
+      let alle = g.subgroups.find((s) => s.id === 'alle');
+      if (!alle) { alle = { id: 'alle', label: 'Alle Tokens', tokenIds: [] }; g.subgroups.unshift(alle); }
+      alle.tokenIds = [...(alle.tokenIds || []), ...konfigNeu];
+    }
+  }
+}
+
+console.log(`\n  ${anwenden ? 'PLAN' : 'TROCKENLAUF — mit --anwenden wuerde'}${ersetzen ? ' (--ersetzen)' : ''}:`);
+for (const { datei, plan } of plaene) {
+  const rel = datei.slice(wurzel.length + 1);
+  const art = plan.neuAngelegt ? 'neuer Abschnitt' : ersetzen ? 'Abschnitt ERSETZT' : 'Abschnitt ergaenzt';
+  console.log(`    ${rel}: ${art} — ${plan.ergaenzt.length} neu, ${plan.vorhanden.length} schon vorhanden${plan.konflikte.length ? `, ${plan.konflikte.length} Konflikt(e)` : ''}`);
+  for (const s of plan.ergaenzt) console.log(`      + ${s}`);
+  if (ersetzen) for (const s of plan.verloren) console.log(`      - ${s}   (entfaellt durch --ersetzen)`);
+}
+if (tokens.size) console.log(`    data/design-tokens.json: ${vorhanden < 0 ? 'Eintrag neu' : ersetzen ? 'Eintrag ERSETZT' : 'Eintrag ergaenzt'} — ${konfigNeu.length} tokenIds neu`);
+
+const probleme = plaene.filter(({ plan }) => plan.konflikte.length || (!ersetzen && plan.verloren.length) || plan.warnungen.length);
+const blockiert = plaene.some(({ plan }) => plan.konflikte.length || (!ersetzen && plan.verloren.length));
+if (probleme.length) {
+  console.log('');
+  for (const { datei, plan } of probleme) console.log(planMelden(datei.slice(wurzel.length + 1), name, plan));
+}
+if (blockiert) {
+  console.log(`\n  ${anwenden ? 'ABBRUCH — nichts geschrieben.' : 'Mit --anwenden wuerde das Skript hier ABBRECHEN.'}`);
+  console.log('  Eine Regel/ein Token steht schon da, aber mit anderem Inhalt. Still');
+  console.log('  ueberschreiben waere genau der Fehler vom 12.08.2026. Entweder den');
+  console.log('  Unterschied von Hand klaeren oder ausdruecklich `--ersetzen` angeben');
+  console.log('  (ersetzt die Abschnitte dieser Komponente vollstaendig).\n');
+  if (anwenden) process.exit(1);
+}
+
+// ---------------------------------------------------------------------------
+// Anwenden
+// ---------------------------------------------------------------------------
+// Schreibt in vier Dateien. Die Marker zeigen, was aus der Aufnahme stammt.
+
+if (anwenden) {
+  for (const { datei, plan } of plaene) {
+    if (plan.geaendert) {
+      mkdirSync(dirname(datei), { recursive: true });
+      writeFileSync(datei, plan.text);
+    }
+  }
 
   // Partial in das _index.scss der Ebene eintragen. Ohne das wird die Datei
   // geschrieben, aber nie kompiliert — die Komponente waere im DS unsichtbar,
@@ -332,14 +469,8 @@ if (argv.includes('--anwenden')) {
     }
   }
 
-  // 2. Tokens
+  // Token-Datei selbst einbinden — sonst wird sie gebaut, aber nie geladen.
   if (tokens.size) {
-    const tText = [`:root {`, `  // ── ${name} (aufgenommen) ──`,
-      ...[...tokens].map(([n, t]) => `  ${n}: ${t.skala || t.wert};${t.skala ? '' : '  // eigener Wert'}`),
-      `}`].join('\n');
-    const tokenDatei = resolve(wurzel, 'scss/scss/00-settings/_component-tokens-aufgenommen.scss');
-    abschnitt(tokenDatei, name, tText);
-    // Selbst einbinden — sonst wird die Datei gebaut, aber nie geladen.
     const idx = resolve(wurzel, 'scss/scss/00-settings/_index.scss');
     let it = readFileSync(idx, 'utf8');
     if (!it.includes('component-tokens-aufgenommen')) {
@@ -347,17 +478,7 @@ if (argv.includes('--anwenden')) {
         `@forward 'component-tokens';\n// Aus dem Drupal-Theme aufgenommene Komponenten-Tokens.\n// Bewusst SPAETER: sie duerfen bestehende Werte ueberschreiben, nicht umgekehrt.\n@forward 'component-tokens-aufgenommen';`);
       writeFileSync(idx, it);
     }
-  }
-
-  // 3. Konfigurator
-  const jsonDatei = resolve(wurzel, 'data/design-tokens.json');
-  const j = JSON.parse(readFileSync(jsonDatei, 'utf8'));
-  const gruppen = j.components.groups;
-  const vorhanden = gruppen.findIndex((g) => g.id === name);
-  if (tokens.size) {
-    if (vorhanden >= 0) gruppen[vorhanden] = { ...gruppen[vorhanden], ...eintrag };
-    else gruppen.push(eintrag);
-    writeFileSync(jsonDatei, JSON.stringify(j, null, 2) + '\n');
+    writeFileSync(jsonDatei, JSON.stringify(konfigJson, null, 2) + '\n');
   }
 
   // 3b. Recipe anlegen
