@@ -133,8 +133,16 @@ const vorschauThemen = computed(() => {
 
 // Store-Aenderungen und bereichsweises Dunkel in der Vorschau
 // (lib/vorschau-variablen.js). Je Modus einmal berechnet.
-const varsHell = computed(() => vorschauVariablen({ id: props.componentId, modus: 'light', state: store.state }))
-const varsDunkel = computed(() => vorschauVariablen({ id: props.componentId, modus: 'dark', state: store.state }))
+// Enthaltene Bauteile (komposition „enthaelt", Specimen composes) werden mit
+// neu gebunden — sonst mischt die dunkle Vorschau dunkle Flaechen des
+// Blocks mit hellen Tokens der Karte/des Buttons (Plan v3, Phase 5).
+const enthalteneIds = computed(() => {
+  const ids = new Set((recipe.value?.komposition || []).filter((k) => k.art === 'enthaelt').map((k) => k.recipe))
+  for (const sp of recipe.value?.specimens || []) for (const c of sp.composes || []) ids.add(c)
+  return [...ids]
+})
+const varsHell = computed(() => vorschauVariablen({ id: props.componentId, modus: 'light', state: store.state, enthaelt: enthalteneIds.value }))
+const varsDunkel = computed(() => vorschauVariablen({ id: props.componentId, modus: 'dark', state: store.state, enthaelt: enthalteneIds.value }))
 function variablenFuer (thema, flaeche) {
   return thema === 'neo-dark-theme' || flaeche === 'dunkel' ? varsDunkel.value : varsHell.value
 }

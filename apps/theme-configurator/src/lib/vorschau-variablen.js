@@ -124,11 +124,16 @@ export function zeilenZuObjekt(zeilen = []) {
  * @param {'light'|'dark'} o.modus
  * @param {object} o.state       store.state
  * @param {object} [o.sheets]    fuer Tests
+ * @param {string[]} [o.enthaelt] enthaltene Bauteile (komposition „enthaelt",
+ *   Specimen composes): auch deren :root-Deklarationen werden neu gesetzt.
+ *   Sonst blieben z. B. Karte und Button in der dunklen Vorschau eines
+ *   Website-Blocks hell bzw. Schrift dunkel auf dunkler Flaeche (Plan v3,
+ *   Phase 5: text-cta, error-page).
  */
-export function vorschauVariablen({ id, modus, state, sheets }) {
+export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [] }) {
   const set = state.activeThemeSet || 'neo'
   const vars = { ...komponentenDeklarationen(id, sheets) }
-  for (const fremd of GETEILTE_TOKENS[id] || []) {
+  for (const fremd of [...(GETEILTE_TOKENS[id] || []), ...enthaelt.filter((e) => e !== id)]) {
     for (const [k, v] of Object.entries(komponentenDeklarationen(fremd, sheets))) if (!(k in vars)) vars[k] = v
   }
   // Ketten zu Tokens anderer Komponenten (Plan v3, Komposition): z. B.

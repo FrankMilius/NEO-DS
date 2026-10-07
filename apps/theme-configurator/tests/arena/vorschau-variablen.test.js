@@ -92,3 +92,17 @@ describe('Ketten zu anderen Komponenten (Plan v3)', () => {
     expect(v['--nc-fremd-x']).toBeUndefined()
   })
 })
+
+describe('vorschau-variablen: enthaltene Bauteile (Plan v3, Phase 5)', () => {
+  it('setzt auch die :root-Deklarationen enthaltener Bauteile, ohne eigene zu ueberschreiben', () => {
+    const sheets = [{ cssRules: [
+      { selectorText: ':root', style: fakeStyle({ '--nc-block-bg': 'var(--fnd-color-background-base)', '--nc-karte-title-color': 'var(--fnd-color-text-primary)' }) }
+    ] }]
+    const store = useThemeStore()
+    const ohne = vorschauVariablen({ id: 'block', modus: 'dark', state: store.state, sheets })
+    const mit = vorschauVariablen({ id: 'block', modus: 'dark', state: store.state, sheets, enthaelt: ['karte', 'block'] })
+    expect(ohne['--nc-karte-title-color']).toBeUndefined()
+    expect(mit['--nc-karte-title-color']).toBe('var(--fnd-color-text-primary)')
+    expect(mit['--nc-block-bg']).toBe('var(--fnd-color-background-base)')
+  })
+})
