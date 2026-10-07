@@ -25,7 +25,7 @@
     'elements', 'icons', 'themes', 'shadow-elevation', 'opacity-zindex-motion',
     'utility-a11y', 'utility-visibility', 'component-matrix',
     'architecture', 'recipe-status',
-    'home-hero', 'home-basic', 'dashboard', 'content-page', 'form-page',
+    'home-hero', 'home-basic', 'dashboard',
     'settings-page', 'error-page'
   ];
   if (NON_COMPONENT_SLUGS.indexOf(slug) !== -1) return;

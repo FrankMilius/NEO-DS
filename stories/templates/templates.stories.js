@@ -1,6 +1,8 @@
 // ============================================================
 // Templates — Page Layout Showcase
-// Alle 8 Seiten-Templates als Wireframe-Vorschau
+// Alle 6 Seiten-Templates als Wireframe-Vorschau
+// (content-page und form-page am 07.10.2026 stillgelegt -> Shell-Presets
+// data-layout="content-page" bzw. "focused")
 // ============================================================
 
 const TEMPLATES = [
@@ -18,44 +20,6 @@ const TEMPLATES = [
           <div style="background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-sm);border:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:var(--fs-2xs);color:var(--fnd-color-text-tertiary)">Metric</div>
           <div style="background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-sm);border:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:var(--fs-2xs);color:var(--fnd-color-text-tertiary)">Metric</div>
           <div style="grid-column:1/-1;background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-sm);border:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:var(--fs-2xs);color:var(--fnd-color-text-tertiary)">Content Area</div>
-        </div>
-      </div>`,
-  },
-  {
-    id: 'content-page',
-    name: 'Content Page',
-    class: 't-content',
-    desc: 'Artikel/Blog-Layout mit Prose-Breite und optionalem TOC.',
-    layout: `
-      <div style="display:grid;grid-template-columns:1fr 80px;grid-template-rows:40px 1fr;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
-        <div style="grid-column:1/-1;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Header</div>
-        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
-          <div style="height:20px;width:60%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.15"></div>
-          <div style="height:8px;width:90%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.08"></div>
-          <div style="height:8px;width:85%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.08"></div>
-          <div style="height:8px;width:70%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.08"></div>
-          <div style="height:12px"></div>
-          <div style="height:8px;width:95%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.08"></div>
-          <div style="height:8px;width:80%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.08"></div>
-        </div>
-        <div style="background:var(--fnd-color-layer-01);border-left:1px solid var(--fnd-color-border-secondary);padding:8px;font-size:var(--fs-2xs);color:var(--fnd-color-text-tertiary)">TOC</div>
-      </div>`,
-  },
-  {
-    id: 'form-page',
-    name: 'Form Page',
-    class: 't-form-page',
-    desc: 'Formular-fokussiertes Layout mit zentriertem Form-Container.',
-    layout: `
-      <div style="display:flex;flex-direction:column;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
-        <div style="height:40px;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Header</div>
-        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:16px">
-          <div style="width:70%;max-width:300px;padding:16px;background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-md);border:1px solid var(--fnd-color-border-secondary);display:flex;flex-direction:column;gap:8px">
-            <div style="height:16px;width:50%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.15"></div>
-            <div style="height:28px;background:var(--fnd-color-background-base);border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-sm)"></div>
-            <div style="height:28px;background:var(--fnd-color-background-base);border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-sm)"></div>
-            <div style="height:28px;width:40%;background:var(--fnd-color-interactive-default);border-radius:var(--fnd-radius-sm);margin-top:4px"></div>
-          </div>
         </div>
       </div>`,
   },
@@ -151,7 +115,8 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Page Templates** — 7 vordefinierte Seiten-Layouts + Shell-System.
+        component: `**Page Templates** — 5 vordefinierte Seiten-Layouts + Shell-System.
+Artikel- und Formularseiten laufen ueber die Shell-Presets \`data-layout="content-page"\` bzw. \`data-layout="focused"\`.
 Templates definieren die Grundstruktur einer Seite (Grid, Bereiche, Proportionen).
 Migration: \`.t-*\` Klassen werden durch \`data-layout\` Presets auf dem Shell-System ersetzt.`,
       },
@@ -173,13 +138,11 @@ function makeStory(tmpl) {
 }
 
 export const Dashboard = makeStory(TEMPLATES[0]);
-export const ContentPage = makeStory(TEMPLATES[1]);
-export const FormPage = makeStory(TEMPLATES[2]);
-export const HomeHero = makeStory(TEMPLATES[3]);
-export const HomeBasic = makeStory(TEMPLATES[4]);
-export const SettingsPage = makeStory(TEMPLATES[5]);
-export const ErrorPage = makeStory(TEMPLATES[6]);
-export const Shell = makeStory(TEMPLATES[7]);
+export const HomeHero = makeStory(TEMPLATES[1]);
+export const HomeBasic = makeStory(TEMPLATES[2]);
+export const SettingsPage = makeStory(TEMPLATES[3]);
+export const ErrorPage = makeStory(TEMPLATES[4]);
+export const Shell = makeStory(TEMPLATES[5]);
 
 export const AllTemplates = {
   name: 'All Templates Overview',
@@ -193,5 +156,5 @@ export const AllTemplates = {
       </div>
     `).join('')}
   </div>`,
-  parameters: { docs: { description: { story: 'Uebersicht aller 8 Seiten-Templates als Wireframe.' } } },
+  parameters: { docs: { description: { story: 'Uebersicht aller 6 Seiten-Templates als Wireframe.' } } },
 };

@@ -4,8 +4,8 @@
  * content, media-frame, prose), ein Molekuel (section-header), vier
  * Website-Bloecke (accordion-block, block-bundle, reference-page, text-cta)
  * und fuenf Templates (dashboard, error-page, home-basic, home-hero,
- * settings-page; content-page und form-page sind nicht kompiliert —
- * Entscheidungsfall). Geprueft wird:
+ * settings-page; content-page und form-page sind stillgelegt —
+ * Entscheidung Phase 5, 07.10.2026). Geprueft wird:
  *   - Recipe im Status draft, Version 1.0.0 mit Changelog der Phase 5,
  *     Kennzeichen „Entwurf" (recipe-entwuerfe.js) und Sektion in der
  *     Navigation (Templates mit Recipe zeigen die RecipeArena)
@@ -236,17 +236,23 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     for (const id of TEMPLATES) {
       expect(eintraege.some((e) => e.section === `template-${id}`), `template-${id}`).toBe(false)
     }
-    // content-templates: Teil der Shell; content-page/form-page: nicht kompiliert (Entscheidungsfall)
-    for (const id of ['content-templates', 'content-page', 'form-page']) {
-      expect(eintraege.some((e) => e.section === `template-${id}`), `template-${id}`).toBe(true)
-      expect(RECIPE_IDS).not.toContain(id)
-    }
+    // content-templates: Teil der Shell, bleibt Template-Sektion ohne Recipe
+    expect(eintraege.some((e) => e.section === 'template-content-templates')).toBe(true)
+    expect(RECIPE_IDS).not.toContain('content-templates')
   })
 
-  it('content-page und form-page sind nicht kompiliert (08-templates/_index.scss) — kein Recipe, solange nicht entschieden', () => {
+  it('content-page und form-page sind stillgelegt (Entscheidung Phase 5, 07.10.2026): kein SCSS, keine Klassen, keine Sektion — Ersatz sind die Shell-Presets', () => {
     const k = dsKlassen()
     expect(k.has('t-content')).toBe(false)
     expect(k.has('t-form-page')).toBe(false)
+    for (const datei of ['_content-page.scss', '_form-page.scss']) {
+      expect(existsSync(resolve(WURZEL, 'scss/scss/08-templates', datei)), datei).toBe(false)
+    }
+    const eintraege = navEintraege()
+    for (const id of ['content-page', 'form-page']) {
+      expect(eintraege.some((e) => e.id === id || e.section === `template-${id}`), id).toBe(false)
+      expect(RECIPE_IDS).not.toContain(id)
+    }
   })
 
   it('text-cta: Karte steht im DOM hinter dem Text, auch bei --card-left', () => {

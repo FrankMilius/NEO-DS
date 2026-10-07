@@ -25364,18 +25364,6 @@ export const navigationTree = [
         "section": "template-dashboard"
       },
       {
-        "id": "content-page",
-        "label": "Content Page",
-        "icon": "article",
-        "section": "template-content"
-      },
-      {
-        "id": "form-page",
-        "label": "Form Page",
-        "icon": "forms",
-        "section": "template-form"
-      },
-      {
         "id": "settings-page",
         "label": "Settings Page",
         "icon": "settings",
