@@ -5856,9 +5856,7 @@ export const componentTokenGroups = [
         "id": "geometry",
         "label": "Geometrie",
         "tokenIds": [
-          "nc-card-grid-gap",
-          "nc-card-grid-title-size",
-          "nc-card-grid-title-margin"
+          "nc-card-grid-gap"
         ]
       },
       {
@@ -5889,18 +5887,6 @@ export const componentTokenGroups = [
       {
         "id": "nc-card-grid-gap",
         "label": "Gap",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-06)"
-      },
-      {
-        "id": "nc-card-grid-title-size",
-        "label": "Title Size",
-        "type": "size",
-        "default": "var(--fs-2xl)"
-      },
-      {
-        "id": "nc-card-grid-title-margin",
-        "label": "Title Margin",
         "type": "spacing",
         "default": "var(--fnd-spacing-06)"
       },

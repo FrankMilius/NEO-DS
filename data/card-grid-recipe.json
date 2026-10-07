@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-grid",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-grid-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.1",
+        "changes": [
+          "07.10.2026 (Entscheidung Phase 5): Tokens --nc-card-grid-title-size/-margin entfernt. Sie wirkten nur auf .nc-card-grid-section__title (toter Partial, ebenfalls entfernt); .nc-card-grid selbst las sie nie. Ueberschriften der Karten-Raster kommen aus .nc-section-header."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -159,9 +165,7 @@
         "label": "Layout",
         "tokens": [
           "nc-card-grid-columns",
-          "nc-card-grid-gap",
-          "nc-card-grid-title-size",
-          "nc-card-grid-title-margin"
+          "nc-card-grid-gap"
         ]
       },
       "animation": {

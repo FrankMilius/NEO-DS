@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.1.1 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -44,8 +44,6 @@ Base classes: `nc-card-grid`
 | --- | --- | --- |
 | `--nc-card-grid-columns` | — | `--mod-card-grid-columns` |
 | `--nc-card-grid-gap` | — | `--mod-card-grid-gap` |
-| `--nc-card-grid-title-size` | — | `--mod-card-grid-title-size` |
-| `--nc-card-grid-title-margin` | — | `--mod-card-grid-title-margin` |
 
 ### Animation
 | Token | CSS Property | Override |
