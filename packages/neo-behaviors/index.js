@@ -50,8 +50,10 @@ import { multiselect } from './multiselect.js'
 import { chapterNav } from './chapter-nav.js'
 import { expandingPanels } from './expanding-panels.js'
 import { featureAccordion } from './feature-accordion.js'
+import { shot } from './shot.js'
 
 export { setzeIndikator } from './segmented-control.js'
+export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
 
 /** Alle Behaviors, Schluessel = Recipe-ID. */
 export const BEHAVIORS = Object.freeze({
@@ -88,6 +90,8 @@ export const BEHAVIORS = Object.freeze({
   'chapter-nav': chapterNav,
   'expanding-panels': expandingPanels,
   'feature-accordion': featureAccordion,
+  // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
+  shot,
   toast,
   notification,
   alert,

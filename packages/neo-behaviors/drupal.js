@@ -5,7 +5,9 @@
 // Wird von scripts/baue-behaviors.mjs zu dist/neo-behaviors.js gebuendelt
 // (IIFE, ohne Abhaengigkeiten). Die Datei
 //   - stellt window.NeoBehaviors bereit (anbinden, abbinden, BEHAVIORS,
-//     MIT_VERHALTEN, version) — auch ohne Drupal nutzbar (Doku, Storybook);
+//     MIT_VERHALTEN, version, shotAufbauen — baut das Medien-Bauteil aus
+//     Karten-Daten, Nachfolger von window.NeoShot.render) — auch ohne Drupal
+//     nutzbar (Doku, Storybook);
 //   - meldet sich, wenn Drupal da ist, als Drupal.behaviors.neoBehaviors an.
 //
 // Steuerung ueber drupalSettings (optional):
@@ -17,10 +19,10 @@
 // nur, wenn `nur` sie nennt (Entscheidung 06.10.2026) — so wird ein neues
 // Behavior nicht still auf der Website aktiv.
 // ==========================================================================
-import { anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH } from './index.js'
+import { anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, shotAufbauen } from './index.js'
 import paket from './package.json' with { type: 'json' }
 
-const NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, version: paket.version })
+const NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, shotAufbauen, version: paket.version })
 const STANDARD = MIT_VERHALTEN.filter((id) => !NUR_AUSDRUECKLICH.includes(id))
 
 const g = /** @type {any} */ (globalThis)

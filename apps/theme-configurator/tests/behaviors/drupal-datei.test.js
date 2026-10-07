@@ -96,6 +96,32 @@ describe('dist/neo-behaviors.js (Drupal-Library)', () => {
     expect(document.querySelector('[data-neo-behavior]')).toBeNull()
   })
 
+  it('Medien-Bauteil shot: NeoBehaviors.shotAufbauen ersetzt window.NeoShot.render; Binden nur per nur (Entscheidung 07.10.2026)', () => {
+    lade()
+    const NB = globalThis.NeoBehaviors
+    expect(NB.shotAufbauen).toBeTypeOf('function')
+    expect(NB.NUR_AUSDRUECKLICH).toContain('shot')
+    // fertiges Markup (data-Attribute): ohne nur nicht gebunden, mit nur gebunden
+    document.body.innerHTML = '<div class="nc-shot" data-nc-shot="hotspots"><img class="nc-shot__img" src="a.png" alt=""><button type="button" class="nc-shot__hotspot" aria-label="Detail 1" data-nc-shot-text="Text"></button></div>'
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    b.attach(document, {})
+    expect(document.querySelector('.nc-shot').hasAttribute('data-neo-behavior')).toBe(false)
+    b.attach(document, { neoBehaviors: { nur: ['shot'] } })
+    expect(document.querySelector('.nc-shot').getAttribute('data-neo-behavior')).toBe('shot')
+    document.querySelector('.nc-shot__hotspot').click()
+    expect(document.querySelector('.nc-shot__tip')).not.toBeNull()
+    // wie neo-theme.js: Medium aus der Karte bauen
+    const host = document.createElement('div')
+    document.body.append(host)
+    const weg = NB.shotAufbauen(host, { src: 'b.png', alt: 'Bild', focal: { x: 0.2, y: 0.4 }, zoom: 1.5, preset: 'compare', params: { src2: 'c.png', start: 30 } })
+    expect(host.getAttribute('data-nc-shot')).toBe('compare')
+    expect(host.getAttribute('data-neo-behavior')).toBe('shot')
+    expect(host.querySelector('.nc-shot__divider').style.left).toBe('30%')
+    weg()
+    expect(host.innerHTML).toBe('')
+    expect(host.hasAttribute('data-neo-behavior')).toBe(false)
+  })
+
   it('ohne Drupal: nur window.NeoBehaviors (Doku, Storybook)', () => {
     delete globalThis.Drupal
     lade()
