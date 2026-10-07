@@ -1,0 +1,121 @@
+// ==========================================================================
+// 06-Molecules: Shot (Medien-Bauteil)
+// ==========================================================================
+// Ein Master-Bild, viele Ausspielungen: Fokuspunkt + Zoom je Instanz, der
+// sichtbare Ausschnitt rechnet sich per object-fit/object-position/scale.
+// Darstellungen am Attribut data-nc-shot (Recipe shot, Achse darstellung):
+// none, frame, kenburns, lens, hotspots, compare.
+//
+// Aufgenommen aus neo_fe css/neo-shot.css (Entscheidung 07.10.2026, Punkt 3).
+// Werte unveraendert — als Tokens --nc-shot-* (00-settings/_component-tokens),
+// deren Vorgaben die bisherigen Werte sind; im hellen Theme pixelgleich. Die
+// dunkle Fassung bringen allein die Tokens (Block .neo-dark-theme).
+// Jede Regel haengt an .nc-shot (Wurzel) bzw. seinen Elementen.
+//
+// Verhalten (Ken-Burns-Fahrt, Lupe, Erklaerung der Marker, Vergleichsregler):
+// packages/neo-behaviors/shot.js. Ohne Skript: Bild im Fokus-Crop, Marker und
+// Regler stehen still.
+//
+// BEM-KLASSEN:
+//   .nc-shot                Wurzel (Groesse vom Konsumenten) bzw. verschachtelter Crop
+//   .nc-shot--ratio         Standalone: aspect-ratio (inline) + volle Breite
+//   .nc-shot--shadow        Schatten am Browser-Rahmen
+//   .nc-shot__img           Bild im Fokus-Crop
+//   .nc-shot__frame         Browser-Rahmen
+//   .nc-shot__chrome-bar    Leiste mit drei Punkten und Adresse
+//   .nc-shot__chrome-dot / __chrome-url
+//   .nc-shot__viewport      Bildbereich im Rahmen
+//   .nc-shot__lens          Lupe (setzt das Verhalten)
+//   .nc-shot__hotspot       Marker (button)
+//   .nc-shot__tip           Erklaerung am Marker (setzt das Verhalten)
+//   .nc-shot__tip-title
+//   .nc-shot__compare       Vorher/Nachher-Huelle
+//   .nc-shot__divider       Vergleichslinie
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+// Basis: Container behaelt seine vom Konsumenten gesetzte Groesse
+// (z. B. Story-Gallery-Media). Kein erzwungenes width/height hier!
+.nc-shot { position: relative; overflow: hidden; }
+.nc-shot--ratio { width: 100%; }
+.nc-shot__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+// ── Browser-Rahmen ──
+.nc-shot__frame {
+  display: flex; flex-direction: column; width: 100%; height: 100%;
+  border-radius: var(--nc-shot-frame-radius); overflow: hidden;
+}
+.nc-shot__frame .nc-shot__viewport { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+.nc-shot__chrome-bar {
+  display: flex; align-items: center; gap: var(--nc-shot-chrome-gap); padding: var(--nc-shot-chrome-padding);
+  background: var(--nc-shot-chrome-bg); border-bottom: var(--fnd-border-width-xs) solid var(--nc-shot-chrome-border);
+}
+.nc-shot__chrome-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%; background: var(--nc-shot-chrome-dot-bg);
+}
+.nc-shot__chrome-url {
+  flex: 1; max-width: 320px; margin: 0 auto; text-align: center;
+  font: var(--nc-shot-chrome-url-font-size) var(--nc-shot-chrome-url-font-family); color: var(--nc-shot-chrome-url-color);
+  background: var(--nc-shot-chrome-url-bg); border-radius: var(--nc-shot-chrome-url-radius); padding: var(--nc-shot-chrome-url-padding);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nc-shot--shadow { box-shadow: var(--nc-shot-frame-shadow); }
+
+// ── Ken-Burns: langsame Fokus-Fahrt zwischen zwei Punkten ──
+// Dauer je Instanz per --nc-shot-dur (setzt das Verhalten aus der Karte).
+.nc-shot[data-nc-shot="kenburns"] .nc-shot__img {
+  transition: object-position var(--nc-shot-dur, 6s) ease, transform var(--nc-shot-dur, 6s) ease;
+}
+
+// ── Lupe ──
+.nc-shot__lens {
+  position: absolute; border-radius: 50%; border: var(--nc-shot-lens-border-width) solid var(--nc-shot-accent);
+  overflow: hidden; pointer-events: none; display: none; z-index: 4;
+  box-shadow: var(--nc-shot-lens-shadow); background: var(--nc-shot-lens-bg);
+}
+.nc-shot__lens img { position: absolute; top: 0; left: 0; max-width: none; }
+
+// ── Marker (Hotspots) ──
+.nc-shot__hotspot {
+  position: absolute; width: var(--nc-shot-hotspot-size); height: var(--nc-shot-hotspot-size); border-radius: 50%;
+  background: var(--nc-shot-hotspot-bg); border: var(--nc-shot-hotspot-border-width) solid var(--nc-shot-accent);
+  cursor: pointer; transform: translate(-50%, -50%); padding: 0; z-index: 3;
+  &:focus-visible { @include focus-ring; }
+}
+.nc-shot__hotspot::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%;
+  border: var(--nc-shot-hotspot-border-width) solid var(--nc-shot-hotspot-ping-color);
+  animation: ncShotPing 2s ease-out infinite;
+}
+.nc-shot__tip {
+  position: absolute; z-index: 5; width: var(--nc-shot-tip-width); left: 50%; top: 100%;
+  transform: translate(-50%, 12px);
+  background: var(--nc-shot-tip-bg); border: var(--nc-shot-tip-border-width) solid var(--nc-shot-accent);
+  border-radius: var(--nc-shot-tip-radius); padding: var(--nc-shot-tip-padding); color: var(--nc-shot-tip-color);
+}
+.nc-shot__tip p { font-size: var(--nc-shot-tip-text-size); margin-top: var(--nc-shot-tip-text-gap); line-height: 1.5; }
+.nc-shot__tip .nc-shot { aspect-ratio: 16 / 10; border-radius: var(--nc-shot-tip-media-radius); }
+@keyframes ncShotPing { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+
+// ── Vergleich (Vorher/Nachher) ──
+.nc-shot__compare { position: relative; width: 100%; height: 100%; }
+.nc-shot__compare .nc-shot { position: absolute; inset: 0; }
+.nc-shot__divider {
+  position: absolute; top: 0; bottom: 0; width: var(--nc-shot-divider-width); background: var(--nc-shot-accent);
+  z-index: 3; box-shadow: var(--nc-shot-divider-shadow); pointer-events: none;
+}
+.nc-shot__compare input[type="range"] {
+  position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 4; margin: 0;
+}
+// Der Regler selbst ist unsichtbar — der Tastaturfokus zeigt sich an der Linie.
+.nc-shot__compare:has(> input:focus-visible) > .nc-shot__divider { @include focus-ring; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-shot[data-nc-shot="kenburns"] .nc-shot__img { transition: none; }
+  .nc-shot__hotspot::after { animation: none; }
+}
+
+// Erklaerung: Titel ueber der Beschreibung
+.nc-shot__tip-title { display: block; margin-block: var(--nc-shot-tip-title-gap) 0; font-weight: var(--nc-shot-tip-title-weight); }

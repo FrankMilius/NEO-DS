@@ -176,6 +176,7 @@ export type ComponentGroupId =
   | "segmented-control"
   | "select"
   | "shell"
+  | "shot"
   | "sidebar"
   | "skeleton"
   | "solution-tabs"

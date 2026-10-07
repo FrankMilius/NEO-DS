@@ -4932,3 +4932,98 @@
         0 30px 60px -24px rgba(0, 0, 0, 0.80);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Shot Tokens
+// ---------------------------------------------------------------------------
+// Medien-Bauteil .nc-shot (Entscheidung 07.10.2026, Punkt 3): aufgenommen aus
+// neo_fe css/neo-shot.css. Die Vorgaben sind GENAU die bisherigen Werte der
+// Website — im hellen Theme bleibt das Bauteil pixelgleich, auch der dunkle
+// Browser-Rahmen und die Lime-Akzente (feste Werte, wie bisher). Neu ist nur
+// die dunkle Fassung darunter: dort zeigen Flaechen, Text und Akzent auf die
+// Semantik des dunklen Themes.
+:root {
+  // -- Akzent (Lupe, Marker, Erklaerung, Vergleichslinie) --
+  --nc-shot-accent: #37e93d;
+
+  // -- Browser-Rahmen --
+  --nc-shot-frame-radius: 14px;
+  --nc-shot-frame-shadow: 0 24px 70px rgba(0, 0, 0, .45), 0 0 40px rgba(55, 233, 61, .05);
+  --nc-shot-chrome-gap: .5rem;
+  --nc-shot-chrome-padding: .55rem .8rem;
+  --nc-shot-chrome-bg: #101a24;
+  --nc-shot-chrome-border: rgba(255, 255, 255, .06);
+  --nc-shot-chrome-dot-bg: #2a3845;
+  --nc-shot-chrome-url-font-size: .62rem;
+  --nc-shot-chrome-url-font-family: ui-monospace, Menlo, monospace;
+  --nc-shot-chrome-url-color: #7da58a;
+  --nc-shot-chrome-url-bg: #0a131c;
+  --nc-shot-chrome-url-radius: 6px;
+  --nc-shot-chrome-url-padding: .25rem .8rem;
+
+  // -- Lupe --
+  --nc-shot-lens-border-width: 2px;
+  --nc-shot-lens-shadow: 0 10px 40px rgba(0, 0, 0, .6);
+  --nc-shot-lens-bg: #060c12;
+
+  // -- Marker (Hotspots) --
+  --nc-shot-hotspot-size: 22px;
+  --nc-shot-hotspot-bg: rgba(55, 233, 61, .25);
+  --nc-shot-hotspot-border-width: 2px;
+  --nc-shot-hotspot-ping-color: rgba(55, 233, 61, .4);
+
+  // -- Erklaerung am Marker --
+  --nc-shot-tip-width: 240px;
+  --nc-shot-tip-bg: #0c151e;
+  --nc-shot-tip-color: #eafff0;
+  --nc-shot-tip-border-width: 1px;
+  --nc-shot-tip-radius: 10px;
+  --nc-shot-tip-padding: .6rem;
+  --nc-shot-tip-text-size: .72rem;
+  --nc-shot-tip-text-gap: .5rem;
+  --nc-shot-tip-title-gap: .25rem;
+  --nc-shot-tip-title-weight: var(--fnd-font-weight-bold);
+  --nc-shot-tip-media-radius: 6px;
+
+  // -- Vergleich (Vorher/Nachher) --
+  --nc-shot-divider-width: 2px;
+  --nc-shot-divider-shadow: 0 0 12px rgba(55, 233, 61, .8);
+}
+
+// Dunkle Fassung (neu): nur im dunklen Theme. Flaechen und Text aus der
+// Semantik, der Akzent aus background-accent (im Dunkeln heller abgestimmt).
+// In Theme-BEREICHEN neu gebunden — var() loest am deklarierenden Element auf.
+.neo-dark-theme,
+.customer-dark-theme {
+  --nc-shot-accent: var(--fnd-color-background-accent);
+  --nc-shot-frame-shadow: 0 24px 70px color-mix(in srgb, var(--fnd-color-always-dark) 70%, transparent);
+  --nc-shot-chrome-bg: var(--fnd-color-surface-elevated);
+  --nc-shot-chrome-border: var(--fnd-color-border-hairline);
+  --nc-shot-chrome-dot-bg: var(--fnd-color-border-hairline);
+  --nc-shot-chrome-url-color: var(--fnd-color-text-secondary);
+  --nc-shot-chrome-url-bg: var(--fnd-color-background-base);
+  --nc-shot-lens-bg: var(--fnd-color-background-base);
+  --nc-shot-hotspot-bg: color-mix(in srgb, var(--fnd-color-background-accent) 25%, transparent);
+  --nc-shot-hotspot-ping-color: color-mix(in srgb, var(--fnd-color-background-accent) 40%, transparent);
+  --nc-shot-tip-bg: var(--fnd-color-surface-elevated);
+  --nc-shot-tip-color: var(--fnd-color-text-primary);
+  --nc-shot-divider-shadow: 0 0 12px color-mix(in srgb, var(--fnd-color-background-accent) 80%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --nc-shot-accent: var(--fnd-color-background-accent);
+    --nc-shot-frame-shadow: 0 24px 70px color-mix(in srgb, var(--fnd-color-always-dark) 70%, transparent);
+    --nc-shot-chrome-bg: var(--fnd-color-surface-elevated);
+    --nc-shot-chrome-border: var(--fnd-color-border-hairline);
+    --nc-shot-chrome-dot-bg: var(--fnd-color-border-hairline);
+    --nc-shot-chrome-url-color: var(--fnd-color-text-secondary);
+    --nc-shot-chrome-url-bg: var(--fnd-color-background-base);
+    --nc-shot-lens-bg: var(--fnd-color-background-base);
+    --nc-shot-hotspot-bg: color-mix(in srgb, var(--fnd-color-background-accent) 25%, transparent);
+    --nc-shot-hotspot-ping-color: color-mix(in srgb, var(--fnd-color-background-accent) 40%, transparent);
+    --nc-shot-tip-bg: var(--fnd-color-surface-elevated);
+    --nc-shot-tip-color: var(--fnd-color-text-primary);
+    --nc-shot-divider-shadow: 0 0 12px color-mix(in srgb, var(--fnd-color-background-accent) 80%, transparent);
+  }
+}

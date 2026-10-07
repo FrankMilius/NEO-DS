@@ -1,0 +1,470 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "shot",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "molecules",
+    "media",
+    "image",
+    "interactive",
+    "website"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-shot",
+    "slots": [
+      {
+        "name": "img",
+        "selector": ".nc-shot__img",
+        "required": true,
+        "description": "Master-Bild im Fokus-Crop: object-fit cover, object-position und transform-origin = Fokuspunkt, transform scale = Zoom (inline, setzt shotBauen)."
+      },
+      {
+        "name": "frame",
+        "selector": ".nc-shot__frame",
+        "required": false,
+        "description": "Browser-Rahmen (Darstellung frame). Mit .nc-shot--shadow traegt er den Schatten."
+      },
+      {
+        "name": "chrome-bar",
+        "selector": ".nc-shot__chrome-bar",
+        "required": false,
+        "description": "Leiste des Browser-Rahmens (nur Rahmen „Browser“): drei Punkte und Adresse."
+      },
+      {
+        "name": "chrome-dot",
+        "selector": ".nc-shot__chrome-dot",
+        "required": false,
+        "description": "Punkt der Leiste (dreimal)."
+      },
+      {
+        "name": "chrome-url",
+        "selector": ".nc-shot__chrome-url",
+        "required": false,
+        "description": "Adresse in der Leiste (Text, Vorgabe workplace.neocosmo.de)."
+      },
+      {
+        "name": "viewport",
+        "selector": ".nc-shot__viewport",
+        "required": false,
+        "description": "Bildbereich im Rahmen."
+      },
+      {
+        "name": "lens",
+        "selector": ".nc-shot__lens",
+        "required": false,
+        "description": "Lupe (Darstellung lens). Legt das Verhalten beim Binden an; zeigt das Bild vergroessert unter dem Zeiger."
+      },
+      {
+        "name": "hotspot",
+        "selector": ".nc-shot__hotspot",
+        "required": false,
+        "description": "Marker (button, Darstellung hotspots), Lage per left/top in Prozent. Pulsierender Ring per ::after (aus bei reduced motion)."
+      },
+      {
+        "name": "tip",
+        "selector": ".nc-shot__tip",
+        "required": false,
+        "description": "Erklaerung am offenen Marker (setzt das Verhalten in den Knopf): Detail-Zoom als verschachtelter .nc-shot, optional Titel, Text."
+      },
+      {
+        "name": "tip-title",
+        "selector": ".nc-shot__tip-title",
+        "required": false,
+        "description": "Titel der Erklaerung (nur, wenn der Marker einen Titel hat)."
+      },
+      {
+        "name": "compare",
+        "selector": ".nc-shot__compare",
+        "required": false,
+        "description": "Huelle des Vorher/Nachher-Vergleichs: zwei verschachtelte .nc-shot, Linie, unsichtbarer Regler (input type=range) ueber der ganzen Flaeche."
+      },
+      {
+        "name": "divider",
+        "selector": ".nc-shot__divider",
+        "required": false,
+        "description": "Vergleichslinie; zeigt den Tastaturfokus des Reglers."
+      }
+    ],
+    "notes": [
+      "Wurzel .nc-shot[data-nc-shot=\"none|frame|kenburns|lens|hotspots|compare\"]. Die Groesse gibt der Konsument (Story-Gallery-Medium, Feature-Listen-Medium); mit Format (ratio) setzt shotBauen .nc-shot--ratio und aspect-ratio inline.",
+      "Verschachtelte .nc-shot (Vergleich, Erklaerung) tragen kein data-nc-shot — das Behavior bindet nur Wurzeln.",
+      "Markup baut NeoBehaviors.shotAufbauen(container, opts) aus den Karten-Daten (field_sg_cards): { src, srcset?, sizes?, alt?, ratio?, focal: { x, y }, zoom?, preset?, params?, loading? } — dieselben Optionen wie bisher window.NeoShot.render; Rueckgabe: Aufraeumen (Verhalten loesen, Container leeren).",
+      "Daten fuer das Verhalten im Markup: Ken-Burns data-nc-shot-fokus / -ziel (\"x y zoom\") und data-nc-shot-dauer (s, dazu --nc-shot-dur inline); Lupe data-nc-shot-lupe-groesse (px) / -zoom; Marker data-nc-shot-titel (optional), data-nc-shot-text, data-nc-shot-fokus.",
+      "Ken-Burns: Fahrt zwischen Start- und Ziel-Fokus im Takt Dauer + 0,8 s (Transition object-position/transform ueber --nc-shot-dur); pausiert ausserhalb des Sichtbereichs (IntersectionObserver, Schwelle 0,2); bei prefers-reduced-motion keine Fahrt und keine Transition.",
+      "Marker: Disclosure — aria-expanded, die Erklaerung haengt im Knopf (Lage relativ zum Marker wie bisher), Text als aria-description. Klick in die Erklaerung laesst sie offen, Klick ins Bild schliesst; der Klick auf einen Marker steigt nicht weiter auf (wie neo-shot.js).",
+      "Vergleich: der Regler liegt unsichtbar ueber der Flaeche (Ziehen ueberall); das zweite Bild wird per clip-path inset beschnitten, die Linie folgt. Tastaturfokus: Fokusring an der Linie (:has(input:focus-visible)).",
+      "Dunkle Fassung allein ueber Tokens (.neo-dark-theme, .customer-dark-theme, prefers-color-scheme ohne data-theme)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "darstellung": {
+      "label": "Darstellung",
+      "description": "Praesentations-Preset (data-nc-shot, Karten-Feld preset).",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "frame",
+          "cssModifier": null,
+          "default": false,
+          "label": "frame"
+        },
+        {
+          "value": "kenburns",
+          "cssModifier": null,
+          "default": false,
+          "label": "kenburns"
+        },
+        {
+          "value": "lens",
+          "cssModifier": null,
+          "default": false,
+          "label": "lens"
+        },
+        {
+          "value": "hotspots",
+          "cssModifier": null,
+          "default": false,
+          "label": "hotspots"
+        },
+        {
+          "value": "compare",
+          "cssModifier": null,
+          "default": false,
+          "label": "compare"
+        }
+      ]
+    },
+    "rahmen": {
+      "label": "Rahmen",
+      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste; Minimal und Ohne nur Radius (und Schatten).",
+      "values": [
+        {
+          "value": "browser",
+          "cssModifier": null,
+          "default": false,
+          "label": "browser"
+        },
+        {
+          "value": "minimal",
+          "cssModifier": null,
+          "default": false,
+          "label": "minimal"
+        }
+      ]
+    },
+    "schatten": {
+      "label": "Schatten",
+      "description": "Nur Darstellung frame (Karten-Feld shadow, Vorgabe an): .nc-shot--shadow am Rahmen.",
+      "values": [
+        {
+          "value": "mit",
+          "cssModifier": null,
+          "default": false,
+          "label": "mit"
+        },
+        {
+          "value": "ohne",
+          "cssModifier": null,
+          "default": false,
+          "label": "ohne"
+        }
+      ]
+    },
+    "format": {
+      "label": "Format",
+      "description": "Frei: Groesse vom Konsumenten (Story-Gallery). Ratio: Karten-Feld ratio → .nc-shot--ratio + aspect-ratio, volle Breite (Feature-Liste, Autoren-Vorschau).",
+      "values": [
+        {
+          "value": "frei",
+          "cssModifier": null,
+          "default": false,
+          "label": "frei"
+        },
+        {
+          "value": "ratio",
+          "cssModifier": "nc-shot--ratio",
+          "default": false,
+          "label": "ratio"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "open",
+      "focus"
+    ],
+    "interactive": true,
+    "rules": [
+      {
+        "state": "open",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "focus",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      }
+    ]
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-shot"
+    ],
+    "tokenGroups": {
+      "Akzent": [
+        {
+          "token": "--nc-shot-accent"
+        }
+      ],
+      "Browser-Rahmen": [
+        {
+          "token": "--nc-shot-frame-radius"
+        },
+        {
+          "token": "--nc-shot-frame-shadow"
+        },
+        {
+          "token": "--nc-shot-chrome-gap"
+        },
+        {
+          "token": "--nc-shot-chrome-padding"
+        },
+        {
+          "token": "--nc-shot-chrome-bg"
+        },
+        {
+          "token": "--nc-shot-chrome-border"
+        },
+        {
+          "token": "--nc-shot-chrome-dot-bg"
+        },
+        {
+          "token": "--nc-shot-chrome-url-font-size"
+        },
+        {
+          "token": "--nc-shot-chrome-url-font-family"
+        },
+        {
+          "token": "--nc-shot-chrome-url-color"
+        },
+        {
+          "token": "--nc-shot-chrome-url-bg"
+        },
+        {
+          "token": "--nc-shot-chrome-url-radius"
+        },
+        {
+          "token": "--nc-shot-chrome-url-padding"
+        }
+      ],
+      "Lupe": [
+        {
+          "token": "--nc-shot-lens-border-width"
+        },
+        {
+          "token": "--nc-shot-lens-shadow"
+        },
+        {
+          "token": "--nc-shot-lens-bg"
+        }
+      ],
+      "Marker und Erklärung": [
+        {
+          "token": "--nc-shot-hotspot-size"
+        },
+        {
+          "token": "--nc-shot-hotspot-bg"
+        },
+        {
+          "token": "--nc-shot-hotspot-border-width"
+        },
+        {
+          "token": "--nc-shot-hotspot-ping-color"
+        },
+        {
+          "token": "--nc-shot-tip-width"
+        },
+        {
+          "token": "--nc-shot-tip-bg"
+        },
+        {
+          "token": "--nc-shot-tip-color"
+        },
+        {
+          "token": "--nc-shot-tip-border-width"
+        },
+        {
+          "token": "--nc-shot-tip-radius"
+        },
+        {
+          "token": "--nc-shot-tip-padding"
+        },
+        {
+          "token": "--nc-shot-tip-text-size"
+        },
+        {
+          "token": "--nc-shot-tip-text-gap"
+        },
+        {
+          "token": "--nc-shot-tip-title-gap"
+        },
+        {
+          "token": "--nc-shot-tip-title-weight"
+        },
+        {
+          "token": "--nc-shot-tip-media-radius"
+        }
+      ],
+      "Vergleich": [
+        {
+          "token": "--nc-shot-divider-width"
+        },
+        {
+          "token": "--nc-shot-divider-shadow"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-shot-accent",
+      "--mod-shot-frame-radius",
+      "--mod-shot-frame-shadow",
+      "--mod-shot-chrome-gap",
+      "--mod-shot-chrome-padding",
+      "--mod-shot-chrome-bg",
+      "--mod-shot-chrome-border",
+      "--mod-shot-chrome-dot-bg",
+      "--mod-shot-chrome-url-font-size",
+      "--mod-shot-chrome-url-font-family",
+      "--mod-shot-chrome-url-color",
+      "--mod-shot-chrome-url-bg",
+      "--mod-shot-chrome-url-radius",
+      "--mod-shot-chrome-url-padding",
+      "--mod-shot-lens-border-width",
+      "--mod-shot-lens-shadow",
+      "--mod-shot-lens-bg",
+      "--mod-shot-hotspot-size",
+      "--mod-shot-hotspot-bg",
+      "--mod-shot-hotspot-border-width",
+      "--mod-shot-hotspot-ping-color",
+      "--mod-shot-tip-width",
+      "--mod-shot-tip-bg",
+      "--mod-shot-tip-color",
+      "--mod-shot-tip-border-width",
+      "--mod-shot-tip-radius",
+      "--mod-shot-tip-padding",
+      "--mod-shot-tip-text-size",
+      "--mod-shot-tip-text-gap",
+      "--mod-shot-tip-title-gap",
+      "--mod-shot-tip-title-weight",
+      "--mod-shot-tip-media-radius",
+      "--mod-shot-divider-width",
+      "--mod-shot-divider-shadow"
+    ]
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf einem Marker (nativer Knopf-Klick): oeffnet seine Erklaerung bzw. schliesst sie; eine andere offene schliesst."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Wie Enter."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst die offene Erklaerung, der Fokus bleibt bzw. kommt an ihren Marker."
+    },
+    "ArrowRight": {
+      "action": "increment",
+      "note": "Vergleichsregler: +1."
+    },
+    "ArrowUp": {
+      "action": "increment",
+      "note": "Vergleichsregler: +1."
+    },
+    "ArrowLeft": {
+      "action": "decrement",
+      "note": "Vergleichsregler: -1."
+    },
+    "ArrowDown": {
+      "action": "decrement",
+      "note": "Vergleichsregler: -1."
+    },
+    "PageUp": {
+      "action": "increment-large",
+      "note": "Vergleichsregler: +10."
+    },
+    "PageDown": {
+      "action": "decrement-large",
+      "note": "Vergleichsregler: -10."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Vergleichsregler: 0 (nur das erste Bild)."
+    },
+    "End": {
+      "action": "last",
+      "note": "Vergleichsregler: 100 (nur das zweite Bild)."
+    }
+  },
+  "testSelectors": null,
+  "events": {
+    "shot-hotspot-toggle": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "open": "boolean"
+      },
+      "note": "An der Wurzel, wenn eine Erklaerung auf- oder zugeht (Klick, Enter/Leertaste, Escape, Klick ins Bild). index = Lage des Markers."
+    },
+    "shot-compare-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "number"
+      },
+      "note": "An der Wurzel, wenn sich die Lage des Vergleichs aendert (Ziehen, Tasten). value 0..100."
+    }
+  },
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_shot.scss"
+    ],
+    "story": "stories/molecules/shot.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [
+      "block--block-content--neo-story-gallery.html.twig",
+      "block--inline-block--neo-story-gallery.html.twig",
+      "block--block-content--neo-feature-list.html.twig"
+    ],
+    "docs": null
+  }
+}

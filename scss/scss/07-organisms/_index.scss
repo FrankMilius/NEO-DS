@@ -72,3 +72,10 @@
 // Website-Hauptnavigation V3 Tab-Mega (neo_nav) — aufgenommen aus dem Drupal-Theme
 // (neo-nav.css). Zuletzt, wie auf der Website: neo-nav.css laedt dort nach styles.css.
 @forward 'navigation-tab-mega';
+
+// Medien-Bauteil nc-shot (Molekuel, Recipe shot) — aufgenommen aus dem
+// Drupal-Theme (neo-shot.css). Bewusst HIER, nach den Organismen: auf der
+// Website lud neo-shot.css nach styles.css, und Regeln gleicher Spezifitaet
+// der Konsumenten (.nc-feature-list__media > * setzt width/height 100 %)
+// duerfen die Marker (22 px) nicht ueberschreiben.
+@forward '../06-molecules/shot';

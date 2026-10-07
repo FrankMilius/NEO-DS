@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.1.1 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -24,7 +24,8 @@ Root element: `.nc-story-gallery`
 ### DOM Notes
 - Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 - Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.
-- Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen; .nc-shot, .nc-shot--shadow, .nc-shot__* — Medien-Bauteil der Website (neo_fe js/neo-shot.js + css/neo-shot.css: Fokus-Crop und Praesentations-Presets im Medium). Ob nc-shot ins DS gehoert, ist offen (Bericht 06.10.2026).
+- Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen.
+- Medium: DS-Bauteil shot (seit 07.10.2026, vorher neo-shot.js/neo-shot.css der Website) — neo-theme.js ruft NeoBehaviors.shotAufbauen(.nc-story-gallery__media, Karte); das Medium wird selbst .nc-shot[data-nc-shot] (Fokus-Crop und Darstellungen). Die Arena zeigt das Medium als einfaches Bild.
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 
 ## Variants

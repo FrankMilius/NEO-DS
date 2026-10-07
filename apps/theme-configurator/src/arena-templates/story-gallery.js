@@ -4,10 +4,9 @@
 // den Paddles ist Geschwister der Galerie, nicht Kind.
 // Nicht uebernommen, weil das DS sie nicht gestaltet (gemeldet):
 //   .nc-story-gallery--nav-below   Website-Klasse ohne Regel in styles.css
-//   .nc-shot*                      Medien-Bauteil der Website (neo-shot.js/
-//                                  -css in neo_fe) — hier das Bild direkt im
-//                                  __media, wie es .nc-story-gallery__media img
-//                                  gestaltet
+// Das Medium ist auf der Website das DS-Bauteil shot (seit 07.10.2026,
+// eigene Arena) — hier das Bild direkt im __media, wie es
+// .nc-story-gallery__media img gestaltet.
 // Die Groessen (--sg-card-height, --sg-card-ratio-w/-h) sind Instanzwerte,
 // die Drupal je Block und Karte inline setzt.
 //

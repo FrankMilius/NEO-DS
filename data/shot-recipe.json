@@ -1,0 +1,702 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "shot",
+    "version": "1.0.0",
+    "status": "stable",
+    "label": "Shot (Medien-Bauteil)",
+    "description": "Ein Master-Bild, viele Ausspielungen: je Instanz Fokuspunkt, Zoom und Format; darueber die Darstellungen Standard, Browser-Rahmen, Ken-Burns-Fahrt, Lupe, Marker mit Erklaerung und Vorher/Nachher-Vergleich.",
+    "whenToUse": "Produkt-Screenshots in Bloecken der Website (Story-Gallery, Feature-Liste), wenn derselbe Screenshot in mehreren Formaten und Ausschnitten erscheinen soll. Nicht fuer App-Screenshots im Telefon — dafuer der Geraeterahmen (device), der das Bild vollstaendig zeigt.",
+    "tags": [
+      "molecules",
+      "media",
+      "image",
+      "interactive",
+      "website"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "07.10.2026 (Entscheidung Punkt 3): aufgenommen aus dem Drupal-Theme neo_fe (css/neo-shot.css, js/neo-shot.js, Doku NEO-SHOT.md). SCSS 06-molecules/_shot.scss mit Komponenten-Tokens --nc-shot-* — Vorgaben = die bisherigen Werte der Website (hell pixelgleich, auch der dunkle Browser-Rahmen und die Lime-Akzente als Tokens mit genau diesen Werten); dunkle Fassung neu, nur im dunklen Theme (Semantik: surface-elevated, background-base, text-primary/-secondary, border-hairline, background-accent).",
+          "Verhalten in neo-behaviors (shot, Website-Bauteil, in Drupal nur per nur): NeoBehaviors.shotAufbauen(container, opts) loest window.NeoShot.render ab (gleiches Markup, gleiche Optionen); Behavior bindet fertiges Markup ueber data-Attribute. Neu gegenueber neo-shot.js: Marker als Disclosure (aria-expanded, zweiter Klick schliesst, Escape schliesst mit Fokus am Marker, Erklaerung als aria-description), Vergleichsregler nach WAI-ARIA Slider (Pfeile, Bild auf/ab, Pos1/Ende, aria-valuetext, sichtbarer Fokus an der Linie), Ereignisse shot-hotspot-toggle und shot-compare-change."
+        ]
+      }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_shot.scss"
+      ],
+      "story": "stories/molecules/shot.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "block--block-content--neo-story-gallery.html.twig",
+        "block--inline-block--neo-story-gallery.html.twig",
+        "block--block-content--neo-feature-list.html.twig"
+      ],
+      "docs": null
+    },
+    "source": {
+      "drupal": "neo_fe: Library neo_fe/neo-shot (Abhaengigkeit neo_fe/neo-behaviors), Aufrufer neo-theme.js (Drupal.behaviors.neoStoryGallery, neoFeatureMedia) und js/neo-shot-editor.js (Autoren-Vorschau); vorher css/neo-shot.css + js/neo-shot.js",
+      "behavior": "packages/neo-behaviors/shot.js"
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-shot"
+    },
+    "slots": [
+      {
+        "name": "img",
+        "element": ".nc-shot__img",
+        "optional": false,
+        "description": "Master-Bild im Fokus-Crop: object-fit cover, object-position und transform-origin = Fokuspunkt, transform scale = Zoom (inline, setzt shotBauen)."
+      },
+      {
+        "name": "frame",
+        "element": ".nc-shot__frame",
+        "optional": true,
+        "description": "Browser-Rahmen (Darstellung frame). Mit .nc-shot--shadow traegt er den Schatten."
+      },
+      {
+        "name": "chrome-bar",
+        "element": ".nc-shot__chrome-bar",
+        "optional": true,
+        "description": "Leiste des Browser-Rahmens (nur Rahmen „Browser“): drei Punkte und Adresse."
+      },
+      {
+        "name": "chrome-dot",
+        "element": ".nc-shot__chrome-dot",
+        "optional": true,
+        "description": "Punkt der Leiste (dreimal)."
+      },
+      {
+        "name": "chrome-url",
+        "element": ".nc-shot__chrome-url",
+        "optional": true,
+        "description": "Adresse in der Leiste (Text, Vorgabe workplace.neocosmo.de)."
+      },
+      {
+        "name": "viewport",
+        "element": ".nc-shot__viewport",
+        "optional": true,
+        "description": "Bildbereich im Rahmen."
+      },
+      {
+        "name": "lens",
+        "element": ".nc-shot__lens",
+        "optional": true,
+        "description": "Lupe (Darstellung lens). Legt das Verhalten beim Binden an; zeigt das Bild vergroessert unter dem Zeiger."
+      },
+      {
+        "name": "hotspot",
+        "element": ".nc-shot__hotspot",
+        "optional": true,
+        "description": "Marker (button, Darstellung hotspots), Lage per left/top in Prozent. Pulsierender Ring per ::after (aus bei reduced motion)."
+      },
+      {
+        "name": "tip",
+        "element": ".nc-shot__tip",
+        "optional": true,
+        "description": "Erklaerung am offenen Marker (setzt das Verhalten in den Knopf): Detail-Zoom als verschachtelter .nc-shot, optional Titel, Text."
+      },
+      {
+        "name": "tip-title",
+        "element": ".nc-shot__tip-title",
+        "optional": true,
+        "description": "Titel der Erklaerung (nur, wenn der Marker einen Titel hat)."
+      },
+      {
+        "name": "compare",
+        "element": ".nc-shot__compare",
+        "optional": true,
+        "description": "Huelle des Vorher/Nachher-Vergleichs: zwei verschachtelte .nc-shot, Linie, unsichtbarer Regler (input type=range) ueber der ganzen Flaeche."
+      },
+      {
+        "name": "divider",
+        "element": ".nc-shot__divider",
+        "optional": true,
+        "description": "Vergleichslinie; zeigt den Tastaturfokus des Reglers."
+      }
+    ],
+    "domNotes": [
+      "Wurzel .nc-shot[data-nc-shot=\"none|frame|kenburns|lens|hotspots|compare\"]. Die Groesse gibt der Konsument (Story-Gallery-Medium, Feature-Listen-Medium); mit Format (ratio) setzt shotBauen .nc-shot--ratio und aspect-ratio inline.",
+      "Verschachtelte .nc-shot (Vergleich, Erklaerung) tragen kein data-nc-shot — das Behavior bindet nur Wurzeln.",
+      "Markup baut NeoBehaviors.shotAufbauen(container, opts) aus den Karten-Daten (field_sg_cards): { src, srcset?, sizes?, alt?, ratio?, focal: { x, y }, zoom?, preset?, params?, loading? } — dieselben Optionen wie bisher window.NeoShot.render; Rueckgabe: Aufraeumen (Verhalten loesen, Container leeren).",
+      "Daten fuer das Verhalten im Markup: Ken-Burns data-nc-shot-fokus / -ziel (\"x y zoom\") und data-nc-shot-dauer (s, dazu --nc-shot-dur inline); Lupe data-nc-shot-lupe-groesse (px) / -zoom; Marker data-nc-shot-titel (optional), data-nc-shot-text, data-nc-shot-fokus.",
+      "Ken-Burns: Fahrt zwischen Start- und Ziel-Fokus im Takt Dauer + 0,8 s (Transition object-position/transform ueber --nc-shot-dur); pausiert ausserhalb des Sichtbereichs (IntersectionObserver, Schwelle 0,2); bei prefers-reduced-motion keine Fahrt und keine Transition.",
+      "Marker: Disclosure — aria-expanded, die Erklaerung haengt im Knopf (Lage relativ zum Marker wie bisher), Text als aria-description. Klick in die Erklaerung laesst sie offen, Klick ins Bild schliesst; der Klick auf einen Marker steigt nicht weiter auf (wie neo-shot.js).",
+      "Vergleich: der Regler liegt unsichtbar ueber der Flaeche (Ziehen ueberall); das zweite Bild wird per clip-path inset beschnitten, die Linie folgt. Tastaturfokus: Fokusring an der Linie (:has(input:focus-visible)).",
+      "Dunkle Fassung allein ueber Tokens (.neo-dark-theme, .customer-dark-theme, prefers-color-scheme ohne data-theme)."
+    ]
+  },
+  "axes": {
+    "darstellung": {
+      "label": "Darstellung",
+      "description": "Praesentations-Preset (data-nc-shot, Karten-Feld preset).",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "shot-none",
+          "description": "Nur Fokus-Crop (Standard)."
+        },
+        "frame": {
+          "modifier": null,
+          "tokenGroups": [
+            "rahmen"
+          ],
+          "renderHint": "shot-frame",
+          "description": "Browser-Rahmen (Leiste, Adresse) bzw. Minimal/Ohne."
+        },
+        "kenburns": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "shot-kenburns",
+          "description": "Fokus-Fahrt Start → Ziel; ohne Bewegung bei reduced motion."
+        },
+        "lens": {
+          "modifier": null,
+          "tokenGroups": [
+            "akzent",
+            "lupe"
+          ],
+          "renderHint": "shot-lens",
+          "description": "Lupe folgt dem Zeiger."
+        },
+        "hotspots": {
+          "modifier": null,
+          "tokenGroups": [
+            "akzent",
+            "marker"
+          ],
+          "renderHint": "shot-hotspots",
+          "description": "Marker mit Erklaerung und Detail-Zoom."
+        },
+        "compare": {
+          "modifier": null,
+          "tokenGroups": [
+            "akzent",
+            "vergleich"
+          ],
+          "renderHint": "shot-compare",
+          "description": "Vorher/Nachher per Regler (zweites Bild src2, Startlage start)."
+        }
+      }
+    },
+    "rahmen": {
+      "label": "Rahmen",
+      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste; Minimal und Ohne nur Radius (und Schatten).",
+      "values": {
+        "browser": {
+          "modifier": null,
+          "tokenGroups": [
+            "rahmen"
+          ],
+          "renderHint": "shot-rahmen-browser"
+        },
+        "minimal": {
+          "modifier": null,
+          "tokenGroups": [
+            "rahmen"
+          ],
+          "renderHint": "shot-rahmen-minimal"
+        }
+      }
+    },
+    "schatten": {
+      "label": "Schatten",
+      "description": "Nur Darstellung frame (Karten-Feld shadow, Vorgabe an): .nc-shot--shadow am Rahmen.",
+      "values": {
+        "mit": {
+          "modifier": null,
+          "tokenGroups": [
+            "rahmen"
+          ],
+          "renderHint": "shot-schatten"
+        },
+        "ohne": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "shot-ohne-schatten"
+        }
+      }
+    },
+    "format": {
+      "label": "Format",
+      "description": "Frei: Groesse vom Konsumenten (Story-Gallery). Ratio: Karten-Feld ratio → .nc-shot--ratio + aspect-ratio, volle Breite (Feature-Liste, Autoren-Vorschau).",
+      "values": {
+        "frei": {
+          "modifier": null,
+          "tokenGroups": [],
+          "renderHint": "shot-frei"
+        },
+        "ratio": {
+          "modifier": "nc-shot--ratio",
+          "tokenGroups": [],
+          "renderHint": "shot-ratio"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "open",
+      "focus"
+    ],
+    "precedence": [
+      "open",
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [
+      {
+        "state": "open",
+        "condition": "Marker offen: aria-expanded=\"true\" am .nc-shot__hotspot, .nc-shot__tip im Knopf (nur Darstellung hotspots)."
+      },
+      {
+        "state": "hover",
+        "condition": "Zeiger ueber dem Bild: Lupe sichtbar (display block, Lage und Vergroesserung inline; nur Darstellung lens)."
+      },
+      {
+        "state": "focus",
+        "condition": "Tastaturfokus: Marker mit Fokusring (focus-ring); Vergleichsregler zeigt den Fokusring an der Linie."
+      }
+    ],
+    "interactive": true
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Bild mit alt (Karten-Feld alt, sonst Titel). Marker: button mit aria-label (Titel oder „Detail n“), aria-expanded, Erklaerung als aria-description; Enter/Leertaste schalten, Escape schliesst. Vergleich: input type=range mit aria-label „Vergleichsposition“ und aria-valuetext „n %“. Lupe nur Zeiger-Zugabe (das Bild bleibt ohne sie vollstaendig). Bewegung (Ken-Burns, Puls der Marker) aus bei prefers-reduced-motion."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [
+      {
+        "when": {
+          "darstellung": "hotspots"
+        },
+        "require": [
+          "role-button",
+          "aria-expanded",
+          "keyboard-navigation"
+        ],
+        "notes": [
+          "Disclosure: jeder Marker ist ein Knopf mit aria-label und aria-expanded; hoechstens eine Erklaerung offen."
+        ]
+      },
+      {
+        "when": {
+          "darstellung": "compare"
+        },
+        "require": [
+          "aria-label",
+          "keyboard-navigation"
+        ],
+        "notes": [
+          "Slider: natives input type=range, Tasten nach WAI-ARIA (Pfeile, Bild auf/ab, Pos1/Ende)."
+        ]
+      }
+    ]
+  },
+  "keyboard": {
+    "Enter": {
+      "action": "toggle",
+      "note": "Auf einem Marker (nativer Knopf-Klick): oeffnet seine Erklaerung bzw. schliesst sie; eine andere offene schliesst."
+    },
+    "Space": {
+      "action": "toggle",
+      "note": "Wie Enter."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Schliesst die offene Erklaerung, der Fokus bleibt bzw. kommt an ihren Marker."
+    },
+    "ArrowRight": {
+      "action": "increment",
+      "note": "Vergleichsregler: +1."
+    },
+    "ArrowUp": {
+      "action": "increment",
+      "note": "Vergleichsregler: +1."
+    },
+    "ArrowLeft": {
+      "action": "decrement",
+      "note": "Vergleichsregler: -1."
+    },
+    "ArrowDown": {
+      "action": "decrement",
+      "note": "Vergleichsregler: -1."
+    },
+    "PageUp": {
+      "action": "increment-large",
+      "note": "Vergleichsregler: +10."
+    },
+    "PageDown": {
+      "action": "decrement-large",
+      "note": "Vergleichsregler: -10."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Vergleichsregler: 0 (nur das erste Bild)."
+    },
+    "End": {
+      "action": "last",
+      "note": "Vergleichsregler: 100 (nur das zweite Bild)."
+    }
+  },
+  "events": {
+    "shot-hotspot-toggle": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "open": "boolean"
+      },
+      "note": "An der Wurzel, wenn eine Erklaerung auf- oder zugeht (Klick, Enter/Leertaste, Escape, Klick ins Bild). index = Lage des Markers."
+    },
+    "shot-compare-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "number"
+      },
+      "note": "An der Wurzel, wenn sich die Lage des Vergleichs aendert (Ziehen, Tasten). value 0..100."
+    }
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-shot"
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "akzent": {
+        "label": "Akzent",
+        "tokens": [
+          "nc-shot-accent"
+        ]
+      },
+      "rahmen": {
+        "label": "Browser-Rahmen",
+        "tokens": [
+          "nc-shot-frame-radius",
+          "nc-shot-frame-shadow",
+          "nc-shot-chrome-gap",
+          "nc-shot-chrome-padding",
+          "nc-shot-chrome-bg",
+          "nc-shot-chrome-border",
+          "nc-shot-chrome-dot-bg",
+          "nc-shot-chrome-url-font-size",
+          "nc-shot-chrome-url-font-family",
+          "nc-shot-chrome-url-color",
+          "nc-shot-chrome-url-bg",
+          "nc-shot-chrome-url-radius",
+          "nc-shot-chrome-url-padding"
+        ]
+      },
+      "lupe": {
+        "label": "Lupe",
+        "tokens": [
+          "nc-shot-lens-border-width",
+          "nc-shot-lens-shadow",
+          "nc-shot-lens-bg"
+        ]
+      },
+      "marker": {
+        "label": "Marker und Erklärung",
+        "tokens": [
+          "nc-shot-hotspot-size",
+          "nc-shot-hotspot-bg",
+          "nc-shot-hotspot-border-width",
+          "nc-shot-hotspot-ping-color",
+          "nc-shot-tip-width",
+          "nc-shot-tip-bg",
+          "nc-shot-tip-color",
+          "nc-shot-tip-border-width",
+          "nc-shot-tip-radius",
+          "nc-shot-tip-padding",
+          "nc-shot-tip-text-size",
+          "nc-shot-tip-text-gap",
+          "nc-shot-tip-title-gap",
+          "nc-shot-tip-title-weight",
+          "nc-shot-tip-media-radius"
+        ]
+      },
+      "vergleich": {
+        "label": "Vergleich",
+        "tokens": [
+          "nc-shot-divider-width",
+          "nc-shot-divider-shadow"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "darstellungen",
+      "label": "Darstellungen",
+      "description": "Alle sechs Presets im Format 16/10, wie die Website sie aus den Karten baut (Ken-Burns steht in der Arena am Start-Fokus, die Fahrt zeigt „Ausprobieren“).",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "none",
+            "frame",
+            "kenburns",
+            "lens",
+            "hotspots",
+            "compare"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "akzent",
+        "rahmen",
+        "marker",
+        "vergleich"
+      ],
+      "layout": "grid",
+      "render": {
+        "label": "{darstellung}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Bild mit alt; Marker und Regler mit Namen."
+      }
+    },
+    {
+      "id": "rahmen",
+      "label": "Browser-Rahmen",
+      "description": "Rahmen Browser (Leiste mit Punkten und Adresse) und Minimal, je mit und ohne Schatten.",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "frame"
+          ],
+          "rahmen": [
+            "browser",
+            "minimal"
+          ],
+          "schatten": [
+            "mit",
+            "ohne"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "rahmen"
+      ],
+      "layout": "grid",
+      "render": {
+        "label": "{rahmen} · {schatten}"
+      }
+    },
+    {
+      "id": "marker",
+      "label": "Marker",
+      "description": "Zwei Marker; Geöffnet: Erklärung des ersten mit Detail-Zoom, Titel und Text (so baut sie das Verhalten).",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "hotspots"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default",
+          "open"
+        ]
+      },
+      "focusTokenGroups": [
+        "akzent",
+        "marker"
+      ],
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      }
+    },
+    {
+      "id": "lupe",
+      "label": "Lupe",
+      "description": "Standard ohne Lupe; Hover: Lupe über der Bildmitte (so setzt sie das Verhalten unter dem Zeiger).",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "lens"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default",
+          "hover"
+        ]
+      },
+      "focusTokenGroups": [
+        "akzent",
+        "lupe"
+      ],
+      "layout": "row",
+      "render": {
+        "label": "{state}"
+      }
+    },
+    {
+      "id": "vergleich",
+      "label": "Vorher/Nachher",
+      "description": "Vergleich mit Startlage 35 %; ziehen oder mit den Pfeiltasten verschieben („Ausprobieren“).",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "compare"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "akzent",
+        "vergleich"
+      ],
+      "layout": "row",
+      "render": {
+        "label": "Vergleich"
+      }
+    },
+    {
+      "id": "ken-burns",
+      "label": "Ken-Burns",
+      "description": "Fahrt vom Start- zum Ziel-Fokus (7 s); „Ausprobieren“ startet sie, bei reduced motion bleibt das Bild am Start.",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "kenburns"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "Ken-Burns"
+      }
+    },
+    {
+      "id": "dunkel",
+      "label": "Dunkles Theme",
+      "description": "Neu: im dunklen Theme Leiste, Erklärung und Lupe aus der Semantik (surface-elevated, background-base, Text), Akzent background-accent. Im hellen Theme unverändert.",
+      "matrix": {
+        "axes": {
+          "darstellung": [
+            "frame",
+            "hotspots"
+          ],
+          "rahmen": [
+            "browser"
+          ],
+          "schatten": [
+            "mit"
+          ],
+          "format": [
+            "ratio"
+          ]
+        },
+        "states": [
+          "open"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "{darstellung}",
+        "flaeche": "dunkel"
+      }
+    }
+  ]
+}
