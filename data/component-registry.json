@@ -516,19 +516,19 @@
       "name": "container-intent",
       "layer": "object",
       "paths": {
-        "recipe": null,
+        "recipe": "data/container-intent-recipe.json",
         "scss": [
           "scss/scss/04-objects/_container-intent.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": null
       },
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "docs": false
       }
     },
@@ -556,19 +556,19 @@
       "name": "content",
       "layer": "object",
       "paths": {
-        "recipe": null,
+        "recipe": "data/content-recipe.json",
         "scss": [
           "scss/scss/04-objects/_content.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": null
       },
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "docs": false
       }
     },
@@ -596,19 +596,19 @@
       "name": "media-frame",
       "layer": "object",
       "paths": {
-        "recipe": null,
+        "recipe": "data/media-frame-recipe.json",
         "scss": [
           "scss/scss/04-objects/_media-frame.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": null
       },
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "docs": false
       }
     },
@@ -616,19 +616,19 @@
       "name": "prose",
       "layer": "object",
       "paths": {
-        "recipe": null,
+        "recipe": "data/prose-recipe.json",
         "scss": [
           "scss/scss/04-objects/_prose.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": null
       },
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "docs": false
       }
     },
@@ -701,24 +701,28 @@
       "name": "accordion-block",
       "layer": "organism",
       "paths": {
-        "recipe": null,
+        "recipe": "data/accordion-block-recipe.json",
         "scss": [
           "scss/scss/07-organisms/_accordion-block.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "accordion",
+        "container"
+      ],
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
+      "coverageScore": 3
     },
     "alert": {
       "name": "alert",
@@ -958,24 +962,27 @@
       "name": "block-bundle",
       "layer": "organism",
       "paths": {
-        "recipe": null,
+        "recipe": "data/block-bundle-recipe.json",
         "scss": [
           "scss/scss/07-organisms/_block-bundle.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "container"
+      ],
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
+      "coverageScore": 3
     },
     "breadcrumb": {
       "name": "breadcrumb",
@@ -990,6 +997,9 @@
         "drupal": [],
         "docs": "docs/breadcrumb-docs.html"
       },
+      "dependencies": [
+        "container"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -1109,7 +1119,8 @@
         "docs": null
       },
       "dependencies": [
-        "card"
+        "card",
+        "container"
       ],
       "coverage": {
         "recipe": true,
@@ -2130,6 +2141,8 @@
         "docs": "docs/hero-docs.html"
       },
       "dependencies": [
+        "badge",
+        "label",
         "metric"
       ],
       "coverage": {
@@ -3010,49 +3023,31 @@
       },
       "coverageScore": 5
     },
-    "recipe": {
-      "name": "recipe",
-      "layer": "unknown",
+    "reference-page": {
+      "name": "reference-page",
+      "layer": "organism",
       "paths": {
-        "recipe": null,
-        "scss": [],
+        "recipe": "data/reference-page-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_reference-page.scss"
+        ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "container"
+      ],
       "coverage": {
-        "recipe": false,
-        "scss": false,
+        "recipe": true,
+        "scss": true,
         "story": false,
         "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
-    },
-    "reference-page": {
-      "name": "reference-page",
-      "layer": "organism",
-      "paths": {
-        "recipe": null,
-        "scss": [
-          "scss/scss/07-organisms/_reference-page.scss"
-        ],
-        "story": null,
-        "arena": null,
-        "drupal": [],
-        "docs": null
-      },
-      "coverage": {
-        "recipe": false,
-        "scss": true,
-        "story": false,
-        "arena": false,
-        "drupal": false,
-        "docs": false
-      },
-      "coverageScore": 1
+      "coverageScore": 3
     },
     "scroll-expand": {
       "name": "scroll-expand",
@@ -3170,24 +3165,29 @@
       "name": "section-header",
       "layer": "molecule",
       "paths": {
-        "recipe": null,
+        "recipe": "data/section-header-recipe.json",
         "scss": [
           "scss/scss/06-molecules/_section-header.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "badge",
+        "label",
+        "section"
+      ],
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
+      "coverageScore": 3
     },
     "section-intro": {
       "name": "section-intro",
@@ -3849,24 +3849,27 @@
       "name": "text-cta",
       "layer": "organism",
       "paths": {
-        "recipe": null,
+        "recipe": "data/text-cta-recipe.json",
         "scss": [
           "scss/scss/07-organisms/_text-cta.scss"
         ],
         "story": null,
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "card"
+      ],
       "coverage": {
-        "recipe": false,
+        "recipe": true,
         "scss": true,
         "story": false,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 1
+      "coverageScore": 3
     },
     "text-media": {
       "name": "text-media",
@@ -4193,36 +4196,44 @@
       "name": "dashboard",
       "layer": "template",
       "paths": {
+        "recipe": "data/dashboard-recipe.json",
         "scss": [
           "scss/scss/08-templates/_dashboard.scss"
         ],
         "layoutPreset": "data/layout-dashboard.json",
         "story": null,
-        "docs": "docs/template-dashboard-docs.html"
+        "docs": "docs/template-dashboard-docs.html",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
       },
       "coverage": {
+        "recipe": true,
         "scss": true,
         "layoutPreset": true,
         "story": false,
-        "docs": true
+        "docs": true,
+        "arena": true
       }
     },
     "error-page": {
       "name": "error-page",
       "layer": "template",
       "paths": {
+        "recipe": "data/error-page-recipe.json",
         "scss": [
           "scss/scss/08-templates/_error-page.scss"
         ],
         "layoutPreset": null,
         "story": null,
-        "docs": "docs/template-error-page-docs.html"
+        "docs": "docs/template-error-page-docs.html",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
       },
       "coverage": {
+        "recipe": true,
         "scss": true,
         "layoutPreset": false,
         "story": false,
-        "docs": true
+        "docs": true,
+        "arena": true
       }
     },
     "form-page": {
@@ -4247,54 +4258,66 @@
       "name": "home-basic",
       "layer": "template",
       "paths": {
+        "recipe": "data/home-basic-recipe.json",
         "scss": [
           "scss/scss/08-templates/_home-basic.scss"
         ],
         "layoutPreset": null,
         "story": null,
-        "docs": "docs/template-home-basic-docs.html"
+        "docs": "docs/template-home-basic-docs.html",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
       },
       "coverage": {
+        "recipe": true,
         "scss": true,
         "layoutPreset": false,
         "story": false,
-        "docs": true
+        "docs": true,
+        "arena": true
       }
     },
     "home-hero": {
       "name": "home-hero",
       "layer": "template",
       "paths": {
+        "recipe": "data/home-hero-recipe.json",
         "scss": [
           "scss/scss/08-templates/_home-hero.scss"
         ],
         "layoutPreset": null,
         "story": null,
-        "docs": "docs/template-home-hero-docs.html"
+        "docs": "docs/template-home-hero-docs.html",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
       },
       "coverage": {
+        "recipe": true,
         "scss": true,
         "layoutPreset": false,
         "story": false,
-        "docs": true
+        "docs": true,
+        "arena": true
       }
     },
     "settings-page": {
       "name": "settings-page",
       "layer": "template",
       "paths": {
+        "recipe": "data/settings-page-recipe.json",
         "scss": [
           "scss/scss/08-templates/_settings-page.scss"
         ],
         "layoutPreset": null,
         "story": null,
-        "docs": "docs/template-settings-page-docs.html"
+        "docs": "docs/template-settings-page-docs.html",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
       },
       "coverage": {
+        "recipe": true,
         "scss": true,
         "layoutPreset": false,
         "story": false,
-        "docs": true
+        "docs": true,
+        "arena": true
       }
     },
     "shell": {
@@ -4556,11 +4579,11 @@
   },
   "stats": {
     "components": {
-      "total": 146,
-      "withRecipe": 130,
+      "total": 145,
+      "withRecipe": 135,
       "withScss": 135,
       "withStory": 130,
-      "withArena": 101,
+      "withArena": 105,
       "withDrupal": 0,
       "withDocs": 92
     },
@@ -4572,12 +4595,13 @@
     },
     "objects": {
       "total": 9,
-      "withRecipe": 5,
+      "withRecipe": 9,
       "withDocs": 4,
       "withStory": 5
     },
     "templates": {
       "total": 9,
+      "withRecipe": 5,
       "withDocs": 8,
       "withStory": 1,
       "withLayoutPreset": 1
@@ -4595,8 +4619,8 @@
     "layoutPresets": 15,
     "coverageDistribution": {
       "5/6": 65,
-      "1/6": 14,
-      "3/6": 17,
+      "1/6": 8,
+      "3/6": 22,
       "2/6": 1,
       "4/6": 49
     }
@@ -4604,22 +4628,16 @@
   "gaps": {
     "components": {
       "missingRecipe": [
-        "accordion-block",
         "badge-row",
         "bento-section",
-        "block-bundle",
         "breadcrumb-section",
         "card-grid-cq",
         "card-grid-section",
         "form-hp",
-        "recipe",
-        "reference-page",
-        "section-header",
         "section-intro",
         "sizes",
         "table",
-        "tbl-icon",
-        "text-cta"
+        "tbl-icon"
       ],
       "missingScss": [
         "aspect-ratio",
@@ -4628,7 +4646,6 @@
         "navigation-orchestration",
         "parallax-bg",
         "psychedelic-bg",
-        "recipe",
         "scroll-expand",
         "scroll-reveal",
         "section",
@@ -4643,7 +4660,6 @@
         "card-grid-cq",
         "card-grid-section",
         "form-hp",
-        "recipe",
         "reference-page",
         "section-header",
         "section-intro",
@@ -4653,10 +4669,8 @@
         "text-cta"
       ],
       "missingArena": [
-        "accordion-block",
         "badge-row",
         "bento-section",
-        "block-bundle",
         "breadcrumb-section",
         "card-grid",
         "card-grid-cq",
@@ -4684,8 +4698,6 @@
         "otp-input",
         "product-showcase",
         "radio-group",
-        "reference-page",
-        "section-header",
         "section-intro",
         "sizes",
         "solution-tabs",
@@ -4693,7 +4705,6 @@
         "stepper",
         "tabs",
         "tbl-icon",
-        "text-cta",
         "text-media",
         "timeline",
         "validation-summary",
@@ -4734,7 +4745,6 @@
         "parallax-bg",
         "product-showcase",
         "psychedelic-bg",
-        "recipe",
         "reference-page",
         "scroll-expand",
         "scroll-reveal",
@@ -4776,12 +4786,7 @@
       ]
     },
     "objects": {
-      "missingRecipe": [
-        "container-intent",
-        "content",
-        "media-frame",
-        "prose"
-      ],
+      "missingRecipe": [],
       "missingDocs": [
         "aspect-ratio",
         "container-intent",

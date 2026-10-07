@@ -132,6 +132,10 @@ function scanArenas() {
   const files = listFiles(dir, /Arena\.vue$/);
   const map = {};
   for (const f of files) {
+    // RecipeArena.vue ist die Arena ALLER Recipes, kein Bauteil „recipe" —
+    // bis 07.10.2026 stand sie als Komponente `recipe` (Layer unknown) in
+    // der Registry (Inventur Plan v3, Phase 5).
+    if (f === 'RecipeArena.vue') continue;
     const pascal = f.replace('Arena.vue', '');
     // PascalCase → kebab-case
     const name = pascal.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
