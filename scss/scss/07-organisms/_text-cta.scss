@@ -56,6 +56,19 @@
   }
 }
 
+// Ohne Karte (Entscheidung Phase 5, 07.10.2026): Drupal laesst __aside weg
+// und setzt --no-card. Dann EINE Spalte in jeder Breite — sonst stuende der
+// Text in der linken Spur neben einer leeren rechten. Der Inhalt nutzt die
+// volle Zeile, gekappt auf die Lesebreite (--container-prose, dieselbe
+// Quelle wie .nc-prose), linksbuendig wie mit Karte.
+.nc-text-cta--no-card .nc-text-cta__grid {
+  grid-template-columns: 1fr;
+
+  .nc-text-cta__content {
+    max-inline-size: var(--mod-text-cta-content-measure, var(--nc-text-cta-content-measure));
+  }
+}
+
 // Gestapelt (schmaler Container) steht die Karte UNTER dem Text — auch dann,
 // wenn sie im Breitbild links sitzt. Der Text erklaert, die Karte fordert auf;
 // diese Reihenfolge soll das Umbrechen nicht umdrehen.

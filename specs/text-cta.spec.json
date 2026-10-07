@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "text-cta",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "draft",
   "layer": "organism",
   "tags": [
@@ -17,7 +17,7 @@
         "name": "grid",
         "selector": ".nc-text-cta__grid",
         "required": true,
-        "description": "Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig."
+        "description": "Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig; mit --no-card immer einspaltig."
       },
       {
         "name": "content",
@@ -65,7 +65,7 @@
     "notes": [
       "Website-Block neo_text_cta: <section class=\"nc-section\"><div class=\"nc-container\"><div class=\"nc-text-cta [--card-left] [--no-card]\"><div class=\"nc-text-cta__grid\"> …",
       "Die Karte steht im DOM immer hinter dem Text; --card-left tauscht nur die Anzeige (order) und dreht die Spuren mit (--nc-text-cta-columns-reverse).",
-      "Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card — dafuer gibt es keine Regel: das Raster bleibt zweispaltig, der Text steht in der linken Spur (Entscheidungsfall Phase 5).",
+      "Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card: eine Spalte in jeder Breite, Inhalt auf Lesebreite (--nc-text-cta-content-measure) gekappt, linksbuendig (Entscheidung Phase 5, 07.10.2026).",
       "Kartenflaeche per field_tc_card_bg als Instanzwert --mod-card-bg am .nc-card (wie in Drupal); Sektionsflaeche aus field_surface am Block-Wrapper."
     ]
   },
@@ -132,6 +132,9 @@
         },
         {
           "token": "--nc-text-cta-content-gap"
+        },
+        {
+          "token": "--nc-text-cta-content-measure"
         }
       ],
       "Punkteliste": [
@@ -171,6 +174,7 @@
       "--mod-text-cta-columns",
       "--mod-text-cta-columns-reverse",
       "--mod-text-cta-content-gap",
+      "--mod-text-cta-content-measure",
       "--mod-text-cta-list-gap",
       "--mod-text-cta-list-marker-color",
       "--mod-text-cta-card-bg",

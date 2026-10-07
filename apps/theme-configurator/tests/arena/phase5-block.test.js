@@ -15,8 +15,8 @@
  *     der Anatomie oder dem geernteten Markup eines enthaltenen Bauteils;
  *     Arena-Klassen nie an DS-Elementen, keine Inline-Gestaltung ausser
  *     Instanzwerten wie in Drupal
- *   - Recipe-Modifier ohne CSS nur als „nicht gebaut" (text-cta --no-card,
- *     Entscheidungsfall)
+ *   - Recipe-Modifier ohne CSS nur als „nicht gebaut" (text-cta --no-card ist
+ *     seit der Entscheidung Phase 5 vom 07.10.2026 gebaut)
  *   - andere Bauteile im Markup sind erklaert (composes je Specimen — ohne
  *     geerntetes Markup haelt eine komposition die Pruefung nicht); die
  *     Eltern der neuen Wurzeln (.nc-section-header, .nc-media-frame) nennen
@@ -120,12 +120,16 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
 
   for (const id of BLOCK) {
     describe(id, () => {
-      it('Recipe draft 1.0.0 mit Changelog der Phase 5, Kennzeichen „Entwurf", Sektion in der Navigation', () => {
+      it('Recipe draft, angelegt als 1.0.0 mit Changelog der Phase 5, Kennzeichen „Entwurf", Sektion in der Navigation', () => {
         const meta = rohesRecipe(id).meta
         expect(meta.status).toBe('draft')
-        expect(meta.version).toBe('1.0.0')
+        // Spaetere Entscheidungen (text-cta --no-card, section-header Kicker
+        // im Dunkeln, 07.10.2026) erhoehen die Version; der aelteste Eintrag
+        // bleibt die Anlage in Phase 5, der neueste die aktuelle Version.
+        const anlage = meta.changelog[meta.changelog.length - 1]
+        expect(anlage.version).toBe('1.0.0')
+        expect(anlage.changes.join(' ')).toMatch(/Plan v3, Phase 5/)
         expect(meta.changelog[0].version).toBe(meta.version)
-        expect(meta.changelog[0].changes.join(' ')).toMatch(/Plan v3, Phase 5/)
         expect(istEntwurf(id)).toBe(true)
         const eintrag = navEintraege().find((e) => e.section === `component-${id}`)
         expect(eintrag, `component-${id} in der Navigation`).toBeTruthy()
@@ -261,6 +265,23 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
       const kinder = [...grid.children].map((e) => e.className)
       expect(kinder).toEqual(['nc-text-cta__content', 'nc-text-cta__aside'])
     }
+  })
+
+  it('text-cta --no-card (Entscheidung Phase 5, 07.10.2026): ohne __aside wie in Drupal, eine Spalte, Inhalt auf Lesebreite', () => {
+    const ohne = zellen('text-cta').filter((c) => c.axisValues?.card === 'ohne')
+    expect(ohne.length).toBeGreaterThan(0)
+    for (const z of ohne) {
+      const d = dom(z.html)
+      expect(d.querySelector('.nc-text-cta.nc-text-cta--no-card')).not.toBeNull()
+      expect(d.querySelector('.nc-text-cta__aside')).toBeNull()
+      expect([...d.querySelector('.nc-text-cta__grid').children].map((e) => e.className)).toEqual(['nc-text-cta__content'])
+    }
+    // Die Regel selbst: Raster einspaltig (schlaegt die Container-Query-Spalten
+    // per Spezifitaet), Inhalt ueber den Token gekappt — kein fester Wert.
+    const c = css()
+    expect(c).toMatch(/\.nc-text-cta--no-card \.nc-text-cta__grid\{grid-template-columns:1fr\}/)
+    expect(c).toMatch(/\.nc-text-cta--no-card \.nc-text-cta__grid \.nc-text-cta__content\{max-inline-size:var\(--mod-text-cta-content-measure, var\(--nc-text-cta-content-measure\)\)\}/)
+    expect(c).toMatch(/--nc-text-cta-content-measure: *var\(--container-prose\)/)
   })
 
   it('reference-page: Verzeichnis vor dem Inhalt, genau ein aktueller Eintrag, Anker zeigen auf vorhandene Abschnitte', () => {

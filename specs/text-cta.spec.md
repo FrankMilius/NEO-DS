@@ -1,5 +1,5 @@
 # text-cta Component Spec
-> Version 1.0.0 | Status: draft | Layer: organism
+> Version 1.1.0 | Status: draft | Layer: organism
 
 Tags: `content`, `organisms`, `website-block`, `split-layout`
 
@@ -8,7 +8,7 @@ Root element: `.nc-text-cta`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| grid | `.nc-text-cta__grid` | Yes | Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig. |
+| grid | `.nc-text-cta__grid` | Yes | Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig; mit --no-card immer einspaltig. |
 | content | `.nc-text-cta__content` | Yes | Textspalte: neo_fe:block-header --flush und Punkteliste. |
 | list | `.nc-text-cta__list` | No | Punkteliste (field_tc_features, eine Zeile je Punkt). |
 | list-item | `.nc-text-cta__list-item` | No | Punkt mit Haken (::before). |
@@ -20,7 +20,7 @@ Root element: `.nc-text-cta`
 ### DOM Notes
 - Website-Block neo_text_cta: <section class="nc-section"><div class="nc-container"><div class="nc-text-cta [--card-left] [--no-card]"><div class="nc-text-cta__grid"> …
 - Die Karte steht im DOM immer hinter dem Text; --card-left tauscht nur die Anzeige (order) und dreht die Spuren mit (--nc-text-cta-columns-reverse).
-- Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card — dafuer gibt es keine Regel: das Raster bleibt zweispaltig, der Text steht in der linken Spur (Entscheidungsfall Phase 5).
+- Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card: eine Spalte in jeder Breite, Inhalt auf Lesebreite (--nc-text-cta-content-measure) gekappt, linksbuendig (Entscheidung Phase 5, 07.10.2026).
 - Kartenflaeche per field_tc_card_bg als Instanzwert --mod-card-bg am .nc-card (wie in Drupal); Sektionsflaeche aus field_surface am Block-Wrapper.
 
 ## Variants
@@ -53,6 +53,7 @@ Base classes: `nc-text-cta`
 | `--nc-text-cta-columns` | — | `--mod-text-cta-columns` |
 | `--nc-text-cta-columns-reverse` | — | `--mod-text-cta-columns-reverse` |
 | `--nc-text-cta-content-gap` | — | `--mod-text-cta-content-gap` |
+| `--nc-text-cta-content-measure` | — | `--mod-text-cta-content-measure` |
 
 ### Punkteliste
 | Token | CSS Property | Override |

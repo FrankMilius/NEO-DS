@@ -19990,7 +19990,8 @@ export const componentTokenGroups = [
         "label": "Weitere",
         "tokenIds": [
           "nc-text-cta-columns",
-          "nc-text-cta-columns-reverse"
+          "nc-text-cta-columns-reverse",
+          "nc-text-cta-content-measure"
         ]
       }
     ],
@@ -20018,6 +20019,12 @@ export const componentTokenGroups = [
         "label": "Columns Reverse",
         "type": "generic",
         "default": "minmax(0, 1fr) minmax(0, 1.35fr)"
+      },
+      {
+        "id": "nc-text-cta-content-measure",
+        "label": "Content Measure (ohne Karte)",
+        "type": "size",
+        "default": "var(--container-prose)"
       },
       {
         "id": "nc-text-cta-card-padding",
