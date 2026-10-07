@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -9,6 +9,7 @@ Root element: `.nc-card-grid`
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
 | card | `.nc-card` | Yes | Einzelne Card im Grid. |
+| cq | `.nc-card-grid-cq` | No | container-type: inline-size am .nc-container des Blocks — die Karten reagieren auf die Blockbreite. Steht AUSSEN. |
 
 ### DOM Notes
 - CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert.

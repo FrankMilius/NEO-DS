@@ -20,7 +20,7 @@ Verwender gezählt in `scss/`, `data/markup/`, `docs/`, `apps/`, `packages/`,
 `stories/` und im Drupal-Theme `neo_fe` (Twig, JS). „Website" heißt: das
 Drupal-Theme rendert die Klasse.
 
-## (a) Recipe angelegt — 16
+## (a) Recipe angelegt — 14
 
 | id | Schicht | Wurzel | Verwender | Begründung |
 |---|---|---|---|---|
@@ -33,15 +33,13 @@ Drupal-Theme rendert die Klasse.
 | block-bundle | Organism | `.nc-block-bundle` | Website: Block `neo_block_bundle` | Website-Block (Kopf + gestapelte Blöcke) |
 | reference-page | Organism | `.nc-refpage` | Website: `node--reference-page`, Block `neo_doc_section`, `neo-theme.js` (Scroll-Spy) | Referenzseite mit Verzeichnis; `.nc-doc-section` ist ihr Abschnitt |
 | text-cta | Organism | `.nc-text-cta` | Website: Block `neo_text_cta` | Website-Block (Text + CTA-Karte) |
-| content-page | Template | `.t-content` | Doku `template-content-page`, Story | Template (im SCSS als „DEPRECATED" zugunsten der Shell-Presets markiert) |
-| dashboard | Template | `.t-dashboard` | Doku `template-dashboard`, Story | Template (DEPRECATED, s. o.) |
+| dashboard | Template | `.t-dashboard` | Doku `template-dashboard`, Story | Template (im SCSS als „DEPRECATED" zugunsten der Shell-Presets markiert) |
 | error-page | Template | `.t-error` | Doku `template-error-page`, Story | Template (DEPRECATED, s. o.) |
-| form-page | Template | `.t-form-page` | Doku `template-form-page`, Story | Template (DEPRECATED, s. o.) |
 | home-basic | Template | `.t-home-basic` | Doku `template-home-basic`, Story | Template (DEPRECATED, s. o.) |
 | home-hero | Template | `.t-home-hero` | Doku `template-home-hero`, Story | Template (DEPRECATED, s. o.) |
 | settings-page | Template | `.t-settings` | Doku `template-settings-page`, Story | Template (DEPRECATED, s. o.) |
 
-Alle neuen Recipes stehen auf `meta.status: "draft"` (Kennzeichen „Entwurf").
+Alle neuen Recipes stehen auf `meta.status: "draft"` (Kennzeichen „Entwurf"). Die Templates mit Recipe erscheinen in der Navigation als Komponenten-Sektion (RecipeArena) statt als Wireframe-Platzhalter.
 
 ## (b) Kein Recipe — 21 (+ `09-pages`)
 
@@ -57,7 +55,7 @@ Alle neuen Recipes stehen auf `meta.status: "draft"` (Kennzeichen „Entwurf").
 | section-intro | Molecule | — | — | siehe (c) |
 | bento-section | Organism | `.nc-bento-section` | Website: Block `neo_bento_grid` | Sektionspolster des Bento-Rasters. Anatomie ergänzt: bento-grid `section` |
 | card-grid-section | Organism | — | — | siehe (c) |
-| content-templates | Template | `.t-dashboard-overview`, `.t-article`, `.t-card-grid`, `.t-form`, `.t-split` | Doku `shell` | Inhalts-Layouts für `.nc-shell__content-body` — Teil der Shell. Anatomie ergänzt: shell `domNotes` und `content-layout` |
+| content-templates | Template | `.t-dashboard-overview`, `.t-article`, `.t-card-grid`, `.t-form`, `.t-split` | Doku `shell` | Inhalts-Layouts für `.nc-shell__content-body` — Teil der Shell. Anatomie ergänzt: shell `layout-*` (je Inhalts-Layout ein Slot) und `domNotes` |
 | a11y | Utility | `.u-sr-only`, `.u-skip-link`, `.u-focus-ring` … | breit | Utility |
 | block-roles | Utility | Typo-Rollen der Blöcke | breit | Utility |
 | content-width | Utility | `.nc-cw-*` | Website (Block-Wrapper) | Utility |
@@ -74,13 +72,15 @@ Die Utilities `spacing`, `themes` und `typography` haben ebenfalls kaum
 Verwender; nach dem Grundsatz bekommen Utilities kein Recipe — sie sind hier
 nicht weiter geprüft.
 
-## (c) Unklar/tot — 3 (Entscheidungsfälle, nichts gelöscht)
+## (c) Unklar/tot — 5 (Entscheidungsfälle, nichts gelöscht)
 
 | id | Datei | Befund |
 |---|---|---|
 | sizes | `05-atoms/_sizes.scss` | erzeugt kein CSS; Kommentar-Referenz für Button-Größen mit alten Klassennamen (`.button.xs` … `.button.2xl`, 24–80 px), die das Button-Recipe so nicht kennt |
 | section-intro | `06-molecules/_section-intro.scss` | kein Verwender in DS, Doku, Konfigurator, Drupal-Twig/-JS (nur noch der Aufnahme-Vermerk in `neo-overrides.css` und `styles.css` des Themes) |
 | card-grid-section | `07-organisms/_card-grid-section.scss` | kein Verwender; die Karten-Raster-Blöcke nutzen `.nc-section-header`. Die Tokens `--nc-card-grid-title-*` hängen nur an dieser Regel |
+| content-page | `08-templates/_content-page.scss` | Template, aber **nicht kompiliert**: `08-templates/_index.scss` bindet es nicht ein („ENTFERNT: ersetzt durch data-layout="content-page"“). `.t-content*` steht nicht in `styles.css`; Doku `template-content-page` und Story zeigen Klassen ohne Wirkung |
+| form-page | `08-templates/_form-page.scss` | wie content-page: nicht eingebunden („ersetzt durch data-layout="focused"“), `.t-form-page*` fehlt in `styles.css`; Doku `template-form-page` und Story zeigen Klassen ohne Wirkung |
 
 ## Registry-Fehler
 

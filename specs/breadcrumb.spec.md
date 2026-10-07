@@ -1,5 +1,5 @@
 # breadcrumb Component Spec
-> Version 2.0.0 | Status: stable | Layer: molecule
+> Version 2.1.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `navigation`, `wayfinding`
 
@@ -19,6 +19,7 @@ Root element: `.nc-breadcrumb`
 | ellipsis-wrap | `.nc-breadcrumb__ellipsis-wrap` | No | — |
 | dropdown | `.nc-breadcrumb__dropdown` | No | — |
 | dropdown-item | `.nc-breadcrumb__dropdown-item` | No | — |
+| section | `.nc-breadcrumb-section` | No | Huelle um den Breadcrumb (<nav aria-label> mit .nc-container); --above mit Linie unten, --below mit Linie oben. Steht AUSSEN. |
 
 ### DOM Notes
 - Wrapper ist <nav class='nc-breadcrumb' aria-label='Breadcrumb'>.
@@ -37,6 +38,7 @@ Root element: `.nc-breadcrumb`
 - Ghost: Links wirken wie normaler Text (text-tertiary), erst bei Hover interaktiv. Ideal fuer Artikel-Seiten.
 - Back-Link: Mobile-First — nur '← Parent' Link. Spart Platz fuer Content auf schmalen Viewports.
 - Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext.
+- Website: page.html.twig rendert <nav class="nc-breadcrumb-section nc-breadcrumb-section--above|below"><div class="nc-container">…</div></nav> je nach neo_breadcrumb_position.
 
 ## Variants
 ### Size (`size`)

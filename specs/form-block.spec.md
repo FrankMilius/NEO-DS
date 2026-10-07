@@ -1,5 +1,5 @@
 # form-block Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `form`, `content`
 
@@ -16,6 +16,7 @@ Root element: `.nc-form-block`
 | terms | `.nc-form-block__terms` | No | Terms Checkbox-Area. |
 | hint-text | `.nc-form-block__hint-text` | No | Hinweistext unter Terms. |
 | submit | `.nc-form-block__submit` | No | Submit-Button. |
+| honeypot | `.nc-form-hp` | No | Honeypot: Feld fuer Bots, per Clip visuell verborgen (nicht display:none). |
 
 ### DOM Notes
 - 4 Positionierungsvarianten: text-left, text-right, text-top, text-bottom.

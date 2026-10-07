@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "shell",
-    "version": "2.1.3",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -16,6 +16,12 @@
       "docs": "/docs/shell-docs"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): Slots layout-* fuer die Inhalts-Layouts aus 08-templates/_content-templates.scss (t-dashboard-overview, t-article, t-card-grid, t-form, t-split) — sie gehoeren in .nc-shell__content-body und hatten kein Recipe."
+        ]
+      },
       {
         "version": "2.1.3",
         "changes": [
@@ -143,6 +149,36 @@
         "name": "sidebar-overlay",
         "element": ".nc-shell__sidebar-overlay",
         "optional": true
+      },
+      {
+        "name": "layout-dashboard-overview",
+        "element": ".t-dashboard-overview",
+        "optional": true,
+        "description": "Inhalts-Layout im content-body: Kennzahlen (auto-fit, min 200 px) und Karten (min 320 px)."
+      },
+      {
+        "name": "layout-article",
+        "element": ".t-article",
+        "optional": true,
+        "description": "Inhalts-Layout im content-body: Prosa mit optionaler Verzeichnis-Spalte (--no-toc ohne)."
+      },
+      {
+        "name": "layout-card-grid",
+        "element": ".t-card-grid",
+        "optional": true,
+        "description": "Inhalts-Layout im content-body: Karten-Raster (auto-fill; --sm, --lg)."
+      },
+      {
+        "name": "layout-form",
+        "element": ".t-form",
+        "optional": true,
+        "description": "Inhalts-Layout im content-body: Zentriertes Formular mit Abschnitten und Aktionen."
+      },
+      {
+        "name": "layout-split",
+        "element": ".t-split",
+        "optional": true,
+        "description": "Inhalts-Layout im content-body: Zwei Spalten (50/50, --60-40, --reverse, --align-center)."
       }
     ],
     "convenience": [],
@@ -164,7 +200,8 @@
       "Z-Index Governance: Feste Rangfolge ueber --nc-shell-z-* Tokens. linkbar (base) < footerbar (sticky) < navbar (header) < sidebar (sidebar) < overlay (drawer-1) < drawer (drawer). Verhindert Z-Index-Kriege.",
       "RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.",
       "Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto.",
-      "Drawer-Verhalten (neo-behaviors shell, Mobil-Lage = Sidebar position: fixed): hoechstens ein Drawer offen, Fokus auf das erste bedienbare Element der Sidebar (sonst die Sidebar mit tabindex=-1), Fokus-Falle, Geschwister bis <body> ausser dem Overlay inert, Schliessen per Escape, Overlay-Klick, Knopf oder Wechsel ueber lg; Fokus zurueck zum Ausloeser. Fehlt .nc-shell__sidebar-overlay, legt das Behavior es an."
+      "Drawer-Verhalten (neo-behaviors shell, Mobil-Lage = Sidebar position: fixed): hoechstens ein Drawer offen, Fokus auf das erste bedienbare Element der Sidebar (sonst die Sidebar mit tabindex=-1), Fokus-Falle, Geschwister bis <body> ausser dem Overlay inert, Schliessen per Escape, Overlay-Klick, Knopf oder Wechsel ueber lg; Fokus zurueck zum Ausloeser. Fehlt .nc-shell__sidebar-overlay, legt das Behavior es an.",
+      "Inhalts-Layouts (08-templates/_content-templates.scss): .t-dashboard-overview, .t-article, .t-card-grid, .t-form, .t-split stehen in .nc-shell__content-body und sind mit jedem data-layout-Preset kombinierbar — Teil der Shell, kein eigenes Recipe (Inventur Phase 5)."
     ]
   },
   "axes": {

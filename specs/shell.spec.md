@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.1.3 | Status: stable | Layer: organism
+> Version 2.2.0 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -25,6 +25,11 @@ Root element: `.nc-shell`
 | content-footer | `.nc-shell__content-footer` | No | — |
 | footerbar | `.nc-shell__footerbar` | No | — |
 | sidebar-overlay | `.nc-shell__sidebar-overlay` | No | — |
+| layout-dashboard-overview | `.t-dashboard-overview` | No | Inhalts-Layout im content-body: Kennzahlen (auto-fit, min 200 px) und Karten (min 320 px). |
+| layout-article | `.t-article` | No | Inhalts-Layout im content-body: Prosa mit optionaler Verzeichnis-Spalte (--no-toc ohne). |
+| layout-card-grid | `.t-card-grid` | No | Inhalts-Layout im content-body: Karten-Raster (auto-fill; --sm, --lg). |
+| layout-form | `.t-form` | No | Inhalts-Layout im content-body: Zentriertes Formular mit Abschnitten und Aktionen. |
+| layout-split | `.t-split` | No | Inhalts-Layout im content-body: Zwei Spalten (50/50, --60-40, --reverse, --align-center). |
 
 ### DOM Notes
 - Aeusseres Grid (.nc-shell): 5 Rows — banner, linkbar, navbar, stage, footerbar. min-height: 100dvh.
@@ -45,6 +50,7 @@ Root element: `.nc-shell`
 - RTL: Durchgaengig CSS Logical Properties — kein separater RTL-Code noetig.
 - Off-Canvas Overlay: .nc-shell__sidebar-overlay--visible — halbtransparenter Backdrop, pointer-events auto.
 - Drawer-Verhalten (neo-behaviors shell, Mobil-Lage = Sidebar position: fixed): hoechstens ein Drawer offen, Fokus auf das erste bedienbare Element der Sidebar (sonst die Sidebar mit tabindex=-1), Fokus-Falle, Geschwister bis <body> ausser dem Overlay inert, Schliessen per Escape, Overlay-Klick, Knopf oder Wechsel ueber lg; Fokus zurueck zum Ausloeser. Fehlt .nc-shell__sidebar-overlay, legt das Behavior es an.
+- Inhalts-Layouts (08-templates/_content-templates.scss): .t-dashboard-overview, .t-article, .t-card-grid, .t-form, .t-split stehen in .nc-shell__content-body und sind mit jedem data-layout-Preset kombinierbar — Teil der Shell, kein eigenes Recipe (Inventur Phase 5).
 
 ## Variants
 ### Preset (`preset`)

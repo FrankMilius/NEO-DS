@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "form",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -11,7 +11,14 @@
   ],
   "anatomy": {
     "rootElement": ".nc-form",
-    "slots": [],
+    "slots": [
+      {
+        "name": "honeypot",
+        "selector": ".nc-form-hp",
+        "required": false,
+        "description": "Honeypot: Feld fuer Bots, per Clip visuell verborgen (nicht display:none)."
+      }
+    ],
     "notes": [
       "Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).",
       "Enthaelt .nc-form-field, .nc-fieldset, .nc-form-section, .nc-form-actions.",

@@ -1,5 +1,5 @@
 # compare-table Component Spec
-> Version 2.0.1 | Status: stable | Layer: atom
+> Version 2.1.0 | Status: stable | Layer: atom
 
 Tags: `data`, `display`, `comparison`
 
@@ -12,6 +12,7 @@ Root element: `.nc-compare-table`
 | checkbox | `.nc-compare-table__checkbox` | Yes | Checkbox-Zelle fuer Row-Selection |
 | numeric | `.nc-compare-table__numeric` | Yes | Rechtsbuendige Zahlenzelle mit tabular-nums |
 | section-row | `.nc-compare-table__section-row` | Yes | — |
+| icon | `.nc-tbl-icon` | No | Haken (--check) oder Strich (--dash) in einer Wertzelle; die Farbe steht nur im DS, nicht im SVG. |
 
 ### DOM Notes
 - Einfache Vergleichstabelle mit inverser Header-Zeile.

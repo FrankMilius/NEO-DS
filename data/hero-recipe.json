@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.3.0",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): Slot badges (.nc-hero__badges) — die Badge-Zeile (.nc-badge-row, 05-atoms/_badge-row.scss) stand im Markup und in der Achse badgesPosition, aber nicht in der Anatomie."
+        ]
+      },
       {
         "version": "2.2.0",
         "changes": [
@@ -84,6 +90,12 @@
         "element": ".nc-hero__mark",
         "optional": true,
         "description": "Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste."
+      },
+      {
+        "name": "badges",
+        "element": ".nc-hero__badges",
+        "optional": true,
+        "description": "Badge-Zeile ueber der Headline: .nc-badge-row.nc-hero__badges mit .nc-label; auf dunklem Hero eigener Schleier (--nc-badge-row-hero-*)."
       }
     ],
     "convenience": [

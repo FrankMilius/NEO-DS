@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-tab-mega",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,6 +21,12 @@
     "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
     "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
     "changelog": [
+      {
+        "version": "1.1.2",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): komposition: container-intent (.container der Kopfzeile) — der Intent-Container hat seit Phase 5 ein Recipe."
+        ]
+      },
       {
         "version": "1.1.1",
         "changes": [
@@ -503,7 +509,8 @@
   },
   "komposition": [
     { "art": "enthaelt", "recipe": "kbd", "hinweis": "Tastenhinweis „Esc“ im Schliessen-Knopf des Such-Bands" },
-    { "art": "teilt", "recipe": "navigation", "tokenPraefix": "nc-nav-", "hinweis": "Flaeche (--nc-nav-bg) und Hoehe (--nc-nav-height) der Kopfleiste kommen aus den Tokens der DS-Navigation" }
+    { "art": "teilt", "recipe": "navigation", "tokenPraefix": "nc-nav-", "hinweis": "Flaeche (--nc-nav-bg) und Hoehe (--nc-nav-height) der Kopfleiste kommen aus den Tokens der DS-Navigation" },
+    { "art": "enthaelt", "recipe": "container-intent", "hinweis": "Kopfzeile, Panels und Such-Band liegen in .container (Intent-Container, 04-objects/_container-intent.scss) — seit Phase 5 ein Recipe" }
   ],
   "specimens": [
     {

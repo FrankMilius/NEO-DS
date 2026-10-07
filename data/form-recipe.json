@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "form",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "form",
@@ -33,6 +33,12 @@
     ],
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): Slot honeypot (.nc-form-hp) — visuell verborgenes Feld gegen Formular-Spam, im Website-Markup vorhanden (05-atoms/_form-hp.scss, Hilfsklasse ohne eigenes Recipe)."
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "29.09.2026: Token-Gruppen label/hint/error/field entfernt — gehoeren form-label, form-hint, form-error, form-field (doppelte Token-IDs aufgeloest)."
@@ -44,7 +50,14 @@
     "root": {
       "element": ".nc-form"
     },
-    "slots": [],
+    "slots": [
+      {
+        "name": "honeypot",
+        "element": ".nc-form-hp",
+        "optional": true,
+        "description": "Honeypot: Feld fuer Bots, per Clip visuell verborgen (nicht display:none)."
+      }
+    ],
     "convenience": [],
     "domNotes": [
       "Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).",

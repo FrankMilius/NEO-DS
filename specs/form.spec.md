@@ -1,10 +1,14 @@
 # form Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `form`, `layout`, `interactive`
 
 ## Anatomy
 Root element: `.nc-form`
+
+| Slot | Selector | Required | Description |
+| --- | --- | --- | --- |
+| honeypot | `.nc-form-hp` | No | Honeypot: Feld fuer Bots, per Clip visuell verborgen (nicht display:none). |
 
 ### DOM Notes
 - Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "breadcrumb",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -24,7 +24,15 @@
       "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [],
       "docs": "docs/breadcrumb-docs.html"
-    }
+    },
+    "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): Slot section (.nc-breadcrumb-section, --above/--below) — die Huelle, in der die Website den Breadcrumb ueber oder unter dem Seitenkopf rendert (page.html.twig)."
+        ]
+      }
+    ]
   },
   "anatomy": {
     "root": {
@@ -85,6 +93,12 @@
         "name": "dropdown-item",
         "element": ".nc-breadcrumb__dropdown-item",
         "optional": true
+      },
+      {
+        "name": "section",
+        "element": ".nc-breadcrumb-section",
+        "optional": true,
+        "description": "Huelle um den Breadcrumb (<nav aria-label> mit .nc-container); --above mit Linie unten, --below mit Linie oben. Steht AUSSEN."
       }
     ],
     "convenience": [],
@@ -104,7 +118,8 @@
       "Dropdown-Item: <a class='nc-breadcrumb__dropdown-item' role='menuitem'> — einzelner Link.",
       "Ghost: Links wirken wie normaler Text (text-tertiary), erst bei Hover interaktiv. Ideal fuer Artikel-Seiten.",
       "Back-Link: Mobile-First — nur '← Parent' Link. Spart Platz fuer Content auf schmalen Viewports.",
-      "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
+      "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext.",
+      "Website: page.html.twig rendert <nav class=\"nc-breadcrumb-section nc-breadcrumb-section--above|below\"><div class=\"nc-container\">…</div></nav> je nach neo_breadcrumb_position."
     ]
   },
   "axes": {

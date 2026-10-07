@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "breadcrumb",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -77,6 +77,12 @@
         "selector": ".nc-breadcrumb__dropdown-item",
         "required": false,
         "description": null
+      },
+      {
+        "name": "section",
+        "selector": ".nc-breadcrumb-section",
+        "required": false,
+        "description": "Huelle um den Breadcrumb (<nav aria-label> mit .nc-container); --above mit Linie unten, --below mit Linie oben. Steht AUSSEN."
       }
     ],
     "notes": [
@@ -95,7 +101,8 @@
       "Dropdown-Item: <a class='nc-breadcrumb__dropdown-item' role='menuitem'> — einzelner Link.",
       "Ghost: Links wirken wie normaler Text (text-tertiary), erst bei Hover interaktiv. Ideal fuer Artikel-Seiten.",
       "Back-Link: Mobile-First — nur '← Parent' Link. Spart Platz fuer Content auf schmalen Viewports.",
-      "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext."
+      "Back-Link braucht aria-label='Zurueck zu [Parent-Name]' fuer Screen-Reader-Kontext.",
+      "Website: page.html.twig rendert <nav class=\"nc-breadcrumb-section nc-breadcrumb-section--above|below\"><div class=\"nc-container\">…</div></nav> je nach neo_breadcrumb_position."
     ]
   },
   "api": null,

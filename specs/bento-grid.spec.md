@@ -1,5 +1,5 @@
 # bento-grid Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `interactive`
 
@@ -14,6 +14,7 @@ Root element: `.nc-bento-grid`
 | text | `.nc-bento-grid__text` | No | Beschreibungstext der Zelle. |
 | badge | `.nc-bento-grid__badge` | No | Kleines Badge oben rechts (z.B. 'GPL / MIT'). |
 | mesh | `.nc-bento-grid__mesh` | No | Dekorativer animierter Mesh-Gradient, typischerweise in der grossen Zelle. aria-hidden. |
+| section | `.nc-bento-section` | No | Sektion des Website-Blocks mit eigenem Polster oben/unten (--fnd-spacing-10). Steht AUSSEN. |
 
 ### DOM Notes
 - Root .nc-bento-grid: CSS Grid, repeat(--nc-bento-grid-columns, 1fr), grid-auto-rows minmax(--nc-bento-grid-cell-min, auto).

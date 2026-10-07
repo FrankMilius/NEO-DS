@@ -1,5 +1,5 @@
 # tbl-cell Component Spec
-> Version 1.1.0 | Status: draft | Layer: unknown
+> Version 1.2.0 | Status: draft | Layer: unknown
 
 Tags: `aufgenommen`, `atoms`
 
@@ -12,6 +12,7 @@ Root element: `.nc-tbl-cell`
 | info-btn | `.nc-tbl-cell__info-btn` | Yes | — |
 | sub | `.nc-tbl-cell__sub` | Yes | — |
 | text | `.nc-tbl-cell__text` | Yes | — |
+| icon | `.nc-tbl-icon` | No | Wertsymbol der Zelle: --check (Kreis background-accent, Haken always-dark) oder --dash (text-tertiary); 05-atoms/_tbl-icon.scss. |
 
 ### DOM Notes
 - Zelle der Vergleichstabelle: .nc-tbl-cell (flex) in th oder td — der Ort gestaltet sie: th[scope=row] links mit fettem Text, td mittig.

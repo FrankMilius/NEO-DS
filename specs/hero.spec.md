@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.2.0 | Status: stable | Layer: organism
+> Version 2.3.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -14,6 +14,7 @@ Root element: `.nc-hero`
 | footer | `.nc-hero__footer` | No | Badges und Kennzahlen unter den Aktionen. |
 | cards | `.nc-hero__cards` | No | Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil. |
 | mark | `.nc-hero__mark` | No | Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste. |
+| badges | `.nc-hero__badges` | No | Badge-Zeile ueber der Headline: .nc-badge-row.nc-hero__badges mit .nc-label; auf dunklem Hero eigener Schleier (--nc-badge-row-hero-*). |
 
 ### DOM Notes
 - Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem.

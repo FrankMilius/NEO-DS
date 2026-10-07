@@ -1,5 +1,5 @@
 # navigation-tab-mega Component Spec
-> Version 1.1.1 | Status: stable | Layer: organism
+> Version 1.1.2 | Status: stable | Layer: organism
 
 Tags: `navigation`, `header`, `mega-menu`, `interactive`, `website`
 

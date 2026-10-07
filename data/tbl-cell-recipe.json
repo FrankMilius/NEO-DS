@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tbl-cell",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "draft",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "07.10.2026 (Plan v3, Phase 5): Slot icon (.nc-tbl-icon) mit --check (Haken im Akzentkreis) und --dash (Strich, text-tertiary) — bisher nur in domNotes."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -57,6 +63,12 @@
         "name": "text",
         "element": ".nc-tbl-cell__text",
         "optional": false
+      },
+      {
+        "name": "icon",
+        "element": ".nc-tbl-icon",
+        "optional": true,
+        "description": "Wertsymbol der Zelle: --check (Kreis background-accent, Haken always-dark) oder --dash (text-tertiary); 05-atoms/_tbl-icon.scss."
       }
     ],
     "convenience": [],
