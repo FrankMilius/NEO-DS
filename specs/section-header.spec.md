@@ -1,5 +1,5 @@
 # section-header Component Spec
-> Version 1.0.0 | Status: draft | Layer: molecule
+> Version 1.1.0 | Status: draft | Layer: molecule
 
 Tags: `content`, `molecules`, `block-kopf`
 

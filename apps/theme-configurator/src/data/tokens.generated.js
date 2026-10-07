@@ -16914,7 +16914,8 @@ export const componentTokenGroups = [
         "id": "nc-section-header-label-color",
         "label": "Label Color",
         "type": "color",
-        "default": "var(--fnd-neutral-800)"
+        "default": "var(--fnd-neutral-800)",
+        "darkDefault": "var(--fnd-color-text-secondary)"
       },
       {
         "id": "nc-section-header-label-spacing",

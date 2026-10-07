@@ -4521,6 +4521,7 @@
   // ist keine Handlung, und der Akzent bleibt der einen Handlung vorbehalten.
   // Graphit 800 statt 950: deutlich dunkel, aber als GRAU erkennbar und
   // dadurch von der Ueberschrift darunter unterschieden. 9,98:1 auf Weiss.
+  // Im Dunkeln neu gebunden (text-secondary), siehe Theme-Bereiche unten.
   --nc-section-header-label-color: var(--fnd-neutral-800);
   --nc-section-header-label-spacing: var(--nc-kicker-spacing);
 
@@ -4557,14 +4558,34 @@
 // Gleiches Muster wie --nc-segmented-* und --nc-cs-*; der Lead mit, weil
 // --nc-section-header-subtitle-color auf --nc-block-lead-color zeigt (dessen
 // Neubindung steht bei seiner Definition, 10-utilities/_block-roles.scss).
-// Das Label (--nc-section-header-label-color, Primitive neutral-800) bleibt
-// aussen vor: es ist themenunabhaengig und im Dunkeln auch seitenweit dunkel.
+//
+// Das Label (Kicker) zeigt hell auf das Primitive neutral-800 — das dreht im
+// Dunkeln nicht mit (gemessen ~1,9:1). Im Dunkeln deshalb auf text-secondary
+// (Entscheidung Phase 5 kicker-dunkel, 07.10.2026), in hellen Bereichen
+// zurueck auf neutral-800 (heller Bereich auf dunkler Seite). Seitenweites
+// Dunkel ohne data-theme (prefers-color-scheme) steht darunter.
 .neo-light-theme,
 .neo-dark-theme,
 .customer-light-theme,
 .customer-dark-theme {
   --nc-section-header-title-color: var(--fnd-color-text-primary);
   --nc-section-header-subtitle-color: var(--nc-block-lead-color, var(--fnd-color-text-secondary));
+}
+
+.neo-light-theme,
+.customer-light-theme {
+  --nc-section-header-label-color: var(--fnd-neutral-800);
+}
+
+.neo-dark-theme,
+.customer-dark-theme {
+  --nc-section-header-label-color: var(--fnd-color-text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --nc-section-header-label-color: var(--fnd-color-text-secondary);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

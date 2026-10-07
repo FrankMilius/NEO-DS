@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "section-header",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "draft",
     "tags": [
       "content",
@@ -16,6 +16,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Entscheidung Phase 5 kicker-dunkel (07.10.2026): --nc-section-header-label-color bindet im Dunkeln neu auf --fnd-color-text-secondary (.neo-dark-theme/.customer-dark-theme, prefers-color-scheme ohne data-theme); helle Bereiche zurueck auf neutral-800. Gemessen: dunkle Flaeche 1,79:1 -> 8,34:1, Kunde dunkel 1,96:1 -> 6,53:1, Auto-Dunkel 1,92:1 -> 6,40:1; hell unveraendert 8,95:1."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -129,7 +135,7 @@
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [],
-      "note": "Eine Ueberschrift je Block; der Kicker ist <span>, keine Ueberschrift."
+      "note": "Eine Ueberschrift je Block; der Kicker ist <span>, keine Ueberschrift. Kicker hell neutral-800, im Dunkeln text-secondary (>= 6,4:1 auf den dunklen Flaechen)."
     },
     "overrides": []
   },

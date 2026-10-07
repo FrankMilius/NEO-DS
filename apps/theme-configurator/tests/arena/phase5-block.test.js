@@ -284,6 +284,14 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     expect(c).toMatch(/--nc-text-cta-content-measure: *var\(--container-prose\)/)
   })
 
+  it('section-header: Kicker bindet im Dunkeln neu, hell bleibt neutral-800 (Entscheidung Phase 5 kicker-dunkel, 07.10.2026)', () => {
+    const c = css()
+    expect(c).toMatch(/--nc-section-header-label-color: *var\(--fnd-neutral-800\)/)
+    expect(c).toMatch(/\.neo-light-theme,\.customer-light-theme\{--nc-section-header-label-color: *var\(--fnd-neutral-800\)\}/)
+    expect(c).toMatch(/\.neo-dark-theme,\.customer-dark-theme\{--nc-section-header-label-color: *var\(--fnd-color-text-secondary\)\}/)
+    expect(c).toMatch(/@media\(prefers-color-scheme: *dark\)\{:root:not\(\[data-theme\]\)\{--nc-section-header-label-color: *var\(--fnd-color-text-secondary\)\}\}/)
+  })
+
   it('reference-page: Verzeichnis vor dem Inhalt, genau ein aktueller Eintrag, Anker zeigen auf vorhandene Abschnitte', () => {
     for (const z of zellen('reference-page')) {
       const d = dom(z.html)
