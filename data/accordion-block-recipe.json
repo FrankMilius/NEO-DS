@@ -1,0 +1,208 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "accordion-block",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "content",
+      "organisms",
+      "website-block"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/07-organisms/_accordion-block.scss; Specimens aus block--block-content--neo-accordion.html.twig der Website (Eintraege wie in data/markup/accordion.html).",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_accordion-block.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "block/block--block-content--neo-accordion.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-accordion-block"
+    },
+    "slots": [
+      {
+        "name": "inner",
+        "element": ".nc-accordion-block__inner",
+        "optional": false,
+        "description": "Raster aus Kopf und Akkordeon; traegt zusaetzlich .nc-container (Breite und Polster)."
+      },
+      {
+        "name": "text",
+        "element": ".nc-accordion-block__text",
+        "optional": false,
+        "description": "Kopf (neo_fe:block-header, --flush); klebt neben dem Akkordeon (sticky)."
+      },
+      {
+        "name": "accordion",
+        "element": ".nc-accordion-block__accordion",
+        "optional": false,
+        "description": "Spalte mit .nc-accordion und optional .nc-accordion-toggle-all."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Website-Block neo_accordion: <section class=\"nc-section nc-accordion-block nc-accordion-block--{ratio}\"> > .nc-container.nc-accordion-block__inner > __text + __accordion.",
+      "Breitenverhaeltnis ueber --nc-accordion-cols (Override --mod-accordion-cols): zwei-drittel 1fr 2fr (Vorgabe), halb 1fr 1fr, voll 1fr (Kopf oben, Lesebreite --nc-accordion-voll-measure).",
+      "Die Varianten register und lese des Akkordeons erzwingen in Drupal ratio voll.",
+      "Unter 768 px Fensterbreite einspaltig, Kopf nicht mehr sticky.",
+      "Die Anschnittlinie kommt vom .nc-container (seit 20.08.2026 keine eigene Hoechstbreite mehr)."
+    ]
+  },
+  "axes": {
+    "ratio": {
+      "label": "Verhaeltnis",
+      "description": "Breiten von Kopf und Akkordeon",
+      "values": {
+        "zwei-drittel": {
+          "modifier": "nc-accordion-block--zwei-drittel",
+          "tokenGroups": [],
+          "description": "Kopf 1/3, Akkordeon 2/3 (Vorgabe der Website)"
+        },
+        "halb": {
+          "modifier": "nc-accordion-block--halb",
+          "tokenGroups": [],
+          "description": "Je die Haelfte — wenn der Kopf laengeren Text traegt"
+        },
+        "voll": {
+          "modifier": "nc-accordion-block--voll",
+          "tokenGroups": [],
+          "description": "Kopf oben, Akkordeon darunter ueber die ganze Breite"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Eintraege als natives <details>/<summary> (Browsersuche klappt auf); der Kopf steht im DOM vor dem Akkordeon."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-accordion-block"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "description": "Spalten des Blocks; die Tokens tragen den Namen des Akkordeons.",
+        "tokens": [
+          "nc-accordion-cols",
+          "nc-accordion-voll-measure"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.ratio.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "verhaeltnis",
+      "label": "Verhaeltnis",
+      "description": "zwei-drittel (Vorgabe), halb und voll.",
+      "matrix": {
+        "axes": {
+          "ratio": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {},
+      "composes": [
+        "section",
+        "container",
+        "section-header",
+        "accordion"
+      ]
+    },
+    {
+      "id": "alle-aufklappen",
+      "label": "Mit „Alle aufklappen\"",
+      "description": "Wie auf der Website mit dem Schalter field_acc_expand_all (Variante separated, spacious).",
+      "matrix": {
+        "axes": {
+          "ratio": [
+            "zwei-drittel"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "alleAuf": true
+      },
+      "composes": [
+        "section",
+        "container",
+        "section-header",
+        "accordion"
+      ]
+    }
+  ]
+}

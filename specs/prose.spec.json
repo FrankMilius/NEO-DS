@@ -1,0 +1,121 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "prose",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "object",
+  "tags": [
+    "layout",
+    "objects",
+    "lesen",
+    "editorial"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-prose",
+    "slots": [
+      {
+        "name": "bleed-content",
+        "selector": ".nc-bleed-content",
+        "required": false,
+        "description": "Kind bricht bis zur Content-Breite aus (oder data-bleed=\"content\")."
+      },
+      {
+        "name": "bleed-wide",
+        "selector": ".nc-bleed-wide",
+        "required": false,
+        "description": "Kind bricht bis zur Wide-Breite aus (oder data-bleed=\"wide\")."
+      },
+      {
+        "name": "bleed-full",
+        "selector": ".nc-bleed-full",
+        "required": false,
+        "description": "Kind laeuft ueber die volle Breite (gekappt auf xwide; oder data-bleed=\"full\")."
+      }
+    ],
+    "notes": [
+      "Ein CSS-Grid mit benannten Linien full | wide | content | prose: jedes direkte Kind steht in der Prosa-Spalte (--prose-measure = --container-prose).",
+      "Breakout per Klasse (.nc-bleed-*) oder Attribut data-bleed=\"content|wide|full\"; die Website nutzt das Attribut (gefilterte Body-HTML).",
+      "Website: field--body.html.twig legt das Body-Feld in .nc-prose, mit reading_left zusaetzlich .nc-prose--left.",
+      "Overrides: --mod-prose-measure, --mod-prose-gutter, --mod-prose-max."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "alignment": {
+      "label": "Ausrichtung",
+      "description": "Lage der Lesespalte",
+      "values": [
+        {
+          "value": "center",
+          "cssModifier": null,
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "left",
+          "cssModifier": "nc-prose--left",
+          "default": false,
+          "label": "left"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-prose"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--container-content"
+        },
+        {
+          "token": "--container-padding-inline"
+        },
+        {
+          "token": "--container-prose"
+        },
+        {
+          "token": "--container-wide"
+        },
+        {
+          "token": "--container-xwide"
+        },
+        {
+          "token": "--fnd-spacing-06"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/04-objects/_prose.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "field/field--body.html.twig"
+    ],
+    "docs": null
+  }
+}

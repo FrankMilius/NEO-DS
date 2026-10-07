@@ -1,0 +1,208 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "container-intent",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "layout",
+      "objects",
+      "container"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/04-objects/_container-intent.scss; Specimens aus dem Section-Layout der Website (neo-section-default.html.twig).",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "object",
+    "pipeline": {
+      "scss": [
+        "scss/scss/04-objects/_container-intent.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "layouts/neo-section-default.html.twig",
+        "navigation/neo-nav.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".container"
+    },
+    "slots": [],
+    "convenience": [],
+    "domNotes": [
+      "Intent-Container: Breiten nach Inhaltsabsicht (prose 72ch, narrow 768, content 1090, wide 1290, xwide 1536, full 100 %) aus den Foundation-Tokens --fnd-layout-container-*; :root stellt sie als --container-* bereit.",
+      "Bewusst getrennt von .nc-container (Site-Shell); die --nc-container-max-width*-Tokens zeigen an der Quelle auf diese Skala. Die numerischen Modifier .nc-container--sm|md|lg|xl|xxl sind abgekuendigt.",
+      "Website: das Section-Layout rendert <section class=\"nc-section\"><div class=\"container container--{{ width }}\"> (Vorgabe content); die Kopfzeile nutzt .container ohne Breite.",
+      "Innenabstand fluid ueber --container-padding-inline (Override --mod-container-padding-inline)."
+    ]
+  },
+  "axes": {
+    "width": {
+      "label": "Breite",
+      "description": "Inhaltsabsicht",
+      "values": {
+        "prose": {
+          "modifier": "container--prose",
+          "tokenGroups": [],
+          "description": "Lesebreite 72ch"
+        },
+        "narrow": {
+          "modifier": "container--narrow",
+          "tokenGroups": [],
+          "description": "schmal 768 px"
+        },
+        "content": {
+          "modifier": "container--content",
+          "tokenGroups": [],
+          "description": "Inhalt 1090 px (Vorgabe der Website)"
+        },
+        "wide": {
+          "modifier": "container--wide",
+          "tokenGroups": [],
+          "description": "weit 1290 px"
+        },
+        "xwide": {
+          "modifier": "container--xwide",
+          "tokenGroups": [],
+          "description": "sehr weit 1536 px"
+        },
+        "full": {
+          "modifier": "container--full",
+          "tokenGroups": [],
+          "description": "volle Breite"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Rein layoutgebend, keine Semantik."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "container"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "description": "Foundation-Tokens, die das SCSS nutzt — das Bauteil hat keine eigenen Komponenten-Tokens.",
+        "tokens": [
+          "container-content",
+          "container-full",
+          "container-narrow",
+          "container-padding-inline",
+          "container-prose",
+          "container-wide",
+          "container-xwide",
+          "fnd-layout-container-content",
+          "fnd-layout-container-full",
+          "fnd-layout-container-narrow",
+          "fnd-layout-container-prose",
+          "fnd-layout-container-wide",
+          "fnd-layout-container-xwide",
+          "fnd-spacing-06"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.width.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "breiten",
+      "label": "Breiten",
+      "description": "Alle sechs Breiten auf einer Desktop-Seite (1600 px, Massstab 1:2,7).",
+      "matrix": {
+        "axes": {
+          "width": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {}
+    },
+    {
+      "id": "website",
+      "label": "Wie auf der Website",
+      "description": "Section-Layout der Website: .nc-section > .container.container--content (Vorgabe) und --wide.",
+      "matrix": {
+        "axes": {
+          "width": [
+            "content",
+            "wide"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "website": true
+      },
+      "composes": [
+        "section"
+      ]
+    }
+  ]
+}

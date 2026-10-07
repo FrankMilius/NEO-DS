@@ -1,0 +1,193 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "prose",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "layout",
+      "objects",
+      "lesen",
+      "editorial"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/04-objects/_prose.scss; Specimens aus field--body.html.twig der Website (Body-Feld mit Breakout).",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "object",
+    "pipeline": {
+      "scss": [
+        "scss/scss/04-objects/_prose.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "field/field--body.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-prose"
+    },
+    "slots": [
+      {
+        "name": "bleed-content",
+        "element": ".nc-bleed-content",
+        "optional": true,
+        "description": "Kind bricht bis zur Content-Breite aus (oder data-bleed=\"content\")."
+      },
+      {
+        "name": "bleed-wide",
+        "element": ".nc-bleed-wide",
+        "optional": true,
+        "description": "Kind bricht bis zur Wide-Breite aus (oder data-bleed=\"wide\")."
+      },
+      {
+        "name": "bleed-full",
+        "element": ".nc-bleed-full",
+        "optional": true,
+        "description": "Kind laeuft ueber die volle Breite (gekappt auf xwide; oder data-bleed=\"full\")."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Ein CSS-Grid mit benannten Linien full | wide | content | prose: jedes direkte Kind steht in der Prosa-Spalte (--prose-measure = --container-prose).",
+      "Breakout per Klasse (.nc-bleed-*) oder Attribut data-bleed=\"content|wide|full\"; die Website nutzt das Attribut (gefilterte Body-HTML).",
+      "Website: field--body.html.twig legt das Body-Feld in .nc-prose, mit reading_left zusaetzlich .nc-prose--left.",
+      "Overrides: --mod-prose-measure, --mod-prose-gutter, --mod-prose-max."
+    ]
+  },
+  "axes": {
+    "alignment": {
+      "label": "Ausrichtung",
+      "description": "Lage der Lesespalte",
+      "values": {
+        "center": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Zentriert (Magazin-Stil); Breakouts wachsen nach beiden Seiten"
+        },
+        "left": {
+          "modifier": "nc-prose--left",
+          "tokenGroups": [],
+          "description": "Linksbuendig (Doku-/Blog-Stil); Breakouts wachsen nach rechts"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Zeilenlaenge um 72 Zeichen (WCAG 1.4.8 empfiehlt hoechstens 80)."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-prose"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "description": "Foundation-Tokens, die das SCSS nutzt — das Bauteil hat keine eigenen Komponenten-Tokens.",
+        "tokens": [
+          "container-content",
+          "container-padding-inline",
+          "container-prose",
+          "container-wide",
+          "container-xwide",
+          "fnd-spacing-06"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.alignment.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "breakout",
+      "label": "Breakout-Stufen",
+      "description": "Absatz in Lesebreite, Figuren mit data-bleed content, wide und full.",
+      "matrix": {
+        "axes": {
+          "alignment": [
+            "center"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {}
+    },
+    {
+      "id": "ausrichtung",
+      "label": "Ausrichtung",
+      "description": "Zentriert und linksbuendig (.nc-prose--left) mit denselben Stufen.",
+      "matrix": {
+        "axes": {
+          "alignment": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {}
+    }
+  ]
+}

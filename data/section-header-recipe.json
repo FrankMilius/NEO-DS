@@ -1,0 +1,329 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "section-header",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "content",
+      "molecules",
+      "block-kopf"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/06-molecules/_section-header.scss; Specimens aus neo_fe:block-header und dem Markup von feature-list, text-media und form-block (data/markup).",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_section-header.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "components/block-header/block-header.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-section-header"
+    },
+    "slots": [
+      {
+        "name": "badges",
+        "element": ".nc-section-header__badges",
+        "optional": true,
+        "description": "Badge-Zeile (.nc-badge-row mit .nc-label) ueber dem Kicker."
+      },
+      {
+        "name": "label",
+        "element": ".nc-section-header__label",
+        "optional": true,
+        "description": "Kicker (Dachzeile, Monospace in Versalien)."
+      },
+      {
+        "name": "title",
+        "element": ".nc-section-header__title",
+        "optional": false,
+        "description": "Ueberschrift (h2, per heading_level auch h1/h3)."
+      },
+      {
+        "name": "subtitle",
+        "element": ".nc-section-header__subtitle",
+        "optional": true,
+        "description": "Lead."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Der geteilte Kopf der Website-Bloecke: neo_fe:block-header rendert Badges -> Kicker -> Headline -> Lead; rund 20 Bloecke binden ihn ein.",
+      "Die Badge-Zeile ist .nc-badge-row (05-atoms/_badge-row.scss, Hilfsklasse ohne eigenes Recipe) mit .nc-section-header__badges fuer den Abstand.",
+      "--flush nimmt den Abstand nach unten weg — fuer Flex-/Grid-Eltern mit eigenem gap (text-media, form-block, accordion-block, text-cta).",
+      "Hoechstbreite --fnd-prose-max-width (72ch); --center und --right richten auch die Badge-Zeile mit aus."
+    ]
+  },
+  "axes": {
+    "alignment": {
+      "label": "Ausrichtung",
+      "description": "Textausrichtung des Kopfs",
+      "values": {
+        "left": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Links (Standard)"
+        },
+        "center": {
+          "modifier": "nc-section-header--center",
+          "tokenGroups": [],
+          "description": "Zentriert (Galerien, Logo-Wall, Tabellen-Kopf)"
+        },
+        "right": {
+          "modifier": "nc-section-header--right",
+          "tokenGroups": [],
+          "description": "Rechtsbuendig"
+        }
+      }
+    },
+    "spacing": {
+      "label": "Abstand",
+      "description": "Abstand zum Folgeinhalt",
+      "values": {
+        "standard": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Mit Abstand nach unten (--nc-section-header-gap)"
+        },
+        "flush": {
+          "modifier": "nc-section-header--flush",
+          "tokenGroups": [],
+          "description": "Ohne Abstand — der Elternteil steuert ihn per gap"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Eine Ueberschrift je Block; der Kicker ist <span>, keine Ueberschrift."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-section-header"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "label",
+      "title",
+      "subtitle"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-section-header-gap",
+          "nc-section-header-badges-spacing"
+        ]
+      },
+      "label": {
+        "label": "Kicker",
+        "tokens": [
+          "nc-section-header-label-color",
+          "nc-section-header-label-font-size",
+          "nc-section-header-label-font-weight",
+          "nc-section-header-label-letter-spacing",
+          "nc-section-header-label-text-transform",
+          "nc-section-header-label-spacing"
+        ]
+      },
+      "title": {
+        "label": "Titel",
+        "tokens": [
+          "nc-section-header-title-color",
+          "nc-section-header-title-font-size",
+          "nc-section-header-title-font-weight",
+          "nc-section-header-title-line-height",
+          "nc-section-header-title-letter-spacing",
+          "nc-section-header-title-spacing"
+        ]
+      },
+      "subtitle": {
+        "label": "Lead",
+        "tokens": [
+          "nc-section-header-subtitle-color",
+          "nc-section-header-subtitle-font-size",
+          "nc-section-header-subtitle-line-height"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.alignment.values.*.modifier",
+        "axes.spacing.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "website",
+      "label": "Wie auf der Website",
+      "description": "Badges, Kicker, Titel und Lead (neo_fe:block-header; Texte aus feature-list).",
+      "matrix": {
+        "axes": {
+          "alignment": [
+            "left"
+          ],
+          "spacing": [
+            "standard"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "badges": true,
+          "label": true,
+          "subtitle": true
+        }
+      },
+      "composes": [
+        "label"
+      ]
+    },
+    {
+      "id": "ausrichtung",
+      "label": "Ausrichtung",
+      "description": "Links, zentriert und rechts — die Badge-Zeile laeuft mit.",
+      "matrix": {
+        "axes": {
+          "alignment": "*",
+          "spacing": [
+            "standard"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "slotConfig": {
+          "badges": true,
+          "label": true,
+          "subtitle": true
+        }
+      },
+      "composes": [
+        "label"
+      ]
+    },
+    {
+      "id": "abstand",
+      "label": "Abstand",
+      "description": "Mit Abstand und --flush, jeweils mit Folgeinhalt.",
+      "matrix": {
+        "axes": {
+          "alignment": [
+            "left"
+          ],
+          "spacing": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "slotConfig": {
+          "badges": false,
+          "label": true,
+          "subtitle": true
+        },
+        "folgeinhalt": true
+      },
+      "composes": [
+        "label"
+      ]
+    },
+    {
+      "id": "nur-titel",
+      "label": "Nur Titel",
+      "description": "Pflichtteil allein (alle optionalen Teile aus).",
+      "matrix": {
+        "axes": {
+          "alignment": [
+            "left"
+          ],
+          "spacing": [
+            "standard"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "badges": false,
+          "label": false,
+          "subtitle": false
+        }
+      },
+      "composes": [
+        "label"
+      ]
+    }
+  ]
+}

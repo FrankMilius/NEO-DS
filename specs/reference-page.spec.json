@@ -1,0 +1,206 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "reference-page",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "organism",
+  "tags": [
+    "content",
+    "organisms",
+    "navigation",
+    "website-block"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-refpage",
+    "slots": [
+      {
+        "name": "toc",
+        "selector": ".nc-refpage__toc",
+        "required": true,
+        "description": "Verzeichnis (<nav aria-label>), sticky; ab 1024 px rechte Spalte."
+      },
+      {
+        "name": "toc-disclosure",
+        "selector": ".nc-refpage__toc-disclosure",
+        "required": true,
+        "description": "<details> — unter 1024 px aufklappbare Liste, darueber ohne Rahmen."
+      },
+      {
+        "name": "toc-summary",
+        "selector": ".nc-refpage__toc-summary",
+        "required": true,
+        "description": "<summary> „Inhalt\" (nur unter 1024 px sichtbar)."
+      },
+      {
+        "name": "toc-chevron",
+        "selector": ".nc-refpage__toc-chevron",
+        "required": true,
+        "description": "Pfeil im summary, dreht beim Oeffnen."
+      },
+      {
+        "name": "toc-title",
+        "selector": ".nc-refpage__toc-title",
+        "required": true,
+        "description": "„Auf dieser Seite\"."
+      },
+      {
+        "name": "toc-list",
+        "selector": ".nc-refpage__toc-list",
+        "required": true,
+        "description": "Liste der Eintraege; --sub fuer Unterpunkte."
+      },
+      {
+        "name": "toc-link",
+        "selector": ".nc-refpage__toc-link",
+        "required": true,
+        "description": "Eintrag; aria-current=\"true\" markiert den aktuellen Abschnitt (Scroll-Spy in neo-theme.js)."
+      },
+      {
+        "name": "content",
+        "selector": ".nc-refpage__content",
+        "required": true,
+        "description": "Die Abschnitte (Layout-Builder-Sections); innere .nc-container verlieren Breite und Polster."
+      },
+      {
+        "name": "section",
+        "selector": ".nc-refpage__section",
+        "required": false,
+        "description": "Sprungziel mit scroll-margin-top gegen die Sticky-Navigation."
+      },
+      {
+        "name": "doc-section",
+        "selector": ".nc-doc-section",
+        "required": false,
+        "description": "Abschnitt einer Referenzseite (Block neo_doc_section): Kopf und Unterabschnitte."
+      },
+      {
+        "name": "doc-section-items",
+        "selector": ".nc-doc-section__items",
+        "required": false,
+        "description": "Unterabschnitte."
+      },
+      {
+        "name": "doc-section-item",
+        "selector": ".nc-doc-section__item",
+        "required": false,
+        "description": "Unterabschnitt (<section> mit id); Trennlinie zwischen zweien."
+      },
+      {
+        "name": "doc-section-title",
+        "selector": ".nc-doc-section__title",
+        "required": false,
+        "description": "h3 des Unterabschnitts."
+      },
+      {
+        "name": "doc-section-text",
+        "selector": ".nc-doc-section__text",
+        "required": false,
+        "description": "Text in Lesebreite."
+      },
+      {
+        "name": "doc-section-list",
+        "selector": ".nc-doc-section__list",
+        "required": false,
+        "description": "Aufzaehlung mit Akzent-Markern."
+      }
+    ],
+    "notes": [
+      "Inhaltstyp reference-page: <div class=\"nc-refpage nc-container\"> > nav.nc-refpage__toc + .nc-refpage__content. DOM-Reihenfolge Verzeichnis -> Inhalt (Sprungliste zuerst); ab 1024 px steht der Inhalt per grid-column links.",
+      "Das Verzeichnis kommt serverseitig aus den Sections (Anker-IDs im HTML); neo-theme.js setzt nur aria-current (Scroll-Spy).",
+      "data-text am Link baut einen unsichtbaren fetten Zwilling — der aktive Eintrag bricht nicht um.",
+      "Umbruch 1024 px als Media Query (Fensterbreite) — die Arena zeigt die Desktop-Lage.",
+      ".nc-doc-section (Block neo_doc_section) hat keine eigene Regel an der Wurzel; Unterabschnitte tragen zusaetzlich .nc-refpage__section."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-refpage"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--nc-refpage-gap"
+        },
+        {
+          "token": "--nc-refpage-column-gap"
+        },
+        {
+          "token": "--nc-refpage-toc-width"
+        }
+      ],
+      "Verzeichnis": [
+        {
+          "token": "--nc-refpage-toc-size"
+        },
+        {
+          "token": "--nc-refpage-toc-sub-size"
+        },
+        {
+          "token": "--nc-refpage-toc-title-size"
+        },
+        {
+          "token": "--nc-refpage-marker-width"
+        },
+        {
+          "token": "--nc-refpage-active-color"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-refpage-gap",
+      "--mod-refpage-column-gap",
+      "--mod-refpage-toc-width",
+      "--mod-refpage-toc-size",
+      "--mod-refpage-toc-sub-size",
+      "--mod-refpage-toc-title-size",
+      "--mod-refpage-marker-width",
+      "--mod-refpage-active-color"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_reference-page.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "content/node--reference-page.html.twig",
+      "block/block--block-content--neo-doc-section.html.twig"
+    ],
+    "docs": null
+  }
+}

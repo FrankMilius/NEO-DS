@@ -1,0 +1,109 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "block-bundle",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "organism",
+  "tags": [
+    "content",
+    "organisms",
+    "website-block"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-block-bundle",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".nc-block-bundle__header",
+        "required": false,
+        "description": "Kopf (traegt .nc-container): neo_fe:block-header --flush, optional Text."
+      },
+      {
+        "name": "text",
+        "selector": ".nc-block-bundle__text",
+        "required": false,
+        "description": "Fliesstext unter dem Kopf (mit .u-prose)."
+      },
+      {
+        "name": "items",
+        "selector": ".nc-block-bundle__items",
+        "required": true,
+        "description": "Die gebuendelten Bloecke, jeder mit seinem eigenen Template."
+      }
+    ],
+    "notes": [
+      "Website-Block neo_block_bundle: <section class=\"nc-section nc-block-bundle\"> mit optionalem Kopf und den vorgerenderten Kind-Bloecken (bb_blocks).",
+      "Die Wurzel .nc-block-bundle hat keine eigene Regel; gestaltet sind Kopf (Spalte mit gap, Abstand nach unten), Text (text-secondary) und der Abstand zwischen den Kind-Bloecken.",
+      "Farbkontext (field_surface) und Inhaltsbreite (field_content_width) setzt Drupal am Block-Wrapper.",
+      "Die Kind-Bloecke sind in der Arena Platzhalter — sie haben eigene Recipes."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-block-bundle"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--fnd-color-text-secondary"
+        },
+        {
+          "token": "--fnd-spacing-03"
+        },
+        {
+          "token": "--fnd-spacing-04"
+        },
+        {
+          "token": "--fnd-spacing-09"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_block-bundle.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "block/block--block-content--neo-block-bundle.html.twig",
+      "block/block--inline-block--neo-block-bundle.html.twig"
+    ],
+    "docs": null
+  }
+}

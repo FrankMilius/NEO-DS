@@ -1,0 +1,150 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "container-intent",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "object",
+  "tags": [
+    "layout",
+    "objects",
+    "container"
+  ],
+  "anatomy": {
+    "rootElement": ".container",
+    "slots": [],
+    "notes": [
+      "Intent-Container: Breiten nach Inhaltsabsicht (prose 72ch, narrow 768, content 1090, wide 1290, xwide 1536, full 100 %) aus den Foundation-Tokens --fnd-layout-container-*; :root stellt sie als --container-* bereit.",
+      "Bewusst getrennt von .nc-container (Site-Shell); die --nc-container-max-width*-Tokens zeigen an der Quelle auf diese Skala. Die numerischen Modifier .nc-container--sm|md|lg|xl|xxl sind abgekuendigt.",
+      "Website: das Section-Layout rendert <section class=\"nc-section\"><div class=\"container container--{{ width }}\"> (Vorgabe content); die Kopfzeile nutzt .container ohne Breite.",
+      "Innenabstand fluid ueber --container-padding-inline (Override --mod-container-padding-inline)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "width": {
+      "label": "Breite",
+      "description": "Inhaltsabsicht",
+      "values": [
+        {
+          "value": "prose",
+          "cssModifier": "container--prose",
+          "default": false,
+          "label": "prose"
+        },
+        {
+          "value": "narrow",
+          "cssModifier": "container--narrow",
+          "default": false,
+          "label": "narrow"
+        },
+        {
+          "value": "content",
+          "cssModifier": "container--content",
+          "default": false,
+          "label": "content"
+        },
+        {
+          "value": "wide",
+          "cssModifier": "container--wide",
+          "default": false,
+          "label": "wide"
+        },
+        {
+          "value": "xwide",
+          "cssModifier": "container--xwide",
+          "default": false,
+          "label": "xwide"
+        },
+        {
+          "value": "full",
+          "cssModifier": "container--full",
+          "default": false,
+          "label": "full"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "container"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--container-content"
+        },
+        {
+          "token": "--container-full"
+        },
+        {
+          "token": "--container-narrow"
+        },
+        {
+          "token": "--container-padding-inline"
+        },
+        {
+          "token": "--container-prose"
+        },
+        {
+          "token": "--container-wide"
+        },
+        {
+          "token": "--container-xwide"
+        },
+        {
+          "token": "--fnd-layout-container-content"
+        },
+        {
+          "token": "--fnd-layout-container-full"
+        },
+        {
+          "token": "--fnd-layout-container-narrow"
+        },
+        {
+          "token": "--fnd-layout-container-prose"
+        },
+        {
+          "token": "--fnd-layout-container-wide"
+        },
+        {
+          "token": "--fnd-layout-container-xwide"
+        },
+        {
+          "token": "--fnd-spacing-06"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/04-objects/_container-intent.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "layouts/neo-section-default.html.twig",
+      "navigation/neo-nav.html.twig"
+    ],
+    "docs": null
+  }
+}

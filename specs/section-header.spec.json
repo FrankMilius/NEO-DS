@@ -1,0 +1,207 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "section-header",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "molecule",
+  "tags": [
+    "content",
+    "molecules",
+    "block-kopf"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-section-header",
+    "slots": [
+      {
+        "name": "badges",
+        "selector": ".nc-section-header__badges",
+        "required": false,
+        "description": "Badge-Zeile (.nc-badge-row mit .nc-label) ueber dem Kicker."
+      },
+      {
+        "name": "label",
+        "selector": ".nc-section-header__label",
+        "required": false,
+        "description": "Kicker (Dachzeile, Monospace in Versalien)."
+      },
+      {
+        "name": "title",
+        "selector": ".nc-section-header__title",
+        "required": true,
+        "description": "Ueberschrift (h2, per heading_level auch h1/h3)."
+      },
+      {
+        "name": "subtitle",
+        "selector": ".nc-section-header__subtitle",
+        "required": false,
+        "description": "Lead."
+      }
+    ],
+    "notes": [
+      "Der geteilte Kopf der Website-Bloecke: neo_fe:block-header rendert Badges -> Kicker -> Headline -> Lead; rund 20 Bloecke binden ihn ein.",
+      "Die Badge-Zeile ist .nc-badge-row (05-atoms/_badge-row.scss, Hilfsklasse ohne eigenes Recipe) mit .nc-section-header__badges fuer den Abstand.",
+      "--flush nimmt den Abstand nach unten weg — fuer Flex-/Grid-Eltern mit eigenem gap (text-media, form-block, accordion-block, text-cta).",
+      "Hoechstbreite --fnd-prose-max-width (72ch); --center und --right richten auch die Badge-Zeile mit aus."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "alignment": {
+      "label": "Ausrichtung",
+      "description": "Textausrichtung des Kopfs",
+      "values": [
+        {
+          "value": "left",
+          "cssModifier": null,
+          "default": false,
+          "label": "left"
+        },
+        {
+          "value": "center",
+          "cssModifier": "nc-section-header--center",
+          "default": false,
+          "label": "center"
+        },
+        {
+          "value": "right",
+          "cssModifier": "nc-section-header--right",
+          "default": false,
+          "label": "right"
+        }
+      ]
+    },
+    "spacing": {
+      "label": "Abstand",
+      "description": "Abstand zum Folgeinhalt",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "flush",
+          "cssModifier": "nc-section-header--flush",
+          "default": false,
+          "label": "flush"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-section-header"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--nc-section-header-gap"
+        },
+        {
+          "token": "--nc-section-header-badges-spacing"
+        }
+      ],
+      "Kicker": [
+        {
+          "token": "--nc-section-header-label-color"
+        },
+        {
+          "token": "--nc-section-header-label-font-size"
+        },
+        {
+          "token": "--nc-section-header-label-font-weight"
+        },
+        {
+          "token": "--nc-section-header-label-letter-spacing"
+        },
+        {
+          "token": "--nc-section-header-label-text-transform"
+        },
+        {
+          "token": "--nc-section-header-label-spacing"
+        }
+      ],
+      "Titel": [
+        {
+          "token": "--nc-section-header-title-color"
+        },
+        {
+          "token": "--nc-section-header-title-font-size"
+        },
+        {
+          "token": "--nc-section-header-title-font-weight"
+        },
+        {
+          "token": "--nc-section-header-title-line-height"
+        },
+        {
+          "token": "--nc-section-header-title-letter-spacing"
+        },
+        {
+          "token": "--nc-section-header-title-spacing"
+        }
+      ],
+      "Lead": [
+        {
+          "token": "--nc-section-header-subtitle-color"
+        },
+        {
+          "token": "--nc-section-header-subtitle-font-size"
+        },
+        {
+          "token": "--nc-section-header-subtitle-line-height"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-section-header-gap",
+      "--mod-section-header-badges-spacing",
+      "--mod-section-header-label-color",
+      "--mod-section-header-label-font-size",
+      "--mod-section-header-label-font-weight",
+      "--mod-section-header-label-letter-spacing",
+      "--mod-section-header-label-text-transform",
+      "--mod-section-header-label-spacing",
+      "--mod-section-header-title-color",
+      "--mod-section-header-title-font-size",
+      "--mod-section-header-title-font-weight",
+      "--mod-section-header-title-line-height",
+      "--mod-section-header-title-letter-spacing",
+      "--mod-section-header-title-spacing",
+      "--mod-section-header-subtitle-color",
+      "--mod-section-header-subtitle-font-size",
+      "--mod-section-header-subtitle-line-height"
+    ]
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_section-header.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "components/block-header/block-header.twig"
+    ],
+    "docs": null
+  }
+}

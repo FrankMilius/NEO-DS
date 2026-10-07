@@ -1,0 +1,105 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "content",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "object",
+  "tags": [
+    "layout",
+    "objects",
+    "lesen"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-content",
+    "slots": [
+      {
+        "name": "title",
+        "selector": ".nc-content__title",
+        "required": false,
+        "description": "Titel — nur, wenn der Knoten nicht selbst die Seite ist (label and not page)."
+      },
+      {
+        "name": "meta",
+        "selector": ".nc-content__meta",
+        "required": false,
+        "description": "Autor und Datum (display_submitted)."
+      },
+      {
+        "name": "body",
+        "selector": ".nc-content__body",
+        "required": true,
+        "description": "Inhalt des Knotens; ohne eigene Regel, das Body-Feld bringt .nc-prose mit."
+      }
+    ],
+    "notes": [
+      "Lesespalte einer Inhaltsseite: der Rahmen darf weit sein (xwide 1536), Titel und Angaben stehen in Lesebreite (--container-prose).",
+      "Drupal setzt .nc-content am <article> der Vollansicht (view_mode full); der Teaser ist .nc-card.",
+      "body.is-reading-left setzt Titel und Angaben an die Spaltenkante (Selektor am <body>, in der Arena nicht darstellbar); das Body-Feld nutzt dann .nc-prose--left.",
+      "Die --nc-content-*-Tokens in _section.scss meinen das Spaltenverhaeltnis eines Abschnitts, nicht dieses Object."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-content"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--container-padding-inline"
+        },
+        {
+          "token": "--container-prose"
+        },
+        {
+          "token": "--container-xwide"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/04-objects/_content.scss"
+    ],
+    "story": null,
+    "arena": null,
+    "drupal": [
+      "content/node.html.twig"
+    ],
+    "docs": null
+  }
+}

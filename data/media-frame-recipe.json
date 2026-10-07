@@ -1,0 +1,216 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "media-frame",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "layout",
+      "objects",
+      "media"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/04-objects/_media-frame.scss; Specimens aus dem Markup von text-media und feature-list (data/markup).",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "object",
+    "pipeline": {
+      "scss": [
+        "scss/scss/04-objects/_media-frame.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "block/block--block-content--neo-text-media.html.twig",
+        "block/block--block-content--neo-feature-list.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-media-frame"
+    },
+    "slots": [
+      {
+        "name": "surface",
+        "element": ".nc-surface-muted",
+        "optional": true,
+        "description": "Abgesetzte Flaeche (Layer 2) um den ganzen Block — kombinierbar, steht AUSSEN."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Bildrahmen fuer Produkt-Screenshots mit hohem Weissanteil: Hairline (--nc-media-frame-border-*) plus Elevation (--nc-media-frame-shadow); die Hairline ist nicht optional (WCAG 1.4.11).",
+      "Website: die Klasse sitzt direkt am <img> (text-media: img.nc-text-media__image.nc-media-frame); als Rahmen um <img>, <picture> oder <video> fuellt das Kind ihn ohne Luecke.",
+      "forced-colors: Kante CanvasText, kein Schatten; prefers-contrast: more: Kante border-strong, kein Schatten; Druck: kein Schatten (in der Arena nicht darstellbar).",
+      ".nc-surface-muted ist die zweite Ebene derselben Datei; derzeit ohne Verwender auf der Website."
+    ]
+  },
+  "axes": {
+    "edge": {
+      "label": "Kante",
+      "description": "Radius des Rahmens",
+      "values": {
+        "rund": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Mit Radius (--nc-media-frame-radius)"
+        },
+        "flush": {
+          "modifier": "nc-media-frame--flush",
+          "tokenGroups": [],
+          "description": "Ohne Radius — randlos anschliessende Medien"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Rahmen ist Dekoration; das Bild braucht seinen alt-Text."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-media-frame"
+    ],
+    "baseTokenGroups": [
+      "frame"
+    ],
+    "tokenGroups": {
+      "frame": {
+        "label": "Rahmen",
+        "tokens": [
+          "nc-media-frame-border-width",
+          "nc-media-frame-border-color",
+          "nc-media-frame-radius",
+          "nc-media-frame-shadow"
+        ]
+      },
+      "surface": {
+        "label": "Abgesetzte Flaeche",
+        "tokens": [
+          "nc-surface-muted-bg",
+          "nc-surface-muted-radius",
+          "nc-surface-muted-padding"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.edge.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "kanten",
+      "label": "Kanten",
+      "description": "Rahmen um ein Bild, mit und ohne Radius.",
+      "matrix": {
+        "axes": {
+          "edge": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "grid",
+      "render": {
+        "slotConfig": {
+          "surface": false
+        }
+      }
+    },
+    {
+      "id": "am-bild",
+      "label": "Am Bild (Website)",
+      "description": "Wie in text-media und feature-list: die Klasse direkt am <img>.",
+      "matrix": {
+        "axes": {
+          "edge": [
+            "rund"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "amBild": true,
+        "slotConfig": {
+          "surface": false
+        }
+      }
+    },
+    {
+      "id": "auf-flaeche",
+      "label": "Auf abgesetzter Flaeche",
+      "description": "Beide Ebenen kombiniert: .nc-surface-muted um den Block, Rahmen am Bild.",
+      "matrix": {
+        "axes": {
+          "edge": [
+            "rund"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "surface": true
+        }
+      }
+    }
+  ]
+}

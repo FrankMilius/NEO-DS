@@ -1,0 +1,285 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "reference-page",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "content",
+      "organisms",
+      "navigation",
+      "website-block"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/07-organisms/_reference-page.scss; Specimens aus node--reference-page.html.twig und block--block-content--neo-doc-section.html.twig der Website.",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_reference-page.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "content/node--reference-page.html.twig",
+        "block/block--block-content--neo-doc-section.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-refpage"
+    },
+    "slots": [
+      {
+        "name": "toc",
+        "element": ".nc-refpage__toc",
+        "optional": false,
+        "description": "Verzeichnis (<nav aria-label>), sticky; ab 1024 px rechte Spalte."
+      },
+      {
+        "name": "toc-disclosure",
+        "element": ".nc-refpage__toc-disclosure",
+        "optional": false,
+        "description": "<details> — unter 1024 px aufklappbare Liste, darueber ohne Rahmen."
+      },
+      {
+        "name": "toc-summary",
+        "element": ".nc-refpage__toc-summary",
+        "optional": false,
+        "description": "<summary> „Inhalt\" (nur unter 1024 px sichtbar)."
+      },
+      {
+        "name": "toc-chevron",
+        "element": ".nc-refpage__toc-chevron",
+        "optional": false,
+        "description": "Pfeil im summary, dreht beim Oeffnen."
+      },
+      {
+        "name": "toc-title",
+        "element": ".nc-refpage__toc-title",
+        "optional": false,
+        "description": "„Auf dieser Seite\"."
+      },
+      {
+        "name": "toc-list",
+        "element": ".nc-refpage__toc-list",
+        "optional": false,
+        "description": "Liste der Eintraege; --sub fuer Unterpunkte."
+      },
+      {
+        "name": "toc-link",
+        "element": ".nc-refpage__toc-link",
+        "optional": false,
+        "description": "Eintrag; aria-current=\"true\" markiert den aktuellen Abschnitt (Scroll-Spy in neo-theme.js)."
+      },
+      {
+        "name": "content",
+        "element": ".nc-refpage__content",
+        "optional": false,
+        "description": "Die Abschnitte (Layout-Builder-Sections); innere .nc-container verlieren Breite und Polster."
+      },
+      {
+        "name": "section",
+        "element": ".nc-refpage__section",
+        "optional": true,
+        "description": "Sprungziel mit scroll-margin-top gegen die Sticky-Navigation."
+      },
+      {
+        "name": "doc-section",
+        "element": ".nc-doc-section",
+        "optional": true,
+        "description": "Abschnitt einer Referenzseite (Block neo_doc_section): Kopf und Unterabschnitte."
+      },
+      {
+        "name": "doc-section-items",
+        "element": ".nc-doc-section__items",
+        "optional": true,
+        "description": "Unterabschnitte."
+      },
+      {
+        "name": "doc-section-item",
+        "element": ".nc-doc-section__item",
+        "optional": true,
+        "description": "Unterabschnitt (<section> mit id); Trennlinie zwischen zweien."
+      },
+      {
+        "name": "doc-section-title",
+        "element": ".nc-doc-section__title",
+        "optional": true,
+        "description": "h3 des Unterabschnitts."
+      },
+      {
+        "name": "doc-section-text",
+        "element": ".nc-doc-section__text",
+        "optional": true,
+        "description": "Text in Lesebreite."
+      },
+      {
+        "name": "doc-section-list",
+        "element": ".nc-doc-section__list",
+        "optional": true,
+        "description": "Aufzaehlung mit Akzent-Markern."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Inhaltstyp reference-page: <div class=\"nc-refpage nc-container\"> > nav.nc-refpage__toc + .nc-refpage__content. DOM-Reihenfolge Verzeichnis -> Inhalt (Sprungliste zuerst); ab 1024 px steht der Inhalt per grid-column links.",
+      "Das Verzeichnis kommt serverseitig aus den Sections (Anker-IDs im HTML); neo-theme.js setzt nur aria-current (Scroll-Spy).",
+      "data-text am Link baut einen unsichtbaren fetten Zwilling — der aktive Eintrag bricht nicht um.",
+      "Umbruch 1024 px als Media Query (Fensterbreite) — die Arena zeigt die Desktop-Lage.",
+      ".nc-doc-section (Block neo_doc_section) hat keine eigene Regel an der Wurzel; Unterabschnitte tragen zusaetzlich .nc-refpage__section."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Standard"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Verzeichnis als <nav aria-label> (2.4.1), aktiver Eintrag mit aria-current plus Leiste und Schriftschnitt (1.4.1), scroll-margin-top an den Sprungzielen (2.4.7)."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-refpage"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "toc"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-refpage-gap",
+          "nc-refpage-column-gap",
+          "nc-refpage-toc-width"
+        ]
+      },
+      "toc": {
+        "label": "Verzeichnis",
+        "tokens": [
+          "nc-refpage-toc-size",
+          "nc-refpage-toc-sub-size",
+          "nc-refpage-toc-title-size",
+          "nc-refpage-marker-width",
+          "nc-refpage-active-color"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "website",
+      "label": "Referenzseite",
+      "description": "Verzeichnis mit Unterpunkten (erster Eintrag aktuell) neben zwei Dokumentations-Abschnitten.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "unterpunkte": true
+      },
+      "composes": [
+        "container",
+        "section",
+        "section-header"
+      ]
+    },
+    {
+      "id": "flach",
+      "label": "Ohne Unterpunkte",
+      "description": "Flaches Verzeichnis (nur die Kapitel), dieselben Abschnitte.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "unterpunkte": false
+      },
+      "composes": [
+        "container",
+        "section",
+        "section-header"
+      ]
+    }
+  ]
+}

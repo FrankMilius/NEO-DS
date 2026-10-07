@@ -1,0 +1,310 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "text-cta",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "content",
+      "organisms",
+      "website-block",
+      "split-layout"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": ""
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/07-organisms/_text-cta.scss; Specimens aus block--block-content--neo-text-cta.html.twig der Website.",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_text-cta.scss"
+      ],
+      "story": null,
+      "arena": null,
+      "drupal": [
+        "block/block--block-content--neo-text-cta.html.twig"
+      ],
+      "docs": null
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-text-cta"
+    },
+    "slots": [
+      {
+        "name": "grid",
+        "element": ".nc-text-cta__grid",
+        "optional": false,
+        "description": "Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig."
+      },
+      {
+        "name": "content",
+        "element": ".nc-text-cta__content",
+        "optional": false,
+        "description": "Textspalte: neo_fe:block-header --flush und Punkteliste."
+      },
+      {
+        "name": "list",
+        "element": ".nc-text-cta__list",
+        "optional": true,
+        "description": "Punkteliste (field_tc_features, eine Zeile je Punkt)."
+      },
+      {
+        "name": "list-item",
+        "element": ".nc-text-cta__list-item",
+        "optional": true,
+        "description": "Punkt mit Haken (::before)."
+      },
+      {
+        "name": "aside",
+        "element": ".nc-text-cta__aside",
+        "optional": true,
+        "description": "Spalte der Karte — entfaellt ohne Karteninhalt."
+      },
+      {
+        "name": "card",
+        "element": ".nc-text-cta__card",
+        "optional": true,
+        "description": "CTA-Karte auf .nc-card (Flaeche, Rahmen, Radius ueber --mod-card-*)."
+      },
+      {
+        "name": "card-icon",
+        "element": ".nc-text-cta__card-icon",
+        "optional": true,
+        "description": "Icon oben in der Karte (dekorativ)."
+      },
+      {
+        "name": "card-action",
+        "element": ".nc-text-cta__card-action",
+        "optional": true,
+        "description": "Button der Karte, volle Breite."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Website-Block neo_text_cta: <section class=\"nc-section\"><div class=\"nc-container\"><div class=\"nc-text-cta [--card-left] [--no-card]\"><div class=\"nc-text-cta__grid\"> …",
+      "Die Karte steht im DOM immer hinter dem Text; --card-left tauscht nur die Anzeige (order) und dreht die Spuren mit (--nc-text-cta-columns-reverse).",
+      "Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card — dafuer gibt es keine Regel: das Raster bleibt zweispaltig, der Text steht in der linken Spur (Entscheidungsfall Phase 5).",
+      "Kartenflaeche per field_tc_card_bg als Instanzwert --mod-card-bg am .nc-card (wie in Drupal); Sektionsflaeche aus field_surface am Block-Wrapper."
+    ]
+  },
+  "axes": {
+    "cardPosition": {
+      "label": "Lage der Karte",
+      "description": "field_tc_card_position",
+      "values": {
+        "right": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Karte rechts (Standard)"
+        },
+        "left": {
+          "modifier": "nc-text-cta--card-left",
+          "tokenGroups": [],
+          "description": "Karte links — nur die Anzeige, nicht die DOM-Reihenfolge"
+        }
+      }
+    },
+    "card": {
+      "label": "Karte",
+      "description": "Mit oder ohne Karteninhalt",
+      "values": {
+        "mit": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Mit Karte"
+        },
+        "ohne": {
+          "modifier": "nc-text-cta--no-card",
+          "tokenGroups": [],
+          "description": "Ohne Karte — Drupal setzt den Modifier, das DS kennt ihn nicht"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Erst Erklaerung, dann Handlungsaufruf (DOM-Reihenfolge); Haken und Icon sind dekorativ."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-text-cta"
+    ],
+    "baseTokenGroups": [
+      "layout",
+      "list",
+      "card"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "tokens": [
+          "nc-text-cta-gap",
+          "nc-text-cta-columns",
+          "nc-text-cta-columns-reverse",
+          "nc-text-cta-content-gap"
+        ]
+      },
+      "list": {
+        "label": "Punkteliste",
+        "tokens": [
+          "nc-text-cta-list-gap",
+          "nc-text-cta-list-marker-color"
+        ]
+      },
+      "card": {
+        "label": "Karte",
+        "tokens": [
+          "nc-text-cta-card-bg",
+          "nc-text-cta-card-border",
+          "nc-text-cta-card-radius",
+          "nc-text-cta-card-padding",
+          "nc-text-cta-card-icon-size",
+          "nc-text-cta-card-icon-color",
+          "nc-text-cta-card-icon-gap"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.cardPosition.values.*.modifier",
+        "axes.card.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "kartenlage",
+      "label": "Lage der Karte",
+      "description": "Karte rechts (Standard) und links.",
+      "matrix": {
+        "axes": {
+          "cardPosition": "*",
+          "card": [
+            "mit"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {},
+      "composes": [
+        "section",
+        "container",
+        "section-header",
+        "card",
+        "button"
+      ]
+    },
+    {
+      "id": "ohne-karte",
+      "label": "Ohne Karte",
+      "description": "Nur Text — Drupal setzt nc-text-cta--no-card, das im DS nicht gebaut ist.",
+      "matrix": {
+        "axes": {
+          "cardPosition": [
+            "right"
+          ],
+          "card": [
+            "ohne"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {},
+      "composes": [
+        "section",
+        "container",
+        "section-header",
+        "card",
+        "button"
+      ]
+    },
+    {
+      "id": "eigene-flaeche",
+      "label": "Karte mit eigener Flaeche",
+      "description": "Kartenflaeche als Instanzwert (field_tc_card_bg -> --mod-card-bg), ohne Punkteliste.",
+      "matrix": {
+        "axes": {
+          "cardPosition": [
+            "right"
+          ],
+          "card": [
+            "mit"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "kartenFlaeche": true,
+        "slotConfig": {
+          "list": false
+        }
+      },
+      "composes": [
+        "section",
+        "container",
+        "section-header",
+        "card",
+        "button"
+      ]
+    }
+  ]
+}
