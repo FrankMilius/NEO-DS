@@ -1,0 +1,198 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "settings-page",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "template",
+  "tags": [
+    "templates",
+    "layout",
+    "app",
+    "einstellungen"
+  ],
+  "anatomy": {
+    "rootElement": ".t-settings",
+    "slots": [
+      {
+        "name": "nav",
+        "selector": ".t-settings__nav",
+        "required": true,
+        "description": "Seitliche Navigation (<nav>)."
+      },
+      {
+        "name": "nav-list",
+        "selector": ".t-settings__nav-list",
+        "required": true,
+        "description": "Liste."
+      },
+      {
+        "name": "nav-link",
+        "selector": ".t-settings__nav-link",
+        "required": true,
+        "description": "Link; aria-current=\"page\" fuer den aktiven Bereich."
+      },
+      {
+        "name": "content",
+        "selector": ".t-settings__content",
+        "required": true,
+        "description": "Abschnitte."
+      },
+      {
+        "name": "section",
+        "selector": ".t-settings__section",
+        "required": true,
+        "description": "<section> mit id."
+      },
+      {
+        "name": "section-header",
+        "selector": ".t-settings__section-header",
+        "required": true,
+        "description": "Kopf des Abschnitts."
+      },
+      {
+        "name": "section-title",
+        "selector": ".t-settings__section-title",
+        "required": true,
+        "description": "h2."
+      },
+      {
+        "name": "section-description",
+        "selector": ".t-settings__section-description",
+        "required": false,
+        "description": "Beschreibung."
+      },
+      {
+        "name": "row",
+        "selector": ".t-settings__row",
+        "required": true,
+        "description": "Zeile: Bezeichnung links, Aktion rechts."
+      },
+      {
+        "name": "row-label",
+        "selector": ".t-settings__row-label",
+        "required": true,
+        "description": "Bezeichnung."
+      },
+      {
+        "name": "row-title",
+        "selector": ".t-settings__row-title",
+        "required": true,
+        "description": "Titel der Zeile (<p>, keine Ueberschrift)."
+      },
+      {
+        "name": "row-description",
+        "selector": ".t-settings__row-description",
+        "required": false,
+        "description": "Erklaerung."
+      },
+      {
+        "name": "row-action",
+        "selector": ".t-settings__row-action",
+        "required": true,
+        "description": "Aktion (Button, Schalter)."
+      }
+    ],
+    "notes": [
+      "Im SCSS als DEPRECATED markiert: die Layout-Struktur uebernimmt das Shell-Preset <body data-layout=\"settings\"> mit .nc-shell; die Bauteil-Stile bleiben. Kein Verwender auf der Website.",
+      "Navigation links, Abschnitte rechts; unter md gestapelt."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "t-settings"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--fnd-color-border-secondary"
+        },
+        {
+          "token": "--fnd-color-interactive-default"
+        },
+        {
+          "token": "--fnd-color-layer-01"
+        },
+        {
+          "token": "--fnd-color-on-layer-01"
+        },
+        {
+          "token": "--fnd-color-text-primary"
+        },
+        {
+          "token": "--fnd-color-text-secondary"
+        },
+        {
+          "token": "--fnd-content-max-width"
+        },
+        {
+          "token": "--fnd-elevation-base"
+        },
+        {
+          "token": "--fnd-font-weight-medium"
+        },
+        {
+          "token": "--fnd-radius-sm"
+        },
+        {
+          "token": "--fnd-spacing-01"
+        },
+        {
+          "token": "--fnd-spacing-02"
+        },
+        {
+          "token": "--fnd-spacing-03"
+        },
+        {
+          "token": "--fnd-spacing-04"
+        },
+        {
+          "token": "--fnd-spacing-06"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/08-templates/_settings-page.scss"
+    ],
+    "story": "stories/templates/templates.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "/docs/template-settings-page-docs"
+  }
+}

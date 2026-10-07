@@ -14,21 +14,35 @@
 // ==========================================================================
 
 export const ENTWUERFE = Object.freeze([
+  'accordion-block',
+  'block-bundle',
   'card-cta',
+  'container-intent',
+  'content',
+  'dashboard',
+  'error-page',
   'event',
   'events',
   'feature-list',
+  'home-basic',
+  'home-hero',
+  'media-frame',
   'mobile-drawer',
   'multiselect',
   'news',
+  'prose',
+  'reference-page',
   'scroll-expand',
   'scroll-reveal',
   'searchbar',
+  'section-header',
+  'settings-page',
   'tab-nav',
   'table-block',
   'table-info-modal',
   'tbl-cell',
-  'testimonial-grid'
+  'testimonial-grid',
+  'text-cta'
 ])
 
 const MENGE = new Set(ENTWUERFE)

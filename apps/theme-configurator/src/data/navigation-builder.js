@@ -233,25 +233,35 @@ function buildNavigationTree () {
       groups.set('objects', { ...LAYER_CONFIG.object, children: [] })
     }
     const hasTokens = !!(componentTokenGroups && componentTokenGroups[name])
-    groups.get('objects').children.push({
+    const objektItem = {
       id: name,
       label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
       icon: COMPONENT_ICONS[name] || 'box',
       section: `component-${name}`,
       _hasTokens: hasTokens,
-    })
+    }
+    // Recipe-Status draft (Plan v3, Phase 5: Objects mit neuem Recipe)
+    if (istEntwurf(name)) objektItem.entwurf = true
+    groups.get('objects').children.push(objektItem)
   }
 
   // 4. Templates aus Registry (Layer 08)
   if (Object.keys(registry.templates || {}).length > 0) {
     const templateGroup = { ...LAYER_CONFIG.template, children: [] }
-    for (const [name] of Object.entries(registry.templates)) {
-      templateGroup.children.push({
+    for (const [name, entry] of Object.entries(registry.templates)) {
+      // Templates mit Recipe (Plan v3, Phase 5) bekommen die Sektion einer
+      // Komponente: RecipeArena aus dem Recipe, ComponentEditor, Kennzeichen
+      // „Entwurf" — alles, was an `component-` haengt (Arena-Resolver,
+      // Inspector, SidebarNav). Ohne Recipe bleibt der Wireframe-Platzhalter.
+      const mitRecipe = !!entry?.paths?.recipe
+      const templateItem = {
         id: name,
         label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
         icon: COMPONENT_ICONS[name] || 'template',
-        section: `template-${name}`,
-      })
+        section: mitRecipe ? `component-${name}` : `template-${name}`,
+      }
+      if (mitRecipe && istEntwurf(name)) templateItem.entwurf = true
+      templateGroup.children.push(templateItem)
     }
     groups.set('templates', templateGroup)
   }

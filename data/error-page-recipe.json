@@ -1,0 +1,211 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "error-page",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "templates",
+      "layout",
+      "fehler"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/template-error-page-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/08-templates/_error-page.scss; Specimens aus der Doku template-error-page.",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "template",
+    "pipeline": {
+      "scss": [
+        "scss/scss/08-templates/_error-page.scss"
+      ],
+      "story": "stories/templates/templates.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "/docs/template-error-page-docs"
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".t-error"
+    },
+    "slots": [
+      {
+        "name": "content",
+        "element": ".t-error__content",
+        "optional": false,
+        "description": "Zentrierter Inhalt."
+      },
+      {
+        "name": "code",
+        "element": ".t-error__code",
+        "optional": true,
+        "description": "Grosse Fehlernummer, aria-hidden (steht im h1)."
+      },
+      {
+        "name": "title",
+        "element": ".t-error__title",
+        "optional": false,
+        "description": "h1."
+      },
+      {
+        "name": "description",
+        "element": ".t-error__description",
+        "optional": false,
+        "description": "Erklaerung."
+      },
+      {
+        "name": "actions",
+        "element": ".t-error__actions",
+        "optional": false,
+        "description": "Buttons."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Im SCSS als DEPRECATED markiert: die Layout-Struktur uebernimmt das Shell-Preset <body data-layout=\"focused\"> mit .nc-shell; die Bauteil-Stile bleiben. Kein Verwender auf der Website.",
+      "Fehlerseiten (404, 500) mit zentriertem Inhalt."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Standard"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "Die Nummer ist aria-hidden, der h1 nennt den Fehler; optional die Nummer fuer Screenreader im h1 wiederholen."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "t-error"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "description": "Foundation-Tokens, die das SCSS nutzt — das Bauteil hat keine eigenen Komponenten-Tokens.",
+        "tokens": [
+          "fnd-color-text-primary",
+          "fnd-color-text-secondary",
+          "fnd-color-text-tertiary",
+          "fnd-font-weight-bold",
+          "fnd-prose-max-width",
+          "fnd-spacing-03",
+          "fnd-spacing-04",
+          "fnd-spacing-06",
+          "fnd-spacing-08",
+          "fnd-typography-display-2xl-font-size"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "nicht-gefunden",
+      "label": "404",
+      "description": "Seite nicht gefunden (Doku).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "fehler": 404
+      },
+      "composes": [
+        "button"
+      ]
+    },
+    {
+      "id": "serverfehler",
+      "label": "500",
+      "description": "Interner Serverfehler (Doku).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "fehler": 500
+      },
+      "composes": [
+        "button"
+      ]
+    }
+  ]
+}

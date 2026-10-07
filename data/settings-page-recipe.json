@@ -1,0 +1,265 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "settings-page",
+    "version": "1.0.0",
+    "status": "draft",
+    "tags": [
+      "templates",
+      "layout",
+      "app",
+      "einstellungen"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/template-settings-page-docs"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Plan v3, Phase 5: Recipe angelegt — Anatomie, Achsen und Zustaende aus scss/scss/08-templates/_settings-page.scss; Specimens aus der Doku template-settings-page.",
+          "Status draft: Anatomie und Achsen sind aus dem Bestand abgeleitet, nicht entworfen — vor der Freigabe durchsehen."
+        ]
+      }
+    ],
+    "layer": "template",
+    "pipeline": {
+      "scss": [
+        "scss/scss/08-templates/_settings-page.scss"
+      ],
+      "story": "stories/templates/templates.stories.js",
+      "arena": null,
+      "drupal": [],
+      "docs": "/docs/template-settings-page-docs"
+    }
+  },
+  "anatomy": {
+    "root": {
+      "element": ".t-settings"
+    },
+    "slots": [
+      {
+        "name": "nav",
+        "element": ".t-settings__nav",
+        "optional": false,
+        "description": "Seitliche Navigation (<nav>)."
+      },
+      {
+        "name": "nav-list",
+        "element": ".t-settings__nav-list",
+        "optional": false,
+        "description": "Liste."
+      },
+      {
+        "name": "nav-link",
+        "element": ".t-settings__nav-link",
+        "optional": false,
+        "description": "Link; aria-current=\"page\" fuer den aktiven Bereich."
+      },
+      {
+        "name": "content",
+        "element": ".t-settings__content",
+        "optional": false,
+        "description": "Abschnitte."
+      },
+      {
+        "name": "section",
+        "element": ".t-settings__section",
+        "optional": false,
+        "description": "<section> mit id."
+      },
+      {
+        "name": "section-header",
+        "element": ".t-settings__section-header",
+        "optional": false,
+        "description": "Kopf des Abschnitts."
+      },
+      {
+        "name": "section-title",
+        "element": ".t-settings__section-title",
+        "optional": false,
+        "description": "h2."
+      },
+      {
+        "name": "section-description",
+        "element": ".t-settings__section-description",
+        "optional": true,
+        "description": "Beschreibung."
+      },
+      {
+        "name": "row",
+        "element": ".t-settings__row",
+        "optional": false,
+        "description": "Zeile: Bezeichnung links, Aktion rechts."
+      },
+      {
+        "name": "row-label",
+        "element": ".t-settings__row-label",
+        "optional": false,
+        "description": "Bezeichnung."
+      },
+      {
+        "name": "row-title",
+        "element": ".t-settings__row-title",
+        "optional": false,
+        "description": "Titel der Zeile (<p>, keine Ueberschrift)."
+      },
+      {
+        "name": "row-description",
+        "element": ".t-settings__row-description",
+        "optional": true,
+        "description": "Erklaerung."
+      },
+      {
+        "name": "row-action",
+        "element": ".t-settings__row-action",
+        "optional": false,
+        "description": "Aktion (Button, Schalter)."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Im SCSS als DEPRECATED markiert: die Layout-Struktur uebernimmt das Shell-Preset <body data-layout=\"settings\"> mit .nc-shell; die Bauteil-Stile bleiben. Kein Verwender auf der Website.",
+      "Navigation links, Abschnitte rechts; unter md gestapelt."
+    ]
+  },
+  "axes": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": {
+        "default": {
+          "modifier": null,
+          "tokenGroups": [],
+          "description": "Standard"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [],
+      "note": "h2 je Abschnitt (aria-labelledby), Zeilentitel sind <p>; aktiver Bereich per aria-current=\"page\"."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {}
+  },
+  "styling": {
+    "baseClasses": [
+      "t-settings"
+    ],
+    "baseTokenGroups": [
+      "layout"
+    ],
+    "tokenGroups": {
+      "layout": {
+        "label": "Layout",
+        "description": "Foundation-Tokens, die das SCSS nutzt — das Bauteil hat keine eigenen Komponenten-Tokens.",
+        "tokens": [
+          "fnd-color-border-secondary",
+          "fnd-color-interactive-default",
+          "fnd-color-layer-01",
+          "fnd-color-on-layer-01",
+          "fnd-color-text-primary",
+          "fnd-color-text-secondary",
+          "fnd-content-max-width",
+          "fnd-elevation-base",
+          "fnd-font-weight-medium",
+          "fnd-radius-sm",
+          "fnd-spacing-01",
+          "fnd-spacing-02",
+          "fnd-spacing-03",
+          "fnd-spacing-04",
+          "fnd-spacing-06"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variant.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "specimens": [
+    {
+      "id": "profil",
+      "label": "Ein Abschnitt",
+      "description": "Navigation und Abschnitt Profil mit einer Zeile (Doku).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "abschnitte": 1
+      },
+      "composes": [
+        "button"
+      ]
+    },
+    {
+      "id": "zwei-abschnitte",
+      "label": "Zwei Abschnitte",
+      "description": "Profil und Sicherheit mit mehreren Zeilen.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "abschnitte": 2
+      },
+      "composes": [
+        "button"
+      ]
+    }
+  ]
+}

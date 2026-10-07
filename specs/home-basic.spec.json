@@ -1,0 +1,126 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "home-basic",
+  "version": "1.0.0",
+  "status": "draft",
+  "layer": "template",
+  "tags": [
+    "templates",
+    "layout",
+    "landing"
+  ],
+  "anatomy": {
+    "rootElement": ".t-home-basic",
+    "slots": [
+      {
+        "name": "title",
+        "selector": ".t-home-basic-title",
+        "required": true,
+        "description": "h2, Teil in <em> hervorgehoben."
+      },
+      {
+        "name": "link",
+        "selector": ".t-home-basic-link",
+        "required": false,
+        "description": "Link oben rechts."
+      },
+      {
+        "name": "body",
+        "selector": ".t-home-basic-body",
+        "required": false,
+        "description": "Text mit .button-container."
+      },
+      {
+        "name": "media",
+        "selector": ".t-home-basic-media",
+        "required": false,
+        "description": "Bild 4:3."
+      }
+    ],
+    "notes": [
+      "Im SCSS als DEPRECATED markiert: die Layout-Struktur uebernimmt das Shell-Preset <body data-layout=\"landing\"> mit .nc-shell; die Bauteil-Stile bleiben. Kein Verwender auf der Website.",
+      "Elemente mit Bindestrich statt BEM (&-title -> .t-home-basic-title); die Doku nutzt den alten Namen .home-basic, das SCSS bedient beide.",
+      "Ab desktop-up Raster 7/5 Spalten mit den Flaechen title/link und body/media."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzige Variante",
+      "values": [
+        {
+          "value": "default",
+          "cssModifier": null,
+          "default": false,
+          "label": "default"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "t-home-basic"
+    ],
+    "tokenGroups": {
+      "Layout": [
+        {
+          "token": "--fnd-color-text-primary"
+        },
+        {
+          "token": "--fnd-color-text-secondary"
+        },
+        {
+          "token": "--fnd-color-text-tertiary"
+        },
+        {
+          "token": "--fnd-media-ratio-4-3"
+        },
+        {
+          "token": "--fnd-radius-sm"
+        },
+        {
+          "token": "--fnd-spacing-08"
+        },
+        {
+          "token": "--fnd-spacing-10"
+        },
+        {
+          "token": "--fnd-spacing-12"
+        },
+        {
+          "token": "--grid-gap"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/08-templates/_home-basic.scss"
+    ],
+    "story": "stories/templates/templates.stories.js",
+    "arena": null,
+    "drupal": [],
+    "docs": "/docs/template-home-basic-docs"
+  }
+}
