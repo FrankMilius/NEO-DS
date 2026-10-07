@@ -82,6 +82,14 @@ nicht weiter geprüft.
 | content-page | `08-templates/_content-page.scss` | Template, aber **nicht kompiliert**: `08-templates/_index.scss` bindet es nicht ein („ENTFERNT: ersetzt durch data-layout="content-page"“). `.t-content*` steht nicht in `styles.css`; Doku `template-content-page` und Story zeigen Klassen ohne Wirkung |
 | form-page | `08-templates/_form-page.scss` | wie content-page: nicht eingebunden („ersetzt durch data-layout="focused"“), `.t-form-page*` fehlt in `styles.css`; Doku `template-form-page` und Story zeigen Klassen ohne Wirkung |
 
+**Entschieden am 07.10.2026 (Entscheidungen Phase 5), umgesetzt ohne Website-Wirkung:**
+`sizes`, `section-intro`, `card-grid-section` gelöscht (Button-Größen-Skala
+steht jetzt in der Button-Doku, Abschnitt „Größen“; Tokens
+`--nc-card-grid-title-*` mit entfernt, card-grid-Recipe 1.1.1);
+`content-page` und `form-page` stillgelegt (Partials, Doku, Story,
+Konfigurator-Sektion entfernt; Ersatz `data-layout="content-page"` bzw.
+`"focused"`). `styles.css` 1244,5 → 1243,8 KB.
+
 ## Registry-Fehler
 
 `recipe` in `components` ist kein Baustein: `scanArenas()` in
