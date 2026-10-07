@@ -3557,7 +3557,22 @@
           if (k.ziel.getBoundingClientRect().top - oben - (versatz(k.ziel) + TOLERANZ) <= 0) treffer = k;
         }
         if (!treffer && scrollTop() < 10) treffer = kapitel[0];
+        if (scrollTop() > 0 && amEnde()) treffer = kapitel[kapitel.length - 1];
         if (treffer) markiere(treffer.id);
+      }
+      function amEnde() {
+        if (scroller) return scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4;
+        return ansicht.innerHeight + ansicht.scrollY >= dok.body.scrollHeight - 4;
+      }
+      let sprungMarke = false;
+      function meldeSprung(an) {
+        if (an && !scroller) {
+          dok.documentElement.setAttribute("data-neo-sprung", "ja");
+          sprungMarke = true;
+        } else if (!an && sprungMarke) {
+          dok.documentElement.removeAttribute("data-neo-sprung");
+          sprungMarke = false;
+        }
       }
       let laeuft = false;
       let ruheUhr = 0;
@@ -3565,6 +3580,7 @@
         ansicht.clearTimeout(ruheUhr);
         ruheUhr = ansicht.setTimeout(() => {
           ruht = false;
+          meldeSprung(false);
           auswerten();
         }, 150);
       };
@@ -3605,6 +3621,7 @@
         e.preventDefault();
         markiere(k.id);
         ruht = true;
+        meldeSprung(true);
         ruheBis();
         const ziel = k.ziel.getBoundingClientRect().top - obenKante() + scrollTop() - versatz(k.ziel);
         const sanft = !((_c = ansicht.matchMedia) == null ? void 0 : _c.call(ansicht, "(prefers-reduced-motion: reduce)").matches);
@@ -3628,6 +3645,7 @@
       else auswerten();
       signal.addEventListener("abort", () => {
         ansicht.clearTimeout(ruheUhr);
+        meldeSprung(false);
         for (const [link, wert] of vorher) {
           if (wert === null) link.removeAttribute("aria-current");
           else link.setAttribute("aria-current", wert);

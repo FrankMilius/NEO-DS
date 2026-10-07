@@ -415,6 +415,49 @@ describe('Kapitelnavigation (chapter-nav-recipe.json)', () => {
     expect(aktuell(links)).toEqual(['Vernetzung'])
   })
 
+  it('Sprung-Marke: [data-neo-sprung] an <html>, bis das Scrollen steht (Auto-Hide der Hauptnavigation ruht)', () => {
+    vi.useFakeTimers()
+    const { b, links, ziele } = bau({ kopf: 72 })
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    const html = document.documentElement
+    expect(html.hasAttribute('data-neo-sprung')).toBe(false)
+    links[3].click()
+    expect(html.getAttribute('data-neo-sprung')).toBe('ja')
+    // jedes Scroll-Ereignis schiebt das Ende hinaus
+    vi.advanceTimersByTime(100)
+    scrolle({ [ziele[1].id]: 0 })
+    vi.advanceTimersByTime(100)
+    expect(html.hasAttribute('data-neo-sprung')).toBe(true)
+    vi.advanceTimersByTime(100)
+    expect(html.hasAttribute('data-neo-sprung')).toBe(false)
+    // Abbinden waehrend eines Sprungs nimmt die Marke mit
+    links[1].click()
+    expect(html.hasAttribute('data-neo-sprung')).toBe(true)
+    abbinden(b, ['chapter-nav'])
+    expect(html.hasAttribute('data-neo-sprung')).toBe(false)
+    expect(ziele.length).toBe(5)
+  })
+
+  it('Seitenende: das letzte Kapitel ist markiert, auch wenn es die Linie nie erreicht', () => {
+    const { links, ziele } = bau()
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    const scrollY = Object.getOwnPropertyDescriptor(window, 'scrollY')
+    const hoehe = Object.getOwnPropertyDescriptor(document.body, 'scrollHeight')
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 3000 })
+    try {
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 1000 })
+      scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: 40, [ziele[3].id]: 300, [ziele[4].id]: 600 })
+      expect(aktuell(links)).toEqual(['Events'])
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 3000 - window.innerHeight })
+      scrolle({})
+      expect(aktuell(links)).toEqual(['Anwendungen'])
+    } finally {
+      if (scrollY) Object.defineProperty(window, 'scrollY', scrollY); else delete window.scrollY
+      if (hoehe) Object.defineProperty(document.body, 'scrollHeight', hoehe); else delete document.body.scrollHeight
+    }
+  })
+
   it('prefers-reduced-motion: Sprung ohne Animation', () => {
     const { links } = bau()
     window.matchMedia = vi.fn().mockReturnValue({ matches: true })

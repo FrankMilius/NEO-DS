@@ -11,7 +11,9 @@
 //                Ausloeselinie schon passiert hat (nicht das oberste
 //                sichtbare — ein langer Abschnitt haette sonst immer den
 //                kleinsten top-Wert). Ueber dem ersten Kapitel: das erste,
-//                solange die Seite oben steht. Markiert per
+//                solange die Seite oben steht. Am Ende der Seite (gescrollt,
+//                Rest < 4 px): das letzte — ein kurzer letzter Abschnitt
+//                erreicht die Linie sonst nie (wie neo_fe/js/neo-chapter-nav.js). Markiert per
 //                aria-current="true" (die Farbe ist nur die sichtbare
 //                Entsprechung, WCAG 1.4.1). IntersectionObserver an den
 //                Schwellen plus Scroll-Auswertung, gedrosselt per
@@ -28,6 +30,11 @@
 //                prefers-reduced-motion), setzt den Anker in die Adresse und
 //                den Fokus aufs Kapitel (tabindex="-1", ohne Scrollen) —
 //                Tastatur und Vorlesen landen dort, wo das Auge ist.
+//                Waehrend des Sprungs steht [data-neo-sprung] an <html>: die
+//                Hauptnavigation (navigation-tab-mega, Auto-Hide) zaehlt
+//                dieses Scrollen nicht und blendet sich nicht ein oder aus —
+//                sonst schoebe sie die Leiste auf halber Strecke (wie
+//                neo_fe/js/neo-chapter-nav.js; nur auf dem Fenster).
 //   Leiste       Der markierte Verweis wird in der quer scrollbaren Leiste
 //                sichtbar gehalten.
 //
@@ -106,14 +113,27 @@ export const chapterNav = {
         if (k.ziel.getBoundingClientRect().top - oben - (versatz(k.ziel) + TOLERANZ) <= 0) treffer = k
       }
       if (!treffer && scrollTop() < 10) treffer = kapitel[0]
+      if (scrollTop() > 0 && amEnde()) treffer = kapitel[kapitel.length - 1]
       if (treffer) markiere(treffer.id)
+    }
+
+    function amEnde () {
+      if (scroller) return scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4
+      return ansicht.innerHeight + ansicht.scrollY >= dok.body.scrollHeight - 4
+    }
+
+    // Sprung-Marke fuer die Hauptnavigation (nur Fenster, nicht Arena)
+    let sprungMarke = false
+    function meldeSprung (an) {
+      if (an && !scroller) { dok.documentElement.setAttribute('data-neo-sprung', 'ja'); sprungMarke = true }
+      else if (!an && sprungMarke) { dok.documentElement.removeAttribute('data-neo-sprung'); sprungMarke = false }
     }
 
     let laeuft = false
     let ruheUhr = 0
     const ruheBis = () => {
       ansicht.clearTimeout(ruheUhr)
-      ruheUhr = ansicht.setTimeout(() => { ruht = false; auswerten() }, 150)
+      ruheUhr = ansicht.setTimeout(() => { ruht = false; meldeSprung(false); auswerten() }, 150)
     }
     ;(scroller || ansicht).addEventListener('scroll', () => {
       if (ruht) { ruheBis(); return }
@@ -141,6 +161,7 @@ export const chapterNav = {
       e.preventDefault()
       markiere(k.id)
       ruht = true
+      meldeSprung(true)
       ruheBis()
       const ziel = k.ziel.getBoundingClientRect().top - obenKante() + scrollTop() - versatz(k.ziel)
       const sanft = !ansicht.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -161,6 +182,7 @@ export const chapterNav = {
 
     signal.addEventListener('abort', () => {
       ansicht.clearTimeout(ruheUhr)
+      meldeSprung(false)
       for (const [link, wert] of vorher) {
         if (wert === null) link.removeAttribute('aria-current')
         else link.setAttribute('aria-current', wert)
