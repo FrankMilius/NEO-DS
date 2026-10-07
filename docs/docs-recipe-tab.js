@@ -23,7 +23,7 @@
   var NON_COMPONENT_SLUGS = [
     'index', 'grid', 'color', 'spacing', 'typography', 'radii', 'border',
     'elements', 'icons', 'themes', 'shadow-elevation', 'opacity-zindex-motion',
-    'sizes', 'utility-a11y', 'utility-visibility', 'component-matrix',
+    'utility-a11y', 'utility-visibility', 'component-matrix',
     'architecture', 'recipe-status',
     'home-hero', 'home-basic', 'dashboard', 'content-page', 'form-page',
     'settings-page', 'error-page'

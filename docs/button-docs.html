@@ -539,6 +539,27 @@
               <button class="nc-button nc-button--lg">Large</button>
               <button class="nc-button nc-button--secondary nc-button--lg">Secondary LG</button>
             </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Gr&ouml;&szlig;en-Skala und Einsatz</h3>
+            <p class="docs__section-desc">
+              Die H&ouml;hen folgen der Foundation-Skala <code class="docs__token">--fnd-size-*</code> &mdash; dieselbe Skala wie Input und Select.
+              Ein Button steht deshalb immer in der Gr&ouml;&szlig;e des Feldes, neben dem er steht.
+              XS und SM halten per <code class="docs__token">--nc-button-touch-target-min</code> trotzdem eine Trefffl&auml;che von 44px (WCAG 2.5.8).
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead><tr><th>Gr&ouml;&szlig;e</th><th>Modifier</th><th>H&ouml;he</th><th>Schrift</th><th>Einsatz</th></tr></thead>
+              <tbody>
+                <tr><td>XS</td><td><code class="docs__token">.nc-button--xs</code></td><td><code class="docs__token">--nc-button-height-xs</code> (24px)</td><td>compact (12px)</td><td>Sehr kompakte Layouts: Tabellenzeilen, Toolbars, dichte Listen</td></tr>
+                <tr><td>SM</td><td><code class="docs__token">.nc-button--sm</code></td><td><code class="docs__token">--nc-button-height-sm</code> (32px)</td><td>compact (12px)</td><td>Neben 32px-Feldern (<code class="docs__token">--nc-input-height-sm</code>): Filter, Suche</td></tr>
+                <tr><td>MD</td><td>&mdash; (Default)</td><td><code class="docs__token">--nc-button-height-md</code> (40px)</td><td>expressive (16px)</td><td>Standard; neben 40px-Feldern (<code class="docs__token">--nc-input-height-md</code>) in Formularen</td></tr>
+                <tr><td>LG</td><td><code class="docs__token">.nc-button--lg</code></td><td><code class="docs__token">--nc-button-height-lg</code> (48px)</td><td>expressive (16px)</td><td>Hervorgehobene Aktionen, Website-CTAs; neben 48px-Feldern (<code class="docs__token">--nc-input-height-lg</code>)</td></tr>
+              </tbody>
+              </table>
+            </div>
+            <p class="docs__section-desc">
+              Gr&ouml;&szlig;er als LG gibt es keinen Button. Die fr&uuml;here Referenz <code class="docs__token">_sizes.scss</code> (Klassen <code class="docs__token">.button.xs</code> &hellip; <code class="docs__token">.button.2xl</code>, 64px und 80px f&uuml;r Modal- und Fullscreen-Kanten) erzeugte kein CSS und wurde am 07.10.2026 entfernt.
+            </p>
           </section>
 
           <!-- Buttons mit Icons -->
