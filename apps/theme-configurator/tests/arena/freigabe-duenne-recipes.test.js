@@ -218,8 +218,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(regel[1]).not.toMatch(/opacity:/)
   })
 
-  it('table-block: 1.2.2, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.2.2')
+  it('table-block: 1.3.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.3.0')
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -229,7 +229,20 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     for (const k of ['striped', 'compact', 'borderless', 'sticky-header', 'full-width', 'sticky-col']) expect(css, k).toContain(`.nc-compare-table--${k}`)
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1,07:1/)
     // Korrektur 1.2.1 (Freigabe ausstehend): erste Kopfzelle mit der Kopfflaeche, nicht background-base
-    expect(css).toContain('.nc-table-block .nc-compare-table--sticky-col thead th:first-child{background-color:var(--tbl-header-bg, var(--fnd-color-background-tertiary))')
+    expect(css).toContain('.nc-table-block .nc-compare-table--sticky-col thead th:first-child{background-color:var(--tbl-header-bg, var(--nc-table-header-bg))')
+    // 1.3.0 (Abschluss 3, tabelle-ds): Kopf ohne Farbfeld wie die Vergleichstabelle,
+    // nicht mehr background-tertiary (Kopftext 1,43:1)
+    expect(css).not.toContain('var(--tbl-header-bg, var(--fnd-color-background-tertiary))')
+    expect(css).toMatch(/\.nc-table-block thead th\{background-color:var\(--tbl-header-bg, var\(--nc-table-header-bg\)\)/)
+    // Streifen ohne Farbfeld: Token, das im Dunkeln neu bindet (sonst gleich der Tabellenflaeche)
+    expect(css).toMatch(/\.nc-table-block\{[^}]*--tbl-stripe-bg: *var\(--nc-table-block-stripe-bg\)/)
+    expect(css).toMatch(/--nc-table-block-stripe-bg: *var\(--fnd-color-background-secondary\)/)
+    expect(css).toMatch(/\.neo-light-theme,\.customer-light-theme\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-secondary\)\}/)
+    expect(css).toMatch(/\.neo-dark-theme,\.customer-dark-theme\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-base\)\}/)
+    expect(css).toMatch(/@media\(prefers-color-scheme: *dark\)\{:root:not\(\[data-theme\]\)\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-base\)\}\}/)
+    expect(r.styling.tokens).toContain('--nc-table-block-stripe-bg')
+    // Textfarbe auf fester Streifenfarbe (aus neo_fe neo-overrides.css uebernommen)
+    expect(css).toContain('.nc-table-block[data-tbl-stripe-fest] .nc-compare-table--striped tbody tr:nth-child(even) :is(th,td,.nc-tbl-cell__text,.nc-tbl-cell__sub,.nc-tbl-cell__info-btn,.nc-tbl-icon--dash){color:var(--tbl-stripe-color, var(--fnd-color-text-primary))}')
     // Korrektur 1.2.2 (Abschluss 3, tabelle-scroll): der Block scrollt, der Rahmen
     // schneidet nur (clip ist kein Scroll-Container) und waechst mit der Tabelle;
     // die Vergleichstabelle allein behaelt overflow: hidden

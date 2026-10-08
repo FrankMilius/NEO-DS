@@ -4588,6 +4588,30 @@
   }
 }
 
+// Streifen des Tabellen-Blocks in Theme-BEREICHEN neu binden (Entscheidung
+// Abschluss 3, 08.10.2026, tabelle-ds; Muster wie der Kicker oben). Hell
+// background-secondary (wie bisher), im Dunkeln background-base: dort ist
+// background-secondary gleich der Tabellenflaeche (--nc-table-bg,
+// surface-elevated) und der Streifen unsichtbar. background-base ist dunkler
+// als die Tabelle und traegt den Untertitel (text-tertiary) mit >= 4,5:1;
+// background-tertiary waere heller, der Untertitel darauf aber nur ~3:1.
+// Opak, weil die feste erste Spalte die Streifenfarbe mittraegt.
+.neo-light-theme,
+.customer-light-theme {
+  --nc-table-block-stripe-bg: var(--fnd-color-background-secondary);
+}
+
+.neo-dark-theme,
+.customer-dark-theme {
+  --nc-table-block-stripe-bg: var(--fnd-color-background-base);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --nc-table-block-stripe-bg: var(--fnd-color-background-base);
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --nc-segmented-bg: var(--fnd-color-background-secondary);

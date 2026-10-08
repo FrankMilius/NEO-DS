@@ -216,6 +216,11 @@
   // ── table-block (aufgenommen) ──
   --nc-table-block-thead-th-letter-spacing: var(--nc-mono-tracking-code);
   --nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity: 1;  // eigener Wert
+  // Streifenflaeche ohne Farbfeld (Entscheidung Abschluss 3, 08.10.2026,
+  // tabelle-ds): hell background-secondary wie bisher; bindet im Dunkeln auf
+  // background-base neu (Theme-Bereiche in _component-tokens.scss), weil
+  // background-secondary dort gleich der Tabellenflaeche ist.
+  --nc-table-block-stripe-bg: var(--fnd-color-background-secondary);
 }
 /* <<< aufgenommen: table-block */
 

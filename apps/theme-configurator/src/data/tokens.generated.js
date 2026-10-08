@@ -19199,7 +19199,8 @@ export const componentTokenGroups = [
         "label": "Alle Tokens",
         "tokenIds": [
           "nc-table-block-thead-th-letter-spacing",
-          "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity"
+          "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
+          "nc-table-block-stripe-bg"
         ]
       }
     ],
@@ -19215,6 +19216,13 @@ export const componentTokenGroups = [
         "label": "Is Scrolled Nc Compare Table Sticky Col Th First Child After Opacity",
         "type": "opacity",
         "default": "1"
+      },
+      {
+        "id": "nc-table-block-stripe-bg",
+        "label": "Stripe Bg",
+        "type": "color",
+        "default": "var(--fnd-color-background-secondary)",
+        "darkDefault": "var(--fnd-color-background-base)"
       }
     ]
   },

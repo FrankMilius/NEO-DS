@@ -14,6 +14,13 @@
   margin-inline: auto;
   padding-inline: var(--fnd-spacing-06);
   overflow-x: auto;
+  // Streifenflaeche: Vorgabe des Blocks, wenn das Farbfeld leer bleibt
+  // (--tbl-stripe-bg inline aus Drupal schlaegt sie). compare-table faellt
+  // sonst auf background-secondary zurueck — im Dunkeln dieselbe Farbe wie
+  // die Tabelle (surface-elevated), der Streifen war unsichtbar. Das Token
+  // bindet im Dunkeln neu (00-settings/_component-tokens.scss; Entscheidung
+  // Abschluss 3, 08.10.2026, tabelle-ds).
+  --tbl-stripe-bg: var(--nc-table-block-stripe-bg);
 }
 
 .nc-table-block table,
@@ -22,8 +29,14 @@
   border: none;
 }
 
+// Kopfflaeche: ohne Farbfeld die Kopffarbe der Vergleichstabelle
+// (--nc-table-header-bg, background-inverse) — der Kopftext ist deren
+// --nc-table-header-color (text-inverse, ueber thead aus compare-table).
+// Bis 1.2.x stand hier background-tertiary: text-inverse darauf 1,43:1
+// (Entscheidung Abschluss 3, 08.10.2026, tabelle-ds; vorher fing das
+// Drupal-Theme das ab).
 .nc-table-block thead th {
-  background-color: var(--tbl-header-bg, var(--fnd-color-background-tertiary));
+  background-color: var(--tbl-header-bg, var(--nc-table-header-bg));
   font-size: var(--fs-xs);
   font-weight: var(--fnd-font-weight-bold);
   text-transform: uppercase;
@@ -43,7 +56,7 @@
 // 1,07:1 — auf der Website war „FEATURE SET" unsichtbar (WCAG 1.4.3).
 // Die Kopfzelle nimmt dieselbe Flaeche wie die uebrigen Kopfzellen.
 .nc-table-block .nc-compare-table--sticky-col thead th:first-child {
-  background-color: var(--tbl-header-bg, var(--fnd-color-background-tertiary));
+  background-color: var(--tbl-header-bg, var(--nc-table-header-bg));
 }
 
 .nc-table-block.is-scrolled .nc-compare-table--sticky-col th:first-child::after,
@@ -74,6 +87,17 @@
   overflow: clip;
   width: fit-content;
   min-width: 100%;
+}
+
+// Textfarbe auf fester Streifenfarbe. Ein Farbfeld mit fester Farbe dreht
+// im Dunkeln nicht mit; der Preprocess des Drupal-Themes waehlt dann nach
+// Kontrast always-dark oder always-light (--tbl-stripe-color) und setzt
+// data-tbl-stripe-fest — sonst stuende heller Text auf hellem Streifen.
+// Bildet das Theme den Wert auf ein Theme-Token ab, fehlt das Attribut und
+// der Theme-Text gilt. Aus neo_fe css/neo-overrides.css uebernommen
+// (Entscheidung Abschluss 3, 08.10.2026, tabelle-ds).
+.nc-table-block[data-tbl-stripe-fest] .nc-compare-table--striped tbody tr:nth-child(even) :is(th, td, .nc-tbl-cell__text, .nc-tbl-cell__sub, .nc-tbl-cell__info-btn, .nc-tbl-icon--dash) {
+  color: var(--tbl-stripe-color, var(--fnd-color-text-primary));
 }
 
 // Erste Kopfzelle bei fester Spalte und festem Kopf: beide kleben, die
