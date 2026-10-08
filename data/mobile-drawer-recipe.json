@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "mobile-drawer",
-    "version": "1.2.0",
-    "status": "draft",
+    "version": "1.3.0",
+    "status": "stable",
     "tags": [
       "aufgenommen",
       "organisms"
@@ -15,6 +15,17 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen 07-organisms/_mobile-drawer.scss, neo-behaviors mobile-drawer (_ueberlagerung.js) samt Vitest-Tests und das Drupal-Theme neo_fe geprueft: Anatomie, Achse und keyboard/events stimmen mit SCSS und Behavior. Berichtigt: auf neocosmo.de ist das Bauteil nicht im Einsatz — die Hauptnavigation hat ihren eigenen Drawer (.m-drawer, Recipe navigation-tab-mega), neoMobileNav ist aus neo-theme.js entfallen, neo_fe.theme schaltet mobile-drawer nirgends per nur ein.",
+          "Anatomie: Pseudo-Slot backdrop--visible gestrichen (Zustandsklasse, steht in domNotes und der Achse); Pflicht/optional nach SCSS und Behavior (nav Pflicht, title optional); Beschreibungen je Slot.",
+          "keyboard: Enter/Leertaste beschreiben den Knopf richtig — waehrend der Drawer offen ist, ist er inert; „erneut schliesst\" gilt nur fuer einen Klick von aussen (reason trigger).",
+          "a11y: Pruefpunkte statt Freitext (Name Pflicht im Markup, Kontrast gemessen); constraints; Recipe-Form nach recipe-schema.json (constraints, styling.tokenGroups, recipes als Objekt, Specimen-Layout composition statt block) — vier Schema-Fehler weniger.",
+          "pipeline: SCSS und Story ergaenzt; meta.source nennt Behavior und Website-Stand."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -38,7 +49,18 @@
       }
     ],
     "pipeline": {
-      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue"
+      "scss": [
+        "scss/scss/07-organisms/_mobile-drawer.scss"
+      ],
+      "story": "stories/organisms/mobile-drawer.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [],
+      "docs": null
+    },
+    "layer": "organism",
+    "source": {
+      "drupal": "neo_fe: nicht im Einsatz (Stand 08.10.2026) — kein Template rendert .nc-mobile-drawer, neo-theme.js hat kein neoMobileNav mehr, neo_fe.theme setzt kein nur[] = 'mobile-drawer'. Die Mobilnavigation der Website ist .m-drawer aus neo-nav.html.twig (Recipe navigation-tab-mega).",
+      "behavior": "packages/neo-behaviors/mobile-drawer.js (gemeinsamer Teil _ueberlagerung.js); nurAusdruecklich"
     }
   },
   "anatomy": {
@@ -49,61 +71,68 @@
       {
         "name": "backdrop",
         "element": ".nc-mobile-drawer__backdrop",
-        "optional": false
-      },
-      {
-        "name": "backdrop--visible",
-        "element": ".nc-mobile-drawer__backdrop--visible",
-        "optional": false
-      },
-      {
-        "name": "close",
-        "element": ".nc-mobile-drawer__close",
-        "optional": false
+        "optional": false,
+        "description": "Abdunklung als Geschwister vor dem Drawer (position fixed, always-dark 40 %); offen mit __backdrop--visible. Klick schliesst (reason overlay-click). Das Behavior findet sie als Geschwister (.nc-mobile-drawer__backdrop oder [data-mobile-backdrop]) und laesst sie beim Sperren der Seite frei."
       },
       {
         "name": "header",
         "element": ".nc-mobile-drawer__header",
-        "optional": false
-      },
-      {
-        "name": "link",
-        "element": ".nc-mobile-drawer__link",
-        "optional": false
-      },
-      {
-        "name": "list",
-        "element": ".nc-mobile-drawer__list",
-        "optional": false
-      },
-      {
-        "name": "nav",
-        "element": ".nc-mobile-drawer__nav",
-        "optional": true
-      },
-      {
-        "name": "sublink",
-        "element": ".nc-mobile-drawer__sublink",
-        "optional": true
-      },
-      {
-        "name": "sublist",
-        "element": ".nc-mobile-drawer__sublist",
-        "optional": true
+        "optional": false,
+        "description": "Kopfzeile (flex, space-between, Trennlinie border-secondary) mit Titel und Schliessen-Knopf."
       },
       {
         "name": "title",
         "element": ".nc-mobile-drawer__title",
-        "optional": true
+        "optional": true,
+        "description": "Sichtbarer Titel (semibold, label-size); kann per aria-labelledby den Namen des Dialogs liefern."
+      },
+      {
+        "name": "close",
+        "element": ".nc-mobile-drawer__close",
+        "optional": false,
+        "description": "Schliessen-Knopf 36 x 36 px mit aria-label; erstes bedienbares Element — bekommt beim Oeffnen den Fokus. Auch [data-mobile-close] schliesst (reason close-button)."
+      },
+      {
+        "name": "nav",
+        "element": ".nc-mobile-drawer__nav",
+        "optional": false,
+        "description": "<nav> mit aria-label um die Liste (Polster spacing-03)."
+      },
+      {
+        "name": "list",
+        "element": ".nc-mobile-drawer__list",
+        "optional": false,
+        "description": "Erste Ebene (ul ohne Aufzaehlungszeichen)."
+      },
+      {
+        "name": "link",
+        "element": ".nc-mobile-drawer__link",
+        "optional": false,
+        "description": "Eintrag der ersten Ebene (Block-Link, medium, text-primary; Hover background-hover)."
+      },
+      {
+        "name": "sublist",
+        "element": ".nc-mobile-drawer__sublist",
+        "optional": true,
+        "description": "Zweite Ebene im li unter dem Link, eingerueckt (spacing-05)."
+      },
+      {
+        "name": "sublink",
+        "element": ".nc-mobile-drawer__sublink",
+        "optional": true,
+        "description": "Eintrag der zweiten Ebene (body-s, text-secondary; Hover text-primary); der aktuelle Eintrag traegt aria-current=\"page\"."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation.",
-      "Markup nach den BEM-Klassen des SCSS (kein geerntetes Markup): Backdrop als Geschwister vor aside.nc-mobile-drawer; __header (__title, __close), __nav > __list > li > __link (+ __sublist > li > __sublink).",
-      "Unter 1200 px Fensterbreite; darueber blendet das DS Drawer und Backdrop aus. Oeffnen und Schliessen: Behavior mobile-drawer (neo-behaviors) — Ausloeser ist ein Knopf mit aria-controls=\"<id des Drawers>\" (auf der Website .nc-mobile-toggle); Backdrop ist das Geschwister .nc-mobile-drawer__backdrop. Auf der Website steuert es bis zur Umstellung noch neo-theme.js (neoMobileNav).",
-      "Modal (neo-behaviors mobile-drawer): offen role=dialog + aria-modal, Fokus auf das erste bedienbare Element, Fokus-Falle, Geschwister bis <body> ausser dem Backdrop inert, body.u-no-scroll (gestaltet das Theme); geschlossen inert + aria-hidden=\"true\" — der aus dem Bild geschobene Drawer ist sonst per Tab erreichbar. Ab 1200 px (display: none) tut der Knopf nichts, ein offener Drawer schliesst (reason resize)."
+      "Markup nach den BEM-Klassen des SCSS (kein geerntetes Markup, das Bauteil laeuft auf der Website nicht): div.nc-mobile-drawer__backdrop als Geschwister vor aside.nc-mobile-drawer (id, aria-label); darin __header (__title, __close) und nav.__nav > ul.__list > li > a.__link (+ ul.__sublist > li > a.__sublink).",
+      "Ausloeser ist jeder Knopf mit aria-controls=\"<id des Drawers>\" ausserhalb des Drawers (z. B. ein Burger in der Kopfzeile, Klasse frei); das Behavior haelt aria-expanded an allen solchen Knoepfen.",
+      "Zustand offen: .nc-mobile-drawer--open (translateX(0) statt 100 %, transform 0,3 s) und am Backdrop __backdrop--visible (opacity --nc-mobile-drawer-backdrop-visible-opacity, pointer-events). Beides setzt das Behavior; prefers-reduced-motion verkuerzt die Uebergaenge global (02-generic/_reset.scss).",
+      "Breite min(320px, 85vw), rechts angeschlagen, z-index --fnd-z-drawer (Backdrop eins darunter), eigener Scrollbereich (overflow-y auto).",
+      "Nur unter 1200 px Fensterbreite: darueber blendet das DS Drawer und Backdrop aus (display: none !important) — der Knopf tut dann nichts, ein offener Drawer schliesst beim Wechsel (reason resize). Die Arena zeigt die Lage darunter (Rahmen ra-buehne--mobil-drawer).",
+      "Modal (neo-behaviors mobile-drawer): offen role=dialog + aria-modal, Fokus auf das erste bedienbare Element (Schliessen-Knopf), Fokus-Falle, Geschwister des Drawers und seiner Vorfahren bis <body> ausser dem Backdrop inert, body.u-no-scroll; geschlossen inert + aria-hidden=\"true\" — der aus dem Bild geschobene Drawer waere sonst per Tab erreichbar. Fokus nach dem Schliessen zurueck zum Ausloeser.",
+      "body.u-no-scroll hat im DS keine Regel; die Seitensperre gestaltet das einbindende Theme (neo_fe: css/neo-overrides.css). Ohne sie scrollt die Seite hinter dem Drawer mit.",
+      "Auf neocosmo.de nicht im Einsatz (meta.source): die Mobilnavigation ist .m-drawer aus der Hauptnavigation (Recipe navigation-tab-mega, Behavior navigation-tab-mega). Das Behavior bindet in Drupal nur auf ausdrueckliche Anforderung (drupalSettings.neoBehaviors.nur)."
     ]
   },
   "axes": {
@@ -114,12 +143,12 @@
         "default": {
           "modifier": null,
           "tokenGroups": [],
-          "description": "geschlossen: translateX(100%)"
+          "description": "geschlossen: translateX(100%), inert und aria-hidden"
         },
         "open": {
           "modifier": "nc-mobile-drawer--open",
           "tokenGroups": [],
-          "description": "offen, dazu __backdrop--visible"
+          "description": "offen (--open), dazu __backdrop--visible"
         }
       }
     }
@@ -137,13 +166,45 @@
     "interactive": true
   },
   "a11y": {
-    "notes": [
-      "Verhalten (neo-behaviors mobile-drawer): modaler Dialog — Ausloeser mit aria-controls und aria-expanded, Fokus in den Drawer, Fokus-Falle, Rest der Seite inert, Escape schliesst, Fokus zurueck zum Ausloeser (WCAG 2.1.2, 2.4.3).",
-      "Geschlossen inert und aria-hidden: unsichtbare Links sind nicht per Tab erreichbar (WCAG 2.4.3, 4.1.2).",
-      "Gestaltung nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "focusIndicator": "globaler :focus-visible-Ring (02-generic/_reset.scss) an Links und Schliessen-Knopf",
+      "assertions": [
+        "2.1.2/2.4.3: modaler Dialog — Fokus beim Oeffnen in den Drawer, Fokus-Falle (Tab/Shift+Tab), Rest der Seite inert, Escape schliesst, Fokus zurueck zum Ausloeser.",
+        "4.1.2: Ausloeser mit aria-controls und aria-expanded (setzt das Behavior); der Drawer braucht einen Namen im Markup (aria-label oder aria-labelledby auf __title) — das Behavior setzt keinen.",
+        "2.4.3: geschlossen inert und aria-hidden — die unsichtbaren Links sind nicht per Tab erreichbar und werden nicht vorgelesen.",
+        "1.3.1: Navigation als <nav> mit aria-label und verschachtelten Listen; der aktuelle Eintrag traegt aria-current=\"page\".",
+        "2.5.8: Schliessen-Knopf 36 x 36 px; Links als Block mit Polster spacing-03/-04.",
+        "1.4.3: Kontrast AA hell und dunkel gemessen — Links und Titel text-primary 16,01:1, Unterpunkte text-secondary ab 6,07:1, Schliessen-Symbol ab 6,07:1 (1.4.11)."
+      ],
+      "note": "Bedienung und Zustaende: Behavior mobile-drawer (neo-behaviors); auf der Website nicht im Einsatz."
+    },
+    "overrides": []
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Nur fuer Fensterbreiten unter 1200 px — darueber blendet das DS den Drawer aus; die Desktop-Navigation muss dann dieselben Ziele zeigen."
+        ]
+      },
+      {
+        "when": {},
+        "notes": [
+          "Ausloeser ist ein <button> mit aria-controls ausserhalb des Drawers; der Drawer traegt eine id und einen Namen (aria-label oder aria-labelledby)."
+        ]
+      },
+      {
+        "when": {},
+        "notes": [
+          "Hoechstens zwei Ebenen (__list, __sublist); tiefere Strukturen gehoeren in die Push-Navigation von navigation-tab-mega."
+        ]
+      }
+    ],
+    "copy": {}
+  },
   "styling": {
     "tokens": [
       "--nc-mobile-drawer-backdrop-visible-opacity",
@@ -152,9 +213,42 @@
     ],
     "baseClasses": [
       "nc-mobile-drawer"
-    ]
+    ],
+    "baseTokenGroups": [],
+    "tokenGroups": {
+      "base": {
+        "label": "Base",
+        "tokens": [
+          "nc-mobile-drawer-backdrop-visible-opacity",
+          "nc-mobile-drawer-close-background",
+          "nc-mobile-drawer-root-box-shadow"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens",
+        "a11yAssertions"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "specimens": [
     {
       "id": "default",
@@ -170,7 +264,7 @@
           "default"
         ]
       },
-      "layout": "block",
+      "layout": "composition",
       "render": {
         "label": "offen"
       },
@@ -251,15 +345,15 @@
   "keyboard": {
     "Enter": {
       "action": "toggle-drawer",
-      "note": "Auf dem Knopf mit aria-controls=\"<id des Drawers>\" (nativer Knopf): oeffnet den Drawer, Fokus auf das erste bedienbare Element (Schliessen-Knopf). Erneut: schliesst."
+      "note": "Auf dem geschlossenen Ausloeser (nativer Knopf mit aria-controls=\"<id des Drawers>\"): oeffnet den Drawer, Fokus auf das erste bedienbare Element (Schliessen-Knopf). Waehrend der Drawer offen ist, ist der Knopf inert; ein Klick von aussen (zweiter Ausloeser, Skript) schliesst (reason trigger)."
     },
     "Space": {
       "action": "toggle-drawer",
-      "note": "Wie Enter auf dem Knopf."
+      "note": "Wie Enter auf dem Ausloeser."
     },
     "Escape": {
       "action": "close",
-      "note": "Offener Drawer: schliesst, gibt den Rest der Seite frei, Fokus zurueck auf den Ausloeser."
+      "note": "Offener Drawer (Fokus irgendwo im Dokument): schliesst, gibt den Rest der Seite frei, Fokus zurueck auf den Ausloeser (reason escape)."
     },
     "Tab": {
       "action": "trap-focus",
@@ -273,14 +367,14 @@
   "events": {
     "mobile-drawer-open": {
       "bubbles": true,
-      "note": "Gefeuert am Drawer, wenn er geoeffnet wird."
+      "note": "Gefeuert am Drawer, wenn er geoeffnet wird (nach dem Setzen des Fokus)."
     },
     "mobile-drawer-close": {
       "bubbles": true,
       "detail": {
         "reason": "string"
       },
-      "note": "Gefeuert am Drawer beim Schliessen. reason: 'escape', 'overlay-click', 'close-button', 'trigger', 'resize'."
+      "note": "Gefeuert am Drawer beim Schliessen. reason: 'escape', 'overlay-click', 'close-button', 'trigger' (Klick auf einen Ausloeser, waehrend offen), 'resize' (Fenster ab 1200 px)."
     }
   }
 }

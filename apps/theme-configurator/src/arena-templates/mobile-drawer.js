@@ -1,5 +1,6 @@
 // Vorlage: mobile-drawer — Drawer der Mobil-Navigation, aus dem Drupal-Theme
-// aufgenommen (neo-overrides.css). Ein geerntetes data/markup gibt es nicht;
+// aufgenommen (neo-overrides.css). Ein geerntetes data/markup gibt es nicht
+// (die Website nutzt das Bauteil nicht mehr);
 // das Markup folgt den BEM-Klassen in scss/scss/07-organisms/
 // _mobile-drawer.scss (Recipe-Anatomie):
 //   div.nc-mobile-drawer__backdrop (+ --visible)   Geschwister, davor
@@ -22,8 +23,9 @@
 // „Ausprobieren" (Entscheidung 06.10.2026, overlay-verhalten): Knopf
 // „Menü öffnen" mit aria-controls im Rahmen, Drawer startet geschlossen; das
 // Behavior mobile-drawer aus neo-behaviors oeffnet ihn (Fokus-Falle,
-// Escape, Backdrop, Fokus zurueck). Auf der Website steuert ihn bis zur
-// Umstellung neo-theme.js (neoMobileNav).
+// Escape, Backdrop, Fokus zurueck). Auf neocosmo.de ist das Bauteil nicht
+// im Einsatz (Stand 08.10.2026): die Mobilnavigation ist .m-drawer der
+// Hauptnavigation (Recipe navigation-tab-mega), neoMobileNav ist entfallen.
 import { esc, SYMBOL } from './_helfer.js'
 
 const PUNKTE = [
