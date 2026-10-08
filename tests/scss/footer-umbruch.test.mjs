@@ -63,8 +63,9 @@ describe('Footer: unteres Band laeuft mobil nicht ueber', () => {
 
   it('Recipe footer fuehrt die Korrektur (2.0.2)', () => {
     const recipe = JSON.parse(readFileSync(resolve(ROOT, 'data/footer-recipe.json'), 'utf-8'));
-    expect(recipe.meta.version).toBe('2.0.2');
-    expect(recipe.meta.changelog[0].version).toBe('2.0.2');
-    expect(recipe.meta.changelog[0].changes.join(' ')).toContain('flex-wrap');
+    // Spaetere Versionen duerfen folgen — der 2.0.2-Eintrag muss bleiben.
+    const eintrag = recipe.meta.changelog.find((c) => c.version === '2.0.2');
+    expect(eintrag).toBeDefined();
+    expect(eintrag.changes.join(' ')).toContain('flex-wrap');
   });
 });

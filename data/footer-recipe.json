@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "footer",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,12 @@
       "docs": "/docs/footer-docs"
     },
     "changelog": [
+      {
+        "version": "2.0.3",
+        "changes": [
+          "Entscheidung Abschluss 08.10.2026 (website-sichtbar, Freigabe ausstehend): Bei 768px liefen die Sitemap-Spalten (.nc-footer__columns, Variante --4-col) 19px seitlich ueber den Viewport (46px ueber die Containerkante; 800px: 24px). Ursache: --4-col setzt ab sm (768px) vier 1fr-Spalten (= minmax(auto, 1fr), Min-Content der laengsten Woerter), die Navigation ist dort neben der Kontaktspalte aber nur ~437px breit; zudem widersprachen sich bei genau 768px max-width (2 Spalten) und min-width (4 Spalten). Zwischen sm und md (768–959px) bleibt die 4-spaltige Sitemap jetzt zweispaltig (repeat(2, minmax(0, 1fr)), Breakpoint-Mixin respond-between), vier Spalten ab md. Gemessen nachher: Ueberlauf 0 bei 600/700/768/800/900/1024px; 320–767px und ab 960px pixelgleich. 2- und 3-spaltige Footer unveraendert."
+        ]
+      },
       {
         "version": "2.0.2",
         "changes": [

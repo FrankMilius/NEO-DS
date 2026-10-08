@@ -800,6 +800,28 @@ footer {
 /* <<< aufgenommen: footer */
 
 // ---------------------------------------------------------------------------
+// Tablet: vierspaltige Sitemap erst ab Breakpoint md
+// ---------------------------------------------------------------------------
+/* Befund (Entscheidung Abschluss 08.10.2026): Bei 768px liefen die
+   Sitemap-Spalten 19px seitlich ueber den Viewport (46px ueber die
+   Containerkante, bei 800px noch 24px). Ursache: .nc-footer--4-col setzt ab
+   768px (Breakpoint sm) vier Spalten, die Navigation ist dort neben der
+   Kontaktspalte aber nur ~437px breit. 1fr heisst minmax(auto, 1fr) — die
+   Spalten wachsen auf ihre Min-Content-Breite (laengste Woerter wie
+   "Veranstaltungen") und sprengen mit dem Spaltenabstand die Navigation.
+   Zusaetzlich widersprach sich die Kaskade genau bei 768px: max-width 768
+   will zwei, min-width 768 vier Spalten — die spezifischere Vier gewann.
+   Korrektur: Zwischen sm und md (768–959px) bleibt die Sitemap zweispaltig
+   wie bei 767px; vier Spalten ab md, wo sie messbar passen. 2- und 3-spaltige
+   Footer sind nicht betroffen (passen bei 768px). Bei 320–767px und ab
+   960px aendert sich nichts. */
+@include respond-between('sm', 'md') {
+  .nc-footer--4-col .nc-footer__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Links ohne Klasse: Fliesstext-Link-Regel des Themas zuruecknehmen
 // ---------------------------------------------------------------------------
 /* 03-elements/_mono-elements.scss gestaltet unter .neo-light-theme UND

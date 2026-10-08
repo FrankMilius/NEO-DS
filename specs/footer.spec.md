@@ -1,5 +1,5 @@
 # footer Component Spec
-> Version 2.0.2 | Status: stable | Layer: organism
+> Version 2.0.3 | Status: stable | Layer: organism
 
 Tags: `navigation`, `layout`, `content`, `cta`
 
