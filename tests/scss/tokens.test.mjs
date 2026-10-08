@@ -204,7 +204,12 @@ describe('CSS Output Quality', () => {
   it('Übertragungsgröße (gzip) bleibt im Rahmen', () => {
     // DAS zahlen Besucher. Der Wert ist die eigentliche Leistungsgrenze.
     const gz = gzipSync(readFileSync(CSS_PATH), { level: 9 }).length / 1024;
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(150);
+    //
+    // 08.10.2026: 150 → 155 KB (Entscheidung Frank, zusammen mit der
+    // Rohgröße unten). Stand 147,4 KB nach Phase 5; die restlichen Arbeiten
+    // (Draft-Recipes final, offene Punkte) brauchen Luft. Höchstens ca. 3 %
+    // mehr Übertragung. Aufgeräumt und neu gemessen wird am Schluss.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(155);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -231,7 +236,14 @@ describe('CSS Output Quality', () => {
     // Datentabelle per Container Query, Website-Korrekturen) = +3 KB roh
     // bis dahin; Puffer fuer die ausstehenden Freigabe-Branches. Kein Vorrat
     // darueber hinaus.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1245);
+    //
+    // 08.10.2026: 1245 → 1280 KB (Entscheidung Frank). Stand 1244,4 KB nach
+    // Phase 5 (nc-shot, Text-CTA ohne Karte; Totbestand sizes, section-intro,
+    // card-grid-section schon entfernt). Erst alles final umsetzen, danach
+    // entscheiden, ob und wie aufgeraeumt wird (Kandidat: ungenutzte
+    // Utility-Klassen, ca. 5,9 KB). Die Grenze bleibt ein Warnsignal, kein
+    // Vorrat: Wachstum weiter in der Wochenbilanz beobachten.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1280);
   });
 
   it('CSS Build hat keine Fehler', () => {
