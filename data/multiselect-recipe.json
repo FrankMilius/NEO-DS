@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "multiselect",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.5.1",
+        "changes": [
+          "Entscheidung Abschluss 2, 08.10.2026 (website-sichtbar, Freigabe ausstehend): Rahmen des Knopfs = Rahmen des Eingabefelds. Neue Component-Tokens --nc-multiselect-trigger-border(-width|-hover|-focus|-error|-disabled) zeigen auf --nc-input-border(-width|-hover|-focus|-error) bzw. --nc-input-disabled-border; hell und dunkel folgen damit dem Eingabefeld. Vorher Ruhe border-secondary (hell 1,13:1, dunkel 1,79:1), Hover text-secondary, Fokus ohne Randfarbe. Gemessen im Formular-Markup der Website (Theme-CSS-Stapel neo_fe), Rand gegen Umgebung: Ruhe hell 4,18:1, dunkel 3,83:1 (wie .nc-input); Hover/Fokus hell 16,01:1, dunkel 17,17:1; Fehler hell 6,79:1, dunkel 7,40:1; deaktiviert wie .nc-input. Fehler (aria-invalid) bleibt bei Hover und Fokus stehen."
+        ]
+      },
       {
         "version": "1.5.0",
         "changes": [
@@ -86,7 +92,7 @@
         "name": "trigger",
         "element": ".nc-multiselect__trigger",
         "optional": false,
-        "description": "Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen border-secondary) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover Rahmen text-secondary, :focus-visible Ring interactive-focus."
+        "description": "Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen wie .nc-input ueber --nc-multiselect-trigger-border-*) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover/Fokus/Fehler/deaktiviert Rahmen wie .nc-input, :focus-visible Ring interactive-focus."
       },
       {
         "name": "value",
@@ -203,6 +209,12 @@
       "--nc-multiselect-panel-box-shadow",
       "--nc-multiselect-panel-gap",
       "--nc-multiselect-panel-padding",
+      "--nc-multiselect-trigger-border",
+      "--nc-multiselect-trigger-border-disabled",
+      "--nc-multiselect-trigger-border-error",
+      "--nc-multiselect-trigger-border-focus",
+      "--nc-multiselect-trigger-border-hover",
+      "--nc-multiselect-trigger-border-width",
       "--nc-multiselect-trigger-font-size",
       "--nc-multiselect-trigger-gap",
       "--nc-multiselect-trigger-padding"
@@ -219,6 +231,12 @@
           "nc-multiselect-panel-box-shadow",
           "nc-multiselect-panel-gap",
           "nc-multiselect-panel-padding",
+          "nc-multiselect-trigger-border",
+          "nc-multiselect-trigger-border-disabled",
+          "nc-multiselect-trigger-border-error",
+          "nc-multiselect-trigger-border-focus",
+          "nc-multiselect-trigger-border-hover",
+          "nc-multiselect-trigger-border-width",
           "nc-multiselect-trigger-font-size",
           "nc-multiselect-trigger-gap",
           "nc-multiselect-trigger-padding"

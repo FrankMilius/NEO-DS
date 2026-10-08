@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "multiselect",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -15,7 +15,7 @@
         "name": "trigger",
         "selector": ".nc-multiselect__trigger",
         "required": true,
-        "description": "Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen border-secondary) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover Rahmen text-secondary, :focus-visible Ring interactive-focus."
+        "description": "Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen wie .nc-input ueber --nc-multiselect-trigger-border-*) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover/Fokus/Fehler/deaktiviert Rahmen wie .nc-input, :focus-visible Ring interactive-focus."
       },
       {
         "name": "value",
@@ -98,6 +98,24 @@
           "token": "--nc-multiselect-panel-padding"
         },
         {
+          "token": "--nc-multiselect-trigger-border"
+        },
+        {
+          "token": "--nc-multiselect-trigger-border-disabled"
+        },
+        {
+          "token": "--nc-multiselect-trigger-border-error"
+        },
+        {
+          "token": "--nc-multiselect-trigger-border-focus"
+        },
+        {
+          "token": "--nc-multiselect-trigger-border-hover"
+        },
+        {
+          "token": "--nc-multiselect-trigger-border-width"
+        },
+        {
           "token": "--nc-multiselect-trigger-font-size"
         },
         {
@@ -113,6 +131,12 @@
       "--mod-multiselect-panel-box-shadow",
       "--mod-multiselect-panel-gap",
       "--mod-multiselect-panel-padding",
+      "--mod-multiselect-trigger-border",
+      "--mod-multiselect-trigger-border-disabled",
+      "--mod-multiselect-trigger-border-error",
+      "--mod-multiselect-trigger-border-focus",
+      "--mod-multiselect-trigger-border-hover",
+      "--mod-multiselect-trigger-border-width",
       "--mod-multiselect-trigger-font-size",
       "--mod-multiselect-trigger-gap",
       "--mod-multiselect-trigger-padding"

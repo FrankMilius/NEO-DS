@@ -1,5 +1,5 @@
 # multiselect Component Spec
-> Version 1.5.0 | Status: stable | Layer: molecule
+> Version 1.5.1 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -8,7 +8,7 @@ Root element: `.nc-multiselect`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| trigger | `.nc-multiselect__trigger` | Yes | Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen border-secondary) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover Rahmen text-secondary, :focus-visible Ring interactive-focus. |
+| trigger | `.nc-multiselect__trigger` | Yes | Disclosure-Knopf (button type=button, volle Breite, min. 2,75rem hoch, Rahmen wie .nc-input ueber --nc-multiselect-trigger-border-*) mit aria-expanded, aria-controls aufs Panel und aria-labelledby (Label + Knopf); Hover/Fokus/Fehler/deaktiviert Rahmen wie .nc-input, :focus-visible Ring interactive-focus. |
 | value | `.nc-multiselect__value` | Yes | Zusammenfassung im Knopf (einzeilig, Auslassungspunkte): bis zwei Namen mit Komma, sonst „<n> ausgewählt"; ohne Auswahl der Platzhalter mit __value--empty (text-tertiary). |
 | caret | `.nc-multiselect__caret` | Yes | Pfeil ▾ (aria-hidden, text-secondary); dreht sich bei .is-open am Feld um 180°. |
 | panel | `.nc-multiselect__panel` | Yes | Liste unter dem Feld (absolut, inset-block-start 100 % + spacing-01, hoechstens 16rem hoch, scrollt) mit role=group und aria-labelledby aufs Label; geschlossen [hidden]. |
@@ -45,6 +45,12 @@ Base classes: `nc-multiselect`
 | `--nc-multiselect-panel-box-shadow` | — | `--mod-multiselect-panel-box-shadow` |
 | `--nc-multiselect-panel-gap` | — | `--mod-multiselect-panel-gap` |
 | `--nc-multiselect-panel-padding` | — | `--mod-multiselect-panel-padding` |
+| `--nc-multiselect-trigger-border` | — | `--mod-multiselect-trigger-border` |
+| `--nc-multiselect-trigger-border-disabled` | — | `--mod-multiselect-trigger-border-disabled` |
+| `--nc-multiselect-trigger-border-error` | — | `--mod-multiselect-trigger-border-error` |
+| `--nc-multiselect-trigger-border-focus` | — | `--mod-multiselect-trigger-border-focus` |
+| `--nc-multiselect-trigger-border-hover` | — | `--mod-multiselect-trigger-border-hover` |
+| `--nc-multiselect-trigger-border-width` | — | `--mod-multiselect-trigger-border-width` |
 | `--nc-multiselect-trigger-font-size` | — | `--mod-multiselect-trigger-font-size` |
 | `--nc-multiselect-trigger-gap` | — | `--mod-multiselect-trigger-gap` |
 | `--nc-multiselect-trigger-padding` | — | `--mod-multiselect-trigger-padding` |

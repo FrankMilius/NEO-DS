@@ -25,18 +25,35 @@
   text-align: start;
   background: var(--fnd-color-background-base);
   color: var(--fnd-color-text-primary);
-  border: 1px solid var(--fnd-color-border-secondary);
+  // Rahmen wie .nc-input (Ruhe, Hover, Fokus, Fehler, deaktiviert) ueber
+  // --nc-multiselect-trigger-border-*, die auf die --nc-input-*-Tokens zeigen
+  // (Entscheidung Abschluss 2, 08.10.2026). Vorher border-secondary mit
+  // 1,13:1 — der Knopf war als Feld kaum zu erkennen.
+  border: var(--nc-multiselect-trigger-border-width) solid var(--nc-multiselect-trigger-border);
   border-radius: var(--fnd-radius-sm);
   cursor: pointer;
 }
 
-.nc-multiselect__trigger:hover {
-  border-color: var(--fnd-color-text-secondary);
+.nc-multiselect__trigger:hover:not(:disabled):not([aria-disabled='true']):not([aria-invalid='true']):not(:focus-visible) {
+  border-color: var(--nc-multiselect-trigger-border-hover);
 }
 
 .nc-multiselect__trigger:focus-visible {
   outline: 2px solid var(--fnd-color-interactive-focus);
   outline-offset: 2px;
+  border-color: var(--nc-multiselect-trigger-border-focus);
+}
+
+// Fehler bleibt bei Hover und Fokus stehen (wie form-control-error).
+.nc-multiselect__trigger[aria-invalid='true'],
+.nc-multiselect__trigger[aria-invalid='true']:hover,
+.nc-multiselect__trigger[aria-invalid='true']:focus-visible {
+  border-color: var(--nc-multiselect-trigger-border-error);
+}
+
+.nc-multiselect__trigger:disabled,
+.nc-multiselect__trigger[aria-disabled='true'] {
+  border-color: var(--nc-multiselect-trigger-border-disabled);
 }
 
 .nc-multiselect__value {

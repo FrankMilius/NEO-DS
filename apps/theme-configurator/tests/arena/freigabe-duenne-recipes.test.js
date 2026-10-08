@@ -117,8 +117,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(ernte).not.toMatch(/aria-labelledby|aria-modal/)
   })
 
-  it('multiselect: 1.5.0, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
-    const r = freigegeben('multiselect', '1.5.0')
+  it('multiselect: 1.5.1, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
+    const r = freigegeben('multiselect', '1.5.1') // 1.5.1: Rahmen wie .nc-input (Entscheidung Abschluss 2, Freigabe ausstehend)
     anatomieWieScss('multiselect', 'scss/scss/06-molecules/_multiselect.scss', 'nc-multiselect')
     expect(MIT_VERHALTEN).toContain('multiselect')
     expect(Object.keys(r.keyboard).sort()).toEqual(['ArrowDown', 'ArrowUp', 'End', 'Enter', 'Escape', 'Home', 'Space', 'Tab'])
@@ -130,8 +130,9 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/fest deutsch/)
     expect(r.constraints.copy.summary.note).toMatch(/fest deutsch/)
     expect(r.meta.source.drupal).toMatch(/_neo_fe_hat_multiselect/)
-    // die frueher „ausstehenden" SCSS-Aenderungen sind freigegeben
-    expect(r.meta.changelog[0].changes.join(' ')).toMatch(/seit 07\.10\.2026 freigegeben/)
+    // die frueher „ausstehenden" SCSS-Aenderungen sind freigegeben (im Freigabe-Eintrag)
+    const freigabe = r.meta.changelog.find((e) => /^Freigabe \(Abschluss Plan v3/.test(e.changes[0]))
+    expect(freigabe.changes.join(' ')).toMatch(/seit 07\.10\.2026 freigegeben/)
   })
 
   it('searchbar: 1.4.0, Anatomie wie das SCSS (__shortcut entfernt), Verhalten beschrieben, nicht migriert', () => {
