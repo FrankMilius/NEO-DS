@@ -1,9 +1,9 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "news",
-  "version": "1.1.0",
-  "status": "draft",
-  "layer": "unknown",
+  "version": "1.2.0",
+  "status": "stable",
+  "layer": "organism",
   "tags": [
     "aufgenommen",
     "organisms"
@@ -12,88 +12,109 @@
     "rootElement": ".nc-news",
     "slots": [
       {
-        "name": "body",
-        "selector": ".nc-news__body",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "date",
-        "selector": ".nc-news__date",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "eyebrow",
-        "selector": ".nc-news__eyebrow",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "footer",
-        "selector": ".nc-news__footer",
-        "required": true,
-        "description": null
-      },
-      {
         "name": "hero",
         "selector": ".nc-news__hero",
         "required": true,
-        "description": null
+        "description": "<header>, Artikel-Kopf: mindestens 400 px hoch, Inhalt senkrecht mittig, background-base und text-primary des Themas."
       },
       {
-        "name": "hero-cta",
-        "selector": ".nc-news__hero-cta",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "hero-inner",
-        "selector": ".nc-news__hero-inner",
+        "name": "hero--has-media",
+        "selector": ".nc-news__hero--has-media",
         "required": false,
-        "description": null
+        "description": "Modifier mit Titelbild (field_hero_image); Drupal setzt dazu neo-dark-theme — die Theme-Tokens im Hero werden dunkel. Ohne eigene Regel."
       },
       {
         "name": "hero-media",
         "selector": ".nc-news__hero-media",
         "required": false,
-        "description": null
+        "description": "Titelbild als Hintergrund (background-size cover); Instanzwerte inline: background-image, background-position aus dem Fokuspunkt (field_hero_focus_x/_y), transform scale aus dem Zoom (field_hero_zoom, mindestens 1)."
       },
       {
         "name": "hero-overlay",
         "selector": ".nc-news__hero-overlay",
         "required": false,
-        "description": null
+        "description": "Verlauf ueber dem Bild (--nc-news-hero-overlay-background), aria-hidden; nur mit Bild."
+      },
+      {
+        "name": "hero-inner",
+        "selector": ".nc-news__hero-inner",
+        "required": true,
+        "description": "Inhalt des Heros: Breite --mod-container-max-width aus nc-cw-<field_hero_width> (Vorgabe wide), Rueckfall container-content; seitliche Polsterung container-padding-inline."
+      },
+      {
+        "name": "eyebrow",
+        "selector": ".nc-news__eyebrow",
+        "required": true,
+        "description": "Dachzeile: Flex-Zeile mit Kicker und Datum, caption; steht immer, bleibt ohne Werte leer."
       },
       {
         "name": "kicker",
         "selector": ".nc-news__kicker",
         "required": false,
-        "description": null
+        "description": "Dachzeile (field_kicker): semibold, Satz und Farbe aus den geteilten --nc-kicker-*-Tokens."
+      },
+      {
+        "name": "date",
+        "selector": ".nc-news__date",
+        "required": false,
+        "description": "Datum (field_news_date, Formatierung des Feldes), text-secondary."
+      },
+      {
+        "name": "title",
+        "selector": ".nc-news__title",
+        "required": true,
+        "description": "Titel (<h1> mit dem Knotentitel): --nc-news-title-*, text-primary."
       },
       {
         "name": "lead",
         "selector": ".nc-news__lead",
         "required": false,
-        "description": null
+        "description": "Zusammenfassung (field_summary, <div>): --nc-news-lead-*, text-secondary, hoechstens 65ch."
       },
       {
-        "name": "title",
-        "selector": ".nc-news__title",
+        "name": "hero-cta",
+        "selector": ".nc-news__hero-cta",
         "required": false,
-        "description": null
+        "description": "Knopf im Hero (field_hero_cta, Ausgabe des Feldes)."
+      },
+      {
+        "name": "body",
+        "selector": ".nc-news__body",
+        "required": true,
+        "description": "Textbereich (field_news_text, u-prose): Breite aus nc-cw-<field_content_width> (Vorgabe content), Polsterung spacing-10 oben und unten."
+      },
+      {
+        "name": "footer",
+        "selector": ".nc-news__footer",
+        "required": false,
+        "description": "<footer class=\"nc-news__footer nc-container\"> (nur mit Fuss-CTA oder Kontaktlink): Trennlinie oben, Links in text-accent semibold; feste Breite container-content."
+      },
+      {
+        "name": "footer-cta",
+        "selector": ".nc-news__footer-cta",
+        "required": false,
+        "description": "Huelle des Fuss-Links (field_footer_cta) — ohne eigene Regel."
+      },
+      {
+        "name": "contact",
+        "selector": ".nc-news__contact",
+        "required": false,
+        "description": "Huelle des Kontaktlinks (field_contact_link) — ohne eigene Regel."
       }
     ],
     "notes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Website: node--news--full.html.twig rendert <article class=\"node node--type-news nc-news\"> mit Hero (<header>), Textbereich und optionaler Fusszeile; Werte aus content.field_* und neo_fe_preprocess_node (news.hero_bg_url, focus_x/_y, zoom, hero_width, content_width).",
+      "Mit Titelbild: <header class=\"nc-news__hero nc-news__hero--has-media neo-dark-theme\"> — der Hero bindet die Theme-Tokens dunkel (Text hell auf dem Verlauf), ohne Bild folgt er dem Seitenthema.",
+      "Inhaltsbreiten: nc-cw-* (10-utilities/_content-width.scss) setzt --mod-container-max-width, das __hero-inner und __body lesen; die Fusszeile nimmt nc-container und haelt container-content.",
+      "Ueberschrift: h1 (Knotentitel). Die Arena zeigt h2, weil der Konfigurator die Seitenueberschrift selbst traegt.",
+      "Kein Verhalten."
     ]
   },
   "api": null,
   "variants": {
     "variant": {
       "label": "Variant",
-      "description": "Einzige Variante",
+      "description": "Einzige Variante — mit und ohne Titelbild per Specimen.",
       "values": [
         {
           "value": "default",
@@ -116,7 +137,7 @@
       "nc-news"
     ],
     "tokenGroups": {
-      "Base": [
+      "Alle": [
         {
           "token": "--nc-news-eyebrow-gap"
         },
@@ -159,12 +180,28 @@
   "events": null,
   "a11y": {
     "role": null,
-    "interactive": null,
-    "contrastTarget": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
     "focusIndicator": null,
-    "assertions": [],
+    "assertions": [
+      "Eine h1 je Seite (Titel im Hero), der Text darunter beginnt mit h2.",
+      "Titelbild ist Hintergrund ohne Alternativtext — es darf keine Information tragen, die nicht im Text steht; der Verlauf ist aria-hidden.",
+      "Mit Bild ist der Hero dunkel gebunden (neo-dark-theme) — Dachzeile, Datum, Titel und Zusammenfassung hell auf dem Verlauf; ohne Bild gemessen ab 5,74:1 (hell) bzw. 8,34:1 (dunkel).",
+      "Datum als Ausgabe des Feldes; ein <time datetime> setzt der Feld-Formatter, nicht das Template.",
+      "Fusszeilen-Links in text-accent (5,74:1 hell) mit sichtbarem Text."
+    ],
     "overrides": []
   },
   "dependencies": [],
-  "pipeline": null
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_news.scss"
+    ],
+    "story": "stories/organisms/news.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [
+      "node/node--news--full.html.twig"
+    ],
+    "docs": null
+  }
 }

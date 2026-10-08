@@ -122,6 +122,30 @@ const BAUTEILE = {
       default: ['.nc-events > .nc-events__filter-bar > .nc-events__search > .nc-events__search-wrapper > .nc-events__search-icon + input.nc-events__search-input[type="search"][aria-label]', '.nc-events__filter-bar > select.nc-events__filter-select[aria-label]', '.nc-events > .nc-events__results-count + .nc-events__grid > a.nc-events__card > .nc-events__card-header > .nc-events__card-type + h3.nc-events__card-title + .nc-events__card-meta', 'a.nc-events__card > .nc-events__card-header + .nc-events__card-footer', '.nc-events__load-more > button.nc-button.nc-button--secondary'],
       leer: ['.nc-events__empty > p']
     }
+  },
+  news: {
+    namensraum: /^nc-news(__|--|$)/,
+    ohneRegel: {
+      'nc-news': 'Wurzel <article>, fasst Hero, Text und Fusszeile',
+      'nc-news__hero--has-media': 'Drupal setzt es mit Titelbild zusammen mit neo-dark-theme',
+      'nc-news__footer-cta': 'Huelle des Fuss-Links',
+      'nc-news__contact': 'Huelle des Kontaktlinks'
+    },
+    website: [
+      {
+        quelle: 'neo_fe/templates/node/node--news--full.html.twig (mit Titelbild, alle Felder)',
+        markup: '<article class="node node--type-news nc-news"><header class="nc-news__hero nc-news__hero--has-media neo-dark-theme"><div class="nc-news__hero-media" style="background-image: url(\'x.jpg\'); background-position: 50% 30%; transform: scale(1.2); transform-origin: 50% 30%;"></div><div class="nc-news__hero-overlay" aria-hidden="true"></div><div class="nc-news__hero-inner nc-cw-wide"><div class="nc-news__eyebrow"><span class="nc-news__kicker">Produktnews</span><span class="nc-news__date"><time datetime="2026-07-01">Juli 2026</time></span></div><h1 class="nc-news__title">Titel</h1><div class="nc-news__lead"><p>Lead</p></div><div class="nc-news__hero-cta"><a href="/x" class="nc-button nc-button--accent">Weiterlesen</a></div></div></header><div class="nc-news__body u-prose nc-cw-content"><p>Text</p></div><footer class="nc-news__footer nc-container"><div class="nc-news__footer-cta"><a href="/news">Alle News</a></div><div class="nc-news__contact"><a href="/kontakt">Pressekontakt</a></div></footer></article>'
+      },
+      {
+        quelle: 'neo_fe/templates/node/node--news--full.html.twig (ohne Titelbild, ohne Fusszeile)',
+        markup: '<article class="node node--type-news nc-news"><header class="nc-news__hero"><div class="nc-news__hero-inner nc-cw-wide"><div class="nc-news__eyebrow"></div><h1 class="nc-news__title">Titel</h1></div></header><div class="nc-news__body u-prose nc-cw-content"><p>Text</p></div></article>'
+      }
+    ],
+    arena: {
+      default: ['article.nc-news > header.nc-news__hero.nc-news__hero--has-media.neo-dark-theme > .nc-news__hero-media[style^="background-image"] + .nc-news__hero-overlay[aria-hidden="true"] + .nc-news__hero-inner.nc-cw-wide > .nc-news__eyebrow + .nc-news__title', 'article.nc-news > .nc-news__body.u-prose.nc-cw-content', 'article.nc-news > footer.nc-news__footer.nc-container > .nc-news__footer-cta + .nc-news__contact'],
+      'ohne-bild': ['article.nc-news > header.nc-news__hero:not(.nc-news__hero--has-media):not(.neo-dark-theme) > .nc-news__hero-inner:first-child']
+    },
+    ohneArena: { default: ['.nc-news__hero-inner.nc-container', '.nc-news__body.nc-container'], 'ohne-bild': ['.nc-news__hero-media', '.nc-news__hero-overlay'] }
   }
 }
 

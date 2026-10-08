@@ -17,7 +17,6 @@ export const ENTWUERFE = Object.freeze([
   'feature-list',
   'mobile-drawer',
   'multiselect',
-  'news',
   'scroll-expand',
   'scroll-reveal',
   'searchbar',
