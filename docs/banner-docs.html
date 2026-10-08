@@ -4,12 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Banner | Component Docs</title>
-  <meta name="description" content="Interaktive Dokumentation der Banner-Komponente mit Live-Demo, Token-Referenz und API Reference." />
+  <meta name="description" content="Interaktive Dokumentation der Banner-Komponente mit Live-Demo, Token-Referenz, API Reference und Accessibility-Guide." />
   <link rel="stylesheet" href="../styles.css" />
+
 </head>
 <body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
   <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
   <div class="docs-layout">
+    <!-- Documentation Header -->
     <header class="docs-header" id="docs-header">
       <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
         <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
@@ -28,6 +33,17 @@
           <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
         </div>
       </div>
+      <label class="docs-header__paper" title="Bereichspapier (data-bg-paper)">
+        <span class="u-sr-only">Papier</span>
+        <select class="docs-header__paper-select" id="docs-paper-select" aria-label="Bereichspapier wählen">
+          <option value="graphit">Graphit</option>
+          <option value="beige">Beige</option>
+          <option value="ivory">Ivory</option>
+          <option value="warm-taupe">Warm Taupe</option>
+          <option value="pearl-white">Pearl White</option>
+          <option value="mint">Mint</option>
+        </select>
+      </label>
       <div class="docs-header__theme-toggle">
         <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
         <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
@@ -36,7 +52,11 @@
         <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
       </div>
     </header>
+
+    <!-- Sidebar Navigation -->
     <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
     <main class="docs">
 
 
@@ -56,12 +76,15 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
       <div class="docs__body">
         <div class="docs-tabs" id="banner-tabs">
-<!-- TAB 1: Benutzung -->
+<!-- ============================================================ -->
+        <!-- TAB 1: Benutzung (Live Demo / Showcase)                     -->
+        <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
 
           <!-- All 4 Variants -->
@@ -78,7 +101,7 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </span>
                 <div class="nc-banner__content">
-                  <span class="">Neue Funktionen verf&uuml;gbar &mdash; Entdecke die neuesten Updates im Dashboard.</span>
+                  <span>Neue Funktionen verf&uuml;gbar &mdash; Entdecke die neuesten Updates im Dashboard.</span>
                   <a class="nc-banner__link" href="#">Mehr erfahren</a>
                 </div>
                 <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
@@ -92,7 +115,7 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                 </span>
                 <div class="nc-banner__content">
-                  <span class="">Geplante Wartung am 28. Februar von 02:00 bis 04:00 Uhr.</span>
+                  <span>Geplante Wartung am 28. Februar von 02:00 bis 04:00 Uhr.</span>
                   <a class="nc-banner__link" href="#">Details anzeigen</a>
                 </div>
                 <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
@@ -106,7 +129,7 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
                 </span>
                 <div class="nc-banner__content">
-                  <span class="">Kritischer Systemfehler &mdash; einige Dienste sind derzeit nicht erreichbar.</span>
+                  <span>Kritischer Systemfehler &mdash; einige Dienste sind derzeit nicht erreichbar.</span>
                   <a class="nc-banner__link" href="#">Status-Seite</a>
                 </div>
                 <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
@@ -120,7 +143,7 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </span>
                 <div class="nc-banner__content">
-                  <span class="">Migration erfolgreich abgeschlossen. Alle Daten wurden &uuml;bertragen.</span>
+                  <span>Migration erfolgreich abgeschlossen. Alle Daten wurden &uuml;bertragen.</span>
                 </div>
                 <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
@@ -136,7 +159,7 @@
     &lt;svg&gt;...&lt;/svg&gt;
   &lt;/span&gt;
   &lt;div class="nc-banner__content"&gt;
-    &lt;span class=""&gt;Nachricht...&lt;/span&gt;
+    &lt;span&gt;Nachricht...&lt;/span&gt;
     &lt;a class="nc-banner__link" href="#"&gt;Mehr erfahren&lt;/a&gt;
   &lt;/div&gt;
   &lt;button class="nc-banner__close" aria-label="Banner schlie&szlig;en"&gt;
@@ -158,9 +181,41 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </span>
                 <div class="nc-banner__content">
-                  <span class="">Diese Seite befindet sich im Beta-Stadium.</span>
+                  <span>Diese Seite befindet sich im Beta-Stadium.</span>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <!-- Akzent-Stil + Titel -->
+          <section class="docs__section" id="accent">
+            <h2 class="docs__section-title">Akzent-Stil und Titel</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-banner--accent</code> zeigt eine dezente Fl&auml;che (12&nbsp;% der Variantenfarbe) mit Akzentkante links; der Text wechselt auf <code class="docs__token">text-primary</code>.
+              <code class="docs__token">.nc-banner__title</code> setzt einen fetten Pr&auml;fix (z.&nbsp;B. &bdquo;Wartung:&ldquo;) f&uuml;r bessere Scanbarkeit.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-banner nc-banner--warning nc-banner--accent" role="region" aria-label="Wartungshinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span><strong class="nc-banner__title">Wartung:</strong> Am Samstag ist das Portal von 02:00 bis 04:00 Uhr nicht erreichbar.</span>
+                  <a class="nc-banner__link" href="#">Details anzeigen</a>
+                </div>
+              </div>
+              <div class="nc-banner nc-banner--success nc-banner--accent" role="region" aria-label="Hinweis">
+                <div class="nc-banner__content">
+                  <span><strong class="nc-banner__title">Erledigt:</strong> Alle Daten wurden &uuml;bertragen.</span>
+                </div>
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-banner nc-banner--warning nc-banner--accent" role="region" aria-label="Wartungshinweis"&gt;
+  &lt;div class="nc-banner__content"&gt;
+    &lt;span&gt;&lt;strong class="nc-banner__title"&gt;Wartung:&lt;/strong&gt; Nachricht...&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
             </div>
           </section>
 
@@ -168,7 +223,7 @@
           <section class="docs__section" id="sticky">
             <h2 class="docs__section-title">Sticky Banner</h2>
             <p class="docs__section-desc">
-              Mit <code class="docs__token">.nc-banner--sticky</code> bleibt das Banner beim Scrollen am oberen Rand fixiert.
+              Mit <code class="docs__token">.nc-banner--sticky</code> bleibt das Banner beim Scrollen am oberen Rand haften; <code class="docs__token">.nc-banner--fixed</code> fixiert es &uuml;ber allem (neo-behaviors setzt dann oben die Banner-H&ouml;he als Innenabstand des Elternelements).
               Diese Variante verwendet <code>position: sticky; top: 0;</code> und einen erh&ouml;hten z-index.
             </p>
             <div class="docs-snippet">
@@ -180,119 +235,339 @@
 
         </div>
 
-        <!-- TAB 2: Style -->
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style (Token-Referenz)                               -->
+        <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <table class="docs__table docs__table--compact">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-padding-x</code></td><td>&mdash;</td><td>var(--fnd-spacing-05)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-padding-y</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-z-index</code></td><td>&mdash;</td><td>var(--fnd-z-fixed)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-font-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-medium)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-info-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-info)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-info-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-info)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-warning-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-warning)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-warning-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-warning)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Danger Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-danger-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-danger-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-danger)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success Variant</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-success-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success-light)</td></tr>
-                <tr><td><code class="docs__token">--nc-banner-success-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-success)</td></tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section class="docs__section" id="style-bem">
-            <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">.nc-banner                      // Block (volle Breite)
-.nc-banner__icon                // Leading Icon
-.nc-banner__content             // Text + Link Container
-.nc-banner__text                // Nachrichtentext
-.nc-banner__link                // Optionaler Link
-.nc-banner__close               // Close-Button
-
-// Varianten
-.nc-banner--info                // Informativ (Blau)
-.nc-banner--warning             // Warnung (Gelb)
-.nc-banner--danger              // Kritisch (Rot)
-.nc-banner--success             // Erfolg (Gr&uuml;n)
-
-// Modi
-.nc-banner--sticky              // Fixiert am oberen Rand</div>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-05)</td><td>12px 20px</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-z-index</code></td><td>var(--fnd-z-notification)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-icon-size</code></td><td>16px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Info</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-info-bg</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-info-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Warning</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-warning-bg</code></td><td>var(--fnd-color-feedback-warning)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-warning-color</code></td><td>var(--fnd-color-on-warning)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Danger</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-danger-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-danger-color</code></td><td>var(--fnd-color-on-danger)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Success</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-success-bg</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-success-color</code></td><td>var(--fnd-color-on-success)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Border-Accent</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-accent-border-width</code></td><td>4px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-accent-border-color</code></td><td>currentColor</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Close Button</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-close-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-opacity</code></td><td>var(--fnd-opacity-medium)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-opacity-hover</code></td><td>1</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Link</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-link-weight</code></td><td>var(--fnd-font-weight-bold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-link-underline</code></td><td>underline</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dismiss Animation</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-banner-dismiss-duration</code></td><td>var(--fnd-motion-duration-300)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-banner-title-weight</code></td><td>var(--fnd-font-weight-bold)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
         </div>
 
-        <!-- TAB 3: API -->
+        <!-- ============================================================ -->
+        <!-- TAB 3: API Reference                                        -->
+        <!-- ============================================================ -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
 
-          <section class="docs__section" id="api-overview">
-            <h2 class="docs__section-title">Component Overview</h2>
-            <table class="docs__table">
-              <tbody>
-                <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-banner</code></td></tr>
-                <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-banner</code></td></tr>
-                <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-banner-*</code></td></tr>
-                <tr><td><strong>SCSS-Datei</strong></td><td><code class="docs__token">scss/06-molecules/_banner.scss</code></td></tr>
-                <tr><td><strong>Interaktivit&auml;t</strong></td><td>Ja (Close-Button, optionaler Link)</td></tr>
-                <tr><td><strong>HTML-Element</strong></td><td><code class="docs__token">&lt;div&gt;</code></td></tr>
-                <tr><td><strong>ARIA-Rolle</strong></td><td><code class="docs__token">role="region"</code> + <code class="docs__token">aria-label="Hinweis"</code> (info/warning/success, Name im Markup &uuml;berschreibbar), <code class="docs__token">role="alert"</code> (danger); nie <code class="docs__token">role="banner"</code> (Seitenkopf-Landmark)</td></tr>
-              </tbody>
-            </table>
-          </section>
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.nc-banner</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">nc-banner</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--nc-banner-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-banner</code></td><td>Block</td><td>banner-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-banner__icon</code></td><td>Element (optional)</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-banner__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-banner__title</code></td><td>Element (optional)</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-banner__link</code></td><td>Element (optional)</td><td>link</td></tr>
+      <tr><td><code class="docs__token">.nc-banner__close</code></td><td>Element (optional)</td><td>close</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Severity-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>info</td><td>Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--warning</code></td><td>warning</td><td>Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--danger</code></td><td>danger</td><td>Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--success</code></td><td>success</td><td>Schweregrad — info (Standard, Hauptfarbe), warning (Warnung), danger (Kritisch), success (Erfolg)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Position-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>static</td><td>Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--sticky</code></td><td>sticky</td><td>Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--fixed</code></td><td>fixed</td><td>Positionierung — static (im Flow), sticky (haftet oben), fixed (ueber allem fixiert)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Style-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>solid</td><td>Visueller Stil — solid (volle Farbflaeche), accent (dezente BG + Akzent-Border)</td></tr>
+      <tr><td><code class="docs__token">.nc-banner--accent</code></td><td>accent</td><td>Visueller Stil — solid (volle Farbflaeche), accent (dezente BG + Akzent-Border)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text-only</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-icon</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-title</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-link</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-close</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>full</td><td>Inhaltsvariante — text-only, with-icon, with-title, with-link, with-close, full</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-05)</td><td>var(--fnd-spacing-03) var(--fnd-spacing-05)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-z-index</code></td><td>var(--fnd-z-notification)</td><td>var(--fnd-z-notification)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-font-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>var(--fnd-font-weight-medium)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-icon-size</code></td><td>16px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Info</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-info-bg</code></td><td>var(--fnd-color-interactive-default)</td><td>var(--fnd-color-interactive-default)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-info-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>var(--fnd-color-text-on-interactive)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Warning</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-warning-bg</code></td><td>var(--fnd-color-feedback-warning)</td><td>var(--fnd-color-feedback-warning)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-warning-color</code></td><td>var(--fnd-color-on-warning)</td><td>var(--fnd-color-on-warning)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Danger</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-danger-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td>var(--fnd-color-feedback-danger)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-danger-color</code></td><td>var(--fnd-color-on-danger)</td><td>var(--fnd-color-on-danger)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Success</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-success-bg</code></td><td>var(--fnd-color-feedback-success)</td><td>var(--fnd-color-feedback-success)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-success-color</code></td><td>var(--fnd-color-on-success)</td><td>var(--fnd-color-on-success)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Border-Accent</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-accent-border-width</code></td><td>4px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-accent-border-color</code></td><td>currentColor</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Close Button</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-size</code></td><td>20px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-radius</code></td><td>var(--fnd-radius-sm)</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-opacity</code></td><td>var(--fnd-opacity-medium)</td><td>var(--fnd-opacity-medium)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-close-opacity-hover</code></td><td>1</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Link</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-link-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-link-underline</code></td><td>underline</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dismiss Animation</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-dismiss-duration</code></td><td>var(--fnd-motion-duration-300)</td><td>var(--fnd-motion-duration-300)</td></tr>
+      <tr><td><code class="docs__token">--nc-banner-title-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.</li>
+    <li>Rolle: role='region' + aria-label (Standard 'Hinweis', im Markup ueberschreibbar, z. B. 'Wartungshinweis'); danger: role='alert' (ohne aria-label-Pflicht, der Text wird angesagt). Nie role='banner' — das ist der Landmark des Seitenkopfs (&lt;header&gt;).</li>
+    <li>Root: flex-Layout, zentriert, volle Breite. Farbe via private Custom Props --_banner-bg/--_banner-color.</li>
+    <li>Icon: Token-gesteuert (--nc-banner-icon-size), dekorativ (aria-hidden), optional links.</li>
+    <li>Content: flex-wrap, zentriert. Text + optionaler CTA-Link.</li>
+    <li>Title: Fettgedruckter Praefix (z.B. 'Wartung:') fuer bessere Scanbarkeit. Token: --nc-banner-title-weight.</li>
+    <li>Link: erbt Farbe, bold + underline. Hover: opacity-prominent.</li>
+    <li>Close-Button: 20px, opacity medium → 1 bei Hover. BG via color-mix(currentColor 15%).</li>
+    <li>Varianten setzen --_banner-bg und --_banner-color auf die jeweiligen Feedback-Farben.</li>
+    <li>Border-Accent (--accent): color-mix(bg 12%, transparent) + 4px border-left. Textfarbe wechselt zu text-primary.</li>
+    <li>Position: --sticky (sticky top:0) oder --fixed (fixed top:0 left:0 right:0).</li>
+    <li>z-index: notification-Ebene fuer Sichtbarkeit ueber anderem Content.</li>
+    <li>Dismiss-Animation: .is-dismissing → @keyframes nc-banner-dismiss (max-height + padding + opacity → 0).</li>
+    <li>Layout-Shift-Vermeidung: Bei --fixed sollte JS den body/shell padding-top um die Banner-Hoehe erhoehen. Beim Dismiss padding-top zuruecksetzen.</li>
+    <li>Dismiss-Persist: JS sollte data-banner-id + localStorage nutzen, damit geschlossene Banner beim naechsten Seitenaufruf nicht erneut angezeigt werden.</li>
+    <li>Reduced Motion: Dismiss ohne Animation (display:none).</li>
+    <li>High Contrast Mode: 1px solid ButtonText, Focus-Ring 2px Highlight.</li>
+    <li>Verhalten (neo-behaviors banner): .nc-banner__close setzt --_banner-height und .is-dismissing, danach aus dem DOM; Fokus geht zum naechsten Bedienelement. Mit data-banner-id merkt localStorage ('neo-banner:&lt;id&gt;') das Schliessen, beim naechsten Binden ist das Banner [hidden]. --fixed: das Elternelement bekommt oben die Banner-Hoehe als Innenabstand (bis zum Schliessen bzw. Abbinden).</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
 
-          <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <table class="docs__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-banner</code></td><td>Block</td><td>Banner-Container (volle Breite).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner__icon</code></td><td>Element</td><td>Leading Icon (SVG).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner__content</code></td><td>Element</td><td>Text + Link Container.</td></tr>
-                <tr><td><code class="docs__token">.nc-banner__text</code></td><td>Element</td><td>Nachrichtentext.</td></tr>
-                <tr><td><code class="docs__token">.nc-banner__link</code></td><td>Element</td><td>Call-to-Action Link.</td></tr>
-                <tr><td><code class="docs__token">.nc-banner__close</code></td><td>Element</td><td>Close-Button.</td></tr>
-                <tr><td><code class="docs__token">.nc-banner--info</code></td><td>Modifier</td><td>Info-Variante (Blau).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner--warning</code></td><td>Modifier</td><td>Warnungs-Variante (Gelb).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner--danger</code></td><td>Modifier</td><td>Danger-Variante (Rot).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner--success</code></td><td>Modifier</td><td>Erfolgs-Variante (Gr&uuml;n).</td></tr>
-                <tr><td><code class="docs__token">.nc-banner--sticky</code></td><td>Modifier</td><td>Sticky-Positionierung.</td></tr>
-              </tbody>
-            </table>
-          </section>
+        </div>
 
-          <section class="docs__section" id="api-slots">
-            <h2 class="docs__section-title">Slots / Element-Struktur</h2>
-            <div class="docs__code-block">&lt;div class="nc-banner nc-banner--info [--sticky]" role="region" aria-label="Hinweis"&gt;
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
 
-  &lt;!-- Slot 1: Icon (optional) --&gt;
-  &lt;span class="nc-banner__icon" aria-hidden="true"&gt;
-    &lt;svg&gt;...&lt;/svg&gt;
-  &lt;/span&gt;
-
-  &lt;!-- Slot 2: Content --&gt;
-  &lt;div class="nc-banner__content"&gt;
-    &lt;span class=""&gt;Nachricht&lt;/span&gt;
-    &lt;a class="nc-banner__link" href="#"&gt;Link&lt;/a&gt;
-  &lt;/div&gt;
-
-  &lt;!-- Slot 3: Close (optional) --&gt;
-  &lt;button class="nc-banner__close" aria-label="Banner schlie&szlig;en"&gt;
-    &lt;svg&gt;...&lt;/svg&gt;
-  &lt;/button&gt;
-
-&lt;/div&gt;</div>
-          </section>
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">role='region' mit aria-label (Standard 'Hinweis', im Markup ueberschreibbar) fuer allgemeine Hinweise — eine benannte Region, die Screen-Reader-Nutzer per Landmark-Navigation finden. role='alert' fuer dringende Meldungen (danger). Kein role='banner': das ist der Seitenkopf-Landmark (einmal je Seite). Close-Button: aria-label='Banner schliessen'. Link: normales &lt;a&gt; oder &lt;button&gt;. Wird als erstes im DOM platziert fuer korrekte Screen-Reader-Reihenfolge.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: severity = danger</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-alert</code></li>
+      <li>Danger: role='alert' fuer sofortige Screen-Reader-Ankuendigung. Oder aria-live='assertive'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: severity = warning</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-region</code></li>
+      <li>Warning: role='region' mit aria-label wie info/success (z. B. 'Wartungshinweis'). role='alert' bleibt danger vorbehalten.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: style = accent</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">contrast-check-accent</code></li>
+      <li>Accent-Modus: Textfarbe ist text-primary auf 12%-Mix-BG. Kontrast gegen subtilen Hintergrund pruefen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 
@@ -301,9 +576,12 @@
       </div>
 
 
-    
+
     </main>
-  </div>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
   <script src="docs-sidebar-loader.js"></script>
   <script src="docs-sidebar-toggle.js"></script>
   <script src="docs-sidebar.js"></script>
@@ -312,5 +590,9 @@
   <script src="docs-theme-toggle.js"></script>
   <script src="docs-tabs.js"></script>
   <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+
+
 </body>
 </html>

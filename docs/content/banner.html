@@ -6,7 +6,8 @@
             <div class="docs__hero">
         <h1 class="docs__title">Banner</h1>
         <p class="docs__subtitle">
-        Nicht-interaktive Komponente (feedback, notification, layout).
+        Prominente systemweite Nachrichten, die als volle Breite am oberen Rand erscheinen.
+        Banner eignen sich f&uuml;r Wartungshinweise, Cookie-Konsent, Feature-Ank&uuml;ndigungen oder kritische Warnungen.
         Kanonische Klasse: <code class="docs__token">.nc-banner</code> (BEM).
         Alle Werte kommen aus <code class="docs__token">--nc-banner-*</code> Component-Tokens.
       </p>
@@ -28,14 +29,151 @@
         <!-- ============================================================ -->
         <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
 
-          <h2 class="docs__section-title">Live Demo</h2>
-          <p class="docs__section-desc">
-            Beispiele und Konfigurationsm&ouml;glichkeiten f&uuml;r Banner.
-          </p>
+          <!-- All 4 Variants -->
+          <section class="docs__section" id="all-variants">
+            <h2 class="docs__section-title">Alle Varianten</h2>
+            <p class="docs__section-desc">
+              4 Varianten: Info, Warning, Danger, Success. Jede als volle Breite mit Icon, Text, Link und Close-Button.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
 
-          <p class="docs__section-desc" style="color: var(--fnd-color-text-tertiary); font-style: italic;">
-            Live-Demos werden manuell gepflegt. Siehe Recipe <code>banner-recipe.json</code> f&uuml;r Specimens.
-          </p>
+              <!-- Info -->
+              <div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span>Neue Funktionen verf&uuml;gbar &mdash; Entdecke die neuesten Updates im Dashboard.</span>
+                  <a class="nc-banner__link" href="#">Mehr erfahren</a>
+                </div>
+                <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                </button>
+              </div>
+
+              <!-- Warning -->
+              <div class="nc-banner nc-banner--warning" role="region" aria-label="Hinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span>Geplante Wartung am 28. Februar von 02:00 bis 04:00 Uhr.</span>
+                  <a class="nc-banner__link" href="#">Details anzeigen</a>
+                </div>
+                <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                </button>
+              </div>
+
+              <!-- Danger -->
+              <div class="nc-banner nc-banner--danger" role="alert">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span>Kritischer Systemfehler &mdash; einige Dienste sind derzeit nicht erreichbar.</span>
+                  <a class="nc-banner__link" href="#">Status-Seite</a>
+                </div>
+                <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                </button>
+              </div>
+
+              <!-- Success -->
+              <div class="nc-banner nc-banner--success" role="region" aria-label="Hinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span>Migration erfolgreich abgeschlossen. Alle Daten wurden &uuml;bertragen.</span>
+                </div>
+                <button class="nc-banner__close" aria-label="Banner schlie&szlig;en">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
+                </button>
+              </div>
+
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis"&gt;
+  &lt;span class="nc-banner__icon" aria-hidden="true"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/span&gt;
+  &lt;div class="nc-banner__content"&gt;
+    &lt;span&gt;Nachricht...&lt;/span&gt;
+    &lt;a class="nc-banner__link" href="#"&gt;Mehr erfahren&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;button class="nc-banner__close" aria-label="Banner schlie&szlig;en"&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Minimal (no link, no close) -->
+          <section class="docs__section" id="minimal">
+            <h2 class="docs__section-title">Minimal (nur Text)</h2>
+            <p class="docs__section-desc">
+              Banner kann auch ohne Link und ohne Close-Button verwendet werden.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-banner nc-banner--info" role="region" aria-label="Hinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span>Diese Seite befindet sich im Beta-Stadium.</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Akzent-Stil + Titel -->
+          <section class="docs__section" id="accent">
+            <h2 class="docs__section-title">Akzent-Stil und Titel</h2>
+            <p class="docs__section-desc">
+              <code class="docs__token">.nc-banner--accent</code> zeigt eine dezente Fl&auml;che (12&nbsp;% der Variantenfarbe) mit Akzentkante links; der Text wechselt auf <code class="docs__token">text-primary</code>.
+              <code class="docs__token">.nc-banner__title</code> setzt einen fetten Pr&auml;fix (z.&nbsp;B. &bdquo;Wartung:&ldquo;) f&uuml;r bessere Scanbarkeit.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: var(--fnd-spacing-04); margin-block-end: var(--fnd-spacing-06);">
+              <div class="nc-banner nc-banner--warning nc-banner--accent" role="region" aria-label="Wartungshinweis">
+                <span class="nc-banner__icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </span>
+                <div class="nc-banner__content">
+                  <span><strong class="nc-banner__title">Wartung:</strong> Am Samstag ist das Portal von 02:00 bis 04:00 Uhr nicht erreichbar.</span>
+                  <a class="nc-banner__link" href="#">Details anzeigen</a>
+                </div>
+              </div>
+              <div class="nc-banner nc-banner--success nc-banner--accent" role="region" aria-label="Hinweis">
+                <div class="nc-banner__content">
+                  <span><strong class="nc-banner__title">Erledigt:</strong> Alle Daten wurden &uuml;bertragen.</span>
+                </div>
+              </div>
+            </div>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-banner nc-banner--warning nc-banner--accent" role="region" aria-label="Wartungshinweis"&gt;
+  &lt;div class="nc-banner__content"&gt;
+    &lt;span&gt;&lt;strong class="nc-banner__title"&gt;Wartung:&lt;/strong&gt; Nachricht...&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
+          </section>
+
+          <!-- Sticky -->
+          <section class="docs__section" id="sticky">
+            <h2 class="docs__section-title">Sticky Banner</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-banner--sticky</code> bleibt das Banner beim Scrollen am oberen Rand haften; <code class="docs__token">.nc-banner--fixed</code> fixiert es &uuml;ber allem (neo-behaviors setzt dann oben die Banner-H&ouml;he als Innenabstand des Elternelements).
+              Diese Variante verwendet <code>position: sticky; top: 0;</code> und einen erh&ouml;hten z-index.
+            </p>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-banner nc-banner--warning nc-banner--sticky" role="region" aria-label="Hinweis"&gt;
+  ...
+&lt;/div&gt;</pre>
+            </div>
+          </section>
 
         </div>
 
@@ -383,7 +521,3 @@
 
     </main>
 <!-- /BODY -->
-
-<!-- SCRIPTS -->
-  <script src="banner-docs.js"></script>
-<!-- /SCRIPTS -->
