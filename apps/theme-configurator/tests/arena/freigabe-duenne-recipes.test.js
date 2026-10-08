@@ -130,4 +130,30 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.anatomy.domNotes.join(' ')).toMatch(/Strg\/⌘\+K/)
     expect(r.anatomy.domNotes.join(' ')).toMatch(/__shortcut .* tot/)
   })
+
+  it('tab-nav: 1.3.0, jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten beschrieben', () => {
+    const r = freigegeben('tab-nav', '1.3.0')
+    const slots = Object.fromEntries(r.anatomy.slots.map((s) => [s.element, s]))
+    const scss = scssElemente('scss/scss/06-molecules/_tab-nav.scss', 'nc-tab-nav')
+    for (const el of scss) expect(slots[el], el).toBeTruthy()
+    // Haken der Website am jeweiligen Element, ohne eigenes CSS
+    for (const el of ['.nc-tab-nav__panel', '.nc-tab-nav__features', '.nc-tab-nav__xpanels']) {
+      expect(scss.has(el), el).toBe(false)
+      expect(slots[el].description, el).toMatch(/Haken/)
+    }
+    // __badges: im DS gebaut, auf der Website nicht im Markup
+    expect(slots['.nc-tab-nav__badges'].optional).toBe(true)
+    const module = ['features', 'feature_list', 'bento', 'expanding', 'card_grid', 'hero', 'hero_tom', 'hero_tmob', 'text_media', 'form']
+    const notizen = r.anatomy.domNotes.join(' ')
+    for (const mod of module) expect(notizen, mod).toMatch(new RegExp(`\\b${mod}\\b`))
+    // kein Behavior in neo-behaviors: keine keyboard/events
+    expect(MIT_VERHALTEN).not.toContain('tab-nav')
+    expect(r.keyboard).toBeUndefined()
+    expect(r.events).toBeUndefined()
+    expect(r.meta.source.behavior).toBeNull()
+    expect(r.meta.source.drupal).toMatch(/neoTabNav/)
+    expect(notizen).toMatch(/Pos1\/Ende/)
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/2\.2\.2/)
+    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
+  })
 })
