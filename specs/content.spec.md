@@ -1,5 +1,5 @@
 # content Component Spec
-> Version 1.1.0 | Status: stable | Layer: object
+> Version 1.2.0 | Status: stable | Layer: object
 
 Tags: `layout`, `objects`, `lesen`
 
@@ -14,6 +14,7 @@ Root element: `.nc-content`
 
 ### DOM Notes
 - Lesespalte einer Inhaltsseite: der Rahmen darf weit sein (max-inline-size --container-xwide 1536, zentriert, Innenabstand --container-padding-inline), Titel und Angaben stehen in Lesebreite (--container-prose), mittig ueber der Prosa-Achse des Body-Felds.
+- Die Lesebreite von Titel und Angaben rechnet in der Schrift der Spalte: --_content-measure ist eine registrierte <length> (@property), gesetzt am .nc-content und als px vererbt — sonst wuerde 72ch am groesseren Titel breiter als die Prosa-Spalte.
 - Drupal setzt .nc-content am <article class="node node--type-… node--view-mode-full nc-content"> der Vollansicht (node.html.twig, view_mode full); der Teaser ist .nc-card. Andere Ansichtsmodi rendern dasselbe Markup ohne .nc-content.
 - Gilt nur fuer Inhaltstypen ohne eigenes Full-Template: landing-page, reference-page, event und news haben eigene Templates und tragen .nc-content nicht.
 - body.is-reading-left (neo_fe_preprocess_html, Pfade /inside/blog und /inside/dokumentation) setzt Titel und Angaben an die Spaltenkante; das Body-Feld nutzt dort .nc-prose--left. Selektor am <body>, in der Arena nicht darstellbar.

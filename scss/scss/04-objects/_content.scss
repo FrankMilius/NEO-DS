@@ -24,6 +24,29 @@
   margin-inline: auto;
 }
 
+// Lesebreite in der Schrift der Spalte, nicht in der des Titels. --container-
+// prose ist 72ch, und `ch` misst die Schrift des Elements, das den Wert
+// benutzt: am Titel (h2, rund 31px) wurden daraus 1451px statt 703px, der
+// Titel stand nicht auf der Achse des Body-Felds (.nc-prose rechnet in der
+// Schrift der Spalte). Als registrierte <length> wird der Wert am .nc-content
+// berechnet und als px vererbt. Ohne @property-Unterstuetzung bleibt es beim
+// bisherigen Verhalten (72ch in der Schrift des Titels). Abschluss Plan v3,
+// 08.10.2026 — Freigabe ausstehend.
+@property --_content-measure {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px; // muss schriftunabhaengig sein; gesetzt wird am .nc-content
+}
+
+.nc-content {
+  --_content-measure: var(--container-prose, 72ch);
+}
+
+.nc-content .nc-content__title,
+.nc-content .nc-content__meta {
+  max-inline-size: var(--_content-measure);
+}
+
 // Linksbuendiges Lesen: Titel und Angaben stehen an der Spaltenkante statt
 // mittig ueber ihr.
 body.is-reading-left .nc-content__title,

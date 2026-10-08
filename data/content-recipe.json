@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -16,6 +16,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Abschluss Plan v3, 08.10.2026: Titel und Angaben stehen jetzt wirklich auf der Achse des Body-Felds. --container-prose ist 72ch, und ch misst die Schrift des Elements, das den Wert benutzt — am Titel (h2, rund 31px) wurden daraus 1451px statt 703px (bei 1920px Seitenbreite linke Kante 235px statt 609px). Die Lesebreite wird jetzt als registrierte <length> (@property --_content-measure) am .nc-content in der Schrift der Spalte berechnet und vererbt. Ohne @property-Unterstuetzung bleibt es beim bisherigen Verhalten. Website-sichtbar (eingebettete Vollansicht mit Titel; Angaben bei abweichender Schriftgroesse), Freigabe ausstehend."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -72,6 +78,7 @@
     "convenience": [],
     "domNotes": [
       "Lesespalte einer Inhaltsseite: der Rahmen darf weit sein (max-inline-size --container-xwide 1536, zentriert, Innenabstand --container-padding-inline), Titel und Angaben stehen in Lesebreite (--container-prose), mittig ueber der Prosa-Achse des Body-Felds.",
+      "Die Lesebreite von Titel und Angaben rechnet in der Schrift der Spalte: --_content-measure ist eine registrierte <length> (@property), gesetzt am .nc-content und als px vererbt — sonst wuerde 72ch am groesseren Titel breiter als die Prosa-Spalte.",
       "Drupal setzt .nc-content am <article class=\"node node--type-… node--view-mode-full nc-content\"> der Vollansicht (node.html.twig, view_mode full); der Teaser ist .nc-card. Andere Ansichtsmodi rendern dasselbe Markup ohne .nc-content.",
       "Gilt nur fuer Inhaltstypen ohne eigenes Full-Template: landing-page, reference-page, event und news haben eigene Templates und tragen .nc-content nicht.",
       "body.is-reading-left (neo_fe_preprocess_html, Pfade /inside/blog und /inside/dokumentation) setzt Titel und Angaben an die Spaltenkante; das Body-Feld nutzt dort .nc-prose--left. Selektor am <body>, in der Arena nicht darstellbar.",

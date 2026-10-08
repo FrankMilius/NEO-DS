@@ -83,6 +83,7 @@ const OBJEKTE = {
   },
   content: {
     namensraum: /^nc-content(__|--|$)/,
+    intern: ['_content-measure'],
     ohneRegel: { 'nc-content__body': 'Huelle des Knoteninhalts, das Body-Feld bringt .nc-prose mit' },
     fremdeKlassen: { 'is-reading-left': 'Body-Klasse aus neo_fe_preprocess_html (Lese-Bereiche links)' },
     website: [
@@ -147,7 +148,7 @@ describe('Abschluss Plan v3: Layout-Objekte freigegeben (Recipe <-> SCSS <-> Mar
         const meta = rohesRecipe(id).meta
         expect(meta.status).toBe('stable')
         expect(meta.changelog[0].version).toBe(meta.version)
-        expect(meta.changelog[0].changes.join(' ')).toMatch(/Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/)
+        expect(meta.changelog.some((e) => e.changes.join(' ').includes('Freigabe (Abschluss Plan v3, 08.10.2026)'))).toBe(true)
         expect(istEntwurf(id)).toBe(false)
       })
 
@@ -208,4 +209,15 @@ describe('Abschluss Plan v3: Layout-Objekte freigegeben (Recipe <-> SCSS <-> Mar
       }
     })
   }
+})
+
+describe('content: Lesebreite von Titel und Angaben in der Schrift der Spalte (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
+  it('registrierte <length> am .nc-content, Titel und Angaben lesen sie', () => {
+    const c = css()
+    expect(c).toMatch(/@property --_content-measure\{syntax:"<length>";inherits:true;initial-value:0px\}/)
+    expect(c).toMatch(/\.nc-content\{--_content-measure: *var\(--container-prose, 72ch\)\}/)
+    expect(c).toMatch(/\.nc-content \.nc-content__title,\.nc-content \.nc-content__meta\{max-inline-size:var\(--_content-measure\)\}/)
+    // Rueckfall ohne @property und ausserhalb von .nc-content: wie bisher
+    expect(c).toMatch(/\.nc-content__title,\.nc-content__meta\{max-inline-size:var\(--container-prose, 72ch\);margin-inline:auto\}/)
+  })
 })
