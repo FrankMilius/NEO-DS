@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "status": "stable",
     "tags": [
       "layout",
@@ -16,6 +16,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.1",
+        "changes": [
+          "Entscheidung Abschluss 08.10.2026 (website-sichtbar, Freigabe ausstehend): Nur EIN Seitenabstand auf dem Telefon. .nc-content polstert mit --container-padding-inline, die Prosa im Body-Feld legte --prose-gutter (derselbe Token) noch einmal darauf — bei 375px Titel/Angaben bei 20px, Text bei 40px. .nc-content__body setzt jetzt --mod-prose-gutter = clamp(0px, (100% - Measure) / 2, --container-padding-inline): Der Prosa-Rand entfaellt nur, soweit er die Lesespalte einengt. Gemessen: 320/375/600/700px Titel, Angaben, Text auf derselben Kante (375: 20–355px); 768px Text = Titel (33–735px); ab ~790px und bei 1024/1280/1600px unveraendert, auch die Breakouts content/wide/full."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -148,7 +154,8 @@
         "tokens": [
           "container-padding-inline",
           "container-prose",
-          "container-xwide"
+          "container-xwide",
+          "fnd-spacing-06"
         ]
       }
     }

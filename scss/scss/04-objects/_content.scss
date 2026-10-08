@@ -53,3 +53,30 @@ body.is-reading-left .nc-content__title,
 body.is-reading-left .nc-content__meta {
   margin-inline: 0;
 }
+
+// Nur EIN Seitenabstand auf dem Telefon (Entscheidung Abschluss 08.10.2026).
+// .nc-content polstert bereits mit --container-padding-inline; die Prosa-
+// Spalte im Body-Feld legte ihren eigenen Rand (--prose-gutter, derselbe
+// Token) noch einmal darauf. Bei 375px standen Titel und Angaben bei 20px,
+// der Text bei 40px.
+//
+// Der Rand der Prosa wird deshalb im Body nur so weit aufgehoben, wie er die
+// Lesespalte einengt: Er ist hoechstens der bisherige Token-Wert und
+// hoechstens die halbe Differenz zwischen Spaltenbreite und Measure, nie
+// negativ. Prozent bezieht sich dort, wo --prose-gutter verwendet wird
+// (Spalten-Grid der .nc-prose), auf die Breite der Prosa.
+//   - schmaler als die Measure (Telefon): Rand 0 — Titel, Angaben und Text
+//     auf derselben Kante;
+//   - knapp breiter: Rand = Rest, der Text ist genau so breit wie der Titel;
+//   - breit genug (Measure + 2 x Rand, ab ~790px Viewport): unveraendert.
+// Ein pauschales 0px haette ab Tablet auch die Breakouts content/wide bis an
+// die Kante von full gezogen (gemessen 1280px: wide 22px je Seite breiter).
+// Breakouts (data-bleed / .nc-bleed-*) behalten so ihre Stufen; full beginnt
+// ohnehin an der Grid-Kante.
+.nc-content__body {
+  --mod-prose-gutter: clamp(
+    0px,
+    (100% - var(--mod-prose-measure, var(--container-prose, 72ch))) / 2,
+    var(--container-padding-inline, var(--fnd-spacing-06))
+  );
+}

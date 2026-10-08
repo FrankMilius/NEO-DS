@@ -1,5 +1,5 @@
 # content Component Spec
-> Version 1.2.0 | Status: stable | Layer: object
+> Version 1.2.1 | Status: stable | Layer: object
 
 Tags: `layout`, `objects`, `lesen`
 
@@ -40,6 +40,7 @@ Base classes: `nc-content`
 | `--container-padding-inline` | — | — |
 | `--container-prose` | — | — |
 | `--container-xwide` | — | — |
+| `--fnd-spacing-06` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

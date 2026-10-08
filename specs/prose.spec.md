@@ -1,5 +1,5 @@
 # prose Component Spec
-> Version 1.2.0 | Status: stable | Layer: object
+> Version 1.2.1 | Status: stable | Layer: object
 
 Tags: `layout`, `objects`, `lesen`, `editorial`
 
@@ -20,7 +20,7 @@ Root element: `.nc-prose`
 - Website: field--body.html.twig legt das Body-Feld in <div class="nc-prose">; neo_fe_preprocess_field setzt reading_left in den Bereichen /inside/blog und /inside/dokumentation, dann zusaetzlich .nc-prose--left.
 - Keine Typografie: Abstaende und Schrift der Kinder kommen aus der Basis. .u-prose (10-utilities, event und news) ist etwas anderes — nur max-width und Zeilenhoehe, kein Breakout.
 - data-bleed="full" wirkt auch als direktes Kind von .nc-container (04-objects/_section.scss) — dort mit anderer Technik (negativer Rand ueber --container-pad), nicht Teil dieses Objects.
-- Overrides: --mod-prose-measure, --mod-prose-gutter, --mod-prose-max.
+- Overrides: --mod-prose-measure, --mod-prose-gutter, --mod-prose-max. Polstert der umgebende Rahmen schon seitlich (.nc-content__body), begrenzt er --mod-prose-gutter auf clamp(0px, (100% - Measure) / 2, Token), damit sich die Abstaende nicht addieren.
 
 ## Variants
 ### Ausrichtung (`alignment`)

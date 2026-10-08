@@ -84,7 +84,8 @@ const OBJEKTE = {
   content: {
     namensraum: /^nc-content(__|--|$)/,
     intern: ['_content-measure'],
-    ohneRegel: { 'nc-content__body': 'Huelle des Knoteninhalts, das Body-Feld bringt .nc-prose mit' },
+    // .nc-content__body hat seit der Entscheidung Abschluss 08.10.2026 eine Regel
+    // (--mod-prose-gutter, nur ein Seitenabstand auf dem Telefon).
     fremdeKlassen: { 'is-reading-left': 'Body-Klasse aus neo_fe_preprocess_html (Lese-Bereiche links)' },
     website: [
       {
