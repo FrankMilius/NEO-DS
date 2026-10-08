@@ -115,4 +115,19 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     // die frueher „ausstehenden" SCSS-Aenderungen sind freigegeben
     expect(r.meta.changelog[0].changes.join(' ')).toMatch(/seit 07\.10\.2026 freigegeben/)
   })
+
+  it('searchbar: 1.3.0, Anatomie wie das SCSS (ohne den toten __shortcut), Verhalten beschrieben, nicht migriert', () => {
+    const r = freigegeben('searchbar', '1.3.0')
+    anatomieWieScss('searchbar', 'scss/scss/06-molecules/_searchbar.scss', 'nc-searchbar', ['.nc-searchbar__shortcut'])
+    expect(r.anatomy.slots.map((s) => s.name)).not.toContain('shortcut')
+    // kein Behavior in neo-behaviors: keine keyboard/events (wie reference-page)
+    expect(MIT_VERHALTEN).not.toContain('searchbar')
+    expect(r.keyboard).toBeUndefined()
+    expect(r.events).toBeUndefined()
+    expect(r.meta.source.behavior).toBeNull()
+    expect(r.meta.source.drupal).toMatch(/neoSearch/)
+    expect(r.meta.source.drupal).toMatch(/nicht im Einsatz/)
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/Strg\/⌘\+K/)
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/__shortcut .* tot/)
+  })
 })

@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "searchbar",
-    "version": "1.2.0",
-    "status": "draft",
+    "version": "1.3.0",
+    "status": "stable",
     "tags": [
       "aufgenommen",
       "molecules"
@@ -15,6 +15,15 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen 06-molecules/_searchbar.scss, die Token-Kette zum Input (komposition teilt input) und das Drupal-Theme neo_fe geprueft: Anatomie, Zustaende und Tokens stimmen. Berichtigt: auf neocosmo.de nicht im Einsatz — kein Template rendert #nc-searchbar oder [data-search-toggle]; Drupal.behaviors.neoSearch in neo-theme.js bricht deshalb sofort ab (die Suche der Website ist das Such-Band der Hauptnavigation, Recipe navigation-tab-mega). Damit ist auch die offene Frage aus 1.2.0 beantwortet: kein Seiten-Template gibt <kbd class=\"nc-searchbar__shortcut\"> aus.",
+          "Verhalten beschrieben, nicht migriert (wie reference-page): Oeffnen/Schliessen, Strg/⌘+K und Escape liegen in neoSearch; ein Behavior in neo-behaviors gibt es nicht — keyboard/events bleiben leer, meta.source nennt die Quelle.",
+          "Anatomie mit Beschreibungen, domNotes nach SCSS und neoSearch (Ausloeser, Fokus, Leeren beim Schliessen); a11y-Pruefpunkte statt Freitext (Kontrast gemessen); constraints; layer, pipeline."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -39,7 +48,21 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_searchbar.scss"
+      ],
+      "story": "stories/molecules/searchbar.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [],
+      "docs": null
+    },
+    "source": {
+      "drupal": "neo_fe: nicht im Einsatz (Stand 08.10.2026) — kein Template rendert .nc-searchbar; js/neo-theme.js Drupal.behaviors.neoSearch (sucht [data-search-toggle] und #nc-searchbar, bricht ohne sie ab) ist toter Code. Die Suche der Website ist das Such-Band in neo-nav.html.twig (Recipe navigation-tab-mega).",
+      "behavior": null
+    }
   },
   "anatomy": {
     "root": {
@@ -47,35 +70,44 @@
     },
     "slots": [
       {
-        "name": "close",
-        "element": ".nc-searchbar__close",
-        "optional": false
+        "name": "inner",
+        "element": ".nc-searchbar__inner",
+        "optional": false,
+        "description": "Zeile (flex, padding-block spacing-03); traegt zusaetzlich .nc-container (Breite und Polster)."
       },
       {
         "name": "field",
         "element": ".nc-searchbar__field",
-        "optional": false
+        "optional": false,
+        "description": "Bezugsrahmen (relative, volle Breite) fuer Lupe, Feld und Schliessen-Knopf."
       },
       {
         "name": "icon",
         "element": ".nc-searchbar__icon",
-        "optional": false
-      },
-      {
-        "name": "inner",
-        "element": ".nc-searchbar__inner",
-        "optional": false
+        "optional": false,
+        "description": "Lupe (svg aria-hidden) links im Feld, absolut, text-tertiary, ohne Zeiger-Ereignisse."
       },
       {
         "name": "input",
         "element": ".nc-searchbar__input",
-        "optional": false
+        "optional": false,
+        "description": "Suchfeld (input type=search, 44 px hoch, body-m) mit aria-label; Radius, Rahmen, Hintergrund, Text-, Platzhalter- und Fokusfarbe aus der Token-Kette des Inputs; Abbrechen-Kreuz des Browsers ausgeblendet."
+      },
+      {
+        "name": "close",
+        "element": ".nc-searchbar__close",
+        "optional": false,
+        "description": "Schliessen-Knopf rechts im Feld (28 x 28 px, aria-label); Hover background-hover/text-primary, :focus-visible Ring interactive-focus."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet (close, field, icon, inner, input). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026)."
+      "Leiste unter der Navigation: div.nc-searchbar[data-state][role=search] > .nc-searchbar__inner.nc-container > .nc-searchbar__field > svg.__icon + input.__input + button.__close (Struktur aus COMPONENTS-CSS.md des Drupal-Themes, Abschnitt 3.2, und dem SCSS). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026).",
+      "Sichtbar nur mit data-state=\"open\" (display block), sonst display none; volle Breite, background-secondary mit Trennlinie border-secondary, z-index --fnd-z-drawer. Die Arena zeigt jede Zelle geoeffnet.",
+      "Fokus im Feld: outline none, Rahmen --nc-searchbar-input-border-focus und ein 2-px-Schatten aus derselben Farbe (25 %) — schwaecher als der globale Fokusring (Befund, siehe a11y).",
+      "Verhalten (neo-theme.js, Drupal.behaviors.neoSearch — nicht migriert, auf der Website ohne Markup): Ausloeser [data-search-toggle] (aria-expanded) schaltet data-state, Fokus nach 100 ms ins Feld [data-searchbar-input]; Strg/⌘+K oeffnet bzw. fokussiert; Escape im Feld, [data-searchbar-close] und Klick ausserhalb von Leiste und Ausloeser schliessen — das Feld wird geleert, der Fokus geht an den Ausloeser. Keine Ereignisse.",
+      "Ein Behavior in neo-behaviors gibt es nicht (kein „Ausprobieren\"); keyboard/events bleiben leer, bis das Verhalten migriert wird. Die Suchfunktion selbst (Ergebnisse, Absenden) gehoert nicht zum Bauteil.",
+      "SCSS-Regel .nc-searchbar__shortcut steht noch im DS, ohne Markup irgendwo (Website, Arena, Story) — tot (Befund, siehe Bericht)."
     ]
   },
   "axes": {
@@ -106,12 +138,37 @@
     "interactive": true
   },
   "a11y": {
-    "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "focusIndicator": "Feld: Rahmen in --nc-searchbar-input-border-focus + 2px-Schatten (25 %); Schliessen-Knopf: 2px solid --fnd-color-interactive-focus",
+      "assertions": [
+        "1.3.1/2.4.1: Leiste mit role=search (Landmarke); Feld input type=search mit Namen (aria-label oder sichtbares Label).",
+        "4.1.2: Schliessen-Knopf mit aria-label, Lupe dekorativ (aria-hidden); der Ausloeser in der Kopfzeile traegt aria-expanded (neoSearch).",
+        "2.1.1: Escape im Feld schliesst und gibt den Fokus an den Ausloeser zurueck; Strg/⌘+K oeffnet bzw. fokussiert (neoSearch; Tastenkombination mit Modifier, kein Einzeltasten-Kuerzel nach 2.1.4).",
+        "2.4.7: Fokus im Feld ist sichtbar (Rahmen dunkler, Schatten), aber schwach: Rahmen 3,72:1 -> 7,55:1 gegen die Flaeche, Schatten 25 % — ein kraeftigerer Ring waere eine Gestaltungsentscheidung (Entscheidungsfall).",
+        "2.5.8: Schliessen-Knopf 28 x 28 px; Feld 44 px hoch.",
+        "1.4.3/1.4.11: Kontrast AA hell und dunkel gemessen — Eingabe ab 12,79:1, Platzhalter ab 4,59:1, Lupe und Kreuz text-tertiary ab 4,59:1, Feldrahmen ab 3,06:1."
+      ],
+      "note": "Auf der Website nicht im Einsatz; Verhalten nur in neo-theme.js beschrieben."
+    },
+    "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Nur mit data-state=\"open\" sichtbar — das Verhalten (Ausloeser mit aria-expanded, Fokus ins Feld, Escape) muss das einbindende Theme liefern; neo-behaviors hat dafuer kein Behavior."
+        ]
+      },
+      {
+        "when": {},
+        "notes": [
+          "Feld immer mit Namen (aria-label); der Platzhalter ersetzt kein Label."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {

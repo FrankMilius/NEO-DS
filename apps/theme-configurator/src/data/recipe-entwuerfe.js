@@ -16,7 +16,6 @@
 export const ENTWUERFE = Object.freeze([
   'scroll-expand',
   'scroll-reveal',
-  'searchbar',
   'tab-nav',
   'table-block',
   'tbl-cell'
