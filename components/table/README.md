@@ -1,6 +1,6 @@
 # Table
 
-> **Layer:** atom | **Coverage:** 6/6 (complete) | **Status:** stable
+> **Layer:** atom | **Coverage:** 3/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -8,17 +8,15 @@
 
 | Artefakt | Pfad | Status |
 |----------|------|--------|
-| Recipe | `data/table-recipe.json` | present |
+| Recipe | — | missing |
 | SCSS | `scss/scss/05-atoms/_table.scss` | present |
-| Storybook | `stories/organisms/table.stories.js` | present |
+| Storybook | — | missing |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/table-docs.html` | present |
-| Drupal | `block--block-content--neo-table.html.twig, block--inline-block--neo-table.html.twig` | present |
+| Drupal | — | missing |
 
 ## Quick Links
 
-- [Recipe JSON](../data/table-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_table.scss)
-- [Storybook Story](../stories/organisms/table.stories.js)
 - [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/table-docs.html)
