@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "prose",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "object",
   "tags": [
@@ -34,7 +34,7 @@
     ],
     "notes": [
       "Ein CSS-Grid mit benannten Linien full | wide | content | prose: jedes direkte Kind steht in der Prosa-Spalte (--prose-measure = --container-prose, 72ch); seitlich mindestens --prose-gutter (= --container-padding-inline).",
-      "Breakout per Klasse (.nc-bleed-content|wide|full) oder Attribut data-bleed=\"content|wide|full\" — nur an DIREKTEN Kindern. Die Website nutzt das Attribut (gefilterte Body-HTML).",
+      "Breakout per Klasse (.nc-bleed-content|wide|full) oder Attribut data-bleed=\"content|wide|full\" — nur an DIREKTEN Kindern; sie setzen margin-inline 0 (sonst zoege der Browser-Rand von <figure> sie ein). Die Website nutzt das Attribut (gefilterte Body-HTML).",
       "Das Ganze ist auf --container-xwide gekappt und zentriert (--mod-prose-max); full bricht also bis 1536 aus, nicht bis zum Viewport.",
       ".nc-prose--left: Lesespalte an der linken Kante (margin-inline 0, kein linker Gutter), Breakouts wachsen nach rechts. Den Abstand zur Seitenkante liefert der umgebende Rahmen (.nc-content).",
       "Website: field--body.html.twig legt das Body-Feld in <div class=\"nc-prose\">; neo_fe_preprocess_field setzt reading_left in den Bereichen /inside/blog und /inside/dokumentation, dann zusaetzlich .nc-prose--left.",

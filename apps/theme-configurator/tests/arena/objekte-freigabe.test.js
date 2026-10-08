@@ -221,3 +221,10 @@ describe('content: Lesebreite von Titel und Angaben in der Schrift der Spalte (A
     expect(c).toMatch(/\.nc-content__title,\.nc-content__meta\{max-inline-size:var\(--container-prose, 72ch\);margin-inline:auto\}/)
   })
 })
+
+describe('prose: Breakout-Kinder fuellen ihre Stufe (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
+  it('margin-inline 0 an allen Breakout-Stufen, Klasse und data-bleed', () => {
+    const stufen = ['content', 'wide', 'full'].flatMap((s) => [`\\.nc-prose>\\.nc-bleed-${s}`, `\\.nc-prose>\\[data-bleed=${s}\\]`])
+    expect(css()).toMatch(new RegExp(`${stufen.join(',')}\\{margin-inline:0\\}`))
+  })
+})

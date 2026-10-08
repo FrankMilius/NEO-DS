@@ -62,6 +62,17 @@
     > picture img,
     > video { inline-size: 100%; }
   }
+
+  // Breakout-Kinder fuellen ihre Stufe exakt. Ohne diese Regel zieht der
+  // Browser-Rand von <figure> (40px je Seite) sie ein: content war 1010 statt
+  // 1090 breit, auf dem Telefon schmaler als der Text. Abschluss Plan v3,
+  // 08.10.2026 — Freigabe ausstehend.
+  > .nc-bleed-content,
+  > [data-bleed='content'],
+  > .nc-bleed-wide,
+  > [data-bleed='wide'],
+  > .nc-bleed-full,
+  > [data-bleed='full'] { margin-inline: 0; }
 }
 
 // ── Variante: linksbuendig (Doku/Blog-Stil statt zentriertem Magazin-Stil) ──
