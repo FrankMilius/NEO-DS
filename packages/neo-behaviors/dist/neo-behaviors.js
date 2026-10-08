@@ -4475,6 +4475,16 @@
   // packages/neo-behaviors/drupal.js
   var NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, shotAufbauen, version: package_default.version });
   var STANDARD = MIT_VERHALTEN.filter((id) => !NUR_AUSDRUECKLICH.includes(id));
+  function nurListe(nur) {
+    if (Array.isArray(nur)) return nur.filter((id) => typeof id === "string");
+    if (!nur || typeof nur !== "object") return null;
+    const ids = [];
+    for (const [schluessel, wert] of Object.entries(nur)) {
+      if (typeof wert === "string") ids.push(wert);
+      else if (wert) ids.push(schluessel);
+    }
+    return [...new Set(ids)];
+  }
   var g = (
     /** @type {any} */
     globalThis
@@ -4483,9 +4493,10 @@
   if (g.Drupal && g.Drupal.behaviors) {
     g.Drupal.behaviors.neoBehaviors = {
       attach(context, settings) {
+        var _a;
         const s = settings && settings.neoBehaviors || {};
         if (s.aus) return;
-        anbinden(context || document, Array.isArray(s.nur) ? s.nur : STANDARD);
+        anbinden(context || document, (_a = nurListe(s.nur)) != null ? _a : STANDARD);
       },
       detach(context, settings, trigger) {
         if (trigger === "unload") abbinden(context || document);

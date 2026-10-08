@@ -96,6 +96,27 @@ describe('dist/neo-behaviors.js (Drupal-Library)', () => {
     expect(document.querySelector('[data-neo-behavior]')).toBeNull()
   })
 
+  it('nur als Objekt { id: true } wie aus neo_fe (Drupal ueberschreibt Zahlenschluessel beim Zusammenfuehren; Fehler 08.10.2026)', () => {
+    lade()
+    const recipe = normalisiereRecipe(rohesRecipe('navigation-tab-mega'))
+    const sp = recipe.specimens.find((s) => s.id === 'mobil')
+    document.body.innerHTML = specimenAnsicht(sp, recipe, 'navigation-tab-mega', vorlageFuer('navigation-tab-mega'), { ausprobieren: true }).zeilen[0].zellen[0].html +
+      '<div class="nc-shot" data-nc-shot="hotspots"><img class="nc-shot__img" src="a.png" alt=""><button type="button" class="nc-shot__hotspot" aria-label="Detail 1" data-nc-shot-text="Text"></button></div>'
+    const b = globalThis.Drupal.behaviors.neoBehaviors
+    // so liefert Drupal die Einstellung, wenn Navigation und Story-Gallery je nur[<id>] = TRUE setzen
+    b.attach(document, { neoBehaviors: { nur: { 'navigation-tab-mega': true, shot: true } } })
+    expect(document.querySelector('header.site-header').getAttribute('data-neo-behavior')).toBe('navigation-tab-mega')
+    expect(document.querySelector('.nc-shot').getAttribute('data-neo-behavior')).toBe('shot')
+    document.querySelector('.burger').click()
+    expect(document.querySelector('.m-drawer').classList.contains('is-open')).toBe(true)
+    b.detach(document, {}, 'unload')
+    // Mischform (alter Eintrag mit Zahlenschluessel + neuer mit Namen) und Leerwerte
+    b.attach(document, { neoBehaviors: { nur: { 0: 'shot', 'navigation-tab-mega': true, tabs: false } } })
+    expect(document.querySelector('header.site-header').getAttribute('data-neo-behavior')).toBe('navigation-tab-mega')
+    expect(document.querySelector('.nc-shot').getAttribute('data-neo-behavior')).toBe('shot')
+    b.detach(document, {}, 'unload')
+  })
+
   it('Medien-Bauteil shot: NeoBehaviors.shotAufbauen ersetzt window.NeoShot.render; Binden nur per nur (Entscheidung 07.10.2026)', () => {
     lade()
     const NB = globalThis.NeoBehaviors
