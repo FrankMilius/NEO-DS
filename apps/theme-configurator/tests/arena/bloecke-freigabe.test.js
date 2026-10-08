@@ -107,6 +107,21 @@ const BAUTEILE = {
       default: ['.nc-event__hero-content > .nc-event__title', '.nc-event__related-grid > a.nc-card.nc-card--navigational.nc-event__related-card']
     },
     ohneArena: { default: ['.nc-event__hero--has-media', '.nc-event__content-grid'] }
+  },
+  events: {
+    namensraum: /^nc-events(__|--|$)/,
+    ohneRegel: { 'nc-events': 'Recipe-Wurzel; auf der Website haengen die Teile direkt im .nc-container[data-neo-events-listing]' },
+    wurzelWebsite: '.nc-container[data-neo-events-listing]',
+    website: [
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-events-listing.html.twig und createCard() in js/neo-theme.js (eine Karte mit Untertitel)',
+        markup: '<section class="nc-section"><div class="nc-container" data-neo-events-listing data-api-url="/api/events?_format=json" data-per-page="16"><div class="nc-events__filter-bar"><div class="nc-events__search"><div class="nc-events__search-wrapper"><svg class="nc-events__search-icon"></svg><input type="search" class="nc-events__search-input" placeholder="Events durchsuchen…" data-events-search></div></div><select class="nc-events__filter-select" data-events-filter="type"><option value="">Alle Event-Typen</option></select><select class="nc-events__filter-select" data-events-filter="category"><option value="">Alle Kategorien</option></select><select class="nc-events__filter-select" data-events-filter="year"><option value="">Alle Jahre</option></select></div><div class="nc-events__results-count" data-events-count>1 Event gefunden</div><div class="nc-events__grid" data-events-grid><a href="/events/x" class="nc-events__card"><div class="nc-events__card-header"><span class="nc-events__card-type">Konferenz</span><h3 class="nc-events__card-title">Titel</h3><p style="font-size:var(--fs-sm);color:var(--fnd-color-text-secondary);margin:0">Untertitel</p><div class="nc-events__card-meta"><span class="nc-events__card-meta-item"><svg></svg>20.05.2026</span><span class="nc-events__card-meta-item">Hybrid</span></div></div><div class="nc-events__card-footer"><span>Mehr erfahren</span><svg></svg></div></a></div><div class="nc-events__empty" data-events-empty hidden><p>Keine Events gefunden. Versuchen Sie andere Filtereinstellungen.</p></div><div class="nc-events__load-more" data-events-load-more hidden><button class="nc-button nc-button--secondary" data-events-load-btn><span>Mehr laden</span></button></div></div></section>'
+      }
+    ],
+    arena: {
+      default: ['.nc-events > .nc-events__filter-bar > .nc-events__search > .nc-events__search-wrapper > .nc-events__search-icon + input.nc-events__search-input[type="search"][aria-label]', '.nc-events__filter-bar > select.nc-events__filter-select[aria-label]', '.nc-events > .nc-events__results-count + .nc-events__grid > a.nc-events__card > .nc-events__card-header > .nc-events__card-type + h3.nc-events__card-title + .nc-events__card-meta', 'a.nc-events__card > .nc-events__card-header + .nc-events__card-footer', '.nc-events__load-more > button.nc-button.nc-button--secondary'],
+      leer: ['.nc-events__empty > p']
+    }
   }
 }
 
@@ -161,7 +176,7 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
       for (const w of fall.website) {
         it(`Website-Markup (${w.quelle}): Wurzel, Klassen im Recipe`, () => {
           const d = dom(w.markup)
-          const wurzel = rohesRecipe(id).anatomy.root.element
+          const wurzel = fall.wurzelWebsite || rohesRecipe(id).anatomy.root.element
           expect(d.querySelector(wurzel), `${id}: ${wurzel} fehlt`).not.toBeNull()
           const bekannt = recipeKlassen(id)
           for (const el of d.querySelectorAll('[class]')) {

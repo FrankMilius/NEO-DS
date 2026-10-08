@@ -1,9 +1,9 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "events",
-  "version": "1.1.0",
-  "status": "draft",
-  "layer": "unknown",
+  "version": "1.2.0",
+  "status": "stable",
+  "layer": "organism",
   "tags": [
     "aufgenommen",
     "organisms"
@@ -12,118 +12,120 @@
     "rootElement": ".nc-events",
     "slots": [
       {
-        "name": "card",
-        "selector": ".nc-events__card",
+        "name": "filter-bar",
+        "selector": ".nc-events__filter-bar",
         "required": true,
-        "description": null
+        "description": "Filterleiste: Flex-Zeile mit Umbruch — Suchfeld und drei Auswahlen (Typ, Kategorie, Jahr)."
       },
       {
-        "name": "card-footer",
-        "selector": ".nc-events__card-footer",
+        "name": "search",
+        "selector": ".nc-events__search",
         "required": true,
-        "description": null
+        "description": "Huelle des Suchfelds: waechst (flex 1 1 250px), mindestens 200 px."
+      },
+      {
+        "name": "search-wrapper",
+        "selector": ".nc-events__search-wrapper",
+        "required": true,
+        "description": "Bezugsrahmen fuer das Lupen-Icon."
+      },
+      {
+        "name": "search-icon",
+        "selector": ".nc-events__search-icon",
+        "required": true,
+        "description": "Lupe (SVG, 18 px), absolut links im Feld, text-tertiary; dekorativ."
+      },
+      {
+        "name": "search-input",
+        "selector": ".nc-events__search-input",
+        "required": true,
+        "description": "<input type=\"search\" data-events-search>, 44 px hoch, Platzhalter „Events durchsuchen…\"; Fokus: Rahmen interactive-focus plus 2-px-Schein."
+      },
+      {
+        "name": "filter-select",
+        "selector": ".nc-events__filter-select",
+        "required": true,
+        "description": "<select data-events-filter=\"type|category|year\">, 44 px hoch, mindestens 160 px; Optionen fuellt das Skript."
+      },
+      {
+        "name": "results-count",
+        "selector": ".nc-events__results-count",
+        "required": true,
+        "description": "Trefferzahl („N Events gefunden\"), body-s, text-tertiary; Text setzt das Skript."
+      },
+      {
+        "name": "grid",
+        "selector": ".nc-events__grid",
+        "required": true,
+        "description": "Raster der Karten (data-events-grid): auto-fill, Spur mindestens 300 px, gap spacing-05."
+      },
+      {
+        "name": "card",
+        "selector": ".nc-events__card",
+        "required": false,
+        "description": "Karte, vom Skript gebaut: <a href> (ganze Karte ist der Link), Rahmen border-secondary, Radius md; Hover: Schatten sm, Rahmen border-primary, 2 px angehoben."
       },
       {
         "name": "card-header",
         "selector": ".nc-events__card-header",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "card-meta",
-        "selector": ".nc-events__card-meta",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "card-meta-item",
-        "selector": ".nc-events__card-meta-item",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "card-title",
-        "selector": ".nc-events__card-title",
-        "required": true,
-        "description": null
+        "required": false,
+        "description": "Kopf der Karte (waechst): Typ, Titel, ggf. Untertitel, Meta."
       },
       {
         "name": "card-type",
         "selector": ".nc-events__card-type",
         "required": false,
-        "description": null
+        "description": "Gattung (Taxonomie-Name, solange er nicht geladen ist die Term-ID): caption, Versalien, interactive-default. Das Skript setzt das <span> immer, auch leer."
+      },
+      {
+        "name": "card-title",
+        "selector": ".nc-events__card-title",
+        "required": false,
+        "description": "Titel (<h3>), heading-s bold."
+      },
+      {
+        "name": "card-meta",
+        "selector": ".nc-events__card-meta",
+        "required": false,
+        "description": "Zeile mit Datum, Uhrzeit und Ort (je nur mit Wert), caption, text-secondary, unten im Kopf."
+      },
+      {
+        "name": "card-meta-item",
+        "selector": ".nc-events__card-meta-item",
+        "required": false,
+        "description": "Eintrag, Datum und Uhrzeit mit Strich-Icon (14 px), Ort ohne."
+      },
+      {
+        "name": "card-footer",
+        "selector": ".nc-events__card-footer",
+        "required": false,
+        "description": "Fusszeile „Mehr erfahren\" mit Pfeil, Trennlinie oben, caption, text-secondary."
       },
       {
         "name": "empty",
         "selector": ".nc-events__empty",
         "required": false,
-        "description": null
-      },
-      {
-        "name": "filter-bar",
-        "selector": ".nc-events__filter-bar",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "filter-select",
-        "selector": ".nc-events__filter-select",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "grid",
-        "selector": ".nc-events__grid",
-        "required": false,
-        "description": null
+        "description": "Leerzustand (data-events-empty, <p> mit Text): steht im Template, per hidden versteckt, solange es Treffer gibt; bei Ladefehler „Fehler beim Laden der Events.\""
       },
       {
         "name": "load-more",
         "selector": ".nc-events__load-more",
         "required": false,
-        "description": null
-      },
-      {
-        "name": "results-count",
-        "selector": ".nc-events__results-count",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "search",
-        "selector": ".nc-events__search",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "search-icon",
-        "selector": ".nc-events__search-icon",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "search-input",
-        "selector": ".nc-events__search-input",
-        "required": false,
-        "description": null
-      },
-      {
-        "name": "search-wrapper",
-        "selector": ".nc-events__search-wrapper",
-        "required": false,
-        "description": null
+        "description": "Huelle des Knopfs „Mehr laden\" (nc-button--secondary, data-events-load-btn): per hidden versteckt, wenn alle Treffer stehen."
       }
     ],
     "notes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Website: block--block-content/inline-block--neo-events-listing.html.twig (identisch) und die Canvas-Komponente neo-events-listing geben <section class=\"nc-section\"><div class=\"nc-container\" data-neo-events-listing …> mit Filterleiste, Trefferzahl, leerem Raster, Leerzustand und „Mehr laden\" aus. Eine Wurzel .nc-events gibt es dort nicht; die Arena setzt sie als Recipe-Wurzel.",
+      "Verhalten (Drupal.behaviors.neoEventsListing, js/neo-theme.js — nicht im DS): laedt /api/events?_format=json, sortiert nach Datum absteigend, fuellt die Auswahlen (Term-Namen per JSON:API nachgeladen), filtert bei change bzw. Eingabe (300 ms Verzug), zeigt 16 Karten je Schritt; „Mehr laden\" haengt weitere an. Leerzustand und „Mehr laden\" schaltet es per hidden.",
+      "Karte (createCard): optionaler Untertitel als <p> mit Inline-Stil (font-size var(--fs-sm), text-secondary) — ohne eigene Klasse.",
+      "Die Canvas-Komponente bringt eigene CSS (neo-events-listing.css) mit abweichenden Werten mit; massgeblich fuer die Layout-Builder-Bloecke ist die DS-Regel."
     ]
   },
   "api": null,
   "variants": {
     "variant": {
       "label": "Variant",
-      "description": "Einzige Variante",
+      "description": "Einzige Variante — Leerzustand und Teile per Specimen (leer, nur-raster).",
       "values": [
         {
           "value": "default",
@@ -146,20 +148,55 @@
     "baseClasses": [
       "nc-events"
     ],
-    "tokenGroups": {},
-    "modTokens": []
+    "tokenGroups": {
+      "Alle": [
+        {
+          "token": "--nc-events-card-type-letter-spacing"
+        },
+        {
+          "token": "--nc-events-card-title-line-height"
+        },
+        {
+          "token": "--nc-events-card-meta-item-gap"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-events-card-type-letter-spacing",
+      "--mod-events-card-title-line-height",
+      "--mod-events-card-meta-item-gap"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,
   "events": null,
   "a11y": {
     "role": null,
-    "interactive": null,
-    "contrastTarget": null,
-    "focusIndicator": null,
-    "assertions": [],
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "Suchfeld: Rahmen interactive-focus plus 2-px-Schein (25 %); Auswahlen und Karten: Fokusring des Browsers bzw. der Elementregel.",
+    "assertions": [
+      "Suchfeld und Auswahlen brauchen einen zugaenglichen Namen — das Template gibt keinen aus (nur Platzhalter bzw. erste Option); aria-label oder <label class=\"u-sr-only\"> im Theme ergaenzen (die Arena zeigt aria-label).",
+      "Die Trefferzahl aendert sich ohne Ankuendigung — aria-live=\"polite\" am Element waere noetig, damit Filter und Suche hoerbar wirken.",
+      "Jede Karte ist ein Link mit h3 als Namen; Icons ohne Text (Lupe, Kalender, Uhr, Pfeil) sind dekorativ und tragen im Skript kein aria-hidden.",
+      "Kontrast: Gattung, Meta, Fusszeile und Trefferzahl gemessen ab 5,75:1 (hell und dunkel).",
+      "„Mehr laden\" ist ein <button>; neue Karten erscheinen hinter den alten, der Fokus bleibt am Knopf."
+    ],
     "overrides": []
   },
   "dependencies": [],
-  "pipeline": null
+  "pipeline": {
+    "scss": [
+      "scss/scss/07-organisms/_events.scss"
+    ],
+    "story": "stories/organisms/events.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [
+      "block/block--block-content--neo-events-listing.html.twig",
+      "block/block--inline-block--neo-events-listing.html.twig",
+      "components/neo-events-listing/neo-events-listing.twig",
+      "js/neo-theme.js (Drupal.behaviors.neoEventsListing)"
+    ],
+    "docs": null
+  }
 }

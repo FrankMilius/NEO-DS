@@ -5,7 +5,9 @@
 // Recipe-Wurzel; Drupal haengt die Bereiche direkt in .nc-container.
 // Slots per render.slotConfig des Specimens; render.leer zeigt den
 // Leerzustand (0 Treffer: .nc-events__empty statt Raster und „Mehr laden";
-// der Text ist ein Beispiel) — Plan v3, Phase 4.
+// Text wie im Template, als <p>) — Plan v3, Phase 4. Auf der Website stehen
+// Leerzustand und „Mehr laden" immer im Markup und werden per hidden
+// geschaltet; die Arena laesst den jeweils versteckten Teil weg.
 import { slotAn as an, vorgabe, desktop } from './_bloecke-1.js'
 
 const LUPE = '<svg class="nc-events__search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"></circle><path d="m21 21-6-6"></path></svg>'
@@ -33,7 +35,7 @@ ${LUPE}
 <select class="nc-events__filter-select" aria-label="Jahr"><option value="">Alle Jahre</option></select>
 </div>` : ''}
 ${an(m, 'results-count') ? `<div class="nc-events__results-count">${leer ? 0 : EVENTS.length} Events gefunden</div>` : ''}
-${leer ? '<div class="nc-events__empty">Keine Events gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.</div>' : `<div class="nc-events__grid">
+${leer ? '<div class="nc-events__empty"><p>Keine Events gefunden. Versuchen Sie andere Filtereinstellungen.</p></div>' : `<div class="nc-events__grid">
 ${EVENTS.map(([typ, titel, datum, zeit, ort]) => `<a href="#" onclick="return false" class="nc-events__card">
 <div class="nc-events__card-header">
 ${an(m, 'card-type') ? `<span class="nc-events__card-type">${typ}</span>` : ''}
