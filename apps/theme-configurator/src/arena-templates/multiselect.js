@@ -19,7 +19,9 @@
 // das Behavior blendet zusaetzlich inline aus, siehe neo-behaviors/multiselect.js);
 // das Behavior multiselect aus neo-behaviors oeffnet, bewegt den Fokus mit
 // den Pfeiltasten, fasst die Auswahl im Knopf zusammen und meldet
-// multiselect-change. Auf der Website bis zur Umstellung neo-theme.js.
+// multiselect-change. Die Website nutzt das Behavior seit 07.10.2026
+// (neo-theme.js baut nur noch das Markup und bindet es an). Die
+// Zusammenfassung „<n> ausgewählt" ist fest deutsch (Recipe, Einschraenkung).
 import { SYMBOL } from './_helfer.js'
 
 const OPTIONEN = ['Interne Kommunikation', 'Wissensmanagement', 'Mitarbeiter-App', 'Intranet-KI']

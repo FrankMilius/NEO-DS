@@ -98,4 +98,21 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(ernte).toMatch(/nc-table-info-modal__close" data-modal-close/)
     expect(ernte).not.toMatch(/aria-labelledby|aria-modal/)
   })
+
+  it('multiselect: 1.5.0, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
+    const r = freigegeben('multiselect', '1.5.0')
+    anatomieWieScss('multiselect', 'scss/scss/06-molecules/_multiselect.scss', 'nc-multiselect')
+    expect(MIT_VERHALTEN).toContain('multiselect')
+    expect(Object.keys(r.keyboard).sort()).toEqual(['ArrowDown', 'ArrowUp', 'End', 'Enter', 'Escape', 'Home', 'Space', 'Tab'])
+    expect(r.events['multiselect-change'].detail).toEqual({ values: 'string[]' })
+    // Einschraenkung: fest deutsch im Behavior — wird es uebersetzbar, Recipe nachziehen
+    const behavior = readFileSync(resolve(WURZEL, 'packages/neo-behaviors/multiselect.js'), 'utf8')
+    expect(behavior).toContain('ausgewählt`')
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/Einschraenkung: „<n> ausgewählt" .* fest deutsch/)
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/fest deutsch/)
+    expect(r.constraints.copy.summary.note).toMatch(/fest deutsch/)
+    expect(r.meta.source.drupal).toMatch(/_neo_fe_hat_multiselect/)
+    // die frueher „ausstehenden" SCSS-Aenderungen sind freigegeben
+    expect(r.meta.changelog[0].changes.join(' ')).toMatch(/seit 07\.10\.2026 freigegeben/)
+  })
 })
