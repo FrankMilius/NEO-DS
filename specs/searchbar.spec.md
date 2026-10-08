@@ -1,5 +1,5 @@
 # searchbar Component Spec
-> Version 1.3.0 | Status: stable | Layer: molecule
+> Version 1.4.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -17,10 +17,9 @@ Root element: `.nc-searchbar`
 ### DOM Notes
 - Leiste unter der Navigation: div.nc-searchbar[data-state][role=search] > .nc-searchbar__inner.nc-container > .nc-searchbar__field > svg.__icon + input.__input + button.__close (Struktur aus COMPONENTS-CSS.md des Drupal-Themes, Abschnitt 3.2, und dem SCSS). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026).
 - Sichtbar nur mit data-state="open" (display block), sonst display none; volle Breite, background-secondary mit Trennlinie border-secondary, z-index --fnd-z-drawer. Die Arena zeigt jede Zelle geoeffnet.
-- Fokus im Feld: outline none, Rahmen --nc-searchbar-input-border-focus und ein 2-px-Schatten aus derselben Farbe (25 %) — schwaecher als der globale Fokusring (Befund, siehe a11y).
+- Fokus im Feld wie beim Input: :focus-visible mit dem Fokusring (focus-ring, in den NEO-Themes zweischichtig: Ring neutral-950 + Halo neutral-50) und Rahmen --nc-searchbar-input-border-focus; :focus ohne :focus-visible ohne outline (Entscheidung Abschluss 2, 08.10.2026).
 - Verhalten (neo-theme.js, Drupal.behaviors.neoSearch — nicht migriert, auf der Website ohne Markup): Ausloeser [data-search-toggle] (aria-expanded) schaltet data-state, Fokus nach 100 ms ins Feld [data-searchbar-input]; Strg/⌘+K oeffnet bzw. fokussiert; Escape im Feld, [data-searchbar-close] und Klick ausserhalb von Leiste und Ausloeser schliessen — das Feld wird geleert, der Fokus geht an den Ausloeser. Keine Ereignisse.
 - Ein Behavior in neo-behaviors gibt es nicht (kein „Ausprobieren"); keyboard/events bleiben leer, bis das Verhalten migriert wird. Die Suchfunktion selbst (Ergebnisse, Absenden) gehoert nicht zum Bauteil.
-- SCSS-Regel .nc-searchbar__shortcut steht noch im DS, ohne Markup irgendwo (Website, Arena, Story) — tot (Befund, siehe Bericht).
 
 ## Variants
 ### Variant (`variant`)
@@ -49,7 +48,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 - 1.3.1/2.4.1: Leiste mit role=search (Landmarke); Feld input type=search mit Namen (aria-label oder sichtbares Label).
 - 4.1.2: Schliessen-Knopf mit aria-label, Lupe dekorativ (aria-hidden); der Ausloeser in der Kopfzeile traegt aria-expanded (neoSearch).
 - 2.1.1: Escape im Feld schliesst und gibt den Fokus an den Ausloeser zurueck; Strg/⌘+K oeffnet bzw. fokussiert (neoSearch; Tastenkombination mit Modifier, kein Einzeltasten-Kuerzel nach 2.1.4).
-- 2.4.7: Fokus im Feld ist sichtbar (Rahmen dunkler, Schatten), aber schwach: Rahmen 3,72:1 -> 7,55:1 gegen die Flaeche, Schatten 25 % — ein kraeftigerer Ring waere eine Gestaltungsentscheidung (Entscheidungsfall).
+- 2.4.7/1.4.11: Fokus im Feld mit dem Fokusring der Eingabefelder (seit 1.4.0) — Ring gegen Leiste hell 14,23:1, heller Halo gegen Leiste dunkel 13,72:1, Ring gegen Halo 17,17:1; Rahmen zusaetzlich in der Fokusfarbe.
 - 2.5.8: Schliessen-Knopf 28 x 28 px; Feld 44 px hoch.
 - 1.4.3/1.4.11: Kontrast AA hell und dunkel gemessen — Eingabe ab 12,79:1, Platzhalter ab 4,59:1, Lupe und Kreuz text-tertiary ab 4,59:1, Feldrahmen ab 3,06:1.
 

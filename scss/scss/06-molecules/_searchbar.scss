@@ -58,28 +58,22 @@
   transition: border-color 0.15s ease;
 }
 
-.nc-searchbar__input:focus {
-  outline: none;
+// Fokus wie bei den anderen Eingabefeldern (form-control-base): globaler
+// Fokusring plus Rahmen in der Fokusfarbe des Inputs. Vorher outline none
+// und ein 2-px-Schatten mit 25 % Deckkraft (Entscheidung Abschluss 2,
+// 08.10.2026).
+.nc-searchbar__input:focus-visible {
+  @include focus-ring;
   border-color: var(--mod-searchbar-input-border-focus, var(--nc-searchbar-input-border-focus));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mod-searchbar-input-border-focus, var(--nc-searchbar-input-border-focus)) 25%, transparent);
+}
+
+// Fallback fuer Browser ohne :focus-visible (wie form-control-base)
+.nc-searchbar__input:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .nc-searchbar__input::placeholder {
   color: var(--mod-searchbar-input-placeholder, var(--nc-searchbar-input-placeholder));
-}
-
-.nc-searchbar__shortcut {
-  position: absolute;
-  right: 44px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: var(--nc-searchbar-shortcut-font-size);
-  padding: var(--nc-searchbar-shortcut-padding);
-  border-radius: var(--fnd-radius-xs);
-  border: 1px solid var(--fnd-color-border-secondary);
-  background: var(--fnd-color-background-secondary);
-  color: var(--fnd-color-text-tertiary);
-  pointer-events: none;
 }
 
 .nc-searchbar__close {
@@ -108,10 +102,6 @@
 .nc-searchbar__close:focus-visible {
   outline: 2px solid var(--fnd-color-interactive-focus);
   outline-offset: 1px;
-}
-
-.nc-searchbar[data-state="open"] .nc-searchbar__shortcut {
-  display: none;
 }
 
 .nc-searchbar__input::-webkit-search-cancel-button,

@@ -16611,8 +16611,6 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-searchbar-input-padding-left",
           "nc-searchbar-input-padding-right",
-          "nc-searchbar-shortcut-font-size",
-          "nc-searchbar-shortcut-padding",
           "nc-searchbar-close-background",
           "nc-searchbar-input-radius",
           "nc-searchbar-input-border-width",
@@ -16636,18 +16634,6 @@ export const componentTokenGroups = [
         "label": "Input Padding Right",
         "type": "spacing",
         "default": "80px"
-      },
-      {
-        "id": "nc-searchbar-shortcut-font-size",
-        "label": "Shortcut Font Size",
-        "type": "size",
-        "default": "11px"
-      },
-      {
-        "id": "nc-searchbar-shortcut-padding",
-        "label": "Shortcut Padding",
-        "type": "spacing",
-        "default": "2px 6px"
       },
       {
         "id": "nc-searchbar-close-background",

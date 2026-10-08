@@ -45,10 +45,11 @@ function freigegeben (id, version) {
   expect(r.meta.status, id).toBe('stable')
   expect(r.meta.version, id).toBe(version)
   expect(r.meta.changelog[0].version, id).toBe(version)
-  // Freigabe-Eintrag (danach hoechstens eine Korrektur „Freigabe ausstehend")
+  // Freigabe-Eintrag (danach hoechstens Korrekturen „Freigabe ausstehend" oder
+  // unsichtbare Aenderungen aus den Entscheidungen Abschluss 2, 08.10.2026)
   const freigabe = r.meta.changelog.findIndex((e) => /^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/.test(e.changes[0]))
   expect(freigabe, id).toBeGreaterThanOrEqual(0)
-  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend/)
+  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend|Entscheidung Abschluss 2 \(08\.10\.2026\)/)
   expect(istEntwurf(id), id).toBe(false)
   // Recipe-Form (recipe-schema.json): Objekte statt Listen, mindestens eine Token-Gruppe
   expect(Array.isArray(r.constraints), id).toBe(false)
@@ -133,9 +134,9 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.meta.changelog[0].changes.join(' ')).toMatch(/seit 07\.10\.2026 freigegeben/)
   })
 
-  it('searchbar: 1.3.0, Anatomie wie das SCSS (ohne den toten __shortcut), Verhalten beschrieben, nicht migriert', () => {
-    const r = freigegeben('searchbar', '1.3.0')
-    anatomieWieScss('searchbar', 'scss/scss/06-molecules/_searchbar.scss', 'nc-searchbar', ['.nc-searchbar__shortcut'])
+  it('searchbar: 1.4.0, Anatomie wie das SCSS (__shortcut entfernt), Verhalten beschrieben, nicht migriert', () => {
+    const r = freigegeben('searchbar', '1.4.0')
+    anatomieWieScss('searchbar', 'scss/scss/06-molecules/_searchbar.scss', 'nc-searchbar')
     expect(r.anatomy.slots.map((s) => s.name)).not.toContain('shortcut')
     // kein Behavior in neo-behaviors: keine keyboard/events (wie reference-page)
     expect(MIT_VERHALTEN).not.toContain('searchbar')
@@ -145,7 +146,23 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.meta.source.drupal).toMatch(/neoSearch/)
     expect(r.meta.source.drupal).toMatch(/nicht im Einsatz/)
     expect(r.anatomy.domNotes.join(' ')).toMatch(/Strg\/⌘\+K/)
-    expect(r.anatomy.domNotes.join(' ')).toMatch(/__shortcut .* tot/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/__shortcut/)
+  })
+
+  // Entscheidung Abschluss 2 (08.10.2026), searchbar = beides: Fokusring wie
+  // bei den anderen Eingabefeldern, tote Regel __shortcut entfernt
+  it('searchbar: Fokus im Feld mit focus-ring wie form-control-base, kein __shortcut, keine Shortcut-Tokens', () => {
+    const c = readFileSync(resolve(WURZEL, 'styles.css'), 'utf8')
+    expect(c).toContain('.nc-searchbar__input:focus-visible{outline:var(--fnd-focus-ring-width) var(--fnd-focus-ring-style) var(--fnd-focus-ring-color);outline-offset:var(--fnd-focus-offset);border-color:var(--mod-searchbar-input-border-focus, var(--nc-searchbar-input-border-focus))}')
+    expect(c).toContain('.nc-searchbar__input:focus:not(:focus-visible){outline:none}')
+    // kein outline none bei echtem Fokus, kein schwacher 25-%-Schatten mehr
+    expect(c).not.toMatch(/\.nc-searchbar__input:focus\{/)
+    expect(c).not.toMatch(/nc-searchbar[\w-]*[^{}]*\{[^}]*color-mix\([^)]*25%/)
+    expect(c).not.toContain('nc-searchbar__shortcut')
+    expect(c).not.toContain('--nc-searchbar-shortcut-')
+    const r = rohesRecipe('searchbar')
+    expect(r.a11y.base.focusIndicator).toMatch(/focus-ring/)
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/14,23:1/)
   })
 
   it('tab-nav: 1.3.0, jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten beschrieben', () => {
