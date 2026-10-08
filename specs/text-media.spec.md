@@ -1,5 +1,5 @@
 # text-media Component Spec
-> Version 1.1.1 | Status: stable | Layer: organism
+> Version 1.1.2 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `media`, `split-layout`
 

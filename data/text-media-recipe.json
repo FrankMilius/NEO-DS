@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "text-media",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/text-media-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.2",
+        "changes": [
+          "Entscheidung Abschluss 08.10.2026 (website-sichtbar, Freigabe ausstehend): Video im Medienbereich wieder 16:9 — vorher auf der Website nur 2 px hoch (Rahmenkante), weil `.nc-video { padding: 0 !important }` aus _video-section.scss den padding-bottom-Trick abschaltete; das doppelte padding-top (zusammen 112,5 %) ist entfallen. `.nc-text-media .nc-video` setzt keinen eigenen box-shadow mehr: Rahmen `frame` zeigt den Schatten aus .nc-media-frame (bei prefers-contrast: more keiner), `none` ist randlos ohne Schatten. Gemessen 1280 px: 551×2 → 551×312 px."
+        ]
+      },
       {
         "version": "1.1.1",
         "changes": [

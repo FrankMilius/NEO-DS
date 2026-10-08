@@ -88,10 +88,19 @@
 // sind damit aus dem Markup verschwunden — die Regeln waren tot und sind
 // entfernt. Typografie kommt aus 10-utilities/_block-roles.scss.
 
-// Video Container (16:9 aspect ratio)
+// Video-Container (16:9). Das Seitenverhaeltnis setzt die Regel
+// `.nc-text-media .nc-video` weiter unten (padding-bottom-Trick ueber
+// --nc-text-media-nc-video-padding-bottom) — hier KEIN zweites padding-top,
+// sonst addierten sich beide zu 112,5 %.
+//
+// Vorher stand in _video-section.scss `.nc-video { padding: 0 !important }`.
+// Weil Video-Section und Medien-Huelle dieselbe Klasse tragen, schaltete
+// das den Trick auch hier ab: Auf der Website war das Video im Text-Media-
+// Block nur 2 px hoch (Rahmenkante), das iframe 0 px (Entscheidung Abschluss
+// 08.10.2026). Die Video-Section hat ohnehin kein Padding — die Zeile ist
+// ersatzlos entfallen.
 .nc-text-media__media .nc-video {
   position: relative;
-  padding-top: 56.25%;
   border-radius: var(--mod-text-media-video-radius, var(--nc-text-media-video-radius));
   overflow: hidden;
   background: var(--fnd-color-background-secondary);
@@ -163,7 +172,10 @@
   height: 0;
   overflow: hidden;
   border-radius: var(--fnd-radius-md);
-  box-shadow: var(--fnd-shadow-md);
+  // Kein box-shadow: Der Schatten kommt aus .nc-media-frame (field_media_frame
+  // = frame), samt Kontrast-, forced-colors- und Druckmodus. Ein eigener
+  // Schatten hier ueberschrieb ihn — auch bei prefers-contrast: more — und
+  // legte ihn bei `none` (randlos) zusaetzlich an.
 }
 
 .nc-text-media .nc-video__iframe {
