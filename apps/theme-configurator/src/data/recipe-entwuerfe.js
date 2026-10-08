@@ -23,7 +23,6 @@ export const ENTWUERFE = Object.freeze([
   'mobile-drawer',
   'multiselect',
   'news',
-  'prose',
   'reference-page',
   'scroll-expand',
   'scroll-reveal',

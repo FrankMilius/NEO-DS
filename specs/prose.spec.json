@@ -1,8 +1,8 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "prose",
-  "version": "1.0.0",
-  "status": "draft",
+  "version": "1.1.0",
+  "status": "stable",
   "layer": "object",
   "tags": [
     "layout",
@@ -17,25 +17,29 @@
         "name": "bleed-content",
         "selector": ".nc-bleed-content",
         "required": false,
-        "description": "Kind bricht bis zur Content-Breite aus (oder data-bleed=\"content\")."
+        "description": "Direktes Kind bricht bis zur Content-Breite aus (1090; oder data-bleed=\"content\")."
       },
       {
         "name": "bleed-wide",
         "selector": ".nc-bleed-wide",
         "required": false,
-        "description": "Kind bricht bis zur Wide-Breite aus (oder data-bleed=\"wide\")."
+        "description": "Direktes Kind bricht bis zur Wide-Breite aus (1290; oder data-bleed=\"wide\")."
       },
       {
         "name": "bleed-full",
         "selector": ".nc-bleed-full",
         "required": false,
-        "description": "Kind laeuft ueber die volle Breite (gekappt auf xwide; oder data-bleed=\"full\")."
+        "description": "Direktes Kind laeuft ueber die volle Breite, gekappt auf xwide 1536 (oder data-bleed=\"full\"); <img>, <picture> <img> und <video> darin fuellen die Spalte."
       }
     ],
     "notes": [
-      "Ein CSS-Grid mit benannten Linien full | wide | content | prose: jedes direkte Kind steht in der Prosa-Spalte (--prose-measure = --container-prose).",
-      "Breakout per Klasse (.nc-bleed-*) oder Attribut data-bleed=\"content|wide|full\"; die Website nutzt das Attribut (gefilterte Body-HTML).",
-      "Website: field--body.html.twig legt das Body-Feld in .nc-prose, mit reading_left zusaetzlich .nc-prose--left.",
+      "Ein CSS-Grid mit benannten Linien full | wide | content | prose: jedes direkte Kind steht in der Prosa-Spalte (--prose-measure = --container-prose, 72ch); seitlich mindestens --prose-gutter (= --container-padding-inline).",
+      "Breakout per Klasse (.nc-bleed-content|wide|full) oder Attribut data-bleed=\"content|wide|full\" — nur an DIREKTEN Kindern. Die Website nutzt das Attribut (gefilterte Body-HTML).",
+      "Das Ganze ist auf --container-xwide gekappt und zentriert (--mod-prose-max); full bricht also bis 1536 aus, nicht bis zum Viewport.",
+      ".nc-prose--left: Lesespalte an der linken Kante (margin-inline 0, kein linker Gutter), Breakouts wachsen nach rechts. Den Abstand zur Seitenkante liefert der umgebende Rahmen (.nc-content).",
+      "Website: field--body.html.twig legt das Body-Feld in <div class=\"nc-prose\">; neo_fe_preprocess_field setzt reading_left in den Bereichen /inside/blog und /inside/dokumentation, dann zusaetzlich .nc-prose--left.",
+      "Keine Typografie: Abstaende und Schrift der Kinder kommen aus der Basis. .u-prose (10-utilities, event und news) ist etwas anderes — nur max-width und Zeilenhoehe, kein Breakout.",
+      "data-bleed=\"full\" wirkt auch als direktes Kind von .nc-container (04-objects/_section.scss) — dort mit anderer Technik (negativer Rand ueber --container-pad), nicht Teil dieses Objects.",
       "Overrides: --mod-prose-measure, --mod-prose-gutter, --mod-prose-max."
     ]
   },
@@ -103,7 +107,12 @@
     "interactive": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "focusIndicator": null,
-    "assertions": [],
+    "assertions": [
+      "Zeilenlaenge um 72 Zeichen (WCAG 1.4.8 empfiehlt hoechstens 80); --mod-prose-measure nicht ueber 80ch setzen.",
+      "Breakouts aendern nur grid-column, nie die Reihenfolge — Lese- und DOM-Reihenfolge bleiben gleich.",
+      "Ausbrechende Medien brauchen ihren Alternativtext bzw. eine <figcaption>; dekorative Bilder alt=\"\".",
+      "Reflow (WCAG 1.4.10): die Prosa-Spalte schrumpft mit min(measure, 100 % - 2 x Gutter), min-width 0 an jedem Kind verhindert Ueberlauf durch <pre> oder lange Woerter im Raster."
+    ],
     "overrides": []
   },
   "dependencies": [],

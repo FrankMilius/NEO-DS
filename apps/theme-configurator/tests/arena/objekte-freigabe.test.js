@@ -118,6 +118,25 @@ const OBJEKTE = {
       kanten: ['.nc-media-frame > img', '.nc-media-frame.nc-media-frame--flush > img'],
       'auf-flaeche': ['.nc-surface-muted > .nc-media-frame > img']
     }
+  },
+  prose: {
+    namensraum: /^(nc-prose|nc-bleed-)/,
+    intern: ['prose-measure', 'prose-gutter'],
+    attribute: { 'nc-bleed-content': 'data-bleed=content', 'nc-bleed-wide': 'data-bleed=wide', 'nc-bleed-full': 'data-bleed=full' },
+    website: [
+      {
+        quelle: 'neo_fe/templates/field/field--body.html.twig (gefilterte Body-HTML)',
+        markup: '<div class="nc-prose"><p>Text</p><figure data-bleed="content"><img src="x.png" alt=""></figure><figure data-bleed="wide"><img src="x.png" alt=""></figure><div data-bleed="full"><img src="x.png" alt=""></div></div>'
+      },
+      {
+        quelle: 'neo_fe/templates/field/field--body.html.twig (reading_left, /inside/blog und /inside/dokumentation)',
+        markup: '<div class="nc-prose nc-prose--left"><p>Text</p></div>'
+      }
+    ],
+    arena: {
+      breakout: ['.nc-prose > figure[data-bleed="content"]', '.nc-prose > figure[data-bleed="wide"]', '.nc-prose > figure[data-bleed="full"]', '.nc-prose > p'],
+      ausrichtung: ['.nc-prose.nc-prose--left > figure[data-bleed="wide"]', '.nc-prose:not(.nc-prose--left)']
+    }
   }
 }
 
