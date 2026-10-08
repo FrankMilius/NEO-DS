@@ -141,7 +141,7 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
         expect(anlage.version).toBe('1.0.0')
         expect(anlage.changes.join(' ')).toMatch(/Plan v3, Phase 5/)
         expect(meta.changelog[0].version).toBe(meta.version)
-        if (!entwurf) expect(meta.changelog[0].changes[0]).toMatch(/^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/)
+        if (!entwurf) expect(meta.changelog.some((e) => /^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/.test(e.changes[0])), 'Freigabe im Changelog').toBe(true)
         expect(istEntwurf(id)).toBe(entwurf)
         const eintrag = navEintraege().find((e) => e.section === `component-${id}`)
         expect(eintrag, `component-${id} in der Navigation`).toBeTruthy()
@@ -342,6 +342,13 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
       expect(d.querySelector('.nc-container.nc-accordion-block__inner > .nc-accordion-block__text + .nc-accordion-block__accordion')).not.toBeNull()
       expect(d.querySelectorAll('details.nc-accordion__item').length).toBeGreaterThan(1)
     }
+  })
+
+  it('text-cta: Haken der Punkteliste mit leerem Alternativtext, kein speak (Freigabe text-cta, 08.10.2026)', () => {
+    const regel = /\.nc-text-cta__list-item::before\{([^}]*)\}/.exec(css())
+    expect(regel).not.toBeNull()
+    expect(regel[1]).toMatch(/content:"✔";content:"✔"\/""/)
+    expect(regel[1]).not.toMatch(/speak/)
   })
 
   it('text-cta: --card-left nur mit Karte wie in Drupal (Freigabe 08.10.2026)', () => {

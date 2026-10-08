@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "text-cta",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "status": "stable",
     "tags": [
       "content",
@@ -17,6 +17,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.1",
+        "changes": [
+          "Haken der Punkteliste aus dem Vorlesebaum genommen: content '\\2714' / '' (leerer Alternativtext) statt des wirkungslosen speak: never; vorgelesen wurde „Haekchen, …\". Bild pixelgleich, Fallback-Zeile fuer Browser ohne Alternativtext im content. Website-sichtbar fuer Screenreader (Freigabe ausstehend)."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -82,7 +88,7 @@
         "name": "list-item",
         "element": ".nc-text-cta__list-item",
         "optional": true,
-        "description": "Punkt (<li> mit <span>) mit dekorativem Haken (::before, --nc-text-cta-list-marker-color); Folgezeilen buendig unter dem Text."
+        "description": "Punkt (<li> mit <span>) mit dekorativem Haken (::before mit leerem Alternativtext, --nc-text-cta-list-marker-color); Folgezeilen buendig unter dem Text."
       },
       {
         "name": "aside",
@@ -169,7 +175,7 @@
       "assertions": [
         "Erst Erklaerung, dann Handlungsaufruf: die Karte steht im DOM hinter dem Text, auch bei --card-left und gestapelt.",
         "Eine Ueberschrift fuer den Block (h2 im Kopf); der Kartentitel ist h3 darunter.",
-        "Haken der Punkteliste und Icon der Karte sind dekorativ — der Sinn steht im Text daneben (Icon mit aria-hidden).",
+        "Haken der Punkteliste und Icon der Karte sind dekorativ — der Haken hat leeren Alternativtext (content '\\2714' / ''), das Icon aria-hidden; der Sinn steht im Text daneben.",
         "Der Button ist ein Link (<a class=\"nc-button\">) mit sichtbarem Text; die Karte als <aside> ohne Namen ist keine eigene Landmarke.",
         "Kontrast AA hell und dunkel (gemessen ab 4,66:1 fuer den Kartentext); die Instanzflaeche field_tc_card_bg ist davon nicht gedeckt."
       ],

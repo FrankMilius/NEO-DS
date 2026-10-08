@@ -1,5 +1,5 @@
 # text-cta Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.2.1 | Status: stable | Layer: organism
 
 Tags: `content`, `organisms`, `website-block`, `split-layout`
 
@@ -11,7 +11,7 @@ Root element: `.nc-text-cta`
 | grid | `.nc-text-cta__grid` | Yes | Raster (Container-Query auf .nc-text-cta): gestapelt, ab 600 px Blockbreite (media-text-stack) zweispaltig 1,35fr : 1fr; mit --no-card immer einspaltig. |
 | content | `.nc-text-cta__content` | Yes | Textspalte (Flex-Stack mit gap): neo_fe:block-header --flush (field_tc_kicker, field_tc_headline h2, field_tc_subline) und Punkteliste. |
 | list | `.nc-text-cta__list` | No | Punkteliste (field_tc_features, eine Zeile je Punkt, Leerzeilen fallen weg). |
-| list-item | `.nc-text-cta__list-item` | No | Punkt (<li> mit <span>) mit dekorativem Haken (::before, --nc-text-cta-list-marker-color); Folgezeilen buendig unter dem Text. |
+| list-item | `.nc-text-cta__list-item` | No | Punkt (<li> mit <span>) mit dekorativem Haken (::before mit leerem Alternativtext, --nc-text-cta-list-marker-color); Folgezeilen buendig unter dem Text. |
 | aside | `.nc-text-cta__aside` | No | <aside>, Spalte der Karte — entfaellt ohne Karteninhalt (keins von Icon, Kartenueberschrift, -text, Button-Text gefuellt). |
 | card | `.nc-text-cta__card` | No | CTA-Karte auf .nc-card (Flaeche, Rahmen, Radius ueber --mod-card-* aus den --nc-text-cta-card-*-Tokens): zentriert, Icon, Titel (h3.nc-card__title), Text (p.nc-card__description), Button. |
 | card-icon | `.nc-text-cta__card-icon` | No | Icon oben in der Karte (field_tc_card_icon, im Preprocess per neo_fe_icon zu SVG mit aria-hidden); dekorativ. |
@@ -78,7 +78,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 
 - Erst Erklaerung, dann Handlungsaufruf: die Karte steht im DOM hinter dem Text, auch bei --card-left und gestapelt.
 - Eine Ueberschrift fuer den Block (h2 im Kopf); der Kartentitel ist h3 darunter.
-- Haken der Punkteliste und Icon der Karte sind dekorativ — der Sinn steht im Text daneben (Icon mit aria-hidden).
+- Haken der Punkteliste und Icon der Karte sind dekorativ — der Haken hat leeren Alternativtext (content '\2714' / ''), das Icon aria-hidden; der Sinn steht im Text daneben.
 - Der Button ist ein Link (<a class="nc-button">) mit sichtbarem Text; die Karte als <aside> ohne Namen ist keine eigene Landmarke.
 - Kontrast AA hell und dunkel (gemessen ab 4,66:1 fuer den Kartentext); die Instanzflaeche field_tc_card_bg ist davon nicht gedeckt.
 

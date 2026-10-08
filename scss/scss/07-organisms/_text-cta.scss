@@ -113,12 +113,17 @@
   font-size: var(--nc-type-body-m-size);
   line-height: var(--nc-type-body-m-lh);
 
+  // Dekoratives Zeichen: der Sinn steht im Text daneben. Der leere
+  // Alternativtext (`/ ''`) nimmt es aus dem Vorlesebaum — vorher stand hier
+  // `speak: never`, das kein Browser kennt; vorgelesen wurde „Haekchen,
+  // Einrichtung in …" (Freigabe text-cta, 08.10.2026). Die erste Zeile bleibt
+  // fuer Browser ohne Alternativtext im content stehen, sonst fehlte dort der
+  // Haken ganz.
   &::before {
     content: '\2714';
+    content: '\2714' / '';
     color: var(--mod-text-cta-list-marker-color, var(--nc-text-cta-list-marker-color));
     font-weight: var(--fnd-font-weight-bold);
-    // Dekoratives Zeichen: der Sinn steht im Text daneben.
-    speak: never;
   }
 }
 
