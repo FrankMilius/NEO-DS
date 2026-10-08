@@ -38,7 +38,7 @@ Entry point: `scss/scss/main.scss` — uses `@use/@forward` (modern Sass modules
 | 05-atoms | Smallest components (button, icon, input, badge, chip) | |
 | 06-molecules | Component combinations (card, accordion, breadcrumb) | |
 | 07-organisms | Complex sections (header, footer, modal, data-table) | |
-| 08-templates | Page layouts (`.t-dashboard`, `.t-content-page`, etc.) | |
+| 08-templates | Page layouts: Shell (`.nc-shell` + `data-layout` presets on `<body>`), content layouts (`.t-dashboard-overview`, `.t-article`, etc.) | |
 | 09-pages | Page-specific styles | |
 | 10-utilities | Helper classes (`.u-sr-only`, visibility, spacing) | |
 
@@ -72,7 +72,7 @@ Update flow: `npm update @tabler/icons && npm run icons:sync && npm run icons`
 - **Comments in German** throughout SCSS files
 - **BEM naming**: `.nc-{component}`, `.nc-{component}__element`, `.nc-{component}--modifier`
 - **Token prefixes**: Foundation `--fnd-*`, Component `--nc-*`, Legacy `--ds-*`
-- **Template classes**: `.t-{name}` (e.g., `.t-dashboard`)
+- **Template classes**: `.t-{name}` (e.g., `.t-article`); page layouts via `data-layout` presets on `<body>` (Shell)
 - **Utility classes**: `.u-{name}` (e.g., `.u-sr-only`)
 - **Generated files** are marked `DO NOT EDIT DIRECTLY`
 - **No hardcoded values** in components — use foundation tokens. `npm run lint:tokens` enforces this for shadows, font-weight, opacity, z-index, colors

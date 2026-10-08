@@ -5,7 +5,7 @@
 - **Comments in German** throughout SCSS files
 - **BEM naming**: `.nc-{component}`, `.nc-{component}__element`, `.nc-{component}--modifier`
 - **Token prefixes**: Foundation `--fnd-*`, Component `--nc-*`
-- **Template classes**: `.t-{name}` (e.g., `.t-dashboard`)
+- **Template classes**: `.t-{name}` (e.g., `.t-article`); page layouts via `data-layout` presets on `<body>` (Shell)
 - **Utility classes**: `.u-{name}` (e.g., `.u-sr-only`)
 - **Generated files** are marked `DO NOT EDIT DIRECTLY`
 
