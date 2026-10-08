@@ -174,6 +174,24 @@ const BAUTEILE = {
       'ohne-medium': ['section.nc-feature-list:not(.nc-feature-list--with-media) > .nc-feature-list__inner > .nc-feature-list__content:first-child > .nc-feature-list__items-host > ul.nc-feature-list__items > li.nc-feature-list__item > .nc-feature-list__icon + .nc-feature-list__item-text']
     },
     ohneArena: { 'mit-bild': ['.nc-feature-list__media--device'], 'ohne-medium': ['.nc-feature-list__media'] }
+  },
+  'testimonial-grid': {
+    namensraum: /^nc-testimonial-grid(__|--|$)/,
+    website: [
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-testimonial-grid.html.twig (Raster, Vorgabe 3 Spalten; Kind als gerenderter Block)',
+        markup: '<section class="nc-section"><div class="nc-container"><div class="nc-section-header"><h2 class="nc-section-header__title">Stimmen</h2></div><div class="nc-testimonial-grid nc-testimonial-grid--cols-3"><div class="block"><section class="nc-section"><div class="nc-container"><figure class="nc-testimonial"><blockquote class="nc-testimonial__quote">Zitat</blockquote></figure></div></section></div></div></div></section>'
+      },
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-testimonial-grid.html.twig (Karussell)',
+        markup: '<div class="nc-testimonial-grid nc-testimonial-grid--carousel" data-testimonial-carousel role="group" aria-roledescription="Karussell" aria-label="Stimmen" tabindex="0"><figure class="nc-testimonial"></figure></div><div class="nc-testimonial-grid__nav"><button type="button" class="nc-testimonial-grid__btn" data-tc-prev aria-label="Vorherige Testimonials"><svg aria-hidden="true" focusable="false"></svg></button><button type="button" class="nc-testimonial-grid__btn" data-tc-next aria-label="Weitere Testimonials"><svg aria-hidden="true" focusable="false"></svg></button></div>'
+      }
+    ],
+    arena: {
+      carousel: ['.nc-testimonial-grid.nc-testimonial-grid--carousel[data-testimonial-carousel][role="group"][aria-roledescription="Karussell"][aria-label][tabindex="0"] > figure.nc-testimonial', '.nc-testimonial-grid--carousel + .nc-testimonial-grid__nav > button.nc-testimonial-grid__btn[data-tc-prev][aria-label] + button.nc-testimonial-grid__btn[data-tc-next][aria-label]'],
+      default: ['.nc-testimonial-grid.nc-testimonial-grid--cols-3 > figure.nc-testimonial', '.nc-testimonial-grid.nc-testimonial-grid--cols-2 > figure.nc-testimonial']
+    },
+    ohneArena: { default: ['.nc-testimonial-grid__nav', '[data-testimonial-carousel]'] }
   }
 }
 

@@ -1,10 +1,10 @@
 {
-  "$schema": "../schemas/component-recipe.schema.json",
+  "$schema": "./recipe-schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "testimonial-grid",
-    "version": "1.1.0",
-    "status": "draft",
+    "version": "1.2.0",
+    "status": "stable",
     "tags": [
       "aufgenommen",
       "molecules"
@@ -15,6 +15,17 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen block--block-content/inline-block--neo-testimonial-grid.html.twig (identisch), neo_fe_preprocess_block (tg_layout, tg_columns, tg_items), Drupal.behaviors.neoTestimonialCarousel (js/neo-theme.js) und 06-molecules/_testimonial-grid.scss geprueft. Klassen, Modifier, Zustaende und Tokens stimmen.",
+          "Slots nav und btn optional (nur beim Karussell) und beschrieben; Wurzel mit Rolle und Namen des Karussells.",
+          "domNotes: Drupal setzt immer --cols-<field_tg_columns> (Vorgabe 3) oder --carousel — ohne Modifier (Achsenwert default) kommt auf der Website nicht vor; Kinder als gerenderte Bloecke, per display: contents entpackt; Verhalten des Karussells beschrieben (nicht migriert).",
+          "a11y-Pruefpunkte statt Freitext (Karussell als benannte Gruppe mit Tastaturfokus, Knoepfe mit Namen, disabled am Ende, Fokusringe, kein Autoplay), constraints; Form: $schema, layer, pipeline, tokenGroups alle (statt base), styling.tokens entfernt.",
+          "Arena: data-testimonial-carousel und data-tc-prev/-next wie auf der Website."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -31,56 +42,78 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_testimonial-grid.scss"
+      ],
+      "story": "stories/molecules/testimonial-grid.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "block/block--block-content--neo-testimonial-grid.html.twig",
+        "block/block--inline-block--neo-testimonial-grid.html.twig",
+        "js/neo-theme.js (Drupal.behaviors.neoTestimonialCarousel)"
+      ],
+      "docs": null
+    }
   },
   "anatomy": {
     "root": {
-      "element": ".nc-testimonial-grid"
+      "element": ".nc-testimonial-grid",
+      "description": "Raster bzw. Karussell-Spur der Testimonial-Figures (figure.nc-testimonial). Beim Karussell mit data-testimonial-carousel, role=\"group\", aria-roledescription=\"Karussell\", aria-label (Ueberschrift oder „Testimonials\") und tabindex=\"0\"."
     },
     "slots": [
       {
-        "name": "btn",
-        "element": ".nc-testimonial-grid__btn",
-        "optional": false
-      },
-      {
         "name": "nav",
         "element": ".nc-testimonial-grid__nav",
-        "optional": false
+        "optional": true,
+        "description": "Navigation des Karussells — steht als Geschwister NACH dem Raster, nur bei --carousel; rechtsbuendig."
+      },
+      {
+        "name": "btn",
+        "element": ".nc-testimonial-grid__btn",
+        "optional": true,
+        "description": "<button type=\"button\"> „Vorherige/Weitere Testimonials\" (aria-label, Pfeil-SVG aria-hidden; data-tc-prev/-next): 2,5 rem, rund, Rahmen border-secondary; Hover text-accent, Fokusring interactive-focus; [disabled] am Anfang bzw. Ende (Opacity-Token)."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Raster: .nc-testimonial-grid (grid, gap spacing-05) mit Testimonial-Figures (figure.nc-testimonial); Spalten per --cols-2/--cols-3 (unter 60em zwei, unter 36em eine Spalte), ohne Modifier eine Spalte.",
-      "Karussell: --carousel (flex, scroll-snap, Karten min(360px, 85 %)); die Navigation .nc-testimonial-grid__nav mit zwei .nc-testimonial-grid__btn steht NACH dem Raster und nur beim Karussell.",
-      "disabled: der Knopf am Anfang bzw. Ende ist [disabled] (Opacity-Token).",
-      "Aus dem Drupal-Theme uebernommen (block--block-content--neo-testimonial-grid.html.twig)."
+      "Website: block--block-content/inline-block--neo-testimonial-grid.html.twig — <section class=\"nc-section\"><div class=\"nc-container\"> mit neo_fe:block-header (Kicker, Ueberschrift) und dem Raster; ohne referenzierte Testimonials kein Raster.",
+      "Raster: Drupal setzt immer nc-testimonial-grid--cols-<field_tg_columns> (Vorgabe 3; gestaltet sind 2 und 3, unter 60em zwei, unter 36em eine Spalte) oder --carousel (field_tg_layout). Ohne Modifier (eine Spalte) kommt auf der Website nicht vor.",
+      "Kinder sind gerenderte neo_testimonial-Bloecke (Huelle > .nc-section > .nc-container > figure.nc-testimonial); display: contents entpackt die Huellen, damit die Figures Raster- bzw. Flex-Elemente werden. Die Figure streckt sich, der Autor steht unten.",
+      "Karussell: Flex-Spur mit scroll-snap, Karten min(360px, 85 %); die Navigation .nc-testimonial-grid__nav mit zwei .nc-testimonial-grid__btn steht NACH der Spur.",
+      "Verhalten (Drupal.behaviors.neoTestimonialCarousel, js/neo-theme.js — nicht ins DS migriert): Weiter/Zurueck scrollen um eine Kartenbreite plus Abstand (smooth); disabled am Anfang bzw. Ende, aktualisiert bei scroll und resize. Kein Autoplay."
     ]
   },
   "axes": {
     "variante": {
       "label": "Variante",
-      "description": "Variante — default, carousel, cols-2, cols-3",
+      "description": "Raster mit 2 oder 3 Spalten, Karussell; default (ohne Modifier, eine Spalte) erzeugt Drupal nicht.",
       "values": {
         "default": {
           "modifier": null,
           "tokenGroups": [],
-          "renderHint": "testimonial-grid-default"
+          "renderHint": "testimonial-grid-default",
+          "description": "Ohne Modifier: eine Spalte — kommt auf der Website nicht vor."
         },
         "carousel": {
           "modifier": "nc-testimonial-grid--carousel",
           "tokenGroups": [],
-          "renderHint": "testimonial-grid-carousel"
+          "renderHint": "testimonial-grid-carousel",
+          "description": "Waagerecht scrollende Spur mit scroll-snap und Navigation danach."
         },
         "cols-2": {
           "modifier": "nc-testimonial-grid--cols-2",
           "tokenGroups": [],
-          "renderHint": "testimonial-grid-cols-2"
+          "renderHint": "testimonial-grid-cols-2",
+          "description": "Zwei Spalten (unter 36em eine)."
         },
         "cols-3": {
           "modifier": "nc-testimonial-grid--cols-3",
           "tokenGroups": [],
-          "renderHint": "testimonial-grid-cols-3"
+          "renderHint": "testimonial-grid-cols-3",
+          "description": "Drei Spalten (Drupal-Vorgabe; unter 60em zwei, unter 36em eine)."
         }
       }
     }
@@ -102,26 +135,61 @@
     "interactive": true
   },
   "a11y": {
-    "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "focusIndicator": "Spur und Knoepfe: outline 2px interactive-focus (Abstand 4 bzw. 2 px).",
+      "assertions": [
+        "Karussell als benannte Gruppe (role=\"group\", aria-roledescription=\"Karussell\", aria-label) und mit tabindex=\"0\" per Tastatur scrollbar (Pfeiltasten).",
+        "Knoepfe sind <button> mit aria-label; das Pfeil-SVG ist aria-hidden.",
+        "Am Anfang bzw. Ende ist der jeweilige Knopf disabled (nicht fokussierbar, Opacity-Token) — der Zustand ist damit auch fuer Screenreader gesetzt.",
+        "Kein Autoplay, keine Bewegung ohne Ausloeser; scroll-behavior smooth folgt der Nutzerwahl des Browsers nicht automatisch (prefers-reduced-motion nicht beruecksichtigt).",
+        "Kontrast der Knoepfe gemessen 16:1 (hell und dunkel); Hover faerbt Pfeil und Rahmen in text-accent."
+      ],
+      "note": "Interaktiv nur beim Karussell."
+    },
+    "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {
+          "axes": {
+            "variante": [
+              "carousel"
+            ]
+          }
+        },
+        "notes": [
+          "Karussell erst ab etwa vier Stimmen; bei drei bis sechs kuratierten das Raster.",
+          "Navigation immer nach der Spur, nie darin."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variante": [
+              "default"
+            ]
+          }
+        },
+        "notes": [
+          "Nur im DS — Drupal setzt immer --cols-N oder --carousel."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {
-    "tokens": [
-      "--nc-testimonial-grid-btn-border-radius",
-      "--nc-testimonial-grid-btn-disabled-opacity"
-    ],
     "baseClasses": [
       "nc-testimonial-grid"
     ],
-    "baseTokenGroups": [],
+    "baseTokenGroups": [
+      "alle"
+    ],
     "tokenGroups": {
-      "base": {
-        "label": "Base",
+      "alle": {
+        "label": "Alle Tokens",
         "tokens": [
           "nc-testimonial-grid-btn-border-radius",
           "nc-testimonial-grid-btn-disabled-opacity"
@@ -139,13 +207,13 @@
       ],
       "output": [
         "classList",
-        "resolvedTokens",
-        "a11yAssertions"
+        "resolvedTokens"
       ]
     },
     "resolution": {
       "classList": [
-        "styling.baseClasses"
+        "styling.baseClasses",
+        "axes.variante.values.*.modifier"
       ],
       "tokenGroups": [
         "styling.baseTokenGroups"

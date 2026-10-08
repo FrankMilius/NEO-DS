@@ -22,8 +22,7 @@ export const ENTWUERFE = Object.freeze([
   'tab-nav',
   'table-block',
   'table-info-modal',
-  'tbl-cell',
-  'testimonial-grid'
+  'tbl-cell'
 ])
 
 const MENGE = new Set(ENTWUERFE)
