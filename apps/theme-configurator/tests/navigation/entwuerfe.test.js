@@ -45,7 +45,7 @@ afterEach(() => { while (wrappers.length) wrappers.pop().unmount() })
 describe('Kennzeichen „Entwurf"', () => {
   it('Liste = Recipes mit meta.status draft (beide Richtungen)', () => {
     expect([...ENTWUERFE].sort()).toEqual(ENTWURF_LAUT_RECIPE)
-    expect(ENTWURF_LAUT_RECIPE).toHaveLength(24)
+    expect(ENTWURF_LAUT_RECIPE).toHaveLength(23)
     for (const id of RECIPE_IDS) expect(istEntwurf(id), id).toBe(ENTWURF_LAUT_RECIPE.includes(id))
   })
 

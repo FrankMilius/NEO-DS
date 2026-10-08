@@ -7,8 +7,9 @@
  * (data-layout): content-page und form-page am 07.10.2026, dashboard,
  * error-page, home-basic, home-hero und settings-page — in Phase 5 noch als
  * Recipe-Entwurf angelegt — am 08.10.2026. Geprueft wird:
- *   - Recipe im Status draft, Version 1.0.0 mit Changelog der Phase 5,
- *     Kennzeichen „Entwurf" (recipe-entwuerfe.js) und Sektion in der
+ *   - Recipe angelegt als 1.0.0 mit Changelog der Phase 5, Kennzeichen
+ *     „Entwurf" (recipe-entwuerfe.js) solange draft — freigegebene Recipes
+ *     (Abschluss Plan v3, 08.10.2026) stehen auf stable — und Sektion in der
  *     Navigation (Templates mit Recipe zeigen die RecipeArena)
  *   - keine Sonderfall-Arena, jede Zelle jedes Specimens aus der Vorlage,
  *     mindestens zwei Specimens, jeder Achsenwert und Zustand mit Zelle
@@ -128,9 +129,11 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
 
   for (const id of BLOCK) {
     describe(id, () => {
-      it('Recipe draft, angelegt als 1.0.0 mit Changelog der Phase 5, Kennzeichen „Entwurf", Sektion in der Navigation', () => {
+      it('Recipe angelegt als 1.0.0 mit Changelog der Phase 5, Kennzeichen „Entwurf" solange draft, Sektion in der Navigation', () => {
         const meta = rohesRecipe(id).meta
-        expect(meta.status).toBe('draft')
+        // Abschluss Plan v3 (08.10.2026): freigegebene Recipes stehen auf stable
+        expect(['draft', 'stable']).toContain(meta.status)
+        const entwurf = meta.status === 'draft'
         // Spaetere Entscheidungen (text-cta --no-card, section-header Kicker
         // im Dunkeln, 07.10.2026) erhoehen die Version; der aelteste Eintrag
         // bleibt die Anlage in Phase 5, der neueste die aktuelle Version.
@@ -138,10 +141,10 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
         expect(anlage.version).toBe('1.0.0')
         expect(anlage.changes.join(' ')).toMatch(/Plan v3, Phase 5/)
         expect(meta.changelog[0].version).toBe(meta.version)
-        expect(istEntwurf(id)).toBe(true)
+        expect(istEntwurf(id)).toBe(entwurf)
         const eintrag = navEintraege().find((e) => e.section === `component-${id}`)
         expect(eintrag, `component-${id} in der Navigation`).toBeTruthy()
-        expect(eintrag.entwurf).toBe(true)
+        expect(!!eintrag.entwurf).toBe(entwurf)
       })
 
       it('keine Sonderfall-Arena, jede Zelle jedes Specimens aus der Vorlage (beide Ansichten)', () => {
