@@ -11,12 +11,14 @@
 //
 // Der Arena-Kopf (LaboratoryPanel) liest den Status aus dem geladenen Recipe
 // selbst und nimmt die Liste nur, solange es noch laedt.
+//
+// Seit 08.10.2026 leer: die letzten Entwuerfe scroll-expand und scroll-reveal
+// sind stillgelegt (Entscheidung Abschluss 2). Der Mechanismus bleibt —
+// ein neues Recipe im Status draft wird wieder hier eingetragen.
 // ==========================================================================
 
-export const ENTWUERFE = Object.freeze([
-  'scroll-expand',
-  'scroll-reveal'
-])
+/** @type {ReadonlyArray<string>} */
+export const ENTWUERFE = Object.freeze([])
 
 const MENGE = new Set(ENTWUERFE)
 

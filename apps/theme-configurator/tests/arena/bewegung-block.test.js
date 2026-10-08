@@ -6,10 +6,11 @@
  *   - echtes DS-Markup: nur Klassen aus styles.css oder der Recipe-Anatomie,
  *     Arena-Klassen nie an DS-Elementen, Inline-Stile nur als Instanzwert
  *     (Custom Properties bzw. die begruendeten Ausnahmen unten)
- *   - „nicht gebaut": scroll-expand und scroll-reveal (.nc-header--compact
- *     ist seit der Entscheidung 06.10.2026 aus dem Recipe gestrichen)
- *     zeigen den Hinweis statt einer wirkungslosen Klasse; jeder andere
- *     Modifier der zwoelf Recipes steht in styles.css
+ *   - stillgelegt: scroll-expand und scroll-reveal (bis 08.10.2026 „nicht
+ *     gebaut", Entscheidung Abschluss 2) haben weder Recipe noch Vorlage
+ *     noch Klasse in styles.css; .nc-header--compact ist seit der
+ *     Entscheidung 06.10.2026 aus dem Recipe gestrichen; jeder Modifier der
+ *     zehn Recipes steht in styles.css
  *   - Abspielen: statischer Zustand in „Zustände", die Taste stellt die
  *     Bewegung mit DS-Mitteln nach (Zustandsklassen, scroll-behavior/
  *     scroll-snap, Keyframes) oder ist mit Grund gesperrt (nur GSAP, nicht
@@ -29,13 +30,15 @@ import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 // Vorlagen neu (vorher Slot-Heuristik) und animierte Website-Bloecke
-const NEU = ['mobile-drawer', 'navigation-orchestration', 'scroll-expand', 'scroll-reveal', 'table-info-modal']
-const ANIMIERT = ['hero-tom', 'hero-tmob', 'story-gallery', 'marquee', 'parallax-bg', 'fade-gallery', 'carousel', 'scroll-reveal', 'scroll-expand']
+const NEU = ['mobile-drawer', 'navigation-orchestration', 'table-info-modal']
+const ANIMIERT = ['hero-tom', 'hero-tmob', 'story-gallery', 'marquee', 'parallax-bg', 'fade-gallery', 'carousel']
 const BLOCK = [...new Set([...NEU, ...ANIMIERT])]
 // Abspielen mit DS-Mitteln bzw. gesperrt (Grund in der Vorlage)
 const SPIELBAR = ['carousel', 'fade-gallery', 'marquee', 'story-gallery']
 const NUR_GSAP = ['hero-tmob', 'hero-tom', 'parallax-bg']
-const NICHT_GEBAUT = ['scroll-expand', 'scroll-reveal']
+// Stillgelegt (Entscheidung Abschluss 2, 08.10.2026) — vorher „nicht gebaut"
+// (Entscheidung 25.08.2026, Entwurf bewusst gefuehrt; ueberholt)
+const STILLGELEGT = ['scroll-expand', 'scroll-reveal']
 // Derselbe Mechanismus fuer die animierten Bloecke der Gruppen bloecke-1/-2
 // (bento-grid, question, tab-nav; Tests dort)
 const AUS_BLOECKE = ['bento-grid', 'question', 'tab-nav']
@@ -150,15 +153,17 @@ describe('Bewegung-Block aus dem Recipe', () => {
     })
   }
 
-  it('nicht gebaut: scroll-expand und scroll-reveal zeigen den Hinweis; alle anderen Modifier stehen in styles.css', () => {
-    for (const id of NICHT_GEBAUT) {
-      const wurzel = rohesRecipe(id).anatomy.root.element.slice(1)
-      expect(bekannt.has(wurzel), `${wurzel} ist inzwischen gebaut — Vorlage und Test anpassen`).toBe(false)
-      for (const d of alle(id)) {
-        expect(d.querySelector('[data-nicht-gebaut]').getAttribute('data-nicht-gebaut')).toBe(wurzel)
-        expect(d.querySelector(`.${wurzel}`)).toBeNull()
+  it('stillgelegt: scroll-expand und scroll-reveal ohne Recipe, Vorlage, Spec, Story und Klasse; alle anderen Modifier stehen in styles.css', () => {
+    for (const id of STILLGELEGT) {
+      expect(RECIPE_IDS, id).not.toContain(id)
+      for (const datei of [`data/${id}-recipe.json`, `specs/${id}.spec.json`, `stories/organisms/${id}.stories.js`, `apps/theme-configurator/src/arena-templates/${id}.js`]) {
+        expect(existsSync(resolve(WURZEL, datei)), datei).toBe(false)
       }
+      expect(bekannt.has(`nc-${id}`), id).toBe(false)
+      expect(abspielenFuer(id), id).toBeFalsy()
     }
+    // die Tokens --nc-anim-* las keine Regel; mit entfernt
+    expect(css()).not.toMatch(/--nc-anim-/)
     // .nc-header--compact: aus dem Recipe gestrichen (Entscheidung 06.10.2026)
     expect(rohesRecipe('navigation-orchestration').axes.density).toBeUndefined()
     expect(rohesRecipe('navigation-orchestration').specimens.some((s) => s.id === 'compact-density')).toBe(false)
@@ -198,10 +203,9 @@ describe('Bewegung-Block aus dem Recipe', () => {
     }
   })
 
-  it('Specimens: die duennen Recipes haben mehr als eines (nicht gebaute bleiben bei einem)', () => {
+  it('Specimens: die duennen Recipes haben mehr als eines', () => {
     const duenn = ['hero-tom', 'hero-tmob', 'story-gallery', 'marquee', 'parallax-bg', 'fade-gallery', 'carousel', 'mobile-drawer', 'table-info-modal']
     for (const id of duenn) expect(rohesRecipe(id).specimens.length, id).toBeGreaterThan(1)
-    for (const id of NICHT_GEBAUT) expect(rohesRecipe(id).specimens).toHaveLength(1)
     for (const id of BLOCK) {
       const r = rohesRecipe(id)
       expect(r.meta.changelog[0].version, id).toBe(r.meta.version)
@@ -324,7 +328,6 @@ describe('Bewegung-Block: Abspielen', () => {
       expect(abspielenFuer(id).hinweis.length, id).toBeGreaterThan(20)
     }
     for (const id of NUR_GSAP) expect(abspielenFuer(id).gesperrt, id).toMatch(/GSAP/)
-    for (const id of NICHT_GEBAUT) expect(abspielenFuer(id).gesperrt, id).toMatch(/^Nicht gebaut/)
   })
 
   it('kein GSAP im Konfigurator: keine Quelle in src/ importiert gsap oder ScrollTrigger', () => {

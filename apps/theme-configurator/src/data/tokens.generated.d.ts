@@ -204,7 +204,6 @@ export type ComponentGroupId =
   | "tooltip"
   | "treeview"
   | "validation-summary"
-  | "anim"
   | "dropdown"
   | "group"
   | "kicker"

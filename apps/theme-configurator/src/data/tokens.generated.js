@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-07
+// Generated: 2026-10-08
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -21903,64 +21903,6 @@ export const componentTokenGroups = [
       }
     ],
     "subgroups": []
-  },
-  {
-    "id": "anim",
-    "label": "Anim",
-    "icon": "components",
-    "subgroups": [
-      {
-        "id": "interaction",
-        "label": "Bewegung & Zustand",
-        "category": "state",
-        "tokenIds": [
-          "nc-anim-scroll-duration",
-          "nc-anim-scroll-easing",
-          "nc-anim-fade-duration",
-          "nc-anim-fade-easing",
-          "nc-anim-stagger-delay",
-          "nc-anim-expand-duration"
-        ]
-      }
-    ],
-    "tokens": [
-      {
-        "id": "nc-anim-scroll-duration",
-        "label": "Scroll Duration",
-        "type": "duration",
-        "default": "0.6s"
-      },
-      {
-        "id": "nc-anim-scroll-easing",
-        "label": "Scroll Easing",
-        "type": "generic",
-        "default": "cubic-bezier(0.16, 1, 0.3, 1)"
-      },
-      {
-        "id": "nc-anim-fade-duration",
-        "label": "Fade Duration",
-        "type": "duration",
-        "default": "0.5s"
-      },
-      {
-        "id": "nc-anim-fade-easing",
-        "label": "Fade Easing",
-        "type": "generic",
-        "default": "ease"
-      },
-      {
-        "id": "nc-anim-stagger-delay",
-        "label": "Stagger Delay",
-        "type": "duration",
-        "default": "0.08s"
-      },
-      {
-        "id": "nc-anim-expand-duration",
-        "label": "Expand Duration",
-        "type": "duration",
-        "default": "0.4s"
-      }
-    ]
   },
   {
     "id": "dropdown",

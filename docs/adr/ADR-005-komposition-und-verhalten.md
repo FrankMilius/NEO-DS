@@ -304,6 +304,12 @@ Dinge fehlten aber:
   gesperrt — zur Entscheidung gemeldet; bei prefers-reduced-motion ebenso.
   Recipes mit `meta.status` „draft“ tragen in Navigation und Arena-Kopf das
   Kennzeichen „Entwurf“.
+  Nachtrag 08.10.2026 (Entscheidung Abschluss 2): scroll-expand und
+  scroll-reveal sind stillgelegt — Recipe, Spec, Arena-Vorlage, Story und
+  Navigationseintrag entfernt, ebenso die Tokens `--nc-anim-*`, die keine
+  Regel las. Die Entscheidung vom 25.08.2026 (Entwurf „beschrieben, nicht
+  gebaut“ bewusst führen) ist damit überholt. Die Liste der Entwürfe ist
+  leer; der Mechanismus „Entwurf“ bleibt für künftige Entwürfe.
 - Phase 4, zusammengeführt (06.10.2026): Die Gruppen bloecke-1 (app-store,
   aspect-ratio, bento-grid, card-cta, card-grid-cta, chapter-nav, cta,
   device, event, events, expanding-panels, facts, faq, feature-accordion,

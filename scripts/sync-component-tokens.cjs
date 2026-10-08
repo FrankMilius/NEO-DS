@@ -256,7 +256,6 @@ function extractComponentId(tokenId) {
     'nc-hero-tom-': 'hero-tom',
     'nc-hero-tmob-': 'hero-tmob',
     'nc-parallax-': 'parallax-bg',
-    'nc-anim-': 'animations',
     'nc-timeline-': 'timeline',
     'nc-stepper-': 'stepper',
     'nc-treeview-': 'treeview',

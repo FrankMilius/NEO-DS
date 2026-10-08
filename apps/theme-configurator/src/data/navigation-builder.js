@@ -77,7 +77,6 @@ const COMPONENT_ICONS = {
   'fade-gallery': 'slideshow',
   'navigation-orchestration': 'navigation',
   'navigation-tab-mega': 'layout-navbar',
-  'scroll-expand': 'arrows-maximize', 'scroll-reveal': 'eye',
   'psychedelic-bg': 'palette', 'parallax-bg': 'layers-intersect',
   // Templates
   // (dashboard, error-page, home-basic, home-hero, settings-page am
@@ -146,7 +145,6 @@ const SUBGROUP_MAP = {
   'feature-accordion': 'Content', 'card-grid': 'Content',
   'card-grid-cta': 'Content', 'hero-tom': 'Content', 'hero-tmob': 'Content',
   'story-gallery': 'Content', 'fade-gallery': 'Content',
-  'scroll-expand': 'Content', 'scroll-reveal': 'Content',
   'psychedelic-bg': 'Content', 'parallax-bg': 'Content',
 }
 

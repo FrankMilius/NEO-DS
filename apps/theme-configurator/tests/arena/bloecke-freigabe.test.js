@@ -283,24 +283,11 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
   }
 })
 
-// scroll-expand und scroll-reveal gehoeren zur selben Liste, sind aber nicht
-// gebaut (Entscheidung 25.08.2026: draft, damit niemand sie fuer
-// einsatzbereit haelt). Geprueft am 08.10.2026 und NICHT freigegeben —
-// Entscheidungsfall im Bericht. Wer sie baut, stellt diesen Test um.
-describe('Abschluss Plan v3: scroll-expand und scroll-reveal geprueft, nicht freigegeben (nicht gebaut)', () => {
-  for (const id of ['scroll-expand', 'scroll-reveal']) {
-    it(`${id}: draft, Kennzeichen „Entwurf", keine Regel, Pruefung im Changelog, Schema-Form`, () => {
-      const r = rohesRecipe(id)
-      expect(r.meta.status).toBe('draft')
-      expect(istEntwurf(id)).toBe(true)
-      expect(klassenIn(css()).has(`nc-${id}`)).toBe(false)
-      expect(r.meta.pipeline.scss).toEqual([])
-      expect(r.meta.changelog[0].changes.join(' ')).toMatch(/Geprueft \(Abschluss Plan v3, 08\.10\.2026\), NICHT freigegeben/)
-      expect(r.meta.links.docs).toBe('')
-      expect(r.specimens.every((s) => ['row', 'grid', 'composition'].includes(s.layout))).toBe(true)
-    })
-  }
-})
+// scroll-expand und scroll-reveal gehoerten zur selben Liste, waren aber nicht
+// gebaut (Entscheidung 25.08.2026: draft) und am 08.10.2026 geprueft, nicht
+// freigegeben. Seit der Entscheidung Abschluss 2 (08.10.2026) stillgelegt —
+// die Entscheidung vom 25.08. ist damit ueberholt; Pruefung der Stilllegung
+// in bewegung-block.test.js.
 
 describe('event: Outline-Knopf im Hero mit den Farben des Heros (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
   it('Schrift always-light, Schleier fuer Hover/Active — nur im Hero', () => {
