@@ -1,8 +1,8 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "text-cta",
-  "version": "1.1.0",
-  "status": "draft",
+  "version": "1.2.0",
+  "status": "stable",
   "layer": "organism",
   "tags": [
     "content",
@@ -17,56 +17,57 @@
         "name": "grid",
         "selector": ".nc-text-cta__grid",
         "required": true,
-        "description": "Raster (Container-Query auf .nc-text-cta): gestapelt, ab media-text-stack zweispaltig; mit --no-card immer einspaltig."
+        "description": "Raster (Container-Query auf .nc-text-cta): gestapelt, ab 600 px Blockbreite (media-text-stack) zweispaltig 1,35fr : 1fr; mit --no-card immer einspaltig."
       },
       {
         "name": "content",
         "selector": ".nc-text-cta__content",
         "required": true,
-        "description": "Textspalte: neo_fe:block-header --flush und Punkteliste."
+        "description": "Textspalte (Flex-Stack mit gap): neo_fe:block-header --flush (field_tc_kicker, field_tc_headline h2, field_tc_subline) und Punkteliste."
       },
       {
         "name": "list",
         "selector": ".nc-text-cta__list",
         "required": false,
-        "description": "Punkteliste (field_tc_features, eine Zeile je Punkt)."
+        "description": "Punkteliste (field_tc_features, eine Zeile je Punkt, Leerzeilen fallen weg)."
       },
       {
         "name": "list-item",
         "selector": ".nc-text-cta__list-item",
         "required": false,
-        "description": "Punkt mit Haken (::before)."
+        "description": "Punkt (<li> mit <span>) mit dekorativem Haken (::before, --nc-text-cta-list-marker-color); Folgezeilen buendig unter dem Text."
       },
       {
         "name": "aside",
         "selector": ".nc-text-cta__aside",
         "required": false,
-        "description": "Spalte der Karte — entfaellt ohne Karteninhalt."
+        "description": "<aside>, Spalte der Karte — entfaellt ohne Karteninhalt (keins von Icon, Kartenueberschrift, -text, Button-Text gefuellt)."
       },
       {
         "name": "card",
         "selector": ".nc-text-cta__card",
         "required": false,
-        "description": "CTA-Karte auf .nc-card (Flaeche, Rahmen, Radius ueber --mod-card-*)."
+        "description": "CTA-Karte auf .nc-card (Flaeche, Rahmen, Radius ueber --mod-card-* aus den --nc-text-cta-card-*-Tokens): zentriert, Icon, Titel (h3.nc-card__title), Text (p.nc-card__description), Button."
       },
       {
         "name": "card-icon",
         "selector": ".nc-text-cta__card-icon",
         "required": false,
-        "description": "Icon oben in der Karte (dekorativ)."
+        "description": "Icon oben in der Karte (field_tc_card_icon, im Preprocess per neo_fe_icon zu SVG mit aria-hidden); dekorativ."
       },
       {
         "name": "card-action",
         "selector": ".nc-text-cta__card-action",
         "required": false,
-        "description": "Button der Karte, volle Breite."
+        "description": "Button der Karte (.nc-button--accent.nc-button--lg, volle Breite; field_tc_card_cta_text/_url)."
       }
     ],
     "notes": [
-      "Website-Block neo_text_cta: <section class=\"nc-section\"><div class=\"nc-container\"><div class=\"nc-text-cta [--card-left] [--no-card]\"><div class=\"nc-text-cta__grid\"> …",
-      "Die Karte steht im DOM immer hinter dem Text; --card-left tauscht nur die Anzeige (order) und dreht die Spuren mit (--nc-text-cta-columns-reverse).",
+      "Website-Block neo_text_cta: <section class=\"nc-section\"><div class=\"nc-container\"><div class=\"nc-text-cta [--card-left] [--no-card]\"><div class=\"nc-text-cta__grid\"> … Die inline_block-Fassung bindet das block_content-Template ein (keine Kopie).",
+      "Die Karte steht im DOM immer hinter dem Text; --card-left (field_tc_card_position left, nur mit Karte) tauscht nur die Anzeige (order) und dreht die Spuren mit (--nc-text-cta-columns-reverse). Gestapelt steht die Karte immer unter dem Text.",
       "Ohne Karteninhalt rendert Drupal kein __aside und setzt nc-text-cta--no-card: eine Spalte in jeder Breite, Inhalt auf Lesebreite (--nc-text-cta-content-measure) gekappt, linksbuendig (Entscheidung Phase 5, 07.10.2026).",
-      "Kartenflaeche per field_tc_card_bg als Instanzwert --mod-card-bg am .nc-card (wie in Drupal); Sektionsflaeche aus field_surface am Block-Wrapper."
+      "Kartenflaeche per field_tc_card_bg als Instanzwert --mod-card-bg am .nc-card (Rohwert, wie in Drupal); Sektionsflaeche aus field_surface am Block-Wrapper. Die Tokens --nc-text-cta-card-bg/-border/-radius gehen als --mod-card-* an die Karte und haben selbst keinen --mod-text-cta-*-Override, ebenso --nc-text-cta-card-icon-gap.",
+      "In dunklen Theme-Bereichen (field_surface dunkel) bleibt die Karte hell: Kartenflaeche und -text kommen aus den am :root aufgeloesten Karten-Tokens (gilt fuer .nc-card allgemein). Lesbar, aber eine helle Insel; eine Instanzflaeche aus einem Theme-Token wird dort dunkel und der Text bleibt dunkel."
     ]
   },
   "api": null,
@@ -194,7 +195,13 @@
     "interactive": false,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "focusIndicator": null,
-    "assertions": [],
+    "assertions": [
+      "Erst Erklaerung, dann Handlungsaufruf: die Karte steht im DOM hinter dem Text, auch bei --card-left und gestapelt.",
+      "Eine Ueberschrift fuer den Block (h2 im Kopf); der Kartentitel ist h3 darunter.",
+      "Haken der Punkteliste und Icon der Karte sind dekorativ — der Sinn steht im Text daneben (Icon mit aria-hidden).",
+      "Der Button ist ein Link (<a class=\"nc-button\">) mit sichtbarem Text; die Karte als <aside> ohne Namen ist keine eigene Landmarke.",
+      "Kontrast AA hell und dunkel (gemessen ab 4,66:1 fuer den Kartentext); die Instanzflaeche field_tc_card_bg ist davon nicht gedeckt."
+    ],
     "overrides": []
   },
   "dependencies": [],
@@ -203,9 +210,10 @@
       "scss/scss/07-organisms/_text-cta.scss"
     ],
     "story": null,
-    "arena": null,
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
     "drupal": [
-      "block/block--block-content--neo-text-cta.html.twig"
+      "block/block--block-content--neo-text-cta.html.twig",
+      "block/block--inline-block--neo-text-cta.html.twig"
     ],
     "docs": null
   }

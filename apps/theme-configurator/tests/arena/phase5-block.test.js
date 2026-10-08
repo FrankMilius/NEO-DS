@@ -344,6 +344,12 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     }
   })
 
+  it('text-cta: --card-left nur mit Karte wie in Drupal (Freigabe 08.10.2026)', () => {
+    for (const z of beideModi('text-cta')) {
+      expect(dom(z.html).querySelector('.nc-text-cta--card-left.nc-text-cta--no-card'), z.specimen.id).toBeNull()
+    }
+  })
+
   it('reference-page: Scroll-Spy beschrieben, nicht migriert — Quelle neo-theme.js, keine keyboard/events, jedes Sprungziel mit id (Freigabe 08.10.2026)', () => {
     const r = rohesRecipe('reference-page')
     expect(r.meta.source.drupal).toMatch(/Drupal\.behaviors\.neoRefpageToc/)
