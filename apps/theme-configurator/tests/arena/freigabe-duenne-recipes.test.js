@@ -45,7 +45,10 @@ function freigegeben (id, version) {
   expect(r.meta.status, id).toBe('stable')
   expect(r.meta.version, id).toBe(version)
   expect(r.meta.changelog[0].version, id).toBe(version)
-  expect(r.meta.changelog[0].changes[0], id).toMatch(/^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/)
+  // Freigabe-Eintrag (danach hoechstens eine Korrektur „Freigabe ausstehend")
+  const freigabe = r.meta.changelog.findIndex((e) => /^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/.test(e.changes[0]))
+  expect(freigabe, id).toBeGreaterThanOrEqual(0)
+  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend/)
   expect(istEntwurf(id), id).toBe(false)
   // Recipe-Form (recipe-schema.json): Objekte statt Listen, mindestens eine Token-Gruppe
   expect(Array.isArray(r.constraints), id).toBe(false)
@@ -193,8 +196,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1\.1\.1/)
   })
 
-  it('table-block: 1.2.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.2.0')
+  it('table-block: 1.2.1, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.2.1')
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -203,6 +206,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     const css = readFileSync(resolve(WURZEL, 'styles.css'), 'utf8')
     for (const k of ['striped', 'compact', 'borderless', 'sticky-header', 'full-width', 'sticky-col']) expect(css, k).toContain(`.nc-compare-table--${k}`)
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1,07:1/)
+    // Korrektur 1.2.1 (Freigabe ausstehend): erste Kopfzelle mit der Kopfflaeche, nicht background-base
+    expect(css).toContain('.nc-table-block .nc-compare-table--sticky-col thead th:first-child{background-color:var(--tbl-header-bg, var(--fnd-color-background-tertiary))')
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
     expect(r.keyboard).toBeUndefined()
     for (const z of zellen('table-block')) {

@@ -36,6 +36,16 @@
   text-align: left;
 }
 
+// Erste Kopfzelle bei fester erster Spalte: .nc-compare-table--sticky-col
+// th:first-child (07-organisms/_compare-table.scss) setzt background-base
+// auch im Kopf und schlaegt die Regel oben (Spezifitaet 0,2,1 gegen 0,1,2).
+// Der helle Kopftext (text-inverse aus compare-table) stand darauf mit
+// 1,07:1 — auf der Website war „FEATURE SET" unsichtbar (WCAG 1.4.3).
+// Die Kopfzelle nimmt dieselbe Flaeche wie die uebrigen Kopfzellen.
+.nc-table-block .nc-compare-table--sticky-col thead th:first-child {
+  background-color: var(--tbl-header-bg, var(--fnd-color-background-tertiary));
+}
+
 .nc-table-block.is-scrolled .nc-compare-table--sticky-col th:first-child::after,
 .nc-table-block.is-scrolled .nc-compare-table--sticky-col td:first-child::after {
   opacity: var(--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity);
