@@ -70,13 +70,17 @@ th[scope="row"] .nc-tbl-cell__sub {
   border: none;
   padding: var(--nc-tbl-cell-info-btn-padding);
   cursor: pointer;
+  // Ruhe: text-tertiary deckend (ab 4,59:1, auf Streifenzeilen). Bis 08.10.2026
+  // stand hier zusaetzlich opacity-muted (0,6) — das Symbol, das einzige
+  // Merkmal des Knopfs, kam damit nur auf 2,6:1 (WCAG 1.4.11 verlangt 3:1).
+  // Hover hebt jetzt die Farbe auf text-primary statt die Deckkraft.
   color: var(--fnd-color-text-tertiary);
-  opacity: var(--fnd-opacity-muted);
-  transition: opacity 0.15s ease;
+  transition: color 0.15s ease, opacity 0.15s ease;
   flex-shrink: 0;
 }
 
 .nc-tbl-cell__info-btn:hover {
+  color: var(--fnd-color-text-primary);
   opacity: var(--nc-tbl-cell-info-btn-hover-opacity);
 }
 

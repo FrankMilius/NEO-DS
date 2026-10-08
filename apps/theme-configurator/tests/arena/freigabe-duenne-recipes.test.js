@@ -174,8 +174,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
   })
 
-  it('tbl-cell: 1.3.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
-    const r = freigegeben('tbl-cell', '1.3.0')
+  it('tbl-cell: 1.3.1, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
+    const r = freigegeben('tbl-cell', '1.3.1')
     anatomieWieScss('tbl-cell', 'scss/scss/05-atoms/_tbl-cell.scss', 'nc-tbl-cell')
     const pflicht = Object.fromEntries(r.anatomy.slots.map((s) => [s.name, !s.optional]))
     expect(pflicht).toEqual({ text: true, 'info-btn': false, sub: false, 'icon-block': false, icon: false })
@@ -194,6 +194,10 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
       }
     }
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1\.1\.1/)
+    // Korrektur 1.3.1 (Freigabe ausstehend): Info-Symbol ohne opacity-muted (2,6:1 -> ab 4,59:1)
+    const regel = /\.nc-tbl-cell__info-btn\{([^}]*)\}/.exec(readFileSync(resolve(WURZEL, 'styles.css'), 'utf8'))
+    expect(regel[1]).toContain('color:var(--fnd-color-text-tertiary)')
+    expect(regel[1]).not.toMatch(/opacity:/)
   })
 
   it('table-block: 1.2.1, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {

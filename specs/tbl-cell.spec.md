@@ -1,5 +1,5 @@
 # tbl-cell Component Spec
-> Version 1.3.0 | Status: stable | Layer: atom
+> Version 1.3.1 | Status: stable | Layer: atom
 
 Tags: `aufgenommen`, `atoms`
 
@@ -9,7 +9,7 @@ Root element: `.nc-tbl-cell`
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
 | text | `.nc-tbl-cell__text` | Yes | Text der Zelle (p, body-s, text-primary; im Zeilenkopf th[scope=row] semibold). Zeilenumbrueche aus dem Feld als <br>; traegt bei Zeilenkoepfen den Info-Knopf am Ende. |
-| info-btn | `.nc-tbl-cell__info-btn` | No | Info-Knopf (button, Symbol 16 px + 2 px Polster, text-tertiary bei opacity-muted, Hover deckend, :focus-visible Ring rund) mit aria-label, aria-controls auf den Info-Dialog (Recipe table-info-modal), aria-expanded und data-info. Nur, wenn die Zelle einen Infotext hat. |
+| info-btn | `.nc-tbl-cell__info-btn` | No | Info-Knopf (button, Symbol 16 px + 2 px Polster, text-tertiary, Hover text-primary, :focus-visible Ring rund) mit aria-label, aria-controls auf den Info-Dialog (Recipe table-info-modal), aria-expanded und data-info. Nur, wenn die Zelle einen Infotext hat. |
 | sub | `.nc-tbl-cell__sub` | No | Untertitel unter dem Text (caption, text-tertiary, volle Breite, Zeilenhoehe --nc-tbl-cell-sub-line-height). |
 | icon-block | `.nc-tbl-cell__icon-block` | No | Symbol ueber dem Text (flex, zentriert, Abstand spacing-01) — Zelle mit Symbol UND Text. |
 | icon | `.nc-tbl-icon` | No | Wertsymbol der Zelle: --check (Kreis background-accent, Haken always-dark) oder --dash (text-tertiary); 05-atoms/_tbl-icon.scss. Braucht eine Textalternative (aria-label „enthalten"/„nicht enthalten"). |
@@ -49,7 +49,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 - 1.3.1: Zeilenkopf als th[scope=row], Wertzellen als td; die Zelle gestaltet sich nach diesem Ort.
 - 1.1.1: Wertsymbole brauchen eine Textalternative (aria-label „enthalten"/„nicht enthalten", am besten mit role=img) — auf der Website fehlt sie (Befund fuer neo_fe).
 - 4.1.2/2.4.6: Info-Knopf mit Namen, der die Zeile nennt („Mehr Informationen zu <Zeile>") — auf der Website heisst jeder „Mehr Informationen" (Befund fuer neo_fe).
-- 1.4.11: Info-Symbol in Ruhe text-tertiary bei opacity-muted (0,6) nur 2,6:1 hell / 2,89:1 dunkel — unter 3:1 (Befund, Korrektur in eigenem Commit).
+- 1.4.11: Info-Symbol text-tertiary deckend ab 4,59:1 (Streifenzeile dunkel); bis 1.3.0 mit opacity-muted nur 2,6:1 hell / 2,89:1 dunkel (Korrektur 1.3.1, Freigabe ausstehend).
 - 2.5.8: Info-Knopf 20 x 20 px — zulaessig ueber die Abstandsausnahme (einzeln am Ende des Zeilenkopfs).
 - 1.4.3: Kontrast AA hell und dunkel gemessen — Text text-primary 16,01:1, Untertitel text-tertiary ab 5,75:1; Haken always-dark auf Akzent 12,89:1, Strich text-tertiary ab 4,59:1 (1.4.11).
 
