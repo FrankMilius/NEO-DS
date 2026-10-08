@@ -79,4 +79,23 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.anatomy.domNotes.join(' ')).not.toMatch(/neoMobileNav\)|bis zur Umstellung/)
     expect(r.a11y.base.assertions.join(' ')).toMatch(/Namen im Markup/)
   })
+
+  it('table-info-modal: 1.3.0, Anatomie wie das SCSS, keyboard/events wie das Behavior, Website seit 07.10.2026 per nur', () => {
+    const r = freigegeben('table-info-modal', '1.3.0')
+    anatomieWieScss('table-info-modal', 'scss/scss/07-organisms/_table-info-modal.scss', 'nc-table-info-modal')
+    expect(MIT_VERHALTEN).toContain('table-info-modal')
+    expect(Object.keys(r.keyboard).sort()).toEqual(['Enter', 'Escape', 'Shift+Tab', 'Space', 'Tab'])
+    // ohne nochDa: kein 'resize'
+    const grund = r.events['table-info-modal-close'].note
+    for (const g of ['escape', 'overlay-click', 'close-button', 'trigger']) expect(grund).toContain(`'${g}'`)
+    expect(grund).not.toContain("'resize'")
+    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
+    expect(r.meta.source.drupal).toMatch(/nur\[\] = 'table-info-modal'/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/bis zur Umstellung|ersten sechs/)
+    // Website-Markup (geerntet): role=dialog, Schliessen per data-modal-close, ohne Namen
+    const ernte = readFileSync(resolve(WURZEL, 'data/markup/table-info-modal.html'), 'utf8')
+    expect(ernte).toMatch(/role="dialog"/)
+    expect(ernte).toMatch(/nc-table-info-modal__close" data-modal-close/)
+    expect(ernte).not.toMatch(/aria-labelledby|aria-modal/)
+  })
 })

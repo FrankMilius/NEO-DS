@@ -22,8 +22,9 @@
 // table-info-modal aus neo-behaviors setzt den Text aus data-info in __body
 // und oeffnet (Fokus auf den Schliessen-Knopf, Falle, Escape, Backdrop,
 // Fokus zurueck). Den Namen nimmt der Dialog dort vom Info-Knopf (der Text
-// in __body wird ersetzt, ein aria-labelledby darin liefe ins Leere). Auf
-// der Website bis zur Umstellung neo-theme.js (neoTable).
+// in __body wird ersetzt, ein aria-labelledby darin liefe ins Leere). Die
+// Website nutzt das Behavior seit 07.10.2026 (nur[] = 'table-info-modal');
+// ihre Info-Knoepfe baut neoTable in neo-theme.js.
 import { SYMBOL } from './_helfer.js'
 
 const INFO_TEXT = 'Anmeldung mit dem Firmenkonto über SAML oder OpenID Connect.\nIn der Edition „Professional“ enthalten, in „Basic“ als Zusatzmodul buchbar.'

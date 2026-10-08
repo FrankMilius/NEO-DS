@@ -20,7 +20,6 @@ export const ENTWUERFE = Object.freeze([
   'searchbar',
   'tab-nav',
   'table-block',
-  'table-info-modal',
   'tbl-cell'
 ])
 

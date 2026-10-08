@@ -45,7 +45,7 @@ afterEach(() => { while (wrappers.length) wrappers.pop().unmount() })
 describe('Kennzeichen „Entwurf"', () => {
   it('Liste = Recipes mit meta.status draft (beide Richtungen)', () => {
     expect([...ENTWUERFE].sort()).toEqual(ENTWURF_LAUT_RECIPE)
-    expect(ENTWURF_LAUT_RECIPE).toHaveLength(8)
+    expect(ENTWURF_LAUT_RECIPE).toHaveLength(7)
     for (const id of RECIPE_IDS) expect(istEntwurf(id), id).toBe(ENTWURF_LAUT_RECIPE.includes(id))
   })
 
@@ -81,7 +81,7 @@ describe('Kennzeichen „Entwurf"', () => {
   it('Arena-Kopf: Kennzeichen bei Entwurf, nicht bei freigegebenem Recipe', async () => {
     const store = useThemeStore()
     // ein noch offener Entwurf (falls es einen gibt) und freigegebene Recipes
-    for (const [id, erwartet] of [...ENTWURF_LAUT_RECIPE.slice(0, 1).map((e) => [e, true]), ['table-info-modal', true], ['mobile-drawer', false], ['fade-gallery', false], ['button', false]]) {
+    for (const [id, erwartet] of [...ENTWURF_LAUT_RECIPE.slice(0, 1).map((e) => [e, true]), ['table-info-modal', false], ['mobile-drawer', false], ['fade-gallery', false], ['button', false]]) {
       store.setActiveSection(`component-${id}`)
       const w = mount(LaboratoryPanel, { attachTo: document.body, global: { stubs: { Teleport: true } } })
       wrappers.push(w)
