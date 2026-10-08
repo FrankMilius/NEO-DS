@@ -192,4 +192,23 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     }
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1\.1\.1/)
   })
+
+  it('table-block: 1.2.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.2.0')
+    expect(r.anatomy.slots).toEqual([])
+    expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
+    const notizen = r.anatomy.domNotes.join(' ')
+    for (const feld of ['field_tbl_variant', 'field_tbl_width', 'field_tbl_sticky_col', 'field_tbl_scroll_bp', 'field_tbl_header_bg']) expect(notizen, feld).toContain(feld)
+    // jeder Tabellen-Modifier, den Drupal setzen kann, steht im DS
+    const css = readFileSync(resolve(WURZEL, 'styles.css'), 'utf8')
+    for (const k of ['striped', 'compact', 'borderless', 'sticky-header', 'full-width', 'sticky-col']) expect(css, k).toContain(`.nc-compare-table--${k}`)
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/1,07:1/)
+    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
+    expect(r.keyboard).toBeUndefined()
+    for (const z of zellen('table-block')) {
+      const d = dom(z.html)
+      expect(d.querySelectorAll('thead th[scope="col"]').length).toBeGreaterThan(1)
+      for (const svg of d.querySelectorAll('svg.nc-tbl-icon')) expect(svg.innerHTML).not.toMatch(/fill="#|stroke="black"/)
+    }
+  })
 })

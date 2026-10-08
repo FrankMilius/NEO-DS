@@ -7,12 +7,14 @@
 // Info-Knopf wie bei „On-Premise" (das Symbol ohne nc-tbl-info-icon: die
 // Klasse der Ernte hat kein CSS). Plan v3, Phase 4.
 // Die Kopffarben (--tbl-header-bg/--tbl-stripe-bg) setzt Drupal je Block
-// inline — die Arena zeigt die DS-Vorgabe (background-tertiary).
+// inline — die Arena zeigt die DS-Vorgabe (background-tertiary; mit dem
+// hellen Kopftext text-inverse zu wenig Kontrast — Entscheidungsfall im
+// Recipe). Haken ohne Farbwerte im SVG wie neoTable seit 25.08.2026.
 // Zustand scrolled: schmaler Rahmen (ra-schmal), die
 // Tabelle scrollt waagerecht (data-scroll-active=true, Tabelle max-content)
 // und ist nach rechts gescrollt (is-scrolled — der Schatten der festen
 // ersten Spalte erscheint), so wie es neo-theme.js beim Scrollen setzt.
-const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="enthalten"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="enthalten"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 const STRICH = '<svg class="nc-tbl-icon nc-tbl-icon--dash" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="nicht enthalten"><path d="M11 18H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 5.33h.007" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M7.33 8H8v2.67h.67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 
