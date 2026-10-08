@@ -1,5 +1,5 @@
 # card-cta Component Spec
-> Version 1.3.0 | Status: stable | Layer: molecule
+> Version 1.3.1 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -18,7 +18,7 @@ Root element: `.nc-card-cta`
 - Kein Twig: Drupal.behaviors.neoCardGridCta (js/neo-theme.js) baut die Karten aus dem JSON-Feld field_cgc_cards in das Raster .nc-card-grid-cta (Recipe card-grid-cta) — <div class="nc-card-cta" data-theme="dark|light"> mit __media, __overlay, __content > __title + __actions.
 - data-theme steht nur, wenn die Karte card.theme traegt; ohne Angabe verhaelt sie sich wie dunkel (heller Titel, dunkler Verlauf, helle Knopffarben). data-theme bindet hier keine Theme-Tokens neu, es waehlt nur die beiden Regeln .nc-card-cta[data-theme="light"].
 - Seitenverhaeltnis aus --cgc-ratio (Instanzwert am Raster, field_cgc_ratio 16/9 | 4/3 | 1/1 | 3/4; Vorgabe 16/9), Radius --nc-card-radius (Rueckfall radius-md).
-- Ohne Medium steht die Karte auf background-tertiary des Seitenthemas ohne Verlauf.
+- Ohne Medium steht die Karte auf einer Flaeche im Ton der Karte (dunkel bzw. ohne data-theme always-dark, hell always-light), ohne Verlauf.
 - Hover: das Medium zoomt auf 1.03 (Uebergang 0,4 s, bei prefers-reduced-motion ohne Uebergang); die Karte selbst ist kein Link, der Knopf traegt das Ziel.
 - Die Mobilregel (max-width 768px) setzt dieselbe Titelgroesse wie die Grundregel und ist wirkungslos.
 

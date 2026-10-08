@@ -72,6 +72,21 @@ video.nc-card-cta__media {
   background: linear-gradient(to top, color-mix(in srgb, var(--fnd-color-always-light) 70%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-light) 10%, transparent) 60%, transparent 100%);
 }
 
+// Ohne Medium (das Skript laesst Bild, Video und Verlauf weg) stand die
+// Karte auf background-tertiary des SEITENthemas, Titel und Knopffarben
+// folgen aber dem TON der Karte: dunkler Ton im hellen Theme weisser Titel
+// auf Hellgrau (gemessen 1,49:1), heller Ton im dunklen Theme schwarzer
+// Titel auf Dunkelgrau (2,1:1). Ohne Medium nimmt die Flaeche deshalb den
+// Ton auf — dunkel always-dark, hell always-light. Mit Medium aendert sich
+// nichts (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend).
+.nc-card-cta:not(:has(> .nc-card-cta__media)) {
+  background-color: var(--fnd-color-always-dark);
+}
+
+.nc-card-cta[data-theme="light"]:not(:has(> .nc-card-cta__media)) {
+  background-color: var(--fnd-color-always-light);
+}
+
 .nc-card-cta__actions {
   display: flex;
   gap: var(--fnd-spacing-03);

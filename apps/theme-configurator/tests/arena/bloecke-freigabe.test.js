@@ -319,3 +319,11 @@ describe('event / events: Kartenraster ohne Ueberlauf (Abschluss Plan v3, 08.10.
     }
   })
 })
+
+describe('card-cta: Flaeche ohne Medium im Ton der Karte (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
+  it('dunkel always-dark, hell always-light — nur ohne __media', () => {
+    const c = css()
+    expect(c).toMatch(/\.nc-card-cta:not\(:has\(> ?\.nc-card-cta__media\)\)\{background-color:var\(--fnd-color-always-dark\)\}/)
+    expect(c).toMatch(/\.nc-card-cta\[data-theme=light\]:not\(:has\(> ?\.nc-card-cta__media\)\)\{background-color:var\(--fnd-color-always-light\)\}/)
+  })
+})
