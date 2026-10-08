@@ -1,5 +1,5 @@
 # block-bundle Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.1.1 | Status: stable | Layer: organism
 
 Tags: `content`, `organisms`, `website-block`
 

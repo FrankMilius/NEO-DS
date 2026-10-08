@@ -24,3 +24,14 @@
   margin-top: var(--fnd-spacing-04, 1rem);
 }
 /* <<< aufgenommen: block-bundle */
+
+// Bundle ohne Bloecke (nur Kopf, z. B. als Kapitelueberschrift): Der Abstand
+// unter dem Kopf trennt ihn von den Bloecken — fehlen die, stand er
+// zusaetzlich zur Section-Polsterung (gemessen 1280px: 43px + 51px unter dem
+// Kopf statt 51px; Entscheidung Abschluss 08.10.2026).
+// Das Theme (block--*--neo-block-bundle.html.twig) rendert __items nur, wenn
+// Bloecke da sind; der Kopf ist dann das letzte Kind der Section. Bundles mit
+// Bloecken bleiben unveraendert.
+.nc-block-bundle__header:last-child {
+  margin-block-end: 0;
+}
