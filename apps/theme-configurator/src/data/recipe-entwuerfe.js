@@ -20,7 +20,6 @@ export const ENTWUERFE = Object.freeze([
   'event',
   'events',
   'feature-list',
-  'media-frame',
   'mobile-drawer',
   'multiselect',
   'news',

@@ -96,6 +96,28 @@ const OBJEKTE = {
       eingebettet: ['article.nc-content > h2.nc-content__title > a[rel="bookmark"]', 'article.nc-content > .nc-content__meta', 'article.nc-content > .nc-content__body > .nc-prose'],
       seite: ['article.nc-content > .nc-content__body > .nc-prose']
     }
+  },
+  'media-frame': {
+    namensraum: /^(nc-media-frame|nc-surface-muted)/,
+    website: [
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-text-media.html.twig (Bild, field_media_frame = frame)',
+        markup: '<div class="nc-text-media__media"><img src="x.png" alt="Ueberschrift" class="nc-text-media__image nc-media-frame" loading="lazy"></div>'
+      },
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-text-media.html.twig (Video, field_media_frame = frame)',
+        markup: '<div class="nc-text-media__media"><div class="nc-video nc-media-frame"><iframe src="about:blank" title="Ueberschrift" class="nc-video__iframe"></iframe></div></div>'
+      },
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Medien-Container, field_media_frame = frame)',
+        markup: '<div class="nc-feature-list__media nc-media-frame" data-fl-media></div>'
+      }
+    ],
+    arena: {
+      'am-bild': ['img.nc-media-frame[alt]'],
+      kanten: ['.nc-media-frame > img', '.nc-media-frame.nc-media-frame--flush > img'],
+      'auf-flaeche': ['.nc-surface-muted > .nc-media-frame > img']
+    }
   }
 }
 

@@ -4913,9 +4913,13 @@
 //                    die Sichtbarkeit ab, wenn der Schatten wegfaellt
 //                    (forced-colors, prefers-contrast, Druck).
 //
-// WICHTIG: Schatten allein ist KEINE Abgrenzung (WCAG 1.4.11) — deshalb ist
-// die Hairline nicht optional und nutzt --fnd-color-border-hairline, das in
-// beiden Themes >= 3:1 gegen Flaeche UND gegen weisse Bildinhalte haelt.
+// WICHTIG: Schatten allein ist KEINE Abgrenzung — deshalb ist die Hairline
+// nicht optional und nutzt --fnd-color-border-hairline. Stand 08.10.2026:
+// die Mono-Bruecke bindet das Token auf neutral-200 (hell) bzw. neutral-800
+// (dunkel); gemessen 1,13:1 gegen das helle Seitenpapier, 1,25:1 gegen Weiss,
+// 1,79:1 dunkel — eine leise Kante, keine 3:1-Abgrenzung (WCAG 1.4.11). Die
+// fruehere Angabe ">= 3:1" galt fuer die Werte in _color-semantic.scss, die
+// die Bruecke ueberschreibt. Entscheidungsfall im Abschlussbericht.
 
 :root {
   // --- Abgesetzte Sektionsflaeche (Layer 2) ---

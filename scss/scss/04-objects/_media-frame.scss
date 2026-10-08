@@ -18,9 +18,11 @@
 //                       die Sichtbarkeit ab, wenn der Schatten wegfaellt.
 //
 // A11Y (WCAG 2.1 AA):
-//   1.4.11 — Schatten allein ist KEINE Abgrenzung. Die Hairline ist deshalb
-//            nicht optional. --fnd-color-border-hairline haelt in beiden
-//            Themes >= 3:1 gegen die Flaeche UND gegen weisse Bildinhalte.
+//   Schatten allein ist KEINE Abgrenzung. Die Hairline ist deshalb nicht
+//   optional. Sie ist eine leise Kante, keine 3:1-Abgrenzung nach 1.4.11:
+//   --fnd-color-border-hairline loest mit der Mono-Bruecke zu neutral-200
+//   (hell) bzw. neutral-800 (dunkel) auf — gemessen 1,13 bis 1,79:1, auf
+//   .nc-surface-muted hell 1,00:1 (Stand 08.10.2026, s. Recipe media-frame).
 //   forced-colors / prefers-contrast: Schatten faellt weg, Kante bleibt.
 //
 // BEM-KLASSEN:

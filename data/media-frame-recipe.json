@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "media-frame",
-    "version": "1.0.0",
-    "status": "draft",
+    "version": "1.1.0",
+    "status": "stable",
     "tags": [
       "layout",
       "objects",
@@ -16,6 +16,15 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable. Recipe gegen _media-frame.scss, die Tokens in 00-settings/_component-tokens.scss und das Drupal-Theme neo_fe geprueft (text-media, feature-list: Feld field_media_frame).",
+          "domNotes korrigiert: die Website setzt die Klasse nicht nur am <img>, sondern auch am Video-Rahmen (div.nc-video in text-media) und am Medien-Container von feature-list (div.nc-feature-list__media); field_media_frame frame|none|device.",
+          "Kontrast-Aussage korrigiert: die Hairline (--fnd-color-border-hairline) loest mit der Mono-Bruecke zu neutral-200 (hell) bzw. neutral-800 (dunkel) auf — gemessen 1,13:1 gegen das helle Seitenpapier, 1,25:1 gegen Weiss, 1,79:1 dunkel; die bisherige Angabe „>= 3:1 (WCAG 1.4.11)\" stimmte nicht. Darstellung unveraendert (Entscheidungsfall im Abschlussbericht).",
+          "Specimen kanten: layout row statt grid (eine Achse, Lint-Warnung ohne layoutConfig). Einsatzhinweise (constraints.rules) und a11y-Aussagen ergaenzt. Token-Gruppe kontrast ergaenzt (--fnd-color-border-strong, prefers-contrast: more) — das SCSS nutzte sie, das Recipe nannte sie nicht."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -47,14 +56,18 @@
         "name": "surface",
         "element": ".nc-surface-muted",
         "optional": true,
-        "description": "Abgesetzte Flaeche (Layer 2) um den ganzen Block — kombinierbar, steht AUSSEN."
+        "description": "Abgesetzte Flaeche (Layer 2) um den ganzen Block — kombinierbar, steht AUSSEN. Auf der Website derzeit ohne Verwender."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Bildrahmen fuer Produkt-Screenshots mit hohem Weissanteil: Hairline (--nc-media-frame-border-*) plus Elevation (--nc-media-frame-shadow); die Hairline ist nicht optional (WCAG 1.4.11).",
-      "Website: die Klasse sitzt direkt am <img> (text-media: img.nc-text-media__image.nc-media-frame); als Rahmen um <img>, <picture> oder <video> fuellt das Kind ihn ohne Luecke.",
-      "forced-colors: Kante CanvasText, kein Schatten; prefers-contrast: more: Kante border-strong, kein Schatten; Druck: kein Schatten (in der Arena nicht darstellbar).",
+      "Bildrahmen fuer Produkt-Screenshots mit hohem Weissanteil: Hairline (--nc-media-frame-border-width/-color) plus gestufte Elevation (--nc-media-frame-shadow, im Dunkeln staerker). Die Hairline traegt die Kante, wenn der Schatten wegfaellt; overflow hidden klippt das Medium auf den Radius.",
+      "Als Rahmen um ein Medium: die direkten Kinder <img>, <picture> > <img> und <video> fuellen ihn ohne Luecke (display block, inline-size 100 %). Andere Kinder (z. B. <iframe>) bringen ihre Geometrie selbst mit.",
+      "Website (Feld field_media_frame: frame = Vorgabe, none = ohne Rahmen, device = .nc-device statt Rahmen): text-media setzt die Klasse am Bild (img.nc-text-media__image.nc-media-frame) und am Video-Rahmen (div.nc-video.nc-media-frame > iframe); feature-list am Medien-Container (div.nc-feature-list__media.nc-media-frame, Radius per eigener Regel in _feature-list.scss).",
+      "Am Video in text-media gewinnt .nc-text-media .nc-video (Spezifitaet 0,2,0) den Schatten: dort steht --fnd-shadow-md statt --nc-media-frame-shadow, auch bei prefers-contrast: more. Hairline und Radius greifen.",
+      "Kontrast der Hairline: --fnd-color-border-hairline ist mit der Mono-Bruecke neutral-200 (hell) bzw. neutral-800 (dunkel) — gemessen 1,13:1 gegen das helle Seitenpapier, 1,25:1 gegen Weiss, 1,79:1 gegen die dunkle Seite. Auf .nc-surface-muted hell 1,00:1 (Flaeche und Kante gleich). Eine leise Kante, keine 3:1-Abgrenzung.",
+      "forced-colors: Kante CanvasText, kein Schatten; prefers-contrast: more: Kante --fnd-color-border-strong, kein Schatten; Druck: kein Schatten, .nc-surface-muted ohne Flaeche und Innenabstand (in der Arena nicht darstellbar).",
+      "Keine --mod-*-Hooks: angepasst wird ueber die --nc-media-frame-*- und --nc-surface-muted-*-Tokens selbst.",
       ".nc-surface-muted ist die zweite Ebene derselben Datei; derzeit ohne Verwender auf der Website."
     ]
   },
@@ -90,13 +103,27 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
+      "assertions": [
+        "Der Rahmen ist Dekoration ohne Rolle; das Medium braucht seinen Alternativtext (img alt, iframe title) — auf der Website die Ueberschrift des Blocks.",
+        "Die Hairline ist eine leise Kante (gemessen 1,13 bis 1,79:1), keine Abgrenzung nach WCAG 1.4.11 — der Screenshot ist kein Bedienelement. Traegt die Kante Information, braucht es einen staerkeren Rahmen.",
+        "forced-colors und prefers-contrast: more: Kante bleibt (CanvasText bzw. border-strong), Schatten entfaellt."
+      ],
       "note": "Rahmen ist Dekoration; das Bild braucht seinen alt-Text."
     },
     "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Fuer Screenshots und Produktbilder mit hellem Rand. Fotos mit eigener Kante brauchen keinen Rahmen (field_media_frame none).",
+          "Nicht mit .nc-device kombinieren: der Geraeterahmen bringt seine eigene Kante mit.",
+          "--flush nur fuer randlos anschliessende Medien (z. B. an einer Kartenkante); sonst den Radius behalten.",
+          ".nc-surface-muted steht aussen um den ganzen Block, nicht um das Bild."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {
@@ -122,6 +149,13 @@
           "nc-surface-muted-bg",
           "nc-surface-muted-radius",
           "nc-surface-muted-padding"
+        ]
+      },
+      "kontrast": {
+        "label": "Kontrastmodus",
+        "description": "Kante bei prefers-contrast: more (Foundation-Token).",
+        "tokens": [
+          "fnd-color-border-strong"
         ]
       }
     }
@@ -153,7 +187,7 @@
     {
       "id": "kanten",
       "label": "Kanten",
-      "description": "Rahmen um ein Bild, mit und ohne Radius.",
+      "description": "Rahmen um ein Bild, mit und ohne Radius — als Container wie der Medien-Container von feature-list.",
       "matrix": {
         "axes": {
           "edge": "*"
@@ -162,7 +196,7 @@
           "default"
         ]
       },
-      "layout": "grid",
+      "layout": "row",
       "render": {
         "slotConfig": {
           "surface": false
@@ -172,7 +206,7 @@
     {
       "id": "am-bild",
       "label": "Am Bild (Website)",
-      "description": "Wie in text-media und feature-list: die Klasse direkt am <img>.",
+      "description": "Wie in text-media: die Klasse direkt am <img> (img.nc-text-media__image.nc-media-frame).",
       "matrix": {
         "axes": {
           "edge": [
