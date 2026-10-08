@@ -218,8 +218,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(regel[1]).not.toMatch(/opacity:/)
   })
 
-  it('table-block: 1.2.1, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.2.1')
+  it('table-block: 1.2.2, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.2.2')
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -230,6 +230,14 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1,07:1/)
     // Korrektur 1.2.1 (Freigabe ausstehend): erste Kopfzelle mit der Kopfflaeche, nicht background-base
     expect(css).toContain('.nc-table-block .nc-compare-table--sticky-col thead th:first-child{background-color:var(--tbl-header-bg, var(--fnd-color-background-tertiary))')
+    // Korrektur 1.2.2 (Abschluss 3, tabelle-scroll): der Block scrollt, der Rahmen
+    // schneidet nur (clip ist kein Scroll-Container) und waechst mit der Tabelle;
+    // die Vergleichstabelle allein behaelt overflow: hidden
+    expect(css).toContain('.nc-table-block>.nc-compare-table{overflow:clip;width:fit-content;min-width:100%}')
+    expect(css).toContain('.nc-table-block[data-scroll-active=true] .nc-compare-table--sticky-col thead th:first-child{z-index:calc(var(--mod-table-sticky-z-index, var(--nc-table-sticky-z-index)) + 1)}')
+    expect(css).toMatch(/\.nc-table-block \.nc-compare-table--sticky-col :is\(th,td\):first-child\{left:calc\(-1\*var\(--fnd-spacing-06\)\)\}/)
+    expect(css).toMatch(/\.nc-compare-table\{[^}]*overflow:hidden/)
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/overflow: clip/)
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
     expect(r.keyboard).toBeUndefined()
     for (const z of zellen('table-block')) {

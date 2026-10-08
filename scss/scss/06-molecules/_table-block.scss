@@ -56,15 +56,71 @@
   -webkit-overflow-scrolling: touch;
 }
 
+// Scroll-Container ist der Block, nicht der innere Rahmen. compare-table
+// (05-atoms/_table.scss) setzt am Rahmen overflow: hidden fuer die runden
+// Ecken — darin blieb die breite Tabelle haengen: der Block hatte nichts zu
+// scrollen, bei 375 px war nur die erste Spalte zu sehen, die feste erste
+// Spalte klebte am Rahmen statt am Block (Entscheidung Abschluss 3,
+// 08.10.2026, tabelle-scroll).
+// - overflow: clip schneidet weiter an den runden Ecken, ist aber kein
+//   Scroll-Container: position: sticky (erste Spalte) bezieht sich auf den
+//   Block.
+// - fit-content mit min-width 100 %: passt die Tabelle, bleibt der Rahmen so
+//   breit wie bisher (Desktop pixelgleich); ist sie breiter, waechst der
+//   Rahmen mit ihr — Ecken und Schatten umfassen die ganze Tabelle, und der
+//   Block scrollt.
+// Nur im Block; die Vergleichstabelle allein (compare-table) bleibt, wie sie ist.
+.nc-table-block > .nc-compare-table {
+  overflow: clip;
+  width: fit-content;
+  min-width: 100%;
+}
+
+// Erste Kopfzelle bei fester Spalte und festem Kopf: beide kleben, die
+// Kopfzellen (--sticky-header) liegen aber auf --nc-table-sticky-z-index,
+// die feste Spalte nur auf 2 — beim Scrollen schoben sich die Kopfzellen
+// ueber die Ecke („FEATURE SET" verschwand). Die Ecke liegt eine Ebene
+// darueber (wie die Eckzellen in 07-organisms/_data-table.scss). Nur im
+// Scroll-Modus: sonst faellt der Schatten des festen Kopfs auf die erste
+// Zeile, den bisher die erste Spalte verdeckte (Desktop bleibt pixelgleich).
+.nc-table-block[data-scroll-active="true"] .nc-compare-table--sticky-col thead th:first-child {
+  z-index: calc(var(--mod-table-sticky-z-index, var(--nc-table-sticky-z-index)) + 1);
+}
+
 .nc-table-block[data-scroll-active="true"] .nc-compare-table--full-width table {
   table-layout: auto;
   width: max-content;
   min-width: 100%;
 }
 
+// Feste erste Spalte im Scroll-Modus: ohne Grenze nahm sie 40 % der
+// max-content-Tabelle (bei 375 px rund 300 von 343 px) — gescrollt blieb
+// fuer die Werte ein Streifen von 40 px. Hoechstens 45 % der Bildschirm-
+// breite, der Zeilenkopf bricht um (Entscheidung Abschluss 3, 08.10.2026,
+// tabelle-scroll). Nur unter der Scroll-Grenze, darueber bleibt es bei 40 %.
+.nc-table-block[data-scroll-active="true"] .nc-compare-table--sticky-col :is(th, td):first-child {
+  width: auto;
+}
+
+.nc-table-block[data-scroll-active="true"] .nc-compare-table--sticky-col :is(th, td):first-child > .nc-tbl-cell {
+  max-width: 45vw;
+}
+
+// Feste erste Spalte klebt am Rand des Blocks, nicht am Rand seines
+// Polsters: mit left: 0 blieb links ein Spalt von der Breite des Polsters,
+// durch den die gescrollten Zellen sichtbar liefen. Ohne Scrollen wirkt der
+// Wert nicht (die Spalte steht weiter innen).
+.nc-table-block .nc-compare-table--sticky-col :is(th, td):first-child {
+  left: calc(-1 * var(--fnd-spacing-06));
+}
+
 @media (max-width: 768px) {
   .nc-table-block {
     padding-inline: var(--fnd-spacing-03);
+  }
+
+  .nc-table-block .nc-compare-table--sticky-col :is(th, td):first-child {
+    left: calc(-1 * var(--fnd-spacing-03));
   }
 }
 /* <<< aufgenommen: table-block */
