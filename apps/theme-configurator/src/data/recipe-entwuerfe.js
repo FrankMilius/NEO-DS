@@ -16,8 +16,7 @@
 export const ENTWUERFE = Object.freeze([
   'scroll-expand',
   'scroll-reveal',
-  'table-block',
-  'tbl-cell'
+  'table-block'
 ])
 
 const MENGE = new Set(ENTWUERFE)

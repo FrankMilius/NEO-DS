@@ -10,13 +10,27 @@
  * SCSS, neo-behaviors und das Drupal-Theme neo_fe ergeben hat.
  */
 import { describe, it, expect } from 'vitest'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { MIT_VERHALTEN } from 'neo-behaviors'
 import { istEntwurf } from '../../src/data/recipe-entwuerfe.js'
+import { vorlageFuer } from '../../src/arena-templates/index.js'
+import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { WURZEL, rohesRecipe } from './_recipes.js'
 
 const spec = (id) => JSON.parse(readFileSync(resolve(WURZEL, `specs/${id}.spec.json`), 'utf8'))
+
+function zellen (id, optionen) {
+  const recipe = normalisiereRecipe(rohesRecipe(id))
+  return recipe.specimens.flatMap((sp) => specimenAnsicht(sp, recipe, id, vorlageFuer(id), optionen).zeilen
+    .flatMap((z) => z.zellen.map((c) => ({ ...c, specimen: sp }))))
+}
+
+function dom (html) {
+  const d = document.createElement('div')
+  d.innerHTML = html
+  return d
+}
 
 /** BEM-Elemente (.block__element, ohne Modifier) einer SCSS-Datei. */
 function scssElemente (pfad, block) {
@@ -155,5 +169,27 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(notizen).toMatch(/Pos1\/Ende/)
     expect(r.a11y.base.assertions.join(' ')).toMatch(/2\.2\.2/)
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
+  })
+
+  it('tbl-cell: 1.3.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
+    const r = freigegeben('tbl-cell', '1.3.0')
+    anatomieWieScss('tbl-cell', 'scss/scss/05-atoms/_tbl-cell.scss', 'nc-tbl-cell')
+    const pflicht = Object.fromEntries(r.anatomy.slots.map((s) => [s.name, !s.optional]))
+    expect(pflicht).toEqual({ text: true, 'info-btn': false, sub: false, 'icon-block': false, icon: false })
+    expect(r.keyboard).toBeUndefined()
+    expect(r.meta.source.drupal).toMatch(/renderCell/)
+    for (const z of zellen('tbl-cell')) {
+      const d = dom(z.html)
+      for (const svg of d.querySelectorAll('svg.nc-tbl-icon')) {
+        expect(svg.getAttribute('aria-label'), z.specimen.id).toMatch(/^(nicht )?enthalten$/)
+        // Farben nur aus _tbl-icon.scss (wie neoTable seit 25.08.2026)
+        expect(svg.innerHTML, z.specimen.id).not.toMatch(/fill="#|stroke="black"/)
+      }
+      for (const knopf of d.querySelectorAll('.nc-tbl-cell__info-btn')) {
+        expect(knopf.getAttribute('type')).toBe('button')
+        expect(knopf.getAttribute('aria-label')).toBeTruthy()
+      }
+    }
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/1\.1\.1/)
   })
 })

@@ -12,7 +12,10 @@
 //   untertitel  Zeilenkopf mit __sub unter dem Text
 //   werte       Wertzellen enthalten (Haken) und nicht enthalten (Strich)
 //   symbol      Wertzelle mit __icon-block (Symbol ueber dem Text)
-const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="enthalten"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+// Haken ohne Farbwerte im SVG wie neoTable seit 25.08.2026 (die Farben
+// stehen in 05-atoms/_tbl-icon.scss); aria-label an den Wertsymbolen ist die
+// Empfehlung des Recipes — die Website gibt ihnen keinen Text (Befund).
+const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="enthalten"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 const STRICH = '<svg class="nc-tbl-icon nc-tbl-icon--dash" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="nicht enthalten"><path d="M11 18H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 5.33h.007" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M7.33 8H8v2.67h.67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 
