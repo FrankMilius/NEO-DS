@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.3.1",
+        "changes": [
+          "Entscheidung Abschluss 2, 08.10.2026 (website-sichtbar, Freigabe ausstehend): Video als Medium (field_hero_media_type remote_video/video, Huelle .nc-video mit iframe .nc-video__iframe) wieder 16:9. Die Klasse .nc-video gehoert auch der Video-Section (zweispaltiges Raster ohne Hoehe); das absolut positionierte iframe gab keine Hoehe ab — auf der Website war das Video im Hero 0 px hoch. Neu `.nc-hero__media .nc-video` (block, relative, aspect-ratio var(--fnd-media-ratio-16-9), Radius md wie das Medienbild); im Split fuellt die Huelle wie bisher die Spaltenhoehe (aspect-ratio auto). Gemessen (Theme-CSS-Stapel neo_fe): 375 px 343×0 → 343×193, 768 px 714×0 → 714×402, 1280 px 551×0 → 551×310 px. Hero ohne Video, mit Bild, Hintergrundbild und Split pixelgleich."
+        ]
+      },
       {
         "version": "2.3.0",
         "changes": [

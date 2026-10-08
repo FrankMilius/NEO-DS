@@ -316,6 +316,32 @@
 }
 
 // ---------------------------------------------------------------------------
+// Video als Medium (field_hero_media_type = remote_video | video)
+// ---------------------------------------------------------------------------
+// Das Twig legt das iframe in dieselbe Huelle .nc-video wie der Text-Media-
+// Block. Die Klasse gehoert aber auch der Video-Section — und die macht
+// daraus ein zweispaltiges Raster ohne Hoehe. Das iframe ist absolut
+// positioniert und gibt keine Hoehe ab: Auf der Website war das Video im
+// Hero 0 px hoch (gemessen 375/768/1280 px: 343x0, 714x0, 551x0;
+// Entscheidung Abschluss 2, 08.10.2026).
+//
+// Die Huelle traegt deshalb hier selbst das Seitenverhaeltnis 16:9 und ist
+// Bezugsrahmen des iframes. aspect-ratio statt padding-Trick: kein height: 0
+// noetig. Die Split-Variante darunter fuellt wie bisher die Spaltenhoehe
+// (dort ohne Seitenverhaeltnis, siehe unten).
+//
+// Steht VOR dem Split-Block: gleiche Spezifitaet, Split gewinnt durch die
+// Reihenfolge (randlos, volle Spaltenhoehe).
+.nc-hero__media .nc-video {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--fnd-media-ratio-16-9);
+  border-radius: var(--fnd-radius-md);
+  overflow: hidden;
+}
+
+// ---------------------------------------------------------------------------
 // Split — Text auf einer Seite, Medium buendig bis zum Viewport-Rand
 // ---------------------------------------------------------------------------
 // Das Recipe fuehrte nc-hero--split seit jeher; im CSS gab es ihn nie. Diese
@@ -392,6 +418,14 @@
 
   .nc-hero__picture {
     box-shadow: none;
+  }
+
+  // Kein 16:9 im Split: Die Spalte gibt die Hoehe vor (mindestens
+  // --nc-hero-split-media-min-height). Mit Seitenverhaeltnis leitete das
+  // Video aus dieser Hoehe eine Mindestbreite ab (420 px -> 747 px) und
+  // schob die Spalte ueber den Rand.
+  .nc-video {
+    aspect-ratio: auto;
   }
 }
 
