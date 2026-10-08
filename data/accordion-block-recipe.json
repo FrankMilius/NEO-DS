@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "accordion-block",
-    "version": "1.0.0",
-    "status": "draft",
+    "version": "1.1.0",
+    "status": "stable",
     "tags": [
       "content",
       "organisms",
@@ -16,6 +16,15 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen block--block-content--neo-accordion.html.twig (die inline_block-Fassung bindet sie ein), neo-theme.js und 07-organisms/_accordion-block.scss geprueft: Anatomie und Achse ratio stimmen; ergaenzt sind die Felder des Website-Blocks und wohin sie wirken (Block oder inneres Akkordeon), die Instanzflaeche field_acc_bg_color, der senkrechte Rhythmus, das Klebeverhalten des Kopfs und die Verhaltensteile in neo-theme.js.",
+          "a11y: Pruefpunkte statt Freitext; constraints: register/lese erzwingen voll, „Alle aufklappen\" nur bei mehreren Eintraegen und nicht bei „nur eines offen\".",
+          "pipeline: Arena (RecipeArena), Drupal-Template inline_block ergaenzt."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -30,9 +39,10 @@
         "scss/scss/07-organisms/_accordion-block.scss"
       ],
       "story": null,
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
-        "block/block--block-content--neo-accordion.html.twig"
+        "block/block--block-content--neo-accordion.html.twig",
+        "block/block--inline-block--neo-accordion.html.twig"
       ],
       "docs": null
     }
@@ -52,22 +62,24 @@
         "name": "text",
         "element": ".nc-accordion-block__text",
         "optional": false,
-        "description": "Kopf (neo_fe:block-header, --flush); klebt neben dem Akkordeon (sticky)."
+        "description": "Kopf (neo_fe:block-header --flush, Spalte mit gap spacing-03); klebt neben dem Akkordeon (sticky, top = --nc-nav-height + spacing-06) — nicht bei voll und unter 768 px."
       },
       {
         "name": "accordion",
         "element": ".nc-accordion-block__accordion",
         "optional": false,
-        "description": "Spalte mit .nc-accordion und optional .nc-accordion-toggle-all."
+        "description": "Spalte mit dem Akkordeon (.nc-accordion, eigenes Recipe accordion) und optional davor dem Schalter .nc-accordion-toggle-all."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Website-Block neo_accordion: <section class=\"nc-section nc-accordion-block nc-accordion-block--{ratio}\"> > .nc-container.nc-accordion-block__inner > __text + __accordion.",
-      "Breitenverhaeltnis ueber --nc-accordion-cols (Override --mod-accordion-cols): zwei-drittel 1fr 2fr (Vorgabe), halb 1fr 1fr, voll 1fr (Kopf oben, Lesebreite --nc-accordion-voll-measure).",
-      "Die Varianten register und lese des Akkordeons erzwingen in Drupal ratio voll.",
-      "Unter 768 px Fensterbreite einspaltig, Kopf nicht mehr sticky.",
-      "Die Anschnittlinie kommt vom .nc-container (seit 20.08.2026 keine eigene Hoechstbreite mehr)."
+      "Website-Block neo_accordion: <section class=\"nc-section nc-accordion-block nc-accordion-block--{ratio}\"> > .nc-container.nc-accordion-block__inner > __text + __accordion. Die inline_block-Fassung bindet das block_content-Template ein (keine Kopie).",
+      "Der Ratio-Modifier steht immer (field_acc_ratio, Vorgabe zwei-drittel); Spalten ueber --nc-accordion-cols (Override --mod-accordion-cols): zwei-drittel 1fr 2fr, halb 1fr 1fr, voll 1fr (Kopf oben, nicht sticky, Lesebreite --nc-accordion-voll-measure 62ch). Die Akkordeon-Varianten register und lese erzwingen in Drupal voll.",
+      "Alle anderen Felder wirken auf das innere .nc-accordion (Recipe accordion), nicht auf den Block: field_acc_variant (Vorgabe separated), field_acc_density (Vorgabe spacious), field_acc_media_side (top/side; im Register immer top), field_acc_sticky (--sticky), field_acc_behavior (single/single-scroll -> name-Attribut an den <details>), field_acc_expand_all (Schalter „Alle aufklappen\").",
+      "Instanzflaeche field_acc_bg_color: Drupal schreibt sie als style=\"background-color: …\" an die <section> — ein Rohwert, der die Textfarben nicht mitdreht; die gestaltete Flaeche kommt aus field_surface (Klasse am Block-Wrapper), die Breite aus field_content_width.",
+      "Senkrechter Rhythmus: __inner traegt padding-block spacing-10 zusaetzlich zur Polsterung von .nc-section; Abstand zwischen Kopf und Akkordeon gap spacing-10 (unter 768 px spacing-06). Die Anschnittlinie kommt vom .nc-container (seit 20.08.2026 keine eigene Hoechstbreite mehr).",
+      "Unter 768 px Fensterbreite (Media Query) einspaltig, Kopf nicht mehr sticky — die Arena zeigt die Desktop-Lage.",
+      "Verhalten (neo-theme.js, Drupal.behaviors.neoAccordion — gehoert zum Recipe accordion): Eintrag per Anker oeffnen, „Alle aufklappen\" mit aria-expanded und Beschriftungswechsel, bei single-scroll den geoeffneten Eintrag in Sicht rollen. FAQ-Auszeichnung (JSON-LD) nur mit field_acc_faq."
     ]
   },
   "axes": {
@@ -107,13 +119,43 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
-      "note": "Eintraege als natives <details>/<summary> (Browsersuche klappt auf); der Kopf steht im DOM vor dem Akkordeon."
+      "assertions": [
+        "Eintraege als natives <details>/<summary> — Tastatur, Rolle und Zustand vom Browser; die Browsersuche findet und oeffnet zugeklappten Text.",
+        "Der Kopf steht im DOM vor dem Akkordeon (auch wenn er klebt); genau eine Ueberschrift (h2) fuer den Block, die Eintragstitel sind keine Ueberschriften.",
+        "„Alle aufklappen\" ist ein <button> mit aria-controls auf die Liste und aria-expanded; er fehlt bei „nur eines offen\" und bei nur einem Eintrag.",
+        "Kontrast AA hell und dunkel ueber Section-Header und Akkordeon (gemessen ab 6,07:1); eine Instanzflaeche (field_acc_bg_color) ist davon nicht gedeckt."
+      ],
+      "note": "Der Block selbst ist nicht interaktiv; Bedienung und Zustaende beschreibt das Recipe accordion."
     },
     "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Akkordeon-Varianten register und lese nur mit ratio voll (Drupal erzwingt es)."
+        ]
+      },
+      {
+        "when": {},
+        "notes": [
+          "„Alle aufklappen\" nur bei mehreren Eintraegen und nicht mit field_acc_behavior single/single-scroll (Drupal laesst den Schalter dann weg)."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "ratio": [
+              "halb"
+            ]
+          }
+        },
+        "notes": [
+          "halb nur, wenn der Kopf selbst laengeren Text traegt; sonst zwei-drittel (Kopf braucht Lesebreite, die Eintraege Platz)."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {
