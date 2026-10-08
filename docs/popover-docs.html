@@ -170,20 +170,65 @@
           <section class="docs__section" id="positions">
             <h2 class="docs__section-title">Positionierung</h2>
             <p class="docs__section-desc">
-              Das Popover kann &uuml;ber Modifier-Klassen in verschiedene Richtungen positioniert werden.
-              Standard ist unten-links (<code class="docs__token">.nc-popover--bottom-start</code>).
+              Die Lage steht als Modifier am Panel (Recipe-Achse <code class="docs__token">placement</code>).
+              Standard ist unten zentriert (ohne Modifier).
             </p>
             <table class="docs__table">
               <thead><tr><th>Modifier</th><th>Position</th></tr></thead>
               <tbody>
-                <tr><td><code class="docs__token">.nc-popover--top-start</code></td><td>Oben links</td></tr>
-                <tr><td><code class="docs__token">.nc-popover--top-end</code></td><td>Oben rechts</td></tr>
-                <tr><td><code class="docs__token">.nc-popover--bottom-start</code></td><td>Unten links (Default)</td></tr>
-                <tr><td><code class="docs__token">.nc-popover--bottom-end</code></td><td>Unten rechts</td></tr>
-                <tr><td><code class="docs__token">.nc-popover--left</code></td><td>Links</td></tr>
-                <tr><td><code class="docs__token">.nc-popover--right</code></td><td>Rechts</td></tr>
+                <tr><td><em>(kein Modifier)</em></td><td>Unten, zentriert (Default)</td></tr>
+                <tr><td><code class="docs__token">.nc-popover__panel--top</code></td><td>Oben, zentriert</td></tr>
+                <tr><td><code class="docs__token">.nc-popover__panel--left</code></td><td>Links</td></tr>
+                <tr><td><code class="docs__token">.nc-popover__panel--right</code></td><td>Rechts</td></tr>
+                <tr><td><code class="docs__token">.nc-popover__panel--bottom-start</code></td><td>Unten, linksb&uuml;ndig</td></tr>
+                <tr><td><code class="docs__token">.nc-popover__panel--bottom-end</code></td><td>Unten, rechtsb&uuml;ndig</td></tr>
               </tbody>
             </table>
+          </section>
+
+          <!-- Hover-Modus -->
+          <section class="docs__section" id="hover-trigger">
+            <h2 class="docs__section-title">Hover-Modus</h2>
+            <p class="docs__section-desc">
+              Mit <code class="docs__token">.nc-popover--hover-trigger</code> &ouml;ffnet das Panel nach 300&nbsp;ms Verweilen oder sofort bei Fokus auf dem Ausl&ouml;ser
+              und schlie&szlig;t 200&nbsp;ms nach dem Verlassen; Escape schlie&szlig;t. Keine Fokus-Falle &mdash; nur f&uuml;r nicht-interaktive Vorschau-Inhalte
+              (ohne Header, Close-Button und Footer). Das Panel steht im Markup <strong>ohne</strong> <code class="docs__token">hidden</code>: ohne JavaScript &ouml;ffnet es per CSS
+              bei <code>:hover</code>/<code>:focus-within</code>, neo-behaviors setzt beim Binden <code class="docs__token">hidden</code> und steuert ab dann selbst.
+              Zum Ausprobieren: mit der Maus &uuml;ber den Ausl&ouml;ser fahren oder ihn per Tab fokussieren.
+            </p>
+            <div style="position: relative; min-height: 140px; padding: var(--fnd-spacing-08); margin-block-end: var(--fnd-spacing-06); display: flex; gap: var(--fnd-spacing-10); justify-content: center;">
+              <div class="nc-popover nc-popover--hover-trigger">
+                <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="popover-demo-hover-1">Vorschau</button>
+                <div class="nc-popover__panel" id="popover-demo-hover-1" role="dialog" aria-label="Vorschau">
+                  <div class="nc-popover__body">
+                    <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Kurze Vorschau ohne bedienbare Elemente.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="nc-popover nc-popover--hover-trigger">
+                <button type="button" class="nc-popover__trigger nc-button nc-button--sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="popover-demo-hover-2">Mit Pfeil</button>
+                <div class="nc-popover__panel" id="popover-demo-hover-2" role="dialog" aria-label="Vorschau mit Pfeil">
+                  <div class="nc-popover__arrow" aria-hidden="true"></div>
+                  <div class="nc-popover__body">
+                    <p style="margin: 0; font-size: var(--fs-sm); color: var(--fnd-color-text-secondary);">Der Pfeil zeigt auf den Ausl&ouml;ser.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+            <div class="docs-snippet">
+              <pre>&lt;div class="nc-popover nc-popover--hover-trigger"&gt;
+  &lt;button type="button" class="nc-popover__trigger nc-button nc-button--sm"
+          aria-haspopup="dialog" aria-expanded="false" aria-controls="vorschau"&gt;Vorschau&lt;/button&gt;
+  &lt;!-- Hover-Modus: Panel OHNE hidden --&gt;
+  &lt;div class="nc-popover__panel" id="vorschau" role="dialog" aria-label="Vorschau"&gt;
+    &lt;div class="nc-popover__body"&gt;
+      &lt;p&gt;Kurze Vorschau ohne bedienbare Elemente.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
           </section>
 
         </div>
@@ -221,20 +266,25 @@
 
           <section class="docs__section" id="style-bem">
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
-            <div class="docs__code-block">.nc-popover                     // Block (floating panel)
+            <div class="docs__code-block">.nc-popover                     // Block (Wrapper: Ausloeser + Panel)
+.nc-popover__trigger            // Ausloeser (aria-haspopup="dialog")
+.nc-popover__panel              // Panel (role="dialog")
+.nc-popover__arrow              // Pfeil (optional, aria-hidden)
 .nc-popover__header             // Header-Bereich mit Titel und Close
-.nc-popover__title              // Titel-Text
 .nc-popover__close              // Close-Button
 .nc-popover__body               // Inhaltsbereich
 .nc-popover__footer             // Footer mit Aktionen
 
-// Position-Modifier
-.nc-popover--top-start          // Oben links
-.nc-popover--top-end            // Oben rechts
-.nc-popover--bottom-start       // Unten links (Default)
-.nc-popover--bottom-end         // Unten rechts
-.nc-popover--left               // Links
-.nc-popover--right              // Rechts</div>
+// Position-Modifier (am Panel)
+.nc-popover__panel--top         // Oben
+.nc-popover__panel--left        // Links
+.nc-popover__panel--right       // Rechts
+.nc-popover__panel--bottom-start // Unten linksbuendig
+.nc-popover__panel--bottom-end  // Unten rechtsbuendig
+
+// Modus und Zustand (an der Wurzel)
+.nc-popover--hover-trigger      // Hover-Modus (Panel ohne hidden)
+.nc-popover.is-open             // Panel fest offen</div>
           </section>
 
         </div>

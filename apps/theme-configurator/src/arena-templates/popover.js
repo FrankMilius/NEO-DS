@@ -23,7 +23,8 @@
 //   ohne [hidden] — das Behavior setzt is-open beim Oeffnen).
 // Specimens: default, placement-variants, content-variants, with-arrow,
 //   full-popover, alignment-variants, inline-filter (composes form-field,
-//   button), light-dismiss, overlay-hierarchy (Inhalt erklaert den Fall).
+//   button), light-dismiss, hover-trigger (Hover-Modus, body-only und
+//   with-arrow), overlay-hierarchy (Inhalt erklaert den Fall).
 import { esc } from './_helfer.js'
 import { offen, wurzelKlassen, kindModifier, schliessen } from './_overlay.js'
 

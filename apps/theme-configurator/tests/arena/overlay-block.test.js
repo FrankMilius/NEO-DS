@@ -11,7 +11,7 @@
  *     Escape schliesst, Fokus kehrt zurueck — auf dem Arena-Markup und in der
  *     gemounteten RecipeArena
  */
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { mount, flushPromises } from '@vue/test-utils'
@@ -244,6 +244,15 @@ describe('Overlay-Block: Zustände (offen, in der Zelle)', () => {
     expect(alle('popover', 'alignment-variants').map((d) => d.querySelector('.nc-popover__panel').classList[1])).toEqual(['nc-popover__panel--bottom-start', 'nc-popover__panel--bottom-end'])
     const filter = alle('popover', 'inline-filter')[0]
     expect(filter.querySelectorAll('.nc-popover__body .nc-form-field > input.nc-input').length).toBe(2)
+    // Hover-Modus (Specimen hover-trigger, Abschluss Plan v3, 08.10.2026):
+    // Modifier an der Wurzel, nur nicht-interaktiver Inhalt
+    const hover = alle('popover', 'hover-trigger')
+    expect(hover).toHaveLength(2)
+    for (const d of hover) {
+      expect(d.querySelector('.nc-popover.nc-popover--hover-trigger > .nc-popover__panel[role="dialog"][aria-label]')).not.toBeNull()
+      expect(d.querySelector('.nc-popover__header, .nc-popover__close, .nc-popover__footer, .nc-popover__panel button, .nc-popover__panel input')).toBeNull()
+    }
+    expect(hover[1].querySelector('.nc-popover__panel > .nc-popover__arrow[aria-hidden="true"]:first-child')).not.toBeNull()
   })
 
   it('tooltip: sichtbar ueber .is-open (DS), verborgen im Standard, Bezug per aria-describedby', () => {
@@ -409,6 +418,34 @@ describe('Overlay-Block: Ausprobieren (geschlossen, neo-behaviors bedient)', () 
     taste(aktiv(), 'Escape')
     expect(panel.hidden).toBe(true)
     expect(aktiv()).toBe(ausloeser)
+  })
+
+  it('popover: Hover-Modus — Panel ohne [hidden] im Markup, Verweilen oeffnet, Fokus oeffnet, Escape schliesst', () => {
+    vi.useFakeTimers()
+    try {
+      const html = lebendig('popover', 'hover-trigger')
+      expect(dom(html).querySelector('.nc-popover__panel').hasAttribute('hidden')).toBe(false)
+      const b = buehne(html)
+      anbinden(b, ['popover'])
+      const wurzel = b.querySelector('.nc-popover--hover-trigger')
+      const ausloeser = b.querySelector('.nc-popover__trigger')
+      const panel = b.querySelector('.nc-popover__panel')
+      expect(panel.hidden).toBe(true) // beim Binden uebernimmt JS
+      wurzel.dispatchEvent(new MouseEvent('mouseenter'))
+      vi.advanceTimersByTime(300)
+      expect(panel.hidden).toBe(false)
+      expect(ausloeser.getAttribute('aria-expanded')).toBe('true')
+      wurzel.dispatchEvent(new MouseEvent('mouseleave'))
+      vi.advanceTimersByTime(200)
+      expect(panel.hidden).toBe(true)
+      ausloeser.focus()
+      expect(panel.hidden).toBe(false)
+      expect(aktiv()).toBe(ausloeser) // keine Fokus-Falle, Fokus bleibt am Ausloeser
+      taste(ausloeser, 'Escape')
+      expect(panel.hidden).toBe(true)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('popover: Formular — Fokus aufs erste Feld, Klick ausserhalb schliesst nicht', () => {

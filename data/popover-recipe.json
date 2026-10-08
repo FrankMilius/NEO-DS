@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "popover",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -717,6 +717,36 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Light Dismiss: Klick ausserhalb schliesst. ESC schliesst. Close-Button als Alternative. Nicht bei Form-Inhalten (Datenverlust)."
+      }
+    },
+    {
+      "id": "hover-trigger",
+      "label": "Hover-Modus",
+      "description": "Trigger-Achse hover (nc-popover--hover-trigger): oeffnet nach 300 ms Verweilen oder sofort bei Fokus, schliesst 200 ms nach Verlassen. Nur fuer nicht-interaktive Vorschau-Inhalte — ohne Header, Close-Button und Footer.",
+      "matrix": {
+        "axes": {
+          "placement": [
+            "bottom"
+          ],
+          "content": [
+            "body-only",
+            "with-arrow"
+          ],
+          "trigger": [
+            "hover"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "row",
+      "render": {
+        "label": "hover-{content}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Hover-Modus: auch per Fokus auf dem Ausloeser erreichbar, Escape schliesst, keine Fokus-Falle. Panel im Markup ohne [hidden] (ohne JS oeffnet es per CSS). Keine bedienbaren Elemente im Panel — dafuer click verwenden."
       }
     },
     {

@@ -1,5 +1,5 @@
 # popover Component Spec
-> Version 2.0.0 | Status: stable | Layer: molecule
+> Version 2.1.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `overlay`, `dialog`, `filter`
 
