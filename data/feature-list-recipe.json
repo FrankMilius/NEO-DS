@@ -1,10 +1,10 @@
 {
-  "$schema": "../schemas/component-recipe.schema.json",
+  "$schema": "./recipe-schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "feature-list",
-    "version": "1.1.1",
-    "status": "draft",
+    "version": "1.2.0",
+    "status": "stable",
     "tags": [
       "aufgenommen",
       "organisms"
@@ -15,6 +15,18 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen block--block-content--neo-feature-list.html.twig (die inline_block-Fassung bindet es ein), Drupal.behaviors.neoFeatureList und neoFeatureMedia (js/neo-theme.js) und 07-organisms/_feature-list.scss geprueft. Klassen, Modifier und Tokens stimmen.",
+          "Korrigiert: Drupal-Vorgaben sind Medium rechts und Text mittig (field_fl_media_position right, field_fl_text_valign middle) — Recipe und Arena nannten links und oben.",
+          "Ergaenzt: nc-feature-list__media--device (Geraeterahmen, field_media_frame device) als Slot; komposition media-frame (field_media_frame frame, Vorgabe: .nc-media-frame am Medienbereich) und shot (Bild per NeoBehaviors.shotAufbauen, macht den Medienbereich selbst zu .nc-shot); data/markup/feature-list.html um die Fassung „Mit Bild\" ergaenzt (von Hand aus Template und Skript).",
+          "Slots: Pflicht/optional wie im Template (Liste und Knopf nur mit Inhalt, Medium nur mit Bild oder Video), jeder Teil beschrieben; domNotes zu Feldern, Verhalten, Rahmenarten, Umbruch 768 px und dem Namensvetter in _pricing.scss.",
+          "a11y-Pruefpunkte, constraints; Form: $schema, layer, pipeline, recipes, tokenGroups (alle, geometry wie design-tokens.json).",
+          "Arena: Specimen mit-bild zeigt den Medienbereich wie auf der Website (nc-media-frame nc-shot, Bild nc-shot__img), Fuellwerte rechts/mittig; default bleibt wie die geerntete Seite /produkte/app (rechts, oben)."
+        ]
+      },
       {
         "version": "1.1.1",
         "changes": [
@@ -37,107 +49,149 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_feature-list.scss"
+      ],
+      "story": "stories/organisms/feature-list.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "block/block--block-content--neo-feature-list.html.twig",
+        "block/block--inline-block--neo-feature-list.html.twig",
+        "js/neo-theme.js (Drupal.behaviors.neoFeatureList, neoFeatureMedia)"
+      ],
+      "docs": null
+    }
   },
   "anatomy": {
     "root": {
-      "element": ".nc-feature-list"
+      "element": ".nc-feature-list",
+      "description": "<section class=\"nc-section nc-feature-list …\">: eigene Abschnittspolsterung (--nc-section-padding-block), list-style none, margin 1rem 0 — die Regel sichert gegen den gleichnamigen Teil aus _pricing.scss ab."
     },
     "slots": [
       {
-        "name": "content",
-        "element": ".nc-feature-list__content",
-        "optional": false
-      },
-      {
-        "name": "cta",
-        "element": ".nc-feature-list__cta",
-        "optional": false
-      },
-      {
-        "name": "icon",
-        "element": ".nc-feature-list__icon",
-        "optional": false
-      },
-      {
         "name": "inner",
         "element": ".nc-feature-list__inner",
-        "optional": false
-      },
-      {
-        "name": "item",
-        "element": ".nc-feature-list__item",
-        "optional": false
-      },
-      {
-        "name": "item-text",
-        "element": ".nc-feature-list__item-text",
-        "optional": false
-      },
-      {
-        "name": "items",
-        "element": ".nc-feature-list__items",
-        "optional": true
-      },
-      {
-        "name": "items-host",
-        "element": ".nc-feature-list__items-host",
-        "optional": true
+        "optional": false,
+        "description": "Innenrahmen auf .nc-container: Flex-Spalte; mit --with-media Raster 1fr | 1fr, gap clamp(1,5rem … spacing-11), bis 768 px einspaltig (Medium oben)."
       },
       {
         "name": "media",
         "element": ".nc-feature-list__media",
-        "optional": true
+        "optional": true,
+        "description": "Medienbereich (nur mit Bild oder Video): 4:3, mindestens 240 px hoch, Radius lg (mit nc-media-frame dessen Radius), background-secondary, Inhalt auf volle Groesse. Rahmen per field_media_frame: frame (Vorgabe, .nc-media-frame), none, device."
       },
       {
-        "name": "text",
-        "element": ".nc-feature-list__text",
-        "optional": true
+        "name": "media--device",
+        "element": ".nc-feature-list__media--device",
+        "optional": true,
+        "description": "Geraeterahmen (field_media_frame device): .nc-device mit Screenshot im Dokument statt per Skript; nimmt Seitenverhaeltnis, Mindesthoehe, Flaeche und Rahmen zurueck, Breite --nc-feature-list-device-width, Screenshot object-fit contain."
       },
       {
         "name": "video",
         "element": ".nc-feature-list__video",
-        "optional": true
+        "optional": true,
+        "description": "Video im Medienbereich (field_fl_video, Vorrang vor dem Bild): <iframe> fuer YouTube/Vimeo oder <video controls>, vom Skript gebaut; object-fit cover."
+      },
+      {
+        "name": "content",
+        "element": ".nc-feature-list__content",
+        "optional": false,
+        "description": "Textspalte: neo_fe:block-header --flush (field_fl_kicker, field_fl_headline h2, field_fl_lead), Fliesstext, Liste, Knopf; senkrechte Lage per --valign-*."
+      },
+      {
+        "name": "text",
+        "element": ".nc-feature-list__text",
+        "optional": true,
+        "description": "Fliesstext (field_fl_text, formatiertes HTML), body-m, text-secondary."
+      },
+      {
+        "name": "items-host",
+        "element": ".nc-feature-list__items-host",
+        "optional": false,
+        "description": "Huelle der Liste (data-feature-list), steht immer; das Skript haengt die Liste ein. Ohne Eintraege leer (:empty ohne Abstand)."
+      },
+      {
+        "name": "items",
+        "element": ".nc-feature-list__items",
+        "optional": true,
+        "description": "<ul> der Eintraege aus field_fl_items_json (Strings oder { text }), vom Skript gebaut."
+      },
+      {
+        "name": "item",
+        "element": ".nc-feature-list__item",
+        "optional": true,
+        "description": "<li>: Icon und Text nebeneinander, body-m, text-primary."
+      },
+      {
+        "name": "icon",
+        "element": ".nc-feature-list__icon",
+        "optional": true,
+        "description": "Haken im Kreis (SVG 36er-Raster, 1,5 rem, aria-hidden, focusable false; Kreis #AEF359 fest im Skript)."
+      },
+      {
+        "name": "item-text",
+        "element": ".nc-feature-list__item-text",
+        "optional": true,
+        "description": "Text des Eintrags (textContent, kein HTML)."
+      },
+      {
+        "name": "cta",
+        "element": ".nc-feature-list__cta",
+        "optional": true,
+        "description": "Knopf (field_fl_cta_text/_url): nc-button--accent --lg; nur mit Text."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Website-Block neo_feature_list: <section class=\"nc-section nc-feature-list[ --with-media --media-<right|left> --valign-<top|middle|bottom>]\"><div class=\"nc-container nc-feature-list__inner\"> … Die drei Modifier setzt Drupal nur mit Medium und dann immer zusammen; Vorgaben right und middle.",
+      "Medium: field_fl_video (Vorrang) oder field_sg_cards (Karte 1). Bild: Drupal.behaviors.neoFeatureMedia ruft NeoBehaviors.shotAufbauen am Medienbereich — der wird selbst zu .nc-shot (data-nc-shot) mit img.nc-shot__img (Fokuspunkt, Zoom, Seitenverhaeltnis der Karte); ohne neo-behaviors ein schlichtes <img>. Mit field_media_frame device steht der Screenshot im Template in .nc-device.",
+      "Liste: Drupal.behaviors.neoFeatureList liest field_fl_items_json und baut ul > li > span.__icon + span.__item-text (derselbe Renderer fuer das Tab-Nav-Modul).",
+      "Bis 768 px eine Spalte, Medium immer oben (order 0), unabhaengig von der Lage.",
+      "Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG)."
     ]
   },
   "axes": {
     "variante": {
       "label": "Variante",
-      "description": "Klassen, die Drupal am Block setzt (mit Medium immer with-media, media-* und valign-*).",
+      "description": "Klassen, die Drupal am Block setzt: ohne Medium keine, mit Medium immer with-media + media-<right|left> + valign-<top|middle|bottom> (Vorgaben right, middle). Die Arena ergaenzt fehlende Klassen mit den Drupal-Vorgaben.",
       "values": {
         "default": {
           "modifier": null,
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Ohne Medium — eine Spalte, keine Modifier."
         },
         "media-left": {
           "modifier": "nc-feature-list--media-left",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Medium links (field_fl_media_position left)."
         },
         "media-right": {
           "modifier": "nc-feature-list--media-right",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Medium rechts (Drupal-Vorgabe)."
         },
         "valign-bottom": {
           "modifier": "nc-feature-list--valign-bottom",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Text unten neben dem Medium."
         },
         "valign-middle": {
           "modifier": "nc-feature-list--valign-middle",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Text mittig neben dem Medium (Drupal-Vorgabe)."
         },
         "valign-top": {
           "modifier": "nc-feature-list--valign-top",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Text oben neben dem Medium."
         },
         "with-media": {
           "modifier": "nc-feature-list--with-media",
-          "tokenGroups": []
+          "tokenGroups": [],
+          "description": "Zweispaltiges Raster mit Medium (immer zusammen mit media-* und valign-*)."
         }
       }
     }
@@ -152,31 +206,136 @@
     "rules": []
   },
   "a11y": {
-    "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Reihenfolge im DOM: Medium vor dem Text, auch bei Medium rechts (nur die Anzeige tauscht per order) — Screenreader lesen das Bild zuerst.",
+        "Bild-Alternativtext aus der Karte (alt, sonst Titel); Geraete-Screenshot mit alt aus dem Medium. Ein Video-iframe traegt keinen title — im Theme ergaenzen.",
+        "Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Der Kreis #AEF359 ist nicht themefaehig, auf heller Flaeche schwach (nur Schmuck).",
+        "Eine Ueberschrift (h2 im Block-Kopf); die Liste ist eine echte <ul>.",
+        "Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche."
+      ],
+      "note": "Nicht interaktiv ausser Knopf und Video."
+    },
+    "overrides": []
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [
+      {
+        "when": {
+          "axes": {
+            "variante": [
+              "default"
+            ]
+          }
+        },
+        "notes": [
+          "Ohne Medium keine Lage- und Ausrichtungsklassen — Drupal setzt sie nur mit Medium."
+        ]
+      },
+      {
+        "when": {
+          "axes": {
+            "variante": [
+              "media-left",
+              "media-right",
+              "valign-top",
+              "valign-middle",
+              "valign-bottom",
+              "with-media"
+            ]
+          }
+        },
+        "notes": [
+          "with-media, media-* und valign-* immer zusammen setzen.",
+          "Geraeterahmen nur fuer hochkante App-Screenshots; flaechige Bilder mit Rahmen frame."
+        ]
+      }
+    ],
+    "copy": {
+      "item": {
+        "maxChars": 90,
+        "note": "Ein Eintrag eine Aussage, eine bis zwei Zeilen."
+      }
+    }
+  },
   "styling": {
     "baseClasses": [
       "nc-feature-list"
     ],
-    "baseTokenGroups": [],
-    "tokens": [
-      "--nc-feature-list-icon-margin-top"
-    ]
+    "baseTokenGroups": [
+      "alle",
+      "geometry"
+    ],
+    "tokenGroups": {
+      "alle": {
+        "label": "Alle Tokens",
+        "tokens": [
+          "nc-feature-list-icon-margin-top"
+        ]
+      },
+      "geometry": {
+        "label": "Geometrie",
+        "description": "Breite des Geraeterahmens; Hook --mod-feature-list-device-width.",
+        "tokens": [
+          "nc-feature-list-device-width"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses",
+        "axes.variante.values.*.modifier"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "komposition": [
-    { "art": "enthaelt", "recipe": "container" },
-    { "art": "enthaelt", "recipe": "device" },
-    { "art": "enthaelt", "recipe": "section-header" }
+    {
+      "art": "enthaelt",
+      "recipe": "container"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "device"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "section-header"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "media-frame",
+      "hinweis": "am .nc-feature-list__media bei field_media_frame frame (Vorgabe); nicht beim Geraeterahmen und bei none"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "shot",
+      "hinweis": "Bild per NeoBehaviors.shotAufbauen — der Medienbereich wird selbst zu .nc-shot"
+    }
   ],
   "specimens": [
     {
       "id": "default",
       "label": "Wie auf der Website",
-      "description": "Mit Gerät rechts, oben bündig (with-media, media-right, valign-top) — geerntet von /produkte/app.",
+      "description": "Wie auf der Website (/produkte/app): Geraet rechts, Text oben (with-media, media-right, valign-top).",
       "matrix": {
         "axes": {
           "variante": [
@@ -188,7 +347,9 @@
         ]
       },
       "layout": "composition",
-      "render": {}
+      "render": {
+        "valign": "top"
+      }
     },
     {
       "id": "ohne-medium",
@@ -210,7 +371,7 @@
     {
       "id": "medienlage",
       "label": "Lage des Mediums",
-      "description": "Medium links (Drupal-Vorgabe) und rechts.",
+      "description": "Medium links und rechts (Drupal-Vorgabe rechts), Text mittig.",
       "matrix": {
         "axes": {
           "variante": [
@@ -233,7 +394,7 @@
     {
       "id": "ausrichtung",
       "label": "Senkrechte Ausrichtung",
-      "description": "Text oben, mittig, unten neben dem Medium.",
+      "description": "Text oben, mittig (Drupal-Vorgabe), unten neben dem Medium (rechts).",
       "matrix": {
         "axes": {
           "variante": [
@@ -257,7 +418,7 @@
     {
       "id": "mit-bild",
       "label": "Mit Bild statt Gerät",
-      "description": "Flächiges Bild im Medienbereich (4:3, Mindesthöhe) statt des Geräterahmens.",
+      "description": "Flaechiges Bild statt Geraet, wie auf der Website mit Rahmen frame: Medienbereich .nc-media-frame.nc-shot mit img.nc-shot__img (4:3, Mindesthoehe), Medium links.",
       "matrix": {
         "axes": {
           "variante": [

@@ -48,7 +48,7 @@ const wurzelSel = (id) => WURZEL_SEL[id] || `.nc-${id}`
 const MIT_BEHAVIOR = ['chapter-nav', 'expanding-panels', 'feature-accordion']
 const MIT_AUSPROBIEREN = ['faq', 'feature-accordion'].filter((id) => !MIT_BEHAVIOR.includes(id))
 const MIT_ABSPIELEN = ['bento-grid']
-const ENTWURF = ['feature-list']
+const ENTWURF = []
 
 function zellen (id, specimenId, optionen) {
   const recipe = normalisiereRecipe(rohesRecipe(id))

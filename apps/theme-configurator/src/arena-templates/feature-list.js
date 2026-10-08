@@ -3,12 +3,18 @@
 // mit Medium immer alle drei Klassen: --with-media, --media-<links|rechts>
 // und --valign-<oben|mitte|unten>; ohne Medium keine davon. Jede variante
 // ausser default zeigt deshalb das Geraet und ergaenzt die fehlenden
-// Klassen mit den Drupal-Vorgaben (media-left, valign-top). Die Punkte baut
-// Drupal per JS (neo-theme.js) — gleiches Markup wie hier.
+// Klassen mit den Drupal-Vorgaben (media-right, valign-middle — Freigabe,
+// Abschluss Plan v3, 08.10.2026; vorher stand hier links/oben);
+// render.valign setzt die Ausrichtung fuer das Specimen default wie auf
+// /produkte/app (top). Die Punkte baut Drupal per JS (neo-theme.js) —
+// gleiches Markup wie hier.
 //
 // render.medium (Plan v3, Phase 4): 'geraet' (Standard, wie auf der Website:
 // .nc-feature-list__media--device mit .nc-device) oder 'bild' (flaechiges
-// Bild im Medienbereich, 4:3 mit Mindesthoehe).
+// Bild im Medienbereich, 4:3 mit Mindesthoehe) — wie auf der Website mit
+// Rahmen frame (.nc-media-frame) und als nc-shot: NeoBehaviors.shotAufbauen
+// macht den Medienbereich selbst zu .nc-shot[data-nc-shot] mit
+// img.nc-shot__img.
 import { BILD_SRC, HAKEN_KREIS } from './_helfer.js'
 import { vorgabe, SCREEN_SRC, desktop } from './_bloecke-1.js'
 
@@ -25,8 +31,8 @@ const vorlage = (zelle, m) => {
   const klassen = [...m.klassen]
   if (medium) {
     for (const k of ['nc-feature-list--with-media',
-      v === 'media-right' ? 'nc-feature-list--media-right' : 'nc-feature-list--media-left',
-      v.startsWith('valign-') ? `nc-feature-list--${v}` : 'nc-feature-list--valign-top']) {
+      v === 'media-left' ? 'nc-feature-list--media-left' : 'nc-feature-list--media-right',
+      `nc-feature-list--${v.startsWith('valign-') ? v : `valign-${vorgabe(m, 'valign', 'middle')}`}`]) {
       if (!klassen.includes(k)) klassen.push(k)
     }
   }
@@ -34,7 +40,7 @@ const vorlage = (zelle, m) => {
 <section class="nc-section ${klassen.join(' ')}"${m.attrs}>
 <div class="nc-container nc-feature-list__inner">
 ${medium ? (vorgabe(m, 'medium', 'geraet') === 'bild'
-    ? `<div class="nc-feature-list__media"><img src="${BILD_SRC}" alt="Anmeldemaske" loading="lazy" decoding="async"></div>`
+    ? `<div class="nc-feature-list__media nc-media-frame nc-shot" data-nc-shot="none"><img src="${BILD_SRC}" alt="Anmeldemaske" loading="lazy" decoding="async" class="nc-shot__img"></div>`
     : `<div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="${SCREEN_SRC}" alt="Login" loading="lazy" decoding="async"></div></div></div>`) : ''}
 <div class="nc-feature-list__content">
 <div class="nc-section-header nc-section-header--flush">

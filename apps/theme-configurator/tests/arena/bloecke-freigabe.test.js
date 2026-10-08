@@ -146,6 +146,34 @@ const BAUTEILE = {
       'ohne-bild': ['article.nc-news > header.nc-news__hero:not(.nc-news__hero--has-media):not(.neo-dark-theme) > .nc-news__hero-inner:first-child']
     },
     ohneArena: { default: ['.nc-news__hero-inner.nc-container', '.nc-news__body.nc-container'], 'ohne-bild': ['.nc-news__hero-media', '.nc-news__hero-overlay'] }
+  },
+  'feature-list': {
+    namensraum: /^nc-feature-list(__|--|$)/,
+    website: [
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Vorgaben: Medium rechts, Text mittig, Rahmen frame) mit neoFeatureMedia/shotAufbauen und neoFeatureList',
+        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-media-frame nc-shot" data-fl-media data-fl-media-init="1" data-nc-shot="none"><img src="x.jpg" alt="Bild" class="nc-shot__img"></div><div class="nc-feature-list__content"><div class="nc-section-header nc-section-header--flush"><h2 class="nc-section-header__title">T</h2></div><div class="nc-feature-list__text"><p>Text</p></div><div class="nc-feature-list__items-host" data-feature-list data-feature-list-init="1"><ul class="nc-feature-list__items"><li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg aria-hidden="true"></svg></span><span class="nc-feature-list__item-text">Punkt</span></li></ul></div><script type="application/json" data-feature-list-items>[]</script><div class="nc-feature-list__cta"><a class="nc-button nc-button--accent nc-button--lg" href="/x"><span>Mehr</span></a></div></div></div></section>'
+      },
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Geraeterahmen, Medium links, Video-Fassung nicht gezeigt)',
+        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-left nc-feature-list--valign-top"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="x.png" alt="Login" width="800" height="1740"></div></div></div><div class="nc-feature-list__content"><div class="nc-feature-list__items-host" data-feature-list></div></div></div></section>'
+      },
+      {
+        quelle: 'neo_fe/js/neo-theme.js, neoFeatureMedia (Video-Datei)',
+        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-media-frame" data-fl-media data-fl-video="x.mp4"><video src="x.mp4" controls playsinline class="nc-feature-list__video"></video></div><div class="nc-feature-list__content"></div></div></section>'
+      },
+      {
+        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (ohne Medium)',
+        markup: '<section class="nc-section nc-feature-list"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__content"><div class="nc-feature-list__items-host" data-feature-list></div></div></div></section>'
+      }
+    ],
+    arena: {
+      default: ['section.nc-section.nc-feature-list.nc-feature-list--with-media.nc-feature-list--media-right.nc-feature-list--valign-top > .nc-container.nc-feature-list__inner > .nc-feature-list__media.nc-feature-list__media--device + .nc-feature-list__content', '.nc-feature-list__media--device > .nc-device > .nc-device__screen > img'],
+      'mit-bild': ['.nc-feature-list--valign-middle .nc-feature-list__media.nc-media-frame.nc-shot[data-nc-shot="none"] > img.nc-shot__img[alt]'],
+      medienlage: ['.nc-feature-list--media-left.nc-feature-list--valign-middle', '.nc-feature-list--media-right.nc-feature-list--valign-middle'],
+      'ohne-medium': ['section.nc-feature-list:not(.nc-feature-list--with-media) > .nc-feature-list__inner > .nc-feature-list__content:first-child > .nc-feature-list__items-host > ul.nc-feature-list__items > li.nc-feature-list__item > .nc-feature-list__icon + .nc-feature-list__item-text']
+    },
+    ohneArena: { 'mit-bild': ['.nc-feature-list__media--device'], 'ohne-medium': ['.nc-feature-list__media'] }
   }
 }
 
@@ -160,6 +188,7 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
         expect(istEntwurf(id)).toBe(false)
         expect(r.$schema).toBe('./recipe-schema.json')
         expect(r.meta.layer).toMatch(/^(molecule|organism)$/)
+        for (const k of r.komposition || []) expect(rohesRecipe(k.recipe), k.recipe).toBeTruthy()
         for (const p of r.meta.pipeline.scss) expect(existsSync(resolve(WURZEL, p)), p).toBe(true)
         if (r.meta.pipeline.story) expect(existsSync(resolve(WURZEL, r.meta.pipeline.story)), r.meta.pipeline.story).toBe(true)
         expect(r.a11y.base.assertions.length).toBeGreaterThan(0)
@@ -168,6 +197,14 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
         expect(Object.keys(r.styling.tokenGroups).length).toBeGreaterThan(0)
         expect(r.anatomy.slots.every((s) => s.description), 'jeder Slot beschrieben').toBe(true)
       })
+
+      if (id === 'feature-list') {
+        it('Medienrahmen erklaert: media-frame und shot in komposition (Freigabe 08.10.2026)', () => {
+          const kinder = rohesRecipe(id).komposition.filter((k) => k.art === 'enthaelt').map((k) => k.recipe)
+          expect(kinder).toEqual(expect.arrayContaining(['media-frame', 'shot', 'device', 'section-header', 'container']))
+          expect(rohesRecipe(id).anatomy.slots.map((s) => s.element)).toContain('.nc-feature-list__media--device')
+        })
+      }
 
       it('SCSS -> Recipe: jede Klasse im Namensraum und jedes var(--nc-<id>-…) steht im Recipe', () => {
         const quelle = scss(id)
