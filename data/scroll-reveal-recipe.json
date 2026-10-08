@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "scroll-reveal",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "status": "draft",
     "type": "animation",
     "tags": [
@@ -14,9 +14,17 @@
     "links": {
       "figma": "",
       "storybook": "",
-      "docs": "/docs/scroll-reveal-docs"
+      "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.0.2",
+        "changes": [
+          "Geprueft (Abschluss Plan v3, 08.10.2026), NICHT freigegeben — Status bleibt draft: .nc-scroll-reveal ist weiterhin nicht gebaut (kein SCSS, kein Verhalten in packages/neo-behaviors, kein Twig oder Skript in neo_fe). Ein stable-Recipe saehe einsatzbereit aus; genau das sollte die Entscheidung vom 25.08.2026 verhindern. Entscheidungsfall im Bericht (bauen, stilllegen oder als Spezifikation stehen lassen).",
+          "Die Tokens (--nc-anim-fade-duration, --nc-anim-fade-easing, --nc-anim-stagger-delay) sind deklariert, werden aber von keiner Regel gelesen.",
+          "meta.links.docs geleert (die Seite /docs/scroll-reveal-docs gibt es nicht); Specimen-Layout single -> composition (Schema kennt nur row, grid, composition)."
+        ]
+      },
       {
         "version": "1.0.1",
         "changes": [
@@ -47,7 +55,8 @@
     "convenience": [],
     "domNotes": [
       "Staggered Fade-In via Intersection Observer.",
-      "Stand 25.08.2026: BESCHRIEBEN, NICHT GEBAUT. Es gibt weder eine SCSS-Datei noch eine Zeile CSS fuer .nc-scroll-reveal — die Wurzelklasse kommt im Stylesheet null Mal vor. Der Status lautete bis heute `stable`; das war eine Zusage, hinter der nichts stand. Bewusst behalten (Entscheidung 25.08.), weil das Recipe die Spezifikation fuer den spaeteren Bau ist — aber als `draft`, damit niemand es fuer einsatzbereit haelt."
+      "Stand 25.08.2026: BESCHRIEBEN, NICHT GEBAUT. Es gibt weder eine SCSS-Datei noch eine Zeile CSS fuer .nc-scroll-reveal — die Wurzelklasse kommt im Stylesheet null Mal vor. Der Status lautete bis heute `stable`; das war eine Zusage, hinter der nichts stand. Bewusst behalten (Entscheidung 25.08.), weil das Recipe die Spezifikation fuer den spaeteren Bau ist — aber als `draft`, damit niemand es fuer einsatzbereit haelt.",
+      "Pruefung 08.10.2026: weiterhin nicht gebaut, auf der Website ohne Verwendung. Gestaffeltes Einblenden gibt es auf der Website nur bauteilgebunden: .nc-card-grid[data-animation=\"reverse-domino\"] und .nc-bento-grid[data-animation=\"reveal\"] (IntersectionObserver in neo-theme.js setzt is-revealed, mit prefers-reduced-motion sofort) — beide in den Recipes card-grid und bento-grid."
     ]
   },
   "axes": {
@@ -160,7 +169,7 @@
       "focusTokenGroups": [
         "timing"
       ],
-      "layout": "single",
+      "layout": "composition",
       "render": {
         "compositionType": "scroll-reveal",
         "label": "scroll-reveal"

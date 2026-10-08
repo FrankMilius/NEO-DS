@@ -288,7 +288,7 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
 // einsatzbereit haelt). Geprueft am 08.10.2026 und NICHT freigegeben —
 // Entscheidungsfall im Bericht. Wer sie baut, stellt diesen Test um.
 describe('Abschluss Plan v3: scroll-expand und scroll-reveal geprueft, nicht freigegeben (nicht gebaut)', () => {
-  for (const id of ['scroll-expand']) {
+  for (const id of ['scroll-expand', 'scroll-reveal']) {
     it(`${id}: draft, Kennzeichen „Entwurf", keine Regel, Pruefung im Changelog, Schema-Form`, () => {
       const r = rohesRecipe(id)
       expect(r.meta.status).toBe('draft')
