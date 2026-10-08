@@ -1,5 +1,5 @@
 # section-header Component Spec
-> Version 1.1.0 | Status: draft | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `content`, `molecules`, `block-kopf`
 
@@ -14,10 +14,15 @@ Root element: `.nc-section-header`
 | subtitle | `.nc-section-header__subtitle` | No | Lead. |
 
 ### DOM Notes
-- Der geteilte Kopf der Website-Bloecke: neo_fe:block-header rendert Badges -> Kicker -> Headline -> Lead; rund 20 Bloecke binden ihn ein.
-- Die Badge-Zeile ist .nc-badge-row (05-atoms/_badge-row.scss, Hilfsklasse ohne eigenes Recipe) mit .nc-section-header__badges fuer den Abstand.
-- --flush nimmt den Abstand nach unten weg — fuer Flex-/Grid-Eltern mit eigenem gap (text-media, form-block, accordion-block, text-cta).
-- Hoechstbreite --fnd-prose-max-width (72ch); --center und --right richten auch die Badge-Zeile mit aus.
+- Der geteilte Kopf der Website-Bloecke: neo_fe:block-header rendert Badges -> Kicker -> Headline -> Lead; 20 Bloecke binden ihn ein (je block_content- und inline_block-Template). Sind alle Felder leer, rendert er nichts.
+- Drupal-Props: badges (Liste {label, color, style} aus neo_badges, bewusst nicht deklariert), kicker, headline, lead, heading_level (h1|h2|h3, Vorgabe h2 — kein Block der Website setzt einen anderen Wert), modifier (Zusatzklassen).
+- embed-Slots fuer Zusatzinhalt innerhalb des Kopfs: before_kicker, after_kicker, after_lead. Auf der Website nutzt nur solution-tabs after_lead (Trust-Badges).
+- Die Badge-Zeile ist .nc-badge-row (neo_fe:badge-row, 05-atoms/_badge-row.scss, Hilfsklasse ohne eigenes Recipe) mit .nc-section-header__badges fuer den Abstand; die Badges sind .nc-label mit Farbe und Stil aus der Freigabeliste (success, warning, danger, info, accent, interactive, inverse; solid, outline, pill).
+- Modifier auf der Website: --flush in accordion, block-bundle, feature-list, form, text-cta, text-media (Eltern mit eigenem gap); --center in card-grid-cta, fade-gallery, logo-wall, product-showcase, story-gallery, table; tab-nav und timeline setzen --center/--right aus ihrem Ausrichtungsfeld. Ohne Modifier: bento-grid, card-grid, device-scroll, doc-section, expanding-panels, solution-tabs, testimonial-grid.
+- Hoechstbreite --fnd-prose-max-width (72ch); --center zentriert den Kasten (margin-inline auto), --right rueckt ihn nach rechts; beide richten auch die Badge-Zeile mit aus.
+- Kicker-Satz: Groesse, Sperrung und Versalien ueber --nc-section-header-label-* (zeigen auf --nc-kicker-*), die Schriftfamilie liest das SCSS direkt aus --nc-kicker-font-family (Mono); das Gewicht setzt --nc-section-header-label-font-weight mit 800 eigenstaendig (nicht ueber --nc-kicker-font-weight).
+- Farben in Theme-Bereichen (.neo-/.customer-light-theme, .neo-/.customer-dark-theme, Drupal: field_surface am Block-Wrapper) neu gebunden: Titel text-primary, Lead --nc-block-lead-color, Kicker hell neutral-800, dunkel text-secondary (auch seitenweit dunkel per prefers-color-scheme ohne data-theme).
+- Lokale Ueberschreibungen ausserhalb des Recipes: .nc-text-media--dark-bg (Titel und Lead hell auf Medienflaeche), .nc-solution-tabs-section (Titel, Kicker, Lead aus --nc-solution-tabs-*). app-store setzt __title/__subtitle ohne block-header.
 
 ## Variants
 ### Ausrichtung (`alignment`)
@@ -78,6 +83,11 @@ Base classes: `nc-section-header`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- Genau eine Ueberschrift je Block (.nc-section-header__title); Ebene ueber heading_level passend zur Gliederung der Seite, auf der Website h2.
+- Der Kicker ist ein <span> vor der Ueberschrift, keine Ueberschrift und nicht Teil davon; Badges sind <span>, keine Bedienelemente.
+- DOM-Reihenfolge = Lesereihenfolge (Badges, Kicker, Titel, Lead); die Ausrichtung aendert sie nicht.
+- Kontrast AA in hell und dunkel: Kicker hell neutral-800 (8,95:1), dunkel text-secondary (>= 6,4:1); Titel und Lead binden in Theme-Bereichen neu.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-section-header>` custom element:

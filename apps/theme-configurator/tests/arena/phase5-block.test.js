@@ -141,6 +141,7 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
         expect(anlage.version).toBe('1.0.0')
         expect(anlage.changes.join(' ')).toMatch(/Plan v3, Phase 5/)
         expect(meta.changelog[0].version).toBe(meta.version)
+        if (!entwurf) expect(meta.changelog[0].changes[0]).toMatch(/^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/)
         expect(istEntwurf(id)).toBe(entwurf)
         const eintrag = navEintraege().find((e) => e.section === `component-${id}`)
         expect(eintrag, `component-${id} in der Navigation`).toBeTruthy()
