@@ -1,5 +1,5 @@
 # event Component Spec
-> Version 1.4.1 | Status: stable | Layer: organism
+> Version 1.4.2 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -30,7 +30,7 @@ Root element: `.nc-event`
 | info-cta | `.nc-event__info-cta` | No | Knopf der Infokarte (nc-button--accent, volle Breite), nur mit CTA-Text. |
 | section-title | `.nc-event__section-title` | No | Abschnittstitel (<h2>) von Agenda und weiteren Events, heading-l bold. |
 | agenda | `.nc-event__agenda` | No | Abschnitt 3 (nur mit field_event_agenda): formatierter Text (u-prose, max. 800 px) in nc-section nc-section--muted. |
-| related-grid | `.nc-event__related-grid` | No | Abschnitt 4 (nur mit Treffern: bis zu drei Events desselben Typs): Raster auto-fill, Spur mindestens 300 px. |
+| related-grid | `.nc-event__related-grid` | No | Abschnitt 4 (nur mit Treffern: bis zu drei Events desselben Typs): Raster auto-fill, Spur mindestens 300 px, hoechstens die Rasterbreite. |
 | related-card | `.nc-event__related-card` | No | Karte eines weiteren Events: a.nc-card.nc-card--navigational mit Kicker (Typ), h3, Datum und Fusszeile „Mehr erfahren"; Rahmen border-secondary. |
 
 ### DOM Notes

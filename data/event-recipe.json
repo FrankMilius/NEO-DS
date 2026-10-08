@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "event",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.4.2",
+        "changes": [
+          "Raster mit Spur minmax(min(300px, 100%), 1fr) statt minmax(300px, 1fr): unter 332 px Fensterbreite ragte die Karte bis zu 12 px in den rechten Rand. Ab 300 px Rasterbreite pixelgleich. Website-sichtbar (nur sehr schmale Fenster), Freigabe ausstehend."
+        ]
+      },
       {
         "version": "1.4.1",
         "changes": [
@@ -216,7 +222,7 @@
         "name": "related-grid",
         "element": ".nc-event__related-grid",
         "optional": true,
-        "description": "Abschnitt 4 (nur mit Treffern: bis zu drei Events desselben Typs): Raster auto-fill, Spur mindestens 300 px."
+        "description": "Abschnitt 4 (nur mit Treffern: bis zu drei Events desselben Typs): Raster auto-fill, Spur mindestens 300 px, hoechstens die Rasterbreite."
       },
       {
         "name": "related-card",

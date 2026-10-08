@@ -310,3 +310,12 @@ describe('event: Outline-Knopf im Hero mit den Farben des Heros (Abschluss Plan 
     expect(c.match(/--mod-button-outline-color: ?var\(--fnd-color-always-light\)/g)).toHaveLength(1)
   })
 })
+
+describe('event / events: Kartenraster ohne Ueberlauf (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
+  it('Spur hoechstens so breit wie das Raster', () => {
+    const c = css()
+    for (const sel of ['nc-event__related-grid', 'nc-events__grid']) {
+      expect(c, sel).toMatch(new RegExp(`\\.${sel}\\{display:grid;grid-template-columns:repeat\\(auto-fill, ?minmax\\(min\\(300px, ?100%\\), ?1fr\\)\\)`))
+    }
+  })
+})

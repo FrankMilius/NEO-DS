@@ -202,9 +202,13 @@
   max-width: 800px;
 }
 
+// Spur mindestens 300 px — aber nie breiter als das Raster: unter 332 px
+// Fensterbreite (300 px plus Container-Polsterung) ragte die Karte sonst
+// bis zu 12 px in den rechten Rand (Abschluss Plan v3, 08.10.2026,
+// Freigabe ausstehend). Ab 300 px Rasterbreite unveraendert.
 .nc-event__related-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: var(--fnd-spacing-05);
 }
 

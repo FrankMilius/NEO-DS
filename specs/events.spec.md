@@ -1,5 +1,5 @@
 # events Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.2.1 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -15,7 +15,7 @@ Root element: `.nc-events`
 | search-input | `.nc-events__search-input` | Yes | <input type="search" data-events-search>, 44 px hoch, Platzhalter „Events durchsuchen…"; Fokus: Rahmen interactive-focus plus 2-px-Schein. |
 | filter-select | `.nc-events__filter-select` | Yes | <select data-events-filter="type|category|year">, 44 px hoch, mindestens 160 px; Optionen fuellt das Skript. |
 | results-count | `.nc-events__results-count` | Yes | Trefferzahl („N Events gefunden"), body-s, text-tertiary; Text setzt das Skript. |
-| grid | `.nc-events__grid` | Yes | Raster der Karten (data-events-grid): auto-fill, Spur mindestens 300 px, gap spacing-05. |
+| grid | `.nc-events__grid` | Yes | Raster der Karten (data-events-grid): auto-fill, Spur mindestens 300 px (hoechstens die Rasterbreite), gap spacing-05. |
 | card | `.nc-events__card` | No | Karte, vom Skript gebaut: <a href> (ganze Karte ist der Link), Rahmen border-secondary, Radius md; Hover: Schatten sm, Rahmen border-primary, 2 px angehoben. |
 | card-header | `.nc-events__card-header` | No | Kopf der Karte (waechst): Typ, Titel, ggf. Untertitel, Meta. |
 | card-type | `.nc-events__card-type` | No | Gattung (Taxonomie-Name, solange er nicht geladen ist die Term-ID): caption, Versalien, interactive-default. Das Skript setzt das <span> immer, auch leer. |
