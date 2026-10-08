@@ -15,7 +15,7 @@
 // Zustaende scrolled/hidden: .is-scrolled bzw. .is-hidden am Header (setzt in
 // Drupal das Scroll-Skript). Der versteckte Header schiebt sich aus seinem
 // Rahmen (ra-kopf) — die Zelle zeigt den leeren Rahmen, wie die Seite.
-// emphasis=transparent liegt auf einem dunklen Arena-Grund (ra-kulisse),
+// emphasis=transparent liegt auf einem mittelgrauen Arena-Grund (ra-kulisse),
 // sonst stuende Weiss auf Weiss.
 //
 // Hinweis: Liste, Aktionen und Burger schaltet das DS ueber die Breite des

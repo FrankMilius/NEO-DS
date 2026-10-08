@@ -6,7 +6,7 @@
 // .square (Doku: <span class="adaptive-square">). Die Vorlage setzt deshalb
 // genau eine Variantenklasse; data-recipe-wurzel markiert sie als Wurzel
 // dieses Recipes. size per square-s/-l (an jeder Variante).
-// white: weisses Quadrat — der Rahmen ra-kulisse gibt ihm den dunklen Grund.
+// white: weisses Quadrat — der Rahmen ra-kulisse gibt ihm den mittelgrauen Grund.
 // render.compositionType „legende": Legende wie in der Doku (Aktiv, Inaktiv,
 // Live); „liste": Aufzaehlung untereinander.
 const VARIANTE = {

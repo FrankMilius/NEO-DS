@@ -491,17 +491,23 @@ onBeforeUnmount(() => {
 .ra-live-component .ra-tabelle { border-collapse: collapse; min-width: 240px; }
 .ra-live-component .ra-tabelle :is(th, td) { padding: 8px 12px; border: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 25%, transparent); }
 
-/* ra-kulisse: dunkler Grund fuer Bauteile, die ueber Bildern liegen
-   (Kopfzeile transparent, Toolbar blurred) — sonst Weiss auf Weiss. */
+/* ra-kulisse: mittelgrauer Grund fuer Bauteile, die ueber Bildern liegen
+   (Kopfzeile transparent, Toolbar blurred, square white) — sonst Weiss auf
+   Weiss. Bis 08.10.2026 background-inverse: im Hellen fast Schwarz (dunkle
+   Flaechen verschwammen), im Dunkeln fast Weiss (weisse Schrift unsichtbar).
+   neutral-600 ist themenunabhaengig die Mitte (Standardpalette #727572):
+   Weiss 4,66:1, Schwarz 4,50:1, dunkle Flaeche #1a1a1a 3,73:1 — helle und
+   dunkle Bauteile bleiben in beiden Modi unterscheidbar. */
 .ra-live-component .ra-kulisse {
   padding: 16px;
   border-radius: 6px;
-  background: var(--fnd-color-background-inverse);
+  background: var(--fnd-neutral-600);
 }
 .ra-live-component .ra-kopf.ra-kulisse { padding: 0; }
-/* ra-kulisse--invers: dazu die inverse Schriftfarbe — fuer Text, der selbst
-   keine Farbe setzt (square white: weisser Marker vor Fliesstext). */
-.ra-live-component .ra-kulisse--invers { display: inline-block; color: var(--fnd-color-text-inverse); }
+/* ra-kulisse--invers: dazu helle Schrift (always-light, in beiden Modi wie
+   der weisse Marker) — fuer Text, der selbst keine Farbe setzt (square
+   white: weisser Marker vor Fliesstext). */
+.ra-live-component .ra-kulisse--invers { display: inline-block; color: var(--fnd-color-always-light); }
 
 /* ra-spalte: die Sidebar ist im DS 100 % hoch (Footer per margin-top:auto
    unten) — der Rahmen gibt ihr eine Hoehe. */
