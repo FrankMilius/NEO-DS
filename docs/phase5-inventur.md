@@ -33,13 +33,25 @@ Drupal-Theme rendert die Klasse.
 | block-bundle | Organism | `.nc-block-bundle` | Website: Block `neo_block_bundle` | Website-Block (Kopf + gestapelte Blöcke) |
 | reference-page | Organism | `.nc-refpage` | Website: `node--reference-page`, Block `neo_doc_section`, `neo-theme.js` (Scroll-Spy) | Referenzseite mit Verzeichnis; `.nc-doc-section` ist ihr Abschnitt |
 | text-cta | Organism | `.nc-text-cta` | Website: Block `neo_text_cta` | Website-Block (Text + CTA-Karte) |
-| dashboard | Template | `.t-dashboard` | Doku `template-dashboard`, Story | Template (im SCSS als „DEPRECATED" zugunsten der Shell-Presets markiert) |
-| error-page | Template | `.t-error` | Doku `template-error-page`, Story | Template (DEPRECATED, s. o.) |
-| home-basic | Template | `.t-home-basic` | Doku `template-home-basic`, Story | Template (DEPRECATED, s. o.) |
-| home-hero | Template | `.t-home-hero` | Doku `template-home-hero`, Story | Template (DEPRECATED, s. o.) |
-| settings-page | Template | `.t-settings` | Doku `template-settings-page`, Story | Template (DEPRECATED, s. o.) |
+| dashboard | Template | `.t-dashboard` | Doku `template-dashboard`, Story | Template (im SCSS als „DEPRECATED" zugunsten der Shell-Presets markiert) — **stillgelegt 08.10.2026**, Ersatz `data-layout="dashboard"` |
+| error-page | Template | `.t-error` | Doku `template-error-page`, Story | Template (DEPRECATED, s. o.) — **stillgelegt 08.10.2026**, Ersatz `data-layout="focused"` |
+| home-basic | Template | `.t-home-basic` | Doku `template-home-basic`, Story | Template (DEPRECATED, s. o.) — **stillgelegt 08.10.2026**, Ersatz `data-layout="landing"` |
+| home-hero | Template | `.t-home-hero` | Doku `template-home-hero`, Story | Template (DEPRECATED, s. o.) — **stillgelegt 08.10.2026**, Ersatz `data-layout="landing"` |
+| settings-page | Template | `.t-settings` | Doku `template-settings-page`, Story | Template (DEPRECATED, s. o.) — **stillgelegt 08.10.2026**, Ersatz `data-layout="settings"` |
 
 Alle neuen Recipes stehen auf `meta.status: "draft"` (Kennzeichen „Entwurf"). Die Templates mit Recipe erscheinen in der Navigation als Komponenten-Sektion (RecipeArena) statt als Wireframe-Platzhalter.
+
+**Stillgelegt am 08.10.2026 (Entscheidung Frank), ohne Website-Wirkung:**
+die fünf Templates `dashboard`, `error-page`, `home-basic`, `home-hero` und
+`settings-page` — wie am 07.10.2026 `content-page` und `form-page`. Entfernt:
+SCSS-Partials (und die nur von home-hero genutzten Keyframes `skip-button`),
+Recipes, Specs, Arena-Vorlagen, Doku-Seiten `template-*`, Story-Einträge
+(die Story „Templates/Page Layouts“ zeigt jetzt die Shell-Presets),
+Konfigurator-Sektionen und Registry-Einträge. Ersatz sind die Shell-Presets
+`data-layout="dashboard"`, `"settings"`, `"focused"` und `"landing"`. Weder
+`website/` noch das Drupal-Theme `neo_fe` (Twig, JS) verwenden die Klassen.
+`styles.css` 1244,4 → 1228,7 KB (gzip 147,4 → 145,3 KB). Von (a) bleiben
+damit neun Recipes.
 
 ## (b) Kein Recipe — 21 (+ `09-pages`)
 

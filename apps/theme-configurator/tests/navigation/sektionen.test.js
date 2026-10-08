@@ -86,8 +86,8 @@ describe('Registry', () => {
   })
 
   it('Template- und Modul-Sektionen: Magazin im Labor, Platzhalter im Inspector', () => {
-    expect(sektionAufloesen('template-dashboard').inspector[0].props).toEqual({ templateId: 'dashboard' })
+    expect(sektionAufloesen('template-content-templates').inspector[0].props).toEqual({ templateId: 'content-templates' })
     expect(sektionAufloesen('module-header').inspector[0].props).toEqual({ moduleId: 'header' })
-    expect(sektionAufloesen('template-dashboard').labor).toBe(LABOR.magazin)
+    expect(sektionAufloesen('template-content-templates').labor).toBe(LABOR.magazin)
   })
 })

@@ -25349,43 +25349,6 @@ export const navigationTree = [
     ]
   },
   {
-    "id": "templates",
-    "label": "Templates",
-    "icon": "template",
-    "children": [
-      {
-        "id": "home-hero",
-        "label": "Home Hero",
-        "icon": "photo",
-        "section": "template-home-hero"
-      },
-      {
-        "id": "home-basic",
-        "label": "Home Basic",
-        "icon": "home",
-        "section": "template-home-basic"
-      },
-      {
-        "id": "dashboard",
-        "label": "Dashboard",
-        "icon": "dashboard",
-        "section": "template-dashboard"
-      },
-      {
-        "id": "settings-page",
-        "label": "Settings Page",
-        "icon": "settings",
-        "section": "template-settings"
-      },
-      {
-        "id": "error-page",
-        "label": "Error Page",
-        "icon": "alert-triangle",
-        "section": "template-error"
-      }
-    ]
-  },
-  {
     "id": "utilities",
     "label": "Utilities",
     "icon": "tool",

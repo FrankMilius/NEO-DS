@@ -3,30 +3,24 @@
 // ==========================================================================
 // Barrel-Export fuer Template-Komponenten.
 //
-// MIGRATION: Die bisherigen .t-* Templates werden schrittweise durch das
-// Shell-System (_shell.scss) mit data-layout-Presets ersetzt.
+// MIGRATION abgeschlossen: Die bisherigen .t-* Templates sind durch das
+// Shell-System (_shell.scss) mit data-layout-Presets ersetzt und stillgelegt
+// (content-page/form-page 07.10.2026, die uebrigen fuenf 08.10.2026).
 // Siehe _shell.scss fuer Architektur und Preset-Uebersicht.
 //
-// Mapping:
-//   .t-dashboard   → data-layout="dashboard"
+// Mapping (Ersatz der stillgelegten .t-* Templates):
+//   .t-dashboard   → data-layout="dashboard"     (Partial entfernt 08.10.2026)
 //   .t-content     → data-layout="content-page"  (Partial entfernt 07.10.2026)
 //   .t-form-page   → data-layout="focused"       (Partial entfernt 07.10.2026)
-//   .t-settings    → data-layout="settings"
-//   .t-error       → data-layout="focused"
-//   .home-hero     → data-layout="landing"
-//   .home-basic    → data-layout="landing"
+//   .t-settings    → data-layout="settings"      (Partial entfernt 08.10.2026)
+//   .t-error       → data-layout="focused"       (Partial entfernt 08.10.2026)
+//   .home-hero     → data-layout="landing"       (Partial entfernt 08.10.2026)
+//   .home-basic    → data-layout="landing"       (Partial entfernt 08.10.2026)
 //   .docs-layout   → data-layout="docs"  (in 09-pages/_docs.scss)
 // ==========================================================================
 
-// Shell & Scaffolding System (neu, ersetzt sukzessive die .t-* Templates)
+// Shell & Scaffolding System (ersetzt die stillgelegten .t-* Templates)
 @forward 'shell';
 
 // Content Templates (ct-* Patterns fuer den .nc-shell__content-body)
 @forward 'content-templates';
-
-// Legacy Templates (deprecated — Shell-Presets ersetzen diese)
-@forward 'home-hero';
-@forward 'home-basic';
-@forward 'dashboard';
-@forward 'settings-page';
-@forward 'error-page';

@@ -80,9 +80,8 @@ const COMPONENT_ICONS = {
   'scroll-expand': 'arrows-maximize', 'scroll-reveal': 'eye',
   'psychedelic-bg': 'palette', 'parallax-bg': 'layers-intersect',
   // Templates
-  dashboard: 'dashboard', 'home-hero': 'photo',
-  'home-basic': 'home', 'settings-page': 'settings',
-  'error-page': 'alert-triangle',
+  // (dashboard, error-page, home-basic, home-hero, settings-page am
+  // 08.10.2026 stillgelegt — Ersatz sind die Shell-Presets)
   'content-templates': 'article',
 }
 

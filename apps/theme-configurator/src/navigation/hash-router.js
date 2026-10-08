@@ -6,7 +6,7 @@
 //   foundation-typography   →  #/foundation/typography
 //   component-button        →  #/component/button
 //   component-code-snippet  →  #/component/code-snippet
-//   template-dashboard      →  #/template/dashboard
+//   template-content-templates → #/template/content-templates
 //
 // Optional haengen Theme-Set und Vorschaumodus als Query am Hash, aber nur
 // wenn sie vom Standard abweichen (Set 'neo', Modus 'light'):

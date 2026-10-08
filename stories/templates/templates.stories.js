@@ -1,16 +1,16 @@
 // ============================================================
 // Templates — Page Layout Showcase
-// Alle 6 Seiten-Templates als Wireframe-Vorschau
-// (content-page und form-page am 07.10.2026 stillgelegt -> Shell-Presets
-// data-layout="content-page" bzw. "focused")
+// Shell-Presets (data-layout) als Wireframe-Vorschau. Die .t-* Seitenvorlagen
+// sind stillgelegt: content-page/form-page am 07.10.2026, dashboard,
+// settings-page, error-page, home-hero und home-basic am 08.10.2026.
 // ============================================================
 
 const TEMPLATES = [
   {
     id: 'dashboard',
     name: 'Dashboard',
-    class: 't-dashboard',
-    desc: 'App-Layout mit Sidebar, Metric-Cards und Content-Bereich.',
+    class: 'nc-shell — body[data-layout="dashboard"]',
+    desc: 'App-Layout mit Sidebar, Metric-Cards und Content-Bereich (ersetzt .t-dashboard).',
     layout: `
       <div style="display:grid;grid-template-columns:80px 1fr;grid-template-rows:40px 1fr;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
         <div style="grid-column:1/-1;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Header</div>
@@ -24,10 +24,10 @@ const TEMPLATES = [
       </div>`,
   },
   {
-    id: 'home-hero',
-    name: 'Home Hero',
-    class: 't-home-hero',
-    desc: 'Landing Page mit Hero-Bereich und Content-Sektionen.',
+    id: 'landing',
+    name: 'Landing',
+    class: 'nc-shell — body[data-layout="landing"]',
+    desc: 'Landing Page mit Hero-Bereich und Content-Sektionen (ersetzt .home-hero und .home-basic).',
     layout: `
       <div style="display:flex;flex-direction:column;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
         <div style="height:40px;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Navigation</div>
@@ -40,27 +40,10 @@ const TEMPLATES = [
       </div>`,
   },
   {
-    id: 'home-basic',
-    name: 'Home Basic',
-    class: 't-home-basic',
-    desc: 'Einfache Landing Page ohne Hero.',
-    layout: `
-      <div style="display:flex;flex-direction:column;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
-        <div style="height:40px;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Navigation</div>
-        <div style="flex:1;padding:16px;display:flex;flex-direction:column;gap:12px">
-          <div style="height:24px;width:50%;background:var(--fnd-color-text-primary);border-radius:2px;opacity:0.15"></div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;flex:1">
-            <div style="background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-sm);border:1px solid var(--fnd-color-border-secondary)"></div>
-            <div style="background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-sm);border:1px solid var(--fnd-color-border-secondary)"></div>
-          </div>
-        </div>
-      </div>`,
-  },
-  {
-    id: 'settings-page',
-    name: 'Settings Page',
-    class: 't-settings-page',
-    desc: 'Einstellungsseite mit Navigations-Tabs und Form-Sektionen.',
+    id: 'settings',
+    name: 'Settings',
+    class: 'nc-shell — body[data-layout="settings"]',
+    desc: 'Einstellungsseite mit Navigation und Form-Sektionen (ersetzt .t-settings).',
     layout: `
       <div style="display:flex;flex-direction:column;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
         <div style="height:40px;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Header</div>
@@ -79,10 +62,10 @@ const TEMPLATES = [
       </div>`,
   },
   {
-    id: 'error-page',
-    name: 'Error Page',
-    class: 't-error-page',
-    desc: 'Fehlerseite (404, 500) mit zentrierter Nachricht.',
+    id: 'focused',
+    name: 'Focused',
+    class: 'nc-shell — body[data-layout="focused"]',
+    desc: 'Zentrierter, schmaler Inhalt — z. B. Fehlerseite (404, 500) oder Formular (ersetzt .t-error und .t-form-page).',
     layout: `
       <div style="display:flex;flex-direction:column;height:300px;border:1px solid var(--fnd-color-border-secondary);border-radius:var(--fnd-radius-md);overflow:hidden">
         <div style="height:40px;background:var(--fnd-color-layer-01);border-bottom:1px solid var(--fnd-color-border-secondary);display:flex;align-items:center;padding:0 12px;font-size:var(--fs-2xs);color:var(--fnd-color-text-secondary)">Header</div>
@@ -115,10 +98,10 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Page Templates** — 5 vordefinierte Seiten-Layouts + Shell-System.
-Artikel- und Formularseiten laufen ueber die Shell-Presets \`data-layout="content-page"\` bzw. \`data-layout="focused"\`.
+        component: `**Page Templates** — Seiten-Layouts als Presets des Shell-Systems (\`data-layout\`).
+Artikelseiten laufen ueber \`data-layout="content-page"\`.
 Templates definieren die Grundstruktur einer Seite (Grid, Bereiche, Proportionen).
-Migration: \`.t-*\` Klassen werden durch \`data-layout\` Presets auf dem Shell-System ersetzt.`,
+Die frueheren \`.t-*\` Seitenvorlagen sind stillgelegt (07./08.10.2026).`,
       },
     },
   },
@@ -138,11 +121,10 @@ function makeStory(tmpl) {
 }
 
 export const Dashboard = makeStory(TEMPLATES[0]);
-export const HomeHero = makeStory(TEMPLATES[1]);
-export const HomeBasic = makeStory(TEMPLATES[2]);
-export const SettingsPage = makeStory(TEMPLATES[3]);
-export const ErrorPage = makeStory(TEMPLATES[4]);
-export const Shell = makeStory(TEMPLATES[5]);
+export const Landing = makeStory(TEMPLATES[1]);
+export const Settings = makeStory(TEMPLATES[2]);
+export const Focused = makeStory(TEMPLATES[3]);
+export const Shell = makeStory(TEMPLATES[4]);
 
 export const AllTemplates = {
   name: 'All Templates Overview',
@@ -156,5 +138,5 @@ export const AllTemplates = {
       </div>
     `).join('')}
   </div>`,
-  parameters: { docs: { description: { story: 'Uebersicht aller 6 Seiten-Templates als Wireframe.' } } },
+  parameters: { docs: { description: { story: 'Uebersicht der Shell-Presets als Wireframe.' } } },
 };

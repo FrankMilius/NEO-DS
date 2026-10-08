@@ -263,10 +263,7 @@ const sectionMeta = {
   'module-header': { title: 'Header Module', desc: 'Navigation header layout and tokens.' },
   'module-sidebar': { title: 'Sidebar Module', desc: 'Sidebar navigation tokens.' },
   'module-card-group': { title: 'Card Groups', desc: 'Card group layout and grid tokens.' },
-  'template-hero': { title: 'Hero Template', desc: 'Full-width hero landing page template.' },
-  'template-dashboard': { title: 'Dashboard Template', desc: 'Multi-panel dashboard layout template.' },
-  'template-settings': { title: 'Settings Page Template', desc: 'Settings page with navigation template.' },
-  'template-error': { title: 'Error Page Template', desc: 'Error state page template.' }
+  'template-hero': { title: 'Hero Template', desc: 'Full-width hero landing page template.' }
 }
 
 const sectionTitle = computed(() => {

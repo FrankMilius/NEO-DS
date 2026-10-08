@@ -24,9 +24,7 @@
     'index', 'grid', 'color', 'spacing', 'typography', 'radii', 'border',
     'elements', 'icons', 'themes', 'shadow-elevation', 'opacity-zindex-motion',
     'utility-a11y', 'utility-visibility', 'component-matrix',
-    'architecture', 'recipe-status',
-    'home-hero', 'home-basic', 'dashboard',
-    'settings-page', 'error-page'
+    'architecture', 'recipe-status'
   ];
   if (NON_COMPONENT_SLUGS.indexOf(slug) !== -1) return;
 

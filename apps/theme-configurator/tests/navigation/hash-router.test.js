@@ -46,7 +46,7 @@ describe('Hash-Schema', () => {
     expect(routeZuHash({ sektion: 'foundation-typography' })).toBe('#/foundation/typography')
     expect(routeZuHash({ sektion: 'component-button' })).toBe('#/component/button')
     expect(routeZuHash({ sektion: 'component-code-snippet' })).toBe('#/component/code-snippet')
-    expect(routeZuHash({ sektion: 'template-dashboard' })).toBe('#/template/dashboard')
+    expect(routeZuHash({ sektion: 'template-content-templates' })).toBe('#/template/content-templates')
   })
 
   it('Set und Modus nur als Query, wenn nicht Standard', () => {

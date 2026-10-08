@@ -2,10 +2,11 @@
  * Plan v3, Phase 5: Recipes fuer die Bausteine ohne Recipe (Inventur:
  * docs/phase5-inventur.md). Neu sind vier Objects (container-intent,
  * content, media-frame, prose), ein Molekuel (section-header), vier
- * Website-Bloecke (accordion-block, block-bundle, reference-page, text-cta)
- * und fuenf Templates (dashboard, error-page, home-basic, home-hero,
- * settings-page; content-page und form-page sind stillgelegt —
- * Entscheidung Phase 5, 07.10.2026). Geprueft wird:
+ * Website-Bloecke (accordion-block, block-bundle, reference-page, text-cta).
+ * Die Templates sind stillgelegt, Ersatz sind die Shell-Presets
+ * (data-layout): content-page und form-page am 07.10.2026, dashboard,
+ * error-page, home-basic, home-hero und settings-page — in Phase 5 noch als
+ * Recipe-Entwurf angelegt — am 08.10.2026. Geprueft wird:
  *   - Recipe im Status draft, Version 1.0.0 mit Changelog der Phase 5,
  *     Kennzeichen „Entwurf" (recipe-entwuerfe.js) und Sektion in der
  *     Navigation (Templates mit Recipe zeigen die RecipeArena)
@@ -36,8 +37,15 @@ import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
 
 const OBJECTS = ['container-intent', 'content', 'media-frame', 'prose']
 const BAUTEILE = ['section-header', 'accordion-block', 'block-bundle', 'reference-page', 'text-cta']
-const TEMPLATES = ['dashboard', 'error-page', 'home-basic', 'home-hero', 'settings-page']
-const BLOCK = [...OBJECTS, ...BAUTEILE, ...TEMPLATES]
+// Stillgelegt (Entscheidung 08.10.2026) — kein SCSS, kein Recipe, keine Sektion mehr
+const STILLGELEGT = {
+  dashboard: { klasse: 't-dashboard', layout: 'dashboard' },
+  'error-page': { klasse: 't-error', layout: 'focused' },
+  'home-basic': { klasse: 't-home-basic', alt: 'home-basic', layout: 'landing' },
+  'home-hero': { klasse: 't-home-hero', alt: 'home-hero', layout: 'landing' },
+  'settings-page': { klasse: 't-settings', layout: 'settings' }
+}
+const BLOCK = [...OBJECTS, ...BAUTEILE]
 
 function zellen (id, optionen) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -235,11 +243,8 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     })
   }
 
-  it('Templates mit Recipe: Sektion component-<id> statt Platzhalter; ohne Recipe bleibt die Template-Sektion', () => {
+  it('content-templates bleibt Template-Sektion ohne Recipe', () => {
     const eintraege = navEintraege()
-    for (const id of TEMPLATES) {
-      expect(eintraege.some((e) => e.section === `template-${id}`), `template-${id}`).toBe(false)
-    }
     // content-templates: Teil der Shell, bleibt Template-Sektion ohne Recipe
     expect(eintraege.some((e) => e.section === 'template-content-templates')).toBe(true)
     expect(RECIPE_IDS).not.toContain('content-templates')
@@ -257,6 +262,27 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
       expect(eintraege.some((e) => e.id === id || e.section === `template-${id}`), id).toBe(false)
       expect(RECIPE_IDS).not.toContain(id)
     }
+  })
+
+  it('dashboard, error-page, home-basic, home-hero, settings-page sind stillgelegt (Entscheidung 08.10.2026): kein SCSS, keine Klassen, kein Recipe, keine Sektion — Ersatz sind die Shell-Presets', () => {
+    const k = dsKlassen()
+    const eintraege = navEintraege()
+    const index = readFileSync(resolve(WURZEL, 'scss/scss/08-templates/_index.scss'), 'utf8')
+    for (const [id, { klasse, alt, layout }] of Object.entries(STILLGELEGT)) {
+      expect(existsSync(resolve(WURZEL, 'scss/scss/08-templates', `_${id}.scss`)), id).toBe(false)
+      expect(index, id).not.toMatch(new RegExp(`@forward '${id}'`))
+      expect(k.has(klasse), klasse).toBe(false)
+      if (alt) expect(k.has(alt), alt).toBe(false)
+      expect(existsSync(resolve(WURZEL, `data/${id}-recipe.json`)), `${id}-recipe.json`).toBe(false)
+      expect(RECIPE_IDS).not.toContain(id)
+      expect(istEntwurf(id), id).toBe(false)
+      expect(vorlageFuer(id), id).toBeFalsy()
+      expect(eintraege.some((e) => e.id === id || e.section === `component-${id}` || e.section === `template-${id}`), id).toBe(false)
+      // Mapping-Kommentar nennt das Shell-Preset als Ersatz
+      expect(index, id).toMatch(new RegExp(`\\.${klasse.replace(/^t-home-/, 'home-')}\\s+→ data-layout="${layout}"`))
+    }
+    // Die Inhalts-Layouts der Shell (t-dashboard-overview) bleiben
+    expect(k.has('t-dashboard-overview')).toBe(true)
   })
 
   it('text-cta: Karte steht im DOM hinter dem Text, auch bei --card-left', () => {

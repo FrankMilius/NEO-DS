@@ -128,7 +128,7 @@ export function zeilenZuObjekt(zeilen = []) {
  *   Specimen composes): auch deren :root-Deklarationen werden neu gesetzt.
  *   Sonst blieben z. B. Karte und Button in der dunklen Vorschau eines
  *   Website-Blocks hell bzw. Schrift dunkel auf dunkler Flaeche (Plan v3,
- *   Phase 5: text-cta, error-page).
+ *   Phase 5: text-cta; error-page am 08.10.2026 stillgelegt).
  */
 export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [] }) {
   const set = state.activeThemeSet || 'neo'
