@@ -35,6 +35,11 @@
 //                dieses Scrollen nicht und blendet sich nicht ein oder aus —
 //                sonst schoebe sie die Leiste auf halber Strecke (wie
 //                neo_fe/js/neo-chapter-nav.js; nur auf dem Fenster).
+//                Das angesprungene Kapitel bleibt markiert, bis wieder
+//                gescrollt wird — nahe dem Seitenende erreicht ein Kapitel
+//                die Linie nicht, und weder „letztes ueber der Linie" noch
+//                „Seitenende" duerfen den Klick dann ueberstimmen (wie
+//                reference-page; Entscheidung Abschluss 2, 08.10.2026).
 //   Leiste       Der markierte Verweis wird in der quer scrollbaren Leiste
 //                sichtbar gehalten.
 //
@@ -105,8 +110,11 @@ export const chapterNav = {
 
     // Spy: letzter Abschnitt ueber der Linie
     let ruht = false
+    /** @type {string|null} angesprungen, bis wieder gescrollt wird */
+    let angesprungen = null
     function auswerten () {
       if (ruht) return
+      if (angesprungen) { markiere(angesprungen); return }
       const oben = obenKante()
       let treffer = null
       for (const k of kapitel) {
@@ -137,6 +145,7 @@ export const chapterNav = {
     }
     ;(scroller || ansicht).addEventListener('scroll', () => {
       if (ruht) { ruheBis(); return }
+      angesprungen = null
       if (laeuft) return
       laeuft = true
       ansicht.requestAnimationFrame(() => { laeuft = false; auswerten() })
@@ -160,6 +169,7 @@ export const chapterNav = {
       if (!k || e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
       e.preventDefault()
       markiere(k.id)
+      angesprungen = k.id
       ruht = true
       meldeSprung(true)
       ruheBis()

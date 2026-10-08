@@ -3549,8 +3549,13 @@
         else if (r.right > l.right) leiste.scrollLeft += r.right - l.right;
       }
       let ruht = false;
+      let angesprungen = null;
       function auswerten() {
         if (ruht) return;
+        if (angesprungen) {
+          markiere(angesprungen);
+          return;
+        }
         const oben = obenKante();
         let treffer = null;
         for (const k of kapitel) {
@@ -3589,6 +3594,7 @@
           ruheBis();
           return;
         }
+        angesprungen = null;
         if (laeuft) return;
         laeuft = true;
         ansicht.requestAnimationFrame(() => {
@@ -3620,6 +3626,7 @@
         if (!k || e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
         markiere(k.id);
+        angesprungen = k.id;
         ruht = true;
         meldeSprung(true);
         ruheBis();

@@ -458,6 +458,45 @@ describe('Kapitelnavigation (chapter-nav-recipe.json)', () => {
     }
   })
 
+  it('Klick nahe dem Seitenende: das angesprungene Kapitel bleibt markiert, bis wieder gescrollt wird (Entscheidung Abschluss 2, wie reference-page)', () => {
+    vi.useFakeTimers()
+    const { links, ziele } = bau({ kopf: 72 })
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((f) => { f(0); return 0 })
+    const scrollY = Object.getOwnPropertyDescriptor(window, 'scrollY')
+    const hoehe = Object.getOwnPropertyDescriptor(document.body, 'scrollHeight')
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 3000 })
+    try {
+      // vorletztes Kapitel: Sprung endet am Seitenende, „Vernetzung" erreicht
+      // die Linie (72 + 56 + 24 = 152) nicht — die Seitenende-Regel haette
+      // „Anwendungen" markiert
+      links[3].click()
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 3000 - window.innerHeight })
+      scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: 100, [ziele[3].id]: 250, [ziele[4].id]: 550 })
+      vi.advanceTimersByTime(200)
+      expect(aktuell(links)).toEqual(['Vernetzung'])
+      // naechstes Scrollen der Leserin: die Regeln gelten wieder
+      scrolle({})
+      expect(aktuell(links)).toEqual(['Anwendungen'])
+
+      // letztes Kapitel knapp vor dem Seitenende (Rest > 4 px): „letztes ueber
+      // der Linie" haette „Events" markiert
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 1000 })
+      scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: 40, [ziele[3].id]: 300, [ziele[4].id]: 600 })
+      expect(aktuell(links)).toEqual(['Events'])
+      links[4].click()
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 3000 - window.innerHeight - 20 })
+      scrolle({ [ziele[2].id]: 120, [ziele[3].id]: 300, [ziele[4].id]: 500 })
+      vi.advanceTimersByTime(200)
+      expect(aktuell(links)).toEqual(['Anwendungen'])
+      scrolle({})
+      expect(aktuell(links)).toEqual(['Events'])
+    } finally {
+      if (scrollY) Object.defineProperty(window, 'scrollY', scrollY); else delete window.scrollY
+      if (hoehe) Object.defineProperty(document.body, 'scrollHeight', hoehe); else delete document.body.scrollHeight
+    }
+  })
+
   it('prefers-reduced-motion: Sprung ohne Animation', () => {
     const { links } = bau()
     window.matchMedia = vi.fn().mockReturnValue({ matches: true })
