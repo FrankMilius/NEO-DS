@@ -344,6 +344,16 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     }
   })
 
+  it('reference-page: Scroll-Spy beschrieben, nicht migriert — Quelle neo-theme.js, keine keyboard/events, jedes Sprungziel mit id (Freigabe 08.10.2026)', () => {
+    const r = rohesRecipe('reference-page')
+    expect(r.meta.source.drupal).toMatch(/Drupal\.behaviors\.neoRefpageToc/)
+    expect(r.meta.source.behavior).toBeNull()
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/gehoert nach neo-behaviors/)
+    for (const z of zellen('reference-page')) {
+      for (const el of dom(z.html).querySelectorAll('.nc-refpage__section')) expect(el.id, z.specimen.id).toBeTruthy()
+    }
+  })
+
   it('block-bundle: __items optional wie in Drupal (nur mit referenzierten Bloecken); „Nur Kopf" ohne __items (Freigabe 08.10.2026)', () => {
     const items = rohesRecipe('block-bundle').anatomy.slots.find((s) => s.name === 'items')
     expect(items.optional).toBe(true)
