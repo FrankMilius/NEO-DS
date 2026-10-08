@@ -344,6 +344,17 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     }
   })
 
+  it('block-bundle: __items optional wie in Drupal (nur mit referenzierten Bloecken); „Nur Kopf" ohne __items (Freigabe 08.10.2026)', () => {
+    const items = rohesRecipe('block-bundle').anatomy.slots.find((s) => s.name === 'items')
+    expect(items.optional).toBe(true)
+    for (const z of zellen('block-bundle')) {
+      const d = dom(z.html)
+      const nurKopf = z.specimen.id === 'nur-kopf'
+      expect(!!d.querySelector('.nc-block-bundle__items'), z.specimen.id).toBe(!nurKopf)
+      if (nurKopf) expect(d.querySelector('.nc-container.nc-block-bundle__header .nc-section-header--flush .nc-section-header__title')).not.toBeNull()
+    }
+  })
+
   describe('Einordnung (b): Teile anderer Bauteile stehen in deren Anatomie', () => {
     const FAELLE = [
       ['hero', 'badges', '.nc-hero__badges'],

@@ -14,7 +14,6 @@
 // ==========================================================================
 
 export const ENTWUERFE = Object.freeze([
-  'block-bundle',
   'card-cta',
   'event',
   'events',

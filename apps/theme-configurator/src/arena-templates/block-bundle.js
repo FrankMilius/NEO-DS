@@ -4,7 +4,9 @@
 // Kopf (.nc-container.nc-block-bundle__header: neo_fe:block-header --flush,
 // Text mit .u-prose) und den gebuendelten Bloecken in __items. Die
 // Kind-Bloecke rendern in Drupal ihr eigenes Template — hier Platzhalter
-// (Arena-Inhalt), sie haben eigene Recipes. Rahmen ra-desktop.
+// (Arena-Inhalt), sie haben eigene Recipes. Ohne referenzierte Bloecke laesst
+// Drupal __items weg (Specimen „Nur Kopf": Kapitelueberschrift wie auf
+// node 49). Rahmen ra-desktop.
 import { slotAn } from './_bloecke-1.js'
 import { platzhalter } from './_layout.js'
 
@@ -18,9 +20,9 @@ ${slotAn(m, 'header') ? `<div class="nc-container nc-block-bundle__header">
 </div>
 ${slotAn(m, 'text') ? '<div class="nc-block-bundle__text u-prose"><p>Die folgenden Abschnitte bündeln, was Sie für die Entscheidung brauchen. Jeder Abschnitt steht auch für sich allein.</p></div>' : ''}
 </div>` : ''}
-<div class="nc-block-bundle__items">
+${slotAn(m, 'items') ? `<div class="nc-block-bundle__items">
 ${platzhalter('Gebündelter Block 1 (eigenes Template, z. B. text-media)', 'ra-platzhalter--hoch')}
 ${platzhalter('Gebündelter Block 2 (eigenes Template, z. B. card-grid)', 'ra-platzhalter--hoch')}
-</div>
+</div>` : ''}
 </section>
 </div>`

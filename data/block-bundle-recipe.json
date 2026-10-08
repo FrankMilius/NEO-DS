@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "block-bundle",
-    "version": "1.0.0",
-    "status": "draft",
+    "version": "1.1.0",
+    "status": "stable",
     "tags": [
       "content",
       "organisms",
@@ -16,6 +16,16 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen beide Drupal-Templates (block_content, inline_block — Volltext-Kopien), den Preprocess (bb_blocks) und 07-organisms/_block-bundle.scss geprueft. Korrigiert: der Slot items ist optional — Drupal rendert __items nur mit referenzierten Bloecken, und die Website nutzt das Buendel auch ohne (fuenf Buendel auf node 49 als Kapitelueberschrift). Neues Specimen „Nur Kopf\" dafuer; die Arena-Vorlage laesst __items dann weg wie Drupal.",
+          "domNotes: Felder, Bedingungen fuer Kopf und Liste, Abstaende (Kopf spacing-09 nach unten, zwischen den Kind-Bloecken spacing-04 zusaetzlich zu deren eigener .nc-section-Polsterung), Rohtext in __text.",
+          "a11y-Pruefpunkte statt Freitext; constraints: Kopf ohne Ueberschrift vermeiden.",
+          "pipeline: Arena (RecipeArena)."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -30,7 +40,7 @@
         "scss/scss/07-organisms/_block-bundle.scss"
       ],
       "story": null,
-      "arena": null,
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block/block--block-content--neo-block-bundle.html.twig",
         "block/block--inline-block--neo-block-bundle.html.twig"
@@ -47,25 +57,27 @@
         "name": "header",
         "element": ".nc-block-bundle__header",
         "optional": true,
-        "description": "Kopf (traegt .nc-container): neo_fe:block-header --flush, optional Text."
+        "description": "Kopf (traegt .nc-container, Spalte mit gap spacing-03): neo_fe:block-header --flush, optional Text. Nur, wenn Kicker, Ueberschrift, Lead oder Text gefuellt sind."
       },
       {
         "name": "text",
         "element": ".nc-block-bundle__text",
         "optional": true,
-        "description": "Fliesstext unter dem Kopf (mit .u-prose)."
+        "description": "Fliesstext unter dem Kopf (field_bb_text, Rich Text, mit .u-prose), Farbe text-secondary."
       },
       {
         "name": "items",
         "element": ".nc-block-bundle__items",
-        "optional": false,
-        "description": "Die gebuendelten Bloecke, jeder mit seinem eigenen Template."
+        "optional": true,
+        "description": "Die gebuendelten Bloecke (field_bb_blocks), jeder mit seinem eigenen Template; nur, wenn Bloecke referenziert sind."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Website-Block neo_block_bundle: <section class=\"nc-section nc-block-bundle\"> mit optionalem Kopf und den vorgerenderten Kind-Bloecken (bb_blocks).",
-      "Die Wurzel .nc-block-bundle hat keine eigene Regel; gestaltet sind Kopf (Spalte mit gap, Abstand nach unten), Text (text-secondary) und der Abstand zwischen den Kind-Bloecken.",
+      "Website-Block neo_block_bundle: <section class=\"nc-section nc-block-bundle\"> mit optionalem Kopf (.nc-container.nc-block-bundle__header) und optional den vorgerenderten Kind-Bloecken in __items. block_content- und inline_block-Template sind Volltext-Kopien.",
+      "Felder: field_bb_kicker, field_bb_headline, field_bb_lead (-> neo_fe:block-header --flush, Badges aus neo_badges), field_bb_text (-> __text, Rich Text mit |raw), field_bb_blocks (-> bb_blocks: neo_fe_preprocess_block rendert jeden referenzierten Block als Block-Plugin, damit sein neo_*-Template greift).",
+      "Ohne referenzierte Bloecke bleibt nur der Kopf: so stehen die fuenf Buendel auf node 49 als Kapitelueberschriften (Specimen „Nur Kopf\"). Der Abstand des Kopfs nach unten (spacing-09) bleibt dabei stehen.",
+      "Die Wurzel .nc-block-bundle hat keine eigene Regel; gestaltet sind Kopf (Spalte mit gap spacing-03, Abstand nach unten spacing-09), Text (text-secondary) und der Abstand zwischen den Kind-Bloecken (spacing-04). Die Kind-Bloecke bringen ihre eigene .nc-section mit Polsterung und ihren eigenen .nc-container mit; __items selbst hat keinen Container.",
       "Farbkontext (field_surface) und Inhaltsbreite (field_content_width) setzt Drupal am Block-Wrapper.",
       "Die Kind-Bloecke sind in der Arena Platzhalter — sie haben eigene Recipes."
     ]
@@ -97,13 +109,30 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
-      "note": "Der Kopf traegt die Ueberschrift des Buendels; die Kind-Bloecke bringen ihre eigene mit."
+      "assertions": [
+        "Der Kopf traegt die Ueberschrift des Buendels (h2); die Kind-Bloecke bringen ihre eigene mit, ebenfalls h2 — die Gliederung stellt sie neben den Buendel-Kopf, nicht darunter (heading_level von block-header reichen die Bloecke nicht durch).",
+        "DOM-Reihenfolge = Lesereihenfolge: Kopf, Text, Kind-Bloecke in der Reihenfolge von field_bb_blocks.",
+        "Kontrast AA: Text in text-secondary, in Theme-Bereichen am Element aufgeloest (hell 6,07:1, dunkel 8,34:1 gemessen)."
+      ],
+      "note": "Nicht interaktiv."
     },
     "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Kopf mit Ueberschrift fuellen, wenn der Text gefuellt ist — Kicker, Lead oder Text allein geben dem Buendel keinen Namen."
+        ]
+      },
+      {
+        "when": {},
+        "notes": [
+          "Ohne Kind-Bloecke ist das Buendel eine Kapitelueberschrift; fuer Kapitel mit Sprungziel ist field_nav_anchor an den Bloecken der Weg (Kapitelnavigation)."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {
@@ -168,7 +197,8 @@
       "render": {
         "slotConfig": {
           "header": true,
-          "text": true
+          "text": true,
+          "items": true
         }
       },
       "composes": [
@@ -195,7 +225,36 @@
       "render": {
         "slotConfig": {
           "header": false,
-          "text": false
+          "text": false,
+          "items": true
+        }
+      },
+      "composes": [
+        "section",
+        "container",
+        "section-header"
+      ]
+    },
+    {
+      "id": "nur-kopf",
+      "label": "Nur Kopf",
+      "description": "Ohne referenzierte Bloecke — so nutzt die Website das Buendel als Kapitelueberschrift (node 49).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "default"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "layout": "composition",
+      "render": {
+        "slotConfig": {
+          "header": true,
+          "text": false,
+          "items": false
         }
       },
       "composes": [
