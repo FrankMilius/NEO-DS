@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tbl-cell",
-    "version": "1.3.1",
+    "version": "1.4.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "Entscheidung Abschluss 3, 08.10.2026 (tabelle-bold, Freigabe ausstehend; abweichend von der Empfehlung): das JSON-Feld bold an einer Zelle wirkt jetzt — neoTable (neo_fe js/neo-theme.js, renderCell) setzt den Text von Wertzellen (td) in <strong> (Gewicht aus dem DS, 600); im Zeilenkopf (th[scope=row]) bleibt es ohne Wirkung, der ist ohnehin semibold. Untertitel und Info-Knopf unveraendert. Website-sichtbar: bestehende Wertzellen mit bold werden fett."
+        ]
+      },
       {
         "version": "1.3.1",
         "changes": [
@@ -78,7 +84,7 @@
         "name": "text",
         "element": ".nc-tbl-cell__text",
         "optional": false,
-        "description": "Text der Zelle (p, body-s, text-primary; im Zeilenkopf th[scope=row] semibold). Zeilenumbrueche aus dem Feld als <br>; traegt bei Zeilenkoepfen den Info-Knopf am Ende."
+        "description": "Text der Zelle (p, body-s, text-primary; im Zeilenkopf th[scope=row] semibold). Zeilenumbrueche aus dem Feld als <br>; mit bold im JSON steht der Text einer Wertzelle (td) in <strong>; traegt bei Zeilenkoepfen den Info-Knopf am Ende."
       },
       {
         "name": "info-btn",
@@ -108,8 +114,8 @@
     "convenience": [],
     "domNotes": [
       "Zelle der Vergleichstabelle (Tabellen-Block, Recipe table-block): div.nc-tbl-cell (flex, gap spacing-02) in th oder td — der Ort gestaltet sie: th[scope=row] (erste Spalte) links, umbrechend, Text semibold; td mittig. Ohne Tabelle hat die Zelle keine Ausrichtung (die Arena stellt jede Zelle in eine Tabelle, Rahmen ra-tabelle).",
-      "Aufbau nach neoTable (renderCell): nur Symbol -> .nc-tbl-cell--icon mit dem SVG direkt; Symbol und Text -> .nc-tbl-cell__icon-block + Text; Text -> p.nc-tbl-cell__text (Feldinhalt als HTML, \\n -> <br>); Untertitel -> p.nc-tbl-cell__sub; Info -> button.nc-tbl-cell__info-btn am Ende des Text-Absatzes, ohne Text direkt in der Zelle. Kurzformen im JSON: „✔\" = check, „–\" = dash.",
-      "Das Feld bold im JSON (in der Twig-Doku beschrieben) wertet neoTable nicht aus — fett ist der Zeilenkopf ohnehin (th[scope=row]).",
+      "Aufbau nach neoTable (renderCell): nur Symbol -> .nc-tbl-cell--icon mit dem SVG direkt; Symbol und Text -> .nc-tbl-cell__icon-block + Text; Text -> p.nc-tbl-cell__text (Feldinhalt als HTML, \\n -> <br>; in Wertzellen mit bold in <strong>); Untertitel -> p.nc-tbl-cell__sub; Info -> button.nc-tbl-cell__info-btn am Ende des Text-Absatzes, ohne Text direkt in der Zelle. Kurzformen im JSON: „✔\" = check, „–\" = dash.",
+      "Feld bold (JSON, an der Zelle: { \"text\": \"…\", \"bold\": true }): in Wertzellen (td, ab der zweiten Spalte) steht der Text in <strong> (p.nc-tbl-cell__text > strong, Info-Knopf danach im selben Absatz); im Zeilenkopf (th[scope=row]) ohne Wirkung — der ist ohnehin fett. Untertitel bleibt normal. Seit 1.4.0 (Entscheidung Abschluss 3, 08.10.2026); bis dahin wertete neoTable bold nicht aus. Ein bold an der Zeile ({ \"cells\": […], \"bold\": true }) wertet neoTable nicht aus.",
       "Info-Knopf der Website: aria-label „Mehr Informationen\" (fest im Skript, in jeder Zeile gleich), aria-controls auf den Info-Dialog des Blocks, aria-expanded=false, data-info mit dem Text; das Symbol (svg.nc-tbl-info-icon, Klasse ohne CSS) ohne aria-hidden. Den Dialog oeffnet neo-behaviors table-info-modal.",
       "Wertsymbole der Website (SVG_CHECK/SVG_DASH): ohne Farbwerte (seit 25.08.2026 aus _tbl-icon.scss) und ohne Textalternative — die Arena zeigt die Empfehlung aria-label=\"enthalten\"/\"nicht enthalten\"."
     ]
@@ -157,7 +163,8 @@
         "4.1.2/2.4.6: Info-Knopf mit Namen, der die Zeile nennt („Mehr Informationen zu <Zeile>\") — auf der Website heisst jeder „Mehr Informationen\" (Befund fuer neo_fe).",
         "1.4.11: Info-Symbol text-tertiary deckend ab 4,59:1 (Streifenzeile dunkel); bis 1.3.0 mit opacity-muted nur 2,6:1 hell / 2,89:1 dunkel (Korrektur 1.3.1, Freigabe ausstehend).",
         "2.5.8: Info-Knopf 20 x 20 px — zulaessig ueber die Abstandsausnahme (einzeln am Ende des Zeilenkopfs).",
-        "1.4.3: Kontrast AA hell und dunkel gemessen — Text text-primary 16,01:1, Untertitel text-tertiary ab 5,75:1; Haken always-dark auf Akzent 12,89:1, Strich text-tertiary ab 4,59:1 (1.4.11)."
+        "1.4.3: Kontrast AA hell und dunkel gemessen — Text text-primary 16,01:1, Untertitel text-tertiary ab 5,75:1; Haken always-dark auf Akzent 12,89:1, Strich text-tertiary ab 4,59:1 (1.4.11).",
+        "1.3.1: Hervorhebung per bold ist in Wertzellen als <strong> ausgezeichnet (nicht nur als Schriftschnitt) — Screenreader koennen sie melden."
       ],
       "note": "Interaktiv ist nur der Info-Knopf; Dialog und Fokusfuehrung: Recipe table-info-modal."
     },

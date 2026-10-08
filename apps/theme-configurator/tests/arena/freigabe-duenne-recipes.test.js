@@ -196,8 +196,14 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
   })
 
-  it('tbl-cell: 1.3.1, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
-    const r = freigegeben('tbl-cell', '1.3.1')
+  it('tbl-cell: 1.4.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
+    const r = freigegeben('tbl-cell', '1.4.0')
+    // 1.4.0 (Abschluss 3, tabelle-bold): bold an der Zelle -> <strong> in Wertzellen, Zeilenkopf unveraendert
+    const boldNotiz = r.anatomy.domNotes.find((n) => n.startsWith('Feld bold'))
+    expect(boldNotiz).toMatch(/Wertzellen \(td/)
+    expect(boldNotiz).toMatch(/<strong>/)
+    expect(boldNotiz).toMatch(/Zeilenkopf \(th\[scope=row\]\) ohne Wirkung/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/bold ohne Wirkung|wertet neoTable nicht aus — fett/)
     anatomieWieScss('tbl-cell', 'scss/scss/05-atoms/_tbl-cell.scss', 'nc-tbl-cell')
     const pflicht = Object.fromEntries(r.anatomy.slots.map((s) => [s.name, !s.optional]))
     expect(pflicht).toEqual({ text: true, 'info-btn': false, sub: false, 'icon-block': false, icon: false })
