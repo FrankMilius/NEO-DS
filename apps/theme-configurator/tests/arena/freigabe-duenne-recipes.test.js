@@ -117,8 +117,12 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(ernte).not.toMatch(/aria-labelledby|aria-modal/)
   })
 
-  it('multiselect: 1.5.1, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
-    const r = freigegeben('multiselect', '1.5.1') // 1.5.1: Rahmen wie .nc-input (Entscheidung Abschluss 2, Freigabe ausstehend)
+  it('multiselect: 1.5.2, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
+    const r = freigegeben('multiselect', '1.5.2') // 1.5.1: Rahmen wie .nc-input (Entscheidung Abschluss 2); 1.5.2: ohne aria-haspopup (Abschluss 3), beide Freigabe ausstehend
+    // Disclosure, kein Menue: kein aria-haspopup am Knopf — weder Arena noch Behavior (wie neo_fe)
+    for (const z of zellen('multiselect')) expect(dom(z.html).querySelector('.nc-multiselect__trigger').hasAttribute('aria-haspopup'), z.specimen.id).toBe(false)
+    expect(readFileSync(resolve(WURZEL, 'packages/neo-behaviors/multiselect.js'), 'utf8')).not.toMatch(/haspopup/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/\[aria-haspopup/)
     anatomieWieScss('multiselect', 'scss/scss/06-molecules/_multiselect.scss', 'nc-multiselect')
     expect(MIT_VERHALTEN).toContain('multiselect')
     expect(Object.keys(r.keyboard).sort()).toEqual(['ArrowDown', 'ArrowUp', 'End', 'Enter', 'Escape', 'Home', 'Space', 'Tab'])

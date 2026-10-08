@@ -3,6 +3,9 @@
 // Feld-Wrapper nc-form-field nc-multiselect, Label (nc-form-label),
 // Disclosure-Knopf nc-multiselect__trigger (__value, __caret ▾) und Panel mit
 // Checkboxen (label.nc-checkbox.nc-multiselect__option). Plan v3, Phase 4.
+// Ohne aria-haspopup: das kuendigt ein Menue an, der Knopf ist eine
+// Disclosure fuer eine Gruppe (wie neo_fe seit Abschluss 2; Entscheidung
+// Abschluss 3, 08.10.2026, a11y-rest).
 //
 // Zustaende (Recipe):
 //   default  geschlossen, Auswahl im Knopf zusammengefasst
@@ -49,7 +52,7 @@ ${OPTIONEN.map((o, i) => `<label class="nc-checkbox nc-multiselect__option"><inp
   return `<div class="ra-anker${offen || m.ausprobieren ? ' ra-anker--hoch' : ' ra-anker--flach'}"><div class="ra-feld">
 <div class="${klasse}">
 <span class="nc-form-label" id="${id}-label"><span class="nc-form-label__text">Interessen</span><span class="nc-form-label__optional"> (optional)</span></span>
-<button type="button" class="nc-multiselect__trigger" id="${id}-trigger" aria-haspopup="true" aria-expanded="${offen}"${offen || m.ausprobieren ? ` aria-controls="${id}-panel"` : ''} aria-labelledby="${id}-label ${id}-trigger"${fehler ? ` aria-invalid="true" aria-describedby="${id}-meldung"` : ''}${zustand}>${wert}<span class="nc-multiselect__caret" aria-hidden="true">▾</span></button>
+<button type="button" class="nc-multiselect__trigger" id="${id}-trigger" aria-expanded="${offen}"${offen || m.ausprobieren ? ` aria-controls="${id}-panel"` : ''} aria-labelledby="${id}-label ${id}-trigger"${fehler ? ` aria-invalid="true" aria-describedby="${id}-meldung"` : ''}${zustand}>${wert}<span class="nc-multiselect__caret" aria-hidden="true">▾</span></button>
 ${panel}${meldung}
 </div>
 </div></div>`

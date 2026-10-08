@@ -1,5 +1,5 @@
 # multiselect Component Spec
-> Version 1.5.1 | Status: stable | Layer: molecule
+> Version 1.5.2 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -15,7 +15,7 @@ Root element: `.nc-multiselect`
 | option | `.nc-multiselect__option` | Yes | Option als Checkbox: label.nc-checkbox.nc-multiselect__option mit .nc-checkbox__input (name[], value), __control und __label; min. 2,5rem hoch, Hover background-secondary. |
 
 ### DOM Notes
-- Markup der Website (neo-theme.js, neoForm case 'multiselect'; die Arena-Vorlage folgt ihm): div.nc-form-field.nc-multiselect (position relative, optional --full-width) > span.nc-form-label#<feld>-label (Text + „ *" aria-hidden bzw. „(optional)") + button.nc-multiselect__trigger#<feld>-trigger[aria-haspopup=true][aria-expanded][aria-controls][aria-labelledby="<label> <trigger>"][data-placeholder] > __value + __caret, dann div.nc-multiselect__panel#<feld>-panel[role=group][aria-labelledby=<label>][hidden] mit den Optionen.
+- Markup der Website (neo-theme.js, neoForm case 'multiselect'; die Arena-Vorlage folgt ihm): div.nc-form-field.nc-multiselect (position relative, optional --full-width) > span.nc-form-label#<feld>-label (Text + „ *" aria-hidden bzw. „(optional)") + button.nc-multiselect__trigger#<feld>-trigger[aria-expanded][aria-controls][aria-labelledby="<label> <trigger>"][data-placeholder] > __value + __caret, dann div.nc-multiselect__panel#<feld>-panel[role=group][aria-labelledby=<label>][hidden] mit den Optionen. Ohne aria-haspopup (Disclosure, kein Menue; neo_fe seit Abschluss 2, Arena seit 1.5.2).
 - Das Label ist ein <span> (kein <label>: es beschriftet einen Knopf und eine Gruppe, kein einzelnes Eingabefeld); der Name des Knopfs ist Label + aktuelle Zusammenfassung.
 - Optionen: label.nc-checkbox.nc-multiselect__option > input.nc-checkbox__input[type=checkbox][name=<feld>[]][value] + span.nc-checkbox__control + span.nc-checkbox__label — native Mehrfach-Uebertragung im Formular.
 - Zustaende: .is-open am Feld (dreht den Pfeil; setzt das Behavior mit aria-expanded); Panel geschlossen [hidden] — .nc-multiselect__panel[hidden] blendet aus, das Behavior setzt zur Absicherung display: none inline. Beim Oeffnen setzt das Behavior die Lage zusaetzlich inline (Unterkante des Knopfs + 4 px), wie frueher neo-theme.js.
@@ -75,7 +75,7 @@ Base classes: `nc-multiselect`
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 
-- 4.1.2: Disclosure-Muster — Knopf mit aria-expanded und aria-controls aufs Panel; Panel role=group mit Namen (aria-labelledby aufs Label); native Checkboxen.
+- 4.1.2: Disclosure-Muster — Knopf mit aria-expanded und aria-controls aufs Panel, ohne aria-haspopup (kein Menue); Panel role=group mit Namen (aria-labelledby aufs Label); native Checkboxen.
 - 4.1.2: Name des Knopfs = Label + Zusammenfassung (aria-labelledby auf beide); aendert sich die Auswahl, liest der Knopf den neuen Stand.
 - 2.1.1/2.4.3: Enter, Leertaste und Pfeil runter oeffnen mit Fokus auf die erste Checkbox; Pfeiltasten/Pos1/Ende in der Liste; Escape schliesst und gibt den Fokus an den Knopf zurueck; Tab aus dem Feld schliesst.
 - 3.3.1: Fehler mit .nc-form-field--invalid (Rahmen text-danger plus Schatten), aria-invalid und Meldung role=alert per aria-describedby — nicht nur Farbe.

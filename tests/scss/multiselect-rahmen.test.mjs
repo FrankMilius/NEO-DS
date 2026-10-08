@@ -54,8 +54,10 @@ describe('Multiselect: Rahmen wie das Eingabefeld', () => {
 
   it('Recipe und Token-Register fuehren die Tokens', () => {
     const r = JSON.parse(readFileSync(resolve(ROOT, 'data/multiselect-recipe.json'), 'utf-8'));
-    expect(r.meta.version).toBe('1.5.1');
-    expect(r.meta.changelog[0].changes.join(' ')).toContain('Freigabe ausstehend');
+    // 1.5.1 fuehrte die Tokens ein; 1.5.2 (Abschluss 3) strich aria-haspopup
+    const e = r.meta.changelog.find((x) => x.version === '1.5.1');
+    expect(['1.5.1', '1.5.2']).toContain(r.meta.version);
+    expect(e.changes.join(' ')).toContain('Freigabe ausstehend');
     expect(r.styling.tokens).toContain('--nc-multiselect-trigger-border-error');
     const reg = readFileSync(resolve(ROOT, 'data/design-tokens.json'), 'utf-8');
     expect(reg).toContain('"nc-multiselect-trigger-border-disabled"');
