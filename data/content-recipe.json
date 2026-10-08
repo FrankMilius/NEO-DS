@@ -3,8 +3,8 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content",
-    "version": "1.0.0",
-    "status": "draft",
+    "version": "1.1.0",
+    "status": "stable",
     "tags": [
       "layout",
       "objects",
@@ -16,6 +16,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable. Recipe gegen _content.scss und das Drupal-Theme neo_fe geprueft (content/node.html.twig, field--body.html.twig, neo_fe_preprocess_html); Anatomie und Tokens stimmen, nichts fehlt, nichts Ungebautes.",
+          "domNotes praezisiert: welche Inhaltstypen .nc-content tragen (nur ohne eigenes Full-Template), woher body.is-reading-left kommt (Pfade /inside/blog, /inside/dokumentation), Inhalt von __meta und __body.",
+          "Einsatzhinweise (constraints.rules) und a11y-Aussagen ergaenzt (Ueberschriften-Hierarchie, Lesebreite)."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -46,27 +54,28 @@
         "name": "title",
         "element": ".nc-content__title",
         "optional": true,
-        "description": "Titel — nur, wenn der Knoten nicht selbst die Seite ist (label and not page)."
+        "description": "Titel als <h2> mit Link (rel=\"bookmark\") — nur, wenn der Knoten nicht selbst die Seite ist (label and not page)."
       },
       {
         "name": "meta",
         "element": ".nc-content__meta",
         "optional": true,
-        "description": "Autor und Datum (display_submitted)."
+        "description": "Autorbild und „Autor — Datum\" (display_submitted); Lesebreite wie der Titel."
       },
       {
         "name": "body",
         "element": ".nc-content__body",
         "optional": false,
-        "description": "Inhalt des Knotens; ohne eigene Regel, das Body-Feld bringt .nc-prose mit."
+        "description": "Alle Felder des Knotens ({{ content }}); ohne eigene Regel, das Body-Feld bringt .nc-prose mit (field--body.html.twig)."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Lesespalte einer Inhaltsseite: der Rahmen darf weit sein (xwide 1536), Titel und Angaben stehen in Lesebreite (--container-prose).",
-      "Drupal setzt .nc-content am <article> der Vollansicht (view_mode full); der Teaser ist .nc-card.",
-      "body.is-reading-left setzt Titel und Angaben an die Spaltenkante (Selektor am <body>, in der Arena nicht darstellbar); das Body-Feld nutzt dann .nc-prose--left.",
-      "Die --nc-content-*-Tokens in _section.scss meinen das Spaltenverhaeltnis eines Abschnitts, nicht dieses Object."
+      "Lesespalte einer Inhaltsseite: der Rahmen darf weit sein (max-inline-size --container-xwide 1536, zentriert, Innenabstand --container-padding-inline), Titel und Angaben stehen in Lesebreite (--container-prose), mittig ueber der Prosa-Achse des Body-Felds.",
+      "Drupal setzt .nc-content am <article class=\"node node--type-… node--view-mode-full nc-content\"> der Vollansicht (node.html.twig, view_mode full); der Teaser ist .nc-card. Andere Ansichtsmodi rendern dasselbe Markup ohne .nc-content.",
+      "Gilt nur fuer Inhaltstypen ohne eigenes Full-Template: landing-page, reference-page, event und news haben eigene Templates und tragen .nc-content nicht.",
+      "body.is-reading-left (neo_fe_preprocess_html, Pfade /inside/blog und /inside/dokumentation) setzt Titel und Angaben an die Spaltenkante; das Body-Feld nutzt dort .nc-prose--left. Selektor am <body>, in der Arena nicht darstellbar.",
+      "Die --nc-content-*-Tokens in _section.scss (Spaltenverhaeltnis, Rastergap) meinen nicht dieses Object; es hat keine eigenen Komponenten-Tokens."
     ]
   },
   "axes": {
@@ -96,13 +105,26 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
+      "assertions": [
+        "Ueberschriften-Hierarchie: auf der eigenen Seite traegt der Seitenkopf das <h1> (__title entfaellt), eingebettet ist __title ein <h2>.",
+        "Titel und Angaben auf --container-prose (72ch) — gleiche Lesebreite wie das Body-Feld (WCAG 1.4.8).",
+        "<article> ist das Element des Knotens; .nc-content fuegt keine Rolle hinzu."
+      ],
       "note": "Ueberschriften-Hierarchie: auf der eigenen Seite traegt der Seitenkopf das h1, der eingebettete Knoten ein h2."
     },
     "overrides": []
   },
   "constraints": {
-    "rules": [],
+    "rules": [
+      {
+        "when": {},
+        "notes": [
+          "Nur fuer die Vollansicht eines Knotens. Seiten aus dem Layout Builder (landing-page) und Bausteine mit eigenem Kopf (event, news, reference-page) nutzen ihre eigenen Templates.",
+          "Fliesstext gehoert ins Body-Feld (.nc-prose), nicht direkt in .nc-content__body — sonst laeuft er ueber die volle xwide-Breite.",
+          "Linksbuendiges Lesen immer paarweise: body.is-reading-left fuer Titel und Angaben, .nc-prose--left fuer den Text."
+        ]
+      }
+    ],
     "copy": {}
   },
   "styling": {

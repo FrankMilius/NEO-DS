@@ -80,6 +80,22 @@ const OBJEKTE = {
       website: ['section.nc-section > div.container.container--content', 'section.nc-section > div.container.container--wide'],
       breiten: ['.container.container--prose', '.container.container--full']
     }
+  },
+  content: {
+    namensraum: /^nc-content(__|--|$)/,
+    ohneRegel: { 'nc-content__body': 'Huelle des Knoteninhalts, das Body-Feld bringt .nc-prose mit' },
+    fremdeKlassen: { 'is-reading-left': 'Body-Klasse aus neo_fe_preprocess_html (Lese-Bereiche links)' },
+    website: [
+      {
+        quelle: 'neo_fe/templates/content/node.html.twig (view_mode full, eingebettet) und field/field--body.html.twig',
+        markup: '<article class="node node--type-article node--view-mode-full nc-content"><h2 class="nc-content__title"><a href="/x" rel="bookmark">Titel</a></h2><div class="nc-content__meta"><span>Redaktion — 15.09.2026</span></div><div class="nc-content__body"><div class="nc-prose"><p>Text</p></div></div></article>',
+        ohneCss: ['node', 'node--type-article', 'node--view-mode-full']
+      }
+    ],
+    arena: {
+      eingebettet: ['article.nc-content > h2.nc-content__title > a[rel="bookmark"]', 'article.nc-content > .nc-content__meta', 'article.nc-content > .nc-content__body > .nc-prose'],
+      seite: ['article.nc-content > .nc-content__body > .nc-prose']
+    }
   }
 }
 
