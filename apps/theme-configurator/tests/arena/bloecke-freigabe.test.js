@@ -84,6 +84,29 @@ const BAUTEILE = {
       'ohne-medium': ['.nc-card-cta[data-theme="dark"] > .nc-card-cta__content:first-child', '.nc-card-cta[data-theme="light"] > .nc-card-cta__content:first-child']
     },
     ohneArena: { 'ohne-medium': ['.nc-card-cta__media', '.nc-card-cta__overlay'] }
+  },
+  event: {
+    namensraum: /^nc-event(__|--|$)/,
+    ohneRegel: {
+      'nc-event': 'Wurzel <article>, fasst nur die Abschnitte',
+      'nc-event__hero--has-media': 'Drupal setzt es mit Titelbild; Bild und Verlauf tragen die Gestaltung',
+      'nc-event__description': 'linke Spalte, gestaltet ueber u-prose',
+      'nc-event__sidebar': '<aside> um die Infokarte, Sprungziel #event-signup'
+    },
+    // Gibt das Template noch aus, im DS gestrichen (Entscheidung event-klassen, 06.10.2026)
+    websiteAusnahmen: ['nc-event__tag--format', 'nc-event__tag--lang'],
+    website: [
+      {
+        quelle: 'neo_fe/templates/node/node--event--full.html.twig (alle Abschnitte, mit Titelbild und Video)',
+        markup: '<article class="nc-event"><section class="nc-event__hero nc-event__hero--has-media"><div class="nc-event__hero-media"><img src="x.jpg" alt="Summit" loading="eager"></div><div class="nc-event__hero-overlay"></div><div class="nc-event__hero-content nc-container"><div class="nc-event__tags"><span class="nc-event__tag nc-event__tag--type">Konferenz</span><span class="nc-event__tag nc-event__tag--format">Hybrid</span><span class="nc-event__tag nc-event__tag--lang">Deutsch</span></div><h1 class="nc-event__title">Summit</h1><p class="nc-event__subtitle">Sub</p><div class="nc-event__meta"><div class="nc-event__meta-item"><svg></svg><span>20.05.2026</span></div></div><div class="nc-event__cta"><a href="#event-signup" class="nc-button nc-button--accent nc-button--lg"><span>Anmelden</span></a><a href="https://x" class="nc-button nc-button--outline nc-button--lg" target="_blank" rel="noopener"><svg></svg><span>Aufzeichnung ansehen</span></a></div></div></section><section class="nc-section"><div class="nc-container"><div class="nc-event__content-grid"><div class="nc-event__description u-prose"><h2>Über dieses Event</h2><p>Text</p></div><aside class="nc-event__sidebar" id="event-signup"><div class="nc-event__info-card"><h3 class="nc-event__info-card-title">Event Details</h3><dl class="nc-event__info-list"><dt>Datum</dt><dd>20. Mai 2026</dd></dl><a href="#" class="nc-button nc-button--accent nc-event__info-cta"><span>Anmelden</span></a></div></aside></div></div></section><section class="nc-section nc-section--muted"><div class="nc-container"><h2 class="nc-event__section-title">Agenda</h2><div class="nc-event__agenda u-prose"><p>Tag 1</p></div></div></section><section class="nc-section"><div class="nc-container"><h2 class="nc-event__section-title">Weitere Events</h2><div class="nc-event__related-grid"><a href="/x" class="nc-card nc-card--navigational nc-event__related-card"><div class="nc-card__content"><span class="nc-card__kicker">Konferenz</span><h3 class="nc-card__title">Partner Day</h3></div><div class="nc-card__footer"><span class="nc-card__footer-label">Mehr erfahren</span><span class="nc-card__footer-icon"><svg></svg></span></div></a></div></div></section></article>'
+      }
+    ],
+    arena: {
+      'hero-bild': ['article.nc-event > section.nc-event__hero.nc-event__hero--has-media > .nc-event__hero-media > img + * , article.nc-event > section.nc-event__hero.nc-event__hero--has-media > .nc-event__hero-media + .nc-event__hero-overlay + .nc-event__hero-content.nc-container'],
+      infokarte: ['.nc-section > .nc-container > .nc-event__content-grid > .nc-event__description.u-prose + aside.nc-event__sidebar > .nc-event__info-card > .nc-event__info-card-title + dl.nc-event__info-list + a.nc-button.nc-event__info-cta', 'section.nc-section.nc-section--muted .nc-event__agenda.u-prose'],
+      default: ['.nc-event__hero-content > .nc-event__title', '.nc-event__related-grid > a.nc-card.nc-card--navigational.nc-event__related-card']
+    },
+    ohneArena: { default: ['.nc-event__hero--has-media', '.nc-event__content-grid'] }
   }
 }
 
@@ -121,6 +144,10 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
       })
 
       it('Recipe -> SCSS: jede Recipe-Klasse gebaut, jeder Token deklariert', () => {
+        for (const k of fall.websiteAusnahmen || []) {
+          expect(recipeKlassen(id).has(k), `${k} ist gestrichen und steht doch im Recipe`).toBe(false)
+          expect(klassenIn(css()).has(k), `${k} ist gestrichen und doch gebaut`).toBe(false)
+        }
         const gebaut = klassenIn(scss(id))
         for (const k of recipeKlassen(id)) {
           if (fall.ohneRegel?.[k]) continue
@@ -139,6 +166,7 @@ describe('Abschluss Plan v3: duenne Recipes aus Phase 4 freigegeben (Recipe <-> 
           const bekannt = recipeKlassen(id)
           for (const el of d.querySelectorAll('[class]')) {
             for (const k of el.classList) {
+              if (fall.websiteAusnahmen?.includes(k)) continue
               if (fall.namensraum.test(k)) expect(bekannt.has(k), `${id}: Website setzt .${k}, das Recipe kennt es nicht`).toBe(true)
             }
           }

@@ -6,9 +6,16 @@
 // Plan v3, Phase 4 — Teile, die das aus Drupal aufgenommene SCSS kennt und
 // die das geerntete Markup (Event ohne Bild und ohne Infokarte) nicht zeigt:
 //   render.heroBild   .nc-event__hero-media (Bild) + .nc-event__hero-overlay
-//   render.infokarte  .nc-event__content-grid: Agenda links, rechts
+//   render.infokarte  Abschnitt 2 wie in node--event--full.html.twig (nur
+//                     mit Body): .nc-event__content-grid mit
+//                     .nc-event__description (u-prose) links und
+//                     <aside class="nc-event__sidebar"> mit
 //                     .nc-event__info-card (Titel, dl.nc-event__info-list,
-//                     Knopf .nc-event__info-cta); die Karte ist sticky
+//                     Knopf .nc-event__info-cta) rechts; die Karte ist sticky.
+//                     Die Agenda steht danach im eigenen Abschnitt
+//                     (Freigabe, Abschluss Plan v3, 08.10.2026 — vorher stand
+//                     sie im Raster).
+//   Mit Bild setzt Drupal nc-event__hero--has-media (ohne eigene Regel).
 import { BILD_SRC } from './_helfer.js'
 import { slotAn as an, vorgabe, desktop } from './_bloecke-1.js'
 
@@ -17,17 +24,44 @@ const UHR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=
 const ORT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'
 const PFEIL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>'
 
-const AGENDA = `<h2 class="nc-event__section-title">Agenda</h2>
+const AGENDA = `<section class="nc-section nc-section--muted">
+<div class="nc-container">
+<h2 class="nc-event__section-title">Agenda</h2>
 <div class="nc-event__agenda u-prose">
 <h4>Tag 1: Strategie</h4>
 <p>Keynotes, Panels, Strategy Sessions</p>
 <h4>Tag 2: Praxis</h4>
 <p>Workshops, Hands-on Labs, Roundtables</p>
-</div>`
+</div>
+</div>
+</section>`
+
+const DETAILS = `<section class="nc-section">
+<div class="nc-container">
+<div class="nc-event__content-grid">
+<div class="nc-event__description u-prose">
+<h2>Über dieses Event</h2>
+<p>Zwei Tage zu Strategie und Praxis des digitalen Arbeitsplatzes — mit Kundinnen, Partnern und dem Produktteam.</p>
+</div>
+<aside class="nc-event__sidebar">
+<div class="nc-event__info-card">
+<h3 class="nc-event__info-card-title">Event Details</h3>
+<dl class="nc-event__info-list">
+<dt>Datum</dt><dd>20. Mai 2026</dd>
+<dt>Uhrzeit</dt><dd>09:00 – 17:00 Uhr</dd>
+<dt>Format</dt><dd>Hybrid</dd>
+<dt>Ort</dt><dd>Congresshalle Saarbrücken</dd>
+</dl>
+<a href="#" onclick="return false" class="nc-button nc-button--accent nc-event__info-cta"><span>Ticket sichern</span></a>
+</div>
+</aside>
+</div>
+</div>
+</section>`
 
 const vorlage = (zelle, m) => `
 <article class="${m.klasse}"${m.attrs}>
-<section class="nc-event__hero">
+<section class="nc-event__hero${vorgabe(m, 'heroBild', false) ? ' nc-event__hero--has-media' : ''}">
 ${vorgabe(m, 'heroBild', false) ? `<div class="nc-event__hero-media"><img src="${BILD_SRC}" alt="" loading="lazy" decoding="async"></div>
 ${an(m, 'hero-overlay') ? '<div class="nc-event__hero-overlay"></div>' : ''}` : ''}
 <div class="nc-event__hero-content nc-container">
@@ -46,23 +80,8 @@ ${an(m, 'meta') ? `<div class="nc-event__meta">
 <div class="nc-event__cta"><a href="#" onclick="return false" class="nc-button nc-button--accent nc-button--lg"><span>Ticket sichern</span></a></div>
 </div>
 </section>
-<section class="nc-section nc-section--muted">
-<div class="nc-container">
-${vorgabe(m, 'infokarte', false) ? `<div class="nc-event__content-grid">
-<div>${AGENDA}</div>
-<aside class="nc-event__info-card" aria-label="Auf einen Blick">
-<h3 class="nc-event__info-card-title">Auf einen Blick</h3>
-<dl class="nc-event__info-list">
-<dt>Datum</dt><dd>20.05.2026</dd>
-<dt>Uhrzeit</dt><dd>09:00 – 17:00 Uhr</dd>
-<dt>Ort</dt><dd>Congresshalle Saarbrücken</dd>
-<dt>Format</dt><dd>Hybrid</dd>
-</dl>
-<a href="#" onclick="return false" class="nc-button nc-button--accent nc-event__info-cta"><span>Ticket sichern</span></a>
-</aside>
-</div>` : AGENDA}
-</div>
-</section>
+${vorgabe(m, 'infokarte', false) ? DETAILS : ''}
+${AGENDA}
 ${an(m, 'related-grid') ? `<section class="nc-section">
 <div class="nc-container">
 <h2 class="nc-event__section-title">Weitere Events</h2>

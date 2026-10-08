@@ -1,10 +1,10 @@
 {
-  "$schema": "../schemas/component-recipe.schema.json",
+  "$schema": "./recipe-schema.json",
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "event",
-    "version": "1.3.0",
-    "status": "draft",
+    "version": "1.4.0",
+    "status": "stable",
     "tags": [
       "aufgenommen",
       "organisms"
@@ -15,6 +15,17 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "Freigabe (Abschluss Plan v3, 08.10.2026): Status draft -> stable.",
+          "Gegen node--event--full.html.twig, neo_fe_preprocess_node (event.*) und 07-organisms/_event.scss geprueft. Anatomie aus dem Template statt aus den Klassennamen: vier Abschnitte (Hero, Details mit Infokarte nur mit Body, Agenda nur mit Agenda-Feld, weitere Events nur mit Treffern), Pflicht und optional wie im Template, jeder Slot beschrieben.",
+          "Ergaenzt, was Drupal setzt und das Recipe nicht kannte: nc-event__hero--has-media, nc-event__description (u-prose, linke Spalte), nc-event__sidebar (<aside id=\"event-signup\"> um die Infokarte) — alle drei ohne eigene Regel; zweiter Knopf „Aufzeichnung ansehen\" (nc-button--outline, nur mit Video-URL).",
+          "domNotes: Felder je Teil, Ueberschriften (h1 im Hero; die Arena nutzt h2 wie alle Arena-Vorlagen), Tag-Modifier --format/--lang (gibt das Template noch aus, im DS gestrichen), Hero immer dunkel (always-dark), Infokarte sticky unter der Navigation.",
+          "a11y-Pruefpunkte, constraints, tokenGroups (Gruppe alle wie design-tokens.json).",
+          "Arena: Specimen infokarte zeigt die Website-Struktur (Beschreibung links, <aside class=\"nc-event__sidebar\"> mit Infokarte rechts; vorher stand die Agenda im Raster)."
+        ]
+      },
       {
         "version": "1.3.0",
         "changes": [
@@ -43,129 +54,184 @@
           "Status draft: Anatomie und Achsen vor der Freigabe durchsehen."
         ]
       }
-    ]
+    ],
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_event.scss"
+      ],
+      "story": "stories/organisms/event.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "node/node--event--full.html.twig"
+      ],
+      "docs": null
+    }
   },
   "anatomy": {
     "root": {
-      "element": ".nc-event"
+      "element": ".nc-event",
+      "description": "<article> der Event-Vollansicht (node--event--full, Klasse per attributes.addClass). Die Wurzel hat keine eigene Regel — sie fasst die Abschnitte."
     },
     "slots": [
       {
-        "name": "agenda",
-        "element": ".nc-event__agenda",
-        "optional": false
-      },
-      {
-        "name": "content-grid",
-        "element": ".nc-event__content-grid",
-        "optional": false
-      },
-      {
-        "name": "cta",
-        "element": ".nc-event__cta",
-        "optional": false
-      },
-      {
         "name": "hero",
         "element": ".nc-event__hero",
-        "optional": false
+        "optional": false,
+        "description": "Abschnitt 1, <section>: dunkler Kopf (always-dark, Text always-light), mindestens 400 px hoch, Inhalt unten ausgerichtet."
       },
       {
-        "name": "hero-content",
-        "element": ".nc-event__hero-content",
-        "optional": false
+        "name": "hero--has-media",
+        "element": ".nc-event__hero--has-media",
+        "optional": true,
+        "description": "Modifier am Hero, den Drupal mit Titelbild setzt (field_event_image) — ohne eigene Regel; Bild und Verlauf liegen absolut darin."
       },
       {
         "name": "hero-media",
         "element": ".nc-event__hero-media",
-        "optional": false
+        "optional": true,
+        "description": "Titelbild (field_event_image), absolut, object-fit cover; <img> mit alt = Titel des Events, loading eager."
       },
       {
         "name": "hero-overlay",
         "element": ".nc-event__hero-overlay",
-        "optional": true
+        "optional": true,
+        "description": "Verlauf ueber dem Titelbild (always-dark 80 % unten bis 10 % oben); nur mit Bild."
       },
       {
-        "name": "info-card",
-        "element": ".nc-event__info-card",
-        "optional": true
-      },
-      {
-        "name": "info-card-title",
-        "element": ".nc-event__info-card-title",
-        "optional": true
-      },
-      {
-        "name": "info-cta",
-        "element": ".nc-event__info-cta",
-        "optional": true
-      },
-      {
-        "name": "info-list",
-        "element": ".nc-event__info-list",
-        "optional": true
-      },
-      {
-        "name": "meta",
-        "element": ".nc-event__meta",
-        "optional": true
-      },
-      {
-        "name": "meta-item",
-        "element": ".nc-event__meta-item",
-        "optional": true
-      },
-      {
-        "name": "related-card",
-        "element": ".nc-event__related-card",
-        "optional": true
-      },
-      {
-        "name": "related-grid",
-        "element": ".nc-event__related-grid",
-        "optional": true
-      },
-      {
-        "name": "section-title",
-        "element": ".nc-event__section-title",
-        "optional": true
-      },
-      {
-        "name": "subtitle",
-        "element": ".nc-event__subtitle",
-        "optional": true
-      },
-      {
-        "name": "tag",
-        "element": ".nc-event__tag",
-        "optional": true
-      },
-      {
-        "name": "tag--type",
-        "element": ".nc-event__tag--type",
-        "optional": true
+        "name": "hero-content",
+        "element": ".nc-event__hero-content",
+        "optional": false,
+        "description": "Inhalt des Heros auf .nc-container: Flex-Spalte mit Tags, Titel, Untertitel, Meta und Knoepfen."
       },
       {
         "name": "tags",
         "element": ".nc-event__tags",
-        "optional": true
+        "optional": true,
+        "description": "Tag-Zeile; das Template gibt sie immer aus, ohne Typ, Format und Sprache bleibt sie leer."
+      },
+      {
+        "name": "tag",
+        "element": ".nc-event__tag",
+        "optional": true,
+        "description": "Tag (Format = field_event_location_type, Sprache = field_event_language): caption, Versalien, halbtransparente helle Flaeche."
+      },
+      {
+        "name": "tag--type",
+        "element": ".nc-event__tag--type",
+        "optional": true,
+        "description": "Gattungs-Tag (field_event_type): inverse Flaeche (background-inverse, text-inverse)."
       },
       {
         "name": "title",
         "element": ".nc-event__title",
-        "optional": true
+        "optional": false,
+        "description": "Titel (<h1> mit dem Knotentitel): display-m bold; im Hero erbt er always-light."
+      },
+      {
+        "name": "subtitle",
+        "element": ".nc-event__subtitle",
+        "optional": true,
+        "description": "Untertitel (field_event_subheadline), body-l, Deckkraft prominent."
+      },
+      {
+        "name": "meta",
+        "element": ".nc-event__meta",
+        "optional": true,
+        "description": "Zeile mit Datum, Uhrzeit (beide aus field_event_date/_end) und Ort (field_event_location); das Template gibt sie immer aus, ohne Werte bleibt sie leer."
+      },
+      {
+        "name": "meta-item",
+        "element": ".nc-event__meta-item",
+        "optional": true,
+        "description": "Eintrag mit Strich-Icon (SVG, 18 px) und Text, body-s."
+      },
+      {
+        "name": "cta",
+        "element": ".nc-event__cta",
+        "optional": false,
+        "description": "Knopfzeile: nc-button--accent --lg (field_event_cta_text, Vorgabe „Anmelden\"; Ziel field_event_cta_url, sonst #event-signup), mit Video-URL dazu nc-button--outline --lg „Aufzeichnung ansehen\" (neues Fenster)."
+      },
+      {
+        "name": "content-grid",
+        "element": ".nc-event__content-grid",
+        "optional": true,
+        "description": "Abschnitt 2 (nur mit Body): Raster, ab 768 px 1fr | 360 px — links Beschreibung, rechts Infokarte."
+      },
+      {
+        "name": "description",
+        "element": ".nc-event__description",
+        "optional": true,
+        "description": "Linke Spalte (u-prose): h2 „Über dieses Event\" und Body — ohne eigene Regel."
+      },
+      {
+        "name": "sidebar",
+        "element": ".nc-event__sidebar",
+        "optional": true,
+        "description": "<aside id=\"event-signup\">, rechte Spalte um die Infokarte (Sprungziel des Anmeldeknopfs) — ohne eigene Regel."
+      },
+      {
+        "name": "info-card",
+        "element": ".nc-event__info-card",
+        "optional": true,
+        "description": "Infokarte: background-secondary, radius-md, sticky unter der Navigation (--nav-height)."
+      },
+      {
+        "name": "info-card-title",
+        "element": ".nc-event__info-card-title",
+        "optional": true,
+        "description": "Titel der Infokarte (<h3> „Event Details\"), heading-s bold."
+      },
+      {
+        "name": "info-list",
+        "element": ".nc-event__info-list",
+        "optional": true,
+        "description": "<dl> mit Datum, Uhrzeit, Format, Ort, Sprache, Typ, Kategorie (je nur mit Wert); dt text-secondary."
+      },
+      {
+        "name": "info-cta",
+        "element": ".nc-event__info-cta",
+        "optional": true,
+        "description": "Knopf der Infokarte (nc-button--accent, volle Breite), nur mit CTA-Text."
+      },
+      {
+        "name": "section-title",
+        "element": ".nc-event__section-title",
+        "optional": true,
+        "description": "Abschnittstitel (<h2>) von Agenda und weiteren Events, heading-l bold."
+      },
+      {
+        "name": "agenda",
+        "element": ".nc-event__agenda",
+        "optional": true,
+        "description": "Abschnitt 3 (nur mit field_event_agenda): formatierter Text (u-prose, max. 800 px) in nc-section nc-section--muted."
+      },
+      {
+        "name": "related-grid",
+        "element": ".nc-event__related-grid",
+        "optional": true,
+        "description": "Abschnitt 4 (nur mit Treffern: bis zu drei Events desselben Typs): Raster auto-fill, Spur mindestens 300 px."
+      },
+      {
+        "name": "related-card",
+        "element": ".nc-event__related-card",
+        "optional": true,
+        "description": "Karte eines weiteren Events: a.nc-card.nc-card--navigational mit Kicker (Typ), h3, Datum und Fusszeile „Mehr erfahren\"; Rahmen border-secondary."
       }
     ],
     "convenience": [],
     "domNotes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Website: node--event--full.html.twig rendert <article class=\"nc-event\"> mit bis zu vier Abschnitten — Hero (immer), Details mit Infokarte (nur mit Body), Agenda (nur mit field_event_agenda, nc-section--muted), weitere Events (nur mit Treffern). Die Werte kommen aus neo_fe_preprocess_node (event.*).",
+      "Der Hero ist in jedem Seitenthema dunkel (always-dark, Text always-light); Titel und Tags sind darauf abgestimmt. Ohne Titelbild bleibt die Flaeche schwarz.",
+      "Das Template gibt an den Tags noch nc-event__tag--format und nc-event__tag--lang aus; das DS hat beide gestrichen (Entscheidung event-klassen, 06.10.2026) — sie wirken nicht, die Anpassung im Theme steht aus.",
+      "Ueberschriften: h1 (Titel), h2 (Beschreibung, Agenda, weitere Events), h3 (Infokarte, Karten). Die Arena zeigt den Titel als h2, weil der Konfigurator die Seitenueberschrift selbst traegt.",
+      "Verhalten: keins — Sprungziel #event-signup ist ein gewoehnlicher Anker; die Infokarte klebt per position: sticky."
     ]
   },
   "axes": {
     "variant": {
       "label": "Variant",
-      "description": "Einzige Variante",
+      "description": "Einzige Variante — Teile kommen und gehen mit den Feldern (Specimens hero-bild, infokarte, minimal).",
       "values": {
         "default": {
           "modifier": null,
@@ -184,27 +250,102 @@
     "rules": []
   },
   "a11y": {
-    "notes": [
-      "Nicht geprueft — die Komponente wurde uebernommen, nicht entworfen."
-    ]
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Eine h1 je Seite (Titel im Hero); Abschnitte mit h2, Infokarte und Karten mit h3.",
+        "Hero-Text always-light auf always-dark (gemessen 21:1, Gattungs-Tag 17:1) — unabhaengig vom Seitenthema; mit Titelbild sichert der Verlauf den unteren Bereich.",
+        "Titelbild: das Template setzt alt = Titel des Events, der direkt darunter als h1 steht — Screenreader lesen ihn doppelt; das Bild ist dekorativ (alt=\"\" waere richtig, Aenderung im Theme).",
+        "Icons in Meta und Karten sind SVG ohne Text und ohne aria-hidden; der Sinn steht im Text daneben.",
+        "Die Infokarte ist eine <aside> ohne Namen; ihr Titel „Event Details\" benennt sie sichtbar.",
+        "Karten weiterer Events sind ganze Links (<a class=\"nc-card\">) mit h3 als Namen."
+      ],
+      "note": "Nicht interaktiv ausser Knoepfen und Karten-Links."
+    },
+    "overrides": []
   },
-  "constraints": [],
+  "constraints": {
+    "rules": [
+      {
+        "when": {
+          "axes": {
+            "variant": [
+              "default"
+            ]
+          }
+        },
+        "notes": [
+          "Titelbild nur mit ruhiger unterer Bildhaelfte — Text steht unten auf dem Verlauf.",
+          "Infokarte nur mit Body: ohne field_event_body entfaellt der ganze Abschnitt 2."
+        ]
+      }
+    ],
+    "copy": {
+      "title": {
+        "maxChars": 80,
+        "note": "Eventname; display-m, bis 800 px breit."
+      },
+      "subtitle": {
+        "maxChars": 120,
+        "note": "Ein Satz."
+      }
+    }
+  },
   "styling": {
     "baseClasses": [
       "nc-event"
     ],
-    "baseTokenGroups": [],
-    "tokens": [
-      "--nc-event-tag-letter-spacing",
-      "--nc-event-tag-padding",
-      "--nc-event-title-line-height"
-    ]
+    "baseTokenGroups": [
+      "alle"
+    ],
+    "tokenGroups": {
+      "alle": {
+        "label": "Alle",
+        "description": "Eigene Tokens des Bauteils; Farben, Abstaende und Schriftgroessen kommen aus Foundation-Tokens.",
+        "tokens": [
+          "nc-event-tag-padding",
+          "nc-event-tag-letter-spacing",
+          "nc-event-title-line-height"
+        ]
+      }
+    }
   },
-  "recipes": [],
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" },
-    { "art": "enthaelt", "recipe": "card" },
-    { "art": "enthaelt", "recipe": "container" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "card"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "container"
+    }
   ],
   "specimens": [
     {
@@ -227,7 +368,7 @@
     {
       "id": "hero-bild",
       "label": "Mit Hero-Bild",
-      "description": "Bild im Hero (.nc-event__hero-media) mit Verlauf (.nc-event__hero-overlay) — Teile aus dem aufgenommenen SCSS, im geernteten Markup nicht belegt.",
+      "description": "Hero mit Titelbild wie auf der Website: Modifier nc-event__hero--has-media, Bild (.nc-event__hero-media) und Verlauf (.nc-event__hero-overlay).",
       "matrix": {
         "axes": {
           "variant": [
@@ -246,7 +387,7 @@
     {
       "id": "infokarte",
       "label": "Mit Infokarte",
-      "description": "Agenda und Infokarte nebeneinander (.nc-event__content-grid ab 768 px): .nc-event__info-card mit dl.nc-event__info-list und Knopf .nc-event__info-cta.",
+      "description": "Abschnitt 2 wie auf der Website (nur mit Body): .nc-event__content-grid ab 768 px zweispaltig — links .nc-event__description (u-prose), rechts <aside class=\"nc-event__sidebar\"> mit .nc-event__info-card (Titel, dl.nc-event__info-list, Knopf .nc-event__info-cta).",
       "matrix": {
         "axes": {
           "variant": [
@@ -265,7 +406,7 @@
     {
       "id": "minimal",
       "label": "Nur Pflichtteile",
-      "description": "Ohne Tags, Untertitel, Meta und weitere Events (optionale Slots aus).",
+      "description": "Ohne Untertitel, Tags, Meta-Eintraege und weitere Events (optionale Teile aus).",
       "matrix": {
         "axes": {
           "variant": [

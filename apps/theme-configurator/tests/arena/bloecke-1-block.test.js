@@ -48,7 +48,7 @@ const wurzelSel = (id) => WURZEL_SEL[id] || `.nc-${id}`
 const MIT_BEHAVIOR = ['chapter-nav', 'expanding-panels', 'feature-accordion']
 const MIT_AUSPROBIEREN = ['faq', 'feature-accordion'].filter((id) => !MIT_BEHAVIOR.includes(id))
 const MIT_ABSPIELEN = ['bento-grid']
-const ENTWURF = ['event', 'events', 'feature-list']
+const ENTWURF = ['events', 'feature-list']
 
 function zellen (id, specimenId, optionen) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -298,7 +298,9 @@ describe('Bloecke 1: Specimens im Einzelnen', () => {
     const [bild] = alle('event', 'hero-bild')
     expect(bild.querySelector('.nc-event__hero > .nc-event__hero-media img + *, .nc-event__hero > .nc-event__hero-media + .nc-event__hero-overlay')).not.toBeNull()
     const [karte] = alle('event', 'infokarte')
-    expect(karte.querySelector('.nc-event__content-grid .nc-event__agenda')).not.toBeNull()
+    // wie node--event--full.html.twig: Beschreibung links, <aside> mit Infokarte rechts, Agenda danach (Freigabe 08.10.2026)
+    expect(karte.querySelector('.nc-event__content-grid > .nc-event__description.u-prose + aside.nc-event__sidebar > .nc-event__info-card')).not.toBeNull()
+    expect(karte.querySelector('.nc-event__content-grid .nc-event__agenda')).toBeNull()
     expect(karte.querySelector('.nc-event__content-grid .nc-event__info-card .nc-event__info-list dt + dd')).not.toBeNull()
     expect(karte.querySelector('.nc-event__info-card .nc-button.nc-event__info-cta')).not.toBeNull()
     const [minimal] = alle('event', 'minimal')

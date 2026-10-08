@@ -14,7 +14,6 @@
 // ==========================================================================
 
 export const ENTWUERFE = Object.freeze([
-  'event',
   'events',
   'feature-list',
   'mobile-drawer',
