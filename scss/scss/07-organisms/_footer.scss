@@ -612,9 +612,27 @@ footer {
   white-space: nowrap;
 }
 
+/* Rechtslinks brechen um statt ueberzulaufen (Abschluss Plan v3, 08.10.2026).
+   Ohne flex-wrap war die Min-Content-Breite der Leiste die Summe aller Links
+   plus Abstaende (361px mit Impressum, Datenschutz, Barrierefreiheit,
+   Cookie-Einstellungen). Diese Breite zog ueber das Grid der Wurzel
+   (.nc-footer, auto-Spalte) den ganzen Footer auf: bei 360px Viewport
+   26px seitlicher Ueberlauf. Mit wrap ist die Min-Content-Breite der
+   breiteste einzelne Link. Ab Tablet passen die Links in eine Zeile — dort
+   aendert sich nichts (Pixelvergleich 768/1280px). */
 .nc-footer__legal-links {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--fnd-spacing-03);
+}
+
+/* Mobil darf auch die Copyright-Zeile umbrechen: nowrap hielt sie bei
+   320px auf 310px Breite (22px Ueberlauf, auch ohne Rechtslinks). Ab
+   Tablet bleibt sie einzeilig. */
+@include mobile-only {
+  .nc-footer__copyright {
+    white-space: normal;
+  }
 }
 
 .nc-footer__legal-links a {

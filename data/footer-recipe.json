@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "footer",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,14 @@
       "docs": "/docs/footer-docs"
     },
     "changelog": [
+      {
+        "version": "2.0.2",
+        "changes": [
+          "Mobil kein seitlicher Ueberlauf mehr (Abschluss Plan v3, 08.10.2026): .nc-footer__legal-links war display:flex ohne flex-wrap. Die Min-Content-Breite der Leiste (alle Rechtslinks + Abstaende, 361px bei Impressum/Datenschutz/Barrierefreiheit/Cookie-Einstellungen) zog ueber die auto-Spalte des Wurzel-Grids den ganzen Footer auf: 360px Viewport +26px, 320px +64px. Jetzt flex-wrap: wrap, die Links brechen zeilenweise um (Abstand bleibt --fnd-spacing-03).",
+          "Copyright (.nc-footer__copyright) darf unterhalb von Tablet (mobile-only, < 768px) umbrechen; white-space:nowrap hielt die Zeile bei 320px auf 310px. Ab Tablet unveraendert einzeilig.",
+          "Ab 768px pixelgleich (Playwright-Vergleich 768/800/1024/1280/1536px). Freigabe ausstehend."
+        ]
+      },
       {
         "version": "2.0.1",
         "changes": [
