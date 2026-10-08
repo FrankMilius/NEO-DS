@@ -81,6 +81,8 @@ jobs:
         run: npm run drupal:pruefvektoren:check
       - name: Docs-Seiten entstehen aus docs/content (keine Handaenderung)
         run: node scripts/build-docs.cjs --check
+      - name: Specs aktuell (specs/* == Erzeugnis aus data/*-recipe.json)
+        run: npm run specs:pruefen
       - name: Validator nicht schlechter als der eingefrorene Bestand
         run: npm run lint:schwellen
 

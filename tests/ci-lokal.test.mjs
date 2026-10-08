@@ -13,6 +13,7 @@ describe('ci-lokal: Schritte aus theme-configurator.yml', () => {
     const imWorkflow = text.split('\n  app:')[0].split('\n  tokens:')[1].match(/^ {6}- run:|^ {8}run:/gm).length
     expect(runs.length).toBe(imWorkflow)
     expect(runs).toContain('node scripts/build-docs.cjs --check')
+    expect(runs).toContain('npm run specs:pruefen')
     expect(runs.some((r) => r.includes('generate-tokens.cjs') && r.includes('git diff'))).toBe(true)
   })
 

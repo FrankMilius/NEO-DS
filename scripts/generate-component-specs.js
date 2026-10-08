@@ -16,6 +16,10 @@
  *   node scripts/generate-component-specs.js --component=button # Einzeln
  *   node scripts/generate-component-specs.js --format=json      # Nur JSON
  *   node scripts/generate-component-specs.js --format=md        # Nur Markdown
+ *   node scripts/generate-component-specs.js --pruefen          # Nur pruefen (CI):
+ *       erzeugt alle Specs im Speicher und vergleicht mit specs/; Exit 1 mit
+ *       Liste, wenn eine Datei abweicht, fehlt oder ohne Recipe uebrig ist.
+ *       Das Datum `generated` in index.json zaehlt nicht als Abweichung.
  */
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
@@ -29,6 +33,7 @@ const args = process.argv.slice(2);
 
 const SINGLE = args.find(a => a.startsWith('--component='))?.split('=')[1];
 const FORMAT = args.find(a => a.startsWith('--format='))?.split('=')[1] || 'both';
+const PRUEFEN = args.includes('--pruefen');
 
 // ---------------------------------------------------------------------------
 // Recipe → Spec Transformation
@@ -478,38 +483,29 @@ function bestehenderIndex() {
   }
 }
 
-function main() {
-  if (!existsSync(SPECS_DIR)) mkdirSync(SPECS_DIR, { recursive: true });
-
-  const recipeFiles = readdirSync(DATA_DIR)
-    .filter(f => f.endsWith('-recipe.json'))
-    .filter(f => !SINGLE || f === `${SINGLE}-recipe.json`);
-
-  if (recipeFiles.length === 0) {
-    console.error(SINGLE ? `✗ Recipe nicht gefunden: ${SINGLE}` : '✗ Keine Recipe-Dateien gefunden');
-    process.exit(1);
-  }
-
-  const index = { generated: new Date().toISOString().split('T')[0], specs: {} };
-  let count = 0;
-
-  for (const file of recipeFiles) {
+/**
+ * Erzeugt Spec-Dateien aus Recipes im Speicher (ohne zu schreiben).
+ *
+ * @param {Array<{ datei: string, recipe: object }>} recipes
+ * @param {{ format?: 'both'|'json'|'md', warnen?: (text: string) => void }} [optionen]
+ * @returns {{ dateien: Map<string, string>, eintraege: Record<string, object> }}
+ *   dateien: Dateiname in specs/ -> Inhalt (ohne index.json)
+ */
+export function specsErzeugen(recipes, { format = 'both', warnen = () => {} } = {}) {
+  const dateien = new Map();
+  const eintraege = {};
+  for (const { datei, recipe, fehler } of recipes) {
     try {
-      const recipe = JSON.parse(readFileSync(join(DATA_DIR, file), 'utf-8'));
+      if (fehler) throw fehler;
       const spec = recipeToSpec(recipe);
       const name = spec.component;
-
-      // JSON Spec
-      if (FORMAT === 'both' || FORMAT === 'json') {
-        writeFileSync(join(SPECS_DIR, `${name}.spec.json`), JSON.stringify(spec, null, 2) + '\n');
+      if (format === 'both' || format === 'json') {
+        dateien.set(`${name}.spec.json`, JSON.stringify(spec, null, 2) + '\n');
       }
-
-      // Markdown Spec
-      if (FORMAT === 'both' || FORMAT === 'md') {
-        writeFileSync(join(SPECS_DIR, `${name}.spec.md`), specToMarkdown(spec) + '\n');
+      if (format === 'both' || format === 'md') {
+        dateien.set(`${name}.spec.md`, specToMarkdown(spec) + '\n');
       }
-
-      index.specs[name] = {
+      eintraege[name] = {
         version: spec.version,
         status: spec.status,
         layer: spec.layer,
@@ -519,18 +515,100 @@ function main() {
         hasTestSelectors: !!spec.testSelectors,
         hasEvents: !!spec.events,
       };
-
-      count++;
     } catch (e) {
-      console.warn(`⚠ ${file}: ${e.message}`);
+      warnen(`${datei}: ${e.message}`);
     }
   }
+  return { dateien, eintraege };
+}
+
+/**
+ * Vergleicht erzeugte Specs mit dem Bestand in specs/.
+ *
+ * @param {Map<string, string>} soll  Dateiname -> erwarteter Inhalt (inkl. index.json)
+ * @param {Map<string, string>} ist   Dateiname -> Inhalt im Ordner (*.spec.json|md, index.json)
+ * @returns {Array<{ datei: string, grund: 'abweichend'|'fehlt'|'ohne Recipe' }>}
+ */
+export function specsVergleichen(soll, ist) {
+  const ohneDatum = (text) => {
+    try {
+      const { generated, ...rest } = JSON.parse(text);
+      return JSON.stringify(rest);
+    } catch {
+      return text;
+    }
+  };
+  const abweichungen = [];
+  for (const [datei, inhalt] of soll) {
+    if (!ist.has(datei)) abweichungen.push({ datei, grund: 'fehlt' });
+    else if (datei === 'index.json' ? ohneDatum(ist.get(datei)) !== ohneDatum(inhalt) : ist.get(datei) !== inhalt) {
+      abweichungen.push({ datei, grund: 'abweichend' });
+    }
+  }
+  for (const datei of ist.keys()) {
+    if (!soll.has(datei)) abweichungen.push({ datei, grund: 'ohne Recipe' });
+  }
+  return abweichungen.sort((a, b) => a.datei.localeCompare(b.datei));
+}
+
+function recipesLesen(filter) {
+  return readdirSync(DATA_DIR)
+    .filter(f => f.endsWith('-recipe.json'))
+    .filter(filter)
+    .map(datei => {
+      try {
+        return { datei, recipe: JSON.parse(readFileSync(join(DATA_DIR, datei), 'utf-8')) };
+      } catch (fehler) {
+        return { datei, fehler };
+      }
+    });
+}
+
+function pruefen() {
+  const heute = new Date().toISOString().split('T')[0];
+  const warnungen = [];
+  const { dateien, eintraege } = specsErzeugen(recipesLesen(() => true), { warnen: (t) => warnungen.push(t) });
+  dateien.set('index.json', JSON.stringify({ generated: heute, specs: eintraege }, null, 2) + '\n');
+  const ist = new Map();
+  if (existsSync(SPECS_DIR)) {
+    for (const datei of readdirSync(SPECS_DIR)) {
+      if (datei === 'index.json' || /\.spec\.(json|md)$/.test(datei)) {
+        ist.set(datei, readFileSync(join(SPECS_DIR, datei), 'utf-8'));
+      }
+    }
+  }
+  const abweichungen = specsVergleichen(dateien, ist);
+  for (const w of warnungen) abweichungen.push({ datei: w, grund: 'Recipe nicht lesbar' });
+  if (abweichungen.length) {
+    console.error(`✗ ${abweichungen.length} Spec-Datei(en) passen nicht zu den Recipes:`);
+    for (const { datei, grund } of abweichungen) console.error(`    ${datei} (${grund})`);
+    console.error('  → `npm run specs` ausfuehren und specs/ mitcommitten.');
+    process.exit(1);
+  }
+  console.log(`✓ specs/ passt zu den Recipes (${dateien.size - 1} Spec-Dateien + index.json).`);
+}
+
+function main() {
+  if (PRUEFEN) return pruefen();
+  if (!existsSync(SPECS_DIR)) mkdirSync(SPECS_DIR, { recursive: true });
+
+  const recipes = recipesLesen(f => !SINGLE || f === `${SINGLE}-recipe.json`);
+
+  if (recipes.length === 0) {
+    console.error(SINGLE ? `✗ Recipe nicht gefunden: ${SINGLE}` : '✗ Keine Recipe-Dateien gefunden');
+    process.exit(1);
+  }
+
+  const heute = new Date().toISOString().split('T')[0];
+  const { dateien, eintraege } = specsErzeugen(recipes, { format: FORMAT, warnen: (t) => console.warn(`⚠ ${t}`) });
+  for (const [datei, inhalt] of dateien) writeFileSync(join(SPECS_DIR, datei), inhalt);
+  const count = Object.keys(eintraege).length;
 
   // Index schreiben — beim Einzellauf nur den einen Eintrag ersetzen
   const gesamt = indexZusammenfuehren(
     SINGLE ? bestehenderIndex() : null,
-    index.specs,
-    { einzeln: !!SINGLE, heute: index.generated },
+    eintraege,
+    { einzeln: !!SINGLE, heute },
   );
   writeFileSync(join(SPECS_DIR, 'index.json'), JSON.stringify(gesamt, null, 2) + '\n');
 
@@ -538,7 +616,7 @@ function main() {
   console.log(`  JSON: ${FORMAT !== 'md' ? count : 0} | Markdown: ${FORMAT !== 'json' ? count : 0}`);
 
   // Statistiken
-  const specs = Object.values(index.specs);
+  const specs = Object.values(eintraege);
   const withKeyboard = specs.filter(s => s.hasKeyboard).length;
   const withTestSelectors = specs.filter(s => s.hasTestSelectors).length;
   const withEvents = specs.filter(s => s.hasEvents).length;
