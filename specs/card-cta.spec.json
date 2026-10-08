@@ -1,9 +1,9 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card-cta",
-  "version": "1.2.0",
-  "status": "draft",
-  "layer": "unknown",
+  "version": "1.3.0",
+  "status": "stable",
+  "layer": "molecule",
   "tags": [
     "aufgenommen",
     "molecules"
@@ -12,39 +12,43 @@
     "rootElement": ".nc-card-cta",
     "slots": [
       {
-        "name": "actions",
-        "selector": ".nc-card-cta__actions",
-        "required": true,
-        "description": null
+        "name": "media",
+        "selector": ".nc-card-cta__media",
+        "required": false,
+        "description": "Hintergrundmedium, absolut auf die ganze Karte, object-fit cover: <img alt=\"\"> (card.media, loading lazy) oder <video> mit autoplay, loop, muted, playsinline und aria-hidden (card.video, Vorrang vor dem Bild). Dekorativ."
+      },
+      {
+        "name": "overlay",
+        "selector": ".nc-card-cta__overlay",
+        "required": false,
+        "description": "Verlauf ueber dem Medium (von unten): dunkel, bei data-theme=\"light\" hell. Nur mit Medium; pointer-events none."
       },
       {
         "name": "content",
         "selector": ".nc-card-cta__content",
         "required": true,
-        "description": null
-      },
-      {
-        "name": "media",
-        "selector": ".nc-card-cta__media",
-        "required": true,
-        "description": null
-      },
-      {
-        "name": "overlay",
-        "selector": ".nc-card-cta__overlay",
-        "required": true,
-        "description": null
+        "description": "Inhaltsebene ueber Medium und Verlauf: Flex-Spalte, unten ausgerichtet, Polsterung spacing-06."
       },
       {
         "name": "title",
         "selector": ".nc-card-cta__title",
-        "required": true,
-        "description": null
+        "required": false,
+        "description": "<h3> (card.title), heading-l bold; always-light, bei data-theme=\"light\" always-dark. Breite als Instanzwert max-width in % (card.titleWidth, Vorgabe 80)."
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-card-cta__actions",
+        "required": false,
+        "description": "Knopfzeile (card.cta): ein .nc-button — <a> mit card.url, sonst <span>; --primary oder --ghost (card.ghost). Auf dunkler Karte setzt das Skript helle Knopffarben inline (--nc-button-primary-bg/-color bzw. --nc-button-ghost-color/-border). aria-label „<CTA> – <Titel>\"."
       }
     ],
     "notes": [
-      "Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.",
-      "Slots sind aus Klassennamen abgeleitet. Die ersten sechs werden in der Story gerendert, um die Struktur zu zeigen — welche wirklich Pflicht sind, klaert erst eine Spezifikation."
+      "Kein Twig: Drupal.behaviors.neoCardGridCta (js/neo-theme.js) baut die Karten aus dem JSON-Feld field_cgc_cards in das Raster .nc-card-grid-cta (Recipe card-grid-cta) — <div class=\"nc-card-cta\" data-theme=\"dark|light\"> mit __media, __overlay, __content > __title + __actions.",
+      "data-theme steht nur, wenn die Karte card.theme traegt; ohne Angabe verhaelt sie sich wie dunkel (heller Titel, dunkler Verlauf, helle Knopffarben). data-theme bindet hier keine Theme-Tokens neu, es waehlt nur die beiden Regeln .nc-card-cta[data-theme=\"light\"].",
+      "Seitenverhaeltnis aus --cgc-ratio (Instanzwert am Raster, field_cgc_ratio 16/9 | 4/3 | 1/1 | 3/4; Vorgabe 16/9), Radius --nc-card-radius (Rueckfall radius-md).",
+      "Ohne Medium steht die Karte auf background-tertiary des Seitenthemas ohne Verlauf.",
+      "Hover: das Medium zoomt auf 1.03 (Uebergang 0,4 s, bei prefers-reduced-motion ohne Uebergang); die Karte selbst ist kein Link, der Knopf traegt das Ziel.",
+      "Die Mobilregel (max-width 768px) setzt dieselbe Titelgroesse wie die Grundregel und ist wirkungslos."
     ]
   },
   "api": null,
@@ -80,20 +84,78 @@
     "baseClasses": [
       "nc-card-cta"
     ],
-    "tokenGroups": {},
-    "modTokens": []
+    "tokenGroups": {
+      "Fundament": [
+        {
+          "token": "--nc-card-radius"
+        },
+        {
+          "token": "--fnd-radius-md"
+        },
+        {
+          "token": "--fnd-color-background-tertiary"
+        },
+        {
+          "token": "--fnd-color-always-dark"
+        },
+        {
+          "token": "--fnd-color-always-light"
+        },
+        {
+          "token": "--fnd-spacing-03"
+        },
+        {
+          "token": "--fnd-spacing-04"
+        },
+        {
+          "token": "--fnd-spacing-06"
+        },
+        {
+          "token": "--nc-type-heading-l-size"
+        },
+        {
+          "token": "--fnd-font-weight-bold"
+        },
+        {
+          "token": "--lh-heading"
+        }
+      ]
+    },
+    "modTokens": [
+      "--mod-card-radius",
+      "--mod-type-heading-l-size"
+    ]
   },
   "keyboard": null,
   "testSelectors": null,
   "events": null,
   "a11y": {
     "role": null,
-    "interactive": null,
-    "contrastTarget": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA large text (3:1) — Titel heading-l bold",
     "focusIndicator": null,
-    "assertions": [],
+    "assertions": [
+      "Medium dekorativ: Bild mit alt=\"\", Video mit aria-hidden und stumm; der Sinn steht im Titel.",
+      "Titel als <h3> unter der Ueberschrift des Rasters (h2 im Block-Kopf).",
+      "Der Knopf ist das einzige Ziel (<a class=\"nc-button\">); sein aria-label nennt Aktion und Titel, weil mehrere Karten dieselbe Aktion tragen koennen. Ohne URL ist er ein <span> und nicht bedienbar.",
+      "Kontrast von Titel und Knopf haengt am Medium: der Verlauf (dunkel 60 %, hell 70 % am unteren Rand) sichert ihn nur im unteren Bereich — Bild passend zum Ton waehlen.",
+      "Das Video laeuft automatisch in Schleife ohne Pausenknopf (WCAG 2.2.2 bei mehr als 5 s) — nur ruhige, kurze Loops verwenden.",
+      "Hover-Zoom entfaellt bei prefers-reduced-motion."
+    ],
     "overrides": []
   },
   "dependencies": [],
-  "pipeline": null
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_card-cta.scss"
+    ],
+    "story": "stories/molecules/card-cta.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [
+      "block/block--block-content--neo-card-grid-cta.html.twig",
+      "block/block--inline-block--neo-card-grid-cta.html.twig",
+      "js/neo-theme.js (Drupal.behaviors.neoCardGridCta)"
+    ],
+    "docs": null
+  }
 }

@@ -14,7 +14,6 @@
 // ==========================================================================
 
 export const ENTWUERFE = Object.freeze([
-  'card-cta',
   'event',
   'events',
   'feature-list',
