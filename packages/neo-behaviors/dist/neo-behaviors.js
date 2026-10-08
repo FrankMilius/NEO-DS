@@ -3663,6 +3663,183 @@
     return null;
   }
 
+  // packages/neo-behaviors/reference-page.js
+  var TOLERANZ2 = 24;
+  var BREIT = "(min-width: 1024px)";
+  var referencePage = {
+    id: "reference-page",
+    selektor: ".nc-refpage",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      var _a;
+      const dok = wurzel.ownerDocument;
+      const ansicht = (
+        /** @type {Window} */
+        dok.defaultView
+      );
+      const idVon = (a) => {
+        const href = a.getAttribute("href") || "";
+        return href.startsWith("#") ? decodeURIComponent(href.slice(1)) : "";
+      };
+      const eintraege = [];
+      for (
+        const link of
+        /** @type {HTMLAnchorElement[]} */
+        [...wurzel.querySelectorAll(".nc-refpage__toc-link")]
+      ) {
+        const id = idVon(link);
+        const ziel = id ? dok.getElementById(id) : null;
+        if (ziel) eintraege.push({ link, ziel, id });
+      }
+      if (!eintraege.length) return;
+      const details = (
+        /** @type {HTMLDetailsElement|null} */
+        wurzel.querySelector(".nc-refpage__toc-disclosure")
+      );
+      const scroller = naechsterScroller(wurzel);
+      const scrollTop = () => scroller ? scroller.scrollTop : ansicht.scrollY;
+      const obenKante = () => scroller ? scroller.getBoundingClientRect().top : 0;
+      const versatz = (ziel) => {
+        const kopf = scroller ? null : dok.querySelector(".site-header[data-neo-nav]");
+        const kopfHoehe = kopf ? (
+          /** @type {HTMLElement} */
+          kopf.offsetHeight || 64
+        ) : 0;
+        const rand = parseFloat(ansicht.getComputedStyle(ziel).scrollMarginTop) || 0;
+        return Math.max(rand, kopfHoehe);
+      };
+      let aktiv = ((_a = eintraege.find((k) => k.link.getAttribute("aria-current") === "true")) == null ? void 0 : _a.id) || null;
+      const vorher = new Map(eintraege.map((k) => [k.link, k.link.getAttribute("aria-current")]));
+      const warOffen = details ? details.open : false;
+      const eigenerTabindex = /* @__PURE__ */ new Set();
+      function markiere(id) {
+        if (!id || id === aktiv) return;
+        const davor = aktiv;
+        aktiv = id;
+        for (const k of eintraege) {
+          if (k.id === id) k.link.setAttribute("aria-current", "true");
+          else k.link.removeAttribute("aria-current");
+        }
+        sende(wurzel, "reference-page-change", { value: id, previousValue: davor });
+      }
+      let ruht = false;
+      function auswerten() {
+        if (ruht) return;
+        const oben = obenKante();
+        let treffer = null;
+        for (const k of eintraege) {
+          if (k.ziel.getBoundingClientRect().top - oben - (versatz(k.ziel) + TOLERANZ2) <= 0) treffer = k;
+        }
+        if (!treffer && scrollTop() < 10) treffer = eintraege[0];
+        if (scrollTop() > 0 && amEnde()) treffer = eintraege[eintraege.length - 1];
+        if (treffer) markiere(treffer.id);
+      }
+      function amEnde() {
+        if (scroller) return scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4;
+        return ansicht.innerHeight + ansicht.scrollY >= dok.body.scrollHeight - 4;
+      }
+      let sprungMarke = false;
+      function meldeSprung(an) {
+        if (an && !scroller) {
+          dok.documentElement.setAttribute("data-neo-sprung", "ja");
+          sprungMarke = true;
+        } else if (!an && sprungMarke) {
+          dok.documentElement.removeAttribute("data-neo-sprung");
+          sprungMarke = false;
+        }
+      }
+      let laeuft = false;
+      let ruheUhr = 0;
+      const ruheBis = () => {
+        ansicht.clearTimeout(ruheUhr);
+        ruheUhr = ansicht.setTimeout(() => {
+          ruht = false;
+          meldeSprung(false);
+          auswerten();
+        }, 150);
+      };
+      (scroller || ansicht).addEventListener("scroll", () => {
+        if (ruht) {
+          ruheBis();
+          return;
+        }
+        if (laeuft) return;
+        laeuft = true;
+        ansicht.requestAnimationFrame(() => {
+          laeuft = false;
+          auswerten();
+        });
+      }, { signal, passive: true });
+      const Beobachter = (
+        /** @type {typeof IntersectionObserver|undefined} */
+        /** @type {any} */
+        ansicht.IntersectionObserver
+      );
+      if (typeof Beobachter === "function") {
+        const beobachter = new Beobachter(() => auswerten(), {
+          root: scroller,
+          rootMargin: `-${versatz(eintraege[0].ziel) + TOLERANZ2}px 0px 0px 0px`,
+          threshold: 0
+        });
+        for (const k of eintraege) beobachter.observe(k.ziel);
+        signal.addEventListener("abort", () => beobachter.disconnect());
+      }
+      const breit = typeof ansicht.matchMedia === "function" ? ansicht.matchMedia(BREIT) : null;
+      function klappZustand() {
+        if (!details || !breit) return;
+        details.open = !!breit.matches;
+      }
+      klappZustand();
+      if (breit && typeof breit.addEventListener === "function") breit.addEventListener("change", klappZustand, { signal });
+      wurzel.addEventListener("click", (e) => {
+        var _a2, _b, _c;
+        const link = (
+          /** @type {HTMLElement} */
+          (_b = (_a2 = e.target).closest) == null ? void 0 : _b.call(_a2, ".nc-refpage__toc-link")
+        );
+        const k = eintraege.find((x) => x.link === link);
+        if (!k || e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        markiere(k.id);
+        ruht = true;
+        meldeSprung(true);
+        ruheBis();
+        if (details && breit && !breit.matches) details.open = false;
+        const ziel = k.ziel.getBoundingClientRect().top - obenKante() + scrollTop() - versatz(k.ziel);
+        const sanft = !((_c = ansicht.matchMedia) == null ? void 0 : _c.call(ansicht, "(prefers-reduced-motion: reduce)").matches);
+        const flaeche = scroller || ansicht;
+        if (typeof flaeche.scrollTo === "function") flaeche.scrollTo({ top: Math.max(0, ziel), behavior: sanft ? "smooth" : "auto" });
+        else if (scroller) scroller.scrollTop = Math.max(0, ziel);
+        if (!scroller && ansicht.location.hash !== `#${k.id}`) {
+          try {
+            ansicht.history.pushState(null, "", `#${encodeURIComponent(k.id)}`);
+          } catch {
+          }
+        }
+        if (!k.ziel.hasAttribute("tabindex")) {
+          k.ziel.setAttribute("tabindex", "-1");
+          eigenerTabindex.add(k.ziel);
+        }
+        k.ziel.focus({ preventScroll: true });
+      }, { signal });
+      const anker = !scroller && ansicht.location.hash ? decodeURIComponent(ansicht.location.hash.slice(1)) : "";
+      if (anker && eintraege.some((k) => k.id === anker)) markiere(anker);
+      else auswerten();
+      signal.addEventListener("abort", () => {
+        ansicht.clearTimeout(ruheUhr);
+        meldeSprung(false);
+        for (const [link, wert] of vorher) {
+          if (wert === null) link.removeAttribute("aria-current");
+          else link.setAttribute("aria-current", wert);
+        }
+        for (const z of eigenerTabindex) z.removeAttribute("tabindex");
+        if (details) details.open = warOffen;
+      });
+    }
+  };
+
   // packages/neo-behaviors/expanding-panels.js
   var expandingPanels = {
     id: "expanding-panels",
@@ -3723,7 +3900,7 @@
   };
 
   // packages/neo-behaviors/feature-accordion.js
-  var TOLERANZ2 = 24;
+  var TOLERANZ3 = 24;
   var featureAccordion = {
     id: "feature-accordion",
     selektor: ".nc-feature-accordeon",
@@ -3793,7 +3970,7 @@
         laeuft = true;
         ansicht.requestAnimationFrame(() => {
           laeuft = false;
-          const oben = rechts.getBoundingClientRect().top + TOLERANZ2;
+          const oben = rechts.getBoundingClientRect().top + TOLERANZ3;
           let treffer = 0;
           paare.forEach((p, i) => {
             if (p.kapitel.getBoundingClientRect().top - oben <= 0) treffer = i;
@@ -4239,6 +4416,8 @@
     "navigation-tab-mega": navigationTabMega,
     // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
     "chapter-nav": chapterNav,
+    // Website-Bauteil (Entscheidung Abschluss 08.10.2026): in Drupal nur per nur
+    "reference-page": referencePage,
     "expanding-panels": expandingPanels,
     "feature-accordion": featureAccordion,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur

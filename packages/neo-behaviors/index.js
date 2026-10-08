@@ -48,6 +48,7 @@ import { mobileDrawer } from './mobile-drawer.js'
 import { tableInfoModal } from './table-info-modal.js'
 import { multiselect } from './multiselect.js'
 import { chapterNav } from './chapter-nav.js'
+import { referencePage } from './reference-page.js'
 import { expandingPanels } from './expanding-panels.js'
 import { featureAccordion } from './feature-accordion.js'
 import { shot } from './shot.js'
@@ -88,6 +89,8 @@ export const BEHAVIORS = Object.freeze({
   'navigation-tab-mega': navigationTabMega,
   // Website-Bauteil (Entscheidung 06.10.2026): in Drupal nur per nur
   'chapter-nav': chapterNav,
+  // Website-Bauteil (Entscheidung Abschluss 08.10.2026): in Drupal nur per nur
+  'reference-page': referencePage,
   'expanding-panels': expandingPanels,
   'feature-accordion': featureAccordion,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur

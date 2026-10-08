@@ -795,6 +795,18 @@ onBeforeUnmount(() => {
   border: 1px solid var(--fnd-color-border-primary);
 }
 .ra-live-component .ra-platzhalter--kapitel { min-height: 280px; margin: 16px; }
+/* ra-refseite: kleine Seite fuer die Referenzseite in „Ausprobieren"
+   (Entscheidung Abschluss 08.10.2026, scroll-spy) — eigener Scroll-Container
+   ohne Verkleinerung (der Spy rechnet in CSS-Pixeln), Verzeichnis klebt darin
+   rechts, die Abschnitte scrollen. */
+.ra-live-component .ra-refseite {
+  width: 1040px;
+  max-width: 100%;
+  height: 420px;
+  overflow-y: auto;
+  background: var(--fnd-color-background-base);
+  border: 1px solid var(--fnd-color-border-primary);
+}
 /* ra-legende: Erlaeuterung neben echtem Markup (Token-Kette, Schichten) —
    Arena-Text, kein DS-Element */
 .ra-live-component .ra-legende {

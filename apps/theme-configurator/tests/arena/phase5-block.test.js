@@ -35,6 +35,7 @@ import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js
 import { istEntwurf } from '../../src/data/recipe-entwuerfe.js'
 import { navigationTree } from '../../src/data/navigation-builder.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
+import { MIT_VERHALTEN } from 'neo-behaviors'
 
 const OBJECTS = ['container-intent', 'content', 'media-frame', 'prose']
 const BAUTEILE = ['section-header', 'accordion-block', 'block-bundle', 'reference-page', 'text-cta']
@@ -47,6 +48,8 @@ const STILLGELEGT = {
   'settings-page': { klasse: 't-settings', layout: 'settings' }
 }
 const BLOCK = [...OBJECTS, ...BAUTEILE]
+// Bauteile mit Verhalten in neo-behaviors (Entscheidung Abschluss 08.10.2026)
+const MIT_BEHAVIOR = ['reference-page']
 
 function zellen (id, optionen) {
   const recipe = normalisiereRecipe(rohesRecipe(id))
@@ -237,12 +240,24 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
         }
       })
 
-      it('kein „Ausprobieren" und kein „Abspielen" (keine keyboard/events im Recipe, keine Bewegung im DS)', () => {
+      // reference-page: Verhalten seit der Entscheidung Abschluss 08.10.2026
+      // in neo-behaviors — „Ausprobieren" kommt dann aus MIT_VERHALTEN, nicht
+      // aus der Vorlage (Tests in tests/behaviors/reference-page.test.js).
+      const behavior = MIT_BEHAVIOR.includes(id)
+      it(behavior
+        ? '„Ausprobieren" ueber neo-behaviors (keyboard/events im Recipe), kein eigenes, kein „Abspielen"'
+        : 'kein „Ausprobieren" und kein „Abspielen" (keine keyboard/events im Recipe, keine Bewegung im DS)', () => {
         expect(ausprobierenFuer(id)).toBeNull()
         expect(abspielenFuer(id)).toBeNull()
+        expect(MIT_VERHALTEN.includes(id)).toBe(behavior)
         const r = rohesRecipe(id)
-        expect(r.keyboard).toBeUndefined()
-        expect(r.events).toBeUndefined()
+        if (behavior) {
+          expect(Object.keys(r.keyboard || {}).length).toBeGreaterThan(0)
+          expect(Object.keys(r.events || {}).length).toBeGreaterThan(0)
+        } else {
+          expect(r.keyboard).toBeUndefined()
+          expect(r.events).toBeUndefined()
+        }
       })
     })
   }
@@ -357,11 +372,11 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     }
   })
 
-  it('reference-page: Scroll-Spy beschrieben, nicht migriert — Quelle neo-theme.js, keine keyboard/events, jedes Sprungziel mit id (Freigabe 08.10.2026)', () => {
+  it('reference-page: Scroll-Spy in neo-behaviors (Entscheidung Abschluss 08.10.2026), jedes Sprungziel mit id', () => {
     const r = rohesRecipe('reference-page')
-    expect(r.meta.source.drupal).toMatch(/Drupal\.behaviors\.neoRefpageToc/)
-    expect(r.meta.source.behavior).toBeNull()
-    expect(r.anatomy.domNotes.join(' ')).toMatch(/gehoert nach neo-behaviors/)
+    expect(r.meta.source.behavior).toBe('packages/neo-behaviors/reference-page.js')
+    expect(r.meta.source.drupal).not.toMatch(/neoRefpageToc/)
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/neo-behaviors reference-page/)
     for (const z of zellen('reference-page')) {
       for (const el of dom(z.html).querySelectorAll('.nc-refpage__section')) expect(el.id, z.specimen.id).toBeTruthy()
     }

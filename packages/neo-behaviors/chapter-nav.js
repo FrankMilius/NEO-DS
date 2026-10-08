@@ -192,8 +192,8 @@ export const chapterNav = {
   }
 }
 
-/** Naechster Vorfahr, der senkrecht scrollt (overflow-y auto/scroll), sonst null = Fenster. */
-function naechsterScroller (el) {
+/** Naechster Vorfahr, der senkrecht scrollt (overflow-y auto/scroll), sonst null = Fenster (auch fuer reference-page). */
+export function naechsterScroller (el) {
   const ansicht = el.ownerDocument.defaultView
   for (let p = el.parentElement; p && p !== el.ownerDocument.body && p !== el.ownerDocument.documentElement; p = p.parentElement) {
     const oy = ansicht?.getComputedStyle(p).overflowY

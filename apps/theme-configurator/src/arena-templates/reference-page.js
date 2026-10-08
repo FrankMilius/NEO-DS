@@ -2,9 +2,14 @@
 // Phase 5. Markup nach neo_fe/templates/content/node--reference-page.html
 // .twig (Verzeichnis aus den Sections, serverseitig) und
 // block--block-content--neo-doc-section.html.twig (Abschnitte). Der erste
-// Eintrag traegt aria-current="true" — so setzt ihn der Scroll-Spy in
-// neo-theme.js beim Laden. Der Umbruch (1024 px) ist eine Media Query der
-// Fensterbreite: die Arena zeigt die Desktop-Lage. Rahmen ra-desktop.
+// Eintrag traegt aria-current="true" — so setzt ihn der Scroll-Spy
+// (neo-behaviors reference-page) beim Laden. Der Umbruch (1024 px) ist eine
+// Media Query der Fensterbreite: die Arena zeigt die Desktop-Lage. Rahmen
+// ra-desktop.
+// „Ausprobieren" (Entscheidung Abschluss 08.10.2026, scroll-spy): dieselbe
+// Seite ohne Verkleinerung in einer kleinen Seite (Rahmen ra-refseite, eigener
+// Scroll-Container) — das Behavior markiert beim Scrollen, springt beim Klick
+// und setzt den Fokus aufs Sprungziel; am Ende der Seite der letzte Abschnitt.
 
 const CHEVRON = '<svg class="nc-refpage__toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>'
 
@@ -53,7 +58,7 @@ ${u.punkte ? `<ul class="nc-doc-section__list">${u.punkte.map((p) => `<li>${p}</
 
 export default (zelle, m) => {
   const unterpunkte = m.specimen.render?.unterpunkte !== false
-  return `<div class="ra-desktop">
+  return `<div class="${m.ausprobieren ? 'ra-refseite' : 'ra-desktop'}">
 <div class="${m.klasse} nc-container"${m.attrs}>
 <nav class="nc-refpage__toc" aria-label="Inhaltsverzeichnis">
 <details class="nc-refpage__toc-disclosure" open>
