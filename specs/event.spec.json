@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "event",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -87,7 +87,7 @@
         "name": "cta",
         "selector": ".nc-event__cta",
         "required": true,
-        "description": "Knopfzeile: nc-button--accent --lg (field_event_cta_text, Vorgabe „Anmelden\"; Ziel field_event_cta_url, sonst #event-signup), mit Video-URL dazu nc-button--outline --lg „Aufzeichnung ansehen\" (neues Fenster)."
+        "description": "Knopfzeile: nc-button--accent --lg (field_event_cta_text, Vorgabe „Anmelden\"; Ziel field_event_cta_url, sonst #event-signup), mit Video-URL dazu nc-button--outline --lg „Aufzeichnung ansehen\" (neues Fenster). Der Outline-Knopf nimmt im Hero die Farben des Heros (Schrift always-light, Schleier beim Ueberfahren)."
       },
       {
         "name": "content-grid",
@@ -220,6 +220,7 @@
     "assertions": [
       "Eine h1 je Seite (Titel im Hero); Abschnitte mit h2, Infokarte und Karten mit h3.",
       "Hero-Text always-light auf always-dark (gemessen 21:1, Gattungs-Tag 17:1) — unabhaengig vom Seitenthema; mit Titelbild sichert der Verlauf den unteren Bereich.",
+      "Outline-Knopf im Hero: Schrift always-light in jedem Seitenthema (21:1; vorher im hellen Theme 1,18:1).",
       "Titelbild: das Template setzt alt = Titel des Events, der direkt darunter als h1 steht — Screenreader lesen ihn doppelt; das Bild ist dekorativ (alt=\"\" waere richtig, Aenderung im Theme).",
       "Icons in Meta und Karten sind SVG ohne Text und ohne aria-hidden; der Sinn steht im Text daneben.",
       "Die Infokarte ist eine <aside> ohne Namen; ihr Titel „Event Details\" benennt sie sichtbar.",

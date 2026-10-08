@@ -127,6 +127,22 @@
   margin-top: var(--fnd-spacing-04);
 }
 
+// Zweiter Knopf „Aufzeichnung ansehen" (nc-button--outline, nur mit
+// Video-URL). Der Hero ist in jedem Seitenthema dunkel, der Outline-Knopf
+// nimmt aber die Farben des Seitenthemas: im hellen Theme stand dunkle
+// Schrift auf Schwarz (gemessen 1,18:1), beim Ueberfahren eine helle
+// Flaeche. Hier bekommt er, was er im dunklen Theme ohnehin hat — Schrift
+// always-light, Flaechen beim Ueberfahren/Druecken als heller Schleier in
+// der Staerke von background-secondary/-tertiary des dunklen Themas (10 %
+// bzw. 19 % auf Schwarz). Die Kante bleibt border-primary des Themas (hell
+// und dunkel auf Schwarz sichtbar). Im dunklen Theme pixelgleich
+// (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend).
+.nc-event__hero .nc-button--outline {
+  --mod-button-outline-color: var(--fnd-color-always-light);
+  --mod-button-outline-bg-hover: color-mix(in srgb, var(--fnd-color-always-light) 10%, transparent);
+  --mod-button-outline-bg-active: color-mix(in srgb, var(--fnd-color-always-light) 19%, transparent);
+}
+
 .nc-event__content-grid {
   display: grid;
   grid-template-columns: 1fr;

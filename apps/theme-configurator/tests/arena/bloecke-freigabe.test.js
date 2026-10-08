@@ -301,3 +301,12 @@ describe('Abschluss Plan v3: scroll-expand und scroll-reveal geprueft, nicht fre
     })
   }
 })
+
+describe('event: Outline-Knopf im Hero mit den Farben des Heros (Abschluss Plan v3, 08.10.2026, Freigabe ausstehend)', () => {
+  it('Schrift always-light, Schleier fuer Hover/Active — nur im Hero', () => {
+    const c = css()
+    expect(c).toMatch(/\.nc-event__hero \.nc-button--outline\{--mod-button-outline-color: ?var\(--fnd-color-always-light\);--mod-button-outline-bg-hover: ?color-mix\(in srgb, ?var\(--fnd-color-always-light\) 10%, ?transparent\);--mod-button-outline-bg-active: ?color-mix\(in srgb, ?var\(--fnd-color-always-light\) 19%, ?transparent\)\}/)
+    // nur diese eine Stelle setzt die Schrift des Outline-Knopfs auf always-light
+    expect(c.match(/--mod-button-outline-color: ?var\(--fnd-color-always-light\)/g)).toHaveLength(1)
+  })
+})

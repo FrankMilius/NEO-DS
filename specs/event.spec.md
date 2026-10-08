@@ -1,5 +1,5 @@
 # event Component Spec
-> Version 1.4.0 | Status: stable | Layer: organism
+> Version 1.4.1 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -20,7 +20,7 @@ Root element: `.nc-event`
 | subtitle | `.nc-event__subtitle` | No | Untertitel (field_event_subheadline), body-l, Deckkraft prominent. |
 | meta | `.nc-event__meta` | No | Zeile mit Datum, Uhrzeit (beide aus field_event_date/_end) und Ort (field_event_location); das Template gibt sie immer aus, ohne Werte bleibt sie leer. |
 | meta-item | `.nc-event__meta-item` | No | Eintrag mit Strich-Icon (SVG, 18 px) und Text, body-s. |
-| cta | `.nc-event__cta` | Yes | Knopfzeile: nc-button--accent --lg (field_event_cta_text, Vorgabe „Anmelden"; Ziel field_event_cta_url, sonst #event-signup), mit Video-URL dazu nc-button--outline --lg „Aufzeichnung ansehen" (neues Fenster). |
+| cta | `.nc-event__cta` | Yes | Knopfzeile: nc-button--accent --lg (field_event_cta_text, Vorgabe „Anmelden"; Ziel field_event_cta_url, sonst #event-signup), mit Video-URL dazu nc-button--outline --lg „Aufzeichnung ansehen" (neues Fenster). Der Outline-Knopf nimmt im Hero die Farben des Heros (Schrift always-light, Schleier beim Ueberfahren). |
 | content-grid | `.nc-event__content-grid` | No | Abschnitt 2 (nur mit Body): Raster, ab 768 px 1fr | 360 px — links Beschreibung, rechts Infokarte. |
 | description | `.nc-event__description` | No | Linke Spalte (u-prose): h2 „Über dieses Event" und Body — ohne eigene Regel. |
 | sidebar | `.nc-event__sidebar` | No | <aside id="event-signup">, rechte Spalte um die Infokarte (Sprungziel des Anmeldeknopfs) — ohne eigene Regel. |
@@ -66,6 +66,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 
 - Eine h1 je Seite (Titel im Hero); Abschnitte mit h2, Infokarte und Karten mit h3.
 - Hero-Text always-light auf always-dark (gemessen 21:1, Gattungs-Tag 17:1) — unabhaengig vom Seitenthema; mit Titelbild sichert der Verlauf den unteren Bereich.
+- Outline-Knopf im Hero: Schrift always-light in jedem Seitenthema (21:1; vorher im hellen Theme 1,18:1).
 - Titelbild: das Template setzt alt = Titel des Events, der direkt darunter als h1 steht — Screenreader lesen ihn doppelt; das Bild ist dekorativ (alt="" waere richtig, Aenderung im Theme).
 - Icons in Meta und Karten sind SVG ohne Text und ohne aria-hidden; der Sinn steht im Text daneben.
 - Die Infokarte ist eine <aside> ohne Namen; ihr Titel „Event Details" benennt sie sichtbar.
