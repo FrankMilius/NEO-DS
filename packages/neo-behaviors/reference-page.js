@@ -35,7 +35,12 @@
 //                Scrollen; neu) — Tastatur und Vorlesen landen dort, wo das
 //                Auge ist. Waehrend des Sprungs steht [data-neo-sprung] an
 //                <html> (nur Fenster): das Auto-Hide der Hauptnavigation
-//                zaehlt dieses Scrollen nicht.
+//                zaehlt dieses Scrollen nicht. Der angesprungene Eintrag
+//                bleibt markiert, bis wieder gescrollt wird — am Seitenende
+//                erreicht ein Abschnitt die Linie nicht, und weder „letzter
+//                ueber der Linie" noch „Seitenende" duerften den Klick dann
+//                ueberstimmen (gemessen: Klick auf den vorletzten Abschnitt
+//                markierte nach dem Sprung den letzten).
 //   Klappen      Unter 1024 px (matchMedia, wie $refpage-bp im SCSS) startet
 //                das Verzeichnis (<details>) zu, darueber ist es immer offen;
 //                folgt dem Wechsel der Fensterbreite.
@@ -106,8 +111,11 @@ export const referencePage = {
 
     // Spy: letzter Abschnitt ueber der Linie
     let ruht = false
+    /** @type {string|null} angesprungen, bis wieder gescrollt wird */
+    let angesprungen = null
     function auswerten () {
       if (ruht) return
+      if (angesprungen) { markiere(angesprungen); return }
       const oben = obenKante()
       let treffer = null
       for (const k of eintraege) {
@@ -138,6 +146,7 @@ export const referencePage = {
     }
     ;(scroller || ansicht).addEventListener('scroll', () => {
       if (ruht) { ruheBis(); return }
+      angesprungen = null
       if (laeuft) return
       laeuft = true
       ansicht.requestAnimationFrame(() => { laeuft = false; auswerten() })
@@ -171,6 +180,7 @@ export const referencePage = {
       if (!k || e.defaultPrevented || e.button > 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
       e.preventDefault()
       markiere(k.id)
+      angesprungen = k.id
       ruht = true
       meldeSprung(true)
       ruheBis()

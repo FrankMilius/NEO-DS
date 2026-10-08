@@ -128,6 +128,30 @@ describe('Referenzseite (reference-page-recipe.json)', () => {
     expect(aktuell(links)).toEqual(['Sicherheit'])
   })
 
+  it('Klick am Seitenende: der angesprungene Eintrag bleibt markiert, bis wieder gescrollt wird (Seitenende-Regel ueberstimmt ihn nicht)', () => {
+    vi.useFakeTimers()
+    const { links, ziele } = bau({ kopf: 72 })
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    sofort()
+    const scrollY = Object.getOwnPropertyDescriptor(window, 'scrollY')
+    const hoehe = Object.getOwnPropertyDescriptor(document.body, 'scrollHeight')
+    Object.defineProperty(document.body, 'scrollHeight', { configurable: true, value: 3000 })
+    try {
+      links[3].click()
+      // Sprung endet am Seitenende: „Sicherheit" erreicht die Linie (96) nicht
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 3000 - window.innerHeight })
+      scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: 20, [ziele[3].id]: 200, [ziele[4].id]: 500 })
+      vi.advanceTimersByTime(200)
+      expect(aktuell(links)).toEqual(['Sicherheit'])
+      // naechstes Scrollen der Leserin: die Regeln gelten wieder
+      scrolle({})
+      expect(aktuell(links)).toEqual(['Zugang'])
+    } finally {
+      if (scrollY) Object.defineProperty(window, 'scrollY', scrollY); else delete window.scrollY
+      if (hoehe) Object.defineProperty(document.body, 'scrollHeight', hoehe); else delete document.body.scrollHeight
+    }
+  })
+
   it('Klick mit Strg/Cmd oder mittlerer Taste: Browser macht, das Behavior nicht', () => {
     const { links } = bau()
     const sprung = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
