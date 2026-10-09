@@ -36,10 +36,13 @@ const SCHWELLEN = resolve(ROOT, 'data/linter-schwellen.json');
 
 /** Je Linter: Aufruf und wie die Schlusszeile zu lesen ist. */
 export const LINTER = [
-  { id: 'tokens',       befehl: 'npm run lint:tokens',       muster: /Token-Lint:\s*(\d+)\s*Problem/ },
-  { id: 'docs-tokens',  befehl: 'npm run lint:docs-tokens',  muster: /Docs-Token-Lint:\s*(\d+)\s*Problem/ },
-  { id: 'fragments',    befehl: 'npm run lint:fragments',    muster: /Fragment-Lint:\s*(\d+)\s*CRITICAL/ },
-  { id: 'docs-scripts', befehl: 'npm run lint:docs-scripts', muster: /Script-Integrity-Lint:\s*(\d+)\s*ERROR/ },
+  // Die Schlusszeile bei 0 Befunden hat keine Zahl ("Keine Probleme") — dann
+  // gilt 0 wie beim Token-Validator. Bis 09.10.2026 galt ein Linter, der seinen
+  // letzten Befund los war, als „KONNTE NICHT LAUFEN" (docs-scripts 17 → 0).
+  { id: 'tokens',       befehl: 'npm run lint:tokens',       muster: /Token-Lint:\s*(?:(\d+)\s*Problem|Keine Probleme)/ },
+  { id: 'docs-tokens',  befehl: 'npm run lint:docs-tokens',  muster: /Docs-Token-Lint:\s*(?:(\d+)\s*Problem|Keine Probleme)/ },
+  { id: 'fragments',    befehl: 'npm run lint:fragments',    muster: /Fragment-Lint:\s*(?:(\d+)\s*CRITICAL|\d+ Fragmente geprueft, keine Probleme)/ },
+  { id: 'docs-scripts', befehl: 'npm run lint:docs-scripts', muster: /Script-Integrity-Lint:\s*(?:(\d+)\s*ERROR|\d+ Scripts, \d+ Fragmente, keine Probleme)/ },
   { id: 'recipes',      befehl: 'npm run lint:recipes',      muster: /Recipe-Lint:.*?,\s*(\d+)\s*Fehler/ },
   // Token-Validator (Token-Audit F2): meldete am 29.09.2026 100 Fehler Altbestand.
   // "PASSED" hat keine Zahl — dann gilt 0.

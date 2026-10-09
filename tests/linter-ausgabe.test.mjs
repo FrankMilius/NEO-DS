@@ -48,4 +48,27 @@ describe('lint:schwellen: Linter-Ausgabe kommt vollstaendig an', () => {
     expect(ausgabe.length).toBeGreaterThan(300000)
     expect(ausgabe).toMatch(/Schluss: 7/)
   })
+
+  // Schlusszeilen ohne Befund tragen keine Zahl — sie muessen als 0 zaehlen,
+  // nicht als Ausfall (docs-scripts fiel am 09.10.2026 von 17 auf 0).
+  it.each([
+    ['tokens', 'Token-Lint: Keine Probleme gefunden.'],
+    ['docs-tokens', 'Docs-Token-Lint: Keine Probleme gefunden.'],
+    ['fragments', 'Fragment-Lint: 120 Fragmente geprueft, keine Probleme.'],
+    ['docs-scripts', 'Script-Integrity-Lint: 46 Scripts, 120 Fragmente, keine Probleme.'],
+    ['recipes', 'Recipe-Lint: 139 Dateien geprueft, 0 Fehler, 3 Warnungen.'],
+    ['tote-verweise', 'Tote-Verweise: 0 Variablen ohne Definition und ohne Rueckfallwert'],
+    ['root-dubletten', 'Root-Dubletten: 0 mit abweichendem Wert'],
+    ['doku-befunde', 'Doku-Befunde: 0 ueber 120 Seiten'],
+    ['token-validator', 'Token validation PASSED. No issues found.'],
+  ])('%s: Schlusszeile ohne Befund zaehlt als 0', (id, zeile) => {
+    const l = LINTER.find((x) => x.id === id)
+    const m = l.muster.exec(`vorher\n${zeile}\n`)
+    expect(m).not.toBeNull()
+    expect(Number(m[1] ?? 0)).toBe(0)
+  })
+
+  it('jeder Linter ist in der Nullzeilen-Tabelle', () => {
+    expect(LINTER.map((l) => l.id).sort()).toEqual(['docs-scripts', 'docs-tokens', 'doku-befunde', 'fragments', 'recipes', 'root-dubletten', 'token-validator', 'tokens', 'tote-verweise'])
+  })
 })
