@@ -83,6 +83,10 @@ jobs:
         run: node scripts/build-docs.cjs --check
       - name: Specs aktuell (specs/* == Erzeugnis aus data/*-recipe.json)
         run: npm run specs:pruefen
+      - name: Registry aktuell (data/component-registry.json == npm run registry)
+        run: npm run registry:pruefen
+      - name: Komponenten-READMEs aktuell (components/** == npm run components)
+        run: npm run components:pruefen
       - name: Validator nicht schlechter als der eingefrorene Bestand
         run: npm run lint:schwellen
 
