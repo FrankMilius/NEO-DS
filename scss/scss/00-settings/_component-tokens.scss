@@ -4601,9 +4601,46 @@
   --nc-table-block-stripe-bg: var(--fnd-color-background-secondary);
 }
 
+// :root.neo-dark-theme: seitenweites Dunkel per Klasse auf <html> (Theme-
+// Schalter der Website). Die :root-Vorgabe des Tokens steht in
+// _component-tokens-aufgenommen.scss, also SPAETER und mit gleicher
+// Spezifitaet — sie schlug .neo-dark-theme auf <html>, der Streifen blieb
+// background-secondary = Tabellenflaeche (unsichtbar, gemessen 1,00:1).
+// :root.<klasse> (0,2,0) gewinnt unabhaengig von der Reihenfolge
+// (Restpunkte 09.10.2026, tabelle-dunkel).
 .neo-dark-theme,
-.customer-dark-theme {
+.customer-dark-theme,
+:root:is(.neo-dark-theme, .customer-dark-theme) {
   --nc-table-block-stripe-bg: var(--fnd-color-background-base);
+}
+
+// Vergleichstabelle (compare-table, auch im Tabellen-Block) in Theme-
+// BEREICHEN neu binden (Restpunkte 09.10.2026, tabelle-dunkel; Muster wie
+// Section-Header und Kicker oben). --nc-table-* sind am :root aus --fnd-color-*
+// abgeleitet und dort schon aufgeloest: Ein Block „neo-dark-theme neo-surface"
+// (field_surface dunkel) behielt die WEISSE Tabellenflaeche, darauf der helle
+// Bereichstext (gemessen 1,12:1, Kunde dunkel 1,00:1), der Kopf blieb dunkel.
+// Umgekehrt ein heller Bereich auf dunkler Seite (Text 1,25:1). Hier dieselben
+// Ausdruecke wie am :root — ausgewertet am Bereich, mit dessen Farben.
+// Seitenweit (Klasse auf <html>, prefers-color-scheme) bleibt alles gleich.
+.neo-light-theme,
+.neo-dark-theme,
+.customer-light-theme,
+.customer-dark-theme {
+  --nc-table-bg: var(--fnd-color-surface-elevated);
+  --nc-table-border-color: var(--fnd-color-border-secondary);
+  --nc-table-header-bg: var(--fnd-color-background-inverse);
+  --nc-table-header-color: var(--fnd-color-text-inverse);
+  --nc-table-row-border-color: var(--fnd-color-border-secondary);
+  --nc-table-row-bg-hover: var(--fnd-color-background-secondary);
+  --nc-table-stripe-bg: color-mix(in srgb, var(--fnd-color-background-secondary) 50%, transparent);
+  --nc-table-row-bg-selected: var(--fnd-color-background-tertiary);
+  --nc-table-row-border-selected: var(--fnd-color-interactive-default);
+  --nc-table-sort-icon-color: var(--fnd-color-text-tertiary);
+  --nc-table-sort-icon-color-active: var(--fnd-color-text-primary);
+  --nc-table-color: var(--fnd-color-text-primary);
+  --nc-table-color-secondary: var(--fnd-color-text-secondary);
+  --nc-table-ghost-header-color: var(--fnd-color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
