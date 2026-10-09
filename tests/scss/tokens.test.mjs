@@ -209,7 +209,10 @@ describe('CSS Output Quality', () => {
     // Rohgröße unten). Stand 147,4 KB nach Phase 5; die restlichen Arbeiten
     // (Draft-Recipes final, offene Punkte) brauchen Luft. Höchstens ca. 3 %
     // mehr Übertragung. Aufgeräumt und neu gemessen wird am Schluss.
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(155);
+    //
+    // 09.10.2026: 155 → 148 KB. Nach dem Aufraeumen (ungenutzte Utility-
+    // Klassen entfernt) Stand 145,5 KB; Grenze wieder knapp darueber.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(148);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -243,7 +246,11 @@ describe('CSS Output Quality', () => {
     // entscheiden, ob und wie aufgeraeumt wird (Kandidat: ungenutzte
     // Utility-Klassen, ca. 5,9 KB). Die Grenze bleibt ein Warnsignal, kein
     // Vorrat: Wachstum weiter in der Wochenbilanz beobachten.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1280);
+    //
+    // 09.10.2026: 1280 → 1250 KB. Plan v3 abgeschlossen, Restpunkte umgesetzt,
+    // ungenutzte Utility-Klassen entfernt (Datenbank ohne Treffer). Stand
+    // 1226,8 KB; ca. 2 % Luft, wieder Warnsignal statt Vorrat.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1250);
   });
 
   it('CSS Build hat keine Fehler', () => {
