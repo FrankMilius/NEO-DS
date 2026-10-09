@@ -462,7 +462,22 @@
         "label": { "type": "string" },
         "tokens": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["token"],
+                "additionalProperties": true,
+                "properties": {
+                  "token": { "type": "string" },
+                  "property": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "description": "Tokennamen, wahlweise als Objekt mit CSS-Property und Beschreibung (aspect-ratio, tabs; generate-component-specs liest beide Formen)."
         }
       }
     },
@@ -510,7 +525,8 @@
         },
         "layout": {
           "type": "string",
-          "enum": ["row", "grid", "composition"]
+          "enum": ["row", "grid", "composition", "single", "stack", "column", "block"],
+          "description": "Anordnung in der RecipeArena (lib/recipe-arena.js): stack/column/block/composition = gestapelt, single = einzeln, row/grid = Reihe."
         },
         "layoutConfig": {
           "type": "object",
