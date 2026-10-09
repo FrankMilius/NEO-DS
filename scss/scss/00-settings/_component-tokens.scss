@@ -4944,6 +4944,25 @@
   --nc-solution-tabs-text:              color-mix(in srgb, var(--fnd-color-text-inverse) 74%, transparent);
   --nc-solution-tabs-visual-bg:         color-mix(in srgb, var(--fnd-color-text-inverse) 7%, var(--fnd-color-always-dark));
   --nc-solution-tabs-autoplay-duration: 7s;
+
+  // -- Pause-Knopf der Rotation (Plan v4, Phase 1, 09.10.2026, E1) --
+  // .nc-solution-tabs__autoplay vor der Tableiste: Symbol + Beschriftung
+  // „Automatische Wiedergabe anhalten/fortsetzen" (WCAG 2.2.2). Hoehe
+  // 2.5rem (40 px) liegt ueber dem Mindestziel 24 x 24 px (2.5.8).
+  // Die Farben stehen zusaetzlich auf .nc-solution-tabs-section
+  // (07-organisms/_solution-tabs.scss): dort werden sie mit den Farben der
+  // Flaeche ausgewertet, auch in einem dunklen Block-Bereich.
+  --nc-solution-tabs-autoplay-min-size:       2.5rem;
+  --nc-solution-tabs-autoplay-padding-inline: var(--fnd-spacing-04);
+  --nc-solution-tabs-autoplay-gap:            var(--fnd-spacing-02);
+  --nc-solution-tabs-autoplay-radius:         var(--fnd-radius-full);
+  --nc-solution-tabs-autoplay-font-size:      var(--nc-type-label-size);
+  --nc-solution-tabs-autoplay-icon-size:      1rem;
+  --nc-solution-tabs-autoplay-margin-block:   var(--fnd-spacing-04);
+  --nc-solution-tabs-autoplay-color:          var(--fnd-color-text-secondary);
+  --nc-solution-tabs-autoplay-color-hover:    var(--fnd-color-text-primary);
+  --nc-solution-tabs-autoplay-border:         var(--fnd-color-border-primary);
+  --nc-solution-tabs-autoplay-bg-hover:       color-mix(in srgb, var(--fnd-color-text-primary) 8%, transparent);
 }
 
 // ---------------------------------------------------------------------------

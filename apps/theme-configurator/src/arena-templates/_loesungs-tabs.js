@@ -11,12 +11,23 @@
 // Vertikal bekommt jeder Tab die Nummer (nc-solution-tabs__tab-index), den
 // Fortschrittsbalken haengt Drupal immer an (sichtbar nur bei Autoplay).
 // Gekuerzt auf drei Tabs; gerendert wird nur das aktive Panel.
+// Pause-Knopf (Plan v4, Phase 1, 09.10.2026, E1): bei autoplay=on steht
+// .nc-solution-tabs__autoplay wie im Twig VOR der Tableiste; im Modus
+// „Ausprobieren" schaltet ihn das Behavior solution-tabs (neo-behaviors),
+// das auch den Takt, die Tastatur und die Ruhe bei Maus/Fokus macht.
 
 const TABS = [
   { tab: 'neo workplace', chip: 'Social Intranet', accent: '#19C8C8', titel: 'Social Intranet und Mitarbeitendenportal', text: 'Das soziale Herzstück für Ihre digitale Arbeitswelt. Informationen fließen, Teams arbeiten zusammen, und Ihr Wissen ist auf Knopfdruck verfügbar.', features: ['Personalisierter News-Feed und Newskanäle', 'Wissens- und Inhaltsseiten', 'Vernetzung und Zusammenarbeit'] },
   { tab: 'neo app', chip: 'Mitarbeiter-App', accent: '#AEF359', titel: 'Die Mitarbeiter-App', text: 'Alle erreichen — auch ohne Schreibtisch. Informationen, Services und Austausch in einer App.', features: ['Push-Benachrichtigungen', 'Login ohne Firmen-E-Mail', 'Offline lesen'] },
   { tab: 'neo AI', chip: 'Intranet-KI', accent: '#8B5CF6', titel: 'Die Intranet-KI', text: 'Statt Suchen gibt es Antworten: sicher, offen, schnell — perfekt für den unternehmensinternen Einsatz.', features: ['Antworten mit Quellen', 'Datenschutzkonform', 'Eigene Wissensbasis'] }
 ]
+
+// Wie block--block-content--neo-solution-tabs.html.twig (neo_fe)
+const PAUSE_KNOPF = '<button type="button" class="nc-solution-tabs__autoplay" data-playing="true">' +
+  '<svg class="nc-solution-tabs__autoplay-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+  '<path class="nc-solution-tabs__autoplay-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/>' +
+  '<path class="nc-solution-tabs__autoplay-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>' +
+  '<span class="nc-solution-tabs__autoplay-label">Automatische Wiedergabe anhalten</span></button>'
 
 function schaubild (t) {
   const name = t.tab.replace('neo ', '')
@@ -88,7 +99,7 @@ ${cta}
 </div>${o.schaubild ? schaubild(t) : ''}`
   return `
 <div class="${wurzel}" data-orientation="${o.vertikal ? 'vertical' : 'horizontal'}"${o.autoplay ? ` data-autoplay="${o.autoplay}"` : ''}${m.attrsOhne('aria-selected')}>
-<div class="nc-solution-tabs__tablist" role="tablist"${o.vertikal ? ' aria-orientation="vertical"' : ''}>
+${o.autoplay === 'on' ? PAUSE_KNOPF + '\n' : ''}<div class="nc-solution-tabs__tablist" role="tablist"${o.vertikal ? ' aria-orientation="vertical"' : ''}>
 ${TABS.map((x, i) => `<button type="button" class="nc-solution-tabs__tab${i === o.aktiv ? ' is-active' : ''}" role="tab" id="${u}-t${i}" aria-controls="${u}-p${i}" aria-selected="${i === o.aktiv}" tabindex="${i === o.aktiv ? 0 : -1}">${o.vertikal ? `<span class="nc-solution-tabs__tab-index">0${i + 1}</span>` : ''}${x.tab}${o.fortschritt ? `<span class="nc-solution-tabs__progress" aria-hidden="true"${i === o.aktiv && o.autoplay === 'on' && !tabNav ? ' style="--progress: 0.4;"' : ''}></span>` : ''}</button>`).join('\n')}
 </div>
 <div class="nc-solution-tabs__panel${tabNav ? ' nc-tab-nav__panel' : ''} is-active" role="tabpanel" id="${u}-p${o.aktiv}" aria-labelledby="${u}-t${o.aktiv}">

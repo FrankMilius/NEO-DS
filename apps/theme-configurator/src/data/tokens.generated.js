@@ -18222,6 +18222,23 @@ export const componentTokenGroups = [
           "nc-solution-tabs-tab-bg-strength-hover",
           "nc-solution-tabs-tab-color-hover"
         ]
+      },
+      {
+        "id": "autoplay-knopf",
+        "label": "Pause-Knopf",
+        "tokenIds": [
+          "nc-solution-tabs-autoplay-min-size",
+          "nc-solution-tabs-autoplay-padding-inline",
+          "nc-solution-tabs-autoplay-gap",
+          "nc-solution-tabs-autoplay-radius",
+          "nc-solution-tabs-autoplay-font-size",
+          "nc-solution-tabs-autoplay-icon-size",
+          "nc-solution-tabs-autoplay-margin-block",
+          "nc-solution-tabs-autoplay-color",
+          "nc-solution-tabs-autoplay-color-hover",
+          "nc-solution-tabs-autoplay-border",
+          "nc-solution-tabs-autoplay-bg-hover"
+        ]
       }
     ],
     "tokens": [
@@ -18290,6 +18307,72 @@ export const componentTokenGroups = [
         "label": "Tab Color Hover",
         "type": "color",
         "ref": "text-inverse"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-min-size",
+        "label": "Autoplay Min Size",
+        "type": "size",
+        "default": "2.5rem"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-padding-inline",
+        "label": "Autoplay Padding Inline",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-gap",
+        "label": "Autoplay Gap",
+        "type": "size",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-radius",
+        "label": "Autoplay Radius",
+        "type": "border-radius",
+        "default": "var(--fnd-radius-full)"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-font-size",
+        "label": "Autoplay Font Size",
+        "type": "size",
+        "default": "var(--nc-type-label-size)"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-icon-size",
+        "label": "Autoplay Icon Size",
+        "type": "size",
+        "default": "1rem"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-margin-block",
+        "label": "Autoplay Margin Block",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-color",
+        "label": "Autoplay Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-color-hover",
+        "label": "Autoplay Color Hover",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-border",
+        "label": "Autoplay Border",
+        "type": "color",
+        "ref": "border-primary"
+      },
+      {
+        "id": "nc-solution-tabs-autoplay-bg-hover",
+        "label": "Autoplay Bg Hover",
+        "type": "color",
+        "ref": "text-primary"
       }
     ]
   },

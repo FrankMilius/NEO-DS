@@ -109,6 +109,66 @@
   border-radius: var(--fnd-radius-xs);
 }
 
+// ---------------------------------------------------------------------------
+// Pause-Knopf der Rotation (Plan v4, Phase 1, 09.10.2026, E1)
+// ---------------------------------------------------------------------------
+// Steht im Markup VOR der Tableiste (erste Station in der Tab-Folge vor der
+// bewegten Region). Ein Knopf mit wechselnder Beschriftung (APG-Karussell);
+// data-playing waehlt das Symbol (neo-behaviors solution-tabs). Ohne
+// Autoplay und bei reduzierter Bewegung [hidden].
+.nc-solution-tabs__autoplay {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-solution-tabs-autoplay-gap);
+  inline-size: fit-content;
+  min-block-size: var(--nc-solution-tabs-autoplay-min-size);
+  min-inline-size: var(--nc-solution-tabs-autoplay-min-size);
+  margin: 0 0 var(--nc-solution-tabs-autoplay-margin-block) auto;
+  padding: 0 var(--nc-solution-tabs-autoplay-padding-inline);
+  border: 1px solid var(--nc-solution-tabs-autoplay-border);
+  border-radius: var(--nc-solution-tabs-autoplay-radius);
+  background: transparent;
+  color: var(--nc-solution-tabs-autoplay-color);
+  font: inherit;
+  font-size: var(--nc-solution-tabs-autoplay-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+  @include transition-quick((color, background-color));
+
+  &:hover {
+    color: var(--nc-solution-tabs-autoplay-color-hover);
+    background-color: var(--nc-solution-tabs-autoplay-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.nc-solution-tabs__autoplay-icon {
+  flex: 0 0 auto;
+  inline-size: var(--nc-solution-tabs-autoplay-icon-size);
+  block-size: var(--nc-solution-tabs-autoplay-icon-size);
+  fill: currentColor;
+}
+
+// Symbol folgt dem Zustand: laeuft → Pause-Balken, steht → Abspiel-Dreieck
+.nc-solution-tabs__autoplay[data-playing='false'] .nc-solution-tabs__autoplay-pause,
+.nc-solution-tabs__autoplay:not([data-playing='false']) .nc-solution-tabs__autoplay-play {
+  display: none;
+}
+
+// Vertikal ist die Wurzel ein Raster (Tableiste | Panel): der Knopf nimmt
+// eine eigene Zeile ueber beiden Spalten.
+.nc-solution-tabs--vertical > .nc-solution-tabs__autoplay {
+  grid-column: 1 / -1;
+}
+
 // Fortschrittsbalken (Autoplay)
 .nc-solution-tabs__progress {
   position: absolute;
@@ -126,6 +186,11 @@
 
 .nc-solution-tabs[data-autoplay="on"].is-paused .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
   animation-play-state: paused;
+}
+
+// Rotation gestoppt (Knopf oder Handwahl): kein laufender Balken
+.nc-solution-tabs[data-autoplay="on"].is-stopped .nc-solution-tabs__tab[aria-selected="true"] .nc-solution-tabs__progress {
+  animation: none;
 }
 
 @keyframes nc-solution-tabs-progress {
@@ -535,6 +600,12 @@
     opacity: 1;
     transform: none;
   }
+
+  // Ohne Autoplay kein Knopf (das Behavior setzt [hidden]; das hier gilt
+  // schon vor dem Binden)
+  .nc-solution-tabs__autoplay {
+    display: none;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -556,4 +627,11 @@
   --nc-solution-tabs-tab-color-active: var(--fnd-color-on-accent);
   --nc-solution-tabs-accent-default:   var(--fnd-color-text-accent);
   --nc-solution-tabs-accent:           var(--fnd-color-text-accent);
+
+  // Pause-Knopf: dieselben Ausdruecke wie am :root, hier mit den Farben der
+  // Flaeche ausgewertet (dunkler Block-Bereich, Plan v4, Phase 1)
+  --nc-solution-tabs-autoplay-color:       var(--fnd-color-text-secondary);
+  --nc-solution-tabs-autoplay-color-hover: var(--fnd-color-text-primary);
+  --nc-solution-tabs-autoplay-border:      var(--fnd-color-border-primary);
+  --nc-solution-tabs-autoplay-bg-hover:    color-mix(in srgb, var(--fnd-color-text-primary) 8%, transparent);
 }
