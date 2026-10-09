@@ -1,5 +1,5 @@
 # card-cta Component Spec
-> Version 1.3.1 | Status: stable | Layer: molecule
+> Version 1.4.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 

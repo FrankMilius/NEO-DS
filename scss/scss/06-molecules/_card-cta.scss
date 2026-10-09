@@ -87,6 +87,37 @@ video.nc-card-cta__media {
   background-color: var(--fnd-color-always-light);
 }
 
+// Knopf im hellen Ton bei dunklem Theme (Restpunkte 09.10.2026, card-cta-knopf).
+// Der dunkle Ton bekommt inverse Knopffarben vom Skript (inline, always-light);
+// der helle Ton behielt den Standard-Knopf des SEITENthemas — im Dunkeln
+// primary hellgrau (#f1f3f1) auf weissem Grund (always-light, siehe oben):
+// Knopfflaeche gegen Grund 1,11:1, WCAG 1.4.11 verlangt 3:1. Der Ghost-Knopf
+// stand mit hellem Text auf Weiss (1,11:1).
+// Im hellen Ton gelten deshalb die Knopffarben des HELLEN Themas (Bruecke
+// bruecke-hell, 00-settings/_mono-bridge.scss: interactive-* auf der
+// Graphit-Leiter) — gleich wie die Karte im hellen Theme. Nur in dunklen
+// Kontexten (Seite, Bereich, prefers-color-scheme); im hellen Theme sind es
+// ohnehin dieselben Werte, dort bleibt alles pixelgleich.
+@mixin card-cta-knopf-hell {
+  --nc-button-primary-bg: var(--fnd-neutral-900);
+  --nc-button-primary-bg-hover: var(--fnd-neutral-800);
+  --nc-button-primary-bg-active: var(--fnd-neutral-950);
+  --nc-button-primary-color: var(--fnd-neutral-50);
+  --nc-button-ghost-color: var(--fnd-neutral-950);
+  --nc-button-ghost-bg-hover: var(--fnd-neutral-200);
+  --nc-button-ghost-bg-active: var(--fnd-neutral-300);
+}
+
+:is(.neo-dark-theme, .customer-dark-theme) .nc-card-cta[data-theme="light"] {
+  @include card-cta-knopf-hell;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .nc-card-cta[data-theme="light"] {
+    @include card-cta-knopf-hell;
+  }
+}
+
 .nc-card-cta__actions {
   display: flex;
   gap: var(--fnd-spacing-03);

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-cta",
-    "version": "1.3.1",
+    "version": "1.4.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "Restpunkte 09.10.2026 (card-cta-knopf; Freigabe ausstehend): Knopf im hellen Ton bei dunklem Theme. Der dunkle Ton bekommt inverse Knopffarben vom Skript (inline), der helle behielt den Standard-Knopf des Seitenthemas — im Dunkeln primary hellgrau #f1f3f1 auf weissem Grund (always-light, Folge von 1.3.1): Knopfflaeche gegen Grund 1,12:1 (Hover 1,00:1), Ghost-Schrift 1,12:1; Auto-Dunkel (prefers-color-scheme) 2,14:1. Jetzt gelten im hellen Ton die Knopffarben des hellen Themas (Bruecke bruecke-hell: primary neutral-900/800/950, Schrift neutral-50; ghost neutral-950, Hover neutral-200/300) — nur in dunklen Kontexten (.neo-dark-theme/.customer-dark-theme als Vorfahr, prefers-color-scheme ohne data-theme). Gemessen: Knopf gegen Grund 14,27:1 (Hover 9,98:1), Schrift im Knopf 13,72:1, Ghost-Schrift 17,85:1 (WCAG 1.4.11 >= 3:1, 1.4.3 >= 4,5:1).",
+          "Helles Theme und heller Ton im dunklen Bereich (Block-Wrapper) pixelgleich; dunkler Ton unveraendert."
+        ]
+      },
       {
         "version": "1.3.1",
         "changes": [
