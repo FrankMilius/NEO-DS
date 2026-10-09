@@ -2,10 +2,12 @@
 // 10-Utilities: Visibility
 // ==========================================================================
 // Utility-Klassen für Sichtbarkeit
+// Die u-Praefix-Aliasse (u-visually-hidden, u-hidden, u-block-error,
+// u-scroll-blocked) sind am 09.10.2026 entfallen — kein Verwender; die
+// unpraefixierten Namen sind Drupal-Konvention und bleiben.
 // ==========================================================================
 
 /// Visually hidden (accessible to screen readers)
-.u-visually-hidden,
 .visually-hidden {
   clip-path: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -17,20 +19,17 @@
 }
 
 /// Hidden (display: none)
-.u-hidden,
 .hidden,
 [hidden] {
   display: none !important;
 }
 
 /// Block error state
-.u-block-error,
 .block-error {
   border: 3px dashed var(--fnd-color-border-danger);
 }
 
 /// Scroll blocked (für Modals)
-.u-scroll-blocked,
 .scroll-blocked {
   overflow: hidden;
   position: fixed;
