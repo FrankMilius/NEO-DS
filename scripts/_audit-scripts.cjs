@@ -17,6 +17,7 @@ const path = require('path');
 
 const DOCS_DIR = path.join(__dirname, '..', 'docs');
 const PAGES_PATH = path.join(DOCS_DIR, '_pages.json');
+const TEMPLATE_PATH = path.join(DOCS_DIR, '_template.html');
 
 // ---------------------------------------------------------------------------
 // Canonical mandatory script order (from _template.html lines 54-60)
@@ -30,6 +31,22 @@ const MANDATORY_SCRIPTS = [
   'docs-theme-toggle.js',
   'docs-tabs.js'
 ];
+
+// Weitere Skripte, die die Vorlage nach den Pflicht-Skripten selbst laedt
+// (docs-toc.js, docs-stage-controls.js, docs-recipe-tab.js). Bis 09.10.2026
+// galten sie als seitenspezifisch — jede Seite mit customScript: false wurde
+// dafuer gemeldet (129 Fehlalarme). Sie stehen jetzt aus _template.html
+// gelesen, damit die Liste nicht wieder veraltet.
+const TEMPLATE_SCRIPTS = (() => {
+  try {
+    const vorlage = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
+    return [...vorlage.matchAll(/<script\s+src="([^"]+)"/g)]
+      .map((m) => path.basename(m[1]))
+      .filter((n) => !MANDATORY_SCRIPTS.includes(n));
+  } catch {
+    return [];
+  }
+})();
 
 // ---------------------------------------------------------------------------
 // Exclusion list — files to skip
@@ -450,7 +467,9 @@ function auditPage(filename, html) {
 
   // Check customScript expectations from _pages.json
   if (config) {
-    const pageSpecificScripts = srcTags.slice(7); // Scripts after the 7 mandatory
+    // Scripts nach den 7 Pflicht-Skripten, ohne die der Vorlage
+    const pageSpecificScripts = srcTags.slice(7)
+      .filter((t) => !TEMPLATE_SCRIPTS.includes(path.basename(t.src)));
     const pageSpecificInline = inlineTags.filter(t => t.line > mandatoryLastLine);
     const hasPageScripts = pageSpecificScripts.length > 0 || pageSpecificInline.length > 0;
 
