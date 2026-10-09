@@ -146,7 +146,7 @@ Base classes: `nc-notification`
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-notification-transition-duration` | — | `--mod-notification-transition-duration` |
+| `--nc-notification-transition-duration` | — | — |
 | `--nc-notification-dismiss-duration` | — | `--mod-notification-dismiss-duration` |
 
 ## Keyboard Interactions

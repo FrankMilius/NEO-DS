@@ -71,18 +71,18 @@ Base classes: `nc-navigation-menu`
 | `--nc-nav-menu-trigger-font-size` | — | `--mod-nav-menu-trigger-font-size` |
 | `--nc-nav-menu-trigger-font-weight` | — | `--mod-nav-menu-trigger-font-weight` |
 | `--nc-nav-menu-trigger-padding-x` | — | `--mod-nav-menu-trigger-padding-x` |
-| `--nc-nav-menu-trigger-padding-y` | — | `--mod-nav-menu-trigger-padding-y` |
+| `--nc-nav-menu-trigger-padding-y` | — | — |
 
 ### Viewport
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-nav-menu-viewport-bg` | — | `--mod-nav-menu-viewport-bg` |
 | `--nc-nav-menu-viewport-border` | — | `--mod-nav-menu-viewport-border` |
-| `--nc-nav-menu-viewport-radius` | — | `--mod-nav-menu-viewport-radius` |
-| `--nc-nav-menu-viewport-shadow` | — | `--mod-nav-menu-viewport-shadow` |
-| `--nc-nav-menu-viewport-width` | — | `--mod-nav-menu-viewport-width` |
+| `--nc-nav-menu-viewport-radius` | — | — |
+| `--nc-nav-menu-viewport-shadow` | — | — |
+| `--nc-nav-menu-viewport-width` | — | — |
 | `--nc-nav-menu-content-padding` | — | `--mod-nav-menu-content-padding` |
-| `--nc-nav-menu-content-width` | — | `--mod-nav-menu-content-width` |
+| `--nc-nav-menu-content-width` | — | — |
 
 ### Link
 | Token | CSS Property | Override |
@@ -91,7 +91,7 @@ Base classes: `nc-navigation-menu`
 | `--nc-nav-menu-link-hover-bg` | — | `--mod-nav-menu-link-hover-bg` |
 | `--nc-nav-menu-link-padding` | — | `--mod-nav-menu-link-padding` |
 | `--nc-nav-menu-content-padding` | — | `--mod-nav-menu-content-padding` |
-| `--nc-nav-menu-content-width` | — | `--mod-nav-menu-content-width` |
+| `--nc-nav-menu-content-width` | — | — |
 
 ### Indicator
 | Token | CSS Property | Override |

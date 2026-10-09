@@ -96,9 +96,9 @@ Base classes: `nc-input`
 ### Colors (Outlined)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-form-control-bg` | — | `--mod-form-control-bg` |
-| `--nc-form-control-border-color` | — | `--mod-form-control-border-color` |
-| `--nc-form-control-color` | — | `--mod-form-control-color` |
+| `--nc-form-control-bg` | — | — |
+| `--nc-form-control-border-color` | — | — |
+| `--nc-form-control-color` | — | — |
 
 ### Colors (Filled)
 | Token | CSS Property | Override |

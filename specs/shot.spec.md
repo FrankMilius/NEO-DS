@@ -81,56 +81,56 @@ Base classes: `nc-shot`
 ### Akzent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shot-accent` | — | `--mod-shot-accent` |
+| `--nc-shot-accent` | — | — |
 
 ### Browser-Rahmen
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shot-frame-radius` | — | `--mod-shot-frame-radius` |
-| `--nc-shot-frame-shadow` | — | `--mod-shot-frame-shadow` |
-| `--nc-shot-chrome-gap` | — | `--mod-shot-chrome-gap` |
-| `--nc-shot-chrome-padding` | — | `--mod-shot-chrome-padding` |
-| `--nc-shot-chrome-bg` | — | `--mod-shot-chrome-bg` |
-| `--nc-shot-chrome-border` | — | `--mod-shot-chrome-border` |
-| `--nc-shot-chrome-dot-bg` | — | `--mod-shot-chrome-dot-bg` |
-| `--nc-shot-chrome-url-font-size` | — | `--mod-shot-chrome-url-font-size` |
-| `--nc-shot-chrome-url-font-family` | — | `--mod-shot-chrome-url-font-family` |
-| `--nc-shot-chrome-url-color` | — | `--mod-shot-chrome-url-color` |
-| `--nc-shot-chrome-url-bg` | — | `--mod-shot-chrome-url-bg` |
-| `--nc-shot-chrome-url-radius` | — | `--mod-shot-chrome-url-radius` |
-| `--nc-shot-chrome-url-padding` | — | `--mod-shot-chrome-url-padding` |
+| `--nc-shot-frame-radius` | — | — |
+| `--nc-shot-frame-shadow` | — | — |
+| `--nc-shot-chrome-gap` | — | — |
+| `--nc-shot-chrome-padding` | — | — |
+| `--nc-shot-chrome-bg` | — | — |
+| `--nc-shot-chrome-border` | — | — |
+| `--nc-shot-chrome-dot-bg` | — | — |
+| `--nc-shot-chrome-url-font-size` | — | — |
+| `--nc-shot-chrome-url-font-family` | — | — |
+| `--nc-shot-chrome-url-color` | — | — |
+| `--nc-shot-chrome-url-bg` | — | — |
+| `--nc-shot-chrome-url-radius` | — | — |
+| `--nc-shot-chrome-url-padding` | — | — |
 
 ### Lupe
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shot-lens-border-width` | — | `--mod-shot-lens-border-width` |
-| `--nc-shot-lens-shadow` | — | `--mod-shot-lens-shadow` |
-| `--nc-shot-lens-bg` | — | `--mod-shot-lens-bg` |
+| `--nc-shot-lens-border-width` | — | — |
+| `--nc-shot-lens-shadow` | — | — |
+| `--nc-shot-lens-bg` | — | — |
 
 ### Marker und Erklärung
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shot-hotspot-size` | — | `--mod-shot-hotspot-size` |
-| `--nc-shot-hotspot-bg` | — | `--mod-shot-hotspot-bg` |
-| `--nc-shot-hotspot-border-width` | — | `--mod-shot-hotspot-border-width` |
-| `--nc-shot-hotspot-ping-color` | — | `--mod-shot-hotspot-ping-color` |
-| `--nc-shot-tip-width` | — | `--mod-shot-tip-width` |
-| `--nc-shot-tip-bg` | — | `--mod-shot-tip-bg` |
-| `--nc-shot-tip-color` | — | `--mod-shot-tip-color` |
-| `--nc-shot-tip-border-width` | — | `--mod-shot-tip-border-width` |
-| `--nc-shot-tip-radius` | — | `--mod-shot-tip-radius` |
-| `--nc-shot-tip-padding` | — | `--mod-shot-tip-padding` |
-| `--nc-shot-tip-text-size` | — | `--mod-shot-tip-text-size` |
-| `--nc-shot-tip-text-gap` | — | `--mod-shot-tip-text-gap` |
-| `--nc-shot-tip-title-gap` | — | `--mod-shot-tip-title-gap` |
-| `--nc-shot-tip-title-weight` | — | `--mod-shot-tip-title-weight` |
-| `--nc-shot-tip-media-radius` | — | `--mod-shot-tip-media-radius` |
+| `--nc-shot-hotspot-size` | — | — |
+| `--nc-shot-hotspot-bg` | — | — |
+| `--nc-shot-hotspot-border-width` | — | — |
+| `--nc-shot-hotspot-ping-color` | — | — |
+| `--nc-shot-tip-width` | — | — |
+| `--nc-shot-tip-bg` | — | — |
+| `--nc-shot-tip-color` | — | — |
+| `--nc-shot-tip-border-width` | — | — |
+| `--nc-shot-tip-radius` | — | — |
+| `--nc-shot-tip-padding` | — | — |
+| `--nc-shot-tip-text-size` | — | — |
+| `--nc-shot-tip-text-gap` | — | — |
+| `--nc-shot-tip-title-gap` | — | — |
+| `--nc-shot-tip-title-weight` | — | — |
+| `--nc-shot-tip-media-radius` | — | — |
 
 ### Vergleich
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shot-divider-width` | — | `--mod-shot-divider-width` |
-| `--nc-shot-divider-shadow` | — | `--mod-shot-divider-shadow` |
+| `--nc-shot-divider-width` | — | — |
+| `--nc-shot-divider-shadow` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

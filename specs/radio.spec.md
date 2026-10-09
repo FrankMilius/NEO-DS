@@ -61,9 +61,9 @@ Base classes: `nc-radio`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-radio-size-sm` | — | `--mod-radio-size-sm` |
-| `--nc-radio-size-md` | — | `--mod-radio-size-md` |
-| `--nc-radio-size-lg` | — | `--mod-radio-size-lg` |
+| `--nc-radio-size-sm` | — | — |
+| `--nc-radio-size-md` | — | — |
+| `--nc-radio-size-lg` | — | — |
 | `--nc-radio-border-width` | — | `--mod-radio-border-width` |
 
 ### Colors

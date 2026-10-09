@@ -173,9 +173,9 @@ Base classes: `nc-label`
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-label-transition-duration` | — | `--mod-label-transition-duration` |
+| `--nc-label-transition-duration` | — | — |
 | `--nc-label-remove-size` | — | `--mod-label-remove-size` |
-| `--nc-label-remove-hover-bg` | — | `--mod-label-remove-hover-bg` |
+| `--nc-label-remove-hover-bg` | — | — |
 | `--nc-label-disabled-opacity` | — | `--mod-label-disabled-opacity` |
 
 ### Container (Gruppen-Layout)

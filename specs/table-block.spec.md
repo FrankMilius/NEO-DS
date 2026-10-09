@@ -32,9 +32,9 @@ Base classes: `nc-table-block`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity` | — | `--mod-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity` |
-| `--nc-table-block-thead-th-letter-spacing` | — | `--mod-table-block-thead-th-letter-spacing` |
-| `--nc-table-block-stripe-bg` | — | `--mod-table-block-stripe-bg` |
+| `--nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity` | — | — |
+| `--nc-table-block-thead-th-letter-spacing` | — | — |
+| `--nc-table-block-stripe-bg` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

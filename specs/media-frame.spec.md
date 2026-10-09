@@ -38,17 +38,17 @@ Base classes: `nc-media-frame`
 ### Rahmen
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-media-frame-border-width` | — | `--mod-media-frame-border-width` |
-| `--nc-media-frame-border-color` | — | `--mod-media-frame-border-color` |
-| `--nc-media-frame-radius` | — | `--mod-media-frame-radius` |
-| `--nc-media-frame-shadow` | — | `--mod-media-frame-shadow` |
+| `--nc-media-frame-border-width` | — | — |
+| `--nc-media-frame-border-color` | — | — |
+| `--nc-media-frame-radius` | — | — |
+| `--nc-media-frame-shadow` | — | — |
 
 ### Abgesetzte Flaeche
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-surface-muted-bg` | — | `--mod-surface-muted-bg` |
-| `--nc-surface-muted-radius` | — | `--mod-surface-muted-radius` |
-| `--nc-surface-muted-padding` | — | `--mod-surface-muted-padding` |
+| `--nc-surface-muted-bg` | — | — |
+| `--nc-surface-muted-radius` | — | — |
+| `--nc-surface-muted-padding` | — | — |
 
 ### Kontrastmodus
 | Token | CSS Property | Override |

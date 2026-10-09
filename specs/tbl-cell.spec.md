@@ -39,9 +39,9 @@ Base classes: `nc-tbl-cell`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-tbl-cell-info-btn-hover-opacity` | — | `--mod-tbl-cell-info-btn-hover-opacity` |
-| `--nc-tbl-cell-info-btn-padding` | — | `--mod-tbl-cell-info-btn-padding` |
-| `--nc-tbl-cell-sub-line-height` | — | `--mod-tbl-cell-sub-line-height` |
+| `--nc-tbl-cell-info-btn-hover-opacity` | — | — |
+| `--nc-tbl-cell-info-btn-padding` | — | — |
+| `--nc-tbl-cell-sub-line-height` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

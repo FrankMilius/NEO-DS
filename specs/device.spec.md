@@ -64,7 +64,7 @@ Base classes: `nc-device`
 ### Geometrie
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-device-width-per-height` | — | `--mod-device-width-per-height` |
+| `--nc-device-width-per-height` | — | — |
 
 ## Accessibility
 ## Web Components Mapping

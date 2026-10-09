@@ -78,8 +78,8 @@ Base classes: `nc-compare-table`
 | `--nc-table-bg` | — | `--mod-table-bg` |
 | `--nc-table-radius` | — | `--mod-table-radius` |
 | `--nc-table-shadow` | — | `--mod-table-shadow` |
-| `--nc-table-border-color` | — | `--mod-table-border-color` |
-| `--nc-table-border-width` | — | `--mod-table-border-width` |
+| `--nc-table-border-color` | — | — |
+| `--nc-table-border-width` | — | — |
 
 ### Header
 | Token | CSS Property | Override |
@@ -94,7 +94,7 @@ Base classes: `nc-compare-table`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-table-cell-padding` | — | `--mod-table-cell-padding` |
-| `--nc-table-cell-padding-default` | — | `--mod-table-cell-padding-default` |
+| `--nc-table-cell-padding-default` | — | — |
 
 ### Cell Padding (Compact)
 | Token | CSS Property | Override |
@@ -148,8 +148,8 @@ Base classes: `nc-compare-table`
 | --- | --- | --- |
 | `--nc-table-font-size` | — | `--mod-table-font-size` |
 | `--nc-table-color` | — | `--mod-table-color` |
-| `--nc-table-color-secondary` | — | `--mod-table-color-secondary` |
-| `--nc-table-transition-duration` | — | `--mod-table-transition-duration` |
+| `--nc-table-color-secondary` | — | — |
+| `--nc-table-transition-duration` | — | — |
 
 ### Ghost Variant
 | Token | CSS Property | Override |

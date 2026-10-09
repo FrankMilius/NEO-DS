@@ -45,8 +45,8 @@ Base classes: `nc-text-media`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-text-media-gap` | — | `--mod-text-media-gap` |
-| `--nc-text-media-headline-size` | — | `--mod-text-media-headline-size` |
-| `--nc-text-media-subline-color` | — | `--mod-text-media-subline-color` |
+| `--nc-text-media-headline-size` | — | — |
+| `--nc-text-media-subline-color` | — | — |
 | `--nc-text-media-content-gap` | — | `--mod-text-media-content-gap` |
 | `--nc-text-media-video-radius` | — | `--mod-text-media-video-radius` |
 

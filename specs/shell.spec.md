@@ -110,68 +110,68 @@ Base classes: `nc-shell`
 ### Linkbar
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-linkbar-height` | — | `--mod-shell-linkbar-height` |
-| `--nc-shell-linkbar-bg` | — | `--mod-shell-linkbar-bg` |
-| `--nc-shell-linkbar-color` | — | `--mod-shell-linkbar-color` |
-| `--nc-shell-linkbar-border` | — | `--mod-shell-linkbar-border` |
+| `--nc-shell-linkbar-height` | — | — |
+| `--nc-shell-linkbar-bg` | — | — |
+| `--nc-shell-linkbar-color` | — | — |
+| `--nc-shell-linkbar-border` | — | — |
 
 ### Sidebars
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-sidebar-left-width` | — | `--mod-shell-sidebar-left-width` |
-| `--nc-shell-sidebar-right-width` | — | `--mod-shell-sidebar-right-width` |
-| `--nc-shell-sidebar-bg` | — | `--mod-shell-sidebar-bg` |
-| `--nc-shell-sidebar-border` | — | `--mod-shell-sidebar-border` |
+| `--nc-shell-sidebar-left-width` | — | — |
+| `--nc-shell-sidebar-right-width` | — | — |
+| `--nc-shell-sidebar-bg` | — | — |
+| `--nc-shell-sidebar-border` | — | — |
 
 ### Sidebar Density
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-sidebar-left-width-narrow` | — | `--mod-shell-sidebar-left-width-narrow` |
-| `--nc-shell-sidebar-left-width-standard` | — | `--mod-shell-sidebar-left-width-standard` |
-| `--nc-shell-sidebar-left-width-wide` | — | `--mod-shell-sidebar-left-width-wide` |
-| `--nc-shell-sidebar-right-width-narrow` | — | `--mod-shell-sidebar-right-width-narrow` |
-| `--nc-shell-sidebar-right-width-standard` | — | `--mod-shell-sidebar-right-width-standard` |
-| `--nc-shell-sidebar-right-width-wide` | — | `--mod-shell-sidebar-right-width-wide` |
+| `--nc-shell-sidebar-left-width-narrow` | — | — |
+| `--nc-shell-sidebar-left-width-standard` | — | — |
+| `--nc-shell-sidebar-left-width-wide` | — | — |
+| `--nc-shell-sidebar-right-width-narrow` | — | — |
+| `--nc-shell-sidebar-right-width-standard` | — | — |
+| `--nc-shell-sidebar-right-width-wide` | — | — |
 
 ### Footerbar
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-footerbar-height` | — | `--mod-shell-footerbar-height` |
-| `--nc-shell-footerbar-bg` | — | `--mod-shell-footerbar-bg` |
-| `--nc-shell-footerbar-color` | — | `--mod-shell-footerbar-color` |
-| `--nc-shell-footerbar-border` | — | `--mod-shell-footerbar-border` |
+| `--nc-shell-footerbar-height` | — | — |
+| `--nc-shell-footerbar-bg` | — | — |
+| `--nc-shell-footerbar-color` | — | — |
+| `--nc-shell-footerbar-border` | — | — |
 
 ### Content Area
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-content-max-width` | — | `--mod-shell-content-max-width` |
-| `--nc-shell-content-narrow` | — | `--mod-shell-content-narrow` |
-| `--nc-shell-content-padding` | — | `--mod-shell-content-padding` |
+| `--nc-shell-content-max-width` | — | — |
+| `--nc-shell-content-narrow` | — | — |
+| `--nc-shell-content-padding` | — | — |
 
 ### Z-Index Governance
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-z-linkbar` | — | `--mod-shell-z-linkbar` |
-| `--nc-shell-z-footerbar` | — | `--mod-shell-z-footerbar` |
-| `--nc-shell-z-navbar` | — | `--mod-shell-z-navbar` |
-| `--nc-shell-z-sidebar` | — | `--mod-shell-z-sidebar` |
-| `--nc-shell-z-overlay` | — | `--mod-shell-z-overlay` |
-| `--nc-shell-z-drawer` | — | `--mod-shell-z-drawer` |
+| `--nc-shell-z-linkbar` | — | — |
+| `--nc-shell-z-footerbar` | — | — |
+| `--nc-shell-z-navbar` | — | — |
+| `--nc-shell-z-sidebar` | — | — |
+| `--nc-shell-z-overlay` | — | — |
+| `--nc-shell-z-drawer` | — | — |
 
 ### Skip-Link
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-skip-link-bg` | — | `--mod-shell-skip-link-bg` |
-| `--nc-shell-skip-link-color` | — | `--mod-shell-skip-link-color` |
-| `--nc-shell-skip-link-z` | — | `--mod-shell-skip-link-z` |
+| `--nc-shell-skip-link-bg` | — | — |
+| `--nc-shell-skip-link-color` | — | — |
+| `--nc-shell-skip-link-z` | — | — |
 
 ### Banner (Messages)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-banner-bg` | — | `--mod-shell-banner-bg` |
-| `--nc-shell-banner-color` | — | `--mod-shell-banner-color` |
-| `--nc-shell-banner-padding` | — | `--mod-shell-banner-padding` |
-| `--nc-shell-banner-font-size` | — | `--mod-shell-banner-font-size` |
+| `--nc-shell-banner-bg` | — | — |
+| `--nc-shell-banner-color` | — | — |
+| `--nc-shell-banner-padding` | — | — |
+| `--nc-shell-banner-font-size` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

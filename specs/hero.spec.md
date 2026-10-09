@@ -123,7 +123,7 @@ Base classes: `nc-hero`
 | `--nc-hero-bg` | — | `--mod-hero-bg` |
 | `--nc-hero-min-height` | — | `--mod-hero-min-height` |
 | `--nc-hero-padding-block` | — | `--mod-hero-padding-block` |
-| `--nc-hero-padding-inline` | — | `--mod-hero-padding-inline` |
+| `--nc-hero-padding-inline` | — | — |
 | `--nc-hero-gap` | — | `--mod-hero-gap` |
 | `--nc-hero-radius` | — | `--mod-hero-radius` |
 
@@ -179,22 +179,22 @@ Base classes: `nc-hero`
 ### Flaeche
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-hero-surface-dark-bg` | — | `--mod-hero-surface-dark-bg` |
-| `--nc-hero-surface-dark-fg` | — | `--mod-hero-surface-dark-fg` |
-| `--nc-hero-surface-light-bg` | — | `--mod-hero-surface-light-bg` |
-| `--nc-hero-surface-light-fg` | — | `--mod-hero-surface-light-fg` |
-| `--nc-hero-surface-muted-bg` | — | `--mod-hero-surface-muted-bg` |
+| `--nc-hero-surface-dark-bg` | — | — |
+| `--nc-hero-surface-dark-fg` | — | — |
+| `--nc-hero-surface-light-bg` | — | — |
+| `--nc-hero-surface-light-fg` | — | — |
+| `--nc-hero-surface-muted-bg` | — | — |
 
 ### Hervorhebung in der Ueberschrift
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-hero-mark-color` | — | `--mod-hero-mark-color` |
 | `--nc-hero-mark-thickness` | — | `--mod-hero-mark-thickness` |
-| `--nc-hero-mark-on-light` | — | `--mod-hero-mark-on-light` |
-| `--nc-hero-mark-on-dark` | — | `--mod-hero-mark-on-dark` |
+| `--nc-hero-mark-on-light` | — | — |
+| `--nc-hero-mark-on-dark` | — | — |
 | `--nc-hero-mark-tint` | — | `--mod-hero-mark-tint` |
-| `--nc-hero-mark-tint-on-light` | — | `--mod-hero-mark-tint-on-light` |
-| `--nc-hero-mark-tint-on-dark` | — | `--mod-hero-mark-tint-on-dark` |
+| `--nc-hero-mark-tint-on-light` | — | — |
+| `--nc-hero-mark-tint-on-dark` | — | — |
 
 ### Fuss: Badges und Kennzahlen
 | Token | CSS Property | Override |
@@ -202,19 +202,19 @@ Base classes: `nc-hero`
 | `--nc-hero-footer-margin-top` | — | `--mod-hero-footer-margin-top` |
 | `--nc-hero-footer-gap` | — | `--mod-hero-footer-gap` |
 | `--nc-hero-cards-gap` | — | `--mod-hero-cards-gap` |
-| `--nc-hero-footer-rule` | — | `--mod-hero-footer-rule` |
+| `--nc-hero-footer-rule` | — | — |
 | `--nc-hero-cards-stack` | — | `--mod-hero-cards-stack` |
-| `--nc-hero-cards-rule-width-sm` | — | `--mod-hero-cards-rule-width-sm` |
-| `--nc-hero-cards-rule-width-md` | — | `--mod-hero-cards-rule-width-md` |
-| `--nc-hero-cards-rule-width-lg` | — | `--mod-hero-cards-rule-width-lg` |
+| `--nc-hero-cards-rule-width-sm` | — | — |
+| `--nc-hero-cards-rule-width-md` | — | — |
+| `--nc-hero-cards-rule-width-lg` | — | — |
 | `--nc-hero-cards-rule-inset` | — | `--mod-hero-cards-rule-inset` |
 | `--nc-hero-cards-rule-color` | — | `--mod-hero-cards-rule-color` |
-| `--nc-hero-cards-rule-accent` | — | `--mod-hero-cards-rule-accent` |
+| `--nc-hero-cards-rule-accent` | — | — |
 | `--nc-hero-cards-kicker-size` | — | `--mod-hero-cards-kicker-size` |
 | `--nc-hero-cards-value-size` | — | `--mod-hero-cards-value-size` |
 | `--nc-hero-cards-label-size` | — | `--mod-hero-cards-label-size` |
-| `--nc-hero-cards-rule-on-dark` | — | `--mod-hero-cards-rule-on-dark` |
-| `--nc-hero-cards-rule-on-light` | — | `--mod-hero-cards-rule-on-light` |
+| `--nc-hero-cards-rule-on-dark` | — | — |
+| `--nc-hero-cards-rule-on-light` | — | — |
 | `--nc-hero-cards-bg` | — | `--mod-hero-cards-bg` |
 | `--nc-hero-cards-fg` | — | `--mod-hero-cards-fg` |
 | `--nc-hero-cards-fg-muted` | — | `--mod-hero-cards-fg-muted` |

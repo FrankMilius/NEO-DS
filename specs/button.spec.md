@@ -119,7 +119,7 @@ Base classes: `nc-button`
 | `--nc-button-radius-sm` | — | `--mod-button-radius-sm` |
 | `--nc-button-radius-md` | — | `--mod-button-radius-md` |
 | `--nc-button-radius-lg` | — | `--mod-button-radius-lg` |
-| `--nc-button-radius-full` | — | `--mod-button-radius-full` |
+| `--nc-button-radius-full` | — | — |
 | `--nc-button-border-width-sm` | — | `--mod-button-border-width-sm` |
 | `--nc-button-border-width-lg` | — | `--mod-button-border-width-lg` |
 
@@ -134,8 +134,8 @@ Base classes: `nc-button`
 | `--nc-button-font-weight` | — | `--mod-button-font-weight` |
 | `--nc-button-gap` | — | `--mod-button-gap` |
 | `--nc-button-min-width` | — | `--mod-button-min-width` |
-| `--nc-button-label-compact` | — | `--mod-button-label-compact` |
-| `--nc-button-label-expressive` | — | `--mod-button-label-expressive` |
+| `--nc-button-label-compact` | — | — |
+| `--nc-button-label-expressive` | — | — |
 
 ### Interaction
 | Token | CSS Property | Override |

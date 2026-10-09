@@ -117,7 +117,7 @@ Base classes: `nc-accordion`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-accordion-border` | — | `--mod-accordion-border` |
-| `--nc-accordion-padding` | — | `--mod-accordion-padding` |
+| `--nc-accordion-padding` | — | — |
 | `--nc-accordion-icon-size` | — | `--mod-accordion-icon-size` |
 
 ### Colors
@@ -146,13 +146,13 @@ Base classes: `nc-accordion`
 ### Compact
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-accordion-padding-compact` | — | `--mod-accordion-padding-compact` |
+| `--nc-accordion-padding-compact` | — | — |
 | `--nc-accordion-content-font-size-compact` | — | `--mod-accordion-content-font-size-compact` |
 
 ### Spacious
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-accordion-padding-spacious` | — | `--mod-accordion-padding-spacious` |
+| `--nc-accordion-padding-spacious` | — | — |
 
 ### Media
 | Token | CSS Property | Override |
@@ -246,20 +246,20 @@ Base classes: `nc-accordion`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-accordion-cols` | — | `--mod-accordion-cols` |
-| `--nc-accordion-voll-measure` | — | `--mod-accordion-voll-measure` |
+| `--nc-accordion-voll-measure` | — | — |
 
 ### Innenabstand
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-accordion-padding-block` | — | `--mod-accordion-padding-block` |
 | `--nc-accordion-padding-inline` | — | `--mod-accordion-padding-inline` |
-| `--nc-accordion-padding` | — | `--mod-accordion-padding` |
+| `--nc-accordion-padding` | — | — |
 | `--nc-accordion-padding-compact-block` | — | `--mod-accordion-padding-compact-block` |
 | `--nc-accordion-padding-compact-inline` | — | `--mod-accordion-padding-compact-inline` |
-| `--nc-accordion-padding-compact` | — | `--mod-accordion-padding-compact` |
+| `--nc-accordion-padding-compact` | — | — |
 | `--nc-accordion-padding-spacious-block` | — | `--mod-accordion-padding-spacious-block` |
 | `--nc-accordion-padding-spacious-inline` | — | `--mod-accordion-padding-spacious-inline` |
-| `--nc-accordion-padding-spacious` | — | `--mod-accordion-padding-spacious` |
+| `--nc-accordion-padding-spacious` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

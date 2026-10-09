@@ -38,8 +38,8 @@ Base classes: `nc-testimonial-grid`
 ### Alle Tokens
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-testimonial-grid-btn-border-radius` | — | `--mod-testimonial-grid-btn-border-radius` |
-| `--nc-testimonial-grid-btn-disabled-opacity` | — | `--mod-testimonial-grid-btn-disabled-opacity` |
+| `--nc-testimonial-grid-btn-border-radius` | — | — |
+| `--nc-testimonial-grid-btn-disabled-opacity` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

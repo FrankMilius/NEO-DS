@@ -160,7 +160,7 @@ Base classes: `nc-tag`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-tag-remove-size` | — | `--mod-tag-remove-size` |
-| `--nc-tag-remove-hover-bg` | — | `--mod-tag-remove-hover-bg` |
+| `--nc-tag-remove-hover-bg` | — | — |
 | `--nc-tag-icon-size` | — | `--mod-tag-icon-size` |
 
 ### Disabled
@@ -174,7 +174,7 @@ Base classes: `nc-tag`
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-tag-transition-duration` | — | `--mod-tag-transition-duration` |
+| `--nc-tag-transition-duration` | — | — |
 
 ### Interactive Shadow
 | Token | CSS Property | Override |

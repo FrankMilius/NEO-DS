@@ -57,9 +57,9 @@ Base classes: `nc-event`
 ### Alle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-event-tag-padding` | — | `--mod-event-tag-padding` |
-| `--nc-event-tag-letter-spacing` | — | `--mod-event-tag-letter-spacing` |
-| `--nc-event-title-line-height` | — | `--mod-event-title-line-height` |
+| `--nc-event-tag-padding` | — | — |
+| `--nc-event-tag-letter-spacing` | — | — |
+| `--nc-event-title-line-height` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

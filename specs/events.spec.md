@@ -49,9 +49,9 @@ Base classes: `nc-events`
 ### Alle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-events-card-type-letter-spacing` | — | `--mod-events-card-type-letter-spacing` |
-| `--nc-events-card-title-line-height` | — | `--mod-events-card-title-line-height` |
-| `--nc-events-card-meta-item-gap` | — | `--mod-events-card-meta-item-gap` |
+| `--nc-events-card-type-letter-spacing` | — | — |
+| `--nc-events-card-title-line-height` | — | — |
+| `--nc-events-card-meta-item-gap` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

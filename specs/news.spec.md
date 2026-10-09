@@ -48,14 +48,14 @@ Base classes: `nc-news`
 ### Alle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-news-eyebrow-gap` | — | `--mod-news-eyebrow-gap` |
-| `--nc-news-footer-a-font-weight` | — | `--mod-news-footer-a-font-weight` |
-| `--nc-news-hero-overlay-background` | — | `--mod-news-hero-overlay-background` |
-| `--nc-news-lead-font-size` | — | `--mod-news-lead-font-size` |
-| `--nc-news-lead-line-height` | — | `--mod-news-lead-line-height` |
-| `--nc-news-title-font-size` | — | `--mod-news-title-font-size` |
-| `--nc-news-title-font-weight` | — | `--mod-news-title-font-weight` |
-| `--nc-news-title-line-height` | — | `--mod-news-title-line-height` |
+| `--nc-news-eyebrow-gap` | — | — |
+| `--nc-news-footer-a-font-weight` | — | — |
+| `--nc-news-hero-overlay-background` | — | — |
+| `--nc-news-lead-font-size` | — | — |
+| `--nc-news-lead-line-height` | — | — |
+| `--nc-news-title-font-size` | — | — |
+| `--nc-news-title-font-weight` | — | — |
+| `--nc-news-title-line-height` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

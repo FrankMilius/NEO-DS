@@ -126,7 +126,7 @@ Base classes: `nc-timeline`
 | --- | --- | --- |
 | `--nc-timeline-line-color` | — | `--mod-timeline-line-color` |
 | `--nc-timeline-line-width` | — | `--mod-timeline-line-width` |
-| `--nc-timeline-gap` | — | `--mod-timeline-gap` |
+| `--nc-timeline-gap` | — | — |
 
 ### Node
 | Token | CSS Property | Override |
@@ -181,7 +181,7 @@ Base classes: `nc-timeline`
 | `--nc-timeline-card-border` | — | `--mod-timeline-card-border` |
 | `--nc-timeline-card-radius` | — | `--mod-timeline-card-radius` |
 | `--nc-timeline-card-padding` | — | `--mod-timeline-card-padding` |
-| `--nc-timeline-badge-tint` | — | `--mod-timeline-badge-tint` |
+| `--nc-timeline-badge-tint` | — | — |
 | `--nc-timeline-badge-radius` | — | `--mod-timeline-badge-radius` |
 | `--nc-timeline-lead-color` | — | `--mod-timeline-lead-color` |
 | `--nc-timeline-marker-color` | — | `--mod-timeline-marker-color` |
@@ -199,10 +199,10 @@ Base classes: `nc-timeline`
 ### Reveal Effects
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-timeline-reveal-shift` | — | `--mod-timeline-reveal-shift` |
-| `--nc-timeline-reveal-duration` | — | `--mod-timeline-reveal-duration` |
-| `--nc-timeline-reveal-glow` | — | `--mod-timeline-reveal-glow` |
-| `--nc-timeline-node-glow` | — | `--mod-timeline-node-glow` |
+| `--nc-timeline-reveal-shift` | — | — |
+| `--nc-timeline-reveal-duration` | — | — |
+| `--nc-timeline-reveal-glow` | — | — |
+| `--nc-timeline-node-glow` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -61,8 +61,8 @@ Base classes: `nc-refpage`
 | `--nc-refpage-toc-size` | — | `--mod-refpage-toc-size` |
 | `--nc-refpage-toc-sub-size` | — | `--mod-refpage-toc-sub-size` |
 | `--nc-refpage-toc-title-size` | — | `--mod-refpage-toc-title-size` |
-| `--nc-refpage-marker-width` | — | `--mod-refpage-marker-width` |
-| `--nc-refpage-active-color` | — | `--mod-refpage-active-color` |
+| `--nc-refpage-marker-width` | — | — |
+| `--nc-refpage-active-color` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

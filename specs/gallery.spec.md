@@ -159,7 +159,7 @@ Base classes: `nc-gallery`
 ### Autoplay
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-gallery-autoplay-interval` | — | `--mod-gallery-autoplay-interval` |
+| `--nc-gallery-autoplay-interval` | — | — |
 | `--nc-gallery-autoplay-progress-color` | — | `--mod-gallery-autoplay-progress-color` |
 
 ## Accessibility

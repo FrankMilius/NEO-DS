@@ -46,8 +46,8 @@ Base classes: `nc-fade-gallery`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-fade-gallery-radius` | — | `--mod-fade-gallery-radius` |
-| `--nc-fade-gallery-headline-size` | — | `--mod-fade-gallery-headline-size` |
+| `--nc-fade-gallery-radius` | — | — |
+| `--nc-fade-gallery-headline-size` | — | — |
 
 ### Ansichten-Leiste
 | Token | CSS Property | Override |
@@ -57,24 +57,24 @@ Base classes: `nc-fade-gallery`
 | `--nc-fade-gallery-tab-weight` | — | `--mod-fade-gallery-tab-weight` |
 | `--nc-fade-gallery-tab-tracking` | — | `--mod-fade-gallery-tab-tracking` |
 | `--nc-fade-gallery-tab-padding` | — | `--mod-fade-gallery-tab-padding` |
-| `--nc-fade-gallery-tab-color` | — | `--mod-fade-gallery-tab-color` |
-| `--nc-fade-gallery-tab-active` | — | `--mod-fade-gallery-tab-active` |
-| `--nc-fade-gallery-tab-indicator` | — | `--mod-fade-gallery-tab-indicator` |
+| `--nc-fade-gallery-tab-color` | — | — |
+| `--nc-fade-gallery-tab-active` | — | — |
+| `--nc-fade-gallery-tab-indicator` | — | — |
 | `--nc-fade-gallery-desc-size` | — | `--mod-fade-gallery-desc-size` |
 | `--nc-fade-gallery-desc-measure` | — | `--mod-fade-gallery-desc-measure` |
-| `--nc-fade-gallery-desc-color` | — | `--mod-fade-gallery-desc-color` |
+| `--nc-fade-gallery-desc-color` | — | — |
 | `--nc-fade-gallery-nav-gap` | — | `--mod-fade-gallery-nav-gap` |
 
 ### Caption
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-fade-gallery-desc-size` | — | `--mod-fade-gallery-desc-size` |
-| `--nc-fade-gallery-desc-color` | — | `--mod-fade-gallery-desc-color` |
+| `--nc-fade-gallery-desc-color` | — | — |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-fade-gallery-fade-duration` | — | `--mod-fade-gallery-fade-duration` |
+| `--nc-fade-gallery-fade-duration` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

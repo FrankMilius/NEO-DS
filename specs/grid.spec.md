@@ -89,7 +89,7 @@ Base classes: `o-grid`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-grid-mobile-columns` | — | `--mod-grid-mobile-columns` |
-| `--nc-grid-tablet-columns` | — | `--mod-grid-tablet-columns` |
+| `--nc-grid-tablet-columns` | — | — |
 
 ## Accessibility
 - Grid ist ein visuelles Layout-Werkzeug — DOM-Reihenfolge muss logisch bleiben.

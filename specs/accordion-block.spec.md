@@ -41,7 +41,7 @@ Base classes: `nc-accordion-block`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-accordion-cols` | — | `--mod-accordion-cols` |
-| `--nc-accordion-voll-measure` | — | `--mod-accordion-voll-measure` |
+| `--nc-accordion-voll-measure` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

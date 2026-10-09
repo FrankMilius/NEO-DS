@@ -85,15 +85,15 @@ Base classes: `nc-textarea`
 | --- | --- | --- |
 | `--nc-textarea-min-height` | — | `--mod-textarea-min-height` |
 | `--nc-textarea-max-height` | — | `--mod-textarea-max-height` |
-| `--nc-textarea-padding` | — | `--mod-textarea-padding` |
+| `--nc-textarea-padding` | — | — |
 | `--nc-textarea-resize` | — | `--mod-textarea-resize` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-form-control-bg` | — | `--mod-form-control-bg` |
-| `--nc-form-control-border-color` | — | `--mod-form-control-border-color` |
-| `--nc-form-control-color` | — | `--mod-form-control-color` |
+| `--nc-form-control-bg` | — | — |
+| `--nc-form-control-border-color` | — | — |
+| `--nc-form-control-color` | — | — |
 
 ### Colors (Filled)
 | Token | CSS Property | Override |

@@ -65,13 +65,13 @@ Base classes: `nc-text-cta`
 ### Karte
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-text-cta-card-bg` | — | `--mod-text-cta-card-bg` |
-| `--nc-text-cta-card-border` | — | `--mod-text-cta-card-border` |
-| `--nc-text-cta-card-radius` | — | `--mod-text-cta-card-radius` |
+| `--nc-text-cta-card-bg` | — | — |
+| `--nc-text-cta-card-border` | — | — |
+| `--nc-text-cta-card-radius` | — | — |
 | `--nc-text-cta-card-padding` | — | `--mod-text-cta-card-padding` |
 | `--nc-text-cta-card-icon-size` | — | `--mod-text-cta-card-icon-size` |
 | `--nc-text-cta-card-icon-color` | — | `--mod-text-cta-card-icon-color` |
-| `--nc-text-cta-card-icon-gap` | — | `--mod-text-cta-card-icon-gap` |
+| `--nc-text-cta-card-icon-gap` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

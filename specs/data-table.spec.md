@@ -119,7 +119,7 @@ Base classes: `nc-data-table`
 | `--nc-dt-body-font-size` | — | `--mod-dt-body-font-size` |
 | `--nc-dt-body-font-weight` | — | `--mod-dt-body-font-weight` |
 | `--nc-dt-scroll-shadow-size` | — | `--mod-dt-scroll-shadow-size` |
-| `--nc-dt-transition-duration` | — | `--mod-dt-transition-duration` |
+| `--nc-dt-transition-duration` | — | — |
 
 ### Header
 | Token | CSS Property | Override |
@@ -137,7 +137,7 @@ Base classes: `nc-data-table`
 | --- | --- | --- |
 | `--nc-dt-row-height` | — | `--mod-dt-row-height` |
 | `--nc-dt-row-height-compact` | — | `--mod-dt-row-height-compact` |
-| `--nc-dt-row-height-default` | — | `--mod-dt-row-height-default` |
+| `--nc-dt-row-height-default` | — | — |
 | `--nc-dt-row-height-comfortable` | — | `--mod-dt-row-height-comfortable` |
 | `--nc-dt-cell-padding-x` | — | `--mod-dt-cell-padding-x` |
 | `--nc-dt-cell-padding-y` | — | `--mod-dt-cell-padding-y` |

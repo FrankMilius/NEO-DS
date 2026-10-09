@@ -89,9 +89,9 @@ Base classes: `nc-logo-wall`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-logo-wall-item-width-sm` | — | `--mod-logo-wall-item-width-sm` |
-| `--nc-logo-wall-item-width-md` | — | `--mod-logo-wall-item-width-md` |
+| `--nc-logo-wall-item-width-md` | — | — |
 | `--nc-logo-wall-item-width-lg` | — | `--mod-logo-wall-item-width-lg` |
-| `--nc-logo-wall-item-height` | — | `--mod-logo-wall-item-height` |
+| `--nc-logo-wall-item-height` | — | — |
 | `--nc-logo-wall-logo-max-height` | — | `--mod-logo-wall-logo-max-height` |
 
 ### Logo Image
@@ -119,7 +119,7 @@ Base classes: `nc-logo-wall`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-logo-wall-fadein-duration` | — | `--mod-logo-wall-fadein-duration` |
-| `--nc-logo-wall-fadein-delay-step` | — | `--mod-logo-wall-fadein-delay-step` |
+| `--nc-logo-wall-fadein-delay-step` | — | — |
 | `--nc-logo-wall-fadein-easing` | — | `--mod-logo-wall-fadein-easing` |
 
 ### Hover

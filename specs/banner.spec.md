@@ -120,7 +120,7 @@ Base classes: `nc-banner`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-banner-accent-border-width` | — | `--mod-banner-accent-border-width` |
-| `--nc-banner-accent-border-color` | — | `--mod-banner-accent-border-color` |
+| `--nc-banner-accent-border-color` | — | — |
 
 ### Close Button
 | Token | CSS Property | Override |

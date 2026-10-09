@@ -95,7 +95,7 @@ Base classes: `nc-toast`
 | `--nc-toast-font-size` | — | `--mod-toast-font-size` |
 | `--nc-toast-description-font-size` | — | `--mod-toast-description-font-size` |
 | `--nc-toast-progress-height` | — | `--mod-toast-progress-height` |
-| `--nc-toast-auto-dismiss-duration` | — | `--mod-toast-auto-dismiss-duration` |
+| `--nc-toast-auto-dismiss-duration` | — | — |
 
 ### Animation
 | Token | CSS Property | Override |
@@ -121,8 +121,8 @@ Base classes: `nc-toast`
 ### Queue & Swipe
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-toast-max-visible` | — | `--mod-toast-max-visible` |
-| `--nc-toast-swipe-threshold` | — | `--mod-toast-swipe-threshold` |
+| `--nc-toast-max-visible` | — | — |
+| `--nc-toast-swipe-threshold` | — | — |
 
 ### Default Severity
 | Token | CSS Property | Override |

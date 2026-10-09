@@ -41,19 +41,19 @@ Base classes: `nc-multiselect`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-multiselect-option-padding` | — | `--mod-multiselect-option-padding` |
-| `--nc-multiselect-panel-box-shadow` | — | `--mod-multiselect-panel-box-shadow` |
-| `--nc-multiselect-panel-gap` | — | `--mod-multiselect-panel-gap` |
-| `--nc-multiselect-panel-padding` | — | `--mod-multiselect-panel-padding` |
-| `--nc-multiselect-trigger-border` | — | `--mod-multiselect-trigger-border` |
-| `--nc-multiselect-trigger-border-disabled` | — | `--mod-multiselect-trigger-border-disabled` |
-| `--nc-multiselect-trigger-border-error` | — | `--mod-multiselect-trigger-border-error` |
-| `--nc-multiselect-trigger-border-focus` | — | `--mod-multiselect-trigger-border-focus` |
-| `--nc-multiselect-trigger-border-hover` | — | `--mod-multiselect-trigger-border-hover` |
-| `--nc-multiselect-trigger-border-width` | — | `--mod-multiselect-trigger-border-width` |
-| `--nc-multiselect-trigger-font-size` | — | `--mod-multiselect-trigger-font-size` |
-| `--nc-multiselect-trigger-gap` | — | `--mod-multiselect-trigger-gap` |
-| `--nc-multiselect-trigger-padding` | — | `--mod-multiselect-trigger-padding` |
+| `--nc-multiselect-option-padding` | — | — |
+| `--nc-multiselect-panel-box-shadow` | — | — |
+| `--nc-multiselect-panel-gap` | — | — |
+| `--nc-multiselect-panel-padding` | — | — |
+| `--nc-multiselect-trigger-border` | — | — |
+| `--nc-multiselect-trigger-border-disabled` | — | — |
+| `--nc-multiselect-trigger-border-error` | — | — |
+| `--nc-multiselect-trigger-border-focus` | — | — |
+| `--nc-multiselect-trigger-border-hover` | — | — |
+| `--nc-multiselect-trigger-border-width` | — | — |
+| `--nc-multiselect-trigger-font-size` | — | — |
+| `--nc-multiselect-trigger-gap` | — | — |
+| `--nc-multiselect-trigger-padding` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

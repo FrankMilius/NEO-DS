@@ -51,7 +51,7 @@ Base classes: `nc-feature-list`
 ### Alle Tokens
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-feature-list-icon-margin-top` | — | `--mod-feature-list-icon-margin-top` |
+| `--nc-feature-list-icon-margin-top` | — | — |
 
 ### Geometrie
 | Token | CSS Property | Override |

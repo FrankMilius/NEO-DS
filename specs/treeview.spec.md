@@ -129,7 +129,7 @@ Base classes: `nc-treeview`
 | --- | --- | --- |
 | `--nc-treeview-bg-hover` | — | `--mod-treeview-bg-hover` |
 | `--nc-treeview-bg-selected` | — | `--mod-treeview-bg-selected` |
-| `--nc-treeview-bg-active` | — | `--mod-treeview-bg-active` |
+| `--nc-treeview-bg-active` | — | — |
 | `--nc-treeview-border-selected` | — | `--mod-treeview-border-selected` |
 | `--nc-treeview-border-selected-width` | — | `--mod-treeview-border-selected-width` |
 | `--nc-treeview-disabled-opacity` | — | `--mod-treeview-disabled-opacity` |
@@ -146,7 +146,7 @@ Base classes: `nc-treeview`
 | --- | --- | --- |
 | `--nc-treeview-guide-color` | — | `--mod-treeview-guide-color` |
 | `--nc-treeview-guide-width` | — | `--mod-treeview-guide-width` |
-| `--nc-treeview-guide-style` | — | `--mod-treeview-guide-style` |
+| `--nc-treeview-guide-style` | — | — |
 | `--nc-treeview-guide-opacity` | — | `--mod-treeview-guide-opacity` |
 
 ### Action-Slot
@@ -161,7 +161,7 @@ Base classes: `nc-treeview`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-treeview-checkbox-size` | — | `--mod-treeview-checkbox-size` |
-| `--nc-treeview-checkbox-gap` | — | `--mod-treeview-checkbox-gap` |
+| `--nc-treeview-checkbox-gap` | — | — |
 
 ### Badge
 | Token | CSS Property | Override |

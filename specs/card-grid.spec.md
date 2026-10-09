@@ -42,14 +42,14 @@ Base classes: `nc-card-grid`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-grid-columns` | — | `--mod-card-grid-columns` |
+| `--nc-card-grid-columns` | — | — |
 | `--nc-card-grid-gap` | — | `--mod-card-grid-gap` |
 
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-card-grid-anim-duration` | — | `--mod-card-grid-anim-duration` |
-| `--nc-card-grid-anim-delay` | — | `--mod-card-grid-anim-delay` |
+| `--nc-card-grid-anim-delay` | — | — |
 | `--nc-card-grid-anim-translate-y` | — | `--mod-card-grid-anim-translate-y` |
 
 ## Accessibility

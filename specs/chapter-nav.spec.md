@@ -40,38 +40,38 @@ Base classes: `nc-chapter-nav`
 ### Kapitelleiste
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-chapter-nav-bg` | — | `--mod-chapter-nav-bg` |
-| `--nc-chapter-nav-border` | — | `--mod-chapter-nav-border` |
-| `--nc-chapter-nav-gap` | — | `--mod-chapter-nav-gap` |
-| `--nc-chapter-nav-padding-block` | — | `--mod-chapter-nav-padding-block` |
-| `--nc-chapter-nav-padding` | — | `--mod-chapter-nav-padding` |
-| `--nc-chapter-nav-family` | — | `--mod-chapter-nav-family` |
-| `--nc-chapter-nav-size` | — | `--mod-chapter-nav-size` |
-| `--nc-chapter-nav-weight` | — | `--mod-chapter-nav-weight` |
-| `--nc-chapter-nav-color` | — | `--mod-chapter-nav-color` |
-| `--nc-chapter-nav-color-active` | — | `--mod-chapter-nav-color-active` |
-| `--nc-chapter-nav-marker` | — | `--mod-chapter-nav-marker` |
-| `--nc-chapter-nav-marker-height` | — | `--mod-chapter-nav-marker-height` |
-| `--nc-chapter-nav-top` | — | `--mod-chapter-nav-top` |
+| `--nc-chapter-nav-bg` | — | — |
+| `--nc-chapter-nav-border` | — | — |
+| `--nc-chapter-nav-gap` | — | — |
+| `--nc-chapter-nav-padding-block` | — | — |
+| `--nc-chapter-nav-padding` | — | — |
+| `--nc-chapter-nav-family` | — | — |
+| `--nc-chapter-nav-size` | — | — |
+| `--nc-chapter-nav-weight` | — | — |
+| `--nc-chapter-nav-color` | — | — |
+| `--nc-chapter-nav-color-active` | — | — |
+| `--nc-chapter-nav-marker` | — | — |
+| `--nc-chapter-nav-marker-height` | — | — |
+| `--nc-chapter-nav-top` | — | — |
 
 ### Verzeichnis
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-chapter-nav-toc-bg` | — | `--mod-chapter-nav-toc-bg` |
-| `--nc-chapter-nav-toc-border` | — | `--mod-chapter-nav-toc-border` |
-| `--nc-chapter-nav-toc-radius` | — | `--mod-chapter-nav-toc-radius` |
-| `--nc-chapter-nav-toc-padding` | — | `--mod-chapter-nav-toc-padding` |
-| `--nc-chapter-nav-toc-gap` | — | `--mod-chapter-nav-toc-gap` |
-| `--nc-chapter-nav-toc-title-size` | — | `--mod-chapter-nav-toc-title-size` |
-| `--nc-chapter-nav-toc-title-color` | — | `--mod-chapter-nav-toc-title-color` |
-| `--nc-chapter-nav-toc-size` | — | `--mod-chapter-nav-toc-size` |
-| `--nc-chapter-nav-toc-color` | — | `--mod-chapter-nav-toc-color` |
-| `--nc-chapter-nav-toc-number-color` | — | `--mod-chapter-nav-toc-number-color` |
+| `--nc-chapter-nav-toc-bg` | — | — |
+| `--nc-chapter-nav-toc-border` | — | — |
+| `--nc-chapter-nav-toc-radius` | — | — |
+| `--nc-chapter-nav-toc-padding` | — | — |
+| `--nc-chapter-nav-toc-gap` | — | — |
+| `--nc-chapter-nav-toc-title-size` | — | — |
+| `--nc-chapter-nav-toc-title-color` | — | — |
+| `--nc-chapter-nav-toc-size` | — | — |
+| `--nc-chapter-nav-toc-color` | — | — |
+| `--nc-chapter-nav-toc-number-color` | — | — |
 
 ### Sprungziel
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-chapter-nav-scroll-margin` | — | `--mod-chapter-nav-scroll-margin` |
+| `--nc-chapter-nav-scroll-margin` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

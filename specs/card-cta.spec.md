@@ -48,7 +48,7 @@ Base classes: `nc-card-cta`
 | `--fnd-spacing-03` | — | — |
 | `--fnd-spacing-04` | — | — |
 | `--fnd-spacing-06` | — | — |
-| `--nc-type-heading-l-size` | — | `--mod-type-heading-l-size` |
+| `--nc-type-heading-l-size` | — | — |
 | `--fnd-font-weight-bold` | — | — |
 | `--lh-heading` | — | — |
 

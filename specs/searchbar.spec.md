@@ -38,9 +38,9 @@ Base classes: `nc-searchbar`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-searchbar-close-background` | — | `--mod-searchbar-close-background` |
-| `--nc-searchbar-input-padding-left` | — | `--mod-searchbar-input-padding-left` |
-| `--nc-searchbar-input-padding-right` | — | `--mod-searchbar-input-padding-right` |
+| `--nc-searchbar-close-background` | — | — |
+| `--nc-searchbar-input-padding-left` | — | — |
+| `--nc-searchbar-input-padding-right` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

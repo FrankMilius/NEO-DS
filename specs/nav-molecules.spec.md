@@ -61,7 +61,7 @@ Base classes: `nc-nav__link`
 ### Mobile Toggle
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-nav-mol-toggle-size` | — | `--mod-nav-mol-toggle-size` |
+| `--nc-nav-mol-toggle-size` | — | — |
 | `--nc-nav-mol-toggle-bar-height` | — | `--mod-nav-mol-toggle-bar-height` |
 | `--nc-nav-mol-toggle-bar-gap` | — | `--mod-nav-mol-toggle-bar-gap` |
 | `--nc-nav-mol-toggle-bar-radius` | — | `--mod-nav-mol-toggle-bar-radius` |
@@ -72,7 +72,7 @@ Base classes: `nc-nav__link`
 | --- | --- | --- |
 | `--nc-nav-mol-mobile-bg` | — | `--mod-nav-mol-mobile-bg` |
 | `--nc-nav-mol-mobile-border` | — | `--mod-nav-mol-mobile-border` |
-| `--nc-nav-mol-mobile-padding` | — | `--mod-nav-mol-mobile-padding` |
+| `--nc-nav-mol-mobile-padding` | — | — |
 | `--nc-nav-mol-mobile-gap` | — | `--mod-nav-mol-mobile-gap` |
 | `--nc-nav-mol-mobile-link-padding` | — | `--mod-nav-mol-mobile-link-padding` |
 | `--nc-nav-mol-mobile-link-border` | — | `--mod-nav-mol-mobile-link-border` |

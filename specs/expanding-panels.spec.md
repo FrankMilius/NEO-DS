@@ -42,23 +42,23 @@ Base classes: `nc-expanding-panels`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-expanding-panels-gap` | — | `--mod-expanding-panels-gap` |
-| `--nc-expanding-panels-height` | — | `--mod-expanding-panels-height` |
-| `--nc-expanding-panels-radius` | — | `--mod-expanding-panels-radius` |
-| `--nc-expanding-panels-grow` | — | `--mod-expanding-panels-grow` |
+| `--nc-expanding-panels-gap` | — | — |
+| `--nc-expanding-panels-height` | — | — |
+| `--nc-expanding-panels-radius` | — | — |
+| `--nc-expanding-panels-grow` | — | — |
 
 ### Surface & Border
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-expanding-panels-surface` | — | `--mod-expanding-panels-surface` |
-| `--nc-expanding-panels-border` | — | `--mod-expanding-panels-border` |
+| `--nc-expanding-panels-surface` | — | — |
+| `--nc-expanding-panels-border` | — | — |
 
 ### Accent & Text
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-expanding-panels-accent` | — | `--mod-expanding-panels-accent` |
-| `--nc-expanding-panels-title` | — | `--mod-expanding-panels-title` |
-| `--nc-expanding-panels-text` | — | `--mod-expanding-panels-text` |
+| `--nc-expanding-panels-accent` | — | — |
+| `--nc-expanding-panels-title` | — | — |
+| `--nc-expanding-panels-text` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

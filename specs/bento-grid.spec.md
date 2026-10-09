@@ -52,25 +52,25 @@ Base classes: `nc-bento-grid`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-bento-grid-gap` | — | `--mod-bento-grid-gap` |
-| `--nc-bento-grid-columns` | — | `--mod-bento-grid-columns` |
-| `--nc-bento-grid-cell-min` | — | `--mod-bento-grid-cell-min` |
-| `--nc-bento-grid-padding` | — | `--mod-bento-grid-padding` |
-| `--nc-bento-grid-radius` | — | `--mod-bento-grid-radius` |
+| `--nc-bento-grid-gap` | — | — |
+| `--nc-bento-grid-columns` | — | — |
+| `--nc-bento-grid-cell-min` | — | — |
+| `--nc-bento-grid-padding` | — | — |
+| `--nc-bento-grid-radius` | — | — |
 
 ### Surface & Border
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-bento-grid-surface` | — | `--mod-bento-grid-surface` |
-| `--nc-bento-grid-border` | — | `--mod-bento-grid-border` |
-| `--nc-bento-grid-border-hover` | — | `--mod-bento-grid-border-hover` |
+| `--nc-bento-grid-surface` | — | — |
+| `--nc-bento-grid-border` | — | — |
+| `--nc-bento-grid-border-hover` | — | — |
 
 ### Accent & Text
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-bento-grid-accent` | — | `--mod-bento-grid-accent` |
-| `--nc-bento-grid-title` | — | `--mod-bento-grid-title` |
-| `--nc-bento-grid-text` | — | `--mod-bento-grid-text` |
+| `--nc-bento-grid-accent` | — | — |
+| `--nc-bento-grid-title` | — | — |
+| `--nc-bento-grid-text` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

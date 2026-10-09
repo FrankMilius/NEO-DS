@@ -84,7 +84,7 @@ Base classes: `nc-card`
 | `--nc-card-color` | — | `--mod-card-color` |
 | `--nc-card-border` | — | `--mod-card-border` |
 | `--nc-card-radius` | — | `--mod-card-radius` |
-| `--nc-card-padding` | — | `--mod-card-padding` |
+| `--nc-card-padding` | — | — |
 | `--nc-card-shadow` | — | `--mod-card-shadow` |
 | `--nc-card-shadow-hover` | — | `--mod-card-shadow-hover` |
 | `--nc-card-border-width` | — | `--mod-card-border-width` |
@@ -93,7 +93,7 @@ Base classes: `nc-card`
 ### Spacing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-header-padding` | — | — |
 | `--nc-card-header-gap` | — | `--mod-card-header-gap` |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
@@ -113,10 +113,10 @@ Base classes: `nc-card`
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-transition-duration` | — | `--mod-card-transition-duration` |
+| `--nc-card-transition-duration` | — | — |
 | `--nc-card-hover-border` | — | `--mod-card-hover-border` |
-| `--nc-card-nav-color-hover` | — | `--mod-card-nav-color-hover` |
-| `--nc-card-link-decoration` | — | `--mod-card-link-decoration` |
+| `--nc-card-nav-color-hover` | — | — |
+| `--nc-card-link-decoration` | — | — |
 | `--nc-card-link-hover-decoration` | — | `--mod-card-link-hover-decoration` |
 
 ### Selectable
@@ -163,8 +163,8 @@ Base classes: `nc-card`
 ### Tight Context
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-padding` | — | `--mod-card-padding` |
-| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-padding` | — | — |
+| `--nc-card-header-padding` | — | — |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
 | `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
@@ -173,8 +173,8 @@ Base classes: `nc-card`
 ### Display Context
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-padding` | — | `--mod-card-padding` |
-| `--nc-card-header-padding` | — | `--mod-card-header-padding` |
+| `--nc-card-padding` | — | — |
+| `--nc-card-header-padding` | — | — |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
 | `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |

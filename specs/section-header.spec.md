@@ -51,35 +51,35 @@ Base classes: `nc-section-header`
 ### Layout
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-header-gap` | — | `--mod-section-header-gap` |
-| `--nc-section-header-badges-spacing` | — | `--mod-section-header-badges-spacing` |
+| `--nc-section-header-gap` | — | — |
+| `--nc-section-header-badges-spacing` | — | — |
 
 ### Kicker
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-header-label-color` | — | `--mod-section-header-label-color` |
-| `--nc-section-header-label-font-size` | — | `--mod-section-header-label-font-size` |
-| `--nc-section-header-label-font-weight` | — | `--mod-section-header-label-font-weight` |
-| `--nc-section-header-label-letter-spacing` | — | `--mod-section-header-label-letter-spacing` |
-| `--nc-section-header-label-text-transform` | — | `--mod-section-header-label-text-transform` |
-| `--nc-section-header-label-spacing` | — | `--mod-section-header-label-spacing` |
+| `--nc-section-header-label-color` | — | — |
+| `--nc-section-header-label-font-size` | — | — |
+| `--nc-section-header-label-font-weight` | — | — |
+| `--nc-section-header-label-letter-spacing` | — | — |
+| `--nc-section-header-label-text-transform` | — | — |
+| `--nc-section-header-label-spacing` | — | — |
 
 ### Titel
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-header-title-color` | — | `--mod-section-header-title-color` |
-| `--nc-section-header-title-font-size` | — | `--mod-section-header-title-font-size` |
-| `--nc-section-header-title-font-weight` | — | `--mod-section-header-title-font-weight` |
-| `--nc-section-header-title-line-height` | — | `--mod-section-header-title-line-height` |
-| `--nc-section-header-title-letter-spacing` | — | `--mod-section-header-title-letter-spacing` |
-| `--nc-section-header-title-spacing` | — | `--mod-section-header-title-spacing` |
+| `--nc-section-header-title-color` | — | — |
+| `--nc-section-header-title-font-size` | — | — |
+| `--nc-section-header-title-font-weight` | — | — |
+| `--nc-section-header-title-line-height` | — | — |
+| `--nc-section-header-title-letter-spacing` | — | — |
+| `--nc-section-header-title-spacing` | — | — |
 
 ### Lead
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-header-subtitle-color` | — | `--mod-section-header-subtitle-color` |
-| `--nc-section-header-subtitle-font-size` | — | `--mod-section-header-subtitle-font-size` |
-| `--nc-section-header-subtitle-line-height` | — | `--mod-section-header-subtitle-line-height` |
+| `--nc-section-header-subtitle-color` | — | — |
+| `--nc-section-header-subtitle-font-size` | — | — |
+| `--nc-section-header-subtitle-line-height` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

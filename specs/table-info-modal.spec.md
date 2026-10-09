@@ -38,7 +38,7 @@ Base classes: `nc-table-info-modal`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-table-info-modal-is-open-opacity` | — | `--mod-table-info-modal-is-open-opacity` |
+| `--nc-table-info-modal-is-open-opacity` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

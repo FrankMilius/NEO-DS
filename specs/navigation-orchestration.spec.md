@@ -55,27 +55,27 @@ Base classes: `nc-header`
 ### Composition Map
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-nav-orch-shell-z-index` | — | `--mod-nav-orch-shell-z-index` |
-| `--nc-nav-orch-height` | — | `--mod-nav-orch-height` |
-| `--nc-nav-orch-gap` | — | `--mod-nav-orch-gap` |
-| `--nc-nav-orch-icon-size` | — | `--mod-nav-orch-icon-size` |
-| `--nc-nav-orch-link-hover-bg` | — | `--mod-nav-orch-link-hover-bg` |
-| `--nc-nav-orch-link-active-border` | — | `--mod-nav-orch-link-active-border` |
-| `--nc-nav-orch-viewport-shadow` | — | `--mod-nav-orch-viewport-shadow` |
+| `--nc-nav-orch-shell-z-index` | — | — |
+| `--nc-nav-orch-height` | — | — |
+| `--nc-nav-orch-gap` | — | — |
+| `--nc-nav-orch-icon-size` | — | — |
+| `--nc-nav-orch-link-hover-bg` | — | — |
+| `--nc-nav-orch-link-active-border` | — | — |
+| `--nc-nav-orch-viewport-shadow` | — | — |
 
 ### Token Sync Rules
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-nav-orch-sync-height` | — | `--mod-nav-orch-sync-height` |
-| `--nc-nav-orch-sync-interaction` | — | `--mod-nav-orch-sync-interaction` |
-| `--nc-nav-orch-sync-elevation` | — | `--mod-nav-orch-sync-elevation` |
-| `--nc-nav-orch-sync-spacing` | — | `--mod-nav-orch-sync-spacing` |
+| `--nc-nav-orch-sync-height` | — | — |
+| `--nc-nav-orch-sync-interaction` | — | — |
+| `--nc-nav-orch-sync-elevation` | — | — |
+| `--nc-nav-orch-sync-spacing` | — | — |
 
 ### Mobile Orchestration
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-nav-orch-mobile-breakpoint` | — | `--mod-nav-orch-mobile-breakpoint` |
-| `--nc-nav-orch-mobile-drawer-width` | — | `--mod-nav-orch-mobile-drawer-width` |
+| `--nc-nav-orch-mobile-breakpoint` | — | — |
+| `--nc-nav-orch-mobile-drawer-width` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

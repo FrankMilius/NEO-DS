@@ -80,7 +80,7 @@ Base classes: `nc-alert`
 | `--nc-alert-line-height` | — | `--mod-alert-line-height` |
 | `--nc-alert-title-font-weight` | — | `--mod-alert-title-font-weight` |
 | `--nc-alert-description-opacity` | — | `--mod-alert-description-opacity` |
-| `--nc-alert-close-size` | — | `--mod-alert-close-size` |
+| `--nc-alert-close-size` | — | — |
 
 ### Info Colors
 | Token | CSS Property | Override |

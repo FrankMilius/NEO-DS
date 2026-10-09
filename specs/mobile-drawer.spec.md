@@ -46,9 +46,9 @@ Base classes: `nc-mobile-drawer`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-mobile-drawer-backdrop-visible-opacity` | — | `--mod-mobile-drawer-backdrop-visible-opacity` |
-| `--nc-mobile-drawer-close-background` | — | `--mod-mobile-drawer-close-background` |
-| `--nc-mobile-drawer-root-box-shadow` | — | `--mod-mobile-drawer-root-box-shadow` |
+| `--nc-mobile-drawer-backdrop-visible-opacity` | — | — |
+| `--nc-mobile-drawer-close-background` | — | — |
+| `--nc-mobile-drawer-root-box-shadow` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

@@ -113,7 +113,7 @@ Base classes: `nc-avatar`
 | --- | --- | --- |
 | `--nc-avatar-bg` | — | `--mod-avatar-bg` |
 | `--nc-avatar-color` | — | `--mod-avatar-color` |
-| `--nc-avatar-border-color` | — | `--mod-avatar-border-color` |
+| `--nc-avatar-border-color` | — | — |
 
 ### Fallback
 ### Hash-Color Fallback
@@ -165,7 +165,7 @@ Base classes: `nc-avatar`
 | `--nc-avatar-focus-ring-width` | — | `--mod-avatar-focus-ring-width` |
 | `--nc-avatar-focus-ring-color` | — | `--mod-avatar-focus-ring-color` |
 | `--nc-avatar-focus-ring-offset` | — | `--mod-avatar-focus-ring-offset` |
-| `--nc-avatar-transition-duration` | — | `--mod-avatar-transition-duration` |
+| `--nc-avatar-transition-duration` | — | — |
 
 ### Group
 | Token | CSS Property | Override |

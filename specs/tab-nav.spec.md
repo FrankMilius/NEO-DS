@@ -44,8 +44,8 @@ Base classes: `nc-tab-nav`
 ### Base
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-tab-nav-badges-gap` | — | `--mod-tab-nav-badges-gap` |
-| `--nc-tab-nav-badges-margin-block` | — | `--mod-tab-nav-badges-margin-block` |
+| `--nc-tab-nav-badges-gap` | — | — |
+| `--nc-tab-nav-badges-margin-block` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

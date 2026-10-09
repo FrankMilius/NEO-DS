@@ -60,9 +60,9 @@ Base classes: `nc-checkbox`
 ### Geometry
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-checkbox-size-sm` | — | `--mod-checkbox-size-sm` |
-| `--nc-checkbox-size-md` | — | `--mod-checkbox-size-md` |
-| `--nc-checkbox-size-lg` | — | `--mod-checkbox-size-lg` |
+| `--nc-checkbox-size-sm` | — | — |
+| `--nc-checkbox-size-md` | — | — |
+| `--nc-checkbox-size-lg` | — | — |
 | `--nc-checkbox-radius` | — | `--mod-checkbox-radius` |
 | `--nc-checkbox-border-width` | — | `--mod-checkbox-border-width` |
 

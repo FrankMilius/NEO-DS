@@ -140,7 +140,7 @@ Base classes: `nc-search`
 | `--nc-search-results-padding` | — | `--mod-search-results-padding` |
 | `--nc-search-results-z-index` | — | `--mod-search-results-z-index` |
 | `--nc-search-results-animation` | — | `--mod-search-results-animation` |
-| `--nc-search-results-top-offset` | — | `--mod-search-results-top-offset` |
+| `--nc-search-results-top-offset` | — | — |
 
 ### Item
 | Token | CSS Property | Override |
@@ -178,9 +178,9 @@ Base classes: `nc-search`
 ### Clear Trigger
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-search-clear-size` | — | `--mod-search-clear-size` |
-| `--nc-search-clear-color` | — | `--mod-search-clear-color` |
-| `--nc-search-clear-color-hover` | — | `--mod-search-clear-color-hover` |
+| `--nc-search-clear-size` | — | — |
+| `--nc-search-clear-color` | — | — |
+| `--nc-search-clear-color-hover` | — | — |
 
 ### Scope
 | Token | CSS Property | Override |
@@ -225,16 +225,16 @@ Base classes: `nc-search`
 ### Mobile Full-Screen
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-search-mobile-header-height` | — | `--mod-search-mobile-header-height` |
-| `--nc-search-mobile-results-max-height` | — | `--mod-search-mobile-results-max-height` |
-| `--nc-search-mobile-bg` | — | `--mod-search-mobile-bg` |
+| `--nc-search-mobile-header-height` | — | — |
+| `--nc-search-mobile-results-max-height` | — | — |
+| `--nc-search-mobile-bg` | — | — |
 
 ### Backdrop (Nav-Integration)
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-search-backdrop-bg` | — | `--mod-search-backdrop-bg` |
-| `--nc-search-backdrop-opacity` | — | `--mod-search-backdrop-opacity` |
-| `--nc-search-backdrop-z-index` | — | `--mod-search-backdrop-z-index` |
+| `--nc-search-backdrop-bg` | — | — |
+| `--nc-search-backdrop-opacity` | — | — |
+| `--nc-search-backdrop-z-index` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

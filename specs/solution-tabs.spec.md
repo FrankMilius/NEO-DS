@@ -62,22 +62,22 @@ Base classes: `nc-solution-tabs`
 ### Layout & Surface
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-solution-tabs-border` | — | `--mod-solution-tabs-border` |
-| `--nc-solution-tabs-visual-bg` | — | `--mod-solution-tabs-visual-bg` |
+| `--nc-solution-tabs-border` | — | — |
+| `--nc-solution-tabs-visual-bg` | — | — |
 
 ### Tabs & Autoplay
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-solution-tabs-tab-color` | — | `--mod-solution-tabs-tab-color` |
-| `--nc-solution-tabs-tab-color-active` | — | `--mod-solution-tabs-tab-color-active` |
-| `--nc-solution-tabs-autoplay-duration` | — | `--mod-solution-tabs-autoplay-duration` |
+| `--nc-solution-tabs-tab-color` | — | — |
+| `--nc-solution-tabs-tab-color-active` | — | — |
+| `--nc-solution-tabs-autoplay-duration` | — | — |
 
 ### Accent & Text
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-solution-tabs-accent-default` | — | `--mod-solution-tabs-accent-default` |
-| `--nc-solution-tabs-title` | — | `--mod-solution-tabs-title` |
-| `--nc-solution-tabs-text` | — | `--mod-solution-tabs-text` |
+| `--nc-solution-tabs-accent-default` | — | — |
+| `--nc-solution-tabs-title` | — | — |
+| `--nc-solution-tabs-text` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

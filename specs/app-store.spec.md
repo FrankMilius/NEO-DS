@@ -42,7 +42,7 @@ Base classes: `nc-app-store`
 | `--nc-app-store-badge-gap` | — | `--mod-app-store-badge-gap` |
 | `--nc-app-store-badge-pad` | — | `--mod-app-store-badge-pad` |
 | `--nc-app-store-badge-radius` | — | `--mod-app-store-badge-radius` |
-| `--nc-app-store-badge-border-width` | — | `--mod-app-store-badge-border-width` |
+| `--nc-app-store-badge-border-width` | — | — |
 | `--nc-app-store-badge-border` | — | `--mod-app-store-badge-border` |
 | `--nc-app-store-badge-border-hover` | — | `--mod-app-store-badge-border-hover` |
 | `--nc-app-store-badge-bg` | — | `--mod-app-store-badge-bg` |
@@ -50,7 +50,7 @@ Base classes: `nc-app-store`
 | `--nc-app-store-badge-color` | — | `--mod-app-store-badge-color` |
 | `--nc-app-store-kicker-size` | — | `--mod-app-store-kicker-size` |
 | `--nc-app-store-name-size` | — | `--mod-app-store-name-size` |
-| `--nc-app-store-icon-size` | — | `--mod-app-store-icon-size` |
+| `--nc-app-store-icon-size` | — | — |
 | `--nc-app-store-qr-size` | — | `--mod-app-store-qr-size` |
 
 ## Accessibility

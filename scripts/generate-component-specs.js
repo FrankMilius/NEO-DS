@@ -205,6 +205,42 @@ function tokenNormal(name) {
   return name.startsWith('--') ? name : `--${name}`;
 }
 
+/**
+ * Alle --mod-*-Overrides, die das SCSS tatsaechlich liest (`var(--mod-…)`).
+ *
+ * Bis 09.10.2026 bekam jedes --nc-* einer Token-Gruppe ein --mod-* in die
+ * Spec — auch wenn kein Selektor es auswertet (426 von 2511). Ein Verbraucher,
+ * der so ein Override setzt, sah keine Wirkung. Quelle ist der SCSS-Quelltext
+ * (deterministisch, ohne Build); das gebaute CSS liest dieselbe Menge
+ * (tests/spec-generator.test.mjs prueft das, sobald styles.css vorliegt).
+ * Interpolierte Namen (`--mod-#{…}`) gibt es nicht; kaemen sie dazu, fiele der
+ * Test auf.
+ * @returns {Set<string>}
+ */
+let _gelesen = null;
+export function gelesenModOverrides() {
+  if (_gelesen) return _gelesen;
+  _gelesen = new Set();
+  const lauf = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) lauf(p);
+      else if (e.name.endsWith('.scss')) {
+        for (const m of readFileSync(p, 'utf8').matchAll(/var\(\s*(--mod-[a-zA-Z0-9_-]+)/g)) _gelesen.add(m[1]);
+      }
+    }
+  };
+  lauf(join(ROOT, 'scss'));
+  return _gelesen;
+}
+
+/** --mod-* zu einem --nc-*-Token, wenn das SCSS es liest — sonst null. */
+function modOverride(token) {
+  if (!token || !token.startsWith('--nc-')) return null;
+  const mod = token.replace('--nc-', '--mod-');
+  return gelesenModOverrides().has(mod) ? mod : null;
+}
+
 function generateModTokens(tokenGroups) {
   // Leite --mod-* Override-API aus --nc-* Token-Gruppen ab.
   //
@@ -217,7 +253,8 @@ function generateModTokens(tokenGroups) {
   for (const tokens of Object.values(tokenGroups)) {
     for (const t of tokens) {
       const token = tokenNormal(t.token || t);
-      if (token && token.startsWith('--nc-')) modTokens.push(token.replace('--nc-', '--mod-'));
+      const mod = modOverride(token);
+      if (mod) modTokens.push(mod);
     }
   }
   return modTokens;
@@ -353,7 +390,7 @@ export function specToMarkdown(spec) {
         tokens.map(t => [
           `\`${t.token}\``,
           t.property || '—',
-          t.token.startsWith('--nc-') ? `\`${t.token.replace('--nc-', '--mod-')}\`` : '—',
+          modOverride(t.token) ? `\`${modOverride(t.token)}\`` : '—',
         ])
       );
     }

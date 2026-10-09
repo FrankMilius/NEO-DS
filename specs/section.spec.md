@@ -72,9 +72,9 @@ Base classes: `section`
 ### Accent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-accent-bg` | — | `--mod-section-accent-bg` |
-| `--nc-section-accent-color` | — | `--mod-section-accent-color` |
-| `--nc-section-accent-color-secondary` | — | `--mod-section-accent-color-secondary` |
+| `--nc-section-accent-bg` | — | — |
+| `--nc-section-accent-color` | — | — |
+| `--nc-section-accent-color-secondary` | — | — |
 
 ### Divider
 | Token | CSS Property | Override |
