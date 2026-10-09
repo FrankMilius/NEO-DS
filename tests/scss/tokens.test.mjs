@@ -212,7 +212,11 @@ describe('CSS Output Quality', () => {
     //
     // 09.10.2026: 155 → 148 KB. Nach dem Aufraeumen (ungenutzte Utility-
     // Klassen entfernt) Stand 145,5 KB; Grenze wieder knapp darueber.
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(148);
+    //
+    // 09.10.2026: 148 → 143 KB. Abstands-Utilities (.u-m*/.u-p*/.u-gap*,
+    // 976 Klassen) und ungenutzte a11y-Utilities entfernt (Entscheidung
+    // Frank, kein Verwender). Stand 140,3 KB; ca. 2 % Luft.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(143);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -250,7 +254,12 @@ describe('CSS Output Quality', () => {
     // 09.10.2026: 1280 → 1250 KB. Plan v3 abgeschlossen, Restpunkte umgesetzt,
     // ungenutzte Utility-Klassen entfernt (Datenbank ohne Treffer). Stand
     // 1226,8 KB; ca. 2 % Luft, wieder Warnsignal statt Vorrat.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1250);
+    //
+    // 09.10.2026: 1250 → 1205 KB. Abstands-Utilities (.u-m*/.u-p*/.u-gap*,
+    // 976 Klassen, ca. 44 KB roh) und ungenutzte a11y-Utilities entfernt
+    // (Entscheidung Frank, kein Verwender auf Website, Theme und Datenbank).
+    // Stand 1182,4 KB; ca. 2 % Luft.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1205);
   });
 
   it('CSS Build hat keine Fehler', () => {
