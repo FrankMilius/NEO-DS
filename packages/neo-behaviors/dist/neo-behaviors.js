@@ -4564,7 +4564,12 @@
       let laeuft = true;
       let maus = false;
       let fokus = false;
-      let sichtbar = typeof ansicht.IntersectionObserver !== "function";
+      const Beobachter = (
+        /** @type {any} */
+        globalThis.IntersectionObserver || /** @type {any} */
+        ansicht.IntersectionObserver
+      );
+      let sichtbar = typeof Beobachter !== "function";
       let spielt = false;
       let timer = 0;
       let rest = dauer;
@@ -4587,9 +4592,9 @@
         plane();
       }
       function plane() {
-        ansicht.clearTimeout(timer);
+        clearTimeout(timer);
         start = Date.now();
-        timer = ansicht.setTimeout(schritt, rest);
+        timer = setTimeout(schritt, rest);
       }
       function stimme(grund, immer = false) {
         const soll = laeuft && !maus && !fokus && sichtbar;
@@ -4601,7 +4606,7 @@
         spielt = soll;
         if (soll) plane();
         else {
-          ansicht.clearTimeout(timer);
+          clearTimeout(timer);
           timer = 0;
           rest = Math.max(0, rest - (Date.now() - start));
         }
@@ -4643,7 +4648,7 @@
       }, { signal });
       let beobachter = null;
       if (!sichtbar) {
-        beobachter = new ansicht.IntersectionObserver((eintraege) => {
+        beobachter = new Beobachter((eintraege) => {
           for (const e of eintraege) sichtbar = e.isIntersecting;
           stimme("ausser-sicht");
         }, { threshold: 0.3 });
@@ -4651,7 +4656,7 @@
       }
       stimme("ausser-sicht");
       signal.addEventListener("abort", () => {
-        ansicht.clearTimeout(timer);
+        clearTimeout(timer);
         beobachter == null ? void 0 : beobachter.disconnect();
         wurzel.classList.remove("is-paused", "is-stopped");
         if (angelegt) k.remove();
