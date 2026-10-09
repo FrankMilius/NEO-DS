@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/solution-tabs.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-solution-tabs.html.twig, block--inline-block--neo-solution-tabs.html.twig` | present |
+| Drupal | `block/block--block-content--neo-solution-tabs.html.twig, block/block--inline-block--neo-solution-tabs.html.twig` | present |
 
 ## Spec
 
