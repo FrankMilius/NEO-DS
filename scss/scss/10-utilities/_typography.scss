@@ -1,40 +1,17 @@
 // ==========================================================================
 // 10-Utilities: Typography
 // ==========================================================================
-// Utility-Klassen für Schriftgrößen und Typografie-Kategorien.
+// Utility-Klassen für Typografie-Kategorien.
 // Skalierbar via --type-scale (Standard: 1, Dashboard: 0.92).
 //
-// KONVENTION (Audit-Quick-Win Q) — zwei Oberflächen, bewusst getrennt:
-//   .u-text-{xs…9xl}        -> nur font-size (Roh-Fluid-Skala --fs-*). Fuer
-//                              freie Groessenanpassung ohne line-height/tracking.
-//   .u-type-{kategorie}-{s} -> kompletter Typo-Satz (font-size + line-height +
-//                              letter-spacing) via display()/heading()/paragraph()-
-//                              Mixin. STANDARD fuer semantische Textrollen.
-// Faustregel: semantische Textbloecke -> .u-type-*; reine Groessen-Tweaks -> .u-text-*.
+// .u-type-{kategorie}-{s} -> kompletter Typo-Satz (font-size + line-height +
+// letter-spacing) via display()/heading()/paragraph()-Mixin.
+//
+// Die reinen Groessen-Klassen .u-text-{xs…9xl} / .text-{xs…9xl} sind am
+// 09.10.2026 entfallen (kein Verwender in DS, Arena, Doku und Drupal-Theme).
 // ==========================================================================
 
 @use '../01-tools' as *;
-
-// ---------------------------------------------------------------------------
-// Font-Size Scale Utilities
-// ---------------------------------------------------------------------------
-// Usage: <p class="u-text-lg">…</p>
-// Each class references the fluid --fs-{step} custom property and respects
-// the context-specific --type-scale multiplier.
-
-.u-text-xs,  .text-xs  { font-size: calc(var(--fs-xs)  * var(--type-scale, 1)); }
-.u-text-sm,  .text-sm  { font-size: calc(var(--fs-sm)  * var(--type-scale, 1)); }
-.u-text-base, .text-base { font-size: calc(var(--fs-base) * var(--type-scale, 1)); }
-.u-text-lg,  .text-lg  { font-size: calc(var(--fs-lg)  * var(--type-scale, 1)); }
-.u-text-xl,  .text-xl  { font-size: calc(var(--fs-xl)  * var(--type-scale, 1)); }
-.u-text-2xl, .text-2xl { font-size: calc(var(--fs-2xl) * var(--type-scale, 1)); }
-.u-text-3xl, .text-3xl { font-size: calc(var(--fs-3xl) * var(--type-scale, 1)); }
-.u-text-4xl, .text-4xl { font-size: calc(var(--fs-4xl) * var(--type-scale, 1)); }
-.u-text-5xl, .text-5xl { font-size: calc(var(--fs-5xl) * var(--type-scale, 1)); }
-.u-text-6xl, .text-6xl { font-size: calc(var(--fs-6xl) * var(--type-scale, 1)); }
-.u-text-7xl, .text-7xl { font-size: calc(var(--fs-7xl) * var(--type-scale, 1)); }
-.u-text-8xl, .text-8xl { font-size: calc(var(--fs-8xl) * var(--type-scale, 1)); }
-.u-text-9xl, .text-9xl { font-size: calc(var(--fs-9xl) * var(--type-scale, 1)); }
 
 // ---------------------------------------------------------------------------
 // Typography Category Utilities
