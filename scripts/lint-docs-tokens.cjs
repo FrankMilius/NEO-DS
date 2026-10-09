@@ -165,9 +165,9 @@ for (const file of files) {
 console.log('\n' + '='.repeat(60));
 if (totalErrors === 0) {
   console.log('Docs-Token-Lint: Keine Probleme gefunden.');
-  process.exit(0);
 } else {
   console.log(`Docs-Token-Lint: ${totalErrors} Problem(e) in ${totalFiles} Datei(en).`);
   console.log('Ersetze hardcodierte Werte durch semantische Foundation-Tokens.');
-  process.exit(1);
+  // exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
+  process.exitCode = 1;
 }

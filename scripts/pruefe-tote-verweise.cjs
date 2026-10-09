@@ -22,4 +22,5 @@ for (const m of css.matchAll(/var\(\s*(--[a-zA-Z0-9_-]+)\s*\)/g)) {
 }
 for (const [name, n] of [...tot].sort()) console.log(`  ${n}× ${name}`);
 console.log(`Tote-Verweise: ${tot.size} Variablen ohne Definition und ohne Rueckfallwert`);
-process.exit(tot.size ? 1 : 0);
+// exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
+process.exitCode = tot.size ? 1 : 0;

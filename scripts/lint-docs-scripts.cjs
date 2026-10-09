@@ -170,12 +170,9 @@ if (metaCount === 0) {
 console.log('\n' + '='.repeat(60));
 if (errors === 0 && warnings === 0) {
   console.log(`Script-Integrity-Lint: ${jsFiles.length} Scripts, ${fragmentFiles.length} Fragmente, keine Probleme.`);
-  process.exit(0);
 } else {
   console.log(`Script-Integrity-Lint: ${errors} ERROR(s), ${warnings} WARNING(s).`);
-  if (errors > 0) {
-    process.exit(1);
-  }
-  // Warnings alone don't fail the build
-  process.exit(0);
+  // Nur Fehler brechen ab, Warnungen nicht. exitCode statt exit(): sonst geht
+  // gepufferte Ausgabe ueber Pipes verloren.
+  if (errors > 0) process.exitCode = 1;
 }

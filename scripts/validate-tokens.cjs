@@ -52,9 +52,14 @@ try {
 } catch (e) {
   console.error(`\nFailed to load ${tokensPath}:`);
   console.error(e.message);
-  process.exit(1);
+  // exitCode statt exit: process.exit schneidet gepufferte Ausgabe ueber
+  // eine Pipe ab (lint:schwellen las dann keine Schlusszeile, 09.10.2026).
+  process.exitCode = 1;
 }
 
+if (tokens) pruefen();
+
+function pruefen() {
 console.log('Validating design tokens...\n');
 
 // ---------------------------------------------------------------------------
@@ -70,7 +75,8 @@ for (const key of requiredTopLevel) {
 if (errors > 0) {
   console.log(`\n${'='.repeat(60)}`);
   console.log(`Validation FAILED: ${errors} error(s). Fix structural issues first.`);
-  process.exit(1);
+  process.exitCode = 1;
+  return;
 }
 ok('All required top-level keys present');
 
@@ -383,8 +389,8 @@ if (errors === 0) {
   } else {
     console.log('Token validation PASSED. No issues found.');
   }
-  process.exit(0);
 } else {
   console.log(`Token validation FAILED: ${errors} error(s), ${warnings} warning(s).`);
-  process.exit(1);
+  process.exitCode = 1;
+}
 }

@@ -35,4 +35,5 @@ while (i < css.length) {
 }
 for (const [n, [a, b]] of dubletten) console.log(`  ${n}: ${a}  ->  ${b}`);
 console.log(`Root-Dubletten: ${dubletten.size} mit abweichendem Wert`);
-process.exit(dubletten.size ? 1 : 0);
+// exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
+process.exitCode = dubletten.size ? 1 : 0;

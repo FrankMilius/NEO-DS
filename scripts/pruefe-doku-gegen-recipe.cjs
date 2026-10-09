@@ -75,13 +75,15 @@ if (summe) {
     for (const k of ['toteKlassen', 'toteTokens', 'fehlendeSlots', 'fehlendeModifier', 'fehlendeTokens']) n += (r[k] || []).length;
   }
   console.log(`Doku-Befunde: ${n} ueber ${Object.keys(ergebnis).length} Seiten`);
-  process.exit(0);
-}
-if (alsJson) { console.log(JSON.stringify(ergebnis, null, 2)); process.exit(0); }
+} else if (alsJson) {
+  // kein process.exit: das schnitte grosse JSON-Ausgaben ueber Pipes ab
+  console.log(JSON.stringify(ergebnis, null, 2));
+} else {
 for (const [slug, r] of Object.entries(ergebnis)) {
   const n = (a) => (a ? a.length : 0);
   console.log(`\n${slug}: tote Klassen ${n(r.toteKlassen)}, tote Tokens ${n(r.toteTokens)}, fehlende Slots ${n(r.fehlendeSlots)}, Modifier ${n(r.fehlendeModifier)}, Tokens ${n(r.fehlendeTokens)}${r.recipe ? '' : ' (kein Recipe)'}`);
   for (const k of ['toteKlassen', 'toteTokens', 'fehlendeSlots', 'fehlendeModifier', 'modifierOhneCss', 'fehlendeTokens', 'recipeTokensOhneCss']) {
     if (n(r[k])) console.log(`  ${k}: ${r[k].join(', ')}`);
   }
+}
 }

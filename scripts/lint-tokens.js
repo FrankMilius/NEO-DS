@@ -115,9 +115,9 @@ for (const dir of CHECK_DIRS) {
 console.log('\n' + '='.repeat(60));
 if (totalErrors === 0) {
   console.log('Token-Lint: Keine Probleme gefunden.');
-  process.exit(0);
 } else {
   console.log(`Token-Lint: ${totalErrors} Problem(e) in ${totalFiles} Datei(en).`);
   console.log('Ersetze hardcodierte Werte durch Foundation-Tokens.');
-  process.exit(1);
+  // exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
+  process.exitCode = 1;
 }

@@ -466,8 +466,9 @@ function run() {
   }
 
   // Exit code: non-zero if critical issues found
+  // exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
   if (result.summary.critical > 0) {
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

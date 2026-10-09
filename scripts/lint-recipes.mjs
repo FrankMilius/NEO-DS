@@ -55,8 +55,9 @@ try {
   const tokensData = JSON.parse(fs.readFileSync(tokensFile, 'utf8'));
   tokenRegistry = tokensData.components?.groups || tokensData.components || [];
 } catch (e) {
-  console.error(`  ✗ Kann design-tokens.json nicht laden: ${e.message}`);
-  process.exit(1);
+  // Abbruch vor jeder Auswertung: Ausnahme statt exit(), Node setzt Exit 1
+  // und gibt alles bis hierher Geschriebene vollstaendig aus.
+  throw new Error(`Kann design-tokens.json nicht laden: ${e.message}`);
 }
 
 // Load SCSS component tokens (for parity check)
@@ -175,6 +176,7 @@ console.log('');
 console.log('============================================================');
 console.log(`Recipe-Lint: ${filesChecked} Dateien geprueft, ${totalErrors} Fehler, ${totalWarnings} Warnungen.`);
 
+// exitCode statt exit(): sonst geht gepufferte Ausgabe ueber Pipes verloren
 if (totalErrors > 0) {
-  process.exit(1);
+  process.exitCode = 1;
 }

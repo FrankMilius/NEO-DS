@@ -25,16 +25,17 @@
  * in jeder Ausgabe. Wer sie anhebt, sieht im Diff, was er tut.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { execSync } from 'node:child_process';
-import { resolve, dirname } from 'node:path';
+import { readFileSync, writeFileSync, existsSync, openSync, closeSync, mkdtempSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { resolve, dirname, join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SCHWELLEN = resolve(ROOT, 'data/linter-schwellen.json');
 
 /** Je Linter: Aufruf und wie die Schlusszeile zu lesen ist. */
-const LINTER = [
+export const LINTER = [
   { id: 'tokens',       befehl: 'npm run lint:tokens',       muster: /Token-Lint:\s*(\d+)\s*Problem/ },
   { id: 'docs-tokens',  befehl: 'npm run lint:docs-tokens',  muster: /Docs-Token-Lint:\s*(\d+)\s*Problem/ },
   { id: 'fragments',    befehl: 'npm run lint:fragments',    muster: /Fragment-Lint:\s*(\d+)\s*CRITICAL/ },
@@ -52,67 +53,94 @@ const LINTER = [
   { id: 'token-validator', befehl: 'npm run tokens:validate', muster: /Token validation (?:FAILED:\s*(\d+)\s*error|PASSED)/ },
 ];
 
-const setzen = process.argv.includes('--setzen');
-const alt = existsSync(SCHWELLEN) ? JSON.parse(readFileSync(SCHWELLEN, 'utf8')) : {};
-
-const stand = {};
-const zeilen = [];
-let gestiegen = 0;
-let gesunken = 0;
-
-for (const l of LINTER) {
-  let ausgabe = '';
+/**
+ * Fuehrt einen Linter aus und liefert seine VOLLSTAENDIGE Ausgabe.
+ *
+ * Anlass (09.10.2026): Unter Last meldete diese Pruefung gelegentlich
+ * „token-validator KONNTE NICHT LAUFEN“. Nachgestellt: 4 von 30 Laeufen mit
+ * zwei parallelen Sass-Builds lieferten eine abgeschnittene Ausgabe ohne
+ * Schlusszeile. Ursache: Die Linter beendeten sich mit process.exit(), Node
+ * verwirft dabei noch nicht geschriebene Ausgabe an eine Pipe. Die Linter
+ * setzen jetzt process.exitCode; zusaetzlich schreibt der Linter hier in
+ * eine Datei statt in eine Pipe — Schreiben in Dateien ist in Node synchron,
+ * dort kann nichts verloren gehen, selbst wenn ein Linter wieder exit() ruft.
+ * @param {string} befehl
+ * @returns {{ ausgabe: string, status: number | null }}
+ */
+export function linterAusfuehren(befehl) {
+  const ordner = mkdtempSync(join(tmpdir(), 'lint-schwellen-'));
+  const datei = join(ordner, 'ausgabe.txt');
+  const fd = openSync(datei, 'w');
   try {
-    ausgabe = execSync(`${l.befehl} 2>&1`, { cwd: ROOT, encoding: 'utf8' });
-  } catch (e) {
-    // Ein Linter, der Befunde meldet, gibt 1 zurueck — das ist erwartet.
-    ausgabe = `${e.stdout ?? ''}${e.stderr ?? ''}`;
+    const r = spawnSync(befehl, { cwd: ROOT, shell: true, stdio: ['ignore', fd, fd] });
+    return { ausgabe: readFileSync(datei, 'utf8'), status: r.status };
+  } finally {
+    closeSync(fd);
+    rmSync(ordner, { recursive: true, force: true });
+  }
+}
+
+function ausfuehren() {
+  const setzen = process.argv.includes('--setzen');
+  const alt = existsSync(SCHWELLEN) ? JSON.parse(readFileSync(SCHWELLEN, 'utf8')) : {};
+
+  const stand = {};
+  const zeilen = [];
+  let gestiegen = 0;
+  let gesunken = 0;
+
+  for (const l of LINTER) {
+    // Ein Linter, der Befunde meldet, gibt 1 zurueck — das ist erwartet und
+    // zaehlt nicht; massgeblich ist die Schlusszeile.
+    const { ausgabe } = linterAusfuehren(l.befehl);
+
+    const m = l.muster.exec(ausgabe);
+    if (!m) {
+      // Keine Schlusszeile heisst: Das Werkzeug ist nicht gelaufen. Das ist ein
+      // Ausfall, kein Ergebnis — und niemals eine Null.
+      zeilen.push([l.id, '—', alt[l.id] ?? '—', 'KONNTE NICHT LAUFEN']);
+      gestiegen++;
+      continue;
+    }
+
+    const jetzt = Number(m[1] ?? 0);
+    stand[l.id] = jetzt;
+    const grenze = alt[l.id];
+
+    if (grenze === undefined) zeilen.push([l.id, jetzt, '—', 'neu erfasst']);
+    else if (jetzt > grenze) { gestiegen++; zeilen.push([l.id, jetzt, grenze, 'GESTIEGEN']); }
+    else if (jetzt < grenze) { gesunken++; zeilen.push([l.id, jetzt, grenze, `${grenze - jetzt} weniger`]); }
+    else zeilen.push([l.id, jetzt, grenze, 'unveraendert']);
   }
 
-  const m = l.muster.exec(ausgabe);
-  if (!m) {
-    // Keine Schlusszeile heisst: Das Werkzeug ist nicht gelaufen. Das ist ein
-    // Ausfall, kein Ergebnis — und niemals eine Null.
-    zeilen.push([l.id, '—', alt[l.id] ?? '—', 'KONNTE NICHT LAUFEN']);
-    gestiegen++;
-    continue;
+  console.log('\n  LINTER-SCHWELLEN');
+  console.log('  ' + '─'.repeat(62));
+  console.log(`  ${'Linter'.padEnd(16)}${'jetzt'.padStart(7)}${'erlaubt'.padStart(9)}   Stand`);
+  console.log('  ' + '─'.repeat(62));
+  for (const [id, jetzt, grenze, hinweis] of zeilen) {
+    console.log(`  ${id.padEnd(16)}${String(jetzt).padStart(7)}${String(grenze).padStart(9)}   ${hinweis}`);
+  }
+  console.log('  ' + '─'.repeat(62));
+
+  if (setzen) {
+    writeFileSync(SCHWELLEN, `${JSON.stringify(stand, null, 2)}\n`);
+    const summe = Object.values(stand).reduce((a, b) => a + b, 0);
+    console.log(`  Festgeschrieben: ${summe} Befunde in ${Object.keys(stand).length} Lintern.\n`);
+    return;
   }
 
-  const jetzt = Number(m[1] ?? 0);
-  stand[l.id] = jetzt;
-  const grenze = alt[l.id];
-
-  if (grenze === undefined) zeilen.push([l.id, jetzt, '—', 'neu erfasst']);
-  else if (jetzt > grenze) { gestiegen++; zeilen.push([l.id, jetzt, grenze, 'GESTIEGEN']); }
-  else if (jetzt < grenze) { gesunken++; zeilen.push([l.id, jetzt, grenze, `${grenze - jetzt} weniger`]); }
-  else zeilen.push([l.id, jetzt, grenze, 'unveraendert']);
+  if (gestiegen) {
+    console.log(`  ✗ ${gestiegen} Linter ueber der Schwelle.`);
+    console.log('    Befund beheben — nicht die Schwelle anheben.\n');
+    process.exitCode = 1;
+    return;
+  }
+  if (gesunken) {
+    console.log(`  ✓ ${gesunken} Linter besser geworden.`);
+    console.log('    Mit `npm run lint:schwellen -- --setzen` festschreiben.\n');
+  } else {
+    console.log('  ✓ unveraendert\n');
+  }
 }
 
-console.log('\n  LINTER-SCHWELLEN');
-console.log('  ' + '─'.repeat(62));
-console.log(`  ${'Linter'.padEnd(16)}${'jetzt'.padStart(7)}${'erlaubt'.padStart(9)}   Stand`);
-console.log('  ' + '─'.repeat(62));
-for (const [id, jetzt, grenze, hinweis] of zeilen) {
-  console.log(`  ${id.padEnd(16)}${String(jetzt).padStart(7)}${String(grenze).padStart(9)}   ${hinweis}`);
-}
-console.log('  ' + '─'.repeat(62));
-
-if (setzen) {
-  writeFileSync(SCHWELLEN, `${JSON.stringify(stand, null, 2)}\n`);
-  const summe = Object.values(stand).reduce((a, b) => a + b, 0);
-  console.log(`  Festgeschrieben: ${summe} Befunde in ${Object.keys(stand).length} Lintern.\n`);
-  process.exit(0);
-}
-
-if (gestiegen) {
-  console.log(`  ✗ ${gestiegen} Linter ueber der Schwelle.`);
-  console.log('    Befund beheben — nicht die Schwelle anheben.\n');
-  process.exit(1);
-}
-if (gesunken) {
-  console.log(`  ✓ ${gesunken} Linter besser geworden.`);
-  console.log('    Mit `npm run lint:schwellen -- --setzen` festschreiben.\n');
-} else {
-  console.log('  ✓ unveraendert\n');
-}
-process.exit(0);
+if (process.argv[1] === fileURLToPath(import.meta.url)) ausfuehren();
