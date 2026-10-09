@@ -1933,7 +1933,7 @@
             "id": "nc-accordion-media-radius",
             "label": "Media Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-accordion-item-radius)"
           },
           {
             "id": "nc-accordion-media-max-height",
@@ -2360,6 +2360,18 @@
             "default": "var(--fnd-spacing-03)"
           },
           {
+            "id": "nc-alert-font-size",
+            "label": "Font Size",
+            "type": "size",
+            "default": "var(--fnd-typography-paragraph-s-font-size)"
+          },
+          {
+            "id": "nc-alert-line-height",
+            "label": "Line Height",
+            "type": "generic",
+            "default": "var(--lh-relaxed)"
+          },
+          {
             "id": "nc-alert-info-bg",
             "label": "Info BG",
             "type": "color",
@@ -2565,6 +2577,8 @@
             "id": "typography",
             "label": "Typografie",
             "tokenIds": [
+              "nc-alert-font-size",
+              "nc-alert-line-height",
               "nc-alert-title-font-weight",
               "nc-alert-inline-font-size",
               "nc-alert-details-font-size"
@@ -3207,7 +3221,8 @@
             "id": "nc-badge-success-bg",
             "label": "Success BG",
             "type": "color",
-            "ref": "background-success"
+            "ref": "background-success",
+            "default": "var(--nc-tag-success-bg)"
           },
           {
             "id": "nc-badge-success-color",
@@ -3219,7 +3234,8 @@
             "id": "nc-badge-error-bg",
             "label": "Error BG",
             "type": "color",
-            "ref": "background-danger"
+            "ref": "background-danger",
+            "default": "var(--nc-tag-error-bg)"
           },
           {
             "id": "nc-badge-error-color",
@@ -3231,7 +3247,7 @@
             "id": "nc-badge-info-bg",
             "label": "Info BG",
             "type": "color",
-            "default": "rgba(69, 137, 255, 0.15)"
+            "default": "var(--nc-tag-info-bg)"
           },
           {
             "id": "nc-badge-info-color",
@@ -3243,7 +3259,7 @@
             "id": "nc-badge-warning-bg",
             "label": "Warning BG",
             "type": "color",
-            "default": "rgba(212, 164, 0, 0.15)"
+            "default": "var(--nc-tag-warning-bg)"
           },
           {
             "id": "nc-badge-warning-color",
@@ -3859,6 +3875,35 @@
         "label": "Bento Grid",
         "icon": "components",
         "subgroups": [
+          {
+            "id": "layout",
+            "label": "Layout",
+            "tokenIds": [
+              "nc-bento-grid-gap",
+              "nc-bento-grid-columns",
+              "nc-bento-grid-cell-min",
+              "nc-bento-grid-padding",
+              "nc-bento-grid-radius"
+            ]
+          },
+          {
+            "id": "surface",
+            "label": "Surface & Border",
+            "tokenIds": [
+              "nc-bento-grid-surface",
+              "nc-bento-grid-border",
+              "nc-bento-grid-border-hover"
+            ]
+          },
+          {
+            "id": "accent",
+            "label": "Accent & Text",
+            "tokenIds": [
+              "nc-bento-grid-accent",
+              "nc-bento-grid-title",
+              "nc-bento-grid-text"
+            ]
+          },
           {
             "id": "alle",
             "label": "Alle Tokens",
@@ -5364,7 +5409,7 @@
             "label": "Selected Background",
             "type": "color",
             "group": "selectable",
-            "ref": "background-accent-secondary"
+            "default": "color-mix(in srgb, var(--fnd-color-interactive-default) 8%, transparent)"
           },
           {
             "id": "nc-card-selected-ring-width",
@@ -5590,9 +5635,7 @@
             "id": "geometry",
             "label": "Geometrie",
             "tokenIds": [
-              "nc-card-grid-gap",
-              "nc-card-grid-title-size",
-              "nc-card-grid-title-margin"
+              "nc-card-grid-gap"
             ]
           },
           {
@@ -5623,18 +5666,6 @@
           {
             "id": "nc-card-grid-gap",
             "label": "Gap",
-            "type": "spacing",
-            "default": "var(--fnd-spacing-06)"
-          },
-          {
-            "id": "nc-card-grid-title-size",
-            "label": "Title Size",
-            "type": "size",
-            "default": "var(--fs-2xl)"
-          },
-          {
-            "id": "nc-card-grid-title-margin",
-            "label": "Title Margin",
             "type": "spacing",
             "default": "var(--fnd-spacing-06)"
           },
@@ -5854,7 +5885,8 @@
             "id": "nc-checkbox-bg-checked",
             "label": "BG Checked",
             "type": "color",
-            "ref": "interactive-default"
+            "ref": "interactive-default",
+            "default": "var(--nc-button-primary-bg)"
           },
           {
             "id": "nc-checkbox-border-checked",
@@ -6681,7 +6713,7 @@
             "id": "nc-cs-copy-radius",
             "label": "Copy Radius",
             "type": "size",
-            "default": "4px"
+            "default": "var(--nc-button-radius-sm)"
           },
           {
             "id": "nc-cs-copy-icon-size",
@@ -7009,13 +7041,13 @@
             "id": "nc-container-max-width",
             "label": "Max Width",
             "type": "size",
-            "default": "1200px"
+            "default": "var(--container-xwide)"
           },
           {
             "id": "nc-container-max-width-wide",
             "label": "Max Width (Wide)",
             "type": "size",
-            "default": "1440px"
+            "default": "1600px"
           },
           {
             "id": "nc-container-padding-inline",
@@ -7136,6 +7168,28 @@
             "label": "Grid Gap LG",
             "type": "spacing",
             "default": "var(--fnd-spacing-10)"
+          }
+        ]
+      },
+      {
+        "id": "cta",
+        "label": "CTA",
+        "icon": "components",
+        "subgroups": [
+          {
+            "id": "alle",
+            "label": "Alle Tokens",
+            "tokenIds": [
+              "nc-cta-bg"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-cta-bg",
+            "label": "Background",
+            "type": "color",
+            "default": "var(--fnd-color-always-dark)"
           }
         ]
       },
@@ -7838,7 +7892,7 @@
             "id": "nc-dt-card-shadow",
             "label": "Nc Dt Card Shadow",
             "type": "color",
-            "default": "var(--fnd-elevation-raised)"
+            "default": "var(--nc-card-shadow)"
           },
           {
             "id": "nc-dt-card-bg",
@@ -7869,12 +7923,6 @@
             "label": "Nc Dt Glass Backdrop Blur",
             "type": "size",
             "default": "8px"
-          },
-          {
-            "id": "nc-dt-cell-line-clamp",
-            "label": "Nc Dt Cell Line Clamp",
-            "type": "size",
-            "default": "1"
           }
         ],
         "subgroups": [
@@ -7896,8 +7944,7 @@
             "label": "Typografie",
             "tokenIds": [
               "nc-dt-stacked-label-font-weight",
-              "nc-dt-batch-count-font-size",
-              "nc-dt-cell-line-clamp"
+              "nc-dt-batch-count-font-size"
             ]
           },
           {
@@ -8181,7 +8228,8 @@
             "id": "nc-dialog-footer-border-color",
             "label": "Footer Border Color",
             "type": "color",
-            "ref": "border-secondary"
+            "ref": "border-secondary",
+            "default": "var(--nc-dialog-header-border-color)"
           },
           {
             "id": "nc-dialog-close-size",
@@ -8217,7 +8265,8 @@
             "id": "nc-dialog-danger-icon-color",
             "label": "Danger Icon Color",
             "type": "color",
-            "ref": "feedback-danger"
+            "ref": "feedback-danger",
+            "default": "var(--nc-alert-danger-icon-color)"
           },
           {
             "id": "nc-dialog-danger-action-bg",
@@ -8487,7 +8536,7 @@
             "id": "nc-drawer-shadow",
             "label": "Shadow",
             "type": "color",
-            "default": "var(--fnd-elevation-modal)"
+            "default": "var(--nc-dialog-shadow)"
           },
           {
             "id": "nc-drawer-overlay-bg",
@@ -12412,7 +12461,7 @@
             "id": "nc-item-radius",
             "label": "Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-input-radius)"
           },
           {
             "id": "nc-item-align",
@@ -12526,7 +12575,8 @@
             "id": "nc-item-accent-color",
             "label": "Accent Color",
             "type": "color",
-            "ref": "interactive-default"
+            "ref": "interactive-default",
+            "default": "var(--nc-item-selected-border)"
           },
           {
             "id": "nc-item-media-size",
@@ -12568,7 +12618,7 @@
             "id": "nc-item-thumbnail-radius",
             "label": "Thumbnail Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-item-media-radius)"
           },
           {
             "id": "nc-item-compact-padding-x",
@@ -12882,7 +12932,7 @@
             "id": "nc-label-font-weight",
             "label": "Font Weight",
             "type": "fontWeight",
-            "default": "var(--fnd-font-weight-semibold)"
+            "default": "var(--nc-badge-font-weight)"
           },
           {
             "id": "nc-label-gap",
@@ -12960,7 +13010,8 @@
             "id": "nc-label-success-bg",
             "label": "Success BG",
             "type": "color",
-            "ref": "background-success"
+            "ref": "background-success",
+            "default": "var(--nc-tag-success-bg)"
           },
           {
             "id": "nc-label-success-color",
@@ -12978,7 +13029,8 @@
             "id": "nc-label-warning-bg",
             "label": "Warning BG",
             "type": "color",
-            "ref": "background-warning"
+            "ref": "background-warning",
+            "default": "var(--nc-tag-warning-bg)"
           },
           {
             "id": "nc-label-warning-color",
@@ -12996,7 +13048,8 @@
             "id": "nc-label-danger-bg",
             "label": "Danger BG",
             "type": "color",
-            "ref": "background-danger"
+            "ref": "background-danger",
+            "default": "var(--nc-tag-error-bg)"
           },
           {
             "id": "nc-label-danger-color",
@@ -13014,7 +13067,8 @@
             "id": "nc-label-info-bg",
             "label": "Info BG",
             "type": "color",
-            "ref": "background-info"
+            "ref": "background-info",
+            "default": "var(--nc-tag-info-bg)"
           },
           {
             "id": "nc-label-info-color",
@@ -13332,6 +13386,28 @@
         ]
       },
       {
+        "id": "marquee",
+        "label": "Marquee",
+        "icon": "components",
+        "subgroups": [
+          {
+            "id": "alle",
+            "label": "Alle Tokens",
+            "tokenIds": [
+              "nc-marquee-duration"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-marquee-duration",
+            "label": "Duration",
+            "type": "generic",
+            "default": "20s"
+          }
+        ]
+      },
+      {
         "id": "media-frame",
         "label": "Media Frame",
         "icon": "components",
@@ -13497,7 +13573,7 @@
             "id": "nc-metric-radius",
             "label": "Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-card-radius)"
           },
           {
             "id": "nc-metric-padding",
@@ -13806,7 +13882,13 @@
               "nc-multiselect-panel-gap",
               "nc-multiselect-panel-padding",
               "nc-multiselect-panel-box-shadow",
-              "nc-multiselect-option-padding"
+              "nc-multiselect-option-padding",
+              "nc-multiselect-trigger-border-width",
+              "nc-multiselect-trigger-border",
+              "nc-multiselect-trigger-border-hover",
+              "nc-multiselect-trigger-border-focus",
+              "nc-multiselect-trigger-border-error",
+              "nc-multiselect-trigger-border-disabled"
             ]
           }
         ],
@@ -13852,6 +13934,42 @@
             "label": "Option Padding",
             "type": "spacing",
             "default": "var(--fnd-spacing-02)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border-width",
+            "label": "Trigger Border Width",
+            "type": "size",
+            "default": "var(--nc-input-border-width)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border",
+            "label": "Trigger Border",
+            "type": "color",
+            "default": "var(--nc-input-border)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border-hover",
+            "label": "Trigger Border Hover",
+            "type": "color",
+            "default": "var(--nc-input-border-hover)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border-focus",
+            "label": "Trigger Border Focus",
+            "type": "color",
+            "default": "var(--nc-input-border-focus)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border-error",
+            "label": "Trigger Border Error",
+            "type": "color",
+            "default": "var(--nc-input-border-error)"
+          },
+          {
+            "id": "nc-multiselect-trigger-border-disabled",
+            "label": "Trigger Border Disabled",
+            "type": "color",
+            "default": "var(--nc-input-disabled-border)"
           }
         ]
       },
@@ -14006,13 +14124,13 @@
             "id": "nc-notification-radius",
             "label": "Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-md)"
+            "default": "var(--nc-card-radius)"
           },
           {
             "id": "nc-notification-shadow",
             "label": "Shadow",
             "type": "color",
-            "default": "var(--fnd-elevation-overlay)"
+            "default": "var(--nc-popover-shadow)"
           },
           {
             "id": "nc-notification-bg",
@@ -14309,7 +14427,7 @@
             "id": "nc-pagination-item-radius",
             "label": "Item Radius",
             "type": "size",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-button-radius-sm)"
           },
           {
             "id": "nc-pagination-item-bg",
@@ -14567,7 +14685,7 @@
             "id": "nc-popover-arrow-bg",
             "label": "Arrow Background",
             "type": "color",
-            "default": "var(--fnd-color-background-base)"
+            "default": "var(--nc-popover-bg)"
           },
           {
             "id": "nc-popover-arrow-border",
@@ -14609,7 +14727,7 @@
             "id": "nc-popover-footer-border",
             "label": "Footer Border",
             "type": "color",
-            "default": "var(--fnd-color-border-secondary)"
+            "default": "var(--nc-popover-header-border)"
           },
           {
             "id": "nc-popover-header-color",
@@ -15921,7 +16039,7 @@
             "id": "nc-search-results-shadow",
             "label": "Results Shadow",
             "type": "shadow",
-            "default": "var(--fnd-elevation-floating)"
+            "default": "var(--nc-dropdown-shadow)"
           },
           {
             "id": "nc-search-results-max-height",
@@ -16059,7 +16177,7 @@
             "id": "nc-search-input-height",
             "label": "Input Height",
             "type": "size",
-            "default": "var(--fnd-size-md)"
+            "default": "var(--nc-input-height-md)"
           },
           {
             "id": "nc-search-scope-bg",
@@ -16143,7 +16261,7 @@
             "id": "nc-search-xl-radius",
             "label": "XL Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-md)"
+            "default": "var(--nc-input-radius)"
           },
           {
             "id": "nc-search-xl-shadow",
@@ -16161,13 +16279,13 @@
             "id": "nc-search-command-shadow",
             "label": "Command Shadow",
             "type": "color",
-            "default": "var(--fnd-shadow-xl)"
+            "default": "var(--nc-dialog-shadow)"
           },
           {
             "id": "nc-search-command-radius",
             "label": "Command Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-md)"
+            "default": "var(--nc-input-radius)"
           },
           {
             "id": "nc-search-command-overlay-bg",
@@ -16314,9 +16432,14 @@
             "tokenIds": [
               "nc-searchbar-input-padding-left",
               "nc-searchbar-input-padding-right",
-              "nc-searchbar-shortcut-font-size",
-              "nc-searchbar-shortcut-padding",
-              "nc-searchbar-close-background"
+              "nc-searchbar-close-background",
+              "nc-searchbar-input-radius",
+              "nc-searchbar-input-border-width",
+              "nc-searchbar-input-border",
+              "nc-searchbar-input-border-focus",
+              "nc-searchbar-input-bg",
+              "nc-searchbar-input-color",
+              "nc-searchbar-input-placeholder"
             ]
           }
         ],
@@ -16334,22 +16457,52 @@
             "default": "80px"
           },
           {
-            "id": "nc-searchbar-shortcut-font-size",
-            "label": "Shortcut Font Size",
-            "type": "size",
-            "default": "11px"
-          },
-          {
-            "id": "nc-searchbar-shortcut-padding",
-            "label": "Shortcut Padding",
-            "type": "spacing",
-            "default": "2px 6px"
-          },
-          {
             "id": "nc-searchbar-close-background",
             "label": "Close Background",
             "type": "color",
             "default": "transparent"
+          },
+          {
+            "id": "nc-searchbar-input-radius",
+            "label": "Input Radius",
+            "type": "radius",
+            "default": "var(--nc-input-radius)"
+          },
+          {
+            "id": "nc-searchbar-input-border-width",
+            "label": "Input Border Width",
+            "type": "size",
+            "default": "var(--nc-input-border-width)"
+          },
+          {
+            "id": "nc-searchbar-input-border",
+            "label": "Input Border",
+            "type": "color",
+            "default": "var(--nc-input-border)"
+          },
+          {
+            "id": "nc-searchbar-input-border-focus",
+            "label": "Input Border Focus",
+            "type": "color",
+            "default": "var(--nc-input-border-focus)"
+          },
+          {
+            "id": "nc-searchbar-input-bg",
+            "label": "Input Background",
+            "type": "color",
+            "default": "var(--nc-input-bg)"
+          },
+          {
+            "id": "nc-searchbar-input-color",
+            "label": "Input Color",
+            "type": "color",
+            "default": "var(--nc-input-color)"
+          },
+          {
+            "id": "nc-searchbar-input-placeholder",
+            "label": "Input Placeholder",
+            "type": "color",
+            "default": "var(--nc-input-placeholder)"
           }
         ]
       },
@@ -16568,7 +16721,8 @@
             "id": "nc-section-header-label-color",
             "label": "Label Color",
             "type": "color",
-            "default": "var(--fnd-neutral-800)"
+            "default": "var(--fnd-neutral-800)",
+            "darkDefault": "var(--fnd-color-text-secondary)"
           },
           {
             "id": "nc-section-header-label-spacing",
@@ -16944,6 +17098,45 @@
         "icon": "components",
         "subgroups": [
           {
+            "id": "linkbar",
+            "label": "Linkbar",
+            "tokenIds": [
+              "nc-shell-linkbar-height",
+              "nc-shell-linkbar-bg",
+              "nc-shell-linkbar-color",
+              "nc-shell-linkbar-border"
+            ]
+          },
+          {
+            "id": "sidebars",
+            "label": "Sidebars",
+            "tokenIds": [
+              "nc-shell-sidebar-left-width",
+              "nc-shell-sidebar-right-width",
+              "nc-shell-sidebar-bg",
+              "nc-shell-sidebar-border"
+            ]
+          },
+          {
+            "id": "footerbar",
+            "label": "Footerbar",
+            "tokenIds": [
+              "nc-shell-footerbar-height",
+              "nc-shell-footerbar-bg",
+              "nc-shell-footerbar-color",
+              "nc-shell-footerbar-border"
+            ]
+          },
+          {
+            "id": "content",
+            "label": "Content Area",
+            "tokenIds": [
+              "nc-shell-content-max-width",
+              "nc-shell-content-narrow",
+              "nc-shell-content-padding"
+            ]
+          },
+          {
             "id": "alle",
             "label": "Alle Tokens",
             "tokenIds": [
@@ -17203,6 +17396,283 @@
             "label": "Banner Font Size",
             "type": "size",
             "default": "var(--fs-sm)"
+          }
+        ]
+      },
+      {
+        "id": "shot",
+        "label": "Shot (Medien)",
+        "icon": "square",
+        "subgroups": [
+          {
+            "id": "akzent",
+            "label": "Akzent",
+            "tokenIds": [
+              "nc-shot-accent"
+            ]
+          },
+          {
+            "id": "rahmen",
+            "label": "Browser-Rahmen",
+            "tokenIds": [
+              "nc-shot-frame-radius",
+              "nc-shot-frame-shadow",
+              "nc-shot-chrome-gap",
+              "nc-shot-chrome-padding",
+              "nc-shot-chrome-bg",
+              "nc-shot-chrome-border",
+              "nc-shot-chrome-dot-bg",
+              "nc-shot-chrome-url-font-size",
+              "nc-shot-chrome-url-font-family",
+              "nc-shot-chrome-url-color",
+              "nc-shot-chrome-url-bg",
+              "nc-shot-chrome-url-radius",
+              "nc-shot-chrome-url-padding"
+            ]
+          },
+          {
+            "id": "lupe",
+            "label": "Lupe",
+            "tokenIds": [
+              "nc-shot-lens-border-width",
+              "nc-shot-lens-shadow",
+              "nc-shot-lens-bg"
+            ]
+          },
+          {
+            "id": "marker",
+            "label": "Marker und Erklärung",
+            "tokenIds": [
+              "nc-shot-hotspot-size",
+              "nc-shot-hotspot-bg",
+              "nc-shot-hotspot-border-width",
+              "nc-shot-hotspot-ping-color",
+              "nc-shot-tip-width",
+              "nc-shot-tip-bg",
+              "nc-shot-tip-color",
+              "nc-shot-tip-border-width",
+              "nc-shot-tip-radius",
+              "nc-shot-tip-padding",
+              "nc-shot-tip-text-size",
+              "nc-shot-tip-text-gap",
+              "nc-shot-tip-title-gap",
+              "nc-shot-tip-title-weight",
+              "nc-shot-tip-media-radius"
+            ]
+          },
+          {
+            "id": "vergleich",
+            "label": "Vergleich",
+            "tokenIds": [
+              "nc-shot-divider-width",
+              "nc-shot-divider-shadow"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-shot-accent",
+            "label": "Akzent",
+            "type": "color",
+            "default": "#37e93d"
+          },
+          {
+            "id": "nc-shot-frame-radius",
+            "label": "Rahmen — Radius",
+            "type": "radius",
+            "default": "14px"
+          },
+          {
+            "id": "nc-shot-frame-shadow",
+            "label": "Rahmen — Schatten",
+            "type": "shadow",
+            "default": "0 24px 70px rgba(0, 0, 0, .45), 0 0 40px rgba(55, 233, 61, .05)"
+          },
+          {
+            "id": "nc-shot-chrome-gap",
+            "label": "Leiste — Abstand",
+            "type": "spacing",
+            "default": ".5rem"
+          },
+          {
+            "id": "nc-shot-chrome-padding",
+            "label": "Leiste — Innenabstand",
+            "type": "spacing",
+            "default": ".55rem .8rem"
+          },
+          {
+            "id": "nc-shot-chrome-bg",
+            "label": "Leiste — Fläche",
+            "type": "color",
+            "default": "#101a24"
+          },
+          {
+            "id": "nc-shot-chrome-border",
+            "label": "Leiste — Linie",
+            "type": "color",
+            "default": "rgba(255, 255, 255, .06)"
+          },
+          {
+            "id": "nc-shot-chrome-dot-bg",
+            "label": "Leiste — Punkte",
+            "type": "color",
+            "default": "#2a3845"
+          },
+          {
+            "id": "nc-shot-chrome-url-font-size",
+            "label": "Adresse — Schriftgröße",
+            "type": "size",
+            "default": ".62rem"
+          },
+          {
+            "id": "nc-shot-chrome-url-font-family",
+            "label": "Adresse — Schrift",
+            "type": "generic",
+            "default": "ui-monospace, Menlo, monospace"
+          },
+          {
+            "id": "nc-shot-chrome-url-color",
+            "label": "Adresse — Text",
+            "type": "color",
+            "default": "#7da58a"
+          },
+          {
+            "id": "nc-shot-chrome-url-bg",
+            "label": "Adresse — Fläche",
+            "type": "color",
+            "default": "#0a131c"
+          },
+          {
+            "id": "nc-shot-chrome-url-radius",
+            "label": "Adresse — Radius",
+            "type": "radius",
+            "default": "6px"
+          },
+          {
+            "id": "nc-shot-chrome-url-padding",
+            "label": "Adresse — Innenabstand",
+            "type": "spacing",
+            "default": ".25rem .8rem"
+          },
+          {
+            "id": "nc-shot-lens-border-width",
+            "label": "Lupe — Rand",
+            "type": "size",
+            "default": "2px"
+          },
+          {
+            "id": "nc-shot-lens-shadow",
+            "label": "Lupe — Schatten",
+            "type": "shadow",
+            "default": "0 10px 40px rgba(0, 0, 0, .6)"
+          },
+          {
+            "id": "nc-shot-lens-bg",
+            "label": "Lupe — Fläche",
+            "type": "color",
+            "default": "#060c12"
+          },
+          {
+            "id": "nc-shot-hotspot-size",
+            "label": "Marker — Größe",
+            "type": "size",
+            "default": "22px"
+          },
+          {
+            "id": "nc-shot-hotspot-bg",
+            "label": "Marker — Fläche",
+            "type": "color",
+            "default": "rgba(55, 233, 61, .25)"
+          },
+          {
+            "id": "nc-shot-hotspot-border-width",
+            "label": "Marker — Rand",
+            "type": "size",
+            "default": "2px"
+          },
+          {
+            "id": "nc-shot-hotspot-ping-color",
+            "label": "Marker — Puls",
+            "type": "color",
+            "default": "rgba(55, 233, 61, .4)"
+          },
+          {
+            "id": "nc-shot-tip-width",
+            "label": "Erklärung — Breite",
+            "type": "size",
+            "default": "240px"
+          },
+          {
+            "id": "nc-shot-tip-bg",
+            "label": "Erklärung — Fläche",
+            "type": "color",
+            "default": "#0c151e"
+          },
+          {
+            "id": "nc-shot-tip-color",
+            "label": "Erklärung — Text",
+            "type": "color",
+            "default": "#eafff0"
+          },
+          {
+            "id": "nc-shot-tip-border-width",
+            "label": "Erklärung — Rand",
+            "type": "size",
+            "default": "1px"
+          },
+          {
+            "id": "nc-shot-tip-radius",
+            "label": "Erklärung — Radius",
+            "type": "radius",
+            "default": "10px"
+          },
+          {
+            "id": "nc-shot-tip-padding",
+            "label": "Erklärung — Innenabstand",
+            "type": "spacing",
+            "default": ".6rem"
+          },
+          {
+            "id": "nc-shot-tip-text-size",
+            "label": "Erklärung — Schriftgröße",
+            "type": "size",
+            "default": ".72rem"
+          },
+          {
+            "id": "nc-shot-tip-text-gap",
+            "label": "Erklärung — Abstand Text",
+            "type": "spacing",
+            "default": ".5rem"
+          },
+          {
+            "id": "nc-shot-tip-title-gap",
+            "label": "Erklärung — Abstand Titel",
+            "type": "spacing",
+            "default": ".25rem"
+          },
+          {
+            "id": "nc-shot-tip-title-weight",
+            "label": "Erklärung — Titel-Gewicht",
+            "type": "fontWeight",
+            "default": "var(--fnd-font-weight-bold)"
+          },
+          {
+            "id": "nc-shot-tip-media-radius",
+            "label": "Erklärung — Radius Bild",
+            "type": "radius",
+            "default": "6px"
+          },
+          {
+            "id": "nc-shot-divider-width",
+            "label": "Vergleich — Linienbreite",
+            "type": "size",
+            "default": "2px"
+          },
+          {
+            "id": "nc-shot-divider-shadow",
+            "label": "Vergleich — Leuchten",
+            "type": "shadow",
+            "default": "0 0 12px rgba(55, 233, 61, .8)"
           }
         ]
       },
@@ -18386,7 +18856,7 @@
             "id": "nc-table-row-border-width",
             "label": "Row Border Width",
             "type": "size",
-            "default": "var(--fnd-border-width-xs)"
+            "default": "var(--nc-table-border-width)"
           },
           {
             "id": "nc-table-row-bg-hover",
@@ -18508,7 +18978,8 @@
             "label": "Alle Tokens",
             "tokenIds": [
               "nc-table-block-thead-th-letter-spacing",
-              "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity"
+              "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
+              "nc-table-block-stripe-bg"
             ]
           }
         ],
@@ -18524,6 +18995,13 @@
             "label": "Is Scrolled Nc Compare Table Sticky Col Th First Child After Opacity",
             "type": "opacity",
             "default": "1"
+          },
+          {
+            "id": "nc-table-block-stripe-bg",
+            "label": "Stripe Bg",
+            "type": "color",
+            "default": "var(--fnd-color-background-secondary)",
+            "darkDefault": "var(--fnd-color-background-base)"
           }
         ]
       },
@@ -19328,7 +19806,8 @@
             "label": "Weitere",
             "tokenIds": [
               "nc-text-cta-columns",
-              "nc-text-cta-columns-reverse"
+              "nc-text-cta-columns-reverse",
+              "nc-text-cta-content-measure"
             ]
           }
         ],
@@ -19356,6 +19835,12 @@
             "label": "Columns Reverse",
             "type": "generic",
             "default": "minmax(0, 1fr) minmax(0, 1.35fr)"
+          },
+          {
+            "id": "nc-text-cta-content-measure",
+            "label": "Content Measure (ohne Karte)",
+            "type": "size",
+            "default": "var(--container-prose)"
           },
           {
             "id": "nc-text-cta-card-padding",
@@ -20072,7 +20557,7 @@
             "id": "nc-toast-default-progress-bg",
             "label": "Default Progress",
             "type": "color",
-            "default": "var(--fnd-color-text-secondary)"
+            "default": "var(--nc-toast-default-icon-color)"
           },
           {
             "id": "nc-toast-success-bg",
@@ -20102,7 +20587,7 @@
             "id": "nc-toast-success-progress-bg",
             "label": "Success Progress",
             "type": "color",
-            "default": "var(--fnd-color-feedback-success)"
+            "default": "var(--nc-toast-success-icon-color)"
           },
           {
             "id": "nc-toast-warning-bg",
@@ -20132,7 +20617,7 @@
             "id": "nc-toast-warning-progress-bg",
             "label": "Warning Progress",
             "type": "color",
-            "default": "var(--fnd-color-feedback-warning)"
+            "default": "var(--nc-toast-warning-icon-color)"
           },
           {
             "id": "nc-toast-error-bg",
@@ -20162,7 +20647,7 @@
             "id": "nc-toast-error-progress-bg",
             "label": "Error Progress",
             "type": "color",
-            "default": "var(--fnd-color-feedback-danger)"
+            "default": "var(--nc-toast-error-icon-color)"
           },
           {
             "id": "nc-toast-info-bg",
@@ -20192,7 +20677,7 @@
             "id": "nc-toast-info-progress-bg",
             "label": "Info Progress",
             "type": "color",
-            "default": "var(--fnd-color-feedback-info)"
+            "default": "var(--nc-toast-info-icon-color)"
           },
           {
             "id": "nc-toast-close-size",
@@ -20416,7 +20901,8 @@
             "id": "nc-toggle-group-underline-color",
             "label": "Underline Color",
             "type": "color",
-            "ref": "interactive-default"
+            "ref": "interactive-default",
+            "default": "var(--nc-toggle-group-item-selected-bg)"
           },
           {
             "id": "nc-toggle-group-divider-width",
@@ -20535,7 +21021,7 @@
             "id": "nc-toolbar-gap",
             "label": "Gap",
             "type": "size",
-            "default": "var(--fnd-spacing-02)"
+            "default": "var(--nc-button-gap)"
           },
           {
             "id": "nc-toolbar-bg",
@@ -20559,7 +21045,7 @@
             "id": "nc-toolbar-radius",
             "label": "Border Radius",
             "type": "size",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-input-radius)"
           },
           {
             "id": "nc-toolbar-separator-color",
@@ -21125,7 +21611,7 @@
             "id": "nc-treeview-badge-radius",
             "label": "Badge Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-full)"
+            "default": "var(--nc-badge-radius)"
           },
           {
             "id": "nc-treeview-badge-padding",
@@ -21234,64 +21720,6 @@
         "subgroups": []
       },
       {
-        "id": "anim",
-        "label": "Anim",
-        "icon": "components",
-        "subgroups": [
-          {
-            "id": "interaction",
-            "label": "Bewegung & Zustand",
-            "category": "state",
-            "tokenIds": [
-              "nc-anim-scroll-duration",
-              "nc-anim-scroll-easing",
-              "nc-anim-fade-duration",
-              "nc-anim-fade-easing",
-              "nc-anim-stagger-delay",
-              "nc-anim-expand-duration"
-            ]
-          }
-        ],
-        "tokens": [
-          {
-            "id": "nc-anim-scroll-duration",
-            "label": "Scroll Duration",
-            "type": "duration",
-            "default": "0.6s"
-          },
-          {
-            "id": "nc-anim-scroll-easing",
-            "label": "Scroll Easing",
-            "type": "generic",
-            "default": "cubic-bezier(0.16, 1, 0.3, 1)"
-          },
-          {
-            "id": "nc-anim-fade-duration",
-            "label": "Fade Duration",
-            "type": "duration",
-            "default": "0.5s"
-          },
-          {
-            "id": "nc-anim-fade-easing",
-            "label": "Fade Easing",
-            "type": "generic",
-            "default": "ease"
-          },
-          {
-            "id": "nc-anim-stagger-delay",
-            "label": "Stagger Delay",
-            "type": "duration",
-            "default": "0.08s"
-          },
-          {
-            "id": "nc-anim-expand-duration",
-            "label": "Expand Duration",
-            "type": "duration",
-            "default": "0.4s"
-          }
-        ]
-      },
-      {
         "id": "dropdown",
         "label": "Dropdown",
         "icon": "components",
@@ -21372,7 +21800,8 @@
             "id": "nc-dropdown-footer-border-color",
             "label": "Footer Border Color",
             "type": "color",
-            "ref": "border-secondary"
+            "ref": "border-secondary",
+            "default": "var(--nc-dropdown-separator-color)"
           }
         ]
       },
@@ -21858,7 +22287,8 @@
             "id": "nc-nav-mol-link-color",
             "label": "Mol Link Color",
             "type": "color",
-            "ref": "text-primary"
+            "ref": "text-primary",
+            "default": "var(--nc-nav-atom-icon-color)"
           },
           {
             "id": "nc-nav-mol-link-hover-bg",
@@ -22260,7 +22690,8 @@
             "id": "nc-nav-menu-trigger-hover-bg",
             "label": "Menu Trigger Hover BG",
             "type": "color",
-            "ref": "background-secondary"
+            "ref": "background-secondary",
+            "default": "var(--nc-nav-mol-link-hover-bg)"
           },
           {
             "id": "nc-nav-menu-trigger-active-bg",
@@ -22302,25 +22733,26 @@
             "id": "nc-nav-menu-viewport-bg",
             "label": "Menu Viewport BG",
             "type": "color",
-            "default": "var(--fnd-color-surface-elevated)"
+            "default": "var(--nc-popover-bg)"
           },
           {
             "id": "nc-nav-menu-viewport-border",
             "label": "Menu Viewport Border",
             "type": "color",
-            "ref": "border-secondary"
+            "ref": "border-secondary",
+            "default": "var(--nc-popover-border)"
           },
           {
             "id": "nc-nav-menu-viewport-radius",
             "label": "Menu Viewport Radius",
             "type": "radius",
-            "default": "var(--fnd-radius-sm)"
+            "default": "var(--nc-popover-radius)"
           },
           {
             "id": "nc-nav-menu-viewport-shadow",
             "label": "Menu Viewport Shadow",
             "type": "color",
-            "default": "var(--fnd-elevation-floating)"
+            "default": "var(--nc-popover-shadow)"
           },
           {
             "id": "nc-nav-menu-viewport-width",
@@ -22362,7 +22794,8 @@
             "id": "nc-nav-menu-indicator-color",
             "label": "Menu Indicator Color",
             "type": "color",
-            "ref": "interactive-default"
+            "ref": "interactive-default",
+            "default": "var(--nc-nav-mol-link-active-border)"
           },
           {
             "id": "nc-nav-menu-indicator-height",
@@ -23583,6 +24016,9 @@
         },
         "feature_accordion": {
           "split": "720px"
+        },
+        "data_table": {
+          "stack": "600px"
         }
       },
       "grid": {
@@ -25421,55 +25857,6 @@
               "section": "component-video-section"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "templates",
-      "label": "Templates",
-      "icon": "template",
-      "children": [
-        {
-          "id": "home-hero",
-          "label": "Home Hero",
-          "icon": "photo",
-          "section": "template-home-hero"
-        },
-        {
-          "id": "home-basic",
-          "label": "Home Basic",
-          "icon": "home",
-          "section": "template-home-basic"
-        },
-        {
-          "id": "dashboard",
-          "label": "Dashboard",
-          "icon": "dashboard",
-          "section": "template-dashboard"
-        },
-        {
-          "id": "content-page",
-          "label": "Content Page",
-          "icon": "article",
-          "section": "template-content"
-        },
-        {
-          "id": "form-page",
-          "label": "Form Page",
-          "icon": "forms",
-          "section": "template-form"
-        },
-        {
-          "id": "settings-page",
-          "label": "Settings Page",
-          "icon": "settings",
-          "section": "template-settings"
-        },
-        {
-          "id": "error-page",
-          "label": "Error Page",
-          "icon": "alert-triangle",
-          "section": "template-error"
         }
       ]
     },
