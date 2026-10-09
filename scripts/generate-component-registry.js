@@ -16,7 +16,21 @@
  * - Utilities (Layer 10): Hilfsklassen
  *
  * Verwendung: node scripts/generate-component-registry.js
+ *             node scripts/generate-component-registry.js --pruefen
+ *               (CI: Datei == Erzeugnis, Datumszeile `generated` ausgenommen)
  * Ausgabe:    data/component-registry.json
+ *
+ * Seit 09.10.2026 (Restpunkte) stimmt der Generator wieder mit der von Hand
+ * gepflegten Datei ueberein (Phase 4/5 wurden von Hand nachgetragen, weil der
+ * Generator „fremde Drift" erzeugte):
+ *   - Arena: die RecipeArena gilt fuer ein Bauteil, sobald es eine Vorlage
+ *     apps/theme-configurator/src/arena-templates/<id>.js hat (Plan v3,
+ *     Phase 3–5) oder als Alias-Sektion auf ein Recipe zeigt (ALIASE in
+ *     useArenaResolver.js). Vorher setzte der Generator alle auf null.
+ *   - Objects (04) ohne eigenes Bauteil-SCSS/Story stehen nur unter
+ *     `objects`, nicht zusaetzlich als Komponente mit Layer `unknown`.
+ *   - Templates tragen paths.recipe (navigation-builder liest es).
+ *   - `generated` bleibt stehen, solange sich der Inhalt nicht aendert.
  */
 
 import { readdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
@@ -26,8 +40,13 @@ const ROOT = resolve(import.meta.dirname, '..');
 // Pfadunabhaengig wie in sync-drupal-css.js: DRUPAL11 wird als GESCHWISTER
 // neben WEBSITE26 erwartet. War frueher absolut auf ~/Documents verdrahtet
 // und brach beim Umzug der Projekte aus dem iCloud-Ordner.
-const DRUPAL_THEME = process.env.NEO_DRUPAL_THEME_LEGACY
-  || resolve(ROOT, '../DRUPAL11/web/themes/custom/neo_theme');
+//
+// Seit 09.10.2026: Quelle der Drupal-Templates ist meta.pipeline.drupal der
+// Recipes (im Repo, also in CI und lokal gleich). Der Standardpfad zeigte auf
+// das Alt-Theme neo_theme und war hier nie vorhanden — jeder Lauf ohne
+// Geschwister-Ordner loeschte die Drupal-Zeilen. Ein Theme-Ordner wird nur
+// noch gelesen, wenn NEO_DRUPAL_THEME_LEGACY ausdruecklich gesetzt ist.
+const DRUPAL_THEME = process.env.NEO_DRUPAL_THEME_LEGACY || null;
 
 // --- Hilfsfunktionen ---
 
@@ -127,6 +146,26 @@ function scanAllStories() {
   return map;
 }
 
+// Sektion → Recipe-ID, deren RecipeArena sie zeigt. Spiegel von ALIASE in
+// apps/theme-configurator/src/composables/useArenaResolver.js.
+const ARENA_ALIASE = { table: 'compare-table' };
+const RECIPE_ARENA = 'apps/theme-configurator/src/components/laboratory/RecipeArena.vue';
+
+/**
+ * Bauteile, die die RecipeArena mit eigener Vorlage zeigt
+ * (arena-templates/<id>.js; Dateien mit `_` sind Helfer, index.js die Registry).
+ */
+function scanRecipeArenaVorlagen() {
+  const dir = join(ROOT, 'apps/theme-configurator/src/arena-templates');
+  const map = {};
+  for (const f of listFiles(dir, /^[^_].*\.js$/)) {
+    if (f === 'index.js') continue;
+    map[f.replace(/\.js$/, '')] = RECIPE_ARENA;
+  }
+  for (const sektion of Object.keys(ARENA_ALIASE)) map[sektion] = RECIPE_ARENA;
+  return map;
+}
+
 function scanArenas() {
   const dir = join(ROOT, 'apps/theme-configurator/src/components/laboratory');
   const files = listFiles(dir, /Arena\.vue$/);
@@ -141,7 +180,8 @@ function scanArenas() {
     const name = pascal.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     map[name] = `apps/theme-configurator/src/components/laboratory/${f}`;
   }
-  return map;
+  // Handgeschriebene *Arena.vue gehen vor, sonst die RecipeArena mit Vorlage
+  return { ...scanRecipeArenaVorlagen(), ...map };
 }
 
 function scanFoundationEditors() {
@@ -158,6 +198,7 @@ function scanFoundationEditors() {
 }
 
 function scanDrupal() {
+  if (!DRUPAL_THEME) return {};
   const dir = join(DRUPAL_THEME, 'templates/block');
   if (!existsSync(dir)) return {};
   const files = listFiles(dir, /neo.*\.html\.twig$/);
@@ -169,6 +210,18 @@ function scanDrupal() {
       if (!map[name]) map[name] = [];
       map[name].push(f);
     }
+  }
+  return map;
+}
+
+/** Drupal-Templates je Recipe aus meta.pipeline.drupal. */
+function scanRecipeDrupal(recipes) {
+  const map = {};
+  for (const [name, path] of Object.entries(recipes)) {
+    try {
+      const d = JSON.parse(readFileSync(join(ROOT, path), 'utf-8')).meta?.pipeline?.drupal;
+      if (Array.isArray(d) && d.length > 0) map[name] = d;
+    } catch { /* kaputtes Recipe meldet lint:recipes */ }
   }
   return map;
 }
@@ -283,7 +336,12 @@ function generateRegistry() {
   const stories = scanStories();        // Nur atoms/molecules/organisms
   const allStories = scanAllStories();   // Alle inkl. foundations/layout/etc.
   const arenas = scanArenas();
-  const drupal = scanDrupal();
+  const drupalAusRecipes = scanRecipeDrupal(recipes);
+  const drupalAusTheme = scanDrupal();
+  const drupal = { ...drupalAusRecipes };
+  for (const [name, dateien] of Object.entries(drupalAusTheme)) {
+    drupal[name] = [...new Set([...(drupal[name] || []), ...dateien])];
+  }
   const docs = scanDocs();
   const foundationEditors = scanFoundationEditors();
   const layoutPresets = scanLayoutPresets();
@@ -483,9 +541,13 @@ function generateRegistry() {
 
   // --- Components (Layer 05-07) ---
   const sortedNames = [...allNames].sort();
+  const objectNames = new Set(objectsFiles.map(o => o.name));
 
   for (const name of sortedNames) {
     const layer = determineLayer(name, scss);
+    // Reine Objects (nur 04-objects, kein Bauteil-SCSS, keine Story) stehen
+    // unter `objects` — hier kaemen sie nur als Layer `unknown` dazu.
+    if (!layer && !stories[name] && objectNames.has(name)) continue;
     const recipePath = recipes[name] || null;
     const dependencies = recipePath ? extractDependencies(recipePath, allNames) : [];
 
@@ -523,6 +585,9 @@ function generateRegistry() {
       name: tmpl.name,
       layer: 'template',
       paths: {
+        // Nur Templates, deren Recipe nicht schon als Komponente gefuehrt
+        // wird (shell): sonst zeigte der Konfigurator die Sektion doppelt.
+        recipe: (!registry.components[tmpl.name] && recipes[tmpl.name]) || null,
         scss: [tmpl.path],
         layoutPreset: layoutPresets[`layout-${tmpl.name}`] || null,
         story: stories[tmpl.name]?.path || stories[templateDocName]?.path || null,
@@ -596,6 +661,7 @@ function generateRegistry() {
     },
     templates: {
       total: templates.length,
+      withRecipe: templates.filter(t => t.paths.recipe).length,
       withDocs: templates.filter(t => t.coverage.docs).length,
       withStory: templates.filter(t => t.coverage.story).length,
       withLayoutPreset: templates.filter(t => t.coverage.layoutPreset).length,
@@ -657,38 +723,61 @@ function generateRegistry() {
 
 const registry = generateRegistry();
 const outPath = join(ROOT, 'data/component-registry.json');
-writeFileSync(outPath, JSON.stringify(registry, null, 2) + '\n');
+const pruefen = process.argv.includes('--pruefen');
 
-const s = registry.stats;
-console.log(`✓ Design System Registry generiert: ${outPath}`);
-console.log(`\n  FOUNDATIONS (Layer 00)`);
-console.log(`    ${s.foundations.total} Kategorien | Docs: ${s.foundations.withDocs} | Editor: ${s.foundations.withEditor} | Story: ${s.foundations.withStory}`);
-console.log(`  INFRASTRUCTURE (Layer 01-03)`);
-console.log(`    Tools: ${s.infrastructure.tools} | Generic: ${s.infrastructure.generic} | Elements: ${s.infrastructure.elements}`);
-console.log(`  OBJECTS (Layer 04)`);
-console.log(`    ${s.objects.total} Objekte | Recipe: ${s.objects.withRecipe} | Docs: ${s.objects.withDocs} | Story: ${s.objects.withStory}`);
-console.log(`  COMPONENTS (Layer 05-07)`);
-console.log(`    ${s.components.total} Komponenten | Recipe: ${s.components.withRecipe} | SCSS: ${s.components.withScss} | Story: ${s.components.withStory}`);
-console.log(`    Arena: ${s.components.withArena} | Drupal: ${s.components.withDrupal} | Docs: ${s.components.withDocs}`);
-console.log(`  TEMPLATES (Layer 08)`);
-console.log(`    ${s.templates.total} Templates | Docs: ${s.templates.withDocs} | Story: ${s.templates.withStory} | Layout-Preset: ${s.templates.withLayoutPreset}`);
-console.log(`  UTILITIES (Layer 10)`);
-console.log(`    ${s.utilities.total} Utilities | Docs: ${s.utilities.withDocs} | Story: ${s.utilities.withStory}`);
-console.log(`  LAYOUT PRESETS: ${s.layoutPresets}`);
-console.log(`\n  Coverage (Components): ${JSON.stringify(s.coverageDistribution)}`);
+// Datumszeile: bleibt, solange sich sonst nichts aendert — sonst waere jeder
+// Tag eine Abweichung (gleiche Regel wie tokens.generated.js im CI).
+let bisher = null;
+try { bisher = JSON.parse(readFileSync(outPath, 'utf-8')); } catch { /* neu */ }
+const ohneDatum = (r) => JSON.stringify({ ...r, generated: null });
+const unveraendert = bisher && ohneDatum(bisher) === ohneDatum(registry);
+if (unveraendert) registry.generated = bisher.generated;
 
-// Lücken-Zusammenfassung
-const g = registry.gaps;
-const criticalGaps = [];
-if (g.foundations.missingDocs.length > 0) criticalGaps.push(`Foundations ohne Docs: ${g.foundations.missingDocs.join(', ')}`);
-if (g.foundations.missingStory.length > 0) criticalGaps.push(`Foundations ohne Story: ${g.foundations.missingStory.length}/${s.foundations.total}`);
-if (g.objects.missingRecipe.length > 0) criticalGaps.push(`Objects ohne Recipe: ${g.objects.missingRecipe.join(', ')}`);
-if (g.templates.missingStory.length > 0) criticalGaps.push(`Templates ohne Story: ${g.templates.missingStory.length}/${s.templates.total}`);
-if (g.components.missingRecipe.length > 0) criticalGaps.push(`Components ohne Recipe: ${g.components.missingRecipe.join(', ')}`);
+if (pruefen) {
+  if (unveraendert) {
+    console.log('✓ data/component-registry.json == Erzeugnis (npm run registry)');
+  } else {
+    console.error('✗ data/component-registry.json ist veraltet oder von Hand geaendert — `npm run registry` ausfuehren und den Diff pruefen.');
+    process.exitCode = 1;
+  }
+} else {
+  writeFileSync(outPath, JSON.stringify(registry, null, 2) + '\n');
+}
 
-if (criticalGaps.length > 0) {
-  console.log(`\n⚠ Kritische Lücken:`);
-  for (const gap of criticalGaps) {
-    console.log(`  - ${gap}`);
+if (!pruefen) bericht();
+
+function bericht() {
+  const s = registry.stats;
+  console.log(`✓ Design System Registry generiert: ${outPath}`);
+  console.log(`\n  FOUNDATIONS (Layer 00)`);
+  console.log(`    ${s.foundations.total} Kategorien | Docs: ${s.foundations.withDocs} | Editor: ${s.foundations.withEditor} | Story: ${s.foundations.withStory}`);
+  console.log(`  INFRASTRUCTURE (Layer 01-03)`);
+  console.log(`    Tools: ${s.infrastructure.tools} | Generic: ${s.infrastructure.generic} | Elements: ${s.infrastructure.elements}`);
+  console.log(`  OBJECTS (Layer 04)`);
+  console.log(`    ${s.objects.total} Objekte | Recipe: ${s.objects.withRecipe} | Docs: ${s.objects.withDocs} | Story: ${s.objects.withStory}`);
+  console.log(`  COMPONENTS (Layer 05-07)`);
+  console.log(`    ${s.components.total} Komponenten | Recipe: ${s.components.withRecipe} | SCSS: ${s.components.withScss} | Story: ${s.components.withStory}`);
+  console.log(`    Arena: ${s.components.withArena} | Drupal: ${s.components.withDrupal} | Docs: ${s.components.withDocs}`);
+  console.log(`  TEMPLATES (Layer 08)`);
+  console.log(`    ${s.templates.total} Templates | Docs: ${s.templates.withDocs} | Story: ${s.templates.withStory} | Layout-Preset: ${s.templates.withLayoutPreset}`);
+  console.log(`  UTILITIES (Layer 10)`);
+  console.log(`    ${s.utilities.total} Utilities | Docs: ${s.utilities.withDocs} | Story: ${s.utilities.withStory}`);
+  console.log(`  LAYOUT PRESETS: ${s.layoutPresets}`);
+  console.log(`\n  Coverage (Components): ${JSON.stringify(s.coverageDistribution)}`);
+
+  // Lücken-Zusammenfassung
+  const g = registry.gaps;
+  const criticalGaps = [];
+  if (g.foundations.missingDocs.length > 0) criticalGaps.push(`Foundations ohne Docs: ${g.foundations.missingDocs.join(', ')}`);
+  if (g.foundations.missingStory.length > 0) criticalGaps.push(`Foundations ohne Story: ${g.foundations.missingStory.length}/${s.foundations.total}`);
+  if (g.objects.missingRecipe.length > 0) criticalGaps.push(`Objects ohne Recipe: ${g.objects.missingRecipe.join(', ')}`);
+  if (g.templates.missingStory.length > 0) criticalGaps.push(`Templates ohne Story: ${g.templates.missingStory.length}/${s.templates.total}`);
+  if (g.components.missingRecipe.length > 0) criticalGaps.push(`Components ohne Recipe: ${g.components.missingRecipe.join(', ')}`);
+
+  if (criticalGaps.length > 0) {
+    console.log(`\n⚠ Kritische Lücken:`);
+    for (const gap of criticalGaps) {
+      console.log(`  - ${gap}`);
+    }
   }
 }

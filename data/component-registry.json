@@ -1,13 +1,13 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-09-29",
+  "generated": "2026-10-09",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
       "name": "typography",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.typography",
-      "tokenCount": 81,
+      "tokenCount": 132,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_typography.scss"
@@ -82,7 +82,7 @@
       "name": "border",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.border",
-      "tokenCount": 19,
+      "tokenCount": 15,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_border.scss"
@@ -176,7 +176,7 @@
       "name": "layout",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.layout",
-      "tokenCount": 41,
+      "tokenCount": 49,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_layout.scss",
@@ -318,7 +318,70 @@
       "name": "praesentation",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.praesentation",
-      "tokenCount": 134,
+      "tokenCount": 160,
+      "paths": {
+        "scss": [],
+        "generatedScss": [],
+        "docs": null,
+        "editor": null,
+        "story": null
+      },
+      "coverage": {
+        "tokenSource": true,
+        "scss": false,
+        "generatedScss": false,
+        "docs": false,
+        "editor": false,
+        "story": false
+      }
+    },
+    "size": {
+      "name": "size",
+      "category": "foundation",
+      "tokenSource": "data/design-tokens.json → foundation.size",
+      "tokenCount": 7,
+      "paths": {
+        "scss": [],
+        "generatedScss": [],
+        "docs": null,
+        "editor": null,
+        "story": "stories/foundations/size.stories.js"
+      },
+      "coverage": {
+        "tokenSource": true,
+        "scss": false,
+        "generatedScss": false,
+        "docs": false,
+        "editor": false,
+        "story": true
+      }
+    },
+    "tracking": {
+      "name": "tracking",
+      "category": "foundation",
+      "tokenSource": "data/design-tokens.json → foundation.tracking",
+      "tokenCount": 8,
+      "paths": {
+        "scss": [],
+        "generatedScss": [],
+        "docs": null,
+        "editor": null,
+        "story": null
+      },
+      "coverage": {
+        "tokenSource": true,
+        "scss": false,
+        "generatedScss": false,
+        "docs": false,
+        "editor": false,
+        "story": false
+      }
+    },
+    "font_weight": {
+      "name": "font_weight",
+      "category": "foundation",
+      "tokenSource": "data/design-tokens.json → foundation.font_weight",
+      "tokenCount": 10,
       "paths": {
         "scss": [],
         "generatedScss": [],
@@ -339,7 +402,7 @@
       "name": "color-primitives",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → primitives",
-      "tokenCount": 391,
+      "tokenCount": 395,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_color-primitives.scss",
@@ -364,7 +427,7 @@
       "name": "color-semantic",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → semantic",
-      "tokenCount": 897,
+      "tokenCount": 1021,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_color-semantic.scss",
@@ -501,14 +564,14 @@
           "scss/scss/04-objects/_aspect-ratio.scss"
         ],
         "story": "stories/organisms/aspect-ratio.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": null
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "docs": false
       }
     },
@@ -661,14 +724,14 @@
           "scss/scss/04-objects/_video.scss"
         ],
         "story": "stories/organisms/video.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "docs": "docs/video-docs.html"
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "docs": true
       }
     }
@@ -684,7 +747,10 @@
         ],
         "story": "stories/molecules/accordion.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-accordion.html.twig",
+          "block--inline-block--neo-accordion.html.twig"
+        ],
         "docs": "docs/accordion-docs.html"
       },
       "coverage": {
@@ -692,10 +758,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 6
     },
     "accordion-block": {
       "name": "accordion-block",
@@ -707,22 +773,26 @@
         ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-accordion.html.twig",
+          "block/block--inline-block--neo-accordion.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
         "accordion",
-        "container"
+        "container",
+        "section"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": false,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "alert": {
       "name": "alert",
@@ -922,7 +992,10 @@
         ],
         "story": "stories/organisms/bento-grid.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-bento-grid.html.twig",
+          "block--inline-block--neo-bento-grid.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
@@ -930,10 +1003,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "bento-section": {
       "name": "bento-section",
@@ -968,21 +1041,25 @@
         ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-block-bundle.html.twig",
+          "block/block--inline-block--neo-block-bundle.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
-        "container"
+        "container",
+        "section"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": false,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "breadcrumb": {
       "name": "breadcrumb",
@@ -1089,10 +1166,15 @@
         ],
         "story": "stories/molecules/card-cta.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-card-grid-cta.html.twig",
+          "block/block--inline-block--neo-card-grid-cta.html.twig",
+          "js/neo-theme.js (Drupal.behaviors.neoCardGridCta)"
+        ],
         "docs": null
       },
       "dependencies": [
+        "button",
         "card"
       ],
       "coverage": {
@@ -1100,10 +1182,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "card-grid": {
       "name": "card-grid",
@@ -1114,23 +1196,27 @@
           "scss/scss/06-molecules/_card-grid.scss"
         ],
         "story": "stories/organisms/card-grid.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-card-grid.html.twig",
+          "block--inline-block--neo-card-grid.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
         "card",
-        "container"
+        "container",
+        "section"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "card-grid-cq": {
       "name": "card-grid-cq",
@@ -1165,7 +1251,10 @@
         ],
         "story": "stories/organisms/card-grid-cta.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-card-grid-cta.html.twig",
+          "block--inline-block--neo-card-grid-cta.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -1176,10 +1265,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "carousel": {
       "name": "carousel",
@@ -1263,7 +1352,7 @@
           "scss/scss/06-molecules/_checkbox-group.scss"
         ],
         "story": "stories/organisms/checkbox-group.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/checkbox-group-docs.html"
       },
@@ -1275,11 +1364,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "chip": {
       "name": "chip",
@@ -1336,19 +1425,22 @@
           "scss/scss/07-organisms/_compare-table.scss"
         ],
         "story": "stories/organisms/compare-table.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-table.html.twig",
+          "block--inline-block--neo-table.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "container": {
       "name": "container",
@@ -1452,7 +1544,7 @@
           "scss/scss/05-atoms/_divider.scss"
         ],
         "story": "stories/organisms/divider.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/divider-docs.html"
       },
@@ -1460,11 +1552,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "drawer": {
       "name": "drawer",
@@ -1521,7 +1613,7 @@
           "scss/scss/06-molecules/_empty-state.scss"
         ],
         "story": "stories/organisms/empty-state.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/empty-state-docs.html"
       },
@@ -1529,11 +1621,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "event": {
       "name": "event",
@@ -1545,18 +1637,24 @@
         ],
         "story": "stories/organisms/event.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "node/node--event--full.html.twig"
+        ],
         "docs": null
       },
+      "dependencies": [
+        "card",
+        "container"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "events": {
       "name": "events",
@@ -1568,18 +1666,27 @@
         ],
         "story": "stories/organisms/events.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-events-listing.html.twig",
+          "block/block--inline-block--neo-events-listing.html.twig",
+          "components/neo-events-listing/neo-events-listing.twig",
+          "js/neo-theme.js (Drupal.behaviors.neoEventsListing)"
+        ],
         "docs": null
       },
+      "dependencies": [
+        "container",
+        "section"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "expanding-panels": {
       "name": "expanding-panels",
@@ -1591,7 +1698,10 @@
         ],
         "story": "stories/organisms/expanding-panels.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-expanding-panels.html.twig",
+          "block--inline-block--neo-expanding-panels.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
@@ -1599,10 +1709,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "facts": {
       "name": "facts",
@@ -1637,7 +1747,10 @@
         ],
         "story": "stories/organisms/fade-gallery.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-fade-gallery.html.twig",
+          "block--inline-block--neo-fade-gallery.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -1648,10 +1761,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "faq": {
       "name": "faq",
@@ -1712,18 +1825,27 @@
         ],
         "story": "stories/organisms/feature-list.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-feature-list.html.twig",
+          "block/block--inline-block--neo-feature-list.html.twig",
+          "js/neo-theme.js (Drupal.behaviors.neoFeatureList, neoFeatureMedia)"
+        ],
         "docs": null
       },
+      "dependencies": [
+        "container",
+        "device",
+        "shot"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "fieldset": {
       "name": "fieldset",
@@ -1762,7 +1884,7 @@
           "scss/scss/06-molecules/_file-upload.scss"
         ],
         "story": "stories/organisms/file-upload.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/file-upload-docs.html"
       },
@@ -1773,11 +1895,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "footer": {
       "name": "footer",
@@ -1788,7 +1910,7 @@
           "scss/scss/07-organisms/_footer.scss"
         ],
         "story": "stories/organisms/footer.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/footer-docs.html"
       },
@@ -1796,11 +1918,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form": {
       "name": "form",
@@ -1811,8 +1933,11 @@
           "scss/scss/07-organisms/_form.scss"
         ],
         "story": "stories/organisms/form.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-form.html.twig",
+          "block--inline-block--neo-form.html.twig"
+        ],
         "docs": "docs/form-docs.html"
       },
       "dependencies": [
@@ -1822,11 +1947,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 6
     },
     "form-actions": {
       "name": "form-actions",
@@ -1837,7 +1962,7 @@
           "scss/scss/07-organisms/_form-actions.scss"
         ],
         "story": "stories/organisms/form-actions.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-actions-docs.html"
       },
@@ -1848,11 +1973,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form-block": {
       "name": "form-block",
@@ -1863,7 +1988,7 @@
           "scss/scss/07-organisms/_form-block.scss"
         ],
         "story": "stories/organisms/form-block.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-block-docs.html"
       },
@@ -1874,11 +1999,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form-error": {
       "name": "form-error",
@@ -1889,7 +2014,7 @@
           "scss/scss/06-molecules/_form-error.scss"
         ],
         "story": "stories/molecules/form-error.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-error-docs.html"
       },
@@ -1900,11 +2025,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form-field": {
       "name": "form-field",
@@ -1945,7 +2070,7 @@
           "scss/scss/06-molecules/_form-hint.scss"
         ],
         "story": "stories/molecules/form-hint.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-hint-docs.html"
       },
@@ -1956,11 +2081,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form-hp": {
       "name": "form-hp",
@@ -1994,7 +2119,7 @@
           "scss/scss/06-molecules/_form-label.scss"
         ],
         "story": "stories/molecules/form-label.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-label-docs.html"
       },
@@ -2005,11 +2130,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "form-section": {
       "name": "form-section",
@@ -2020,7 +2145,7 @@
           "scss/scss/07-organisms/_form-section.scss"
         ],
         "story": "stories/organisms/form-section.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/form-section-docs.html"
       },
@@ -2031,11 +2156,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "gallery": {
       "name": "gallery",
@@ -2046,19 +2171,22 @@
           "scss/scss/07-organisms/_gallery.scss"
         ],
         "story": "stories/organisms/gallery.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-gallery.html.twig",
+          "block--inline-block--neo-gallery.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "grid": {
       "name": "grid",
@@ -2114,23 +2242,27 @@
         ],
         "story": "stories/organisms/hero.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-hero.html.twig",
+          "block--inline-block--neo-hero.html.twig"
+        ],
         "docs": "docs/hero-docs.html"
       },
       "dependencies": [
         "badge",
         "label",
-        "metric"
+        "metric",
+        "video"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 6
     },
     "hero-tmob": {
       "name": "hero-tmob",
@@ -2142,7 +2274,10 @@
         ],
         "story": "stories/organisms/hero-tmob.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-hero-tmob.html.twig",
+          "block--inline-block--neo-hero-tmob.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -2154,10 +2289,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "hero-tom": {
       "name": "hero-tom",
@@ -2169,7 +2304,10 @@
         ],
         "story": "stories/organisms/hero-tom.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-hero-tom.html.twig",
+          "block--inline-block--neo-hero-tom.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -2181,10 +2319,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "icon": {
       "name": "icon",
@@ -2195,7 +2333,7 @@
           "scss/scss/05-atoms/_icon.scss"
         ],
         "story": "stories/atoms/icon.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
@@ -2203,11 +2341,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "input": {
       "name": "input",
@@ -2290,7 +2428,7 @@
           "scss/scss/05-atoms/_kbd.scss"
         ],
         "story": "stories/organisms/kbd.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/kbd-docs.html"
       },
@@ -2298,11 +2436,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "label": {
       "name": "label",
@@ -2359,19 +2497,22 @@
           "scss/scss/06-molecules/_logo-wall.scss"
         ],
         "story": "stories/molecules/logo-wall.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-logo-wall.html.twig",
+          "block--inline-block--neo-logo-wall.html.twig"
+        ],
         "docs": "docs/logo-wall-docs.html"
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 6
     },
     "marquee": {
       "name": "marquee",
@@ -2483,7 +2624,8 @@
       },
       "dependencies": [
         "checkbox",
-        "form"
+        "form",
+        "input"
       ],
       "coverage": {
         "recipe": true,
@@ -2504,7 +2646,7 @@
           "scss/scss/05-atoms/_nav-atoms.scss"
         ],
         "story": "stories/organisms/nav-atoms.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/nav-atoms-docs.html"
       },
@@ -2512,11 +2654,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "nav-molecules": {
       "name": "nav-molecules",
@@ -2527,7 +2669,7 @@
           "scss/scss/06-molecules/_nav-molecules.scss"
         ],
         "story": "stories/organisms/nav-molecules.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
@@ -2539,11 +2681,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "navigation": {
       "name": "navigation",
@@ -2633,21 +2775,23 @@
         ],
         "story": "stories/organisms/navigation-tab-mega.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "neo-nav.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
-        "kbd"
+        "header"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "news": {
       "name": "news",
@@ -2659,7 +2803,9 @@
         ],
         "story": "stories/organisms/news.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "node/node--news--full.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
@@ -2667,10 +2813,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "notification": {
       "name": "notification",
@@ -2704,7 +2850,7 @@
           "scss/scss/06-molecules/_otp-input.scss"
         ],
         "story": "stories/molecules/otp-input.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/otp-input-docs.html"
       },
@@ -2712,11 +2858,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "pagination": {
       "name": "pagination",
@@ -2820,19 +2966,22 @@
           "scss/scss/07-organisms/_product-showcase.scss"
         ],
         "story": "stories/organisms/product-showcase.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-product-showcase.html.twig",
+          "block--inline-block--neo-product-showcase.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "progress": {
       "name": "progress",
@@ -2936,7 +3085,7 @@
           "scss/scss/06-molecules/_radio-group.scss"
         ],
         "story": "stories/organisms/radio-group.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/radio-group-docs.html"
       },
@@ -2948,11 +3097,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "range": {
       "name": "range",
@@ -3010,7 +3159,11 @@
         ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "content/node--reference-page.html.twig",
+          "block/block--block-content--neo-doc-section.html.twig",
+          "block/block--inline-block--neo-doc-section.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -3021,10 +3174,10 @@
         "scss": true,
         "story": false,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "search": {
       "name": "search",
@@ -3062,6 +3215,9 @@
         "drupal": [],
         "docs": null
       },
+      "dependencies": [
+        "container"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -3106,7 +3262,10 @@
         ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "components/block-header/block-header.twig",
+          "components/badge-row/badge-row.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -3119,10 +3278,10 @@
         "scss": true,
         "story": false,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "security-list": {
       "name": "security-list",
@@ -3226,19 +3385,22 @@
         ],
         "story": "stories/molecules/shot.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-story-gallery.html.twig",
+          "block--inline-block--neo-story-gallery.html.twig",
+          "block--block-content--neo-feature-list.html.twig"
+        ],
         "docs": null
       },
-      "dependencies": [],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "sidebar": {
       "name": "sidebar",
@@ -3295,19 +3457,22 @@
           "scss/scss/07-organisms/_solution-tabs.scss"
         ],
         "story": "stories/organisms/solution-tabs.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-solution-tabs.html.twig",
+          "block--inline-block--neo-solution-tabs.html.twig"
+        ],
         "docs": null
       },
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "solutions": {
       "name": "solutions",
@@ -3387,7 +3552,7 @@
           "scss/scss/06-molecules/_square-value.scss"
         ],
         "story": "stories/organisms/square-value.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/square-value-docs.html"
       },
@@ -3395,11 +3560,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "status": {
       "name": "status",
@@ -3433,7 +3598,7 @@
           "scss/scss/06-molecules/_stepper.scss"
         ],
         "story": "stories/molecules/stepper.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/stepper-docs.html"
       },
@@ -3441,11 +3606,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "story-gallery": {
       "name": "story-gallery",
@@ -3457,18 +3622,24 @@
         ],
         "story": "stories/organisms/story-gallery.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block--block-content--neo-story-gallery.html.twig",
+          "block--inline-block--neo-story-gallery.html.twig"
+        ],
         "docs": null
       },
+      "dependencies": [
+        "shot"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "switch": {
       "name": "switch",
@@ -3503,18 +3674,26 @@
         ],
         "story": "stories/molecules/tab-nav.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-tab-nav.html.twig",
+          "block/block--inline-block--neo-tab-nav.html.twig"
+        ],
         "docs": null
       },
+      "dependencies": [
+        "button",
+        "container",
+        "section"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "table": {
       "name": "table",
@@ -3549,10 +3728,15 @@
         ],
         "story": "stories/molecules/table-block.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-table.html.twig",
+          "block/block--inline-block--neo-table.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
+        "container",
+        "section",
         "table"
       ],
       "coverage": {
@@ -3560,10 +3744,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "table-info-modal": {
       "name": "table-info-modal",
@@ -3575,7 +3759,10 @@
         ],
         "story": "stories/organisms/table-info-modal.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-table.html.twig",
+          "block/block--inline-block--neo-table.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
@@ -3586,10 +3773,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "tabs": {
       "name": "tabs",
@@ -3600,7 +3787,7 @@
           "scss/scss/06-molecules/_tabs.scss"
         ],
         "story": "stories/molecules/tabs.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/tabs-docs.html"
       },
@@ -3608,11 +3795,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "tag": {
       "name": "tag",
@@ -3716,10 +3903,16 @@
         ],
         "story": "stories/molecules/testimonial-grid.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-testimonial-grid.html.twig",
+          "block/block--inline-block--neo-testimonial-grid.html.twig",
+          "js/neo-theme.js (Drupal.behaviors.neoTestimonialCarousel)"
+        ],
         "docs": null
       },
       "dependencies": [
+        "container",
+        "section",
         "testimonial"
       ],
       "coverage": {
@@ -3727,10 +3920,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 4
+      "coverageScore": 5
     },
     "text-blocks": {
       "name": "text-blocks",
@@ -3768,21 +3961,26 @@
         ],
         "story": null,
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-text-cta.html.twig",
+          "block/block--inline-block--neo-text-cta.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
-        "card"
+        "button",
+        "card",
+        "prose"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": false,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "text-media": {
       "name": "text-media",
@@ -3793,22 +3991,26 @@
           "scss/scss/07-organisms/_text-media.scss"
         ],
         "story": "stories/organisms/text-media.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-text-media.html.twig",
+          "block--inline-block--neo-text-media.html.twig"
+        ],
         "docs": null
       },
       "dependencies": [
-        "device"
+        "device",
+        "video"
       ],
       "coverage": {
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 5
     },
     "text-only": {
       "name": "text-only",
@@ -3865,8 +4067,11 @@
           "scss/scss/06-molecules/_timeline.scss"
         ],
         "story": "stories/organisms/timeline.stories.js",
-        "arena": null,
-        "drupal": [],
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-timeline.html.twig",
+          "block--inline-block--neo-timeline.html.twig"
+        ],
         "docs": "docs/timeline-docs.html"
       },
       "dependencies": [
@@ -3876,11 +4081,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
-        "drupal": false,
+        "arena": true,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 4
+      "coverageScore": 6
     },
     "toast": {
       "name": "toast",
@@ -4006,7 +4211,7 @@
           "scss/scss/07-organisms/_validation-summary.scss"
         ],
         "story": "stories/organisms/validation-summary.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": null
       },
@@ -4014,11 +4219,11 @@
         "recipe": true,
         "scss": true,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": false
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "video": {
       "name": "video",
@@ -4027,7 +4232,7 @@
         "recipe": "data/video-recipe.json",
         "scss": [],
         "story": "stories/organisms/video.stories.js",
-        "arena": null,
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [],
         "docs": "docs/video-docs.html"
       },
@@ -4035,11 +4240,11 @@
         "recipe": true,
         "scss": false,
         "story": true,
-        "arena": false,
+        "arena": true,
         "drupal": false,
         "docs": true
       },
-      "coverageScore": 3
+      "coverageScore": 4
     },
     "video-section": {
       "name": "video-section",
@@ -4073,6 +4278,7 @@
       "name": "content-templates",
       "layer": "template",
       "paths": {
+        "recipe": null,
         "scss": [
           "scss/scss/08-templates/_content-templates.scss"
         ],
@@ -4091,6 +4297,7 @@
       "name": "shell",
       "layer": "template",
       "paths": {
+        "recipe": null,
         "scss": [
           "scss/scss/08-templates/_shell.scss"
         ],
@@ -4178,7 +4385,8 @@
         "scss": [
           "scss/scss/10-utilities/_spacing.scss"
         ],
-        "docs": "docs/spacing-docs.html"
+        "docs": "docs/spacing-docs.html",
+        "story": null
       },
       "coverage": {
         "scss": true,
@@ -4350,15 +4558,15 @@
       "withRecipe": 134,
       "withScss": 133,
       "withStory": 129,
-      "withArena": 104,
-      "withDrupal": 0,
+      "withArena": 135,
+      "withDrupal": 34,
       "withDocs": 91
     },
     "foundations": {
-      "total": 16,
+      "total": 19,
       "withDocs": 14,
       "withEditor": 12,
-      "withStory": 10
+      "withStory": 11
     },
     "objects": {
       "total": 9,
@@ -4385,10 +4593,11 @@
     },
     "layoutPresets": 15,
     "coverageDistribution": {
-      "5/6": 65,
-      "1/6": 6,
-      "3/6": 20,
-      "4/6": 50
+      "6/6": 5,
+      "4/6": 20,
+      "5/6": 105,
+      "3/6": 5,
+      "1/6": 6
     }
   },
   "gaps": {
@@ -4430,40 +4639,9 @@
         "badge-row",
         "bento-section",
         "breadcrumb-section",
-        "card-grid",
         "card-grid-cq",
-        "checkbox-group",
-        "compare-table",
-        "divider",
-        "empty-state",
-        "file-upload",
-        "footer",
-        "form",
-        "form-actions",
-        "form-block",
-        "form-error",
-        "form-hint",
         "form-hp",
-        "form-label",
-        "form-section",
-        "gallery",
-        "icon",
-        "kbd",
-        "logo-wall",
-        "nav-atoms",
-        "nav-molecules",
-        "otp-input",
-        "product-showcase",
-        "radio-group",
-        "solution-tabs",
-        "square-value",
-        "stepper",
-        "tabs",
-        "tbl-icon",
-        "text-media",
-        "timeline",
-        "validation-summary",
-        "video"
+        "tbl-icon"
       ],
       "missingDocs": [
         "accordion-block",
@@ -4495,6 +4673,7 @@
         "multiselect",
         "nav-molecules",
         "navigation-orchestration",
+        "navigation-tab-mega",
         "news",
         "parallax-bg",
         "product-showcase",
@@ -4520,19 +4699,27 @@
     "foundations": {
       "missingDocs": [
         "state_derivation",
-        "praesentation"
+        "praesentation",
+        "size",
+        "tracking",
+        "font_weight"
       ],
       "missingEditor": [
         "breakpoints",
         "a11y",
         "state_derivation",
-        "praesentation"
+        "praesentation",
+        "size",
+        "tracking",
+        "font_weight"
       ],
       "missingStory": [
         "shadow",
         "elevation",
         "state_derivation",
         "praesentation",
+        "tracking",
+        "font_weight",
         "color-primitives",
         "color-semantic"
       ]
