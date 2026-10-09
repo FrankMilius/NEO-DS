@@ -37,13 +37,16 @@ for (const slug of slugs) {
   const dokuKlassen = new Set([...doku.matchAll(/(?:class="[^"]*|\.)\b(nc-[a-z0-9_-]+)/g)].map((m) => m[1]));
   // class="a b c" vollstaendig zerlegen
   for (const m of doku.matchAll(/class="([^"]*)"/g)) m[1].split(/\s+/).filter((k) => k.startsWith('nc-')).forEach((k) => dokuKlassen.add(k));
-  // Namensraum-Angaben wie --nc-form-label-* sind keine Token.
+  // Namensraum-Angaben wie --nc-form-label-*, --fnd-radius-{size} oder
+  // --nc-nav__icon-* sind keine Token (Platzhalter seit 09.10.2026 erkannt:
+  // vorher 9 Fehlalarme in border, radii, spacing, typography, nav-*).
   const dokuVars = new Set([...doku.matchAll(/--(?:nc|fnd)-[a-z0-9-]+/g)]
-    .filter((m) => doku[m.index + m[0].length] !== '*')
+    .filter((m) => !['*', '{', '_'].includes(doku[m.index + m[0].length]))
     .map((m) => m[0]));
 
   const r = { recipe: !!recipe };
-  r.toteKlassen = [...dokuKlassen].filter((k) => !klassen.has(k) && !k.endsWith('-')).sort();
+  // nc-nav__* u. ae. sind Namensraeume, keine Klassen
+  r.toteKlassen = [...dokuKlassen].filter((k) => !klassen.has(k) && !k.endsWith('-') && !k.endsWith('_')).sort();
   r.toteTokens = [...dokuVars].filter((v) => !vars.has(v) && !v.endsWith('*')).sort();
 
   if (recipe) {
@@ -60,7 +63,7 @@ for (const slug of slugs) {
     }
     r.fehlendeModifier = [...new Set(mods)].filter((m) => !nennt(m));
     r.modifierOhneCss = [...new Set(mods)].filter((m) => !klassen.has(m));
-    const toks = Object.values(recipe.styling?.tokenGroups || {}).flatMap((g) => g.tokens || []);
+    const toks = Object.values(recipe.styling?.tokenGroups || {}).flatMap((g) => g.tokens || []).map((t) => (typeof t === 'string' ? t : t?.token)).filter(Boolean);
     r.fehlendeTokens = toks.filter((t) => !nennt('--' + t));
     r.recipeTokensOhneCss = toks.filter((t) => !vars.has('--' + t));
     r.achsen = achsen;
