@@ -45,7 +45,10 @@ describe('Content: Prosa-Rand im Body-Feld', () => {
     expect(c.meta.version).toBe('1.2.1');
     expect(c.meta.changelog[0].changes.join(' ')).toContain('--mod-prose-gutter');
     const p = JSON.parse(readFileSync(resolve(ROOT, 'data/prose-recipe.json'), 'utf-8'));
-    expect(p.meta.version).toBe('1.2.1');
-    expect(p.meta.changelog[0].version).toBe('1.2.1');
+    // prose 1.3.0 (Restpunkte 09.10.2026, prosa-umbruch) kam danach; die
+    // Korrektur steht weiter im Changelog-Eintrag 1.2.1.
+    const e = p.meta.changelog.find((x) => x.version === '1.2.1');
+    expect(e, 'prose 1.2.1 im Changelog').toBeTruthy();
+    expect(e.changes.join(' ')).toContain('--mod-prose-gutter');
   });
 });

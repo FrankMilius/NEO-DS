@@ -56,7 +56,8 @@ describe('Multiselect: Rahmen wie das Eingabefeld', () => {
     const r = JSON.parse(readFileSync(resolve(ROOT, 'data/multiselect-recipe.json'), 'utf-8'));
     // 1.5.1 fuehrte die Tokens ein; 1.5.2 (Abschluss 3) strich aria-haspopup
     const e = r.meta.changelog.find((x) => x.version === '1.5.1');
-    expect(['1.5.1', '1.5.2']).toContain(r.meta.version);
+    // spaetere Versionen (1.6.0: Sprache, Restpunkte 09.10.2026) behalten 1.5.1/1.5.2 im Changelog
+    expect(r.meta.changelog.some((x) => x.version === '1.5.2')).toBe(true);
     expect(e.changes.join(' ')).toContain('Freigabe ausstehend');
     expect(r.styling.tokens).toContain('--nc-multiselect-trigger-border-error');
     const reg = readFileSync(resolve(ROOT, 'data/design-tokens.json'), 'utf-8');
