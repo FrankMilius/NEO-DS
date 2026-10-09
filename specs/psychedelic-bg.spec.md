@@ -1,5 +1,5 @@
 # psychedelic-bg Component Spec
-> Version 1.0.0 | Status: experimental | Layer: organism
+> Version 1.0.1 | Status: experimental | Layer: organism
 
 Tags: `animation`, `background`, `canvas`, `interactive`
 

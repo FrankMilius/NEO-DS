@@ -1,5 +1,5 @@
 # navigation-menu Component Spec
-> Version 3.0.1 | Status: stable | Layer: organism
+> Version 3.0.2 | Status: stable | Layer: organism
 
 Tags: `navigation`, `interactive`, `dropdown`, `mega-menu`
 
