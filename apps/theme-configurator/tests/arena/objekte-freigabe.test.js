@@ -123,6 +123,9 @@ const OBJEKTE = {
   },
   prose: {
     namensraum: /^(nc-prose|nc-bleed-)/,
+    // Umbruch langer Woerter in Ueberschriften gilt auch im Prosa-Wrapper der
+    // News/Events (Restpunkte 09.10.2026, prosa-umbruch)
+    fremdeKlassen: { 'u-prose': 'Prosa-Wrapper (10-utilities/_visibility.scss), News- und Event-Body' },
     intern: ['prose-measure', 'prose-gutter'],
     attribute: { 'nc-bleed-content': 'data-bleed=content', 'nc-bleed-wide': 'data-bleed=wide', 'nc-bleed-full': 'data-bleed=full' },
     website: [

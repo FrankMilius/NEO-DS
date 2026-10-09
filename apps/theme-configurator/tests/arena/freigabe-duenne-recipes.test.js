@@ -117,8 +117,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(ernte).not.toMatch(/aria-labelledby|aria-modal/)
   })
 
-  it('multiselect: 1.5.2, Anatomie wie das SCSS, keyboard wie das Behavior, „<n> ausgewählt" als Einschraenkung', () => {
-    const r = freigegeben('multiselect', '1.5.2') // 1.5.1: Rahmen wie .nc-input (Entscheidung Abschluss 2); 1.5.2: ohne aria-haspopup (Abschluss 3), beide Freigabe ausstehend
+  it('multiselect: 1.6.0, Anatomie wie das SCSS, keyboard wie das Behavior, Texte nach Sprache (de/en)', () => {
+    const r = freigegeben('multiselect', '1.6.0') // 1.5.1: Rahmen wie .nc-input (Entscheidung Abschluss 2); 1.5.2: ohne aria-haspopup (Abschluss 3); 1.6.0: Sprache (Restpunkte 09.10.2026), alle Freigabe ausstehend
     // Disclosure, kein Menue: kein aria-haspopup am Knopf — weder Arena noch Behavior (wie neo_fe)
     for (const z of zellen('multiselect')) expect(dom(z.html).querySelector('.nc-multiselect__trigger').hasAttribute('aria-haspopup'), z.specimen.id).toBe(false)
     expect(readFileSync(resolve(WURZEL, 'packages/neo-behaviors/multiselect.js'), 'utf8')).not.toMatch(/haspopup/)
@@ -127,12 +127,15 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(MIT_VERHALTEN).toContain('multiselect')
     expect(Object.keys(r.keyboard).sort()).toEqual(['ArrowDown', 'ArrowUp', 'End', 'Enter', 'Escape', 'Home', 'Space', 'Tab'])
     expect(r.events['multiselect-change'].detail).toEqual({ values: 'string[]' })
-    // Einschraenkung: fest deutsch im Behavior — wird es uebersetzbar, Recipe nachziehen
+    // Seit 1.6.0 (Restpunkte 09.10.2026) nicht mehr fest deutsch: Texte nach
+    // lang (de/en), am Bauteil per data-placeholder/data-count-text
     const behavior = readFileSync(resolve(WURZEL, 'packages/neo-behaviors/multiselect.js'), 'utf8')
-    expect(behavior).toContain('ausgewählt`')
-    expect(r.anatomy.domNotes.join(' ')).toMatch(/Einschraenkung: „<n> ausgewählt" .* fest deutsch/)
-    expect(r.a11y.base.assertions.join(' ')).toMatch(/fest deutsch/)
-    expect(r.constraints.copy.summary.note).toMatch(/fest deutsch/)
+    expect(behavior).toContain("'@count ausgewählt'")
+    expect(behavior).toContain("'@count selected'")
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/Sprache \(seit 1\.6\.0.*data-count-text/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/fest deutsch/)
+    expect(r.a11y.base.assertions.join(' ')).not.toMatch(/fest deutsch/)
+    expect(r.constraints.copy.summary.note).toMatch(/data-count-text/)
     expect(r.meta.source.drupal).toMatch(/_neo_fe_hat_multiselect/)
     // die frueher „ausstehenden" SCSS-Aenderungen sind freigegeben (im Freigabe-Eintrag)
     const freigabe = r.meta.changelog.find((e) => /^Freigabe \(Abschluss Plan v3/.test(e.changes[0]))
@@ -228,8 +231,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(regel[1]).not.toMatch(/opacity:/)
   })
 
-  it('table-block: 1.3.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.3.0')
+  it('table-block: 1.5.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.5.0') // 1.4.0 Theme-Bereiche, 1.5.0 breite Tabellen (Restpunkte 09.10.2026)
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -248,7 +251,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(css).toMatch(/\.nc-table-block\{[^}]*--tbl-stripe-bg: *var\(--nc-table-block-stripe-bg\)/)
     expect(css).toMatch(/--nc-table-block-stripe-bg: *var\(--fnd-color-background-secondary\)/)
     expect(css).toMatch(/\.neo-light-theme,\.customer-light-theme\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-secondary\)\}/)
-    expect(css).toMatch(/\.neo-dark-theme,\.customer-dark-theme\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-base\)\}/)
+    // seit 1.4.0 auch :root:is(...) — seitenweites Dunkel per Klasse auf <html> (Restpunkte 09.10.2026)
+    expect(css).toMatch(/\.neo-dark-theme,\.customer-dark-theme,:root:is\(\.neo-dark-theme,\.customer-dark-theme\)\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-base\)\}/)
     expect(css).toMatch(/@media\(prefers-color-scheme: *dark\)\{:root:not\(\[data-theme\]\)\{--nc-table-block-stripe-bg: *var\(--fnd-color-background-base\)\}\}/)
     expect(r.styling.tokens).toContain('--nc-table-block-stripe-bg')
     // Textfarbe auf fester Streifenfarbe (aus neo_fe neo-overrides.css uebernommen)
