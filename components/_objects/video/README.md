@@ -1,6 +1,6 @@
 # Video
 
-> **Layer:** object | **Coverage:** 3/5 (partial) | **Status:** stable
+> **Layer:** object | **Coverage:** 5/5 (complete) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -10,8 +10,8 @@
 |----------|------|--------|
 | Recipe | `data/video-recipe.json` | present |
 | SCSS | `scss/scss/04-objects/_video.scss` | present |
-| Storybook | — | missing |
-| Arena | — | missing |
+| Storybook | `stories/organisms/video.stories.js` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/video-docs.html` | present |
 | Drupal | — | missing |
 
@@ -24,4 +24,6 @@
 
 - [Recipe JSON](../data/video-recipe.json)
 - [SCSS](../scss/scss/04-objects/_video.scss)
+- [Storybook Story](../stories/organisms/video.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/video-docs.html)

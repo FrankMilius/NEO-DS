@@ -1,6 +1,6 @@
 # Border (Foundation)
 
-> **Category:** foundation | **Tokens:** 16 | **Source:** `data/design-tokens.json → foundation.border`
+> **Category:** foundation | **Tokens:** 15 | **Source:** `data/design-tokens.json → foundation.border`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

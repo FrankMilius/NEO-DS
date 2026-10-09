@@ -20,6 +20,13 @@
 - [Component Spec (Markdown)](../specs/hero.spec.md)
 - [Component Spec (JSON)](../specs/hero.spec.json)
 
+## Dependencies
+
+- [`badge`](../badge/)
+- [`label`](../label/)
+- [`metric`](../metric/)
+- [`video`](../video/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/hero-recipe.json)

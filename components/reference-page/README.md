@@ -1,6 +1,6 @@
 # ReferencePage
 
-> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | — | missing |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | — | missing |
+| Drupal | `content/node--reference-page.html.twig, block/block--block-content--neo-doc-section.html.twig, block/block--inline-block--neo-doc-section.html.twig` | present |
 
 ## Spec
 

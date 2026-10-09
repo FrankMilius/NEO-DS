@@ -1,6 +1,6 @@
 # NavAtoms
 
-> **Layer:** atom | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** atom | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/nav-atoms-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_nav-atoms.scss` | present |
 | Storybook | `stories/organisms/nav-atoms.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/nav-atoms-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/nav-atoms-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_nav-atoms.scss)
 - [Storybook Story](../stories/organisms/nav-atoms.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/nav-atoms-docs.html)

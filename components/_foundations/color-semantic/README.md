@@ -1,6 +1,6 @@
 # ColorSemantic (Foundation)
 
-> **Category:** foundation | **Tokens:** 406 | **Source:** `data/design-tokens.json → semantic`
+> **Category:** foundation | **Tokens:** 1021 | **Source:** `data/design-tokens.json → semantic`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

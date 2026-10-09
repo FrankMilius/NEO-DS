@@ -20,6 +20,10 @@
 - [Component Spec (Markdown)](../specs/breadcrumb.spec.md)
 - [Component Spec (JSON)](../specs/breadcrumb.spec.json)
 
+## Dependencies
+
+- [`container`](../container/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/breadcrumb-recipe.json)

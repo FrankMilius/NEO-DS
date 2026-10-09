@@ -1,6 +1,6 @@
 # Form
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 6/6 (complete) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,8 +11,8 @@
 | Recipe | `data/form-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_form.scss` | present |
 | Storybook | `stories/organisms/form.stories.js` | present |
-| Arena | — | missing |
-| Docs | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
+| Docs | `docs/form-docs.html` | present |
 | Drupal | `block--block-content--neo-form.html.twig, block--inline-block--neo-form.html.twig` | present |
 
 ## Spec
@@ -29,3 +29,5 @@
 - [Recipe JSON](../data/form-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_form.scss)
 - [Storybook Story](../stories/organisms/form.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
+- [Documentation](../docs/form-docs.html)

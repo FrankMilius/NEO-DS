@@ -1,6 +1,6 @@
 # Typography (Foundation)
 
-> **Category:** foundation | **Tokens:** 69 | **Source:** `data/design-tokens.json → foundation.typography`
+> **Category:** foundation | **Tokens:** 132 | **Source:** `data/design-tokens.json → foundation.typography`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

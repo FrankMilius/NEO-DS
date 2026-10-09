@@ -1,6 +1,6 @@
 # AspectRatio
 
-> **Layer:** object | **Coverage:** 2/5 (partial) | **Status:** stable
+> **Layer:** object | **Coverage:** 4/5 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -10,8 +10,8 @@
 |----------|------|--------|
 | Recipe | `data/aspect-ratio-recipe.json` | present |
 | SCSS | `scss/scss/04-objects/_aspect-ratio.scss` | present |
-| Storybook | — | missing |
-| Arena | — | missing |
+| Storybook | `stories/organisms/aspect-ratio.stories.js` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -24,3 +24,5 @@
 
 - [Recipe JSON](../data/aspect-ratio-recipe.json)
 - [SCSS](../scss/scss/04-objects/_aspect-ratio.scss)
+- [Storybook Story](../stories/organisms/aspect-ratio.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

@@ -1,6 +1,6 @@
 # CardGrid
 
-> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -9,9 +9,9 @@
 | Artefakt | Pfad | Status |
 |----------|------|--------|
 | Recipe | `data/card-grid-recipe.json` | present |
-| SCSS | — | missing |
+| SCSS | `scss/scss/06-molecules/_card-grid.scss` | present |
 | Storybook | `stories/organisms/card-grid.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block--block-content--neo-card-grid.html.twig, block--inline-block--neo-card-grid.html.twig` | present |
 
@@ -23,8 +23,12 @@
 ## Dependencies
 
 - [`card`](../card/)
+- [`container`](../container/)
+- [`section`](../section/)
 
 ## Quick Links
 
 - [Recipe JSON](../data/card-grid-recipe.json)
+- [SCSS](../scss/scss/06-molecules/_card-grid.scss)
 - [Storybook Story](../stories/organisms/card-grid.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

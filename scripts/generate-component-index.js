@@ -12,29 +12,38 @@
  * Verwendung:
  *   node scripts/generate-component-index.js           # Alle Komponenten
  *   node scripts/generate-component-index.js --clean    # Verzeichnis vorher leeren
+ *   node scripts/generate-component-index.js --pruefen  # CI: components/ == Erzeugnis
+ *                                                         (auch keine verwaisten READMEs)
  *
  * Ausgabe: components/{name}/README.md
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, readdirSync } from 'fs';
-import { join, resolve } from 'path';
+import { join, resolve, dirname, relative } from 'path';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const REGISTRY_PATH = join(ROOT, 'data/component-registry.json');
 const COMPONENTS_DIR = join(ROOT, 'components');
 const args = process.argv.slice(2);
 const CLEAN = args.includes('--clean');
+const PRUEFEN = args.includes('--pruefen');
 
 if (!existsSync(REGISTRY_PATH)) {
   console.error('✗ component-registry.json nicht gefunden. Zuerst: npm run registry');
-  process.exit(1);
+  process.exitCode = 1;
+} else {
+  erzeugen(JSON.parse(readFileSync(REGISTRY_PATH, 'utf-8')));
 }
 
-const registry = JSON.parse(readFileSync(REGISTRY_PATH, 'utf-8'));
-
-// Optional: Altes Verzeichnis leeren
-if (CLEAN && existsSync(COMPONENTS_DIR)) {
-  rmSync(COMPONENTS_DIR, { recursive: true });
+/** Alle README.md unter components/ (relativ), fuer --pruefen. */
+function vorhandeneReadmes(dir, liste = []) {
+  if (!existsSync(dir)) return liste;
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) vorhandeneReadmes(p, liste);
+    else if (e.name === 'README.md') liste.push(relative(COMPONENTS_DIR, p));
+  }
+  return liste;
 }
 
 // ---------------------------------------------------------------------------
@@ -162,37 +171,34 @@ function generateFoundationReadme(entry) {
 // Hauptlogik
 // ---------------------------------------------------------------------------
 
+function erzeugen(registry) {
+// Erst alles im Speicher sammeln: Pfad (relativ zu components/) → Inhalt
+const dateien = new Map();
+const schreibe = (rel, inhalt) => dateien.set(rel, inhalt);
+
 let componentCount = 0;
 let foundationCount = 0;
 
 // Components (Layer 05-07)
 for (const [name, entry] of Object.entries(registry.components)) {
-  const dir = join(COMPONENTS_DIR, name);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'README.md'), generateComponentReadme(entry));
+  schreibe(join(name, 'README.md'), generateComponentReadme(entry));
   componentCount++;
 }
 
 // Foundations (Layer 00)
 for (const [name, entry] of Object.entries(registry.foundations)) {
-  const dir = join(COMPONENTS_DIR, `_foundations/${name}`);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'README.md'), generateFoundationReadme(entry));
+  schreibe(join(`_foundations/${name}`, 'README.md'), generateFoundationReadme(entry));
   foundationCount++;
 }
 
 // Objects (Layer 04)
 for (const [name, entry] of Object.entries(registry.objects)) {
-  const dir = join(COMPONENTS_DIR, `_objects/${name}`);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'README.md'), generateComponentReadme(entry));
+  schreibe(join(`_objects/${name}`, 'README.md'), generateComponentReadme(entry));
   componentCount++;
 }
 
 // Templates (Layer 08)
 for (const [name, entry] of Object.entries(registry.templates)) {
-  const dir = join(COMPONENTS_DIR, `_templates/${name}`);
-  mkdirSync(dir, { recursive: true });
 
   const lines = [];
   lines.push(`# ${toPascal(name)} (Template)`);
@@ -208,7 +214,7 @@ for (const [name, entry] of Object.entries(registry.templates)) {
   if (entry.paths.layoutPreset) lines.push(`- Layout Preset: \`${entry.paths.layoutPreset}\``);
   lines.push('');
 
-  writeFileSync(join(dir, 'README.md'), lines.join('\n'));
+  schreibe(join(`_templates/${name}`, 'README.md'), lines.join('\n'));
   componentCount++;
 }
 
@@ -247,7 +253,34 @@ Jeder Ordner enthält ein \`README.md\` das alle Pipeline-Artefakte verlinkt:
 - **${componentCount + foundationCount}** READMEs generiert
 `;
 
-writeFileSync(join(COMPONENTS_DIR, 'README.md'), rootReadme);
+schreibe('README.md', rootReadme);
+
+if (PRUEFEN) {
+  const abweichend = [...dateien].filter(([rel, inhalt]) => {
+    const p = join(COMPONENTS_DIR, rel);
+    return !existsSync(p) || readFileSync(p, 'utf-8') !== inhalt;
+  }).map(([rel]) => rel);
+  const verwaist = vorhandeneReadmes(COMPONENTS_DIR).filter((rel) => !dateien.has(rel));
+  if (abweichend.length || verwaist.length) {
+    for (const rel of abweichend) console.error(`  ✗ veraltet/fehlt: components/${rel}`);
+    for (const rel of verwaist) console.error(`  ✗ verwaist (kein Registry-Eintrag): components/${rel}`);
+    console.error('✗ components/ weicht vom Erzeugnis ab — `npm run components` ausfuehren und den Diff pruefen.');
+    process.exitCode = 1;
+  } else {
+    console.log(`✓ components/ == Erzeugnis (${dateien.size} READMEs, npm run components)`);
+  }
+  return;
+}
+
+// Optional: Altes Verzeichnis leeren
+if (CLEAN && existsSync(COMPONENTS_DIR)) {
+  rmSync(COMPONENTS_DIR, { recursive: true });
+}
+for (const [rel, inhalt] of dateien) {
+  mkdirSync(dirname(join(COMPONENTS_DIR, rel)), { recursive: true });
+  writeFileSync(join(COMPONENTS_DIR, rel), inhalt);
+}
 
 console.log(`✓ Component Index generiert: components/`);
 console.log(`  ${componentCount} Komponenten + ${foundationCount} Foundations = ${componentCount + foundationCount} READMEs`);
+}

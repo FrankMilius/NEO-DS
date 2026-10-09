@@ -1,6 +1,6 @@
 # Icons (Foundation)
 
-> **Category:** foundation | **Tokens:** 12 | **Source:** `data/design-tokens.json → foundation.icons`
+> **Category:** foundation | **Tokens:** 13 | **Source:** `data/design-tokens.json → foundation.icons`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

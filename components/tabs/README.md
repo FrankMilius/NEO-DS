@@ -1,6 +1,6 @@
 # Tabs
 
-> **Layer:** molecule | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -10,8 +10,8 @@
 |----------|------|--------|
 | Recipe | `data/tabs-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_tabs.scss` | present |
-| Storybook | — | missing |
-| Arena | — | missing |
+| Storybook | `stories/molecules/tabs.stories.js` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/tabs-docs.html` | present |
 | Drupal | — | missing |
 
@@ -24,4 +24,6 @@
 
 - [Recipe JSON](../data/tabs-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_tabs.scss)
+- [Storybook Story](../stories/molecules/tabs.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/tabs-docs.html)

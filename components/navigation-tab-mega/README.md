@@ -1,6 +1,6 @@
 # NavigationTabMega
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/navigation-tab-mega.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | — | missing |
+| Drupal | `neo-nav.html.twig` | present |
 
 ## Spec
 
@@ -22,7 +22,7 @@
 
 ## Dependencies
 
-- [`kbd`](../kbd/)
+- [`header`](../header/)
 
 ## Quick Links
 

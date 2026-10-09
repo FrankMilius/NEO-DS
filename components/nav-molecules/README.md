@@ -1,6 +1,6 @@
 # NavMolecules
 
-> **Layer:** molecule | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/nav-molecules-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_nav-molecules.scss` | present |
 | Storybook | `stories/organisms/nav-molecules.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | — | missing |
 
@@ -30,3 +30,4 @@
 - [Recipe JSON](../data/nav-molecules-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_nav-molecules.scss)
 - [Storybook Story](../stories/organisms/nav-molecules.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

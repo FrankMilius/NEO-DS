@@ -1,6 +1,6 @@
 # Fieldset
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -12,7 +12,7 @@
 | SCSS | `scss/scss/07-organisms/_fieldset.scss` | present |
 | Storybook | `stories/organisms/fieldset.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
-| Docs | — | missing |
+| Docs | `docs/fieldset-docs.html` | present |
 | Drupal | — | missing |
 
 ## Spec
@@ -32,3 +32,4 @@
 - [SCSS](../scss/scss/07-organisms/_fieldset.scss)
 - [Storybook Story](../stories/organisms/fieldset.stories.js)
 - [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
+- [Documentation](../docs/fieldset-docs.html)

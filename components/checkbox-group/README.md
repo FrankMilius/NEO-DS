@@ -1,6 +1,6 @@
 # CheckboxGroup
 
-> **Layer:** molecule | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,8 +11,8 @@
 | Recipe | `data/checkbox-group-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_checkbox-group.scss` | present |
 | Storybook | `stories/organisms/checkbox-group.stories.js` | present |
-| Arena | — | missing |
-| Docs | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
+| Docs | `docs/checkbox-group-docs.html` | present |
 | Drupal | — | missing |
 
 ## Spec
@@ -30,3 +30,5 @@
 - [Recipe JSON](../data/checkbox-group-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_checkbox-group.scss)
 - [Storybook Story](../stories/organisms/checkbox-group.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
+- [Documentation](../docs/checkbox-group-docs.html)

@@ -1,6 +1,6 @@
 # SectionHeader
 
-> **Layer:** molecule | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | — | missing |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | — | missing |
+| Drupal | `components/block-header/block-header.twig, components/badge-row/badge-row.twig` | present |
 
 ## Spec
 

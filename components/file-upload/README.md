@@ -1,6 +1,6 @@
 # FileUpload
 
-> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/file-upload-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_file-upload.scss` | present |
 | Storybook | `stories/organisms/file-upload.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/file-upload-docs.html` | present |
 | Drupal | — | missing |
 
@@ -29,4 +29,5 @@
 - [Recipe JSON](../data/file-upload-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_file-upload.scss)
 - [Storybook Story](../stories/organisms/file-upload.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/file-upload-docs.html)

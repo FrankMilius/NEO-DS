@@ -9,8 +9,8 @@
 | Artefakt | Pfad | Status |
 |----------|------|--------|
 | Recipe | `data/carousel-recipe.json` | present |
-| SCSS | `scss/scss/07-organisms/_carousel.scss` | present |
-| Storybook | `stories/organisms/carousel.stories.js` | present |
+| SCSS | `scss/scss/06-molecules/_carousel.scss, scss/scss/07-organisms/_carousel.scss` | present |
+| Storybook | `stories/molecules/carousel.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/carousel-docs.html` | present |
 | Drupal | — | missing |
@@ -23,7 +23,8 @@
 ## Quick Links
 
 - [Recipe JSON](../data/carousel-recipe.json)
+- [SCSS](../scss/scss/06-molecules/_carousel.scss)
 - [SCSS](../scss/scss/07-organisms/_carousel.scss)
-- [Storybook Story](../stories/organisms/carousel.stories.js)
+- [Storybook Story](../stories/molecules/carousel.stories.js)
 - [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/carousel-docs.html)

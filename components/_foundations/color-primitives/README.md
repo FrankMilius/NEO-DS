@@ -1,6 +1,6 @@
 # ColorPrimitives (Foundation)
 
-> **Category:** foundation | **Tokens:** 199 | **Source:** `data/design-tokens.json → primitives`
+> **Category:** foundation | **Tokens:** 395 | **Source:** `data/design-tokens.json → primitives`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

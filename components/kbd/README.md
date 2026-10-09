@@ -1,6 +1,6 @@
 # Kbd
 
-> **Layer:** atom | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** atom | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,7 +11,7 @@
 | Recipe | `data/kbd-recipe.json` | present |
 | SCSS | `scss/scss/05-atoms/_kbd.scss` | present |
 | Storybook | `stories/organisms/kbd.stories.js` | present |
-| Arena | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/kbd-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,4 +25,5 @@
 - [Recipe JSON](../data/kbd-recipe.json)
 - [SCSS](../scss/scss/05-atoms/_kbd.scss)
 - [Storybook Story](../stories/organisms/kbd.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/kbd-docs.html)

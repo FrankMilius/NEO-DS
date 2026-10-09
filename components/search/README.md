@@ -11,7 +11,7 @@
 | Recipe | `data/search-recipe.json` | present |
 | SCSS | `scss/scss/06-molecules/_search.scss` | present |
 | Storybook | `stories/organisms/search.stories.js` | present |
-| Arena | `apps/theme-configurator/src/components/laboratory/SearchArena.vue` | present |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/search-docs.html` | present |
 | Drupal | — | missing |
 
@@ -25,5 +25,5 @@
 - [Recipe JSON](../data/search-recipe.json)
 - [SCSS](../scss/scss/06-molecules/_search.scss)
 - [Storybook Story](../stories/organisms/search.stories.js)
-- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/SearchArena.vue)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
 - [Documentation](../docs/search-docs.html)

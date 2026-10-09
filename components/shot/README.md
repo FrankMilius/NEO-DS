@@ -1,6 +1,6 @@
 # Shot
 
-> **Layer:** molecule | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | `stories/molecules/shot.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | — | missing |
+| Drupal | `block--block-content--neo-story-gallery.html.twig, block--inline-block--neo-story-gallery.html.twig, block--block-content--neo-feature-list.html.twig` | present |
 
 ## Spec
 

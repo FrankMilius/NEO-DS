@@ -1,6 +1,6 @@
 # FormActions
 
-> **Layer:** organism | **Coverage:** 3/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -11,8 +11,8 @@
 | Recipe | `data/form-actions-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_form-actions.scss` | present |
 | Storybook | `stories/organisms/form-actions.stories.js` | present |
-| Arena | — | missing |
-| Docs | — | missing |
+| Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
+| Docs | `docs/form-actions-docs.html` | present |
 | Drupal | — | missing |
 
 ## Spec
@@ -29,3 +29,5 @@
 - [Recipe JSON](../data/form-actions-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_form-actions.scss)
 - [Storybook Story](../stories/organisms/form-actions.stories.js)
+- [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)
+- [Documentation](../docs/form-actions-docs.html)
