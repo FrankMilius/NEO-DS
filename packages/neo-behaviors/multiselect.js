@@ -29,9 +29,16 @@
 //                Felds, Fokus verlaesst das Feld (Tab weiter).
 //   Zusammenfassung  im Knopf (.nc-multiselect__value): keine Auswahl →
 //                Platzhalter mit --empty, bis zwei → Namen mit Komma, mehr
-//                → „<n> ausgewählt". Platzhalter aus data-placeholder am
-//                Knopf, sonst dem Text beim Binden (falls leer), sonst
-//                „Bitte wählen…".
+//                → „<n> ausgewählt" / „<n> selected". Platzhalter aus
+//                data-placeholder (Knopf oder Feld), sonst dem Text beim
+//                Binden (falls leer), sonst dem Text der Sprache.
+//   Sprache      lang am Feld bzw. seinem naechsten Vorfahren (in der Regel
+//                <html lang>, das Drupal setzt): „de…" oder ohne Angabe
+//                deutsch, sonst englisch. Ueberschreibbar am Bauteil:
+//                data-placeholder und data-count-text (Feld oder Knopf;
+//                @count steht fuer die Anzahl, wie in Drupal.t) — neo_fe
+//                setzt sie, wenn Drupal eine Uebersetzung hat (Restpunkte
+//                09.10.2026, multiselect-sprache; vorher fest deutsch).
 //
 // Pflichtfeld-Pruefung und Fehlermeldung bleiben beim Formular (neoForm,
 // validateMs) — das ist Formular-, nicht Bauteil-Verhalten.
@@ -42,6 +49,19 @@
 import { sende, zielFuerTaste } from './kern.js'
 
 let zaehler = 0
+
+// Texte je Sprache; @count = Anzahl der gewaehlten Optionen
+const TEXTE = {
+  de: { platzhalter: 'Bitte wählen…', anzahl: '@count ausgewählt' },
+  en: { platzhalter: 'Please select…', anzahl: '@count selected' }
+}
+
+/** Sprache des Felds: lang am Feld oder Vorfahren; de (auch ohne Angabe) oder en
+ * @param {HTMLElement} feld */
+function spracheVon (feld) {
+  const lang = (feld.closest('[lang]')?.getAttribute('lang') || '').trim().toLowerCase()
+  return !lang || lang === 'de' || lang.startsWith('de-') ? 'de' : 'en'
+}
 
 export const multiselect = {
   id: 'multiselect',
@@ -57,8 +77,10 @@ export const multiselect = {
     const wert = /** @type {HTMLElement|null} */ (knopf.querySelector('.nc-multiselect__value'))
     const boxen = () => /** @type {HTMLInputElement[]} */ ([...panel.querySelectorAll('input[type="checkbox"]')])
     const name = (box) => (box.closest('.nc-multiselect__option')?.querySelector('.nc-checkbox__label')?.textContent || box.value).trim()
-    const platzhalter = knopf.dataset.placeholder ||
-      (wert?.classList.contains('nc-multiselect__value--empty') ? wert.textContent?.trim() : '') || 'Bitte wählen…'
+    const texte = TEXTE[spracheVon(feld)]
+    const platzhalter = knopf.dataset.placeholder || feld.dataset.placeholder ||
+      (wert?.classList.contains('nc-multiselect__value--empty') ? wert.textContent?.trim() : '') || texte.platzhalter
+    const anzahlText = feld.dataset.countText || knopf.dataset.countText || texte.anzahl
 
     const vorher = { controls: knopf.getAttribute('aria-controls'), panelId: panel.id, display: panel.style.display }
     if (!panel.id) panel.id = `neo-multiselect-${++zaehler}`
@@ -89,7 +111,7 @@ export const multiselect = {
       wert.classList.toggle('nc-multiselect__value--empty', !gewaehlt.length)
       wert.textContent = !gewaehlt.length
         ? platzhalter
-        : gewaehlt.length <= 2 ? gewaehlt.map(name).join(', ') : `${gewaehlt.length} ausgewählt`
+        : gewaehlt.length <= 2 ? gewaehlt.map(name).join(', ') : anzahlText.replace('@count', String(gewaehlt.length))
     }
 
     // Anfangszustand: aria-expanded, .is-open und display folgen dem Panel

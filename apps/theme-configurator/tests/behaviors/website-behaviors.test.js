@@ -272,6 +272,45 @@ describe('Multiselect (multiselect-recipe.json)', () => {
     expect(ereignisse.at(-1).detail.values).toEqual([])
   })
 
+  // Restpunkte 09.10.2026 (multiselect-sprache): vorher fest deutsch
+  describe('Sprache der Texte im Knopf', () => {
+    const KLEIN = (attr = '', knopfAttr = '') => `<div class="nc-form-field nc-multiselect"${attr}><button type="button" class="nc-multiselect__trigger" aria-expanded="false"${knopfAttr}><span class="nc-multiselect__value nc-multiselect__value--empty"></span></button><div class="nc-multiselect__panel" role="group" hidden>${['a', 'b', 'c'].map((v) => `<label class="nc-checkbox nc-multiselect__option"><input type="checkbox" class="nc-checkbox__input" value="${v}"><span class="nc-checkbox__label">${v.toUpperCase()}</span></label>`).join('')}</div></div>`
+    const texte = (markup) => {
+      const b = buehne(markup)
+      anbinden(b, ['multiselect'])
+      const feld = /** @type {HTMLElement} */ (b.querySelector('.nc-multiselect'))
+      const wert = () => /** @type {HTMLElement} */ (feld.querySelector('.nc-multiselect__value')).textContent
+      const leer = wert()
+      for (const box of feld.querySelectorAll('input')) waehle(/** @type {HTMLInputElement} */ (box))
+      return [leer, wert()]
+    }
+    afterEach(() => document.documentElement.removeAttribute('lang'))
+
+    it('ohne lang und mit de/de-CH deutsch, mit en englisch, andere Sprachen englisch', () => {
+      expect(texte(KLEIN())).toEqual(['Bitte wählen…', '3 ausgewählt'])
+      for (const [lang, erwartet] of [['de', ['Bitte wählen…', '3 ausgewählt']], ['de-CH', ['Bitte wählen…', '3 ausgewählt']], ['en', ['Please select…', '3 selected']], ['en-GB', ['Please select…', '3 selected']], ['fr', ['Please select…', '3 selected']]]) {
+        document.body.innerHTML = ''
+        document.documentElement.setAttribute('lang', lang)
+        expect(texte(KLEIN()), lang).toEqual(erwartet)
+      }
+    })
+
+    it('lang am Feld (oder Vorfahren) schlaegt html lang', () => {
+      document.documentElement.setAttribute('lang', 'de')
+      expect(texte(`<div lang="en">${KLEIN()}</div>`)).toEqual(['Please select…', '3 selected'])
+      document.body.innerHTML = ''
+      document.documentElement.setAttribute('lang', 'en')
+      expect(texte(KLEIN(' lang="de"'))).toEqual(['Bitte wählen…', '3 ausgewählt'])
+    })
+
+    it('Texte am Bauteil ueberschreibbar: data-count-text (@count) und data-placeholder am Feld oder Knopf', () => {
+      document.documentElement.setAttribute('lang', 'en')
+      expect(texte(KLEIN(' data-count-text="@count gewählt" data-placeholder="Auswählen"'))).toEqual(['Auswählen', '3 gewählt'])
+      document.body.innerHTML = ''
+      expect(texte(KLEIN('', ' data-count-text="@count options" data-placeholder="Choose"'))).toEqual(['Choose', '3 options'])
+    })
+  })
+
   it('Klick ausserhalb und Fokus aus dem Feld schliessen', () => {
     const { knopf, panel, boxen } = bau()
     const draussen = document.createElement('button')

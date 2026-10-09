@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "multiselect",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -47,10 +47,10 @@
       "Das Label ist ein <span> (kein <label>: es beschriftet einen Knopf und eine Gruppe, kein einzelnes Eingabefeld); der Name des Knopfs ist Label + aktuelle Zusammenfassung.",
       "Optionen: label.nc-checkbox.nc-multiselect__option > input.nc-checkbox__input[type=checkbox][name=<feld>[]][value] + span.nc-checkbox__control + span.nc-checkbox__label — native Mehrfach-Uebertragung im Formular.",
       "Zustaende: .is-open am Feld (dreht den Pfeil; setzt das Behavior mit aria-expanded); Panel geschlossen [hidden] — .nc-multiselect__panel[hidden] blendet aus, das Behavior setzt zur Absicherung display: none inline. Beim Oeffnen setzt das Behavior die Lage zusaetzlich inline (Unterkante des Knopfs + 4 px), wie frueher neo-theme.js.",
-      "Ohne Auswahl: __value--empty mit dem Platzhalter (data-placeholder am Knopf, auf der Website per Drupal.t uebersetzt; sonst der Anfangstext, sonst „Bitte wählen…\").",
+      "Ohne Auswahl: __value--empty mit dem Platzhalter (data-placeholder am Knopf oder Feld, auf der Website per Drupal.t, wenn uebersetzt; sonst der Anfangstext, sonst nach lang „Bitte wählen…\" bzw. „Please select…\").",
       "Fehler (Pflichtfeld, neoForm validateMs beim Verlassen ueber den Knopf): .nc-form-field--invalid am Feld faerbt den Rahmen des Knopfs text-danger (06-molecules/_form-field.scss), aria-invalid am Knopf, p.nc-form-error[role=alert] (id <trigger>-err) unter dem Feld per aria-describedby.",
       "Verhalten: Behavior multiselect (neo-behaviors) — Oeffnen/Schliessen, Fokus auf die erste Checkbox, Pfeiltasten/Pos1/Ende, Escape, Klick ausserhalb, Fokus verlaesst das Feld, Zusammenfassung im Knopf, Ereignis multiselect-change. Die Pflichtfeld-Pruefung bleibt beim Formular.",
-      "Einschraenkung: „<n> ausgewählt\" (ab drei Optionen) und der Rueckfall-Platzhalter „Bitte wählen…\" stehen fest deutsch im Behavior — auf einer englischen Seite erscheint die Zusammenfassung deutsch. Bewusst nicht umgebaut (Abschluss Plan v3)."
+      "Sprache (seit 1.6.0, Restpunkte 09.10.2026): „<n> ausgewählt\" (ab drei Optionen) und der Rueckfall-Platzhalter folgen lang am Feld bzw. Vorfahren (de oder ohne Angabe deutsch, sonst englisch „<n> selected\" / „Please select…\"); am Bauteil ueberschreibbar per data-placeholder (Knopf oder Feld) und data-count-text (Feld oder Knopf, @count = Anzahl). neo_fe setzt beide nur mit Drupal-Uebersetzung."
     ]
   },
   "api": null,
@@ -182,7 +182,7 @@
       "4.1.2: Name des Knopfs = Label + Zusammenfassung (aria-labelledby auf beide); aendert sich die Auswahl, liest der Knopf den neuen Stand.",
       "2.1.1/2.4.3: Enter, Leertaste und Pfeil runter oeffnen mit Fokus auf die erste Checkbox; Pfeiltasten/Pos1/Ende in der Liste; Escape schliesst und gibt den Fokus an den Knopf zurueck; Tab aus dem Feld schliesst.",
       "3.3.1: Fehler mit .nc-form-field--invalid (Rahmen text-danger plus Schatten), aria-invalid und Meldung role=alert per aria-describedby — nicht nur Farbe.",
-      "3.1.2: Die Zusammenfassung „<n> ausgewählt\" ist fest deutsch (Einschraenkung, siehe domNotes).",
+      "3.1.2: Die Texte im Knopf folgen der Sprache der Seite bzw. des Felds (lang; de/en), uebersetzbar per data-placeholder/data-count-text (siehe domNotes).",
       "1.4.3: Kontrast AA hell und dunkel gemessen — Wert text-primary 16,01:1, Platzhalter text-tertiary ab 5,75:1, Pfeil ab 6,07:1, Meldung ab 6,79:1."
     ],
     "overrides": []

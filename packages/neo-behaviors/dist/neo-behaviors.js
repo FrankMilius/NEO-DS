@@ -3361,6 +3361,15 @@
 
   // packages/neo-behaviors/multiselect.js
   var zaehler2 = 0;
+  var TEXTE = {
+    de: { platzhalter: "Bitte wählen…", anzahl: "@count ausgewählt" },
+    en: { platzhalter: "Please select…", anzahl: "@count selected" }
+  };
+  function spracheVon(feld) {
+    var _a;
+    const lang = (((_a = feld.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
+    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
+  }
   var multiselect = {
     id: "multiselect",
     selektor: ".nc-multiselect",
@@ -3391,7 +3400,9 @@
         var _a2, _b;
         return (((_b = (_a2 = box.closest(".nc-multiselect__option")) == null ? void 0 : _a2.querySelector(".nc-checkbox__label")) == null ? void 0 : _b.textContent) || box.value).trim();
       };
-      const platzhalter = knopf.dataset.placeholder || ((wert == null ? void 0 : wert.classList.contains("nc-multiselect__value--empty")) ? (_a = wert.textContent) == null ? void 0 : _a.trim() : "") || "Bitte wählen…";
+      const texte = TEXTE[spracheVon(feld)];
+      const platzhalter = knopf.dataset.placeholder || feld.dataset.placeholder || ((wert == null ? void 0 : wert.classList.contains("nc-multiselect__value--empty")) ? (_a = wert.textContent) == null ? void 0 : _a.trim() : "") || texte.platzhalter;
+      const anzahlText = feld.dataset.countText || knopf.dataset.countText || texte.anzahl;
       const vorher = { controls: knopf.getAttribute("aria-controls"), panelId: panel.id, display: panel.style.display };
       if (!panel.id) panel.id = `neo-multiselect-${++zaehler2}`;
       knopf.setAttribute("aria-controls", panel.id);
@@ -3416,7 +3427,7 @@
         if (!wert) return;
         const gewaehlt = boxen().filter((b) => b.checked);
         wert.classList.toggle("nc-multiselect__value--empty", !gewaehlt.length);
-        wert.textContent = !gewaehlt.length ? platzhalter : gewaehlt.length <= 2 ? gewaehlt.map(name).join(", ") : `${gewaehlt.length} ausgewählt`;
+        wert.textContent = !gewaehlt.length ? platzhalter : gewaehlt.length <= 2 ? gewaehlt.map(name).join(", ") : anzahlText.replace("@count", String(gewaehlt.length));
       }
       zeige(istOffen());
       knopf.setAttribute("aria-expanded", String(istOffen()));
