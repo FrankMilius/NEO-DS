@@ -11,7 +11,8 @@ export default {
       description: {
         component: `**Accessibility Foundation** — WCAG 2.1 AA konforme Tokens und Utilities.
 Focus Ring (\`--fnd-focus-ring-*\`), Touch Targets (\`--fnd-touch-target-min: 44px\`),
-Screen Reader (\`.u-sr-only\`), Live Regions (\`.u-live-region\`), Reduced Motion.`,
+Screen Reader (\`.u-sr-only\`), Live Regions (\`aria-live\`, ggf. mit \`.u-sr-only\`), Reduced Motion.
+Weitere a11y-Hilfen sind Mixins im Bauteil-SCSS (Utilities am 09.10.2026 entfernt).`,
       },
     },
   },
@@ -80,14 +81,14 @@ export const ScreenReaderUtilities = {
         <thead><tr><th>Klasse</th><th>Beschreibung</th><th>Verwendung</th></tr></thead>
         <tbody>
           <tr><td><code>.u-sr-only</code></td><td>Visuell versteckt, fuer Screenreader sichtbar</td><td>Labels, Beschreibungen, Skip-Links</td></tr>
-          <tr><td><code>.u-live-region</code></td><td><code>aria-live="polite"</code> Container</td><td>Dynamische Statusmeldungen</td></tr>
-          <tr><td><code>.u-sr-only-focusable</code></td><td>Versteckt bis fokussiert</td><td>Skip-to-Content Links</td></tr>
+          <tr><td><code>.u-sr-only</code> + <code>aria-live</code></td><td>Versteckter <code>aria-live="polite"</code> Container</td><td>Dynamische Statusmeldungen</td></tr>
+          <tr><td><code>.nc-shell__skip-link</code></td><td>Versteckt bis fokussiert (Shell)</td><td>Skip-to-Content Links</td></tr>
         </tbody>
       </table>
     </div>
     <h3 style="font-size:var(--fs-base);margin-bottom:12px">Beispiel: Skip-to-Content</h3>
     <div style="padding:16px;background:var(--fnd-color-layer-01);border-radius:var(--fnd-radius-md);border:1px solid var(--fnd-color-border-secondary)">
-      <pre style="font-size:var(--fs-xs);color:var(--fnd-color-text-secondary);margin:0"><code>&lt;a href="#main" class="u-sr-only-focusable"&gt;
+      <pre style="font-size:var(--fs-xs);color:var(--fnd-color-text-secondary);margin:0"><code>&lt;a href="#main-content" class="nc-shell__skip-link"&gt;
   Zum Hauptinhalt springen
 &lt;/a&gt;</code></pre>
     </div>

@@ -332,94 +332,83 @@ fluid-spacing(48px, 64px) → clamp(48px, ..., 64px)</div>
     </section>
 
     <!-- ================================================================ -->
-    <!-- 4. UTILITY-KLASSEN                                               -->
+    <!-- 4. ABSTAENDE IM BAUTEIL (keine Utility-Klassen)                   -->
     <!-- ================================================================ -->
     <!--
-      Spacing-Utilities setzen Margin, Padding oder Gap direkt per Klasse.
+      Entscheidung 09.10.2026: Die Abstands-Utilities (.u-m*, .u-p*, .u-gap*,
+      ca. 980 Klassen inkl. responsiver Varianten) sind entfernt. Sie hatten
+      keinen Verwender; Abstaende gehoeren ins Bauteil-SCSS.
 
-      Basis-Pattern:     .u-{m|p}{t|r|b|l|x|y}-{01-13}
-      Responsive-Pattern: .u-{m|p}{t|r|b|l|x|y}-{sm|md|lg|xl}-{01-13}
-
-      Beispiele:
-        .u-mb-04        → margin-bottom: var(--fnd-spacing-04) immer
-        .u-mt-lg-08     → margin-top: var(--fnd-spacing-08) ab 1200px
-        .u-px-sm-06     → padding-inline: var(--fnd-spacing-06) ab 768px
-        .u-gap-04       → gap: var(--fnd-spacing-04) immer
+      Heutiger Weg:
+        - Abstand innerhalb eines Bauteils: Token im Bauteil-SCSS
+          (padding: var(--fnd-spacing-04))
+        - Abstand zwischen Geschwistern: gap im Layout (Flex/Grid)
+        - Responsiv: @include respond-to(lg) im Bauteil
     -->
     <section class="docs__section" id="utilities">
-      <h2 class="docs__section-title">Utility-Klassen</h2>
+      <h2 class="docs__section-title">Abstände im Bauteil &mdash; keine Utility-Klassen</h2>
       <p class="docs__section-desc">
-        Spacing-Utilities können direkt auf HTML-Elemente angewendet werden.
-        Responsive Varianten sind für die Breakpoints
-        <code class="docs__token">sm</code>,
-        <code class="docs__token">md</code>,
-        <code class="docs__token">lg</code> und
-        <code class="docs__token">xl</code> verfügbar.
+        Das Design System hat <strong>keine Abstands-Utilities</strong> (mehr).
+        Klassen wie <code class="docs__token">.u-mb-04</code> oder
+        <code class="docs__token">.u-gap-04</code> wurden am 09.10.2026 entfernt:
+        Sie hatten keinen Verwender, machten aber rund 44&nbsp;KB des Stylesheets aus.
+        Abstände werden dort festgelegt, wo sie hingehören &mdash; im SCSS des Bauteils,
+        über die Spacing-Tokens.
       </p>
 
       <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
         <table class="nc-data-table__table">
         <thead>
           <tr>
-            <th>Klasse</th>
-            <th>CSS-Property</th>
-            <th>Beispiel</th>
+            <th>Aufgabe</th>
+            <th>Heutiger Weg</th>
+            <th>Warum</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><code class="docs__token">.u-m-{n}</code></td>
-            <td>margin</td>
-            <td><code class="docs__token">.u-m-04</code> &rarr; 16px</td>
+            <td>Innenabstand eines Bauteils</td>
+            <td><code class="docs__token">padding: var(--fnd-spacing-04)</code> im Bauteil-SCSS</td>
+            <td>Der Abstand ist Teil des Bauteils und wandert mit ihm in jedes Template.</td>
           </tr>
           <tr>
-            <td><code class="docs__token">.u-mt-{n}</code></td>
-            <td>margin-top</td>
-            <td><code class="docs__token">.u-mt-08</code> &rarr; 32&ndash;40px</td>
+            <td>Abstand zwischen Geschwistern</td>
+            <td><code class="docs__token">gap: var(--fnd-spacing-06)</code> am Flex-/Grid-Elternteil</td>
+            <td>Kein Margin am Kind, keine Sonderregel für das letzte Element.</td>
           </tr>
           <tr>
-            <td><code class="docs__token">.u-mx-{n}</code></td>
-            <td>margin-inline</td>
-            <td><code class="docs__token">.u-mx-auto</code> &rarr; zentriert</td>
+            <td>Abstand zwischen Sektionen</td>
+            <td><code class="docs__token">--fnd-spacing-section</code> bzw. die Sektions-Bauteile</td>
+            <td>Fluid über <code class="docs__token">clamp()</code>, einheitlich auf allen Seiten.</td>
           </tr>
           <tr>
-            <td><code class="docs__token">.u-my-{n}</code></td>
-            <td>margin-block</td>
-            <td><code class="docs__token">.u-my-10</code> &rarr; 48&ndash;64px</td>
+            <td>Anderer Abstand ab einem Breakpoint</td>
+            <td><code class="docs__token">@include respond-to(lg)</code> im Bauteil</td>
+            <td>Eine Stelle pro Bauteil statt Klassenketten im Markup.</td>
           </tr>
           <tr>
-            <td><code class="docs__token">.u-p-{n}</code></td>
-            <td>padding</td>
-            <td><code class="docs__token">.u-p-06</code> &rarr; 20&ndash;24px</td>
-          </tr>
-          <tr>
-            <td><code class="docs__token">.u-px-{n}</code></td>
-            <td>padding-inline</td>
-            <td><code class="docs__token">.u-px-04</code> &rarr; 16px</td>
-          </tr>
-          <tr>
-            <td><code class="docs__token">.u-gap-{n}</code></td>
-            <td>gap</td>
-            <td><code class="docs__token">.u-gap-04</code> &rarr; 16px</td>
+            <td>Horizontal zentrieren</td>
+            <td><code class="docs__token">margin-inline: auto</code> bzw. Content-Width-Bauteile</td>
+            <td>Teil des Layout-Bauteils, nicht des Inhalts.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-      <div class="docs__code-block">/* Basis */
-&lt;div class="u-mb-06 u-p-04"&gt;...&lt;/div&gt;
+      <div class="docs__code-block">// Bauteil-SCSS: Abstaende ueber Tokens
+.nc-teaser {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);               // 16px zwischen den Kindern
+  padding: var(--fnd-spacing-04);           // 16px innen (Mobile)
 
-/* Responsive: Mobile 16px Padding, Desktop 40px */
-&lt;div class="u-p-04 u-p-lg-08"&gt;...&lt;/div&gt;
+  @include respond-to(lg) {
+    padding: var(--fnd-spacing-08);         // 32&ndash;40px ab 1200px
+  }
+}
 
-/* Responsive Margin: 24px ab Tablet, 64px ab Desktop */
-&lt;section class="u-mt-sm-06 u-mt-lg-10"&gt;...&lt;/section&gt;
-
-/* Pattern */
-.u-{property}-{breakpoint}-{scale}
-  property:   m, mt, mr, mb, ml, mx, my, p, pt, pr, pb, pl, px, py, gap
-  breakpoint: sm (768px), md (960px), lg (1200px), xl (1600px)
-  scale:      01-13</div>
+// Markup bleibt frei von Abstandsklassen
+&lt;article class="nc-teaser"&gt;...&lt;/article&gt;</div>
     </section>
 
     <!-- ================================================================ -->

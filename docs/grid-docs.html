@@ -251,14 +251,16 @@ padding-inline: var(--fnd-spacing-04);          /* xs */
     <!--
       Padding innerhalb von Komponenten basiert auf dem 4px-Grid.
       Alle Spacing-Tokens sind Vielfache von 4px.
-      Utility-Klassen: .u-p-{01-13}, .u-px-{01-13}, .u-py-{01-13}
+      Abstands-Utilities (.u-p-*, .u-px-*, .u-py-*) gibt es seit 09.10.2026
+      nicht mehr: Padding steht im Bauteil-SCSS ueber --fnd-spacing-*.
     -->
     <section class="docs__section" id="padding">
       <h2 class="docs__section-title">Padding</h2>
       <p class="docs__section-desc">
         Internes Padding von Komponenten nutzt die Spacing-Scale auf dem 4px-Grid.
-        Utility-Klassen wie <code class="docs__token">.u-p-06</code> oder
-        <code class="docs__token">.u-px-04</code> setzen das Padding direkt.
+        Das Padding steht im SCSS des Bauteils und nutzt die Tokens
+        <code class="docs__token">--fnd-spacing-*</code>; Abstands-Utilities gibt es nicht
+        (siehe <a href="spacing-docs.html#utilities">Spacing &mdash; Abstände im Bauteil</a>).
       </p>
 
       <!-- Padding Visualisierung -->
@@ -283,14 +285,22 @@ padding-inline: var(--fnd-spacing-04);          /* xs */
         </div>
       </div>
 
-      <div class="docs__code-block">/* Utility-Klassen */
-.u-p-04   { padding: var(--fnd-spacing-04); }       /* 16px */
-.u-px-06  { padding-inline: var(--fnd-spacing-06); } /* 24px */
-.u-py-08  { padding-block: var(--fnd-spacing-08); }  /* 40px */
+      <div class="docs__code-block">/* Padding im Bauteil-SCSS */
+.nc-card {
+  padding: var(--fnd-spacing-04);                 /* 16px */
+}
+.nc-card__body {
+  padding-inline: var(--fnd-spacing-06);          /* 24px */
+  padding-block: var(--fnd-spacing-08);           /* 40px */
+}
 
 /* Responsive Padding */
-.u-p-04 .u-p-lg-08
-  → 16px auf Mobile, 40px ab 1200px</div>
+.nc-card {
+  padding: var(--fnd-spacing-04);                 /* 16px auf Mobile */
+  @include respond-to(lg) {
+    padding: var(--fnd-spacing-08);               /* 40px ab 1200px */
+  }
+}</div>
     </section>
 
     <!-- ================================================================ -->
