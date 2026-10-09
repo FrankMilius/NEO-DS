@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "reference-page",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "stable",
     "tags": [
       "content",
@@ -17,6 +17,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Restpunkte 09.10.2026 (refseite-versatz; Freigabe ausstehend): Unter 1024 px klebt das zugeklappte Verzeichnis oben (position: sticky unter der Kopfzeile) und verdeckte nach einem Sprung das Ziel (Playwright, Kopfzeile 64 px: h2 des Ziels 11-13 px unter dem Verzeichnis). Der Versatz ist dort jetzt mindestens die Unterkante des klebenden Verzeichnisses (top + Hoehe, gemessen nach dem Zuklappen) plus 12 px; Spy-Linie und Sprung lesen dieselbe Schwelle. Ab 1024 px (Verzeichnis daneben) unveraendert.",
+          "Mitfuehren: Ab 1024 px hat ein langes Verzeichnis einen eigenen Scrollbereich; der markierte Eintrag wird darin sichtbar gehalten (wie scrollIntoView block: nearest, Rand 8 px, aber nur das Verzeichnis scrollt — scrollIntoView zoege die Seite mit), sanft, bei prefers-reduced-motion ohne Animation. Playwright (40 Eintraege, Seite bis Abschnitt 31): vorher blieb der markierte Eintrag ausserhalb des Verzeichnisbereichs, jetzt sichtbar, die Seite bleibt stehen.",
+          "Tests: 5 neue Faelle in apps/theme-configurator/tests/behaviors/reference-page.test.js (Versatz unter/ueber 1024 px, Mitfuehren unten/oben, reduzierte Bewegung, kein Mitfuehren ohne Ueberlauf oder unter 1024 px)."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -334,7 +342,7 @@
   "keyboard": {
     "Enter": {
       "action": "jump",
-      "note": "Auf einem Verzeichniseintrag: markiert ihn sofort (aria-current), schliesst unter 1024 px das Verzeichnis, scrollt den Abschnitt unter die Kopfzeile und setzt den Fokus aufs Sprungziel — Tab geht von dort im Inhalt weiter."
+      "note": "Auf einem Verzeichniseintrag: markiert ihn sofort (aria-current), schliesst unter 1024 px das Verzeichnis, scrollt den Abschnitt unter die Kopfzeile (unter 1024 px unter das klebende Verzeichnis) und setzt den Fokus aufs Sprungziel — Tab geht von dort im Inhalt weiter."
     },
     "Tab": {
       "action": "native",

@@ -1,5 +1,5 @@
 # reference-page Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `content`, `organisms`, `navigation`, `website-block`
 
@@ -67,7 +67,7 @@ Base classes: `nc-refpage`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Enter` | jump | Auf einem Verzeichniseintrag: markiert ihn sofort (aria-current), schliesst unter 1024 px das Verzeichnis, scrollt den Abschnitt unter die Kopfzeile und setzt den Fokus aufs Sprungziel — Tab geht von dort im Inhalt weiter. |
+| `Enter` | jump | Auf einem Verzeichniseintrag: markiert ihn sofort (aria-current), schliesst unter 1024 px das Verzeichnis, scrollt den Abschnitt unter die Kopfzeile (unter 1024 px unter das klebende Verzeichnis) und setzt den Fokus aufs Sprungziel — Tab geht von dort im Inhalt weiter. |
 | `Tab` | native | Die Eintraege sind normale Links in der Tab-Folge (kein roving tabindex); der Klappschalter ist ein natives <summary>. |
 
 ## Events

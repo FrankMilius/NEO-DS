@@ -41,6 +41,17 @@
 //                ueber der Linie" noch „Seitenende" duerften den Klick dann
 //                ueberstimmen (gemessen: Klick auf den vorletzten Abschnitt
 //                markierte nach dem Sprung den letzten).
+//   Klebendes    Unter 1024 px klebt das (zugeklappte) Verzeichnis oben unter
+//   Verzeichnis  der Kopfzeile (position: sticky) und verdeckte das Sprungziel
+//                (gemessen 54 px). Der Versatz ist dort mindestens seine
+//                Unterkante (top + Hoehe, gemessen NACH dem Zuklappen) plus
+//                12 px — Spy und Sprung lesen dieselbe Schwelle (Restpunkte
+//                09.10.2026, refseite-versatz). Darueber steht es daneben.
+//   Mitfuehren   Ab 1024 px hat ein langes Verzeichnis einen eigenen
+//                Scrollbereich. Der markierte Eintrag wird darin sichtbar
+//                gehalten (wie scrollIntoView block: 'nearest', aber NUR im
+//                Verzeichnis — scrollIntoView scrollte auch die Seite), sanft
+//                ausser bei prefers-reduced-motion (Restpunkte 09.10.2026).
 //   Klappen      Unter 1024 px (matchMedia, wie $refpage-bp im SCSS) startet
 //                das Verzeichnis (<details>) zu, darueber ist es immer offen;
 //                folgt dem Wechsel der Fensterbreite.
@@ -55,6 +66,10 @@ import { sende } from './kern.js'
 import { naechsterScroller } from './chapter-nav.js'
 
 const TOLERANZ = 24
+// Luft zwischen klebendem Verzeichnis (unter 1024 px) und Sprungziel
+const LUFT_VERZEICHNIS = 12
+// Rand beim Mitfuehren des markierten Eintrags im Verzeichnis
+const RAND_EINTRAG = 8
 // Umbruch wie $refpage-bp in scss/scss/07-organisms/_reference-page.scss
 const BREIT = '(min-width: 1024px)'
 
@@ -83,6 +98,8 @@ export const referencePage = {
     if (!eintraege.length) return
 
     const details = /** @type {HTMLDetailsElement|null} */ (wurzel.querySelector('.nc-refpage__toc-disclosure'))
+    const verzeichnis = /** @type {HTMLElement|null} */ (wurzel.querySelector('.nc-refpage__toc'))
+    const breit = typeof ansicht.matchMedia === 'function' ? ansicht.matchMedia(BREIT) : null
     const scroller = naechsterScroller(wurzel)
     const scrollTop = () => (scroller ? scroller.scrollTop : ansicht.scrollY)
     const obenKante = () => (scroller ? scroller.getBoundingClientRect().top : 0)
@@ -90,7 +107,18 @@ export const referencePage = {
       const kopf = scroller ? null : dok.querySelector('.site-header[data-neo-nav]')
       const kopfHoehe = kopf ? (/** @type {HTMLElement} */ (kopf).offsetHeight || 64) : 0
       const rand = parseFloat(ansicht.getComputedStyle(ziel).scrollMarginTop) || 0
-      return Math.max(rand, kopfHoehe)
+      const klebt = verzeichnisUnterkante()
+      return Math.max(rand, kopfHoehe, klebt ? klebt + LUFT_VERZEICHNIS : 0)
+    }
+    // Unterkante des klebenden Verzeichnisses unter dem Umbruch (relativ zur
+    // Oberkante des Scroll-Containers), sonst 0. top ist der Klebepunkt aus
+    // dem SCSS (Navigationshoehe + Abstand), die Hoehe die des zugeklappten
+    // <details>.
+    function verzeichnisUnterkante () {
+      if (!verzeichnis || !breit || breit.matches) return 0
+      const stil = ansicht.getComputedStyle(verzeichnis)
+      if (stil.position !== 'sticky') return 0
+      return (parseFloat(stil.top) || 0) + verzeichnis.offsetHeight
     }
 
     let aktiv = eintraege.find((k) => k.link.getAttribute('aria-current') === 'true')?.id || null
@@ -106,7 +134,26 @@ export const referencePage = {
         if (k.id === id) k.link.setAttribute('aria-current', 'true')
         else k.link.removeAttribute('aria-current')
       }
+      mitfuehren(eintraege.find((k) => k.id === id)?.link)
       sende(wurzel, 'reference-page-change', { value: id, previousValue: davor })
+    }
+
+    // Markierten Eintrag im eigenen Scrollbereich des Verzeichnisses sichtbar
+    // halten (ab 1024 px). Nur das Verzeichnis scrollt, nie die Seite.
+    function mitfuehren (link) {
+      if (!link || !verzeichnis || !breit || !breit.matches) return
+      if (verzeichnis.scrollHeight <= verzeichnis.clientHeight + 1) return
+      const rahmen = verzeichnis.getBoundingClientRect()
+      const r = link.getBoundingClientRect()
+      let ziel = verzeichnis.scrollTop
+      if (r.top < rahmen.top + RAND_EINTRAG) ziel -= rahmen.top + RAND_EINTRAG - r.top
+      else if (r.bottom > rahmen.bottom - RAND_EINTRAG) ziel += r.bottom - (rahmen.bottom - RAND_EINTRAG)
+      else return
+      const max = verzeichnis.scrollHeight - verzeichnis.clientHeight
+      ziel = Math.max(0, Math.min(max, ziel))
+      const sanft = !ansicht.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+      if (typeof verzeichnis.scrollTo === 'function') verzeichnis.scrollTo({ top: ziel, behavior: sanft ? 'smooth' : 'auto' })
+      else verzeichnis.scrollTop = ziel
     }
 
     // Spy: letzter Abschnitt ueber der Linie
@@ -165,7 +212,6 @@ export const referencePage = {
 
     // Klappzustand unterhalb des Umbruchs: aufgeklappt schoebe eine Liste mit
     // 69 Eintraegen den Inhalt weit nach unten.
-    const breit = typeof ansicht.matchMedia === 'function' ? ansicht.matchMedia(BREIT) : null
     function klappZustand () {
       if (!details || !breit) return
       details.open = !!breit.matches

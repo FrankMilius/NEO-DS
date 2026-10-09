@@ -207,6 +207,101 @@ describe('Referenzseite (reference-page-recipe.json)', () => {
     expect(details.open).toBe(true)
   })
 
+  // Restpunkte 09.10.2026 (refseite-versatz): unter 1024 px klebt das
+  // zugeklappte Verzeichnis oben und verdeckte das Sprungziel.
+  const klebendesVerzeichnis = ({ breit, top = '76px', hoehe = 54 }) => {
+    window.matchMedia = vi.fn((q) => (q === '(min-width: 1024px)' ? { matches: breit, addEventListener () {} } : { matches: false }))
+    const echt = window.getComputedStyle.bind(window)
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => (el.classList?.contains('nc-refpage__toc') ? /** @type {any} */ ({ position: 'sticky', top }) : echt(el)))
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(function () { return this.classList.contains('nc-refpage__toc') ? hoehe : (this.classList.contains('site-header') ? 64 : 0) })
+  }
+
+  it('unter 1024 px: Sprung und Spy-Linie unter die Unterkante des klebenden Verzeichnisses (+ 12 px), nicht nur unter die Kopfzeile', () => {
+    klebendesVerzeichnis({ breit: false })
+    const { links, ziele } = bau({ kopf: 64 })
+    const sprung = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    links[3].click()
+    // Versatz = max(64, 76 + 54 + 12 = 142)
+    expect(sprung).toHaveBeenCalledWith({ top: 1700 - 142, behavior: expect.any(String) })
+    // Spy: Linie 142 + 24 = 166
+    vi.useFakeTimers()
+    sofort()
+    scrolle({})
+    vi.advanceTimersByTime(200)
+    scrolle({ [ziele[0].id]: -500, [ziele[1].id]: 166, [ziele[2].id]: 600 })
+    expect(aktuell(links)).toEqual(['Cloud'])
+    scrolle({ [ziele[1].id]: 167 })
+    expect(aktuell(links)).toEqual(['Betrieb'])
+  })
+
+  it('ab 1024 px: das Verzeichnis steht daneben — kein Zusatz zum Versatz', () => {
+    klebendesVerzeichnis({ breit: true })
+    const { links } = bau({ kopf: 64 })
+    vi.spyOn(Element.prototype, 'scrollTo').mockImplementation(() => {})
+    const sprung = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    links[3].click()
+    expect(sprung).toHaveBeenCalledWith({ top: 1700 - 64, behavior: expect.any(String) })
+  })
+
+  // Restpunkte 09.10.2026: langes Verzeichnis mit eigenem Scrollbereich
+  const scrollbereich = (wurzel, { scrollTop = 0, linkOben }) => {
+    const toc = /** @type {HTMLElement} */ (wurzel.querySelector('.nc-refpage__toc'))
+    Object.defineProperty(toc, 'scrollHeight', { configurable: true, value: 900 })
+    Object.defineProperty(toc, 'clientHeight', { configurable: true, value: 300 })
+    toc.scrollTop = scrollTop
+    toc.getBoundingClientRect = () => /** @type {any} */ ({ top: 100, bottom: 400, height: 300 })
+    const links = [...wurzel.querySelectorAll('.nc-refpage__toc-link')]
+    links.forEach((a, i) => { a.getBoundingClientRect = () => /** @type {any} */ ({ top: linkOben + i * 30, bottom: linkOben + i * 30 + 20, height: 20 }) })
+    return toc
+  }
+
+  it('ab 1024 px: der markierte Eintrag wird im Verzeichnis sichtbar gehalten (nearest), die Seite scrollt dabei nicht', () => {
+    window.matchMedia = vi.fn((q) => (q === '(min-width: 1024px)' ? { matches: true, addEventListener () {} } : { matches: false }))
+    const { wurzel, links, ziele } = bau()
+    const toc = scrollbereich(wurzel, { scrollTop: 40, linkOben: 300 })
+    const imVerzeichnis = vi.spyOn(toc, 'scrollTo').mockImplementation(() => {})
+    const seite = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    sofort()
+    // „Vor Ort" (Index 2: 360-380) liegt sichtbar — nichts zu tun
+    scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: 10, [ziele[3].id]: 600 })
+    expect(aktuell(links)).toEqual(['Vor Ort'])
+    expect(imVerzeichnis).not.toHaveBeenCalled()
+    // „Zugang" (Index 4: 420-440) ragt unten heraus: 440 - (400 - 8) = 48 -> 40 + 48
+    scrolle({ [ziele[3].id]: -100, [ziele[4].id]: 10 })
+    expect(aktuell(links)).toEqual(['Zugang'])
+    expect(imVerzeichnis).toHaveBeenLastCalledWith({ top: 88, behavior: 'smooth' })
+    expect(seite).not.toHaveBeenCalled()
+  })
+
+  it('Mitfuehren nach oben und mit reduzierter Bewegung ohne Animation; unter 1024 px und ohne Ueberlauf nicht', () => {
+    window.matchMedia = vi.fn((q) => (q === '(min-width: 1024px)' ? { matches: true, addEventListener () {} } : { matches: q === '(prefers-reduced-motion: reduce)' }))
+    const { wurzel, links, ziele } = bau()
+    const toc = scrollbereich(wurzel, { scrollTop: 200, linkOben: 60 })
+    const imVerzeichnis = vi.spyOn(toc, 'scrollTo').mockImplementation(() => {})
+    sofort()
+    // „Cloud" (Index 1: 90-110) ragt oben heraus: 200 - (100 + 8 - 90) = 182
+    scrolle({ [ziele[0].id]: -900, [ziele[1].id]: 10, [ziele[2].id]: 600 })
+    expect(aktuell(links)).toEqual(['Cloud'])
+    expect(imVerzeichnis).toHaveBeenLastCalledWith({ top: 182, behavior: 'auto' })
+    // ohne eigenen Ueberlauf: nichts
+    Object.defineProperty(toc, 'scrollHeight', { configurable: true, value: 300 })
+    imVerzeichnis.mockClear()
+    scrolle({ [ziele[0].id]: 10, [ziele[1].id]: 600 })
+    expect(aktuell(links)).toEqual(['Betrieb'])
+    expect(imVerzeichnis).not.toHaveBeenCalled()
+  })
+
+  it('unter 1024 px: kein Mitfuehren (das Verzeichnis ist zugeklappt)', () => {
+    window.matchMedia = vi.fn((q) => (q === '(min-width: 1024px)' ? { matches: false, addEventListener () {} } : { matches: false }))
+    const { wurzel, links, ziele } = bau()
+    const toc = scrollbereich(wurzel, { scrollTop: 0, linkOben: 380 })
+    const imVerzeichnis = vi.spyOn(toc, 'scrollTo').mockImplementation(() => {})
+    sofort()
+    scrolle({ [ziele[0].id]: -900, [ziele[1].id]: -500, [ziele[2].id]: -100, [ziele[3].id]: 10, [ziele[4].id]: 600 })
+    expect(aktuell(links)).toEqual(['Sicherheit'])
+    expect(imVerzeichnis).not.toHaveBeenCalled()
+  })
+
   it('prefers-reduced-motion: Sprung ohne Animation', () => {
     const { links } = bau()
     window.matchMedia = vi.fn().mockReturnValue({ matches: true })

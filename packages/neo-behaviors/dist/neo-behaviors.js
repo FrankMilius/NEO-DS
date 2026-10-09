@@ -3672,6 +3672,8 @@
 
   // packages/neo-behaviors/reference-page.js
   var TOLERANZ2 = 24;
+  var LUFT_VERZEICHNIS = 12;
+  var RAND_EINTRAG = 8;
   var BREIT = "(min-width: 1024px)";
   var referencePage = {
     id: "reference-page",
@@ -3705,6 +3707,11 @@
         /** @type {HTMLDetailsElement|null} */
         wurzel.querySelector(".nc-refpage__toc-disclosure")
       );
+      const verzeichnis = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-refpage__toc")
+      );
+      const breit = typeof ansicht.matchMedia === "function" ? ansicht.matchMedia(BREIT) : null;
       const scroller = naechsterScroller(wurzel);
       const scrollTop = () => scroller ? scroller.scrollTop : ansicht.scrollY;
       const obenKante = () => scroller ? scroller.getBoundingClientRect().top : 0;
@@ -3715,13 +3722,21 @@
           kopf.offsetHeight || 64
         ) : 0;
         const rand = parseFloat(ansicht.getComputedStyle(ziel).scrollMarginTop) || 0;
-        return Math.max(rand, kopfHoehe);
+        const klebt = verzeichnisUnterkante();
+        return Math.max(rand, kopfHoehe, klebt ? klebt + LUFT_VERZEICHNIS : 0);
       };
+      function verzeichnisUnterkante() {
+        if (!verzeichnis || !breit || breit.matches) return 0;
+        const stil = ansicht.getComputedStyle(verzeichnis);
+        if (stil.position !== "sticky") return 0;
+        return (parseFloat(stil.top) || 0) + verzeichnis.offsetHeight;
+      }
       let aktiv = ((_a = eintraege.find((k) => k.link.getAttribute("aria-current") === "true")) == null ? void 0 : _a.id) || null;
       const vorher = new Map(eintraege.map((k) => [k.link, k.link.getAttribute("aria-current")]));
       const warOffen = details ? details.open : false;
       const eigenerTabindex = /* @__PURE__ */ new Set();
       function markiere(id) {
+        var _a2;
         if (!id || id === aktiv) return;
         const davor = aktiv;
         aktiv = id;
@@ -3729,7 +3744,24 @@
           if (k.id === id) k.link.setAttribute("aria-current", "true");
           else k.link.removeAttribute("aria-current");
         }
+        mitfuehren((_a2 = eintraege.find((k) => k.id === id)) == null ? void 0 : _a2.link);
         sende(wurzel, "reference-page-change", { value: id, previousValue: davor });
+      }
+      function mitfuehren(link) {
+        var _a2;
+        if (!link || !verzeichnis || !breit || !breit.matches) return;
+        if (verzeichnis.scrollHeight <= verzeichnis.clientHeight + 1) return;
+        const rahmen = verzeichnis.getBoundingClientRect();
+        const r = link.getBoundingClientRect();
+        let ziel = verzeichnis.scrollTop;
+        if (r.top < rahmen.top + RAND_EINTRAG) ziel -= rahmen.top + RAND_EINTRAG - r.top;
+        else if (r.bottom > rahmen.bottom - RAND_EINTRAG) ziel += r.bottom - (rahmen.bottom - RAND_EINTRAG);
+        else return;
+        const max = verzeichnis.scrollHeight - verzeichnis.clientHeight;
+        ziel = Math.max(0, Math.min(max, ziel));
+        const sanft = !((_a2 = ansicht.matchMedia) == null ? void 0 : _a2.call(ansicht, "(prefers-reduced-motion: reduce)").matches);
+        if (typeof verzeichnis.scrollTo === "function") verzeichnis.scrollTo({ top: ziel, behavior: sanft ? "smooth" : "auto" });
+        else verzeichnis.scrollTop = ziel;
       }
       let ruht = false;
       let angesprungen = null;
@@ -3799,7 +3831,6 @@
         for (const k of eintraege) beobachter.observe(k.ziel);
         signal.addEventListener("abort", () => beobachter.disconnect());
       }
-      const breit = typeof ansicht.matchMedia === "function" ? ansicht.matchMedia(BREIT) : null;
       function klappZustand() {
         if (!details || !breit) return;
         details.open = !!breit.matches;
