@@ -30,6 +30,9 @@ const THEME = process.env.NEO_DRUPAL_THEME
 const PAIRS = [
   { src: join(ROOT, 'styles.css'), dest: join(THEME, 'css', 'styles.css'), label: 'styles.css' },
   { src: join(ROOT, 'data', 'design-tokens.css'), dest: join(THEME, 'css', 'design-tokens.css'), label: 'design-tokens.css' },
+  // Stile des Medien-Bauteils fuer die Admin-Vorschau (npm run build:shot-vorschau;
+  // Restpunkte 09.10.2026, shot-admin) — Library neo_fe/neo-shot-admin.
+  { src: join(ROOT, 'shot-vorschau.css'), dest: join(THEME, 'css', 'neo-shot-vorschau.css'), label: 'neo-shot-vorschau.css' },
 ];
 
 if (!existsSync(join(THEME, 'css'))) {

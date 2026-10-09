@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "shot",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "label": "Shot (Medien-Bauteil)",
     "description": "Ein Master-Bild, viele Ausspielungen: je Instanz Fokuspunkt, Zoom und Format; darueber die Darstellungen Standard, Browser-Rahmen, Ken-Burns-Fahrt, Lupe, Marker mit Erklaerung und Vorher/Nachher-Vergleich.",
@@ -21,6 +21,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Restpunkte 09.10.2026 (shot-admin; Freigabe ausstehend): Admin-Vorschau. Die Live-Vorschau des Shot-Editors in neo_fe (js/neo-shot-editor.js, NeoBehaviors.shotAufbauen) stand im Admin-Theme ohne Stile, weil styles.css dort nicht geladen wird (und nicht soll — es verstellte Claro). Neu: npm run build:shot-vorschau (scripts/baue-shot-vorschau.mjs) zieht aus dem gebauten styles.css nur die .nc-shot-Regeln (auch in @media), die genannten @keyframes und die transitiv gelesenen Tokens mit ihren :root-Werten an der Huelle :where(.nc-shot-vorschau) — rund 5,6 KB, jeder Selektor beginnt mit .nc-shot bzw. der Huelle. npm run sync:drupal kopiert sie nach neo_fe css/neo-shot-vorschau.css (Library neo-shot-admin); die Vorschau-Huelle traegt die Klasse nc-shot-vorschau.",
+          "Playwright (admin-aehnliche Seite ohne styles.css): Rahmen, Marker und Vergleich wie auf der Website — berechnete Stile der 21 Bauteil-Elemente gleich, einzig der unsichtbare Vergleichsregler (opacity 0) behaelt die Eingabefeld-Stile des Admins. Test tests/shot-vorschau.test.mjs."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
