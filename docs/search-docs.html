@@ -55,6 +55,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -184,37 +185,183 @@
         <!-- TAB 2: Style -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <table class="docs__table docs__table--compact">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Input</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-height</code></td><td>&mdash;</td><td>var(--fnd-size-md)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-md)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-input-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-icon-size</code></td><td>20px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-search-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Results Panel</td></tr>
-                <tr><td><code class="docs__token">--nc-search-results-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-results-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-results-shadow</code></td><td>&mdash;</td><td>var(--fnd-elevation-3)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-results-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-lg)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-results-max-height</code></td><td>400px</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Items</td></tr>
-                <tr><td><code class="docs__token">--nc-search-item-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-item-hover-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-item-title-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-item-desc-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Highlight</td></tr>
-                <tr><td><code class="docs__token">--nc-search-highlight-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-warning)</td></tr>
-                <tr><td><code class="docs__token">--nc-search-highlight-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-              </tbody>
-            </table>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Input Area</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-width</code></td><td>320px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-max-width</code></td><td>100%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-input-radius</code></td><td>var(--nc-input-radius)</td><td>Erbt vom Input (4px), ueberschreibbar</td></tr>
+      <tr><td><code class="docs__token">--nc-search-input-height</code></td><td>var(--nc-input-height-md)</td><td>Erbt vom Input (40px), ueberschreibbar</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Results Panel</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-results-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-border</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-shadow</code></td><td>var(--nc-dropdown-shadow)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-max-height</code></td><td>400px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-padding</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-z-index</code></td><td>var(--fnd-z-dropdown)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-animation</code></td><td>var(--fnd-motion-duration-150)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-results-top-offset</code></td><td>0</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Item</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-item-height</code></td><td>32px</td><td>var(--fnd-size-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>8px 12px</td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-icon-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-icon-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-item-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Highlight</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-highlight-bg</code></td><td>color-mix(in srgb, var(--fnd-color-feedback-warning) 30%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-highlight-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Group Label</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-group-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-group-label-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-group-label-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-group-label-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shortcut</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-shortcut-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-shortcut-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Clear Trigger</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-clear-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-clear-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-clear-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Scope</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-scope-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-border</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-padding</code></td><td>var(--fnd-spacing-01) var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-scope-gap</code></td><td>var(--fnd-spacing-02)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Minimal (Header)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-minimal-bg</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-minimal-border</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-minimal-border-focus</code></td><td>var(--fnd-color-interactive-focus)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">XL (Hero)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-xl-height</code></td><td>64px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-xl-font-size</code></td><td>var(--fs-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-xl-icon-size</code></td><td>24px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-xl-radius</code></td><td>var(--nc-input-radius)</td><td>Erbt vom Input (Entscheidung 02.10.2026)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-xl-shadow</code></td><td>var(--fnd-elevation-floating)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Command Palette</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-command-max-width</code></td><td>640px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-command-shadow</code></td><td>var(--nc-dialog-shadow)</td><td>Befehlspalette = modales Fenster (Entscheidung 02.10.2026)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-command-radius</code></td><td>var(--nc-input-radius)</td><td>Erbt vom Input (Entscheidung 02.10.2026)</td></tr>
+      <tr><td><code class="docs__token">--nc-search-command-overlay-bg</code></td><td>color-mix(in srgb, var(--fnd-color-text-primary) 40%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Type-Ahead</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-ghost-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mobile Full-Screen</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-mobile-header-height</code></td><td>56px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-mobile-results-max-height</code></td><td>calc(100dvh - 56px)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-mobile-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Backdrop (Nav-Integration)</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-search-backdrop-bg</code></td><td>var(--fnd-color-always-dark)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-backdrop-opacity</code></td><td>0.35</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-search-backdrop-z-index</code></td><td>calc(var(--fnd-z-dropdown) - 1)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
           <section class="docs__section" id="style-bem">
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
@@ -256,24 +403,109 @@
           </section>
 
           <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <table class="docs__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-search</code></td><td>Block</td><td>Such-Container.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__input-wrapper</code></td><td>Element</td><td>Wrapper f&uuml;r Icon + Input.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__icon</code></td><td>Element</td><td>Such-Icon (SVG).</td></tr>
-                <tr><td><code class="docs__token">.nc-search__input</code></td><td>Element</td><td>Eingabefeld (type=search).</td></tr>
-                <tr><td><code class="docs__token">.nc-search__results</code></td><td>Element</td><td>Ergebnis-Dropdown.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__group</code></td><td>Element</td><td>Ergebnis-Gruppe.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__group-label</code></td><td>Element</td><td>Gruppen-Label.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__item</code></td><td>Element</td><td>Einzelnes Ergebnis (Link).</td></tr>
-                <tr><td><code class="docs__token">.nc-search__highlight</code></td><td>Element</td><td>Treffer-Markierung.</td></tr>
-                <tr><td><code class="docs__token">.nc-search__empty</code></td><td>Element</td><td>Empty-State Container.</td></tr>
-                <tr><td><code class="docs__token">.nc-search--full</code></td><td>Modifier</td><td>Volle Container-Breite.</td></tr>
-              </tbody>
-            </table>
-          </section>
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-search</code></td><td>Block</td><td>search-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-search__input-wrapper</code></td><td>Element</td><td>input-wrapper</td></tr>
+      <tr><td><code class="docs__token">.nc-search__scope-trigger</code></td><td>Element (optional)</td><td>scope-trigger</td></tr>
+      <tr><td><code class="docs__token">.nc-search__icon</code></td><td>Element</td><td>icon</td></tr>
+      <tr><td><code class="docs__token">.nc-search__input</code></td><td>Element</td><td>input</td></tr>
+      <tr><td><code class="docs__token">.nc-search__ghost</code></td><td>Element (optional)</td><td>ghost</td></tr>
+      <tr><td><code class="docs__token">.nc-search__shortcut</code></td><td>Element (optional)</td><td>shortcut</td></tr>
+      <tr><td><code class="docs__token">.nc-search__scope-menu</code></td><td>Element (optional)</td><td>scope-menu</td></tr>
+      <tr><td><code class="docs__token">.nc-search__results</code></td><td>Element</td><td>results</td></tr>
+      <tr><td><code class="docs__token">.nc-search__group</code></td><td>Element (optional)</td><td>group</td></tr>
+      <tr><td><code class="docs__token">.nc-search__group-label</code></td><td>Element (optional)</td><td>group-label</td></tr>
+      <tr><td><code class="docs__token">.nc-search__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-search__item-icon</code></td><td>Element (optional)</td><td>item-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-search__item-label</code></td><td>Element</td><td>item-label</td></tr>
+      <tr><td><code class="docs__token">.nc-search__highlight</code></td><td>Element (optional)</td><td>highlight</td></tr>
+      <tr><td><code class="docs__token">.nc-search__empty</code></td><td>Element (optional)</td><td>empty</td></tr>
+      <tr><td><code class="docs__token">.nc-search__loading</code></td><td>Element (optional)</td><td>loading</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Width-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Breite — default (320px fest), full (100% Container), viewport (volle Viewport-Breite / Mobile Overlay)</td></tr>
+      <tr><td><code class="docs__token">.nc-search--full</code></td><td>full</td><td>Breite — default (320px fest), full (100% Container), viewport (volle Viewport-Breite / Mobile Overlay)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Appearance-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Visuelle Variante — default (Standard), minimal (Header, transparent), xl (Hero, 64px)</td></tr>
+      <tr><td><code class="docs__token">.nc-search--minimal</code></td><td>minimal</td><td>Visuelle Variante — default (Standard), minimal (Header, transparent), xl (Hero, 64px)</td></tr>
+      <tr><td><code class="docs__token">.nc-search--xl</code></td><td>xl</td><td>Visuelle Variante — default (Standard), minimal (Header, transparent), xl (Hero, 64px)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Scope-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>global</td><td>Suchbereich — global (alles), scoped (eingeschraenkt)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>scoped</td><td>Suchbereich — global (alles), scoped (eingeschraenkt)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>plain</td><td>Inhaltsvariante — plain, with-icons, grouped, with-shortcut</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-icons</td><td>Inhaltsvariante — plain, with-icons, grouped, with-shortcut</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>grouped</td><td>Inhaltsvariante — plain, with-icons, grouped, with-shortcut</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-shortcut</td><td>Inhaltsvariante — plain, with-icons, grouped, with-shortcut</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Mode-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>instant</td><td>Suchverhalten — instant (sofort bei Eingabe), manual (bei Enter/Button)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>manual</td><td>Suchverhalten — instant (sofort bei Eingabe), manual (bei Enter/Button)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Animation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>slide-down</td><td>Results-Panel Animation — slide-down (Standard), fade (performant), expand (Input weitet sich)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Results State-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>results</td><td>Zustand der Ergebnisliste</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>empty</td><td>Zustand der Ergebnisliste</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>loading</td><td>Zustand der Ergebnisliste</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>closed</td><td>Zustand der Ergebnisliste</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>history</td><td>Zustand der Ergebnisliste</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>popular</td><td>Zustand der Ergebnisliste</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
 
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
@@ -300,6 +532,105 @@
 
 &lt;/div&gt;</div>
           </section>
+
+                  <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Root: role='combobox', aria-haspopup='listbox', aria-expanded='true|false', data-state='closed|open'.</li>
+    <li>Input-Wrapper: relative Container. Enthält Icon (links), Input (mitte), Clear-Trigger (rechts, bedingt), Shortcut-Hint (rechts, bedingt).</li>
+    <li>Clear-Trigger: button[aria-label='Suche zuruecksetzen']. Nur sichtbar wenn input.value.length &gt; 0. Klick: value='', focus auf Input.</li>
+    <li>Escape-Verhalten (3-stufig): 1. Loescht Ghost-Text falls aktiv. 2. Schliesst Results-Panel (data-state='closed'). 3. Blur vom Input.</li>
+    <li>Outside-Click: Schliesst Results-Panel und setzt data-state='closed' auf Root.</li>
+    <li>Type-to-Select: ArrowDown navigiert sofort in die Results. Enter waehlt den fokussierten Treffer.</li>
+    <li>History-First: Bei leerem Input (value='') zeigt Results-Panel die letzten 5 Suchanfragen.</li>
+    <li>Recent/Popular: Falls keine History vorhanden, werden 'Beliebte Suchbegriffe' als Kaltstart angezeigt.</li>
+    <li>Ghost: position:absolute, pointer-events:none. Text beginnt mit aktuellem Input-Wert. ArrowRight uebernimmt.</li>
+    <li>Mobile Full-Screen (&lt; 768px): position:fixed, inset:0, z-index:modal. Header wird durch .nc-search__mobile-header ersetzt.</li>
+    <li>Mobile Results: height:100dvh - input-height, overflow-y:auto, scroll fuer lange Listen.</li>
+    <li>Navigation-Integration: Results-Panel top-offset = var(--nc-nav-height). Backdrop hinter Results, vor Header-Content.</li>
+    <li>Backdrop: position:fixed, inset:0, bg:rgba(0,0,0,var(--nc-search-backdrop-opacity)). Klick = Close.</li>
+  </ul>
+</section>
+
+</div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Root: role='combobox', aria-haspopup='listbox', aria-expanded. Input: aria-autocomplete='list', aria-controls. Results: role='listbox'. Items: role='option', aria-selected. Clear-Trigger: aria-label='Suche zuruecksetzen'. Keyboard: ArrowDown/Up navigiert, Enter waehlt, Escape schliesst (3-stufig: Ghost → Results → Blur).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: resultsState = empty</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-live</code></li>
+      <li>Empty-State: 'Keine Ergebnisse' via aria-live='polite' ankuendigen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: resultsState = loading</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-busy</code></li>
+      <li>Loading-State: aria-busy='true' auf dem Results-Container.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: scope = scoped</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-label</code></li>
+      <li>Scope-Trigger: aria-label beschreibt aktuellen Suchbereich.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: width = viewport</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">focus-trap</code></li>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-modal</code></li>
+      <li>Mobile Full-Screen: Focus-Trap aktiv, aria-modal='true', Escape schliesst.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-label</code></li>
+      <li>Clear-Trigger: aria-label='Suche zuruecksetzen'. Nur sichtbar bei value.length &gt; 0.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

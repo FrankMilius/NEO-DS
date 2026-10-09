@@ -54,6 +54,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -159,7 +160,7 @@
                 <tr><td><code class="docs__token">--nc-divider-strong-width</code></td><td>2px</td><td>Breite der Strong-Variante</td></tr>
                 <tr><td><code class="docs__token">--nc-divider-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>Label-Textfarbe</td></tr>
                 <tr><td><code class="docs__token">--nc-divider-label-size</code></td><td>var(--fs-xs)</td><td>Label-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-divider-label-weight</code></td><td>medium (500)</td><td>Label-Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-divider-label-weight</code></td><td>var(--fnd-font-weight-medium)</td><td>Label-Schriftgewicht</td></tr>
                 <tr><td><code class="docs__token">--nc-divider-label-gap</code></td><td>12px</td><td>Abstand Label zu Linien</td></tr>
               </tbody>
             </table>
@@ -205,6 +206,63 @@
             </table>
           </section>
 
+          <section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-divider</code></td><td>Block</td><td>divider-Container</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Orientation-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>horizontal</td><td>Ausrichtung — horizontal (Standard) oder vertikal</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--vertical</code></td><td>vertical</td><td>Ausrichtung — horizontal (Standard) oder vertikal</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Visuelle Variante — default, strong (dickere Linie), with-label (Text in der Mitte)</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--strong</code></td><td>strong</td><td>Visuelle Variante — default, strong (dickere Linie), with-label (Text in der Mitte)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-label</td><td>Visuelle Variante — default, strong (dickere Linie), with-label (Text in der Mitte)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Style-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>solid</td><td>Linien-Stil — solid (Standard), dashed, dotted</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--dashed</code></td><td>dashed</td><td>Linien-Stil — solid (Standard), dashed, dotted</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--dotted</code></td><td>dotted</td><td>Linien-Stil — solid (Standard), dashed, dotted</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Spacing-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-divider--sm</code></td><td>sm</td><td>Abstand ober-/unterhalb — sm (8px), md (16px, Standard), lg (24px), none (0)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>md</td><td>Abstand ober-/unterhalb — sm (8px), md (16px, Standard), lg (24px), none (0)</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--lg</code></td><td>lg</td><td>Abstand ober-/unterhalb — sm (8px), md (16px, Standard), lg (24px), none (0)</td></tr>
+      <tr><td><code class="docs__token">.nc-divider--none</code></td><td>none</td><td>Abstand ober-/unterhalb — sm (8px), md (16px, Standard), lg (24px), none (0)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
           <section class="docs__section" id="api-html">
             <h2 class="docs__section-title">HTML-Struktur</h2>
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal</h3>
@@ -232,6 +290,25 @@
             </div>
           </section>
 
+          <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Standard: &lt;hr class='nc-divider'&gt;. Nativer role='separator' ist implizit.</li>
+    <li>Vertikal: .nc-divider--vertical. Braucht aria-orientation='vertical'.</li>
+    <li>Label-Variante: &lt;div class='nc-divider-label' role='separator'&gt;&lt;span&gt;Text&lt;/span&gt;&lt;/div&gt;.</li>
+    <li>Label-Variante nutzt ::before/::after Pseudo-Elemente fuer die Linien links und rechts.</li>
+    <li>Spacing-Modifier: --sm (8px), --lg (24px), --none (0).</li>
+    <li>Style-Modifier: --dashed, --dotted (aendert border-style).</li>
+    <li>Strong-Modifier: --strong (dickere Linie, staerkere Farbe).</li>
+  </ul>
+</section>
+
+
+        </div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
           <section class="docs__section" id="api-a11y">
             <h2 class="docs__section-title">Accessibility</h2>
             <table class="docs__table">
@@ -243,6 +320,50 @@
               </tbody>
             </table>
           </section>
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Natives &lt;hr&gt; hat implizit role='separator'. Rein dekorativ — kein interaktives Element.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA non-text (3:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: orientation = vertical</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-orientation</code></li>
+      <li>Vertikaler Divider braucht aria-orientation='vertical' fuer korrekte Screen-Reader-Semantik.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = with-label</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-separator</code></li>
+      <li>Label-Variante nutzt &lt;div&gt; statt &lt;hr&gt; — braucht explizites role='separator'. Label-Text ist rein dekorativ.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
       </div>

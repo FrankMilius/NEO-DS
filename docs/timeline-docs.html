@@ -55,6 +55,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -260,38 +261,133 @@
         <!-- TAB 2: Style -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <table class="docs__table docs__table--compact">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-06)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-padding-left</code></td><td>32px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-compact-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Node</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-size</code></td><td>12px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-bg</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-border</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-border-width</code></td><td>2px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-active-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-success-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-success)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-node-danger-bg</code></td><td>&mdash;</td><td>var(--fnd-color-feedback-danger)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-icon-node-size</code></td><td>32px</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Connector</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-connector-width</code></td><td>2px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-connector-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Content</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-title-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-title-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-title-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-desc-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-desc-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-time-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
-                <tr><td><code class="docs__token">--nc-timeline-time-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
-              </tbody>
-            </table>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Line</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-line-color</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-line-width</code></td><td>2px</td><td>var(--fnd-border-width-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-gap</code></td><td>0</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Node</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-node-size</code></td><td>12px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-border</code></td><td>var(--fnd-color-border-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-border-width</code></td><td>2px</td><td>var(--fnd-border-width-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Node Variants</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-node-active-bg</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-active-border</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-success-bg</code></td><td>var(--fnd-color-feedback-success)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-danger-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-icon-size</code></td><td>32px</td><td>var(--fnd-size-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-icon-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-content-gap</code></td><td>4px</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-content-padding</code></td><td>16px</td><td>var(--fnd-spacing-04)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-title-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-title-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-title-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-desc-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-time-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-time-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-time-weight</code></td><td>var(--fnd-font-weight-regular)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Alternating Layout</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-alt-max-width</code></td><td>54rem</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-alt-node-col</code></td><td>5.625rem</td><td>Mittelspalte fuer den Node</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-alt-gap</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-alt-item-gap</code></td><td>var(--fnd-spacing-12)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-progress-color</code></td><td>var(--fnd-color-text-accent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Card</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-card-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-card-border</code></td><td>var(--fnd-color-border-hairline)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-card-radius</code></td><td>var(--fnd-radius-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-card-padding</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-badge-tint</code></td><td>8%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-badge-radius</code></td><td>var(--fnd-radius-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-lead-color</code></td><td>var(--fnd-color-text-accent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-marker-color</code></td><td>var(--fnd-color-text-accent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-card-title-size</code></td><td>var(--nc-type-heading-m-size)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-card-title-weight</code></td><td>var(--fnd-font-weight-heading-strong)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-cta-gap</code></td><td>var(--fnd-spacing-05)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Horizontal Layout</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-h-card-width</code></td><td>22rem</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-h-gap</code></td><td>var(--fnd-spacing-08)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-h-pad-block</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Reveal Effects</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-timeline-reveal-shift</code></td><td>1.375rem</td><td>22px, wie in der Vorlage</td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-reveal-duration</code></td><td>.5s</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-reveal-glow</code></td><td>0 0 0 var(--fnd-border-width-hairline) var(--nc-timeline-progress-color),
+      0 0 1.125rem color-mix(in srgb, var(--nc-timeline-progress-color) 22%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-timeline-node-glow</code></td><td>0 0 0 .625rem var(--fnd-color-background-base),
+      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 18%, transparent),
+      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 45%, transparent)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
           <section class="docs__section" id="style-bem">
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
@@ -335,27 +431,112 @@
           </section>
 
           <section class="docs__section" id="api-classes">
-            <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
-            <table class="docs__table">
-              <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">.nc-timeline</code></td><td>Block</td><td>Container f&uuml;r die gesamte Timeline.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__item</code></td><td>Element</td><td>Einzelner Timeline-Eintrag.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__node</code></td><td>Element</td><td>Punkt/Icon auf der Zeitachse.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__connector</code></td><td>Element</td><td>Vertikale Linie zwischen Nodes.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__content</code></td><td>Element</td><td>Inhaltsbereich (Titel, Beschreibung, Zeit).</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__time</code></td><td>Element</td><td>Zeitstempel.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__title</code></td><td>Element</td><td>Titel des Eintrags.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__description</code></td><td>Element</td><td>Beschreibungstext.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline--icon</code></td><td>Modifier</td><td>Gr&ouml;&szlig;ere Nodes mit Icons.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline--connected</code></td><td>Modifier</td><td>Card-Hintergrund f&uuml;r Content.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline--compact</code></td><td>Modifier</td><td>Reduzierte Abst&auml;nde.</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__node--active</code></td><td>Modifier</td><td>Aktiver Node (Prim&auml;rfarbe).</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__node--success</code></td><td>Modifier</td><td>Erfolgs-Node (Gr&uuml;n).</td></tr>
-                <tr><td><code class="docs__token">.nc-timeline__node--danger</code></td><td>Modifier</td><td>Fehler-Node (Rot).</td></tr>
-              </tbody>
-            </table>
-          </section>
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-timeline</code></td><td>Block</td><td>timeline-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__node</code></td><td>Element</td><td>node</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__content</code></td><td>Element</td><td>content</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__time</code></td><td>Element (optional)</td><td>time</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__title</code></td><td>Element</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__description</code></td><td>Element (optional)</td><td>description</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline--alternating::after</code></td><td>Element (optional)</td><td>fill</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__period</code></td><td>Element (optional)</td><td>period</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__badge</code></td><td>Element (optional)</td><td>badge</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__phase</code></td><td>Element (optional)</td><td>phase</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__lead</code></td><td>Element (optional)</td><td>lead</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__list</code></td><td>Element (optional)</td><td>list</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline__cta</code></td><td>Element (optional)</td><td>cta</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Visuelle Variante — default (kleine Punkte), icon (grosse Nodes mit Icon), connected (Card-Hintergrund), compact (minimal)</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline--icon</code></td><td>icon</td><td>Visuelle Variante — default (kleine Punkte), icon (grosse Nodes mit Icon), connected (Card-Hintergrund), compact (minimal)</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline--connected</code></td><td>connected</td><td>Visuelle Variante — default (kleine Punkte), icon (grosse Nodes mit Icon), connected (Card-Hintergrund), compact (minimal)</td></tr>
+      <tr><td><code class="docs__token">.nc-timeline--compact</code></td><td>compact</td><td>Visuelle Variante — default (kleine Punkte), icon (grosse Nodes mit Icon), connected (Card-Hintergrund), compact (minimal)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Node Status-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Status des Node-Punktes — default (neutral), active (primaer), success (Erfolg), danger (Fehler)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>active</td><td>Status des Node-Punktes — default (neutral), active (primaer), success (Erfolg), danger (Fehler)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>success</td><td>Status des Node-Punktes — default (neutral), active (primaer), success (Erfolg), danger (Fehler)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>danger</td><td>Status des Node-Punktes — default (neutral), active (primaer), success (Erfolg), danger (Fehler)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>0</td><td>single = einspaltig (Linie links). alternating = Zickzack, Linie mittig. horizontal = Karten nebeneinander, Bereich scrollt seitlich mit Scroll-Snap. Unter 860px fallen alternating UND horizontal auf gestapelt zurueck.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>1</td><td>single = einspaltig (Linie links). alternating = Zickzack, Linie mittig. horizontal = Karten nebeneinander, Bereich scrollt seitlich mit Scroll-Snap. Unter 860px fallen alternating UND horizontal auf gestapelt zurueck.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>2</td><td>single = einspaltig (Linie links). alternating = Zickzack, Linie mittig. horizontal = Karten nebeneinander, Bereich scrollt seitlich mit Scroll-Snap. Unter 860px fallen alternating UND horizontal auf gestapelt zurueck.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Progress-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>0</td><td>off = statische Linie. scroll = Linie fuellt sich beim Scrollen, Items blenden ein. Bei prefers-reduced-motion und ohne JS ist alles sofort sichtbar.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>1</td><td>off = statische Linie. scroll = Linie fuellt sich beim Scrollen, Items blenden ein. Bei prefers-reduced-motion und ohne JS ist alles sofort sichtbar.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Card Status Tone-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>0</td><td>Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf &gt;=4.5:1 geprueft.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>1</td><td>Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf &gt;=4.5:1 geprueft.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>2</td><td>Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf &gt;=4.5:1 geprueft.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>3</td><td>Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf &gt;=4.5:1 geprueft.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>4</td><td>Farbton des frei beschriftbaren Status-Badges. Alle Toene sind bei 8% Tint in Light UND Dark auf &gt;=4.5:1 geprueft.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Header Alignment-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>0</td><td>Ausrichtung des Section-Kopfes. Nutzt die zentralen Modifier .nc-section-header--center / --right; left ist der modifier-freie Default.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>1</td><td>Ausrichtung des Section-Kopfes. Nutzt die zentralen Modifier .nc-section-header--center / --right; left ist der modifier-freie Default.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>2</td><td>Ausrichtung des Section-Kopfes. Nutzt die zentralen Modifier .nc-section-header--center / --right; left ist der modifier-freie Default.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Card CTA Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>0</td><td>Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>1</td><td>Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>2</td><td>Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>3</td><td>Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>4</td><td>Button-Variante des optionalen Karten-CTA. Angeboten sind nur die Varianten, die auf einer Kartenflaeche in BEIDEN Themes tragen. Die Feedback-Toene (success/warning/error/info) signalisieren Zustand statt Aktion, inverted ist fuer dunkle Flaechen gedacht - beide bewusst nicht angeboten. Groesse ist md: ein Karten-CTA liegt eine Ebene unter dem Block-Primaer-CTA (P6: lg).</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
 
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
@@ -381,6 +562,72 @@
   &lt;!-- Weitere Items... --&gt;
 &lt;/div&gt;</div>
           </section>
+
+                  <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>&lt;ol&gt; fuer chronologisch geordnete Eintraege — semantische Reihenfolge.</li>
+    <li>Item: CSS-Grid (auto + 1fr), vertikale Linie via ::before Pseudo-Element.</li>
+    <li>Letzes Item: ::before display:none — keine Linie nach unten.</li>
+    <li>Node: Kreis auf der Linie (12px default), z-index: base (ueberdeckt Linie).</li>
+    <li>Node-Varianten: --active (interactive-default), --success (feedback-success), --danger (feedback-danger).</li>
+    <li>Zeitangabe in &lt;time datetime='...'&gt; fuer maschinenlesbare Daten.</li>
+    <li>font-variant-numeric: tabular-nums auf __time fuer gleichbreite Ziffern.</li>
+    <li>Icon-Variante: Groessere Nodes (32px) mit SVG-Icon, Linie verschoben.</li>
+    <li>Connected-Variante: Content bekommt Card-Hintergrund (layer-01 + border + radius).</li>
+    <li>Compact-Variante: Kleinere Nodes (8px), weniger Abstand.</li>
+    <li>alternating: 3-Spalten-Grid (1fr / Node / 1fr), Items wechseln per :nth-child die Seite.</li>
+    <li>Fortschritt: JS setzt --nc-timeline-progress (0-1) auf dem Wurzelelement; CSS skaliert die Fuellung daraus.</li>
+    <li>Ohne JS und bei prefers-reduced-motion sind alle Items sofort sichtbar (kein opacity:0-Startzustand).</li>
+    <li>Icons stammen aus der Heroicons-Sammlung des DS und erben currentColor.</li>
+    <li>horizontal: der scrollende Bereich traegt tabindex=&quot;0&quot; + role=&quot;group&quot; + aria-label, damit er per Tastatur bedienbar bleibt (WCAG 2.1.1).</li>
+    <li>Kartentitel (h3) nutzt --nc-timeline-card-title-size (= heading-m / --fs-xl), NICHT den kompakten Basis-Token --nc-timeline-title-size (--fs-sm).</li>
+    <li>Animiert wird die KARTE (.nc-timeline__content), nicht das Item - sonst wandert der Node mit und loest sich von der Linie.</li>
+    <li>Der Node darf kein margin-top tragen: das Basis-Mixin setzt 2px fuer die kompakte Timeline, was ihn in alternating/horizontal aus der Kartenmitte schiebt und im horizontalen Layout die Linie verfehlen laesst.</li>
+    <li>horizontal: Node per align-self:center mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.</li>
+    <li>Die Fortschrittsfuellung nutzt einen Verlauf mit transparenten Enden, damit sie nicht hart abgeschnitten wirkt.</li>
+    <li>CTA wird nur gerendert, wenn label UND url gesetzt sind - ein Link ohne erkennbares Ziel waere fuer Screenreader wertlos. Unbekannte Varianten fallen im Preprocess auf primary zurueck.</li>
+    <li>Die Slots 6-12 trugen bis zum 24.08.2026 `selector`/`required` statt `element`/`optional` — eine zweite Konvention in derselben Datei, angelegt beim Ausbau der Zeitleiste. Damit fehlten sie jeder Pruefung, die `element` liest.</li>
+  </ul>
+</section>
+
+</div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">&lt;ol&gt; fuer geordnete Semantik — Screen Reader liest die natuerliche Reihenfolge. Nodes sind dekorativ (aria-hidden='true'). Zeitangaben in &lt;time datetime&gt; fuer maschinenlesbare Daten. Node-Status-Farben muessen 3:1 Kontrast gegen Hintergrund haben. Alternating-Layout aendert NUR die visuelle Anordnung, nicht die DOM-Reihenfolge. Status-Badges sind Text, nicht nur Farbe. Die Fortschrittslinie ist dekorativ (aria-hidden). Bei prefers-reduced-motion wird der Endzustand sofort gezeigt; der Akzentrand bleibt, weil er Gestaltung und keine Animation ist.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

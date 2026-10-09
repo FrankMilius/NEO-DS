@@ -1,5 +1,5 @@
 # nav-molecules Component Spec
-> Version 2.0.0 | Status: stable | Layer: molecule
+> Version 2.0.1 | Status: stable | Layer: molecule
 
 Tags: `navigation`, `interactive`
 

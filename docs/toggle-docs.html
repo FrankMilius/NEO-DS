@@ -474,6 +474,7 @@
                 <tr><td><code class="docs__token">--nc-toggle-group-radius</code></td><td>var(--nc-button-radius-md)</td><td>Border-Radius des Containers (6px)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-border</code></td><td>var(--fnd-color-border-primary)</td><td>Border-Farbe des Containers</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-bg</code></td><td>var(--fnd-color-background-secondary)</td><td>Hintergrundfarbe des Containers</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-shadow</code></td><td>none</td><td>Optionaler Container-Schatten (Filled-Variante)</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Default)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-bg</code></td><td>transparent</td><td>Item-Hintergrund (inaktiv)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-color</code></td><td>var(--fnd-color-text-primary)</td><td>Item-Textfarbe (inaktiv)</td></tr>
@@ -483,12 +484,22 @@
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-bg</code></td><td>var(--fnd-color-interactive-default)</td><td>Selektierter Hintergrund</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-color</code></td><td>var(--fnd-color-text-on-interactive)</td><td>Selektierte Textfarbe</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-border</code></td><td>var(--fnd-color-interactive-default)</td><td>Selektierte Border-Farbe</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Soft)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-soft-bg</code></td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent)</td><td>Selektierter Hintergrund der Soft-Variante</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-soft-color</code></td><td>var(--fnd-color-interactive-default)</td><td>Selektierte Textfarbe der Soft-Variante</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Underline-Indikator</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-underline-width</code></td><td>2px</td><td>Dicke der Linie unter dem gew&auml;hlten Item</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-underline-color</code></td><td>var(--nc-toggle-group-item-selected-bg)</td><td>Farbe der Linie und des gew&auml;hlten Items</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Divider</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-width</code></td><td>1px</td><td>Breite der Trennlinie</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-height</code></td><td>50%</td><td>H&ouml;he der Trennlinie (relativ zum Item)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-color</code></td><td>var(--fnd-color-border-secondary)</td><td>Farbe der Trennlinie</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Disabled)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-bg</code></td><td>var(--fnd-color-background-disabled)</td><td>Disabled Hintergrund</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-color</code></td><td>var(--fnd-color-text-disabled)</td><td>Disabled Textfarbe</td></tr>
-                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>0.5</td><td>Disabled Opacity</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>var(--fnd-opacity-disabled)</td><td>Disabled Opacity (0.5)</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Transition</td></tr>
-                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>0.2s</td><td>Transitions-Dauer</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>var(--fnd-motion-duration-200)</td><td>Transitions-Dauer (0.2s)</td></tr>
               </tbody>
             </table>
           </div>
@@ -535,6 +546,10 @@
 
 // Varianten-Modifier
 .nc-toggle-group--outline       // Transparenter Hintergrund, subtile Selected-Farbe
+.nc-toggle-group--soft          // Helle Markenfarbe fuer Selected (weniger dominant)
+.nc-toggle-group--underline     // Linie unter dem gewaehlten Item (tab-aehnlich)
+.nc-toggle-group--equal         // Alle Items gleich breit (flex: 1)
+.nc-toggle-group--divider       // Subtile Trennlinien (50% Hoehe) statt voller Border
 
 // Item States
 [aria-pressed="true"]           // Multi-Select: Item aktiv
@@ -610,6 +625,10 @@
                 <tr><td><code class="docs__token">.nc-toggle-group--sm</code></td><td>SM Gr&ouml;&szlig;e (32px) auf alle Items</td></tr>
                 <tr><td><code class="docs__token">.nc-toggle-group--lg</code></td><td>LG Gr&ouml;&szlig;e (48px) auf alle Items</td></tr>
                 <tr><td><code class="docs__token">.nc-toggle-group--outline</code></td><td>Outline-Variante: transparenter Hintergrund, subtile Selected-State</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--soft</code></td><td>Soft-Variante: helle Markenfarbe f&uuml;r das gew&auml;hlte Item, weniger dominant als Filled</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--underline</code></td><td>Selektions-Indikator als Linie unter dem gew&auml;hlten Item (tab-&auml;hnlich, f&uuml;r Single-Select)</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--equal</code></td><td>Alle Items gleich breit (<code class="docs__token">flex: 1</code>)</td></tr>
+                <tr><td><code class="docs__token">.nc-toggle-group--divider</code></td><td>Subtile vertikale Trennlinien (50% H&ouml;he) statt voller Border; neben dem gew&auml;hlten Item ausgeblendet</td></tr>
               </tbody>
             </table>
           </div>
@@ -696,6 +715,7 @@
                 <tr><td><code class="docs__token">--nc-toggle-group-radius</code></td><td>6px</td><td>var(--nc-button-radius-md)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-primary)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-shadow</code></td><td>none</td><td>&mdash;</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Default)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
@@ -705,12 +725,22 @@
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-on-interactive)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-selected-border</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Soft)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-soft-bg</code></td><td>&mdash;</td><td>color-mix(in srgb, var(--fnd-color-interactive-default) 12%, transparent)</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-soft-color</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Underline-Indikator</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-underline-width</code></td><td>2px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-underline-color</code></td><td>&mdash;</td><td>var(--nc-toggle-group-item-selected-bg)</td></tr>
+                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Divider</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-width</code></td><td>1px</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-height</code></td><td>50%</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-divider-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item (Disabled)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-disabled)</td></tr>
                 <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-disabled)</td></tr>
-                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>0.5</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-item-disabled-opacity</code></td><td>0.5</td><td>var(--fnd-opacity-disabled)</td></tr>
                 <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Transition</td></tr>
-                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>0.2s</td><td>&mdash;</td></tr>
+                <tr><td><code class="docs__token">--nc-toggle-group-transition-duration</code></td><td>0.2s</td><td>var(--fnd-motion-duration-200)</td></tr>
               </tbody>
             </table>
           </div>

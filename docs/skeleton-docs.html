@@ -54,6 +54,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -174,7 +175,7 @@
                 <tr><td><code class="docs__token">--nc-skeleton-radius</code></td><td>4px</td><td>Border-Radius (Standard)</td></tr>
                 <tr><td><code class="docs__token">--nc-skeleton-radius-circle</code></td><td>9999px</td><td>Border-Radius (Circle-Variante)</td></tr>
                 <tr><td><code class="docs__token">--nc-skeleton-duration</code></td><td>1s</td><td>Shimmer-Animations-Dauer</td></tr>
-                <tr><td><code class="docs__token">--nc-skeleton-ease</code></td><td>ease-in-out</td><td>Shimmer-Animations-Easing</td></tr>
+                <tr><td><code class="docs__token">--nc-skeleton-ease</code></td><td>var(--fnd-motion-ease-focused)</td><td>Shimmer-Animations-Easing</td></tr>
                 <tr><td><code class="docs__token">--nc-skeleton-height-xs</code></td><td>12px</td><td>H&ouml;he XS (kleine Textzeile)</td></tr>
                 <tr><td><code class="docs__token">--nc-skeleton-height-sm</code></td><td>16px</td><td>H&ouml;he SM (Default Textzeile)</td></tr>
                 <tr><td><code class="docs__token">--nc-skeleton-height-md</code></td><td>24px</td><td>H&ouml;he MD (Heading)</td></tr>
@@ -219,6 +220,43 @@
             </table>
           </section>
 
+          <section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-skeleton</code></td><td>Block</td><td>skeleton-Container</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Shape-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>text</td><td>Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)</td></tr>
+      <tr><td><code class="docs__token">.nc-skeleton--heading</code></td><td>heading</td><td>Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)</td></tr>
+      <tr><td><code class="docs__token">.nc-skeleton--circle</code></td><td>circle</td><td>Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)</td></tr>
+      <tr><td><code class="docs__token">.nc-skeleton--rect</code></td><td>rect</td><td>Formvariante — text (Zeile, Standard), heading (breitere Zeile), circle (Kreis), rect (Flaeche)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Size-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-skeleton--xs</code></td><td>xs</td><td>Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>sm</td><td>Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)</td></tr>
+      <tr><td><code class="docs__token">.nc-skeleton--md</code></td><td>md</td><td>Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)</td></tr>
+      <tr><td><code class="docs__token">.nc-skeleton--lg</code></td><td>lg</td><td>Hoehe — xs (12px), sm (16px, Standard), md (24px), lg (48px)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
           <section class="docs__section" id="api-html">
             <h2 class="docs__section-title">HTML-Struktur</h2>
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Einzelne Zeile</h3>
@@ -253,6 +291,24 @@
             </div>
           </section>
 
+          <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Skeleton ist ein &lt;div class='nc-skeleton'&gt; mit aria-hidden='true'.</li>
+    <li>Begleitend ein .u-sr-only Element mit 'Inhalt wird geladen...' fuer Screen Reader.</li>
+    <li>Shimmer-Animation via linear-gradient + @keyframes nc-skeleton-shimmer.</li>
+    <li>prefers-reduced-motion deaktiviert Shimmer — nur statischer Hintergrund.</li>
+    <li>Skeleton-Group (.nc-skeleton-group) stapelt Zeilen vertikal. Letzte Zeile automatisch kuerzer (80%).</li>
+    <li>Varianten: --text (default), --heading (60% Breite, md Hoehe), --circle (Kreis), --rect (Flaeche).</li>
+  </ul>
+</section>
+
+
+        </div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
           <section class="docs__section" id="api-a11y">
             <h2 class="docs__section-title">Accessibility</h2>
             <table class="docs__table">
@@ -264,6 +320,40 @@
               </tbody>
             </table>
           </section>
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Skeleton ist rein dekorativ — aria-hidden='true'. Screen Reader erhaelt Information ueber begleitendes .u-sr-only Element ('Inhalt wird geladen...').</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA non-text (3:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Pflicht:</strong> <code class="docs__token">aria-hidden</code></li>
+      <li>Skeleton-Container braucht aria-hidden='true'. Ladehinweis ueber separates .u-sr-only oder aria-live Region.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
       </div>

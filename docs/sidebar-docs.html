@@ -56,6 +56,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -185,48 +186,81 @@
         <!-- TAB 2: Style -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <table class="docs__table docs__table--compact">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Container</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-width</code></td><td>260px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-border-color</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-border-width</code></td><td>1px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-z-index</code></td><td>&mdash;</td><td>var(--fnd-z-sidebar)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Header</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-header-height</code></td><td>56px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-header-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-header-border</code></td><td>&mdash;</td><td>var(--fnd-color-border-secondary)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Group</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-06)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-label-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-label-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-label-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-label-transform</code></td><td>uppercase</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-group-label-spacing</code></td><td>0.05em</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Item</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-height</code></td><td>&mdash;</td><td>var(--fnd-size-md)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-radius</code></td><td>&mdash;</td><td>var(--fnd-radius-md)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-03)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-font-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-hover-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-secondary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-active-bg</code></td><td>&mdash;</td><td>var(--fnd-color-background-tertiary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-active-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-item-active-weight</code></td><td>&mdash;</td><td>var(--fnd-font-weight-semibold)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Badge</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-badge-size</code></td><td>20px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-badge-font-size</code></td><td>&mdash;</td><td>var(--fs-xs)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-badge-bg</code></td><td>&mdash;</td><td>var(--fnd-color-interactive-default)</td></tr>
-                <tr><td><code class="docs__token">--nc-sidebar-badge-color</code></td><td>&mdash;</td><td>var(--fnd-color-on-accent)</td></tr>
-              </tbody>
-            </table>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Container</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-sidebar-width</code></td><td>260px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-width-collapsed</code></td><td>56px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-bg</code></td><td>var(--fnd-color-layer-01)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-border</code></td><td>var(--fnd-color-border-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-border-width</code></td><td>1px</td><td>var(--fnd-border-width-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-padding</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-z-index</code></td><td>var(--fnd-z-sidebar)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Item</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-sidebar-item-height</code></td><td>32px</td><td>var(--fnd-size-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>8px 12px</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-radius</code></td><td>4px</td><td>var(--fnd-radius-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-color-hover</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-bg-active</code></td><td>var(--fnd-color-background-active)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-color-active</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-font-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-font-weight</code></td><td>var(--fnd-font-weight-medium)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-item-icon-size</code></td><td>20px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Group</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-sidebar-group-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-group-label-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-group-label-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-group-label-padding</code></td><td>var(--fnd-spacing-03) var(--fnd-spacing-03) var(--fnd-spacing-01)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-group-gap</code></td><td>var(--fnd-spacing-01)</td><td>4px zwischen Items</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Nested</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-sidebar-nested-indent</code></td><td>24px</td><td>var(--fnd-spacing-06)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Badge</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-sidebar-badge-size</code></td><td>20px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-badge-font-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-badge-bg</code></td><td>var(--fnd-color-feedback-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-badge-color</code></td><td>var(--fnd-color-on-danger)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-sidebar-badge-radius</code></td><td>var(--fnd-radius-full)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
           <section class="docs__section" id="style-bem">
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
@@ -344,6 +378,65 @@
 
 &lt;/nav&gt;</div>
           </section>
+
+                  <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Root: &lt;nav aria-label='Seitennavigation'&gt;. Flex-column, volle Hoehe, border-right.</li>
+    <li>Header: Logo + Collapse-Toggle. Logo: &lt;a&gt; mit Icon + Text.</li>
+    <li>Toggle: 24px Button, steuert Collapsed-State (JS).</li>
+    <li>Nav: flex-column, flex:1, enthaelt Groups mit Items.</li>
+    <li>Group: flex-column mit gap. Group-Label: uppercase, letter-spacing, user-select:none.</li>
+    <li>Item: &lt;a&gt; fuer Navigation, &lt;button&gt; fuer Sub-Menu-Toggle. Flex-row mit Icon + Label + Badge + Chevron.</li>
+    <li>Item--active / aria-current='page': active-BG + active-Color (interactive-default).</li>
+    <li>Badge: Zaehler (z.B. ungelesene Nachrichten), danger-BG, radius-full.</li>
+    <li>Chevron: 16px, rotiert 90° bei aria-expanded='true'.</li>
+    <li>Submenu: verschachtelte Items, padding-left: nested-indent. hidden-Attribut.</li>
+    <li>Footer: margin-top:auto, border-top. Wird ans Ende gedrueckt.</li>
+    <li>Collapsed: width-collapsed (56px), Labels/Badges/Chevrons/Group-Labels und Unterpunkte (__submenu-items) hidden, Items zentriert; der Untermenue-Knopf bleibt.</li>
+    <li>Mobile (&lt;md): fixed, translateX(-100%), --open: translateX(0). Backdrop dahinter. --overlay (+ .nc-sidebar-backdrop--overlay) erzwingt diese Lage auf jeder Fensterbreite. Geschlossen ist die Overlay-Sidebar visibility: hidden (laeuft in der Transition mit) und damit auch ohne JS aus der Tab-Folge (Entscheidung 03.10.2026, nav-a11y).</li>
+    <li>Fokus-Falle (Entscheidung 03.10.2026, sidebar-falle): Die offene Overlay-Sidebar mit Backdrop verhaelt sich wie ein Dialog — Fokus beim Oeffnen in die Sidebar (aria-current, sonst erstes Element), Tab/Shift+Tab bleiben drin, Escape und Klick auf den Backdrop schliessen, Geschwister der Sidebar und ihrer Vorfahren (ausser dem Backdrop) werden inert; beim Schliessen entfernt neo-behaviors nur das inert, das es selbst gesetzt hat, und gibt den Fokus an den Ausloeser zurueck. Desktop-Lage (kein Overlay): keine Falle.</li>
+  </ul>
+</section>
+
+</div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Root: &lt;nav aria-label='Seitennavigation'&gt;. Items: &lt;a&gt; oder &lt;button&gt;. Aktives Item: aria-current='page'. Sub-Menu-Trigger: aria-expanded='true|false'. Collapsed-Toggle: aria-label='Navigation einklappen/ausklappen'. Mobile: modal wie ein Dialog — Fokus-Falle, Rest der Seite inert, Escape und Klick auf den Backdrop schliessen, Fokus zurueck zum Ausloeser; geschlossen nicht in der Tab-Folge (Entscheidung 03.10.2026).</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: variant = collapsed</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-label</code></li>
+      <li>Collapsed: Items zeigen nur Icons — aria-label oder title auf jedem Item fuer Screen Reader.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

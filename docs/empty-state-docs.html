@@ -56,6 +56,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -187,23 +188,54 @@
         <!-- TAB 2: Style -->
         <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
 
-          <section class="docs__section" id="style-tokens">
-            <h2 class="docs__section-title">Component Tokens</h2>
-            <table class="docs__table">
-              <thead><tr><th>Token</th><th>Default</th><th>Beschreibung</th></tr></thead>
-              <tbody>
-                <tr><td><code class="docs__token">--nc-empty-state-padding</code></td><td>var(--fnd-spacing-08)</td><td>Innenabstand des Containers</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-gap</code></td><td>var(--fnd-spacing-04)</td><td>Abstand zwischen Elementen</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-icon-size</code></td><td>48px</td><td>Icon-Gr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>Icon-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-title-size</code></td><td>var(--fs-lg)</td><td>Titel-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>Titel-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-desc-size</code></td><td>var(--fs-sm)</td><td>Beschreibungs-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Beschreibungs-Farbe</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-max-width</code></td><td>360px</td><td>Maximale Inhaltsbreite</td></tr>
-              </tbody>
-            </table>
-          </section>
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geometry</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-empty-state-padding</code></td><td>56px</td><td>var(--fnd-spacing-10)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-gap</code></td><td>16px</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-max-width</code></td><td>400px</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Icon</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-empty-state-icon-size</code></td><td>64px</td><td>var(--fnd-size-xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Typography</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-empty-state-title-size</code></td><td>var(--fs-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-title-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-title-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-desc-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Action</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-empty-state-action-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
 
           <section class="docs__section" id="style-bem">
             <h2 class="docs__section-title">BEM-Klassen&uuml;bersicht</h2>
@@ -254,25 +286,33 @@
           </section>
 
           <section class="docs__section" id="api-tokens">
-            <h2 class="docs__section-title">CSS Custom Properties</h2>
-            <table class="docs__table docs__table--compact">
-              <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
-              <tbody>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-padding</code></td><td>&mdash;</td><td>var(--fnd-spacing-08)</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-gap</code></td><td>&mdash;</td><td>var(--fnd-spacing-04)</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-max-width</code></td><td>360px</td><td>&mdash;</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Icon</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-icon-size</code></td><td>48px</td><td>&mdash;</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-icon-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-tertiary)</td></tr>
-                <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-title-size</code></td><td>&mdash;</td><td>var(--fs-lg)</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-title-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-primary)</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-desc-size</code></td><td>&mdash;</td><td>var(--fs-sm)</td></tr>
-                <tr><td><code class="docs__token">--nc-empty-state-desc-color</code></td><td>&mdash;</td><td>var(--fnd-color-text-secondary)</td></tr>
-              </tbody>
-            </table>
-          </section>
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Geometry</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-padding</code></td><td>56px</td><td>var(--fnd-spacing-10)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-gap</code></td><td>16px</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-max-width</code></td><td>400px</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Icon</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-icon-size</code></td><td>64px</td><td>var(--fnd-size-xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-icon-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>var(--fnd-color-text-tertiary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Typography</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-title-size</code></td><td>var(--fs-lg)</td><td>var(--fs-lg)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-title-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>var(--fnd-font-weight-semibold)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-title-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-desc-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-desc-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Action</td></tr>
+      <tr><td><code class="docs__token">--nc-empty-state-action-gap</code></td><td>12px</td><td>var(--fnd-spacing-03)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
 
           <section class="docs__section" id="api-slots">
             <h2 class="docs__section-title">Slots / Element-Struktur</h2>
@@ -296,6 +336,58 @@
 
 &lt;/div&gt;</div>
           </section>
+
+                  <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Flex-Column-Container, zentriert (align-items + text-align: center).</li>
+    <li>max-width: 400px + margin-inline: auto — begrenzt die Breite und zentriert horizontal.</li>
+    <li>Icon: grosses dekoratives SVG (64px Standard), stroke-basiert, aria-hidden='true'.</li>
+    <li>Title: Heading (h2/h3 je nach Kontext), font-heading Familie.</li>
+    <li>Description: sekundaere Farbe, max-width via prose-max-width fuer Lesbarkeit.</li>
+    <li>Actions: Flex-Row mit gap fuer Button(s), margin-top fuer Abstand.</li>
+    <li>Compact-Modifier: reduziertes Padding (spacing-06), kleinere Icon/Title/Desc Groessen.</li>
+    <li>Full-Modifier: min-height: 100% — fuellt den gesamten Container.</li>
+  </ul>
+</section>
+
+</div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Informatives Pattern, nicht interaktiv. Icon ist dekorativ (aria-hidden='true'). Heading muss hierarchisch korrekt sein (h2/h3 je nach Seitenstruktur). CTA-Button folgt normalen Button-A11y-Regeln.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
 

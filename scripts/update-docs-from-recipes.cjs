@@ -208,6 +208,23 @@ function generateTokenGroupTable(group, tokenMap) {
 }
 
 // ---------------------------------------------------------------------------
+// Token-Namespace: aus dem Block-Namen; ist die Wurzel ein BEM-Element
+// (.nc-nav__link), gibt es keinen Token-Namensraum --nc-nav__link-* — dann
+// gemeinsamer Praefix der Recipe-Tokens (z. B. --nc-nav-mol-*).
+// ---------------------------------------------------------------------------
+function tokenNamespace(rootClass, styling) {
+  const block = rootClass.replace(/^\./, '');
+  if (!block.includes('__')) return `--${block}-*`;
+  const toks = Object.values(styling?.tokenGroups || {}).flatMap((g) => g.tokens || [])
+    .map((t) => (typeof t === 'string' ? t : t?.token)).filter(Boolean);
+  if (!toks.length) return `--${block}-*`;
+  let praefix = toks[0];
+  for (const t of toks) while (!t.startsWith(praefix)) praefix = praefix.slice(0, -1);
+  praefix = praefix.slice(0, praefix.lastIndexOf('-') + 1);
+  return praefix.length > 3 ? `--${praefix}*` : `--${block}-*`;
+}
+
+// ---------------------------------------------------------------------------
 // API Tab
 // ---------------------------------------------------------------------------
 function generateApiTab(recipe, tokenMap) {
@@ -229,7 +246,7 @@ function generateApiTab(recipe, tokenMap) {
   lines.push('    <tbody>');
   lines.push(`      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">${esc(rootClass)}</code></td></tr>`);
   lines.push(`      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">${esc(rootClass.replace(/^\./, ''))}</code></td></tr>`);
-  lines.push(`      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--${rootClass.replace(/^\./, '')}-*</code></td></tr>`);
+  lines.push(`      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">${esc(tokenNamespace(rootClass, styling))}</code></td></tr>`);
   lines.push(`      <tr><td><strong>Status</strong></td><td>${meta.status || 'stable'}</td></tr>`);
   lines.push(`      <tr><td><strong>Interaktiv</strong></td><td>${isInteractive ? 'Ja' : 'Nein'}</td></tr>`);
   lines.push('    </tbody>');
@@ -518,13 +535,25 @@ const SUB_COMPONENT_MAP = {
   'form-section': 'form-layout',
   'fieldset': 'form-layout',
   'validation-summary': 'form-layout',
+  // Nav-Molecules haben keine eigene Seite: die Seite „Navigation“
+  // (nav-atoms) zeigt Atoms und Molecules (Offene Punkte, 09.10.2026).
+  'nav-molecules': 'nav-atoms',
 };
 
 // ---------------------------------------------------------------------------
 // Doc File Matching
 // ---------------------------------------------------------------------------
+// Recipes, deren Doku in einer handgepflegten Seite ohne AUTO-Bloecke steht.
+// Ihr links.docs zeigt auf diese Seite; ohne diese Liste wuerde der Abgleich
+// dort ganze Tab-Panels ersetzen (Offene Punkte, 09.10.2026).
+const NUR_VERWEIS = new Set([
+  'toggle-group', // docs/content/toggle.html — Toggle Button + Toggle Group
+  'icon',         // docs/content/icons.html — Foundation-Seite Icons
+]);
+
 function findDocFile(recipe) {
   const component = recipe.meta.component;
+  if (NUR_VERWEIS.has(component)) return null;
 
   // Check sub-component mapping first
   const parentName = SUB_COMPONENT_MAP[component];

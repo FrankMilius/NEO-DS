@@ -1,5 +1,5 @@
 # toggle-group Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.0.1 | Status: stable | Layer: atom
 
 Tags: `interactive`, `selection`, `group`, `toolbar`, `multi-select`
 

@@ -54,6 +54,7 @@
           <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
           <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
         </div>
       </div>
 
@@ -216,16 +217,16 @@
             <table class="docs__table">
               <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
-                <tr><td><code class="docs__token">--nc-dropdown-bg</code></td><td>var(--fnd-color-background-base)</td><td>Men&uuml;-Hintergrund</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-bg</code></td><td>var(--fnd-color-surface-elevated)</td><td>Men&uuml;-Hintergrund</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-border</code></td><td>var(--fnd-color-border-secondary)</td><td>Rahmenfarbe</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-border-width</code></td><td>1px</td><td>Rahmenbreite</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-radius</code></td><td>8px</td><td>Border-Radius</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-radius</code></td><td>4px</td><td>Border-Radius</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-shadow</code></td><td>var(--fnd-elevation-floating)</td><td>Box-Shadow</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-padding</code></td><td>4px</td><td>Innen-Padding</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-min-width</code></td><td>180px</td><td>Minimale Breite</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-max-height</code></td><td>320px</td><td>Maximale H&ouml;he (scrollbar)</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-z-index</code></td><td>var(--fnd-z-dropdown)</td><td>Z-Index</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-animation-duration</code></td><td>150ms</td><td>Eingangsanimations-Dauer</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-animation-duration</code></td><td>var(--fnd-motion-duration-150)</td><td>Eingangsanimations-Dauer</td></tr>
               </tbody>
             </table>
           </section>
@@ -236,7 +237,7 @@
               <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
               <tbody>
                 <tr><td><code class="docs__token">--nc-dropdown-item-height</code></td><td>32px</td><td>Item-Mindest-H&ouml;he</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-item-padding</code></td><td>8px 12px</td><td>Item-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>Item-Padding</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-item-radius</code></td><td>4px</td><td>Item Border-Radius</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-item-color</code></td><td>var(--fnd-color-text-primary)</td><td>Item-Textfarbe</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-item-bg-hover</code></td><td>var(--fnd-color-background-hover)</td><td>Item Hover-Hintergrund</td></tr>
@@ -246,7 +247,7 @@
                 <tr><td><code class="docs__token">--nc-dropdown-item-icon-color</code></td><td>var(--fnd-color-text-secondary)</td><td>Icon-Farbe</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-item-gap</code></td><td>8px</td><td>Abstand Icon &mdash; Label</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-item-font-size</code></td><td>var(--fs-sm)</td><td>Item-Schriftgr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-item-font-weight</code></td><td>regular (400)</td><td>Item-Schriftgewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-item-font-weight</code></td><td>var(--fnd-font-weight-regular)</td><td>Item-Schriftgewicht</td></tr>
               </tbody>
             </table>
           </section>
@@ -269,12 +270,49 @@
               <tbody>
                 <tr><td><code class="docs__token">--nc-dropdown-group-label-color</code></td><td>var(--fnd-color-text-tertiary)</td><td>Gruppen-Label-Farbe</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-group-label-size</code></td><td>var(--fs-xs)</td><td>Gruppen-Label-Gr&ouml;&szlig;e</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-group-label-weight</code></td><td>semibold (600)</td><td>Gruppen-Label-Gewicht</td></tr>
-                <tr><td><code class="docs__token">--nc-dropdown-group-label-padding</code></td><td>8px 12px</td><td>Gruppen-Label-Padding</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td>Gruppen-Label-Gewicht</td></tr>
+                <tr><td><code class="docs__token">--nc-dropdown-group-label-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>Gruppen-Label-Padding</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-separator-color</code></td><td>var(--fnd-color-border-secondary)</td><td>Separator-Farbe</td></tr>
                 <tr><td><code class="docs__token">--nc-dropdown-separator-margin</code></td><td>4px</td><td>Separator-Abstand</td></tr>
               </tbody>
             </table>
+          </section>
+
+          <section class="docs__section" id="style-weitere">
+            <h2 class="docs__section-title">Weitere Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Checkable Items</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dropdown-check-size</code></td><td>16px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-check-color</code></td><td>var(--fnd-color-interactive-default)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-check-gap</code></td><td>8px</td><td>var(--fnd-spacing-02)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Submenu</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dropdown-submenu-indicator-size</code></td><td>12px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-submenu-indicator-color</code></td><td>var(--fnd-color-text-tertiary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-submenu-offset</code></td><td>0px</td><td>Horizontaler Versatz des Submenus</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Footer</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-dropdown-footer-padding</code></td><td>var(--fnd-spacing-02) var(--fnd-spacing-03)</td><td>8px 12px</td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-footer-bg</code></td><td>var(--fnd-color-background-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-dropdown-footer-border-color</code></td><td>var(--nc-dropdown-separator-color)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
           </section>
 
           <section class="docs__section" id="style-bem">
@@ -317,6 +355,78 @@
             </table>
           </section>
 
+          <section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-dropdown</code></td><td>Block</td><td>dropdown-menu-Container</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__trigger</code></td><td>Element</td><td>trigger</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__menu</code></td><td>Element</td><td>menu</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item</code></td><td>Element</td><td>item</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item-check</code></td><td>Element (optional)</td><td>item-check</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item-icon</code></td><td>Element (optional)</td><td>item-icon</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item-label</code></td><td>Element (optional)</td><td>item-label</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item-shortcut</code></td><td>Element (optional)</td><td>item-shortcut</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__submenu-indicator</code></td><td>Element (optional)</td><td>submenu-indicator</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__group</code></td><td>Element (optional)</td><td>group</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__group-label</code></td><td>Element (optional)</td><td>group-label</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__separator</code></td><td>Element (optional)</td><td>separator</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__footer</code></td><td>Element (optional)</td><td>footer</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Placement-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-dropdown__menu--bottom-start</code></td><td>bottom-start</td><td>Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__menu--bottom-end</code></td><td>bottom-end</td><td>Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__menu--top-start</code></td><td>top-start</td><td>Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__menu--top-end</code></td><td>top-end</td><td>Positionierung des Menues relativ zum Trigger — bottom-start (Standard), bottom-end, top-start, top-end. Empfehlung: Floating UI fuer dynamisches Auto-Placement.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Selection Mode-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Auswahl-Modus: none (Standard, reine Aktionen), single (Radio-Auswahl, nur ein Item aktiv), multiple (Checkbox-Auswahl, mehrere Items aktiv)</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown--checkable</code></td><td>single</td><td>Auswahl-Modus: none (Standard, reine Aktionen), single (Radio-Auswahl, nur ein Item aktiv), multiple (Checkbox-Auswahl, mehrere Items aktiv)</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown--checkable</code></td><td>multiple</td><td>Auswahl-Modus: none (Standard, reine Aktionen), single (Radio-Auswahl, nur ein Item aktiv), multiple (Checkbox-Auswahl, mehrere Items aktiv)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Content-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>plain</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-icons</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>grouped</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-shortcuts</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-submenu</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>with-footer</td><td>Inhaltsvariante — plain (nur Items), with-icons (Items mit Icons), grouped (Items in Gruppen mit Label + Separator), with-shortcuts (Items mit Tastaturkuerzel), with-submenu (Items mit Submenu-Indikator), with-footer (permanenter Footer-Bereich)</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Item Variant-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>default</td><td>Variante des einzelnen Items — default (neutral), danger (destruktive Aktion)</td></tr>
+      <tr><td><code class="docs__token">.nc-dropdown__item--danger</code></td><td>danger</td><td>Variante des einzelnen Items — default (neutral), danger (destruktive Aktion)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
           <section class="docs__section" id="api-html">
             <h2 class="docs__section-title">HTML-Struktur</h2>
             <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Vollst&auml;ndiges Dropdown</h3>
@@ -348,6 +458,33 @@
             </div>
           </section>
 
+          <section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Root: inline-flex Wrapper mit Trigger-Button und Menu-Panel.</li>
+    <li>Trigger: &lt;button aria-haspopup='true' aria-expanded='true|false'&gt;.</li>
+    <li>Menu: position:absolute, role='menu'. Versteckt via [hidden].</li>
+    <li>Positionierung: --bottom-start, --bottom-end, --top-start, --top-end Modifier. Empfehlung: Auto-Placement via Floating UI (computePosition + flip + shift + offset) fuer viewportabhaengige Positionierung. CSS-Modifier als Fallback fuer statische Anwendungsfaelle.</li>
+    <li>Auto-Placement Pattern: import { computePosition, flip, shift, offset } from '@floating-ui/dom'; computePosition(trigger, menu, { placement: 'bottom-start', middleware: [offset(4), flip(), shift({ padding: 8 })] });</li>
+    <li>Items: role='menuitem', flex-Layout mit gap fuer Check + Icon + Label + Shortcut + Submenu-Indicator.</li>
+    <li>Checkable Items (single): role='menuitemradio', aria-checked='true|false'. Nur ein Item gleichzeitig checked. Check-Icon (Haekchen) links im Item, reservierte Spalte via .nc-dropdown--checkable.</li>
+    <li>Checkable Items (multiple): role='menuitemcheckbox', aria-checked='true|false'. Mehrere Items gleichzeitig checked.</li>
+    <li>Submenu: Parent-Item hat aria-haspopup='menu' + aria-expanded='true|false'. Submenu oeffnet sich rechts (LTR) oder links (RTL). Oeffnung via Hover (300ms Delay) oder ArrowRight. Schliessung via ArrowLeft oder Hover-out. Chevron-Icon (.nc-dropdown__submenu-indicator) zeigt Submenu-Existenz an.</li>
+    <li>Footer: Permanenter Bereich am unteren Rand mit eigener Border-Top. Nicht scrollbar (sticky). Typisch: 'Alle anzeigen'-Link, Hilfetext, Aktions-Buttons.</li>
+    <li>Danger-Item: Rote Farbe (feedback-danger), eigener Hover-BG.</li>
+    <li>Icons: 16px, dekorativ. Shortcut: monospace, rechtsbuendig.</li>
+    <li>Group-Label: uppercase, letter-spacing, user-select:none.</li>
+    <li>Separator: border-top, horizontale Trennlinie zwischen Gruppen.</li>
+    <li>Animation: fnd-dropdown-enter Keyframe, reduced-motion: none.</li>
+  </ul>
+</section>
+
+
+        </div>
+
+        <!-- TAB 4: Accessibility -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
           <section class="docs__section" id="api-a11y">
             <h2 class="docs__section-title">Accessibility</h2>
             <table class="docs__table">
@@ -361,6 +498,82 @@
               </tbody>
             </table>
           </section>
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Trigger: aria-haspopup='true', aria-expanded='true|false'. Menu: role='menu'. Items: role='menuitem'. Keyboard: ArrowUp/Down navigiert, Enter/Space aktiviert, Escape schliesst. Focus auf erstes Item beim Oeffnen.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: Spezialbedingung</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-disabled</code></li>
+      <li>Disabled Items: aria-disabled='true' oder disabled-Attribut. Nicht fokussierbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: itemVariant = danger</h4>
+    <ul>
+      <li>Danger-Items: Farbe allein ist kein Signal — Label muss die destruktive Aktion beschreiben (z.B. 'Loeschen').</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: selectionMode = single</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-menuitemradio</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-checked</code></li>
+      <li>Single-Select: Items muessen role='menuitemradio' und aria-checked='true|false' haben. Screen Reader meldet 'Radiobutton, aktiviert'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: selectionMode = multiple</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">role-menuitemcheckbox</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-checked</code></li>
+      <li>Multi-Select: Items muessen role='menuitemcheckbox' und aria-checked='true|false' haben. Screen Reader meldet 'Kontrollkaestchen, aktiviert'.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: content = with-submenu</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-haspopup-menu</code></li>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">aria-expanded</code></li>
+      <li>Submenu-Item: aria-haspopup='menu', aria-expanded='true|false'. Keyboard: ArrowRight oeffnet Submenu, ArrowLeft/Escape schliesst es.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
 
         </div>
       </div>
