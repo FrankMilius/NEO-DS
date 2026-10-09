@@ -19,6 +19,8 @@
 //   </div>
 // ==========================================================================
 
+@use '../01-tools' as *;
+
 .nc-prose {
   --prose-measure: var(--mod-prose-measure, var(--container-prose, 72ch));
   --prose-gutter:  var(--mod-prose-gutter, var(--container-padding-inline, var(--fnd-spacing-06)));
@@ -85,4 +87,31 @@
     minmax(0, calc(var(--container-content) - var(--prose-measure))) [content-end]
     minmax(0, calc(var(--container-wide) - var(--container-content))) [wide-end]
     1fr [full-end];
+}
+
+// ── Lange Woerter in Zwischenueberschriften (Restpunkte 09.10.2026, prosa-umbruch) ──
+// Deutsche Komposita in h2/h3 des Body-Felds liefen ueber den Rand: bei 320 px
+// „Zwischenüberschrift" 69 px, „Informationssicherheitsmanagementsystem" auch
+// bei 1280 px noch 173 px (Seite scrollte waagerecht). Gilt fuer die Prosa des
+// Body-Felds (.nc-prose) und den Prosa-Wrapper der News/Events (.u-prose; die
+// Regel steht hier und nicht in 10-utilities, weil sie zur Prosa gehoert).
+//
+// - overflow-wrap: break-word an allen Breiten: greift NUR, wenn ein Wort
+//   nicht in die Zeile passt (veraendert die min-content-Breite nicht, anders
+//   als anywhere). Ueberschriften ohne Ueberlauf bleiben pixelgleich.
+// - hyphens: auto nur unter Tablet (< 768 px): dort trennt der Browser mit
+//   Strich statt hart zu brechen. Ab Tablet bleibt die Silbentrennung aus —
+//   sie wuerde auch Ueberschriften OHNE Ueberlauf neu umbrechen (Zeilenenden
+//   aendern sich), und dort reicht die Breite fuer uebliche Woerter.
+//   hyphenate-limit-chars: nur Woerter ab 12 Zeichen, je Teil mindestens 5 —
+//   kurze Woerter umbrechen weiter an Wortgrenzen. Greift nur mit lang-Attribut
+//   (Drupal setzt es auf <html>) und wo der Browser ein Woerterbuch hat.
+.nc-prose :is(h1, h2, h3, h4, h5, h6),
+.u-prose :is(h1, h2, h3, h4, h5, h6) {
+  overflow-wrap: break-word;
+
+  @include mobile-only {
+    hyphens: auto;
+    hyphenate-limit-chars: 12 5 5;
+  }
 }

@@ -1,5 +1,5 @@
 # prose Component Spec
-> Version 1.2.1 | Status: stable | Layer: object
+> Version 1.3.0 | Status: stable | Layer: object
 
 Tags: `layout`, `objects`, `lesen`, `editorial`
 

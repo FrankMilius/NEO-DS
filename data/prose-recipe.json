@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "prose",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -17,6 +17,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Restpunkte 09.10.2026 (prosa-umbruch; Freigabe ausstehend): Lange Woerter in Zwischenueberschriften (h1-h6 in .nc-prose und .u-prose) liefen ueber den Rand — bei 320 px „Zwischenüberschrift\" 69 px, „Informationssicherheitsmanagementsystem\" auch bei 1280 px 173 px, die Seite scrollte waagerecht (320 px: 445 px). Jetzt overflow-wrap: break-word an allen Breiten (greift nur bei Ueberlauf, aendert die min-content-Breite nicht — Ueberschriften ohne Ueberlauf pixelgleich) und unter 768 px hyphens: auto mit hyphenate-limit-chars: 12 5 5 (Trennstrich statt hartem Bruch, nur Woerter ab 12 Zeichen). Ab Tablet keine Silbentrennung: sie braeche auch Ueberschriften ohne Ueberlauf neu um. Greift mit html lang (Drupal setzt es) und wo der Browser ein Woerterbuch hat.",
+          "Gemessen: Ueberlauf 0 px bei 320/375/768/1024/1280 px, kein waagerechtes Scrollen mehr; Ueberschriften ohne Ueberlauf unveraendert."
+        ]
+      },
       {
         "version": "1.2.1",
         "changes": [
