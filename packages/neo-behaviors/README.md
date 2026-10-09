@@ -66,7 +66,7 @@ Einbinden im Theme `neo_fe` (`neo_fe.libraries.yml`):
 
 ```yaml
 neo-behaviors:
-  version: 0.11.2
+  version: 0.11.3
   js:
     js/neo-behaviors.js: { attributes: { defer: true } }
   dependencies:
