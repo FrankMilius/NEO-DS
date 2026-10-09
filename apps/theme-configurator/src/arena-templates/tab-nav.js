@@ -10,7 +10,9 @@
 // Fortschrittsbalken des aktiven Tabs (CSS-Keyframes des DS). Die Zellen
 // zeigen das Standbild (autoplay off); die Taste „Abspielen" der RecipeArena
 // (export abspielen) schaltet autoplay an, Anhalten wieder aus — den
-// Tabwechsel danach macht auf der Website neo-theme.js, die Arena nicht.
+// Tabwechsel und den Pause-Knopf macht auf der Website das Behavior
+// solution-tabs (neo-behaviors, Plan v4, Phase 1), die Arena nicht; es
+// ist im Recipe solution-tabs „Ausprobieren".
 // Rahmen ra-desktop: der Block ist fuer die Seitenbreite gebaut.
 // Flaeche (Entscheidung 06.10.2026): wie im Twig steht der Block in
 // section.nc-section.nc-section--full.nc-solution-tabs-section > .nc-container
@@ -36,7 +38,7 @@ export default (zelle, m) => `<div class="ra-desktop">
 
 /** Animierter Block: Standbild, Autoplay-Fortschritt mit „Abspielen" (Plan v3, Phase 4). */
 export const abspielen = {
-  hinweis: 'Autoplay an: der Fortschrittsbalken des aktiven Tabs läuft (CSS des DS). Den Tabwechsel macht auf der Website neo-theme.js.',
+  hinweis: 'Autoplay an: der Fortschrittsbalken des aktiven Tabs läuft (CSS des DS). Den Tabwechsel und den Pause-Knopf macht auf der Website das Behavior solution-tabs (Ausprobieren unter solution-tabs).',
   starten (zelle) {
     const wurzeln = [...zelle.querySelectorAll('.nc-tab-nav[data-autoplay]')]
     for (const w of wurzeln) w.setAttribute('data-autoplay', 'on')

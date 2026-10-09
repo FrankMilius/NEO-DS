@@ -4439,6 +4439,261 @@
     BAU[darstellung](container, opts, dok);
   }
 
+  // packages/neo-behaviors/solution-tabs.js
+  var TEXTE2 = {
+    de: { pause: "Automatische Wiedergabe anhalten", play: "Automatische Wiedergabe fortsetzen" },
+    en: { pause: "Pause automatic playback", play: "Resume automatic playback" }
+  };
+  var SYMBOL = '<svg class="nc-solution-tabs__autoplay-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="nc-solution-tabs__autoplay-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="nc-solution-tabs__autoplay-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>';
+  var VORGABE_MS = 7e3;
+  function spracheVon2(el) {
+    var _a;
+    const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
+    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
+  }
+  function taktDauer(wurzel) {
+    const ansicht = wurzel.ownerDocument.defaultView;
+    let roh = "";
+    try {
+      roh = (ansicht == null ? void 0 : ansicht.getComputedStyle(wurzel).getPropertyValue("--nc-solution-tabs-autoplay-duration")) || "";
+    } catch {
+      roh = "";
+    }
+    if (!roh.trim()) roh = wurzel.style.getPropertyValue("--nc-solution-tabs-autoplay-duration");
+    const m = /^\s*([\d.]+)\s*(ms|s)?\s*$/.exec(roh || "");
+    if (!m) return VORGABE_MS;
+    const zahl = parseFloat(m[1]);
+    if (!(zahl > 0)) return VORGABE_MS;
+    return m[2] === "ms" ? zahl : zahl * 1e3;
+  }
+  function reduzierteBewegung(wurzel) {
+    var _a, _b;
+    const ansicht = wurzel.ownerDocument.defaultView;
+    return !!((_b = (_a = ansicht == null ? void 0 : ansicht.matchMedia) == null ? void 0 : _a.call(ansicht, "(prefers-reduced-motion: reduce)")) == null ? void 0 : _b.matches);
+  }
+  var solutionTabs = {
+    id: "solution-tabs",
+    selektor: ".nc-solution-tabs",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const liste = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-solution-tabs__tablist")
+      );
+      if (!liste) return;
+      const dok = wurzel.ownerDocument;
+      const ansicht = dok.defaultView || window;
+      const tabs2 = () => (
+        /** @type {HTMLElement[]} */
+        [...liste.querySelectorAll(".nc-solution-tabs__tab")]
+      );
+      const vertikal = liste.getAttribute("aria-orientation") === "vertical" || wurzel.classList.contains("nc-solution-tabs--vertical");
+      const panelVon = (tab) => {
+        const id = tab.getAttribute("aria-controls");
+        return id ? (
+          /** @type {HTMLElement|null} */
+          wurzel.querySelector("#" + CSS.escape(id))
+        ) : null;
+      };
+      const wertVon2 = (tab) => tab.id || (tab.textContent || "").trim();
+      const gewaehlt = () => tabs2().find((t) => t.getAttribute("aria-selected") === "true") || null;
+      function zeige(tab) {
+        for (const t of tabs2()) {
+          const an = t === tab;
+          t.setAttribute("aria-selected", String(an));
+          t.tabIndex = an ? 0 : -1;
+          const panel = panelVon(t);
+          if (panel) {
+            panel.classList.toggle("is-active", an);
+            panel.hidden = !an;
+          }
+        }
+      }
+      const erster = gewaehlt() || tabs2()[0];
+      if (erster) zeige(erster);
+      function waehle2(tab, fokus2) {
+        const vorher = gewaehlt();
+        if (fokus2) tab.focus();
+        if (vorher === tab) return;
+        zeige(tab);
+        sende(wurzel, "solution-tabs-change", { value: wertVon2(tab), previousValue: vorher ? wertVon2(vorher) : null });
+      }
+      const autoplay = wurzel.dataset.autoplay === "on";
+      const reduziert = reduzierteBewegung(wurzel);
+      let knopf = (
+        /** @type {HTMLButtonElement|null} */
+        wurzel.querySelector(":scope > .nc-solution-tabs__autoplay")
+      );
+      const knopfVorher = knopf ? { hidden: knopf.hidden, html: knopf.innerHTML, playing: knopf.getAttribute("data-playing") } : null;
+      let angelegt = false;
+      if (!autoplay || reduziert) {
+        if (knopf) knopf.hidden = true;
+        bindeTabs(() => {
+        });
+        signal.addEventListener("abort", () => {
+          if (knopf && knopfVorher) knopf.hidden = knopfVorher.hidden;
+        });
+        return;
+      }
+      if (!knopf) {
+        knopf = dok.createElement("button");
+        knopf.type = "button";
+        knopf.className = "nc-solution-tabs__autoplay";
+        knopf.innerHTML = SYMBOL + '<span class="nc-solution-tabs__autoplay-label"></span>';
+        wurzel.insertBefore(knopf, liste);
+        angelegt = true;
+      }
+      const k = knopf;
+      k.hidden = false;
+      const texte = TEXTE2[spracheVon2(wurzel)];
+      const textPause = k.dataset.textPause || texte.pause;
+      const textPlay = k.dataset.textPlay || texte.play;
+      let beschriftung = (
+        /** @type {HTMLElement|null} */
+        k.querySelector(".nc-solution-tabs__autoplay-label")
+      );
+      if (!beschriftung) {
+        beschriftung = dok.createElement("span");
+        beschriftung.className = "nc-solution-tabs__autoplay-label";
+        k.append(beschriftung);
+      }
+      const label = beschriftung;
+      const dauer = taktDauer(wurzel);
+      let laeuft = true;
+      let maus = false;
+      let fokus = false;
+      let sichtbar = typeof ansicht.IntersectionObserver !== "function";
+      let spielt = false;
+      let timer = 0;
+      let rest = dauer;
+      let start = 0;
+      function zeigeKnopf() {
+        k.setAttribute("data-playing", String(laeuft));
+        label.textContent = laeuft ? textPause : textPlay;
+        wurzel.classList.toggle("is-stopped", !laeuft);
+      }
+      function schritt() {
+        timer = 0;
+        const alle = tabs2();
+        const jetzt = gewaehlt();
+        const naechster = alle[(alle.indexOf(
+          /** @type {HTMLElement} */
+          jetzt
+        ) + 1) % alle.length];
+        if (naechster) waehle2(naechster, false);
+        rest = dauer;
+        plane();
+      }
+      function plane() {
+        ansicht.clearTimeout(timer);
+        start = Date.now();
+        timer = ansicht.setTimeout(schritt, rest);
+      }
+      function stimme(grund, immer = false) {
+        const soll = laeuft && !maus && !fokus && sichtbar;
+        wurzel.classList.toggle("is-paused", laeuft && !soll);
+        if (soll === spielt) {
+          if (immer) sende(wurzel, "solution-tabs-autoplay", { playing: soll, reason: grund });
+          return;
+        }
+        spielt = soll;
+        if (soll) plane();
+        else {
+          ansicht.clearTimeout(timer);
+          timer = 0;
+          rest = Math.max(0, rest - (Date.now() - start));
+        }
+        sende(wurzel, "solution-tabs-autoplay", { playing: soll, reason: grund });
+      }
+      function schalte(an, grund) {
+        if (laeuft === an) return;
+        laeuft = an;
+        if (an) {
+          rest = dauer;
+          maus = false;
+          fokus = false;
+        }
+        zeigeKnopf();
+        stimme(grund, true);
+      }
+      zeigeKnopf();
+      k.addEventListener("click", () => schalte(!laeuft, "knopf"), { signal });
+      bindeTabs(() => schalte(false, "wahl"));
+      wurzel.addEventListener("mouseenter", () => {
+        maus = true;
+        stimme("hover");
+      }, { signal });
+      wurzel.addEventListener("mouseleave", () => {
+        maus = false;
+        stimme("hover");
+      }, { signal });
+      const fokusDrin = (ziel) => !!ziel && wurzel.contains(ziel) && !k.contains(ziel);
+      wurzel.addEventListener("focusin", (e) => {
+        fokus = fokusDrin(e.target);
+        stimme("fokus");
+      }, { signal });
+      wurzel.addEventListener("focusout", (e) => {
+        fokus = fokusDrin(
+          /** @type {FocusEvent} */
+          e.relatedTarget
+        );
+        stimme("fokus");
+      }, { signal });
+      let beobachter = null;
+      if (!sichtbar) {
+        beobachter = new ansicht.IntersectionObserver((eintraege) => {
+          for (const e of eintraege) sichtbar = e.isIntersecting;
+          stimme("ausser-sicht");
+        }, { threshold: 0.3 });
+        beobachter.observe(wurzel);
+      }
+      stimme("ausser-sicht");
+      signal.addEventListener("abort", () => {
+        ansicht.clearTimeout(timer);
+        beobachter == null ? void 0 : beobachter.disconnect();
+        wurzel.classList.remove("is-paused", "is-stopped");
+        if (angelegt) k.remove();
+        else if (knopfVorher) {
+          k.hidden = knopfVorher.hidden;
+          k.innerHTML = knopfVorher.html;
+          if (knopfVorher.playing === null) k.removeAttribute("data-playing");
+          else k.setAttribute("data-playing", knopfVorher.playing);
+        }
+      });
+      function bindeTabs(handwahl) {
+        liste.addEventListener("click", (e) => {
+          var _a, _b;
+          const tab = (
+            /** @type {HTMLElement} */
+            (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-solution-tabs__tab")
+          );
+          if (!tab || !liste.contains(tab)) return;
+          handwahl();
+          waehle2(
+            /** @type {HTMLElement} */
+            tab,
+            false
+          );
+        }, { signal });
+        liste.addEventListener("keydown", (e) => {
+          var _a, _b;
+          const tab = (
+            /** @type {HTMLElement} */
+            (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-solution-tabs__tab")
+          );
+          if (!tab || !liste.contains(tab)) return;
+          const ziel = zielFuerTaste(e.key, tabs2(), tab, vertikal ? "vertikal" : "horizontal");
+          if (!ziel) return;
+          e.preventDefault();
+          handwahl();
+          waehle2(ziel, true);
+        }, { signal });
+      }
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -4476,6 +4731,11 @@
     "reference-page": referencePage,
     "expanding-panels": expandingPanels,
     "feature-accordion": featureAccordion,
+    // Website-Bauteil (Plan v4, Phase 1, 09.10.2026): Solution-Tabs und
+    // Tab-Nav (gleiche Wurzel). Nach den Inhaltsmodulen der Tab-Nav
+    // (expanding-panels, multiselect) — aeussere Bauteile zuletzt. In Drupal
+    // nur per nur
+    "solution-tabs": solutionTabs,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,

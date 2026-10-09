@@ -52,6 +52,7 @@ import { referencePage } from './reference-page.js'
 import { expandingPanels } from './expanding-panels.js'
 import { featureAccordion } from './feature-accordion.js'
 import { shot } from './shot.js'
+import { solutionTabs } from './solution-tabs.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
@@ -93,6 +94,11 @@ export const BEHAVIORS = Object.freeze({
   'reference-page': referencePage,
   'expanding-panels': expandingPanels,
   'feature-accordion': featureAccordion,
+  // Website-Bauteil (Plan v4, Phase 1, 09.10.2026): Solution-Tabs und
+  // Tab-Nav (gleiche Wurzel). Nach den Inhaltsmodulen der Tab-Nav
+  // (expanding-panels, multiselect) — aeussere Bauteile zuletzt. In Drupal
+  // nur per nur
+  'solution-tabs': solutionTabs,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "solution-tabs",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -14,16 +14,22 @@
     "rootElement": ".nc-solution-tabs",
     "slots": [
       {
+        "name": "autoplay",
+        "selector": ".nc-solution-tabs__autoplay",
+        "required": false,
+        "description": "Pause-/Abspiel-Knopf der Rotation (button type=button), im Markup VOR der Tableiste (erste Station in der Tab-Folge vor der bewegten Region). Symbol (svg __autoplay-icon mit __autoplay-pause/__autoplay-play, aria-hidden) + Beschriftung (__autoplay-label) „Automatische Wiedergabe anhalten“ bzw. „… fortsetzen“; data-playing waehlt das Symbol. Nur bei data-autoplay=on; bei prefers-reduced-motion [hidden]. Fehlt er, legt das Behavior ihn an."
+      },
+      {
         "name": "tablist",
         "selector": ".nc-solution-tabs__tablist",
         "required": true,
-        "description": "Tab-Leiste. role='tablist'. Horizontal oben oder vertikal seitlich (--vertical)."
+        "description": "Tab-Leiste. role='tablist', benannt per aria-labelledby (Ueberschrift des Blocks). Horizontal oben oder vertikal seitlich (--vertical)."
       },
       {
         "name": "tab",
         "selector": ".nc-solution-tabs__tab",
         "required": true,
-        "description": "Einzelner Tab. button[role='tab'] mit aria-selected/aria-controls. Enthaelt optionalen Index und Progress-Indikator."
+        "description": "Einzelner Tab. button[role='tab'] mit aria-selected/aria-controls und wanderndem tabindex (nur der gewaehlte 0). Enthaelt optionalen Index und Progress-Indikator."
       },
       {
         "name": "progress",
@@ -63,15 +69,15 @@
       }
     ],
     "notes": [
-      "Root .nc-solution-tabs setzt --nc-solution-tabs-accent (Default = -accent-default), per Panel via Inline-Style ueberschreibbar.",
-      "Tablist role='tablist'; horizontal (flex row) oder vertikal (--vertical, flex column, border-inline-start).",
-      "Tab button[role='tab'][aria-selected][aria-controls]; aktives Panel .is-active (display:grid).",
-      "Autoplay: data-autoplay='on' am Root; Progress-Balken animiert ueber --nc-solution-tabs-autoplay-duration; .is-paused pausiert (Hover/Fokus). JS rotiert die Tabs.",
-      "Vertikal: Progress wird zum vertikalen Akzent-Indikator (scaleY); Visual steht oben (order:-1).",
+      "Root .nc-solution-tabs setzt --nc-solution-tabs-accent (Default = -accent-default), per Panel via Inline-Style ueberschreibbar; die Akzentfarbe je Tab ist Daten (Theme), nicht Verhalten.",
+      "Reihenfolge in der Wurzel: [Knopf __autoplay] → Tablist role='tablist' (horizontal flex row oder vertikal --vertical, flex column, border-inline-start; aria-labelledby auf die Block-Ueberschrift) → Panels.",
+      "Tab button[role='tab'][aria-selected][aria-controls]; aktives Panel .is-active (display:grid), die anderen [hidden]. IDs stabil aus der Block-ID (<wurzel-id>-t<n>/-p<n>).",
+      "Autoplay: data-autoplay='on' am Root; Progress-Balken animiert ueber --nc-solution-tabs-autoplay-duration; .is-paused haelt den Balken an (Maus, Fokus im Block ausser auf dem Knopf, ausser Sicht); .is-stopped (Knopf oder Handwahl) zeigt keinen Balken. Den Takt macht das Behavior solution-tabs (ein setTimeout je Schritt, Restzeit nach einer Pause).",
+      "Vertikal: Progress wird zum vertikalen Akzent-Indikator (scaleY); Visual steht oben (order:-1); der Knopf nimmt eine eigene Rasterzeile ueber beiden Spalten.",
       "Variant contained: gefuellte Tabs ohne Underline/Progress.",
-      "Tastatur: ArrowLeft/Right (horizontal) bzw. ArrowUp/Down (vertikal) navigiert; Enter/Space aktiviert.",
+      "Tastatur: Pfeil rechts/links (horizontal) bzw. runter/hoch (vertikal) rundum, Pos1, Ende — waehlen und fokussieren (automatische Aktivierung); Enter/Space = nativer Klick.",
       "Responsive 880px: Panel einspaltig, Tablist horizontal scrollbar.",
-      "prefers-reduced-motion: keine Panel-/Feature-Animation, kein Autoplay-Progress."
+      "prefers-reduced-motion: keine Panel-/Feature-Animation, kein Autoplay, kein Knopf."
     ]
   },
   "api": null,
@@ -175,19 +181,115 @@
         {
           "token": "--nc-solution-tabs-text"
         }
+      ],
+      "Pause-Knopf": [
+        {
+          "token": "--nc-solution-tabs-autoplay-min-size"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-padding-inline"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-gap"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-radius"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-font-size"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-icon-size"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-margin-block"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-color"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-color-hover"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-border"
+        },
+        {
+          "token": "--nc-solution-tabs-autoplay-bg-hover"
+        }
       ]
     },
     "modTokens": []
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Erst der Knopf __autoplay (bei Autoplay), dann der gewaehlte Tab (wandernder tabindex), dann der Inhalt des Panels."
+    },
+    "ArrowRight": {
+      "action": "next",
+      "note": "Horizontal: naechsten Tab (rundum) waehlen und fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "ArrowLeft": {
+      "action": "previous",
+      "note": "Horizontal: vorherigen Tab (rundum) waehlen und fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "ArrowDown": {
+      "action": "next",
+      "note": "Vertikal (aria-orientation=vertical bzw. --vertical): wie Pfeil rechts."
+    },
+    "ArrowUp": {
+      "action": "previous",
+      "note": "Vertikal: wie Pfeil links."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Ersten Tab waehlen und fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "End": {
+      "action": "last",
+      "note": "Letzten Tab waehlen und fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einem Tab: nativer Klick, waehlt ihn (beendet die Rotation). Auf dem Knopf: haelt an bzw. setzt fort."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "solution-tabs-change": {
+      "bubbles": true,
+      "detail": {
+        "value": "string",
+        "previousValue": "string"
+      },
+      "note": "Gefeuert an der Wurzel bei jedem Tabwechsel (Klick, Taste, Takt). value/previousValue: id des Tabs, sonst sein Text; previousValue null, wenn vorher keiner gewaehlt war."
+    },
+    "solution-tabs-autoplay": {
+      "bubbles": true,
+      "detail": {
+        "playing": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel, wenn die Rotation anlaeuft oder ruht. reason = Ausloeser: \"knopf\" (anhalten/fortsetzen), \"wahl\" (Handwahl, dauerhaft), \"hover\" (Maus), \"fokus\" (Fokus im Block), \"ausser-sicht\" (IntersectionObserver; auch das erste Anlaufen im Bild). Knopf und Handwahl melden immer, auch wenn der Takt schon ruhte."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
-    "focusIndicator": null,
-    "assertions": [],
+    "focusIndicator": "Tabs 2px --fnd-color-interactive-focus, Abstand 2px; Knopf @include focus-ring",
+    "assertions": [
+      "2.2.2: Automatische Rotation nur auf Wunsch (data-autoplay=on) und nie mit prefers-reduced-motion; ein sichtbarer Knopf vor der Tableiste haelt sie an und setzt sie fort (Beschriftung wechselt: „Automatische Wiedergabe anhalten“/„… fortsetzen“). Eine Handwahl beendet sie dauerhaft; Maus und Fokus im Block halten sie vorübergehend an (.is-paused, auch der Balken), ausser Sicht ruht sie.",
+      "4.1.2: Tabs-Muster — tablist/tab/tabpanel, aria-selected, aria-controls, Panel aria-labelledby; Tableiste per aria-labelledby benannt; vertikal aria-orientation=vertical. Der Knopf ist ein button mit sichtbarer Beschriftung (Name = Text, kein aria-pressed).",
+      "2.1.1/2.4.3: Wandernder tabindex (nur der gewaehlte Tab in der Tab-Folge); Pfeiltasten rundum, Pos1/Ende; der Knopf steht in der Tab-Folge vor der Tableiste.",
+      "2.5.8: Knopf mindestens 2.5rem (40 px) hoch und breit (Ziel >= 24 x 24 px).",
+      "3.1.2: Knopftexte nach der Sprache der Seite bzw. des Blocks (lang; de/en), am Knopf ueberschreibbar per data-text-pause/data-text-play.",
+      "1.3.1: Produkt-Visual dekorativ (aria-hidden), Panel-Titel h3 (Sektions-h2 davor), Fortschrittsbalken und Knopfsymbol aria-hidden."
+    ],
     "overrides": []
   },
   "dependencies": [],
@@ -198,8 +300,8 @@
     "story": "stories/organisms/solution-tabs.stories.js",
     "arena": null,
     "drupal": [
-      "block--block-content--neo-solution-tabs.html.twig",
-      "block--inline-block--neo-solution-tabs.html.twig"
+      "block/block--block-content--neo-solution-tabs.html.twig",
+      "block/block--inline-block--neo-solution-tabs.html.twig"
     ],
     "docs": null
   }

@@ -173,8 +173,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/14,23:1/)
   })
 
-  it('tab-nav: 1.3.0, jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten beschrieben', () => {
-    const r = freigegeben('tab-nav', '1.3.0')
+  it('tab-nav: 1.4.0, jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
+    const r = freigegeben('tab-nav', '1.4.0')
     const slots = Object.fromEntries(r.anatomy.slots.map((s) => [s.element, s]))
     const scss = scssElemente('scss/scss/06-molecules/_tab-nav.scss', 'nc-tab-nav')
     for (const el of scss) expect(slots[el], el).toBeTruthy()
@@ -188,14 +188,18 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     const module = ['features', 'feature_list', 'bento', 'expanding', 'card_grid', 'hero', 'hero_tom', 'hero_tmob', 'text_media', 'form']
     const notizen = r.anatomy.domNotes.join(' ')
     for (const mod of module) expect(notizen, mod).toMatch(new RegExp(`\\b${mod}\\b`))
-    // kein Behavior in neo-behaviors: keine keyboard/events
+    // Verhalten teilt sie mit solution-tabs (Plan v4, Phase 1): keine eigenen keyboard/events
     expect(MIT_VERHALTEN).not.toContain('tab-nav')
+    expect(MIT_VERHALTEN).toContain('solution-tabs')
     expect(r.keyboard).toBeUndefined()
     expect(r.events).toBeUndefined()
-    expect(r.meta.source.behavior).toBeNull()
+    expect(r.meta.source.behavior).toMatch(/solution-tabs\.js/)
     expect(r.meta.source.drupal).toMatch(/neoTabNav/)
+    expect(r.komposition.find((k) => k.recipe === 'solution-tabs').hinweis).toMatch(/teilt dessen Verhalten/)
     expect(notizen).toMatch(/Pos1\/Ende/)
-    expect(r.a11y.base.assertions.join(' ')).toMatch(/2\.2\.2/)
+    // 2.2.2: Befund geschlossen — Pause-Knopf
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/2\.2\.2: .*Knopf/)
+    expect(r.a11y.base.assertions.join(' ')).not.toMatch(/fehlt \(Befund/)
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
   })
 
