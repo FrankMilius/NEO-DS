@@ -19200,7 +19200,8 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-table-block-thead-th-letter-spacing",
           "nc-table-block-is-scrolled-nc-compare-table-sticky-col-th-first-child-after-opacity",
-          "nc-table-block-stripe-bg"
+          "nc-table-block-stripe-bg",
+          "nc-table-block-col-min-width"
         ]
       }
     ],
@@ -19223,6 +19224,12 @@ export const componentTokenGroups = [
         "type": "color",
         "default": "var(--fnd-color-background-secondary)",
         "darkDefault": "var(--fnd-color-background-base)"
+      },
+      {
+        "id": "nc-table-block-col-min-width",
+        "label": "Col Min Width",
+        "type": "size",
+        "default": "9rem"
       }
     ]
   },

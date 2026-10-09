@@ -6,6 +6,7 @@
 // entscheidung tragen.
 // ==========================================================================
 
+@use 'sass:math';
 @use '../01-tools' as *;
 
 /* >>> aufgenommen: table-block */
@@ -148,3 +149,26 @@
   }
 }
 /* <<< aufgenommen: table-block */
+
+// Breite Tabellen (ab 5 Spalten; Restpunkte 09.10.2026, tabelle-breit).
+// Der Kopf bricht ab 5 Spalten an Wortgrenzen um (05-atoms/_table.scss). Damit
+// die Spalten dafuer breit genug bleiben:
+// - Der Zeilenkopf nimmt 30 % statt 40 % — bei 6 Spalten blieben den Werten
+//   sonst je 12 % (130 px bei 1280 px), mit 30 % je 14 % (151 px).
+// - Mindestbreite je Wertspalte (--nc-table-block-col-min-width): Ist der Block
+//   schmaler, scrollt er frueher (wie unter der Scroll-Grenze), statt die
+//   Spalten zu quetschen. Die Tabelle braucht dafuer
+//   Wertspalten x Mindestbreite / (1 - Anteil des Zeilenkopfs).
+// :has() zaehlt die Kopfzellen; 2-4 Spalten trifft keine Regel (pixelgleich).
+// Unter der Scroll-Grenze (data-scroll-active="true") gilt weiter max-content.
+$tbl-breit-erste: 30%;
+
+.nc-table-block:not([data-scroll-active="true"]) .nc-compare-table--full-width:has(thead th:nth-child(5)) :is(th, td):first-child {
+  width: $tbl-breit-erste;
+}
+
+@for $n from 5 through 10 {
+  .nc-table-block:not([data-scroll-active="true"]) > .nc-compare-table--full-width:has(thead th:nth-child(#{$n})) table {
+    min-width: calc(#{$n - 1} * var(--nc-table-block-col-min-width) / #{1 - math.div($tbl-breit-erste, 100%)});
+  }
+}

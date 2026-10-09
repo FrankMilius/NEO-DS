@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "table-block",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "Restpunkte 09.10.2026 (tabelle-breit; Freigabe ausstehend): Breite Tabellen ab 5 Spalten. Der Kopf lief mit nowrap auch auf dem Desktop ueber die Nachbarzellen (6 Spalten: 1280 px bis 149 px, 1440 px bis 130 px). Jetzt bricht er an Wortgrenzen um (compare-table 2.3.0); im Block nimmt der Zeilenkopf 30 % statt 40 %, und jede Wertspalte hat eine Mindestbreite (neues Token --nc-table-block-col-min-width, 9rem). Ist der Block schmaler, scrollt er frueher (6 Spalten: ab etwa 1100 px Viewport), statt die Spalten zu quetschen. Ueberlauf gemessen 0 px bei 800/1024/1280/1440 px.",
+          "Gezaehlt per :has(thead th:nth-child(n)), n = 5..10; unter der Scroll-Grenze (data-scroll-active=\"true\") gilt weiter max-content. Tabellen mit 2-4 Spalten trifft keine Regel: Breiten, Kopfhoehe, Stile unveraendert (pixelgleich)."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [

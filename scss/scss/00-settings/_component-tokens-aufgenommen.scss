@@ -221,6 +221,10 @@
   // background-base neu (Theme-Bereiche in _component-tokens.scss), weil
   // background-secondary dort gleich der Tabellenflaeche ist.
   --nc-table-block-stripe-bg: var(--fnd-color-background-secondary);
+  // Mindestbreite je Wertspalte bei breiten Tabellen (ab 5 Spalten): darunter
+  // scrollt der Block (Restpunkte 09.10.2026, tabelle-breit). 9rem fasst ein
+  // Kopfwort mit 12 Zeichen (Mono, Versalien) samt Zellpolster.
+  --nc-table-block-col-min-width: 9rem;
 }
 /* <<< aufgenommen: table-block */
 

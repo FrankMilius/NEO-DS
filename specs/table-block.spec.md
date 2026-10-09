@@ -1,5 +1,5 @@
 # table-block Component Spec
-> Version 1.4.0 | Status: stable | Layer: molecule
+> Version 1.5.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 

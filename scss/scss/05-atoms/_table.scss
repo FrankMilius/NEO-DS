@@ -85,6 +85,20 @@
   white-space: nowrap;
 }
 
+// Breite Tabellen (ab 5 Spalten): Der Kopf lief mit nowrap auch auf dem
+// Desktop ueber die Nachbarzellen (6 Spalten bei 1280 px: bis 149 px). Ab der
+// fuenften Spalte bricht der Kopf an Wortgrenzen um; overflow-wrap nur als
+// letzter Ausweg fuer ein Wort, das breiter als die Spalte ist, hyphens wo der
+// Browser ein Woerterbuch hat (html lang). Die Mindestbreite je Spalte, ab der
+// der Tabellen-Block scrollt, steht in 06-molecules/_table-block.scss.
+// Tabellen mit 2-4 Spalten trifft :has() nicht — sie bleiben pixelgleich
+// (Restpunkte 09.10.2026, tabelle-breit).
+.nc-compare-table:has(thead th:nth-child(5)) thead th {
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 // ---------------------------------------------------------------------------
 // Cells: <th> und <td>
 // ---------------------------------------------------------------------------
