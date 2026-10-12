@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "timeline",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -536,9 +536,22 @@
       "--mod-timeline-h-pad-block"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: Links und Knoepfe in den Karten (__cta) in Dokumentreihenfolge. Ein noch nicht eingeblendeter Eintrag wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "timeline-progress": {
+      "bubbles": true,
+      "detail": {
+        "progress": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn sich die Fuellhoehe der Linie aendert: Anteil der eingeblendeten Eintraege (0 bis 1, drei Stellen); bei prefers-reduced-motion oder ohne IntersectionObserver einmal 1 beim Binden."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

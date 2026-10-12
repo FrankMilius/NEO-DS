@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "timeline",
-    "version": "2.3.0",
+    "version": "2.4.0",
     "status": "stable",
     "tags": [
       "chronological",
@@ -18,6 +18,15 @@
       "storybook": "",
       "docs": "/docs/timeline-docs"
     },
+    "changelog": [
+      {
+        "version": "2.4.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026): Verhalten als Behavior timeline in neo-behaviors (nurAusdruecklich) statt Drupal.behaviors.neoTimeline in neo_fe/js/neo-theme.js — 1:1 uebernommen: Wurzel [data-timeline]; ohne Skript nichts versteckt (nc-timeline--progress setzt erst das Behavior); prefers-reduced-motion oder kein IntersectionObserver: keine Einblendung, --nc-timeline-progress 1; sonst Eintraege is-visible ab einem Drittel im Bild (threshold 0.34, rootMargin unten -10 %), Fuellhoehe = Anteil der sichtbaren Eintraege.",
+          "Neu: keyboard (keine eigene Bedienung), events timeline-progress { progress }; Abbinden nimmt Klasse, Custom Property und is-visible zurueck. Drupal: _neo_fe_behaviors_anhaengen($variables, ['timeline']) am Block neo_timeline. Ohne Website-Wirkung."
+        ]
+      }
+    ],
     "layer": "molecule",
     "pipeline": {
       "scss": [
@@ -30,6 +39,9 @@
         "block--inline-block--neo-timeline.html.twig"
       ],
       "docs": "docs/timeline-docs.html"
+    },
+    "source": {
+      "drupal": "neo_fe: block--block-content--neo-timeline.html.twig (inline_block per include) rendert <ol class=\"nc-timeline\" data-timeline>; Verhalten aus neo-behaviors timeline, eingeschaltet in neo_fe_preprocess_block per _neo_fe_behaviors_anhaengen($variables, ['timeline']) (vorher Drupal.behaviors.neoTimeline in js/neo-theme.js)."
     }
   },
   "anatomy": {
@@ -683,5 +695,20 @@
         "note": "<time datetime> auf jeder Zeitangabe. <ol> fuer chronologische Reihenfolge. Screen Reader liest top-to-bottom."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: Links und Knoepfe in den Karten (__cta) in Dokumentreihenfolge. Ein noch nicht eingeblendeter Eintrag wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
+  "events": {
+    "timeline-progress": {
+      "bubbles": true,
+      "detail": {
+        "progress": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn sich die Fuellhoehe der Linie aendert: Anteil der eingeblendeten Eintraege (0 bis 1, drei Stellen); bei prefers-reduced-motion oder ohne IntersectionObserver einmal 1 beim Binden."
+    }
+  }
 }

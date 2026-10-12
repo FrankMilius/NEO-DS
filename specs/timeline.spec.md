@@ -1,5 +1,5 @@
 # timeline Component Spec
-> Version 2.3.0 | Status: stable | Layer: molecule
+> Version 2.4.0 | Status: stable | Layer: molecule
 
 Tags: `chronological`, `content`, `layout`, `process`, `scroll`, `steps`
 
@@ -203,6 +203,16 @@ Base classes: `nc-timeline`
 | `--nc-timeline-reveal-duration` | — | — |
 | `--nc-timeline-reveal-glow` | — | — |
 | `--nc-timeline-node-glow` | — | — |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Keine eigene Bedienung: Links und Knoepfe in den Karten (__cta) in Dokumentreihenfolge. Ein noch nicht eingeblendeter Eintrag wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `timeline-progress` | Yes | `{"progress":"number"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

@@ -6049,6 +6049,69 @@
     }, { signal });
   }
 
+  // packages/neo-behaviors/timeline.js
+  var timeline = {
+    id: "timeline",
+    selektor: "[data-timeline]",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const eintraege = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-timeline__item")]
+      );
+      if (!eintraege.length) return;
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      const Beobachter = (
+        /** @type {any} */
+        globalThis.IntersectionObserver || /** @type {any} */
+        ansicht.IntersectionObserver
+      );
+      const vorher = wurzel.style.getPropertyValue("--nc-timeline-progress");
+      const hatteKlasse = wurzel.classList.contains("nc-timeline--progress");
+      let beobachter = null;
+      const gesetzt = [];
+      signal.addEventListener("abort", () => {
+        if (beobachter) beobachter.disconnect();
+        if (!hatteKlasse) wurzel.classList.remove("nc-timeline--progress");
+        if (vorher) wurzel.style.setProperty("--nc-timeline-progress", vorher);
+        else wurzel.style.removeProperty("--nc-timeline-progress");
+        for (const e of gesetzt) e.classList.remove("is-visible");
+      });
+      const fuelle = (wert) => {
+        wurzel.style.setProperty("--nc-timeline-progress", wert);
+        sende(wurzel, "timeline-progress", { progress: Number(wert) });
+      };
+      if (reduzierteBewegung2(wurzel) || typeof Beobachter !== "function") {
+        fuelle("1");
+        return;
+      }
+      wurzel.classList.add("nc-timeline--progress");
+      wurzel.style.setProperty("--nc-timeline-progress", "0");
+      const nachfuehren = () => {
+        const gesehen = eintraege.filter((e) => e.classList.contains("is-visible")).length;
+        fuelle((gesehen / eintraege.length).toFixed(3));
+      };
+      beobachter = new Beobachter((es) => {
+        for (const e of es) {
+          if (!e.isIntersecting) continue;
+          const el = (
+            /** @type {HTMLElement} */
+            e.target
+          );
+          if (!el.classList.contains("is-visible")) {
+            el.classList.add("is-visible");
+            gesetzt.push(el);
+          }
+          beobachter.unobserve(el);
+          nachfuehren();
+        }
+      }, { threshold: 0.34, rootMargin: "0px 0px -10% 0px" });
+      for (const e of eintraege) beobachter.observe(e);
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -6118,6 +6181,9 @@
     // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur
     // per nur
     video,
+    // Website-Bauteile (Plan v4, Phase 6b, 12.10.2026): Verhalten an fertigem
+    // Markup aus neo-theme.js. In Drupal nur per nur
+    timeline,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,
