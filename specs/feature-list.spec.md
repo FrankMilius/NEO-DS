@@ -1,5 +1,5 @@
 # feature-list Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -27,6 +27,7 @@ Root element: `.nc-feature-list`
 - Liste: Drupal.behaviors.neoFeatureList liest field_fl_items_json und baut ul > li > span.__icon + span.__item-text (derselbe Renderer fuer das Tab-Nav-Modul).
 - Bis 768 px eine Spalte, Medium immer oben (order 0), unabhaengig von der Lage.
 - Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG).
+- Video im Medium (Plan v4, Phase 3): YouTube/Vimeo als Fassade .nc-video-facade (Recipe video), Datei-Video nativ mit Bedienleiste.
 
 ## Variants
 ### Variante (`variante`)
@@ -66,6 +67,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 - Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Der Kreis #AEF359 ist nicht themefaehig, auf heller Flaeche schwach (nur Schmuck).
 - Eine Ueberschrift (h2 im Block-Kopf); die Liste ist eine echte <ul>.
 - Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche.
+- Datenschutz: YouTube/Vimeo erst nach Klick auf die Fassade (youtube-nocookie.com).
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-feature-list>` custom element:

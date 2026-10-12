@@ -20,6 +20,10 @@
 - [Component Spec (Markdown)](../specs/psychedelic-bg.spec.md)
 - [Component Spec (JSON)](../specs/psychedelic-bg.spec.json)
 
+## Dependencies
+
+- [`video`](../video/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/psychedelic-bg-recipe.json)

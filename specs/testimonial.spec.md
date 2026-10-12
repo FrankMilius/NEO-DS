@@ -1,5 +1,5 @@
 # testimonial Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `content`, `social-proof`
 
@@ -18,6 +18,7 @@ Root element: `.nc-testimonial`
 - figure.nc-testimonial (Karte: background-secondary, radius-4xl, Polsterung spacing-05, Grid gap spacing-05) > blockquote.__quote, optional ul.__results, figcaption.__author > div.__meta > cite.__name + span.__role, optional p.__context.
 - Optional (aufgenommen aus neo-overrides.css): img.__avatar vor den Meta-Angaben, img.__logo rechts im Autorenblock, __socials > a.__social unter Name/Rolle, __video (Vorschau __video-facade > __video-play, per order oben).
 - Drupal zeigt jeden optionalen Teil nur, wenn das Feld gefuellt ist.
+- Video-Fassade (Plan v4, Phase 3): .nc-testimonial__video-facade mit data-neo-video="fassade" und data-video-url; das iframe baut neo-behaviors video (Recipe video) erst beim Klick.
 
 ## Variants
 ### Variant (`variant`)
@@ -36,6 +37,8 @@ Base classes: `nc-testimonial`
 ### Base
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- Datenschutz/4.1.2: Fassade laedt vor dem Klick nichts von YouTube/Vimeo; das iframe heisst wie die Fassade (aria-label).
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-testimonial>` custom element:

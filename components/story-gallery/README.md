@@ -23,6 +23,7 @@
 ## Dependencies
 
 - [`shot`](../shot/)
+- [`video`](../video/)
 
 ## Quick Links
 

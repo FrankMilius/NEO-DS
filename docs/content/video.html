@@ -417,6 +417,46 @@
 &lt;/div&gt;</div>
           </section>
 
+          <!-- Plan v4, Phase 3 (12.10.2026): Behavior video -->
+          <section class="docs__section" id="api-verhalten">
+            <h2 class="docs__section-title">Verhalten: Hintergrundvideo und Fassade</h2>
+            <p class="docs__section-desc">
+              Behavior <code class="docs__token">video</code> aus neo-behaviors (Website-Bauteil, in Drupal nur &uuml;ber
+              <code class="docs__token">_neo_fe_behaviors_anhaengen($variables, ['video'])</code>) an jeder Wurzel
+              <code class="docs__token">[data-neo-video]</code>. Plan v4, Phase 3, Entscheidung E5 (WCAG 2.2.2).
+            </p>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead><tr><th>Teil</th><th>Markup</th><th>Verhalten</th></tr></thead>
+              <tbody>
+                <tr><td>Hintergrund</td><td><code class="docs__token">[data-neo-video]</code> mit <code class="docs__token">&lt;video muted loop playsinline&gt;</code> ohne <code class="docs__token">autoplay</code></td><td>Start nur ohne reduzierte Bewegung und im Bild; au&szlig;er Sicht pausiert; bei reduzierter Bewegung steht das Video (poster), kein Knopf.</td></tr>
+                <tr><td>Pause-Knopf</td><td><code class="docs__token">.nc-video-pause</code> (Symbol <code class="docs__token">__icon</code> mit <code class="docs__token">__pause</code>/<code class="docs__token">__play</code>, <code class="docs__token">data-playing</code>)</td><td>Ein Knopf je Video, aria-label &bdquo;Video anhalten&ldquo; / &bdquo;Video abspielen&ldquo; (en nach <code class="docs__token">lang</code>); eine Handpause bleibt. Fehlt er, legt das Behavior ihn an. Gleiches Objekt f&uuml;r die Hintergrund-Animationen (neo-bg): &bdquo;Animation anhalten&ldquo; / &bdquo;Animation abspielen&ldquo;.</td></tr>
+                <tr><td>Fassade</td><td><code class="docs__token">button[data-neo-video="fassade"][data-video-url][aria-label]</code>, Objekt <code class="docs__token">.nc-video-facade</code> mit <code class="docs__token">__play</code></td><td>iframe erst nach dem Klick (YouTube &uuml;ber youtube-nocookie.com, Vimeo mit dnt=1), title aus dem aria-label, Fokus aufs iframe.</td></tr>
+                <tr><td>Ereignisse</td><td colspan="2"><code class="docs__token">video-autoplay</code> { playing, reason: knopf | sicht | ausser-sicht | blockiert }, <code class="docs__token">video-fassade</code> { provider, url }</td></tr>
+              </tbody>
+            </table>
+          </div>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Tokens</h3>
+            <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+              <table class="nc-data-table__table">
+              <thead><tr><th>Token</th><th>Wert</th></tr></thead>
+              <tbody>
+                <tr><td><code class="docs__token">--nc-video-pause-size</code></td><td>2.5rem</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-icon-size</code></td><td>1rem</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-offset</code></td><td>var(--fnd-spacing-04)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-radius</code></td><td>var(--fnd-radius-full)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-z</code></td><td>3</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-color</code></td><td>var(--fnd-color-always-light)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-bg</code></td><td>color-mix(in srgb, var(--fnd-color-always-dark) 60%, transparent)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-bg-hover</code></td><td>color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-pause-border</code></td><td>color-mix(in srgb, var(--fnd-color-always-light) 40%, transparent)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-facade-bg</code></td><td>var(--fnd-color-background-tertiary)</td></tr>
+                <tr><td><code class="docs__token">--nc-video-facade-play-size</code></td><td>3.5rem</td></tr>
+              </tbody>
+            </table>
+          </div>
+          </section>
+
         </div>
 
         <!-- ============================================================ -->

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "feature-list",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -89,7 +89,8 @@
       "Medium: field_fl_video (Vorrang) oder field_sg_cards (Karte 1). Bild: Drupal.behaviors.neoFeatureMedia ruft NeoBehaviors.shotAufbauen am Medienbereich — der wird selbst zu .nc-shot (data-nc-shot) mit img.nc-shot__img (Fokuspunkt, Zoom, Seitenverhaeltnis der Karte); ohne neo-behaviors ein schlichtes <img>. Mit field_media_frame device steht der Screenshot im Template in .nc-device.",
       "Liste: Drupal.behaviors.neoFeatureList liest field_fl_items_json und baut ul > li > span.__icon + span.__item-text (derselbe Renderer fuer das Tab-Nav-Modul).",
       "Bis 768 px eine Spalte, Medium immer oben (order 0), unabhaengig von der Lage.",
-      "Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG)."
+      "Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG).",
+      "Video im Medium (Plan v4, Phase 3): YouTube/Vimeo als Fassade .nc-video-facade (Recipe video), Datei-Video nativ mit Bedienleiste."
     ]
   },
   "api": null,
@@ -183,7 +184,8 @@
       "Bild-Alternativtext aus der Karte (alt, sonst Titel); Geraete-Screenshot mit alt aus dem Medium. Ein Video-iframe traegt keinen title — im Theme ergaenzen.",
       "Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Der Kreis #AEF359 ist nicht themefaehig, auf heller Flaeche schwach (nur Schmuck).",
       "Eine Ueberschrift (h2 im Block-Kopf); die Liste ist eine echte <ul>.",
-      "Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche."
+      "Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche.",
+      "Datenschutz: YouTube/Vimeo erst nach Klick auf die Fassade (youtube-nocookie.com)."
     ],
     "overrides": []
   },

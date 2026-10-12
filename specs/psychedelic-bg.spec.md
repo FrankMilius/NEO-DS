@@ -1,5 +1,5 @@
 # psychedelic-bg Component Spec
-> Version 1.0.1 | Status: experimental | Layer: organism
+> Version 1.1.0 | Status: ersetzt | Layer: organism
 
 Tags: `animation`, `background`, `canvas`, `interactive`
 
@@ -13,6 +13,7 @@ Root element: `.nc-psychedelic-bg`
 ### DOM Notes
 - Canvas mit position:absolute fuellt den Container. requestAnimationFrame fuer 60fps Rendering. ResizeObserver passt Canvas-Groesse automatisch an.
 - Stand 25.08.2026: beschrieben, nicht gebaut — keine SCSS-Datei, keine Zeile CSS. Status `experimental` trifft das bereits. Bewusst behalten (Entscheidung 25.08.).
+- Ersetzt (Plan v4, Phase 3, 12.10.2026): auf der Website keine Verwendung mehr; Hintergrund-Animationen kommen aus neo-bg (Drupal-Theme, js/neo-bg-library.js + neo-bg-hero.js) mit Pause-Knopf .nc-video-pause (Recipe video).
 
 ## Variants
 ### Form (`shape`)

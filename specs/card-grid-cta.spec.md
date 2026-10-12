@@ -1,5 +1,5 @@
 # card-grid-cta Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `hero`, `cta`, `grid`
 
@@ -8,6 +8,7 @@ Root element: `.nc-card-grid-cta`
 
 ### DOM Notes
 - Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.
+- Karten-Video (Plan v4, Phase 3): .nc-card-cta mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende der Karte.
 
 ## Variants
 ### Variant (`variant`)
@@ -51,6 +52,8 @@ Base classes: `nc-card-grid-cta`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2: Karten-Videos mit eigenem Pause-Knopf (.nc-video-pause, Recipe video).
 
 ## Dependencies
 `card`

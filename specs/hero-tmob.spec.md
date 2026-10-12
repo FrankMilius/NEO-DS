@@ -1,5 +1,5 @@
 # hero-tmob Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `hero`, `display`, `parallax`, `media`
 
@@ -20,6 +20,7 @@ Root element: `.nc-hero-tmob`
 - Markup wie data/markup/hero-tmob.html (Website). Die Grundfarbe setzt Drupal je Block inline (background-color); ohne --light steht die Schrift in always-light.
 - Ein Parallax-Grund (.nc-parallax-bg) darf im Hero liegen: DS-Regel .nc-hero-tmob .nc-parallax-bg (absolut, volle Hoehe, unter dem Text).
 - Bewegung (Einfahren, Parallax) steuert auf der Website GSAP in neo-theme.js — das DS hat dafuer keine Klassen oder Zustaende.
+- Video (Plan v4, Phase 3): .nc-hero-tmob__media mit [data-neo-video], Knopf .nc-video-pause (Recipe video) im Medium. Video ohne autoplay — Start ueber neo-behaviors video.
 
 ## Variants
 ### Variant (`variant`)
@@ -84,6 +85,8 @@ Base classes: `nc-hero-tmob`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2: Video mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); prefers-reduced-motion: kein Start.
 
 ## Dependencies
 `hero`

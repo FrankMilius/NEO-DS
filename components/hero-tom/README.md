@@ -24,6 +24,7 @@
 
 - [`badge`](../badge/)
 - [`hero`](../hero/)
+- [`video`](../video/)
 
 ## Quick Links
 

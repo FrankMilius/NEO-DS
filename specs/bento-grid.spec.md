@@ -1,5 +1,5 @@
 # bento-grid Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `interactive`
 
@@ -25,6 +25,7 @@ Root element: `.nc-bento-grid`
 - Scroll-Reveal: data-animation='reveal' am Root, .is-revealed schaltet sichtbar.
 - Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).
 - prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.
+- Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7).
 
 ## Variants
 ### Columns (`columns`)
@@ -74,6 +75,8 @@ Base classes: `nc-bento-grid`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2: Kachel-Videos und Animations-Kacheln mit eigenem Pause-Knopf (.nc-video-pause, Recipe video).
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-bento-grid>` custom element:

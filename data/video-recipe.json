@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "video",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "media",
@@ -13,13 +13,42 @@
     "links": {
       "docs": "/docs/video-docs"
     },
-    "layer": "unknown",
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v4, Phase 3 (12.10.2026, Entscheidung E5 = a; Freigabe ausstehend, WCAG 2.2.2): Behavior video in neo-behaviors (nurAusdruecklich) an [data-neo-video] — zwei Modi.",
+          "Hintergrund (Vorgabe): dekoratives Video (muted, loop, playsinline) startet nur ueber das Behavior — Markup ohne autoplay (ein vorhandenes nimmt das Behavior ab); bei prefers-reduced-motion kein Start, poster bzw. erstes Bild sichtbar, kein Knopf; ausser Sicht pausiert (IntersectionObserver aus globalThis); Pause-Knopf .nc-video-pause je Video mit wechselnder Beschriftung (aria-label „Video anhalten“/„Video abspielen“, en „Pause video“/„Play video“, per data-text-pause/data-text-play ueberschreibbar) und Symbol per data-playing; eine Handpause bleibt bestehen. Fehlt der Knopf, legt das Behavior ihn hinter dem Medium an.",
+          "Fassade ([data-neo-video=\"fassade\"], vorher neoTestimonialVideo im Theme): Knopf mit data-video-url, iframe erst nach dem Klick — YouTube ueber youtube-nocookie.com, Vimeo mit dnt=1, title aus dem aria-label, Fokus aufs iframe; unbekannte Anbieter oeffnen ein neues Fenster. Ersetzt auch die sofort ladende YouTube-Einbettung der Feature-Liste (neoFeatureMedia, DSGVO). Objekt .nc-video-facade mit __play.",
+          "Neu: Component-Tokens --nc-video-pause-* (9) und --nc-video-facade-* (2); der Knopf .nc-video-pause ist ein gemeinsames Objekt (04-objects/_video.scss) — auch der Pause-Knopf der Hintergrund-Animationen neo-bg (Drupal-Theme, neo-bg-hero.js) nutzt es. keyboard (Tab, Enter, Space) und events (video-autoplay, video-fassade) neu.",
+          "Website (neo_fe): Hero, Hero-TOM, Hero-TMOB rendern Video ohne autoplay und den Knopf im Twig; Bento, Card-Grid-CTA, Story-Gallery und die Tab-Module bauen weiter aus JSON und binden danach mit NeoBehaviors.anbinden(wurzel, ['video']); Testimonial und Feature-Liste nutzen die Fassade."
+        ]
+      },
+      {
+        "version": "1.0.0",
+        "changes": [
+          "Initiale Fassung: .video-wrap / .video-wrap-autoplay und .video-dialog (aus styles-new.css)."
+        ]
+      }
+    ],
+    "layer": "object",
     "pipeline": {
-      "scss": [],
+      "scss": [
+        "scss/scss/04-objects/_video.scss"
+      ],
       "story": null,
       "arena": null,
-      "drupal": [],
+      "drupal": [
+        "block/block--block-content--neo-hero.html.twig",
+        "block/block--block-content--neo-hero-tom.html.twig",
+        "block/block--block-content--neo-hero-tmob.html.twig",
+        "block/block--block-content--neo-testimonial.html.twig"
+      ],
       "docs": "docs/video-docs.html"
+    },
+    "source": {
+      "drupal": "neo_fe: Hero, Hero-TOM, Hero-TMOB (Twig, inline_block per include): Wurzel [data-neo-video] mit <video muted loop playsinline> ohne autoplay und Knopf .nc-video-pause (hidden, das Behavior zeigt ihn); Testimonial (Twig): Fassade button[data-neo-video=\"fassade\"][data-video-url]; js/neo-theme.js baut Bento, Card-Grid-CTA, Story-Gallery, die Tab-Module hero_tom/hero_tmob und die Fassade der Feature-Liste aus JSON und bindet danach mit NeoBehaviors.anbinden(wurzel, ['video']) (neoVerhaltenBinden); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['video']) fuer neo_hero, neo_hero_tom, neo_hero_tmob, neo_bento_grid, neo_card_grid_cta, neo_story_gallery, neo_tab_nav, neo_testimonial und neo_feature_list. Hintergrund-Animationen (neo-bg-hero.js) legen denselben Knopf an.",
+      "behavior": "packages/neo-behaviors/video.js; nurAusdruecklich"
     }
   },
   "anatomy": {
@@ -32,6 +61,18 @@
         "element": "video | iframe",
         "optional": false,
         "description": "Video-Element oder Embed (YouTube, Vimeo)."
+      },
+      {
+        "name": "pause",
+        "element": ".nc-video-pause",
+        "optional": true,
+        "description": "Pause-/Abspiel-Knopf eines dekorativen Hintergrundvideos (WCAG 2.2.2): Symbol .nc-video-pause__icon (Pfade __pause/__play, Wahl per data-playing), Beschriftung als aria-label „Video anhalten“/„Video abspielen“. Liegt ueber dem Medium (position absolute, unten am Ende); bei prefers-reduced-motion [hidden]. Auch der Knopf der Hintergrund-Animationen (neo-bg)."
+      },
+      {
+        "name": "facade",
+        "element": ".nc-video-facade",
+        "optional": true,
+        "description": "Video-Fassade (click-to-play, data-neo-video=\"fassade\", data-video-url): Knopf mit aria-label und Abspiel-Symbol .nc-video-facade__play; das iframe entsteht erst beim Klick (DSGVO)."
       },
       {
         "name": "play-sign",
@@ -50,7 +91,23 @@
       "video-wrap als Wrapper fuer alle Video-Formate.",
       "video-wrap-autoplay fuer Autoplay-Videos (ohne Play-Button).",
       "Play-Sign ist ein zentrierter Play-Button mit Dark-Overlay.",
-      "Video-Dialog oeffnet sich als Fullscreen-Overlay."
+      "Video-Dialog oeffnet sich als Fullscreen-Overlay.",
+      "Verhalten (Plan v4, Phase 3, 12.10.2026): neo-behaviors video an [data-neo-video]. Hintergrund: das erste <video> der Wurzel (oder die Wurzel selbst), Markup ohne autoplay; Start nur ohne reduced motion und im Bild; Knopf .nc-video-pause als Kind der Wurzel (fehlt er, hinter dem Teil mit dem Video angelegt); eine Wurzel ohne eigene Position wird per :where() relativ. Fassade: button[data-neo-video=\"fassade\"][data-video-url][aria-label] (data-video-class: Klassen fuers iframe).",
+      "Knopf in verborgenem Bereich (aria-hidden, z. B. Kopien der Story-Gallery): tabindex=-1. In einem Link (Bento-Kachel mit URL): der Klick folgt dem Link nicht."
+    ],
+    "convenience": [
+      {
+        "name": "pause-icon",
+        "element": ".nc-video-pause__icon",
+        "slot": "pause",
+        "description": "Symbol des Knopfs (aria-hidden): Pfade .nc-video-pause__pause (laeuft) und .nc-video-pause__play (angehalten), Wahl per data-playing."
+      },
+      {
+        "name": "facade-play",
+        "element": ".nc-video-facade__play",
+        "slot": "facade",
+        "description": "Runde Abspiel-Flaeche der Fassade mit Symbol (aria-hidden)."
+      }
     ]
   },
   "axes": {
@@ -66,23 +123,90 @@
         {
           "value": "autoplay",
           "modifier": "video-wrap-autoplay",
-          "label": "Autoplay (Loop, Muted)"
+          "label": "Autoplay (Loop, Muted, mit Pause-Knopf)"
         }
       ]
     }
   },
   "states": {
     "supported": [
+      "default",
+      "hover",
+      "focus-visible",
       "playing",
-      "paused"
+      "paused",
+      "stopped"
     ],
-    "rules": []
+    "precedence": [
+      "focus-visible",
+      "hover",
+      "stopped",
+      "paused",
+      "playing",
+      "default"
+    ],
+    "rules": [
+      {
+        "state": "hover",
+        "unless": [
+          "focus-visible"
+        ],
+        "note": "Knopf: dunklere Flaeche (--nc-video-pause-bg-hover)."
+      },
+      {
+        "state": "focus-visible",
+        "unless": [],
+        "note": "Knopf und Fassade: focus-ring (Fassade nach innen)."
+      },
+      {
+        "state": "playing",
+        "unless": [],
+        "note": "Hintergrundvideo laeuft: data-playing=true, aria-label „Video anhalten“."
+      },
+      {
+        "state": "paused",
+        "unless": [],
+        "note": "Ausser Sicht pausiert (IntersectionObserver); laeuft im Bild weiter, wenn nicht von Hand angehalten."
+      },
+      {
+        "state": "stopped",
+        "unless": [],
+        "note": "Knopf: data-playing=false, aria-label „Video abspielen“ — bleibt angehalten, bis der Knopf fortsetzt (auch nach Scrollen)."
+      }
+    ],
+    "interactive": true
   },
   "styling": {
     "baseClasses": [
       ".video-wrap"
     ],
-    "tokenGroups": {}
+    "baseTokenGroups": [
+      "pause-knopf",
+      "fassade"
+    ],
+    "tokenGroups": {
+      "pause-knopf": {
+        "label": "Pause-Knopf",
+        "tokens": [
+          "nc-video-pause-size",
+          "nc-video-pause-icon-size",
+          "nc-video-pause-offset",
+          "nc-video-pause-radius",
+          "nc-video-pause-z",
+          "nc-video-pause-color",
+          "nc-video-pause-bg",
+          "nc-video-pause-bg-hover",
+          "nc-video-pause-border"
+        ]
+      },
+      "fassade": {
+        "label": "Fassade",
+        "tokens": [
+          "nc-video-facade-bg",
+          "nc-video-facade-play-size"
+        ]
+      }
+    }
   },
   "specimens": [
     {
@@ -111,11 +235,93 @@
   "a11y": {
     "base": {
       "role": null,
+      "interactive": true,
+      "focusIndicator": "Knopf @include focus-ring, Fassade focus-ring-inset",
       "assertions": [
-        "Video-Element muss Untertitel als track-Element haben (WCAG 1.2.2).",
+        "Video-Element muss Untertitel als track-Element haben (WCAG 1.2.2) — gilt fuer Videos mit Inhalt; dekorative Hintergrundvideos sind stumm und ohne Information.",
         "Autoplay-Videos muessen muted sein (WCAG 1.4.2).",
-        "Play-Button muss per Tastatur erreichbar sein."
+        "Play-Button muss per Tastatur erreichbar sein.",
+        "2.2.2: Jedes dekorative Hintergrundvideo (laenger als 5 s, neben anderem Inhalt) hat einen eigenen Knopf zum Anhalten und Fortsetzen (Beschriftung wechselt); ausser Sicht pausiert es; eine Handpause bleibt bestehen.",
+        "2.3.3/prefers-reduced-motion: kein Start, poster bzw. erstes Bild sichtbar, kein Knopf.",
+        "2.5.8: Knopf 2.5rem (40 px).",
+        "1.4.11: Knopf als dunkle, halbdurchsichtige Flaeche mit hellem Symbol und heller Kante in beiden Themes (always-dark/always-light), unabhaengig vom Videobild.",
+        "4.1.2/3.1.2: Name per aria-label nach lang (de/en), ueberschreibbar per data-text-pause/data-text-play; Fassaden-iframe mit title aus dem aria-label.",
+        "Datenschutz: Fassade laedt nichts von YouTube/Vimeo vor dem Klick (youtube-nocookie.com, Vimeo dnt=1)."
       ]
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [
+      {
+        "when": {
+          "axes": {
+            "behavior": [
+              "autoplay"
+            ]
+          }
+        },
+        "require": [
+          "autoplay-control"
+        ],
+        "notes": [
+          "Hintergrundvideo nur mit Pause-Knopf (WCAG 2.2.2): .nc-video-pause; fehlt er, legt das Behavior ihn an."
+        ]
+      }
+    ],
+    "copy": {
+      "pause": {
+        "de": {
+          "pause": "Video anhalten",
+          "play": "Video abspielen"
+        },
+        "en": {
+          "pause": "Pause video",
+          "play": "Play video"
+        },
+        "note": "aria-label des Knopfs je Zustand; das Behavior waehlt nach lang (de oder ohne Angabe deutsch, sonst englisch); eigene Texte per data-text-pause/data-text-play am Knopf. Der Knopf der Hintergrund-Animationen (neo-bg) sagt „Animation anhalten“/„Animation abspielen“ (en „Pause animation“/„Play animation“)."
+      },
+      "fassade": {
+        "de": {
+          "label": "Video abspielen"
+        },
+        "en": {
+          "label": "Play video"
+        },
+        "note": "aria-label der Fassade (Drupal: „Video abspielen – <Name>“ bzw. „Video: <Titel>“); wird zum title des iframes."
+      }
+    }
+  },
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Der Knopf .nc-video-pause steht in der Tab-Folge hinter dem Medium (in verborgenen Kopien tabindex=-1); eine Fassade ist ein Knopf."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Knopf: haelt das Video an bzw. setzt es fort. Fassade: laedt das iframe und setzt den Fokus darauf."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    }
+  },
+  "events": {
+    "video-autoplay": {
+      "bubbles": true,
+      "detail": {
+        "playing": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein Hintergrundvideo anlaeuft oder ruht. reason = Ausloeser: \"knopf\" (meldet immer), \"sicht\" (kommt ins Bild bzw. Start ohne Beobachter), \"ausser-sicht\", \"blockiert\" (Browser lehnt das Abspielen ab — gilt als angehalten)."
+    },
+    "video-fassade": {
+      "bubbles": true,
+      "detail": {
+        "provider": "string",
+        "url": "string"
+      },
+      "note": "Gefeuert an der Fassade beim Klick, bevor sie dem iframe weicht. provider \"youtube\" | \"vimeo\" | null (unbekannt: neues Fenster)."
     }
   }
 }

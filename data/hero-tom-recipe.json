@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero-tom",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "status": "stable",
     "tags": [
       "hero",
@@ -16,6 +16,13 @@
       "docs": "/docs/hero-tom-docs"
     },
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "Plan v4, Phase 3 (12.10.2026, Entscheidung E5 = a; website-sichtbar, Freigabe ausstehend, WCAG 2.2.2): Hintergrundvideo im Medium ohne autoplay; die Section ist Wurzel [data-neo-video], der Knopf .nc-video-pause steht neben dem Medium in der Section (sonst ueberdeckte ihn der Text-Bereich). Verhalten: neo-behaviors video (Recipe video 1.1.0) — Start nur ohne reduzierte Bewegung und im Bild, ausser Sicht pausiert, Pause-Knopf .nc-video-pause (aria-label „Video anhalten“/„Video abspielen“), Handpause bleibt.",
+          "Drupal: die inline_block-Fassung bindet die block_content-Fassung per include (bis dahin wortgleiche Kopie). Tab-Modul hero_tom (neo-theme.js) baut dasselbe Markup aus JSON und bindet nach dem Aufbau."
+        ]
+      },
       {
         "version": "1.3.0",
         "changes": [
@@ -109,7 +116,8 @@
       "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
       "Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).",
       "Seit 06.10.2026 (Entscheidung hero-tom-gestaltung) gestaltet das DS den Block vollstaendig: Wurzel (always-light, min-block-size 100svh), Medium (absolut, object-fit cover), radialer Scrim, Text (Kicker, Display-Headline, Subtext), Ton hell (--light), Expand (--expand), Inhaltsbreite (--cw-*) und die Badge-Zeile (05-atoms/_badge-row.scss). Die Regeln waren am 12.08.2026 (8b04d29c) beim zweiten Aufnahme-Lauf verloren gegangen.",
-      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1)."
+      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1).",
+      "Hintergrundvideo (Plan v4, Phase 3): Section mit [data-neo-video], Knopf .nc-video-pause (Recipe video) als Kind der Section hinter dem Medium. Video ohne autoplay — Start ueber neo-behaviors video."
     ]
   },
   "axes": {
@@ -206,7 +214,9 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
+      "assertions": [
+        "2.2.2: Hintergrundvideo mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); prefers-reduced-motion: kein Start, poster sichtbar."
+      ],
       "note": ""
     },
     "overrides": []

@@ -25,6 +25,7 @@
 - [`container`](../container/)
 - [`device`](../device/)
 - [`shot`](../shot/)
+- [`video`](../video/)
 
 ## Quick Links
 

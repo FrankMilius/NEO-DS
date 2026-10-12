@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.3.1",
+    "version": "2.4.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,13 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.4.0",
+        "changes": [
+          "Plan v4, Phase 3 (12.10.2026, Entscheidung E5 = a; website-sichtbar, Freigabe ausstehend, WCAG 2.2.2): Hintergrundvideo (.nc-hero__bg-video) ohne autoplay im Markup; die Section ist Wurzel [data-neo-video], das Twig rendert den Knopf .nc-video-pause (hidden) hinter dem Video. Verhalten: neo-behaviors video (Recipe video 1.1.0) — Start nur ohne reduzierte Bewegung und im Bild, ausser Sicht pausiert, Pause-Knopf .nc-video-pause (aria-label „Video anhalten“/„Video abspielen“), Handpause bleibt.",
+          "Hintergrund-Animation (neo-bg, data-neo-bg am Layer .nc-hero__bg-anim): Pause-Knopf desselben Objekts .nc-video-pause („Animation anhalten“/„Animation abspielen“) aus neo-bg-hero.js im Drupal-Theme."
+        ]
+      },
       {
         "version": "2.3.1",
         "changes": [
@@ -164,7 +171,7 @@
       "Breadcrumb: nc-breadcrumb am oberen Content-Rand, nur sichtbar wenn Slot befuellt.",
       "Centered: Alle Inhalte text-align center, max-width fuer Titel und Highlights.",
       "Split: Content links, Media rechts buendig (kein Radius), nahtlose Kante zum naechsten Abschnitt.",
-      ""
+      "Hintergrundvideo und Hintergrund-Animation (Plan v4, Phase 3): die Section traegt [data-neo-video]; der Knopf .nc-video-pause (Recipe video) liegt unten am Ende ueber dem Medium. Video ohne autoplay — Start ueber neo-behaviors video."
     ]
   },
   "axes": {
@@ -406,7 +413,8 @@
         "Card: Pulse-Animation muss via prefers-reduced-motion deaktivierbar sein.",
         "Badge: Darf nicht allein durch Farbe Bedeutung vermitteln — Text oder Icon erforderlich.",
         "Actions: Buttons muessen fokussierbar sein und sichtbaren Focus-Ring haben.",
-        "Breadcrumb: aria-label='Breadcrumb', nav-Element."
+        "Breadcrumb: aria-label='Breadcrumb', nav-Element.",
+        "2.2.2: Hintergrundvideo und Hintergrund-Animation mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); prefers-reduced-motion: kein Start, poster sichtbar."
       ],
       "note": "Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: line-height tight, text-secondary Kontrast pruefen. Pulse-Animation: prefers-reduced-motion. Overlay: Gradient sichert Kontrast unabhaengig vom Bild."
     },
@@ -646,9 +654,18 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" },
-    { "art": "enthaelt", "recipe": "label" },
-    { "art": "enthaelt", "recipe": "metric" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "label"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "metric"
+    }
   ],
   "specimens": [
     {

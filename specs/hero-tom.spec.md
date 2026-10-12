@@ -1,5 +1,5 @@
 # hero-tom Component Spec
-> Version 1.3.0 | Status: stable | Layer: organism
+> Version 1.4.0 | Status: stable | Layer: organism
 
 Tags: `hero`, `display`, `parallax`
 
@@ -22,6 +22,7 @@ Root element: `.nc-hero-tom`
 - Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).
 - Seit 06.10.2026 (Entscheidung hero-tom-gestaltung) gestaltet das DS den Block vollstaendig: Wurzel (always-light, min-block-size 100svh), Medium (absolut, object-fit cover), radialer Scrim, Text (Kicker, Display-Headline, Subtext), Ton hell (--light), Expand (--expand), Inhaltsbreite (--cw-*) und die Badge-Zeile (05-atoms/_badge-row.scss). Die Regeln waren am 12.08.2026 (8b04d29c) beim zweiten Aufnahme-Lauf verloren gegangen.
 - Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1).
+- Hintergrundvideo (Plan v4, Phase 3): Section mit [data-neo-video], Knopf .nc-video-pause (Recipe video) als Kind der Section hinter dem Medium. Video ohne autoplay — Start ueber neo-behaviors video.
 
 ## Variants
 ### Variant (`variant`)
@@ -89,6 +90,8 @@ Base classes: `nc-hero-tom`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2: Hintergrundvideo mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); prefers-reduced-motion: kein Start, poster sichtbar.
 
 ## Dependencies
 `hero`

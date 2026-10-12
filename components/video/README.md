@@ -1,6 +1,6 @@
 # Video
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/video.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/video-docs.html` | present |
-| Drupal | — | missing |
+| Drupal | `block/block--block-content--neo-hero.html.twig, block/block--block-content--neo-hero-tom.html.twig, block/block--block-content--neo-hero-tmob.html.twig, block/block--block-content--neo-testimonial.html.twig` | present |
 
 ## Spec
 

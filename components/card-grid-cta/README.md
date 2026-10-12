@@ -23,6 +23,7 @@
 ## Dependencies
 
 - [`card`](../card/)
+- [`video`](../video/)
 
 ## Quick Links
 

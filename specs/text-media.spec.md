@@ -1,5 +1,5 @@
 # text-media Component Spec
-> Version 1.1.2 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `media`, `split-layout`
 
@@ -10,12 +10,14 @@ Root element: `.nc-text-media`
 | --- | --- | --- | --- |
 | media | `.nc-text-media__media` | Yes | Video oder Bild. |
 | content | `.nc-text-media__content` | Yes | Headline, Subline, CTA. |
+| bg-anim | `.nc-text-media__bg-anim` | No | Hintergrund-Animation (neo-bg, data-neo-bg, aria-hidden) hinter dem Inhalt; Pause-Knopf .nc-video-pause dahinter. Nur mit field_tm_bg_animation. |
 
 ### DOM Notes
 - Grid: 2 Spalten, media + content. Responsive: stacked auf mobile.
 - ACHTUNG Divergenz DS <-> Drupal: im DS ist .nc-text-media selbst das Grid (Container-Queries). Das Drupal-Template nutzt ein zusaetzliches .nc-text-media__grid, das in neo-overrides.css gestylt wird. Die Modifier greifen dort.
 - Ohne Medium darf der Medien-Container NICHT gerendert werden - sonst bleibt bei 1fr 1fr eine leere Spalte stehen (gemessen: 487px ungenutzt, Text nur 48% Breite).
 - media-right tauscht per order, nicht per DOM-Reihenfolge - die Vorlesereihenfolge bleibt damit unveraendert.
+- Hintergrund-Animation (Plan v4, Phase 3, E7): .nc-text-media__bg-anim mit data-neo-bg (neo-bg-Bibliothek des Drupal-Themes, Schluessel aus field_tm_bg_animation abgebildet); Pause-Knopf .nc-video-pause (Recipe video) hinter dem Layer.
 
 ## Variants
 ### Layout (`layout`)
@@ -57,6 +59,8 @@ Base classes: `nc-text-media`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2/2.3.3: Hintergrund-Animation mit Pause-Knopf; prefers-reduced-motion: stehendes Bild (neo-bg).
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-text-media>` custom element:

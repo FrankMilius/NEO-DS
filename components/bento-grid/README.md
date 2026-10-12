@@ -20,6 +20,10 @@
 - [Component Spec (Markdown)](../specs/bento-grid.spec.md)
 - [Component Spec (JSON)](../specs/bento-grid.spec.json)
 
+## Dependencies
+
+- [`video`](../video/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/bento-grid-recipe.json)

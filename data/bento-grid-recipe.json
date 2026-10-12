@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "bento-grid",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,13 @@
       "docs": "/docs/bento-grid-docs"
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Plan v4, Phase 3 (12.10.2026, Entscheidung E5 = a; website-sichtbar, Freigabe ausstehend, WCAG 2.2.2): Kachel-Video (media mit mediaType video) ohne autoplay. Wurzel [data-neo-video] ist bei mediaPos cover die Kachel (Knopf ueber Medium und Text), sonst das Medium .nc-bento-grid__media. Der Knopf .nc-video-pause entsteht beim Binden (NeoBento.render bindet mit NeoBehaviors.anbinden(raster, ['video'])); in einer Kachel mit URL folgt sein Klick dem Link nicht. Verhalten: neo-behaviors video (Recipe video 1.1.0) — Start nur ohne reduzierte Bewegung und im Bild, ausser Sicht pausiert, Pause-Knopf .nc-video-pause (aria-label „Video anhalten“/„Video abspielen“), Handpause bleibt.",
+          "Animations-Kachel (anim, neo-bg): Pause-Knopf .nc-video-pause aus neo-bg-hero.js hinter dem Layer."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -112,7 +119,8 @@
       "Verlinkte Zelle: a.nc-bento-grid__cell, text-decoration:none.",
       "Scroll-Reveal: data-animation='reveal' am Root, .is-revealed schaltet sichtbar.",
       "Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).",
-      "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar."
+      "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.",
+      "Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7)."
     ]
   },
   "axes": {
@@ -171,7 +179,9 @@
     "base": {
       "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
+      "assertions": [
+        "2.2.2: Kachel-Videos und Animations-Kacheln mit eigenem Pause-Knopf (.nc-video-pause, Recipe video)."
+      ],
       "note": "Titel pro Zelle als h3 (eine Sektions-Ueberschrift h2 darueber). Verlinkte Zellen sind fokussierbar mit sichtbarem Fokusring. Mesh und Glow sind dekorativ (aria-hidden / pointer-events:none). Icons rein dekorativ."
     },
     "overrides": []

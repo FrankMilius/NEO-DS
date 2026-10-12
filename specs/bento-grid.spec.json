@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "bento-grid",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -64,7 +64,8 @@
       "Verlinkte Zelle: a.nc-bento-grid__cell, text-decoration:none.",
       "Scroll-Reveal: data-animation='reveal' am Root, .is-revealed schaltet sichtbar.",
       "Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).",
-      "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar."
+      "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.",
+      "Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7)."
     ]
   },
   "api": null,
@@ -170,7 +171,9 @@
     "interactive": true,
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "focusIndicator": null,
-    "assertions": [],
+    "assertions": [
+      "2.2.2: Kachel-Videos und Animations-Kacheln mit eigenem Pause-Knopf (.nc-video-pause, Recipe video)."
+    ],
     "overrides": []
   },
   "dependencies": [],

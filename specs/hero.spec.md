@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.3.1 | Status: stable | Layer: organism
+> Version 2.4.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -29,6 +29,7 @@ Root element: `.nc-hero`
 - Breadcrumb: nc-breadcrumb am oberen Content-Rand, nur sichtbar wenn Slot befuellt.
 - Centered: Alle Inhalte text-align center, max-width fuer Titel und Highlights.
 - Split: Content links, Media rechts buendig (kein Radius), nahtlose Kante zum naechsten Abschnitt.
+- Hintergrundvideo und Hintergrund-Animation (Plan v4, Phase 3): die Section traegt [data-neo-video]; der Knopf .nc-video-pause (Recipe video) liegt unten am Ende ueber dem Medium. Video ohne autoplay — Start ueber neo-behaviors video.
 
 ## Variants
 ### Variant (`variant`)
@@ -245,6 +246,7 @@ Contrast Target: WCAG AA large text (3:1)
 - Badge: Darf nicht allein durch Farbe Bedeutung vermitteln — Text oder Icon erforderlich.
 - Actions: Buttons muessen fokussierbar sein und sichtbaren Focus-Ring haben.
 - Breadcrumb: aria-label='Breadcrumb', nav-Element.
+- 2.2.2: Hintergrundvideo und Hintergrund-Animation mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); prefers-reduced-motion: kein Start, poster sichtbar.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-hero>` custom element:

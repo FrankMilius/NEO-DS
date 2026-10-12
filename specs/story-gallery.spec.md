@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -27,6 +27,7 @@ Root element: `.nc-story-gallery`
 - Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen.
 - Medium: DS-Bauteil shot (seit 07.10.2026, vorher neo-shot.js/neo-shot.css der Website) — neo-theme.js ruft NeoBehaviors.shotAufbauen(.nc-story-gallery__media, Karte); das Medium wird selbst .nc-shot[data-nc-shot] (Fokus-Crop und Darstellungen). Die Arena zeigt das Medium als einfaches Bild.
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
+- Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.
 
 ## Variants
 ### Variant (`variant`)
@@ -88,6 +89,8 @@ Base classes: `nc-story-gallery`
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- 2.2.2: Karten-Videos mit eigenem Pause-Knopf (.nc-video-pause, Recipe video); ausser Sicht (auch seitlich aus der Spur) pausiert.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-story-gallery>` custom element:

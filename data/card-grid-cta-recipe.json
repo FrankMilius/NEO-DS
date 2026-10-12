@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-grid-cta",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-grid-cta-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 3 (12.10.2026, Entscheidung E5 = a; website-sichtbar, Freigabe ausstehend, WCAG 2.2.2): Karten-Video (.nc-card-cta__media) ohne autoplay; die Karte .nc-card-cta ist Wurzel [data-neo-video], der Knopf .nc-video-pause entsteht beim Binden hinter dem Video (neoCardGridCta bindet nach dem Aufbau). Verhalten: neo-behaviors video (Recipe video 1.1.0) — Start nur ohne reduzierte Bewegung und im Bild, ausser Sicht pausiert, Pause-Knopf .nc-video-pause (aria-label „Video anhalten“/„Video abspielen“), Handpause bleibt."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -52,7 +58,8 @@
     "slots": [],
     "convenience": [],
     "domNotes": [
-      "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA."
+      "Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.",
+      "Karten-Video (Plan v4, Phase 3): .nc-card-cta mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende der Karte."
     ]
   },
   "axes": {
@@ -87,7 +94,9 @@
     "base": {
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
-      "assertions": [],
+      "assertions": [
+        "2.2.2: Karten-Videos mit eigenem Pause-Knopf (.nc-video-pause, Recipe video)."
+      ],
       "note": ""
     },
     "overrides": []
@@ -162,8 +171,14 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" },
-    { "art": "enthaelt", "recipe": "card-cta" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "card-cta"
+    }
   ],
   "specimens": [
     {
