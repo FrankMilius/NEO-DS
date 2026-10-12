@@ -6,7 +6,8 @@
 // immer, weil der Slot nav als Pflicht gilt); Rahmen ra-feld--sehr-breit.
 // hover/focus nur echt — data-zustand am Knopf „Weiter". Freigabe (Abschluss
 // Plan v3, 08.10.2026): data-testimonial-carousel und data-tc-prev/-next wie
-// auf der Website (das Verhalten bleibt in neo-theme.js, hier ungebunden).
+// auf der Website. Ausprobieren bindet das Behavior testimonial-grid aus
+// neo-behaviors (Plan v4, Phase 6a; vorher neoTestimonialCarousel im Theme).
 import { testimonialHtml } from './_testimonial.js'
 
 const STIMMEN = [

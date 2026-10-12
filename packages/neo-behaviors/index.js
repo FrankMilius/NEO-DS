@@ -59,6 +59,7 @@ import { marquee } from './marquee.js'
 import { fadeGallery } from './fade-gallery.js'
 import { carousel } from './carousel.js'
 import { productShowcase } from './product-showcase.js'
+import { testimonialGrid } from './testimonial-grid.js'
 import { video } from './video.js'
 
 export { setzeIndikator } from './segmented-control.js'
@@ -126,6 +127,9 @@ export const BEHAVIORS = Object.freeze({
   // mit zwei Modi — Tabs (Optionen) und Stationen (Geraete-Strecke, vorher
   // neo-device-scroll.js). In Drupal nur per nur
   'product-showcase': productShowcase,
+  // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026): Karussell des
+  // Testimonial-Grids (Vor/Zurueck, Enden gesperrt). In Drupal nur per nur
+  'testimonial-grid': testimonialGrid,
   // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
   // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
   // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur

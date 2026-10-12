@@ -5785,6 +5785,89 @@
     signal.addEventListener("abort", () => m.zurueck());
   }
 
+  // packages/neo-behaviors/testimonial-grid.js
+  var testimonialGrid = {
+    id: "testimonial-grid",
+    selektor: ".nc-testimonial-grid--carousel",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} spur @param {AbortSignal} signal */
+    binde(spur, signal) {
+      var _a;
+      const nav = (
+        /** @type {HTMLElement|null} */
+        ((_a = spur.parentElement) == null ? void 0 : _a.querySelector(":scope > .nc-testimonial-grid__nav")) || null
+      );
+      if (!nav) return;
+      const knoepfe = (
+        /** @type {HTMLButtonElement[]} */
+        [...nav.querySelectorAll(".nc-testimonial-grid__btn")]
+      );
+      const zurueck = (
+        /** @type {HTMLButtonElement|null} */
+        nav.querySelector("[data-tc-prev]") || knoepfe[0] || null
+      );
+      const vor = (
+        /** @type {HTMLButtonElement|null} */
+        nav.querySelector("[data-tc-next]") || (knoepfe.length > 1 ? knoepfe.at(-1) : null) || null
+      );
+      const dok = spur.ownerDocument;
+      const ansicht = dok.defaultView || window;
+      const vorher = [zurueck, vor].map((k) => {
+        var _a2;
+        return (_a2 = k == null ? void 0 : k.disabled) != null ? _a2 : false;
+      });
+      function schritt() {
+        const karte = spur.querySelector(".nc-testimonial");
+        if (karte) {
+          const abstand = parseFloat(ansicht.getComputedStyle(spur).columnGap) || 20;
+          return karte.getBoundingClientRect().width + abstand;
+        }
+        return spur.clientWidth * 0.8;
+      }
+      function sperre(k, gesperrt2, anderer) {
+        if (!k || k.disabled === gesperrt2) return;
+        const hatteFokus = gesperrt2 && dok.activeElement === k;
+        k.disabled = gesperrt2;
+        if (hatteFokus) (anderer && !anderer.disabled ? anderer : spur).focus();
+      }
+      function stimme() {
+        const amAnfang = spur.scrollLeft <= 4;
+        const amEnde = spur.scrollLeft + spur.clientWidth >= spur.scrollWidth - 4;
+        sperre(zurueck, amAnfang, vor);
+        sperre(vor, amEnde, zurueck);
+      }
+      function blaettere(richtung) {
+        const ziel = { left: richtung * schritt(), behavior: (
+          /** @type {ScrollBehavior} */
+          reduzierteBewegung2(spur) ? "instant" : "smooth"
+        ) };
+        if (typeof spur.scrollBy === "function") spur.scrollBy(ziel);
+        else spur.scrollLeft += ziel.left;
+        sende(spur, "testimonial-grid-step", { direction: richtung < 0 ? "prev" : "next" });
+      }
+      zurueck == null ? void 0 : zurueck.addEventListener("click", () => blaettere(-1), { signal });
+      vor == null ? void 0 : vor.addEventListener("click", () => blaettere(1), { signal });
+      spur.addEventListener("scroll", stimme, { passive: true, signal });
+      const Groesse = (
+        /** @type {any} */
+        globalThis.ResizeObserver || /** @type {any} */
+        ansicht.ResizeObserver
+      );
+      let groesse = null;
+      if (typeof Groesse === "function") {
+        groesse = new Groesse(() => stimme());
+        groesse.observe(spur);
+      } else ansicht.addEventListener("resize", stimme, { signal });
+      stimme();
+      signal.addEventListener("abort", () => {
+        groesse == null ? void 0 : groesse.disconnect();
+        if (zurueck) zurueck.disabled = vorher[0];
+        if (vor) vor.disabled = vorher[1];
+      });
+    }
+  };
+
   // packages/neo-behaviors/video.js
   var TEXTE5 = {
     de: { pause: "Video anhalten", play: "Video abspielen", titel: "Video" },
@@ -6027,6 +6110,9 @@
     // mit zwei Modi — Tabs (Optionen) und Stationen (Geraete-Strecke, vorher
     // neo-device-scroll.js). In Drupal nur per nur
     "product-showcase": productShowcase,
+    // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026): Karussell des
+    // Testimonial-Grids (Vor/Zurueck, Enden gesperrt). In Drupal nur per nur
+    "testimonial-grid": testimonialGrid,
     // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
     // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
     // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur
