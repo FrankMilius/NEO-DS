@@ -3326,37 +3326,159 @@
   };
 
   // packages/neo-behaviors/table-info-modal.js
-  var tableInfoModal = {
-    ...ueberlagerungBehavior({
-      id: "table-info-modal",
-      selektor: ".nc-table-info-modal",
-      praefix: "table-info-modal",
-      offenKlasse: "is-open",
-      hintergrund: (p) => (
-        /** @type {HTMLElement|null} */
-        p.querySelector(":scope > .nc-table-info-modal__backdrop")
-      ),
-      schliessen: ".nc-table-info-modal__close, [data-modal-close]",
-      beimOeffnen(panel, knopf) {
-        var _a;
-        if (!knopf) return;
-        const text = knopf.getAttribute("data-info");
-        const body = panel.querySelector(".nc-table-info-modal__body");
-        if (text !== null && body) {
-          body.replaceChildren(...text.split("\n").map((zeile) => {
-            const p = panel.ownerDocument.createElement("p");
-            p.textContent = zeile;
-            return p;
-          }));
-        }
-        if (!panel.hasAttribute("aria-labelledby") && !panel.hasAttribute("aria-label")) {
-          const name = knopf.getAttribute("aria-label") || ((_a = knopf.textContent) == null ? void 0 : _a.trim());
-          if (name) panel.setAttribute("aria-label", name);
-        }
+  var vorherigeNamen = (
+    /** @type {WeakMap<HTMLElement, string|null>} */
+    /* @__PURE__ */ new WeakMap()
+  );
+  var infoDialogBasis = ueberlagerungBehavior({
+    id: "table-info-modal",
+    selektor: ".nc-table-info-modal",
+    praefix: "table-info-modal",
+    offenKlasse: "is-open",
+    hintergrund: (p) => (
+      /** @type {HTMLElement|null} */
+      p.querySelector(":scope > .nc-table-info-modal__backdrop")
+    ),
+    schliessen: ".nc-table-info-modal__close, [data-modal-close]",
+    beimOeffnen(panel, knopf) {
+      var _a, _b;
+      if (!knopf) return;
+      if (!vorherigeNamen.has(panel)) vorherigeNamen.set(panel, panel.getAttribute("aria-label"));
+      const text = knopf.getAttribute("data-info");
+      const body = panel.querySelector(".nc-table-info-modal__body");
+      if (text !== null && body) {
+        body.replaceChildren(...text.split("\n").map((zeile) => {
+          const p = panel.ownerDocument.createElement("p");
+          p.textContent = zeile;
+          return p;
+        }));
       }
-    }),
+      if (panel.hasAttribute("aria-labelledby")) return;
+      const dialogName = (_a = knopf.getAttribute("data-info-label")) == null ? void 0 : _a.trim();
+      if (dialogName) panel.setAttribute("aria-label", dialogName);
+      else if (!panel.hasAttribute("aria-label")) {
+        const name = knopf.getAttribute("aria-label") || ((_b = knopf.textContent) == null ? void 0 : _b.trim());
+        if (name) panel.setAttribute("aria-label", name);
+      }
+    }
+  });
+  var tableInfoModal = {
+    ...infoDialogBasis,
+    /** @param {HTMLElement} panel @param {AbortSignal} signal */
+    binde(panel, signal) {
+      infoDialogBasis.binde(panel, signal);
+      signal.addEventListener("abort", () => {
+        var _a;
+        if (!vorherigeNamen.has(panel)) return;
+        const name = (_a = vorherigeNamen.get(panel)) != null ? _a : null;
+        vorherigeNamen.delete(panel);
+        if (name === null) panel.removeAttribute("aria-label");
+        else panel.setAttribute("aria-label", name);
+      });
+    },
     // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
     nurAusdruecklich: true
+  };
+
+  // packages/neo-behaviors/table-block.js
+  var TABELLE_TEXTE = {
+    de: { region: "Tabelle" },
+    en: { region: "Table" }
+  };
+  var tabellenUmgebung = (
+    /** @type {any} */
+    globalThis
+  );
+  var tabellenSprache = (el) => {
+    var _a;
+    const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
+    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
+  };
+  var tableBlock = {
+    id: "table-block",
+    selektor: ".nc-table-block",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const ansicht = wurzel.ownerDocument.defaultView;
+      const tabelle = wurzel.querySelector("table");
+      const vorher = {
+        scrollActive: wurzel.getAttribute("data-scroll-active"),
+        role: wurzel.getAttribute("role"),
+        ariaLabel: wurzel.getAttribute("aria-label"),
+        tabindex: wurzel.getAttribute("tabindex")
+      };
+      const regionImMarkup = vorher.role === "region";
+      const grenze = parseInt(wurzel.dataset.scrollBp || "", 10) || 0;
+      const name = () => {
+        var _a, _b;
+        const titel = (_a = wurzel.closest(".nc-section")) == null ? void 0 : _a.querySelector(".nc-section-header__title");
+        return ((_b = titel == null ? void 0 : titel.textContent) == null ? void 0 : _b.replace(/\s+/g, " ").trim()) || wurzel.dataset.scrollLabel || TABELLE_TEXTE[tabellenSprache(wurzel)].region;
+      };
+      let stand = null;
+      let region = false;
+      const pruefe = () => {
+        var _a;
+        const scrollActive = grenze > 0 && ((_a = ansicht == null ? void 0 : ansicht.innerWidth) != null ? _a : Infinity) < grenze;
+        wurzel.setAttribute("data-scroll-active", String(scrollActive));
+        const overflow = wurzel.scrollWidth > wurzel.clientWidth + 1;
+        if (overflow && !regionImMarkup) {
+          wurzel.setAttribute("role", "region");
+          wurzel.setAttribute("aria-label", name());
+          wurzel.setAttribute("tabindex", "0");
+          region = true;
+        } else if (!overflow && region) {
+          wurzel.removeAttribute("role");
+          wurzel.removeAttribute("aria-label");
+          wurzel.removeAttribute("tabindex");
+          region = false;
+        }
+        const neu = { scrollActive, overflow };
+        const geaendert = stand && (stand.scrollActive !== scrollActive || stand.overflow !== overflow);
+        stand = neu;
+        if (geaendert) sende(wurzel, "table-block-change", neu);
+      };
+      const bild = typeof tabellenUmgebung.requestAnimationFrame === "function" ? (f) => tabellenUmgebung.requestAnimationFrame(f) : (f) => tabellenUmgebung.setTimeout(f, 16);
+      const storniere = typeof tabellenUmgebung.cancelAnimationFrame === "function" ? (n) => tabellenUmgebung.cancelAnimationFrame(n) : (n) => tabellenUmgebung.clearTimeout(n);
+      let geplant = 0;
+      const planen = () => {
+        if (geplant) return;
+        geplant = bild(() => {
+          geplant = 0;
+          pruefe();
+        });
+      };
+      pruefe();
+      ansicht == null ? void 0 : ansicht.addEventListener("resize", planen, { signal });
+      let beobachter = null;
+      if (typeof tabellenUmgebung.ResizeObserver === "function") {
+        beobachter = new tabellenUmgebung.ResizeObserver(planen);
+        beobachter == null ? void 0 : beobachter.observe(wurzel);
+        if (tabelle) beobachter == null ? void 0 : beobachter.observe(tabelle);
+      }
+      wurzel.addEventListener("scroll", () => {
+        wurzel.classList.toggle("is-scrolled", wurzel.scrollLeft > 5);
+      }, { passive: true, signal });
+      signal.addEventListener("abort", () => {
+        if (geplant) storniere(geplant);
+        geplant = 0;
+        beobachter == null ? void 0 : beobachter.disconnect();
+        wurzel.classList.remove("is-scrolled");
+        if (vorher.scrollActive === null) wurzel.removeAttribute("data-scroll-active");
+        else wurzel.setAttribute("data-scroll-active", vorher.scrollActive);
+        if (region) {
+          for (
+            const [attr, wert] of
+            /** @type {Array<[string, string|null]>} */
+            [["role", vorher.role], ["aria-label", vorher.ariaLabel], ["tabindex", vorher.tabindex]]
+          ) {
+            if (wert === null) wurzel.removeAttribute(attr);
+            else wurzel.setAttribute(attr, wert);
+          }
+        }
+      });
+    }
   };
 
   // packages/neo-behaviors/multiselect.js
@@ -5349,6 +5471,10 @@
     // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
     "mobile-drawer": mobileDrawer,
     "table-info-modal": tableInfoModal,
+    // Website-Bauteil (Plan v4, Phase 5, 12.10.2026): Tabellen-Block —
+    // Scroll-Grenze, benannte Scroll-Region bei Ueberlauf, Schatten. Die
+    // Tabelle rendert neo_fe im Twig. In Drupal nur per nur
+    "table-block": tableBlock,
     breadcrumb,
     treeview,
     "navigation-menu": navigationMenu,

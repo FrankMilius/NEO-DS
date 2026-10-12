@@ -100,8 +100,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/Namen im Markup/)
   })
 
-  it('table-info-modal: 1.3.0, Anatomie wie das SCSS, keyboard/events wie das Behavior, Website seit 07.10.2026 per nur', () => {
-    const r = freigegeben('table-info-modal', '1.3.0')
+  it('table-info-modal: 1.4.0, Anatomie wie das SCSS, keyboard/events wie das Behavior, Website seit 07.10.2026 per nur, Name je Knopf (Plan v4, Phase 5)', () => {
+    const r = freigegeben('table-info-modal', '1.4.0')
     anatomieWieScss('table-info-modal', 'scss/scss/07-organisms/_table-info-modal.scss', 'nc-table-info-modal')
     expect(MIT_VERHALTEN).toContain('table-info-modal')
     expect(Object.keys(r.keyboard).sort()).toEqual(['Enter', 'Escape', 'Shift+Tab', 'Space', 'Tab'])
@@ -110,8 +110,11 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     for (const g of ['escape', 'overlay-click', 'close-button', 'trigger']) expect(grund).toContain(`'${g}'`)
     expect(grund).not.toContain("'resize'")
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
-    expect(r.meta.source.drupal).toMatch(/nur\[\] = 'table-info-modal'/)
+    expect(r.meta.source.drupal).toMatch(/schaltet table-info-modal und table-block ein/)
     expect(r.anatomy.domNotes.join(' ')).not.toMatch(/bis zur Umstellung|ersten sechs/)
+    // 1.4.0: Name je Knopf aus data-info-label (vorher Klick-Lauscher in neoTable)
+    expect(r.a11y.base.assertions.join(' ')).toMatch(/data-info-label/)
+    expect(r.anatomy.domNotes.join(' ')).not.toMatch(/gebaut von neoTable/)
     // Website-Markup (geerntet): role=dialog, Schliessen per data-modal-close, ohne Namen
     const ernte = readFileSync(resolve(WURZEL, 'data/markup/table-info-modal.html'), 'utf8')
     expect(ernte).toMatch(/role="dialog"/)
@@ -205,8 +208,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
   })
 
-  it('tbl-cell: 1.4.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte', () => {
-    const r = freigegeben('tbl-cell', '1.4.0')
+  it('tbl-cell: 1.5.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte, Twig mit Positivliste', () => {
+    const r = freigegeben('tbl-cell', '1.5.0') // 1.5.0: Zellen aus dem Twig, Positivliste (Plan v4, Phase 5)
     // 1.4.0 (Abschluss 3, tabelle-bold): bold an der Zelle -> <strong> in Wertzellen, Zeilenkopf unveraendert
     const boldNotiz = r.anatomy.domNotes.find((n) => n.startsWith('Feld bold'))
     expect(boldNotiz).toMatch(/Wertzellen \(td/)
@@ -216,18 +219,22 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     anatomieWieScss('tbl-cell', 'scss/scss/05-atoms/_tbl-cell.scss', 'nc-tbl-cell')
     const pflicht = Object.fromEntries(r.anatomy.slots.map((s) => [s.name, !s.optional]))
     expect(pflicht).toEqual({ text: true, 'info-btn': false, sub: false, 'icon-block': false, icon: false })
-    expect(r.keyboard).toBeUndefined()
-    expect(r.meta.source.drupal).toMatch(/renderCell/)
+    expect(Object.keys(r.keyboard).sort()).toEqual(['Enter', 'Space', 'Tab'])
+    expect(r.meta.source.drupal).toMatch(/_neo_fe_tbl_zelle/)
+    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
+    expect(r.anatomy.domNotes.join(' ')).toMatch(/br, strong, em, b, i, a, sup, sub/)
     for (const z of zellen('tbl-cell')) {
       const d = dom(z.html)
       for (const svg of d.querySelectorAll('svg.nc-tbl-icon')) {
         expect(svg.getAttribute('aria-label'), z.specimen.id).toMatch(/^(nicht )?enthalten$/)
+        expect(svg.getAttribute('role'), z.specimen.id).toBe('img')
         // Farben nur aus _tbl-icon.scss (wie neoTable seit 25.08.2026)
         expect(svg.innerHTML, z.specimen.id).not.toMatch(/fill="#|stroke="black"/)
       }
       for (const knopf of d.querySelectorAll('.nc-tbl-cell__info-btn')) {
         expect(knopf.getAttribute('type')).toBe('button')
-        expect(knopf.getAttribute('aria-label')).toBeTruthy()
+        expect(knopf.getAttribute('aria-label')).toMatch(/^Mehr Informationen zu /)
+        expect(knopf.getAttribute('data-info-label')).toMatch(/^Informationen zu /)
       }
     }
     expect(r.a11y.base.assertions.join(' ')).toMatch(/1\.1\.1/)
@@ -237,8 +244,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(regel[1]).not.toMatch(/opacity:/)
   })
 
-  it('table-block: 1.6.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.6.0') // 1.4.0 Theme-Bereiche, 1.5.0 breite Tabellen (Restpunkte 09.10.2026), 1.6.0 Token-Auswahl (Plan v4, Phase 4)
+  it('table-block: 1.7.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.7.0') // 1.4.0 Theme-Bereiche, 1.5.0 breite Tabellen (Restpunkte 09.10.2026), 1.6.0 Token-Auswahl (Plan v4, Phase 4), 1.7.0 Twig + Behavior table-block (Phase 5)
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -272,7 +279,12 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(css).toMatch(/\.nc-compare-table\{[^}]*overflow:hidden/)
     expect(r.anatomy.domNotes.join(' ')).toMatch(/overflow: clip/)
     expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-table.html.twig', 'block/block--inline-block--neo-table.html.twig'])
-    expect(r.keyboard).toBeUndefined()
+    // 1.7.0: Behavior table-block statt neoTable
+    expect(MIT_VERHALTEN).toContain('table-block')
+    expect(Object.keys(r.keyboard).sort()).toEqual(['ArrowLeft', 'ArrowRight', 'Tab'])
+    expect(Object.keys(r.events)).toEqual(['table-block-change'])
+    expect(r.meta.source.behavior).toMatch(/table-block\.js; nurAusdruecklich/)
+    expect(notizen).not.toMatch(/setzt neoTable|Kein Behavior in neo-behaviors/)
     for (const z of zellen('table-block')) {
       const d = dom(z.html)
       expect(d.querySelectorAll('thead th[scope="col"]').length).toBeGreaterThan(1)

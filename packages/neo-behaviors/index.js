@@ -46,6 +46,7 @@ import { button } from './button.js'
 import { shell } from './shell.js'
 import { mobileDrawer } from './mobile-drawer.js'
 import { tableInfoModal } from './table-info-modal.js'
+import { tableBlock } from './table-block.js'
 import { multiselect } from './multiselect.js'
 import { chapterNav } from './chapter-nav.js'
 import { referencePage } from './reference-page.js'
@@ -86,6 +87,10 @@ export const BEHAVIORS = Object.freeze({
   // in Drupal nur, wenn drupalSettings.neoBehaviors.nur sie nennt
   'mobile-drawer': mobileDrawer,
   'table-info-modal': tableInfoModal,
+  // Website-Bauteil (Plan v4, Phase 5, 12.10.2026): Tabellen-Block —
+  // Scroll-Grenze, benannte Scroll-Region bei Ueberlauf, Schatten. Die
+  // Tabelle rendert neo_fe im Twig. In Drupal nur per nur
+  'table-block': tableBlock,
   breadcrumb,
   treeview,
   'navigation-menu': navigationMenu,

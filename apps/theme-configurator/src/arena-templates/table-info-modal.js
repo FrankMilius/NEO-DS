@@ -24,7 +24,9 @@
 // Fokus zurueck). Den Namen nimmt der Dialog dort vom Info-Knopf (der Text
 // in __body wird ersetzt, ein aria-labelledby darin liefe ins Leere). Die
 // Website nutzt das Behavior seit 07.10.2026 (nur[] = 'table-info-modal');
-// ihre Info-Knoepfe baut neoTable in neo-theme.js.
+// ihre Info-Knoepfe rendert seit Plan v4, Phase 5 das Twig von neo_fe, mit
+// data-info-label („Informationen zu <Zeile>, <Spalte>“) als Dialogname je
+// Knopf. Der Knopf hier hat keins: er zeigt den Rueckfall (Name des Knopfs).
 import { SYMBOL } from './_helfer.js'
 
 const INFO_TEXT = 'Anmeldung mit dem Firmenkonto über SAML oder OpenID Connect.\nIn der Edition „Professional“ enthalten, in „Basic“ als Zusatzmodul buchbar.'

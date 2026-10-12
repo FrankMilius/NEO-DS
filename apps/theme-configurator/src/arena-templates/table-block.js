@@ -12,16 +12,21 @@
 // Recipe, dieselbe Positivliste wie neo_fe _neo_fe_tbl_ton_liste()) inline
 // wie Drupal — Kopf und Streifen am Block, die Flaeche an einer Section mit
 // Blockkopf. Ohne Achsenwert (Specimen default) die DS-Vorgabe.
-// Haken ohne Farbwerte im SVG wie neoTable seit 25.08.2026.
+// Haken ohne Farbwerte im SVG, mit role=img und Namen; Info-Knopf mit Namen
+// aus der Zeile und data-info-label — wie das Twig von neo_fe seit Plan v4,
+// Phase 5 (vorher neoTable). „Ausprobieren“ bindet das Behavior
+// table-block (Scroll-Grenze nach der Fensterbreite, Scroll-Region bei
+// Ueberlauf, Schatten).
 // Zustand scrolled: schmaler Rahmen (ra-schmal), die
 // Tabelle scrollt waagerecht (data-scroll-active=true, Tabelle max-content)
 // und ist nach rechts gescrollt (is-scrolled — der Schatten der festen
-// ersten Spalte erscheint), so wie es neo-theme.js beim Scrollen setzt.
+// ersten Spalte erscheint), so wie es das Behavior table-block beim
+// Scrollen setzt.
 import { esc } from './_helfer.js'
 
-const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="enthalten"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
-const STRICH = '<svg class="nc-tbl-icon nc-tbl-icon--dash" width="32" height="32" viewBox="0 0 36 36" fill="none" aria-label="nicht enthalten"><path d="M11 18H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
-const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 5.33h.007" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M7.33 8H8v2.67h.67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+const HAKEN = '<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none" role="img" aria-label="enthalten"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+const STRICH = '<svg class="nc-tbl-icon nc-tbl-icon--dash" width="32" height="32" viewBox="0 0 36 36" fill="none" role="img" aria-label="nicht enthalten"><path d="M11 18H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 5.33h.007" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M7.33 8H8v2.67h.67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 
 const ZEILEN = [
   ['News, Newskanäle', true, true],
@@ -32,7 +37,7 @@ const ZEILEN = [
 ]
 
 const wert = (an) => `<td><div class="nc-tbl-cell nc-tbl-cell--icon">${an ? HAKEN : STRICH}</div></td>`
-const kopf = (text, info) => `<th scope="row"><div class="nc-tbl-cell"><p class="nc-tbl-cell__text">${text}${info ? `<button class="nc-tbl-cell__info-btn" type="button" aria-label="Mehr Informationen">${INFO}</button>` : ''}</p></div></th>`
+const kopf = (text, info) => `<th scope="row"><div class="nc-tbl-cell"><p class="nc-tbl-cell__text">${text}${info ? `<button type="button" class="nc-tbl-cell__info-btn" aria-label="Mehr Informationen zu ${text}" data-info-label="Informationen zu ${text}"> ${INFO}</button>` : ''}</p></div></th>`
 
 /** Deklarationen des Achsenwerts aus dem Recipe (leer: DS-Vorgabe). */
 const deklarationen = (m, achse) => {
