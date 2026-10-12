@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "table-info-modal",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -37,8 +37,8 @@
       }
     ],
     "notes": [
-      "Website (block--block-content--neo-table.html.twig, einer je Tabelle, nach der Tabelle in der Section): div.nc-table-info-modal#nc-table-info-<Block-ID>[role=dialog][aria-hidden=true] > __backdrop[data-modal-close] + __content > button.__close[data-modal-close][aria-label] + __body (leer). Ohne aria-modal und ohne Namen — aria-modal setzt das Behavior, den Namen nimmt es vom Ausloeser.",
-      "Ausloeser: Info-Knopf der Tabellenzelle (.nc-tbl-cell__info-btn, Recipe tbl-cell), gebaut von neoTable (neo-theme.js) mit aria-controls=\"<id des Dialogs>\", aria-expanded und dem Infotext in data-info. Auf der Website heisst jeder Info-Knopf „Mehr Informationen\" (fest im Skript, nicht uebersetzt) — so heisst dann auch jeder Dialog; die Arena zeigt den empfohlenen Namen mit Zeilenbezug („Mehr Informationen zu …\") und aria-haspopup=\"dialog\".",
+      "Website (block--block-content--neo-table.html.twig, einer je Tabelle, nach der Tabelle in der Section): div.nc-table-info-modal#nc-table-info-<Block-ID>[role=dialog][aria-hidden=true] > __backdrop[data-modal-close] + __content > button.__close[data-modal-close][aria-label] + __body (leer). Ohne aria-modal und ohne Namen — aria-modal setzt das Behavior, den Namen bei jedem Oeffnen aus data-info-label des Ausloesers.",
+      "Ausloeser: Info-Knopf der Tabellenzelle (.nc-tbl-cell__info-btn, Recipe tbl-cell), seit Plan v4, Phase 5 aus dem Twig (vorher neoTable) mit aria-controls=\"<id des Dialogs>\", aria-expanded, dem Infotext in data-info und dem Namen des Dialogs in data-info-label („Informationen zu <Zeile>, <Spalte>“); der Knopf selbst heisst „Mehr Informationen zu …“. Die Arena zeigt dazu aria-haspopup=\"dialog\".",
       "Inhalt: das Behavior setzt data-info als Text in __body, jede Zeile (\\n) ein <p> — kein HTML (die Website nutzte bis 07.10.2026 innerHTML; Auszeichnung im Feld erscheint jetzt als Text). Ohne data-info bleibt der Inhalt, wie er ist (die Arena-Zellen zeigen einen Titel als <p><strong>).",
       "Zustand offen = .is-open: opacity --nc-table-info-modal-is-open-opacity (0,2 s) und pointer-events; geschlossen opacity 0, bleibt im Layout. Lage: position fixed, inset 0, z-index --fnd-z-toast, Inhalt mittig (flex).",
       "Modal (neo-behaviors table-info-modal): role=dialog (falls fehlend) und aria-modal, Fokus auf den Schliessen-Knopf, Fokus-Falle, Geschwister des Dialogs und seiner Vorfahren bis <body> inert (auch die Tabelle mit dem Ausloeser); geschlossen inert + aria-hidden=\"true\". Escape, Schliessen-Knopf und Backdrop schliessen, danach Fokus zurueck zum Info-Knopf. Die Seite scrollt hinter dem Dialog weiter (keine Seitensperre).",
@@ -127,7 +127,7 @@
     "assertions": [
       "2.1.2/2.4.3: modaler Dialog — Fokus beim Oeffnen auf den Schliessen-Knopf, Fokus-Falle, Rest der Seite inert, Escape schliesst, Fokus zurueck zum Info-Knopf.",
       "2.4.3: geschlossen inert und aria-hidden — der per opacity ausgeblendete Schliessen-Knopf ist nicht per Tab erreichbar.",
-      "4.1.2: Name aus aria-labelledby/aria-label im Markup; fehlt er, uebernimmt das Behavior das aria-label des Ausloesers. Der Info-Knopf braucht deshalb einen Namen mit Zeilenbezug („Mehr Informationen zu <Zeile>\") — auf der Website heisst jeder „Mehr Informationen\" (Befund fuer neo_fe).",
+      "4.1.2: Name aus aria-labelledby im Markup; sonst bei jedem Oeffnen aus data-info-label des Ausloesers („Informationen zu <Zeile>, <Spalte>“), ohne data-info-label wie bisher das aria-label des Ausloesers, falls der Dialog keinen Namen hat. Auf der Website traegt jeder Info-Knopf data-info-label (seit Plan v4, Phase 5).",
       "1.3.1: Inhalt als Absaetze (<p>) aus data-info, als Text gesetzt (kein HTML aus dem Feld).",
       "2.5.8: Schliessen-Knopf 28 x 28 px (Symbol 20 px + Polster); der Backdrop schliesst zusaetzlich.",
       "1.4.3/1.4.11: Kontrast AA hell und dunkel gemessen — Text text-primary 16,01:1, Schliessen-Symbol text-secondary ab 6,07:1."

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tbl-cell",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,14 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "Plan v4, Phase 5 (12.10.2026, Entscheidung E9 = a; Freigabe ausstehend): Die Zellen rendert neo_fe im Twig (Preprocess _neo_fe_tbl_aufbereiten) statt neoTable im Browser — gleicher Aufbau, gleiche Ausgabe (Pixelvergleich). Text und Untertitel gehen durch Xss::filter mit der Positivliste br, strong, em, b, i, a, sup, sub (vorher ungefiltert per innerHTML): andere Tags fallen weg (ihr Text bleibt), on*-Attribute, style und javascript:/data:-Links ebenso.",
+          "Info-Knopf: Name mit Zeile und Spalte („Mehr Informationen zu <Zeile>, <Spalte>“, im Zeilenkopf nur die Zeile), aria-controls, aria-expanded, data-info und neu data-info-label („Informationen zu …“) — den Namen des Dialogs setzt table-info-modal daraus (vorher Klick-Lauscher in neoTable). Wertsymbole mit role=img und aria-label „enthalten“/„nicht enthalten“ (Website seit 08.10.2026).",
+          "keyboard (Tab, Enter, Space am Info-Knopf) neu; eigene events hat die Zelle nicht (Dialog: table-info-modal)."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [
@@ -67,11 +75,14 @@
       ],
       "story": "stories/atoms/tbl-cell.stories.js",
       "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-      "drupal": [],
+      "drupal": [
+        "block/block--block-content--neo-table.html.twig",
+        "block/block--inline-block--neo-table.html.twig"
+      ],
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: kein Template — js/neo-theme.js Drupal.behaviors.neoTable (renderCell, infoButton, SVG_CHECK/SVG_DASH/SVG_INFO) baut die Zellen des Tabellen-Blocks neo_table aus dem JSON field_tbl_data.",
+      "drupal": "neo_fe: block--block-content--neo-table.html.twig (Makros zelle/knopf, Symbole haken/strich/info_symbol) aus neo_tbl.zeilen — aufbereitet von _neo_fe_tbl_aufbereiten()/_neo_fe_tbl_zelle() in includes/neo_table.inc (Positivliste _neo_fe_tbl_erlaubt()). Bis Plan v4, Phase 5: js/neo-theme.js Drupal.behaviors.neoTable (renderCell, infoButton).",
       "behavior": null
     }
   },
@@ -84,13 +95,13 @@
         "name": "text",
         "element": ".nc-tbl-cell__text",
         "optional": false,
-        "description": "Text der Zelle (p, body-s, text-primary; im Zeilenkopf th[scope=row] semibold). Zeilenumbrueche aus dem Feld als <br>; mit bold im JSON steht der Text einer Wertzelle (td) in <strong>; traegt bei Zeilenkoepfen den Info-Knopf am Ende."
+        "description": "Text der Zelle (p, body-s, text-primary; im Zeilenkopf th[scope=row] semibold). Zeilenumbrueche aus dem Feld als <br>; Auszeichnung nur br, strong, em, b, i, a, sup, sub; mit bold im JSON steht der Text einer Wertzelle (td) in <strong>; traegt den Info-Knopf am Ende."
       },
       {
         "name": "info-btn",
         "element": ".nc-tbl-cell__info-btn",
         "optional": true,
-        "description": "Info-Knopf (button, Symbol 16 px + 2 px Polster, text-tertiary, Hover text-primary, :focus-visible Ring rund) mit aria-label, aria-controls auf den Info-Dialog (Recipe table-info-modal), aria-expanded und data-info. Nur, wenn die Zelle einen Infotext hat."
+        "description": "Info-Knopf (button, Symbol 16 px + 2 px Polster, text-tertiary, Hover text-primary, :focus-visible Ring rund) mit aria-label (Zeile und Spalte), aria-controls auf den Info-Dialog (Recipe table-info-modal), aria-expanded, data-info und data-info-label (Name des Dialogs). Nur, wenn die Zelle einen Infotext hat."
       },
       {
         "name": "sub",
@@ -114,10 +125,10 @@
     "convenience": [],
     "domNotes": [
       "Zelle der Vergleichstabelle (Tabellen-Block, Recipe table-block): div.nc-tbl-cell (flex, gap spacing-02) in th oder td — der Ort gestaltet sie: th[scope=row] (erste Spalte) links, umbrechend, Text semibold; td mittig. Ohne Tabelle hat die Zelle keine Ausrichtung (die Arena stellt jede Zelle in eine Tabelle, Rahmen ra-tabelle).",
-      "Aufbau nach neoTable (renderCell): nur Symbol -> .nc-tbl-cell--icon mit dem SVG direkt; Symbol und Text -> .nc-tbl-cell__icon-block + Text; Text -> p.nc-tbl-cell__text (Feldinhalt als HTML, \\n -> <br>; in Wertzellen mit bold in <strong>); Untertitel -> p.nc-tbl-cell__sub; Info -> button.nc-tbl-cell__info-btn am Ende des Text-Absatzes, ohne Text direkt in der Zelle. Kurzformen im JSON: „✔\" = check, „–\" = dash.",
-      "Feld bold (JSON, an der Zelle: { \"text\": \"…\", \"bold\": true }): in Wertzellen (td, ab der zweiten Spalte) steht der Text in <strong> (p.nc-tbl-cell__text > strong, Info-Knopf danach im selben Absatz); im Zeilenkopf (th[scope=row]) ohne Wirkung — der ist ohnehin fett. Untertitel bleibt normal. Seit 1.4.0 (Entscheidung Abschluss 3, 08.10.2026); bis dahin wertete neoTable bold nicht aus. Ein bold an der Zeile ({ \"cells\": […], \"bold\": true }) wertet neoTable nicht aus.",
-      "Info-Knopf der Website: aria-label „Mehr Informationen\" (fest im Skript, in jeder Zeile gleich), aria-controls auf den Info-Dialog des Blocks, aria-expanded=false, data-info mit dem Text; das Symbol (svg.nc-tbl-info-icon, Klasse ohne CSS) ohne aria-hidden. Den Dialog oeffnet neo-behaviors table-info-modal.",
-      "Wertsymbole der Website (SVG_CHECK/SVG_DASH): ohne Farbwerte (seit 25.08.2026 aus _tbl-icon.scss) und ohne Textalternative — die Arena zeigt die Empfehlung aria-label=\"enthalten\"/\"nicht enthalten\"."
+      "Aufbau (neo_fe Twig, seit 1.5.0; vorher neoTable renderCell — gleiche Regeln): nur Symbol -> .nc-tbl-cell--icon mit dem SVG direkt (ein info daran wird nicht gezeigt); Symbol und Text -> .nc-tbl-cell__icon-block + Text; Text -> p.nc-tbl-cell__text (\\n -> <br>, Positivliste br, strong, em, b, i, a, sup, sub; in Wertzellen mit bold in <strong>); Untertitel -> p.nc-tbl-cell__sub (gleiche Positivliste); Info -> button.nc-tbl-cell__info-btn am Ende des Text-Absatzes (mit fuehrendem Leerzeichen), ohne Text direkt in der Zelle. Kurzformen im JSON: „✔“ = check, „–“ = dash, andere Texte = text. Wahrheitswerte wie bisher in JavaScript („0“ ist ein Text, bold „false“ wirkt nicht). Zwischen den Elementen kein Leerraum.",
+      "Feld bold (JSON, an der Zelle: { \"text\": \"…\", \"bold\": true }): in Wertzellen (td, ab der zweiten Spalte) steht der Text in <strong> (p.nc-tbl-cell__text > strong, Info-Knopf danach im selben Absatz); im Zeilenkopf (th[scope=row]) ohne Wirkung — der ist ohnehin fett. Untertitel bleibt normal. Seit 1.4.0 (Entscheidung Abschluss 3, 08.10.2026); bis dahin wertete neoTable bold nicht aus. Ein bold an der Zeile ({ \"cells\": […], \"bold\": true }) wirkt nicht.",
+      "Info-Knopf der Website (seit 1.5.0 aus dem Twig): aria-label „Mehr Informationen zu <Zeile>[, <Spalte>]“ (Bezug: Text, sonst Untertitel der ersten Zelle, als reiner Text; ohne Bezug „Mehr Informationen“), aria-controls auf den Info-Dialog des Blocks, aria-expanded=false, data-info mit dem Text (als Text, Twig maskiert), data-info-label „Informationen zu …“ (Name des Dialogs); Symbol svg.nc-tbl-info-icon mit aria-hidden und focusable=false. Den Dialog oeffnet neo-behaviors table-info-modal.",
+      "Wertsymbole der Website: ohne Farbwerte (seit 25.08.2026 aus _tbl-icon.scss), mit role=img und aria-label „enthalten“/„nicht enthalten“ (uebersetzbar per t)."
     ]
   },
   "axes": {
@@ -159,12 +170,13 @@
       "focusIndicator": "2px solid --fnd-color-interactive-focus, Abstand 2px, rund (radius-full) am Info-Knopf",
       "assertions": [
         "1.3.1: Zeilenkopf als th[scope=row], Wertzellen als td; die Zelle gestaltet sich nach diesem Ort.",
-        "1.1.1: Wertsymbole brauchen eine Textalternative (aria-label „enthalten\"/„nicht enthalten\", am besten mit role=img) — auf der Website fehlt sie (Befund fuer neo_fe).",
-        "4.1.2/2.4.6: Info-Knopf mit Namen, der die Zeile nennt („Mehr Informationen zu <Zeile>\") — auf der Website heisst jeder „Mehr Informationen\" (Befund fuer neo_fe).",
+        "1.1.1: Wertsymbole mit Textalternative (role=img, aria-label „enthalten“/„nicht enthalten“) — auf der Website seit 08.10.2026, seit 1.5.0 aus dem Twig.",
+        "4.1.2/2.4.6: Info-Knopf mit Namen, der Zeile und Spalte nennt („Mehr Informationen zu <Zeile>, <Spalte>“); der Dialog heisst „Informationen zu …“ (data-info-label, table-info-modal).",
         "1.4.11: Info-Symbol text-tertiary deckend ab 4,59:1 (Streifenzeile dunkel); bis 1.3.0 mit opacity-muted nur 2,6:1 hell / 2,89:1 dunkel (Korrektur 1.3.1, Freigabe ausstehend).",
         "2.5.8: Info-Knopf 20 x 20 px — zulaessig ueber die Abstandsausnahme (einzeln am Ende des Zeilenkopfs).",
         "1.4.3: Kontrast AA hell und dunkel gemessen — Text text-primary 16,01:1, Untertitel text-tertiary ab 5,75:1; Haken always-dark auf Akzent 12,89:1, Strich text-tertiary ab 4,59:1 (1.4.11).",
-        "1.3.1: Hervorhebung per bold ist in Wertzellen als <strong> ausgezeichnet (nicht nur als Schriftschnitt) — Screenreader koennen sie melden."
+        "1.3.1: Hervorhebung per bold ist in Wertzellen als <strong> ausgezeichnet (nicht nur als Schriftschnitt) — Screenreader koennen sie melden.",
+        "4.1.1/Sicherheit: Text und Untertitel nach Positivliste gefiltert (Xss::filter) — kein Skript, keine Ereignis-Attribute, keine javascript:-Links aus dem Feld (seit 1.5.0; vorher innerHTML)."
       ],
       "note": "Interaktiv ist nur der Info-Knopf; Dialog und Fokusfuehrung: Recipe table-info-modal."
     },
@@ -339,5 +351,19 @@
         "compositionType": "symbol"
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Der Info-Knopf ist ein Tab-Halt (nativer button); Wertsymbole und Text nicht."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf dem Info-Knopf: oeffnet den Info-Dialog (Behavior table-info-modal, aria-controls)."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    }
+  }
 }
