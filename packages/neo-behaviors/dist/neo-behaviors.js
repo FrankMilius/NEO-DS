@@ -6112,6 +6112,46 @@
     }
   };
 
+  // packages/neo-behaviors/hero-tom.js
+  var heroTom = {
+    id: "hero-tom",
+    selektor: '.nc-hero-tom[data-media-mode="expand"]',
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const medium = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-hero-tom__media")
+      );
+      if (!medium || reduzierteBewegung2(wurzel)) return;
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      const vorher = medium.style.getPropertyValue("--tom-expand");
+      let ausgefahren = null;
+      let frame = 0;
+      const messe = () => {
+        frame = 0;
+        const hoehe = ansicht.innerHeight || 1;
+        const fortschritt = Math.max(0, Math.min(1, 1 - wurzel.getBoundingClientRect().top / hoehe));
+        medium.style.setProperty("--tom-expand", fortschritt.toFixed(4));
+        const ganz = fortschritt >= 1;
+        if (ganz !== ausgefahren) {
+          if (ausgefahren !== null) sende(wurzel, "hero-tom-expand", { expanded: ganz, progress: fortschritt });
+          ausgefahren = ganz;
+        }
+      };
+      ansicht.addEventListener("scroll", () => {
+        if (!frame) frame = ansicht.requestAnimationFrame(messe);
+      }, { passive: true, signal });
+      signal.addEventListener("abort", () => {
+        if (frame) ansicht.cancelAnimationFrame(frame);
+        if (vorher) medium.style.setProperty("--tom-expand", vorher);
+        else medium.style.removeProperty("--tom-expand");
+      });
+      messe();
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -6184,6 +6224,7 @@
     // Website-Bauteile (Plan v4, Phase 6b, 12.10.2026): Verhalten an fertigem
     // Markup aus neo-theme.js. In Drupal nur per nur
     timeline,
+    "hero-tom": heroTom,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,

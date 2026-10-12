@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero-tom",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "hero",
@@ -16,6 +16,14 @@
       "docs": "/docs/hero-tom-docs"
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026): Ausfahren des Mediums beim Scrollen als Behavior hero-tom in neo-behaviors (nurAusdruecklich) statt Drupal.behaviors.neoHeroTom in neo_fe/js/neo-theme.js. Wurzel .nc-hero-tom[data-media-mode=\"expand\"]; --tom-expand = 1 - (Oberkante der Wurzel / Fensterhoehe), 0 … 1 mit 4 Stellen, inline am Medium; Scroll-Lauscher passiv, ein Durchlauf je Bild; prefers-reduced-motion: kein Lauscher (das SCSS faehrt ganz aus).",
+          "Neu: Abbinden loest den Scroll-Lauscher (vorher nie geloest), bricht einen ausstehenden Frame ab und stellt den Inline-Wert von vorher her; keyboard (Tab, keine eigene Bedienung), events hero-tom-expand { expanded, progress }. Drupal: _neo_fe_behaviors_anhaengen($variables, ['hero-tom']) am Block neo_hero_tom. Ohne Website-Wirkung.",
+          "domNotes: der Expand kommt nicht aus GSAP/ScrollTrigger, sondern aus dem Scroll-Lauscher (Befund beim Umzug)."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [
@@ -116,7 +124,7 @@
       "Text ueber Hintergrund-Medium. Optionaler Parallax-Expand.",
       "Markup wie data/markup/hero-tom.html (Website). Slots aus dem geernteten Markup (06.10.2026).",
       "Seit 06.10.2026 (Entscheidung hero-tom-gestaltung) gestaltet das DS den Block vollstaendig: Wurzel (always-light, min-block-size 100svh), Medium (absolut, object-fit cover), radialer Scrim, Text (Kicker, Display-Headline, Subtext), Ton hell (--light), Expand (--expand), Inhaltsbreite (--cw-*) und die Badge-Zeile (05-atoms/_badge-row.scss). Die Regeln waren am 12.08.2026 (8b04d29c) beim zweiten Aufnahme-Lauf verloren gegangen.",
-      "Expand beim Scrollen: GSAP/ScrollTrigger in neo-theme.js setzt --tom-expand (0 → 1) am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1).",
+      "Expand beim Scrollen: das Behavior hero-tom (neo-behaviors, Plan v4, Phase 6b) setzt --tom-expand (0 → 1) inline am Medium; das DS liest es (Inset auf Inhaltsbreite, Radius) und faehrt bei prefers-reduced-motion ganz aus. Die Arena zeigt den Endzustand (--tom-expand: 1).",
       "Hintergrundvideo (Plan v4, Phase 3): Section mit [data-neo-video], Knopf .nc-video-pause (Recipe video) als Kind der Section hinter dem Medium. Video ohne autoplay — Start ueber neo-behaviors video."
     ]
   },
@@ -409,5 +417,21 @@
         "note": ""
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: Links im Text und der Pause-Knopf eines Hintergrundvideos (.nc-video-pause, Recipe video) in Dokumentreihenfolge. Das Ausfahren folgt nur dem Scrollen."
+    }
+  },
+  "events": {
+    "hero-tom-expand": {
+      "bubbles": true,
+      "detail": {
+        "expanded": "boolean",
+        "progress": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn das Medium beim Scrollen ganz ausgefahren ist (expanded true, progress 1) oder es nicht mehr ist (expanded false, progress < 1) — nicht bei jedem Frame; der Stand beim Binden meldet nicht."
+    }
+  }
 }

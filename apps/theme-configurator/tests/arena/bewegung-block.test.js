@@ -178,8 +178,9 @@ describe('Bewegung-Block aus dem Recipe', () => {
   // overlay-verhalten) — „Ausprobieren" ueber MIT_VERHALTEN, Tests in
   // tests/behaviors/website-behaviors.test.js
   // marquee: Behavior seit Plan v4, Phase 2 (12.10.2026, Pause-Knopf);
-  // fade-gallery, carousel: seit Plan v4, Phase 6a (12.10.2026)
-  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal', 'marquee', 'fade-gallery', 'carousel']
+  // fade-gallery, carousel: seit Plan v4, Phase 6a (12.10.2026);
+  // hero-tom: seit Plan v4, Phase 6b (12.10.2026, Ausfahren beim Scrollen)
+  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal', 'marquee', 'fade-gallery', 'carousel', 'hero-tom']
   it('Overlays mit Behavior: keyboard/events im Recipe, Ausprobieren ueber neo-behaviors', () => {
     for (const id of MIT_BEHAVIOR) {
       const r = rohesRecipe(id)

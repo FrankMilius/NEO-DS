@@ -62,6 +62,7 @@ import { productShowcase } from './product-showcase.js'
 import { testimonialGrid } from './testimonial-grid.js'
 import { video } from './video.js'
 import { timeline } from './timeline.js'
+import { heroTom } from './hero-tom.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
@@ -139,6 +140,7 @@ export const BEHAVIORS = Object.freeze({
   // Website-Bauteile (Plan v4, Phase 6b, 12.10.2026): Verhalten an fertigem
   // Markup aus neo-theme.js. In Drupal nur per nur
   timeline,
+  'hero-tom': heroTom,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,
