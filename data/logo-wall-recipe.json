@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "logo-wall",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,14 @@
       "docs": "/docs/logo-wall-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Plan v4, Phase 2 (12.10.2026; Freigabe ausstehend, WCAG 2.2.2): Laufband (Layout marquee) mit Pause-Knopf .nc-logo-wall__pause vor der Spur; Verhalten aus neo-behaviors marquee (teilt Knopf-Tokens --nc-marquee-pause-* und Verhalten). Maus/Fokus halten voruebergehend an, reduzierte Bewegung = stehend.",
+          "Duplikate der Spur inert (vorher nur aria-hidden — als Links fokussierbar). Kein aria-label mehr an der Wand (div ohne Rolle) und an den Pillen: der Name kommt aus alt bzw. dem Text; externe Links (target=_blank) tragen den Hinweis „öffnet in neuem Fenster“ als .u-sr-only.",
+          "Laufband-Wurzel als Block statt Flex: der Knopf steht in eigener Zeile ueber der Spur; die Spur behaelt die Breite ihres Inhalts (max-content). Ungebunden haelt weiter die Maus an (:hover), gebunden steuert das Behavior (.is-paused/.is-stopped)."
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -45,10 +53,14 @@
       "story": "stories/molecules/logo-wall.stories.js",
       "arena": null,
       "drupal": [
-        "block--block-content--neo-logo-wall.html.twig",
-        "block--inline-block--neo-logo-wall.html.twig"
+        "block/block--block-content--neo-logo-wall.html.twig",
+        "block/block--inline-block--neo-logo-wall.html.twig"
       ],
       "docs": "docs/logo-wall-docs.html"
+    },
+    "source": {
+      "drupal": "neo_fe: block--block-content--neo-logo-wall.html.twig (inline_block per include): Wand ohne aria-label, im Laufband Knopf .nc-logo-wall__pause und Spur; js/neo-theme.js Drupal.behaviors.neoLogoWall baut die Pillen aus script[data-logo-wall-data] (Kopien aria-hidden, externe Links mit .u-sr-only-Hinweis) und bindet im Laufband mit NeoBehaviors.anbinden(wand, ['marquee']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['marquee']) fuer neo_logo_wall.",
+      "behavior": "packages/neo-behaviors/marquee.js (Behavior des Recipes marquee; nurAusdruecklich)"
     }
   },
   "anatomy": {
@@ -67,6 +79,12 @@
         "element": ".nc-logo-wall__track",
         "optional": true,
         "description": "Marquee-Track. Flex-Container mit verdoppeltem Inhalt fuer Endlosschleife."
+      },
+      {
+        "name": "pause",
+        "element": ".nc-logo-wall__pause",
+        "optional": true,
+        "description": "Pause-Knopf des Laufbands vor der Spur (WCAG 2.2.2): Symbol .nc-logo-wall__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-logo-wall__pause-label „Laufband anhalten“/„Laufband fortsetzen“; Tokens und Verhalten aus marquee."
       }
     ],
     "convenience": [
@@ -75,6 +93,18 @@
         "element": ".nc-logo-pill__img",
         "slot": "pill",
         "description": "Logo-Bild. object-fit:contain, max-height via Token. Filter/Opacity fuer Mono-Modus."
+      },
+      {
+        "name": "pause-icon",
+        "element": ".nc-logo-wall__pause-icon",
+        "slot": "pause",
+        "description": "Symbol des Pause-Knopfs (aria-hidden): Pfade .nc-logo-wall__pause-pause und .nc-logo-wall__pause-play, Wahl per data-playing."
+      },
+      {
+        "name": "pause-label",
+        "element": ".nc-logo-wall__pause-label",
+        "slot": "pause",
+        "description": "Sichtbare Beschriftung des Pause-Knopfs (setzt das Behavior marquee)."
       }
     ],
     "domNotes": [
@@ -82,10 +112,11 @@
       "Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.",
       "Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.",
       "Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.",
-      "Marquee: Track mit dupliziertem Inhalt. @keyframes translateX(-50%). pause-on-hover.",
       "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
-      "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation."
+      "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
+      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden und inert (neo-behaviors marquee); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
+      "Name: img alt bzw. Text der Pille — kein aria-label an Pille oder Wand (div ohne Rolle). Externe Links (target=_blank) mit .u-sr-only „öffnet in neuem Fenster“."
     ]
   },
   "axes": {
@@ -189,10 +220,14 @@
   "states": {
     "supported": [
       "default",
-      "hover"
+      "hover",
+      "paused",
+      "stopped"
     ],
     "precedence": [
       "hover",
+      "stopped",
+      "paused",
       "default"
     ],
     "rules": [
@@ -200,6 +235,16 @@
         "state": "hover",
         "unless": [],
         "note": "Hover auf Pill: Shadow + Border-Color Transition. Mono-Modus: Filter entfernt."
+      },
+      {
+        "state": "paused",
+        "unless": [],
+        "note": "Laufband: Maus ueber der Spur oder Fokus darin — .is-paused (Behavior marquee)."
+      },
+      {
+        "state": "stopped",
+        "unless": [],
+        "note": "Laufband: per Knopf angehalten — .is-stopped."
       }
     ],
     "interactive": false
@@ -209,9 +254,13 @@
       "interactive": false,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [
-        "hasAccessibleName"
+        "hasAccessibleName",
+        "2.2.2: Laufband mit Pause-Knopf vor der Spur (Beschriftung wechselt), Maus/Fokus halten voruebergehend an, prefers-reduced-motion: stehend (Behavior marquee).",
+        "2.4.3/4.1.2: Kopien im Laufband inert — nicht fokussierbar, nicht vorgelesen.",
+        "4.1.2: Kein aria-label an div ohne Rolle; Name aus alt bzw. Linktext.",
+        "3.2.5/2.4.4: Externe Links mit Hinweis „öffnet in neuem Fenster“ (.u-sr-only)."
       ],
-      "note": "Logos: img mit alt-Text oder aria-label auf Pill. Marquee: aria-label auf Container."
+      "note": "Logos: img mit alt-Text (bei Links Linkname aus alt + Hinweis neues Fenster). Laufband: Verhalten aus marquee (Pause-Knopf, inerte Kopien)."
     },
     "overrides": [
       {
@@ -250,7 +299,18 @@
           "alt-text-or-aria"
         ],
         "notes": [
-          "Jedes Logo braucht alt-Text auf img oder aria-label auf Pill."
+          "Jedes Logo braucht alt-Text auf img (bzw. Text in der Pille); kein aria-label an Pille oder Wand."
+        ]
+      },
+      {
+        "when": {
+          "layout": "marquee"
+        },
+        "require": [
+          "autoplay-control"
+        ],
+        "notes": [
+          "Laufband nur mit Pause-Knopf (WCAG 2.2.2): Twig rendert .nc-logo-wall__pause vor der Spur; fehlt er, legt das Behavior marquee ihn an."
         ]
       }
     ],
@@ -258,6 +318,11 @@
       "altText": {
         "maxChars": 50,
         "note": "Alt-Text des Logos (z.B. 'Firmenname Logo')."
+      },
+      "externerLink": {
+        "de": "öffnet in neuem Fenster",
+        "en": "opens in a new window",
+        "note": "Hinweis fuer target=_blank als .u-sr-only im Link (Drupal.t im Theme)."
       }
     }
   },
@@ -634,6 +699,14 @@
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Marquee: prefers-reduced-motion beachten."
       }
+    }
+  ],
+  "komposition": [
+    {
+      "art": "teilt",
+      "recipe": "marquee",
+      "tokenPraefix": "nc-marquee-pause-",
+      "hinweis": "Laufband: Pause-Knopf (Tokens --nc-marquee-pause-*) und Verhalten aus marquee (Behavior marquee, Plan v4, Phase 2)"
     }
   ]
 }

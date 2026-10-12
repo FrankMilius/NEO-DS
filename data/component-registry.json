@@ -1,6 +1,6 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-10-09",
+  "generated": "2026-10-12",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
@@ -2499,8 +2499,8 @@
         "story": "stories/molecules/logo-wall.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
         "drupal": [
-          "block--block-content--neo-logo-wall.html.twig",
-          "block--inline-block--neo-logo-wall.html.twig"
+          "block/block--block-content--neo-logo-wall.html.twig",
+          "block/block--inline-block--neo-logo-wall.html.twig"
         ],
         "docs": "docs/logo-wall-docs.html"
       },
@@ -2524,7 +2524,10 @@
         ],
         "story": "stories/organisms/marquee.stories.js",
         "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
-        "drupal": [],
+        "drupal": [
+          "block/block--block-content--neo-logo-wall.html.twig",
+          "block/block--inline-block--neo-logo-wall.html.twig"
+        ],
         "docs": "docs/marquee-docs.html"
       },
       "dependencies": [
@@ -2535,10 +2538,10 @@
         "scss": true,
         "story": true,
         "arena": true,
-        "drupal": false,
+        "drupal": true,
         "docs": true
       },
-      "coverageScore": 5
+      "coverageScore": 6
     },
     "metric": {
       "name": "metric",
@@ -4479,7 +4482,7 @@
       "withScss": 133,
       "withStory": 129,
       "withArena": 135,
-      "withDrupal": 34,
+      "withDrupal": 35,
       "withDocs": 91
     },
     "foundations": {
@@ -4513,9 +4516,9 @@
     },
     "layoutPresets": 15,
     "coverageDistribution": {
-      "6/6": 5,
+      "6/6": 6,
       "4/6": 20,
-      "5/6": 105,
+      "5/6": 104,
       "3/6": 5,
       "1/6": 6
     }

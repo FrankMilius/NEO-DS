@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "gallery",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -18,6 +18,16 @@
       "docs": "/docs/gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "Plan v4, Phase 2 (12.10.2026; Freigabe ausstehend): Verhalten als Behavior gallery in neo-behaviors (nurAusdruecklich) statt der Bedienung in Drupal.behaviors.neoGallery (neo-theme.js); den Aufbau der Slides und Punkte aus JSON behaelt das Theme bis Phase 7 und bindet danach an.",
+          "Fehler behoben: Escape haelt die Wiedergabe an (vorher setzte neoGallery isPlaying=false und loeste dann autoplayBtn.click() aus — der Klick schaltete wieder ein). Der Autoplay-Knopf ist die einzige Quelle des Zustands (data-playing, aria-label „Galerie pausieren“/„Galerie abspielen“ de/en, am Knopf per data-text-pause/data-text-play ueberschreibbar); das Symbol folgt per CSS statt Inline-Stil.",
+          "Punkte als Tabs: aria-controls auf den Slide (ids aus der Wurzel-id), aria-selected, wandernder tabindex; Pfeile rundum, Pos1, Ende auf den Punkten (automatische Aktivierung). Verborgene Slides inert (vorher nur aria-hidden — ihre CTA-Links blieben fokussierbar). Spur aria-live polite, solange der Takt ruht.",
+          "Autoplay: nur data-autoplay=on und nie bei prefers-reduced-motion (Knopf [hidden]); ein setTimeout je Schritt (--nc-gallery-autoplay-interval); Handwahl (Paddle, Punkt, Pfeil) beendet die Rotation dauerhaft (wie solution-tabs, E1); Maus/Fokus und ausser Sicht ruhen (.is-paused), angehalten .is-stopped.",
+          "keyboard (Tab, Pfeile, Pos1, Ende, Enter, Leertaste, Escape) und events (gallery-change, gallery-autoplay) neu."
+        ]
+      },
       {
         "version": "1.0.1",
         "changes": [
@@ -52,6 +62,10 @@
         "block--inline-block--neo-gallery.html.twig"
       ],
       "docs": null
+    },
+    "source": {
+      "drupal": "neo_fe: block--block-content--neo-gallery.html.twig (inline_block per include): Wurzel mit id aus der Block-ID, Paddles, Punkte-Leiste, bei autoplay on der Knopf .nc-gallery__autoplay (data-playing); js/neo-theme.js Drupal.behaviors.neoGallery baut Slides und Punkte aus script[data-gallery-slides] und bindet mit NeoBehaviors.anbinden(wurzel, ['gallery']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['gallery']) fuer neo_gallery.",
+      "behavior": "packages/neo-behaviors/gallery.js; nurAusdruecklich"
     }
   },
   "anatomy": {
@@ -69,7 +83,7 @@
         "name": "slide",
         "element": ".nc-gallery__slide",
         "optional": false,
-        "description": "Einzelner Slide. 100% Breite, flex-shrink:0. Enthaelt BG + Content."
+        "description": "Einzelner Slide (role=tabpanel, id). 100% Breite, flex-shrink:0. Enthaelt BG + Content. Verborgene Slides sind inert (neo-behaviors gallery)."
       },
       {
         "name": "slide-bg",
@@ -105,19 +119,19 @@
         "name": "nav",
         "element": ".nc-gallery__nav",
         "optional": true,
-        "description": "Dot-Navigation. role=tablist. Position unten zentriert."
+        "description": "Punkte-Leiste. role=tablist. Position unten zentriert."
       },
       {
         "name": "nav-dot",
         "element": ".nc-gallery__nav-dot",
         "optional": true,
-        "description": "Einzelner Dot/Indikator. role=tab, aria-selected."
+        "description": "Einzelner Punkt. role=tab, aria-selected, aria-controls auf den Slide, wandernder tabindex."
       },
       {
         "name": "autoplay",
         "element": ".nc-gallery__autoplay",
         "optional": true,
-        "description": "Play/Pause Toggle-Button. Deaktiviert bei prefers-reduced-motion."
+        "description": "Pause-/Abspiel-Knopf (einzige Quelle des Autoplay-Zustands): data-playing=\"true|false\" waehlt das Symbol, aria-label wechselt „Galerie pausieren“/„Galerie abspielen“. Bei autoplay off und prefers-reduced-motion [hidden]."
       }
     ],
     "convenience": [
@@ -156,17 +170,18 @@
       "Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Markup der Website, data-gallery-prev/-next) — kein CSS im DS.",
       "Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-height.",
       "Track: display:flex, transform:translate3d(-Nx100%, 0, 0). will-change:transform.",
-      "Slide: flex:0 0 100%, position:relative. Aktiver Slide via JS-Klasse .is-active.",
       "Slide-BG: position:absolute, inset:0. img mit object-fit:cover.",
       "Overlay: linear-gradient(direction, start, end). pointer-events:none.",
       "Content: position:relative, z-index:2. Flex-Column mit gap.",
-      "Nav: role='tablist'. Dots: button[role='tab'], aria-selected='true|false', aria-controls.",
       "Paddles: button mit aria-label ('Vorheriger Slide', 'Naechster Slide').",
-      "Autoplay: button mit dynamischem aria-label ('Galerie pausieren' / 'Galerie abspielen').",
       "Per-Slide-Theme: data-slide-theme='light|dark' auf .nc-gallery__slide.",
       "Animation: Slide = translate3d auf Track. Fade = opacity auf Slides (position:absolute).",
-      "Keyboard: ArrowLeft/Right navigiert, Enter/Space aktiviert Dot, Escape pausiert Autoplay.",
-      "prefers-reduced-motion: Autoplay deaktiviert, Transitionen entfernt."
+      "prefers-reduced-motion: Autoplay deaktiviert, Transitionen entfernt.",
+      "Slide: flex:0 0 100%, position:relative. Aktiver Slide .is-active; die anderen inert und aria-hidden (neo-behaviors gallery).",
+      "Nav: role='tablist'. Punkte: button[role='tab'], aria-selected='true|false', aria-controls (Slide-id), wandernder tabindex.",
+      "Autoplay: button.nc-gallery__autoplay mit data-playing und wechselndem aria-label ('Galerie pausieren' / 'Galerie abspielen'); Symbole .nc-gallery__autoplay-pause/-play folgen data-playing (CSS).",
+      "Keyboard: Pfeil links/rechts blaettert (auf Punkten: waehlt und fokussiert, rundum; Pos1/Ende), Enter/Space aktivieren, Escape haelt den Autoplay an. Im Inhalt eines Slides blaettern die Pfeile nicht (der Fokus laege sonst in einem verborgenen Slide).",
+      "Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors gallery bindet an fertiges Markup; die Website baut Slides und Punkte aus JSON (neoGallery) und bindet danach."
     ]
   },
   "axes": {
@@ -277,11 +292,15 @@
       "hover",
       "focus-visible",
       "playing",
-      "paused"
+      "paused",
+      "stopped"
     ],
     "precedence": [
       "focus-visible",
       "hover",
+      "stopped",
+      "paused",
+      "playing",
       "default"
     ],
     "rules": [
@@ -296,6 +315,16 @@
         "state": "focus-visible",
         "unless": [],
         "note": "Focus-Ring auf Paddles, Dots, Autoplay-Button."
+      },
+      {
+        "state": "paused",
+        "unless": [],
+        "note": "Maus ueber der Galerie, Fokus darin (ausser auf dem Knopf) oder ausser Sicht: der Takt ruht voruebergehend (.is-paused), danach laeuft die Restzeit."
+      },
+      {
+        "state": "stopped",
+        "unless": [],
+        "note": "Knopf, Escape oder Handwahl: Rotation dauerhaft aus (.is-stopped, data-playing=false); weiter nur ueber den Knopf."
       }
     ],
     "interactive": true
@@ -306,9 +335,14 @@
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [
         "hasAccessibleName",
-        "supportsKeyboard"
+        "supportsKeyboard",
+        "2.2.2: Automatische Rotation nur auf Wunsch (data-autoplay=on) und nie mit prefers-reduced-motion; der Knopf haelt sie an und setzt sie fort (aria-label wechselt); Escape haelt an (Fehler behoben); Handwahl beendet sie dauerhaft; Maus, Fokus und ausser Sicht halten voruebergehend an.",
+        "4.1.2/2.4.3: Verborgene Slides inert (keine fokussierbaren CTA-Links ausserhalb des sichtbaren Slides); Punkte role=tab mit aria-controls und aria-selected.",
+        "2.1.1: Wandernder tabindex auf den Punkten (nur der gewaehlte in der Tab-Folge), Pfeile rundum, Pos1/Ende; Paddles und Knopf sind button.",
+        "4.1.3: Spur aria-live=polite, solange der Takt ruht (Handwahl wird angesagt), off waehrend der Rotation.",
+        "3.1.2: Knopftexte nach der Sprache (lang; de/en), am Knopf ueberschreibbar per data-text-pause/data-text-play."
       ],
-      "note": "Nav: role='tablist'. Dots: role='tab', aria-selected, aria-controls. Slides: aria-roledescription='slide'. Paddles: aria-label. Autoplay: aria-label dynamisch. Keyboard: ArrowLeft/Right, Enter/Space, Escape."
+      "note": "Verhalten: neo-behaviors gallery (Plan v4, Phase 2). Nav: role='tablist'. Punkte: role='tab', aria-selected, aria-controls. Slides: aria-roledescription='slide', verborgene inert. Paddles: aria-label. Autoplay: aria-label wechselt. Keyboard: Pfeile, Pos1/Ende, Enter/Space, Escape."
     },
     "overrides": [
       {
@@ -348,7 +382,7 @@
           "keyboard-navigation"
         ],
         "notes": [
-          "ArrowLeft/Right navigiert Slides. Enter/Space aktiviert Dot. Escape pausiert Autoplay."
+          "ArrowLeft/Right blaettert (auf Punkten rundum mit Fokus, Pos1/Ende). Enter/Space aktiviert. Escape haelt den Autoplay an (setzt ihn nie wieder in Gang)."
         ]
       },
       {
@@ -358,6 +392,15 @@
         ],
         "notes": [
           "Slide-Wechsel wird via aria-live='polite' angekuendigt (nicht bei Autoplay)."
+        ]
+      },
+      {
+        "when": {},
+        "require": [
+          "autoplay-control"
+        ],
+        "notes": [
+          "Autoplay (data-autoplay=on) nur mit Knopf (WCAG 2.2.2): das Twig rendert .nc-gallery__autoplay; fehlt er, legt das Behavior ihn an."
         ]
       }
     ],
@@ -373,6 +416,17 @@
       "slideTag": {
         "maxChars": 20,
         "note": "Genre/Kategorie (z.B. 'Thriller', 'Drama', 'Action')."
+      },
+      "autoplay": {
+        "de": {
+          "pause": "Galerie pausieren",
+          "play": "Galerie abspielen"
+        },
+        "en": {
+          "pause": "Pause gallery",
+          "play": "Play gallery"
+        },
+        "note": "aria-label des Knopfs __autoplay je Zustand; das Behavior waehlt nach lang (de oder ohne Angabe deutsch, sonst englisch); eigene Texte per data-text-pause/data-text-play am Knopf."
       }
     }
   },
@@ -515,7 +569,10 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
   ],
   "specimens": [
     {
@@ -740,5 +797,57 @@
         "note": "Thumbnail-Variante: Focus-Ring um das gesamte Thumbnail."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Inhalt des sichtbaren Slides (verborgene Slides sind inert), Paddles, der gewaehlte Punkt (wandernder tabindex), der Knopf __autoplay."
+    },
+    "ArrowRight": {
+      "action": "next",
+      "note": "Naechster Slide (rundum). Auf einem Punkt: waehlt und fokussiert den naechsten Punkt. Auf Paddles, Knopf, Wurzel: blaettert. Im Inhalt eines Slides ohne Wirkung. Beendet die Rotation dauerhaft."
+    },
+    "ArrowLeft": {
+      "action": "previous",
+      "note": "Vorheriger Slide (rundum), sonst wie Pfeil rechts."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Auf einem Punkt: ersten Slide waehlen und seinen Punkt fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "End": {
+      "action": "last",
+      "note": "Auf einem Punkt: letzten Slide waehlen und seinen Punkt fokussieren. Beendet die Rotation dauerhaft."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Nativer Klick: Punkt waehlt seinen Slide, Paddle blaettert (beides Handwahl), Knopf haelt an bzw. setzt fort."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    },
+    "Escape": {
+      "action": "pause",
+      "note": "Haelt den Autoplay an (Knopf zeigt danach „Galerie abspielen“); laeuft er nicht, ohne Wirkung — Escape schaltet nie ein."
+    }
+  },
+  "events": {
+    "gallery-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel bei jedem Slide-Wechsel (Paddle, Punkt, Taste, Takt). index/previousIndex: Position des Slides (ab 0)."
+    },
+    "gallery-autoplay": {
+      "bubbles": true,
+      "detail": {
+        "playing": "boolean",
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel, wenn der Takt anlaeuft oder ruht. reason = Ausloeser: \"knopf\", \"escape\", \"wahl\" (Handwahl, dauerhaft), \"hover\", \"fokus\", \"ausser-sicht\" (IntersectionObserver; auch das erste Anlaufen im Bild). Knopf, Escape und Handwahl melden immer, auch wenn der Takt schon ruhte."
+    }
+  }
 }

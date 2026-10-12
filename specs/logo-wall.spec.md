@@ -1,5 +1,5 @@
 # logo-wall Component Spec
-> Version 2.0.0 | Status: stable | Layer: molecule
+> Version 2.1.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `branding`, `logos`, `partner`, `marquee`
 
@@ -10,16 +10,18 @@ Root element: `.nc-logo-wall`
 | --- | --- | --- | --- |
 | pill | `.nc-logo-pill` | Yes | Einzelnes Logo-Item. Flex-Container mit Border, Radius, Padding. |
 | track | `.nc-logo-wall__track` | No | Marquee-Track. Flex-Container mit verdoppeltem Inhalt fuer Endlosschleife. |
+| pause | `.nc-logo-wall__pause` | No | Pause-Knopf des Laufbands vor der Spur (WCAG 2.2.2): Symbol .nc-logo-wall__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-logo-wall__pause-label „Laufband anhalten“/„Laufband fortsetzen“; Tokens und Verhalten aus marquee. |
 
 ### DOM Notes
 - Root: display:grid (default), display:flex (marquee/cluster). Gap via Token.
 - Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.
 - Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.
 - Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.
-- Marquee: Track mit dupliziertem Inhalt. @keyframes translateX(-50%). pause-on-hover.
 - Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.
 - Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.
 - prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.
+- Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden und inert (neo-behaviors marquee); Ruhe per .is-paused/.is-stopped (ungebunden :hover).
+- Name: img alt bzw. Text der Pille — kein aria-label an Pille oder Wand (div ohne Rolle). Externe Links (target=_blank) mit .u-sr-only „öffnet in neuem Fenster“.
 
 ## Variants
 ### Layout (`layout`)
@@ -57,9 +59,11 @@ Einblendung — none (sofort), fadein (gestaffeltes Einblenden per Intersection 
 | fadein | `.nc-logo-wall--fadein` |  |
 
 ## States
-Supported: `default`, `hover`
+Supported: `default`, `hover`, `paused`, `stopped`
 
 - **hover**: 
+- **paused**: 
+- **stopped**: 
 
 ## CSS Token API
 Base classes: `nc-logo-wall`
@@ -132,6 +136,10 @@ Base classes: `nc-logo-wall`
 Contrast Target: WCAG AA normal text (4.5:1)
 
 - hasAccessibleName
+- 2.2.2: Laufband mit Pause-Knopf vor der Spur (Beschriftung wechselt), Maus/Fokus halten voruebergehend an, prefers-reduced-motion: stehend (Behavior marquee).
+- 2.4.3/4.1.2: Kopien im Laufband inert — nicht fokussierbar, nicht vorgelesen.
+- 4.1.2: Kein aria-label an div ohne Rolle; Name aus alt bzw. Linktext.
+- 3.2.5/2.4.4: Externe Links mit Hinweis „öffnet in neuem Fenster“ (.u-sr-only).
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-logo-wall>` custom element:

@@ -1,6 +1,6 @@
 # Marquee
 
-> **Layer:** molecule | **Coverage:** 5/6 (good) | **Status:** stable
+> **Layer:** molecule | **Coverage:** 6/6 (complete) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/marquee.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/marquee-docs.html` | present |
-| Drupal | — | missing |
+| Drupal | `block/block--block-content--neo-logo-wall.html.twig, block/block--inline-block--neo-logo-wall.html.twig` | present |
 
 ## Spec
 

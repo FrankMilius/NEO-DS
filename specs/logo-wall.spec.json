@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "logo-wall",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -25,6 +25,12 @@
         "selector": ".nc-logo-wall__track",
         "required": false,
         "description": "Marquee-Track. Flex-Container mit verdoppeltem Inhalt fuer Endlosschleife."
+      },
+      {
+        "name": "pause",
+        "selector": ".nc-logo-wall__pause",
+        "required": false,
+        "description": "Pause-Knopf des Laufbands vor der Spur (WCAG 2.2.2): Symbol .nc-logo-wall__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-logo-wall__pause-label „Laufband anhalten“/„Laufband fortsetzen“; Tokens und Verhalten aus marquee."
       }
     ],
     "notes": [
@@ -32,10 +38,11 @@
       "Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.",
       "Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.",
       "Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.",
-      "Marquee: Track mit dupliziertem Inhalt. @keyframes translateX(-50%). pause-on-hover.",
       "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
-      "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation."
+      "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
+      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden und inert (neo-behaviors marquee); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
+      "Name: img alt bzw. Text der Pille — kein aria-label an Pille oder Wand (div ohne Rolle). Externe Links (target=_blank) mit .u-sr-only „öffnet in neuem Fenster“."
     ]
   },
   "api": null,
@@ -128,12 +135,26 @@
   "states": {
     "supported": [
       "default",
-      "hover"
+      "hover",
+      "paused",
+      "stopped"
     ],
     "interactive": false,
     "rules": [
       {
         "state": "hover",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "paused",
+        "effects": [],
+        "attributes": {},
+        "description": null
+      },
+      {
+        "state": "stopped",
         "effects": [],
         "attributes": {},
         "description": null
@@ -299,7 +320,11 @@
     "contrastTarget": "WCAG AA normal text (4.5:1)",
     "focusIndicator": null,
     "assertions": [
-      "hasAccessibleName"
+      "hasAccessibleName",
+      "2.2.2: Laufband mit Pause-Knopf vor der Spur (Beschriftung wechselt), Maus/Fokus halten voruebergehend an, prefers-reduced-motion: stehend (Behavior marquee).",
+      "2.4.3/4.1.2: Kopien im Laufband inert — nicht fokussierbar, nicht vorgelesen.",
+      "4.1.2: Kein aria-label an div ohne Rolle; Name aus alt bzw. Linktext.",
+      "3.2.5/2.4.4: Externe Links mit Hinweis „öffnet in neuem Fenster“ (.u-sr-only)."
     ],
     "overrides": [
       {
@@ -340,8 +365,8 @@
     "story": "stories/molecules/logo-wall.stories.js",
     "arena": null,
     "drupal": [
-      "block--block-content--neo-logo-wall.html.twig",
-      "block--inline-block--neo-logo-wall.html.twig"
+      "block/block--block-content--neo-logo-wall.html.twig",
+      "block/block--inline-block--neo-logo-wall.html.twig"
     ],
     "docs": "docs/logo-wall-docs.html"
   }
