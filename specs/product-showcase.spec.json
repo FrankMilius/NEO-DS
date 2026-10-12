@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "product-showcase",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -46,8 +46,8 @@
     ],
     "notes": [
       "Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter).",
-      "Options: role='tablist'. Jede Option ist ein button[role='tab'] mit aria-selected='true|false' und aria-controls.",
-      "Media-Panel: role='tabpanel', aria-labelledby zeigt auf die aktive Option.",
+      "Options (Modus Tabs): role='tablist'. Jede Option ist ein button[role='tab'] mit aria-selected='true|false', wanderndem tabindex, aria-controls auf das Medien-Panel und aria-describedby auf ihre Beschreibung .nc-product-showcase__description (ohne Rolle — sie steht innerhalb der Tableiste; offen .is-open, die anderen [hidden]).",
+      "Media-Panel: role='tabpanel', aria-labelledby zeigt auf die gewaehlte Option; es zeigt deren Medium (.is-active). Zuordnung ueber data-station an Option und Medium, sonst ueber die Reihenfolge.",
       "Media-Item: position:absolute innerhalb des Panels. Aktives Item: opacity:1 + transform:translateX(0). Inaktiv: opacity:0 + transform:translateX(100%) (slide) oder opacity:0 (fade).",
       "Animation: transition auf opacity + transform. Duration via --nc-product-showcase-animation-duration.",
       "Selected-State: .nc-product-showcase__option[aria-selected='true'] bekommt --nc-product-showcase-option-color-active.",
@@ -55,8 +55,10 @@
       "Label: Kleiner Kategorie-Text (z.B. 'Waehlen Sie eine Farbe'), optional, font-size xs, text-tertiary.",
       "Option-Indicator: Kleiner Farbpunkt oder Thumbnail links der Option. Border-Radius full fuer Kreise.",
       "Responsive: Auf Mobile wechselt horizontal zu stacked. Options werden horizontal scrollbar.",
-      "Keyboard: ArrowUp/Down (vertikal) oder ArrowLeft/Right (horizontal) navigiert Optionen. Enter/Space selektiert.",
-      "prefers-reduced-motion: Animationen deaktiviert, sofortiger Wechsel."
+      "Keyboard (neo-behaviors product-showcase): Modus Tabs — Pfeile rundum, Pos1, Ende waehlen und fokussieren; Modus Stationen — Pfeile ohne Umlauf, Pos1, Ende fokussieren und oeffnen; Enter/Space nativ.",
+      "prefers-reduced-motion: Animationen deaktiviert, sofortiger Wechsel.",
+      "Modus Stationen (Geraete-Strecke, --accordion): .nc-product-showcase__option[data-station] > button.nc-product-showcase__trigger[aria-controls] + .nc-product-showcase__panel[role=region]; Screens .nc-product-showcase__media-item[data-station] im geteilten Geraet. Das Behavior setzt data-neo-device-accordion='aktiv' an der Wurzel — erst dann klappt das SCSS zu und blendet die Einzelgeraete (.nc-product-showcase__option-device) aus. Genau eine Station offen; ein Klick auf die offene schliesst sie nicht.",
+      "Die Ansage folgt der Form: laengs aria-expanded am Ausloeser, quer (Streifen nebeneinander, unter md) aria-current=true statt aria-expanded; bei Wechsel der Form (ResizeObserver) neu gesetzt."
     ]
   },
   "api": null,
@@ -459,9 +461,55 @@
       "--mod-product-showcase-sticky-top"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Modus Tabs: die gewaehlte Option (wandernder tabindex), dann weiter. Modus Stationen: jeder Ausloeser."
+    },
+    "ArrowDown": {
+      "action": "next",
+      "note": "Naechste Option waehlen und fokussieren (Tabs: rundum; Stationen: am Ende stehen bleibend)."
+    },
+    "ArrowRight": {
+      "action": "next",
+      "note": "Wie Pfeil runter."
+    },
+    "ArrowUp": {
+      "action": "previous",
+      "note": "Vorherige Option waehlen und fokussieren (Tabs: rundum; Stationen: am Anfang stehen bleibend)."
+    },
+    "ArrowLeft": {
+      "action": "previous",
+      "note": "Wie Pfeil hoch."
+    },
+    "Home": {
+      "action": "first",
+      "note": "Erste Option waehlen und fokussieren."
+    },
+    "End": {
+      "action": "last",
+      "note": "Letzte Option waehlen und fokussieren."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Nativer Klick: waehlt die Option bzw. oeffnet die Station (die offene bleibt offen)."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "product-showcase-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel, wenn die gewaehlte Option bzw. offene Station wechselt (Klick, Taste, quer gewischt). index/previousIndex: Position (ab 0)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,
@@ -469,7 +517,11 @@
     "focusIndicator": null,
     "assertions": [
       "hasAccessibleName",
-      "supportsKeyboard"
+      "supportsKeyboard",
+      "2.1.1 (Tabs): wandernder tabindex — nur die gewaehlte Option in der Tab-Folge; Pfeile rundum, Pos1, Ende.",
+      "4.1.2 (Tabs): Optionen role=tab mit aria-selected, aria-controls auf das Medien-Panel (role=tabpanel, aria-labelledby = gewaehlte Option) und aria-describedby auf ihre Beschreibung; in der tablist nur Tabs und Elemente ohne Rolle (aria-required-children).",
+      "4.1.2 (Stationen): Ausloeser button mit aria-expanded (laengs) bzw. aria-current (quer) und aria-controls auf das Panel (role=region, aria-labelledby).",
+      "2.3.3: Medienwechsel und Aufklappen ohne Animation bei prefers-reduced-motion (SCSS); das Heranziehen der Karte quer scrollt dann sofort."
     ],
     "overrides": [
       {

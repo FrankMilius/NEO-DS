@@ -1,5 +1,5 @@
 # fade-gallery Component Spec
-> Version 1.1.1 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `tabs`, `fade`
 
@@ -19,7 +19,8 @@ Root element: `.nc-fade-gallery`
 ### DOM Notes
 - Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
 - Zustaende der Ansicht: .is-active am Medium, .is-visible an der Beschreibung (die anderen [hidden]), aria-selected am Tab — das SCSS blendet ueber (opacity 0.5 s / 0.4 s, ohne bei prefers-reduced-motion).
-- Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Twig block--block-content--neo-fade-gallery.html.twig) — kein CSS im DS; das Blaettern bindet neo-theme.js ueber data-fg-prev/data-fg-next.
+- Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next und data-fg-prev/data-fg-next (Twig block--block-content--neo-fade-gallery.html.twig) — kein CSS im DS; das Blaettern bindet neo-behaviors fade-gallery.
+- Tabs-Muster (neo-behaviors fade-gallery, Plan v4, Phase 6a): .nc-fade-gallery__tabs[role=tablist] > .nc-fade-gallery__tab[role=tab][aria-controls] auf das Medium .nc-fade-gallery__media[role=tabpanel][aria-labelledby]; genau ein Tab aria-selected=true mit tabindex 0. Die Beschreibung gehoert per data-fg-desc=<Nr> zur Ansicht (ohne Angabe nach Reihenfolge); fehlt sie, bleibt die Unterschrift leer.
 
 ## Variants
 ### Variant (`variant`)
@@ -76,8 +77,31 @@ Base classes: `nc-fade-gallery`
 | --- | --- | --- |
 | `--nc-fade-gallery-fade-duration` | — | — |
 
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Paddles (falls vorhanden), dann der gewaehlte Tab (wandernder tabindex), dann weiter aus der Galerie. |
+| `ArrowRight` | next | Auf einem Tab: naechste Ansicht (rundum) waehlen und ihren Tab fokussieren. |
+| `ArrowLeft` | previous | Auf einem Tab: vorherige Ansicht (rundum) waehlen und ihren Tab fokussieren. |
+| `Home` | first | Auf einem Tab: erste Ansicht waehlen und ihren Tab fokussieren. |
+| `End` | last | Auf einem Tab: letzte Ansicht waehlen und ihren Tab fokussieren. |
+| `Enter` | activate | Nativer Klick: Tab waehlt seine Ansicht, Paddle blaettert (rundum). |
+| `Space` | activate | Wie Enter. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `fade-gallery-change` | Yes | `{"index":"number","previousIndex":"number"}` |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
+
+- hasAccessibleName
+- supportsKeyboard
+- 2.1.1: Tabs-Muster mit wanderndem tabindex (nur der gewaehlte Tab in der Tab-Folge); Pfeil rechts/links rundum, Pos1, Ende; Paddles sind button mit aria-label.
+- 4.1.2: Tabs role=tab mit aria-selected und aria-controls auf das Medium (role=tabpanel, aria-labelledby); verborgene Medien aria-hidden.
+- 4.1.3: Die Unterschrift .nc-fade-gallery__caption ist aria-live=polite — die Beschreibung der gewaehlten Ansicht wird angesagt.
+- 2.3.3: Die Ueberblendung entfaellt bei prefers-reduced-motion (SCSS); kein Autoplay.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-fade-gallery>` custom element:

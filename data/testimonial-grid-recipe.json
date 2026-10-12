@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "testimonial-grid",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,15 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Plan v4, Phase 6a (12.10.2026; Freigabe ausstehend): Verhalten des Karussells als Behavior testimonial-grid in neo-behaviors (nurAusdruecklich) statt Drupal.behaviors.neoTestimonialCarousel (neo-theme.js).",
+          "Weiches Scrollen nur ohne prefers-reduced-motion (Befund behoben); disabled an den Enden wie bisher, nachgefuehrt bei scroll und Groessenaenderung der Spur (ResizeObserver, sonst resize).",
+          "Wird der fokussierte Knopf am Ende gesperrt, wandert der Fokus auf den anderen Knopf (vorher fiel er auf den Seitenanfang zurueck).",
+          "keyboard (Tab, Pfeile auf der Spur, Enter, Leertaste) und events (testimonial-grid-step) neu."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -53,9 +62,13 @@
       "drupal": [
         "block/block--block-content--neo-testimonial-grid.html.twig",
         "block/block--inline-block--neo-testimonial-grid.html.twig",
-        "js/neo-theme.js (Drupal.behaviors.neoTestimonialCarousel)"
+        "neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen(['testimonial-grid']) (neo-behaviors testimonial-grid; vorher Drupal.behaviors.neoTestimonialCarousel in js/neo-theme.js)"
       ],
       "docs": null
+    },
+    "source": {
+      "drupal": "neo_fe: block--block-content--neo-testimonial-grid.html.twig und block--inline-block--neo-testimonial-grid.html.twig (gleich): Karussell .nc-testimonial-grid--carousel[data-testimonial-carousel], danach .nc-testimonial-grid__nav mit data-tc-prev/-next. neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['testimonial-grid']) fuer neo_testimonial_grid.",
+      "behavior": "packages/neo-behaviors/testimonial-grid.js; nurAusdruecklich"
     }
   },
   "anatomy": {
@@ -83,7 +96,7 @@
       "Raster: Drupal setzt immer nc-testimonial-grid--cols-<field_tg_columns> (Vorgabe 3; gestaltet sind 2 und 3, unter 60em zwei, unter 36em eine Spalte) oder --carousel (field_tg_layout). Ohne Modifier (eine Spalte) kommt auf der Website nicht vor.",
       "Kinder sind gerenderte neo_testimonial-Bloecke (Huelle > .nc-section > .nc-container > figure.nc-testimonial); display: contents entpackt die Huellen, damit die Figures Raster- bzw. Flex-Elemente werden. Die Figure streckt sich, der Autor steht unten.",
       "Karussell: Flex-Spur mit scroll-snap, Karten min(360px, 85 %); die Navigation .nc-testimonial-grid__nav mit zwei .nc-testimonial-grid__btn steht NACH der Spur.",
-      "Verhalten (Drupal.behaviors.neoTestimonialCarousel, js/neo-theme.js — nicht ins DS migriert): Weiter/Zurueck scrollen um eine Kartenbreite plus Abstand (smooth); disabled am Anfang bzw. Ende, aktualisiert bei scroll und resize. Kein Autoplay."
+      "Verhalten (neo-behaviors testimonial-grid, Plan v4, Phase 6a; vorher Drupal.behaviors.neoTestimonialCarousel): bindet an .nc-testimonial-grid--carousel und findet die Navigation als Geschwister danach. Weiter/Zurueck scrollen um eine Kartenbreite plus Abstand — weich nur ohne prefers-reduced-motion; disabled am Anfang bzw. Ende, nachgefuehrt bei scroll und Groessenaenderung. Kein Autoplay."
     ]
   },
   "axes": {
@@ -143,8 +156,9 @@
         "Karussell als benannte Gruppe (role=\"group\", aria-roledescription=\"Karussell\", aria-label) und mit tabindex=\"0\" per Tastatur scrollbar (Pfeiltasten).",
         "Knoepfe sind <button> mit aria-label; das Pfeil-SVG ist aria-hidden.",
         "Am Anfang bzw. Ende ist der jeweilige Knopf disabled (nicht fokussierbar, Opacity-Token) — der Zustand ist damit auch fuer Screenreader gesetzt.",
-        "Kein Autoplay, keine Bewegung ohne Ausloeser; scroll-behavior smooth folgt der Nutzerwahl des Browsers nicht automatisch (prefers-reduced-motion nicht beruecksichtigt).",
-        "Kontrast der Knoepfe gemessen 16:1 (hell und dunkel); Hover faerbt Pfeil und Rahmen in text-accent."
+        "Kein Autoplay, keine Bewegung ohne Ausloeser; weiches Scrollen der Knoepfe nur ohne prefers-reduced-motion (neo-behaviors testimonial-grid; vorher immer smooth).",
+        "Kontrast der Knoepfe gemessen 16:1 (hell und dunkel); Hover faerbt Pfeil und Rahmen in text-accent.",
+        "2.4.3: Wird der fokussierte Knopf am Ende gesperrt, geht der Fokus auf den anderen Knopf (sonst auf die Spur) statt verloren."
       ],
       "note": "Interaktiv nur beim Karussell."
     },
@@ -268,5 +282,36 @@
         "testimonial"
       ]
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Spur (tabindex=0), dann die Knoepfe „Vorherige/Weitere Testimonials“ (gesperrte uebersprungen)."
+    },
+    "ArrowRight": {
+      "action": "scroll",
+      "note": "Auf der Spur: der Browser scrollt waagerecht (nativ); die Knoepfe folgen (disabled an den Enden)."
+    },
+    "ArrowLeft": {
+      "action": "scroll",
+      "note": "Wie Pfeil rechts, in die andere Richtung."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einem Knopf: nativer Klick, scrollt um eine Karte."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Wie Enter."
+    }
+  },
+  "events": {
+    "testimonial-grid-step": {
+      "bubbles": true,
+      "detail": {
+        "direction": "string"
+      },
+      "note": "Gefeuert an der Wurzel (.nc-testimonial-grid--carousel), wenn ein Knopf blaettert. direction: \"prev\" | \"next\"."
+    }
+  }
 }

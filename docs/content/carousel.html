@@ -335,6 +335,8 @@
     <li>Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebeneinander, unabhaengig von ihrer Zahl.</li>
     <li>Spaltenbreite minmax(360px, 1fr), unter 720px minmax(260px, 85vw). Der angeschnittene Rest der naechsten Karte zeigt, dass es weitergeht.</li>
     <li>scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern.</li>
+    <li>Verhalten (neo-behaviors carousel, Plan v4, Phase 6a): bindet an die Wurzel; Paddles (data-fg-prev/-next bzw. die Paddle-Haken --prev/--next der Galerie) und Punkte (nav-dot der Galerie) sucht es in der Huelle der Website-Geraete-Galerie ([data-neo-fg-carousel]) oder in der Wurzel (__controls).</li>
+    <li>Punkte sind &lt;a href=&quot;#figur&quot;&gt; — ohne Skript springt der Browser zur Figur; mit Skript scrollt die Spur. Der gewaehlte Punkt traegt .is-active und aria-current=true.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -477,6 +479,17 @@
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Verhalten: neo-behaviors carousel (Plan v4, Phase 6a). Keyboard: Pfeile auf der Spur (nativ), Enter auf Punkt/Paddle, Leertaste auf Paddle.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
 <!-- AUTO:A11Y:END -->
 
         </div>

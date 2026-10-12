@@ -1,5 +1,5 @@
 # testimonial-grid Component Spec
-> Version 1.2.0 | Status: stable | Layer: molecule
+> Version 1.3.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -16,7 +16,7 @@ Root element: `.nc-testimonial-grid`
 - Raster: Drupal setzt immer nc-testimonial-grid--cols-<field_tg_columns> (Vorgabe 3; gestaltet sind 2 und 3, unter 60em zwei, unter 36em eine Spalte) oder --carousel (field_tg_layout). Ohne Modifier (eine Spalte) kommt auf der Website nicht vor.
 - Kinder sind gerenderte neo_testimonial-Bloecke (Huelle > .nc-section > .nc-container > figure.nc-testimonial); display: contents entpackt die Huellen, damit die Figures Raster- bzw. Flex-Elemente werden. Die Figure streckt sich, der Autor steht unten.
 - Karussell: Flex-Spur mit scroll-snap, Karten min(360px, 85 %); die Navigation .nc-testimonial-grid__nav mit zwei .nc-testimonial-grid__btn steht NACH der Spur.
-- Verhalten (Drupal.behaviors.neoTestimonialCarousel, js/neo-theme.js — nicht ins DS migriert): Weiter/Zurueck scrollen um eine Kartenbreite plus Abstand (smooth); disabled am Anfang bzw. Ende, aktualisiert bei scroll und resize. Kein Autoplay.
+- Verhalten (neo-behaviors testimonial-grid, Plan v4, Phase 6a; vorher Drupal.behaviors.neoTestimonialCarousel): bindet an .nc-testimonial-grid--carousel und findet die Navigation als Geschwister danach. Weiter/Zurueck scrollen um eine Kartenbreite plus Abstand — weich nur ohne prefers-reduced-motion; disabled am Anfang bzw. Ende, nachgefuehrt bei scroll und Groessenaenderung. Kein Autoplay.
 
 ## Variants
 ### Variante (`variante`)
@@ -41,14 +41,29 @@ Base classes: `nc-testimonial-grid`
 | `--nc-testimonial-grid-btn-border-radius` | — | — |
 | `--nc-testimonial-grid-btn-disabled-opacity` | — | — |
 
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Spur (tabindex=0), dann die Knoepfe „Vorherige/Weitere Testimonials“ (gesperrte uebersprungen). |
+| `ArrowRight` | scroll | Auf der Spur: der Browser scrollt waagerecht (nativ); die Knoepfe folgen (disabled an den Enden). |
+| `ArrowLeft` | scroll | Wie Pfeil rechts, in die andere Richtung. |
+| `Enter` | activate | Auf einem Knopf: nativer Klick, scrollt um eine Karte. |
+| `Space` | activate | Wie Enter. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `testimonial-grid-step` | Yes | `{"direction":"string"}` |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 
 - Karussell als benannte Gruppe (role="group", aria-roledescription="Karussell", aria-label) und mit tabindex="0" per Tastatur scrollbar (Pfeiltasten).
 - Knoepfe sind <button> mit aria-label; das Pfeil-SVG ist aria-hidden.
 - Am Anfang bzw. Ende ist der jeweilige Knopf disabled (nicht fokussierbar, Opacity-Token) — der Zustand ist damit auch fuer Screenreader gesetzt.
-- Kein Autoplay, keine Bewegung ohne Ausloeser; scroll-behavior smooth folgt der Nutzerwahl des Browsers nicht automatisch (prefers-reduced-motion nicht beruecksichtigt).
+- Kein Autoplay, keine Bewegung ohne Ausloeser; weiches Scrollen der Knoepfe nur ohne prefers-reduced-motion (neo-behaviors testimonial-grid; vorher immer smooth).
 - Kontrast der Knoepfe gemessen 16:1 (hell und dunkel); Hover faerbt Pfeil und Rahmen in text-accent.
+- 2.4.3: Wird der fokussierte Knopf am Ende gesperrt, geht der Fokus auf den anderen Knopf (sonst auf die Spur) statt verloren.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-testimonial-grid>` custom element:

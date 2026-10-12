@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "carousel",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "layout",
@@ -26,13 +26,27 @@
     "renameNote": "Hiess bis zum 18.08.2026 slider und teilte sich den Namen mit einem Range-Regler in 05-atoms. Dieses Molekuel lud spaeter und ueberschrieb die Wurzel des Reglers mit display:grid. Zwei Bauteile, ein Name — geloest durch Umbenennen beider, nicht durch Loeschen eines von beiden.",
     "changelog": [
       {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 6a (12.10.2026; Freigabe ausstehend): Verhalten als Behavior carousel in neo-behaviors (nurAusdruecklich) statt des Geraete-Karussell-Zweigs von Drupal.behaviors.neoFadeGallery (neo-theme.js). Das Markup steht im Twig (neo-fade-gallery, field_fg_display = devices).",
+          "Punkte (Verweise auf die Figur, ohne Skript Sprungziele) tragen aria-current=true am gewaehlten — vorher nur .is-active. Klick auf einen Punkt scrollt die Spur statt der Seite; Paddles blaettern um eine Figur (an den Enden stehen bleibend).",
+          "Weiches Scrollen nur ohne prefers-reduced-motion (vorher immer smooth; a11y.base nannte das als Pflicht).",
+          "Nachfuehren beim Wischen: nach Ruhe der Spur (90 ms) zaehlt die zuletzt angesteuerte Figur, solange sie ganz zu sehen ist, sonst die Figur an der Einrastkante.",
+          "keyboard (Tab, Pfeile auf der Spur, Enter, Leertaste) und events (carousel-change) neu."
+        ]
+      },
+      {
         "version": "1.1.0",
         "changes": [
           "Arena aus dem Recipe (RecipeArena, Plan v3, Phase 4, Gruppe bewegung): „Abspielen\" blaettert die Spur (scroll-snap des DS)",
           "Achse controls (Slot) mit Specimen controls"
         ]
       }
-    ]
+    ],
+    "source": {
+      "drupal": "neo_fe: block--block-content--neo-fade-gallery.html.twig (inline_block per include), Zweig field_fg_display = devices: .nc-device-gallery > .nc-carousel > .nc-carousel__track (Figuren mit id und data-fg-index), Paddles data-fg-prev/-next, Punkte a.nc-gallery__nav-dot[href=#figur][data-fg-dot] in nav.nc-gallery__nav. neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['fade-gallery', 'carousel']) fuer neo_fade_gallery.",
+      "behavior": "packages/neo-behaviors/carousel.js; nurAusdruecklich"
+    }
   },
   "anatomy": {
     "root": {
@@ -55,7 +69,9 @@
     "domNotes": [
       "Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebeneinander, unabhaengig von ihrer Zahl.",
       "Spaltenbreite minmax(360px, 1fr), unter 720px minmax(260px, 85vw). Der angeschnittene Rest der naechsten Karte zeigt, dass es weitergeht.",
-      "scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern."
+      "scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern.",
+      "Verhalten (neo-behaviors carousel, Plan v4, Phase 6a): bindet an die Wurzel; Paddles (data-fg-prev/-next bzw. die Paddle-Haken --prev/--next der Galerie) und Punkte (nav-dot der Galerie) sucht es in der Huelle der Website-Geraete-Galerie ([data-neo-fg-carousel]) oder in der Wurzel (__controls).",
+      "Punkte sind <a href=\"#figur\"> — ohne Skript springt der Browser zur Figur; mit Skript scrollt die Spur. Der gewaehlte Punkt traegt .is-active und aria-current=true."
     ]
   },
   "axes": {
@@ -102,14 +118,21 @@
     "precedence": [
       "default"
     ],
-    "rules": []
+    "rules": [],
+    "interactive": true
   },
   "a11y": {
-    "base": [
-      "Die Spur ist waagerecht scrollbar und damit ueber die Tastatur erreichbar, sobald sie den Fokus bekommt — sie braucht dafuer tabindex=\"0\" und eine Beschriftung im Markup.",
-      "Blaetter-Schaltflaechen sind Zugabe, kein Ersatz: Wer sie weglaesst, muss sicherstellen, dass die Spur selbst bedienbar bleibt.",
-      "scroll-behavior gehoert unter prefers-reduced-motion abgesichert, wenn das Blaettern animiert wird."
-    ],
+    "base": {
+      "interactive": true,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Die Spur ist waagerecht scrollbar und damit ueber die Tastatur erreichbar, sobald sie den Fokus bekommt — sie braucht dafuer tabindex=\"0\" und eine Beschriftung im Markup.",
+        "Blaetter-Schaltflaechen sind Zugabe, kein Ersatz: Wer sie weglaesst, muss sicherstellen, dass die Spur selbst bedienbar bleibt.",
+        "2.3.3: Blaettern und Punkte scrollen weich nur ohne prefers-reduced-motion (neo-behaviors carousel), sonst sofort.",
+        "4.1.2: Der Punkt der gewaehlten Figur traegt aria-current=true (Punkte sind Verweise, keine Tabs); er folgt auch beim Wischen."
+      ],
+      "note": "Verhalten: neo-behaviors carousel (Plan v4, Phase 6a). Keyboard: Pfeile auf der Spur (nativ), Enter auf Punkt/Paddle, Leertaste auf Paddle."
+    },
     "overrides": []
   },
   "constraints": {
@@ -171,7 +194,10 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "device" }
+    {
+      "art": "enthaelt",
+      "recipe": "device"
+    }
   ],
   "specimens": [
     {
@@ -228,5 +254,37 @@
         "note": "Die Spur muss den Fokus annehmen koennen."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Spur (tabindex=0), Paddles, dann jeder Punkt (Verweise, alle in der Tab-Folge)."
+    },
+    "ArrowRight": {
+      "action": "scroll",
+      "note": "Auf der Spur: der Browser scrollt waagerecht (nativ, scroll-snap rastet ein); die Punkte folgen nach Ruhe der Spur."
+    },
+    "ArrowLeft": {
+      "action": "scroll",
+      "note": "Wie Pfeil rechts, in die andere Richtung."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf einem Punkt: scrollt die Spur zur Figur (statt der Seite) und markiert ihn (aria-current). Auf einem Paddle: blaettert um eine Figur."
+    },
+    "Space": {
+      "action": "activate",
+      "note": "Auf einem Paddle: wie Enter (nativer Klick). Auf einem Punkt (Verweis) ohne Wirkung des Behaviors."
+    }
+  },
+  "events": {
+    "carousel-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Gefeuert an der Wurzel (.nc-carousel), wenn die gewaehlte Figur wechselt (Punkt, Paddle, Wischen). index/previousIndex: Position der Figur (ab 0)."
+    }
+  }
 }

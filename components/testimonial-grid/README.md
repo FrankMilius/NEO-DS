@@ -13,7 +13,7 @@
 | Storybook | `stories/molecules/testimonial-grid.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block/block--block-content--neo-testimonial-grid.html.twig, block/block--inline-block--neo-testimonial-grid.html.twig, js/neo-theme.js (Drupal.behaviors.neoTestimonialCarousel)` | present |
+| Drupal | `block/block--block-content--neo-testimonial-grid.html.twig, block/block--inline-block--neo-testimonial-grid.html.twig, neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen(['testimonial-grid']) (neo-behaviors testimonial-grid; vorher Drupal.behaviors.neoTestimonialCarousel in js/neo-theme.js)` | present |
 
 ## Spec
 

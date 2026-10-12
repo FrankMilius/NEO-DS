@@ -20,6 +20,11 @@
 - [Component Spec (Markdown)](../specs/carousel.spec.md)
 - [Component Spec (JSON)](../specs/carousel.spec.json)
 
+## Dependencies
+
+- [`device`](../device/)
+- [`gallery`](../gallery/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/carousel-recipe.json)
