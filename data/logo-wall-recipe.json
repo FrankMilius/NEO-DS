@@ -22,7 +22,7 @@
         "version": "2.1.0",
         "changes": [
           "Plan v4, Phase 2 (12.10.2026; Freigabe ausstehend, WCAG 2.2.2): Laufband (Layout marquee) mit Pause-Knopf .nc-logo-wall__pause vor der Spur; Verhalten aus neo-behaviors marquee (teilt Knopf-Tokens --nc-marquee-pause-* und Verhalten). Maus/Fokus halten voruebergehend an, reduzierte Bewegung = stehend.",
-          "Duplikate der Spur inert (vorher nur aria-hidden — als Links fokussierbar). Kein aria-label mehr an der Wand (div ohne Rolle) und an den Pillen: der Name kommt aus alt bzw. dem Text; externe Links (target=_blank) tragen den Hinweis „öffnet in neuem Fenster“ als .u-sr-only.",
+          "Duplikate der Spur aus der Tab-Folge: aria-hidden, Links darin tabindex=-1 (vorher nur aria-hidden — als Links fokussierbar); mit der Maus weiter anklickbar, Mono-Hover bleibt (nicht inert). Kein aria-label mehr an der Wand (div ohne Rolle) und an den Pillen: der Name kommt aus alt bzw. dem Text; externe Links (target=_blank) tragen den Hinweis „öffnet in neuem Fenster“ als .u-sr-only.",
           "Laufband-Wurzel als Block statt Flex: der Knopf steht in eigener Zeile ueber der Spur; die Spur behaelt die Breite ihres Inhalts (max-content). Ungebunden haelt weiter die Maus an (:hover), gebunden steuert das Behavior (.is-paused/.is-stopped)."
         ]
       },
@@ -115,7 +115,7 @@
       "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
       "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
-      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden und inert (neo-behaviors marquee); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
+      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden, Links darin tabindex=-1 (neo-behaviors marquee; nicht inert, Maus und Hover bleiben); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
       "Name: img alt bzw. Text der Pille — kein aria-label an Pille oder Wand (div ohne Rolle). Externe Links (target=_blank) mit .u-sr-only „öffnet in neuem Fenster“."
     ]
   },
@@ -256,11 +256,11 @@
       "assertions": [
         "hasAccessibleName",
         "2.2.2: Laufband mit Pause-Knopf vor der Spur (Beschriftung wechselt), Maus/Fokus halten voruebergehend an, prefers-reduced-motion: stehend (Behavior marquee).",
-        "2.4.3/4.1.2: Kopien im Laufband inert — nicht fokussierbar, nicht vorgelesen.",
+        "2.4.3/4.1.2: Kopien im Laufband aria-hidden mit tabindex=-1 — nicht per Tab erreichbar, nicht vorgelesen, mit der Maus anklickbar.",
         "4.1.2: Kein aria-label an div ohne Rolle; Name aus alt bzw. Linktext.",
         "3.2.5/2.4.4: Externe Links mit Hinweis „öffnet in neuem Fenster“ (.u-sr-only)."
       ],
-      "note": "Logos: img mit alt-Text (bei Links Linkname aus alt + Hinweis neues Fenster). Laufband: Verhalten aus marquee (Pause-Knopf, inerte Kopien)."
+      "note": "Logos: img mit alt-Text (bei Links Linkname aus alt + Hinweis neues Fenster). Laufband: Verhalten aus marquee (Pause-Knopf, Kopien mit tabindex=-1)."
     },
     "overrides": [
       {

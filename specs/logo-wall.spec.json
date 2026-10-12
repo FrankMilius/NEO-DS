@@ -41,7 +41,7 @@
       "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
       "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
-      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden und inert (neo-behaviors marquee); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
+      "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden, Links darin tabindex=-1 (neo-behaviors marquee; nicht inert, Maus und Hover bleiben); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
       "Name: img alt bzw. Text der Pille — kein aria-label an Pille oder Wand (div ohne Rolle). Externe Links (target=_blank) mit .u-sr-only „öffnet in neuem Fenster“."
     ]
   },
@@ -322,7 +322,7 @@
     "assertions": [
       "hasAccessibleName",
       "2.2.2: Laufband mit Pause-Knopf vor der Spur (Beschriftung wechselt), Maus/Fokus halten voruebergehend an, prefers-reduced-motion: stehend (Behavior marquee).",
-      "2.4.3/4.1.2: Kopien im Laufband inert — nicht fokussierbar, nicht vorgelesen.",
+      "2.4.3/4.1.2: Kopien im Laufband aria-hidden mit tabindex=-1 — nicht per Tab erreichbar, nicht vorgelesen, mit der Maus anklickbar.",
       "4.1.2: Kein aria-label an div ohne Rolle; Name aus alt bzw. Linktext.",
       "3.2.5/2.4.4: Externe Links mit Hinweis „öffnet in neuem Fenster“ (.u-sr-only)."
     ],

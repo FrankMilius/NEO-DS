@@ -15,8 +15,10 @@
 // bis Phase 7 aus JSON und bindet danach mit
 // NeoBehaviors.anbinden(wand, ['marquee']).
 //
-//   Duplikate   werden `inert` (nicht nur aria-hidden): ihre Links sind
-//               weder fokussierbar noch fuer Hilfsmittel da.
+//   Duplikate   bleiben aria-hidden; jedes fokussierbare Element darin
+//               bekommt tabindex="-1" (beim Abbinden zurueck) — nicht per
+//               Tab erreichbar, nicht vorgelesen, aber mit der Maus
+//               anklickbar und mit Hover (bewusst nicht inert).
 //   Knopf       ein Knopf mit wechselnder Beschriftung (wie solution-tabs,
 //               E1): „Laufband anhalten" / „Laufband fortsetzen" (en: „Pause
 //               scrolling" / „Resume scrolling") nach lang, am Knopf
@@ -37,6 +39,9 @@
 // ==========================================================================
 import { sende } from './kern.js'
 import { reduzierteBewegung, spracheVon } from './gallery.js'
+
+// Fokussierbar per Tab (wie kern.js, ohne die Pruefung auf Sichtbarkeit)
+const FOKUSSIERBAR = 'a[href], area[href], button, input, select, textarea, iframe, summary, [tabindex], [contenteditable="true"]'
 
 export const TEXTE = {
   de: { pause: 'Laufband anhalten', play: 'Laufband fortsetzen' },
@@ -61,9 +66,22 @@ export const marquee = {
     if (!spur || !spur.children.length) return
     const dok = wurzel.ownerDocument
 
-    // --- Duplikate: inert ----------------------------------------------------
-    const duplikate = /** @type {HTMLElement[]} */ ([...spur.children]).filter((el) => el.getAttribute('aria-hidden') === 'true' && !el.inert)
-    for (const el of duplikate) el.inert = true
+    // --- Duplikate: aus der Tab-Folge (nicht inert) ---------------------------
+    // aria-hidden bleibt am Duplikat; jedes fokussierbare Element darin
+    // (auch das Duplikat selbst, z. B. ein Logo-Link) bekommt tabindex -1.
+    // Nicht inert: die Maus soll die Kopien weiter anklicken koennen, der
+    // Hover (Mono -> Farbe) wirkt weiter (Plan v4, Phase 2, Nachbesserung).
+    const duplikate = /** @type {HTMLElement[]} */ ([...spur.children]).filter((el) => el.getAttribute('aria-hidden') === 'true')
+    /** @type {Array<[HTMLElement, string|null]>} */
+    const ausDerFolge = []
+    for (const dup of duplikate) {
+      const ziele = /** @type {HTMLElement[]} */ ([dup, ...dup.querySelectorAll('*')]).filter((el) => el.matches(FOKUSSIERBAR))
+      for (const el of ziele) {
+        if (el.getAttribute('tabindex') === '-1') continue
+        ausDerFolge.push([el, el.getAttribute('tabindex')])
+        el.setAttribute('tabindex', '-1')
+      }
+    }
 
     // --- Knopf ---------------------------------------------------------------
     let knopf = /** @type {HTMLButtonElement|null} */ (wurzel.querySelector(`:scope > .${b}__pause`))
@@ -87,7 +105,10 @@ export const marquee = {
     }
 
     signal.addEventListener('abort', () => {
-      for (const el of duplikate) el.inert = false
+      for (const [el, vorher] of ausDerFolge) {
+        if (vorher === null) el.removeAttribute('tabindex')
+        else el.setAttribute('tabindex', vorher)
+      }
       wurzel.classList.remove('is-paused', 'is-stopped')
       if (wurzelVerborgen) {
         wurzel.setAttribute('aria-hidden', 'true')

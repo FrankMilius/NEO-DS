@@ -43,6 +43,7 @@ function bau (html = logoMarkup()) {
   }
 }
 const tabFolge = (wurzel) => [...wurzel.querySelectorAll('a[href], button')].filter((e) => e.tabIndex >= 0 && !e.closest('[inert], [hidden]'))
+const kopien = (spur) => /** @type {HTMLElement[]} */ ([...spur.children]).filter((g) => g.getAttribute('aria-hidden') === 'true')
 const label = (k) => k.querySelector('[class$="__pause-label"]')?.textContent
 
 describe('marquee: Website-Bauteil', () => {
@@ -57,10 +58,26 @@ describe('marquee: Website-Bauteil', () => {
     expect(b.querySelector('.nc-logo-wall__pause')).toBeNull()
   })
 
-  it('Duplikate werden inert, die Originale nicht', () => {
+  it('Duplikate: aria-hidden, tabindex -1, nicht inert (Maus bleibt); Originale unberuehrt', () => {
     const { spur } = bau()
     const glieder = /** @type {HTMLElement[]} */ ([...spur.children])
-    expect(glieder.map((g) => g.inert)).toEqual([false, false, false, true, true, true])
+    expect(glieder.map((g) => g.inert)).toEqual([false, false, false, false, false, false])
+    expect(glieder.map((g) => g.getAttribute('tabindex'))).toEqual([null, null, null, '-1', '-1', '-1'])
+    expect(kopien(spur).every((g) => g.getAttribute('aria-hidden') === 'true')).toBe(true)
+  })
+
+  it('Duplikate: auch Fokussierbares im Inneren bekommt tabindex -1; Klick auf eine Kopie kommt an', () => {
+    const b = buehne('<div class="nc-marquee"><div class="nc-marquee__track"><span class="nc-marquee__text"><a href="#a">A</a></span><span class="nc-marquee__text" aria-hidden="true"><a href="#a">A</a><button type="button" tabindex="0">B</button></span></div></div>')
+    anbinden(b, ['marquee'])
+    const kopie = /** @type {HTMLElement} */ (b.querySelector('.nc-marquee__text[aria-hidden="true"]'))
+    expect([...kopie.querySelectorAll('a, button')].map((e) => e.getAttribute('tabindex'))).toEqual(['-1', '-1'])
+    expect(b.querySelector('.nc-marquee__text:not([aria-hidden]) a')?.hasAttribute('tabindex')).toBe(false)
+    let geklickt = 0
+    kopie.querySelector('a')?.addEventListener('click', (e) => { e.preventDefault(); geklickt++ })
+    klick(/** @type {HTMLElement} */ (kopie.querySelector('a')))
+    expect(geklickt).toBe(1)
+    abbinden(b, ['marquee'])
+    expect([...kopie.querySelectorAll('a, button')].map((e) => e.getAttribute('tabindex'))).toEqual([null, '0'])
   })
 })
 
@@ -137,11 +154,11 @@ describe('marquee: Knopf, Ruhe, Ereignisse', () => {
     for (const e of ap) passtZumRecipe('marquee', e)
   })
 
-  it('reduzierte Bewegung: Knopf verborgen, Duplikate trotzdem inert', () => {
+  it('reduzierte Bewegung: Knopf verborgen, Duplikate trotzdem aus der Tab-Folge', () => {
     window.matchMedia = vi.fn((q) => ({ matches: q === '(prefers-reduced-motion: reduce)' }))
     const { knopf, spur, wurzel } = bau()
     expect(knopf.hidden).toBe(true)
-    expect([...spur.children].filter((g) => /** @type {HTMLElement} */ (g).inert)).toHaveLength(3)
+    expect(kopien(spur).filter((g) => g.getAttribute('tabindex') === '-1')).toHaveLength(3)
     expect(tabFolge(wurzel)).toHaveLength(3)
   })
 
@@ -157,7 +174,7 @@ describe('marquee: Knopf, Ruhe, Ereignisse', () => {
     abbinden(b, ['marquee'])
     expect(wurzel.querySelector('.nc-logo-wall__pause')).toBeNull()
     expect(wurzel.classList.contains('is-stopped')).toBe(false)
-    expect([...spur.children].some((g) => /** @type {HTMLElement} */ (g).inert)).toBe(false)
+    expect([...spur.children].some((g) => g.hasAttribute('tabindex'))).toBe(false)
   })
 
   it('eigene Texte per data-text-pause / data-text-play', () => {
@@ -209,6 +226,7 @@ describe('marquee: Lauftext .nc-marquee (Arena)', () => {
     anbinden(b, ['marquee'])
     const wand = /** @type {HTMLElement} */ (b.querySelector('.nc-logo-wall--marquee'))
     expect(wand.firstElementChild?.classList.contains('nc-logo-wall__pause')).toBe(true)
-    expect(wand.querySelectorAll('.nc-logo-pill[inert]').length).toBe(wand.querySelectorAll('.nc-logo-pill[aria-hidden="true"]').length)
+    expect(wand.querySelectorAll('[inert]').length).toBe(0)
+    expect(wand.querySelectorAll('.nc-logo-pill[aria-hidden="true"]').length).toBe(6)
   })
 })

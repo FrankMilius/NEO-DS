@@ -4992,6 +4992,7 @@
   };
 
   // packages/neo-behaviors/marquee.js
+  var FOKUSSIERBAR2 = 'a[href], area[href], button, input, select, textarea, iframe, summary, [tabindex], [contenteditable="true"]';
   var TEXTE4 = {
     de: { pause: "Laufband anhalten", play: "Laufband fortsetzen" },
     en: { pause: "Pause scrolling", play: "Resume scrolling" }
@@ -5013,9 +5014,20 @@
       const dok = wurzel.ownerDocument;
       const duplikate = (
         /** @type {HTMLElement[]} */
-        [...spur.children].filter((el) => el.getAttribute("aria-hidden") === "true" && !el.inert)
+        [...spur.children].filter((el) => el.getAttribute("aria-hidden") === "true")
       );
-      for (const el of duplikate) el.inert = true;
+      const ausDerFolge = [];
+      for (const dup of duplikate) {
+        const ziele = (
+          /** @type {HTMLElement[]} */
+          [dup, ...dup.querySelectorAll("*")].filter((el) => el.matches(FOKUSSIERBAR2))
+        );
+        for (const el of ziele) {
+          if (el.getAttribute("tabindex") === "-1") continue;
+          ausDerFolge.push([el, el.getAttribute("tabindex")]);
+          el.setAttribute("tabindex", "-1");
+        }
+      }
       let knopf = (
         /** @type {HTMLButtonElement|null} */
         wurzel.querySelector(`:scope > .${b}__pause`)
@@ -5038,7 +5050,10 @@
         spur.setAttribute("aria-hidden", "true");
       }
       signal.addEventListener("abort", () => {
-        for (const el of duplikate) el.inert = false;
+        for (const [el, vorher] of ausDerFolge) {
+          if (vorher === null) el.removeAttribute("tabindex");
+          else el.setAttribute("tabindex", vorher);
+        }
         wurzel.classList.remove("is-paused", "is-stopped");
         if (wurzelVerborgen) {
           wurzel.setAttribute("aria-hidden", "true");

@@ -34,7 +34,7 @@
         "changes": [
           "Plan v4, Phase 2 (12.10.2026; Freigabe ausstehend, WCAG 2.2.2): Behavior marquee in neo-behaviors (nurAusdruecklich) fuer .nc-marquee und das Logo-Laufband .nc-logo-wall--marquee (logo-wall teilt es).",
           "Neu: Pause-Knopf .nc-marquee__pause vor der Spur mit wechselnder Beschriftung „Laufband anhalten“/„Laufband fortsetzen“ (en „Pause scrolling“/„Resume scrolling“, per data-text-pause/data-text-play ueberschreibbar; fehlt er, legt das Behavior ihn an); angehalten .is-stopped. Maus ueber der Spur oder Fokus im Laufband (ausser auf dem Knopf) halten voruebergehend an (.is-paused). Reduzierte Bewegung: die Spur steht, kein Knopf.",
-          "Duplikate (Glieder mit aria-hidden=true) werden inert — nicht fokussierbar. Eine Wurzel mit aria-hidden gibt es an die Spur weiter (sonst laege der Knopf im verborgenen Bereich).",
+          "Duplikate (Glieder mit aria-hidden=true) bleiben aria-hidden; jedes fokussierbare Element darin (auch das Glied selbst) bekommt tabindex=-1 (beim Abbinden zurueck) — per Tab nicht erreichbar, nicht vorgelesen, mit der Maus weiter anklickbar und mit Hover (bewusst nicht inert: sonst waere etwa die Haelfte der sichtbaren Logos tot, Nachbesserung 12.10.2026). Eine Wurzel mit aria-hidden gibt es an die Spur weiter (sonst laege der Knopf im verborgenen Bereich).",
           "Component-Tokens --nc-marquee-pause-* (11, Muster --nc-solution-tabs-autoplay-*). keyboard (Tab, Enter, Space) und events (marquee-autoplay) neu."
         ]
       },
@@ -99,7 +99,7 @@
       "Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.",
       "Text: uppercase, letter-spacing 0.08em, clamp font-size.",
       "Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht.",
-      "Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors marquee — Knopf vor der Spur schaltet die Bewegung (data-playing, .is-stopped); Maus ueber der Spur und Fokus im Laufband ruhen (.is-paused, animation-play-state); Duplikate (aria-hidden=true) inert. Dekorativer Lauftext: aria-hidden an der Spur, nicht an der Wurzel."
+      "Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors marquee — Knopf vor der Spur schaltet die Bewegung (data-playing, .is-stopped); Maus ueber der Spur und Fokus im Laufband ruhen (.is-paused, animation-play-state); Duplikate (aria-hidden=true) mit tabindex=-1 an allem Fokussierbaren, nicht inert (Maus und Hover bleiben). Dekorativer Lauftext: aria-hidden an der Spur, nicht an der Wurzel."
     ]
   },
   "axes": {
@@ -163,7 +163,7 @@
       "focusIndicator": "Knopf @include focus-ring",
       "assertions": [
         "2.2.2: Die Bewegung (laenger als 5 s, neben anderem Inhalt) laesst sich per Knopf vor der Spur anhalten und fortsetzen (Beschriftung wechselt); Maus und Fokus halten voruebergehend an; prefers-reduced-motion: die Spur steht.",
-        "2.4.3/4.1.2: Duplikate der Spur sind inert (nicht fokussierbar, nicht vorgelesen); der Knopf steht in der Tab-Folge vor der Spur.",
+        "2.4.3/4.1.2: Duplikate der Spur aria-hidden, alles Fokussierbare darin tabindex=-1 (kein aria-hidden-focus, nicht per Tab erreichbar); mit der Maus bleiben sie bedienbar. Der Knopf steht in der Tab-Folge vor der Spur.",
         "2.5.8: Knopf mindestens 2.5rem (40 px) hoch und breit.",
         "3.1.2: Knopftexte nach lang (de/en), ueberschreibbar per data-text-pause/data-text-play.",
         "1.3.1: Dekorativer Lauftext aria-hidden an der Spur; Knopfsymbol aria-hidden."
@@ -306,7 +306,7 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Erst der Knopf (vor der Spur), dann die Glieder der ersten Haelfte mit Links; Duplikate sind inert und werden uebersprungen. Fokus im Laufband haelt es voruebergehend an."
+      "note": "Erst der Knopf (vor der Spur), dann die Glieder der ersten Haelfte mit Links; Duplikate (tabindex=-1) werden uebersprungen. Fokus im Laufband haelt es voruebergehend an."
     },
     "Enter": {
       "action": "activate",

@@ -375,7 +375,7 @@
     <li>Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.</li>
     <li>Text: uppercase, letter-spacing 0.08em, clamp font-size.</li>
     <li>Bewegung (Entscheidung 06.10.2026): .nc-marquee__track laeuft endlos (Keyframes `marquee`, translate um die halbe Spur) — der Inhalt steht deshalb zweimal in der Spur. Dauer --nc-marquee-duration. prefers-reduced-motion: die Spur steht.</li>
-    <li>Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors marquee — Knopf vor der Spur schaltet die Bewegung (data-playing, .is-stopped); Maus ueber der Spur und Fokus im Laufband ruhen (.is-paused, animation-play-state); Duplikate (aria-hidden=true) inert. Dekorativer Lauftext: aria-hidden an der Spur, nicht an der Wurzel.</li>
+    <li>Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors marquee — Knopf vor der Spur schaltet die Bewegung (data-playing, .is-stopped); Maus ueber der Spur und Fokus im Laufband ruhen (.is-paused, animation-play-state); Duplikate (aria-hidden=true) mit tabindex=-1 an allem Fokussierbaren, nicht inert (Maus und Hover bleiben). Dekorativer Lauftext: aria-hidden an der Spur, nicht an der Wurzel.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

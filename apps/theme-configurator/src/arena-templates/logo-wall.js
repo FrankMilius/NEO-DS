@@ -6,7 +6,8 @@
 // Plan v4, Phase 2 (12.10.2026): Name aus alt (kein aria-label an Pille oder
 // Wand — ein div ohne Rolle traegt keinen Namen); im Laufband vor der Spur
 // der Pause-Knopf .nc-logo-wall__pause wie im Twig, die Kopien aria-hidden
-// (das Behavior marquee macht sie inert und schaltet den Knopf).
+// (das Behavior marquee nimmt sie per tabindex=-1 aus der Tab-Folge und
+// schaltet den Knopf).
 import { BILD_SRC } from './_helfer.js'
 
 const PAUSE_KNOPF = '<button type="button" class="nc-logo-wall__pause" data-playing="true">' +
