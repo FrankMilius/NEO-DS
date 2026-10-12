@@ -55,8 +55,9 @@ describe('Text-Media-Video: Seitenverhaeltnis und Rahmen', () => {
 
   it('Recipes fuehren die Korrektur', () => {
     const tm = JSON.parse(readFileSync(resolve(ROOT, 'data/text-media-recipe.json'), 'utf-8'));
-    expect(tm.meta.version).toBe('1.1.2');
-    expect(tm.meta.changelog[0].version).toBe('1.1.2');
+    // Korrektur mit 1.1.2; spaetere Versionen (Plan v4 Phase 3: 1.2.0) davor.
+    expect(tm.meta.changelog.some((c) => c.version === '1.1.2')).toBe(true);
+    expect(tm.meta.version.localeCompare('1.1.2', undefined, { numeric: true })).toBeGreaterThanOrEqual(0);
     const vs = JSON.parse(readFileSync(resolve(ROOT, 'data/video-section-recipe.json'), 'utf-8'));
     expect(vs.meta.version).toBe('1.2.1');
     expect(vs.meta.changelog[0].changes.join(' ')).toContain('!important');

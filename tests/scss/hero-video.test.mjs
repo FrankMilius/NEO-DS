@@ -48,8 +48,11 @@ describe('Hero-Video: Seitenverhaeltnis', () => {
 
   it('Recipe fuehrt die Korrektur', () => {
     const r = JSON.parse(readFileSync(resolve(ROOT, 'data/hero-recipe.json'), 'utf-8'));
-    expect(r.meta.version).toBe('2.3.1');
-    expect(r.meta.changelog[0].version).toBe('2.3.1');
-    expect(r.meta.changelog[0].changes.join(' ')).toContain('16:9');
+    // Die Korrektur kam mit 2.3.1; spaetere Versionen (z. B. 2.4.0, Plan v4
+    // Phase 3) stehen davor — gesucht wird der Changelog-Eintrag, nicht [0].
+    const eintrag = r.meta.changelog.find((c) => c.version === '2.3.1');
+    expect(eintrag).toBeTruthy();
+    expect(eintrag.changes.join(' ')).toContain('16:9');
+    expect(r.meta.version.localeCompare('2.3.1', undefined, { numeric: true })).toBeGreaterThanOrEqual(0);
   });
 });
