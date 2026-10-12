@@ -55,9 +55,11 @@ import { shot } from './shot.js'
 import { solutionTabs } from './solution-tabs.js'
 import { gallery } from './gallery.js'
 import { marquee } from './marquee.js'
+import { video } from './video.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
+export { einbettung as videoEinbettung } from './video.js'
 
 /** Alle Behaviors, Schluessel = Recipe-ID. */
 export const BEHAVIORS = Object.freeze({
@@ -106,6 +108,11 @@ export const BEHAVIORS = Object.freeze({
   // Logo-Laufband der logo-wall). In Drupal nur per nur
   gallery,
   marquee,
+  // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
+  // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
+  // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur
+  // per nur
+  video,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,

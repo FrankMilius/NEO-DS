@@ -5143,6 +5143,187 @@
     }
   };
 
+  // packages/neo-behaviors/video.js
+  var TEXTE5 = {
+    de: { pause: "Video anhalten", play: "Video abspielen", titel: "Video" },
+    en: { pause: "Pause video", play: "Play video", titel: "Video" }
+  };
+  var SYMBOL3 = '<svg class="nc-video-pause__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="nc-video-pause__pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="nc-video-pause__play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>';
+  function einbettung(url) {
+    const u = String(url || "");
+    const yt = u.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+    if (yt) return { provider: "youtube", embed: `https://www.youtube-nocookie.com/embed/${yt[1]}?autoplay=1&rel=0` };
+    const vm = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vm) return { provider: "vimeo", embed: `https://player.vimeo.com/video/${vm[1]}?autoplay=1&dnt=1` };
+    return { provider: null, embed: "" };
+  }
+  function videoVon(wurzel) {
+    var _a;
+    if (wurzel.tagName === "VIDEO") return (
+      /** @type {HTMLVideoElement} */
+      wurzel
+    );
+    for (const v of wurzel.querySelectorAll("video")) {
+      if (((_a = v.parentElement) == null ? void 0 : _a.closest("[data-neo-video]")) === wurzel) return (
+        /** @type {HTMLVideoElement} */
+        v
+      );
+    }
+    return null;
+  }
+  var video = {
+    id: "video",
+    selektor: "[data-neo-video]",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      if (wurzel.getAttribute("data-neo-video") === "fassade") fassade(wurzel, signal);
+      else hintergrund(wurzel, signal);
+    }
+  };
+  function hintergrund(wurzel, signal) {
+    const v = videoVon(wurzel);
+    if (!v) return;
+    const dok = wurzel.ownerDocument;
+    const ansicht = dok.defaultView || window;
+    const hatteAutoplay = v.hasAttribute("autoplay");
+    v.removeAttribute("autoplay");
+    v.autoplay = false;
+    v.muted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    let knopf = (
+      /** @type {HTMLButtonElement|null} */
+      wurzel.querySelector(":scope > .nc-video-pause")
+    );
+    const knopfVorher = knopf ? { hidden: knopf.hidden, label: knopf.getAttribute("aria-label"), playing: knopf.getAttribute("data-playing"), tabindex: knopf.getAttribute("tabindex") } : null;
+    let angelegt = false;
+    if (!knopf) {
+      knopf = dok.createElement("button");
+      knopf.type = "button";
+      knopf.className = "nc-video-pause";
+      knopf.innerHTML = SYMBOL3;
+      knopf.hidden = true;
+      if (v === wurzel) v.after(knopf);
+      else {
+        const anker = [...wurzel.children].find((c) => c.contains(v));
+        if (anker) anker.after(knopf);
+        else wurzel.append(knopf);
+      }
+      angelegt = true;
+    }
+    const k = knopf;
+    if (wurzel.closest('[aria-hidden="true"]')) k.tabIndex = -1;
+    let beobachter = null;
+    signal.addEventListener("abort", () => {
+      if (beobachter) beobachter.disconnect();
+      if (hatteAutoplay) v.setAttribute("autoplay", "");
+      if (angelegt) k.remove();
+      else if (knopfVorher) {
+        k.hidden = knopfVorher.hidden;
+        for (
+          const [attr, wert] of
+          /** @type {Array<[string, string|null]>} */
+          [["aria-label", knopfVorher.label], ["data-playing", knopfVorher.playing], ["tabindex", knopfVorher.tabindex]]
+        ) {
+          if (wert === null) k.removeAttribute(attr);
+          else k.setAttribute(attr, wert);
+        }
+      }
+    });
+    if (reduzierteBewegung2(wurzel)) {
+      k.hidden = true;
+      const lief = !v.paused || v.currentTime > 0;
+      v.pause();
+      if (lief) v.load();
+      return;
+    }
+    k.hidden = false;
+    const texte = TEXTE5[spracheVon3(wurzel)];
+    const textPause = k.dataset.textPause || texte.pause;
+    const textPlay = k.dataset.textPlay || texte.play;
+    let laeuft = true;
+    const Beobachter = (
+      /** @type {any} */
+      globalThis.IntersectionObserver || /** @type {any} */
+      ansicht.IntersectionObserver
+    );
+    let sichtbar = typeof Beobachter !== "function";
+    let spielt = false;
+    const zeigeKnopf = () => {
+      k.setAttribute("data-playing", String(laeuft));
+      k.setAttribute("aria-label", laeuft ? textPause : textPlay);
+    };
+    const stimme = (grund, immer = false) => {
+      const soll = laeuft && sichtbar;
+      if (soll !== spielt) {
+        spielt = soll;
+        if (soll) {
+          const versuch = v.play();
+          if (versuch && typeof versuch.catch === "function") {
+            versuch.catch((fehler) => {
+              if (signal.aborted || (fehler == null ? void 0 : fehler.name) === "AbortError" || !spielt) return;
+              spielt = false;
+              laeuft = false;
+              zeigeKnopf();
+              sende(wurzel, "video-autoplay", { playing: false, reason: "blockiert" });
+            });
+          }
+        } else v.pause();
+        sende(wurzel, "video-autoplay", { playing: soll, reason: grund });
+      } else if (immer) sende(wurzel, "video-autoplay", { playing: soll, reason: grund });
+    };
+    zeigeKnopf();
+    k.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      laeuft = !laeuft;
+      zeigeKnopf();
+      stimme("knopf", true);
+    }, { signal });
+    if (typeof Beobachter === "function") {
+      beobachter = new Beobachter((eintraege) => {
+        const e = eintraege[eintraege.length - 1];
+        if (!e || e.isIntersecting === sichtbar) return;
+        sichtbar = e.isIntersecting;
+        stimme(sichtbar ? "sicht" : "ausser-sicht");
+      }, { threshold: 0.1 });
+      beobachter.observe(wurzel);
+    } else {
+      stimme("sicht");
+    }
+  }
+  function fassade(wurzel, signal) {
+    const dok = wurzel.ownerDocument;
+    const ansicht = dok.defaultView || window;
+    let rahmen = null;
+    signal.addEventListener("abort", () => {
+      if (rahmen && rahmen.isConnected) rahmen.replaceWith(wurzel);
+      rahmen = null;
+    });
+    wurzel.addEventListener("click", (e) => {
+      e.preventDefault();
+      const url = wurzel.getAttribute("data-video-url") || "";
+      const { provider, embed } = einbettung(url);
+      sende(wurzel, "video-fassade", { provider, url });
+      if (!embed) {
+        if (url) ansicht.open(url, "_blank", "noopener");
+        return;
+      }
+      const f = dok.createElement("iframe");
+      f.src = embed;
+      f.title = (wurzel.getAttribute("aria-label") || "").trim() || TEXTE5[spracheVon3(wurzel)].titel;
+      f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; encrypted-media");
+      f.setAttribute("allowfullscreen", "");
+      const klassen = wurzel.getAttribute("data-video-class");
+      if (klassen) f.className = klassen;
+      rahmen = f;
+      wurzel.replaceWith(f);
+      f.focus();
+    }, { signal });
+  }
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -5190,6 +5371,11 @@
     // Logo-Laufband der logo-wall). In Drupal nur per nur
     gallery,
     marquee,
+    // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
+    // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
+    // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur
+    // per nur
+    video,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,
