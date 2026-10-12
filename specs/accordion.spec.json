@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "accordion",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -645,11 +645,11 @@
   "keyboard": {
     "Enter": {
       "action": "toggle-item",
-      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“ (accordion-block): alle auf bzw. alle zu."
     },
     "Space": {
       "action": "toggle-item",
-      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“: wie Enter."
     },
     "ArrowDown": {
       "action": "focus-next-trigger",
@@ -682,6 +682,20 @@
         "open": "boolean"
       },
       "note": "Gefeuert wenn ein Item geoeffnet/geschlossen wird."
+    },
+    "accordion-target": {
+      "bubbles": true,
+      "detail": {
+        "itemId": "string"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein Sprungziel (#id eines Eintrags) geoeffnet und angescrollt wurde — beim Binden, bei hashchange oder beim erneuten Klick auf denselben Verweis."
+    },
+    "accordion-toggle-all": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert an der Wurzel nach einem Klick auf den Knopf „Alle aufklappen“ (open true) bzw. „Alle zuklappen“ (open false)."
     }
   },
   "a11y": {

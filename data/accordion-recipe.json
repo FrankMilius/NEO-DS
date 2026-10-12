@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "accordion",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -19,6 +19,16 @@
       "docs": "/docs/accordion-docs"
     },
     "changelog": [
+      {
+        "version": "3.4.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026; website-sichtbar, Freigabe ausstehend): Das Behavior accordion uebernimmt, was bisher Drupal.behaviors.neoAccordion in neo_fe/js/neo-theme.js tat — neoAccordion entfaellt, Theme und Paket teilen sich das Bauteil nicht mehr.",
+          "Sprungziel: /seite#eintrag oeffnet den Eintrag mit dieser id (und einen umschliessenden) und scrollt ihn an den Anfang — beim Binden im naechsten Bild, bei hashchange und neu auch beim erneuten Klick auf einen Verweis mit demselben Ziel (kein hashchange; der Kommentar in neoAccordion versprach es, der Code tat es nicht). Sanft nur ohne prefers-reduced-motion (vorher immer sanft). Ereignis accordion-target { itemId }.",
+          "Mitscrollen bei data-behavior=\"single-scroll\" (Achse behavior, field_acc_behavior): Kopf des geoeffneten Eintrags nach 100 ms unter die Kopfzeile (.site-header[data-neo-nav] + 16 px), wenn er nicht im Bild steht — wie bisher; sanft nur ohne reduzierte Bewegung.",
+          "Alle auf-/zuklappen: Knopf [data-neo-accordion-toggle-all] mit aria-controls = id des Akkordeons (Recipe accordion-block); aria-expanded = alle offen; Beschriftung „Alle aufklappen“/„Alle zuklappen“, en „Expand all“/„Collapse all“ nach lang (vorher fest deutsch), ueberschreibbar per data-text-expand/data-text-collapse (constraints.copy.toggleAll). Ereignis accordion-toggle-all { open }.",
+          "Abbinden loest alle Lauscher und Zeitgeber und stellt Beschriftung und aria-expanded des Knopfs her."
+        ]
+      },
       {
         "version": "3.3.0",
         "changes": [
@@ -527,6 +537,17 @@
       "badge": {
         "maxChars": 15,
         "note": "Badge-Text im trigger-suffix."
+      },
+      "toggleAll": {
+        "de": {
+          "expand": "Alle aufklappen",
+          "collapse": "Alle zuklappen"
+        },
+        "en": {
+          "expand": "Expand all",
+          "collapse": "Collapse all"
+        },
+        "note": "Beschriftung ([data-label-auf]) des Knopfs [data-neo-accordion-toggle-all] je Zustand; das Behavior waehlt nach lang (de oder ohne Angabe deutsch, sonst englisch); eigene Texte per data-text-expand/data-text-collapse am Knopf."
       }
     }
   },
@@ -746,11 +767,11 @@
   "keyboard": {
     "Enter": {
       "action": "toggle-item",
-      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“ (accordion-block): alle auf bzw. alle zu."
     },
     "Space": {
       "action": "toggle-item",
-      "note": "Oeffnet/schliesst das fokussierte Accordion-Item."
+      "note": "Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“: wie Enter."
     },
     "ArrowDown": {
       "action": "focus-next-trigger",
@@ -783,6 +804,20 @@
         "open": "boolean"
       },
       "note": "Gefeuert wenn ein Item geoeffnet/geschlossen wird."
+    },
+    "accordion-target": {
+      "bubbles": true,
+      "detail": {
+        "itemId": "string"
+      },
+      "note": "Gefeuert an der Wurzel, wenn ein Sprungziel (#id eines Eintrags) geoeffnet und angescrollt wurde — beim Binden, bei hashchange oder beim erneuten Klick auf denselben Verweis."
+    },
+    "accordion-toggle-all": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "Gefeuert an der Wurzel nach einem Klick auf den Knopf „Alle aufklappen“ (open true) bzw. „Alle zuklappen“ (open false)."
     }
   },
   "komposition": [

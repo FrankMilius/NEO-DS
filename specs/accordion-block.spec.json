@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "accordion-block",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -38,7 +38,7 @@
       "Instanzflaeche field_acc_bg_color: Drupal schreibt sie als style=\"background-color: …\" an die <section> — ein Rohwert, der die Textfarben nicht mitdreht; die gestaltete Flaeche kommt aus field_surface (Klasse am Block-Wrapper), die Breite aus field_content_width.",
       "Senkrechter Rhythmus: __inner traegt padding-block spacing-10 zusaetzlich zur Polsterung von .nc-section; Abstand zwischen Kopf und Akkordeon gap spacing-10 (unter 768 px spacing-06). Die Anschnittlinie kommt vom .nc-container (seit 20.08.2026 keine eigene Hoechstbreite mehr).",
       "Unter 768 px Fensterbreite (Media Query) einspaltig, Kopf nicht mehr sticky — die Arena zeigt die Desktop-Lage.",
-      "Verhalten (neo-theme.js, Drupal.behaviors.neoAccordion — gehoert zum Recipe accordion): Eintrag per Anker oeffnen, „Alle aufklappen\" mit aria-expanded und Beschriftungswechsel, bei single-scroll den geoeffneten Eintrag in Sicht rollen. FAQ-Auszeichnung (JSON-LD) nur mit field_acc_faq."
+      "Verhalten (Behavior accordion aus neo-behaviors, Recipe accordion 3.4.0; Plan v4, Phase 6b — vorher Drupal.behaviors.neoAccordion in neo-theme.js): Eintrag per Anker oeffnen, „Alle aufklappen“ mit aria-expanded und Beschriftungswechsel (de/en nach lang), bei single-scroll den geoeffneten Eintrag in Sicht rollen. Drupal: _neo_fe_behaviors_anhaengen($variables, ['accordion']). FAQ-Auszeichnung (JSON-LD) nur mit field_acc_faq."
     ]
   },
   "api": null,

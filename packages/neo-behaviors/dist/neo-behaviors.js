@@ -164,7 +164,305 @@
     }
   };
 
+  // packages/neo-behaviors/gallery.js
+  var TEXTE = {
+    de: { pause: "Galerie pausieren", play: "Galerie abspielen" },
+    en: { pause: "Pause gallery", play: "Play gallery" }
+  };
+  var SYMBOL = '<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg><svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><polygon points="6,4 20,12 6,20"/></svg>';
+  var VORGABE_MS = 6e3;
+  var zaehler = 0;
+  function spracheVon(el) {
+    var _a;
+    const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
+    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
+  }
+  function dauerAus(el, eigenschaft, vorgabe) {
+    const ansicht = el.ownerDocument.defaultView;
+    let roh = "";
+    try {
+      roh = (ansicht == null ? void 0 : ansicht.getComputedStyle(el).getPropertyValue(eigenschaft)) || "";
+    } catch {
+      roh = "";
+    }
+    if (!roh.trim()) roh = el.style.getPropertyValue(eigenschaft);
+    const m = /^\s*([\d.]+)\s*(ms|s)?\s*$/.exec(roh || "");
+    if (!m) return vorgabe;
+    const zahl = parseFloat(m[1]);
+    if (!(zahl > 0)) return vorgabe;
+    return m[2] === "ms" ? zahl : zahl * 1e3;
+  }
+  function reduzierteBewegung(el) {
+    var _a, _b;
+    const ansicht = el.ownerDocument.defaultView;
+    return !!((_b = (_a = ansicht == null ? void 0 : ansicht.matchMedia) == null ? void 0 : _a.call(ansicht, "(prefers-reduced-motion: reduce)")) == null ? void 0 : _b.matches);
+  }
+  var gallery = {
+    id: "gallery",
+    selektor: ".nc-gallery",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const spur = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-gallery__track")
+      );
+      const slides = spur ? (
+        /** @type {HTMLElement[]} */
+        [...spur.querySelectorAll(":scope > .nc-gallery__slide")]
+      ) : [];
+      if (!spur || !slides.length) return;
+      const dok = wurzel.ownerDocument;
+      const ansicht = dok.defaultView || window;
+      const fade = wurzel.classList.contains("nc-gallery--fade");
+      const nav = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-gallery__nav")
+      );
+      const punkte = nav ? (
+        /** @type {HTMLElement[]} */
+        [...nav.querySelectorAll(".nc-gallery__nav-dot")].slice(0, slides.length)
+      ) : [];
+      const zurueck = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-gallery-prev], .nc-gallery__paddle--prev")
+      );
+      const vor = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-gallery-next], .nc-gallery__paddle--next")
+      );
+      const basis = wurzel.id || "nc-gallery-" + ++zaehler;
+      const vergebeneIds = [];
+      slides.forEach((s, i) => {
+        if (!s.id) {
+          s.id = `${basis}-slide-${i}`;
+          vergebeneIds.push(s);
+        }
+        const p = punkte[i];
+        if (!p) return;
+        if (!p.id) {
+          p.id = `${basis}-tab-${i}`;
+          vergebeneIds.push(p);
+        }
+        p.setAttribute("role", "tab");
+        p.setAttribute("aria-controls", s.id);
+      });
+      let index = Math.max(0, slides.findIndex((s) => s.classList.contains("is-active")));
+      function zeige(i) {
+        index = i;
+        slides.forEach((s, j) => {
+          const an = j === i;
+          s.classList.toggle("is-active", an);
+          s.inert = !an;
+          if (an) s.removeAttribute("aria-hidden");
+          else s.setAttribute("aria-hidden", "true");
+        });
+        punkte.forEach((p, j) => {
+          const an = j === i;
+          p.classList.toggle("is-active", an);
+          p.setAttribute("aria-selected", String(an));
+          p.tabIndex = an ? 0 : -1;
+        });
+        if (!fade) spur.style.transform = `translate3d(-${i * 100}%, 0, 0)`;
+      }
+      zeige(index);
+      function waehle2(i, fokus) {
+        const n = slides.length;
+        const ziel = (i % n + n) % n;
+        const vorher = index;
+        if (ziel !== vorher) {
+          zeige(ziel);
+          sende(wurzel, "gallery-change", { index: ziel, previousIndex: vorher });
+        }
+        if (fokus) fokus.focus();
+      }
+      const autoplay = wurzel.dataset.autoplay === "on";
+      const reduziert = reduzierteBewegung(wurzel);
+      let knopf = (
+        /** @type {HTMLButtonElement|null} */
+        wurzel.querySelector(".nc-gallery__autoplay")
+      );
+      const knopfVorher = knopf ? { hidden: knopf.hidden, label: knopf.getAttribute("aria-label"), playing: knopf.getAttribute("data-playing") } : null;
+      let angelegt = false;
+      let laeuft = false;
+      let spielt = false;
+      let schalte = () => {
+      };
+      if (autoplay && !reduziert) {
+        if (!knopf) {
+          knopf = dok.createElement("button");
+          knopf.type = "button";
+          knopf.className = "nc-gallery__autoplay";
+          knopf.innerHTML = SYMBOL;
+          wurzel.append(knopf);
+          angelegt = true;
+        }
+        const k = knopf;
+        k.hidden = false;
+        const texte = TEXTE[spracheVon(wurzel)];
+        const textPause = k.dataset.textPause || texte.pause;
+        const textPlay = k.dataset.textPlay || texte.play;
+        const dauer = dauerAus(wurzel, "--nc-gallery-autoplay-interval", VORGABE_MS);
+        let maus = false;
+        let fokus = false;
+        const Beobachter = (
+          /** @type {any} */
+          globalThis.IntersectionObserver || /** @type {any} */
+          ansicht.IntersectionObserver
+        );
+        let sichtbar = typeof Beobachter !== "function";
+        let timer = 0;
+        let rest = dauer;
+        let start = 0;
+        laeuft = true;
+        const zeigeKnopf = () => {
+          k.setAttribute("data-playing", String(laeuft));
+          k.setAttribute("aria-label", laeuft ? textPause : textPlay);
+          wurzel.classList.toggle("is-stopped", !laeuft);
+        };
+        const plane = () => {
+          clearTimeout(timer);
+          start = Date.now();
+          timer = setTimeout(() => {
+            timer = 0;
+            waehle2(index + 1, null);
+            rest = dauer;
+            plane();
+          }, rest);
+        };
+        const stimme = (grund, immer = false) => {
+          const soll = laeuft && !maus && !fokus && sichtbar;
+          wurzel.classList.toggle("is-paused", laeuft && !soll);
+          spur.setAttribute("aria-live", soll ? "off" : "polite");
+          if (soll === spielt) {
+            if (immer) sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
+            return;
+          }
+          spielt = soll;
+          if (soll) plane();
+          else {
+            clearTimeout(timer);
+            timer = 0;
+            rest = Math.max(0, rest - (Date.now() - start));
+          }
+          sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
+        };
+        schalte = (an, grund) => {
+          if (laeuft === an) return;
+          laeuft = an;
+          if (an) {
+            rest = dauer;
+            maus = false;
+            fokus = false;
+          }
+          zeigeKnopf();
+          stimme(grund, true);
+        };
+        zeigeKnopf();
+        k.addEventListener("click", () => schalte(!laeuft, "knopf"), { signal });
+        wurzel.addEventListener("mouseenter", () => {
+          maus = true;
+          stimme("hover");
+        }, { signal });
+        wurzel.addEventListener("mouseleave", () => {
+          maus = false;
+          stimme("hover");
+        }, { signal });
+        const fokusDrin = (ziel) => !!ziel && wurzel.contains(ziel) && !k.contains(ziel);
+        wurzel.addEventListener("focusin", (e) => {
+          fokus = fokusDrin(e.target);
+          stimme("fokus");
+        }, { signal });
+        wurzel.addEventListener("focusout", (e) => {
+          fokus = fokusDrin(
+            /** @type {FocusEvent} */
+            e.relatedTarget
+          );
+          stimme("fokus");
+        }, { signal });
+        let beobachter = null;
+        if (!sichtbar) {
+          beobachter = new Beobachter((eintraege) => {
+            for (const e of eintraege) sichtbar = e.isIntersecting;
+            stimme("ausser-sicht");
+          }, { threshold: 0.3 });
+          beobachter.observe(wurzel);
+        }
+        stimme("ausser-sicht");
+        signal.addEventListener("abort", () => {
+          clearTimeout(timer);
+          beobachter == null ? void 0 : beobachter.disconnect();
+        });
+      } else {
+        if (knopf) knopf.hidden = true;
+        spur.setAttribute("aria-live", "polite");
+      }
+      signal.addEventListener("abort", () => {
+        wurzel.classList.remove("is-paused", "is-stopped");
+        spur.removeAttribute("aria-live");
+        for (const el of vergebeneIds) el.removeAttribute("id");
+        if (angelegt) knopf == null ? void 0 : knopf.remove();
+        else if (knopf && knopfVorher) {
+          knopf.hidden = knopfVorher.hidden;
+          if (knopfVorher.label === null) knopf.removeAttribute("aria-label");
+          else knopf.setAttribute("aria-label", knopfVorher.label);
+          if (knopfVorher.playing === null) knopf.removeAttribute("data-playing");
+          else knopf.setAttribute("data-playing", knopfVorher.playing);
+        }
+      });
+      const hand = (i, fokus = null) => {
+        schalte(false, "wahl");
+        waehle2(i, fokus);
+      };
+      zurueck == null ? void 0 : zurueck.addEventListener("click", () => hand(index - 1), { signal });
+      vor == null ? void 0 : vor.addEventListener("click", () => hand(index + 1), { signal });
+      nav == null ? void 0 : nav.addEventListener("click", (e) => {
+        var _a, _b;
+        const p = (
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-gallery__nav-dot")
+        );
+        const i = punkte.indexOf(
+          /** @type {HTMLElement} */
+          p
+        );
+        if (i >= 0) hand(i);
+      }, { signal });
+      wurzel.addEventListener("keydown", (e) => {
+        var _a;
+        const ziel = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (e.key === "Escape") {
+          if (laeuft) schalte(false, "escape");
+          return;
+        }
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        const punkt = punkte.includes(ziel) ? ziel : null;
+        if (punkt) {
+          const naechster = zielFuerTaste(e.key, punkte, punkt, "horizontal");
+          if (!naechster) return;
+          e.preventDefault();
+          hand(punkte.indexOf(naechster), naechster);
+          return;
+        }
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, ".nc-gallery__slide")) return;
+        e.preventDefault();
+        hand(index + (e.key === "ArrowRight" ? 1 : -1));
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/accordion.js
+  var TEXTE2 = {
+    de: { expand: "Alle aufklappen", collapse: "Alle zuklappen" },
+    en: { expand: "Expand all", collapse: "Collapse all" }
+  };
+  var ABSTAND = 16;
+  var WARTEN = 100;
   var akkordeon = {
     id: "accordion",
     selektor: ".nc-accordion",
@@ -214,8 +512,136 @@
         e.preventDefault();
         ziel.focus();
       }, { signal });
+      sprungziel(wurzel, signal, eintraege);
+      mitscrollen(wurzel, signal, eintraege);
+      alleUmschalten(wurzel, signal, eintraege);
     }
   };
+  var art = (el) => (
+    /** @type {ScrollBehavior} */
+    reduzierteBewegung(el) ? "auto" : "smooth"
+  );
+  function sprungziel(wurzel, signal, eintraege) {
+    const dok = wurzel.ownerDocument;
+    const ansicht = dok.defaultView;
+    if (!ansicht) return;
+    const oeffne = () => {
+      let kennung = ansicht.location.hash.slice(1);
+      try {
+        kennung = decodeURIComponent(kennung);
+      } catch {
+      }
+      if (!kennung) return;
+      const ziel = (
+        /** @type {HTMLElement|null} */
+        [...wurzel.querySelectorAll(".nc-accordion__item")].find((e) => e.id === kennung) || null
+      );
+      if (!ziel || ziel.closest(".nc-accordion") !== wurzel || !eintraege().includes(
+        /** @type {HTMLDetailsElement} */
+        ziel
+      )) return;
+      for (let el = (
+        /** @type {HTMLElement|null} */
+        ziel
+      ); el; el = el.parentElement) {
+        if (el.tagName === "DETAILS") el.open = true;
+      }
+      ziel.scrollIntoView({ behavior: art(wurzel), block: "start" });
+      sende(wurzel, "accordion-target", { itemId: ziel.id });
+    };
+    ansicht.addEventListener("hashchange", oeffne, { signal });
+    dok.addEventListener("click", (e) => {
+      var _a, _b;
+      const a = (
+        /** @type {HTMLAnchorElement|null} */
+        /** @type {HTMLElement} */
+        (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, 'a[href*="#"]')
+      );
+      if (!a || e.defaultPrevented) return;
+      let url;
+      try {
+        url = new URL(a.href, ansicht.location.href);
+      } catch {
+        return;
+      }
+      if (!url.hash || url.hash !== ansicht.location.hash || url.pathname !== ansicht.location.pathname) return;
+      ansicht.requestAnimationFrame(() => {
+        if (!signal.aborted) oeffne();
+      });
+    }, { signal });
+    if (ansicht.location.hash) {
+      const bild = ansicht.requestAnimationFrame(oeffne);
+      signal.addEventListener("abort", () => ansicht.cancelAnimationFrame(bild));
+    }
+  }
+  function mitscrollen(wurzel, signal, eintraege) {
+    if (!wurzel.closest('[data-behavior="single-scroll"]')) return;
+    const dok = wurzel.ownerDocument;
+    const ansicht = dok.defaultView;
+    if (!ansicht) return;
+    const uhren = /* @__PURE__ */ new Map();
+    signal.addEventListener("abort", () => {
+      for (const u of uhren.values()) ansicht.clearTimeout(u);
+    });
+    wurzel.addEventListener("toggle", (e) => {
+      const item = (
+        /** @type {HTMLDetailsElement} */
+        e.target
+      );
+      if (!item.open || !eintraege().includes(item)) return;
+      if (uhren.has(item)) ansicht.clearTimeout(uhren.get(item));
+      uhren.set(item, ansicht.setTimeout(() => {
+        uhren.delete(item);
+        const kopf = item.querySelector(".nc-accordion__trigger");
+        if (!kopf) return;
+        const nav = (
+          /** @type {HTMLElement|null} */
+          dok.querySelector(".site-header[data-neo-nav]")
+        );
+        const oben = (nav && nav.offsetHeight || 0) + ABSTAND;
+        const r = kopf.getBoundingClientRect();
+        if (r.top >= oben && r.bottom <= ansicht.innerHeight) return;
+        ansicht.scrollTo({ top: Math.max(0, r.top + ansicht.scrollY - oben), behavior: art(wurzel) });
+      }, WARTEN));
+    }, { signal, capture: true });
+  }
+  function alleUmschalten(wurzel, signal, eintraege) {
+    var _a;
+    if (!wurzel.id) return;
+    const knoepfe = (
+      /** @type {HTMLElement[]} */
+      [...wurzel.ownerDocument.querySelectorAll("[data-neo-accordion-toggle-all]")].filter((k) => k.getAttribute("aria-controls") === wurzel.id)
+    );
+    for (const knopf of knoepfe) {
+      const beschriftung = (
+        /** @type {HTMLElement|null} */
+        knopf.querySelector("[data-label-auf]")
+      );
+      const vorher = { text: (_a = beschriftung == null ? void 0 : beschriftung.textContent) != null ? _a : null, expanded: knopf.getAttribute("aria-expanded") };
+      const texte = TEXTE2[spracheVon(knopf)];
+      const textAuf = knopf.dataset.textExpand || texte.expand;
+      const textZu = knopf.dataset.textCollapse || texte.collapse;
+      const nachfuehren = () => {
+        const liste = eintraege();
+        const alleOffen = liste.length > 0 && liste.every((e) => e.open);
+        knopf.setAttribute("aria-expanded", String(alleOffen));
+        if (beschriftung) beschriftung.textContent = alleOffen ? textZu : textAuf;
+      };
+      knopf.addEventListener("click", () => {
+        const auf = knopf.getAttribute("aria-expanded") !== "true";
+        for (const e of eintraege()) e.open = auf;
+        nachfuehren();
+        sende(wurzel, "accordion-toggle-all", { open: auf });
+      }, { signal });
+      wurzel.addEventListener("toggle", nachfuehren, { signal, capture: true });
+      signal.addEventListener("abort", () => {
+        if (beschriftung && vorher.text !== null) beschriftung.textContent = vorher.text;
+        if (vorher.expanded === null) knopf.removeAttribute("aria-expanded");
+        else knopf.setAttribute("aria-expanded", vorher.expanded);
+      });
+      nachfuehren();
+    }
+  }
 
   // packages/neo-behaviors/select.js
   var select = {
@@ -995,10 +1421,10 @@
   };
 
   // packages/neo-behaviors/_dialog.js
-  function dialogBehavior(art) {
+  function dialogBehavior(art2) {
     return {
-      id: art.id,
-      selektor: art.selektor,
+      id: art2.id,
+      selektor: art2.selektor,
       /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
       binde(wurzel, signal) {
         var _a;
@@ -1021,7 +1447,7 @@
           if (dialog.open) return;
           zurueck = ausloeser;
           dialog.showModal();
-          const eigen = (_a2 = art.fokusZiel) == null ? void 0 : _a2.call(art, dialog);
+          const eigen = (_a2 = art2.fokusZiel) == null ? void 0 : _a2.call(art2, dialog);
           if (eigen) eigen.focus();
           else {
             const ziel = (
@@ -1030,7 +1456,7 @@
             );
             if (ziel && !dialog.contains(dok.activeElement)) ziel.focus();
           }
-          sende(dialog, `${art.praefix}-open`, {});
+          sende(dialog, `${art2.praefix}-open`, {});
         };
         const schliesse = (warum) => {
           if (!dialog.open) return;
@@ -1069,20 +1495,20 @@
           if (ziel === dialog) {
             const r = dialog.getBoundingClientRect();
             const draussen = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
-            if (draussen && art.hintergrundSchliesst(dialog)) schliesse("overlay-click");
+            if (draussen && art2.hintergrundSchliesst(dialog)) schliesse("overlay-click");
             return;
           }
-          const warum = art.aktion ? art.aktion(ziel, dialog) : ziel.closest(`${art.schliessen}, [data-action="close"], [data-action="cancel"]`) ? "close-button" : null;
+          const warum = art2.aktion ? art2.aktion(ziel, dialog) : ziel.closest(`${art2.schliessen}, [data-action="close"], [data-action="cancel"]`) ? "close-button" : null;
           if (warum) schliesse(warum);
         }, { signal });
         dialog.addEventListener("close", () => {
           const reason = grund || "programmatic";
-          sende(dialog, `${art.praefix}-close`, art.schliessDetail ? art.schliessDetail(reason) : { reason });
+          sende(dialog, `${art2.praefix}-close`, art2.schliessDetail ? art2.schliessDetail(reason) : { reason });
           grund = null;
           if (zurueck && zurueck.isConnected) zurueck.focus();
           zurueck = null;
         }, { signal });
-        (_a = art.scroll) == null ? void 0 : _a.call(art, dialog, signal);
+        (_a = art2.scroll) == null ? void 0 : _a.call(art2, dialog, signal);
       }
     };
   }
@@ -1256,7 +1682,7 @@
   // packages/neo-behaviors/treeview.js
   var EINTRAG3 = ".nc-treeview__item";
   var AKTION = ".nc-treeview__action";
-  var zaehler = 0;
+  var zaehler2 = 0;
   var NIE_IM_TAB = ".nc-treeview__toggle, .nc-treeview__checkbox, .nc-treeview__link, .nc-treeview__drag-handle";
   var treeview = {
     id: "treeview",
@@ -1341,7 +1767,7 @@
           ((_c = zeile(li)) == null ? void 0 : _c.querySelector(".nc-treeview__label, .nc-treeview__link")) || null
         );
         if (!name) continue;
-        if (!name.id) name.id = `nc-treeview-name-${++zaehler}`;
+        if (!name.id) name.id = `nc-treeview-name-${++zaehler2}`;
         li.setAttribute("aria-labelledby", name.id);
       }
       if (!mehrfach) {
@@ -2029,8 +2455,8 @@
           );
           const pop = ziel(knopf) || /** @type {HTMLElement|null} */
           m.querySelector(".hdr-pop");
-          const art = (pop == null ? void 0 : pop.querySelector("[data-lang]")) ? "sprache" : (pop == null ? void 0 : pop.querySelector("[data-theme-value]")) ? "ansicht" : (knopf == null ? void 0 : knopf.id) || "";
-          return { m, knopf, pop, art };
+          const art2 = (pop == null ? void 0 : pop.querySelector("[data-lang]")) ? "sprache" : (pop == null ? void 0 : pop.querySelector("[data-theme-value]")) ? "ansicht" : (knopf == null ? void 0 : knopf.id) || "";
+          return { m, knopf, pop, art: art2 };
         }).filter((x) => x.knopf && x.pop)
       );
       const burger = (
@@ -2579,7 +3005,7 @@
     var _a;
     return ((_a = el.ownerDocument.defaultView) == null ? void 0 : _a.getComputedStyle(el).getPropertyValue(name)) || "";
   }
-  function dauerAus(wurzel) {
+  function dauerAus2(wurzel) {
     if (!wurzel.hasAttribute("data-duration") || wurzel.matches(STEHEND)) return 0;
     const roh = wurzel.getAttribute("data-duration") || "";
     let dauer = roh === "" || roh === "auto" ? zeitwert(token(wurzel, "--nc-toast-auto-dismiss-duration"), STANDARD_DAUER) : zeitwert(roh, 0);
@@ -2605,7 +3031,7 @@
         /** @type {HTMLElement|null} */
         wurzel.querySelector(":scope > .nc-toast__progress")
       );
-      const dauer = dauerAus(wurzel);
+      const dauer = dauerAus2(wurzel);
       let rest = dauer;
       let start = 0;
       let uhr = 0;
@@ -3154,15 +3580,15 @@
   };
 
   // packages/neo-behaviors/_ueberlagerung.js
-  function ueberlagerungBehavior(art) {
+  function ueberlagerungBehavior(art2) {
     return {
-      id: art.id,
-      selektor: art.selektor,
+      id: art2.id,
+      selektor: art2.selektor,
       /** @param {HTMLElement} panel @param {AbortSignal} signal */
       binde(panel, signal) {
         const dok = panel.ownerDocument;
         const ansicht = dok.defaultView;
-        const hinten = art.hintergrund(panel);
+        const hinten = art2.hintergrund(panel);
         const vorher = {
           inert: panel.hasAttribute("inert"),
           ariaHidden: panel.getAttribute("aria-hidden"),
@@ -3195,21 +3621,21 @@
           vonUnsInert.clear();
         };
         const zu = () => {
-          panel.classList.remove(art.offenKlasse);
-          if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art.hintergrundKlasse);
+          panel.classList.remove(art2.offenKlasse);
+          if (art2.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art2.hintergrundKlasse);
           panel.setAttribute("aria-hidden", "true");
           panel.setAttribute("inert", "");
-          if (art.seiteSperren) dok.body.classList.remove(art.seiteSperren);
+          if (art2.seiteSperren) dok.body.classList.remove(art2.seiteSperren);
         };
         function oeffne(knopf) {
           var _a;
           if (offen) return;
-          (_a = art.beimOeffnen) == null ? void 0 : _a.call(art, panel, knopf);
-          panel.classList.add(art.offenKlasse);
-          if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.add(art.hintergrundKlasse);
+          (_a = art2.beimOeffnen) == null ? void 0 : _a.call(art2, panel, knopf);
+          panel.classList.add(art2.offenKlasse);
+          if (art2.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.add(art2.hintergrundKlasse);
           panel.removeAttribute("inert");
           panel.setAttribute("aria-hidden", "false");
-          if (art.seiteSperren) dok.body.classList.add(art.seiteSperren);
+          if (art2.seiteSperren) dok.body.classList.add(art2.seiteSperren);
           for (const k of knoepfe()) k.setAttribute("aria-expanded", "true");
           sperreRest();
           const start = (
@@ -3220,7 +3646,7 @@
           if (tabindex) panel.setAttribute("tabindex", "-1");
           offen = { knopf, tabindex };
           (start || panel).focus();
-          sende(panel, `${art.praefix}-open`, {});
+          sende(panel, `${art2.praefix}-open`, {});
         }
         function schliesse(grund) {
           if (!offen) return;
@@ -3231,15 +3657,15 @@
           for (const k of knoepfe()) k.setAttribute("aria-expanded", "false");
           if (tabindex) panel.removeAttribute("tabindex");
           if (knopf && knopf.isConnected) knopf.focus();
-          sende(panel, `${art.praefix}-close`, { reason: grund });
+          sende(panel, `${art2.praefix}-close`, { reason: grund });
         }
-        if (panel.classList.contains(art.offenKlasse)) {
+        if (panel.classList.contains(art2.offenKlasse)) {
           offen = { knopf: null, tabindex: false };
           sperreRest();
         } else zu();
         if (!panel.hasAttribute("role")) panel.setAttribute("role", "dialog");
         panel.setAttribute("aria-modal", "true");
-        for (const k of knoepfe()) k.setAttribute("aria-expanded", String(panel.classList.contains(art.offenKlasse)));
+        for (const k of knoepfe()) k.setAttribute("aria-expanded", String(panel.classList.contains(art2.offenKlasse)));
         dok.addEventListener("click", (e) => {
           var _a, _b;
           const knopf = (
@@ -3248,7 +3674,7 @@
             ((_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, "[aria-controls]")) || null
           );
           if (!knopf || !panel.id || knopf.getAttribute("aria-controls") !== panel.id || panel.contains(knopf) || gesperrt(knopf)) return;
-          if (art.nochDa && !art.nochDa(panel)) return;
+          if (art2.nochDa && !art2.nochDa(panel)) return;
           e.preventDefault();
           if (offen) schliesse("trigger");
           else oeffne(knopf);
@@ -3261,7 +3687,7 @@
             e.target
           );
           if (hinten && panel.contains(hinten) && hinten.contains(ziel)) schliesse("overlay-click");
-          else if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, art.schliessen)) schliesse("close-button");
+          else if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, art2.schliessen)) schliesse("close-button");
         }, { signal });
         if (hinten && !panel.contains(hinten)) hinten.addEventListener("click", () => schliesse("overlay-click"), { signal });
         dok.addEventListener("keydown", (e) => {
@@ -3271,19 +3697,19 @@
             schliesse("escape");
           } else fokusFalle(e, panel);
         }, { signal });
-        if (art.nochDa) ansicht == null ? void 0 : ansicht.addEventListener("resize", () => {
+        if (art2.nochDa) ansicht == null ? void 0 : ansicht.addEventListener("resize", () => {
           var _a;
-          if (offen && !((_a = art.nochDa) == null ? void 0 : _a.call(art, panel))) schliesse("resize");
+          if (offen && !((_a = art2.nochDa) == null ? void 0 : _a.call(art2, panel))) schliesse("resize");
         }, { signal });
         signal.addEventListener("abort", () => {
           if (offen == null ? void 0 : offen.tabindex) panel.removeAttribute("tabindex");
           if (offen) {
-            panel.classList.remove(art.offenKlasse);
-            if (art.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art.hintergrundKlasse);
+            panel.classList.remove(art2.offenKlasse);
+            if (art2.hintergrundKlasse) hinten == null ? void 0 : hinten.classList.remove(art2.hintergrundKlasse);
           }
           offen = null;
           gibRestFrei();
-          if (art.seiteSperren) dok.body.classList.remove(art.seiteSperren);
+          if (art2.seiteSperren) dok.body.classList.remove(art2.seiteSperren);
           if (vorher.inert) panel.setAttribute("inert", "");
           else panel.removeAttribute("inert");
           for (
@@ -3482,12 +3908,12 @@
   };
 
   // packages/neo-behaviors/multiselect.js
-  var zaehler2 = 0;
-  var TEXTE = {
+  var zaehler3 = 0;
+  var TEXTE3 = {
     de: { platzhalter: "Bitte wählen…", anzahl: "@count ausgewählt" },
     en: { platzhalter: "Please select…", anzahl: "@count selected" }
   };
-  function spracheVon(feld) {
+  function spracheVon2(feld) {
     var _a;
     const lang = (((_a = feld.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
     return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
@@ -3522,11 +3948,11 @@
         var _a2, _b;
         return (((_b = (_a2 = box.closest(".nc-multiselect__option")) == null ? void 0 : _a2.querySelector(".nc-checkbox__label")) == null ? void 0 : _b.textContent) || box.value).trim();
       };
-      const texte = TEXTE[spracheVon(feld)];
+      const texte = TEXTE3[spracheVon2(feld)];
       const platzhalter = knopf.dataset.placeholder || feld.dataset.placeholder || ((wert == null ? void 0 : wert.classList.contains("nc-multiselect__value--empty")) ? (_a = wert.textContent) == null ? void 0 : _a.trim() : "") || texte.platzhalter;
       const anzahlText = feld.dataset.countText || knopf.dataset.countText || texte.anzahl;
       const vorher = { controls: knopf.getAttribute("aria-controls"), panelId: panel.id, display: panel.style.display };
-      if (!panel.id) panel.id = `neo-multiselect-${++zaehler2}`;
+      if (!panel.id) panel.id = `neo-multiselect-${++zaehler3}`;
       knopf.setAttribute("aria-controls", panel.id);
       const istOffen = () => !panel.hidden;
       function zeige(offen) {
@@ -4235,10 +4661,10 @@
     },
     frame(c, o, dok) {
       const P = o.params || {};
-      const art = P.frame || "Browser";
+      const art2 = P.frame || "Browser";
       const rahmen = dok.createElement("div");
       rahmen.className = "nc-shot__frame" + (P.shadow === false ? "" : " nc-shot--shadow");
-      if (art === "Browser") {
+      if (art2 === "Browser") {
         const leiste = dok.createElement("div");
         leiste.className = "nc-shot__chrome-bar";
         for (let i = 0; i < 3; i++) {
@@ -4562,13 +4988,13 @@
   }
 
   // packages/neo-behaviors/solution-tabs.js
-  var TEXTE2 = {
+  var TEXTE4 = {
     de: { pause: "Automatische Wiedergabe anhalten", play: "Automatische Wiedergabe fortsetzen" },
     en: { pause: "Pause automatic playback", play: "Resume automatic playback" }
   };
-  var SYMBOL = '<svg class="nc-solution-tabs__autoplay-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="nc-solution-tabs__autoplay-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="nc-solution-tabs__autoplay-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>';
-  var VORGABE_MS = 7e3;
-  function spracheVon2(el) {
+  var SYMBOL2 = '<svg class="nc-solution-tabs__autoplay-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="nc-solution-tabs__autoplay-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="nc-solution-tabs__autoplay-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>';
+  var VORGABE_MS2 = 7e3;
+  function spracheVon3(el) {
     var _a;
     const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
     return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
@@ -4583,12 +5009,12 @@
     }
     if (!roh.trim()) roh = wurzel.style.getPropertyValue("--nc-solution-tabs-autoplay-duration");
     const m = /^\s*([\d.]+)\s*(ms|s)?\s*$/.exec(roh || "");
-    if (!m) return VORGABE_MS;
+    if (!m) return VORGABE_MS2;
     const zahl = parseFloat(m[1]);
-    if (!(zahl > 0)) return VORGABE_MS;
+    if (!(zahl > 0)) return VORGABE_MS2;
     return m[2] === "ms" ? zahl : zahl * 1e3;
   }
-  function reduzierteBewegung(wurzel) {
+  function reduzierteBewegung2(wurzel) {
     var _a, _b;
     const ansicht = wurzel.ownerDocument.defaultView;
     return !!((_b = (_a = ansicht == null ? void 0 : ansicht.matchMedia) == null ? void 0 : _a.call(ansicht, "(prefers-reduced-motion: reduce)")) == null ? void 0 : _b.matches);
@@ -4643,7 +5069,7 @@
         sende(wurzel, "solution-tabs-change", { value: wertVon2(tab), previousValue: vorher ? wertVon2(vorher) : null });
       }
       const autoplay = wurzel.dataset.autoplay === "on";
-      const reduziert = reduzierteBewegung(wurzel);
+      const reduziert = reduzierteBewegung2(wurzel);
       let knopf = (
         /** @type {HTMLButtonElement|null} */
         wurzel.querySelector(":scope > .nc-solution-tabs__autoplay")
@@ -4663,13 +5089,13 @@
         knopf = dok.createElement("button");
         knopf.type = "button";
         knopf.className = "nc-solution-tabs__autoplay";
-        knopf.innerHTML = SYMBOL + '<span class="nc-solution-tabs__autoplay-label"></span>';
+        knopf.innerHTML = SYMBOL2 + '<span class="nc-solution-tabs__autoplay-label"></span>';
         wurzel.insertBefore(knopf, liste);
         angelegt = true;
       }
       const k = knopf;
       k.hidden = false;
-      const texte = TEXTE2[spracheVon2(wurzel)];
+      const texte = TEXTE4[spracheVon3(wurzel)];
       const textPause = k.dataset.textPause || texte.pause;
       const textPlay = k.dataset.textPlay || texte.play;
       let beschriftung = (
@@ -4821,301 +5247,9 @@
     }
   };
 
-  // packages/neo-behaviors/gallery.js
-  var TEXTE3 = {
-    de: { pause: "Galerie pausieren", play: "Galerie abspielen" },
-    en: { pause: "Pause gallery", play: "Play gallery" }
-  };
-  var SYMBOL2 = '<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg><svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><polygon points="6,4 20,12 6,20"/></svg>';
-  var VORGABE_MS2 = 6e3;
-  var zaehler3 = 0;
-  function spracheVon3(el) {
-    var _a;
-    const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
-    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
-  }
-  function dauerAus2(el, eigenschaft, vorgabe) {
-    const ansicht = el.ownerDocument.defaultView;
-    let roh = "";
-    try {
-      roh = (ansicht == null ? void 0 : ansicht.getComputedStyle(el).getPropertyValue(eigenschaft)) || "";
-    } catch {
-      roh = "";
-    }
-    if (!roh.trim()) roh = el.style.getPropertyValue(eigenschaft);
-    const m = /^\s*([\d.]+)\s*(ms|s)?\s*$/.exec(roh || "");
-    if (!m) return vorgabe;
-    const zahl = parseFloat(m[1]);
-    if (!(zahl > 0)) return vorgabe;
-    return m[2] === "ms" ? zahl : zahl * 1e3;
-  }
-  function reduzierteBewegung2(el) {
-    var _a, _b;
-    const ansicht = el.ownerDocument.defaultView;
-    return !!((_b = (_a = ansicht == null ? void 0 : ansicht.matchMedia) == null ? void 0 : _a.call(ansicht, "(prefers-reduced-motion: reduce)")) == null ? void 0 : _b.matches);
-  }
-  var gallery = {
-    id: "gallery",
-    selektor: ".nc-gallery",
-    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
-    nurAusdruecklich: true,
-    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
-    binde(wurzel, signal) {
-      const spur = (
-        /** @type {HTMLElement|null} */
-        wurzel.querySelector(":scope > .nc-gallery__track")
-      );
-      const slides = spur ? (
-        /** @type {HTMLElement[]} */
-        [...spur.querySelectorAll(":scope > .nc-gallery__slide")]
-      ) : [];
-      if (!spur || !slides.length) return;
-      const dok = wurzel.ownerDocument;
-      const ansicht = dok.defaultView || window;
-      const fade = wurzel.classList.contains("nc-gallery--fade");
-      const nav = (
-        /** @type {HTMLElement|null} */
-        wurzel.querySelector(".nc-gallery__nav")
-      );
-      const punkte = nav ? (
-        /** @type {HTMLElement[]} */
-        [...nav.querySelectorAll(".nc-gallery__nav-dot")].slice(0, slides.length)
-      ) : [];
-      const zurueck = (
-        /** @type {HTMLElement|null} */
-        wurzel.querySelector("[data-gallery-prev], .nc-gallery__paddle--prev")
-      );
-      const vor = (
-        /** @type {HTMLElement|null} */
-        wurzel.querySelector("[data-gallery-next], .nc-gallery__paddle--next")
-      );
-      const basis = wurzel.id || "nc-gallery-" + ++zaehler3;
-      const vergebeneIds = [];
-      slides.forEach((s, i) => {
-        if (!s.id) {
-          s.id = `${basis}-slide-${i}`;
-          vergebeneIds.push(s);
-        }
-        const p = punkte[i];
-        if (!p) return;
-        if (!p.id) {
-          p.id = `${basis}-tab-${i}`;
-          vergebeneIds.push(p);
-        }
-        p.setAttribute("role", "tab");
-        p.setAttribute("aria-controls", s.id);
-      });
-      let index = Math.max(0, slides.findIndex((s) => s.classList.contains("is-active")));
-      function zeige(i) {
-        index = i;
-        slides.forEach((s, j) => {
-          const an = j === i;
-          s.classList.toggle("is-active", an);
-          s.inert = !an;
-          if (an) s.removeAttribute("aria-hidden");
-          else s.setAttribute("aria-hidden", "true");
-        });
-        punkte.forEach((p, j) => {
-          const an = j === i;
-          p.classList.toggle("is-active", an);
-          p.setAttribute("aria-selected", String(an));
-          p.tabIndex = an ? 0 : -1;
-        });
-        if (!fade) spur.style.transform = `translate3d(-${i * 100}%, 0, 0)`;
-      }
-      zeige(index);
-      function waehle2(i, fokus) {
-        const n = slides.length;
-        const ziel = (i % n + n) % n;
-        const vorher = index;
-        if (ziel !== vorher) {
-          zeige(ziel);
-          sende(wurzel, "gallery-change", { index: ziel, previousIndex: vorher });
-        }
-        if (fokus) fokus.focus();
-      }
-      const autoplay = wurzel.dataset.autoplay === "on";
-      const reduziert = reduzierteBewegung2(wurzel);
-      let knopf = (
-        /** @type {HTMLButtonElement|null} */
-        wurzel.querySelector(".nc-gallery__autoplay")
-      );
-      const knopfVorher = knopf ? { hidden: knopf.hidden, label: knopf.getAttribute("aria-label"), playing: knopf.getAttribute("data-playing") } : null;
-      let angelegt = false;
-      let laeuft = false;
-      let spielt = false;
-      let schalte = () => {
-      };
-      if (autoplay && !reduziert) {
-        if (!knopf) {
-          knopf = dok.createElement("button");
-          knopf.type = "button";
-          knopf.className = "nc-gallery__autoplay";
-          knopf.innerHTML = SYMBOL2;
-          wurzel.append(knopf);
-          angelegt = true;
-        }
-        const k = knopf;
-        k.hidden = false;
-        const texte = TEXTE3[spracheVon3(wurzel)];
-        const textPause = k.dataset.textPause || texte.pause;
-        const textPlay = k.dataset.textPlay || texte.play;
-        const dauer = dauerAus2(wurzel, "--nc-gallery-autoplay-interval", VORGABE_MS2);
-        let maus = false;
-        let fokus = false;
-        const Beobachter = (
-          /** @type {any} */
-          globalThis.IntersectionObserver || /** @type {any} */
-          ansicht.IntersectionObserver
-        );
-        let sichtbar = typeof Beobachter !== "function";
-        let timer = 0;
-        let rest = dauer;
-        let start = 0;
-        laeuft = true;
-        const zeigeKnopf = () => {
-          k.setAttribute("data-playing", String(laeuft));
-          k.setAttribute("aria-label", laeuft ? textPause : textPlay);
-          wurzel.classList.toggle("is-stopped", !laeuft);
-        };
-        const plane = () => {
-          clearTimeout(timer);
-          start = Date.now();
-          timer = setTimeout(() => {
-            timer = 0;
-            waehle2(index + 1, null);
-            rest = dauer;
-            plane();
-          }, rest);
-        };
-        const stimme = (grund, immer = false) => {
-          const soll = laeuft && !maus && !fokus && sichtbar;
-          wurzel.classList.toggle("is-paused", laeuft && !soll);
-          spur.setAttribute("aria-live", soll ? "off" : "polite");
-          if (soll === spielt) {
-            if (immer) sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
-            return;
-          }
-          spielt = soll;
-          if (soll) plane();
-          else {
-            clearTimeout(timer);
-            timer = 0;
-            rest = Math.max(0, rest - (Date.now() - start));
-          }
-          sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
-        };
-        schalte = (an, grund) => {
-          if (laeuft === an) return;
-          laeuft = an;
-          if (an) {
-            rest = dauer;
-            maus = false;
-            fokus = false;
-          }
-          zeigeKnopf();
-          stimme(grund, true);
-        };
-        zeigeKnopf();
-        k.addEventListener("click", () => schalte(!laeuft, "knopf"), { signal });
-        wurzel.addEventListener("mouseenter", () => {
-          maus = true;
-          stimme("hover");
-        }, { signal });
-        wurzel.addEventListener("mouseleave", () => {
-          maus = false;
-          stimme("hover");
-        }, { signal });
-        const fokusDrin = (ziel) => !!ziel && wurzel.contains(ziel) && !k.contains(ziel);
-        wurzel.addEventListener("focusin", (e) => {
-          fokus = fokusDrin(e.target);
-          stimme("fokus");
-        }, { signal });
-        wurzel.addEventListener("focusout", (e) => {
-          fokus = fokusDrin(
-            /** @type {FocusEvent} */
-            e.relatedTarget
-          );
-          stimme("fokus");
-        }, { signal });
-        let beobachter = null;
-        if (!sichtbar) {
-          beobachter = new Beobachter((eintraege) => {
-            for (const e of eintraege) sichtbar = e.isIntersecting;
-            stimme("ausser-sicht");
-          }, { threshold: 0.3 });
-          beobachter.observe(wurzel);
-        }
-        stimme("ausser-sicht");
-        signal.addEventListener("abort", () => {
-          clearTimeout(timer);
-          beobachter == null ? void 0 : beobachter.disconnect();
-        });
-      } else {
-        if (knopf) knopf.hidden = true;
-        spur.setAttribute("aria-live", "polite");
-      }
-      signal.addEventListener("abort", () => {
-        wurzel.classList.remove("is-paused", "is-stopped");
-        spur.removeAttribute("aria-live");
-        for (const el of vergebeneIds) el.removeAttribute("id");
-        if (angelegt) knopf == null ? void 0 : knopf.remove();
-        else if (knopf && knopfVorher) {
-          knopf.hidden = knopfVorher.hidden;
-          if (knopfVorher.label === null) knopf.removeAttribute("aria-label");
-          else knopf.setAttribute("aria-label", knopfVorher.label);
-          if (knopfVorher.playing === null) knopf.removeAttribute("data-playing");
-          else knopf.setAttribute("data-playing", knopfVorher.playing);
-        }
-      });
-      const hand = (i, fokus = null) => {
-        schalte(false, "wahl");
-        waehle2(i, fokus);
-      };
-      zurueck == null ? void 0 : zurueck.addEventListener("click", () => hand(index - 1), { signal });
-      vor == null ? void 0 : vor.addEventListener("click", () => hand(index + 1), { signal });
-      nav == null ? void 0 : nav.addEventListener("click", (e) => {
-        var _a, _b;
-        const p = (
-          /** @type {HTMLElement} */
-          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-gallery__nav-dot")
-        );
-        const i = punkte.indexOf(
-          /** @type {HTMLElement} */
-          p
-        );
-        if (i >= 0) hand(i);
-      }, { signal });
-      wurzel.addEventListener("keydown", (e) => {
-        var _a;
-        const ziel = (
-          /** @type {HTMLElement} */
-          e.target
-        );
-        if (e.key === "Escape") {
-          if (laeuft) schalte(false, "escape");
-          return;
-        }
-        if (e.altKey || e.ctrlKey || e.metaKey) return;
-        const punkt = punkte.includes(ziel) ? ziel : null;
-        if (punkt) {
-          const naechster = zielFuerTaste(e.key, punkte, punkt, "horizontal");
-          if (!naechster) return;
-          e.preventDefault();
-          hand(punkte.indexOf(naechster), naechster);
-          return;
-        }
-        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-        if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, ".nc-gallery__slide")) return;
-        e.preventDefault();
-        hand(index + (e.key === "ArrowRight" ? 1 : -1));
-      }, { signal });
-    }
-  };
-
   // packages/neo-behaviors/marquee.js
   var FOKUSSIERBAR2 = 'a[href], area[href], button, input, select, textarea, iframe, summary, [tabindex], [contenteditable="true"]';
-  var TEXTE4 = {
+  var TEXTE5 = {
     de: { pause: "Laufband anhalten", play: "Laufband fortsetzen" },
     en: { pause: "Pause scrolling", play: "Resume scrolling" }
   };
@@ -5189,12 +5323,12 @@
           else k.setAttribute("data-playing", knopfVorher.playing);
         }
       });
-      if (reduzierteBewegung2(wurzel)) {
+      if (reduzierteBewegung(wurzel)) {
         k.hidden = true;
         return;
       }
       k.hidden = false;
-      const texte = TEXTE4[spracheVon3(wurzel)];
+      const texte = TEXTE5[spracheVon(wurzel)];
       const textPause = k.dataset.textPause || texte.pause;
       const textPlay = k.dataset.textPlay || texte.play;
       let beschriftung = (
@@ -5482,7 +5616,7 @@
         markiere(nr);
         const ziel = { left: stelle(nr), behavior: (
           /** @type {ScrollBehavior} */
-          reduzierteBewegung2(wurzel) ? "instant" : "smooth"
+          reduzierteBewegung(wurzel) ? "instant" : "smooth"
         ) };
         if (typeof spur.scrollTo === "function") spur.scrollTo(ziel);
         else spur.scrollLeft = ziel.left;
@@ -5628,7 +5762,7 @@
           const links = streifen.scrollLeft + (st.getBoundingClientRect().left - streifen.getBoundingClientRect().left);
           const ziel = { left: links, behavior: (
             /** @type {ScrollBehavior} */
-            reduzierteBewegung2(wurzel) ? "instant" : "auto"
+            reduzierteBewegung(wurzel) ? "instant" : "auto"
           ) };
           if (typeof streifen.scrollTo === "function") streifen.scrollTo(ziel);
           else streifen.scrollLeft = links;
@@ -5840,7 +5974,7 @@
       function blaettere(richtung) {
         const ziel = { left: richtung * schritt(), behavior: (
           /** @type {ScrollBehavior} */
-          reduzierteBewegung2(spur) ? "instant" : "smooth"
+          reduzierteBewegung(spur) ? "instant" : "smooth"
         ) };
         if (typeof spur.scrollBy === "function") spur.scrollBy(ziel);
         else spur.scrollLeft += ziel.left;
@@ -5869,7 +6003,7 @@
   };
 
   // packages/neo-behaviors/video.js
-  var TEXTE5 = {
+  var TEXTE6 = {
     de: { pause: "Video anhalten", play: "Video abspielen", titel: "Video" },
     en: { pause: "Pause video", play: "Play video", titel: "Video" }
   };
@@ -5957,7 +6091,7 @@
         }
       }
     });
-    if (reduzierteBewegung2(wurzel)) {
+    if (reduzierteBewegung(wurzel)) {
       k.hidden = true;
       const lief = !v.paused || v.currentTime > 0;
       v.pause();
@@ -5965,7 +6099,7 @@
       return;
     }
     k.hidden = false;
-    const texte = TEXTE5[spracheVon3(wurzel)];
+    const texte = TEXTE6[spracheVon(wurzel)];
     const textPause = k.dataset.textPause || texte.pause;
     const textPlay = k.dataset.textPlay || texte.play;
     let laeuft = true;
@@ -6038,7 +6172,7 @@
       }
       const f = dok.createElement("iframe");
       f.src = embed;
-      f.title = (wurzel.getAttribute("aria-label") || "").trim() || TEXTE5[spracheVon3(wurzel)].titel;
+      f.title = (wurzel.getAttribute("aria-label") || "").trim() || TEXTE6[spracheVon(wurzel)].titel;
       f.setAttribute("allow", "autoplay; fullscreen; picture-in-picture; encrypted-media");
       f.setAttribute("allowfullscreen", "");
       const klassen = wurzel.getAttribute("data-video-class");
@@ -6083,7 +6217,7 @@
         wurzel.style.setProperty("--nc-timeline-progress", wert);
         sende(wurzel, "timeline-progress", { progress: Number(wert) });
       };
-      if (reduzierteBewegung2(wurzel) || typeof Beobachter !== "function") {
+      if (reduzierteBewegung(wurzel) || typeof Beobachter !== "function") {
         fuelle("1");
         return;
       }
@@ -6124,7 +6258,7 @@
         /** @type {HTMLElement|null} */
         wurzel.querySelector(".nc-hero-tom__media")
       );
-      if (!medium || reduzierteBewegung2(wurzel)) return;
+      if (!medium || reduzierteBewegung(wurzel)) return;
       const ansicht = wurzel.ownerDocument.defaultView || window;
       const vorher = medium.style.getPropertyValue("--tom-expand");
       let ausgefahren = null;

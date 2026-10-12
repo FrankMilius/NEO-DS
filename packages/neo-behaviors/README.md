@@ -6,7 +6,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | Recipe | Verhalten | Ereignisse |
 | --- | --- | --- |
 | `tabs` | Klick, Pfeiltasten (vertikal: hoch/runter), Pos1, Ende, Enter/Leertaste; gesperrte Tabs übersprungen; `data-neo-tabs="manuell"` = nur Enter aktiviert | `tab-change` { value, previousValue } |
-| `accordion` | `<details>` klappt nativ; Pfeiltasten, Pos1, Ende zwischen den Kopfzeilen; `data-neo-accordion="einzeln"` = nur eines offen | `accordion-toggle` { itemId, open } |
+| `accordion` | `<details>` klappt nativ; Pfeiltasten, Pos1, Ende zwischen den Kopfzeilen; `data-neo-accordion="einzeln"` = nur eines offen; Sprungziel `#id` öffnet den Eintrag (auch umschließende) und scrollt ihn an den Anfang (beim Binden, `hashchange`, erneuter Klick auf denselben Verweis); `data-behavior="single-scroll"` holt den geöffneten Kopf nach 100 ms unter die Kopfzeile zurück; Knopf `[data-neo-accordion-toggle-all]` mit `aria-controls` = id: alle auf/zu, `aria-expanded`, Beschriftung „Alle aufklappen/zuklappen“ (de/en nach `lang`, `data-text-expand`/`-collapse`); sanft nur ohne reduced motion (Plan v4, Phase 6b, vorher `neoAccordion`) | `accordion-toggle` { itemId, open }, `accordion-target` { itemId }, `accordion-toggle-all` { open } |
 | `select` | natives Feld; `.is-open` am `.nc-select-wrapper` solange die Liste offen ist (Chevron dreht) | — |
 | `search` | Fokus/Tippen öffnet, Tippen filtert und markiert, Leerhinweis, Pfeiltasten + Enter wählen, Escape/Verlassen schließt, Bereichs-Menü | `search-open` { open }, `search-select` { value } |
 | `segmented-control` | Klick, Pfeiltasten, Pos1, Ende wählen ein Segment (Radio-Muster, roving tabindex); gesperrte übersprungen; gleitender Indikator (`setzeIndikator`, auch von der Arena-Vorlage genutzt) | `segment-change` { value, previousValue } |
@@ -341,6 +341,10 @@ die alte Funktion entfernt (Freigabe).
   Ereignis und das Abbinden.
   `hero-tom`: aus `neoHeroTom`; neu: der Scroll-Lauscher wird beim
   Abbinden gelöst (vorher nie), Ereignis beim Wechsel ganz ausgefahren.
+  `accordion` übernimmt `neoAccordion` (Sprungziel, Mitscrollen, „Alle
+  aufklappen“) — Theme und Paket teilen sich das Akkordeon nicht mehr;
+  neu: Knopftexte nach Sprache, sanft nur ohne reduced motion, Sprung auch
+  beim zweiten Klick auf denselben Verweis.
 - **FAQ** (website-verhalten d) — **kein eigenes Behavior**, `<details>`
   genügt. Begründung: `neo-theme.js` bindet am FAQ nichts (`neoAccordion`
   greift nur bei `[data-neo-accordion]` mit `.nc-accordion__item`), das

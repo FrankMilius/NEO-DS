@@ -1,5 +1,5 @@
 # accordion Component Spec
-> Version 3.3.0 | Status: stable | Layer: molecule
+> Version 3.4.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `disclosure`, `content`, `navigation`, `faq`, `selection`
 
@@ -264,8 +264,8 @@ Base classes: `nc-accordion`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Enter` | toggle-item | Oeffnet/schliesst das fokussierte Accordion-Item. |
-| `Space` | toggle-item | Oeffnet/schliesst das fokussierte Accordion-Item. |
+| `Enter` | toggle-item | Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“ (accordion-block): alle auf bzw. alle zu. |
+| `Space` | toggle-item | Oeffnet/schliesst das fokussierte Accordion-Item. Auf dem Knopf „Alle aufklappen“: wie Enter. |
 | `ArrowDown` | focus-next-trigger | Fokussiert naechsten Accordion-Trigger. |
 | `ArrowUp` | focus-prev-trigger | Fokussiert vorherigen Accordion-Trigger. |
 | `Home` | focus-first-trigger | Springt zum ersten Trigger. |
@@ -283,6 +283,8 @@ Base classes: `nc-accordion`
 | Event | Bubbles | Detail |
 | --- | --- | --- |
 | `accordion-toggle` | Yes | `{"itemId":"string","open":"boolean"}` |
+| `accordion-target` | Yes | `{"itemId":"string"}` |
+| `accordion-toggle-all` | Yes | `{"open":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
