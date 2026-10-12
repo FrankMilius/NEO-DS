@@ -58,6 +58,7 @@ import { gallery } from './gallery.js'
 import { marquee } from './marquee.js'
 import { fadeGallery } from './fade-gallery.js'
 import { carousel } from './carousel.js'
+import { productShowcase } from './product-showcase.js'
 import { video } from './video.js'
 
 export { setzeIndikator } from './segmented-control.js'
@@ -121,6 +122,10 @@ export const BEHAVIORS = Object.freeze({
   // Drupal nur per nur
   'fade-gallery': fadeGallery,
   carousel,
+  // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026, E8 = a): Product-Showcase
+  // mit zwei Modi — Tabs (Optionen) und Stationen (Geraete-Strecke, vorher
+  // neo-device-scroll.js). In Drupal nur per nur
+  'product-showcase': productShowcase,
   // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
   // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
   // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur
