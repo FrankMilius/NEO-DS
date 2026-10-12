@@ -12,7 +12,8 @@
 // Zustände: statisch. Abspielen: die Ansichten wechseln im Takt — die Arena
 // setzt nur die Zustandsklassen, die Ueberblendung (opacity 0.5 s am Medium,
 // opacity/transform 0.4 s an der Beschreibung) kommt aus dem SCSS. Die
-// Website steuert den Wechsel per Klick (neo-theme.js), ohne Autoplay.
+// Website steuert den Wechsel per Klick, ohne Autoplay — Ausprobieren bindet
+// dasselbe Behavior fade-gallery aus neo-behaviors (Plan v4, Phase 6a).
 import { BILD_SRC, PFEIL_LINKS, PFEIL_RECHTS } from './_helfer.js'
 import { wurzelKlassen } from './_overlay.js'
 import { imTakt, naechsterFrame, alle } from './_bewegung.js'

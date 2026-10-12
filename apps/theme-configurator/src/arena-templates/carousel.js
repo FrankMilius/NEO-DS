@@ -6,9 +6,9 @@
 //
 // Zustände: statisch, erster Eintrag am Anfang der Spur. Abspielen: die Spur
 // blaettert Eintrag um Eintrag (scrollTo, die Eintraege rasten per
-// scroll-snap des DS ein) und springt am Ende zurueck. Die Knoepfe bleiben
-// ohne Verhalten — es gibt keines in neo-behaviors, das Recipe nennt weder
-// keyboard noch events.
+// scroll-snap des DS ein) und springt am Ende zurueck. Ausprobieren: die
+// Knoepfe blaettern ueber das Behavior carousel aus neo-behaviors (Plan v4,
+// Phase 6a; Punkte gibt es nur auf der Website).
 import { BILD_SRC, PFEIL_LINKS, PFEIL_RECHTS, an } from './_helfer.js'
 import { blaettere, alle } from './_bewegung.js'
 

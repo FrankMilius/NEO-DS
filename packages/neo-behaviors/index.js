@@ -56,6 +56,8 @@ import { shot } from './shot.js'
 import { solutionTabs } from './solution-tabs.js'
 import { gallery } from './gallery.js'
 import { marquee } from './marquee.js'
+import { fadeGallery } from './fade-gallery.js'
+import { carousel } from './carousel.js'
 import { video } from './video.js'
 
 export { setzeIndikator } from './segmented-control.js'
@@ -113,6 +115,12 @@ export const BEHAVIORS = Object.freeze({
   // Logo-Laufband der logo-wall). In Drupal nur per nur
   gallery,
   marquee,
+  // Website-Bauteile (Plan v4, Phase 6a, 12.10.2026): Ueberblend-Galerie
+  // (Tabs-Muster) und Karussell (Punkte mit aria-current, Nachfuehren beim
+  // Wischen) — die beiden Darstellungen des Blocks neo_fade_gallery. In
+  // Drupal nur per nur
+  'fade-gallery': fadeGallery,
+  carousel,
   // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
   // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
   // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur

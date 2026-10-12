@@ -5265,6 +5265,271 @@
     }
   };
 
+  // packages/neo-behaviors/fade-gallery.js
+  var zaehler4 = 0;
+  var fadeGallery = {
+    id: "fade-gallery",
+    selektor: ".nc-fade-gallery",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const medien = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-fade-gallery__media")]
+      );
+      const tabs2 = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-fade-gallery__tab")]
+      );
+      const texte = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-fade-gallery__desc")]
+      );
+      if (medien.length < 2) return;
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      const liste = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-fade-gallery__tabs")
+      );
+      const zurueck = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-fg-prev], .nc-gallery__paddle--prev")
+      );
+      const vor = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-fg-next], .nc-gallery__paddle--next")
+      );
+      const basis = wurzel.id || "nc-fade-gallery-" + ++zaehler4;
+      const vergeben = [];
+      const rollen = [];
+      const merkeRolle = (el, rolle) => {
+        if (el.getAttribute("role") === rolle) return;
+        rollen.push([el, el.getAttribute("role")]);
+        el.setAttribute("role", rolle);
+      };
+      if (liste) merkeRolle(liste, "tablist");
+      medien.forEach((m, i) => {
+        if (!m.id) {
+          m.id = `${basis}-p${i}`;
+          vergeben.push(m);
+        }
+        merkeRolle(m, "tabpanel");
+        const t = tabs2[i];
+        if (!t) return;
+        if (!t.id) {
+          t.id = `${basis}-t${i}`;
+          vergeben.push(t);
+        }
+        merkeRolle(t, "tab");
+        if (!t.hasAttribute("aria-controls")) {
+          t.setAttribute("aria-controls", m.id);
+          vergeben.push([t, "aria-controls"]);
+        }
+        if (!m.hasAttribute("aria-labelledby")) {
+          m.setAttribute("aria-labelledby", t.id);
+          vergeben.push([m, "aria-labelledby"]);
+        }
+      });
+      const textVon = (el, k) => el.dataset.fgDesc !== void 0 ? Number(el.dataset.fgDesc) : k;
+      let jetzt = Math.max(0, tabs2.findIndex((t) => t.getAttribute("aria-selected") === "true"));
+      if (jetzt >= medien.length) jetzt = 0;
+      let bild = 0;
+      function zeige(nr) {
+        var _a;
+        jetzt = nr;
+        medien.forEach((m, i) => {
+          m.classList.toggle("is-active", i === nr);
+          if (i === nr) m.removeAttribute("aria-hidden");
+          else m.setAttribute("aria-hidden", "true");
+        });
+        tabs2.forEach((t, i) => {
+          t.setAttribute("aria-selected", String(i === nr));
+          t.tabIndex = i === nr ? 0 : -1;
+        });
+        (_a = ansicht.cancelAnimationFrame) == null ? void 0 : _a.call(ansicht, bild);
+        const sichtbar = [];
+        texte.forEach((p, k) => {
+          if (textVon(p, k) === nr) {
+            p.hidden = false;
+            sichtbar.push(p);
+          } else {
+            p.classList.remove("is-visible");
+            p.hidden = true;
+          }
+        });
+        if (sichtbar.length) {
+          if (typeof ansicht.requestAnimationFrame === "function") bild = ansicht.requestAnimationFrame(() => {
+            for (const p of sichtbar) p.classList.add("is-visible");
+          });
+          else for (const p of sichtbar) p.classList.add("is-visible");
+        }
+      }
+      function waehle2(nr, fokus = false) {
+        var _a;
+        nr = (nr + medien.length) % medien.length;
+        const vorher = jetzt;
+        if (fokus) (_a = tabs2[nr]) == null ? void 0 : _a.focus();
+        if (nr === vorher) return;
+        zeige(nr);
+        sende(wurzel, "fade-gallery-change", { index: nr, previousIndex: vorher });
+      }
+      medien.forEach((m, i) => {
+        m.classList.toggle("is-active", i === jetzt);
+        if (i === jetzt) m.removeAttribute("aria-hidden");
+        else m.setAttribute("aria-hidden", "true");
+      });
+      tabs2.forEach((t, i) => {
+        t.setAttribute("aria-selected", String(i === jetzt));
+        t.tabIndex = i === jetzt ? 0 : -1;
+      });
+      texte.forEach((p, k) => {
+        const an = textVon(p, k) === jetzt;
+        p.hidden = !an;
+        p.classList.toggle("is-visible", an);
+      });
+      const tabVon = (e) => {
+        var _a, _b;
+        return (
+          /** @type {HTMLElement|null} */
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-fade-gallery__tab")
+        );
+      };
+      wurzel.addEventListener("click", (e) => {
+        const tab = tabVon(e);
+        if (tab && tabs2.includes(tab)) waehle2(tabs2.indexOf(tab));
+      }, { signal });
+      wurzel.addEventListener("keydown", (e) => {
+        const tab = tabVon(e);
+        if (!tab || !tabs2.includes(tab)) return;
+        const ziel = zielFuerTaste(e.key, tabs2, tab, "horizontal");
+        if (!ziel) return;
+        e.preventDefault();
+        waehle2(tabs2.indexOf(ziel), true);
+      }, { signal });
+      zurueck == null ? void 0 : zurueck.addEventListener("click", () => waehle2(jetzt - 1), { signal });
+      vor == null ? void 0 : vor.addEventListener("click", () => waehle2(jetzt + 1), { signal });
+      signal.addEventListener("abort", () => {
+        var _a;
+        (_a = ansicht.cancelAnimationFrame) == null ? void 0 : _a.call(ansicht, bild);
+        for (const v of vergeben) {
+          if (Array.isArray(v)) v[0].removeAttribute(v[1]);
+          else v.removeAttribute("id");
+        }
+        for (const [el, rolle] of rollen) {
+          if (rolle === null) el.removeAttribute("role");
+          else el.setAttribute("role", rolle);
+        }
+      });
+    }
+  };
+
+  // packages/neo-behaviors/carousel.js
+  var carousel = {
+    id: "carousel",
+    selektor: ".nc-carousel",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const spur = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-carousel__track")
+      );
+      if (!spur) return;
+      const markiert = (
+        /** @type {HTMLElement[]} */
+        [...spur.querySelectorAll(":scope > [data-fg-index]")]
+      );
+      const figuren = markiert.length ? markiert : (
+        /** @type {HTMLElement[]} */
+        [...spur.children]
+      );
+      if (figuren.length < 2) return;
+      const huelle = (
+        /** @type {HTMLElement} */
+        wurzel.closest("[data-neo-fg-carousel]") || wurzel
+      );
+      const punkte = (
+        /** @type {HTMLElement[]} */
+        [...huelle.querySelectorAll(".nc-gallery__nav-dot")].slice(0, figuren.length)
+      );
+      const zurueck = (
+        /** @type {HTMLElement|null} */
+        huelle.querySelector("[data-fg-prev], .nc-gallery__paddle--prev")
+      );
+      const vor = (
+        /** @type {HTMLElement|null} */
+        huelle.querySelector("[data-fg-next], .nc-gallery__paddle--next")
+      );
+      let aktiv = -1;
+      let gewuenscht = null;
+      function markiere(nr) {
+        punkte.forEach((p, i) => {
+          p.classList.toggle("is-active", i === nr);
+          if (i === nr) p.setAttribute("aria-current", "true");
+          else p.removeAttribute("aria-current");
+        });
+        const vorher = aktiv;
+        aktiv = nr;
+        if (vorher !== -1 && vorher !== nr) sende(wurzel, "carousel-change", { index: nr, previousIndex: vorher });
+      }
+      const stelle = (nr) => spur.scrollLeft + (figuren[nr].getBoundingClientRect().left - spur.getBoundingClientRect().left);
+      function hin(nr) {
+        nr = Math.max(0, Math.min(figuren.length - 1, nr));
+        gewuenscht = nr;
+        markiere(nr);
+        const ziel = { left: stelle(nr), behavior: (
+          /** @type {ScrollBehavior} */
+          reduzierteBewegung2(wurzel) ? "instant" : "smooth"
+        ) };
+        if (typeof spur.scrollTo === "function") spur.scrollTo(ziel);
+        else spur.scrollLeft = ziel.left;
+      }
+      function ganzZuSehen(nr) {
+        const s = spur.getBoundingClientRect();
+        const f = figuren[nr].getBoundingClientRect();
+        return f.left >= s.left - 1 && f.right <= s.right + 1;
+      }
+      function nachfuehren() {
+        let nr = 0;
+        if (gewuenscht !== null && ganzZuSehen(gewuenscht)) nr = gewuenscht;
+        else {
+          gewuenscht = null;
+          const kante = spur.getBoundingClientRect().left;
+          let kleinster = Infinity;
+          figuren.forEach((f, i) => {
+            const abstand = Math.abs(f.getBoundingClientRect().left - kante);
+            if (abstand < kleinster) {
+              kleinster = abstand;
+              nr = i;
+            }
+          });
+        }
+        markiere(nr);
+      }
+      punkte.forEach((p, i) => {
+        p.addEventListener("click", (e) => {
+          e.preventDefault();
+          hin(i);
+        }, { signal });
+      });
+      zurueck == null ? void 0 : zurueck.addEventListener("click", () => hin(aktiv - 1), { signal });
+      vor == null ? void 0 : vor.addEventListener("click", () => hin(aktiv + 1), { signal });
+      let ruhe = 0;
+      spur.addEventListener("scroll", () => {
+        clearTimeout(ruhe);
+        ruhe = setTimeout(nachfuehren, 90);
+      }, { passive: true, signal });
+      nachfuehren();
+      signal.addEventListener("abort", () => {
+        clearTimeout(ruhe);
+        for (const p of punkte) p.removeAttribute("aria-current");
+      });
+    }
+  };
+
   // packages/neo-behaviors/video.js
   var TEXTE5 = {
     de: { pause: "Video anhalten", play: "Video abspielen", titel: "Video" },
@@ -5497,6 +5762,12 @@
     // Logo-Laufband der logo-wall). In Drupal nur per nur
     gallery,
     marquee,
+    // Website-Bauteile (Plan v4, Phase 6a, 12.10.2026): Ueberblend-Galerie
+    // (Tabs-Muster) und Karussell (Punkte mit aria-current, Nachfuehren beim
+    // Wischen) — die beiden Darstellungen des Blocks neo_fade_gallery. In
+    // Drupal nur per nur
+    "fade-gallery": fadeGallery,
+    carousel,
     // Website-Bauteil (Plan v4, Phase 3, 12.10.2026, E5): dekorative
     // Hintergrundvideos mit Pause-Knopf und Video-Fassade (click-to-play).
     // Vor den Bloecken, die es enthalten, ohne eigene Tastatur. In Drupal nur

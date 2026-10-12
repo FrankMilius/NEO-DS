@@ -177,8 +177,9 @@ describe('Bewegung-Block aus dem Recipe', () => {
   // Overlays mit Behavior in neo-behaviors (Entscheidung 06.10.2026,
   // overlay-verhalten) — „Ausprobieren" ueber MIT_VERHALTEN, Tests in
   // tests/behaviors/website-behaviors.test.js
-  // marquee: Behavior seit Plan v4, Phase 2 (12.10.2026, Pause-Knopf)
-  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal', 'marquee']
+  // marquee: Behavior seit Plan v4, Phase 2 (12.10.2026, Pause-Knopf);
+  // fade-gallery, carousel: seit Plan v4, Phase 6a (12.10.2026)
+  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal', 'marquee', 'fade-gallery', 'carousel']
   it('Overlays mit Behavior: keyboard/events im Recipe, Ausprobieren ueber neo-behaviors', () => {
     for (const id of MIT_BEHAVIOR) {
       const r = rohesRecipe(id)
@@ -406,8 +407,8 @@ describe('Bewegung-Block: Abspielen', () => {
     expect(taste.text()).toBe('Abspielen')
     expect(taste.attributes('disabled')).toBeUndefined()
     expect(taste.attributes('aria-pressed')).toBe('false')
-    // ohne Behavior keine Knoepfe Zustände/Ausprobieren
-    expect(fade.findAll('.ra-modus__knopf')).toHaveLength(1)
+    // mit Behavior (Plan v4, Phase 6a) dazu die Knoepfe Zustände/Ausprobieren
+    expect(fade.findAll('.ra-modus__knopf').map((k) => k.text())).toEqual(expect.arrayContaining(['Zustände', 'Ausprobieren']))
     await taste.trigger('click')
     expect(taste.attributes('aria-pressed')).toBe('true')
     await taste.trigger('click')
