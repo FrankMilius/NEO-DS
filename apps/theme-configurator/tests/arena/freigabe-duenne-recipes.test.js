@@ -49,7 +49,9 @@ function freigegeben (id, version) {
   // unsichtbare Aenderungen aus den Entscheidungen Abschluss 2, 08.10.2026)
   const freigabe = r.meta.changelog.findIndex((e) => /^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/.test(e.changes[0]))
   expect(freigabe, id).toBeGreaterThanOrEqual(0)
-  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend|Entscheidung Abschluss 2 \(08\.10\.2026\)/)
+  // Plan v4, Phase 4 (12.10.2026): Tabellenfarben als Token-Auswahl, Darstellung
+  // unveraendert (Rueckfall, Nachweis im Bericht) — keine Website-Wirkung
+  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend|Entscheidung Abschluss 2 \(08\.10\.2026\)|Plan v4, Phase 4 \(12\.10\.2026, Entscheidung E2 = A\)/)
   expect(istEntwurf(id), id).toBe(false)
   // Recipe-Form (recipe-schema.json): Objekte statt Listen, mindestens eine Token-Gruppe
   expect(Array.isArray(r.constraints), id).toBe(false)
@@ -235,8 +237,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(regel[1]).not.toMatch(/opacity:/)
   })
 
-  it('table-block: 1.5.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
-    const r = freigegeben('table-block', '1.5.0') // 1.4.0 Theme-Bereiche, 1.5.0 breite Tabellen (Restpunkte 09.10.2026)
+  it('table-block: 1.6.0, Felder und Aufbau wie Drupal, Kopf-Kontrast als Befund, Arena wie die Website-Tabelle', () => {
+    const r = freigegeben('table-block', '1.6.0') // 1.4.0 Theme-Bereiche, 1.5.0 breite Tabellen (Restpunkte 09.10.2026), 1.6.0 Token-Auswahl (Plan v4, Phase 4)
     expect(r.anatomy.slots).toEqual([])
     expect(r.komposition.map((k) => k.recipe)).toEqual(['compare-table', 'tbl-cell'])
     const notizen = r.anatomy.domNotes.join(' ')
@@ -275,6 +277,69 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
       const d = dom(z.html)
       expect(d.querySelectorAll('thead th[scope="col"]').length).toBeGreaterThan(1)
       for (const svg of d.querySelectorAll('svg.nc-tbl-icon')) expect(svg.innerHTML).not.toMatch(/fill="#|stroke="black"/)
+    }
+  })
+
+  it('table-block 1.6.0: Tabellenfarben als Token-Auswahl (Plan v4, Phase 4, E2 = A) — Achsen, Drupal-Felder, Kontrast, Arena', () => {
+    const r = rohesRecipe('table-block')
+    // Soll fuer die Listenfelder in Drupal: Feld, Schluessel, Bezeichnung de/en, Deklarationen
+    const soll = {
+      kopf: { feld: 'field_tbl_kopf_ton', altfeld: 'field_tbl_header_bg', ziel: '.nc-table-block', werte: { standard: [] } },
+      streifen: { feld: 'field_tbl_streifen_ton', altfeld: 'field_tbl_stripe_bg', ziel: '.nc-table-block', werte: { standard: [], basis: ['--tbl-stripe-bg: var(--fnd-color-background-base);'] } },
+      flaeche: {
+        feld: 'field_tbl_flaeche_ton',
+        altfeld: 'field_tbl_bg_color',
+        ziel: 'section.nc-section',
+        werte: { standard: [], erhoeht: ['background-color: var(--fnd-color-surface-elevated);'], basis: ['background-color: var(--fnd-color-background-base);'] }
+      }
+    }
+    const ersetzt = []
+    for (const [achse, s] of Object.entries(soll)) {
+      const a = r.axes[achse]
+      expect(a.drupal, achse).toEqual({ feld: s.feld, altfeld: s.altfeld, ziel: s.ziel })
+      expect(Object.keys(a.values), achse).toEqual(Object.keys(s.werte))
+      expect(a.values.standard.default, achse).toBe(true)
+      for (const [schluessel, v] of Object.entries(a.values)) {
+        expect(schluessel, achse).toMatch(/^[a-z]+$/) // Maschinenwert in Drupal
+        expect(v.modifier, schluessel).toBeNull() // Inline-Deklarationen, keine Klasse
+        expect(v.bezeichnung.de, schluessel).toBeTruthy()
+        expect(v.bezeichnung.en, schluessel).toBeTruthy()
+        expect(v.drupal.deklarationen, `${achse}.${schluessel}`).toEqual(s.werte[schluessel])
+        // nur Token, keine festen Farben
+        for (const d of v.drupal.deklarationen) expect(d).toMatch(/^[a-z-]+: var\(--fnd-color-[a-z-]+\);$/)
+        for (const alt of v.drupal.ersetzt) ersetzt.push(`${s.altfeld}=${alt}`)
+      }
+      // a11y: gemessener Kontrast hell und dunkel je Wert
+      for (const schluessel of Object.keys(s.werte)) {
+        const o = r.a11y.overrides.find((x) => x.when?.axes?.[achse]?.includes(schluessel))
+        expect(o?.note, `${achse}.${schluessel}`).toMatch(/hell .*\d+,\d+:1/)
+        expect(o.note, `${achse}.${schluessel}`).toMatch(/dunkel .*\d+,\d+:1/)
+      }
+    }
+    // Gedaempft (Ghost-Kopf) ist nicht eingefuehrt (Entscheidung 12.10.2026)
+    expect(r.axes.kopf.values.gedaempft).toBeUndefined()
+    // jeder Altwert hoechstens einmal; die unbekannten Werte aus Schritt 0 nicht
+    expect(new Set(ersetzt).size).toBe(ersetzt.length)
+    expect(ersetzt).not.toContain('field_tbl_header_bg=#d9d9d9')
+    expect(ersetzt).not.toContain('field_tbl_stripe_bg=#f0f0f0')
+
+    // Arena: je Achse ein Specimen; Deklarationen inline wie Drupal
+    for (const achse of Object.keys(soll)) expect(r.specimens.find((sp) => sp.id === achse)?.matrix.axes[achse]).toEqual(Object.keys(soll[achse].werte))
+    const recipe = normalisiereRecipe(r)
+    const vorlage = vorlageFuer('table-block')
+    const html = (id) => specimenAnsicht(recipe.specimens.find((sp) => sp.id === id), recipe, 'table-block', vorlage).zeilen.flatMap((z) => z.zellen).map((z) => dom(z.html))
+    const [streifenStandard, streifenBasis] = html('streifen')
+    expect(streifenStandard.querySelector('.nc-table-block').hasAttribute('style')).toBe(false)
+    expect(streifenBasis.querySelector('.nc-table-block').getAttribute('style')).toBe('--tbl-stripe-bg: var(--fnd-color-background-base);')
+    const [flStandard, flErhoeht, flBasis] = html('flaeche')
+    expect(flStandard.querySelector('section.nc-section').hasAttribute('style')).toBe(false)
+    expect(flErhoeht.querySelector('section.nc-section').getAttribute('style')).toBe('background-color: var(--fnd-color-surface-elevated);')
+    expect(flBasis.querySelector('section.nc-section > .nc-container > .nc-section-header .nc-section-header__title')).not.toBeNull()
+    expect(flBasis.querySelector('section.nc-section .nc-table-block')).not.toBeNull()
+    // Specimen default unveraendert: kein Inline-Stil, keine Section
+    for (const d of html('default')) {
+      expect(d.querySelector('.nc-table-block').hasAttribute('style')).toBe(false)
+      expect(d.querySelector('section')).toBeNull()
     }
   })
 })

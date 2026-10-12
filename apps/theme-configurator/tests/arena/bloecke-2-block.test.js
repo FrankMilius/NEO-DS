@@ -77,8 +77,15 @@ function enthaelt (id, gesehen = new Set()) {
 
 // Instanzwerte, die Drupal je Block inline setzt (wie das Hintergrundbild
 // des Heros) — sonst keine Inline-Gestaltung.
+// table-block (Plan v4, Phase 4, 12.10.2026): Farben der Token-Auswahl inline
+// wie Drupal (neo_fe _neo_fe_tbl_ton) — nur Deklarationen aus dem Recipe
+// (axes.*.values.*.drupal.deklarationen), am Block bzw. an der Section.
+const TBL_DEKLARATIONEN = new Set(Object.values(rohesRecipe('table-block').axes)
+  .flatMap((a) => Object.values(a.values || {})).flatMap((v) => v.drupal?.deklarationen || []))
 const INLINE_ERLAUBT = {
-  news: (el) => el.matches('.nc-news__hero-media') && /^background-image: url\(/.test(el.getAttribute('style'))
+  news: (el) => el.matches('.nc-news__hero-media') && /^background-image: url\(/.test(el.getAttribute('style')),
+  'table-block': (el) => el.matches('.nc-table-block, section.nc-section') &&
+    el.getAttribute('style').split(/(?<=;)\s*/).filter(Boolean).every((d) => TBL_DEKLARATIONEN.has(d))
 }
 
 // Recipe-Modifier ohne CSS, deren Wirkung das DS anders herstellt —
