@@ -9,6 +9,13 @@
 // halbe Spur). Dafuer traegt die Spur den Inhalt zweimal hintereinander.
 // Dauer ueber --nc-marquee-duration (Ueberschreibung --mod-marquee-duration).
 // prefers-reduced-motion: keine Bewegung, die Spur steht.
+//
+// PAUSE-KNOPF (Plan v4, Phase 2, 12.10.2026, WCAG 2.2.2): .nc-marquee__pause
+// steht VOR der Spur (erste Station in der Tab-Folge vor der Bewegung). Ein
+// Knopf mit wechselnder Beschriftung „Laufband anhalten/fortsetzen";
+// data-playing waehlt das Symbol (neo-behaviors marquee). Angehalten
+// (.is-stopped) oder Maus/Fokus im Laufband (.is-paused): die Spur ruht.
+// Tokens --nc-marquee-pause-* (auch fuer .nc-logo-wall__pause).
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -32,6 +39,72 @@
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
+}
+
+// Angehalten (Knopf) oder in Ruhe (Maus/Fokus): die Spur bleibt stehen
+.nc-marquee.is-paused > .nc-marquee__track,
+.nc-marquee.is-stopped > .nc-marquee__track {
+  animation-play-state: paused;
+}
+
+// ---------------------------------------------------------------------------
+// Pause-Knopf (Plan v4, Phase 2, 12.10.2026)
+// ---------------------------------------------------------------------------
+.nc-marquee__pause {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-marquee-pause-gap);
+  inline-size: fit-content;
+  min-block-size: var(--nc-marquee-pause-min-size);
+  min-inline-size: var(--nc-marquee-pause-min-size);
+  margin: 0 0 var(--nc-marquee-pause-margin-block) auto;
+  padding: 0 var(--nc-marquee-pause-padding-inline);
+  border: 1px solid var(--nc-marquee-pause-border);
+  border-radius: var(--nc-marquee-pause-radius);
+  background: transparent;
+  color: var(--nc-marquee-pause-color);
+  font: inherit;
+  font-size: var(--nc-marquee-pause-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+  @include transition-quick((color, background-color));
+
+  &:hover {
+    color: var(--nc-marquee-pause-color-hover);
+    background-color: var(--nc-marquee-pause-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Bei reduzierter Bewegung steht die Spur — kein Knopf (das Behavior
+  // setzt [hidden]; das hier gilt schon vor dem Binden)
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+.nc-marquee__pause-label {
+  white-space: nowrap;
+}
+
+.nc-marquee__pause-icon {
+  flex: 0 0 auto;
+  inline-size: var(--nc-marquee-pause-icon-size);
+  block-size: var(--nc-marquee-pause-icon-size);
+  fill: currentColor;
+}
+
+// Symbol folgt dem Zustand: laeuft → Pause-Balken, steht → Abspiel-Dreieck
+.nc-marquee__pause[data-playing='false'] .nc-marquee__pause-pause,
+.nc-marquee__pause:not([data-playing='false']) .nc-marquee__pause-play {
+  display: none;
 }
 
 .nc-marquee__text {

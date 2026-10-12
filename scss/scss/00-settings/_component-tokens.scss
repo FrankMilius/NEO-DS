@@ -2434,6 +2434,23 @@
   // Dauer eines Durchlaufs (halbe Spur). Entscheidung 06.10.2026.
   --nc-marquee-duration:               20s;
 
+  // -- Pause-Knopf des Laufbands (Plan v4, Phase 2, 12.10.2026) --
+  // .nc-marquee__pause bzw. .nc-logo-wall__pause vor der Spur: Symbol +
+  // Beschriftung „Laufband anhalten/fortsetzen" (WCAG 2.2.2). Hoehe 2.5rem
+  // (40 px) liegt ueber dem Mindestziel 24 x 24 px (2.5.8). Muster wie
+  // --nc-solution-tabs-autoplay-* (Plan v4, Phase 1).
+  --nc-marquee-pause-min-size:         2.5rem;
+  --nc-marquee-pause-padding-inline:   var(--fnd-spacing-04);
+  --nc-marquee-pause-gap:              var(--fnd-spacing-02);
+  --nc-marquee-pause-radius:           var(--fnd-radius-full);
+  --nc-marquee-pause-font-size:        var(--nc-type-label-size);
+  --nc-marquee-pause-icon-size:        1rem;
+  --nc-marquee-pause-margin-block:     var(--fnd-spacing-04);
+  --nc-marquee-pause-color:            var(--fnd-color-text-secondary);
+  --nc-marquee-pause-color-hover:      var(--fnd-color-text-primary);
+  --nc-marquee-pause-border:           var(--fnd-color-border-primary);
+  --nc-marquee-pause-bg-hover:         color-mix(in srgb, var(--fnd-color-text-primary) 8%, transparent);
+
   // -- Animation (Staggered Fade-In) --
   --nc-logo-wall-fadein-duration:      0.4s;
   --nc-logo-wall-fadein-delay-step:    0.08s;

@@ -171,7 +171,11 @@
 // ---------------------------------------------------------------------------
 
 .nc-logo-wall--marquee {
-  display: flex;
+  // Block statt Flex (Plan v4, Phase 2): ueber der Spur steht der
+  // Pause-Knopf in eigener Zeile. Die Spur behaelt die Breite ihres Inhalts
+  // (max-content) wie vorher als Flex-Kind — translate(-50%) bleibt die
+  // halbe Spur.
+  display: block;
   overflow: hidden;
   gap: 0;
   padding-inline: 0;
@@ -181,6 +185,7 @@
   // Die Marquee-Track wird per JS verdoppelt
   .nc-logo-wall__track {
     display: flex;
+    inline-size: max-content;
     gap: var(--mod-logo-wall-marquee-gap, var(--nc-logo-wall-marquee-gap));
     animation: nc-logo-wall-scroll var(--mod-logo-wall-marquee-speed, var(--nc-logo-wall-marquee-speed)) linear infinite;
     will-change: transform;
@@ -190,8 +195,12 @@
     flex-shrink: 0;
   }
 
-  // Pause bei Hover
-  &:hover .nc-logo-wall__track {
+  // Ruhe: Maus/Fokus (.is-paused) oder angehalten per Knopf (.is-stopped),
+  // beides setzt neo-behaviors marquee. Ungebunden (Doku ohne Skript) haelt
+  // wie bisher die Maus an.
+  &.is-paused .nc-logo-wall__track,
+  &.is-stopped .nc-logo-wall__track,
+  &:not([data-neo-behavior~='marquee']):hover .nc-logo-wall__track {
     animation-play-state: paused;
   }
 
@@ -200,6 +209,63 @@
       animation: none;
     }
   }
+}
+
+// Pause-Knopf des Laufbands (Plan v4, Phase 2, 12.10.2026, WCAG 2.2.2):
+// vor der Spur, Tokens und Verhalten aus marquee (--nc-marquee-pause-*,
+// neo-behaviors marquee). Bei reduzierter Bewegung steht die Spur — kein Knopf.
+.nc-logo-wall__pause {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-marquee-pause-gap);
+  inline-size: fit-content;
+  min-block-size: var(--nc-marquee-pause-min-size);
+  min-inline-size: var(--nc-marquee-pause-min-size);
+  margin: 0 0 var(--nc-marquee-pause-margin-block) auto;
+  padding: 0 var(--nc-marquee-pause-padding-inline);
+  border: 1px solid var(--nc-marquee-pause-border);
+  border-radius: var(--nc-marquee-pause-radius);
+  background: transparent;
+  color: var(--nc-marquee-pause-color);
+  font: inherit;
+  font-size: var(--nc-marquee-pause-font-size);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+  @include transition-quick((color, background-color));
+
+  &:hover {
+    color: var(--nc-marquee-pause-color-hover);
+    background-color: var(--nc-marquee-pause-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+.nc-logo-wall__pause-label {
+  white-space: nowrap;
+}
+
+.nc-logo-wall__pause-icon {
+  flex: 0 0 auto;
+  inline-size: var(--nc-marquee-pause-icon-size);
+  block-size: var(--nc-marquee-pause-icon-size);
+  fill: currentColor;
+}
+
+.nc-logo-wall__pause[data-playing='false'] .nc-logo-wall__pause-pause,
+.nc-logo-wall__pause:not([data-playing='false']) .nc-logo-wall__pause-play {
+  display: none;
 }
 
 @keyframes nc-logo-wall-scroll {

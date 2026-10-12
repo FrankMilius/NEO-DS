@@ -13617,6 +13617,23 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-marquee-duration"
         ]
+      },
+      {
+        "id": "pause-knopf",
+        "label": "Pause-Knopf",
+        "tokenIds": [
+          "nc-marquee-pause-min-size",
+          "nc-marquee-pause-padding-inline",
+          "nc-marquee-pause-gap",
+          "nc-marquee-pause-radius",
+          "nc-marquee-pause-font-size",
+          "nc-marquee-pause-icon-size",
+          "nc-marquee-pause-margin-block",
+          "nc-marquee-pause-color",
+          "nc-marquee-pause-color-hover",
+          "nc-marquee-pause-border",
+          "nc-marquee-pause-bg-hover"
+        ]
       }
     ],
     "tokens": [
@@ -13625,6 +13642,72 @@ export const componentTokenGroups = [
         "label": "Duration",
         "type": "generic",
         "default": "20s"
+      },
+      {
+        "id": "nc-marquee-pause-min-size",
+        "label": "Pause Min Size",
+        "type": "size",
+        "default": "2.5rem"
+      },
+      {
+        "id": "nc-marquee-pause-padding-inline",
+        "label": "Pause Padding Inline",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-marquee-pause-gap",
+        "label": "Pause Gap",
+        "type": "size",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-marquee-pause-radius",
+        "label": "Pause Radius",
+        "type": "border-radius",
+        "default": "var(--fnd-radius-full)"
+      },
+      {
+        "id": "nc-marquee-pause-font-size",
+        "label": "Pause Font Size",
+        "type": "size",
+        "default": "var(--nc-type-label-size)"
+      },
+      {
+        "id": "nc-marquee-pause-icon-size",
+        "label": "Pause Icon Size",
+        "type": "size",
+        "default": "1rem"
+      },
+      {
+        "id": "nc-marquee-pause-margin-block",
+        "label": "Pause Margin Block",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-marquee-pause-color",
+        "label": "Pause Color",
+        "type": "color",
+        "ref": "text-secondary"
+      },
+      {
+        "id": "nc-marquee-pause-color-hover",
+        "label": "Pause Color Hover",
+        "type": "color",
+        "ref": "text-primary"
+      },
+      {
+        "id": "nc-marquee-pause-border",
+        "label": "Pause Border",
+        "type": "color",
+        "ref": "border-primary"
+      },
+      {
+        "id": "nc-marquee-pause-bg-hover",
+        "label": "Pause Bg Hover",
+        "type": "color",
+        "ref": "text-primary"
       }
     ]
   },

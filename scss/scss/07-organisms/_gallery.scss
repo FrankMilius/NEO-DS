@@ -358,6 +358,19 @@
   &:focus-visible {
     @include focus-ring;
   }
+
+  // Ohne Autoplay und bei reduzierter Bewegung (neo-behaviors gallery)
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Symbol folgt dem Zustand (Plan v4, Phase 2): data-playing am Knopf setzt
+// neo-behaviors gallery — laeuft → Pause-Balken, angehalten → Abspielen.
+// Vorher schaltete neoGallery die Symbole per Inline-Stil um.
+.nc-gallery__autoplay[data-playing='false'] .nc-gallery__autoplay-pause,
+.nc-gallery__autoplay:not([data-playing='false']) .nc-gallery__autoplay-play {
+  display: none;
 }
 
 // ---------------------------------------------------------------------------
