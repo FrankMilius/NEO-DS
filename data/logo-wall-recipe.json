@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "logo-wall",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,12 @@
       "docs": "/docs/logo-wall-docs"
     },
     "changelog": [
+      {
+        "version": "2.2.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026; website-sichtbar, Freigabe ausstehend): Animation fadein (nicht im Laufband) ueber das Behavior einblenden in neo-behaviors (nurAusdruecklich; ein Hilfs-Behavior fuer card-grid, bento-grid und logo-wall ohne eigenes Recipe — das Soll steht hier) statt des eigenen IntersectionObservers in neo_fe/js/neo-theme.js. Ohne Skript ist nichts versteckt: das SCSS blendet nur aus, solange einblenden gebunden ist ([data-neo-behavior~=\"einblenden\"]; vorher schon am Attribut bzw. an der Klasse). prefers-reduced-motion oder kein IntersectionObserver: sofort der Endzustand; sonst bei 15 % im Bild, einmal. Endzustand is-revealed an der Wurzel. Leere Wurzel (Aufbau aus JSON): wartet per MutationObserver auf die ersten Glieder; das Theme bindet nach dem Aufbau per NeoBehaviors.anbinden(wurzel, ['einblenden']). Pillen bekommen is-visible und transition-delay = i × --nc-logo-wall-fadein-delay-step (Einheit s oder ms; vorher parseFloat, „80ms“ waere 80 s gewesen). Ein Laufband mit fadein war vorher dauerhaft unsichtbar (das SCSS versteckte die Pillen, neoLogoWall blendete im Laufband nicht ein) — jetzt sichtbar. keyboard (Tab), events einblenden. Drupal: _neo_fe_behaviors_anhaengen($variables, ['einblenden']) am Block neo_logo_wall."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -59,7 +65,7 @@
       "docs": "docs/logo-wall-docs.html"
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-logo-wall.html.twig (inline_block per include): Wand ohne aria-label, im Laufband Knopf .nc-logo-wall__pause und Spur; js/neo-theme.js Drupal.behaviors.neoLogoWall baut die Pillen aus script[data-logo-wall-data] (Kopien aria-hidden, externe Links mit .u-sr-only-Hinweis) und bindet im Laufband mit NeoBehaviors.anbinden(wand, ['marquee']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['marquee']) fuer neo_logo_wall.",
+      "drupal": "neo_fe: block--block-content--neo-logo-wall.html.twig (inline_block per include): Wand ohne aria-label, im Laufband Knopf .nc-logo-wall__pause und Spur; js/neo-theme.js Drupal.behaviors.neoLogoWall baut die Pillen aus script[data-logo-wall-data] (Kopien aria-hidden, externe Links mit .u-sr-only-Hinweis) und bindet im Laufband mit NeoBehaviors.anbinden(wand, ['marquee']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['marquee']) fuer neo_logo_wall. Einblenden (fadein, nicht im Laufband): neoLogoWall bindet nach dem Aufbau NeoBehaviors.anbinden(wand, ['einblenden']) (Plan v4, Phase 6b).",
       "behavior": "packages/neo-behaviors/marquee.js (Behavior des Recipes marquee; nurAusdruecklich)"
     }
   },
@@ -112,7 +118,7 @@
       "Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.",
       "Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.",
       "Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.",
-      "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
+      "Fade-In: neo-behaviors einblenden (Plan v4, Phase 6b) setzt .is-visible + transition-delay pro Index (IntersectionObserver); ausgeblendet nur, solange es gebunden ist (data-neo-behavior~=\"einblenden\"). Nicht im Laufband.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
       "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
       "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden, Links darin tabindex=-1 (neo-behaviors marquee; nicht inert, Maus und Hover bleiben); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
@@ -708,5 +714,20 @@
       "tokenPraefix": "nc-marquee-pause-",
       "hinweis": "Laufband: Pause-Knopf (Tokens --nc-marquee-pause-*) und Verhalten aus marquee (Behavior marquee, Plan v4, Phase 2)"
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    }
+  }
 }

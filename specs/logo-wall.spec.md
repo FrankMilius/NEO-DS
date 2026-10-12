@@ -1,5 +1,5 @@
 # logo-wall Component Spec
-> Version 2.1.0 | Status: stable | Layer: molecule
+> Version 2.2.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `branding`, `logos`, `partner`, `marquee`
 
@@ -17,7 +17,7 @@ Root element: `.nc-logo-wall`
 - Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.
 - Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.
 - Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.
-- Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.
+- Fade-In: neo-behaviors einblenden (Plan v4, Phase 6b) setzt .is-visible + transition-delay pro Index (IntersectionObserver); ausgeblendet nur, solange es gebunden ist (data-neo-behavior~="einblenden"). Nicht im Laufband.
 - Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.
 - prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.
 - Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden, Links darin tabindex=-1 (neo-behaviors marquee; nicht inert, Maus und Hover bleiben); Ruhe per .is-paused/.is-stopped (ungebunden :hover).
@@ -131,6 +131,16 @@ Base classes: `nc-logo-wall`
 | --- | --- | --- |
 | `--nc-logo-wall-item-hover-shadow` | — | `--mod-logo-wall-item-hover-shadow` |
 | `--nc-logo-wall-item-hover-border` | — | `--mod-logo-wall-item-hover-border` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `einblenden` | Yes | `{"reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

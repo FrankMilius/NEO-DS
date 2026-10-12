@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.1.1 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -51,6 +51,16 @@ Base classes: `nc-card-grid`
 | `--nc-card-grid-anim-duration` | — | `--mod-card-grid-anim-duration` |
 | `--nc-card-grid-anim-delay` | — | — |
 | `--nc-card-grid-anim-translate-y` | — | `--mod-card-grid-anim-translate-y` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `einblenden` | Yes | `{"reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

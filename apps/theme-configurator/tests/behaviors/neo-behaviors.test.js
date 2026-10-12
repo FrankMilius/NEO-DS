@@ -5,7 +5,7 @@
  * gegenseitig. Tastatur und Ereignisse folgen `keyboard`/`events` im Recipe.
  */
 import { describe, it, expect, afterEach } from 'vitest'
-import { anbinden, abbinden, MIT_VERHALTEN } from 'neo-behaviors'
+import { anbinden, abbinden, MIT_VERHALTEN, BEHAVIORS } from 'neo-behaviors'
 import { vorlageFuer } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { rohesRecipe } from '../arena/_recipes.js'
@@ -31,16 +31,21 @@ afterEach(() => { document.body.innerHTML = '' })
 describe('neo-behaviors: Grundlagen', () => {
   it('kennt die Bauteile mit Verhalten', () => {
     expect([...MIT_VERHALTEN].sort()).toEqual([
-      'accordion', 'alert', 'alert-dialog', 'banner', 'breadcrumb', 'button', 'carousel', 'chapter-nav', 'code-snippet', 'drawer', 'dropdown-menu', 'expanding-panels', 'fade-gallery', 'feature-accordion', 'footer', 'gallery', 'hero-tom', 'input', 'marquee', 'mobile-drawer', 'modal', 'multiselect', 'navigation-menu', 'navigation-tab-mega', 'notification', 'popover', 'product-showcase', 'rating', 'reference-page', 'search', 'segmented-control', 'select', 'shell', 'shot', 'sidebar', 'solution-tabs', 'switch', 'table-block', 'table-info-modal', 'tabs', 'testimonial-grid', 'timeline', 'toast', 'toggle-group', 'toolbar', 'tooltip', 'treeview', 'video',
+      'accordion', 'alert', 'alert-dialog', 'banner', 'breadcrumb', 'button', 'carousel', 'chapter-nav', 'code-snippet', 'drawer', 'dropdown-menu', 'einblenden', 'expanding-panels', 'fade-gallery', 'feature-accordion', 'footer', 'gallery', 'hero-tom', 'input', 'marquee', 'mobile-drawer', 'modal', 'multiselect', 'navigation-menu', 'navigation-tab-mega', 'notification', 'popover', 'product-showcase', 'rating', 'reference-page', 'search', 'segmented-control', 'select', 'shell', 'shot', 'sidebar', 'solution-tabs', 'switch', 'table-block', 'table-info-modal', 'tabs', 'testimonial-grid', 'timeline', 'toast', 'toggle-group', 'toolbar', 'tooltip', 'treeview', 'video',
     ])
   })
 
   it('jedes Bauteil mit Verhalten beschreibt Tastatur und Ereignisse im Recipe', () => {
     for (const id of MIT_VERHALTEN) {
-      const r = rohesRecipe(id)
-      expect(Object.keys(r.keyboard || {}).length, `${id}: keyboard fehlt`).toBeGreaterThan(0)
-      expect(Object.keys(r.events || {}).length, `${id}: events fehlt`).toBeGreaterThan(0)
+      // Hilfs-Behavior ohne eigenes Recipe (einblenden, Plan v4, Phase 6b):
+      // das Soll steht in den Recipes der Traeger
+      for (const rid of BEHAVIORS[id].recipes || [id]) {
+        const r = rohesRecipe(rid)
+        expect(Object.keys(r.keyboard || {}).length, `${id} (${rid}): keyboard fehlt`).toBeGreaterThan(0)
+        expect(Object.keys(r.events || {}).length, `${id} (${rid}): events fehlt`).toBeGreaterThan(0)
+      }
     }
+    expect(BEHAVIORS.einblenden.recipes).toEqual(['card-grid', 'bento-grid', 'logo-wall'])
   })
 
   it('bindet jede Wurzel nur einmal und loest wieder', () => {

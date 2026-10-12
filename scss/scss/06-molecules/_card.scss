@@ -701,9 +701,11 @@
 
   // ── Animation: Reverse Domino ──
   // Cards werden nacheinander von unten eingeblendet (staggered slide-up).
-  // Aktivierung per `data-animation="reverse-domino"` + IntersectionObserver im JS.
+  // Aktivierung per `data-animation="reverse-domino"`; ausgeblendet wird nur,
+  // solange neo-behaviors einblenden gebunden ist (data-neo-behavior,
+  // Plan v4, Phase 6b) — ohne Skript ist nichts versteckt.
 
-  &[data-animation="reverse-domino"] > .nc-card {
+  &[data-animation="reverse-domino"][data-neo-behavior~='einblenden'] > .nc-card {
     opacity: 0;
     transform: translateY(var(--mod-card-grid-anim-translate-y, var(--nc-card-grid-anim-translate-y, 2rem)));
     transition: opacity var(--mod-card-grid-anim-duration, var(--nc-card-grid-anim-duration, 0.5s)) ease,
@@ -718,7 +720,7 @@
 
   // Reduced Motion: sofort einblenden, kein Slide
   @media (prefers-reduced-motion: reduce) {
-    &[data-animation="reverse-domino"] > .nc-card {
+    &[data-animation="reverse-domino"][data-neo-behavior~='einblenden'] > .nc-card {
       opacity: 1;
       transform: none;
       transition: none;

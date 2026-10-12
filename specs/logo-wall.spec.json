@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "logo-wall",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -38,7 +38,7 @@
       "Pill: Flex-Container, align-items:center, justify-content:center. Border + Radius + Shadow.",
       "Pill-Img: object-fit:contain. Max-height begrenzt Logo-Groesse.",
       "Monochrome: CSS filter:grayscale(100%) auf Img. Hover entfernt Filter.",
-      "Fade-In: Intersection Observer setzt .is-visible + transition-delay pro Index.",
+      "Fade-In: neo-behaviors einblenden (Plan v4, Phase 6b) setzt .is-visible + transition-delay pro Index (IntersectionObserver); ausgeblendet nur, solange es gebunden ist (data-neo-behavior~=\"einblenden\"). Nicht im Laufband.",
       "Cluster: flex-wrap:wrap, justify-content:center. Organisches Layout.",
       "prefers-reduced-motion: Marquee stoppt. Fade-In ohne Animation.",
       "Marquee: Wurzel als Block; Knopf .nc-logo-wall__pause, dann die Spur (.nc-logo-wall__track, max-content) mit dupliziertem Inhalt, @keyframes translateX(-50%). Kopien aria-hidden, Links darin tabindex=-1 (neo-behaviors marquee; nicht inert, Maus und Hover bleiben); Ruhe per .is-paused/.is-stopped (ungebunden :hover).",
@@ -311,9 +311,22 @@
       "--mod-logo-wall-item-hover-border"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

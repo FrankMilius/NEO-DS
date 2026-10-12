@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card-grid",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -120,9 +120,22 @@
       "--mod-card-grid-anim-translate-y"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

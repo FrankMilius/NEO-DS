@@ -181,9 +181,11 @@ a.nc-bento-grid__cell {
 }
 
 // ---------------------------------------------------------------------------
-// Scroll-Reveal (optional, via JS .is-revealed am Root)
+// Scroll-Reveal (optional, .is-revealed am Root). Ausgeblendet wird nur,
+// solange neo-behaviors einblenden gebunden ist (data-neo-behavior, Plan v4,
+// Phase 6b) — ohne Skript ist nichts versteckt.
 // ---------------------------------------------------------------------------
-.nc-bento-grid[data-animation="reveal"] .nc-bento-grid__cell {
+.nc-bento-grid[data-animation="reveal"][data-neo-behavior~='einblenden'] .nc-bento-grid__cell {
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -226,7 +228,7 @@ a.nc-bento-grid__cell {
   .nc-bento-grid__cell,
   .nc-bento-grid__icon,
   .nc-bento-grid__mesh { transition: none; animation: none; }
-  .nc-bento-grid[data-animation="reveal"] .nc-bento-grid__cell { opacity: 1; transform: none; }
+  .nc-bento-grid[data-animation="reveal"][data-neo-behavior~='einblenden'] .nc-bento-grid__cell { opacity: 1; transform: none; }
 }
 
 /* >>> aufgenommen: bento-grid */

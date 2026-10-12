@@ -64,10 +64,12 @@ import { video } from './video.js'
 import { timeline } from './timeline.js'
 import { heroTom } from './hero-tom.js'
 import { footer } from './footer.js'
+import { einblenden } from './einblenden.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
 export { einbettung as videoEinbettung } from './video.js'
+export { EINBLENDEN_RECIPES } from './einblenden.js'
 
 /** Alle Behaviors, Schluessel = Recipe-ID. */
 export const BEHAVIORS = Object.freeze({
@@ -143,6 +145,9 @@ export const BEHAVIORS = Object.freeze({
   timeline,
   'hero-tom': heroTom,
   footer,
+  // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
+  // logo-wall: BEHAVIORS.einblenden.recipes)
+  einblenden,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,

@@ -208,10 +208,13 @@ describe('Bloecke 1: Specimens im Einzelnen', () => {
     document.body.appendChild(einblenden)
     const anhalten = abspielenFuer('bento-grid').starten(einblenden)
     expect(raster.classList.contains('is-revealed')).toBe(false)
+    // versteckt wird nur unter gebundenem einblenden (Plan v4, Phase 6b)
+    expect(raster.getAttribute('data-neo-behavior')).toBe('einblenden')
     await new Promise((r) => requestAnimationFrame(r))
     expect(raster.classList.contains('is-revealed')).toBe(true)
     anhalten()
     expect(raster.classList.contains('is-revealed')).toBe(true)
+    expect(raster.hasAttribute('data-neo-behavior')).toBe(false)
     einblenden.remove()
     // ohne Einblendung bleibt die Zelle unberuehrt
     const vorher = statisch.innerHTML

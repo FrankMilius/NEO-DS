@@ -306,11 +306,13 @@
 }
 
 // ---------------------------------------------------------------------------
-// Animation: Staggered Fade-In (via Intersection Observer)
+// Animation: Staggered Fade-In (via Intersection Observer). Ausgeblendet
+// wird nur, solange neo-behaviors einblenden gebunden ist (data-neo-behavior,
+// Plan v4, Phase 6b) — ohne Skript ist nichts versteckt.
 // ---------------------------------------------------------------------------
 
 .nc-logo-wall--fadein {
-  .nc-logo-pill {
+  &[data-neo-behavior~='einblenden'] .nc-logo-pill {
     opacity: 0;
     transform: translateY(8px);
     transition:
@@ -318,14 +320,14 @@
       transform var(--mod-logo-wall-fadein-duration, var(--nc-logo-wall-fadein-duration)) var(--mod-logo-wall-fadein-easing, var(--nc-logo-wall-fadein-easing));
   }
 
-  // JS setzt data-visible + transition-delay per Index
+  // neo-behaviors einblenden setzt is-visible + transition-delay per Index
   .nc-logo-pill.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .nc-logo-pill {
+    &[data-neo-behavior~='einblenden'] .nc-logo-pill {
       opacity: 1;
       transform: none;
       transition: none;

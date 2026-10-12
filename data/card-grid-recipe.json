@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-grid",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-grid-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026; website-sichtbar, Freigabe ausstehend): Einblendung reverse-domino ueber das Behavior einblenden in neo-behaviors (nurAusdruecklich; ein Hilfs-Behavior fuer card-grid, bento-grid und logo-wall ohne eigenes Recipe — das Soll steht hier) statt des eigenen IntersectionObservers in neo_fe/js/neo-theme.js. Ohne Skript ist nichts versteckt: das SCSS blendet nur aus, solange einblenden gebunden ist ([data-neo-behavior~=\"einblenden\"]; vorher schon am Attribut bzw. an der Klasse). prefers-reduced-motion oder kein IntersectionObserver: sofort der Endzustand; sonst bei 15 % im Bild, einmal. Endzustand is-revealed an der Wurzel. Leere Wurzel (Aufbau aus JSON): wartet per MutationObserver auf die ersten Glieder; das Theme bindet nach dem Aufbau per NeoBehaviors.anbinden(wurzel, ['einblenden']). Staffelung wie bisher: --card-delay = i × 0,1 s je Karte (vorher beim Aufbau in NeoCardGrid.render gesetzt). keyboard (Tab), events einblenden. Drupal: _neo_fe_behaviors_anhaengen($variables, ['einblenden']) am Block neo_card_grid."
+        ]
+      },
       {
         "version": "1.1.1",
         "changes": [
@@ -262,5 +268,20 @@
         "note": "Animation respektiert prefers-reduced-motion."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+    }
+  },
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    }
+  }
 }

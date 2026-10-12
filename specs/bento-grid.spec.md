@@ -1,5 +1,5 @@
 # bento-grid Component Spec
-> Version 1.3.0 | Status: stable | Layer: organism
+> Version 1.4.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `interactive`
 
@@ -22,7 +22,7 @@ Root element: `.nc-bento-grid`
 - Hover/Focus-visible: Zelle hebt sich (translateY -6px), Border auf --nc-bento-grid-accent, radialer Glow (::after) fadet ein, Icon rotiert.
 - Mesh-Layer (.nc-bento-grid__mesh): position:absolute, conic-gradient, blur, dauerhafte Rotation; rein dekorativ (aria-hidden).
 - Verlinkte Zelle: a.nc-bento-grid__cell, text-decoration:none.
-- Scroll-Reveal: data-animation='reveal' am Root, .is-revealed schaltet sichtbar.
+- Scroll-Reveal: data-animation='reveal' am Root; ausgeblendet nur, solange neo-behaviors einblenden gebunden ist (data-neo-behavior~="einblenden"), .is-revealed schaltet sichtbar (Plan v4, Phase 6b).
 - Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).
 - prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.
 - Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7).
@@ -72,6 +72,16 @@ Base classes: `nc-bento-grid`
 | `--nc-bento-grid-accent` | — | — |
 | `--nc-bento-grid-title` | — | — |
 | `--nc-bento-grid-text` | — | — |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `einblenden` | Yes | `{"reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

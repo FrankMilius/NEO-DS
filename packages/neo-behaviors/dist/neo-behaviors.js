@@ -6336,6 +6336,112 @@
     }
   };
 
+  // packages/neo-behaviors/einblenden.js
+  var EINBLENDEN_RECIPES = Object.freeze(["card-grid", "bento-grid", "logo-wall"]);
+  function artVon(wurzel) {
+    if (wurzel.classList.contains("nc-logo-wall--fadein")) {
+      let schritt = null;
+      return {
+        glieder: () => (
+          /** @type {HTMLElement[]} */
+          [...wurzel.querySelectorAll(".nc-logo-pill")]
+        ),
+        /** @param {HTMLElement} el @param {number} i */
+        staffeln: (el, i) => {
+          if (schritt === null) schritt = dauerAus(wurzel, "--nc-logo-wall-fadein-delay-step", 80) / 1e3;
+          el.style.transitionDelay = `${+(i * schritt).toFixed(3)}s`;
+        },
+        /** @param {HTMLElement} el */
+        zeige: (el) => el.classList.add("is-visible")
+      };
+    }
+    if (wurzel.getAttribute("data-animation") === "reverse-domino") {
+      return {
+        glieder: () => (
+          /** @type {HTMLElement[]} */
+          [...wurzel.children].filter((c) => c.classList.contains("nc-card"))
+        ),
+        /** @param {HTMLElement} el @param {number} i */
+        staffeln: (el, i) => el.style.setProperty("--card-delay", `${+(i * 0.1).toFixed(1)}s`),
+        zeige: () => {
+        }
+      };
+    }
+    return {
+      glieder: () => (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-bento-grid__cell")]
+      ),
+      staffeln: () => {
+      },
+      zeige: () => {
+      }
+    };
+  }
+  var einblenden = {
+    id: "einblenden",
+    selektor: '[data-animation="reverse-domino"], [data-animation="reveal"], .nc-logo-wall--fadein:not(.nc-logo-wall--marquee)',
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    recipes: EINBLENDEN_RECIPES,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const art2 = artVon(wurzel);
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      const Beobachter = (
+        /** @type {any} */
+        globalThis.IntersectionObserver || /** @type {any} */
+        ansicht.IntersectionObserver
+      );
+      const Wache = (
+        /** @type {any} */
+        globalThis.MutationObserver || /** @type {any} */
+        ansicht.MutationObserver
+      );
+      const beobachter = [];
+      signal.addEventListener("abort", () => {
+        for (const b of beobachter) b.disconnect();
+      });
+      const endzustand = (gestaffelt) => {
+        art2.glieder().forEach((el, i) => {
+          if (gestaffelt) art2.staffeln(el, i);
+          art2.zeige(el);
+        });
+        wurzel.classList.add("is-revealed");
+      };
+      if (wurzel.classList.contains("is-revealed")) {
+        endzustand(false);
+        return;
+      }
+      if (reduzierteBewegung(wurzel) || typeof Beobachter !== "function") {
+        endzustand(false);
+        sende(wurzel, "einblenden", { reason: reduzierteBewegung(wurzel) ? "reduzierte-bewegung" : "ohne-beobachter" });
+        return;
+      }
+      const beobachte = () => {
+        const io = new Beobachter((es) => {
+          if (!es.some((e) => e.isIntersecting)) return;
+          io.disconnect();
+          endzustand(true);
+          sende(wurzel, "einblenden", { reason: "sicht" });
+        }, { threshold: 0.15 });
+        beobachter.push(io);
+        io.observe(wurzel);
+      };
+      if (art2.glieder().length || typeof Wache !== "function") {
+        beobachte();
+        return;
+      }
+      const wache = new Wache(() => {
+        if (!art2.glieder().length) return;
+        wache.disconnect();
+        beobachte();
+      });
+      beobachter.push(wache);
+      wache.observe(wurzel, { childList: true, subtree: true });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -6410,6 +6516,9 @@
     timeline,
     "hero-tom": heroTom,
     footer,
+    // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
+    // logo-wall: BEHAVIORS.einblenden.recipes)
+    einblenden,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,

@@ -3,8 +3,8 @@
 // Endzustand is-revealed (sonst blieben die Zellen unsichtbar).
 //
 // Plan v3, Phase 4:
-// - Einblenden ist eine Website-Animation (das Drupal-JS setzt is-revealed
-//   beim Scrollen). Die Zelle zeigt den Endzustand fest; die Taste
+// - Einblenden ist eine Website-Animation (neo-behaviors einblenden setzt
+//   is-revealed beim Scrollen; versteckt wird nur, solange es gebunden ist). Die Zelle zeigt den Endzustand fest; die Taste
 //   „Abspielen" der RecipeArena (export abspielen, Mechanismus aus
 //   arena-templates/index.js) nimmt is-revealed im Takt weg und setzt es
 //   wieder — die Transition des DS laeuft ab (kein GSAP im Konfigurator).
@@ -77,8 +77,19 @@ ${inhalt}
  * den Endzustand her. Zellen ohne Einblendung bleiben unberuehrt.
  */
 export const abspielen = {
-  hinweis: 'Einblenden (animation=reveal): is-revealed weg und wieder an — die Transition des DS läuft ab. Auf der Website setzt das Drupal-JS die Klasse beim Scrollen.',
+  hinweis: 'Einblenden (animation=reveal): is-revealed weg und wieder an — die Transition des DS läuft ab. Auf der Website setzt neo-behaviors einblenden die Klasse beim Scrollen.',
   starten (zelle) {
-    return alle([...zelle.querySelectorAll('.nc-bento-grid[data-animation="reveal"]')].map((raster) => spieleEin(raster, 'is-revealed')))
+    return alle([...zelle.querySelectorAll('.nc-bento-grid[data-animation="reveal"]')].map((raster) => {
+      // Ausgeblendet wird nur unter gebundenem einblenden (Plan v4, Phase 6b):
+      // waehrend des Abspielens den gebundenen Zustand nachstellen
+      const vorher = raster.getAttribute('data-neo-behavior')
+      raster.setAttribute('data-neo-behavior', [vorher, 'einblenden'].filter(Boolean).join(' '))
+      const anhalten = spieleEin(raster, 'is-revealed')
+      return () => {
+        anhalten()
+        if (vorher === null) raster.removeAttribute('data-neo-behavior')
+        else raster.setAttribute('data-neo-behavior', vorher)
+      }
+    }))
   }
 }
