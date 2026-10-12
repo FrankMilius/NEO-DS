@@ -4699,6 +4699,435 @@
     }
   };
 
+  // packages/neo-behaviors/gallery.js
+  var TEXTE3 = {
+    de: { pause: "Galerie pausieren", play: "Galerie abspielen" },
+    en: { pause: "Pause gallery", play: "Play gallery" }
+  };
+  var SYMBOL2 = '<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg><svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><polygon points="6,4 20,12 6,20"/></svg>';
+  var VORGABE_MS2 = 6e3;
+  var zaehler3 = 0;
+  function spracheVon3(el) {
+    var _a;
+    const lang = (((_a = el.closest("[lang]")) == null ? void 0 : _a.getAttribute("lang")) || "").trim().toLowerCase();
+    return !lang || lang === "de" || lang.startsWith("de-") ? "de" : "en";
+  }
+  function dauerAus2(el, eigenschaft, vorgabe) {
+    const ansicht = el.ownerDocument.defaultView;
+    let roh = "";
+    try {
+      roh = (ansicht == null ? void 0 : ansicht.getComputedStyle(el).getPropertyValue(eigenschaft)) || "";
+    } catch {
+      roh = "";
+    }
+    if (!roh.trim()) roh = el.style.getPropertyValue(eigenschaft);
+    const m = /^\s*([\d.]+)\s*(ms|s)?\s*$/.exec(roh || "");
+    if (!m) return vorgabe;
+    const zahl = parseFloat(m[1]);
+    if (!(zahl > 0)) return vorgabe;
+    return m[2] === "ms" ? zahl : zahl * 1e3;
+  }
+  function reduzierteBewegung2(el) {
+    var _a, _b;
+    const ansicht = el.ownerDocument.defaultView;
+    return !!((_b = (_a = ansicht == null ? void 0 : ansicht.matchMedia) == null ? void 0 : _a.call(ansicht, "(prefers-reduced-motion: reduce)")) == null ? void 0 : _b.matches);
+  }
+  var gallery = {
+    id: "gallery",
+    selektor: ".nc-gallery",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const spur = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(":scope > .nc-gallery__track")
+      );
+      const slides = spur ? (
+        /** @type {HTMLElement[]} */
+        [...spur.querySelectorAll(":scope > .nc-gallery__slide")]
+      ) : [];
+      if (!spur || !slides.length) return;
+      const dok = wurzel.ownerDocument;
+      const ansicht = dok.defaultView || window;
+      const fade = wurzel.classList.contains("nc-gallery--fade");
+      const nav = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-gallery__nav")
+      );
+      const punkte = nav ? (
+        /** @type {HTMLElement[]} */
+        [...nav.querySelectorAll(".nc-gallery__nav-dot")].slice(0, slides.length)
+      ) : [];
+      const zurueck = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-gallery-prev], .nc-gallery__paddle--prev")
+      );
+      const vor = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-gallery-next], .nc-gallery__paddle--next")
+      );
+      const basis = wurzel.id || "nc-gallery-" + ++zaehler3;
+      const vergebeneIds = [];
+      slides.forEach((s, i) => {
+        if (!s.id) {
+          s.id = `${basis}-slide-${i}`;
+          vergebeneIds.push(s);
+        }
+        const p = punkte[i];
+        if (!p) return;
+        if (!p.id) {
+          p.id = `${basis}-tab-${i}`;
+          vergebeneIds.push(p);
+        }
+        p.setAttribute("role", "tab");
+        p.setAttribute("aria-controls", s.id);
+      });
+      let index = Math.max(0, slides.findIndex((s) => s.classList.contains("is-active")));
+      function zeige(i) {
+        index = i;
+        slides.forEach((s, j) => {
+          const an = j === i;
+          s.classList.toggle("is-active", an);
+          s.inert = !an;
+          if (an) s.removeAttribute("aria-hidden");
+          else s.setAttribute("aria-hidden", "true");
+        });
+        punkte.forEach((p, j) => {
+          const an = j === i;
+          p.classList.toggle("is-active", an);
+          p.setAttribute("aria-selected", String(an));
+          p.tabIndex = an ? 0 : -1;
+        });
+        if (!fade) spur.style.transform = `translate3d(-${i * 100}%, 0, 0)`;
+      }
+      zeige(index);
+      function waehle2(i, fokus) {
+        const n = slides.length;
+        const ziel = (i % n + n) % n;
+        const vorher = index;
+        if (ziel !== vorher) {
+          zeige(ziel);
+          sende(wurzel, "gallery-change", { index: ziel, previousIndex: vorher });
+        }
+        if (fokus) fokus.focus();
+      }
+      const autoplay = wurzel.dataset.autoplay === "on";
+      const reduziert = reduzierteBewegung2(wurzel);
+      let knopf = (
+        /** @type {HTMLButtonElement|null} */
+        wurzel.querySelector(".nc-gallery__autoplay")
+      );
+      const knopfVorher = knopf ? { hidden: knopf.hidden, label: knopf.getAttribute("aria-label"), playing: knopf.getAttribute("data-playing") } : null;
+      let angelegt = false;
+      let laeuft = false;
+      let spielt = false;
+      let schalte = () => {
+      };
+      if (autoplay && !reduziert) {
+        if (!knopf) {
+          knopf = dok.createElement("button");
+          knopf.type = "button";
+          knopf.className = "nc-gallery__autoplay";
+          knopf.innerHTML = SYMBOL2;
+          wurzel.append(knopf);
+          angelegt = true;
+        }
+        const k = knopf;
+        k.hidden = false;
+        const texte = TEXTE3[spracheVon3(wurzel)];
+        const textPause = k.dataset.textPause || texte.pause;
+        const textPlay = k.dataset.textPlay || texte.play;
+        const dauer = dauerAus2(wurzel, "--nc-gallery-autoplay-interval", VORGABE_MS2);
+        let maus = false;
+        let fokus = false;
+        const Beobachter = (
+          /** @type {any} */
+          globalThis.IntersectionObserver || /** @type {any} */
+          ansicht.IntersectionObserver
+        );
+        let sichtbar = typeof Beobachter !== "function";
+        let timer = 0;
+        let rest = dauer;
+        let start = 0;
+        laeuft = true;
+        const zeigeKnopf = () => {
+          k.setAttribute("data-playing", String(laeuft));
+          k.setAttribute("aria-label", laeuft ? textPause : textPlay);
+          wurzel.classList.toggle("is-stopped", !laeuft);
+        };
+        const plane = () => {
+          clearTimeout(timer);
+          start = Date.now();
+          timer = setTimeout(() => {
+            timer = 0;
+            waehle2(index + 1, null);
+            rest = dauer;
+            plane();
+          }, rest);
+        };
+        const stimme = (grund, immer = false) => {
+          const soll = laeuft && !maus && !fokus && sichtbar;
+          wurzel.classList.toggle("is-paused", laeuft && !soll);
+          spur.setAttribute("aria-live", soll ? "off" : "polite");
+          if (soll === spielt) {
+            if (immer) sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
+            return;
+          }
+          spielt = soll;
+          if (soll) plane();
+          else {
+            clearTimeout(timer);
+            timer = 0;
+            rest = Math.max(0, rest - (Date.now() - start));
+          }
+          sende(wurzel, "gallery-autoplay", { playing: soll, reason: grund });
+        };
+        schalte = (an, grund) => {
+          if (laeuft === an) return;
+          laeuft = an;
+          if (an) {
+            rest = dauer;
+            maus = false;
+            fokus = false;
+          }
+          zeigeKnopf();
+          stimme(grund, true);
+        };
+        zeigeKnopf();
+        k.addEventListener("click", () => schalte(!laeuft, "knopf"), { signal });
+        wurzel.addEventListener("mouseenter", () => {
+          maus = true;
+          stimme("hover");
+        }, { signal });
+        wurzel.addEventListener("mouseleave", () => {
+          maus = false;
+          stimme("hover");
+        }, { signal });
+        const fokusDrin = (ziel) => !!ziel && wurzel.contains(ziel) && !k.contains(ziel);
+        wurzel.addEventListener("focusin", (e) => {
+          fokus = fokusDrin(e.target);
+          stimme("fokus");
+        }, { signal });
+        wurzel.addEventListener("focusout", (e) => {
+          fokus = fokusDrin(
+            /** @type {FocusEvent} */
+            e.relatedTarget
+          );
+          stimme("fokus");
+        }, { signal });
+        let beobachter = null;
+        if (!sichtbar) {
+          beobachter = new Beobachter((eintraege) => {
+            for (const e of eintraege) sichtbar = e.isIntersecting;
+            stimme("ausser-sicht");
+          }, { threshold: 0.3 });
+          beobachter.observe(wurzel);
+        }
+        stimme("ausser-sicht");
+        signal.addEventListener("abort", () => {
+          clearTimeout(timer);
+          beobachter == null ? void 0 : beobachter.disconnect();
+        });
+      } else {
+        if (knopf) knopf.hidden = true;
+        spur.setAttribute("aria-live", "polite");
+      }
+      signal.addEventListener("abort", () => {
+        wurzel.classList.remove("is-paused", "is-stopped");
+        spur.removeAttribute("aria-live");
+        for (const el of vergebeneIds) el.removeAttribute("id");
+        if (angelegt) knopf == null ? void 0 : knopf.remove();
+        else if (knopf && knopfVorher) {
+          knopf.hidden = knopfVorher.hidden;
+          if (knopfVorher.label === null) knopf.removeAttribute("aria-label");
+          else knopf.setAttribute("aria-label", knopfVorher.label);
+          if (knopfVorher.playing === null) knopf.removeAttribute("data-playing");
+          else knopf.setAttribute("data-playing", knopfVorher.playing);
+        }
+      });
+      const hand = (i, fokus = null) => {
+        schalte(false, "wahl");
+        waehle2(i, fokus);
+      };
+      zurueck == null ? void 0 : zurueck.addEventListener("click", () => hand(index - 1), { signal });
+      vor == null ? void 0 : vor.addEventListener("click", () => hand(index + 1), { signal });
+      nav == null ? void 0 : nav.addEventListener("click", (e) => {
+        var _a, _b;
+        const p = (
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-gallery__nav-dot")
+        );
+        const i = punkte.indexOf(
+          /** @type {HTMLElement} */
+          p
+        );
+        if (i >= 0) hand(i);
+      }, { signal });
+      wurzel.addEventListener("keydown", (e) => {
+        var _a;
+        const ziel = (
+          /** @type {HTMLElement} */
+          e.target
+        );
+        if (e.key === "Escape") {
+          if (laeuft) schalte(false, "escape");
+          return;
+        }
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        const punkt = punkte.includes(ziel) ? ziel : null;
+        if (punkt) {
+          const naechster = zielFuerTaste(e.key, punkte, punkt, "horizontal");
+          if (!naechster) return;
+          e.preventDefault();
+          hand(punkte.indexOf(naechster), naechster);
+          return;
+        }
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        if ((_a = ziel.closest) == null ? void 0 : _a.call(ziel, ".nc-gallery__slide")) return;
+        e.preventDefault();
+        hand(index + (e.key === "ArrowRight" ? 1 : -1));
+      }, { signal });
+    }
+  };
+
+  // packages/neo-behaviors/marquee.js
+  var TEXTE4 = {
+    de: { pause: "Laufband anhalten", play: "Laufband fortsetzen" },
+    en: { pause: "Pause scrolling", play: "Resume scrolling" }
+  };
+  var symbol = (b) => `<svg class="${b}__pause-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="${b}__pause-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="${b}__pause-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>`;
+  var marquee = {
+    id: "marquee",
+    selektor: ".nc-marquee, .nc-logo-wall--marquee",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const b = wurzel.classList.contains("nc-logo-wall--marquee") ? "nc-logo-wall" : "nc-marquee";
+      const spur = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(`:scope > .${b}__track`)
+      );
+      if (!spur || !spur.children.length) return;
+      const dok = wurzel.ownerDocument;
+      const duplikate = (
+        /** @type {HTMLElement[]} */
+        [...spur.children].filter((el) => el.getAttribute("aria-hidden") === "true" && !el.inert)
+      );
+      for (const el of duplikate) el.inert = true;
+      let knopf = (
+        /** @type {HTMLButtonElement|null} */
+        wurzel.querySelector(`:scope > .${b}__pause`)
+      );
+      const knopfVorher = knopf ? { hidden: knopf.hidden, html: knopf.innerHTML, playing: knopf.getAttribute("data-playing") } : null;
+      let angelegt = false;
+      if (!knopf) {
+        knopf = dok.createElement("button");
+        knopf.type = "button";
+        knopf.className = `${b}__pause`;
+        knopf.innerHTML = symbol(b) + `<span class="${b}__pause-label"></span>`;
+        wurzel.insertBefore(knopf, spur);
+        angelegt = true;
+      }
+      const k = knopf;
+      const wurzelVerborgen = wurzel.getAttribute("aria-hidden") === "true";
+      const spurHatteHidden = spur.getAttribute("aria-hidden");
+      if (wurzelVerborgen) {
+        wurzel.removeAttribute("aria-hidden");
+        spur.setAttribute("aria-hidden", "true");
+      }
+      signal.addEventListener("abort", () => {
+        for (const el of duplikate) el.inert = false;
+        wurzel.classList.remove("is-paused", "is-stopped");
+        if (wurzelVerborgen) {
+          wurzel.setAttribute("aria-hidden", "true");
+          if (spurHatteHidden === null) spur.removeAttribute("aria-hidden");
+        }
+        if (angelegt) k.remove();
+        else if (knopfVorher) {
+          k.hidden = knopfVorher.hidden;
+          k.innerHTML = knopfVorher.html;
+          if (knopfVorher.playing === null) k.removeAttribute("data-playing");
+          else k.setAttribute("data-playing", knopfVorher.playing);
+        }
+      });
+      if (reduzierteBewegung2(wurzel)) {
+        k.hidden = true;
+        return;
+      }
+      k.hidden = false;
+      const texte = TEXTE4[spracheVon3(wurzel)];
+      const textPause = k.dataset.textPause || texte.pause;
+      const textPlay = k.dataset.textPlay || texte.play;
+      let beschriftung = (
+        /** @type {HTMLElement|null} */
+        k.querySelector(`.${b}__pause-label`)
+      );
+      if (!beschriftung) {
+        beschriftung = dok.createElement("span");
+        beschriftung.className = `${b}__pause-label`;
+        k.append(beschriftung);
+      }
+      const label = beschriftung;
+      let laeuft = true;
+      let maus = false;
+      let fokus = false;
+      let spielt = true;
+      const zeigeKnopf = () => {
+        k.setAttribute("data-playing", String(laeuft));
+        label.textContent = laeuft ? textPause : textPlay;
+        wurzel.classList.toggle("is-stopped", !laeuft);
+      };
+      const stimme = (grund, immer = false) => {
+        const soll = laeuft && !maus && !fokus;
+        wurzel.classList.toggle("is-paused", laeuft && !soll);
+        if (soll === spielt) {
+          if (immer) sende(wurzel, "marquee-autoplay", { playing: soll, reason: grund });
+          return;
+        }
+        spielt = soll;
+        sende(wurzel, "marquee-autoplay", { playing: soll, reason: grund });
+      };
+      zeigeKnopf();
+      k.addEventListener("click", () => {
+        laeuft = !laeuft;
+        if (laeuft) {
+          maus = false;
+          fokus = false;
+        }
+        zeigeKnopf();
+        stimme("knopf", true);
+      }, { signal });
+      const ueberSpur = (ziel) => !!ziel && spur.contains(ziel);
+      wurzel.addEventListener("mouseover", (e) => {
+        const m = ueberSpur(e.target);
+        if (m !== maus) {
+          maus = m;
+          stimme("hover");
+        }
+      }, { signal });
+      wurzel.addEventListener("mouseleave", () => {
+        if (maus) {
+          maus = false;
+          stimme("hover");
+        }
+      }, { signal });
+      const fokusDrin = (ziel) => !!ziel && wurzel.contains(ziel) && !k.contains(ziel);
+      wurzel.addEventListener("focusin", (e) => {
+        fokus = fokusDrin(e.target);
+        stimme("fokus");
+      }, { signal });
+      wurzel.addEventListener("focusout", (e) => {
+        fokus = fokusDrin(
+          /** @type {FocusEvent} */
+          e.relatedTarget
+        );
+        stimme("fokus");
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -4741,6 +5170,11 @@
     // (expanding-panels, multiselect) — aeussere Bauteile zuletzt. In Drupal
     // nur per nur
     "solution-tabs": solutionTabs,
+    // Website-Bauteile (Plan v4, Phase 2, 12.10.2026): Galerie (Blaettern,
+    // Punkte als Tabs, Autoplay-Knopf) und Laufband (Pause-Knopf; auch das
+    // Logo-Laufband der logo-wall). In Drupal nur per nur
+    gallery,
+    marquee,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,

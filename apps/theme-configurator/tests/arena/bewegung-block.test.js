@@ -177,7 +177,8 @@ describe('Bewegung-Block aus dem Recipe', () => {
   // Overlays mit Behavior in neo-behaviors (Entscheidung 06.10.2026,
   // overlay-verhalten) — „Ausprobieren" ueber MIT_VERHALTEN, Tests in
   // tests/behaviors/website-behaviors.test.js
-  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal']
+  // marquee: Behavior seit Plan v4, Phase 2 (12.10.2026, Pause-Knopf)
+  const MIT_BEHAVIOR = ['mobile-drawer', 'table-info-modal', 'marquee']
   it('Overlays mit Behavior: keyboard/events im Recipe, Ausprobieren ueber neo-behaviors', () => {
     for (const id of MIT_BEHAVIOR) {
       const r = rohesRecipe(id)

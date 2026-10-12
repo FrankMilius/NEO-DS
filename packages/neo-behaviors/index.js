@@ -53,6 +53,8 @@ import { expandingPanels } from './expanding-panels.js'
 import { featureAccordion } from './feature-accordion.js'
 import { shot } from './shot.js'
 import { solutionTabs } from './solution-tabs.js'
+import { gallery } from './gallery.js'
+import { marquee } from './marquee.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
@@ -99,6 +101,11 @@ export const BEHAVIORS = Object.freeze({
   // (expanding-panels, multiselect) — aeussere Bauteile zuletzt. In Drupal
   // nur per nur
   'solution-tabs': solutionTabs,
+  // Website-Bauteile (Plan v4, Phase 2, 12.10.2026): Galerie (Blaettern,
+  // Punkte als Tabs, Autoplay-Knopf) und Laufband (Pause-Knopf; auch das
+  // Logo-Laufband der logo-wall). In Drupal nur per nur
+  gallery,
+  marquee,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,
