@@ -51,8 +51,9 @@ describe('Footer: Sitemap zwischen sm und md zweispaltig', () => {
 
   it('Recipe footer fuehrt die Korrektur (2.0.3)', () => {
     const recipe = JSON.parse(readFileSync(resolve(ROOT, 'data/footer-recipe.json'), 'utf-8'));
-    expect(recipe.meta.version).toBe('2.0.3');
-    expect(recipe.meta.changelog[0].version).toBe('2.0.3');
-    expect(recipe.meta.changelog[0].changes.join(' ')).toContain('768');
+    // Eintrag 2.0.3 suchen statt fester Recipe-Version (footer 2.1.0: Plan v4, Phase 6b)
+    const eintrag = recipe.meta.changelog.find((e) => e.version === '2.0.3');
+    expect(eintrag).toBeTruthy();
+    expect(eintrag.changes.join(' ')).toContain('768');
   });
 });

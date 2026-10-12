@@ -8,6 +8,15 @@
 // zellenFlaeche in src/lib/recipe-arena.js.
 import { an } from './_helfer.js'
 
+// Knopf „Nach oben" wie auf der Website (data/markup/footer.html), nur in
+// „Ausprobieren": neo-behaviors footer scrollt an den Anfang und setzt den
+// Fokus auf den Hauptinhalt (Plan v4, Phase 6b). „Zustände" bleibt ohne.
+const BACKTOTOP = `
+<button type="button" class="nc-footer__backtotop" data-back-to-top aria-label="Nach oben">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"></path></svg>
+<span>Nach oben</span>
+</button>`
+
 const SPALTEN = [
   ['Produkte', ['neo workplace', 'neo workplace App', 'neo magazine', 'neo AI']],
   ['Lösungen', ['Lösungen im Überblick', 'Integrationen', 'Technologie &amp; Sicherheit', 'Editionen &amp; Preise']],
@@ -70,7 +79,7 @@ ${an(m, 'social-links') ? `<div class="nc-footer__social">
 <a href="#" onclick="return false">Datenschutz</a>
 <a href="#" onclick="return false">Barrierefreiheit</a>
 </nav>
-</div>
+</div>${m.ausprobieren ? BACKTOTOP : ''}
 </div>
 </div>
 </footer>`

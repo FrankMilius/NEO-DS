@@ -1,5 +1,5 @@
 # footer Component Spec
-> Version 2.0.3 | Status: stable | Layer: organism
+> Version 2.1.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `layout`, `content`, `cta`
 
@@ -17,6 +17,7 @@ Root element: `.nc-footer`
 | legal-area | `.nc-footer__legal` | Yes | Copyright und rechtliche Links. Immer sichtbar. |
 | newsletter | `.nc-footer__newsletter` | No | Optionales Newsletter-Input-Feld fuer Lead-Generierung. |
 | separator | `.nc-footer__separator` | No | Horizontale Trennlinie zwischen Bereichen. |
+| backtotop | `.nc-footer__backtotop` | No | Knopf „Nach oben“ (button type=button, data-back-to-top, sichtbarer Text + Pfeil-Symbol aria-hidden; Website: field_ft_backtotop, in .nc-footer__bottom hinter den Rechtslinks). Verhalten aus neo-behaviors footer: scrollt an den Seitenanfang (sanft nur ohne reduzierte Bewegung) und setzt den Fokus auf den Hauptinhalt (oder data-back-to-top="#id"). |
 
 ### DOM Notes
 - Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
@@ -110,11 +111,24 @@ Base classes: `nc-footer`
 | `--nc-footer-legal-size` | — | — |
 | `--nc-footer-legal-color` | — | — |
 
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | Links und Knoepfe des Footers in Dokumentreihenfolge, der Knopf „Nach oben“ zuletzt in der unteren Leiste. |
+| `Enter` | back-to-top | Auf dem Knopf „Nach oben“: an den Seitenanfang scrollen, Fokus auf den Hauptinhalt (main) bzw. das Ziel aus data-back-to-top; die naechste Tab-Taste fuehrt in den Hauptinhalt. |
+| `Space` | back-to-top | Wie Enter. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `footer-back-to-top` | Yes | `{"target":"string"}` |
+
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 
 - hasAccessibleName
 - supportsKeyboard
+- 2.4.3: „Nach oben“ setzt den Fokus an den Seitenanfang (Hauptinhalt), nicht nur die Scrollposition; 2.3.3: sanftes Scrollen nur ohne prefers-reduced-motion.
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-footer>` custom element:

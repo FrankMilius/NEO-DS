@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "footer",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -66,6 +66,12 @@
         "selector": ".nc-footer__separator",
         "required": false,
         "description": "Horizontale Trennlinie zwischen Bereichen."
+      },
+      {
+        "name": "backtotop",
+        "selector": ".nc-footer__backtotop",
+        "required": false,
+        "description": "Knopf „Nach oben“ (button type=button, data-back-to-top, sichtbarer Text + Pfeil-Symbol aria-hidden; Website: field_ft_backtotop, in .nc-footer__bottom hinter den Rechtslinks). Verhalten aus neo-behaviors footer: scrollt an den Seitenanfang (sanft nur ohne reduzierte Bewegung) und setzt den Fokus auf den Hauptinhalt (oder data-back-to-top=\"#id\")."
       }
     ],
     "notes": [
@@ -262,9 +268,30 @@
     },
     "modTokens": []
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Links und Knoepfe des Footers in Dokumentreihenfolge, der Knopf „Nach oben“ zuletzt in der unteren Leiste."
+    },
+    "Enter": {
+      "action": "back-to-top",
+      "note": "Auf dem Knopf „Nach oben“: an den Seitenanfang scrollen, Fokus auf den Hauptinhalt (main) bzw. das Ziel aus data-back-to-top; die naechste Tab-Taste fuehrt in den Hauptinhalt."
+    },
+    "Space": {
+      "action": "back-to-top",
+      "note": "Wie Enter."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "footer-back-to-top": {
+      "bubbles": true,
+      "detail": {
+        "target": "string"
+      },
+      "note": "Gefeuert an der Wurzel nach dem Klick auf „Nach oben“: id des Fokusziels (Hauptinhalt, z. B. main-content), null ohne id."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": true,
@@ -272,7 +299,8 @@
     "focusIndicator": null,
     "assertions": [
       "hasAccessibleName",
-      "supportsKeyboard"
+      "supportsKeyboard",
+      "2.4.3: „Nach oben“ setzt den Fokus an den Seitenanfang (Hauptinhalt), nicht nur die Scrollposition; 2.3.3: sanftes Scrollen nur ohne prefers-reduced-motion."
     ],
     "overrides": [
       {

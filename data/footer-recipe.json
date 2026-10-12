@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "footer",
-    "version": "2.0.3",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -17,6 +17,13 @@
       "docs": "/docs/footer-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Plan v4, Phase 6b (12.10.2026; website-sichtbar, Freigabe ausstehend, WCAG 2.4.3): Knopf „Nach oben“ als Behavior footer in neo-behaviors (nurAusdruecklich) statt Drupal.behaviors.neoBackToTop in neo_fe/js/neo-theme.js. Klick, Enter oder Leertaste scrollen an den Seitenanfang (sanft nur ohne prefers-reduced-motion, wie bisher) und setzen den Fokus an den Seitenanfang: Ziel data-back-to-top=\"#id\", sonst der Hauptinhalt (main, [role=main]), sonst body; ein nicht fokussierbares Ziel bekommt tabindex=-1, bis es den Fokus abgibt; focus mit preventScroll. Vorher blieb der Fokus unten am Knopf.",
+          "Anatomie: Slot backtotop (.nc-footer__backtotop, button[data-back-to-top], in der Website-Vorlage hinter den Rechtslinks; field_ft_backtotop). keyboard (Tab, Enter, Space), events footer-back-to-top { target }. Drupal: _neo_fe_behaviors_anhaengen($variables, ['footer']) am Block neo_footer."
+        ]
+      },
       {
         "version": "2.0.3",
         "changes": [
@@ -126,6 +133,12 @@
         "element": ".nc-footer__separator",
         "optional": true,
         "description": "Horizontale Trennlinie zwischen Bereichen."
+      },
+      {
+        "name": "backtotop",
+        "element": ".nc-footer__backtotop",
+        "optional": true,
+        "description": "Knopf „Nach oben“ (button type=button, data-back-to-top, sichtbarer Text + Pfeil-Symbol aria-hidden; Website: field_ft_backtotop, in .nc-footer__bottom hinter den Rechtslinks). Verhalten aus neo-behaviors footer: scrollt an den Seitenanfang (sanft nur ohne reduzierte Bewegung) und setzt den Fokus auf den Hauptinhalt (oder data-back-to-top=\"#id\")."
       }
     ],
     "convenience": [
@@ -284,7 +297,8 @@
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [
         "hasAccessibleName",
-        "supportsKeyboard"
+        "supportsKeyboard",
+        "2.4.3: „Nach oben“ setzt den Fokus an den Seitenanfang (Hauptinhalt), nicht nur die Scrollposition; 2.3.3: sanftes Scrollen nur ohne prefers-reduced-motion."
       ],
       "note": "Footer: role=contentinfo. Links: focus-ring. Social-Icons: aria-label pro Plattform. Inverse-Theme: Kontrast text-inverse auf background-inverse pruefen."
     },
@@ -677,5 +691,28 @@
         "note": "4-Spalten: auf Mobile stacking testen."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Links und Knoepfe des Footers in Dokumentreihenfolge, der Knopf „Nach oben“ zuletzt in der unteren Leiste."
+    },
+    "Enter": {
+      "action": "back-to-top",
+      "note": "Auf dem Knopf „Nach oben“: an den Seitenanfang scrollen, Fokus auf den Hauptinhalt (main) bzw. das Ziel aus data-back-to-top; die naechste Tab-Taste fuehrt in den Hauptinhalt."
+    },
+    "Space": {
+      "action": "back-to-top",
+      "note": "Wie Enter."
+    }
+  },
+  "events": {
+    "footer-back-to-top": {
+      "bubbles": true,
+      "detail": {
+        "target": "string"
+      },
+      "note": "Gefeuert an der Wurzel nach dem Klick auf „Nach oben“: id des Fokusziels (Hauptinhalt, z. B. main-content), null ohne id."
+    }
+  }
 }

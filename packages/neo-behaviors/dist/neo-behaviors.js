@@ -6286,6 +6286,56 @@
     }
   };
 
+  // packages/neo-behaviors/footer.js
+  var FOKUSSIERBAR3 = "a[href], button, input, select, textarea, summary, [tabindex]";
+  function zielVon(knopf) {
+    const dok = knopf.ownerDocument;
+    const wert = knopf.getAttribute("data-back-to-top") || "";
+    if (wert.startsWith("#") && wert.length > 1) {
+      const el = dok.getElementById(wert.slice(1));
+      if (el) return el;
+    }
+    return (
+      /** @type {HTMLElement} */
+      dok.querySelector('main, [role="main"]') || dok.body
+    );
+  }
+  var footer = {
+    id: "footer",
+    selektor: ".nc-footer",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      let gesetzt = null;
+      const zuruecknehmen = () => {
+        if (gesetzt) gesetzt.removeAttribute("tabindex");
+        gesetzt = null;
+      };
+      signal.addEventListener("abort", zuruecknehmen);
+      wurzel.addEventListener("click", (e) => {
+        var _a, _b;
+        const knopf = (
+          /** @type {HTMLElement|null} */
+          /** @type {HTMLElement} */
+          (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, "[data-back-to-top]")
+        );
+        if (!knopf || !wurzel.contains(knopf)) return;
+        ansicht.scrollTo({ top: 0, behavior: reduzierteBewegung(wurzel) ? "auto" : "smooth" });
+        const ziel = zielVon(knopf);
+        if (!ziel.matches(FOKUSSIERBAR3)) {
+          zuruecknehmen();
+          ziel.setAttribute("tabindex", "-1");
+          gesetzt = ziel;
+          ziel.addEventListener("blur", zuruecknehmen, { once: true, signal });
+        }
+        ziel.focus({ preventScroll: true });
+        sende(wurzel, "footer-back-to-top", { target: ziel.id || null });
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -6359,6 +6409,7 @@
     // Markup aus neo-theme.js. In Drupal nur per nur
     timeline,
     "hero-tom": heroTom,
+    footer,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,
