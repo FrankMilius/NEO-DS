@@ -210,3 +210,106 @@
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Pause-Knopf fuer dekorative Bewegung (Plan v4, Phase 3, 12.10.2026, E5)
+// ---------------------------------------------------------------------------
+// Ein Knopf je Hintergrundvideo (neo-behaviors video) und je Hintergrund-
+// Animation der Website (neo-bg-hero.js im Drupal-Theme) — gleiches Markup,
+// gleiche Tokens. Er liegt ueber dem Medium (unten am Ende der Wurzel) und
+// wechselt seine Beschriftung (aria-label) und sein Symbol (data-playing).
+// Farben ueber always-dark/always-light: der Grund ist ein Video, kein Theme.
+
+// Wurzel ohne eigene Position wird Bezugsrahmen des Knopfs (Spezifitaet 0,
+// damit Bauteil-Regeln wie position: absolute gewinnen).
+:where([data-neo-video]:not(video, [data-neo-video='fassade'])) {
+  position: relative;
+}
+
+.nc-video-pause {
+  position: absolute;
+  inset-block-end: var(--nc-video-pause-offset);
+  inset-inline-end: var(--nc-video-pause-offset);
+  z-index: var(--nc-video-pause-z);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nc-video-pause-size);
+  block-size: var(--nc-video-pause-size);
+  padding: 0;
+  border: 1px solid var(--nc-video-pause-border);
+  border-radius: var(--nc-video-pause-radius);
+  background: var(--nc-video-pause-bg);
+  color: var(--nc-video-pause-color);
+  cursor: pointer;
+  @include transition-quick((background-color));
+
+  &:hover {
+    background: var(--nc-video-pause-bg-hover);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.nc-video-pause__icon {
+  inline-size: var(--nc-video-pause-icon-size);
+  block-size: var(--nc-video-pause-icon-size);
+  fill: currentColor;
+}
+
+// Symbol folgt dem Zustand: laeuft -> Pause-Balken, steht -> Abspiel-Dreieck
+.nc-video-pause[data-playing='false'] .nc-video-pause__pause,
+.nc-video-pause:not([data-playing='false']) .nc-video-pause__play {
+  display: none;
+}
+
+// ---------------------------------------------------------------------------
+// Video-Fassade (click-to-play, Plan v4, Phase 3): Knopf statt iframe, bis
+// jemand abspielt — vorher keine Anfrage an YouTube oder Vimeo (DSGVO).
+// ---------------------------------------------------------------------------
+
+.nc-video-facade {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--nc-video-facade-bg) center / cover no-repeat;
+  color: var(--nc-video-pause-color);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring-inset;
+  }
+}
+
+.nc-video-facade__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nc-video-facade-play-size);
+  block-size: var(--nc-video-facade-play-size);
+  border-radius: var(--nc-video-pause-radius);
+  background: var(--nc-video-pause-bg);
+  @include transition-quick((background-color));
+
+  .nc-video-facade:hover & {
+    background: var(--nc-video-pause-bg-hover);
+  }
+
+  svg {
+    inline-size: 50%;
+    block-size: 50%;
+    fill: currentColor;
+  }
+}

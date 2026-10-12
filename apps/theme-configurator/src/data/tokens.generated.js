@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-08
+// Generated: 2026-10-12
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -22112,6 +22112,104 @@ export const componentTokenGroups = [
       }
     ],
     "subgroups": []
+  },
+  {
+    "id": "video",
+    "label": "Video",
+    "icon": "components",
+    "subgroups": [
+      {
+        "id": "pause-knopf",
+        "label": "Pause-Knopf",
+        "tokenIds": [
+          "nc-video-pause-size",
+          "nc-video-pause-icon-size",
+          "nc-video-pause-offset",
+          "nc-video-pause-radius",
+          "nc-video-pause-z",
+          "nc-video-pause-color",
+          "nc-video-pause-bg",
+          "nc-video-pause-bg-hover",
+          "nc-video-pause-border"
+        ]
+      },
+      {
+        "id": "fassade",
+        "label": "Fassade",
+        "tokenIds": [
+          "nc-video-facade-bg",
+          "nc-video-facade-play-size"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-video-pause-size",
+        "label": "Pause Size",
+        "type": "size",
+        "default": "2.5rem"
+      },
+      {
+        "id": "nc-video-pause-icon-size",
+        "label": "Pause Icon Size",
+        "type": "size",
+        "default": "1rem"
+      },
+      {
+        "id": "nc-video-pause-offset",
+        "label": "Pause Offset",
+        "type": "size",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-video-pause-radius",
+        "label": "Pause Radius",
+        "type": "border-radius",
+        "default": "var(--fnd-radius-full)"
+      },
+      {
+        "id": "nc-video-pause-z",
+        "label": "Pause Z",
+        "type": "generic",
+        "default": "3"
+      },
+      {
+        "id": "nc-video-pause-color",
+        "label": "Pause Color",
+        "type": "color",
+        "default": "var(--fnd-color-always-light)"
+      },
+      {
+        "id": "nc-video-pause-bg",
+        "label": "Pause Bg",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-always-dark) 60%, transparent)"
+      },
+      {
+        "id": "nc-video-pause-bg-hover",
+        "label": "Pause Bg Hover",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent)"
+      },
+      {
+        "id": "nc-video-pause-border",
+        "label": "Pause Border",
+        "type": "color",
+        "default": "color-mix(in srgb, var(--fnd-color-always-light) 40%, transparent)"
+      },
+      {
+        "id": "nc-video-facade-bg",
+        "label": "Facade Bg",
+        "type": "color",
+        "ref": "background-tertiary"
+      },
+      {
+        "id": "nc-video-facade-play-size",
+        "label": "Facade Play Size",
+        "type": "size",
+        "default": "3.5rem"
+      }
+    ]
   },
   {
     "id": "dropdown",

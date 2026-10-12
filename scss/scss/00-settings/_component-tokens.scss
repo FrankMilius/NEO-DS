@@ -5137,3 +5137,31 @@
     --nc-shot-divider-shadow: 0 0 12px color-mix(in srgb, var(--fnd-color-background-accent) 80%, transparent);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Video Tokens
+// ---------------------------------------------------------------------------
+// Pause-Knopf .nc-video-pause fuer dekorative Hintergrundvideos (neo-behaviors
+// video) und die Hintergrund-Animationen der Website (neo-bg) sowie die
+// Video-Fassade .nc-video-facade (Plan v4, Phase 3, 12.10.2026, E5/E7).
+// Der Knopf liegt ueber bewegtem Bild: dunkle, halbdurchsichtige Flaeche mit
+// hellem Symbol in beiden Themes (always-dark/always-light). Weiss auf 60 %
+// Schwarz ueber weissem Grund ergibt rund 5,7:1. 2.5rem (40 px) liegt ueber
+// dem Mindestziel 24 x 24 px (2.5.8).
+
+:root {
+  // -- Pause-Knopf --
+  --nc-video-pause-size:        2.5rem;
+  --nc-video-pause-icon-size:   1rem;
+  --nc-video-pause-offset:      var(--fnd-spacing-04);
+  --nc-video-pause-radius:      var(--fnd-radius-full);
+  --nc-video-pause-z:           3;
+  --nc-video-pause-color:       var(--fnd-color-always-light);
+  --nc-video-pause-bg:          color-mix(in srgb, var(--fnd-color-always-dark) 60%, transparent);
+  --nc-video-pause-bg-hover:    color-mix(in srgb, var(--fnd-color-always-dark) 80%, transparent);
+  --nc-video-pause-border:      color-mix(in srgb, var(--fnd-color-always-light) 40%, transparent);
+
+  // -- Fassade --
+  --nc-video-facade-bg:         var(--fnd-color-background-tertiary);
+  --nc-video-facade-play-size:  3.5rem;
+}
