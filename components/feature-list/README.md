@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/feature-list.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block/block--block-content--neo-feature-list.html.twig, block/block--inline-block--neo-feature-list.html.twig, js/neo-theme.js (Drupal.behaviors.neoFeatureMedia), includes/neo_feature_list.inc (Eintraege aus field_fl_items_json, neo_fl_items)` | present |
+| Drupal | `block/block--block-content--neo-feature-list.html.twig, block/block--inline-block--neo-feature-list.html.twig, js/neo-theme.js (Drupal.behaviors.neoFeatureMedia), includes/neo_feature_list.inc (Eintraege aus field_fl_items_json, neo_fl_items), templates/block/neo-feature-list-items.html.twig (Liste, geteilt mit Tab-Nav feature_list)` | present |
 
 ## Spec
 
