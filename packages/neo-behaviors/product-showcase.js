@@ -6,9 +6,8 @@
 // Behavior, zwei Modi). Ersetzt in neo_fe die Auswahl und Tastatur von
 // Drupal.behaviors.neoProductShowcase (neo-theme.js) und js/neo-device-scroll.js
 // (Geraete-Strecke, Library neo-device-scroll entfaellt) — vorher banden zwei
-// Verhalten an dieselben Klassen .nc-product-showcase__*. Den Aufbau der
-// Optionen aus JSON behaelt das Theme bis Phase 7 und bindet danach mit
-// NeoBehaviors.anbinden(wurzel, ['product-showcase']).
+// Verhalten an dieselben Klassen .nc-product-showcase__*. Die Optionen
+// rendert seit Plan v4, Phase 7 das Twig; das Behavior bindet am Markup.
 //
 // Der Modus folgt dem Markup:
 //
@@ -31,23 +30,23 @@
 //   SCSS zu und blendet die Einzelgeraete aus (ohne Skript ist jede Station
 //   offen und zeigt ihr eigenes Geraet).
 //
-// Tabs (Optionen .nc-product-showcase__option als Knoepfe, Website-Block
-// neo_product_showcase): Tabs-Muster mit automatischer Aktivierung —
-// role=tablist an .nc-product-showcase__options, Optionen role=tab mit
-// aria-selected, wanderndem tabindex und aria-controls auf das geteilte
-// Medien-Panel .nc-product-showcase__media-panel (role=tabpanel,
-// aria-labelledby = gewaehlte Option). Pfeile rundum, Pos1, Ende waehlen und
-// fokussieren. Das Medium der Option (data-station an Option und Medium,
-// sonst Reihenfolge) wird .is-active.
-//   Beschreibung  .nc-product-showcase__description steht im Markup
-//   UNTER ihrer Option, also innerhalb der Tableiste. Ein tabpanel (oder
-//   region) dort ist ein unzulaessiges Kind der tablist (axe
-//   aria-required-children; so war es vorher mit role=region). Sie bleibt
-//   deshalb ohne Rolle (lesbar im Lesemodus), offen .is-open, die anderen
-//   [hidden], und ist per aria-describedby an ihre Option gebunden. Ihr Text
-//   wird beim Wechsel neu eingesetzt, damit die Einblende-Animation (SCSS)
-//   erneut laeuft. (Phase 7 baut die Optionen im Twig — dann kann die
-//   Beschreibung aus der Tableiste heraus.)
+// Auswahl (Optionen .nc-product-showcase__option als Knoepfe, Website-Block
+// neo_product_showcase): Akkordeon-Muster mit genau einer offenen Option
+// (Plan v4, Phase 7, Block 6, 13.10.2026, Entscheidung Frank; bis dahin
+// Tabs-Muster). Jede Option traegt aria-expanded und steuert per
+// aria-controls ihre Beschreibung .nc-product-showcase__description, die im
+// Markup direkt UNTER ihr steht (offen .is-open, die anderen [hidden]); das
+// Medium der Option (data-station an Option und Medium, sonst Reihenfolge)
+// wird .is-active. Kein tablist/tabpanel mehr: Die Beschreibung stand als
+// Inhalt in der Tableiste, und das gemeinsame Medienfeld als tabpanel war
+// nach der Option benannt, deren Name das Bild im alt noch einmal trug.
+// Alle Optionen liegen in der Tab-Folge (Akkordeon), Pfeile rundum, Pos1,
+// Ende waehlen und fokussieren; ein Klick auf die offene schliesst sie
+// nicht. Die Gruppe benennt das Markup (role=group + aria-labelledby auf
+// das Label). Rollen aelteren Markups (tablist, tab, tabpanel, aria-selected)
+// nimmt das Behavior beim Binden zurueck und stellt sie beim Abbinden her.
+//   Beschreibungstext wird beim Wechsel neu eingesetzt, damit die
+//   Einblende-Animation (SCSS) erneut laeuft.
 //
 // Ereignis: `product-showcase-change` { index, previousIndex }, wenn die
 // gewaehlte Option bzw. offene Station wechselt.
@@ -92,7 +91,7 @@ export const productShowcase = {
   /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
   binde (wurzel, signal) {
     if (wurzel.querySelector('.nc-product-showcase__trigger')) stationen(wurzel, signal)
-    else tabs(wurzel, signal)
+    else auswahl(wurzel, signal)
   }
 }
 
@@ -230,15 +229,14 @@ function stationen (wurzel, signal) {
 }
 
 // --------------------------------------------------------------------------
-// Modus Tabs (Optionen)
+// Modus Auswahl (Optionen, Akkordeon-Muster)
 // --------------------------------------------------------------------------
 
 /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
-function tabs (wurzel, signal) {
+function auswahl (wurzel, signal) {
   const liste = /** @type {HTMLElement|null} */ (wurzel.querySelector('.nc-product-showcase__options'))
   if (!liste) return
   const optionen = /** @type {HTMLElement[]} */ ([...liste.querySelectorAll('.nc-product-showcase__option')])
-  // Das Theme baut die Optionen erst aus JSON und bindet danach (neu)
   if (!optionen.length) return
   const medien = medienVon(wurzel)
   const m = merker()
@@ -248,36 +246,36 @@ function tabs (wurzel, signal) {
   const panele = optionen.map((o) => /** @type {HTMLElement|null} */ (o.closest('.nc-product-showcase__option-group')?.querySelector('.nc-product-showcase__description') || null))
   const panel = /** @type {HTMLElement|null} */ (wurzel.querySelector('.nc-product-showcase__media-panel'))
 
-  m.setze(liste, 'role', 'tablist')
+  // Rollen des frueheren Tabs-Musters zuruecknehmen (aelteres Markup)
+  if (liste.getAttribute('role') === 'tablist') m.setze(liste, 'role', null)
   if (panel) {
-    if (!panel.id) m.setze(panel, 'id', `${basis}-medien`)
-    m.setze(panel, 'role', 'tabpanel')
+    if (panel.getAttribute('role') === 'tabpanel') m.setze(panel, 'role', null)
+    m.setze(panel, 'aria-labelledby', null)
   }
   optionen.forEach((o, i) => {
-    if (!o.id) m.setze(o, 'id', `${basis}-tab-${i}`)
-    m.setze(o, 'role', 'tab')
+    if (!o.id) m.setze(o, 'id', `${basis}-option-${i}`)
+    m.setze(o, 'role', null)
+    m.setze(o, 'aria-selected', null)
     m.setze(o, 'aria-pressed', null)
-    if (panel) m.setze(o, 'aria-controls', panel.id)
+    m.setze(o, 'aria-describedby', null)
+    m.setze(o, 'tabindex', null)
     const p = panele[i]
-    if (!p) return
+    if (!p) { m.setze(o, 'aria-controls', null); return }
     if (!p.id) m.setze(p, 'id', `${basis}-text-${i}`)
-    // role=region (neoProductShowcase bis 6a) ist in der tablist unzulaessig
     m.setze(p, 'role', null)
     m.setze(p, 'aria-hidden', null)
-    if ((p.textContent || '').trim()) m.setze(o, 'aria-describedby', p.id)
+    m.setze(o, 'aria-controls', (p.textContent || '').trim() ? p.id : null)
   })
 
-  let jetzt = optionen.findIndex((o) => o.getAttribute('aria-selected') === 'true' || o.classList.contains('is-active'))
+  let jetzt = optionen.findIndex((o) => o.getAttribute('aria-expanded') === 'true' || o.getAttribute('aria-selected') === 'true' || o.classList.contains('is-active'))
   if (jetzt === -1) jetzt = 0
 
   /** Zustand setzen (ohne Ereignis) @param {number} nr @param {boolean} neuEinblenden */
   function zeige (nr, neuEinblenden) {
     jetzt = nr
-    if (panel) m.setze(panel, 'aria-labelledby', optionen[nr].id)
     optionen.forEach((o, i) => {
       const an = i === nr
-      m.setze(o, 'aria-selected', String(an))
-      m.setze(o, 'tabindex', an ? '0' : '-1')
+      m.setze(o, 'aria-expanded', String(an))
       o.classList.toggle('is-active', an)
       const p = panele[i]
       if (p) {

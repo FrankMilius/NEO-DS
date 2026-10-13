@@ -1,7 +1,8 @@
 // Vorlage: product-showcase — Markup aus data/markup/product-showcase.html
 // (drei Stationen, erste aktiv). Alle Achsen per Modifier; zusaetzlich
 // aendern sie das Markup: interaktion=accordion nutzt Trigger + Panel wie
-// im geernteten Markup, sonst Optionsgruppen (Tabs); optionStyle=indicator
+// im geernteten Markup, sonst Optionsgruppen (Auswahl wie die Website seit
+// Plan v4, Phase 7: aria-expanded, Bilder alt=""); optionStyle=indicator
 // setzt den Farbpunkt (slotConfig option-indicator); mediaFrame=device legt
 // das Bild in ein nc-device.
 import { BILD_SRC } from './_helfer.js'
@@ -16,7 +17,7 @@ export default (zelle, m) => {
   const akkordeon = m.wert('interaktion') === 'accordion'
   const indikator = m.slot('option-indicator') || m.wert('optionStyle') === 'indicator'
   const geraet = m.wert('mediaFrame') === 'device'
-  const bilder = STATIONEN.map(([, titel], i) => `<img class="nc-product-showcase__media-item${i === 0 ? ' is-active' : ''}" src="${BILD_SRC}" alt="${titel}" decoding="async">`).join('\n')
+  const bilder = STATIONEN.map(([, titel], i) => `<img class="nc-product-showcase__media-item${i === 0 ? ' is-active' : ''}" src="${BILD_SRC}" alt="" decoding="async">`).join('\n')
   const medien = geraet ? `<div class="nc-device"><div class="nc-device__screen">\n${bilder}\n</div></div>` : bilder
   const punkt = (farbe) => indikator ? `<span class="nc-product-showcase__option-indicator" style="background-color: ${farbe};" aria-hidden="true"></span>` : ''
   const optionen = STATIONEN.map(([label, titel, text, farbe], i) => akkordeon
@@ -28,7 +29,7 @@ export default (zelle, m) => {
 <div class="nc-product-showcase__panel" id="${m.uid}-p${i}" role="region" aria-labelledby="${m.uid}-t${i}"><div><p class="nc-product-showcase__description-text">${text}</p></div></div>
 </div>`
     : `<div class="nc-product-showcase__option-group">
-<button type="button" class="nc-product-showcase__option${i === 0 ? ' is-active' : ''}" aria-pressed="${i === 0}">${punkt(farbe)}<span class="nc-product-showcase__title">${titel}</span></button>
+<button type="button" class="nc-product-showcase__option${i === 0 ? ' is-active' : ''}" aria-expanded="${i === 0}">${punkt(farbe)}<span class="nc-product-showcase__title">${titel}</span></button>
 ${i === 0 ? `<div class="nc-product-showcase__description"><p class="nc-product-showcase__description-text">${text}</p></div>` : ''}
 </div>`).join('\n')
   return `

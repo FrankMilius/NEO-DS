@@ -5033,7 +5033,7 @@
       if (!liste) return;
       const dok = wurzel.ownerDocument;
       const ansicht = dok.defaultView || window;
-      const tabs3 = () => (
+      const tabs2 = () => (
         /** @type {HTMLElement[]} */
         [...liste.querySelectorAll(".nc-solution-tabs__tab")]
       );
@@ -5046,9 +5046,9 @@
         ) : null;
       };
       const wertVon2 = (tab) => tab.id || (tab.textContent || "").trim();
-      const gewaehlt = () => tabs3().find((t) => t.getAttribute("aria-selected") === "true") || null;
+      const gewaehlt = () => tabs2().find((t) => t.getAttribute("aria-selected") === "true") || null;
       function zeige(tab) {
-        for (const t of tabs3()) {
+        for (const t of tabs2()) {
           const an = t === tab;
           t.setAttribute("aria-selected", String(an));
           t.tabIndex = an ? 0 : -1;
@@ -5059,7 +5059,7 @@
           }
         }
       }
-      const erster = gewaehlt() || tabs3()[0];
+      const erster = gewaehlt() || tabs2()[0];
       if (erster) zeige(erster);
       function waehle2(tab, fokus2) {
         const vorher = gewaehlt();
@@ -5129,7 +5129,7 @@
       }
       function schritt() {
         timer = 0;
-        const alle = tabs3();
+        const alle = tabs2();
         const jetzt = gewaehlt();
         const naechster = alle[(alle.indexOf(
           /** @type {HTMLElement} */
@@ -5237,7 +5237,7 @@
             (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, ".nc-solution-tabs__tab")
           );
           if (!tab || !liste.contains(tab)) return;
-          const ziel = zielFuerTaste(e.key, tabs3(), tab, vertikal ? "vertikal" : "horizontal");
+          const ziel = zielFuerTaste(e.key, tabs2(), tab, vertikal ? "vertikal" : "horizontal");
           if (!ziel) return;
           e.preventDefault();
           handwahl();
@@ -5412,7 +5412,7 @@
         /** @type {HTMLElement[]} */
         [...wurzel.querySelectorAll(".nc-fade-gallery__media")]
       );
-      const tabs3 = (
+      const tabs2 = (
         /** @type {HTMLElement[]} */
         [...wurzel.querySelectorAll(".nc-fade-gallery__tab")]
       );
@@ -5449,7 +5449,7 @@
           vergeben.push(m);
         }
         merkeRolle(m, "tabpanel");
-        const t = tabs3[i];
+        const t = tabs2[i];
         if (!t) return;
         if (!t.id) {
           t.id = `${basis}-t${i}`;
@@ -5466,7 +5466,7 @@
         }
       });
       const textVon = (el, k) => el.dataset.fgDesc !== void 0 ? Number(el.dataset.fgDesc) : k;
-      let jetzt = Math.max(0, tabs3.findIndex((t) => t.getAttribute("aria-selected") === "true"));
+      let jetzt = Math.max(0, tabs2.findIndex((t) => t.getAttribute("aria-selected") === "true"));
       if (jetzt >= medien.length) jetzt = 0;
       let bild = 0;
       function zeige(nr) {
@@ -5477,7 +5477,7 @@
           if (i === nr) m.removeAttribute("aria-hidden");
           else m.setAttribute("aria-hidden", "true");
         });
-        tabs3.forEach((t, i) => {
+        tabs2.forEach((t, i) => {
           t.setAttribute("aria-selected", String(i === nr));
           t.tabIndex = i === nr ? 0 : -1;
         });
@@ -5503,7 +5503,7 @@
         var _a;
         nr = (nr + medien.length) % medien.length;
         const vorher = jetzt;
-        if (fokus) (_a = tabs3[nr]) == null ? void 0 : _a.focus();
+        if (fokus) (_a = tabs2[nr]) == null ? void 0 : _a.focus();
         if (nr === vorher) return;
         zeige(nr);
         sende(wurzel, "fade-gallery-change", { index: nr, previousIndex: vorher });
@@ -5513,7 +5513,7 @@
         if (i === jetzt) m.removeAttribute("aria-hidden");
         else m.setAttribute("aria-hidden", "true");
       });
-      tabs3.forEach((t, i) => {
+      tabs2.forEach((t, i) => {
         t.setAttribute("aria-selected", String(i === jetzt));
         t.tabIndex = i === jetzt ? 0 : -1;
       });
@@ -5532,15 +5532,15 @@
       };
       wurzel.addEventListener("click", (e) => {
         const tab = tabVon(e);
-        if (tab && tabs3.includes(tab)) waehle2(tabs3.indexOf(tab));
+        if (tab && tabs2.includes(tab)) waehle2(tabs2.indexOf(tab));
       }, { signal });
       wurzel.addEventListener("keydown", (e) => {
         const tab = tabVon(e);
-        if (!tab || !tabs3.includes(tab)) return;
-        const ziel = zielFuerTaste(e.key, tabs3, tab, "horizontal");
+        if (!tab || !tabs2.includes(tab)) return;
+        const ziel = zielFuerTaste(e.key, tabs2, tab, "horizontal");
         if (!ziel) return;
         e.preventDefault();
-        waehle2(tabs3.indexOf(ziel), true);
+        waehle2(tabs2.indexOf(ziel), true);
       }, { signal });
       zurueck == null ? void 0 : zurueck.addEventListener("click", () => waehle2(jetzt - 1), { signal });
       vor == null ? void 0 : vor.addEventListener("click", () => waehle2(jetzt + 1), { signal });
@@ -5698,7 +5698,7 @@
     /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
     binde(wurzel, signal) {
       if (wurzel.querySelector(".nc-product-showcase__trigger")) stationen(wurzel, signal);
-      else tabs2(wurzel, signal);
+      else auswahl(wurzel, signal);
     }
   };
   var medienVon = (wurzel) => (
@@ -5825,7 +5825,7 @@
       m.zurueck();
     });
   }
-  function tabs2(wurzel, signal) {
+  function auswahl(wurzel, signal) {
     const liste = (
       /** @type {HTMLElement|null} */
       wurzel.querySelector(".nc-product-showcase__options")
@@ -5850,32 +5850,35 @@
       /** @type {HTMLElement|null} */
       wurzel.querySelector(".nc-product-showcase__media-panel")
     );
-    m.setze(liste, "role", "tablist");
+    if (liste.getAttribute("role") === "tablist") m.setze(liste, "role", null);
     if (panel) {
-      if (!panel.id) m.setze(panel, "id", `${basis}-medien`);
-      m.setze(panel, "role", "tabpanel");
+      if (panel.getAttribute("role") === "tabpanel") m.setze(panel, "role", null);
+      m.setze(panel, "aria-labelledby", null);
     }
     optionen.forEach((o, i) => {
-      if (!o.id) m.setze(o, "id", `${basis}-tab-${i}`);
-      m.setze(o, "role", "tab");
+      if (!o.id) m.setze(o, "id", `${basis}-option-${i}`);
+      m.setze(o, "role", null);
+      m.setze(o, "aria-selected", null);
       m.setze(o, "aria-pressed", null);
-      if (panel) m.setze(o, "aria-controls", panel.id);
+      m.setze(o, "aria-describedby", null);
+      m.setze(o, "tabindex", null);
       const p = panele[i];
-      if (!p) return;
+      if (!p) {
+        m.setze(o, "aria-controls", null);
+        return;
+      }
       if (!p.id) m.setze(p, "id", `${basis}-text-${i}`);
       m.setze(p, "role", null);
       m.setze(p, "aria-hidden", null);
-      if ((p.textContent || "").trim()) m.setze(o, "aria-describedby", p.id);
+      m.setze(o, "aria-controls", (p.textContent || "").trim() ? p.id : null);
     });
-    let jetzt = optionen.findIndex((o) => o.getAttribute("aria-selected") === "true" || o.classList.contains("is-active"));
+    let jetzt = optionen.findIndex((o) => o.getAttribute("aria-expanded") === "true" || o.getAttribute("aria-selected") === "true" || o.classList.contains("is-active"));
     if (jetzt === -1) jetzt = 0;
     function zeige(nr, neuEinblenden) {
       jetzt = nr;
-      if (panel) m.setze(panel, "aria-labelledby", optionen[nr].id);
       optionen.forEach((o, i) => {
         const an = i === nr;
-        m.setze(o, "aria-selected", String(an));
-        m.setze(o, "tabindex", an ? "0" : "-1");
+        m.setze(o, "aria-expanded", String(an));
         o.classList.toggle("is-active", an);
         const p = panele[i];
         if (p) {

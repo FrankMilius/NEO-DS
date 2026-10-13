@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/product-showcase.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-product-showcase.html.twig, block--inline-block--neo-product-showcase.html.twig` | present |
+| Drupal | `block--block-content--neo-product-showcase.html.twig, block--inline-block--neo-product-showcase.html.twig, includes/neo_product_showcase.inc (Optionen aus field_ps_options, neo_ps_options)` | present |
 
 ## Spec
 

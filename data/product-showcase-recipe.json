@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "product-showcase",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -17,6 +17,14 @@
       "docs": "/docs/product-showcase-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 6 (13.10.2026, Entscheidung Frank: Akkordeon-Muster und alt=\"\"; website-sichtbar nur fuer Tastatur und Screenreader, Freigabe ausstehend): Modus Tabs wird Modus Auswahl. Optionen sind Knoepfe mit aria-expanded und aria-controls auf ihre Beschreibung direkt darunter; genau eine offen. Kein tablist/tab/tabpanel mehr — die Beschreibung stand als Inhalt in der Tableiste, das Medienfeld (tabpanel) war nach der Option benannt, deren Name das Bild im alt noch einmal trug. Alle Optionen in der Tab-Folge (vorher nur die gewaehlte); Pfeile rundum, Pos1, Ende wie bisher. Die Optionsliste ist role=group, benannt nach dem Label (aria-labelledby). Bilder alt=\"\". neo-behaviors 0.18.0.",
+          "Optionen, Beschreibungen und Medien serverseitig: neo_fe includes/neo_product_showcase.inc bereitet field_ps_options auf (neo_ps_options), das Twig rendert sie; Drupal.behaviors.neoProductShowcase, data-product-showcase und das <script type=\"application/json\" data-showcase-options> entfallen. Label, Beschreibung reiner Text (Positivliste leer, wie bisher textContent).",
+          "Selected-State zusaetzlich an [aria-expanded='true'] (aria-selected bleibt fuer die Arena-Fassung)."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -47,12 +55,13 @@
       "arena": null,
       "drupal": [
         "block--block-content--neo-product-showcase.html.twig",
-        "block--inline-block--neo-product-showcase.html.twig"
+        "block--inline-block--neo-product-showcase.html.twig",
+        "includes/neo_product_showcase.inc (Optionen aus field_ps_options, neo_ps_options)"
       ],
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-product-showcase.html.twig (Modus Tabs: Liste role=tablist, Optionen aus script[data-showcase-options], gebaut von Drupal.behaviors.neoProductShowcase in js/neo-theme.js, das danach mit NeoBehaviors.anbinden(wurzel, ['product-showcase']) bindet) und block--block-content--neo-device-scroll.html.twig (Modus Stationen: Ausloeser, Panels und Screens im Twig). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['product-showcase']) fuer neo_product_showcase und neo_device_scroll.",
+      "drupal": "neo_fe: block--block-content--neo-product-showcase.html.twig (Modus Auswahl: Liste role=group, Optionen, Beschreibungen und Medien im Twig aus neo_ps_options, includes/neo_product_showcase.inc; neo-behaviors product-showcase bindet am Markup) und block--block-content--neo-device-scroll.html.twig (Modus Stationen: Ausloeser, Panels und Screens im Twig). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['product-showcase']) fuer neo_product_showcase und neo_device_scroll.",
       "behavior": "packages/neo-behaviors/product-showcase.js; nurAusdruecklich"
     }
   },
@@ -71,7 +80,7 @@
         "name": "option",
         "element": ".nc-product-showcase__option",
         "optional": false,
-        "description": "Einzelne Option. Klick triggert Media-Wechsel. Button mit role='tab'."
+        "description": "Einzelne Option. Klick triggert Media-Wechsel und oeffnet ihre Beschreibung. Button mit aria-expanded und aria-controls auf die Beschreibung (Modus Auswahl)."
       },
       {
         "name": "label",
@@ -83,7 +92,7 @@
         "name": "media-panel",
         "element": ".nc-product-showcase__media-panel",
         "optional": false,
-        "description": "Container fuer das aktive Bild/Video. role='tabpanel'."
+        "description": "Container fuer das aktive Bild/Video, ohne Rolle; Bilder alt=\"\" (der Name steht in der Option)."
       },
       {
         "name": "media-item",
@@ -108,16 +117,16 @@
     ],
     "domNotes": [
       "Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter).",
-      "Options (Modus Tabs): role='tablist'. Jede Option ist ein button[role='tab'] mit aria-selected='true|false', wanderndem tabindex, aria-controls auf das Medien-Panel und aria-describedby auf ihre Beschreibung .nc-product-showcase__description (ohne Rolle — sie steht innerhalb der Tableiste; offen .is-open, die anderen [hidden]).",
-      "Media-Panel: role='tabpanel', aria-labelledby zeigt auf die gewaehlte Option; es zeigt deren Medium (.is-active). Zuordnung ueber data-station an Option und Medium, sonst ueber die Reihenfolge.",
+      "Options (Modus Auswahl): role='group' mit aria-labelledby auf das Label. Jede Option ist ein button mit aria-expanded='true|false' und aria-controls auf ihre Beschreibung .nc-product-showcase__description direkt darunter (offen .is-open, die anderen [hidden]). Aelteres Markup mit tablist/tab/tabpanel nimmt das Behavior beim Binden zurueck.",
+      "Media-Panel: ohne Rolle; es zeigt das Medium der gewaehlten Option (.is-active), Bilder alt=\"\". Zuordnung ueber data-station an Option und Medium, sonst ueber die Reihenfolge.",
       "Media-Item: position:absolute innerhalb des Panels. Aktives Item: opacity:1 + transform:translateX(0). Inaktiv: opacity:0 + transform:translateX(100%) (slide) oder opacity:0 (fade).",
       "Animation: transition auf opacity + transform. Duration via --nc-product-showcase-animation-duration.",
-      "Selected-State: .nc-product-showcase__option[aria-selected='true'] bekommt --nc-product-showcase-option-color-active.",
+      "Selected-State: .nc-product-showcase__option[aria-expanded='true'] (Website) bzw. [aria-selected='true'] (Arena) bekommt --nc-product-showcase-option-color-active.",
       "Unselected: opacity oder color gedimmt via --nc-product-showcase-option-color.",
       "Label: Kleiner Kategorie-Text (z.B. 'Waehlen Sie eine Farbe'), optional, font-size xs, text-tertiary.",
       "Option-Indicator: Kleiner Farbpunkt oder Thumbnail links der Option. Border-Radius full fuer Kreise.",
       "Responsive: Auf Mobile wechselt horizontal zu stacked. Options werden horizontal scrollbar.",
-      "Keyboard (neo-behaviors product-showcase): Modus Tabs — Pfeile rundum, Pos1, Ende waehlen und fokussieren; Modus Stationen — Pfeile ohne Umlauf, Pos1, Ende fokussieren und oeffnen; Enter/Space nativ.",
+      "Keyboard (neo-behaviors product-showcase): Modus Auswahl — jede Option in der Tab-Folge, Pfeile rundum, Pos1, Ende waehlen und fokussieren; Modus Stationen — Pfeile ohne Umlauf, Pos1, Ende fokussieren und oeffnen; Enter/Space nativ.",
       "prefers-reduced-motion: Animationen deaktiviert, sofortiger Wechsel.",
       "Modus Stationen (Geraete-Strecke, --accordion): .nc-product-showcase__option[data-station] > button.nc-product-showcase__trigger[aria-controls] + .nc-product-showcase__panel[role=region]; Screens .nc-product-showcase__media-item[data-station] im geteilten Geraet. Das Behavior setzt data-neo-device-accordion='aktiv' an der Wurzel — erst dann klappt das SCSS zu und blendet die Einzelgeraete (.nc-product-showcase__option-device) aus. Genau eine Station offen; ein Klick auf die offene schliesst sie nicht.",
       "Die Ansage folgt der Form: laengs aria-expanded am Ausloeser, quer (Streifen nebeneinander, unter md) aria-current=true statt aria-expanded; bei Wechsel der Form (ResizeObserver) neu gesetzt."
@@ -201,7 +210,7 @@
     },
     "interaktion": {
       "label": "Interaktion",
-      "description": "Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).",
+      "description": "Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung; auf der Website seit Phase 7 als Akkordeon-Muster mit aria-expanded), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).",
       "values": {
         "tabs": {
           "modifier": null,
@@ -301,12 +310,12 @@
       "assertions": [
         "hasAccessibleName",
         "supportsKeyboard",
-        "2.1.1 (Tabs): wandernder tabindex — nur die gewaehlte Option in der Tab-Folge; Pfeile rundum, Pos1, Ende.",
-        "4.1.2 (Tabs): Optionen role=tab mit aria-selected, aria-controls auf das Medien-Panel (role=tabpanel, aria-labelledby = gewaehlte Option) und aria-describedby auf ihre Beschreibung; in der tablist nur Tabs und Elemente ohne Rolle (aria-required-children).",
+        "2.1.1 (Auswahl): jede Option in der Tab-Folge; Pfeile rundum, Pos1, Ende waehlen und fokussieren.",
+        "4.1.2 (Auswahl): Optionen mit aria-expanded und aria-controls auf ihre Beschreibung; Liste role=group mit Namen aus dem Label; keine Beschreibung in einer tablist; Bild alt=\"\" (kein doppelter Name).",
         "4.1.2 (Stationen): Ausloeser button mit aria-expanded (laengs) bzw. aria-current (quer) und aria-controls auf das Panel (role=region, aria-labelledby).",
         "2.3.3: Medienwechsel und Aufklappen ohne Animation bei prefers-reduced-motion (SCSS); das Heranziehen der Karte quer scrollt dann sofort."
       ],
-      "note": "Verhalten: neo-behaviors product-showcase (Plan v4, Phase 6a, E8 = a) mit zwei Modi. Tabs: Options role='tablist', Option role='tab' (aria-selected, aria-controls auf das Medien-Panel, aria-describedby auf die Beschreibung, wandernder tabindex), Medien-Panel role='tabpanel'. Stationen: Ausloeser aria-expanded/aria-current + aria-controls."
+      "note": "Verhalten: neo-behaviors product-showcase (Plan v4, Phase 6a, E8 = a) mit zwei Modi. Auswahl (seit Plan v4, Phase 7, Akkordeon-Muster): Options role='group', Option aria-expanded + aria-controls auf ihre Beschreibung, alle in der Tab-Folge, Medien-Panel ohne Rolle, Bilder alt=\"\". Stationen: Ausloeser aria-expanded/aria-current + aria-controls."
     },
     "overrides": [
       {
@@ -330,14 +339,12 @@
       {
         "when": {},
         "require": [
-          "role-tablist",
-          "role-tab",
-          "role-tabpanel",
-          "aria-selected",
+          "role-group",
+          "aria-expanded",
           "aria-controls"
         ],
         "notes": [
-          "Tabs-Pattern fuer Options + Media-Panel. Jede Option kontrolliert ein Panel."
+          "Akkordeon-Muster fuer die Optionen (Modus Auswahl): jede Option steuert ihre Beschreibung; das Medium folgt der offenen Option (Plan v4, Phase 7, Block 6; vorher Tabs-Pattern)."
         ]
       },
       {
@@ -713,11 +720,11 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Modus Tabs: die gewaehlte Option (wandernder tabindex), dann weiter. Modus Stationen: jeder Ausloeser."
+      "note": "Modus Auswahl: jede Option, dann weiter. Modus Stationen: jeder Ausloeser."
     },
     "ArrowDown": {
       "action": "next",
-      "note": "Naechste Option waehlen und fokussieren (Tabs: rundum; Stationen: am Ende stehen bleibend)."
+      "note": "Naechste Option waehlen und fokussieren (Auswahl: rundum; Stationen: am Ende stehen bleibend)."
     },
     "ArrowRight": {
       "action": "next",
@@ -725,7 +732,7 @@
     },
     "ArrowUp": {
       "action": "previous",
-      "note": "Vorherige Option waehlen und fokussieren (Tabs: rundum; Stationen: am Anfang stehen bleibend)."
+      "note": "Vorherige Option waehlen und fokussieren (Auswahl: rundum; Stationen: am Anfang stehen bleibend)."
     },
     "ArrowLeft": {
       "action": "previous",

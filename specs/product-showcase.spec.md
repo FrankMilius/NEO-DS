@@ -1,5 +1,5 @@
 # product-showcase Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `interactive`, `display`, `product`, `gallery`
 
@@ -9,23 +9,23 @@ Root element: `.nc-product-showcase`
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
 | options | `.nc-product-showcase__options` | Yes | Vertikale oder horizontale Liste der auswaehlbaren Optionen. |
-| option | `.nc-product-showcase__option` | Yes | Einzelne Option. Klick triggert Media-Wechsel. Button mit role='tab'. |
+| option | `.nc-product-showcase__option` | Yes | Einzelne Option. Klick triggert Media-Wechsel und oeffnet ihre Beschreibung. Button mit aria-expanded und aria-controls auf die Beschreibung (Modus Auswahl). |
 | label | `.nc-product-showcase__label` | No | Kategorie-Label ueber den Optionen (z.B. 'Waehlen Sie eine Farbe'). |
-| media-panel | `.nc-product-showcase__media-panel` | Yes | Container fuer das aktive Bild/Video. role='tabpanel'. |
+| media-panel | `.nc-product-showcase__media-panel` | Yes | Container fuer das aktive Bild/Video, ohne Rolle; Bilder alt="" (der Name steht in der Option). |
 | media-item | `.nc-product-showcase__media-item` | Yes | Einzelnes Bild/Video. Sichtbar wenn zugehoerige Option selected. |
 
 ### DOM Notes
 - Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter).
-- Options (Modus Tabs): role='tablist'. Jede Option ist ein button[role='tab'] mit aria-selected='true|false', wanderndem tabindex, aria-controls auf das Medien-Panel und aria-describedby auf ihre Beschreibung .nc-product-showcase__description (ohne Rolle — sie steht innerhalb der Tableiste; offen .is-open, die anderen [hidden]).
-- Media-Panel: role='tabpanel', aria-labelledby zeigt auf die gewaehlte Option; es zeigt deren Medium (.is-active). Zuordnung ueber data-station an Option und Medium, sonst ueber die Reihenfolge.
+- Options (Modus Auswahl): role='group' mit aria-labelledby auf das Label. Jede Option ist ein button mit aria-expanded='true|false' und aria-controls auf ihre Beschreibung .nc-product-showcase__description direkt darunter (offen .is-open, die anderen [hidden]). Aelteres Markup mit tablist/tab/tabpanel nimmt das Behavior beim Binden zurueck.
+- Media-Panel: ohne Rolle; es zeigt das Medium der gewaehlten Option (.is-active), Bilder alt="". Zuordnung ueber data-station an Option und Medium, sonst ueber die Reihenfolge.
 - Media-Item: position:absolute innerhalb des Panels. Aktives Item: opacity:1 + transform:translateX(0). Inaktiv: opacity:0 + transform:translateX(100%) (slide) oder opacity:0 (fade).
 - Animation: transition auf opacity + transform. Duration via --nc-product-showcase-animation-duration.
-- Selected-State: .nc-product-showcase__option[aria-selected='true'] bekommt --nc-product-showcase-option-color-active.
+- Selected-State: .nc-product-showcase__option[aria-expanded='true'] (Website) bzw. [aria-selected='true'] (Arena) bekommt --nc-product-showcase-option-color-active.
 - Unselected: opacity oder color gedimmt via --nc-product-showcase-option-color.
 - Label: Kleiner Kategorie-Text (z.B. 'Waehlen Sie eine Farbe'), optional, font-size xs, text-tertiary.
 - Option-Indicator: Kleiner Farbpunkt oder Thumbnail links der Option. Border-Radius full fuer Kreise.
 - Responsive: Auf Mobile wechselt horizontal zu stacked. Options werden horizontal scrollbar.
-- Keyboard (neo-behaviors product-showcase): Modus Tabs — Pfeile rundum, Pos1, Ende waehlen und fokussieren; Modus Stationen — Pfeile ohne Umlauf, Pos1, Ende fokussieren und oeffnen; Enter/Space nativ.
+- Keyboard (neo-behaviors product-showcase): Modus Auswahl — jede Option in der Tab-Folge, Pfeile rundum, Pos1, Ende waehlen und fokussieren; Modus Stationen — Pfeile ohne Umlauf, Pos1, Ende fokussieren und oeffnen; Enter/Space nativ.
 - prefers-reduced-motion: Animationen deaktiviert, sofortiger Wechsel.
 - Modus Stationen (Geraete-Strecke, --accordion): .nc-product-showcase__option[data-station] > button.nc-product-showcase__trigger[aria-controls] + .nc-product-showcase__panel[role=region]; Screens .nc-product-showcase__media-item[data-station] im geteilten Geraet. Das Behavior setzt data-neo-device-accordion='aktiv' an der Wurzel — erst dann klappt das SCSS zu und blendet die Einzelgeraete (.nc-product-showcase__option-device) aus. Genau eine Station offen; ein Klick auf die offene schliesst sie nicht.
 - Die Ansage folgt der Form: laengs aria-expanded am Ausloeser, quer (Streifen nebeneinander, unter md) aria-current=true statt aria-expanded; bei Wechsel der Form (ResizeObserver) neu gesetzt.
@@ -58,7 +58,7 @@ Darstellung der Optionen — text (nur Text), indicator (mit Farbpunkt/Thumbnail
 | card | `.nc-product-showcase--card` |  |
 
 ### Interaktion (`interaktion`)
-Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).
+Wie der Screen gewechselt wird — tabs (Klick auf die Option, Grundfassung; auf der Website seit Phase 7 als Akkordeon-Muster mit aria-expanded), accordion (Klick auf Etikett und Ueberschrift, der Text klappt gleichzeitig auf), scroll (der Wechsel folgt der Scrollposition).
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
@@ -182,10 +182,10 @@ Base classes: `nc-product-showcase`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Tab` | focus-next | Modus Tabs: die gewaehlte Option (wandernder tabindex), dann weiter. Modus Stationen: jeder Ausloeser. |
-| `ArrowDown` | next | Naechste Option waehlen und fokussieren (Tabs: rundum; Stationen: am Ende stehen bleibend). |
+| `Tab` | focus-next | Modus Auswahl: jede Option, dann weiter. Modus Stationen: jeder Ausloeser. |
+| `ArrowDown` | next | Naechste Option waehlen und fokussieren (Auswahl: rundum; Stationen: am Ende stehen bleibend). |
 | `ArrowRight` | next | Wie Pfeil runter. |
-| `ArrowUp` | previous | Vorherige Option waehlen und fokussieren (Tabs: rundum; Stationen: am Anfang stehen bleibend). |
+| `ArrowUp` | previous | Vorherige Option waehlen und fokussieren (Auswahl: rundum; Stationen: am Anfang stehen bleibend). |
 | `ArrowLeft` | previous | Wie Pfeil hoch. |
 | `Home` | first | Erste Option waehlen und fokussieren. |
 | `End` | last | Letzte Option waehlen und fokussieren. |
@@ -202,8 +202,8 @@ Contrast Target: WCAG AA normal text (4.5:1)
 
 - hasAccessibleName
 - supportsKeyboard
-- 2.1.1 (Tabs): wandernder tabindex — nur die gewaehlte Option in der Tab-Folge; Pfeile rundum, Pos1, Ende.
-- 4.1.2 (Tabs): Optionen role=tab mit aria-selected, aria-controls auf das Medien-Panel (role=tabpanel, aria-labelledby = gewaehlte Option) und aria-describedby auf ihre Beschreibung; in der tablist nur Tabs und Elemente ohne Rolle (aria-required-children).
+- 2.1.1 (Auswahl): jede Option in der Tab-Folge; Pfeile rundum, Pos1, Ende waehlen und fokussieren.
+- 4.1.2 (Auswahl): Optionen mit aria-expanded und aria-controls auf ihre Beschreibung; Liste role=group mit Namen aus dem Label; keine Beschreibung in einer tablist; Bild alt="" (kein doppelter Name).
 - 4.1.2 (Stationen): Ausloeser button mit aria-expanded (laengs) bzw. aria-current (quer) und aria-controls auf das Panel (role=region, aria-labelledby).
 - 2.3.3: Medienwechsel und Aufklappen ohne Animation bei prefers-reduced-motion (SCSS); das Heranziehen der Karte quer scrollt dann sofort.
 
