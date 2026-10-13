@@ -1,5 +1,5 @@
 # events Component Spec
-> Version 1.2.1 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -28,7 +28,7 @@ Root element: `.nc-events`
 
 ### DOM Notes
 - Website: block--block-content/inline-block--neo-events-listing.html.twig (identisch) und die Canvas-Komponente neo-events-listing geben <section class="nc-section"><div class="nc-container" data-neo-events-listing …> mit Filterleiste, Trefferzahl, leerem Raster, Leerzustand und „Mehr laden" aus. Eine Wurzel .nc-events gibt es dort nicht; die Arena setzt sie als Recipe-Wurzel.
-- Verhalten (Drupal.behaviors.neoEventsListing, js/neo-theme.js — nicht im DS): laedt /api/events?_format=json, sortiert nach Datum absteigend, fuellt die Auswahlen (Term-Namen per JSON:API nachgeladen), filtert bei change bzw. Eingabe (300 ms Verzug), zeigt 16 Karten je Schritt; „Mehr laden" haengt weitere an. Leerzustand und „Mehr laden" schaltet es per hidden.
+- Verhalten (Drupal.behaviors.neoEventsListing, js/neo-theme.js — nicht im DS): laedt /api/events?_format=json, sortiert nach Datum absteigend, fuellt die Auswahlen (Begriffs-Namen aus data-begriffe, seit Plan v4, Phase 8; ohne das Attribut per JSON:API), klont je Karte <template data-events-card>, filtert bei change bzw. Eingabe (300 ms Verzug), zeigt 16 Karten je Schritt; „Mehr laden" haengt weitere an. Leerzustand und „Mehr laden" schaltet es per hidden.
 - Karte (createCard): optionaler Untertitel als <p> mit Inline-Stil (font-size var(--fs-sm), text-secondary) — ohne eigene Klasse.
 - Die Canvas-Komponente bringt eigene CSS (neo-events-listing.css) mit abweichenden Werten mit; massgeblich fuer die Layout-Builder-Bloecke ist die DS-Regel.
 
@@ -58,7 +58,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 
 - Suchfeld und Auswahlen brauchen einen zugaenglichen Namen — das Template gibt keinen aus (nur Platzhalter bzw. erste Option); aria-label oder <label class="u-sr-only"> im Theme ergaenzen (die Arena zeigt aria-label).
 - Die Trefferzahl aendert sich ohne Ankuendigung — aria-live="polite" am Element waere noetig, damit Filter und Suche hoerbar wirken.
-- Jede Karte ist ein Link mit h3 als Namen; Icons ohne Text (Lupe, Kalender, Uhr, Pfeil) sind dekorativ und tragen im Skript kein aria-hidden.
+- Jede Karte ist ein Link mit h3 als Namen; Icons ohne Text (Lupe, Kalender, Uhr, Pfeil) sind dekorativ und tragen aria-hidden (Karten-Symbole seit Plan v4, Phase 8, Schritt 8b).
 - Kontrast: Gattung, Meta, Fusszeile und Trefferzahl gemessen ab 5,75:1 (hell und dunkel).
 - „Mehr laden" ist ein <button>; neue Karten erscheinen hinter den alten, der Fokus bleibt am Knopf.
 

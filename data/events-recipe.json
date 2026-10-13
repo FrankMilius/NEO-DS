@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "events",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "Plan v4, Phase 8, Schritt 8b (13.10.2026; website-sichtbar, Freigabe ausstehend): Karte aus <template data-events-card> im Twig geklont, Texte per textContent (vorher innerHTML, Titel und Untertitel ungefiltert aus der API); Kalender-, Uhr- und Pfeil-Symbol aria-hidden/focusable=false. Datum/Uhrzeit nach lang der Seite (bisher fest de-DE und „Uhr\"), Trefferzahl per Drupal.formatPlural, Orts-Bezeichnungen und Fehlertext per Drupal.t, „Alle …\"-Optionen aus dem Twig.",
+          "Begriffs-Namen (Entscheidung Frank 13.10.2026): neo_fe gibt sie in data-begriffe mit (includes/neo_events_listing.inc) — vorher per /jsonapi nachgeladen, das auf der Website nicht antwortet; Filter und Karten zeigten Nummern („6\" statt „Keynote\"). Filter-Optionen nach Namen sortiert; die Suche trifft damit auch die Typ-Namen. Ohne data-begriffe (Canvas-Komponente) wie bisher /jsonapi; dessen Rueckfall rief das nicht existierende renderCards() (jetzt applyFilters())."
+        ]
+      },
       {
         "version": "1.2.1",
         "changes": [
@@ -59,7 +66,8 @@
         "block/block--block-content--neo-events-listing.html.twig",
         "block/block--inline-block--neo-events-listing.html.twig",
         "components/neo-events-listing/neo-events-listing.twig",
-        "js/neo-theme.js (Drupal.behaviors.neoEventsListing)"
+        "js/neo-theme.js (Drupal.behaviors.neoEventsListing; Karte aus <template data-events-card>)",
+        "includes/neo_events_listing.inc (Begriffs-Namen, data-begriffe)"
       ],
       "docs": null
     }
@@ -176,7 +184,7 @@
     "convenience": [],
     "domNotes": [
       "Website: block--block-content/inline-block--neo-events-listing.html.twig (identisch) und die Canvas-Komponente neo-events-listing geben <section class=\"nc-section\"><div class=\"nc-container\" data-neo-events-listing …> mit Filterleiste, Trefferzahl, leerem Raster, Leerzustand und „Mehr laden\" aus. Eine Wurzel .nc-events gibt es dort nicht; die Arena setzt sie als Recipe-Wurzel.",
-      "Verhalten (Drupal.behaviors.neoEventsListing, js/neo-theme.js — nicht im DS): laedt /api/events?_format=json, sortiert nach Datum absteigend, fuellt die Auswahlen (Term-Namen per JSON:API nachgeladen), filtert bei change bzw. Eingabe (300 ms Verzug), zeigt 16 Karten je Schritt; „Mehr laden\" haengt weitere an. Leerzustand und „Mehr laden\" schaltet es per hidden.",
+      "Verhalten (Drupal.behaviors.neoEventsListing, js/neo-theme.js — nicht im DS): laedt /api/events?_format=json, sortiert nach Datum absteigend, fuellt die Auswahlen (Begriffs-Namen aus data-begriffe, seit Plan v4, Phase 8; ohne das Attribut per JSON:API), klont je Karte <template data-events-card>, filtert bei change bzw. Eingabe (300 ms Verzug), zeigt 16 Karten je Schritt; „Mehr laden\" haengt weitere an. Leerzustand und „Mehr laden\" schaltet es per hidden.",
       "Karte (createCard): optionaler Untertitel als <p> mit Inline-Stil (font-size var(--fs-sm), text-secondary) — ohne eigene Klasse.",
       "Die Canvas-Komponente bringt eigene CSS (neo-events-listing.css) mit abweichenden Werten mit; massgeblich fuer die Layout-Builder-Bloecke ist die DS-Regel."
     ]
@@ -212,7 +220,7 @@
       "assertions": [
         "Suchfeld und Auswahlen brauchen einen zugaenglichen Namen — das Template gibt keinen aus (nur Platzhalter bzw. erste Option); aria-label oder <label class=\"u-sr-only\"> im Theme ergaenzen (die Arena zeigt aria-label).",
         "Die Trefferzahl aendert sich ohne Ankuendigung — aria-live=\"polite\" am Element waere noetig, damit Filter und Suche hoerbar wirken.",
-        "Jede Karte ist ein Link mit h3 als Namen; Icons ohne Text (Lupe, Kalender, Uhr, Pfeil) sind dekorativ und tragen im Skript kein aria-hidden.",
+        "Jede Karte ist ein Link mit h3 als Namen; Icons ohne Text (Lupe, Kalender, Uhr, Pfeil) sind dekorativ und tragen aria-hidden (Karten-Symbole seit Plan v4, Phase 8, Schritt 8b).",
         "Kontrast: Gattung, Meta, Fusszeile und Trefferzahl gemessen ab 5,75:1 (hell und dunkel).",
         "„Mehr laden\" ist ein <button>; neue Karten erscheinen hinter den alten, der Fokus bleibt am Knopf."
       ],
