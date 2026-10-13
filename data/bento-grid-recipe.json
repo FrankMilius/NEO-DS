@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "bento-grid",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,14 @@
       "docs": "/docs/bento-grid-docs"
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 4 (13.10.2026, Entscheidung E9 = a; website-sichtbar, Freigabe ausstehend): Zellen serverseitig — neo_fe includes/neo_bento.inc bereitet field_bento_cells_json auf (neo_bento_cells), das Twig rendert sie wie bisher NeoBento.buildCell (DOM gemessen gleich); Drupal.behaviors.neoBentoGrid, NeoBento.maybeReveal, data-bento und das <script type=\"application/json\" data-bento-cells> entfallen. Titel, Text, Badge per Xss::filter mit Positivliste br, strong, em, b, i, sup, sub; Icon-SVG mit Positivliste svg, g, path, circle, ellipse, rect, line, polyline, polygon (vorher alles ungefiltert per innerHTML).",
+          "Link-Zelle: <article> mit eigenem Kind a.nc-bento-grid__link (deckt die Kachel ab, z-index 2; Name per aria-labelledby aus dem Titel) statt der Zelle als <a>. Der Pause-Knopf eines Hintergrundvideos (z-index 3) liegt damit nicht mehr im Link (vorher <button> in <a>, ungueltig). Fokus zeigt die Kachel per :has() mit Ring, Hub, Glow und Schatten wie zuvor das <a>. Im Bestand hat keine Zelle einen Link; geprueft mit eingespielter Link-Video-Kachel auf DDEV (Knopf ausserhalb des Links, Klick auf Knopf pausiert ohne Navigation, Klick auf Kachel folgt dem Link, Tab-Folge Knopf vor Link).",
+          "pipeline.drupal: includes/neo_bento.inc ergaenzt; die inline_block-Fassung bindet die Block-Vorlage ein. Das Tab-Nav-Modul bento baut bis Phase 7, Block 10 weiter NeoBento.render (dort Link-Zellen noch als <a>)."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [
@@ -64,7 +72,8 @@
       "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-bento-grid.html.twig",
-        "block--inline-block--neo-bento-grid.html.twig"
+        "block--inline-block--neo-bento-grid.html.twig",
+        "includes/neo_bento.inc (Zellen aus field_bento_cells_json, neo_bento_cells)"
       ],
       "docs": null
     }
@@ -78,7 +87,7 @@
         "name": "cell",
         "element": ".nc-bento-grid__cell",
         "optional": false,
-        "description": "Einzelne Bento-Zelle. Als <article> oder verlinkt als <a>. Modifier --lg = prominente Feature-Zelle (Span 2x2); --wide = breite Zelle (Span 2x1) zum lueckenlosen Auffuellen der unteren Reihe."
+        "description": "Einzelne Bento-Zelle, immer <article>; mit Link zusaetzlich das Kind a.nc-bento-grid__link (deckt die Kachel ab). Modifier --lg = prominente Feature-Zelle (Span 2x2); --wide = breite Zelle (Span 2x1) zum lueckenlosen Auffuellen der unteren Reihe."
       },
       {
         "name": "icon",
@@ -126,7 +135,7 @@
       "Scroll-Reveal: data-animation='reveal' am Root; ausgeblendet nur, solange neo-behaviors einblenden gebunden ist (data-neo-behavior~=\"einblenden\"), .is-revealed schaltet sichtbar (Plan v4, Phase 6b).",
       "Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).",
       "prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.",
-      "Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7)."
+      "Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Seit Phase 7 (Twig) liegt der Link als eigenes Kind ueber der Kachel und der Knopf darueber — nicht mehr im Link. Nur das Tab-Nav-Modul bento baut bis Block 10 noch <a>-Zellen."
     ]
   },
   "axes": {
@@ -329,7 +338,7 @@
     {
       "id": "einblenden",
       "label": "Einblenden (Website-Animation)",
-      "description": "data-animation=\"reveal\": auf der Website setzt das Skript is-revealed beim Scrollen. Die Zelle zeigt den Endzustand; „Abspielen\" spielt die Einblendung einmal ab.",
+      "description": "data-animation=\"reveal\": auf der Website setzt neo-behaviors einblenden is-revealed beim Scrollen. Die Zelle zeigt den Endzustand; „Abspielen\" spielt die Einblendung einmal ab.",
       "matrix": {
         "axes": {
           "columns": [

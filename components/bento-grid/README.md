@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/bento-grid.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-bento-grid.html.twig, block--inline-block--neo-bento-grid.html.twig` | present |
+| Drupal | `block--block-content--neo-bento-grid.html.twig, block--inline-block--neo-bento-grid.html.twig, includes/neo_bento.inc (Zellen aus field_bento_cells_json, neo_bento_cells)` | present |
 
 ## Spec
 

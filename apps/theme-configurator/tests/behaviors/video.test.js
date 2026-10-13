@@ -71,6 +71,11 @@ const bentoMarkup = () => `<div class="nc-bento-grid"><a class="nc-bento-grid__c
 <div class="nc-bento-grid__media"><video muted loop playsinline><source src="v.mp4"></video><span class="nc-bento-grid__scrim"></span></div>
 <div class="nc-bento-grid__content"><h3 class="nc-bento-grid__title">Kachel</h3></div></a></div>`
 
+/** Bento-Link-Kachel wie das Twig (Plan v4, Phase 7, Block 4): <article>, Link als eigenes Kind */
+const bentoTwigMarkup = () => `<div class="nc-bento-grid"><article class="nc-bento-grid__cell" data-media-pos="cover" data-neo-video>
+<div class="nc-bento-grid__media"><video muted loop playsinline preload="metadata"><source src="v.mp4"></video><span class="nc-bento-grid__scrim"></span></div>
+<div class="nc-bento-grid__content"><h3 class="nc-bento-grid__title" id="b-1-titel">Kachel</h3></div><a class="nc-bento-grid__link" href="/ziel" aria-labelledby="b-1-titel"></a></article></div>`
+
 const fassadeMarkup = (url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', label = 'Video abspielen – Anna Muster') => `<div class="nc-testimonial__video">
 <button type="button" class="nc-testimonial__video-facade" data-neo-video="fassade" data-video-url="${url}" aria-label="${label}"><span aria-hidden="true">▶</span></button></div>`
 
@@ -134,6 +139,15 @@ describe('video: Website-Bauteil', () => {
     knopf.dispatchEvent(e)
     expect(e.defaultPrevented).toBe(true)
     expect(linkKlick).toBe(0)
+  })
+
+  it('Bento wie das Twig: Knopf hinter dem Medium, nicht im Link (Plan v4, Phase 7, Block 4)', () => {
+    const { wurzel, knopf } = bau(bentoTwigMarkup())
+    expect(knopf).not.toBeNull()
+    expect(knopf.parentElement).toBe(wurzel)
+    expect(knopf.previousElementSibling?.classList.contains('nc-bento-grid__media')).toBe(true)
+    expect(knopf.closest('a')).toBeNull()
+    expect(wurzel.querySelector('a .nc-video-pause, a button')).toBeNull()
   })
 
   it('Video ist das Wurzel-Element selbst: Knopf direkt dahinter', () => {

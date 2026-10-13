@@ -75,6 +75,34 @@ a.nc-bento-grid__cell {
   opacity: 0.55;
 }
 
+// Link-Zelle (Plan v4, Phase 7, Block 4, 13.10.2026): Die Zelle ist ein
+// <article>, der Link ein eigenes Kind, das die ganze Kachel abdeckt.
+// Vorher war die Zelle selbst das <a> — mit Hintergrundvideo landete der
+// Pause-Knopf von neo-behaviors video darin (<button> in <a>, ungueltig).
+// Ebenen: Inhalt 1, Link 2, Pause-Knopf 3 (--nc-video-pause-z). Den Fokus
+// zeigt die Kachel wie zuvor das <a> (gleicher Ring, Hub und Glow).
+.nc-bento-grid__link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.nc-bento-grid__cell:has(> .nc-bento-grid__link:focus-visible) {
+  transform: translateY(-6px);
+  border-color: var(--nc-bento-grid-border-hover);
+  outline: 2px solid var(--fnd-color-interactive-focus);
+  outline-offset: 2px;
+
+  &::after {
+    opacity: 0.55;
+  }
+}
+
 // Grosse Feature-Zelle (Span 2x2)
 .nc-bento-grid__cell--lg {
   grid-column: span 2;
@@ -288,7 +316,8 @@ a.nc-bento-grid__cell {
 }
 
 .nc-bento-grid__cell:hover,
-.nc-bento-grid__cell:focus-visible {
+.nc-bento-grid__cell:focus-visible,
+.nc-bento-grid__cell:has(> .nc-bento-grid__link:focus-visible) {
   box-shadow: var(--nc-bento-grid-cell-hover-box-shadow);
 }
 

@@ -2,7 +2,7 @@
  * Einblenden (Plan v4, Phase 6b, 12.10.2026): Hilfs-Behavior einblenden aus
  * neo-behaviors fuer card-grid (reverse-domino), bento-grid (reveal) und
  * logo-wall (fadein) — vorher dreimal derselbe IntersectionObserver in
- * neo_fe/js/neo-theme.js (NeoCardGrid.render, NeoBento.maybeReveal,
+ * neo_fe/js/neo-theme.js (NeoCardGrid.render, NeoBento.maybeReveal — seit Phase 7 Twig,
  * neoLogoWall). Markup wie das Twig der Website plus der Aufbau aus JSON.
  * Tasten und Ereignisse stehen in den Recipes der Traeger.
  */
@@ -44,7 +44,7 @@ const kachel = (n) => `<a class="nc-bento-grid__cell" href="/k${n}"><h3 class="n
 const pille = (n) => `<a class="nc-logo-pill" href="https://example.org/${n}" target="_blank" rel="noopener noreferrer"><img class="nc-logo-pill__img" src="l.svg" alt="Firma ${n}"></a>`
 const MARKUP = {
   'card-grid': (n = 4) => `<div class="nc-card-grid nc-card-grid--cols-3" data-pattern="standard" data-animation="reverse-domino">${Array.from({ length: n }, (_, i) => karte(i)).join('')}</div>`,
-  'bento-grid': (n = 3) => `<div class="nc-bento-grid" data-bento data-animation="reveal">${Array.from({ length: n }, (_, i) => kachel(i)).join('')}</div>`,
+  'bento-grid': (n = 3) => `<div class="nc-bento-grid" data-animation="reveal">${Array.from({ length: n }, (_, i) => kachel(i)).join('')}</div>`,
   'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-neo-logo-wall data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`
 }
 
@@ -158,7 +158,7 @@ describe('einblenden: Hilfs-Behavior der Website', () => {
     expect([...zwei.querySelectorAll('.nc-logo-pill')].map((p) => p.style.transitionDelay)).toEqual(['0s', '0.12s', '0.24s'])
   })
 
-  it('bento-grid: ohne Staffelung (wie NeoBento.maybeReveal)', () => {
+  it('bento-grid: ohne Staffelung (wie vorher NeoBento.maybeReveal)', () => {
     const b = beobachter()
     const { wurzel } = bau('bento-grid')
     b.rueckruf([{ target: wurzel, isIntersecting: true }])

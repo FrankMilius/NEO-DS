@@ -1,5 +1,5 @@
 # bento-grid Component Spec
-> Version 1.4.0 | Status: stable | Layer: organism
+> Version 1.5.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `interactive`
 
@@ -8,7 +8,7 @@ Root element: `.nc-bento-grid`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| cell | `.nc-bento-grid__cell` | Yes | Einzelne Bento-Zelle. Als <article> oder verlinkt als <a>. Modifier --lg = prominente Feature-Zelle (Span 2x2); --wide = breite Zelle (Span 2x1) zum lueckenlosen Auffuellen der unteren Reihe. |
+| cell | `.nc-bento-grid__cell` | Yes | Einzelne Bento-Zelle, immer <article>; mit Link zusaetzlich das Kind a.nc-bento-grid__link (deckt die Kachel ab). Modifier --lg = prominente Feature-Zelle (Span 2x2); --wide = breite Zelle (Span 2x1) zum lueckenlosen Auffuellen der unteren Reihe. |
 | icon | `.nc-bento-grid__icon` | No | Icon-Chip oben in der Zelle. Rotiert leicht bei Hover. |
 | title | `.nc-bento-grid__title` | Yes | Titel der Zelle (h3). |
 | text | `.nc-bento-grid__text` | No | Beschreibungstext der Zelle. |
@@ -25,7 +25,7 @@ Root element: `.nc-bento-grid`
 - Scroll-Reveal: data-animation='reveal' am Root; ausgeblendet nur, solange neo-behaviors einblenden gebunden ist (data-neo-behavior~="einblenden"), .is-revealed schaltet sichtbar (Plan v4, Phase 6b).
 - Responsive: 860px -> 2 Spalten (lg-Zelle behaelt span 2, row auto), 560px -> 1 Spalte (lg-Zelle span auto).
 - prefers-reduced-motion: keine Transition/Animation, Inhalte sofort sichtbar.
-- Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Liegt die Kachel als Link vor, sitzt der Knopf im Link (Klick folgt dem Link nicht) — Aufloesung mit dem Umzug nach Twig (Phase 7).
+- Video-Kacheln (Plan v4, Phase 3): [data-neo-video] an der Kachel (cover) bzw. am Medium; der Knopf .nc-video-pause (Recipe video) entsteht beim Binden. Seit Phase 7 (Twig) liegt der Link als eigenes Kind ueber der Kachel und der Knopf darueber — nicht mehr im Link. Nur das Tab-Nav-Modul bento baut bis Block 10 noch <a>-Zellen.
 
 ## Variants
 ### Columns (`columns`)
