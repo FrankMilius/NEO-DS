@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "solution-tabs",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,13 @@
       "docs": "/docs/solution-tabs-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 9 (13.10.2026, Entscheidung E9 = a; website-sichtbar, Freigabe ausstehend): Tableiste, Tabs, Panels und Vorschau-Grafik serverseitig — neo_fe includes/neo_solution_tabs.inc bereitet field_st_solutions_json auf (neo_st_items), das Twig rendert sie im Anfangszustand (erster Tab gewaehlt, Akzent des ersten Tabs an der Wurzel, aria-labelledby auf die Ueberschrift) wie bisher neoSolutionTabs (DOM gemessen gleich bis auf data-accent). Das <script type=\"application/json\" data-solution-tabs-json> entfaellt; neoSolutionTabs bindet nur noch (Akzent je Tab aus data-accent). Texte reiner Text (Positivliste leer, wie bisher neoAlsText).",
+          "Offener Punkt „senkrecht: Text des aktiven Tabs auf Akzentfarbe unsichtbar“ nachgemessen: besteht nicht mehr (schwarz on-accent auf Akzent, 10,1–11,9:1). Ausnahme ist eine Redaktionsfarbe: neo Magazine #C026D3 erreicht 4,46:1 (waagerecht wie senkrecht) — Inhalt, nicht Code."
+        ]
+      },
       {
         "version": "2.0.0",
         "changes": [
@@ -49,12 +56,13 @@
       "arena": null,
       "drupal": [
         "block/block--block-content--neo-solution-tabs.html.twig",
-        "block/block--inline-block--neo-solution-tabs.html.twig"
+        "block/block--inline-block--neo-solution-tabs.html.twig",
+        "includes/neo_solution_tabs.inc (Tabs aus field_st_solutions_json, neo_st_items)"
       ],
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-solution-tabs.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID, data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay; js/neo-theme.js Drupal.behaviors.neoSolutionTabs baut Tableiste und Panels aus script[data-solution-tabs-json] (Texte als Text-Knoten) und bindet mit NeoBehaviors.anbinden(wurzel, ['solution-tabs']); Akzentfarbe je Tab bleibt im Theme (hoert auf solution-tabs-change). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['solution-tabs']) fuer neo_solution_tabs und neo_tab_nav.",
+      "drupal": "neo_fe: block--block-content--neo-solution-tabs.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID, data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay; Tableiste, Tabs (data-accent) und Panels im Twig aus neo_st_items (includes/neo_solution_tabs.inc, seit Plan v4, Phase 7); js/neo-theme.js Drupal.behaviors.neoSolutionTabs bindet nur noch NeoBehaviors.anbinden(wurzel, ['solution-tabs']) und fuehrt die Akzentfarbe je Tab nach (hoert auf solution-tabs-change). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['solution-tabs']) fuer neo_solution_tabs und neo_tab_nav.",
       "behavior": "packages/neo-behaviors/solution-tabs.js; nurAusdruecklich"
     }
   },

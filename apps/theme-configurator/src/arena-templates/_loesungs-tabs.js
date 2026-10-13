@@ -2,7 +2,7 @@
 // Abgeglichen mit dem Drupal-Theme (neo_fe): Beide Bloecke legen im Twig nur
 // die Wurzel an (block--block-content--neo-solution-tabs / neo-tab-nav
 // .html.twig), Tabliste und Panels baut js/neo-theme.js:
-//   solution-tabs  Drupal.behaviors.neoSolutionTabs — Panel = <div> mit
+//   solution-tabs  Twig (neo_fe, vorher neoSolutionTabs) — Panel = <div> mit
 //                  Titel, Text, nc-solution-tabs__features, CTA, daneben
 //                  das Schaubild nc-solution-tabs__visual.
 //   tab-nav        Wurzel „nc-solution-tabs nc-tab-nav"; Panel mit

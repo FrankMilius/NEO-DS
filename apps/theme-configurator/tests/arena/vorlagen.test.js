@@ -157,7 +157,7 @@ describe('Arena-Vorlagen: Abgleich mit dem Drupal-Twig (neo_fe)', () => {
     expect(sg).toContain('nc-story-gallery__paddles nc-story-gallery__paddles--below')
   })
 
-  it('solution-tabs: Features, Schaubild und Tab-Nummer wie neoSolutionTabs', () => {
+  it('solution-tabs: Features, Schaubild und Tab-Nummer wie das Twig (vorher neoSolutionTabs)', () => {
     const h = alle('solution-tabs').join('\n')
     expect(h).toContain('nc-solution-tabs__features')
     expect(h).toContain('nc-solution-tabs__visual')
