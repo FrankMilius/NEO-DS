@@ -81,6 +81,16 @@
   display: block;
 }
 
+// Haken im Kreis (Plan v4, Phase 7, 13.10.2026). Bis dahin stand #AEF359 fest
+// im SVG, das neo-theme.js zusammensetzte — dasselbe abgedriftete Gruen wie
+// frueher in der Vergleichstabelle (siehe 05-atoms/_tbl-icon.scss). Jetzt
+// rendert das Twig das SVG ohne Farbwerte, die Farbe steht nur hier.
+// Kontrast Haken auf Kreis wie .nc-tbl-icon--check: 12,89:1 (WCAG 1.4.11).
+.nc-feature-list__icon {
+  circle { fill: var(--fnd-color-background-accent); }
+  path { stroke: var(--fnd-color-always-dark); }
+}
+
 .nc-feature-list__item-text {
   line-height: var(--nc-type-body-m-lh, 1.5);
 }

@@ -1,5 +1,5 @@
 # feature-list Component Spec
-> Version 1.3.0 | Status: stable | Layer: organism
+> Version 1.4.0 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 
@@ -14,17 +14,17 @@ Root element: `.nc-feature-list`
 | video | `.nc-feature-list__video` | No | Video im Medienbereich (field_fl_video, Vorrang vor dem Bild): <iframe> fuer YouTube/Vimeo oder <video controls>, vom Skript gebaut; object-fit cover. |
 | content | `.nc-feature-list__content` | Yes | Textspalte: neo_fe:block-header --flush (field_fl_kicker, field_fl_headline h2, field_fl_lead), Fliesstext, Liste, Knopf; senkrechte Lage per --valign-*. |
 | text | `.nc-feature-list__text` | No | Fliesstext (field_fl_text, formatiertes HTML), body-m, text-secondary. |
-| items-host | `.nc-feature-list__items-host` | Yes | Huelle der Liste (data-feature-list), steht immer; das Skript haengt die Liste ein. Ohne Eintraege leer (:empty ohne Abstand). |
+| items-host | `.nc-feature-list__items-host` | Yes | Huelle der Liste, steht immer; die Liste rendert das Twig (neo_fl_items). Ohne Eintraege leer (:empty ohne Abstand; das Twig kontrolliert den Leerraum). |
 | items | `.nc-feature-list__items` | No | <ul> der Eintraege aus field_fl_items_json (Strings oder { text }), vom Skript gebaut. |
 | item | `.nc-feature-list__item` | No | <li>: Icon und Text nebeneinander, body-m, text-primary. |
-| icon | `.nc-feature-list__icon` | No | Haken im Kreis (SVG 36er-Raster, 1,5 rem, aria-hidden, focusable false; Kreis #AEF359 fest im Skript). |
-| item-text | `.nc-feature-list__item-text` | No | Text des Eintrags (textContent, kein HTML). |
+| icon | `.nc-feature-list__icon` | No | Haken im Kreis (SVG 36er-Raster, 1,5 rem, aria-hidden, focusable false; Kreis background-accent, Strich always-dark aus .nc-feature-list__icon; im SVG keine Farbwerte). |
+| item-text | `.nc-feature-list__item-text` | No | Text des Eintrags (reiner Text, Twig maskiert; Positivliste leer, E9 a). |
 | cta | `.nc-feature-list__cta` | No | Knopf (field_fl_cta_text/_url): nc-button--accent --lg; nur mit Text. |
 
 ### DOM Notes
 - Website-Block neo_feature_list: <section class="nc-section nc-feature-list[ --with-media --media-<right|left> --valign-<top|middle|bottom>]"><div class="nc-container nc-feature-list__inner"> … Die drei Modifier setzt Drupal nur mit Medium und dann immer zusammen; Vorgaben right und middle.
 - Medium: field_fl_video (Vorrang) oder field_sg_cards (Karte 1). Bild: Drupal.behaviors.neoFeatureMedia ruft NeoBehaviors.shotAufbauen am Medienbereich — der wird selbst zu .nc-shot (data-nc-shot) mit img.nc-shot__img (Fokuspunkt, Zoom, Seitenverhaeltnis der Karte); ohne neo-behaviors ein schlichtes <img>. Mit field_media_frame device steht der Screenshot im Template in .nc-device.
-- Liste: Drupal.behaviors.neoFeatureList liest field_fl_items_json und baut ul > li > span.__icon + span.__item-text (derselbe Renderer fuer das Tab-Nav-Modul).
+- Liste: includes/neo_feature_list.inc liest field_fl_items_json (Objekte { text } oder Texte, leere fallen weg), das Twig rendert ul > li > span.__icon + span.__item-text im Dokument. Das Tab-Nav-Modul feature_list baut dasselbe Markup bis Phase 7, Block 10 per NeoFeatureList.renderItems.
 - Bis 768 px eine Spalte, Medium immer oben (order 0), unabhaengig von der Lage.
 - Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG).
 - Video im Medium (Plan v4, Phase 3): YouTube/Vimeo als Fassade .nc-video-facade (Recipe video), Datei-Video nativ mit Bedienleiste.
@@ -64,7 +64,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 
 - Reihenfolge im DOM: Medium vor dem Text, auch bei Medium rechts (nur die Anzeige tauscht per order) — Screenreader lesen das Bild zuerst.
 - Bild-Alternativtext aus der Karte (alt, sonst Titel); Geraete-Screenshot mit alt aus dem Medium. Ein Video-iframe traegt keinen title — im Theme ergaenzen.
-- Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Der Kreis #AEF359 ist nicht themefaehig, auf heller Flaeche schwach (nur Schmuck).
+- Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Kreis und Strich aus Tokens (background-accent, always-dark; Kontrast Haken auf Kreis 12,89:1 wie .nc-tbl-icon--check).
 - Eine Ueberschrift (h2 im Block-Kopf); die Liste ist eine echte <ul>.
 - Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche.
 - Datenschutz: YouTube/Vimeo erst nach Klick auf die Fassade (youtube-nocookie.com).

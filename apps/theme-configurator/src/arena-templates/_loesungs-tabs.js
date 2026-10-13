@@ -47,7 +47,8 @@ function schaubild (t) {
 // (nc-solution-tabs__features nc-tab-nav__features), Bento-Raster
 // (nc-bento-grid nc-tab-nav__bento) und Expanding Panels
 // (nc-expanding-panels nc-tab-nav__xpanels). Plan v3, Phase 4.
-const HAKEN = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+// Farben aus .nc-feature-list__icon (Plan v4, Phase 7, 13.10.2026).
+const HAKEN = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 const BENTO = [
   ['lg', 'KI-gestützte Antworten zu allen Fragen', 'Statt „Suchen" wird jetzt „gefragt". Die Antwort entsteht aus Inhalten des Intranets.'],
   ['wide', 'Nutzung von Wissen aus definierten Quellen', ''],

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "feature-list",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -51,7 +51,7 @@
         "name": "items-host",
         "selector": ".nc-feature-list__items-host",
         "required": true,
-        "description": "Huelle der Liste (data-feature-list), steht immer; das Skript haengt die Liste ein. Ohne Eintraege leer (:empty ohne Abstand)."
+        "description": "Huelle der Liste, steht immer; die Liste rendert das Twig (neo_fl_items). Ohne Eintraege leer (:empty ohne Abstand; das Twig kontrolliert den Leerraum)."
       },
       {
         "name": "items",
@@ -69,13 +69,13 @@
         "name": "icon",
         "selector": ".nc-feature-list__icon",
         "required": false,
-        "description": "Haken im Kreis (SVG 36er-Raster, 1,5 rem, aria-hidden, focusable false; Kreis #AEF359 fest im Skript)."
+        "description": "Haken im Kreis (SVG 36er-Raster, 1,5 rem, aria-hidden, focusable false; Kreis background-accent, Strich always-dark aus .nc-feature-list__icon; im SVG keine Farbwerte)."
       },
       {
         "name": "item-text",
         "selector": ".nc-feature-list__item-text",
         "required": false,
-        "description": "Text des Eintrags (textContent, kein HTML)."
+        "description": "Text des Eintrags (reiner Text, Twig maskiert; Positivliste leer, E9 a)."
       },
       {
         "name": "cta",
@@ -87,7 +87,7 @@
     "notes": [
       "Website-Block neo_feature_list: <section class=\"nc-section nc-feature-list[ --with-media --media-<right|left> --valign-<top|middle|bottom>]\"><div class=\"nc-container nc-feature-list__inner\"> … Die drei Modifier setzt Drupal nur mit Medium und dann immer zusammen; Vorgaben right und middle.",
       "Medium: field_fl_video (Vorrang) oder field_sg_cards (Karte 1). Bild: Drupal.behaviors.neoFeatureMedia ruft NeoBehaviors.shotAufbauen am Medienbereich — der wird selbst zu .nc-shot (data-nc-shot) mit img.nc-shot__img (Fokuspunkt, Zoom, Seitenverhaeltnis der Karte); ohne neo-behaviors ein schlichtes <img>. Mit field_media_frame device steht der Screenshot im Template in .nc-device.",
-      "Liste: Drupal.behaviors.neoFeatureList liest field_fl_items_json und baut ul > li > span.__icon + span.__item-text (derselbe Renderer fuer das Tab-Nav-Modul).",
+      "Liste: includes/neo_feature_list.inc liest field_fl_items_json (Objekte { text } oder Texte, leere fallen weg), das Twig rendert ul > li > span.__icon + span.__item-text im Dokument. Das Tab-Nav-Modul feature_list baut dasselbe Markup bis Phase 7, Block 10 per NeoFeatureList.renderItems.",
       "Bis 768 px eine Spalte, Medium immer oben (order 0), unabhaengig von der Lage.",
       "Namensvetter: _pricing.scss nennt die Merkmalsliste einer Preiskarte ebenfalls .nc-feature-list (ein <ul>); die Wurzelregel hier setzt ihre Werte deshalb selbst (Umbenennung im BACKLOG).",
       "Video im Medium (Plan v4, Phase 3): YouTube/Vimeo als Fassade .nc-video-facade (Recipe video), Datei-Video nativ mit Bedienleiste."
@@ -182,7 +182,7 @@
     "assertions": [
       "Reihenfolge im DOM: Medium vor dem Text, auch bei Medium rechts (nur die Anzeige tauscht per order) — Screenreader lesen das Bild zuerst.",
       "Bild-Alternativtext aus der Karte (alt, sonst Titel); Geraete-Screenshot mit alt aus dem Medium. Ein Video-iframe traegt keinen title — im Theme ergaenzen.",
-      "Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Der Kreis #AEF359 ist nicht themefaehig, auf heller Flaeche schwach (nur Schmuck).",
+      "Haken-Icons sind dekorativ (aria-hidden, focusable false); der Sinn steht im Text. Kreis und Strich aus Tokens (background-accent, always-dark; Kontrast Haken auf Kreis 12,89:1 wie .nc-tbl-icon--check).",
       "Eine Ueberschrift (h2 im Block-Kopf); die Liste ist eine echte <ul>.",
       "Kontrast: Eintraege text-primary, Fliesstext text-secondary auf der Abschnittsflaeche.",
       "Datenschutz: YouTube/Vimeo erst nach Klick auf die Fassade (youtube-nocookie.com)."
@@ -199,7 +199,8 @@
     "drupal": [
       "block/block--block-content--neo-feature-list.html.twig",
       "block/block--inline-block--neo-feature-list.html.twig",
-      "js/neo-theme.js (Drupal.behaviors.neoFeatureList, neoFeatureMedia)"
+      "js/neo-theme.js (Drupal.behaviors.neoFeatureMedia)",
+      "includes/neo_feature_list.inc (Eintraege aus field_fl_items_json, neo_fl_items)"
     ],
     "docs": null
   }

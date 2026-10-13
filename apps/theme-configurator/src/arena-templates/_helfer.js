@@ -26,8 +26,12 @@ export const an = (m, slot) => m.slotConfig?.[slot] !== false
 /** Endzustand einer Scroll-/Einblend-Animation: das DS-JS setzt is-revealed. */
 export const eingeblendet = (m) => m.wert('animation') && m.wert('animation') !== 'none'
 
-/** Haken im gruenen Kreis (feature-list, tbl-icon) — wie im geernteten Markup. */
-export const HAKEN_KREIS = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18" fill="#AEF359"></circle><path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+/**
+ * Haken im Kreis (feature-list) — wie im geernteten Markup. Ohne Farbwerte
+ * seit Plan v4, Phase 7 (13.10.2026): Kreis und Strich faerbt
+ * .nc-feature-list__icon (Token background-accent, always-dark).
+ */
+export const HAKEN_KREIS = '<svg viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false"><circle cx="18" cy="18" r="18"></circle><path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>'
 
 export const PFEIL_LINKS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>'
 export const PFEIL_RECHTS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>'

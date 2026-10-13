@@ -151,12 +151,12 @@ const BAUTEILE = {
     namensraum: /^nc-feature-list(__|--|$)/,
     website: [
       {
-        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Vorgaben: Medium rechts, Text mittig, Rahmen frame) mit neoFeatureMedia/shotAufbauen und neoFeatureList',
-        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-media-frame nc-shot" data-fl-media data-fl-media-init="1" data-nc-shot="none"><img src="x.jpg" alt="Bild" class="nc-shot__img"></div><div class="nc-feature-list__content"><div class="nc-section-header nc-section-header--flush"><h2 class="nc-section-header__title">T</h2></div><div class="nc-feature-list__text"><p>Text</p></div><div class="nc-feature-list__items-host" data-feature-list data-feature-list-init="1"><ul class="nc-feature-list__items"><li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg aria-hidden="true"></svg></span><span class="nc-feature-list__item-text">Punkt</span></li></ul></div><script type="application/json" data-feature-list-items>[]</script><div class="nc-feature-list__cta"><a class="nc-button nc-button--accent nc-button--lg" href="/x"><span>Mehr</span></a></div></div></div></section>'
+        quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Vorgaben: Medium rechts, Text mittig, Rahmen frame) mit neoFeatureMedia/shotAufbauen; Liste im Twig (neo_fl_items, Plan v4, Phase 7)',
+        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-media-frame nc-shot" data-fl-media data-fl-media-init="1" data-nc-shot="none"><img src="x.jpg" alt="Bild" class="nc-shot__img"></div><div class="nc-feature-list__content"><div class="nc-section-header nc-section-header--flush"><h2 class="nc-section-header__title">T</h2></div><div class="nc-feature-list__text"><p>Text</p></div><div class="nc-feature-list__items-host"><ul class="nc-feature-list__items"><li class="nc-feature-list__item"><span class="nc-feature-list__icon"><svg aria-hidden="true"></svg></span><span class="nc-feature-list__item-text">Punkt</span></li></ul></div><div class="nc-feature-list__cta"><a class="nc-button nc-button--accent nc-button--lg" href="/x"><span>Mehr</span></a></div></div></div></section>'
       },
       {
         quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (Geraeterahmen, Medium links, Video-Fassung nicht gezeigt)',
-        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-left nc-feature-list--valign-top"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="x.png" alt="Login" width="800" height="1740"></div></div></div><div class="nc-feature-list__content"><div class="nc-feature-list__items-host" data-feature-list></div></div></div></section>'
+        markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-left nc-feature-list--valign-top"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="x.png" alt="Login" width="800" height="1740"></div></div></div><div class="nc-feature-list__content"><div class="nc-feature-list__items-host"></div></div></div></section>'
       },
       {
         quelle: 'neo_fe/js/neo-theme.js, neoFeatureMedia (Video-Datei)',
@@ -164,7 +164,7 @@ const BAUTEILE = {
       },
       {
         quelle: 'neo_fe/templates/block/block--block-content--neo-feature-list.html.twig (ohne Medium)',
-        markup: '<section class="nc-section nc-feature-list"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__content"><div class="nc-feature-list__items-host" data-feature-list></div></div></div></section>'
+        markup: '<section class="nc-section nc-feature-list"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__content"><div class="nc-feature-list__items-host"></div></div></div></section>'
       }
     ],
     arena: {
