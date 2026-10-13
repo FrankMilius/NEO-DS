@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "logo-wall",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,12 @@
       "docs": "/docs/logo-wall-docs"
     },
     "changelog": [
+      {
+        "version": "2.3.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 5 (13.10.2026, Entscheidung E9 = a; website-sichtbar, Freigabe ausstehend): Pillen serverseitig — neo_fe includes/neo_logo_wall.inc bereitet field_lw_logos auf (neo_lw_logos), das Twig rendert die Pillen (im Laufband samt Kopie, aria-hidden) wie bisher createPill (DOM gemessen gleich); Drupal.behaviors.neoLogoWall, data-neo-logo-wall und das <script type=\"application/json\" data-logo-wall-data> entfallen. Name und URL reiner Text (Positivliste leer, wie bisher textContent). marquee und einblenden binden am Markup."
+        ]
+      },
       {
         "version": "2.2.0",
         "changes": [
@@ -60,12 +66,13 @@
       "arena": null,
       "drupal": [
         "block/block--block-content--neo-logo-wall.html.twig",
-        "block/block--inline-block--neo-logo-wall.html.twig"
+        "block/block--inline-block--neo-logo-wall.html.twig",
+        "includes/neo_logo_wall.inc (Pillen aus field_lw_logos, neo_lw_logos)"
       ],
       "docs": "docs/logo-wall-docs.html"
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-logo-wall.html.twig (inline_block per include): Wand ohne aria-label, im Laufband Knopf .nc-logo-wall__pause und Spur; js/neo-theme.js Drupal.behaviors.neoLogoWall baut die Pillen aus script[data-logo-wall-data] (Kopien aria-hidden, externe Links mit .u-sr-only-Hinweis) und bindet im Laufband mit NeoBehaviors.anbinden(wand, ['marquee']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['marquee']) fuer neo_logo_wall. Einblenden (fadein, nicht im Laufband): neoLogoWall bindet nach dem Aufbau NeoBehaviors.anbinden(wand, ['einblenden']) (Plan v4, Phase 6b).",
+      "drupal": "neo_fe: block--block-content--neo-logo-wall.html.twig (inline_block per include): Wand ohne aria-label, im Laufband Knopf .nc-logo-wall__pause und Spur; die Pillen rendert das Twig aus neo_lw_logos (includes/neo_logo_wall.inc; Kopien aria-hidden, externe Links mit .u-sr-only-Hinweis), marquee bindet am Laufband; neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['marquee']) fuer neo_logo_wall. Einblenden (fadein, nicht im Laufband): neo-behaviors einblenden bindet am Modifier --fadein (Plan v4, Phase 6b; seit Phase 7 ohne Skript-Aufbau).",
       "behavior": "packages/neo-behaviors/marquee.js (Behavior des Recipes marquee; nurAusdruecklich)"
     }
   },

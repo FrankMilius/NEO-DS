@@ -45,7 +45,7 @@ const pille = (n) => `<a class="nc-logo-pill" href="https://example.org/${n}" ta
 const MARKUP = {
   'card-grid': (n = 4) => `<div class="nc-card-grid nc-card-grid--cols-3" data-pattern="standard" data-animation="reverse-domino">${Array.from({ length: n }, (_, i) => karte(i)).join('')}</div>`,
   'bento-grid': (n = 3) => `<div class="nc-bento-grid" data-animation="reveal">${Array.from({ length: n }, (_, i) => kachel(i)).join('')}</div>`,
-  'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-neo-logo-wall data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`
+  'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`
 }
 
 function bau (id, n) {

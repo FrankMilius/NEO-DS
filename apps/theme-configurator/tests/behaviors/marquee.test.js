@@ -25,7 +25,7 @@ function logoMarkup ({ knopf = true, links = true } = {}) {
     ? `<a class="nc-logo-pill" href="https://${n.toLowerCase()}.example" target="_blank" rel="noopener noreferrer"${kopie ? ' aria-hidden="true"' : ''}><img class="nc-logo-pill__img" src="x.png" alt="${n}"><span class="u-sr-only"> (öffnet in neuem Fenster)</span></a>`
     : `<div class="nc-logo-pill"${kopie ? ' aria-hidden="true"' : ''}><img class="nc-logo-pill__img" src="x.png" alt="${n}"></div>`
   return `<section class="nc-section"><div class="nc-container">
-<div class="nc-logo-wall nc-logo-wall--marquee" data-neo-logo-wall data-layout="marquee">
+<div class="nc-logo-wall nc-logo-wall--marquee" data-layout="marquee">
 ${knopf ? '<button type="button" class="nc-logo-wall__pause" data-playing="true"><svg class="nc-logo-wall__pause-icon" aria-hidden="true"></svg><span class="nc-logo-wall__pause-label">Laufband anhalten</span></button>' : ''}
 <div class="nc-logo-wall__track">${LOGOS.map((n) => pille(n, false)).join('')}${LOGOS.map((n) => pille(n, true)).join('')}</div>
 </div></div></section>`

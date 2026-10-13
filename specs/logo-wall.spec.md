@@ -1,5 +1,5 @@
 # logo-wall Component Spec
-> Version 2.2.0 | Status: stable | Layer: molecule
+> Version 2.3.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `branding`, `logos`, `partner`, `marquee`
 

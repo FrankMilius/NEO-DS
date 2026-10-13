@@ -13,7 +13,7 @@
 | Storybook | `stories/molecules/logo-wall.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | `docs/logo-wall-docs.html` | present |
-| Drupal | `block/block--block-content--neo-logo-wall.html.twig, block/block--inline-block--neo-logo-wall.html.twig` | present |
+| Drupal | `block/block--block-content--neo-logo-wall.html.twig, block/block--inline-block--neo-logo-wall.html.twig, includes/neo_logo_wall.inc (Pillen aus field_lw_logos, neo_lw_logos)` | present |
 
 ## Spec
 
