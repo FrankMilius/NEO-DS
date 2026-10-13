@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card-grid",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -27,7 +27,7 @@
       }
     ],
     "notes": [
-      "CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert."
+      "CSS Grid mit auto-fit oder fester Spaltenanzahl. Karten aus field_cards_json, aufbereitet in includes/neo_card_grid.inc und im Twig gerendert (ohne Skript vollstaendig); Kartenbild alt=\"\", Icons (summary) als SVG aria-hidden."
     ]
   },
   "api": null,
@@ -153,7 +153,8 @@
     "arena": null,
     "drupal": [
       "block--block-content--neo-card-grid.html.twig",
-      "block--inline-block--neo-card-grid.html.twig"
+      "block--inline-block--neo-card-grid.html.twig",
+      "includes/neo_card_grid.inc (Karten aus field_cards_json, neo_cg_cards)"
     ],
     "docs": null
   }

@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/card-grid.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-card-grid.html.twig, block--inline-block--neo-card-grid.html.twig` | present |
+| Drupal | `block--block-content--neo-card-grid.html.twig, block--inline-block--neo-card-grid.html.twig, includes/neo_card_grid.inc (Karten aus field_cards_json, neo_cg_cards)` | present |
 
 ## Spec
 

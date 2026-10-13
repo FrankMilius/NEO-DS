@@ -43,7 +43,7 @@ const karte = (n) => `<article class="nc-card"><div class="nc-card__content"><h3
 const kachel = (n) => `<a class="nc-bento-grid__cell" href="/k${n}"><h3 class="nc-bento-grid__title">Kachel ${n}</h3></a>`
 const pille = (n) => `<a class="nc-logo-pill" href="https://example.org/${n}" target="_blank" rel="noopener noreferrer"><img class="nc-logo-pill__img" src="l.svg" alt="Firma ${n}"></a>`
 const MARKUP = {
-  'card-grid': (n = 4) => `<div class="nc-card-grid nc-card-grid--cols-3" data-card-grid data-pattern="standard" data-behavior="static" data-animation="reverse-domino">${Array.from({ length: n }, (_, i) => karte(i)).join('')}</div>`,
+  'card-grid': (n = 4) => `<div class="nc-card-grid nc-card-grid--cols-3" data-pattern="standard" data-animation="reverse-domino">${Array.from({ length: n }, (_, i) => karte(i)).join('')}</div>`,
   'bento-grid': (n = 3) => `<div class="nc-bento-grid" data-bento data-animation="reveal">${Array.from({ length: n }, (_, i) => kachel(i)).join('')}</div>`,
   'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-neo-logo-wall data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`
 }
@@ -65,7 +65,7 @@ describe('einblenden: Hilfs-Behavior der Website', () => {
 
   it('bindet an reverse-domino, reveal und fadein — nicht ohne Animation und nicht am Laufband', () => {
     const b = buehne(`${MARKUP['card-grid']()}${MARKUP['bento-grid']()}${MARKUP['logo-wall']()}
-<div class="nc-card-grid" data-card-grid>${karte(9)}</div>
+<div class="nc-card-grid" data-pattern="standard">${karte(9)}</div>
 <div class="nc-logo-wall nc-logo-wall--marquee nc-logo-wall--fadein" data-layout="marquee"><div class="nc-logo-wall__track">${pille(1)}</div></div>`)
     anbinden(b, ['einblenden'])
     expect([...b.querySelectorAll('[data-neo-behavior~="einblenden"]')].map((e) => e.className.split(' ')[0] + (e.classList.contains('nc-logo-wall--marquee') ? '--marquee' : '')))

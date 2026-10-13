@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -12,7 +12,7 @@ Root element: `.nc-card-grid`
 | cq | `.nc-card-grid-cq` | No | container-type: inline-size am .nc-container des Blocks — die Karten reagieren auf die Blockbreite. Steht AUSSEN. |
 
 ### DOM Notes
-- CSS Grid mit auto-fit oder fester Spaltenanzahl. Cards per JSON gerendert.
+- CSS Grid mit auto-fit oder fester Spaltenanzahl. Karten aus field_cards_json, aufbereitet in includes/neo_card_grid.inc und im Twig gerendert (ohne Skript vollstaendig); Kartenbild alt="", Icons (summary) als SVG aria-hidden.
 
 ## Variants
 ### Pattern (`pattern`)

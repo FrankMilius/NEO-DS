@@ -363,7 +363,8 @@
   // unter dem WCAG-Minimum von 3:1 fuer Nicht-Text (1.4.11). interactive-*
   // ist fuer interaktive FLAECHEN gedacht (Buttons), nicht fuer Vordergrund.
   // Dasselbe dunkle Grau wie die Bereichsbezeichnung — beide sind
-  // Einordnung, nicht Aufruf.
+  // Einordnung, nicht Aufruf. Im Dunkeln neu gebunden (text-secondary),
+  // siehe Theme-Bereiche beim Section-Header.
   --nc-card-summary-icon-color: var(--fnd-neutral-800);
   --nc-card-summary-icon-spacing: var(--fnd-spacing-03);
 
@@ -4592,16 +4593,24 @@
 .neo-light-theme,
 .customer-light-theme {
   --nc-section-header-label-color: var(--fnd-neutral-800);
+  --nc-card-summary-icon-color: var(--fnd-neutral-800);
 }
 
+// Icon der Summary-Karte: dasselbe Primitive neutral-800 wie der Kicker, im
+// Dunkeln gleich der Kartenflaeche (surface-elevated, gemessen 1,00:1 —
+// unsichtbar). Gleiche Neubindung wie der Kicker (Plan v4, Phase 7, Block 2,
+// 13.10.2026; vorher fiel es nicht auf, weil das Skript die Icons nicht
+// oder nur in Tabler-Fassung anzeigte).
 .neo-dark-theme,
 .customer-dark-theme {
   --nc-section-header-label-color: var(--fnd-color-text-secondary);
+  --nc-card-summary-icon-color: var(--fnd-color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --nc-section-header-label-color: var(--fnd-color-text-secondary);
+    --nc-card-summary-icon-color: var(--fnd-color-text-secondary);
   }
 }
 
