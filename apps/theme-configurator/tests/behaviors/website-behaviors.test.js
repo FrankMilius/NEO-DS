@@ -17,7 +17,7 @@ const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, 
 
 describe('Website-Bauteile: nur ausdruecklich in Drupal', () => {
   it('jedes Website-Bauteil traegt nurAusdruecklich und steht in NUR_AUSDRUECKLICH', () => {
-    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav', 'expanding-panels', 'feature-accordion']) {
+    for (const id of ['mobile-drawer', 'table-info-modal', 'multiselect', 'chapter-nav', 'expanding-panels', 'feature-accordion', 'form']) {
       expect(BEHAVIORS[id].nurAusdruecklich, id).toBe(true)
       expect(NUR_AUSDRUECKLICH).toContain(id)
     }

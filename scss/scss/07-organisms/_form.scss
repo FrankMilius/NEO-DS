@@ -84,11 +84,14 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  // Bestimmte Elemente sollen immer die volle Breite einnehmen
+  // Bestimmte Elemente sollen immer die volle Breite einnehmen — auch die
+  // Fehler-Zusammenfassung (validation-summary), die neo-behaviors form als
+  // erstes Kind zeigt (Plan v4, Phase 8, 13.10.2026)
   > .nc-fieldset,
   > [type='submit'],
   > .nc-button,
-  > .nc-form-field--full-width {
+  > .nc-form-field--full-width,
+  > .nc-validation-summary {
     grid-column: 1 / -1;
   }
 }
@@ -124,4 +127,12 @@
   &--disabled {
     @include form-disabled;
   }
+}
+
+// Kaestchen-Gruppe als Formularfeld (Plan v4, Phase 8, 13.10.2026; Website:
+// Feldtyp checkbox-group): fieldset ohne Rand mit der Klasse .nc-form-field.
+// Der seitliche Einzug der Legende ist Abstand zur Randlinie — ohne Rand
+// steht sie buendig mit den Beschriftungen der anderen Felder.
+.nc-form-field.nc-fieldset--borderless > .nc-fieldset__legend {
+  padding-inline: 0;
 }

@@ -64,6 +64,7 @@ import { video } from './video.js'
 import { timeline } from './timeline.js'
 import { heroTom } from './hero-tom.js'
 import { footer } from './footer.js'
+import { form } from './form.js'
 import { einblenden } from './einblenden.js'
 
 export { setzeIndikator } from './segmented-control.js'
@@ -129,8 +130,9 @@ export const BEHAVIORS = Object.freeze({
   'fade-gallery': fadeGallery,
   carousel,
   // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026, E8 = a): Product-Showcase
-  // mit zwei Modi — Tabs (Optionen) und Stationen (Geraete-Strecke, vorher
-  // neo-device-scroll.js). In Drupal nur per nur
+  // mit zwei Modi — Auswahl (Optionen, seit Phase 7 Akkordeon-Muster) und
+  // Stationen (Geraete-Strecke, vorher neo-device-scroll.js). In Drupal nur
+  // per nur
   'product-showcase': productShowcase,
   // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026): Karussell des
   // Testimonial-Grids (Vor/Zurueck, Enden gesperrt). In Drupal nur per nur
@@ -145,6 +147,10 @@ export const BEHAVIORS = Object.freeze({
   timeline,
   'hero-tom': heroTom,
   footer,
+  // Website-Bauteil (Plan v4, Phase 8, 13.10.2026): Pruefung der
+  // Formulare (Felder im Twig, vorher NeoForm.renderFields), Zusammenfassung
+  // statt role="alert" je Feld. In Drupal nur per nur
+  form,
   // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
   // logo-wall: BEHAVIORS.einblenden.recipes)
   einblenden,

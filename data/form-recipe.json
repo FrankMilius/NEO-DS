@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "form",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "form",
@@ -24,7 +24,9 @@
       "arena": null,
       "drupal": [
         "block--block-content--neo-form.html.twig",
-        "block--inline-block--neo-form.html.twig"
+        "block--inline-block--neo-form.html.twig",
+        "includes/neo_form.inc (Felder aus field_form_fields, neo_form)",
+        "templates/block/neo-form-fields.html.twig (Felder, geteilt mit Tab-Nav form)"
       ],
       "docs": "docs/form-docs.html"
     },
@@ -32,6 +34,13 @@
       "fieldset"
     ],
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 8, Schritt 8a (13.10.2026, Entscheidung Frank; website-sichtbar, Freigabe ausstehend): Pruefung als Behavior form in neo-behaviors (nurAusdruecklich) statt NeoForm.renderFields in neo_fe/js/neo-theme.js. Recipe zuerst: keyboard, events (form-submit), Texte de/en, Zusammenfassung nach validation-summary statt eines role=\"alert\" je Feld (bei sechs Fehlern sechs gleichzeitige Ansagen). Fehlertext unter dem Feld ohne Rolle, verbunden per aria-describedby und aria-invalid.",
+          "Felder rendert neo_fe im Twig (includes/neo_form.inc, Teilvorlage neo-form-fields.html.twig) — Block neo_form und Tab-Nav-Modul form. Neu verstanden: checkbox-group (Kaestchen in <fieldset> mit <legend>) und Optionen als blosser Text (Wert = Beschriftung). Absenden (Honigtopf, AJAX) bleibt im Theme und haengt am Ereignis form-submit."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -65,7 +74,11 @@
       "Inline: flex-row, flex-wrap. Fields auto-width. Submit am Ende.",
       "Two-Column: CSS Grid, 1fr mobile → repeat(2,1fr) ab md. Fieldsets/Buttons: grid-column 1/-1.",
       "Disabled: opacity-disabled, pointer-events:none. Native Controls zusaetzlich deaktivieren.",
-      "novalidate + Custom-Validation empfohlen."
+      "novalidate + Custom-Validation empfohlen.",
+      "Pruefung (neo-behaviors form, Wurzel form[data-neo-form]): jedes benannte Feld (input, select, textarea; nicht im Honigtopf .nc-form-hp) und jede Gruppe [data-neo-form-gruppe] (checkbox-group als fieldset, multiselect) mit data-required. Pruefung beim Verlassen (focusout), danach live bei input/change, alle beim Absenden. Grundlage ist die native Gueltigkeit (required, type, minlength, pattern); Gruppen: mindestens ein Haken.",
+      "Fehlertext p.nc-form-error#<feld-id>-err im Feld-Wrapper (.nc-form-field, bei der Zustimmung .nc-form-block__terms) ohne Rolle; Feld aria-invalid=\"true\" und aria-describedby um die Fehler-id ergaenzt (ein Hilfetext bleibt erhalten); Wrapper .nc-form-field--invalid. Eigener Text: data-error am Feld; Name im Text: data-label (sonst „Dieses Feld\" / „This field\").",
+      "Zusammenfassung (Recipe validation-summary) als erstes Kind des Formulars: div.nc-validation-summary[role=alert][tabindex=-1][aria-labelledby] > Titel mit Anzahl + ul.__list > li.__item > a[href=#<feld-id>]; der Fokus springt beim Absenden mit Fehlern dorthin, ein Link fokussiert das Feld. Ohne Fehler .nc-validation-summary--hidden. Fehlt das Element, legt das Behavior es an.",
+      "Absenden: ohne Fehler das abbrechbare Ereignis form-submit { valid: true, errors: 0 } — wer es abbricht (preventDefault), uebernimmt das Absenden (neo_fe: Honigtopf, AJAX), sonst sendet der Browser. Mit Fehlern bricht das Behavior den Submit ab und sendet form-submit { valid: false, errors: n }."
     ]
   },
   "axes": {
@@ -89,6 +102,26 @@
           "renderHint": "form-two-column"
         }
       }
+    }
+  },
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Felder in Dokumentreihenfolge; nach dem Absenden mit Fehlern steht der Fokus auf der Zusammenfassung, Tab fuehrt zu ihren Links."
+    },
+    "Enter": {
+      "action": "submit",
+      "note": "In einem Textfeld bzw. auf dem Absende-Knopf: alle Felder pruefen; mit Fehlern Zusammenfassung zeigen und fokussieren, ohne Fehler form-submit senden. Auf einem Link der Zusammenfassung: das Feld fokussieren."
+    }
+  },
+  "events": {
+    "form-submit": {
+      "bubbles": true,
+      "detail": {
+        "valid": "boolean",
+        "errors": "number"
+      },
+      "note": "Gefeuert am Formular beim Absenden (abbrechbar). valid: alle Felder gueltig; errors: Anzahl der Fehler. Ohne Fehler uebernimmt, wer preventDefault() ruft (neo_fe: Honigtopf + AJAX); mit Fehlern hat das Behavior den Submit schon abgebrochen."
     }
   },
   "states": {

@@ -5807,11 +5807,11 @@
     );
     let groesse = null;
     if (typeof Groesse === "function") {
-      let form = quer();
+      let form2 = quer();
       groesse = new Groesse(() => {
         const jetzt = quer();
-        if (jetzt === form) return;
-        form = jetzt;
+        if (jetzt === form2) return;
+        form2 = jetzt;
         zeige(Math.max(0, offen));
       });
       groesse.observe(wurzel.ownerDocument.documentElement);
@@ -6339,6 +6339,266 @@
     }
   };
 
+  // packages/neo-behaviors/form.js
+  var TEXTE7 = {
+    de: {
+      fehlt: "Bitte @label angeben.",
+      bestaetigen: "Bitte bestätigen Sie diese Angabe.",
+      auswahl: "Bitte wählen Sie mindestens eine Option.",
+      email: "Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@firma.de).",
+      url: "Bitte eine gültige URL eingeben (z. B. https://…).",
+      kurz: "Bitte mindestens @n Zeichen eingeben.",
+      sonst: "Bitte überprüfen Sie diese Eingabe.",
+      feld: "Dieses Feld",
+      titelEins: "1 Angabe ist noch nicht korrekt",
+      titelViele: "@count Angaben sind noch nicht korrekt"
+    },
+    en: {
+      fehlt: "Please enter @label.",
+      bestaetigen: "Please confirm this.",
+      auswahl: "Please choose at least one option.",
+      email: "Please enter a valid email address (e.g. name@company.com).",
+      url: "Please enter a valid URL (e.g. https://…).",
+      kurz: "Please enter at least @n characters.",
+      sonst: "Please check this entry.",
+      feld: "This field",
+      titelEins: "There is 1 problem",
+      titelViele: "There are @count problems"
+    }
+  };
+  var zaehler6 = 0;
+  var KREUZ = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  var FELD = "input[name], select[name], textarea[name]";
+  var wrapperVon = (el) => (
+    /** @type {HTMLElement} */
+    el.closest(".nc-form-field, .nc-form-block__terms") || el.parentElement
+  );
+  function beschreibe(el, id, an) {
+    const d = (el.getAttribute("aria-describedby") || "").split(" ").filter(Boolean);
+    const i = d.indexOf(id);
+    if (an && i < 0) d.push(id);
+    if (!an && i >= 0) d.splice(i, 1);
+    if (d.length) el.setAttribute("aria-describedby", d.join(" "));
+    else el.removeAttribute("aria-describedby");
+  }
+  function nameVon2(el, t) {
+    return (el.getAttribute("data-label") || t.feld).replace(/\s*\*?$/, "");
+  }
+  function einheitenVon(form2) {
+    const aus = [];
+    for (
+      const g2 of
+      /** @type {HTMLElement[]} */
+      [...form2.querySelectorAll("[data-neo-form-gruppe]")]
+    ) {
+      const ziel = (
+        /** @type {HTMLElement} */
+        g2.querySelector(".nc-multiselect__trigger") || g2
+      );
+      if (!g2.id) g2.id = `nc-form-gruppe-${++zaehler6}`;
+      aus.push({ ziel, wrapper: g2, gruppe: g2, fehlerId: `${g2.id}-err` });
+    }
+    for (
+      const el of
+      /** @type {HTMLElement[]} */
+      [...form2.querySelectorAll(FELD)]
+    ) {
+      if (el.closest(".nc-form-hp, [data-neo-form-gruppe]")) continue;
+      if (
+        /** @type {HTMLInputElement} */
+        el.type === "hidden"
+      ) continue;
+      if (!el.id) el.id = `nc-form-feld-${++zaehler6}`;
+      aus.push({ ziel: el, wrapper: wrapperVon(el), gruppe: null, fehlerId: `${el.id}-err` });
+    }
+    return aus.sort((a, b) => a.wrapper.compareDocumentPosition(b.wrapper) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+  }
+  function meldung(e, t) {
+    const eigen = e.ziel.getAttribute("data-error") || e.gruppe && e.gruppe.getAttribute("data-error") || "";
+    if (e.gruppe) {
+      if (!e.gruppe.hasAttribute("data-required")) return "";
+      const n = e.gruppe.querySelectorAll('input[type="checkbox"]:checked').length;
+      return n ? "" : eigen || t.auswahl;
+    }
+    const el = (
+      /** @type {HTMLInputElement} */
+      e.ziel
+    );
+    const v = el.validity;
+    if (!v || v.valid) return "";
+    if (v.valueMissing) {
+      if (el.type === "checkbox") return eigen || t.bestaetigen;
+      return eigen || t.fehlt.replace("@label", nameVon2(el, t));
+    }
+    if (v.typeMismatch && el.type === "email") return t.email;
+    if (v.typeMismatch && el.type === "url") return t.url;
+    if (v.tooShort) return t.kurz.replace("@n", String(el.minLength));
+    return eigen || t.sonst;
+  }
+  var form = {
+    id: "form",
+    selektor: "form[data-neo-form]",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const formEl = (
+        /** @type {HTMLFormElement} */
+        wurzel
+      );
+      const t = TEXTE7[spracheVon(formEl)];
+      const dok = formEl.ownerDocument;
+      const einheiten = einheitenVon(formEl);
+      if (!einheiten.length) return;
+      const fehlerhaft = /* @__PURE__ */ new Set();
+      const angelegt = [];
+      function zeige(e, text) {
+        let p = (
+          /** @type {HTMLElement|null} */
+          dok.getElementById(e.fehlerId)
+        );
+        if (text) {
+          if (!p) {
+            p = dok.createElement("p");
+            p.className = "nc-form-error";
+            p.id = e.fehlerId;
+            e.wrapper.appendChild(p);
+            angelegt.push(p);
+          }
+          p.textContent = text;
+          e.wrapper.classList.add("nc-form-field--invalid");
+          e.ziel.setAttribute("aria-invalid", "true");
+          beschreibe(e.ziel, e.fehlerId, true);
+          fehlerhaft.add(e);
+        } else {
+          if (p) p.remove();
+          e.wrapper.classList.remove("nc-form-field--invalid");
+          e.ziel.removeAttribute("aria-invalid");
+          beschreibe(e.ziel, e.fehlerId, false);
+          fehlerhaft.delete(e);
+        }
+      }
+      const pruefe = (e) => {
+        const m = meldung(e, t);
+        zeige(e, m);
+        return m;
+      };
+      const einheitVon = (el) => {
+        if (!el || /** @type {Node} */
+        el.nodeType !== 1) return null;
+        const knoten = (
+          /** @type {Node} */
+          el
+        );
+        return einheiten.find((e) => e.gruppe ? e.gruppe.contains(knoten) : e.ziel === knoten) || null;
+      };
+      formEl.addEventListener("focusout", (ev) => {
+        const e = einheitVon(ev.target);
+        if (!e) return;
+        const naechst = (
+          /** @type {Node|null} */
+          ev.relatedTarget
+        );
+        if (e.gruppe && naechst && e.gruppe.contains(naechst)) return;
+        pruefe(e);
+      }, { signal });
+      const live = (ev) => {
+        const e = einheitVon(ev.target);
+        if (!e) return;
+        const kaestchen = (
+          /** @type {HTMLInputElement} */
+          ev.target.type === "checkbox"
+        );
+        if (fehlerhaft.has(e) || kaestchen && !e.gruppe) pruefe(e);
+      };
+      formEl.addEventListener("input", live, { signal });
+      formEl.addEventListener("change", live, { signal });
+      let box = (
+        /** @type {HTMLElement|null} */
+        formEl.querySelector(":scope > .nc-validation-summary")
+      );
+      let boxAngelegt = false;
+      function zusammenfassung(liste) {
+        if (!box) {
+          box = dok.createElement("div");
+          box.className = "nc-validation-summary nc-validation-summary--hidden";
+          formEl.insertBefore(box, formEl.firstChild);
+          boxAngelegt = true;
+        }
+        const b = box;
+        if (!b.id) b.id = `nc-validation-summary-${++zaehler6}`;
+        b.setAttribute("role", "alert");
+        b.setAttribute("tabindex", "-1");
+        b.setAttribute("aria-labelledby", `${b.id}-titel`);
+        const titel = liste.length === 1 ? t.titelEins : t.titelViele.replace("@count", String(liste.length));
+        b.innerHTML = '<span class="nc-validation-summary__icon" aria-hidden="true">' + KREUZ + "</span>";
+        const inhalt = dok.createElement("div");
+        const kopf = dok.createElement("strong");
+        kopf.className = "nc-validation-summary__title";
+        kopf.id = `${b.id}-titel`;
+        kopf.textContent = titel;
+        const ul = dok.createElement("ul");
+        ul.className = "nc-validation-summary__list";
+        for (const { e, text } of liste) {
+          const li = dok.createElement("li");
+          li.className = "nc-validation-summary__item";
+          const a = dok.createElement("a");
+          a.href = `#${e.ziel.id || e.wrapper.id}`;
+          a.textContent = text;
+          li.appendChild(a);
+          ul.appendChild(li);
+        }
+        inhalt.append(kopf, ul);
+        b.appendChild(inhalt);
+        b.classList.toggle("nc-validation-summary--hidden", !liste.length);
+        if (!liste.length) b.removeAttribute("role");
+      }
+      formEl.addEventListener("click", (ev) => {
+        var _a, _b;
+        const a = (
+          /** @type {HTMLElement} */
+          (_b = (_a = ev.target).closest) == null ? void 0 : _b.call(_a, '.nc-validation-summary a[href^="#"]')
+        );
+        if (!a) return;
+        const ziel = dok.getElementById(a.getAttribute("href").slice(1));
+        if (!ziel) return;
+        ev.preventDefault();
+        const fokus = (
+          /** @type {HTMLElement} */
+          ziel.matches("fieldset") ? ziel.querySelector("input") : ziel
+        );
+        fokus == null ? void 0 : fokus.focus();
+      }, { signal });
+      formEl.addEventListener("submit", (ev) => {
+        const liste = [];
+        for (const e of einheiten) {
+          const text = pruefe(e);
+          if (text) liste.push({ e, text });
+        }
+        if (liste.length) {
+          ev.preventDefault();
+          zusammenfassung(liste);
+          formEl.dispatchEvent(new CustomEvent("form-submit", { bubbles: true, cancelable: true, detail: { valid: false, errors: liste.length } }));
+          box == null ? void 0 : box.focus();
+          return;
+        }
+        if (box) zusammenfassung([]);
+        const weiter = formEl.dispatchEvent(new CustomEvent("form-submit", { bubbles: true, cancelable: true, detail: { valid: true, errors: 0 } }));
+        if (!weiter) ev.preventDefault();
+      }, { signal });
+      signal.addEventListener("abort", () => {
+        for (const e of [...fehlerhaft]) zeige(e, "");
+        for (const p of angelegt) p.remove();
+        if (box && boxAngelegt) box.remove();
+        else if (box) {
+          box.innerHTML = "";
+          box.classList.add("nc-validation-summary--hidden");
+          box.removeAttribute("role");
+        }
+      });
+    }
+  };
+
   // packages/neo-behaviors/einblenden.js
   var EINBLENDEN_RECIPES = Object.freeze(["card-grid", "bento-grid", "logo-wall"]);
   function artVon(wurzel) {
@@ -6503,8 +6763,9 @@
     "fade-gallery": fadeGallery,
     carousel,
     // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026, E8 = a): Product-Showcase
-    // mit zwei Modi — Tabs (Optionen) und Stationen (Geraete-Strecke, vorher
-    // neo-device-scroll.js). In Drupal nur per nur
+    // mit zwei Modi — Auswahl (Optionen, seit Phase 7 Akkordeon-Muster) und
+    // Stationen (Geraete-Strecke, vorher neo-device-scroll.js). In Drupal nur
+    // per nur
     "product-showcase": productShowcase,
     // Website-Bauteil (Plan v4, Phase 6a, 12.10.2026): Karussell des
     // Testimonial-Grids (Vor/Zurueck, Enden gesperrt). In Drupal nur per nur
@@ -6519,6 +6780,10 @@
     timeline,
     "hero-tom": heroTom,
     footer,
+    // Website-Bauteil (Plan v4, Phase 8, 13.10.2026): Pruefung der
+    // Formulare (Felder im Twig, vorher NeoForm.renderFields), Zusammenfassung
+    // statt role="alert" je Feld. In Drupal nur per nur
+    form,
     // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
     // logo-wall: BEHAVIORS.einblenden.recipes)
     einblenden,
