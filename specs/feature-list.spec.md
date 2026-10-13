@@ -1,5 +1,5 @@
 # feature-list Component Spec
-> Version 1.4.1 | Status: stable | Layer: organism
+> Version 1.4.2 | Status: stable | Layer: organism
 
 Tags: `aufgenommen`, `organisms`
 

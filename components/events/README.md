@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/events.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block/block--block-content--neo-events-listing.html.twig, block/block--inline-block--neo-events-listing.html.twig, components/neo-events-listing/neo-events-listing.twig, js/neo-theme.js (Drupal.behaviors.neoEventsListing; Karte aus <template data-events-card>), includes/neo_events_listing.inc (Begriffs-Namen, data-begriffe)` | present |
+| Drupal | `block/block--block-content--neo-events-listing.html.twig, block/block--inline-block--neo-events-listing.html.twig, components/neo-events-listing/neo-events-listing.twig, js/neo-events-listing.js (Drupal.behaviors.neoEventsListing; Karte aus <template data-events-card>; Library neo_fe/neo-events-listing), includes/neo_events_listing.inc (Begriffs-Namen, data-begriffe)` | present |
 
 ## Spec
 

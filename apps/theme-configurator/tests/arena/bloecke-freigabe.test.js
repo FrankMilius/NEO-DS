@@ -114,7 +114,7 @@ const BAUTEILE = {
     wurzelWebsite: '.nc-container[data-neo-events-listing]',
     website: [
       {
-        quelle: 'neo_fe/templates/block/block--block-content--neo-events-listing.html.twig und createCard() in js/neo-theme.js (eine Karte mit Untertitel)',
+        quelle: 'neo_fe/templates/block/block--block-content--neo-events-listing.html.twig und createCard() in js/neo-events-listing.js (eine Karte mit Untertitel)',
         markup: '<section class="nc-section"><div class="nc-container" data-neo-events-listing data-api-url="/api/events?_format=json" data-per-page="16"><div class="nc-events__filter-bar"><div class="nc-events__search"><div class="nc-events__search-wrapper"><svg class="nc-events__search-icon"></svg><input type="search" class="nc-events__search-input" placeholder="Events durchsuchen…" data-events-search></div></div><select class="nc-events__filter-select" data-events-filter="type"><option value="">Alle Event-Typen</option></select><select class="nc-events__filter-select" data-events-filter="category"><option value="">Alle Kategorien</option></select><select class="nc-events__filter-select" data-events-filter="year"><option value="">Alle Jahre</option></select></div><div class="nc-events__results-count" data-events-count>1 Event gefunden</div><div class="nc-events__grid" data-events-grid><a href="/events/x" class="nc-events__card"><div class="nc-events__card-header"><span class="nc-events__card-type">Konferenz</span><h3 class="nc-events__card-title">Titel</h3><p style="font-size:var(--fs-sm);color:var(--fnd-color-text-secondary);margin:0">Untertitel</p><div class="nc-events__card-meta"><span class="nc-events__card-meta-item"><svg></svg>20.05.2026</span><span class="nc-events__card-meta-item">Hybrid</span></div></div><div class="nc-events__card-footer"><span>Mehr erfahren</span><svg></svg></div></a></div><div class="nc-events__empty" data-events-empty hidden><p>Keine Events gefunden. Versuchen Sie andere Filtereinstellungen.</p></div><div class="nc-events__load-more" data-events-load-more hidden><button class="nc-button nc-button--secondary" data-events-load-btn><span>Mehr laden</span></button></div></div></section>'
       }
     ],
@@ -159,7 +159,7 @@ const BAUTEILE = {
         markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-left nc-feature-list--valign-top"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-feature-list__media--device"><div class="nc-device"><div class="nc-device__screen"><img src="x.png" alt="Login" width="800" height="1740"></div></div></div><div class="nc-feature-list__content"><div class="nc-feature-list__items-host"></div></div></div></section>'
       },
       {
-        quelle: 'neo_fe/js/neo-theme.js, neoFeatureMedia (Video-Datei)',
+        quelle: 'neo_fe/js/neo-feature-list.js, neoFeatureMedia (Video-Datei)',
         markup: '<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle"><div class="nc-container nc-feature-list__inner"><div class="nc-feature-list__media nc-media-frame" data-fl-media data-fl-video="x.mp4"><video src="x.mp4" controls playsinline class="nc-feature-list__video"></video></div><div class="nc-feature-list__content"></div></div></section>'
       },
       {
