@@ -1,5 +1,5 @@
 # gallery Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `interactive`, `display`, `carousel`, `hero`, `media`
 
@@ -34,7 +34,7 @@ Root element: `.nc-gallery`
 - Nav: role='tablist'. Punkte: button[role='tab'], aria-selected='true|false', aria-controls (Slide-id), wandernder tabindex.
 - Autoplay: button.nc-gallery__autoplay mit data-playing und wechselndem aria-label ('Galerie pausieren' / 'Galerie abspielen'); Symbole .nc-gallery__autoplay-pause/-play folgen data-playing (CSS).
 - Keyboard: Pfeil links/rechts blaettert (auf Punkten: waehlt und fokussiert, rundum; Pos1/Ende), Enter/Space aktivieren, Escape haelt den Autoplay an. Im Inhalt eines Slides blaettern die Pfeile nicht (der Fokus laege sonst in einem verborgenen Slide).
-- Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors gallery bindet an fertiges Markup; die Website baut Slides und Punkte aus JSON (neoGallery) und bindet danach.
+- Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors gallery bindet an fertiges Markup; Slides und Punkte rendert seit Plan v4, Phase 7 das Twig (vorher neoGallery aus JSON).
 
 ## Variants
 ### Animation (`animation`)

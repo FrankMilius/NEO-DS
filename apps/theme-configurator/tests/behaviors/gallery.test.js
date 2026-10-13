@@ -1,7 +1,7 @@
 /**
  * Galerie (Plan v4, Phase 2, 12.10.2026): Behavior gallery aus neo-behaviors.
  * Gebunden wird an Markup wie aus neo_fe (Twig: Wurzel, Paddles, leere
- * Punkte-Leiste, Knopf; neoGallery baut Slides und Punkte aus JSON) und an
+ * Punkte-Leiste, Knopf; Slides und Punkte seit Plan v4, Phase 7 im Twig) und an
  * das Markup der Arena („Ausprobieren"). Jede Taste aus `keyboard` und jedes
  * Ereignis aus `events` wird geprueft; die Zeit laeuft mit falschen Timern.
  */
@@ -29,10 +29,10 @@ afterEach(() => {
 const klick = (el) => el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
 const maus = (el, typ) => el.dispatchEvent(new MouseEvent(typ, { bubbles: false }))
 
-/** Markup wie neo_fe nach neoGallery (Slides und Punkte aus JSON) */
+/** Markup wie block--block-content--neo-gallery.html.twig (Slides und Punkte im Twig) */
 function websiteMarkup ({ autoplay = 'on', knopf = true, slides = 3, fade = false, intervall = '' } = {}) {
   const id = 'nc-gal-7'
-  return `<div class="block"><div class="nc-gallery${fade ? ' nc-gallery--fade' : ''}" id="${id}" data-neo-gallery data-autoplay="${autoplay}" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell"${intervall ? ` style="--nc-gallery-autoplay-interval: ${intervall};"` : ''}>
+  return `<div class="block"><div class="nc-gallery${fade ? ' nc-gallery--fade' : ''}" id="${id}" data-autoplay="${autoplay}" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell"${intervall ? ` style="--nc-gallery-autoplay-interval: ${intervall};"` : ''}>
 <div class="nc-gallery__track">
 ${Array.from({ length: slides }, (_, i) => `<div class="nc-gallery__slide${i === 0 ? ' is-active' : ''}" role="tabpanel" aria-roledescription="Slide" aria-label="Slide ${i + 1}"${i ? ' aria-hidden="true"' : ''}><div class="nc-gallery__slide-stage"><div class="nc-gallery__slide-content"><h3 class="nc-gallery__slide-title">Titel ${i + 1}</h3><div class="nc-gallery__slide-actions"><a class="nc-button" href="#cta${i}">Mehr ${i + 1}</a></div></div></div></div>`).join('\n')}
 </div>

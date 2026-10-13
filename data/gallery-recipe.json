@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "gallery",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -18,6 +18,12 @@
       "docs": "/docs/gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 7 (13.10.2026, Entscheidung E9 = a; website-sichtbar, Freigabe ausstehend): Slides und Punkte serverseitig — neo_fe includes/neo_gallery.inc bereitet field_gallery_json auf (neo_gallery_slides), das Twig rendert sie im Anfangszustand (erster Slide aktiv, die anderen aria-hidden) wie bisher neoGallery (DOM gemessen gleich); Drupal.behaviors.neoGallery, data-neo-gallery und das <script type=\"application/json\" data-gallery-slides> entfallen. Texte reiner Text (Positivliste leer, wie bisher textContent). Ohne Skript ist der erste Slide sichtbar."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -59,12 +65,13 @@
       "arena": null,
       "drupal": [
         "block--block-content--neo-gallery.html.twig",
-        "block--inline-block--neo-gallery.html.twig"
+        "block--inline-block--neo-gallery.html.twig",
+        "includes/neo_gallery.inc (Slides aus field_gallery_json, neo_gallery_slides)"
       ],
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-gallery.html.twig (inline_block per include): Wurzel mit id aus der Block-ID, Paddles, Punkte-Leiste, bei autoplay on der Knopf .nc-gallery__autoplay (data-playing); js/neo-theme.js Drupal.behaviors.neoGallery baut Slides und Punkte aus script[data-gallery-slides] und bindet mit NeoBehaviors.anbinden(wurzel, ['gallery']); neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['gallery']) fuer neo_gallery.",
+      "drupal": "neo_fe: block--block-content--neo-gallery.html.twig (inline_block per include): Wurzel mit id aus der Block-ID, Paddles, Punkte-Leiste, bei autoplay on der Knopf .nc-gallery__autoplay (data-playing); Slides und Punkte im Twig aus neo_gallery_slides (includes/neo_gallery.inc, seit Plan v4, Phase 7), neo-behaviors gallery bindet am Markup; neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['gallery']) fuer neo_gallery.",
       "behavior": "packages/neo-behaviors/gallery.js; nurAusdruecklich"
     }
   },
@@ -181,7 +188,7 @@
       "Nav: role='tablist'. Punkte: button[role='tab'], aria-selected='true|false', aria-controls (Slide-id), wandernder tabindex.",
       "Autoplay: button.nc-gallery__autoplay mit data-playing und wechselndem aria-label ('Galerie pausieren' / 'Galerie abspielen'); Symbole .nc-gallery__autoplay-pause/-play folgen data-playing (CSS).",
       "Keyboard: Pfeil links/rechts blaettert (auf Punkten: waehlt und fokussiert, rundum; Pos1/Ende), Enter/Space aktivieren, Escape haelt den Autoplay an. Im Inhalt eines Slides blaettern die Pfeile nicht (der Fokus laege sonst in einem verborgenen Slide).",
-      "Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors gallery bindet an fertiges Markup; die Website baut Slides und Punkte aus JSON (neoGallery) und bindet danach."
+      "Verhalten (Plan v4, Phase 2, 12.10.2026): neo-behaviors gallery bindet an fertiges Markup; Slides und Punkte rendert seit Plan v4, Phase 7 das Twig (vorher neoGallery aus JSON)."
     ]
   },
   "axes": {
