@@ -1,5 +1,5 @@
 # tab-nav Component Spec
-> Version 1.5.2 | Status: stable | Layer: molecule
+> Version 1.5.3 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 

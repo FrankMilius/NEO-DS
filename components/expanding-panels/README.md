@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/expanding-panels.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-expanding-panels.html.twig, block--inline-block--neo-expanding-panels.html.twig` | present |
+| Drupal | `block--block-content--neo-expanding-panels.html.twig, block--inline-block--neo-expanding-panels.html.twig, includes/neo_expanding_panels.inc (Panels, Positivliste), templates/block/neo-expanding-panels-buttons.html.twig (Knoepfe, geteilt mit Tab-Nav expanding)` | present |
 
 ## Spec
 
