@@ -21,8 +21,9 @@
 // beide Formen gelesen (Fehler 08.10.2026: Hauptnavigation ohne Verhalten auf
 // Seiten mit weiteren Bauteilen).
 // Ohne Angabe werden alle Bauteile gebunden, die im Kontext vorkommen —
-// AUSSER denen in NUR_AUSDRUECKLICH (Website-Bauteile, deren Verhalten heute
-// neo-theme.js liefert; Behaviors mit nurAusdruecklich: true). Die binden
+// AUSSER denen in NUR_AUSDRUECKLICH (Website-Bauteile; Behaviors mit
+// nurAusdruecklich: true, im Theme angehaengt ueber
+// _neo_fe_behaviors_anhaengen, seit Plan v4 ohne neo-theme.js). Die binden
 // nur, wenn `nur` sie nennt (Entscheidung 06.10.2026) — so wird ein neues
 // Behavior nicht still auf der Website aktiv.
 // ==========================================================================
