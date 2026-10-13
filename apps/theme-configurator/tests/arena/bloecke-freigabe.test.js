@@ -67,7 +67,7 @@ const BAUTEILE = {
     website: [
       {
         quelle: 'neo_fe/js/neo-theme.js, Drupal.behaviors.neoCardGridCta (Bild, dunkel, Knopf primary mit URL)',
-        markup: '<div class="nc-card-grid-cta" data-neo-card-grid-cta style="--cgc-columns: 3; --cgc-ratio: 16/9;"><div class="nc-card-cta" data-theme="dark"><img class="nc-card-cta__media" src="x.jpg" alt="" loading="lazy" decoding="async"><div class="nc-card-cta__overlay"></div><div class="nc-card-cta__content"><h3 class="nc-card-cta__title" style="max-width: 80%;">Titel</h3><div class="nc-card-cta__actions"><a href="/x" class="nc-button nc-button--primary" aria-label="Mehr – Titel" style="--nc-button-primary-bg: var(--fnd-color-always-light); --nc-button-primary-color: var(--fnd-color-always-dark);">Mehr</a></div></div></div></div>'
+        markup: '<div class="nc-card-grid-cta" style="--cgc-columns: 3; --cgc-ratio: 16/9;"><div class="nc-card-cta" data-theme="dark"><img class="nc-card-cta__media" src="x.jpg" alt="" loading="lazy" decoding="async"><div class="nc-card-cta__overlay"></div><div class="nc-card-cta__content"><h3 class="nc-card-cta__title" style="max-width: 80%;">Titel</h3><div class="nc-card-cta__actions"><a href="/x" class="nc-button nc-button--primary" aria-label="Mehr – Titel" style="--nc-button-primary-bg: var(--fnd-color-always-light); --nc-button-primary-color: var(--fnd-color-always-dark);">Mehr</a></div></div></div></div>'
       },
       {
         quelle: 'neo_fe/js/neo-theme.js, Drupal.behaviors.neoCardGridCta (Video, hell, Knopf ghost ohne URL)',

@@ -1,5 +1,5 @@
 // Vorlage: card-cta — Markup aus data/markup/card-cta.html (Website,
-// /musterseite-bauteile), abgeglichen mit Drupal.behaviors.neoCardGridCta
+// /musterseite-bauteile), abgeglichen mit dem Twig (neo_fe includes/neo_card_grid_cta.inc; vorher neoCardGridCta)
 // (neo_fe, js/neo-theme.js — die Karten baut dort das Skript, es gibt kein
 // eigenes Twig). Die Inline-Variablen am Knopf setzt das Skript auf dunkler
 // Karte (heller Knopf auf dunklem Bild).

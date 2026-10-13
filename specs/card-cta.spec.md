@@ -1,5 +1,5 @@
 # card-cta Component Spec
-> Version 1.4.0 | Status: stable | Layer: molecule
+> Version 1.5.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -12,10 +12,10 @@ Root element: `.nc-card-cta`
 | overlay | `.nc-card-cta__overlay` | No | Verlauf ueber dem Medium (von unten): dunkel, bei data-theme="light" hell. Nur mit Medium; pointer-events none. |
 | content | `.nc-card-cta__content` | Yes | Inhaltsebene ueber Medium und Verlauf: Flex-Spalte, unten ausgerichtet, Polsterung spacing-06. |
 | title | `.nc-card-cta__title` | No | <h3> (card.title), heading-l bold; always-light, bei data-theme="light" always-dark. Breite als Instanzwert max-width in % (card.titleWidth, Vorgabe 80). |
-| actions | `.nc-card-cta__actions` | No | Knopfzeile (card.cta): ein .nc-button — <a> mit card.url, sonst <span>; --primary oder --ghost (card.ghost). Auf dunkler Karte setzt das Skript helle Knopffarben inline (--nc-button-primary-bg/-color bzw. --nc-button-ghost-color/-border). aria-label „<CTA> – <Titel>". |
+| actions | `.nc-card-cta__actions` | No | Knopfzeile (card.cta): mit card.url ein <a class="nc-button"> --primary oder --ghost (card.ghost), ohne URL einfacher Text (<span> ohne nc-button). Auf dunkler Karte setzt das Twig helle Knopffarben inline (--nc-button-primary-bg/-color bzw. --nc-button-ghost-color/-border). aria-label „<CTA> – <Titel>". |
 
 ### DOM Notes
-- Kein Twig: Drupal.behaviors.neoCardGridCta (js/neo-theme.js) baut die Karten aus dem JSON-Feld field_cgc_cards in das Raster .nc-card-grid-cta (Recipe card-grid-cta) — <div class="nc-card-cta" data-theme="dark|light"> mit __media, __overlay, __content > __title + __actions.
+- Das Twig (block--block-content--neo-card-grid-cta.html.twig, aufbereitet in includes/neo_card_grid_cta.inc) rendert die Karten aus dem JSON-Feld field_cgc_cards in das Raster .nc-card-grid-cta (Recipe card-grid-cta) — <div class="nc-card-cta" data-theme="dark|light"> mit __media, __overlay, __content > __title + __actions.
 - data-theme steht nur, wenn die Karte card.theme traegt; ohne Angabe verhaelt sie sich wie dunkel (heller Titel, dunkler Verlauf, helle Knopffarben). data-theme bindet hier keine Theme-Tokens neu, es waehlt nur die beiden Regeln .nc-card-cta[data-theme="light"].
 - Seitenverhaeltnis aus --cgc-ratio (Instanzwert am Raster, field_cgc_ratio 16/9 | 4/3 | 1/1 | 3/4; Vorgabe 16/9), Radius --nc-card-radius (Rueckfall radius-md).
 - Ohne Medium steht die Karte auf einer Flaeche im Ton der Karte (dunkel bzw. ohne data-theme always-dark, hell always-light), ohne Verlauf.
@@ -57,7 +57,7 @@ Contrast Target: WCAG AA large text (3:1) — Titel heading-l bold
 
 - Medium dekorativ: Bild mit alt="", Video mit aria-hidden und stumm; der Sinn steht im Titel.
 - Titel als <h3> unter der Ueberschrift des Rasters (h2 im Block-Kopf).
-- Der Knopf ist das einzige Ziel (<a class="nc-button">); sein aria-label nennt Aktion und Titel, weil mehrere Karten dieselbe Aktion tragen koennen. Ohne URL ist er ein <span> und nicht bedienbar.
+- Der Knopf ist das einzige Ziel (<a class="nc-button">); sein aria-label nennt Aktion und Titel, weil mehrere Karten dieselbe Aktion tragen koennen. Ohne URL gibt es keinen Knopf, nur den Text (nicht in Knopf-Optik).
 - Kontrast von Titel und Knopf haengt am Medium: der Verlauf (dunkel 60 %, hell 70 % am unteren Rand) sichert ihn nur im unteren Bereich — Bild passend zum Ton waehlen.
 - Das Video laeuft automatisch in Schleife ohne Pausenknopf (WCAG 2.2.2 bei mehr als 5 s) — nur ruhige, kurze Loops verwenden.
 - Hover-Zoom entfaellt bei prefers-reduced-motion.

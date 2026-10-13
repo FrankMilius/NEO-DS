@@ -337,6 +337,14 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
     expect(c).toMatch(/@media\(prefers-color-scheme: *dark\)\{:root:not\(\[data-theme\]\)\{--nc-section-header-label-color: *var\(--fnd-color-text-secondary\)\}\}/)
   })
 
+  it('card: Summary-Icon bindet im Dunkeln neu wie der Kicker, hell bleibt neutral-800 (Plan v4, Phase 7, Block 2, 13.10.2026)', () => {
+    const c = css()
+    expect(c).toMatch(/--nc-card-summary-icon-color: *var\(--fnd-neutral-800\)/)
+    expect(c).toMatch(/\.neo-light-theme,\.customer-light-theme\{--nc-card-summary-icon-color: *var\(--fnd-neutral-800\)\}/)
+    expect(c).toMatch(/\.neo-dark-theme,\.customer-dark-theme\{--nc-card-summary-icon-color: *var\(--fnd-color-text-secondary\)\}/)
+    expect(c).toMatch(/@media\(prefers-color-scheme: *dark\)\{:root:not\(\[data-theme\]\)\{--nc-card-summary-icon-color: *var\(--fnd-color-text-secondary\)\}\}/)
+  })
+
   it('reference-page: Verzeichnis vor dem Inhalt, genau ein aktueller Eintrag, Anker zeigen auf vorhandene Abschnitte', () => {
     for (const z of zellen('reference-page')) {
       const d = dom(z.html)

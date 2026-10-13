@@ -4593,23 +4593,37 @@
 .neo-light-theme,
 .customer-light-theme {
   --nc-section-header-label-color: var(--fnd-neutral-800);
-  --nc-card-summary-icon-color: var(--fnd-neutral-800);
+}
+
+.neo-dark-theme,
+.customer-dark-theme {
+  --nc-section-header-label-color: var(--fnd-color-text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --nc-section-header-label-color: var(--fnd-color-text-secondary);
+  }
 }
 
 // Icon der Summary-Karte: dasselbe Primitive neutral-800 wie der Kicker, im
 // Dunkeln gleich der Kartenflaeche (surface-elevated, gemessen 1,00:1 —
 // unsichtbar). Gleiche Neubindung wie der Kicker (Plan v4, Phase 7, Block 2,
 // 13.10.2026; vorher fiel es nicht auf, weil das Skript die Icons nicht
-// oder nur in Tabler-Fassung anzeigte).
+// oder nur in Tabler-Fassung anzeigte). Eigene Regeln statt in denen des
+// Kickers: tests/arena/phase5-block.test.js prueft dessen Bloecke woertlich.
+.neo-light-theme,
+.customer-light-theme {
+  --nc-card-summary-icon-color: var(--fnd-neutral-800);
+}
+
 .neo-dark-theme,
 .customer-dark-theme {
-  --nc-section-header-label-color: var(--fnd-color-text-secondary);
   --nc-card-summary-icon-color: var(--fnd-color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --nc-section-header-label-color: var(--fnd-color-text-secondary);
     --nc-card-summary-icon-color: var(--fnd-color-text-secondary);
   }
 }

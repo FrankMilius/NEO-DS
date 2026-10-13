@@ -13,7 +13,7 @@
 | Storybook | `stories/molecules/card-cta.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block/block--block-content--neo-card-grid-cta.html.twig, block/block--inline-block--neo-card-grid-cta.html.twig, js/neo-theme.js (Drupal.behaviors.neoCardGridCta)` | present |
+| Drupal | `block/block--block-content--neo-card-grid-cta.html.twig, block/block--inline-block--neo-card-grid-cta.html.twig, includes/neo_card_grid_cta.inc (Karten aus field_cgc_cards, neo_cgc_cards)` | present |
 
 ## Spec
 
@@ -22,7 +22,6 @@
 
 ## Dependencies
 
-- [`button`](../button/)
 - [`card`](../card/)
 
 ## Quick Links
