@@ -1,5 +1,5 @@
 # bento-grid Component Spec
-> Version 1.5.0 | Status: stable | Layer: organism
+> Version 1.5.1 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `interactive`
 

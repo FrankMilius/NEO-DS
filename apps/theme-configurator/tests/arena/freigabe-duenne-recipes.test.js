@@ -178,8 +178,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/14,23:1/)
   })
 
-  it('tab-nav: 1.5.3 (Plan v4, Phase 7, Block 10d), jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
-    const r = freigegeben('tab-nav', '1.5.3')
+  it('tab-nav: 1.5.4 (Plan v4, Phase 7, Block 10e), jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
+    const r = freigegeben('tab-nav', '1.5.4')
     const slots = Object.fromEntries(r.anatomy.slots.map((s) => [s.element, s]))
     const scss = scssElemente('scss/scss/06-molecules/_tab-nav.scss', 'nc-tab-nav')
     for (const el of scss) expect(slots[el], el).toBeTruthy()

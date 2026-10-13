@@ -66,7 +66,7 @@ ${knopf ? KNOPF : ''}
 <div class="nc-hero__overlay"></div><div class="nc-hero__content"><h1 class="nc-hero__title">Titel</h1><a class="nc-button" href="#cta">Mehr</a></div>
 </section></div>`
 
-/** Bento-Kachel mit URL wie NeoBento.buildCell (aus JSON, ohne Knopf) */
+/** Kachel als <a> mit Video (frueheres NeoBento.buildCell, bis Plan v4, Phase 7) — prueft das Behavior an Link-Wurzeln, ohne Knopf */
 const bentoMarkup = () => `<div class="nc-bento-grid"><a class="nc-bento-grid__cell" href="/ziel" data-media-pos="cover" data-neo-video>
 <div class="nc-bento-grid__media"><video muted loop playsinline><source src="v.mp4"></video><span class="nc-bento-grid__scrim"></span></div>
 <div class="nc-bento-grid__content"><h3 class="nc-bento-grid__title">Kachel</h3></div></a></div>`
