@@ -16,6 +16,7 @@ Verhalten der NEO-Bauteile — eine Quelle für Drupal, Doku und Theme-Konfigura
 | `rating` | Klick wählt (nativ), färbt bis zum Wert (`__item--active`), Sentiment-Stufe, `__value`; Pfeiltasten ±1 (bis 0), Pos1, Ende; Reset-Knopf; Hover-Vorschau macht das CSS | `rating-change` { value, previousValue } |
 | `input` | nur Löschknopf (`__clear`: leeren, `input` melden, Fokus zurück) und `data-empty`-Rückfall für Felder ohne placeholder — schwebendes Label ist reines CSS | `input-clear` { previousValue } |
 | `multiselect` | Website (Formularfeld des Drupal-Theme): Knopf schaltet das Panel (`[hidden]` + inline `display: none` als Absicherung zur SCSS-Regel `.nc-multiselect__panel[hidden]`; `aria-expanded`, `aria-controls`, `.is-open`), Enter/Leertaste/Pfeil runter öffnen mit Fokus auf die erste Checkbox, Pfeiltasten/Pos1/Ende in der Liste, Leertaste wählt (nativ), Escape schließt + Fokus zurück, Klick außen und Fokus aus dem Feld schließen; Zusammenfassung im Knopf (bis zwei Namen, sonst „n ausgewählt“, leer: Platzhalter). In Drupal nur per `nur` | `multiselect-change` { values } |
+| `form` | Website (Plan v4, Phase 8; `form[data-neo-form]`, Felder aus dem Twig): prüft jedes benannte Feld über die native Gültigkeit (das Formular trägt `novalidate`) und Gruppen `[data-neo-form-gruppe][data-required]` (mindestens ein Haken) — beim Verlassen, danach live, solange fehlerhaft, beim Absenden alle; Fehlertext `p.nc-form-error#<id>-err` ohne Rolle, `aria-invalid`, `aria-describedby`; beim Absenden mit Fehlern Zusammenfassung `.nc-validation-summary` (`role="alert"`, `tabindex=-1`, Links zu den Feldern) als erstes Kind, Fokus dorthin; Texte de/en nach `lang` (`data-error`, `data-label`). Absenden übernimmt, wer `form-submit` abbricht (in Drupal `js/neo-form.js`). In Drupal nur per `nur` | `form-submit` { valid, errors } (abbrechbar) |
 | `dropdown-menu` | Menu Button: Auslöser (Klick, Enter, Leertaste, Pfeil runter/hoch) öffnet, Pfeiltasten/Pos1/Ende im Menü, Escape/Tab/Klick außen schließen, Fokus zurück; Untermenü (Pfeil rechts/links, 300 ms Hover); menuitemradio/-checkbox | `dropdown-toggle` { open }, `dropdown-select` { value, checked } |
 | `popover` | Klick schaltet, Fokus ins Panel, Fokus-Falle, Escape/Schließen-Knopf, Klick außen (nicht bei Formularen); `--hover-trigger`: 300 ms öffnen, 200 ms schließen, Fokus öffnet; `.is-open` an der Wurzel folgt dem Panel | `popover-toggle` { open, reason } |
 | `tooltip` | Hover/Fokus macht das CSS; Escape blendet aus, bis Maus und Fokus weg sind (WCAG 1.4.13); ergänzt aria-describedby | `tooltip-dismiss` { reason } |
@@ -87,28 +88,24 @@ neo-behaviors:
     - core/drupalSettings
 ```
 
-Aktivieren: `{{ attach_library('neo_fe/neo-behaviors') }}` in einem Template
-oder als Abhängigkeit von `global-styling`. Steuern über `drupalSettings`:
+Aktivieren im Theme immer über `_neo_fe_behaviors_anhaengen($variables,
+['<id>'])` im Preprocess (hängt die Library an und setzt `nur`); nie
+global über `global-styling`. Steuern über `drupalSettings`:
 
 ```php
-$build['#attached']['drupalSettings']['neoBehaviors'] = ['nur' => ['tabs', 'select']]; // nur diese
+$build['#attached']['drupalSettings']['neoBehaviors'] = ['nur' => ['tabs' => TRUE, 'select' => TRUE]]; // nur diese
 $build['#attached']['drupalSettings']['neoBehaviors'] = ['aus' => TRUE];              // nichts binden
 ```
 
 Website-Bauteile (Entscheidung 06.10.2026): Behaviors mit
 `nurAusdruecklich: true` (Liste `NUR_AUSDRUECKLICH`) bindet die Drupal-Datei
 **nur**, wenn `drupalSettings.neoBehaviors.nur` sie nennt — ein Aufruf ohne
-`nur` lässt sie aus. Es sind Bauteile, deren Verhalten heute noch
-`neo-theme.js` liefert; so wird keines still auf der Website aktiv und
-nichts doppelt gebunden. Umstellen je Bauteil: `nur[] = '<id>'` setzen und
-die alte Funktion in `neo-theme.js` entfernen (siehe Abschnitt
-„Website-Bauteile“). `anbinden()` aus dem Modul (Arena, Doku) bindet ohne
-`nur` weiter alle.
-
-Achtung beim Aktivieren: `neo-theme.js` hat eigene Behaviors (z. B.
-`neoAccordion` für `[data-neo-accordion]`, Tab-Nav, Suche). Doppelt gebunden
-wird nichts Schädliches, aber vor dem globalen Einschalten mit der
-Drupal-Entwicklung festlegen, welche Bauteile das Paket übernimmt (`nur`).
+`nur` lässt sie aus. So wird keines still auf einer Seite aktiv, auf der der
+Block nicht steht. `nur` setzt das Theme als Objekt (`{ tabs: true }`);
+eine Liste versteht die Datei auch, aber Drupal überschreibt Zahlenschlüssel
+beim Zusammenführen mehrerer Blöcke (Fehler 08.10.2026). `anbinden()` aus dem Modul (Arena, Doku) bindet ohne `nur`
+weiter alle. Wie ein Website-Bauteil entsteht, steht im Abschnitt
+„Website-Bauteile“.
 
 Das Soll steht im Recipe (`keyboard`, `events`, State-Regeln). Die Tests in
 `apps/theme-configurator/tests/behaviors/` binden an genau das Markup, das die
@@ -242,12 +239,39 @@ zum nächsten Bedienelement danach, sonst davor (WCAG 2.4.3).
 - **Benachrichtigung** — „gelesen" speichert das Programm auf
   `notification-read` hin (localStorage oder API).
 
-## Website-Bauteile (Entscheidung 06.10.2026)
+## Website-Bauteile (Entscheidung 06.10.2026, Stand nach Plan v4)
 
-Verhalten, das heute `neo_fe/js/neo-theme.js` liefert, steht jetzt auch hier
-— 1:1 nach der Website, mit den Verbesserungen für Barrierefreiheit. Auf der
-Website ändert sich nichts, bis Drupal die Bauteile per `nur` einbindet und
-die alte Funktion entfernt (Freigabe).
+Seit Plan v4 (Phasen 1–8, 09.–13.10.2026) gibt es `neo_fe/js/neo-theme.js`
+nicht mehr. Die Arbeit ist dreigeteilt:
+
+| Wer | Was | Wo |
+| --- | --- | --- |
+| Twig (neo_fe) | Markup im Anfangszustand, Texte nach Positivliste (E9 a) | `templates/block/*.html.twig`, Aufbereitung in `includes/neo_*.inc` |
+| neo-behaviors | Tastatur, Zustände, ARIA, Ereignisse (Soll im Recipe) | dieses Paket, `js/neo-behaviors.js` im Theme |
+| Block-Library (neo_fe) | nur Daten und Absenden: Akzentfarbe je Tab, Medien aus Karten-JSON, Laden/Filtern der Veranstaltungen, Formular senden | `js/neo-<block>.js`, je Block eine Library |
+
+So kommt ein neues Bauteil mit Verhalten auf die Website:
+
+1. Recipe zuerst: `keyboard`, `events`, Zustände, Texte de/en.
+2. Behavior in `packages/neo-behaviors/<id>.js` mit `nurAusdruecklich: true`,
+   in `index.js` eintragen; Tests in
+   `apps/theme-configurator/tests/behaviors/`.
+3. `npm run behaviors:build`, `npm run behaviors:check`; `dist` committen.
+4. Markup im Twig, so wie das Behavior es erwartet (Anfangszustand fertig,
+   ohne Skript bedienbar oder vollständig sichtbar).
+5. Im Block-Preprocess `_neo_fe_behaviors_anhaengen($variables, ['<id>'])`.
+   Braucht der Block zusätzlich Theme-Code (Daten, Absenden), kommt er in
+   eine eigene Library `neo_fe/neo-<block>` und wird mit
+   `_neo_fe_bibliothek_anhaengen($variables, 'neo-<block>')` angehängt —
+   nie in `global-styling`. Gemeinsames liegt in `neo_fe/neo-fe-binden`
+   (`Drupal.neoFe.verhaltenBinden`, `.tabsBinden`).
+6. Am Ende der Phase Version anheben (package.json, `version:` oben, dist)
+   und `dist/neo-behaviors.js` byteweise nach `neo_fe/js/neo-behaviors.js`
+   kopieren, Version in `neo_fe.libraries.yml` nachziehen.
+
+Die Einträge unten beschreiben die Umstellung je Bauteil zum jeweiligen
+Datum; „bis Phase 7“ heißt: inzwischen erledigt (siehe die beiden letzten
+Einträge).
 
 - **Mobile-Drawer** und **Tabellen-Info-Modal** (overlay-verhalten) —
   Überlagerungen ohne natives `<dialog>`, gemeinsamer Teil `_ueberlagerung.js`
@@ -354,6 +378,22 @@ die alte Funktion entfernt (Freigabe).
   (das SCSS blendet nur unter dem gebundenen Behavior aus). Die aus JSON
   gebauten Blöcke binden nach dem Aufbau mit
   `NeoBehaviors.anbinden(wurzel, ['einblenden'])`.
+- **Markup ins Twig** (Plan v4, Phase 7, 13.10.2026) — Feature-Liste,
+  Card-Grid, Card-Grid-CTA, Bento, Logo-Wand, Product-Showcase (Modus
+  Auswahl, Akkordeon-Muster statt Tabs), Galerie, Story-Gallery,
+  Solution-Tabs und Tab-Nav (Gerüst und die Module features, feature_list,
+  expanding, bento, form) rendern ihr Markup im Twig statt aus JSON per
+  `innerHTML`; die Behaviors binden am fertigen Markup. Die im Bestand
+  ungenutzten Tab-Nav-Module card_grid, hero, hero_tom, hero_tmob und
+  text_media baut weiter `js/neo-tab-nav.js` (Entscheidung 10f, Weg 3).
+- **Formular, Veranstaltungsliste, Block-Libraries** (Plan v4, Phase 8,
+  13.10.2026) — `form` ersetzt die Prüfung aus `NeoForm.renderFields`
+  (eine Zusammenfassung statt eines `role="alert"` je Feld); die Felder
+  rendert das Twig, Absenden bleibt im Theme (`js/neo-form.js`, Ereignis
+  `form-submit`). Die Veranstaltungsliste klont ihre Karte aus
+  `<template data-events-card>` (statt `innerHTML`), Begriffs-Namen kommen
+  aus Drupal. `neo-theme.js` ist in Block-Libraries aufgeteilt;
+  `global-styling` lädt kein Block-Skript mehr.
 - **FAQ** (website-verhalten d) — **kein eigenes Behavior**, `<details>`
   genügt. Begründung: `neo-theme.js` bindet am FAQ nichts (`neoAccordion`
   greift nur bei `[data-neo-accordion]` mit `.nc-accordion__item`), das

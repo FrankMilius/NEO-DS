@@ -15,7 +15,7 @@ When creating a new NEO block type, always follow this sequence:
 4. Configure Form Display (widgets)
 5. Configure View Display (all fields hidden — template renders)
 6. Create BOTH Twig templates: `block--inline-block--neo-*.html.twig` AND `block--block-content--neo-*.html.twig`
-7. Add JS behavior in `neo-theme.js` (if needed)
+7. Behavior in neo-behaviors, Anhängen über `_neo_fe_behaviors_anhaengen` (if needed): behavior in WEBSITE26 `packages/neo-behaviors` (recipe first, `nurAusdruecklich: true`), attached in the block preprocess with `_neo_fe_behaviors_anhaengen($variables, ['<id>'])`. Theme-only glue (data, submit) goes into a block library `neo_fe/neo-<block>` (`js/neo-<block>.js`, attached with `_neo_fe_bibliothek_anhaengen`) — never into `global-styling`. See neo-behaviors README, section „Website-Bauteile“.
 8. Export config: `ddev drush cex --yes && ddev drush cr`
 
 ## Template Pattern
@@ -34,8 +34,10 @@ When creating a new NEO block type, always follow this sequence:
 
 ## Key Files
 
-- `neo_theme.theme` — Preprocess functions (generic field extraction, template suggestions)
-- `neo-theme.js` — All Drupal behaviors (~2000 lines, 15+ behaviors)
+- `neo_fe.theme` — Preprocess functions (generic field extraction, template suggestions, attaching behaviors and block libraries)
+- `includes/neo_*.inc` — Per-block preparation of JSON fields for Twig (allowlists)
+- `js/neo-behaviors.js` — Built copy of WEBSITE26 `packages/neo-behaviors/dist` (do not edit)
+- `js/neo-<block>.js` — Small per-block libraries (data, submit); `neo-theme.js` was removed in Plan v4, Phase 8 (13.10.2026)
 - `neo-overrides.css` — Drupal-specific CSS overrides (~2000 lines)
 - `theme-settings.php` — Theme configuration forms (footer, navigation, etc.)
 

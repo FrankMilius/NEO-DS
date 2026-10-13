@@ -3,7 +3,9 @@
 - **Status:** angenommen; Phase 1 umgesetzt, Phase 2 weitgehend umgesetzt, Phase 3:
   Blöcke Formular, Overlays, Navigation und Rückmeldung umgesetzt, Verhalten
   der Navigations-Bauteile und der Rückmeldungen ergänzt (Plan v3, Stand
-  05.10.2026); Phase 4 „Dünne Recipes“ umgesetzt (06.10.2026)
+  05.10.2026); Phase 4 „Dünne Recipes“ umgesetzt (06.10.2026); Umstieg der
+  Website (Plan v4, Phasen 0–8) umgesetzt (13.10.2026): `neo-theme.js`
+  entfällt
 - **Datum:** 01.10.2026
 - **Entscheider:** Frank Milius
 - **Code:** `data/recipe-schema.json` (`komposition`), `scripts/pruefe-komposition.mjs`,
@@ -50,7 +52,8 @@ Dinge fehlten aber:
   Kopie neben Drupal, Doku und Storybook — verworfen.
 - **Behaviors aus `neo-theme.js` übernehmen:** die Datei ist auf die Website
   zugeschnitten (Inhalte aus JSON, GSAP, Seitenanker) — als Quelle für die
-  Bauteile ungeeignet; sie kann später auf das Paket umsteigen.
+  Bauteile ungeeignet; sie kann später auf das Paket umsteigen. (So
+  geschehen in Plan v4, siehe die letzte Folge.)
 - **Eigene Select-Liste:** gestaltbar, aber schlechter auf Mobilgeräten und
   aufwendiger in der Barrierefreiheit — verworfen (Entscheidung 1).
 
@@ -336,3 +339,29 @@ Dinge fehlten aber:
   meldet dadurch deutlich weniger Fehler. Kein SCSS geändert, nichts
   website-sichtbar; Befunde an Website-Blöcken sind als Entscheidungsfälle
   gemeldet.
+- Plan v4 (09.–13.10.2026, Phasen 0–8): Die Website ist auf das Paket
+  umgestiegen; `neo_fe/js/neo-theme.js` ist gelöscht. Erreicht ist, was
+  Entscheidung 3 vorsah — Drupal, Doku und Konfigurator nutzen für das
+  Verhalten dieselbe Datei. Aufgabenteilung seither: Markup im Twig
+  (Aufbereitung der JSON-Felder in `neo_fe/includes/neo_*.inc`, Texte nach
+  Positivliste, E9 a), Tastatur/Zustände/ARIA/Ereignisse in
+  `neo-behaviors` (Behaviors mit `nurAusdruecklich`, angehängt nur über
+  `_neo_fe_behaviors_anhaengen`), im Theme nur noch Daten und Absenden in
+  kleinen Block-Libraries (`js/neo-<block>.js`,
+  `_neo_fe_bibliothek_anhaengen`; `global-styling` ohne Block-Skript).
+  Neue Behaviors in Plan v4: solution-tabs (Phase 1), gallery, marquee (2),
+  video (3), table-block (5), fade-gallery, carousel, product-showcase,
+  testimonial-grid (6a), timeline, hero-tom, footer, einblenden (6b), form
+  (8); accordion übernimmt `neoAccordion` (6b). Phase 7 zog das Markup von
+  zehn Blöcken aus `innerHTML` ins Twig, Phase 8 das Formular und die
+  Veranstaltungsliste (`<template>` statt `innerHTML`). Gewonnen für die
+  Barrierefreiheit u. a.: Pause-Knöpfe für alles, was sich bewegt
+  (WCAG 2.2.2), Video-Fassade ohne Anfrage vor dem Klick, Fokus-Führung
+  (2.4.3), eine Fehlerzusammenfassung statt vieler `role="alert"`, ohne
+  Skript sichtbare Inhalte. Der Weg für neue Bauteile steht im README von
+  `neo-behaviors` (Abschnitt „Website-Bauteile“) und in
+  `.claude/rules/drupal.md` (Schritt 7). Offen bleiben: die im Bestand
+  ungenutzten Tab-Nav-Module card_grid, hero, hero_tom, hero_tmob und
+  text_media (weiter per Skript, Entscheidung 10f, Weg 3) und die
+  GSAP-Bewegung des Parallax-Hintergrunds (Komponente `parallax-bg`, auch
+  im Hero-TMOB), die das Paket nicht abdeckt.
