@@ -13,7 +13,7 @@
 | Storybook | `stories/organisms/story-gallery.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block--block-content--neo-story-gallery.html.twig, block--inline-block--neo-story-gallery.html.twig` | present |
+| Drupal | `block--block-content--neo-story-gallery.html.twig, block--inline-block--neo-story-gallery.html.twig, includes/neo_story_gallery.inc (Karten aus field_sg_cards, neo_sg_cards)` | present |
 
 ## Spec
 

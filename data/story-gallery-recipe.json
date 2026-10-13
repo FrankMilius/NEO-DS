@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,14 @@
       "docs": "/docs/story-gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 8 (13.10.2026, Entscheidung E9 = a; website-sichtbar, Freigabe ausstehend): Karten serverseitig — neo_fe includes/neo_story_gallery.inc bereitet field_sg_cards auf (neo_sg_cards), das Twig rendert Karte, Seitenverhaeltnis, Video und Bildunterschrift (DOM gemessen gleich bis auf alt); das Bild baut weiter nc-shot im Browser aus data-sg-shot, ohne Skript ein <noscript>-Bild. Das <script type=\"application/json\" data-sg-cards> entfaellt. Titel und Beschreibung reiner Text (Positivliste leer).",
+          "Endlos-Modus: das Cursor-Paddle blaettert nur bei der Maus (pointerType mouse), nur mit der linken Taste und nicht auf bedienbaren Teilen (Knoepfe, Links, Eingaben, Videos); ueber ihnen tritt es zurueck. Vorher fing mousedown jeden Druck ab — rechte Taste, Antippen auf Touch-Geraeten, Hotspot-Marker und Vorher/Nachher-Regler von nc-shot blaetterten, statt zu reagieren (auf DDEV gemessen, vorher/nachher).",
+          "Bild alt = card.alt, sonst \"\" statt Kartentitel (Titel steht als Ueberschrift darunter; wie Card-Grid, Showcase, Galerie)."
+        ]
+      },
       {
         "version": "1.3.0",
         "changes": [
@@ -57,7 +65,8 @@
       "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block--block-content--neo-story-gallery.html.twig",
-        "block--inline-block--neo-story-gallery.html.twig"
+        "block--inline-block--neo-story-gallery.html.twig",
+        "includes/neo_story_gallery.inc (Karten aus field_sg_cards, neo_sg_cards)"
       ],
       "docs": null
     }
@@ -188,7 +197,7 @@
           "tokenGroups": [
             "paddles"
           ],
-          "description": "Cursor-Paddle (.nc-story-gallery__cursor-paddle.is-visible) folgt der Maus"
+          "description": "Cursor-Paddle (.nc-story-gallery__cursor-paddle.is-visible) folgt der Maus (nur pointerType mouse); ein Linksklick blaettert, ausser auf bedienbaren Teilen (dort tritt es zurueck)."
         }
       }
     }
