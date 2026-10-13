@@ -182,7 +182,8 @@ describe('shot: Tokens (hell = bisherige Werte, dunkel neu)', () => {
 
   it('dunkle Fassung nur unter .neo-dark-theme/.customer-dark-theme bzw. prefers-color-scheme ohne data-theme', () => {
     const text = css()
-    const shotBloecke = [...text.matchAll(/([^{}]+)\{[^{}]*--nc-shot-accent:\s*([^;}]+)/g)].map((m) => [m[1].trim(), m[2].trim()])
+    // (?<=^|[{}]): Start nur an Regelgrenzen, sonst quadratisch (s. layout-block.test.js)
+    const shotBloecke = [...text.matchAll(/(?<=^|[{}])([^{}]+)\{[^{}]*--nc-shot-accent:\s*([^;}]+)/g)].map((m) => [m[1].trim(), m[2].trim()])
     expect(shotBloecke).toEqual([
       [':root', '#37e93d'],
       ['.neo-dark-theme,.customer-dark-theme', 'var(--fnd-color-background-accent)'],

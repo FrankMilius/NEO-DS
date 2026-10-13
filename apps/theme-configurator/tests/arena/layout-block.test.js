@@ -428,7 +428,10 @@ describe('Layout-Block: Zustände und Aufbau', () => {
 
   it('hero: mark-tint faerbt nur <mark>, .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026)', () => {
     const css = readFileSync(STYLES, 'utf8')
-    const tinte = css.match(/([^{}]*)\{background-image:none;color:var\(--mod-hero-mark-tint/)
+    // Start nur an Regelgrenzen ((?<=^|[{}])): unverankert probiert die Engine
+    // jede Position eines klammerfreien Abschnitts (67 KB :root) — quadratisch,
+    // ~3,5 s je Lauf, unter Last ueber dem Zeitlimit (13.10.2026)
+    const tinte = css.match(/(?<=^|[{}])([^{}]*)\{background-image:none;color:var\(--mod-hero-mark-tint/)
     expect(tinte).not.toBeNull()
     const selektoren = tinte[1].split(',')
     expect(selektoren.some((x) => /\.nc-hero--mark-tint \.nc-hero__title mark$/.test(x))).toBe(true)
