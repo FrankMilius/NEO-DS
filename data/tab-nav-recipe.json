@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tab-nav",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "Plan v4, Phase 7, Block 10a (13.10.2026, Entscheidung E9 = a; Block 10 je Modul einzeln; website-sichtbar, Freigabe ausstehend): Geruest serverseitig — neo_fe includes/neo_tab_nav.inc bereitet field_tn_tabs auf (neo_tn_tabs), das Twig rendert Tableiste, Tabs (data-accent), Panels mit Titel, Text und Knopf im Anfangszustand (erster Tab gewaehlt, Akzent des ersten Tabs an der Wurzel) wie bisher neoTabNav (DOM gemessen gleich bis auf data-accent). Das <script type=\"application/json\" data-tab-nav-tabs> entfaellt. Die Inhaltsmodule baut vorerst weiter neoTabNav in .nc-tab-nav__module aus data-tn-modul/data-tn-daten (Block 10b ff. ziehen sie einzeln ins Twig)."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [
@@ -67,12 +73,13 @@
       "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
       "drupal": [
         "block/block--block-content--neo-tab-nav.html.twig",
-        "block/block--inline-block--neo-tab-nav.html.twig"
+        "block/block--inline-block--neo-tab-nav.html.twig",
+        "includes/neo_tab_nav.inc (Tabs aus field_tn_tabs, neo_tn_tabs)"
       ],
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-tab-nav.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID und data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay, JSON in script[data-tab-nav-tabs]; js/neo-theme.js Drupal.behaviors.neoTabNav baut Tableiste und Panels, Inhaltsmodule in window.NeoTabModules, und bindet mit NeoBehaviors.anbinden(wurzel, ['solution-tabs']); neo_fe_preprocess_block haengt neo-behaviors fuer solution-tabs und die Module form (multiselect) und expanding (expanding-panels) an.",
+      "drupal": "neo_fe: block--block-content--neo-tab-nav.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID und data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay, Tableiste und Panels aus neo_tn_tabs (includes/neo_tab_nav.inc, seit Plan v4, Phase 7), je Panel .nc-tab-nav__module mit data-tn-modul/data-tn-daten; js/neo-theme.js Drupal.behaviors.neoTabNav baut die Inhaltsmodule (window.NeoTabModules) und bindet mit NeoBehaviors.anbinden(wurzel, ['solution-tabs']); neo_fe_preprocess_block haengt neo-behaviors fuer solution-tabs und die Module form (multiselect) und expanding (expanding-panels) an.",
       "behavior": "packages/neo-behaviors/solution-tabs.js (Behavior des Recipes solution-tabs; nurAusdruecklich)"
     }
   },
@@ -134,7 +141,7 @@
     "domNotes": [
       "Website (block--block-content--neo-tab-nav.html.twig): section.nc-section.nc-section--full.nc-solution-tabs-section.nc-tab-nav-section[style=background-color] > .nc-container > neo_fe:block-header (Badges, Kicker, Headline h2 mit id <wurzel-id>-titel, Lead; Ausrichtung field_tn_align -> nc-section-header--{align}) + div.nc-solution-tabs.nc-tab-nav#nc-tn-<Block-ID>[data-tab-nav][data-orientation][data-autoplay][data-tablist-labelledby][style=--nc-solution-tabs-autoplay-duration: <Intervall>s] (bei autoplay on mit dem Knopf .nc-solution-tabs__autoplay, sonst leer) + script[type=application/json][data-tab-nav-tabs].",
       "Felder: field_st_variant line (Vorgabe) | contained -> nc-solution-tabs--contained (Achse variant); field_st_orientation horizontal | vertical -> nc-solution-tabs--vertical (Modifier von solution-tabs, hier keine eigene Achse); field_st_autoplay off | on; field_st_interval Sekunden (Vorgabe 7); field_st_bg Flaeche als Inline-Stil (Vorgabe var(--fnd-color-background-base)); .nc-tab-nav-section ist ein Haken ohne CSS im DS.",
-      "Tableiste und Panels baut neoTabNav aus dem JSON: div.nc-solution-tabs__tablist[role=tablist][aria-labelledby] (vertikal aria-orientation) > button.nc-solution-tabs__tab[role=tab][aria-selected][aria-controls] (Roving-Tabindex; vertikal mit span.__tab-index „01\") + span.__progress[aria-hidden]; je Tab div.nc-solution-tabs__panel.nc-tab-nav__panel[role=tabpanel][aria-labelledby] > .nc-tab-nav__panel-body > h3.__panel-title + p.__panel-text + .nc-tab-nav__module + a.nc-button.nc-button--accent.nc-button--lg. Akzentfarbe je Tab (--nc-solution-tabs-accent) an Wurzel und Panel — die Wurzel folgt solution-tabs-change. IDs <wurzel-id>-t<n>/-p<n> (vorher aus performance.now()).",
+      "Tableiste und Panels rendert das Twig (seit Plan v4, Phase 7, Block 10a; vorher neoTabNav aus dem JSON): div.nc-solution-tabs__tablist[role=tablist][aria-labelledby] (vertikal aria-orientation) > button.nc-solution-tabs__tab[role=tab][aria-selected][aria-controls] (Roving-Tabindex; vertikal mit span.__tab-index „01\") + span.__progress[aria-hidden]; je Tab div.nc-solution-tabs__panel.nc-tab-nav__panel[role=tabpanel][aria-labelledby] > .nc-tab-nav__panel-body > h3.__panel-title + p.__panel-text + .nc-tab-nav__module + a.nc-button.nc-button--accent.nc-button--lg. Akzentfarbe je Tab (--nc-solution-tabs-accent) an Wurzel und Panel — die Wurzel folgt solution-tabs-change. IDs <wurzel-id>-t<n>/-p<n> (vorher aus performance.now()).",
       "Inhaltsmodule der Website (window.NeoTabModules, Feld module je Tab, Vorgabe features): features (nc-solution-tabs__features nc-tab-nav__features), feature_list (nc-feature-list__items), bento (nc-bento-grid nc-tab-nav__bento), expanding (nc-expanding-panels nc-tab-nav__xpanels, Behavior expanding-panels), card_grid (nc-card-grid nc-tab-nav__card-grid), hero (nc-hero nc-tab-nav__hero), hero_tom, hero_tmob (nc-tab-nav__hero-tom/-tmob), text_media (nc-section nc-tab-nav__text-media), form (nc-form-block nc-tab-nav__form, Behavior multiselect). Die Arena zeigt die ersten vier; die uebrigen Haken haben kein CSS im DS, gestaltet wird ueber das jeweilige Bauteil.",
       "Verhalten (neo-behaviors solution-tabs, Plan v4, Phase 1): Klick waehlt; Pfeil rechts/links (vertikal runter/hoch) waehlt den naechsten/vorigen Tab rundum und setzt den Fokus (automatische Aktivierung), Pos1/Ende den ersten/letzten; Ereignisse solution-tabs-change und solution-tabs-autoplay. Tasten und Ereignisse stehen im Recipe solution-tabs.",
       "Autoplay (nur data-autoplay=on und ohne prefers-reduced-motion): ab 30 % Sichtbarkeit wechselt der Tab im Intervall (ein setTimeout je Schritt); der Fortschrittsbalken des aktiven Tabs laeuft per CSS. Der Knopf .nc-solution-tabs__autoplay vor der Tableiste haelt an bzw. setzt fort (Beschriftung wechselt); eine Handwahl beendet die Rotation dauerhaft; Maus und Fokus im Block halten sie vorübergehend an (.is-paused haelt auch den Balken an), ausser Sicht ruht der Takt.",
@@ -194,7 +201,7 @@
       {
         "when": {},
         "notes": [
-          "Mindestens zwei Tabs; neoTabNav baut ohne Tabs nichts. Je Tab Titel und Text, ein Inhaltsmodul, CTA optional."
+          "Mindestens zwei Tabs; ohne Tabs rendert das Twig keine Tableiste. Je Tab Titel und Text, ein Inhaltsmodul, CTA optional."
         ]
       },
       {

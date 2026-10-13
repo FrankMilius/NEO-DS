@@ -178,8 +178,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/14,23:1/)
   })
 
-  it('tab-nav: 1.4.0, jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
-    const r = freigegeben('tab-nav', '1.4.0')
+  it('tab-nav: 1.5.0 (Plan v4, Phase 7, Block 10a), jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
+    const r = freigegeben('tab-nav', '1.5.0')
     const slots = Object.fromEntries(r.anatomy.slots.map((s) => [s.element, s]))
     const scss = scssElemente('scss/scss/06-molecules/_tab-nav.scss', 'nc-tab-nav')
     for (const el of scss) expect(slots[el], el).toBeTruthy()
@@ -205,7 +205,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     // 2.2.2: Befund geschlossen — Pause-Knopf
     expect(r.a11y.base.assertions.join(' ')).toMatch(/2\.2\.2: .*Knopf/)
     expect(r.a11y.base.assertions.join(' ')).not.toMatch(/fehlt \(Befund/)
-    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig'])
+    // Plan v4, Phase 7, Block 10a: Geruest im Twig, Aufbereitung in includes/neo_tab_nav.inc
+    expect(r.meta.pipeline.drupal).toEqual(['block/block--block-content--neo-tab-nav.html.twig', 'block/block--inline-block--neo-tab-nav.html.twig', 'includes/neo_tab_nav.inc (Tabs aus field_tn_tabs, neo_tn_tabs)'])
   })
 
   it('tbl-cell: 1.5.0, Anatomie wie das SCSS, nur der Text Pflicht, Wertsymbole mit Textalternative, Haken ohne Farbwerte, Twig mit Positivliste', () => {

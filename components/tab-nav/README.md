@@ -13,7 +13,7 @@
 | Storybook | `stories/molecules/tab-nav.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
-| Drupal | `block/block--block-content--neo-tab-nav.html.twig, block/block--inline-block--neo-tab-nav.html.twig` | present |
+| Drupal | `block/block--block-content--neo-tab-nav.html.twig, block/block--inline-block--neo-tab-nav.html.twig, includes/neo_tab_nav.inc (Tabs aus field_tn_tabs, neo_tn_tabs)` | present |
 
 ## Spec
 
