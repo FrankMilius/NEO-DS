@@ -9,6 +9,16 @@ import { buildDefine } from './build-info.js'
  * index.html in config/theme-config.html übertragen, damit der Docs-Server
  * immer die aktuellen Bundles referenziert.
  */
+// Ziel und Basis-Pfad des Builds (Drupal-Modul neo_theme_konfigurator,
+// 14.10.2026): ohne Umgebungsvariablen wie bisher config/theme-configurator
+// unter /config/theme-configurator/ (Docs-Server, Attrappe, Release). Fuer
+// Drupal baut das Skript des Moduls mit
+//   KONFIGURATOR_BASE=/modules/custom/neo_theme_konfigurator/app/theme-configurator/
+//   KONFIGURATOR_AUSGABE=<Zielordner>
+// in einen eigenen Ordner — der lokale Build bleibt unberuehrt.
+const BASIS = process.env.KONFIGURATOR_BASE || '/config/theme-configurator/'
+const AUSGABE = process.env.KONFIGURATOR_AUSGABE ? resolve(process.env.KONFIGURATOR_AUSGABE) : resolve(__dirname, '../../config')
+
 function syncThemeConfigHtml() {
   return {
     name: 'sync-theme-config-html',
@@ -19,8 +29,8 @@ function syncThemeConfigHtml() {
     // hatte. Ergebnis war ein leeres config/theme-configurator/.
     // writeBundle laeuft, wenn die Dateien geschrieben sind.
     writeBundle() {
-      const outDir = resolve(__dirname, '../../config/theme-configurator')
-      const wrapperPath = resolve(__dirname, '../../config/theme-config.html')
+      const outDir = resolve(AUSGABE, 'theme-configurator')
+      const wrapperPath = resolve(AUSGABE, 'theme-config.html')
 
       // Zweite Absicherung: lieber warnen als den Build abbrechen. Der Sync
       // der Hashes ist Komfort, kein Grund, ein geleertes Zielverzeichnis
@@ -46,6 +56,7 @@ function syncThemeConfigHtml() {
         return
       }
       const wrapper = readFileSync(vorlagePfad, 'utf-8')
+        .replaceAll('/config/theme-configurator/', BASIS)
         .replace('__KONFIG_CSS__', cssMatch[1])
         .replace('__KONFIG_JS__', jsMatch[1])
       writeFileSync(wrapperPath, wrapper)
@@ -58,7 +69,7 @@ export default defineConfig({
   plugins: [vue(), syncThemeConfigHtml()],
   // App-Version, Git-Kurz-Hash, Build-Datum fuer den Header (Plan v2, 4.5)
   define: buildDefine(),
-  base: '/config/theme-configurator/',
+  base: BASIS,
   resolve: {
     alias: {
       'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js'),
@@ -89,7 +100,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: '../../config/theme-configurator',
+    outDir: resolve(AUSGABE, 'theme-configurator'),
     emptyOutDir: true
   }
 })

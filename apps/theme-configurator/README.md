@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.0.0-rc.1` (Übergabe-Kandidat) |
+| App-Version | `package.json` → `1.0.0` (14.10.2026; Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -474,7 +474,11 @@ Themes, `state.version`, Theme-Metadaten) und daneben „App <version> ·
 
 ## Integration in Drupal
 
-Vorschlag (ADR-004), abhängig von den offenen Fragen in ADR-002:
+Umgesetzt im Drupal-Modul `neo_theme_konfigurator` (DRUPAL11, 14.10.2026):
+Einstieg `/admin/appearance/neo-theme-konfigurator`, Schnittstelle nach der
+OpenAPI, Kontrast-Tor in PHP (alle Prüffälle grün), das aktive Theme ersetzt
+`css/theme-overrides.css` des Frontend-Themes. Ursprünglicher Vorschlag
+(ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS
    aus `theme-configurator/assets/` als Library registrieren.
@@ -494,12 +498,14 @@ Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
 
 ## Bekannte Grenzen
 
-- **Speichern in Drupal:** Vertrag, App-Seite und Oberfläche stehen (ADR-002,
-  01.10.2026); der Drupal-Server ist noch nicht gebaut — lokal übernimmt die
-  Drupal-Attrappe. Ohne Konfiguration speichert die App nur im Browser bzw.
-  über den lokalen Docs-Server.
-- **Vite-`base` fest** auf `/config/theme-configurator/`; ein anderer Pfad in
-  Drupal braucht einen angepassten Build.
+- **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul
+  `neo_theme_konfigurator` (DRUPAL11, 14.10.2026; README des Moduls). Lokal
+  ohne Drupal übernimmt weiter die Attrappe. Ohne Konfiguration speichert die
+  App nur im Browser bzw. über den lokalen Docs-Server.
+- **Vite-`base`:** Vorgabe `/config/theme-configurator/`; ein anderer Pfad über
+  `KONFIGURATOR_BASE`, ein anderer Zielordner über `KONFIGURATOR_AUSGABE`
+  (so baut `scripts/app-uebernehmen.sh` des Moduls, ohne den lokalen Build zu
+  überschreiben).
 - **Externe Schriften:** Der Einstieg (`config/theme-config.vorlage.html`) lädt
   Google Fonts; Datenschutz/CSP klären.
 - **Nur mit Docs-Server:** Styleguide-Abgleich, Drupal-Cache-Clear (auf
