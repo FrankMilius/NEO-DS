@@ -164,6 +164,9 @@
       </div>
     </section>
 
+    <!-- Lokale Schriften aus Drupal (Vertrag 1.1.0): hochgeladen oder Server-Ordner -->
+    <DrupalSchriften v-if="drupalBetrieb && !buehne" :gesperrt="isDefaultNeo" />
+
     <!-- ═══════════════════════════════════════════════════════════════════
          FONT WEIGHTS — alle Stärken aus der Quelle (Plan v2, 2.3)
          ═══════════════════════════════════════════════════════════════════ -->
@@ -265,6 +268,13 @@ import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
+import { speicher } from '../../speicher/index.js'
+import DrupalSchriften from '../drupal/DrupalSchriften.vue'
+
+const drupalBetrieb = speicher().art === 'drupal'
+// Auf der Bühne (TypografieBuehne) erscheint der Editor ein zweites Mal —
+// die Schriftverwaltung nur einmal, im Inspector.
+defineProps({ buehne: { type: Boolean, default: false } })
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens

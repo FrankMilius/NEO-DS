@@ -14,6 +14,10 @@
  *     „Das Theme wurde inzwischen geändert“ (Beschluss 7).
  *   - Abläufe Speichern (Strg+S), Anlegen, Öffnen, Löschen, Aktivieren —
  *     mit verständlichen Meldungen (meldungFuer aus speicher/fehler.js).
+ *   - Website-Vorschau (Vertrag 1.1.0, Entscheidung Frank 14.10.2026): nach
+ *     Speichern, Anlegen und Öffnen sieht die angemeldete Person den
+ *     gespeicherten Stand sofort auf der Website; Besucher erst nach
+ *     Veröffentlichen. Abschaltbar (gemerkt in localStorage).
  */
 import { nextTick, reactive, toRaw, watch } from 'vue'
 import { darf, kanonischesJson, meldungFuer, speicher } from '../speicher/index.js'
@@ -22,6 +26,12 @@ import { bestaetigen, hinweisen } from './useBestaetigung.js'
 
 /** localStorage: { id, abdruck } des zuletzt gespeicherten bzw. geöffneten Stands */
 export const STAND_SCHLUESSEL = 'neo-theme-configurator-drupal-stand'
+/** localStorage: 'aus', wenn die Website-Vorschau abgeschaltet ist */
+export const VORSCHAU_SCHLUESSEL = 'neo-theme-configurator-drupal-vorschau'
+
+function vorschauGemerkt () {
+  try { return localStorage.getItem(VORSCHAU_SCHLUESSEL) !== 'aus' } catch { return true }
+}
 
 const zustand = reactive({
   /** 'ohne-theme' | 'gespeichert' | 'ungespeichert' | 'speichert' | 'fehler' */
@@ -36,6 +46,12 @@ const zustand = reactive({
   veroeffentlichenOffen: false,
   /** Katalog konnte nicht geladen werden */
   katalogFehler: '',
+  /** Website-Vorschau eingeschaltet (für die angemeldete Person) */
+  vorschauAn: vorschauGemerkt(),
+  /** Theme-ID der zuletzt gesetzten Vorschau (null = keine) */
+  vorschauId: null,
+  /** Fehler der Vorschau (stört das Speichern nicht) */
+  vorschauFehler: '',
 })
 
 let store = null
@@ -55,8 +71,25 @@ function fnv (text) {
   return (h >>> 0).toString(16) + ':' + text.length
 }
 
+/**
+ * Leere Objekte entfernen: Beim Neuladen ergänzt loadFromStorage leere
+ * Foundation-Kategorien (elements, themes) — inhaltlich dasselbe, darf den
+ * Status nicht auf „ungespeichert“ setzen (gefunden 14.10.2026 in DDEV).
+ */
+function ohneLeere (wert) {
+  if (Array.isArray(wert)) return wert.map(ohneLeere)
+  if (!wert || typeof wert !== 'object') return wert
+  const aus = {}
+  for (const [k, v] of Object.entries(wert)) {
+    const n = ohneLeere(v)
+    if (n && typeof n === 'object' && !Array.isArray(n) && !Object.keys(n).length) continue
+    aus[k] = n
+  }
+  return aus
+}
+
 function abdruck () {
-  const snap = JSON.parse(JSON.stringify(toRaw(store.snapshotThemeData({ withActiveSet: true }))))
+  const snap = ohneLeere(JSON.parse(JSON.stringify(toRaw(store.snapshotThemeData({ withActiveSet: true })))))
   return fnv(kanonischesJson(snap))
 }
 
@@ -70,6 +103,10 @@ export function merkeStand () {
   if (!id) { basis = null; zustand.status = 'ohne-theme'; return }
   basis = { id, abdruck: abdruck() }
   try { localStorage.setItem(STAND_SCHLUESSEL, JSON.stringify(basis)) } catch { /* voll/gesperrt */ }
+  // Arbeitsstand sofort mit dem neuen ETag sichern: das Auto-Save reagiert nur
+  // auf Theme-Daten; sonst kommt nach dem Neuladen der alte ETag zurück und
+  // das nächste Speichern/Veröffentlichen endet in 412 (gefunden 14.10.2026).
+  store.saveToStorage?.()
   zustand.status = 'gespeichert'
   zustand.fehlerText = ''
 }
@@ -97,9 +134,38 @@ export async function starteDrupalBetrieb (s) {
     zeitgeber = setTimeout(pruefeStand, 150)
   }, { deep: true })
   stoppen = () => { stop(); clearTimeout(zeitgeber) }
+  // Drupal-Betrieb arbeitet im Set „neo“ (Klassen der Website); ein im
+  // Browser liegender Arbeitsstand ohne Theme wird umgestellt.
+  if (!store.state.currentThemeMeta?.id && store.state.activeThemeSet !== 'neo') store.state.activeThemeSet = 'neo'
   pruefeStand()
   await ladeKatalog()
   return stoppen
+}
+
+/** Vorschau auf den gespeicherten Stand nachziehen (Fehler nur anzeigen). */
+export async function vorschauNachziehen () {
+  if (!store || !zustand.vorschauAn || !darf('bearbeiten') || !store.state.currentThemeMeta?.id) return
+  try {
+    const erg = await store.setzeWebsiteVorschau()
+    zustand.vorschauId = erg?.themeId ?? store.state.currentThemeMeta.id
+    zustand.vorschauFehler = ''
+  } catch (e) {
+    zustand.vorschauFehler = meldungFuer(e, 'Website-Vorschau').titel
+  }
+}
+
+/** Website-Vorschau ein- oder ausschalten. */
+export async function vorschauUmschalten (an = !zustand.vorschauAn) {
+  zustand.vorschauAn = an
+  try { localStorage.setItem(VORSCHAU_SCHLUESSEL, an ? 'an' : 'aus') } catch { /* gesperrt */ }
+  if (an) return vorschauNachziehen()
+  try {
+    await store?.beendeWebsiteVorschau()
+    zustand.vorschauId = null
+    zustand.vorschauFehler = ''
+  } catch (e) {
+    zustand.vorschauFehler = meldungFuer(e, 'Website-Vorschau').titel
+  }
 }
 
 export async function ladeKatalog () {
@@ -135,6 +201,7 @@ export async function speichern () {
   try {
     await store.speichereTheme()
     merkeStand()
+    await vorschauNachziehen()
     return true
   } catch (e) {
     if (e?.art === 'veraltet') {
@@ -160,6 +227,7 @@ export async function anlegen ({ name, version, vomStandard }) {
     await nextTick()
     merkeStand()
     zustand.anlegen = null
+    await vorschauNachziehen()
     return true
   } catch (e) {
     await fehlerZeigen(e, 'Anlegen')
@@ -186,6 +254,7 @@ export async function oeffnen (id) {
     if (!ok) { await hinweisen({ titel: 'Nicht gefunden', text: 'Das Theme wurde nicht gefunden — vielleicht hat es jemand gelöscht.' }); await ladeKatalog(); return false }
     await nextTick()
     merkeStand()
+    await vorschauNachziehen()
     return true
   } catch (e) {
     await fehlerZeigen(e, 'Öffnen')
@@ -201,8 +270,7 @@ export async function neuLaden () {
   try {
     const ok = await store.oeffneTheme(id)
     await nextTick()
-    if (ok) merkeStand()
-    else { store.state.currentThemeMeta = null; zustand.status = 'ohne-theme'; await ladeKatalog() }
+    if (ok) { merkeStand(); await vorschauNachziehen() } else { store.state.currentThemeMeta = null; zustand.status = 'ohne-theme'; await ladeKatalog() }
     return ok
   } catch (e) {
     await fehlerZeigen(e, 'Neu laden')
@@ -254,6 +322,23 @@ export async function aktivieren (id) {
   }
 }
 
+/** NEO-Standard aktivieren: kein Theme aktiv, die Website zeigt reines NEO. */
+export async function neoStandardAktivieren () {
+  const ok = await bestaetigen({
+    titel: 'NEO-Standard aktivieren?',
+    text: 'Die Website zeigt danach für alle Besucher wieder das unveränderte NEO Design System. Die Themes bleiben erhalten und lassen sich jederzeit wieder aktivieren.',
+    bestaetigenText: 'NEO-Standard aktivieren',
+  })
+  if (!ok) return false
+  try {
+    await store.aktiviereNeoStandard()
+    return true
+  } catch (e) {
+    await hinweisen(meldungFuer(e, 'NEO-Standard aktivieren'))
+    return false
+  }
+}
+
 export function useDrupalBetrieb () {
   return {
     zustand,
@@ -267,6 +352,9 @@ export function useDrupalBetrieb () {
     ladeKatalog,
     merkeStand,
     pruefeStand,
+    neoStandardAktivieren,
+    vorschauUmschalten,
+    vorschauNachziehen,
   }
 }
 
@@ -276,5 +364,5 @@ export function _zuruecksetzenDrupalBetrieb () {
   stoppen = null
   store = null
   basis = null
-  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '' })
+  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '', vorschauAn: true, vorschauId: null, vorschauFehler: '' })
 }

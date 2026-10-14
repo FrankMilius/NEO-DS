@@ -186,9 +186,10 @@ test('Veröffentlichen: weiße Schrift auf Statusflächen fällt durch — App s
 
 test('Korrigiertes Theme: Veröffentlichen und Aktivieren klappen', async ({ page }) => {
   const name = eindeutig('E2E Korrigiert')
+  // Seit 1.1.0 enthält das CSS nur Abweichungen: eine echte Abweichung (Link)
   await themePerApi(page.request, name, {
     activeThemeSet: 'customer',
-    themes: { customer: { light: { 'on-danger': '#000000', 'on-success': '#000000' } } },
+    themes: { customer: { light: { 'on-danger': '#000000', 'on-success': '#000000', 'text-link': '#0b5cad' } } },
   })
   await oeffneDrupal(page)
   await themeOeffnen(page, name)
@@ -303,5 +304,66 @@ test('axe: Drupal-Werkzeuge, Theme-Liste und Veröffentlichen-Dialog ohne Befund
   await page.keyboard.press('Escape')
   await page.locator('[data-test="drupal-veroeffentlichen"]').click()
   await expect(page.getByRole('dialog', { name: 'Theme veröffentlichen' })).toBeVisible()
+  // Erst nach dem Einblenden messen: während der Animation meldet axe
+  // color-contrast für den ganzen Dialog (bekannt seit 13.10.2026)
+  await warteAufRuhe(page)
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'))
   expect(await pruefe('.konfig-dialog')).toEqual([])
+})
+
+// ---------------------------------------------------------------------------
+// Vertrag 1.1.0 (14.10.2026): NEO-Standard, Set „neo“, Schriften auf dem Server
+// ---------------------------------------------------------------------------
+
+test('1.1.0: Umschalter „Neo / Customer“ ausgeblendet; neues Theme im Set „neo“; NEO-Standard aktivieren', async ({ page }) => {
+  const name = eindeutig('E2E Neo')
+  await oeffneDrupal(page)
+  await expect(page.locator('.theme-set-switcher')).toHaveCount(0)
+  await themeAnlegen(page, name)
+  const id = await page.evaluate(() => JSON.parse(localStorage.getItem('neo-theme-configurator-drupal-stand')).id)
+  const dok = await (await page.request.get(`${API}/themes/${id}`)).json()
+  expect(dok.abweichungen).toEqual({ activeThemeSet: 'neo' })
+
+  // Veröffentlichen + aktivieren, dann zurück zum NEO-Standard
+  await page.locator('[data-test="drupal-veroeffentlichen"]').click()
+  const dialog = page.getByRole('dialog', { name: 'Theme veröffentlichen' })
+  await dialog.getByRole('button', { name: 'Veröffentlichen' }).click()
+  await dialog.locator('[data-test="veroeffentlichen-erfolg"]').getByRole('button', { name: 'Jetzt aktivieren' }).click()
+  await dialog.getByRole('button', { name: 'Schließen', exact: true }).click()
+  await page.locator('[data-test="drupal-theme-auswahl"]').click()
+  const neo = page.locator('[data-test="drupal-neo-standard"]')
+  await expect(neo).not.toContainText('aktiv')
+  await page.locator('[data-test="drupal-neo-aktivieren"]').click()
+  await page.getByRole('alertdialog', { name: 'NEO-Standard aktivieren?' }).getByRole('button', { name: 'NEO-Standard aktivieren' }).click()
+  await page.locator('[data-test="drupal-theme-auswahl"]').click()
+  await expect(neo).toContainText('aktiv')
+  const liste = await (await page.request.get(`${API}/themes`)).json()
+  expect(liste.themes.some((t) => t.aktiv)).toBe(false)
+})
+
+test('1.1.0: Schrift hochladen, als Body zuweisen, Vorschau gesetzt', async ({ page }) => {
+  const name = eindeutig('E2E Schrift')
+  const familie = `E2E ${Date.now().toString(36)}`
+  await themePerApi(page.request, name, { activeThemeSet: 'neo' })
+  await oeffneDrupal(page, { sektion: 'foundation-typography' })
+  await themeOeffnen(page, name)
+  const schriften = page.locator('.inspector-panel [data-test="drupal-schriften"]')
+  await expect(page.locator('[data-test="drupal-schriften"]')).toHaveCount(1)   // nur im Inspector
+  await schriften.getByLabel(/^Datei/).setInputFiles(new URL('../../../fonts/spacegrotesk-var-latin.woff2', import.meta.url).pathname)
+  await schriften.getByLabel('Schriftfamilie').fill(familie)
+  await schriften.getByRole('button', { name: 'Hochladen' }).click()
+  const karte = schriften.locator(`[data-test="drupal-schrift-${familie}"]`)
+  await expect(karte).toContainText('hochgeladen')
+  // @font-face der Attrappe ist eingehängt und die Schrift lädt
+  await expect(page.locator('#neo-konfigurator-schriften')).toHaveAttribute('href', /\/attrappe\/schriften\.css\?v=/)
+  await expect.poll(() => page.evaluate((f) => document.fonts.check(`16px "${f}"`), familie)).toBe(true)
+  await karte.locator('[data-test="drupal-schrift-rolle-body"]').click()
+  await expect(karte.locator('[data-test="drupal-schrift-rolle-body"]')).toHaveAttribute('aria-pressed', 'true')
+  await page.locator('[data-test="drupal-speichern"]').click()
+  await expect(status(page)).toHaveAttribute('data-status', 'gespeichert')
+  const v = await (await page.request.get(`${API}/vorschau`)).json()
+  expect(v.name).toBe(name)
+  const id = await page.evaluate(() => JSON.parse(localStorage.getItem('neo-theme-configurator-drupal-stand')).id)
+  const dok = await (await page.request.get(`${API}/themes/${id}`)).json()
+  expect(dok.abweichungen.foundationOverrides.neo.typography['font-body']).toContain(familie)
 })

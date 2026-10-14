@@ -20,7 +20,7 @@ export function fetchAttrappe(regeln) {
   const aufrufe = []
   const f = async (url, init = {}) => {
     const methode = init.method || 'GET'
-    const anfrage = { url, methode, headers: init.headers || {}, body: init.body ? JSON.parse(init.body) : undefined, credentials: init.credentials }
+    const anfrage = { url, methode, headers: init.headers || {}, body: typeof init.body === 'string' ? JSON.parse(init.body) : init.body, credentials: init.credentials }
     aufrufe.push(anfrage)
     const regel = regeln.find(([m, teil]) => m === methode && url.includes(teil))
     if (!regel) throw new Error(`Unerwartete Anfrage ${methode} ${url}`)

@@ -3,7 +3,7 @@
 // Drupal-Attrappe für den Theme-Konfigurator (Plan v2, 2.6 — ADR-002)
 // ==========================================================================
 // Ein kleiner Node-Server (nur Builtins), der den Vertrag
-// docs/api/theme-konfigurator.openapi.yaml (1.0.0) im Speicher nachbildet.
+// docs/api/theme-konfigurator.openapi.yaml (1.1.0) im Speicher nachbildet.
 // Zweck: den Drupal-Betrieb der App lokal ausprobieren, E2E-Tests
 // (e2e/drupal.spec.js) und eine lauffähige Referenz für die Drupal-Entwicklung.
 //
@@ -22,8 +22,13 @@
 //   422         Schemafehler (ThemeAbweichungen) und Kontrast-Tor beim
 //               Veröffentlichen: Standard + Abweichungen zusammenführen
 //               (abweichungen.js), prüfen mit kontrast.js / data/kontrast-paare.json
-//   413         Anfrage > 1 MB (1 048 576 Bytes)
+//   413         Anfrage > 1 MB (1 048 576 Bytes), Schriftdatei > 5 MB
 //   403         Recht fehlt (x-neo-recht) oder X-CSRF-Token falsch
+//
+// Seit 1.1.0 (14.10.2026): NEO-Standard aktivieren (kein Theme aktiv),
+// Website-Vorschau je Person (hier: eine für alle, es gibt keine Konten),
+// Schriften (hochgeladen + Server-Ordner über die Option serverSchriften),
+// @font-face-Datei unter /attrappe/schriften.css.
 //
 // Rechte simulieren (Vorrang von oben nach unten):
 //   1. Kopfzeile  X-Neo-Rechte: ansehen,bearbeiten   (Werkzeuge, curl)
@@ -54,6 +59,15 @@ export const BASIS = '/api/neo-theme-konfigurator/v1'
 export const RECHTE = ['ansehen', 'bearbeiten', 'veroeffentlichen']
 export const MAX_BYTES = 1024 * 1024
 export const RECHTE_COOKIE = 'neo_attrappe_rechte'
+export const MAX_SCHRIFT_BYTES = 5 * 1024 * 1024
+/** Schriftformate: Endung → { typ, format (für @font-face), pruefe(Bytes) } */
+export const SCHRIFT_FORMATE = {
+  woff2: { typ: 'font/woff2', format: 'woff2', kennung: ['wOF2'] },
+  woff: { typ: 'font/woff', format: 'woff', kennung: ['wOFF'] },
+  ttf: { typ: 'font/ttf', format: 'truetype', kennung: ['\u0000\u0001\u0000\u0000', 'true'] },
+  otf: { typ: 'font/otf', format: 'opentype', kennung: ['OTTO'] },
+}
+const SCHRIFT_PFAD = '/attrappe/schriften'
 const PROBLEM = 'https://neo-workplace.example/probleme/'
 const CSS_PFAD_AKTIV = 'public://neo-theme/theme.css'
 
@@ -108,6 +122,43 @@ export function pruefeAbweichungen(abw) {
   return fehler
 }
 
+/**
+ * Angaben einer hochgeladenen Schriftdatei prüfen (wie das Drupal-Modul).
+ * @param {{ familie?: string, gewicht?: string, stil?: string, datei?: string, bytes: Buffer }} a
+ * @returns {{ fehler: string[], endung?: string, gewicht?: number, stil?: string }}
+ */
+export function pruefeSchrift({ familie, gewicht = '400', stil = 'normal', datei = '', bytes }) {
+  const fehler = []
+  if (!/^[A-Za-z0-9][A-Za-z0-9 _-]{0,59}$/.test(String(familie || ''))) fehler.push('familie: 1–60 Zeichen, nur Buchstaben, Ziffern, Leerzeichen, - und _')
+  const g = Number(gewicht)
+  if (!Number.isInteger(g) || g < 100 || g > 900 || g % 100) fehler.push('gewicht: 100, 200 … 900')
+  if (!['normal', 'italic'].includes(stil)) fehler.push('stil: normal oder italic')
+  const endung = String(datei).split('.').pop().toLowerCase()
+  const fmt = SCHRIFT_FORMATE[endung]
+  if (!fmt) fehler.push('datei: erlaubt sind woff2, woff, ttf, otf')
+  else if (!bytes?.length) fehler.push('datei: leer')
+  else if (!fmt.kennung.some(k => bytes.subarray(0, 4).toString('latin1') === k)) fehler.push(`datei: Inhalt ist keine ${endung}-Schrift`)
+  return { fehler, endung, gewicht: g, stil }
+}
+
+/** Schnitte nach Familie und Quelle gruppieren (Antwort von GET /schriften). */
+export function schriftFamilien(schnitte) {
+  const gruppen = new Map()
+  for (const s of schnitte) {
+    const k = `${s.quelle}|${s.familie}`
+    if (!gruppen.has(k)) gruppen.set(k, { familie: s.familie, quelle: s.quelle, schnitte: [] })
+    gruppen.get(k).schnitte.push({ id: s.id, gewicht: s.gewicht, stil: s.stil, format: s.format, url: s.url })
+  }
+  const liste = [...gruppen.values()]
+  for (const f of liste) f.schnitte.sort((a, b) => a.gewicht - b.gewicht || a.stil.localeCompare(b.stil))
+  return liste.sort((a, b) => a.familie.localeCompare(b.familie) || a.quelle.localeCompare(b.quelle))
+}
+
+/** @font-face-Regeln für alle Schnitte. */
+export function schriftCss(schnitte) {
+  return schnitte.map(s => `@font-face {\n  font-family: '${s.familie}';\n  src: url('${s.url}') format('${s.format}');\n  font-weight: ${s.gewicht};\n  font-style: ${s.stil};\n  font-display: swap;\n}\n`).join('\n')
+}
+
 /** Fehlerkörper nach RFC 9457. */
 function problem(status, art, title, extra = {}) {
   return { status, body: { type: PROBLEM + art, title, status, ...extra }, typ: 'application/problem+json' }
@@ -129,6 +180,11 @@ export function erzeugeZustand(o = {}) {
   /** @type {Map<string, { meta: object, abweichungen: object, standardVersion: string|null, css: object|null }>} */
   const themes = new Map()
   let aktivId = null
+  /** Website-Vorschau (die Attrappe kennt keine Konten: eine für alle) */
+  let vorschau = null
+  /** hochgeladene Schnitte: id → { id, familie, gewicht, stil, format, datei, bytes } */
+  const schriften = new Map()
+  const serverSchriften = (o.serverSchriften || []).map(s => ({ quelle: 'server', format: 'woff2', stil: 'normal', gewicht: 400, ...s }))
   let uhr = o.uhr || (() => new Date().toISOString())
 
   if (o.datei && existsSync(o.datei)) {
@@ -153,6 +209,17 @@ export function erzeugeZustand(o = {}) {
     const metas = []
     for (const t of themes.values()) metas.push(await metaAus(t))
     return { themes: metas }
+  }
+
+  function alleSchnitte() {
+    const hoch = [...schriften.values()].map(s => ({ ...s, quelle: 'hochgeladen', url: `${SCHRIFT_PFAD}/${s.datei}` }))
+    return [...hoch, ...serverSchriften]
+  }
+  function schriftAntwort() {
+    const schnitte = alleSchnitte()
+    const css = schriftCss(schnitte)
+    const v = createHash('sha256').update(css).digest('hex').slice(0, 12)
+    return { schriften: schriftFamilien(schnitte), cssUrl: `/attrappe/schriften.css?v=${v}` }
   }
 
   function koerperPruefen(body) {
@@ -180,7 +247,7 @@ export function erzeugeZustand(o = {}) {
 
   /**
    * Eine API-Anfrage bearbeiten.
-   * @param {{ methode: string, pfad: string, query: URLSearchParams, kopf: (n: string) => string|undefined, koerper: string|null, rechte: string[] }} a
+   * @param {{ methode: string, pfad: string, query: URLSearchParams, kopf: (n: string) => string|undefined, koerper: string|null, rohKoerper?: Buffer|null, rechte: string[] }} a
    * @returns {Promise<{ status: number, body?: any, typ?: string, etag?: string, headers?: object }>}
    */
   async function bearbeite(a) {
@@ -196,6 +263,73 @@ export function erzeugeZustand(o = {}) {
 
     if (pfad === '/neo-standard' && methode === 'GET') {
       return recht('ansehen') || { status: 200, body: standard, etag: alsEtag(standardVersion(standard) ?? 'ohne-version') }
+    }
+
+    if (pfad === '/neo-standard/aktivieren') {
+      if (methode !== 'POST') return problem(405, 'methode', 'Methode nicht erlaubt')
+      const f = recht('veroeffentlichen') || csrf(); if (f) return f
+      aktivId = null; sichern()
+      return { status: 200, body: await liste() }
+    }
+
+    if (pfad === '/vorschau') {
+      if (methode === 'GET') {
+        const f = recht('ansehen'); if (f) return f
+        if (!vorschau) return { status: 204 }
+        return { status: 200, body: { themeId: vorschau.themeId, name: vorschau.name, seit: vorschau.seit } }
+      }
+      if (methode === 'PUT') {
+        const f = schreibend('bearbeiten'); if (f) return f
+        const j = json(); if (j.fehler) return j.fehler
+        const b = j.wert
+        const fund = []
+        if (!istObjekt(b)) fund.push('Körper: JSON-Objekt erwartet')
+        else {
+          if (typeof b.themeId !== 'string' || !b.themeId) fund.push('themeId: Pflichtfeld')
+          if (typeof b.css !== 'string' || !b.css) fund.push('css: Pflichtfeld')
+        }
+        if (fund.length) return problem(422, 'ungueltig', 'Daten abgelehnt', { detail: fund.join('; '), fehler: fund })
+        const t = themes.get(b.themeId)
+        if (!t) return problem(404, 'nicht-gefunden', 'Theme nicht gefunden')
+        vorschau = { themeId: b.themeId, name: t.meta.name, css: b.css, seit: uhr() }
+        return { status: 200, body: { themeId: vorschau.themeId, name: vorschau.name, seit: vorschau.seit } }
+      }
+      if (methode === 'DELETE') {
+        const f = recht('bearbeiten') || csrf(); if (f) return f
+        vorschau = null
+        return { status: 204 }
+      }
+      return problem(405, 'methode', 'Methode nicht erlaubt')
+    }
+
+    if (pfad === '/schriften') {
+      if (methode === 'GET') return recht('ansehen') || { status: 200, body: schriftAntwort() }
+      if (methode === 'POST') {
+        const f = recht('veroeffentlichen') || csrf(); if (f) return f
+        const bytes = a.rohKoerper || Buffer.alloc(0)
+        if (bytes.length > MAX_SCHRIFT_BYTES) return problem(413, 'zu-gross', 'Datei zu groß', { detail: 'Die Schriftdatei ist zu groß (höchstens 5 MB).' })
+        const p = pruefeSchrift({ familie: query.get('familie'), gewicht: query.get('gewicht') ?? '400', stil: query.get('stil') ?? 'normal', datei: query.get('datei') ?? '', bytes })
+        if (p.fehler.length) return problem(422, 'ungueltig', 'Schrift abgelehnt', { detail: p.fehler.join('; '), fehler: p.fehler })
+        const familie = query.get('familie')
+        const id = `${maschinenname(familie)}_${p.gewicht}${p.stil === 'italic' ? '_italic' : ''}`
+        if (schriften.has(id)) return problem(409, 'konflikt', 'Schnitt vorhanden', { detail: `${familie} ${p.gewicht}${p.stil === 'italic' ? ' kursiv' : ''} ist schon hochgeladen. Bitte erst löschen.` })
+        schriften.set(id, { id, familie, gewicht: p.gewicht, stil: p.stil, format: SCHRIFT_FORMATE[p.endung].format, datei: `${id}.${p.endung}`, bytes })
+        return { status: 201, body: schriftAntwort() }
+      }
+      return problem(405, 'methode', 'Methode nicht erlaubt')
+    }
+
+    const sm = pfad.match(/^\/schriften\/([^/]+)$/)
+    if (sm) {
+      if (methode !== 'DELETE') return problem(405, 'methode', 'Methode nicht erlaubt')
+      const f = recht('veroeffentlichen') || csrf(); if (f) return f
+      const id = decodeURIComponent(sm[1])
+      if (!schriften.has(id)) {
+        if (serverSchriften.some(s => s.id === id)) return problem(409, 'konflikt', 'Schrift aus dem Server-Ordner', { detail: 'Schriften aus dem Server-Ordner verwaltet der Betrieb per Deployment.' })
+        return problem(404, 'nicht-gefunden', 'Schrift nicht gefunden')
+      }
+      schriften.delete(id)
+      return { status: 200, body: schriftAntwort() }
     }
 
     if (pfad === '/themes') {
@@ -337,6 +471,10 @@ export function erzeugeZustand(o = {}) {
   return {
     bearbeite,
     csrfToken,
+    get vorschau() { return vorschau },
+    /** @font-face-Datei und Schriftdateien (HTTP-Schicht) */
+    schriftCss: () => schriftCss(alleSchnitte()),
+    schriftDatei: (name) => [...schriften.values()].find(s => s.datei === name) || null,
     vorgabeRechte,
     standard,
     get aktivId() { return aktivId },
@@ -362,7 +500,7 @@ function startseite(z) {
 <meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body style="font:16px/1.5 system-ui,sans-serif;margin:3rem auto;max-width:44rem;padding:0 1rem">
 <h1>Drupal-Attrappe</h1>
-<p>Bildet den Vertrag <code>docs/api/theme-konfigurator.openapi.yaml</code> (1.0.0) im Speicher nach.
+<p>Bildet den Vertrag <code>docs/api/theme-konfigurator.openapi.yaml</code> (1.1.0) im Speicher nach.
 Die App startet im Drupal-Betrieb (<code>window.NEO_KONFIGURATOR.speicher = 'drupal'</code>).</p>
 <h2>Konfigurator öffnen mit Rechten …</h2>
 <ul>${link('ansehen,bearbeiten,veroeffentlichen', 'alle Rechte')}${link('ansehen,bearbeiten', 'ohne Veröffentlichen')}${link('ansehen', 'nur ansehen')}</ul>
@@ -373,7 +511,7 @@ Die App startet im Drupal-Betrieb (<code>window.NEO_KONFIGURATOR.speicher = 'dru
 function einstieg(z, rechte) {
   const pfad = join(WURZEL, 'config/theme-config.html')
   if (!existsSync(pfad)) return null
-  const konfig = { speicher: 'drupal', basisUrl: BASIS, csrfToken: z.csrfToken, rechte }
+  const konfig = { speicher: 'drupal', basisUrl: BASIS, csrfToken: z.csrfToken, rechte, websiteUrl: '/' }
   const skript = `<script>window.NEO_KONFIGURATOR = ${JSON.stringify(konfig).replace(/</g, '\\u003c')};</script>`
   return readFileSync(pfad, 'utf8')
     .replace('<html lang="en">', '<html lang="de">')
@@ -404,16 +542,21 @@ export function erzeugeAttrappe(o = {}) {
       if (pfad === BASIS || pfad.startsWith(BASIS + '/')) {
         // Körper lesen, bei mehr als 1 MB abbrechen (413)
         let koerper = null
+        let rohKoerper = null
         if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+          // Schriftdateien: Bytes bis 5 MB; sonst JSON bis 1 MB
+          const istSchrift = pfad === BASIS + '/schriften'
+          const grenze = istSchrift ? MAX_SCHRIFT_BYTES : MAX_BYTES
           const teile = []
           let n = 0
           let zuGross = false
           for await (const c of req) {
             n += c.length
-            if (n > MAX_BYTES) { zuGross = true; break }
+            if (n > grenze) { zuGross = true; break }
             teile.push(c)
           }
-          koerper = zuGross ? 'x'.repeat(MAX_BYTES + 1) : Buffer.concat(teile).toString('utf8')
+          if (istSchrift) rohKoerper = zuGross ? Buffer.alloc(MAX_SCHRIFT_BYTES + 1) : Buffer.concat(teile)
+          else koerper = zuGross ? 'x'.repeat(MAX_BYTES + 1) : Buffer.concat(teile).toString('utf8')
         }
         const erg = await z.bearbeite({
           methode: req.method,
@@ -421,6 +564,7 @@ export function erzeugeAttrappe(o = {}) {
           query: url.searchParams,
           kopf: (n) => req.headers[n.toLowerCase()],
           koerper,
+          rohKoerper,
           rechte,
         })
         const headers = { ...(erg.headers || {}) }
@@ -434,6 +578,14 @@ export function erzeugeAttrappe(o = {}) {
       if (req.method !== 'GET' && req.method !== 'HEAD') return senden(405, 'Methode nicht erlaubt', { 'Content-Type': 'text/plain; charset=utf-8' })
 
       if (pfad === '/') return senden(200, startseite(z), { 'Content-Type': 'text/html; charset=utf-8' })
+
+      // @font-face-Datei und hochgeladene Schriften (Vertrag 1.1.0)
+      if (pfad === '/attrappe/schriften.css') return senden(200, z.schriftCss(), { 'Content-Type': 'text/css; charset=utf-8' })
+      if (pfad.startsWith(SCHRIFT_PFAD + '/')) {
+        const s = z.schriftDatei(decodeURIComponent(pfad.slice(SCHRIFT_PFAD.length + 1)))
+        if (!s) return senden(404, 'Nicht gefunden', { 'Content-Type': 'text/plain; charset=utf-8' })
+        return senden(200, s.bytes, { 'Content-Type': SCHRIFT_FORMATE[s.datei.split('.').pop()].typ })
+      }
 
       if (pfad === '/konfigurator') {
         const r = url.searchParams.has('rechte') ? leseRechte(url.searchParams.get('rechte')) : rechte
@@ -490,7 +642,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const server = erzeugeAttrappe(o)
   server.listen(port, host, () => {
     const z = server.zustand
-    console.log(`\n  Drupal-Attrappe (Vertrag 1.0.0)\n  http://${host}:${server.address().port}/  → Einstieg mit Rechte-Auswahl`)
+    console.log(`\n  Drupal-Attrappe (Vertrag 1.1.0)\n  http://${host}:${server.address().port}/  → Einstieg mit Rechte-Auswahl`)
     console.log(`  Schnittstelle: ${BASIS}`)
     console.log(`  Rechte (Vorgabe): ${z.vorgabeRechte.join(', ') || 'keine'} · CSRF-Token: ${z.csrfToken}`)
     if (o.datei) console.log(`  Datei: ${o.datei}`)

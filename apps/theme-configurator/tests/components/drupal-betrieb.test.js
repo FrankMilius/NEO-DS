@@ -183,6 +183,27 @@ describe('Speichern, Status und Konfliktdialog (412)', () => {
     }
   })
 
+  it('nach dem Speichern steht der neue ETag im Arbeitsstand (Neuladen ohne falschen Konflikt)', async () => {
+    const sp = adapter()
+    sp.speichere.mockResolvedValue({ meta: meta('t1'), etag: '"neu-nach-speichern"' })
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    store.state.focusRingMode.neo = store.state.focusRingMode.neo === 'inset' ? 'offset' : 'inset'
+    expect(await useDrupalBetrieb().speichern()).toBe(true)
+    const stand = JSON.parse(localStorage.getItem('neo-theme-configurator'))
+    expect(stand.currentThemeMeta.etag).toBe('"neu-nach-speichern"')
+  })
+
+  it('leere Kategorien (wie nach dem Neuladen ergänzt) zählen nicht als Änderung', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    store.state.foundationOverrides.neo.elements = {}
+    store.state.foundationOverrides.customer.themes = {}
+    useDrupalBetrieb().pruefeStand()
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+
   it('ohne Drupal-Theme öffnet Speichern den Dialog „Als neues Theme speichern“', async () => {
     const sp = adapter()
     setzeSpeicher(sp)
@@ -268,7 +289,7 @@ describe('Theme-Auswahl', () => {
     await starteDrupalBetrieb(store)
     const w = montiere(DrupalThemeAuswahl)
     await knopf(w, 'drupal-theme-auswahl').trigger('click')
-    const zeilen = w.findAll('.dt-eintrag')
+    const zeilen = w.findAll('li.dt-eintrag')
     expect(zeilen).toHaveLength(3)
     expect(zeilen[0].text()).toContain('aktiv')
     expect(zeilen[0].text()).toContain('Veröffentlicht')
@@ -283,15 +304,15 @@ describe('Theme-Auswahl', () => {
     await zeilen[2].find('[data-test="drupal-aktivieren"]').trigger('click')
     await flushPromises()
     expect(sp.aktiviere).toHaveBeenCalledWith('c')
-    expect(w.findAll('.dt-eintrag')[2].find('[data-test="drupal-loeschen"]').attributes('disabled')).toBeDefined()
+    expect(w.findAll('li.dt-eintrag')[2].find('[data-test="drupal-loeschen"]').attributes('disabled')).toBeDefined()
 
-    await w.findAll('.dt-oeffnen')[1].trigger('click')
+    await w.findAll('button.dt-oeffnen')[1].trigger('click')
     await flushPromises()
     expect(sp.lade).toHaveBeenCalledWith('b')
     expect(store.state.currentThemeMeta.id).toBe('b')
   })
 
-  it('Neu anlegen startet vom NEO-Standard (Set customer) und legt per POST an', async () => {
+  it('Neu anlegen startet vom NEO-Standard (Set neo, 1.1.0) und legt per POST an', async () => {
     const sp = adapter()
     setzeSpeicher(sp)
     await starteDrupalBetrieb(store)
@@ -300,9 +321,59 @@ describe('Theme-Auswahl', () => {
     const aufruf = sp.speichere.mock.calls[0][0]
     expect(aufruf.meta).toMatchObject({ name: 'ACME', version: '1.0.0' })
     expect(aufruf.meta.id).toBeUndefined()
-    expect(aufruf.daten.activeThemeSet).toBe('customer')
-    expect(aufruf.daten.themes.customer.light['on-danger']).toBe(STANDARD.themes.customer.light['on-danger'])
+    expect(aufruf.daten.activeThemeSet).toBe('neo')
+    expect(aufruf.daten.themes.neo.light).toEqual(STANDARD.themes.neo.light)
+    expect(aufruf.daten.themes.neo.dark).toEqual(STANDARD.themes.neo.dark)
     expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+
+  it('NEO-Standard (1.1.0): fester Eintrag, aktiv ohne aktives Theme, Aktivieren nach Rückfrage', async () => {
+    const sp = adapter({
+      faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true },
+      aktiviereNeoStandard: vi.fn(async () => [meta('a', { status: 'veroeffentlicht' })]),
+    })
+    sp.liste.mockResolvedValue([meta('a', { aktiv: true, status: 'veroeffentlicht' })])
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    const w = montiere(DrupalThemeAuswahl)
+    const b = montiere(KonfigBestaetigung)
+    await knopf(w, 'drupal-theme-auswahl').trigger('click')
+    const neo = knopf(w, 'drupal-neo-standard')
+    expect(neo.text()).toContain('NEO Design System (Standard)')
+    expect(neo.text()).not.toContain('aktiv')
+    await knopf(w, 'drupal-neo-aktivieren').trigger('click')
+    await flushPromises()
+    expect(b.text()).toContain('NEO-Standard aktivieren?')
+    await b.find('[data-test="bestaetigung-ok"]').trigger('click')
+    await flushPromises()
+    expect(sp.aktiviereNeoStandard).toHaveBeenCalled()
+    await knopf(w, 'drupal-theme-auswahl').trigger('click')
+    expect(knopf(w, 'drupal-neo-standard').text()).toContain('aktiv')
+    expect(knopf(w, 'drupal-neo-aktivieren').exists()).toBe(false)
+  })
+
+  it('Website-Vorschau (1.1.0): nach Speichern gesetzt, Schalter beendet sie und merkt sich das', async () => {
+    const sp = adapter({
+      faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true },
+      setzeVorschau: vi.fn(async (id) => ({ themeId: id, name: 'x', seit: '2026-10-14T00:00:00.000Z' })),
+      beendeVorschau: vi.fn(async () => {}),
+    })
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    const w = montiere(DrupalWerkzeuge)
+    expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('true')
+    await useDrupalBetrieb().anlegen({ name: 'ACME', version: '1.0.0', vomStandard: true })
+    expect(sp.setzeVorschau).toHaveBeenCalledWith('neu', expect.stringContaining('/* Theme: NEO Theme */'))
+    await knopf(w, 'drupal-vorschau').trigger('click')
+    await flushPromises()
+    expect(sp.beendeVorschau).toHaveBeenCalled()
+    expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('false')
+    expect(localStorage.getItem('neo-theme-configurator-drupal-vorschau')).toBe('aus')
+    sp.setzeVorschau.mockClear()
+    await useDrupalBetrieb().speichern()
+    expect(sp.setzeVorschau).not.toHaveBeenCalled()
+    expect(knopf(w, 'drupal-website').attributes('href')).toBe('/')
+    expect(knopf(w, 'drupal-website').attributes('target')).toBe('_blank')
   })
 
   it('Löschen fragt nach und ruft den Adapter mit If-Match aus dem Katalog', async () => {

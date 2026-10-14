@@ -1,7 +1,7 @@
 <template>
   <!-- Typografie: Editor oben, darunter die Magazin-Vorschau mit den
        bearbeiteten Schriften (so wie bisher im LaboratoryPanel). -->
-  <TypographyEditor />
+  <TypographyEditor buehne />
   <MagazinVorschau />
 </template>
 

@@ -1,9 +1,11 @@
 # Übergabe: Theme-Konfigurator in Drupal 11 (neo Workplace, Config Tools)
 
-- **Stand:** 01.10.2026 · Vertrag **1.0.0** · App `1.0.0` (14.10.2026)
+- **Stand:** 14.10.2026 · Vertrag **1.1.0** (1.0.0 vom 01.10.2026, abwärtskompatibel erweitert) · App `1.1.0`
 - **Umsetzung:** Drupal-Modul `neo_theme_konfigurator` in DRUPAL11 (14.10.2026,
   README des Moduls) — lokal von Frank zu testen, danach Übergabe an das
-  Team für ein öffentliches System und den Mehrbenutzertest.
+  Team für ein öffentliches System und den Mehrbenutzertest. Vertrag 1.1.0
+  ergänzt NEO-Standard aktivieren, Website-Vorschau je Person und Schriften
+  auf dem Server (OpenAPI, Abschnitt „Ergänzungen 1.1.0“).
 - **Von:** Frank Milius (Design System) · **An:** Drupal-Entwicklung
 - **Ziel:** Mehrbenutzer-Betrieb des Theme-Konfigurators als eigenes Modul in
   den Config Tools. Die App (Vue) ist fertig und gegen eine Attrappe des

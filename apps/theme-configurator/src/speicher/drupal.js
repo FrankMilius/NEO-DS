@@ -14,6 +14,13 @@
 //   POST   {basis}/themes/{id}/veroeffentlichen   CSS + Kontrast (If-Match)
 //   GET    {basis}/themes/{id}/export?format=…    css | abweichungen
 //   GET    {basis}/neo-standard                   Werkseinstellung (mit Version)
+//   POST   {basis}/neo-standard/aktivieren        kein Theme aktiv: reines NEO (1.1.0)
+//   GET    {basis}/vorschau                       eigene Website-Vorschau (1.1.0)
+//   PUT    {basis}/vorschau                       Vorschau setzen: Theme + CSS
+//   DELETE {basis}/vorschau                       Vorschau beenden
+//   GET    {basis}/schriften                      Schriften auf dem Server (1.1.0)
+//   POST   {basis}/schriften?familie=…            Schriftdatei hochladen (roh)
+//   DELETE {basis}/schriften/{schnittId}          hochgeladene Schrift loeschen
 //
 // Grundsaetze
 //   - Eine Drupal-Instanz je Kunde: kein {kunde} im Pfad (Frage 3a).
@@ -39,6 +46,12 @@ import { standardDaten, standardVersion } from './standard.js'
 
 /** Hoechstgroesse einer Anfrage (Bytes, UTF-8) — Entscheidung Frage 10. */
 export const MAX_ANFRAGE_BYTES = 1024 * 1024
+
+/** Hoechstgroesse einer Schriftdatei (Bytes) — Vertrag 1.1.0. */
+export const MAX_SCHRIFT_BYTES = 5 * 1024 * 1024
+
+/** Erlaubte Schriftformate (Dateiendung -> Content-Type). */
+export const SCHRIFT_FORMATE = { woff2: 'font/woff2', woff: 'font/woff', ttf: 'font/ttf', otf: 'font/otf' }
 
 /** Rechte, die der Drupal-Speicher kennt (Frage 2). */
 export const ALLE_RECHTE = ['ansehen', 'bearbeiten', 'veroeffentlichen']
@@ -78,13 +91,19 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
   /**
    * @param {string} methode
    * @param {string} pfad
-   * @param {{ body?: any, etag?: string|null, text?: boolean }} [optionen]
+   * @param {{ body?: any, roh?: { daten: Blob|ArrayBuffer, typ: string }, etag?: string|null, text?: boolean }} [optionen]
    * @returns {Promise<{ daten: any, etag: string|null, status: number }>}
    */
-  async function anfrage(methode, pfad, { body, etag, text = false } = {}) {
+  async function anfrage(methode, pfad, { body, roh, etag, text = false } = {}) {
     const headers = { Accept: text ? '*/*' : 'application/json' }
     let koerper
-    if (body !== undefined) {
+    if (roh) {
+      // Schriftdatei: Bytes unveraendert, eigenes Limit (5 MB)
+      const groesse = roh.daten instanceof ArrayBuffer ? roh.daten.byteLength : roh.daten.size
+      if (groesse > MAX_SCHRIFT_BYTES) throw new SpeicherFehler('zu-gross', 'Die Schriftdatei ist zu groß (höchstens 5 MB).', { status: 413 })
+      headers['Content-Type'] = roh.typ
+      koerper = roh.daten
+    } else if (body !== undefined) {
       headers['Content-Type'] = 'application/json'
       koerper = JSON.stringify(body)
       if (new TextEncoder().encode(koerper).length > MAX_ANFRAGE_BYTES) {
@@ -141,7 +160,7 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
 
   return {
     art: 'drupal',
-    faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false },
+    faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true },
     rechte,
 
     async liste() {
@@ -187,6 +206,60 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
     async aktiviere(id) {
       const { daten } = await anfrage('POST', `${themePfad(id)}/aktivieren`, { body: {} })
       return daten.themes || []
+    },
+
+    /** Kein Theme aktiv: die Website zeigt das reine NEO Design System (1.1.0). */
+    async aktiviereNeoStandard() {
+      const { daten } = await anfrage('POST', '/neo-standard/aktivieren', { body: {} })
+      return daten.themes || []
+    },
+
+    /** Eigene Website-Vorschau (nur fuer die angemeldete Person): { themeId, name, seit } oder null. */
+    async vorschau() {
+      const { daten, status } = await anfrage('GET', '/vorschau')
+      return status === 204 ? null : daten
+    },
+
+    /**
+     * Vorschau setzen: gespeichertes Theme + CSS (exportAsCSSVars). Recht
+     * „bearbeiten“. Besucher sehen weiter das aktive, veroeffentlichte Theme.
+     * @param {string} id @param {string} css
+     */
+    async setzeVorschau(id, css) {
+      if (typeof css !== 'string' || !css) throw new SpeicherFehler('ungueltig', 'Vorschau: CSS fehlt.')
+      const { daten } = await anfrage('PUT', '/vorschau', { body: { themeId: id, css } })
+      return daten
+    },
+
+    async beendeVorschau() {
+      await anfrage('DELETE', '/vorschau')
+    },
+
+    /** Schriften auf dem Server: { schriften: SchriftFamilie[], cssUrl } */
+    async schriften() {
+      const { daten } = await anfrage('GET', '/schriften')
+      return daten
+    },
+
+    /**
+     * Schriftdatei hochladen (Recht „veroeffentlichen“). Ein Aufruf = ein
+     * Schnitt (Familie + Gewicht + Stil). Antwort wie schriften().
+     * @param {Blob & { name?: string }} datei
+     * @param {{ familie: string, gewicht?: number|string, stil?: 'normal'|'italic' }} angaben
+     */
+    async ladeSchriftHoch(datei, { familie, gewicht = 400, stil = 'normal' }) {
+      const endung = String(datei?.name || '').split('.').pop().toLowerCase()
+      const typ = SCHRIFT_FORMATE[endung]
+      if (!typ) throw new SpeicherFehler('ungueltig', 'Erlaubt sind Schriftdateien im Format woff2, woff, ttf oder otf.')
+      const q = new URLSearchParams({ familie, gewicht: String(gewicht), stil, datei: datei.name })
+      const { daten } = await anfrage('POST', `/schriften?${q}`, { roh: { daten: datei, typ } })
+      return daten
+    },
+
+    /** Hochgeladenen Schnitt loeschen (Server-Ordner-Schriften nicht). */
+    async loescheSchrift(schnittId) {
+      const { daten } = await anfrage('DELETE', `/schriften/${encodeURIComponent(schnittId)}`)
+      return daten
     },
 
     /**

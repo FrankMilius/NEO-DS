@@ -34,6 +34,34 @@
       Veröffentlichen
     </button>
 
+    <div class="dw-trenner" aria-hidden="true"></div>
+
+    <!-- Website-Vorschau (Vertrag 1.1.0): nur für die angemeldete Person -->
+    <button
+      v-if="kannBearbeiten"
+      type="button"
+      class="dk-knopf"
+      data-test="drupal-vorschau"
+      :aria-pressed="zustand.vorschauAn ? 'true' : 'false'"
+      :title="vorschauTitel"
+      @click="betrieb.vorschauUmschalten()"
+    >
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path v-if="!zustand.vorschauAn" d="M3 3l18 18"/></svg>
+      Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}
+    </button>
+    <a
+      class="dk-knopf"
+      data-test="drupal-website"
+      :href="websiteUrl"
+      target="_blank"
+      rel="noopener"
+      title="Website in neuem Tab öffnen"
+    >
+      Website öffnen
+      <span class="u-sr-only">(neuer Tab)</span>
+    </a>
+    <span v-if="zustand.vorschauFehler" class="dw-vorschau-fehler" role="alert">{{ zustand.vorschauFehler }}</span>
+
     <DrupalAnlegenDialog />
     <DrupalKonfliktDialog />
     <DrupalVeroeffentlichenDialog />
@@ -70,6 +98,11 @@ const STATUS = {
 }
 const statusText = computed(() => (zustand.status === 'fehler' && zustand.fehlerText) || STATUS[zustand.status] || '')
 
+const websiteUrl = (typeof window !== 'undefined' && window.NEO_KONFIGURATOR?.websiteUrl) || '/'
+const vorschauTitel = computed(() => zustand.vorschauAn
+  ? 'Vorschau an: Du siehst den gespeicherten Stand des geöffneten Themes auf der Website, Besucher nicht. Klicken zum Ausschalten.'
+  : 'Vorschau aus: Du siehst auf der Website dasselbe wie Besucher. Klicken zum Einschalten.')
+
 const veroeffentlichenTitel = computed(() => {
   if (!kannVeroeffentlichen) return 'Dir fehlt das Recht „veröffentlichen“'
   if (!store.state.currentThemeMeta?.id) return 'Erst in Drupal speichern'
@@ -87,4 +120,7 @@ const veroeffentlichenTitel = computed(() => {
 .dw-status--ungespeichert .dw-punkt { background: var(--cfg-warning); }
 .dw-status--speichert .dw-punkt { background: var(--cfg-processing); }
 .dw-status--fehler .dw-punkt { background: var(--cfg-danger); }
+.dw-vorschau-fehler { font-size: 11px; color: var(--cfg-danger); white-space: nowrap; }
+a.dk-knopf { text-decoration: none; }
+.u-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 </style>

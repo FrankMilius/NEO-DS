@@ -210,6 +210,9 @@ describe('Store mit Drupal-Speicher', () => {
         ? antwort(412, { status: 412, aktuellerEtag: etag() })
         : antwort(200, { meta: { ...server.dok.meta, hash: server.hash, status: 'veroeffentlicht' }, css: { pfad: 'public://neo-theme/theme.css', version: '1', hash: 'x', ausgeliefert: false } }, { ETag: etag() })],
       ['POST', `${THEMES}/t1/aktivieren`, () => { server.aktiv = 't1'; return antwort(200, { themes: [{ ...server.dok.meta, aktiv: true }] }) }],
+      ['POST', '/neo-standard/aktivieren', () => { server.aktiv = null; return antwort(200, { themes: [{ ...server.dok.meta, aktiv: false }] }) }],
+      ['PUT', '/vorschau', (a) => { server.vorschau = a.body; return antwort(200, { themeId: a.body.themeId, name: 'ACME', seit: '2026-10-14T00:00:00.000Z' }) }],
+      ['DELETE', '/vorschau', () => { server.vorschau = null; return antwort(204) }],
       ['POST', THEMES, (a) => ablegen(a.body)],
       ['PUT', `${THEMES}/t1`, (a) => a.headers['If-Match'] !== etag() ? antwort(412, { status: 412, aktuellerEtag: etag() }) : ablegen(a.body)],
       ['GET', `${THEMES}/t1`, () => antwort(200, { ...server.dok, meta: { ...server.dok.meta, hash: server.hash } }, { ETag: etag() })],
@@ -287,6 +290,7 @@ describe('Store mit Drupal-Speicher', () => {
     // Befund im NEO-Standard (kontrast.test.js): on-danger/on-success hell 3,35:1
     store.state.themes.customer.light['on-danger'] = '#000000'
     store.state.themes.customer.light['on-success'] = '#000000'
+    store.state.themes.customer.light['text-link'] = '#0b5cad'   // echte Abweichung
     expect(store.pruefeThemeKontrast().bestanden).toBe(true)
     await store.speichereTheme()
     const erg = await store.veroeffentlicheTheme({ notiz: 'Go-live' })
@@ -298,7 +302,8 @@ describe('Store mit Drupal-Speicher', () => {
     expect(anfrage.body.kontrast.uebergangen).toBeUndefined()
     expect(anfrage.body.css).toMatch(/--/)
     const ohneZeit = (css) => css.replace(/\/\* Generated: .*\*\//, '')
-    expect(ohneZeit(anfrage.body.css)).toBe(ohneZeit(store.exportAsCSSVars()))
+    // Vertrag 1.1.0: nur Abweichungen vom NEO-Standard
+    expect(ohneZeit(anfrage.body.css)).toBe(ohneZeit(store.exportAsCSSVars({ nurAbweichungen: true })))
   })
 
   it('ohne Recht „veroeffentlichen“: Veroeffentlichen und Aktivieren scheitern ohne Serveraufruf', async () => {
@@ -307,6 +312,73 @@ describe('Store mit Drupal-Speicher', () => {
     await expect(store.veroeffentlicheTheme()).rejects.toMatchObject({ art: 'verboten' })
     await expect(store.aktiviereTheme('t1')).rejects.toMatchObject({ art: 'verboten' })
     expect(f.aufrufe.some(a => /veroeffentlichen|aktivieren/.test(a.url))).toBe(false)
+  })
+
+  it('legeThemeAusStandardAn (1.1.0): Kunden-Theme startet als NEO — Set „neo“, keine Abweichungen', async () => {
+    const { f } = mitServer()
+    store.state.themes.neo.light['text-link'] = '#abcdef'   // Arbeitsstand wird verworfen
+    await store.legeThemeAusStandardAn('Kunde', '1.0.0')
+    expect(store.state.activeThemeSet).toBe('neo')
+    expect(store.state.themes.neo.light['text-link']).toBe(STANDARD.themes.neo.light['text-link'])
+    const post = f.aufrufe.find(a => a.methode === 'POST' && a.url.endsWith('/themes'))
+    expect(post.body.abweichungen).toEqual({ activeThemeSet: 'neo' })
+  })
+
+  it('Veröffentlichen-CSS (1.1.0): nur Abweichungen, Hell und Dunkel getrennt, auf den Klassen der Website', async () => {
+    const { f } = mitServer()
+    await store.legeThemeAusStandardAn('Kunde', '1.0.0')
+    store.state.themes.neo.light['text-link'] = '#0b5cad'
+    store.state.themes.neo.light['text-link-hover'] = '#084a8a'
+    store.state.themes.neo.dark['text-link'] = '#ffcc00'
+    store.updateFoundationToken('typography', 'font-body', "'Kundenschrift', Arial, sans-serif")
+    await store.speichereTheme()
+    await store.veroeffentlicheTheme()
+    const css = f.aufrufe.find(a => a.url.endsWith('/veroeffentlichen')).body.css
+    expect(css).toMatch(/\.neo-light-theme \{\n {2}--fnd-color-text-link: #0b5cad;\n {2}--fnd-color-text-link-hover: #084a8a;\n\}/)
+    expect(css).toMatch(/\.neo-dark-theme \{\n {2}--fnd-color-text-link: #ffcc00;\n\}/)
+    expect(css).not.toContain('customer-')
+    expect(css).toContain("--font-body: 'Kundenschrift', Arial, sans-serif;")
+    expect(css.match(/--fnd-color-/g)).toHaveLength(3)
+  })
+
+  it('Google Fonts (1.1.0): @import vor allen Regeln, nur fonts.googleapis.com', async () => {
+    store.state.activeThemeSet = 'neo'
+    store.state.customFonts.neo = [
+      { id: 'a', name: 'Inter', family: 'Inter, sans-serif', url: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap' },
+      { id: 'b', name: 'Fremd', family: 'Fremd', url: 'https://example.com/fremd.css' },
+      { id: 'c', name: 'Lokal', family: 'Lokal', url: '' },
+    ]
+    try {
+      const css = store.exportAsCSSVars({ nurAbweichungen: true })
+      const importe = css.match(/@import url\("[^"]+"\);/g)
+      expect(importe).toEqual(['@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");'])
+      expect(css.indexOf('@import')).toBeLessThan(css.search(/\{/))
+    } finally {
+      store.state.customFonts.neo = []
+    }
+  })
+
+  it('NEO-Standard aktivieren und Website-Vorschau (1.1.0)', async () => {
+    const { f, server } = mitServer()
+    await store.legeThemeAusStandardAn('Kunde', '1.0.0')
+    store.state.themes.neo.light['text-link'] = '#123456'
+    await store.speichereTheme()
+    await store.setzeWebsiteVorschau()
+    expect(server.vorschau.themeId).toBe('t1')
+    expect(server.vorschau.css).toContain('--fnd-color-text-link: #123456;')
+    await store.beendeWebsiteVorschau()
+    expect(server.vorschau).toBeNull()
+    const liste = await store.aktiviereNeoStandard()
+    expect(liste.some(t => t.aktiv)).toBe(false)
+    expect(f.aufrufe.some(a => a.url.endsWith('/neo-standard/aktivieren'))).toBe(true)
+  })
+
+  it('ohne Recht: NEO-Standard aktivieren scheitert, Vorschau wird nicht gesetzt (ohne Serveraufruf)', async () => {
+    const { f } = mitServer({ rechte: ['ansehen'] })
+    await expect(store.aktiviereNeoStandard()).rejects.toMatchObject({ art: 'verboten' })
+    store.state.currentThemeMeta = { id: 't1', name: 'x' }
+    expect(await store.setzeWebsiteVorschau()).toBeNull()
+    expect(f.aufrufe.some(a => /vorschau|neo-standard\/aktivieren/.test(a.url))).toBe(false)
   })
 
   it('aktiviereTheme setzt den Katalog mit `aktiv`', async () => {

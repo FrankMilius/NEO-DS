@@ -479,7 +479,9 @@ export async function veroeffentlicheTheme({ notiz } = {}) {
   if (!kontrast.bestanden) {
     throw new SpeicherFehler('ungueltig', 'Kontrast-Prüfung nicht bestanden — Veröffentlichen gesperrt.', { details: kontrast })
   }
-  const erg = await sp.veroeffentliche(meta.id, { etag: meta.etag, kontrast, css: exportAsCSSVars(), notiz })
+  // Nur Abweichungen vom NEO-Standard (Vertrag 1.1.0): Unveraendertes folgt
+  // weiter dem Design System der Website.
+  const erg = await sp.veroeffentliche(meta.id, { etag: meta.etag, kontrast, css: exportAsCSSVars({ nurAbweichungen: true }), notiz })
   if (erg?.meta) uebernehmeMeta(erg)
   return { ...erg, kontrast }
 }
@@ -503,16 +505,18 @@ export async function aktiviereTheme(themeId = state.currentThemeMeta?.id) {
 /**
  * Neues Theme in Drupal anlegen, ausgehend vom NEO-Standard (Recht
  * „bearbeiten“). Die App-Daten werden auf den vollständigen Standard
- * gesetzt (beide Sets, Set „customer“ aktiv — ein Kunden-Theme) und als
- * neues Theme gespeichert (POST, Abweichungen = leer bis auf das Set).
- * Ein Undo-Schritt (VERLAUF_AKTIONEN).
+ * gesetzt und als neues Theme gespeichert (POST, Abweichungen = leer).
+ * Set „neo“ (Entscheidung Frank 14.10.2026): ein Kunden-Theme ist eine
+ * Abwandlung des NEO Design Systems — Hell und Dunkel starten mit den
+ * NEO-Werten und landen auf den Klassen, die die Website setzt
+ * (.neo-light-theme / .neo-dark-theme). Ein Undo-Schritt (VERLAUF_AKTIONEN).
  */
 export async function legeThemeAusStandardAn(name, version = '1.0.0') {
   const sp = speicher()
   if (sp.art === 'lokal') return createTheme(name, version)
   brauchtRecht('bearbeiten', 'Neu anlegen')
   const datei = await sp.ladeStandard()
-  applyThemeData({ ...standardDaten(datei), activeThemeSet: 'customer' })
+  applyThemeData({ ...standardDaten(datei), activeThemeSet: 'neo' })
   state.currentThemeMeta = null
   state.version = version
   return speichereTheme(name, version)
@@ -540,4 +544,38 @@ export async function loescheGespeichertesTheme(themeId) {
     state.currentThemeMeta = null
   }
   return true
+}
+
+/**
+ * NEO-Standard aktivieren (nur Drupal, Recht „veroeffentlichen“): kein
+ * Theme ist mehr aktiv, die Website zeigt das reine NEO Design System
+ * (theme-overrides.css des Frontend-Themes). Vertrag 1.1.0.
+ */
+export async function aktiviereNeoStandard() {
+  const sp = speicher()
+  if (!sp.faehigkeiten.aktivieren) {
+    throw new SpeicherFehler('nicht-unterstuetzt', 'Aktivieren gibt es nur mit Drupal-Speicher.')
+  }
+  brauchtRecht('veroeffentlichen', 'NEO-Standard aktivieren')
+  state.savedThemes = await sp.aktiviereNeoStandard()
+  return state.savedThemes
+}
+
+/**
+ * Website-Vorschau auf den gespeicherten Stand des geoeffneten Themes setzen
+ * (nur Drupal, Recht „bearbeiten“). Nur die angemeldete Person sieht sie;
+ * Besucher sehen weiter das aktive, veroeffentlichte Theme. Vertrag 1.1.0.
+ */
+export async function setzeWebsiteVorschau() {
+  const sp = speicher()
+  if (!sp.faehigkeiten.vorschau || !darf('bearbeiten')) return null
+  const id = state.currentThemeMeta?.id
+  if (!id) return null
+  return sp.setzeVorschau(id, exportAsCSSVars({ nurAbweichungen: true }))
+}
+
+export async function beendeWebsiteVorschau() {
+  const sp = speicher()
+  if (!sp.faehigkeiten.vorschau) return
+  await sp.beendeVorschau()
 }

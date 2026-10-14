@@ -10,7 +10,7 @@ import http from 'node:http'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { erzeugeAttrappe, BASIS, leseRechte, maschinenname, pruefeAbweichungen } from '../../../../scripts/drupal-attrappe.mjs'
+import { erzeugeAttrappe, BASIS, leseRechte, maschinenname, pruefeAbweichungen, pruefeSchrift, schriftCss } from '../../../../scripts/drupal-attrappe.mjs'
 import { inhaltsHash, alsEtag } from '../../src/speicher/inhalts-hash.js'
 import { erzeugeDrupalSpeicher } from '../../src/speicher/drupal.js'
 import { standardDaten } from '../../src/speicher/standard.js'
@@ -208,6 +208,94 @@ describe('Drupal-Attrappe — Vertrag 1.0.0', () => {
     expect(leseRechte('keine')).toEqual([])
     expect(maschinenname('Ärger & Öl!')).toBe('aerger_oel')
     expect(pruefeAbweichungen({})).toEqual([])
+  })
+})
+
+describe('Drupal-Attrappe — Vertrag 1.1.0 (14.10.2026)', () => {
+  const WOFF2 = Buffer.concat([Buffer.from('wOF2'), Buffer.alloc(60)])
+
+  it('NEO-Standard aktivieren: danach ist kein Theme aktiv (Recht veröffentlichen, CSRF)', async () => {
+    const t = await lege(KORRIGIERT)
+    const id = t.daten.meta.id
+    await api('POST', `/themes/${id}/veroeffentlichen`, { etag: t.etag, body: { css: ':root{}', kontrast: KONTRAST_OK } })
+    expect((await api('POST', `/themes/${id}/aktivieren`)).daten.themes.some(x => x.aktiv)).toBe(true)
+    expect((await api('POST', '/neo-standard/aktivieren', { rechte: 'ansehen,bearbeiten' })).status).toBe(403)
+    expect((await api('POST', '/neo-standard/aktivieren', { csrf: 'falsch' })).status).toBe(403)
+    const r = await api('POST', '/neo-standard/aktivieren')
+    expect(r.status).toBe(200)
+    expect(r.daten.themes.some(x => x.aktiv)).toBe(false)
+    expect((await api('DELETE', `/themes/${id}`, { etag: t.etag })).status).toBe(204) // nicht mehr aktiv → löschbar
+  })
+
+  it('Vorschau: 204 ohne, PUT setzt (Recht bearbeiten), 404 unbekanntes Theme, 422 ohne CSS, DELETE beendet', async () => {
+    expect((await api('DELETE', '/vorschau')).status).toBe(204)
+    expect((await api('GET', '/vorschau', { csrf: null })).status).toBe(204)
+    const t = await lege({}, 'Vorschau Test')
+    const id = t.daten.meta.id
+    expect((await api('PUT', '/vorschau', { body: { themeId: id, css: ':root{}' }, rechte: 'ansehen' })).status).toBe(403)
+    expect((await api('PUT', '/vorschau', { body: { themeId: 'gibt_es_nicht', css: ':root{}' } })).status).toBe(404)
+    expect((await api('PUT', '/vorschau', { body: { themeId: id } })).status).toBe(422)
+    const p = await api('PUT', '/vorschau', { body: { themeId: id, css: '.neo-light-theme{--fnd-color-text-link:#123456}' } })
+    expect(p.status).toBe(200)
+    expect(p.daten).toMatchObject({ themeId: id, name: 'Vorschau Test' })
+    expect((await api('GET', '/vorschau', { csrf: null })).daten.themeId).toBe(id)
+    expect(server.zustand.vorschau.css).toContain('#123456')
+    expect((await api('DELETE', '/vorschau')).status).toBe(204)
+    expect(server.zustand.vorschau).toBeNull()
+  })
+
+  it('Schriften: hochladen (Rohdaten), Liste nach Familie, @font-face-Datei, Datei abrufbar, 409 doppelt, löschen', async () => {
+    expect((await api('GET', '/schriften', { csrf: null })).daten).toMatchObject({ schriften: [] })
+    const q = '?familie=Kundenschrift&gewicht=700&stil=italic&datei=Kundenschrift-BoldItalic.woff2'
+    expect((await api('POST', '/schriften' + q, { roh: WOFF2, rechte: 'ansehen,bearbeiten' })).status).toBe(403)
+    const h = await api('POST', '/schriften' + q, { roh: WOFF2 })
+    expect(h.status).toBe(201)
+    expect(h.daten.schriften).toEqual([{ familie: 'Kundenschrift', quelle: 'hochgeladen', schnitte: [{ id: 'kundenschrift_700_italic', gewicht: 700, stil: 'italic', format: 'woff2', url: '/attrappe/schriften/kundenschrift_700_italic.woff2' }] }])
+    expect(h.daten.cssUrl).toMatch(/^\/attrappe\/schriften\.css\?v=[0-9a-f]{12}$/)
+    expect((await api('POST', '/schriften' + q, { roh: WOFF2 })).status).toBe(409)
+    const css = await (await fetch(url + '/attrappe/schriften.css')).text()
+    expect(css).toContain("font-family: 'Kundenschrift'")
+    expect(css).toContain("format('woff2')")
+    expect(css).toContain('font-style: italic')
+    const datei = await fetch(url + '/attrappe/schriften/kundenschrift_700_italic.woff2')
+    expect(datei.status).toBe(200)
+    expect(datei.headers.get('content-type')).toBe('font/woff2')
+    const l = await api('DELETE', '/schriften/kundenschrift_700_italic')
+    expect(l.status).toBe(200)
+    expect(l.daten.schriften).toEqual([])
+    expect((await api('DELETE', '/schriften/kundenschrift_700_italic')).status).toBe(404)
+  })
+
+  it('Schriften: 422 für falsche Angaben und falschen Inhalt, 413 über 5 MB', async () => {
+    const hoch = (q, roh = WOFF2) => api('POST', '/schriften?' + q, { roh })
+    expect((await hoch('familie=<script>&datei=a.woff2')).status).toBe(422)
+    expect((await hoch('familie=Gut&gewicht=450&datei=a.woff2')).status).toBe(422)
+    expect((await hoch('familie=Gut&stil=oblique&datei=a.woff2')).status).toBe(422)
+    expect((await hoch('familie=Gut&datei=a.exe')).status).toBe(422)
+    const r = await hoch('familie=Gut&datei=a.woff2', Buffer.from('<?php echo 1; ?>'))
+    expect(r.status).toBe(422)
+    expect(r.daten.detail).toContain('keine woff2-Schrift')
+    expect((await hoch('familie=Gut&datei=a.woff2', Buffer.alloc(5 * 1024 * 1024 + 10))).status).toBe(413)
+  })
+
+  it('Server-Ordner-Schriften erscheinen in der Liste und sind nicht löschbar (409)', async () => {
+    const s = await starte({ serverSchriften: [{ id: 'hausschrift_400', familie: 'Hausschrift', url: '/libraries/neo-schriften/Hausschrift/400.woff2' }] })
+    const u = `http://127.0.0.1:${s.address().port}`
+    try {
+      const l = await (await fetch(u + BASIS + '/schriften')).json()
+      expect(l.schriften[0]).toMatchObject({ familie: 'Hausschrift', quelle: 'server' })
+      const d = await fetch(u + BASIS + '/schriften/hausschrift_400', { method: 'DELETE', headers: { 'X-CSRF-Token': TOKEN } })
+      expect(d.status).toBe(409)
+    } finally {
+      await new Promise((ok) => s.close(ok))
+    }
+  })
+
+  it('pruefeSchrift und schriftCss', () => {
+    expect(pruefeSchrift({ familie: 'A', datei: 'a.otf', bytes: Buffer.from('OTTO') }).fehler).toEqual([])
+    expect(pruefeSchrift({ familie: 'A', datei: 'a.ttf', bytes: Buffer.from([0, 1, 0, 0]) }).fehler).toEqual([])
+    expect(pruefeSchrift({ familie: 'A', datei: 'a.woff', bytes: Buffer.from('wOF2') }).fehler).toHaveLength(1)
+    expect(schriftCss([{ familie: 'A', url: '/a.woff2', format: 'woff2', gewicht: 400, stil: 'normal' }])).toContain('font-display: swap')
   })
 })
 

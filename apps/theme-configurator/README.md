@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.0.0` (14.10.2026; Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.1.0` (14.10.2026; Vertrag 1.1.0, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -477,8 +477,29 @@ Themes, `state.version`, Theme-Metadaten) und daneben „App <version> ·
 Umgesetzt im Drupal-Modul `neo_theme_konfigurator` (DRUPAL11, 14.10.2026):
 Einstieg `/admin/appearance/neo-theme-konfigurator`, Schnittstelle nach der
 OpenAPI, Kontrast-Tor in PHP (alle Prüffälle grün), das aktive Theme ersetzt
-`css/theme-overrides.css` des Frontend-Themes. Ursprünglicher Vorschlag
-(ADR-004):
+`css/theme-overrides.css` des Frontend-Themes.
+
+Seit App und Vertrag 1.1.0 (Entscheidungen Frank, 14.10.2026):
+
+- **Kunden-Theme auf NEO-Basis.** Im Drupal-Betrieb arbeitet die App im Set
+  „neo“, der Umschalter „Neo / Customer“ ist ausgeblendet. Ein neues Theme
+  startet als exakte Kopie des NEO Design Systems, Hell und Dunkel getrennt
+  pflegbar. Das veröffentlichte CSS enthält nur Abweichungen
+  (`exportAsCSSVars({ nurAbweichungen: true })`) auf den Klassen der Website
+  (`.neo-light-theme`, `.neo-dark-theme`, `:root`) — Unverändertes folgt
+  weiter dem Design System.
+- **NEO-Standard aktivieren.** Fester Eintrag in der Theme-Liste; danach ist
+  kein Theme aktiv, die Website zeigt reines NEO.
+- **Website-Vorschau.** Nach Speichern, Anlegen und Öffnen sieht die
+  angemeldete Person den gespeicherten Stand sofort auf der Website (mit
+  Hinweis „Vorschau beenden“); Besucher erst nach Veröffentlichen. Schalter
+  „Vorschau an/aus“ und „Website öffnen“ in der Werkzeugleiste.
+- **Schriften auf dem Server.** Typografie → Inspector: hochladen
+  (woff2/woff/ttf/otf, Recht „veröffentlichen“) oder aus dem Server-Ordner
+  des Betriebs, als Body/Heading/Mono zuweisen. Ohne Anfragen an Dritte.
+  Google-Fonts-Adressen eigener Schriften kommen als `@import` ins CSS.
+
+Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS
    aus `theme-configurator/assets/` als Library registrieren.

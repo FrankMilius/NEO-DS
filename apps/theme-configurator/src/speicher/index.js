@@ -27,7 +27,7 @@
  * Schnittstelle beider Adapter (lokal.js, drupal.js).
  * @typedef {object} Speicher
  * @property {'lokal'|'drupal'} art
- * @property {{ veroeffentlichen: boolean, aktivieren: boolean, konflikterkennung: boolean, branchesUndReleases: boolean }} faehigkeiten
+ * @property {{ veroeffentlichen: boolean, aktivieren: boolean, konflikterkennung: boolean, branchesUndReleases: boolean, vorschau?: boolean, schriften?: boolean }} faehigkeiten
  * @property {string[]} rechte                                    Teilmenge von RECHTE
  * @property {() => Promise<object[]>} liste                      Katalog (ThemeMeta[], drupal mit `aktiv`)
  * @property {(id: string) => Promise<{meta, daten, etag}|null>} lade
@@ -38,6 +38,13 @@
  * @property {(id: string, format: 'css'|'abweichungen') => Promise<string>} exportiere
  * @property {() => Promise<object|null>} ladeStandard            NEO-Standard (Werkseinstellung)
  * @property {(payload: object) => Promise<object>} sichereEntwurf nur lokal: POST /api/save-theme
+ * @property {() => Promise<object[]>} [aktiviereNeoStandard]    nur drupal (1.1.0): kein Theme aktiv
+ * @property {() => Promise<object|null>} [vorschau]              nur drupal (1.1.0): eigene Website-Vorschau
+ * @property {(id: string, css: string) => Promise<object>} [setzeVorschau]
+ * @property {() => Promise<void>} [beendeVorschau]
+ * @property {() => Promise<{schriften: object[], cssUrl: string|null}>} [schriften]  nur drupal (1.1.0)
+ * @property {(datei: Blob & {name?: string}, a: {familie: string, gewicht?: number|string, stil?: 'normal'|'italic'}) => Promise<object>} [ladeSchriftHoch]
+ * @property {(schnittId: string) => Promise<object>} [loescheSchrift]
  */
 
 import { erzeugeLokalenSpeicher } from './lokal.js'

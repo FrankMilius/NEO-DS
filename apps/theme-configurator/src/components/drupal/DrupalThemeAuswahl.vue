@@ -32,6 +32,25 @@
           Neu anlegen
         </button>
       </div>
+      <!-- Fester Eintrag: das reine NEO Design System (Vertrag 1.1.0) -->
+      <div class="dt-eintrag dt-eintrag--standard" data-test="drupal-neo-standard">
+        <span class="dt-oeffnen dt-oeffnen--statisch">
+          <span class="dt-name">NEO Design System (Standard)</span>
+          <span class="dt-meta">Basis jedes Themes · ohne Änderungen</span>
+        </span>
+        <span class="dt-marken">
+          <span v-if="neoAktiv" class="dk-marke dk-marke--aktiv">aktiv</span>
+        </span>
+        <button
+          v-if="kannVeroeffentlichen && !neoAktiv"
+          type="button"
+          class="dk-knopf dk-knopf--klein"
+          title="Website wieder mit dem unveränderten NEO Design System ausliefern"
+          aria-label="NEO-Standard aktivieren"
+          data-test="drupal-neo-aktivieren"
+          @click="neoAktivieren"
+        >Aktivieren</button>
+      </div>
       <p v-if="!themes.length" class="dt-leer">
         Noch keine Themes in Drupal.<template v-if="kannBearbeiten"> „Neu anlegen“ startet ein Theme vom NEO-Standard.</template>
       </p>
@@ -111,6 +130,7 @@ const knopfRef = ref(null)
 const themes = computed(() => store.state.savedThemes || [])
 const aktuellId = computed(() => store.state.currentThemeMeta?.id || null)
 const aktuell = computed(() => themes.value.find(t => t.id === aktuellId.value) || null)
+const neoAktiv = computed(() => !themes.value.some(t => t.aktiv))
 const beschriftung = computed(() => store.state.currentThemeMeta?.name || 'NEO-Standard (nicht gespeichert)')
 const titel = computed(() => `Theme wählen — geöffnet: ${beschriftung.value}`)
 
@@ -130,6 +150,11 @@ function umschalten () { offen.value = !offen.value }
 function schliessen (fokus = false) {
   offen.value = false
   if (fokus) knopfRef.value?.focus()
+}
+
+async function neoAktivieren () {
+  schliessen(true)
+  await betrieb.neoStandardAktivieren()
 }
 
 async function oeffne (id) {
@@ -230,6 +255,9 @@ onUnmounted(() => {
   cursor: pointer;
 }
 .dt-oeffnen:hover { background: var(--cfg-surface-elevated); }
+.dt-oeffnen--statisch { cursor: default; }
+.dt-oeffnen--statisch:hover { background: transparent; }
+.dt-eintrag--standard { border-bottom: 1px solid var(--cfg-border); border-radius: 6px 6px 0 0; margin-bottom: 4px; padding-bottom: 6px; }
 .dt-name { font-size: 12px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dt-meta { font-size: 11px; color: var(--cfg-text-secondary); }
 .dt-marken { display: flex; gap: 4px; flex-shrink: 0; }

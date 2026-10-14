@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { leseYamlTeilmenge } from '../helpers/yaml-teilmenge.js'
 import { useThemeStore, THEME_DATA_KEYS } from '../../src/stores/theme.js'
-import { erzeugeDrupalSpeicher, MAX_ANFRAGE_BYTES } from '../../src/speicher/drupal.js'
+import { erzeugeDrupalSpeicher, MAX_ANFRAGE_BYTES, MAX_SCHRIFT_BYTES } from '../../src/speicher/drupal.js'
 import { RECHTE, inhaltsHash } from '../../src/speicher/index.js'
 import { abweichungenBerechnen, zusammenfuehren } from '../../src/speicher/abweichungen.js'
 import { standardDaten } from '../../src/speicher/standard.js'
@@ -27,10 +27,10 @@ const METHODEN = ['get', 'post', 'put', 'delete']
 const operationen = () => Object.entries(api.paths).flatMap(([pfad, ops]) => METHODEN.filter(m => ops[m]).map(m => ({ pfad, m, op: ops[m] })))
 
 describe('OpenAPI-Vertrag', () => {
-  it('ist gueltiges YAML in OpenAPI 3.1, Version 1.0.0', () => {
+  it('ist gueltiges YAML in OpenAPI 3.1, Version 1.1.0', () => {
     expect(api.openapi).toBe('3.1.0')
     expect(api.info.title).toMatch(/Theme-Konfigurator/)
-    expect(api.info.version).toBe('1.0.0')
+    expect(api.info.version).toBe('1.1.0')
     expect(api.servers[0].url).toBe('/api/neo-theme-konfigurator/v1')
   })
 
@@ -42,6 +42,11 @@ describe('OpenAPI-Vertrag', () => {
       '/themes/{themeId}/aktivieren': ['post'],
       '/themes/{themeId}/veroeffentlichen': ['post'],
       '/themes/{themeId}/export': ['get'],
+      // 1.1.0 (14.10.2026)
+      '/neo-standard/aktivieren': ['post'],
+      '/vorschau': ['get', 'put', 'delete'],
+      '/schriften': ['get', 'post'],
+      '/schriften/{schnittId}': ['delete'],
     }
     expect(Object.keys(api.paths).sort()).toEqual(Object.keys(soll).sort())
     for (const [pfad, methoden] of Object.entries(soll)) {
@@ -59,6 +64,9 @@ describe('OpenAPI-Vertrag', () => {
       'get /themes/{themeId}': 'ansehen', 'put /themes/{themeId}': 'bearbeiten', 'delete /themes/{themeId}': 'bearbeiten',
       'post /themes/{themeId}/aktivieren': 'veroeffentlichen', 'post /themes/{themeId}/veroeffentlichen': 'veroeffentlichen',
       'get /themes/{themeId}/export': 'ansehen',
+      'post /neo-standard/aktivieren': 'veroeffentlichen',
+      'get /vorschau': 'ansehen', 'put /vorschau': 'bearbeiten', 'delete /vorschau': 'bearbeiten',
+      'get /schriften': 'ansehen', 'post /schriften': 'veroeffentlichen', 'delete /schriften/{schnittId}': 'veroeffentlichen',
     }
     for (const { pfad, m, op } of operationen()) {
       expect(RECHTE, `${m} ${pfad}`).toContain(op['x-neo-recht'])
@@ -106,7 +114,9 @@ describe('OpenAPI-Vertrag', () => {
     expect(api.components.schemas.ThemeMeta.properties.aktiv.type).toBe('boolean')
     expect(MAX_ANFRAGE_BYTES).toBe(1048576)
     for (const { pfad, m, op } of operationen().filter(o => o.op.requestBody?.required)) {
-      expect(op.requestBody['x-neo-max-bytes'], `${m} ${pfad}`).toBe(MAX_ANFRAGE_BYTES)
+      // Schriftdateien: eigenes Limit (5 MB, MAX_SCHRIFT_BYTES)
+      const soll = pfad === '/schriften' ? MAX_SCHRIFT_BYTES : MAX_ANFRAGE_BYTES
+      expect(op.requestBody['x-neo-max-bytes'], `${m} ${pfad}`).toBe(soll)
       expect(op.responses['413'], `${m} ${pfad}`).toBeTruthy()
     }
     expect(api.components.schemas.ThemeAbweichungen['x-neo-max-bytes']).toBe(MAX_ANFRAGE_BYTES)
@@ -137,6 +147,13 @@ describe('OpenAPI-Vertrag', () => {
     const f = fetchAttrappe([
       ['GET', '/session/token', antwort(200, 'tok')],
       ['GET', '/export', antwort(200, ':root{}')],
+      ['POST', '/neo-standard/aktivieren', antwort(200, { themes: [] })],
+      ['GET', '/vorschau', antwort(204)],
+      ['PUT', '/vorschau', antwort(200, { themeId: 't1', name: 'x', seit: '2026-10-14T00:00:00.000Z' })],
+      ['DELETE', '/vorschau', antwort(204)],
+      ['GET', '/schriften', antwort(200, { schriften: [], cssUrl: null })],
+      ['POST', '/schriften', antwort(201, { schriften: [], cssUrl: null })],
+      ['DELETE', '/schriften/', antwort(200, { schriften: [], cssUrl: null })],
       ['GET', '/neo-standard', antwort(200, STANDARD)],
       ['GET', '/themes/', antwort(200, dok, { ETag: '"h"' })],
       ['GET', '/themes', antwort(200, { themes: [] })],
@@ -156,9 +173,17 @@ describe('OpenAPI-Vertrag', () => {
     await sp.veroeffentliche('t1', { etag: '"h"', kontrast: { bestanden: true }, css: ':root{}' })
     await sp.exportiere('t1', 'abweichungen')
     await sp.ladeStandard()
+    // 1.1.0
+    await sp.aktiviereNeoStandard()
+    expect(await sp.vorschau()).toBeNull()
+    await sp.setzeVorschau('t1', ':root{}')
+    await sp.beendeVorschau()
+    await sp.schriften()
+    await sp.ladeSchriftHoch(Object.assign(new Blob(['wOF2']), { name: 'Kunde.woff2' }), { familie: 'Kunde', gewicht: 700 })
+    await sp.loescheSchrift('kunde_700')
 
     const anfragen = f.aufrufe.filter(a => a.url !== '/session/token')
-    expect(anfragen).toHaveLength(9)   // /neo-standard nur einmal (Cache)
+    expect(anfragen).toHaveLength(16)   // /neo-standard nur einmal (Cache)
     for (const a of anfragen) {
       expect(vorlagen.some(v => v.methode === a.methode && v.re.test(a.url)), `${a.methode} ${a.url}`).toBe(true)
     }

@@ -53,8 +53,9 @@
           <span v-if="recipeVersion" class="inspector-meta-badge inspector-meta-badge--version">Version <span class="inspector-meta-badge__value">{{ recipeVersion }}</span></span>
         </div>
       </div>
-      <!-- Theme-Set Switcher (Neo / Customer) -->
-      <div v-if="isComponentSection || activeSection === 'foundation-colors'" class="theme-set-switcher" role="group" aria-label="Theme-Set">
+      <!-- Theme-Set Switcher (Neo / Customer) — im Drupal-Betrieb ausgeblendet:
+           jedes Theme ist eine Abwandlung von NEO (Entscheidung Frank 14.10.2026) -->
+      <div v-if="!drupalBetrieb && (isComponentSection || activeSection === 'foundation-colors')" class="theme-set-switcher" role="group" aria-label="Theme-Set">
         <button
           type="button"
           :class="['tss-btn', { active: store.state.activeThemeSet === 'neo' }]"
@@ -286,6 +287,7 @@ const showInfoTooltip = ref(false)
 // Component-specific meta (recipe version, tier, lock)
 // ---------------------------------------------------------------------------
 const isComponentSection = computed(() => activeSection.value.startsWith('component-'))
+const drupalBetrieb = speicher().art === 'drupal'
 const currentComponentId = computed(() => activeSection.value.replace('component-', ''))
 const { recipe } = useRecipeLoader(currentComponentId)
 const recipeVersion = computed(() => recipe.value?.meta?.version || null)

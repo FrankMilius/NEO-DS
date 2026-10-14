@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NEO Theme-Konfigurator – Speicher-Schnittstelle
-  version: 1.0.0
+  version: 1.1.0
   description: |
     Vertrag zwischen Theme-Konfigurator (Vue-App) und Drupal 11 (neo Workplace,
     Config Tools), abgestimmt mit der Drupal-Entwicklung am 01.10.2026
@@ -42,6 +42,21 @@ info:
       drupalSettings oder GET /session/token).
     - Fehler als application/problem+json (RFC 9457).
 
+    Ergänzungen 1.1.0 (14.10.2026, Entscheidungen Frank; abwärtskompatibel):
+    - NEO-Standard aktivieren: POST /neo-standard/aktivieren — danach ist
+      kein Theme aktiv, die Website zeigt das reine NEO Design System.
+    - Website-Vorschau je angemeldeter Person: PUT/GET/DELETE /vorschau.
+      Bearbeiter sehen den gespeicherten Stand eines Themes sofort auf der
+      Website, Besucher weiter das aktive, veröffentlichte Theme.
+    - Schriften auf dem Server: GET/POST /schriften, DELETE
+      /schriften/{schnittId}. Quellen: hochgeladen (Rohdaten, höchstens
+      5 MB, woff2/woff/ttf/otf) und ein Server-Ordner, den der Betrieb per
+      Deployment befüllt. Der Server erzeugt daraus eine @font-face-Datei
+      (cssUrl) für Website und App — ohne Anfragen an Dritte.
+    - Im Drupal-Betrieb arbeitet die App im Set „neo“; das veröffentlichte
+      CSS enthält nur Abweichungen vom NEO-Standard (.neo-light-theme /
+      .neo-dark-theme / :root) und Google-Fonts-Adressen als @import.
+
     Gegenstück in der App: apps/theme-configurator/src/speicher/drupal.js.
 servers:
   - url: /api/neo-theme-konfigurator/v1
@@ -53,6 +68,8 @@ tags:
   - name: Veroeffentlichen
   - name: Standard
   - name: Export
+  - name: Vorschau
+  - name: Schriften
 paths:
   /neo-standard:
     get:
@@ -350,6 +367,240 @@ paths:
           $ref: '#/components/responses/Verboten'
         '404':
           $ref: '#/components/responses/NichtGefunden'
+  /neo-standard/aktivieren:
+    post:
+      tags: [Standard]
+      operationId: aktiviereNeoStandard
+      summary: NEO-Standard aktivieren (kein Theme aktiv) — seit 1.1.0
+      x-neo-recht: veroeffentlichen
+      description: |
+        Nimmt dem aktiven Theme den Status. Die Website liefert danach wieder
+        die unveränderte Datei des Frontend-Themes aus (theme-overrides.css)
+        und zeigt das reine NEO Design System. Die Themes bleiben erhalten.
+        Antwort ist die neue Liste (kein Eintrag mit aktiv = true).
+      security:
+        - drupalSitzung: []
+          csrfToken: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: NEO-Standard aktiv
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemeListe'
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+  /vorschau:
+    get:
+      tags: [Vorschau]
+      operationId: ladeVorschau
+      summary: Eigene Website-Vorschau lesen — seit 1.1.0
+      x-neo-recht: ansehen
+      responses:
+        '200':
+          description: Vorschau gesetzt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vorschau'
+        '204':
+          description: Keine Vorschau gesetzt
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+    put:
+      tags: [Vorschau]
+      operationId: setzeVorschau
+      summary: Website-Vorschau auf ein gespeichertes Theme setzen — seit 1.1.0
+      x-neo-recht: bearbeiten
+      description: |
+        Gilt nur für die angemeldete Person: Sie sieht auf der Website das
+        mitgeschickte CSS (Stand des Themes, von der App erzeugt) statt des
+        aktiven Themes, mit einem Hinweis „Vorschau beenden“. Besucher sehen
+        weiter das aktive, veröffentlichte Theme. Keine Kontrastprüfung.
+      security:
+        - drupalSitzung: []
+          csrfToken: []
+      requestBody:
+        required: true
+        x-neo-max-bytes: 1048576
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschauAnfrage'
+      responses:
+        '200':
+          description: Vorschau gesetzt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vorschau'
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+        '404':
+          $ref: '#/components/responses/NichtGefunden'
+        '413':
+          $ref: '#/components/responses/ZuGross'
+        '422':
+          $ref: '#/components/responses/Ungueltig'
+    delete:
+      tags: [Vorschau]
+      operationId: beendeVorschau
+      summary: Eigene Website-Vorschau beenden — seit 1.1.0
+      x-neo-recht: bearbeiten
+      security:
+        - drupalSitzung: []
+          csrfToken: []
+      responses:
+        '204':
+          description: Beendet (auch wenn keine gesetzt war)
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+  /schriften:
+    get:
+      tags: [Schriften]
+      operationId: ladeSchriften
+      summary: Schriften auf dem Server — seit 1.1.0
+      x-neo-recht: ansehen
+      description: |
+        Alle Schnitte aus beiden Quellen, nach Familie gruppiert, und die
+        URL der @font-face-Datei (cssUrl, wechselt mit jedem Stand). Der
+        Server-Ordner wird beim Abruf und bei jedem Cache-Rebuild neu gelesen.
+      responses:
+        '200':
+          description: Liste
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchriftListe'
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+    post:
+      tags: [Schriften]
+      operationId: ladeSchriftHoch
+      summary: Schriftdatei hochladen (ein Schnitt) — seit 1.1.0
+      x-neo-recht: veroeffentlichen
+      description: |
+        Körper sind die Bytes der Datei (kein multipart). Angaben als
+        Query-Parameter. Geprüft werden Endung, Inhaltskennung der Datei,
+        Größe (höchstens 5 MB) und die Angaben. Ein vorhandener Schnitt
+        (gleiche Familie, Gewicht, Stil) wird nicht überschrieben (409).
+      security:
+        - drupalSitzung: []
+          csrfToken: []
+      parameters:
+        - name: familie
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9][A-Za-z0-9 _-]{0,59}$'
+        - name: gewicht
+          in: query
+          required: false
+          schema:
+            type: integer
+            enum: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+            default: 400
+        - name: stil
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [normal, italic]
+            default: normal
+        - name: datei
+          in: query
+          required: true
+          description: Dateiname mit Endung woff2, woff, ttf oder otf
+          schema:
+            type: string
+      requestBody:
+        required: true
+        x-neo-max-bytes: 5242880
+        content:
+          font/woff2:
+            schema:
+              type: string
+              format: binary
+          font/woff:
+            schema:
+              type: string
+              format: binary
+          font/ttf:
+            schema:
+              type: string
+              format: binary
+          font/otf:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Hochgeladen; Antwort ist die neue Liste
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchriftListe'
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+        '409':
+          $ref: '#/components/responses/Konflikt'
+        '413':
+          $ref: '#/components/responses/ZuGross'
+        '422':
+          $ref: '#/components/responses/Ungueltig'
+  /schriften/{schnittId}:
+    parameters:
+      - name: schnittId
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '^[a-z0-9_]+$'
+    delete:
+      tags: [Schriften]
+      operationId: loescheSchrift
+      summary: Hochgeladenen Schnitt löschen — seit 1.1.0
+      x-neo-recht: veroeffentlichen
+      description: |
+        Nur hochgeladene Schnitte. Schnitte aus dem Server-Ordner verwaltet
+        der Betrieb (409). Antwort ist die neue Liste.
+      security:
+        - drupalSitzung: []
+          csrfToken: []
+      responses:
+        '200':
+          description: Gelöscht
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchriftListe'
+        '401':
+          $ref: '#/components/responses/NichtAngemeldet'
+        '403':
+          $ref: '#/components/responses/Verboten'
+        '404':
+          $ref: '#/components/responses/NichtGefunden'
+        '409':
+          $ref: '#/components/responses/Konflikt'
 components:
   securitySchemes:
     drupalSitzung:
@@ -682,6 +933,68 @@ components:
             ausgeliefert:
               type: boolean
               description: true, wenn das Theme aktiv ist und die Datei über den Library-Override ausgeliefert wird
+    Vorschau:
+      type: object
+      required: [themeId, name, seit]
+      properties:
+        themeId:
+          type: string
+        name:
+          type: string
+        seit:
+          type: string
+          format: date-time
+    VorschauAnfrage:
+      type: object
+      required: [themeId, css]
+      properties:
+        themeId:
+          type: string
+          pattern: '^[a-z0-9_]+$'
+        css:
+          type: string
+          description: CSS des Themes (exportAsCSSVars, nur Abweichungen)
+    SchriftSchnitt:
+      type: object
+      required: [id, gewicht, stil, format, url]
+      properties:
+        id:
+          type: string
+          pattern: '^[a-z0-9_]+$'
+        gewicht:
+          type: integer
+        stil:
+          type: string
+          enum: [normal, italic]
+        format:
+          type: string
+          enum: [woff2, woff, truetype, opentype]
+        url:
+          type: string
+    SchriftFamilie:
+      type: object
+      required: [familie, quelle, schnitte]
+      properties:
+        familie:
+          type: string
+        quelle:
+          type: string
+          enum: [hochgeladen, server]
+        schnitte:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchriftSchnitt'
+    SchriftListe:
+      type: object
+      required: [schriften, cssUrl]
+      properties:
+        schriften:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchriftFamilie'
+        cssUrl:
+          type: [string, 'null']
+          description: URL der @font-face-Datei (null, solange es keine Schriften gibt)
     NeoStandard:
       type: object
       description: Inhalt von data/neo-theme-defaults/neo-theme-defaults.json (mit dem Design System ausgeliefert)

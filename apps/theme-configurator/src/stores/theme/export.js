@@ -13,9 +13,30 @@ import { extractComponentId } from './komponenten.js'
 // Export as CSS custom properties
 // ---------------------------------------------------------------------------
 
-export function exportAsCSSVars() {
+/**
+ * Google-Fonts-Adressen der eigenen Schriften des Sets als @import-Zeilen
+ * (nur https://fonts.googleapis.com/…). Lokale Schriften kommen nicht hier
+ * herein: Drupal liefert ihre @font-face-Regeln als eigene Datei aus.
+ * @param {string} themeSet
+ * @returns {string[]}
+ */
+export function schriftImporte(themeSet = state.activeThemeSet) {
+  const urls = (state.customFonts?.[themeSet] || [])
+    .map(f => String(f?.url || '').trim())
+    .filter(u => /^https:\/\/fonts\.googleapis\.com\//.test(u))
+  return [...new Set(urls)].map(u => `@import url("${u.replace(/["\\\n]/g, '')}");`)
+}
+
+/**
+ * @param {{ nurAbweichungen?: boolean }} [opt]
+ *   nurAbweichungen: semantische Farben nur, wo sie vom NEO-Standard des
+ *   Sets abweichen (Drupal-Betrieb, Vertrag 1.1.0) — Unveraendertes folgt
+ *   so weiter dem Design System, statt beim Veroeffentlichen einzufrieren.
+ */
+export function exportAsCSSVars(opt = {}) {
   const lines = []
   const themeSet = state.activeThemeSet
+  const nurAbweichungen = opt.nurAbweichungen === true
   const label = themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme'
 
   // Header with metadata
@@ -35,23 +56,25 @@ export function exportAsCSSVars() {
   lines.push(`/* Generated: ${new Date().toISOString()} */`)
   lines.push(`/* Generator: NEO Theme Configurator v2 */\n`)
 
-  // === Base Theme (Light) ===
-  const lightClass = themeSet === 'neo' ? '.neo-light-theme' : '.customer-light-theme'
-  lines.push(`/* === Base Theme (Light) === */`)
-  lines.push(`${lightClass} {`)
-  for (const [token, value] of Object.entries(state.themes[themeSet].light)) {
-    lines.push(`  --fnd-color-${token}: ${value};`)
+  // === Schriften von Google (vor allen Regeln, CSS verlangt das) ===
+  const importe = schriftImporte(themeSet)
+  if (importe.length) {
+    lines.push(`/* === Schriften (Google Fonts) === */`)
+    lines.push(...importe, '')
   }
-  lines.push('}\n')
 
-  // === Base Theme (Dark) ===
-  const darkClass = themeSet === 'neo' ? '.neo-dark-theme' : '.customer-dark-theme'
-  lines.push(`/* === Base Theme (Dark) === */`)
-  lines.push(`${darkClass} {`)
-  for (const [token, value] of Object.entries(state.themes[themeSet].dark)) {
-    lines.push(`  --fnd-color-${token}: ${value};`)
+  // === Base Theme (Light / Dark) ===
+  for (const [modus, titel] of [['light', 'Light'], ['dark', 'Dark']]) {
+    const klasse = themeSet === 'neo' ? `.neo-${modus}-theme` : `.customer-${modus}-theme`
+    const basis = nurAbweichungen ? (semanticDefaults[`${themeSet}-${modus}`] || {}) : null
+    const eintraege = Object.entries(state.themes[themeSet][modus])
+      .filter(([token, value]) => !basis || String(basis[token]).toLowerCase() !== String(value).toLowerCase())
+    if (nurAbweichungen && !eintraege.length) continue
+    lines.push(`/* === Base Theme (${titel})${nurAbweichungen ? ' — nur Abweichungen' : ''} === */`)
+    lines.push(`${klasse} {`)
+    for (const [token, value] of eintraege) lines.push(`  --fnd-color-${token}: ${value};`)
+    lines.push('}\n')
   }
-  lines.push('}\n')
 
   // === Foundation Overrides ===
   // Nur ABWEICHUNGEN vom Design System, mit korrekten CSS-Namen (foundation-css.js).
