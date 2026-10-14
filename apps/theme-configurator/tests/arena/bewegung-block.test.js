@@ -35,7 +35,9 @@ const ANIMIERT = ['hero-tom', 'hero-tmob', 'story-gallery', 'marquee', 'parallax
 const BLOCK = [...new Set([...NEU, ...ANIMIERT])]
 // Abspielen mit DS-Mitteln bzw. gesperrt (Grund in der Vorlage)
 const SPIELBAR = ['carousel', 'fade-gallery', 'marquee', 'story-gallery']
-const NUR_GSAP = ['hero-tmob', 'hero-tom', 'parallax-bg']
+const NUR_GSAP = ['hero-tmob', 'parallax-bg']
+// Hero-TOM: Bewegung haengt am Scrollen (neo-behaviors hero-tom), nicht an GSAP
+const NUR_SCROLL = ['hero-tom']
 // Stillgelegt (Entscheidung Abschluss 2, 08.10.2026) — vorher „nicht gebaut"
 // (Entscheidung 25.08.2026, Entwurf bewusst gefuehrt; ueberholt)
 const STILLGELEGT = ['scroll-expand', 'scroll-reveal']
@@ -331,6 +333,7 @@ describe('Bewegung-Block: Abspielen', () => {
       expect(abspielenFuer(id).hinweis.length, id).toBeGreaterThan(20)
     }
     for (const id of NUR_GSAP) expect(abspielenFuer(id).gesperrt, id).toMatch(/GSAP/)
+    for (const id of NUR_SCROLL) expect(abspielenFuer(id).gesperrt, id).toMatch(/Scrollposition.*neo-behaviors/)
   })
 
   it('kein GSAP im Konfigurator: keine Quelle in src/ importiert gsap oder ScrollTrigger', () => {
@@ -418,7 +421,7 @@ describe('Bewegung-Block: Abspielen', () => {
 
     const tom = await arena('hero-tom')
     expect(tom.find('[data-test="abspielen"]').attributes('disabled')).toBeDefined()
-    expect(tom.find('[data-test="abspielen-hinweis"]').text()).toMatch(/GSAP/)
+    expect(tom.find('[data-test="abspielen-hinweis"]').text()).toMatch(/neo-behaviors hero-tom/)
     tom.unmount()
 
     // ohne Abspielen und ohne Behavior (mobile-drawer hat seit 06.10.2026 eines)

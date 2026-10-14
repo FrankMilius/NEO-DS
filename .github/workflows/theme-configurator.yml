@@ -89,6 +89,18 @@ jobs:
         run: npm run components:pruefen
       - name: Validator nicht schlechter als der eingefrorene Bestand
         run: npm run lint:schwellen
+      # Aus `npm test`, bisher nur lokal (Plan v4, Nachlauf, 14.10.2026).
+      # Nicht uebernommen: pipeline:check (prueft lokale DDEV-Pfade und
+      # Dateizeiten); die Root-Unit-Tests laufen schon in ci.yml (agents).
+      - name: Komponenten-Tokens in der Registry (SCSS == tokens.generated.js)
+        run: |
+          npm run -s tokens:sync:check | tee /tmp/sync.txt
+          grep -q '0 fehlend' /tmp/sync.txt || (echo "::error::Komponenten-Tokens fehlen in der Registry — node scripts/sync-component-tokens.cjs --fix bzw. data/design-tokens.json + npm run tokens"; exit 1)
+      - name: Recipe-Form, Markup und Klassen-Schwellen
+        run: |
+          npm run lint:recipe-form
+          npm run lint:markup
+          npm run lint:klassen
 
   app:
     name: App — Tests und Build

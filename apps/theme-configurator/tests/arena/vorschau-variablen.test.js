@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
 import { useThemeStore } from '../../src/stores/theme.js'
-import { komponentenDeklarationen, vorschauVariablen, zeilenZuObjekt } from '../../src/lib/vorschau-variablen.js'
+import { komponentenDeklarationen, vorschauVariablen, zeilenZuObjekt, themenDeklarationen } from '../../src/lib/vorschau-variablen.js'
 
 function fakeStyle (decl) {
   const namen = Object.keys(decl)
@@ -22,6 +22,19 @@ describe('vorschau-variablen', () => {
       '--nc-demo-bg': 'var(--fnd-color-background-secondary)',
       '--nc-demo-fg': 'var(--fnd-color-text-primary)'
     })
+  })
+
+  it('Theme-Klassen-Regeln schlagen den :root-Wert im passenden Modus (Tabellenstreifen dunkel)', () => {
+    const sheets = [{ cssRules: [
+      { selectorText: ':root', style: fakeStyle({ '--nc-tbx-stripe-bg': 'var(--fnd-color-background-secondary)' }) },
+      { selectorText: '.neo-dark-theme,\n.customer-dark-theme', style: fakeStyle({ '--nc-tbx-stripe-bg': 'var(--fnd-color-background-base)', '--nc-fremd': 'x' }) },
+      { selectorText: '.neo-dark-theme .nc-tbx', style: fakeStyle({ '--nc-tbx-stripe-bg': 'falsch' }) }
+    ] }]
+    expect(themenDeklarationen('.neo-dark-theme', new Set(['--nc-tbx-stripe-bg']), sheets)).toEqual({ '--nc-tbx-stripe-bg': 'var(--fnd-color-background-base)' })
+    const store = useThemeStore()
+    store.state.activeThemeSet = 'neo'
+    expect(vorschauVariablen({ id: 'tbx', modus: 'dark', state: store.state, sheets })['--nc-tbx-stripe-bg']).toBe('var(--fnd-color-background-base)')
+    expect(vorschauVariablen({ id: 'tbx', modus: 'light', state: store.state, sheets })['--nc-tbx-stripe-bg']).toBe('var(--fnd-color-background-secondary)')
   })
 
   it('zeilenZuObjekt versteht Exportzeilen', () => {

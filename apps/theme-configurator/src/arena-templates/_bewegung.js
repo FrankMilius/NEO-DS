@@ -87,8 +87,19 @@ export const alle = (liste) => () => liste.forEach((weg) => weg())
 
 /**
  * Sperrgrund fuer Bloecke, deren Bewegung es nur als GSAP-Logik der Website
- * gibt (neo_fe/js/neo-theme.js) — nicht ueber DS-Klassen nachstellbar.
+ * gibt (Komponente parallax-bg in neo_fe, auch im Hero-TMOB) — nicht ueber
+ * DS-Klassen nachstellbar.
  * @param {string} was  was sich auf der Website bewegt
  */
 export const nurGsap = (was) =>
-  `Nicht nachstellbar: ${was} steuert auf der Website GSAP/ScrollTrigger in neo-theme.js — das DS hat dafür keine Klassen oder Zustände. Die Arena zeigt den statischen Zustand.`
+  `Nicht nachstellbar: ${was} steuert auf der Website GSAP/ScrollTrigger (Komponente parallax-bg) — das DS hat dafür keine Klassen oder Zustände. Die Arena zeigt den statischen Zustand.`
+
+/**
+ * Sperrgrund fuer Bewegung, die an der Scrollposition der Seite haengt
+ * (Plan v4, Nachlauf, 14.10.2026: Hero-TOM — vorher hiess es hier „GSAP",
+ * seit Phase 6b setzt neo-behaviors hero-tom den Wert).
+ * @param {string} was  was sich auf der Website bewegt
+ * @param {string} behavior  das Behavior aus neo-behaviors
+ */
+export const nurScroll = (was, behavior) =>
+  `Nicht nachstellbar: ${was} folgt auf der Website der Scrollposition der Seite (neo-behaviors ${behavior}); in der Arena scrollt nichts. Die Arena zeigt den Endzustand.`

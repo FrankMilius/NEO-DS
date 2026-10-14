@@ -76,6 +76,38 @@ export function komponentenDeklarationen(id, sheets = globalThis.document?.style
   return ziel
 }
 
+/**
+ * Deklarationen der Theme-Klasse (z. B. `.neo-dark-theme`) fuer die schon
+ * gesammelten Tokens. Plan v4, Nachlauf (14.10.2026): Manche Tokens haben
+ * je Theme einen eigenen Wert in einer Klassen-Regel, nicht am :root —
+ * etwa --nc-table-block-stripe-bg (dunkel background-base statt
+ * background-secondary). Die :root-Werte, die die Vorschau inline neu setzt,
+ * schlugen diese Regel; der Standard-Streifen war in der dunklen Vorschau so
+ * hell wie die Tabelle (unsichtbar). Beruecksichtigt werden Regeln, deren
+ * Selektorliste die Klasse allein nennt (wie im DS geschrieben).
+ */
+export function themenDeklarationen(klasse, namen, sheets = globalThis.document?.styleSheets) {
+  const ziel = {}
+  const besuche = (regeln) => {
+    for (const regel of regeln) {
+      if (regel.cssRules && !regel.selectorText) { besuche(regel.cssRules); continue }
+      const sel = regel.selectorText
+      if (!sel || !sel.split(',').some((s) => s.trim() === klasse)) continue
+      const st = regel.style
+      for (let i = 0; i < st.length; i++) {
+        const name = st[i]
+        if (namen.has(name)) ziel[name] = st.getPropertyValue(name).trim()
+      }
+    }
+  }
+  for (const sheet of sheets || []) {
+    let regeln
+    try { regeln = sheet.cssRules } catch { continue }
+    if (regeln) besuche(regeln)
+  }
+  return ziel
+}
+
 let _alleRoot = null
 
 /** Alle :root-Deklarationen `--nc-*` (Rohtext), einmal gelesen. */
@@ -142,6 +174,9 @@ export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [] }) {
   // deklariert, sonst gelten sie mit dem auf :root aufgeloesten (hellen)
   // Wert — dunkle Zellen zeigten dann helle Farben.
   ergaenzeKetten(vars, sheets)
+  // Werte je Theme aus Klassen-Regeln (.neo-dark-theme usw.) vor die
+  // Store-Werte; Kunden-Sets heissen customer-*.
+  Object.assign(vars, themenDeklarationen(`.${set === 'neo' ? 'neo' : 'customer'}-${modus}-theme`, new Set(Object.keys(vars)), sheets))
   const semantik = state.themes?.[set]?.[modus] || {}
   for (const [rolle, wert] of Object.entries(semantik)) {
     if (wert) vars[`--fnd-color-${rolle}`] = wert

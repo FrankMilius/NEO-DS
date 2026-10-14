@@ -11,7 +11,7 @@
 // Headline), parallax (render.parallax: der Parallax-Grund liegt im Hero —
 // DS-Regel `.nc-hero-tmob .nc-parallax-bg`; Markup wie parallax-bg).
 //
-// Bewegung: auf der Website faehrt GSAP (neo-theme.js) den Block beim
+// Bewegung: auf der Website faehrt GSAP (Komponente parallax-bg) den Block beim
 // Scrollen ein und steuert den Parallax-Grund — das DS hat dafuer keine
 // Klassen oder Zustaende. „Abspielen" bleibt mit Grund gesperrt
 // (Entscheidungsfall), Zustände zeigt den Endzustand.

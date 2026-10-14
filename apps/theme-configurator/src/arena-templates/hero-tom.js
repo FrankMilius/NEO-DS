@@ -6,9 +6,9 @@
 // Inhaltsbreite (.nc-hero-tom--cw-*, 07-organisms/_hero-tom.scss) und die
 // Badge-Zeile (.nc-hero-tom__badges, 05-atoms/_badge-row.scss).
 //
-// Expand-Animation: auf der Website setzt GSAP/ScrollTrigger (neo-theme.js)
-// beim Scrollen --tom-expand am Medium; das DS liest den Wert (Inset und
-// Radius), setzt ihn aber nicht. Zustände zeigt den ausgefahrenen Endzustand
+// Expand-Animation: auf der Website setzt neo-behaviors hero-tom (seit Plan
+// v4, Phase 6b; vorher GSAP in neo-theme.js) beim Scrollen --tom-expand am
+// Medium; das DS liest den Wert (Inset und Radius). Zustände zeigt den ausgefahrenen Endzustand
 // (--tom-expand: 1, wie in der Ernte), „Abspielen" bleibt mit Grund gesperrt
 // (Entscheidungsfall).
 //
@@ -16,7 +16,7 @@
 // --cw-* an der Wurzel), ton (Achse ton: --light), badges (render.badges: Badge-Zeile ueber dem
 // Kicker, wie im Hero).
 import { BILD_SRC, esc } from './_helfer.js'
-import { nurGsap } from './_bewegung.js'
+import { nurScroll } from './_bewegung.js'
 
 const BADGES = ['Open Source', 'DSGVO-konform']
 
@@ -45,5 +45,5 @@ ${badges}<p class="nc-hero-tom__kicker">PIIPE Workplace</p>
 
 export const abspielen = {
   hinweis: '',
-  gesperrt: nurGsap('Das Aufziehen des Mediums beim Scrollen (--tom-expand)')
+  gesperrt: nurScroll('Das Aufziehen des Mediums (--tom-expand)', 'hero-tom')
 }

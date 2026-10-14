@@ -36,7 +36,7 @@
 // (is-active, is-visible), scroll-behavior/scroll-snap des DS oder DS-
 // Keyframes — und gibt eine Aufraeum-Funktion zurueck, die den statischen
 // Zustand wiederherstellt. Kein GSAP im Konfigurator-Bundle. Gibt es die
-// Bewegung nur als GSAP-Logik der Website (neo-theme.js) oder ist das
+// Bewegung nur als GSAP-Logik der Website (parallax-bg) oder ist das
 // Bauteil nicht gebaut, nennt `gesperrt` den Grund: die Taste bleibt dann
 // deaktiviert. Bei prefers-reduced-motion deaktiviert die Arena die Taste.
 // Das ist der EINZIGE Mechanismus fuer animierte Website-Bloecke (in Phase 4
