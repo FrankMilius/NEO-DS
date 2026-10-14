@@ -223,6 +223,11 @@
     align-items: center;
     gap: var(--fnd-spacing-02);
   }
+
+  // Punkte: Zielflaeche wie im Galerie-Block (gallery.scss) vom Abstand ab
+  .nc-gallery__nav {
+    gap: max(0px, calc(var(--fnd-spacing-02) - 2 * var(--_dot-pad)));
+  }
 }
 
 // Auf schmalen Bildschirmen stehen die Paddles ueber der Leiste statt daneben:
@@ -231,6 +236,11 @@
   .nc-fade-gallery__nav-row {
     flex-direction: column;
     gap: var(--fnd-spacing-04);
+
+    // In der Spalte nimmt die Tab-Leiste sonst ihre Inhaltsbreite (640 px
+    // bei 375 px Fenster) und schiebt die Seite quer; so scrollt sie wie
+    // vorgesehen in sich (Plan v4, Nachlauf, 14.10.2026).
+    .nc-fade-gallery__tabs { max-width: 100%; }
   }
 }
 

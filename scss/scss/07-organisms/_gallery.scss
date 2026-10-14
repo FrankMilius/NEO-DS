@@ -294,26 +294,41 @@
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: var(--mod-gallery-dot-gap, var(--nc-gallery-dot-gap));
+  // Die Zielflaeche der Punkte (--_dot-pad je Seite) zaehlt zum Abstand: der
+  // sichtbare Abstand bleibt der Token, sofern er die Zielgroesse erlaubt.
+  --_dot-pad: max(0px, calc((var(--nc-gallery-dot-target-size) - var(--mod-gallery-dot-size, var(--nc-gallery-dot-size))) / 2));
+  gap: max(0px, calc(var(--mod-gallery-dot-gap, var(--nc-gallery-dot-gap)) - 2 * var(--_dot-pad)));
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+// Ziel 24 x 24 px (WCAG 2.5.8, Plan v4, Nachlauf, 14.10.2026; vorher 10 px):
+// Polster um den Punkt, Hintergrund nur im Inhalt — der Punkt sieht aus wie
+// vorher, die Mitten liegen mindestens 24 px auseinander.
 .nc-gallery__nav-dot {
+  --_dot-pad: max(0px, calc((var(--nc-gallery-dot-target-size) - var(--mod-gallery-dot-size, var(--nc-gallery-dot-size))) / 2));
+  box-sizing: content-box;
   width: var(--mod-gallery-dot-size, var(--nc-gallery-dot-size));
   height: var(--mod-gallery-dot-size, var(--nc-gallery-dot-size));
   border: none;
   border-radius: var(--mod-gallery-dot-radius, var(--nc-gallery-dot-radius));
   background-color: var(--mod-gallery-dot-color, var(--nc-gallery-dot-color));
+  background-clip: content-box;
   cursor: pointer;
-  padding: 0;
+  padding: var(--_dot-pad);
   transition: background-color 0.2s ease, transform 0.2s ease;
 
+  // Der aktive Punkt waechst auf 120 % — ueber Groesse und Polster statt
+  // transform: scale, sonst wuechse die 24-px-Zielflaeche mit und verdeckte
+  // den Nachbarn (axe target-size, Plan v4, Nachlauf, 14.10.2026).
   &[aria-selected='true'],
   &.is-active {
+    --_dot-aktiv: calc(var(--mod-gallery-dot-size, var(--nc-gallery-dot-size)) * 1.2);
+    width: var(--_dot-aktiv);
+    height: var(--_dot-aktiv);
+    padding: max(0px, calc((var(--nc-gallery-dot-target-size) - var(--_dot-aktiv)) / 2));
     background-color: var(--mod-gallery-dot-color-active, var(--nc-gallery-dot-color-active));
-    transform: scale(1.2);
   }
 
   &:hover {
@@ -545,10 +560,21 @@
 // ---------------------------------------------------------------------------
 
 .nc-gallery--lines {
+  .nc-gallery__nav {
+    gap: var(--mod-gallery-dot-gap, var(--nc-gallery-dot-gap));
+  }
+
+  // Ziel 40 x 24 px: nur oben und unten Polster; aktiv wie bisher 120 %
   .nc-gallery__nav-dot {
     width: 40px;
     height: 3px;
+    padding: calc((var(--nc-gallery-dot-target-size) - 3px) / 2) 0;
     border-radius: var(--fnd-radius-xs);
+
+    &[aria-selected='true'],
+    &.is-active {
+      transform: scale(1.2);
+    }
   }
 }
 
@@ -558,9 +584,12 @@
     gap: var(--fnd-spacing-03);
   }
 
+  // Vorschaubilder sind gross genug: kein Polster, Bild bis zum Rand
   .nc-gallery__nav-dot {
     width: 80px;
     height: 45px;
+    padding: 0;
+    background-clip: border-box;
     border-radius: var(--fnd-radius-sm);
     background-size: cover;
     background-position: center;

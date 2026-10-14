@@ -3258,6 +3258,10 @@
   // -- Navigation Dots --
   --nc-gallery-dot-size:               10px;
   --nc-gallery-dot-gap:                var(--fnd-spacing-02);
+  // Mindest-Zielgroesse eines Punkts (WCAG 2.5.8, Plan v4, Nachlauf,
+  // 14.10.2026): der sichtbare Punkt bleibt --nc-gallery-dot-size, die
+  // Flaeche drumherum ist durchsichtig und klickbar.
+  --nc-gallery-dot-target-size:        24px;
   --nc-gallery-dot-color:              color-mix(in srgb, var(--fnd-color-always-light) 40%, transparent);
   --nc-gallery-dot-color-active:       var(--fnd-color-always-light);
   --nc-gallery-dot-radius:             var(--fnd-radius-full);
@@ -4971,7 +4975,10 @@
   --nc-solution-tabs-tab-bg-strength:       30%;
   --nc-solution-tabs-tab-bg-strength-hover: 45%;
 
-  --nc-solution-tabs-tab-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 58%, transparent);
+  // 85 % statt 58 % (Plan v4, Nachlauf, 14.10.2026): auf der 30-%-Akzentflaeche
+  // erreichten inaktive Tabs mit hellem Akzent nur 3,8:1 (WCAG 1.4.3). Jetzt
+  // mindestens 6,2:1 bei allen Website-Akzenten, der aktive Tab bleibt voll.
+  --nc-solution-tabs-tab-color:         color-mix(in srgb, var(--fnd-color-text-inverse) 85%, transparent);
   --nc-solution-tabs-tab-color-hover:   var(--fnd-color-text-inverse);
   // BEWUSST an die eigene Flaeche gebunden, nicht an die Sektions-Surface:
   // der aktive Tab liegt IMMER auf dem vollen Akzent, egal ob die Sektion hell

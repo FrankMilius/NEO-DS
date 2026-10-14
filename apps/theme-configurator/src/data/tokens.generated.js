@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-12
+// Generated: 2026-10-14
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -10572,6 +10572,7 @@ export const componentTokenGroups = [
           "nc-gallery-logo-max-width",
           "nc-gallery-dot-size",
           "nc-gallery-dot-gap",
+          "nc-gallery-dot-target-size",
           "nc-gallery-dot-radius",
           "nc-gallery-paddle-size",
           "nc-gallery-paddle-radius"
@@ -10855,6 +10856,12 @@ export const componentTokenGroups = [
         "label": "Dot Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-gallery-dot-target-size",
+        "label": "Dot Target Size",
+        "type": "size",
+        "default": "24px"
       },
       {
         "id": "nc-gallery-dot-color",
