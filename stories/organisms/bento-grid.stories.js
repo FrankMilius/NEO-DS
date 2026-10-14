@@ -1,6 +1,6 @@
 // ============================================================
 // BentoGrid — Auto-generated from bento-grid-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.5.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**BentoGrid** v1.0.0 (stable)
+        component: `**BentoGrid** v1.5.1 (stable)
 
 Root .nc-bento-grid: CSS Grid, repeat(--nc-bento-grid-columns, 1fr), grid-auto-rows minmax(--nc-bento-grid-cell-min, auto).
 
@@ -25,7 +25,7 @@ Root .nc-bento-grid: CSS Grid, repeat(--nc-bento-grid-columns, 1fr), grid-auto-r
 
 export const Default = {
   name: 'Standard',
-  render: () => `<div class="nc-bento-grid is-revealed" data-bento="" data-animation="reveal" data-bento-init="1">
+  render: () => `<div class="nc-bento-grid is-revealed" data-animation="reveal" data-neo-behavior="einblenden">
 <article class="nc-bento-grid__cell nc-bento-grid__cell--lg">
 <span class="nc-bento-grid__mesh" aria-hidden="true">
 </span>

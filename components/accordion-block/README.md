@@ -1,6 +1,6 @@
 # AccordionBlock
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -10,7 +10,7 @@
 |----------|------|--------|
 | Recipe | `data/accordion-block-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_accordion-block.scss` | present |
-| Storybook | — | missing |
+| Storybook | `stories/organisms/accordion-block.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block/block--block-content--neo-accordion.html.twig, block/block--inline-block--neo-accordion.html.twig` | present |
@@ -30,4 +30,5 @@
 
 - [Recipe JSON](../data/accordion-block-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_accordion-block.scss)
+- [Storybook Story](../stories/organisms/accordion-block.stories.js)
 - [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

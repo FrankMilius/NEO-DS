@@ -1,6 +1,6 @@
 // ============================================================
 // CompareTable — Auto-generated from compare-table-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.3.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**CompareTable** v2.0.0 (stable)
+        component: `**CompareTable** v2.3.0 (stable)
 
 Einfache Vergleichstabelle mit inverser Header-Zeile.
 
@@ -25,30 +25,114 @@ Einfache Vergleichstabelle mit inverser Header-Zeile.
 
 export const Default = {
   name: 'Standard',
-  render: () => `<table class="nc-compare-table">
+  render: () => `<div class="nc-compare-table nc-compare-table--striped nc-compare-table--sticky-header nc-compare-table--full-width nc-compare-table--sticky-col">
+<table>
 <thead>
 <tr>
-<th>Funktion</th>
-<th>Starter</th>
-<th>Enterprise</th>
+<th scope="col">Funktion</th>
+<th scope="col">Standard</th>
+<th scope="col">Premium</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Nutzer</td>
-<td>5</td>
-<td>Unbegrenzt</td>
+<th scope="row">
+<div class="nc-tbl-cell">
+<p class="nc-tbl-cell__text">FUER MITARBEITENDE / ENDNUTZER</p>
+</div>
+</th>
+<td>
+<div class="nc-tbl-cell">
+</div>
+</td>
+<td>
+<div class="nc-tbl-cell">
+</div>
+</td>
 </tr>
 <tr>
-<td>Speicher</td>
-<td>10 GB</td>
-<td>1 TB</td>
+<th scope="row">
+<div class="nc-tbl-cell">
+<p class="nc-tbl-cell__text">News, Newskanäle</p>
+</div>
+</th>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
 </tr>
 <tr>
-<td>Support</td>
-<td>E-Mail</td>
-<td>Dediziert</td>
+<th scope="row">
+<div class="nc-tbl-cell">
+<p class="nc-tbl-cell__text">Inhalts- und Wissensseiten</p>
+</div>
+</th>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
 </tr>
+<tr>
+<th scope="row">
+<div class="nc-tbl-cell">
+<p class="nc-tbl-cell__text">Veranstaltungskalender &amp; Event-Seiten</p>
+</div>
+</th>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
+<td>
+<div class="nc-tbl-cell nc-tbl-cell--icon">
+<svg class="nc-tbl-icon nc-tbl-icon--check" width="32" height="32" viewBox="0 0 36 36" fill="none">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</div>
+</td>
+</tr>
+<!-- gekuerzt: 35 weitere gleichartige Eintraege, siehe data/markup/LIESMICH.md -->
 </tbody>
-</table>`,
+</table>
+</div>`,
 };

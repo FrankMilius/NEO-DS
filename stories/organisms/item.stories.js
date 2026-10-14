@@ -1,6 +1,6 @@
 // ============================================================
 // Item — Auto-generated from item-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Item** v2.0.0 (stable)
+        component: `**Item** v2.1.0 (stable)
 
 Flex-Layout: align-items center (oder flex-start via --align-start), gap spacing-03.
 

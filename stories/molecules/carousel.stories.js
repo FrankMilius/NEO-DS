@@ -1,6 +1,6 @@
 // ============================================================
 // Carousel — Auto-generated from carousel-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Carousel** v1.0.0 (stable)
+        component: `**Carousel** v1.2.1 (stable)
 
 Die Spur ist ein Grid mit grid-auto-flow: column — die Elemente stehen nebeneinander, unabhaengig von ihrer Zahl.
 

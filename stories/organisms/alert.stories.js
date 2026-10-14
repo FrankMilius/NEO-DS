@@ -1,6 +1,6 @@
 // ============================================================
 // Alert — Auto-generated from alert-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Alert** v2.0.0 (stable)
+        component: `**Alert** v2.2.0 (stable)
 
 Alert ist ein <div class='nc-alert' role='alert|status'>.
 

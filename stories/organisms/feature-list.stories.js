@@ -1,6 +1,6 @@
 // ============================================================
 // FeatureList — Auto-generated from feature-list-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 1.4.2 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,33 +10,17 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**FeatureList** v1.0.0 (draft)
+        component: `**FeatureList** v1.4.2 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Website-Block neo_feature_list: <section class="nc-section nc-feature-list[ --with-media --media-<right|left> --valign-<top|middle|bottom>]"><div class="nc-container nc-feature-list__inner"> … Die drei Modifier setzt Drupal nur mit Medium und dann immer zusammen; Vorgaben right und middle.
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
-  argTypes: {
-    "unknown": {
-      "control": {
-        "type": "select"
-      },
-      "options": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
-      ],
-      "description": ""
-    }
-  },
+  argTypes: {},
 };
 
 export const Default = {
@@ -56,14 +40,14 @@ export const Default = {
 <h2 class="nc-section-header__title">Sicherer Zugang für jeden Mitarbeitenden</h2>
 <p class="nc-section-header__subtitle">Der Zugang zur App ist ausschließlich authentifizierten Nutzerinnen und Nutzern vorbehalten. Verschiedene Login-Verfahren ermöglichen eine einfache Integration in Ihre bestehende IT-Infrastruktur.</p>
 </div>
-<div class="nc-feature-list__items-host" data-feature-list="" data-feature-list-init="1">
+<div class="nc-feature-list__items-host">
 <ul class="nc-feature-list__items">
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -72,9 +56,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -83,9 +67,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -94,9 +78,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -105,9 +89,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -115,23 +99,39 @@ export const Default = {
 </li>
 </ul>
 </div>
-<script type="application/json" data-feature-list-items="">[
- {
- "text": "Anmeldung mit Benutzername/E-Mail und Passwort"
- },
- {
- "text": "Firmenaccount-Login z.B. via Microsoft-Kennung (Entra ID) / LDAP"
- },
- {
- "text": "SAML 2.0 / OpenID Connect für unternehmensweites Single-Sign-On"
- },
- {
- "text": "Kopplung an bestehende Nutzerkonten von neo workplace"
- },
- {
- "text": "Kein separater Account notwendig – ein Account für App und Web (sofern beides benutzt wird)"
- }
-]</script>
+</div>
+</div>
+</section>`,
+};
+
+export const MitBildRahmenframeVorgabe = {
+  name: 'Mit Bild (Rahmen frame, Vorgabe)',
+  render: () => `<!-- von Hand (08.10.2026, Freigabe feature-list): block--block-content--neo-feature-list.html.twig mit field_sg_cards und field_media_frame frame; das Bild baut NeoBehaviors.shotAufbauen (neoFeatureMedia in neo_fe/js/neo-theme.js) am Medienbereich selbst -->
+<section class="nc-section nc-feature-list nc-feature-list--with-media nc-feature-list--media-right nc-feature-list--valign-middle">
+<div class="nc-container nc-feature-list__inner">
+<div class="nc-feature-list__media nc-media-frame nc-shot" data-fl-media="" data-fl-media-init="1" data-nc-shot="none">
+<img src="/assets/muster/app-screen.svg" alt="Anmeldemaske" loading="lazy" decoding="async" class="nc-shot__img">
+</div>
+<div class="nc-feature-list__content">
+<div class="nc-section-header nc-section-header--flush">
+<span class="nc-section-header__label">Authentifizierung und Login</span>
+<h2 class="nc-section-header__title">Sicherer Zugang für jeden Mitarbeitenden</h2>
+</div>
+<div class="nc-feature-list__items-host">
+<ul class="nc-feature-list__items">
+<li class="nc-feature-list__item">
+<span class="nc-feature-list__icon">
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<circle cx="18" cy="18" r="18">
+</circle>
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+</path>
+</svg>
+</span>
+<span class="nc-feature-list__item-text">Anmeldung mit Benutzername/E-Mail und Passwort</span>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </section>`,

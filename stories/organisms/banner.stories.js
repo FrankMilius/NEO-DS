@@ -1,6 +1,6 @@
 // ============================================================
 // Banner — Auto-generated from banner-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Banner** v2.0.0 (stable)
+        component: `**Banner** v2.2.0 (stable)
 
 Seitenbreite Benachrichtigungsleiste — Unterschied zu Alert: Banner ist sticky/fixed, seitenbreit.
 

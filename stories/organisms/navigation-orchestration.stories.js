@@ -1,6 +1,6 @@
 // ============================================================
 // NavigationOrchestration — Auto-generated from navigation-orchestration-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 2.0.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**NavigationOrchestration** v1.0.0 (stable)
+        component: `**NavigationOrchestration** v2.0.0 (stable)
 
 Ebene 1 — Shell: .nc-shell__navbar Slot reserviert die Grid-Row. nc-shell-z-navbar bestimmt den Z-Index.
 
@@ -96,7 +96,8 @@ export const Default = {
 <a href="#" style="padding: 4px 8px; border-radius: var(--fnd-radius-md); text-decoration: none; color: var(--fnd-color-text-high);">Über uns</a>
 </li>
 </ul>
-<div class="nc-tools" style="display: flex;">
+<div class="nc-nav__actions">
+<div class="nc-tools">
 <button type="button" aria-label="Suche öffnen" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; padding: 6px; border-radius: var(--fnd-radius-md); color: var(--fnd-color-text-high);">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="11" cy="11" r="8">
@@ -105,6 +106,7 @@ export const Default = {
 </line>
 </svg>
 </button>
+</div>
 </div>
 <button class="nc-mobile-toggle" type="button" aria-label="Navigation öffnen" style="background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; color: var(--fnd-color-text-high);">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

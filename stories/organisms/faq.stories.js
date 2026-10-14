@@ -1,6 +1,6 @@
 // ============================================================
 // Faq — Auto-generated from faq-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.3.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Faq** v1.0.0 (stable)
+        component: `**Faq** v1.3.0 (stable)
 
 Grid-Container mit FAQ-Items. Item: border, radius-3xl, padding.
 

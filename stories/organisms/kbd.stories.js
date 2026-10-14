@@ -25,5 +25,5 @@ Kbd ist ein natives <kbd class='nc-kbd'> Element — semantisch korrekt fuer Tas
 
 export const Default = {
   name: 'Standard',
-  render: () => `<kbd class="nc-kbd">A</kbd>`,
+  render: () => `<kbd class="nc-kbd">Esc</kbd>`,
 };

@@ -1,6 +1,6 @@
 // ============================================================
 // Timeline — Auto-generated from timeline-recipe.json
-// Version: 2.3.0 | Status: stable
+// Version: 2.4.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Timeline** v2.3.0 (stable)
+        component: `**Timeline** v2.4.0 (stable)
 
 <ol> fuer chronologisch geordnete Eintraege — semantische Reihenfolge.
 
@@ -48,7 +48,7 @@ export const Default = {
 <li>Spezifikation &amp; Anpassungsplanung</li>
 </ul>
 <div class="nc-timeline__cta">
-<a href="/kontakt" class="nc-button nc-button--primary nc-button--md">
+<a href="/kontakt" class="nc-button nc-button--primary">
 <span>Beratung anfragen</span>
 </a>
 </div>
@@ -79,7 +79,7 @@ export const Default = {
 <li>Testphase &amp; Qualitätssicherung</li>
 </ul>
 <div class="nc-timeline__cta">
-<a href="/produkte" class="nc-button nc-button--secondary nc-button--md">
+<a href="/produkte" class="nc-button nc-button--secondary">
 <span>Leistungen ansehen</span>
 </a>
 </div>
@@ -107,7 +107,7 @@ export const Default = {
 <li>Produktivbetrieb — alle Mitarbeitenden erreichbar</li>
 </ul>
 <div class="nc-timeline__cta">
-<a href="/inside/dokumentation" class="nc-button nc-button--accent nc-button--md">
+<a href="/inside/dokumentation" class="nc-button nc-button--accent">
 <span>Go-live-Checkliste</span>
 </a>
 </div>
@@ -135,7 +135,7 @@ export const Default = {
 <li>Integration Newsroom &amp; weitere Fachsysteme</li>
 </ul>
 <div class="nc-timeline__cta">
-<a href="/inside/support" class="nc-button nc-button--outline nc-button--md">
+<a href="/inside/support" class="nc-button nc-button--outline">
 <span>Support kontaktieren</span>
 </a>
 </div>

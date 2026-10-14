@@ -1,6 +1,6 @@
 // ============================================================
 // NavMolecules — Auto-generated from nav-molecules-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.0.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**NavMolecules** v2.0.0 (stable)
+        component: `**NavMolecules** v2.0.1 (stable)
 
 Nav-Link: inline-flex, gap, padding, radius — Hover: BG-Wechsel + Textfarbe. Active: border-bottom accent.
 

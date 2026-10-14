@@ -1,6 +1,6 @@
 // ============================================================
 // Shell — Auto-generated from shell-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Shell** v2.0.0 (stable)
+        component: `**Shell** v2.2.0 (stable)
 
 Aeusseres Grid (.nc-shell): 5 Rows — banner, linkbar, navbar, stage, footerbar. min-height: 100dvh.
 

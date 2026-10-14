@@ -1,6 +1,6 @@
 // ============================================================
 // LinkWithArrow — Auto-generated from link-with-arrow-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**LinkWithArrow** v1.0.0 (stable)
+        component: `**LinkWithArrow** v1.1.0 (stable)
 
 Flex-Row: Text + Pfeil-Icon. Gap spacing-02.
 

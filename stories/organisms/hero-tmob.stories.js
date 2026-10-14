@@ -1,6 +1,6 @@
 // ============================================================
 // HeroTmob — Auto-generated from hero-tmob-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**HeroTmob** v1.0.0 (stable)
+        component: `**HeroTmob** v1.2.0 (stable)
 
 Headline + Subtext + Media ueber konfigurierbarem Hintergrund.
 

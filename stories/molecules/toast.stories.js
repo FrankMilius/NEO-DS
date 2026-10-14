@@ -1,6 +1,6 @@
 // ============================================================
 // Toast — Auto-generated from toast-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Toast** v2.0.0 (stable)
+        component: `**Toast** v2.2.0 (stable)
 
 Toast: flex-row, Icon + Content + Action + Close. Border, Shadow, radius.
 

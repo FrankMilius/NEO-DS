@@ -1,6 +1,6 @@
 // ============================================================
 // Shot — Auto-generated from shot-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Shot** v1.0.0 (stable)
+        component: `**Shot** v1.1.0 (stable)
 
 Ein Master-Bild, viele Ausspielungen: je Instanz Fokuspunkt, Zoom und Format; darueber die Darstellungen Standard, Browser-Rahmen, Ken-Burns-Fahrt, Lupe, Marker mit Erklaerung und Vorher/Nachher-Vergleich.
 

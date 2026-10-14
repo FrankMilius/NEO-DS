@@ -1,6 +1,6 @@
 // ============================================================
 // PsychedelicBg — Auto-generated from psychedelic-bg-recipe.json
-// Version: 1.0.0 | Status: experimental
+// Version: 1.1.0 | Status: ersetzt
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**PsychedelicBg** v1.0.0 (experimental)
+        component: `**PsychedelicBg** v1.1.0 (ersetzt)
 
 Canvas mit position:absolute fuellt den Container. requestAnimationFrame fuer 60fps Rendering. ResizeObserver passt Canvas-Groesse automatisch an.
 
@@ -18,7 +18,7 @@ Canvas mit position:absolute fuellt den Container. requestAnimationFrame fuer 60
 `,
       },
     },
-    status: { type: 'experimental' },
+    status: { type: 'ersetzt' },
   },
   argTypes: {},
 };

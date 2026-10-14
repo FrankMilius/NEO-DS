@@ -1,6 +1,6 @@
 // ============================================================
 // Question — Auto-generated from question-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Question** v1.0.0 (stable)
+        component: `**Question** v1.2.0 (stable)
 
 Marquee-Lauftext: alternierend links/rechts scrollend (marquee/marquee-reverse).
 

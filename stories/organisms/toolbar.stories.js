@@ -1,6 +1,6 @@
 // ============================================================
 // Toolbar — Auto-generated from toolbar-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Toolbar** v2.0.0 (stable)
+        component: `**Toolbar** v2.1.0 (stable)
 
 Root: role='toolbar', aria-label. Flex-Layout, flex-wrap, min-height 48px.
 
@@ -32,13 +32,13 @@ export const Default = {
 <div class="nc-toolbar__separator" aria-hidden="true">
 </div>
 <div class="nc-toolbar__group">
-<button class="nc-button nc-button--sm nc-button--secondary">Exportieren</button>
-<button class="nc-button nc-button--sm nc-button--secondary">Archivieren</button>
+<button type="button" class="nc-button nc-button--sm nc-button--secondary">Exportieren</button>
+<button type="button" class="nc-button nc-button--sm nc-button--secondary">Archivieren</button>
 </div>
 <div class="nc-toolbar__spacer">
 </div>
 <div class="nc-toolbar__group">
-<button class="nc-button nc-button--sm">Alle löschen</button>
+<button type="button" class="nc-button nc-button--sm">Alle löschen</button>
 </div>
 </div>`,
 };

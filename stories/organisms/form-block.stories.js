@@ -1,6 +1,6 @@
 // ============================================================
 // FormBlock — Auto-generated from form-block-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**FormBlock** v1.0.0 (stable)
+        component: `**FormBlock** v1.2.1 (stable)
 
 4 Positionierungsvarianten: text-left, text-right, text-top, text-bottom.
 

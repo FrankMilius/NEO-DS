@@ -1,6 +1,6 @@
 // ============================================================
 // Footer — Auto-generated from footer-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Footer** v2.0.0 (stable)
+        component: `**Footer** v2.1.0 (stable)
 
 Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
 
@@ -131,7 +131,7 @@ Science Park 2<br>
 <form class="nc-footer__newsletter-form" novalidate="">
 <label class="nc-sr-only" for="ft-nl-email">E-Mail-Adresse</label>
 <input class="nc-input nc-footer__newsletter-input" type="email" id="ft-nl-email" name="email" placeholder="name@firma.de" autocomplete="email" required="">
-<button type="submit" class="nc-button nc-button--accent nc-button--md">Abonnieren</button>
+<button type="submit" class="nc-button nc-button--accent">Abonnieren</button>
 </form>
 <p class="nc-footer__newsletter-consent">Mit dem Abonnieren stimme ich der Verarbeitung meiner E-Mail-Adresse zum Versand des Newsletters zu. Der Widerruf ist jederzeit möglich. Weitere Informationen in der <a href="/datenschutz">Datenschutzerklärung</a>.</p>
 </div>

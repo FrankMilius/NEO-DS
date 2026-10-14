@@ -1,6 +1,6 @@
 // ============================================================
 // TextBlocks — Auto-generated from text-blocks-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TextBlocks** v1.0.0 (stable)
+        component: `**TextBlocks** v1.1.0 (stable)
 
 Text-Primitives: Section-Title (.nc-section-title), Eyebrow (.nc-eyebrow), Lead (.nc-lead).
 

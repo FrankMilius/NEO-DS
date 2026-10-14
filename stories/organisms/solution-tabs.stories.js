@@ -1,6 +1,6 @@
 // ============================================================
 // SolutionTabs — Auto-generated from solution-tabs-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 2.1.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**SolutionTabs** v1.0.0 (stable)
+        component: `**SolutionTabs** v2.1.1 (stable)
 
-Root .nc-solution-tabs setzt --nc-solution-tabs-accent (Default = -accent-default), per Panel via Inline-Style ueberschreibbar.
+Root .nc-solution-tabs setzt --nc-solution-tabs-accent (Default = -accent-default), per Panel via Inline-Style ueberschreibbar; die Akzentfarbe je Tab ist Daten (Theme), nicht Verhalten.
 
 
 `,
@@ -27,29 +27,29 @@ export const Default = {
   name: 'Standard',
   render: () => `<div class="nc-solution-tabs nc-tab-nav nc-solution-tabs--contained" data-tab-nav="" data-orientation="horizontal" data-autoplay="off" style="--nc-solution-tabs-autoplay-duration: 7s;" data-tab-nav-init="1">
 <div class="nc-solution-tabs__tablist" role="tablist">
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t0" aria-controls="tn5f-p0" aria-selected="true" tabindex="0">neo workplace<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t0" aria-controls="tn6g-p0" aria-selected="true" tabindex="0">neo workplace<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t1" aria-controls="tn5f-p1" aria-selected="false" tabindex="-1">neo app<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t1" aria-controls="tn6g-p1" aria-selected="false" tabindex="-1">neo app<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t2" aria-controls="tn5f-p2" aria-selected="false" tabindex="-1">neo AI<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t2" aria-controls="tn6g-p2" aria-selected="false" tabindex="-1">neo AI<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t3" aria-controls="tn5f-p3" aria-selected="false" tabindex="-1">neo magazine<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t3" aria-controls="tn6g-p3" aria-selected="false" tabindex="-1">neo magazine<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t4" aria-controls="tn5f-p4" aria-selected="false" tabindex="-1">neo chat<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t4" aria-controls="tn6g-p4" aria-selected="false" tabindex="-1">neo chat<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t5" aria-controls="tn5f-p5" aria-selected="false" tabindex="-1">neo portal<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t5" aria-controls="tn6g-p5" aria-selected="false" tabindex="-1">neo portal<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
-<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn5f-t6" aria-controls="tn5f-p6" aria-selected="false" tabindex="-1">neo cms<span class="nc-solution-tabs__progress" aria-hidden="true">
+<button class="nc-solution-tabs__tab" type="button" role="tab" id="tn6g-t6" aria-controls="tn6g-p6" aria-selected="false" tabindex="-1">neo cms<span class="nc-solution-tabs__progress" aria-hidden="true">
 </span>
 </button>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel is-active" role="tabpanel" id="tn5f-p0" aria-labelledby="tn5f-t0">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel is-active" role="tabpanel" id="tn6g-p0" aria-labelledby="tn6g-t0">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Social Intranet und Mitarbeitendenportal</h3>
 <p class="nc-solution-tabs__panel-text">Das soziale Herzstück für Ihre digitale Arbeitswelt. Informationen fließen, Teams arbeiten zusammen, und Ihr Wissen ist auf Knopfdruck verfügbar.</p>
@@ -58,9 +58,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -69,9 +69,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -80,9 +80,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -91,9 +91,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -102,9 +102,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -113,9 +113,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -128,7 +128,7 @@ export const Default = {
 </a>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p1" aria-labelledby="tn5f-t1" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p1" aria-labelledby="tn6g-t1" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Mitarbeitenden-App für iOS und Android</h3>
 <p class="nc-solution-tabs__panel-text">Von der Produktion bis zum Frontline-Service – Mit der neo Workplace App erreichen Sie alle Mitarbeitende – auch die ohne festen PC-Arbeitsplatz und ohne Mailadresse.</p>
@@ -181,7 +181,7 @@ export const Default = {
 </a>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p2" aria-labelledby="tn5f-t2" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p2" aria-labelledby="tn6g-t2" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Unternehmensinterner Assistent</h3>
 <p class="nc-solution-tabs__panel-text">neo AI denkt mit und nach, beantwortet als KI-Agent Fragen und durchsucht dazu relevante, zuverlässige Quellen. Dabei wird berücksichtigt, was ein Mitarbeiter wissen darf. Sicher, direkt und interaktiv.</p>
@@ -213,7 +213,7 @@ export const Default = {
 </a>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p3" aria-labelledby="tn5f-t3" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p3" aria-labelledby="tn6g-t3" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Corporate Publishing als digitales Magazin</h3>
 <p class="nc-solution-tabs__panel-text">Erreichen Sie ihre Zielgruppe mit erlebnisreichem Content – z.B. im Mitarbeitenden-, Kunden- oder Hochschulmagazin.</p>
@@ -222,9 +222,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -233,9 +233,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -244,9 +244,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -255,9 +255,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -266,9 +266,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -277,9 +277,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -292,7 +292,7 @@ export const Default = {
 </a>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p4" aria-labelledby="tn5f-t4" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p4" aria-labelledby="tn6g-t4" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">DSGVO-konformer Echtzeit-Messenger</h3>
 <p class="nc-solution-tabs__panel-text">Ein Add-On-Modul für neo workplace für die Echtzeit-Kommunikation zwischen Mitarbeitenden. Mit dem neo chat kommunizieren Ihre Mitarbeiter in Einzel- und Gruppenchats sicher und datenschutzkonform miteinander.</p>
@@ -305,7 +305,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p5" aria-labelledby="tn5f-t5" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p5" aria-labelledby="tn6g-t5" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Webseite, Portal und Extranet</h3>
 <p class="nc-solution-tabs__panel-text">Die NEOCOSMO Lösung für Ihr zielgruppenspezisches Portal z.B. ein On- oder Preboarding-Portal, Extranet oder Ihre Presse- und Kommunikations-Website.</p>
@@ -314,9 +314,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -325,9 +325,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -336,9 +336,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -347,9 +347,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -358,9 +358,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -373,7 +373,7 @@ export const Default = {
 </a>
 </div>
 </div>
-<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn5f-p6" aria-labelledby="tn5f-t6" hidden="">
+<div class="nc-solution-tabs__panel nc-tab-nav__panel" role="tabpanel" id="tn6g-p6" aria-labelledby="tn6g-t6" hidden="">
 <div class="nc-tab-nav__panel-body">
 <h3 class="nc-solution-tabs__panel-title">Content-Management - Basis von jeder Anwendung und automatisch dabei</h3>
 <p class="nc-solution-tabs__panel-text">Einfach zu bedienen, funktional mächtig. Planen, Erstellen, Pflegen, Administrieren von allen Inhalten und Medien plus die Konfiguration des kompletten Systems.</p>
@@ -382,9 +382,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -393,9 +393,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -404,9 +404,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -415,9 +415,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -426,9 +426,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>
@@ -437,9 +437,9 @@ export const Default = {
 <li class="nc-feature-list__item">
 <span class="nc-feature-list__icon">
 <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-<circle cx="18" cy="18" r="18" fill="#AEF359">
+<circle cx="18" cy="18" r="18">
 </circle>
-<path d="M12 18L16 22L24 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18L16 22L24 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 </path>
 </svg>
 </span>

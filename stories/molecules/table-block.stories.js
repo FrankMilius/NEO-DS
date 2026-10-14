@@ -1,6 +1,6 @@
 // ============================================================
 // TableBlock — Auto-generated from table-block-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 1.7.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,15 +10,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TableBlock** v1.0.0 (draft)
+        component: `**TableBlock** v1.7.0 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Website (block--block-content--neo-table.html.twig; inline_block per include): section.nc-section[style=Flaeche] > .nc-container > neo_fe:block-header (nc-section-header--center; Badges, Kicker, Headline, Lead) + div.nc-table-block[data-neo-table][data-width][data-scroll-bp][data-sticky-col][data-info-modal][style=--tbl-header-bg/--tbl-stripe-bg] > div.nc-compare-table… > table (fertig aus dem Twig, seit 1.7.0) + der Info-Dialog (Recipe table-info-modal). Bis 1.6.0 stand dort eine leere <table> und das JSON in script[data-table-json].
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
   argTypes: {},
 };

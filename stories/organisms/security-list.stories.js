@@ -1,6 +1,6 @@
 // ============================================================
 // SecurityList — Auto-generated from security-list-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**SecurityList** v1.0.0 (stable)
+        component: `**SecurityList** v1.2.0 (stable)
 
-Grid-Layout mit gap. Items: flex, align-items center, border-bottom.
+Liste: ul.nc-security-list ohne Aufzaehlungszeichen, Grid mit gap spacing-03.
 
 
 `,

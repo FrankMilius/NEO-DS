@@ -1,6 +1,6 @@
 // ============================================================
 // VideoSection — Auto-generated from video-section-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**VideoSection** v1.0.0 (stable)
+        component: `**VideoSection** v1.2.1 (stable)
 
 2-Spalten Grid: media + content, gap 4rem. Single-Column unter 900px.
 

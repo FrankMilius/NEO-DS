@@ -1,6 +1,6 @@
 // ============================================================
 // Icon — Auto-generated from icon-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.0.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Icon** v1.0.0 (stable)
+        component: `**Icon** v1.0.1 (stable)
 
 Icon ist ein <span class='icon'> mit inline SVG als Kind-Element.
 

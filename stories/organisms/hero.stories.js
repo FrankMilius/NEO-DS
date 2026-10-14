@@ -1,6 +1,6 @@
 // ============================================================
 // Hero — Auto-generated from hero-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.4.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Hero** v2.0.0 (stable)
+        component: `**Hero** v2.4.1 (stable)
 
 Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem.
 

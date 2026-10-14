@@ -1,6 +1,6 @@
 // ============================================================
 // FadeGallery — Auto-generated from fade-gallery-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**FadeGallery** v1.0.0 (stable)
+        component: `**FadeGallery** v1.2.1 (stable)
 
 Tab-basierte Fade-Gallery (Apple-Style). Medium + Description faden ein.
 

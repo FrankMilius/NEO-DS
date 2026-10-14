@@ -1,6 +1,6 @@
 // ============================================================
 // ProductShowcase — Auto-generated from product-showcase-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ProductShowcase** v1.0.0 (stable)
+        component: `**ProductShowcase** v1.2.0 (stable)
 
 Root: Display Grid/Flex. Layout horizontal (Options links, Media rechts) oder stacked (Options oben, Media darunter).
 

@@ -213,8 +213,8 @@ export const MobileBottomSheet = {
   },
 };
 
-export const BackdropClose = {
-  name: 'Backdrop Close',
+export const BottomSheetModifier = {
+  name: 'Bottom-Sheet (Modifier)',
   render: () => `<div style="border:1px dashed #92500a;border-radius:4px;padding:12px">
   <p style="margin:0 0 10px;font:600 12px/1.4 ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#92500a">
     Kein echtes Markup hinterlegt
@@ -233,7 +233,7 @@ export const BackdropClose = {
 </div>`,
   parameters: {
     docs: {
-      description: { story: 'Klick auf Backdrop schliesst Modal. Optional via data-backdrop-close=\'true\'.' },
+      description: { story: 'nc-modal--sheet: Bottom-Sheet auf jeder Fensterbreite — volle Breite, unten angedockt, obere Ecken gerundet. Dieselben Regeln wie die automatische Umschaltung unter sm.' },
     },
   },
 };

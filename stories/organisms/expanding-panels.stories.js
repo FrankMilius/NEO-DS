@@ -1,6 +1,6 @@
 // ============================================================
 // ExpandingPanels — Auto-generated from expanding-panels-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ExpandingPanels** v1.0.0 (stable)
+        component: `**ExpandingPanels** v1.2.1 (stable)
 
 Root .nc-expanding-panels: display:flex, gap, feste Hoehe (--nc-expanding-panels-height).
 

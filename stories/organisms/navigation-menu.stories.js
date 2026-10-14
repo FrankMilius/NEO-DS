@@ -1,6 +1,6 @@
 // ============================================================
 // NavigationMenu — Auto-generated from navigation-menu-recipe.json
-// Version: 3.0.0 | Status: stable
+// Version: 3.0.2 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**NavigationMenu** v3.0.0 (stable)
+        component: `**NavigationMenu** v3.0.2 (stable)
 
 WAI-ARIA Disclosure-Navigation: nav[aria-label] > ul > li > button[aria-expanded][aria-controls] + Panel (.nc-navigation-menu__content#id) bzw. a.nc-navigation-menu__link--top.
 

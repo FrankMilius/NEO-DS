@@ -1,6 +1,6 @@
 // ============================================================
 // Event — Auto-generated from event-recipe.json
-// Version: 1.3.0 | Status: draft
+// Version: 1.4.2 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,15 +10,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Event** v1.3.0 (draft)
+        component: `**Event** v1.4.2 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Website: node--event--full.html.twig rendert <article class="nc-event"> mit bis zu vier Abschnitten — Hero (immer), Details mit Infokarte (nur mit Body), Agenda (nur mit field_event_agenda, nc-section--muted), weitere Events (nur mit Treffern). Die Werte kommen aus neo_fe_preprocess_node (event.*).
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
   argTypes: {},
 };

@@ -1,6 +1,6 @@
 // ============================================================
 // CodeSnippet — Auto-generated from code-snippet-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**CodeSnippet** v2.0.0 (stable)
+        component: `**CodeSnippet** v2.1.0 (stable)
 
 Inline: <code class='nc-code-snippet nc-code-snippet--inline'>. Kein Copy-Button.
 

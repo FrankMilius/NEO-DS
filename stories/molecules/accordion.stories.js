@@ -1,6 +1,6 @@
 // ============================================================
 // Accordion — Auto-generated from accordion-recipe.json
-// Version: 3.0.0 | Status: stable
+// Version: 3.4.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Accordion** v3.0.0 (stable)
+        component: `**Accordion** v3.4.0 (stable)
 
 Natives <details>/<summary> oder ARIA-Pattern (role='region').
 

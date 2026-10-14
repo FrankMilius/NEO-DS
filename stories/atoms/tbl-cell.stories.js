@@ -1,6 +1,6 @@
 // ============================================================
 // TblCell — Auto-generated from tbl-cell-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 1.5.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,28 +10,17 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TblCell** v1.0.0 (draft)
+        component: `**TblCell** v1.5.0 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Zelle der Vergleichstabelle (Tabellen-Block, Recipe table-block): div.nc-tbl-cell (flex, gap spacing-02) in th oder td — der Ort gestaltet sie: th[scope=row] (erste Spalte) links, umbrechend, Text semibold; td mittig. Ohne Tabelle hat die Zelle keine Ausrichtung (die Arena stellt jede Zelle in eine Tabelle, Rahmen ra-tabelle).
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
-  argTypes: {
-    "unknown": {
-      "control": {
-        "type": "select"
-      },
-      "options": [
-        "0",
-        "1"
-      ],
-      "description": ""
-    }
-  },
+  argTypes: {},
 };
 
 export const Default = {

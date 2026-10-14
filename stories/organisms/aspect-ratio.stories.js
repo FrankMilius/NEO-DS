@@ -1,6 +1,6 @@
 // ============================================================
 // AspectRatio — Auto-generated from aspect-ratio-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**AspectRatio** v1.0.0 (stable)
+        component: `**AspectRatio** v1.1.0 (stable)
 
 Nutzt native CSS aspect-ratio Property.
 

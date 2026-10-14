@@ -1,6 +1,6 @@
 // ============================================================
 // Form — Auto-generated from form-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Form** v1.0.0 (stable)
+        component: `**Form** v1.2.0 (stable)
 
 Root: <form> mit flex-column Layout. Gap via nc-form-gap (24px).
 

@@ -1,6 +1,6 @@
 // ============================================================
 // Solutions — Auto-generated from solutions-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Solutions** v1.0.0 (stable)
+        component: `**Solutions** v1.1.0 (stable)
 
 Desktop: 3-Spalten Grid (6+1+5) mit grid-areas accordion/side/content.
 
@@ -36,6 +36,7 @@ export const Default = {
   </p>
   <div class="solutions">
     <span class="accordion--solutions">accordion</span>
+    <span class="solutions-wrapper > div:first-child">mobile-tabs</span>
   </div>
 </div>`,
 };
@@ -55,12 +56,13 @@ export const SolutionsSection = {
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="solutions">
     <span class="accordion--solutions">accordion</span>
+    <span class="solutions-wrapper > div:first-child">mobile-tabs</span>
   </div>
 </div>
 </div>`,
   parameters: {
     docs: {
-      description: { story: 'Accordion mit Side-Content und Tabs' },
+      description: { story: 'Akkordeon mit Seiten- und Inhaltspanel (Desktop) — Startzustand und eine andere Loesung geoeffnet' },
     },
   },
 };

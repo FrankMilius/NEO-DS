@@ -1,6 +1,6 @@
 // ============================================================
 // ToggleGroup — Auto-generated from toggle-group-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.0.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ToggleGroup** v2.0.0 (stable)
+        component: `**ToggleGroup** v2.0.1 (stable)
 
 Container ist ein <div class='nc-toggle-group'>.
 

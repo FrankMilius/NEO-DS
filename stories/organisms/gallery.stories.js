@@ -1,6 +1,6 @@
 // ============================================================
 // Gallery — Auto-generated from gallery-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Gallery** v1.0.0 (stable)
+        component: `**Gallery** v1.2.1 (stable)
 
-Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-height.
+Website-only: die Paddles tragen neben .nc-gallery__paddle die Haken .nc-gallery__paddle--prev/--next (Markup der Website, data-gallery-prev/-next) — kein CSS im DS.
 
 
 `,
@@ -25,9 +25,9 @@ Root: position:relative, overflow:hidden, width:100%, height via --nc-gallery-he
 
 export const Default = {
   name: 'Standard',
-  render: () => `<div class="nc-gallery nc-gallery--lines nc-gallery--svh" data-neo-gallery="" data-autoplay="on" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell" data-gallery-init="1">
-<div class="nc-gallery__track">
-<div class="nc-gallery__slide is-active" role="tabpanel" aria-roledescription="Slide" aria-label="PIIPE Workplace" data-slide-theme="dark">
+  render: () => `<div class="nc-gallery nc-gallery--lines nc-gallery--svh" id="nc-gal-23" data-autoplay="on" aria-label="Bild-Galerie" role="group" aria-roledescription="Karussell" data-neo-behavior="gallery">
+<div class="nc-gallery__track" style="transform: translate3d(0%, 0px, 0px);" aria-live="off">
+<div class="nc-gallery__slide is-active" role="tabpanel" aria-roledescription="Slide" aria-label="PIIPE Workplace" data-slide-theme="dark" id="nc-gal-23-slide-0">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/1076/2400/1350" alt="" loading="eager" decoding="async">
 </div>
@@ -44,7 +44,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Analytics Dashboard" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Analytics Dashboard" aria-hidden="true" data-slide-theme="dark" id="nc-gal-23-slide-1" inert="">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/180/2400/1350" alt="" loading="lazy" decoding="async">
 </div>
@@ -61,7 +61,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Enterprise Security" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Enterprise Security" aria-hidden="true" data-slide-theme="dark" id="nc-gal-23-slide-2" inert="">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/1073/2400/1350" alt="" loading="lazy" decoding="async">
 </div>
@@ -78,7 +78,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="200+ Integrationen" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="200+ Integrationen" aria-hidden="true" data-slide-theme="dark" id="nc-gal-23-slide-3" inert="">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/119/2400/1350" alt="" loading="lazy" decoding="async">
 </div>
@@ -95,7 +95,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Für Teams jeder Größe" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="Für Teams jeder Größe" aria-hidden="true" data-slide-theme="dark" id="nc-gal-23-slide-4" inert="">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/1048/2400/1350" alt="" loading="lazy" decoding="async">
 </div>
@@ -112,7 +112,7 @@ export const Default = {
 </div>
 </div>
 </div>
-<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="KI-Assistent" aria-hidden="true" data-slide-theme="dark">
+<div class="nc-gallery__slide" role="tabpanel" aria-roledescription="Slide" aria-label="KI-Assistent" aria-hidden="true" data-slide-theme="dark" id="nc-gal-23-slide-5" inert="">
 <div class="nc-gallery__slide-bg">
 <img src="https://picsum.photos/id/1069/2400/1350" alt="" loading="lazy" decoding="async">
 </div>
@@ -131,45 +131,44 @@ export const Default = {
 </div>
 </div>
 <div class="nc-gallery__controls">
-<button class="nc-gallery__paddle nc-gallery__paddle--prev" aria-label="Vorheriger Slide" data-gallery-prev="">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button type="button" class="nc-gallery__paddle nc-gallery__paddle--prev" aria-label="Vorheriger Slide" data-gallery-prev="">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
 <path d="M15 6l-6 6 6 6">
 </path>
 </svg>
 </button>
-<button class="nc-gallery__paddle nc-gallery__paddle--next" aria-label="Naechster Slide" data-gallery-next="">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button type="button" class="nc-gallery__paddle nc-gallery__paddle--next" aria-label="Naechster Slide" data-gallery-next="">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
 <path d="M9 6l6 6-6 6">
 </path>
 </svg>
 </button>
 </div>
 <nav class="nc-gallery__nav" role="tablist" aria-label="Slide-Navigation">
-<button class="nc-gallery__nav-dot is-active" role="tab" aria-selected="true" aria-label="PIIPE Workplace" data-index="0">
+<button type="button" class="nc-gallery__nav-dot is-active" role="tab" aria-selected="true" aria-label="PIIPE Workplace" data-index="0" id="nc-gal-23-tab-0" aria-controls="nc-gal-23-slide-0" tabindex="0">
 </button>
-<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Analytics Dashboard" data-index="1">
+<button type="button" class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Analytics Dashboard" data-index="1" id="nc-gal-23-tab-1" aria-controls="nc-gal-23-slide-1" tabindex="-1">
 </button>
-<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Enterprise Security" data-index="2">
+<button type="button" class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Enterprise Security" data-index="2" id="nc-gal-23-tab-2" aria-controls="nc-gal-23-slide-2" tabindex="-1">
 </button>
-<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="200+ Integrationen" data-index="3">
+<button type="button" class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="200+ Integrationen" data-index="3" id="nc-gal-23-tab-3" aria-controls="nc-gal-23-slide-3" tabindex="-1">
 </button>
-<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Für Teams jeder Größe" data-index="4">
+<button type="button" class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="Für Teams jeder Größe" data-index="4" id="nc-gal-23-tab-4" aria-controls="nc-gal-23-slide-4" tabindex="-1">
 </button>
-<button class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="KI-Assistent" data-index="5">
+<button type="button" class="nc-gallery__nav-dot" role="tab" aria-selected="false" aria-label="KI-Assistent" data-index="5" id="nc-gal-23-tab-5" aria-controls="nc-gal-23-slide-5" tabindex="-1">
 </button>
 </nav>
-<button class="nc-gallery__autoplay" aria-label="Galerie pausieren" data-gallery-autoplay="">
-<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+<button type="button" class="nc-gallery__autoplay" aria-label="Galerie pausieren" data-playing="true" data-gallery-autoplay="">
+<svg class="nc-gallery__autoplay-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
 <rect x="6" y="4" width="4" height="16" rx="1">
 </rect>
 <rect x="14" y="4" width="4" height="16" rx="1">
 </rect>
 </svg>
-<svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+<svg class="nc-gallery__autoplay-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
 <polygon points="6,4 20,12 6,20">
 </polygon>
 </svg>
 </button>
-<script type="application/json" data-gallery-slides="">[{"title":"PIIPE Workplace","tag":"SaaS Platform","description":"Die intelligente Arbeitsplatz-Plattform für moderne Teams.","image":"https://picsum.photos/id/1076/2400/1350","cta":"Jetzt starten","url":"/produkte/workplace","theme":"dark"},{"title":"Analytics Dashboard","tag":"Neu","description":"Echtzeit-Einblicke in Team-Performance und Projektfortschritt.","image":"https://picsum.photos/id/180/2400/1350","cta":"Dashboard entdecken","url":"/produkte/analytics","theme":"dark"},{"title":"Enterprise Security","tag":"Security","description":"ISO 27001 zertifiziert. Ende-zu-Ende-Verschlüsselung. DSGVO-konform.","image":"https://picsum.photos/id/1073/2400/1350","cta":"Mehr erfahren","url":"/sicherheit","theme":"dark"},{"title":"200+ Integrationen","tag":"Apps","description":"Nahtlose Verbindung zu Slack, Microsoft 365, Google Workspace und mehr.","image":"https://picsum.photos/id/119/2400/1350","cta":"Alle Integrationen","url":"/integrationen","theme":"dark"},{"title":"Für Teams jeder Größe","tag":"Flexibel","description":"Vom Startup bis zum Konzern — ab 5 Nutzer kostenlos.","image":"https://picsum.photos/id/1048/2400/1350","cta":"Preise ansehen","url":"/preise","theme":"dark"},{"title":"KI-Assistent","tag":"Beta","description":"Intelligente Vorschläge, automatische Zusammenfassungen und smarte Workflows.","image":"https://picsum.photos/id/1069/2400/1350","cta":"Beta testen","url":"/ki-assistent","theme":"dark"}]</script>
 </div>`,
 };

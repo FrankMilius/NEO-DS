@@ -1,6 +1,6 @@
 # TextCta
 
-> **Layer:** organism | **Coverage:** 4/6 (partial) | **Status:** stable
+> **Layer:** organism | **Coverage:** 5/6 (good) | **Status:** stable
 
 *AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: `npm run components`*
 
@@ -10,7 +10,7 @@
 |----------|------|--------|
 | Recipe | `data/text-cta-recipe.json` | present |
 | SCSS | `scss/scss/07-organisms/_text-cta.scss` | present |
-| Storybook | — | missing |
+| Storybook | `stories/organisms/text-cta.stories.js` | present |
 | Arena | `apps/theme-configurator/src/components/laboratory/RecipeArena.vue` | present |
 | Docs | — | missing |
 | Drupal | `block/block--block-content--neo-text-cta.html.twig, block/block--inline-block--neo-text-cta.html.twig` | present |
@@ -30,4 +30,5 @@
 
 - [Recipe JSON](../data/text-cta-recipe.json)
 - [SCSS](../scss/scss/07-organisms/_text-cta.scss)
+- [Storybook Story](../stories/organisms/text-cta.stories.js)
 - [Theme Configurator Arena](../apps/theme-configurator/src/components/laboratory/RecipeArena.vue)

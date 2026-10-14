@@ -1,6 +1,6 @@
 // ============================================================
 // Video — Auto-generated from video-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Video** v1.0.0 (stable)
+        component: `**Video** v1.1.0 (stable)
 
 video-wrap als Wrapper fuer alle Video-Formate.
 

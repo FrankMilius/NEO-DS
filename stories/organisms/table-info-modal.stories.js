@@ -1,6 +1,6 @@
 // ============================================================
 // TableInfoModal — Auto-generated from table-info-modal-recipe.json
-// Version: 1.0.0 | Status: draft
+// Version: 1.4.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,15 +10,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TableInfoModal** v1.0.0 (draft)
+        component: `**TableInfoModal** v1.4.0 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Website (block--block-content--neo-table.html.twig, einer je Tabelle, nach der Tabelle in der Section): div.nc-table-info-modal#nc-table-info-<Block-ID>[role=dialog][aria-hidden=true] > __backdrop[data-modal-close] + __content > button.__close[data-modal-close][aria-label] + __body (leer). Ohne aria-modal und ohne Namen — aria-modal setzt das Behavior, den Namen bei jedem Oeffnen aus data-info-label des Ausloesers.
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
   argTypes: {},
 };

@@ -1,6 +1,6 @@
 // ============================================================
 // Multiselect — Auto-generated from multiselect-recipe.json
-// Version: 1.2.0 | Status: draft
+// Version: 1.6.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,15 +10,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Multiselect** v1.2.0 (draft)
+        component: `**Multiselect** v1.6.0 (stable)
 
-Feld-Wrapper: .nc-form-field.nc-multiselect (position relative) mit .nc-form-label, Knopf .nc-multiselect__trigger (aria-haspopup, aria-expanded) und Panel .nc-multiselect__panel (absolut unter dem Feld: inset-block-start calc(100% + spacing-01); neo-theme.js setzt die Lage zusaetzlich inline).
+Markup der Website (neo-theme.js, neoForm case 'multiselect'; die Arena-Vorlage folgt ihm): div.nc-form-field.nc-multiselect (position relative, optional --full-width) > span.nc-form-label#<feld>-label (Text + „ *" aria-hidden bzw. „(optional)") + button.nc-multiselect__trigger#<feld>-trigger[aria-expanded][aria-controls][aria-labelledby="<label> <trigger>"][data-placeholder] > __value + __caret, dann div.nc-multiselect__panel#<feld>-panel[role=group][aria-labelledby=<label>][hidden] mit den Optionen. Ohne aria-haspopup (Disclosure, kein Menue; neo_fe seit Abschluss 2, Arena seit 1.5.2).
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
   argTypes: {},
 };
@@ -35,12 +35,11 @@ export const Default = {
     <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/multiselect.html</code>.
   </p>
   <div class="nc-multiselect">
-    <span class="nc-multiselect__caret">caret</span>
-    <span class="nc-multiselect__option">option</span>
-    <span class="nc-multiselect__panel">panel</span>
     <span class="nc-multiselect__trigger">trigger</span>
     <span class="nc-multiselect__value">value</span>
-    <span class="nc-multiselect__value--empty">value--empty</span>
+    <span class="nc-multiselect__caret">caret</span>
+    <span class="nc-multiselect__panel">panel</span>
+    <span class="nc-multiselect__option">option</span>
   </div>
 </div>`,
 };
@@ -59,12 +58,11 @@ export const Standard = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-multiselect">
-    <span class="nc-multiselect__caret">caret</span>
-    <span class="nc-multiselect__option">option</span>
-    <span class="nc-multiselect__panel">panel</span>
     <span class="nc-multiselect__trigger">trigger</span>
     <span class="nc-multiselect__value">value</span>
-    <span class="nc-multiselect__value--empty">value--empty</span>
+    <span class="nc-multiselect__caret">caret</span>
+    <span class="nc-multiselect__panel">panel</span>
+    <span class="nc-multiselect__option">option</span>
   </div>
 </div>
 </div>`,
@@ -89,12 +87,11 @@ export const Zustände = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-multiselect">
-    <span class="nc-multiselect__caret">caret</span>
-    <span class="nc-multiselect__option">option</span>
-    <span class="nc-multiselect__panel">panel</span>
     <span class="nc-multiselect__trigger">trigger</span>
     <span class="nc-multiselect__value">value</span>
-    <span class="nc-multiselect__value--empty">value--empty</span>
+    <span class="nc-multiselect__caret">caret</span>
+    <span class="nc-multiselect__panel">panel</span>
+    <span class="nc-multiselect__option">option</span>
   </div>
 </div>
 </div>`,
@@ -119,12 +116,11 @@ export const OhneAuswahl = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-multiselect">
-    <span class="nc-multiselect__caret">caret</span>
-    <span class="nc-multiselect__option">option</span>
-    <span class="nc-multiselect__panel">panel</span>
     <span class="nc-multiselect__trigger">trigger</span>
     <span class="nc-multiselect__value">value</span>
-    <span class="nc-multiselect__value--empty">value--empty</span>
+    <span class="nc-multiselect__caret">caret</span>
+    <span class="nc-multiselect__panel">panel</span>
+    <span class="nc-multiselect__option">option</span>
   </div>
 </div>
 </div>`,

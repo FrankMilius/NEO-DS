@@ -1,6 +1,6 @@
 // ============================================================
 // Searchbar — Auto-generated from searchbar-recipe.json
-// Version: 1.2.0 | Status: draft
+// Version: 1.4.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,15 +10,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Searchbar** v1.2.0 (draft)
+        component: `**Searchbar** v1.4.0 (stable)
 
-Aus dem Drupal-Theme uebernommen; Markup siehe templates/block/ im Theme neo_fe.
+Leiste unter der Navigation: div.nc-searchbar[data-state][role=search] > .nc-searchbar__inner.nc-container > .nc-searchbar__field > svg.__icon + input.__input + button.__close (Struktur aus COMPONENTS-CSS.md des Drupal-Themes, Abschnitt 3.2, und dem SCSS). Einen Shortcut-Hinweis hat die Leiste nicht (Entscheidung 06.10.2026).
 
 
 `,
       },
     },
-    status: { type: 'draft' },
+    status: { type: 'stable' },
   },
   argTypes: {},
 };
@@ -35,11 +35,11 @@ export const Default = {
     <code style="font:inherit;font-family:ui-monospace,monospace">data/markup/searchbar.html</code>.
   </p>
   <div class="nc-searchbar">
-    <span class="nc-searchbar__close">close</span>
+    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__field">field</span>
     <span class="nc-searchbar__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__input">input</span>
+    <span class="nc-searchbar__close">close</span>
   </div>
 </div>`,
 };
@@ -58,11 +58,11 @@ export const Standard = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-searchbar">
-    <span class="nc-searchbar__close">close</span>
+    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__field">field</span>
     <span class="nc-searchbar__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__input">input</span>
+    <span class="nc-searchbar__close">close</span>
   </div>
 </div>
 </div>`,
@@ -87,11 +87,11 @@ export const Zustände = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-searchbar">
-    <span class="nc-searchbar__close">close</span>
+    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__field">field</span>
     <span class="nc-searchbar__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__input">input</span>
+    <span class="nc-searchbar__close">close</span>
   </div>
 </div>
 </div>`,
@@ -116,11 +116,11 @@ export const MitSuchbegriff = {
   </p>
   <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; ">
   <div class="nc-searchbar">
-    <span class="nc-searchbar__close">close</span>
+    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__field">field</span>
     <span class="nc-searchbar__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>
-    <span class="nc-searchbar__inner">inner</span>
     <span class="nc-searchbar__input">input</span>
+    <span class="nc-searchbar__close">close</span>
   </div>
 </div>
 </div>`,

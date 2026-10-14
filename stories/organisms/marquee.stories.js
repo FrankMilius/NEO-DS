@@ -1,6 +1,6 @@
 // ============================================================
 // Marquee — Auto-generated from marquee-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.3.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Marquee** v1.0.0 (stable)
+        component: `**Marquee** v1.3.0 (stable)
 
 Overflow:hidden Container. Track: inline-flex, gap 2.5rem, will-change:transform.
 

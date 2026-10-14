@@ -1,6 +1,6 @@
 // ============================================================
 // Notification — Auto-generated from notification-recipe.json
-// Version: 2.0.0 | Status: stable
+// Version: 2.1.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Notification** v2.0.0 (stable)
+        component: `**Notification** v2.1.0 (stable)
 
 Floating-Card Surface: surface-elevated BG + elevation-overlay Schatten (L2). Gleiche Ebene wie Popover.
 

@@ -1,6 +1,6 @@
 // ============================================================
 // Cta — Auto-generated from cta-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Cta** v1.0.0 (stable)
+        component: `**Cta** v1.2.0 (stable)
 
-3-Spalten Grid: clamp padding, clamp gap. Farbe: always-light auf dunklem BG.
+Eigene Flaeche --nc-cta-bg (Standard always-dark, --mod-cta-bg), Text always-light. Raster: unter md eine Spalte, ab md eine Spalte je vorhandenem Bereich (__left, __mid, __right).
 
 
 `,

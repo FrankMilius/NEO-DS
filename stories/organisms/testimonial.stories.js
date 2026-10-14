@@ -1,6 +1,6 @@
 // ============================================================
 // Testimonial — Auto-generated from testimonial-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,9 +10,9 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Testimonial** v1.0.0 (stable)
+        component: `**Testimonial** v1.2.0 (stable)
 
-Card: background-secondary, radius-sm, padding-05, grid gap 1.25rem, scroll-snap-align.
+figure.nc-testimonial (Karte: background-secondary, radius-4xl, Polsterung spacing-05, Grid gap spacing-05) > blockquote.__quote, optional ul.__results, figcaption.__author > div.__meta > cite.__name + span.__role, optional p.__context.
 
 
 `,
