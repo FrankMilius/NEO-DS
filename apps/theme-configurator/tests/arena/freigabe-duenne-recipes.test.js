@@ -50,8 +50,9 @@ function freigegeben (id, version) {
   const freigabe = r.meta.changelog.findIndex((e) => /^Freigabe \(Abschluss Plan v3, 08\.10\.2026\)/.test(e.changes[0]))
   expect(freigabe, id).toBeGreaterThanOrEqual(0)
   // Plan v4, Phase 4 (12.10.2026): Tabellenfarben als Token-Auswahl, Darstellung
-  // unveraendert (Rueckfall, Nachweis im Bericht) — keine Website-Wirkung
-  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend|Entscheidung Abschluss 2 \(08\.10\.2026\)|Plan v4, Phase 4 \(12\.10\.2026, Entscheidung E2 = A\)/)
+  // unveraendert (Rueckfall, Nachweis im Bericht) — keine Website-Wirkung.
+  // Nachlauf zu Plan v4 (14.10.2026): freigegebene Korrekturen nach der Freigabe.
+  for (const e of r.meta.changelog.slice(0, freigabe)) expect(e.changes.join(' '), id).toMatch(/Freigabe ausstehend|Entscheidung Abschluss 2 \(08\.10\.2026\)|Plan v4, Phase 4 \(12\.10\.2026, Entscheidung E2 = A\)|Nachlauf zu Plan v4 \([^)]*Freigabe erteilt/)
   expect(istEntwurf(id), id).toBe(false)
   // Recipe-Form (recipe-schema.json): Objekte statt Listen, mindestens eine Token-Gruppe
   expect(Array.isArray(r.constraints), id).toBe(false)
@@ -178,8 +179,8 @@ describe('Freigabe duenne Recipes (Abschluss Plan v3, 08.10.2026)', () => {
     expect(r.a11y.base.assertions.join(' ')).toMatch(/14,23:1/)
   })
 
-  it('tab-nav: 1.5.4 (Plan v4, Phase 7, Block 10e), jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
-    const r = freigegeben('tab-nav', '1.5.4')
+  it('tab-nav: 1.5.5 (Nachlauf zu Plan v4, 14.10.2026), jedes SCSS-Element ein Slot, Haken ohne CSS benannt, zehn Website-Module, Verhalten aus solution-tabs', () => {
+    const r = freigegeben('tab-nav', '1.5.5')
     const slots = Object.fromEntries(r.anatomy.slots.map((s) => [s.element, s]))
     const scss = scssElemente('scss/scss/06-molecules/_tab-nav.scss', 'nc-tab-nav')
     for (const el of scss) expect(slots[el], el).toBeTruthy()

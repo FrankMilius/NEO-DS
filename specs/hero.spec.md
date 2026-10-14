@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.4.0 | Status: stable | Layer: organism
+> Version 2.4.1 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 

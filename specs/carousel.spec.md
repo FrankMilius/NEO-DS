@@ -1,5 +1,5 @@
 # carousel Component Spec
-> Version 1.2.0 | Status: stable | Layer: molecule
+> Version 1.2.1 | Status: stable | Layer: molecule
 
 Tags: `layout`, `media`, `carousel`
 
@@ -17,6 +17,7 @@ Root element: `.nc-carousel`
 - scroll-snap-type: x mandatory am Track, scroll-snap-align: start an den Kindern.
 - Verhalten (neo-behaviors carousel, Plan v4, Phase 6a): bindet an die Wurzel; Paddles (data-fg-prev/-next bzw. die Paddle-Haken --prev/--next der Galerie) und Punkte (nav-dot der Galerie) sucht es in der Huelle der Website-Geraete-Galerie ([data-neo-fg-carousel]) oder in der Wurzel (__controls).
 - Punkte sind <a href="#figur"> — ohne Skript springt der Browser zur Figur; mit Skript scrollt die Spur. Der gewaehlte Punkt traegt .is-active und aria-current=true.
+- Zielflaeche jedes Punkts 24 x 24 px (WCAG 2.5.8; Token --nc-gallery-dot-target-size, Nachlauf 14.10.2026): Polster um den sichtbaren Punkt, Mitten mindestens 24 px auseinander.
 
 ## Variants
 ### Medien-Variante (`media`)

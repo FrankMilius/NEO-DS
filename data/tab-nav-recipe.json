@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "tab-nav",
-    "version": "1.5.4",
+    "version": "1.5.5",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,13 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.5.5",
+        "changes": [
+          "Nachlauf zu Plan v4 (14.10.2026; Freigabe erteilt 14.10.2026), Schritt 7: die letzten fuenf Module (card_grid, hero, hero_tom, hero_tmob, text_media) rendert das Twig (includes/neo_tab_nav.inc) statt js/neo-tab-nav.js per innerHTML; Texte als reiner Text (card_grid wie der Block Card-Grid mit Positivliste), Bilder alt=\"\", CSS-Werte (Farbe, Verlauf, Hoehe, Bild-URL) nur nach Positivliste, Videos in hero und text_media als Fassade (neo-behaviors video). data-tn-daten entfaellt.",
+          "Nachlauf zu Plan v4 (14.10.2026; Freigabe erteilt 14.10.2026): Module hero_tmob und text_media binden den Farbkontext ihrer Flaeche (neo-light-/neo-dark-theme + neo-flaeche-ton; Verlauf nach mittlerer Leuchtdichte) — die Ueberschrift stand dunkel auf dunklem Verlauf. Inaktive Tabs 85 % Textdeckkraft (Schritt C, siehe solution-tabs 2.1.1)."
+        ]
+      },
       {
         "version": "1.5.4",
         "changes": [
@@ -103,7 +110,7 @@
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-tab-nav.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID und data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay, Tableiste und Panels aus neo_tn_tabs (includes/neo_tab_nav.inc, seit Plan v4, Phase 7), je Panel .nc-tab-nav__module mit data-tn-modul/data-tn-daten; js/neo-theme.js Drupal.behaviors.neoTabNav baut die Inhaltsmodule (window.NeoTabModules) und bindet mit NeoBehaviors.anbinden(wurzel, ['solution-tabs']); neo_fe_preprocess_block haengt neo-behaviors fuer solution-tabs und die Module form (multiselect) und expanding (expanding-panels) an.",
+      "drupal": "neo_fe: block--block-content--neo-tab-nav.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID und data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay, Tableiste und Panels aus neo_tn_tabs (includes/neo_tab_nav.inc, seit Plan v4, Phase 7), je Panel .nc-tab-nav__module mit dem Modul im Twig (features, feature_list, expanding, bento, form, card_grid, hero, hero_tom, hero_tmob, text_media; seit Plan v4, Phase 7 bzw. Nachlauf 14.10.2026); js/neo-tab-nav.js (Library neo_fe/neo-tab-nav) Drupal.behaviors.neoTabNav baut nichts mehr auf, es bindet ueber Drupal.neoFe.tabsBinden solution-tabs und video; neo_fe_preprocess_block haengt neo-behaviors fuer solution-tabs und die Module form (multiselect) und expanding (expanding-panels) an.",
       "behavior": "packages/neo-behaviors/solution-tabs.js (Behavior des Recipes solution-tabs; nurAusdruecklich)"
     }
   },

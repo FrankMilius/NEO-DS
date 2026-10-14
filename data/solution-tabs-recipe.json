@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "solution-tabs",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,13 @@
       "docs": "/docs/solution-tabs-docs"
     },
     "changelog": [
+      {
+        "version": "2.1.1",
+        "changes": [
+          "Nachlauf zu Plan v4 (14.10.2026; Freigabe erteilt 14.10.2026), Schritt C: inaktive Tabs mit 85 % Textdeckkraft statt 68 % (Sektion .nc-solution-tabs-section) bzw. 58 % (:root, --nc-solution-tabs-tab-color). Startseite dunkel mit gruenem Akzent vorher 3,87:1, jetzt mindestens 5,1:1 bei allen Website-Akzenten hell und dunkel (WCAG 1.4.3). Der aktive Tab bleibt voll.",
+          "Nachlauf zu Plan v4 (14.10.2026; Freigabe erteilt 14.10.2026), Schritt 8c: Theme-Skript js/neo-solution-tabs.js (Library neo_fe/neo-solution-tabs) statt js/neo-theme.js; IDs je Seitenaufbau eindeutig (_neo_fe_dom_id, Nachlauf Schritt 6)."
+        ]
+      },
       {
         "version": "2.1.0",
         "changes": [
@@ -62,7 +69,7 @@
       "docs": null
     },
     "source": {
-      "drupal": "neo_fe: block--block-content--neo-solution-tabs.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID, data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay; Tableiste, Tabs (data-accent) und Panels im Twig aus neo_st_items (includes/neo_solution_tabs.inc, seit Plan v4, Phase 7); js/neo-theme.js Drupal.behaviors.neoSolutionTabs bindet nur noch NeoBehaviors.anbinden(wurzel, ['solution-tabs']) und fuehrt die Akzentfarbe je Tab nach (hoert auf solution-tabs-change). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['solution-tabs']) fuer neo_solution_tabs und neo_tab_nav.",
+      "drupal": "neo_fe: block--block-content--neo-solution-tabs.html.twig (inline_block per include): Section, Section-Header (Ueberschrift mit id), Wurzel mit id aus der Block-ID, data-tablist-labelledby, bei autoplay on der Knopf .nc-solution-tabs__autoplay; Tableiste, Tabs (data-accent) und Panels im Twig aus neo_st_items (includes/neo_solution_tabs.inc, seit Plan v4, Phase 7); js/neo-solution-tabs.js (Library neo_fe/neo-solution-tabs, seit Plan v4, Phase 8) Drupal.behaviors.neoSolutionTabs bindet ueber Drupal.neoFe.tabsBinden nur noch NeoBehaviors.anbinden(wurzel, ['solution-tabs']) und fuehrt die Akzentfarbe je Tab nach (hoert auf solution-tabs-change). neo_fe_preprocess_block: _neo_fe_behaviors_anhaengen($variables, ['solution-tabs']) fuer neo_solution_tabs und neo_tab_nav.",
       "behavior": "packages/neo-behaviors/solution-tabs.js; nurAusdruecklich"
     }
   },
