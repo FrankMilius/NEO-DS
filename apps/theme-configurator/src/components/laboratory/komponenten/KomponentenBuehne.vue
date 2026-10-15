@@ -15,7 +15,7 @@
         :aria-label="`${q.label} als aktives Theme wählen`"
         @click.stop="waehle(q)"
       >{{ q.label }}</button>
-      <component :is="resolvedArena" />
+      <MatrixQuadrant :quadrant="q"><component :is="resolvedArena" /></MatrixQuadrant>
     </div>
   </div>
   <!-- Normal: Single/Split Arena -->
@@ -28,7 +28,7 @@
 // Komponenten-Sektionen (component-*): Arena ueber useArenaResolver,
 // im Vorschaumodus „matrix" in allen vier Themes. Ausgelagert aus
 // LaboratoryPanel.vue (Plan v2, 3.4).
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, defineComponent, provide } from 'vue'
 import { useThemeStore } from '../../../stores/theme.js'
 import { useArenaResolver } from '../../../composables/useArenaResolver.js'
 
@@ -44,6 +44,17 @@ const QUADRANTEN = [
   { klasse: 'customer-light-theme', label: 'Customer Light', set: 'customer', modus: 'light' },
   { klasse: 'customer-dark-theme', label: 'Customer Dark', set: 'customer', modus: 'dark' }
 ]
+
+// Gibt der Arena im Quadranten Set und Modus mit (UX-09) — die RecipeArena
+// liest sie per inject('vorschauQuadrant') statt aus previewMode.
+const MatrixQuadrant = defineComponent({
+  name: 'MatrixQuadrant',
+  props: { quadrant: { type: Object, required: true } },
+  setup (props, { slots }) {
+    provide('vorschauQuadrant', props.quadrant)
+    return () => slots.default?.()
+  }
+})
 
 function waehle (q) {
   store.setActiveThemeSet(q.set)

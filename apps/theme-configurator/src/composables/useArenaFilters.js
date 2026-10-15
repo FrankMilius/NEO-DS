@@ -113,6 +113,18 @@ export function extractFiltersFromRecipe(recipeData) {
 }
 
 /**
+ * Achse des Recipes hinter einer Filter-Kategorie: „variants“ → variant/
+ * tone/severity/color, „sizes“ → size, sonst die Kategorie selbst.
+ * „states“ ist keine Achse (Zustaende der Zelle) → null.
+ */
+export function filterAchse(recipeData, kategorie) {
+  if (kategorie === 'states') return null
+  if (kategorie === 'sizes') return SIZE_AXIS
+  if (kategorie === 'variants') return VARIANT_AXES.find(k => recipeData?.axes?.[k]) || null
+  return kategorie
+}
+
+/**
  * Liefert das Display-Label fuer eine Filter-Kategorie.
  */
 export function filterCategoryLabel(key) {

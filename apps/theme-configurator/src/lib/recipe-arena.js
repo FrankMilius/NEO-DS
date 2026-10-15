@@ -717,6 +717,7 @@ export function specimenAnsicht (specimen, recipe, componentId, vorlage, optione
       fehler: ergebnis.fehler,
       tokenGroups: ergebnis.modell.tokenGroups,
       axisValues: zelle.axisValues,
+      states: zelle.states || [],   // fuer die Arena-Filter (UX-10)
       // Vorlagen mit eigener Flaechen-Achse (Hero: surface ist die Flaeche
       // des Blocks, nicht das Seiten-Thema) setzen vorlage.eigeneFlaeche
       flaeche: vorlage?.eigeneFlaeche ? null : zellenFlaeche(zelle, specimen),

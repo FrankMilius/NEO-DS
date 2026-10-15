@@ -161,9 +161,11 @@ export function zeilenZuObjekt(zeilen = []) {
  *   Sonst blieben z. B. Karte und Button in der dunklen Vorschau eines
  *   Website-Blocks hell bzw. Schrift dunkel auf dunkler Flaeche (Plan v3,
  *   Phase 5: text-cta; error-page am 08.10.2026 stillgelegt).
+ * @param {string} [o.set]       festes Set (Quadrant der 4-Theme-Matrix, UX-09)
  */
-export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [] }) {
-  const set = state.activeThemeSet || 'neo'
+export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [], set: festesSet }) {
+  // festesSet: Quadrant der 4-Theme-Matrix (UX-09), sonst das aktive Set
+  const set = festesSet || state.activeThemeSet || 'neo'
   const vars = { ...komponentenDeklarationen(id, sheets) }
   for (const fremd of [...(GETEILTE_TOKENS[id] || []), ...enthaelt.filter((e) => e !== id)]) {
     for (const [k, v] of Object.entries(komponentenDeklarationen(fremd, sheets))) if (!(k in vars)) vars[k] = v

@@ -32,6 +32,12 @@
         <span :id="`${componentId}-abspielen-hinweis`" class="ra-modus__hinweis" data-test="abspielen-hinweis">{{ abspielSperre || abspielInfo.hinweis }}</span>
       </template>
     </div>
+    <!-- UX-10: Wirkung der Filter sichtbar machen -->
+    <p v-if="filterAktiv && modus === 'zustaende'" class="ra-filter-stand" role="status" data-test="filter-stand">
+      <template v-if="zellenSichtbar">Filter aktiv: {{ zellenSichtbar }} von {{ zellenGesamt }} Vorschauen.</template>
+      <template v-else>Keine Vorschau passt zu den gewählten Filtern.</template>
+      <button type="button" class="ra-modus__knopf" data-test="filter-zuruecksetzen" @click="store.resetArenaFilters()">Filter zurücksetzen</button>
+    </p>
     <template v-for="sp in sichtbareAnsichten" :key="sp.id">
       <div class="arena-category-divider">
         <span class="arena-category-label">{{ sp.label }}</span>
@@ -103,7 +109,7 @@
 // Zelle gerendert — mit Vorlage aus src/arena-templates/<id>.js, sonst per
 // Slot-Heuristik. Siehe src/lib/recipe-arena.js.
 // ==========================================================================
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount, inject } from 'vue'
 import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
@@ -111,6 +117,7 @@ import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
 import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
+import { extractFiltersFromRecipe, filterAchse, useArenaFilters } from '../../composables/useArenaFilters.js'
 
 const props = defineProps({
   componentId: { type: String, required: true },
@@ -124,8 +131,14 @@ const store = useThemeStore()
 const { recipe } = useRecipeLoader(computed(() => props.componentId))
 const { isHighlighted, highlightStyle } = useArenaHighlight(props.sektion || props.componentId)
 
+// Quadrant der 4-Theme-Matrix (KomponentenBuehne), sonst null. Vorher fiel
+// jede Quadranten-Arena auf previewMode „matrix“ → hell und aktives Set
+// zurück; alle vier Felder zeigten dasselbe (Befund UX-09, 15.10.2026).
+const quadrant = inject('vorschauQuadrant', null)
+
 // Theme der Vorschau: hell, dunkel oder im Split-Modus beide nebeneinander.
 const vorschauThemen = computed(() => {
+  if (quadrant) return [quadrant.klasse]
   const mode = store.state.previewMode
   if (mode === 'split') return ['neo-light-theme', 'neo-dark-theme']
   return [mode === 'dark' ? 'neo-dark-theme' : 'neo-light-theme']
@@ -141,10 +154,10 @@ const enthalteneIds = computed(() => {
   for (const sp of recipe.value?.specimens || []) for (const c of sp.composes || []) ids.add(c)
   return [...ids]
 })
-const varsHell = computed(() => vorschauVariablen({ id: props.componentId, modus: 'light', state: store.state, enthaelt: enthalteneIds.value }))
-const varsDunkel = computed(() => vorschauVariablen({ id: props.componentId, modus: 'dark', state: store.state, enthaelt: enthalteneIds.value }))
+const varsHell = computed(() => vorschauVariablen({ id: props.componentId, modus: 'light', state: store.state, enthaelt: enthalteneIds.value, set: quadrant?.set }))
+const varsDunkel = computed(() => vorschauVariablen({ id: props.componentId, modus: 'dark', state: store.state, enthaelt: enthalteneIds.value, set: quadrant?.set }))
 function variablenFuer (thema, flaeche) {
-  return thema === 'neo-dark-theme' || flaeche === 'dunkel' ? varsDunkel.value : varsHell.value
+  return thema.endsWith('-dark-theme') || flaeche === 'dunkel' ? varsDunkel.value : varsHell.value
 }
 
 const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
@@ -195,8 +208,39 @@ const lebendigeAnsichten = computed(() => {
   return r.specimens.map((sp) => specimenAnsicht(sp, r, props.componentId, vorlage, { ausprobieren: true }))
 })
 
+// --- Filterleiste (Befund UX-10, 15.10.2026) --------------------------------
+// ArenaFilterbar schreibt die Auswahl in store.state.arenaFilters; gefiltert
+// haben nur die abgeloesten handgeschriebenen Arenen. Jetzt filtert die
+// RecipeArena ihre Zellen: Achsenwerte (Variante, Groesse, weitere Achsen)
+// und Zustaende. Zellen ohne Wert fuer eine Achse bleiben sichtbar.
+const filterOptionen = computed(() => (recipe.value ? extractFiltersFromRecipe(recipe.value) : {}))
+const { isValueVisible } = useArenaFilters(filterOptionen)
+const filterAktiv = computed(() => Object.values(store.state.arenaFilters).some(Boolean))
+function zelleSichtbar (z) {
+  for (const [kat, auswahl] of Object.entries(store.state.arenaFilters)) {
+    if (!auswahl) continue
+    if (kat === 'states') {
+      const zustaende = (z.states || []).filter((s) => s !== 'default')
+      if (zustaende.some((s) => !isValueVisible('states', s))) return false
+      continue
+    }
+    const achse = filterAchse(recipe.value, kat)
+    const wert = achse ? z.axisValues?.[achse] : undefined
+    if (wert !== undefined && wert !== null && !isValueVisible(kat, String(wert))) return false
+  }
+  return true
+}
+const gefilterteAnsichten = computed(() => {
+  if (!filterAktiv.value) return ansichten.value
+  return ansichten.value
+    .map((sp) => ({ ...sp, zeilen: sp.zeilen.map((zl) => ({ ...zl, zellen: zl.zellen.filter(zelleSichtbar) })).filter((zl) => zl.zellen.length) }))
+    .filter((sp) => sp.zeilen.length)
+})
+const zellenGesamt = computed(() => ansichten.value.reduce((n, sp) => n + sp.zeilen.reduce((m, zl) => m + zl.zellen.length, 0), 0))
+const zellenSichtbar = computed(() => gefilterteAnsichten.value.reduce((n, sp) => n + sp.zeilen.reduce((m, zl) => m + zl.zellen.length, 0), 0))
+
 const sichtbareAnsichten = computed(() => {
-  if (modus.value !== 'ausprobieren') return ansichten.value
+  if (modus.value !== 'ausprobieren') return gefilterteAnsichten.value
   return lebendigeAnsichten.value.map((sp) => {
     const zelle = sp.zeilen[0]?.zellen[0]
     return { ...sp, zeilen: zelle ? [{ key: 'live', label: '', zellen: [{ ...zelle, label: 'Ausprobieren' }] }] : [] }
@@ -824,6 +868,8 @@ onBeforeUnmount(() => {
 /* Theme-Achse: dunkle Zellen (neo-dark-theme bindet die Tokens lokal neu,
    siehe zellenFlaeche). .neo-surface kommt in Drupal aus neo-overrides.css,
    nicht aus styles.css — hier dieselbe Regel fuer die Arena. */
+.ra-filter-stand { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; font-size: 12px; color: var(--cfg-text-muted); }
+
 .ra-live-component.ra-flaeche {
   padding: 16px;
   border-radius: 6px;
