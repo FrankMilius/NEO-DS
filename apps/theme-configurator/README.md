@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.1` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.2` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -527,6 +527,19 @@ App 1.2.1 (Usability-Audit, 15.10.2026):
   ausbrechen: Prüfung am Feld (Font-Stack, Google-Adresse), Sperre im Store,
   Ausgabe nur in der Grammatik der App (`utils/css-wert.js`), Server-Prüfung
   beim Veröffentlichen und bei der Vorschau (Vertrag 1.1.1, 422).
+
+App 1.2.2 (Usability-Audit, Schutz vor Datenverlust, 15.10.2026):
+
+- **UX-05:** „Aktivieren“ und „Jetzt aktivieren“ fragen nach und nennen,
+  welches Theme (oder der NEO-Standard) abgelöst wird; „Jetzt aktivieren“ ist
+  ein Sekundärknopf.
+- **UX-06:** Mit ungespeicherten Änderungen (oder offenem Konflikt) fragt
+  der Browser beim Verlassen der Seite nach (`beforeunload`).
+- **UX-07:** Der Konfliktdialog nennt Zeit und Person der anderen Änderung
+  und rettet die eigene: „Als neues Theme speichern“ (Kopie „… (meine
+  Fassung)“) oder „Meine Fassung speichern“ (überschreibt, nach zweitem
+  Klick mit Warnung).
+- Rote Knöpfe (Gefahr) mit Schrift `on-danger` statt Weiß: 6:1 statt 3:1.
 
 Ursprünglicher Vorschlag (ADR-004):
 

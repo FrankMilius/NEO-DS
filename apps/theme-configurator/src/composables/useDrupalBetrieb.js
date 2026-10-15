@@ -41,6 +41,8 @@ const zustand = reactive({
   fehlerText: '',
   /** SpeicherFehler (412) → Konfliktdialog offen */
   konflikt: null,
+  /** Stand in Drupal beim Konflikt: { name, updatedAt, geaendertVon } (UX-07) */
+  konfliktFremd: null,
   /** Dialog „Neues Theme“: null | { vomStandard: boolean } */
   anlegen: null,
   /** Veröffentlichen-Dialog offen */
@@ -134,7 +136,15 @@ export async function starteDrupalBetrieb (s) {
     clearTimeout(zeitgeber)
     zeitgeber = setTimeout(pruefeStand, 150)
   }, { deep: true })
-  stoppen = () => { stop(); clearTimeout(zeitgeber) }
+  // UX-06: Warnung beim Verlassen der Seite mit ungespeicherten Änderungen
+  const beimVerlassen = (e) => {
+    if (zustand.status === 'ungespeichert' || zustand.status === 'fehler' || zustand.konflikt) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+  }
+  if (typeof window !== 'undefined') window.addEventListener('beforeunload', beimVerlassen)
+  stoppen = () => { stop(); clearTimeout(zeitgeber); if (typeof window !== 'undefined') window.removeEventListener('beforeunload', beimVerlassen) }
   // Drupal-Betrieb arbeitet im Set „neo“ (Klassen der Website); ein im
   // Browser liegender Arbeitsstand ohne Theme wird umgestellt.
   if (!store.state.currentThemeMeta?.id && store.state.activeThemeSet !== 'neo') store.state.activeThemeSet = 'neo'
@@ -206,9 +216,7 @@ export async function speichern () {
     return true
   } catch (e) {
     if (e?.art === 'veraltet') {
-      zustand.status = 'fehler'
-      zustand.fehlerText = 'Konflikt — nicht gespeichert'
-      zustand.konflikt = e
+      meldeKonflikt(e)
       return false
     }
     await fehlerZeigen(e, 'Speichern')
@@ -267,10 +275,65 @@ export async function oeffnen (id) {
   }
 }
 
+/**
+ * Konflikt (412) melden: Dialog öffnen und den Stand in Drupal nachladen,
+ * damit der Dialog Person und Zeit der anderen Änderung nennt (UX-07).
+ * Die eigenen Daten bleiben unberührt.
+ */
+export function meldeKonflikt (e) {
+  zustand.status = 'fehler'
+  zustand.fehlerText = 'Konflikt — nicht gespeichert'
+  zustand.konflikt = e
+  zustand.konfliktFremd = null
+  const id = store?.state.currentThemeMeta?.id
+  if (!id) return
+  speicher().lade(id)
+    .then((erg) => { if (zustand.konflikt === e && erg?.meta) zustand.konfliktFremd = { name: erg.meta.name, updatedAt: erg.meta.updatedAt, geaendertVon: erg.meta.geaendertVon || '', etag: erg.etag } })
+    .catch(() => {})
+}
+
+/**
+ * Konfliktdialog: „Meine Fassung speichern“ — den eigenen Stand über den
+ * aktuellen in Drupal schreiben (UX-07). If-Match ist dann der ETag des
+ * Stands, den man gerade gesehen hat; hat inzwischen wieder jemand
+ * gespeichert, kommt der Dialog erneut.
+ */
+export async function konfliktUeberschreiben () {
+  const e = zustand.konflikt
+  const etag = zustand.konfliktFremd?.etag || e?.aktuellEtag
+  if (!etag || !store.state.currentThemeMeta) return false
+  zustand.konflikt = null
+  zustand.konfliktFremd = null
+  store.state.currentThemeMeta = { ...store.state.currentThemeMeta, etag }
+  return speichern()
+}
+
+/**
+ * Konfliktdialog: „Als neues Theme speichern“ — der eigene Stand wird ein
+ * eigenes Theme, das andere bleibt unverändert (UX-07).
+ */
+export async function konfliktAlsNeuesTheme () {
+  const name = `${store.state.currentThemeMeta?.name || 'Theme'} (meine Fassung)`
+  zustand.konflikt = null
+  zustand.konfliktFremd = null
+  try {
+    store.state.currentThemeMeta = null
+    await store.speichereTheme(name, store.state.version || '1.0.0')
+    await nextTick()
+    merkeStand()
+    await vorschauNachziehen()
+    return true
+  } catch (err) {
+    await fehlerZeigen(err, 'Als neues Theme speichern')
+    return false
+  }
+}
+
 /** Konfliktdialog: „Neu laden“ — aktuellen Stand aus Drupal holen, eigene Änderungen verwerfen. */
 export async function neuLaden () {
   const id = store.state.currentThemeMeta?.id
   zustand.konflikt = null
+  zustand.konfliktFremd = null
   if (!id) return false
   try {
     const ok = await store.oeffneTheme(id)
@@ -286,6 +349,7 @@ export async function neuLaden () {
 /** Konfliktdialog: „Abbrechen“ — weiterarbeiten, nichts speichern. */
 export function konfliktAbbrechen () {
   zustand.konflikt = null
+  zustand.konfliktFremd = null
   zustand.status = 'ungespeichert'
   zustand.fehlerText = ''
 }
@@ -318,6 +382,17 @@ export async function loeschen (id) {
 
 /** Theme aktivieren (nur veröffentlichte, Recht „veröffentlichen“). */
 export async function aktivieren (id) {
+  // UX-05: Aktivieren stellt die Website für alle Besucher um — erst fragen
+  const t = store.state.savedThemes.find(x => x.id === id)
+  const bisher = store.state.savedThemes.find(x => x.aktiv)
+  const ok = await bestaetigen({
+    titel: 'Theme aktivieren?',
+    text: `Die Website zeigt danach allen Besuchern „${t?.name || id}“ im veröffentlichten Stand`
+      + (t?.veroeffentlichtAm ? ` vom ${new Date(t.veroeffentlichtAm).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}` : '')
+      + `. Es ersetzt ${bisher ? `„${bisher.name}“` : 'den NEO-Standard'}. Zurückwechseln geht jederzeit über die Theme-Auswahl.`,
+    bestaetigenText: 'Aktivieren',
+  })
+  if (!ok) return false
   try {
     await store.aktiviereTheme(id)
     return true
@@ -381,6 +456,9 @@ export function useDrupalBetrieb () {
     merkeStand,
     pruefeStand,
     neoStandardAktivieren,
+    meldeKonflikt,
+    konfliktUeberschreiben,
+    konfliktAlsNeuesTheme,
     neoAnsehen,
     neoAnsicht,
     vorschauUmschalten,
@@ -394,5 +472,5 @@ export function _zuruecksetzenDrupalBetrieb () {
   stoppen = null
   store = null
   basis = null
-  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '', vorschauAn: true, vorschauId: null, vorschauFehler: '' })
+  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, konfliktFremd: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '', vorschauAn: true, vorschauId: null, vorschauFehler: '' })
 }

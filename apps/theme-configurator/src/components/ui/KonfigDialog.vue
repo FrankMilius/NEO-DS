@@ -153,6 +153,7 @@ defineExpose({ dialogRef })
   padding: 12px 20px;
   border-top: 1px solid var(--cfg-border);
   flex-shrink: 0;
+  flex-wrap: wrap;   /* viele Knöpfe (Konfliktdialog) brechen um statt abgeschnitten zu werden */
 }
 .konfig-dialog-enter-active,
 .konfig-dialog-leave-active { transition: opacity 0.15s ease; }

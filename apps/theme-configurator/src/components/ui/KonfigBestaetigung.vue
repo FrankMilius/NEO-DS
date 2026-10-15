@@ -59,6 +59,6 @@ function bestaetigt () { anfrage.value?.erledigen(true) }
 .kb-knopf--sekundaer:hover { background: var(--cfg-surface-elevated); }
 .kb-knopf--primaer { background: var(--cfg-accent); color: var(--cfg-surface); border-color: var(--cfg-accent); }
 .kb-knopf--primaer:hover { opacity: 0.9; }
-.kb-knopf--gefahr { background: var(--cfg-danger); color: var(--cfg-surface); border-color: var(--cfg-danger); }
+.kb-knopf--gefahr { background: var(--cfg-danger); color: var(--fnd-color-on-danger, #000); border-color: var(--cfg-danger); }   /* on-danger statt Weiß: 6:1 statt 3:1 (15.10.2026) */
 .kb-knopf--gefahr:hover { opacity: 0.9; }
 </style>

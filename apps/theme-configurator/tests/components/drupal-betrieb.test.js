@@ -204,6 +204,61 @@ describe('Speichern, Status und Konfliktdialog (412)', () => {
     expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
   })
 
+  it('UX-07: Konfliktdialog nennt Zeit und Person; „Als neues Theme“ und „Meine Fassung speichern“ retten die Änderungen', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    sp.lade.mockResolvedValue({ meta: meta('t1', { hash: 'h-fremd', updatedAt: '2026-10-15T09:30:00.000Z', geaendertVon: 'Anna' }), daten: standardDaten(STANDARD), etag: '"h-fremd"' })
+    sp.speichere.mockRejectedValueOnce(new SpeicherFehler('veraltet', 'veraltet', { status: 412, aktuellEtag: '"h-fremd"' }))
+    const w = montiere(DrupalKonfliktDialog)
+    store.state.focusRingMode.customer = 'inset'   // eigene Änderung
+    await useDrupalBetrieb().speichern()
+    await flushPromises()
+    const dialog = w.find('[role="alertdialog"]')
+    expect(dialog.text()).toContain('von Anna')
+    expect(dialog.text()).toMatch(/am 15\.10\.2026/)
+    // „Meine Fassung speichern“: erst Warnung, dann mit dem ETag des fremden Stands
+    await knopf(w, 'konflikt-ueberschreiben').trigger('click')
+    expect(knopf(w, 'konflikt-warnung').text()).toContain('von Anna')
+    expect(sp.speichere).toHaveBeenCalledTimes(1)
+    sp.speichere.mockResolvedValueOnce({ meta: meta('t1'), etag: '"h-mein"' })
+    await knopf(w, 'konflikt-ueberschreiben').trigger('click')
+    await flushPromises()
+    expect(sp.speichere).toHaveBeenCalledTimes(2)
+    expect(sp.speichere.mock.calls[1][0].etag).toBe('"h-fremd"')
+    expect(sp.speichere.mock.calls[1][0].daten.focusRingMode.customer).toBe('inset')
+    expect(useDrupalBetrieb().zustand.konflikt).toBeNull()
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+
+    // „Als neues Theme speichern“: POST ohne id, Name mit „(meine Fassung)“
+    sp.speichere.mockRejectedValueOnce(new SpeicherFehler('veraltet', 'veraltet', { status: 412, aktuellEtag: '"h-x"' }))
+    store.state.focusRingMode.customer = 'offset'
+    await useDrupalBetrieb().speichern()
+    await flushPromises()
+    sp.speichere.mockResolvedValueOnce({ meta: { ...meta('neu'), name: 'Theme t1 (meine Fassung)' }, etag: '"h-neu"' })
+    await knopf(w, 'konflikt-als-neu').trigger('click')
+    await flushPromises()
+    const neu = sp.speichere.mock.calls.at(-1)[0]
+    expect(neu.meta.id).toBeUndefined()
+    expect(neu.meta.name).toBe('Theme t1 (meine Fassung)')
+    expect(store.state.currentThemeMeta.id).toBe('neu')
+  })
+
+  it('UX-06: beim Verlassen mit ungespeicherten Änderungen fragt der Browser nach', async () => {
+    vi.useFakeTimers()
+    try {
+      const sp = adapter()
+      setzeSpeicher(sp)
+      await geoeffnet(sp)
+      const ev = () => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e }
+      expect(ev().defaultPrevented).toBe(false)
+      store.state.focusRingMode.customer = store.state.focusRingMode.customer === 'inset' ? 'offset' : 'inset'
+      await nextTick(); vi.advanceTimersByTime(200)
+      expect(useDrupalBetrieb().zustand.status).toBe('ungespeichert')
+      expect(ev().defaultPrevented).toBe(true)
+    } finally { vi.useRealTimers() }
+  })
+
   it('ohne Drupal-Theme öffnet Speichern den Dialog „Als neues Theme speichern“', async () => {
     const sp = adapter()
     setzeSpeicher(sp)
@@ -231,16 +286,16 @@ describe('Speichern, Status und Konfliktdialog (412)', () => {
     await knopf(w, 'konflikt-abbrechen').trigger('click')
     expect(w.find('[role="alertdialog"]').exists()).toBe(false)
     expect(useDrupalBetrieb().zustand.status).toBe('ungespeichert')
-    expect(sp.lade).toHaveBeenCalledTimes(1)
 
     await useDrupalBetrieb().speichern()
     await nextTick()
     const geaendert = standardDaten(STANDARD)
     geaendert.focusRingMode.customer = 'inset'
     sp.lade.mockResolvedValue({ meta: meta('t1', { hash: 'h-neu' }), daten: geaendert, etag: '"h-neu"' })
+    const vorher = sp.lade.mock.calls.length
     await knopf(w, 'konflikt-neu-laden').trigger('click')
     await flushPromises()
-    expect(sp.lade).toHaveBeenCalledTimes(2)
+    expect(sp.lade.mock.calls.length).toBe(vorher + 1)
     expect(store.state.focusRingMode.customer).toBe('inset')
     expect(store.state.currentThemeMeta.etag).toBe('"h-neu"')
     expect(useDrupalBetrieb().zustand.konflikt).toBeNull()
@@ -301,9 +356,17 @@ describe('Theme-Auswahl', () => {
     // b Entwurf: Aktivieren gesperrt; c geändert seit Veröffentlichung: aktivierbar
     expect(zeilen[1].find('[data-test="drupal-aktivieren"]').attributes('disabled')).toBeDefined()
     expect(zeilen[2].find('[data-test="drupal-aktivieren"]').attributes('disabled')).toBeUndefined()
+    const best = montiere(KonfigBestaetigung)
     await zeilen[2].find('[data-test="drupal-aktivieren"]').trigger('click')
     await flushPromises()
+    // UX-05: erst Rückfrage, die das abgelöste Theme nennt
+    expect(sp.aktiviere).not.toHaveBeenCalled()
+    expect(best.text()).toContain('Theme aktivieren?')
+    expect(best.text()).toContain('Es ersetzt „Theme a“')
+    await best.find('[data-test="bestaetigung-ok"]').trigger('click')
+    await flushPromises()
     expect(sp.aktiviere).toHaveBeenCalledWith('c')
+    if (!w.find('li.dt-eintrag').exists()) await knopf(w, 'drupal-theme-auswahl').trigger('click')   // Liste schließt beim Dialog
     expect(w.findAll('li.dt-eintrag')[2].find('[data-test="drupal-loeschen"]').attributes('disabled')).toBeDefined()
 
     await w.findAll('li button.dt-oeffnen')[1].trigger('click')
@@ -482,7 +545,12 @@ describe('Veröffentlichen-Dialog', () => {
     const erfolg = knopf(w, 'veroeffentlichen-erfolg')
     expect(erfolg.text()).toContain('Veröffentlicht (CSS-Version 1)')
     expect(erfolg.text()).toContain('Theme-Library')
+    expect(knopf(w, 'veroeffentlichen-aktivieren').classes()).not.toContain('dk-knopf--primaer')   // UX-05: Sekundärknopf
+    const best = montiere(KonfigBestaetigung)
     await knopf(w, 'veroeffentlichen-aktivieren').trigger('click')
+    await flushPromises()
+    expect(sp.aktiviere).not.toHaveBeenCalled()
+    await best.find('[data-test="bestaetigung-ok"]').trigger('click')
     await flushPromises()
     expect(sp.aktiviere).toHaveBeenCalledWith('t1')
     expect(knopf(w, 'aktiviert-hinweis').exists()).toBe(true)

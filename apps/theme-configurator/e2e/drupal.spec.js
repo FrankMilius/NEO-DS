@@ -203,6 +203,7 @@ test('Korrigiertes Theme: Veröffentlichen und Aktivieren klappen', async ({ pag
   await expect(erfolg).toContainText('Veröffentlicht (CSS-Version 1)')
   await expect(erfolg).toContainText('Theme-Library')
   await erfolg.getByRole('button', { name: 'Jetzt aktivieren' }).click()
+  await page.getByRole('alertdialog', { name: 'Theme aktivieren?' }).getByRole('button', { name: 'Aktivieren' }).click()   // UX-05
   await expect(dialog.locator('[data-test="aktiviert-hinweis"]')).toBeVisible()
   await dialog.getByRole('button', { name: 'Schließen', exact: true }).click()
 
@@ -329,6 +330,7 @@ test('1.1.0: Umschalter „Neo / Customer“ ausgeblendet; neues Theme im Set �
   const dialog = page.getByRole('dialog', { name: 'Theme veröffentlichen' })
   await dialog.getByRole('button', { name: 'Veröffentlichen' }).click()
   await dialog.locator('[data-test="veroeffentlichen-erfolg"]').getByRole('button', { name: 'Jetzt aktivieren' }).click()
+  await page.getByRole('alertdialog', { name: 'Theme aktivieren?' }).getByRole('button', { name: 'Aktivieren' }).click()   // UX-05
   await dialog.getByRole('button', { name: 'Schließen', exact: true }).click()
   await page.locator('[data-test="drupal-theme-auswahl"]').click()
   const neo = page.locator('[data-test="drupal-neo-standard"]')

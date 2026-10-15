@@ -24,7 +24,7 @@
         den der Override in der Theme-Library des Frontend-Themes referenziert, und leert die Caches.
       </p>
       <div v-if="!aktiv && kannVeroeffentlichen">
-        <button type="button" class="dk-knopf dk-knopf--primaer" data-test="veroeffentlichen-aktivieren" :disabled="aktiviert" @click="jetztAktivieren">
+        <button type="button" class="dk-knopf" data-test="veroeffentlichen-aktivieren" :disabled="aktiviert" @click="jetztAktivieren">
           {{ aktiviert ? 'Aktiviert' : 'Jetzt aktivieren' }}
         </button>
       </div>
@@ -148,7 +148,7 @@ async function veroeffentlichen () {
   } catch (e) {
     if (e?.art === 'veraltet') {
       schliessen()
-      betrieb.zustand.konflikt = e
+      betrieb.meldeKonflikt(e)
       return
     }
     if (e?.art === 'ungueltig' && e.details?.kontrast) {
