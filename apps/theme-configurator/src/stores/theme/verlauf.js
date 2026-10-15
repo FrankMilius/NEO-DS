@@ -156,15 +156,17 @@ export const VERLAUF_AKTIONEN = [
   'updateSemanticToken',
   'updateSemanticTypography',
   'updateTypeScale',
+  'zeigeNeoStandard',
 ]
 
 /**
  * Aktionen, die im Drupal-Betrieb ohne Recht „bearbeiten“ gesperrt sind
  * (Plan v2, 2.6; stores/plugins/schreibschutz.js): alle Undo-Aktionen außer
- * Öffnen/Laden — ansehen darf man jedes Theme.
+ * Öffnen/Laden — ansehen darf man jedes Theme. Anlegen prüft sein Recht
+ * selbst und beendet „NEO ansehen“ (15.10.2026).
  */
 export const SCHREIBSCHUTZ_AKTIONEN = VERLAUF_AKTIONEN.filter(
-  (a) => !['oeffneTheme', 'loadTheme', 'loadNeoDefaults'].includes(a)
+  (a) => !['oeffneTheme', 'loadTheme', 'loadNeoDefaults', 'zeigeNeoStandard', 'legeThemeAusStandardAn'].includes(a)
 )
 
 function datenJson() {

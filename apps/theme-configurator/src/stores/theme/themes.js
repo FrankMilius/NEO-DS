@@ -579,3 +579,16 @@ export async function beendeWebsiteVorschau() {
   if (!sp.faehigkeiten.vorschau) return
   await sp.beendeVorschau()
 }
+
+/**
+ * NEO Design System (Standard) laden, ohne Theme (nur Drupal): Werte des
+ * aktuellen NEO-Standards im Set „neo“ — zum Ansehen. Ein Undo-Schritt.
+ */
+export async function zeigeNeoStandard() {
+  const sp = speicher()
+  if (sp.art === 'lokal') return loadNeoDefaults()
+  const datei = await sp.ladeStandard()
+  applyThemeData({ ...standardDaten(datei), activeThemeSet: 'neo' })
+  state.currentThemeMeta = null
+  return true
+}

@@ -41,7 +41,9 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .03em;
-  opacity: .5;
+  /* Vorher: opacity .5 auf #555555 — dunkle Schrift auf Mittelgrau, kaum
+     lesbar (Befund Frank, 15.10.2026). Jetzt Text- und Flächenfarbe der App. */
+  color: var(--arena-label-text, var(--cfg-text-secondary));
   padding: 4px 8px;
   border-radius: 4px;
   background: var(--arena-label-bg, transparent);

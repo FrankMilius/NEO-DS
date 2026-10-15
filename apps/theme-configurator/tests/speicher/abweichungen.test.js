@@ -104,7 +104,12 @@ describe('abweichungenBerechnen / zusammenfuehren', () => {
     expect(abw.componentOverrides).toEqual({ customer: { 'nc-button-accent-bg': '#0b5cad' } })
     expect(abw.iconLibraries.customer).toHaveLength(1)           // Listen als Ganzes
     expect(abw.themes.neo).toBeUndefined()
-    expect(JSON.stringify(abw).length).toBeLessThan(JSON.stringify(stand).length / 20)
+    // Seit 15.10.2026 zieht Primary die semantischen Farben mit, die auf eine
+    // Stufe der Graphit-Leiter zeigen (hell und dunkel) — das sind Abweichungen
+    expect(abw.themes.customer.light['text-primary']).toBe(store.state.themes.customer.light['text-primary'])
+    expect(abw.themes.customer.light['text-primary']).not.toBe(standard().themes.customer.light['text-primary'])
+    expect(abw.themes.customer.dark).toBeTruthy()
+    expect(JSON.stringify(abw).length).toBeLessThan(JSON.stringify(stand).length / 4)
   })
 
   it('Roundtrip mit entfernten Schluesseln, Typwechseln, null und neuen Schluesseln', () => {

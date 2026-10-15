@@ -23,6 +23,7 @@ import { nextTick, reactive, toRaw, watch } from 'vue'
 import { darf, kanonischesJson, meldungFuer, speicher } from '../speicher/index.js'
 import { THEME_DATA_KEYS } from '../stores/theme/theme-schluessel.js'
 import { bestaetigen, hinweisen } from './useBestaetigung.js'
+import { neoAnsicht } from './neoAnsicht.js'
 
 /** localStorage: { id, abdruck } des zuletzt gespeicherten bzw. geöffneten Stands */
 export const STAND_SCHLUESSEL = 'neo-theme-configurator-drupal-stand'
@@ -194,7 +195,7 @@ export async function speichern () {
     return false
   }
   if (!store.state.currentThemeMeta?.id) {
-    zustand.anlegen = { vomStandard: false }
+    zustand.anlegen = { vomStandard: neoAnsicht.value }
     return false
   }
   zustand.status = 'speichert'
@@ -217,6 +218,8 @@ export async function speichern () {
 
 /** Neues Theme anlegen (vom NEO-Standard oder aus dem aktuellen Stand). */
 export async function anlegen ({ name, version, vomStandard }) {
+  const warNeo = neoAnsicht.value
+  neoAnsicht.value = false   // Anlegen beendet „NEO ansehen“ (vorher, sonst greift der Schreibschutz)
   try {
     if (vomStandard) {
       await store.legeThemeAusStandardAn(name, version)
@@ -230,6 +233,7 @@ export async function anlegen ({ name, version, vomStandard }) {
     await vorschauNachziehen()
     return true
   } catch (e) {
+    neoAnsicht.value = warNeo
     await fehlerZeigen(e, 'Anlegen')
     return false
   }
@@ -250,6 +254,7 @@ export async function oeffnen (id) {
   if (store.state.currentThemeMeta?.id === id && zustand.status === 'gespeichert') return true
   if (!(await verwerfenErlaubt('Deine Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Öffnen eines anderen Themes gehen sie verloren.'))) return false
   try {
+    neoAnsicht.value = false
     const ok = await store.oeffneTheme(id)
     if (!ok) { await hinweisen({ titel: 'Nicht gefunden', text: 'Das Theme wurde nicht gefunden — vielleicht hat es jemand gelöscht.' }); await ladeKatalog(); return false }
     await nextTick()
@@ -322,6 +327,29 @@ export async function aktivieren (id) {
   }
 }
 
+/**
+ * NEO Design System (Standard) ansehen (Befund Frank 15.10.2026): lädt den
+ * aktuellen NEO-Standard ohne Theme, Editoren gesperrt. Die eigene
+ * Website-Vorschau endet — die Website zeigt dann, was Besucher sehen.
+ */
+export async function neoAnsehen () {
+  if (neoAnsicht.value && !store.state.currentThemeMeta?.id) return true
+  if (!(await verwerfenErlaubt('Deine Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Wechsel zum NEO-Standard gehen sie verloren.'))) return false
+  try {
+    await store.zeigeNeoStandard()
+    neoAnsicht.value = true
+    await nextTick()
+    merkeStand()
+    if (zustand.vorschauAn && darf('bearbeiten')) {
+      try { await store.beendeWebsiteVorschau(); zustand.vorschauId = null } catch { /* Vorschau bleibt */ }
+    }
+    return true
+  } catch (e) {
+    await fehlerZeigen(e, 'NEO-Standard laden')
+    return false
+  }
+}
+
 /** NEO-Standard aktivieren: kein Theme aktiv, die Website zeigt reines NEO. */
 export async function neoStandardAktivieren () {
   const ok = await bestaetigen({
@@ -353,6 +381,8 @@ export function useDrupalBetrieb () {
     merkeStand,
     pruefeStand,
     neoStandardAktivieren,
+    neoAnsehen,
+    neoAnsicht,
     vorschauUmschalten,
     vorschauNachziehen,
   }

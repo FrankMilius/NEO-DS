@@ -8,6 +8,7 @@ import { state } from './kern.js'
 import { semanticDefaults } from '../../data/tokens.js'
 import { erzeugeThemeDtcg, ladeDtcgGrundlagen, themeDatenAusState } from '../../export/dtcg.js'
 import { extractComponentId } from './komponenten.js'
+import { palettenCss } from '../../utils/farbskala.js'
 
 // ---------------------------------------------------------------------------
 // Export as CSS custom properties
@@ -62,6 +63,9 @@ export function exportAsCSSVars(opt = {}) {
     lines.push(`/* === Schriften (Google Fonts) === */`)
     lines.push(...importe, '')
   }
+
+  // === Haupt-Paletten (Skalen der Website, nur wenn geändert) ===
+  lines.push(...palettenCss(state.primitiveOverrides[themeSet]))
 
   // === Base Theme (Light / Dark) ===
   for (const [modus, titel] of [['light', 'Light'], ['dark', 'Dark']]) {

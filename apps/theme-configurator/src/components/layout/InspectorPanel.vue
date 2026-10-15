@@ -109,7 +109,7 @@
     <!-- Sektion → Inspector-Bloecke aus der Registry (src/navigation/sektionen.js) -->
     <!-- Drupal-Betrieb ohne Recht „bearbeiten“ (Plan v2, 2.6): Editoren gesperrt -->
     <fieldset v-if="inspectorBloecke.length && nurAnsicht" disabled class="inspector-nur-ansicht" data-test="inspector-nur-ansicht">
-      <legend class="inspector-nur-ansicht__legende">Nur Ansicht – Bearbeiten nicht erlaubt</legend>
+      <legend class="inspector-nur-ansicht__legende">{{ neoAnsicht ? 'NEO Design System – nur ansehen' : 'Nur Ansicht – Bearbeiten nicht erlaubt' }}</legend>
       <component
         v-for="(block, i) in inspectorBloecke"
         :key="sektion.schluessel + ':' + i"
@@ -143,9 +143,11 @@ import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
 import { darf, speicher } from '../../speicher/index.js'
+import { neoAnsicht } from '../../composables/neoAnsicht.js'
 
 // Drupal-Betrieb ohne Recht „bearbeiten“: Editoren per <fieldset disabled> sperren
-const nurAnsicht = speicher().art === 'drupal' && !darf('bearbeiten')
+// Gesperrt ohne Recht „bearbeiten“ und beim Ansehen des NEO-Standards (15.10.2026)
+const nurAnsicht = computed(() => speicher().art === 'drupal' && (!darf('bearbeiten') || neoAnsicht.value))
 
 const store = useThemeStore()
 const activeSection = computed(() => store.state.activeSection)

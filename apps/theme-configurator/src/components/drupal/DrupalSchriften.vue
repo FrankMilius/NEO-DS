@@ -86,6 +86,7 @@
  * Zuweisen setzt --font-body / --font-heading / --font-mono des Themes.
  */
 import { computed, onMounted, reactive, ref } from 'vue'
+import { ladeServerSchriften, serverSchriften, serverSchriftenFehler, uebernehmeSchriften } from '../../composables/useServerSchriften.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { darf, meldungFuer, speicher } from '../../speicher/index.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
@@ -107,10 +108,8 @@ const ROLLEN = [
   { id: 'mono', label: 'Mono', token: 'font-mono' },
 ]
 const GEWICHTE = [100, 200, 300, 400, 500, 600, 700, 800, 900]
-const LINK_ID = 'neo-konfigurator-schriften'
-
-const familien = ref([])
-const ladeFehler = ref('')
+const familien = serverSchriften
+const ladeFehler = serverSchriftenFehler
 const laedt = ref(false)
 const meldung = ref('')
 const dateiRef = ref(null)
@@ -129,32 +128,8 @@ function zuweisen (familie, token) {
   store.updateFoundationToken('typography', token, wert(familie, token))
 }
 
-/** @font-face-Datei von Drupal in die App einhängen (neue URL je Stand). */
-function cssEinhaengen (url) {
-  if (!url || typeof document === 'undefined') return
-  let link = document.getElementById(LINK_ID)
-  if (!link) {
-    link = document.createElement('link')
-    link.id = LINK_ID
-    link.rel = 'stylesheet'
-    document.head.appendChild(link)
-  }
-  if (link.getAttribute('href') !== url) link.setAttribute('href', url)
-}
-
-function uebernehmen (antwort) {
-  familien.value = antwort?.schriften || []
-  cssEinhaengen(antwort?.cssUrl)
-}
-
-async function laden () {
-  try {
-    uebernehmen(await speicher().schriften())
-    ladeFehler.value = ''
-  } catch (e) {
-    ladeFehler.value = meldungFuer(e, 'Laden der Schriften').titel
-  }
-}
+const uebernehmen = uebernehmeSchriften
+const laden = () => ladeServerSchriften(true)
 
 function dateiGewaehlt (ev) {
   const datei = ev.target.files?.[0] || null

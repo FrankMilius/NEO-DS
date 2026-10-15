@@ -15,16 +15,27 @@
 
 import { darf, speicher } from '../../speicher/index.js'
 import { hinweisen } from '../../composables/useBestaetigung.js'
+import { neoAnsicht } from '../../composables/neoAnsicht.js'
 
-/** true im Drupal-Betrieb ohne Recht „bearbeiten“. */
+/** true im Drupal-Betrieb ohne Recht „bearbeiten“ oder beim Ansehen des NEO-Standards. */
 export function istSchreibgeschuetzt () {
   const sp = speicher()
-  return sp.art === 'drupal' && !darf('bearbeiten', sp)
+  return sp.art === 'drupal' && (!darf('bearbeiten', sp) || neoAnsicht.value)
 }
 
 let gemeldet = false
+let neoGemeldet = false
 
 function melde () {
+  if (neoAnsicht.value && darf('bearbeiten')) {
+    if (neoGemeldet) return
+    neoGemeldet = true
+    hinweisen({
+      titel: 'NEO Design System – nur ansehen',
+      text: 'Den NEO-Standard ändert man im Design System, nicht hier. Für eigene Änderungen ein Theme öffnen oder „Neu anlegen“ (startet als Kopie von NEO).',
+    })
+    return
+  }
   if (gemeldet) return
   gemeldet = true
   hinweisen({
@@ -49,4 +60,4 @@ export function schreibschutzPlugin ({ store, options }) {
 }
 
 /** Nur für Tests: Hinweis wieder zulassen. */
-export function _zuruecksetzenSchreibschutz () { gemeldet = false }
+export function _zuruecksetzenSchreibschutz () { gemeldet = false; neoGemeldet = false; neoAnsicht.value = false }

@@ -1,5 +1,12 @@
 <template>
-  <div v-if="!kannBearbeiten" class="drh" role="status" data-test="nur-ansicht">
+  <div v-if="kannBearbeiten && neoAnsicht" class="drh" role="status" data-test="neo-ansicht">
+    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    <p class="drh-text">
+      <strong>NEO Design System (Standard)</strong> – nur ansehen. So sieht die Basis jedes Themes aus;
+      ändern lässt sie sich hier nicht. Für eigene Änderungen ein Theme öffnen oder „Neu anlegen“.
+    </p>
+  </div>
+  <div v-else-if="!kannBearbeiten" class="drh" role="status" data-test="nur-ansicht">
     <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
     <p class="drh-text">
       <strong>Nur Ansicht</strong> – dir fehlt das Recht ‚bearbeiten‘. Du kannst Themes öffnen und ansehen;
@@ -9,8 +16,12 @@
 </template>
 
 <script setup>
-/** Banner im Drupal-Betrieb ohne Recht „bearbeiten“ (Plan v2, 2.6, Teil 2). */
+/**
+ * Banner im Drupal-Betrieb ohne Recht „bearbeiten“ (Plan v2, 2.6, Teil 2)
+ * und beim Ansehen des NEO-Standards (15.10.2026).
+ */
 import { darf } from '../../speicher/index.js'
+import { neoAnsicht } from '../../composables/neoAnsicht.js'
 const kannBearbeiten = darf('bearbeiten')
 </script>
 

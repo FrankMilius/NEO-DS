@@ -4,6 +4,7 @@
 
 import { getDefaultFoundation, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
+import { MITZIEHENDE_PALETTEN, paletteSkala, zieheMit } from '../../utils/farbskala.js'
 
 export function updateSemanticToken(tokenId, value) {
   const mode = state.previewMode === 'split' ? 'light' : state.previewMode
@@ -373,6 +374,21 @@ export function resetTypeScale() {
 
 // ---------------------------------------------------------------------------
 
+/**
+ * Haupt-Palette ändern. Primary und Accent ziehen die semantischen Farben
+ * mit, die auf eine Stufe der Palette zeigen (hell und dunkel) — so wirkt
+ * die Änderung in der Vorschau, im veröffentlichten CSS und auf der Website
+ * gleich (Befund Frank 15.10.2026). Eigene semantische Werte bleiben.
+ */
 export function updatePrimitive(palette, color) {
-  state.primitiveOverrides[state.activeThemeSet][palette] = color
+  const themeSet = state.activeThemeSet
+  const neu = String(color || '').trim().toLowerCase()
+  if (!/^#[0-9a-f]{6}$/.test(neu)) return
+  const alt = state.primitiveOverrides[themeSet][palette]
+  if (MITZIEHENDE_PALETTEN.includes(palette) && String(alt || '').toLowerCase() !== neu) {
+    const altSkala = paletteSkala(palette, alt)
+    const neuSkala = paletteSkala(palette, neu)
+    for (const modus of ['light', 'dark']) zieheMit(state.themes[themeSet][modus], altSkala, neuSkala)
+  }
+  state.primitiveOverrides[themeSet][palette] = neu
 }

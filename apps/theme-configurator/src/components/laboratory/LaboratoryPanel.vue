@@ -167,7 +167,7 @@ watch(isFullscreen, (val) => {
 const viewportStyle = computed(() => {
   // Viewport bleibt immer neutral — Theme-Wechsel nur in den arena-specimen Panels
   const base = { background: 'var(--cfg-bg)', color: 'var(--cfg-text)' }
-  base['--arena-label-bg'] = '#555555'
+  base['--arena-label-bg'] = 'color-mix(in srgb, var(--cfg-text) 7%, transparent)'
   if (activeBreakpoint.value !== null) {
     const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
     if (bp) base['--bp-max-width'] = bp.width + 'px'

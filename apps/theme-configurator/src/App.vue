@@ -1,7 +1,7 @@
 <template>
-  <div class="app-shell" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'mit-hinweis': nurAnsicht }">
+  <div class="app-shell" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'mit-hinweis': mitHinweis }">
     <AppHeader @toggle-sidebar="toggleSidebar" :sidebarCollapsed="sidebarCollapsed" />
-    <DrupalRechteHinweis v-if="nurAnsicht" />
+    <DrupalRechteHinweis v-if="mitHinweis" />
     <div class="app-body">
       <SidebarNav :collapsed="sidebarCollapsed" @toggle="toggleSidebar" />
       <ErrorBoundary panelLabel="Laboratory">
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useThemeStore } from './stores/theme.js'
 import { useStyleguideSync } from './stores/styleguide-sync.js'
 import AppHeader from './components/layout/AppHeader.vue'
@@ -31,6 +31,7 @@ import { starteHashRouter } from './navigation/hash-router.js'
 import DrupalRechteHinweis from './components/drupal/DrupalRechteHinweis.vue'
 import { darf, speicher } from './speicher/index.js'
 import { starteDrupalBetrieb } from './composables/useDrupalBetrieb.js'
+import { neoAnsicht } from './composables/neoAnsicht.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -39,6 +40,8 @@ const sync = useStyleguideSync()
 // ohne Recht „bearbeiten“ nur Ansicht. Lokal bleibt alles wie bisher.
 const drupal = speicher().art === 'drupal'
 const nurAnsicht = drupal && !darf('bearbeiten')
+// Hinweisleiste: ohne Recht „bearbeiten“ oder beim Ansehen des NEO-Standards
+const mitHinweis = computed(() => nurAnsicht || (drupal && neoAnsicht.value))
 let stoppeDrupal = null
 
 // Sidebar collapse state (persisted)

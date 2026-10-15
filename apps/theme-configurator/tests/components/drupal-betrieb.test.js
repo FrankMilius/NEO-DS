@@ -306,7 +306,7 @@ describe('Theme-Auswahl', () => {
     expect(sp.aktiviere).toHaveBeenCalledWith('c')
     expect(w.findAll('li.dt-eintrag')[2].find('[data-test="drupal-loeschen"]').attributes('disabled')).toBeDefined()
 
-    await w.findAll('button.dt-oeffnen')[1].trigger('click')
+    await w.findAll('li button.dt-oeffnen')[1].trigger('click')
     await flushPromises()
     expect(sp.lade).toHaveBeenCalledWith('b')
     expect(store.state.currentThemeMeta.id).toBe('b')
@@ -350,6 +350,41 @@ describe('Theme-Auswahl', () => {
     await knopf(w, 'drupal-theme-auswahl').trigger('click')
     expect(knopf(w, 'drupal-neo-standard').text()).toContain('aktiv')
     expect(knopf(w, 'drupal-neo-aktivieren').exists()).toBe(false)
+  })
+
+  it('NEO ansehen (15.10.2026): lädt den Standard ohne Theme, sperrt Änderungen, Öffnen beendet es', async () => {
+    const sp = adapter({
+      faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true },
+      beendeVorschau: vi.fn(async () => {}),
+    })
+    sp.liste.mockResolvedValue([meta('a', { status: 'veroeffentlicht' })])
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    store.state.themes.neo.light['text-link'] = '#123456'
+    useDrupalBetrieb().merkeStand()
+    const w = montiere(DrupalThemeAuswahl)
+    await knopf(w, 'drupal-theme-auswahl').trigger('click')
+    await knopf(w, 'drupal-neo-oeffnen').trigger('click')
+    await flushPromises()
+    expect(useDrupalBetrieb().neoAnsicht.value).toBe(true)
+    expect(store.state.currentThemeMeta).toBeNull()
+    expect(store.state.activeThemeSet).toBe('neo')
+    expect(store.state.themes.neo.light['text-link']).toBe(STANDARD.themes.neo.light['text-link'])
+    expect(sp.beendeVorschau).toHaveBeenCalled()
+    expect(knopf(w, 'drupal-theme-auswahl').text()).toContain('NEO Design System (ansehen)')
+    // Schreibschutz: Änderungen kommen nicht an
+    const vorher = store.state.primitiveOverrides.neo.accent
+    store.updatePrimitive('accent', '#e06060')
+    expect(store.state.primitiveOverrides.neo.accent).toBe(vorher)
+    // Speichern bietet „Neu anlegen“ vom Standard an
+    await useDrupalBetrieb().speichern()
+    expect(useDrupalBetrieb().zustand.anlegen).toEqual({ vomStandard: true })
+    useDrupalBetrieb().zustand.anlegen = null
+    // Theme öffnen beendet die Ansicht
+    await useDrupalBetrieb().oeffnen('a')
+    expect(useDrupalBetrieb().neoAnsicht.value).toBe(false)
+    store.updatePrimitive('accent', '#e06060')
+    expect(store.state.primitiveOverrides.neo.accent).toBe('#e06060')
   })
 
   it('Website-Vorschau (1.1.0): nach Speichern gesetzt, Schalter beendet sie und merkt sich das', async () => {

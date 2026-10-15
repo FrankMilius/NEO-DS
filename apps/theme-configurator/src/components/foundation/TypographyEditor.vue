@@ -16,8 +16,12 @@
         <span v-else class="theme-name-badge">{{ currentThemeName }}</span>
       </h3>
       <p v-if="isDefaultNeo" class="sub-desc">NEO Design System default fonts — Manrope (body), Space Grotesk (headings), JetBrains Mono (meta layer: eyebrows, table heads, counters, code).</p>
+      <p v-else-if="buehne" class="sub-desc">
+        Schriften dieses Themes je Rolle. Ändern im Inspector rechts.
+      </p>
       <p v-else class="sub-desc">
-        Override font families for this theme. Assign a role (Body, Heading, Mono) or add custom font families.
+        Jede Rolle steuert einen Teil der Website. Schrift je Rolle wählen — aus NEO, System, Google
+        oder vom Server. Neue Schriften erst unten hinzufügen (Google) bzw. hochladen (Server).
       </p>
 
       <!-- Default NEO: Read-only font cards -->
@@ -34,134 +38,170 @@
         </div>
       </div>
 
-      <!-- Non-default: Editable font cards -->
-      <div v-else class="font-cards">
-        <!-- Active theme font assignments (body, heading, mono) -->
-        <div v-for="font in activeFonts" :key="font.id" class="font-card">
-          <div class="font-preview" :style="{ fontFamily: font.value }">
-            <span class="font-sample">Aa Bb Cc 123</span>
-          </div>
-          <div class="font-info">
-            <span class="font-role-badge">{{ font.role }}</span>
-            <div class="font-edit-row">
-              <input :aria-label="`Schrift ${font.role}`"
-                type="text"
-                class="font-input"
-                :value="font.value"
-                @change="updateFontFamily(font.tokenKey, $event.target.value)"
-                :placeholder="font.placeholder"
-              />
+      <!-- Theme: Rollen zuweisen (Befund Frank 15.10.2026: Auswahl statt
+           Freitext, Wirkung je Rolle, Bühne nur Anzeige) -->
+      <template v-else>
+        <div class="font-cards">
+          <div v-for="font in activeFonts" :key="font.id" class="font-card" :data-test="`schrift-rolle-${font.id}`">
+            <div class="font-preview" :style="{ fontFamily: font.value }">
+              <span class="font-sample">Aa Bb Cc 123</span>
             </div>
-            <code class="font-value">--fnd-{{ font.tokenKey }}</code>
-          </div>
-        </div>
-
-        <!-- Custom font families for this theme -->
-        <div
-          v-for="font in customFonts"
-          :key="font.id"
-          class="font-card"
-        >
-          <div class="font-preview" :style="{ fontFamily: font.family }">
-            <span class="font-sample">Aa Bb Cc 123</span>
-          </div>
-          <div class="font-info">
-            <span class="font-role-badge font-role-badge--custom">Custom</span>
-            <div class="font-edit-row">
-              <input aria-label="Name der eigenen Schrift"
-                type="text"
-                class="font-input font-input--name"
-                :value="font.name"
-                @change="updateCustomFontName(font.id, $event.target.value)"
-                placeholder="Font name"
-              />
-              <button
-                class="btn-remove"
-                @click="removeCustomFont(font.id)"
-                title="Remove font family"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
-                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                </svg>
-              </button>
+            <div class="font-info">
+              <span class="font-role-badge">{{ font.role }}</span>
+              <p class="font-wirkung">{{ font.wirkung }}</p>
+              <template v-if="!buehne">
+                <label class="font-select-label" :for="`schrift-wahl-${font.id}`">Schrift</label>
+                <select
+                  :id="`schrift-wahl-${font.id}`"
+                  class="font-select"
+                  :value="auswahlWert(font)"
+                  @change="waehleSchrift(font, $event.target.value)"
+                >
+                  <optgroup v-for="g in schriftGruppen(font)" :key="g.label" :label="g.label">
+                    <option v-for="o in g.optionen" :key="g.label + o.familie" :value="o.familie">{{ o.familie }}{{ o.zusatz ? ` – ${o.zusatz}` : '' }}</option>
+                  </optgroup>
+                  <option v-if="auswahlWert(font) === EIGENE" :value="EIGENE">Eigene Angabe (siehe unten)</option>
+                </select>
+                <details class="font-eigene" :open="auswahlWert(font) === EIGENE">
+                  <summary>Eigene Angabe (Font-Stack)</summary>
+                  <input :aria-label="`Font-Stack ${font.role}`"
+                    type="text"
+                    class="font-input"
+                    :value="font.value"
+                    @change="updateFontFamily(font.tokenKey, $event.target.value)"
+                    :placeholder="font.placeholder"
+                  />
+                </details>
+              </template>
+              <code v-else class="font-value font-value--stack">{{ font.value }}</code>
+              <code class="font-value">{{ font.cssVar }}</code>
             </div>
-            <div class="font-edit-row">
-              <input aria-label="Schriftfamilie (Font Stack)"
-                type="text"
-                class="font-input"
-                :value="font.family"
-                @change="updateCustomFontFamily(font.id, $event.target.value)"
-                placeholder="Font stack, e.g. Inter, sans-serif"
-              />
-            </div>
-            <div class="font-edit-row">
-              <label class="font-url-label">Google Fonts URL (optional)</label>
-              <input aria-label="Google Fonts URL"
-                type="text"
-                class="font-input font-input--url"
-                :value="font.url"
-                @change="updateCustomFontUrl(font.id, $event.target.value)"
-                placeholder="https://fonts.googleapis.com/css2?family=..."
-              />
-            </div>
-            <code class="font-value">{{ font.family.split(',')[0].trim() }}</code>
           </div>
         </div>
 
-        <!-- Add Font Family Card -->
-        <div class="font-card add-font-card">
-          <template v-if="!showAddForm">
-            <button class="add-font-btn" @click="showAddForm = true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              <span>Add Font Family</span>
-            </button>
-          </template>
-          <template v-else>
-            <div class="add-form">
-              <label class="add-form-label">Font Name</label>
-              <input aria-label="Font Name"
-                ref="addFontNameInput"
-                type="text"
-                class="font-input"
-                v-model="newFontName"
-                placeholder="e.g. Inter"
-                @keyup.enter="addCustomFont"
-                @keyup.escape="cancelAddFont"
-              />
-              <label class="add-form-label">Font Stack</label>
-              <input aria-label="Font Stack"
-                type="text"
-                class="font-input"
-                v-model="newFontFamily"
-                placeholder="e.g. Inter, Helvetica Neue, sans-serif"
-                @keyup.enter="addCustomFont"
-                @keyup.escape="cancelAddFont"
-              />
-              <label class="add-form-label">Google Fonts URL (optional)</label>
-              <input aria-label="Google Fonts URL"
-                type="text"
-                class="font-input font-input--url"
-                v-model="newFontUrl"
-                placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-                @keyup.enter="addCustomFont"
-                @keyup.escape="cancelAddFont"
-              />
-              <!-- Live preview -->
-              <div v-if="newFontFamily.trim()" class="add-font-preview" :style="{ fontFamily: newFontFamily }">
-                <span class="font-sample">Aa Bb Cc Dd 1234</span>
+        <!-- Google-Schriften: hinzufügen, dann einer Rolle zuweisen -->
+        <template v-if="!buehne">
+          <h4 class="font-untertitel">Google-Schriften</h4>
+          <p class="sub-desc">
+            Schrift von Google Fonts einbinden: Name, Font-Stack und Adresse eintragen. Wirksam wird sie erst,
+            wenn sie einer Rolle zugewiesen ist (Auswahl oben oder „Als …“). Auf der Website lädt der Browser
+            der Besucher sie dann bei Google. Ohne Verbindung nach außen: Schriften auf dem Server nutzen.
+          </p>
+          <div class="font-cards">
+            <div v-for="font in customFonts" :key="font.id" class="font-card" :data-test="`google-schrift-${font.name}`">
+              <div class="font-preview" :style="{ fontFamily: font.family }">
+                <span class="font-sample">Aa Bb Cc 123</span>
               </div>
-              <div class="add-form-actions">
-                <button class="btn-add-confirm" @click="addCustomFont" :disabled="!newFontName.trim() || !newFontFamily.trim()">Add</button>
-                <button class="btn-add-cancel" @click="cancelAddFont">Cancel</button>
+              <div class="font-info">
+                <span class="font-role-badge font-role-badge--custom">Google</span>
+                <div class="font-edit-row">
+                  <input aria-label="Name der eigenen Schrift"
+                    type="text"
+                    class="font-input font-input--name"
+                    :value="font.name"
+                    @change="updateCustomFontName(font.id, $event.target.value)"
+                    placeholder="Font name"
+                  />
+                  <button
+                    class="btn-remove"
+                    @click="removeCustomFont(font.id)"
+                    :aria-label="`${font.name} entfernen`"
+                    title="Schrift entfernen"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
+                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="font-edit-row">
+                  <input aria-label="Schriftfamilie (Font Stack)"
+                    type="text"
+                    class="font-input"
+                    :value="font.family"
+                    @change="updateCustomFontFamily(font.id, $event.target.value)"
+                    placeholder="Font stack, e.g. Inter, sans-serif"
+                  />
+                </div>
+                <div class="font-edit-row">
+                  <label class="font-url-label">Google Fonts URL</label>
+                  <input aria-label="Google Fonts URL"
+                    type="text"
+                    class="font-input font-input--url"
+                    :value="font.url"
+                    @change="updateCustomFontUrl(font.id, $event.target.value)"
+                    placeholder="https://fonts.googleapis.com/css2?family=..."
+                  />
+                </div>
+                <div class="font-rollen" role="group" :aria-label="`${font.name} verwenden als`">
+                  <button
+                    v-for="r in activeFonts"
+                    :key="r.id"
+                    type="button"
+                    class="font-rolle-btn"
+                    :aria-pressed="ersteFamilie(r.value) === ersteFamilie(font.family) ? 'true' : 'false'"
+                    :data-test="`google-schrift-rolle-${r.id}`"
+                    @click="weiseZu(r, ersteFamilie(font.family))"
+                  >Als {{ r.role }}</button>
+                </div>
               </div>
             </div>
-          </template>
-        </div>
-      </div>
+
+            <!-- Add Font Family Card -->
+            <div class="font-card add-font-card">
+              <template v-if="!showAddForm">
+                <button class="add-font-btn" @click="showAddForm = true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <span>Google-Schrift hinzufügen</span>
+                </button>
+              </template>
+              <template v-else>
+                <div class="add-form">
+                  <label class="add-form-label">Font Name</label>
+                  <input aria-label="Font Name"
+                    ref="addFontNameInput"
+                    type="text"
+                    class="font-input"
+                    v-model="newFontName"
+                    placeholder="e.g. Inter"
+                    @keyup.enter="addCustomFont"
+                    @keyup.escape="cancelAddFont"
+                  />
+                  <label class="add-form-label">Font Stack</label>
+                  <input aria-label="Font Stack"
+                    type="text"
+                    class="font-input"
+                    v-model="newFontFamily"
+                    placeholder="e.g. Inter, Helvetica Neue, sans-serif"
+                    @keyup.enter="addCustomFont"
+                    @keyup.escape="cancelAddFont"
+                  />
+                  <label class="add-form-label">Google Fonts URL</label>
+                  <input aria-label="Google Fonts URL"
+                    type="text"
+                    class="font-input font-input--url"
+                    v-model="newFontUrl"
+                    placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+                    @keyup.enter="addCustomFont"
+                    @keyup.escape="cancelAddFont"
+                  />
+                  <!-- Live preview -->
+                  <div v-if="newFontFamily.trim()" class="add-font-preview" :style="{ fontFamily: newFontFamily }">
+                    <span class="font-sample">Aa Bb Cc Dd 1234</span>
+                  </div>
+                  <div class="add-form-actions">
+                    <button class="btn-add-confirm" @click="addCustomFont" :disabled="!newFontName.trim() || !newFontFamily.trim()">Add</button>
+                    <button class="btn-add-cancel" @click="cancelAddFont">Cancel</button>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </template>
     </section>
 
     <!-- Lokale Schriften aus Drupal (Vertrag 1.1.0): hochgeladen oder Server-Ordner -->
@@ -270,6 +310,7 @@ import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
 import { speicher } from '../../speicher/index.js'
 import DrupalSchriften from '../drupal/DrupalSchriften.vue'
+import { ladeServerSchriften, serverSchriften } from '../../composables/useServerSchriften.js'
 
 const drupalBetrieb = speicher().art === 'drupal'
 // Auf der Bühne (TypografieBuehne) erscheint der Editor ein zweites Mal —
@@ -303,33 +344,84 @@ const defaultFonts = [
 // ---------------------------------------------------------------------------
 // Active theme font families (editable for non-default)
 // ---------------------------------------------------------------------------
+const ROLLEN_WIRKUNG = {
+  body: 'Wirkt auf Fließtext, Navigation, Buttons und Formulare.',
+  heading: 'Wirkt auf Überschriften (H1–H6), Hero- und Abschnittstitel.',
+  mono: 'Wirkt auf Eyebrows/Kicker, Tabellenköpfe, Zähler und Code.',
+}
+
 const activeFonts = computed(() => {
   const foundation = store.currentFoundation
   const typo = foundation?.typography || {}
-  return [
-    {
-      id: 'body',
-      role: 'Body',
-      tokenKey: 'font-body',
-      value: typo['font-body'] || typoTokens['font-body'].value,
-      placeholder: typoTokens['font-body'].value
-    },
-    {
-      id: 'heading',
-      role: 'Heading',
-      tokenKey: 'font-heading',
-      value: typo['font-heading'] || typoTokens['font-heading'].value,
-      placeholder: typoTokens['font-heading'].value
-    },
-    {
-      id: 'mono',
-      role: 'Mono',
-      tokenKey: 'font-mono',
-      value: typo['font-mono'] || typoTokens['font-mono'].value,
-      placeholder: typoTokens['font-mono'].value
+  return ['body', 'heading', 'mono'].map((id) => {
+    const tokenKey = `font-${id}`
+    return {
+      id,
+      role: id === 'body' ? 'Body' : id === 'heading' ? 'Heading' : 'Mono',
+      tokenKey,
+      cssVar: typoTokens[tokenKey].cssVar,
+      wirkung: ROLLEN_WIRKUNG[id],
+      value: typo[tokenKey] || typoTokens[tokenKey].value,
+      placeholder: typoTokens[tokenKey].value,
     }
-  ]
+  })
 })
+
+// ---------------------------------------------------------------------------
+// Rollen-Auswahl (15.10.2026): Schrift je Rolle aus einer Liste statt Freitext
+// ---------------------------------------------------------------------------
+const EIGENE = '__eigene__'
+const SYSTEM_SCHRIFTEN = ['Arial', 'Helvetica', 'Georgia', 'Times New Roman', 'Verdana', 'system-ui']
+const NEO_SCHRIFTEN = [
+  { familie: 'Manrope', token: 'font-body' },
+  { familie: 'Space Grotesk', token: 'font-heading' },
+  { familie: 'JetBrains Mono', token: 'font-mono' },
+]
+
+/** Erste Familie eines Font-Stacks, ohne Anführungszeichen */
+function ersteFamilie (stack) {
+  return String(stack || '').split(',')[0].trim().replace(/^['"]|['"]$/g, '')
+}
+
+/** Ersatzschriften der Rolle (alles nach der ersten Schrift des NEO-Stacks) */
+function ersatz (tokenKey) {
+  return String(typoTokens[tokenKey]?.value || 'sans-serif').split(',').slice(1).map(s => s.trim()).filter(Boolean).join(', ')
+}
+
+function schriftGruppen (font) {
+  const google = (customFonts.value || []).map(f => ({ familie: ersteFamilie(f.family) })).filter(o => o.familie)
+  const server = (serverSchriften.value || []).map(f => ({ familie: f.familie, zusatz: f.quelle === 'server' ? 'Server-Ordner' : 'hochgeladen' }))
+  const gruppen = [
+    { label: 'NEO Design System', optionen: NEO_SCHRIFTEN.map(n => ({ familie: n.familie, zusatz: n.token === font.tokenKey ? 'NEO-Standard' : '' })) },
+    { label: 'Systemschriften', optionen: SYSTEM_SCHRIFTEN.map(f => ({ familie: f })) },
+  ]
+  if (google.length) gruppen.push({ label: 'Google-Schriften (dieses Theme)', optionen: google })
+  if (server.length) gruppen.push({ label: 'Schriften auf dem Server', optionen: server })
+  return gruppen
+}
+
+/** Welche Option zeigt die Auswahl? Unbekannte erste Familie = eigene Angabe. */
+function auswahlWert (font) {
+  const erste = ersteFamilie(font.value)
+  const alle = schriftGruppen(font).flatMap(g => g.optionen.map(o => o.familie))
+  return alle.find(f => f.toLowerCase() === erste.toLowerCase()) || EIGENE
+}
+
+/** Rolle auf eine Schrift setzen: NEO-Schrift der Rolle = Standard-Stack (keine Abweichung). */
+function weiseZu (font, familie) {
+  const neo = NEO_SCHRIFTEN.find(n => n.familie === familie)
+  if (neo && neo.token === font.tokenKey) {
+    updateFontFamily(font.tokenKey, typoTokens[font.tokenKey].value)
+    return
+  }
+  const name = /[\s]/.test(familie) && !/^system-ui$/.test(familie) ? `'${familie}'` : familie
+  updateFontFamily(font.tokenKey, `${name}, ${ersatz(font.tokenKey)}`)
+}
+
+function waehleSchrift (font, wert) {
+  if (wert === EIGENE) return
+  weiseZu(font, wert)
+}
 
 // Body font family for weight/scale preview
 const bodyFontFamily = computed(() => {
@@ -457,6 +549,7 @@ function unloadGoogleFont(id) {
 
 // Load custom font stylesheets on mount
 onMounted(() => {
+  if (drupalBetrieb) ladeServerSchriften()
   customFonts.value.forEach(f => {
     if (f.url) loadGoogleFont(f.id, f.url)
   })
@@ -637,6 +730,41 @@ const rollen = computed(() => {
 
 .font-label { font-size: 13px; font-weight: 600; color: var(--cfg-text); }
 .font-value { font-size: 10px; color: var(--cfg-text-muted); }
+.font-value--stack { white-space: normal; overflow-wrap: anywhere; color: var(--cfg-text-secondary); }
+
+/* Rollen-Auswahl (15.10.2026) */
+.font-wirkung { margin: 0; font-size: 12px; line-height: 1.4; color: var(--cfg-text-secondary); }
+.font-select-label { font-size: 11px; font-weight: 600; color: var(--cfg-text-secondary); }
+.font-select {
+  width: 100%;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text);
+  font: inherit;
+  font-size: 13px;
+}
+.font-select:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 1px; }
+.font-eigene summary { cursor: pointer; font-size: 11px; color: var(--cfg-text-secondary); padding: 2px 0; }
+.font-eigene summary:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 1px; border-radius: 3px; }
+.font-eigene[open] summary { margin-bottom: 4px; }
+.font-untertitel { margin: 8px 0 0; font-size: 13px; font-weight: 700; color: var(--cfg-text); }
+.font-rollen { display: flex; flex-wrap: wrap; gap: 4px; }
+.font-rolle-btn {
+  min-height: 28px;
+  padding: 2px 10px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: var(--cfg-surface);
+  color: var(--cfg-text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.font-rolle-btn[aria-pressed='true'] { background: var(--cfg-accent-subtle); border-color: var(--cfg-accent); font-weight: 600; }
+.font-rolle-btn:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 1px; }
 
 .font-edit-row {
   display: flex;
@@ -750,7 +878,9 @@ const rollen = computed(() => {
   border: none;
   border-radius: 6px;
   background: var(--cfg-accent);
-  color: #000;
+  /* Schrift in der Flächenfarbe der App: lesbar auf dem dunklen Graphit
+     (hell) wie auf dem hellen Interaktiv-Ton im Dunkelmodus (15.10.2026) */
+  color: var(--cfg-surface);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;

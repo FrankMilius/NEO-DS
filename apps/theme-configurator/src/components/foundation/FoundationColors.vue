@@ -29,14 +29,18 @@
           <span class="palette-count-badge" :class="{ 'palette-count-badge--full': mainPaletteCount >= 5 }">{{ mainPaletteCount }}/5</span>
         </h3>
         <p class="sub-desc" v-if="isDefaultNeo">Brand color bases — shade scales are auto-generated (50–950, 5% steps).</p>
-        <p class="sub-desc" v-else>
-          Custom main palettes for this theme. Add your brand colors below.
-          <em>Default NEO palettes are not inherited.</em>
+        <p class="sub-desc" v-else data-test="markenpaletten-hinweis">
+          Markenfarben dieses Themes — übernommen aus dem NEO Design System und hier änderbar.
+          <strong>Primary</strong> trägt Flächen und Text (Graphit-Leiter), <strong>Accent</strong> den Akzent:
+          Ändern zieht die semantischen Farben mit, die auf eine Stufe der Palette zeigen.
+          <strong>Secondary</strong> ist vorerst gleich Primary und wirkt auf der Website nicht.
         </p>
 
         <div class="primitives-grid">
           <!-- Existing main palettes (default NEO or custom theme palettes) -->
-          <template v-if="isDefaultNeo">
+          <!-- Markenpaletten in JEDEM Theme (übernommen aus NEO, änderbar;
+               Befund Frank 15.10.2026: Einheitlichkeit mit Schriften) -->
+          <template v-if="true">
             <div v-for="palette in brandPalettes" :key="palette.id" class="primitive-card">
               <div class="primitive-header">
                 <div class="primitive-swatch" :style="{ background: currentPrimitives[palette.id] }"></div>
@@ -122,7 +126,7 @@
             </div>
 
             <!-- Add Main Palette (Default NEO) -->
-            <div v-if="mainPaletteCount < 5" class="primitive-card add-palette-card">
+            <div v-if="mainPaletteCount < 5 && !drupalBetrieb" class="primitive-card add-palette-card">
               <template v-if="!showAddMainForm">
                 <button class="add-palette-btn" @click="showAddMainForm = true">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -177,110 +181,6 @@
             </div>
           </template>
 
-          <!-- Non-default theme: show custom main palettes -->
-          <template v-else>
-            <div v-for="palette in customMainPalettesWithShades" :key="palette.id" class="primitive-card">
-              <div class="primitive-header">
-                <div class="primitive-swatch" :style="{ background: palette.base }"></div>
-                <div class="primitive-info">
-                  <span class="primitive-label">{{ palette.label }}</span>
-                  <span class="primitive-token">--fnd-primitive-{{ palette.id }}-500</span>
-                </div>
-                <button
-                  class="btn-remove"
-                  @click="removeCustomMainPalette(palette.id)"
-                  title="Delete palette"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
-                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                  </svg>
-                </button>
-              </div>
-              <div class="primitive-editor">
-                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
-                  type="color"
-                  :value="palette.base"
-                  @input="updateCustomMainPaletteColor(palette.id, $event.target.value)"
-                  class="color-picker-mini"
-                />
-                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
-                  type="text"
-                  class="hex-input"
-                  :value="palette.base"
-                  @change="updateCustomMainPaletteColor(palette.id, $event.target.value)"
-                />
-              </div>
-              <div class="shade-strip">
-                <div
-                  v-for="shade in palette.shades"
-                  :key="shade.step"
-                  class="shade-chip"
-                  :style="{ background: shade.color }"
-                  @mouseenter="showTooltip($event, palette.id, shade)"
-                  @mouseleave="hideTooltip"
-                >
-                  <span class="shade-label">{{ shade.step }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Add Main Palette Card (non-default themes only) -->
-            <div v-if="mainPaletteCount < 5" class="primitive-card add-palette-card">
-              <template v-if="!showAddMainForm">
-                <button class="add-palette-btn" @click="showAddMainForm = true">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
-                  <span>Add Main Palette</span>
-                </button>
-              </template>
-              <template v-else>
-                <div class="add-form">
-                  <label class="add-form-label">Palette Name</label>
-                  <input aria-label="Palette Name"
-                    ref="addMainNameInput"
-                    type="text"
-                    class="hex-input"
-                    v-model="newMainPaletteName"
-                    placeholder="e.g. Primary"
-                    @keyup.enter="addCustomMainPalette"
-                    @keyup.escape="cancelAddMainPalette"
-                  />
-                  <label class="add-form-label">Base Color (500)</label>
-                  <div class="primitive-editor">
-                    <input aria-label="Basisfarbe (500) wählen"
-                      type="color"
-                      v-model="newMainPaletteColor"
-                      class="color-picker-mini"
-                    />
-                    <input aria-label="Basisfarbe (500) als HEX-Wert"
-                      type="text"
-                      class="hex-input"
-                      v-model="newMainPaletteColor"
-                    />
-                  </div>
-                  <div class="shade-strip" v-if="newMainPalettePreview.length">
-                    <div
-                      v-for="shade in newMainPalettePreview"
-                      :key="shade.step"
-                      class="shade-chip"
-                      :style="{ background: shade.color }"
-                      @mouseenter="showTooltip($event, 'preview', shade)"
-                      @mouseleave="hideTooltip"
-                    >
-                      <span class="shade-label">{{ shade.step }}</span>
-                    </div>
-                  </div>
-                  <div class="add-form-actions">
-                    <button class="btn-add-confirm" @click="addCustomMainPalette" :disabled="!newMainPaletteName.trim()">Add</button>
-                    <button class="btn-add-cancel" @click="cancelAddMainPalette">Cancel</button>
-                  </div>
-                </div>
-              </template>
-            </div>
-          </template>
         </div>
       </section>
 
@@ -302,10 +202,14 @@
           </button>
         </h3>
         <p class="sub-desc">Extended color palette — decorative and auxiliary shades (50–950, 5% steps).</p>
+        <p v-if="drupalBetrieb" class="sub-desc" data-test="supporting-hinweis">
+          Übernommen aus dem NEO Design System. Im Drupal-Betrieb nicht änderbar: eigene Paletten speichert
+          der Konfigurator bisher nur im Browser, nicht im Theme.
+        </p>
 
-        <div class="primitives-grid">
-          <!-- Default NEO: show built-in + custom supporting palettes -->
-          <template v-if="isDefaultNeo">
+        <div class="primitives-grid" :inert="drupalBetrieb || undefined" :class="{ 'primitives-grid--gesperrt': drupalBetrieb }">
+          <!-- Default NEO (und Drupal-Betrieb): eingebaute + eigene Supporting Palettes -->
+          <template v-if="isDefaultNeo || drupalBetrieb">
             <div v-for="palette in allSupportingPalettes" :key="palette.id" class="primitive-card">
               <div class="primitive-header">
                 <div class="primitive-swatch" :style="{ background: palette.base }"></div>
@@ -405,8 +309,8 @@
             </div>
           </template>
 
-          <!-- Add Supporting Palette Card (shown for both default and non-default) -->
-          <div class="primitive-card add-palette-card">
+          <!-- Add Supporting Palette Card (nicht im Drupal-Betrieb: nur Browser-Speicher) -->
+          <div v-if="!drupalBetrieb" class="primitive-card add-palette-card">
             <template v-if="!showAddForm">
               <button class="add-palette-btn" @click="showAddForm = true">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -786,6 +690,8 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
+import { paletteSkala } from '../../utils/farbskala.js'
+import { speicher } from '../../speicher/index.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -810,6 +716,9 @@ const selectedToken = ref(null)
 const selectedTokenId = computed(() => selectedToken.value?.id || null)
 
 const currentPrimitives = computed(() => store.currentPrimitives)
+// Drupal-Betrieb: eigene Paletten speichert die App nur im Browser — dort
+// ausgeblendet bzw. gesperrt, damit nichts verloren geht (15.10.2026)
+const drupalBetrieb = speicher().art === 'drupal'
 
 // ---------------------------------------------------------------------------
 // Is the user on the factory default NEO Theme? (no custom theme loaded)
@@ -824,7 +733,8 @@ const isDefaultNeo = computed(() => {
 const brandPalettes = computed(() => {
   return ['primary', 'secondary', 'accent'].map(id => {
     const base = currentPrimitives.value[id] || primitiveColors[id].base
-    const shades = generateShadeScale(base)
+    // Gleiche Skala wie Export und Mitziehen: NEO-Leiter oder erzeugt
+    const shades = paletteSkala(id, base)
     return {
       id,
       label: primitiveColors[id].label,
@@ -874,7 +784,7 @@ const customMainPalettesWithShades = computed(() => {
 const MAX_MAIN_PALETTES = 5
 
 const mainPaletteCount = computed(() => {
-  const base = isDefaultNeo.value ? 3 : 0 // primary, secondary, accent
+  const base = 3 // primary, secondary, accent — in jedem Theme
   return base + customMainPalettes.value.length
 })
 
@@ -1237,11 +1147,11 @@ watch(() => store.state.currentThemeMeta, () => {
 const availablePrimitiveGroups = computed(() => {
   const groups = []
 
-  // 1. Brand / Main palettes
-  if (isDefaultNeo.value) {
+  // 1. Brand / Main palettes (in jedem Theme, dazu eigene Hauptpaletten)
+  {
     ;['primary', 'secondary', 'accent'].forEach(id => {
       const base = currentPrimitives.value[id] || primitiveColors[id].base
-      const shades = generateShadeScale(base)
+      const shades = paletteSkala(id, base)
       groups.push({
         id,
         label: primitiveColors[id].label,
@@ -1250,7 +1160,8 @@ const availablePrimitiveGroups = computed(() => {
         }))
       })
     })
-  } else {
+  }
+  {
     customMainPalettesWithShades.value.forEach(p => {
       groups.push({
         id: p.id,
@@ -1723,6 +1634,8 @@ function getNotAffected(semanticId) {
 }
 
 /* Add palette card */
+.primitives-grid--gesperrt { opacity: 0.75; }
+
 .add-palette-card {
   border-style: dashed;
   background: var(--cfg-surface);
@@ -1783,7 +1696,9 @@ function getNotAffected(semanticId) {
   border: none;
   border-radius: 6px;
   background: var(--cfg-accent);
-  color: #000;
+  /* Schrift in der Flächenfarbe der App: lesbar auf dem dunklen Graphit
+     (hell) wie auf dem hellen Interaktiv-Ton im Dunkelmodus (15.10.2026) */
+  color: var(--cfg-surface);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
