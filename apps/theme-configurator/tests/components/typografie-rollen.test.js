@@ -13,7 +13,8 @@ beforeEach(() => {
   store = useThemeStore()
   store.state.activeThemeSet = 'neo'
   store.state.currentThemeMeta = { id: 't1', name: 'Kunde' }
-  store.state.customFonts.neo = [{ id: 'arimo', name: 'Arimo', family: 'Arimo, Helvetica Neue, Arial', url: 'https://fonts.googleapis.com/css2?family=Arimo' }]
+  // ohne Adresse: kein Netzwerkzugriff auf Google Fonts im Test
+  store.state.customFonts.neo = [{ id: 'arimo', name: 'Arimo', family: 'Arimo, Helvetica Neue, Arial', url: '' }]
   store.updateFoundationToken('typography', 'font-body', typo['font-body'].value)
 })
 afterEach(() => { w?.unmount(); store.state.currentThemeMeta = null; store.state.customFonts.neo = [] })
