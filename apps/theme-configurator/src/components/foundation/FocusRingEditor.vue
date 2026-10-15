@@ -5,7 +5,7 @@
     <section class="fe-section">
       <h3 class="fe-heading">
         Ring Color
-        <span class="fe-heading__count">--fnd-focus-color</span>
+        <span class="fe-heading__count">--fnd-focus-ring-color</span>
       </h3>
       <p class="fe-desc">
         Farbe des Focus-Rings. Kann per Theme (Light/Dark) unterschiedlich gesetzt werden.
@@ -88,7 +88,7 @@
     <section class="fe-section">
       <h3 class="fe-heading">
         Ring Width
-        <span class="fe-heading__count">--fnd-focus-width</span>
+        <span class="fe-heading__count">--fnd-focus-ring-width</span>
       </h3>
       <div class="fe-select-row">
         <select aria-label="Fokus-Breite" class="fe-select" :value="widthMode" @change="onWidthModeChange($event.target.value)">
@@ -110,7 +110,7 @@
     <section class="fe-section">
       <h3 class="fe-heading">
         Ring Style
-        <span class="fe-heading__count">--fnd-focus-style</span>
+        <span class="fe-heading__count">--fnd-focus-ring-style</span>
       </h3>
       <div class="fe-select-row">
         <select aria-label="Fokus-Stil" class="fe-select" :value="currentValue('style')" @change="store.updateFoundationToken('focus', 'style', $event.target.value)">

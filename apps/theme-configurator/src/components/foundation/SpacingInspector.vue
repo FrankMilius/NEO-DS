@@ -7,9 +7,9 @@
     <template v-if="activeTab === 'primitives'">
 
       <p class="si-intro">
-        Spacing Scale auf Basis des 4px-Grids. Token-Nummer = Pixelwert / 4
-        (z.B. <code>spacing-08</code> = 32px). Werte koennen ueberschrieben
-        und neue Stufen hinzugefuegt werden.
+        Spacing Scale auf Basis des 4px-Grids. Die Nummer ist die Stufe der
+        Skala, nicht der Pixelwert (z.B. <code>spacing-07</code> = 32px).
+        Werte koennen ueberschrieben und neue Stufen hinzugefuegt werden.
       </p>
 
       <!-- Token List (sorted ascending by px) -->

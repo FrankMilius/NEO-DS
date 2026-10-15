@@ -26,7 +26,7 @@
 
     <div class="token-list">
       <div
-        v-for="(token, key) in tokens"
+        v-for="[key, token] in eintraege"
         :key="key"
         class="token-row"
         :class="{ 'token-row--inactive': isFocusModeToken(key) && !isFocusModeActive(key) }"
@@ -83,8 +83,19 @@ const store = useThemeStore()
 const tokens = computed(() => {
   return foundationTokens[props.category]?.tokens || {}
 })
+// Reihenfolge der Skala: JavaScript stellt ganzzahlige Schlüssel („10“)
+// vor solche mit führender Null („01“) — Spacing zeigte 10–13 vor 01
+// (Befund UX-15). Rein numerische Schlüssel deshalb nach Zahl sortieren.
+const eintraege = computed(() => {
+  const liste = Object.entries(tokens.value)
+  return liste.every(([k]) => /^\d+$/.test(k)) ? liste.sort(([a], [b]) => Number(a) - Number(b)) : liste
+})
 
 function tokenName(key) {
+  // Name, den das CSS wirklich setzt (z. B. --fnd-focus-ring-color statt
+  // --fnd-focus-color, Befund UX-16)
+  const css = tokens.value[key]?.cssVar
+  if (css) return css
   if (props.category === 'zindex') return `--fnd-z-${key}`
   if (props.category === 'media') return `--fnd-media-ratio-${key}`
   return `--fnd-${props.category}-${key}`

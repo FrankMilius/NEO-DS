@@ -119,3 +119,32 @@ describe('UX-15: Spacing zeigt die echten Token-Namen', () => {
     w.unmount(); store.state.currentThemeMeta = null
   })
 })
+
+describe('UX-15: Inspector sortiert die Spacing-Skala nach Stufe', () => {
+  it('01 … 13 statt 10–13 zuerst; Bühnentext nennt die richtige Regel', async () => {
+    const { default: FoundationGeneric } = await import('../../src/components/foundation/FoundationGeneric.vue')
+    const store = useThemeStore(); store.state.activeThemeSet = 'neo'
+    const w = mount(FoundationGeneric, { props: { category: 'spacing' } })
+    const text = w.text()
+    expect(text.indexOf('--fnd-spacing-01')).toBeLessThan(text.indexOf('--fnd-spacing-10'))
+    w.unmount()
+    const s = mount(SpacingInspector)
+    expect(s.find('.si-intro').text()).toContain('spacing-07 = 32px')
+    expect(s.find('.si-intro').text()).not.toMatch(/Pixelwert \/ 4/)
+    s.unmount()
+  })
+})
+
+describe('UX-16: Editoren zeigen die Variablen, die das CSS setzt', () => {
+  it('Fokusring: --fnd-focus-ring-color/-width/-style auf Bühne und im Inspector', async () => {
+    const { default: FocusRingEditor } = await import('../../src/components/foundation/FocusRingEditor.vue')
+    const { default: FoundationGeneric } = await import('../../src/components/foundation/FoundationGeneric.vue')
+    const store = useThemeStore(); store.state.activeThemeSet = 'neo'
+    for (const w of [mount(FocusRingEditor), mount(FoundationGeneric, { props: { category: 'focus' } })]) {
+      const t = w.text()
+      expect(t).toContain('--fnd-focus-ring-color'); expect(t).toContain('--fnd-focus-ring-width')
+      expect(t).not.toMatch(/--fnd-focus-(color|width|style)\b/)
+      w.unmount()
+    }
+  })
+})
