@@ -5,12 +5,31 @@
 import { getDefaultFoundation, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
 import { MITZIEHENDE_PALETTEN, paletteSkala, zieheMit } from '../../utils/farbskala.js'
-import { istUnsichererText, pruefeFontStack } from '../../utils/css-wert.js'
+import { istUnsichererText } from '../../utils/css-wert.js'
+import { pruefeFarbe, pruefeFoundationWert, pruefeKomponentenWert, pruefeSchriftskala } from '../../utils/token-pruefung.js'
+import { meldeGueltig, meldeUngueltig } from '../../utils/feld-meldung.js'
+import { foundationTokens, componentTokenGroups, typographyScale } from '../../data/tokens.js'
+import { skalenParameter } from '../../utils/fluid-scale.js'
+
+const NICHT_ERLAUBT = 'Nicht erlaubt: { } ; < > \\ und Kommentare.'
+
+/**
+ * Wert ablehnen (UX-02/UX-03): Meldung am Feld, letzter gültiger Wert
+ * zurück ins Feld. Liefert false für den Aufrufer.
+ */
+function ablehnen (meldung, letzterWert) {
+  meldeUngueltig(meldung, letzterWert)
+  return false
+}
 
 export function updateSemanticToken(tokenId, value) {
-  if (istUnsichererText(value)) return false   // UX-02: kein Ausbruch aus dem CSS-Block
   const mode = state.previewMode === 'split' ? 'light' : state.previewMode
   const themeSet = state.activeThemeSet
+  const alt = state.themes[themeSet][mode][tokenId]
+  if (istUnsichererText(value)) return ablehnen(NICHT_ERLAUBT, alt)   // UX-02
+  const fehler = pruefeFarbe(value)                                   // UX-03
+  if (fehler) return ablehnen(fehler, alt)
+  meldeGueltig()
   state.themes[themeSet][mode][tokenId] = value
 }
 
@@ -30,10 +49,14 @@ export function ergaenzeFoundation() {
 }
 
 export function updateFoundationToken(category, key, value) {
-  // UX-02: Werte mit { } ; < > \ oder Kommentaren brechen aus dem CSS aus;
-  // Schriften müssen ein gültiger Font-Stack sein
-  if (istUnsichererText(value)) return false
-  if (category === 'typography' && /^font-(body|heading|mono)$/.test(key) && typeof value === 'string' && pruefeFontStack(value)) return false
+  // UX-02: Werte mit { } ; < > \ oder Kommentaren brechen aus dem CSS aus.
+  // UX-03: Art und Bereich je Token (Länge, Zahl, Farbe …), sonst Meldung
+  // am Feld und der letzte gültige Wert bleibt.
+  const alt = state.foundationOverrides[state.activeThemeSet]?.[category]?.[key] ?? foundationTokens?.[category]?.tokens?.[key]?.value
+  if (istUnsichererText(value)) return ablehnen(NICHT_ERLAUBT, alt)
+  const fehler = pruefeFoundationWert(category, key, value)
+  if (fehler) return ablehnen(fehler, alt)
+  meldeGueltig()
   // Kategorie notfalls anlegen: Ein gespeicherter Stand von vor einer neuen
   // Foundation-Kategorie (z. B. size, tracking seit 30.09.2026) kennt sie nicht.
   const set = state.foundationOverrides[state.activeThemeSet]
@@ -156,8 +179,21 @@ export const MIRROR_TOKEN_MAP = {
   // nc-button-radius-sm → nc-dt-radius: entkoppelt bzw. CSS-Kette (Entscheidung 02.10.2026)
 }
 
+let komponentenStandard = null
+function standardWert (tokenId) {
+  if (!komponentenStandard) {
+    komponentenStandard = new Map()
+    for (const g of componentTokenGroups || []) for (const tok of g.tokens || []) if (tok?.id) komponentenStandard.set(tok.id, tok.default)
+  }
+  return komponentenStandard.get(tokenId)
+}
+
 export function updateComponentToken(tokenId, value) {
-  if (istUnsichererText(value)) return false   // UX-02
+  const alt = state.componentOverrides[state.activeThemeSet]?.[tokenId] ?? standardWert(tokenId)
+  if (istUnsichererText(value)) return ablehnen(NICHT_ERLAUBT, alt)   // UX-02
+  const fehler = pruefeKomponentenWert(tokenId, value)               // UX-03
+  if (fehler) return ablehnen(fehler, alt)
+  meldeGueltig()
   // Guard: check if the component owning this token is locked
   const componentId = extractComponentId(tokenId)
   if (componentId && isComponentLocked(componentId)) {
@@ -370,9 +406,14 @@ export const TYPE_SCALE_KEYS = ['base_min_px', 'base_max_px', 'ratio_min', 'rati
 
 export function updateTypeScale(key, value) {
   if (!TYPE_SCALE_KEYS.includes(key)) return
-  const zahl = Number(value)
-  if (!Number.isFinite(zahl) || zahl <= 0) return
-  ;(state.typeScale[state.activeThemeSet] ??= {})[key] = zahl
+  // UX-03: Bereiche wie die Eingabefelder und Min ≤ Max (vorher ergab
+  // Basis 50 mit Verhältnis 3 eine 9XL von 578704 px)
+  const p = skalenParameter(typographyScale, state.typeScale[state.activeThemeSet] || {})
+  const aktuell = { base_min_px: p.baseMin, base_max_px: p.baseMax, ratio_min: p.ratioMin, ratio_max: p.ratioMax }
+  const fehler = pruefeSchriftskala(key, value, aktuell)
+  if (fehler) return ablehnen(fehler, aktuell[key])
+  meldeGueltig()
+  ;(state.typeScale[state.activeThemeSet] ??= {})[key] = Number(value)
 }
 
 export function resetTypeScale() {

@@ -65,6 +65,8 @@ export function foundationZeilen(overrides, opt = {}) {
     // Folien-Grammatik: kein CSS, reist nur im JSON-Export mit (Plan v2, 2.5)
     if (kategorie === 'praesentation') continue
     for (const [schluessel, wert] of Object.entries(tokens)) {
+      // Fokusfarbe je Modus: eigene Blöcke auf den Theme-Klassen (fokusFarbZeilen)
+      if (kategorie === 'focus' && /^color-(light|dark)$/.test(schluessel)) continue
       const standard = vorgabe(kategorie, schluessel)
       if (nurAbweichungen && standard !== undefined && String(wert) === String(standard)) continue
 
@@ -80,4 +82,26 @@ export function foundationZeilen(overrides, opt = {}) {
     }
   }
   return { zeilen, uebersprungen, abweichungen }
+}
+
+/**
+ * Fokusring-Farbe je Modus (Befund UX-16, 15.10.2026). Das Design System
+ * kennt eine Variable --fnd-focus-ring-color; der Editor pflegt Hell und
+ * Dunkel getrennt (focus.color-light / color-dark). Ausgegeben wird jede auf
+ * den Klassen, die die Website setzt — wie die semantischen Farben. Vorher
+ * entfielen beide mit „im DS nicht vorhanden“.
+ * @param {Record<string, any>} focus  foundationOverrides[set].focus
+ * @param {string} [themeSet]  'neo' oder 'customer'
+ * @returns {string[]}
+ */
+export function fokusFarbZeilen (focus, themeSet = 'neo') {
+  const zeilen = []
+  const name = foundationTokens?.focus?.tokens?.color?.cssVar || '--fnd-focus-ring-color'
+  const praefix = themeSet === 'neo' ? 'neo' : 'customer'
+  for (const [modus, selektor] of [['light', `:root, .${praefix}-light-theme`], ['dark', `.${praefix}-dark-theme`]]) {
+    const wert = focus?.[`color-${modus}`]
+    if (typeof wert !== 'string' || !wert.trim()) continue
+    zeilen.push(`/* Fokusring (${modus === 'light' ? 'hell' : 'dunkel'}) */`, `${selektor} {`, `  ${name}: ${wert.trim()};`, '}', '')
+  }
+  return zeilen
 }

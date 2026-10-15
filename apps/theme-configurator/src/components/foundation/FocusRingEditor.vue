@@ -253,7 +253,10 @@ function focusColorValue(mode) {
 function resolvedColorHex(mode) {
   const val = focusColorValue(mode)
   if (val && val.startsWith('#')) return val
-  return mode === 'dark' ? '#ffffff' : '#000000'
+  // Vorgabe ist var(--fnd-color-text-primary): den echten Wert des Modus
+  // zeigen statt eines Platzhalters #000000/#ffffff (UX-16)
+  const tp = store.state.themes[store.state.activeThemeSet]?.[mode]?.['text-primary']
+  return tp || (mode === 'dark' ? '#ffffff' : '#000000')
 }
 
 // Reverse-lookup: welches Primitive-Token passt zum Hex-Wert?
@@ -268,12 +271,11 @@ function primitiveRefForMode(mode) {
 }
 
 function updateFocusColor(mode, value) {
-  const modeKey = `color-${mode}`
-  store.updateFoundationToken('focus', modeKey, value)
-  const previewMode = store.state.previewMode === 'split' ? 'light' : store.state.previewMode
-  if (previewMode === mode) {
-    store.updateFoundationToken('focus', 'color', value)
-  }
+  // Nur die Farbe des Modus; ausgegeben wird sie auf der Theme-Klasse des
+  // Modus (fokusFarbZeilen). Vorher landete die zuletzt bearbeitete Farbe
+  // zusätzlich als gemeinsamer Wert in :root — eine dunkle Fokusfarbe dann
+  // auch im hellen Modus (UX-16)
+  store.updateFoundationToken('focus', `color-${mode}`, value)
 }
 
 // ── Border Width Options ──

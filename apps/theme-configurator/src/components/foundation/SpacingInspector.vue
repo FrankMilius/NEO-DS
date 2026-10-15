@@ -281,9 +281,10 @@ function parsePx(val) {
   return isNaN(n) ? 0 : n
 }
 
+// Schlüssel für eigene Abstände: nach Pixeln (px36), damit er nie mit den
+// fortlaufend nummerierten Token des Design Systems (01 … 13) kollidiert
 function pxToKey(px) {
-  const n = Math.round(px / 4)
-  return String(n).padStart(2, '0')
+  return `px${Math.round(Number(px) || 0)}`
 }
 
 const sortedPrimitiveTokens = computed(() => {
@@ -293,12 +294,14 @@ const sortedPrimitiveTokens = computed(() => {
 
   for (const [origKey, tok] of Object.entries(defaultSpacingTokens.value)) {
     const px = parsePx(tok.value)
-    const gridKey = pxToKey(px)
     const overrideVal = overrides[origKey]
     const isModified = overrideVal !== undefined && overrideVal !== tok.value
+    // Echter Schlüssel (01, 02 … wie --fnd-spacing-07 im CSS), nicht px / 4 —
+    // vorher hieß 32 px hier „08“, gespeichert und ausgeliefert wurde 07, und
+    // semantische Abstände zeigten mit var(--fnd-spacing-08) auf 40 px (UX-15)
     tokens.push({
-      key: gridKey, origKey,
-      label: `Spacing ${gridKey}`,
+      key: origKey, origKey,
+      label: `Spacing ${origKey}`,
       value: isModified ? overrideVal : tok.value,
       defaultValue: tok.value, px,
       isCustom: false, isModified
@@ -338,7 +341,8 @@ const showAddDialog = ref(false)
 const newTokenPx = ref(0)
 const computedNewKey = computed(() => pxToKey(newTokenPx.value))
 const newTokenConflict = computed(() => {
-  return sortedPrimitiveTokens.value.some(t => t.key === computedNewKey.value)
+  // Konflikt = gleicher Wert schon vorhanden (eigener Schlüssel ist eindeutig)
+  return sortedPrimitiveTokens.value.some(t => t.key === computedNewKey.value || t.px === Math.round(Number(newTokenPx.value) || 0))
 })
 
 function confirmAddToken() {

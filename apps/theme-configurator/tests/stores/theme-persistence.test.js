@@ -119,12 +119,12 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
       const darkBefore = store.state.themes.neo.dark['text-primary']
 
       store.state.previewMode = 'light'
-      store.updateSemanticToken('text-primary', '#light1')
+      store.updateSemanticToken('text-primary', '#1a3055')
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.neo.light['text-primary']).toBe('#light1')
+      expect(data.themes.neo.light['text-primary']).toBe('#1a3055')
       expect(data.themes.neo.dark['text-primary']).toBe(darkBefore)
     })
 
@@ -132,12 +132,12 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
       const lightBefore = store.state.themes.neo.light['text-primary']
 
       store.state.previewMode = 'dark'
-      store.updateSemanticToken('text-primary', '#dark01')
+      store.updateSemanticToken('text-primary', '#1a2f44')
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.neo.dark['text-primary']).toBe('#dark01')
+      expect(data.themes.neo.dark['text-primary']).toBe('#1a2f44')
       expect(data.themes.neo.light['text-primary']).toBe(lightBefore)
     })
 
@@ -167,21 +167,21 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
   describe('Split-Mode schreibt korrekt in Light', () => {
     it('updateSemanticToken im Split-Mode schreibt in light', () => {
       store.state.previewMode = 'split'
-      store.updateSemanticToken('text-primary', '#split1')
+      store.updateSemanticToken('text-primary', '#1a3499')
 
-      expect(store.state.themes.neo.light['text-primary']).toBe('#split1')
+      expect(store.state.themes.neo.light['text-primary']).toBe('#1a3499')
       // Dark bleibt unveraendert
-      expect(store.state.themes.neo.dark['text-primary']).not.toBe('#split1')
+      expect(store.state.themes.neo.dark['text-primary']).not.toBe('#1a3499')
     })
 
     it('Split-Mode Werte werden persistent gespeichert', () => {
       store.state.previewMode = 'split'
-      store.updateSemanticToken('background-base', '#split2')
+      store.updateSemanticToken('background-base', '#1a35aa')
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.neo.light['background-base']).toBe('#split2')
+      expect(data.themes.neo.light['background-base']).toBe('#1a35aa')
     })
   })
 
@@ -193,40 +193,40 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
     it('speichert Customer-Light-Token in localStorage', () => {
       store.state.activeThemeSet = 'customer'
       store.state.previewMode = 'light'
-      store.updateSemanticToken('text-primary', '#cust01')
+      store.updateSemanticToken('text-primary', '#1a2c11')
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.customer.light['text-primary']).toBe('#cust01')
+      expect(data.themes.customer.light['text-primary']).toBe('#1a2c11')
     })
 
     it('speichert Customer-Dark-Token in localStorage', () => {
       store.state.activeThemeSet = 'customer'
       store.state.previewMode = 'dark'
-      store.updateSemanticToken('text-primary', '#cust02')
+      store.updateSemanticToken('text-primary', '#1a2d22')
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.customer.dark['text-primary']).toBe('#cust02')
+      expect(data.themes.customer.dark['text-primary']).toBe('#1a2d22')
     })
 
     it('Neo und Customer Themes sind isoliert', () => {
       store.state.activeThemeSet = 'neo'
       store.state.previewMode = 'light'
-      store.updateSemanticToken('text-primary', '#neo001')
+      store.updateSemanticToken('text-primary', '#1a3277')
 
       store.state.activeThemeSet = 'customer'
       store.state.previewMode = 'light'
-      store.updateSemanticToken('text-primary', '#cust03')
+      store.updateSemanticToken('text-primary', '#1a2e33')
 
       store.saveToStorage()
 
       const raw = localStorage.getItem('neo-theme-configurator')
       const data = JSON.parse(raw)
-      expect(data.themes.neo.light['text-primary']).toBe('#neo001')
-      expect(data.themes.customer.light['text-primary']).toBe('#cust03')
+      expect(data.themes.neo.light['text-primary']).toBe('#1a3277')
+      expect(data.themes.customer.light['text-primary']).toBe('#1a2e33')
     })
   })
 
@@ -239,16 +239,16 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
       // Neo Light
       store.state.activeThemeSet = 'neo'
       store.state.previewMode = 'light'
-      store.updateSemanticToken('background-base', '#nl0001')
+      store.updateSemanticToken('background-base', '#1a3388')
 
       // Neo Dark
       store.state.previewMode = 'dark'
-      store.updateSemanticToken('background-base', '#nd0001')
+      store.updateSemanticToken('background-base', '#1a3166')
 
       // Customer Light
       store.state.activeThemeSet = 'customer'
       store.state.previewMode = 'light'
-      store.updateSemanticToken('background-base', '#cl0001')
+      store.updateSemanticToken('background-base', '#1a2b00')
 
       // Customer Dark
       store.state.previewMode = 'dark'
@@ -264,9 +264,9 @@ describe('Theme Persistence — Semantic Token Values per Theme', () => {
 
       store.loadFromStorage()
 
-      expect(store.state.themes.neo.light['background-base']).toBe('#nl0001')
-      expect(store.state.themes.neo.dark['background-base']).toBe('#nd0001')
-      expect(store.state.themes.customer.light['background-base']).toBe('#cl0001')
+      expect(store.state.themes.neo.light['background-base']).toBe('#1a3388')
+      expect(store.state.themes.neo.dark['background-base']).toBe('#1a3166')
+      expect(store.state.themes.customer.light['background-base']).toBe('#1a2b00')
       expect(store.state.themes.customer.dark['background-base']).toBe('#cd0001')
     })
   })
