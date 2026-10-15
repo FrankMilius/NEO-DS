@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.5` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.6` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -583,6 +583,20 @@ App 1.2.5 (Usability-Audit, Arena der Komponenten, 15.10.2026):
   Variante, Größe, weiteren Achsen und Zuständen aus (`filterAchse`), zeigt
   „Filter aktiv: x von y Vorschauen“, einen Leerzustand und „Filter
   zurücksetzen“.
+
+App 1.2.6 (Usability-Audit, Finden und Einstellen, 15.10.2026):
+
+- **UX-11:** 34 Komponenten haben keine eigene Token-Gruppe. Wo ihr SCSS die
+  Tokens einer anderen nutzt, zeigt der Inspector diese mit Hinweis auf alle
+  Mitnutzer (Modal/Alert-Dialog → `--nc-dialog-*`, Navigationsteile →
+  `--nc-nav-*`, Checkbox-/Radio-Gruppe → `--nc-group-*`, Text-Blocks →
+  `--nc-kicker-*`, Parallax). Sonst ein Leerzustand mit Links zur Foundation
+  und zu den Bausteinen; Sync, Suche, Varianten und Aktionen entfallen dort.
+- **UX-12:** Die Sidebar-Suche („Bereich oder Token suchen …“) findet
+  Bereiche über Namen, Tokens und deutsche Begriffe
+  (`navigation/sidebar-suche.js`), nennt den Treffergrund, klappt
+  Treffergruppen auf, zeigt „Keine Treffer“, sagt die Zahl an
+  (`aria-live`) und leert sich mit Escape.
 
 Ursprünglicher Vorschlag (ADR-004):
 

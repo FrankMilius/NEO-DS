@@ -25,12 +25,20 @@
       </svg>
       <input
         v-model="searchQuery"
-        type="text"
-        placeholder="Search tokens..."
-        aria-label="Tokens durchsuchen"
+        type="search"
+        placeholder="Bereich oder Token suchen …"
+        aria-label="Bereiche und Tokens durchsuchen"
+        aria-describedby="cfg-suche-stand"
         class="search-input"
+        data-test="sidebar-suche"
+        @keydown.escape.prevent="searchQuery = ''"
       />
     </div>
+    <!-- UX-12: Ergebnis ansagen; ohne Treffer ein sichtbarer Hinweis -->
+    <p v-if="!collapsed" id="cfg-suche-stand" class="cfg-sr-only" aria-live="polite">{{ suchStand }}</p>
+    <p v-if="!collapsed && suche && trefferAnzahl === 0" class="sidebar-suche-leer" data-test="sidebar-suche-leer">
+      Keine Treffer für „{{ suche }}“. Suche nach Bereichen (z. B. Button, Farbe) oder Token-Namen (z. B. radius, primary).
+    </p>
 
     <nav v-if="!collapsed" class="nav-tree" aria-label="Sektionen">
       <div v-for="group in filteredTree" :key="group.id" class="nav-group">
@@ -38,17 +46,17 @@
           type="button"
           class="nav-group-header"
           @click="toggleGroup(group.id)"
-          :aria-expanded="expandedGroups.has(group.id)"
-          :aria-controls="expandedGroups.has(group.id) ? `cfg-nav-gruppe-${group.id}` : undefined"
+          :aria-expanded="istOffen(group.id)"
+          :aria-controls="istOffen(group.id) ? `cfg-nav-gruppe-${group.id}` : undefined"
         >
-          <svg aria-hidden="true" class="nav-chevron" :class="{ expanded: expandedGroups.has(group.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" class="nav-chevron" :class="{ expanded: istOffen(group.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"/>
           </svg>
           <span class="nav-group-label">{{ group.label }}</span>
           <span class="nav-group-count">{{ getItemCount(group) }}</span>
         </button>
 
-        <div v-if="expandedGroups.has(group.id)" :id="`cfg-nav-gruppe-${group.id}`" class="nav-children">
+        <div v-if="istOffen(group.id)" :id="`cfg-nav-gruppe-${group.id}`" class="nav-children">
           <template v-for="child in group.children" :key="child.id">
             <!-- Subgroup -->
             <div v-if="child.isSubgroup" class="nav-subgroup" role="group" :aria-labelledby="`cfg-nav-untergruppe-${group.id}-${child.id}`">
@@ -65,7 +73,7 @@
                   <span class="nav-item-dot" :class="{ modified: isModified(item) }" v-if="hasTokens(item)"></span>
                   <span v-if="hasTokens(item) && isModified(item)" class="cfg-sr-only">(geändert)</span>
                   <span class="nav-item-dot empty" v-else></span>
-                  <span class="nav-item-label">{{ item.label }}</span>
+                  <span class="nav-item-label">{{ item.label }}<span v-if="item.suchGrund" class="nav-item-grund">{{ item.suchGrund }}</span></span>
                   <span v-if="isItemLocked(item)" class="cfg-sr-only">(gesperrt)</span>
                   <svg aria-hidden="true" v-if="isItemLocked(item)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -86,7 +94,7 @@
               <span class="nav-item-dot" :class="{ modified: isModified(child) }" v-if="hasTokens(child)"></span>
               <span v-if="hasTokens(child) && isModified(child)" class="cfg-sr-only">(geändert)</span>
               <span class="nav-item-dot empty" v-else></span>
-              <span class="nav-item-label">{{ child.label }}</span>
+              <span class="nav-item-label">{{ child.label }}<span v-if="child.suchGrund" class="nav-item-grund">{{ child.suchGrund }}</span></span>
               <span v-if="isItemLocked(child)" class="cfg-sr-only">(gesperrt)</span>
               <svg aria-hidden="true" v-if="isItemLocked(child)" class="nav-lock-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -123,6 +131,7 @@ import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
+import { suchTreffer } from '../../navigation/sidebar-suche.js'
 
 defineProps({
   collapsed: { type: Boolean, default: false }
@@ -241,9 +250,15 @@ function hasTokens(item) {
   return true
 }
 
+// UX-12: Namen, Tokens und deutsche Begriffe (navigation/sidebar-suche.js);
+// Treffer tragen ihren Grund (suchGrund), Treffergruppen sind aufgeklappt.
+const suche = computed(() => searchQuery.value.trim())
+function mitGrund (item) {
+  const t = suchTreffer(item, suche.value)
+  return t ? (t.grund ? { ...item, suchGrund: t.grund } : item) : null
+}
 const filteredTree = computed(() => {
-  if (!searchQuery.value.trim()) return navigationTree
-  const q = searchQuery.value.toLowerCase()
+  if (!suche.value) return navigationTree
 
   return navigationTree
     .map(group => {
@@ -251,14 +266,12 @@ const filteredTree = computed(() => {
         .map(child => {
           if (child.isSubgroup) {
             // Filter subgroup children
-            const filteredSubChildren = child.children.filter(item =>
-              item.label.toLowerCase().includes(q)
-            )
+            const filteredSubChildren = child.children.map(mitGrund).filter(Boolean)
             if (filteredSubChildren.length === 0) return null
             return { ...child, children: filteredSubChildren }
           }
           // Flat child
-          return child.label.toLowerCase().includes(q) ? child : null
+          return mitGrund(child)
         })
         .filter(Boolean)
 
@@ -267,6 +280,12 @@ const filteredTree = computed(() => {
     })
     .filter(Boolean)
 })
+
+const trefferAnzahl = computed(() => filteredTree.value.reduce((n, g) => n + g.children.reduce((m, c) => m + (c.isSubgroup ? c.children.length : 1), 0), 0))
+const suchStand = computed(() => (suche.value ? (trefferAnzahl.value ? `${trefferAnzahl.value} Treffer` : 'Keine Treffer') : ''))
+function istOffen (id) {
+  return !!suche.value || expandedGroups.value.has(id)
+}
 
 function toggleGroup(id) {
   if (expandedGroups.value.has(id)) {
@@ -387,6 +406,9 @@ function handleExportJSON() {
   color: var(--cfg-text-muted);
   pointer-events: none;
 }
+
+.sidebar-suche-leer { margin: 0 12px 8px; font-size: 12px; line-height: 1.4; color: var(--cfg-text-muted); }
+.nav-item-grund { display: block; font-size: 10px; font-family: var(--cfg-font-mono, monospace); color: var(--cfg-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .search-input {
   width: 100%;

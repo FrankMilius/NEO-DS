@@ -2,6 +2,32 @@
   <div class="component-editor">
     <section class="token-section">
 
+      <!-- UX-11: geteilte Tokens benennen -->
+      <p v-if="geteilteGruppe && tokens.length" class="ce-geteilt" role="note" data-test="inspector-geteilt">
+        {{ componentLabel }} hat keine eigenen Tokens und nutzt die von <strong>{{ registryData.label }}</strong>
+        (<code>--{{ geteiltesPraefix }}-*</code>). Änderungen hier wirken auch auf<template v-for="(n, i) in mitNutzern" :key="n.id">{{ i ? ',' : '' }} <a :href="komponentenLink(n.id)">{{ n.label }}</a></template>.
+      </p>
+
+      <!-- UX-11: Leerzustand statt leerer Bedienelemente -->
+      <div v-if="!tokens.length" class="ce-leer" data-test="inspector-leer">
+        <p class="ce-leer__titel">{{ componentLabel }} hat keine eigenen Einstellungen</p>
+        <p class="ce-leer__text">
+          Diese Komponente übernimmt Farben, Schrift, Abstände und Radien aus der Foundation{{ bausteine.length ? ' und aus ihren Bausteinen' : '' }}.
+          Ändere die Werte dort — die Änderung wirkt hier mit.
+        </p>
+        <p class="ce-leer__untertitel">Foundation</p>
+        <ul class="ce-leer__liste">
+          <li v-for="f in FOUNDATION_LINKS" :key="f.hash"><a :href="f.hash">{{ f.label }}</a></li>
+        </ul>
+        <template v-if="bausteine.length">
+          <p class="ce-leer__untertitel">Bausteine</p>
+          <ul class="ce-leer__liste">
+            <li v-for="b in bausteine" :key="b.id"><a :href="komponentenLink(b.id)">{{ b.label }}</a></li>
+          </ul>
+        </template>
+      </div>
+
+      <template v-if="tokens.length">
       <!-- Sync Geometry Toggle -->
       <label class="sync-toggle">
         <svg v-if="store.state.syncGeometry" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -54,6 +80,7 @@
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
+      </template>
 
       <!-- Token Content (dimmed when locked) -->
       <div :class="{ 'ce-locked': isLocked }">
@@ -404,7 +431,7 @@
 
       <!-- Custom Variants Section -->
       <VariantCreator
-        v-if="hasRecipeData && hasVariantAxes"
+        v-if="hasRecipeData && hasVariantAxes && tokens.length"
         :componentId="componentId"
         :componentLabel="componentLabel"
         :recipe="recipe"
@@ -506,9 +533,41 @@ const arenaSelection = computed(() => store.state.arenaSelection)
 // ---------------------------------------------------------------------------
 // Token Registry from componentTokenGroups
 // ---------------------------------------------------------------------------
+// Befund UX-11 (15.10.2026): Einige Komponenten haben keine eigene
+// Token-Gruppe, ihr SCSS nutzt die einer anderen (Modal → --nc-dialog-*,
+// Navigation → --nc-nav-* …). Der Inspector war dort leer. Zuordnung aus den
+// var(--nc-…)-Verweisen der SCSS-Dateien.
+const GETEILTE_GRUPPE = {
+  modal: 'dialog',
+  'alert-dialog': 'dialog',
+  'nav-atoms': 'nav',
+  'nav-molecules': 'nav',
+  navigation: 'nav',
+  'navigation-menu': 'nav',
+  'checkbox-group': 'group',
+  'radio-group': 'group',
+  'text-blocks': 'kicker',
+  'parallax-bg': 'parallax'
+}
+const eigeneGruppe = computed(() => componentTokenGroups.find(c => c.id === props.componentId && c.tokens?.length) || null)
+const geteilteGruppe = computed(() => (eigeneGruppe.value ? null : GETEILTE_GRUPPE[props.componentId] || null))
 const registryData = computed(() => {
+  if (eigeneGruppe.value) return eigeneGruppe.value
+  if (geteilteGruppe.value) return componentTokenGroups.find(c => c.id === geteilteGruppe.value) || null
   return componentTokenGroups.find(c => c.id === props.componentId) || null
 })
+const geteiltesPraefix = computed(() => (registryData.value?.tokens?.[0]?.id.match(/^nc-[a-z]+/) || ['nc-' + geteilteGruppe.value])[0])
+const titel = (id) => id.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
+const mitNutzern = computed(() => Object.entries(GETEILTE_GRUPPE)
+  .filter(([id, g]) => g === geteilteGruppe.value && id !== props.componentId)
+  .map(([id]) => ({ id, label: titel(id) })))
+const FOUNDATION_LINKS = [
+  { hash: '#/foundation/colors', label: 'Farben' },
+  { hash: '#/foundation/typography', label: 'Typografie' },
+  { hash: '#/foundation/spacing', label: 'Spacing' },
+  { hash: '#/foundation/radius', label: 'Radius' }
+]
+const bausteine = computed(() => (recipe.value?.komposition || []).map(k => ({ id: k.recipe, label: titel(k.recipe) })))
 
 const tokenRegistry = computed(() => {
   if (!registryData.value) return new Map()
@@ -1743,6 +1802,15 @@ function getContrastTarget(token) {
 }
 
 /* Locked Notice */
+/* UX-11 */
+.ce-geteilt { margin: 0 0 10px; padding: 8px 10px; border-radius: 6px; background: var(--cfg-accent-subtle); color: var(--cfg-text); font-size: 12px; line-height: 1.5; }
+.ce-geteilt code { font-size: 11px; }
+.ce-leer { display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 1px dashed var(--cfg-border); border-radius: 8px; font-size: 12px; line-height: 1.5; color: var(--cfg-text); }
+.ce-leer__titel { margin: 0; font-weight: 600; font-size: 13px; }
+.ce-leer__text { margin: 0; color: var(--cfg-text-muted); }
+.ce-leer__untertitel { margin: 6px 0 0; font-weight: 600; font-size: 11px; color: var(--cfg-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.ce-leer__liste { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 2px; }
+
 .locked-notice {
   display: flex;
   align-items: center;
