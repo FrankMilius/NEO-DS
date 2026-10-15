@@ -124,10 +124,9 @@ export const VERLAUF_AKTIONEN = [
   'createVariant',
   'deleteVariant',
   'importTheme',
-  'legeThemeAusStandardAn',
+  // Zurücksetzen auf NEO bleibt umkehrbar: danach ist kein Theme geöffnet,
+  // ein Rückgängig kann also kein gespeichertes Theme überschreiben
   'loadNeoDefaults',
-  'loadTheme',
-  'oeffneTheme',
   'removeCustomBorderWidthToken',
   'removeCustomElevationToken',
   'removeCustomMediaRatioToken',
@@ -156,7 +155,6 @@ export const VERLAUF_AKTIONEN = [
   'updateSemanticToken',
   'updateSemanticTypography',
   'updateTypeScale',
-  'zeigeNeoStandard',
 ]
 
 /**
@@ -200,6 +198,20 @@ export function schliesseSchritt(schritt) {
     state.history.shift()
     state.historyIndex--
   }
+}
+
+/**
+ * Verlauf leeren — nach jedem Theme-Wechsel (Öffnen, Laden, Anlegen vom
+ * Standard, NEO-Standard laden/ansehen). Befund UX-01 (15.10.2026): Laden
+ * war ein Undo-Schritt; „Rückgängig“ direkt danach spielte die Daten des
+ * vorher offenen Themes zurück, Name und ETag gehörten aber schon zum
+ * neuen — Speichern überschrieb so ein Theme mit fremden Werten.
+ * Rückgängig wirkt deshalb nur innerhalb des geöffneten Themes.
+ */
+export function verlaufLeeren() {
+  state.history = []
+  state.historyIndex = -1
+  lastPushAt = 0
 }
 
 export function canUndo() {

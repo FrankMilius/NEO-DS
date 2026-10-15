@@ -9,6 +9,7 @@ import { semanticDefaults } from '../../data/tokens.js'
 import { erzeugeThemeDtcg, ladeDtcgGrundlagen, themeDatenAusState } from '../../export/dtcg.js'
 import { extractComponentId } from './komponenten.js'
 import { palettenCss } from '../../utils/farbskala.js'
+import { bereinigeCss } from '../../utils/css-wert.js'
 
 // ---------------------------------------------------------------------------
 // Export as CSS custom properties
@@ -161,7 +162,11 @@ export function exportAsCSSVars(opt = {}) {
     lines.push('')
   }
 
-  return lines.join('\n')
+  // Nur die Grammatik der App ausgeben (UX-02): ungültige Werte entfallen
+  // mit Vermerk, statt aus ihrem Block auszubrechen
+  const { css, entfernt } = bereinigeCss(lines.join('\n'))
+  if (entfernt.length) console.warn('[Export] Ungültige CSS-Werte übersprungen:', entfernt)
+  return css
 }
 
 /**

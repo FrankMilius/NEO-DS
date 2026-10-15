@@ -51,6 +51,7 @@ import { zusammenfuehren } from '../apps/theme-configurator/src/speicher/abweich
 import { standardDaten, standardVersion } from '../apps/theme-configurator/src/speicher/standard.js'
 import { pruefeKontrast } from '../apps/theme-configurator/src/speicher/kontrast.js'
 import { THEME_DATA_KEYS } from '../apps/theme-configurator/src/stores/theme/theme-schluessel.js'
+import { pruefeCss } from '../apps/theme-configurator/src/utils/css-wert.js'
 
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -287,6 +288,7 @@ export function erzeugeZustand(o = {}) {
         else {
           if (typeof b.themeId !== 'string' || !b.themeId) fund.push('themeId: Pflichtfeld')
           if (typeof b.css !== 'string' || !b.css) fund.push('css: Pflichtfeld')
+          else fund.push(...pruefeCss(b.css).map(f => `css: ${f}`))
         }
         if (fund.length) return problem(422, 'ungueltig', 'Daten abgelehnt', { detail: fund.join('; '), fehler: fund })
         const t = themes.get(b.themeId)
@@ -432,6 +434,7 @@ export function erzeugeZustand(o = {}) {
     if (!istObjekt(b)) fund.push('Körper: JSON-Objekt erwartet')
     else {
       if (typeof b.css !== 'string' || !b.css) fund.push('css: Pflichtfeld')
+      else fund.push(...pruefeCss(b.css).map(f => `css: ${f}`))   // UX-02: nur Grammatik der App
       if (!istObjekt(b.kontrast) || typeof b.kontrast.bestanden !== 'boolean' || !Array.isArray(b.kontrast.ergebnisse)) fund.push('kontrast: KontrastErgebnis erwartet')
     }
     if (fund.length) return problem(422, 'ungueltig', 'Daten abgelehnt', { detail: fund.join('; '), fehler: fund })

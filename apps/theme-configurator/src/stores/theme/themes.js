@@ -7,7 +7,7 @@ import { downloadDrupalBundle } from '../../export/drupal-adapter.js'
 import { toRaw } from 'vue'
 import { exportAsCSSVars, exportAsJSON } from './export.js'
 import { deepClone, getDefaultFoundation, state } from './kern.js'
-import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData } from './verlauf.js'
+import { THEME_DATA_KEYS, applyThemeData, snapshotThemeData, verlaufLeeren } from './verlauf.js'
 import { importVorschau, importZiel, pruefeThemeImport } from '../../import/theme-import.js'
 import { SpeicherFehler, darf, pruefeKontrast, speicher } from '../../speicher/index.js'
 import { standardDaten } from '../../speicher/standard.js'
@@ -122,6 +122,7 @@ export function loadTheme(themeId) {
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
     if (snapshot.meta?.version) state.version = snapshot.meta.version
+    verlaufLeeren()
 
     return true
   } catch (e) {
@@ -427,6 +428,7 @@ export async function oeffneTheme(themeId) {
   if (!erg) { console.warn('Theme not found:', themeId); return false }
   applyThemeData(erg.daten)
   uebernehmeMeta(erg)
+  verlaufLeeren()
   return true
 }
 
@@ -519,6 +521,7 @@ export async function legeThemeAusStandardAn(name, version = '1.0.0') {
   applyThemeData({ ...standardDaten(datei), activeThemeSet: 'neo' })
   state.currentThemeMeta = null
   state.version = version
+  verlaufLeeren()
   return speichereTheme(name, version)
 }
 
@@ -590,5 +593,6 @@ export async function zeigeNeoStandard() {
   const datei = await sp.ladeStandard()
   applyThemeData({ ...standardDaten(datei), activeThemeSet: 'neo' })
   state.currentThemeMeta = null
+  verlaufLeeren()
   return true
 }

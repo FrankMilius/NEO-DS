@@ -291,6 +291,19 @@ describe('Drupal-Attrappe — Vertrag 1.1.0 (14.10.2026)', () => {
     }
   })
 
+  it('UX-02: Veröffentlichen und Vorschau lehnen CSS außerhalb der App-Grammatik ab (422)', async () => {
+    const t = await lege(KORRIGIERT)
+    const id = t.daten.meta.id
+    const boese = ':root { --font-body: Arial; } body { display: none } :root { }'
+    const v = await api('POST', `/themes/${id}/veroeffentlichen`, { etag: t.etag, body: { css: boese, kontrast: KONTRAST_OK } })
+    expect(v.status).toBe(422)
+    expect(v.daten.fehler.join(' ')).toContain('css: Deklaration')
+    const p = await api('PUT', '/vorschau', { body: { themeId: id, css: '</style><script>alert(1)</script>' } })
+    expect(p.status).toBe(422)
+    expect((await api('PUT', '/vorschau', { body: { themeId: id, css: ':root { --a: 1 }' } })).status).toBe(200)
+    await api('DELETE', '/vorschau')
+  })
+
   it('pruefeSchrift und schriftCss', () => {
     expect(pruefeSchrift({ familie: 'A', datei: 'a.otf', bytes: Buffer.from('OTTO') }).fehler).toEqual([])
     expect(pruefeSchrift({ familie: 'A', datei: 'a.ttf', bytes: Buffer.from([0, 1, 0, 0]) }).fehler).toEqual([])

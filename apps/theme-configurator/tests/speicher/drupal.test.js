@@ -5,7 +5,7 @@
  * Abweichungen vom NEO-Standard, 412/428/409/403/422/413, Rechte — und die
  * Store-Aktionen, die ihn benutzen.
  */
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { useThemeStore } from '../../src/stores/theme.js'
@@ -261,19 +261,21 @@ describe('Store mit Drupal-Speicher', () => {
     expect(f.aufrufe.some(a => a.methode !== 'GET')).toBe(false)
   })
 
-  it('oeffneTheme fuehrt Abweichungen mit dem Standard zusammen (ein Undo-Schritt)', async () => {
+  it('oeffneTheme fuehrt Abweichungen mit dem Standard zusammen und leert den Verlauf (UX-01)', async () => {
     const { server } = mitServer()
     await store.speichereTheme('ACME', '1.0.0')
+    store.updatePrimitive('primary', '#123456')       // Änderung vor dem Öffnen
+    expect(store.canUndo()).toBe(true)
     server.dok.abweichungen = { primitiveOverrides: { customer: { primary: '#445566' } } }
-    const vorher = store.state.history.length
-    // ausserhalb des Zusammenfassungsfensters (HISTORY_COALESCE_MS) frueherer Tests
-    const jetzt = vi.spyOn(Date, 'now').mockReturnValue(Date.now() + 60_000)
     expect(await store.oeffneTheme('t1')).toBe(true)
-    jetzt.mockRestore()
     expect(store.state.primitiveOverrides.customer.primary).toBe('#445566')
     expect(store.state.primitiveOverrides.neo.primary).toBe(STANDARD.primitiveOverrides.neo.primary)
     expect(store.state.currentThemeMeta.etag).toBe(`"${server.hash}"`)
-    expect(store.state.history.length).toBe(vorher + 1)
+    // Rückgängig nach dem Öffnen holt nichts aus dem vorherigen Stand zurück
+    expect(store.canUndo()).toBe(false)
+    store.undo()
+    expect(store.state.primitiveOverrides.customer.primary).toBe('#445566')
+    expect(store.state.primitiveOverrides.neo.primary).toBe(STANDARD.primitiveOverrides.neo.primary)
   })
 
   it('veroeffentlicheTheme: Kontrast-Tor sperrt ohne Serveraufruf; bestanden -> CSS + Kontrast gesendet', async () => {

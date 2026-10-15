@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.0` (15.10.2026; Vertrag 1.1.0, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.1` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -516,6 +516,17 @@ App 1.2.0 (Befunde Frank beim Test, 15.10.2026):
   erreicht, braucht neo_fe `--font-body` statt
   `--fnd-typography-fonts-body` (neo_fe 68b1052).
 - **Lesbarkeit.** „Add“-Knöpfe und Kartenköpfe der Farb-Arena.
+
+App 1.2.1 (Usability-Audit, 15.10.2026):
+
+- **UX-01:** Öffnen, Laden, Anlegen und „NEO ansehen“ sind kein Undo-Schritt
+  mehr, sondern leeren den Verlauf (`verlaufLeeren`). Vorher holte
+  „Rückgängig“ direkt nach dem Öffnen die Werte des vorherigen Themes
+  zurück, und Speichern schrieb sie in das neue.
+- **UX-02:** CSS-Werte aus Eingaben können nicht mehr aus ihrem Block
+  ausbrechen: Prüfung am Feld (Font-Stack, Google-Adresse), Sperre im Store,
+  Ausgabe nur in der Grammatik der App (`utils/css-wert.js`), Server-Prüfung
+  beim Veröffentlichen und bei der Vorschau (Vertrag 1.1.1, 422).
 
 Ursprünglicher Vorschlag (ADR-004):
 

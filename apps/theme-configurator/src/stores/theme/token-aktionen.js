@@ -5,8 +5,10 @@
 import { getDefaultFoundation, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
 import { MITZIEHENDE_PALETTEN, paletteSkala, zieheMit } from '../../utils/farbskala.js'
+import { istUnsichererText, pruefeFontStack } from '../../utils/css-wert.js'
 
 export function updateSemanticToken(tokenId, value) {
+  if (istUnsichererText(value)) return false   // UX-02: kein Ausbruch aus dem CSS-Block
   const mode = state.previewMode === 'split' ? 'light' : state.previewMode
   const themeSet = state.activeThemeSet
   state.themes[themeSet][mode][tokenId] = value
@@ -28,6 +30,10 @@ export function ergaenzeFoundation() {
 }
 
 export function updateFoundationToken(category, key, value) {
+  // UX-02: Werte mit { } ; < > \ oder Kommentaren brechen aus dem CSS aus;
+  // Schriften müssen ein gültiger Font-Stack sein
+  if (istUnsichererText(value)) return false
+  if (category === 'typography' && /^font-(body|heading|mono)$/.test(key) && typeof value === 'string' && pruefeFontStack(value)) return false
   // Kategorie notfalls anlegen: Ein gespeicherter Stand von vor einer neuen
   // Foundation-Kategorie (z. B. size, tracking seit 30.09.2026) kennt sie nicht.
   const set = state.foundationOverrides[state.activeThemeSet]
@@ -151,6 +157,7 @@ export const MIRROR_TOKEN_MAP = {
 }
 
 export function updateComponentToken(tokenId, value) {
+  if (istUnsichererText(value)) return false   // UX-02
   // Guard: check if the component owning this token is locked
   const componentId = extractComponentId(tokenId)
   if (componentId && isComponentLocked(componentId)) {

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NEO Theme-Konfigurator – Speicher-Schnittstelle
-  version: 1.1.0
+  version: 1.1.1
   description: |
     Vertrag zwischen Theme-Konfigurator (Vue-App) und Drupal 11 (neo Workplace,
     Config Tools), abgestimmt mit der Drupal-Entwicklung am 01.10.2026
@@ -56,6 +56,14 @@ info:
     - Im Drupal-Betrieb arbeitet die App im Set „neo“; das veröffentlichte
       CSS enthält nur Abweichungen vom NEO-Standard (.neo-light-theme /
       .neo-dark-theme / :root) und Google-Fonts-Adressen als @import.
+
+    Ergänzung 1.1.1 (15.10.2026, Usability-Audit UX-02): Der Server prüft
+    das CSS beim Veröffentlichen und bei der Vorschau auf die Grammatik der
+    App — nur Kommentare (ohne < >), @import von fonts.googleapis.com und
+    Blöcke „Selektor { --name: wert; … }“ mit eigenen Eigenschaften. Alles
+    andere (fremde Eigenschaften wie display, verschachtelte Blöcke, fremde
+    @-Regeln, Markup) lehnt er mit 422 ab (fehler: „css: …“). Referenz:
+    pruefeCss() in apps/theme-configurator/src/utils/css-wert.js.
 
     Gegenstück in der App: apps/theme-configurator/src/speicher/drupal.js.
 servers:

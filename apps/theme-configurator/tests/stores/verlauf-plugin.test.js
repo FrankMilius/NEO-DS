@@ -47,3 +47,40 @@ describe('Verlauf-Plugin', () => {
     expect(store.currentFoundation.radius.md).toBe('13px')
   })
 })
+
+// UX-01 (Usability-Audit 15.10.2026): Theme-Wechsel sind kein Undo-Schritt
+describe('Verlauf und Theme-Wechsel (UX-01)', () => {
+  let store
+  beforeEach(() => {
+    store = useThemeStore()
+    store.state.activeThemeSet = 'neo'
+    store.state.history = []
+    store.state.historyIndex = -1
+    localStorage.clear()
+  })
+  afterEach(() => vi.restoreAllMocks())
+
+  it('Öffnen/Anlegen/NEO ansehen sind nicht in der Verlauf-Liste', () => {
+    for (const a of ['oeffneTheme', 'loadTheme', 'legeThemeAusStandardAn', 'zeigeNeoStandard']) expect(VERLAUF_AKTIONEN, a).not.toContain(a)
+  })
+
+  it('loadTheme leert den Verlauf: Rückgängig holt keine Werte des vorher offenen Themes zurück', () => {
+    store.updateFoundationToken('radius', 'md', '13px')
+    store.createTheme('A', '1.0.0')
+    const a = store.state.currentThemeMeta.id
+    store.updateFoundationToken('radius', 'md', '21px')
+    store.createTheme('B', '1.0.0')
+    const b = store.state.currentThemeMeta.id
+    store.loadTheme(a)
+    expect(store.canUndo()).toBe(false)
+    store.undo()
+    expect(store.state.currentThemeMeta.id).toBe(a)
+    expect(store.currentFoundation.radius.md).toBe('13px')
+    store.loadTheme(b)
+    store.updateFoundationToken('radius', 'md', '34px')
+    expect(store.canUndo()).toBe(true)
+    store.undo()
+    expect(store.currentFoundation.radius.md).toBe('21px')   // Änderung innerhalb des Themes bleibt umkehrbar
+    expect(store.canUndo()).toBe(false)
+  })
+})

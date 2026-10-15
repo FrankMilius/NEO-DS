@@ -68,9 +68,12 @@
                     type="text"
                     class="font-input"
                     :value="font.value"
-                    @change="updateFontFamily(font.tokenKey, $event.target.value)"
+                    :aria-invalid="feldFehler['stack-' + font.id] ? 'true' : undefined"
+                    :aria-describedby="feldFehler['stack-' + font.id] ? `fehler-stack-${font.id}` : undefined"
+                    @change="updateFontFamily(font.tokenKey, $event.target.value, 'stack-' + font.id)"
                     :placeholder="font.placeholder"
                   />
+                  <p v-if="feldFehler['stack-' + font.id]" :id="`fehler-stack-${font.id}`" class="feld-fehler" role="alert">{{ feldFehler['stack-' + font.id] }}</p>
                 </details>
               </template>
               <code v-else class="font-value font-value--stack">{{ font.value }}</code>
@@ -120,20 +123,24 @@
                     type="text"
                     class="font-input"
                     :value="font.family"
+                    :aria-invalid="feldFehler['gf-family-' + font.id] ? 'true' : undefined"
                     @change="updateCustomFontFamily(font.id, $event.target.value)"
                     placeholder="Font stack, e.g. Inter, sans-serif"
                   />
                 </div>
+                <p v-if="feldFehler['gf-family-' + font.id]" class="feld-fehler" role="alert">{{ feldFehler['gf-family-' + font.id] }}</p>
                 <div class="font-edit-row">
                   <label class="font-url-label">Google Fonts URL</label>
                   <input aria-label="Google Fonts URL"
                     type="text"
                     class="font-input font-input--url"
                     :value="font.url"
+                    :aria-invalid="feldFehler['gf-url-' + font.id] ? 'true' : undefined"
                     @change="updateCustomFontUrl(font.id, $event.target.value)"
                     placeholder="https://fonts.googleapis.com/css2?family=..."
                   />
                 </div>
+                <p v-if="feldFehler['gf-url-' + font.id]" class="feld-fehler" role="alert">{{ feldFehler['gf-url-' + font.id] }}</p>
                 <div class="font-rollen" role="group" :aria-label="`${font.name} verwenden als`">
                   <button
                     v-for="r in activeFonts"
@@ -188,6 +195,7 @@
                     @keyup.enter="addCustomFont"
                     @keyup.escape="cancelAddFont"
                   />
+                  <p v-if="feldFehler['gf-neu']" class="feld-fehler" role="alert">{{ feldFehler['gf-neu'] }}</p>
                   <!-- Live preview -->
                   <div v-if="newFontFamily.trim()" class="add-font-preview" :style="{ fontFamily: newFontFamily }">
                     <span class="font-sample">Aa Bb Cc Dd 1234</span>
@@ -304,11 +312,12 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
 import { speicher } from '../../speicher/index.js'
+import { pruefeFontStack } from '../../utils/css-wert.js'
 import DrupalSchriften from '../drupal/DrupalSchriften.vue'
 import { ladeServerSchriften, serverSchriften } from '../../composables/useServerSchriften.js'
 
@@ -430,8 +439,20 @@ const bodyFontFamily = computed(() => {
   return foundation?.typography?.['font-body'] || typoTokens['font-body'].value
 })
 
-function updateFontFamily(tokenKey, value) {
-  store.updateFoundationToken('typography', tokenKey, value)
+// Fehler am Feld (UX-02): ein ungültiger Font-Stack wird nicht übernommen
+const feldFehler = reactive({})
+const GOOGLE_URL = /^https:\/\/fonts\.googleapis\.com\/css2?\?[^"'\\\s<>]+$/
+function pruefeGoogleUrl (url) {
+  const u = String(url || '').trim()
+  if (!u) return null
+  return GOOGLE_URL.test(u) ? null : 'Nur Adressen von Google Fonts: https://fonts.googleapis.com/css2?family=…'
+}
+
+function updateFontFamily(tokenKey, value, feld) {
+  const fehler = pruefeFontStack(value)
+  if (feld) feldFehler[feld] = fehler || ''
+  if (fehler) return
+  store.updateFoundationToken('typography', tokenKey, value.trim())
 }
 
 // ---------------------------------------------------------------------------
@@ -451,6 +472,9 @@ function addCustomFont() {
   const name = newFontName.value.trim()
   const family = newFontFamily.value.trim()
   if (!name || !family) return
+  const fehler = pruefeFontStack(family) || pruefeGoogleUrl(newFontUrl.value) || (pruefeFontStack(name) ? 'Name: nur Buchstaben, Ziffern, Leerzeichen, . _ -' : null)
+  feldFehler['gf-neu'] = fehler || ''
+  if (fehler) return
   const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString(36)
   store.state.customFonts[store.state.activeThemeSet].push({
     id,
@@ -480,13 +504,18 @@ function updateCustomFontName(id, value) {
 
 function updateCustomFontFamily(id, value) {
   const font = customFonts.value.find(f => f.id === id)
-  if (font) {
-    font.family = value
+  const fehler = pruefeFontStack(value)
+  feldFehler['gf-family-' + id] = fehler || ''
+  if (font && !fehler) {
+    font.family = value.trim()
   }
 }
 
 function updateCustomFontUrl(id, value) {
   const font = customFonts.value.find(f => f.id === id)
+  const fehler = pruefeGoogleUrl(value)
+  feldFehler['gf-url-' + id] = fehler || ''
+  if (fehler) return
   if (font) {
     font.url = value
     if (value.trim()) {
@@ -733,6 +762,8 @@ const rollen = computed(() => {
 .font-value--stack { white-space: normal; overflow-wrap: anywhere; color: var(--cfg-text-secondary); }
 
 /* Rollen-Auswahl (15.10.2026) */
+.feld-fehler { margin: 4px 0 0; font-size: 12px; line-height: 1.4; color: var(--cfg-danger); }
+.font-input[aria-invalid='true'] { border-color: var(--cfg-danger); }
 .font-wirkung { margin: 0; font-size: 12px; line-height: 1.4; color: var(--cfg-text-secondary); }
 .font-select-label { font-size: 11px; font-weight: 600; color: var(--cfg-text-secondary); }
 .font-select {

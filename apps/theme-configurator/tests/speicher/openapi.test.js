@@ -27,10 +27,10 @@ const METHODEN = ['get', 'post', 'put', 'delete']
 const operationen = () => Object.entries(api.paths).flatMap(([pfad, ops]) => METHODEN.filter(m => ops[m]).map(m => ({ pfad, m, op: ops[m] })))
 
 describe('OpenAPI-Vertrag', () => {
-  it('ist gueltiges YAML in OpenAPI 3.1, Version 1.1.0', () => {
+  it('ist gueltiges YAML in OpenAPI 3.1, Version 1.1.1', () => {
     expect(api.openapi).toBe('3.1.0')
     expect(api.info.title).toMatch(/Theme-Konfigurator/)
-    expect(api.info.version).toBe('1.1.0')
+    expect(api.info.version).toBe('1.1.1')
     expect(api.servers[0].url).toBe('/api/neo-theme-konfigurator/v1')
   })
 
