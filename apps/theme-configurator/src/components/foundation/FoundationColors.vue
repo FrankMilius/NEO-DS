@@ -614,7 +614,7 @@
               ></div>
               <div class="token-meta">
                 <span class="token-label">{{ token.label }}</span>
-                <span class="token-value">{{ getActiveDisplayValue(token.id) }}</span>
+                <span class="token-value"><span class="token-modus" data-test="token-modus">{{ activeThemeMode === 'dark' ? 'Dunkel' : 'Hell' }}</span> {{ getActiveDisplayValue(token.id) }}</span>
                 <span v-if="token.description" class="token-hint">{{ token.description }}</span>
               </div>
               <span v-if="getUsedByCount(token.id)" class="used-by-badge" :title="getUsedByTooltip(token.id)">
@@ -633,6 +633,25 @@
             <!-- Expanded: Color Editor + Used-By -->
             <transition name="expand">
               <div v-if="selectedTokenId === token.id" class="primitive-picker">
+                <!-- UX-13: welcher Wert bearbeitet wird, sichtbar und umschaltbar -->
+                <div class="modus-wahl" role="group" :aria-label="`Wert von ${token.label} bearbeiten`" data-test="modus-wahl">
+                  <button
+                    v-for="m in MODI"
+                    :key="m.id"
+                    type="button"
+                    :class="['modus-wahl__knopf', { 'modus-wahl__knopf--aktiv': activeThemeMode === m.id }]"
+                    :aria-pressed="activeThemeMode === m.id ? 'true' : 'false'"
+                    :data-test="`modus-${m.id}`"
+                    @click="store.setBearbeitungsModus(m.id)"
+                  >
+                    <span class="modus-wahl__farbe" :style="{ background: m.id === 'dark' ? getDarkValue(token.id) : getLightValue(token.id) }" aria-hidden="true"></span>
+                    <span>{{ m.label }}</span>
+                    <code>{{ m.id === 'dark' ? getDarkValue(token.id) : getLightValue(token.id) }}</code>
+                  </button>
+                </div>
+                <p v-if="store.state.previewMode === 'split' || store.state.previewMode === 'matrix'" class="modus-wahl__hinweis">
+                  Die Vorschau zeigt mehrere Modi. Du bearbeitest den Wert für {{ activeThemeMode === 'dark' ? 'Dunkel' : 'Hell' }}.
+                </p>
                 <ColorEditor
                   :modelValue="getActiveThemeValue(token.id)"
                   @update:modelValue="assignHexToSemantic(token.id, $event)"
@@ -1250,8 +1269,9 @@ const primitiveColorMap = computed(() => {
 // ---------------------------------------------------------------------------
 // Theme-aware helpers: resolve to active previewMode
 // ---------------------------------------------------------------------------
+const MODI = [{ id: 'light', label: 'Hell' }, { id: 'dark', label: 'Dunkel' }]
 const activeThemeMode = computed(() => {
-  return store.state.previewMode === 'split' ? 'light' : store.state.previewMode
+  return store.editMode   // bearbeiteter Modus, nie „split“/„matrix“ (UX-08/UX-13)
 })
 
 function getLightValue(tokenId) {
@@ -2019,6 +2039,19 @@ function getNotAffected(semanticId) {
 }
 
 /* ── Primitive Picker (expanded state) ── */
+/* UX-13: Hell | Dunkel am Token */
+.token-modus { font-weight: 600; color: var(--cfg-text); }
+.modus-wahl { display: flex; gap: 6px; flex-wrap: wrap; }
+.modus-wahl__knopf {
+  display: inline-flex; align-items: center; gap: 6px; flex: 1 1 140px; min-height: 32px;
+  padding: 4px 10px; border: 1px solid var(--cfg-border); border-radius: 6px;
+  background: var(--cfg-surface); color: var(--cfg-text); font-size: 12px; cursor: pointer;
+}
+.modus-wahl__knopf code { font-size: 11px; color: var(--cfg-text-muted); margin-left: auto; }
+.modus-wahl__knopf--aktiv { border-color: var(--cfg-accent); box-shadow: inset 0 0 0 1px var(--cfg-accent); font-weight: 600; }
+.modus-wahl__farbe { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--cfg-border); flex: none; }
+.modus-wahl__hinweis { margin: 0; font-size: 12px; color: var(--cfg-text-muted); }
+
 .primitive-picker {
   padding: 12px;
   border-top: 1px solid var(--cfg-border);

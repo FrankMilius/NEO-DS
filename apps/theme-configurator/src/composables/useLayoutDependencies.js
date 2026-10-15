@@ -168,7 +168,7 @@ export function useLayoutDependencies(componentId) {
   // Active conflicts
   const conflicts = computed(() => {
     const results = []
-    const themeMode = store.state.previewMode === 'split' ? 'light' : store.state.previewMode
+    const themeMode = store.editMode   // UX-08: nie „split“/„matrix“
     const themeColors = store.state.themes[store.state.activeThemeSet]?.[themeMode]
 
     for (const rule of CONFLICT_RULES) {

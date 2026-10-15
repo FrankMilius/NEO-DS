@@ -37,7 +37,7 @@ export function useFarbenArena () {
 
   const tDark  = computed(() => store.state.themes[store.state.activeThemeSet].dark)
 
-  const activeThemeMode = computed(() => store.state.previewMode === 'split' ? 'light' : store.state.previewMode)
+  const activeThemeMode = computed(() => store.editMode)   // bearbeiteter Modus (UX-13)
 
   const activeThemeTokenValue = computed(() => {
     if (!selectedSemanticToken.value) return '#000000'

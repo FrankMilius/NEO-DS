@@ -14,6 +14,7 @@ export function setActiveThemeSet(themeSet) {
 
 export function setPreviewMode(mode) {
   state.previewMode = mode
+  if (mode === 'light' || mode === 'dark') state.bearbeitungsModus = mode   // UX-13
   // Merke den Preview Mode fuer die aktuelle Sektion
   state.sectionPreviewModes[state.activeSection] = mode
 }
@@ -24,6 +25,15 @@ export function setActiveSection(sectionId) {
   resetArenaFilters()
   // Gespeicherten Preview Mode der Sektion wiederherstellen, sonst Light als Default
   state.previewMode = state.sectionPreviewModes[sectionId] || 'light'
+  if (state.previewMode === 'light' || state.previewMode === 'dark') state.bearbeitungsModus = state.previewMode
+}
+
+/** Hell- oder Dunkel-Wert bearbeiten, unabhängig von der Vorschau (UX-13) */
+export function setBearbeitungsModus(modus) {
+  if (modus !== 'light' && modus !== 'dark') return
+  state.bearbeitungsModus = modus
+  // Einzelansicht: Vorschau zeigt, was bearbeitet wird
+  if (state.previewMode === 'light' || state.previewMode === 'dark') setPreviewMode(modus)
 }
 
 export function selectToken(token) {

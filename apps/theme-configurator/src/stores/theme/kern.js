@@ -38,6 +38,13 @@ export const state = reactive({
   // Light / Dark preview mode
   previewMode: 'light',
 
+  // Welcher Wert eines Farb-Tokens bei Split und 4-Theme-Matrix bearbeitet
+  // wird: 'light' | 'dark' (Befund UX-13/UX-08, 15.10.2026). Zeigt die
+  // Vorschau Hell oder Dunkel, gilt immer dieser Modus (modusFuerBearbeitung).
+  // Vorher wurde der Modus still aus previewMode abgeleitet — „matrix“
+  // ergab themes[set].matrix = undefined und brachte den Inspector zum Absturz.
+  bearbeitungsModus: 'light',
+
   // Per-section preview mode memory (section → 'light'|'dark'|'split')
   sectionPreviewModes: {},
 
@@ -318,4 +325,15 @@ export function getDefaultFoundation() {
     }
   }
   return result
+}
+
+/**
+ * Bearbeiteter Modus eines Farb-Tokens (UX-08/UX-13): die Vorschau, wenn sie
+ * Hell oder Dunkel zeigt, sonst der gewählte Bearbeitungsmodus — nie „split“
+ * oder „matrix“, die keine eigene Farbtabelle haben.
+ * @returns {'light'|'dark'}
+ */
+export function modusFuerBearbeitung () {
+  if (state.previewMode === 'light' || state.previewMode === 'dark') return state.previewMode
+  return state.bearbeitungsModus === 'dark' ? 'dark' : 'light'
 }

@@ -1,6 +1,6 @@
 <template>
   <slot v-if="!error" />
-  <div v-else class="error-boundary">
+  <div v-else class="error-boundary" role="alert">
     <div class="error-boundary__icon">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -8,8 +8,16 @@
         <path d="M3.262 17.02a2.108 2.108 0 0 1 -.024 -2.106l7.16 -12.62a2.35 2.35 0 0 1 4.2 0l7.16 12.62a2.108 2.108 0 0 1 -1.856 3.106h-14.784a2.108 2.108 0 0 1 -1.856 -1z" />
       </svg>
     </div>
-    <p class="error-boundary__title">{{ panelLabel }} konnte nicht geladen werden</p>
-    <p class="error-boundary__detail">{{ error.message }}</p>
+    <p class="error-boundary__title">{{ panelLabel }} konnte nicht angezeigt werden</p>
+    <!-- UX-08: verständlich auf Deutsch; die technische Meldung nur aufklappbar -->
+    <p class="error-boundary__text">
+      Ein Programmfehler hat diesen Bereich angehalten. Deine Werte im Theme sind davon nicht betroffen.
+      Versuche es erneut oder wähle einen anderen Bereich.
+    </p>
+    <details class="error-boundary__detail">
+      <summary>Technische Meldung</summary>
+      <code>{{ error.message }}</code>
+    </details>
     <button class="error-boundary__retry" @click="reset">Erneut versuchen</button>
   </div>
 </template>
@@ -55,6 +63,12 @@ onErrorCaptured((err) => {
 .error-boundary__title {
   font-weight: 600;
   color: var(--cfg-text-primary, #222);
+  margin: 0;
+}
+
+.error-boundary__text {
+  font-size: 0.85rem;
+  max-width: 400px;
   margin: 0;
 }
 

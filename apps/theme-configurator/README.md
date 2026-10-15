@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.3` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.4` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -557,6 +557,21 @@ App 1.2.3 (Usability-Audit, Eingaben und Ausgabe, 15.10.2026):
 - Bekannte Lücke: eigene Spacing-Tokens (`customSpacingTokens`) gehen nur in
   den DTCG-Export, nicht ins CSS. Semantische Abstände, die vor 1.2.3 auf
   Spacing gesetzt wurden, können auf den falschen Schritt zeigen.
+
+App 1.2.4 (Usability-Audit, Farben und Schriften, 15.10.2026):
+
+- **UX-08:** Die 4-Theme-Matrix bringt den Farb-Inspector nicht mehr zum
+  Absturz. Ursache: Der bearbeitete Modus wurde aus der Vorschau abgeleitet,
+  „matrix“ ergab keine Farbtabelle. Fehleranzeige eines Bereichs auf Deutsch,
+  technische Meldung aufklappbar.
+- **UX-13:** Eigener Bearbeitungsmodus (`state.bearbeitungsModus`,
+  `store.editMode`, `setBearbeitungsModus`): Ein aufgeklapptes Farb-Token zeigt
+  „Hell | Dunkel“ mit beiden Werten; der Kopf des Tokens nennt den Modus. Die
+  Vorschau Hell/Dunkel stellt ihn mit um, Split und Matrix lassen ihn stehen.
+- **UX-14:** Google-Schriften (`utils/google-schrift.js`): Ohne Adresse baut die
+  App sie aus der ersten Schrift des Font-Stacks (Stärke 400); Adresse und
+  Font-Stack müssen dieselbe Familie nennen; liefert Google die Familie nicht,
+  steht „Nicht ladbar“ an der Schrift.
 
 Ursprünglicher Vorschlag (ADR-004):
 

@@ -4,16 +4,16 @@
 
 import { semanticDefaults } from '../../data/tokens.js'
 import { computed } from 'vue'
-import { state } from './kern.js'
+import { state, modusFuerBearbeitung } from './kern.js'
 
 // ---------------------------------------------------------------------------
 // Computed
 // ---------------------------------------------------------------------------
 
-export const currentThemeKey = computed(() => {
-  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
-  return `${state.activeThemeSet}-${mode}`
-})
+/** Bearbeiteter Modus eines Farb-Tokens: 'light' | 'dark' (UX-13) */
+export const editMode = computed(() => modusFuerBearbeitung())
+
+export const currentThemeKey = computed(() => `${state.activeThemeSet}-${editMode.value}`)
 
 export const currentThemeId = computed(() => {
   const map = {
@@ -26,9 +26,8 @@ export const currentThemeId = computed(() => {
 })
 
 export const currentSemanticTokens = computed(() => {
-  // In split mode, default to light for editors that need a single map
-  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
-  return state.themes[state.activeThemeSet][mode]
+  // Werte des bearbeiteten Modus (Split/Matrix: der zuletzt gewählte)
+  return state.themes[state.activeThemeSet][editMode.value]
 })
 
 export const currentFoundation = computed(() => {

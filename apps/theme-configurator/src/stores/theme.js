@@ -9,8 +9,8 @@
 
 import { defineStore } from 'pinia'
 import { state } from './theme/kern.js'
-import { currentComponentOverrides, currentCustomBorderWidthTokens, currentCustomElevationTokens, currentCustomFonts, currentCustomMediaRatioTokens, currentCustomMotionEffectTokens, currentCustomMotionTokens, currentCustomOpacityTokens, currentCustomRadiiTokens, currentCustomShadowTokens, currentCustomSpacingTokens, currentCustomZindexTokens, currentFocusRingMode, currentFoundation, currentIconLibraries, currentIconStrokeColors, currentIconStrokeWidths, currentPrimitives, currentSemanticSpacing, currentSemanticTokens, currentSemanticTypography, currentThemeId, currentThemeKey, currentTypeScale, isDirty, isNeoDefault } from './theme/getter.js'
-import { clearArenaSelection, clearHighlightedToken, getFormVariant, resetArenaFilters, selectToken, setActiveSection, setActiveThemeSet, setArenaFilter, setArenaSelection, setFormVariant, setHighlightedToken, setPreviewMode, setSyncGeometry } from './theme/ui.js'
+import { currentComponentOverrides, currentCustomBorderWidthTokens, currentCustomElevationTokens, currentCustomFonts, currentCustomMediaRatioTokens, currentCustomMotionEffectTokens, currentCustomMotionTokens, currentCustomOpacityTokens, currentCustomRadiiTokens, currentCustomShadowTokens, currentCustomSpacingTokens, currentCustomZindexTokens, currentFocusRingMode, currentFoundation, currentIconLibraries, currentIconStrokeColors, currentIconStrokeWidths, currentPrimitives, currentSemanticSpacing, currentSemanticTokens, currentSemanticTypography, currentThemeId, currentThemeKey, currentTypeScale, editMode, isDirty, isNeoDefault } from './theme/getter.js'
+import { clearArenaSelection, clearHighlightedToken, getFormVariant, resetArenaFilters, selectToken, setActiveSection, setActiveThemeSet, setArenaFilter, setArenaSelection, setFormVariant, setBearbeitungsModus, setHighlightedToken, setPreviewMode, setSyncGeometry } from './theme/ui.js'
 import { addCustomBorderWidthToken, addCustomElevationToken, addCustomMediaRatioToken, addCustomMotionEffectToken, addCustomMotionToken, addCustomOpacityToken, addCustomRadiiToken, addCustomShadowToken, addCustomSpacingToken, addCustomZindexToken, addIconLibrary, addSemanticSpacingToken, removeCustomBorderWidthToken, removeCustomElevationToken, removeCustomMediaRatioToken, removeCustomMotionEffectToken, removeCustomMotionToken, removeCustomOpacityToken, removeCustomRadiiToken, removeCustomShadowToken, removeCustomSpacingToken, removeCustomZindexToken, removeIconLibrary, removeSemanticSpacing, removeSemanticTypography, resetComponentToken, resetTypeScale, setFocusRingMode, updateComponentToken, updateFoundationToken, updateIconStrokeColor, updateIconStrokeWidth, updatePrimitive, updateSemanticSpacing, updateSemanticToken, updateSemanticTypography, updateTypeScale } from './theme/token-aktionen.js'
 import { bumpComponentVersion, createVariant, deleteVariant, extractComponentId, getComponentVersion, getVariants, isComponentLocked, lockComponent, unlockComponent } from './theme/komponenten.js'
 import { SCHREIBSCHUTZ_AKTIONEN, VERLAUF_AKTIONEN, applyThemeData, canRedo, canUndo, redo, resetToDefaults, snapshotThemeData, undo } from './theme/verlauf.js'
@@ -30,6 +30,7 @@ export const useThemeStore = defineStore('theme', () => ({
   state,
   // Computed
   currentThemeKey,
+  editMode,
   currentThemeId,
   currentSemanticTokens,
   currentFoundation,
@@ -42,6 +43,7 @@ export const useThemeStore = defineStore('theme', () => ({
   // Actions
   setActiveThemeSet,
   setPreviewMode,
+  setBearbeitungsModus,
   setActiveSection,
   selectToken,
   setArenaSelection,

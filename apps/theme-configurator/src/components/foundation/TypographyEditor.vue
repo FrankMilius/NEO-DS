@@ -141,6 +141,15 @@
                   />
                 </div>
                 <p v-if="feldFehler['gf-url-' + font.id]" class="feld-fehler" role="alert">{{ feldFehler['gf-url-' + font.id] }}</p>
+                <!-- UX-14: was die Website von dieser Schrift bekommt -->
+                <p v-if="!font.url" class="feld-fehler" role="status" :data-test="`schrift-stand-${font.id}`">
+                  Ohne Google-Fonts-Adresse lädt die Website diese Schrift nicht.
+                  <button type="button" class="font-rolle-btn" :data-test="`schrift-adresse-bauen-${font.id}`" @click="updateCustomFontUrl(font.id, '')">Adresse aus dem Font-Stack bauen</button>
+                </p>
+                <p v-else-if="schriftStand[font.id] === 'fehler'" class="feld-fehler" role="alert" :data-test="`schrift-stand-${font.id}`">
+                  Nicht ladbar: Google Fonts liefert „{{ ersteFamilie(font.family) }}“ unter dieser Adresse nicht. Die Website zeigt stattdessen die Ersatzschrift. Namen auf fonts.google.com prüfen.
+                </p>
+                <p v-else-if="schriftStand[font.id] === 'ok'" class="font-wirkung" role="status" :data-test="`schrift-stand-${font.id}`">Geladen von Google Fonts.</p>
                 <div class="font-rollen" role="group" :aria-label="`${font.name} verwenden als`">
                   <button
                     v-for="r in activeFonts"
@@ -195,6 +204,7 @@
                     @keyup.enter="addCustomFont"
                     @keyup.escape="cancelAddFont"
                   />
+                  <p class="font-wirkung">Leer lassen: Die Adresse wird aus der ersten Schrift des Font-Stacks gebaut (nur Stärke 400). Für weitere Stärken die Adresse von fonts.google.com einfügen.</p>
                   <p v-if="feldFehler['gf-neu']" class="feld-fehler" role="alert">{{ feldFehler['gf-neu'] }}</p>
                   <!-- Live preview -->
                   <div v-if="newFontFamily.trim()" class="add-font-preview" :style="{ fontFamily: newFontFamily }">
@@ -318,6 +328,7 @@ import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
 import { speicher } from '../../speicher/index.js'
 import { pruefeFontStack } from '../../utils/css-wert.js'
+import { ersteFamilie, baueGoogleUrl, pruefeFamilieZurUrl, pruefeLadbarkeit } from '../../utils/google-schrift.js'
 import DrupalSchriften from '../drupal/DrupalSchriften.vue'
 import { ladeServerSchriften, serverSchriften } from '../../composables/useServerSchriften.js'
 
@@ -388,10 +399,6 @@ const NEO_SCHRIFTEN = [
 ]
 
 /** Erste Familie eines Font-Stacks, ohne Anführungszeichen */
-function ersteFamilie (stack) {
-  return String(stack || '').split(',')[0].trim().replace(/^['"]|['"]$/g, '')
-}
-
 /** Ersatzschriften der Rolle (alles nach der ersten Schrift des NEO-Stacks) */
 function ersatz (tokenKey) {
   return String(typoTokens[tokenKey]?.value || 'sans-serif').split(',').slice(1).map(s => s.trim()).filter(Boolean).join(', ')
@@ -472,20 +479,15 @@ function addCustomFont() {
   const name = newFontName.value.trim()
   const family = newFontFamily.value.trim()
   if (!name || !family) return
-  const fehler = pruefeFontStack(family) || pruefeGoogleUrl(newFontUrl.value) || (pruefeFontStack(name) ? 'Name: nur Buchstaben, Ziffern, Leerzeichen, . _ -' : null)
+  // UX-14: ohne Adresse lädt die Website die Schrift nie — dann aus dem
+  // Font-Stack bauen; Adresse und Stack müssen dieselbe Familie nennen
+  const url = newFontUrl.value.trim() || baueGoogleUrl(ersteFamilie(family))
+  const fehler = pruefeFontStack(family) || pruefeGoogleUrl(url) || pruefeFamilieZurUrl(family, url) || (pruefeFontStack(name) ? 'Name: nur Buchstaben, Ziffern, Leerzeichen, . _ -' : null)
   feldFehler['gf-neu'] = fehler || ''
   if (fehler) return
   const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString(36)
-  store.state.customFonts[store.state.activeThemeSet].push({
-    id,
-    name,
-    family,
-    url: newFontUrl.value.trim()
-  })
-  // Load the Google Font if URL provided
-  if (newFontUrl.value.trim()) {
-    loadGoogleFont(id, newFontUrl.value.trim())
-  }
+  store.state.customFonts[store.state.activeThemeSet].push({ id, name, family, url })
+  loadGoogleFont(id, url, family)
   cancelAddFont()
 }
 
@@ -504,7 +506,7 @@ function updateCustomFontName(id, value) {
 
 function updateCustomFontFamily(id, value) {
   const font = customFonts.value.find(f => f.id === id)
-  const fehler = pruefeFontStack(value)
+  const fehler = pruefeFontStack(value) || (font?.url ? pruefeFamilieZurUrl(value, font.url) : null)
   feldFehler['gf-family-' + id] = fehler || ''
   if (font && !fehler) {
     font.family = value.trim()
@@ -513,17 +515,14 @@ function updateCustomFontFamily(id, value) {
 
 function updateCustomFontUrl(id, value) {
   const font = customFonts.value.find(f => f.id === id)
-  const fehler = pruefeGoogleUrl(value)
+  if (!font) return
+  // Leer: Adresse aus dem Font-Stack bauen (UX-14)
+  const url = String(value || '').trim() || baueGoogleUrl(ersteFamilie(font.family))
+  const fehler = pruefeGoogleUrl(url) || pruefeFamilieZurUrl(font.family, url)
   feldFehler['gf-url-' + id] = fehler || ''
   if (fehler) return
-  if (font) {
-    font.url = value
-    if (value.trim()) {
-      loadGoogleFont(id, value.trim())
-    } else {
-      unloadGoogleFont(id)
-    }
-  }
+  font.url = url
+  loadGoogleFont(id, url, font.family)
 }
 
 function cancelAddFont() {
@@ -547,7 +546,7 @@ watch(customFonts, (newFonts, oldFonts) => {
   // Load stylesheets for new fonts
   ;(newFonts || []).forEach(f => {
     if (f.url && !loadedStylesheets.value.has(f.id)) {
-      loadGoogleFont(f.id, f.url)
+      loadGoogleFont(f.id, f.url, f.family)
     }
   })
 }, { deep: true })
@@ -555,7 +554,10 @@ watch(customFonts, (newFonts, oldFonts) => {
 // ---------------------------------------------------------------------------
 // Dynamic Google Font Loading
 // ---------------------------------------------------------------------------
-function loadGoogleFont(id, url) {
+// Ladbarkeit je eigener Schrift (UX-14): 'laedt' | 'ok' | 'fehler' | 'unbekannt'
+const schriftStand = reactive({})
+
+function loadGoogleFont(id, url, family) {
   // Remove existing if any
   unloadGoogleFont(id)
   // Only load URLs from Google Fonts
@@ -564,11 +566,16 @@ function loadGoogleFont(id, url) {
   link.rel = 'stylesheet'
   link.href = url
   link.dataset.customFontId = id
+  schriftStand[id] = 'laedt'
+  pruefeLadbarkeit(link, ersteFamilie(family)).then((stand) => {
+    if (loadedStylesheets.value.get(id) === link) schriftStand[id] = stand
+  })
   document.head.appendChild(link)
   loadedStylesheets.value.set(id, link)
 }
 
 function unloadGoogleFont(id) {
+  delete schriftStand[id]
   const link = loadedStylesheets.value.get(id)
   if (link) {
     link.remove()
@@ -580,7 +587,7 @@ function unloadGoogleFont(id) {
 onMounted(() => {
   if (drupalBetrieb) ladeServerSchriften()
   customFonts.value.forEach(f => {
-    if (f.url) loadGoogleFont(f.id, f.url)
+    if (f.url) loadGoogleFont(f.id, f.url, f.family)
   })
 })
 

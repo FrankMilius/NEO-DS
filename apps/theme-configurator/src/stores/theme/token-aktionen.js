@@ -2,7 +2,7 @@
 // Theme-Store · Aenderungen an Semantik-, Foundation-, Komponenten- und Custom-Tokens, Schriftskala, Primitives
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
-import { getDefaultFoundation, state } from './kern.js'
+import { getDefaultFoundation, modusFuerBearbeitung, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
 import { MITZIEHENDE_PALETTEN, paletteSkala, zieheMit } from '../../utils/farbskala.js'
 import { istUnsichererText } from '../../utils/css-wert.js'
@@ -22,8 +22,13 @@ function ablehnen (meldung, letzterWert) {
   return false
 }
 
-export function updateSemanticToken(tokenId, value) {
-  const mode = state.previewMode === 'split' ? 'light' : state.previewMode
+/**
+ * Semantische Farbe setzen.
+ * @param {string} tokenId @param {string} value
+ * @param {'light'|'dark'} [modus]  ohne Angabe: der Bearbeitungsmodus (UX-13)
+ */
+export function updateSemanticToken(tokenId, value, modus) {
+  const mode = modus === 'light' || modus === 'dark' ? modus : modusFuerBearbeitung()
   const themeSet = state.activeThemeSet
   const alt = state.themes[themeSet][mode][tokenId]
   if (istUnsichererText(value)) return ablehnen(NICHT_ERLAUBT, alt)   // UX-02

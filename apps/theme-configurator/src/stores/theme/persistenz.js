@@ -223,6 +223,7 @@ export function loadFromStorage() {
       if (data.activeThemeSet) state.activeThemeSet = data.activeThemeSet
       // previewMode wird NICHT restored — startet immer im Light Mode
       state.previewMode = 'light'
+      state.bearbeitungsModus = 'light'
       if (data.currentThemeMeta) state.currentThemeMeta = data.currentThemeMeta
       if (data.activeSection) state.activeSection = data.activeSection
     }

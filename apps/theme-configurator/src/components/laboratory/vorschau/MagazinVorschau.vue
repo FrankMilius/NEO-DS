@@ -586,7 +586,7 @@ const typoTokens = foundationTokens.typography.tokens
 
 // Theme tokens — reads directly from store (reactive to theme/mode changes)
 const t = computed(() => {
-  const mode = store.state.previewMode === 'split' ? 'light' : store.state.previewMode
+  const mode = store.state.previewMode === 'dark' ? 'dark' : 'light'   // Split/Matrix: hell (UX-08)
   return store.state.themes[store.state.activeThemeSet][mode]
 })
 
