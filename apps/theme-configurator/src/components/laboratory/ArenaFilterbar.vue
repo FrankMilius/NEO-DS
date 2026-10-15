@@ -146,8 +146,9 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  height: 3rem;
-  padding: 0 16px;
+  min-height: 3rem;   /* UX-04: umbrechende Dropdowns schieben die Chips nach unten statt sie zu überdecken */
+  padding: 6px 16px;
+  row-gap: 6px;
   border-bottom: 1px solid var(--cfg-border);
 }
 

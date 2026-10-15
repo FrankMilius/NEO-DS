@@ -112,7 +112,7 @@ const veroeffentlichenTitel = computed(() => {
 
 <style scoped src="./_drupal.css"></style>
 <style scoped>
-.dw { display: flex; align-items: center; gap: 8px; }
+.dw { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; row-gap: 4px; }   /* UX-04: bricht in schmalen Fenstern um */
 .dw-trenner { width: 1px; height: 20px; background: var(--cfg-border); margin: 0 2px; }
 .dw-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cfg-text-secondary); white-space: nowrap; }
 .dw-punkt { width: 8px; height: 8px; border-radius: 50%; background: var(--cfg-border); flex-shrink: 0; }

@@ -1316,4 +1316,11 @@ function confirmPublishRelease({ version, notes }) {
   transform: scale(0.95) translateY(8px);
   opacity: 0;
 }
+
+/* UX-04: unter 1200 px bricht die Kopfleiste um, statt Knöpfe abzuschneiden */
+@media (max-width: 1199px) {
+  .app-header { flex-wrap: wrap; height: auto; min-height: 44px; padding: 4px 12px; row-gap: 4px; }
+  .header-toolbar { flex-wrap: wrap; height: auto; min-height: 36px; row-gap: 4px; margin-left: 0; border-left: 0; padding: 0; }
+  .toolbar-group { flex-wrap: wrap; }
+}
 </style>
