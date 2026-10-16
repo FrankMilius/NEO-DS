@@ -160,12 +160,12 @@ test('Veröffentlichen: weiße Schrift auf Statusflächen fällt durch — App s
   const befunde = dialog.locator('[data-test="kontrast-befunde"] tbody tr')
   await expect(befunde).toHaveCount(2)
   await expect(befunde.nth(0)).toContainText('hell')
-  await expect(befunde.nth(0)).toContainText('on-danger')
-  await expect(befunde.nth(0)).toContainText('feedback-danger')
+  await expect(befunde.nth(0)).toContainText('On Danger')   // UX-23: Klarname, Farbmuster mit Hex
+  await expect(befunde.nth(0)).toContainText('#ffffff')
   await expect(befunde.nth(0)).toContainText('3,35:1')
   await expect(befunde.nth(0)).toContainText('4,5:1')
-  await expect(befunde.nth(1)).toContainText('on-success')
-  await expect(befunde.nth(1)).toContainText('feedback-success')
+  await expect(befunde.nth(1)).toContainText('On Success')
+  await expect(befunde.nth(1)).toContainText('Farbe ändern')
   await expect(dialog.getByRole('button', { name: 'Veröffentlichen' })).toBeDisabled()
   await dialog.getByRole('button', { name: 'Abbrechen' }).click()
   await expect(dialog).toBeHidden()
@@ -200,8 +200,8 @@ test('Korrigiertes Theme: Veröffentlichen und Aktivieren klappen', async ({ pag
   await expect(dialog.locator('[data-test="kontrast-befunde"]')).toHaveCount(0)
   await dialog.getByRole('button', { name: 'Veröffentlichen' }).click()
   const erfolg = dialog.locator('[data-test="veroeffentlichen-erfolg"]')
-  await expect(erfolg).toContainText('Veröffentlicht (CSS-Version 1)')
-  await expect(erfolg).toContainText('Theme-Library')
+  await expect(erfolg).toContainText('Veröffentlicht')   // UX-47: Klartext, Technik aufklappbar
+  await expect(erfolg.locator('details')).toContainText('CSS-Version 1')
   await erfolg.getByRole('button', { name: 'Jetzt aktivieren' }).click()
   await page.getByRole('alertdialog', { name: 'Theme aktivieren?' }).getByRole('button', { name: 'Aktivieren' }).click()   // UX-05
   await expect(dialog.locator('[data-test="aktiviert-hinweis"]')).toBeVisible()

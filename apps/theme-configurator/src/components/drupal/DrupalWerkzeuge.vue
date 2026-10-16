@@ -94,6 +94,7 @@ const STATUS = {
   gespeichert: 'Gespeichert',
   ungespeichert: 'Ungespeicherte Änderungen',
   speichert: 'Speichert …',
+  laedt: 'Lädt …',
   fehler: 'Fehler beim Speichern',
 }
 const statusText = computed(() => (zustand.status === 'fehler' && zustand.fehlerText) || STATUS[zustand.status] || '')
@@ -118,7 +119,7 @@ const veroeffentlichenTitel = computed(() => {
 .dw-punkt { width: 8px; height: 8px; border-radius: 50%; background: var(--cfg-border); flex-shrink: 0; }
 .dw-status--gespeichert .dw-punkt { background: var(--cfg-success); }
 .dw-status--ungespeichert .dw-punkt { background: var(--cfg-warning); }
-.dw-status--speichert .dw-punkt { background: var(--cfg-processing); }
+.dw-status--speichert .dw-punkt, .dw-status--laedt .dw-punkt { background: var(--cfg-processing); }
 .dw-status--fehler .dw-punkt { background: var(--cfg-danger); }
 .dw-vorschau-fehler { font-size: 11px; color: var(--cfg-danger); white-space: nowrap; }
 a.dk-knopf { text-decoration: none; }

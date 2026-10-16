@@ -13,16 +13,18 @@
 
     <!-- Erfolg -->
     <div v-if="phase === 'erfolg'" class="dk-kasten dk-kasten--ok" role="status" data-test="veroeffentlichen-erfolg">
-      <p class="dk-kasten-titel">Veröffentlicht (CSS-Version {{ ergebnis?.css?.version }})</p>
+      <!-- UX-47: Klartext; Technik nur aufklappbar -->
+      <p class="dk-kasten-titel">Veröffentlicht</p>
       <p v-if="ergebnis?.css?.ausgeliefert" class="dk-text">
-        Das Theme ist aktiv: Drupal liefert die neue CSS-Datei über den Override in der Theme-Library des
-        Frontend-Themes aus (<span class="dk-mono">{{ ergebnis.css.pfad }}</span>) und leert die betroffenen Caches.
-        Bis die Änderung überall sichtbar ist, können Browser- oder Seiten-Caches kurz noch den alten Stand zeigen.
+        Das Theme ist aktiv — Besucher sehen den neuen Stand. Es kann einen Moment dauern, bis ihn jeder Browser zeigt.
       </p>
       <p v-else class="dk-text">
-        Ausgeliefert wird erst das <strong>aktive</strong> Theme: Beim Aktivieren legt Drupal die CSS-Datei an den Pfad,
-        den der Override in der Theme-Library des Frontend-Themes referenziert, und leert die Caches.
+        Gespeichert als veröffentlichte Fassung. <strong>Besucher sehen noch nichts:</strong> Erst wenn du das Theme aktivierst, erscheint es auf der Website.
       </p>
+      <details class="dvd-technik">
+        <summary>Technische Angaben</summary>
+        <p class="dk-text">CSS-Version {{ ergebnis?.css?.version }}<template v-if="ergebnis?.css?.pfad"> · <span class="dk-mono">{{ ergebnis.css.pfad }}</span></template>. Drupal liefert die Datei für das aktive Theme über die Theme-Library des Frontend-Themes aus und leert die Caches.</p>
+      </details>
       <div v-if="!aktiv && kannVeroeffentlichen">
         <button type="button" class="dk-knopf" data-test="veroeffentlichen-aktivieren" :disabled="aktiviert" @click="jetztAktivieren">
           {{ aktiviert ? 'Aktiviert' : 'Jetzt aktivieren' }}
@@ -45,7 +47,7 @@
           <template v-if="kontrast?.bestanden">Alle {{ kontrast.ergebnisse.length }} Farbpaare (hell und dunkel) erreichen den Mindestkontrast.</template>
           <template v-else>{{ appBefunde.length }} {{ appBefunde.length === 1 ? 'Paar erreicht' : 'Paare erreichen' }} den Mindestkontrast nicht. Veröffentlichen ist gesperrt, bis die Farben korrigiert sind — ein Übergehen gibt es nicht.</template>
         </p>
-        <KontrastBefunde v-if="appBefunde.length" :befunde="appBefunde" titel="Befunde der App" />
+        <KontrastBefunde v-if="appBefunde.length" :befunde="appBefunde" titel="Befunde der App" @korrigieren="schliessen" />
         <p class="dk-text dvd-klein">{{ kontrast?.verfahren }}</p>
       </div>
 
@@ -53,7 +55,7 @@
       <div v-if="phase === 'abgelehnt'" class="dk-kasten dk-kasten--fehler" role="alert" data-test="server-befunde">
         <p class="dk-kasten-titel">Drupal hat das Veröffentlichen abgelehnt</p>
         <p class="dk-text">{{ serverText }}</p>
-        <KontrastBefunde v-if="serverBefunde.length" :befunde="serverBefunde" titel="Befunde des Servers" data-test="server-kontrast-befunde" />
+        <KontrastBefunde v-if="serverBefunde.length" :befunde="serverBefunde" titel="Befunde des Servers" data-test="server-kontrast-befunde" @korrigieren="schliessen" />
       </div>
 
       <div v-if="phase === 'fehler'" class="dk-kasten dk-kasten--fehler" role="alert" data-test="veroeffentlichen-fehler">
@@ -63,6 +65,10 @@
 
       <div v-if="sperre" class="dk-kasten dk-kasten--warnung" data-test="veroeffentlichen-sperre">
         <p class="dk-text">{{ sperre }}</p>
+        <!-- UX-22: geprüft und veröffentlicht wird derselbe Stand -->
+        <div v-if="ungespeichert && kannVeroeffentlichen">
+          <button type="button" class="dk-knopf" data-test="speichern-und-pruefen" :disabled="speichertJetzt" @click="speichernUndPruefen">{{ speichertJetzt ? 'Wird gespeichert …' : 'Speichern und prüfen' }}</button>
+        </div>
       </div>
     </template>
 
@@ -121,7 +127,7 @@ const sperre = computed(() => {
   if (!kannVeroeffentlichen) return 'Dir fehlt das Recht „veröffentlichen“.'
   if (!meta.value?.id) return 'Das Theme ist noch nicht in Drupal gespeichert. Bitte zuerst speichern (Strg+S).'
   const s = betrieb.zustand.status
-  if (s === 'ungespeichert' || s === 'fehler' || s === 'speichert') return 'Es gibt ungespeicherte Änderungen. Veröffentlicht wird der in Drupal gespeicherte Stand — bitte zuerst speichern (Strg+S).'
+  if (s === 'ungespeichert' || s === 'fehler' || s === 'speichert') return 'Es gibt ungespeicherte Änderungen. Geprüft und veröffentlicht wird der in Drupal gespeicherte Stand — speichere zuerst, dann wird erneut geprüft.'
   return ''
 })
 
@@ -136,6 +142,17 @@ watch(offen, (o) => {
 }, { immediate: true })
 
 function schliessen () { betrieb.zustand.veroeffentlichenOffen = false }
+
+const ungespeichert = computed(() => ['ungespeichert', 'fehler'].includes(betrieb.zustand.status))
+const speichertJetzt = ref(false)
+async function speichernUndPruefen () {
+  speichertJetzt.value = true
+  try {
+    if (await betrieb.speichern()) kontrast.value = store.pruefeThemeKontrast()
+  } finally {
+    speichertJetzt.value = false
+  }
+}
 
 async function veroeffentlichen () {
   if (sperre.value || !kontrast.value?.bestanden) return
@@ -171,4 +188,5 @@ async function jetztAktivieren () {
 <style scoped src="./_drupal.css"></style>
 <style scoped>
 .dvd-klein { font-size: 11px; color: var(--cfg-text-secondary); }
+.dvd-technik summary { cursor: pointer; font-size: 12px; color: var(--cfg-text-secondary); }
 </style>

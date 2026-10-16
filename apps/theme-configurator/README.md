@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.8` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.9` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -622,6 +622,24 @@ App 1.2.8 (Testlauf Kundentheme NEU, 16.10.2026):
   Sperrgrund; „Als …“ übernimmt den eingegebenen Stack; Entfernen einer
   Schrift fragt nach und setzt zugewiesene Rollen auf die NEO-Schrift
   zurück; Upload-Fehler im Klartext (rot, `role="alert"`).
+
+App 1.2.9 (Usability-Audit, Block 5a Speichern und Veröffentlichen, 16.10.2026):
+
+- **UX-22:** Veröffentlichen-Dialog mit ungespeicherten Änderungen bietet
+  „Speichern und prüfen“; geprüft und veröffentlicht wird derselbe Stand.
+- **UX-23:** Kontrastbefunde mit Klarnamen, Farbmustern, Hex und Probe;
+  „Farbe ändern“ springt zur Farbrolle im betroffenen Modus.
+- **UX-24:** Neue Themes brauchen einen eindeutigen Namen und eine Version
+  im Format 1.0.0; die Löschen-Rückfrage nennt Version und Datum.
+- **UX-26:** Ein anderswo gelöschtes Theme lässt sich beim Speichern als
+  „… (gerettet)“ neu anlegen statt „Nicht gefunden“.
+- **UX-27:** Beim Start vergleicht die App den Stand im Browser mit Drupal
+  und lädt einen neueren (ohne eigene Änderungen still, sonst mit
+  Rückfrage); das geöffnete Theme erneut wählen lädt neu.
+- **UX-28:** Abgelaufenes Sicherheits-Token wird einmal neu geholt; sonst
+  „Anmeldung abgelaufen“ mit Weg zur Neuanmeldung in einem neuen Tab.
+- **UX-47:** Erfolgsmeldung beim Veröffentlichen im Klartext („Besucher
+  sehen noch nichts“), Technik aufklappbar.
 
 Ursprünglicher Vorschlag (ADR-004):
 

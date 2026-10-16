@@ -40,7 +40,7 @@
 //     fehler.details (bei 422 des Kontrast-Tors: details.kontrast).
 // ==========================================================================
 
-import { SpeicherFehler, artAusStatus, MELDUNGEN } from './fehler.js'
+import { SpeicherFehler, artAusStatus, MELDUNGEN, istCsrfFehler } from './fehler.js'
 import { abweichungenBerechnen, zusammenfuehren } from './abweichungen.js'
 import { standardDaten, standardVersion } from './standard.js'
 
@@ -94,7 +94,27 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
    * @param {{ body?: any, roh?: { daten: Blob|ArrayBuffer, typ: string }, etag?: string|null, text?: boolean }} [optionen]
    * @returns {Promise<{ daten: any, etag: string|null, status: number }>}
    */
-  async function anfrage(methode, pfad, { body, roh, etag, text = false } = {}) {
+  async function anfrage(methode, pfad, optionen = {}) {
+    try {
+      return await anfrageEinmal(methode, pfad, optionen)
+    } catch (e) {
+      // UX-28: abgelaufenes Sicherheits-Token (z. B. nach Neuanmeldung in
+      // einem anderen Tab) — einmal neu holen und wiederholen
+      if (methode !== 'GET' && istCsrfFehler(e)) {
+        csrfToken = null
+        return anfrageEinmal(methode, pfad, optionen)
+      }
+      throw e
+    }
+  }
+
+  /**
+   * @param {string} methode
+   * @param {string} pfad
+   * @param {{ body?: any, roh?: { daten: Blob|ArrayBuffer, typ: string }, etag?: string|null, text?: boolean }} [optionen]
+   * @returns {Promise<{ daten: any, etag: string|null, status: number }>}
+   */
+  async function anfrageEinmal(methode, pfad, { body, roh, etag, text = false } = {}) {
     const headers = { Accept: text ? '*/*' : 'application/json' }
     let koerper
     if (roh) {

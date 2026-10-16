@@ -317,8 +317,8 @@ describe('Speichern, Status und Konfliktdialog (412)', () => {
 
   it('meldungFuer: CSRF, Netzwerk, Recht, 413', () => {
     const csrf = new SpeicherFehler('verboten', 'CSRF-Token ungültig', { status: 403, details: { type: 'https://x/probleme/csrf', title: 'CSRF-Token ungültig' } })
-    expect(meldungFuer(csrf).titel).toBe('Sicherheits-Token ungültig')
-    expect(meldungFuer(csrf).text).toContain('Seite neu laden')
+    expect(meldungFuer(csrf).titel).toBe('Anmeldung abgelaufen')   // UX-28: ohne Fachbegriff
+    expect(meldungFuer(csrf).text).toContain('in einem neuen Tab neu an')
     expect(meldungFuer(new SpeicherFehler('netzwerk', 'x'), 'Speichern')).toMatchObject({ titel: 'Keine Verbindung zu Drupal' })
     expect(meldungFuer(new SpeicherFehler('netzwerk', 'x'), 'Speichern').text).toContain('Speichern hat nicht geklappt')
     expect(meldungFuer(new SpeicherFehler('verboten', 'Dir fehlt das Recht „bearbeiten“.', { status: 403 })).text).toContain('Dir fehlt das Recht „bearbeiten“.')
@@ -526,9 +526,9 @@ describe('Veröffentlichen-Dialog', () => {
     expect(knopf(w, 'kontrast-ergebnis').text()).toContain('Kontrastprüfung nicht bestanden')
     const zeilen = w.findAll('[data-test="kontrast-befunde"] tbody tr')
     expect(zeilen.map(z => z.text())).toEqual([
-      expect.stringMatching(/hell.*on-danger.*feedback-danger.*3,35:1.*4,5:1/),
-      expect.stringMatching(/hell.*on-success.*feedback-success.*3,35:1.*4,5:1/),
-    ])
+      expect.stringMatching(/hell.*#[0-9a-f]{3,8}.*#[0-9a-f]{3,8}.*3,35:1.*4,5:1.*Farbe ändern/i),
+      expect.stringMatching(/hell.*#[0-9a-f]{3,8}.*#[0-9a-f]{3,8}.*3,35:1.*4,5:1.*Farbe ändern/i),
+    ])   // UX-23: Klarname, Farbmuster mit Hex, Weg zur Korrektur
     expect(knopf(w, 'veroeffentlichen-los').attributes('disabled')).toBeDefined()
     await knopf(w, 'veroeffentlichen-los').trigger('click')
     expect(sp.veroeffentliche).not.toHaveBeenCalled()
@@ -543,8 +543,8 @@ describe('Veröffentlichen-Dialog', () => {
     await flushPromises()
     expect(sp.veroeffentliche).toHaveBeenCalledWith('t1', expect.objectContaining({ etag: '"h-t1"', kontrast: expect.objectContaining({ bestanden: true }), css: expect.any(String) }))
     const erfolg = knopf(w, 'veroeffentlichen-erfolg')
-    expect(erfolg.text()).toContain('Veröffentlicht (CSS-Version 1)')
-    expect(erfolg.text()).toContain('Theme-Library')
+    expect(erfolg.text()).toContain('Besucher sehen noch nichts')   // UX-47: Klartext
+    expect(erfolg.find('details').text()).toContain('CSS-Version 1')
     expect(knopf(w, 'veroeffentlichen-aktivieren').classes()).not.toContain('dk-knopf--primaer')   // UX-05: Sekundärknopf
     const best = montiere(KonfigBestaetigung)
     await knopf(w, 'veroeffentlichen-aktivieren').trigger('click')
@@ -566,7 +566,7 @@ describe('Veröffentlichen-Dialog', () => {
     await flushPromises()
     const box = knopf(w, 'server-befunde')
     expect(box.text()).toContain('Drupal hat das Veröffentlichen abgelehnt')
-    expect(box.text()).toMatch(/dunkel.*text-link.*background-base.*2,1:1/)
+    expect(box.text()).toMatch(/dunkel.*#[0-9a-f]{3,8}.*#[0-9a-f]{3,8}.*2,1:1/i)
   })
 
   it('ungespeicherte Änderungen sperren; 412 öffnet den Konfliktdialog', async () => {
@@ -574,7 +574,8 @@ describe('Veröffentlichen-Dialog', () => {
     const w = await dialogMit(sp, korrigiert())
     useDrupalBetrieb().zustand.status = 'ungespeichert'
     await nextTick()
-    expect(knopf(w, 'veroeffentlichen-sperre').text()).toContain('bitte zuerst speichern')
+    expect(knopf(w, 'veroeffentlichen-sperre').text()).toContain('speichere zuerst')
+    expect(knopf(w, 'speichern-und-pruefen').exists()).toBe(true)   // UX-22
     expect(knopf(w, 'veroeffentlichen-los').attributes('disabled')).toBeDefined()
     useDrupalBetrieb().zustand.status = 'gespeichert'
     await nextTick()
@@ -582,5 +583,96 @@ describe('Veröffentlichen-Dialog', () => {
     await flushPromises()
     expect(useDrupalBetrieb().zustand.veroeffentlichenOffen).toBe(false)
     expect(useDrupalBetrieb().zustand.konflikt).toMatchObject({ art: 'veraltet' })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Paket 5, Block 5a (16.10.2026): UX-22, UX-23, UX-24, UX-26, UX-27, UX-28, UX-47
+// ---------------------------------------------------------------------------
+import DrupalAnlegenDialog from '../../src/components/drupal/DrupalAnlegenDialog.vue'
+import KontrastBefunde from '../../src/components/drupal/KontrastBefunde.vue'
+import { erzeugeDrupalSpeicher } from '../../src/speicher/drupal.js'
+
+const antworte = async (wert) => { await flushPromises(); useBestaetigung().aktuelleAnfrage.value.erledigen(wert); await flushPromises() }
+
+describe('Block 5a: Speichern und Veröffentlichen', () => {
+  it('UX-28: abgelaufenes Sicherheits-Token wird einmal neu geholt, die Anfrage wiederholt', async () => {
+    let tokenNr = 0
+    const aufrufe = []
+    const fetch = vi.fn(async (url, opt = {}) => {
+      if (url === '/session/token') return new Response(`tok-${++tokenNr}`, { status: 200 })
+      aufrufe.push(opt.headers?.['X-CSRF-Token'])
+      if (opt.headers?.['X-CSRF-Token'] === 'tok-1') return new Response(JSON.stringify({ type: 'https://neo/problem/csrf', title: 'CSRF-Token ungültig' }), { status: 403, headers: { 'Content-Type': 'application/problem+json' } })
+      return new Response(JSON.stringify({ themes: [] }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    })
+    const sp = erzeugeDrupalSpeicher({ basisUrl: '/api', fetch, rechte: ALLE })
+    await sp.loesche('t1', { etag: '"x"' })
+    expect(aufrufe).toEqual(['tok-1', 'tok-2'])
+  })
+
+  it('UX-26: Speichern eines anderswo gelöschten Themes bietet „Als neues Theme speichern“', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    store.state.radii = { ...(store.state.radii || {}) }
+    sp.speichere.mockRejectedValueOnce(new SpeicherFehler('nicht-gefunden', 'Nicht gefunden', { status: 404 }))
+    const lauf = useDrupalBetrieb().speichern()
+    await flushPromises()
+    expect(useBestaetigung().aktuelleAnfrage.value.titel).toBe('Theme wurde gelöscht')
+    await antworte(true)
+    await lauf
+    expect(sp.speichere).toHaveBeenLastCalledWith(expect.objectContaining({ meta: expect.objectContaining({ name: 'Theme t1 (gerettet)' }) }))
+  })
+
+  it('UX-27: neuerer Stand in Drupal wird beim Start ohne eigene Änderungen still geladen', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    _zuruecksetzenDrupalBetrieb()
+    sp.liste.mockResolvedValue([meta('t1', { hash: 'h-neuer' })])
+    sp.lade.mockResolvedValue({ meta: meta('t1', { hash: 'h-neuer' }), daten: standardDaten(STANDARD), etag: '"h-neuer"' })
+    const vorher = sp.lade.mock.calls.length
+    await starteDrupalBetrieb(store)
+    await flushPromises()
+    expect(sp.lade.mock.calls.length).toBe(vorher + 1)
+    expect(store.state.currentThemeMeta.etag).toBe('"h-neuer"')
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+
+  it('UX-27: das geöffnete Theme erneut wählen lädt neu', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    const vorher = sp.lade.mock.calls.length
+    await useDrupalBetrieb().oeffnen('t1')
+    expect(sp.lade.mock.calls.length).toBe(vorher + 1)
+  })
+
+  it('UX-24: doppelter Name und ungültige Version werden am Feld gemeldet', async () => {
+    setzeSpeicher(adapter())
+    store.state.savedThemes = [meta('t1', { name: 'Kundentheme NEU' })]
+    useDrupalBetrieb().zustand.anlegen = { vomStandard: true }
+    const w = montiere(DrupalAnlegenDialog)
+    await nextTick()
+    await w.find('#cfg-drupal-neu-name').setValue(' kundentheme neu ')
+    expect(knopf(w, 'drupal-neu-name-fehler').text()).toContain('gibt es schon')
+    expect(knopf(w, 'drupal-neu-anlegen').attributes('disabled')).toBeDefined()
+    await w.find('#cfg-drupal-neu-name').setValue('Stadtwerke')
+    await w.find('#cfg-drupal-neu-version').setValue('1.0')
+    expect(knopf(w, 'drupal-neu-version-fehler').text()).toContain('1.0.0')
+    await w.find('#cfg-drupal-neu-version').setValue('1.2.0')
+    expect(knopf(w, 'drupal-neu-anlegen').attributes('disabled')).toBeUndefined()
+  })
+
+  it('UX-23: „Farbe ändern“ springt zur Farbrolle im richtigen Modus', async () => {
+    setzeSpeicher(adapter())
+    const w = montiere(KontrastBefunde, { props: { befunde: [{ modus: 'dark', vordergrund: 'text-link', hintergrund: 'background-base', verhaeltnis: 2.1, mindestens: 4.5, bestanden: false }] } })
+    expect(w.text()).toMatch(/#[0-9a-f]{3,8}/i)
+    await knopf(w, 'kontrast-korrigieren-0').trigger('click')
+    expect(store.state.colorActiveTab).toBe('semantic')
+    expect(store.state.selectedToken.id).toBe('text-link')
+    expect(store.state.bearbeitungsModus).toBe('dark')
+    expect(location.hash).toBe('#/foundation/colors')
+    expect(w.emitted('korrigieren')[0]).toEqual(['text-link'])
   })
 })

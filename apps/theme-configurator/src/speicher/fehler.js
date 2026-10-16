@@ -72,6 +72,9 @@ export const MELDUNGEN = {
   'konfiguration': 'Der Speicher ist nicht richtig eingerichtet.',
 }
 
+/** Anmeldeseite von Drupal (relativ, gleiche Website) */
+export const ANMELDE_PFAD = '/user/login'
+
 /** CSRF-Ablehnung (403 mit Problem-Typ …/csrf oder Titel mit „CSRF“)? */
 export function istCsrfFehler(fehler) {
   if (fehler?.art !== 'verboten') return false
@@ -91,15 +94,15 @@ export function meldungFuer(fehler, was = 'Die Aktion') {
   const art = fehler?.art
   const text = fehler?.message || MELDUNGEN.server
   if (istCsrfFehler(fehler)) {
-    return { titel: 'Sicherheits-Token ungültig', text: 'Drupal hat die Anfrage abgelehnt, weil das Sicherheits-Token (CSRF) nicht passt — meist ist die Sitzung abgelaufen. Bitte die Seite neu laden; dein Arbeitsstand bleibt im Browser erhalten.' }
+    return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil deine Anmeldung bei Drupal abgelaufen ist. Melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuche es dann hier erneut. Dein Arbeitsstand bleibt erhalten.` }
   }
   switch (art) {
     case 'netzwerk':
       return { titel: 'Keine Verbindung zu Drupal', text: `${MELDUNGEN.netzwerk} ${was} hat nicht geklappt. Bitte die Verbindung prüfen und es erneut versuchen; dein Arbeitsstand bleibt im Browser erhalten.` }
     case 'verboten':
-      return { titel: 'Keine Berechtigung', text: `${text} Wende dich an die Administration, wenn du das Recht brauchst.` }
+      return { titel: 'Keine Berechtigung', text: `${text} Falls du dich gerade abgemeldet hast, melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}); sonst wende dich an die Administration, wenn du das Recht brauchst.` }
     case 'nicht-angemeldet':
-      return { titel: 'Nicht angemeldet', text: MELDUNGEN['nicht-angemeldet'] }
+      return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil du nicht mehr angemeldet bist. Melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuche es dann hier erneut. Dein Arbeitsstand bleibt erhalten.` }
     case 'zu-gross':
       return { titel: 'Theme zu groß', text: `${MELDUNGEN['zu-gross']} Bitte nicht benötigte eigene Schriften, Icons oder Token entfernen.` }
     case 'veraltet':

@@ -116,7 +116,7 @@ export function merkeStand () {
 
 /** Status aus dem Vergleich mit dem gemerkten Stand ableiten. */
 export function pruefeStand () {
-  if (!store || zustand.status === 'speichert') return
+  if (!store || zustand.status === 'speichert' || zustand.status === 'laedt') return
   const id = store.state.currentThemeMeta?.id
   if (!id) { zustand.status = 'ohne-theme'; return }
   const gleich = basis && basis.id === id && basis.abdruck === abdruck()
@@ -150,7 +150,73 @@ export async function starteDrupalBetrieb (s) {
   if (!store.state.currentThemeMeta?.id && store.state.activeThemeSet !== 'neo') store.state.activeThemeSet = 'neo'
   pruefeStand()
   await ladeKatalog()
+  await pruefeAktualitaet()
   return stoppen
+}
+
+/** ETags vergleichen (nginx in DDEV schwächt zu W/"…" ab) */
+const etagKern = (e) => String(e || '').replace(/^W\//, '').replace(/"/g, '')
+
+/**
+ * UX-27: Nach dem Neuladen kann der Arbeitsstand im Browser älter sein als
+ * der in Drupal (jemand anderes hat gespeichert). Ohne eigene Änderungen
+ * wird der neue Stand still geladen, sonst gefragt. Gelöschte Themes:
+ * UX-26.
+ */
+export async function pruefeAktualitaet () {
+  const meta = store?.state.currentThemeMeta
+  if (!meta?.id || zustand.katalogFehler) return
+  const t = store.state.savedThemes.find(x => x.id === meta.id)
+  if (!t) {
+    if (zustand.status === 'gespeichert') {
+      store.state.currentThemeMeta = null
+      zustand.status = 'ohne-theme'
+      await hinweisen({ titel: 'Theme nicht mehr vorhanden', text: `„${meta.name}“ wurde inzwischen in Drupal gelöscht. Wähle ein anderes Theme oder lege ein neues an.` })
+    } else {
+      await geloeschtRetten(meta.name)
+    }
+    return
+  }
+  if (!t.hash || !meta.etag || etagKern(t.hash) === etagKern(meta.etag)) return
+  if (zustand.status === 'gespeichert') { await neuLaden(); return }
+  const von = t.geaendertVon ? ` von ${t.geaendertVon}` : ''
+  const ok = await bestaetigen({
+    titel: 'Neuerer Stand in Drupal',
+    text: `„${meta.name}“ wurde${von} in Drupal gespeichert, nachdem du es zuletzt gespeichert hast. Lade den neueren Stand (deine ungespeicherten Änderungen gehen verloren) oder arbeite weiter — beim Speichern kannst du dann entscheiden.`,
+    bestaetigenText: 'Neueren Stand laden',
+    abbrechenText: 'Weiterarbeiten',
+  })
+  if (ok) await neuLaden()
+}
+
+/** Eigenen Stand als neues Theme speichern (Konflikt, gelöschtes Theme). */
+async function alsNeuesThemeSpeichern (name, was) {
+  try {
+    store.state.currentThemeMeta = null
+    await store.speichereTheme(name, store.state.version || '1.0.0')
+    await nextTick()
+    merkeStand()
+    await vorschauNachziehen()
+    await ladeKatalog()
+    return true
+  } catch (err) {
+    await fehlerZeigen(err, was)
+    return false
+  }
+}
+
+/** UX-26: Das Theme wurde anderswo gelöscht — Änderungen retten statt „Nicht gefunden“. */
+async function geloeschtRetten (name) {
+  await ladeKatalog()
+  const ok = await bestaetigen({
+    titel: 'Theme wurde gelöscht',
+    text: `„${name}“ gibt es in Drupal nicht mehr — vermutlich hat es jemand gelöscht. Deine Änderungen sind noch da: Speichere sie als neues Theme „${name} (gerettet)“.`,
+    bestaetigenText: 'Als neues Theme speichern',
+    abbrechenText: 'Später',
+  })
+  if (ok) return alsNeuesThemeSpeichern(`${name} (gerettet)`, 'Als neues Theme speichern')
+  zustand.status = 'ungespeichert'
+  return false
 }
 
 /** Vorschau auf den gespeicherten Stand nachziehen (Fehler nur anzeigen). */
@@ -219,6 +285,10 @@ export async function speichern () {
       meldeKonflikt(e)
       return false
     }
+    if (e?.art === 'nicht-gefunden') {
+      zustand.status = 'ungespeichert'
+      return geloeschtRetten(store.state.currentThemeMeta?.name || 'Theme')
+    }
     await fehlerZeigen(e, 'Speichern')
     return false
   }
@@ -259,7 +329,8 @@ async function verwerfenErlaubt (frage) {
 
 /** Theme aus Drupal öffnen (fragt bei ungespeicherten Änderungen nach). */
 export async function oeffnen (id) {
-  if (store.state.currentThemeMeta?.id === id && zustand.status === 'gespeichert') return true
+  // UX-27: das geöffnete Theme erneut wählen lädt den Stand aus Drupal neu
+  if (store.state.currentThemeMeta?.id === id && zustand.status === 'gespeichert') return neuLaden()
   if (!(await verwerfenErlaubt('Deine Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Öffnen eines anderen Themes gehen sie verloren.'))) return false
   try {
     neoAnsicht.value = false
@@ -316,17 +387,7 @@ export async function konfliktAlsNeuesTheme () {
   const name = `${store.state.currentThemeMeta?.name || 'Theme'} (meine Fassung)`
   zustand.konflikt = null
   zustand.konfliktFremd = null
-  try {
-    store.state.currentThemeMeta = null
-    await store.speichereTheme(name, store.state.version || '1.0.0')
-    await nextTick()
-    merkeStand()
-    await vorschauNachziehen()
-    return true
-  } catch (err) {
-    await fehlerZeigen(err, 'Als neues Theme speichern')
-    return false
-  }
+  return alsNeuesThemeSpeichern(name, 'Als neues Theme speichern')
 }
 
 /** Konfliktdialog: „Neu laden“ — aktuellen Stand aus Drupal holen, eigene Änderungen verwerfen. */
@@ -335,6 +396,8 @@ export async function neuLaden () {
   zustand.konflikt = null
   zustand.konfliktFremd = null
   if (!id) return false
+  // Während des Ladens „Lädt …“ — Eingaben in dieser Zeit würden überschrieben
+  zustand.status = 'laedt'
   try {
     const ok = await store.oeffneTheme(id)
     await nextTick()
@@ -364,7 +427,7 @@ export async function loeschen (id) {
   }
   const ok = await bestaetigen({
     titel: 'Theme löschen?',
-    text: `„${t.name}“ wird in Drupal gelöscht. Das lässt sich nicht rückgängig machen — Drupal führt keinen Verlauf.`,
+    text: `„${t.name}“ (Version ${t.version || '–'}${t.updatedAt ? `, zuletzt gespeichert am ${new Date(t.updatedAt).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}` : ''}) wird in Drupal gelöscht. Das lässt sich nicht rückgängig machen — Drupal führt keinen Verlauf.`,
     bestaetigenText: 'Löschen',
     gefaehrlich: true,
   })
