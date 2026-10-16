@@ -105,7 +105,7 @@ defineExpose({ dialogRef })
 .konfig-dialog--lg { width: min(560px, calc(100vw - 32px)); }
 .konfig-dialog__kopf {
   display: flex;
-  align-items: center;
+  align-items: flex-start;   /* B7 (Testlauf 16.10.2026): × oben rechts, auch bei zweizeiligem Titel */
   justify-content: space-between;
   gap: 12px;
   padding: 16px 20px;
@@ -114,6 +114,13 @@ defineExpose({ dialogRef })
 }
 .konfig-dialog__titel {
   margin: 0;
+  flex: 1;
+  min-width: 0;
+  /* B7: styles.css gibt h2 Zeilenhöhe und Laufweite der Display-Schrift
+     (51 px bei 15 px Schrift) — hier die der App */
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-wrap: balance;
   font-size: 15px;
   font-weight: 700;
   font-family: var(--cfg-font-heading);
@@ -122,6 +129,7 @@ defineExpose({ dialogRef })
 .konfig-dialog__schliessen {
   width: 28px;
   height: 28px;
+  margin: -4px -6px 0 0;
   flex-shrink: 0;
   border: none;
   border-radius: 6px;

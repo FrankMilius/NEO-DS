@@ -6,6 +6,9 @@ import TypographyEditor from '../../src/components/foundation/TypographyEditor.v
 import { useThemeStore } from '../../src/stores/theme.js'
 import { familienAusUrl, baueGoogleUrl, pruefeFamilieZurUrl, pruefeLadbarkeit } from '../../src/utils/google-schrift.js'
 
+const rueckfrage = vi.hoisted(() => ({ antwort: true, text: '' }))
+vi.mock('../../src/composables/useBestaetigung.js', () => ({ bestaetigen: (o) => { rueckfrage.text = o.text; return Promise.resolve(rueckfrage.antwort) } }))
+
 describe('google-schrift.js', () => {
   it('liest Familien aus css und css2', () => {
     expect(familienAusUrl('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Inter&display=swap')).toEqual(['Open Sans', 'Inter'])
@@ -52,9 +55,9 @@ describe('Typografie-Editor: eigene Google-Schrift', () => {
 
   async function hinzufuegen (name, stack, url = '') {
     await w.find('.add-font-btn').trigger('click')
-    await w.find('input[aria-label="Font Name"]').setValue(name)
-    await w.find('input[aria-label="Font Stack"]').setValue(stack)
-    await w.find('input[aria-label="Google Fonts URL"]').setValue(url)
+    await w.find('#gf-neu-name').setValue(name)
+    await w.find('#gf-neu-stack').setValue(stack)
+    await w.find('#gf-neu-url').setValue(url)
     await w.find('.btn-add-confirm').trigger('click')
   }
 
@@ -88,5 +91,34 @@ describe('Typografie-Editor: eigene Google-Schrift', () => {
     expect(w.find('[data-test="schrift-stand-alt"]').text()).toContain('lädt die Website diese Schrift nicht')
     await w.find('[data-test="schrift-adresse-bauen-alt"]').trigger('click')
     expect(store.state.customFonts.neo[0].url).toBe('https://fonts.googleapis.com/css2?family=Arimo&display=swap')
+  })
+
+  it('UX-35: deutsches Formular mit Sperrgrund', async () => {
+    w = mount(TypographyEditor)
+    await w.find('.add-font-btn').trigger('click')
+    expect(w.find('label[for="gf-neu-name"]').text()).toContain('Name')
+    expect(w.find('[data-test="gf-neu-sperrgrund"]').exists()).toBe(true)
+    expect(w.find('.btn-add-confirm').text()).toBe('Hinzufügen')
+  })
+
+  it('UX-36: „Als Body“ übernimmt den eingegebenen Stack', async () => {
+    store.state.customFonts.neo = [{ id: 'lato', name: 'Lato', family: 'Lato, Georgia, serif', url: baueGoogleUrl('Lato') }]
+    w = mount(TypographyEditor)
+    await w.find('[data-test="google-schrift-rolle-body"]').trigger('click')
+    expect(store.currentFoundation.typography['font-body']).toBe('Lato, Georgia, serif')
+  })
+
+  it('UX-49: Entfernen fragt nach und setzt die Rolle zurück', async () => {
+    store.state.customFonts.neo = [{ id: 'lato', name: 'Lato', family: 'Lato, Georgia, serif', url: baueGoogleUrl('Lato') }]
+    store.updateFoundationToken('typography', 'font-body', 'Lato, Georgia, serif')
+    w = mount(TypographyEditor)
+    rueckfrage.antwort = false
+    await w.find('button[aria-label="Lato entfernen"]').trigger('click'); await flushPromises()
+    expect(store.state.customFonts.neo).toHaveLength(1)
+    rueckfrage.antwort = true
+    await w.find('button[aria-label="Lato entfernen"]').trigger('click'); await flushPromises()
+    expect(rueckfrage.text).toContain('als Body zugewiesen')
+    expect(store.state.customFonts.neo).toHaveLength(0)
+    expect(store.currentFoundation.typography['font-body']).not.toContain('Lato')
   })
 })

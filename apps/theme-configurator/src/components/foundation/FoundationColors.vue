@@ -75,6 +75,28 @@
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
               </div>
+              <!-- C1 (Testlauf 16.10.2026): was diese Palette auf der Website färbt -->
+              <details class="paletten-wirkung" :data-test="`paletten-wirkung-${palette.id}`">
+                <summary>
+                  <template v-if="wirkungFuer(palette).length">Färbt auf der Website {{ wirkungFuer(palette).length }} Farbrollen</template>
+                  <template v-else>Wirkt auf der Website derzeit nicht</template>
+                </summary>
+                <p v-if="!wirkungFuer(palette).length" class="paletten-wirkung__text">
+                  Keine semantische Farbe zeigt auf eine Stufe dieser Palette. Eine Änderung hier verändert die Website nicht.
+                </p>
+                <template v-else>
+                  <p class="paletten-wirkung__text">
+                    Diese Farbrollen zeigen auf eine Stufe der Palette. Ändert sich die Grundfarbe, ändern sie sich mit — auf Buttons, Links, Flächen und Texten, die sie verwenden.
+                  </p>
+                  <ul class="paletten-wirkung__liste">
+                    <li v-for="w in wirkungFuer(palette)" :key="w.id">
+                      <span class="paletten-wirkung__farbe" :style="{ background: w.farbe }" aria-hidden="true"></span>
+                      {{ w.label }} <code>--fnd-color-{{ w.id }}</code>
+                      <span class="paletten-wirkung__modi">{{ w.modi.join(' · ') }}</span>
+                    </li>
+                  </ul>
+                </template>
+              </details>
             </div>
 
             <!-- Custom Main Palettes (default NEO: ergaenzen die 3 Brand-Paletten) -->
@@ -709,7 +731,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
-import { paletteSkala } from '../../utils/farbskala.js'
+import { paletteSkala, MITZIEHENDE_PALETTEN } from '../../utils/farbskala.js'
 import { speicher } from '../../speicher/index.js'
 
 const store = useThemeStore()
@@ -761,6 +783,35 @@ const brandPalettes = computed(() => {
     }
   })
 })
+
+// C1 (Testlauf 16.10.2026): Wirkung einer Markenpalette. Eine semantische
+// Farbe „gehört“ zur Palette, wenn ihr Wert eine Stufe der Skala ist — genau
+// die zieht beim Ändern der Grundfarbe mit (utils/farbskala.js, zieheMit).
+const semantikLabel = Object.fromEntries(semanticTokenGroups.flatMap(g => g.tokens.map(t => [t.id, t.label])))
+const wirkungJePalette = computed(() => {
+  const aus = {}
+  const themen = store.state.themes[store.state.activeThemeSet] || {}
+  for (const pal of brandPalettes.value) {
+    // Nur Primary und Accent ziehen beim Ändern mit; Secondary teilt vorerst
+    // die Stufen von Primary, wirkt aber nicht (Hinweis oben)
+    if (!MITZIEHENDE_PALETTEN.includes(pal.id)) { aus[pal.id] = []; continue }
+    const stufen = new Set(pal.shades.map(sh => String(sh.color).toLowerCase()))
+    const treffer = new Map()
+    for (const [modus, name] of [['light', 'Hell'], ['dark', 'Dunkel']]) {
+      for (const [id, wert] of Object.entries(themen[modus] || {})) {
+        if (!stufen.has(String(wert).toLowerCase())) continue
+        const t = treffer.get(id) || { id, label: semantikLabel[id] || id, farbe: wert, modi: [] }
+        t.modi.push(name)
+        treffer.set(id, t)
+      }
+    }
+    aus[pal.id] = [...treffer.values()].sort((a, b) => a.label.localeCompare(b.label, 'de'))
+  }
+  return aus
+})
+function wirkungFuer (palette) {
+  return wirkungJePalette.value[palette.id] || []
+}
 
 // ---------------------------------------------------------------------------
 // Custom Main Palettes (non-default themes)
@@ -1655,6 +1706,16 @@ function getNotAffected(semanticId) {
 
 /* Add palette card */
 .primitives-grid--gesperrt { opacity: 0.75; }
+
+/* C1: Wirkung einer Palette */
+.paletten-wirkung { margin-top: 10px; font-size: 12px; color: var(--cfg-text); }
+.paletten-wirkung summary { cursor: pointer; font-weight: 600; }
+.paletten-wirkung__text { margin: 6px 0; color: var(--cfg-text-muted); line-height: 1.5; }
+.paletten-wirkung__liste { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+.paletten-wirkung__liste li { display: flex; align-items: center; gap: 6px; }
+.paletten-wirkung__liste code { font-size: 11px; color: var(--cfg-text-muted); }
+.paletten-wirkung__farbe { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--cfg-border); flex: none; }
+.paletten-wirkung__modi { margin-left: auto; font-size: 11px; color: var(--cfg-text-muted); }
 
 .add-palette-card {
   border-style: dashed;

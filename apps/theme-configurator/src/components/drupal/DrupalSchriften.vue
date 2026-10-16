@@ -22,13 +22,15 @@
         <ul class="ds-schnitte" :aria-label="`Schnitte von ${f.familie}`">
           <li v-for="s in f.schnitte" :key="s.id" class="ds-schnitt">
             <span :style="{ fontFamily: `'${f.familie}'`, fontWeight: s.gewicht, fontStyle: s.stil }">{{ s.gewicht }}{{ s.stil === 'italic' ? ' kursiv' : '' }}</span>
+            <!-- E12 (Testlauf 16.10.2026): sichtbar beschriftet statt winzigem × -->
             <button
               v-if="kannVeroeffentlichen && f.quelle === 'hochgeladen'"
               type="button"
-              class="ds-x"
+              class="ds-loeschen"
               :aria-label="`Schnitt ${s.gewicht}${s.stil === 'italic' ? ' kursiv' : ''} von ${f.familie} löschen`"
+              :data-test="`schnitt-loeschen-${s.id}`"
               @click="loesche(f, s)"
-            >×</button>
+            ><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7V4h6v3"/></svg>Löschen</button>
           </li>
         </ul>
         <div v-if="kannBearbeiten && !gesperrt" class="ds-rollen" role="group" :aria-label="`${f.familie} verwenden als`">
@@ -45,14 +47,25 @@
       </li>
     </ul>
 
-    <form v-if="kannVeroeffentlichen" class="ds-hochladen" data-test="drupal-schrift-hochladen" @submit.prevent="hochladen">
+    <p v-if="erfolg" class="ds-erfolg" role="status" data-test="drupal-schrift-erfolg">{{ erfolg }}</p>
+
+    <!-- E9 (Testlauf 16.10.2026): wie „Google-Schrift hinzufügen“ — eine Karte
+         mit Plus; erst der Klick öffnet das Formular, danach ist es wieder leer -->
+    <div v-if="kannVeroeffentlichen && !formOffen" class="ds-neu">
+      <button type="button" class="ds-neu__knopf" data-test="drupal-schrift-neu" @click="oeffneForm">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Schriftdatei hochladen</span>
+      </button>
+    </div>
+    <form v-if="kannVeroeffentlichen && formOffen" class="ds-hochladen" data-test="drupal-schrift-hochladen" @submit.prevent="hochladen" @keydown.escape="schliesseForm">
       <h4 class="ds-untertitel">Schriftdatei hochladen</h4>
       <label class="ds-feld">
-        <span>Datei (woff2, woff, ttf, otf · höchstens 5 MB)</span>
+        <span>Datei (woff2, woff, ttf, otf · höchstens 5 MB) <abbr title="Pflichtfeld">*</abbr></span>
         <input ref="dateiRef" type="file" accept=".woff2,.woff,.ttf,.otf" required @change="dateiGewaehlt" />
       </label>
+      <p class="ds-hinweis">Name, Gewicht und Stil werden aus dem Dateinamen vorgeschlagen (z. B. „Kundenschrift-BoldItalic.woff2“ → Kundenschrift, 700, kursiv).</p>
       <label class="ds-feld">
-        <span>Schriftfamilie</span>
+        <span>Schriftfamilie <abbr title="Pflichtfeld">*</abbr></span>
         <input v-model="neu.familie" type="text" required maxlength="60" pattern="[A-Za-z0-9 _\-]+" placeholder="z. B. Kundenschrift" />
       </label>
       <div class="ds-zeile">
@@ -70,9 +83,14 @@
           </select>
         </label>
       </div>
-      <button type="submit" class="dk-knopf dk-knopf--primaer" :disabled="laedt">{{ laedt ? 'Lädt hoch …' : 'Hochladen' }}</button>
-      <p v-if="meldung" class="ds-meldung" role="status">{{ meldung }}</p>
+      <p v-if="fehler" id="ds-upload-fehler" class="ds-fehlermeldung" role="alert" data-test="drupal-schrift-fehler">{{ fehler }}</p>
+      <div class="ds-aktionen">
+        <button type="button" class="dk-knopf" @click="schliesseForm">Abbrechen</button>
+        <button type="submit" class="dk-knopf dk-knopf--primaer" :disabled="laedt || !neu.datei || !neu.familie.trim()" :aria-describedby="fehler ? 'ds-upload-fehler' : undefined">{{ laedt ? 'Lädt hoch …' : 'Hochladen' }}</button>
+      </div>
+      <p v-if="!neu.datei" class="ds-hinweis">„Hochladen“ wird aktiv, sobald eine Datei gewählt ist.</p>
     </form>
+    <p v-if="loeschFehler" class="ds-fehlermeldung" role="alert">{{ loeschFehler }}</p>
   </section>
 </template>
 
@@ -91,6 +109,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { darf, meldungFuer, speicher } from '../../speicher/index.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { foundationTokens } from '../../data/tokens.js'
+import { vorschlagAusDateiname } from '../../utils/schrift-datei.js'
 
 const props = defineProps({
   /** NEO-Standard ohne geöffnetes Theme: nicht zuweisbar */
@@ -111,9 +130,20 @@ const GEWICHTE = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 const familien = serverSchriften
 const ladeFehler = serverSchriftenFehler
 const laedt = ref(false)
-const meldung = ref('')
+const erfolg = ref('')
+const fehler = ref('')
+const loeschFehler = ref('')
+const formOffen = ref(false)
 const dateiRef = ref(null)
 const neu = reactive({ datei: null, familie: '', gewicht: 400, stil: 'normal' })
+
+function leereForm () {
+  Object.assign(neu, { datei: null, familie: '', gewicht: 400, stil: 'normal' })
+  fehler.value = ''
+  if (dateiRef.value) dateiRef.value.value = ''
+}
+function oeffneForm () { leereForm(); erfolg.value = ''; formOffen.value = true }
+function schliesseForm () { leereForm(); formOffen.value = false }
 
 /** Ersatzschriften des Standard-Stacks (alles nach der ersten Schrift). */
 function rest (token) {
@@ -134,41 +164,56 @@ const laden = () => ladeServerSchriften(true)
 function dateiGewaehlt (ev) {
   const datei = ev.target.files?.[0] || null
   neu.datei = datei
-  meldung.value = ''
-  if (datei && !neu.familie) {
-    // „Kundenschrift-Bold.woff2“ → „Kundenschrift“
-    neu.familie = datei.name.replace(/\.[^.]+$/, '').split(/[-_](?=[^-_]*$)/)[0].replace(/[^A-Za-z0-9 _-]/g, '').slice(0, 60)
-  }
+  fehler.value = ''
+  if (datei) Object.assign(neu, vorschlagAusDateiname(datei.name))
+}
+
+/** UX-50: Klartext statt „Daten abgelehnt — datei: …“ */
+function uploadFehlerText (e) {
+  const roh = `${e?.message || ''} ${(e?.fehler || []).join(' ')}`.toLowerCase()
+  if (/woff2|schrift|font|format|inhalt|magic|typ/.test(roh)) return 'Die Datei ist keine gültige Schriftdatei (woff2, woff, ttf oder otf). Bitte eine andere Datei wählen.'
+  if (/gro(ss|ß)|size|5 ?mb|zu lang/.test(roh)) return 'Die Datei ist größer als 5 MB.'
+  if (/existiert|vorhanden|doppel|conflict|409/.test(roh)) return 'Diesen Schnitt (Familie, Gewicht, Stil) gibt es schon. Erst den vorhandenen löschen.'
+  return `Hochladen fehlgeschlagen: ${meldungFuer(e, 'Hochladen').titel}.`
 }
 
 async function hochladen () {
   if (!neu.datei || !neu.familie.trim()) return
   laedt.value = true
-  meldung.value = ''
+  fehler.value = ''
+  const name = `${neu.familie.trim()} ${neu.gewicht}${neu.stil === 'italic' ? ' kursiv' : ''}`
   try {
     uebernehmen(await speicher().ladeSchriftHoch(neu.datei, { familie: neu.familie.trim(), gewicht: neu.gewicht, stil: neu.stil }))
-    meldung.value = `${neu.familie.trim()} ${neu.gewicht}${neu.stil === 'italic' ? ' kursiv' : ''} hochgeladen.`
-    neu.datei = null
-    if (dateiRef.value) dateiRef.value.value = ''
+    erfolg.value = `${name} hochgeladen.`
+    schliesseForm()
   } catch (e) {
-    meldung.value = meldungFuer(e, 'Hochladen').titel + (e?.message ? ` — ${e.message}` : '')
+    fehler.value = uploadFehlerText(e)
   } finally {
     laedt.value = false
   }
 }
 
 async function loesche (f, s) {
+  // UX-49: letzter Schnitt einer zugewiesenen Familie → Rolle zurücksetzen
+  const letzter = f.schnitte.length === 1
+  const rollen = letzter ? ROLLEN.filter(r => istZugewiesen(f.familie, r.token)) : []
+  const zusatz = rollen.length
+    ? ` Im geöffneten Theme ist ${f.familie} als ${rollen.map(r => r.label).join(' und ')} zugewiesen — diese Rolle${rollen.length > 1 ? 'n bekommen' : ' bekommt'} wieder die NEO-Schrift.`
+    : ''
   const ok = await bestaetigen({
     titel: 'Schriftschnitt löschen?',
-    text: `${f.familie} ${s.gewicht}${s.stil === 'italic' ? ' kursiv' : ''} wird vom Server gelöscht. Themes, die diese Schrift nutzen, fallen auf die Ersatzschrift zurück.`,
+    text: `${f.familie} ${s.gewicht}${s.stil === 'italic' ? ' kursiv' : ''} wird vom Server gelöscht. Themes, die diese Schrift nutzen, fallen auf die Ersatzschrift zurück.${zusatz}`,
     bestaetigenText: 'Löschen',
     gefaehrlich: true,
   })
   if (!ok) return
+  loeschFehler.value = ''
   try {
     uebernehmen(await speicher().loescheSchrift(s.id))
+    for (const r of rollen) store.updateFoundationToken('typography', r.token, typo[r.token]?.value)
+    erfolg.value = `${f.familie} ${s.gewicht}${s.stil === 'italic' ? ' kursiv' : ''} gelöscht.`
   } catch (e) {
-    meldung.value = meldungFuer(e, 'Löschen').titel
+    loeschFehler.value = `Löschen fehlgeschlagen: ${meldungFuer(e, 'Löschen').titel}.`
   }
 }
 
@@ -193,9 +238,14 @@ onMounted(laden)
 .ds-probe { margin: 0; font-size: 20px; color: var(--cfg-text); }
 .ds-schnitte { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
 .ds-schnitt { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; padding: 2px 6px; border: 1px solid var(--cfg-border); border-radius: 4px; color: var(--cfg-text); }
-.ds-x { min-width: 24px; min-height: 24px; border: none; background: none; color: var(--cfg-text-secondary); cursor: pointer; font-size: 14px; line-height: 1; border-radius: 4px; }
-.ds-x:hover { color: var(--cfg-danger); }
-.ds-x:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 1px; }
+.ds-loeschen { display: inline-flex; align-items: center; gap: 3px; min-height: 24px; margin-left: 4px; padding: 0 6px; border: 1px solid transparent; border-radius: 4px; background: none; color: var(--cfg-text-secondary); cursor: pointer; font-size: 11px; }
+.ds-loeschen:hover { color: var(--cfg-danger); border-color: var(--cfg-danger); }
+.ds-neu__knopf { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; padding: 16px; border: 1px dashed var(--cfg-border); border-radius: 8px; background: var(--cfg-surface); color: var(--cfg-text-muted); cursor: pointer; font-size: 12px; font-weight: 600; }
+.ds-neu__knopf:hover { color: var(--cfg-accent); background: var(--cfg-accent-subtle); }
+.ds-hinweis { margin: 0; font-size: 11px; color: var(--cfg-text-secondary); }
+.ds-aktionen { display: flex; justify-content: flex-end; gap: 8px; }
+.ds-erfolg { margin: 0; font-size: 12px; color: var(--cfg-text); }
+.ds-fehlermeldung { margin: 0; padding: 6px 8px; border-radius: 5px; background: var(--cfg-danger-subtle); color: var(--cfg-text); font-size: 12px; border-left: 3px solid var(--cfg-danger); }
 .ds-rollen { display: flex; flex-wrap: wrap; gap: 4px; }
 .ds-rollen [aria-pressed='true'] { background: var(--cfg-accent-subtle); border-color: var(--cfg-accent); }
 .ds-hochladen { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--cfg-border); }
@@ -204,5 +254,5 @@ onMounted(laden)
 .ds-feld input, .ds-feld select { font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--cfg-border); border-radius: 5px; background: var(--cfg-surface); color: var(--cfg-text); }
 .ds-zeile { display: flex; gap: 8px; }
 .ds-zeile .ds-feld { flex: 1; }
-.ds-meldung { margin: 0; font-size: 12px; color: var(--cfg-text); }
+
 </style>

@@ -351,11 +351,14 @@ test('1.1.0: Schrift hochladen, als Body zuweisen, Vorschau gesetzt', async ({ p
   await themeOeffnen(page, name)
   const schriften = page.locator('.inspector-panel [data-test="drupal-schriften"]')
   await expect(page.locator('[data-test="drupal-schriften"]')).toHaveCount(1)   // nur im Inspector
+  await schriften.locator('[data-test="drupal-schrift-neu"]').click()   // E9: erst die Karte öffnet das Formular
   await schriften.getByLabel(/^Datei/).setInputFiles(new URL('../../../fonts/spacegrotesk-var-latin.woff2', import.meta.url).pathname)
   await schriften.getByLabel('Schriftfamilie').fill(familie)
   await schriften.getByRole('button', { name: 'Hochladen' }).click()
   const karte = schriften.locator(`[data-test="drupal-schrift-${familie}"]`)
   await expect(karte).toContainText('hochgeladen')
+  await expect(schriften.locator('[data-test="drupal-schrift-hochladen"]')).toHaveCount(0)   // Formular wieder zu
+  await expect(schriften.locator('[data-test="drupal-schrift-erfolg"]')).toContainText('hochgeladen')
   // @font-face der Attrappe ist eingehängt und die Schrift lädt
   await expect(page.locator('#neo-konfigurator-schriften')).toHaveAttribute('href', /\/attrappe\/schriften\.css\?v=/)
   await expect.poll(() => page.evaluate((f) => document.fonts.check(`16px "${f}"`), familie)).toBe(true)

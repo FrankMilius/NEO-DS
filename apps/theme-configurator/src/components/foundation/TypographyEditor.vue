@@ -130,8 +130,8 @@
                 </div>
                 <p v-if="feldFehler['gf-family-' + font.id]" class="feld-fehler" role="alert">{{ feldFehler['gf-family-' + font.id] }}</p>
                 <div class="font-edit-row">
-                  <label class="font-url-label">Google Fonts URL</label>
-                  <input aria-label="Google Fonts URL"
+                  <label class="font-url-label">Google-Fonts-Adresse</label>
+                  <input :aria-label="`Google-Fonts-Adresse von ${font.name}`"
                     type="text"
                     class="font-input font-input--url"
                     :value="font.url"
@@ -158,7 +158,7 @@
                     class="font-rolle-btn"
                     :aria-pressed="ersteFamilie(r.value) === ersteFamilie(font.family) ? 'true' : 'false'"
                     :data-test="`google-schrift-rolle-${r.id}`"
-                    @click="weiseZu(r, ersteFamilie(font.family))"
+                    @click="weiseStackZu(r, font.family)"
                   >Als {{ r.role }}</button>
                 </div>
               </div>
@@ -175,44 +175,52 @@
                 </button>
               </template>
               <template v-else>
-                <div class="add-form">
-                  <label class="add-form-label">Font Name</label>
-                  <input aria-label="Font Name"
+                <!-- UX-35: deutsch, verknüpfte Beschriftungen, Pflichtfelder, Sperrgrund -->
+                <div class="add-form" role="group" aria-labelledby="gf-neu-titel">
+                  <p id="gf-neu-titel" class="add-form-titel">Google-Schrift hinzufügen</p>
+                  <label class="add-form-label" for="gf-neu-name">Name <abbr title="Pflichtfeld">*</abbr></label>
+                  <input id="gf-neu-name"
                     ref="addFontNameInput"
                     type="text"
                     class="font-input"
+                    required
                     v-model="newFontName"
-                    placeholder="e.g. Inter"
+                    placeholder="z. B. Inter"
                     @keyup.enter="addCustomFont"
                     @keyup.escape="cancelAddFont"
                   />
-                  <label class="add-form-label">Font Stack</label>
-                  <input aria-label="Font Stack"
+                  <label class="add-form-label" for="gf-neu-stack">Font-Stack <abbr title="Pflichtfeld">*</abbr></label>
+                  <input id="gf-neu-stack"
                     type="text"
                     class="font-input"
+                    required
+                    aria-describedby="gf-neu-stack-hilfe"
                     v-model="newFontFamily"
-                    placeholder="e.g. Inter, Helvetica Neue, sans-serif"
+                    placeholder="z. B. Inter, Helvetica Neue, sans-serif"
                     @keyup.enter="addCustomFont"
                     @keyup.escape="cancelAddFont"
                   />
-                  <label class="add-form-label">Google Fonts URL</label>
-                  <input aria-label="Google Fonts URL"
+                  <p id="gf-neu-stack-hilfe" class="font-wirkung">Die Schrift und ihre Ersatzschriften, durch Kommas getrennt. „Als Body/Heading/Mono“ übernimmt genau diesen Stack.</p>
+                  <label class="add-form-label" for="gf-neu-url">Google-Fonts-Adresse (optional)</label>
+                  <input id="gf-neu-url"
                     type="text"
                     class="font-input font-input--url"
+                    aria-describedby="gf-neu-url-hilfe"
                     v-model="newFontUrl"
-                    placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+                    placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
                     @keyup.enter="addCustomFont"
                     @keyup.escape="cancelAddFont"
                   />
-                  <p class="font-wirkung">Leer lassen: Die Adresse wird aus der ersten Schrift des Font-Stacks gebaut (nur Stärke 400). Für weitere Stärken die Adresse von fonts.google.com einfügen.</p>
+                  <p id="gf-neu-url-hilfe" class="font-wirkung">Leer lassen: Die Adresse wird aus der ersten Schrift des Font-Stacks gebaut (nur Stärke 400). Für weitere Stärken die Adresse von fonts.google.com einfügen.</p>
                   <p v-if="feldFehler['gf-neu']" class="feld-fehler" role="alert">{{ feldFehler['gf-neu'] }}</p>
                   <!-- Live preview -->
                   <div v-if="newFontFamily.trim()" class="add-font-preview" :style="{ fontFamily: newFontFamily }">
                     <span class="font-sample">Aa Bb Cc Dd 1234</span>
                   </div>
+                  <p v-if="!newFontName.trim() || !newFontFamily.trim()" class="font-wirkung" data-test="gf-neu-sperrgrund">„Hinzufügen“ wird aktiv, sobald Name und Font-Stack ausgefüllt sind.</p>
                   <div class="add-form-actions">
-                    <button class="btn-add-confirm" @click="addCustomFont" :disabled="!newFontName.trim() || !newFontFamily.trim()">Add</button>
-                    <button class="btn-add-cancel" @click="cancelAddFont">Cancel</button>
+                    <button type="button" class="btn-add-confirm" @click="addCustomFont" :disabled="!newFontName.trim() || !newFontFamily.trim()">Hinzufügen</button>
+                    <button type="button" class="btn-add-cancel" @click="cancelAddFont">Abbrechen</button>
                   </div>
                 </div>
               </template>
@@ -328,6 +336,7 @@ import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
 import { speicher } from '../../speicher/index.js'
 import { pruefeFontStack } from '../../utils/css-wert.js'
+import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { ersteFamilie, baueGoogleUrl, pruefeFamilieZurUrl, pruefeLadbarkeit } from '../../utils/google-schrift.js'
 import DrupalSchriften from '../drupal/DrupalSchriften.vue'
 import { ladeServerSchriften, serverSchriften } from '../../composables/useServerSchriften.js'
@@ -434,6 +443,14 @@ function weiseZu (font, familie) {
   updateFontFamily(font.tokenKey, `${name}, ${ersatz(font.tokenKey)}`)
 }
 
+// UX-36: „Als …“ an einer Google-Schrift übernimmt den eingegebenen Stack;
+// nur eine einzelne Schrift bekommt die Ersatzschriften der Rolle
+function weiseStackZu (font, stack) {
+  const teile = String(stack || '').split(',').map(t => t.trim()).filter(Boolean)
+  if (teile.length < 2) return weiseZu(font, ersteFamilie(stack))
+  updateFontFamily(font.tokenKey, teile.join(', '))
+}
+
 function waehleSchrift (font, wert) {
   if (wert === EIGENE) return
   weiseZu(font, wert)
@@ -491,10 +508,25 @@ function addCustomFont() {
   cancelAddFont()
 }
 
-function removeCustomFont(id) {
+// UX-49: Rückfrage; Rollen, die die Schrift nutzen, bekommen die NEO-Schrift
+async function removeCustomFont(id) {
   const themeSet = store.state.activeThemeSet
+  const font = store.state.customFonts[themeSet].find(f => f.id === id)
+  if (!font) return
+  const familie = ersteFamilie(font.family)
+  const rollen = activeFonts.value.filter(r => ersteFamilie(r.value) === familie)
+  const ok = await bestaetigen({
+    titel: 'Google-Schrift entfernen?',
+    text: `${font.name} wird aus diesem Theme entfernt.` + (rollen.length
+      ? ` Sie ist als ${rollen.map(r => r.role).join(' und ')} zugewiesen — diese Rolle${rollen.length > 1 ? 'n bekommen' : ' bekommt'} wieder die NEO-Schrift.`
+      : ''),
+    bestaetigenText: 'Entfernen',
+    gefaehrlich: true,
+  })
+  if (!ok) return
   store.state.customFonts[themeSet] = store.state.customFonts[themeSet].filter(f => f.id !== id)
   unloadGoogleFont(id)
+  for (const r of rollen) updateFontFamily(r.tokenKey, typoTokens[r.tokenKey].value)
 }
 
 function updateCustomFontName(id, value) {
@@ -890,12 +922,12 @@ const rollen = computed(() => {
 }
 
 .add-form-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--cfg-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  color: var(--cfg-text-secondary);
 }
+.add-form-titel { margin: 0; font-size: 13px; font-weight: 700; color: var(--cfg-text); }
+.add-form .font-input { height: 32px; font-size: 13px; }
 
 .add-font-preview {
   padding: 12px;

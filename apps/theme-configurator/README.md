@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.7` (15.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.8` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -606,6 +606,22 @@ App 1.2.7 (Usability-Audit, Layout in schmalen Fenstern, 15.10.2026):
   Schleier, Escape oder Auswahl). Kopfleiste, Drupal-Werkzeuge und
   Arena-Filterleiste brechen um, statt Knöpfe abzuschneiden bzw. Chips zu
   überdecken. Ab 1200 px wie bisher, der Inspector höchstens 45 % breit.
+
+App 1.2.8 (Testlauf Kundentheme NEU, 16.10.2026):
+
+- **B7:** Dialogtitel mit eigener Zeilenhöhe und Laufweite (styles.css gab
+  h2 die Werte der Display-Schrift, 51 px Zeilenhöhe), × oben rechts. Gilt
+  für alle Überschriften in Kopfleiste, Sidebar, Inspector und Dialogen.
+- **C1:** Jede Markenpalette nennt aufklappbar die Farbrollen, die sie auf
+  der Website färbt (Primary, Accent); Secondary „wirkt derzeit nicht“.
+- **E9:** Schriftdatei hochladen wie „Google-Schrift hinzufügen“: Karte mit
+  Plus, Formular erst auf Klick, Familie/Gewicht/Stil aus dem Dateinamen
+  (`utils/schrift-datei.js`), nach dem Hochladen zu und leer.
+- **E12:** Schnitte haben einen sichtbaren Knopf „Löschen“.
+- **UX-35/36/49/50:** Google-Formular deutsch mit Pflichtfeldern und
+  Sperrgrund; „Als …“ übernimmt den eingegebenen Stack; Entfernen einer
+  Schrift fragt nach und setzt zugewiesene Rollen auf die NEO-Schrift
+  zurück; Upload-Fehler im Klartext (rot, `role="alert"`).
 
 Ursprünglicher Vorschlag (ADR-004):
 

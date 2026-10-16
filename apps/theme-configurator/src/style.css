@@ -92,6 +92,15 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--cfg-font-heading);
 }
 
+/* Testlauf 16.10.2026 (B7): styles.css gibt h1–h6 Zeilenhöhe und Laufweite
+   der Display-Schriften (Dialogtitel: 51 px Zeilenhöhe bei 15 px Schrift).
+   In den Bereichen der App gelten eigene Werte; Vorschauen auf der Bühne
+   behalten die des Design Systems. */
+:is(.app-header, .sidebar-nav, .inspector-panel, .konfig-dialog, .kompakt-tabs) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
 code, pre, .token-name {
   font-family: var(--cfg-font-mono);
 }
