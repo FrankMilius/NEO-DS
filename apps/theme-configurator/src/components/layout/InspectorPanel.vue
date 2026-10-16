@@ -1,5 +1,5 @@
 <template>
-  <div class="inspector-panel" role="region" aria-label="Inspector" :style="{ width: panelWidth + 'px' }">
+  <div id="cfg-inspector" tabindex="-1" class="inspector-panel" role="region" aria-label="Inspector" :style="{ width: panelWidth + 'px' }">
     <!-- Drag Handle -->
     <div
       class="inspector-resize-handle"
@@ -77,11 +77,12 @@
       </div>
 
       <!-- Color Tabs (only for foundation-colors) -->
-      <div v-if="activeSection === 'foundation-colors'" class="color-tabs" role="group" aria-label="Farbebene">
+      <div v-if="activeSection === 'foundation-colors'" class="color-tabs" role="tablist" aria-label="Farbebene">
         <button
           type="button"
           :class="['color-tab', { active: store.state.colorActiveTab === 'primitives' }]"
-          :aria-pressed="store.state.colorActiveTab === 'primitives'"
+          role="tab"
+          :aria-selected="store.state.colorActiveTab === 'primitives' ? 'true' : 'false'"
           @click="store.state.colorActiveTab = 'primitives'; store.state.semanticCategory = null; store.state.selectedToken = null"
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -94,7 +95,8 @@
         <button
           type="button"
           :class="['color-tab', { active: store.state.colorActiveTab === 'semantic' }]"
-          :aria-pressed="store.state.colorActiveTab === 'semantic'"
+          role="tab"
+          :aria-selected="store.state.colorActiveTab === 'semantic' ? 'true' : 'false'"
           @click="store.state.colorActiveTab = 'semantic'"
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

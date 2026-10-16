@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.9` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.10` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -640,6 +640,24 @@ App 1.2.9 (Usability-Audit, Block 5a Speichern und Veröffentlichen, 16.10.2026)
   „Anmeldung abgelaufen“ mit Weg zur Neuanmeldung in einem neuen Tab.
 - **UX-47:** Erfolgsmeldung beim Veröffentlichen im Klartext („Besucher
   sehen noch nichts“), Technik aufklappbar.
+
+App 1.2.10 (Usability-Audit, Block 5b Barrierefreiheit der App, 16.10.2026):
+
+- **UX-17:** Fokus geht nicht mehr an `<body>` verloren: Speichern bleibt
+  während des Speicherns fokussierbar (`aria-disabled`), Dialoge ohne
+  Auslöser geben den Fokus an das zuletzt fokussierte Element zurück
+  (`useFokusFalle`), Farbkategorien fokussieren Titel bzw. Karte,
+  Hinzufügen-Formulare ihr erstes Feld (`v-fokus`).
+- **UX-18:** letzter weißer Gefahr-Knopf (lokaler Lösch-Dialog) mit on-danger.
+- **UX-19:** Kleine Texte ≥ 4,5:1 (Bühnen-Beschriftungen, Token-Pills,
+  L2-Badges, inaktive Fokus-Zeilen, violette Überschriften); axe
+  color-contrast auf neun Bereichen ohne Befund.
+- **UX-30/UX-51:** Farbebenen als Tabs (`role="tab"`), Vorschaumodus als
+  Radiogruppe (`aria-checked`), Farb-Token mit `aria-expanded`, benannte
+  Swatches mit `aria-pressed`, Palettenstufen fokussierbar mit Tooltip,
+  eindeutige Schrift-Auswahl je Rolle.
+- **UX-46:** Sprunglinks „Zur Navigation / Bühne / Inspector“; die
+  scrollbare Bühne ist per Tastatur erreichbar.
 
 Ursprünglicher Vorschlag (ADR-004):
 

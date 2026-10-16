@@ -149,7 +149,7 @@ function updateToken(tokenId, value) {
   font-family: monospace;
 }
 
-.tier-2 { background: #dcfce7; color: #16a34a; }
+.tier-2 { background: #dcfce7; color: #166534; }   /* UX-19: 6,9:1 statt 3:1 */
 
 .theme-indicator {
   font-size: 11px;

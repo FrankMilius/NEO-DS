@@ -79,7 +79,7 @@
       </div>
       <div v-else class="re-add-form">
         <div class="re-add-fields">
-          <input aria-label="Name des neuen Radius-Tokens"
+          <input v-fokus aria-label="Name des neuen Radius-Tokens"
             ref="addKeyInput"
             type="text"
             class="re-input"
@@ -121,6 +121,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'

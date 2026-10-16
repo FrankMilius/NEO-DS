@@ -1278,7 +1278,7 @@ function confirmPublishRelease({ version, notes }) {
 
 .modal-btn.danger {
   background: var(--cfg-danger);
-  color: white;
+  color: var(--fnd-color-on-danger, #000);   /* UX-18: Weiß nur 3:1 auf dem Fehlerrot */
   border-color: var(--cfg-danger);
 }
 

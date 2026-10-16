@@ -223,8 +223,10 @@ function cellColor(theme, opacity = 1) {
     : interactive
 }
 
+// UX-19: Beschriftungen liegen auf den Spaltenflächen — text-secondary
+// erreichte dort nur 4,4:1 bei 10 px
 function labelColor(theme) {
-  return theme['text-secondary'] || '#666'
+  return theme['text-primary'] || '#161816'
 }
 
 // ---------------------------------------------------------------------------
@@ -446,11 +448,11 @@ const GridSpans = defineComponent({
 }
 
 .arena-category-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  opacity: 0.5;
+  color: var(--cfg-text-secondary);   /* UX-19: statt opacity .5 (3,2:1) */
   white-space: nowrap;
 }
 

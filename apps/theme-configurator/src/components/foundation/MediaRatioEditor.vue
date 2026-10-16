@@ -58,7 +58,7 @@
       </div>
       <div v-else class="me-add-form">
         <div class="me-add-fields">
-          <input aria-label="Schlüssel des neuen Seitenverhältnisses"
+          <input v-fokus aria-label="Schlüssel des neuen Seitenverhältnisses"
             ref="addKeyInput"
             type="text"
             class="me-input"
@@ -91,6 +91,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'

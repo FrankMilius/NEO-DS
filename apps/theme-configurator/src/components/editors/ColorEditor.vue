@@ -73,6 +73,9 @@
             }]"
             :style="{ background: shade.color }"
             :title="`${shade.token}\n${shade.color}`"
+            type="button"
+            :aria-label="`${group.label} ${shade.step}, ${shade.color}`"
+            :aria-pressed="modelValue === shade.color ? 'true' : 'false'"
             @click="selectSwatch(shade)"
           >
             <span class="picker-swatch-step">{{ shade.step }}</span>

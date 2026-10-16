@@ -41,7 +41,7 @@ const SEITEN = [
     name: 'foundation-farben-semantisch',
     oeffnen: async (page) => {
       await oeffneSektion(page, 'foundation-colors')
-      await page.locator('.color-tabs').getByRole('button', { name: /Semantic Colors/ }).click()
+      await page.locator('.color-tabs').getByRole('tab', { name: /Semantic Colors/ }).click()
     },
   },
   { name: 'typografie', oeffnen: (page) => oeffneSektion(page, 'foundation-typography') },

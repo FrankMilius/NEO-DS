@@ -59,7 +59,7 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input aria-label="Name des neuen Deckkraft-Tokens" ref="addOpacityKeyInput" type="text" class="ozm-input" v-model="newOpacityKey" placeholder="Token-Name (z.B. ghost)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
+          <input v-fokus aria-label="Name des neuen Deckkraft-Tokens" ref="addOpacityKeyInput" type="text" class="ozm-input" v-model="newOpacityKey" placeholder="Token-Name (z.B. ghost)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
           <input aria-label="Wert des neuen Deckkraft-Tokens" type="text" class="ozm-input" v-model="newOpacityValue" placeholder="Wert (z.B. 0.04)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
         </div>
         <div class="ozm-add-actions">
@@ -131,7 +131,7 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input aria-label="Name des neuen Z-Index-Tokens" ref="addZindexKeyInput" type="text" class="ozm-input" v-model="newZindexKey" placeholder="Token-Name (z.B. popover)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
+          <input v-fokus aria-label="Name des neuen Z-Index-Tokens" ref="addZindexKeyInput" type="text" class="ozm-input" v-model="newZindexKey" placeholder="Token-Name (z.B. popover)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
           <input aria-label="Wert des neuen Z-Index-Tokens" type="text" class="ozm-input" v-model="newZindexValue" placeholder="Wert (z.B. 15)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
         </div>
         <div class="ozm-add-actions">
@@ -218,7 +218,7 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input aria-label="Name des neuen Motion-Tokens" ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
+          <input v-fokus aria-label="Name des neuen Motion-Tokens" ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
           <input aria-label="Wert des neuen Motion-Tokens" type="text" class="ozm-input ozm-input--wide" v-model="newMotionValue" placeholder="Wert (z.B. 0.5s oder ease-out)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
           <select aria-label="Art des neuen Motion-Tokens" class="ozm-select" v-model="newMotionType">
             <option value="easing">Easing</option>
@@ -293,7 +293,7 @@
       </div>
       <div v-else class="ozm-add-form">
         <div class="ozm-add-fields">
-          <input aria-label="Name des neuen Effekts" ref="addEffectKeyInput" type="text" class="ozm-input" v-model="newEffectKey" placeholder="Effect-Name (z.B. bounce-in)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
+          <input v-fokus aria-label="Name des neuen Effekts" ref="addEffectKeyInput" type="text" class="ozm-input" v-model="newEffectKey" placeholder="Effect-Name (z.B. bounce-in)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
           <input aria-label="CSS-Wert des neuen Effekts" type="text" class="ozm-input ozm-input--wide" v-model="newEffectValue" placeholder="CSS-Wert (z.B. translateY(-4px))" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
         </div>
         <div class="ozm-add-fields">
@@ -317,6 +317,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
@@ -686,5 +687,5 @@ function cancelAddEffect() {
 .ozm-intent--entrance { background: color-mix(in srgb, #10b981 15%, transparent); color: #10b981; }
 .ozm-intent--attention { background: color-mix(in srgb, #f59e0b 15%, transparent); color: #f59e0b; }
 .ozm-intent--feedback { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
-.ozm-intent--spatial { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: #8b5cf6; }
+.ozm-intent--spatial { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: #6d28d9; }
 </style>

@@ -69,8 +69,13 @@
                   :key="shade.step"
                   class="shade-chip"
                   :style="{ background: shade.color }"
+                  tabindex="0"
+                  role="img"
+                  :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                   @mouseenter="showTooltip($event, palette.id, shade)"
+                  @focus="showTooltip($event, palette.id, shade)"
                   @mouseleave="hideTooltip"
+                  @blur="hideTooltip"
                 >
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
@@ -139,8 +144,13 @@
                   :key="shade.step"
                   class="shade-chip"
                   :style="{ background: shade.color }"
+                  tabindex="0"
+                  role="img"
+                  :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                   @mouseenter="showTooltip($event, palette.id, shade)"
+                  @focus="showTooltip($event, palette.id, shade)"
                   @mouseleave="hideTooltip"
+                  @blur="hideTooltip"
                 >
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
@@ -160,7 +170,7 @@
               <template v-else>
                 <div class="add-form">
                   <label class="add-form-label">Palette Name</label>
-                  <input aria-label="Palette Name"
+                  <input v-fokus aria-label="Palette Name"
                     ref="addMainNameInput"
                     type="text"
                     class="hex-input"
@@ -272,8 +282,13 @@
                   :key="shade.step"
                   class="shade-chip"
                   :style="{ background: shade.color }"
+                  tabindex="0"
+                  role="img"
+                  :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                   @mouseenter="showTooltip($event, palette.id, shade)"
+                  @focus="showTooltip($event, palette.id, shade)"
                   @mouseleave="hideTooltip"
+                  @blur="hideTooltip"
                 >
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
@@ -322,8 +337,13 @@
                   :key="shade.step"
                   class="shade-chip"
                   :style="{ background: shade.color }"
+                  tabindex="0"
+                  role="img"
+                  :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                   @mouseenter="showTooltip($event, palette.id, shade)"
+                  @focus="showTooltip($event, palette.id, shade)"
                   @mouseleave="hideTooltip"
+                  @blur="hideTooltip"
                 >
                   <span class="shade-label">{{ shade.step }}</span>
                 </div>
@@ -344,7 +364,7 @@
             <template v-else>
               <div class="add-form">
                 <label class="add-form-label">Name</label>
-                <input aria-label="Name der Palette"
+                <input v-fokus aria-label="Name der Palette"
                   ref="addNameInput"
                   type="text"
                   class="hex-input"
@@ -496,8 +516,13 @@
                 :key="shade.step"
                 class="shade-chip"
                 :style="{ background: shade.color }"
+                tabindex="0"
+                role="img"
+                :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                 @mouseenter="showTooltip($event, palette.id, shade)"
+                @focus="showTooltip($event, palette.id, shade)"
                 @mouseleave="hideTooltip"
+                @blur="hideTooltip"
               >
                 <span class="shade-label">{{ shade.step }}</span>
               </div>
@@ -535,8 +560,13 @@
                 :key="shade.step"
                 class="shade-chip"
                 :style="{ background: shade.color }"
+                tabindex="0"
+                role="img"
+                :aria-label="`Stufe ${shade.step}: ${shade.color}`"
                 @mouseenter="showTooltip($event, palette.id, shade)"
+                @focus="showTooltip($event, palette.id, shade)"
                 @mouseleave="hideTooltip"
+                @blur="hideTooltip"
               >
                 <span class="shade-label">{{ shade.step }}</span>
               </div>
@@ -560,6 +590,7 @@
             v-for="group in semanticTokenGroups"
             :key="group.id"
             class="semantic-category-card"
+            :data-kategorie="group.id"
             @click="store.state.semanticCategory = group.id"
           >
             <div class="semantic-category-card__icon">
@@ -608,13 +639,13 @@
       <!-- ── ACTIVE CATEGORY: TOKEN LIST ── -->
       <template v-else>
         <div class="semantic-category-header">
-          <button class="semantic-back-btn" @click="store.state.semanticCategory = null; store.state.selectedToken = null">
+          <button type="button" class="semantic-back-btn" @click="store.state.semanticCategory = null; store.state.selectedToken = null">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M15 6l-6 6l6 6"/>
             </svg>
             Kategorien
           </button>
-          <h4 class="semantic-category-title">{{ activeCategoryGroup?.label }}</h4>
+          <h4 ref="kategorieTitel" class="semantic-category-title" tabindex="-1">{{ activeCategoryGroup?.label }}</h4>
           <span class="semantic-category-count">{{ activeCategoryGroup?.tokens.length }} Tokens</span>
         </div>
 
@@ -625,7 +656,9 @@
             :class="['semantic-token-card', { 'semantic-token-card--active': selectedTokenId === token.id }]"
           >
             <button
+              type="button"
               class="semantic-token-header"
+              :aria-expanded="selectedTokenId === token.id ? 'true' : 'false'"
               @click="toggleSemanticToken(token)"
             >
               <!-- Single swatch: zeigt aktive Theme-Farbe -->
@@ -726,6 +759,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
@@ -1321,6 +1355,19 @@ const primitiveColorMap = computed(() => {
 // Theme-aware helpers: resolve to active previewMode
 // ---------------------------------------------------------------------------
 const MODI = [{ id: 'light', label: 'Hell' }, { id: 'dark', label: 'Dunkel' }]
+
+// UX-17: Beim Wechsel zwischen Kategorien-Übersicht und Kategorie bleibt der
+// Tastaturfokus an einer sinnvollen Stelle (vorher fiel er auf <body>)
+const kategorieTitel = ref(null)
+watch(() => store.state.semanticCategory, (neu, alt) => {
+  const fokus = document.activeElement
+  if (!fokus || fokus === document.body || fokus.closest?.('.semantic-category-card, .semantic-category-header')) {
+    nextTick(() => {
+      if (neu) kategorieTitel.value?.focus()
+      else if (alt) document.querySelector(`.semantic-category-card[data-kategorie="${alt}"]`)?.focus()
+    })
+  }
+})
 const activeThemeMode = computed(() => {
   return store.editMode   // bearbeiteter Modus, nie „split“/„matrix“ (UX-08/UX-13)
 })
@@ -1517,7 +1564,7 @@ function getNotAffected(semanticId) {
 }
 
 .tier-1 { background: #dbeafe; color: #1d4ed8; }
-.tier-2 { background: #dcfce7; color: #16a34a; }
+.tier-2 { background: #dcfce7; color: #166534; }   /* UX-19: 6,9:1 statt 3:1 */
 .tier-3 { background: #fef3c7; color: #d97706; }
 
 .theme-indicator {

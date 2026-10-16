@@ -5,6 +5,10 @@
     :data-ansicht="kompakt ? kompaktAnsicht : null"
     @keydown.escape="overlaySchliessen"
   >
+    <!-- UX-46: Sprunglinks, sichtbar beim ersten Tab -->
+    <nav class="sprunglinks" aria-label="Sprunglinks">
+      <button v-for="z in SPRUNGZIELE" :key="z.id" type="button" class="sprunglinks__link" :data-test="`sprung-${z.id}`" @click="springe(z.id)">{{ z.label }}</button>
+    </nav>
     <AppHeader @toggle-sidebar="toggleSidebar" :sidebarCollapsed="leisteZu" />
     <DrupalRechteHinweis v-if="mitHinweis" />
     <!-- UX-04: unter 1200 px Bühne und Inspector als Tabs -->
@@ -36,7 +40,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useThemeStore } from './stores/theme.js'
 import { useStyleguideSync } from './stores/styleguide-sync.js'
 import AppHeader from './components/layout/AppHeader.vue'
@@ -83,6 +87,21 @@ const leisteZu = computed(() => (kompakt.value ? !overlayOffen.value : sidebarCo
 function overlaySchliessen () { if (kompakt.value) overlayOffen.value = false }
 // Auswahl in der Sidebar schließt die Überlagerung
 watch(() => store.state.activeSection, overlaySchliessen)
+
+// UX-46: Sprungziele (Knöpfe statt Anker: der Hash gehört dem Router)
+const SPRUNGZIELE = [
+  { id: 'navigation', label: 'Zur Navigation' },
+  { id: 'buehne', label: 'Zur Bühne' },
+  { id: 'inspector', label: 'Zum Inspector' },
+]
+function springe (ziel) {
+  if (kompakt.value && (ziel === 'buehne' || ziel === 'inspector')) kompaktAnsicht.value = ziel
+  if (ziel === 'navigation' && leisteZu.value) toggleSidebar()
+  nextTick(() => {
+    const el = ziel === 'navigation' ? document.querySelector('[data-test="sidebar-suche"]') : document.getElementById(`cfg-${ziel}`)
+    el?.focus()
+  })
+}
 
 function toggleSidebar () {
   if (kompakt.value) { overlayOffen.value = !overlayOffen.value; return }
@@ -159,8 +178,8 @@ onBeforeUnmount(() => {
   grid-template-rows: 44px auto 1fr;
 }
 
-.app-shell > :first-child {
-  /* AppHeader: spans full width */
+.app-shell > .app-header {
+  /* AppHeader: spans full width (nicht :first-child — davor stehen die Sprunglinks) */
   grid-column: 1 / -1;
 }
 
@@ -176,7 +195,7 @@ onBeforeUnmount(() => {
 .app-shell.app-shell--kompakt.mit-hinweis {
   grid-template-rows: auto auto auto minmax(0, 1fr);
 }
-.app-shell--kompakt.mit-hinweis > :nth-child(2) { grid-column: 1 / -1; }
+.app-shell--kompakt.mit-hinweis > .drh { grid-column: 1 / -1; }
 .app-shell--kompakt > .kompakt-tabs { grid-column: 2; grid-row: -3 / -2; }
 </style>
 
@@ -195,6 +214,12 @@ onBeforeUnmount(() => {
   width: min(300px, calc(100vw - 32px));
   box-shadow: var(--cfg-shadow-lg);
 }
+.sprunglinks { position: fixed; top: env(safe-area-inset-top, 0px); left: 8px; z-index: 10000; display: flex; gap: 6px; }
+.sprunglinks__link {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  padding: 8px 12px; border: 2px solid var(--cfg-text); border-radius: 6px; background: var(--cfg-surface); color: var(--cfg-text); font-weight: 600; cursor: pointer;
+}
+.sprunglinks__link:focus { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
 .kompakt-schleier {
   position: fixed; inset: 0; z-index: calc(var(--cfg-z-dropdown, 50) - 1);
   background: color-mix(in srgb, #000 30%, transparent);

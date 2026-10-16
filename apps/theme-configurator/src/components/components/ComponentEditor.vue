@@ -1955,7 +1955,7 @@ function getContrastTarget(token) {
   height: 28px;
   border-radius: 6px;
   background: color-mix(in srgb, #8b5cf6 12%, transparent);
-  color: #8b5cf6;
+  color: #6d28d9;   /* UX-19: 4,5:1+ statt 3,6:1 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2088,7 +2088,7 @@ function getContrastTarget(token) {
 }
 
 .ce-action-btn--export.success {
-  color: #16a34a;
+  color: #166534;
   border-color: #86efac;
   background: color-mix(in srgb, #22c55e 10%, transparent);
 }

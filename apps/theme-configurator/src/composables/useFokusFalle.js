@@ -36,6 +36,17 @@ export function fokussierbareElemente (container) {
 // Offene Fallen, die oberste zuletzt
 const stapel = []
 
+// UX-17: zuletzt fokussiertes Element — Dialoge, die nicht aus einem Klick
+// entstehen (Fehler, Konflikt nach Strg+S), geben den Fokus dorthin zurück
+// statt an <body>
+let zuletztFokussiert = null
+if (typeof document !== 'undefined') {
+  document.addEventListener('focusin', (e) => {
+    const el = e.target
+    if (el && el !== document.body && !el.closest?.('[role="dialog"], [role="alertdialog"]')) zuletztFokussiert = el
+  }, true)
+}
+
 /** Nur fuer Tests: Anzahl aktiver Fallen. */
 export function _aktiveFallen () { return stapel.length }
 
@@ -103,7 +114,7 @@ export function useFokusFalle (containerRef, aktiv, optionen = {}) {
   function aktivieren () {
     if (stapel.includes(eintrag)) return
     const aktuell = document.activeElement
-    ausloeser = aktuell && aktuell !== document.body ? aktuell : null
+    ausloeser = aktuell && aktuell !== document.body ? aktuell : (zuletztFokussiert?.isConnected ? zuletztFokussiert : null)
     stapel.push(eintrag)
     document.addEventListener('keydown', onKeydown)
     nextTick(fokusHinein)

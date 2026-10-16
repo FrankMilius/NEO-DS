@@ -2,11 +2,14 @@
   <div class="inspector-theme-header">
 
     <!-- Segmented Control: Light / Dark / Split View -->
-    <div class="theme-segmented" role="radiogroup" aria-label="Theme mode">
+    <div class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
       <button
         :class="['seg-btn', { active: store.state.previewMode === 'light' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'light' ? 'true' : 'false'"
         @click="store.setPreviewMode('light')"
-        aria-label="Light mode"
+        aria-label="Hell"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
@@ -14,8 +17,11 @@
       </button>
       <button
         :class="['seg-btn', { active: store.state.previewMode === 'dark' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'dark' ? 'true' : 'false'"
         @click="store.setPreviewMode('dark')"
-        aria-label="Dark mode"
+        aria-label="Dunkel"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
@@ -23,8 +29,11 @@
       </button>
       <button
         :class="['seg-btn', { active: store.state.previewMode === 'split' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'split' ? 'true' : 'false'"
         @click="store.setPreviewMode('split')"
-        aria-label="Split view"
+        aria-label="Hell und Dunkel nebeneinander"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>

@@ -50,7 +50,7 @@
               <span class="font-role-badge">{{ font.role }}</span>
               <p class="font-wirkung">{{ font.wirkung }}</p>
               <template v-if="!buehne">
-                <label class="font-select-label" :for="`schrift-wahl-${font.id}`">Schrift</label>
+                <label class="font-select-label" :for="`schrift-wahl-${font.id}`">Schrift<span class="cfg-sr-only"> für {{ font.role }}</span></label>
                 <select
                   :id="`schrift-wahl-${font.id}`"
                   class="font-select"
@@ -179,7 +179,7 @@
                 <div class="add-form" role="group" aria-labelledby="gf-neu-titel">
                   <p id="gf-neu-titel" class="add-form-titel">Google-Schrift hinzufügen</p>
                   <label class="add-form-label" for="gf-neu-name">Name <abbr title="Pflichtfeld">*</abbr></label>
-                  <input id="gf-neu-name"
+                  <input v-fokus id="gf-neu-name"
                     ref="addFontNameInput"
                     type="text"
                     class="font-input"
@@ -330,6 +330,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, reactive, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, typographyScale } from '../../data/tokens.js'

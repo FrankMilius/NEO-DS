@@ -10,11 +10,14 @@
           <span v-if="istEntwurfAktiv" class="lab-entwurf" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
         </h2>
         <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
-        <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Theme mode">
+        <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'light' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'light' ? 'true' : 'false'"
             @click="store.setPreviewMode('light')"
-            aria-label="Light mode"
+            aria-label="Hell"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
@@ -22,8 +25,11 @@
           </button>
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'dark' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'dark' ? 'true' : 'false'"
             @click="store.setPreviewMode('dark')"
-            aria-label="Dark mode"
+            aria-label="Dunkel"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
@@ -31,8 +37,11 @@
           </button>
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'split' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'split' ? 'true' : 'false'"
             @click="store.setPreviewMode('split')"
-            aria-label="Split view"
+            aria-label="Hell und Dunkel nebeneinander"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
@@ -40,6 +49,9 @@
           </button>
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'matrix' }]"
+            type="button"
+            role="radio"
+            :aria-checked="store.state.previewMode === 'matrix' ? 'true' : 'false'"
             @click="store.setPreviewMode('matrix')"
             aria-label="4-Theme Matrix"
             title="Alle 4 Themes gleichzeitig"
@@ -55,7 +67,8 @@
     <!-- Recipe Filterbar (nur bei Komponenten-Sektionen mit Filtern) -->
     <ArenaFilterbar v-if="isComponentSection && hasFilterOptions" :filters="filterOptions" />
 
-    <div class="lab-viewport" :style="viewportStyle" :class="viewportClass">
+    <!-- UX-46/UX-42: per Tastatur erreichbar und scrollbar (axe scrollable-region-focusable) -->
+    <div id="cfg-buehne" class="lab-viewport" tabindex="0" role="region" aria-label="Bühne (Vorschau)" :style="viewportStyle" :class="viewportClass">
 
       <div class="lab-viewport-inner" ref="labViewportRef">
 

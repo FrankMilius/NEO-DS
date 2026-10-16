@@ -60,7 +60,7 @@
           <div class="si-add-field">
             <label class="si-add-label">Pixelwert</label>
             <div class="si-add-input-row">
-              <input aria-label="Pixelwert"
+              <input v-fokus aria-label="Pixelwert"
                 type="number"
                 class="si-add-input"
                 v-model.number="newTokenPx"
@@ -186,7 +186,7 @@
         <div v-if="showAddSemanticDialog" class="si-add-dialog">
           <div class="si-add-field">
             <label class="si-add-label">Token-Name (z.B. padding-card)</label>
-            <input aria-label="Token-Name"
+            <input v-fokus aria-label="Token-Name"
               type="text"
               class="si-add-input si-add-input--wide"
               v-model="newSemanticName"
@@ -260,6 +260,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { computed, ref } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
@@ -726,7 +727,7 @@ const customSemanticEntries = computed(() => {
 
 .si-badge--custom {
   background: color-mix(in srgb, #8b5cf6 15%, transparent);
-  color: #8b5cf6;
+  color: #6d28d9;   /* UX-19: 4,5:1+ statt 3,6:1 */
 }
 
 .si-badge--modified {

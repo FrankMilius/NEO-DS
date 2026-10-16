@@ -314,8 +314,10 @@ const focusPreviewStyle = computed(() => {
 
 /* Token-Row Aktiv/Inaktiv-Status */
 .token-row--inactive {
-  opacity: 0.45;
+  /* UX-19: lesbar statt opacity .45 (1,9:1); „inaktiv“-Badge zeigt den Zustand */
+  background: var(--cfg-surface);
 }
+.token-row--inactive :is(.token-label, .token-name, .preview-value-text) { color: var(--cfg-text-secondary); }
 
 .badge {
   display: inline-block;
@@ -336,6 +338,7 @@ const focusPreviewStyle = computed(() => {
 
 .badge--inactive {
   background: var(--cfg-surface-elevated);
-  color: var(--cfg-text-muted);
+  color: var(--cfg-text-secondary);
+  border: 1px solid var(--cfg-border);
 }
 </style>

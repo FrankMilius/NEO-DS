@@ -434,7 +434,7 @@ const spacingOptions = computed(() => {
   padding: 1px var(--fnd-spacing-01);
   border-radius: var(--fnd-radius-s);
   background: color-mix(in srgb, #8b5cf6 12%, transparent);
-  color: #8b5cf6;
+  color: #6d28d9;   /* UX-19: 4,5:1+ statt 3,6:1 */
   flex-shrink: 0;
 }
 

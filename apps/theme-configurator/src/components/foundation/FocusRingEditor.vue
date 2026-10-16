@@ -420,7 +420,9 @@ const borderStyleOptions = computed(() => {
 }
 
 .fe-token-row:hover { background: var(--cfg-surface-elevated); }
-.fe-token-row--inactive { opacity: 0.4; }
+/* UX-19: inaktiv = gedämpfte Fläche und „inaktiv“-Badge, Text bleibt lesbar (vorher opacity .4 → 1,8:1) */
+.fe-token-row--inactive { background: var(--cfg-surface); }
+.fe-token-row--inactive :is(.fe-token-label, .fe-token-name, input) { color: var(--cfg-text-secondary); }
 .fe-token-row--highlighted { background: color-mix(in srgb, var(--cfg-accent) 6%, transparent); }
 
 .fe-token-info {
@@ -459,5 +461,5 @@ const borderStyleOptions = computed(() => {
 }
 
 .fe-badge--active { background: var(--cfg-accent); color: #fff; }
-.fe-badge--inactive { background: var(--cfg-surface-elevated); color: var(--cfg-text-muted); }
+.fe-badge--inactive { background: var(--cfg-surface-elevated); color: var(--cfg-text-secondary); border: 1px solid var(--cfg-border); }
 </style>

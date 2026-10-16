@@ -919,7 +919,7 @@ onBeforeUnmount(() => {
 
 .ra-axis-pill,
 .ra-token-pill {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 3px;
@@ -932,8 +932,10 @@ onBeforeUnmount(() => {
 }
 
 .ra-token-pill {
-  background: color-mix(in srgb, var(--fnd-color-feedback-success, #22c55e) 8%, transparent);
-  color: var(--fnd-color-feedback-success, #22c55e);
+  /* UX-19: Grün nur als Fläche/Rahmen, Text in lesbarer Farbe (vorher 2,5:1) */
+  background: color-mix(in srgb, var(--fnd-color-feedback-success, #22c55e) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fnd-color-feedback-success, #22c55e) 45%, transparent);
+  color: var(--cfg-text);
 }
 .ra-komposition {
   display: flex;

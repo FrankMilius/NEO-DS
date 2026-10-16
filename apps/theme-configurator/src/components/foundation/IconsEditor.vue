@@ -45,7 +45,7 @@
       </div>
       <div v-else class="ie-add-form">
         <div class="ie-add-fields">
-          <input aria-label="Name der Icon-Bibliothek"
+          <input v-fokus aria-label="Name der Icon-Bibliothek"
             ref="addLibInput"
             type="text"
             class="ie-input"
@@ -259,6 +259,7 @@
 </template>
 
 <script setup>
+import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes } from '../../data/tokens.js'
