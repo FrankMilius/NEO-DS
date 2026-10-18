@@ -462,14 +462,17 @@
   padding: 0;
 }
 
-/// Loading: Label wird visibility:hidden (behaelt Breite), Spinner absolut zentriert.
+/// Loading: Label wird unsichtbar (behaelt Breite), Spinner absolut zentriert.
 /// Verhindert Layout-Shift beim Zustandswechsel.
+/// Usability-Audit UX-44 (18.10.2026): color transparent statt
+/// visibility:hidden — sonst verliert der Knopf seinen zugaenglichen Namen
+/// (axe button-name). Optisch unveraendert.
 @mixin button-loading {
   &[data-loading='true'],
   &[aria-busy='true'] {
     .button-text,
     .nc-button__label {
-      visibility: hidden;
+      color: transparent;
     }
 
     .nc-button__icon {
