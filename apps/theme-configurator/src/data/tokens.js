@@ -20,6 +20,7 @@ export {
   semanticDefaults,
   componentTokenGroups,
   foundationTokens,
+  spacingFluid,
   typographyScale,
 } from './tokens.generated.js'
 

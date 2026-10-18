@@ -105,3 +105,28 @@ export function fokusFarbZeilen (focus, themeSet = 'neo') {
   }
   return zeilen
 }
+
+/**
+ * Eigene Spacing-Stufen und semantische Abstände als CSS (Befund UX-57,
+ * 18.10.2026). Vorher gingen beide nur in den DTCG-Export — ein
+ * semantischer Abstand, der auf eine eigene Stufe zeigte, war auf der
+ * Website leer.
+ * @param {Record<string, { value: string }>} eigene  customSpacingTokens[set]
+ * @param {Record<string, string>} semantisch  semanticSpacing[set]
+ * @returns {string[]}
+ */
+export function abstandZeilen (eigene = {}, semantisch = {}) {
+  const name = /^[A-Za-z0-9_-]+$/
+  const zeilen = []
+  for (const [k, t] of Object.entries(eigene || {})) {
+    const v = String(t?.value ?? '').trim()
+    if (name.test(k) && v && !/[{};<>\\]/.test(v)) zeilen.push(`  --fnd-spacing-${k}: ${v};`)
+  }
+  for (const [k, wert] of Object.entries(semantisch || {})) {
+    const v = String(wert ?? '').trim()
+    if (name.test(k) && v && !/[{};<>\\]/.test(v)) zeilen.push(`  --fnd-spacing-${k}: ${v};`)
+  }
+  if (!zeilen.length) return []
+  return ['/* === Abstände: eigene Stufen und semantische Abstände === */', ':root {', ...zeilen, '}\n']
+}
+

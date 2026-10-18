@@ -2459,6 +2459,41 @@ export declare const foundationTokens: {
   }
 }
 
+export declare const spacingFluid: {
+  "10": {
+    min: string
+    max: string
+  }
+  "11": {
+    min: string
+    max: string
+  }
+  "12": {
+    min: string
+    max: string
+  }
+  "13": {
+    min: string
+    max: string
+  }
+  "06": {
+    min: string
+    max: string
+  }
+  "07": {
+    min: string
+    max: string
+  }
+  "08": {
+    min: string
+    max: string
+  }
+  "09": {
+    min: string
+    max: string
+  }
+}
+
 export declare const navigationTree: {
   id: string
   label: string

@@ -130,7 +130,8 @@ import { ENTWURF_HINWEIS } from '../../data/recipe-entwuerfe.js'
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
-import { navigationTree, componentTokenGroups } from '../../data/tokens.js'
+import { navigationTree, componentTokenGroups, primitiveColors, semanticDefaults } from '../../data/tokens.js'
+import { getDefaultFoundation } from '../../stores/theme/kern.js'
 import { suchTreffer } from '../../navigation/sidebar-suche.js'
 
 defineProps({
@@ -302,13 +303,41 @@ function handleSelect(child) {
   store.selectToken(null)
 }
 
+// UX-29: auch Foundation-Bereiche als „geändert“ markieren (Vergleich mit
+// dem Standard des Design Systems)
+const FOUNDATION_KATEGORIEN = {
+  spacing: ['spacing'], sizes: ['size'], typography: ['typography', 'tracking'], radius: ['radius'],
+  border: ['border'], focus: ['focus'], media: ['media'], shadows: ['shadow', 'elevation'],
+  'opacity-zindex-motion': ['opacity', 'zindex', 'motion'],
+}
+const STANDARD_FOUNDATION = getDefaultFoundation()
+const gleich = (a, b) => JSON.stringify(a ?? {}) === JSON.stringify(b ?? {})
+const farbenGeaendert = computed(() => {
+  const set = store.state.activeThemeSet
+  const prim = store.state.primitiveOverrides?.[set] || {}
+  if (Object.entries(prim).some(([id, wert]) => primitiveColors[id]?.base && String(wert).toLowerCase() !== String(primitiveColors[id].base).toLowerCase())) return true
+  return ['light', 'dark'].some(m => {
+    const std = semanticDefaults?.[`${set}-${m}`] || {}
+    const akt = store.state.themes?.[set]?.[m] || {}
+    return Object.keys(std).some(k => akt[k] !== undefined && String(akt[k]).toLowerCase() !== String(std[k]).toLowerCase())
+  })
+})
+function foundationGeaendert (id) {
+  if (id === 'colors') return farbenGeaendert.value
+  const kats = FOUNDATION_KATEGORIEN[id]
+  if (!kats) return false
+  const akt = store.currentFoundation || {}
+  if (id === 'typography' && Object.keys(store.currentTypeScale || {}).length) return true
+  return kats.some(k => !gleich({ ...STANDARD_FOUNDATION[k], ...(akt[k] || {}) }, STANDARD_FOUNDATION[k]))
+}
+
 function isModified(child) {
-  // Check if any tokens in this section have been modified from defaults
   const overrides = store.currentComponentOverrides
   if (child.section.startsWith('component-')) {
     const componentId = child.section.replace('component-', '')
     return Object.keys(overrides).some(k => k.startsWith(`nc-${componentId}`))
   }
+  if (child.section.startsWith('foundation-')) return foundationGeaendert(child.id)
   return false
 }
 
@@ -565,6 +594,11 @@ function handleExportJSON() {
 }
 
 .nav-item.active .nav-item-dot {
+  /* UX-29: aktiv = Ring, geändert = gefüllter Punkt — vorher gleich gefärbt */
+  background: transparent;
+  box-shadow: 0 0 0 1.5px var(--cfg-text);
+}
+.nav-item.active .nav-item-dot.modified {
   background: var(--cfg-accent);
 }
 

@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-16
+// Generated: 2026-10-18
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -24951,6 +24951,41 @@ export const foundationTokens = {
         "desc": "Kundenspezifisches dunkles Theme. Hover/Active-States mixen Richtung always-light."
       }
     ]
+  }
+}
+
+export const spacingFluid = {
+  "10": {
+    "min": "48px",
+    "max": "64px"
+  },
+  "11": {
+    "min": "56px",
+    "max": "80px"
+  },
+  "12": {
+    "min": "80px",
+    "max": "120px"
+  },
+  "13": {
+    "min": "112px",
+    "max": "160px"
+  },
+  "06": {
+    "min": "20px",
+    "max": "24px"
+  },
+  "07": {
+    "min": "24px",
+    "max": "32px"
+  },
+  "08": {
+    "min": "32px",
+    "max": "40px"
+  },
+  "09": {
+    "min": "36px",
+    "max": "48px"
   }
 }
 

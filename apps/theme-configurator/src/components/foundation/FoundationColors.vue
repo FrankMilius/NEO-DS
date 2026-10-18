@@ -60,7 +60,7 @@
                   type="text"
                   class="hex-input"
                   :value="currentPrimitives[palette.id]"
-                  @change="store.updatePrimitive(palette.id, $event.target.value)"
+                  @change="store.updatePrimitive(palette.id, $event.target.value, $event.target) && ($event.target.value = currentPrimitives[palette.id])"
                 />
               </div>
               <div class="shade-strip">
@@ -585,9 +585,11 @@
       <!-- ── CATEGORY CARDS OVERVIEW ── -->
       <template v-if="!store.state.semanticCategory">
         <p class="sub-desc">Wähle eine Kategorie, um die zugehörigen semantischen Tokens zu konfigurieren.</p>
+        <!-- UX-33: „Erhebung“ sind Schatten, keine Farben -->
+        <p class="sub-desc" data-test="erhebung-hinweis">Schatten und Erhebung bearbeitest du unter <a href="#/foundation/shadows">Foundation › Shadow &amp; Elevation</a>.</p>
         <div class="semantic-category-grid">
           <button
-            v-for="group in semanticTokenGroups"
+            v-for="group in farbGruppen"
             :key="group.id"
             class="semantic-category-card"
             :data-kategorie="group.id"
@@ -611,19 +613,19 @@
             </div>
             <div class="semantic-category-card__title-row">
               <span class="semantic-category-card__label">{{ group.label }}</span>
+              <!-- UX-32: Warnung nur bei echten Abweichungen (freier Wert, der
+                   vom NEO-Standard abweicht) — nicht schon im frischen Theme -->
               <span
-                :class="['semantic-category-card__status', `semantic-category-card__status--${getCategoryStatus(group)}`]"
-                :title="getCategoryStatusTooltip(group)"
+                v-if="freieWerte(group).length"
+                class="semantic-category-card__status semantic-category-card__status--partial"
+                :title="`${freieWerte(group).length} Farbrolle(n) mit eigenem Farbwert ohne Palettenbindung — ziehen bei Palettenänderungen nicht mit`"
+                data-test="kategorie-frei"
               >
-                <!-- Check (all mapped) -->
-                <svg v-if="getCategoryStatus(group) === 'complete'" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                <!-- Exclamation (partial) -->
-                <svg v-else-if="getCategoryStatus(group) === 'partial'" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v8"/><path d="M12 17h.01"/></svg>
-                <!-- Warning triangle (none) -->
-                <svg v-else width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 20h20L12 2z"/><path d="M12 10v4"/><path d="M12 18h.01"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v8"/><path d="M12 17h.01"/></svg>
+                <span class="cfg-sr-only">{{ freieWerte(group).length }} ohne Palettenbindung</span>
               </span>
             </div>
-            <span class="semantic-category-card__count">{{ getCategoryMappedCount(group) }}/{{ group.tokens.length }} zugeordnet</span>
+            <span class="semantic-category-card__count">{{ getCategoryMappedCount(group) }}/{{ group.tokens.length }} an Palette gebunden</span>
             <div class="semantic-category-card__swatches">
               <span
                 v-for="token in group.tokens.slice(0, 5)"
@@ -704,6 +706,13 @@
                     <code>{{ m.id === 'dark' ? getDarkValue(token.id) : getLightValue(token.id) }}</code>
                   </button>
                 </div>
+                <!-- UX-32: freier Wert sichtbar machen und Wiederverknüpfen anbieten -->
+                <p v-if="!hasPrimitiveMapping(token.id) && naechsteStufe(getActiveThemeValue(token.id))" class="modus-wahl__hinweis" data-test="frei-hinweis">
+                  Freier Farbwert — nicht an eine Palette gebunden, zieht bei Palettenänderungen nicht mit.
+                  <button type="button" class="modus-wahl__binden" data-test="wieder-binden" @click="assignHexToSemantic(token.id, naechsteStufe(getActiveThemeValue(token.id)).color)">
+                    An {{ naechsteStufe(getActiveThemeValue(token.id)).token }} binden
+                  </button>
+                </p>
                 <p v-if="store.state.previewMode === 'split' || store.state.previewMode === 'matrix'" class="modus-wahl__hinweis">
                   Die Vorschau zeigt mehrere Modi. Du bearbeitest den Wert für {{ activeThemeMode === 'dark' ? 'Dunkel' : 'Hell' }}.
                 </p>
@@ -763,7 +772,7 @@ import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
-import { semanticTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
+import { semanticTokenGroups, semanticDefaults, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 import { paletteSkala, MITZIEHENDE_PALETTEN } from '../../utils/farbskala.js'
 import { speicher } from '../../speicher/index.js'
@@ -1400,24 +1409,39 @@ function hasPrimitiveMapping(tokenId) {
   return !!primitiveColorMap.value[normalized]
 }
 
+// UX-33: Die Gruppe „Erhebung“ enthält Schattenwerte (box-shadow), keine
+// Farben — sie hat hier weder Werte noch eine Wirkung auf der Website
+const farbGruppen = semanticTokenGroups.filter(g => g.id !== 'elevation')
+
+/** UX-32: Farbrollen mit freiem Wert, der vom NEO-Standard abweicht */
+function freieWerte(group) {
+  const set = store.state.activeThemeSet
+  const std = semanticDefaults?.[`${set}-${activeThemeMode.value}`] || {}
+  return group.tokens.filter(t => {
+    const wert = String(getActiveThemeValue(t.id) || '').toLowerCase()
+    return !hasPrimitiveMapping(t.id) && std[t.id] !== undefined && wert !== String(std[t.id]).toLowerCase()
+  })
+}
+
+/** Nächstgelegene Palettenstufe zu einem freien HEX-Wert (RGB-Abstand) */
+function naechsteStufe(hex) {
+  const h = String(hex || '').toLowerCase()
+  if (!/^#[0-9a-f]{6}$/.test(h)) return null
+  const rgb = (x) => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16))
+  const ziel = rgb(h)
+  let beste = null, abstand = Infinity
+  for (const g of availablePrimitiveGroups.value) for (const sh of g.shades) {
+    if (!/^#[0-9a-f]{6}$/i.test(sh.color)) continue
+    const d = rgb(sh.color.toLowerCase()).reduce((n, v, i) => n + (v - ziel[i]) ** 2, 0)
+    if (d < abstand) { abstand = d; beste = sh }
+  }
+  return beste
+}
+
 function getCategoryMappedCount(group) {
   return group.tokens.filter(t => hasPrimitiveMapping(t.id)).length
 }
 
-function getCategoryStatus(group) {
-  const mapped = getCategoryMappedCount(group)
-  if (mapped === group.tokens.length) return 'complete'
-  if (mapped > 0) return 'partial'
-  return 'none'
-}
-
-function getCategoryStatusTooltip(group) {
-  const mapped = getCategoryMappedCount(group)
-  const total = group.tokens.length
-  if (mapped === total) return `Alle ${total} Tokens haben ein Primitive-Mapping`
-  if (mapped > 0) return `${mapped} von ${total} Tokens haben ein Primitive-Mapping`
-  return `Kein Token hat ein Primitive-Mapping`
-}
 
 function getResolvedChain(tokenId, mode) {
   const hex = mode === 'dark' ? getDarkValue(tokenId) : getLightValue(tokenId)
@@ -1543,6 +1567,8 @@ function getNotAffected(semanticId) {
   align-items: center;
   gap: 8px;
 }
+
+.sub-desc a { color: var(--cfg-text); text-decoration: underline; text-underline-offset: 2px; }   /* axe link-in-text-block */
 
 .sub-desc {
   font-size: 12px;
@@ -1974,7 +2000,7 @@ function getNotAffected(semanticId) {
 }
 
 .semantic-category-card__status--partial {
-  background: #d97706;
+  background: #b45309;
 }
 
 .semantic-category-card__status--none {
@@ -2158,7 +2184,8 @@ function getNotAffected(semanticId) {
 .modus-wahl__knopf code { font-size: 11px; color: var(--cfg-text-muted); margin-left: auto; }
 .modus-wahl__knopf--aktiv { border-color: var(--cfg-accent); box-shadow: inset 0 0 0 1px var(--cfg-accent); font-weight: 600; }
 .modus-wahl__farbe { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--cfg-border); flex: none; }
-.modus-wahl__hinweis { margin: 0; font-size: 12px; color: var(--cfg-text-muted); }
+.modus-wahl__hinweis { margin: 0; font-size: 12px; color: var(--cfg-text-secondary); }
+.modus-wahl__binden { margin-left: 6px; border: 1px solid var(--cfg-border); border-radius: 4px; background: var(--cfg-surface); color: var(--cfg-text); font-size: 11px; padding: 2px 6px; cursor: pointer; }
 
 .primitive-picker {
   padding: 12px;

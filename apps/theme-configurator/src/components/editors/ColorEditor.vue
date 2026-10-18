@@ -28,6 +28,7 @@
           :value="modelValue"
           @input="handleHexInput"
           @blur="validateHex"
+          @keydown.enter.prevent="validateHex"
           maxlength="9"
         />
         <button class="pipette-btn" @click="openPicker" title="Color Picker öffnen">
@@ -87,6 +88,8 @@
 </template>
 
 <script setup>
+import { normalisiereHex, HEX_MELDUNG } from '../../utils/token-pruefung.js'
+import { meldeUngueltig, meldeGueltig } from '../../utils/feld-meldung.js'
 import { ref, computed } from 'vue'
 
 const props = defineProps({
@@ -133,8 +136,16 @@ function handleHexInput(e) {
   }
 }
 
-function validateHex() {
-  // No-op, keep current value if invalid
+// UX-21: beim Verlassen bzw. Enter normalisieren („f00“ → „#ff0000“) oder
+// Ungültiges am Feld melden und den letzten gültigen Wert zurückholen
+function validateHex(e) {
+  const feld = e?.target
+  if (!feld) return
+  const neu = normalisiereHex(feld.value)
+  if (!neu) { meldeUngueltig(HEX_MELDUNG(feld.value), props.modelValue, feld); return }
+  meldeGueltig(feld)
+  feld.value = neu
+  if (neu !== String(props.modelValue || '').toLowerCase()) emit('update:modelValue', neu)
 }
 
 function selectSwatch(shade) {

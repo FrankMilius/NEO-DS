@@ -83,7 +83,7 @@
           :class="['color-tab', { active: store.state.colorActiveTab === 'primitives' }]"
           role="tab"
           :aria-selected="store.state.colorActiveTab === 'primitives' ? 'true' : 'false'"
-          @click="store.state.colorActiveTab = 'primitives'; store.state.semanticCategory = null; store.state.selectedToken = null"
+          @click="zuPrimitive"
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
@@ -97,7 +97,7 @@
           :class="['color-tab', { active: store.state.colorActiveTab === 'semantic' }]"
           role="tab"
           :aria-selected="store.state.colorActiveTab === 'semantic' ? 'true' : 'false'"
-          @click="store.state.colorActiveTab = 'semantic'"
+          @click="zuSemantic"
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3l4 7h-8z" /><circle cx="17" cy="17" r="3" /><rect x="4" y="14" width="6" height="6" rx="1" />
@@ -152,6 +152,24 @@ import { neoAnsicht } from '../../composables/neoAnsicht.js'
 const nurAnsicht = computed(() => speicher().art === 'drupal' && (!darf('bearbeiten') || neoAnsicht.value))
 
 const store = useThemeStore()
+
+// UX-48: Kategorie und offenes Token der Semantic-Ansicht beim Wechsel zu
+// „Primitive“ merken und beim Zurückwechseln wiederherstellen
+let semanticMerk = null
+function zuPrimitive () {
+  if (store.state.colorActiveTab === 'semantic') semanticMerk = { kategorie: store.state.semanticCategory, token: store.state.selectedToken }
+  store.state.colorActiveTab = 'primitives'
+  store.state.semanticCategory = null
+  store.state.selectedToken = null
+}
+function zuSemantic () {
+  if (store.state.colorActiveTab === 'semantic') return
+  store.state.colorActiveTab = 'semantic'
+  if (semanticMerk) {
+    store.state.semanticCategory = semanticMerk.kategorie
+    store.selectToken(semanticMerk.token)
+  }
+}
 const activeSection = computed(() => store.state.activeSection)
 
 // Sektion → Inspector-Bloecke (Plan v2, 3.4); leer = Hinweis im v-else-Zweig

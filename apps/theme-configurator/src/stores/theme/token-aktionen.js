@@ -6,7 +6,7 @@ import { getDefaultFoundation, modusFuerBearbeitung, state } from './kern.js'
 import { extractComponentId, isComponentLocked } from './komponenten.js'
 import { MITZIEHENDE_PALETTEN, paletteSkala, zieheMit } from '../../utils/farbskala.js'
 import { istUnsichererText } from '../../utils/css-wert.js'
-import { pruefeFarbe, pruefeFoundationWert, pruefeKomponentenWert, pruefeSchriftskala } from '../../utils/token-pruefung.js'
+import { pruefeFarbe, pruefeFoundationWert, pruefeKomponentenWert, pruefeSchriftskala, normalisiereHex, HEX_MELDUNG } from '../../utils/token-pruefung.js'
 import { meldeGueltig, meldeUngueltig } from '../../utils/feld-meldung.js'
 import { foundationTokens, componentTokenGroups, typographyScale } from '../../data/tokens.js'
 import { skalenParameter } from '../../utils/fluid-scale.js'
@@ -433,15 +433,18 @@ export function resetTypeScale() {
  * die Änderung in der Vorschau, im veröffentlichten CSS und auf der Website
  * gleich (Befund Frank 15.10.2026). Eigene semantische Werte bleiben.
  */
-export function updatePrimitive(palette, color) {
+export function updatePrimitive(palette, color, feldElement = null) {
   const themeSet = state.activeThemeSet
-  const neu = String(color || '').trim().toLowerCase()
-  if (!/^#[0-9a-f]{6}$/.test(neu)) return
   const alt = state.primitiveOverrides[themeSet][palette]
+  // UX-21: Kurzform normalisieren, Ungültiges am Feld melden
+  const neu = normalisiereHex(color)
+  if (!neu) { meldeUngueltig(HEX_MELDUNG(color), alt, feldElement); return false }
+  meldeGueltig(feldElement)
   if (MITZIEHENDE_PALETTEN.includes(palette) && String(alt || '').toLowerCase() !== neu) {
     const altSkala = paletteSkala(palette, alt)
     const neuSkala = paletteSkala(palette, neu)
     for (const modus of ['light', 'dark']) zieheMit(state.themes[themeSet][modus], altSkala, neuSkala)
   }
   state.primitiveOverrides[themeSet][palette] = neu
+  return true
 }

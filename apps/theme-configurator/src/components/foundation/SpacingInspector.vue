@@ -27,6 +27,7 @@
               <span v-else-if="token.isModified" class="si-badge si-badge--modified">modified</span>
             </span>
             <code class="si-token-name">--fnd-spacing-{{ token.key }}</code>
+            <span v-if="token.fluid" class="si-fluid" data-test="spacing-fluid" :title="'Auf der Website wächst der Abstand mit der Fensterbreite von ' + token.fluid.min + ' auf ' + token.fluid.max + ' px'">fluid {{ token.fluid.min }}–{{ token.fluid.max }} px</span>
           </div>
           <div class="si-token-bar">
             <div class="si-bar" :style="{ width: token.value }"></div>
@@ -160,6 +161,7 @@
             :value="entry.value"
             @change="store.updateSemanticSpacing(entry.key, $event.target.value)"
           >
+            <option v-if="verweisFehlt(entry.value)" :value="entry.value">{{ entry.value }} (fehlt)</option>
             <option value="">— nicht gesetzt —</option>
             <option
               v-for="opt in spacingSelectOptions"
@@ -244,6 +246,7 @@
             :value="getSemanticValue(token.id)"
             @change="store.updateSemanticSpacing(token.id, $event.target.value)"
           >
+            <option v-if="verweisFehlt(getSemanticValue(token.id))" :value="getSemanticValue(token.id)">{{ getSemanticValue(token.id) }} (fehlt)</option>
             <option value="">— nicht gesetzt —</option>
             <option
               v-for="opt in spacingSelectOptions"
@@ -263,7 +266,7 @@
 import { vFokus } from '../../composables/vFokus.js'
 import { computed, ref } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
-import { foundationTokens } from '../../data/tokens.js'
+import { foundationTokens, spacingFluid } from '../../data/tokens.js'
 
 const store = useThemeStore()
 const activeTab = computed(() => store.state.spacingActiveTab)
@@ -277,7 +280,15 @@ const defaultSpacingTokens = computed(() => {
   return foundationTokens.spacing?.tokens || {}
 })
 
+// Fluide Stufen sind clamp(min, …, max): für Sortierung zählt das Maximum
+// (vorher 0 — parseInt scheiterte an „clamp(“), angezeigt wird „min–max px“
+function fluidBereich(val) {
+  const m = String(val || '').match(/^clamp\(\s*([\d.]+)px\s*,.*,\s*([\d.]+)px\s*\)$/)
+  return m ? { min: Number(m[1]), max: Number(m[2]) } : null
+}
 function parsePx(val) {
+  const b = fluidBereich(val)
+  if (b) return b.max
   const n = parseInt(val, 10)
   return isNaN(n) ? 0 : n
 }
@@ -305,7 +316,9 @@ const sortedPrimitiveTokens = computed(() => {
       label: `Spacing ${origKey}`,
       value: isModified ? overrideVal : tok.value,
       defaultValue: tok.value, px,
-      isCustom: false, isModified
+      isCustom: false, isModified,
+      // UX-57: fluide Stufe (06–13) nur, solange nicht fest überschrieben
+      fluid: !isModified && spacingFluid?.[origKey] ? { min: parsePx(spacingFluid[origKey].min), max: parsePx(spacingFluid[origKey].max) } : fluidBereich(isModified ? overrideVal : null)
     })
   }
 
@@ -315,7 +328,8 @@ const sortedPrimitiveTokens = computed(() => {
       key, origKey: null,
       label: `Spacing ${key}`,
       value: tok.value, defaultValue: null, px,
-      isCustom: true, isModified: false
+      isCustom: true, isModified: false,
+      fluid: fluidBereich(tok.value)
     })
   }
 
@@ -382,7 +396,7 @@ function getSemanticValue(id) {
 function resolveBarWidth(id) {
   const ref = getSemanticValue(id)
   if (!ref) return '0px'
-  const m = ref.match(/var\(--fnd-spacing-(\d+)\)/)
+  const m = ref.match(/var\(--fnd-spacing-([A-Za-z0-9_-]+)\)/)
   if (!m) return '0px'
   const tok = sortedPrimitiveTokens.value.find(t => t.key === m[1])
   return tok ? tok.value : '0px'
@@ -419,6 +433,13 @@ const activeCategoryTokens = computed(() => {
 })
 
 // Spacing select options
+// UX-57: Verweis auf eine Stufe, die es nicht (mehr) gibt — z. B. aus einem
+// Theme vor App 1.2.3 (Schlüssel px ÷ 4) oder eine gelöschte eigene Stufe
+function verweisFehlt(wert) {
+  const m = String(wert || '').match(/^var\(--fnd-spacing-([A-Za-z0-9_-]+)\)$/)
+  return !!m && !sortedPrimitiveTokens.value.some(t => t.key === m[1])
+}
+
 const spacingSelectOptions = computed(() => {
   return sortedPrimitiveTokens.value.map(t => ({
     label: `Spacing ${t.key}`,
@@ -706,6 +727,8 @@ const customSemanticEntries = computed(() => {
   font-weight: 600;
   color: var(--cfg-text);
 }
+
+.si-fluid { display: block; font-size: 11px; color: var(--cfg-text-secondary); }
 
 .si-token-name {
   font-size: 10px;

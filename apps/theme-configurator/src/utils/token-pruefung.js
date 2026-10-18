@@ -156,6 +156,19 @@ export function pruefeKomponentenWert (tokenId, wert) {
   }
 }
 
+/**
+ * HEX-Eingabe normalisieren (UX-21): „f00“, „#F00“, „ff0000“ → „#ff0000“.
+ * @param {unknown} text
+ * @returns {string|null}  null = keine HEX-Farbe
+ */
+export function normalisiereHex (text) {
+  const t = String(text ?? '').trim().replace(/^#/, '').toLowerCase()
+  if (/^[0-9a-f]{3}$/.test(t)) return '#' + t.split('').map(z => z + z).join('')
+  if (/^[0-9a-f]{6}$/.test(t)) return '#' + t
+  return null
+}
+export const HEX_MELDUNG = (text) => `„${String(text ?? '').trim()}“ ist keine HEX-Farbe. Erwartet z. B. #1f6f3a oder #1f3.`
+
 /** Semantische Farbe prüfen. */
 export function pruefeFarbe (wert) {
   return pruefeArt('farbe', wert)

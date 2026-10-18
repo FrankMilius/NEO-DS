@@ -2,7 +2,7 @@
 // Theme-Store · Export als CSS-Variablen und JSON
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
-import { foundationZeilen, fokusFarbZeilen } from '../../export/foundation-css.js'
+import { foundationZeilen, fokusFarbZeilen, abstandZeilen } from '../../export/foundation-css.js'
 import { schriftskalaZeilen } from '../../export/type-scale-css.js'
 import { state } from './kern.js'
 import { semanticDefaults } from '../../data/tokens.js'
@@ -96,6 +96,9 @@ export function exportAsCSSVars(opt = {}) {
       lines.push(`/* Nicht exportiert — im DS nicht vorhanden: ${uebersprungen.join(', ')} */\n`)
     }
   }
+
+  // === Eigene Spacing-Stufen und semantische Abstände (UX-57) ===
+  lines.push(...abstandZeilen(state.customSpacingTokens?.[themeSet], state.semanticSpacing?.[themeSet]))
 
   // === Fokusring-Farbe je Modus (UX-16) ===
   lines.push(...fokusFarbZeilen(state.foundationOverrides[themeSet]?.focus, themeSet))

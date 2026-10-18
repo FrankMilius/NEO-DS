@@ -29,7 +29,8 @@ function stilEinmal () {
  * Aktuelles Eingabefeld oder null
  * @returns {HTMLInputElement|null}
  */
-function feld () {
+function feld (vorgabe = null) {
+  if (vorgabe) return /** @type {HTMLInputElement} */ (vorgabe)
   if (typeof document === 'undefined') return null
   const el = document.activeElement
   return el && /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) ? /** @type {HTMLInputElement} */ (el) : null
@@ -39,9 +40,10 @@ function feld () {
  * Ungültige Eingabe melden.
  * @param {string} text  Meldung für das Feld
  * @param {unknown} [letzterWert]  gültiger Wert, der wieder ins Feld kommt
+ * @param {Element|null} [element]  Feld (sonst das fokussierte), z. B. bei blur/change
  */
-export function meldeUngueltig (text, letzterWert) {
-  const el = feld()
+export function meldeUngueltig (text, letzterWert, element = null) {
+  const el = feld(/** @type {HTMLInputElement|null} */ (element))
   if (!el) { console.warn('[Eingabe abgelehnt]', text); return }
   stilEinmal()
   el.setAttribute('aria-invalid', 'true')
@@ -62,9 +64,9 @@ export function meldeUngueltig (text, letzterWert) {
   }
 }
 
-/** Gültige Eingabe: Markierung und Meldung am aktuellen Feld entfernen. */
-export function meldeGueltig () {
-  const el = feld()
+/** Gültige Eingabe: Markierung und Meldung am aktuellen (oder übergebenen) Feld entfernen. */
+export function meldeGueltig (element = null) {
+  const el = feld(/** @type {HTMLInputElement|null} */ (element))
   if (!el || !el.dataset.feldMeldung) return
   document.getElementById(el.dataset.feldMeldung)?.remove()
   const rest = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter(x => x && x !== el.dataset.feldMeldung).join(' ')

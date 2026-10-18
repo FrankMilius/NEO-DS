@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.10` (16.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.11` (18.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -658,6 +658,24 @@ App 1.2.10 (Usability-Audit, Block 5b Barrierefreiheit der App, 16.10.2026):
   eindeutige Schrift-Auswahl je Rolle.
 - **UX-46:** Sprunglinks „Zur Navigation / Bühne / Inspector“; die
   scrollbare Bühne ist per Tastatur erreichbar.
+
+App 1.2.11 (Usability-Audit, Block 5c Farben und Tokens, 18.10.2026):
+
+- **UX-21:** HEX-Felder normalisieren Kurzformen („f00“ → #ff0000), melden
+  Ungültiges am Feld und holen den letzten gültigen Wert zurück
+  (`normalisiereHex`, `meldeUngueltig` mit Feld-Element).
+- **UX-29:** Die Sidebar markiert geänderte Foundation-Bereiche (Vergleich
+  mit dem DS-Standard); aktiv = Ring, geändert = gefüllter Punkt.
+- **UX-32:** Warnsymbol an Farbkategorien nur bei freien Werten, die vom
+  NEO-Standard abweichen; am Token „Freier Farbwert“ mit „An … binden“
+  (nächste Palettenstufe).
+- **UX-33:** „Erhebung“ (Schattenwerte, keine Farben) aus den semantischen
+  Farben genommen; Hinweis auf Foundation › Shadow & Elevation.
+- **UX-48:** Kategorie und offenes Token der Semantic-Ansicht bleiben beim
+  Wechsel zu „Primitive“ und zurück erhalten.
+- **UX-57:** Eigene Spacing-Stufen und semantische Abstände gehen ins CSS
+  (`abstandZeilen`); Verweise auf fehlende Stufen sind markiert; fluide
+  Stufen zeigen „min–max px“ (`spacingFluid` aus den Design-Tokens).
 
 Ursprünglicher Vorschlag (ADR-004):
 

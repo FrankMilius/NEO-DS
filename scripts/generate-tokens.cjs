@@ -761,6 +761,10 @@ const generateThemeApp = () => {
 
   out += `export const foundationTokens = ${JSON.stringify(configurator, null, 2)}\n\n`;
 
+  // Fluide Spacing-Stufen (min/max) fuer die Anzeige im Inspector (UX-57):
+  // die Konfig-App kennt sonst nur den Maximalwert
+  out += `export const spacingFluid = ${JSON.stringify(tokens.foundation?.spacing?.fluid?.fluid_steps || {}, null, 2)}\n\n`;
+
   // ---------------------------------------------------------------------------
   // Navigation
   // ---------------------------------------------------------------------------
