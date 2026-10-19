@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.24` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.25` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -884,6 +884,27 @@ App 1.2.24 (UX-52 Rest: Formulare für Icons, Paletten und Schriften, 19.10.2026
   statt „Inspector“, Fehlermeldungen der Bereiche deutsch, Abschnittsnamen
   im Token-Klassifizierer deutsch. Der Wächter-Test liest jetzt auch
   `panelLabel`, `knopf-text` und `label: '…'` in Skripten.
+
+App 1.2.25 (UX-34 Wirkung einer Paletten-Änderung nachvollziehbar, 19.10.2026):
+
+- Die Bühne im Reiter „Grundfarben“ war leer. Jetzt zeigt sie
+  (`GrundfarbenBuehne.vue`) Primär und Akzent mit den 11 Stufen der Website,
+  bei geänderter Palette die Stufen des NEO-Standards darunter, und einen
+  Website-Ausschnitt in Hell und Dunkel aus den Farbrollen, die beim Ändern
+  mitziehen (Überschrift mit Akzentunterstreichung, Link, Auswahl, Knöpfe,
+  Karte). Auch im Reiter „Farbrollen“ ohne gewählte Kategorie.
+- Konstante Stufenzahl: Angezeigt werden immer die 11 Stufen 50–950
+  (`websiteStufen`), wie NEO-Leiter und Website. Die erzeugte Skala hat
+  intern weiter 19 Stufen; Mitziehen und „Färbt auf der Website …“ rechnen
+  mit ihr. Ergänzende und Systempaletten zeigen ebenfalls 11 Stufen.
+- Name folgt dem Wert: Karten heißen nach der Rolle (Primär, Sekundär,
+  Akzent); „Neo Lime (NEO-Standard)“ bzw. „Eigene Farbe – NEO-Standard: Neo
+  Lime (#…)“ darunter, Kennzeichen „geändert“ und „Akzent auf NEO-Standard
+  zurücksetzen“. Auch der Farbwähler der Farbrollen nennt „Akzent · eigene
+  Farbe“ (`palettenName`). Feldnamen: „Akzent: HEX-Wert“.
+- Technische Namen der Paletten (`--fnd-primitive-…`) folgen dem Schalter
+  „Technische Namen zeigen“. Rest-Englisch: „custom“ → „eigen“ (Abstände),
+  „Delete palette“ → „Palette entfernen“.
 
 Ursprünglicher Vorschlag (ADR-004):
 

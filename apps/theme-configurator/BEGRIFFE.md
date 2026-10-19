@@ -36,6 +36,8 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Token | – | Fachbegriff (Entscheidung E1); in „Begriffe erklärt“ erläutert, im Fließtext auch „Wert“ |
 | Abweichung | Override | Wert, der vom NEO-Standard abweicht; Kennzeichen am Wert: „geändert“ (statt „modified“) |
 | Grundfarben (Ebene 1) | Primitive Colors, Primitive | die Farbpaletten |
+| Primär · Sekundär · Akzent | Primary, Secondary, Accent; „Neo Lime“ als Name einer geänderten Palette | Rollen der Markenpaletten und ihr Name (UX-34). Der NEO-Name (Graphit, Neo Lime) steht nur beim Wert des NEO-Standards; geändert heißt es „Akzent · eigene Farbe“ |
+| Stufe (50–950) | Shade, 5-%-Schritt | eine der 11 Abstufungen einer Palette, wie die Website sie nutzt |
 | Farbrollen (Ebene 2) | Semantic Colors, Semantik, Bedeutungen | Rollen wie Text, Fläche, Rahmen; verweisen auf Grundfarben |
 | Komponentenwerte (Ebene 3) | Level L3, Component Tokens | Werte einzelner Komponenten |
 | Hell · Dunkel · Nebeneinander · Alle vier | Light, Dark, Split, Matrix | Vorschaumodi |

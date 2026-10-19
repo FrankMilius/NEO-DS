@@ -12,7 +12,7 @@ describe('Wirkung der Markenpaletten', () => {
   })
   afterEach(() => { w?.unmount(); store.state.currentThemeMeta = null })
 
-  it('Neo Lime nennt die Farbrollen, die auf seine Stufen zeigen; Secondary wirkt nicht', () => {
+  it('Akzent (Neo Lime) nennt die Farbrollen, die auf seine Stufen zeigen; Secondary wirkt nicht', () => {
     w = mount(FoundationColors)
     const akzent = w.find('[data-test="paletten-wirkung-accent"]')
     expect(akzent.find('summary').text()).toMatch(/^Färbt auf der Website \d+ Farbrollen$/)

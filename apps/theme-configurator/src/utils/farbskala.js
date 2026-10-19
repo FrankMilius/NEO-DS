@@ -32,6 +32,36 @@ export const PALETTEN_ZIEL = {
   accent: { variable: '--fnd-accent', selektor: ':root, .neo-light-theme, .neo-dark-theme, .neo-mono-light, .neo-mono-dark' },
 }
 
+/**
+ * Namen der Markenpaletten (UX-34, BEGRIFFE.md): Die Rolle ist der Name;
+ * der NEO-Name (Graphit, Neo Lime) gilt nur, solange die Palette den Wert
+ * des NEO-Standards hat — ein rotes „Neo Lime“ führt in die Irre.
+ */
+export const PALETTEN_ROLLE = Object.freeze({ primary: 'Primär', secondary: 'Sekundär', accent: 'Akzent' })
+export const NEO_PALETTEN_NAME = Object.freeze({ primary: 'Graphit', secondary: 'Graphit', accent: 'Neo Lime' })
+
+/**
+ * Anzeigename einer Markenpalette: „Akzent · Neo Lime“ bzw. „Akzent · eigene Farbe“.
+ * @param {string} id @param {string} [basis]
+ */
+export function palettenName (id, basis) {
+  const rolle = PALETTEN_ROLLE[id] || primitiveColors?.[id]?.label || id
+  const neo = NEO_PALETTEN_NAME[id]
+  if (!neo) return rolle
+  return istVorgabe(id, basis) ? `${rolle} · ${neo}` : `${rolle} · eigene Farbe`
+}
+
+/**
+ * Die Stufen, die die Website nutzt (11), aus einer Skala — für die Anzeige.
+ * Die NEO-Leiter hat genau diese 11, eine erzeugte Skala 19 (UX-34: die Zahl
+ * der Stufen sprang beim Ändern von 11 auf 19).
+ * @param {Record<number, string>} skala
+ * @returns {Array<{ step: number, color: string }>}
+ */
+export function websiteStufen (skala) {
+  return WEBSITE_STUFEN.filter((s) => skala?.[s]).map((s) => ({ step: s, color: skala[s] }))
+}
+
 /** Paletten, deren Änderung semantische Farben mitzieht (Secondary = Primary, daher nicht). */
 export const MITZIEHENDE_PALETTEN = ['primary', 'accent']
 

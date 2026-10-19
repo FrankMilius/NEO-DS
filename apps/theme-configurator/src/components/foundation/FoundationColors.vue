@@ -28,12 +28,12 @@
           Markenpaletten
           <span class="palette-count-badge" :class="{ 'palette-count-badge--full': mainPaletteCount >= 5 }">{{ mainPaletteCount }}/5</span>
         </h3>
-        <p class="sub-desc" v-if="isDefaultNeo">Grundtöne der Marke — die Abstufungen (50–950, in 5-%-Schritten) entstehen automatisch.</p>
+        <p class="sub-desc" v-if="isDefaultNeo">Grundtöne der Marke mit je 11 Stufen (50–950) — genau die Stufen, die die Website nutzt. Die Bühne zeigt, wie sie wirken.</p>
         <p class="sub-desc" v-else data-test="markenpaletten-hinweis">
           Markenfarben dieses Themes — übernommen aus dem NEO Design System und hier änderbar.
-          <strong>Primary</strong> trägt Flächen und Text (Graphit-Leiter), <strong>Accent</strong> den Akzent:
-          Ändern zieht die semantischen Farben mit, die auf eine Stufe der Palette zeigen.
-          <strong>Secondary</strong> ist vorerst gleich Primary und wirkt auf der Website nicht.
+          <strong>Primär</strong> trägt Flächen und Text (Graphit-Leiter), <strong>Akzent</strong> den Akzent:
+          Ändern zieht die Farbrollen mit, die auf eine Stufe der Palette zeigen — die Bühne zeigt das Ergebnis.
+          <strong>Sekundär</strong> ist vorerst gleich Primär und wirkt auf der Website nicht.
         </p>
 
         <div class="primitives-grid">
@@ -41,22 +41,35 @@
           <!-- Markenpaletten in JEDEM Theme (übernommen aus NEO, änderbar;
                Befund Frank 15.10.2026: Einheitlichkeit mit Schriften) -->
           <template v-if="true">
-            <div v-for="palette in brandPalettes" :key="palette.id" class="primitive-card">
+            <div v-for="palette in brandPalettes" :key="palette.id" class="primitive-card" :data-test="`markenpalette-${palette.id}`">
               <div class="primitive-header">
                 <div class="primitive-swatch" :style="{ background: currentPrimitives[palette.id] }"></div>
                 <div class="primitive-info">
-                  <span class="primitive-label">{{ palette.label }}</span>
+                  <span class="primitive-label">{{ palette.rolle }}<span v-if="palette.geaendert" class="palette-geaendert">geändert</span></span>
+                  <!-- UX-34: der NEO-Name nur beim NEO-Wert; geändert sagt, woher die Palette kam -->
+                  <span class="primitive-herkunft" :data-test="`palette-herkunft-${palette.id}`">
+                    <template v-if="palette.geaendert">Eigene Farbe – NEO-Standard: {{ palette.neoName }} ({{ palette.neoBasis }})</template>
+                    <template v-else>{{ palette.neoName }} (NEO-Standard)</template>
+                  </span>
                   <span class="primitive-token">--fnd-primitive-{{ palette.id }}-500</span>
                 </div>
               </div>
+              <button
+                v-if="palette.geaendert"
+                type="button"
+                class="palette-zuruecksetzen"
+                :data-test="`palette-zuruecksetzen-${palette.id}`"
+                :aria-label="`${palette.rolle} auf NEO-Standard zurücksetzen`"
+                @click="store.updatePrimitive(palette.id, palette.neoBasis)"
+              >Auf NEO-Standard zurücksetzen</button>
               <div class="primitive-editor">
-                <input :aria-label="`${palette.label || palette.id}: Farbe wählen`"
+                <input :aria-label="`${palette.rolle}: Farbe wählen`"
                   type="color"
                   :value="currentPrimitives[palette.id]"
                   @input="store.updatePrimitive(palette.id, $event.target.value)"
                   class="color-picker-mini"
                 />
-                <input :aria-label="`${palette.label || palette.id}: HEX-Wert`"
+                <input :aria-label="`${palette.rolle}: HEX-Wert`"
                   type="text"
                   class="hex-input"
                   :value="currentPrimitives[palette.id]"
@@ -115,7 +128,8 @@
                 <button
                   class="btn-remove"
                   @click="removeCustomMainPalette(palette.id)"
-                  title="Delete palette"
+                  title="Palette entfernen"
+                  :aria-label="`${palette.label} entfernen`"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
@@ -206,7 +220,7 @@
             {{ pendingCountValue }} ausstehend
           </button>
         </h3>
-        <p class="sub-desc">Ergänzende Paletten — dekorative und Hilfstöne (50–950, in 5-%-Schritten).</p>
+        <p class="sub-desc">Ergänzende Paletten — dekorative und Hilfstöne, je 11 Stufen (50–950).</p>
         <p v-if="drupalBetrieb" class="sub-desc" data-test="supporting-hinweis">
           Übernommen aus dem NEO Design System. Im Drupal-Betrieb nicht änderbar: eigene Paletten speichert
           der Konfigurator bisher nur im Browser, nicht im Theme.
@@ -226,7 +240,8 @@
                   v-if="palette.custom"
                   class="btn-remove"
                   @click="removeCustomPalette(palette.id)"
-                  title="Delete palette"
+                  title="Palette entfernen"
+                  :aria-label="`${palette.label} entfernen`"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
@@ -281,7 +296,8 @@
                 <button
                   class="btn-remove"
                   @click="removeCustomThemeSupportingPalette(palette.id)"
-                  title="Delete palette"
+                  title="Palette entfernen"
+                  :aria-label="`${palette.label} entfernen`"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />
@@ -489,7 +505,7 @@
             nicht änderbar
           </span>
         </h3>
-        <p class="sub-desc">Rückmelde- und Statusfarben — Info, Erfolg, Warnung, Gefahr mit Abstufungen (50–950, in 5-%-Schritten).</p>
+        <p class="sub-desc">Rückmelde- und Statusfarben — Info, Erfolg, Warnung, Gefahr mit je 11 Stufen (50–950).</p>
 
         <div class="primitives-grid">
           <div v-for="palette in systemPaletteList" :key="palette.id" class="primitive-card primitive-card--locked">
@@ -721,7 +737,7 @@ import { semanticTokenGroups, semanticDefaults, primitiveColors, supportingPalet
 import ColorEditor from '../editors/ColorEditor.vue'
 import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
 import { normalisiereHex, HEX_MELDUNG } from '../../utils/token-pruefung.js'
-import { paletteSkala, MITZIEHENDE_PALETTEN } from '../../utils/farbskala.js'
+import { paletteSkala, MITZIEHENDE_PALETTEN, WEBSITE_STUFEN, PALETTEN_ROLLE, NEO_PALETTEN_NAME, palettenName, istVorgabe, websiteStufen } from '../../utils/farbskala.js'
 import { speicher } from '../../speicher/index.js'
 
 const store = useThemeStore()
@@ -765,11 +781,18 @@ const brandPalettes = computed(() => {
   return ['primary', 'secondary', 'accent'].map(id => {
     const base = currentPrimitives.value[id] || primitiveColors[id].base
     // Gleiche Skala wie Export und Mitziehen: NEO-Leiter oder erzeugt
-    const shades = paletteSkala(id, base)
+    const skala = paletteSkala(id, base)
     return {
       id,
-      label: primitiveColors[id].label,
-      shades: Object.entries(shades).map(([step, color]) => ({ step, color }))
+      label: palettenName(id, base),
+      rolle: PALETTEN_ROLLE[id],
+      neoName: NEO_PALETTEN_NAME[id],
+      neoBasis: primitiveColors[id].base,
+      geaendert: !istVorgabe(id, base),
+      // UX-34: angezeigt werden die 11 Stufen der Website; die volle Skala
+      // (bei eigener Farbe 19 Stufen) braucht die Wirkung
+      skala: Object.values(skala),
+      shades: websiteStufen(skala)
     }
   })
 })
@@ -785,7 +808,7 @@ const wirkungJePalette = computed(() => {
     // Nur Primary und Accent ziehen beim Ändern mit; Secondary teilt vorerst
     // die Stufen von Primary, wirkt aber nicht (Hinweis oben)
     if (!MITZIEHENDE_PALETTEN.includes(pal.id)) { aus[pal.id] = []; continue }
-    const stufen = new Set(pal.shades.map(sh => String(sh.color).toLowerCase()))
+    const stufen = new Set(pal.skala.map(f => String(f).toLowerCase()))
     const treffer = new Map()
     for (const [modus, name] of [['light', 'Hell'], ['dark', 'Dunkel']]) {
       for (const [id, wert] of Object.entries(themen[modus] || {})) {
@@ -918,7 +941,8 @@ function mixColor(c1, c2, weight) {
 }
 
 // 5% steps: 50, 100, 150, 200, ..., 900, 950 (19 steps)
-const SHADE_STEPS = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950]
+// UX-34: dieselben 11 Stufen wie die NEO-Leitern und die Website
+const SHADE_STEPS = WEBSITE_STUFEN
 
 function generateShadeScale(baseHex) {
   const base = hexToRgb(baseHex)
@@ -1198,11 +1222,10 @@ const availablePrimitiveGroups = computed(() => {
   {
     ;['primary', 'secondary', 'accent'].forEach(id => {
       const base = currentPrimitives.value[id] || primitiveColors[id].base
-      const shades = paletteSkala(id, base)
       groups.push({
         id,
-        label: primitiveColors[id].label,
-        shades: Object.entries(shades).map(([step, color]) => ({
+        label: palettenName(id, base),
+        shades: websiteStufen(paletteSkala(id, base)).map(({ step, color }) => ({
           step, color, token: `--fnd-primitive-${id}-${step}`
         }))
       })
@@ -1599,6 +1622,20 @@ function getNotAffected(semanticId) {
   font-family: monospace;
   color: var(--cfg-text-muted);
 }
+
+/* UX-34: Herkunft der Markenpalette und Zurücksetzen */
+.primitive-herkunft { font-size: 11px; color: var(--cfg-text-muted); }
+.palette-geaendert {
+  display: inline-block; margin-left: 6px; padding: 1px 5px; border-radius: 3px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase; vertical-align: 1px;
+  background: color-mix(in srgb, var(--cfg-accent) 15%, transparent); color: var(--cfg-accent);
+}
+.palette-zuruecksetzen {
+  align-self: flex-start; padding: 4px 10px; border: 1px solid var(--cfg-border); border-radius: 6px;
+  background: var(--cfg-surface); color: var(--cfg-text); font: inherit; font-size: 12px; cursor: pointer;
+}
+.palette-zuruecksetzen:hover { border-color: var(--cfg-accent); }
+.palette-zuruecksetzen:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
 
 .primitive-editor {
   display: flex;

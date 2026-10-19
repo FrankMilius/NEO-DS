@@ -23,7 +23,7 @@
           <div class="si-token-info">
             <span class="si-token-label">
               {{ token.label }}
-              <span v-if="token.isCustom" class="si-badge si-badge--custom">custom</span>
+              <span v-if="token.isCustom" class="si-badge si-badge--custom">eigen</span>
               <span v-else-if="token.isModified" class="si-badge si-badge--modified">geändert</span>
             </span>
             <code class="si-token-name">--fnd-spacing-{{ token.key }}</code>

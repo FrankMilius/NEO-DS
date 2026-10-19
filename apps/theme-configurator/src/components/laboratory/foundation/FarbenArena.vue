@@ -711,12 +711,15 @@
 
     </template>
   </template>
+  <!-- UX-34: Reiter „Grundfarben“ (und Farbrollen ohne gewählte Kategorie) -->
+  <GrundfarbenBuehne v-else />
 </template>
 
 <script setup>
 // Farben-Arena: Specimens je Semantic-Kategorie und Token-Detail.
 // Ausgelagert aus LaboratoryPanel.vue (Plan v2, 3.4).
 import { useFarbenArena } from './farben-arena.js'
+import GrundfarbenBuehne from './GrundfarbenBuehne.vue'
 
 const {
   store, semanticCategory, hasSemanticCategory, selectedSemanticToken, tLight, tDark,
