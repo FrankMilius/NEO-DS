@@ -1,17 +1,17 @@
 <template>
   <!--
     Bühne „Themes“ (19.10.2026). Vorher: Steckbriefe der vier Theme-Klassen
-    (ThemesOverview, nur Klassennamen und Erklärtexte). Jetzt: derselbe
-    Ausschnitt der Website in allen vier Kombinationen aus Variante
-    (NEO · Kunde) und Modus (Hell · Dunkel) — mit den Werten des geöffneten
-    Themes. Die technischen Klassen stehen nur bei „Technische Namen zeigen“.
+    (ThemesOverview). Jetzt: derselbe Ausschnitt der Website für das
+    geöffnete Theme — Hell und Dunkel, lokal auch in der Variante „Kunde“
+    (useVorschauKombinationen). Die technischen Klassen stehen nur bei
+    „Technische Namen zeigen“.
   -->
   <div class="tb" data-test="themes-buehne">
-    <p class="tb-hinweis">Derselbe Ausschnitt der Website in allen vier Kombinationen. Welche davon die Website zeigt, legen Sie mit „Auf der Website aktivieren“ fest.</p>
+    <p class="tb-hinweis">{{ hinweis }}</p>
     <div class="tb-raster">
-      <div v-for="k in KOMBINATIONEN" :key="k.klasse" class="tb-feld">
-        <span class="tb-titel">{{ k.name }} <code class="we-technik">.{{ k.klasse }}</code></span>
-        <WebsiteAusschnitt :set="k.set" :modus="k.modus" :komponenten="['card', 'button', 'badge', 'input', 'form-field', 'form-label']">
+      <div v-for="k in alle" :key="k.klasse" class="tb-feld">
+        <span class="tb-titel">{{ k.label }} <code class="we-technik">.{{ k.klasse }}</code></span>
+        <WebsiteAusschnitt :set="k.set" :modus="k.modus" :label="k.label" :komponenten="['card', 'button', 'badge', 'input', 'form-field', 'form-label']">
           <div class="tb-seite">
             <div class="tb-kopf">
               <strong class="tb-marke">neocosmo</strong>
@@ -52,14 +52,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import WebsiteAusschnitt from './WebsiteAusschnitt.vue'
+import { useVorschauKombinationen } from '../../../composables/useVorschauKombinationen.js'
 
-const KOMBINATIONEN = [
-  { name: 'NEO · Hell', klasse: 'neo-light-theme', set: 'neo', modus: 'light' },
-  { name: 'NEO · Dunkel', klasse: 'neo-dark-theme', set: 'neo', modus: 'dark' },
-  { name: 'Kunde · Hell', klasse: 'customer-light-theme', set: 'customer', modus: 'light' },
-  { name: 'Kunde · Dunkel', klasse: 'customer-dark-theme', set: 'customer', modus: 'dark' },
-]
+// Immer nur das geöffnete Theme (Frank, 19.10.2026): in Drupal Hell und
+// Dunkel, lokal zusätzlich seine Variante „Kunde“
+const { alle, variantenSichtbar, themaName } = useVorschauKombinationen()
+const hinweis = computed(() => {
+  const wer = themaName.value ? `„${themaName.value}“` : 'Der NEO-Standard'
+  return variantenSichtbar
+    ? `${wer} in beiden Varianten (NEO · Kunde) und Modi — derselbe Ausschnitt der Website.`
+    : `${wer} in Hell und Dunkel — derselbe Ausschnitt der Website. Welches Theme die Website zeigt, legen Sie mit „Auf der Website aktivieren“ fest.`
+})
 </script>
 
 <style scoped>

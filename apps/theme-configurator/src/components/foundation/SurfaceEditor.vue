@@ -81,6 +81,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { useVorschauKombinationen } from '../../composables/useVorschauKombinationen.js'
 
 const store = useThemeStore()
 
@@ -90,18 +91,15 @@ defineProps({
   ansicht: { type: String, default: 'voll', validator: (v) => ['voll', 'wirkung', 'eingabe'].includes(v) },
 })
 
-const themeLabel = computed(() => {
-  const labels = {
-    'neo-light': 'NEO Light', 'neo-dark': 'NEO Dark',
-    'customer-light': 'Customer Light', 'customer-dark': 'Customer Dark'
-  }
-  return labels[store.currentThemeKey] || ''
-})
+// Geöffnetes Theme und bearbeiteter Modus (19.10.2026: vorher „Customer Light“
+// für die lokale Variante, auch bei einem Kunden-Theme in der Variante NEO)
+const { fuerModus } = useVorschauKombinationen()
+const themeLabel = computed(() => fuerModus(String(store.currentThemeKey || '').endsWith('dark') ? 'dark' : 'light')[0].label)
 
 const surfaces = [
-  { id: 's01', label: 'Surface 01', desc: 'Cards, containers', tokenId: 'layer-01', onTokenId: 'on-layer-01' },
-  { id: 's02', label: 'Surface 02', desc: 'Nested elements', tokenId: 'layer-02', onTokenId: 'on-layer-02' },
-  { id: 's03', label: 'Surface 03', desc: 'Deep nesting', tokenId: 'layer-03', onTokenId: 'on-surface' }
+  { id: 's01', label: 'Fläche 01', desc: 'Karten, Behälter', tokenId: 'layer-01', onTokenId: 'on-layer-01' },
+  { id: 's02', label: 'Fläche 02', desc: 'Verschachtelte Elemente', tokenId: 'layer-02', onTokenId: 'on-layer-02' },
+  { id: 's03', label: 'Fläche 03', desc: 'Tiefe Verschachtelung', tokenId: 'layer-03', onTokenId: 'on-surface' }
 ]
 
 function getColor(tokenId) {

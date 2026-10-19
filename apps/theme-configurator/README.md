@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.26` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.27` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -949,6 +949,29 @@ Website; Token-Namen nur bei „Technische Namen zeigen“. Vorher geprüft: all
 - Offene Befunde im Design System (Freigabe-Ablauf): Text Only, Variante
   „Scroll“, färbt die Wörter am Ende weiß (`change-color` → `always-light`)
   und ist auf hellem Grund unsichtbar.
+
+App 1.2.27 (Bühne zeigt nur das geöffnete Theme; Bühne = Website geprüft, 19.10.2026):
+
+- Nur das geöffnete Theme (Frank): Ein Kunden-Theme liegt in der Variante
+  „neo“; die Variante „Kunde“ gibt es nur lokal (E3). Vorher zeigten Themes-
+  Bühne und „Alle vier“ das Kunden-Theme unter „NEO“ und unveränderte
+  Standardwerte unter „Customer“. Jetzt (`useVorschauKombinationen`): in
+  Drupal Hell und Dunkel des geöffneten Themes, beschriftet mit seinem
+  Namen, kein „Alle vier“ (auch nicht per `?modus=matrix`); lokal beide
+  Varianten, beschriftet „‹Theme› · NEO/Kunde · Hell/Dunkel“. Flächen:
+  Beschriftung und Namen deutsch („Fläche 01“).
+- Von unten nach oben: Vergleich Bühne gegen Website (styles.css +
+  exportiertes Theme-CSS, Klasse auf `<html>` und `<body>` wie auf der
+  Website) nach Änderungen an Grundfarbe, Farbrolle, Grundlage,
+  Komponenten-Token und Schrift. Fund: Die Zellen erbten Schrift und 14 px
+  der App — jetzt Grundstile des body der Website je Zelle. Dauerhafter
+  Browser-Test „Bühne = Website“ (Button, Card, Badge, Input, Alert, Tag).
+- Gefunden im Design System (Website, Freigabe-Ablauf): 727 von 784
+  farbabhängigen Komponenten-Tokens sind nur auf `:root` aus Farbrollen
+  abgeleitet. In einem Bereich mit eigener Theme-Klasse (z. B. dunkler
+  Block `.neo-dark-theme.neo-surface` auf heller Seite) behalten sie die
+  Werte der Seite — gemessen auf der Startseite in DDEV: Primärknopf,
+  Karte, Kartentitel, Eingabefeld mit hellen Werten im dunklen Block.
 
 Ursprünglicher Vorschlag (ADR-004):
 

@@ -47,14 +47,17 @@
               <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>
             </svg>
           </button>
+          <!-- „Alle vier“ = beide Varianten des geöffneten Themes; ohne
+               Varianten (Drupal, E3) wäre es dasselbe wie „Nebeneinander“ -->
           <button
+            v-if="variantenSichtbar"
             :class="['seg-btn', { active: store.state.previewMode === 'matrix' }]"
             type="button"
             role="radio"
             :aria-checked="store.state.previewMode === 'matrix' ? 'true' : 'false'"
             @click="store.setPreviewMode('matrix')"
-            aria-label="4-Theme Matrix"
-            title="Alle 4 Themes gleichzeitig"
+            aria-label="Alle vier"
+            title="Alle vier: beide Varianten (NEO · Kunde) in Hell und Dunkel"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/><path d="M3 12h18"/>
@@ -117,6 +120,7 @@ import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
 import { ebeneDerSektion } from '../../data/navigation-builder.js'
+import { useVorschauKombinationen } from '../../composables/useVorschauKombinationen.js'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import BreitenRahmen from './BreitenRahmen.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
@@ -200,6 +204,10 @@ const BREITEN = Object.freeze([
 // und liefen in „Voll“ (Bühne ≈ 600 px, Fenster 1440 px) über oder wurden
 // abgeschnitten. Sie öffnen deshalb im Rahmen „Desktop“; die Wahl der
 // Person gilt, bis sie den Bereich wechselt.
+const { variantenSichtbar } = useVorschauKombinationen()
+// Ohne Varianten gibt es „Alle vier“ nicht (auch nicht per Adresse ?modus=matrix)
+watch(() => store.state.previewMode, (m) => { if (m === 'matrix' && !variantenSichtbar) store.setPreviewMode('split') }, { immediate: true })
+
 const DESKTOP_EBENEN = new Set(['objects', 'organisms', 'patterns', 'templates'])
 // Moleküle, deren Arena selbst einen Desktop-Rahmen (ra-desktop) braucht
 const DESKTOP_KOMPONENTEN = new Set(['component-text-only', 'component-tab-nav', 'component-card-grid-cta'])

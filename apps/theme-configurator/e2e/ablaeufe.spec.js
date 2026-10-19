@@ -291,3 +291,46 @@ test('Bühne = Ausschnitt der Website: Organismen im Rahmen „Desktop“, HTML-
   await oeffneSektion(page, 'foundation-themes')
   await expect(page.locator('[data-test="themes-buehne"] .nc-card--navigational')).toHaveCount(4)
 })
+
+// Frank, 19.10.2026: Werte des Themes müssen „von unten nach oben“ ankommen.
+// Werte auf allen Ebenen setzen, dann dieselbe Komponente auf der Bühne und
+// in einer Seite wie der Website (styles.css + exportiertes Theme-CSS, Klasse
+// auf <html> und <body> wie auf der Website) vergleichen. Höhe und Breite
+// hängen von der Zellbreite ab und zählen nicht.
+test('Bühne = Website: Werte aller Ebenen kommen gleich an (Grundfarbe, Farbrolle, Grundlage, Komponente, Schrift)', async ({ page, context }) => {
+  const STORE = `(() => { const a = document.querySelector('#app').__vue_app__; return [...a.config.globalProperties.$pinia._s.values()].find((x) => x.state?.themes) })()`
+  const EIG = ['color', 'background-color', 'border-top-color', 'border-top-left-radius', 'font-family', 'font-size', 'font-weight', 'line-height', 'padding-left', 'padding-top', 'box-shadow', 'letter-spacing']
+  await oeffneSektion(page, 'component-button')
+  await page.evaluate(`(() => { const s = ${STORE};
+    s.updatePrimitive('accent', '#e06060')
+    s.updateSemanticToken('interactive-default', '#123456', 'light')
+    s.updateFoundationToken('radius', 'sm', '9px')
+    s.updateComponentToken('nc-button-padding-x-md', '30px')
+    s.updateFoundationToken('typography', 'font-body', 'Georgia, serif')
+  })()`)
+  const css = await page.evaluate(`${STORE}.exportAsCSSVars()`)
+  const website = await context.newPage()
+  const basis = new URL(page.url()).origin
+  const lies = ([wurzelSel, eig]) => {
+    const wurzel = document.querySelector(wurzelSel)
+    return [...wurzel.querySelectorAll('*')].slice(0, 25).map((el) => { const cs = getComputedStyle(el); return Object.fromEntries(eig.map((e) => [e, cs.getPropertyValue(e)])) })
+  }
+  for (const k of ['button', 'card', 'badge', 'input', 'alert', 'tag']) {
+    await oeffneSektion(page, `component-${k}`)
+    const zelle = page.locator('#cfg-buehne .ra-preview.neo-light-theme .ra-live-component').filter({ has: page.locator('[class*="nc-"]') }).first()
+    await expect(zelle).toBeVisible()
+    await zelle.evaluate((el) => el.setAttribute('data-vergleich', ''))
+    const html = await zelle.innerHTML()
+    const buehne = await page.evaluate(lies, ['[data-vergleich]', EIG])
+    await website.setContent(`<!doctype html><html class="neo-light-theme"><head><base href="${basis}/"><link rel="stylesheet" href="/styles.css"><style>${css}</style></head><body class="neo-light-theme"><div id="z">${html}</div></body></html>`, { waitUntil: 'networkidle' })
+    const seite = await website.evaluate(lies, ['#z', EIG])
+    const abweichungen = []
+    buehne.forEach((a, i) => { for (const e of EIG) if (seite[i] && a[e] !== seite[i][e]) abweichungen.push(`${k} #${i} ${e}: Bühne ${a[e]} ≠ Website ${seite[i][e]}`) })
+    expect(abweichungen, `${k}: Bühne weicht von der Website ab`).toEqual([])
+  }
+  // Gegenprobe, dass die Werte wirklich wirken
+  await oeffneSektion(page, 'component-button')
+  const knopf = page.locator('#cfg-buehne .ra-preview.neo-light-theme .nc-button').first()
+  await expect(knopf).toHaveCSS('font-family', /Georgia/)                 // Schrift (Grundlage)
+  await expect(knopf).toHaveCSS('border-top-left-radius', '9px')          // Radius SM → Knopf-Radius
+})

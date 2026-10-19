@@ -13,6 +13,7 @@
         :key="`${a.set}-${a.modus}`"
         :set="a.set"
         :modus="a.modus"
+        :label="a.label"
         :mit-titel="ansichten.length > 1"
         :komponenten="['button', 'input', 'form-field', 'form-label', 'compare-table']"
       >
@@ -94,20 +95,14 @@
 import { computed } from 'vue'
 import { useThemeStore } from '../../../stores/theme.js'
 import WebsiteAusschnitt from './WebsiteAusschnitt.vue'
+import { useVorschauKombinationen } from '../../../composables/useVorschauKombinationen.js'
 import { BILD_SRC } from '../../../arena-templates/_helfer.js'
 
 const store = useThemeStore()
 
-// Vorschaumodus der Kopfzeile: Hell · Dunkel · Nebeneinander · Alle vier
-const ansichten = computed(() => {
-  const set = store.state.activeThemeSet || 'neo'
-  switch (store.state.previewMode) {
-    case 'dark': return [{ set, modus: 'dark' }]
-    case 'split': return [{ set, modus: 'light' }, { set, modus: 'dark' }]
-    case 'matrix': return [{ set: 'neo', modus: 'light' }, { set: 'neo', modus: 'dark' }, { set: 'customer', modus: 'light' }, { set: 'customer', modus: 'dark' }]
-    default: return [{ set, modus: 'light' }]
-  }
-})
+// Vorschaumodus der Kopfzeile; immer nur das geöffnete Theme (19.10.2026)
+const { fuerModus } = useVorschauKombinationen()
+const ansichten = computed(() => fuerModus(store.state.previewMode))
 </script>
 
 <style scoped>

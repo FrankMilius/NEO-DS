@@ -441,6 +441,17 @@ onBeforeUnmount(() => {
   color: var(--fnd-color-text-primary, inherit);
 }
 
+/* Jede Zelle wie body der Website (03-elements/_body.scss), nicht wie die
+   App: vorher erbten Bauteile Schrift und 14 px der App — Karten und
+   Hinweise waren kleiner als auf der Website, eine Fließtext-Schrift des
+   Themes kam nicht an. Hier, weil die Zelle die Theme-Variablen trägt
+   (Vergleich Bühne/Website, 19.10.2026). */
+.ra-live-component {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+}
+
 .ra-preview-gruppe { display: flex; flex-direction: column; gap: 12px; }
 .ra-preview-gruppe--split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 

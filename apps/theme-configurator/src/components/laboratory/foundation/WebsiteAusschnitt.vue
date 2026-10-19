@@ -26,6 +26,8 @@ const props = defineProps({
   modus: { type: String, default: 'light' },
   /** Beschriftung über dem Ausschnitt (NEO · Hell …) */
   mitTitel: { type: Boolean, default: false },
+  /** Beschriftung (useVorschauKombinationen: Theme-Name · Modus) */
+  label: { type: String, default: '' },
   /** Komponenten, deren --nc-Tokens neu gebunden werden (Karte, Knopf …) */
   komponenten: { type: Array, default: () => [] },
 })
@@ -33,7 +35,7 @@ const props = defineProps({
 const store = useThemeStore()
 const aktivesSet = computed(() => props.set || store.state.activeThemeSet || 'neo')
 const themaKlasse = computed(() => `${aktivesSet.value === 'neo' ? 'neo' : 'customer'}-${props.modus}-theme`)
-const beschriftung = computed(() => `${aktivesSet.value === 'neo' ? 'NEO' : 'Kunde'} · ${props.modus === 'dark' ? 'Dunkel' : 'Hell'}`)
+const beschriftung = computed(() => props.label || `${aktivesSet.value === 'neo' ? 'NEO' : 'Kunde'} · ${props.modus === 'dark' ? 'Dunkel' : 'Hell'}`)
 const variablen = computed(() => vorschauVariablen({
   id: props.komponenten[0] || 'website',
   modus: props.modus,

@@ -1,10 +1,10 @@
 <template>
   <!-- Matrix-Modus: 2×2 Grid mit allen 4 Themes -->
-  <div v-if="resolvedArena && store.state.previewMode === 'matrix'" class="theme-matrix">
+  <div v-if="resolvedArena && store.state.previewMode === 'matrix' && variantenSichtbar" class="theme-matrix">
     <!-- Klick in den Quadranten waehlt Theme + Modus (Maus); per Tastatur ueber
          den Knopf im Quadranten-Kopf (Plan v2, 4.4) -->
     <div
-      v-for="q in QUADRANTEN"
+      v-for="q in alle"
       :key="q.klasse"
       :class="['theme-matrix__quadrant', q.klasse]"
       @click="waehle(q)"
@@ -12,7 +12,7 @@
       <button
         type="button"
         class="theme-matrix__label cfg-knopf-reset"
-        :aria-label="`${q.label} als aktives Theme wählen`"
+        :aria-label="`${q.label} als Variante und Modus wählen`"
         @click.stop="waehle(q)"
       >{{ q.label }}</button>
       <MatrixQuadrant :quadrant="q"><component :is="resolvedArena" /></MatrixQuadrant>
@@ -31,6 +31,7 @@
 import { computed, defineAsyncComponent, defineComponent, provide } from 'vue'
 import { useThemeStore } from '../../../stores/theme.js'
 import { useArenaResolver } from '../../../composables/useArenaResolver.js'
+import { useVorschauKombinationen } from '../../../composables/useVorschauKombinationen.js'
 
 const MagazinVorschau = defineAsyncComponent(() => import('../vorschau/MagazinVorschau.vue'))
 
@@ -38,12 +39,8 @@ const store = useThemeStore()
 const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
 const { resolvedArena } = useArenaResolver(activeComponentId)
 
-const QUADRANTEN = [
-  { klasse: 'neo-light-theme', label: 'Neo Light', set: 'neo', modus: 'light' },
-  { klasse: 'neo-dark-theme', label: 'Neo Dark', set: 'neo', modus: 'dark' },
-  { klasse: 'customer-light-theme', label: 'Customer Light', set: 'customer', modus: 'light' },
-  { klasse: 'customer-dark-theme', label: 'Customer Dark', set: 'customer', modus: 'dark' }
-]
+// Immer nur das geöffnete Theme (19.10.2026); „Alle vier“ = seine Varianten
+const { alle, variantenSichtbar } = useVorschauKombinationen()
 
 // Gibt der Arena im Quadranten Set und Modus mit (UX-09) — die RecipeArena
 // liest sie per inject('vorschauQuadrant') statt aus previewMode.
