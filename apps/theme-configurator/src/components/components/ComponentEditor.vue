@@ -1,5 +1,5 @@
 <template>
-  <div class="component-editor" :class="{ 'ce--ohne-technik': !technik }">
+  <div ref="editorEl" class="component-editor" :class="{ 'ce--ohne-technik': !technik }">
     <section class="token-section">
 
       <!-- Roadmap V02: Wirkung auf der Website, Begriffe, technische Namen -->
@@ -125,7 +125,7 @@
         </button>
         <div v-if="anatomyOpen" class="inspector-section__body">
           <template v-for="sg in anatomySubgroups" :key="sg.id">
-            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]" :data-subgroup="sg.id">
               <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has('anat-' + sg.id)" @click="toggleSubgroup('anat-' + sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('anat-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -180,7 +180,7 @@
         </button>
         <div v-if="typographyOpen" class="inspector-section__body">
           <template v-for="sg in typographySubgroups" :key="sg.id">
-            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]" :data-subgroup="sg.id">
               <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has('typo-' + sg.id)" @click="toggleSubgroup('typo-' + sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has('typo-' + sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -263,7 +263,7 @@
           <!-- Varianten-Subgroups -->
           <template v-for="sg in appearanceSubgroups" :key="sg.id">
             <!-- Subgroup Accordion -->
-            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]" :data-subgroup="sg.id">
               <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has(sg.id)" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -344,7 +344,7 @@
         </button>
         <div v-if="statesOpen" class="inspector-section__body">
           <template v-for="sg in stateSubgroups" :key="sg.id">
-            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]">
+            <div :class="['ce-subgroup', { 'ce-subgroup--glow': glowingSubgroups.has(sg.id) }]" :data-subgroup="sg.id">
               <button type="button" class="ce-subgroup-header cfg-knopf-reset" :aria-expanded="expandedSubgroups.has(sg.id)" @click="toggleSubgroup(sg.id)">
                 <svg class="ce-subgroup-chevron" :class="{ open: expandedSubgroups.has(sg.id) }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="9 18 15 12 9 6"/>
@@ -829,6 +829,7 @@ function toggleSubgroup(id) {
 // Arena Selection → Auto-Expand + Glow
 // ---------------------------------------------------------------------------
 const glowingSubgroups = ref(new Set())
+const editorEl = ref(null)
 
 watch(arenaSelection, async (sel) => {
   glowingSubgroups.value = new Set()
@@ -867,6 +868,14 @@ watch(arenaSelection, async (sel) => {
   await nextTick()
   glowingSubgroups.value = new Set(matchedIds)
   setTimeout(() => { glowingSubgroups.value = new Set() }, 2000)
+
+  // Roadmap V03: zur spezifischsten Gruppe scrollen (nicht die Basis-Gruppen
+  // wie Geometry, sondern z. B. „Primary“), Fokus auf ihren Kopf
+  const basis = new Set(recipe.value?.styling?.baseTokenGroups || [])
+  const zielId = matchedIds.find((id) => !basis.has(id)) || matchedIds[0]
+  const ziel = [...(editorEl.value?.querySelectorAll('[data-subgroup]') || [])].find((el) => el.dataset.subgroup === zielId)
+  ziel?.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' })
+  ziel?.querySelector('.ce-subgroup-header')?.focus({ preventScroll: true })
 })
 
 // ---------------------------------------------------------------------------

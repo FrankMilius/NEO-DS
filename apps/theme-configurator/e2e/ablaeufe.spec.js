@@ -162,3 +162,17 @@ test('V02: Button nennt seine Orte auf der Website; technische Namen lassen sich
   await expect(insp.locator('[data-test="website-einsatz-dateien"]')).toHaveCount(0)
   await insp.getByLabel('Technische Namen zeigen').check()
 })
+
+// Roadmap V03 (19.10.2026): Vorschau → passende Token-Gruppe im Inspector
+test('V03: Enter auf der Beschriftung einer Zelle öffnet ihre Gruppe im Inspector und setzt den Fokus', async ({ page }) => {
+  await oeffneSektion(page, 'component-button')
+  const knopf = page.locator('[data-test="zu-token"]').first()
+  await expect(knopf).toHaveAccessibleName(/Einstellungen im Inspector öffnen/)
+  await knopf.focus()
+  await page.keyboard.press('Enter')
+  const insp = page.locator('.inspector-panel')
+  await expect(insp.locator('.context-label')).toContainText('primary')
+  await expect(insp.locator('.ce-subgroup-header[aria-expanded="true"]', { hasText: 'Primary' })).toBeFocused()
+  await insp.getByRole('button', { name: 'Alle zeigen' }).click()
+  await expect(insp.locator('.context-label')).toHaveCount(0)
+})

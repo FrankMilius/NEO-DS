@@ -68,6 +68,8 @@
                   v-for="z in zeile.zellen"
                   :key="z.id"
                   class="ra-cell"
+                  :class="{ 'ra-cell--waehlbar': modus === 'zustaende' && z.tokenGroups.length }"
+                  @click="zelleGeklickt($event, sp, z)"
                   :data-specimen-id="sp.id"
                   :data-cell-id="z.id"
                   :data-token-groups="z.tokenGroups.join(',')"
@@ -76,7 +78,18 @@
                   <!-- eslint-disable-next-line vue/no-v-html -- Quelle: data/*-recipe.json ueber specimenAnsicht() und arena-templates (im Repo, Texte mit esc() maskiert); Theme-Werte gehen nur in :style -->
                   <div class="ra-live-component" :class="flaecheKlassen(z.flaeche)" :style="variablenFuer(thema, z.flaeche)" :data-flaeche="z.flaeche || null" v-html="ti ? fuerWeiteresThema(z.html, `-t${ti + 1}`) : z.html"></div>
                   <div v-if="isHighlighted" class="ra-highlight" :style="highlightStyle"></div>
-                  <figcaption class="ra-cell-label">{{ z.label }}</figcaption>
+                  <!-- Roadmap V03: Zelle → passende Token-Gruppen im Inspector -->
+                  <figcaption class="ra-cell-label">
+                    <button
+                      v-if="z.tokenGroups.length"
+                      type="button"
+                      class="ra-zu-token"
+                      :aria-label="`${z.label || sp.label}: Einstellungen im Inspector öffnen`"
+                      data-test="zu-token"
+                      @click.stop="oeffneTokens(sp, z)"
+                    >{{ z.label }}</button>
+                    <template v-else>{{ z.label }}</template>
+                  </figcaption>
                 </figure>
               </div>
             </div>
@@ -258,6 +271,25 @@ const sichtbareAnsichten = computed(() => {
   })
 })
 
+// --- Zelle öffnet ihre Token-Gruppen (Roadmap V03, 19.10.2026) -------------
+// Vorher markierte ein Klick nur das ganze Specimen (useSpecimenClick, im
+// Geräte-Frame gar nicht). Jetzt: Klick auf die Zelle oder auf ihre
+// Beschriftung (Knopf, also auch Enter) setzt die Arena-Auswahl mit den
+// Gruppen DIESER Zelle; der ComponentEditor klappt sie auf, scrollt hin und
+// setzt den Fokus.
+function oeffneTokens (sp, z) {
+  if (!z?.tokenGroups?.length) return
+  const name = z.label ? `${sp.label} › ${z.label}` : sp.label
+  store.setArenaSelection(props.sektion || props.componentId, name, [...z.tokenGroups])
+}
+function zelleGeklickt (e, sp, z) {
+  if (modus.value !== 'zustaende' || !z.tokenGroups.length) return
+  // Links in den Vorschauen (href="#") wuerden sonst die Route der App aendern
+  if (e.target.closest?.('a[href]')) e.preventDefault()
+  e.stopPropagation()
+  oeffneTokens(sp, z)
+}
+
 const wurzel = ref(null)
 let aufraeumen = null
 // Aufraeum-Funktionen, die einrichten() zurueckgibt (z. B. Canvas-Renderer)
@@ -420,6 +452,21 @@ onBeforeUnmount(() => {
   line-height: 1.3;
   color: var(--fnd-color-text-tertiary, #94a3b8);
 }
+
+/* V03: Zelle und Beschriftung führen zu den Einstellungen */
+.ra-cell--waehlbar { cursor: pointer; }
+.ra-zu-token {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--cfg-text-secondary, #475569);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.ra-zu-token:hover { color: var(--cfg-accent, #2563eb); text-decoration-style: solid; }
+.ra-zu-token:focus-visible { outline: 2px solid var(--cfg-accent, #2563eb); outline-offset: 2px; border-radius: 2px; }
 
 .ra-live-component { min-width: 0; }
 

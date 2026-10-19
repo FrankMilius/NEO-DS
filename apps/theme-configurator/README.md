@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.14` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.15` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -735,6 +735,16 @@ App 1.2.14 (Roadmap V02 Hilfe im Komponenten-Inspector, 19.10.2026):
   Namen. Sperr-Dialog deutsch (Korrektur, Erweiterung, Grundlegend).
 - „Technische Namen zeigen“ blendet CSS-Variablen und Template-Dateien
   aus (Wahl je Browser).
+
+App 1.2.15 (Roadmap V03 Vorschau öffnet ihre Einstellungen, 19.10.2026):
+
+- In der Ansicht „Zustände“ führt ein Klick auf eine Zelle oder auf ihre
+  Beschriftung (ein Knopf, also auch Enter) zu den Token-Gruppen dieser
+  Zelle: Der Inspector filtert auf sie, klappt sie auf, scrollt zur
+  spezifischsten Gruppe (z. B. „Primary“ statt „Geometry“) und setzt den
+  Fokus auf ihren Kopf. „Alle zeigen“ hebt den Filter auf.
+- Funktioniert auch im Geräte-Frame (V01); Links in den Vorschauen ändern
+  die Route der App dabei nicht.
 
 Ursprünglicher Vorschlag (ADR-004):
 
