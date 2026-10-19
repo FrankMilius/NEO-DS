@@ -10,7 +10,7 @@
           <span v-if="istEntwurfAktiv" class="lab-entwurf" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
         </h2>
         <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
-        <div v-if="isComponentSection || isGridSection || hasSemanticCategory" class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
+        <div v-if="isComponentSection || isGridSection || hasSemanticCategory || store.state.activeSection === 'foundation-elements'" class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'light' }]"
             type="button"
@@ -116,6 +116,7 @@
 import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
+import { ebeneDerSektion } from '../../data/navigation-builder.js'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import BreitenRahmen from './BreitenRahmen.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
@@ -194,7 +195,17 @@ const BREITEN = Object.freeze([
   { key: 'tablet', label: 'Tablet', breite: 768, hoehe: 1024 },
   { key: 'handy', label: 'Handy', breite: 390, hoehe: 844 },
 ])
-const aktiveBreite = ref('voll')
+// Grundsatz „Bühne = Ausschnitt der echten Website“ (Frank, 19.10.2026):
+// Objekte, Organismen und Seitenvorlagen brechen nach der Fensterbreite um
+// und liefen in „Voll“ (Bühne ≈ 600 px, Fenster 1440 px) über oder wurden
+// abgeschnitten. Sie öffnen deshalb im Rahmen „Desktop“; die Wahl der
+// Person gilt, bis sie den Bereich wechselt.
+const DESKTOP_EBENEN = new Set(['objects', 'organisms', 'patterns', 'templates'])
+// Moleküle, deren Arena selbst einen Desktop-Rahmen (ra-desktop) braucht
+const DESKTOP_KOMPONENTEN = new Set(['component-text-only', 'component-tab-nav', 'component-card-grid-cta'])
+const vorgabeBreite = (sektionId) => (DESKTOP_EBENEN.has(ebeneDerSektion(sektionId)) || DESKTOP_KOMPONENTEN.has(sektionId) ? 'desktop' : 'voll')
+const aktiveBreite = ref(vorgabeBreite(store.state.activeSection))
+watch(() => store.state.activeSection, (id) => { aktiveBreite.value = vorgabeBreite(id) })
 const aktivesGeraet = computed(() => BREITEN.find((b) => b.key === aktiveBreite.value) || BREITEN[0])
 
 const isFullscreen = ref(false)

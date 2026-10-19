@@ -208,6 +208,9 @@ test('UX-58/59: Tabs und Navigationsmenü laufen auf 390 px nicht über; ausgebl
   await expect(page.frameLocator('iframe.br-rahmen').locator('.nc-tabs').first()).toBeVisible()
   expect(await rahmen.evaluate((f) => f.contentDocument.documentElement.scrollWidth)).toBe(390)
   await oeffneSektion(page, 'component-navigation-menu')
+  // 19.10.2026: Organismen öffnen im Rahmen „Desktop“; die Breite gilt je Bereich
+  await expect(page.getByRole('radio', { name: 'Desktop' })).toHaveAttribute('aria-checked', 'true')
+  await page.getByRole('radio', { name: 'Handy' }).click()
   const frame = page.frameLocator('iframe.br-rahmen')
   await expect(frame.locator('.ra-live-component[data-ausgeblendet]').first()).toBeAttached()
   expect(await rahmen.evaluate((f) => f.contentDocument.documentElement.scrollWidth)).toBe(390)
@@ -269,4 +272,22 @@ test('UX-34: Grundfarben — Bühne zeigt Paletten und Website-Ausschnitt; Ände
   await expect(page.locator('[data-test="grundfarben-website-hell"] .gb-knopf').nth(1)).toHaveCSS('background-color', 'rgb(224, 96, 96)')
   await page.locator('.inspector-panel').getByRole('button', { name: 'Akzent auf NEO-Standard zurücksetzen' }).click()
   await expect(akzent.locator('strong')).toHaveText('Akzent · Neo Lime')
+})
+
+test('Bühne = Ausschnitt der Website: Organismen im Rahmen „Desktop“, HTML-Elemente und Themes als echtes Markup', async ({ page }) => {
+  await oeffneSektion(page, 'component-hero')
+  await expect(page.getByRole('radio', { name: 'Desktop' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.frameLocator('iframe.br-rahmen').locator('.ra-live-component').first()).toBeVisible()
+  await oeffneSektion(page, 'component-button')
+  await expect(page.getByRole('radio', { name: 'Voll' })).toHaveAttribute('aria-checked', 'true')
+
+  await oeffneSektion(page, 'foundation-elements')
+  const elemente = page.locator('[data-test="elemente-buehne"]')
+  await expect(elemente.locator('h1')).toHaveText('Überschrift 1')
+  await expect(elemente.locator('h1')).toHaveCSS('font-family', /Space Grotesk/)
+  await page.getByRole('radio', { name: 'Hell und Dunkel nebeneinander' }).click()
+  await expect(elemente.locator('.neo-dark-theme')).toHaveCount(1)
+
+  await oeffneSektion(page, 'foundation-themes')
+  await expect(page.locator('[data-test="themes-buehne"] .nc-card--navigational')).toHaveCount(4)
 })

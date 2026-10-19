@@ -332,3 +332,25 @@ function buildNavigationTree () {
 
 // Exportiere den generierten Tree
 export const navigationTree = buildNavigationTree()
+
+/**
+ * Ebene (Gruppen-ID der Seitenleiste) einer Sektion: „organisms“, „objects“ …
+ * Für die Vorgabe des Geräterahmens auf der Bühne (19.10.2026).
+ * @param {string} sektionId
+ * @returns {string|null}
+ */
+export function ebeneDerSektion (sektionId) {
+  const suche = (knoten, gruppe) => {
+    for (const n of knoten || []) {
+      if (n.section === sektionId) return gruppe
+      const tiefer = suche(n.children, gruppe)
+      if (tiefer) return tiefer
+    }
+    return null
+  }
+  for (const g of navigationTree) {
+    const treffer = suche(g.children, g.id)
+    if (treffer) return treffer
+  }
+  return null
+}

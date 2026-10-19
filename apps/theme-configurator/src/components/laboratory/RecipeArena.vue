@@ -332,8 +332,17 @@ function markiereAusgeblendete () {
   for (const lc of w.querySelectorAll('.ra-live-component')) {
     // erst aufheben, dann messen — sonst verdeckt die eigene Regel den Inhalt
     delete lc.dataset.ausgeblendet
-    const kern = lc.querySelector('[class^="nc-"], [class*=" nc-"]')
-    const aus = geraet && (!kern || kern.getClientRects().length === 0)
+    // Ausgeblendet nur, wenn in der Zelle GAR NICHTS sichtbar ist. Vorher
+    // zählte nur das erste nc-*-Element — Navigation und Header nutzen aber
+    // Altklassen ohne nc-, ihr einziges nc-* ist ein verstecktes Tastenkürzel
+    // (Navigation Tab Mega im Rahmen „Desktop“, 19.10.2026).
+    const ansicht = lc.ownerDocument.defaultView
+    const sichtbar = [...lc.querySelectorAll('*')].some((el) => {
+      if (el.closest('.ra-kopf') === el) return false
+      const r = el.getBoundingClientRect()
+      return r.width > 0 && r.height > 0 && ansicht.getComputedStyle(el).visibility !== 'hidden' && (el.children.length === 0 || el.textContent.trim())
+    })
+    const aus = geraet && !sichtbar
     if (aus) lc.dataset.ausgeblendet = ''
   }
 }

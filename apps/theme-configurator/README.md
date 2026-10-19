@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.25` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.26` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -914,6 +914,41 @@ App 1.2.25 (UX-34 Wirkung einer Paletten-Änderung nachvollziehbar, 19.10.2026):
 - Technische Namen der Paletten (`--fnd-primitive-…`) folgen dem Schalter
   „Technische Namen zeigen“. Rest-Englisch: „custom“ → „eigen“ (Abstände),
   „Delete palette“ → „Palette entfernen“.
+
+App 1.2.26 (Bühne = Ausschnitt der echten Website, Schritte a–d, 19.10.2026):
+
+Grundsatz (Frank, 19.10.2026): Die Bühne zeigt einen Ausschnitt der echten
+Website; Token-Namen nur bei „Technische Namen zeigen“. Vorher geprüft: alle
+157 Bühnen per Bild und Messung.
+
+- a) Fehler: Seitenverhältnisse liefen aus ihren Karten — jetzt die echte
+  Komponente `nc-aspect-ratio` mit dem Platzhalterbild der Website,
+  Hochformate über die Höhe begrenzt. Der Hinweis „Bei dieser Fensterbreite
+  blendet das Design System dieses Bauteil aus“ schlug fälschlich an
+  (prüfte nur das erste `nc-*`-Element; Navigation und Header nutzen
+  Altklassen) — jetzt zählt jeder sichtbare Inhalt der Zelle.
+- b) Geräterahmen „Desktop“ als Vorgabe für Objekte, Organismen,
+  Seitenvorlagen sowie Text Only, Tab Nav und Card Grid CTA (die Website
+  bricht nach der Fensterbreite um, die Bühne ist schmaler als das
+  Fenster). Eigene Wahl gilt bis zum Bereichswechsel
+  (`ebeneDerSektion` in navigation-builder.js).
+- c) HTML-Elemente: echte Überschriften, Fließtext mit Auszeichnungen,
+  Listen, Zitat, Tabelle (Compare Table), Code, Bild, Knöpfe und Feld im
+  geöffneten Theme; Hell · Dunkel · Nebeneinander · Alle vier.
+- d) Themes: derselbe Website-Ausschnitt (Kopf, Badge, Überschrift, Text
+  mit Link, Knöpfe, Karte mit Website-Markup, Feld) in NEO · Hell,
+  NEO · Dunkel, Kunde · Hell, Kunde · Dunkel.
+- Gemeinsamer Baustein `WebsiteAusschnitt.vue`: Theme-Klasse der Website und
+  alle Werte des Themes als CSS-Variablen (`vorschauVariablen`).
+  `ElementsOverview.vue` und `ThemesOverview.vue` entfallen.
+- Dauerhafte Prüfung: `e2e/sektionen.spec.js` prüft je Bereich, dass nichts
+  sichtbar aus seinem Behälter ragt und die Seite im Geräterahmen nicht
+  breiter als der Rahmen ist. Bekannte Befunde mit Grund in
+  `BEKANNTE_UEBERSTAENDE` (Sperrklinke): Footer und Form Actions im Rahmen
+  „Desktop“ (Website rechnet mit 100vw).
+- Offene Befunde im Design System (Freigabe-Ablauf): Text Only, Variante
+  „Scroll“, färbt die Wörter am Ende weiß (`change-color` → `always-light`)
+  und ist auf hellem Grund unsichtbar.
 
 Ursprünglicher Vorschlag (ADR-004):
 

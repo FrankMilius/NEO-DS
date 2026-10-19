@@ -44,10 +44,18 @@
       </div>
 
       <!-- Seitenverhältnisse -->
-      <div v-else-if="gruppe.art === 'medien'" class="fw-raster">
-        <figure v-for="e in gruppe.eintraege" :key="e.key" class="fw-karte">
-          <div class="fw-medium" :style="{ aspectRatio: e.wert === 'auto' ? '16 / 9' : e.wert }"><span>{{ e.wert === 'auto' ? 'auto' : e.wert }}</span></div>
-          <figcaption><strong>{{ e.label }}</strong></figcaption>
+      <!-- Bühne = Ausschnitt der Website (19.10.2026): echte Komponente
+           nc-aspect-ratio mit dem Platzhalterbild der Website. Hochformate
+           bekommen eine feste Höhe, damit sie in ihrer Karte bleiben. -->
+      <div v-else-if="gruppe.art === 'medien'" class="fw-raster fw-raster--medien">
+        <figure v-for="e in gruppe.eintraege" :key="e.key" class="fw-karte" :data-test="`medium-${e.key}`">
+          <div class="fw-medienrahmen">
+            <img v-if="e.wert === 'auto'" class="fw-intrinsisch" :src="BILD_SRC" alt="">
+            <div v-else class="nc-aspect-ratio" :style="medienStil(e.wert)">
+              <img class="nc-aspect-ratio__content" :src="BILD_SRC" alt="">
+            </div>
+          </div>
+          <figcaption><strong>{{ e.label }}</strong><code>{{ e.wert }}</code></figcaption>
         </figure>
       </div>
 
@@ -94,6 +102,7 @@ import { computed } from 'vue'
 import { useThemeStore } from '../../../stores/theme.js'
 import { foundationTokens } from '../../../data/tokens.js'
 import { STRICH_VORSCHAU, WEBSITE_BIBLIOTHEK } from '../../../utils/icon-strich.js'
+import { BILD_SRC } from '../../../arena-templates/_helfer.js'
 
 const props = defineProps({
   /** radius | spacing | size | focus | media | opacity | icons */
@@ -122,6 +131,20 @@ function eintraege (kat) {
 /** Eigene Tokens: { key: { label?, value } } */
 function eigene (quelle) {
   return Object.entries(quelle || {}).map(([key, t]) => ({ key, label: t?.label || key, wert: String(t?.value ?? '') })).filter((e) => e.wert)
+}
+/**
+ * Seitenverhältnis als Komponenten-Variable; Hochformate über die Höhe
+ * begrenzt (MEDIEN_HOEHE), Querformate füllen die Kartenbreite.
+ * @param {string} wert z. B. „16 / 9“
+ */
+const MEDIEN_HOEHE = 132
+function medienStil (wert) {
+  const [b, h] = String(wert).split('/').map((x) => parseFloat(x))
+  const verhaeltnis = b > 0 && h > 0 ? b / h : 1
+  return {
+    '--nc-aspect-ratio-ratio': wert,
+    width: verhaeltnis < 1.2 ? `${Math.round(MEDIEN_HOEHE * verhaeltnis)}px` : '100%',
+  }
 }
 const inPx = (w) => { const m = String(w).match(/^(-?\d*\.?\d+)(px|rem)?$/); return m ? (m[2] === 'rem' ? +m[1] * 16 : +m[1]) : NaN }
 const nachGroesse = (liste) => [...liste].sort((a, b) => (inPx(a.wert) || 0) - (inPx(b.wert) || 0))
@@ -195,7 +218,10 @@ const gruppen = computed(() => {
 .fw-fokus--knopf { border-radius: 8px; font-weight: 600; }
 .fw-fokus--link { border: 0; background: none; text-decoration: underline; }
 .fw-fokus--feld { border-radius: 4px; min-width: 140px; color: var(--cfg-text-secondary); }
-.fw-medium { display: grid; place-items: center; width: 100%; border-radius: 6px; background: color-mix(in srgb, var(--cfg-accent) 15%, transparent); font-size: 11px; color: var(--cfg-text); }
+.fw-raster--medien { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.fw-medienrahmen { display: grid; place-items: center; min-height: 140px; min-width: 0; }
+.fw-medienrahmen .nc-aspect-ratio { max-width: 100%; border-radius: 6px; }
+.fw-intrinsisch { display: block; max-width: 100%; border-radius: 6px; }
 .fw-deckkraft { height: 48px; border-radius: 6px; background: repeating-conic-gradient(var(--cfg-border) 0 25%, transparent 0 50%) 0 0 / 12px 12px; display: flex; }
 .fw-deckkraft span { flex: 1; border-radius: 6px; background: var(--cfg-text); }
 .fw-ebenen { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 12px; color: var(--cfg-text); }

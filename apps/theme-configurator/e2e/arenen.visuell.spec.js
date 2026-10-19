@@ -19,11 +19,27 @@ const ARENEN = [
   { sektion: 'component-alert', warte: '.lab-viewport-inner > *' },
   { sektion: 'foundation-typography', warte: '.lab-viewport-inner > *' },
   { sektion: 'foundation-praesentation', warte: '[data-test="buehne"]' },
+  // 19.10.2026: alle Grundlagen-Bühnen (Grundsatz „Bühne = Ausschnitt der
+  // echten Website“); HTML-Elemente auch dunkel
+  { sektion: 'foundation-grid', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-colors', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-surfaces', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-spacing', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-size', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-radius', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-border', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-focus', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-media', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-icons', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-shadows', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-opacity', warte: '.lab-viewport-inner > *' },
+  { sektion: 'foundation-elements', warte: '[data-test="elemente-buehne"]', modi: ['light', 'dark'] },
+  { sektion: 'foundation-themes', warte: '[data-test="themes-buehne"]' },
 ]
 
-for (const { sektion, warte } of ARENEN) {
-  // Hell/Dunkel schaltet der Labor-Kopf nur bei Komponenten
-  const modi = sektion.startsWith('component-') ? ['light', 'dark'] : ['light']
+for (const { sektion, warte, modi: eigeneModi } of ARENEN) {
+  // Hell/Dunkel schaltet der Labor-Kopf bei Komponenten (und HTML-Elementen)
+  const modi = eigeneModi || (sektion.startsWith('component-') ? ['light', 'dark'] : ['light'])
   for (const modus of modi) {
     test(`Arena ${sektion} (${modus})`, { tag: '@visuell' }, async ({ page }) => {
       await oeffneSektion(page, sektion, modus === 'dark' ? 'modus=dark' : '')

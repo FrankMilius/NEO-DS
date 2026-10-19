@@ -58,8 +58,9 @@ export const LABOR = Object.freeze({
   opacity: wirkung('opacity'),
   surfaces: lazyMit(() => import('../components/foundation/SurfaceEditor.vue'), { ansicht: 'wirkung' }),
   icons: wirkung('icons'),
-  themes: lazy(() => import('../components/foundation/ThemesOverview.vue')),
-  elements: lazy(() => import('../components/foundation/ElementsOverview.vue')),
+  // Bühne = Ausschnitt der echten Website (19.10.2026): vorher Token-Steckbriefe
+  themes: lazy(() => import('../components/laboratory/foundation/ThemesBuehne.vue')),
+  elements: lazy(() => import('../components/laboratory/foundation/ElementeBuehne.vue')),
   komponente: lazy(() => import('../components/laboratory/komponenten/KomponentenBuehne.vue')),
   magazin: lazy(() => import('../components/laboratory/vorschau/MagazinVorschau.vue')),
   vorlagen: lazy(() => import('../components/templates/TemplateUebersicht.vue')),
