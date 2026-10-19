@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.11` (18.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.12` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -676,6 +676,30 @@ App 1.2.11 (Usability-Audit, Block 5c Farben und Tokens, 18.10.2026):
 - **UX-57:** Eigene Spacing-Stufen und semantische Abstände gehen ins CSS
   (`abstandZeilen`); Verweise auf fehlende Stufen sind markiert; fluide
   Stufen zeigen „min–max px“ (`spacingFluid` aus den Design-Tokens).
+
+App 1.2.12 (Usability-Audit, Block 5d Arena und Inspector, 19.10.2026):
+
+- **UX-37:** Die Icon-Seite hat einen deutschen Inspector: Er nennt, was auf
+  der Website wirkt (Touch-Ziel → `--nc-icon-touch-target`, neu im Export)
+  und was nur Vorschau ist (Strichstärke, Strichfarbe, Standardgröße, eigene
+  Bibliotheken — die Komponenten setzen diese Werte selbst). Die Bühne
+  kennzeichnet diese Abschnitte mit „Nur Vorschau“. Der allgemeine
+  Leerhinweis des Inspectors ist deutsch.
+- **UX-39:** Die Geometry-Werteauswahl bietet wieder Tokens an (die
+  Kategorie hieß im Code „sizes“, im Generator „size“), zeigt nur die
+  passende Skala (Padding → Abstand, Rahmenbreite → Rahmen), bleibt im
+  Fenster und ist per Tastatur bedienbar (Escape schließt und gibt den
+  Fokus zurück). Logik in `utils/geometrie-auswahl.js`.
+- **UX-40:** Filter-Chips zeigen Namen statt „0 1 2“: Achsen als Liste
+  (tabs, timeline, video …) werden wie in der Arena in Objektform gebracht
+  (`achsenAlsObjekt`); Bezeichnungen kommen aus dem Recipe.
+- **UX-31:** Farb-Specimens ohne Klick-Optik (Zeiger, Hover- und
+  Auswahlrahmen), weil der Klick kein Token öffnet; das Labor vergibt eine
+  Komponenten-ID nur auf Komponenten-Seiten. Das Öffnen des Tokens steht auf
+  der Roadmap.
+- **UX-54:** „Ausprobieren“ beschriftet die einzelne Instanz passend
+  („… · Ausprobieren“, Name der Zelle) statt der Matrix-Überschrift; die
+  Achsen-Angaben der Matrix entfallen dort.
 
 Ursprünglicher Vorschlag (ADR-004):
 

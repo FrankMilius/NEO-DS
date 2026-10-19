@@ -8,6 +8,7 @@
 
 import { computed } from 'vue'
 import { useThemeStore } from '../stores/theme.js'
+import { achsenAlsObjekt } from '../lib/recipe-arena.js'
 
 // ---------------------------------------------------------------------------
 // Axis-Name → generische Filter-Kategorie Mapping
@@ -52,6 +53,23 @@ const AXIS_LABELS = {
   role: 'Role'
 }
 
+const gross = (id) => id.charAt(0).toUpperCase() + id.slice(1)
+
+/**
+ * Filteroptionen einer Achse. Bezeichnung aus dem Recipe (label), gekuerzt
+ * bis vor eine Klammer: „Line (Underline-Indikator)“ → „Line“. Eine
+ * Bezeichnung, die nur den Schluessel wiederholt („left“), wird wie bisher
+ * gross geschrieben.
+ * @param {Record<string, any>} werte
+ * @param {(id: string) => string} [standard]
+ */
+export function optionen (werte, standard = gross) {
+  return Object.entries(werte || {}).map(([id, def]) => {
+    const label = typeof def?.label === 'string' ? def.label.split(' (')[0].trim() : ''
+    return { id, label: label && label !== id ? label : standard(id) }
+  })
+}
+
 /**
  * Extrahiert ALLE Filteroptionen aus Recipe-Daten.
  * Mappt visuelle Achsen auf "variants", size auf "sizes",
@@ -63,7 +81,9 @@ const AXIS_LABELS = {
 export function extractFiltersFromRecipe(recipeData) {
   if (!recipeData) return { variants: [], sizes: [], states: [] }
 
-  const axes = recipeData.axes || {}
+  // Achsen als Liste (tabs, timeline, video …) wie in der Arena in Objektform
+  // bringen. Vorher lieferte Object.keys() einer Liste „0 1 2“ (UX-40).
+  const axes = achsenAlsObjekt(recipeData.axes)
   const result = {}
 
   // 1. Varianten: variant > tone > severity > color
@@ -72,18 +92,12 @@ export function extractFiltersFromRecipe(recipeData) {
     if (axes[key]) { variantAxisKey = key; break }
   }
   result.variants = variantAxisKey
-    ? Object.keys(axes[variantAxisKey].values).map(id => ({
-        id,
-        label: id.charAt(0).toUpperCase() + id.slice(1)
-      }))
+    ? optionen(axes[variantAxisKey].values)
     : []
 
   // 2. Sizes
   result.sizes = axes[SIZE_AXIS]
-    ? Object.keys(axes[SIZE_AXIS].values).map(id => ({
-        id,
-        label: id.toUpperCase()
-      }))
+    ? optionen(axes[SIZE_AXIS].values, id => id.toUpperCase())
     : []
 
   // 3. States (ohne "default")
@@ -103,10 +117,7 @@ export function extractFiltersFromRecipe(recipeData) {
     if (SKIP_AXES.includes(axisKey)) continue
     if (!axisData.values) continue
 
-    result[axisKey] = Object.keys(axisData.values).map(id => ({
-      id,
-      label: id.charAt(0).toUpperCase() + id.slice(1)
-    }))
+    result[axisKey] = optionen(axisData.values)
   }
 
   return result

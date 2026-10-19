@@ -31,6 +31,18 @@
 
 import { foundationTokens } from '../data/tokens.generated.js'
 
+/**
+ * Einstellungen ohne Foundation-Token, die trotzdem eine Variable im DS
+ * treffen (Befund UX-37, 19.10.2026). Das Touch-Ziel der Icon-Seite stand
+ * bisher unter „im DS nicht vorhanden“, obwohl .icon--interactive und die
+ * Sortierknoepfe der Datentabelle --nc-icon-touch-target lesen.
+ * Strichstaerken, Strichfarben und die Standardgroesse haben keine solche
+ * Variable: die Komponenten setzen sie fest. Sie bleiben Vorschau.
+ */
+const ZUSATZ = Object.freeze({
+  'elements.icon-touch-target': { name: '--nc-icon-touch-target', vorgabe: '44px', muster: /^\d+(\.\d+)?(px|rem|em)$/ },
+})
+
 /** DS-Vorgabe je Kategorie/Schluessel — dieselbe Quelle wie getDefaultFoundation(). */
 function vorgabe(kategorie, schluessel) {
   return foundationTokens?.[kategorie]?.tokens?.[schluessel]?.value
@@ -67,6 +79,15 @@ export function foundationZeilen(overrides, opt = {}) {
     for (const [schluessel, wert] of Object.entries(tokens)) {
       // Fokusfarbe je Modus: eigene Blöcke auf den Theme-Klassen (fokusFarbZeilen)
       if (kategorie === 'focus' && /^color-(light|dark)$/.test(schluessel)) continue
+      const zusatz = ZUSATZ[`${kategorie}.${schluessel}`]
+      if (zusatz) {
+        const v = String(wert ?? '').trim()
+        if (nurAbweichungen && v === zusatz.vorgabe) continue
+        if (!zusatz.muster.test(v)) { uebersprungen.push(`${kategorie}.${schluessel}`); continue }
+        zeilen.push(`  ${zusatz.name}: ${v};`)
+        abweichungen++
+        continue
+      }
       const standard = vorgabe(kategorie, schluessel)
       if (nurAbweichungen && standard !== undefined && String(wert) === String(standard)) continue
 

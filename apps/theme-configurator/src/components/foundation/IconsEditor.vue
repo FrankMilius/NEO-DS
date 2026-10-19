@@ -85,6 +85,7 @@
       <section class="ie-section">
         <h3 class="ie-heading">
           Stroke Color
+          <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
           <span class="ie-heading__count">{{ activeLibrary }}</span>
         </h3>
         <p class="ie-desc">
@@ -168,6 +169,7 @@
       <section class="ie-section">
         <h3 class="ie-heading">
           Stroke Width per Size
+          <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
           <span class="ie-heading__count">{{ activeLib.name }}</span>
         </h3>
         <div class="ie-token-list">
@@ -229,7 +231,7 @@
       <div class="ie-token-list">
         <div class="ie-token-row">
           <div class="ie-token-info">
-            <span class="ie-token-label">Default Size</span>
+            <span class="ie-token-label">Default Size <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span></span>
             <code class="ie-token-name">icon-default-size</code>
           </div>
           <select aria-label="Standardgröße"
@@ -243,7 +245,7 @@
         <div class="ie-token-row">
           <div class="ie-token-info">
             <span class="ie-token-label">Touch Target Min</span>
-            <code class="ie-token-name">icon-touch-target</code>
+            <code class="ie-token-name">--nc-icon-touch-target</code>
           </div>
           <input aria-label="Mindestgröße Touch-Ziel"
             type="text"
@@ -391,6 +393,13 @@ const activeStrokeColor = computed(() => {
 .ie-heading {
   font-size: 14px; font-weight: 700; color: var(--cfg-text); margin: 0;
   display: flex; align-items: center; gap: 8px;
+}
+
+/* UX-37: nicht exportierte Einstellungen kennzeichnen */
+.ie-nur-vorschau {
+  font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 999px;
+  color: var(--cfg-text); background: color-mix(in srgb, var(--cfg-text) 10%, transparent);
+  white-space: nowrap;
 }
 
 .ie-heading__count {

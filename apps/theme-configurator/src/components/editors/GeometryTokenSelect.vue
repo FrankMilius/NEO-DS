@@ -1,36 +1,46 @@
 <template>
-  <div class="geo-select" ref="rootEl">
+  <div class="geo-select" ref="rootEl" @keydown.escape.stop="schliessen(true)">
     <!-- Trigger Button -->
-    <button class="geo-select__trigger" @click="isOpen = !isOpen" :title="`--${token.id}`">
+    <button ref="triggerEl" type="button" class="geo-select__trigger" :aria-expanded="isOpen" :aria-controls="popupId"
+      :aria-label="`${token.label || token.id}: ${displayValue || 'kein Wert'}${matchedLabel ? ' (' + matchedLabel + ')' : ''}`"
+      @click="isOpen ? schliessen(true) : (isOpen = true)" :title="`--${token.id}`">
       <span class="geo-select__value">
         <span v-if="matchedLabel" class="geo-select__matched">{{ displayValue }} · {{ matchedLabel }}</span>
         <span v-else class="geo-select__raw">{{ displayValue || '–' }}</span>
       </span>
-      <span v-if="isOverridden" class="geo-select__dot" title="modified"></span>
-      <svg class="geo-select__chevron" :class="{ open: isOpen }" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <span v-if="isOverridden" class="geo-select__dot" title="geändert"></span>
+      <svg class="geo-select__chevron" :class="{ open: isOpen }" aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
 
     <!-- Dropdown Panel -->
-    <div v-if="isOpen" ref="dropdownEl" class="geo-select__dropdown">
+    <div v-if="isOpen" :id="popupId" ref="dropdownEl" class="geo-select__dropdown" role="group" :aria-label="`Wert für ${token.label || token.id}`"
+      data-test="geo-popup" @focusout="beimVerlassen">
       <input aria-label="Token suchen"
+        v-if="suggestionGroups.length"
         ref="searchInput"
         class="geo-select__search"
         type="text"
         v-model="searchQuery"
-        placeholder="Search tokens..."
-        @keydown.escape="isOpen = false"
+        placeholder="Token suchen …"
       />
       <div class="geo-select__groups">
+        <p v-if="!suggestionGroups.length" class="geo-select__leer" data-test="geo-keine-tokens">
+          Für diesen Wert gibt es keine passende Token-Skala. Tragen Sie unten einen eigenen Wert ein.
+        </p>
+        <p v-else-if="!filteredGroups.length" class="geo-select__leer">Kein Token passt zur Suche.</p>
         <template v-for="group in filteredGroups" :key="group.label">
           <div class="geo-select__group-label">{{ group.label }}</div>
           <button
             v-for="item in group.items"
             :key="item.varName"
+            type="button"
             :class="['geo-select__item', { active: isItemActive(item) }]"
+            :aria-pressed="isItemActive(item)"
+            data-test="geo-eintrag"
             @click="selectItem(item)"
           >
-            <div class="geo-select__bar">
-              <div class="geo-select__bar-fill" :style="{ width: Math.min(parseFloat(item.value), 80) + 'px' }"></div>
+            <div class="geo-select__bar" aria-hidden="true">
+              <div class="geo-select__bar-fill" :style="{ width: Math.min(inPixel(item.value) || 0, 40) + 'px' }"></div>
             </div>
             <div class="geo-select__item-info">
               <span class="geo-select__item-name">{{ item.label }}</span>
@@ -41,16 +51,17 @@
           </button>
         </template>
       </div>
-      <!-- Custom value -->
+      <!-- Eigener Wert -->
       <div class="geo-select__custom">
-        <span class="geo-select__custom-label">Custom</span>
-        <input aria-label="Eigener Wert"
+        <label class="geo-select__custom-label" :for="popupId + '-eigen'">Eigener Wert</label>
+        <input :id="popupId + '-eigen'"
+          ref="eigenInput"
           class="geo-select__custom-input"
           type="text"
           :value="modelValue"
           @keydown.enter="applyCustom($event)"
-          @blur="applyCustom($event)"
-          placeholder="e.g. 36px"
+          @change="applyCustom($event, false)"
+          placeholder="z. B. 36px"
         />
       </div>
     </div>
@@ -58,10 +69,11 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount, useId } from 'vue'
 import { foundationTokens } from '../../data/tokens.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { loeseKette, komponentenErbe } from '../../lib/token-erbe.js'
+import { vorschlagsGruppen, verweisToken, passendeBezeichnung, popupLage, inPixel } from '../../utils/geometrie-auswahl.js'
 
 const props = defineProps({
   token: { type: Object, required: true },
@@ -71,49 +83,69 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+const popupId = `geo-popup-${useId()}`
+
 const isOpen = ref(false)
 const searchQuery = ref('')
 const searchInput = ref(null)
+const eigenInput = ref(null)
 const rootEl = ref(null)
-
-// Focus search input when dropdown opens
+const triggerEl = ref(null)
 const dropdownEl = ref(null)
 
 watch(isOpen, (val) => {
   if (val) {
     searchQuery.value = ''
     nextTick(() => {
-      searchInput.value?.focus()
       positionDropdown()
+      ;(searchInput.value || eigenInput.value)?.focus()
     })
   }
 })
 
+// UX-39: im Fenster halten (vorher ragte das Popup rechts 34px hinaus)
 function positionDropdown() {
-  if (!rootEl.value || !dropdownEl.value) return
-  const trigger = rootEl.value.querySelector('.geo-select__trigger')
-  if (!trigger) return
-  const rect = trigger.getBoundingClientRect()
-  const dropH = 320
-  const spaceBelow = window.innerHeight - rect.bottom - 8
-  const top = spaceBelow >= dropH ? rect.bottom + 4 : rect.top - dropH - 4
-  dropdownEl.value.style.top = Math.max(8, top) + 'px'
-  dropdownEl.value.style.left = rect.left + 'px'
-  dropdownEl.value.style.width = Math.max(260, rect.width) + 'px'
+  if (!triggerEl.value || !dropdownEl.value) return
+  const lage = popupLage(triggerEl.value.getBoundingClientRect(), { breite: window.innerWidth, hoehe: window.innerHeight })
+  const st = dropdownEl.value.style
+  st.top = lage.top + 'px'
+  st.left = lage.left + 'px'
+  st.width = lage.width + 'px'
+  st.maxHeight = lage.maxHeight + 'px'
+}
+
+/** @param {boolean} [fokusZurueck] Fokus auf den Ausloeser (Escape, Auswahl) */
+function schliessen(fokusZurueck = false) {
+  if (!isOpen.value) return
+  isOpen.value = false
+  if (fokusZurueck) nextTick(() => triggerEl.value?.focus())
+}
+
+// Tab aus dem Popup heraus schliesst es (vorher blieb es offen stehen)
+function beimVerlassen(e) {
+  const ziel = e.relatedTarget
+  if (ziel && rootEl.value?.contains(ziel)) return
+  if (ziel) schliessen(false)
 }
 
 // Click outside to close
 function onClickOutside(e) {
-  if (rootEl.value && !rootEl.value.contains(e.target) && (!dropdownEl.value || !dropdownEl.value.contains(e.target))) {
-    isOpen.value = false
-  }
+  if (rootEl.value && !rootEl.value.contains(e.target)) isOpen.value = false
 }
 
-onMounted(() => document.addEventListener('mousedown', onClickOutside))
-onBeforeUnmount(() => document.removeEventListener('mousedown', onClickOutside))
+function beiGroessenAenderung() { if (isOpen.value) positionDropdown() }
+
+onMounted(() => {
+  document.addEventListener('mousedown', onClickOutside)
+  window.addEventListener('resize', beiGroessenAenderung)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('mousedown', onClickOutside)
+  window.removeEventListener('resize', beiGroessenAenderung)
+})
 
 // ---------------------------------------------------------------------------
-// Display value — resolve var() references to px
+// Angezeigter Wert — Verweise aufloesen
 // ---------------------------------------------------------------------------
 // Erbt der Wert von einer anderen Komponente (var(--nc-…), Plan v3), zeigt
 // der Inspector den aufgeloesten Wert — mit Store-Aenderungen — statt des
@@ -126,112 +158,22 @@ const kette = computed(() => {
 })
 const erbe = computed(() => (kette.value ? komponentenErbe(props.modelValue, '') : null))
 
+const roherWert = computed(() => (kette.value ? kette.value.wert : props.modelValue) || '')
+
 const displayValue = computed(() => {
-  const val = kette.value ? kette.value.wert : props.modelValue
+  const val = roherWert.value
   if (!val) return ''
-  // If it's a var() reference, try to resolve it
-  const varMatch = val.match(/^var\(--fnd-(size|spacing|radius)-(.+)\)$/)
-  if (varMatch) {
-    const [, category, key] = varMatch
-    const catMap = { size: 'sizes', spacing: 'spacing', radius: 'radius' }
-    const cat = foundationTokens[catMap[category]]
-    if (cat?.tokens[key]) return cat.tokens[key].value
-  }
-  return val
+  return verweisToken(val, foundationTokens)?.token.value || val
 })
 
-// ---------------------------------------------------------------------------
-// Match current value to a foundation token label
-// ---------------------------------------------------------------------------
 const matchedLabel = computed(() => {
   if (erbe.value) return `erbt von ${erbe.value.category}`
-  const val = props.modelValue
-  if (!val) return ''
-
-  // Direct var() reference match
-  const varMatch = val.match(/^var\(--fnd-(size|spacing|radius)-(.+)\)$/)
-  if (varMatch) {
-    const [, category, key] = varMatch
-    const catMap = { size: 'sizes', spacing: 'spacing', radius: 'radius' }
-    const cat = foundationTokens[catMap[category]]
-    if (cat?.tokens[key]) {
-      const prefix = category === 'size' ? 'Size' : category === 'spacing' ? 'Spacing' : 'Radius'
-      return `${prefix} ${cat.tokens[key].label}`
-    }
-  }
-
-  // Reverse lookup by resolved px value
-  const pxVal = displayValue.value
-  for (const [catKey, cat] of Object.entries(foundationTokens)) {
-    if (!['sizes', 'spacing', 'radius'].includes(catKey)) continue
-    for (const tok of Object.values(cat.tokens)) {
-      if (tok.value === pxVal) {
-        const prefix = catKey === 'sizes' ? 'Size' : catKey === 'spacing' ? 'Spacing' : 'Radius'
-        return `${prefix} ${tok.label}`
-      }
-    }
-  }
-  return ''
+  if (!props.modelValue) return ''
+  return passendeBezeichnung(roherWert.value, displayValue.value, props.token.id, foundationTokens)
 })
 
-// ---------------------------------------------------------------------------
-// Build suggestion groups based on token ID context
-// ---------------------------------------------------------------------------
-const suggestionGroups = computed(() => {
-  const groups = []
-  const tokenId = props.token.id
-
-  // Determine relevant categories based on token ID
-  const isRadius = tokenId.includes('radius')
-  const isHeight = tokenId.includes('height') || tokenId.includes('min-height')
-  const isWidth = tokenId.includes('width') || tokenId.includes('max-width')
-  const isPadding = tokenId.includes('padding') || tokenId.includes('gap') || tokenId.includes('spacing') || tokenId.includes('margin') || tokenId.includes('indent')
-  const isSize = tokenId.includes('-size') && !tokenId.includes('font-size')
-  const isFontSize = tokenId.includes('font-size')
-  const isFontWeight = tokenId.includes('weight')
-
-  // Build ordered category list — nur passende Kategorien
-  const categoryOrder = []
-  if (isRadius) {
-    categoryOrder.push('radius')
-  } else if (isFontSize) {
-    // Font-sizes brauchen keine Foundation-Tokens im Dropdown (die kommen via Typography)
-  } else if (isFontWeight) {
-    // Font-weights brauchen keine Foundation-Tokens
-  } else if (isPadding) {
-    categoryOrder.push('spacing')
-  } else if (isHeight || isSize) {
-    categoryOrder.push('sizes')
-  } else if (isWidth) {
-    categoryOrder.push('sizes', 'spacing')
-  } else if (tokenId.includes('border-width') || tokenId.includes('outline') || tokenId.includes('ring')) {
-    categoryOrder.push('border')
-  } else if (tokenId.includes('icon')) {
-    categoryOrder.push('sizes')
-  } else {
-    // Nur Sizes als Fallback — keine Cross-Category Vorschlaege mehr
-    categoryOrder.push('sizes')
-  }
-
-  for (const catKey of categoryOrder) {
-    const cat = foundationTokens[catKey]
-    if (!cat) continue
-    const varPrefix = catKey === 'sizes' ? '--fnd-size' : catKey === 'spacing' ? '--fnd-spacing' : '--fnd-radius'
-    const items = Object.entries(cat.tokens)
-      .filter(([key]) => key !== 'null')
-      .sort(([a], [b]) => parseInt(a, 10) - parseInt(b, 10))
-      .map(([key, tok]) => ({
-        label: `${cat.label === 'Sizes' ? 'Size' : cat.label === 'Spacing' ? 'Spacing' : 'Radius'} ${tok.label}`,
-        varName: `${varPrefix}-${key}`,
-        varValue: `var(${varPrefix}-${key})`,
-        value: tok.value,
-        rem: tok.rem || ''
-      }))
-    if (items.length) groups.push({ label: cat.label, items })
-  }
-
-  return groups
-})
+// Nur Skalen, die zum Token passen (Padding → Abstand, Radius → Radius …)
+const suggestionGroups = computed(() => vorschlagsGruppen(props.token.id, foundationTokens))
 
 const filteredGroups = computed(() => {
   if (!searchQuery.value) return suggestionGroups.value
@@ -250,23 +192,25 @@ const filteredGroups = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
-// Actions
+// Aktionen
 // ---------------------------------------------------------------------------
 function isItemActive(item) {
-  return props.modelValue === item.varValue || displayValue.value === item.value
+  if (props.modelValue === item.varValue || displayValue.value === item.value) return true
+  const px = inPixel(displayValue.value)
+  return !Number.isNaN(px) && px === inPixel(item.value)
 }
 
 function selectItem(item) {
   emit('update:modelValue', item.varValue)
-  isOpen.value = false
+  schliessen(true)
 }
 
-function applyCustom(e) {
+function applyCustom(e, zu = true) {
   const val = e.target.value.trim()
   if (val && val !== props.modelValue) {
     emit('update:modelValue', val)
   }
-  isOpen.value = false
+  if (zu) schliessen(true)
 }
 </script>
 
@@ -297,6 +241,22 @@ function applyCustom(e) {
 
 .geo-select__trigger:hover {
   border-color: var(--cfg-accent);
+}
+
+.geo-select__trigger:focus-visible,
+.geo-select__item:focus-visible,
+.geo-select__search:focus-visible,
+.geo-select__custom-input:focus-visible {
+  outline: 2px solid var(--cfg-accent);
+  outline-offset: 1px;
+}
+
+.geo-select__leer {
+  margin: 0;
+  padding: 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--cfg-text-secondary);
 }
 
 .geo-select__value {
@@ -336,8 +296,8 @@ function applyCustom(e) {
 /* Dropdown Panel — fixed position to escape overflow containers */
 .geo-select__dropdown {
   position: fixed;
-  min-width: 260px;
   width: 260px;
+  max-width: calc(100vw - 16px);
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
   background: var(--cfg-surface);

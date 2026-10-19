@@ -149,7 +149,7 @@ function alsKlasse (k) {
 // 1. Normalisieren
 // ---------------------------------------------------------------------------
 
-function achsenAlsObjekt (axes) {
+export function achsenAlsObjekt (axes) {
   const liste = Array.isArray(axes)
     ? axes.map((a) => [a?.name || a?.id, a])
     : Object.entries(axes || {})

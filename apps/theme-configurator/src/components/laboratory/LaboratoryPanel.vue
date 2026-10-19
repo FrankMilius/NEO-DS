@@ -114,7 +114,13 @@ const isGridSection = computed(() =>
 
 const isComponentSection = computed(() => store.state.activeSection.startsWith('component-'))
 
-const activeComponentId = computed(() => store.state.activeSection.replace('component-', ''))
+// Nur Komponenten-Sektionen haben eine ID. Vorher lieferte replace() auf der
+// Farbseite „foundation-colors“: Ein Klick auf ein Specimen markierte es dann,
+// ohne dass der Inspector etwas damit anfing (Befund UX-31, 19.10.2026).
+const activeComponentId = computed(() => {
+  const s = store.state.activeSection || ''
+  return s.startsWith('component-') ? s.slice('component-'.length) : ''
+})
 
 // ---------------------------------------------------------------------------
 // Recipe Filterbar — extrahiert Filteroptionen aus Recipe-Daten

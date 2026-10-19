@@ -130,7 +130,7 @@
 
     <template v-else>
       <div class="empty-state">
-        <p>Select a section from the sidebar to begin editing.</p>
+        <p data-test="inspector-leer">Für diesen Bereich gibt es hier keine Einstellungen. Bearbeitet wird in der Bühne, oder Sie wählen links einen anderen Bereich.</p>
       </div>
     </template>
   </div>

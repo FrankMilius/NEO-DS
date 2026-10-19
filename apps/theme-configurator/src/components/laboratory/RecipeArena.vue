@@ -239,11 +239,22 @@ const gefilterteAnsichten = computed(() => {
 const zellenGesamt = computed(() => ansichten.value.reduce((n, sp) => n + sp.zeilen.reduce((m, zl) => m + zl.zellen.length, 0), 0))
 const zellenSichtbar = computed(() => gefilterteAnsichten.value.reduce((n, sp) => n + sp.zeilen.reduce((m, zl) => m + zl.zellen.length, 0), 0))
 
+// „Ausprobieren“ zeigt je Specimen EINE Instanz. Vorher blieben Überschrift,
+// Beschreibung und Achsen der Matrix stehen („All Variants — MD“, „Alle 11
+// Varianten …“, „variant: alle“) — über einer einzigen Schaltfläche
+// (Befund UX-54, 19.10.2026).
 const sichtbareAnsichten = computed(() => {
   if (modus.value !== 'ausprobieren') return gefilterteAnsichten.value
   return lebendigeAnsichten.value.map((sp) => {
     const zelle = sp.zeilen[0]?.zellen[0]
-    return { ...sp, zeilen: zelle ? [{ key: 'live', label: '', zellen: [{ ...zelle, label: 'Ausprobieren' }] }] : [] }
+    const name = zelle?.label || sp.label
+    return {
+      ...sp,
+      label: `${sp.label} · Ausprobieren`,
+      description: `Eine bedienbare Instanz (${name}). Alle Varianten zeigt die Ansicht „Zustände“.`,
+      achsen: [],
+      zeilen: zelle ? [{ key: 'live', label: '', zellen: [{ ...zelle, label: name }] }] : []
+    }
   })
 })
 

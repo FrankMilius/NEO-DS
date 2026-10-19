@@ -48,9 +48,9 @@ describe('Registry', () => {
     }
   })
 
-  it('Inspector leer nur dort, wo es bisher auch leer war (Icons, Utilities)', () => {
+  it('Inspector leer nur bei Utilities (Icons seit UX-37 mit Hinweis)', () => {
     const leer = NAVIGATIONS_SEKTIONEN.filter((id) => SEKTIONEN.get(id).inspector.length === 0)
-    for (const id of leer) expect(id === 'foundation-icons' || id.startsWith('utility-'), id).toBe(true)
+    for (const id of leer) expect(id.startsWith('utility-'), id).toBe(true)
   })
 
   it('Komponenten-Sektionen: Buehne im Labor, ComponentEditor mit ID im Inspector', () => {

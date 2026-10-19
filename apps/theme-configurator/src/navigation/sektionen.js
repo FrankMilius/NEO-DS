@@ -7,7 +7,7 @@
 //   label      Breadcrumb im Labor-Kopf ('' = keiner)
 //   labor      Komponente fuer den Labor-Viewport (lazy per defineAsyncComponent)
 //   inspector  Liste von Bloecken { komponente, props } fuer den Inspector;
-//              leer = Hinweis „Select a section …" (wie bisher der v-else-Zweig)
+//              leer = deutscher Leerhinweis im InspectorPanel (v-else-Zweig)
 //   schluessel Remount-Schluessel fuer den Inspector: Sektionen mit gleichem
 //              Schluessel teilen sich die Instanz (vorher: derselbe v-if-Zweig)
 //
@@ -30,6 +30,7 @@ import BorderEditor from '../components/foundation/BorderEditor.vue'
 import ElementsOverview from '../components/foundation/ElementsOverview.vue'
 import ThemesOverview from '../components/foundation/ThemesOverview.vue'
 import PraesentationInspector from '../components/foundation/PraesentationInspector.vue'
+import IconsInspector from '../components/foundation/IconsInspector.vue'
 import ComponentEditor from '../components/components/ComponentEditor.vue'
 import ModulePlaceholder from '../components/templates/ModulePlaceholder.vue'
 import TemplatePlaceholder from '../components/templates/TemplatePlaceholder.vue'
@@ -83,8 +84,8 @@ const FOUNDATION = {
   'foundation-focus': { label: 'Focus Ring', labor: LABOR.focus, inspector: [generisch('focus')] },
   'foundation-media': { label: 'Media Ratios', labor: LABOR.media, inspector: [generisch('media')] },
   'foundation-elements': { label: 'Elements', labor: LABOR.elements, inspector: [block(ElementsOverview)] },
-  // Icons haben (noch) keinen eigenen Inspector — leer wie bisher
-  'foundation-icons': { label: 'Icons', labor: LABOR.icons, inspector: [] },
+  // Icons: Hinweis, was davon exportiert wird (UX-37) — bearbeitet wird in der Bühne
+  'foundation-icons': { label: 'Icons', labor: LABOR.icons, inspector: [block(IconsInspector)] },
   'foundation-themes': { label: 'Themes', labor: LABOR.themes, inspector: [block(ThemesOverview)] },
   'foundation-shadows': { label: 'Shadows', labor: LABOR.shadows, inspector: [block(ShadowEditor)] },
   'foundation-opacity': {
