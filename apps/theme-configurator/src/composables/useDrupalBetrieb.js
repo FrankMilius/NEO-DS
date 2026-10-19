@@ -33,6 +33,14 @@ export const VORSCHAU_SCHLUESSEL = 'neo-theme-configurator-drupal-vorschau'
 function vorschauGemerkt () {
   try { return localStorage.getItem(VORSCHAU_SCHLUESSEL) !== 'aus' } catch { return true }
 }
+/** localStorage: Theme-ID der zuletzt gesetzten Vorschau (UX-25: übersteht Neuladen) */
+export const VORSCHAU_ID_SCHLUESSEL = 'neo-theme-configurator-drupal-vorschau-id'
+function vorschauIdGemerkt () {
+  try { return localStorage.getItem(VORSCHAU_ID_SCHLUESSEL) || null } catch { return null }
+}
+function merkeVorschauId (id) {
+  try { if (id) localStorage.setItem(VORSCHAU_ID_SCHLUESSEL, id); else localStorage.removeItem(VORSCHAU_ID_SCHLUESSEL) } catch { /* gesperrt */ }
+}
 
 const zustand = reactive({
   /** 'ohne-theme' | 'gespeichert' | 'ungespeichert' | 'speichert' | 'fehler' */
@@ -52,7 +60,9 @@ const zustand = reactive({
   /** Website-Vorschau eingeschaltet (für die angemeldete Person) */
   vorschauAn: vorschauGemerkt(),
   /** Theme-ID der zuletzt gesetzten Vorschau (null = keine) */
-  vorschauId: null,
+  vorschauId: vorschauIdGemerkt(),
+  /** Name des Themes, das die Vorschau zeigt (vom Server, UX-25) */
+  vorschauName: '',
   /** Fehler der Vorschau (stört das Speichern nicht) */
   vorschauFehler: '',
 })
@@ -143,14 +153,28 @@ export async function starteDrupalBetrieb (s) {
       e.returnValue = ''
     }
   }
-  if (typeof window !== 'undefined') window.addEventListener('beforeunload', beimVerlassen)
-  stoppen = () => { stop(); clearTimeout(zeitgeber); if (typeof window !== 'undefined') window.removeEventListener('beforeunload', beimVerlassen) }
+  // UX-25: zurück im Tab → Vorschau mit dem Server abgleichen
+  const beimZurueckkehren = () => { if (typeof document === 'undefined' || document.visibilityState === 'visible') vorschauAbgleichen() }
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', beimVerlassen)
+    window.addEventListener('focus', beimZurueckkehren)
+    document.addEventListener('visibilitychange', beimZurueckkehren)
+  }
+  stoppen = () => {
+    stop(); clearTimeout(zeitgeber)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('beforeunload', beimVerlassen)
+      window.removeEventListener('focus', beimZurueckkehren)
+      document.removeEventListener('visibilitychange', beimZurueckkehren)
+    }
+  }
   // Drupal-Betrieb arbeitet im Set „neo“ (Klassen der Website); ein im
   // Browser liegender Arbeitsstand ohne Theme wird umgestellt.
   if (!store.state.currentThemeMeta?.id && store.state.activeThemeSet !== 'neo') store.state.activeThemeSet = 'neo'
   pruefeStand()
   await ladeKatalog()
   await pruefeAktualitaet()
+  await vorschauAbgleichen()
   return stoppen
 }
 
@@ -225,6 +249,8 @@ export async function vorschauNachziehen () {
   try {
     const erg = await store.setzeWebsiteVorschau()
     zustand.vorschauId = erg?.themeId ?? store.state.currentThemeMeta.id
+    zustand.vorschauName = erg?.name || store.state.currentThemeMeta.name || ''
+    merkeVorschauId(zustand.vorschauId)
     zustand.vorschauFehler = ''
   } catch (e) {
     zustand.vorschauFehler = meldungFuer(e, 'Website-Vorschau').titel
@@ -239,9 +265,40 @@ export async function vorschauUmschalten (an = !zustand.vorschauAn) {
   try {
     await store?.beendeWebsiteVorschau()
     zustand.vorschauId = null
+    zustand.vorschauName = ''
+    merkeVorschauId(null)
     zustand.vorschauFehler = ''
   } catch (e) {
     zustand.vorschauFehler = meldungFuer(e, 'Website-Vorschau').titel
+  }
+}
+
+/**
+ * Vorschau mit dem Server abgleichen (Befund UX-25, 19.10.2026). Vorher kam
+ * „an/aus“ nur aus dem Browser: Wer die Vorschau über die Leiste auf der
+ * Website beendete, sah in der App weiter „an“.
+ *   Server hat eine Vorschau  → an, mit Theme und Namen vom Server
+ *   Server hat keine, die App hatte eine gesetzt → auf der Website beendet: aus
+ *     (die ID der gesetzten Vorschau liegt im Browser — gilt auch nach Neuladen)
+ *   Server hat keine, die App noch keine → Wunsch bleibt (setzt beim Speichern)
+ */
+export async function vorschauAbgleichen () {
+  if (!store?.leseWebsiteVorschau) return
+  let server
+  try { server = await store.leseWebsiteVorschau() } catch { return }   // offline: nichts ändern
+  if (server === undefined) return
+  if (server) {
+    zustand.vorschauAn = true
+    zustand.vorschauId = server.themeId
+    zustand.vorschauName = server.name || ''
+    merkeVorschauId(server.themeId)
+    try { localStorage.setItem(VORSCHAU_SCHLUESSEL, 'an') } catch { /* gesperrt */ }
+  } else if (zustand.vorschauId) {
+    zustand.vorschauAn = false
+    zustand.vorschauId = null
+    zustand.vorschauName = ''
+    merkeVorschauId(null)
+    try { localStorage.setItem(VORSCHAU_SCHLUESSEL, 'aus') } catch { /* gesperrt */ }
   }
 }
 
@@ -479,7 +536,7 @@ export async function neoAnsehen () {
     await nextTick()
     merkeStand()
     if (zustand.vorschauAn && darf('bearbeiten')) {
-      try { await store.beendeWebsiteVorschau(); zustand.vorschauId = null } catch { /* Vorschau bleibt */ }
+      try { await store.beendeWebsiteVorschau(); zustand.vorschauId = null; zustand.vorschauName = ''; merkeVorschauId(null) } catch { /* Vorschau bleibt */ }
     }
     return true
   } catch (e) {
@@ -526,6 +583,7 @@ export function useDrupalBetrieb () {
     neoAnsicht,
     vorschauUmschalten,
     vorschauNachziehen,
+    vorschauAbgleichen,
   }
 }
 
@@ -535,5 +593,5 @@ export function _zuruecksetzenDrupalBetrieb () {
   stoppen = null
   store = null
   basis = null
-  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, konfliktFremd: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '', vorschauAn: true, vorschauId: null, vorschauFehler: '' })
+  Object.assign(zustand, { status: 'ohne-theme', fehlerText: '', konflikt: null, konfliktFremd: null, anlegen: null, veroeffentlichenOffen: false, katalogFehler: '', vorschauAn: true, vorschauId: null, vorschauName: '', vorschauFehler: '' }); merkeVorschauId(null)
 }

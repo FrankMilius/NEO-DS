@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.22` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.23` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -850,6 +850,18 @@ App 1.2.22 (UX-52 gemeinsames Hinzufügen-Formular, UX-20 Rest, 19.10.2026):
   `cfg-ohne-technik`): CSS-Variablen in allen Editoren, Arena-Kennungen und
   Template-Dateien. Verbliebene englische Bezeichnungen und Erklärtexte in
   Editoren, Dialogen und Platzhaltern deutsch; Wächter-Test erweitert.
+
+App 1.2.23 (UX-25 Website-Vorschau mit dem Server abgleichen, 19.10.2026):
+
+- „Website-Vorschau an/aus“ kam nur aus dem Browser. Jetzt fragt die App
+  beim Start und bei jeder Rückkehr in den Tab `GET /vorschau` ab
+  (`vorschauAbgleichen`): Hat der Server eine Vorschau, zeigt der Knopf
+  „an“ mit dem Theme vom Server; wurde sie auf der Website beendet, zeigt er
+  „aus“ — auch nach Neuladen (die ID der gesetzten Vorschau liegt im
+  Browser).
+- Zeigt die Vorschau ein anderes Theme als das geöffnete, nennt der Knopf
+  es („· zeigt „Kunde B““) und erklärt, dass sie beim nächsten Speichern
+  wechselt.
 
 Ursprünglicher Vorschlag (ADR-004):
 

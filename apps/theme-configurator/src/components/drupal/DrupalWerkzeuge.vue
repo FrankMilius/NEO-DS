@@ -44,12 +44,12 @@
       class="dk-knopf"
       data-test="drupal-vorschau"
       :aria-pressed="zustand.vorschauAn ? 'true' : 'false'"
-      :aria-label="`Vorschau von „${themeName}“ auf der Website`"
+      :aria-label="vorschauAnderes ? `Website-Vorschau, zeigt „${zustand.vorschauName}“` : `Vorschau von „${themeName}“ auf der Website`"
       :title="vorschauTitel"
       @click="betrieb.vorschauUmschalten()"
     >
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path v-if="!zustand.vorschauAn" d="M3 3l18 18"/></svg>
-      Website-Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}
+      Website-Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}<span v-if="vorschauAnderes" class="dw-vorschau-anderes" data-test="vorschau-anderes"> · zeigt „{{ zustand.vorschauName }}“</span>
     </button>
     <a
       class="dk-knopf"
@@ -105,7 +105,11 @@ const statusText = computed(() => (!kannBearbeiten && zustand.status !== 'laedt'
 const themeName = computed(() => store.state.currentThemeMeta?.name || 'NEO-Standard')
 
 const websiteUrl = (typeof window !== 'undefined' && window.NEO_KONFIGURATOR?.websiteUrl) || '/'
-const vorschauTitel = computed(() => zustand.vorschauAn
+// UX-25: Die Vorschau (Stand vom Server) zeigt ein anderes Theme als das geöffnete
+const vorschauAnderes = computed(() => !!(zustand.vorschauAn && zustand.vorschauId && zustand.vorschauName && zustand.vorschauId !== store.state.currentThemeMeta?.id))
+const vorschauTitel = computed(() => vorschauAnderes.value
+  ? `Ihre Website-Vorschau zeigt „${zustand.vorschauName}“, nicht das geöffnete Theme. Beim nächsten Speichern wechselt sie zu „${themeName.value}“. Klicken schaltet sie aus.`
+  : zustand.vorschauAn
   ? `Vorschau von „${themeName.value}“ ist an: Sie sehen den gespeicherten Stand dieses Themes auf der Website, Besucher nicht. Klicken schaltet sie aus.`
   : `Vorschau von „${themeName.value}“ ist aus: Sie sehen auf der Website dasselbe wie Besucher. Klicken schaltet sie ein.`)
 
@@ -118,6 +122,7 @@ const veroeffentlichenTitel = computed(() => {
 
 <style scoped src="./_drupal.css"></style>
 <style scoped>
+.dw-vorschau-anderes { font-weight: 400; color: var(--cfg-text-secondary); }
 .dw { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; row-gap: 4px; }   /* UX-04: bricht in schmalen Fenstern um */
 .dw-trenner { width: 1px; height: 20px; background: var(--cfg-border); margin: 0 2px; }
 .dw-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cfg-text-secondary); white-space: nowrap; }

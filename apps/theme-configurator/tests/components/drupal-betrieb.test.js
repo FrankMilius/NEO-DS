@@ -676,3 +676,64 @@ describe('Block 5a: Speichern und Veröffentlichen', () => {
     expect(w.emitted('korrigieren')[0]).toEqual(['text-link'])
   })
 })
+
+// UX-25 (19.10.2026): Website-Vorschau mit dem Server abgleichen
+describe('Website-Vorschau: Abgleich mit dem Server (UX-25)', () => {
+  const FAEHIG = { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true }
+  it('auf der Website beendet → App zeigt „aus“ nach Rückkehr in den Tab', async () => {
+    let server = null
+    const sp = adapter({
+      faehigkeiten: FAEHIG,
+      vorschau: vi.fn(async () => server),
+      setzeVorschau: vi.fn(async (id) => { server = { themeId: id, name: 'ACME', seit: 'x' }; return server }),
+      beendeVorschau: vi.fn(async () => { server = null }),
+    })
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    const w = montiere(DrupalWerkzeuge)
+    await useDrupalBetrieb().anlegen({ name: 'ACME', version: '1.0.0', vomStandard: true })
+    expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('true')
+    server = null   // Person beendet die Vorschau über die Leiste auf der Website
+    window.dispatchEvent(new Event('focus')); await flushPromises()
+    expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('false')
+    expect(localStorage.getItem('neo-theme-configurator-drupal-vorschau')).toBe('aus')
+  })
+  it('Server zeigt ein anderes Theme → Knopf nennt es', async () => {
+    const sp = adapter({
+      faehigkeiten: FAEHIG,
+      vorschau: vi.fn(async () => ({ themeId: 'anderes', name: 'Kunde B', seit: 'x' })),
+      setzeVorschau: vi.fn(async (id) => ({ themeId: id, name: 'x', seit: 'x' })),
+      beendeVorschau: vi.fn(async () => {}),
+    })
+    localStorage.setItem('neo-theme-configurator-drupal-vorschau', 'aus')
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    const w = montiere(DrupalWerkzeuge)
+    await flushPromises()
+    const k = knopf(w, 'drupal-vorschau')
+    expect(k.attributes('aria-pressed')).toBe('true')
+    expect(w.find('[data-test="vorschau-anderes"]').text()).toContain('Kunde B')
+    expect(k.attributes('aria-label')).toBe('Website-Vorschau, zeigt „Kunde B“')
+  })
+  it('ohne Server-Vorschau und ohne gesetzte Vorschau bleibt der Wunsch „an“', async () => {
+    const sp = adapter({ faehigkeiten: FAEHIG, vorschau: vi.fn(async () => null), setzeVorschau: vi.fn(), beendeVorschau: vi.fn() })
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    const w = montiere(DrupalWerkzeuge)
+    expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('true')
+  })
+})
+
+describe('Website-Vorschau: Abgleich nach Neuladen (UX-25)', () => {
+  it('gemerkte Vorschau-ID, Server ohne Vorschau → beim Start „aus“', async () => {
+    localStorage.setItem('neo-theme-configurator-drupal-vorschau', 'an')
+    localStorage.setItem('neo-theme-configurator-drupal-vorschau-id', 'alt')
+    useDrupalBetrieb().zustand.vorschauId = 'alt'
+    useDrupalBetrieb().zustand.vorschauAn = true
+    const sp = adapter({ faehigkeiten: { veroeffentlichen: true, aktivieren: true, konflikterkennung: true, branchesUndReleases: false, vorschau: true, schriften: true }, vorschau: vi.fn(async () => null), setzeVorschau: vi.fn(), beendeVorschau: vi.fn() })
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    expect(useDrupalBetrieb().zustand.vorschauAn).toBe(false)
+    expect(localStorage.getItem('neo-theme-configurator-drupal-vorschau-id')).toBeNull()
+  })
+})

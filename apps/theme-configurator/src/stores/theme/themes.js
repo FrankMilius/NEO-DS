@@ -573,6 +573,16 @@ export async function setzeWebsiteVorschau() {
   return sp.setzeVorschau(id, exportAsCSSVars({ nurAbweichungen: true }))
 }
 
+/**
+ * Eigene Website-Vorschau vom Server lesen (UX-25): { themeId, name, seit },
+ * null (keine) oder undefined (Speicher ohne Vorschau, kein Recht).
+ */
+export async function leseWebsiteVorschau() {
+  const sp = speicher()
+  if (!sp.faehigkeiten?.vorschau || !darf('bearbeiten') || typeof sp.vorschau !== 'function') return undefined
+  return sp.vorschau()
+}
+
 export async function beendeWebsiteVorschau() {
   const sp = speicher()
   if (!sp.faehigkeiten.vorschau) return
