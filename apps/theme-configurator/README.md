@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.27` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.28` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -972,6 +972,22 @@ App 1.2.27 (Bühne zeigt nur das geöffnete Theme; Bühne = Website geprüft, 19
   Block `.neo-dark-theme.neo-surface` auf heller Seite) behalten sie die
   Werte der Seite — gemessen auf der Startseite in DDEV: Primärknopf,
   Karte, Kartentitel, Eingabefeld mit hellen Werten im dunklen Block.
+
+App 1.2.28 (Export passend zur Vererbung im Design System, 19.10.2026):
+
+- Das Design System deklariert seine Tokens jetzt auf `:root` und per
+  `:where()` auf den Theme-Klassen (Vererbung in Theme-Bereichen,
+  `fix(tokens)` vom 19.10.2026). Grundlagen- und Komponenten-Werte eines
+  Themes stehen deshalb im Export auf `:root, .neo-light-theme,
+  .neo-dark-theme` (Variante „Kunde“: `.customer-*`) statt nur auf `:root` —
+  sonst überdeckte die Vorgabe am `<body class="neo-light-theme">` den Wert
+  des Themes (gefunden vom Test „Bühne = Website“: Knopf-Innenabstand 30 px
+  kam nicht an). `wirkSelektor()` in `export/foundation-css.js`, beide
+  Exportwege. Vertrag 1.1.0 bleibt: keine `customer-`-Klassen in Drupal; der
+  Server erlaubt Selektorlisten. Schon veröffentlichte Themes einmal neu
+  veröffentlichen.
+- `e2e/vererbung.spec.js`: alle 3 385 Tokens — Bereich mit eigener
+  Theme-Klasse = ganze Seite dieses Themes.
 
 Ursprünglicher Vorschlag (ADR-004):
 

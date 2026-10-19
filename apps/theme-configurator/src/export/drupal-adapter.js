@@ -14,12 +14,14 @@
  * @param {object} themeJSON - Parsed output of exportAsJSON()
  * @returns {string} CSS content
  */
-import { foundationZeilen } from './foundation-css.js'
+import { foundationZeilen, wirkSelektor } from './foundation-css.js'
 import { schriftskalaZeilen } from './type-scale-css.js'
 
 export function generateDrupalCSS(themeJSON) {
   const lines = []
   const meta = themeJSON.meta || {}
+  // Klassen wie die semantischen Blöcke unten (Variante aus dem Namen)
+  const variante = (meta.name || '').toLowerCase().includes('neo') ? 'neo' : 'customer'
 
   lines.push(`/**`)
   lines.push(` * ${meta.name || 'Theme'} — Drupal Override Stylesheet`)
@@ -63,7 +65,7 @@ export function generateDrupalCSS(themeJSON) {
     const { zeilen, uebersprungen } = foundationZeilen(foundation)
     if (zeilen.length) {
       lines.push(`/* Foundation Token Overrides (nur Abweichungen vom Design System) */`)
-      lines.push(`:root {`)
+      lines.push(`${wirkSelektor(variante)} {`)
       lines.push(...zeilen)
       lines.push('}\n')
     }
@@ -95,7 +97,7 @@ export function generateDrupalCSS(themeJSON) {
     const hasOverrides = Object.values(components).some(c => Object.keys(c.overrides || {}).length > 0)
     if (hasOverrides) {
       lines.push(`/* Component Token Overrides */`)
-      lines.push(`:root {`)
+      lines.push(`${wirkSelektor(variante)} {`)
       for (const [compId, comp] of Object.entries(components)) {
         const overrides = comp.overrides || {}
         if (Object.keys(overrides).length === 0) continue

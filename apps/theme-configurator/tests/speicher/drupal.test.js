@@ -343,6 +343,16 @@ describe('Store mit Drupal-Speicher', () => {
     expect(css.match(/--fnd-color-/g)).toHaveLength(3)
   })
 
+  it('Komponenten- und Grundlagen-Werte auf :root UND den Theme-Klassen (Vererbung in Theme-Bereichen, 19.10.2026)', () => {
+    store.state.activeThemeSet = 'neo'
+    store.updateComponentToken('nc-button-padding-x-md', '30px')
+    store.updateFoundationToken('radius', 'sm', '9px')
+    const css = store.exportAsCSSVars({ nurAbweichungen: true })
+    expect(css).toMatch(/:root, \.neo-light-theme, \.neo-dark-theme \{[^}]*--nc-button-padding-x-md: 30px;/)
+    expect(css).toMatch(/:root, \.neo-light-theme, \.neo-dark-theme \{[^}]*--fnd-radius-sm: 9px;/)
+    expect(css).not.toContain('customer-')
+  })
+
   it('Google Fonts (1.1.0): @import vor allen Regeln, nur fonts.googleapis.com', async () => {
     store.state.activeThemeSet = 'neo'
     store.state.customFonts.neo = [

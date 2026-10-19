@@ -2,7 +2,7 @@
 // Theme-Store · Export als CSS-Variablen und JSON
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
-import { foundationZeilen, fokusFarbZeilen, abstandZeilen } from '../../export/foundation-css.js'
+import { foundationZeilen, fokusFarbZeilen, abstandZeilen, wirkSelektor } from '../../export/foundation-css.js'
 import { iconStrichZeilen, WEBSITE_BIBLIOTHEK } from '../../utils/icon-strich.js'
 import { schriftskalaZeilen } from '../../export/type-scale-css.js'
 import { state } from './kern.js'
@@ -89,7 +89,7 @@ export function exportAsCSSVars(opt = {}) {
     const { zeilen, uebersprungen } = foundationZeilen(fndOverrides)
     if (zeilen.length) {
       lines.push(`/* === Foundation Overrides (nur Abweichungen) === */`)
-      lines.push(`:root {`)
+      lines.push(`${wirkSelektor(themeSet)} {`)
       lines.push(...zeilen)
       lines.push('}\n')
     }
@@ -138,7 +138,7 @@ export function exportAsCSSVars(opt = {}) {
     }
 
     lines.push(`/* === Component Token Overrides === */`)
-    lines.push(`:root {`)
+    lines.push(`${wirkSelektor(themeSet)} {`)
     for (const [compId, tokens] of Object.entries(grouped)) {
       const ver = state.componentVersions[themeSet]?.[compId]
       const locked = state.componentLocks[themeSet]?.[compId]

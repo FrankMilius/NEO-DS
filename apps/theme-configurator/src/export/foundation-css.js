@@ -61,6 +61,20 @@ function ausgabewert(kategorie, schluessel, wert) {
 }
 
 /**
+ * Selektor für Grundlagen- und Komponenten-Werte eines Themes (19.10.2026).
+ * Das Design System deklariert seine Tokens auf :root UND per :where() auf den
+ * Theme-Klassen (Vererbung in Theme-Bereichen). Stünde ein Wert des Themes nur
+ * auf :root, überdeckte die Vorgabe am <body class="neo-light-theme"> ihn.
+ * Die Klassen haben Spezifität (0,1,0) und schlagen :where() (0). Nur die
+ * Klassen der Variante — Vertrag 1.1.0: veröffentlicht wird für „neo“ auf
+ * :root, .neo-light-theme, .neo-dark-theme.
+ * @param {string} [themeSet] 'neo' oder 'customer'
+ */
+export const wirkSelektor = (themeSet = 'neo') => (themeSet === 'customer'
+  ? ':root, .customer-light-theme, .customer-dark-theme'
+  : ':root, .neo-light-theme, .neo-dark-theme')
+
+/**
  * @param {Object} overrides  foundationOverrides[themeSet], Form { kategorie: { key: wert } }
  * @param {Object} [opt]
  * @param {boolean} [opt.nurAbweichungen=true]  unveraenderte Tokens weglassen
