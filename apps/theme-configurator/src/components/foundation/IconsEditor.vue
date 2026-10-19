@@ -169,9 +169,14 @@
       <section class="ie-section">
         <h3 class="ie-heading">
           Stroke Width per Size
-          <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
+          <span v-if="activeLibrary !== WEBSITE_BIBLIOTHEK" class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
+          <span v-else class="ie-wirkt" data-test="strich-wirkt" title="Geht als --fnd-icon-stroke-<Größe> ins Website-CSS">Wirkt auf der Website</span>
           <span class="ie-heading__count">{{ activeLib.name }}</span>
         </h3>
+        <p v-if="activeLibrary === WEBSITE_BIBLIOTHEK" class="ie-desc">
+          „Standard“ lässt die Strichstärke, die jede Komponente im Design System hat (meist 2, bei großen Icons 1,5).
+          Ein gesetzter Wert gilt für alle Icons dieser Größe auf der Website.
+        </p>
         <div class="ie-token-list">
           <div
             v-for="size in iconSizes"
@@ -188,10 +193,11 @@
                 :value="currentStroke(activeLibrary, size.key)"
                 @change="store.updateIconStrokeWidth(activeLibrary, size.key, $event.target.value)"
               >
-                <option v-for="sw in strokeOptions" :key="sw" :value="sw">{{ sw }}px</option>
+                <option value="">Standard (Design System)</option>
+                <option v-for="sw in strokeOptions" :key="sw" :value="sw">{{ sw }}</option>
               </select>
               <div class="ie-stroke-preview" :style="{ color: activeStrokeColor }">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" :stroke-width="currentStroke(activeLibrary, size.key)" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" :stroke-width="currentStroke(activeLibrary, size.key) || STRICH_VORSCHAU[size.key]" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="9"/>
                   <path d="M12 8v4l2 2"/>
                 </svg>
@@ -264,6 +270,7 @@
 import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { STRICH_VORSCHAU, WEBSITE_BIBLIOTHEK } from '../../utils/icon-strich.js'
 import { primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
 
@@ -288,8 +295,9 @@ const activeLib = computed(() => {
 })
 
 // Per-library stroke width lookup
+// '' = „Standard“: das Design System bestimmt (Roadmap V07)
 function currentStroke(libId, size) {
-  return store.currentIconStrokeWidths?.[libId]?.[size] ?? '1.5'
+  return store.currentIconStrokeWidths?.[libId]?.[size] ?? ''
 }
 
 function currentElementValue(key, fallback) {
@@ -393,6 +401,13 @@ const activeStrokeColor = computed(() => {
 .ie-heading {
   font-size: 14px; font-weight: 700; color: var(--cfg-text); margin: 0;
   display: flex; align-items: center; gap: 8px;
+}
+
+/* V07: exportierte Einstellungen kennzeichnen */
+.ie-wirkt {
+  font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 999px;
+  color: var(--cfg-text); background: color-mix(in srgb, var(--cfg-accent) 18%, transparent);
+  white-space: nowrap;
 }
 
 /* UX-37: nicht exportierte Einstellungen kennzeichnen */

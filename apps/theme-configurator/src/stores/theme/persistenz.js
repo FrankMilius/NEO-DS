@@ -10,6 +10,7 @@ import { ergaenzeFoundation } from './token-aktionen.js'
 import { speicher } from '../../speicher/index.js'
 import { LOKALE_SCHLUESSEL, leseArbeitsstand, schreibeArbeitsstand, schreibeTheme } from '../../speicher/lokal.js'
 import { speichereTheme } from './themes.js'
+import { strichVorgaben, migriereStriche } from '../../utils/icon-strich.js'
 
 // ---------------------------------------------------------------------------
 // Save to Server (full theme format)
@@ -179,10 +180,7 @@ export function loadFromStorage() {
         { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
         { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
       ]
-      const defaultStrokes = {
-        tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-        heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-      }
+      const defaultStrokes = strichVorgaben()
       const defaultColors = {
         tabler: { light: 'currentColor', dark: 'currentColor' },
         heroicons: { light: 'currentColor', dark: 'currentColor' }
@@ -203,11 +201,14 @@ export function loadFromStorage() {
         const sw = state.iconStrokeWidths[ts]
         if (sw && !sw.tabler && sw.xs !== undefined) {
           // Alte Flat-Struktur: { xs: '1', ... } → { tabler: { xs: '1', ... } }
-          state.iconStrokeWidths[ts] = { tabler: { ...sw }, heroicons: defaultStrokes.heroicons }
+          state.iconStrokeWidths[ts] = { tabler: { ...sw }, heroicons: { ...defaultStrokes.heroicons } }
         }
         // Sicherstellen, dass jede Library Stroke Widths hat
-        if (!state.iconStrokeWidths[ts].tabler) state.iconStrokeWidths[ts].tabler = defaultStrokes.tabler
-        if (!state.iconStrokeWidths[ts].heroicons) state.iconStrokeWidths[ts].heroicons = defaultStrokes.heroicons
+        if (!state.iconStrokeWidths[ts].tabler) state.iconStrokeWidths[ts].tabler = { ...defaultStrokes.tabler }
+        if (!state.iconStrokeWidths[ts].heroicons) state.iconStrokeWidths[ts].heroicons = { ...defaultStrokes.heroicons }
+        // V07: unveränderte alte Vorgaben (Tabler xs 1 …) → „Standard“, sonst
+        // würde der neue Export sie auf die Website schreiben
+        migriereStriche(state.iconStrokeWidths[ts])
 
         const sc = state.iconStrokeColors[ts]
         if (sc && !sc.tabler && (sc.light !== undefined || sc.dark !== undefined)) {

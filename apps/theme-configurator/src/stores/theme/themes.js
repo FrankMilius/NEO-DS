@@ -13,6 +13,7 @@ import { SpeicherFehler, darf, pruefeKontrast, speicher } from '../../speicher/i
 import { standardDaten } from '../../speicher/standard.js'
 import { alsEtag } from '../../speicher/inhalts-hash.js'
 import { leseKatalog, leseTheme, loescheTheme, schreibeKatalog, schreibeTheme } from '../../speicher/lokal.js'
+import { strichVorgaben } from '../../utils/icon-strich.js'
 
 // ---------------------------------------------------------------------------
 // Theme Management — Create, Load, Save, Delete
@@ -253,14 +254,9 @@ export async function loadNeoDefaults() {
     ]
   }
   state.iconStrokeWidths = {
-    neo: {
-      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-    },
-    customer: {
-      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-    }
+    // V07: „Standard“ (leer) — das Design System bestimmt; siehe utils/icon-strich.js
+    neo: strichVorgaben(),
+    customer: strichVorgaben()
   }
   state.iconStrokeColors = {
     neo: {

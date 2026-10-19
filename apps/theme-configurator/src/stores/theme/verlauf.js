@@ -5,6 +5,7 @@
 import { primitiveColors, semanticDefaults } from '../../data/tokens.js'
 import { deepClone, getDefaultFoundation, state } from './kern.js'
 import { THEME_DATA_KEYS } from './theme-schluessel.js'
+import { strichVorgaben } from '../../utils/icon-strich.js'
 
 export function resetToDefaults() {
   const themeSet = state.activeThemeSet
@@ -36,10 +37,7 @@ export function resetToDefaults() {
     { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
     { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' }
   ]
-  state.iconStrokeWidths[themeSet] = {
-    tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-    heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-  }
+  state.iconStrokeWidths[themeSet] = strichVorgaben()   // V07: „Standard“
   state.iconStrokeColors[themeSet] = {
     tabler: { light: 'currentColor', dark: 'currentColor' },
     heroicons: { light: 'currentColor', dark: 'currentColor' }

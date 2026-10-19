@@ -4,6 +4,7 @@
 
 import { componentTokenGroups, foundationTokens, primitiveColors, semanticDefaults, semanticTokenGroups } from '../../data/tokens.js'
 import { reactive, toRaw } from 'vue'
+import { strichVorgaben } from '../../utils/icon-strich.js'
 
 // ---------------------------------------------------------------------------
 // Valid token ID sets (for pruning stale localStorage overrides)
@@ -253,14 +254,9 @@ export const state = reactive({
   // Icon stroke widths per size, per library, per theme set
   // Structure: { neo: { tabler: { xs: '1', ... }, heroicons: { ... } }, customer: { ... } }
   iconStrokeWidths: {
-    neo: {
-      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-    },
-    customer: {
-      tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-      heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
-    }
+    // V07: „Standard“ (leer) — das Design System bestimmt; siehe utils/icon-strich.js
+    neo: strichVorgaben(),
+    customer: strichVorgaben()
   },
 
   // Icon stroke colors per light/dark mode, per library, per theme set

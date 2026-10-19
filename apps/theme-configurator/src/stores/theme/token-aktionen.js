@@ -10,6 +10,7 @@ import { pruefeFarbe, pruefeFoundationWert, pruefeKomponentenWert, pruefeSchrift
 import { meldeGueltig, meldeUngueltig } from '../../utils/feld-meldung.js'
 import { foundationTokens, componentTokenGroups, typographyScale } from '../../data/tokens.js'
 import { skalenParameter } from '../../utils/fluid-scale.js'
+import { strichLeer } from '../../utils/icon-strich.js'
 
 const NICHT_ERLAUBT = 'Nicht erlaubt: { } ; < > \\ und Kommentare.'
 
@@ -347,7 +348,7 @@ export function addIconLibrary(library) {
   // Initialisiere per-Library Stroke Defaults
   const ts = state.activeThemeSet
   if (!state.iconStrokeWidths[ts][library.id]) {
-    state.iconStrokeWidths[ts][library.id] = { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    state.iconStrokeWidths[ts][library.id] = strichLeer()
   }
   if (!state.iconStrokeColors[ts][library.id]) {
     state.iconStrokeColors[ts][library.id] = { light: 'currentColor', dark: 'currentColor' }
@@ -369,7 +370,7 @@ export function removeIconLibrary(id) {
 export function updateIconStrokeWidth(libraryId, size, value) {
   const ts = state.activeThemeSet
   if (!state.iconStrokeWidths[ts][libraryId]) {
-    state.iconStrokeWidths[ts][libraryId] = { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' }
+    state.iconStrokeWidths[ts][libraryId] = strichLeer()
   }
   state.iconStrokeWidths[ts][libraryId][size] = value
 }

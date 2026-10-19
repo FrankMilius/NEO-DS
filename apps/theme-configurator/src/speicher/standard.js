@@ -15,15 +15,14 @@
 // ==========================================================================
 
 import { THEME_DATA_KEYS } from '../stores/theme/theme-schluessel.js'
+import { strichVorgaben } from '../utils/icon-strich.js'
 
 const ICON_BIBLIOTHEKEN = [
   { id: 'tabler', name: 'Tabler Icons', builtIn: true, iconCount: 5254, manifestPath: '/data/icons-manifest.json' },
   { id: 'heroicons', name: 'Heroicons', builtIn: true, iconCount: 324, manifestPath: '/data/icons-manifest-heroicons.json' },
 ]
-const ICON_STRICHSTAERKEN = {
-  tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-  heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' },
-}
+// V07: „Standard“ (leer) statt wirkungsloser fester Vorgaben
+const ICON_STRICHSTAERKEN = strichVorgaben()
 const ICON_STRICHFARBEN = {
   tabler: { light: 'currentColor', dark: 'currentColor' },
   heroicons: { light: 'currentColor', dark: 'currentColor' },

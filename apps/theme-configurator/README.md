@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.18` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.19` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -786,6 +786,22 @@ App 1.2.18 (Roadmap V06 Accordion ohne Bedienelemente im Auslöser, 19.10.2026):
 - Arena: die Varianten „Auswahl“ und „Aktionen“ nutzen das neue Muster;
   Checkboxen und Knöpfe haben eindeutige Namen. axe meldet in der
   Accordion-Arena keine verschachtelten Bedienelemente mehr (vorher 11).
+
+App 1.2.19 (Roadmap V07 Icon-Strichstärken auf der Website, 19.10.2026):
+
+- Design System: 49 feste Strichstärken lesen jetzt
+  `var(--fnd-icon-stroke-<stufe>, <bisheriger Wert>)`, Stufe nach
+  gerenderter Icon-Größe (xs ≤ 16 px … 2xl ab 36 px). Die Variablen sind im
+  DS nicht definiert — ohne Theme bleibt die Website unverändert.
+- Konfigurator: Strichstärke je Größe der Bibliothek Tabler (mit ihr zeichnet
+  die Website) geht als `--fnd-icon-stroke-*` ins CSS, auch in die
+  Arena-Vorschau. Vorgabe ist „Standard (Design System)“ (leer); die
+  früheren festen Vorgaben (xs 1, sm/md 1,5 …) bewirkten nichts und werden
+  beim Laden auf „Standard“ gesetzt, wenn sie unverändert sind
+  (`utils/icon-strich.js`). Strichfarbe, Standardgröße und andere
+  Bibliotheken bleiben „Nur Vorschau“.
+- Speicher-Vertrag: Werkseinstellung der Striche „Standard“ auch in den
+  Prüfvektoren und im PHP-Modul (`Vertrag.php`).
 
 Ursprünglicher Vorschlag (ADR-004):
 

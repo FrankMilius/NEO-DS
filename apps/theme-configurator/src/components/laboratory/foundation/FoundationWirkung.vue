@@ -93,6 +93,7 @@
 import { computed } from 'vue'
 import { useThemeStore } from '../../../stores/theme.js'
 import { foundationTokens } from '../../../data/tokens.js'
+import { STRICH_VORSCHAU, WEBSITE_BIBLIOTHEK } from '../../../utils/icon-strich.js'
 
 const props = defineProps({
   /** radius | spacing | size | focus | media | opacity | icons */
@@ -162,9 +163,10 @@ const gruppen = computed(() => {
         { titel: 'Bewegung', art: 'bewegung', eintraege: [...eintraege('motion'), ...eigene(store.currentCustomMotionTokens)] },
       ]
     case 'icons': {
-      const lib = store.currentIconLibraries?.[0]
+      // V07: Website-Bibliothek; „Standard“ zeigt, was die Website ohne Theme ungefähr zeichnet
+      const lib = store.currentIconLibraries?.find((l) => l.id === WEBSITE_BIBLIOTHEK) || store.currentIconLibraries?.[0]
       const striche = store.currentIconStrokeWidths?.[lib?.id] || {}
-      return [{ titel: `Icons${lib ? ` (${lib.name})` : ''}`, art: 'icons', eintraege: ICON_GROESSEN.map(([key, px]) => ({ key, label: key.toUpperCase(), px, strich: striche[key] || '1.5' })) }]
+      return [{ titel: `Icons${lib ? ` (${lib.name})` : ''}`, art: 'icons', eintraege: ICON_GROESSEN.map(([key, px]) => ({ key, label: key.toUpperCase(), px, strich: striche[key] || STRICH_VORSCHAU[key] })) }]
     }
     default:
       return []

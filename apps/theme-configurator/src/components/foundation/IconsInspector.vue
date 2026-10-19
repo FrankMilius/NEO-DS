@@ -14,6 +14,11 @@
       <h4 id="ii-wirkt" class="ii-untertitel">Wirkt auf der Website</h4>
       <ul class="ii-liste">
         <li>
+          <span class="ii-name">Strichstärke je Größe (Tabler)</span>
+          <code>--fnd-icon-stroke-xs … 2xl</code>
+          <span class="ii-wert" data-test="icons-striche">{{ gesetzteStriche }}</span>
+        </li>
+        <li>
           <span class="ii-name">Mindestgröße Touch-Ziel</span>
           <code>--nc-icon-touch-target</code>
           <span class="ii-wert" data-test="icons-touch-ziel">{{ touchZiel }}</span>
@@ -24,11 +29,11 @@
     <section class="ii-gruppe" aria-labelledby="ii-vorschau">
       <h4 id="ii-vorschau" class="ii-untertitel">Nur Vorschau im Konfigurator</h4>
       <p class="ii-text">
-        Diese Werte werden gespeichert, aber nicht exportiert. Die Komponenten des Design Systems setzen
-        Strichstärke und Größe ihrer Icons selbst; es gibt dafür noch keine gemeinsame Variable.
+        Diese Werte werden gespeichert, aber nicht exportiert. Die Website zeichnet mit Tabler; Farbe und
+        Größe ihrer Icons setzen die Komponenten selbst.
       </p>
       <ul class="ii-liste" data-test="icons-nur-vorschau">
-        <li><span class="ii-name">Strichstärke je Größe</span></li>
+        <li><span class="ii-name">Strichstärke anderer Bibliotheken</span></li>
         <li><span class="ii-name">Strichfarbe hell und dunkel</span></li>
         <li><span class="ii-name">Standardgröße</span></li>
         <li><span class="ii-name">Eigene Icon-Bibliotheken</span></li>
@@ -40,9 +45,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
+import { STUFEN, WEBSITE_BIBLIOTHEK } from '../../utils/icon-strich.js'
 
 const store = useThemeStore()
 const touchZiel = computed(() => store.currentFoundation.elements?.['icon-touch-target'] ?? '44px')
+// V07: gesetzte Stufen der Website-Bibliothek, sonst „Standard“
+const gesetzteStriche = computed(() => {
+  const w = store.currentIconStrokeWidths?.[WEBSITE_BIBLIOTHEK] || {}
+  const gesetzt = STUFEN.filter((s) => String(w[s] ?? '').trim()).map((s) => `${s} ${w[s]}`)
+  return gesetzt.length ? gesetzt.join(' · ') : 'Standard'
+})
 </script>
 
 <style scoped>

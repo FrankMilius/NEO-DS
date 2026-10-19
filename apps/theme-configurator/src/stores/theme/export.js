@@ -3,6 +3,7 @@
 // (aufgeteilt aus stores/theme.js, Plan v2 3.3a — Verhalten unveraendert)
 
 import { foundationZeilen, fokusFarbZeilen, abstandZeilen } from '../../export/foundation-css.js'
+import { iconStrichZeilen, WEBSITE_BIBLIOTHEK } from '../../utils/icon-strich.js'
 import { schriftskalaZeilen } from '../../export/type-scale-css.js'
 import { state } from './kern.js'
 import { semanticDefaults } from '../../data/tokens.js'
@@ -99,6 +100,10 @@ export function exportAsCSSVars(opt = {}) {
 
   // === Eigene Spacing-Stufen und semantische Abstände (UX-57) ===
   lines.push(...abstandZeilen(state.customSpacingTokens?.[themeSet], state.semanticSpacing?.[themeSet]))
+
+  // === Strichstärke der Icons je Stufe (Roadmap V07) — nur gesetzte Stufen ===
+  const strichZeilen = iconStrichZeilen(state.iconStrokeWidths?.[themeSet]?.[WEBSITE_BIBLIOTHEK])
+  if (strichZeilen.length) lines.push('/* === Icons: Strichstärke je Größe === */', ':root {', ...strichZeilen, '}\n')
 
   // === Fokusring-Farbe je Modus (UX-16) ===
   lines.push(...fokusFarbZeilen(state.foundationOverrides[themeSet]?.focus, themeSet))

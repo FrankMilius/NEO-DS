@@ -23,6 +23,7 @@
  */
 
 import { foundationZeilen } from '../export/foundation-css.js'
+import { iconStrichZeilen, WEBSITE_BIBLIOTHEK } from '../utils/icon-strich.js'
 import { schriftskalaZeilen } from '../export/type-scale-css.js'
 
 const _deklarationen = new Map()
@@ -186,6 +187,8 @@ export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [], set
   const fnd = state.foundationOverrides?.[set]
   if (fnd) Object.assign(vars, zeilenZuObjekt(foundationZeilen(fnd).zeilen))
   Object.assign(vars, zeilenZuObjekt(schriftskalaZeilen(state.typeScale?.[set])))
+  // V07: Strichstärke der Icons wie auf der Website
+  Object.assign(vars, zeilenZuObjekt(iconStrichZeilen(state.iconStrokeWidths?.[set]?.[WEBSITE_BIBLIOTHEK])))
   for (const [token, wert] of Object.entries(state.componentOverrides?.[set] || {})) {
     if (wert !== '' && wert != null) vars[`--${token}`] = wert
   }

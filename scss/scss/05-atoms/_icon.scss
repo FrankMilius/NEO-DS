@@ -27,6 +27,15 @@
 // INTERACTIVE:
 //   .icon--interactive → min 44×44px Touch Target + hover + focus-ring
 //
+// STRICHSTAERKE ALS THEME-HAKEN (Roadmap V07, 19.10.2026):
+//   Die Komponenten setzen die Strichstaerke ihrer Icons als
+//   stroke-width: var(--fnd-icon-stroke-<stufe>, <bisheriger Wert>).
+//   Stufe nach gerenderter Icon-Groesse: xs ≤ 16px, sm ≤ 20px, md 24px,
+//   lg 28px, xl 32px, 2xl ab 36px. Das Design System DEFINIERT diese
+//   Variablen nicht — ohne Theme gilt der bisherige Wert jeder Stelle
+//   (Website unveraendert). Ein Theme aus dem Konfigurator setzt nur die
+//   Stufen, die dort geaendert wurden.
+//
 // ==========================================================================
 
 @use '../01-tools' as *;

@@ -23,16 +23,14 @@ import { erzeugeDtcg } from 'dtcg-export'
 import { berechneSkala, skalenParameter } from '../utils/fluid-scale.js'
 import { THEME_DATA_KEYS } from '../stores/theme/verlauf.js'
 import { foundationTokens, typographyScale } from '../data/tokens.js'
+import { strichVorgaben } from '../utils/icon-strich.js'
 
 const klon = (o) => JSON.parse(JSON.stringify(o))
 const gleich = (a, b) => String(a).trim().toLowerCase() === String(b).trim().toLowerCase()
 const rund3 = (x) => Math.round(x * 1000) / 1000
 
 // Werkseinstellungen der Icon-Striche (wie resetToDefaults in stores/theme/verlauf.js)
-const ICON_STRICH = {
-  tabler: { xs: '1', sm: '1.5', md: '1.5', lg: '2', xl: '2', '2xl': '2' },
-  heroicons: { xs: '1.5', sm: '1.5', md: '1.5', lg: '1.5', xl: '1.5', '2xl': '1.5' },
-}
+const ICON_STRICH = strichVorgaben()   // V07: „Standard“ (leer)
 const leer = (o) => !o || (Array.isArray(o) ? o.length === 0 : Object.keys(o).length === 0)
 
 /** Quelle (design-tokens.json) und styles.css erst bei Bedarf laden. */
