@@ -1,5 +1,5 @@
 <template>
-  <div ref="wurzel" class="recipe-arena" v-if="ansichten.length" :data-component-id="componentId" :data-modus="modus">
+  <div ref="wurzel" class="recipe-arena" :class="{ 'ra-hilfslinien': hilfslinien }" v-if="ansichten.length" :data-component-id="componentId" :data-modus="modus">
     <!-- Komposition (Plan v3): woraus das Bauteil besteht. Aendert man dort
          etwas, aendert es sich hier mit. -->
     <nav v-if="komposition.length" class="ra-komposition" aria-label="Besteht aus">
@@ -127,6 +127,7 @@ import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
+import { useHilfslinien } from '../../composables/useHilfslinien.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
 import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
@@ -141,6 +142,7 @@ const props = defineProps({
 })
 
 const store = useThemeStore()
+const hilfslinien = useHilfslinien()   // Schritt e: Kanten und Maße der Objekte
 const { recipe } = useRecipeLoader(computed(() => props.componentId))
 const { isHighlighted, highlightStyle } = useArenaHighlight(props.sektion || props.componentId)
 
@@ -787,7 +789,7 @@ onBeforeUnmount(() => {
   border-radius: 16px;
   background: var(--fnd-color-background-secondary);
 }
-.ra-live-component .ra-massstab > * { outline: 4px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
+.ra-hilfslinien .ra-live-component .ra-massstab > * { outline: 4px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
 .ra-live-component .ra-massstab .ra-platzhalter { min-height: 160px; font-size: 32px; border-width: 3px; }
 
 /* ra-desktop: Desktop-Seite (1280 px) im Massstab 1:2,4 fuer Bauteile, die
@@ -801,11 +803,32 @@ onBeforeUnmount(() => {
 
 /* ra-seite: Kante der Section gestrichelt — die Standard-Flaeche ist gleich
    dem Seitengrund, ohne Kante waere die Polsterung unsichtbar. */
-.ra-live-component .ra-seite > * { outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
+.ra-hilfslinien .ra-live-component .ra-seite > * { outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 35%, transparent); }
 /* ra-seite--kante: Section mit Divider — der Umriss steht 6 px ab, damit die
    Trennlinie (Rahmenkante der Section) sichtbar bleibt. */
 .ra-live-component .ra-seite--kante { padding-block: 8px; }
 .ra-live-component .ra-seite--kante > * { outline-offset: 6px; }
+
+/* Website-Inhalt der Objekte (_layout.js: abschnitt, karte; 19.10.2026) */
+.ra-live-component .ra-abschnitt { display: grid; gap: 16px; }
+.ra-live-component .ra-abschnitt > :is(h2, p) { margin: 0; }
+.ra-live-component .ra-karten { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.ra-live-component [data-hilfe] > .nc-card { height: 100%; }
+/* Hilfslinien: Kanten der Bereiche und ihre Maße — nur mit dem Schalter */
+.ra-hilfslinien .ra-live-component [data-hilfe] {
+  position: relative;
+  outline: 1px dashed color-mix(in srgb, var(--fnd-color-text-primary) 55%, transparent);
+  outline-offset: 2px;
+  background-image: linear-gradient(color-mix(in srgb, var(--fnd-color-text-primary) 4%, transparent), color-mix(in srgb, var(--fnd-color-text-primary) 4%, transparent));
+}
+.ra-hilfslinien .ra-live-component [data-hilfe]::before {
+  content: attr(data-hilfe);
+  position: absolute; z-index: 2; inset-block-start: 0; inset-inline-end: 0;
+  padding: 2px 6px; border-radius: 0 0 0 4px;
+  background: var(--fnd-color-text-primary); color: var(--fnd-color-background-base);
+  font: 500 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  pointer-events: none;
+}
 
 /* ra-grund-dunkel: dunkler Grund fuer Bloecke ohne eigene Flaeche mit
    festem hellem Text (cta: always-light) — in hell und dunkel gleich
@@ -1114,6 +1137,10 @@ onBeforeUnmount(() => {
 </style>
 
 <style>
+/* Im Geräterahmen gilt die echte Fensterbreite: ra-massstab (1600 px,
+   1:2,7) und ra-desktop (1280 px, 1:2,4) waren der Behelf für die Ansicht
+   „Voll“ — im Rahmen verkleinerten sie ein zweites Mal (19.10.2026). */
+.br-geraet .recipe-arena .ra-live-component :is(.ra-massstab, .ra-desktop) { width: auto; zoom: 1; padding-block: 0; background: none; border-radius: 0; }
 /* Ungekapselt: der Behälter .br-geraet liegt im Frame von BreitenRahmen,
    außerhalb dieser Komponente. .recipe-arena hebt die Spezifität über die
    gekapselten Regeln (Attribut-Selektor). */

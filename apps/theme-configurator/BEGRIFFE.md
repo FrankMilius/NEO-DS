@@ -44,6 +44,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Bühne | Arena, Theme Arena, Laboratory, Labor | mittlere Vorschaufläche |
 | Einstellungen | Inspector | rechte Spalte (Entscheidung E2) |
 | Vorschau | Specimen | eine Vorschau auf der Bühne |
+| Hilfslinien | Outline, Debug-Rahmen | Schalter auf der Bühne bei Objekten: Kanten und Maße über dem echten Inhalt |
 | Entwurf | „Recipe im Status draft“ | Kennzeichen; „Recipe“ nur mit technischen Namen |
 | Gesperrt / Bearbeitbar, Version | Locked, Unlocked | Sperre einer Komponente |
 | Variante: NEO · Kunde | Theme-Set, Neo / Customer | nur im lokalen Betrieb (Entscheidung E3); wählt die Variante **innerhalb** eines Themes. Weitere Kunden = weitere Themes. In Drupal unsichtbar. |

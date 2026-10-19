@@ -16,7 +16,8 @@
 // layout-section-modifier) und erscheinen als echte Rahmenkante; die
 // Kantenformen (edge-*) sind aus dem Recipe gestrichen. Was das Recipe
 // kuenftig ohne CSS beschreibt, zeigt „nicht gebaut" (siehe _layout.js).
-import { fehlendeKlassen, nichtGebaut, platzhalter } from './_layout.js'
+import { abschnitt, fehlendeKlassen, nichtGebaut } from './_layout.js'
+import { esc } from '../lib/recipe-arena.js'
 
 export default (zelle, m) => {
   // Website-Form (Recipe-Block website, Entscheidung 06.10.2026): Klassen aus
@@ -24,9 +25,9 @@ export default (zelle, m) => {
   const website = m.specimen.render?.website
   if (website) {
     return `<div class="ra-seite">
-<section class="${website}" data-recipe-wurzel="${m.root}">
+<section class="${website}" data-recipe-wurzel="${m.root}" data-hilfe="${esc(website.split(' ').map((k) => '.' + k).join(' '))}">
 <div class="nc-container">
-${platzhalter(website.split(' ').map((k) => '.' + k).join(' '))}
+${abschnitt({ karten: 2 })}
 </div>
 </section>
 </div>`
@@ -37,9 +38,9 @@ ${platzhalter(website.split(' ').map((k) => '.' + k).join(' '))}
   // Divider: Umriss der Arena mit Abstand, sonst laege er auf der Linie
   const divider = m.wert('divider') && m.wert('divider') !== 'none'
   return `<div class="ra-seite${divider ? ' ra-seite--kante' : ''}">
-<section class="${m.klasse}"${m.attrs}>
+<section class="${m.klasse}"${m.attrs} data-hilfe="${esc(teile.length ? teile.join(' · ') : 'Standard')}">
 <div class="nc-container">
-${platzhalter(teile.length ? teile.join(' · ') : 'Inhalt')}
+${abschnitt({ karten: 2 })}
 </div>
 </section>
 </div>`

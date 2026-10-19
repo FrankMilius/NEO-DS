@@ -66,6 +66,11 @@
         </div>
         <!-- Roadmap V01: Fensterbreite der Vorschau und Vollbild -->
         <div class="lab-werkzeuge">
+          <!-- Schritt e (19.10.2026): Kanten und Maße der Objekte über echtem Inhalt -->
+          <label v-if="istObjekt" class="lab-hilfslinien" data-test="hilfslinien">
+            <input v-model="hilfslinien" type="checkbox">
+            Hilfslinien
+          </label>
           <div v-if="isComponentSection" class="theme-segmented" role="radiogroup" aria-label="Breite der Vorschau" data-test="breiten-wahl">
             <button
               v-for="b in BREITEN"
@@ -121,6 +126,7 @@ import { useThemeStore } from '../../stores/theme.js'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
 import { ebeneDerSektion } from '../../data/navigation-builder.js'
 import { useVorschauKombinationen } from '../../composables/useVorschauKombinationen.js'
+import { useHilfslinien } from '../../composables/useHilfslinien.js'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import BreitenRahmen from './BreitenRahmen.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
@@ -207,6 +213,9 @@ const BREITEN = Object.freeze([
 const { variantenSichtbar } = useVorschauKombinationen()
 // Ohne Varianten gibt es „Alle vier“ nicht (auch nicht per Adresse ?modus=matrix)
 watch(() => store.state.previewMode, (m) => { if (m === 'matrix' && !variantenSichtbar) store.setPreviewMode('split') }, { immediate: true })
+
+const hilfslinien = useHilfslinien()
+const istObjekt = computed(() => ebeneDerSektion(store.state.activeSection) === 'objects')
 
 const DESKTOP_EBENEN = new Set(['objects', 'organisms', 'patterns', 'templates'])
 // Moleküle, deren Arena selbst einen Desktop-Rahmen (ra-desktop) braucht
@@ -421,4 +430,6 @@ const viewportStyle = computed(() => ({
   flex: 1;
 }
 
+.lab-hilfslinien { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--cfg-text); cursor: pointer; white-space: nowrap; }
+.lab-hilfslinien input { accent-color: var(--cfg-accent); }
 </style>

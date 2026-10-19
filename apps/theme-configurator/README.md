@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.28` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.29` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -988,6 +988,24 @@ App 1.2.28 (Export passend zur Vererbung im Design System, 19.10.2026):
   veröffentlichen.
 - `e2e/vererbung.spec.js`: alle 3 385 Tokens — Bereich mit eigener
   Theme-Klasse = ganze Seite dieses Themes.
+
+App 1.2.29 (Schritt e: Objekte mit echtem Website-Inhalt, 19.10.2026):
+
+- Container, Container Intent, Grid und Section zeigten graue Platzhalter mit
+  Maßangaben. Jetzt echter Inhalt (`abschnitt()`, `karte()` in
+  `arena-templates/_layout.js`): Überschrift, Text, Knopf und
+  Navigationskarten wie auf der Website; Breite, Spalten und Polsterung
+  sieht man am Inhalt. Content, Prose, Media Frame, Aspect Ratio und Video
+  zeigten schon echten Inhalt.
+- Schalter „Hilfslinien“ im Bühnenkopf bei Objekten (`useHilfslinien`, je
+  Browser gemerkt): gestrichelte Kanten und die Maßangabe (`data-hilfe`,
+  z. B. „Standard-Container: max-width 1536px …“, Spaltenspanne) über dem
+  Inhalt. Ohne Schalter keine Umrisse mehr.
+- Im Geräterahmen keine zweite Verkleinerung: `ra-massstab` (1600 px) und
+  `ra-desktop` (1280 px) zoomen nur noch in der Ansicht „Voll“ — Container,
+  Text Only, Tab Nav und Card Grid CTA stehen im Rahmen in voller Breite.
+- Tests: Karten und Knöpfe als begründeter Beispielinhalt (kein Teil des
+  Recipes), Aufbau-Tests auf den neuen Inhalt, Browser-Test „Schritt e“.
 
 Ursprünglicher Vorschlag (ADR-004):
 

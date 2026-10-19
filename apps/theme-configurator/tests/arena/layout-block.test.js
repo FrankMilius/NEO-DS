@@ -75,9 +75,12 @@ function enthaelt (id, gesehen = new Set()) {
 }
 
 // Andere Bauteile, die weder komposition noch composes nennt — begruendet.
+const BEISPIEL = 'Beispielinhalt wie auf der Website (Grundsatz „Bühne = Ausschnitt der echten Website“, 19.10.2026)'
 const ERLAUBT = {
   shell: { switch: 'Linkbar wie auf der Website: Schalter „Dunkel" (Freigabe G1, 02.10.2026)' },
-  section: { container: 'Anatomie: .section > .nc-container (Slot container)' }
+  section: { container: 'Anatomie: .section > .nc-container (Slot container)', card: BEISPIEL, button: BEISPIEL },
+  container: { card: BEISPIEL, button: BEISPIEL },
+  grid: { card: BEISPIEL },
 }
 
 /** Alle Modifier der Achsen eines Recipes. */
@@ -228,7 +231,9 @@ describe('Layout-Block: Zustände und Aufbau', () => {
       'nc-container', 'nc-container nc-container--wide', 'nc-container nc-container--narrow', 'nc-container nc-container--full'
     ])
     const r = rohesRecipe('container')
-    expect(breiten[1].querySelector('.ra-platzhalter').textContent).toBe(r.axes.width.values.wide.description)
+    // 19.10.2026: echter Inhalt; die Recipe-Beschreibung trägt der Container als data-hilfe (Hilfslinien)
+    expect(breiten[1].querySelector('[data-hilfe]').getAttribute('data-hilfe')).toBe(r.axes.width.values.wide.description)
+    expect(breiten[1].querySelector('.ra-abschnitt h2')).not.toBeNull()
     // gebaute Standardwerte der anderen Achsen: Container ohne Modifier
     for (const sp of ['vertical-spacing-scale', 'alignment-options', 'surface-variants']) {
       expect(alle('container', sp)[0].querySelector('.ra-massstab > .nc-container').className).toBe('nc-container')
@@ -259,7 +264,8 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(autofit.querySelector('.o-grid.o-grid--auto-fit')).not.toBeNull()
     expect(autofit.querySelector('.o-grid > [class^="o-col-"]')).toBeNull()
     expect(alle('grid', 'alignment').map((d) => d.querySelector('.o-grid').className)).toEqual(['o-grid', 'o-grid o-grid--center', 'o-grid o-grid--end'])
-    expect(alle('grid', 'alignment')[0].querySelector('.ra-platzhalter--hoch')).not.toBeNull()
+    // verschieden hohe Kinder: die erste Karte hat den langen Text
+    expect(alle('grid', 'alignment')[0].querySelector('.o-col-4 .nc-card__description').textContent).toMatch(/Lesebestätigung/)
   })
 
   it('grid: Mobil-Lage im Rahmen ra-mobil — Standard und gebaute Modifier mobile-1/2/6, auch in der Matrix je Gap', () => {
@@ -282,7 +288,7 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     for (const d of [zeile, dicht]) expect([...d.querySelectorAll('.o-grid > [class^="o-col-"]')].map((e) => e.className)).toEqual(['o-col-8', 'o-col-6', 'o-col-4', 'o-col-2'])
     expect(spalte.querySelector('.ra-zeilen > .o-grid--flow-col')).not.toBeNull()
     expect(spalte.querySelectorAll('.o-grid > .o-col-3')).toHaveLength(6)
-    expect(zeile.querySelector('.ra-platzhalter').textContent).toBe('1 · 8')
+    expect(zeile.querySelector('[data-hilfe]').getAttribute('data-hilfe')).toBe('1 · 8')
     const r = rohesRecipe('grid')
     expect(r.meta.version).toBe('3.1.0')
     expect(r.axes.subgrid).toBeUndefined()
@@ -295,7 +301,7 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     const dichte = alle('section', 'density-scale')
     expect(dichte.map((d) => d.querySelector('.ra-seite > section.section').className)).toEqual(['section', 'section section--compact', 'section section--spacious'])
     for (const d of dichte) {
-      expect(d.querySelector('section.section > .nc-container > .ra-platzhalter')).not.toBeNull()
+      expect(d.querySelector('section.section > .nc-container > .ra-abschnitt')).not.toBeNull()
       expect(d.querySelector('section').hasAttribute('aria-label')).toBe(false)
     }
     expect(alle('section', 'surface-variants').map((d) => d.querySelector('section').className))
@@ -337,14 +343,14 @@ describe('Layout-Block: Zustände und Aufbau', () => {
       expect(r.anatomy.domNotes.some((n) => n.startsWith('Website-Form')), id).toBe(true)
     }
     const [sektion] = alle('section', 'website-nc-section')
-    expect(sektion.querySelector('.ra-seite > section.nc-section > .nc-container > .ra-platzhalter')).not.toBeNull()
+    expect(sektion.querySelector('.ra-seite > section.nc-section > .nc-container > .ra-abschnitt')).not.toBeNull()
     expect(sektion.querySelector('.section')).toBeNull()
     const [voll] = alle('section', 'website-nc-section-full')
     expect(voll.querySelector('section').className).toBe('nc-section nc-section--full')
     const [gedaempft] = alle('section', 'website-nc-section-muted')
     expect(gedaempft.querySelector('section').className).toBe('nc-section nc-section--muted')
     const [split] = alle('grid', 'website-split')
-    expect(split.querySelectorAll(':scope > .nc-grid--split > div > .ra-platzhalter')).toHaveLength(2)
+    expect(split.querySelectorAll(':scope > .nc-grid--split > div[data-hilfe] > .nc-card')).toHaveLength(2)
     expect(split.querySelector('.o-grid, [class^="o-col-"]')).toBeNull()
     const [seite] = alle('grid', 'website-with-sidebar')
     expect(seite.querySelector(':scope > .nc-grid--with-sidebar').children).toHaveLength(2)

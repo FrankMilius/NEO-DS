@@ -127,6 +127,9 @@ function navEintraege (knoten = navigationTree, ziel = []) {
   return ziel
 }
 
+// Bausteine, die als Beispielinhalt in der Arena stehen (kein Bestandteil des Recipes)
+const BEISPIELINHALT = { 'container-intent': ['card', 'button'] }
+
 describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
   const bekannt = dsKlassen()
 
@@ -224,6 +227,8 @@ describe('Phase 5: Recipes fuer Bausteine ohne Recipe (Plan v3)', () => {
         const erklaert = enthaelt(id)
         for (const z of beideModi(id)) {
           for (const c of z.specimen.composes || []) erklaert.add(c)
+          // Beispielinhalt wie auf der Website (Grundsatz „Bühne = Ausschnitt der echten Website“, 19.10.2026)
+          for (const c of BEISPIELINHALT[id] || []) erklaert.add(c)
           const klassen = new Set([...dom(z.html).querySelectorAll('[class]')].flatMap((el) => [...el.classList]))
           for (const [anderes, k] of Object.entries(WURZELN)) {
             if (anderes === id || !klassen.has(k)) continue

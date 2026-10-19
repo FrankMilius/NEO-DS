@@ -334,3 +334,24 @@ test('Bühne = Website: Werte aller Ebenen kommen gleich an (Grundfarbe, Farbrol
   await expect(knopf).toHaveCSS('font-family', /Georgia/)                 // Schrift (Grundlage)
   await expect(knopf).toHaveCSS('border-top-left-radius', '9px')          // Radius SM → Knopf-Radius
 })
+
+test('Schritt e: Objekte zeigen Website-Inhalt; „Hilfslinien“ blendet Kanten und Maße ein', async ({ page }) => {
+  await oeffneSektion(page, 'component-container')
+  const rahmen = page.frameLocator('iframe.br-rahmen')
+  await expect(rahmen.locator('.nc-container .ra-abschnitt h2').first()).toBeVisible()
+  await expect(rahmen.locator('.nc-container .nc-card').first()).toBeVisible()
+  await expect(rahmen.locator('.ra-platzhalter')).toHaveCount(0)
+  // Hilfslinien: aus = keine Kante; an = Kante und Maßangabe am Container
+  const schalter = page.locator('[data-test="hilfslinien"] input')
+  await expect(schalter).not.toBeChecked()
+  await expect(rahmen.locator('.recipe-arena.ra-hilfslinien')).toHaveCount(0)
+  await schalter.check()
+  const container = rahmen.locator('.recipe-arena.ra-hilfslinien [data-hilfe]').first()
+  await expect(container).toHaveCSS('outline-style', 'dashed')
+  // nur bei Objekten
+  await oeffneSektion(page, 'component-button')
+  await expect(page.locator('[data-test="hilfslinien"]')).toHaveCount(0)
+  await oeffneSektion(page, 'component-grid')
+  await expect(page.frameLocator('iframe.br-rahmen').locator('.o-grid .nc-card').first()).toBeVisible()
+  await page.locator('[data-test="hilfslinien"] input').uncheck()
+})

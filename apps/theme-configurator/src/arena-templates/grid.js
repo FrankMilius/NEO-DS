@@ -21,20 +21,25 @@
 // website.
 // Was das Recipe kuenftig ohne CSS beschreibt, zeigt „nicht gebaut" (siehe
 // _layout.js).
-import { fehlendeKlassen, nichtGebaut, platzhalter } from './_layout.js'
+import { fehlendeKlassen, karte, nichtGebaut } from './_layout.js'
+import { esc } from '../lib/recipe-arena.js'
 
-const spalte = (n, zusatz = '', text = String(n)) => `<div class="o-col-${n}">${platzhalter(text, zusatz)}</div>`
+// Echte Karten in den Spalten (19.10.2026); die Spanne nur mit „Hilfslinien“.
+// zusatz 'lang' = höhere Karte (Ausrichtung sichtbar machen)
+let zaehler = 0
+const spalte = (n, zusatz = '', text = String(n)) => `<div class="o-col-${n}" data-hilfe="${esc(text)}">${karte(zaehler++, { lang: zusatz === 'lang' })}</div>`
 const nummeriert = (liste) => liste.map((n, i) => spalte(n, '', `${i + 1} · ${n}`)).join('\n')
 const spalten = (liste) => liste.map((n) => spalte(n)).join('\n')
 
 function inhalt (m) {
+  zaehler = 0
   // Auto-fit: Spalten aus dem Inhalt, keine Spannen
   if (m.wert('layout') === 'auto-fit') {
-    return ['1', '2', '3', '4', '5'].map((n) => `<div>${platzhalter('auto ' + n)}</div>`).join('\n')
+    return ['1', '2', '3', '4', '5'].map((n, i) => `<div data-hilfe="auto ${n}">${karte(i)}</div>`).join('\n')
   }
   // Ausrichtung: unterschiedlich hohe Kinder machen align-items sichtbar
   if (m.wert('alignment') !== undefined) {
-    return [spalte(4, 'ra-platzhalter--hoch'), spalte(4), spalte(4, 'ra-platzhalter--mittel')].join('\n')
+    return [spalte(4, 'lang'), spalte(4), spalte(4)].join('\n')
   }
   // Flow: Reihenfolge und Luecken sichtbar machen
   if (m.wert('flow') === 'column') return nummeriert([3, 3, 3, 3, 3, 3])
@@ -51,8 +56,8 @@ export default (zelle, m) => {
   if (website) {
     const [a, b] = website === 'nc-grid--with-sidebar' ? ['Inhalt · 2fr', 'Seitenspalte · 1fr'] : ['1fr', '1fr']
     return `<div class="${website}" data-recipe-wurzel="${m.root}">
-<div>${platzhalter(a)}</div>
-<div>${platzhalter(b)}</div>
+<div data-hilfe="${esc(a)}">${karte(0, { lang: true })}</div>
+<div data-hilfe="${esc(b)}">${karte(1)}</div>
 </div>`
   }
   const fehlend = fehlendeKlassen(m)

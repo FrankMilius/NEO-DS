@@ -7,15 +7,18 @@
 // Desktop-Seite von 1600 px im Massstab 1:2,5. Darin gelten die echten
 // Werte: 1200 / 1440 / 768 px / volle Breite.
 //
-// Der Platzhalter (ra-platzhalter) ist Arena-Inhalt; die gestrichelte Kante
-// um den Container zeichnet die Arena (Umriss, kein Layout-Einfluss).
+// Inhalt: echter Website-Abschnitt (abschnitt(), 19.10.2026). Die Kante des
+// Containers und die Maßangabe (data-hilfe) zeigt der Schalter
+// „Hilfslinien“. Im Geräterahmen „Desktop“ gilt die echte Fensterbreite;
+// ra-massstab zoomt nur noch in der Ansicht „Voll“.
 //
 // vspace, align und surface sind seit dem 06.10.2026 gebaut (Entscheidung
 // layout-container-modifier) und erscheinen als echte Modifier: vspace als
 // Polsterung oben/unten, align erst im Massstab sichtbar (max-width ab lg),
 // surface mit Flaeche, Radius und Schatten. Was das Recipe kuenftig ohne
 // CSS beschreibt, zeigt „nicht gebaut" (siehe _layout.js).
-import { fehlendeKlassen, nichtGebaut, platzhalter, wertBeschreibung } from './_layout.js'
+import { abschnitt, fehlendeKlassen, nichtGebaut, wertBeschreibung } from './_layout.js'
+import { esc } from '../lib/recipe-arena.js'
 
 const ACHSEN = ['width', 'vertical-spacing', 'alignment', 'surface']
 
@@ -26,9 +29,10 @@ export default (zelle, m) => {
   // Beschreibung aus dem Recipe
   const achse = ACHSEN.find((a) => m.wert(a) !== undefined) || 'width'
   const text = wertBeschreibung(m, achse) || m.text
+  // Echter Inhalt (19.10.2026); die Maßangabe nur mit „Hilfslinien“
   return `<div class="ra-massstab">
-<div class="${m.klasse}"${m.attrs}>
-${platzhalter(text)}
+<div class="${m.klasse}"${m.attrs} data-hilfe="${esc(text)}">
+${abschnitt()}
 </div>
 </div>`
 }
