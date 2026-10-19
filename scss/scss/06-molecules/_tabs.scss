@@ -303,6 +303,15 @@
   }
 }
 
+// Overflow „wrap“ (Vorgabe laut Recipe, Befund UX-58, 19.10.2026): Die
+// Contained-Variante hatte keine Überlaufregel — auf 390 px liefen die
+// Reiter über die Seite hinaus. Sie brechen jetzt um. Die Line-Variante
+// scrollt ihre Leiste wie bisher (Unterstrich bleibt eine Linie);
+// --scrollable bleibt beim Scrollen mit Knöpfen.
+.nc-tabs--contained:not(.nc-tabs--scrollable):not(.nc-tabs--vertical) > .nc-tabs__list {
+  flex-wrap: wrap;
+}
+
 // =========================================================================
 // Orientation: --vertical
 // =========================================================================

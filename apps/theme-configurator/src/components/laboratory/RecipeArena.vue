@@ -122,7 +122,7 @@
 // Zelle gerendert — mit Vorlage aus src/arena-templates/<id>.js, sonst per
 // Slot-Heuristik. Siehe src/lib/recipe-arena.js.
 // ==========================================================================
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount, inject } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onUpdated, onBeforeUnmount, inject } from 'vue'
 import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import { useThemeStore } from '../../stores/theme.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
@@ -319,6 +319,35 @@ function binde () {
 }
 watch([modus, sichtbareAnsichten, () => store.state.previewMode], () => nextTick(binde), { flush: 'post' })
 onMounted(() => nextTick(binde))
+
+// --- Geräteansicht: ausgeblendete Bauteile erklären (UX-59, 19.10.2026) ----
+// Manche Bauteile blendet das Design System bei kleiner Fensterbreite aus
+// (Navigationsmenü unter 1200 px — die Website zeigt dann die mobile
+// Navigation). Statt einer leeren Zelle steht dort ein Hinweis.
+let breitenBeobachter = null
+function markiereAusgeblendete () {
+  const w = wurzel.value
+  if (!w) return
+  const geraet = !!w.closest('.br-geraet')
+  for (const lc of w.querySelectorAll('.ra-live-component')) {
+    // erst aufheben, dann messen — sonst verdeckt die eigene Regel den Inhalt
+    delete lc.dataset.ausgeblendet
+    const kern = lc.querySelector('[class^="nc-"], [class*=" nc-"]')
+    const aus = geraet && (!kern || kern.getClientRects().length === 0)
+    if (aus) lc.dataset.ausgeblendet = ''
+  }
+}
+// Die Wurzel entsteht erst mit dem geladenen Recipe (v-if) — darum am
+// Element selbst beobachten, nicht beim Einhängen der Komponente
+watch(wurzel, (el) => {
+  breitenBeobachter?.disconnect(); breitenBeobachter = null
+  if (!el) return
+  const RO = el.ownerDocument?.defaultView?.ResizeObserver
+  if (RO) { breitenBeobachter = new RO(() => markiereAusgeblendete()); breitenBeobachter.observe(el) }
+  nextTick(markiereAusgeblendete)
+})
+onUpdated(() => nextTick(markiereAusgeblendete))
+onBeforeUnmount(() => breitenBeobachter?.disconnect())
 onBeforeUnmount(() => { aufraeumen?.(); raeumeEinrichtungAuf() })
 
 // --- Abspielen (Plan v3, Phase 4, Gruppe bewegung) -------------------------
@@ -1083,4 +1112,18 @@ onBeforeUnmount(() => {
 /* Seitenbreite Blöcke stehen sonst in einer festen 1280-px-Seite (ra-desktop,
    verkleinert) — im Gerät gilt die echte Fensterbreite. */
 .br-geraet .recipe-arena .ra-live-component .ra-desktop { width: auto; zoom: 1; flex-shrink: 1; }
+/* UX-59: Kopfzeile und offenes Navigationsmenü stehen sonst in festen
+   1080-px-Rahmen — im Gerät zeigen sie, was die Website bei dieser Breite
+   zeigt (unter 1200 px die mobile Lage mit Menü-Knopf). */
+.br-geraet .recipe-arena .ra-live-component :is(.ra-kopf, .ra-anker--desktop) { min-width: 0; }
+.br-geraet .recipe-arena .ra-live-component[data-ausgeblendet] > * { display: none; }
+.br-geraet .recipe-arena .ra-live-component[data-ausgeblendet]::before {
+  content: 'Bei dieser Fensterbreite blendet das Design System dieses Bauteil aus.';
+  display: block;
+  padding: 12px;
+  font-size: 12px;
+  color: var(--cfg-text-secondary, #475569);
+  border: 1px dashed var(--cfg-border, #cbd5e1);
+  border-radius: 6px;
+}
 </style>

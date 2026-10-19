@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.20` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.21` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -821,6 +821,19 @@ App 1.2.20 (Usability-Audit, Block 5e Sprache und Begriffe, 19.10.2026):
 - Wächter-Test `tests/sprache/`: keine Ersatzschreibung, keine Du-Form,
   keine ersetzten Begriffe in sichtbaren Texten und Meldungen; Namen aus
   einer Quelle.
+
+App 1.2.21 (UX-58 und UX-59: Überlauf auf 390 px, 19.10.2026):
+
+- UX-58 Tabs: Die Contained-Variante hatte keine Überlaufregel und lief auf
+  390 px über; ihre Reiter brechen jetzt um (DS `_tabs.scss`, Vorgabe
+  „Wrap“ laut Recipe). Die Line-Variante scrollt ihre Leiste wie bisher.
+  Recipe tabs 1.0.1: die Vorschauen „Vertical“ und „Size Scale“ nennen die
+  Vorgabe-Variante „line“ (vorher ohne Variantenklasse und ohne
+  Überlaufregel). Die Website nutzt `nc-tabs` nicht.
+- UX-59 Navigationsmenü: In der Geräteansicht entfallen die festen
+  1080-px-Rahmen der Arena (`ra-kopf`, `ra-anker--desktop`). Das Design
+  System blendet das Menü unter 1200 px aus; statt einer leeren Zelle steht
+  dann ein Hinweis (allgemein für jedes ausgeblendete Bauteil).
 
 Ursprünglicher Vorschlag (ADR-004):
 

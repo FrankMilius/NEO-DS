@@ -1,5 +1,5 @@
 # tabs Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.0.1 | Status: stable | Layer: molecule
 
 Tags: `navigation`, `interactive`, `disclosure`
 

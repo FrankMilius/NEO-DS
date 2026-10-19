@@ -199,3 +199,19 @@ test('V05: Seitenvorlagen zeigen alle Skizzen; Utilities stehen nicht in der Nav
   await expect(page.locator('.inspector-panel')).toContainText('Seitenvorlagen')
   await expect(page.locator('.sidebar-nav').getByText('Utilities', { exact: true })).toHaveCount(0)
 })
+
+// UX-58 / UX-59 (19.10.2026): kein Überlauf auf 390 px; ausgeblendete Bauteile erklärt
+test('UX-58/59: Tabs und Navigationsmenü laufen auf 390 px nicht über; ausgeblendetes Menü mit Hinweis', async ({ page }) => {
+  await oeffneSektion(page, 'component-tabs')
+  await page.getByRole('radio', { name: 'Handy' }).click()
+  const rahmen = page.locator('iframe.br-rahmen')
+  await expect(page.frameLocator('iframe.br-rahmen').locator('.nc-tabs').first()).toBeVisible()
+  expect(await rahmen.evaluate((f) => f.contentDocument.documentElement.scrollWidth)).toBe(390)
+  await oeffneSektion(page, 'component-navigation-menu')
+  const frame = page.frameLocator('iframe.br-rahmen')
+  await expect(frame.locator('.ra-live-component[data-ausgeblendet]').first()).toBeAttached()
+  expect(await rahmen.evaluate((f) => f.contentDocument.documentElement.scrollWidth)).toBe(390)
+  await page.getByRole('radio', { name: 'Desktop' }).click()
+  await expect(page.frameLocator('iframe.br-rahmen').locator('.ra-live-component').first()).toBeAttached()
+  await expect(page.frameLocator('iframe.br-rahmen').locator('.ra-live-component[data-ausgeblendet]')).toHaveCount(0)
+})
