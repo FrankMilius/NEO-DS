@@ -159,42 +159,18 @@
 
             <!-- Add Main Palette (Default NEO) -->
             <div v-if="mainPaletteCount < 5 && !drupalBetrieb" class="primitive-card add-palette-card">
-              <template v-if="!showAddMainForm">
-                <button class="add-palette-btn" @click="showAddMainForm = true">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
-                  <span>Add Main Palette</span>
-                </button>
-              </template>
-              <template v-else>
-                <div class="add-form">
-                  <label class="add-form-label">Name der Palette</label>
-                  <input v-fokus aria-label="Palette Name"
-                    ref="addMainNameInput"
-                    type="text"
-                    class="hex-input"
-                    v-model="newMainPaletteName"
-                    placeholder="e.g. Highlight"
-                    @keyup.enter="addCustomMainPalette"
-                    @keyup.escape="cancelAddMainPalette"
-                  />
-                  <label class="add-form-label">Grundton (500)</label>
-                  <div class="primitive-editor">
-                    <input aria-label="Basisfarbe (500) wählen"
-                      type="color"
-                      v-model="newMainPaletteColor"
-                      class="color-picker-mini"
-                    />
-                    <input aria-label="Basisfarbe (500) als HEX-Wert"
-                      type="text"
-                      class="hex-input"
-                      v-model="newMainPaletteColor"
-                    />
-                  </div>
-                  <div class="shade-strip" v-if="newMainPalettePreview.length">
+              <HinzufuegenFormular
+                knopf-text="Markenpalette hinzufügen"
+                test-id="markenpalette-neu"
+                id-basis="markenpalette-neu"
+                :felder="markenpaletteFelder"
+                :pruefe="pruefePalette"
+                @hinzufuegen="addCustomMainPalette"
+              >
+                <template #vorschau="{ werte }">
+                  <div v-if="paletteVorschau(werte.grundton).length" class="shade-strip" aria-hidden="true">
                     <div
-                      v-for="shade in newMainPalettePreview"
+                      v-for="shade in paletteVorschau(werte.grundton)"
                       :key="shade.step"
                       class="shade-chip"
                       :style="{ background: shade.color }"
@@ -204,12 +180,9 @@
                       <span class="shade-label">{{ shade.step }}</span>
                     </div>
                   </div>
-                  <div class="add-form-actions">
-                    <button class="btn-add-confirm" @click="addCustomMainPalette" :disabled="!newMainPaletteName.trim()">Hinzufügen</button>
-                    <button class="btn-add-cancel" @click="cancelAddMainPalette">Abbrechen</button>
-                  </div>
-                </div>
-              </template>
+                </template>
+              </HinzufuegenFormular>
+
             </div>
           </template>
 
@@ -353,42 +326,18 @@
 
           <!-- Add Supporting Palette Card (nicht im Drupal-Betrieb: nur Browser-Speicher) -->
           <div v-if="!drupalBetrieb" class="primitive-card add-palette-card">
-            <template v-if="!showAddForm">
-              <button class="add-palette-btn" @click="showAddForm = true">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                <span>Add Supporting Palette</span>
-              </button>
-            </template>
-            <template v-else>
-              <div class="add-form">
-                <label class="add-form-label">Name</label>
-                <input v-fokus aria-label="Name der Palette"
-                  ref="addNameInput"
-                  type="text"
-                  class="hex-input"
-                  v-model="newPaletteName"
-                  placeholder="e.g. Coral"
-                  @keyup.enter="addSupportingPalette"
-                  @keyup.escape="cancelAddPalette"
-                />
-                <label class="add-form-label">Grundton (500)</label>
-                <div class="primitive-editor">
-                  <input aria-label="Basisfarbe (500) wählen"
-                    type="color"
-                    v-model="newPaletteColor"
-                    class="color-picker-mini"
-                  />
-                  <input aria-label="Basisfarbe (500) als HEX-Wert"
-                    type="text"
-                    class="hex-input"
-                    v-model="newPaletteColor"
-                  />
-                </div>
-                <div class="shade-strip" v-if="newPalettePreview.length">
+            <HinzufuegenFormular
+              knopf-text="Ergänzende Palette hinzufügen"
+              test-id="ergaenzende-palette-neu"
+              id-basis="ergaenzende-palette-neu"
+              :felder="ergaenzendePaletteFelder"
+              :pruefe="pruefePalette"
+              @hinzufuegen="addSupportingPalette"
+            >
+              <template #vorschau="{ werte }">
+                <div v-if="paletteVorschau(werte.grundton).length" class="shade-strip" aria-hidden="true">
                   <div
-                    v-for="shade in newPalettePreview"
+                    v-for="shade in paletteVorschau(werte.grundton)"
                     :key="shade.step"
                     class="shade-chip"
                     :style="{ background: shade.color }"
@@ -398,12 +347,9 @@
                     <span class="shade-label">{{ shade.step }}</span>
                   </div>
                 </div>
-                <div class="add-form-actions">
-                  <button class="btn-add-confirm" @click="addSupportingPalette" :disabled="!newPaletteName.trim()">Hinzufügen</button>
-                  <button class="btn-add-cancel" @click="cancelAddPalette">Abbrechen</button>
-                </div>
-              </div>
-            </template>
+              </template>
+            </HinzufuegenFormular>
+
           </div>
         </div>
       </section>
@@ -768,12 +714,13 @@
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { semanticTokenGroups, semanticDefaults, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, paperLadders, papers, systemPalettes, componentTokenGroups } from '../../data/tokens.js'
 import ColorEditor from '../editors/ColorEditor.vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { normalisiereHex, HEX_MELDUNG } from '../../utils/token-pruefung.js'
 import { paletteSkala, MITZIEHENDE_PALETTEN } from '../../utils/farbskala.js'
 import { speicher } from '../../speicher/index.js'
 
@@ -862,10 +809,6 @@ function wirkungFuer (palette) {
 const MAIN_PALETTES_KEY = 'neo-cfg-custom-main-palettes'
 
 const customMainPalettes = ref(loadCustomMainPalettes())
-const showAddMainForm = ref(false)
-const newMainPaletteName = ref('')
-const newMainPaletteColor = ref('#002049')
-const addMainNameInput = ref(null)
 
 function getMainPalettesStorageKey() {
   const themeId = store.state.currentThemeMeta?.id || 'default'
@@ -901,15 +844,10 @@ const mainPaletteCount = computed(() => {
   return base + customMainPalettes.value.length
 })
 
-function addCustomMainPalette() {
-  const name = newMainPaletteName.value.trim()
-  if (!name) return
+function addCustomMainPalette({ name, grundton }) {
   if (mainPaletteCount.value >= MAX_MAIN_PALETTES) return
-  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
-  if (customMainPalettes.value.some(p => p.id === id)) return
-  customMainPalettes.value.push({ id, label: name, base: newMainPaletteColor.value })
+  customMainPalettes.value.push({ id: paletteId(name), label: name.trim(), base: normalisiereHex(grundton) })
   saveCustomMainPalettes()
-  cancelAddMainPalette()
 }
 
 function removeCustomMainPalette(id) {
@@ -924,22 +862,6 @@ function updateCustomMainPaletteColor(id, color) {
     saveCustomMainPalettes()
   }
 }
-
-function cancelAddMainPalette() {
-  showAddMainForm.value = false
-  newMainPaletteName.value = ''
-  newMainPaletteColor.value = '#002049'
-}
-
-const newMainPalettePreview = computed(() => {
-  if (!newMainPaletteColor.value || !newMainPaletteColor.value.match(/^#[0-9a-fA-F]{6}$/)) return []
-  const shades = generateShadeScale(newMainPaletteColor.value)
-  return Object.entries(shades).map(([step, color]) => ({ step, color }))
-})
-
-watch(showAddMainForm, (v) => {
-  if (v) nextTick(() => addMainNameInput.value?.focus())
-})
 
 // Reload custom main palettes when the active theme changes
 watch(() => store.state.currentThemeMeta, () => {
@@ -1061,10 +983,6 @@ function hideTooltip() {
 // Custom Supporting Palettes (default NEO theme — syncs with styleguide)
 // ---------------------------------------------------------------------------
 const customPalettes = ref(loadCustomPalettes())
-const showAddForm = ref(false)
-const newPaletteName = ref('')
-const newPaletteColor = ref('#e06060')
-const addNameInput = ref(null)
 
 function loadCustomPalettes() {
   try {
@@ -1077,11 +995,43 @@ function saveCustomPalettes() {
   localStorage.setItem('neo-cfg-custom-palettes', JSON.stringify(customPalettes.value))
 }
 
-const newPalettePreview = computed(() => {
-  if (!newPaletteColor.value || !newPaletteColor.value.match(/^#[0-9a-fA-F]{6}$/)) return []
-  const shades = generateShadeScale(newPaletteColor.value)
-  return Object.entries(shades).map(([step, color]) => ({ step, color }))
-})
+// ---------------------------------------------------------------------------
+// Formulare „Palette hinzufügen“ (UX-52: gemeinsames Formular)
+// ---------------------------------------------------------------------------
+const paletteId = (name) => String(name).trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+const grundtonHilfe = 'Ton 500; die Stufen 50 bis 950 werden daraus berechnet.'
+const markenpaletteFelder = [
+  { name: 'name', label: 'Name', pflicht: true, platzhalter: 'z. B. Highlight' },
+  { name: 'grundton', label: 'Grundton (500)', typ: 'farbe', pflicht: true, start: '#002049', hilfe: grundtonHilfe },
+]
+const ergaenzendePaletteFelder = [
+  { name: 'name', label: 'Name', pflicht: true, platzhalter: 'z. B. Koralle' },
+  { name: 'grundton', label: 'Grundton (500)', typ: 'farbe', pflicht: true, start: '#e06060', hilfe: grundtonHilfe },
+]
+
+// Jede Palette wird zu --fnd-primitive-<id>-<stufe>: Kennungen sind über alle Paletten eindeutig
+const vergebenePaletten = computed(() => new Map([
+  ...Object.entries(primitiveColors).map(([id, p]) => [id, p.label]),
+  ...customMainPalettes.value.map(p => [p.id, p.label]),
+  ...allSupportingPalettes.value.map(p => [p.id, p.label]),
+  ...customThemeSupportingStorage.value.map(p => [p.id, p.label]),
+  ['neutral', 'Neutral'],
+]))
+
+function pruefePalette({ name, grundton }) {
+  const n = String(name ?? '').trim()
+  if (!n) return { feld: 'name', text: 'Bitte geben Sie einen Namen ein.' }
+  const id = paletteId(n)
+  if (!id) return { feld: 'name', text: `„${n}“ enthält keine Buchstaben oder Ziffern.` }
+  if (vergebenePaletten.value.has(id)) return { feld: 'name', text: `Die Palette „${vergebenePaletten.value.get(id) || id}“ gibt es schon. Bitte wählen Sie einen anderen Namen.` }
+  if (!normalisiereHex(grundton)) return { feld: 'grundton', text: HEX_MELDUNG(grundton) }
+  return null
+}
+
+function paletteVorschau(grundton) {
+  const hex = normalisiereHex(grundton)
+  return hex ? Object.entries(generateShadeScale(hex)).map(([step, color]) => ({ step, color })) : []
+}
 
 // ---------------------------------------------------------------------------
 // Built-in Supporting Palette Base Color Overrides (default NEO theme)
@@ -1138,18 +1088,13 @@ const allSupportingPalettes = computed(() => {
 })
 
 // Unified "add supporting palette" handler — routes to NEO or custom-theme storage
-function addSupportingPalette() {
-  const name = newPaletteName.value.trim()
-  if (!name) return
-  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+function addSupportingPalette({ name, grundton }) {
+  const palette = { id: paletteId(name), label: name.trim(), base: normalisiereHex(grundton) }
 
   if (isDefaultNeo.value) {
     // NEO default: uses the existing custom palettes system (syncs with styleguide)
-    if (allSupportingPalettes.value.some(p => p.id === id)) return
-    const palette = { id, label: name, base: newPaletteColor.value }
     customPalettes.value.push(palette)
     saveCustomPalettes()
-    cancelAddPalette()
 
     // Trigger CI/CD pipeline for styleguide update
     if (store.state.activeThemeSet === 'neo' && !store.state.currentThemeMeta) {
@@ -1157,10 +1102,8 @@ function addSupportingPalette() {
     }
   } else {
     // Non-default theme: uses custom theme supporting palettes
-    if (customThemeSupportingPalettes.value.some(p => p.id === id)) return
-    customThemeSupportingStorage.value.push({ id, label: name, base: newPaletteColor.value })
+    customThemeSupportingStorage.value.push(palette)
     saveCustomThemeSupportingPalettes()
-    cancelAddPalette()
   }
 }
 
@@ -1173,15 +1116,6 @@ function removeCustomPalette(id) {
   }
 }
 
-function cancelAddPalette() {
-  showAddForm.value = false
-  newPaletteName.value = ''
-  newPaletteColor.value = '#e06060'
-}
-
-watch(showAddForm, (v) => {
-  if (v) nextTick(() => addNameInput.value?.focus())
-})
 
 // On initial load, detect any already-pending updates from previous sessions
 watch(() => sync.state.loaded, (loaded) => {
@@ -1798,93 +1732,8 @@ function getNotAffected(semanticId) {
   align-items: center;
 }
 
-.add-palette-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  border: none;
-  background: var(--cfg-surface);
-  color: var(--cfg-text-muted);
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all var(--fnd-motion-duration-150) ease;
-  width: 100%;
-}
-
-.add-palette-btn:hover {
-  color: var(--cfg-accent);
-  background: var(--cfg-accent-subtle);
-}
-
-.add-palette-btn span {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.add-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-.add-form-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--cfg-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.add-form-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.btn-add-confirm {
-  flex: 1;
-  height: 28px;
-  border: none;
-  border-radius: 6px;
-  background: var(--cfg-accent);
-  /* Schrift in der Flächenfarbe der App: lesbar auf dem dunklen Graphit
-     (hell) wie auf dem hellen Interaktiv-Ton im Dunkelmodus (15.10.2026) */
-  color: var(--cfg-surface);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity var(--fnd-motion-duration-150);
-}
-
-.btn-add-confirm:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.btn-add-confirm:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.btn-add-cancel {
-  flex: 1;
-  height: 28px;
-  border: 1px solid var(--cfg-border);
-  border-radius: 6px;
-  background: var(--cfg-surface);
-  color: var(--cfg-text-muted);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--fnd-motion-duration-150);
-}
-
-.btn-add-cancel:hover {
-  border-color: var(--cfg-text-muted);
-  color: var(--cfg-text);
-}
+.add-palette-card > .hf { width: 100%; }
+.add-palette-card :deep(.hf-oeffnen) { justify-self: center; }
 
 .btn-remove {
   margin-left: auto;

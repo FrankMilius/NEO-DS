@@ -24,7 +24,7 @@
 const SECTION_DEFS = [
   {
     id: 'layout',
-    label: 'Position & Layout',
+    label: 'Größe und Abstände',
     icon: 'layout-grid',
     // Matcht: width, height, min-height, max-width, padding, margin, gap, indent, size (aber nicht font-size)
     patterns: [
@@ -47,7 +47,7 @@ const SECTION_DEFS = [
   },
   {
     id: 'typography',
-    label: 'Typography',
+    label: 'Schrift',
     icon: 'typography',
     patterns: [
       /-font-/,
@@ -61,7 +61,7 @@ const SECTION_DEFS = [
   },
   {
     id: 'fill',
-    label: 'Fill',
+    label: 'Farben',
     icon: 'paint',
     // Matcht: bg, background, color (als Textfarbe), gradient
     patterns: [
@@ -78,7 +78,7 @@ const SECTION_DEFS = [
   },
   {
     id: 'stroke',
-    label: 'Stroke',
+    label: 'Rahmen',
     icon: 'border-style-2',
     patterns: [
       /-border/,
@@ -91,7 +91,7 @@ const SECTION_DEFS = [
   },
   {
     id: 'effects',
-    label: 'Effects',
+    label: 'Effekte und Zustände',
     icon: 'sparkles',
     patterns: [
       /-shadow/,

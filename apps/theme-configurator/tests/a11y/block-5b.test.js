@@ -24,7 +24,7 @@ describe('UX-46: Sprunglinks', () => {
       InspectorPanel: { template: '<div id="cfg-inspector" tabindex="-1" class="inspector-panel">Inspector</div>' },
       UpdateDialog: true, KonfigBestaetigung: true, DrupalRechteHinweis: true } } })
     const links = w.findAll('.sprunglinks__link')
-    expect(links.map(l => l.text())).toEqual(['Zur Navigation', 'Zur Bühne', 'Zum Inspector'])
+    expect(links.map(l => l.text())).toEqual(['Zur Navigation', 'Zur Bühne', 'Zu den Einstellungen'])
     await w.find('[data-test="sprung-inspector"]').trigger('click'); await nextTick()
     expect(document.activeElement.id).toBe('cfg-inspector')
     await w.find('[data-test="sprung-buehne"]').trigger('click'); await nextTick()

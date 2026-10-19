@@ -36,42 +36,16 @@
         </div>
       </div>
 
-      <!-- Add Library -->
-      <div v-if="!showAddLib" class="ie-add-row">
-        <button class="ie-add-btn" @click="showAddLib = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          SVG Icon Library hinzufügen
-        </button>
-      </div>
-      <div v-else class="ie-add-form">
-        <div class="ie-add-fields">
-          <input v-fokus aria-label="Name der Icon-Bibliothek"
-            ref="addLibInput"
-            type="text"
-            class="ie-input"
-            v-model="newLibName"
-            placeholder="Name (z. B. Lucide Icons)"
-            @keyup.enter="addLibrary"
-            @keyup.escape="cancelAddLib"
-          />
-          <input aria-label="npm-Paketname"
-            type="text"
-            class="ie-input"
-            v-model="newLibUrl"
-            placeholder="npm-Paket (z. B. lucide-static)"
-            @keyup.enter="addLibrary"
-            @keyup.escape="cancelAddLib"
-          />
-        </div>
-        <div class="ie-add-hint">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-          Nur SVG-basierte Libraries werden unterstützt. Package muss Outline-SVGs enthalten.
-        </div>
-        <div class="ie-add-actions">
-          <button class="ie-btn ie-btn--primary" @click="addLibrary" :disabled="!newLibName.trim() || !newLibUrl.trim()">Hinzufügen</button>
-          <button class="ie-btn ie-btn--ghost" @click="cancelAddLib">Abbrechen</button>
-        </div>
-      </div>
+      <!-- Bibliothek hinzufügen (UX-52: gemeinsames Formular) -->
+      <HinzufuegenFormular
+        class="ie-add-row"
+        knopf-text="SVG-Icon-Bibliothek hinzufügen"
+        test-id="icon-bibliothek-neu"
+        id-basis="icon-bibliothek-neu"
+        :felder="bibliothekFelder"
+        :pruefe="pruefeBibliothek"
+        @hinzufuegen="addLibrary"
+      />
     </section>
 
     <!-- ══ Per-Library Configuration ══ -->
@@ -267,8 +241,8 @@
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
-import { ref, computed, watch, nextTick } from 'vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { ref, computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { STRICH_VORSCHAU, WEBSITE_BIBLIOTHEK } from '../../utils/icon-strich.js'
 import { primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes } from '../../data/tokens.js'
@@ -304,28 +278,32 @@ function currentElementValue(key, fallback) {
   return store.currentFoundation.elements?.[key] ?? fallback
 }
 
-// ── Add Library ──
-const showAddLib = ref(false)
-const newLibName = ref('')
-const newLibUrl = ref('')
-const addLibInput = ref(null)
+// ── Bibliothek hinzufügen ──
+const bibliothekFelder = [
+  { name: 'name', label: 'Name', pflicht: true, platzhalter: 'z. B. Lucide Icons' },
+  { name: 'paket', label: 'npm-Paket', pflicht: true, platzhalter: 'z. B. lucide-static', hilfe: 'Nur Bibliotheken mit SVG-Icons in Outline-Form.' },
+]
 
-watch(showAddLib, (v) => { if (v) nextTick(() => addLibInput.value?.focus()) })
+const bibliothekId = (name) => String(name).trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+// npm-Paketnamen: klein, optional mit @scope/
+const NPM_PAKET = /^(?:@[a-z0-9][a-z0-9._~-]*\/)?[a-z0-9][a-z0-9._~-]*$/
 
-function addLibrary() {
-  const name = newLibName.value.trim()
-  const url = newLibUrl.value.trim()
-  if (!name || !url) return
-  const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')
-  store.addIconLibrary({ id, name, npmPackage: url, format: 'svg', builtIn: false, iconCount: 0 })
-  activeLibrary.value = id
-  cancelAddLib()
+function pruefeBibliothek ({ name, paket }) {
+  const n = String(name ?? '').trim()
+  const p = String(paket ?? '').trim()
+  if (!n) return { feld: 'name', text: 'Bitte geben Sie einen Namen ein.' }
+  if (!bibliothekId(n)) return { feld: 'name', text: `„${n}“ enthält keine Buchstaben oder Ziffern.` }
+  const vorhanden = store.currentIconLibraries.find(l => l.id === bibliothekId(n) || l.name.toLowerCase() === n.toLowerCase())
+  if (vorhanden) return { feld: 'name', text: `„${vorhanden.name}“ gibt es schon. Bitte wählen Sie einen anderen Namen.` }
+  if (!p) return { feld: 'paket', text: 'Bitte geben Sie den Namen des npm-Pakets ein, z. B. lucide-static.' }
+  if (!NPM_PAKET.test(p)) return { feld: 'paket', text: `„${p}“ ist kein npm-Paketname. Erlaubt sind Kleinbuchstaben, Ziffern, Punkt, Bindestrich und Unterstrich, optional mit @bereich/ davor.` }
+  return null
 }
 
-function cancelAddLib() {
-  showAddLib.value = false
-  newLibName.value = ''
-  newLibUrl.value = ''
+function addLibrary ({ name, paket }) {
+  const id = bibliothekId(name)
+  store.addIconLibrary({ id, name: name.trim(), npmPackage: paket.trim(), format: 'svg', builtIn: false, iconCount: 0 })
+  activeLibrary.value = id
 }
 
 // ── Stroke Color (Light / Dark) — per Library ──
@@ -545,55 +523,8 @@ const activeStrokeColor = computed(() => {
 
 .ie-value-select:focus { border-color: var(--cfg-accent); }
 
-/* ── Add Library Form ── */
+/* ── Bibliothek hinzufügen ── */
 .ie-add-row { margin-top: 4px; }
-
-.ie-add-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 12px; border: 1px dashed var(--cfg-border);
-  border-radius: 6px; background: none;
-  color: var(--cfg-text-muted); font-size: 12px; font-weight: 500;
-  cursor: pointer; transition: border-color 0.15s, color 0.15s;
-  width: 100%;
-}
-
-.ie-add-btn:hover { border-color: var(--cfg-accent); color: var(--cfg-accent); }
-
-.ie-add-form {
-  display: flex; flex-direction: column; gap: 10px;
-  padding: 12px; border: 1px solid var(--cfg-border);
-  border-radius: 8px; background: var(--cfg-surface-elevated);
-}
-
-.ie-add-fields { display: flex; flex-direction: column; gap: 8px; }
-
-.ie-input {
-  width: 100%; height: 30px; padding: 0 8px; box-sizing: border-box;
-  border: 1px solid var(--cfg-border); border-radius: 6px;
-  background: var(--cfg-surface); color: var(--cfg-text);
-  font-size: 12px; outline: none;
-}
-
-.ie-input:focus { border-color: var(--cfg-accent); }
-
-.ie-add-hint {
-  display: flex; align-items: flex-start; gap: 6px;
-  font-size: 10px; color: var(--cfg-text-muted); line-height: 1.4;
-}
-
-.ie-add-actions { display: flex; gap: 8px; }
-
-.ie-btn {
-  padding: 6px 14px; border-radius: 6px; font-size: 12px;
-  font-weight: 600; cursor: pointer; border: none;
-  transition: background 0.1s, opacity 0.1s;
-}
-
-.ie-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.ie-btn--primary { background: var(--cfg-accent); color: #fff; }
-.ie-btn--primary:hover:not(:disabled) { opacity: 0.9; }
-.ie-btn--ghost { background: none; color: var(--cfg-text-muted); }
-.ie-btn--ghost:hover { color: var(--cfg-text); }
 
 /* ── Description ── */
 .ie-desc { font-size: 12px; color: var(--cfg-text-muted); margin: 0; line-height: 1.5; }

@@ -26,7 +26,7 @@
 import { ref, onErrorCaptured } from 'vue'
 
 defineProps({
-  panelLabel: { type: String, default: 'Dieses Panel' }
+  panelLabel: { type: String, default: 'Dieser Bereich' }
 })
 
 const error = ref(null)

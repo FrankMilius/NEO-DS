@@ -22,8 +22,16 @@
     <form v-else class="hf-formular" :aria-label="knopfText" novalidate @submit.prevent="absenden" @keydown.escape.stop.prevent="abbrechen">
       <div class="hf-felder">
         <div v-for="(f, i) in felder" :key="f.name" class="hf-feld">
-          <label class="hf-label" :for="`${basis}-${f.name}`">{{ f.label }}</label>
+          <label class="hf-label" :for="`${basis}-${f.name}`">{{ f.label }}<abbr v-if="f.pflicht" class="hf-pflicht" title="Pflichtfeld">*</abbr></label>
           <div class="hf-eingabe">
+            <input
+              v-if="f.typ === 'farbe'"
+              type="color"
+              class="hf-farbwahl"
+              :aria-label="`${f.label} wählen`"
+              :value="normalisiereHex(werte[f.name]) || '#000000'"
+              @input="werte[f.name] = $event.target.value"
+            />
             <select
               v-if="f.typ === 'auswahl'"
               :id="`${basis}-${f.name}`"
@@ -40,8 +48,9 @@
               :ref="(el) => { if (i === 0) erstesFeld = el }"
               v-model="werte[f.name]"
               :type="f.typ === 'zahl' ? 'number' : 'text'"
+              :spellcheck="f.typ === 'farbe' ? 'false' : undefined"
               :inputmode="f.typ === 'zahl' ? 'decimal' : undefined"
-              class="hf-input"
+              :class="['hf-input', { 'hf-input--breit': f.breit }]"
               :placeholder="f.platzhalter"
               :aria-invalid="fehlerFeld === f.name ? 'true' : undefined"
               :aria-describedby="fehlerFeld === f.name ? `${basis}-fehler` : (f.hilfe ? `${basis}-${f.name}-hilfe` : undefined)"
@@ -65,6 +74,7 @@
 
 <script setup>
 import { ref, reactive, nextTick, useId } from 'vue'
+import { normalisiereHex } from '../../utils/token-pruefung.js'
 
 const props = defineProps({
   /** Text des Knopfs, z. B. „Eckenradius hinzufügen“ */
@@ -72,17 +82,21 @@ const props = defineProps({
   /**
    * Felder: { name, label, typ: 'text'|'zahl'|'auswahl', platzhalter?,
    * optionen?: [{ wert, text }], einheit?, hilfe?: string | (werte) => string,
-   * start?: Anfangswert }
+   * start?: Anfangswert, pflicht?: Sternchen am Label, breit?: Feld über die
+   * ganze Zeile }. typ 'farbe' = Farbwähler plus HEX-Feld.
    */
   felder: { type: Array, required: true },
   /** (werte) => { feld, text } | null — Prüfung vor dem Hinzufügen */
   pruefe: { type: Function, default: () => null },
   testId: { type: String, default: undefined },
+  /** Feste Grundlage der Feld-IDs (`${idBasis}-${name}`), z. B. für Tests; sonst eindeutig erzeugt */
+  idBasis: { type: String, default: undefined },
 })
 
 const emit = defineEmits(['hinzufuegen'])
 
-const basis = `hf-${useId()}`
+const autoId = useId()
+const basis = props.idBasis || `hf-${autoId}`
 const offen = ref(false)
 const oeffnenKnopf = ref(null)
 let erstesFeld = null
@@ -143,7 +157,10 @@ defineExpose({ oeffnen })
 .hf-oeffnen:hover { border-color: var(--cfg-accent); }
 .hf-formular { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--cfg-border); border-radius: 8px; background: var(--cfg-surface-elevated); }
 .hf-felder { display: flex; flex-wrap: wrap; gap: 10px; }
-.hf-feld { display: grid; gap: 4px; flex: 1 1 140px; min-width: 0; }
+.hf-feld { display: grid; gap: 4px; align-content: start; flex: 1 1 140px; min-width: 0; }
+.hf-feld:has(.hf-input--breit) { flex-basis: 100%; }
+.hf-pflicht { margin-left: 2px; text-decoration: none; color: var(--cfg-text-secondary); }
+.hf-farbwahl { flex: none; width: 32px; height: 32px; padding: 2px; border: 1px solid var(--cfg-border); border-radius: 6px; background: var(--cfg-surface); cursor: pointer; }
 .hf-label { font-size: 12px; font-weight: 600; color: var(--cfg-text); }
 .hf-eingabe { display: flex; align-items: center; gap: 6px; }
 .hf-input {
@@ -159,5 +176,5 @@ defineExpose({ oeffnen })
   background: var(--cfg-surface); color: var(--cfg-text); font: inherit; font-size: 13px; cursor: pointer;
 }
 .hf-knopf--primaer { background: var(--cfg-accent); border-color: var(--cfg-accent); color: var(--fnd-color-text-on-interactive); font-weight: 600; }
-.hf-oeffnen:focus-visible, .hf-input:focus-visible, .hf-knopf:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
+.hf-oeffnen:focus-visible, .hf-input:focus-visible, .hf-farbwahl:focus-visible, .hf-knopf:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
 </style>

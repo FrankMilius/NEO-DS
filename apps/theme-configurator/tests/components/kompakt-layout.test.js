@@ -31,7 +31,7 @@ describe('Layout unter 1200 px', () => {
     expect(shell.attributes('data-ansicht')).toBe('buehne')
     expect(shell.classes()).toContain('sidebar-collapsed')
     const tabs = w.findAll('[role="tab"]')
-    expect(tabs.map(t => t.text())).toEqual(['Bühne', 'Inspector'])
+    expect(tabs.map(t => t.text())).toEqual(['Bühne', 'Einstellungen'])
     expect(tabs[0].attributes('aria-selected')).toBe('true')
     await w.find('[data-test="kompakt-tab-inspector"]').trigger('click')
     expect(shell.attributes('data-ansicht')).toBe('inspector')

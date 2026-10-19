@@ -2,7 +2,7 @@
 // hält, was der Block erreicht hat (UX-20, UX-25, UX-52, UX-53, UX-56).
 import { describe, it, expect } from 'vitest'
 import { resolve } from 'node:path'
-import { vueDateien, sichtbareTexte, skriptDateien, skriptSaetze, ERSATZ, DU, ERSETZT } from './sichtbare-texte.js'
+import { vueDateien, sichtbareTexte, skriptDateien, skriptSaetze, skriptBeschriftungen, ERSATZ, DU, ERSETZT } from './sichtbare-texte.js'
 import { navigationTree } from '../../src/data/navigation-builder.js'
 import { bereichsName, komponentenName, seitenTitel } from '../../src/navigation/namen.js'
 import { sektionAufloesen } from '../../src/navigation/sektionen.js'
@@ -38,6 +38,13 @@ describe('Meldungen aus Skripten', () => {
   })
   it('keine Ersatzschreibung in Meldungen', () => {
     expect(SAETZE.filter((t) => ERSATZ.test(t.text)).map(fund)).toEqual([])
+  })
+  it('Beschriftungen (label: …) ohne ersetzte Begriffe — z. B. „Inspector“ im Kompakt-Umschalter', () => {
+    const beschriftungen = skriptDateien(SRC)
+      .filter((p) => !/arena-templates|magazin-daten|MagazinVorschau|generated/.test(p))
+      .flatMap((p) => skriptBeschriftungen(p, SRC))
+    expect(beschriftungen.length).toBeGreaterThan(50)
+    expect(beschriftungen.filter((t) => ERSETZT.some(([re]) => re.test(t.text))).map(fund)).toEqual([])
   })
 })
 

@@ -21,7 +21,7 @@ function templateTeil (quelle) {
   return start < 0 || ende < 0 ? '' : quelle.slice(start, ende)
 }
 
-const ATTRIBUTE = /\s:?(?:title|aria-label|placeholder|alt|label|aria-description)=("([^"]*)"|'([^']*)')/g
+const ATTRIBUTE = /\s:?(?:title|aria-label|placeholder|alt|label|aria-description|panel-?[Ll]abel|knopf-text|knopfText)=("([^"]*)"|'([^']*)')/g
 
 /** @returns {Array<{ datei: string, zeile: number, text: string }>} */
 export function sichtbareTexte (pfad, wurzel) {
@@ -99,6 +99,21 @@ export function skriptDateien (ordner) {
     const p = join(ordner, name)
     if (statSync(p).isDirectory()) aus.push(...skriptDateien(p))
     else if (/\.(js|vue)$/.test(name)) aus.push(p)
+  }
+  return aus
+}
+
+/**
+ * Beschriftungen in Skripten: `label: '…'` (Tabs, Umschalter, Felder) —
+ * fängt, was die Satzsuche (mind. zwei Leerzeichen) nicht sieht.
+ * @returns {Array<{ datei: string, zeile: number, text: string }>}
+ */
+export function skriptBeschriftungen (pfad, wurzel) {
+  let code = readFileSync(pfad, 'utf8')
+  if (pfad.endsWith('.vue')) code = (code.match(/<script[^>]*>([\s\S]*?)<\/script>/) || ['', ''])[1]
+  const aus = []
+  for (const m of code.matchAll(/\blabel:\s*'([^'$]+)'/g)) {
+    aus.push({ datei: relative(wurzel, pfad), zeile: code.slice(0, m.index).split('\n').length, text: m[1] })
   }
   return aus
 }

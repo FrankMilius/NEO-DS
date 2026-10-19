@@ -27,10 +27,10 @@
     <div class="app-body">
       <SidebarNav :collapsed="leisteZu" @toggle="toggleSidebar" />
       <div v-if="kompakt && overlayOffen" class="kompakt-schleier" aria-hidden="true" @click="overlaySchliessen"></div>
-      <ErrorBoundary panelLabel="Laboratory">
+      <ErrorBoundary panelLabel="Die Bühne">
         <LaboratoryPanel />
       </ErrorBoundary>
-      <ErrorBoundary panelLabel="Inspector">
+      <ErrorBoundary panelLabel="Die Spalte „Einstellungen“">
         <InspectorPanel />
       </ErrorBoundary>
     </div>
@@ -78,7 +78,7 @@ const sidebarCollapsed = ref(localStorage.getItem(SIDEBAR_KEY) === 'true')
 // außerhalb. Unter 1200 px („kompakt“): Bühne und Inspector als Tabs in
 // voller Breite, die Sidebar als schmale Leiste, aufgeklappt über dem Inhalt.
 const KOMPAKT_GRENZE = '(max-width: 1199px)'
-const KOMPAKT_TABS = [{ id: 'buehne', label: 'Bühne' }, { id: 'inspector', label: 'Inspector' }]
+const KOMPAKT_TABS = [{ id: 'buehne', label: 'Bühne' }, { id: 'inspector', label: 'Einstellungen' }]
 const kompaktAbfrage = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(KOMPAKT_GRENZE) : null
 const kompakt = ref(!!kompaktAbfrage?.matches)
 const kompaktAnsicht = ref('buehne')
@@ -99,7 +99,7 @@ watch(technik, (an) => document.documentElement.classList.toggle('cfg-ohne-techn
 const SPRUNGZIELE = [
   { id: 'navigation', label: 'Zur Navigation' },
   { id: 'buehne', label: 'Zur Bühne' },
-  { id: 'inspector', label: 'Zum Inspector' },
+  { id: 'inspector', label: 'Zu den Einstellungen' },
 ]
 function springe (ziel) {
   if (kompakt.value && (ziel === 'buehne' || ziel === 'inspector')) kompaktAnsicht.value = ziel

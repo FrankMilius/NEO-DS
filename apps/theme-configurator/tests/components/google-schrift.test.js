@@ -54,11 +54,11 @@ describe('Typografie-Editor: eigene Google-Schrift', () => {
   afterEach(() => { w?.unmount(); vi.restoreAllMocks(); store.state.currentThemeMeta = null; store.state.customFonts.neo = [] })
 
   async function hinzufuegen (name, stack, url = '') {
-    await w.find('.add-font-btn').trigger('click')
+    await w.find('[data-test="google-schrift-neu"] .hf-oeffnen').trigger('click')
     await w.find('#gf-neu-name').setValue(name)
     await w.find('#gf-neu-stack').setValue(stack)
     await w.find('#gf-neu-url').setValue(url)
-    await w.find('.btn-add-confirm').trigger('click')
+    await w.find('[data-test="google-schrift-neu"] form').trigger('submit')
   }
 
   it('ohne Adresse: Adresse wird aus dem Font-Stack gebaut und geladen', async () => {
@@ -93,12 +93,14 @@ describe('Typografie-Editor: eigene Google-Schrift', () => {
     expect(store.state.customFonts.neo[0].url).toBe('https://fonts.googleapis.com/css2?family=Arimo&display=swap')
   })
 
-  it('UX-35: deutsches Formular mit Sperrgrund', async () => {
+  it('UX-35, UX-52: deutsches Formular, fehlende Pflichtfelder am Feld gemeldet', async () => {
     w = mount(TypographyEditor)
-    await w.find('.add-font-btn').trigger('click')
+    await hinzufuegen('Inter', '')
     expect(w.find('label[for="gf-neu-name"]').text()).toContain('Name')
-    expect(w.find('[data-test="gf-neu-sperrgrund"]').exists()).toBe(true)
-    expect(w.find('.btn-add-confirm').text()).toBe('Hinzufügen')
+    expect(w.find('label[for="gf-neu-stack"] abbr').attributes('title')).toBe('Pflichtfeld')
+    expect(w.find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/Font-Stack ein/)
+    expect(w.find('#gf-neu-stack').attributes('aria-invalid')).toBe('true')
+    expect(store.state.customFonts.neo).toEqual([])
   })
 
   it('UX-36: „Als Body“ übernimmt den eingegebenen Stack', async () => {

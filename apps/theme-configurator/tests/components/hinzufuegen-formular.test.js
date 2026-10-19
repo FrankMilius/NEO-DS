@@ -8,6 +8,8 @@ import RadiiEditor from '../../src/components/foundation/RadiiEditor.vue'
 import MediaRatioEditor from '../../src/components/foundation/MediaRatioEditor.vue'
 import OpacityZindexMotionEditor from '../../src/components/foundation/OpacityZindexMotionEditor.vue'
 import SpacingInspector from '../../src/components/foundation/SpacingInspector.vue'
+import IconsEditor from '../../src/components/foundation/IconsEditor.vue'
+import FoundationColors from '../../src/components/foundation/FoundationColors.vue'
 import { pruefeNeuenNamen, pruefeNeuenWert } from '../../src/utils/token-pruefung.js'
 
 let store, w
@@ -53,6 +55,19 @@ describe('HinzufuegenFormular', () => {
     expect(w.emitted('hinzufuegen').at(-1)[0]).toEqual({ name: 'neu', wert: '5px' })
     expect(w.text()).toContain('„neu“ hinzugefügt.')
   })
+  it('Farbfeld: Farbwähler und HEX-Feld zeigen denselben Wert, feste IDs, Pflichtmarke', async () => {
+    const farbe = [{ name: 'name', label: 'Name', pflicht: true }, { name: 'ton', label: 'Grundton', typ: 'farbe', start: '#e06060' }]
+    w = mount(HinzufuegenFormular, { props: { knopfText: 'Palette hinzufügen', felder: farbe, idBasis: 'pal' }, attachTo: document.body })
+    await w.find('.hf-oeffnen').trigger('click'); await ticks()
+    expect(w.find('#pal-name').exists()).toBe(true)
+    expect(w.find('label[for="pal-name"] abbr').attributes('title')).toBe('Pflichtfeld')
+    expect(w.find('input[type="color"]').element.value).toBe('#e06060')
+    expect(w.find('input[type="color"]').attributes('aria-label')).toBe('Grundton wählen')
+    await w.find('#pal-ton').setValue('0f0')
+    expect(w.find('input[type="color"]').element.value).toBe('#00ff00')
+    await w.find('input[type="color"]').setValue('#123456')
+    expect(w.find('#pal-ton').element.value).toBe('#123456')
+  })
 })
 
 describe('Editoren nutzen das gemeinsame Formular', () => {
@@ -81,5 +96,44 @@ describe('Editoren nutzen das gemeinsame Formular', () => {
   it('Abstand: vorhandener Pixelwert wird gemeldet (vorher still deaktiviert)', async () => {
     await ausfuellen(SpacingInspector, ['16'])
     expect(w.find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/16 px gibt es schon/)
+  })
+})
+
+describe('Icons, Paletten und Schriften nutzen das gemeinsame Formular', () => {
+  async function oeffne (komp, testId) {
+    w = mount(komp, { attachTo: document.body })
+    const f = () => w.find(`[data-test="${testId}"]`)
+    await f().find('.hf-oeffnen').trigger('click'); await ticks()
+    return f
+  }
+  async function absenden (f, werte) {
+    for (const [id, v] of Object.entries(werte)) await f().find(`#${id}`).setValue(v)
+    await f().find('form').trigger('submit'); await ticks()
+  }
+  it('Icon-Bibliothek: npm-Paket geprüft, Dublette gemeldet, gültig landet im Store', async () => {
+    const f = await oeffne(IconsEditor, 'icon-bibliothek-neu')
+    await absenden(f, { 'icon-bibliothek-neu-name': 'Lucide Icons', 'icon-bibliothek-neu-paket': 'Lucide Static' })
+    expect(f().find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/kein npm-Paketname/)
+    expect(f().find('#icon-bibliothek-neu-paket').attributes('aria-invalid')).toBe('true')
+    await absenden(f, { 'icon-bibliothek-neu-paket': '@lucide/static' })
+    expect(store.currentIconLibraries.at(-1)).toMatchObject({ id: 'lucide-icons', name: 'Lucide Icons', npmPackage: '@lucide/static' })
+    await f().find('.hf-oeffnen').trigger('click'); await ticks()
+    await absenden(f, { 'icon-bibliothek-neu-name': 'lucide icons', 'icon-bibliothek-neu-paket': 'lucide-static' })
+    expect(f().find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/„Lucide Icons“ gibt es schon/)
+  })
+  it('Ergänzende Palette: HEX geprüft, Kennung über alle Paletten eindeutig, Stufenvorschau', async () => {
+    store.state.colorActiveTab = 'primitives'
+    store.state.currentThemeMeta = { id: 'kunde-a', name: 'Kunde A' }
+    const f = await oeffne(FoundationColors, 'ergaenzende-palette-neu')
+    expect(f().findAll('.shade-chip').length).toBeGreaterThan(5)
+    await absenden(f, { 'ergaenzende-palette-neu-name': 'Primary', 'ergaenzende-palette-neu-grundton': '#e06060' })
+    expect(f().find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/gibt es schon/)
+    await absenden(f, { 'ergaenzende-palette-neu-name': 'Koralle', 'ergaenzende-palette-neu-grundton': 'rot' })
+    expect(f().find('[data-test="hinzufuegen-fehler"]').text()).toMatch(/keine HEX-Farbe/)
+    expect(f().findAll('.shade-chip').length).toBe(0)
+    await absenden(f, { 'ergaenzende-palette-neu-grundton': 'e06' })
+    expect(w.text()).toContain('Koralle')
+    expect(Object.values(localStorage).some(v => v.includes('"base":"#ee0066"'))).toBe(true)
+    store.state.currentThemeMeta = null
   })
 })

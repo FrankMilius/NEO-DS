@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.23` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.24` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -862,6 +862,28 @@ App 1.2.23 (UX-25 Website-Vorschau mit dem Server abgleichen, 19.10.2026):
 - Zeigt die Vorschau ein anderes Theme als das geöffnete, nennt der Knopf
   es („· zeigt „Kunde B““) und erklärt, dass sie beim nächsten Speichern
   wechselt.
+
+App 1.2.24 (UX-52 Rest: Formulare für Icons, Paletten und Schriften, 19.10.2026):
+
+- Die drei letzten eigenen Hinzufügen-Formulare nutzen jetzt
+  `HinzufuegenFormular`: „SVG-Icon-Bibliothek hinzufügen“ (Icons),
+  „Markenpalette hinzufügen“ und „Ergänzende Palette hinzufügen“ (Farben),
+  „Google-Schrift hinzufügen“ (Typografie). Überall gleich: Enter fügt hinzu,
+  Escape bricht ab und gibt den Fokus an den Knopf zurück, „Hinzufügen“ ist
+  nie still gesperrt, Fehler stehen am Feld (`aria-invalid`, Meldung).
+- Vorher stillschweigend verworfen, jetzt gemeldet: doppelte Palette (die
+  Kennung `--fnd-primitive-<id>` ist über alle Paletten eindeutig), doppelte
+  Icon-Bibliothek, ungültiger npm-Paketname, keine HEX-Farbe als Grundton
+  (Kurzform `#e06` wird zu `#ee0066`).
+- `HinzufuegenFormular` kann jetzt `typ: 'farbe'` (Farbwähler und HEX-Feld
+  zeigen denselben Wert), `pflicht` (Sternchen „Pflichtfeld“), `breit` und
+  feste Feld-IDs über `id-basis` (`gf-neu-name` usw. bleiben für Tests).
+- Paletten zeigen die Stufenvorschau, Schriften die Schriftprobe im Slot
+  `vorschau`. Der Sperrgrund-Hinweis der Schrift entfällt.
+- Sprache (BEGRIFFE.md): Kompakt-Umschalter und Sprunglink „Einstellungen“
+  statt „Inspector“, Fehlermeldungen der Bereiche deutsch, Abschnittsnamen
+  im Token-Klassifizierer deutsch. Der Wächter-Test liest jetzt auch
+  `panelLabel`, `knopf-text` und `label: '…'` in Skripten.
 
 Ursprünglicher Vorschlag (ADR-004):
 
