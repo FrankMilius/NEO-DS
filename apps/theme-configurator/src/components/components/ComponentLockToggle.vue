@@ -6,7 +6,7 @@
       :class="['lock-btn', { locked: isLocked }]"
       :aria-pressed="isLocked"
       @click="handleToggle"
-      :title="isLocked ? 'Unlock component for editing' : 'Lock component (read-only)'"
+      :title="isLocked ? 'Gesperrt: Werte sind schreibgeschützt. Klicken zum Entsperren.' : 'Bearbeitbar. Klicken sperrt die Werte gegen versehentliche Änderungen.'"
     >
       <!-- Locked icon -->
       <svg aria-hidden="true" v-if="isLocked" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -16,21 +16,21 @@
       <svg aria-hidden="true" v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>
       </svg>
-      <span class="lock-label">{{ isLocked ? 'Locked' : 'Unlocked' }}</span>
+      <span class="lock-label">{{ isLocked ? 'Gesperrt' : 'Bearbeitbar' }}</span>
     </button>
 
     <!-- Version Badge -->
-    <span v-if="version" class="version-badge" :title="`Component version ${version}`">
+    <span v-if="version" class="version-badge" :title="`Version ${version} dieser Komponente im Theme. Beim Entsperren steigt sie.`">
       v{{ version }}
     </span>
 
     <!-- Unlock Confirmation Dialog -->
     <div v-if="showUnlockDialog" class="unlock-dialog-overlay" @click.self="showUnlockDialog = false">
       <div ref="dialogRef" class="unlock-dialog" role="dialog" aria-modal="true" :aria-labelledby="`${idBasis}-titel`" :aria-describedby="`${idBasis}-text`" tabindex="-1">
-        <h2 :id="`${idBasis}-titel`" class="unlock-dialog-title">Unlock {{ componentLabel }}?</h2>
+        <h2 :id="`${idBasis}-titel`" class="unlock-dialog-title">„{{ componentLabel }}“ entsperren?</h2>
         <p :id="`${idBasis}-text`" class="unlock-dialog-desc">
-          This component is locked at <strong>v{{ version }}</strong>.
-          Choose a version bump for editing:
+          Die Komponente ist in Version <strong>{{ version }}</strong> gesperrt.
+          Wähle, wie die Version für die Bearbeitung steigt:
         </p>
         <div class="bump-options" role="group" aria-label="Versionssprung">
           <button
@@ -46,8 +46,8 @@
           </button>
         </div>
         <div class="unlock-dialog-actions">
-          <button type="button" class="dialog-btn dialog-btn--cancel" @click="showUnlockDialog = false">Cancel</button>
-          <button type="button" class="dialog-btn dialog-btn--confirm" @click="confirmUnlock">Unlock</button>
+          <button type="button" class="dialog-btn dialog-btn--cancel" @click="showUnlockDialog = false">Abbrechen</button>
+          <button type="button" class="dialog-btn dialog-btn--confirm" @click="confirmUnlock">Entsperren</button>
         </div>
       </div>
     </div>
@@ -82,9 +82,9 @@ const bumpOptions = computed(() => {
   const current = version.value || '1.0.0'
   const [major, minor, patch] = current.split('.').map(Number)
   return [
-    { type: 'patch', label: 'Patch', next: `${major}.${minor}.${patch + 1}` },
-    { type: 'minor', label: 'Minor', next: `${major}.${minor + 1}.0` },
-    { type: 'major', label: 'Major', next: `${major + 1}.0.0` }
+    { type: 'patch', label: 'Korrektur', next: `${major}.${minor}.${patch + 1}` },
+    { type: 'minor', label: 'Erweiterung', next: `${major}.${minor + 1}.0` },
+    { type: 'major', label: 'Grundlegend', next: `${major + 1}.0.0` }
   ]
 })
 

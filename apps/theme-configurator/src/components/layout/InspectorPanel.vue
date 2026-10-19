@@ -49,7 +49,7 @@
           <ComponentLockToggle :componentId="currentComponentId" :componentLabel="sectionTitle" />
         </div>
         <div class="inspector-meta-bar__right">
-          <span class="inspector-meta-badge inspector-meta-badge--tier">Level <span class="inspector-meta-badge__value">L3</span></span>
+          <span class="inspector-meta-badge inspector-meta-badge--tier" title="Ebene 3: Werte dieser Komponente; sie verweisen auf Semantik (Ebene 2) und Grundfarben (Ebene 1)">Ebene <span class="inspector-meta-badge__value">L3</span></span>
           <span v-if="recipeVersion" class="inspector-meta-badge inspector-meta-badge--version">Version <span class="inspector-meta-badge__value">{{ recipeVersion }}</span></span>
         </div>
       </div>
@@ -90,7 +90,7 @@
             <circle cx="7.5" cy="10.5" r="1" fill="currentColor" /><circle cx="12" cy="7.5" r="1" fill="currentColor" /><circle cx="16.5" cy="10.5" r="1" fill="currentColor" />
           </svg>
           <span>Primitive Colors</span>
-          <span class="tab-badge tier-1">L1</span>
+          <span class="tab-badge tier-1" title="Ebene 1: Grundfarben (Primitive)"><span aria-hidden="true">L1</span><span class="cfg-sr-only">, Ebene 1</span></span>
         </button>
         <button
           type="button"
@@ -103,7 +103,7 @@
             <path d="M12 3l4 7h-8z" /><circle cx="17" cy="17" r="3" /><rect x="4" y="14" width="6" height="6" rx="1" />
           </svg>
           <span>Semantic Colors</span>
-          <span class="tab-badge tier-2">L2</span>
+          <span class="tab-badge tier-2" title="Ebene 2: Bedeutungen wie Text oder Fläche (Semantik), verweisen auf Ebene 1"><span aria-hidden="true">L2</span><span class="cfg-sr-only">, Ebene 2</span></span>
         </button>
       </div>
     </div>

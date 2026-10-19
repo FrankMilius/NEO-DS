@@ -149,3 +149,16 @@ test('V01: Handy-Breite rendert die Arena im Frame mit 390 px Fenster; Vollbild 
   await expect(rahmen).toHaveCount(0)
   await expect(page.locator('.lab-viewport .recipe-arena')).toBeVisible()
 })
+
+// Roadmap V02 (19.10.2026): Wirkung auf der Website, Kurztexte, technische Namen
+test('V02: Button nennt seine Orte auf der Website; technische Namen lassen sich ausblenden', async ({ page }) => {
+  await oeffneSektion(page, 'component-button')
+  const insp = page.locator('.inspector-panel')
+  await expect(insp.locator('[data-test="website-einsatz-bloecke"]')).toContainText('Hero')
+  await insp.locator('.ce-subgroup-header').first().click()
+  await expect(insp.locator('[data-test="gruppen-wirkung"]').first()).toContainText('Steuert')
+  await expect(insp.locator('[data-test="website-einsatz-dateien"]')).toBeVisible()
+  await insp.getByLabel('Technische Namen zeigen').uncheck()
+  await expect(insp.locator('[data-test="website-einsatz-dateien"]')).toHaveCount(0)
+  await insp.getByLabel('Technische Namen zeigen').check()
+})

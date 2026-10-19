@@ -1,6 +1,30 @@
 <template>
-  <div class="component-editor">
+  <div class="component-editor" :class="{ 'ce--ohne-technik': !technik }">
     <section class="token-section">
+
+      <!-- Roadmap V02: Wirkung auf der Website, Begriffe, technische Namen -->
+      <WebsiteEinsatz :componentId="componentId" :label="componentLabel" :technik="technik" />
+      <div class="ce-hilfe-leiste">
+        <label class="ce-technik">
+          <input v-model="technik" type="checkbox" data-test="technische-namen" />
+          Technische Namen zeigen
+        </label>
+        <details class="ce-hilfe" data-test="begriffe">
+          <summary>Begriffe erklärt</summary>
+          <dl>
+            <dt>Gesperrt / Bearbeitbar</dt>
+            <dd>Eine gesperrte Komponente ist schreibgeschützt, damit niemand ihre Werte versehentlich ändert. Zum Bearbeiten entsperren.</dd>
+            <dt>Version</dt>
+            <dd>Zählt Änderungen an der Komponente im Theme. Beim Entsperren wählst du, wie stark sie steigt: Korrektur, Erweiterung oder grundlegend.</dd>
+            <dt>Geometrie für Hell und Dunkel gleich</dt>
+            <dd>Eingeschaltet gelten Größen, Abstände und Radien für beide Modi. Ausgeschaltet lassen sie sich für Dunkel getrennt einstellen. Farben sind immer je Modus.</dd>
+            <dt>Ebene 1 bis 3</dt>
+            <dd>Ebene 1 sind die Grundfarben (Primitive), Ebene 2 die Bedeutungen wie „Text“ oder „Fläche“ (Semantik), Ebene 3 die Werte einzelner Komponenten. Höhere Ebenen verweisen auf niedrigere.</dd>
+            <dt>Technische Namen</dt>
+            <dd>Die CSS-Variablen hinter jeder Einstellung, etwa <code>--nc-button-radius-md</code>. Für Entwicklerinnen und Entwickler; zum Einstellen nicht nötig.</dd>
+          </dl>
+        </details>
+      </div>
 
       <!-- UX-11: geteilte Tokens benennen -->
       <p v-if="geteilteGruppe && tokens.length" class="ce-geteilt" role="note" data-test="inspector-geteilt">
@@ -29,15 +53,15 @@
 
       <template v-if="tokens.length">
       <!-- Sync Geometry Toggle -->
-      <label class="sync-toggle">
+      <label class="sync-toggle" title="Größen, Abstände und Radien gelten für Hell und Dunkel">
         <svg v-if="store.state.syncGeometry" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 15l6-6"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072L18 13"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071L6 11"/>
         </svg>
         <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 15l3-3m2-2 1-1"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072"/><path d="M3 3l18 18"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071"/>
         </svg>
-        <span class="sync-label">Sync Geometry</span>
-        <button aria-label="Geometrie synchronisieren"
+        <span class="sync-label">Geometrie für Hell und Dunkel gleich</span>
+        <button aria-label="Geometrie für Hell und Dunkel gleich"
           :class="['sync-switch', { on: store.state.syncGeometry }]"
           role="switch"
           :aria-checked="store.state.syncGeometry"
@@ -52,7 +76,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
-        <span>This component is locked. Unlock to edit tokens.</span>
+        <span>Diese Komponente ist gesperrt. Zum Bearbeiten oben entsperren.</span>
       </div>
 
       <!-- Context Bar: zeigt aktives Specimen an -->
@@ -60,8 +84,8 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
         </svg>
-        <span class="context-label">Filtered: <strong>{{ arenaSelection.specimenId }}</strong></span>
-        <button class="context-reset" @click="store.clearArenaSelection()">Show All</button>
+        <span class="context-label">Gefiltert nach Vorschau: <strong>{{ arenaSelection.specimenId }}</strong></span>
+        <button class="context-reset" @click="store.clearArenaSelection()">Alle zeigen</button>
       </div>
 
       <!-- Token Search -->
@@ -110,6 +134,7 @@
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
               </button>
               <div v-if="expandedSubgroups.has('anat-' + sg.id)" class="ce-subgroup-body">
+                <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
                 <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
                   <div class="anatomy-row__label">
                     {{ token.label }}
@@ -164,6 +189,7 @@
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
               </button>
               <div v-if="expandedSubgroups.has('typo-' + sg.id)" class="ce-subgroup-body">
+                <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
@@ -249,6 +275,7 @@
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
               </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
+                <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <!-- Mirror Row: Light + Dark nebeneinander -->
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
@@ -329,6 +356,7 @@
                 <span class="ce-subgroup-count">{{ sg.tokens.length }}</span>
               </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
+                <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
@@ -482,6 +510,8 @@ import SizeEditor from '../editors/SizeEditor.vue'
 import GeometryTokenSelect from '../editors/GeometryTokenSelect.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import VariantCreator from './VariantCreator.vue'
+import WebsiteEinsatz from './WebsiteEinsatz.vue'
+import { gruppenWirkung } from '../../utils/token-wirkung.js'
 
 const props = defineProps({
   componentId: { type: String, required: true }
@@ -667,6 +697,18 @@ function buildSwatches(sgTokens, category) {
 //   Layout | Typography | Fill | Stroke | Effects
 
 import { classifyToken } from '../../composables/useTokenClassifier.js'
+
+// Roadmap V02: Kurztext je Gruppe aus den Token-Namen; technische Namen
+// (CSS-Variablen) lassen sich ausblenden — Wahl je Browser.
+const TECHNIK_SCHLUESSEL = 'neo-cfg-technische-namen'
+function technikLesen () {
+  try { return localStorage.getItem(TECHNIK_SCHLUESSEL) !== 'nein' } catch { return true }
+}
+const technik = ref(technikLesen())
+watch(technik, (an) => { try { localStorage.setItem(TECHNIK_SCHLUESSEL, an ? 'ja' : 'nein') } catch { /* privat */ } })
+function wirkungsText (sg) {
+  return gruppenWirkung((sg?.tokens || []).map((t) => t.id), props.componentId).text
+}
 import { komponentenErbe, komponentenLink } from '../../lib/token-erbe.js'
 
 // Legacy Compatibility: isAnatomySubgroup etc. werden durch den Classifier ersetzt
@@ -1157,6 +1199,20 @@ function getContrastTarget(token) {
 </script>
 
 <style scoped>
+/* Roadmap V02 */
+.ce-hilfe-leiste { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 16px; margin: 8px 0 12px; font-size: 12px; }
+.ce-technik { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 400; color: var(--cfg-text); cursor: pointer; }
+.ce-hilfe { flex: 1 1 200px; font-size: 12px; color: var(--cfg-text); }
+.ce-hilfe summary { cursor: pointer; font-weight: 600; }
+.ce-hilfe summary:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
+.ce-hilfe dl { margin: 6px 0 0; display: grid; gap: 4px; }
+.ce-hilfe dt { font-weight: 600; }
+.ce-hilfe dd { margin: 0 0 4px; color: var(--cfg-text-secondary); line-height: 1.45; }
+.ce-subgroup-wirkung { margin: 0 0 6px; font-size: 11px; line-height: 1.4; color: var(--cfg-text-secondary); }
+.ce--ohne-technik .token-name,
+.ce--ohne-technik .token-concrete,
+.ce--ohne-technik .semantic-ref-label code { display: none; }
+
 .component-editor { display: flex; flex-direction: column; gap: 24px; }
 .token-section { display: flex; flex-direction: column; gap: 12px; }
 

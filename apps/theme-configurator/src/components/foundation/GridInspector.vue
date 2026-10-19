@@ -27,7 +27,7 @@
         <div class="gi-token-card">
           <div class="gi-token-header">
             <span class="gi-token-name">Columns</span>
-            <span class="gi-level-badge gi-level--l3">L3</span>
+            <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
           </div>
           <p class="gi-token-desc">
             Anzahl der Rasterspalten. Standard ist 12 (4px-Basegrid).
@@ -59,7 +59,7 @@
         <div class="gi-token-card">
           <div class="gi-token-header">
             <span class="gi-token-name">Gap</span>
-            <span class="gi-level-badge gi-level--l3">L3</span>
+            <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
           </div>
           <p class="gi-token-desc">
             Standard-Abstand zwischen Spalten und Zeilen. Fluid via <code>clamp()</code> --
@@ -106,7 +106,7 @@
         <div class="gi-token-card">
           <div class="gi-token-header">
             <span class="gi-token-name">Gap Small</span>
-            <span class="gi-level-badge gi-level--l3">L3</span>
+            <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
             <span class="gi-ref-badge" title="Referenziert Foundation Token (Level 2)">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               L2
@@ -137,7 +137,7 @@
         <div class="gi-token-card">
           <div class="gi-token-header">
             <span class="gi-token-name">Gap Large</span>
-            <span class="gi-level-badge gi-level--l3">L3</span>
+            <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
             <span class="gi-ref-badge" title="Referenziert Foundation Token (Level 2)">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               L2

@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.13` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.14` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -718,6 +718,23 @@ App 1.2.13 (Roadmap V01 Geräteansicht und Vollbild, 19.10.2026):
   die feste 1280-px-Hülle (`ra-desktop`).
 - Die toten Zustände der alten Breakpoint-Leiste (XS–XXL ohne Bedienung)
   sind entfernt.
+
+App 1.2.14 (Roadmap V02 Hilfe im Komponenten-Inspector, 19.10.2026):
+
+- „Wirkt auf der Website“: oben im Komponenten-Inspector die Blöcke und
+  Bereiche der Website, deren Templates das Bauteil verwenden (71 von 138
+  Bauteilen). Daten aus `src/data/website-einsatz.generated.js`, erzeugt
+  mit `npm run website-einsatz` aus den Twig-Templates von neo_fe und den
+  Blocktypen in DRUPAL11 (nur lesend, nur lokal — GitHub-CI kennt DRUPAL11
+  nicht; die Datei wird committet).
+- Jede aufgeklappte Token-Gruppe nennt, was sie steuert („Steuert Höhe,
+  Innenabstand, Eckenradius und Rahmenbreite“), abgeleitet aus den
+  Token-Namen (`utils/token-wirkung.js`, über 90 % der 675 Gruppen).
+- „Begriffe erklärt“: Gesperrt/Bearbeitbar, Version, Geometrie für Hell
+  und Dunkel gleich (vorher „Sync Geometry“), Ebene 1 bis 3, technische
+  Namen. Sperr-Dialog deutsch (Korrektur, Erweiterung, Grundlegend).
+- „Technische Namen zeigen“ blendet CSS-Variablen und Template-Dateien
+  aus (Wahl je Browser).
 
 Ursprünglicher Vorschlag (ADR-004):
 

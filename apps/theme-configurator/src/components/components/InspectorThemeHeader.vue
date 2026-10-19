@@ -42,7 +42,7 @@
     </div>
 
     <!-- Sync Geometry Toggle -->
-    <label class="sync-toggle">
+    <label class="sync-toggle" title="Größen, Abstände und Radien gelten für Hell und Dunkel">
       <!-- Link/Unlink Icon -->
       <svg v-if="store.state.syncGeometry" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 15l6-6"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072L18 13"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071L6 11"/>
@@ -50,8 +50,8 @@
       <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 15l3-3m2-2 1-1"/><path d="M11 6l.463-.536a5 5 0 017.071 7.072"/><path d="M3 3l18 18"/><path d="M13 18l-.397.534a5.068 5.068 0 01-7.127 0 4.972 4.972 0 010-7.071"/>
       </svg>
-      <span class="sync-label">Sync Geometry</span>
-      <button aria-label="Geometrie synchronisieren"
+      <span class="sync-label">Geometrie für Hell und Dunkel gleich</span>
+      <button aria-label="Geometrie für Hell und Dunkel gleich"
         :class="['sync-switch', { on: store.state.syncGeometry }]"
         role="switch"
         :aria-checked="store.state.syncGeometry"
