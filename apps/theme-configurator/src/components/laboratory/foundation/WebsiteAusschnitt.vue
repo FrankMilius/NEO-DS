@@ -57,8 +57,9 @@ const variablen = computed(() => vorschauVariablen({
   background-color: var(--fnd-color-background-base);
   color: var(--fnd-color-text-primary);
   font-family: var(--font-body);
+  font-size: 1rem;   /* wie die Website, nicht die 14 px der App */
   line-height: var(--lh-body);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;   /* nur überlange Wörter, wie die Website */
 }
 /* Globale Regeln der App (style.css: Überschriften- und Code-Schrift)
    gelten hier nicht — im Ausschnitt zählt allein das Design System. */

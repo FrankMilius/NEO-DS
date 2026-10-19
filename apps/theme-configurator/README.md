@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.29` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.30` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -1006,6 +1006,26 @@ App 1.2.29 (Schritt e: Objekte mit echtem Website-Inhalt, 19.10.2026):
   Text Only, Tab Nav und Card Grid CTA stehen im Rahmen in voller Breite.
 - Tests: Karten und Knöpfe als begründeter Beispielinhalt (kein Teil des
   Recipes), Aufbau-Tests auf den neuen Inhalt, Browser-Test „Schritt e“.
+
+App 1.2.30 (Schritt f: Grundlagen „Auf der Seite“, 19.10.2026):
+
+- Umschalter „Muster · Auf der Seite“ im Bühnenkopf bei Eckenradien,
+  Abständen, Größen, Rahmen, Schatten, Deckkraft, Icons, Typografie,
+  Fokusring und Flächen (`useGrundlagenAnsicht`, je Browser gemerkt).
+  „Muster“ = die bisherigen Kacheln.
+- „Auf der Seite“ (`AufDerSeite.vue`): Website-Ausschnitt im geöffneten
+  Theme (`WebsiteBeispiel.vue`, auch von der Themes-Bühne genutzt; Abstände
+  aus den Tokens). Markierungen gemessen aus den berechneten Stilen und den
+  im Ausschnitt aufgelösten Tokens (`utils/auf-der-seite.js`): Nummer am
+  Element, Legende darunter (gleiche Werte eine Nummer, „3×“), Innenabstände
+  getönt. Fokusring mit denselben Tokens wie der Mixin gezeichnet, ohne der
+  App den Tastaturfokus zu nehmen. Folgt Theme-Änderungen sofort.
+- Website-Ausschnitt mit 1rem Grundgröße wie die Website (vorher 14 px der
+  App; betraf auch HTML-Elemente und Themes).
+- Befund im Design System: Die Karte überschreibt `--nc-card-shadow` mit
+  einem festen Wert (`_card.scss`, Block „aufgenommen“) — „Auf der Seite“
+  zeigt „Schatten (eigener Wert)“; vom Theme nicht änderbar, im Dunkeln
+  nicht angepasst.
 
 Ursprünglicher Vorschlag (ADR-004):
 

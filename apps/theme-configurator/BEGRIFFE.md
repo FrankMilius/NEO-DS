@@ -45,6 +45,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Einstellungen | Inspector | rechte Spalte (Entscheidung E2) |
 | Vorschau | Specimen | eine Vorschau auf der Bühne |
 | Hilfslinien | Outline, Debug-Rahmen | Schalter auf der Bühne bei Objekten: Kanten und Maße über dem echten Inhalt |
+| Muster · Auf der Seite | Specimen, Kontext | Ansicht einer Grundlage auf der Bühne: Kacheln je Wert oder Website-Ausschnitt mit Markierungen, wo der Wert wirkt |
 | Entwurf | „Recipe im Status draft“ | Kennzeichen; „Recipe“ nur mit technischen Namen |
 | Gesperrt / Bearbeitbar, Version | Locked, Unlocked | Sperre einer Komponente |
 | Variante: NEO · Kunde | Theme-Set, Neo / Customer | nur im lokalen Betrieb (Entscheidung E3); wählt die Variante **innerhalb** eines Themes. Weitere Kunden = weitere Themes. In Drupal unsichtbar. |

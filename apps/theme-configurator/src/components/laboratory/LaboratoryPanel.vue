@@ -10,7 +10,7 @@
           <span v-if="istEntwurfAktiv" class="lab-entwurf" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>
         </h2>
         <!-- Theme Segmented Control (nur bei Komponenten-Sektionen) -->
-        <div v-if="isComponentSection || isGridSection || hasSemanticCategory || store.state.activeSection === 'foundation-elements'" class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
+        <div v-if="isComponentSection || isGridSection || hasSemanticCategory || store.state.activeSection === 'foundation-elements' || aufDerSeite" class="theme-segmented" role="radiogroup" aria-label="Vorschaumodus">
           <button
             :class="['seg-btn', { active: store.state.previewMode === 'light' }]"
             type="button"
@@ -66,6 +66,18 @@
         </div>
         <!-- Roadmap V01: Fensterbreite der Vorschau und Vollbild -->
         <div class="lab-werkzeuge">
+          <!-- Schritt f (19.10.2026): Grundlagen als Muster oder auf der Seite -->
+          <div v-if="seitenKategorie" class="theme-segmented" role="radiogroup" aria-label="Ansicht der Grundlage" data-test="grundlagen-ansicht">
+            <button
+              v-for="o in [{ key: 'muster', label: 'Muster' }, { key: 'seite', label: 'Auf der Seite' }]"
+              :key="o.key"
+              :class="['seg-btn', 'seg-btn--text', { active: grundlagenAnsicht === o.key }]"
+              type="button"
+              role="radio"
+              :aria-checked="grundlagenAnsicht === o.key ? 'true' : 'false'"
+              @click="grundlagenAnsicht = o.key"
+            >{{ o.label }}</button>
+          </div>
           <!-- Schritt e (19.10.2026): Kanten und Maße der Objekte über echtem Inhalt -->
           <label v-if="istObjekt" class="lab-hilfslinien" data-test="hilfslinien">
             <input v-model="hilfslinien" type="checkbox">
@@ -112,7 +124,8 @@
 
         <!-- Sektion → Komponente aus der Registry (src/navigation/sektionen.js) -->
         <BreitenRahmen :breite="isComponentSection ? aktivesGeraet.breite : null" :hoehe="aktivesGeraet.hoehe || 800">
-          <component :is="sektion.labor" />
+          <AufDerSeite v-if="aufDerSeite" :key="seitenKategorie" :kategorie="seitenKategorie" />
+          <component v-else :is="sektion.labor" />
         </BreitenRahmen>
 
       </div><!-- /.lab-viewport-inner -->
@@ -127,6 +140,9 @@ import { sektionAufloesen } from '../../navigation/sektionen.js'
 import { ebeneDerSektion } from '../../data/navigation-builder.js'
 import { useVorschauKombinationen } from '../../composables/useVorschauKombinationen.js'
 import { useHilfslinien } from '../../composables/useHilfslinien.js'
+import { useGrundlagenAnsicht } from '../../composables/useGrundlagenAnsicht.js'
+import { KATEGORIE_JE_BEREICH } from '../../utils/auf-der-seite.js'
+import AufDerSeite from './foundation/AufDerSeite.vue'
 import ArenaFilterbar from './ArenaFilterbar.vue'
 import BreitenRahmen from './BreitenRahmen.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
@@ -215,6 +231,9 @@ const { variantenSichtbar } = useVorschauKombinationen()
 watch(() => store.state.previewMode, (m) => { if (m === 'matrix' && !variantenSichtbar) store.setPreviewMode('split') }, { immediate: true })
 
 const hilfslinien = useHilfslinien()
+const grundlagenAnsicht = useGrundlagenAnsicht()
+const seitenKategorie = computed(() => KATEGORIE_JE_BEREICH[store.state.activeSection] || null)
+const aufDerSeite = computed(() => !!seitenKategorie.value && grundlagenAnsicht.value === 'seite')
 const istObjekt = computed(() => ebeneDerSektion(store.state.activeSection) === 'objects')
 
 const DESKTOP_EBENEN = new Set(['objects', 'organisms', 'patterns', 'templates'])

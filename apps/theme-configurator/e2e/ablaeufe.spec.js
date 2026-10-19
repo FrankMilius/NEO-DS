@@ -355,3 +355,26 @@ test('Schritt e: Objekte zeigen Website-Inhalt; „Hilfslinien“ blendet Kanten
   await expect(page.frameLocator('iframe.br-rahmen').locator('.o-grid .nc-card').first()).toBeVisible()
   await page.locator('[data-test="hilfslinien"] input').uncheck()
 })
+
+test('Schritt f: Grundlagen „Auf der Seite“ — gemessen am Website-Ausschnitt, folgt dem Theme', async ({ page }) => {
+  await oeffneSektion(page, 'foundation-radius')
+  const wahl = page.locator('[data-test="grundlagen-ansicht"]')
+  await expect(wahl.getByRole('radio', { name: 'Muster' })).toHaveAttribute('aria-checked', 'true')
+  await wahl.getByRole('radio', { name: 'Auf der Seite' }).click()
+  const legende = page.locator('[data-test="auf-der-seite-legende"]')
+  await expect(legende).toContainText('Radius SM · 4 px')
+  // Theme ändert den Wert → die Messung zeigt ihn
+  await page.evaluate(() => {
+    const a = document.querySelector('#app').__vue_app__
+    const s = [...a.config.globalProperties.$pinia._s.values()].find((x) => x.state?.themes)
+    s.updateFoundationToken('radius', 'sm', '9px')
+  })
+  await expect(legende).toContainText('Radius SM · 9 px')
+  // Ansicht gilt für alle Grundlagen mit Messung, nicht für Farben
+  await oeffneSektion(page, 'foundation-spacing')
+  await expect(page.locator('[data-test="auf-der-seite-legende"]')).toContainText('Innenabstand')
+  await oeffneSektion(page, 'foundation-colors')
+  await expect(page.locator('[data-test="grundlagen-ansicht"]')).toHaveCount(0)
+  await oeffneSektion(page, 'foundation-radius')
+  await page.locator('[data-test="grundlagen-ansicht"]').getByRole('radio', { name: 'Muster' }).click()
+})
