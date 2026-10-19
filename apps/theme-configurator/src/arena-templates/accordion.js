@@ -10,12 +10,14 @@
 // gemeinsames name-Attribut der Eintraege (natives „nur eines offen").
 // Zustaende am ersten Eintrag: open = [open]; disabled = aria-disabled am
 // Ausloeser (das DS sperrt ihn per pointer-events, neo-behaviors die Tastatur);
-// selected = angehakte Checkbox im Praefix; hover/focus nur echt
+// selected = angehakte Checkbox in __auswahl; hover/focus nur echt
 // (data-zustand). In „Ausprobieren" startet alles zu — das Verhalten kommt
 // aus neo-behaviors (accordion).
 //
 // Kompositionen (render.compositionType): nested (zweite Ebene im Inhalt),
-// selection (Checkbox im Praefix), actions (Badge + Symbolknopf im Suffix),
+// selection (Checkbox in __auswahl NEBEN dem Ausloeser), actions (Badge im
+// Suffix, Symbolknopf in __aktionen neben dem Ausloeser) — Roadmap V06:
+// Bedienelemente nie in <summary> (axe nested-interactive, UX-55),
 // sticky (langer Inhalt), footer (Handlungsleiste im Fuss), stacked (FAQ wie
 // auf der Website, mit Liste und Handlung), media (Bild ueber/neben dem Text).
 import { BILD_SRC, esc } from './_helfer.js'
@@ -39,7 +41,16 @@ const LANG = 'Der Auslöser bleibt beim Scrollen am oberen Rand stehen, solange 
  * Ein Eintrag. `kopf` ist Text oder fertiges Markup fuer den Ausloeser-Text,
  * `inhalt` fertiges Markup fuer __content-inner.
  */
-function eintrag (m, nr, { titel, inhalt, offen = false, kopfAttrs = '', praefix = '', suffix = '', fuss = '', gruppe = '' }) {
+function eintrag (m, nr, { titel, inhalt, offen = false, kopfAttrs = '', praefix = '', suffix = '', fuss = '', gruppe = '', auswahl = '', aktionen = '' }) {
+  const item = details(m, nr, { titel, inhalt, offen, kopfAttrs, praefix, suffix, fuss, gruppe })
+  if (!auswahl && !aktionen) return item
+  // V06: Auswahl und Aktionen als Geschwister des <details> (Tab-Reihenfolge)
+  return `<div class="nc-accordion__eintrag">
+${auswahl ? `<span class="nc-accordion__auswahl">${auswahl}</span>\n` : ''}${item}${aktionen ? `\n<span class="nc-accordion__aktionen">${aktionen}</span>` : ''}
+</div>`
+}
+
+function details (m, nr, { titel, inhalt, offen, kopfAttrs, praefix, suffix, fuss, gruppe }) {
   return `<details class="nc-accordion__item" id="${m.uid}-${nr}"${gruppe ? ` name="${gruppe}"` : ''}${offen ? ' open' : ''}>
 <summary class="nc-accordion__trigger"${kopfAttrs}>
 ${praefix ? `<span class="nc-accordion__trigger-prefix">${praefix}</span>` : ''}<span class="nc-accordion__trigger-body">
@@ -74,8 +85,8 @@ ${eintraege.map((e, i) => eintrag(m, i + 1, { gruppe, ...e })).join('\n')}
 </div>`
 }
 
-function checkbox (m, nr, an) {
-  return `<label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" id="${m.uid}-wahl-${nr}" aria-label="Auswählen"${an ? ' checked' : ''}><span class="nc-checkbox__control"></span></label>`
+function checkbox (m, nr, an, name) {
+  return `<label class="nc-checkbox nc-checkbox--sm"><input class="nc-checkbox__input" type="checkbox" id="${m.uid}-wahl-${nr}" aria-label="${esc(name)} auswählen"${an ? ' checked' : ''}><span class="nc-checkbox__control"></span></label>`
 }
 
 export default (zelle, m) => {
@@ -102,16 +113,17 @@ ${eintrag({ uid: `${m.uid}-u` }, 2, { titel: 'Unterkategorie B', inhalt: text('D
     case 'accordion-selection': {
       const gewaehlt = m.hat('selected') && !m.ausprobieren
       html = liste(m, [
-        { titel: 'Option A — Performance', inhalt: text('Konfigurationsdetails für diese Option.'), offen, kopfAttrs: kopf, praefix: checkbox(m, 1, gewaehlt) },
-        { titel: 'Option B — Comfort', inhalt: text('Konfigurationsdetails für diese Option.'), praefix: checkbox(m, 2, false) },
-        { titel: 'Option C — Eco', inhalt: text('Konfigurationsdetails für diese Option.'), praefix: checkbox(m, 3, false) }
+        { titel: 'Option A — Performance', inhalt: text('Konfigurationsdetails für diese Option.'), offen, kopfAttrs: kopf, auswahl: checkbox(m, 1, gewaehlt, 'Option A') },
+        { titel: 'Option B — Comfort', inhalt: text('Konfigurationsdetails für diese Option.'), auswahl: checkbox(m, 2, false, 'Option B') },
+        { titel: 'Option C — Eco', inhalt: text('Konfigurationsdetails für diese Option.'), auswahl: checkbox(m, 3, false, 'Option C') }
       ])
       break
     }
     case 'accordion-actions': {
-      const suffix = `<span class="nc-badge nc-badge--info nc-badge--sm"><span class="nc-badge__label">Neu</span></span><button type="button" class="nc-button nc-button--ghost nc-button--sm nc-button--icon-only" aria-label="Bearbeiten">${STIFT}</button>`
+      const suffix = '<span class="nc-badge nc-badge--info nc-badge--sm"><span class="nc-badge__label">Neu</span></span>'
+      const aktionen = `<button type="button" class="nc-button nc-button--ghost nc-button--sm nc-button--icon-only" aria-label="Eintrag mit Badge und Aktion bearbeiten">${STIFT}</button>`
       html = liste(m, [
-        { titel: 'Eintrag mit Badge und Aktion', inhalt: text('Badge und Bearbeiten-Knopf stehen im Suffix vor dem Zeichen.'), offen, kopfAttrs: kopf, suffix },
+        { titel: 'Eintrag mit Badge und Aktion', inhalt: text('Das Badge steht im Suffix des Auslösers, der Bearbeiten-Knopf daneben — nicht darin.'), offen, kopfAttrs: kopf, suffix, aktionen },
         { titel: 'Eintrag ohne Suffix', inhalt: text('Ohne Badge und Aktion.') }
       ])
       break

@@ -482,6 +482,94 @@
   }
 
   // ═══════════════════════════════════════════════════════════════
+  // Auswahl und Aktionen NEBEN dem Ausloeser (Roadmap V06, 19.10.2026)
+  // ═══════════════════════════════════════════════════════════════
+  // Checkbox, Radio und Knoepfe gehoeren nicht in <summary>: Screenreader und
+  // Tastatur bekaemen verschachtelte Bedienelemente (axe nested-interactive,
+  // Befund UX-55). Sie stehen in einer Huelle neben dem <details> und liegen
+  // nur optisch in der Zeile des Ausloesers:
+  //
+  //   <div class="nc-accordion__eintrag">
+  //     <span class="nc-accordion__auswahl"><input type="checkbox" …></span>
+  //     <details class="nc-accordion__item"><summary …>…</summary>…</details>
+  //     <span class="nc-accordion__aktionen"><button …></button></span>
+  //   </div>
+  //
+  // Reihenfolge im DOM = Tab-Reihenfolge: Auswahl, Ausloeser, Aktionen.
+  // __trigger-prefix/__trigger-suffix bleiben fuer NICHT bedienbare Inhalte
+  // (Status-Zeichen, Badges; so nutzt die Website das Suffix).
+  //
+  // WEBSITE UNBERUEHRT: nur neue Klassen; kein bestehender Selektor bekommt
+  // eine Deklaration.
+  &__eintrag {
+    // Polster der Dichte (die Huelle liegt ausserhalb von __trigger)
+    --_ak-pb: var(--mod-accordion-padding-block, var(--nc-accordion-padding-block));
+    --_ak-pi: var(--mod-accordion-padding-inline, var(--nc-accordion-padding-inline));
+    position: relative;
+  }
+
+  &--compact &__eintrag {
+    --_ak-pb: var(--mod-accordion-padding-compact-block, var(--nc-accordion-padding-compact-block));
+    --_ak-pi: var(--mod-accordion-padding-compact-inline, var(--nc-accordion-padding-compact-inline));
+  }
+
+  &--spacious &__eintrag {
+    --_ak-pb: var(--mod-accordion-padding-spacious-block, var(--nc-accordion-padding-spacious-block));
+    --_ak-pi: var(--mod-accordion-padding-spacious-inline, var(--nc-accordion-padding-spacious-inline));
+  }
+
+  // Jeder Eintrag ist erstes Kind seiner Huelle: nur der erste bekommt die
+  // obere Linie (wie ohne Huelle)
+  &__eintrag:not(:first-child) > &__item {
+    border-block-start: 0;
+  }
+
+  &__auswahl,
+  &__aktionen {
+    position: absolute;
+    z-index: 1;
+    inset-block-start: var(--_ak-pb);
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--mod-accordion-selection-indicator-size, var(--nc-accordion-selection-indicator-size));
+  }
+
+  &__auswahl {
+    inset-inline-start: var(--_ak-pi);
+    justify-content: center;
+    min-inline-size: var(--mod-accordion-selection-indicator-size, var(--nc-accordion-selection-indicator-size));
+  }
+
+  &__aktionen {
+    // vor dem Zeichen: Polster + Zeichen + Abstand
+    inset-inline-end: calc(var(--_ak-pi) + var(--mod-accordion-icon-size, var(--nc-accordion-icon-size)) + var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap)));
+    gap: var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap));
+    color: var(--mod-accordion-actions-color, var(--nc-accordion-actions-color));
+    --mod-button-ghost-color: var(--mod-accordion-actions-color, var(--nc-accordion-actions-color));
+
+    > :is(a, button):hover:not(:disabled):not([aria-disabled='true']) {
+      color: var(--mod-accordion-actions-hover-color, var(--nc-accordion-actions-hover-color));
+    }
+  }
+
+  // Platz im Ausloeser, damit Text und Auswahl/Aktionen sich nicht ueberlagern
+  &__eintrag:has(> &__auswahl) > &__item > &__trigger {
+    padding-inline-start: calc(var(--_ak-pi) + var(--mod-accordion-selection-indicator-size, var(--nc-accordion-selection-indicator-size)) + var(--mod-accordion-actions-gap, var(--nc-accordion-actions-gap)));
+  }
+
+  // Platz fuer die Aktionen VOR dem Zeichen (das Zeichen bleibt am Rand)
+  &__eintrag:has(> &__aktionen) > &__item > &__trigger > &__icon {
+    margin-inline-start: var(--mod-accordion-actions-space, var(--nc-accordion-actions-space));
+  }
+
+  // Gewaehlter Eintrag (Variante --selection): Rahmen und Flaeche wie bisher
+  &__eintrag:has(> &__auswahl :checked) > &__item {
+    background: var(--mod-accordion-selection-bg-active, var(--nc-accordion-selection-bg-active));
+    outline: var(--fnd-border-width-xs) solid var(--mod-accordion-selection-border-active, var(--nc-accordion-selection-border-active));
+    outline-offset: calc(-1 * var(--fnd-border-width-xs));
+  }
+
+  // ═══════════════════════════════════════════════════════════════
   // Variante: Verschachtelt (--nested)
   // ═══════════════════════════════════════════════════════════════
   // Ein zweites .nc-accordion im Inhalt eines Eintrags: eingerueckt, mit

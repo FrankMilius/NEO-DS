@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "accordion",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -25,7 +25,7 @@
         "name": "trigger",
         "selector": ".nc-accordion__trigger",
         "required": true,
-        "description": "Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix."
+        "description": "Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix — nie bedienbare Elemente (Checkbox, Knoepfe: siehe auswahl/aktionen)."
       },
       {
         "name": "icon",
@@ -55,13 +55,31 @@
         "name": "trigger-prefix",
         "selector": ".nc-accordion__trigger-prefix",
         "required": false,
-        "description": "Platz fuer Checkbox, Radio oder Status-Icon links im Trigger."
+        "description": "Status-Zeichen links im Trigger. Nicht bedienbar — Checkbox/Radio gehoeren in den Slot auswahl."
       },
       {
         "name": "trigger-suffix",
         "selector": ".nc-accordion__trigger-suffix",
         "required": false,
-        "description": "Platz fuer Badges oder Action-Buttons rechts im Trigger (vor dem Toggle-Icon)."
+        "description": "Badges rechts im Trigger (vor dem Toggle-Icon). Nicht bedienbar — Knoepfe gehoeren in den Slot aktionen."
+      },
+      {
+        "name": "eintrag",
+        "selector": ".nc-accordion__eintrag",
+        "required": false,
+        "description": "Huelle um ein <details>, wenn Auswahl oder Aktionen dazugehoeren (Roadmap V06)."
+      },
+      {
+        "name": "auswahl",
+        "selector": ".nc-accordion__auswahl",
+        "required": false,
+        "description": "Checkbox oder Radio NEBEN dem Ausloeser (vor dem <details>, in der Zeile des Ausloesers)."
+      },
+      {
+        "name": "aktionen",
+        "selector": ".nc-accordion__aktionen",
+        "required": false,
+        "description": "Knoepfe NEBEN dem Ausloeser (nach dem <details>, rechts vor dem Zeichen)."
       },
       {
         "name": "footer",
@@ -74,10 +92,11 @@
       "Natives <details>/<summary> oder ARIA-Pattern (role='region').",
       "BEM: .nc-accordion > __item > __trigger + __content > __content-inner.",
       "CSS-Grid-Animation: grid-template-rows 0fr→1fr fuer fluessige Hoehen-Animation.",
-      "Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox.",
+      "Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox. Prefix/Suffix nur fuer nicht bedienbare Inhalte.",
+      "Auswahl und Aktionen (Roadmap V06): <div class=nc-accordion__eintrag> mit __auswahl (Checkbox/Radio), dem <details> und __aktionen (Knoepfe) als Geschwister. Reihenfolge = Tab-Reihenfolge. Nie bedienbare Elemente in <summary> (axe nested-interactive).",
       "Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Innere Ebene eingerueckt (margin-inline-start: --nc-accordion-nested-indent) mit Fuehrungslinie (--nc-accordion-nested-border-width) und kleinerem Zeichen (--nc-accordion-nested-icon-size).",
-      "Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
-      "Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).",
+      "Selection: .nc-accordion__auswahl enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
+      "Actionable Header: Badges in .nc-accordion__trigger-suffix, Knoepfe in .nc-accordion__aktionen (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).",
       "Sticky Trigger: .nc-accordion--sticky — position:sticky auf dem Trigger des offenen Items (wirkt nur bei langem Content, Grenze ist das <details>). Versatz 0; mit .site-header[data-neo-nav] auf der Seite unter der Hauptnavigation (--nc-nav-height), bei .site-header.is-nav-hidden wieder 0. Flaeche --nc-accordion-trigger-sticky-bg, Ebene --nc-accordion-trigger-sticky-z.",
       "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
       "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
@@ -425,6 +444,9 @@
           "token": "--nc-accordion-actions-gap"
         },
         {
+          "token": "--nc-accordion-actions-space"
+        },
+        {
           "token": "--nc-accordion-actions-color"
         },
         {
@@ -600,6 +622,7 @@
       "--mod-accordion-selection-bg-active",
       "--mod-accordion-selection-indicator-size",
       "--mod-accordion-actions-gap",
+      "--mod-accordion-actions-space",
       "--mod-accordion-actions-color",
       "--mod-accordion-actions-hover-color",
       "--mod-accordion-trigger-sticky-z",

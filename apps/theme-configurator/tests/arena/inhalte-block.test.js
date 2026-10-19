@@ -181,7 +181,7 @@ describe('Inhalte-Block aus dem Recipe', () => {
       expect(r.keyboard, id).toBeUndefined()
       expect(r.events, id).toBeUndefined()
     }
-    const VERSION = { card: '3.2.1', accordion: '3.4.0', 'data-table': '2.2.0', 'compare-table': '2.3.0' } // compare-table 2.1.0: Slot icon (Plan v3, Phase 5); 2.2.0/2.3.0 Restpunkte 09.10.2026; accordion 3.4.0 Plan v4, Phase 6b
+    const VERSION = { card: '3.2.1', accordion: '3.5.0', 'data-table': '2.2.0', 'compare-table': '2.3.0' } // compare-table 2.1.0: Slot icon (Plan v3, Phase 5); 2.2.0/2.3.0 Restpunkte 09.10.2026; accordion 3.4.0 Plan v4, Phase 6b; 3.5.0 Roadmap V06
     for (const [id, v] of Object.entries(VERSION)) expect(rohesRecipe(id).meta.version, id).toBe(v)
   })
 
@@ -265,13 +265,16 @@ describe('Inhalte-Block: Zustände und Inhalte', () => {
     expect(zelle('accordion', 'faq-pattern', 'Standard').querySelector('[data-neo-accordion]')).toBeNull()
   })
 
-  it('accordion: Kompositionen — zweite Ebene, Checkbox im Praefix (gewaehlt = angehakt), Badge + Knopf im Suffix, Fuss', () => {
+  it('accordion: Kompositionen — zweite Ebene, Checkbox NEBEN dem Ausloeser, Badge im Suffix + Knopf daneben, Fuss (V06)', () => {
     expect(zelle('accordion', 'nested-hierarchy', 'Geöffnet').querySelector('.nc-accordion__content-inner > .nc-accordion .nc-accordion__item')).not.toBeNull()
-    expect(zelle('accordion', 'selection-checkable', 'Standard').querySelector('.nc-accordion__trigger-prefix .nc-checkbox__input:checked')).toBeNull()
-    expect(zelle('accordion', 'selection-checkable', 'Ausgewählt').querySelector('details:first-child .nc-accordion__trigger-prefix .nc-checkbox__input:checked')).not.toBeNull()
-    const suffix = zelle('accordion', 'actionable-header', 'Standard').querySelector('.nc-accordion__trigger-suffix')
-    expect(suffix.querySelector('.nc-badge')).not.toBeNull()
-    expect(suffix.querySelector('button.nc-button').getAttribute('aria-label')).toBe('Bearbeiten')
+    expect(zelle('accordion', 'selection-checkable', 'Standard').querySelector('.nc-accordion__auswahl .nc-checkbox__input:checked')).toBeNull()
+    const wahl = zelle('accordion', 'selection-checkable', 'Ausgewählt')
+    expect(wahl.querySelector('.nc-accordion__eintrag:first-child > .nc-accordion__auswahl .nc-checkbox__input:checked').getAttribute('aria-label')).toBe('Option A auswählen')
+    const aktion = zelle('accordion', 'actionable-header', 'Standard')
+    expect(aktion.querySelector('.nc-accordion__trigger-suffix .nc-badge')).not.toBeNull()
+    expect(aktion.querySelector('.nc-accordion__eintrag > .nc-accordion__aktionen > button.nc-button').getAttribute('aria-label')).toBe('Eintrag mit Badge und Aktion bearbeiten')
+    // Roadmap V06 / UX-55: keine Bedienelemente in <summary>
+    for (const z of [wahl, aktion]) expect(z.querySelector('summary :is(input, button, a, select, textarea)')).toBeNull()
     expect(zelle('accordion', 'separated-with-footer', 'Geöffnet').querySelector('.nc-accordion--separated .nc-accordion__footer .nc-button')).not.toBeNull()
   })
 

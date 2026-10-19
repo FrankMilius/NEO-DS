@@ -1,5 +1,5 @@
 # accordion Component Spec
-> Version 3.4.0 | Status: stable | Layer: molecule
+> Version 3.5.0 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `disclosure`, `content`, `navigation`, `faq`, `selection`
 
@@ -9,23 +9,27 @@ Root element: `.nc-accordion`
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
 | item | `.nc-accordion__item` | Yes | Einzelnes Accordion-Item (details Element). |
-| trigger | `.nc-accordion__trigger` | Yes | Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix. |
+| trigger | `.nc-accordion__trigger` | Yes | Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix — nie bedienbare Elemente (Checkbox, Knoepfe: siehe auswahl/aktionen). |
 | icon | `.nc-accordion__icon` | No | Toggle-Icon (Chevron). Rotiert bei Open. |
 | content | `.nc-accordion__content` | Yes | Content-Container. grid-template-rows: 0fr/1fr Animation. |
 | content-inner | `.nc-accordion__content-inner` | Yes | Innerer Content mit overflow:hidden. |
 | media | `.nc-accordion__media` | No | Optionaler Bild/Video-Container. |
-| trigger-prefix | `.nc-accordion__trigger-prefix` | No | Platz fuer Checkbox, Radio oder Status-Icon links im Trigger. |
-| trigger-suffix | `.nc-accordion__trigger-suffix` | No | Platz fuer Badges oder Action-Buttons rechts im Trigger (vor dem Toggle-Icon). |
+| trigger-prefix | `.nc-accordion__trigger-prefix` | No | Status-Zeichen links im Trigger. Nicht bedienbar — Checkbox/Radio gehoeren in den Slot auswahl. |
+| trigger-suffix | `.nc-accordion__trigger-suffix` | No | Badges rechts im Trigger (vor dem Toggle-Icon). Nicht bedienbar — Knoepfe gehoeren in den Slot aktionen. |
+| eintrag | `.nc-accordion__eintrag` | No | Huelle um ein <details>, wenn Auswahl oder Aktionen dazugehoeren (Roadmap V06). |
+| auswahl | `.nc-accordion__auswahl` | No | Checkbox oder Radio NEBEN dem Ausloeser (vor dem <details>, in der Zeile des Ausloesers). |
+| aktionen | `.nc-accordion__aktionen` | No | Knoepfe NEBEN dem Ausloeser (nach dem <details>, rechts vor dem Zeichen). |
 | footer | `.nc-accordion__footer` | No | Optionaler Footer am Ende des Contents fuer Buttons/Actions. |
 
 ### DOM Notes
 - Natives <details>/<summary> oder ARIA-Pattern (role='region').
 - BEM: .nc-accordion > __item > __trigger + __content > __content-inner.
 - CSS-Grid-Animation: grid-template-rows 0fr→1fr fuer fluessige Hoehen-Animation.
-- Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox.
+- Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox. Prefix/Suffix nur fuer nicht bedienbare Inhalte.
+- Auswahl und Aktionen (Roadmap V06): <div class=nc-accordion__eintrag> mit __auswahl (Checkbox/Radio), dem <details> und __aktionen (Knoepfe) als Geschwister. Reihenfolge = Tab-Reihenfolge. Nie bedienbare Elemente in <summary> (axe nested-interactive).
 - Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Innere Ebene eingerueckt (margin-inline-start: --nc-accordion-nested-indent) mit Fuehrungslinie (--nc-accordion-nested-border-width) und kleinerem Zeichen (--nc-accordion-nested-icon-size).
-- Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.
-- Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).
+- Selection: .nc-accordion__auswahl enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.
+- Actionable Header: Badges in .nc-accordion__trigger-suffix, Knoepfe in .nc-accordion__aktionen (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).
 - Sticky Trigger: .nc-accordion--sticky — position:sticky auf dem Trigger des offenen Items (wirkt nur bei langem Content, Grenze ist das <details>). Versatz 0; mit .site-header[data-neo-nav] auf der Seite unter der Hauptnavigation (--nc-nav-height), bei .site-header.is-nav-hidden wieder 0. Flaeche --nc-accordion-trigger-sticky-bg, Ebene --nc-accordion-trigger-sticky-z.
 - Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.
 - Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.
@@ -184,6 +188,7 @@ Base classes: `nc-accordion`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-accordion-actions-gap` | — | `--mod-accordion-actions-gap` |
+| `--nc-accordion-actions-space` | — | `--mod-accordion-actions-space` |
 | `--nc-accordion-actions-color` | — | `--mod-accordion-actions-color` |
 | `--nc-accordion-actions-hover-color` | — | `--mod-accordion-actions-hover-color` |
 

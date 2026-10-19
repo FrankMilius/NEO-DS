@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.17` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.18` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -773,6 +773,19 @@ App 1.2.17 (Roadmap V05 Templates und Utilities neu geordnet, 19.10.2026):
   „Nur Ansicht“. Skizzen und Namen deutsch.
 - Der Inspector-Kopf nennt bei Seiten ohne eigenen Titel den Namen aus der
   Sektions-Registry statt „Inspector“.
+
+App 1.2.18 (Roadmap V06 Accordion ohne Bedienelemente im Auslöser, 19.10.2026):
+
+- Design System: Checkbox/Radio und Knöpfe stehen nicht mehr im
+  `<summary>`, sondern in `.nc-accordion__auswahl` bzw.
+  `.nc-accordion__aktionen` neben dem `<details>` (Hülle
+  `.nc-accordion__eintrag`). Sie liegen nur optisch in der Zeile des
+  Auslösers; neues Token `--nc-accordion-actions-space`. Prefix/Suffix
+  bleiben für nicht bedienbare Inhalte (so nutzt die Website das Suffix).
+  Recipe accordion 3.5.0, Doku und Spezifikation angepasst.
+- Arena: die Varianten „Auswahl“ und „Aktionen“ nutzen das neue Muster;
+  Checkboxen und Knöpfe haben eindeutige Namen. axe meldet in der
+  Accordion-Arena keine verschachtelten Bedienelemente mehr (vorher 11).
 
 Ursprünglicher Vorschlag (ADR-004):
 

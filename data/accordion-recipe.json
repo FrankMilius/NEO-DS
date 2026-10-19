@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "accordion",
-    "version": "3.4.0",
+    "version": "3.5.0",
     "status": "stable",
     "tags": [
       "interactive",
@@ -19,6 +19,12 @@
       "docs": "/docs/accordion-docs"
     },
     "changelog": [
+      {
+        "version": "3.5.0",
+        "changes": [
+          "Roadmap V06 (19.10.2026, Befund UX-55): Checkbox, Radio und Knoepfe stehen nicht mehr im <summary> (axe nested-interactive), sondern in .nc-accordion__auswahl bzw. .nc-accordion__aktionen neben dem <details> in der Huelle .nc-accordion__eintrag. Sie liegen nur optisch in der Zeile des Ausloesers; der Ausloeser reserviert Platz (--nc-accordion-selection-indicator-size, --nc-accordion-actions-space). trigger-prefix/trigger-suffix bleiben fuer nicht bedienbare Inhalte (Status-Zeichen, Badges). Website unberuehrt (nutzt das Suffix nur fuer ein Badge)."
+        ]
+      },
       {
         "version": "3.4.0",
         "changes": [
@@ -108,7 +114,7 @@
         "name": "trigger",
         "element": ".nc-accordion__trigger",
         "optional": false,
-        "description": "Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix."
+        "description": "Klickbarer Header (summary Element). Enthaelt Text, Icon, optional Prefix/Suffix — nie bedienbare Elemente (Checkbox, Knoepfe: siehe auswahl/aktionen)."
       },
       {
         "name": "icon",
@@ -138,13 +144,31 @@
         "name": "trigger-prefix",
         "element": ".nc-accordion__trigger-prefix",
         "optional": true,
-        "description": "Platz fuer Checkbox, Radio oder Status-Icon links im Trigger."
+        "description": "Status-Zeichen links im Trigger. Nicht bedienbar — Checkbox/Radio gehoeren in den Slot auswahl."
       },
       {
         "name": "trigger-suffix",
         "element": ".nc-accordion__trigger-suffix",
         "optional": true,
-        "description": "Platz fuer Badges oder Action-Buttons rechts im Trigger (vor dem Toggle-Icon)."
+        "description": "Badges rechts im Trigger (vor dem Toggle-Icon). Nicht bedienbar — Knoepfe gehoeren in den Slot aktionen."
+      },
+      {
+        "name": "eintrag",
+        "element": ".nc-accordion__eintrag",
+        "optional": true,
+        "description": "Huelle um ein <details>, wenn Auswahl oder Aktionen dazugehoeren (Roadmap V06)."
+      },
+      {
+        "name": "auswahl",
+        "element": ".nc-accordion__auswahl",
+        "optional": true,
+        "description": "Checkbox oder Radio NEBEN dem Ausloeser (vor dem <details>, in der Zeile des Ausloesers)."
+      },
+      {
+        "name": "aktionen",
+        "element": ".nc-accordion__aktionen",
+        "optional": true,
+        "description": "Knoepfe NEBEN dem Ausloeser (nach dem <details>, rechts vor dem Zeichen)."
       },
       {
         "name": "footer",
@@ -158,10 +182,11 @@
       "Natives <details>/<summary> oder ARIA-Pattern (role='region').",
       "BEM: .nc-accordion > __item > __trigger + __content > __content-inner.",
       "CSS-Grid-Animation: grid-template-rows 0fr→1fr fuer fluessige Hoehen-Animation.",
-      "Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox.",
+      "Trigger-Layout: [prefix] [text] [suffix] [icon] via Flexbox. Prefix/Suffix nur fuer nicht bedienbare Inhalte.",
+      "Auswahl und Aktionen (Roadmap V06): <div class=nc-accordion__eintrag> mit __auswahl (Checkbox/Radio), dem <details> und __aktionen (Knoepfe) als Geschwister. Reihenfolge = Tab-Reihenfolge. Nie bedienbare Elemente in <summary> (axe nested-interactive).",
       "Nested: nc-accordion innerhalb eines nc-accordion__content-inner. Innere Ebene eingerueckt (margin-inline-start: --nc-accordion-nested-indent) mit Fuehrungslinie (--nc-accordion-nested-border-width) und kleinerem Zeichen (--nc-accordion-nested-icon-size).",
-      "Selection: .nc-accordion__trigger-prefix enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
-      "Actionable Header: .nc-accordion__trigger-suffix fuer Badges (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).",
+      "Selection: .nc-accordion__auswahl enthaelt Checkbox/Radio. Checked-State: farbiger Rahmen + BG auch bei geschlossenem Item.",
+      "Actionable Header: Badges in .nc-accordion__trigger-suffix, Knoepfe in .nc-accordion__aktionen (rechts, vor Icon; Abstand/Farbe aus --nc-accordion-actions-*, Ghost-Knoepfe in der Aktionsfarbe).",
       "Sticky Trigger: .nc-accordion--sticky — position:sticky auf dem Trigger des offenen Items (wirkt nur bei langem Content, Grenze ist das <details>). Versatz 0; mit .site-header[data-neo-nav] auf der Seite unter der Hauptnavigation (--nc-nav-height), bei .site-header.is-nav-hidden wieder 0. Flaeche --nc-accordion-trigger-sticky-bg, Ebene --nc-accordion-trigger-sticky-z.",
       "Scroll-Into-View: scrollIntoView({behavior:'smooth'}) auf den Trigger nach Auto-Close im Single-Mode.",
       "Always Open: data-allow-close='false' auf dem Item verhindert Schliessen.",
@@ -237,7 +262,7 @@
           ],
           "renderHint": "accordion-selection",
           "slotConfig": {
-            "trigger-prefix": true
+            "auswahl": true
           }
         },
         "register": {
@@ -536,7 +561,7 @@
       },
       "badge": {
         "maxChars": 15,
-        "note": "Badge-Text im trigger-suffix."
+        "note": "Badge-Text im trigger-suffix; Knopf in aktionen mit eigenem Namen."
       },
       "toggleAll": {
         "de": {
@@ -642,6 +667,7 @@
         "label": "Header Actions",
         "tokens": [
           "nc-accordion-actions-gap",
+          "nc-accordion-actions-space",
           "nc-accordion-actions-color",
           "nc-accordion-actions-hover-color"
         ]
@@ -987,7 +1013,7 @@
     {
       "id": "actionable-header",
       "label": "Actionable Header",
-      "description": "Trigger mit Badge und Action-Button im Suffix-Slot.",
+      "description": "Trigger mit Badge im Suffix-Slot und Action-Button daneben (Slot aktionen).",
       "matrix": {
         "axes": {
           "variant": [
