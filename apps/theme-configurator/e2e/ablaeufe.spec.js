@@ -215,3 +215,16 @@ test('UX-58/59: Tabs und Navigationsmenü laufen auf 390 px nicht über; ausgebl
   await expect(page.frameLocator('iframe.br-rahmen').locator('.ra-live-component').first()).toBeAttached()
   await expect(page.frameLocator('iframe.br-rahmen').locator('.ra-live-component[data-ausgeblendet]')).toHaveCount(0)
 })
+
+// UX-20 (19.10.2026): „Technische Namen zeigen“ gilt überall
+test('UX-20: technische Namen lassen sich auch in den Foundation-Editoren ausblenden', async ({ page }) => {
+  await oeffneSektion(page, 'foundation-radius')
+  const insp = page.locator('.inspector-panel')
+  await expect(insp.locator('.re-token-name').first()).toBeVisible()
+  await insp.getByLabel('Technische Namen zeigen').uncheck()
+  await expect(insp.locator('.re-token-name').first()).toBeHidden()
+  await oeffneSektion(page, 'foundation-spacing')
+  await expect(page.locator('.inspector-panel .si-token-name').first()).toBeHidden()
+  await page.locator('.inspector-panel').getByLabel('Technische Namen zeigen').check()
+  await expect(page.locator('.inspector-panel .si-token-name').first()).toBeVisible()
+})

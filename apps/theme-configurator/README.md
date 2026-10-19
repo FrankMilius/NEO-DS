@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.21` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.22` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -834,6 +834,22 @@ App 1.2.21 (UX-58 und UX-59: Überlauf auf 390 px, 19.10.2026):
   1080-px-Rahmen der Arena (`ra-kopf`, `ra-anker--desktop`). Das Design
   System blendet das Menü unter 1200 px aus; statt einer leeren Zelle steht
   dann ein Hinweis (allgemein für jedes ausgeblendete Bauteil).
+
+App 1.2.22 (UX-52 gemeinsames Hinzufügen-Formular, UX-20 Rest, 19.10.2026):
+
+- UX-52: `components/ui/HinzufuegenFormular.vue` für alle sieben Formulare
+  „… hinzufügen“ (Eckenradien, Seitenverhältnisse, Deckkraft, Stapelebenen,
+  Bewegung, Bewegungseffekte, Abstandsstufen, semantische Abstände):
+  sichtbare Beschriftungen, Fokus im ersten Feld, Enter fügt hinzu, Escape
+  bricht ab und gibt den Fokus zurück, Fehler am Feld mit `aria-invalid`,
+  Ansage nach dem Hinzufügen. Prüfung mit `pruefeNeuenNamen` und
+  `pruefeNeuenWert` (Format, Dubletten, Wertart und Bereich) — vorher
+  wurden ungültige Namen still umgeschrieben und Werte nicht geprüft.
+- UX-20: „Technische Namen zeigen“ sitzt im Kopf der Einstellungen und gilt
+  für die ganze App (`composables/useTechnischeNamen.js`, Klasse
+  `cfg-ohne-technik`): CSS-Variablen in allen Editoren, Arena-Kennungen und
+  Template-Dateien. Verbliebene englische Bezeichnungen und Erklärtexte in
+  Editoren, Dialogen und Platzhaltern deutsch; Wächter-Test erweitert.
 
 Ursprünglicher Vorschlag (ADR-004):
 

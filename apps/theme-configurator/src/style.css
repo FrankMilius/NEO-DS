@@ -201,3 +201,11 @@ input, textarea, select {
 a, button, input {
   transition: color var(--fnd-motion-duration-150) ease, background var(--fnd-motion-duration-150) ease, border-color var(--fnd-motion-duration-150) ease;
 }
+
+/* UX-20 (19.10.2026): „Technische Namen zeigen“ aus — CSS-Variablen,
+   Dateinamen und Achsen-/Gruppenkennungen der Arena treten zurück. */
+.cfg-ohne-technik :is(.token-name, .token-concrete, .re-token-name, .si-token-name, .si-semantic-name, .fe-token-name,
+  .me-token-name, .ozm-token-name, .ie-token-name, .se-token-name, .gi-token-var, .shadow-token, .arena-token-name,
+  .ldp-link-token, .ra-axes, .ra-tokens, .we-technik, .semantic-ref-label code) {
+  display: none !important;
+}

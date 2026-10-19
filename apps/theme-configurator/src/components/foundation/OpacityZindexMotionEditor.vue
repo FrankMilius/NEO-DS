@@ -51,22 +51,7 @@
         </div>
       </div>
 
-      <div v-if="!showAddOpacity" class="ozm-add-row">
-        <button class="ozm-add-btn" @click="showAddOpacity = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Deckkraft-Token hinzufügen
-        </button>
-      </div>
-      <div v-else class="ozm-add-form">
-        <div class="ozm-add-fields">
-          <input v-fokus aria-label="Name des neuen Deckkraft-Tokens" ref="addOpacityKeyInput" type="text" class="ozm-input" v-model="newOpacityKey" placeholder="Token-Name (z.B. ghost)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
-          <input aria-label="Wert des neuen Deckkraft-Tokens" type="text" class="ozm-input" v-model="newOpacityValue" placeholder="Wert (z.B. 0.04)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
-        </div>
-        <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addOpacity" :disabled="!newOpacityKey.trim() || !newOpacityValue.trim()">Hinzufügen</button>
-          <button class="ozm-btn ozm-btn--ghost" @click="cancelAddOpacity">Abbrechen</button>
-        </div>
-      </div>
+      <HinzufuegenFormular knopf-text="Deckkraft hinzufügen" :felder="DECKKRAFT_FELDER" :pruefe="pruefeDeckkraft" test-id="deckkraft-hinzufuegen" @hinzufuegen="(w) => store.addCustomOpacityToken(w.name.trim(), String(w.wert).trim())" />
     </section>
 
     <!-- ══════════════════════════════════════════ -->
@@ -123,22 +108,7 @@
         </div>
       </div>
 
-      <div v-if="!showAddZindex" class="ozm-add-row">
-        <button class="ozm-add-btn" @click="showAddZindex = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Ebenen-Token hinzufügen
-        </button>
-      </div>
-      <div v-else class="ozm-add-form">
-        <div class="ozm-add-fields">
-          <input v-fokus aria-label="Name des neuen Z-Index-Tokens" ref="addZindexKeyInput" type="text" class="ozm-input" v-model="newZindexKey" placeholder="Token-Name (z.B. popover)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
-          <input aria-label="Wert des neuen Z-Index-Tokens" type="text" class="ozm-input" v-model="newZindexValue" placeholder="Wert (z.B. 15)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
-        </div>
-        <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addZindex" :disabled="!newZindexKey.trim() || !newZindexValue.trim()">Hinzufügen</button>
-          <button class="ozm-btn ozm-btn--ghost" @click="cancelAddZindex">Abbrechen</button>
-        </div>
-      </div>
+      <HinzufuegenFormular knopf-text="Stapelebene hinzufügen" :felder="EBENEN_FELDER" :pruefe="pruefeEbene" test-id="ebene-hinzufuegen" @hinzufuegen="(w) => store.addCustomZindexToken(w.name.trim(), String(w.wert).trim())" />
     </section>
 
     <!-- ══════════════════════════════════════════ -->
@@ -210,27 +180,7 @@
         </div>
       </div>
 
-      <div v-if="!showAddMotion" class="ozm-add-row">
-        <button class="ozm-add-btn" @click="showAddMotion = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Bewegungs-Token hinzufügen
-        </button>
-      </div>
-      <div v-else class="ozm-add-form">
-        <div class="ozm-add-fields">
-          <input v-fokus aria-label="Name des neuen Motion-Tokens" ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
-          <input aria-label="Wert des neuen Motion-Tokens" type="text" class="ozm-input ozm-input--wide" v-model="newMotionValue" placeholder="Wert (z.B. 0.5s oder ease-out)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
-          <select aria-label="Art des neuen Motion-Tokens" class="ozm-select" v-model="newMotionType">
-            <option value="easing">Bewegungskurve</option>
-            <option value="duration">Dauer</option>
-            <option value="delay">Delay</option>
-          </select>
-        </div>
-        <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addMotion" :disabled="!newMotionKey.trim() || !newMotionValue.trim()">Hinzufügen</button>
-          <button class="ozm-btn ozm-btn--ghost" @click="cancelAddMotion">Abbrechen</button>
-        </div>
-      </div>
+      <HinzufuegenFormular knopf-text="Bewegung hinzufügen" :felder="BEWEGUNG_FELDER" :pruefe="pruefeBewegung" test-id="bewegung-hinzufuegen" @hinzufuegen="(w) => store.addCustomMotionToken(w.name.trim(), String(w.wert).trim(), null, w.art)" />
     </section>
 
     <!-- ══════════════════════════════════════════ -->
@@ -285,40 +235,16 @@
         </div>
       </div>
 
-      <div v-if="!showAddEffect" class="ozm-add-row">
-        <button class="ozm-add-btn" @click="showAddEffect = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Bewegungseffekt hinzufügen
-        </button>
-      </div>
-      <div v-else class="ozm-add-form">
-        <div class="ozm-add-fields">
-          <input v-fokus aria-label="Name des neuen Effekts" ref="addEffectKeyInput" type="text" class="ozm-input" v-model="newEffectKey" placeholder="Effect-Name (z.B. bounce-in)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
-          <input aria-label="CSS-Wert des neuen Effekts" type="text" class="ozm-input ozm-input--wide" v-model="newEffectValue" placeholder="CSS-Wert (z.B. translateY(-4px))" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
-        </div>
-        <div class="ozm-add-fields">
-          <input aria-label="Transition des neuen Effekts" type="text" class="ozm-input ozm-input--wide" v-model="newEffectTransition" placeholder="Transition (z.B. transform 0.3s ease)" @keyup.enter="addEffect" @keyup.escape="cancelAddEffect" />
-          <select aria-label="Auslöser des neuen Effekts" class="ozm-select" v-model="newEffectIntent">
-            <option value="state-change">State Change</option>
-            <option value="entrance">Entrance</option>
-            <option value="attention">Attention</option>
-            <option value="feedback">Feedback</option>
-            <option value="spatial">Spatial</option>
-          </select>
-        </div>
-        <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addEffect" :disabled="!newEffectKey.trim() || !newEffectValue.trim()">Hinzufügen</button>
-          <button class="ozm-btn ozm-btn--ghost" @click="cancelAddEffect">Abbrechen</button>
-        </div>
-      </div>
+      <HinzufuegenFormular knopf-text="Bewegungseffekt hinzufügen" :felder="EFFEKT_FELDER" :pruefe="pruefeEffekt" test-id="effekt-hinzufuegen" @hinzufuegen="(w) => store.addCustomMotionEffectToken('effect-' + w.name.trim(), String(w.wert).trim(), w.name.trim(), String(w.transition || '').trim(), w.ausloeser)" />
     </section>
 
   </div>
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed } from 'vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { pruefeNeuenNamen, pruefeNeuenWert } from '../../utils/token-pruefung.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
 
@@ -384,68 +310,6 @@ function resetMotion(e) {
   e.target.style.transform = 'translateX(0)'
 }
 
-// ── Add Opacity ──
-const showAddOpacity = ref(false)
-const newOpacityKey = ref('')
-const newOpacityValue = ref('')
-const addOpacityKeyInput = ref(null)
-watch(showAddOpacity, (v) => { if (v) nextTick(() => addOpacityKeyInput.value?.focus()) })
-
-function addOpacity() {
-  const key = newOpacityKey.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')
-  const value = newOpacityValue.value.trim()
-  if (!key || !value) return
-  store.addCustomOpacityToken(key, value)
-  cancelAddOpacity()
-}
-function cancelAddOpacity() {
-  showAddOpacity.value = false
-  newOpacityKey.value = ''
-  newOpacityValue.value = ''
-}
-
-// ── Add Z-Index ──
-const showAddZindex = ref(false)
-const newZindexKey = ref('')
-const newZindexValue = ref('')
-const addZindexKeyInput = ref(null)
-watch(showAddZindex, (v) => { if (v) nextTick(() => addZindexKeyInput.value?.focus()) })
-
-function addZindex() {
-  const key = newZindexKey.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')
-  const value = newZindexValue.value.trim()
-  if (!key || !value) return
-  store.addCustomZindexToken(key, value)
-  cancelAddZindex()
-}
-function cancelAddZindex() {
-  showAddZindex.value = false
-  newZindexKey.value = ''
-  newZindexValue.value = ''
-}
-
-// ── Add Motion ──
-const showAddMotion = ref(false)
-const newMotionKey = ref('')
-const newMotionValue = ref('')
-const newMotionType = ref('duration')
-const addMotionKeyInput = ref(null)
-watch(showAddMotion, (v) => { if (v) nextTick(() => addMotionKeyInput.value?.focus()) })
-
-function addMotion() {
-  const key = newMotionKey.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')
-  const value = newMotionValue.value.trim()
-  if (!key || !value) return
-  store.addCustomMotionToken(key, value, null, newMotionType.value)
-  cancelAddMotion()
-}
-function cancelAddMotion() {
-  showAddMotion.value = false
-  newMotionKey.value = ''
-  newMotionValue.value = ''
-  newMotionType.value = 'duration'
-}
-
 // ── Motion Effects ──
 const effectTokens = computed(() => {
   const result = {}
@@ -491,28 +355,45 @@ const effectGroups = computed(() => {
   return groups
 })
 
-// ── Add Effect ──
-const showAddEffect = ref(false)
-const newEffectKey = ref('')
-const newEffectValue = ref('')
-const newEffectTransition = ref('')
-const newEffectIntent = ref('state-change')
-const addEffectKeyInput = ref(null)
-watch(showAddEffect, (v) => { if (v) nextTick(() => addEffectKeyInput.value?.focus()) })
-
-function addEffect() {
-  const key = 'effect-' + newEffectKey.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')
-  const value = newEffectValue.value.trim()
-  if (!key || !value) return
-  store.addCustomMotionEffectToken(key, value, newEffectKey.value.trim(), newEffectTransition.value.trim(), newEffectIntent.value)
-  cancelAddEffect()
+// ── Hinzufügen (UX-52: ein gemeinsames Formular für alle vier) ──
+const NAME = { name: 'name', label: 'Name', platzhalter: 'z. B. hinweis' }
+const DECKKRAFT_FELDER = [NAME, { name: 'wert', label: 'Deckkraft', platzhalter: 'z. B. 0.4', hilfe: 'Zahl zwischen 0 und 1' }]
+const EBENEN_FELDER = [NAME, { name: 'wert', label: 'Ebene', platzhalter: 'z. B. 450', hilfe: 'Ganze Zahl; höher liegt oben' }]
+const BEWEGUNG_FELDER = [
+  NAME,
+  { name: 'art', label: 'Art', typ: 'auswahl', start: 'duration', optionen: [{ wert: 'duration', text: 'Dauer' }, { wert: 'delay', text: 'Verzögerung' }, { wert: 'easing', text: 'Bewegungskurve' }] },
+  { name: 'wert', label: 'Wert', platzhalter: 'z. B. 0.5s oder ease-out' },
+]
+const EFFEKT_FELDER = [
+  { name: 'name', label: 'Name', platzhalter: 'z. B. bounce-in' },
+  { name: 'wert', label: 'CSS-Wert', platzhalter: 'z. B. translateY(-4px)' },
+  { name: 'transition', label: 'Übergang', platzhalter: 'z. B. transform 0.3s ease' },
+  { name: 'ausloeser', label: 'Anlass', typ: 'auswahl', start: 'state-change', optionen: [{ wert: 'state-change', text: 'Zustandswechsel' }, { wert: 'entrance', text: 'Erscheinen' }, { wert: 'attention', text: 'Aufmerksamkeit' }, { wert: 'feedback', text: 'Rückmeldung' }, { wert: 'spatial', text: 'Räumliche Orientierung' }] },
+]
+const namenFehler = (name, ...listen) => pruefeNeuenNamen(name, listen.flatMap((l) => Object.keys(l)))
+function pruefeDeckkraft (w) {
+  const n = namenFehler(w.name, opacityTokens.value, customOpacities.value)
+  if (n) return { feld: 'name', text: n }
+  const v = pruefeNeuenWert('zahl', w.wert, 'opacity')
+  return v ? { feld: 'wert', text: v } : null
 }
-function cancelAddEffect() {
-  showAddEffect.value = false
-  newEffectKey.value = ''
-  newEffectValue.value = ''
-  newEffectTransition.value = ''
-  newEffectIntent.value = 'state-change'
+function pruefeEbene (w) {
+  const n = namenFehler(w.name, zindexTokens.value, customZindices.value)
+  if (n) return { feld: 'name', text: n }
+  const v = pruefeNeuenWert('zahl', w.wert, 'zindex')
+  return v ? { feld: 'wert', text: v } : null
+}
+function pruefeBewegung (w) {
+  const n = namenFehler(w.name, motionTokens.value, customMotions.value)
+  if (n) return { feld: 'name', text: n }
+  const v = pruefeNeuenWert(w.art === 'easing' ? 'frei' : 'dauer', w.wert)
+  return v ? { feld: 'wert', text: v } : null
+}
+function pruefeEffekt (w) {
+  const n = pruefeNeuenNamen(w.name, [...Object.keys(effectTokens.value), ...Object.keys(customEffects.value)].map((k) => k.replace(/^effect-/, '')))
+  if (n) return { feld: 'name', text: n }
+  const v = pruefeNeuenWert('frei', w.wert)
+  return v ? { feld: 'wert', text: v } : null
 }
 </script>
 

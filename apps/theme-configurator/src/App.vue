@@ -56,6 +56,7 @@ import { darf, speicher } from './speicher/index.js'
 import { starteDrupalBetrieb } from './composables/useDrupalBetrieb.js'
 import { neoAnsicht } from './composables/neoAnsicht.js'
 import { seitenTitel } from './navigation/namen.js'
+import { useTechnischeNamen } from './composables/useTechnischeNamen.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -90,6 +91,9 @@ function overlaySchliessen () { if (kompakt.value) overlayOffen.value = false }
 watch(() => store.state.activeSection, overlaySchliessen)
 // Seitentitel je Bereich (WCAG 2.4.2, Befund UX-56): vorher blieb er gleich
 watch(() => store.state.activeSection, (id) => { document.title = seitenTitel(id) }, { immediate: true })
+// UX-20: technische Angaben überall ausblendbar (Klasse am Dokument, style.css)
+const technik = useTechnischeNamen()
+watch(technik, (an) => document.documentElement.classList.toggle('cfg-ohne-technik', !an), { immediate: true })
 
 // UX-46: Sprungziele (Knöpfe statt Anker: der Hash gehört dem Router)
 const SPRUNGZIELE = [

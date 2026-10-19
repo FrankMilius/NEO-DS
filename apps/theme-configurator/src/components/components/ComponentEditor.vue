@@ -5,10 +5,6 @@
       <!-- Roadmap V02: Wirkung auf der Website, Begriffe, technische Namen -->
       <WebsiteEinsatz :componentId="componentId" :label="componentLabel" :technik="technik" />
       <div class="ce-hilfe-leiste">
-        <label class="ce-technik">
-          <input v-model="technik" type="checkbox" data-test="technische-namen" />
-          Technische Namen zeigen
-        </label>
         <details class="ce-hilfe" data-test="begriffe">
           <summary>Begriffe erklärt</summary>
           <dl>
@@ -175,7 +171,7 @@
           </svg>
           <span class="inspector-section__title">Typography</span>
           <span class="inspector-section__count">{{ typographyTokenCount }}</span>
-          <span class="inspector-section__hint">Font, Size, Weight</span>
+          <span class="inspector-section__hint">Schriftart, Größe, Stärke</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div v-if="typographyOpen" class="inspector-section__body">
@@ -251,12 +247,12 @@
             <span class="mirror-header__prop">Property</span>
             <span class="mirror-header__mode">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
-              Light
+              Hell
             </span>
             <span></span>
             <span class="mirror-header__mode">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9z"/></svg>
-              Dark
+              Dunkel
             </span>
           </div>
 
@@ -291,7 +287,7 @@
                       <code class="token-value">{{ formatValue(getTokenValueForMode(token, 'light')) }}</code>
                     </div>
                     <!-- Mirror Button -->
-                    <button type="button" class="mirror-btn" @click.stop="mirrorValue(token, $event)" title="Light → Dark kopieren (Shift: Dark → Light)" :aria-label="`${token.label}: Light nach Dark kopieren (Umschalt: Dark nach Light)`">
+                    <button type="button" class="mirror-btn" @click.stop="mirrorValue(token, $event)" title="Hell → Dunkel kopieren (Umschalt: Dunkel → Hell)" :aria-label="`${token.label}: Hell nach Dunkel kopieren (Umschalt: Dunkel nach Hell)`">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 7h10v10"/><path d="M7 17L17 7"/>
                       </svg>
@@ -309,7 +305,7 @@
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Zurücksetzen</button>
+                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Auf die Farbrolle zurücksetzen">Zurücksetzen</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)"
@@ -477,14 +473,14 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
           </svg>
-          <span>Reset All</span>
+          <span>Alle zurücksetzen</span>
           <span v-if="overrideCount" class="ce-action-badge">{{ overrideCount }}</span>
         </button>
         <button
           :class="['ce-action-btn', 'ce-action-btn--export', { success: exportFeedback }]"
           :disabled="overrideCount === 0"
           @click="exportCSS"
-          title="Overrides als CSS-Custom-Properties in Zwischenablage kopieren"
+          title="Abweichungen als CSS-Variablen in die Zwischenablage kopieren"
         >
           <svg v-if="!exportFeedback" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
@@ -512,6 +508,7 @@ import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import VariantCreator from './VariantCreator.vue'
 import WebsiteEinsatz from './WebsiteEinsatz.vue'
 import { gruppenWirkung } from '../../utils/token-wirkung.js'
+import { useTechnischeNamen } from '../../composables/useTechnischeNamen.js'
 
 const props = defineProps({
   componentId: { type: String, required: true }
@@ -698,14 +695,9 @@ function buildSwatches(sgTokens, category) {
 
 import { classifyToken } from '../../composables/useTokenClassifier.js'
 
-// Roadmap V02: Kurztext je Gruppe aus den Token-Namen; technische Namen
-// (CSS-Variablen) lassen sich ausblenden — Wahl je Browser.
-const TECHNIK_SCHLUESSEL = 'neo-cfg-technische-namen'
-function technikLesen () {
-  try { return localStorage.getItem(TECHNIK_SCHLUESSEL) !== 'nein' } catch { return true }
-}
-const technik = ref(technikLesen())
-watch(technik, (an) => { try { localStorage.setItem(TECHNIK_SCHLUESSEL, an ? 'ja' : 'nein') } catch { /* privat */ } })
+// Roadmap V02: Kurztext je Gruppe aus den Token-Namen. Technische Namen
+// schaltet seit UX-20 der Kopf der Einstellungen für die ganze App.
+const technik = useTechnischeNamen()
 function wirkungsText (sg) {
   return gruppenWirkung((sg?.tokens || []).map((t) => t.id), props.componentId).text
 }

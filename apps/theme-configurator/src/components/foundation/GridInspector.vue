@@ -26,7 +26,7 @@
         <!-- Columns -->
         <div class="gi-token-card">
           <div class="gi-token-header">
-            <span class="gi-token-name">Columns</span>
+            <span class="gi-token-name">Spalten</span>
             <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
           </div>
           <p class="gi-token-desc">
@@ -58,7 +58,7 @@
         <!-- Gap (Default) -->
         <div class="gi-token-card">
           <div class="gi-token-header">
-            <span class="gi-token-name">Gap</span>
+            <span class="gi-token-name">Abstand</span>
             <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
           </div>
           <p class="gi-token-desc">
@@ -105,9 +105,9 @@
         <!-- Gap Small -->
         <div class="gi-token-card">
           <div class="gi-token-header">
-            <span class="gi-token-name">Gap Small</span>
+            <span class="gi-token-name">Abstand klein</span>
             <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
-            <span class="gi-ref-badge" title="Referenziert Foundation Token (Level 2)">
+            <span class="gi-ref-badge" title="Verweist auf einen Token der Grundlagen (Ebene 2)">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               L2
             </span>
@@ -136,9 +136,9 @@
         <!-- Gap Large -->
         <div class="gi-token-card">
           <div class="gi-token-header">
-            <span class="gi-token-name">Gap Large</span>
+            <span class="gi-token-name">Abstand groß</span>
             <span class="gi-level-badge gi-level--l3" title="Ebene 3: Wert einer Komponente"><span aria-hidden="true">L3</span><span class="cfg-sr-only">, Ebene 3</span></span>
-            <span class="gi-ref-badge" title="Referenziert Foundation Token (Level 2)">
+            <span class="gi-ref-badge" title="Verweist auf einen Token der Grundlagen (Ebene 2)">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               L2
             </span>
@@ -179,12 +179,12 @@
       </div>
       <div class="gi-info-box__body">
         <p>
-          Die drei vordefinierten Gap-Varianten (<code>default</code>, <code>sm</code>, <code>lg</code>)
+          Die drei vordefinierten Abstands-Varianten (<code>Standard</code>, <code>sm</code>, <code>lg</code>)
           decken die meisten Layouts ab. Eine <strong>neue Variante über ein Recipe</strong> ist sinnvoll, wenn:
         </p>
         <ul>
           <li>Ein Seitentyp ein <strong>eigenes Spaltenraster</strong> benötigt (z.B. ein 8-Column-Grid für ein Editorial-Layout)</li>
-          <li>Ein <strong>abweichender Gap</strong> kontextgebunden sein soll (z.B. <code>.o-grid--gap-tight</code> mit 4px für Toolbar-Layouts)</li>
+          <li>Ein <strong>abweichender Abstand</strong> kontextgebunden sein soll (z.B. <code>.o-grid--gap-tight</code> mit 4px für Toolbar-Layouts)</li>
           <li>Die Variante <strong>responsiv anders brechen</strong> soll als das Standard-Grid (z.B. 6 Columns ab Tablet statt 12)</li>
         </ul>
         <p class="gi-info-example">

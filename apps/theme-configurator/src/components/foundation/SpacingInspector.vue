@@ -51,38 +51,8 @@
         </div>
       </div>
 
-      <!-- Add Custom Token -->
-      <div class="si-add-token">
-        <button class="si-add-btn" @click="showAddDialog = !showAddDialog">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          <span>Spacing Token hinzufügen</span>
-        </button>
-        <div v-if="showAddDialog" class="si-add-dialog">
-          <div class="si-add-field">
-            <label class="si-add-label">Pixelwert</label>
-            <div class="si-add-input-row">
-              <input v-fokus aria-label="Pixelwert"
-                type="number"
-                class="si-add-input"
-                v-model.number="newTokenPx"
-                min="1"
-                step="1"
-                placeholder="z.B. 56"
-              />
-              <span class="si-add-suffix">px</span>
-            </div>
-            <span class="si-add-hint" v-if="newTokenPx > 0">
-              Token: <code>--fnd-spacing-{{ computedNewKey }}</code>
-              <template v-if="newTokenConflict"> — bereits vorhanden!</template>
-            </span>
-          </div>
-          <button
-            class="si-add-confirm"
-            :disabled="newTokenPx <= 0 || newTokenConflict"
-            @click="confirmAddToken"
-          >Hinzufügen</button>
-        </div>
-      </div>
+      <!-- UX-52: gemeinsames Formular -->
+      <HinzufuegenFormular knopf-text="Abstandsstufe hinzufügen" :felder="STUFE_FELDER" :pruefe="pruefeStufe" test-id="abstand-hinzufuegen" @hinzufuegen="(w) => store.addCustomSpacingToken(pxToKey(w.px), `${Math.round(Number(w.px))}px`)" />
 
     </template>
 
@@ -179,40 +149,8 @@
         </div>
       </div>
 
-      <!-- Add Custom Semantic Token -->
-      <div class="si-add-token">
-        <button class="si-add-btn" @click="showAddSemanticDialog = !showAddSemanticDialog">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          <span>Semantisches Token hinzufügen</span>
-        </button>
-        <div v-if="showAddSemanticDialog" class="si-add-dialog">
-          <div class="si-add-field">
-            <label class="si-add-label">Token-Name (z.B. padding-card)</label>
-            <input v-fokus aria-label="Token-Name"
-              type="text"
-              class="si-add-input si-add-input--wide"
-              v-model="newSemanticName"
-              placeholder="z.B. padding-card"
-            />
-          </div>
-          <div class="si-add-field">
-            <label class="si-add-label">Spacing-Referenz</label>
-            <select aria-label="Spacing-Referenz" class="si-select" v-model="newSemanticRef">
-              <option value="">— wählen —</option>
-              <option
-                v-for="opt in spacingSelectOptions"
-                :key="opt.var"
-                :value="opt.var"
-              >{{ opt.px }} · {{ opt.label }}</option>
-            </select>
-          </div>
-          <button
-            class="si-add-confirm"
-            :disabled="!newSemanticName || !newSemanticRef || semanticNameConflict"
-            @click="confirmAddSemantic"
-          >Hinzufügen</button>
-        </div>
-      </div>
+      <!-- UX-52: gemeinsames Formular -->
+      <HinzufuegenFormular knopf-text="Semantischen Abstand hinzufügen" :felder="semantikFelder" :pruefe="pruefeSemantik" test-id="semantik-hinzufuegen" @hinzufuegen="(w) => store.addSemanticSpacingToken(w.name.trim(), w.verweis)" />
 
     </template>
 
@@ -263,8 +201,9 @@
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
-import { computed, ref } from 'vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { pruefeNeuenNamen } from '../../utils/token-pruefung.js'
+import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, spacingFluid } from '../../data/tokens.js'
 
@@ -352,18 +291,15 @@ function removeToken(key) {
   store.removeCustomSpacingToken(key)
 }
 
-const showAddDialog = ref(false)
-const newTokenPx = ref(0)
-const computedNewKey = computed(() => pxToKey(newTokenPx.value))
-const newTokenConflict = computed(() => {
-  // Konflikt = gleicher Wert schon vorhanden (eigener Schlüssel ist eindeutig)
-  return sortedPrimitiveTokens.value.some(t => t.key === computedNewKey.value || t.px === Math.round(Number(newTokenPx.value) || 0))
-})
-
-function confirmAddToken() {
-  store.addCustomSpacingToken(computedNewKey.value, `${newTokenPx.value}px`)
-  newTokenPx.value = 0
-  showAddDialog.value = false
+// ── Eigene Stufe (UX-52: gemeinsames Formular) ──
+const STUFE_FELDER = [
+  { name: 'px', label: 'Pixelwert', typ: 'zahl', platzhalter: 'z. B. 56', einheit: 'px', hilfe: (w) => (Number(w.px) > 0 ? `Name: spacing-${pxToKey(w.px)}` : '') },
+]
+function pruefeStufe (w) {
+  const px = Math.round(Number(w.px))
+  if (!Number.isFinite(px) || px <= 0) return { feld: 'px', text: 'Bitte einen Pixelwert größer als 0 eingeben.' }
+  if (sortedPrimitiveTokens.value.some((t) => t.key === pxToKey(px) || t.px === px)) return { feld: 'px', text: `Eine Stufe mit ${px} px gibt es schon.` }
+  return null
 }
 
 // ---------------------------------------------------------------------------
@@ -449,9 +385,6 @@ const spacingSelectOptions = computed(() => {
 })
 
 // Custom semantic tokens
-const showAddSemanticDialog = ref(false)
-const newSemanticName = ref('')
-const newSemanticRef = ref('')
 
 const builtInIds = new Set([
   ...semanticLayoutTokens.map(t => t.id),
@@ -465,13 +398,15 @@ const allSemanticIds = computed(() => {
   ])
 })
 
-const semanticNameConflict = computed(() => allSemanticIds.value.has(newSemanticName.value))
-
-function confirmAddSemantic() {
-  store.addSemanticSpacingToken(newSemanticName.value, newSemanticRef.value)
-  newSemanticName.value = ''
-  newSemanticRef.value = ''
-  showAddSemanticDialog.value = false
+// ── Eigener semantischer Abstand (UX-52) ──
+const semantikFelder = computed(() => [
+  { name: 'name', label: 'Name', platzhalter: 'z. B. padding-card' },
+  { name: 'verweis', label: 'Abstandsstufe', typ: 'auswahl', optionen: [{ wert: '', text: '— wählen —' }, ...spacingSelectOptions.value.map((o) => ({ wert: o.var, text: `${o.px} · ${o.label}` }))] },
+])
+function pruefeSemantik (w) {
+  const n = pruefeNeuenNamen(w.name, allSemanticIds.value)
+  if (n) return { feld: 'name', text: n }
+  return w.verweis ? null : { feld: 'verweis', text: 'Bitte eine Abstandsstufe wählen.' }
 }
 
 const customSemanticEntries = computed(() => {

@@ -7,7 +7,7 @@
     </div>
     <h3 class="placeholder-title">{{ titleMap[moduleId] || moduleId }}</h3>
     <p class="placeholder-desc">
-      Module-level tokens inherit from foundation and component tokens.
+      Module übernehmen ihre Werte aus den Grundlagen und den Komponenten.
       Customize the underlying components to affect this module's appearance.
     </p>
     <div class="module-preview" :style="previewStyle">

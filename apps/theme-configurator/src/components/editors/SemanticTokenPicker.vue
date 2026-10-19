@@ -17,7 +17,7 @@
         class="picker-search"
         type="text"
         v-model="searchQuery"
-        placeholder="Search foundation tokens..."
+        placeholder="Token suchen …"
         @input="onSearch"
       />
       <div class="picker-groups">

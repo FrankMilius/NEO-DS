@@ -49,50 +49,23 @@
         </div>
       </div>
 
-      <!-- Add Token -->
-      <div v-if="!showAddForm" class="me-add-row">
-        <button class="me-add-btn" @click="showAddForm = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Token hinzufügen
-        </button>
-      </div>
-      <div v-else class="me-add-form">
-        <div class="me-add-fields">
-          <input v-fokus aria-label="Schlüssel des neuen Seitenverhältnisses"
-            ref="addKeyInput"
-            type="text"
-            class="me-input"
-            v-model="newLabel"
-            placeholder="Label (z.B. 21:9 Ultrawide)"
-            @keyup.enter="addToken"
-            @keyup.escape="cancelAdd"
-          />
-          <input aria-label="Wert des neuen Seitenverhältnisses"
-            type="text"
-            class="me-input"
-            v-model="newValue"
-            placeholder="Wert (z.B. 21 / 9)"
-            @keyup.enter="addToken"
-            @keyup.escape="cancelAdd"
-          />
-        </div>
-        <div v-if="newLabel.trim() && newValue.trim()" class="me-add-preview">
-          <div class="me-add-preview-box" :style="{ aspectRatio: newValue }"></div>
-          <code class="me-add-preview-label">--fnd-media-ratio-{{ sanitizedKey }} → {{ newValue }}</code>
-        </div>
-        <div class="me-add-actions">
-          <button class="me-btn me-btn--primary" @click="addToken" :disabled="!newLabel.trim() || !newValue.trim()">Hinzufügen</button>
-          <button class="me-btn me-btn--ghost" @click="cancelAdd">Abbrechen</button>
-        </div>
-      </div>
+      <!-- UX-52: gemeinsames Formular -->
+      <HinzufuegenFormular knopf-text="Seitenverhältnis hinzufügen" :felder="MEDIEN_FELDER" :pruefe="pruefeMedium" test-id="medien-hinzufuegen" @hinzufuegen="mediumHinzufuegen">
+        <template #vorschau="{ werte }">
+          <div v-if="String(werte.wert || '').trim()" class="me-add-preview">
+            <div class="me-add-preview-box" :style="{ aspectRatio: werte.wert }"></div>
+          </div>
+        </template>
+      </HinzufuegenFormular>
     </section>
 
   </div>
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed } from 'vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { pruefeNeuenNamen, pruefeNeuenWert } from '../../utils/token-pruefung.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
 
@@ -109,29 +82,21 @@ function currentValue(key) {
   return store.currentFoundation.media?.[key] ?? allTokens[key]?.value ?? ''
 }
 
-// ── Add Custom Token ──
-const showAddForm = ref(false)
-const newLabel = ref('')
-const newValue = ref('')
-const addKeyInput = ref(null)
-
-watch(showAddForm, (v) => { if (v) nextTick(() => addKeyInput.value?.focus()) })
-
-const sanitizedKey = computed(() => newLabel.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-'))
-
-function addToken() {
-  const key = sanitizedKey.value
-  const value = newValue.value.trim()
-  const label = newLabel.value.trim()
-  if (!key || !value) return
-  store.addCustomMediaRatioToken(key, value, label)
-  cancelAdd()
+// ── Eigenes Seitenverhältnis (UX-52: gemeinsames Formular) ──
+// Der Name im CSS entsteht aus der Bezeichnung: „21:9 Ultrawide“ → 21-9-ultrawide
+const schluesselAus = (text) => String(text || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+const MEDIEN_FELDER = [
+  { name: 'bezeichnung', label: 'Bezeichnung', platzhalter: 'z. B. 21:9 Ultrawide', hilfe: (w) => (schluesselAus(w.bezeichnung) ? `Name: ${schluesselAus(w.bezeichnung)}` : '') },
+  { name: 'wert', label: 'Verhältnis', platzhalter: 'z. B. 21 / 9' },
+]
+function pruefeMedium (w) {
+  const name = pruefeNeuenNamen(schluesselAus(w.bezeichnung), [...Object.keys(ratioTokens.value), ...Object.keys(customRatioTokens.value)])
+  if (name) return { feld: 'bezeichnung', text: w.bezeichnung?.trim() ? name : 'Bitte eine Bezeichnung eingeben.' }
+  const wert = pruefeNeuenWert('verhaeltnis', w.wert)
+  return wert ? { feld: 'wert', text: wert } : null
 }
-
-function cancelAdd() {
-  showAddForm.value = false
-  newLabel.value = ''
-  newValue.value = ''
+function mediumHinzufuegen (w) {
+  store.addCustomMediaRatioToken(schluesselAus(w.bezeichnung), String(w.wert).trim(), w.bezeichnung.trim())
 }
 </script>
 

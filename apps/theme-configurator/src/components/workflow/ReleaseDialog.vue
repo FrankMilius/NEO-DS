@@ -24,13 +24,13 @@
               class="form-textarea"
               v-model="notes"
               rows="4"
-              placeholder="Describe what changed in this release..."
+              placeholder="Beschreiben Sie, was sich in diesem Release geändert hat …"
             ></textarea>
           </div>
 
           <!-- Component summary -->
           <div class="release-summary">
-            <div class="summary-label">Components with overrides</div>
+            <div class="summary-label">Komponenten mit Abweichungen</div>
             <div class="summary-chips">
               <span
                 v-for="comp in modifiedComponents"

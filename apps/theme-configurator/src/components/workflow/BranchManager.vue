@@ -92,7 +92,7 @@
           <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
           </svg>
-          Merge to main
+          In main zusammenführen
         </button>
 
         <button type="button" class="branch-action branch-action--release" @click="closeAndFocusBadge(); $emit('release')">
@@ -118,7 +118,7 @@
           </div>
           <div class="modal-body">
             <div class="form-field">
-              <label class="form-label" for="cfg-branch-name">Branch Name</label>
+              <label class="form-label" for="cfg-branch-name">Name des Arbeitsstands</label>
               <input
                 id="cfg-branch-name"
                 class="form-input"
@@ -133,11 +133,11 @@
                 id="cfg-branch-beschreibung"
                 class="form-input"
                 v-model="newBranchDesc"
-                placeholder="What are you working on?"
+                placeholder="Woran arbeiten Sie?"
               />
             </div>
             <p class="branch-base-note">
-              Branching from <strong>{{ branchStore.activeBranchName }}</strong>
+              Abgezweigt von <strong>{{ branchStore.activeBranchName }}</strong>
             </p>
           </div>
           <div class="modal-footer">

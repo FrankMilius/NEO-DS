@@ -7,7 +7,7 @@
 
     <!-- Default Gap -->
     <div class="arena-category-divider">
-      <span class="arena-category-label">Default Gap</span>
+      <span class="arena-category-label">Standardabstand</span>
     </div>
     <div class="arena-specimen">
       <div v-if="isSplit" class="arena-specimen__pair">
@@ -30,7 +30,7 @@
 
     <!-- Gap Small -->
     <div class="arena-category-divider">
-      <span class="arena-category-label">Gap Small</span>
+      <span class="arena-category-label">Abstand klein</span>
     </div>
     <div class="arena-specimen">
       <div v-if="isSplit" class="arena-specimen__pair">
@@ -50,7 +50,7 @@
 
     <!-- Gap Large -->
     <div class="arena-category-divider">
-      <span class="arena-category-label">Gap Large</span>
+      <span class="arena-category-label">Abstand groß</span>
     </div>
     <div class="arena-specimen">
       <div v-if="isSplit" class="arena-specimen__pair">
@@ -90,7 +90,7 @@
 
     <!-- Auto-fit -->
     <div class="arena-category-divider">
-      <span class="arena-category-label">Auto-fit Layout</span>
+      <span class="arena-category-label">Automatisch füllendes Layout</span>
     </div>
     <div class="arena-specimen">
       <div v-if="isSplit" class="arena-specimen__pair">

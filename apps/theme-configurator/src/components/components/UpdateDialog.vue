@@ -182,10 +182,10 @@
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
                 </svg>
-                Merge to Styleguide
+                In die Doku übernehmen
               </button>
               <button type="button" class="btn-skip" @click="sync.dismissDialog">
-                Skip for now
+                Später
               </button>
             </template>
 
@@ -205,7 +205,7 @@
             <!-- Processing / Success: just a close button -->
             <template v-if="sync.state.stage === 'success'">
               <button type="button" class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
-                Close (auto-closing in 4s)
+                Schließen (schließt in 4 s)
               </button>
             </template>
 

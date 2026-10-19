@@ -22,6 +22,11 @@
           <span v-if="sectionTitle" class="inspector-breadcrumb-sep">&rsaquo;</span>
           <span v-if="sectionTitle" class="inspector-breadcrumb-leaf">{{ sectionTitle }}</span>
         </h2>
+        <!-- UX-20: technische Namen (CSS-Variablen, Dateien) für die ganze App -->
+        <label class="inspector-technik" title="CSS-Variablen und Dateinamen zeigen oder ausblenden">
+          <input v-model="technik" type="checkbox" data-test="technische-namen" />
+          Technische Namen zeigen
+        </label>
         <!-- Info icon with tooltip -->
         <button
           v-if="sectionDesc"
@@ -144,6 +149,7 @@ import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
 import { BEREICHE, bereichsName } from '../../navigation/namen.js'
+import { useTechnischeNamen } from '../../composables/useTechnischeNamen.js'
 import { darf, speicher } from '../../speicher/index.js'
 import { neoAnsicht } from '../../composables/neoAnsicht.js'
 
@@ -174,6 +180,7 @@ const activeSection = computed(() => store.state.activeSection)
 
 // Sektion → Inspector-Bloecke (Plan v2, 3.4); leer = Hinweis im v-else-Zweig
 const sektion = computed(() => sektionAufloesen(activeSection.value))
+const technik = useTechnischeNamen()
 const inspectorBloecke = computed(() => sektion.value.inspector)
 
 // ---------------------------------------------------------------------------
@@ -277,6 +284,8 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 </script>
 
 <style scoped>
+.inspector-technik { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-size: 12px; font-weight: 400; color: var(--cfg-text-secondary); cursor: pointer; white-space: nowrap; }
+
 /* Plan v2, 2.6: Schreibschutz ohne eigenes Layout — die Bloecke bleiben
    direkte Kinder des Panels; die Legende ist nur fuer Screenreader. */
 .inspector-nur-ansicht { display: contents; border: 0; margin: 0; padding: 0; min-width: 0; }

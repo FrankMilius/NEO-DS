@@ -26,8 +26,8 @@
         <!-- Dropdown Panel -->
         <div v-if="openDropdown === cat.key" :id="`cfg-filter-${cat.key}`" class="filter-panel">
           <div class="filter-panel__actions">
-            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: alle auswählen`" @click="selectAll(cat.key)">All</button>
-            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: keine auswählen`" @click="deselectAll(cat.key)">None</button>
+            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: alle auswählen`" @click="selectAll(cat.key)">Alle</button>
+            <button type="button" class="filter-panel__action" :aria-label="`${cat.label}: keine auswählen`" @click="deselectAll(cat.key)">Keine</button>
           </div>
           <ul class="filter-panel__list" :aria-label="cat.label">
             <li

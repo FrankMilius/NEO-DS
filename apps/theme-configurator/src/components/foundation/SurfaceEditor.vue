@@ -7,7 +7,7 @@
         <span class="theme-indicator">{{ themeLabel }}</span>
       </h3>
       <p class="sub-desc">
-        Carbon-model layer system. Surfaces alternate (light) or ascend (dark) for depth.
+        Ebenenmodell nach Carbon: Im hellen Modus wechseln die Flächen ab, im dunklen werden sie heller.
       </p>
 
       <div class="surface-grid">
@@ -61,15 +61,15 @@
     <!-- Nesting Preview -->
     <section v-if="ansicht !== 'eingabe'" class="nesting-preview">
       <h3 class="sub-heading">Verschachtelung</h3>
-      <p class="sub-desc">How surfaces nest within the base page background.</p>
+      <p class="sub-desc">So liegen die Flächen im Seitenhintergrund.</p>
       <div class="nest-demo" :style="{ background: getColor('background-base'), color: getColor('on-surface') }">
         <span class="nest-label">Page (background-base)</span>
         <div class="nest-level" :style="{ background: getColor('layer-01'), color: getColor('on-layer-01') }">
-          <span class="nest-label">Surface 01 (layer-01)</span>
+          <span class="nest-label">Fläche 01</span>
           <div class="nest-level" :style="{ background: getColor('layer-02'), color: getColor('on-layer-02') }">
-            <span class="nest-label">Surface 02 (layer-02)</span>
+            <span class="nest-label">Fläche 02</span>
             <div class="nest-level" :style="{ background: getColor('layer-03') }">
-              <span class="nest-label">Surface 03 (layer-03)</span>
+              <span class="nest-label">Fläche 03</span>
             </div>
           </div>
         </div>

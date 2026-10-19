@@ -72,7 +72,7 @@
 
             <!-- Preview -->
             <div v-if="previewTokenIds.length > 0" class="vc-preview">
-              <div class="form-label">Tokens to create ({{ previewTokenIds.length }})</div>
+              <div class="form-label">Neue Tokens ({{ previewTokenIds.length }})</div>
               <div class="vc-preview-list">
                 <code v-for="id in previewTokenIds.slice(0, 8)" :key="id" class="vc-preview-token">--{{ id }}</code>
                 <span v-if="previewTokenIds.length > 8" class="vc-preview-more">

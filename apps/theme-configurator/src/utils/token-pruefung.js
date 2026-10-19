@@ -191,3 +191,29 @@ export function pruefeSchriftskala (schluessel, wert, aktuell = {}) {
   }
   return null
 }
+
+/**
+ * Wert eines NEUEN Tokens prüfen (Formular „Hinzufügen“, Befund UX-52).
+ * @param {'laenge'|'zahl'|'dauer'|'verhaeltnis'|'farbe'|'frei'} art
+ * @param {unknown} wert
+ * @param {string} [kategorie]  für Bereiche (opacity 0–1, zindex ganzzahlig)
+ * @returns {string|null}
+ */
+export function pruefeNeuenWert (art, wert, kategorie) {
+  return pruefeArt(art, wert, kategorie ? BEREICHE[kategorie] : undefined)
+}
+
+/**
+ * Namen eines neuen Tokens prüfen: Kleinbuchstaben, Ziffern, Bindestrich,
+ * noch nicht vergeben.
+ * @param {string} name
+ * @param {Iterable<string>} [vergeben]
+ * @returns {string|null}
+ */
+export function pruefeNeuenNamen (name, vergeben = []) {
+  const s = String(name ?? '').trim()
+  if (!s) return 'Bitte einen Namen eingeben.'
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s)) return `„${s}“ ist als Name nicht möglich. Erlaubt sind Kleinbuchstaben, Ziffern und Bindestriche, z. B. panel-gross.`
+  if (new Set(vergeben).has(s)) return `„${s}“ gibt es schon. Bitte einen anderen Namen wählen.`
+  return null
+}

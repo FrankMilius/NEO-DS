@@ -69,6 +69,8 @@ export const ERSETZT = [
   [/\bExport JSON\b/, 'Exportieren (ein Einstieg)'],
   [/\bPosition & Layout\b|\bEffects & States\b|^Fill$|^Advanced$/, 'Abschnittsnamen der Einstellungen'],
   [/\bTbl\b/, 'ausgeschriebener Komponentenname'],
+  [/^(Light|Dark|Reset All|Custom|Columns|Gap|Type Scale|Skip for now|Merge to Styleguide|Tokens to create)$/, 'deutsche Bezeichnung (UX-20)'],
+  [/\b(Search foundation tokens|What are you working on|Describe what changed)\b/, 'deutscher Platzhalter (UX-20)'],
 ]
 
 /**

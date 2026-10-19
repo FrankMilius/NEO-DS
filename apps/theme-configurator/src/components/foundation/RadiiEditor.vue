@@ -69,42 +69,14 @@
         </div>
       </div>
 
-      <!-- Add Token -->
-      <div v-if="!showAddForm" class="re-add-row">
-        <button class="re-add-btn" @click="showAddForm = true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Token hinzufügen
-        </button>
-      </div>
-      <div v-else class="re-add-form">
-        <div class="re-add-fields">
-          <input v-fokus aria-label="Name des neuen Radius-Tokens"
-            ref="addKeyInput"
-            type="text"
-            class="re-input"
-            v-model="newKey"
-            placeholder="Token-Name (z.B. panel)"
-            @keyup.enter="addToken"
-            @keyup.escape="cancelAdd"
-          />
-          <input aria-label="Wert des neuen Radius-Tokens"
-            type="text"
-            class="re-input"
-            v-model="newValue"
-            placeholder="Wert (z.B. 20px)"
-            @keyup.enter="addToken"
-            @keyup.escape="cancelAdd"
-          />
-        </div>
-        <div v-if="newValue.trim()" class="re-add-preview">
-          <div class="re-radius-box re-radius-box--lg" :style="{ borderRadius: newValue }"></div>
-          <span class="re-add-preview-label">{{ newValue }}</span>
-        </div>
-        <div class="re-add-actions">
-          <button class="re-btn re-btn--primary" @click="addToken" :disabled="!newKey.trim() || !newValue.trim()">Hinzufügen</button>
-          <button class="re-btn re-btn--ghost" @click="cancelAdd">Abbrechen</button>
-        </div>
-      </div>
+      <!-- UX-52: gemeinsames Formular -->
+      <HinzufuegenFormular knopf-text="Eckenradius hinzufügen" :felder="RADIUS_FELDER" :pruefe="pruefeRadius" test-id="radius-hinzufuegen" @hinzufuegen="radiusHinzufuegen">
+        <template #vorschau="{ werte }">
+          <div v-if="String(werte.wert || '').trim()" class="re-add-preview">
+            <div class="re-radius-box re-radius-box--lg" :style="{ borderRadius: werte.wert }"></div>
+          </div>
+        </template>
+      </HinzufuegenFormular>
     </section>
 
     <!-- ── Default Alias ── -->
@@ -120,8 +92,9 @@
 </template>
 
 <script setup>
-import { vFokus } from '../../composables/vFokus.js'
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed } from 'vue'
+import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
+import { pruefeNeuenNamen, pruefeNeuenWert } from '../../utils/token-pruefung.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
 
@@ -137,26 +110,19 @@ function currentValue(key) {
   return store.currentFoundation.radius?.[key] ?? scaleTokens.value[key]?.value ?? ''
 }
 
-// ── Add Custom Token ──
-const showAddForm = ref(false)
-const newKey = ref('')
-const newValue = ref('')
-const addKeyInput = ref(null)
-
-watch(showAddForm, (v) => { if (v) nextTick(() => addKeyInput.value?.focus()) })
-
-function addToken() {
-  const key = newKey.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')
-  const value = newValue.value.trim()
-  if (!key || !value) return
-  store.addCustomRadiiToken(key, value)
-  cancelAdd()
+// ── Eigener Eckenradius (UX-52: gemeinsames Formular) ──
+const RADIUS_FELDER = [
+  { name: 'name', label: 'Name', platzhalter: 'z. B. panel' },
+  { name: 'wert', label: 'Wert', platzhalter: 'z. B. 20px' },
+]
+function pruefeRadius (w) {
+  const name = pruefeNeuenNamen(w.name, [...Object.keys(scaleTokens.value), ...Object.keys(customTokens.value)])
+  if (name) return { feld: 'name', text: name }
+  const wert = pruefeNeuenWert('laenge', w.wert)
+  return wert ? { feld: 'wert', text: wert } : null
 }
-
-function cancelAdd() {
-  showAddForm.value = false
-  newKey.value = ''
-  newValue.value = ''
+function radiusHinzufuegen (w) {
+  store.addCustomRadiiToken(w.name.trim(), String(w.wert).trim())
 }
 </script>
 

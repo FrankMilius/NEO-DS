@@ -82,7 +82,7 @@ describe('Begriffe deutsch und erklärt', () => {
   it('Inspector: Begriffe, Schalter für technische Namen, Sync deutsch, Kurztexte je Gruppe', () => {
     const q = quelle('src/components/components/ComponentEditor.vue')
     expect(q).toContain('Begriffe erklärt')
-    expect(q).toContain('Technische Namen zeigen')
+    expect(quelle('src/components/layout/InspectorPanel.vue')).toContain('Technische Namen zeigen')
     expect(q).not.toContain('Sync Geometry</span>')
     expect(q.match(/data-test="gruppen-wirkung"/g)).toHaveLength(4)
     expect(quelle('src/components/layout/InspectorPanel.vue')).toContain('Ebene 1: Grundfarben (Primitive)')

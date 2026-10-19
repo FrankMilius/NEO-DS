@@ -28,7 +28,7 @@
           Markenpaletten
           <span class="palette-count-badge" :class="{ 'palette-count-badge--full': mainPaletteCount >= 5 }">{{ mainPaletteCount }}/5</span>
         </h3>
-        <p class="sub-desc" v-if="isDefaultNeo">Brand color bases — shade scales are auto-generated (50–950, 5% steps).</p>
+        <p class="sub-desc" v-if="isDefaultNeo">Grundtöne der Marke — die Abstufungen (50–950, in 5-%-Schritten) entstehen automatisch.</p>
         <p class="sub-desc" v-else data-test="markenpaletten-hinweis">
           Markenfarben dieses Themes — übernommen aus dem NEO Design System und hier änderbar.
           <strong>Primary</strong> trägt Flächen und Text (Graphit-Leiter), <strong>Accent</strong> den Akzent:
@@ -225,7 +225,7 @@
             v-if="hasPending && isDefaultNeo"
             class="sync-badge"
             @click="triggerManualSync"
-            title="Pending updates for the Style Guide"
+            title="Ausstehende Aktualisierungen für die Doku"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
@@ -233,7 +233,7 @@
             {{ pendingCountValue }} ausstehend
           </button>
         </h3>
-        <p class="sub-desc">Extended color palette — decorative and auxiliary shades (50–950, 5% steps).</p>
+        <p class="sub-desc">Ergänzende Paletten — dekorative und Hilfstöne (50–950, in 5-%-Schritten).</p>
         <p v-if="drupalBetrieb" class="sub-desc" data-test="supporting-hinweis">
           Übernommen aus dem NEO Design System. Im Drupal-Betrieb nicht änderbar: eigene Paletten speichert
           der Konfigurator bisher nur im Browser, nicht im Theme.
@@ -413,14 +413,14 @@
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
           Grundpaletten
-          <span class="locked-badge" title="Foundation palettes are fixed and cannot be overridden">
+          <span class="locked-badge" title="Grundpaletten sind fest und lassen sich nicht ändern">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
             nicht änderbar
           </span>
         </h3>
-        <p class="sub-desc">Black &amp; White transparency scales (10–100%). Used for overlays, shadows and layering.</p>
+        <p class="sub-desc">Schwarz und Weiß in Transparenzstufen (10–100 %). Für Abdunklungen, Schatten und Ebenen.</p>
 
         <div class="primitives-grid">
           <div v-for="palette in foundationPaletteList" :key="palette.id" class="primitive-card primitive-card--locked">
@@ -460,7 +460,7 @@
             nicht änderbar
           </span>
         </h3>
-        <p class="sub-desc">Generated neutral gray scale from base #7a7a7a. Backbone for text, borders and surfaces.</p>
+        <p class="sub-desc">Neutrale Grauskala aus dem Grundton #7a7a7a. Basis für Text, Rahmen und Flächen.</p>
 
         <div class="primitives-grid">
           <div v-for="palette in neutralPaletteList" :key="palette.id" class="primitive-card primitive-card--locked">
@@ -543,7 +543,7 @@
             nicht änderbar
           </span>
         </h3>
-        <p class="sub-desc">Feedback and status colors — Info, Success, Warning, Danger with shade scales (50–950, 5% steps).</p>
+        <p class="sub-desc">Rückmelde- und Statusfarben — Info, Erfolg, Warnung, Gefahr mit Abstufungen (50–950, in 5-%-Schritten).</p>
 
         <div class="primitives-grid">
           <div v-for="palette in systemPaletteList" :key="palette.id" class="primitive-card primitive-card--locked">
@@ -586,7 +586,7 @@
       <template v-if="!store.state.semanticCategory">
         <p class="sub-desc">Wählen Sie eine Kategorie, um die zugehörigen Farbrollen einzustellen.</p>
         <!-- UX-33: „Erhebung“ sind Schatten, keine Farben -->
-        <p class="sub-desc" data-test="erhebung-hinweis">Schatten bearbeiten Sie unter <a href="#/foundation/shadows">Foundation › Shadow &amp; Elevation</a>.</p>
+        <p class="sub-desc" data-test="erhebung-hinweis">Schatten bearbeiten Sie unter <a href="#/foundation/shadows">Grundlagen › Schatten</a>.</p>
         <div class="semantic-category-grid">
           <button
             v-for="group in farbGruppen"

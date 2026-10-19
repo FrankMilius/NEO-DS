@@ -21,7 +21,7 @@
               <span class="ie-lib-meta">
                 {{ lib.iconCount || '?' }} Icons
                 <span v-if="lib.builtIn" class="ie-lib-badge">Standard</span>
-                <span v-else class="ie-lib-badge ie-lib-badge--custom">Custom</span>
+                <span v-else class="ie-lib-badge ie-lib-badge--custom">Eigene</span>
               </span>
             </div>
           </button>
@@ -50,7 +50,7 @@
             type="text"
             class="ie-input"
             v-model="newLibName"
-            placeholder="Name (z.B. Lucide Icons)"
+            placeholder="Name (z. B. Lucide Icons)"
             @keyup.enter="addLibrary"
             @keyup.escape="cancelAddLib"
           />
@@ -58,7 +58,7 @@
             type="text"
             class="ie-input"
             v-model="newLibUrl"
-            placeholder="npm Package Name (z.B. lucide-static)"
+            placeholder="npm-Paket (z. B. lucide-static)"
             @keyup.enter="addLibrary"
             @keyup.escape="cancelAddLib"
           />
@@ -102,7 +102,7 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/>
                   </svg>
-                  Light
+                  Hell
                 </span>
                 <span class="ie-color-card__value">
                   <span v-if="primitiveRefForMode(activeLibrary, 'light')" class="ie-color-card__ref">{{ primitiveRefForMode(activeLibrary, 'light') }}</span>
@@ -137,7 +137,7 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/>
                   </svg>
-                  Dark
+                  Dunkel
                 </span>
                 <span class="ie-color-card__value">
                   <span v-if="primitiveRefForMode(activeLibrary, 'dark')" class="ie-color-card__ref">{{ primitiveRefForMode(activeLibrary, 'dark') }}</span>

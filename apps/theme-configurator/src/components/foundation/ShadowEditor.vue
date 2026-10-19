@@ -20,7 +20,7 @@
 
     <section class="token-section">
       <h3 class="sub-heading">Zuordnung zu Ebenen</h3>
-      <p class="sub-desc">Semantic elevation levels mapped to shadow values.</p>
+      <p class="sub-desc">Zuordnung der Ebenen zu den Schattenstufen.</p>
       <div class="elevation-grid">
         <div v-for="(elev, key) in elevations" :key="key" class="elevation-card">
           <div class="elevation-demo" :style="{ boxShadow: getShadowForElevation(elev.value) }">

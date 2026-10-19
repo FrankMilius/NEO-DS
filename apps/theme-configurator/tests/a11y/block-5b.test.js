@@ -85,7 +85,7 @@ describe('UX-17: Fokus geht nicht verloren', () => {
 
   it('Hinzufügen-Formular fokussiert sein erstes Feld', async () => {
     w = mount(RadiiEditor, { attachTo: document.body })
-    await w.find('.re-add-btn').trigger('click'); await nextTick()
+    await w.find('.hf-oeffnen').trigger('click'); await nextTick(); await nextTick()
     expect(document.activeElement.tagName).toBe('INPUT')
   })
 

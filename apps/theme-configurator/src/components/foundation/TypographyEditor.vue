@@ -15,7 +15,7 @@
         </span>
         <span v-else class="theme-name-badge">{{ currentThemeName }}</span>
       </h3>
-      <p v-if="isDefaultNeo" class="sub-desc">NEO Design System default fonts — Manrope (body), Space Grotesk (headings), JetBrains Mono (meta layer: eyebrows, table heads, counters, code).</p>
+      <p v-if="isDefaultNeo" class="sub-desc">Schriften des NEO-Standards — Manrope (Fließtext), Space Grotesk (Überschriften), JetBrains Mono (Kicker, Tabellenköpfe, Zähler, Code).</p>
       <p v-else-if="buehne" class="sub-desc">
         Schriften dieses Themes je Rolle. Ändern in den Einstellungen rechts.
       </p>
@@ -252,7 +252,7 @@
          ═══════════════════════════════════════════════════════════════════ -->
     <section class="token-section">
       <h3 class="sub-heading">
-        Type Scale
+        Schriftskala
         <span class="te-count">{{ skala.length }} Stufen · fluide {{ p.viewportMin }}–{{ p.viewportMax }} px</span>
         <span v-if="geaendert" class="te-badge">geändert</span>
       </h3>
