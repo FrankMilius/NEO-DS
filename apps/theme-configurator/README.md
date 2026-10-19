@@ -464,7 +464,16 @@ Vitest → Build → Einstieg → Bundle-Budget → Artefakt
 2. `git tag konfigurator-v<version> && git push origin konfigurator-v<version>`
 3. Der Workflow prüft Tag = `package.json`, testet, baut und legt ein
    GitHub-Release mit `theme-configurator-<version>.zip`
-   (`theme-config.html` + `theme-configurator/`) an.
+   (`theme-config.html` + `theme-configurator/`) an, dazu das Modul-Paket
+   `neo_theme_konfigurator-app-<version>.zip` (+ `.sha256`).
+
+**Modul-Paket für Drupal** (`scripts/modul-paket.sh`, 19.10.2026): der Ordner
+`app/` des Moduls `neo_theme_konfigurator` — gebaut mit dem Pfad des Moduls,
+mit Icon-Listen und `HERKUNFT.txt`. Lokal `bash scripts/modul-paket.sh`
+(Ziel `dist/modul-paket/`), auf dem Server im Modulordner
+`rm -rf app && unzip -q neo_theme_konfigurator-app-<version>.zip`, danach
+`drush cr`. Inhalt wie `scripts/app-uebernehmen.sh` im Modul, aber ohne
+Zugriff auf DRUPAL11.
 
 **Versionsanzeige:** Der Header zeigt „Theme v…“ (Version des bearbeiteten
 Themes, `state.version`, Theme-Metadaten) und daneben „App <version> ·

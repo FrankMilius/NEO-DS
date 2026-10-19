@@ -2,8 +2,9 @@
 # Theme-Konfigurator — Release (Plan v2, 4.3)
 # ==========================================================================
 # Ein Tag `konfigurator-v<Version>` (z. B. konfigurator-v1.0.0) baut die App,
-# prueft sie und legt ein GitHub-Release mit dem Bundle als ZIP an. Das ist
-# das Paket, das die Entwickler in die neo Workplace Plattform uebernehmen.
+# prueft sie und legt ein GitHub-Release mit dem Bundle als ZIP an, dazu das
+# Modul-Paket fuer Drupal (scripts/modul-paket.sh). Beides sind
+# die Pakete, die die Entwickler in die neo Workplace Plattform uebernehmen.
 # <Version> muss der "version" in apps/theme-configurator/package.json gleichen.
 #
 #   git tag konfigurator-v1.0.0 && git push origin konfigurator-v1.0.0
@@ -61,11 +62,17 @@ jobs:
           VERSION="${GITHUB_REF_NAME#konfigurator-v}"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           cd config && zip -qr "../theme-configurator-$VERSION.zip" theme-config.html theme-configurator
+      # Uebergabe 19.10.2026: Paket fuer das Drupal-Modul neo_theme_konfigurator
+      # (Pfad des Moduls, Icon-Listen) — auf dem Server in den Modulordner entpacken
+      - name: Modul-Paket schnueren
+        run: bash scripts/modul-paket.sh dist/modul-paket
       - name: GitHub-Release anlegen
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$GITHUB_REF_NAME" "theme-configurator-$VERSION.zip" \
+            "dist/modul-paket/neo_theme_konfigurator-app-$VERSION.zip" \
+            "dist/modul-paket/neo_theme_konfigurator-app-$VERSION.zip.sha256" \
             --title "Theme-Konfigurator $VERSION" \
-            --notes "Gebautes Bundle des Theme-Konfigurators (config/theme-config.html + config/theme-configurator/). Tests, Einstieg und Bundle-Budget in diesem Lauf geprueft." \
+            --notes "Zwei Pakete: theme-configurator-$VERSION.zip ist das Bundle fuer den Docs-Server (config/theme-config.html + config/theme-configurator/). neo_theme_konfigurator-app-$VERSION.zip ist der Ordner app/ fuer das Drupal-Modul neo_theme_konfigurator — im Modulordner entpacken (rm -rf app && unzip -q …), danach drush cr. Tests, Einstieg und Bundle-Budget in diesem Lauf geprueft." \
             --verify-tag
