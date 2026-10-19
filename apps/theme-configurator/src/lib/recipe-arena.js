@@ -247,7 +247,7 @@ export function normalisiereRecipe (raw) {
 
   let specimens = (r.specimens || []).map((s) => saubereSpecimen(s, axes, hinweise))
   if (!specimens.length) {
-    hinweise.push('keine Specimens — Standard-Specimen ergaenzt')
+    hinweise.push('keine Specimens — Standard-Specimen ergänzt')
     specimens = [{
       id: 'standard',
       label: 'Standard',

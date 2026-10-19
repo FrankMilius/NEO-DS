@@ -10,7 +10,7 @@
       data-test="drupal-speichern"
       :disabled="!kannBearbeiten"
       :aria-disabled="zustand.status === 'speichert' ? 'true' : undefined"
-      :title="kannBearbeiten ? 'In Drupal speichern (Strg+S)' : 'Nur Ansicht — dir fehlt das Recht „bearbeiten“'"
+      :title="kannBearbeiten ? 'In Drupal speichern (Strg+S)' : 'Nur Ansicht — Ihnen fehlt das Recht „bearbeiten“'"
       aria-keyshortcuts="Control+S"
       @click="betrieb.speichern()"
     >
@@ -44,11 +44,12 @@
       class="dk-knopf"
       data-test="drupal-vorschau"
       :aria-pressed="zustand.vorschauAn ? 'true' : 'false'"
+      :aria-label="`Vorschau von „${themeName}“ auf der Website`"
       :title="vorschauTitel"
       @click="betrieb.vorschauUmschalten()"
     >
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path v-if="!zustand.vorschauAn" d="M3 3l18 18"/></svg>
-      Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}
+      Website-Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}
     </button>
     <a
       class="dk-knopf"
@@ -91,22 +92,25 @@ const kannBearbeiten = darf('bearbeiten')
 const kannVeroeffentlichen = darf('veroeffentlichen')
 
 const STATUS = {
-  'ohne-theme': 'Nicht in Drupal gespeichert',
+  'ohne-theme': 'Noch nicht in Drupal gespeichert',
   gespeichert: 'Gespeichert',
   ungespeichert: 'Ungespeicherte Änderungen',
-  speichert: 'Speichert …',
+  speichert: 'Wird gespeichert …',
   laedt: 'Lädt …',
   fehler: 'Fehler beim Speichern',
 }
-const statusText = computed(() => (zustand.status === 'fehler' && zustand.fehlerText) || STATUS[zustand.status] || '')
+// UX-25: Ohne Recht „bearbeiten“ ist der Status „Nur Ansicht“ — vorher stand
+// dort „Nicht in Drupal gespeichert“, als hätte man etwas versäumt
+const statusText = computed(() => (!kannBearbeiten && zustand.status !== 'laedt' ? 'Nur Ansicht' : (zustand.status === 'fehler' && zustand.fehlerText) || STATUS[zustand.status] || ''))
+const themeName = computed(() => store.state.currentThemeMeta?.name || 'NEO-Standard')
 
 const websiteUrl = (typeof window !== 'undefined' && window.NEO_KONFIGURATOR?.websiteUrl) || '/'
 const vorschauTitel = computed(() => zustand.vorschauAn
-  ? 'Vorschau an: Du siehst den gespeicherten Stand des geöffneten Themes auf der Website, Besucher nicht. Klicken zum Ausschalten.'
-  : 'Vorschau aus: Du siehst auf der Website dasselbe wie Besucher. Klicken zum Einschalten.')
+  ? `Vorschau von „${themeName.value}“ ist an: Sie sehen den gespeicherten Stand dieses Themes auf der Website, Besucher nicht. Klicken schaltet sie aus.`
+  : `Vorschau von „${themeName.value}“ ist aus: Sie sehen auf der Website dasselbe wie Besucher. Klicken schaltet sie ein.`)
 
 const veroeffentlichenTitel = computed(() => {
-  if (!kannVeroeffentlichen) return 'Dir fehlt das Recht „veröffentlichen“'
+  if (!kannVeroeffentlichen) return 'Ihnen fehlt das Recht „veröffentlichen“'
   if (!store.state.currentThemeMeta?.id) return 'Erst in Drupal speichern'
   return 'Kontrast prüfen und veröffentlichen'
 })

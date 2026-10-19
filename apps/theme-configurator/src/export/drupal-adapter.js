@@ -76,7 +76,7 @@ export function generateDrupalCSS(themeJSON) {
   // Fluide Schriftskala — nur wenn veraendert (Plan v2, 2.3)
   const skalaZeilen = schriftskalaZeilen(themeJSON.typeScale)
   if (skalaZeilen.length) {
-    lines.push(`/* Schriftskala (--fs-*, geaendert gegenueber dem Design System) */`)
+    lines.push(`/* Schriftskala (--fs-*, geändert gegenüber dem Design System) */`)
     lines.push(`:root {`)
     lines.push(...skalaZeilen)
     lines.push('}\n')

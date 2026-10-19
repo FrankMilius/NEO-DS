@@ -253,7 +253,7 @@ export function erzeugeZustand(o = {}) {
    */
   async function bearbeite(a) {
     const { methode, pfad, query, kopf, rechte } = a
-    const recht = (r) => rechte.includes(r) ? null : problem(403, 'recht-fehlt', 'Keine Berechtigung', { detail: `Dir fehlt das Recht „${r}“.`, recht: r })
+    const recht = (r) => rechte.includes(r) ? null : problem(403, 'recht-fehlt', 'Keine Berechtigung', { detail: `Ihnen fehlt das Recht „${r}“.`, recht: r })
     const csrf = () => (kopf('x-csrf-token') === csrfToken ? null : problem(403, 'csrf', 'CSRF-Token ungültig', { detail: 'Das Sicherheits-Token (X-CSRF-Token) fehlt oder ist ungültig. Bitte die Seite neu laden.' }))
     const groesse = () => (a.koerper !== null && Buffer.byteLength(a.koerper, 'utf8') > MAX_BYTES
       ? problem(413, 'zu-gross', 'Anfrage zu groß', { detail: 'Das Theme ist zu groß (höchstens 1 MB).' }) : null)

@@ -18,6 +18,7 @@
 
 import { defineAsyncComponent, defineComponent, h, markRaw } from 'vue'
 import { NAVIGATIONS_SEKTIONEN } from './sektions-ids.js'
+import { bereichsName, komponentenName } from './namen.js'
 
 // Inspector-Komponenten: statisch wie bisher im InspectorPanel
 import FoundationColors from '../components/foundation/FoundationColors.vue'
@@ -84,37 +85,37 @@ const generisch = (category, sectionLabel) =>
 // Foundation-Sektionen (feste Zuordnung)
 // ---------------------------------------------------------------------------
 const FOUNDATION = {
-  'foundation-colors': { label: 'Colors', labor: LABOR.farben, inspector: [block(FoundationColors)] },
-  'foundation-grid': { label: 'Grid', labor: LABOR.grid, inspector: [block(GridInspector)], schluessel: 'grid' },
-  'foundation-surfaces': { label: 'Surfaces', labor: LABOR.surfaces, inspector: [block(SurfaceEditor, { ansicht: 'eingabe' })] },
-  'foundation-spacing': { label: 'Spacing', labor: LABOR.spacing, inspector: [block(EDITOR.spacing)] },
-  'foundation-size': { label: 'Sizes', labor: LABOR.size, inspector: [block(EDITOR.size)] },
+  'foundation-colors': { label: bereichsName('foundation-colors'), labor: LABOR.farben, inspector: [block(FoundationColors)] },
+  'foundation-grid': { label: bereichsName('foundation-grid'), labor: LABOR.grid, inspector: [block(GridInspector)], schluessel: 'grid' },
+  'foundation-surfaces': { label: bereichsName('foundation-surfaces'), labor: LABOR.surfaces, inspector: [block(SurfaceEditor, { ansicht: 'eingabe' })] },
+  'foundation-spacing': { label: bereichsName('foundation-spacing'), labor: LABOR.spacing, inspector: [block(EDITOR.spacing)] },
+  'foundation-size': { label: bereichsName('foundation-size'), labor: LABOR.size, inspector: [block(EDITOR.size)] },
   'foundation-typography': {
-    label: 'Typography',
+    label: bereichsName('foundation-typography'),
     labor: LABOR.typografie,
     inspector: [block(TypographyEditor), generisch('tracking', 'Tracking')],
   },
-  'foundation-radius': { label: 'Border Radius', labor: LABOR.radius, inspector: [block(EDITOR.radius)] },
-  'foundation-border': { label: 'Border', labor: LABOR.border, inspector: [nurAnsicht('Rahmenbreiten und -stile sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
-  'foundation-focus': { label: 'Focus Ring', labor: LABOR.focus, inspector: [block(EDITOR.focus)] },
-  'foundation-media': { label: 'Media Ratios', labor: LABOR.media, inspector: [block(EDITOR.media)] },
-  'foundation-elements': { label: 'Elements', labor: LABOR.elements, inspector: [nurAnsicht('Die Grundstile der HTML-Elemente ergeben sich aus Typografie und Farben. Die Bühne zeigt sie.', [{ label: 'Typografie', hash: '#/foundation/typography' }, { label: 'Farben', hash: '#/foundation/colors' }])] },
+  'foundation-radius': { label: bereichsName('foundation-radius'), labor: LABOR.radius, inspector: [block(EDITOR.radius)] },
+  'foundation-border': { label: bereichsName('foundation-border'), labor: LABOR.border, inspector: [nurAnsicht('Rahmenbreiten und -stile sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
+  'foundation-focus': { label: bereichsName('foundation-focus'), labor: LABOR.focus, inspector: [block(EDITOR.focus)] },
+  'foundation-media': { label: bereichsName('foundation-media'), labor: LABOR.media, inspector: [block(EDITOR.media)] },
+  'foundation-elements': { label: bereichsName('foundation-elements'), labor: LABOR.elements, inspector: [nurAnsicht('Die Grundstile der HTML-Elemente ergeben sich aus Typografie und Farben. Die Bühne zeigt sie.', [{ label: 'Typografie', hash: '#/foundation/typography' }, { label: 'Farben', hash: '#/foundation/colors' }])] },
   // Icons: Hinweis, was davon exportiert wird (UX-37), darunter der Editor (V04)
-  'foundation-icons': { label: 'Icons', labor: LABOR.icons, inspector: [block(IconsInspector), block(EDITOR.icons)] },
-  'foundation-themes': { label: 'Themes', labor: LABOR.themes, inspector: [nurAnsicht('Themes wählst, speicherst und veröffentlichst du in der Kopfleiste. Die Bühne zeigt die vier Kombinationen aus Set und Modus.')] },
-  'foundation-shadows': { label: 'Shadows', labor: LABOR.shadows, inspector: [nurAnsicht('Schattenstufen und ihre Zuordnung zu Erhebungen sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
-  'foundation-opacity': { label: 'Opacity & Motion', labor: LABOR.opacity, inspector: [block(EDITOR.opacity)] },
+  'foundation-icons': { label: bereichsName('foundation-icons'), labor: LABOR.icons, inspector: [block(IconsInspector), block(EDITOR.icons)] },
+  'foundation-themes': { label: bereichsName('foundation-themes'), labor: LABOR.themes, inspector: [nurAnsicht('Themes wählen, speichern und veröffentlichen Sie in der Kopfleiste. Die Bühne zeigt die vier Kombinationen aus Set und Modus.')] },
+  'foundation-shadows': { label: bereichsName('foundation-shadows'), labor: LABOR.shadows, inspector: [nurAnsicht('Schattenstufen und ihre Zuordnung zu Erhebungen sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
+  'foundation-opacity': { label: bereichsName('foundation-opacity'), labor: LABOR.opacity, inspector: [block(EDITOR.opacity)] },
   'foundation-praesentation': {
-    label: 'Präsentation',
+    label: bereichsName('foundation-praesentation'),
     labor: LABOR.praesentation,
     inspector: [block(PraesentationInspector)],
   },
   // Nicht in der Navigation, aber aus aelteren gespeicherten Staenden erreichbar
-  'foundation-motion': { label: 'Motion', labor: LABOR.magazin, inspector: [generisch('motion')] },
+  'foundation-motion': { label: bereichsName('foundation-motion'), labor: LABOR.magazin, inspector: [generisch('motion')] },
 }
 
-// "code-snippet" → "Code Snippet"
-const titel = (name) => name.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+// "tbl-cell" → "Table Cell" (namen.js, Block 5e)
+const titel = (name) => komponentenName(name)
 
 function eintrag (id, daten) {
   return Object.freeze({ id, schluessel: id, ...daten, inspector: Object.freeze([...daten.inspector]) })
@@ -164,7 +165,7 @@ function erzeugeEintrag (id) {
         return eintrag(id, {
           label: 'Seitenvorlagen',
           labor: LABOR.vorlagen,
-          inspector: [nurAnsicht('Seitenvorlagen haben keine eigenen Werte. Sie übernehmen Farben, Schrift und Abstände aus der Foundation und das Aussehen der Komponenten.', [{ label: 'Farben', hash: '#/foundation/colors' }, { label: 'Typografie', hash: '#/foundation/typography' }])],
+          inspector: [nurAnsicht('Seitenvorlagen haben keine eigenen Werte. Sie übernehmen Farben, Schrift und Abstände aus den Grundlagen und das Aussehen der Komponenten.', [{ label: 'Farben', hash: '#/foundation/colors' }, { label: 'Typografie', hash: '#/foundation/typography' }])],
           schluessel: 'template',
         })
       }

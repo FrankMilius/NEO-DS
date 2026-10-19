@@ -40,7 +40,7 @@ export function exportAsCSSVars(opt = {}) {
   const lines = []
   const themeSet = state.activeThemeSet
   const nurAbweichungen = opt.nurAbweichungen === true
-  const label = themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme'
+  const label = themeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde'
 
   // Header with metadata
   lines.push(`/* Theme: ${label} */`)
@@ -111,7 +111,7 @@ export function exportAsCSSVars(opt = {}) {
   // === Fluide Schriftskala (Plan v2, 2.3) — nur wenn veraendert ===
   const skalaZeilen = schriftskalaZeilen(state.typeScale[themeSet])
   if (skalaZeilen.length) {
-    lines.push(`/* === Schriftskala (--fs-*, geaendert gegenueber dem Design System) === */`)
+    lines.push(`/* === Schriftskala (--fs-*, geändert gegenüber dem Design System) === */`)
     lines.push(`:root {`)
     lines.push(...skalaZeilen)
     lines.push('}\n')
@@ -260,7 +260,7 @@ export function exportAsJSON() {
 
   return JSON.stringify({
     meta: {
-      name: state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme'),
+      name: state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde'),
       version: state.version,
       branch: _getBranchLabel(),
       generated: new Date().toISOString(),
@@ -290,7 +290,7 @@ export function exportAsJSON() {
 export async function exportAsDTCG() {
   const themeSet = state.activeThemeSet
   const grundlagen = await ladeDtcgGrundlagen()
-  const name = state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme')
+  const name = state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde')
   const erg = erzeugeThemeDtcg(grundlagen, themeDatenAusState(state, themeSet), { themeSet, semanticDefaults, name })
   const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase()
   return { ...erg, dateiname: `${safeName}.tokens.dtcg.json` }

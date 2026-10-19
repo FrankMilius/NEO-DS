@@ -28,7 +28,7 @@ const LAYOUT_RELATIONS = {
     icon: 'container',
     affects: ['grid'],
     affectedBy: ['section'],
-    cascade: 'Container begrenzt die verfuegbare Breite. Grid-Spalten muessen sich an die max-width anpassen.',
+    cascade: 'Container begrenzt die verfügbare Breite. Grid-Spalten müssen sich an die max-width anpassen.',
     smartLinks: [
       { targetComponent: 'section', targetToken: 'nc-section-padding-block', reason: 'Section-Padding beeinflusst den vertikalen Rhythmus um den Container.' },
       { targetComponent: 'grid', targetToken: 'nc-grid-columns', reason: 'Bei schmalen Containern (narrow: 768px) sind 12 Spalten zu viel — 4-6 Spalten empfohlen.' }
@@ -39,10 +39,10 @@ const LAYOUT_RELATIONS = {
     icon: 'layout-grid',
     affects: [],
     affectedBy: ['container', 'section'],
-    cascade: 'Grid definiert den Spaltenrhythmus fuer alle Kind-Komponenten.',
+    cascade: 'Grid definiert den Spaltenrhythmus für alle Kind-Komponenten.',
     smartLinks: [
-      { targetComponent: 'container', targetToken: 'nc-container-max-width', reason: 'Container max-width bestimmt die verfuegbare Breite fuer Grid-Spalten.' },
-      { targetComponent: 'container', targetToken: 'nc-container-padding-inline', reason: 'Container-Padding reduziert den Platz fuer das Grid.' }
+      { targetComponent: 'container', targetToken: 'nc-container-max-width', reason: 'Container max-width bestimmt die verfügbare Breite für Grid-Spalten.' },
+      { targetComponent: 'container', targetToken: 'nc-container-padding-inline', reason: 'Container-Padding reduziert den Platz für das Grid.' }
     ]
   }
 }
@@ -60,9 +60,9 @@ const CONFLICT_RULES = [
       const padding = parsePx(tokens['nc-container-padding-inline'])
       if (gap > 0 && padding > 0 && gap > padding) {
         return {
-          message: `Grid-Gap (${gap}px) ist groesser als Container-Padding (${padding}px). Der Abstand zwischen Elementen uebersteigt den Aussenabstand.`,
+          message: `Grid-Gap (${gap}px) ist größer als Container-Padding (${padding}px). Der Abstand zwischen Elementen übersteigt den Außenabstand.`,
           affected: ['nc-grid-gap', 'nc-container-padding-inline'],
-          suggestion: `Gap auf max ${padding}px reduzieren oder Container-Padding erhoehen.`
+          suggestion: `Gap auf max ${padding}px reduzieren oder Container-Padding erhöhen.`
         }
       }
       return null
@@ -246,7 +246,7 @@ export function useLayoutDependencies(componentId) {
       if (cols > 12) {
         notes.push({
           type: 'warning',
-          text: `${cols} Spalten ueberschreiten das Standard-12er-Raster. Pruefen ob alle Breakpoints funktionieren.`
+          text: `${cols} Spalten überschreiten das Standard-12er-Raster. Prüfen Sie, ob alle Breakpoints funktionieren.`
         })
       }
     }
@@ -255,7 +255,7 @@ export function useLayoutDependencies(componentId) {
       const maxWidth = layoutTokens.value['nc-container-max-width'] || '1200px'
       notes.push({
         type: 'info',
-        text: `Container begrenzt auf ${maxWidth}. Das Grid innerhalb berechnet Spaltenbreiten basierend auf dieser verfuegbaren Breite.`
+        text: `Container begrenzt auf ${maxWidth}. Das Grid innerhalb berechnet Spaltenbreiten basierend auf dieser verfügbaren Breite.`
       })
     }
 

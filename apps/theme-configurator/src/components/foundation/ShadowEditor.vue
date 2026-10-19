@@ -1,7 +1,7 @@
 <template>
   <div class="shadow-editor">
     <section class="token-section">
-      <h3 class="sub-heading">Shadow Levels</h3>
+      <h3 class="sub-heading">Schattenstufen</h3>
       <div class="shadow-grid">
         <div
           v-for="(shadow, key) in shadows"
@@ -19,7 +19,7 @@
     </section>
 
     <section class="token-section">
-      <h3 class="sub-heading">Elevation Mapping</h3>
+      <h3 class="sub-heading">Zuordnung zu Ebenen</h3>
       <p class="sub-desc">Semantic elevation levels mapped to shadow values.</p>
       <div class="elevation-grid">
         <div v-for="(elev, key) in elevations" :key="key" class="elevation-card">

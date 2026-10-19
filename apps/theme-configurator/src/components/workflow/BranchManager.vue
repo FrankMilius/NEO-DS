@@ -80,7 +80,7 @@
           <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14"/><path d="M5 12h14"/>
           </svg>
-          New Branch
+          Neuer Arbeitsstand
         </button>
 
         <button
@@ -109,7 +109,7 @@
       <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
         <div ref="createDialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cfg-branch-dialog-titel" tabindex="-1">
           <div class="modal-header">
-            <h2 id="cfg-branch-dialog-titel" class="modal-title">New Branch</h2>
+            <h2 id="cfg-branch-dialog-titel" class="modal-title">Neuer Arbeitsstand</h2>
             <button type="button" class="modal-close" aria-label="Schließen" @click="showCreateDialog = false">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
@@ -141,7 +141,7 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
+            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Abbrechen</button>
             <button type="button" class="modal-btn primary" @click="confirmCreate" :disabled="!newBranchName.trim()">
               Create Branch
             </button>

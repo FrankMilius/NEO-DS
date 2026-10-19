@@ -3,7 +3,7 @@
     <section class="surface-section">
       <h3 class="sub-heading">
         <span class="tier-badge tier-2">L2</span>
-        Surface System
+        Flächen
         <span class="theme-indicator">{{ themeLabel }}</span>
       </h3>
       <p class="sub-desc">
@@ -20,7 +20,7 @@
           </div>
           <div v-if="ansicht !== 'wirkung'" class="surface-controls">
             <div class="control-row">
-              <label class="control-label">Background</label>
+              <label class="control-label">Hintergrund</label>
               <div class="control-input">
                 <input :aria-label="`${surface.label}: Background wählen`"
                   type="color"
@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="control-row">
-              <label class="control-label">On-Color</label>
+              <label class="control-label">Schrift darauf</label>
               <div class="control-input">
                 <input :aria-label="`${surface.label}: On-Color wählen`"
                   type="color"
@@ -60,7 +60,7 @@
 
     <!-- Nesting Preview -->
     <section v-if="ansicht !== 'eingabe'" class="nesting-preview">
-      <h3 class="sub-heading">Nesting Preview</h3>
+      <h3 class="sub-heading">Verschachtelung</h3>
       <p class="sub-desc">How surfaces nest within the base page background.</p>
       <div class="nest-demo" :style="{ background: getColor('background-base'), color: getColor('on-surface') }">
         <span class="nest-label">Page (background-base)</span>

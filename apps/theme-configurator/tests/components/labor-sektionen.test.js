@@ -110,7 +110,7 @@ describe('Labor-Inhalt je Sektionsart', () => {
 
   it('Breadcrumb kommt aus der Registry', async () => {
     const w = await rendere(LaboratoryPanel, 'foundation-radius')
-    expect(w.find('.lab-breadcrumb-leaf').text()).toBe('Border Radius')
+    expect(w.find('.lab-breadcrumb-leaf').text()).toBe('Eckenradien')
     w.unmount()
   })
 })

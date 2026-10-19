@@ -55,6 +55,7 @@ import DrupalRechteHinweis from './components/drupal/DrupalRechteHinweis.vue'
 import { darf, speicher } from './speicher/index.js'
 import { starteDrupalBetrieb } from './composables/useDrupalBetrieb.js'
 import { neoAnsicht } from './composables/neoAnsicht.js'
+import { seitenTitel } from './navigation/namen.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -87,6 +88,8 @@ const leisteZu = computed(() => (kompakt.value ? !overlayOffen.value : sidebarCo
 function overlaySchliessen () { if (kompakt.value) overlayOffen.value = false }
 // Auswahl in der Sidebar schließt die Überlagerung
 watch(() => store.state.activeSection, overlaySchliessen)
+// Seitentitel je Bereich (WCAG 2.4.2, Befund UX-56): vorher blieb er gleich
+watch(() => store.state.activeSection, (id) => { document.title = seitenTitel(id) }, { immediate: true })
 
 // UX-46: Sprungziele (Knöpfe statt Anker: der Hash gehört dem Router)
 const SPRUNGZIELE = [

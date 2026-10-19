@@ -5,7 +5,7 @@
       <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 5v14"/><path d="M5 12h14"/>
       </svg>
-      New Variant
+      Neue Variante
     </button>
 
     <!-- Existing Custom Variants -->
@@ -47,7 +47,7 @@
 
             <!-- Variant Name -->
             <div class="form-field">
-              <label class="form-label" :for="`${idBasis}-name`">Variant Name</label>
+              <label class="form-label" :for="`${idBasis}-name`">Name der Variante</label>
               <input
                 :id="`${idBasis}-name`"
                 :aria-invalid="nameError ? 'true' : undefined"
@@ -62,7 +62,7 @@
 
             <!-- Base Variant -->
             <div class="form-field" v-if="baseVariantOptions.length > 0">
-              <label class="form-label" :for="`${idBasis}-basis`">Clone Tokens From</label>
+              <label class="form-label" :for="`${idBasis}-basis`">Werte übernehmen von</label>
               <select :id="`${idBasis}-basis`" class="form-select" v-model="selectedBase">
                 <option v-for="opt in baseVariantOptions" :key="opt.id" :value="opt.id">
                   {{ opt.label }} ({{ opt.tokenCount }} tokens)
@@ -86,7 +86,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="modal-btn secondary" @click="showDialog = false">Cancel</button>
+            <button type="button" class="modal-btn secondary" @click="showDialog = false">Abbrechen</button>
             <button
               type="button"
               class="modal-btn primary"

@@ -2,13 +2,13 @@
   <div class="sizes-editor">
     <section class="se-section">
       <h3 class="se-heading">
-        Size Scale
+        Größenskala
         <span class="se-heading__count">{{ Object.keys(scaleTokens).length }} Tokens</span>
       </h3>
       <p class="se-desc">
-        Einheitliche Hoehen fuer Bedienelemente, Avatare und Icons (<code>--fnd-size-*</code>).
+        Einheitliche Höhen für Bedienelemente, Avatare und Icons (<code>--fnd-size-*</code>).
         Komponenten wie Button, Chip, Pagination und Search referenzieren diese Werte.
-        Das Touch-Ziel ist die Untergrenze fuer alles, was man antippen kann.
+        Das Touch-Ziel ist die Untergrenze für alles, was man antippen kann.
       </p>
 
       <div class="se-token-list">
@@ -26,7 +26,7 @@
             type="text"
             class="se-value-input"
             :value="currentValue(key)"
-            :aria-label="`Wert fuer --fnd-size-${key}`"
+            :aria-label="`Größe ${key.toUpperCase()}`"
             @change="store.updateFoundationToken('size', key, $event.target.value)"
           />
         </div>

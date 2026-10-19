@@ -4,7 +4,7 @@
     <!-- ── Icon Libraries ── -->
     <section class="ie-section">
       <h3 class="ie-heading">
-        Icon Libraries
+        Icon-Bibliotheken
         <span class="ie-heading__count">{{ store.currentIconLibraries.length }}</span>
       </h3>
 
@@ -40,7 +40,7 @@
       <div v-if="!showAddLib" class="ie-add-row">
         <button class="ie-add-btn" @click="showAddLib = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          SVG Icon Library hinzufuegen
+          SVG Icon Library hinzufügen
         </button>
       </div>
       <div v-else class="ie-add-form">
@@ -65,10 +65,10 @@
         </div>
         <div class="ie-add-hint">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-          Nur SVG-basierte Libraries werden unterstuetzt. Package muss Outline-SVGs enthalten.
+          Nur SVG-basierte Libraries werden unterstützt. Package muss Outline-SVGs enthalten.
         </div>
         <div class="ie-add-actions">
-          <button class="ie-btn ie-btn--primary" @click="addLibrary" :disabled="!newLibName.trim() || !newLibUrl.trim()">Hinzufuegen</button>
+          <button class="ie-btn ie-btn--primary" @click="addLibrary" :disabled="!newLibName.trim() || !newLibUrl.trim()">Hinzufügen</button>
           <button class="ie-btn ie-btn--ghost" @click="cancelAddLib">Abbrechen</button>
         </div>
       </div>
@@ -84,12 +84,12 @@
       <!-- ── Stroke Color (Light / Dark) ── -->
       <section class="ie-section">
         <h3 class="ie-heading">
-          Stroke Color
+          Strichfarbe
           <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
           <span class="ie-heading__count">{{ activeLibrary }}</span>
         </h3>
         <p class="ie-desc">
-          Farbe der Icon-Strokes fuer {{ activeLib.name }}. Pro Theme (Light/Dark) konfigurierbar.
+          Farbe der Icon-Strokes für {{ activeLib.name }}. Pro Theme (Light/Dark) konfigurierbar.
         </p>
 
         <div class="ie-color-cards">
@@ -168,7 +168,7 @@
       <!-- ── Stroke Width per Size ── -->
       <section class="ie-section">
         <h3 class="ie-heading">
-          Stroke Width per Size
+          Strichstärke je Größe
           <span v-if="activeLibrary !== WEBSITE_BIBLIOTHEK" class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span>
           <span v-else class="ie-wirkt" data-test="strich-wirkt" title="Geht als --fnd-icon-stroke-<Größe> ins Website-CSS">Wirkt auf der Website</span>
           <span class="ie-heading__count">{{ activeLib.name }}</span>
@@ -211,7 +211,7 @@
     <!-- ── Icon Sizes (global) ── -->
     <section class="ie-section">
       <h3 class="ie-heading">
-        Icon Sizes
+        Icon-Größen
         <span class="ie-heading__count">6</span>
       </h3>
       <div class="ie-token-list">
@@ -237,7 +237,7 @@
       <div class="ie-token-list">
         <div class="ie-token-row">
           <div class="ie-token-info">
-            <span class="ie-token-label">Default Size <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span></span>
+            <span class="ie-token-label">Standardgröße <span class="ie-nur-vorschau" title="Wird gespeichert, aber nicht ins Website-CSS exportiert">Nur Vorschau</span></span>
             <code class="ie-token-name">icon-default-size</code>
           </div>
           <select aria-label="Standardgröße"
@@ -250,7 +250,7 @@
         </div>
         <div class="ie-token-row">
           <div class="ie-token-info">
-            <span class="ie-token-label">Touch Target Min</span>
+            <span class="ie-token-label">Mindestgröße Touch-Ziel</span>
             <code class="ie-token-name">--nc-icon-touch-target</code>
           </div>
           <input aria-label="Mindestgröße Touch-Ziel"

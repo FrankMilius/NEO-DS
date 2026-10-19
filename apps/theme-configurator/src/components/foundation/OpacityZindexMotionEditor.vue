@@ -6,10 +6,10 @@
     <!-- ══════════════════════════════════════════ -->
     <section class="ozm-section">
       <h3 class="ozm-heading">
-        Opacity
+        Deckkraft
         <span class="ozm-heading__count">{{ totalOpacityCount }} Tokens</span>
       </h3>
-      <p class="ozm-desc">Opacity-Werte fuer States und Inhalts-Abstufungen.</p>
+      <p class="ozm-desc">Opacity-Werte für States und Inhalts-Abstufungen.</p>
 
       <div class="ozm-token-list">
         <div v-for="(token, key) in opacityTokens" :key="key" class="ozm-token-row">
@@ -54,7 +54,7 @@
       <div v-if="!showAddOpacity" class="ozm-add-row">
         <button class="ozm-add-btn" @click="showAddOpacity = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Opacity Token hinzufuegen
+          Deckkraft-Token hinzufügen
         </button>
       </div>
       <div v-else class="ozm-add-form">
@@ -63,7 +63,7 @@
           <input aria-label="Wert des neuen Deckkraft-Tokens" type="text" class="ozm-input" v-model="newOpacityValue" placeholder="Wert (z.B. 0.04)" @keyup.enter="addOpacity" @keyup.escape="cancelAddOpacity" />
         </div>
         <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addOpacity" :disabled="!newOpacityKey.trim() || !newOpacityValue.trim()">Hinzufuegen</button>
+          <button class="ozm-btn ozm-btn--primary" @click="addOpacity" :disabled="!newOpacityKey.trim() || !newOpacityValue.trim()">Hinzufügen</button>
           <button class="ozm-btn ozm-btn--ghost" @click="cancelAddOpacity">Abbrechen</button>
         </div>
       </div>
@@ -74,10 +74,10 @@
     <!-- ══════════════════════════════════════════ -->
     <section class="ozm-section">
       <h3 class="ozm-heading">
-        Z-Index
+        Stapelebenen
         <span class="ozm-heading__count">{{ totalZindexCount }} Tokens</span>
       </h3>
-      <p class="ozm-desc">Z-Index-Schichten fuer die Stapelreihenfolge von Komponenten.</p>
+      <p class="ozm-desc">Z-Index-Schichten für die Stapelreihenfolge von Komponenten.</p>
 
       <div class="ozm-token-list">
         <div v-for="(token, key) in zindexTokens" :key="key" class="ozm-token-row">
@@ -126,7 +126,7 @@
       <div v-if="!showAddZindex" class="ozm-add-row">
         <button class="ozm-add-btn" @click="showAddZindex = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Z-Index Token hinzufuegen
+          Ebenen-Token hinzufügen
         </button>
       </div>
       <div v-else class="ozm-add-form">
@@ -135,7 +135,7 @@
           <input aria-label="Wert des neuen Z-Index-Tokens" type="text" class="ozm-input" v-model="newZindexValue" placeholder="Wert (z.B. 15)" @keyup.enter="addZindex" @keyup.escape="cancelAddZindex" />
         </div>
         <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addZindex" :disabled="!newZindexKey.trim() || !newZindexValue.trim()">Hinzufuegen</button>
+          <button class="ozm-btn ozm-btn--primary" @click="addZindex" :disabled="!newZindexKey.trim() || !newZindexValue.trim()">Hinzufügen</button>
           <button class="ozm-btn ozm-btn--ghost" @click="cancelAddZindex">Abbrechen</button>
         </div>
       </div>
@@ -146,13 +146,13 @@
     <!-- ══════════════════════════════════════════ -->
     <section class="ozm-section">
       <h3 class="ozm-heading">
-        Motion
+        Bewegung
         <span class="ozm-heading__count">{{ totalMotionCount }} Tokens</span>
       </h3>
-      <p class="ozm-desc">Easing-Kurven und Dauer-Werte fuer Animationen und Transitions.</p>
+      <p class="ozm-desc">Easing-Kurven und Dauer-Werte für Animationen und Transitions.</p>
 
       <!-- Easings -->
-      <h4 class="ozm-sub-heading">Easing</h4>
+      <h4 class="ozm-sub-heading">Bewegungskurve</h4>
       <div class="ozm-token-list">
         <div v-for="(token, key) in easingTokens" :key="key" class="ozm-token-row">
           <div class="ozm-token-info">
@@ -172,7 +172,7 @@
       </div>
 
       <!-- Durations -->
-      <h4 class="ozm-sub-heading">Duration</h4>
+      <h4 class="ozm-sub-heading">Dauer</h4>
       <div class="ozm-token-list">
         <div v-for="(token, key) in durationTokens" :key="key" class="ozm-token-row">
           <div class="ozm-token-info">
@@ -213,7 +213,7 @@
       <div v-if="!showAddMotion" class="ozm-add-row">
         <button class="ozm-add-btn" @click="showAddMotion = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Motion Token hinzufuegen
+          Bewegungs-Token hinzufügen
         </button>
       </div>
       <div v-else class="ozm-add-form">
@@ -221,13 +221,13 @@
           <input v-fokus aria-label="Name des neuen Motion-Tokens" ref="addMotionKeyInput" type="text" class="ozm-input" v-model="newMotionKey" placeholder="Token-Name (z.B. bounce)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
           <input aria-label="Wert des neuen Motion-Tokens" type="text" class="ozm-input ozm-input--wide" v-model="newMotionValue" placeholder="Wert (z.B. 0.5s oder ease-out)" @keyup.enter="addMotion" @keyup.escape="cancelAddMotion" />
           <select aria-label="Art des neuen Motion-Tokens" class="ozm-select" v-model="newMotionType">
-            <option value="easing">Easing</option>
-            <option value="duration">Duration</option>
+            <option value="easing">Bewegungskurve</option>
+            <option value="duration">Dauer</option>
             <option value="delay">Delay</option>
           </select>
         </div>
         <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addMotion" :disabled="!newMotionKey.trim() || !newMotionValue.trim()">Hinzufuegen</button>
+          <button class="ozm-btn ozm-btn--primary" @click="addMotion" :disabled="!newMotionKey.trim() || !newMotionValue.trim()">Hinzufügen</button>
           <button class="ozm-btn ozm-btn--ghost" @click="cancelAddMotion">Abbrechen</button>
         </div>
       </div>
@@ -238,10 +238,10 @@
     <!-- ══════════════════════════════════════════ -->
     <section class="ozm-section">
       <h3 class="ozm-heading">
-        Motion Effects
+        Bewegungseffekte
         <span class="ozm-heading__count">{{ totalEffectCount }} Tokens</span>
       </h3>
-      <p class="ozm-desc">Vordefinierte Effekt-Presets fuer UI-Interaktionen: State Changes, Entrance, Attention, Feedback und raeumliche Orientierung.</p>
+      <p class="ozm-desc">Vordefinierte Effekt-Presets für UI-Interaktionen: State Changes, Entrance, Attention, Feedback und räumliche Orientierung.</p>
 
       <!-- Intent Groups -->
       <template v-for="(group, groupKey) in effectGroups" :key="groupKey">
@@ -288,7 +288,7 @@
       <div v-if="!showAddEffect" class="ozm-add-row">
         <button class="ozm-add-btn" @click="showAddEffect = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Motion Effect hinzufuegen
+          Bewegungseffekt hinzufügen
         </button>
       </div>
       <div v-else class="ozm-add-form">
@@ -307,7 +307,7 @@
           </select>
         </div>
         <div class="ozm-add-actions">
-          <button class="ozm-btn ozm-btn--primary" @click="addEffect" :disabled="!newEffectKey.trim() || !newEffectValue.trim()">Hinzufuegen</button>
+          <button class="ozm-btn ozm-btn--primary" @click="addEffect" :disabled="!newEffectKey.trim() || !newEffectValue.trim()">Hinzufügen</button>
           <button class="ozm-btn ozm-btn--ghost" @click="cancelAddEffect">Abbrechen</button>
         </div>
       </div>
@@ -468,11 +468,11 @@ const intentLabels = {
 }
 
 const intentGroupDefs = {
-  'state-change': { label: 'Zustandsaenderung (State Change)', desc: 'Bestaetigt Nutzeraktionen durch visuelle Micro-Interactions.' },
+  'state-change': { label: 'Zustandsänderung (State Change)', desc: 'Bestätigt Nutzeraktionen durch visuelle Micro-Interactions.' },
   'entrance': { label: 'Einblendung (Entrance)', desc: 'Sanftes Erscheinen neuer Inhalte und Komponenten.' },
-  'attention': { label: 'Aufmerksamkeit (Attention)', desc: 'Lenkt das Auge zur wichtigsten Aktion oder Aktivitaet.' },
+  'attention': { label: 'Aufmerksamkeit (Attention)', desc: 'Lenkt das Auge zur wichtigsten Aktion oder Aktivität.' },
   'feedback': { label: 'Feedback (Error Handling)', desc: 'Kommuniziert Fehler schneller und intuitiver als reiner Text.' },
-  'spatial': { label: 'Raeumliche Orientierung (Spatial)', desc: 'Hilft dem Nutzer zu verstehen, woher Elemente kommen.' }
+  'spatial': { label: 'Räumliche Orientierung (Spatial)', desc: 'Hilft dem Nutzer zu verstehen, woher Elemente kommen.' }
 }
 
 const effectGroups = computed(() => {

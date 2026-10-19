@@ -48,7 +48,12 @@ const BEGRIFFE = {
   tabelle: ['data-table', 'compare-table'],
   hinweis: ['alert', 'notification'], meldung: ['alert', 'toast', 'notification'],
   fortschritt: ['progress'], reiter: ['tabs'], kopfzeile: ['header'], fußzeile: ['footer'],
-  akkordeon: ['accordion'], brotkrumen: ['breadcrumb'], seitenzahlen: ['pagination']
+  akkordeon: ['accordion'], brotkrumen: ['breadcrumb'], seitenzahlen: ['pagination'],
+  // Block 5e: die früheren englischen Bereichsnamen finden weiter ihr Ziel
+  color: ['colors'], colors: ['colors'], grid: ['grid'], raster: ['grid'], surfaces: ['surfaces'], flächen: ['surfaces'],
+  spacing: ['spacing'], sizes: ['sizes'], typography: ['typography'], radii: ['radius'], eckenradien: ['radius'],
+  border: ['border'], 'focus ring': ['focus'], 'media ratios': ['media'], elements: ['elements'],
+  shadow: ['shadows'], shadows: ['shadows'], elevation: ['shadows'], opacity: ['opacity-zindex-motion'], motion: ['opacity-zindex-motion']
 }
 
 let _index = null

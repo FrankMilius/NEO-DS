@@ -124,7 +124,7 @@ describe('Rechte-Gating', () => {
     sp.liste.mockResolvedValue([meta('t1')])
     setzeSpeicher(sp)
     const banner = montiere(DrupalRechteHinweis)
-    expect(banner.text()).toContain('Nur Ansicht – dir fehlt das Recht ‚bearbeiten‘')
+    expect(banner.text()).toContain('Nur Ansicht – Ihnen fehlt das Recht ‚bearbeiten‘')
     await starteDrupalBetrieb(store)
     const w = montiere(DrupalWerkzeuge)
     expect(knopf(w, 'drupal-speichern').attributes('disabled')).toBeDefined()
@@ -147,7 +147,7 @@ describe('Rechte-Gating', () => {
     const w = montiere(DrupalWerkzeuge)
     expect(knopf(w, 'drupal-speichern').attributes('disabled')).toBeUndefined()
     expect(knopf(w, 'drupal-veroeffentlichen').attributes('disabled')).toBeDefined()
-    expect(knopf(w, 'drupal-veroeffentlichen').attributes('title')).toBe('Dir fehlt das Recht „veröffentlichen“')
+    expect(knopf(w, 'drupal-veroeffentlichen').attributes('title')).toBe('Ihnen fehlt das Recht „veröffentlichen“')
   })
 
   it('Schreibschutz-Plugin: ändernde Store-Aktionen ohne „bearbeiten“ angehalten, lokal nicht', async () => {
@@ -321,7 +321,7 @@ describe('Speichern, Status und Konfliktdialog (412)', () => {
     expect(meldungFuer(csrf).text).toContain('in einem neuen Tab neu an')
     expect(meldungFuer(new SpeicherFehler('netzwerk', 'x'), 'Speichern')).toMatchObject({ titel: 'Keine Verbindung zu Drupal' })
     expect(meldungFuer(new SpeicherFehler('netzwerk', 'x'), 'Speichern').text).toContain('Speichern hat nicht geklappt')
-    expect(meldungFuer(new SpeicherFehler('verboten', 'Dir fehlt das Recht „bearbeiten“.', { status: 403 })).text).toContain('Dir fehlt das Recht „bearbeiten“.')
+    expect(meldungFuer(new SpeicherFehler('verboten', 'Ihnen fehlt das Recht „bearbeiten“.', { status: 403 })).text).toContain('Ihnen fehlt das Recht „bearbeiten“.')
     expect(meldungFuer(new SpeicherFehler('zu-gross', 'x')).titel).toBe('Theme zu groß')
     expect(meldungFuer(new Error('kaputt'), 'Öffnen')).toEqual({ titel: 'Öffnen fehlgeschlagen', text: 'kaputt' })
   })
@@ -461,7 +461,7 @@ describe('Theme-Auswahl', () => {
     const w = montiere(DrupalWerkzeuge)
     expect(knopf(w, 'drupal-vorschau').attributes('aria-pressed')).toBe('true')
     await useDrupalBetrieb().anlegen({ name: 'ACME', version: '1.0.0', vomStandard: true })
-    expect(sp.setzeVorschau).toHaveBeenCalledWith('neu', expect.stringContaining('/* Theme: NEO Theme */'))
+    expect(sp.setzeVorschau).toHaveBeenCalledWith('neu', expect.stringContaining('/* Theme: NEO-Standard */'))
     await knopf(w, 'drupal-vorschau').trigger('click')
     await flushPromises()
     expect(sp.beendeVorschau).toHaveBeenCalled()
@@ -574,7 +574,7 @@ describe('Veröffentlichen-Dialog', () => {
     const w = await dialogMit(sp, korrigiert())
     useDrupalBetrieb().zustand.status = 'ungespeichert'
     await nextTick()
-    expect(knopf(w, 'veroeffentlichen-sperre').text()).toContain('speichere zuerst')
+    expect(knopf(w, 'veroeffentlichen-sperre').text()).toContain('speichern Sie zuerst')
     expect(knopf(w, 'speichern-und-pruefen').exists()).toBe(true)   // UX-22
     expect(knopf(w, 'veroeffentlichen-los').attributes('disabled')).toBeDefined()
     useDrupalBetrieb().zustand.status = 'gespeichert'

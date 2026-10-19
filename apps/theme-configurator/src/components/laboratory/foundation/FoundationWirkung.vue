@@ -5,7 +5,7 @@
     vollständigen Editoren und im Inspector noch einmal dieselben Felder.
   -->
   <div class="fw" :data-kategorie="kategorie" data-test="foundation-wirkung">
-    <p class="fw-hinweis">Vorschau der aktuellen Werte. Ändern im Inspector rechts.</p>
+    <p class="fw-hinweis">Vorschau der aktuellen Werte. Ändern in den Einstellungen rechts.</p>
 
     <section v-for="gruppe in gruppen" :key="gruppe.titel" class="fw-gruppe">
       <h3 class="fw-titel">{{ gruppe.titel }}</h3>

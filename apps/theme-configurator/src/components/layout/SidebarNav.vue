@@ -5,8 +5,8 @@
       type="button"
       class="sidebar-collapse-btn"
       @click="$emit('toggle')"
-      :title="collapsed ? 'Sidebar einblenden (Ctrl+B)' : 'Sidebar ausblenden (Ctrl+B)'"
-      :aria-label="collapsed ? 'Sidebar einblenden' : 'Sidebar ausblenden'"
+      :title="collapsed ? 'Seitenleiste einblenden (Strg+B)' : 'Seitenleiste ausblenden (Strg+B)'"
+      :aria-label="collapsed ? 'Seitenleiste einblenden' : 'Seitenleiste ausblenden'"
       :aria-expanded="!collapsed"
       aria-keyshortcuts="Control+B"
     >
@@ -19,6 +19,25 @@
         </template>
       </svg>
     </button>
+    <!-- UX-56: eingeklappt eine Symbolleiste der Ebenen statt einer leeren Leiste;
+         die Ebene mit dem aktiven Bereich ist markiert, ein Klick öffnet sie -->
+    <nav v-if="collapsed" class="nav-leiste" aria-label="Ebenen" data-test="nav-leiste">
+      <button
+        v-for="g in navigationTree"
+        :key="g.id"
+        type="button"
+        :class="['nav-leiste__knopf', { aktiv: enthaeltAktiv(g) }]"
+        :aria-label="`${g.label} öffnen`"
+        :aria-current="enthaeltAktiv(g) ? 'true' : undefined"
+        :title="enthaeltAktiv(g) ? `${g.label} (aktueller Bereich: ${aktiverName})` : g.label"
+        @click="oeffneEbene(g.id)"
+      >
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path v-for="d in (EBENEN_SYMBOLE[g.id] || EBENEN_SYMBOLE.standard)" :key="d" :d="d" />
+        </svg>
+      </button>
+    </nav>
+
     <div v-if="!collapsed" class="sidebar-search">
       <svg aria-hidden="true" class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
@@ -113,14 +132,9 @@
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
           <path d="M3 3v5h5"/>
         </svg>
-        Reset to Defaults
+        Auf NEO-Standard zurücksetzen
       </button>
-      <button type="button" class="btn-export" @click="handleExportJSON">
-        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 12V5a2 2 0 0 1 2-2h7l5 5v4"/><path d="m12 18-4 4-4-4"/><path d="M8 22V12"/>
-        </svg>
-        Export JSON
-      </button>
+      <!-- UX-20: Exportieren nur noch in der Kopfleiste (vorher doppelt) -->
     </div>
   </aside>
 </template>
@@ -133,11 +147,12 @@ import { bestaetigen } from '../../composables/useBestaetigung.js'
 import { navigationTree, componentTokenGroups, primitiveColors, semanticDefaults } from '../../data/tokens.js'
 import { getDefaultFoundation } from '../../stores/theme/kern.js'
 import { suchTreffer } from '../../navigation/sidebar-suche.js'
+import { bereichsName } from '../../navigation/namen.js'
 
 defineProps({
   collapsed: { type: Boolean, default: false }
 })
-defineEmits(['toggle'])
+const emit = defineEmits(['toggle'])
 
 const SIDEBAR_STORAGE_KEY = 'neo-cfg-sidebar'
 
@@ -361,24 +376,36 @@ function getItemVersion(item) {
 
 async function handleReset() {
   const ok = await bestaetigen({
-    titel: 'Alle Tokens zurücksetzen?',
-    text: 'Alle Tokens des aktiven Themes werden auf die Standardwerte zurückgesetzt.',
+    titel: 'Auf NEO-Standard zurücksetzen?',
+    text: 'Alle Abweichungen dieses Themes werden verworfen; es gelten wieder die Werte des NEO-Standards.',
     bestaetigenText: 'Zurücksetzen',
     gefaehrlich: true
   })
   if (ok) store.resetToDefaults()
 }
 
-function handleExportJSON() {
-  const json = store.exportAsJSON()
-  const blob = new Blob([json], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${store.state.activeThemeSet}-theme.json`
-  a.click()
-  URL.revokeObjectURL(url)
+// UX-56: Ebene mit dem aktiven Bereich (für die eingeklappte Leiste)
+function enthaeltAktiv (gruppe) {
+  const ziel = store.state.activeSection
+  const lauf = (k) => (k.children || []).some((c) => c.section === ziel || lauf(c))
+  return lauf(gruppe)
 }
+const aktiverName = computed(() => bereichsName(store.state.activeSection))
+function oeffneEbene (id) {
+  expandedGroups.value = new Set([...expandedGroups.value, id])
+  emit('toggle')
+}
+// Tabler-Pfade je Ebene
+const EBENEN_SYMBOLE = Object.freeze({
+  foundation: ['M3 21l18 0', 'M4 21v-15a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v15', 'M9 21v-8a3 3 0 0 1 6 0v8'],
+  objects: ['M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5', 'M12 12l8 -4.5', 'M12 12l0 9', 'M12 12l-8 -4.5'],
+  atoms: ['M12 12v.01', 'M19.071 4.929c-1.562 -1.562 -6 .337 -9.9 4.243c-3.905 3.905 -5.804 8.337 -4.242 9.9c1.562 1.561 6 -.338 9.9 -4.244c3.905 -3.905 5.804 -8.337 4.242 -9.9', 'M4.929 4.929c-1.562 1.562 .337 6 4.243 9.9c3.905 3.905 8.337 5.804 9.9 4.242c1.561 -1.562 -.338 -6 -4.244 -9.9c-3.905 -3.905 -8.337 -5.804 -9.9 -4.242'],
+  molecules: ['M4.5 7.5l3.5 -2l3.5 2v4l-3.5 2l-3.5 -2z', 'M12.5 12.5l3.5 -2l3.5 2v4l-3.5 2l-3.5 -2z', 'M4.5 16.5l3.5 -2l3.5 2'],
+  organisms: ['M3 21l18 0', 'M5 21v-14l8 -4v18', 'M19 21v-10l-6 -4', 'M9 9l0 .01', 'M9 12l0 .01', 'M9 15l0 .01', 'M9 18l0 .01'],
+  patterns: ['M4 4h6v6h-6z', 'M14 4h6v6h-6z', 'M4 14h6v6h-6z', 'M14 14h6v6h-6z'],
+  templates: ['M4 5a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z', 'M4 13a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z', 'M14 12l6 0', 'M14 16l6 0', 'M14 20l6 0'],
+  standard: ['M4 12a8 8 0 1 0 16 0a8 8 0 1 0 -16 0'],
+})
 </script>
 
 <style scoped>
@@ -402,6 +429,16 @@ function handleExportJSON() {
   min-width: 44px;
   align-items: center;
 }
+
+/* UX-56: Symbolleiste der Ebenen im eingeklappten Zustand */
+.nav-leiste { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 8px; }
+.nav-leiste__knopf {
+  display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--cfg-text-secondary); cursor: pointer;
+}
+.nav-leiste__knopf:hover { background: var(--cfg-surface-elevated); color: var(--cfg-text); }
+.nav-leiste__knopf.aktiv { background: var(--cfg-surface-elevated); color: var(--cfg-accent); box-shadow: inset 2px 0 0 var(--cfg-accent); }
+.nav-leiste__knopf:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
 
 .sidebar-collapse-btn {
   display: flex;

@@ -4,12 +4,11 @@
     <!-- ── Scale Tokens ── -->
     <section class="re-section">
       <h3 class="re-heading">
-        Radius Scale
+        Skala der Eckenradien
         <span class="re-heading__count">{{ totalTokenCount }} Tokens</span>
       </h3>
       <p class="re-desc">
-        Die Border-Radius-Skala definiert die Eckenabrundungen fuer alle Komponenten.
-        Werte koennen direkt ueberschrieben werden.
+        Die Skala der Eckenradien bestimmt die Rundung aller Komponenten. Werte lassen sich direkt überschreiben.
       </p>
 
       <div class="re-token-list">
@@ -42,7 +41,7 @@
         <span class="re-heading__count">{{ customTokenCount }}</span>
       </h3>
       <p class="re-desc">
-        Zusaetzliche Radius-Tokens fuer spezielle Anforderungen.
+        Zusätzliche Radius-Tokens für spezielle Anforderungen.
       </p>
 
       <div v-if="customTokenCount > 0" class="re-token-list">
@@ -74,7 +73,7 @@
       <div v-if="!showAddForm" class="re-add-row">
         <button class="re-add-btn" @click="showAddForm = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Token hinzufuegen
+          Token hinzufügen
         </button>
       </div>
       <div v-else class="re-add-form">
@@ -102,7 +101,7 @@
           <span class="re-add-preview-label">{{ newValue }}</span>
         </div>
         <div class="re-add-actions">
-          <button class="re-btn re-btn--primary" @click="addToken" :disabled="!newKey.trim() || !newValue.trim()">Hinzufuegen</button>
+          <button class="re-btn re-btn--primary" @click="addToken" :disabled="!newKey.trim() || !newValue.trim()">Hinzufügen</button>
           <button class="re-btn re-btn--ghost" @click="cancelAdd">Abbrechen</button>
         </div>
       </div>
@@ -110,10 +109,10 @@
 
     <!-- ── Default Alias ── -->
     <section class="re-section">
-      <h3 class="re-heading">Default Radius</h3>
+      <h3 class="re-heading">Standardradius</h3>
       <p class="re-desc">
         <code>--fnd-radius-default</code> verweist auf <strong>SM ({{ currentValue('sm') }})</strong> und wird als
-        Fallback fuer Komponenten ohne expliziten Radius verwendet.
+        Fallback für Komponenten ohne expliziten Radius verwendet.
       </p>
     </section>
 

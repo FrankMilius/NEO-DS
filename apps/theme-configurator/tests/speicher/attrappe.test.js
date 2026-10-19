@@ -139,7 +139,7 @@ describe('Drupal-Attrappe — Vertrag 1.0.0', () => {
   it('403: Recht fehlt (Kopfzeile) und CSRF-Token falsch/fehlend', async () => {
     const nurAnsehen = await api('POST', '/themes', { body: { meta: { name: 'a', version: '1' }, abweichungen: {} }, rechte: 'ansehen' })
     expect(nurAnsehen.status).toBe(403)
-    expect(nurAnsehen.daten.detail).toBe('Dir fehlt das Recht „bearbeiten“.')
+    expect(nurAnsehen.daten.detail).toBe('Ihnen fehlt das Recht „bearbeiten“.')
     expect((await api('GET', '/themes', { rechte: '' })).status).toBe(403)
     const csrf = await api('POST', '/themes', { body: { meta: { name: 'a', version: '1' }, abweichungen: {} }, csrf: 'falsch' })
     expect(csrf.status).toBe(403)

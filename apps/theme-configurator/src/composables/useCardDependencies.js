@@ -32,7 +32,7 @@ const DEPENDENCY_RULES = [
       'nc-card-border': 'color-mix(in srgb, var(--fnd-color-always-light) 20%, transparent)'
     },
     label: 'Accent Surface Override',
-    description: 'Section mit Akzent-Hintergrund: Card benoetigt Overlay-BG und On-Accent-Text fuer WCAG-Kontrast.'
+    description: 'Section mit Akzent-Hintergrund: Card benötigt Overlay-BG und On-Accent-Text für WCAG-Kontrast.'
   },
   {
     id: 'muted-surface-blend',
@@ -48,7 +48,7 @@ const DEPENDENCY_RULES = [
       'nc-card-shadow': 'var(--fnd-elevation-sm)'
     },
     label: 'Muted Surface Blend',
-    description: 'Section mit Muted-BG: Card nutzt base-bg + leichte Elevation fuer Abhebung.'
+    description: 'Section mit Muted-BG: Card nutzt base-bg + leichte Elevation für Abhebung.'
   },
   {
     id: 'tight-grid-context',
@@ -84,7 +84,7 @@ const DEPENDENCY_RULES = [
       'nc-card-title-font-weight': 'var(--fnd-font-weight-semibold)'
     },
     label: 'Few Columns Display',
-    description: 'Grid mit ≤ 2 Spalten: Card nutzt groesseres Padding und prominentere Typografie.'
+    description: 'Grid mit ≤ 2 Spalten: Card nutzt größeres Padding und prominentere Typografie.'
   }
 ]
 
@@ -256,7 +256,7 @@ export function useCardDependencies() {
         status: 'user-override',
         value: userOverride,
         inheritance,
-        note: `Manueller Override ueberschreibt Rule "${inheritance.ruleLabel}".`
+        note: `Manueller Override überschreibt Rule "${inheritance.ruleLabel}".`
       }
     }
     if (inheritance) {
@@ -307,7 +307,7 @@ export function useCardDependencies() {
       },
       display: {
         label: 'Display',
-        description: 'Breiter Kontext: groesseres Padding, prominentere Typografie.',
+        description: 'Breiter Kontext: größeres Padding, prominentere Typografie.',
         gridLayout: 'pair',
         modifier: 'nc-card--display'
       }

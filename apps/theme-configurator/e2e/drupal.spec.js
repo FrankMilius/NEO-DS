@@ -239,7 +239,7 @@ test('Löschen mit Bestätigung (Entwurf)', async ({ page }) => {
 
 test('Nur „ansehen“: schreibgeschützt — Banner, Editoren gesperrt, Server lehnt ab', async ({ page }) => {
   await oeffneDrupal(page, { rechte: 'ansehen' })
-  await expect(page.locator('[data-test="nur-ansicht"]')).toContainText('Nur Ansicht – dir fehlt das Recht ‚bearbeiten‘')
+  await expect(page.locator('[data-test="nur-ansicht"]')).toContainText('Nur Ansicht – Ihnen fehlt das Recht ‚bearbeiten‘')
   await expect(primaerHex(page)).toBeDisabled()
   await expect(page.locator('[data-test="drupal-speichern"]')).toBeDisabled()
   await expect(page.locator('[data-test="drupal-veroeffentlichen"]')).toBeDisabled()

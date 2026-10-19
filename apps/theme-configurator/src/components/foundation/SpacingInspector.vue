@@ -9,7 +9,7 @@
       <p class="si-intro">
         Spacing Scale auf Basis des 4px-Grids. Die Nummer ist die Stufe der
         Skala, nicht der Pixelwert (z.B. <code>spacing-07</code> = 32px).
-        Werte koennen ueberschrieben und neue Stufen hinzugefuegt werden.
+        Werte können überschrieben und neue Stufen hinzugefügt werden.
       </p>
 
       <!-- Token List (sorted ascending by px) -->
@@ -24,7 +24,7 @@
             <span class="si-token-label">
               {{ token.label }}
               <span v-if="token.isCustom" class="si-badge si-badge--custom">custom</span>
-              <span v-else-if="token.isModified" class="si-badge si-badge--modified">modified</span>
+              <span v-else-if="token.isModified" class="si-badge si-badge--modified">geändert</span>
             </span>
             <code class="si-token-name">--fnd-spacing-{{ token.key }}</code>
             <span v-if="token.fluid" class="si-fluid" data-test="spacing-fluid" :title="'Auf der Website wächst der Abstand mit der Fensterbreite von ' + token.fluid.min + ' auf ' + token.fluid.max + ' px'">fluid {{ token.fluid.min }}–{{ token.fluid.max }} px</span>
@@ -55,7 +55,7 @@
       <div class="si-add-token">
         <button class="si-add-btn" @click="showAddDialog = !showAddDialog">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          <span>Spacing Token hinzufuegen</span>
+          <span>Spacing Token hinzufügen</span>
         </button>
         <div v-if="showAddDialog" class="si-add-dialog">
           <div class="si-add-field">
@@ -80,7 +80,7 @@
             class="si-add-confirm"
             :disabled="newTokenPx <= 0 || newTokenConflict"
             @click="confirmAddToken"
-          >Hinzufuegen</button>
+          >Hinzufügen</button>
         </div>
       </div>
 
@@ -183,7 +183,7 @@
       <div class="si-add-token">
         <button class="si-add-btn" @click="showAddSemanticDialog = !showAddSemanticDialog">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          <span>Semantisches Token hinzufuegen</span>
+          <span>Semantisches Token hinzufügen</span>
         </button>
         <div v-if="showAddSemanticDialog" class="si-add-dialog">
           <div class="si-add-field">
@@ -198,7 +198,7 @@
           <div class="si-add-field">
             <label class="si-add-label">Spacing-Referenz</label>
             <select aria-label="Spacing-Referenz" class="si-select" v-model="newSemanticRef">
-              <option value="">— waehlen —</option>
+              <option value="">— wählen —</option>
               <option
                 v-for="opt in spacingSelectOptions"
                 :key="opt.var"
@@ -210,7 +210,7 @@
             class="si-add-confirm"
             :disabled="!newSemanticName || !newSemanticRef || semanticNameConflict"
             @click="confirmAddSemantic"
-          >Hinzufuegen</button>
+          >Hinzufügen</button>
         </div>
       </div>
 
@@ -385,7 +385,7 @@ const semanticComponentTokens = [
   { id: 'button-padding-inline', label: 'Button Padding (Inline)', desc: 'Horizontaler Innenabstand in Buttons.' },
   { id: 'button-padding-block', label: 'Button Padding (Block)', desc: 'Vertikaler Innenabstand in Buttons.' },
   { id: 'modal-padding', label: 'Modal Padding', desc: 'Innenabstand von Modal-Dialogen.' },
-  { id: 'list-gap', label: 'List Item Gap', desc: 'Abstand zwischen Listeneintraegen.' }
+  { id: 'list-gap', label: 'List Item Gap', desc: 'Abstand zwischen Listeneinträgen.' }
 ]
 
 function getSemanticValue(id) {

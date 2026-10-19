@@ -11,8 +11,8 @@
     <p class="error-boundary__title">{{ panelLabel }} konnte nicht angezeigt werden</p>
     <!-- UX-08: verständlich auf Deutsch; die technische Meldung nur aufklappbar -->
     <p class="error-boundary__text">
-      Ein Programmfehler hat diesen Bereich angehalten. Deine Werte im Theme sind davon nicht betroffen.
-      Versuche es erneut oder wähle einen anderen Bereich.
+      Ein Programmfehler hat diesen Bereich angehalten. Ihre Werte im Theme sind davon nicht betroffen.
+      Versuchen Sie es erneut oder wählen Sie einen anderen Bereich.
     </p>
     <details class="error-boundary__detail">
       <summary>Technische Meldung</summary>

@@ -171,7 +171,7 @@ export async function pruefeAktualitaet () {
     if (zustand.status === 'gespeichert') {
       store.state.currentThemeMeta = null
       zustand.status = 'ohne-theme'
-      await hinweisen({ titel: 'Theme nicht mehr vorhanden', text: `„${meta.name}“ wurde inzwischen in Drupal gelöscht. Wähle ein anderes Theme oder lege ein neues an.` })
+      await hinweisen({ titel: 'Theme nicht mehr vorhanden', text: `„${meta.name}“ wurde inzwischen in Drupal gelöscht. Wählen Sie ein anderes Theme oder legen Sie ein neues an.` })
     } else {
       await geloeschtRetten(meta.name)
     }
@@ -182,7 +182,7 @@ export async function pruefeAktualitaet () {
   const von = t.geaendertVon ? ` von ${t.geaendertVon}` : ''
   const ok = await bestaetigen({
     titel: 'Neuerer Stand in Drupal',
-    text: `„${meta.name}“ wurde${von} in Drupal gespeichert, nachdem du es zuletzt gespeichert hast. Lade den neueren Stand (deine ungespeicherten Änderungen gehen verloren) oder arbeite weiter — beim Speichern kannst du dann entscheiden.`,
+    text: `„${meta.name}“ wurde${von} in Drupal gespeichert, nachdem Sie es zuletzt gespeichert haben. Laden Sie den neueren Stand (Ihre ungespeicherten Änderungen gehen verloren) oder arbeiten Sie weiter — beim Speichern entscheiden Sie dann.`,
     bestaetigenText: 'Neueren Stand laden',
     abbrechenText: 'Weiterarbeiten',
   })
@@ -210,7 +210,7 @@ async function geloeschtRetten (name) {
   await ladeKatalog()
   const ok = await bestaetigen({
     titel: 'Theme wurde gelöscht',
-    text: `„${name}“ gibt es in Drupal nicht mehr — vermutlich hat es jemand gelöscht. Deine Änderungen sind noch da: Speichere sie als neues Theme „${name} (gerettet)“.`,
+    text: `„${name}“ gibt es in Drupal nicht mehr — vermutlich hat es jemand gelöscht. Ihre Änderungen sind noch da: Speichern Sie sie als neues Theme „${name} (gerettet)“.`,
     bestaetigenText: 'Als neues Theme speichern',
     abbrechenText: 'Später',
   })
@@ -267,7 +267,7 @@ function fehlerZeigen (e, was) {
 export async function speichern () {
   if (!store || zustand.status === 'speichert') return false
   if (!darf('bearbeiten')) {
-    await hinweisen({ titel: 'Nur Ansicht', text: 'Dir fehlt das Recht „bearbeiten“. Änderungen können nicht in Drupal gespeichert werden.' })
+    await hinweisen({ titel: 'Nur Ansicht', text: 'Ihnen fehlt das Recht „bearbeiten“. Änderungen können nicht in Drupal gespeichert werden.' })
     return false
   }
   if (!store.state.currentThemeMeta?.id) {
@@ -331,7 +331,7 @@ async function verwerfenErlaubt (frage) {
 export async function oeffnen (id) {
   // UX-27: das geöffnete Theme erneut wählen lädt den Stand aus Drupal neu
   if (store.state.currentThemeMeta?.id === id && zustand.status === 'gespeichert') return neuLaden()
-  if (!(await verwerfenErlaubt('Deine Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Öffnen eines anderen Themes gehen sie verloren.'))) return false
+  if (!(await verwerfenErlaubt('Ihre Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Öffnen eines anderen Themes gehen sie verloren.'))) return false
   try {
     neoAnsicht.value = false
     const ok = await store.oeffneTheme(id)
@@ -472,7 +472,7 @@ export async function aktivieren (id) {
  */
 export async function neoAnsehen () {
   if (neoAnsicht.value && !store.state.currentThemeMeta?.id) return true
-  if (!(await verwerfenErlaubt('Deine Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Wechsel zum NEO-Standard gehen sie verloren.'))) return false
+  if (!(await verwerfenErlaubt('Ihre Änderungen am geöffneten Theme sind noch nicht in Drupal gespeichert. Beim Wechsel zum NEO-Standard gehen sie verloren.'))) return false
   try {
     await store.zeigeNeoStandard()
     neoAnsicht.value = true

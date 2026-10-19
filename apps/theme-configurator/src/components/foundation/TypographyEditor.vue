@@ -6,18 +6,18 @@
          ═══════════════════════════════════════════════════════════════════ -->
     <section class="token-section">
       <h3 class="sub-heading">
-        Font Families
-        <span v-if="isDefaultNeo" class="locked-badge" title="Font families are fixed on the default NEO Theme">
+        Schriften
+        <span v-if="isDefaultNeo" class="locked-badge" title="Im NEO-Standard sind die Schriften fest. Legen Sie ein eigenes Theme an, um sie zu ändern.">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          Default
+          NEO-Standard
         </span>
         <span v-else class="theme-name-badge">{{ currentThemeName }}</span>
       </h3>
       <p v-if="isDefaultNeo" class="sub-desc">NEO Design System default fonts — Manrope (body), Space Grotesk (headings), JetBrains Mono (meta layer: eyebrows, table heads, counters, code).</p>
       <p v-else-if="buehne" class="sub-desc">
-        Schriften dieses Themes je Rolle. Ändern im Inspector rechts.
+        Schriften dieses Themes je Rolle. Ändern in den Einstellungen rechts.
       </p>
       <p v-else class="sub-desc">
         Jede Rolle steuert einen Teil der Website. Schrift je Rolle wählen — aus NEO, System, Google
@@ -237,7 +237,7 @@
          FONT WEIGHTS — alle Stärken aus der Quelle (Plan v2, 2.3)
          ═══════════════════════════════════════════════════════════════════ -->
     <section class="token-section">
-      <h3 class="sub-heading">Font Weights <span class="te-count">{{ weights.length }}</span></h3>
+      <h3 class="sub-heading">Schriftstärken <span class="te-count">{{ weights.length }}</span></h3>
       <div class="weight-strip">
         <div v-for="weight in weights" :key="weight.id" class="weight-chip" :title="weight.cssVar">
           <span class="weight-preview" :style="{ fontWeight: weight.value, fontFamily: weight.mono ? monoFamily : weight.heading ? headingFamily : bodyFontFamily }">Ag</span>
@@ -359,7 +359,7 @@ const isDefaultNeo = computed(() => {
 
 const currentThemeName = computed(() => {
   if (store.state.currentThemeMeta) return store.state.currentThemeMeta.name
-  return store.state.activeThemeSet === 'neo' ? 'Neo Theme' : 'Customer Theme'
+  return store.state.activeThemeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde'
 })
 
 // ---------------------------------------------------------------------------

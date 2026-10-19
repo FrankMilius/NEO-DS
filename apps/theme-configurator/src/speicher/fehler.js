@@ -94,17 +94,17 @@ export function meldungFuer(fehler, was = 'Die Aktion') {
   const art = fehler?.art
   const text = fehler?.message || MELDUNGEN.server
   if (istCsrfFehler(fehler)) {
-    return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil deine Anmeldung bei Drupal abgelaufen ist. Melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuche es dann hier erneut. Dein Arbeitsstand bleibt erhalten.` }
+    return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil Ihre Anmeldung bei Drupal abgelaufen ist. Melden Sie sich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuchen Sie es dann hier erneut. Ihr Arbeitsstand bleibt erhalten.` }
   }
   switch (art) {
     case 'netzwerk':
-      return { titel: 'Keine Verbindung zu Drupal', text: `${MELDUNGEN.netzwerk} ${was} hat nicht geklappt. Bitte die Verbindung prüfen und es erneut versuchen; dein Arbeitsstand bleibt im Browser erhalten.` }
+      return { titel: 'Keine Verbindung zu Drupal', text: `${MELDUNGEN.netzwerk} ${was} hat nicht geklappt. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut; Ihr Arbeitsstand bleibt im Browser erhalten.` }
     case 'verboten':
-      return { titel: 'Keine Berechtigung', text: `${text} Falls du dich gerade abgemeldet hast, melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}); sonst wende dich an die Administration, wenn du das Recht brauchst.` }
+      return { titel: 'Keine Berechtigung', text: `${text} Falls Sie sich gerade abgemeldet haben, melden Sie sich in einem neuen Tab neu an (${ANMELDE_PFAD}); sonst wenden Sie sich an die Administration, wenn Sie das Recht brauchen.` }
     case 'nicht-angemeldet':
-      return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil du nicht mehr angemeldet bist. Melde dich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuche es dann hier erneut. Dein Arbeitsstand bleibt erhalten.` }
+      return { titel: 'Anmeldung abgelaufen', text: `${was} hat nicht geklappt, weil Sie nicht mehr angemeldet sind. Melden Sie sich in einem neuen Tab neu an (${ANMELDE_PFAD}) und versuchen Sie es dann hier erneut. Ihr Arbeitsstand bleibt erhalten.` }
     case 'zu-gross':
-      return { titel: 'Theme zu groß', text: `${MELDUNGEN['zu-gross']} Bitte nicht benötigte eigene Schriften, Icons oder Token entfernen.` }
+      return { titel: 'Theme zu groß', text: `${MELDUNGEN['zu-gross']} Bitte entfernen Sie nicht benötigte eigene Schriften, Icons oder Token.` }
     case 'veraltet':
     case 'konflikt':
       return { titel: 'Das Theme wurde inzwischen geändert', text }

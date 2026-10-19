@@ -50,7 +50,7 @@ describe('AppHeader', () => {
         stubs: { Transition: false, Teleport: true }
       }
     })
-    expect(wrapper.find('.app-title').text()).toBe('Theme Configurator')
+    expect(wrapper.find('.app-title').text()).toBe('Theme-Konfigurator')
   })
 
   it('zeigt die Version', () => {
@@ -82,7 +82,7 @@ describe('AppHeader', () => {
         stubs: { Transition: false, Teleport: true }
       }
     })
-    expect(wrapper.find('.tb-dropdown-label').text()).toBe('Neo Theme')
+    expect(wrapper.find('.tb-dropdown-label').text()).toBe('NEO-Standard')
   })
 
   it('deaktiviert Delete-Button für Standard-Theme', () => {
@@ -95,15 +95,15 @@ describe('AppHeader', () => {
     expect(deleteBtn.attributes('disabled')).toBeDefined()
   })
 
-  it('zeigt Create Dialog bei Klick auf New', async () => {
+  it('zeigt den Dialog „Neues Theme anlegen“', async () => {
     const wrapper = mount(AppHeader, {
       global: {
         stubs: { Transition: false, Teleport: true }
       }
     })
-    const newBtn = wrapper.findAll('.tb-btn').find(b => b.text().includes('New'))
+    const newBtn = wrapper.findAll('.tb-btn').find(b => b.text().includes('Neues Theme'))
     await newBtn.trigger('click')
-    expect(wrapper.find('.modal-title').text()).toBe('Create New Theme')
+    expect(wrapper.find('.modal-title').text()).toBe('Neues Theme anlegen')
   })
 
   it('Export-Menü bietet DTCG und Theme-Import und öffnet die Dialoge', async () => {

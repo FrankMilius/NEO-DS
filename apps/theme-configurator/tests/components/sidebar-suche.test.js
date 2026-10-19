@@ -27,16 +27,18 @@ describe('Sidebar-Suche', () => {
     w = mount(SidebarNav)
     await w.find('[data-test="sidebar-suche"]').setValue('primary')
     const labels = w.findAll('.nav-item-label').map(l => l.text())
-    expect(labels.some(t => t.startsWith('Color'))).toBe(true)
+    expect(labels.some(t => t.startsWith('Farben'))).toBe(true)
     expect(labels.some(t => t.startsWith('Button') && t.includes('Token --nc-button'))).toBe(true)
     for (const kopf of w.findAll('.nav-group-header')) expect(kopf.attributes('aria-expanded')).toBe('true')
     expect(w.find('#cfg-suche-stand').text()).toMatch(/^\d+ Treffer$/)
   })
 
-  it('„Farbe“ findet Color', async () => {
+  it('„Farbe“ und das frühere „Color“ finden Farben (Block 5e)', async () => {
     w = mount(SidebarNav)
     await w.find('[data-test="sidebar-suche"]').setValue('Farbe')
-    expect(w.findAll('.nav-item-label').map(l => l.text()).some(t => t.startsWith('Color'))).toBe(true)
+    expect(w.findAll('.nav-item-label').map(l => l.text()).some(t => t.startsWith('Farben'))).toBe(true)
+    await w.find('[data-test="sidebar-suche"]').setValue('Color')
+    expect(w.findAll('.nav-item-label').map(l => l.text()).some(t => t.startsWith('Farben'))).toBe(true)
   })
 
   it('ohne Treffer: sichtbarer Hinweis; Escape leert das Feld', async () => {

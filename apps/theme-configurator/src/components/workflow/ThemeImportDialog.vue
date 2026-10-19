@@ -75,7 +75,7 @@ const dateiInput = ref(null)
 const dateiname = ref('')
 const pruefung = ref(null)
 
-const themeSetLabel = computed(() => (store.state.activeThemeSet === 'customer' ? 'Customer Theme' : 'NEO Theme'))
+const themeSetLabel = computed(() => (store.state.activeThemeSet === 'customer' ? 'NEO-Standard, Variante Kunde' : 'NEO-Standard'))
 const gesamt = computed(() => (pruefung.value?.vorschau || []).reduce((s, b) => s + b.anzahl, 0))
 
 watch(() => props.visible, (v) => { if (v) { dateiname.value = ''; pruefung.value = null } })

@@ -84,7 +84,7 @@
                       v-if="z.tokenGroups.length"
                       type="button"
                       class="ra-zu-token"
-                      :aria-label="`${z.label || sp.label}: Einstellungen im Inspector öffnen`"
+                      :aria-label="`${z.label || sp.label}: Einstellungen öffnen`"
                       data-test="zu-token"
                       @click.stop="oeffneTokens(sp, z)"
                     >{{ z.label }}</button>

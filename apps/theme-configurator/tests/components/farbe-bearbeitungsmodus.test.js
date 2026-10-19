@@ -56,7 +56,7 @@ describe('Farb-Inspector: Token offen in der 4-Theme-Matrix', () => {
     const wahl = w.find('[data-test="modus-wahl"]')
     expect(wahl.exists()).toBe(true)
     expect(w.find('[data-test="modus-light"]').attributes('aria-pressed')).toBe('true')
-    expect(w.text()).toContain('Du bearbeitest den Wert für Hell')
+    expect(w.text()).toContain('Sie bearbeiten den Wert für Hell')
     expect(w.find('[data-test="token-modus"]').text()).toBe('Hell')
     await w.find('[data-test="modus-dark"]').trigger('click')
     expect(store.editMode).toBe('dark')

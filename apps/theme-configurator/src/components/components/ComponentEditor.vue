@@ -13,13 +13,13 @@
           <summary>Begriffe erklärt</summary>
           <dl>
             <dt>Gesperrt / Bearbeitbar</dt>
-            <dd>Eine gesperrte Komponente ist schreibgeschützt, damit niemand ihre Werte versehentlich ändert. Zum Bearbeiten entsperren.</dd>
+            <dd>Eine gesperrte Komponente ist schreibgeschützt, damit niemand ihre Werte versehentlich ändert. Zum Bearbeiten entsperren Sie sie.</dd>
             <dt>Version</dt>
-            <dd>Zählt Änderungen an der Komponente im Theme. Beim Entsperren wählst du, wie stark sie steigt: Korrektur, Erweiterung oder grundlegend.</dd>
+            <dd>Zählt Änderungen an der Komponente im Theme. Beim Entsperren wählen Sie, wie stark sie steigt: Korrektur, Erweiterung oder grundlegend.</dd>
             <dt>Geometrie für Hell und Dunkel gleich</dt>
-            <dd>Eingeschaltet gelten Größen, Abstände und Radien für beide Modi. Ausgeschaltet lassen sie sich für Dunkel getrennt einstellen. Farben sind immer je Modus.</dd>
+            <dd>Eingeschaltet gelten Größen, Abstände und Radien für beide Modi. Ausgeschaltet stellen Sie sie für Dunkel getrennt ein. Farben sind immer je Modus.</dd>
             <dt>Ebene 1 bis 3</dt>
-            <dd>Ebene 1 sind die Grundfarben (Primitive), Ebene 2 die Bedeutungen wie „Text“ oder „Fläche“ (Semantik), Ebene 3 die Werte einzelner Komponenten. Höhere Ebenen verweisen auf niedrigere.</dd>
+            <dd>Ebene 1 sind die Grundfarben (Primitive), Ebene 2 die Farbrollen wie „Text“ oder „Fläche“, Ebene 3 die Werte einzelner Komponenten. Höhere Ebenen verweisen auf niedrigere.</dd>
             <dt>Technische Namen</dt>
             <dd>Die CSS-Variablen hinter jeder Einstellung, etwa <code>--nc-button-radius-md</code>. Für Entwicklerinnen und Entwickler; zum Einstellen nicht nötig.</dd>
           </dl>
@@ -119,7 +119,7 @@
             <path d="M3 7v-2a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
             <rect x="7" y="7" width="10" height="10" rx="1"/>
           </svg>
-          <span class="inspector-section__title">Position & Layout</span>
+          <span class="inspector-section__title">Größe und Abstände</span>
           <span class="inspector-section__count">{{ anatomyTokenCount }}</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -205,7 +205,7 @@
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
                       <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
-                      <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                      <span v-if="isOverridden(token)" class="override-badge">geändert</span>
                       <span v-else-if="resolveInheritance(token)" class="inheritance-link" :title="resolveInheritance(token).varName">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
@@ -241,7 +241,7 @@
             <path d="M12 21a9 9 0 0 1 0-18c4.97 0 9 3.582 9 8 0 1.06-.474 2.078-1.318 2.828-.844.75-1.989 1.172-3.182 1.172H14a2 2 0 0 0-1 3.75A1.3 1.3 0 0 1 12 21"/>
             <circle cx="7.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="12" cy="7.5" r=".5" fill="currentColor"/><circle cx="16.5" cy="10.5" r=".5" fill="currentColor"/>
           </svg>
-          <span class="inspector-section__title">Fill</span>
+          <span class="inspector-section__title">Farben</span>
           <span class="inspector-section__count">{{ appearanceTokenCount }}</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -309,7 +309,7 @@
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Reset</button>
+                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)" title="Reset to semantic reference">Zurücksetzen</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)"
@@ -337,7 +337,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/>
           </svg>
-          <span class="inspector-section__title">Effects & States</span>
+          <span class="inspector-section__title">Effekte und Zustände</span>
           <span class="inspector-section__count">{{ stateTokenCount }}</span>
           <span class="inspector-section__hint">Hover, Focus, Transitions</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -374,7 +374,7 @@
                     <div class="token-value-wrap">
                       <code class="token-value">{{ getTokenValue(token) }}</code>
                       <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
-                      <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                      <span v-if="isOverridden(token)" class="override-badge">geändert</span>
                       <span v-else-if="resolveInheritance(token)" class="inheritance-link" :title="resolveInheritance(token).varName">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
@@ -388,7 +388,7 @@
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                           Semantic: <code>--fnd-color-{{ token.ref }}</code>
                         </span>
-                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)">Reset</button>
+                        <button v-if="isOverridden(token)" type="button" class="reset-ref-btn" @click.stop="resetToSemantic(token)">Zurücksetzen</button>
                       </div>
                       <ColorEditor v-if="token.type === 'color'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
@@ -420,7 +420,7 @@
             <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37 1 .608 2.296.07 2.572-1.065z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
-          <span class="inspector-section__title">Advanced</span>
+          <span class="inspector-section__title">Weitere Einstellungen</span>
           <span class="inspector-section__count">{{ advancedTokens.length }}</span>
           <svg class="inspector-section__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -438,7 +438,7 @@
               <div class="token-value-wrap">
                 <code class="token-value">{{ getTokenValue(token) }}</code>
                 <code v-if="getConcreteDisplay(token)" class="token-concrete">{{ getConcreteDisplay(token) }}</code>
-                <span v-if="isOverridden(token)" class="override-badge">modified</span>
+                <span v-if="isOverridden(token)" class="override-badge">geändert</span>
               </div>
             </div>
             <transition name="slide">

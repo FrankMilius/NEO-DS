@@ -26,7 +26,7 @@
               <h2 class="dialog-title" id="update-dialog-title">{{ dialogTitle }}</h2>
               <p id="update-dialog-subtitle" class="dialog-subtitle" aria-live="polite">{{ dialogSubtitle }}</p>
             </div>
-            <button type="button" class="dialog-close" @click="sync.dismissDialog" title="Close" aria-label="Schließen">
+            <button type="button" class="dialog-close" @click="sync.dismissDialog" title="Schließen" aria-label="Schließen">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
@@ -52,7 +52,7 @@
             <div class="pipeline-connector" :class="{ done: stageIndex > 2 }"></div>
             <div class="pipeline-stage" :class="{ active: stageIndex >= 3, done: stageIndex > 3 }">
               <span class="pipeline-dot"></span>
-              <span class="pipeline-label">Merge</span>
+              <span class="pipeline-label">Zusammenführen</span>
             </div>
             <div class="pipeline-connector" :class="{ done: stageIndex > 3 }"></div>
             <div class="pipeline-stage" :class="{ active: stageIndex >= 4, done: stageIndex > 4 }">
@@ -92,7 +92,7 @@
                     <circle cx="13.5" cy="6.5" r="0.5"/><circle cx="17.5" cy="10.5" r="0.5"/><circle cx="8.5" cy="7.5" r="0.5"/><circle cx="6.5" cy="12.5" r="0.5"/>
                     <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
                   </svg>
-                  Palettes to Add
+                  Neue Paletten
                 </h3>
                 <div class="palette-list">
                   <div v-for="pal in sync.state.mergeRequest.palettes" :key="pal.id" class="palette-item">
@@ -198,7 +198,7 @@
                 Retry Merge
               </button>
               <button type="button" class="btn-skip" @click="sync.dismissDialog">
-                Cancel
+                Abbrechen
               </button>
             </template>
 
@@ -211,7 +211,7 @@
 
             <template v-if="sync.state.stage === 'detecting' || sync.state.stage === 'forging' || sync.state.stage === 'merging'">
               <button type="button" class="btn-skip" @click="sync.dismissDialog" style="flex: 1;">
-                Cancel
+                Abbrechen
               </button>
             </template>
           </div>

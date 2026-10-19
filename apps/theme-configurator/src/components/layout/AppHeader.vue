@@ -7,7 +7,7 @@
         <path d="M12 12l8-4.5" /><path d="M12 12v9" /><path d="M12 12L4 7.5" />
       </svg>
       <div class="brand-text">
-        <h1 class="app-title">Theme Configurator</h1>
+        <h1 class="app-title">Theme-Konfigurator</h1>
         <span class="brand-meta">
           <span class="version-tag" title="Version des bearbeiteten Themes (Theme-Metadaten)">Theme v{{ store.state.version }}</span>
           <span class="app-version" :title="appVersionTitel">{{ appVersionText }}</span>
@@ -28,11 +28,11 @@
       <template v-else>
       <!-- 1) Create New Theme -->
       <div class="toolbar-group">
-        <button type="button" class="tb-btn" @click="openCreateDialog" title="Create New Theme">
+        <button type="button" class="tb-btn" @click="openCreateDialog" title="Neues Theme anlegen">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 5v14"/><path d="M5 12h14"/>
           </svg>
-          <span class="tb-label">New</span>
+          <span class="tb-label">Neues Theme</span>
         </button>
       </div>
 
@@ -68,14 +68,14 @@
                 :class="{ active: !store.state.currentThemeMeta }"
                 :aria-current="!store.state.currentThemeMeta ? 'true' : undefined"
                 @click="selectNeoDefault"
-                title="Default NEO Theme — protected, cannot be deleted"
+                title="NEO-Standard — geschützt, kann nicht gelöscht werden"
               >
                 <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
                 </svg>
                 <div class="dd-item-text">
-                  <span class="dd-item-name">Neo Theme</span>
-                  <span class="dd-item-meta">Default · Protected</span>
+                  <span class="dd-item-name">NEO-Standard</span>
+                  <span class="dd-item-meta">Ausgangsbasis · geschützt</span>
                 </div>
                 <svg aria-hidden="true" class="dd-lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -85,7 +85,7 @@
               <!-- Saved themes -->
               <template v-if="store.state.savedThemes.length > 0">
                 <div class="dd-divider"></div>
-                <div class="dd-section-label">Saved Themes</div>
+                <div class="dd-section-label">Gespeicherte Themes</div>
                 <button
                   v-for="theme in store.state.savedThemes"
                   :key="theme.id"
@@ -131,7 +131,7 @@
           :class="{ saving: isSaving, saved: showSaved }"
           @click="handleSaveTheme"
           :disabled="isSaving"
-          title="Save Theme (Ctrl+S)"
+          title="Theme speichern (Strg+S)"
           aria-keyshortcuts="Control+S"
         >
           <svg aria-hidden="true" v-if="!isSaving && !showSaved" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -141,7 +141,7 @@
             <polyline points="20 6 9 17 4 12"/>
           </svg>
           <span v-else class="tb-spinner"></span>
-          <span class="tb-label">{{ showSaved ? 'Saved' : 'Save' }}</span>
+          <span class="tb-label">{{ showSaved ? 'Gespeichert' : 'Speichern' }}</span>
         </button>
       </div>
 
@@ -154,7 +154,7 @@
           class="tb-btn"
           @click="store.undo()"
           :disabled="!store.canUndo()"
-          title="Undo (Ctrl+Z)"
+          title="Rückgängig (Strg+Z)"
           aria-label="Rückgängig"
           aria-keyshortcuts="Control+Z"
         >
@@ -166,8 +166,8 @@
           class="tb-btn"
           @click="store.redo()"
           :disabled="!store.canRedo()"
-          title="Redo (Ctrl+Shift+Z)"
-          aria-label="Wiederherstellen"
+          title="Wiederholen (Strg+Umschalt+Z)"
+          aria-label="Wiederholen"
           aria-keyshortcuts="Control+Shift+Z"
         >
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -186,14 +186,14 @@
             type="button"
             class="tb-btn"
             @click="toggleDownload"
-            title="Download Theme"
+            title="Theme exportieren"
             :aria-expanded="downloadOpen"
             :aria-controls="downloadOpen ? 'cfg-export-dropdown' : undefined"
           >
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            <span class="tb-label">Export</span>
+            <span class="tb-label">Exportieren</span>
           </button>
 
           <Transition name="dropdown">
@@ -203,8 +203,8 @@
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                 </svg>
                 <div class="dd-item-text">
-                  <span class="dd-item-name">Export as CSS</span>
-                  <span class="dd-item-meta">Custom properties file</span>
+                  <span class="dd-item-name">CSS-Datei</span>
+                  <span class="dd-item-meta">Für Entwickler: CSS-Variablen</span>
                 </div>
               </button>
               <button class="dd-item" @click="handleDownloadJSON">
@@ -212,8 +212,8 @@
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                 </svg>
                 <div class="dd-item-text">
-                  <span class="dd-item-name">Export as JSON</span>
-                  <span class="dd-item-meta">Full token snapshot</span>
+                  <span class="dd-item-name">JSON-Datei</span>
+                  <span class="dd-item-meta">Für Entwickler: alle Werte, wieder importierbar</span>
                 </div>
               </button>
               <button class="dd-item" data-test="export-dtcg" @click="handleDownloadDTCG">
@@ -222,7 +222,7 @@
                 </svg>
                 <div class="dd-item-text">
                   <span class="dd-item-name">DTCG (W3C Design Tokens)</span>
-                  <span class="dd-item-meta">Standardformat, derselbe Exporter wie tokens:dtcg</span>
+                  <span class="dd-item-meta">Für Entwickler: Standardformat des W3C</span>
                 </div>
               </button>
               <div class="dd-divider"></div>
@@ -231,8 +231,8 @@
                   <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                 </svg>
                 <div class="dd-item-text">
-                  <span class="dd-item-name">Export for Drupal</span>
-                  <span class="dd-item-meta">CSS + settings JSON bundle</span>
+                  <span class="dd-item-name">Paket für Drupal</span>
+                  <span class="dd-item-meta">Für Entwickler: CSS und Einstellungen</span>
                 </div>
               </button>
               <div class="dd-divider"></div>
@@ -242,7 +242,7 @@
                 </svg>
                 <div class="dd-item-text">
                   <span class="dd-item-name">Theme importieren …</span>
-                  <span class="dd-item-meta">JSON aus „Export as JSON“, mit Prüfung und Vorschau</span>
+                  <span class="dd-item-meta">JSON-Datei aus „Exportieren“, mit Prüfung und Vorschau</span>
                 </div>
               </button>
             </div>
@@ -261,13 +261,13 @@
           @click="handleMerge"
           :disabled="!sync.hasPendingUpdates"
           :title="sync.hasPendingUpdates
-            ? `${sync.pendingCount} pending merge request(s)`
-            : 'No pending merge requests'"
+            ? `${sync.pendingCount} Aktualisierung(en) aus dem Design System zum Zusammenführen`
+            : 'Keine Aktualisierungen zum Zusammenführen'"
         >
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
           </svg>
-          <span class="tb-label">Merge</span>
+          <span class="tb-label">Zusammenführen</span>
           <span v-if="sync.hasPendingUpdates" class="merge-badge">{{ sync.pendingCount }}</span>
         </button>
       </div>
@@ -280,7 +280,7 @@
           class="tb-btn tb-btn-danger"
           @click="handleDeleteTheme"
           :disabled="!store.state.currentThemeMeta"
-          :title="!store.state.currentThemeMeta ? 'Default NEO Theme cannot be deleted' : 'Delete current theme'"
+          :title="!store.state.currentThemeMeta ? 'Der NEO-Standard kann nicht gelöscht werden' : 'Aktuelles Theme löschen'"
           aria-label="Theme löschen"
         >
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -296,7 +296,7 @@
       <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
         <div ref="createDialogRef" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="create-dialog-title" tabindex="-1">
           <div class="modal-header">
-            <h2 class="modal-title" id="create-dialog-title">Create New Theme</h2>
+            <h2 class="modal-title" id="create-dialog-title">Neues Theme anlegen</h2>
             <button type="button" class="modal-close" aria-label="Schließen" @click="showCreateDialog = false">
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
@@ -305,12 +305,12 @@
           </div>
           <div class="modal-body">
             <div class="form-field">
-              <label class="form-label" for="cfg-neues-theme-name">Theme Name</label>
+              <label class="form-label" for="cfg-neues-theme-name">Name des Themes</label>
               <input
                 id="cfg-neues-theme-name"
                 class="form-input"
                 v-model="newThemeName"
-                placeholder="e.g. My Brand Theme"
+                placeholder="z. B. Kunde Muster GmbH"
                 @keydown.enter="confirmCreateTheme"
                 ref="nameInputRef"
               />
@@ -321,19 +321,19 @@
                 <input id="cfg-neues-theme-version" class="form-input" v-model="newThemeVersion" placeholder="1.0.0" />
               </div>
               <div class="form-field">
-                <label class="form-label" for="cfg-neues-theme-datum">Creation Date</label>
+                <label class="form-label" for="cfg-neues-theme-datum">Angelegt am</label>
                 <input id="cfg-neues-theme-datum" class="form-input readonly" :value="todayFormatted" readonly />
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Cancel</button>
+            <button type="button" class="modal-btn secondary" @click="showCreateDialog = false">Abbrechen</button>
             <button
               type="button"
               class="modal-btn primary"
               @click="confirmCreateTheme"
               :disabled="!newThemeName.trim()"
-            >Create Theme</button>
+            >Theme anlegen</button>
           </div>
         </div>
       </div>
@@ -344,7 +344,7 @@
       <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false">
         <div ref="deleteDialogRef" class="modal-dialog modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-text" tabindex="-1">
           <div class="modal-header">
-            <h2 class="modal-title" id="delete-dialog-title">Delete Theme</h2>
+            <h2 class="modal-title" id="delete-dialog-title">Theme löschen</h2>
             <button type="button" class="modal-close" aria-label="Schließen" @click="showDeleteConfirm = false">
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 6 6 18"/><path d="M6 6l12 12"/>
@@ -353,13 +353,13 @@
           </div>
           <div class="modal-body">
             <p id="delete-dialog-text" class="delete-warning">
-              Are you sure you want to delete <strong>{{ store.state.currentThemeMeta?.name }}</strong>?
-              This action cannot be undone.
+              Möchten Sie <strong>{{ store.state.currentThemeMeta?.name }}</strong> wirklich löschen?
+              Das lässt sich nicht rückgängig machen.
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="modal-btn secondary" data-start-fokus @click="showDeleteConfirm = false">Cancel</button>
-            <button type="button" class="modal-btn danger" @click="confirmDeleteTheme">Delete</button>
+            <button type="button" class="modal-btn secondary" data-start-fokus @click="showDeleteConfirm = false">Abbrechen</button>
+            <button type="button" class="modal-btn danger" @click="confirmDeleteTheme">Löschen</button>
           </div>
         </div>
       </div>
@@ -514,7 +514,7 @@ const activeThemeLabel = computed(() => {
   if (store.state.currentThemeMeta) {
     return store.state.currentThemeMeta.name
   }
-  return 'Neo Theme'
+  return 'NEO-Standard'
 })
 
 // ---------------------------------------------------------------------------

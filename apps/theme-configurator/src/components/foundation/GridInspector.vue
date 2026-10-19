@@ -3,8 +3,8 @@
 
     <!-- Intro -->
     <p class="gi-intro">
-      Das 12-Column Grid bildet das Layoutraster fuer alle Seitenstrukturen.
-      Spaltenanzahl und Abstaende werden hier zentral konfiguriert und wirken sich
+      Das 12-Column Grid bildet das Layoutraster für alle Seitenstrukturen.
+      Spaltenanzahl und Abstände werden hier zentral konfiguriert und wirken sich
       auf alle <code>.o-grid</code>-Instanzen aus.
     </p>
 
@@ -52,7 +52,7 @@
               </button>
             </div>
           </div>
-          <span v-if="isOverridden('nc-grid-columns')" class="gi-modified-badge">modified</span>
+          <span v-if="isOverridden('nc-grid-columns')" class="gi-modified-badge">geändert</span>
         </div>
 
         <!-- Gap (Default) -->
@@ -75,7 +75,7 @@
               placeholder="z.B. clamp(12px, 1.5vw, 24px)"
             />
           </div>
-          <span v-if="isOverridden('nc-grid-gap')" class="gi-modified-badge">modified</span>
+          <span v-if="isOverridden('nc-grid-gap')" class="gi-modified-badge">geändert</span>
         </div>
 
       </div>
@@ -97,8 +97,8 @@
       <div v-if="variantsOpen" class="gi-section__body">
 
         <p class="gi-section-intro">
-          Neben dem Standard-Gap koennen mit den Modifiern <code>.o-grid--gap-sm</code>
-          und <code>.o-grid--gap-lg</code> alternative Abstaende verwendet werden.
+          Neben dem Standard-Gap können mit den Modifiern <code>.o-grid--gap-sm</code>
+          und <code>.o-grid--gap-lg</code> alternative Abstände verwendet werden.
           Diese referenzieren Foundation Spacing Tokens (L2).
         </p>
 
@@ -113,7 +113,7 @@
             </span>
           </div>
           <p class="gi-token-desc">
-            Kompakter Abstand fuer dichte Layouts (Formulare, Dashboards).
+            Kompakter Abstand für dichte Layouts (Formulare, Dashboards).
             Anwendung: <code>.o-grid--gap-sm</code>
           </p>
           <div class="gi-token-control">
@@ -130,7 +130,7 @@
               >{{ item.px }} · {{ item.label }}</option>
             </select>
           </div>
-          <span v-if="isOverridden('nc-grid-gap-sm')" class="gi-modified-badge">modified</span>
+          <span v-if="isOverridden('nc-grid-gap-sm')" class="gi-modified-badge">geändert</span>
         </div>
 
         <!-- Gap Large -->
@@ -144,7 +144,7 @@
             </span>
           </div>
           <p class="gi-token-desc">
-            Grosszuegiger Abstand fuer Content-Seiten und Marketing-Layouts.
+            Großzügiger Abstand für Content-Seiten und Marketing-Layouts.
             Anwendung: <code>.o-grid--gap-lg</code>
           </p>
           <div class="gi-token-control">
@@ -161,7 +161,7 @@
               >{{ item.px }} · {{ item.label }}</option>
             </select>
           </div>
-          <span v-if="isOverridden('nc-grid-gap-lg')" class="gi-modified-badge">modified</span>
+          <span v-if="isOverridden('nc-grid-gap-lg')" class="gi-modified-badge">geändert</span>
         </div>
 
       </div>
@@ -180,17 +180,17 @@
       <div class="gi-info-box__body">
         <p>
           Die drei vordefinierten Gap-Varianten (<code>default</code>, <code>sm</code>, <code>lg</code>)
-          decken die meisten Layouts ab. Eine <strong>neue Variante ueber ein Recipe</strong> ist sinnvoll, wenn:
+          decken die meisten Layouts ab. Eine <strong>neue Variante über ein Recipe</strong> ist sinnvoll, wenn:
         </p>
         <ul>
-          <li>Ein Seitentyp ein <strong>eigenes Spaltenraster</strong> benoetigt (z.B. ein 8-Column-Grid fuer ein Editorial-Layout)</li>
-          <li>Ein <strong>abweichender Gap</strong> kontextgebunden sein soll (z.B. <code>.o-grid--gap-tight</code> mit 4px fuer Toolbar-Layouts)</li>
+          <li>Ein Seitentyp ein <strong>eigenes Spaltenraster</strong> benötigt (z.B. ein 8-Column-Grid für ein Editorial-Layout)</li>
+          <li>Ein <strong>abweichender Gap</strong> kontextgebunden sein soll (z.B. <code>.o-grid--gap-tight</code> mit 4px für Toolbar-Layouts)</li>
           <li>Die Variante <strong>responsiv anders brechen</strong> soll als das Standard-Grid (z.B. 6 Columns ab Tablet statt 12)</li>
         </ul>
         <p class="gi-info-example">
-          <strong>Beispiel:</strong> Ein Dashboard benoetigt ein <code>.o-grid--dashboard</code> mit
-          6 Columns und 16px Gap. Statt die globalen Grid-Tokens zu aendern, wird eine neue Variante
-          im Recipe angelegt, die nur fuer diesen Kontext gilt -- so bleibt das Standard-Grid unangetastet.
+          <strong>Beispiel:</strong> Ein Dashboard benötigt ein <code>.o-grid--dashboard</code> mit
+          6 Columns und 16px Gap. Statt die globalen Grid-Tokens zu ändern, wird eine neue Variante
+          im Recipe angelegt, die nur für diesen Kontext gilt -- so bleibt das Standard-Grid unangetastet.
         </p>
       </div>
     </div>

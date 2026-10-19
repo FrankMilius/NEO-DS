@@ -4,7 +4,7 @@
     <div class="lab-header">
       <div class="lab-header__row">
         <h2 class="lab-title">
-          Theme Arena
+          Bühne
           <span v-if="activeArenaLabel" class="lab-breadcrumb-sep">/</span>
           <span v-if="activeArenaLabel" class="lab-breadcrumb-leaf">{{ activeArenaLabel }}</span>
           <span v-if="istEntwurfAktiv" class="lab-entwurf" data-test="entwurf" :title="ENTWURF_HINWEIS">Entwurf</span>

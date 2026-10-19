@@ -19,7 +19,7 @@
         Das Theme ist aktiv — Besucher sehen den neuen Stand. Es kann einen Moment dauern, bis ihn jeder Browser zeigt.
       </p>
       <p v-else class="dk-text">
-        Gespeichert als veröffentlichte Fassung. <strong>Besucher sehen noch nichts:</strong> Erst wenn du das Theme aktivierst, erscheint es auf der Website.
+        Gespeichert als veröffentlichte Fassung. <strong>Besucher sehen noch nichts:</strong> Erst wenn Sie das Theme aktivieren, erscheint es auf der Website.
       </p>
       <details class="dvd-technik">
         <summary>Technische Angaben</summary>
@@ -124,10 +124,10 @@ const appBefunde = computed(() => nichtBestanden(kontrast.value))
 const serverBefunde = computed(() => nichtBestanden(serverKontrast.value))
 
 const sperre = computed(() => {
-  if (!kannVeroeffentlichen) return 'Dir fehlt das Recht „veröffentlichen“.'
+  if (!kannVeroeffentlichen) return 'Ihnen fehlt das Recht „veröffentlichen“.'
   if (!meta.value?.id) return 'Das Theme ist noch nicht in Drupal gespeichert. Bitte zuerst speichern (Strg+S).'
   const s = betrieb.zustand.status
-  if (s === 'ungespeichert' || s === 'fehler' || s === 'speichert') return 'Es gibt ungespeicherte Änderungen. Geprüft und veröffentlicht wird der in Drupal gespeicherte Stand — speichere zuerst, dann wird erneut geprüft.'
+  if (s === 'ungespeichert' || s === 'fehler' || s === 'speichert') return 'Es gibt ungespeicherte Änderungen. Geprüft und veröffentlicht wird der in Drupal gespeicherte Stand — speichern Sie zuerst, dann wird erneut geprüft.'
   return ''
 })
 

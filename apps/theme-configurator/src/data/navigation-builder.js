@@ -11,6 +11,7 @@
 import registry from '../../../../data/component-registry.json'
 import { componentTokenGroups } from './tokens.generated.js'
 import { istEntwurf } from './recipe-entwuerfe.js'
+import { BEREICHE, EBENEN, UNTERGRUPPEN, komponentenName } from '../navigation/namen.js'
 
 // ---------------------------------------------------------------------------
 // Icon-Mapping pro Komponente (bekannte Zuordnungen aus dem alten Tree)
@@ -85,14 +86,14 @@ const COMPONENT_ICONS = {
 }
 
 const LAYER_CONFIG = {
-  foundation: { id: 'foundation', label: 'Foundation', icon: 'building-arch', order: 0 },
-  object:     { id: 'objects',    label: 'Objects',     icon: 'box',            order: 1 },
-  atom:       { id: 'atoms',      label: 'Atoms',       icon: 'atom',           order: 2 },
-  molecule:   { id: 'molecules',  label: 'Molecules',   icon: 'hexagons',       order: 3 },
-  organism:   { id: 'organisms',  label: 'Organisms',   icon: 'building',       order: 4 },
-  pattern:    { id: 'patterns',   label: 'Muster',      icon: 'layout-grid',    order: 4.5 },
-  template:   { id: 'templates',  label: 'Templates',   icon: 'template',       order: 5 },
-  utility:    { id: 'utilities',  label: 'Utilities',   icon: 'tool',           order: 6 },
+  foundation: { id: 'foundation', label: EBENEN.foundation, icon: 'building-arch', order: 0 },
+  object:     { id: 'objects',    label: EBENEN.objects,     icon: 'box',            order: 1 },
+  atom:       { id: 'atoms',      label: EBENEN.atoms,       icon: 'atom',           order: 2 },
+  molecule:   { id: 'molecules',  label: EBENEN.molecules,   icon: 'hexagons',       order: 3 },
+  organism:   { id: 'organisms',  label: EBENEN.organisms,   icon: 'building',       order: 4 },
+  pattern:    { id: 'patterns',   label: EBENEN.patterns,      icon: 'layout-grid',    order: 4.5 },
+  template:   { id: 'templates',  label: EBENEN.templates,   icon: 'template',       order: 5 },
+  utility:    { id: 'utilities',  label: EBENEN.utilities,   icon: 'tool',           order: 6 },
 }
 
 // Subgroup-Zuordnung fuer Komponenten (semantische Gruppierung)
@@ -153,22 +154,22 @@ const SUBGROUP_MAP = {
 // ---------------------------------------------------------------------------
 
 const FOUNDATION_ITEMS = [
-  { id: 'grid', label: 'Grid', icon: 'layout-grid', section: 'foundation-grid' },
-  { id: 'colors', label: 'Color', icon: 'palette', section: 'foundation-colors' },
-  { id: 'surfaces', label: 'Surfaces', icon: 'layers-intersect', section: 'foundation-surfaces' },
-  { id: 'spacing', label: 'Spacing', icon: 'spacing-horizontal', section: 'foundation-spacing' },
-  { id: 'sizes', label: 'Sizes', icon: 'ruler-measure', section: 'foundation-size' },
-  { id: 'typography', label: 'Typography', icon: 'typography', section: 'foundation-typography' },
-  { id: 'radius', label: 'Radii', icon: 'border-radius', section: 'foundation-radius' },
-  { id: 'border', label: 'Border', icon: 'border-style-2', section: 'foundation-border' },
-  { id: 'focus', label: 'Focus Ring', icon: 'focus-2', section: 'foundation-focus' },
-  { id: 'media', label: 'Media Ratios', icon: 'aspect-ratio', section: 'foundation-media' },
-  { id: 'elements', label: 'Elements', icon: 'components', section: 'foundation-elements' },
-  { id: 'icons', label: 'Icons', icon: 'icons', section: 'foundation-icons' },
-  { id: 'themes', label: 'Themes', icon: 'color-swatch', section: 'foundation-themes' },
-  { id: 'shadows', label: 'Shadow & Elevation', icon: 'shadow', section: 'foundation-shadows' },
-  { id: 'opacity-zindex-motion', label: 'Opacity, Z-Index & Motion', icon: 'eye', section: 'foundation-opacity' },
-  { id: 'praesentation', label: 'Präsentation', icon: 'presentation', section: 'foundation-praesentation' },
+  { id: 'grid', label: BEREICHE['foundation-grid'].name, icon: 'layout-grid', section: 'foundation-grid' },
+  { id: 'colors', label: BEREICHE['foundation-colors'].name, icon: 'palette', section: 'foundation-colors' },
+  { id: 'surfaces', label: BEREICHE['foundation-surfaces'].name, icon: 'layers-intersect', section: 'foundation-surfaces' },
+  { id: 'spacing', label: BEREICHE['foundation-spacing'].name, icon: 'spacing-horizontal', section: 'foundation-spacing' },
+  { id: 'sizes', label: BEREICHE['foundation-size'].name, icon: 'ruler-measure', section: 'foundation-size' },
+  { id: 'typography', label: BEREICHE['foundation-typography'].name, icon: 'typography', section: 'foundation-typography' },
+  { id: 'radius', label: BEREICHE['foundation-radius'].name, icon: 'border-radius', section: 'foundation-radius' },
+  { id: 'border', label: BEREICHE['foundation-border'].name, icon: 'border-style-2', section: 'foundation-border' },
+  { id: 'focus', label: BEREICHE['foundation-focus'].name, icon: 'focus-2', section: 'foundation-focus' },
+  { id: 'media', label: BEREICHE['foundation-media'].name, icon: 'aspect-ratio', section: 'foundation-media' },
+  { id: 'elements', label: BEREICHE['foundation-elements'].name, icon: 'components', section: 'foundation-elements' },
+  { id: 'icons', label: BEREICHE['foundation-icons'].name, icon: 'icons', section: 'foundation-icons' },
+  { id: 'themes', label: BEREICHE['foundation-themes'].name, icon: 'color-swatch', section: 'foundation-themes' },
+  { id: 'shadows', label: BEREICHE['foundation-shadows'].name, icon: 'shadow', section: 'foundation-shadows' },
+  { id: 'opacity-zindex-motion', label: BEREICHE['foundation-opacity'].name, icon: 'eye', section: 'foundation-opacity' },
+  { id: 'praesentation', label: BEREICHE['foundation-praesentation'].name, icon: 'presentation', section: 'foundation-praesentation' },
 ]
 
 // ---------------------------------------------------------------------------
@@ -197,6 +198,9 @@ function buildNavigationTree () {
 
     const layerCfg = LAYER_CONFIG[layer]
     if (!layerCfg) continue
+    // UX-53: Was als Objekt geführt wird, steht nur unter „Objekte“ — vorher
+    // erschienen Aspect Ratio, Container, Grid, Section und Video doppelt
+    if (layer !== 'object' && registry.objects && name in registry.objects) continue
 
     if (!groups.has(layerCfg.id)) {
       groups.set(layerCfg.id, { ...layerCfg, children: [] })
@@ -204,7 +208,7 @@ function buildNavigationTree () {
 
     const navItem = {
       id: name,
-      label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+      label: komponentenName(name),
       icon: COMPONENT_ICONS[name] || 'component',
       section: `component-${name}`,
       _hasTokens: hasTokens,
@@ -231,7 +235,7 @@ function buildNavigationTree () {
     const hasTokens = !!(componentTokenGroups && componentTokenGroups[name])
     const objektItem = {
       id: name,
-      label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+      label: komponentenName(name),
       icon: COMPONENT_ICONS[name] || 'box',
       section: `component-${name}`,
       _hasTokens: hasTokens,
@@ -253,7 +257,7 @@ function buildNavigationTree () {
       const templateItem = {
         id: name,
         // V05: Übersicht aller Seitenvorlagen trägt den deutschen Namen
-        label: name === 'content-templates' ? 'Seitenvorlagen' : name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+        label: name === 'content-templates' ? 'Seitenvorlagen' : komponentenName(name),
         icon: COMPONENT_ICONS[name] || 'template',
         section: mitRecipe ? `component-${name}` : `template-${name}`,
       }
@@ -287,7 +291,7 @@ function buildNavigationTree () {
         if (!subgroupMap.has(sg)) {
           subgroupMap.set(sg, {
             id: sg.toLowerCase().replace(/\s+/g, '-').replace(/&/g, ''),
-            label: sg,
+            label: UNTERGRUPPEN[sg] || sg,
             isSubgroup: true,
             children: [],
           })

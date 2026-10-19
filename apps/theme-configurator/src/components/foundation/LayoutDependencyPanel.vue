@@ -63,7 +63,7 @@
          SMART LINKS
          ═══════════════════════════════════════════════════════════════ -->
     <div v-if="smartLinks.length" class="ldp-links">
-      <div class="ldp-links-label">Verknuepfte Tokens</div>
+      <div class="ldp-links-label">Verknüpfte Tokens</div>
       <button
         v-for="link in smartLinks"
         :key="link.targetToken"
@@ -75,7 +75,7 @@
           <span class="ldp-link-target">{{ link.targetLabel }}</span>
           <svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
           <code class="ldp-link-token">--{{ link.targetToken }}</code>
-          <span v-if="link.isOverridden" class="ldp-link-modified">modified</span>
+          <span v-if="link.isOverridden" class="ldp-link-modified">geändert</span>
         </span>
         <span class="ldp-link-value">
           <span class="ldp-link-current">{{ link.currentValue }}</span>

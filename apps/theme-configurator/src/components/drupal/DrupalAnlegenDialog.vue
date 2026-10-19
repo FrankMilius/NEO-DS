@@ -52,7 +52,7 @@ const version = ref('1.0.0')
 const laeuft = ref(false)
 
 const beschreibung = computed(() => anfrage.value?.vomStandard
-  ? 'Das neue Theme startet als Kopie des aktuellen NEO-Standards. Gespeichert werden nur deine Abweichungen — ein neuer NEO-Standard wirkt automatisch überall dort, wo du nichts geändert hast.'
+  ? 'Das neue Theme startet als Kopie des aktuellen NEO-Standards. Gespeichert werden nur Ihre Abweichungen — ein neuer NEO-Standard wirkt automatisch überall dort, wo Sie nichts geändert haben.'
   : 'Der aktuelle Stand ist noch nicht in Drupal gespeichert. Gib dem Theme einen Namen, um es anzulegen.')
 
 watch(anfrage, (a) => {

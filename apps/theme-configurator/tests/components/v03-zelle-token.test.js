@@ -9,7 +9,7 @@ describe('RecipeArena: Zelle als Auslöser', () => {
   const q = quelle('src/components/laboratory/RecipeArena.vue')
   it('Beschriftung ist ein Knopf mit sprechendem Namen', () => {
     expect(q).toContain('data-test="zu-token"')
-    expect(q).toContain(': Einstellungen im Inspector öffnen`')
+    expect(q).toContain(': Einstellungen öffnen`')
   })
   it('setzt die Arena-Auswahl mit den Gruppen DIESER Zelle und der Sektion', () => {
     expect(q).toContain('store.setArenaSelection(props.sektion || props.componentId, name, [...z.tokenGroups])')

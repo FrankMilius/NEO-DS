@@ -40,7 +40,7 @@ function melde () {
   gemeldet = true
   hinweisen({
     titel: 'Nur Ansicht',
-    text: 'Dir fehlt das Recht „bearbeiten“. Änderungen werden nicht übernommen und nicht in Drupal gespeichert.',
+    text: 'Ihnen fehlt das Recht „bearbeiten“. Änderungen werden nicht übernommen und nicht in Drupal gespeichert.',
   })
 }
 

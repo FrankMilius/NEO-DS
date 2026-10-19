@@ -4,7 +4,7 @@
     <!-- ── Ring Color ── -->
     <section class="fe-section">
       <h3 class="fe-heading">
-        Ring Color
+        Farbe
         <span class="fe-heading__count">--fnd-focus-ring-color</span>
       </h3>
       <p class="fe-desc">
@@ -87,7 +87,7 @@
     <!-- ── Ring Width (Border Width Scale) ── -->
     <section class="fe-section">
       <h3 class="fe-heading">
-        Ring Width
+        Breite
         <span class="fe-heading__count">--fnd-focus-ring-width</span>
       </h3>
       <div class="fe-select-row">
@@ -109,7 +109,7 @@
     <!-- ── Ring Style (Border Style) ── -->
     <section class="fe-section">
       <h3 class="fe-heading">
-        Ring Style
+        Stil
         <span class="fe-heading__count">--fnd-focus-ring-style</span>
       </h3>
       <div class="fe-select-row">
@@ -122,10 +122,10 @@
     <!-- ── Offset / Inset Values ── -->
     <section class="fe-section">
       <h3 class="fe-heading">
-        Offset &amp; Inset
+        Abstand und Einzug
       </h3>
       <p class="fe-desc">
-        Abstandswerte fuer beide Modi. Nur der aktive Modus wird im Export verwendet.
+        Abstandswerte für beide Modi. Nur der aktive Modus wird im Export verwendet.
       </p>
       <!-- V04: Modus-Wahl lag bisher nur im generischen Inspector -->
       <div class="fe-modus" role="radiogroup" aria-label="Fokusring-Modus" data-test="fokus-modus">
@@ -138,7 +138,7 @@
         <div class="fe-token-row" :class="{ 'fe-token-row--inactive': currentMode !== 'offset', 'fe-token-row--highlighted': currentMode === 'offset' }">
           <div class="fe-token-info">
             <span class="fe-token-label">
-              Offset (aussen)
+              Offset (außen)
               <span v-if="currentMode === 'offset'" class="fe-badge fe-badge--active">aktiv</span>
               <span v-else class="fe-badge fe-badge--inactive">inaktiv</span>
             </span>
@@ -182,8 +182,8 @@
     <section class="fe-section">
       <h3 class="fe-heading">Hinweise</h3>
       <p class="fe-desc">
-        <strong>Offset</strong>: Die Outline wird ausserhalb des Elements gerendert (Standard).
-        Eignet sich fuer die meisten interaktiven Elemente.<br/>
+        <strong>Offset</strong>: Die Outline wird außerhalb des Elements gerendert (Standard).
+        Eignet sich für die meisten interaktiven Elemente.<br/>
         <strong>Inset</strong>: Die Outline wird innerhalb des Elements gerendert.
         Notwendig bei <code>overflow: hidden</code> Containern (z.B. Karten, Tabs).
       </p>

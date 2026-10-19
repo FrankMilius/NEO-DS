@@ -209,7 +209,7 @@ async function mergeToStyleguide(themeStore = null) {
 
   // ── Double-check guard at merge time ──
   if (themeStore && !isNeoDefaultTheme(themeStore)) {
-    const reason = 'Merge blocked: Only the default NEO Theme may update the Design System Documentation.'
+    const reason = 'Zusammenführen gesperrt: Nur der NEO-Standard darf die Doku des Design Systems aktualisieren.'
     log('merge-blocked', reason)
     state.stage = 'error'
     state.stageMessage = reason
@@ -335,7 +335,7 @@ async function startPipeline(customPalettes, context = {}, themeStore = null) {
   if (themeStore && !isNeoDefaultTheme(themeStore)) {
     const reason = themeStore.state.currentThemeMeta
       ? `Custom theme "${themeStore.state.currentThemeMeta.name}" cannot update Design System Documentation`
-      : `Only the default NEO Theme can update Design System Documentation (active: ${themeStore.state.activeThemeSet})`
+      : `Nur der NEO-Standard kann die Doku des Design Systems aktualisieren (aktiv: ${themeStore.state.activeThemeSet === 'neo' ? 'NEO' : 'Kunde'})`
     log('pipeline-blocked', reason)
     state.stage = 'idle'
     state.stageMessage = reason

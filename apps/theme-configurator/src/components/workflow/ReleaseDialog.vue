@@ -60,7 +60,7 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="modal-btn secondary" @click="$emit('close')">Cancel</button>
+          <button type="button" class="modal-btn secondary" @click="$emit('close')">Abbrechen</button>
           <button
             type="button"
             class="modal-btn primary"

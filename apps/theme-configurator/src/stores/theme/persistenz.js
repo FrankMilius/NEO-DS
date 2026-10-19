@@ -26,7 +26,7 @@ export async function saveToServer() {
   const themeSet = state.activeThemeSet
   const payload = {
     meta: {
-      name: state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO Theme' : 'Customer Theme'),
+      name: state.currentThemeMeta?.name || (themeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde'),
       version: state.version,
       generated: new Date().toISOString(),
       generator: 'NEO Theme Configurator'

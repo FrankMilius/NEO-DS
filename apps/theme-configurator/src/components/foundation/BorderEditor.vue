@@ -1,7 +1,7 @@
 <template>
   <div class="border-editor">
     <section class="token-section">
-      <h3 class="sub-heading">Border Width</h3>
+      <h3 class="sub-heading">Rahmenbreiten</h3>
       <div class="token-list">
         <div
           v-for="(token, key) in widthTokens"
@@ -23,7 +23,7 @@
     </section>
 
     <section class="token-section">
-      <h3 class="sub-heading">Border Style</h3>
+      <h3 class="sub-heading">Rahmenstile</h3>
       <div class="token-list">
         <div
           v-for="(token, key) in styleTokens"

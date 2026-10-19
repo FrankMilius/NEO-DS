@@ -30,7 +30,7 @@
         <h2 :id="`${idBasis}-titel`" class="unlock-dialog-title">„{{ componentLabel }}“ entsperren?</h2>
         <p :id="`${idBasis}-text`" class="unlock-dialog-desc">
           Die Komponente ist in Version <strong>{{ version }}</strong> gesperrt.
-          Wähle, wie die Version für die Bearbeitung steigt:
+          Wählen Sie, wie die Version für die Bearbeitung steigt:
         </p>
         <div class="bump-options" role="group" aria-label="Versionssprung">
           <button

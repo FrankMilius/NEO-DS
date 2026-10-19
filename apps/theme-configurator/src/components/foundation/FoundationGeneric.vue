@@ -9,7 +9,7 @@
         @click="store.setFocusRingMode('offset')"
         role="radio"
         :aria-checked="store.currentFocusRingMode === 'offset'"
-      >Offset (aussen)</button>
+      >Offset (außen)</button>
       <button
         :class="['toggle-btn', { active: store.currentFocusRingMode === 'inset' }]"
         @click="store.setFocusRingMode('inset')"

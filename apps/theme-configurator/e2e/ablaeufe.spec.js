@@ -47,8 +47,8 @@ test('Token aendern, dann Undo und Redo', async ({ page }) => {
 
 test('Theme-Set wechseln (Neo → Customer) schreibt die URL', async ({ page }) => {
   await oeffneSektion(page, 'component-button')
-  const neo = page.locator('.theme-set-switcher').getByRole('button', { name: 'Neo', exact: true })
-  const customer = page.locator('.theme-set-switcher').getByRole('button', { name: 'Customer', exact: true })
+  const neo = page.locator('.theme-set-switcher').getByRole('button', { name: 'NEO', exact: true })
+  const customer = page.locator('.theme-set-switcher').getByRole('button', { name: 'Kunde', exact: true })
   await expect(neo).toHaveClass(/active/)
 
   await customer.click()
@@ -59,7 +59,7 @@ test('Theme-Set wechseln (Neo → Customer) schreibt die URL', async ({ page }) 
   // Deep-Link mit Set stellt es beim Laden wieder her
   await page.goto('about:blank')
   await oeffneSektion(page, 'component-button', 'set=customer')
-  await expect(page.locator('.theme-set-switcher').getByRole('button', { name: 'Customer', exact: true })).toHaveClass(/active/)
+  await expect(page.locator('.theme-set-switcher').getByRole('button', { name: 'Kunde', exact: true })).toHaveClass(/active/)
 })
 
 test('Export-Dialog DTCG oeffnet und zeigt das Ergebnis', async ({ page }) => {
@@ -167,7 +167,7 @@ test('V02: Button nennt seine Orte auf der Website; technische Namen lassen sich
 test('V03: Enter auf der Beschriftung einer Zelle öffnet ihre Gruppe im Inspector und setzt den Fokus', async ({ page }) => {
   await oeffneSektion(page, 'component-button')
   const knopf = page.locator('[data-test="zu-token"]').first()
-  await expect(knopf).toHaveAccessibleName(/Einstellungen im Inspector öffnen/)
+  await expect(knopf).toHaveAccessibleName(/Einstellungen öffnen/)
   await knopf.focus()
   await page.keyboard.press('Enter')
   const insp = page.locator('.inspector-panel')

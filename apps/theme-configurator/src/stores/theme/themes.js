@@ -281,7 +281,7 @@ export async function loadNeoDefaults() {
  */
 export function downloadThemeJSON() {
   const json = exportAsJSON()
-  const name = state.currentThemeMeta?.name || (state.activeThemeSet === 'neo' ? 'Neo Theme' : 'Customer Theme')
+  const name = state.currentThemeMeta?.name || (state.activeThemeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde')
   const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase()
   const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
@@ -297,7 +297,7 @@ export function downloadThemeJSON() {
  */
 export function downloadThemeCSS() {
   const css = exportAsCSSVars()
-  const name = state.currentThemeMeta?.name || (state.activeThemeSet === 'neo' ? 'Neo Theme' : 'Customer Theme')
+  const name = state.currentThemeMeta?.name || (state.activeThemeSet === 'neo' ? 'NEO-Standard' : 'NEO-Standard, Variante Kunde')
   const safeName = name.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase()
   const blob = new Blob([css], { type: 'text/css' })
   const url = URL.createObjectURL(blob)
@@ -466,7 +466,7 @@ export function pruefeThemeKontrast(themeSet = state.activeThemeSet) {
 export async function veroeffentlicheTheme({ notiz } = {}) {
   const sp = speicher()
   if (!sp.faehigkeiten.veroeffentlichen) {
-    throw new SpeicherFehler('nicht-unterstuetzt', 'Veroeffentlichen gibt es nur mit Drupal-Speicher.')
+    throw new SpeicherFehler('nicht-unterstuetzt', 'Veröffentlichen gibt es nur mit Drupal-Speicher.')
   }
   brauchtRecht('veroeffentlichen', 'Veröffentlichen')
   const meta = state.currentThemeMeta

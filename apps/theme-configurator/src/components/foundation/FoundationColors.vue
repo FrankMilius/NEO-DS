@@ -25,7 +25,7 @@
       <section class="token-section">
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
-          Main Palettes
+          Markenpaletten
           <span class="palette-count-badge" :class="{ 'palette-count-badge--full': mainPaletteCount >= 5 }">{{ mainPaletteCount }}/5</span>
         </h3>
         <p class="sub-desc" v-if="isDefaultNeo">Brand color bases — shade scales are auto-generated (50–950, 5% steps).</p>
@@ -169,7 +169,7 @@
               </template>
               <template v-else>
                 <div class="add-form">
-                  <label class="add-form-label">Palette Name</label>
+                  <label class="add-form-label">Name der Palette</label>
                   <input v-fokus aria-label="Palette Name"
                     ref="addMainNameInput"
                     type="text"
@@ -179,7 +179,7 @@
                     @keyup.enter="addCustomMainPalette"
                     @keyup.escape="cancelAddMainPalette"
                   />
-                  <label class="add-form-label">Base Color (500)</label>
+                  <label class="add-form-label">Grundton (500)</label>
                   <div class="primitive-editor">
                     <input aria-label="Basisfarbe (500) wählen"
                       type="color"
@@ -205,8 +205,8 @@
                     </div>
                   </div>
                   <div class="add-form-actions">
-                    <button class="btn-add-confirm" @click="addCustomMainPalette" :disabled="!newMainPaletteName.trim()">Add</button>
-                    <button class="btn-add-cancel" @click="cancelAddMainPalette">Cancel</button>
+                    <button class="btn-add-confirm" @click="addCustomMainPalette" :disabled="!newMainPaletteName.trim()">Hinzufügen</button>
+                    <button class="btn-add-cancel" @click="cancelAddMainPalette">Abbrechen</button>
                   </div>
                 </div>
               </template>
@@ -220,7 +220,7 @@
       <section class="token-section">
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
-          Supporting Palettes
+          Ergänzende Paletten
           <button
             v-if="hasPending && isDefaultNeo"
             class="sync-badge"
@@ -230,7 +230,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>
             </svg>
-            {{ pendingCountValue }} pending
+            {{ pendingCountValue }} ausstehend
           </button>
         </h3>
         <p class="sub-desc">Extended color palette — decorative and auxiliary shades (50–950, 5% steps).</p>
@@ -373,7 +373,7 @@
                   @keyup.enter="addSupportingPalette"
                   @keyup.escape="cancelAddPalette"
                 />
-                <label class="add-form-label">Base Color (500)</label>
+                <label class="add-form-label">Grundton (500)</label>
                 <div class="primitive-editor">
                   <input aria-label="Basisfarbe (500) wählen"
                     type="color"
@@ -399,8 +399,8 @@
                   </div>
                 </div>
                 <div class="add-form-actions">
-                  <button class="btn-add-confirm" @click="addSupportingPalette" :disabled="!newPaletteName.trim()">Add</button>
-                  <button class="btn-add-cancel" @click="cancelAddPalette">Cancel</button>
+                  <button class="btn-add-confirm" @click="addSupportingPalette" :disabled="!newPaletteName.trim()">Hinzufügen</button>
+                  <button class="btn-add-cancel" @click="cancelAddPalette">Abbrechen</button>
                 </div>
               </div>
             </template>
@@ -412,12 +412,12 @@
       <section class="token-section">
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
-          Foundation Palettes
+          Grundpaletten
           <span class="locked-badge" title="Foundation palettes are fixed and cannot be overridden">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Not overridable
+            nicht änderbar
           </span>
         </h3>
         <p class="sub-desc">Black &amp; White transparency scales (10–100%). Used for overlays, shadows and layering.</p>
@@ -457,7 +457,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Not overridable
+            nicht änderbar
           </span>
         </h3>
         <p class="sub-desc">Generated neutral gray scale from base #7a7a7a. Backbone for text, borders and surfaces.</p>
@@ -496,7 +496,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Not overridable
+            nicht änderbar
           </span>
         </h3>
         <p class="sub-desc">Sechs Bereichspapiere (Stufe 100 ist die Seite), zwei Reserveleitern und Forest als Grund. Alle Papiere tragen Stufe für Stufe dieselbe Helligkeit wie Graphit — ein Bereichswechsel über <code>data-bg-paper</code> behält jeden Kontrast.</p>
@@ -535,12 +535,12 @@
       <section class="token-section">
         <h3 class="sub-heading">
           <span class="tier-badge tier-1">L1</span>
-          System Palettes
+          Systempaletten
           <span class="locked-badge" title="System palettes are fixed and cannot be overridden">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Not overridable
+            nicht änderbar
           </span>
         </h3>
         <p class="sub-desc">Feedback and status colors — Info, Success, Warning, Danger with shade scales (50–950, 5% steps).</p>
@@ -584,9 +584,9 @@
 
       <!-- ── CATEGORY CARDS OVERVIEW ── -->
       <template v-if="!store.state.semanticCategory">
-        <p class="sub-desc">Wähle eine Kategorie, um die zugehörigen semantischen Tokens zu konfigurieren.</p>
+        <p class="sub-desc">Wählen Sie eine Kategorie, um die zugehörigen Farbrollen einzustellen.</p>
         <!-- UX-33: „Erhebung“ sind Schatten, keine Farben -->
-        <p class="sub-desc" data-test="erhebung-hinweis">Schatten und Erhebung bearbeitest du unter <a href="#/foundation/shadows">Foundation › Shadow &amp; Elevation</a>.</p>
+        <p class="sub-desc" data-test="erhebung-hinweis">Schatten bearbeiten Sie unter <a href="#/foundation/shadows">Foundation › Shadow &amp; Elevation</a>.</p>
         <div class="semantic-category-grid">
           <button
             v-for="group in farbGruppen"
@@ -714,7 +714,7 @@
                   </button>
                 </p>
                 <p v-if="store.state.previewMode === 'split' || store.state.previewMode === 'matrix'" class="modus-wahl__hinweis">
-                  Die Vorschau zeigt mehrere Modi. Du bearbeitest den Wert für {{ activeThemeMode === 'dark' ? 'Dunkel' : 'Hell' }}.
+                  Die Vorschau zeigt mehrere Modi. Sie bearbeiten den Wert für {{ activeThemeMode === 'dark' ? 'Dunkel' : 'Hell' }}.
                 </p>
                 <ColorEditor
                   :modelValue="getActiveThemeValue(token.id)"

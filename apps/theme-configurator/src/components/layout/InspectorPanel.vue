@@ -1,11 +1,11 @@
 <template>
-  <div id="cfg-inspector" tabindex="-1" class="inspector-panel" role="region" aria-label="Inspector" :style="{ width: panelWidth + 'px' }">
+  <div id="cfg-inspector" tabindex="-1" class="inspector-panel" role="region" aria-label="Einstellungen" :style="{ width: panelWidth + 'px' }">
     <!-- Drag Handle -->
     <div
       class="inspector-resize-handle"
       role="separator"
       aria-orientation="vertical"
-      aria-label="Inspector-Breite ändern (Pfeiltasten)"
+      aria-label="Breite der Einstellungen ändern (Pfeiltasten)"
       tabindex="0"
       :aria-valuenow="panelWidth"
       :aria-valuemin="MIN_WIDTH"
@@ -18,7 +18,7 @@
     <div class="inspector-header">
       <div class="inspector-header__row">
         <h2 class="inspector-title">
-          Inspector
+          Einstellungen
           <span v-if="sectionTitle" class="inspector-breadcrumb-sep">&rsaquo;</span>
           <span v-if="sectionTitle" class="inspector-breadcrumb-leaf">{{ sectionTitle }}</span>
         </h2>
@@ -27,7 +27,7 @@
           v-if="sectionDesc"
           type="button"
           class="inspector-info-trigger cfg-knopf-reset"
-          aria-label="Beschreibung der Sektion"
+          aria-label="Beschreibung des Bereichs"
           aria-describedby="cfg-inspector-info"
           @mouseenter="showInfoTooltip = true"
           @mouseleave="showInfoTooltip = false"
@@ -53,27 +53,27 @@
           <span v-if="recipeVersion" class="inspector-meta-badge inspector-meta-badge--version">Version <span class="inspector-meta-badge__value">{{ recipeVersion }}</span></span>
         </div>
       </div>
-      <!-- Theme-Set Switcher (Neo / Customer) — im Drupal-Betrieb ausgeblendet:
+      <!-- Variante NEO · Kunde (Begriffsliste E3) — im Drupal-Betrieb ausgeblendet:
            jedes Theme ist eine Abwandlung von NEO (Entscheidung Frank 14.10.2026) -->
-      <div v-if="!drupalBetrieb && (isComponentSection || activeSection === 'foundation-colors')" class="theme-set-switcher" role="group" aria-label="Theme-Set">
+      <div v-if="!drupalBetrieb && (isComponentSection || activeSection === 'foundation-colors')" class="theme-set-switcher" role="group" aria-label="Variante" title="Variante innerhalb dieses Themes. Weitere Kunden legen Sie als eigene Themes an.">
         <button
           type="button"
           :class="['tss-btn', { active: store.state.activeThemeSet === 'neo' }]"
           :aria-pressed="store.state.activeThemeSet === 'neo'"
           @click="store.setActiveThemeSet('neo')"
-        >Neo</button>
+        >NEO</button>
         <button
           type="button"
           :class="['tss-btn', { active: store.state.activeThemeSet === 'customer' }]"
           :aria-pressed="store.state.activeThemeSet === 'customer'"
           @click="store.setActiveThemeSet('customer')"
-        >Customer</button>
+        >Kunde</button>
         <button type="button" class="tss-copy-btn" @click="handleCopyTheme" :title="copyTitle" :aria-label="copyTitle">
           <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
           </svg>
         </button>
-        <span v-if="themeDiffCount > 0" class="tss-diff-badge" :title="themeDiffCount + ' Tokens unterscheiden sich zwischen Neo und Customer'">{{ themeDiffCount }}</span>
+        <span v-if="themeDiffCount > 0" class="tss-diff-badge" :title="themeDiffCount + ' Tokens unterscheiden sich zwischen NEO und Kunde'">{{ themeDiffCount }}</span>
       </div>
 
       <!-- Color Tabs (only for foundation-colors) -->
@@ -89,7 +89,7 @@
             <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
             <circle cx="7.5" cy="10.5" r="1" fill="currentColor" /><circle cx="12" cy="7.5" r="1" fill="currentColor" /><circle cx="16.5" cy="10.5" r="1" fill="currentColor" />
           </svg>
-          <span>Primitive Colors</span>
+          <span>Grundfarben</span>
           <span class="tab-badge tier-1" title="Ebene 1: Grundfarben (Primitive)"><span aria-hidden="true">L1</span><span class="cfg-sr-only">, Ebene 1</span></span>
         </button>
         <button
@@ -102,7 +102,7 @@
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3l4 7h-8z" /><circle cx="17" cy="17" r="3" /><rect x="4" y="14" width="6" height="6" rx="1" />
           </svg>
-          <span>Semantic Colors</span>
+          <span>Farbrollen</span>
           <span class="tab-badge tier-2" title="Ebene 2: Bedeutungen wie Text oder Fläche (Semantik), verweisen auf Ebene 1"><span aria-hidden="true">L2</span><span class="cfg-sr-only">, Ebene 2</span></span>
         </button>
       </div>
@@ -140,10 +140,10 @@
 import { computed, ref, onBeforeUnmount } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { bestaetigen } from '../../composables/useBestaetigung.js'
-import { componentTokenGroups } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ComponentLockToggle from '../components/ComponentLockToggle.vue'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
+import { BEREICHE, bereichsName } from '../../navigation/namen.js'
 import { darf, speicher } from '../../speicher/index.js'
 import { neoAnsicht } from '../../composables/neoAnsicht.js'
 
@@ -181,8 +181,8 @@ const inspectorBloecke = computed(() => sektion.value.inspector)
 // ---------------------------------------------------------------------------
 const copyTitle = computed(() =>
   store.state.activeThemeSet === 'neo'
-    ? 'Neo → Customer kopieren'
-    : 'Customer → Neo kopieren'
+    ? 'Werte von NEO nach Kunde kopieren'
+    : 'Werte von Kunde nach NEO kopieren'
 )
 
 const themeDiffCount = computed(() => {
@@ -254,54 +254,14 @@ onBeforeUnmount(() => {
   document.removeEventListener('mouseup', stopResize)
 })
 
-const sectionMeta = {
-  'foundation-colors': { title: 'Colors', desc: 'Define primitive color palettes, then map them to semantic tokens across all themes.' },
-  'foundation-grid': { title: 'Grid Tokens', desc: '12-Column Grid: Spaltenanzahl, Gap-Varianten und responsive Breakpoints.' },
-  'foundation-surfaces': { title: 'Surfaces', desc: 'Define Surface 01 through Surface 03 for light and dark modes (Carbon layer model).' },
-  'foundation-radius': { title: 'Border Radius', desc: 'Corner radius scale from sharp to pill.' },
-  'foundation-shadows': { title: 'Shadows & Elevation', desc: 'Box shadow levels and semantic elevation mapping.' },
-  'foundation-spacing': { title: 'Spacing', desc: 'Spacing scale based on 4px base unit. Steps 06+ are fluid.' },
-  'foundation-typography': { title: 'Typography', desc: 'Font families, weight scale, and size system.' },
-  'foundation-border': { title: 'Border', desc: 'Border-Width-Skala und Border-Styles.' },
-  'foundation-focus': { title: 'Focus Ring', desc: 'Focus-Ring-Tokens: Farbe, Breite, Offset (aussen), Inset (innen) und Style.' },
-  'foundation-media': { title: 'Media Ratios', desc: 'Seitenverhaeltnisse fuer Bilder, Videos und Embeds: 1:1, 4:3, 16:9, Auto und weitere.' },
-  'foundation-elements': { title: 'Elements', desc: 'HTML-Element-Defaults: Body, Headings, Links, Buttons, Forms.' },
-  'foundation-themes': { title: 'Themes', desc: '4-Theme-System: Neo Light/Dark + Customer Light/Dark.' },
-  'foundation-opacity': { title: 'Opacity, Z-Index & Motion', desc: 'Opacity-Werte, Z-Index-Schichten und Motion-Tokens.' },
-  'foundation-praesentation': { title: 'Präsentation', desc: 'Folien-Grammatik: Welten, Grünfamilie, Statusampel, Diagrammfarben und Dichtestufen für PowerPoint und Figma Slides.' },
-  'foundation-motion': { title: 'Motion', desc: 'Easing curves and duration tokens.' },
-  'component-button': { title: 'Button Tokens', desc: 'Button geometry, colors, and variant tokens.' },
-  'component-input': { title: 'Input Tokens', desc: 'Input field geometry, colors, and state tokens.' },
-  'component-badge': { title: 'Badge Tokens', desc: 'Badge size, color, and variant tokens.' },
-  'component-card': { title: 'Card Tokens', desc: 'Card container tokens and states.' },
-  'component-switch': { title: 'Switch Tokens', desc: 'Toggle switch geometry and color tokens.' },
-  'component-avatar': { title: 'Avatar Tokens', desc: 'Avatar size scale and color tokens.' },
-  'component-code-snippet': { title: 'Code Snippet Tokens', desc: 'Inline and block code display with syntax highlighting tokens.' },
-  'component-fieldset': { title: 'Fieldset Tokens', desc: 'Fieldset v2.0.0: Formular-Gruppenrahmen mit Legend, Helper-Text, Card-Variante, Density-Achse (Compact/Default/Loose) und Required-Indikator.' },
-  'component-pagination': { title: 'Pagination Tokens', desc: 'Pagination v2.0.0: Seitennavigation mit Item-Stil (Raised/Outline), Active-Indikator, Minimal-Variante, Jumper (Go-to-Page) und Touch-Target-Konfiguration.' },
-  'component-metric': { title: 'Metric Tokens', desc: 'Metric v2.0.0: KPI Big-Number Anzeige. 2 Emphasis (Solid/Subtle), 3 Sizes (MD/LG/XL), Trend-Indikator (Up/Down/Neutral mit Success/Danger-Farben), Label-Slot, Unit-Slot, Footer (Vergleichszeitraum). Dashboard- und Hero-Varianten.' },
-  'component-shell': { title: 'Shell Tokens', desc: 'Shell-Layout: Linkbar, Sidebars, Footerbar und Content-Bereich.' },
-  'component-dialog': { title: 'Dialog Tokens', desc: 'Modal dialog tokens.' },
-  'component-tooltip': { title: 'Tooltip Tokens', desc: 'Tooltip appearance tokens.' },
-  'module-header': { title: 'Header Module', desc: 'Navigation header layout and tokens.' },
-  'module-sidebar': { title: 'Sidebar Module', desc: 'Sidebar navigation tokens.' },
-  'module-card-group': { title: 'Card Groups', desc: 'Card group layout and grid tokens.' },
-  'template-hero': { title: 'Hero Template', desc: 'Full-width hero landing page template.' }
-}
+// Block 5e: Name und Kurzbeschreibung aus navigation/namen.js (eine Quelle)
+const sectionMeta = Object.fromEntries(Object.entries(BEREICHE).map(([id, b]) => [id, { title: b.name, desc: b.info }]))
 
 const sectionTitle = computed(() => {
   const meta = sectionMeta[activeSection.value]
   if (meta) return meta.title
-  // Fallback fuer Komponenten ohne expliziten Eintrag: Label aus Token-Registry + "Tokens"
-  if (activeSection.value.startsWith('component-')) {
-    const id = activeSection.value.replace('component-', '')
-    const group = componentTokenGroups.find(g => g.id === id)
-    if (group) return `${group.label} Tokens`
-    // Capitalize component id as last resort
-    return `${id.charAt(0).toUpperCase() + id.slice(1)} Tokens`
-  }
-  // V05: Label der Registry (z. B. „Seitenvorlagen“) statt „Inspector › Inspector“
-  return sektion.value?.label || 'Inspector'
+  // Komponenten: ausgeschriebener Name (E5), sonst Label der Registry
+  return bereichsName(activeSection.value) || sektion.value?.label || 'Einstellungen'
 })
 const sectionDesc = computed(() => sectionMeta[activeSection.value]?.desc || '')
 const showInfoTooltip = ref(false)

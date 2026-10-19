@@ -13,10 +13,10 @@
       „Meine Fassung speichern“ ersetzt die Änderung{{ wer ? ` von ${wer}` : '' }} vollständig. Sie lässt sich danach nicht wiederherstellen — Drupal führt keinen Verlauf.
     </p>
     <ul class="dkf-liste">
-      <li><strong>Als neues Theme speichern</strong> legt deinen Stand als eigenes Theme „{{ name }} (meine Fassung)“ an. Das andere bleibt, wie es ist.</li>
-      <li><strong>Meine Fassung speichern</strong> überschreibt den Stand in Drupal mit deinem.</li>
-      <li><strong>Neu laden</strong> holt den Stand aus Drupal. Deine ungespeicherten Änderungen gehen dabei verloren.</li>
-      <li><strong>Abbrechen</strong> lässt alles, wie es ist: Du arbeitest weiter, gespeichert wird nichts.</li>
+      <li><strong>Als neues Theme speichern</strong> legt Ihren Stand als eigenes Theme „{{ name }} (meine Fassung)“ an. Das andere bleibt, wie es ist.</li>
+      <li><strong>Meine Fassung speichern</strong> überschreibt den Stand in Drupal mit Ihrem.</li>
+      <li><strong>Neu laden</strong> holt den Stand aus Drupal. Ihre ungespeicherten Änderungen gehen dabei verloren.</li>
+      <li><strong>Abbrechen</strong> lässt alles, wie es ist: Sie arbeiten weiter, gespeichert wird nichts.</li>
     </ul>
     <template #fuss>
       <button type="button" class="dk-knopf" data-start-fokus data-test="konflikt-abbrechen" @click="betrieb.konfliktAbbrechen()">Abbrechen</button>
@@ -62,7 +62,7 @@ const text = computed(() => {
   const f = fremd.value
   const wann = f?.updatedAt ? ` am ${zeit(f.updatedAt)}` : ''
   const von = f?.geaendertVon ? ` von ${f.geaendertVon}` : ''
-  return `„${name.value}“ wurde${wann}${von} in Drupal gespeichert, nachdem du es geöffnet hast. Deine Änderungen sind noch nicht gespeichert.`
+  return `„${name.value}“ wurde${wann}${von} in Drupal gespeichert, nachdem Sie es geöffnet haben. Ihre Änderungen sind noch nicht gespeichert.`
 })
 
 function ueberschreiben () {

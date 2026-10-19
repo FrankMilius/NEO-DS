@@ -4,7 +4,7 @@
     <!-- ── Ratio Tokens ── -->
     <section class="me-section">
       <h3 class="me-heading">
-        Media Ratios
+        Seitenverhältnisse
         <span class="me-heading__count">{{ totalCount }}</span>
       </h3>
 
@@ -53,7 +53,7 @@
       <div v-if="!showAddForm" class="me-add-row">
         <button class="me-add-btn" @click="showAddForm = true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-          Token hinzufuegen
+          Token hinzufügen
         </button>
       </div>
       <div v-else class="me-add-form">
@@ -81,7 +81,7 @@
           <code class="me-add-preview-label">--fnd-media-ratio-{{ sanitizedKey }} → {{ newValue }}</code>
         </div>
         <div class="me-add-actions">
-          <button class="me-btn me-btn--primary" @click="addToken" :disabled="!newLabel.trim() || !newValue.trim()">Hinzufuegen</button>
+          <button class="me-btn me-btn--primary" @click="addToken" :disabled="!newLabel.trim() || !newValue.trim()">Hinzufügen</button>
           <button class="me-btn me-btn--ghost" @click="cancelAdd">Abbrechen</button>
         </div>
       </div>

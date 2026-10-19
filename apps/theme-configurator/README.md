@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.19` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.20` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -802,6 +802,25 @@ App 1.2.19 (Roadmap V07 Icon-Strichstärken auf der Website, 19.10.2026):
   Bibliotheken bleiben „Nur Vorschau“.
 - Speicher-Vertrag: Werkseinstellung der Striche „Standard“ auch in den
   Prüfvektoren und im PHP-Modul (`Vertrag.php`).
+
+App 1.2.20 (Usability-Audit, Block 5e Sprache und Begriffe, 19.10.2026):
+
+- Begriffsliste und Schreibregeln in `BEGRIFFE.md` (freigegeben): Anrede
+  „Sie“, Umlaute, NEO-Standard, Einstellungen (rechte Spalte), Bühne,
+  Grundfarben/Farbrollen, Variante NEO · Kunde, Ebenen Objekte · Atome ·
+  Moleküle · Organismen, Komponentennamen englisch und ausgeschrieben.
+- Eine Quelle für Namen (`navigation/namen.js`): Seitenleiste, Breadcrumb,
+  Kopf der Einstellungen und Seitentitel („Eckenradien –
+  Theme-Konfigurator“, UX-56) tragen denselben Namen (UX-52). Dubletten in
+  der Seitenleiste entfernt, Kürzel ausgeschrieben („Table Cell“, UX-53).
+- Eingeklappte Seitenleiste: Symbolleiste der Ebenen mit Namen, aktive
+  Ebene markiert, Klick öffnet sie (UX-56).
+- Kopfleiste, Dialoge, Status und Meldungen deutsch und in Sie-Form;
+  Status „Nur Ansicht“ ohne Recht zum Bearbeiten, Schalter
+  „Website-Vorschau“ nennt das Theme, ein Export-Einstieg (UX-20, UX-25).
+- Wächter-Test `tests/sprache/`: keine Ersatzschreibung, keine Du-Form,
+  keine ersetzten Begriffe in sichtbaren Texten und Meldungen; Namen aus
+  einer Quelle.
 
 Ursprünglicher Vorschlag (ADR-004):
 
