@@ -51,7 +51,8 @@
 // ---------------------------------------------------------------------------
 // Eine Stelle aendern -> alle Bloecke aendern sich mit.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Headline (h2) — die Section-Ueberschrift.
   // BEWUSST die --nc-type-*-Aliasse, NICHT --fnd-typography-heading-l-*:
   // letztere liefern eine Stufe groesser (fs-3xl), eine line-height als

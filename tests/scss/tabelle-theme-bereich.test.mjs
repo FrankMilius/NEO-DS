@@ -44,7 +44,8 @@ describe('Vergleichstabelle: Farben in Theme-Bereichen neu gebunden', () => {
     ]) {
       expect(block).toContain(`--nc-table-${name}:${wert}`);
       // dieselbe Vorgabe am :root (nur Neubindung, kein neuer Wert)
-      expect(css).toMatch(new RegExp(`:root\\{[^}]*--nc-table-${name}:${wert.replace(/[()]/g, '\\$&')}`));
+      // Seit 19.10.2026 gilt der Grundblock fuer :root und (per :where) die Theme-Bereiche
+      expect(css).toMatch(new RegExp(`:root(,:where\\([^)]*\\))?\\{[^}]*--nc-table-${name}:${wert.replace(/[()]/g, '\\$&')}`));
     }
   });
 

@@ -83,24 +83,33 @@ $shadow-inset-dark: (
 // ---------------------------------------------------------------------------
 // CSS Custom Properties Output — Light (Default)
 // ---------------------------------------------------------------------------
+// Vererbung in Theme-Bereichen (19.10.2026): Die hellen Werte gelten auch fuer
+// helle Bereiche (heller Block auf dunkler Seite behielt sonst die dunklen
+// Schatten), die Erhebungen werden in jedem Theme-Bereich neu abgeleitet
+// (sonst blieb im dunklen Block die helle Erhebung). Theme-Klassen in
+// :where() — die Dunkel-Werte unten gewinnen unabhaengig von der Reihenfolge.
 
-:root {
+:root,
+:where(.neo-light-theme, .customer-light-theme) {
   // Shadow Levels (raw)
   @each $key, $value in $shadow-levels {
     --fnd-shadow-#{$key}: #{$value};
   }
 
+  // Inset Shadows
+  @each $key, $value in $shadow-inset {
+    --fnd-shadow-inset-#{$key}: #{$value};
+  }
+}
+
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Semantic Elevation Levels
   --fnd-elevation-base: var(--fnd-shadow-xs);
   --fnd-elevation-raised: var(--fnd-shadow-sm);
   --fnd-elevation-floating: var(--fnd-shadow-md);
   --fnd-elevation-overlay: var(--fnd-shadow-lg);
   --fnd-elevation-modal: var(--fnd-shadow-xl);
-
-  // Inset Shadows
-  @each $key, $value in $shadow-inset {
-    --fnd-shadow-inset-#{$key}: #{$value};
-  }
 }
 
 // ---------------------------------------------------------------------------

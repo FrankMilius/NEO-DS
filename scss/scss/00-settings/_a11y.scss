@@ -9,9 +9,17 @@
 // Focus Ring Tokens
 // ---------------------------------------------------------------------------
 
+// Farbe je Theme-Bereich neu ableiten (19.10.2026): stand sie nur auf :root,
+// hatte ein dunkler Block auf heller Seite einen DUNKLEN Fokusring auf
+// dunklem Grund (und umgekehrt). :where() — die Fokusfarben der Themes
+// (Konfigurator, .neo-*-theme) gewinnen unabhaengig von der Reihenfolge.
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  --fnd-focus-ring-color: var(--fnd-color-text-primary);
+}
+
 :root {
   // Focus-Ring Darstellung
-  --fnd-focus-ring-color: var(--fnd-color-text-primary);
   --fnd-focus-ring-width: 2px;
   --fnd-focus-ring-style: solid;
 

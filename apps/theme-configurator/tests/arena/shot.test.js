@@ -185,7 +185,8 @@ describe('shot: Tokens (hell = bisherige Werte, dunkel neu)', () => {
     // (?<=^|[{}]): Start nur an Regelgrenzen, sonst quadratisch (s. layout-block.test.js)
     const shotBloecke = [...text.matchAll(/(?<=^|[{}])([^{}]+)\{[^{}]*--nc-shot-accent:\s*([^;}]+)/g)].map((m) => [m[1].trim(), m[2].trim()])
     expect(shotBloecke).toEqual([
-      [':root', '#37e93d'],
+      // seit 19.10.2026 gilt der Grundblock auch für Theme-Bereiche (:where, Spezifität 0 — die dunkle Fassung gewinnt)
+      [':root,:where(.neo-light-theme,.neo-dark-theme,.customer-light-theme,.customer-dark-theme)', '#37e93d'],
       ['.neo-dark-theme,.customer-dark-theme', 'var(--fnd-color-background-accent)'],
       [':root:not([data-theme])', 'var(--fnd-color-background-accent)']
     ])

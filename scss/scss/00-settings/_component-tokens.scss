@@ -1,6 +1,21 @@
 // ==========================================================================
 // 00-Settings: Component Tokens
 // ==========================================================================
+//
+// VERERBUNG IN THEME-BEREICHEN (19.10.2026):
+// Alle Token-Bloecke gelten fuer `:root` UND die vier Theme-Klassen. Eine
+// Ableitung wie `var(--fnd-color-interactive-default)` wird an dem Element
+// aufgeloest, das sie deklariert. Stand sie nur auf :root, behielt ein
+// Bereich mit eigener Theme-Klasse (dunkler Block .neo-dark-theme.neo-surface
+// auf heller Seite) die Werte der Seite — 727 von 784 farbabhaengigen Tokens,
+// gemessen in DDEV: Primaerknopf, Karte, Kartentitel, Eingabefeld hell im
+// dunklen Block. Gleiches galt fuer Kunden-Themes, deren Farbrollen auf den
+// Theme-Klassen stehen. Die Theme-Klassen stehen in :where() (Spezifitaet 0):
+// So gewinnt jede gezielte Neubindung (Section-Header, Kicker, Tabellen-
+// Streifen …) unabhaengig von der Reihenfolge — sonst ueberschrieb ein
+// spaeterer Token-Block (z. B. _component-tokens-aufgenommen.scss) den
+// dunklen Tabellen-Streifen. :root bleibt wie bisher.
+
 // Zentrale Registrierung aller Component-Level Design Tokens.
 //
 // ARCHITEKTUR (3 Schichten):
@@ -49,7 +64,8 @@
 // section, toolbar, chapter-nav, pagination, skip-link, accordion-item)
 // bleiben auf dem Papier — sie sind Teil der Seite, nicht darauf erhoben.
 // ---------------------------------------------------------------------------
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // ── Typografie-Rollen (Type Ramp) ──────────────────────────────────────
   // Disziplinierte Nutzung der Fluid-Skala (--fs-*) ueber ein kleines Rollen-
   // Set. Komponenten konsumieren NUR diese Rollen, keine rohen --fs-*.
@@ -2195,7 +2211,8 @@
 //         Selection (Checkbox), Sortable, Spalten-Alignment.
 // ---------------------------------------------------------------------------
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Container --
   --nc-table-bg: var(--fnd-color-surface-elevated);
   --nc-table-radius: var(--fnd-radius-md);
@@ -2264,7 +2281,8 @@
 // Lade-Platzhalter mit Shimmer-Animation.
 // Nutzt background-skeleton aus der Semantic-Color-Map.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-skeleton-bg:             var(--fnd-color-background-skeleton);
   --nc-skeleton-shimmer:        var(--fnd-color-background-skeleton-element);
   --nc-skeleton-radius:         var(--fnd-radius-sm);            // 4px
@@ -2284,7 +2302,8 @@
 // ---------------------------------------------------------------------------
 // Rotierender Lade-Indikator. Nutzt fnd-spin Keyframe.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-spinner-color:           var(--fnd-color-interactive-default);
   --nc-spinner-track-color:     var(--fnd-color-border-secondary);
   --nc-spinner-duration:        700ms;   // 700ms
@@ -2310,7 +2329,8 @@
 // ---------------------------------------------------------------------------
 // Fortschrittsbalken (determiniert + indeterminiert).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-progress-bg:             var(--fnd-color-background-tertiary);
   --nc-progress-fill:           var(--fnd-color-interactive-default);
   --nc-progress-radius:         var(--fnd-radius-full);          // Pill
@@ -2341,7 +2361,8 @@
 // ---------------------------------------------------------------------------
 // Trennlinie (horizontal/vertikal) mit optionalem Label.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-divider-color:           var(--fnd-color-border-secondary);
   --nc-divider-width:           var(--fnd-border-width-xs);      // 1px
   --nc-divider-style:           solid;
@@ -2363,7 +2384,8 @@
 // ---------------------------------------------------------------------------
 // Tastatur-Shortcut-Anzeige (inline).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-kbd-bg:                  var(--fnd-color-background-secondary);
   --nc-kbd-color:               var(--fnd-color-text-secondary);
   --nc-kbd-border:              var(--fnd-color-border-secondary);
@@ -2385,7 +2407,8 @@
 // Varianten: Grid (statisch), Marquee (Ticker), Cluster (organisch).
 // Groessen: sm (Footer), md (Standard), lg (Feature).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Layout --
   --nc-logo-wall-gap:                  var(--fnd-spacing-04);
   --nc-logo-wall-padding-block:        var(--fnd-spacing-08);
@@ -2469,7 +2492,8 @@
 // ---------------------------------------------------------------------------
 // Eigenstaendige Seitennavigation (unabhaengig von DataTable).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-pagination-gap:              var(--fnd-spacing-01);           // 4px zwischen Buttons
   --nc-pagination-padding:          var(--fnd-spacing-03) 0;         // 12px ober/unterhalb
   --nc-pagination-color:            var(--fnd-color-text-secondary);
@@ -2524,7 +2548,8 @@
 // ---------------------------------------------------------------------------
 // Generisches Action-/Kontextmenue.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-dropdown-bg:                 var(--fnd-color-surface-elevated);
   --nc-dropdown-border:             var(--fnd-color-border-secondary);
   --nc-dropdown-border-width:       var(--fnd-border-width-xs);      // 1px
@@ -2585,7 +2610,8 @@
 // ---------------------------------------------------------------------------
 // Platzhalter fuer leere Listen, Suchergebnisse, Erstnutzung.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-empty-state-padding:         var(--fnd-spacing-10);           // 56px
   --nc-empty-state-gap:             var(--fnd-spacing-04);           // 16px
   --nc-empty-state-max-width:       400px;
@@ -2610,7 +2636,8 @@
 // ---------------------------------------------------------------------------
 // Seitenweite Benachrichtigungsleiste (sticky top, dismissible).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-banner-padding:              var(--fnd-spacing-03) var(--fnd-spacing-05); // 12px 20px
   --nc-banner-gap:                  var(--fnd-spacing-03);           // 12px
   --nc-banner-z-index:              var(--fnd-z-notification);
@@ -2661,7 +2688,8 @@
 // Spezialisiertes News-Alert-Modul fuer In-App-Neuigkeiten,
 // Feature-Updates und System-Ankuendigungen. Floating-Card Surface.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Container
   --nc-notification-padding:             var(--fnd-spacing-05);           // 20px
   --nc-notification-radius:              var(--nc-card-radius);          // Kette zur Karte (Entscheidung 02.10.2026)
@@ -2725,7 +2753,8 @@
 // ---------------------------------------------------------------------------
 // Status-Punkt (online/offline/busy/away). Standalone oder komponierbar.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Groessen
   --nc-status-size-xs:              6px;
   --nc-status-size-sm:              8px;
@@ -2753,7 +2782,8 @@
 // Overlay-Level 2 (zwischen Dropdown L1 und Modal L3).
 // Gleiche "Materialitaet" wie Dropdown/Modal: surface-elevated, einheitliche Border/Radius.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-popover-bg:                var(--fnd-color-surface-elevated);
   --nc-popover-border:            var(--fnd-color-border-secondary);
   --nc-popover-border-width:      var(--fnd-border-width-xs);      // 1px
@@ -2794,7 +2824,8 @@
 // ---------------------------------------------------------------------------
 // Chronologische Darstellung (Changelog, Activity Feed, History).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-timeline-line-color:       var(--fnd-color-border-secondary);
   --nc-timeline-line-width:       var(--fnd-border-width-sm);      // 2px
   --nc-timeline-gap:              0;
@@ -2895,7 +2926,8 @@
 // ---------------------------------------------------------------------------
 // Seitennavigation fuer Dashboard/Settings. Collapsible, nested Items.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-sidebar-width:             260px;
   --nc-sidebar-width-collapsed:   56px;
   --nc-sidebar-bg:                var(--fnd-color-layer-01);
@@ -2941,7 +2973,8 @@
 // ---------------------------------------------------------------------------
 // Horizontale Action-Leiste ueber Tabellen, Editoren, Listen.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-toolbar-height:            var(--fnd-size-lg);              // 48px
   --nc-toolbar-padding:           var(--fnd-spacing-02) var(--fnd-spacing-03); // 8px 12px
   --nc-toolbar-gap:               var(--nc-button-gap);           // 8px
@@ -2990,7 +3023,8 @@
 // ---------------------------------------------------------------------------
 // Primitive Bausteine: Icon, Label, Badge-Dot.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Icon
   --nc-nav-atom-icon-size:         24px;
   --nc-nav-atom-icon-color:        var(--fnd-color-text-primary);
@@ -3014,7 +3048,8 @@
 // ---------------------------------------------------------------------------
 // Interaktive Nav-Elemente: Link, Toggle, Mobile-Toggle, Lang-Switch.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Nav Link (Shared Interaction) --
   --nc-nav-mol-link-gap:           var(--fnd-spacing-02);        // 8px
   --nc-nav-mol-link-padding-x:     0.75rem;
@@ -3058,7 +3093,8 @@
 // Dieses Recipe definiert keine eigenen visuellen Styles, sondern orchestriert
 // die Token-Vererbung zwischen Shell → Navigation → Menu → Molecules → Atoms.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Composition Map (Referenz-Tokens fuer die Kaskade) --
   --nc-nav-orch-shell-z-index:    var(--nc-shell-z-navbar);        // Z-Index von Shell
   --nc-nav-orch-height:           var(--nc-nav-height);             // Header-Hoehe
@@ -3089,7 +3125,8 @@
 // ---------------------------------------------------------------------------
 // Sticky Header mit Logo, Links, Actions.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-nav-height:                var(--fnd-size-xl);                // 64px
   // DECKEND, nicht durchscheinend. Das Mega-Menue liegt IM Kopf und wirft
   // seinen Schatten nach allen Seiten. Bei 90% Deckkraft schlaegt der nach
@@ -3135,7 +3172,8 @@
 // ---------------------------------------------------------------------------
 // Radix-inspiriertes NavigationMenu: Trigger, Viewport, Links, Indicator.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // List (Item-Container)
   --nc-nav-menu-item-gap:            0.125rem;                        // 2px — Abstand zwischen Items
   --nc-nav-menu-item-margin:         0;                               // Margin pro Item (oben/unten)
@@ -3203,7 +3241,8 @@
 // Full-bleed Bild-Karussell (Apple TV+ Style): Slides mit Background-Image,
 // Logo-Overlay, Tag, Beschreibung, CTA-Button. Auto-Play + Dot-Navigation.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Layout --
   --nc-gallery-height:                 100dvh;
   --nc-gallery-min-height:             400px;
@@ -3288,7 +3327,8 @@
 // ---------------------------------------------------------------------------
 // Full-width Hero Section: Overlay, Content, Actions, Subtitle.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Layout --
   // ── Referenzseite (langes Dokument mit mitlaufendem Verzeichnis) ──────────
   // Zeilenabstand: greift nur unterhalb des Umbruchs, wenn Verzeichnis und
@@ -3770,7 +3810,8 @@
 // ---------------------------------------------------------------------------
 // Split-Layout: Video/Bild + Text-Content nebeneinander.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-text-media-gap:             var(--fnd-spacing-08);
   --nc-text-media-headline-size:   var(--fs-2xl);
   --nc-text-media-subline-color:   var(--fnd-color-text-secondary);
@@ -3784,7 +3825,8 @@
 // Split-Layout wie Text + Media, aber die zweite Spalte ist eine Karte mit
 // Icon, Ueberschrift, Lead und Button statt eines Mediums.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-text-cta-gap:               var(--nc-text-media-gap);
   --nc-text-cta-content-gap:       var(--nc-text-media-content-gap);
 
@@ -3824,7 +3866,8 @@
 // always-light, darum ist der Standard eine dunkle Flaeche, die in hell und
 // dunkel gleich bleibt. Ueberschreibbar per --mod-cta-bg.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-cta-bg:                     var(--fnd-color-always-dark);
 }
 
@@ -3833,7 +3876,8 @@
 // ---------------------------------------------------------------------------
 // Grid-Layout fuer Card-Sammlungen.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-card-grid-columns:          repeat(auto-fill, minmax(300px, 1fr));
   --nc-card-grid-gap:              var(--fnd-spacing-06);
 
@@ -3848,7 +3892,8 @@
 // ---------------------------------------------------------------------------
 // Options-Liste + Media-Panel mit animiertem Bild/Video-Wechsel.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Layout
   --nc-product-showcase-gap:                    var(--fnd-spacing-08);
   --nc-product-showcase-options-width:          280px;
@@ -3898,7 +3943,8 @@
 // ---------------------------------------------------------------------------
 // Suchfeld mit Dropdown-Ergebnisliste.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-search-width:              320px;
   --nc-search-max-width:          100%;
   --nc-search-input-radius:       var(--nc-input-radius);            // Erbt vom Input (4px), ueberschreibbar
@@ -3995,7 +4041,8 @@
 // Dreifach-Variante Code-Anzeige (inline, single-line, multi-line).
 // Syntax-Highlighting via Prism.js mit theme-aware Token-Farben.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Typografie
   --nc-cs-font-family:         var(--font-mono);
   --nc-cs-font-size:           var(--fs-sm);
@@ -4095,7 +4142,8 @@
 // Varianten: solid (inverse BG) + subtle (helle BG).
 // Groessen: md (kompakt), lg (standard), xl (Hero).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Container
   --nc-metric-bg:                  var(--fnd-color-background-inverse);
   --nc-metric-color:               var(--fnd-color-text-inverse);
@@ -4173,7 +4221,8 @@
 // Universelles Layout-System: Linkbar, Sidebars, Footerbar, Content.
 // Verbrauch in 08-templates/_shell.scss.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Linkbar --
   --nc-shell-linkbar-height: 32px;
   --nc-shell-linkbar-bg: var(--fnd-color-layer-01);
@@ -4307,7 +4356,8 @@
 // Container Tokens
 // ---------------------------------------------------------------------------
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // Breite — KANONISCH auf die Intent-Container-Skala umgestellt (Single Source).
   // Frueher 1440/1600/1200 (Drift); jetzt = intent-container-Tokens.
   // Standard-Inhaltsbreite = xwide (1536px), gleich der Shell-Breite von
@@ -4357,7 +4407,8 @@
 // ---------------------------------------------------------------------------
 // Modularer Footer: Simple (Legal+Social), Columns (Sitemap), CTA (Engagement).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Base --
   // Die Flaeche des Footers und ihre Schriftfarbe.
   //
@@ -4411,7 +4462,8 @@
 // Grid Tokens
 // ---------------------------------------------------------------------------
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-grid-columns: 12;
   --nc-grid-gap: clamp(12px, 1.5vw, 24px);
   --nc-grid-gap-sm: var(--fnd-spacing-04);
@@ -4430,7 +4482,8 @@
 // Section Tokens
 // ---------------------------------------------------------------------------
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-section-padding-block: clamp(2rem, 4vw, 6rem);
   --nc-section-padding-block-sm: var(--fnd-spacing-08);
   --nc-section-padding-block-lg: var(--fnd-spacing-13);
@@ -4763,7 +4816,8 @@
 // ---------------------------------------------------------------------------
 // Hero-artige Teaser-Karten mit BG-Media + Headline + CTA.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-card-grid-cta-columns:        3;
   --nc-card-grid-cta-gap:            var(--fnd-spacing-04);
   --nc-card-grid-cta-padding:        var(--fnd-spacing-06);
@@ -4781,7 +4835,8 @@
 // ---------------------------------------------------------------------------
 // Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-story-gallery-card-height:    420px;
   --nc-story-gallery-gap:            var(--fnd-spacing-05);
   --nc-story-gallery-radius:         var(--fnd-radius-lg);
@@ -4801,7 +4856,8 @@
 // ---------------------------------------------------------------------------
 // Tab-basierte Fade-Gallery (Apple-Style).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // ── Typografie der Ansichten-Leiste ───────────────────────────────────
   // Der Tab ist der NAME einer Ansicht und stand auf 16,8 px in Manrope —
   // eine Stufe UNTER seiner eigenen Beschreibung (20,2 px). Die Navigation
@@ -4862,7 +4918,8 @@
 // ---------------------------------------------------------------------------
 // Hero mit Text ueber Hintergrund-Medium. Parallax-Expand Option.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-hero-tom-kicker-family:       var(--font-mono);
   --nc-hero-tom-kicker-size:         var(--nc-mono-label-size-lg);
   --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight-strong);
@@ -4882,7 +4939,8 @@
 // ---------------------------------------------------------------------------
 // Hero mit Headline, Subtext, Media ueber konfigurierbarem BG.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-hero-tmob-headline-size:      var(--fs-5xl);
   --nc-hero-tmob-headline-weight:    var(--fnd-font-weight-bold);
   --nc-hero-tmob-subtext-size:       var(--fs-xl);
@@ -4900,7 +4958,8 @@
 // ---------------------------------------------------------------------------
 // Dekorative Scroll-Animation mit Quadraten.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-parallax-radius:              8px;
   --nc-parallax-gap:                 6px;
   --nc-parallax-bg:                  var(--fnd-color-always-dark);
@@ -4913,7 +4972,8 @@
 // ---------------------------------------------------------------------------
 // Asymmetrisches Karten-Raster mit Feature-Zelle, Hover-Glow und Mesh.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-bento-grid-gap:               var(--fnd-spacing-05);
   --nc-bento-grid-columns:           4;
   --nc-bento-grid-cell-min:          11.25rem;
@@ -4932,7 +4992,8 @@
 // ---------------------------------------------------------------------------
 // Horizontale Panels, die bei Hover/Klick expandieren; mobil Akkordeon.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-expanding-panels-gap:         var(--fnd-spacing-03);
   --nc-expanding-panels-height:      26.25rem;
   --nc-expanding-panels-radius:      var(--fnd-radius-4xl);
@@ -4950,7 +5011,8 @@
 // Tab-Loesungsuebersicht: horizontal (Autoplay) / vertikal, reiche Panels.
 // Fuer dunkle Sektionen ausgelegt (wie product-showcase) — helle Texte.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-solution-tabs-accent-default:    var(--fnd-color-text-accent);  // war interactive-default (#009ee3) -> jetzt text-accent (#0e7490)
   --nc-solution-tabs-border:            color-mix(in srgb, var(--fnd-color-text-inverse) 14%, transparent);
 
@@ -5035,7 +5097,8 @@
 // fruehere Angabe ">= 3:1" galt fuer die Werte in _color-semantic.scss, die
 // die Bruecke ueberschreibt. Entscheidungsfall im Abschlussbericht.
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // --- Abgesetzte Sektionsflaeche (Layer 2) ---
   --nc-surface-muted-bg:      var(--fnd-color-background-secondary);
   --nc-surface-muted-radius:  var(--fnd-radius-lg);
@@ -5083,7 +5146,8 @@
 // Browser-Rahmen und die Lime-Akzente (feste Werte, wie bisher). Neu ist nur
 // die dunkle Fassung darunter: dort zeigen Flaechen, Text und Akzent auf die
 // Semantik des dunklen Themes.
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Akzent (Lupe, Marker, Erklaerung, Vergleichslinie) --
   --nc-shot-accent: #37e93d;
 
@@ -5180,7 +5244,8 @@
 // Schwarz ueber weissem Grund ergibt rund 5,7:1. 2.5rem (40 px) liegt ueber
 // dem Mindestziel 24 x 24 px (2.5.8).
 
-:root {
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Pause-Knopf --
   --nc-video-pause-size:        2.5rem;
   --nc-video-pause-icon-size:   1rem;
