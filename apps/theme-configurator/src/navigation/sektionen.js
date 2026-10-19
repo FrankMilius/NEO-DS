@@ -16,21 +16,18 @@
 // Registry jede Sektion ab, die navigation-builder.js erzeugt.
 // ==========================================================================
 
-import { defineAsyncComponent, markRaw } from 'vue'
+import { defineAsyncComponent, defineComponent, h, markRaw } from 'vue'
 import { NAVIGATIONS_SEKTIONEN } from './sektions-ids.js'
 
 // Inspector-Komponenten: statisch wie bisher im InspectorPanel
 import FoundationColors from '../components/foundation/FoundationColors.vue'
 import SurfaceEditor from '../components/foundation/SurfaceEditor.vue'
-import ShadowEditor from '../components/foundation/ShadowEditor.vue'
 import TypographyEditor from '../components/foundation/TypographyEditor.vue'
 import FoundationGeneric from '../components/foundation/FoundationGeneric.vue'
 import GridInspector from '../components/foundation/GridInspector.vue'
-import BorderEditor from '../components/foundation/BorderEditor.vue'
-import ElementsOverview from '../components/foundation/ElementsOverview.vue'
-import ThemesOverview from '../components/foundation/ThemesOverview.vue'
 import PraesentationInspector from '../components/foundation/PraesentationInspector.vue'
 import IconsInspector from '../components/foundation/IconsInspector.vue'
+import NurAnsicht from '../components/foundation/NurAnsicht.vue'
 import ComponentEditor from '../components/components/ComponentEditor.vue'
 import ModulePlaceholder from '../components/templates/ModulePlaceholder.vue'
 import TemplatePlaceholder from '../components/templates/TemplatePlaceholder.vue'
@@ -39,29 +36,46 @@ import TemplatePlaceholder from '../components/templates/TemplatePlaceholder.vue
 // Labor-Komponenten (lazy — werden erst beim ersten Aufruf geladen)
 // ---------------------------------------------------------------------------
 const lazy = (loader) => markRaw(defineAsyncComponent(loader))
+// Lazy mit festen Props (Roadmap V04: dieselbe Komponente als Wirkung bzw. Eingabe)
+const lazyMit = (loader, props) => markRaw(defineAsyncComponent(() =>
+  loader().then((m) => defineComponent({ name: m.default.name || m.default.__name || 'MitProps', render: () => h(m.default, props) }))))
+const wirkung = (kategorie) => lazyMit(() => import('../components/laboratory/foundation/FoundationWirkung.vue'), { kategorie })
 
 export const LABOR = Object.freeze({
   farben: lazy(() => import('../components/laboratory/foundation/FarbenArena.vue')),
   typografie: lazy(() => import('../components/laboratory/foundation/TypografieBuehne.vue')),
   grid: lazy(() => import('../components/laboratory/foundation/GridBuehne.vue')),
-  spacing: lazy(() => import('../components/foundation/SpacingInspector.vue')),
-  radius: lazy(() => import('../components/foundation/RadiiEditor.vue')),
-  size: lazy(() => import('../components/foundation/SizesEditor.vue')),
+  // Roadmap V04: eingabefreie Wirkung; die Editoren stehen im Inspector (EDITOR)
+  spacing: wirkung('spacing'),
+  radius: wirkung('radius'),
+  size: wirkung('size'),
   praesentation: lazy(() => import('../components/foundation/PraesentationLab.vue')),
   border: lazy(() => import('../components/foundation/BorderEditor.vue')),
-  focus: lazy(() => import('../components/foundation/FocusRingEditor.vue')),
-  media: lazy(() => import('../components/foundation/MediaRatioEditor.vue')),
+  focus: wirkung('focus'),
+  media: wirkung('media'),
   shadows: lazy(() => import('../components/foundation/ShadowEditor.vue')),
-  opacity: lazy(() => import('../components/foundation/OpacityZindexMotionEditor.vue')),
-  surfaces: lazy(() => import('../components/foundation/SurfaceEditor.vue')),
-  icons: lazy(() => import('../components/foundation/IconsEditor.vue')),
+  opacity: wirkung('opacity'),
+  surfaces: lazyMit(() => import('../components/foundation/SurfaceEditor.vue'), { ansicht: 'wirkung' }),
+  icons: wirkung('icons'),
   themes: lazy(() => import('../components/foundation/ThemesOverview.vue')),
   elements: lazy(() => import('../components/foundation/ElementsOverview.vue')),
   komponente: lazy(() => import('../components/laboratory/komponenten/KomponentenBuehne.vue')),
   magazin: lazy(() => import('../components/laboratory/vorschau/MagazinVorschau.vue')),
 })
 
+// Editoren für den Inspector (lazy wie bisher in der Bühne)
+export const EDITOR = Object.freeze({
+  spacing: lazy(() => import('../components/foundation/SpacingInspector.vue')),
+  radius: lazy(() => import('../components/foundation/RadiiEditor.vue')),
+  size: lazy(() => import('../components/foundation/SizesEditor.vue')),
+  focus: lazy(() => import('../components/foundation/FocusRingEditor.vue')),
+  media: lazy(() => import('../components/foundation/MediaRatioEditor.vue')),
+  opacity: lazy(() => import('../components/foundation/OpacityZindexMotionEditor.vue')),
+  icons: lazy(() => import('../components/foundation/IconsEditor.vue')),
+})
+
 const block = (komponente, props = {}) => Object.freeze({ komponente: markRaw(komponente), props })
+const nurAnsicht = (text, links = []) => block(NurAnsicht, { text, links })
 const generisch = (category, sectionLabel) =>
   block(FoundationGeneric, sectionLabel ? { category, sectionLabel } : { category })
 
@@ -71,28 +85,24 @@ const generisch = (category, sectionLabel) =>
 const FOUNDATION = {
   'foundation-colors': { label: 'Colors', labor: LABOR.farben, inspector: [block(FoundationColors)] },
   'foundation-grid': { label: 'Grid', labor: LABOR.grid, inspector: [block(GridInspector)], schluessel: 'grid' },
-  'foundation-surfaces': { label: 'Surfaces', labor: LABOR.surfaces, inspector: [block(SurfaceEditor)] },
-  'foundation-spacing': { label: 'Spacing', labor: LABOR.spacing, inspector: [generisch('spacing')] },
-  'foundation-size': { label: 'Sizes', labor: LABOR.size, inspector: [generisch('size')] },
+  'foundation-surfaces': { label: 'Surfaces', labor: LABOR.surfaces, inspector: [block(SurfaceEditor, { ansicht: 'eingabe' })] },
+  'foundation-spacing': { label: 'Spacing', labor: LABOR.spacing, inspector: [block(EDITOR.spacing)] },
+  'foundation-size': { label: 'Sizes', labor: LABOR.size, inspector: [block(EDITOR.size)] },
   'foundation-typography': {
     label: 'Typography',
     labor: LABOR.typografie,
     inspector: [block(TypographyEditor), generisch('tracking', 'Tracking')],
   },
-  'foundation-radius': { label: 'Border Radius', labor: LABOR.radius, inspector: [generisch('radius')] },
-  'foundation-border': { label: 'Border', labor: LABOR.border, inspector: [block(BorderEditor)] },
-  'foundation-focus': { label: 'Focus Ring', labor: LABOR.focus, inspector: [generisch('focus')] },
-  'foundation-media': { label: 'Media Ratios', labor: LABOR.media, inspector: [generisch('media')] },
-  'foundation-elements': { label: 'Elements', labor: LABOR.elements, inspector: [block(ElementsOverview)] },
-  // Icons: Hinweis, was davon exportiert wird (UX-37) — bearbeitet wird in der Bühne
-  'foundation-icons': { label: 'Icons', labor: LABOR.icons, inspector: [block(IconsInspector)] },
-  'foundation-themes': { label: 'Themes', labor: LABOR.themes, inspector: [block(ThemesOverview)] },
-  'foundation-shadows': { label: 'Shadows', labor: LABOR.shadows, inspector: [block(ShadowEditor)] },
-  'foundation-opacity': {
-    label: 'Opacity & Motion',
-    labor: LABOR.opacity,
-    inspector: [generisch('opacity', 'Opacity'), generisch('zindex', 'Z-Index'), generisch('motion', 'Motion')],
-  },
+  'foundation-radius': { label: 'Border Radius', labor: LABOR.radius, inspector: [block(EDITOR.radius)] },
+  'foundation-border': { label: 'Border', labor: LABOR.border, inspector: [nurAnsicht('Rahmenbreiten und -stile sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
+  'foundation-focus': { label: 'Focus Ring', labor: LABOR.focus, inspector: [block(EDITOR.focus)] },
+  'foundation-media': { label: 'Media Ratios', labor: LABOR.media, inspector: [block(EDITOR.media)] },
+  'foundation-elements': { label: 'Elements', labor: LABOR.elements, inspector: [nurAnsicht('Die Grundstile der HTML-Elemente ergeben sich aus Typografie und Farben. Die Bühne zeigt sie.', [{ label: 'Typografie', hash: '#/foundation/typography' }, { label: 'Farben', hash: '#/foundation/colors' }])] },
+  // Icons: Hinweis, was davon exportiert wird (UX-37), darunter der Editor (V04)
+  'foundation-icons': { label: 'Icons', labor: LABOR.icons, inspector: [block(IconsInspector), block(EDITOR.icons)] },
+  'foundation-themes': { label: 'Themes', labor: LABOR.themes, inspector: [nurAnsicht('Themes wählst, speicherst und veröffentlichst du in der Kopfleiste. Die Bühne zeigt die vier Kombinationen aus Set und Modus.')] },
+  'foundation-shadows': { label: 'Shadows', labor: LABOR.shadows, inspector: [nurAnsicht('Schattenstufen und ihre Zuordnung zu Erhebungen sind im Design System festgelegt und im Theme nicht änderbar. Die Bühne zeigt sie.')] },
+  'foundation-opacity': { label: 'Opacity & Motion', labor: LABOR.opacity, inspector: [block(EDITOR.opacity)] },
   'foundation-praesentation': {
     label: 'Präsentation',
     labor: LABOR.praesentation,

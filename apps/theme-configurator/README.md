@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.15` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.16` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -745,6 +745,22 @@ App 1.2.15 (Roadmap V03 Vorschau öffnet ihre Einstellungen, 19.10.2026):
   Fokus auf ihren Kopf. „Alle zeigen“ hebt den Filter auf.
 - Funktioniert auch im Geräte-Frame (V01); Links in den Vorschauen ändern
   die Route der App dabei nicht.
+
+App 1.2.16 (Roadmap V04 feste Rollen für Bühne und Inspector, 19.10.2026):
+
+- Bühne = Wirkung, Inspector = Eingabe. Radius, Abstände, Größen,
+  Fokusring, Seitenverhältnisse, Deckkraft/Ebenen/Bewegung und Icons
+  zeigen auf der Bühne `FoundationWirkung.vue` (große Vorschau der
+  aktuellen Werte, keine Eingabefelder); die vollständigen Editoren, die
+  vorher auf der Bühne lagen, stehen im Inspector. Die doppelten
+  generischen Eingaben dort entfallen.
+- Flächen: `SurfaceEditor` mit `ansicht="wirkung"` auf der Bühne und
+  `ansicht="eingabe"` im Inspector.
+- Rahmen, Schatten, Elemente und Themes haben keine Eingaben: Der Inspector
+  sagt „Nur Ansicht“ (mit Verweisen, wo sich etwas einstellen lässt), statt
+  den Bühneninhalt zu wiederholen.
+- Der Fokus-Editor hat die Modus-Wahl Offset/Inset (lag vorher nur im
+  generischen Inspector).
 
 Ursprünglicher Vorschlag (ADR-004):
 

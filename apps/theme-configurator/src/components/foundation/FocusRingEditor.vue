@@ -127,6 +127,11 @@
       <p class="fe-desc">
         Abstandswerte fuer beide Modi. Nur der aktive Modus wird im Export verwendet.
       </p>
+      <!-- V04: Modus-Wahl lag bisher nur im generischen Inspector -->
+      <div class="fe-modus" role="radiogroup" aria-label="Fokusring-Modus" data-test="fokus-modus">
+        <button type="button" role="radio" :aria-checked="currentMode === 'offset' ? 'true' : 'false'" :class="['fe-modus-knopf', { aktiv: currentMode === 'offset' }]" @click="store.setFocusRingMode('offset')">Offset (außen)</button>
+        <button type="button" role="radio" :aria-checked="currentMode === 'inset' ? 'true' : 'false'" :class="['fe-modus-knopf', { aktiv: currentMode === 'inset' }]" @click="store.setFocusRingMode('inset')">Inset (innen)</button>
+      </div>
 
       <div class="fe-token-list">
         <!-- Offset -->
@@ -316,6 +321,11 @@ const borderStyleOptions = computed(() => {
 </script>
 
 <style scoped>
+.fe-modus { display: inline-flex; gap: 2px; padding: 3px; margin-bottom: 10px; border: 1px solid var(--cfg-border); border-radius: 8px; background: var(--cfg-surface-elevated); }
+.fe-modus-knopf { padding: 4px 10px; border: 0; border-radius: 6px; background: transparent; color: var(--cfg-text-secondary); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.fe-modus-knopf.aktiv { background: var(--cfg-surface); color: var(--cfg-text); box-shadow: var(--cfg-shadow-sm); }
+.fe-modus-knopf:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
+
 .focus-editor { display: flex; flex-direction: column; gap: 24px; }
 
 .fe-section { display: flex; flex-direction: column; gap: 12px; }

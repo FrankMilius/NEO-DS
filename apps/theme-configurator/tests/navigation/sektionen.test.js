@@ -2,7 +2,7 @@
 // Labor-Komponente und eine Inspector-Zuordnung — keine faellt durch.
 import { describe, it, expect } from 'vitest'
 import { NAVIGATIONS_SEKTIONEN, START_SEKTION, istNavigationsSektion } from '../../src/navigation/sektions-ids.js'
-import { SEKTIONEN, LABOR, sektionAufloesen } from '../../src/navigation/sektionen.js'
+import { SEKTIONEN, LABOR, EDITOR, sektionAufloesen } from '../../src/navigation/sektionen.js'
 import { navigationTree } from '../../src/data/navigation-builder.js'
 
 function alleSektionenAusBaum (knoten, ziel = []) {
@@ -71,10 +71,9 @@ describe('Registry', () => {
     expect(b.schluessel).toBe('grid')
   })
 
-  it('Typografie und Opacity bringen mehrere Inspector-Bloecke mit', () => {
+  it('Typografie bringt mehrere Inspector-Bloecke mit; Opacity den Editor (V04)', () => {
     expect(sektionAufloesen('foundation-typography').inspector).toHaveLength(2)
-    expect(sektionAufloesen('foundation-opacity').inspector.map((b) => b.props.category))
-      .toEqual(['opacity', 'zindex', 'motion'])
+    expect(sektionAufloesen('foundation-opacity').inspector.map((b) => b.komponente)).toEqual([EDITOR.opacity])
   })
 
   it('unbekannte oder leere IDs liefern einen Eintrag ohne Fehler (Magazin, leerer Inspector)', () => {

@@ -176,3 +176,17 @@ test('V03: Enter auf der Beschriftung einer Zelle öffnet ihre Gruppe im Inspect
   await insp.getByRole('button', { name: 'Alle zeigen' }).click()
   await expect(insp.locator('.context-label')).toHaveCount(0)
 })
+
+// Roadmap V04 (19.10.2026): Bühne = Wirkung, Inspector = Eingabe
+test('V04: Foundation-Bühnen ohne Token-Eingaben; Bereiche ohne Eingaben sagen „Nur Ansicht“', async ({ page }) => {
+  for (const s of ['radius', 'spacing', 'size', 'focus', 'media', 'opacity', 'icons', 'surfaces']) {
+    await oeffneSektion(page, `foundation-${s}`)
+    await expect(page.locator('.inspector-panel').getByRole('textbox').or(page.locator('.inspector-panel').getByRole('combobox')).first()).toBeVisible()
+    await expect(page.locator('.lab-viewport').getByRole('textbox')).toHaveCount(0)
+    await expect(page.locator('.lab-viewport').getByRole('combobox')).toHaveCount(0)
+  }
+  for (const s of ['border', 'shadows', 'elements', 'themes']) {
+    await oeffneSektion(page, `foundation-${s}`)
+    await expect(page.locator('.inspector-panel [data-test="nur-ansicht-bereich"]')).toContainText('Nur Ansicht')
+  }
+})

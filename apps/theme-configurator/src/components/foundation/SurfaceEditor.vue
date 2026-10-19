@@ -18,7 +18,7 @@
               <span class="surface-sublabel">{{ surface.desc }}</span>
             </div>
           </div>
-          <div class="surface-controls">
+          <div v-if="ansicht !== 'wirkung'" class="surface-controls">
             <div class="control-row">
               <label class="control-label">Background</label>
               <div class="control-input">
@@ -59,7 +59,7 @@
     </section>
 
     <!-- Nesting Preview -->
-    <section class="nesting-preview">
+    <section v-if="ansicht !== 'eingabe'" class="nesting-preview">
       <h3 class="sub-heading">Nesting Preview</h3>
       <p class="sub-desc">How surfaces nest within the base page background.</p>
       <div class="nest-demo" :style="{ background: getColor('background-base'), color: getColor('on-surface') }">
@@ -83,6 +83,12 @@ import { computed } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 
 const store = useThemeStore()
+
+// Roadmap V04: Bühne = Wirkung (ohne Eingaben), Inspector = Eingabe (ohne
+// die große Schachtel-Vorschau). 'voll' zeigt beides wie bisher.
+defineProps({
+  ansicht: { type: String, default: 'voll', validator: (v) => ['voll', 'wirkung', 'eingabe'].includes(v) },
+})
 
 const themeLabel = computed(() => {
   const labels = {

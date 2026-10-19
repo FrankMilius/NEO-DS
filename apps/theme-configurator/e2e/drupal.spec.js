@@ -247,18 +247,12 @@ test('Nur „ansehen“: schreibgeschützt — Banner, Editoren gesperrt, Server
   await expect(page.locator('[data-test="drupal-neu"]')).toHaveCount(0)
   await page.keyboard.press('Escape')
 
-  // Eingaben außerhalb des Inspectors (Labor) hält der Schreibschutz an
+  // Seit Roadmap V04 (19.10.2026) liegen alle Token-Eingaben im Inspector:
+  // die Bühne zeigt nur die Wirkung, der Inspector ist im Ansichtsmodus gesperrt
   await page.goto(`/konfigurator?rechte=ansehen#${sektionZuPfad('foundation-radius')}`)
-  const vorher = await radiusXs(page).inputValue()
-  await radiusXs(page).fill('11px')
-  await radiusXs(page).press('Enter')
-  const hinweis = page.getByRole('alertdialog', { name: 'Nur Ansicht' })
-  await expect(hinweis).toBeVisible()
-  await hinweis.getByRole('button', { name: 'OK' }).click()
-  await expect(page.locator('.app-header').getByRole('button', { name: 'Rückgängig' })).toBeDisabled()
-  // Der Store hat nichts übernommen: nach dem Neuladen (Arbeitsstand) steht der alte Wert da
-  await page.reload()
-  await expect(radiusXs(page)).toHaveValue(vorher)
+  await expect(page.locator('[data-test="foundation-wirkung"]')).toBeVisible()
+  await expect(page.locator('.lab-viewport').getByRole('textbox')).toHaveCount(0)
+  await expect(radiusXs(page)).toBeDisabled()
 
   // Die Sitzung (Cookie der Einstiegsseite) trägt nur „ansehen“ → 403
   const token = (await (await page.request.get('/session/token')).text()).trim()
