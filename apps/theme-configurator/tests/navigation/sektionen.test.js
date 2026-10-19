@@ -48,9 +48,11 @@ describe('Registry', () => {
     }
   })
 
-  it('Inspector leer nur bei Utilities (Icons seit UX-37 mit Hinweis)', () => {
-    const leer = NAVIGATIONS_SEKTIONEN.filter((id) => SEKTIONEN.get(id).inspector.length === 0)
-    for (const id of leer) expect(id.startsWith('utility-'), id).toBe(true)
+  it('kein Navigationsbereich hat einen leeren Inspector (V05: Utilities ausgeblendet)', () => {
+    expect(NAVIGATIONS_SEKTIONEN.filter((id) => SEKTIONEN.get(id).inspector.length === 0)).toEqual([])
+    expect(NAVIGATIONS_SEKTIONEN.some((id) => id.startsWith('utility-'))).toBe(false)
+    expect(sektionAufloesen('utility-sr-only').inspector[0].props.text).toContain('Hilfsklassen')
+    expect(sektionAufloesen('template-content-templates').labor).toBe(LABOR.vorlagen)
   })
 
   it('Komponenten-Sektionen: Buehne im Labor, ComponentEditor mit ID im Inspector', () => {
@@ -85,8 +87,8 @@ describe('Registry', () => {
   })
 
   it('Template- und Modul-Sektionen: Magazin im Labor, Platzhalter im Inspector', () => {
-    expect(sektionAufloesen('template-content-templates').inspector[0].props).toEqual({ templateId: 'content-templates' })
+    expect(sektionAufloesen('template-hero').inspector[0].props).toEqual({ templateId: 'hero' })
     expect(sektionAufloesen('module-header').inspector[0].props).toEqual({ moduleId: 'header' })
-    expect(sektionAufloesen('template-content-templates').labor).toBe(LABOR.magazin)
+    expect(sektionAufloesen('template-hero').labor).toBe(LABOR.magazin)
   })
 })

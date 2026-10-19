@@ -120,12 +120,12 @@ const cardStyle = computed(() => ({
 }))
 
 const templates = {
-  hero: { name: 'Hero Template', desc: 'Full-width hero landing page with navigation and call-to-action.' },
-  dashboard: { name: 'Dashboard Template', desc: 'Multi-panel dashboard with sidebar navigation and data cards.' },
-  content: { name: 'Content Page', desc: 'Article layout with main content area and aside sidebar.' },
-  form: { name: 'Form Page', desc: 'Centered form layout with input fields and submit actions.' },
-  settings: { name: 'Settings Page', desc: 'Settings layout with navigation tabs and configuration panels.' },
-  error: { name: 'Error Page', desc: 'Error state page with centered message block.' }
+  hero: { name: 'Startseite mit Hero', desc: 'Seitenbreiter Hero mit Navigation und Handlungsaufforderung.' },
+  dashboard: { name: 'Dashboard', desc: 'Mehrere Bereiche mit Seitennavigation und Datenkarten.' },
+  content: { name: 'Inhaltsseite', desc: 'Artikel mit Hauptspalte und Seitenleiste.' },
+  form: { name: 'Formularseite', desc: 'Zentriertes Formular mit Eingabefeldern und Absenden.' },
+  settings: { name: 'Einstellungsseite', desc: 'Reiter und Bereiche mit Einstellungen.' },
+  error: { name: 'Fehlerseite', desc: 'Zentrierte Meldung für Fehlerzustände.' }
 }
 </script>
 

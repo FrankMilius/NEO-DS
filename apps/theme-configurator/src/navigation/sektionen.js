@@ -61,6 +61,7 @@ export const LABOR = Object.freeze({
   elements: lazy(() => import('../components/foundation/ElementsOverview.vue')),
   komponente: lazy(() => import('../components/laboratory/komponenten/KomponentenBuehne.vue')),
   magazin: lazy(() => import('../components/laboratory/vorschau/MagazinVorschau.vue')),
+  vorlagen: lazy(() => import('../components/templates/TemplateUebersicht.vue')),
 })
 
 // Editoren für den Inspector (lazy wie bisher in der Bühne)
@@ -158,6 +159,15 @@ function erzeugeEintrag (id) {
         schluessel: 'module',
       })
     case 'template':
+      // V05: Seitenvorlagen als ein Bereich (Übersicht aller Skizzen)
+      if (name === 'content-templates') {
+        return eintrag(id, {
+          label: 'Seitenvorlagen',
+          labor: LABOR.vorlagen,
+          inspector: [nurAnsicht('Seitenvorlagen haben keine eigenen Werte. Sie übernehmen Farben, Schrift und Abstände aus der Foundation und das Aussehen der Komponenten.', [{ label: 'Farben', hash: '#/foundation/colors' }, { label: 'Typografie', hash: '#/foundation/typography' }])],
+          schluessel: 'template',
+        })
+      }
       return eintrag(id, {
         label: titel(name),
         labor: LABOR.magazin,
@@ -165,7 +175,13 @@ function erzeugeEintrag (id) {
         schluessel: 'template',
       })
     case 'utility':
-      return eintrag(id, { label: titel(name), labor: LABOR.magazin, inspector: [], schluessel: 'utility' })
+      // V05: nicht mehr in der Navigation; alte Links bekommen einen Hinweis
+      return eintrag(id, {
+        label: titel(name),
+        labor: LABOR.magazin,
+        inspector: [nurAnsicht('Hilfsklassen (Utilities) haben keine Theme-Werte und stehen deshalb nicht in der Navigation. Sie wirken über Klassen im HTML der Website.')],
+        schluessel: 'utility',
+      })
     default:
       return eintrag(id, { label: '', labor: LABOR.magazin, inspector: [], schluessel: 'leer' })
   }

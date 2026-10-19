@@ -143,8 +143,8 @@ describe('UX-54: Ausprobieren', () => {
 })
 
 describe('Leerhinweis im Inspector ist deutsch', () => {
-  it('Utility-Seite zeigt den deutschen Hinweis', () => {
-    store.setActiveSection('utility-spacing')
+  it('unbekannte Seite zeigt den deutschen Hinweis', () => {
+    store.setActiveSection('gibt-es-nicht')
     w = mount(InspectorPanel, { global: { stubs: { ComponentLockToggle: true } } })
     expect(w.find('[data-test="inspector-leer"]').text()).toContain('Für diesen Bereich gibt es hier keine Einstellungen')
   })

@@ -300,7 +300,8 @@ const sectionTitle = computed(() => {
     // Capitalize component id as last resort
     return `${id.charAt(0).toUpperCase() + id.slice(1)} Tokens`
   }
-  return 'Inspector'
+  // V05: Label der Registry (z. B. „Seitenvorlagen“) statt „Inspector › Inspector“
+  return sektion.value?.label || 'Inspector'
 })
 const sectionDesc = computed(() => sectionMeta[activeSection.value]?.desc || '')
 const showInfoTooltip = ref(false)

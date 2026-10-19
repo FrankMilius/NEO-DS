@@ -252,7 +252,8 @@ function buildNavigationTree () {
       const mitRecipe = !!entry?.paths?.recipe
       const templateItem = {
         id: name,
-        label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
+        // V05: Übersicht aller Seitenvorlagen trägt den deutschen Namen
+        label: name === 'content-templates' ? 'Seitenvorlagen' : name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
         icon: COMPONENT_ICONS[name] || 'template',
         section: mitRecipe ? `component-${name}` : `template-${name}`,
       }
@@ -262,19 +263,12 @@ function buildNavigationTree () {
     groups.set('templates', templateGroup)
   }
 
-  // 5. Utilities aus Registry (Layer 10)
-  if (Object.keys(registry.utilities || {}).length > 0) {
-    const utilGroup = { ...LAYER_CONFIG.utility, children: [] }
-    for (const [name] of Object.entries(registry.utilities)) {
-      utilGroup.children.push({
-        id: name,
-        label: name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
-        icon: COMPONENT_ICONS[name] || 'tool',
-        section: `utility-${name}`,
-      })
-    }
-    groups.set('utilities', utilGroup)
-  }
+  // 5. Utilities (Layer 10) erscheinen NICHT in der Navigation (Roadmap V05,
+  // 19.10.2026). Hilfsklassen haben keine Theme-Werte — die SCSS-Dateien
+  // halten das selbst fest („Hilfsklassen bekommen bewusst KEINEN Eintrag
+  // in der Konfigurator-App“). Vorher zeigten fünf Einträge dieselbe
+  // Magazin-Seite mit leerem Inspector (UX-41). Alte Links auf utility-*
+  // loest die Sektions-Registry weiterhin auf (Hinweis „Nur Ansicht“).
 
   // 6. Sortiere Gruppen nach ITCSS-Order, sortiere Kinder alphabetisch
   const sortedGroups = [...groups.values()]

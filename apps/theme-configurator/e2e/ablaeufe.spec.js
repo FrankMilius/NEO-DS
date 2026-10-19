@@ -190,3 +190,12 @@ test('V04: Foundation-Bühnen ohne Token-Eingaben; Bereiche ohne Eingaben sagen 
     await expect(page.locator('.inspector-panel [data-test="nur-ansicht-bereich"]')).toContainText('Nur Ansicht')
   }
 })
+
+// Roadmap V05 (19.10.2026): Seitenvorlagen als ein Bereich, Utilities nicht in der Navigation
+test('V05: Seitenvorlagen zeigen alle Skizzen; Utilities stehen nicht in der Navigation', async ({ page }) => {
+  await oeffneSektion(page, 'template-content-templates')
+  await expect(page.locator('[data-test="template-uebersicht"] .template-placeholder')).toHaveCount(6)
+  await expect(page.locator('.inspector-panel [data-test="nur-ansicht-bereich"]')).toContainText('keine eigenen Werte')
+  await expect(page.locator('.inspector-panel')).toContainText('Seitenvorlagen')
+  await expect(page.locator('.sidebar-nav').getByText('Utilities', { exact: true })).toHaveCount(0)
+})

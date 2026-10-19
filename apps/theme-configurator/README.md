@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.16` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.17` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -761,6 +761,18 @@ App 1.2.16 (Roadmap V04 feste Rollen für Bühne und Inspector, 19.10.2026):
   den Bühneninhalt zu wiederholen.
 - Der Fokus-Editor hat die Modus-Wahl Offset/Inset (lag vorher nur im
   generischen Inspector).
+
+App 1.2.17 (Roadmap V05 Templates und Utilities neu geordnet, 19.10.2026):
+
+- Utilities stehen nicht mehr in der Navigation: Hilfsklassen haben keine
+  Theme-Werte (so halten es auch die SCSS-Dateien fest). Vorher zeigten
+  fünf Einträge dieselbe Magazin-Seite mit leerem Inspector. Alte Links
+  führen zur Startseite.
+- „Seitenvorlagen“ (vorher „Content Templates“) zeigt alle sechs Skizzen
+  in einer Übersicht (`TemplateUebersicht.vue`), der Inspector sagt
+  „Nur Ansicht“. Skizzen und Namen deutsch.
+- Der Inspector-Kopf nennt bei Seiten ohne eigenen Titel den Namen aus der
+  Sektions-Registry statt „Inspector“.
 
 Ursprünglicher Vorschlag (ADR-004):
 
