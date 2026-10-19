@@ -14,7 +14,7 @@ lokal mit dem Docs-Server und speichert im Browser.
 
 | | |
 | --- | --- |
-| App-Version | `package.json` → `1.2.12` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
+| App-Version | `package.json` → `1.2.13` (19.10.2026; Vertrag 1.1.1, Drupal-Modul `neo_theme_konfigurator` in DRUPAL11) |
 | Stack | Vue 3.5, Pinia 3, Vite 7, Vitest 4, Playwright 1.56 |
 | Node | 22 (wie CI) |
 | Architektur-Entscheidungen | [ADR-001 Token-Quelle](../../docs/adr/ADR-001-eine-quelle-vier-ausgaben.md) · [ADR-002 Speichern](../../docs/adr/ADR-002-speichern-in-drupal.md) · [ADR-003 Store](../../docs/adr/ADR-003-store-pinia-setup-stores.md) · [ADR-004 Server/Auslieferung](../../docs/adr/ADR-004-server-und-auslieferung.md) |
@@ -700,6 +700,24 @@ App 1.2.12 (Usability-Audit, Block 5d Arena und Inspector, 19.10.2026):
 - **UX-54:** „Ausprobieren“ beschriftet die einzelne Instanz passend
   („… · Ausprobieren“, Name der Zelle) statt der Matrix-Überschrift; die
   Achsen-Angaben der Matrix entfallen dort.
+
+App 1.2.13 (Roadmap V01 Geräteansicht und Vollbild, 19.10.2026):
+
+- Im Labor-Kopf wählt „Voll · Desktop · Tablet · Handy“ die Fenstergröße
+  der Vorschau (1280 × 800, 768 × 1024, 390 × 844 px), dazu ein Knopf
+  „Vollbild“ (Escape beendet, der Fokus bleibt am Knopf).
+- Feste Größen rendert `BreitenRahmen.vue` per Teleport in einen eigenen
+  Frame: Das Design System reagiert auf die Fensterbreite (@media), ein
+  schmaler Container zeigt keine Handy-Darstellung. Store, Inject und
+  Theme-Variablen bleiben dieselben; die Stile der App werden gespiegelt,
+  auch nachgeladene. Der Frame hat eine feste Gerätehöhe und scrollt
+  selbst (vh-Einheiten wie auf dem Gerät). Ist die Bühne schmaler als das
+  Gerät, wird verkleinert und der Maßstab genannt.
+- In der Geräteansicht stehen Beschriftungen über den Zellen, die Arena
+  verzichtet auf Rahmen und Innenabstände, seitenbreite Blöcke verlassen
+  die feste 1280-px-Hülle (`ra-desktop`).
+- Die toten Zustände der alten Breakpoint-Leiste (XS–XXL ohne Bedienung)
+  sind entfernt.
 
 Ursprünglicher Vorschlag (ADR-004):
 

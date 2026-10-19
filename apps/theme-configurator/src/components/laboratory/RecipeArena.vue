@@ -380,6 +380,7 @@ onBeforeUnmount(() => {
   gap: 16px;
 }
 
+
 .ra-axis-label {
   font-size: 10px;
   font-weight: 600;
@@ -1014,4 +1015,25 @@ onBeforeUnmount(() => {
   cursor: not-allowed;
   opacity: 0.55;
 }
+</style>
+
+<style>
+/* Ungekapselt: der Behälter .br-geraet liegt im Frame von BreitenRahmen,
+   außerhalb dieser Komponente. .recipe-arena hebt die Spezifität über die
+   gekapselten Regeln (Attribut-Selektor). */
+/* Geräteansicht (Roadmap V01): Im Frame mit Handy-, Tablet- oder
+   Desktop-Breite bekommt das Bauteil die ganze Fensterbreite. Beschriftung
+   über den Zellen, keine Rahmen und Innenabstände der Arena. */
+.br-geraet .recipe-arena > :not(.ra-specimen) { padding-inline: 12px; }
+.br-geraet .recipe-arena .ra-specimen { padding: 0; border: 0; border-radius: 0; }
+.br-geraet .recipe-arena .ra-specimen > :not(.ra-preview-gruppe) { margin-inline: 12px; }
+.br-geraet .recipe-arena .ra-preview { padding: 0; border: 0; border-radius: 0; overflow: visible; }
+.br-geraet .recipe-arena .ra-matrix-row { flex-direction: column; gap: 6px; }
+.br-geraet .recipe-arena .ra-axis-label { min-width: 0; padding: 0 12px; }
+.br-geraet .recipe-arena .ra-cells { flex-direction: column; align-items: stretch; width: 100%; }
+.br-geraet .recipe-arena .ra-cell { width: 100%; }
+.br-geraet .recipe-arena .ra-cell-label { padding-inline: 12px; }
+/* Seitenbreite Blöcke stehen sonst in einer festen 1280-px-Seite (ra-desktop,
+   verkleinert) — im Gerät gilt die echte Fensterbreite. */
+.br-geraet .recipe-arena .ra-live-component .ra-desktop { width: auto; zoom: 1; flex-shrink: 1; }
 </style>

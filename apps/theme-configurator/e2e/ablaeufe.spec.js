@@ -125,3 +125,27 @@ test('Praesentations-Buehne reagiert auf Farbwechsel im Inspector', async ({ pag
   await expect.poll(reihe1).not.toBe(vorher)
   expect(await reihe1()).not.toBe('')
 })
+
+// Roadmap V01 (19.10.2026): Geräteansicht in einem eigenen Frame — die
+// Medienabfragen des Design Systems sehen die Gerätebreite.
+test('V01: Handy-Breite rendert die Arena im Frame mit 390 px Fenster; Vollbild und Escape', async ({ page }) => {
+  await oeffneSektion(page, 'component-hero')
+  await page.getByRole('radio', { name: 'Handy' }).click()
+  const rahmen = page.locator('iframe.br-rahmen')
+  await expect(rahmen).toHaveAttribute('title', 'Vorschau in 390 px Breite')
+  const frame = page.frameLocator('iframe.br-rahmen')
+  await expect(frame.locator('.recipe-arena .nc-hero').first()).toBeVisible()
+  const fenster = await rahmen.evaluate((f) => [f.contentWindow.innerWidth, f.contentWindow.innerHeight, f.contentDocument.documentElement.scrollWidth])
+  expect(fenster).toEqual([390, 844, 390])
+
+  const vollbild = page.getByRole('button', { name: 'Vollbild' })
+  await vollbild.click()
+  await expect(page.locator('.laboratory-panel')).toHaveClass(/laboratory-panel--fullscreen/)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('.laboratory-panel')).not.toHaveClass(/laboratory-panel--fullscreen/)
+  await expect(vollbild).toBeFocused()
+
+  await page.getByRole('radio', { name: 'Voll' }).click()
+  await expect(rahmen).toHaveCount(0)
+  await expect(page.locator('.lab-viewport .recipe-arena')).toBeVisible()
+})

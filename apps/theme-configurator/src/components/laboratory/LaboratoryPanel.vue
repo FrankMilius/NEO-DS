@@ -61,6 +61,36 @@
             </svg>
           </button>
         </div>
+        <!-- Roadmap V01: Fensterbreite der Vorschau und Vollbild -->
+        <div class="lab-werkzeuge">
+          <div v-if="isComponentSection" class="theme-segmented" role="radiogroup" aria-label="Breite der Vorschau" data-test="breiten-wahl">
+            <button
+              v-for="b in BREITEN"
+              :key="b.key"
+              :class="['seg-btn', 'seg-btn--text', { active: aktiveBreite === b.key }]"
+              type="button"
+              role="radio"
+              :aria-checked="aktiveBreite === b.key ? 'true' : 'false'"
+              :title="b.breite ? `${b.label}: ${b.breite} × ${b.hoehe} px` : 'Volle Breite der Bühne'"
+              :data-test="`breite-${b.key}`"
+              @click="aktiveBreite = b.key"
+            >{{ b.label }}</button>
+          </div>
+          <button
+            ref="vollbildKnopf"
+            type="button"
+            class="lab-vollbild"
+            :aria-pressed="isFullscreen ? 'true' : 'false'"
+            data-test="vollbild"
+            @click="isFullscreen = !isFullscreen"
+          >
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <template v-if="!isFullscreen"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></template>
+              <template v-else><path d="M9 4v5H4"/><path d="M15 4v5h5"/><path d="M9 20v-5H4"/><path d="M15 20v-5h5"/></template>
+            </svg>
+            <span>{{ isFullscreen ? 'Vollbild beenden' : 'Vollbild' }}</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -68,12 +98,14 @@
     <ArenaFilterbar v-if="isComponentSection && hasFilterOptions" :filters="filterOptions" />
 
     <!-- UX-46/UX-42: per Tastatur erreichbar und scrollbar (axe scrollable-region-focusable) -->
-    <div id="cfg-buehne" class="lab-viewport" tabindex="0" role="region" aria-label="Bühne (Vorschau)" :style="viewportStyle" :class="viewportClass">
+    <div id="cfg-buehne" class="lab-viewport" tabindex="0" role="region" aria-label="Bühne (Vorschau)" :style="viewportStyle">
 
       <div class="lab-viewport-inner" ref="labViewportRef">
 
         <!-- Sektion → Komponente aus der Registry (src/navigation/sektionen.js) -->
-        <component :is="sektion.labor" />
+        <BreitenRahmen :breite="isComponentSection ? aktivesGeraet.breite : null" :hoehe="aktivesGeraet.hoehe || 800">
+          <component :is="sektion.labor" />
+        </BreitenRahmen>
 
       </div><!-- /.lab-viewport-inner -->
     </div>
@@ -81,10 +113,11 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { sektionAufloesen } from '../../navigation/sektionen.js'
 import ArenaFilterbar from './ArenaFilterbar.vue'
+import BreitenRahmen from './BreitenRahmen.vue'
 import { extractFiltersFromRecipe } from '../../composables/useArenaFilters.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useSpecimenClick } from '../../composables/useSpecimenClick.js'
@@ -149,56 +182,48 @@ const hasFilterOptions = computed(() => {
 })
 
 // ---------------------------------------------------------------------------
-// (Resize handle removed — Arena now fills available space via flex: 1)
+// Vollbild und Breite der Vorschau (Roadmap V01, 19.10.2026)
+// ---------------------------------------------------------------------------
+// Vorher standen hier ein Zustand fuer Vollbild und sechs Breakpoints ohne
+// Bedienelement. Jetzt: Volle Breite · Desktop · Tablet · Handy; die festen
+// Breiten rendert BreitenRahmen in einem eigenen Frame, damit die
+// Medienabfragen des Design Systems greifen.
+const BREITEN = Object.freeze([
+  { key: 'voll', label: 'Voll', breite: null, hoehe: null },
+  { key: 'desktop', label: 'Desktop', breite: 1280, hoehe: 800 },
+  { key: 'tablet', label: 'Tablet', breite: 768, hoehe: 1024 },
+  { key: 'handy', label: 'Handy', breite: 390, hoehe: 844 },
+])
+const aktiveBreite = ref('voll')
+const aktivesGeraet = computed(() => BREITEN.find((b) => b.key === aktiveBreite.value) || BREITEN[0])
+
+const isFullscreen = ref(false)
+const vollbildKnopf = ref(null)
+
+function onEscKey(e) {
+  // Escape gehoert zuerst offenen Popups und Dialogen
+  if (e.key !== 'Escape' || e.defaultPrevented) return
+  if (document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]')) return
+  isFullscreen.value = false
+}
+
+watch(isFullscreen, (val, alt) => {
+  if (val) document.addEventListener('keydown', onEscKey)
+  else document.removeEventListener('keydown', onEscKey)
+  // Fokus bleibt am Knopf (er wandert mit dem Panel)
+  if (val !== alt) nextTick(() => vollbildKnopf.value?.focus())
+})
+
 onUnmounted(() => {
   document.removeEventListener('keydown', onEscKey)
 })
 
-// ---------------------------------------------------------------------------
-// Fullscreen & Breakpoint Steuerung
-// ---------------------------------------------------------------------------
-const isFullscreen = ref(false)
-const activeBreakpoint = ref('lg') // Default: LG breakpoint
-
-// Bei Arena-Wechsel Breakpoint auf LG zuruecksetzen
-watch(() => store.state.activeSection, () => {
-  activeBreakpoint.value = 'lg'
-})
-
-const BREAKPOINTS = [
-  { key: 'xs',  label: 'XS',  width: 480 },
-  { key: 'sm',  label: 'SM',  width: 768 },
-  { key: 'md',  label: 'MD',  width: 960 },
-  { key: 'lg',  label: 'LG',  width: 1200 },
-  { key: 'xl',  label: 'XL',  width: 1600 },
-  { key: 'xxl', label: 'XXL', width: 1920 },
-]
-
-function onEscKey(e) {
-  if (e.key === 'Escape') isFullscreen.value = false
-}
-
-watch(isFullscreen, (val) => {
-  if (val) document.addEventListener('keydown', onEscKey)
-  else document.removeEventListener('keydown', onEscKey)
-})
-
-const viewportStyle = computed(() => {
+const viewportStyle = computed(() => ({
   // Viewport bleibt immer neutral — Theme-Wechsel nur in den arena-specimen Panels
-  const base = { background: 'var(--cfg-bg)', color: 'var(--cfg-text)' }
-  base['--arena-label-bg'] = 'color-mix(in srgb, var(--cfg-text) 7%, transparent)'
-  if (activeBreakpoint.value !== null) {
-    const bp = BREAKPOINTS.find(b => b.key === activeBreakpoint.value)
-    if (bp) base['--bp-max-width'] = bp.width + 'px'
-  }
-  return base
-})
-
-const viewportClass = computed(() => {
-  const classes = []
-  if (activeBreakpoint.value !== null) classes.push('lab-viewport--constrained')
-  return classes
-})
+  background: 'var(--cfg-bg)',
+  color: 'var(--cfg-text)',
+  '--arena-label-bg': 'color-mix(in srgb, var(--cfg-text) 7%, transparent)',
+}))
 </script>
 
 <style scoped>
@@ -232,7 +257,7 @@ const viewportClass = computed(() => {
 .lab-header {
   display: flex;
   flex-direction: column;
-  height: 60px;
+  min-height: 60px;
   border-bottom: 1px solid var(--cfg-border);
   flex-shrink: 0;
 }
@@ -244,7 +269,48 @@ const viewportClass = computed(() => {
   padding: 10px 16px;
   gap: 8px;
   min-height: 44px;
+  flex-wrap: wrap;
 }
+
+/* ── Breite und Vollbild (V01) ── */
+.lab-werkzeuge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.seg-btn.seg-btn--text {
+  width: auto;
+  padding-inline: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  /* Text statt Symbol: lesbarer Kontrast auch inaktiv */
+  color: var(--cfg-text-secondary);
+}
+
+.seg-btn.seg-btn--text.active { color: var(--cfg-text); }
+
+.lab-vollbild {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 8px;
+  background: var(--cfg-surface-elevated);
+  color: var(--cfg-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lab-vollbild:hover { border-color: var(--cfg-accent); }
+.lab-vollbild[aria-pressed='true'] { border-color: var(--cfg-accent); color: var(--cfg-accent); }
+.lab-vollbild:focus-visible { outline: 2px solid var(--cfg-accent); outline-offset: 2px; }
 
 /* ── Theme Segmented Control ── */
 .theme-segmented {
@@ -336,12 +402,4 @@ const viewportClass = computed(() => {
   flex: 1;
 }
 
-.lab-viewport-inner--constrained {
-  max-width: var(--bp-max-width, 100%);
-  width: 100%;
-  margin-inline: auto;
-  box-shadow:
-    -1px 0 0 var(--cfg-border),
-     1px 0 0 var(--cfg-border);
-}
 </style>
