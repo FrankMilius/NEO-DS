@@ -53,13 +53,8 @@ function pruefeUeberstand () {
 
 // Bekannte Befunde (Prüfung 19.10.2026) — nächstes Arbeitspaket. Beheben,
 // dann den Eintrag löschen; der Test verlangt das.
-const BEKANNTE_UEBERSTAENDE = new Map([
-  // Beide im Geräterahmen „Desktop“ (1280 px, mit Bildlaufleiste): Website
-  // rechnet mit 100vw o. ä. — mit klassischer Bildlaufleiste (Windows) auch
-  // auf der echten Website sichtbar. Änderung am DS → Freigabe-Ablauf.
-  ['component-footer', 'Spalten ragen im Rahmen „Desktop“ sichtbar heraus (+15 / +37 px)'],
-  ['component-form-actions', 'Seite im Rahmen „Desktop“ 4 px zu breit'],
-])
+// Footer und Form Actions behoben in R10 (20.10.2026).
+const BEKANNTE_UEBERSTAENDE = new Map([])
 
 test('Navigation liefert Sektionen', () => {
   // Schutz gegen eine leere Liste — dann liefe der Smoke „gruen" ohne Test

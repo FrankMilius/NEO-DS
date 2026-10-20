@@ -313,6 +313,13 @@
   --fnd-color-layer-03:             #ffffff;
 }
 
+// Dunkles Kundenthema: kein Papier (wie bruecke-dunkel). Ohne diese Regel
+// erbte ein dunkler Kunden-Block das helle Papier der umgebenden Seite und
+// eine ganze dunkle Kundenseite das Papier von :root (R10, 20.10.2026).
+.customer-dark-theme {
+  --fnd-color-paper:                var(--fnd-neutral-950);
+}
+
 .neo-dark-theme {
   @include r.leiter-vars(r.$graphit, 'neutral');
   @include r.leiter-vars(r.$lime, 'accent');

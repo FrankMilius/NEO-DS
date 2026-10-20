@@ -769,10 +769,11 @@
 // >>> aufgenommen: Karten-Schatten und Navigations-Hervorhebung
 // ---------------------------------------------------------------------------
 
-.nc-card {
-  --nc-card-shadow: 0 2px 4px rgba(0, 0, 0, .06);
-  --nc-card-shadow-hover: 0 10px 28px rgba(0, 0, 0, .12);
-}
+// R10 (20.10.2026): Die eigenen Schattenwerte am Element (0 2px 4px /
+// 0 10px 28px) sind entfallen. Sie uebersteuerten die Tokens
+// --nc-card-shadow(-hover) — Schatten eines Themes erreichten keine Karte,
+// und im Dunkeln blieb der helle Schatten. Jetzt gelten die Tokens
+// (Erhebung base / floating, _component-tokens.scss).
 
 // Nur Karten, die WIRKLICH woandershin fuehren, leuchten beim Ueberfahren auf.
 // `:has(.nc-card__title-link)` faengt die Faelle, in denen das Markup den

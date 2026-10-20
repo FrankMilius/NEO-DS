@@ -7,13 +7,13 @@
 // Theme. Vorher waren 731 bzw. 796 Tokens nur auf :root abgeleitet und
 // behielten im Bereich die Werte der Seite (Knöpfe, Karten, Felder,
 // Schatten, Fokusring). Geprüft mit dem gebauten styles.css.
-// Ausnahme: Papier der lokalen Variante „Kunde“ im Dunkeln — im DS als
-// offener Punkt dokumentiert (_mono-bridge.scss), in Drupal nicht genutzt.
+// Keine Ausnahmen mehr: das Papier im dunklen Kundenthema ist seit R10
+// (20.10.2026) in _mono-bridge.scss gesetzt.
 // ==========================================================================
 import { test, expect } from './hilfen.js'
 
 const PAARE = [['neo-light-theme', 'neo-dark-theme'], ['customer-light-theme', 'customer-dark-theme']]
-const AUSNAHMEN = new Set(['customer-light-theme>customer-dark-theme:--fnd-color-paper'])
+const AUSNAHMEN = new Set()
 
 test('Vererbung: Theme-Bereiche haben die Werte einer ganzen Seite dieses Themes', async ({ page }) => {
   const css = await (await page.request.get('/styles.css')).text()

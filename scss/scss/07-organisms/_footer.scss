@@ -702,6 +702,13 @@ footer {
 
 .nc-footer__nav {
   flex: 4 1 420px;
+  /* R10 (20.10.2026): nie schmaler als die Spalten der Sitemap. Vorher
+     schrumpfte die Navigation zwischen ca. 1100 und 1400px auf 452–503px,
+     die vier Spalten brauchen aber ~508px (laengstes Wort je Spalte, z. B.
+     „Unternehmen“, plus Spaltenabstand) — die letzte Spalte lief ueber die
+     Navigation hinaus. Jetzt bricht stattdessen der Newsletter-Block in die
+     naechste Zeile, wenn es eng wird. Ueberschreibt min-width: 0 von oben. */
+  min-inline-size: min-content;
 }
 
 .nc-footer__newsletter {
