@@ -220,26 +220,38 @@
       </p>
 
       <div class="te-params">
-        <label class="te-param">
-          <span>Basis bei {{ p.viewportMin }} px</span>
-          <input type="number" step="0.5" min="10" max="32" :value="p.baseMin"
-                 @change="store.updateTypeScale('base_min_px', $event.target.value)" /> px
-        </label>
-        <label class="te-param">
-          <span>Basis bei {{ p.viewportMax }} px</span>
-          <input type="number" step="0.5" min="10" max="32" :value="p.baseMax"
-                 @change="store.updateTypeScale('base_max_px', $event.target.value)" /> px
-        </label>
-        <label class="te-param">
-          <span>Verhältnis klein</span>
-          <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMin"
-                 @change="store.updateTypeScale('ratio_min', $event.target.value)" />
-        </label>
-        <label class="te-param">
-          <span>Verhältnis groß</span>
-          <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMax"
-                 @change="store.updateTypeScale('ratio_max', $event.target.value)" />
-        </label>
+        <div class="te-param">
+          <label class="te-param-feld">
+            <span>Basis bei {{ p.viewportMin }} px</span>
+            <input type="number" step="0.5" min="10" max="32" :value="p.baseMin" :aria-describedby="`${uid}-bereich-base_min_px`"
+                   @change="store.updateTypeScale('base_min_px', $event.target.value)" /> px
+          </label>
+          <FeldBereich :id="`${uid}-bereich-base_min_px`" :text="erlaubterBereich('schriftskala', 'base_min_px')" />
+        </div>
+        <div class="te-param">
+          <label class="te-param-feld">
+            <span>Basis bei {{ p.viewportMax }} px</span>
+            <input type="number" step="0.5" min="10" max="32" :value="p.baseMax" :aria-describedby="`${uid}-bereich-base_max_px`"
+                   @change="store.updateTypeScale('base_max_px', $event.target.value)" /> px
+          </label>
+          <FeldBereich :id="`${uid}-bereich-base_max_px`" :text="erlaubterBereich('schriftskala', 'base_max_px')" />
+        </div>
+        <div class="te-param">
+          <label class="te-param-feld">
+            <span>Verhältnis klein</span>
+            <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMin" :aria-describedby="`${uid}-bereich-ratio_min`"
+                   @change="store.updateTypeScale('ratio_min', $event.target.value)" />
+          </label>
+          <FeldBereich :id="`${uid}-bereich-ratio_min`" :text="erlaubterBereich('schriftskala', 'ratio_min')" />
+        </div>
+        <div class="te-param">
+          <label class="te-param-feld">
+            <span>Verhältnis groß</span>
+            <input type="number" step="0.01" min="1" max="1.618" :value="p.ratioMax" :aria-describedby="`${uid}-bereich-ratio_max`"
+                   @change="store.updateTypeScale('ratio_max', $event.target.value)" />
+          </label>
+          <FeldBereich :id="`${uid}-bereich-ratio_max`" :text="erlaubterBereich('schriftskala', 'ratio_max')" />
+        </div>
         <button v-if="geaendert" type="button" class="te-reset" @click="store.resetTypeScale()">
           Auf Design System zurücksetzen
         </button>
@@ -288,7 +300,9 @@
 
 <script setup>
 import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
-import { ref, reactive, computed, watch, onMounted, onUnmounted } from 'vue'
+import FeldBereich from '../ui/FeldBereich.vue'
+import { erlaubterBereich } from '../../utils/token-pruefung.js'
+import { ref, reactive, computed, watch, onMounted, onUnmounted, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens, typographyScale } from '../../data/tokens.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert } from '../../utils/fluid-scale.js'
@@ -303,6 +317,8 @@ const drupalBetrieb = speicher().art === 'drupal'
 // Auf der Bühne (TypografieBuehne) erscheint der Editor ein zweites Mal —
 // die Schriftverwaltung nur einmal, im Inspector.
 defineProps({ buehne: { type: Boolean, default: false } })
+/** eindeutige ids je Instanz — der Editor steht auf der Bühne und in den Einstellungen (R06) */
+const uid = useId()
 
 const store = useThemeStore()
 const typoTokens = foundationTokens.typography.tokens
@@ -942,6 +958,8 @@ const rollen = computed(() => {
 .te-desc { font-size: 12px; color: var(--cfg-text-muted); margin: 0; line-height: 1.5; }
 .te-params { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 12px; align-items: end; }
 .te-param { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--cfg-text-muted); }
+/* R06: Bereichshinweis neben dem Label, nicht darin (sonst Teil des Feldnamens) */
+.te-param-feld { display: flex; flex-direction: column; gap: 4px; }
 .te-param input { width: 90px; height: 26px; padding: 0 6px; border: 1px solid var(--cfg-border); border-radius: 4px; background: var(--cfg-surface-elevated); color: var(--cfg-text); font-family: monospace; font-size: 11px; }
 .te-param input:focus { outline: none; border-color: var(--cfg-accent); }
 .te-reset { height: 28px; padding: 0 10px; border: 1px solid var(--cfg-border); border-radius: 4px; background: transparent; color: var(--cfg-text); font-size: 11px; cursor: pointer; }

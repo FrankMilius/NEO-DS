@@ -1077,6 +1077,21 @@ App 1.2.33 (R05: Kopfleiste mit Menü „Mehr …“, 20.10.2026):
   (einzeilig beim Verbreitern, Verkleinern und frischen Laden; Menü
   bedienbar; axe auf Kopfleiste mit offenem Menü).
 
+App 1.2.34 (R06: erlaubte Bereiche dauerhaft am Feld, 20.10.2026):
+
+- Felder mit festen Grenzen nennen ihren Bereich vor der Eingabe, sichtbar
+  und als Beschreibung des Felds (`aria-describedby`; `ui/FeldBereich.vue`):
+  Deckkraft 0 bis 1 und Ebenen −1 bis 99999 (je ein Hinweis über der Liste),
+  Grid-Spalten 1 bis 24, Schriftskala (Basis 10 bis 32 px, Verhältnis 1 bis
+  1,618), im Komponenten-Editor Deckkraft und Schriftstärke nach Token-Typ.
+  Vorher nur in der Fehlermeldung (UX-03).
+- Texte aus `erlaubterBereich()` in `utils/token-pruefung.js`, derselben
+  Quelle wie die Prüfung; Hilfetexte der Hinzufügen-Formulare ebenso.
+  ids je Instanz eindeutig (`useId`) — der Typografie-Editor steht auf der
+  Bühne und in den Einstellungen.
+- Tests: `e2e/feld-bereich.spec.js` (sichtbar, vorgelesen, nicht im
+  Feldnamen, ids eindeutig), `tests/utils/erlaubter-bereich.test.js`.
+
 Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS

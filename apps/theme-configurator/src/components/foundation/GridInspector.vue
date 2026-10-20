@@ -45,6 +45,8 @@
                 :value="columnsValue"
                 min="1"
                 max="24"
+                step="1"
+                :aria-describedby="`${uid}-spalten`"
                 @change="updateToken('nc-grid-columns', $event.target.value)"
               />
               <button aria-label="Spalten erhöhen" class="gi-stepper-btn" @click="adjustColumns(1)" :disabled="columnsValue >= 24">
@@ -52,6 +54,7 @@
               </button>
             </div>
           </div>
+          <FeldBereich :id="`${uid}-spalten`" :text="erlaubterBereich('komponente', 'nc-grid-columns')" />
           <span v-if="isOverridden('nc-grid-columns')" class="gi-modified-badge">geändert</span>
         </div>
 
@@ -199,9 +202,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups, foundationTokens } from '../../data/tokens.js'
+import FeldBereich from '../ui/FeldBereich.vue'
+import { erlaubterBereich } from '../../utils/token-pruefung.js'
+
+/** eindeutige id je Instanz (R06) */
+const uid = useId()
 
 const store = useThemeStore()
 

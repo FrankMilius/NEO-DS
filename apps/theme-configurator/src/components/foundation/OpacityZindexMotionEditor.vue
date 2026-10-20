@@ -10,6 +10,7 @@
         <span class="ozm-heading__count">{{ totalOpacityCount }} Tokens</span>
       </h3>
       <p class="ozm-desc">Opacity-Werte für States und Inhalts-Abstufungen.</p>
+      <FeldBereich :id="`${uid}-deckkraft`" :text="erlaubterBereich('opacity')" />
 
       <div class="ozm-token-list">
         <div v-for="(token, key) in opacityTokens" :key="key" class="ozm-token-row">
@@ -22,6 +23,8 @@
           </div>
           <input :aria-label="`Deckkraft ${token.label || key}`"
             type="text"
+            inputmode="decimal"
+            :aria-describedby="`${uid}-deckkraft`"
             class="ozm-value-input"
             :value="currentOpacity(key)"
             @change="store.updateFoundationToken('opacity', key, Number($event.target.value))"
@@ -41,6 +44,8 @@
           </div>
           <input :aria-label="`Deckkraft ${token.label || key}`"
             type="text"
+            inputmode="decimal"
+            :aria-describedby="`${uid}-deckkraft`"
             class="ozm-value-input"
             :value="token.value"
             @change="store.addCustomOpacityToken(key, $event.target.value, token.label)"
@@ -63,6 +68,7 @@
         <span class="ozm-heading__count">{{ totalZindexCount }} Tokens</span>
       </h3>
       <p class="ozm-desc">Z-Index-Schichten für die Stapelreihenfolge von Komponenten.</p>
+      <FeldBereich :id="`${uid}-ebene`" :text="erlaubterBereich('zindex')" />
 
       <div class="ozm-token-list">
         <div v-for="(token, key) in zindexTokens" :key="key" class="ozm-token-row">
@@ -77,6 +83,8 @@
           </div>
           <input :aria-label="`Z-Index ${token.label || key}`"
             type="text"
+            inputmode="numeric"
+            :aria-describedby="`${uid}-ebene`"
             class="ozm-value-input"
             :value="currentZindex(key)"
             @change="store.updateFoundationToken('zindex', key, Number($event.target.value))"
@@ -98,6 +106,8 @@
           </div>
           <input :aria-label="`Z-Index ${token.label || key}`"
             type="text"
+            inputmode="numeric"
+            :aria-describedby="`${uid}-ebene`"
             class="ozm-value-input"
             :value="token.value"
             @change="store.addCustomZindexToken(key, $event.target.value, token.label)"
@@ -242,9 +252,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, useId } from 'vue'
 import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
-import { pruefeNeuenNamen, pruefeNeuenWert } from '../../utils/token-pruefung.js'
+import FeldBereich from '../ui/FeldBereich.vue'
+import { pruefeNeuenNamen, pruefeNeuenWert, erlaubterBereich } from '../../utils/token-pruefung.js'
 import { useThemeStore } from '../../stores/theme.js'
 import { foundationTokens } from '../../data/tokens.js'
 
@@ -357,8 +368,11 @@ const effectGroups = computed(() => {
 
 // ── Hinzufügen (UX-52: ein gemeinsames Formular für alle vier) ──
 const NAME = { name: 'name', label: 'Name', platzhalter: 'z. B. hinweis' }
-const DECKKRAFT_FELDER = [NAME, { name: 'wert', label: 'Deckkraft', platzhalter: 'z. B. 0.4', hilfe: 'Zahl zwischen 0 und 1' }]
-const EBENEN_FELDER = [NAME, { name: 'wert', label: 'Ebene', platzhalter: 'z. B. 450', hilfe: 'Ganze Zahl; höher liegt oben' }]
+/** eindeutige ids je Instanz (R06) */
+const uid = useId()
+// Hilfetexte aus derselben Quelle wie die Prüfung (R06)
+const DECKKRAFT_FELDER = [NAME, { name: 'wert', label: 'Deckkraft', platzhalter: 'z. B. 0.4', hilfe: `Erlaubt: ${erlaubterBereich('opacity')}` }]
+const EBENEN_FELDER = [NAME, { name: 'wert', label: 'Ebene', platzhalter: 'z. B. 450', hilfe: `Erlaubt: ${erlaubterBereich('zindex')}` }]
 const BEWEGUNG_FELDER = [
   NAME,
   { name: 'art', label: 'Art', typ: 'auswahl', start: 'duration', optionen: [{ wert: 'duration', text: 'Dauer' }, { wert: 'delay', text: 'Verzögerung' }, { wert: 'easing', text: 'Bewegungskurve' }] },

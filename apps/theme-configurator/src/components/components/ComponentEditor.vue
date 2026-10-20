@@ -214,7 +214,8 @@
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
                       <div v-else class="generic-editor">
-                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
+                        <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
                       </div>
                       <SemanticTokenPicker v-if="token.ref || token.type === 'size'"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
@@ -394,7 +395,8 @@
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
                       <div v-else class="generic-editor">
-                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                        <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
+                        <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
                       </div>
                       <SemanticTokenPicker v-if="token.ref || token.type === 'color' || token.type === 'size'"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
@@ -443,7 +445,8 @@
                   :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                   :title="token.label" :tokenId="token.id" :max="200" />
                 <div v-else class="generic-editor">
-                  <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
+                  <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
+                  <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
                 </div>
               </div>
             </transition>
@@ -497,11 +500,13 @@
 </template>
 
 <script setup>
-import { ref, computed, toRef, watch, nextTick } from 'vue'
+import { ref, computed, toRef, watch, nextTick, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { componentTokenGroups, primitiveColors, supportingPalettes, foundationPalettes, neutralPalette, systemPalettes, foundationTokens } from '../../data/tokens.js'
 import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import ColorEditor from '../editors/ColorEditor.vue'
+import FeldBereich from '../ui/FeldBereich.vue'
+import { erlaubterBereich } from '../../utils/token-pruefung.js'
 import SizeEditor from '../editors/SizeEditor.vue'
 import GeometryTokenSelect from '../editors/GeometryTokenSelect.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
@@ -873,6 +878,12 @@ watch(arenaSelection, async (sel) => {
 // ---------------------------------------------------------------------------
 // Token Value Resolution
 // ---------------------------------------------------------------------------
+/** Feld mit festem Bereich (Deckkraft, Gewicht, Grid-Spalten): id des Hinweises, sonst undefined (R06) */
+const uid = useId()
+function bereichId (token) {
+  return erlaubterBereich('komponente', token.id) ? `${uid}-bereich-${token.id}` : undefined
+}
+
 function getTokenValue(token) {
   const override = store.currentComponentOverrides[token.id]
   if (override !== undefined) return override

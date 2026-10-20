@@ -24,19 +24,41 @@ const FARBE = /^(#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})|(rgb|rgba|hs
 const FUNKTION = /^(var|calc|clamp|min|max)\(.+\)$/
 
 /** Feste Bereiche aus dem Design System */
+// `erlaubt`: dauerhafter Hinweis am Feld (R06, 20.10.2026) — dieselbe Quelle
+// wie die Fehlermeldung, damit Hinweis und Prüfung nie auseinanderlaufen.
 const BEREICHE = {
-  opacity: { min: 0, max: 1, text: 'eine Zahl zwischen 0 und 1 (z. B. 0.5)' },
-  zindex: { min: -1, max: 99999, ganz: true, text: 'eine ganze Zahl zwischen -1 und 99999' },
+  opacity: { min: 0, max: 1, text: 'eine Zahl zwischen 0 und 1 (z. B. 0.5)', erlaubt: '0 bis 1, z. B. 0.5' },
+  zindex: { min: -1, max: 99999, ganz: true, text: 'eine ganze Zahl zwischen -1 und 99999', erlaubt: 'ganze Zahlen von −1 bis 99999; höher liegt oben' },
 }
 const KOMPONENTEN_BEREICHE = {
-  'nc-grid-columns': { min: 1, max: 24, ganz: true, text: 'eine ganze Zahl zwischen 1 und 24' },
+  'nc-grid-columns': { min: 1, max: 24, ganz: true, text: 'eine ganze Zahl zwischen 1 und 24', erlaubt: 'ganze Zahlen von 1 bis 24' },
 }
+const GEWICHT = { min: 100, max: 900, text: 'ein Gewicht zwischen 100 und 900', erlaubt: '100 bis 900' }
 /** Schriftskala: Grenzen wie die Eingabefelder (TypographyEditor) */
 export const SCHRIFTSKALA_BEREICHE = {
-  base_min_px: { min: 10, max: 32, text: 'Basis bei kleinem Viewport: 10 bis 32 px' },
-  base_max_px: { min: 10, max: 32, text: 'Basis bei großem Viewport: 10 bis 32 px' },
-  ratio_min: { min: 1, max: 1.618, text: 'Verhältnis klein: 1 bis 1,618' },
-  ratio_max: { min: 1, max: 1.618, text: 'Verhältnis groß: 1 bis 1,618' },
+  base_min_px: { min: 10, max: 32, text: 'Basis bei kleinem Viewport: 10 bis 32 px', erlaubt: '10 bis 32 px' },
+  base_max_px: { min: 10, max: 32, text: 'Basis bei großem Viewport: 10 bis 32 px', erlaubt: '10 bis 32 px' },
+  ratio_min: { min: 1, max: 1.618, text: 'Verhältnis klein: 1 bis 1,618', erlaubt: '1 bis 1,618' },
+  ratio_max: { min: 1, max: 1.618, text: 'Verhältnis groß: 1 bis 1,618', erlaubt: '1 bis 1,618' },
+}
+
+/**
+ * Erlaubter Bereich als Hinweistext am Feld (R06), oder null.
+ * @param {'opacity'|'zindex'|'schriftskala'|'komponente'} art
+ * @param {string} [schluessel]  Schriftskala-Schlüssel bzw. Komponenten-Token-ID
+ * @returns {string|null}
+ */
+export function erlaubterBereich (art, schluessel) {
+  if (art === 'opacity' || art === 'zindex') return BEREICHE[art].erlaubt
+  if (art === 'schriftskala') return SCHRIFTSKALA_BEREICHE[schluessel]?.erlaubt || null
+  if (art === 'komponente' && schluessel) {
+    if (KOMPONENTEN_BEREICHE[schluessel]) return KOMPONENTEN_BEREICHE[schluessel].erlaubt
+    const tok = komponentenToken(schluessel)
+    const a = tok && TYP_ART[tok.type]
+    if (a === 'deckkraft') return '0 bis 1 oder 0 bis 100 %'
+    if (a === 'gewicht') return GEWICHT.erlaubt
+  }
+  return null
 }
 
 /** Art eines Werts aus dem Standardwert ableiten */
@@ -87,7 +109,7 @@ function pruefeArt (art, wert, bereich) {
 export function pruefeFoundationWert (kategorie, schluessel, wert) {
   if (wert !== null && typeof wert === 'object') return null   // strukturierte Werte (z. B. Präsentation)
   if (kategorie === 'typography' && /^font-(body|heading|mono)$/.test(schluessel)) return typeof wert === 'string' ? pruefeFontStack(wert) : null
-  if (kategorie === 'typography' && /^weight-/.test(schluessel)) return pruefeArt('zahl', wert, { min: 100, max: 900, text: 'ein Gewicht zwischen 100 und 900' })
+  if (kategorie === 'typography' && /^weight-/.test(schluessel)) return pruefeArt('zahl', wert, GEWICHT)
   if (kategorie === 'focus' && /^color(-light|-dark)?$/.test(schluessel)) return pruefeArt('farbe', wert)
   const token = foundationTokens?.[kategorie]?.tokens?.[schluessel]
   if (token?.maps_to) {
