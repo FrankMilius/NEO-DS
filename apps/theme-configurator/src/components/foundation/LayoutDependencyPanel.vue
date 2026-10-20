@@ -236,8 +236,8 @@ const {
   gap: var(--fnd-spacing-01);
 }
 
-.ldp-conflict--warning .ldp-conflict-header { color: #f59e0b; }
-.ldp-conflict--info .ldp-conflict-header { color: #3b82f6; }
+.ldp-conflict--warning .ldp-conflict-header { color: var(--cfg-warning-text); }
+.ldp-conflict--info .ldp-conflict-header { color: var(--cfg-info-text); }
 
 .ldp-conflict-label {
   font-size: var(--fnd-typography-paragraph-s-font-size);
@@ -385,12 +385,12 @@ const {
   color: var(--cfg-text-muted);
 }
 
-.ldp-note--info svg { color: #3b82f6; }
+.ldp-note--info svg { color: var(--cfg-info-text); }
 
 .ldp-note--warning {
   background: color-mix(in srgb, #f59e0b 6%, transparent);
   color: var(--cfg-text-muted);
 }
 
-.ldp-note--warning svg { color: #f59e0b; }
+.ldp-note--warning svg { color: var(--cfg-warning-text); }
 </style>

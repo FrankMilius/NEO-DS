@@ -685,7 +685,7 @@ const customSemanticEntries = computed(() => {
 
 .si-badge--custom {
   background: color-mix(in srgb, #8b5cf6 15%, transparent);
-  color: #6d28d9;   /* UX-19: 4,5:1+ statt 3,6:1 */
+  color: var(--cfg-processing-text);   /* UX-19: 4,5:1+ statt 3,6:1 */
 }
 
 .si-badge--modified {
@@ -853,7 +853,7 @@ const customSemanticEntries = computed(() => {
   border: none;
   border-radius: 6px;
   background: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;

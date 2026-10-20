@@ -154,12 +154,14 @@ const store = useThemeStore()
   width: 14px;
   height: 14px;
   border-radius: 7px;
-  background: #fff;
+  background: var(--cfg-surface-elevated);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   transition: transform 150ms ease;
 }
 
 .sync-switch.on .sync-switch__thumb {
   transform: translateX(14px);
+  /* R03: auf der Akzentfläche (im Dunkeln hell) dunkler Knopf */
+  background: var(--cfg-on-accent);
 }
 </style>

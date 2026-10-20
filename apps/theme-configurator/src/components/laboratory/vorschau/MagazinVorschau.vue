@@ -1,5 +1,8 @@
 <template>
-  <div class="mag" :style="{ color: t['text-primary'], fontFamily: currentBodyFont, '--mag-heading-font': currentHeadingFont, '--mag-mono-font': currentMonoFont }">
+  <!-- Theme-Klasse und Hintergrund aus demselben Theme wie die Schrift (R03):
+       vorher lag die Vorschau in keinem Theme-Bereich — Elementregeln des
+       Design Systems (z. B. small) und der Hintergrund kamen aus der App -->
+  <div class="mag" :class="themaKlasse" :style="{ color: t['text-primary'], background: t['background-base'], fontFamily: currentBodyFont, '--mag-heading-font': currentHeadingFont, '--mag-mono-font': currentMonoFont }">
 
     <!-- ─── SKIP LINK ─── -->
     <a class="mag-skip" href="#mag-content" @click.prevent="scrollToRef('mag-content')"
@@ -589,6 +592,8 @@ const t = computed(() => {
   const mode = store.state.previewMode === 'dark' ? 'dark' : 'light'   // Split/Matrix: hell (UX-08)
   return store.state.themes[store.state.activeThemeSet][mode]
 })
+/** Theme-Klasse passend zu t (Variante und Modus) */
+const themaKlasse = computed(() => `${store.state.activeThemeSet === 'customer' ? 'customer' : 'neo'}-${store.state.previewMode === 'dark' ? 'dark' : 'light'}-theme`)
 
 const currentBodyFont = computed(() => {
   const f = store.currentFoundation?.typography?.['font-body']

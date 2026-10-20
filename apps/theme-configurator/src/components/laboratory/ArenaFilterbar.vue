@@ -206,7 +206,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
   background: var(--cfg-surface);
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--cfg-shadow-popover);
   z-index: 20;
   overflow: hidden;
   display: flex;
@@ -276,7 +276,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onClickOutside, true
 .filter-checkbox.checked {
   background: var(--cfg-accent);
   border-color: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
 }
 
 .filter-panel__label {

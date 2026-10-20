@@ -79,8 +79,14 @@ function beimLaden () {
   aufraeumen()
   const doc = rahmen.value?.contentDocument
   if (!doc) return
-  // Klassen und Attribute der App (z. B. data-theme) auf das Frame-Dokument
-  for (const a of document.documentElement.attributes) if (a.name !== 'style') doc.documentElement.setAttribute(a.name, a.value)
+  // Klassen und Attribute der App auf das Frame-Dokument — ohne die
+  // App-Darstellung (R03): Der Rahmen ist ein Website-Fenster und gehört zur
+  // Bühne. data-theme="light" schaltet die automatische Dunkel-Abfrage des
+  // Design Systems ab; hell/dunkel bestimmt die Theme-Klasse der Vorschau.
+  for (const a of document.documentElement.attributes) {
+    if (a.name !== 'style' && a.name !== 'data-app-darstellung') doc.documentElement.setAttribute(a.name, a.value)
+  }
+  doc.documentElement.setAttribute('data-theme', 'light')
   doc.body.className = document.body.className
   stileSpiegeln(doc)
   // Feste Fensterhoehe statt mitwachsendem Frame: Bauteile mit vh/svh (Hero)

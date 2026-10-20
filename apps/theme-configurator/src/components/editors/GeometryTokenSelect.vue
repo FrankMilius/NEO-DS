@@ -301,7 +301,7 @@ function applyCustom(e, zu = true) {
   border: 1px solid var(--cfg-border);
   border-radius: 8px;
   background: var(--cfg-surface);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--cfg-shadow-popover);
   z-index: 9999;
   max-height: 320px;
   display: flex;

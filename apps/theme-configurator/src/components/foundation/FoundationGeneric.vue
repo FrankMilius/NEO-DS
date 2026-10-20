@@ -280,7 +280,7 @@ const focusPreviewStyle = computed(() => {
 
 .toggle-btn.active {
   background: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
 }
 
 /* Focus Ring Live-Preview */
@@ -333,7 +333,7 @@ const focusPreviewStyle = computed(() => {
 
 .badge--active {
   background: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
 }
 
 .badge--inactive {

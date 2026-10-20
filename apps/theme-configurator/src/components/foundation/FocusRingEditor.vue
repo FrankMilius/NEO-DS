@@ -470,6 +470,6 @@ const borderStyleOptions = computed(() => {
   vertical-align: middle; margin-left: 6px;
 }
 
-.fe-badge--active { background: var(--cfg-accent); color: #fff; }
+.fe-badge--active { background: var(--cfg-accent); color: var(--cfg-on-accent); }
 .fe-badge--inactive { background: var(--cfg-surface-elevated); color: var(--cfg-text-secondary); border: 1px solid var(--cfg-border); }
 </style>

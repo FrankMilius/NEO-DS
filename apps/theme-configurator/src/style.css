@@ -2,8 +2,15 @@
    NEO Theme Configurator — Global Styles
    ========================================================================== */
 
-/* Configurator UI tokens (own design system for the app chrome) */
-:root {
+/* Configurator UI tokens (own design system for the app chrome)
+   R03 (20.10.2026): auch in jedem Theme-Bereich neu abgeleitet — Hilfs-
+   beschriftungen der Bühne (Zellentitel, „Einstellungen öffnen“,
+   Gruppentitel) liegen in der Vorschau und richten sich nach deren Theme,
+   nicht nach der App-Darstellung. Wie die Vererbung im Design System:
+   :where() hat Spezifität 0, die App-Darstellung auf :root gewinnt. In der
+   App-Oberfläche selbst gibt es keine Theme-Klassen. */
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   /* Farb-Tokens → DS Foundation */
   --cfg-bg: var(--fnd-color-background-secondary);
   --cfg-surface: var(--fnd-color-background-base);
@@ -38,6 +45,27 @@
   /* Overlay */
   --cfg-overlay: color-mix(in srgb, var(--fnd-color-background-inverse) 50%, transparent);
 
+  /* Schrift auf Akzent- und Textflächen (R03): im Hellen hell, im Dunkeln dunkel */
+  --cfg-on-accent: var(--fnd-color-text-on-interactive);
+
+  /* Tönungen für Kennzeichen (R03, 20.10.2026). Helle Werte wie bisher
+     (kontrastgeprüft, UX-19); die dunklen stehen unten unter
+     [data-app-darstellung='dunkel']. */
+  --cfg-info-bg: #dbeafe;
+  --cfg-info-text: #1d4ed8;
+  --cfg-info-border: #3b82f6;
+  --cfg-success-bg: #dcfce7;
+  --cfg-success-text: #047857;
+  --cfg-warning-bg: #fef3c7;
+  --cfg-warning-bg-strong: #fde68a;
+  --cfg-warning-text: #b45309;
+  --cfg-warning-border: #f59e0b;
+  --cfg-processing-bg: #ede9fe;
+  --cfg-processing-text: #6d28d9;
+  /* Rahmen und Schatten, die im Dunkeln sichtbar bleiben */
+  --cfg-border-subtle: color-mix(in srgb, var(--cfg-text) 10%, transparent);
+  --cfg-shadow-popover: 0 4px 16px color-mix(in srgb, #000 14%, transparent);
+
   /* Fokus-Ring (Plan v2, 4.4): DS-Fokusfarbe = Textfarbe → ≥ 3:1 auf allen Flächen */
   --cfg-focus-ring: var(--fnd-focus-ring-color, var(--cfg-text));
   --cfg-focus-ring-width: 2px;
@@ -62,6 +90,32 @@
   --cfg-shadow-lg: var(--fnd-elevation-floating);
   --cfg-shadow-xl: var(--fnd-elevation-overlay);
   --cfg-shadow-modal: var(--fnd-elevation-modal);
+}
+
+/* App-Darstellung Dunkel (R03): nur App-eigene Werte; die Werte des dunklen
+   NEO-Themes setzt app-darstellung.scss */
+:root[data-app-darstellung='dunkel'] {
+  /* Im hellen NEO-Theme sind tertiär und sekundär gleich (#595c59); im dunklen
+     fiel tertiär auf erhobenen Flächen unter 4,5:1 */
+  --cfg-text-muted: var(--fnd-color-text-secondary);
+  --cfg-overlay: color-mix(in srgb, #000 60%, transparent);
+  --cfg-info-bg: color-mix(in srgb, #3b82f6 22%, transparent);
+  --cfg-info-text: #93c5fd;
+  --cfg-info-border: #60a5fa;
+  --cfg-success-bg: color-mix(in srgb, #22c55e 20%, transparent);
+  --cfg-success-text: #6ee7b7;
+  --cfg-warning-bg: color-mix(in srgb, #f59e0b 20%, transparent);
+  --cfg-warning-bg-strong: color-mix(in srgb, #f59e0b 32%, transparent);
+  --cfg-warning-text: #fcd34d;
+  --cfg-warning-border: #fbbf24;
+  --cfg-processing-bg: color-mix(in srgb, #8b5cf6 24%, transparent);
+  --cfg-processing-text: #c4b5fd;
+  --cfg-shadow-popover: 0 4px 16px color-mix(in srgb, #000 50%, transparent);
+}
+
+/* In dunklen Theme-Bereichen der Bühne: tertiär fiel unter 4,5:1 (s. oben) */
+:where(.neo-dark-theme, .customer-dark-theme) {
+  --cfg-text-muted: var(--fnd-color-text-secondary);
 }
 
 /* Reset */

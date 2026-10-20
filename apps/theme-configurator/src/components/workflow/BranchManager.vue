@@ -323,8 +323,8 @@ onUnmounted(() => {
 }
 
 .branch-item:hover { background: var(--cfg-surface-elevated); }
-.branch-item.active { background: var(--cfg-accent); color: white; }
-.branch-item.active svg { stroke: white; }
+.branch-item.active { background: var(--cfg-accent); color: var(--cfg-on-accent); }
+.branch-item.active svg { stroke: var(--cfg-on-accent); }
 
 .branch-item-info { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
 .branch-item-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -362,7 +362,7 @@ onUnmounted(() => {
   top: 50%;
   transform: translateY(-50%);
 }
-.branch-delete-btn:hover { background: #fee2e2; color: #dc2626; }
+.branch-delete-btn:hover { background: var(--cfg-danger-subtle); color: var(--fnd-color-text-danger); }
 
 .branch-divider { height: 1px; background: var(--cfg-border); margin: 4px 0; }
 .branch-section-label {
@@ -392,8 +392,8 @@ onUnmounted(() => {
 }
 
 .branch-action:hover { background: var(--cfg-surface-elevated); color: var(--cfg-text); }
-.branch-action--merge:hover { color: #16a34a; }
-.branch-action--release:hover { color: #7c3aed; }
+.branch-action--merge:hover { color: var(--cfg-success-text); }
+.branch-action--release:hover { color: var(--cfg-processing-text); }
 
 /* Modal reuse */
 .modal-overlay {
@@ -480,7 +480,7 @@ onUnmounted(() => {
 
 .modal-btn.secondary { background: var(--cfg-surface); color: var(--cfg-text-muted); }
 .modal-btn.secondary:hover { background: var(--cfg-surface-elevated); color: var(--cfg-text); }
-.modal-btn.primary { background: var(--cfg-accent); color: white; border-color: var(--cfg-accent); }
+.modal-btn.primary { background: var(--cfg-accent); color: var(--cfg-on-accent); border-color: var(--cfg-accent); }
 .modal-btn.primary:hover { opacity: 0.9; }
 .modal-btn.primary:disabled { opacity: 0.4; cursor: not-allowed; }
 

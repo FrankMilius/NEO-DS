@@ -1546,9 +1546,9 @@ function getNotAffected(semanticId) {
   font-family: monospace;
 }
 
-.tier-1 { background: #dbeafe; color: #1d4ed8; }
-.tier-2 { background: #dcfce7; color: #166534; }   /* UX-19: 6,9:1 statt 3:1 */
-.tier-3 { background: #fef3c7; color: #d97706; }
+.tier-1 { background: var(--cfg-info-bg); color: var(--cfg-info-text); }
+.tier-2 { background: var(--cfg-success-bg); color: var(--cfg-success-text); }   /* UX-19: 6,9:1 statt 3:1 */
+.tier-3 { background: var(--cfg-warning-bg); color: var(--cfg-warning-text); }
 
 .theme-indicator {
   font-size: 11px;
@@ -1802,18 +1802,18 @@ function getNotAffected(semanticId) {
   margin-left: auto;
   font-size: 10px;
   font-weight: 600;
-  color: #d97706;
+  color: var(--cfg-warning-text);
   padding: 2px 8px;
   border-radius: 4px;
-  background: #fef3c7;
-  border: 1px solid #fde68a;
+  background: var(--cfg-warning-bg);
+  border: 1px solid var(--cfg-warning-bg-strong);
   cursor: pointer;
   transition: all var(--fnd-motion-duration-150);
 }
 
 .sync-badge:hover {
-  background: #fde68a;
-  border-color: #fcd34d;
+  background: var(--cfg-warning-bg-strong);
+  border-color: var(--cfg-warning-border);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1908,7 +1908,7 @@ function getNotAffected(semanticId) {
   width: 14px;
   height: 14px;
   border-radius: 3px;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--cfg-border-subtle);
 }
 
 /* ── Category Header (back + title) ── */
@@ -2042,8 +2042,8 @@ function getNotAffected(semanticId) {
   font-weight: 600;
   padding: 1px 6px;
   border-radius: 8px;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text);
   white-space: nowrap;
   flex-shrink: 0;
 }

@@ -25,18 +25,14 @@
 
 @use 'sass:map';
 @use 'color-semantic' as sem;
+@forward 'theme-werte' show generate-theme-vars;
+@use 'theme-werte' as *;
 
 // ---------------------------------------------------------------------------
 // Mixin: Generate Theme CSS Variables
 // ---------------------------------------------------------------------------
 
-/// Gibt alle semantischen Tokens als CSS Custom Properties aus.
-/// @param {Map} $theme-map - Eine der $semantic-* Maps aus _color-semantic.scss
-@mixin generate-theme-vars($theme-map) {
-  @each $key, $value in $theme-map {
-    --fnd-color-#{$key}: #{$value};
-  }
-}
+// generate-theme-vars steht seit R03 (20.10.2026) in _theme-werte.scss.
 
 // ---------------------------------------------------------------------------
 // CSS Custom Properties Output

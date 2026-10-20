@@ -222,9 +222,9 @@ function handleMerge() {
   font-size: 12px; font-weight: 500;
 }
 
-.merge-summary--success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-.merge-summary--clean { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-.merge-summary--conflict { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+.merge-summary--success { background: var(--cfg-success-bg); color: var(--cfg-success-text); border: 1px solid color-mix(in srgb, var(--cfg-success-text) 30%, transparent); }
+.merge-summary--clean { background: var(--cfg-info-bg); color: var(--cfg-info-text); border: 1px solid color-mix(in srgb, var(--cfg-info-border) 40%, transparent); }
+.merge-summary--conflict { background: var(--cfg-warning-bg); color: var(--cfg-warning-text); border: 1px solid var(--cfg-warning-bg-strong); }
 
 .bulk-actions { display: flex; gap: 8px; }
 
@@ -271,7 +271,7 @@ function handleMerge() {
 }
 .conflict-option:last-child { border-bottom: none; }
 .conflict-option:hover { background: var(--cfg-surface-elevated); }
-.conflict-option.selected { background: #eff6ff; }
+.conflict-option.selected { background: var(--cfg-info-bg); }
 
 .conflict-option input { flex-shrink: 0; }
 
@@ -295,7 +295,7 @@ function handleMerge() {
 }
 .modal-btn.secondary { background: var(--cfg-surface); color: var(--cfg-text-muted); }
 .modal-btn.secondary:hover { background: var(--cfg-surface-elevated); }
-.modal-btn.primary { background: var(--cfg-accent); color: white; border-color: var(--cfg-accent); }
+.modal-btn.primary { background: var(--cfg-accent); color: var(--cfg-on-accent); border-color: var(--cfg-accent); }
 .modal-btn.primary:hover { opacity: 0.9; }
 .modal-btn.primary:disabled { opacity: 0.4; cursor: not-allowed; }
 

@@ -647,7 +647,7 @@ const EBENEN_SYMBOLE = Object.freeze({
 /* Lock + Version indicators */
 .nav-lock-icon {
   flex-shrink: 0;
-  color: #d97706;
+  color: var(--cfg-warning-text);
   margin-left: auto;
 }
 

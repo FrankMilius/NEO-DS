@@ -133,13 +133,13 @@ function confirmUnlock() {
 }
 
 .lock-btn.locked {
-  background: #fef3c7;
-  border-color: #f59e0b;
-  color: #d97706;
+  background: var(--cfg-warning-bg);
+  border-color: var(--cfg-warning-border);
+  color: var(--cfg-warning-text);
 }
 
 .lock-btn.locked:hover {
-  background: #fde68a;
+  background: var(--cfg-warning-bg-strong);
 }
 
 .lock-label { white-space: nowrap; }
@@ -251,7 +251,7 @@ function confirmUnlock() {
 .dialog-btn--confirm {
   border: 1px solid var(--cfg-accent);
   background: var(--cfg-accent);
-  color: white;
+  color: var(--cfg-on-accent);
 }
 
 .dialog-btn--confirm:hover {

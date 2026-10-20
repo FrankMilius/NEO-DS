@@ -291,6 +291,28 @@
       </template>
     </div>
 
+    <!-- App-Darstellung (R03): nur die Oberfläche der App, nicht die Bühne -->
+    <div class="header-darstellung" role="radiogroup" aria-label="App-Darstellung" data-test="app-darstellung">
+      <button
+        v-for="d in DARSTELLUNGEN"
+        :key="d.wert"
+        type="button"
+        role="radio"
+        class="dar-btn"
+        :aria-checked="wahl === d.wert"
+        :tabindex="wahl === d.wert ? 0 : -1"
+        :aria-label="d.label"
+        :title="`App-Darstellung: ${d.label}`"
+        :data-wert="d.wert"
+        @click="wahl = d.wert"
+        @keydown="darstellungTaste"
+      >
+        <svg v-if="d.wert === 'hell'" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7" /></svg>
+        <svg v-else-if="d.wert === 'dunkel'" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.4a7.5 7.5 0 0 0 7.9 12.4A9 9 0 1 1 12 3z" /></svg>
+        <svg v-else aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /><path d="M7 20h10M9 16v4m6-4v4" /></svg>
+      </button>
+    </div>
+
     <!-- ═══════════════ CREATE THEME DIALOG ═══════════════ -->
     <Transition name="modal">
       <div v-if="showCreateDialog" class="modal-overlay" @click.self="showCreateDialog = false">
@@ -404,6 +426,7 @@ import { hinweisen } from '../../composables/useBestaetigung.js'
 import { appVersionKurz, appVersionLang } from '../../lib/app-version.js'
 import { useFokusFalle } from '../../composables/useFokusFalle.js'
 import DrupalWerkzeuge from '../drupal/DrupalWerkzeuge.vue'
+import { useAppDarstellung, DARSTELLUNGEN } from '../../composables/useAppDarstellung.js'
 import { speicher } from '../../speicher/index.js'
 import { speichern as drupalSpeichern } from '../../composables/useDrupalBetrieb.js'
 
@@ -417,6 +440,16 @@ const branchStore = useBranchStore()
 // Plan v2, 2.6: Drupal-Betrieb (window.NEO_KONFIGURATOR.speicher = 'drupal')
 // — eigene Werkzeuge, Branches/Releases ausgeblendet. Lokal unveraendert.
 const drupal = speicher().art === 'drupal'
+const { wahl } = useAppDarstellung()
+/** Pfeiltasten in der Optionsgruppe App-Darstellung (Muster radiogroup) */
+function darstellungTaste (e) {
+  const schritt = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]
+  if (!schritt) return
+  e.preventDefault()
+  const i = DARSTELLUNGEN.findIndex((d) => d.wert === wahl.value)
+  wahl.value = DARSTELLUNGEN[(i + schritt + DARSTELLUNGEN.length) % DARSTELLUNGEN.length].wert
+  e.currentTarget.parentElement?.querySelector(`[data-wert="${wahl.value}"]`)?.focus()
+}
 const zeigeBranches = speicher().faehigkeiten.branchesUndReleases !== false
 
 // ---------------------------------------------------------------------------
@@ -916,16 +949,16 @@ function confirmPublishRelease({ version, notes }) {
 
 /* Text #047857 statt #059669: 4,9:1 statt 3,4:1 auf dem Header-Grund (WCAG AA, Plan v2 4.4) */
 .tb-btn-save {
-  color: #047857;
-  border-color: color-mix(in srgb, #059669 25%, transparent);
+  color: var(--cfg-success-text);
+  border-color: color-mix(in srgb, var(--cfg-success-text) 25%, transparent);
 }
 .tb-btn-save:hover:not(:disabled) {
-  background: color-mix(in srgb, #059669 10%, transparent);
-  border-color: #047857;
+  background: color-mix(in srgb, var(--cfg-success-text) 10%, transparent);
+  border-color: var(--cfg-success-text);
 }
 .tb-btn-save.saved {
-  color: #047857;
-  background: color-mix(in srgb, #059669 12%, transparent);
+  color: var(--cfg-success-text);
+  background: color-mix(in srgb, var(--cfg-success-text) 12%, transparent);
 }
 .tb-btn-save.saving { opacity: 0.6; cursor: wait; }
 
@@ -966,7 +999,7 @@ function confirmPublishRelease({ version, notes }) {
   padding: 0 4px;
   border-radius: 8px;
   background: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
   font-size: 10px;
   font-weight: 700;
   line-height: 1;
@@ -1063,11 +1096,11 @@ function confirmPublishRelease({ version, notes }) {
 
 .dd-item.active {
   background: var(--cfg-accent);
-  color: white;
+  color: var(--cfg-on-accent);
 }
 
 .dd-item.active svg {
-  stroke: white;
+  stroke: var(--cfg-on-accent);
 }
 
 .dd-item-text {
@@ -1099,7 +1132,7 @@ function confirmPublishRelease({ version, notes }) {
 
 .dd-item-protected.active .dd-lock {
   opacity: 0.7;
-  stroke: white;
+  stroke: var(--cfg-on-accent);
 }
 
 .dd-divider {
@@ -1265,7 +1298,7 @@ function confirmPublishRelease({ version, notes }) {
 
 .modal-btn.primary {
   background: var(--cfg-accent);
-  color: white;
+  color: var(--cfg-on-accent);
   border-color: var(--cfg-accent);
 }
 
@@ -1316,6 +1349,31 @@ function confirmPublishRelease({ version, notes }) {
   transform: scale(0.95) translateY(8px);
   opacity: 0;
 }
+
+/* App-Darstellung (R03) — ganz rechts, kompakt */
+.header-darstellung {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+  padding: 2px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.dar-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 26px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--cfg-text-secondary);
+  cursor: pointer;
+}
+.dar-btn:hover { color: var(--cfg-text); background: var(--cfg-accent-subtle); }
+.dar-btn[aria-checked="true"] { background: var(--cfg-text); color: var(--cfg-surface); }
+.dar-btn:focus-visible { outline: var(--cfg-focus-ring-width) solid var(--cfg-focus-ring); outline-offset: var(--cfg-focus-ring-offset); }
 
 /* UX-04: unter 1200 px bricht die Kopfleiste um, statt Knöpfe abzuschneiden */
 @media (max-width: 1199px) {

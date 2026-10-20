@@ -31,6 +31,10 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const BRUECKE = path.join(ROOT, 'scss/scss/00-settings/_mono-bridge.scss');
+// Die Mixins bruecke-hell/-dunkel stehen seit R03 (20.10.2026) in
+// _theme-werte.scss (ohne CSS-Ausgabe); _mono-bridge.scss reicht sie weiter
+// und behaelt die Theme-Regeln (z. B. .customer-light-theme).
+const THEME_WERTE = path.join(ROOT, 'scss/scss/00-settings/_theme-werte.scss');
 const MONO = path.join(ROOT, 'scss/scss/00-settings/_mono-theme.scss');
 const RAMPEN = path.join(ROOT, 'scss/scss/00-settings/_neutral-ramps.scss');
 const JSON_PFAD = path.join(ROOT, 'data/design-tokens.json');
@@ -38,7 +42,7 @@ const JSON_PFAD = path.join(ROOT, 'data/design-tokens.json');
 const modus = process.argv.includes('--schreiben') ? 'schreiben'
   : process.argv.includes('--pruefen') ? 'pruefen' : 'bericht';
 
-const scss = fs.readFileSync(BRUECKE, 'utf8');
+const scss = fs.readFileSync(THEME_WERTE, 'utf8') + '\n' + fs.readFileSync(BRUECKE, 'utf8');
 const tokens = JSON.parse(fs.readFileSync(JSON_PFAD, 'utf8'));
 
 /** Rumpf eines Blocks ab `kopf` bis zur schliessenden Klammer in Spalte 0. */

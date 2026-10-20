@@ -744,13 +744,13 @@ const rollen = computed(() => {
   letter-spacing: 0.06em;
   padding: 2px 6px;
   border-radius: 3px;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text);
 }
 
 .font-role-badge--custom {
-  background: #fef3c7;
-  color: #d97706;
+  background: var(--cfg-warning-bg);
+  color: var(--cfg-warning-text);
 }
 
 .font-label { font-size: 13px; font-weight: 600; color: var(--cfg-text); }

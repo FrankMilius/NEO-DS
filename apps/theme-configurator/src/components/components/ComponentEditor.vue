@@ -1375,7 +1375,7 @@ function getContrastTarget(token) {
   border-radius: 4px;
   border: 1px solid var(--cfg-border);
   flex-shrink: 0;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  box-shadow: inset 0 0 0 1px var(--cfg-border-subtle);
 }
 .anatomy-color-input {
   flex: 1;
@@ -1557,7 +1557,7 @@ function getContrastTarget(token) {
   align-items: center;
   vertical-align: middle;
   margin-left: 3px;
-  color: #3b82f6;
+  color: var(--cfg-info-text);
   opacity: 0.7;
 }
 
@@ -1632,8 +1632,8 @@ function getContrastTarget(token) {
 
 .token-concrete {
   font-size: 10px;
-  color: #059669;
-  background: color-mix(in srgb, #059669 8%, transparent);
+  color: var(--cfg-success-text);
+  background: color-mix(in srgb, var(--cfg-success-text) 8%, transparent);
   padding: 1px 5px;
   border-radius: 3px;
   font-weight: 600;
@@ -1644,16 +1644,16 @@ function getContrastTarget(token) {
   font-size: 9px;
   padding: 1px 5px;
   border-radius: 3px;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text);
 }
 
 .override-badge {
   font-size: 9px;
   padding: 1px 5px;
   border-radius: 3px;
-  background: #fef3c7;
-  color: #d97706;
+  background: var(--cfg-warning-bg);
+  color: var(--cfg-warning-text);
   font-weight: 600;
 }
 
@@ -1674,11 +1674,11 @@ function getContrastTarget(token) {
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  background: var(--cfg-info-bg);
+  border: 1px solid color-mix(in srgb, var(--cfg-info-border) 40%, transparent);
   border-radius: 6px;
   font-size: 11px;
-  color: #1d4ed8;
+  color: var(--cfg-info-text);
 }
 
 .semantic-ref-label {
@@ -1690,7 +1690,7 @@ function getContrastTarget(token) {
 
 .semantic-ref-label code {
   font-size: 10px;
-  background: #dbeafe;
+  background: var(--cfg-info-bg);
   padding: 1px 4px;
   border-radius: 3px;
 }
@@ -1700,7 +1700,7 @@ function getContrastTarget(token) {
   border: 1px solid #3b82f6;
   border-radius: 4px;
   background: transparent;
-  color: #3b82f6;
+  color: var(--cfg-info-text);
   font-size: 10px;
   font-weight: 600;
   cursor: pointer;
@@ -1855,7 +1855,7 @@ function getContrastTarget(token) {
 
 .context-reset:hover {
   background: var(--cfg-accent);
-  color: white;
+  color: var(--cfg-on-accent);
 }
 
 /* Locked Notice */
@@ -1873,11 +1873,11 @@ function getContrastTarget(token) {
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: #fef3c7;
+  background: var(--cfg-warning-bg);
   border: 1px solid #f59e0b;
   border-radius: 8px;
   font-size: 12px;
-  color: #d97706;
+  color: var(--cfg-warning-text);
   font-weight: 500;
 }
 
@@ -1924,13 +1924,15 @@ function getContrastTarget(token) {
   width: 14px;
   height: 14px;
   border-radius: 7px;
-  background: #fff;
+  background: var(--cfg-surface-elevated);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   transition: transform 150ms ease;
 }
 
 .sync-switch.on .sync-switch__thumb {
   transform: translateX(14px);
+  /* R03: auf der Akzentfläche (im Dunkeln hell) dunkler Knopf */
+  background: var(--cfg-on-accent);
 }
 
 .slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }
@@ -2012,7 +2014,7 @@ function getContrastTarget(token) {
   height: 28px;
   border-radius: 6px;
   background: color-mix(in srgb, #8b5cf6 12%, transparent);
-  color: #6d28d9;   /* UX-19: 4,5:1+ statt 3,6:1 */
+  color: var(--cfg-processing-text);   /* UX-19: 4,5:1+ statt 3,6:1 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2031,7 +2033,7 @@ function getContrastTarget(token) {
   padding: 1px 5px;
   border-radius: 3px;
   background: color-mix(in srgb, #3b82f6 10%, transparent);
-  color: #3b82f6;
+  color: var(--cfg-info-text);
   border: 1px solid color-mix(in srgb, #3b82f6 20%, transparent);
   cursor: help;
   white-space: nowrap;
@@ -2050,7 +2052,7 @@ function getContrastTarget(token) {
   padding: 1px 5px;
   border-radius: 3px;
   background: color-mix(in srgb, #8b5cf6 8%, transparent);
-  color: #7c3aed;
+  color: var(--cfg-processing-text);
   border: 1px solid color-mix(in srgb, #8b5cf6 15%, transparent);
   cursor: help;
   white-space: nowrap;
@@ -2133,19 +2135,19 @@ function getContrastTarget(token) {
 }
 
 .ce-action-btn--reset:not(:disabled):hover {
-  color: #d97706;
+  color: var(--cfg-warning-text);
   border-color: #fbbf24;
   background: color-mix(in srgb, #fbbf24 10%, transparent);
 }
 
 .ce-action-btn--export:not(:disabled):hover {
-  color: #2563eb;
+  color: var(--cfg-info-text);
   border-color: #93c5fd;
   background: color-mix(in srgb, #3b82f6 10%, transparent);
 }
 
 .ce-action-btn--export.success {
-  color: #166534;
+  color: var(--cfg-success-text);
   border-color: #86efac;
   background: color-mix(in srgb, #22c55e 10%, transparent);
 }

@@ -214,7 +214,7 @@ function mediumHinzufuegen (w) {
 }
 
 .me-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.me-btn--primary { background: var(--cfg-accent); color: #fff; }
+.me-btn--primary { background: var(--cfg-accent); color: var(--cfg-on-accent); }
 .me-btn--primary:hover:not(:disabled) { opacity: 0.9; }
 .me-btn--ghost { background: none; color: var(--cfg-text-muted); }
 .me-btn--ghost:hover { color: var(--cfg-text); }

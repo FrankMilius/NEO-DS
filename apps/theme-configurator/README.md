@@ -1026,6 +1026,35 @@ App 1.2.30 (Schritt f: Grundlagen „Auf der Seite“, 19.10.2026):
   einem festen Wert (`_card.scss`, Block „aufgenommen“) — „Auf der Seite“
   zeigt „Schatten (eigener Wert)“; vom Theme nicht änderbar, im Dunkeln
   nicht angepasst.
+  Behoben in App 1.2.31 (R10, 20.10.2026), zusammen mit Footer-Spalten,
+  Text Only, Papier im dunklen Kundenthema und der Sticky-Leiste der Arena
+  Form Actions.
+
+App 1.2.32 (R03: App-Darstellung Hell · Dunkel · Wie System, 20.10.2026):
+
+- Schalter „App-Darstellung“ rechts in der Kopfleiste (Optionsgruppe mit
+  Pfeiltasten, je Browser gemerkt, Vorgabe „Wie System“;
+  `composables/useAppDarstellung.js`). Setzt am Dokument `data-theme` (schaltet
+  die halbe Dunkel-Automatik des Design Systems ab) und
+  `data-app-darstellung`.
+- `src/app-darstellung.scss`: unter `data-app-darstellung="dunkel"` die
+  Werte des dunklen NEO-Themes, gebaut aus denselben Bausteinen wie
+  `.neo-dark-theme` (`00-settings/_theme-werte.scss`, ohne eigene
+  CSS-Ausgabe; `styles.css` dabei bytegleich). Bewusst nicht die Klasse:
+  Sie gestaltet auch Elemente (Links, Fokusring, Markierung).
+- App-Farben (`--cfg-*`) werden in jedem Theme-Bereich neu abgeleitet
+  (`:root, :where(Theme-Klassen)`): Hilfsbeschriftungen auf der Bühne
+  richten sich nach dem Vorschaumodus, nicht nach der App. Neue Tokens
+  `--cfg-on-accent`, Tönungen `--cfg-info-*`, `--cfg-success-*`,
+  `--cfg-warning-*`, `--cfg-processing-*`, `--cfg-border-subtle`,
+  `--cfg-shadow-popover`; rund 110 feste Farben in den Komponenten ersetzt.
+- Geräterahmen übernimmt die App-Darstellung nicht (Website-Fenster,
+  `data-theme="light"`); Magazin-Vorschau mit eigener Theme-Klasse.
+- Prüfungen: `e2e/app-darstellung.spec.js` (Schalter, Werte = dunkles
+  NEO-Theme, Bühne unverändert, axe ohne Kontrastfehler im Dunkeln, Bild
+  der ganzen App dunkel). Erkundung über alle 157 Sektionen: App-Oberfläche
+  in beiden Darstellungen ohne Kontrastfehler, auf der Bühne kein
+  zusätzlicher Befund durch die dunkle App.
 
 Ursprünglicher Vorschlag (ADR-004):
 

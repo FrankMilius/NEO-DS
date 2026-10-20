@@ -239,7 +239,7 @@ function radiusHinzufuegen (w) {
   font-size: 12px; font-weight: 600; cursor: pointer;
 }
 
-.re-btn--primary { background: var(--cfg-accent); color: #fff; }
+.re-btn--primary { background: var(--cfg-accent); color: var(--cfg-on-accent); }
 .re-btn--primary:disabled { opacity: 0.4; cursor: not-allowed; }
 .re-btn--ghost { background: var(--cfg-surface); color: var(--cfg-text-muted); border: 1px solid var(--cfg-border); }
 </style>

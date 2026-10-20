@@ -177,9 +177,9 @@ const filteredSuggestions = computed(() => {
 }
 
 .picker-toggle:hover {
-  border-color: #3b82f6;
-  color: #3b82f6;
-  background: #eff6ff;
+  border-color: var(--cfg-info-border);
+  color: var(--cfg-info-text);
+  background: var(--cfg-info-bg);
 }
 
 .picker-chevron {
@@ -241,7 +241,7 @@ const filteredSuggestions = computed(() => {
 }
 
 .picker-item:hover { background: var(--cfg-surface-elevated); }
-.picker-item.active { background: #dbeafe; }
+.picker-item.active { background: var(--cfg-info-bg); }
 
 .picker-swatch {
   width: 14px;

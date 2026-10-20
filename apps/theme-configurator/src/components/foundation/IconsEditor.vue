@@ -436,7 +436,7 @@ const activeStrokeColor = computed(() => {
 .ie-lib-badge {
   font-size: 9px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.5px; padding: 1px 5px; border-radius: 3px;
-  background: var(--cfg-accent); color: #fff;
+  background: var(--cfg-accent); color: var(--cfg-on-accent);
 }
 
 .ie-lib-badge--custom {

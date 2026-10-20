@@ -1,0 +1,36 @@
+/* ==========================================================================
+   App-Darstellung Dunkel (Roadmap R03, 20.10.2026)
+   ==========================================================================
+   Setzt für die Oberfläche der App die WERTE des dunklen NEO-Themes — mit
+   denselben Bausteinen, aus denen das Design System .neo-dark-theme baut
+   (00-settings/_theme-werte.scss, _neutral-ramps.scss, _color-semantic.scss).
+   Nicht die Klasse selbst: Unter .neo-light-theme/.neo-dark-theme gestaltet
+   das Design System auch Elemente (Links ohne Klasse, Fokusring mit Lichthof,
+   Textmarkierung, Bildlaufleisten — 03-elements/_mono-elements.scss). Die
+   App-Oberfläche soll davon unberührt bleiben, in beiden Darstellungen.
+
+   Alles, was auf :root aus diesen Werten abgeleitet wird (--cfg-*, --nc-*,
+   Erhebungen, Fokusfarbe), rechnet am selben Element mit den dunklen Werten.
+   Die Bühne ist unabhängig: Jede Vorschau trägt ihre eigene Theme-Klasse.
+   Der Schalter steht in der Kopfleiste (composables/useAppDarstellung.js).
+   ========================================================================== */
+
+@use '../../../scss/scss/00-settings/theme-werte' as tw;
+@use '../../../scss/scss/00-settings/color-semantic' as sem;
+@use '../../../scss/scss/00-settings/neutral-ramps' as r;
+
+:root[data-app-darstellung='dunkel'] {
+  color-scheme: dark;
+  --fnd-state-mix-target: var(--fnd-color-always-light);
+  @include tw.generate-theme-vars(sem.$semantic-dark-base);
+  @include r.leiter-vars(r.$graphit, 'neutral');
+  @include r.leiter-vars(r.$lime, 'accent');
+  @include tw.bruecke-dunkel;
+
+  @each $key, $value in tw.$shadow-levels-dark {
+    --fnd-shadow-#{$key}: #{$value};
+  }
+  @each $key, $value in tw.$shadow-inset-dark {
+    --fnd-shadow-inset-#{$key}: #{$value};
+  }
+}

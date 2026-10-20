@@ -269,9 +269,9 @@ async function handleDelete(name) {
 }
 
 .vc-toggle:hover:not(:disabled) {
-  border-color: #7c3aed;
-  color: #7c3aed;
-  background: #f5f3ff;
+  border-color: var(--cfg-processing-text);
+  color: var(--cfg-processing-text);
+  background: var(--cfg-processing-bg);
 }
 
 .vc-toggle:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -283,13 +283,13 @@ async function handleDelete(name) {
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  border: 1px solid #ddd6fe;
+  border: 1px solid color-mix(in srgb, var(--cfg-processing-text) 30%, transparent);
   border-radius: 6px;
-  background: #f5f3ff;
+  background: var(--cfg-processing-bg);
   font-size: 11px;
 }
 
-.vc-variant-name { font-weight: 600; color: #7c3aed; }
+.vc-variant-name { font-weight: 600; color: var(--cfg-processing-text); }
 .vc-variant-modifier { font-size: 9px; color: var(--cfg-text-muted); }
 
 .vc-variant-delete {
@@ -302,7 +302,7 @@ async function handleDelete(name) {
   color: var(--cfg-text-muted);
   cursor: pointer;
 }
-.vc-variant-delete:hover:not(:disabled) { background: #fee2e2; color: #dc2626; }
+.vc-variant-delete:hover:not(:disabled) { background: var(--cfg-danger-subtle); color: var(--fnd-color-text-danger); }
 .vc-variant-delete:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Modal */
@@ -349,7 +349,7 @@ async function handleDelete(name) {
   font-size: 13px; font-family: inherit; outline: none;
 }
 .form-input:focus, .form-select:focus { border-color: var(--cfg-accent); }
-.form-error { font-size: 10px; color: #dc2626; }
+.form-error { font-size: 10px; color: var(--fnd-color-text-danger); }
 
 .vc-preview {
   border: 1px solid var(--cfg-border);
@@ -374,10 +374,10 @@ async function handleDelete(name) {
 
 .vc-preview-modifier {
   font-size: 11px;
-  color: #7c3aed;
+  color: var(--cfg-processing-text);
   margin-top: 4px;
 }
-.vc-preview-modifier code { background: #f5f3ff; padding: 1px 4px; border-radius: 3px; }
+.vc-preview-modifier code { background: var(--cfg-processing-bg); padding: 1px 4px; border-radius: 3px; }
 
 .modal-footer {
   display: flex; justify-content: flex-end; gap: 8px;

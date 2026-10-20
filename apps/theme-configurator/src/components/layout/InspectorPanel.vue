@@ -399,7 +399,7 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
   min-width: 160px;
   z-index: 20;
   pointer-events: none;
-  box-shadow: 0 4px 12px color-mix(in srgb, #000 15%, transparent);
+  box-shadow: var(--cfg-shadow-popover);
   border: 1px solid var(--cfg-border);
 }
 
@@ -454,13 +454,13 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 }
 
 .inspector-meta-badge--tier .inspector-meta-badge__value {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text);
 }
 
 .inspector-meta-badge--version .inspector-meta-badge__value {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text);
 }
 
 .empty-state {
@@ -494,7 +494,7 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 .tss-btn:nth-child(2) { border-radius: 0 4px 4px 0; }
 .tss-btn.active {
   background: var(--cfg-accent);
-  color: #fff;
+  color: var(--cfg-on-accent);
   border-color: var(--cfg-accent);
 }
 .tss-copy-btn {
@@ -527,7 +527,7 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 .color-tabs {
   display: flex;
   gap: 0;
-  background: #ffffff;
+  background: var(--cfg-surface-elevated);
   padding: 0 16px;
   border-bottom: 0;
 }
@@ -575,12 +575,12 @@ const recipeVersion = computed(() => recipe.value?.meta?.version || null)
 }
 
 .tab-badge.tier-1 {
-  background: #ede9fe;
-  color: #7c3aed;
+  background: var(--cfg-processing-bg);
+  color: var(--cfg-processing-text);
 }
 
 .tab-badge.tier-2 {
-  background: #dbeafe;
-  color: #1d4ed8; /* 5,9:1 statt 4,2:1 */
+  background: var(--cfg-info-bg);
+  color: var(--cfg-info-text); /* 5,9:1 statt 4,2:1 */
 }
 </style>

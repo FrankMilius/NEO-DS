@@ -551,7 +551,7 @@ function pruefeEffekt (w) {
   font-size: 12px; font-weight: 600; cursor: pointer;
 }
 
-.ozm-btn--primary { background: var(--cfg-accent); color: #fff; }
+.ozm-btn--primary { background: var(--cfg-accent); color: var(--cfg-on-accent); }
 .ozm-btn--primary:disabled { opacity: 0.4; cursor: not-allowed; }
 .ozm-btn--ghost { background: var(--cfg-surface); color: var(--cfg-text-muted); border: 1px solid var(--cfg-border); }
 
@@ -564,9 +564,9 @@ function pruefeEffekt (w) {
   width: fit-content;
 }
 
-.ozm-intent--state-change { background: color-mix(in srgb, #3b82f6 15%, transparent); color: #3b82f6; }
-.ozm-intent--entrance { background: color-mix(in srgb, #10b981 15%, transparent); color: #10b981; }
-.ozm-intent--attention { background: color-mix(in srgb, #f59e0b 15%, transparent); color: #f59e0b; }
-.ozm-intent--feedback { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
-.ozm-intent--spatial { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: #6d28d9; }
+.ozm-intent--state-change { background: color-mix(in srgb, #3b82f6 15%, transparent); color: var(--cfg-info-text); }
+.ozm-intent--entrance { background: color-mix(in srgb, #10b981 15%, transparent); color: var(--cfg-success-text); }
+.ozm-intent--attention { background: color-mix(in srgb, #f59e0b 15%, transparent); color: var(--cfg-warning-text); }
+.ozm-intent--feedback { background: color-mix(in srgb, #ef4444 15%, transparent); color: var(--fnd-color-text-danger); }
+.ozm-intent--spatial { background: color-mix(in srgb, #8b5cf6 15%, transparent); color: var(--cfg-processing-text); }
 </style>

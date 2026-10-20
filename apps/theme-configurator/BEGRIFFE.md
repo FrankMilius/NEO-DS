@@ -41,6 +41,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Farbrollen (Ebene 2) | Semantic Colors, Semantik, Bedeutungen | Rollen wie Text, Fläche, Rahmen; verweisen auf Grundfarben |
 | Komponentenwerte (Ebene 3) | Level L3, Component Tokens | Werte einzelner Komponenten |
 | Hell · Dunkel · Nebeneinander · Alle vier | Light, Dark, Split, Matrix | Vorschaumodi |
+| App-Darstellung: Hell · Dunkel · Wie System | Dark Mode, Light Mode, App-Theme | Schalter rechts in der Kopfleiste (R03, 20.10.2026); färbt nur die Oberfläche der App, nicht die Bühne. Nie nur „Hell/Dunkel“ ohne „App-Darstellung“, damit es nicht mit den Vorschaumodi verwechselt wird |
 | Bühne | Arena, Theme Arena, Laboratory, Labor | mittlere Vorschaufläche |
 | Einstellungen | Inspector | rechte Spalte (Entscheidung E2) |
 | Vorschau | Specimen | eine Vorschau auf der Bühne |
