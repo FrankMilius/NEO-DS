@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { resolve } from 'path'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { buildDefine } from './build-info.js'
 
 /**
@@ -17,7 +17,7 @@ import { buildDefine } from './build-info.js'
 //   KONFIGURATOR_AUSGABE=<Zielordner>
 // in einen eigenen Ordner — der lokale Build bleibt unberuehrt.
 const BASIS = process.env.KONFIGURATOR_BASE || '/config/theme-configurator/'
-const AUSGABE = process.env.KONFIGURATOR_AUSGABE ? resolve(process.env.KONFIGURATOR_AUSGABE) : resolve(__dirname, '../../config')
+const AUSGABE = process.env.KONFIGURATOR_AUSGABE ? resolve(process.env.KONFIGURATOR_AUSGABE) : resolve(import.meta.dirname, '../../config')
 
 function syncThemeConfigHtml() {
   return {
@@ -50,7 +50,7 @@ function syncThemeConfigHtml() {
 
             // Seit Plan v2, 4.3 ist der Einstieg ein Build-Ergebnis: er entsteht
       // bei jedem Build aus der versionierten Vorlage.
-      const vorlagePfad = resolve(__dirname, '../../config/theme-config.vorlage.html')
+      const vorlagePfad = resolve(import.meta.dirname, '../../config/theme-config.vorlage.html')
       if (!existsSync(vorlagePfad)) {
         console.warn('[sync] config/theme-config.vorlage.html fehlt — Einstieg nicht erzeugt')
         return
@@ -72,9 +72,9 @@ export default defineConfig({
   base: BASIS,
   resolve: {
     alias: {
-      'recipe-sdk': resolve(__dirname, '../../packages/recipe-sdk/index.js'),
-      'dtcg-export': resolve(__dirname, '../../packages/dtcg-export/index.js'),
-      'neo-behaviors': resolve(__dirname, '../../packages/neo-behaviors/index.js')
+      'recipe-sdk': resolve(import.meta.dirname, '../../packages/recipe-sdk/index.js'),
+      'dtcg-export': resolve(import.meta.dirname, '../../packages/dtcg-export/index.js'),
+      'neo-behaviors': resolve(import.meta.dirname, '../../packages/neo-behaviors/index.js')
     }
   },
   server: {
@@ -88,7 +88,7 @@ export default defineConfig({
     // Konfigurator lief damit in der Ersatzschrift und sah nicht aus wie das
     // System, das er einstellen soll.
     fs: {
-      allow: [resolve(__dirname, '../..')],
+      allow: [resolve(import.meta.dirname, '../..')],
     },
     proxy: {
       '/api': {

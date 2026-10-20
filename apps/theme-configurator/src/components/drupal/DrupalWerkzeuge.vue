@@ -38,7 +38,8 @@
     </button>
     </KopfPlatz>
 
-    <!-- Website-Vorschau (Vertrag 1.1.0): nur für die angemeldete Person -->
+    <!-- Website-Vorschau (Vertrag 1.1.0): nur für die angemeldete Person.
+         Name beginnt mit dem sichtbaren Text (WCAG 2.5.3, axe 4.14, R07). -->
     <KopfPlatz v-if="kannBearbeiten" name="vorschau">
     <div class="dw-trenner" aria-hidden="true"></div>
     <button
@@ -46,7 +47,7 @@
       class="dk-knopf"
       data-test="drupal-vorschau"
       :aria-pressed="zustand.vorschauAn ? 'true' : 'false'"
-      :aria-label="vorschauAnderes ? `Website-Vorschau, zeigt „${zustand.vorschauName}“` : `Vorschau von „${themeName}“ auf der Website`"
+      :aria-label="vorschauAnderes ? `Website-Vorschau ${zustand.vorschauAn ? 'an' : 'aus'} · zeigt „${zustand.vorschauName}“` : `Website-Vorschau ${zustand.vorschauAn ? 'an' : 'aus'} — Vorschau von „${themeName}“ auf der Website`"
       :title="vorschauTitel"
       @click="betrieb.vorschauUmschalten()"
     >

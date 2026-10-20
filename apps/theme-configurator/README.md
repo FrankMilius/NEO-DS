@@ -1098,10 +1098,21 @@ App 1.2.35 (R07, Teil 1: Entwicklungswerkzeuge, 20.10.2026):
   Pinia 4.1.0, happy-dom 21.0.3, Playwright 1.64.1 (Chromium 156; Docker
   `playwright:v1.64.1-noble`). Typprüfung, Unit-, Ende-zu-Ende- und
   Bildvergleiche unverändert grün; Baselines passten ohne Neuschreiben.
-- Noch offen (Teil 2): Vite 8, Vitest 5, ESLint 10, @axe-core/playwright
-  4.14 verlangen Node ≥ 22.12 bzw. 22.13 — lokal läuft 22.11.0 (CI und
-  Docker haben ein neueres Node). Bei Vite 8 lässt npm die native
-  Rolldown-Bibliothek unter 22.11 weg; der Bau bricht ab.
+- Teil 2 folgte mit App 1.2.36, nachdem Node lokal auf 24 gehoben war.
+
+App 1.2.36 (R07, Teil 2, 20.10.2026, Node 24):
+
+- Vite 8.3.4 (Rolldown; Bau 1,1 s statt 2,9 s), @vitejs/plugin-vue 6.0.10,
+  Vitest 5.0.5 (auch an der Wurzel; dort mit Storybook gemeinsam Vite
+  6.4.1), ESLint 10.13 mit @eslint/js 10, @axe-core/playwright 4.14.
+- Konfigurationen mit `import.meta.dirname` und `node:`-Importen statt
+  `__dirname` (Warnung von Vite 8 zum künftigen nativen Konfigurationslader).
+- Vitest 5: `pool: 'threads'` — mit dem Standard „forks“ 58–66 s statt
+  52 s (Vitest 4) und unter Last Zeitüberschreitungen; mit Threads 41 s.
+- axe 4.14 prüft WCAG 2.5.3 (Beschriftung im Namen): Die Zusatzzeile der
+  Einträge in „Themes in Drupal“ steht jetzt neben dem Knopf (gestreckter
+  Knopf, als Beschreibung vorgelesen); der Name des Vorschau-Knopfs beginnt
+  mit dem sichtbaren Text („Website-Vorschau an — Vorschau von …“).
 
 Ursprünglicher Vorschlag (ADR-004):
 

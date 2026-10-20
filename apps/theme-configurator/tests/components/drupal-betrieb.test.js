@@ -713,7 +713,8 @@ describe('Website-Vorschau: Abgleich mit dem Server (UX-25)', () => {
     const k = knopf(w, 'drupal-vorschau')
     expect(k.attributes('aria-pressed')).toBe('true')
     expect(w.find('[data-test="vorschau-anderes"]').text()).toContain('Kunde B')
-    expect(k.attributes('aria-label')).toBe('Website-Vorschau, zeigt „Kunde B“')
+    // Name beginnt mit dem sichtbaren Text (WCAG 2.5.3, R07)
+    expect(k.attributes('aria-label')).toBe('Website-Vorschau an · zeigt „Kunde B“')
   })
   it('ohne Server-Vorschau und ohne gesetzte Vorschau bleibt der Wunsch „an“', async () => {
     const sp = adapter({ faehigkeiten: FAEHIG, vorschau: vi.fn(async () => null), setzeVorschau: vi.fn(), beendeVorschau: vi.fn() })

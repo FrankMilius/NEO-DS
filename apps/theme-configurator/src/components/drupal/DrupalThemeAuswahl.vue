@@ -34,17 +34,23 @@
       </div>
       <!-- Fester Eintrag: das reine NEO Design System (Vertrag 1.1.0) -->
       <div class="dt-eintrag dt-eintrag--standard" :class="{ 'dt-eintrag--offen': neoOffen }" data-test="drupal-neo-standard">
-        <button
-          type="button"
-          class="dt-oeffnen dt-oeffnen--neo"
-          data-test="drupal-neo-oeffnen"
-          :aria-current="neoOffen ? 'true' : undefined"
-          aria-label="NEO Design System (Standard) ansehen (nur lesen)"
-          @click="neoAnsehen"
-        >
-          <span class="dt-name">NEO Design System (Standard)</span>
-          <span class="dt-meta">Basis jedes Themes · ansehen, nicht änderbar</span>
-        </button>
+        <!-- R07 (axe 4.14, WCAG 2.5.3): Zusatzzeile neben dem Knopf, nicht darin —
+             sonst stünde sichtbarer Text nicht im Namen. Die ganze Zeile bleibt
+             über .dt-oeffnen::after klickbar; die Zeile wird als Beschreibung vorgelesen. -->
+        <div class="dt-oeffnen-feld">
+          <button
+            type="button"
+            class="dt-oeffnen dt-oeffnen--neo"
+            data-test="drupal-neo-oeffnen"
+            :aria-current="neoOffen ? 'true' : undefined"
+            aria-label="NEO Design System (Standard) ansehen (nur lesen)"
+            :aria-describedby="`${uid}-neo-meta`"
+            @click="neoAnsehen"
+          >
+            <span class="dt-name">NEO Design System (Standard)</span>
+          </button>
+          <span :id="`${uid}-neo-meta`" class="dt-meta">Basis jedes Themes · ansehen, nicht änderbar</span>
+        </div>
         <span class="dt-marken">
           <span v-if="neoAktiv" class="dk-marke dk-marke--aktiv">aktiv</span>
         </span>
@@ -69,16 +75,19 @@
           :class="{ 'dt-eintrag--offen': t.id === aktuellId }"
           :data-test="`drupal-theme-${t.id}`"
         >
-          <button
-            type="button"
-            class="dt-oeffnen"
-            :aria-current="t.id === aktuellId ? 'true' : undefined"
-            :aria-label="`${t.name} öffnen (${statusText(t)})`"
-            @click="oeffne(t.id)"
-          >
-            <span class="dt-name">{{ t.name }}</span>
-            <span class="dt-meta">v{{ t.version }}<template v-if="t.updatedAt"> · {{ datum(t.updatedAt) }}</template></span>
-          </button>
+          <div class="dt-oeffnen-feld">
+            <button
+              type="button"
+              class="dt-oeffnen"
+              :aria-current="t.id === aktuellId ? 'true' : undefined"
+              :aria-label="`${t.name} öffnen (${statusText(t)})`"
+              :aria-describedby="`${uid}-meta-${t.id}`"
+              @click="oeffne(t.id)"
+            >
+              <span class="dt-name">{{ t.name }}</span>
+            </button>
+            <span :id="`${uid}-meta-${t.id}`" class="dt-meta">v{{ t.version }}<template v-if="t.updatedAt"> · {{ datum(t.updatedAt) }}</template></span>
+          </div>
           <span class="dt-marken">
             <span v-if="t.aktiv" class="dk-marke dk-marke--aktiv">aktiv</span>
             <span class="dk-marke" :class="`dk-marke--${t.status || 'entwurf'}`">{{ statusKurz(t.status) }}</span>
@@ -120,10 +129,13 @@
  * veröffentlichte, Recht „veröffentlichen“), Löschen (Bestätigung; das
  * aktive nicht). Bedienelemente nach darf().
  */
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { darf } from '../../speicher/index.js'
 import { useDrupalBetrieb } from '../../composables/useDrupalBetrieb.js'
+
+/** eindeutige ids für die Beschreibungen der Einträge (R07) */
+const uid = useId()
 
 const store = useThemeStore()
 const betrieb = useDrupalBetrieb()
@@ -251,7 +263,8 @@ onUnmounted(() => {
 .dt-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .dt-eintrag { display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 6px; }
 .dt-eintrag--offen { background: var(--cfg-accent-subtle); }
-.dt-oeffnen {
+.dt-oeffnen-feld {
+  position: relative;
   flex: 1;
   min-width: 0;
   min-height: 36px;
@@ -261,15 +274,23 @@ onUnmounted(() => {
   justify-content: center;
   gap: 1px;
   padding: 2px 6px;
-  border: none;
   border-radius: 5px;
+}
+.dt-oeffnen-feld:hover { background: var(--cfg-surface-elevated); }
+.dt-oeffnen {
+  max-width: 100%;
+  padding: 0;
+  border: none;
   background: transparent;
   color: var(--cfg-text);
   font-family: inherit;
   text-align: left;
   cursor: pointer;
 }
-.dt-oeffnen:hover { background: var(--cfg-surface-elevated); }
+/* gestreckter Knopf: die ganze Zeile (samt Zusatzzeile) ist Klickfläche */
+.dt-oeffnen::after { content: ''; position: absolute; inset: 0; border-radius: 5px; }
+.dt-oeffnen:focus-visible { outline: none; }
+.dt-oeffnen:focus-visible::after { outline: var(--cfg-focus-ring-width) solid var(--cfg-focus-ring); outline-offset: 1px; }
 .dt-eintrag--standard { border-bottom: 1px solid var(--cfg-border); border-radius: 6px 6px 0 0; margin-bottom: 4px; padding-bottom: 6px; }
 .dt-name { font-size: 12px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dt-meta { font-size: 11px; color: var(--cfg-text-secondary); }
