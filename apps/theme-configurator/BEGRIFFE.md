@@ -62,6 +62,8 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Veröffentlichen | Publish |
 | Auf der Website aktivieren | Aktivieren |
 | Vorschau von „‹Theme›“ auf der Website (Schalter) | Vorschau an / Vorschau aus |
+| Als Besucher ansehen · Zurück zur Vorschau (Links in der Leiste auf der Website, R04) | privates Fenster öffnen |
+| Besucheransicht (Leiste, gestrichelt) | – |
 | Gespeichert · Ungespeicherte Änderungen · Wird gespeichert … · Lädt … | gemischte Zustände |
 | Nur Ansicht | „Nicht in Drupal gespeichert“ im Ansichtsmodus |
 | Von anderer Person geändert | Konflikt |
