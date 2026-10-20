@@ -72,14 +72,21 @@ export default defineConfig({
     {
       name: 'smoke',
       grepInvert: /@visuell/,
-      testIgnore: /drupal\.spec\.js/,
+      testIgnore: /drupal\.spec\.js|wirkung\.spec\.js/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     {
       name: 'visuell',
       grep: /@visuell/,
-      testIgnore: /drupal\.spec\.js/,
+      testIgnore: /drupal\.spec\.js|wirkung\.spec\.js/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
+    },
+    {
+      // Wirkungsprüfung (R12): eigener Lauf, Auswertung scripts/wirkung.mjs
+      name: 'wirkung',
+      testMatch: /wirkung\.spec\.js/,
+      retries: 0,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     {
       name: 'drupal',

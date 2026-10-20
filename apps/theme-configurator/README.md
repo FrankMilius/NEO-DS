@@ -1136,6 +1136,25 @@ App 1.2.37 (Schriftrollen und Button-Abstand, 20.10.2026):
 - Tests: `e2e/schrift-rolle.spec.js` (gemessen auf der Bühne),
   `tests/components/schrift-rolle-wahl.test.js`.
 
+App 1.2.38 (R12: Wirkungsprüfung als Test, Hinweis am Feld, 20.10.2026):
+
+- `npm run e2e:wirkung`: Je Komponente mit Bühne bekommt jedes Token einen
+  Prüfwert; gemessen wird, ob sich der berechnete Stil der Bühne ändert
+  (`e2e/wirkung.spec.js`, Projekt `wirkung`). Ob das CSS das Token liest,
+  steht im Quelltext der Stylesheets (nicht in `cssText`: Kurzformen wie
+  `transition` verlieren dort den Namen).
+- `scripts/wirkung.mjs` ordnet jedes Token ein (wirkt, zustand, ohne-wirkung,
+  unbenutzt, ohne-pruefwert, ohne-buehne) und hält den Stand in
+  `src/data/token-wirkung.json` fest. Ratsche: Kein Token darf schlechter
+  werden, neue Tokens dürfen nicht tot sein (`--pruefen`, in der CI);
+  Verbesserungen mit `--setzen` festschreiben.
+- Stand 20.10.2026: 2661 Tokens — wirkt 1751, Zustand/Bewegung 182, ohne
+  Prüfwert 120, ohne Wirkung 236, unbenutzt 130, ohne Bühne 242.
+- Komponenten-Editor: Werte „ohne-wirkung“ und „unbenutzt“ tragen das
+  Kennzeichen „wirkt derzeit nicht“ mit Erklärung (`wirkungsHinweis()` in
+  `utils/token-wirkung.js`).
+- Tests: `tests/utils/wirkungs-hinweis.test.js`, `e2e/schrift-rolle.spec.js`.
+
 Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS

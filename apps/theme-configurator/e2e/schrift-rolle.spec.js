@@ -35,6 +35,7 @@ test('Icon Gap ändert den Abstand der MD-Buttons auf der Bühne', async ({ page
   expect(new Set(vorher)).toEqual(new Set(['8px']))
   const zeile = page.locator('.anatomy-row').filter({ has: page.locator('.anatomy-row__label', { hasText: /^\s*Icon Gap\s*$/ }) })
   await zeigeToken(page, 'nc-button-gap', zeile)
+  await expect(zeile.locator('[data-test="wirkt-nicht"]')).toHaveCount(0)
   await zeile.locator('.geo-select__trigger').click()
   const eigen = zeile.getByLabel('Eigener Wert')
   await eigen.fill('var(--fnd-spacing-08)'); await eigen.press('Enter')
@@ -67,4 +68,12 @@ test('Schriftfamilie der Komponente wählt eine Rolle; Bedienelemente folgt Typo
   await karte.getByRole('combobox', { name: 'Bedienelemente: Schriftrolle' }).selectOption('var(--font-heading)')
   await oeffneSektion(page, 'component-button'); await warteAufRuhe(page)
   await expect.poll(familie).toEqual([expect.stringMatching(/^"?Space Grotesk/)])
+})
+
+test('Wert ohne Wirkung trägt den Hinweis „wirkt derzeit nicht“ (R12)', async ({ page }) => {
+  await oeffneSektion(page, 'component-accordion'); await warteAufRuhe(page)
+  const hinweis = page.locator('.inspector-panel [data-test="wirkt-nicht"]').first()
+  await zeigeToken(page, 'nc-accordion-kicker-color', hinweis)
+  await expect(hinweis).toHaveText('wirkt derzeit nicht')
+  await expect(hinweis).toHaveAttribute('title', /keine Wirkung/)
 })

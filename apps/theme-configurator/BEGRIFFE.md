@@ -47,6 +47,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Einstellungen | Inspector | rechte Spalte (Entscheidung E2) |
 | Vorschau | Specimen | eine Vorschau auf der Bühne |
 | Hilfslinien | Outline, Debug-Rahmen | Schalter auf der Bühne bei Objekten: Kanten und Maße über dem echten Inhalt |
+| wirkt derzeit nicht | – | Kennzeichen an einem Komponentenwert (R12, 20.10.2026): Die Wirkungsprüfung misst auf der Bühne keine Änderung, oder das Design System liest den Wert nirgends. Erklärung beim Darüberfahren |
 | Muster · Auf der Seite | Specimen, Kontext | Ansicht einer Grundlage auf der Bühne: Kacheln je Wert oder Website-Ausschnitt mit Markierungen, wo der Wert wirkt |
 | Entwurf | „Recipe im Status draft“ | Kennzeichen; „Recipe“ nur mit technischen Namen |
 | Gesperrt / Bearbeitbar, Version | Locked, Unlocked | Sperre einer Komponente |

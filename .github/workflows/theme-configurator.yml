@@ -178,6 +178,9 @@ jobs:
       - name: E2E (Smoke, Ablaeufe, axe)
         working-directory: apps/theme-configurator
         run: npm run e2e
+      - name: Wirkungspruefung der Komponentenwerte (Ratsche, R12)
+        working-directory: apps/theme-configurator
+        run: npm run e2e:wirkung
       - name: Report bei Fehlern
         if: failure()
         uses: actions/upload-artifact@v7

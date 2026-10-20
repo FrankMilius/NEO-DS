@@ -87,3 +87,20 @@ export function gruppenWirkung (tokenIds, komponente = '') {
   if (text && z.length) text += `, auch ${aufzaehlung(z)}`
   return { eigenschaften: e, zustaende: z, text: text ? `${text}.` : '' }
 }
+
+import messung from '../data/token-wirkung.json'
+
+/**
+ * Hinweis „wirkt derzeit nicht“ (Roadmap R12, 20.10.2026). Quelle ist die
+ * Wirkungsprüfung (e2e/wirkung.spec.js, scripts/wirkung.mjs): Ändert der
+ * Prüfwert auf der Bühne nichts oder liest das CSS das Token nirgends, sagt
+ * das Feld es, statt still nichts zu tun.
+ * @param {string} tokenId  z. B. 'nc-button-gap'
+ * @returns {string|null}  Erklärung (für title) oder null
+ */
+export function wirkungsHinweis (tokenId) {
+  const art = /** @type {Record<string, string>} */ (messung.tokens)[tokenId]
+  if (art === 'ohne-wirkung') return 'Eine Änderung dieses Werts zeigt auf der Bühne derzeit keine Wirkung. Das Design System wird dafür angepasst.'
+  if (art === 'unbenutzt') return 'Das Design System liest diesen Wert derzeit nirgends. Er wird angeschlossen oder entfernt.'
+  return null
+}

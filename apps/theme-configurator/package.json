@@ -1,7 +1,7 @@
 {
   "name": "theme-configurator",
   "private": true,
-  "version": "1.2.37",
+  "version": "1.2.38",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,8 @@
     "typecheck": "tsc -p jsconfig.json",
     "e2e": "playwright test --project=smoke --project=drupal",
     "e2e:drupal": "playwright test --project=drupal",
-    "e2e:visuell": "playwright test --project=visuell"
+    "e2e:visuell": "playwright test --project=visuell",
+    "e2e:wirkung": "node scripts/wirkung.mjs --leeren && playwright test --project=wirkung && node scripts/wirkung.mjs --pruefen"
   },
   "dependencies": {
     "pinia": "^4.1.0",

@@ -134,6 +134,7 @@
                 <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
                   <div class="anatomy-row__label">
                     {{ token.label }}
+                    <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
                     <component :is="resolveInheritance(token).source === 'komponente' ? 'a' : 'span'" v-if="resolveInheritance(token)" class="inheritance-link" :href="resolveInheritance(token).source === 'komponente' ? komponentenLink(resolveInheritance(token).gruppe) : undefined" :title="`Erbt von ${resolveInheritance(token).category} › ${resolveInheritance(token).varName}`">
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                       {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
@@ -199,6 +200,7 @@
                     </div>
                     <div class="token-info">
                       <span class="token-label">{{ token.label }}</span>
+                      <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
                       <code class="token-name">--{{ token.id }}</code>
                       <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
                     </div>
@@ -285,6 +287,7 @@
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
                     <div class="mirror-row__label" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @keydown.enter.prevent="selectToken(token)" @keydown.space.prevent="selectToken(token)">
                       <span class="token-label">{{ token.label }}</span>
+                      <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
                       <component :is="resolveInheritance(token).source === 'komponente' ? 'a' : 'span'" v-if="resolveInheritance(token)" class="inheritance-link inheritance-link--compact" :href="resolveInheritance(token).source === 'komponente' ? komponentenLink(resolveInheritance(token).gruppe) : undefined" :title="resolveInheritance(token).varName">
                         <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         {{ resolveInheritance(token).category }} › {{ resolveInheritance(token).label }}
@@ -372,6 +375,7 @@
                     </div>
                     <div class="token-info">
                       <span class="token-label">{{ token.label }}</span>
+                      <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
                       <code class="token-name">--{{ token.id }}</code>
                       <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
                     </div>
@@ -440,6 +444,7 @@
               </div>
               <div class="token-info">
                 <span class="token-label">{{ token.label }}</span>
+                <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
                 <code class="token-name">--{{ token.id }}</code>
                       <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
               </div>
@@ -526,7 +531,7 @@ import SchriftRolleWahl from '../editors/SchriftRolleWahl.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import VariantCreator from './VariantCreator.vue'
 import WebsiteEinsatz from './WebsiteEinsatz.vue'
-import { gruppenWirkung } from '../../utils/token-wirkung.js'
+import { gruppenWirkung, wirkungsHinweis } from '../../utils/token-wirkung.js'
 import { useTechnischeNamen } from '../../composables/useTechnischeNamen.js'
 
 const props = defineProps({
@@ -1671,6 +1676,17 @@ function getContrastTarget(token) {
   border-radius: 3px;
   background: var(--cfg-info-bg);
   color: var(--cfg-info-text);
+}
+
+.wirkung-hinweis {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px dashed var(--cfg-border);
+  color: var(--cfg-text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: help;
 }
 
 .override-badge {
