@@ -147,6 +147,10 @@
                     </label>
                     <input :aria-label="`${token.label}: Farbwert`" type="text" class="anatomy-color-input" :class="{ modified: isOverridden(token) }" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                   </div>
+                  <!-- Schriftfamilie: Rolle aus Typografie (20.10.2026) -->
+                  <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
+                    :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
+                    :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
                   <!-- Size/Other Tokens: GeometryTokenSelect -->
                   <GeometryTokenSelect v-else
                     :token="token"
@@ -213,6 +217,9 @@
                       <SizeEditor v-if="token.type === 'size'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
+                      <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
+                        :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
+                        :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
                       <div v-else class="generic-editor">
                         <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
                         <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
@@ -394,6 +401,9 @@
                       <SizeEditor v-else-if="token.type === 'size'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
+                      <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
+                        :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
+                        :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
                       <div v-else class="generic-editor">
                         <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
                         <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
@@ -444,6 +454,9 @@
                 <SizeEditor v-if="token.type === 'size'"
                   :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                   :title="token.label" :tokenId="token.id" :max="200" />
+                <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
+                  :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
+                  :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
                 <div v-else class="generic-editor">
                   <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
                   <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
@@ -509,6 +522,7 @@ import FeldBereich from '../ui/FeldBereich.vue'
 import { erlaubterBereich } from '../../utils/token-pruefung.js'
 import SizeEditor from '../editors/SizeEditor.vue'
 import GeometryTokenSelect from '../editors/GeometryTokenSelect.vue'
+import SchriftRolleWahl from '../editors/SchriftRolleWahl.vue'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import VariantCreator from './VariantCreator.vue'
 import WebsiteEinsatz from './WebsiteEinsatz.vue'

@@ -52,6 +52,15 @@ describe('vorschau-variablen', () => {
     expect(dunkel['--fnd-color-background-base']).toBe(store.state.themes.neo.dark['background-base'])
     delete store.state.componentOverrides.neo['nc-demo-bg']
   })
+
+  it('deklariert die Rolle Bedienelemente neu, damit eine Schrift aus dem Store ankommt (20.10.2026)', () => {
+    const store = useThemeStore()
+    store.state.activeThemeSet = 'neo'
+    expect(vorschauVariablen({ id: 'demo', modus: 'light', state: store.state, sheets: fakeSheets })['--font-ui']).toBe('var(--font-body)')
+    store.state.foundationOverrides.neo.typography = { ...(store.state.foundationOverrides.neo.typography || {}), 'font-ui': 'var(--font-mono)' }
+    expect(vorschauVariablen({ id: 'demo', modus: 'light', state: store.state, sheets: fakeSheets })['--font-ui']).toBe('var(--font-mono)')
+    delete store.state.foundationOverrides.neo.typography['font-ui']
+  })
 })
 
 describe('RecipeArena mit Store-Aenderungen', () => {

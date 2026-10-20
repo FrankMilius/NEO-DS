@@ -99,6 +99,7 @@ Base classes: `nc-tag`
 | `--nc-tag-font-size-sm` | — | `--mod-tag-font-size-sm` |
 | `--nc-tag-font-size-lg` | — | `--mod-tag-font-size-lg` |
 | `--nc-tag-font-weight` | — | `--mod-tag-font-weight` |
+| `--nc-tag-font-family` | — | `--mod-tag-font-family` |
 
 ### Default Colors
 | Token | CSS Property | Override |

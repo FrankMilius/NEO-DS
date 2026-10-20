@@ -15,7 +15,7 @@
         </span>
         <span v-else class="theme-name-badge">{{ currentThemeName }}</span>
       </h3>
-      <p v-if="isDefaultNeo" class="sub-desc">Schriften des NEO-Standards — Manrope (Fließtext), Space Grotesk (Überschriften), JetBrains Mono (Kicker, Tabellenköpfe, Zähler, Code).</p>
+      <p v-if="isDefaultNeo" class="sub-desc">Schriften des NEO-Standards — Manrope (Fließtext), Space Grotesk (Überschriften), JetBrains Mono (Kicker, Tabellenköpfe, Zähler, Code); Bedienelemente wie Fließtext.</p>
       <p v-else-if="buehne" class="sub-desc">
         Schriften dieses Themes je Rolle. Ändern in den Einstellungen rechts.
       </p>
@@ -34,6 +34,16 @@
             <span class="font-role-badge">{{ font.role }}</span>
             <span class="font-label">{{ font.label }}</span>
             <code class="font-value">{{ font.primary }}</code>
+          </div>
+        </div>
+        <div class="font-card font-card--locked" data-test="schrift-rolle-ui-neo">
+          <div class="font-preview" :style="{ fontFamily: typoTokens['font-body'].value }">
+            <span class="font-sample">Aa Bb Cc 123</span>
+          </div>
+          <div class="font-info">
+            <span class="font-role-badge">Bedienelemente</span>
+            <span class="font-label">wie Body</span>
+            <code class="font-value">Manrope</code>
           </div>
         </div>
       </div>
@@ -78,6 +88,25 @@
               </template>
               <code v-else class="font-value font-value--stack">{{ font.value }}</code>
               <code class="font-value">{{ font.cssVar }}</code>
+            </div>
+          </div>
+          <!-- Rolle Bedienelemente (20.10.2026): verweist auf eine der drei Schriften -->
+          <div class="font-card" data-test="schrift-rolle-ui">
+            <div class="font-preview" :style="{ fontFamily: uiRolle.familie }">
+              <span class="font-sample">Aa Bb Cc 123</span>
+            </div>
+            <div class="font-info">
+              <span class="font-role-badge">Bedienelemente</span>
+              <p class="font-wirkung">{{ ROLLEN_WIRKUNG.ui }}</p>
+              <template v-if="!buehne">
+                <span class="font-select-label">Schrift wie</span>
+                <SchriftRolleWahl label="Bedienelemente" :rollen="['body', 'heading', 'mono']"
+                  :modelValue="uiRolle.value" :standard="typoTokens['font-ui'].value" :eigeneErlaubt="false"
+                  :isOverridden="uiRolle.value !== typoTokens['font-ui'].value"
+                  @update:modelValue="updateUiRolle" />
+              </template>
+              <code v-else class="font-value font-value--stack">{{ uiRolle.value }}</code>
+              <code class="font-value">{{ typoTokens['font-ui'].cssVar }}</code>
             </div>
           </div>
         </div>
@@ -301,6 +330,7 @@
 <script setup>
 import HinzufuegenFormular from '../ui/HinzufuegenFormular.vue'
 import FeldBereich from '../ui/FeldBereich.vue'
+import SchriftRolleWahl from '../editors/SchriftRolleWahl.vue'
 import { erlaubterBereich } from '../../utils/token-pruefung.js'
 import { ref, reactive, computed, watch, onMounted, onUnmounted, useId } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
@@ -348,9 +378,22 @@ const defaultFonts = [
 // Active theme font families (editable for non-default)
 // ---------------------------------------------------------------------------
 const ROLLEN_WIRKUNG = {
-  body: 'Wirkt auf Fließtext, Navigation, Buttons und Formulare.',
+  body: 'Wirkt auf Fließtext und Navigation — und auf Buttons und Formulare, solange „Bedienelemente“ auf Body steht.',
   heading: 'Wirkt auf Überschriften (H1–H6), Hero- und Abschnittstitel.',
   mono: 'Wirkt auf Eyebrows/Kicker, Tabellenköpfe, Zähler und Code.',
+  ui: 'Wirkt auf Buttons, Formularfelder, Badges, Chips, Tags, Brotkrumen und Seitenzahlen. Jede dieser Komponenten kann in ihren Einstellungen eine andere Rolle wählen.',
+}
+
+// Rolle Bedienelemente: Wert ist immer ein Verweis var(--font-body|heading|mono)
+const uiRolle = computed(() => {
+  const typo = store.currentFoundation?.typography || {}
+  const value = typo['font-ui'] || typoTokens['font-ui'].value
+  const ziel = (String(value).match(/--font-(body|heading|mono)/) || [])[1] || 'body'
+  return { value, familie: typo[`font-${ziel}`] || typoTokens[`font-${ziel}`].value }
+})
+
+function updateUiRolle (wert) {
+  store.updateFoundationToken('typography', 'font-ui', wert)
 }
 
 const activeFonts = computed(() => {

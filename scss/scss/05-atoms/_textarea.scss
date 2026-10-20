@@ -96,6 +96,8 @@
 
 .nc-textarea {
   @include textarea-base;
+  // nach textarea-base: dort steht font-family: inherit (Schriftrolle, 20.10.2026)
+  font-family: var(--mod-textarea-font-family, var(--nc-textarea-font-family));
 
   // -- Max-Height Scroll-Enforcement --
   // Wenn max-height gesetzt ist, erzwingt overflow-y: auto

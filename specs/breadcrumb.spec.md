@@ -100,6 +100,7 @@ Base classes: `nc-breadcrumb`
 | --- | --- | --- |
 | `--nc-breadcrumb-gap` | — | `--mod-breadcrumb-gap` |
 | `--nc-breadcrumb-font-size` | — | `--mod-breadcrumb-font-size` |
+| `--nc-breadcrumb-font-family` | — | `--mod-breadcrumb-font-family` |
 
 ### Colors
 | Token | CSS Property | Override |

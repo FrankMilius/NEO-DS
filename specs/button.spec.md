@@ -136,6 +136,7 @@ Base classes: `nc-button`
 | `--nc-button-min-width` | — | `--mod-button-min-width` |
 | `--nc-button-label-compact` | — | — |
 | `--nc-button-label-expressive` | — | — |
+| `--nc-button-font-family` | — | `--mod-button-font-family` |
 
 ### Interaction
 | Token | CSS Property | Override |

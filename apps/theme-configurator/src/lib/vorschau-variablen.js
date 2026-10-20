@@ -25,6 +25,7 @@
 import { foundationZeilen } from '../export/foundation-css.js'
 import { iconStrichZeilen, WEBSITE_BIBLIOTHEK } from '../utils/icon-strich.js'
 import { schriftskalaZeilen } from '../export/type-scale-css.js'
+import { foundationTokens } from '../data/tokens.js'
 
 const _deklarationen = new Map()
 
@@ -184,6 +185,10 @@ export function vorschauVariablen({ id, modus, state, sheets, enthaelt = [], set
   for (const [rolle, wert] of Object.entries(semantik)) {
     if (wert) vars[`--fnd-color-${rolle}`] = wert
   }
+  // Rolle Bedienelemente (20.10.2026): --font-ui verweist auf --font-body usw.
+  // und wird sonst auf :root aufgelöst — eine Schrift aus dem Store kam dann
+  // bei Buttons und Formularfeldern der Bühne nicht an. Hier neu deklarieren.
+  vars['--font-ui'] = foundationTokens.typography.tokens['font-ui'].value
   const fnd = state.foundationOverrides?.[set]
   if (fnd) Object.assign(vars, zeilenZuObjekt(foundationZeilen(fnd).zeilen))
   Object.assign(vars, zeilenZuObjekt(schriftskalaZeilen(state.typeScale?.[set])))

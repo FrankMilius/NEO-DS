@@ -136,6 +136,8 @@ function inferTokenType(defaultVal, tokenId) {
 
   // ID-basierte Heuristiken (höchste Priorität)
   if (tokenId.includes('-radius')) return 'border-radius';
+  // Schriftrolle (20.10.2026): im Konfigurator Auswahl Bedienelemente · Fließtext · Überschriften · Mono
+  if (tokenId.endsWith('-font-family') || tokenId.endsWith('-family')) return 'fontFamily';
   if (tokenId.includes('-font-weight')) return 'fontWeight';
   if (tokenId.includes('-font-size')) return 'size';
   if (tokenId.includes('-opacity')) return 'generic';

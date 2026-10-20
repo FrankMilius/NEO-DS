@@ -1114,6 +1114,28 @@ App 1.2.36 (R07, Teil 2, 20.10.2026, Node 24):
   Knopf, als Beschreibung vorgelesen); der Name des Vorschau-Knopfs beginnt
   mit dem sichtbaren Text („Website-Vorschau an — Vorschau von …“).
 
+App 1.2.37 (Schriftrollen und Button-Abstand, 20.10.2026):
+
+- Neue Schriftrolle „Bedienelemente“ (`--font-ui`, Standard
+  `var(--font-body)`): Karte unter Typografie, Auswahl Body · Heading · Mono.
+  Gilt für Buttons, Formularfelder, Badges, Chips, Tags, Brotkrumen und
+  Seitenzahlen.
+- Schriftfamilie einer Komponente (Token-Typ `fontFamily`, z. B.
+  `--nc-button-font-family`) wählt eine Rolle statt Freitext
+  (`editors/SchriftRolleWahl.vue`); ein eigener Font-Stack bleibt als
+  „Eigene Angabe“ möglich. Prüfung in `utils/token-pruefung.js`.
+- Im Design System lag die Schriftfamilie dieser Komponenten vorher fest
+  (`font-family: inherit` nach der Angabe), auch das bisherige
+  `var(--font-mono)` bei Chip und Tag war wirkungslos. Standard bleibt
+  neutral: 0 von 72 Seiten weichen ab (1280 und 390 px).
+- „Icon Gap“ am Button (`--nc-button-gap`) war wirkungslos, weil die Größe
+  MD den Abstand immer überschrieb. MD folgt jetzt „Icon Gap“.
+- Bühne: `--font-ui` wird am Vorschau-Element neu deklariert
+  (`lib/vorschau-variablen.js`), damit eine Schrift aus dem Store dort ankommt.
+- Tokens-Studio-Export: Schriftrollen als Verweis (`{foundation.typography.font-ui}`).
+- Tests: `e2e/schrift-rolle.spec.js` (gemessen auf der Bühne),
+  `tests/components/schrift-rolle-wahl.test.js`.
+
 Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS

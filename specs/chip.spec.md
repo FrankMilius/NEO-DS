@@ -86,6 +86,7 @@ Base classes: `nc-chip`
 | `--nc-chip-font-size-sm` | — | `--mod-chip-font-size-sm` |
 | `--nc-chip-font-size-lg` | — | `--mod-chip-font-size-lg` |
 | `--nc-chip-font-weight` | — | `--mod-chip-font-weight` |
+| `--nc-chip-font-family` | — | `--mod-chip-font-family` |
 
 ### Default Colors (Filled)
 | Token | CSS Property | Override |

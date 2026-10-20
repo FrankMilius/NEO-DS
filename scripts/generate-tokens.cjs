@@ -474,6 +474,7 @@ const bruecke = (configurator, bekannt) => {
     'typography.font-body':      'font-body',
     'typography.font-heading':   'font-heading',
     'typography.font-mono':      'font-mono',
+    'typography.font-ui':        'font-ui',      // Rolle Bedienelemente (20.10.2026)
     'typography.weight-light':     'fnd-font-weight-light',
     'typography.weight-regular':   'fnd-font-weight-regular',
     'typography.weight-medium':    'fnd-font-weight-medium',

@@ -87,6 +87,7 @@ Base classes: `nc-textarea`
 | `--nc-textarea-max-height` | — | `--mod-textarea-max-height` |
 | `--nc-textarea-padding` | — | — |
 | `--nc-textarea-resize` | — | `--mod-textarea-resize` |
+| `--nc-textarea-font-family` | — | `--mod-textarea-font-family` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |

@@ -88,6 +88,7 @@ Base classes: `nc-badge`
 | `--nc-badge-letter-spacing` | — | `--mod-badge-letter-spacing` |
 | `--nc-badge-line-height` | — | `--mod-badge-line-height` |
 | `--nc-badge-label-max-width` | — | `--mod-badge-label-max-width` |
+| `--nc-badge-font-family` | — | `--mod-badge-font-family` |
 
 ### Extras (Dot / Icon)
 | Token | CSS Property | Override |

@@ -128,6 +128,8 @@
 
 .nc-input {
   @include input-base;
+  // nach input-base: dort steht font-family: inherit (Schriftrolle, 20.10.2026)
+  font-family: var(--mod-input-font-family, var(--nc-input-font-family));
 
   // -- Touch-Target Validierung (::after Pseudo-Element) --
   // Sichert 44px Mindest-Klickflaeche auch bei sm-Groesse.

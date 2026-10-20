@@ -207,6 +207,8 @@
 
 .nc-badge {
   @include badge-base;
+  // nach badge-base: dort steht font-family: inherit (Schriftrolle, 20.10.2026)
+  font-family: var(--mod-badge-font-family, var(--nc-badge-font-family));
 
   // Elements
   &__icon  { @include badge-icon-element; }

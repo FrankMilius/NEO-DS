@@ -259,7 +259,13 @@ describe('CSS Output Quality', () => {
     // 976 Klassen, ca. 44 KB roh) und ungenutzte a11y-Utilities entfernt
     // (Entscheidung Frank, kein Verwender auf Website, Theme und Datenbank).
     // Stand 1182,4 KB; ca. 2 % Luft.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1205);
+    //
+    // 20.10.2026: 1205 → 1208 KB (mit der Freigabe der Schriftrollen zur
+    // Entscheidung gemeldet). Stand 1204,4 KB davor, 1206,7 KB danach: Die
+    // Schriftfamilie steht in button-base, und das DS wiederholt button-base
+    // in allen 24 Varianten (+1,4 KB). Kandidat zum Aufräumen: Varianten
+    // ohne wiederholte Basis (nur mit .nc-button zusammen).
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1208);
   });
 
   it('CSS Build hat keine Fehler', () => {

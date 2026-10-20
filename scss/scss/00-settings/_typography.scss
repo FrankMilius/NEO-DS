@@ -280,3 +280,16 @@ $type-min-floor: 12px !default;
     --fnd-typography-paragraph-#{$size}-letter-spacing: #{map.get($props, 'letter-spacing')};
   }
 }
+
+// ---------------------------------------------------------------------------
+// Rolle „Bedienelemente“ (--font-ui, 20.10.2026)
+// ---------------------------------------------------------------------------
+// Schrift für Buttons, Badges, Formularfelder und Navigation. Verweist auf
+// eine der drei Schriftrollen (Standard: Fließtext) — so lassen sich alle
+// Bedienelemente auf einmal umstellen, ohne jede Komponente anzufassen.
+// Komponenten lesen sie über ihren Token --nc-<komponente>-font-family.
+// Wie die Vererbung in jedem Theme-Bereich neu abgeleitet.
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  --font-ui: var(--font-body);
+}

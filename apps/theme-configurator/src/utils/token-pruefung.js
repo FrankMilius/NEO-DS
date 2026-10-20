@@ -109,6 +109,8 @@ function pruefeArt (art, wert, bereich) {
 export function pruefeFoundationWert (kategorie, schluessel, wert) {
   if (wert !== null && typeof wert === 'object') return null   // strukturierte Werte (z. B. Präsentation)
   if (kategorie === 'typography' && /^font-(body|heading|mono)$/.test(schluessel)) return typeof wert === 'string' ? pruefeFontStack(wert) : null
+  // Rolle Bedienelemente (20.10.2026): nur Verweis auf eine der drei Schriftrollen
+  if (kategorie === 'typography' && schluessel === 'font-ui') return typeof wert === 'string' && UI_ROLLE.test(wert.trim()) ? null : 'Erwartet: Fließtext, Überschriften oder Mono.'
   if (kategorie === 'typography' && /^weight-/.test(schluessel)) return pruefeArt('zahl', wert, GEWICHT)
   if (kategorie === 'focus' && /^color(-light|-dark)?$/.test(schluessel)) return pruefeArt('farbe', wert)
   const token = foundationTokens?.[kategorie]?.tokens?.[schluessel]
@@ -119,6 +121,9 @@ export function pruefeFoundationWert (kategorie, schluessel, wert) {
   const art = token ? artVon(token.value) : (kategorie === 'opacity' || kategorie === 'zindex' ? 'zahl' : 'frei')
   return pruefeArt(art, wert, BEREICHE[kategorie])
 }
+
+/** erlaubte Werte der Rolle Bedienelemente */
+export const UI_ROLLE = /^var\(--font-(body|heading|mono)\)$/
 
 let komponentenTokens = null
 function komponentenToken (id) {
@@ -158,6 +163,8 @@ export function pruefeKomponentenWert (tokenId, wert) {
   if (typeof wert !== 'string' && typeof wert !== 'number') return null
   const s = String(wert).trim()
   if (!s) return 'Bitte einen Wert eingeben.'
+  // Schriftfamilie (20.10.2026): Verweis auf eine Schriftrolle oder ein Font-Stack
+  if (tok.type === 'fontFamily') return /^var\(--[\w-]+\)$/.test(s) ? null : pruefeFontStack(s)
   if (SCHLUESSELWORT.test(s) || FUNKTION.test(s)) return null
   const art = TYP_ART[tok.type] || (tok.default !== undefined ? artVon(tok.default) : 'frei')
   switch (art) {

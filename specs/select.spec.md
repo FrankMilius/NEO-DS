@@ -87,6 +87,7 @@ Base classes: `nc-select`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-select-padding-right` | — | `--mod-select-padding-right` |
+| `--nc-select-font-family` | — | `--mod-select-font-family` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |

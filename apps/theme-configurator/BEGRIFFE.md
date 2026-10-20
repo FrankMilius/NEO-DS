@@ -40,6 +40,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Stufe (50–950) | Shade, 5-%-Schritt | eine der 11 Abstufungen einer Palette, wie die Website sie nutzt |
 | Farbrollen (Ebene 2) | Semantic Colors, Semantik, Bedeutungen | Rollen wie Text, Fläche, Rahmen; verweisen auf Grundfarben |
 | Komponentenwerte (Ebene 3) | Level L3, Component Tokens | Werte einzelner Komponenten |
+| Schriftrollen: Body · Heading · Mono · Bedienelemente | UI Font, font-ui, Font Family (als Freitext) | die Schriften unter Typografie (20.10.2026). „Bedienelemente“ verweist auf Body, Heading oder Mono und gilt für Buttons, Formularfelder, Badges, Chips, Tags, Brotkrumen und Seitenzahlen. Die Schriftfamilie einer Komponente wählt eine dieser Rollen; ein eigener Font-Stack heißt „Eigene Angabe“ |
 | Hell · Dunkel · Nebeneinander · Alle vier | Light, Dark, Split, Matrix | Vorschaumodi |
 | App-Darstellung: Hell · Dunkel · Wie System | Dark Mode, Light Mode, App-Theme | Schalter rechts in der Kopfleiste (R03, 20.10.2026); färbt nur die Oberfläche der App, nicht die Bühne. Nie nur „Hell/Dunkel“ ohne „App-Darstellung“, damit es nicht mit den Vorschaumodi verwechselt wird |
 | Bühne | Arena, Theme Arena, Laboratory, Labor | mittlere Vorschaufläche |

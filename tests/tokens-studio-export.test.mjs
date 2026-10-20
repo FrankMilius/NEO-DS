@@ -4,7 +4,7 @@
  */
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { alsTokensStudio, farbe, mass, schatten, typVon, pfadUmschreiben, verweiseIn, TYPEN, SETS } from '../packages/tokens-studio-export/index.js'
+import { alsTokensStudio, farbe, mass, schatten, typVon, pfadUmschreiben, verweiseIn, schriftrolle, TYPEN, SETS } from '../packages/tokens-studio-export/index.js'
 
 const dtcg = JSON.parse(readFileSync(new URL('../data/design-tokens.dtcg.json', import.meta.url), 'utf8'))
 const { datei, bericht } = alsTokensStudio(dtcg)
@@ -49,6 +49,11 @@ describe('Umwandlung einzelner Werte', () => {
     expect(typVon(undefined, ['components', 'x', 'nc-x-scale'], 'generic', '0.97')).toBe('number')
     expect(pfadUmschreiben('foundation._configurator.size.xs')).toBe('foundation.size.xs')
     expect(verweiseIn({ color: '{semantic.x}', x: '0' })).toEqual(['semantic.x'])
+  })
+  it('Schriftrollen werden Verweise auf die Rolle', () => {
+    expect(schriftrolle('var(--font-ui)')).toBe('{foundation.typography.font-ui}')
+    expect(schriftrolle('var(--font-mono)')).toBe('{foundation.typography.font-mono}')
+    expect(schriftrolle('"Inter", sans-serif')).toBeNull()
   })
 })
 

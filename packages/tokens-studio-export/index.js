@@ -55,6 +55,13 @@ export function pfadUmschreiben (pfad) {
 }
 const verweiseUmschreiben = (s) => s.replace(ALIAS_GLOBAL, (_, p) => `{${pfadUmschreiben(p)}}`)
 
+/** Schriftrollen: var(--font-body|heading|mono|ui) → Verweis auf die Rolle (20.10.2026) */
+const SCHRIFTROLLE = /^var\(--font-(body|heading|mono|ui)\)$/
+export function schriftrolle (wert) {
+  const m = typeof wert === 'string' && wert.trim().match(SCHRIFTROLLE)
+  return m ? `{foundation.typography.font-${m[1]}}` : null
+}
+
 const zahl = (n) => String(Math.round(n * 10000) / 10000)
 
 /** Verweise {pfad} in einem Wert — nur in Textfeldern, auch in Schatten-Objekten */
@@ -115,7 +122,7 @@ export function typVon (dtcgTyp, pfad, cssType, wert) {
   const name = pfad[pfad.length - 1].toLowerCase()
   if (dtcgTyp === 'color' || cssType === 'color') return 'color'
   if (/(^|\.)(shadow|elevation)(\.|$)|shadow$/.test(p) && typeof wert === 'string' && !ALIAS.test(wert)) return schatten(wert) ? 'boxShadow' : 'other'
-  if (/font-body|font-heading|font-mono|fonts?$|font-family/.test(name) || /typography\.font-(body|heading|mono)/.test(p)) return 'fontFamilies'
+  if (/font-body|font-heading|font-mono|font-ui|fonts?$|family$/.test(name) || /typography\.font-(body|heading|mono|ui)/.test(p)) return 'fontFamilies'
   if (/weight/.test(name)) return 'fontWeights'
   if (/line[-_]height/.test(p)) return 'lineHeights'
   if (/tracking|letter[-_]spacing/.test(p)) return 'letterSpacing'
@@ -187,7 +194,9 @@ export function alsTokensStudio (dtcg) {
         const dt = v.$type || t
         let typ = typVon(dt, ziel, ext.cssType, wert)
         let value
-        if (dt === 'color' || typ === 'color') value = farbe(wert)
+        const rolle = schriftrolle(wert)
+        if (rolle) { value = rolle; typ = 'fontFamilies' }
+        else if (dt === 'color' || typ === 'color') value = farbe(wert)
         else if (typ === 'boxShadow') value = schatten(wert)
         else value = mass(wert)
         const verweis = typeof value === 'string' && ALIAS.test(value) ? value.slice(1, -1) : null

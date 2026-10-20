@@ -2255,7 +2255,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-accordion-trigger-family",
         "label": "Trigger Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -2279,7 +2279,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-accordion-kicker-family",
         "label": "Kicker Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -3620,6 +3620,12 @@ export const componentTokenGroups = [
         "label": "Soft Opacity",
         "type": "opacity",
         "default": "40%"
+      },
+      {
+        "id": "nc-badge-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ],
     "subgroups": [
@@ -3750,7 +3756,8 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-badge-status-font-weight"
+          "nc-badge-status-font-weight",
+          "nc-badge-font-family"
         ]
       },
       {
@@ -3903,7 +3910,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-badge-row-hero-family",
         "label": "Hero-Badge — Schriftfamilie",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -4311,6 +4318,12 @@ export const componentTokenGroups = [
         "label": "Back Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-01)"
+      },
+      {
+        "id": "nc-breadcrumb-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ],
     "subGroups": [
@@ -4356,7 +4369,8 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-breadcrumb-font-size-sm"
+          "nc-breadcrumb-font-size-sm",
+          "nc-breadcrumb-font-family"
         ]
       },
       {
@@ -4424,7 +4438,8 @@ export const componentTokenGroups = [
           "nc-button-gap",
           "nc-button-min-width",
           "nc-button-label-compact",
-          "nc-button-label-expressive"
+          "nc-button-label-expressive",
+          "nc-button-font-family"
         ]
       },
       {
@@ -4908,7 +4923,7 @@ export const componentTokenGroups = [
         "id": "nc-button-icon-gap-md",
         "label": "Icon Gap MD",
         "type": "size",
-        "default": "8px"
+        "default": "var(--nc-button-gap)"
       },
       {
         "id": "nc-button-icon-gap-lg",
@@ -5302,6 +5317,12 @@ export const componentTokenGroups = [
         "label": "Fab Shadow Hover",
         "type": "color",
         "default": "var(--fnd-elevation-floating)"
+      },
+      {
+        "id": "nc-button-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ]
   },
@@ -5747,7 +5768,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-card-label-family",
         "label": "Label Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -6564,6 +6585,12 @@ export const componentTokenGroups = [
         "label": "Group Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-chip-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ],
     "subgroups": [
@@ -6594,7 +6621,8 @@ export const componentTokenGroups = [
           "nc-chip-font-size-sm",
           "nc-chip-font-size-lg",
           "nc-chip-font-weight",
-          "nc-chip-count-font-size"
+          "nc-chip-count-font-size",
+          "nc-chip-font-family"
         ]
       },
       {
@@ -6838,7 +6866,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-cs-font-family",
         "label": "Font Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -9473,7 +9501,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-fade-gallery-tab-family",
         "label": "Tab Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -9946,7 +9974,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-footer-cta-kicker-family",
         "label": "Cta Kicker Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -11192,7 +11220,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-hero-kicker-family",
         "label": "Kicker Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -11546,7 +11574,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-hero-cards-kicker-family",
         "label": "Kennzahlen — Kicker-Schrift",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -11558,7 +11586,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-hero-cards-value-family",
         "label": "Kennzahlen — Wert-Schrift",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -11788,7 +11816,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-hero-tom-kicker-family",
         "label": "Kicker Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -12360,6 +12388,18 @@ export const componentTokenGroups = [
         "label": "Touch Area Min",
         "type": "size",
         "default": "44px"
+      },
+      {
+        "id": "nc-form-control-font-family",
+        "label": "Control Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
+      },
+      {
+        "id": "nc-input-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--nc-form-control-font-family)"
       }
     ],
     "subgroups": [
@@ -12395,7 +12435,9 @@ export const componentTokenGroups = [
           "nc-input-font-size-lg",
           "nc-input-label-font-size",
           "nc-input-label-font-size-float",
-          "nc-input-affix-font-size"
+          "nc-input-affix-font-size",
+          "nc-form-control-font-family",
+          "nc-input-font-family"
         ]
       },
       {
@@ -12961,7 +13003,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-kbd-font-family",
         "label": "Font Family",
-        "type": "font-family",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -13908,7 +13950,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-metric-value-font-family",
         "label": "Value Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -13956,7 +13998,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-metric-label-font-family",
         "label": "Label Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -14884,6 +14926,12 @@ export const componentTokenGroups = [
         "label": "Outline Border Active",
         "type": "color",
         "default": "var(--fnd-border-width-sm) solid var(--fnd-color-interactive-default)"
+      },
+      {
+        "id": "nc-pagination-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ],
     "subgroups": [
@@ -14903,7 +14951,8 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-pagination-jumper-font-size"
+          "nc-pagination-jumper-font-size",
+          "nc-pagination-font-family"
         ]
       },
       {
@@ -15216,7 +15265,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-product-showcase-option-font-family",
         "label": "Option Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -15270,7 +15319,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-product-showcase-label-family",
         "label": "Label Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -15282,7 +15331,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-product-showcase-label-font-family",
         "label": "Label Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-body)"
       },
       {
@@ -15372,7 +15421,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-product-showcase-acc-label-family",
         "label": "Acc Label Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -15402,7 +15451,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-product-showcase-acc-title-family",
         "label": "Acc Title Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -17382,6 +17431,12 @@ export const componentTokenGroups = [
         "label": "Optgroup Padding Left",
         "type": "spacing",
         "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-select-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--nc-form-control-font-family)"
       }
     ],
     "subgroups": [
@@ -17405,7 +17460,8 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-select-optgroup-font-weight"
+          "nc-select-optgroup-font-weight",
+          "nc-select-font-family"
         ]
       }
     ]
@@ -17845,7 +17901,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-shot-chrome-url-font-family",
         "label": "Adresse — Schrift",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "ui-monospace, Menlo, monospace"
       },
       {
@@ -19196,7 +19252,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-table-header-font-family",
         "label": "Header Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -19850,6 +19906,12 @@ export const componentTokenGroups = [
         "label": "Interactive Shadow Hover",
         "type": "color",
         "default": "var(--fnd-shadow-xs)"
+      },
+      {
+        "id": "nc-tag-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--font-ui)"
       }
     ],
     "subGroups": [
@@ -20429,6 +20491,12 @@ export const componentTokenGroups = [
         "label": "Actions Padding",
         "type": "spacing",
         "default": "var(--fnd-spacing-02) var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-textarea-font-family",
+        "label": "Font Family",
+        "type": "fontFamily",
+        "default": "var(--nc-form-control-font-family)"
       }
     ],
     "subGroups": [
@@ -22418,7 +22486,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-kicker-font-family",
         "label": "Font Family",
-        "type": "size",
+        "type": "fontFamily",
         "default": "var(--font-mono)"
       },
       {
@@ -23973,7 +24041,7 @@ export const componentTokenGroups = [
       {
         "id": "nc-chapter-nav-family",
         "label": "Family",
-        "type": "generic",
+        "type": "fontFamily",
         "default": "var(--font-heading)"
       },
       {
@@ -24417,6 +24485,13 @@ export const foundationTokens = {
         "value": "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
         "type": "font",
         "cssVar": "--font-mono"
+      },
+      "font-ui": {
+        "label": "UI Font",
+        "value": "var(--font-body)",
+        "type": "font-rolle",
+        "description": "Rolle Bedienelemente: verweist auf Fließtext, Überschriften oder Mono",
+        "cssVar": "--font-ui"
       },
       "weight-light": {
         "label": "Light",

@@ -2038,6 +2038,13 @@ export declare const foundationTokens: {
         type: string
         cssVar: string
       }
+      "font-ui": {
+        label: string
+        value: string
+        type: string
+        description: string
+        cssVar: string
+      }
       "weight-light": {
         label: string
         value: number

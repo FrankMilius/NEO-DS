@@ -191,11 +191,12 @@
 // ---------------------------------------------------------------------------
 
 .nc-tag {
-  font-family: var(--font-mono);
   font-size: var(--nc-mono-label-size-sm);
   font-weight: var(--nc-mono-label-weight);
   letter-spacing: var(--nc-mono-tracking-code);
   @include tag-base;
+  // nach tag-base: dort steht font-family: inherit (Schriftrolle, 20.10.2026)
+  font-family: var(--mod-tag-font-family, var(--nc-tag-font-family));
 
   // Elements
   &__icon   { @include tag-icon-element; }

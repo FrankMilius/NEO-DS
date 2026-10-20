@@ -82,6 +82,7 @@
   --nc-type-caption-size: var(--fs-xs);    --nc-type-caption-weight: 500; --nc-type-caption-lh: 1.40; --nc-type-caption-ls: 0.04em;
 
   // -- Geometry (4 Größen: xs / sm / md / lg) --
+  --nc-button-font-family: var(--font-ui);          // Schriftrolle Bedienelemente
   --nc-button-height-xs: var(--fnd-size-xs);    // 24px
   --nc-button-height-sm: var(--fnd-size-sm);    // 32px
   --nc-button-height-md: var(--fnd-size-md);    // 40px
@@ -128,7 +129,9 @@
   // -- Icon-Spacing pro Größe (gap zwischen Icon und Label) --
   --nc-button-icon-gap-xs: var(--fnd-spacing-01);  // 4px
   --nc-button-icon-gap-sm: var(--fnd-spacing-02);  // 8px
-  --nc-button-icon-gap-md: var(--fnd-spacing-02);  // 8px
+  // MD ist die Standardgröße: folgt „Icon Gap“ (--nc-button-gap), denn button-size('md')
+  // überschreibt gap immer — vorher blieb --nc-button-gap ohne Wirkung (20.10.2026)
+  --nc-button-icon-gap-md: var(--nc-button-gap);    // 8px
   --nc-button-icon-gap-lg: var(--fnd-spacing-03);  // 12px
 
   // -- Primary Variant --
@@ -393,6 +396,7 @@
   // Select erben diese Werte via var()-Aliase. Aenderungen hier wirken global.
 
   // -- Outlined (Default) --
+  --nc-form-control-font-family:                 var(--font-ui);   // Schriftrolle Bedienelemente
   --nc-form-control-bg:                          var(--fnd-color-surface-elevated);
   --nc-form-control-color:                       var(--fnd-color-text-primary);
   // Bedienrahmen, nicht Trennlinie: WCAG 1.4.11 verlangt 3:1 fuer den Rand,
@@ -426,6 +430,7 @@
   // ---------------------------------------------------------------------------
 
   // -- Geometry (3 sizes: sm / md / lg) — komponentenspezifisch --
+  --nc-input-font-family: var(--nc-form-control-font-family);
   --nc-input-height-sm: var(--fnd-size-sm);
   --nc-input-height-md: var(--fnd-size-md);
   --nc-input-height-lg: var(--fnd-size-lg);
@@ -506,6 +511,7 @@
   // Textarea Tokens
   // ---------------------------------------------------------------------------
 
+  --nc-textarea-font-family: var(--nc-form-control-font-family);
   --nc-textarea-min-height: 80px;
   --nc-textarea-max-height: none;
   --nc-textarea-padding: var(--fnd-spacing-03) var(--fnd-spacing-04);
@@ -518,6 +524,7 @@
   // Select Tokens
   // ---------------------------------------------------------------------------
 
+  --nc-select-font-family: var(--nc-form-control-font-family);
   --nc-select-indicator-size: 20px;
   --nc-select-indicator-color: var(--fnd-color-text-secondary);
   --nc-select-padding-right: var(--fnd-spacing-08);            // 32px (Platz fuer Arrow)
@@ -1191,6 +1198,7 @@
   // Badge Tokens
   // ---------------------------------------------------------------------------
 
+  --nc-badge-font-family: var(--font-ui);                    // Schriftrolle Bedienelemente
   --nc-badge-padding-x-sm: var(--fnd-spacing-02);          // 6px
   --nc-badge-padding-x-md: var(--fnd-spacing-03);          // 8px
   --nc-badge-padding-y: var(--fnd-spacing-01);
@@ -1370,6 +1378,7 @@
   // Breadcrumb Tokens
   // ---------------------------------------------------------------------------
 
+  --nc-breadcrumb-font-family: var(--font-ui);                   // Schriftrolle Bedienelemente
   --nc-breadcrumb-gap: var(--fnd-spacing-02);                    // 8px
   --nc-breadcrumb-font-size: var(--fs-sm);
   --nc-breadcrumb-font-size-sm: var(--fs-xs);                   // SM-Size fuer Admin/Sidebar
@@ -1622,6 +1631,9 @@
   // ---------------------------------------------------------------------------
 
   // -- Sizes (3 Stufen, versetzt zum Button-Scale) --
+  // Markenbuch sieht Mono für Etiketten vor; die Website zeigt bisher die Schrift der
+  // Umgebung (font-family: inherit überdeckte var(--font-mono)). Neutral: Bedienelemente.
+  --nc-tag-font-family: var(--font-ui);                 // Schriftrolle (20.10.2026)
   --nc-tag-height-sm: var(--nc-button-height-xs);      // 24px
   --nc-tag-height-md: var(--nc-button-height-sm);      // 32px (Default)
   --nc-tag-height-lg: var(--nc-button-height-md);      // 40px
@@ -1706,6 +1718,9 @@
   // ---------------------------------------------------------------------------
 
   // -- Sizes (identisch Tag) --
+  // Markenbuch sieht Mono für Etiketten vor; die Website zeigt bisher die Schrift der
+  // Umgebung (font-family: inherit überdeckte var(--font-mono)). Neutral: Bedienelemente.
+  --nc-chip-font-family: var(--font-ui);                 // Schriftrolle (20.10.2026)
   --nc-chip-height-sm: var(--nc-button-height-xs);     // 24px
   --nc-chip-height-md: var(--nc-button-height-sm);     // 32px (Default)
   --nc-chip-height-lg: var(--nc-button-height-md);     // 40px
@@ -2496,6 +2511,7 @@
 
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  --nc-pagination-font-family:      var(--font-ui);               // Schriftrolle Bedienelemente
   --nc-pagination-gap:              var(--fnd-spacing-01);           // 4px zwischen Buttons
   --nc-pagination-padding:          var(--fnd-spacing-03) 0;         // 12px ober/unterhalb
   --nc-pagination-color:            var(--fnd-color-text-secondary);

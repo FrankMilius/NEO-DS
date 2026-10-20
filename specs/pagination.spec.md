@@ -90,6 +90,7 @@ Base classes: `nc-pagination`
 | `--nc-pagination-padding` | — | `--mod-pagination-padding` |
 | `--nc-pagination-color` | — | `--mod-pagination-color` |
 | `--nc-pagination-font-size` | — | `--mod-pagination-font-size` |
+| `--nc-pagination-font-family` | — | `--mod-pagination-font-family` |
 
 ### Page Item
 | Token | CSS Property | Override |

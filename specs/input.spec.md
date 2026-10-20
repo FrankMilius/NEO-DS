@@ -92,6 +92,7 @@ Base classes: `nc-input`
 | `--nc-input-font-size-lg` | — | `--mod-input-font-size-lg` |
 | `--nc-input-radius` | — | `--mod-input-radius` |
 | `--nc-input-border-width` | — | `--mod-input-border-width` |
+| `--nc-input-font-family` | — | `--mod-input-font-family` |
 
 ### Colors (Outlined)
 | Token | CSS Property | Override |
