@@ -222,7 +222,9 @@ onUnmounted(() => {
   cursor: pointer;
 }
 .dt-auswahl-knopf:hover { background: var(--cfg-surface-elevated); }
-.dt-auswahl-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-auswahl-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 280px; }
+/* R05: in schmalen Fenstern gekürzt; voller Name im Titel und in der Liste */
+@media (max-width: 767px) { .dt-auswahl-name { max-width: 20vw; } .dt-auswahl-knopf { padding-inline: 8px; } }
 .dt-chevron { flex-shrink: 0; transition: transform 0.15s; }
 .dt-chevron.offen { transform: rotate(180deg); }
 .dt-panel {

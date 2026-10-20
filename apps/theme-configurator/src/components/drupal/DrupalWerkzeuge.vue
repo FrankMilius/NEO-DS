@@ -15,14 +15,16 @@
       @click="betrieb.speichern()"
     >
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Speichern
+      <span class="kopf-text-schmal">Speichern</span>
     </button>
-    <span class="dw-status" :class="`dw-status--${zustand.status}`" role="status" data-test="drupal-status" :data-status="zustand.status">
-      <span class="dw-punkt" aria-hidden="true"></span>{{ statusText }}
+    <!-- R05: der Text wird in schmalen Fenstern nur vorgelesen, der Punkt bleibt -->
+    <span class="dw-status" :class="`dw-status--${zustand.status}`" role="status" data-test="drupal-status" :data-status="zustand.status" :title="statusText">
+      <span class="dw-punkt" aria-hidden="true"></span><span class="dw-status-text">{{ statusText }}</span>
     </span>
 
+    <!-- R05: seltene Aktionen wandern bei Platzmangel ins Menü „Mehr …“ -->
+    <KopfPlatz name="veroeffentlichen">
     <div class="dw-trenner" aria-hidden="true"></div>
-
     <button
       type="button"
       class="dk-knopf"
@@ -34,12 +36,12 @@
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
       Veröffentlichen
     </button>
-
-    <div class="dw-trenner" aria-hidden="true"></div>
+    </KopfPlatz>
 
     <!-- Website-Vorschau (Vertrag 1.1.0): nur für die angemeldete Person -->
+    <KopfPlatz v-if="kannBearbeiten" name="vorschau">
+    <div class="dw-trenner" aria-hidden="true"></div>
     <button
-      v-if="kannBearbeiten"
       type="button"
       class="dk-knopf"
       data-test="drupal-vorschau"
@@ -51,6 +53,8 @@
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path v-if="!zustand.vorschauAn" d="M3 3l18 18"/></svg>
       Website-Vorschau {{ zustand.vorschauAn ? 'an' : 'aus' }}<span v-if="vorschauAnderes" class="dw-vorschau-anderes" data-test="vorschau-anderes"> · zeigt „{{ zustand.vorschauName }}“</span>
     </button>
+    </KopfPlatz>
+    <KopfPlatz name="website">
     <a
       class="dk-knopf"
       data-test="drupal-website"
@@ -62,6 +66,7 @@
       Website öffnen
       <span class="u-sr-only">(neuer Tab)</span>
     </a>
+    </KopfPlatz>
     <span v-if="zustand.vorschauFehler" class="dw-vorschau-fehler" role="alert">{{ zustand.vorschauFehler }}</span>
 
     <DrupalAnlegenDialog />
@@ -77,6 +82,7 @@
  * lokalen Betriebs. Strg+S löst AppHeader über useDrupalBetrieb aus.
  */
 import { computed } from 'vue'
+import KopfPlatz from '../layout/KopfPlatz.vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { darf } from '../../speicher/index.js'
 import { useDrupalBetrieb } from '../../composables/useDrupalBetrieb.js'
@@ -123,7 +129,11 @@ const veroeffentlichenTitel = computed(() => {
 <style scoped src="./_drupal.css"></style>
 <style scoped>
 .dw-vorschau-anderes { font-weight: 400; color: var(--cfg-text-secondary); }
-.dw { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; row-gap: 4px; }   /* UX-04: bricht in schmalen Fenstern um */
+.dw { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }   /* R05: einzeilig, Seltenes wandert ins Menü „Mehr …“ */
+/* Status nur als Punkt, wenn es eng wird; der Text bleibt für Screenreader */
+@media (max-width: 1023px) {
+  .dw-status-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+}
 .dw-trenner { width: 1px; height: 20px; background: var(--cfg-border); margin: 0 2px; }
 .dw-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cfg-text-secondary); white-space: nowrap; }
 .dw-punkt { width: 8px; height: 8px; border-radius: 50%; background: var(--cfg-border); flex-shrink: 0; }

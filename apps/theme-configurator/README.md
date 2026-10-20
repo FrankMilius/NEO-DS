@@ -1056,6 +1056,27 @@ App 1.2.32 (R03: App-Darstellung Hell · Dunkel · Wie System, 20.10.2026):
   in beiden Darstellungen ohne Kontrastfehler, auf der Bühne kein
   zusätzlicher Befund durch die dunkle App.
 
+App 1.2.33 (R05: Kopfleiste mit Menü „Mehr …“, 20.10.2026):
+
+- Die Kopfleiste ist in jeder Breite einzeilig (360–1920 px, lokal und in
+  Drupal). Läuft sie über, wandert die seltenste Aktion ins Menü „Mehr …“
+  rechts; beim Verbreitern kommt sie zurück (`composables/useKopfMehr.js`,
+  gemessen statt fester Breiten). Reihenfolge lokal: Theme löschen,
+  Zusammenführen, Exportieren, App-Darstellung, Arbeitsstand, Neues Theme;
+  Drupal: Website öffnen, Exportieren, App-Darstellung, Website-Vorschau,
+  Veröffentlichen. Immer sichtbar: Theme-Auswahl, Speichern mit Status,
+  Rückgängig/Wiederholen.
+- `KopfPlatz.vue` verschiebt per `<Teleport>` dieselbe Komponente samt
+  Zustand. Untermenüs (Exportieren, Arbeitsstand) klappen im Menü in der
+  Liste auf; Escape schließt erst das Untermenü, dann „Mehr …“ (Fokus
+  zurück). Unter 768 px: Speichern und „Mehr …“ nur als Symbol (Name
+  vorgelesen), Theme-Name gekürzt; unter 1024 px: Status nur als Punkt,
+  Version im Menü. Ersetzt das Umbrechen aus UX-04.
+- Behebt den Überlauf im Drupal-Betrieb bei 1440 px seit App 1.2.32.
+- Tests: `e2e/kopfleiste.spec.js`, `e2e/kopfleiste-drupal.spec.js`
+  (einzeilig beim Verbreitern, Verkleinern und frischen Laden; Menü
+  bedienbar; axe auf Kopfleiste mit offenem Menü).
+
 Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS

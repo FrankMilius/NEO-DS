@@ -68,6 +68,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Nur Ansicht | „Nicht in Drupal gespeichert“ im Ansichtsmodus |
 | Von anderer Person geändert | Konflikt |
 | Zusammenführen · Arbeitsstand (nur lokal) | Merge, Branch, main |
+| Mehr … (Menü rechts in der Kopfleiste, R05; Gruppe „Weitere Aktionen“) | Overflow, ⋯-Menü, Weitere |
 
 ## Navigation und Bereichsnamen
 

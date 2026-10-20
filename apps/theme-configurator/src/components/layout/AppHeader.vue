@@ -1,7 +1,7 @@
 <template>
-  <header class="app-header">
+  <header ref="kopfRef" class="app-header">
     <!-- Brand -->
-    <div class="header-brand">
+    <div class="header-brand" data-kopf-mass>
       <svg aria-hidden="true" class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" />
         <path d="M12 12l8-4.5" /><path d="M12 12v9" /><path d="M12 12L4 7.5" />
@@ -19,14 +19,15 @@
     <div class="header-toolbar">
       <!-- Drupal-Betrieb (Plan v2, 2.6): Theme-Auswahl, Speichern, Veröffentlichen -->
       <template v-if="drupal">
-        <div class="toolbar-group">
+        <div class="toolbar-group" data-kopf-mass>
           <DrupalWerkzeuge />
         </div>
         <div class="toolbar-divider"></div>
       </template>
 
       <template v-else>
-      <!-- 1) Create New Theme -->
+      <!-- 1) Create New Theme — R05: wandert bei Platzmangel ins Menü „Mehr …“ -->
+      <KopfPlatz name="neu">
       <div class="toolbar-group">
         <button type="button" class="tb-btn" @click="openCreateDialog" title="Neues Theme anlegen">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -37,9 +38,10 @@
       </div>
 
       <div class="toolbar-divider"></div>
+      </KopfPlatz>
 
       <!-- 2) Theme Dropdown Selector + Load -->
-      <div class="toolbar-group theme-selector-group">
+      <div class="toolbar-group theme-selector-group" data-kopf-mass>
         <div class="theme-dropdown-wrap" ref="dropdownRef">
           <button
             type="button"
@@ -113,6 +115,7 @@
 
       <!-- 2b) Branch Manager (im Drupal-Betrieb ausgeblendet, Beschluss E) -->
       <template v-if="zeigeBranches">
+      <KopfPlatz name="arbeitsstand">
       <div class="toolbar-group">
         <BranchManager
           @merge="handleBranchMerge"
@@ -121,11 +124,12 @@
       </div>
 
       <div class="toolbar-divider"></div>
+      </KopfPlatz>
       </template>
 
       <!-- 3) Save Theme -->
       <template v-if="!drupal">
-      <div class="toolbar-group">
+      <div class="toolbar-group" data-kopf-mass>
         <button
           class="tb-btn tb-btn-save"
           :class="{ saving: isSaving, saved: showSaved }"
@@ -141,7 +145,7 @@
             <polyline points="20 6 9 17 4 12"/>
           </svg>
           <span v-else class="tb-spinner"></span>
-          <span class="tb-label">{{ showSaved ? 'Gespeichert' : 'Speichern' }}</span>
+          <span class="tb-label kopf-text-schmal">{{ showSaved ? 'Gespeichert' : 'Speichern' }}</span>
         </button>
       </div>
 
@@ -149,7 +153,7 @@
       </template>
 
       <!-- 4) Undo -->
-      <div class="toolbar-group">
+      <div class="toolbar-group" data-kopf-mass>
         <button
           class="tb-btn"
           @click="store.undo()"
@@ -176,9 +180,9 @@
         </button>
       </div>
 
-      <div class="toolbar-divider"></div>
-
       <!-- 4) Download Theme -->
+      <KopfPlatz name="exportieren">
+      <div class="toolbar-divider"></div>
       <div class="toolbar-group">
         <div class="download-wrap" ref="downloadRef">
           <button
@@ -249,11 +253,12 @@
           </Transition>
         </div>
       </div>
+      </KopfPlatz>
 
       <template v-if="!drupal">
-      <div class="toolbar-divider"></div>
-
       <!-- 5) Merge / Styleguide Sync -->
+      <KopfPlatz name="zusammenfuehren">
+      <div class="toolbar-divider"></div>
       <div class="toolbar-group">
         <button
           class="tb-btn tb-btn-merge"
@@ -271,10 +276,11 @@
           <span v-if="sync.hasPendingUpdates" class="merge-badge">{{ sync.pendingCount }}</span>
         </button>
       </div>
-
-      <div class="toolbar-divider"></div>
+      </KopfPlatz>
 
       <!-- 6) Delete Theme (disabled for NEO default — cannot be deleted) -->
+      <KopfPlatz name="loeschen">
+      <div class="toolbar-divider"></div>
       <div class="toolbar-group">
         <button
           class="tb-btn tb-btn-danger"
@@ -286,12 +292,17 @@
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
           </svg>
+          <span class="tb-label kopf-nur-menue" aria-hidden="true">Theme löschen</span>
         </button>
       </div>
+      </KopfPlatz>
       </template>
     </div>
 
+    <div class="kopf-rechts">
     <!-- App-Darstellung (R03): nur die Oberfläche der App, nicht die Bühne -->
+    <KopfPlatz name="darstellung">
+    <span class="dar-titel" aria-hidden="true">App-Darstellung</span>
     <div class="header-darstellung" role="radiogroup" aria-label="App-Darstellung" data-test="app-darstellung">
       <button
         v-for="d in DARSTELLUNGEN"
@@ -311,6 +322,31 @@
         <svg v-else-if="d.wert === 'dunkel'" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.4a7.5 7.5 0 0 0 7.9 12.4A9 9 0 1 1 12 3z" /></svg>
         <svg v-else aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /><path d="M7 20h10M9 16v4m6-4v4" /></svg>
       </button>
+    </div>
+    </KopfPlatz>
+
+    <!-- Menü „Mehr …“ (R05): erscheint nur, wenn eine Aktion nicht mehr in
+         die Leiste passt (composables/useKopfMehr.js). Offenlegungs-Muster:
+         Knopf mit aria-expanded, Escape schließt und gibt den Fokus zurück. -->
+    <div v-show="imMenue.length" ref="mehrRef" class="kopf-mehr" data-kopf-mass @keydown.esc="mehrTaste">
+      <button
+        ref="mehrKnopfRef"
+        type="button"
+        class="tb-btn kopf-mehr-knopf"
+        data-test="kopf-mehr"
+        :aria-expanded="mehrOffen"
+        aria-controls="kopf-mehr-panel"
+        title="Weitere Aktionen"
+        @click="mehrOffen = !mehrOffen"
+      >
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /></svg>
+        <span class="tb-label kopf-text-schmal">Mehr …</span>
+      </button>
+      <div v-show="mehrOffen" id="kopf-mehr-panel" ref="mehrPanelRef" class="kopf-mehr-panel" role="group" aria-label="Weitere Aktionen">
+        <div v-for="n in MENUE_ORDNUNG" :id="`kopf-mehr-${n}`" :key="n" class="kopf-mehr-ziel"></div>
+        <p class="kopf-mehr-version">Theme v{{ store.state.version }} · {{ appVersionText }}</p>
+      </div>
+    </div>
     </div>
 
     <!-- ═══════════════ CREATE THEME DIALOG ═══════════════ -->
@@ -413,7 +449,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../../stores/theme.js'
 import { useStyleguideSync } from '../../stores/styleguide-sync.js'
 import { useBranchStore } from '../../stores/branches.js'
@@ -427,6 +463,8 @@ import { appVersionKurz, appVersionLang } from '../../lib/app-version.js'
 import { useFokusFalle } from '../../composables/useFokusFalle.js'
 import DrupalWerkzeuge from '../drupal/DrupalWerkzeuge.vue'
 import { useAppDarstellung, DARSTELLUNGEN } from '../../composables/useAppDarstellung.js'
+import KopfPlatz from './KopfPlatz.vue'
+import { useKopfMehr, anpassen } from '../../composables/useKopfMehr.js'
 import { speicher } from '../../speicher/index.js'
 import { speichern as drupalSpeichern } from '../../composables/useDrupalBetrieb.js'
 
@@ -531,13 +569,81 @@ function onDocumentKeydown(e) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Menü „Mehr …“ (R05): Kopfleiste bleibt einzeilig, seltene Aktionen wandern
+// bei Platzmangel ins Menü. Reihenfolge: zuerst ins Menü zuerst.
+// ---------------------------------------------------------------------------
+/** Reihenfolge der Aktionen im aufgeklappten Menü (wie in der Leiste) */
+const MENUE_ORDNUNG = ['neu', 'arbeitsstand', 'veroeffentlichen', 'vorschau', 'website', 'exportieren', 'zusammenfuehren', 'loeschen', 'darstellung']
+const WANDERN = drupal
+  ? ['website', 'exportieren', 'darstellung', 'vorschau', 'veroeffentlichen']
+  : ['loeschen', 'zusammenfuehren', 'exportieren', 'darstellung', 'arbeitsstand', 'neu']
+const { imMenue, offen: mehrOffen } = useKopfMehr()
+const kopfRef = ref(null)
+const mehrRef = ref(null)
+const mehrKnopfRef = ref(null)
+const mehrPanelRef = ref(null)
+
+let laeuft = false
+let nochmal = false
+async function kopfAnpassen () {
+  if (!kopfRef.value) return
+  if (laeuft) { nochmal = true; return }
+  laeuft = true
+  try {
+    do {
+      nochmal = false
+      // nur Aktionen, die es in diesem Betrieb und mit diesen Rechten gibt
+      const vorhanden = WANDERN.filter((n) => document.querySelector(`[data-kopf-platz="${n}"]`))
+      await anpassen(kopfRef.value, vorhanden)
+    } while (nochmal)
+  } finally { laeuft = false }
+}
+
+function mehrSchliessen (fokus) {
+  if (!mehrOffen.value) return
+  mehrOffen.value = false
+  if (fokus) mehrKnopfRef.value?.focus()
+}
+/** Escape: erst ein aufgeklapptes Untermenü (z. B. Exportieren), dann „Mehr …“ */
+function mehrTaste () {
+  if (mehrRef.value?.querySelector('.kopf-mehr-panel [aria-expanded="true"]')) return
+  mehrSchliessen(true)
+}
+/** Nach einer Aktion im Menü schließen — nicht bei Untermenüs und Optionen.
+ *  Delegiert am Panel (onMounted): das Panel selbst ist kein Klickziel. */
+function nachAktion (e) {
+  // Ereignispfad statt e.target.closest(): Der Handler kann das Ziel schon
+  // entfernt haben (z. B. „· zeigt …“ im Vorschau-Knopf) — dann fände
+  // closest() den Knopf nicht mehr und das Menü bliebe offen.
+  const ziel = e.composedPath().find((n) => n instanceof Element && n.matches('button, a'))
+  if (!ziel || ziel.hasAttribute('aria-expanded') || ziel.getAttribute('role') === 'radio') return
+  mehrOffen.value = false
+}
+function mehrAussen (e) {
+  if (mehrOffen.value && !mehrRef.value?.contains(e.target)) mehrOffen.value = false
+}
+watch(imMenue, (liste) => { if (!liste.length) mehrOffen.value = false })
+
+let kopfBeobachter = null
 onMounted(() => {
   document.addEventListener('click', onDocumentClick, true)
   document.addEventListener('keydown', onDocumentKeydown)
+  document.addEventListener('pointerdown', mehrAussen, true)
+  mehrPanelRef.value?.addEventListener('click', nachAktion)
+  kopfBeobachter = new ResizeObserver(() => kopfAnpassen())
+  kopfBeobachter.observe(kopfRef.value)
+  // Inhalt ändert sich (Theme-Name, Status): Leiste ist nicht schrumpfbar
+  const leiste = kopfRef.value.querySelector('.header-toolbar')
+  if (leiste) kopfBeobachter.observe(leiste)
+  kopfAnpassen()
 })
 onUnmounted(() => {
   document.removeEventListener('click', onDocumentClick, true)
   document.removeEventListener('keydown', onDocumentKeydown)
+  document.removeEventListener('pointerdown', mehrAussen, true)
+  mehrPanelRef.value?.removeEventListener('click', nachAktion)
+  kopfBeobachter?.disconnect()
 })
 
 // ---------------------------------------------------------------------------
@@ -896,6 +1002,7 @@ function confirmPublishRelease({ version, notes }) {
   margin-left: 4px;
   border-left: 1px solid var(--cfg-border);
   height: 36px;
+  flex-shrink: 0;   /* R05: nicht schrumpfen — Überlauf wird gemessen, Seltenes wandert ins Menü */
 }
 
 .toolbar-group {
@@ -1354,7 +1461,6 @@ function confirmPublishRelease({ version, notes }) {
 .header-darstellung {
   display: flex;
   gap: 2px;
-  margin-left: auto;
   padding: 2px;
   border: 1px solid var(--cfg-border);
   border-radius: 6px;
@@ -1375,10 +1481,27 @@ function confirmPublishRelease({ version, notes }) {
 .dar-btn[aria-checked="true"] { background: var(--cfg-text); color: var(--cfg-surface); }
 .dar-btn:focus-visible { outline: var(--cfg-focus-ring-width) solid var(--cfg-focus-ring); outline-offset: var(--cfg-focus-ring-offset); }
 
-/* UX-04: unter 1200 px bricht die Kopfleiste um, statt Knöpfe abzuschneiden */
-@media (max-width: 1199px) {
-  .app-header { flex-wrap: wrap; height: auto; min-height: 44px; padding: 4px 12px; row-gap: 4px; }
-  .header-toolbar { flex-wrap: wrap; height: auto; min-height: 36px; row-gap: 4px; margin-left: 0; border-left: 0; padding: 0; }
-  .toolbar-group { flex-wrap: wrap; }
+/* R05 (20.10.2026): einzeilig in jeder Breite. Vorher (UX-04) brach die
+   Kopfleiste unter 1200 px um — bei 390 px vier bis fünf Zeilen. Jetzt
+   wandern seltene Aktionen ins Menü „Mehr …“ (useKopfMehr.js). */
+.kopf-rechts { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
+.kopf-mehr { position: relative; flex-shrink: 0; }
+.kopf-mehr-panel {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: var(--cfg-z-dropdown);
+  display: grid; gap: 6px; min-width: 260px; max-width: min(340px, calc(100vw - 24px));
+  max-height: calc(100vh - 60px); overflow-y: auto;
+  padding: 8px; border: 1px solid var(--cfg-border); border-radius: 8px;
+  background: var(--cfg-surface-elevated); box-shadow: var(--cfg-shadow-lg);
+}
+.kopf-mehr-ziel:empty { display: none; }
+.kopf-mehr-version { margin: 2px 4px 0; font-size: 11px; color: var(--cfg-text-muted); }
+/* Markentext erst ab 1024 px; Version steht dann im Menü „Mehr …“ */
+@media (max-width: 1023px) {
+  .brand-text { display: none; }
+}
+@media (max-width: 767px) {
+  .app-header { padding: 0 8px; gap: 4px; }
+  .header-toolbar { padding: 0 4px; margin-left: 0; }
+  .tb-dropdown-label { max-width: 26vw; }
 }
 </style>
