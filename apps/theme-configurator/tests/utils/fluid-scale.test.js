@@ -1,8 +1,8 @@
 // Fluide Schriftskala (Plan v2, 2.3): die App muss dieselben Werte rechnen
 // wie das SCSS — sonst zeigt der Editor etwas anderes, als die Website setzt.
 import { describe, it, expect } from 'vitest'
-import { existsSync, readFileSync } from 'fs'
-import { resolve } from 'path'
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { typographyScale } from '../../src/data/tokens.generated.js'
 import { skalenParameter, berechneSkala, groesseBei, istGeaendert, sassZahl } from '../../src/utils/fluid-scale.js'
 

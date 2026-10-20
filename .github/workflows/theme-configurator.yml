@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
       - name: CSS bauen (Quelle fuer die Konfigurator-Bruecke)
@@ -109,7 +109,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -159,7 +159,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: apps/theme-configurator/package-lock.json
       - name: App-Abhaengigkeiten
@@ -198,7 +198,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: apps/theme-configurator/package-lock.json
       - name: App-Abhaengigkeiten
