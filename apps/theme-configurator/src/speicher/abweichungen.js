@@ -78,8 +78,8 @@ function anwenden(basis, patch) {
 
 /**
  * Abweichungen eines App-Stands vom Standard.
- * @param {object} stand     App-Stand (snapshotThemeData), ggf. mit activeThemeSet
- * @param {object} standard  vollständiger Standard (standardDaten())
+ * @param {Record<string, any>} stand App-Stand (snapshotThemeData), ggf. mit activeThemeSet
+ * @param {Record<string, any>} standard vollständiger Standard (standardDaten())
  * @param {string[]} [schluessel=THEME_DATA_KEYS]
  * @returns {object} nur die abweichenden Schlüssel; {} = identisch mit dem Standard
  */
@@ -97,8 +97,8 @@ export function abweichungenBerechnen(stand, standard, schluessel = THEME_DATA_K
 /**
  * Standard und Abweichungen zum vollständigen App-Stand zusammenführen.
  * Der Standard wird nicht verändert.
- * @param {object} standard
- * @param {object} abweichungen
+ * @param {Record<string, any>} standard
+ * @param {Record<string, any>} abweichungen
  * @param {string[]} [schluessel=THEME_DATA_KEYS]
  */
 export function zusammenfuehren(standard, abweichungen = {}, schluessel = THEME_DATA_KEYS) {

@@ -155,8 +155,8 @@ export function zeilenZuObjekt(zeilen = []) {
  * @param {object} o
  * @param {string} o.id          Komponenten-ID (Recipe)
  * @param {'light'|'dark'} o.modus
- * @param {object} o.state       store.state
- * @param {object} [o.sheets]    fuer Tests
+ * @param {Record<string, any>} o.state store.state
+ * @param {StyleSheetList} [o.sheets] fuer Tests
  * @param {string[]} [o.enthaelt] enthaltene Bauteile (komposition „enthaelt",
  *   Specimen composes): auch deren :root-Deklarationen werden neu gesetzt.
  *   Sonst blieben z. B. Karte und Button in der dunklen Vorschau eines

@@ -70,3 +70,9 @@ Report mit Diff-Bildern als Artefakt ab. Lokal unter Linux geht auch
 Die ersten Baselines (30.09.2026) entstanden in einem Linux-Container mit
 Chromium 141 (Playwright 1.56.1). Weicht der erste CI-Lauf ab, einmal über
 Schritt 1–2 neu schreiben.
+
+Seit App 1.2.35 (R07, 20.10.2026): Playwright 1.64.1, Chromium 156. Die
+Baselines passten ohne Neuschreiben. Lokaler Linux-Lauf im Abbild
+`mcr.microsoft.com/playwright:v1.64.1-noble` (Node 24); die Linux-Pakete
+liegen in eigenen Docker-Volumes (z. B. `neo-nm-wurzel-164`,
+`neo-nm-app-164`, einmal mit `npm ci` im Container befüllen).

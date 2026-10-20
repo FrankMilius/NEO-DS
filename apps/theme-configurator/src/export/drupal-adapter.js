@@ -11,7 +11,7 @@
  * Generate Drupal-compatible CSS override file.
  * Wraps overrides in :root and theme class selectors for Drupal's asset system.
  *
- * @param {object} themeJSON - Parsed output of exportAsJSON()
+ * @param {Record<string, any>} themeJSON - Parsed output of exportAsJSON()
  * @returns {string} CSS content
  */
 import { foundationZeilen, wirkSelektor } from './foundation-css.js'
@@ -145,7 +145,7 @@ export function generateDrupalCSS(themeJSON) {
  * Generate Drupal-compatible theme settings JSON.
  * Machine-readable configuration for Drupal's theme system.
  *
- * @param {object} themeJSON - Parsed output of exportAsJSON()
+ * @param {Record<string, any>} themeJSON - Parsed output of exportAsJSON()
  * @returns {string} JSON string
  */
 export function generateDrupalSettings(themeJSON) {

@@ -81,7 +81,10 @@ export function leseKonfiguration(
   return { speicher: 'lokal', ...k }
 }
 
-/** Adapter zur Konfiguration erzeugen. Unbekannte Art -> SpeicherFehler. */
+/**
+ * Adapter zur Konfiguration erzeugen. Unbekannte Art -> SpeicherFehler.
+ * @param {Record<string, any>} [konfig]  Ergebnis von leseKonfiguration()
+ */
 export function erzeugeSpeicher(konfig = leseKonfiguration()) {
   const art = konfig.speicher || 'lokal'
   if (!ARTEN.includes(art)) {

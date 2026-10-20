@@ -200,7 +200,7 @@ export function erzeugeDrupalSpeicher(konfig = {}) {
     /**
      * Neu anlegen (ohne meta.id) oder speichern (mit meta.id und etag).
      * Gesendet werden nur die Abweichungen vom aktuellen NEO-Standard.
-     * @param {{ meta: object, daten: object, etag?: string }} eintrag
+     * @param {{ meta: Record<string, any>, daten: Record<string, any>, etag?: string }} eintrag
      */
     async speichere({ meta, daten, etag }) {
       if (meta?.id && !etag) {

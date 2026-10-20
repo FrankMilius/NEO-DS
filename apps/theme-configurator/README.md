@@ -1092,6 +1092,17 @@ App 1.2.34 (R06: erlaubte Bereiche dauerhaft am Feld, 20.10.2026):
 - Tests: `e2e/feld-bereich.spec.js` (sichtbar, vorgelesen, nicht im
   Feldnamen, ids eindeutig), `tests/utils/erlaubter-bereich.test.js`.
 
+App 1.2.35 (R07, Teil 1: Entwicklungswerkzeuge, 20.10.2026):
+
+- TypeScript 7.0.2 (mit den JSDoc-Anpassungen aus `fix/jsdoc-typen-ts7`),
+  Pinia 4.1.0, happy-dom 21.0.3, Playwright 1.64.1 (Chromium 156; Docker
+  `playwright:v1.64.1-noble`). Typprüfung, Unit-, Ende-zu-Ende- und
+  Bildvergleiche unverändert grün; Baselines passten ohne Neuschreiben.
+- Noch offen (Teil 2): Vite 8, Vitest 5, ESLint 10, @axe-core/playwright
+  4.14 verlangen Node ≥ 22.12 bzw. 22.13 — lokal läuft 22.11.0 (CI und
+  Docker haben ein neueres Node). Bei Vite 8 lässt npm die native
+  Rolldown-Bibliothek unter 22.11 weg; der Bau bricht ab.
+
 Ursprünglicher Vorschlag (ADR-004):
 
 1. Release-ZIP in ein Drupal-Modul der Config Tools übernehmen und JS/CSS

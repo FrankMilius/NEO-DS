@@ -44,11 +44,11 @@ export async function ladeDtcgGrundlagen() {
 
 /**
  * Theme-Daten eines Sets auf eine Kopie der Quelle anwenden.
- * @param {object} quelle      data/design-tokens.json (wird nicht veraendert)
- * @param {object} daten       { themes, foundationOverrides, componentOverrides,
+ * @param {Record<string, any>} quelle data/design-tokens.json (wird nicht veraendert)
+ * @param {Record<string, any>} daten { themes, foundationOverrides, componentOverrides,
  *                               primitiveOverrides, typeScale, … } eines Sets
  *                               (flach: daten.themes = { light, dark })
- * @param {object} opt         { themeSet: 'neo'|'customer', semanticDefaults, typographyScale }
+ * @param {Record<string, any>} opt { themeSet: 'neo'|'customer', semanticDefaults, typographyScale }
  * @returns {{ quelle, uebernommen: object, hinweise: string[] }}
  */
 export function themeAufQuelle(quelle, daten, opt = {}) {
