@@ -40,6 +40,25 @@ Wie --pull, aber ohne Merge. Zeigt nur Änderungen an.
 2. W3C DTCG Format → NEO Format transformieren
 3. Diff + optional Merge
 
+## Export nach Figma: Tokens Studio (R08, 20.10.2026)
+
+`npm run tokens:studio` erzeugt `data/design-tokens.tokens-studio.json` aus dem
+DTCG-Export (Kern: `packages/tokens-studio-export`). Teil von `npm run tokens`;
+die CI prüft mit `npm run tokens:studio:check`, dass die Datei aktuell ist und
+jeder Verweis aufgelöst wird.
+
+- Sets: `primitives`, `foundation` (die Werte hinter `--fnd-*`), `semantic`,
+  `components`, dazu `semantic-dunkel` und `components-dunkel` (nur
+  Dunkel-Werte). Themen: „NEO Hell“, „NEO Dunkel“ (Variante „Kunde“ fehlt
+  bewusst, Entscheidung E3).
+- Format „Legacy“ von Tokens Studio (`value`/`type`), Verweise `{pfad}`.
+  CSS, das Figma nicht kennt (`var(…) var(…)`, `clamp(…)`), bleibt Text mit
+  Typ `other` — Liste: `node scripts/export-tokens-studio.cjs --andere`.
+- In Figma: Tokens Studio → Tools → Load from file → die Datei. Schreibt
+  in die Figma-Datei — nur nach Rückfrage bei Frank.
+- Rückweg: `--from-file` erwartet W3C-Format (`$value`) und ordnet grob ein;
+  für diese Datei ist er noch kein Zweiweg (eigener Schritt).
+
 ## Workflow: Neue Figma-Variante → Recipe
 
 ```

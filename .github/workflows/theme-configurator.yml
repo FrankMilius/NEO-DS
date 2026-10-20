@@ -67,6 +67,8 @@ jobs:
         run: npm run tokens:foundation:check
       - name: DTCG-Export aktuell und verlustfrei (Style Dictionary)
         run: npm run tokens:dtcg:check
+      - name: Tokens-Studio-Export aktuell, alle Verweise aufgelöst (R08)
+        run: npm run tokens:studio:check
       - name: Generat aktuell (tokens.generated.js + .d.ts)
         run: |
           node scripts/generate-tokens.cjs
