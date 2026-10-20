@@ -1,5 +1,5 @@
 // Theme-Import (Plan v2, 2.2): Schema-Pruefung, Vorschau, Uebernehmen mit Undo
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { useThemeStore, THEME_DATA_KEYS } from '../../src/stores/theme.js'
 import { IMPORT_ZUORDNUNG, pruefeThemeImport, istFarbe } from '../../src/import/theme-import.js'
@@ -154,8 +154,12 @@ describe('Dialoge', () => {
   it('DtcgExportDialog mountet und zeigt den Export ohne Änderungen', async () => {
     const w = mount(DtcgExportDialog, { props: { visible: true }, global: { stubs: { Transition: false } } })
     expect(w.text()).toContain('DTCG-Export (W3C Design Tokens)')
-    for (let i = 0; i < 20 && !w.text().includes('Keine —'); i++) { await flushPromises(); await new Promise((r) => setTimeout(r, 50)) }
-    expect(w.text()).toContain('Keine — der Export entspricht dem NEO-Standard')
+    // Der Export lädt den Exporter nach — unter voller Last (ganzer Testlauf)
+    // dauerte das mehr als die früheren 20 × 50 ms (R07, 20.10.2026)
+    await vi.waitFor(async () => {
+      await flushPromises()
+      expect(w.text()).toContain('Keine — der Export entspricht dem NEO-Standard')
+    }, { timeout: 10000, interval: 50 })
     expect(w.find('.modal-btn.primary').attributes('disabled')).toBeUndefined()
-  })
+  }, 15000)
 })

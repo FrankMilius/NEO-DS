@@ -1,6 +1,6 @@
 // Kopfleiste mit Menü „Mehr …“ — lokaler Betrieb (R05, 20.10.2026)
 import { test, expect, EINSTIEG } from './hilfen.js'
-import { pruefeEinzeilig, mehrOeffnen, pruefeEscape, pruefeDarstellungImMenue, pruefeAxe } from './kopfleiste-pruefung.js'
+import { pruefeEinzeilig, pruefeReihenfolge, mehrOeffnen, pruefeEscape, pruefeDarstellungImMenue, pruefeAxe } from './kopfleiste-pruefung.js'
 
 const URL = `${EINSTIEG}#/component/card`
 
@@ -9,8 +9,8 @@ test('Kopfleiste lokal: einzeilig von 360 bis 1920 px, ab 1440 px ohne Menü', a
   expect(m[1440].imMenue).toEqual([])
   expect(m[1920].imMenue).toEqual([])
   await expect(page.locator('[data-test="kopf-mehr"]')).toBeHidden()
-  // Reihenfolge: Seltenes zuerst ins Menü
-  expect(m[1280].imMenue).toContain('loeschen')
+  // Reihenfolge: Seltenes zuerst ins Menü (wie AppHeader.vue, WANDERN)
+  pruefeReihenfolge(m, ['loeschen', 'zusammenfuehren', 'exportieren', 'darstellung', 'arbeitsstand', 'neu'])
   expect(m[390].imMenue).toEqual(expect.arrayContaining(['neu', 'exportieren', 'zusammenfuehren', 'loeschen', 'darstellung']))
 })
 

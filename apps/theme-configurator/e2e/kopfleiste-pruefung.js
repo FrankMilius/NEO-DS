@@ -36,14 +36,36 @@ export async function pruefeEinzeilig (page, url, art = 'breiter') {
     await page.setViewportSize({ width: w, height: 800 })
     if (art === 'neu') await page.reload()
     await expect(page.locator('.app-header')).toBeVisible()
-    // Anpassen läuft nach dem Laden in wenigen Bildern
-    await expect.poll(async () => { const m = await kopfMasse(page); return m.rechts <= m.kopfRechts && m.unten <= m.hoehe }, { message: `Kopfleiste bei ${w} px` }).toBe(true)
+    // Anpassen läuft in wenigen Bildern: warten, bis die Leiste passt UND sich
+    // nicht mehr ändert (passt schon, während noch Aktionen zurückkommen)
+    let vorher = ''
+    await expect.poll(async () => {
+      const m = await kopfMasse(page)
+      const jetzt = JSON.stringify(m)
+      const stabil = jetzt === vorher
+      vorher = jetzt
+      return stabil && m.rechts <= m.kopfRechts && m.unten <= m.hoehe
+    }, { message: `Kopfleiste bei ${w} px`, intervals: [100, 150, 250] }).toBe(true)
     const m = await kopfMasse(page)
     expect(m.hoehe, `Höhe bei ${w} px`).toBeLessThanOrEqual(46)
     expect(m.seiteBreit, `waagrechtes Scrollen bei ${w} px`).toBeLessThanOrEqual(w)
     ergebnis[w] = m
   }
   return ergebnis
+}
+
+/**
+ * Im Menü liegt immer ein Anfang der Reihenfolge (zuerst ins Menü zuerst) —
+ * nie eine wichtigere Aktion vor einer selteneren. Unabhängig von Schrift-
+ * metriken; wie viele es bei welcher Breite sind, hängt von ihnen ab.
+ */
+export function pruefeReihenfolge (messungen, reihenfolge) {
+  for (const [w, m] of Object.entries(messungen)) {
+    const erwartet = reihenfolge.slice(0, m.imMenue.length).sort()
+    expect([...m.imMenue].sort(), `Menü bei ${w} px`).toEqual(erwartet)
+  }
+  // Keine Regel „breiter → weniger im Menü“: An der Grenze 768 px kehren
+  // Beschriftungen zurück, dort liegt im Drupal-Betrieb eine Aktion mehr im Menü.
 }
 
 /** Menü „Mehr …“ öffnen; liefert das Panel */

@@ -1,15 +1,15 @@
 // Kopfleiste mit Menü „Mehr …“ — Drupal-Betrieb gegen die Attrappe (R05, 20.10.2026)
 import { test, expect } from './hilfen.js'
-import { pruefeEinzeilig, mehrOeffnen, pruefeEscape, pruefeDarstellungImMenue, pruefeAxe } from './kopfleiste-pruefung.js'
+import { pruefeEinzeilig, pruefeReihenfolge, mehrOeffnen, pruefeEscape, pruefeDarstellungImMenue, pruefeAxe } from './kopfleiste-pruefung.js'
 
 const URL = '/konfigurator?rechte=ansehen,bearbeiten,veroeffentlichen#/component/card'
 
 test('Kopfleiste Drupal: einzeilig von 360 bis 1920 px — vorher lief sie bei 1440 px über', async ({ page }) => {
   const m = await pruefeEinzeilig(page, URL)
   expect(m[1920].imMenue).toEqual([])
-  // Veröffentlichen bleibt bei 1440 px in der Leiste, Website öffnen wandert zuerst
+  // Seltenes zuerst ins Menü; Veröffentlichen bleibt bei 1440 px in der Leiste
+  pruefeReihenfolge(m, ['website', 'exportieren', 'darstellung', 'vorschau', 'veroeffentlichen'])
   expect(m[1440].imMenue).not.toContain('veroeffentlichen')
-  expect(m[1440].imMenue).toContain('website')
 })
 
 test('Kopfleiste Drupal 390 px: Veröffentlichen, Vorschau und Website im Menü bedienbar', async ({ page }) => {
