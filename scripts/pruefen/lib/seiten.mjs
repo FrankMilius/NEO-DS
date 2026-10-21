@@ -7,7 +7,9 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 
-export const SQL = "SELECT alias FROM path_alias WHERE status=1 AND langcode IN ('de','und')"
+// Unveröffentlichte Knoten behalten ihren Alias, antworten aber mit 403
+// (21.10.2026: /events/piipe-workplace-funktionen-im-ueberblick) — nicht prüfen
+export const SQL = "SELECT a.alias FROM path_alias a WHERE a.status=1 AND a.langcode IN ('de','und') AND NOT EXISTS (SELECT 1 FROM node_field_data n WHERE a.path=CONCAT('/node/',n.nid) AND n.default_langcode=1 AND n.status=0)"
 
 const zeilen = (t) => t.split('\n').map((z) => z.trim()).filter(Boolean)
 
