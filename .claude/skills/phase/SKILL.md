@@ -55,6 +55,13 @@ Vorrangregeln: Skill `neo-superpowers`.
 ## 3 · Prüfschranke
 
 **Die Prüfschranke steht im Plan.** Sie ist der Maßstab, nicht diese Liste hier.
+
+**Vor der Fertigmeldung immer `/fertig-pruefen`** (`npm run pruefen:alles`):
+es wählt nach den Änderungen npm test, ci:lokal mit e2e, Bildvergleich,
+Pixelvergleich der Website und Modul-e2e, schreibt einen Bericht und lässt
+die Fertigmeldung vom Widersacher prüfen. Die Einzelbefehle unten bleiben
+für gezielte Prüfungen während der Arbeit.
+
 Was unten steht, ist das Minimum, wenn der Plan nichts Genaueres sagt:
 
 | Geändert | Pflicht |

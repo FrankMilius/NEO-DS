@@ -1,7 +1,8 @@
 # Prüfwerkzeuge (`scripts/pruefen/`)
 
 Vier Prüfungen, die bisher nur im Protokoll lebten, als feste npm-Befehle
-(Roadmap E3, 21.10.2026). Agenten rufen sie auf, statt sie neu zu schreiben.
+(Roadmap E3, 21.10.2026), dazu das Fertig-Gate `pruefen:alles`, das sie
+zusammenführt (E4). Agenten rufen sie auf, statt sie neu zu schreiben.
 Pixel, Gegenprobe und Bilder ändern nichts an der Website: Sie ersetzen die
 CSS nur im Prüfbrowser. **`pruefen:modul` ändert Drupal:** Es ersetzt die App
 im Modul und löscht Test-Themes (siehe dort). Ausgaben landen unter
@@ -17,6 +18,51 @@ im Modul und löscht Test-Themes (siehe dort). Ausgaben landen unter
 Ausgang aller Befehle: **0** in Ordnung · **1** Befund (Unterschied,
 wirkungslos, Test rot) · **2** Vorprüfung oder Aufruf gescheitert — der Grund
 steht in der letzten Ausgabe.
+
+## `pruefen:alles` — Fertig-Gate (E4)
+
+```bash
+npm run pruefen:alles -- --nur-zeigen   # Auswahl ansehen
+npm run pruefen:alles                   # laufen lassen
+#   [--alle] [--ohne modul --ohne bilder] [--basis main] [--ausgabe <ordner>]
+#   [--gleichzeitig] [--pixel-erzwingen]
+```
+
+Wählt nach den Änderungen gegen `main` (Zweig + nicht Committetes, ohne
+`STAND.md`):
+
+| Geändert | npm test | ci:lokal --e2e | bilder | pixel | modul |
+|---|---|---|---|---|---|
+| nur `.claude/`, `docs/`, `specs/`, `*.md` (überall) | ✓ | | | | |
+| Skripte, `package.json`, Sonstiges | ✓ | ✓ | | | |
+| `apps/theme-configurator/`, `packages/` | ✓ | ✓ | ✓ | | ✓ |
+| `scss/`, `data/design-tokens.json`, `data/*-recipe.json`, `scripts/generate-tokens*`, `package-lock.json`, `styles.css` | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+`npm test` lässt sich nicht abwählen. Eine unbekannte `--basis` bricht ab
+(Ausgang 2), statt still nur den Arbeitsstand zu prüfen. **Unabhängig von
+der Auswahl** vergleicht das Gate nach dem Bau die `styles.css` mit der
+ausgelieferten: weicht sie ab, kommt der Pixelvergleich dazu.
+
+Nacheinander (Standard): `build:css` → `npm test` → `ci:lokal --e2e` →
+`pruefen:bilder --bauen` → `pruefen:pixel` → `pruefen:modul`. Nach einer
+roten Prüfung unter test/ci/bilder entfallen die folgenden davon;
+`pruefen:modul` entfällt, wenn `npm test` oder CI rot sind.
+
+- **Pixelvergleich** prüft eine eingefrorene Kopie des frischen Baus gegen die
+  ausgelieferte `styles.css` von neo_fe. **Sind beide byte-gleich, entfällt er
+  als grün** („kein Unterschied möglich“) — sonst fände er nur Rauschen
+  (`/produkte/workplace`). Erzwingen: `--pixel-erzwingen`.
+- **`--gleichzeitig`** lässt den Pixelvergleich neben test/ci/bilder laufen.
+  Im Probelauf vom 21.10.2026 war das nicht schneller: CI brauchte unter der
+  Last 761 s statt ~263 s (gesamt ~15 min).
+
+Ausgang **0** alles grün, **1** sonst. Zeigt der Pixelvergleich geänderte
+oder unklare Seiten, steht im Bericht **HALTEPUNKT** (E6) — auch wenn er
+wegen eines Seitenfehlers mit Ausgang 2 endet: anhalten, Frank die Seiten
+zeigen. Kennzahlen nennen fehlgeschlagene und wackelnde Tests mit.
+Bericht `.pruefen/fertig-<zeit>/bericht.md` mit Kennzahlen „für den
+Commit-Rumpf“, `bericht.json`, je Prüfung ein Protokoll. Der Skill
+`/fertig-pruefen` ruft das Gate und danach den Widersacher.
 
 ## `pruefen:pixel`
 
