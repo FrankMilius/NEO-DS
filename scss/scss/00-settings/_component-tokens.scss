@@ -368,7 +368,7 @@
 
   // -- Card: Preview --
   --nc-card-preview-media-ratio: var(--fnd-media-ratio-3-2);
-  --nc-card-preview-title-size: var(--fnd-typography-heading-xs-font-size);
+  --nc-card-preview-title-size: var(--nc-block-subtitle-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
 
   // -- Card: Summary --
   --nc-card-summary-avatar-size: 96px;
@@ -957,8 +957,8 @@
   --nc-drawer-overlay-bg:       var(--nc-dialog-overlay-bg, var(--fnd-color-background-overlay));
 
   // Header
-  --nc-drawer-title-font-size:  var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size));
-  --nc-drawer-title-font-weight: var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold));
+  --nc-drawer-title-font-size:  var(--nc-block-headline-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-drawer-title-font-weight: var(--nc-block-headline-weight); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-drawer-title-color:      var(--nc-dialog-title-color, var(--fnd-color-text-primary));
   --nc-drawer-desc-font-size:   var(--nc-dialog-description-font-size, var(--fnd-typography-paragraph-m-font-size));
   --nc-drawer-desc-color:       var(--nc-dialog-description-color, var(--fnd-color-text-secondary));
@@ -2211,10 +2211,10 @@
   // -- Table Title Bar (oberhalb Toolbar/Tabelle) --
   --nc-dt-title-bar-padding:        var(--fnd-spacing-04) var(--fnd-spacing-04) 0; // 16px 16px 0
   --nc-dt-title-bar-gap:            var(--fnd-spacing-02);                   // 8px — ref(card.header.gap)
-  --nc-dt-title-font-size:          var(--fnd-typography-heading-m-font-size);
-  --nc-dt-title-font-weight:        var(--fnd-font-weight-semibold);         // ref(card.title.weight)
+  --nc-dt-title-font-size:          var(--nc-block-subtitle-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-dt-title-font-weight:        var(--nc-block-subtitle-weight); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-dt-title-color:              var(--fnd-color-text-primary);           // ref(card.title.color)
-  --nc-dt-title-line-height:        var(--lh-heading);                       // ref(card.title.lh) x1.15
+  --nc-dt-title-line-height:        var(--nc-block-headline-lh); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-dt-description-font-size:    var(--fnd-typography-paragraph-m-font-size);
   --nc-dt-description-color:        var(--fnd-color-text-secondary);         // ref(card.desc.color)
   --nc-dt-description-line-height:  var(--lh-body);                          // ref(card.desc.lh) x1.6
@@ -2639,8 +2639,8 @@
   --nc-empty-state-icon-color:      var(--fnd-color-text-tertiary);
 
   // Text
-  --nc-empty-state-title-size:      var(--fs-lg);
-  --nc-empty-state-title-weight:    var(--fnd-font-weight-semibold);
+  --nc-empty-state-title-size:      var(--nc-block-subtitle-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-empty-state-title-weight:    var(--nc-block-subtitle-weight); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-empty-state-title-color:     var(--fnd-color-text-primary);
   --nc-empty-state-desc-size:       var(--fs-sm);
   --nc-empty-state-desc-color:      var(--fnd-color-text-secondary);
@@ -2868,8 +2868,8 @@
   // Content
   --nc-timeline-content-gap:      var(--fnd-spacing-01);           // 4px
   --nc-timeline-content-padding:  var(--fnd-spacing-04);           // 16px
-  --nc-timeline-title-size:       var(--fs-sm);
-  --nc-timeline-title-weight:     var(--fnd-font-weight-semibold);
+  --nc-timeline-title-size:       var(--nc-block-subtitle-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-timeline-title-weight:     var(--nc-block-subtitle-weight); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-timeline-title-color:      var(--fnd-color-text-primary);
   --nc-timeline-desc-size:        var(--fs-sm);
   --nc-timeline-desc-color:       var(--fnd-color-text-secondary);
@@ -4625,16 +4625,16 @@
   --nc-section-header-badges-spacing: var(--fnd-spacing-04);
 
   // Title
-  --nc-section-header-title-font-size: var(--fnd-typography-heading-m-font-size);
-  --nc-section-header-title-font-weight: var(--fnd-font-weight-bold);
-  --nc-section-header-title-line-height: var(--fnd-typography-heading-m-line-height);
-  --nc-section-header-title-letter-spacing: var(--fnd-typography-heading-m-letter-spacing);
+  --nc-section-header-title-font-size: var(--nc-block-headline-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-section-header-title-font-weight: var(--nc-block-headline-weight); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-section-header-title-line-height: var(--nc-block-headline-lh); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-section-header-title-letter-spacing: var(--nc-block-heading-tracking); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   --nc-section-header-title-color: var(--fnd-color-text-primary);
   --nc-section-header-title-spacing: var(--fnd-spacing-04);
 
   // Subtitle
-  --nc-section-header-subtitle-font-size: var(--fnd-typography-paragraph-xl-font-size);
-  --nc-section-header-subtitle-line-height: var(--fnd-typography-paragraph-xl-line-height);
+  --nc-section-header-subtitle-font-size: var(--nc-block-lead-size); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
+  --nc-section-header-subtitle-line-height: var(--nc-block-lead-lh); // Blockstufe, wie bisher sichtbar (R14, 21.10.2026)
   // Zeigt auf die kanonische Lead-Farbe (10-utilities/_block-roles.scss),
   // damit es nicht zwei Quellen mit demselben Wert gibt. Custom Properties
   // loesen erst bei der Verwendung auf, die Vorwaertsreferenz ist also ok.

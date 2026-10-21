@@ -71,8 +71,10 @@
   &__title {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: var(--mod-empty-state-title-size, var(--nc-empty-state-title-size));
-    font-weight: var(--mod-empty-state-title-weight, var(--nc-empty-state-title-weight));
+    --_block-size: var(--mod-empty-state-title-size, var(--nc-empty-state-title-size));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-size: var(--_block-size);
+    --_block-weight: var(--mod-empty-state-title-weight, var(--nc-empty-state-title-weight));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-weight: var(--_block-weight);
     color: var(--mod-empty-state-title-color, var(--nc-empty-state-title-color));
     line-height: var(--lh-heading);
   }

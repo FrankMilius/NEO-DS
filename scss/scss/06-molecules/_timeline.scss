@@ -130,8 +130,10 @@
   // Titel
   &__title {
     margin: 0;
-    font-size: var(--mod-timeline-title-size, var(--nc-timeline-title-size));
-    font-weight: var(--mod-timeline-title-weight, var(--nc-timeline-title-weight));
+    --_block-size: var(--mod-timeline-title-size, var(--nc-timeline-title-size));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-size: var(--_block-size);
+    --_block-weight: var(--mod-timeline-title-weight, var(--nc-timeline-title-weight));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-weight: var(--_block-weight);
     color: var(--mod-timeline-title-color, var(--nc-timeline-title-color));
     line-height: var(--lh-heading);
   }

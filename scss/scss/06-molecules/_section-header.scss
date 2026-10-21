@@ -44,17 +44,23 @@
 }
 
 .nc-section-header__title {
-  font-size: var(--nc-section-header-title-font-size);
-  font-weight: var(--nc-section-header-title-font-weight);
-  line-height: var(--nc-section-header-title-line-height);
-  letter-spacing: var(--nc-section-header-title-letter-spacing);
+  --_block-size: var(--nc-section-header-title-font-size);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-size: var(--_block-size);
+  --_block-weight: var(--nc-section-header-title-font-weight);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-weight: var(--_block-weight);
+  --_block-lh: var(--nc-section-header-title-line-height);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  line-height: var(--_block-lh);
+  --_block-tracking: var(--nc-section-header-title-letter-spacing);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  letter-spacing: var(--_block-tracking);
   color: var(--nc-section-header-title-color);
   margin: 0 0 var(--nc-section-header-title-spacing);
 }
 
 .nc-section-header__subtitle {
-  font-size: var(--nc-section-header-subtitle-font-size);
-  line-height: var(--nc-section-header-subtitle-line-height);
+  --_block-size: var(--nc-section-header-subtitle-font-size);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-size: var(--_block-size);
+  --_block-lh: var(--nc-section-header-subtitle-line-height);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  line-height: var(--_block-lh);
   color: var(--nc-section-header-subtitle-color);
   margin: 0;
 }

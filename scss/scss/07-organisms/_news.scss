@@ -68,16 +68,21 @@
 
 .nc-news__title {
   font-family: var(--font-heading, inherit);
-  font-weight: var(--nc-news-title-font-weight);
-  font-size: var(--nc-news-title-font-size);
-  line-height: var(--nc-news-title-line-height);
+  --_block-weight: var(--nc-news-title-font-weight);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-weight: var(--_block-weight);
+  --_block-size: var(--nc-news-title-font-size);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-size: var(--_block-size);
+  --_block-lh: var(--nc-news-title-line-height);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  line-height: var(--_block-lh);
   margin: 0 0 var(--fnd-spacing-05, 1.25rem);
   color: var(--fnd-color-text-primary);
 }
 
 .nc-news__lead {
-  font-size: var(--nc-news-lead-font-size);
-  line-height: var(--nc-news-lead-line-height);
+  --_block-size: var(--nc-news-lead-font-size);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-size: var(--_block-size);
+  --_block-lh: var(--nc-news-lead-line-height);   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  line-height: var(--_block-lh);
   color: var(--fnd-color-text-secondary);
   max-width: 65ch;
 }

@@ -715,9 +715,12 @@
   }
 
   &__title {
-    font-size: var(--mod-dt-title-font-size, var(--nc-dt-title-font-size));
-    font-weight: var(--mod-dt-title-font-weight, var(--nc-dt-title-font-weight));
-    line-height: var(--mod-dt-title-line-height, var(--nc-dt-title-line-height));
+    --_block-size: var(--mod-dt-title-font-size, var(--nc-dt-title-font-size));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-size: var(--_block-size);
+    --_block-weight: var(--mod-dt-title-font-weight, var(--nc-dt-title-font-weight));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-weight: var(--_block-weight);
+    --_block-lh: var(--mod-dt-title-line-height, var(--nc-dt-title-line-height));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    line-height: var(--_block-lh);
     letter-spacing: var(--fnd-tracking-snug); // kanonisch -0.01em
     color: var(--mod-dt-title-color, var(--nc-dt-title-color));
     margin: 0;

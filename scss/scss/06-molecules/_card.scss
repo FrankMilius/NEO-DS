@@ -406,7 +406,8 @@
   }
 
   .nc-card__title {
-    font-size: var(--mod-card-preview-title-size, var(--nc-card-preview-title-size));
+    --_block-size: var(--mod-card-preview-title-size, var(--nc-card-preview-title-size));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+    font-size: var(--_block-size);
     @include line-clamp(2);
   }
 

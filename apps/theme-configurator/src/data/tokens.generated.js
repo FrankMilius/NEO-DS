@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-20
+// Generated: 2026-10-21
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -5742,7 +5742,7 @@ export const componentTokenGroups = [
         "label": "Preview Title Size",
         "type": "size",
         "group": "preview",
-        "default": "var(--fnd-typography-heading-xs-font-size)"
+        "default": "var(--nc-block-subtitle-size, var(--fs-xl))"
       },
       {
         "id": "nc-card-summary-avatar-size",
@@ -8004,13 +8004,13 @@ export const componentTokenGroups = [
         "id": "nc-dt-title-font-size",
         "label": "Title Font Size",
         "type": "size",
-        "default": "var(--fnd-typography-heading-m-font-size)"
+        "default": "var(--nc-block-subtitle-size, var(--fs-xl))"
       },
       {
         "id": "nc-dt-title-font-weight",
         "label": "Title Font Weight",
         "type": "keyword",
-        "default": "var(--fnd-font-weight-semibold)"
+        "default": "var(--nc-block-subtitle-weight, var(--fnd-font-weight-semibold))"
       },
       {
         "id": "nc-dt-title-color",
@@ -8022,7 +8022,7 @@ export const componentTokenGroups = [
         "id": "nc-dt-title-line-height",
         "label": "Title Line Height",
         "type": "keyword",
-        "default": "1.3"
+        "default": "var(--nc-block-headline-lh, var(--nc-type-heading-l-lh))"
       },
       {
         "id": "nc-dt-description-font-size",
@@ -8804,13 +8804,13 @@ export const componentTokenGroups = [
         "id": "nc-drawer-title-font-size",
         "label": "Title Font Size",
         "type": "size",
-        "default": "var(--nc-dialog-title-font-size, var(--fnd-typography-heading-m-font-size))"
+        "default": "var(--nc-block-headline-size, var(--nc-type-heading-l-size))"
       },
       {
         "id": "nc-drawer-title-font-weight",
         "label": "Title Font Weight",
         "type": "fontWeight",
-        "default": "var(--nc-dialog-title-font-weight, var(--fnd-font-weight-semibold))"
+        "default": "var(--nc-block-headline-weight, var(--nc-type-heading-l-weight))"
       },
       {
         "id": "nc-drawer-title-color",
@@ -9160,13 +9160,13 @@ export const componentTokenGroups = [
         "id": "nc-empty-state-title-size",
         "label": "Title Size",
         "type": "size",
-        "default": "var(--fs-lg)"
+        "default": "var(--nc-block-subtitle-size, var(--fs-xl))"
       },
       {
         "id": "nc-empty-state-title-weight",
         "label": "Title Weight",
         "type": "fontWeight",
-        "default": "var(--fnd-font-weight-semibold)"
+        "default": "var(--nc-block-subtitle-weight, var(--fnd-font-weight-semibold))"
       },
       {
         "id": "nc-empty-state-title-color",
@@ -14388,13 +14388,13 @@ export const componentTokenGroups = [
         "id": "nc-news-lead-font-size",
         "label": "Lead Font Size",
         "type": "size",
-        "default": "clamp(1.05rem, 1rem + .4vw, 1.35rem)"
+        "default": "var(--nc-block-lead-size, var(--fs-lg))"
       },
       {
         "id": "nc-news-lead-line-height",
         "label": "Lead Line Height",
         "type": "size",
-        "default": "1.55"
+        "default": "var(--nc-block-lead-lh, var(--lh-body))"
       },
       {
         "id": "nc-news-footer-a-font-weight",
@@ -17107,25 +17107,25 @@ export const componentTokenGroups = [
         "id": "nc-section-header-title-font-size",
         "label": "Title Font Size",
         "type": "size",
-        "default": "var(--fnd-typography-heading-m-font-size)"
+        "default": "var(--nc-block-headline-size, var(--nc-type-heading-l-size))"
       },
       {
         "id": "nc-section-header-title-font-weight",
         "label": "Title Font Weight",
         "type": "fontWeight",
-        "default": "var(--fnd-font-weight-bold)"
+        "default": "var(--nc-block-headline-weight, var(--nc-type-heading-l-weight))"
       },
       {
         "id": "nc-section-header-title-line-height",
         "label": "Title Line Height",
         "type": "size",
-        "default": "var(--fnd-typography-heading-m-line-height)"
+        "default": "var(--nc-block-headline-lh, var(--nc-type-heading-l-lh))"
       },
       {
         "id": "nc-section-header-title-letter-spacing",
         "label": "Title Letter Spacing",
         "type": "size",
-        "default": "var(--fnd-typography-heading-m-letter-spacing)"
+        "default": "var(--nc-block-heading-tracking, var(--fnd-tracking-snug, -0.01em))"
       },
       {
         "id": "nc-section-header-title-color",
@@ -17143,13 +17143,13 @@ export const componentTokenGroups = [
         "id": "nc-section-header-subtitle-font-size",
         "label": "Subtitle Font Size",
         "type": "size",
-        "default": "var(--fnd-typography-paragraph-xl-font-size)"
+        "default": "var(--nc-block-lead-size, var(--fs-lg))"
       },
       {
         "id": "nc-section-header-subtitle-line-height",
         "label": "Subtitle Line Height",
         "type": "size",
-        "default": "var(--fnd-typography-paragraph-xl-line-height)"
+        "default": "var(--nc-block-lead-lh, var(--lh-body))"
       },
       {
         "id": "nc-section-header-subtitle-color",
@@ -20628,13 +20628,13 @@ export const componentTokenGroups = [
         "id": "nc-timeline-title-size",
         "label": "Title Size",
         "type": "size",
-        "default": "var(--fs-sm)"
+        "default": "var(--nc-block-subtitle-size, var(--fs-xl))"
       },
       {
         "id": "nc-timeline-title-weight",
         "label": "Title Weight",
         "type": "fontWeight",
-        "default": "var(--fnd-font-weight-semibold)"
+        "default": "var(--nc-block-subtitle-weight, var(--fnd-font-weight-semibold))"
       },
       {
         "id": "nc-timeline-title-color",

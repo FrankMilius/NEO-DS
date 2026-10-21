@@ -282,8 +282,10 @@
 }
 
 .nc-drawer__title {
-  font-size: var(--mod-drawer-title-font-size, var(--nc-drawer-title-font-size));
-  font-weight: var(--mod-drawer-title-font-weight, var(--nc-drawer-title-font-weight));
+  --_block-size: var(--mod-drawer-title-font-size, var(--nc-drawer-title-font-size));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-size: var(--_block-size);
+  --_block-weight: var(--mod-drawer-title-font-weight, var(--nc-drawer-title-font-weight));   // Weiche für die Block-Typografie (R14, 21.10.2026)
+  font-weight: var(--_block-weight);
   color: var(--mod-drawer-title-color, var(--nc-drawer-title-color));
   margin: 0;
   line-height: var(--lh-snug);

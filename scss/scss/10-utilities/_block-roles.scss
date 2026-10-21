@@ -91,6 +91,22 @@
 }
 
 // ---------------------------------------------------------------------------
+// Weiche für Komponentenwerte (R14, 21.10.2026)
+// ---------------------------------------------------------------------------
+// Die Rollen-Regeln gewinnen per Spezifität gegen jede Komponentenregel —
+// damit liefen Werte wie --nc-timeline-title-size ins Leere (Wirkungsprüfung
+// R12/R13: 22 Werte). Eine Komponente, deren Titel oder Lead einstellbar sein
+// soll, setzt am Element --_block-size/-lh/-weight/-tracking auf ihren Wert;
+// ohne Weiche gilt die kanonische Stufe. Standard der Komponentenwerte ist
+// die Stufe selbst, die Website bleibt also gleich.
+// inherits: false — die Weiche gilt nur am Element, nie für Kinder.
+
+@property --_block-size { syntax: '*'; inherits: false; }
+@property --_block-lh { syntax: '*'; inherits: false; }
+@property --_block-weight { syntax: '*'; inherits: false; }
+@property --_block-tracking { syntax: '*'; inherits: false; }
+
+// ---------------------------------------------------------------------------
 // Headline (h2)
 // ---------------------------------------------------------------------------
 // Greift generisch ueber die BEM-Konvention `.nc-<komponente>__headline`
@@ -100,10 +116,10 @@
 h2[class*='__headline']:not(.nc-headline--display),
 h2[class*='__title']:not(.nc-headline--display) {
   font-family: var(--font-heading);
-  font-size: var(--nc-block-headline-size);
-  line-height: var(--nc-block-headline-lh);
-  font-weight: var(--nc-block-headline-weight);
-  letter-spacing: var(--nc-block-heading-tracking);
+  font-size: var(--_block-size, var(--nc-block-headline-size));
+  line-height: var(--_block-lh, var(--nc-block-headline-lh));
+  font-weight: var(--_block-weight, var(--nc-block-headline-weight));
+  letter-spacing: var(--_block-tracking, var(--nc-block-heading-tracking));
 }
 
 // ---------------------------------------------------------------------------
@@ -116,10 +132,10 @@ h2[class*='__title']:not(.nc-headline--display) {
 h3[class*='__headline']:not(.nc-headline--display),
 h3[class*='__title']:not(.nc-headline--display) {
   font-family: var(--font-heading);
-  font-size: var(--nc-block-subtitle-size);
-  line-height: var(--nc-block-headline-lh);
-  font-weight: var(--nc-block-subtitle-weight);
-  letter-spacing: var(--nc-block-heading-tracking);
+  font-size: var(--_block-size, var(--nc-block-subtitle-size));
+  line-height: var(--_block-lh, var(--nc-block-headline-lh));
+  font-weight: var(--_block-weight, var(--nc-block-subtitle-weight));
+  letter-spacing: var(--_block-tracking, var(--nc-block-heading-tracking));
 }
 
 // ---------------------------------------------------------------------------
@@ -146,8 +162,8 @@ h3[class*='__title']:not(.nc-headline--display) {
 .nc-fade-gallery__desc,
 .nc-story-gallery__desc,
 .nc-expanding-panels__text {
-  font-size: var(--nc-block-lead-size);
-  line-height: var(--nc-block-lead-lh);
+  font-size: var(--_block-size, var(--nc-block-lead-size));
+  line-height: var(--_block-lh, var(--nc-block-lead-lh));
 }
 
 // Die Lead-FARBE wird hier bewusst NICHT gesetzt: auf dunklen Flaechen
