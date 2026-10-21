@@ -11,7 +11,7 @@ let server, basis, browser
 
 beforeAll(async () => {
   server = http.createServer((req, res) => {
-    if (req.url.endsWith('styles.css')) { res.writeHead(200, { 'content-type': 'text/css' }); return res.end('body{background:rgb(255,0,0)}') }
+    if (req.url.split('?')[0].endsWith('styles.css')) { res.writeHead(200, { 'content-type': 'text/css' }); return res.end('body{background:rgb(255,0,0)}') }
     if (req.url === '/fehlt') { res.writeHead(404); return res.end('nein') }
     if (req.url === '/bild.svg') {
       // Langsames Bild: kommt erst nach 1500 ms — länger als Scroll und Nachlauf
@@ -40,6 +40,13 @@ describe('pruefen: Aufnahme', () => {
     const png = await aufnehmen(t.seite, '/')
     expect(await t.seite.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(0, 128, 0)')
     expect(png.subarray(1, 4).toString()).toBe('PNG')
+    await t.schliesse()
+  }, 30000)
+
+  it('ohne setzeCss gilt die ausgelieferte styles.css (Gegenprobe ohne --css)', async () => {
+    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    await t.seite.goto('/')
+    expect(await t.seite.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(255, 0, 0)')
     await t.schliesse()
   }, 30000)
 

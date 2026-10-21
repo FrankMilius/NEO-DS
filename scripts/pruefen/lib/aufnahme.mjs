@@ -5,7 +5,7 @@
 
 const RUHE = '*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important} video{visibility:hidden}'
 
-/** Eigener Kontext je Breite; setzeCss() gilt ab der nächsten Aufnahme. */
+/** Eigener Kontext je Breite; setzeCss() gilt ab der nächsten Aufnahme, vorher die ausgelieferte CSS. */
 export async function oeffne (browser, einst, breite) {
   const kontext = await browser.newContext({
     baseURL: einst.ddevUrl,
@@ -13,8 +13,9 @@ export async function oeffne (browser, einst, breite) {
     ignoreHTTPSErrors: true,
     reducedMotion: 'reduce',
   })
-  let css = ''
-  await kontext.route(new RegExp(einst.cssRoute), (r) => r.fulfill({ body: css, contentType: 'text/css' }))
+  // null = ausgelieferte styles.css unverändert durchlassen
+  let css = null
+  await kontext.route(new RegExp(einst.cssRoute), (r) => (css === null ? r.continue() : r.fulfill({ body: css, contentType: 'text/css' })))
   const seite = await kontext.newPage()
   return {
     seite,
