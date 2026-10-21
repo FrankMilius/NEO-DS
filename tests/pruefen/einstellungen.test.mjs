@@ -19,6 +19,7 @@ const voll = {
   modulPfad: '~/Sites/DRUPAL11/web/modules/custom/neo_theme_konfigurator',
   themePfad: '~/Sites/DRUPAL11/web/themes/custom/neo_fe',
   ddevUrl: 'https://piipe-workplace.ddev.site',
+  e2eKonto: 'e2e-tester',
   cssRoute: 'neo_fe/css/styles\\.css',
   dockerAbbild: 'mcr.microsoft.com/playwright:v1.64.1-noble',
   dockerEinhaengen: '~/Sites',

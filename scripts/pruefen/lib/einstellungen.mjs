@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 export const ORDNER = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 export const PFLICHT = [
-  'drupalWurzel', 'modulPfad', 'themePfad', 'ddevUrl', 'cssRoute',
+  'drupalWurzel', 'modulPfad', 'themePfad', 'ddevUrl', 'e2eKonto', 'cssRoute',
   'dockerAbbild', 'dockerEinhaengen', 'dockerVolumes', 'breiten', 'seitenAusschluss',
 ]
 

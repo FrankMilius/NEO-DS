@@ -55,6 +55,12 @@ describe('pruefen: Bau-Prüfung', () => {
     expect(bauVeraltet(baum(ohne))[0]).toMatch(/Konfigurator/)
   })
 
+  it('nurCss: veralteter Konfigurator-Bau zählt nicht (app-uebernehmen.sh baut selbst)', () => {
+    const w = baum({ ...aktuell, 'apps/theme-configurator/src/main.js': 400 })
+    expect(bauVeraltet(w, { nurCss: true })).toEqual([])
+    expect(bauVeraltet(baum({ ...aktuell, 'scss/scss/main.scss': 250 }), { nurCss: true })).toHaveLength(1)
+  })
+
   it('node_modules unter den Quellen zählt nicht', () => {
     expect(bauVeraltet(baum({ ...aktuell, 'apps/theme-configurator/src/node_modules/x.js': 999 }))).toEqual([])
   })

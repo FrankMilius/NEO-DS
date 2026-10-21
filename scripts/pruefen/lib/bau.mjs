@@ -24,8 +24,11 @@ function neueste (ordner) {
   return t
 }
 
-/** Gründe, weshalb der Bau veraltet ist; leer = aktuell. */
-export function bauVeraltet (wurzel) {
+/**
+ * Gründe, weshalb der Bau veraltet ist; leer = aktuell. nurCss: nur styles.css
+ * prüfen (für die Modul-Übernahme, die den Konfigurator selbst neu baut).
+ */
+export function bauVeraltet (wurzel, { nurCss = false } = {}) {
   const gruende = []
   const css = mtime(path.join(wurzel, 'styles.css'))
   const scss = path.join(wurzel, 'scss')
@@ -33,7 +36,7 @@ export function bauVeraltet (wurzel) {
     gruende.push('styles.css älter als scss/ bzw. design-tokens.json — erst `npm run build:css` (bei Token-Änderungen vorher `npm run tokens`).')
   }
   const src = path.join(wurzel, 'apps/theme-configurator/src')
-  if (existsSync(src) && Math.max(neueste(src), css) > mtime(path.join(wurzel, 'config/theme-configurator/index.html'))) {
+  if (!nurCss && existsSync(src) && Math.max(neueste(src), css) > mtime(path.join(wurzel, 'config/theme-configurator/index.html'))) {
     gruende.push('Konfigurator älter als src oder styles.css (config/theme-configurator) — erst `npm run build` in apps/theme-configurator.')
   }
   return gruende
