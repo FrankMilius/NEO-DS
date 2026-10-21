@@ -21,6 +21,7 @@ const voll = {
   ddevUrl: 'https://piipe-workplace.ddev.site',
   cssRoute: 'neo_fe/css/styles\\.css',
   dockerAbbild: 'mcr.microsoft.com/playwright:v1.64.1-noble',
+  dockerEinhaengen: '~/Sites',
   dockerVolumes: { wurzel: 'neo-nm-wurzel-164', app: 'neo-nm-app-164' },
   breiten: [1280, 390],
   seitenAusschluss: ['^/form/contact/'],

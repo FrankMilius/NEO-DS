@@ -11,10 +11,12 @@ export const ORDNER = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
 
 export const PFLICHT = [
   'drupalWurzel', 'modulPfad', 'themePfad', 'ddevUrl', 'cssRoute',
-  'dockerAbbild', 'dockerVolumes', 'breiten', 'seitenAusschluss',
+  'dockerAbbild', 'dockerEinhaengen', 'dockerVolumes', 'breiten', 'seitenAusschluss',
 ]
 
-const PFADE = ['drupalWurzel', 'modulPfad', 'themePfad']
+// dockerEinhaengen: Ordner, der im Container unter demselben Pfad liegt; der
+// Worktree muss darin stehen (bisheriger Aufruf hing ganz ~/Sites ein)
+const PFADE = ['drupalWurzel', 'modulPfad', 'themePfad', 'dockerEinhaengen']
 
 function lies (datei) {
   return existsSync(datei) ? JSON.parse(readFileSync(datei, 'utf8')) : {}
