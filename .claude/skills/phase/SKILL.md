@@ -94,6 +94,10 @@ Ein roter Stand im Verlauf kostet später mehr als die Wartezeit jetzt.
 
 ## 4 · Committen
 
+Nach grünem `/fertig-pruefen` zuerst `/doku`: Der Agent entwirft Commit-Rumpf,
+README-Eintrag, Roadmap-Eintrag und prüft neue Oberflächentexte gegen
+BEGRIFFE.md. Seine Entwürfe sind die Vorlage für den Haltepunkt unten.
+
 Nach den Regeln aus `/commit` — die gelten hier unverändert:
 
 - Einzeln stagen, nie `git add -A`, wenn Fremdes im Baum liegt
