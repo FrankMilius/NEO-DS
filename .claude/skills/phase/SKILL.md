@@ -17,6 +17,10 @@ sich messbar ist.
 Der Plan liegt in `.claude/plans/JJJJ-MM-TT-<kurzname>.md` — sonst ist es der
 zuletzt besprochene mehrstufige Plan im Verlauf.
 
+Liegt im Worktree eine `STAND.md` (angelegt mit `/punkt-starten`), zuerst
+diese lesen: Ziel, Abnahme, Haltepunkte, Entscheidungen und offene Fragen
+stehen dort, nicht im Gesprächsverlauf.
+
 - Mit Argument (`/phase 3`): diese Phase.
 - Ohne: die nächste, die noch keine abgehakte Prüfschranke hat.
 
@@ -93,6 +97,10 @@ belegt, dass es funktioniert hat.
 ## 5 · Stoppen
 
 Kurz melden: was gilt jetzt, was hat es belegt, was bleibt offen.
+
+Gibt es eine `STAND.md`: **Stand** und **Nächster Schritt** nachführen, neue
+Entscheidungen mit Datum unter **Entscheidungen**. Die nächste Sitzung liest
+nur diese Datei.
 
 Dann **aufhören**. Die nächste Phase nicht planen, nicht vorbereiten, nicht
 anbieten. Nicht fragen, ob weitergemacht werden soll — der Plan ist die Antwort

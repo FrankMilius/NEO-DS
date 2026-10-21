@@ -50,3 +50,12 @@ Zuordnung, Aktualisierung). Projekt-Skills haben Vorrang.
   einem Subagenten das Fehlverhalten beobachten, dann den Skill schreiben,
   dann mit Subagent erneut prüfen.
 - Danach `npm run skills`.
+
+## Benutzer-Skills außerhalb des Repositorys (seit 21.10.2026)
+
+In `~/.claude/skills/` (für jede Sitzung, auch in `~/Documents/WEBSITE26`, wo
+die Projekt-Skills nicht geladen werden): `neo-superpowers` mit den
+Superpowers-Skills und `punkt-starten` (Worktree, Zweig, `STAND.md` je
+Roadmap-Punkt). Arbeitssitzungen im Worktree-Ordner starten — nur dort sind
+die Projekt-Skills geladen.
+
