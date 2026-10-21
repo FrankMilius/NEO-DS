@@ -35,6 +35,19 @@ er kennt ihn.
 > weshalb eine Prüfschranke danach nicht mehr eindeutig ist: Schlägt sie an,
 > war es die Phase oder die Verbesserung?
 
+### Arbeitstechniken innerhalb der Phase (Superpowers)
+
+- **Neue Logik** (Konfig-App, Skripte, Behaviors): `test-driven-development` —
+  Test schreiben, rot sehen, minimal umsetzen, grün sehen.
+- **Etwas schlägt fehl oder verhält sich rätselhaft**: `systematic-debugging` —
+  Ursache vor Lösung; bei wackligen Tests `condition-based-waiting`.
+- **Mehrere unabhängige Aufgaben in dieser Phase**: `subagent-driven-development`
+  oder `dispatching-parallel-agents` sind erlaubt — aber nur bis zum Ende
+  **dieser** Phase. Die Regel „ohne Pause alle Aufgaben“ aus `executing-plans`
+  gilt hier nicht.
+
+Vorrangregeln: Skill `neo-superpowers`.
+
 ## 3 · Prüfschranke
 
 **Die Prüfschranke steht im Plan.** Sie ist der Maßstab, nicht diese Liste hier.
@@ -54,7 +67,11 @@ Bei einer **Verschiebung** ist jede Abweichung ein Fehler. Bei einer **gewollten
 Änderung** ist keine Abweichung verdächtig. Nicht verwechseln — das ist der
 Unterschied zwischen „wirkungsgleich" und „wirkungslos".
 
-Schlägt die Prüfschranke an: diagnostizieren und beheben, nicht committen.
+Schlägt die Prüfschranke an: diagnostizieren (`systematic-debugging`) und
+beheben, nicht committen.
+
+Vor jeder Erfolgsmeldung `verification-before-completion`: Der Beleg stammt
+aus einem **frischen** Lauf in diesem Durchgang, die Ausgabe ist gelesen.
 Ein roter Stand im Verlauf kostet später mehr als die Wartezeit jetzt.
 
 ## 4 · Committen
@@ -84,4 +101,5 @@ darauf, und der Nutzer ruft `/phase` erneut, wenn er so weit ist.
 ## Verwandt
 
 `/plan` · `/commit` · `/widersacher` (wenn die Phase eine Behauptung enthält,
-die man widerlegen können muss)
+die man widerlegen können muss) · Superpowers über den Wegweiser
+`neo-superpowers`

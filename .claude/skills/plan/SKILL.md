@@ -88,7 +88,27 @@ Dokumentation   Recipe, Begründung im Code oder im BACKLOG
 Storybook       npm run recipe && npm run generate:stories
 ```
 
-## 6 · Speichern und übergeben
+## 6 · Aufgaben innerhalb einer Phase (Superpowers)
+
+Ist das Ziel noch unscharf, vor dem Plan `brainstorming`: Fragen einzeln, mit
+Belegen, bis Ziel und Abnahme feststehen.
+
+Enthält eine Phase Programmlogik (Konfig-App, Skripte, Behaviors), wird sie
+im Format von `writing-plans` in Aufgaben zerlegt — je Aufgabe:
+
+- **Dateien** mit Repo und Zeilenbereich
+- **Schnittstellen**: was die Aufgabe von früheren nutzt und was spätere von ihr brauchen
+- **Fehlschlagender Test zuerst** (Name und Erwartung), dann Umsetzung
+- **Prüfbefehl mit erwarteter Ausgabe**
+
+Reine SCSS-, Token- oder Text-Phasen brauchen das nicht; dort genügt die
+Prüfschranke aus Abschnitt 2. Vor dem Speichern die Selbstprüfung aus
+`writing-plans`: Jede Anforderung hat eine Aufgabe, Namen sind über Aufgaben
+hinweg gleich, kein Schritt sagt „TBD“ oder „passend behandeln“.
+
+Wegweiser und Vorrangregeln: Skill `neo-superpowers`.
+
+## 7 · Speichern und übergeben
 
 `.claude/plans/JJJJ-MM-TT-<kurzname>.md`
 

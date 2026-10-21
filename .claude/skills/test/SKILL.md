@@ -50,3 +50,10 @@ Format:
 - Mit `--all`: komplette Suite (`npm test`)
 - Immer `npm run build:css` zuerst, wenn SCSS geändert wurde
 - Zeige Ausführungszeit pro Test-Gruppe
+
+## Zusammenspiel mit Superpowers
+
+`/test` wählt aus, **welche** vorhandenen Tests laufen. Für **neue** Logik gilt
+vorher `test-driven-development`: erst der Test, der rot wird, dann der Code.
+Wackelt ein Test (mal grün, mal rot), nicht wiederholen, bis er grün ist,
+sondern `systematic-debugging` mit `condition-based-waiting`.

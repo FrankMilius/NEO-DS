@@ -146,3 +146,11 @@ nicht gegen den Fehllauf.
 > gemeinsam, und im Markup steht ein `data-`-Attribut, das nach einer API
 > klingt. Ein echter Regress trifft selten acht Geschwister auf einmal und
 > lässt die Elternsektion stehen.
+
+## Zusammenspiel mit Superpowers
+
+`verification-before-completion` ist die eigene Pflicht **vor** der Behauptung:
+frischer Lauf, Ausgabe gelesen, dann erst „fertig“. Der Widersacher kommt
+**danach** und prüft unabhängig — er bekommt nur die Behauptung, nicht den
+Weg. Code-Reviews über `requesting-code-review` ersetzen ihn nicht: Sie prüfen
+den Diff, der Widersacher prüft die Aussage über die Wirkung.

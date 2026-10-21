@@ -39,3 +39,14 @@ Alle in `.claude/skills/<name>/SKILL.md`:
 - **Skills** = Wiederverwendbare Workflows (projektübergreifend)
 - Skills sollen CLAUDE.md lesen, nicht Regeln daraus duplizieren
 - Workflows gehören in Skills, nicht in CLAUDE.md
+
+## Superpowers (seit 21.10.2026)
+
+Zusätzlich zu den Projekt-Skills liegen zwölf Superpowers-Skills (obra/superpowers,
+MIT) in `~/.claude/skills/`, mit dem Wegweiser `neo-superpowers` (Vorrang,
+Zuordnung, Aktualisierung). Projekt-Skills haben Vorrang.
+
+- Neue oder geänderte Skills nach `writing-skills` prüfen: erst ohne Skill mit
+  einem Subagenten das Fehlverhalten beobachten, dann den Skill schreiben,
+  dann mit Subagent erneut prüfen.
+- Danach `npm run skills`.
