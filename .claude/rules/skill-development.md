@@ -59,3 +59,10 @@ Superpowers-Skills und `punkt-starten` (Worktree, Zweig, `STAND.md` je
 Roadmap-Punkt). Arbeitssitzungen im Worktree-Ordner starten — nur dort sind
 die Projekt-Skills geladen.
 
+## Haltepunkte (E6, seit 21.10.2026)
+
+Agenten halten vor dem Zweig-Commit „(…, Freigabe ausstehend)“ und sobald der
+Pixelvergleich Website-Unterschiede zeigt. Der erste ist technisch erzwungen
+(Schutz-Hook fragt nach), der zweite steht in `/phase`. Neue Skills, die
+committen oder die Website prüfen, übernehmen beide.
+

@@ -74,6 +74,13 @@ Unterschied zwischen „wirkungsgleich" und „wirkungslos".
 Schlägt die Prüfschranke an: diagnostizieren (`systematic-debugging`) und
 beheben, nicht committen.
 
+> **Haltepunkt: Website-Unterschiede.** Zeigt der Pixelvergleich der Website
+> auch nur eine Seite mit Unterschied, **sofort anhalten** — nicht weiterbauen,
+> nicht „erklären und fortfahren“. Frank bekommt: welche Seiten, bei welcher
+> Breite, Vorher/Nachher-Ausschnitt, und ob die Phase laut `STAND.md` die
+> Website ändern darf. Weiter erst nach seiner Antwort. Das gilt auch, wenn
+> die Änderung gewollt ist: Sichtbares entscheidet Frank, nicht die Phase.
+
 Vor jeder Erfolgsmeldung `verification-before-completion`: Der Beleg stammt
 aus einem **frischen** Lauf in diesem Durchgang, die Ausgabe ist gelesen.
 Ein roter Stand im Verlauf kostet später mehr als die Wartezeit jetzt.
@@ -93,6 +100,14 @@ Wenn der Plan Phasen nummeriert, gehört die Nummer in den Rumpf.
 
 In den Rumpf gehört außerdem **die Ausgabe der Prüfschranke** — die Zahl, die
 belegt, dass es funktioniert hat.
+
+> **Haltepunkt: Zweig-Commit „(…, Freigabe ausstehend)“.** Vor diesem Commit
+> anhalten und Frank in **einer** Nachricht vorlegen: Überschrift des Commits,
+> geänderte Dateien (`git diff --stat`), Ausgabe der Prüfschranke, bei
+> Sichtbarem Vorher/Nachher. Der Schutz-Hook fragt bei jedem Commit mit
+> „Freigabe ausstehend“ ohnehin nach; die Nachricht davor ist das, worüber
+> Frank entscheidet. Lehnt er ab, nichts verwerfen — nachbessern oder in
+> `STAND.md` festhalten.
 
 ## 5 · Stoppen
 
