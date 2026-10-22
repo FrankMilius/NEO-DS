@@ -49,10 +49,13 @@ apps/theme-configurator/blob-report/
 #
 # Die Verzeichnisse sind BEWUSST als Ganzes freigegeben und nicht einzelne
 # Dateien: Ein neuer Skill soll ohne Aenderung an dieser Datei mitkommen.
+# Seit 22.10.2026 (E10) auch workflows/: gespeicherte Workflow-Skripte, die
+# Skills aufrufen (z. B. /pakete-parallel → r14-pakete.js).
 .claude/*
 !.claude/skills/
 !.claude/agents/
 !.claude/rules/
+!.claude/workflows/
 
 # Maschinenspezifisch: absolute Pfade und Berechtigungslisten. Gehoert nicht
 # ins Repo, auch nicht die nicht-lokale Fassung — beide fuehren /Users/-Pfade.

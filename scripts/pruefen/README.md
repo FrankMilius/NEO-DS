@@ -168,6 +168,22 @@ Danach enthält das Modul die App aus diesem Worktree. Zurück auf den Stand
 von `main`: `bash scripts/app-uebernehmen.sh ~/Sites/WEBSITE26` im Modul,
 dann `ddev drush cr`.
 
+## Parallel prüfen: was nicht geht (E10, 22.10.2026)
+
+Mehrere Worktrees dürfen gleichzeitig **bauen und reparieren**, aber nicht
+gleichzeitig **prüfen**. Der Skill `/pakete-parallel` hält das ein.
+
+| Prüfung | Gemeinsamer Zustand | Folge bei Gleichzeitigkeit |
+|---|---|---|
+| `pruefen:modul` | App im Drupal-Modul, Test-Themes | der zweite Lauf überschreibt die App des ersten |
+| `ci:lokal --e2e`, `e2e:wirkung` | Playwright-Ports 3100/3101 (`E2E_PORT`, `E2E_DRUPAL_PORT`) | Server-Start scheitert oder misst den falschen Bau |
+| `pruefen:bilder` | Docker-Volumes `dockerVolumes` | `node_modules` des Abbilds werden gegenseitig ersetzt |
+| `pruefen:pixel`, `pruefen:gegenprobe` | DDEV-Website (nur gelesen) | möglich, aber unter Last mehr „unklar“ |
+
+`pruefen:gegenprobe` misst ohne `--css` die **ausgelieferte** `styles.css` —
+für ein Paket also `--css styles.css` (den frischen Bau im Worktree) und
+`--bauteile` mit dem Selektor des betroffenen Elements angeben.
+
 ## Einstellungen
 
 `einstellungen.json` (versioniert) enthält Franks Pfade als Vorgabe. Eigene
