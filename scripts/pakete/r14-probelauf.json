@@ -1,0 +1,272 @@
+{
+  "_hinweis": "Paketliste für scripts/pakete/vorbereiten.mjs (E10). Werte und Ursachen aus der R13-Einstufung (~/Sites/_worktrees/WEBSITE26-p7-uebergabe/r13/einstufung.json, Ursache „überdeckt“), Website-Einsatz aus website-einsatz.generated.js (neo_fe 594c896; Orte der Komponente, nicht der Variante — FAB zählt mit Button), übernommen 22.10.2026.",
+  "punkt": "R14",
+  "regel": "Standard = heute sichtbarer Wert, Website unverändert (Pixel 0); nur ein geänderter Testwert muss ankommen. Arbeitsweise wie R14 Paket 1 (8baf23f7).",
+  "entscheidungen": [
+    "21.10.2026 — Probelauf: die 17 überdeckten Werte in 2 Paketen nach Komponentengruppe, höchstens 2 Agenten gleichzeitig (Frank)",
+    "21.10.2026 — je Paket ein neo_fe-Zweig; parallel erarbeiten, nacheinander übernehmen: nach jeder Freigabe zieht das nächste Paket den neuen Stand nach (Frank)",
+    "22.10.2026 — Paketschnitt: 2a Formularfelder (7), 2b Button und Seitenblöcke (10) (Frank)",
+    "22.10.2026 — Werte ohne Website-Einsatz gelten als abgenommen, wenn sie in e2e:wirkung auf der Bühne wirken (Frank)"
+  ],
+  "naechsterSchritt": "Reparatur über den Workflow `/pakete-parallel` (E10) — nicht von Hand in einer zweiten Sitzung beginnen.",
+  "pakete": [
+    {
+      "id": "paket-2a",
+      "titel": "Formularfelder",
+      "werte": [
+        {
+          "token": "nc-form-label-optional-color",
+          "komponente": "form-label",
+          "standard": "var(--fnd-color-text-tertiary)",
+          "eigenschaft": "color",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-form-label__optional { color } verliert gegen: .nc-form-label__optional { color: var(--fnd-color-text-tertiary, var(--fnd-color-text-secondary)) }",
+          "website": [
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-form-label-required-color",
+          "komponente": "form-label",
+          "standard": "var(--fnd-color-text-danger)",
+          "eigenschaft": "color",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-form-label__required { color } verliert gegen: .nc-form-label__required { color: var(--fnd-color-text-danger, #a31f1f) }",
+          "website": [
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-range-thumb-border",
+          "komponente": "range",
+          "standard": "var(--fnd-color-interactive-default)",
+          "eigenschaft": "border",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-range__input::-webkit-slider-thumb { border } verliert gegen: .nc-range__input::-webkit-slider-thumb { border-radius: var(--fnd-radius-full) } · .nc-range--error .nc-range__input::-webkit-slider-thumb { border-color: var(--mod-input-border-error, var(--nc-input-border-error)) }",
+          "website": []
+        },
+        {
+          "token": "nc-range-thumb-border-width",
+          "komponente": "range",
+          "standard": "var(--fnd-border-width-sm)",
+          "eigenschaft": "border",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-range__input::-webkit-slider-thumb { border } verliert gegen: .nc-range__input::-webkit-slider-thumb { border-radius: var(--fnd-radius-full) } · .nc-range--error .nc-range__input::-webkit-slider-thumb { border-color: var(--mod-input-border-error, var(--nc-input-border-error)) }",
+          "website": []
+        },
+        {
+          "token": "nc-range-thumb-size",
+          "komponente": "range",
+          "standard": "20px",
+          "eigenschaft": "margin-top",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-range__input::-webkit-slider-thumb { margin-top } verliert gegen: .nc-range--vertical .nc-range__input::-webkit-slider-thumb { margin-top: 0 }",
+          "website": []
+        },
+        {
+          "token": "nc-table-checkbox-column-width",
+          "komponente": "table",
+          "standard": "48px",
+          "eigenschaft": "width",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-compare-table--selectable .nc-compare-table__checkbox { width } verliert gegen: .nc-compare-table--selectable input[type=checkbox] { width: var(--mod-table-checkbox-size, var(--nc-table-checkbox-size)) }",
+          "website": []
+        },
+        {
+          "token": "nc-textarea-resize",
+          "komponente": "textarea",
+          "standard": "vertical",
+          "eigenschaft": "resize",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-textarea { resize } verliert gegen: .nc-textarea--autosize { resize: none } · .nc-textarea--no-resize { resize: none }",
+          "website": [
+            "Block „Form“"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paket-2b",
+      "titel": "Button und Seitenblöcke",
+      "werte": [
+        {
+          "token": "nc-button-fab-radius",
+          "komponente": "button",
+          "standard": "var(--fnd-radius-full)",
+          "eigenschaft": "border-radius",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-button--fab { border-radius } verliert gegen: .nc-button--icon-only { border-radius: var(--mod-button-radius-md, var(--nc-button-radius-md)) }",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-button-padding-y-lg",
+          "komponente": "button",
+          "standard": "16px",
+          "eigenschaft": "padding-block",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-button--lg { padding-block } verliert gegen: .nc-button--icon-only.nc-button--lg { padding: 0 }",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-button-padding-y-md",
+          "komponente": "button",
+          "standard": "12px",
+          "eigenschaft": "padding-block",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-button--secondary { padding-block } verliert gegen: .nc-button--icon-only.nc-button--xs { padding: 0 } · .nc-button--icon-only.nc-button--sm { padding: 0 }",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-button-padding-y-sm",
+          "komponente": "button",
+          "standard": "8px",
+          "eigenschaft": "padding-block",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-button--sm { padding-block } verliert gegen: .nc-button--icon-only.nc-button--sm { padding: 0 }",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-button-padding-y-xs",
+          "komponente": "button",
+          "standard": "4px",
+          "eigenschaft": "padding-block",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-button--xs { padding-block } verliert gegen: .nc-button--icon-only.nc-button--xs { padding: 0 }",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-divider-strong-width",
+          "komponente": "divider",
+          "standard": "",
+          "eigenschaft": "border-top-width",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-divider--strong { border-top-width } verliert gegen: .neo-light-theme hr,.neo-dark-theme hr,.neo-mono-light hr,.neo-mono-dark hr { border-top: 1px solid var(--fnd-color-border-secondary) }",
+          "website": []
+        },
+        {
+          "token": "nc-dt-glass-backdrop-blur",
+          "komponente": "data-table",
+          "standard": "8px",
+          "eigenschaft": "backdrop-filter",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-data-table--glass { backdrop-filter } verliert gegen: .nc-data-table--glass { -webkit-backdrop-filter: none }",
+          "website": []
+        },
+        {
+          "token": "nc-footer-link-color",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-footer__newsletter-text { color } verliert gegen: .nc-footer h1,.nc-footer h2,.nc-footer h3,.nc-footer h4,.nc-footer h5,.nc-footer h6,.nc-footer p { color: var(--nc-footer-surface-fg) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-hero-cards-rule-color",
+          "komponente": "hero",
+          "standard": "var(--nc-hero-footer-rule)",
+          "eigenschaft": "border-inline-start",
+          "massnahme": "Kette bilden",
+          "detail": ".nc-hero__cards--ruled:not([class*=\"--bg-\"]) .nc-metric { border-inline-start } verliert gegen: .nc-hero__cards--n4.nc-hero__cards--ruled:not([class*=\"--bg-\"]) .nc-metric:nth-child(4n+1) { border-inline-start: 0 } · .nc-hero__cards--n4.nc-hero__cards--ruled:not([class*=\"--bg-\"]) .nc-metric:nth-child(2n+1):not(:nth-child(4n+1)) { border-inline-start: var(--mod-hero-cards-rule-width, var(--nc-hero-cards-rule-width)) solid var(--mo }",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-news-footer-a-font-weight",
+          "komponente": "news",
+          "standard": "var(--fnd-font-weight-semibold)",
+          "eigenschaft": "font-weight",
+          "massnahme": "beheben (Reihenfolge/Spezifität)",
+          "detail": ".nc-news__footer a { font-weight } verliert gegen: .neo-light-theme a:not([class]),.neo-dark-theme a:not([class]),.neo-mono-light a:not([class]),.neo-mono-dark a:not([clas { font-weight: 550 }",
+          "website": [
+            "Inhaltstyp „News“ (Vollansicht)"
+          ]
+        }
+      ]
+    }
+  ]
+}
