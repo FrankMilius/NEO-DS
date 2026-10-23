@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-21
+// Generated: 2026-10-22
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -19379,7 +19379,7 @@ export const componentTokenGroups = [
         "id": "nc-table-checkbox-column-width",
         "label": "Checkbox Column Width",
         "type": "size",
-        "default": "48px"
+        "default": "var(--nc-table-checkbox-size, 16px)"
       },
       {
         "id": "nc-table-font-size",

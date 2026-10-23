@@ -249,14 +249,20 @@
 // ---------------------------------------------------------------------------
 
 .nc-compare-table--selectable {
+  // Die Klasse sitzt auf dem <input> selbst. Die Breite hier verlor deshalb
+  // immer gegen input[type='checkbox'] (0,2,1) — der Wert wirkte nie
+  // (Wirkungsprüfung R13). Kette: Die gewinnende Regel liest die Weiche
+  // --_checkbox-breite, sonst wie bisher die Checkbox-Größe
+  // (R14 Paket 2a, 22.10.2026). Ein Modul-Override der Checkbox-Größe geht
+  // dem Standard der Breite vor, damit die Checkbox quadratisch bleibt.
   .nc-compare-table__checkbox {
-    width: var(--mod-table-checkbox-column-width, var(--nc-table-checkbox-column-width));
+    --_checkbox-breite: var(--mod-table-checkbox-column-width, var(--mod-table-checkbox-size, var(--nc-table-checkbox-column-width)));
     text-align: center;
     padding-inline: var(--fnd-spacing-02);
   }
 
   input[type='checkbox'] {
-    width: var(--mod-table-checkbox-size, var(--nc-table-checkbox-size));
+    width: var(--_checkbox-breite, var(--mod-table-checkbox-size, var(--nc-table-checkbox-size)));
     height: var(--mod-table-checkbox-size, var(--nc-table-checkbox-size));
     accent-color: var(--mod-table-row-border-selected, var(--nc-table-row-border-selected));
     cursor: pointer;

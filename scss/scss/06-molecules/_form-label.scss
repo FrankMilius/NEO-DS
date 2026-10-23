@@ -199,12 +199,13 @@
 // >>> aufgenommen: Pflicht- und Optional-Auszeichnung aus neo-overrides.css
 // ---------------------------------------------------------------------------
 
-.nc-form-label__required {
-  color: var(--fnd-color-text-danger, #a31f1f);
-}
+// Farbe nicht mehr hier: Diese Regel steht später und gleich spezifisch wie
+// &__required/&__optional oben — ihre feste Farbe überdeckte die Werte
+// --nc-form-label-required-color / -optional-color (Wirkungsprüfung R13).
+// Die Werte zeigen auf dieselbe Rolle (text-danger / text-tertiary), sichtbar
+// bleibt alles gleich (R14 Paket 2a, 22.10.2026).
 
 .nc-form-label__optional {
-  color: var(--fnd-color-text-tertiary, var(--fnd-color-text-secondary));
   font-weight: 400;
   font-size: 0.9em;
 }
