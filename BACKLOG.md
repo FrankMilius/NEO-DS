@@ -21,6 +21,7 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 - **Magazin-Vorschau**: setzt eigene `role="banner"`/`role="main"` — doppelte Landmarken, sobald die Vorschau nicht ausgeklammert ist.
 - **DTCG-Export**: eigene Tokens, Schriften, Icons, semantische Abstände/Typografie und Stufen der Markenfarben kommen nicht an (im Dialog ausgewiesen); `styles.css` wird beim ersten Export nachgeladen (143 kB gzip). DTCG-Import fehlt.
 - **Präsentation**: Farbregeln der Bühne (Grund/Schrift je Welt) gegen das Markenbuch prüfen; Kontrast im Inspector nur gegen ein Papier.
+- **Token-Suche findet `--nc-…` nicht** (gesehen 22.10.2026, E10): `ComponentEditor.vue:784` vergleicht mit `t.id` ohne führendes `--`; wer den Namen aus CSS oder einer Vorlage kopiert, sieht „nichts“. Führende `--` vor dem Vergleich abschneiden. Dazu: „Technische Namen zeigen“ blendet in den Feldzeilen keinen Token-Namen ein (Table, Einstellungen).
 
 ## Foliensystem
 

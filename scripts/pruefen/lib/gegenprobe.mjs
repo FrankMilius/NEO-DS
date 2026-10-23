@@ -48,7 +48,12 @@ export function bericht (summe) {
 // Läuft in der Seite (page.evaluate) und muss deshalb für sich stehen.
 // Jedes Element zählt beim ersten passenden Bauteil; die Setzung wird danach
 // wieder entfernt, damit weitere Messungen auf derselben Seite sauber sind.
+// Übergänge und Animationen sind während der Messung aus: Sonst liefert
+// getComputedStyle direkt nach dem Setzen noch den alten Wert (E10, 22.10.2026).
 function imBrowser ({ bauteile, eigenschaft, css }) {
+  const still = document.createElement('style')
+  still.textContent = '*,*::before,*::after{transition:none !important;animation:none !important}'
+  document.head.append(still)
   const el = [...document.querySelectorAll(bauteile.join(','))]
   const zuordnung = el.map((e) => bauteile.find((b) => e.matches(b)))
   const vor = el.map((e) => getComputedStyle(e).getPropertyValue(eigenschaft))
@@ -57,6 +62,7 @@ function imBrowser ({ bauteile, eigenschaft, css }) {
   document.head.append(st)
   const nach = el.map((e) => getComputedStyle(e).getPropertyValue(eigenschaft))
   st.remove()
+  still.remove()
   return { vor, nach, zuordnung }
 }
 

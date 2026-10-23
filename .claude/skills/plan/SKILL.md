@@ -72,6 +72,13 @@ Trenne sauber:
 Frage **vor** der Umsetzung, nicht mittendrin. Und stelle die Frage mit
 Belegen: Wer eine Farbe wählen soll, braucht die Kontrastwerte daneben.
 
+Jede Entscheidung nennt den **Ort zum Nachschauen** — Website-URL und
+Konfig-App-URL (`…/config/theme-config#/component/<id>`), jeweils mit
+Breadcrumb (Seitenleiste › Komponente › Einstellungen › Abschnitt ›
+Untergruppe › Feld) —, das **Token**, den **heutigen Wert** (Feld und
+gerendert) und den **erwarteten Wert je Option**. Selbst gemessen, nicht
+aus einem Agentenbericht übernommen. Format: Skill `pakete-parallel` §4.
+
 Wenn eine Entscheidung visuell ist, biete eine Vorschau an, statt zu
 beschreiben. Ein HTML-Artefakt mit Vorher und Nachher beantwortet in dreißig
 Sekunden, worüber sonst zwei Runden vergehen.

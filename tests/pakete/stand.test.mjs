@@ -138,10 +138,14 @@ describe('pakete: Liste prüfen', () => {
     })
   })
 
-  it('die versionierte Probelauf-Liste ist gültig: 2 Pakete, 17 Werte', () => {
+  // Aufbau und Existenz der Tokens, nicht ihr heutiger Wirkungsstand: Nach
+  // der Übernahme von 2a/2b (23.10.2026) wirken 15 der 17 Werte — „wirkt
+  // schon“ sperrt dann zu Recht ein neues Anlegen, macht die Liste aber nicht
+  // ungültig.
+  it('die versionierte Probelauf-Liste ist gültig: 2 Pakete, 17 bekannte Werte', () => {
     const l = JSON.parse(readFileSync(new URL('../../scripts/pakete/r14-probelauf.json', import.meta.url), 'utf8'))
-    const w = JSON.parse(readFileSync(new URL('../../apps/theme-configurator/src/data/token-wirkung.json', import.meta.url), 'utf8')).tokens
-    expect(pruefeListe(l, w)).toEqual([])
+    const ids = Object.keys(JSON.parse(readFileSync(new URL('../../apps/theme-configurator/src/data/token-wirkung.json', import.meta.url), 'utf8')).tokens)
+    expect(pruefeListe(l, Object.fromEntries(ids.map((id) => [id, 'ohne-wirkung'])))).toEqual([])
     expect(l.pakete.map((p) => p.werte.length)).toEqual([7, 10])
   })
 })

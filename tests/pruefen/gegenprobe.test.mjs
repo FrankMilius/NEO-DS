@@ -60,4 +60,17 @@ describe('pruefen: Gegenprobe — Messung im Browser', () => {
     const arg = { bauteile: ['.nc-button', '.nc-badge'], eigenschaft: 'padding-inline', css: regel('--gibt-es-nicht: 1px') }
     expect(await messe(seite, arg)).toEqual({ '.nc-button': [2, 0], '.nc-badge': [1, 0] })
   })
+
+  // E10, 22.10.2026: Form-Labels der Website tragen `transition: all`; ohne
+  // Abschalten las die Gegenprobe direkt nach dem Setzen noch den alten Wert
+  // und meldete „wirkungslos“.
+  it('misst durch Übergänge hindurch und lässt sie danach unverändert', async () => {
+    await seite.setContent(`<style>
+      :root{--farbe:rgb(0, 0, 255)}
+      .nc-form-label__optional{color:var(--farbe);transition:all 2s}
+    </style><span class="nc-form-label__optional">optional</span>`)
+    const arg = { bauteile: ['.nc-form-label__optional'], eigenschaft: 'color', css: regel('--farbe: rgb(1, 2, 3)') }
+    expect(await messe(seite, arg)).toEqual({ '.nc-form-label__optional': [1, 1] })
+    expect(await seite.evaluate(() => getComputedStyle(document.querySelector('.nc-form-label__optional')).transitionDuration)).toBe('2s')
+  })
 })

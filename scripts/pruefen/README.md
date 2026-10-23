@@ -181,8 +181,16 @@ gleichzeitig **prüfen**. Der Skill `/pakete-parallel` hält das ein.
 | `pruefen:pixel`, `pruefen:gegenprobe` | DDEV-Website (nur gelesen) | möglich, aber unter Last mehr „unklar“ |
 
 `pruefen:gegenprobe` misst ohne `--css` die **ausgelieferte** `styles.css` —
-für ein Paket also `--css styles.css` (den frischen Bau im Worktree) und
-`--bauteile` mit dem Selektor des betroffenen Elements angeben.
+für ein Paket also `--css <Worktree des Pakets>/styles.css` (den frischen Bau)
+und `--bauteile` mit dem Selektor des betroffenen Elements angeben. Ist die
+Gegenprobe im Paket älter, läuft sie aus einem anderen Worktree:
+`npm --prefix <worktree> run pruefen:gegenprobe -- … --css <paket>/styles.css`.
+Seit 22.10.2026 schaltet sie während der Messung Übergänge ab; ältere
+Fassungen melden bei Elementen mit `transition` fälschlich „wirkungslos“.
+
+Vor `pruefen:alles` in einem Paket mit Token-Änderungen die geänderten Dateien
+**stagen** (nicht committen): Der CI-Schritt „Generat aktuell“ vergleicht das
+frisch erzeugte `tokens.generated.js` mit dem Index und ist sonst immer rot.
 
 ## Einstellungen
 
