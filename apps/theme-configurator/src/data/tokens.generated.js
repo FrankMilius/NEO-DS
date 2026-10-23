@@ -8648,7 +8648,7 @@ export const componentTokenGroups = [
         "id": "nc-divider-strong-width",
         "label": "Strong Width",
         "type": "size",
-        "ref": "border-width-sm"
+        "ref": "border-width-xs"
       }
     ],
     "subgroups": [
@@ -14400,7 +14400,7 @@ export const componentTokenGroups = [
         "id": "nc-news-footer-a-font-weight",
         "label": "Footer A Font Weight",
         "type": "weight",
-        "default": "var(--fnd-font-weight-semibold)"
+        "default": "var(--fnd-font-weight-link)"
       }
     ]
   },
@@ -24552,6 +24552,12 @@ export const foundationTokens = {
         "value": 400,
         "type": "weight",
         "cssVar": "--fnd-font-weight-mono"
+      },
+      "weight-link": {
+        "label": "link",
+        "value": 550,
+        "type": "weight",
+        "cssVar": "--fnd-font-weight-link"
       }
     }
   },

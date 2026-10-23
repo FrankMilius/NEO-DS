@@ -437,13 +437,12 @@
 
 /// FAB (Floating Action Button): Rundes Icon-Only-Muster mit Shadow.
 /// Fuer primaere Aktionen wie "Neu erstellen".
+/// Groesse und Radius stehen in .nc-button { &--fab, &--icon-only.&--fab }
+/// hinter den Groessen- und Icon-only-Regeln (R14, 22.10.2026).
 @mixin button-fab {
-  width: var(--mod-button-fab-size, var(--nc-button-fab-size));
-  height: var(--mod-button-fab-size, var(--nc-button-fab-size));
   min-width: auto;
   min-height: auto;
   padding: 0;
-  border-radius: var(--mod-button-fab-radius, var(--nc-button-fab-radius));
   box-shadow: var(--mod-button-fab-shadow, var(--nc-button-fab-shadow));
 
   &:hover:not(:disabled) {
@@ -769,6 +768,18 @@
     &.nc-button--sm { @include button-icon-only('sm'); }
     // md = Default (via Mixin)
     &.nc-button--lg { @include button-icon-only('lg'); }
+  }
+
+  // FAB: Groesse und Radius kommen aus den FAB-Werten, nicht aus der
+  // Groessenstufe — sonst verloren --nc-button-fab-size und
+  // --nc-button-fab-radius gegen die Groessen- und Icon-only-Regeln (FAB war
+  // 40×56 px, Radius 4px). Rund wie im Recipe, Entscheidung E9 (R14,
+  // 22.10.2026). Eine Regel fuer beide Faelle haelt die CSS-Groesse im Rahmen.
+  &--fab,
+  &--icon-only.nc-button--fab {
+    width: var(--mod-button-fab-size, var(--nc-button-fab-size));
+    height: var(--mod-button-fab-size, var(--nc-button-fab-size));
+    border-radius: var(--mod-button-fab-radius, var(--nc-button-fab-radius));
   }
   &--loading   { @include button-loading; }
   &--toggle    { @include button-toggle; }

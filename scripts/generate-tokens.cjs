@@ -486,6 +486,7 @@ const bruecke = (configurator, bekannt) => {
     'typography.weight-heading-strong':  'fnd-font-weight-heading-strong',
     'typography.weight-body':            'fnd-font-weight-body',
     'typography.weight-mono':            'fnd-font-weight-mono',
+    'typography.weight-link':            'fnd-font-weight-link',
     'motion.duration-quick':     'fnd-motion-duration-200',  // 0.2s
     'motion.duration-base':      'fnd-motion-duration-300',  // 0.3s
     'motion.duration-slow':      'fnd-motion-duration-450',  // 0.45s

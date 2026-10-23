@@ -114,4 +114,11 @@
   color: var(--fnd-color-text-accent);
   font-weight: var(--nc-news-footer-a-font-weight);
 }
+
+// Links ohne Klasse: Die Theme-Regel `.neo-*-theme a:not([class])` (0,2,1)
+// schlug das Gewicht oben (0,1,1) immer. Nur das Gewicht durchsetzen, die
+// Farbe bleibt wie bisher sichtbar (R14, 22.10.2026).
+.nc-news__footer a:not([class]) {
+  font-weight: var(--nc-news-footer-a-font-weight);
+}
 /* <<< aufgenommen: news */

@@ -1129,8 +1129,12 @@
   &--glass {
     background: var(--mod-dt-glass-bg, var(--nc-dt-glass-bg));
     border: var(--mod-dt-glass-border, var(--nc-dt-glass-border));
-    backdrop-filter: blur(var(--mod-dt-glass-backdrop-blur, var(--nc-dt-glass-backdrop-blur)));
+    // Praefix VOR der Standard-Eigenschaft: Steht es zuletzt, fasst der
+    // Minifier der Konfig-App beide zu -webkit-backdrop-filter zusammen, das
+    // Chrome nicht kennt — die Unschaerfe war auf der Buehne immer none
+    // (Entscheidung E6, R14, 22.10.2026).
     -webkit-backdrop-filter: blur(var(--mod-dt-glass-backdrop-blur, var(--nc-dt-glass-backdrop-blur)));
+    backdrop-filter: blur(var(--mod-dt-glass-backdrop-blur, var(--nc-dt-glass-backdrop-blur)));
 
     .nc-data-table__th {
       background: var(--mod-dt-glass-header-bg, var(--nc-dt-glass-header-bg));
@@ -1262,7 +1266,7 @@
 
   // Glass backdrop-filter kann Performance kosten
   .nc-data-table--glass {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

@@ -2105,6 +2105,12 @@ export declare const foundationTokens: {
         type: string
         cssVar: string
       }
+      "weight-link": {
+        label: string
+        value: number
+        type: string
+        cssVar: string
+      }
     }
   }
   tracking: {

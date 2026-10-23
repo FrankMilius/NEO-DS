@@ -4,7 +4,7 @@
 // Je Komponente mit Bühne: jedes Token bekommt einen Prüfwert, gesetzt auf
 // den Theme-Bereichen und an allen Elementen, an denen die Vorschau den Wert
 // inline setzt (lib/vorschau-variablen.js). Gemessen wird, ob sich der
-// berechnete Stil irgendeines Elements der Bühne ändert (45 Eigenschaften,
+// berechnete Stil irgendeines Elements der Bühne ändert (46 Eigenschaften,
 // auch ::before/::after, Übergänge aus).
 //
 // Regler-Knopf (R14 Paket 2a, E2, 22.10.2026): getComputedStyle mit
@@ -25,6 +25,15 @@ import { componentTokenGroups } from '../src/data/tokens.generated.js'
 const AUS = resolve(import.meta.dirname, '../wirkung-ergebnis')
 test.describe.configure({ mode: 'parallel' })
 
+// Obergrenzen: Das Button-Polster ist min(padding-y, Rest der Knopfhoehe)
+// (Entscheidung 02.10.2026) — ein groesserer Pruefwert kann nie wirken.
+// Gemessen wird mit einem kleineren (Entscheidung E5, R14, 22.10.2026).
+const OBERGRENZE = /^nc-button-padding-y-(xs|sm|md|lg)$/
+// Komponenten, deren Wert unter reduzierter Bewegung absichtlich aus ist:
+// Die Glas-Unschaerfe der Data Table schaltet @media (prefers-reduced-motion)
+// ab. Diese Buehne wird ohne die Emulation gemessen, sonst bliebe
+// backdrop-filter immer none (Entscheidung E6, R14, 22.10.2026).
+const OHNE_REDUZIERT = new Set(['data-table'])
 const LAENGE = /^-?[\d.]+(px|rem|em|%|vw|vh|ch)$|var\(--(fnd-(spacing|size|radius|border-width|icon-size|focus)|fs-|nc-[a-z-]*(size|gap|padding|radius|width|height|offset|spacing))/
 
 /** Prüfwert, der sich sicher vom Standard unterscheidet (null = keiner) */
@@ -37,6 +46,7 @@ function pruefwert (t) {
   if (/opacity/.test(id)) return '0.37'
   if (/duration|delay/.test(id) || /^[\d.]+m?s$/.test(d)) return '3.7s'
   if (/line-height/.test(id)) return '3.7'
+  if (OBERGRENZE.test(id)) return '0px'
   if (/^-?[\d.]+$/.test(d)) return String(Number(d) === 7 ? 5 : 7)
   if (LAENGE.test(d) || /size|gap|padding|margin|radius|width|height|offset|inset|spacing|indent|top|left|right|bottom/.test(id)) return '37px'
   return null
@@ -74,7 +84,7 @@ const gruppen = componentTokenGroups.filter((g) => SEKTIONEN.includes(`component
 for (const g of gruppen) {
   test(`Wirkung ${g.id}`, async ({ page }) => {
     test.setTimeout(240_000)
-    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.emulateMedia({ reducedMotion: OHNE_REDUZIERT.has(g.id) ? 'no-preference' : 'reduce' })
     await oeffneSektion(page, `component-${g.id}`)
     await page.waitForLoadState('load'); await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(800)
     const tokens = [...(g.tokens || []), ...((g.subGroups || g.subgroups || []).flatMap((s) => s.tokens || []))]
@@ -90,7 +100,7 @@ for (const g of gruppen) {
       return teile.join('\n')
     })
     const r = await page.evaluate(([tokens, css]) => {
-      const P = ['color', 'background-color', 'background-image', 'border-top-color', 'border-bottom-color', 'border-left-color', 'border-top-width', 'border-left-width', 'border-top-left-radius', 'padding-top', 'padding-left', 'margin-top', 'margin-left', 'row-gap', 'column-gap', 'width', 'height', 'min-width', 'min-height', 'max-width', 'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'opacity', 'box-shadow', 'outline-color', 'outline-width', 'outline-offset', 'transition-duration', 'animation-duration', 'transform', 'text-transform', 'text-decoration-color', 'fill', 'stroke', 'stroke-width', 'grid-template-columns', 'aspect-ratio', 'z-index', 'filter', 'top', 'left', 'inset-inline-start']
+      const P = ['color', 'background-color', 'background-image', 'border-top-color', 'border-bottom-color', 'border-left-color', 'border-top-width', 'border-left-width', 'border-top-left-radius', 'padding-top', 'padding-left', 'margin-top', 'margin-left', 'row-gap', 'column-gap', 'width', 'height', 'min-width', 'min-height', 'max-width', 'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'opacity', 'box-shadow', 'outline-color', 'outline-width', 'outline-offset', 'transition-duration', 'animation-duration', 'transform', 'text-transform', 'text-decoration-color', 'fill', 'stroke', 'stroke-width', 'grid-template-columns', 'aspect-ratio', 'z-index', 'filter', 'backdrop-filter', 'top', 'left', 'inset-inline-start']
       const docs = [document, ...[...document.querySelectorAll('.lab-viewport iframe')].map((f) => { try { return f.contentDocument } catch { return null } }).filter(Boolean)]
       const wurzeln = () => docs.flatMap((d) => [d === document ? d.querySelector('.lab-viewport') : d.documentElement, ...d.querySelectorAll('.lab-viewport [class*="-theme"], body [class*="-theme"]')]).filter(Boolean)
       // Übergänge aus: sonst liefert getComputedStyle den Startwert

@@ -69,6 +69,13 @@
     }
   }
 
+  // Breite gegen die Theme-Regel `.neo-*-theme hr` (0,1,1) durchsetzen:
+  // `&--strong` (0,1,0) verlor dort immer. Nur die Breite — die Farbe bleibt
+  // wie bisher sichtbar (R14, 22.10.2026).
+  &.nc-divider--strong {
+    border-top-width: var(--mod-divider-strong-width, var(--nc-divider-strong-width));
+  }
+
   // Variante: Dashed
   &--dashed {
     border-top-style: dashed;

@@ -1,6 +1,6 @@
 # Font_weight (Foundation)
 
-> **Category:** foundation | **Tokens:** 10 | **Source:** `data/design-tokens.json → foundation.font_weight`
+> **Category:** foundation | **Tokens:** 11 | **Source:** `data/design-tokens.json → foundation.font_weight`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

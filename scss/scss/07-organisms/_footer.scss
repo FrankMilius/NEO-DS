@@ -412,7 +412,9 @@ footer {
   padding-block: var(--nc-footer-padding-block);
   --nc-footer-color: var(--nc-footer-surface-fg);
   --nc-footer-heading-color: var(--nc-footer-surface-fg);
-  --nc-footer-link-color: var(--fnd-color-text-secondary);
+  // --nc-footer-link-color nicht neu setzen: Der Wert steht schon auf :root
+  // und den Theme-Klassen (gleicher Standard) — hier verdeckte er jede
+  // Setzung von aussen (R14, 22.10.2026).
   --nc-footer-link-hover-color: var(--fnd-color-text-primary);
   --nc-footer-separator-color: var(--fnd-color-border-secondary);
   --nc-footer-social-color: var(--fnd-color-text-secondary);
