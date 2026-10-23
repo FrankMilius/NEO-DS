@@ -4,7 +4,7 @@
 // Je Komponente mit Bühne: jedes Token bekommt einen Prüfwert, gesetzt auf
 // den Theme-Bereichen und an allen Elementen, an denen die Vorschau den Wert
 // inline setzt (lib/vorschau-variablen.js). Gemessen wird, ob sich der
-// berechnete Stil irgendeines Elements der Bühne ändert (46 Eigenschaften,
+// berechnete Stil irgendeines Elements der Bühne ändert (51 Eigenschaften,
 // auch ::before/::after, Übergänge aus).
 //
 // Regler-Knopf (R14 Paket 2a, E2, 22.10.2026): getComputedStyle mit
@@ -14,6 +14,17 @@
 // der Regler (input[type=range]) der Bühne — nur diese Tokens, nur diese
 // Elemente, damit kein anderer Wert unbemerkt umgestuft wird.
 //
+// Untere Ecke (R14 Paket 3a, 23.10.2026): border-bottom-left-radius gehört
+// zu den gemessenen Eigenschaften — die Aussparung des Geräterahmens
+// (nc-device-notch-radius, ::after) rundet nur die unteren Ecken.
+//
+// Handy-Breite und weitere Eigenschaften (Nachbesserung 3a, Frank
+// 23.10.2026): nach der Messung in der Vorgabebreite misst die Prüfung die
+// Bühne ein zweites Mal im 390-px-Rahmen („Handy“) — Regeln in
+// Handy-Medienabfragen greifen nur dort. Die Unterschiede beider Breiten
+// werden addiert (mehr Messung = nur zusätzliche „wirkt“). Gemessene
+// Eigenschaften und Zusammenführung: e2e/wirkung-messung.js.
+//
 // Ergebnis je Komponente als Datei in wirkung-ergebnis/. Auswertung und
 // Ratsche: scripts/wirkung.mjs (npm run e2e:wirkung).
 // ==========================================================================
@@ -21,6 +32,7 @@ import fs from 'node:fs'
 import { resolve } from 'node:path'
 import { test, oeffneSektion, SEKTIONEN } from './hilfen.js'
 import { componentTokenGroups } from '../src/data/tokens.generated.js'
+import { EIGENSCHAFTEN, PSEUDO, HANDY, zusammenfuehren } from './wirkung-messung.js'
 
 const AUS = resolve(import.meta.dirname, '../wirkung-ergebnis')
 test.describe.configure({ mode: 'parallel' })
@@ -43,10 +55,21 @@ function pruefwert (t) {
   if (/shadow/.test(id)) return '0 0 0 7px rgb(1, 2, 3)'
   if (/family/.test(id)) return '"Courier New", monospace'
   if (/weight/.test(id)) return /^(8|9)00$|bold/.test(d) ? '100' : '900'
-  if (/opacity/.test(id)) return '0.37'
+  // Sichtbarkeit als Deckkraft 0/1 (z. B. nc-hero-overlay-visible): 7 wäre
+  // auf 1 gekappt und änderte nie etwas (R14 Paket 3a, 23.10.2026)
+  if (/opacity/.test(id) || (/-visible$/.test(id) && /^[01]$/.test(d))) return '0.37'
   if (/duration|delay/.test(id) || /^[\d.]+m?s$/.test(d)) return '3.7s'
   if (/line-height/.test(id)) return '3.7'
   if (OBERGRENZE.test(id)) return '0px'
+  // Länge mit Standard 0 (Radius, Polster …): unitless 7 ist dort ungültig
+  // und wirkte nie — Prüfwert wie bei anderen Längen (R14 Paket 3a, 23.10.2026)
+  if (d === '0' && /size|gap|padding|margin|radius|width|height|offset|inset|spacing|indent/.test(id)) return '37px'
+  // Obergrenze über min(): nc-device-width-per-height (0.46) und
+  // nc-product-showcase-acc-device-reserve (150px) kappen die Gerätebreite nur
+  // nach unten — 7 bzw. 37px lassen die Kappe nie greifen (Gegenprobe 390 px:
+  // 0 von 16), 0.115 bzw. 600px greifen (7 von 16). Nachbesserung 3a, 23.10.2026
+  if (/-per-/.test(id) && /^0?\.\d+$/.test(d)) return String(Number(d) / 4)
+  if (/reserve/.test(id) && LAENGE.test(d)) return '600px'
   if (/^-?[\d.]+$/.test(d)) return String(Number(d) === 7 ? 5 : 7)
   if (LAENGE.test(d) || /size|gap|padding|margin|radius|width|height|offset|inset|spacing|indent|top|left|right|bottom/.test(id)) return '37px'
   return null
@@ -79,6 +102,61 @@ async function reglerDerBuehne (page) {
 
 const bilder = async (regler) => Promise.all(regler.map((l) => l.screenshot({ animations: 'disabled', caret: 'hide' }).catch(() => null)))
 
+/**
+ * Misst im Browser je Token, an wie vielen Elementen der Bühne (auch in
+ * iframes der Bühne, auch ::before/::after) sich der berechnete Stil ändert.
+ */
+async function miss (page, tokens, css) {
+  return page.evaluate(([tokens, css, P, PS]) => {
+    const docs = [document, ...[...document.querySelectorAll('.lab-viewport iframe')].map((f) => { try { return f.contentDocument } catch { return null } }).filter(Boolean)]
+    const wurzeln = () => docs.flatMap((d) => [d === document ? d.querySelector('.lab-viewport') : d.documentElement, ...d.querySelectorAll('.lab-viewport [class*="-theme"], body [class*="-theme"]')]).filter(Boolean)
+    // Übergänge aus: sonst liefert getComputedStyle den Startwert
+    for (const d of docs) { const st = d.createElement('style'); st.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}'; d.head.appendChild(st) }
+    const elemente = docs.flatMap((d) => [...(d === document ? d.querySelectorAll('.lab-viewport *') : d.querySelectorAll('body *'))]).slice(0, 3000)
+    const abdruck = () => elemente.map((e) => { const w = e.ownerDocument.defaultView; return PS.map((ps) => { const s = w.getComputedStyle(e, ps); return P.map((p) => s.getPropertyValue(p)).join('|') }).join('#') })
+    const basis = abdruck()
+    // Prüfwert auf Theme-Bereiche und Inline-Stellen setzen; liefert das Zurücksetzen
+    const setze = (v, probe) => {
+      const inline = docs.flatMap((d) => [...d.querySelectorAll('[style]')]).filter((el) => el.style.getPropertyValue(v) !== '')
+      const ziele = [...new Set([...wurzeln(), ...inline])]
+      const alt = ziele.map((el) => [el, el.style.getPropertyValue(v), el.style.getPropertyPriority(v)])
+      for (const el of ziele) el.style.setProperty(v, probe)
+      return () => { for (const [el, wert, prio] of alt) { if (wert) el.style.setProperty(v, wert, prio); else el.style.removeProperty(v) } }
+    }
+    window.__wirkungSetze = (v, probe) => { window.__wirkungZurueck = setze(v, probe) }
+    const ergebnis = {}
+    for (const t of tokens) {
+      const v = `--${t.id}`
+      if (!new RegExp(`var\\(${v}[,)\\s]`).test(css)) { ergebnis[t.id] = 'unbenutzt'; continue }
+      if (!t.probe) { ergebnis[t.id] = 'ohne-pruefwert'; continue }
+      const zurueck = setze(v, t.probe)
+      const neu = abdruck()
+      zurueck()
+      let n = 0; for (let i = 0; i < neu.length; i++) if (neu[i] !== basis[i]) n++ // wie zaehleUnterschiede
+      ergebnis[t.id] = n
+    }
+    return { elemente: elemente.length, ergebnis }
+  }, [tokens, css, EIGENSCHAFTEN, PSEUDO])
+}
+
+/** Schaltet die Bühne auf „Handy“ (390-px-Rahmen); false = kein Knopf */
+async function aufHandy (page) {
+  const knopf = page.locator(`[data-test="breite-${HANDY.key}"]`)
+  if (!(await knopf.count())) return false
+  await knopf.click()
+  const rahmen = page.locator('[data-test="breiten-rahmen"] iframe')
+  await rahmen.first().waitFor()
+  await page.waitForFunction((b) => {
+    const f = document.querySelector('[data-test="breiten-rahmen"] iframe')
+    const ziel = f?.contentDocument?.getElementById('br-ziel')
+    // offsetWidth ohne Verkleinerung (transform: scale) — die Rahmenbreite selbst
+    return f && f.offsetWidth === b && ziel && ziel.children.length > 0
+  }, HANDY.breite)
+  await page.evaluate(async () => { const f = document.querySelector('[data-test="breiten-rahmen"] iframe'); await f.contentDocument.fonts?.ready })
+  await page.waitForTimeout(800)
+  return true
+}
+
 const gruppen = componentTokenGroups.filter((g) => SEKTIONEN.includes(`component-${g.id}`))
 
 for (const g of gruppen) {
@@ -99,37 +177,7 @@ for (const g of gruppen) {
       }
       return teile.join('\n')
     })
-    const r = await page.evaluate(([tokens, css]) => {
-      const P = ['color', 'background-color', 'background-image', 'border-top-color', 'border-bottom-color', 'border-left-color', 'border-top-width', 'border-left-width', 'border-top-left-radius', 'padding-top', 'padding-left', 'margin-top', 'margin-left', 'row-gap', 'column-gap', 'width', 'height', 'min-width', 'min-height', 'max-width', 'font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'opacity', 'box-shadow', 'outline-color', 'outline-width', 'outline-offset', 'transition-duration', 'animation-duration', 'transform', 'text-transform', 'text-decoration-color', 'fill', 'stroke', 'stroke-width', 'grid-template-columns', 'aspect-ratio', 'z-index', 'filter', 'backdrop-filter', 'top', 'left', 'inset-inline-start']
-      const docs = [document, ...[...document.querySelectorAll('.lab-viewport iframe')].map((f) => { try { return f.contentDocument } catch { return null } }).filter(Boolean)]
-      const wurzeln = () => docs.flatMap((d) => [d === document ? d.querySelector('.lab-viewport') : d.documentElement, ...d.querySelectorAll('.lab-viewport [class*="-theme"], body [class*="-theme"]')]).filter(Boolean)
-      // Übergänge aus: sonst liefert getComputedStyle den Startwert
-      for (const d of docs) { const st = d.createElement('style'); st.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}'; d.head.appendChild(st) }
-      const elemente = docs.flatMap((d) => [...(d === document ? d.querySelectorAll('.lab-viewport *') : d.querySelectorAll('body *'))]).slice(0, 3000)
-      const abdruck = () => elemente.map((e) => { const w = e.ownerDocument.defaultView; return [null, '::before', '::after'].map((ps) => { const s = w.getComputedStyle(e, ps); return P.map((p) => s.getPropertyValue(p)).join('|') }).join('#') })
-      const basis = abdruck()
-      // Prüfwert auf Theme-Bereiche und Inline-Stellen setzen; liefert das Zurücksetzen
-      const setze = (v, probe) => {
-        const inline = docs.flatMap((d) => [...d.querySelectorAll('[style]')]).filter((el) => el.style.getPropertyValue(v) !== '')
-        const ziele = [...new Set([...wurzeln(), ...inline])]
-        const alt = ziele.map((el) => [el, el.style.getPropertyValue(v), el.style.getPropertyPriority(v)])
-        for (const el of ziele) el.style.setProperty(v, probe)
-        return () => { for (const [el, wert, prio] of alt) { if (wert) el.style.setProperty(v, wert, prio); else el.style.removeProperty(v) } }
-      }
-      window.__wirkungSetze = (v, probe) => { window.__wirkungZurueck = setze(v, probe) }
-      const ergebnis = {}
-      for (const t of tokens) {
-        const v = `--${t.id}`
-        if (!new RegExp(`var\\(${v}[,)\\s]`).test(css)) { ergebnis[t.id] = 'unbenutzt'; continue }
-        if (!t.probe) { ergebnis[t.id] = 'ohne-pruefwert'; continue }
-        const zurueck = setze(v, t.probe)
-        const neu = abdruck()
-        zurueck()
-        let n = 0; for (let i = 0; i < neu.length; i++) if (neu[i] !== basis[i]) n++
-        ergebnis[t.id] = n
-      }
-      return { elemente: elemente.length, ergebnis }
-    }, [tokens, css])
+    const r = await miss(page, tokens, css)
     // Bildvergleich für Knopf-Tokens (E2): Anzahl Regler, deren Bild sich ändert
     const knopf = knopfTokens(css)
     // Zustands- und Bewegungswerte (Fokus, Übergang, Dauer …) sind in Ruhe
@@ -152,6 +200,12 @@ for (const g of gruppen) {
         r.bild[t.id] = n
         r.ergebnis[t.id] += n
       }
+    }
+    // Zweite Messung bei Handy-Breite (Nachbesserung 3a): Unterschiede addieren
+    if (await aufHandy(page)) {
+      const h = await miss(page, tokens, css)
+      r.handy = { elemente: h.elemente, ergebnis: h.ergebnis }
+      r.ergebnis = zusammenfuehren(r.ergebnis, h.ergebnis)
     }
     fs.mkdirSync(AUS, { recursive: true })
     fs.writeFileSync(`${AUS}/${g.id}.json`, JSON.stringify(r))

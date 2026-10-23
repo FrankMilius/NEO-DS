@@ -1,0 +1,409 @@
+{
+  "_hinweis": "Paketliste für scripts/pakete/vorbereiten.mjs (R14 Rest, Art „beheben“). Werte und Ursachen aus der R13-Einstufung (~/Sites/_worktrees/WEBSITE26-p7-uebergabe/r13/einstufung.json), Wahl aus „Wirkungsprüfung Komponentenwerte“ (Sammlung entscheidungen, Stand 23.10.2026), Website-Einsatz aus website-einsatz.generated.js (neo_fe 594c896).",
+  "punkt": "R14",
+  "regel": "Standard = heute sichtbarer Wert, Website unverändert (Pixel 0); nur ein geänderter Testwert muss ankommen. Arbeitsweise wie R14 Paket 1 (8baf23f7) und 2a/2b.",
+  "entscheidungen": [
+    "23.10.2026 — nc-text-media-device-width aus Paket 3a heraus, kommt in ein Bühnen-Paket (6) (Frank)",
+    "23.10.2026 — alle 366 Zeilen der Einstufung entschieden (Wirkungsprüfung Komponentenwerte, 186 Entscheidungen) (Frank)",
+    "23.10.2026 — Rest von R14 in Paketen: 3a Hero und Seitenblöcke, 3b Navigation und Rahmen (beide „beheben“), parallel höchstens 2 (Frank)",
+    "23.10.2026 — Ausnahmen nc-textarea-resize (E3) und nc-hero-cards-rule-color (V09) bleiben ohne Wirkung und werden in der Ratsche als „bewusst“ gekennzeichnet — Aufgabe von Paket 3a (Frank)",
+    "23.10.2026 — Löschliste wie entschieden löschen, auch die zwei Kundenwerte nc-card-nav-color-hover und nc-hero-padding-inline (Paket 5, später) (Frank)",
+    "23.10.2026 — gespeicherte Werte gelöschter Tokens in Drupal-Themes (App verwirft sie beim Laden und zeigt das an): später, mit Paket 5 (Frank)",
+    "21.10.2026 — je Paket ein neo_fe-Zweig; parallel erarbeiten, nacheinander übernehmen (Frank)",
+    "22.10.2026 — Werte ohne Website-Einsatz gelten als abgenommen, wenn sie in e2e:wirkung auf der Bühne wirken (Frank)",
+    "23.10.2026 — nc-device-width-per-height und nc-product-showcase-acc-device-reserve aus 3a heraus, in Bühnen-Paket 6 (Ketten wirken nur bei 390 px; keine Bühnenprobe mit Akkordeon und Gerät) (Frank)"
+  ],
+  "naechsterSchritt": "Reparatur über den Workflow `/pakete-parallel` (E10) — nicht von Hand in einer zweiten Sitzung beginnen.",
+  "pakete": [
+    {
+      "id": "paket-3a",
+      "titel": "Hero und Seitenblöcke",
+      "werte": [
+        {
+          "token": "nc-bento-grid-columns",
+          "komponente": "bento-grid",
+          "standard": "4",
+          "eigenschaft": "grid-template-columns",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-bento-grid { grid-template-columns: 298.641px 298.641px 298.641px 298.656px } (display:grid)",
+          "website": [
+            "Block „Bento Grid“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-bento-grid-gap",
+          "komponente": "bento-grid",
+          "standard": "var(--fnd-spacing-05)",
+          "eigenschaft": "gap",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-bento-grid { gap: 20.48px } (display:grid)",
+          "website": [
+            "Block „Bento Grid“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-device-notch-radius",
+          "komponente": "device",
+          "standard": "var(--fnd-radius-full)",
+          "eigenschaft": "border-end-start-radius",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-device__screen::after { border-end-start-radius: 9999px } (display:block)",
+          "website": [
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Geräte-Strecke“",
+            "Block „Text + Media“"
+          ]
+        },
+        {
+          "token": "nc-footer-heading-color",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-footer__heading { color } — gelesen in: .nc-footer h1,.nc-footer h2,.nc-footer h3,.nc-footer h4,.nc-footer h5,.nc-footer h6,.nc-footer p { color: var(--nc-footer-surface-fg) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-legal-color",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-footer__legal-links a { color } — gelesen in: .nc-footer .nc-footer__legal-links a:not([class]),.nc-footer .nc-footer__legal-links a:not([class]):active { color: var(--nc-footer-legal-color) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-social-color",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-footer__social-link { color: rgb(89, 92, 89) } (display:flex)",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-gallery-height",
+          "komponente": "gallery",
+          "standard": "100dvh",
+          "eigenschaft": "height",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-gallery { height: 416px } (display:block)",
+          "website": [
+            "Block „Gallery“"
+          ]
+        },
+        {
+          "token": "nc-hero-cards-bg",
+          "komponente": "hero",
+          "standard": "transparent",
+          "eigenschaft": "background",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__cards[class*=\"--bg-\"] .nc-metric { background: rgb(241, 243, 241) none repeat scroll 0% 0% / auto padding-box border-box } (display:flex)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-cards-fg",
+          "komponente": "hero",
+          "standard": "inherit",
+          "eigenschaft": "color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__cards[class*=\"--bg-\"] .nc-metric { color: rgb(22, 24, 22) } (display:flex)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-cards-fg-muted",
+          "komponente": "hero",
+          "standard": "inherit",
+          "eigenschaft": "color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__cards[class*=\"--bg-\"] .nc-metric .nc-metric__label,.nc-hero__cards[class*=\"--bg-\"] .nc-metric .nc-metric__footer { color: rgb(89, 92, 89) } (display:block)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-kicker-padding",
+          "komponente": "hero",
+          "standard": "0",
+          "eigenschaft": "padding",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__kicker,.nc-hero .nc-label:not(.nc-badge-row *) { padding: 0px } (display:block)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-kicker-radius",
+          "komponente": "hero",
+          "standard": "0",
+          "eigenschaft": "border-radius",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__kicker,.nc-hero .nc-label:not(.nc-badge-row *) { border-radius: 0px } (display:block)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-overlay-visible",
+          "komponente": "hero",
+          "standard": "1",
+          "eigenschaft": "opacity",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero__overlay { opacity: 1 } (display:block)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-radius",
+          "komponente": "hero",
+          "standard": "0",
+          "eigenschaft": "border-radius",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-hero { border-radius: 0px } (display:grid)",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paket-3b",
+      "titel": "Navigation und Rahmen",
+      "werte": [
+        {
+          "token": "nc-chapter-nav-scroll-margin",
+          "komponente": "chapter-nav",
+          "standard": "calc(var(--nc-nav-height, 72px) + 56px + var(--fnd-spacing-05))",
+          "eigenschaft": "scroll-margin-block-start",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-chapter-anchor { scroll-margin-block-start: 140px } (display:block)",
+          "website": [
+            "Inhaltstyp „Landing-page“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-container-margin-end",
+          "komponente": "container",
+          "standard": "auto",
+          "eigenschaft": "margin-inline-end",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-container--align-start,.nc-container--align-end { margin-inline-end: 0px } (display:block)",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Logo Wall“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Inhaltstyp „News“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“",
+            "Seitenrahmen (jede Seite)",
+            "Template node--reference-page"
+          ]
+        },
+        {
+          "token": "nc-container-padding-inline",
+          "komponente": "container",
+          "standard": "clamp(16px, 3.5vw, 48px)",
+          "eigenschaft": "padding-inline",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-container { padding-inline } — gelesen in: .nc-container { padding-inline: var(--mod-container-padding-inline-constrained, var(--nc-container-padding-inlin }",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Logo Wall“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Inhaltstyp „News“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“",
+            "Seitenrahmen (jede Seite)",
+            "Template node--reference-page"
+          ]
+        },
+        {
+          "token": "nc-drawer-side-width",
+          "komponente": "drawer",
+          "standard": "380px",
+          "eigenschaft": "width",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-drawer--right { width: 500px } (display:flex)",
+          "website": []
+        },
+        {
+          "token": "nc-search-command-max-width",
+          "komponente": "search",
+          "standard": "640px",
+          "eigenschaft": "width",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-search--command .nc-search__input-wrapper { width: 421.188px } (display:flex)",
+          "website": []
+        },
+        {
+          "token": "nc-searchbar-input-padding-right",
+          "komponente": "searchbar",
+          "standard": "80px",
+          "eigenschaft": "padding-right",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-searchbar__input { padding-right: 80px } (display:block)",
+          "website": []
+        },
+        {
+          "token": "nc-shell-sidebar-right-width",
+          "komponente": "shell",
+          "standard": "260px",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --nc-shell-docs-sidebar-right-width",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-narrow",
+          "komponente": "shell",
+          "standard": "160px",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --nc-shell-sidebar-right-width (ohne-wirkung)",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-wide",
+          "komponente": "shell",
+          "standard": "300px",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --nc-shell-sidebar-right-width (ohne-wirkung)",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-tabs-contained-bg",
+          "komponente": "tabs",
+          "standard": "",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_tabs-contained-bg",
+          "website": []
+        },
+        {
+          "token": "nc-tabs-line-border-color",
+          "komponente": "tabs",
+          "standard": "",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_tabs-line-bc",
+          "website": []
+        },
+        {
+          "token": "nc-tabs-line-indicator-color",
+          "komponente": "tabs",
+          "standard": "",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_tabs-line-indicator",
+          "website": []
+        },
+        {
+          "token": "nc-tabs-trigger-color",
+          "komponente": "tabs",
+          "standard": "",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_tabs-trigger-color",
+          "website": []
+        },
+        {
+          "token": "nc-tabs-trigger-font-weight",
+          "komponente": "tabs",
+          "standard": "var(--fnd-font-weight-medium)",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_tabs-trigger-fw",
+          "website": []
+        },
+        {
+          "token": "nc-toolbar-blurred-blur",
+          "komponente": "toolbar",
+          "standard": "12px",
+          "eigenschaft": "backdrop-filter",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-toolbar--blurred { backdrop-filter } — gelesen in: .nc-toolbar--blurred { -webkit-backdrop-filter: blur(var(--mod-toolbar-blurred-blur, var(--nc-toolbar-blurred-blur))) }",
+          "website": []
+        }
+      ]
+    }
+  ]
+}

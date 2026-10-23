@@ -558,10 +558,14 @@
 // Dieselbe Ursache wie bei den Badges und der Ueberschrift-Hervorhebung:
 // Flaeche und Vordergrund sind ein Paar und muessen zusammen gesetzt werden.
 
+// Die Variante setzt nur die private Weiche (--_hero-cards-*). Die
+// oeffentlichen Tokens sind ohne Setzung leer (Standard inherit) und gewinnen
+// nur, wenn sie gesetzt sind. Vorher setzte die Variante --nc-hero-cards-*
+// selbst und verdeckte jede Setzung von aussen (R14 Paket 3a, 23.10.2026).
 @mixin hero-karten-flaeche($grund, $vordergrund, $gedaempft) {
-  --nc-hero-cards-bg:       #{$grund};
-  --nc-hero-cards-fg:       #{$vordergrund};
-  --nc-hero-cards-fg-muted: #{$gedaempft};
+  --_hero-cards-bg:       #{$grund};
+  --_hero-cards-fg:       #{$vordergrund};
+  --_hero-cards-fg-muted: #{$gedaempft};
 }
 
 .nc-hero__cards--bg-base {
@@ -600,14 +604,14 @@
 // Gefuellte Karten brauchen Polsterung und eine Kante — ohne beides klebt der
 // Text am Rand der Flaeche.
 .nc-hero__cards[class*='--bg-'] .nc-metric {
-  background: var(--mod-hero-cards-bg, var(--nc-hero-cards-bg));
-  color: var(--mod-hero-cards-fg, var(--nc-hero-cards-fg));
+  background: var(--mod-hero-cards-bg, var(--nc-hero-cards-bg, var(--_hero-cards-bg)));
+  color: var(--mod-hero-cards-fg, var(--nc-hero-cards-fg, var(--_hero-cards-fg)));
   border-radius: var(--mod-hero-cards-radius, var(--nc-hero-cards-radius));
   padding: var(--mod-hero-cards-pad, var(--nc-hero-cards-pad));
 
   .nc-metric__label,
   .nc-metric__footer {
-    color: var(--mod-hero-cards-fg-muted, var(--nc-hero-cards-fg-muted));
+    color: var(--mod-hero-cards-fg-muted, var(--nc-hero-cards-fg-muted, var(--_hero-cards-fg-muted)));
   }
 }
 

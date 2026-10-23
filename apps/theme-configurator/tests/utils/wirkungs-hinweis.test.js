@@ -9,7 +9,7 @@ describe('wirkungsHinweis', () => {
   it('nennt Tokens ohne Wirkung und unbenutzte, sonst nichts', () => {
     expect(wirkungsHinweis(erstes('ohne-wirkung'))).toMatch(/keine Wirkung/)
     expect(wirkungsHinweis(erstes('unbenutzt'))).toMatch(/nirgends/)
-    for (const art of ['wirkt', 'zustand', 'ohne-pruefwert', 'ohne-buehne']) expect(wirkungsHinweis(erstes(art))).toBeNull()
+    for (const art of ['wirkt', 'zustand', 'ohne-pruefwert', 'ohne-buehne', 'bewusst']) expect(wirkungsHinweis(erstes(art))).toBeNull()
     expect(wirkungsHinweis('gibt-es-nicht')).toBeNull()
   })
   it('die heute reparierten Werte gelten als wirksam', () => {

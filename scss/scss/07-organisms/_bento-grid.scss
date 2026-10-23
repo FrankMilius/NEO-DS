@@ -15,13 +15,18 @@
 .nc-bento-grid {
   display: grid;
   gap: var(--nc-bento-grid-gap);
-  grid-template-columns: repeat(var(--nc-bento-grid-columns), minmax(0, 1fr));
+  // Spaltenzahl: Die Stufen unten setzen nur die private Weiche
+  // --_bento-grid-columns. Ab Desktop liest sie das oeffentliche Token
+  // (Standard 4), darunter und in der 3-Spalten-Variante gilt die Stufe.
+  // Vorher setzten die Stufen --nc-bento-grid-columns selbst am Element und
+  // verdeckten jede Setzung von aussen (R14 Paket 3a, 23.10.2026).
+  grid-template-columns: repeat(var(--_bento-grid-columns, var(--nc-bento-grid-columns)), minmax(0, 1fr));
   grid-auto-rows: minmax(var(--nc-bento-grid-cell-min), auto);
 }
 
 // 3-Spalten-Variante
 .nc-bento-grid--cols-3 {
-  --nc-bento-grid-columns: 3;
+  --_bento-grid-columns: 3;
 }
 
 // ---------------------------------------------------------------------------
@@ -231,7 +236,7 @@ a.nc-bento-grid__cell {
 // ---------------------------------------------------------------------------
 @media (max-width: 53.75em) { // 860px
   .nc-bento-grid {
-    --nc-bento-grid-columns: 2;
+    --_bento-grid-columns: 2;
   }
   .nc-bento-grid__cell--lg {
     grid-column: span 2;
@@ -241,7 +246,7 @@ a.nc-bento-grid__cell {
 
 @media (max-width: 35em) { // 560px
   .nc-bento-grid {
-    --nc-bento-grid-columns: 1;
+    --_bento-grid-columns: 1;
   }
   .nc-bento-grid__cell--lg,
   .nc-bento-grid__cell--wide {
@@ -321,12 +326,12 @@ a.nc-bento-grid__cell {
   box-shadow: var(--nc-bento-grid-cell-hover-box-shadow);
 }
 
-.nc-bento-grid {
-  --nc-bento-grid-gap: clamp(0.75rem, 1.6vw, 1.5rem);
-}
+// --nc-bento-grid-gap nicht neu setzen: Der Standard steht auf :root und den
+// Theme-Klassen (gleicher Wert) — hier verdeckte er jede Setzung von aussen
+// (R14 Paket 3a, 23.10.2026).
 
 .nc-bento-grid {
-  --nc-bento-grid-columns: 1;
+  --_bento-grid-columns: 1;
 }
 
 .nc-bento-grid {
@@ -341,7 +346,7 @@ a.nc-bento-grid__cell {
 
 @media (min-width: 35em) {
   .nc-bento-grid {
-    --nc-bento-grid-columns: 2;
+    --_bento-grid-columns: 2;
   }
 }
 
@@ -360,13 +365,13 @@ a.nc-bento-grid__cell {
 
 @media (min-width: 53.75em) {
   .nc-bento-grid {
-    --nc-bento-grid-columns: 4;
+    --_bento-grid-columns: var(--nc-bento-grid-columns);
   }
 }
 
 @media (min-width: 53.75em) {
   .nc-bento-grid--cols-3 {
-    --nc-bento-grid-columns: 3;
+    --_bento-grid-columns: 3;
   }
 }
 

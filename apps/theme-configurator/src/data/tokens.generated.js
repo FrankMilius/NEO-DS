@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-22
+// Generated: 2026-10-23
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -4154,7 +4154,7 @@ export const componentTokenGroups = [
         "id": "nc-bento-grid-gap",
         "label": "Gap",
         "type": "size",
-        "default": "var(--fnd-spacing-05)"
+        "default": "clamp(0.75rem, 1.6vw, 1.5rem)"
       },
       {
         "id": "nc-bento-grid-columns",
@@ -9957,7 +9957,8 @@ export const componentTokenGroups = [
         "id": "nc-footer-heading-color",
         "label": "Heading Color",
         "type": "color",
-        "ref": "text-primary"
+        "ref": "text-primary",
+        "default": "var(--nc-footer-surface-fg)"
       },
       {
         "id": "nc-footer-heading-transform",
@@ -10035,7 +10036,7 @@ export const componentTokenGroups = [
         "id": "nc-footer-legal-color",
         "label": "Legal Color",
         "type": "color",
-        "ref": "text-tertiary"
+        "ref": "text-secondary"
       },
       {
         "id": "nc-footer-surface-bg",
@@ -10668,7 +10669,7 @@ export const componentTokenGroups = [
         "id": "nc-gallery-height",
         "label": "Height",
         "type": "size",
-        "default": "100dvh"
+        "default": "inherit"
       },
       {
         "id": "nc-gallery-min-height",
@@ -11623,7 +11624,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-cards-bg",
         "label": "Kartenfläche",
         "type": "color",
-        "default": "transparent"
+        "default": "inherit"
       },
       {
         "id": "nc-hero-cards-fg",

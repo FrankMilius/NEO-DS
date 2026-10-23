@@ -3262,7 +3262,7 @@
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   // -- Layout --
-  --nc-gallery-height:                 100dvh;
+  --nc-gallery-height:                 inherit; // leer: Variante entscheidet, ohne Variante 100dvh (_gallery.scss, R14 Paket 3a, 23.10.2026)
   --nc-gallery-min-height:             400px;
   --nc-gallery-max-height:             none;
   --nc-gallery-padding-block:          var(--fnd-spacing-10);
@@ -3630,7 +3630,11 @@
   // Sobald eine Flaeche gesetzt ist, darf der Text NICHT mehr die
   // Hero-Schriftfarbe erben: Eine weisse Karte auf dunklem Hero traegt sonst
   // weisse Schrift. Er kommt dann aus den Thementoken.
-  --nc-hero-cards-bg:              transparent;
+  //
+  // Standard inherit = leer: Die Flaechen-Variante entscheidet
+  // (.nc-hero__cards--bg-*, private Weiche --_hero-cards-*). Gesetzt gewinnen
+  // die Tokens ueber die Variante (R14 Paket 3a, 23.10.2026).
+  --nc-hero-cards-bg:              inherit;
   --nc-hero-cards-fg:              inherit;
   --nc-hero-cards-fg-muted:        inherit;
   --nc-hero-cards-radius:          var(--fnd-radius-lg);
@@ -4454,7 +4458,7 @@
   --nc-footer-col-gap:               var(--fnd-spacing-08);
   --nc-footer-heading-size:          var(--fs-xs);
   --nc-footer-heading-weight:        var(--fnd-font-weight-semibold);
-  --nc-footer-heading-color:         var(--fnd-color-text-primary);
+  --nc-footer-heading-color:         var(--nc-footer-surface-fg); // folgt der Flaechenschrift wie bisher sichtbar (R14 Paket 3a, 23.10.2026)
   --nc-footer-heading-transform:     uppercase;
   --nc-footer-link-size:             var(--fs-sm);
 
@@ -4473,7 +4477,7 @@
 
   // -- Legal --
   --nc-footer-legal-size:            var(--fs-xs);
-  --nc-footer-legal-color:           var(--fnd-color-text-tertiary);
+  --nc-footer-legal-color:           var(--fnd-color-text-secondary); // wie bisher sichtbar; .nc-footer setzte es neu (R14 Paket 3a, 23.10.2026)
 }
 
 // ---------------------------------------------------------------------------
@@ -4992,7 +4996,7 @@
 
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
-  --nc-bento-grid-gap:               var(--fnd-spacing-05);
+  --nc-bento-grid-gap:               clamp(0.75rem, 1.6vw, 1.5rem); // wie bisher sichtbar; .nc-bento-grid setzte es neu (R14 Paket 3a, 23.10.2026)
   --nc-bento-grid-columns:           4;
   --nc-bento-grid-cell-min:          11.25rem;
   --nc-bento-grid-radius:            var(--fnd-radius-4xl);

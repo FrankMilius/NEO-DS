@@ -411,15 +411,13 @@ footer {
   color: var(--nc-footer-surface-fg);
   padding-block: var(--nc-footer-padding-block);
   --nc-footer-color: var(--nc-footer-surface-fg);
-  --nc-footer-heading-color: var(--nc-footer-surface-fg);
-  // --nc-footer-link-color nicht neu setzen: Der Wert steht schon auf :root
-  // und den Theme-Klassen (gleicher Standard) — hier verdeckte er jede
-  // Setzung von aussen (R14, 22.10.2026).
+  // --nc-footer-link-color, -heading-color, -social-color und -legal-color
+  // nicht neu setzen: Die Werte stehen schon auf :root und den Theme-Klassen
+  // (gleicher Standard) — hier verdeckten sie jede Setzung von aussen
+  // (R14, 22.10.2026; Paket 3a, 23.10.2026).
   --nc-footer-link-hover-color: var(--fnd-color-text-primary);
   --nc-footer-separator-color: var(--fnd-color-border-secondary);
-  --nc-footer-social-color: var(--fnd-color-text-secondary);
   --nc-footer-social-hover-color: var(--fnd-color-text-primary);
-  --nc-footer-legal-color: var(--fnd-color-text-secondary);
 }
 
 .nc-footer h1,
@@ -688,6 +686,15 @@ footer {
   font-weight: var(--nc-footer-heading-weight, var(--fnd-font-weight-semibold));
   text-transform: var(--nc-footer-heading-transform, uppercase);
   letter-spacing: var(--fnd-tracking-wider, 0.05em);
+}
+
+// Farbe mit doppelter Klasse (0,2,0): Die Ueberschriften sind <h3>, und
+// .nc-footer h3 (0,1,1) oben setzte sonst die Flaechenschrift durch — das
+// Token blieb ohne Wirkung (R14 Paket 3a, 23.10.2026). Standard ist
+// weiterhin die Flaechenschrift (--nc-footer-heading-color in den Tokens).
+// Nur die Farbe: Groesse, Laufweite und Abstand bleiben in der bisherigen
+// Kaskade (.nc-footer__column h3 gewinnt dort weiter).
+.nc-footer .nc-footer__heading {
   color: var(--nc-footer-heading-color, var(--fnd-color-text-primary));
 }
 

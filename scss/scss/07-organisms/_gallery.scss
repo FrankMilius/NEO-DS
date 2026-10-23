@@ -33,10 +33,16 @@
 // Root
 // ---------------------------------------------------------------------------
 
+// Hoehe: Die Varianten (--svh, --fixed, --aspect) setzen nur die private
+// Weiche --_gallery-height. Das oeffentliche Token ist ohne Setzung leer
+// (Standard inherit) und gewinnt nur, wenn es gesetzt ist. Vorher setzten die
+// Varianten --nc-gallery-height selbst und verdeckten jede Setzung von aussen
+// (R14 Paket 3a, 23.10.2026).
 .nc-gallery {
+  --_gallery-height: 100dvh;
   position: relative;
   width: 100%;
-  height: var(--mod-gallery-height, var(--nc-gallery-height));
+  height: var(--mod-gallery-height, var(--nc-gallery-height, var(--_gallery-height)));
   min-height: var(--mod-gallery-min-height, var(--nc-gallery-min-height));
   max-height: var(--mod-gallery-max-height, var(--nc-gallery-max-height));
   overflow: hidden;
@@ -533,11 +539,11 @@
 // ---------------------------------------------------------------------------
 
 .nc-gallery--svh {
-  --nc-gallery-height: 100svh;
+  --_gallery-height: 100svh;
 }
 
 .nc-gallery--fixed {
-  --nc-gallery-height: auto;
+  --_gallery-height: auto;
   --nc-gallery-min-height: 500px;
   --nc-gallery-max-height: 700px;
 
@@ -548,7 +554,7 @@
 }
 
 .nc-gallery--aspect {
-  --nc-gallery-height: auto;
+  --_gallery-height: auto;
 
   .nc-gallery__slide {
     aspect-ratio: 16 / 9;
