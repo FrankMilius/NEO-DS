@@ -62,7 +62,10 @@ export default (zelle, m) => {
   const huelle = befehl
     ? 'position:relative;width:640px;max-width:100%;height:360px;overflow:hidden;'
     : `position:relative;${offen ? 'min-height:' + (m.wert('content') === 'grouped' ? 300 : 240) + 'px;' : ''}`
-  const stilWurzel = befehl ? ' style="position:absolute;inset:0;padding-top:40px;--mod-search-command-max-width:min(520px,90%);"' : ''
+  // Weiche (R14 Paket 3b, 23.10.2026): Die Zelle deckelt die Breite, liest
+  // aber das Token mit — vorher verdeckte min(520px,90%) jeden Wert von
+  // --nc-search-command-max-width. Standard 640px: Bild unverändert.
+  const stilWurzel = befehl ? ' style="position:absolute;inset:0;padding-top:40px;--mod-search-command-max-width:min(var(--nc-search-command-max-width),520px,90%);"' : ''
 
   return `<div style="${huelle}">
 <div class="${klasse}"${m.attrs}${stilWurzel}>

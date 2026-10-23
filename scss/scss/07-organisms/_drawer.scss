@@ -395,16 +395,20 @@ body:has(.nc-drawer[open]) {
 // Responsive: Side-Drawers breiter auf Desktop
 // ---------------------------------------------------------------------------
 
+// Die Stufen stehen dort, wo das Token definiert ist (:root und
+// Theme-Klassen), nicht am Drawer: am Element gesetzt, verdeckten sie jeden
+// Wert von :root oder Theme-Klasse (R14 Paket 3b, 23.10.2026). Eine
+// Setzung des Tokens im Theme gilt so fuer alle Breiten.
 @media (min-width: 768px) {
-  .nc-drawer--right,
-  .nc-drawer--left {
+  :root,
+  :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
     --nc-drawer-side-width: 440px;
   }
 }
 
 @media (min-width: 1200px) {
-  .nc-drawer--right,
-  .nc-drawer--left {
+  :root,
+  :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
     --nc-drawer-side-width: 500px;
   }
 }

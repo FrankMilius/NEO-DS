@@ -76,7 +76,11 @@
 
 .nc-container {
   width: 100%;
-  margin-inline: auto;
+  // Ausrichtung liest die Tokens (Standard auto/auto = zentriert, wie bisher).
+  // Vorher stand hier fest margin-inline: auto — --nc-container-margin-end
+  // wirkte nur am Modifier --align-start (R14 Paket 3b, 23.10.2026).
+  margin-inline-start: var(--mod-container-margin-start, var(--nc-container-margin-start));
+  margin-inline-end: var(--mod-container-margin-end, var(--nc-container-margin-end));
   box-sizing: border-box;
   padding-inline: var(--mod-container-padding-inline, var(--nc-container-padding-inline));
   --container-pad: var(--mod-container-padding-inline, var(--nc-container-padding-inline));
@@ -178,12 +182,7 @@
 // volle Breite. Ausrichtung ueber --nc-container-margin-start/-end (Standard
 // auto/auto = zentriert): der Modifier setzt die eine Seite auf 0.
 
-.nc-container--align-start,
-.nc-container--align-end {
-  margin-inline-start: var(--mod-container-margin-start, var(--nc-container-margin-start));
-  margin-inline-end: var(--mod-container-margin-end, var(--nc-container-margin-end));
-}
-
+// Die Basisregel .nc-container liest beide Tokens; die Modifier setzen nur das Token.
 .nc-container--align-start { --nc-container-margin-start: 0px; }
 .nc-container--align-end   { --nc-container-margin-end: 0px; }
 

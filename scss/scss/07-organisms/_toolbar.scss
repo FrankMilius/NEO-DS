@@ -86,8 +86,11 @@
   // -- Variante: Blurred (Glassmorphism, halbtransparent) --
   &--blurred {
     --nc-toolbar-bg: var(--mod-toolbar-blurred-bg, var(--nc-toolbar-blurred-bg));
-    backdrop-filter: blur(var(--mod-toolbar-blurred-blur, var(--nc-toolbar-blurred-blur)));
+    // Vorsilbe zuerst: Der CSS-Verkleinerer des Konfigurators behaelt von
+    // zwei Schreibweisen nur die letzte — stand -webkit- hinten, fehlte die
+    // Unschaerfe in Chromium auf der Buehne (R14 Paket 3b, 23.10.2026).
     -webkit-backdrop-filter: blur(var(--mod-toolbar-blurred-blur, var(--nc-toolbar-blurred-blur)));
+    backdrop-filter: blur(var(--mod-toolbar-blurred-blur, var(--nc-toolbar-blurred-blur)));
     border: var(--mod-toolbar-border-width, var(--nc-toolbar-border-width)) solid var(--mod-toolbar-blurred-border, var(--nc-toolbar-blurred-border));
     border-radius: var(--mod-toolbar-radius, var(--nc-toolbar-radius));
   }
