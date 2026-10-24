@@ -129,7 +129,7 @@ import { useRecipeLoader } from '../../composables/useRecipeLoader.js'
 import { useArenaHighlight } from '../../composables/useArenaHighlight.js'
 import { useHilfslinien } from '../../composables/useHilfslinien.js'
 import { normalisiereRecipe, specimenAnsicht, flaecheKlassen, fuerWeiteresThema } from '../../lib/recipe-arena.js'
-import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer } from '../../arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer, mitZusatzSpecimens } from '../../arena-templates/index.js'
 import { vorschauVariablen } from '../../lib/vorschau-variablen.js'
 import { extractFiltersFromRecipe, filterAchse, useArenaFilters } from '../../composables/useArenaFilters.js'
 
@@ -175,7 +175,9 @@ function variablenFuer (thema, flaeche) {
   return thema.endsWith('-dark-theme') || flaeche === 'dunkel' ? varsDunkel.value : varsHell.value
 }
 
-const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(recipe.value) : null))
+// Zusaetzliche Buehnen-Specimens der Vorlage hinter denen des Recipes
+// (R14 Paket 3c; siehe arena-templates/index.js, zusatzSpecimens)
+const normalisiert = computed(() => (recipe.value ? normalisiereRecipe(mitZusatzSpecimens(recipe.value, props.componentId)) : null))
 
 const komposition = computed(() => (recipe.value?.komposition || []).map((k) => ({
   ...k,

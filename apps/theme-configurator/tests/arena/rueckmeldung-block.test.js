@@ -23,7 +23,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { setActivePinia, createPinia } from 'pinia'
 import { anbinden, MIT_VERHALTEN } from 'neo-behaviors'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
-import { vorlageFuer, einrichtungFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer, mitZusatzSpecimens } from '../../src/arena-templates/index.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
 import { RECIPE_IDS, WURZEL, rohesRecipe } from './_recipes.js'
@@ -32,7 +32,7 @@ import { buehne } from '../behaviors/_helfer.js'
 const BLOCK = ['toast', 'notification', 'alert', 'banner']
 
 function zellen (id, specimenId, optionen) {
-  const recipe = normalisiereRecipe(rohesRecipe(id))
+  const recipe = normalisiereRecipe(mitZusatzSpecimens(rohesRecipe(id), id))
   return recipe.specimens
     .filter((sp) => !specimenId || sp.id === specimenId)
     .flatMap((sp) => specimenAnsicht(sp, recipe, id, vorlageFuer(id), optionen).zeilen
@@ -47,7 +47,7 @@ function dom (html) {
 }
 const alle = (id, sp) => zellen(id, sp).map((z) => dom(z.html))
 const lebendig = (id, sp) => {
-  const recipe = normalisiereRecipe(rohesRecipe(id))
+  const recipe = normalisiereRecipe(mitZusatzSpecimens(rohesRecipe(id), id))
   const s = recipe.specimens.find((x) => x.id === sp)
   return specimenAnsicht(s, recipe, id, vorlageFuer(id), { ausprobieren: true }).zeilen[0].zellen[0].html
 }
@@ -106,7 +106,7 @@ describe('Rückmeldungs-Block aus dem Recipe', () => {
           const z = zellen(id, null, optionen)
           expect(new Set(z.map((c) => c.quelle))).toEqual(new Set(['vorlage']))
           expect(z.filter((c) => c.fehler)).toEqual([])
-          const recipe = normalisiereRecipe(rohesRecipe(id))
+          const recipe = normalisiereRecipe(mitZusatzSpecimens(rohesRecipe(id), id))
           expect(new Set(z.map((c) => c.specimen.id))).toEqual(new Set(recipe.specimens.map((s) => s.id)))
         }
       })
@@ -409,7 +409,7 @@ describe('Rückmeldungs-Block in der RecipeArena', () => {
   for (const id of BLOCK) {
     it(`${id}: alle Specimens aus der Vorlage, Umschalter „Ausprobieren", danach gebunden`, async () => {
       const w = await geladen(id)
-      const recipe = normalisiereRecipe(rohesRecipe(id))
+      const recipe = normalisiereRecipe(mitZusatzSpecimens(rohesRecipe(id), id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
       expect(w.findAll('.ra-cell[data-quelle="heuristik"], .ra-cell[data-quelle="fehler"]')).toHaveLength(0)
       expect(w.find('[data-neo-behavior]').exists()).toBe(false)

@@ -45,16 +45,24 @@ const deklarationen = (m, achse) => {
   return wert ? (m.recipe.axes[achse]?.values?.[wert]?.drupal?.deklarationen || []).join(' ') : ''
 }
 
+// Zusatz-Specimen „breit“ (R14 Paket 3c): fünf Spalten — erst ab fünf
+// Spalten liest der Block --nc-table-block-col-min-width (Mindestbreite je
+// Wertspalte, _table-block.scss)
+const BREIT = ['Standard', 'Premium', 'Enterprise', 'On-Premise']
+
 export default (_zelle, m) => {
   const gescrollt = m.hat('scrolled')
+  const breit = m.specimen.render?.compositionType === 'table-block-breit'
+  const spalten = breit ? BREIT : ['Standard', 'Premium']
+  const zelleWert = (std, prem, i) => wert(i % 2 ? prem : std)
   const stil = [deklarationen(m, 'kopf'), deklarationen(m, 'streifen')].filter(Boolean).join(' ')
   const tabelle = `<div class="${m.klasse}${gescrollt ? ' is-scrolled' : ''}" data-neo-table="" data-width="full" data-scroll-bp="768" data-sticky-col="first" data-scroll-active="${gescrollt}"${stil ? ` style="${esc(stil)}"` : ''}${m.attrs}>
 <div class="nc-compare-table nc-compare-table--striped nc-compare-table--sticky-header nc-compare-table--full-width nc-compare-table--sticky-col">
 <table>
-<thead><tr><th scope="col">Funktion</th><th scope="col">Standard</th><th scope="col">Premium</th></tr></thead>
+<thead><tr><th scope="col">Funktion</th>${spalten.map((s) => `<th scope="col">${s}</th>`).join('')}</tr></thead>
 <tbody>
-<tr>${kopf('FÜR MITARBEITENDE / ENDNUTZER')}<td><div class="nc-tbl-cell"></div></td><td><div class="nc-tbl-cell"></div></td></tr>
-${ZEILEN.map(([text, std, prem, info]) => `<tr>${kopf(text, info)}${wert(std)}${wert(prem)}</tr>`).join('\n')}
+<tr>${kopf('FÜR MITARBEITENDE / ENDNUTZER')}${spalten.map(() => '<td><div class="nc-tbl-cell"></div></td>').join('')}</tr>
+${ZEILEN.map(([text, std, prem, info]) => `<tr>${kopf(text, info)}${spalten.map((_, i) => zelleWert(std, prem, i)).join('')}</tr>`).join('\n')}
 </tbody>
 </table>
 </div>
@@ -81,3 +89,17 @@ ${tabelle}
 export function einrichten (zelle) {
   for (const block of zelle.querySelectorAll('.nc-table-block.is-scrolled')) block.scrollLeft = 120
 }
+
+// Zusatz-Specimen der Bühne (R14 Paket 3c, Frank 23.10.2026): Die Recipe-
+// Specimens zeigen drei Spalten; die Mindestbreite je Wertspalte gilt erst ab
+// fünf. Nur ergänzt, Recipe unverändert.
+export const zusatzSpecimens = [
+  {
+    id: 'breit',
+    label: 'Breite Tabelle (5 Spalten)',
+    description: 'Ab fünf Spalten: Mindestbreite je Wertspalte aus --nc-table-block-col-min-width',
+    matrix: { axes: { variant: ['default'] }, states: ['default'] },
+    layout: 'composition',
+    render: { compositionType: 'table-block-breit' }
+  }
+]

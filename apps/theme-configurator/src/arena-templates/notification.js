@@ -38,13 +38,16 @@ const INHALT = {
   promo: ['Angebot', 'Workshop im März', 'Noch zehn Plätze frei für den Einsteiger-Workshop.', 'gestern']
 }
 
+const OHNE_TYP = ['Hinweis', 'Freigabe erforderlich', 'Zwei Beiträge warten auf Ihre Freigabe.', 'vor 5 Min.']
+
 export default (zelle, m) => {
   const art = m.specimen.render?.compositionType || ''
   const type = m.wert('type') || 'feature'
   const permanent = m.wert('interaction') === 'permanent'
   const ungelesen = m.hat('unread')
   const schliesst = m.hat('dismissing') && !m.ausprobieren
-  const [kategorie, titel0, text0, zeit] = INHALT[type] || INHALT.feature
+  // Zusatz-Specimen ohne Typ (R14 Paket 3c): neutrale Kategorie
+  const [kategorie, titel0, text0, zeit] = art === 'notification-ohne-typ' ? OHNE_TYP : (INHALT[type] || INHALT.feature)
   const mitMedien = art === 'notification-media'
   const titel = mitMedien ? 'Stefan Müller hat Ihnen geschrieben' : titel0
   const text = mitMedien ? '„Können wir die Freigabe auf Donnerstag legen?"' : text0
@@ -70,3 +73,23 @@ ${teile.join('\n')}
 }
 
 export const einrichten = einrichtenErneut
+
+// Zusatz-Specimen der Bühne (R14 Paket 3c, Frank 23.10.2026): Jede Typ-
+// Variante (feature, system, promo) setzt Punkt- und Randfarbe lokal auf ihre
+// Akzentfarbe — die Grundwerte --nc-notification-unread-dot-color und
+// --nc-notification-priority-border-color zeigt nur eine Benachrichtigung
+// ohne Typ-Modifier. Ungelesen und hohe Priorität, damit beide sichtbar
+// sind. Nur ergänzt, Recipe unverändert.
+export const zusatzSpecimens = [
+  {
+    id: 'ohne-typ',
+    label: 'Ohne Typ',
+    description: 'Ungelesen, hohe Priorität, ohne Typ-Modifier — Punkt und Rand in den Grundfarben',
+    matrix: {
+      axes: { priority: ['high'], interaction: ['dismissible'] },
+      states: ['unread']
+    },
+    layout: 'row',
+    render: { label: 'ohne Typ', compositionType: 'notification-ohne-typ' }
+  }
+]

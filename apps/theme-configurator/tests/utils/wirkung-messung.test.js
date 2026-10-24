@@ -6,7 +6,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import { resolve } from 'node:path'
-import { EIGENSCHAFTEN, EIGENSCHAFTEN_BISHER, EIGENSCHAFTEN_NEU, PSEUDO, HANDY, zaehleUnterschiede, zusammenfuehren } from '../../e2e/wirkung-messung.js'
+import { EIGENSCHAFTEN, EIGENSCHAFTEN_BISHER, EIGENSCHAFTEN_NEU, PSEUDO, HANDY, zaehleUnterschiede, zusammenfuehren, gelesenIn, schluesselwortPruefwert, NUR_SCHLUESSELWORT } from '../../e2e/wirkung-messung.js'
 import { auswerten } from '../../scripts/wirkung.mjs'
 
 const SPEC = fs.readFileSync(resolve(import.meta.dirname, '../../e2e/wirkung.spec.js'), 'utf8')
@@ -22,6 +22,10 @@ describe('Wirkungsprüfung: gemessene Eigenschaften', () => {
       expect(EIGENSCHAFTEN).toContain(p)
     }
     expect(EIGENSCHAFTEN_NEU.every((p) => EIGENSCHAFTEN.includes(p))).toBe(true)
+  })
+
+  it('neu (3c): Trennlinie rechts, Tabulatorbreite, Scrollbalkenbreite', () => {
+    for (const p of ['border-right-color', 'tab-size', 'scrollbar-width']) expect(EIGENSCHAFTEN).toContain(p)
   })
 
   it('keine Eigenschaft doppelt', () => {
@@ -73,5 +77,41 @@ describe('Wirkungsprüfung: Unterschiede zählen und zusammenführen', () => {
     const nachher = auswerten({ k: { ergebnis: zusammenfuehren(erste, handy) } }, g)
     expect(vorher).toEqual({ 'nc-k-a': 'wirkt', 'nc-k-b': 'ohne-wirkung', 'nc-k-c': 'ohne-wirkung', 'nc-k-d': 'unbenutzt' })
     expect(nachher).toEqual({ 'nc-k-a': 'wirkt', 'nc-k-b': 'wirkt', 'nc-k-c': 'ohne-wirkung', 'nc-k-d': 'unbenutzt' })
+  })
+})
+
+// Nachbesserung 3c (Frank, 23.10.2026): Prüfwert für Schlüsselwort-Eigenschaften
+describe('Wirkungsprüfung: Schlüsselwort-Prüfwert', () => {
+  const CSS = '.nc-textarea{scrollbar-width:var(--mod-textarea-scrollbar-width, var(--nc-textarea-scrollbar-width));max-height:var(--nc-textarea-max-height)}'
+
+  it('scrollbar-width: thin → none (gültiges Schlüsselwort statt Länge)', () => {
+    const w = schluesselwortPruefwert({ id: 'nc-textarea-scrollbar-width', default: 'thin' }, CSS)
+    expect(w).toBe('none')
+    expect(NUR_SCHLUESSELWORT['scrollbar-width']).toContain(w)
+    expect(w).not.toMatch(/\d/)
+  })
+
+  it('entscheidet an der gelesenen Eigenschaft, nicht am Namen', () => {
+    // Name mit „width“, Eigenschaft nimmt Längen: kein Schlüsselwort-Prüfwert
+    expect(schluesselwortPruefwert({ id: 'nc-x-width', default: 'auto' }, '.a{width:var(--nc-x-width)}')).toBeNull()
+    // Name ohne „width“, Eigenschaft nur Schlüsselwörter: Schlüsselwort
+    expect(schluesselwortPruefwert({ id: 'nc-x-balken', default: 'thin' }, '.a{scrollbar-width:var(--nc-x-balken)}')).toBe('none')
+    expect(schluesselwortPruefwert({ id: 'nc-x-balken', default: 'none' }, '.a{scrollbar-width:var(--nc-x-balken)}')).toBe('auto')
+  })
+
+  it('Länge oder unbekanntes Wort als Standard: kein Schlüsselwort-Prüfwert', () => {
+    expect(schluesselwortPruefwert({ id: 'nc-textarea-max-height', default: 'none' }, CSS)).toBeNull()
+    expect(schluesselwortPruefwert({ id: 'nc-textarea-scrollbar-width', default: '8px' }, CSS)).toBeNull()
+  })
+
+  it('gelesenIn findet die Eigenschaft, nicht die Zwischenvariable', () => {
+    expect([...gelesenIn('nc-textarea-scrollbar-width', CSS)]).toEqual(['scrollbar-width'])
+    expect([...gelesenIn('nc-y', '.a{--_z:var(--nc-y)}')]).toEqual([])
+  })
+
+  it('Spec nutzt den Schlüsselwort-Prüfwert nur, wo es bisher einen Prüfwert gab', () => {
+    expect(SPEC).toMatch(/probe: probeFuer\(t, css\)/)
+    expect(SPEC).toMatch(/if \(bisher === null\) return null/)
+    expect(SPEC).toMatch(/schluesselwortPruefwert\(t, css\) \?\? bisher/)
   })
 })

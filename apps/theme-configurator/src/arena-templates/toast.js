@@ -116,3 +116,22 @@ ${inhalt}
 }
 
 export const einrichten = einrichtenErneut
+
+// Zusatz-Specimen der Bühne (R14 Paket 3c, Frank 23.10.2026): Das Recipe
+// zeigt den Fortschrittsbalken nur am Default-Toast. Je Severity setzt die
+// Variante --_toast-progress-bg aus ihrem eigenen Token
+// (--nc-toast-<severity>-progress-bg) — ohne Balken der Variante blieb das
+// Token auf der Bühne ohne Element. Nur ergänzt, Recipe unverändert.
+export const zusatzSpecimens = [
+  {
+    id: 'progress-variants',
+    label: 'Progress je Severity',
+    description: 'Fortschrittsbalken in jeder Severity — Farbe aus dem Token der Variante',
+    matrix: {
+      axes: { severity: ['success', 'warning', 'error', 'info'], position: ['top-right'], content: ['with-progress'] },
+      states: ['default']
+    },
+    layout: 'grid',
+    render: { label: '{severity}' }
+  }
+]

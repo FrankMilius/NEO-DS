@@ -43,6 +43,13 @@
 // vereinheitlicht: kein eigener Knopf im Zellen-Markup, kein umbenanntes
 // „Ausprobieren"); Helfer in _bewegung.js (imTakt, blaettere, spieleEin).
 //
+// Optional exportiert eine Vorlage `zusatzSpecimens` (Liste im Format der
+// Recipe-Specimens): die Arena haengt sie hinter die Specimens des Recipes —
+// nur fuer die Buehne, das Recipe (Doku, Storybook, Drupal) bleibt unberuehrt.
+// Gedacht fuer Bauteil-Faelle, die kein Recipe-Specimen zeigt, deren Werte die
+// Wirkungspruefung aber sehen muss (R14 Paket 3c, Frank 23.10.2026: nur
+// ergaenzen, bestehende Specimens nicht aendern).
+//
 // Ohne Vorlage rendert die Arena per Slot-Heuristik. Dateien mit `_` am
 // Anfang sind Helfer, keine Vorlagen.
 // ==========================================================================
@@ -53,12 +60,14 @@ const VORLAGEN = {}
 const EINRICHTUNG = {}
 const AUSPROBIEREN = {}
 const ABSPIELEN = {}
+const ZUSATZ = {}
 for (const [pfad, modul] of Object.entries(MODULE)) {
   const id = pfad.slice(2, -3)
   if (typeof modul.default === 'function') VORLAGEN[id] = modul.default
   if (typeof modul.einrichten === 'function') EINRICHTUNG[id] = modul.einrichten
   if (modul.ausprobieren && typeof modul.ausprobieren === 'object') AUSPROBIEREN[id] = modul.ausprobieren
   if (modul.abspielen && typeof modul.abspielen === 'object') ABSPIELEN[id] = modul.abspielen
+  if (Array.isArray(modul.zusatzSpecimens)) ZUSATZ[id] = modul.zusatzSpecimens
 }
 
 export function vorlageFuer (id) {
@@ -78,6 +87,17 @@ export function ausprobierenFuer (id) {
 /** Taste „Abspielen" der Vorlage ({ hinweis, gesperrt?, starten? }) oder null. */
 export function abspielenFuer (id) {
   return ABSPIELEN[id] || null
+}
+
+/** Zusaetzliche Buehnen-Specimens der Vorlage (Liste, leer ohne). */
+export function zusatzSpecimensFuer (id) {
+  return ZUSATZ[id] || []
+}
+
+/** Rohes Recipe mit den Zusatz-Specimens der Vorlage dahinter (Original bleibt). */
+export function mitZusatzSpecimens (raw, id) {
+  const zusatz = zusatzSpecimensFuer(id)
+  return zusatz.length ? { ...raw, specimens: [...(raw.specimens || []), ...zusatz] } : raw
 }
 
 export function hatVorlage (id) {

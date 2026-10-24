@@ -41,6 +41,10 @@ export default (zelle, m) => {
     innen = `${knopf('−', 'Weniger')}${feld('number', '1', 'Menge', '1')}${knopf('+', 'Mehr')}`
   } else if (art === 'input-group-readonly-copy') {
     innen = `${feld('text', '', 'API-Schlüssel', 'sk-live-4f9a…c21e')}${knopf(KOPIEREN, 'Kopieren')}`
+  } else if (art === 'input-group-auswahl-vorn') {
+    // Zusatz-Specimen (R14 Paket 3c): Auswahl im __prepend — dort greift
+    // --nc-input-group-inner-radius (verschachtelte Buttons/Selects)
+    innen = `<span class="nc-input-group__prepend"><select aria-label="Protokoll"${m.deaktiviert ? ' disabled' : ''}><option>https://</option><option>http://</option></select></span>${feld('text', 'firma.de', 'Website')}`
   } else {
     const vorne = m.slot('prepend') ? '<span class="nc-input-group__prepend" aria-hidden="true">€</span>' : ''
     const hinten = m.slot('append') ? '<span class="nc-input-group__append" aria-hidden="true">EUR</span>' : ''
@@ -49,3 +53,20 @@ export default (zelle, m) => {
 
   return `<div class="ra-feld"><div class="${klasse}"${m.attrsOhne(...NATIVE_ARIA)}>${innen}</div></div>`
 }
+
+// Zusatz-Specimen der Bühne (R14 Paket 3c, Frank 23.10.2026): Kein Recipe-
+// Specimen hat einen Button oder ein Select IM __prepend — dort liest die
+// Gruppe --nc-input-group-inner-radius. Nur ergänzt, Recipe unverändert.
+export const zusatzSpecimens = [
+  {
+    id: 'auswahl-im-prepend',
+    label: 'Auswahl im Prepend',
+    description: 'Select im Prepend-Addon — Eckenradius aus --nc-input-group-inner-radius',
+    matrix: {
+      axes: { size: ['md'], content: ['prepend-only'], validation: ['none'] },
+      states: ['default']
+    },
+    layout: 'row',
+    render: { compositionType: 'input-group-auswahl-vorn', label: 'prepend-select' }
+  }
+]

@@ -13,7 +13,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
 import { normalisiereRecipe, zellenFuer, specimenAnsicht } from '../../src/lib/recipe-arena.js'
 import { RECIPE_IDS, rohesRecipe } from './_recipes.js'
-import { vorlageFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, mitZusatzSpecimens } from '../../src/arena-templates/index.js'
 
 async function mountArena (id) {
   const w = mount(RecipeArena, { props: { componentId: id } })
@@ -40,7 +40,7 @@ describe('RecipeArena — alle Recipes', () => {
       const warnungen = []
       vi.spyOn(console, 'warn').mockImplementation((...a) => warnungen.push(a.join(' ')))
 
-      const recipe = normalisiereRecipe(rohesRecipe(id))
+      const recipe = normalisiereRecipe(mitZusatzSpecimens(rohesRecipe(id), id))
       // Sammelzellen: gibt die Vorlage fuer eine Zelle '' zurueck, zeigt eine
       // andere Zelle sie mit (z. B. mehrere Toasts in einem Toaster)
       const leer = recipe.specimens.reduce((n, sp) => n + zellenFuer(sp, recipe).length - specimenAnsicht(sp, recipe, id, vorlageFuer(id)).zellenAnzahl, 0)

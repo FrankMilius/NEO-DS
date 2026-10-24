@@ -32,7 +32,7 @@ import fs from 'node:fs'
 import { resolve } from 'node:path'
 import { test, oeffneSektion, SEKTIONEN } from './hilfen.js'
 import { componentTokenGroups } from '../src/data/tokens.generated.js'
-import { EIGENSCHAFTEN, PSEUDO, HANDY, zusammenfuehren } from './wirkung-messung.js'
+import { EIGENSCHAFTEN, PSEUDO, HANDY, zusammenfuehren, schluesselwortPruefwert } from './wirkung-messung.js'
 
 const AUS = resolve(import.meta.dirname, '../wirkung-ergebnis')
 test.describe.configure({ mode: 'parallel' })
@@ -73,6 +73,19 @@ function pruefwert (t) {
   if (/^-?[\d.]+$/.test(d)) return String(Number(d) === 7 ? 5 : 7)
   if (LAENGE.test(d) || /size|gap|padding|margin|radius|width|height|offset|inset|spacing|indent|top|left|right|bottom/.test(id)) return '37px'
   return null
+}
+
+/**
+ * Prüfwert je Token: Speist ein Token mit Schlüsselwort-Standard eine
+ * Eigenschaft, die nur Schlüsselwörter kennt (scrollbar-width …), gilt ein
+ * anderes Schlüsselwort statt einer Länge (Nachbesserung 3c, Frank
+ * 23.10.2026). Tokens ohne bisherigen Prüfwert bleiben ohne (keine neuen
+ * Messungen nebenbei, z. B. die bewusste Ausnahme nc-textarea-resize).
+ */
+function probeFuer (t, css) {
+  const bisher = pruefwert(t)
+  if (bisher === null) return null
+  return schluesselwortPruefwert(t, css) ?? bisher
 }
 
 /** Tokens, die in Regeln für den Regler-Knopf gelesen werden (Quelltext) */
@@ -165,8 +178,6 @@ for (const g of gruppen) {
     await page.emulateMedia({ reducedMotion: OHNE_REDUZIERT.has(g.id) ? 'no-preference' : 'reduce' })
     await oeffneSektion(page, `component-${g.id}`)
     await page.waitForLoadState('load'); await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(800)
-    const tokens = [...(g.tokens || []), ...((g.subGroups || g.subgroups || []).flatMap((s) => s.tokens || []))]
-      .map((t) => ({ id: t.id, probe: pruefwert(t) }))
     // Quelltext aller Stylesheets: cssText schreibt Kurzformen mit var()
     // (transition, border-color …) um, der Token-Name fiele dort heraus
     const css = await page.evaluate(async () => {
@@ -177,6 +188,8 @@ for (const g of gruppen) {
       }
       return teile.join('\n')
     })
+    const tokens = [...(g.tokens || []), ...((g.subGroups || g.subgroups || []).flatMap((s) => s.tokens || []))]
+      .map((t) => ({ id: t.id, probe: probeFuer(t, css) }))
     const r = await miss(page, tokens, css)
     // Bildvergleich für Knopf-Tokens (E2): Anzahl Regler, deren Bild sich ändert
     const knopf = knopfTokens(css)

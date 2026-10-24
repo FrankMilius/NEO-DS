@@ -11,7 +11,8 @@
     "23.10.2026 — gespeicherte Werte gelöschter Tokens in Drupal-Themes (App verwirft sie beim Laden und zeigt das an): später, mit Paket 5 (Frank)",
     "21.10.2026 — je Paket ein neo_fe-Zweig; parallel erarbeiten, nacheinander übernehmen (Frank)",
     "22.10.2026 — Werte ohne Website-Einsatz gelten als abgenommen, wenn sie in e2e:wirkung auf der Bühne wirken (Frank)",
-    "23.10.2026 — nc-device-width-per-height und nc-product-showcase-acc-device-reserve aus 3a heraus, in Bühnen-Paket 6 (Ketten wirken nur bei 390 px; keine Bühnenprobe mit Akkordeon und Gerät) (Frank)"
+    "23.10.2026 — nc-device-width-per-height und nc-product-showcase-acc-device-reserve aus 3a heraus, in Bühnen-Paket 6 (Ketten wirken nur bei 390 px; keine Bühnenprobe mit Akkordeon und Gerät) (Frank)",
+    "23.10.2026 — weiter mit Paket 3c Rückmeldung und Formular (Art „beheben“), nach Freigabe von 3a (ef26a9e8) und 3b (862526c9); erweiterte Wirkungsprüfung (390 px, scroll-margin, padding-right, ::after) gilt (Frank)"
   ],
   "naechsterSchritt": "Reparatur über den Workflow `/pakete-parallel` (E10) — nicht von Hand in einer zweiten Sitzung beginnen.",
   "pakete": [
@@ -401,6 +402,115 @@
           "eigenschaft": "backdrop-filter",
           "massnahme": "beheben — greift, ohne sichtbare Folge",
           "detail": ".nc-toolbar--blurred { backdrop-filter } — gelesen in: .nc-toolbar--blurred { -webkit-backdrop-filter: blur(var(--mod-toolbar-blurred-blur, var(--nc-toolbar-blurred-blur))) }",
+          "website": []
+        }
+      ]
+    },
+    {
+      "id": "paket-3c",
+      "titel": "Rückmeldung und Formular",
+      "werte": [
+        {
+          "token": "nc-cs-line-numbers-border",
+          "komponente": "code-snippet",
+          "standard": "",
+          "eigenschaft": "border-right",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-code-snippet--with-line-numbers .nc-code-snippet__line::before { border-right: 1px solid rgb(228, 230, 228) } (display:block)",
+          "website": []
+        },
+        {
+          "token": "nc-cs-tab-size",
+          "komponente": "code-snippet",
+          "standard": "2",
+          "eigenschaft": "tab-size",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-code-snippet__pre { tab-size } — gelesen in: .nc-code-snippet__pre { -moz-tab-size: var(--mod-cs-tab-size, var(--nc-cs-tab-size)) }",
+          "website": []
+        },
+        {
+          "token": "nc-input-group-inner-radius",
+          "komponente": "input-group",
+          "standard": "var(--fnd-radius-null)",
+          "eigenschaft": "border-radius",
+          "massnahme": "beheben — kein Element auf der Bühne",
+          "detail": ".nc-input-group__prepend>.nc-button,.nc-input-group__prepend>button,.nc-input-group__prepend>select { border-radius }",
+          "website": []
+        },
+        {
+          "token": "nc-notification-priority-border-color",
+          "komponente": "notification",
+          "standard": "",
+          "eigenschaft": "border-left",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-notification--priority-high { border-left: 4px solid rgb(41, 43, 41) } (display:flex)",
+          "website": []
+        },
+        {
+          "token": "nc-notification-unread-dot-color",
+          "komponente": "notification",
+          "standard": "",
+          "eigenschaft": "background-color",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-notification__unread { background-color: rgb(41, 43, 41) } (display:block)",
+          "website": []
+        },
+        {
+          "token": "nc-table-block-col-min-width",
+          "komponente": "table-block",
+          "standard": "9rem",
+          "eigenschaft": "min-width",
+          "massnahme": "beheben — kein Element auf der Bühne",
+          "detail": ".nc-table-block:not([data-scroll-active=true])>.nc-compare-table--full-width:has(thead th:nth-child(5)) table { min-width }",
+          "website": [
+            "Block „Table“"
+          ]
+        },
+        {
+          "token": "nc-textarea-scrollbar-width",
+          "komponente": "textarea",
+          "standard": "thin",
+          "eigenschaft": "scrollbar-width",
+          "massnahme": "beheben — greift, ohne sichtbare Folge",
+          "detail": ".nc-textarea { scrollbar-width: thin } (display:block)",
+          "website": [
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-toast-error-progress-bg",
+          "komponente": "toast",
+          "standard": "var(--nc-toast-error-icon-color)",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_toast-progress-bg",
+          "website": []
+        },
+        {
+          "token": "nc-toast-info-progress-bg",
+          "komponente": "toast",
+          "standard": "var(--nc-toast-info-icon-color)",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_toast-progress-bg",
+          "website": []
+        },
+        {
+          "token": "nc-toast-success-progress-bg",
+          "komponente": "toast",
+          "standard": "var(--nc-toast-success-icon-color)",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_toast-progress-bg",
+          "website": []
+        },
+        {
+          "token": "nc-toast-warning-progress-bg",
+          "komponente": "toast",
+          "standard": "var(--nc-toast-warning-icon-color)",
+          "eigenschaft": "Kette (siehe Verweis)",
+          "massnahme": "beheben — nur über eine Kette",
+          "detail": "liest: --_toast-progress-bg",
           "website": []
         }
       ]
