@@ -1,5 +1,5 @@
 # section Component Spec
-> Version 3.2.0 | Status: stable | Layer: organism
+> Version 3.2.1 | Status: stable | Layer: organism
 
 Tags: `layout`, `object`, `section`, `orchestrator`
 
@@ -72,8 +72,6 @@ Base classes: `section`
 ### Accent
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-section-accent-bg` | — | — |
-| `--nc-section-accent-color` | — | — |
 | `--nc-section-accent-color-secondary` | — | — |
 
 ### Divider

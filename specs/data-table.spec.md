@@ -1,5 +1,5 @@
 # data-table Component Spec
-> Version 2.2.0 | Status: stable | Layer: organism
+> Version 2.2.1 | Status: stable | Layer: organism
 
 Tags: `data`, `interactive`, `table`, `composite`
 
@@ -119,7 +119,6 @@ Base classes: `nc-data-table`
 | `--nc-dt-body-font-size` | — | `--mod-dt-body-font-size` |
 | `--nc-dt-body-font-weight` | — | `--mod-dt-body-font-weight` |
 | `--nc-dt-scroll-shadow-size` | — | `--mod-dt-scroll-shadow-size` |
-| `--nc-dt-transition-duration` | — | — |
 
 ### Header
 | Token | CSS Property | Override |

@@ -40,13 +40,21 @@ export const TOT = new Set(['ohne-wirkung', 'unbenutzt'])
  * einer doch, bleibt es bei „wirkt“. Nur feste Liste, keine Muster.
  * Nachbesserung 3a (Frank, 23.10.2026): nc-shell-sidebar-right-width,
  * -narrow und -wide — die Website hat keine rechte Seitenleiste.
+ * R14 Paket 5 (Frank, 26.10.2026): fünf Tokens ohne CSS-Leser bleiben, weil
+ * JavaScript sie liest (neo-behaviors) — Toast und Galerie.
  */
 export const BEWUSST = new Set([
   'nc-textarea-resize',
   'nc-hero-cards-rule-color',
   'nc-shell-sidebar-right-width',
   'nc-shell-sidebar-right-width-narrow',
-  'nc-shell-sidebar-right-width-wide'
+  'nc-shell-sidebar-right-width-wide',
+  // von JavaScript gelesen, neo-behaviors (Frank, 26.10.2026)
+  'nc-toast-auto-dismiss-duration',
+  'nc-toast-max-visible',
+  'nc-toast-swipe-threshold',
+  'nc-gallery-autoplay-interval',
+  'nc-logo-wall-fadein-delay-step'
 ])
 
 /** Art je Token über alle Komponenten (beste Messung zählt) */

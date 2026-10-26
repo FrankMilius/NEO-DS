@@ -17,7 +17,8 @@ import DrupalVeroeffentlichenDialog from '../../src/components/drupal/DrupalVero
 import DrupalRechteHinweis from '../../src/components/drupal/DrupalRechteHinweis.vue'
 import KonfigBestaetigung from '../../src/components/ui/KonfigBestaetigung.vue'
 import { useThemeStore } from '../../src/stores/theme.js'
-import { setzeSpeicher, SpeicherFehler, meldungFuer } from '../../src/speicher/index.js'
+import { setzeSpeicher, SpeicherFehler, meldungFuer, kanonischesJson } from '../../src/speicher/index.js'
+import { leseArbeitsstand, schreibeArbeitsstand } from '../../src/speicher/lokal.js'
 import { standardDaten } from '../../src/speicher/standard.js'
 import { useDrupalBetrieb, starteDrupalBetrieb, _zuruecksetzenDrupalBetrieb, STAND_SCHLUESSEL } from '../../src/composables/useDrupalBetrieb.js'
 import { _zuruecksetzen as bestaetigungZuruecksetzen, useBestaetigung } from '../../src/composables/useBestaetigung.js'
@@ -161,6 +162,119 @@ describe('Rechte-Gating', () => {
     store.updateFoundationToken('radius', 'xs', '13px')
     expect(store.state.foundationOverrides[store.state.activeThemeSet].radius.xs).toBe('13px')
     store.updateFoundationToken('radius', 'xs', vorher)
+  })
+})
+
+describe('Werte gelöschter Tokens beim Öffnen (R14 Paket 5)', () => {
+  const mitGeloeschtem = () => {
+    const daten = standardDaten(STANDARD)
+    daten.componentOverrides = { ...daten.componentOverrides, customer: { ...(daten.componentOverrides?.customer || {}), 'nc-hero-padding-inline': '40px' } }
+    return daten
+  }
+
+  it('mit Recht „bearbeiten“: verworfen, Status „ungespeichert“ bis zum Speichern', async () => {
+    const sp = adapter()
+    sp.lade.mockResolvedValue({ meta: meta('t1'), daten: mitGeloeschtem(), etag: '"h-t1"' })
+    sp.liste.mockResolvedValue([meta('t1')])
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    await useDrupalBetrieb().oeffnen('t1')
+    await flushPromises()
+    expect(store.state.verworfeneTokens.map((v) => v.token)).toEqual(['nc-hero-padding-inline'])
+    expect(useDrupalBetrieb().zustand.status).toBe('ungespeichert')
+  })
+
+  it('nur ansehen: verworfen, aber kein „ungespeichert“ (kann nicht speichern)', async () => {
+    const sp = adapter({ rechte: ['ansehen'] })
+    sp.lade.mockResolvedValue({ meta: meta('t1'), daten: mitGeloeschtem(), etag: '"h-t1"' })
+    sp.liste.mockResolvedValue([meta('t1')])
+    setzeSpeicher(sp)
+    await starteDrupalBetrieb(store)
+    await useDrupalBetrieb().oeffnen('t1')
+    await flushPromises()
+    expect(store.state.verworfeneTokens.map((v) => v.token)).toEqual(['nc-hero-padding-inline'])
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+})
+
+// B2 (Widersacher, Nachbesserung 2): Eine ältere App-Fassung hat den Abdruck
+// mit Werten gelöschter Tokens gemerkt. Nach dem Neuladen verwirft
+// loadFromStorage sie — ein reines Verwerfen darf kein „ungespeichert“ sein.
+describe('Startweg: gemerkter Abdruck mit gelöschten Tokens (R14 Paket 5, B2)', () => {
+  // Abdruck, wie ihn die ältere Fassung berechnete (FNV-1a über das
+  // kanonische JSON ohne leere Objekte, ohne Filter für gelöschte Tokens)
+  const ohneLeere = (w) => {
+    if (Array.isArray(w)) return w.map(ohneLeere)
+    if (!w || typeof w !== 'object') return w
+    const aus = {}
+    for (const [k, v] of Object.entries(w)) {
+      const n = ohneLeere(v)
+      if (n && typeof n === 'object' && !Array.isArray(n) && !Object.keys(n).length) continue
+      aus[k] = n
+    }
+    return aus
+  }
+  const alterAbdruck = (daten) => {
+    const text = kanonischesJson(ohneLeere(JSON.parse(JSON.stringify(daten))))
+    let h = 0x811c9dc5
+    for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 0x01000193) }
+    return (h >>> 0).toString(16) + ':' + text.length
+  }
+
+  /** t1 geöffnet; dann Arbeitsstand und Abdruck wie von der älteren Fassung, Neuladen. */
+  async function neuladenMitAltemStand (sp, { aendern = false } = {}) {
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    _zuruecksetzenDrupalBetrieb()
+    const set = store.state.activeThemeSet
+    // die neue Fassung speichert gelöschte Tokens nicht — Arbeitsstand von Hand wie früher
+    store.saveToStorage()
+    const stand = leseArbeitsstand()
+    stand.componentOverrides[set] = { ...stand.componentOverrides[set], 'nc-hero-padding-inline': '40px' }
+    store.state.componentOverrides[set]['nc-hero-padding-inline'] = '40px'
+    localStorage.setItem(STAND_SCHLUESSEL, JSON.stringify({ id: 't1', abdruck: alterAbdruck(store.snapshotThemeData({ withActiveSet: true })) }))
+    if (aendern) stand.focusRingMode[set] = stand.focusRingMode[set] === 'inset' ? 'offset' : 'inset'
+    schreibeArbeitsstand(stand)
+    store.state.verworfeneTokens = []
+    store.loadFromStorage()
+    expect(store.state.componentOverrides[set]['nc-hero-padding-inline']).toBeUndefined()
+    expect(store.state.verworfeneTokens.map((v) => v.token)).toEqual(['nc-hero-padding-inline'])
+    await starteDrupalBetrieb(store)
+    await flushPromises()
+  }
+
+  it('mit Recht „bearbeiten“: reines Verwerfen → „gespeichert“, Abdruck ohne gelöschte Tokens neu gemerkt', async () => {
+    const alt = (() => { try { return localStorage.getItem(STAND_SCHLUESSEL) } catch { return null } })()
+    const sp = adapter()
+    await neuladenMitAltemStand(sp)
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+    const gemerkt = JSON.parse(localStorage.getItem(STAND_SCHLUESSEL))
+    expect(gemerkt.id).toBe('t1')
+    expect(gemerkt.abdruck).not.toBe(alt)
+    // erneutes Prüfen (z. B. nach dem nächsten Neuladen ohne Liste) bleibt gleich
+    store.state.verworfeneTokens = []
+    useDrupalBetrieb().pruefeStand()
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+
+  it('nur ansehen: reines Verwerfen → nie „ungespeichert“', async () => {
+    await neuladenMitAltemStand(adapter({ rechte: ['ansehen'] }))
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+  })
+
+  it('echte Änderung im Arbeitsstand bleibt „ungespeichert“', async () => {
+    await neuladenMitAltemStand(adapter(), { aendern: true })
+    expect(useDrupalBetrieb().zustand.status).toBe('ungespeichert')
+  })
+
+  it('Abdruck auf beiden Seiten ohne gelöschte Tokens: Wert eines gelöschten Tokens im Stand zählt nicht', async () => {
+    const sp = adapter()
+    setzeSpeicher(sp)
+    await geoeffnet(sp)
+    store.state.componentOverrides[store.state.activeThemeSet]['nc-alert-close-size'] = '24px'
+    useDrupalBetrieb().pruefeStand()
+    expect(useDrupalBetrieb().zustand.status).toBe('gespeichert')
+    delete store.state.componentOverrides[store.state.activeThemeSet]['nc-alert-close-size']
   })
 })
 

@@ -43,8 +43,10 @@ const KASKADE = [
   ['Nav-Molecules', '--nc-nav-mol-link-color', 'Farbe von Link und Hover'],
   ['Nav-Atoms', '--nc-nav-atom-icon-size', '24 px Symbole']
 ]
-// Shell-Schichten von unten nach oben (Recipe, Specimen z-index-governance)
-const SCHICHTEN = ['linkbar', 'footerbar', 'navbar', 'sidebar', 'overlay', 'drawer']
+// Shell-Schichten von unten nach oben (Recipe, Specimen z-index-governance).
+// Linkbar und Sidebar haben seit R14 Paket 5 (26.10.2026) kein eigenes
+// z-index-Token mehr — kein CSS las sie.
+const SCHICHTEN = ['footerbar', 'navbar', 'overlay', 'drawer']
 
 function menue () {
   const bereiche = BEREICHE.map((t) => `<li class="nc-navigation-menu__item"><button type="button" class="nc-navigation-menu__trigger" aria-expanded="false"><span>${esc(t)}</span><span class="nc-navigation-menu__trigger-icon">${CHEVRON}</span></button></li>`)

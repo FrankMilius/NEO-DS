@@ -1,5 +1,5 @@
 # footer Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.1.1 | Status: stable | Layer: organism
 
 Tags: `navigation`, `layout`, `content`, `cta`
 
@@ -73,7 +73,6 @@ Base classes: `nc-footer`
 | `--nc-footer-bg` | — | — |
 | `--nc-footer-color` | — | — |
 | `--nc-footer-padding-block` | — | — |
-| `--nc-footer-padding-inline` | — | — |
 | `--nc-footer-max-width` | — | — |
 | `--nc-footer-separator-color` | — | — |
 | `--nc-footer-link-color` | — | — |

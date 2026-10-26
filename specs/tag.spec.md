@@ -1,5 +1,5 @@
 # tag Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.0.1 | Status: stable | Layer: atom
 
 Tags: `interactive`, `label`, `feedback`
 
@@ -173,10 +173,6 @@ Base classes: `nc-tag`
 | `--nc-tag-opacity-disabled` | — | `--mod-tag-opacity-disabled` |
 
 ### Animation
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-tag-transition-duration` | — | — |
-
 ### Interactive Shadow
 | Token | CSS Property | Override |
 | --- | --- | --- |

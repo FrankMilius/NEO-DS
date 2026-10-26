@@ -303,6 +303,10 @@ export const state = reactive({
   // Currently loaded theme metadata (null = working on defaults)
   currentThemeMeta: null,
 
+  // Beim letzten Laden verworfene Werte gelöschter Tokens (R14 Paket 5):
+  // [{ set, token, wert }] — App.vue zeigt dazu einen Hinweis. Kein Theme-Inhalt.
+  verworfeneTokens: [],
+
   // List of saved themes [{id, name, version, createdAt, updatedAt}]
   savedThemes: []
 })

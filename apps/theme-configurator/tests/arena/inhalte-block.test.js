@@ -181,7 +181,7 @@ describe('Inhalte-Block aus dem Recipe', () => {
       expect(r.keyboard, id).toBeUndefined()
       expect(r.events, id).toBeUndefined()
     }
-    const VERSION = { card: '3.2.1', accordion: '3.5.0', 'data-table': '2.2.0', 'compare-table': '2.3.0' } // compare-table 2.1.0: Slot icon (Plan v3, Phase 5); 2.2.0/2.3.0 Restpunkte 09.10.2026; accordion 3.4.0 Plan v4, Phase 6b; 3.5.0 Roadmap V06
+    const VERSION = { card: '3.2.2', accordion: '3.5.1', 'data-table': '2.2.1', 'compare-table': '2.3.1' } // R14 Paket 5: je +0.0.1 (unbenutzte Tokens geloescht); compare-table 2.1.0: Slot icon (Plan v3, Phase 5); 2.2.0/2.3.0 Restpunkte 09.10.2026; accordion 3.4.0 Plan v4, Phase 6b; 3.5.0 Roadmap V06
     for (const [id, v] of Object.entries(VERSION)) expect(rohesRecipe(id).meta.version, id).toBe(v)
   })
 

@@ -1,5 +1,5 @@
 # compare-table Component Spec
-> Version 2.3.0 | Status: stable | Layer: atom
+> Version 2.3.1 | Status: stable | Layer: atom
 
 Tags: `data`, `display`, `comparison`
 
@@ -148,8 +148,6 @@ Base classes: `nc-compare-table`
 | --- | --- | --- |
 | `--nc-table-font-size` | — | `--mod-table-font-size` |
 | `--nc-table-color` | — | `--mod-table-color` |
-| `--nc-table-color-secondary` | — | — |
-| `--nc-table-transition-duration` | — | — |
 
 ### Ghost Variant
 | Token | CSS Property | Override |

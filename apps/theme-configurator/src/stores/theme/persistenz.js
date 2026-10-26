@@ -8,6 +8,7 @@ import { _validComponentTokenIds, state } from './kern.js'
 import { loadSavedThemesList, persistSavedThemesList } from './themes.js'
 import { ergaenzeFoundation } from './token-aktionen.js'
 import { speicher } from '../../speicher/index.js'
+import { istGeloescht, ohneGeloeschteTokens, variantenTokens } from '../../speicher/geloeschte-tokens.js'
 import { LOKALE_SCHLUESSEL, leseArbeitsstand, schreibeArbeitsstand, schreibeTheme } from '../../speicher/lokal.js'
 import { speichereTheme } from './themes.js'
 import { strichVorgaben, migriereStriche } from '../../utils/icon-strich.js'
@@ -15,6 +16,13 @@ import { strichVorgaben, migriereStriche } from '../../utils/icon-strich.js'
 // ---------------------------------------------------------------------------
 // Save to Server (full theme format)
 // ---------------------------------------------------------------------------
+
+// R14 Paket 5: Speichern schreibt keine Werte gelöschter Tokens (Tokens eigener
+// Varianten bleiben) — je Set bzw. für alle Sets.
+const komponentenOhneGeloeschte = (themeSet) =>
+  ohneGeloeschteTokens(toRaw(state.componentOverrides[themeSet]), toRaw(state.variantDefinitions[themeSet]))
+const alleKomponentenOhneGeloeschte = () =>
+  Object.fromEntries(Object.keys(toRaw(state.componentOverrides)).map((ts) => [ts, komponentenOhneGeloeschte(ts)]))
 
 export async function saveToServer() {
   // Plan v2, 2.6: Mit Drupal-Speicher heisst "Speichern" (Strg+S) das
@@ -37,7 +45,7 @@ export async function saveToServer() {
       [themeSet + '-light']: toRaw(state.themes[themeSet].light),
       [themeSet + '-dark']: toRaw(state.themes[themeSet].dark)
     },
-    components: toRaw(state.componentOverrides[themeSet]),
+    components: komponentenOhneGeloeschte(themeSet),
     foundation: toRaw(state.foundationOverrides[themeSet]),
     typeScale: toRaw(state.typeScale[themeSet])
   }
@@ -62,7 +70,7 @@ export function saveToStorage() {
       previewMode: state.previewMode,
       themes: toRaw(state.themes),
       foundationOverrides: toRaw(state.foundationOverrides),
-      componentOverrides: toRaw(state.componentOverrides),
+      componentOverrides: alleKomponentenOhneGeloeschte(),
       primitiveOverrides: toRaw(state.primitiveOverrides),
       customFonts: toRaw(state.customFonts),
       focusRingMode: toRaw(state.focusRingMode),
@@ -108,7 +116,7 @@ export function saveToStorage() {
         const snapshot = {
           themes: JSON.parse(JSON.stringify(toRaw(state.themes))),
           foundationOverrides: JSON.parse(JSON.stringify(toRaw(state.foundationOverrides))),
-          componentOverrides: JSON.parse(JSON.stringify(toRaw(state.componentOverrides))),
+          componentOverrides: JSON.parse(JSON.stringify(alleKomponentenOhneGeloeschte())),
           primitiveOverrides: JSON.parse(JSON.stringify(toRaw(state.primitiveOverrides))),
           customFonts: JSON.parse(JSON.stringify(toRaw(state.customFonts))),
           focusRingMode: JSON.parse(JSON.stringify(toRaw(state.focusRingMode))),
@@ -245,16 +253,23 @@ export function loadFromStorage() {
   // ---------------------------------------------------------------------------
   // Prune stale component overrides (tokens removed during token hygiene)
   // ---------------------------------------------------------------------------
+  // R14 Paket 5: Werte der gelöschten Tokens als Hinweis melden (App.vue).
+  // Tokens eigener Varianten (variantDefinitions) stehen nicht in der
+  // Registry und bleiben — auch wenn eins so heißt wie ein gelöschtes.
+  const verworfen = []
   for (const themeSet of ['neo', 'customer']) {
     const overrides = state.componentOverrides[themeSet]
     if (!overrides) continue
+    const eigene = variantenTokens(state.variantDefinitions[themeSet])
     for (const key of Object.keys(overrides)) {
-      if (!_validComponentTokenIds.has(key)) {
-        console.warn('[Theme Store] Pruning stale component override:', key)
+      if (!_validComponentTokenIds.has(key) && !eigene.has(key)) {
+        if (istGeloescht(key, eigene)) verworfen.push({ set: themeSet, token: key, wert: overrides[key] })
+        else console.warn('[Theme Store] Pruning stale component override:', key)
         delete overrides[key]
       }
     }
   }
+  if (verworfen.length) state.verworfeneTokens = verworfen
 
   // ---------------------------------------------------------------------------
   // Migrate legacy custom fonts from isolated localStorage keys into store state

@@ -1,5 +1,5 @@
 # alert Component Spec
-> Version 2.2.0 | Status: stable | Layer: atom
+> Version 2.2.1 | Status: stable | Layer: atom
 
 Tags: `static`, `feedback`, `notification`, `inline`
 
@@ -80,7 +80,6 @@ Base classes: `nc-alert`
 | `--nc-alert-line-height` | — | `--mod-alert-line-height` |
 | `--nc-alert-title-font-weight` | — | `--mod-alert-title-font-weight` |
 | `--nc-alert-description-opacity` | — | `--mod-alert-description-opacity` |
-| `--nc-alert-close-size` | — | — |
 
 ### Info Colors
 | Token | CSS Property | Override |

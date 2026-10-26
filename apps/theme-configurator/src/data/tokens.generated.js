@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-23
+// Generated: 2026-10-26
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -2097,18 +2097,6 @@ export const componentTokenGroups = [
         "default": "color-mix(in srgb, var(--fnd-color-text-primary) 4%, transparent)"
       },
       {
-        "id": "nc-accordion-padding-compact",
-        "label": "Padding Compact",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-03) var(--fnd-spacing-04)"
-      },
-      {
-        "id": "nc-accordion-padding-spacious",
-        "label": "Padding Spacious",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-06) var(--fnd-spacing-07)"
-      },
-      {
         "id": "nc-accordion-content-font-size",
         "label": "Content Font Size",
         "type": "size",
@@ -2456,8 +2444,6 @@ export const componentTokenGroups = [
         "id": "geometry",
         "label": "Geometrie",
         "tokenIds": [
-          "nc-accordion-padding-compact",
-          "nc-accordion-padding-spacious",
           "nc-accordion-item-gap",
           "nc-accordion-item-radius",
           "nc-accordion-media-radius",
@@ -2708,12 +2694,6 @@ export const componentTokenGroups = [
         "default": "var(--fnd-opacity-subtle)"
       },
       {
-        "id": "nc-alert-close-size",
-        "label": "Close Size",
-        "type": "size",
-        "default": "20px"
-      },
-      {
         "id": "nc-alert-inline-gap",
         "label": "Inline Gap",
         "type": "spacing",
@@ -2796,7 +2776,6 @@ export const componentTokenGroups = [
         "id": "geometry",
         "label": "Geometrie",
         "tokenIds": [
-          "nc-alert-close-size",
           "nc-alert-inline-gap",
           "nc-alert-details-margin-top"
         ]
@@ -3047,12 +3026,6 @@ export const componentTokenGroups = [
         "ref": "text-primary"
       },
       {
-        "id": "nc-avatar-border-color",
-        "label": "Border Color",
-        "type": "color",
-        "ref": "border-primary"
-      },
-      {
         "id": "nc-avatar-ring-width",
         "label": "Ring Width",
         "type": "size",
@@ -3135,12 +3108,6 @@ export const componentTokenGroups = [
         "label": "Group Ring Color",
         "type": "color",
         "ref": "background-base"
-      },
-      {
-        "id": "nc-avatar-transition-duration",
-        "label": "Transition",
-        "type": "duration",
-        "ref": "motion-duration-200"
       },
       {
         "id": "nc-avatar-ring-shadow",
@@ -3252,7 +3219,6 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-avatar-bg",
           "nc-avatar-color",
-          "nc-avatar-border-color",
           "nc-avatar-ring-shadow",
           "nc-avatar-hover-shadow",
           "nc-avatar-focus-ring-color",
@@ -3302,7 +3268,6 @@ export const componentTokenGroups = [
         "id": "interaction",
         "label": "Interaction",
         "tokenIds": [
-          "nc-avatar-transition-duration",
           "nc-avatar-hover-scale",
           "nc-avatar-active-scale",
           "nc-avatar-image-fade-duration"
@@ -5350,7 +5315,6 @@ export const componentTokenGroups = [
         "id": "spacing",
         "label": "Abstände",
         "tokenIds": [
-          "nc-card-header-padding",
           "nc-card-header-gap",
           "nc-card-content-padding",
           "nc-card-footer-padding",
@@ -5371,7 +5335,6 @@ export const componentTokenGroups = [
           "nc-card-label-weight",
           "nc-card-label-tracking",
           "nc-card-label-transform",
-          "nc-card-link-decoration",
           "nc-card-link-hover-decoration"
         ]
       },
@@ -5379,9 +5342,7 @@ export const componentTokenGroups = [
         "id": "interactive",
         "label": "Interaktiv",
         "tokenIds": [
-          "nc-card-transition-duration",
-          "nc-card-hover-border",
-          "nc-card-nav-color-hover"
+          "nc-card-hover-border"
         ]
       },
       {
@@ -5542,13 +5503,6 @@ export const componentTokenGroups = [
         "ref": "opacity-disabled"
       },
       {
-        "id": "nc-card-header-padding",
-        "label": "Header Padding",
-        "type": "spacing",
-        "group": "spacing",
-        "ref": "spacing-06"
-      },
-      {
         "id": "nc-card-header-gap",
         "label": "Header Gap",
         "type": "spacing",
@@ -5626,25 +5580,11 @@ export const componentTokenGroups = [
         "default": "1.5"
       },
       {
-        "id": "nc-card-transition-duration",
-        "label": "Transition Duration",
-        "type": "duration",
-        "group": "interactive",
-        "ref": "motion-duration-200"
-      },
-      {
         "id": "nc-card-hover-border",
         "label": "Hover Border Color",
         "type": "color",
         "group": "interactive",
         "ref": "border-strong"
-      },
-      {
-        "id": "nc-card-nav-color-hover",
-        "label": "Nav Link Hover Color",
-        "type": "color",
-        "group": "interactive",
-        "ref": "interactive-hover"
       },
       {
         "id": "nc-card-selected-border",
@@ -5844,12 +5784,6 @@ export const componentTokenGroups = [
         "default": "var(--fnd-motion-ease-informative)"
       },
       {
-        "id": "nc-card-link-decoration",
-        "label": "Link Decoration",
-        "type": "size",
-        "default": "none"
-      },
-      {
         "id": "nc-card-link-hover-decoration",
         "label": "Link Hover Decoration",
         "type": "size",
@@ -5893,7 +5827,6 @@ export const componentTokenGroups = [
         "category": "state",
         "tokenIds": [
           "nc-card-grid-anim-duration",
-          "nc-card-grid-anim-delay",
           "nc-card-grid-anim-translate-y"
         ]
       },
@@ -5925,12 +5858,6 @@ export const componentTokenGroups = [
         "default": "0.5s"
       },
       {
-        "id": "nc-card-grid-anim-delay",
-        "label": "Anim Delay",
-        "type": "duration",
-        "default": "0.1s"
-      },
-      {
         "id": "nc-card-grid-anim-translate-y",
         "label": "Anim Translate Y",
         "type": "size",
@@ -5949,33 +5876,7 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-card-grid-cta-gap",
           "nc-card-grid-cta-padding",
-          "nc-card-grid-cta-radius",
-          "nc-card-grid-cta-title-size"
-        ]
-      },
-      {
-        "id": "typography",
-        "label": "Typografie",
-        "tokenIds": [
-          "nc-card-grid-cta-title-weight"
-        ]
-      },
-      {
-        "id": "colors",
-        "label": "Farben",
-        "category": "main",
-        "tokenIds": [
-          "nc-card-grid-cta-title-color",
-          "nc-card-grid-cta-overlay-start",
-          "nc-card-grid-cta-overlay-end"
-        ]
-      },
-      {
-        "id": "interaction",
-        "label": "Bewegung & Zustand",
-        "category": "state",
-        "tokenIds": [
-          "nc-card-grid-cta-hover-scale"
+          "nc-card-grid-cta-radius"
         ]
       },
       {
@@ -6010,42 +5911,6 @@ export const componentTokenGroups = [
         "label": "Radius",
         "type": "radius",
         "default": "var(--fnd-radius-md)"
-      },
-      {
-        "id": "nc-card-grid-cta-title-size",
-        "label": "Title Size",
-        "type": "size",
-        "default": "var(--fs-2xl)"
-      },
-      {
-        "id": "nc-card-grid-cta-title-weight",
-        "label": "Title Weight",
-        "type": "fontWeight",
-        "default": "var(--fnd-font-weight-bold)"
-      },
-      {
-        "id": "nc-card-grid-cta-title-color",
-        "label": "Title Color",
-        "type": "color",
-        "default": "var(--fnd-color-always-light)"
-      },
-      {
-        "id": "nc-card-grid-cta-overlay-start",
-        "label": "Overlay Start",
-        "type": "color",
-        "default": "rgba(0, 0, 0, 0.6)"
-      },
-      {
-        "id": "nc-card-grid-cta-overlay-end",
-        "label": "Overlay End",
-        "type": "color",
-        "default": "transparent"
-      },
-      {
-        "id": "nc-card-grid-cta-hover-scale",
-        "label": "Hover Scale",
-        "type": "generic",
-        "default": "1.03"
       }
     ]
   },
@@ -7271,7 +7136,6 @@ export const componentTokenGroups = [
           "nc-container-padding-inline",
           "nc-container-padding-inline-xxl",
           "nc-container-max-width-narrow",
-          "nc-container-max-width-content",
           "nc-container-padding-inline-constrained",
           "nc-container-padding-block-sm",
           "nc-container-padding-block-md",
@@ -7322,12 +7186,6 @@ export const componentTokenGroups = [
         "label": "Max Width Narrow",
         "type": "size",
         "default": "var(--container-narrow)"
-      },
-      {
-        "id": "nc-container-max-width-content",
-        "label": "Max Width Content",
-        "type": "size",
-        "default": "var(--container-content)"
       },
       {
         "id": "nc-container-padding-inline-constrained",
@@ -7839,12 +7697,6 @@ export const componentTokenGroups = [
         "default": "24px"
       },
       {
-        "id": "nc-dt-transition-duration",
-        "label": "Transition Duration",
-        "type": "keyword",
-        "default": "var(--fnd-motion-duration-200)"
-      },
-      {
         "id": "nc-dt-link-color",
         "label": "Link Color",
         "type": "color",
@@ -8043,12 +7895,6 @@ export const componentTokenGroups = [
         "default": "1.5"
       },
       {
-        "id": "nc-dt-stacked-breakpoint",
-        "label": "Nc Dt Stacked Breakpoint",
-        "type": "size",
-        "default": "768px"
-      },
-      {
         "id": "nc-dt-stacked-card-gap",
         "label": "Nc Dt Stacked Card Gap",
         "type": "spacing",
@@ -8228,13 +8074,6 @@ export const componentTokenGroups = [
         "category": "state",
         "tokenIds": [
           "nc-dt-glass-backdrop-blur"
-        ]
-      },
-      {
-        "id": "other",
-        "label": "Weitere",
-        "tokenIds": [
-          "nc-dt-stacked-breakpoint"
         ]
       }
     ]
@@ -9378,7 +9217,6 @@ export const componentTokenGroups = [
           "nc-fade-gallery-radius",
           "nc-fade-gallery-tab-size",
           "nc-fade-gallery-desc-size",
-          "nc-fade-gallery-headline-size",
           "nc-fade-gallery-tab-padding",
           "nc-fade-gallery-nav-gap"
         ]
@@ -9401,19 +9239,10 @@ export const componentTokenGroups = [
         ]
       },
       {
-        "id": "interaction",
-        "label": "Bewegung & Zustand",
-        "category": "state",
-        "tokenIds": [
-          "nc-fade-gallery-fade-duration"
-        ]
-      },
-      {
         "id": "other",
         "label": "Weitere",
         "tokenIds": [
           "nc-fade-gallery-tab-active",
-          "nc-fade-gallery-tab-indicator",
           "nc-fade-gallery-tab-family",
           "nc-fade-gallery-desc-measure"
         ]
@@ -9469,12 +9298,6 @@ export const componentTokenGroups = [
         "ref": "text-primary"
       },
       {
-        "id": "nc-fade-gallery-tab-indicator",
-        "label": "Tab Indicator",
-        "type": "color",
-        "ref": "interactive-default"
-      },
-      {
         "id": "nc-fade-gallery-desc-size",
         "label": "Desc Size",
         "type": "size",
@@ -9485,18 +9308,6 @@ export const componentTokenGroups = [
         "label": "Desc Color",
         "type": "color",
         "ref": "text-secondary"
-      },
-      {
-        "id": "nc-fade-gallery-fade-duration",
-        "label": "Fade Duration",
-        "type": "duration",
-        "default": "0.5s"
-      },
-      {
-        "id": "nc-fade-gallery-headline-size",
-        "label": "Headline Size",
-        "type": "size",
-        "default": "var(--fs-2xl)"
       },
       {
         "id": "nc-fade-gallery-tab-family",
@@ -9796,7 +9607,6 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-footer-padding-block",
-          "nc-footer-padding-inline",
           "nc-footer-max-width",
           "nc-footer-col-gap",
           "nc-footer-heading-size",
@@ -9904,12 +9714,6 @@ export const componentTokenGroups = [
         "label": "Padding Block",
         "type": "spacing",
         "default": "var(--fnd-spacing-10)"
-      },
-      {
-        "id": "nc-footer-padding-inline",
-        "label": "Padding Inline",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-06)"
       },
       {
         "id": "nc-footer-max-width",
@@ -11047,7 +10851,6 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-hero-min-height",
           "nc-hero-padding-block",
-          "nc-hero-padding-inline",
           "nc-hero-gap",
           "nc-hero-radius",
           "nc-hero-kicker-size",
@@ -11132,7 +10935,6 @@ export const componentTokenGroups = [
           "nc-hero-mark-tint",
           "nc-hero-mark-tint-on-light",
           "nc-hero-mark-tint-on-dark",
-          "nc-hero-footer-rule",
           "nc-hero-cards-rule-color",
           "nc-hero-cards-rule-accent",
           "nc-hero-cards-rule-on-dark",
@@ -11175,12 +10977,6 @@ export const componentTokenGroups = [
         "label": "Padding Block",
         "type": "spacing",
         "default": "var(--fnd-spacing-12)"
-      },
-      {
-        "id": "nc-hero-padding-inline",
-        "label": "Padding Inline",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-06)"
       },
       {
         "id": "nc-hero-gap",
@@ -11429,12 +11225,6 @@ export const componentTokenGroups = [
         "default": "var(--fnd-accent-300)"
       },
       {
-        "id": "nc-hero-footer-rule",
-        "label": "Fuß — Trennlinie",
-        "type": "color",
-        "default": "color-mix(in srgb, var(--nc-hero-color) 14%, transparent)"
-      },
-      {
         "id": "nc-hero-mark-thickness",
         "label": "Hervorhebung — Balkenhöhe",
         "type": "size",
@@ -11558,7 +11348,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-cards-rule-color",
         "label": "Trennlinie — Farbe",
         "type": "color",
-        "default": "var(--nc-hero-footer-rule)"
+        "default": "var(--nc-hero-cards-rule-on-dark)"
       },
       {
         "id": "nc-hero-cards-rule-accent",
@@ -11784,8 +11574,6 @@ export const componentTokenGroups = [
         "label": "Typografie",
         "tokenIds": [
           "nc-hero-tom-kicker-weight",
-          "nc-hero-tom-kicker-tracking",
-          "nc-hero-tom-kicker-transform",
           "nc-hero-tom-headline-weight"
         ]
       },
@@ -11831,18 +11619,6 @@ export const componentTokenGroups = [
         "label": "Kicker Weight",
         "type": "fontWeight",
         "default": "var(--nc-mono-label-weight-strong)"
-      },
-      {
-        "id": "nc-hero-tom-kicker-tracking",
-        "label": "Kicker Tracking",
-        "type": "size",
-        "default": "var(--nc-mono-tracking-caps)"
-      },
-      {
-        "id": "nc-hero-tom-kicker-transform",
-        "label": "Kicker Transform",
-        "type": "size",
-        "default": "uppercase"
       },
       {
         "id": "nc-hero-tom-headline-size",
@@ -12277,22 +12053,10 @@ export const componentTokenGroups = [
         "default": "var(--nc-form-control-filled-underline-color)"
       },
       {
-        "id": "nc-input-filled-underline-color-focus",
-        "label": "Filled Underline Color Focus",
-        "type": "color",
-        "default": "var(--nc-form-control-filled-underline-color-focus)"
-      },
-      {
         "id": "nc-input-borderless-bg-hover",
         "label": "Borderless BG Hover",
         "type": "color",
         "default": "var(--nc-form-control-minimal-bg-hover)"
-      },
-      {
-        "id": "nc-input-borderless-underline-focus",
-        "label": "Borderless Underline Focus",
-        "type": "generic",
-        "default": "var(--nc-form-control-minimal-border-focus)"
       },
       {
         "id": "nc-input-label-color",
@@ -12453,7 +12217,6 @@ export const componentTokenGroups = [
           "nc-input-filled-bg-hover",
           "nc-input-filled-bg-focus",
           "nc-input-filled-underline-color",
-          "nc-input-filled-underline-color-focus",
           "nc-input-borderless-bg-hover",
           "nc-input-label-color",
           "nc-input-label-color-focus",
@@ -12506,13 +12269,6 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-input-transition-duration",
           "nc-input-label-scale"
-        ]
-      },
-      {
-        "id": "other",
-        "label": "Weitere",
-        "tokenIds": [
-          "nc-input-borderless-underline-focus"
         ]
       }
     ]
@@ -12704,7 +12460,6 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-item-transition",
           "nc-item-disabled-opacity"
         ]
       },
@@ -12752,12 +12507,6 @@ export const componentTokenGroups = [
         "label": "Border Width",
         "type": "size",
         "default": "var(--fnd-border-width-xs)"
-      },
-      {
-        "id": "nc-item-transition",
-        "label": "Transition",
-        "type": "generic",
-        "default": "var(--fnd-motion-duration-200)"
       },
       {
         "id": "nc-item-title-font-size",
@@ -13134,7 +12883,6 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-label-transition-duration",
           "nc-label-disabled-opacity"
         ]
       }
@@ -13223,12 +12971,6 @@ export const componentTokenGroups = [
         "label": "Container Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-02)"
-      },
-      {
-        "id": "nc-label-transition-duration",
-        "label": "Transition Duration",
-        "type": "duration",
-        "default": "var(--fnd-motion-duration-200)"
       },
       {
         "id": "nc-label-letter-spacing",
@@ -13417,7 +13159,6 @@ export const componentTokenGroups = [
           "nc-logo-wall-item-width-sm",
           "nc-logo-wall-item-width-md",
           "nc-logo-wall-item-width-lg",
-          "nc-logo-wall-item-height",
           "nc-logo-wall-logo-max-height",
           "nc-logo-wall-marquee-gap"
         ]
@@ -13558,12 +13299,6 @@ export const componentTokenGroups = [
         "label": "Item Width LG",
         "type": "size",
         "default": "380px"
-      },
-      {
-        "id": "nc-logo-wall-item-height",
-        "label": "Item Height",
-        "type": "size",
-        "default": "auto"
       },
       {
         "id": "nc-logo-wall-logo-max-height",
@@ -13868,10 +13603,7 @@ export const componentTokenGroups = [
           "nc-metric-value-line-height",
           "nc-metric-unit-font-size",
           "nc-metric-unit-font-weight",
-          "nc-metric-label-font-family",
           "nc-metric-label-font-size",
-          "nc-metric-label-transform",
-          "nc-metric-label-tracking",
           "nc-metric-label-font-weight",
           "nc-metric-trend-font-size",
           "nc-metric-trend-font-weight",
@@ -13997,28 +13729,10 @@ export const componentTokenGroups = [
         "default": "var(--fnd-font-weight-bold)"
       },
       {
-        "id": "nc-metric-label-font-family",
-        "label": "Label Font Family",
-        "type": "fontFamily",
-        "default": "var(--font-mono)"
-      },
-      {
         "id": "nc-metric-label-font-size",
         "label": "Label Font Size",
         "type": "size",
         "default": "var(--nc-mono-label-size-sm)"
-      },
-      {
-        "id": "nc-metric-label-transform",
-        "label": "Label Transform",
-        "type": "size",
-        "default": "uppercase"
-      },
-      {
-        "id": "nc-metric-label-tracking",
-        "label": "Label Tracking",
-        "type": "size",
-        "default": "var(--nc-mono-tracking-caps)"
       },
       {
         "id": "nc-metric-label-color",
@@ -14469,7 +14183,6 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-notification-close-opacity",
           "nc-notification-close-opacity-hover",
-          "nc-notification-transition-duration",
           "nc-notification-dismiss-duration"
         ]
       }
@@ -14684,12 +14397,6 @@ export const componentTokenGroups = [
         "label": "Promo Color",
         "type": "color",
         "ref": "feedback-success"
-      },
-      {
-        "id": "nc-notification-transition-duration",
-        "label": "Transition Duration",
-        "type": "duration",
-        "default": "var(--fnd-motion-duration-200)"
       },
       {
         "id": "nc-notification-dismiss-duration",
@@ -16680,18 +16387,6 @@ export const componentTokenGroups = [
         "ref": "text-tertiary"
       },
       {
-        "id": "nc-search-clear-color-hover",
-        "label": "Clear Color Hover",
-        "type": "color",
-        "ref": "text-primary"
-      },
-      {
-        "id": "nc-search-results-top-offset",
-        "label": "Results Top Offset",
-        "type": "size",
-        "default": "0"
-      },
-      {
         "id": "nc-search-backdrop-bg",
         "label": "Backdrop BG",
         "type": "color",
@@ -16702,12 +16397,6 @@ export const componentTokenGroups = [
         "label": "Backdrop Opacity",
         "type": "opacity",
         "default": "0.35"
-      },
-      {
-        "id": "nc-search-backdrop-z-index",
-        "label": "Backdrop Z Index",
-        "type": "generic",
-        "default": "calc(var(--fnd-z-dropdown) - 1)"
       },
       {
         "id": "nc-search-mobile-header-height",
@@ -16744,7 +16433,6 @@ export const componentTokenGroups = [
           "nc-search-command-max-width",
           "nc-search-command-radius",
           "nc-search-clear-size",
-          "nc-search-results-top-offset",
           "nc-search-mobile-header-height",
           "nc-search-mobile-results-max-height"
         ]
@@ -16773,7 +16461,6 @@ export const componentTokenGroups = [
           "nc-search-command-overlay-bg",
           "nc-search-ghost-color",
           "nc-search-clear-color",
-          "nc-search-clear-color-hover",
           "nc-search-backdrop-bg",
           "nc-search-mobile-bg"
         ]
@@ -16783,8 +16470,7 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-search-backdrop-opacity",
-          "nc-search-backdrop-z-index"
+          "nc-search-backdrop-opacity"
         ]
       }
     ]
@@ -16886,8 +16572,7 @@ export const componentTokenGroups = [
           "nc-section-padding-block",
           "nc-section-padding-block-sm",
           "nc-section-padding-block-lg",
-          "nc-section-divider-width",
-          "nc-section-edge-height"
+          "nc-section-divider-width"
         ]
       },
       {
@@ -16903,19 +16588,15 @@ export const componentTokenGroups = [
         "label": "Farben",
         "category": "main",
         "tokenIds": [
-          "nc-section-accent-bg",
-          "nc-section-accent-color",
           "nc-section-accent-color-secondary",
-          "nc-section-divider-color",
-          "nc-section-edge-fill"
+          "nc-section-divider-color"
         ]
       },
       {
         "id": "other",
         "label": "Weitere",
         "tokenIds": [
-          "nc-section-divider-style",
-          "nc-section-edge-angle"
+          "nc-section-divider-style"
         ]
       }
     ],
@@ -16951,18 +16632,6 @@ export const componentTokenGroups = [
         "ref": "text-primary"
       },
       {
-        "id": "nc-section-accent-bg",
-        "label": "Accent BG",
-        "type": "color",
-        "ref": "interactive-default"
-      },
-      {
-        "id": "nc-section-accent-color",
-        "label": "Accent Color",
-        "type": "color",
-        "ref": "text-on-interactive"
-      },
-      {
         "id": "nc-section-accent-color-secondary",
         "label": "Accent Color Secondary",
         "type": "color",
@@ -16985,24 +16654,6 @@ export const componentTokenGroups = [
         "label": "Divider Style",
         "type": "generic",
         "default": "solid"
-      },
-      {
-        "id": "nc-section-edge-height",
-        "label": "Edge Height",
-        "type": "size",
-        "default": "48px"
-      },
-      {
-        "id": "nc-section-edge-angle",
-        "label": "Edge Angle",
-        "type": "generic",
-        "default": "3deg"
-      },
-      {
-        "id": "nc-section-edge-fill",
-        "label": "Edge Fill",
-        "type": "color",
-        "ref": "background-base"
       }
     ]
   },
@@ -17526,10 +17177,8 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-shell-sidebar-left-width-narrow",
-          "nc-shell-sidebar-left-width-standard",
           "nc-shell-sidebar-left-width-wide",
           "nc-shell-sidebar-right-width-narrow",
-          "nc-shell-sidebar-right-width-standard",
           "nc-shell-sidebar-right-width-wide",
           "nc-shell-banner-padding"
         ]
@@ -17557,10 +17206,8 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-shell-z-linkbar",
           "nc-shell-z-footerbar",
           "nc-shell-z-navbar",
-          "nc-shell-z-sidebar",
           "nc-shell-z-overlay",
           "nc-shell-z-drawer",
           "nc-shell-skip-link-z"
@@ -17665,12 +17312,6 @@ export const componentTokenGroups = [
         "default": "200px"
       },
       {
-        "id": "nc-shell-sidebar-left-width-standard",
-        "label": "Sidebar Left Width Standard",
-        "type": "size",
-        "default": "260px"
-      },
-      {
         "id": "nc-shell-sidebar-left-width-wide",
         "label": "Sidebar Left Width Wide",
         "type": "size",
@@ -17683,22 +17324,10 @@ export const componentTokenGroups = [
         "default": "160px"
       },
       {
-        "id": "nc-shell-sidebar-right-width-standard",
-        "label": "Sidebar Right Width Standard",
-        "type": "size",
-        "default": "260px"
-      },
-      {
         "id": "nc-shell-sidebar-right-width-wide",
         "label": "Sidebar Right Width Wide",
         "type": "size",
         "default": "300px"
-      },
-      {
-        "id": "nc-shell-z-linkbar",
-        "label": "Z Linkbar",
-        "type": "generic",
-        "default": "var(--fnd-z-base, 1)"
       },
       {
         "id": "nc-shell-z-footerbar",
@@ -17711,12 +17340,6 @@ export const componentTokenGroups = [
         "label": "Z Navbar",
         "type": "generic",
         "default": "var(--fnd-z-header)"
-      },
-      {
-        "id": "nc-shell-z-sidebar",
-        "label": "Z Sidebar",
-        "type": "generic",
-        "default": "var(--fnd-z-sidebar)"
       },
       {
         "id": "nc-shell-z-overlay",
@@ -18801,8 +18424,7 @@ export const componentTokenGroups = [
           "nc-story-gallery-radius",
           "nc-story-gallery-title-size",
           "nc-story-gallery-desc-size",
-          "nc-story-gallery-paddle-size",
-          "nc-story-gallery-headline-size"
+          "nc-story-gallery-paddle-size"
         ]
       },
       {
@@ -18902,12 +18524,6 @@ export const componentTokenGroups = [
         "label": "Paddle Shadow",
         "type": "color",
         "default": "var(--fnd-shadow-md)"
-      },
-      {
-        "id": "nc-story-gallery-headline-size",
-        "label": "Headline Size",
-        "type": "size",
-        "default": "var(--fs-2xl)"
       }
     ]
   },
@@ -19191,7 +18807,6 @@ export const componentTokenGroups = [
           "nc-table-sort-icon-color",
           "nc-table-sort-icon-color-active",
           "nc-table-color",
-          "nc-table-color-secondary",
           "nc-table-ghost-header-bg",
           "nc-table-ghost-header-color",
           "nc-table-ghost-border-color"
@@ -19202,8 +18817,7 @@ export const componentTokenGroups = [
         "label": "Bewegung & Zustand",
         "category": "state",
         "tokenIds": [
-          "nc-table-sticky-z-index",
-          "nc-table-transition-duration"
+          "nc-table-sticky-z-index"
         ]
       }
     ],
@@ -19393,18 +19007,6 @@ export const componentTokenGroups = [
         "label": "Color",
         "type": "color",
         "ref": "text-primary"
-      },
-      {
-        "id": "nc-table-color-secondary",
-        "label": "Color Secondary",
-        "type": "color",
-        "ref": "text-secondary"
-      },
-      {
-        "id": "nc-table-transition-duration",
-        "label": "Transition Duration",
-        "type": "duration",
-        "default": "var(--fnd-motion-duration-150)"
       },
       {
         "id": "nc-table-ghost-header-bg",
@@ -19661,12 +19263,6 @@ export const componentTokenGroups = [
         "label": "Gap",
         "type": "size",
         "default": "var(--fnd-spacing-02)"
-      },
-      {
-        "id": "nc-tag-transition-duration",
-        "label": "Transition Duration",
-        "type": "duration",
-        "default": "var(--fnd-motion-duration-200)"
       },
       {
         "id": "nc-tag-default-bg",
@@ -20027,13 +19623,6 @@ export const componentTokenGroups = [
           "nc-tag-disabled-border",
           "nc-tag-opacity-disabled"
         ]
-      },
-      {
-        "id": "animation",
-        "label": "Animation",
-        "tokenIds": [
-          "nc-tag-transition-duration"
-        ]
       }
     ],
     "subgroups": [
@@ -20386,18 +19975,9 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-text-media-gap",
-          "nc-text-media-headline-size",
           "nc-text-media-content-gap",
           "nc-text-media-video-radius",
           "nc-text-media-device-width"
-        ]
-      },
-      {
-        "id": "colors",
-        "label": "Farben",
-        "category": "main",
-        "tokenIds": [
-          "nc-text-media-subline-color"
         ]
       }
     ],
@@ -20413,18 +19993,6 @@ export const componentTokenGroups = [
         "label": "Gap",
         "type": "spacing",
         "default": "var(--fnd-spacing-08)"
-      },
-      {
-        "id": "nc-text-media-headline-size",
-        "label": "Headline Size",
-        "type": "size",
-        "default": "var(--fs-2xl)"
-      },
-      {
-        "id": "nc-text-media-subline-color",
-        "label": "Subline Color",
-        "type": "color",
-        "ref": "text-secondary"
       },
       {
         "id": "nc-text-media-content-gap",
@@ -21803,7 +21371,6 @@ export const componentTokenGroups = [
           "nc-treeview-action-gap",
           "nc-treeview-action-size",
           "nc-treeview-checkbox-size",
-          "nc-treeview-checkbox-gap",
           "nc-treeview-badge-radius",
           "nc-treeview-badge-padding",
           "nc-treeview-drop-indicator-width",
@@ -21857,13 +21424,6 @@ export const componentTokenGroups = [
           "nc-treeview-guide-opacity",
           "nc-treeview-drag-opacity",
           "nc-treeview-expand-duration"
-        ]
-      },
-      {
-        "id": "other",
-        "label": "Weitere",
-        "tokenIds": [
-          "nc-treeview-guide-style"
         ]
       }
     ],
@@ -22031,12 +21591,6 @@ export const componentTokenGroups = [
         "default": "1px"
       },
       {
-        "id": "nc-treeview-guide-style",
-        "label": "Guide Style",
-        "type": "generic",
-        "default": "solid"
-      },
-      {
         "id": "nc-treeview-guide-opacity",
         "label": "Guide Opacity",
         "type": "opacity",
@@ -22071,12 +21625,6 @@ export const componentTokenGroups = [
         "label": "Checkbox Size",
         "type": "size",
         "default": "16px"
-      },
-      {
-        "id": "nc-treeview-checkbox-gap",
-        "label": "Checkbox Gap",
-        "type": "spacing",
-        "default": "var(--fnd-spacing-02)"
       },
       {
         "id": "nc-treeview-badge-font-size",

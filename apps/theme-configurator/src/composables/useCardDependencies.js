@@ -61,7 +61,6 @@ const DEPENDENCY_RULES = [
     },
     effects: {
       'nc-card-padding': 'var(--fnd-spacing-sm)',
-      'nc-card-header-padding': 'var(--fnd-spacing-sm)',
       'nc-card-content-padding': 'var(--fnd-spacing-sm)',
       'nc-card-footer-padding': 'var(--fnd-spacing-sm)',
       'nc-card-title-font-size': 'var(--fs-sm)'

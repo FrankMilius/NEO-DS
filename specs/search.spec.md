@@ -1,5 +1,5 @@
 # search Component Spec
-> Version 3.0.0 | Status: stable | Layer: molecule
+> Version 3.0.1 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `form`, `navigation`, `combobox`
 
@@ -140,7 +140,6 @@ Base classes: `nc-search`
 | `--nc-search-results-padding` | — | `--mod-search-results-padding` |
 | `--nc-search-results-z-index` | — | `--mod-search-results-z-index` |
 | `--nc-search-results-animation` | — | `--mod-search-results-animation` |
-| `--nc-search-results-top-offset` | — | — |
 
 ### Item
 | Token | CSS Property | Override |
@@ -180,7 +179,6 @@ Base classes: `nc-search`
 | --- | --- | --- |
 | `--nc-search-clear-size` | — | — |
 | `--nc-search-clear-color` | — | — |
-| `--nc-search-clear-color-hover` | — | — |
 
 ### Scope
 | Token | CSS Property | Override |
@@ -234,7 +232,6 @@ Base classes: `nc-search`
 | --- | --- | --- |
 | `--nc-search-backdrop-bg` | — | — |
 | `--nc-search-backdrop-opacity` | — | — |
-| `--nc-search-backdrop-z-index` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

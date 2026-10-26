@@ -1,5 +1,5 @@
 # logo-wall Component Spec
-> Version 2.3.0 | Status: stable | Layer: molecule
+> Version 2.3.1 | Status: stable | Layer: molecule
 
 Tags: `display`, `branding`, `logos`, `partner`, `marquee`
 
@@ -95,7 +95,6 @@ Base classes: `nc-logo-wall`
 | `--nc-logo-wall-item-width-sm` | — | `--mod-logo-wall-item-width-sm` |
 | `--nc-logo-wall-item-width-md` | — | — |
 | `--nc-logo-wall-item-width-lg` | — | `--mod-logo-wall-item-width-lg` |
-| `--nc-logo-wall-item-height` | — | — |
 | `--nc-logo-wall-logo-max-height` | — | `--mod-logo-wall-logo-max-height` |
 
 ### Logo Image

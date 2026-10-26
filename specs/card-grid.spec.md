@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.3.0 | Status: stable | Layer: organism
+> Version 1.3.1 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -49,7 +49,6 @@ Base classes: `nc-card-grid`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-card-grid-anim-duration` | — | `--mod-card-grid-anim-duration` |
-| `--nc-card-grid-anim-delay` | — | — |
 | `--nc-card-grid-anim-translate-y` | — | `--mod-card-grid-anim-translate-y` |
 
 ## Keyboard Interactions

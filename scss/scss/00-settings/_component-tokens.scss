@@ -272,7 +272,6 @@
   --nc-card-shadow-hover: var(--fnd-elevation-floating);
 
   // -- Card: Header --
-  --nc-card-header-padding: var(--fnd-spacing-06) var(--fnd-spacing-06) 0;
   --nc-card-header-gap: var(--fnd-spacing-02);
 
   // -- Card: Content --
@@ -327,7 +326,6 @@
   // Text (Titel -> Akzent, Footer -> interactive). Farbe als Hover-Signal ist
   // die schwaechste Variante: sie trifft nur Text, wandert bei Themewechsel
   // und kollidiert mit der Bedeutung der Akzentfarbe.
-  --nc-card-transition-duration: var(--fnd-motion-duration-200);
   --nc-card-hover-border: var(--fnd-color-interactive-default);
   --nc-card-hover-surface: var(--fnd-color-background-hover);
   --nc-card-hover-lift: -6px;
@@ -338,8 +336,6 @@
   --nc-card-hover-ease: var(--fnd-motion-ease-informative);
 
   // -- Card: Navigational --
-  --nc-card-nav-color-hover: var(--fnd-color-interactive-hover);
-  --nc-card-link-decoration: none;
   --nc-card-link-hover-decoration: none;
 
   // -- Card: Selectable --
@@ -477,11 +473,9 @@
   --nc-input-filled-bg-focus: var(--nc-form-control-filled-bg-focus);
   --nc-input-filled-underline-width: var(--nc-form-control-filled-border-bottom);
   --nc-input-filled-underline-color: var(--nc-form-control-filled-underline-color);
-  --nc-input-filled-underline-color-focus: var(--nc-form-control-filled-underline-color-focus);
 
   // -- Borderless Variant (Aliase von Shared Tokens) --
   --nc-input-borderless-bg-hover: var(--nc-form-control-minimal-bg-hover);
-  --nc-input-borderless-underline-focus: var(--nc-form-control-minimal-border-focus);
 
   // -- Floating Label --
   --nc-input-label-color: var(--fnd-color-text-secondary);
@@ -1018,7 +1012,6 @@
   --nc-alert-line-height: var(--lh-relaxed);
   --nc-alert-title-font-weight: var(--fnd-font-weight-semibold);
   --nc-alert-description-opacity: var(--fnd-opacity-subtle);
-  --nc-alert-close-size: 20px;
 
   // Info
   --nc-alert-info-bg: var(--fnd-color-background-info);
@@ -1148,10 +1141,8 @@
   // Density
   --nc-accordion-padding-compact-block:  var(--fnd-spacing-03);
   --nc-accordion-padding-compact-inline: var(--fnd-spacing-04);
-  --nc-accordion-padding-compact: var(--nc-accordion-padding-compact-block) var(--nc-accordion-padding-compact-inline);
   --nc-accordion-padding-spacious-block:  var(--fnd-spacing-06);
   --nc-accordion-padding-spacious-inline: var(--fnd-spacing-07);
-  --nc-accordion-padding-spacious: var(--nc-accordion-padding-spacious-block) var(--nc-accordion-padding-spacious-inline);
   --nc-accordion-content-font-size: var(--fnd-typography-paragraph-m-font-size);
   --nc-accordion-content-font-size-compact: var(--fnd-typography-paragraph-s-font-size);
 
@@ -1301,7 +1292,6 @@
   // -- Colors --
   --nc-avatar-bg: var(--fnd-color-background-tertiary);
   --nc-avatar-color: var(--fnd-color-text-primary);
-  --nc-avatar-border-color: var(--fnd-color-border-primary);
 
   // -- Ring (Abgrenzung auf aehnlichen Hintergruenden) --
   --nc-avatar-ring-width: 2px;
@@ -1341,9 +1331,6 @@
   // -- Hash-Color Fallback (CSS-Custom-Property, gesetzt per JS) --
   --nc-avatar-hash-bg: var(--nc-avatar-bg);
   --nc-avatar-hash-color: var(--nc-avatar-color);
-
-  // -- Transition --
-  --nc-avatar-transition-duration: var(--fnd-motion-duration-200);
 
   // -- Deprecated (backward-compat) --
   /// @deprecated Use --nc-avatar-size-lg instead
@@ -1446,7 +1433,6 @@
   // -- Guide-Lines (vertikale Verbindungslinien) --
   --nc-treeview-guide-color: var(--fnd-color-border-secondary);
   --nc-treeview-guide-width: 1px;
-  --nc-treeview-guide-style: solid;                            // solid, dashed, none
   --nc-treeview-guide-opacity: 0.5;
 
   // -- Action-Slot (Hover-sichtbare Aktionen rechts) --
@@ -1457,7 +1443,6 @@
 
   // -- Checkbox-Mode (Multi-Select) --
   --nc-treeview-checkbox-size: 16px;
-  --nc-treeview-checkbox-gap: var(--fnd-spacing-02);
 
   // -- Badge --
   --nc-treeview-badge-font-size: var(--fs-2xs);
@@ -1511,7 +1496,6 @@
   --nc-label-font-weight: var(--nc-badge-font-weight);
   --nc-label-gap: var(--fnd-spacing-01);                     // 4px (Icon-Text)
   --nc-label-container-gap: var(--fnd-spacing-02);           // 8px (Label-zu-Label)
-  --nc-label-transition-duration: var(--fnd-motion-duration-200);
   --nc-label-letter-spacing: 0.01em;
 
   // -- Icon --
@@ -1647,7 +1631,6 @@
   --nc-tag-font-size-lg: var(--fs-base);                   // 16px
   --nc-tag-font-weight: var(--fnd-font-weight-semibold);
   --nc-tag-gap: var(--fnd-spacing-02);                 // 8px
-  --nc-tag-transition-duration: var(--fnd-motion-duration-200);
 
   // -- Default --
   --nc-tag-default-bg: var(--fnd-color-background-secondary);
@@ -1798,7 +1781,6 @@
   --nc-item-radius: var(--nc-input-radius);
   --nc-item-align: center;
   --nc-item-border-width: var(--fnd-border-width-xs);
-  --nc-item-transition: var(--fnd-motion-duration-200);
 
   // -- Typography --
   --nc-item-title-font-size: var(--fs-sm);
@@ -2126,9 +2108,6 @@
 
   // -- Focus --
 
-  // -- Transition --
-  --nc-dt-transition-duration:    var(--fnd-motion-duration-200);
-
   // ====================================================================
   // DataTable — Spaltentypen (Column Data Types)
   // ====================================================================
@@ -2174,7 +2153,6 @@
   // ====================================================================
 
   // -- Stacked Layout (Mobile Card View) --
-  --nc-dt-stacked-breakpoint:        768px;                                   // Unterhalb: Card-Layout
   --nc-dt-stacked-card-gap:          var(--fnd-spacing-03);                   // Gap zwischen Cards
   --nc-dt-stacked-card-padding:      var(--fnd-spacing-04);                   // Padding in Cards
   --nc-dt-stacked-card-radius:       var(--fnd-radius-sm);                    // Card-Ecken
@@ -2283,8 +2261,6 @@
   // -- Typography --
   --nc-table-font-size: var(--fs-sm);
   --nc-table-color: var(--fnd-color-text-primary);
-  --nc-table-color-secondary: var(--fnd-color-text-secondary);
-  --nc-table-transition-duration: var(--fnd-motion-duration-150);
 
   // -- Ghost Variant (dezent, fuer Card-Integration) --
   --nc-table-ghost-header-bg: transparent;
@@ -2449,7 +2425,6 @@
   --nc-logo-wall-item-width-sm:        200px;
   --nc-logo-wall-item-width-md:        260px;
   --nc-logo-wall-item-width-lg:        380px;
-  --nc-logo-wall-item-height:          auto;
 
   // -- Logo Image --
   // Die Hoehe begrenzt die BILDDATEI, nicht die Wortmarke darin. Gemessen an
@@ -2762,7 +2737,6 @@
   --nc-notification-promo-color:         var(--fnd-color-feedback-success);
 
   // Animation
-  --nc-notification-transition-duration: var(--fnd-motion-duration-200);
   --nc-notification-dismiss-duration:    var(--fnd-motion-duration-300);
 }
 
@@ -3471,7 +3445,6 @@
   --nc-hero-color:                 var(--fnd-color-always-light);
   --nc-hero-min-height:            60dvh;
   --nc-hero-padding-block:         var(--fnd-spacing-12);
-  --nc-hero-padding-inline:        var(--fnd-spacing-06);
   --nc-hero-gap:                   var(--fnd-spacing-08);
   --nc-hero-radius:                0;
 
@@ -3557,7 +3530,6 @@
   --nc-hero-footer-margin-top:     var(--fnd-spacing-08);
   --nc-hero-footer-gap:            var(--fnd-spacing-06);
   --nc-hero-cards-gap:             var(--fnd-spacing-06);
-  --nc-hero-footer-rule:           color-mix(in srgb, var(--nc-hero-color) 14%, transparent);
 
   // -- Typografie der Kennzahlen --
   // Vorher kam der Wert aus dem Molekuel .nc-metric: fs-6xl in Monospace.
@@ -3607,7 +3579,8 @@
   // Die Linie nimmt die Werte, die auch der sekundaere Button fuer seinen
   // Rahmen nimmt: neutral-900 im hellen, neutral-100 im dunklen Modus.
   //
-  // Vorher stand hier --nc-hero-footer-rule, also 14 % der Hero-Schriftfarbe.
+  // Vorher stand hier das Fusslinien-Token des Heros (R14 Paket 5 geloescht),
+  // also 14 % der Hero-Schriftfarbe.
   // Bei 2 px Staerke war davon nichts zu sehen; gemessen ergab es auf heller
   // Flaeche color-mix(#ffffff 14%, transparent).
   //
@@ -3835,8 +3808,6 @@
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-text-media-gap:             var(--fnd-spacing-08);
-  --nc-text-media-headline-size:   var(--fs-2xl);
-  --nc-text-media-subline-color:   var(--fnd-color-text-secondary);
   --nc-text-media-content-gap:     var(--fnd-spacing-04);
   --nc-text-media-video-radius:    var(--fnd-radius-md);
 }
@@ -3905,7 +3876,6 @@
 
   // Animation — Reverse Domino (staggered slide-up)
   --nc-card-grid-anim-duration:    0.5s;
-  --nc-card-grid-anim-delay:       0.1s;
   --nc-card-grid-anim-translate-y: 2rem;
 }
 
@@ -4041,15 +4011,10 @@
   // -- Clear Trigger (v3.0) --
   --nc-search-clear-size:         20px;
   --nc-search-clear-color:        var(--fnd-color-text-tertiary);
-  --nc-search-clear-color-hover:  var(--fnd-color-text-primary);
-
-  // -- Results Top-Offset (Nav-Integration, v3.0) --
-  --nc-search-results-top-offset: 0;
 
   // -- Backdrop (Nav-Integration, v3.0) --
   --nc-search-backdrop-bg:        var(--fnd-color-always-dark);
   --nc-search-backdrop-opacity:   0.35;
-  --nc-search-backdrop-z-index:   calc(var(--fnd-z-dropdown) - 1);
 
   // -- Mobile Full-Screen (v3.0) --
   --nc-search-mobile-header-height: 56px;
@@ -4193,10 +4158,7 @@
   --nc-metric-unit-font-weight:    var(--fnd-font-weight-bold);
 
   // Label (Beschriftung ueber dem Wert)
-  --nc-metric-label-font-family:   var(--font-mono);
   --nc-metric-label-font-size:     var(--nc-mono-label-size-sm);
-  --nc-metric-label-transform:     uppercase;
-  --nc-metric-label-tracking:      var(--nc-mono-tracking-caps);
   --nc-metric-label-color:         var(--fnd-color-text-inverse);
   --nc-metric-label-font-weight:   var(--fnd-font-weight-medium);
   --nc-metric-label-opacity:       0.75;
@@ -4259,10 +4221,8 @@
 
   // -- Sidebar Density (narrow / standard / wide) --
   --nc-shell-sidebar-left-width-narrow: 200px;
-  --nc-shell-sidebar-left-width-standard: 260px;
   --nc-shell-sidebar-left-width-wide: 320px;
   --nc-shell-sidebar-right-width-narrow: 160px;
-  --nc-shell-sidebar-right-width-standard: 260px;
   --nc-shell-sidebar-right-width-wide: 300px;
 
   // -- Footerbar --
@@ -4281,11 +4241,9 @@
   --nc-shell-content-padding: 0;
 
   // -- Z-Index Governance --
-  // Feste Rangfolge: linkbar < footerbar < navbar < sidebar(desktop) < overlay < drawer(mobile)
-  --nc-shell-z-linkbar: var(--fnd-z-base, 1);
+  // Feste Rangfolge: footerbar < navbar < overlay < drawer(mobile)
   --nc-shell-z-footerbar: var(--fnd-z-sticky);
   --nc-shell-z-navbar: var(--fnd-z-header);
-  --nc-shell-z-sidebar: var(--fnd-z-sidebar);
   --nc-shell-z-overlay: calc(var(--fnd-z-drawer) - 1);
   --nc-shell-z-drawer: var(--fnd-z-drawer);
 
@@ -4401,7 +4359,6 @@
   // bleibt unveraendert (Shell-Breite der Navigation Tab-Mega).
   --nc-container-max-width-wide: 1600px;
   --nc-container-max-width-narrow: var(--container-narrow);
-  --nc-container-max-width-content: var(--container-content);
 
   // Fluid Inline Padding (skaliert mit Viewport)
   --nc-container-padding-inline: clamp(16px, 3.5vw, 48px);
@@ -4448,7 +4405,6 @@
   --nc-footer-bg:                    var(--fnd-color-background-base);
   --nc-footer-color:                 var(--fnd-color-text-primary);
   --nc-footer-padding-block:         var(--fnd-spacing-10);
-  --nc-footer-padding-inline:        var(--fnd-spacing-06);
   --nc-footer-max-width:             var(--container-max-width, 1440px);
   --nc-footer-separator-color:       var(--fnd-color-border-secondary);
   --nc-footer-link-color:            var(--fnd-color-text-secondary);
@@ -4513,19 +4469,12 @@
   --nc-section-color: var(--fnd-color-text-primary);
 
   // Accent Surface
-  --nc-section-accent-bg: var(--fnd-color-interactive-default);
-  --nc-section-accent-color: var(--fnd-color-text-on-interactive);
   --nc-section-accent-color-secondary: color-mix(in srgb, var(--fnd-color-text-on-interactive) 75%, transparent);
 
   // Divider
   --nc-section-divider-color: var(--fnd-color-border-primary);
   --nc-section-divider-width: 1px;
   --nc-section-divider-style: solid;
-
-  // Edge Shape
-  --nc-section-edge-height: 48px;
-  --nc-section-edge-angle: 3deg;
-  --nc-section-edge-fill: var(--fnd-color-background-base);
 
   // ---------------------------------------------------------------------------
   // Section Header — Label + Titel + Untertitel ueber Inhaltsabschnitten
@@ -4759,7 +4708,6 @@
   --nc-table-sort-icon-color: var(--fnd-color-text-tertiary);
   --nc-table-sort-icon-color-active: var(--fnd-color-text-primary);
   --nc-table-color: var(--fnd-color-text-primary);
-  --nc-table-color-secondary: var(--fnd-color-text-secondary);
   --nc-table-ghost-header-color: var(--fnd-color-text-secondary);
 }
 
@@ -4844,12 +4792,6 @@
   --nc-card-grid-cta-gap:            var(--fnd-spacing-04);
   --nc-card-grid-cta-padding:        var(--fnd-spacing-06);
   --nc-card-grid-cta-radius:         var(--fnd-radius-md);
-  --nc-card-grid-cta-title-size:     var(--fs-2xl);
-  --nc-card-grid-cta-title-weight:   var(--fnd-font-weight-bold);
-  --nc-card-grid-cta-title-color:    var(--fnd-color-always-light);
-  --nc-card-grid-cta-overlay-start:  rgba(0, 0, 0, 0.6);
-  --nc-card-grid-cta-overlay-end:    transparent;
-  --nc-card-grid-cta-hover-scale:    1.03;
 }
 
 // ---------------------------------------------------------------------------
@@ -4870,7 +4812,6 @@
   --nc-story-gallery-paddle-size:    44px;
   --nc-story-gallery-paddle-bg:      var(--fnd-color-surface-elevated);
   --nc-story-gallery-paddle-shadow:  var(--fnd-shadow-md);
-  --nc-story-gallery-headline-size:  var(--fs-2xl);
 }
 
 // ---------------------------------------------------------------------------
@@ -4911,7 +4852,6 @@
   --nc-fade-gallery-tab-padding:     var(--fnd-spacing-04) var(--fnd-spacing-05);
   --nc-fade-gallery-tab-color:       var(--fnd-color-text-secondary);
   --nc-fade-gallery-tab-active:      var(--fnd-color-text-primary);
-  --nc-fade-gallery-tab-indicator:   var(--fnd-color-interactive-default);
 
   --nc-fade-gallery-desc-size:       var(--nc-type-body-m-size);
   --nc-fade-gallery-desc-measure:    62ch;
@@ -4931,8 +4871,6 @@
   --nc-fade-gallery-desc-is-visible-opacity: 1;
   // radius-null: der bisher wirksame Wert (die Dublette in _component-tokens-aufgenommen.scss gewann).
   --nc-fade-gallery-tab-aria-selected-true-after-border-radius: var(--fnd-radius-null);
-  --nc-fade-gallery-fade-duration:   0.5s;
-  --nc-fade-gallery-headline-size:   var(--fs-2xl);
 }
 
 // ---------------------------------------------------------------------------
@@ -4945,8 +4883,6 @@
   --nc-hero-tom-kicker-family:       var(--font-mono);
   --nc-hero-tom-kicker-size:         var(--nc-mono-label-size-lg);
   --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight-strong);
-  --nc-hero-tom-kicker-tracking:     var(--nc-mono-tracking-caps);
-  --nc-hero-tom-kicker-transform:    uppercase;
   --nc-hero-tom-headline-size:       var(--fs-5xl);
   --nc-hero-tom-headline-weight:     var(--fnd-font-weight-bold);
   --nc-hero-tom-subtext-size:        var(--fs-xl);

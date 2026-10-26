@@ -1,5 +1,5 @@
 # treeview Component Spec
-> Version 2.1.0 | Status: stable | Layer: molecule
+> Version 2.1.1 | Status: stable | Layer: molecule
 
 Tags: `navigation`, `interactive`, `hierarchy`
 
@@ -146,7 +146,6 @@ Base classes: `nc-treeview`
 | --- | --- | --- |
 | `--nc-treeview-guide-color` | — | `--mod-treeview-guide-color` |
 | `--nc-treeview-guide-width` | — | `--mod-treeview-guide-width` |
-| `--nc-treeview-guide-style` | — | — |
 | `--nc-treeview-guide-opacity` | — | `--mod-treeview-guide-opacity` |
 
 ### Action-Slot
@@ -161,7 +160,6 @@ Base classes: `nc-treeview`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-treeview-checkbox-size` | — | `--mod-treeview-checkbox-size` |
-| `--nc-treeview-checkbox-gap` | — | — |
 
 ### Badge
 | Token | CSS Property | Override |

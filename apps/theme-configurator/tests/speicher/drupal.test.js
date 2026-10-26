@@ -278,6 +278,19 @@ describe('Store mit Drupal-Speicher', () => {
     expect(store.state.primitiveOverrides.neo.primary).toBe(STANDARD.primitiveOverrides.neo.primary)
   })
 
+  it('oeffneTheme verwirft Werte gelöschter Tokens (R14 Paket 5) und meldet sie; Speichern entfernt sie in Drupal', async () => {
+    const { server } = mitServer()
+    await store.speichereTheme('ACME', '1.0.0')
+    server.dok.abweichungen = { componentOverrides: { customer: { 'nc-card-nav-color-hover': '#37e93d', 'nc-hero-padding-inline': '40px', 'nc-card-hover-border': '#111111' } } }
+    expect(await store.oeffneTheme('t1')).toBe(true)
+    expect(store.state.componentOverrides.customer['nc-card-hover-border']).toBe('#111111')
+    expect(store.state.componentOverrides.customer).not.toHaveProperty('nc-card-nav-color-hover')
+    expect(store.state.componentOverrides.customer).not.toHaveProperty('nc-hero-padding-inline')
+    expect(store.state.verworfeneTokens.map(v => v.token)).toEqual(['nc-card-nav-color-hover', 'nc-hero-padding-inline'])
+    await store.speichereTheme()
+    expect(server.dok.abweichungen.componentOverrides.customer).toEqual({ 'nc-card-hover-border': '#111111' })
+  })
+
   it('veroeffentlicheTheme: Kontrast-Tor sperrt ohne Serveraufruf; bestanden -> CSS + Kontrast gesendet', async () => {
     const { f } = mitServer()
     await store.speichereTheme('ACME', '1.0.0')

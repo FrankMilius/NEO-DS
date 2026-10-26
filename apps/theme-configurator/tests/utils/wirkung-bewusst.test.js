@@ -3,7 +3,8 @@
 // nc-hero-cards-rule-color (V09) bleiben absichtlich ohne Wirkung und zählen
 // nicht als Mangel — nur diese feste Liste, kein Muster. Nachbesserung 3a
 // (Frank, 23.10.2026): dazu nc-shell-sidebar-right-width, -narrow, -wide
-// (Website ohne rechte Seitenleiste).
+// (Website ohne rechte Seitenleiste). R14 Paket 5 (Frank, 26.10.2026): dazu
+// fünf Tokens, die JavaScript liest (neo-behaviors) statt CSS.
 import { describe, it, expect } from 'vitest'
 import { auswerten, BEWUSST, RANG, TOT } from '../../scripts/wirkung.mjs'
 import messung from '../../src/data/token-wirkung.json'
@@ -11,14 +12,24 @@ import messung from '../../src/data/token-wirkung.json'
 const gruppe = (id, tokens) => ({ id, tokens: tokens.map((t) => ({ id: t })) })
 
 describe('Wirkungsprüfung: bewusst ohne Wirkung', () => {
-  it('feste Liste mit genau den fünf entschiedenen Werten', () => {
+  it('feste Liste mit genau den zehn entschiedenen Werten', () => {
     expect([...BEWUSST].sort()).toEqual([
+      'nc-gallery-autoplay-interval',
       'nc-hero-cards-rule-color',
+      'nc-logo-wall-fadein-delay-step',
       'nc-shell-sidebar-right-width',
       'nc-shell-sidebar-right-width-narrow',
       'nc-shell-sidebar-right-width-wide',
-      'nc-textarea-resize'
+      'nc-textarea-resize',
+      'nc-toast-auto-dismiss-duration',
+      'nc-toast-max-visible',
+      'nc-toast-swipe-threshold'
     ])
+  })
+
+  it('von JavaScript gelesene Tokens (neo-behaviors) gelten als bewusst', () => {
+    const g = [gruppe('toast', ['nc-toast-max-visible'])]
+    expect(auswerten({ toast: { ergebnis: { 'nc-toast-max-visible': 'unbenutzt' } } }, g)['nc-toast-max-visible']).toBe('bewusst')
   })
 
   it('nc-shell-sidebar-right-width-standard gehört nicht dazu (kein Muster)', () => {

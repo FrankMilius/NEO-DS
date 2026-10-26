@@ -467,6 +467,7 @@ import KopfPlatz from './KopfPlatz.vue'
 import { useKopfMehr, anpassen } from '../../composables/useKopfMehr.js'
 import { speicher } from '../../speicher/index.js'
 import { speichern as drupalSpeichern } from '../../composables/useDrupalBetrieb.js'
+import { istGeloescht, variantenTokens } from '../../speicher/geloeschte-tokens.js'
 
 const store = useThemeStore()
 // App-Version (Build) — getrennt von der Theme-Version store.state.version
@@ -795,6 +796,7 @@ const mergeBranchId = ref(null)
 const mergeBranchName = ref('')
 const mergeAutoMerged = ref({})
 const mergeConflicts = ref([])
+const mergeVerworfen = ref([])
 
 function getMainSnapshot() {
   return store.snapshotThemeData({ withActiveSet: true })
@@ -809,13 +811,15 @@ function handleBranchMerge(branchId) {
     branchStore.switchBranch(null, getMainSnapshot, (snapshot) => store.applyThemeData(snapshot))
   }
 
-  // Compute merge
-  const { autoMerged, conflicts } = branchStore.computeMerge(branchId, getMainSnapshot)
+  // Compute merge — R14 Paket 5: Werte gelöschter Tokens sind schon verworfen
+  // (computeMerge), weder übernommen noch Konflikt; gemeldet nach dem Übernehmen
+  const { autoMerged, conflicts, verworfen } = branchStore.computeMerge(branchId, getMainSnapshot)
 
   mergeBranchId.value = branchId
   mergeBranchName.value = branch.name
   mergeAutoMerged.value = autoMerged
   mergeConflicts.value = conflicts
+  mergeVerworfen.value = verworfen
   showMergeDialog.value = true
 }
 
@@ -833,7 +837,17 @@ function confirmBranchMerge(mergeResult) {
   // Delete merged branch
   branchStore.applyMergeResult(mergeBranchId.value, mergeResult, () => {})
 
+  // R14 Paket 5: verworfene Werte gelöschter Tokens melden (Hinweis in App.vue)
+  store.state.verworfeneTokens = mergeVerworfen.value
+  mergeVerworfen.value = []
+
   showMergeDialog.value = false
+}
+
+// R14 Paket 5: Werte gelöschter Tokens nie in den Hauptstand schreiben (außer
+// Tokens eigener Varianten). computeMerge hat sie schon verworfen — Schutz.
+function gehoertGeloeschtem(ts, key) {
+  return istGeloescht(key, variantenTokens(store.state.variantDefinitions[ts]))
 }
 
 function applyMergedChanges(autoMerged) {
@@ -841,6 +855,7 @@ function applyMergedChanges(autoMerged) {
   if (autoMerged.componentOverrides) {
     for (const [ts, overrides] of Object.entries(autoMerged.componentOverrides)) {
       for (const [key, val] of Object.entries(overrides)) {
+        if (gehoertGeloeschtem(ts, key)) continue
         if (val === undefined) {
           delete store.state.componentOverrides[ts][key]
         } else {
@@ -894,6 +909,7 @@ function applyResolvedConflict(conflict) {
   const { layer, themeSet, key, resolvedValue } = conflict
 
   if (layer === 'componentOverrides') {
+    if (gehoertGeloeschtem(themeSet, key)) return
     if (resolvedValue === undefined) {
       delete store.state.componentOverrides[themeSet][key]
     } else {

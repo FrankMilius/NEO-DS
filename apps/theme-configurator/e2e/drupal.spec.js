@@ -366,3 +366,36 @@ test('1.1.0: Schrift hochladen, als Body zuweisen, Vorschau gesetzt', async ({ p
   const dok = await (await page.request.get(`${API}/themes/${id}`)).json()
   expect(dok.abweichungen.foundationOverrides.neo.typography['font-body']).toContain(familie)
 })
+
+// ---------------------------------------------------------------------------
+// R14 Paket 5 (26.10.2026): Werte gelöschter Tokens beim Laden verwerfen
+// ---------------------------------------------------------------------------
+
+test('Gelöschte Tokens: Öffnen verwirft die Kundenwerte mit Hinweis, Speichern entfernt sie in Drupal', async ({ page, request }) => {
+  const name = eindeutig('E2E Geloescht')
+  await themePerApi(request, name, {
+    activeThemeSet: 'neo',
+    componentOverrides: { neo: { 'nc-card-nav-color-hover': '#37e93d', 'nc-hero-padding-inline': '40px', 'nc-card-hover-border': '#111111' } },
+  })
+  await oeffneDrupal(page)
+  await page.locator('[data-test="drupal-theme-auswahl"]').click()
+  await page.getByRole('region', { name: 'Themes in Drupal' }).getByRole('button', { name: new RegExp(`^${name} öffnen`) }).click()
+
+  const hinweis = page.getByRole('alertdialog', { name: 'Werte entfernter Tokens verworfen' })
+  await expect(hinweis).toBeVisible()
+  await expect(hinweis).toContainText('--nc-card-nav-color-hover, --nc-hero-padding-inline')
+  await hinweis.getByRole('button', { name: 'OK' }).click()
+  await expect(hinweis).toBeHidden()
+
+  // Drupal hat die Werte noch: der Stand gilt als ungespeichert
+  await expect(page.locator('[data-test="drupal-theme-auswahl"]')).toContainText(name)
+  await expect(status(page)).toHaveAttribute('data-status', 'ungespeichert')
+  const ueberschrieben = await page.evaluate(() => JSON.parse(localStorage.getItem('neo-theme-configurator')).componentOverrides.neo)
+  expect(ueberschrieben).toEqual({ 'nc-card-hover-border': '#111111' })
+
+  await page.keyboard.press('Control+s')
+  await expect(status(page)).toHaveAttribute('data-status', 'gespeichert')
+  const id = await page.evaluate(() => JSON.parse(localStorage.getItem('neo-theme-configurator-drupal-stand')).id)
+  const dok = await (await page.request.get(`${API}/themes/${id}`)).json()
+  expect(dok.abweichungen.componentOverrides).toEqual({ neo: { 'nc-card-hover-border': '#111111' } })
+})

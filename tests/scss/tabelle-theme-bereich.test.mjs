@@ -28,6 +28,7 @@ beforeAll(() => {
 const BEREICHE = '.neo-light-theme,.neo-dark-theme,.customer-light-theme,.customer-dark-theme{';
 
 describe('Vergleichstabelle: Farben in Theme-Bereichen neu gebunden', () => {
+  // --nc-table-color-secondary: geloescht (R14 Paket 5, 26.10.2026) — kein CSS las es
   it('alle farbtragenden --nc-table-* stehen im Bereichs-Block mit denselben Ausdruecken wie am :root', () => {
     const bloecke = css.split(BEREICHE).slice(1).map((s) => s.slice(0, s.indexOf('}')));
     const block = bloecke.find((b) => b.includes('--nc-table-bg'));
@@ -37,7 +38,6 @@ describe('Vergleichstabelle: Farben in Theme-Bereichen neu gebunden', () => {
       ['header-bg', 'var(--fnd-color-background-inverse)'],
       ['header-color', 'var(--fnd-color-text-inverse)'],
       ['color', 'var(--fnd-color-text-primary)'],
-      ['color-secondary', 'var(--fnd-color-text-secondary)'],
       ['row-border-color', 'var(--fnd-color-border-secondary)'],
       ['row-bg-hover', 'var(--fnd-color-background-secondary)'],
       ['row-bg-selected', 'var(--fnd-color-background-tertiary)'],

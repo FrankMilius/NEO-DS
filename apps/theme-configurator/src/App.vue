@@ -57,6 +57,8 @@ import { starteDrupalBetrieb } from './composables/useDrupalBetrieb.js'
 import { neoAnsicht } from './composables/neoAnsicht.js'
 import { seitenTitel } from './navigation/namen.js'
 import { useTechnischeNamen } from './composables/useTechnischeNamen.js'
+import { hinweisen } from './composables/useBestaetigung.js'
+import { hinweisZuVerworfenen } from './speicher/geloeschte-tokens.js'
 
 const store = useThemeStore()
 const sync = useStyleguideSync()
@@ -68,6 +70,15 @@ const nurAnsicht = drupal && !darf('bearbeiten')
 // Hinweisleiste: ohne Recht „bearbeiten“ oder beim Ansehen des NEO-Standards
 const mitHinweis = computed(() => nurAnsicht || (drupal && neoAnsicht.value))
 let stoppeDrupal = null
+
+// R14 Paket 5: Werte gelöschter Tokens, die beim Laden eines Themes verworfen
+// wurden (lokal, Drupal, Arbeitsstand, lokaler Zweig), als Hinweis zeigen
+// (Entscheidung Frank 23.10.2026). Jedes Laden setzt eine neue Liste. Wer nur
+// ansehen darf, bekommt einen neutralen Hinweis (kann nicht speichern).
+watch(() => store.state.verworfeneTokens, (verworfen) => {
+  const hinweis = hinweisZuVerworfenen(verworfen, { nurAnsehen: nurAnsicht })
+  if (hinweis) hinweisen(hinweis)
+})
 
 // Sidebar collapse state (persisted)
 const SIDEBAR_KEY = 'neo-cfg-sidebar-collapsed'

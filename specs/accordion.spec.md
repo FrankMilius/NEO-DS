@@ -1,5 +1,5 @@
 # accordion Component Spec
-> Version 3.5.0 | Status: stable | Layer: molecule
+> Version 3.5.1 | Status: stable | Layer: molecule
 
 Tags: `interactive`, `disclosure`, `content`, `navigation`, `faq`, `selection`
 
@@ -150,14 +150,9 @@ Base classes: `nc-accordion`
 ### Compact
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-accordion-padding-compact` | — | — |
 | `--nc-accordion-content-font-size-compact` | — | `--mod-accordion-content-font-size-compact` |
 
 ### Spacious
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-accordion-padding-spacious` | — | — |
-
 ### Media
 | Token | CSS Property | Override |
 | --- | --- | --- |
@@ -261,10 +256,8 @@ Base classes: `nc-accordion`
 | `--nc-accordion-padding` | — | — |
 | `--nc-accordion-padding-compact-block` | — | `--mod-accordion-padding-compact-block` |
 | `--nc-accordion-padding-compact-inline` | — | `--mod-accordion-padding-compact-inline` |
-| `--nc-accordion-padding-compact` | — | — |
 | `--nc-accordion-padding-spacious-block` | — | `--mod-accordion-padding-spacious-block` |
 | `--nc-accordion-padding-spacious-inline` | — | `--mod-accordion-padding-spacious-inline` |
-| `--nc-accordion-padding-spacious` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

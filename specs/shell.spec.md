@@ -1,5 +1,5 @@
 # shell Component Spec
-> Version 2.2.0 | Status: stable | Layer: organism
+> Version 2.2.1 | Status: stable | Layer: organism
 
 Tags: `layout`, `scaffold`, `template`
 
@@ -127,10 +127,8 @@ Base classes: `nc-shell`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-shell-sidebar-left-width-narrow` | — | — |
-| `--nc-shell-sidebar-left-width-standard` | — | — |
 | `--nc-shell-sidebar-left-width-wide` | — | — |
 | `--nc-shell-sidebar-right-width-narrow` | — | — |
-| `--nc-shell-sidebar-right-width-standard` | — | — |
 | `--nc-shell-sidebar-right-width-wide` | — | — |
 
 ### Footerbar
@@ -151,10 +149,8 @@ Base classes: `nc-shell`
 ### Z-Index Governance
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-shell-z-linkbar` | — | — |
 | `--nc-shell-z-footerbar` | — | — |
 | `--nc-shell-z-navbar` | — | — |
-| `--nc-shell-z-sidebar` | — | — |
 | `--nc-shell-z-overlay` | — | — |
 | `--nc-shell-z-drawer` | — | — |
 

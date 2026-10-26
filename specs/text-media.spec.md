@@ -1,5 +1,5 @@
 # text-media Component Spec
-> Version 1.2.1 | Status: stable | Layer: organism
+> Version 1.2.2 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `media`, `split-layout`
 
@@ -47,8 +47,6 @@ Base classes: `nc-text-media`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-text-media-gap` | — | `--mod-text-media-gap` |
-| `--nc-text-media-headline-size` | — | — |
-| `--nc-text-media-subline-color` | — | — |
 | `--nc-text-media-content-gap` | — | `--mod-text-media-content-gap` |
 | `--nc-text-media-video-radius` | — | `--mod-text-media-video-radius` |
 

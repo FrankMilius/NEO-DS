@@ -1,5 +1,5 @@
 # label Component Spec
-> Version 2.0.0 | Status: stable | Layer: atom
+> Version 2.0.1 | Status: stable | Layer: atom
 
 Tags: `display`, `tag`, `decorative`, `status`, `metadata`
 
@@ -173,7 +173,6 @@ Base classes: `nc-label`
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-label-transition-duration` | — | — |
 | `--nc-label-remove-size` | — | `--mod-label-remove-size` |
 | `--nc-label-remove-hover-bg` | — | — |
 | `--nc-label-disabled-opacity` | — | `--mod-label-disabled-opacity` |

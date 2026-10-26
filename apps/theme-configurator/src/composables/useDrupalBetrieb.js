@@ -22,6 +22,7 @@
 import { nextTick, reactive, toRaw, watch } from 'vue'
 import { darf, kanonischesJson, meldungFuer, speicher } from '../speicher/index.js'
 import { THEME_DATA_KEYS } from '../stores/theme/theme-schluessel.js'
+import { verwirfGeloeschteTokens } from '../speicher/geloeschte-tokens.js'
 import { bestaetigen, hinweisen } from './useBestaetigung.js'
 import { neoAnsicht } from './neoAnsicht.js'
 
@@ -101,35 +102,84 @@ function ohneLeere (wert) {
   return aus
 }
 
+const hashVon = (daten) => fnv(kanonischesJson(ohneLeere(JSON.parse(JSON.stringify(daten)))))
+
+/**
+ * Fingerabdruck des gezeigten Stands — ohne Werte gelöschter Tokens
+ * (R14 Paket 5, B2): Gemerkter und aktueller Stand werden gleich berechnet;
+ * ein Verwerfen beim Laden allein ändert den Abdruck nicht.
+ */
 function abdruck () {
-  const snap = ohneLeere(JSON.parse(JSON.stringify(toRaw(store.snapshotThemeData({ withActiveSet: true })))))
-  return fnv(kanonischesJson(snap))
+  return hashVon(verwirfGeloeschteTokens(toRaw(store.snapshotThemeData({ withActiveSet: true }))).daten)
+}
+
+/**
+ * Abdruck, wie ihn eine ältere App-Fassung gemerkt hat: mit den Werten, die
+ * loadFromStorage beim Start verworfen hat (state.verworfeneTokens), und
+ * ohne Filter. Nur zum Wiedererkennen eines reinen Verwerfens (B2).
+ */
+function abdruckMitVerworfenen () {
+  const verworfen = store.state.verworfeneTokens || []
+  if (!verworfen.length) return null
+  const snap = JSON.parse(JSON.stringify(toRaw(store.snapshotThemeData({ withActiveSet: true }))))
+  snap.componentOverrides ??= {}
+  for (const { set, token, wert } of verworfen) (snap.componentOverrides[set] ??= {})[token] = wert
+  return hashVon(snap)
 }
 
 function leseBasis () {
   try { return JSON.parse(localStorage.getItem(STAND_SCHLUESSEL) || 'null') } catch { return null }
 }
 
-/** Aktuellen Stand als „in Drupal gespeichert“ merken. */
-export function merkeStand () {
+/**
+ * Aktuellen Stand als „in Drupal gespeichert“ merken.
+ * R14 Paket 5: Hat das Laden Werte gelöschter Tokens verworfen
+ * (store.state.verworfeneTokens), weicht der Stand in Drupal vom gezeigten
+ * ab — dann `{ verworfen: true }`: der Status bleibt „ungespeichert“, bis
+ * gespeichert wird (nur mit Recht „bearbeiten“, siehe nachLadenVerworfen).
+ * @param {{ verworfen?: boolean }} [o]
+ */
+export function merkeStand ({ verworfen = false } = {}) {
   const id = store?.state.currentThemeMeta?.id
   if (!id) { basis = null; zustand.status = 'ohne-theme'; return }
-  basis = { id, abdruck: abdruck() }
+  basis = { id, abdruck: (verworfen ? 'verworfen:' : '') + abdruck() }
   try { localStorage.setItem(STAND_SCHLUESSEL, JSON.stringify(basis)) } catch { /* voll/gesperrt */ }
   // Arbeitsstand sofort mit dem neuen ETag sichern: das Auto-Save reagiert nur
   // auf Theme-Daten; sonst kommt nach dem Neuladen der alte ETag zurück und
   // das nächste Speichern/Veröffentlichen endet in 412 (gefunden 14.10.2026).
   store.saveToStorage?.()
-  zustand.status = 'gespeichert'
+  zustand.status = verworfen ? 'ungespeichert' : 'gespeichert'
   zustand.fehlerText = ''
 }
+
+/**
+ * Nach dem Öffnen: wurden Werte gelöschter Tokens verworfen? (R14 Paket 5)
+ * Nur wer bearbeiten darf, kann speichern — für Personen mit Recht nur
+ * ansehen gibt es kein „ungespeichert“ (Hinweis dann neutral, App.vue).
+ */
+const nachLadenVerworfen = () => ({
+  verworfen: darf('bearbeiten') && (store?.state.verworfeneTokens?.length ?? 0) > 0,
+})
 
 /** Status aus dem Vergleich mit dem gemerkten Stand ableiten. */
 export function pruefeStand () {
   if (!store || zustand.status === 'speichert' || zustand.status === 'laedt') return
   const id = store.state.currentThemeMeta?.id
   if (!id) { zustand.status = 'ohne-theme'; return }
-  const gleich = basis && basis.id === id && basis.abdruck === abdruck()
+  const jetzt = abdruck()
+  // „verworfen:“ gilt nur für Personen, die speichern dürfen (nachLadenVerworfen)
+  const gemerkt = basis && (darf('bearbeiten') ? basis.abdruck : String(basis.abdruck).replace(/^verworfen:/, ''))
+  let gleich = basis && basis.id === id && gemerkt === jetzt
+  // B2: Gemerkter Abdruck einer älteren Fassung enthält noch Werte gelöschter
+  // Tokens, die loadFromStorage beim Start verworfen hat — reines Verwerfen,
+  // keine Änderung: Abdruck ohne sie neu merken, nicht „ungespeichert“.
+  // („verworfen:“-Abdrücke setzt merkeStand bewusst nach dem Öffnen.)
+  if (!gleich && basis && basis.id === id && !String(gemerkt).startsWith('verworfen:')
+    && gemerkt === abdruckMitVerworfenen()) {
+    basis = { id, abdruck: jetzt }
+    try { localStorage.setItem(STAND_SCHLUESSEL, JSON.stringify(basis)) } catch { /* voll/gesperrt */ }
+    gleich = true
+  }
   if (gleich) { zustand.status = 'gespeichert'; zustand.fehlerText = '' } else zustand.status = 'ungespeichert'
 }
 
@@ -394,7 +444,7 @@ export async function oeffnen (id) {
     const ok = await store.oeffneTheme(id)
     if (!ok) { await hinweisen({ titel: 'Nicht gefunden', text: 'Das Theme wurde nicht gefunden — vielleicht hat es jemand gelöscht.' }); await ladeKatalog(); return false }
     await nextTick()
-    merkeStand()
+    merkeStand(nachLadenVerworfen())
     await vorschauNachziehen()
     return true
   } catch (e) {
@@ -458,7 +508,7 @@ export async function neuLaden () {
   try {
     const ok = await store.oeffneTheme(id)
     await nextTick()
-    if (ok) { merkeStand(); await vorschauNachziehen() } else { store.state.currentThemeMeta = null; zustand.status = 'ohne-theme'; await ladeKatalog() }
+    if (ok) { merkeStand(nachLadenVerworfen()); await vorschauNachziehen() } else { store.state.currentThemeMeta = null; zustand.status = 'ohne-theme'; await ladeKatalog() }
     return ok
   } catch (e) {
     await fehlerZeigen(e, 'Neu laden')

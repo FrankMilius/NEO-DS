@@ -1,7 +1,9 @@
 // ==========================================================================
 // Theme-Import (Plan v2, 2.2) — JSON im Format von exportAsJSON()
 // ==========================================================================
-// pruefeThemeImport(text)  -> { ok, fehler[], daten, meta }
+// pruefeThemeImport(text)  -> { ok, fehler[], daten, meta, verworfen[] }
+//   verworfen: Werte gelöschter Tokens (R14 Paket 5) — kein Fehler, sie
+//   werden übersprungen und im Dialog genannt.
 //   Schema-Pruefung: bekannte Schluessel, Typen, Farbwerte, Versionsfeld.
 //   Ein Fehler reicht fuer die Ablehnung; die Liste nennt alle Fundstellen
 //   (hoechstens MAX_FEHLER), damit man die Datei in einem Durchgang korrigiert.
@@ -15,6 +17,7 @@
 
 import { componentTokenGroups, foundationTokens, primitiveColors, semanticDefaults, semanticTokenGroups } from '../data/tokens.js'
 import { TYPE_SCALE_KEYS } from '../stores/theme/token-aktionen.js'
+import { GELOESCHTE_TOKENS } from '../speicher/geloeschte-tokens.js'
 
 export const MAX_FEHLER = 25
 
@@ -65,6 +68,7 @@ const KOMPONENTEN = new Set(componentTokenGroups.map((g) => g.id))
  */
 export function pruefeThemeImport(text) {
   const fehler = []
+  const verworfen = []
   const f = (msg) => { if (fehler.length < MAX_FEHLER) fehler.push(msg) }
   let roh
   try { roh = JSON.parse(text) } catch (e) {
@@ -170,7 +174,8 @@ export function pruefeThemeImport(text) {
         if (c.overrides !== undefined) {
           if (!istObjekt(c.overrides)) { f(`„${wo}.overrides“ muss ein Objekt sein, gefunden: ${typ(c.overrides)}.`); continue }
           for (const [t, v] of Object.entries(c.overrides)) {
-            if (!KOMPONENTEN_IDS.has(t) && !variantenTokens.has(t)) f(`Unbekanntes Komponenten-Token „${wo}.overrides.${t}“.`)
+            if (GELOESCHTE_TOKENS.has(t) && !variantenTokens.has(t)) verworfen.push({ token: t, wert: v })
+            else if (!KOMPONENTEN_IDS.has(t) && !variantenTokens.has(t)) f(`Unbekanntes Komponenten-Token „${wo}.overrides.${t}“.`)
             else if (!istCssWert(v)) f(`Ungültiger Wert für „${wo}.overrides.${t}“: ${JSON.stringify(v)}.`)
             else ov[t] = v
           }
@@ -200,7 +205,7 @@ export function pruefeThemeImport(text) {
   }
 
   if (!fehler.length && !Object.keys(daten).length) f('Die Datei enthält keine Theme-Daten (semantic, foundation, components, primitives, typeScale oder focusRingMode).')
-  return fehler.length ? { ok: false, fehler, daten: null, meta: istObjekt(meta) ? meta : null } : { ok: true, fehler: [], daten, meta }
+  return fehler.length ? { ok: false, fehler, daten: null, meta: istObjekt(meta) ? meta : null, verworfen } : { ok: true, fehler: [], daten, meta, verworfen }
 }
 
 /**

@@ -12,6 +12,7 @@ import { importVorschau, importZiel, pruefeThemeImport } from '../../import/them
 import { SpeicherFehler, darf, pruefeKontrast, speicher } from '../../speicher/index.js'
 import { standardDaten } from '../../speicher/standard.js'
 import { alsEtag } from '../../speicher/inhalts-hash.js'
+import { verwirfGeloeschteTokens } from '../../speicher/geloeschte-tokens.js'
 import { leseKatalog, leseTheme, loescheTheme, schreibeKatalog, schreibeTheme } from '../../speicher/lokal.js'
 import { strichVorgaben } from '../../utils/icon-strich.js'
 
@@ -23,8 +24,10 @@ export function generateThemeId() {
   return 'theme-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)
 }
 
+// Für das Speichern (lokaler Theme-Platz, Drupal). R14 Paket 5: ohne Werte
+// gelöschter Tokens — Speichern schreibt sie nicht.
 export function getThemeSnapshot() {
-  return snapshotThemeData({ withActiveSet: true })
+  return verwirfGeloeschteTokens(snapshotThemeData({ withActiveSet: true })).daten
 }
 
 export function loadSavedThemesList() {
@@ -119,7 +122,10 @@ export function loadTheme(themeId) {
     const snapshot = leseTheme(themeId)
     if (!snapshot) { console.warn('Theme not found:', themeId); return false }
 
-    applyThemeData(snapshot)
+    // R14 Paket 5: Werte gelöschter Tokens verwerfen (Hinweis in App.vue)
+    const { daten, verworfen } = verwirfGeloeschteTokens(snapshot)
+    applyThemeData(daten)
+    state.verworfeneTokens = verworfen
 
     state.currentThemeMeta = snapshot.meta ? deepClone(snapshot.meta) : null
     if (snapshot.meta?.version) state.version = snapshot.meta.version
@@ -422,7 +428,10 @@ export async function oeffneTheme(themeId) {
   if (istLokal()) return loadTheme(themeId)
   const erg = await speicher().lade(themeId)
   if (!erg) { console.warn('Theme not found:', themeId); return false }
-  applyThemeData(erg.daten)
+  // R14 Paket 5: Werte gelöschter Tokens verwerfen (Hinweis in App.vue)
+  const { daten, verworfen } = verwirfGeloeschteTokens(erg.daten)
+  applyThemeData(daten)
+  state.verworfeneTokens = verworfen
   uebernehmeMeta(erg)
   verlaufLeeren()
   return true

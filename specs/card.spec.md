@@ -1,5 +1,5 @@
 # card Component Spec
-> Version 3.2.1 | Status: stable | Layer: molecule
+> Version 3.2.2 | Status: stable | Layer: molecule
 
 Tags: `container`, `surface`, `interactive`, `layout`
 
@@ -93,7 +93,6 @@ Base classes: `nc-card`
 ### Spacing
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-header-padding` | — | — |
 | `--nc-card-header-gap` | — | `--mod-card-header-gap` |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
@@ -113,10 +112,7 @@ Base classes: `nc-card`
 ### Interactive
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-card-transition-duration` | — | — |
 | `--nc-card-hover-border` | — | `--mod-card-hover-border` |
-| `--nc-card-nav-color-hover` | — | — |
-| `--nc-card-link-decoration` | — | — |
 | `--nc-card-link-hover-decoration` | — | `--mod-card-link-hover-decoration` |
 
 ### Selectable
@@ -164,7 +160,6 @@ Base classes: `nc-card`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-card-padding` | — | — |
-| `--nc-card-header-padding` | — | — |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
 | `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |
@@ -174,7 +169,6 @@ Base classes: `nc-card`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-card-padding` | — | — |
-| `--nc-card-header-padding` | — | — |
 | `--nc-card-content-padding` | — | `--mod-card-content-padding` |
 | `--nc-card-footer-padding` | — | `--mod-card-footer-padding` |
 | `--nc-card-title-font-size` | — | `--mod-card-title-font-size` |

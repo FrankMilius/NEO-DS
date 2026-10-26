@@ -445,9 +445,9 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(rohesRecipe('hero').axes.markStyle.values.tint.description).toContain('.nc-hero__mark bleibt Balken')
   })
 
-  it('hero: Recipe 2.4.1 — Specimens fuer jede Achse', () => {
+  it('hero: Recipe 2.4.2 — Specimens fuer jede Achse', () => {
     const r = rohesRecipe('hero')
-    expect(r.meta.version).toBe('2.4.1') // 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
+    expect(r.meta.version).toBe('2.4.2') // 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
     const genutzt = new Set(r.specimens.flatMap((s) => Object.keys(s.matrix.axes)))
     for (const achse of Object.keys(r.axes)) expect(genutzt.has(achse), achse).toBe(true)
   })

@@ -1,5 +1,5 @@
 # notification Component Spec
-> Version 2.1.0 | Status: stable | Layer: organism
+> Version 2.1.1 | Status: stable | Layer: organism
 
 Tags: `feedback`, `news-alert`, `floating-card`, `in-app`
 
@@ -146,7 +146,6 @@ Base classes: `nc-notification`
 ### Animation
 | Token | CSS Property | Override |
 | --- | --- | --- |
-| `--nc-notification-transition-duration` | — | — |
 | `--nc-notification-dismiss-duration` | — | `--mod-notification-dismiss-duration` |
 
 ## Keyboard Interactions

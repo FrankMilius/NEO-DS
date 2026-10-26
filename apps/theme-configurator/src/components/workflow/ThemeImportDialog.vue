@@ -44,6 +44,10 @@
                 </ul>
               </div>
             </div>
+            <p v-if="pruefung.verworfen?.length" class="status" data-test="import-verworfen">
+              {{ pruefung.verworfen.length === 1 ? 'Ein Wert wird' : `${pruefung.verworfen.length} Werte werden` }} nicht übernommen — die Tokens gibt es im Design System nicht mehr:
+              <span class="mono">{{ pruefung.verworfen.map((v) => `--${v.token}`).join(', ') }}</span>
+            </p>
             <p class="status">Eigene Tokens, Schriften und Icon-Einstellungen sind nicht Teil des Export-Formats und bleiben unverändert.</p>
           </template>
         </div>

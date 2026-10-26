@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.4.1 | Status: stable | Layer: organism
+> Version 2.4.2 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -124,7 +124,6 @@ Base classes: `nc-hero`
 | `--nc-hero-bg` | — | `--mod-hero-bg` |
 | `--nc-hero-min-height` | — | `--mod-hero-min-height` |
 | `--nc-hero-padding-block` | — | `--mod-hero-padding-block` |
-| `--nc-hero-padding-inline` | — | — |
 | `--nc-hero-gap` | — | `--mod-hero-gap` |
 | `--nc-hero-radius` | — | `--mod-hero-radius` |
 
@@ -203,7 +202,6 @@ Base classes: `nc-hero`
 | `--nc-hero-footer-margin-top` | — | `--mod-hero-footer-margin-top` |
 | `--nc-hero-footer-gap` | — | `--mod-hero-footer-gap` |
 | `--nc-hero-cards-gap` | — | `--mod-hero-cards-gap` |
-| `--nc-hero-footer-rule` | — | — |
 | `--nc-hero-cards-stack` | — | `--mod-hero-cards-stack` |
 | `--nc-hero-cards-rule-width-sm` | — | — |
 | `--nc-hero-cards-rule-width-md` | — | — |

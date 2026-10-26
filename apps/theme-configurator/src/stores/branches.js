@@ -9,6 +9,7 @@
 
 import { reactive, computed, toRaw } from 'vue'
 import { defineStore } from 'pinia'
+import { verwirfGeloeschteTokens } from '../speicher/geloeschte-tokens.js'
 
 // ---------------------------------------------------------------------------
 // Deep-clone helper
@@ -94,11 +95,16 @@ function createBranch(name, description, getSnapshot) {
 
 /**
  * Switch to a branch. Saves current state to active branch first.
+ * R14 Paket 5: Werte gelöschter Tokens im Stand des Ziel-Zweigs werden wie
+ * beim Laden eines Themes verworfen (verwirfGeloeschteTokens) und
+ * zurückgegeben — der Aufrufer setzt damit state.verworfeneTokens (Hinweis).
  * @param {string|null} branchId - null = switch to main
  * @param {Function} getSnapshot - Returns current state snapshot
  * @param {Function} applySnapshot - Applies a snapshot to the theme store
+ * @returns {Array<{ set: string, token: string, wert: any }>} verworfene Werte
  */
 function switchBranch(branchId, getSnapshot, applySnapshot) {
+  let verworfen = []
   // Save current state to active branch
   if (state.activeBranchId && state.branches[state.activeBranchId]) {
     state.branches[state.activeBranchId].snapshot = getSnapshot()
@@ -109,12 +115,15 @@ function switchBranch(branchId, getSnapshot, applySnapshot) {
 
   // Load target branch state
   if (branchId && state.branches[branchId]) {
-    applySnapshot(deepClone(state.branches[branchId].snapshot))
+    const erg = verwirfGeloeschteTokens(deepClone(state.branches[branchId].snapshot))
+    verworfen = erg.verworfen
+    applySnapshot(erg.daten)
   }
   // If switching to main, the theme store already has main state
   // (it's the "live" state, branches hold copies)
 
   persistBranches()
+  return verworfen
 }
 
 /**
@@ -150,18 +159,25 @@ function deleteBranch(branchId) {
 
 /**
  * Compute a 3-way merge between source branch and main.
- * Returns { autoMerged, conflicts }.
+ * Returns { autoMerged, conflicts, verworfen }.
+ * R14 Paket 5: Werte gelöschter Tokens in Basis, Zweig und Hauptstand werden
+ * vorher verworfen (verwirfGeloeschteTokens) — sie werden weder übernommen
+ * noch als Konflikt gezeigt. `verworfen` nennt die des Zweigs und des
+ * Hauptstands (für den Hinweis).
  * @param {string} sourceId - The branch to merge
  * @param {Function} getMainSnapshot - Returns current main snapshot
- * @returns {{ autoMerged: object, conflicts: Array }}
+ * @returns {{ autoMerged: object, conflicts: Array, verworfen: Array<{ set: string, token: string, wert: any }> }}
  */
 function computeMerge(sourceId, getMainSnapshot) {
   const branch = state.branches[sourceId]
-  if (!branch) return { autoMerged: {}, conflicts: [] }
+  if (!branch) return { autoMerged: {}, conflicts: [], verworfen: [] }
 
-  const base = branch.parentSnapshot
-  const source = branch.snapshot
-  const target = getMainSnapshot()
+  const base = verwirfGeloeschteTokens(branch.parentSnapshot).daten
+  const ausZweig = verwirfGeloeschteTokens(branch.snapshot)
+  const ausHaupt = verwirfGeloeschteTokens(getMainSnapshot())
+  const source = ausZweig.daten
+  const target = ausHaupt.daten
+  const verworfen = [...ausZweig.verworfen, ...ausHaupt.verworfen]
 
   const autoMerged = {}
   const conflicts = []
@@ -181,7 +197,7 @@ function computeMerge(sourceId, getMainSnapshot) {
   mergeFlatLayer('componentLocks', base, source, target, autoMerged, conflicts)
   mergeFlatLayer('componentVersions', base, source, target, autoMerged, conflicts)
 
-  return { autoMerged, conflicts }
+  return { autoMerged, conflicts, verworfen }
 }
 
 /**

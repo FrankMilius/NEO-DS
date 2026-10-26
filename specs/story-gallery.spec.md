@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.4.0 | Status: stable | Layer: organism
+> Version 1.4.1 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -65,7 +65,6 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-card-height` | — | — |
 | `--nc-story-gallery-gap` | — | — |
 | `--nc-story-gallery-radius` | — | — |
-| `--nc-story-gallery-headline-size` | — | — |
 
 ### Title
 | Token | CSS Property | Override |

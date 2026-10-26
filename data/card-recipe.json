@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "status": "stable",
     "tags": [
       "container",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-docs"
     },
     "changelog": [
+      {
+        "version": "3.2.2",
+        "changes": [
+          "R14 Paket 5 (26.10.2026, Entscheidung Frank 23.10.2026): unbenutzte Tokens entfernt — --nc-card-header-padding, --nc-card-link-decoration, --nc-card-nav-color-hover, --nc-card-transition-duration. Kein CSS las sie; Website unveraendert."
+        ]
+      },
       {
         "version": "3.2.1",
         "changes": [
@@ -486,7 +492,6 @@
       },
       "effects": {
         "nc-card-padding": "var(--fnd-spacing-04)",
-        "nc-card-header-padding": "var(--fnd-spacing-04) var(--fnd-spacing-04) 0",
         "nc-card-content-padding": "var(--fnd-spacing-04)",
         "nc-card-footer-padding": "0 var(--fnd-spacing-04) var(--fnd-spacing-04)",
         "nc-card-title-font-size": "var(--fs-lg)",
@@ -506,7 +511,6 @@
       },
       "effects": {
         "nc-card-padding": "var(--fnd-spacing-08)",
-        "nc-card-header-padding": "var(--fnd-spacing-08) var(--fnd-spacing-08) 0",
         "nc-card-content-padding": "var(--fnd-spacing-08)",
         "nc-card-footer-padding": "0 var(--fnd-spacing-08) var(--fnd-spacing-08)",
         "nc-card-title-font-size": "var(--fs-2xl)",
@@ -749,7 +753,6 @@
       "spacing": {
         "label": "Spacing",
         "tokens": [
-          "nc-card-header-padding",
           "nc-card-header-gap",
           "nc-card-content-padding",
           "nc-card-footer-padding",
@@ -771,10 +774,7 @@
       "interactive": {
         "label": "Interactive",
         "tokens": [
-          "nc-card-transition-duration",
           "nc-card-hover-border",
-          "nc-card-nav-color-hover",
-          "nc-card-link-decoration",
           "nc-card-link-hover-decoration"
         ]
       },
@@ -830,7 +830,6 @@
         "description": "Token-Overrides fuer enge Grid-Layouts (Gap ≤ 16px, viele Spalten)",
         "tokens": [
           "nc-card-padding",
-          "nc-card-header-padding",
           "nc-card-content-padding",
           "nc-card-footer-padding",
           "nc-card-title-font-size",
@@ -842,7 +841,6 @@
         "description": "Token-Overrides fuer hervorgehobene Darstellung (≤ 2 Spalten, Hero-Bereich)",
         "tokens": [
           "nc-card-padding",
-          "nc-card-header-padding",
           "nc-card-content-padding",
           "nc-card-footer-padding",
           "nc-card-title-font-size",

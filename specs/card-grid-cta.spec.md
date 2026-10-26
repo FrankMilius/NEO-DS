@@ -1,5 +1,5 @@
 # card-grid-cta Component Spec
-> Version 1.3.0 | Status: stable | Layer: organism
+> Version 1.3.1 | Status: stable | Layer: organism
 
 Tags: `display`, `hero`, `cta`, `grid`
 
@@ -33,23 +33,8 @@ Base classes: `nc-card-grid-cta`
 | `--nc-card-grid-cta-radius` | — | — |
 
 ### Title
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-card-grid-cta-title-size` | — | — |
-| `--nc-card-grid-cta-title-weight` | — | — |
-| `--nc-card-grid-cta-title-color` | — | — |
-
 ### Overlay
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-card-grid-cta-overlay-start` | — | — |
-| `--nc-card-grid-cta-overlay-end` | — | — |
-
 ### Interaction
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-card-grid-cta-hover-scale` | — | — |
-
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
 

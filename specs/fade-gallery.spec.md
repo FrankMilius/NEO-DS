@@ -1,5 +1,5 @@
 # fade-gallery Component Spec
-> Version 1.2.1 | Status: stable | Layer: organism
+> Version 1.2.2 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `tabs`, `fade`
 
@@ -48,7 +48,6 @@ Base classes: `nc-fade-gallery`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-fade-gallery-radius` | — | — |
-| `--nc-fade-gallery-headline-size` | — | — |
 
 ### Ansichten-Leiste
 | Token | CSS Property | Override |
@@ -60,7 +59,6 @@ Base classes: `nc-fade-gallery`
 | `--nc-fade-gallery-tab-padding` | — | `--mod-fade-gallery-tab-padding` |
 | `--nc-fade-gallery-tab-color` | — | — |
 | `--nc-fade-gallery-tab-active` | — | — |
-| `--nc-fade-gallery-tab-indicator` | — | — |
 | `--nc-fade-gallery-desc-size` | — | `--mod-fade-gallery-desc-size` |
 | `--nc-fade-gallery-desc-measure` | — | `--mod-fade-gallery-desc-measure` |
 | `--nc-fade-gallery-desc-color` | — | — |
@@ -73,10 +71,6 @@ Base classes: `nc-fade-gallery`
 | `--nc-fade-gallery-desc-color` | — | — |
 
 ### Animation
-| Token | CSS Property | Override |
-| --- | --- | --- |
-| `--nc-fade-gallery-fade-duration` | — | — |
-
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |

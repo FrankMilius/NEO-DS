@@ -181,15 +181,22 @@ function applySnapshot(snapshot) {
   themeStore.applyThemeData(snapshot)
 }
 
+// R14 Paket 5: switchBranch verwirft Werte gelöschter Tokens im Stand des
+// Ziel-Zweigs und gibt sie zurück — wie beim Laden eines Themes melden
+// (state.verworfeneTokens → Hinweis in App.vue).
+function wechsle(id) {
+  themeStore.state.verworfeneTokens = branchStore.switchBranch(id, getSnapshot, applySnapshot)
+}
+
 function switchToMain() {
   if (branchStore.isOnMain) { isOpen.value = false; return }
-  branchStore.switchBranch(null, getSnapshot, applySnapshot)
+  wechsle(null)
   isOpen.value = false
 }
 
 function switchToBranch(id) {
   if (branchStore.state.activeBranchId === id) { isOpen.value = false; return }
-  branchStore.switchBranch(id, getSnapshot, applySnapshot)
+  wechsle(id)
   isOpen.value = false
 }
 
@@ -222,7 +229,7 @@ function confirmCreate() {
   const name = newBranchName.value.trim()
   if (!name) return
   const branch = branchStore.createBranch(name, newBranchDesc.value.trim(), getSnapshot)
-  branchStore.switchBranch(branch.id, getSnapshot, applySnapshot)
+  wechsle(branch.id)
   showCreateDialog.value = false
   newBranchName.value = ''
   newBranchDesc.value = ''
