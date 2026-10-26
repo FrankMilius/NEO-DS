@@ -32,6 +32,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Prüf- und Doku-Werkzeuge (tests/pruefen, tests/doku) nutzen Playwright
+      # und den Vue-Compiler aus der App — ohne sie scheitern 5 Testdateien.
+      - name: App-Abhaengigkeiten
+        working-directory: apps/theme-configurator
+        run: npm ci
+
+      - name: Chromium fuer Playwright
+        working-directory: apps/theme-configurator
+        run: npx playwright install --with-deps chromium
+
       - name: Run Agent Network (Full Pipeline)
         run: npm run agents:full
 
