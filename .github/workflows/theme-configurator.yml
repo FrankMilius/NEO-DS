@@ -175,6 +175,10 @@ jobs:
       - name: Chromium fuer Playwright
         working-directory: apps/theme-configurator
         run: npx playwright install --with-deps chromium
+      # styles.css ist nicht versioniert; die Vergleichsseite „Website“ in
+      # e2e/ablaeufe.spec.js lädt sie vom Docs-Server — ohne Bau ungestylt
+      - name: Wurzel-Abhaengigkeiten und styles.css
+        run: npm ci && npm run build:css
       - name: E2E (Smoke, Ablaeufe, axe)
         working-directory: apps/theme-configurator
         run: npm run e2e
