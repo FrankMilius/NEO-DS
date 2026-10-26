@@ -6,6 +6,7 @@
 //   Sicherung     Bündel in ~/Sites/_sicherung gegen master von DRUPAL11/neo_fe
 //   Ungepusht     Commits je Repository, die nur lokal liegen
 //   Worktrees     erledigt / liegt / in Arbeit (alle drei Repositorys)
+//   CI            Zustand der GitHub-Abläufe auf main (gh run list)
 //   Dependabot    offene Pull-Requests auf GitHub mit CI-Zustand (gh)
 //   Drupal        Sicherheitswarnungen aus composer.lock (`composer audit
 //                 --locked` auf dem Mac — bewusst NICHT `ddev composer`: das
@@ -22,7 +23,7 @@ import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, statSync, writ
 import os from 'node:os'
 import path from 'node:path'
 import { parseArgs } from 'node:util'
-import { sicherung, worktrees, dependabot, composerAudit, einzeilig, handlungsbedarf } from './lib/wartung.mjs'
+import { sicherung, worktrees, dependabot, ciZustand, composerAudit, einzeilig, handlungsbedarf } from './lib/wartung.mjs'
 
 // Auffangnetz: auch bei einem unerwarteten Fehler endet die Ausgabe mit HANDLUNGSBEDARF
 process.on('uncaughtException', (e) => {
@@ -125,6 +126,39 @@ let deps = []; let depsFehler = null
 try { deps = dependabot(JSON.parse(gh.out)) } catch { depsFehler = gh.err || 'gh lieferte kein JSON' }
 if (gh.code !== 0 && !depsFehler) depsFehler = gh.err || `gh endete mit ${gh.code}`
 
+// --- CI ------------------------------------------------------------------------
+// Je Ablauf einzeln abfragen (ein gemeinsames Fenster würde selten laufende
+// Abläufe mit Pfadfilter still verlieren). Ohne Läufe auf main (z. B. Release
+// über Tags, Liste NUR_TAGS): ohne Zweig-Filter. Leere Ablaufliste = nicht prüfbar.
+const RUN_FELDER = 'status,conclusion,headSha,createdAt,url'
+// Abläufe, die nur bei Tags laufen — nur sie werden ohne Zweig-Filter bewertet;
+// jeder andere ohne Lauf auf main gilt als „unklar“ (nicht fremde Zweige bewerten)
+const NUR_TAGS = new Set(['Release Theme-Konfigurator'])
+const CI_LIMIT = 20
+let ci = []; let ciFehler = null
+const ghAbl = cmd('gh', ['workflow', 'list', '--repo', REPOS[0].github, '--all', '--json', 'name,id,state'], REPOS[0].pfad)
+let abl = null
+try { abl = JSON.parse(ghAbl.out) } catch { ciFehler = ghAbl.err || 'gh workflow list: Antwort nicht lesbar' }
+if (!ciFehler && (!Array.isArray(abl) || !abl.length)) ciFehler = ghAbl.err || 'gh workflow list: keine Abläufe'
+if (!ciFehler) {
+  const eingaben = []
+  for (const a of abl) {
+    const lauf = (zweig) => {
+      const r = cmd('gh', ['run', 'list', '--repo', REPOS[0].github, '--workflow', String(a.id), ...(zweig ? ['--branch', 'main'] : []), '--limit', String(CI_LIMIT), '--json', RUN_FELDER], REPOS[0].pfad)
+      if (r.code !== 0) throw new Error(r.err || `gh run list endete mit ${r.code}`)
+      const d = JSON.parse(r.out)
+      if (!Array.isArray(d)) throw new Error('gh run list: Antwort ist keine Liste')
+      return d
+    }
+    try {
+      let laeufe = lauf(true); let ohneZweig = false
+      if (!laeufe.length && NUR_TAGS.has(a.name)) { laeufe = lauf(false); ohneZweig = true }
+      eingaben.push({ ablauf: a.name, aktiv: a.state === 'active', laeufe, ohneZweig })
+    } catch (e) { ciFehler = einzeilig(`${a.name}: ${e.message}`); break }
+  }
+  if (!ciFehler) ci = ciZustand(eingaben, Date.now(), CI_LIMIT)
+}
+
 // --- Drupal-Sicherheit -----------------------------------------------------
 const c = cmd('composer', ['audit', '--locked', '--format=json', '--no-interaction'], REPOS[1].pfad)
 const audit = composerAudit(c.out || c.err)
@@ -137,7 +171,8 @@ const letzteWirkung = wirkungen.length
   : null
 
 // --- Bericht ---------------------------------------------------------------
-const bedarf = handlungsbedarf({ sicherung: sicherung(staende), worktrees: wts, dependabot: deps, audit, ungepusht, letzteWirkung })
+const bedarf = handlungsbedarf({ sicherung: sicherung(staende), worktrees: wts, dependabot: deps, audit, ungepusht, letzteWirkung, ci })
+if (ciFehler) bedarf.push(`CI nicht prüfbar: ${ciFehler}`)
 if (depsFehler) bedarf.push(`Dependabot nicht prüfbar: ${depsFehler}`)
 const datum = new Date().toLocaleDateString('sv-SE')
 const kurz = (h) => h ? h.slice(0, 8) : '—'
@@ -157,6 +192,9 @@ const zeilen = [
   '## Worktrees\n',
   wts.length ? ['| Repository | Ordner | Zweig | letzter Commit | offen | STAND.md | Zustand |', '|---|---|---|---|---|---|---|',
     ...wts.map((w) => `| ${w.repo} | ${path.basename(w.pfad)} | ${w.zweig ?? '(abgehängt)'} | ${w.alterTage === null ? '—' : `vor ${w.alterTage} T.`} | ${w.offen ?? '—'} | ${w.stand_md ? 'ja' : '—'} | ${w.status} |`)].join('\n') : 'keine',
+  '',
+  '## CI (GitHub, je Ablauf)\n',
+  ciFehler ? `nicht prüfbar: ${ciFehler}` : ci.length ? ci.map((c) => `- ${c.ablauf}: ${c.ergebnis}${c.sha ? ` (${c.sha})` : ''}${c.seitTage !== null ? `, rot seit ${c.mindestens ? 'mindestens ' : ''}${c.seitTage} T.` : ''}${c.ohneZweig ? ' — Läufe ohne main (z. B. Tags)' : ''}${c.laeuft ? ' — neuer Lauf läuft' : ''}${c.url ? ` — ${c.url}` : ''}`).join('\n') : 'keine Läufe',
   '',
   '## Dependabot (GitHub)\n',
   depsFehler ? `nicht prüfbar: ${depsFehler}` : deps.length ? deps.map((d) => `- #${d.nummer} ${d.titel} — CI ${d.ci}${d.alterTage !== null ? `, seit ${d.alterTage} T.` : ''} — ${d.url}`).join('\n') : 'keine offenen',

@@ -34,6 +34,7 @@ Aufgabe sich bei Frank.
   als Handlungsbedarf).
 - **Worktrees:** erledigt (Zweig steckt in der Basis, nichts offen) · liegt
   (letzter Commit älter als 7 Tage) · in Arbeit · Ordner fehlt.
+- **CI:** jeder GitHub-Ablauf aus `gh workflow list` einzeln (`gh run list --workflow`, auf main; nur der Release-Ablauf über Tags (Liste `NUR_TAGS`) ohne Zweig-Filter; jeder andere Ablauf ohne Lauf auf main gilt als „unklar“). Maßgeblich ist der neueste abgeschlossene Lauf; übersprungene und abgebrochene zählen nicht. Grün nur bei success. Rot, unklar (kein auswertbarer Lauf, unbekanntes Ergebnis) und deaktiviert = Handlungsbedarf; „rot seit (mindestens) n Tagen“. Ergänzt 26.10.2026, nachdem zwei Abläufe eine Woche unbemerkt rot waren.
 - **Dependabot:** offene Pull-Requests auf GitHub mit CI-Zustand (`gh`).
 - **Drupal-Sicherheit:** `composer audit --locked` auf dem Mac. Bewusst nicht
   `ddev composer`: das löst den Theme-Schutz („COMPOSER GESTOPPT“) aus und

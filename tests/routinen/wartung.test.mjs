@@ -1,6 +1,6 @@
 // Routinen (E8): Auswertung des Wartungsberichts.
 import { describe, it, expect } from 'vitest'
-import { sicherung, worktrees, dependabot, composerAudit, einzeilig, handlungsbedarf } from '../../scripts/routinen/lib/wartung.mjs'
+import { sicherung, worktrees, dependabot, ciZustand, composerAudit, einzeilig, handlungsbedarf } from '../../scripts/routinen/lib/wartung.mjs'
 
 const TAG = 86400000
 
@@ -56,6 +56,32 @@ describe('dependabot', () => {
   })
 })
 
+describe('ciZustand', () => {
+  const l = (tag, conclusion, status = 'completed') => ({ status, conclusion, headSha: `sha${tag}0000000`, createdAt: new Date(tag * TAG).toISOString(), url: `u${tag}` })
+  it('neuester abgeschlossener Lauf zählt; rote Strecke ab dem ersten roten Lauf', () => {
+    const c = ciZustand([{ ablauf: 'B', laeufe: [l(2, 'failure'), l(3, 'success')] }, { ablauf: 'A', laeufe: [l(1, 'success'), l(2, 'failure'), l(3, 'failure')] }], 5 * TAG)
+    expect(c.map((x) => [x.ablauf, x.ergebnis, x.seitTage, x.mindestens])).toEqual([['A', 'rot', 3, false], ['B', 'grün', null, false]])
+    expect(c[0]).toMatchObject({ sha: 'sha30000', url: 'u3' })
+  })
+  it('übersprungene und abgebrochene zählen nicht; laufender Lauf wird vermerkt', () => {
+    expect(ciZustand([{ ablauf: 'A', laeufe: [l(1, 'failure'), l(2, 'cancelled'), l(3, 'skipped'), l(4, '', 'in_progress')] }], 5 * TAG)[0]).toMatchObject({ ergebnis: 'rot', laeuft: true, seitTage: 4 })
+  })
+  it('falsche Ruhe ausgeschlossen: nur abgebrochen, keine Läufe, stale, leeres Ergebnis → unklar; deaktiviert', () => {
+    const c = ciZustand([
+      { ablauf: 'a', laeufe: [l(1, 'cancelled')] },
+      { ablauf: 'b', laeufe: [] },
+      { ablauf: 'c', laeufe: [l(1, 'failure'), l(2, 'stale')] },
+      { ablauf: 'd', laeufe: [l(1, null)] },
+      { ablauf: 'e', aktiv: false, laeufe: [l(1, 'success')] },
+    ])
+    expect(c.map((x) => x.ergebnis)).toEqual(['unklar', 'unklar', 'unklar', 'unklar', 'deaktiviert'])
+  })
+  it('rote Strecke über alle abgefragten Läufe = „mindestens“', () => {
+    const laeufe = Array.from({ length: 20 }, (_, i) => l(i + 1, 'failure'))
+    expect(ciZustand([{ ablauf: 'A', laeufe }], 30 * TAG, 20)[0]).toMatchObject({ ergebnis: 'rot', seitTage: 29, mindestens: true })
+  })
+})
+
 describe('composerAudit', () => {
   it('leere Liste, Vorspann vor dem JSON, Warnungen je Paket', () => {
     expect(composerAudit('Hinweis vom Hook\n{"advisories":[],"abandoned":[]}')).toEqual({ warnungen: [], verwaist: [] })
@@ -97,5 +123,8 @@ describe('handlungsbedarf', () => {
   it('Nachtprüfung ausgefallen oder nie gelaufen', () => {
     expect(handlungsbedarf({ letzteWirkung: 3 })).toEqual(['Nächtliche Wirkungsprüfung seit 3 Tagen ohne Bericht'])
     expect(handlungsbedarf({ letzteWirkung: null })).toEqual(['Nächtliche Wirkungsprüfung: noch kein Bericht'])
+  })
+  it('rote CI ist Handlungsbedarf, grüne nicht', () => {
+    expect(handlungsbedarf({ ci: [{ ablauf: 'Theme-Konfigurator', ergebnis: 'rot', seitTage: 7 }, { ablauf: 'X', ergebnis: 'grün', seitTage: null }, { ablauf: 'Y', ergebnis: 'rot', seitTage: 9, mindestens: true }, { ablauf: 'Z', ergebnis: 'unklar' }, { ablauf: 'W', ergebnis: 'deaktiviert' }] })).toEqual(['CI rot: Theme-Konfigurator (seit 7 T.)', 'CI rot: Y (seit mindestens 9 T.)', 'CI unklar: Z (kein auswertbarer Lauf)', 'CI-Ablauf deaktiviert: W'])
   })
 })

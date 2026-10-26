@@ -56,6 +56,37 @@ export function dependabot (prs, jetzt = Date.now()) {
   })
 }
 
+const CI_ROT = /^(FAILURE|TIMED_OUT|STARTUP_FAILURE|ACTION_REQUIRED)$/
+const CI_UEBERGEHEN = /^(SKIPPED|CANCELLED|NEUTRAL)$/
+
+/**
+ * CI-Zustand je GitHub-Ablauf. Eingabe je Ablauf: { ablauf, aktiv, laeufe, ohneZweig }
+ * (laeufe aus gh run list --workflow … --json status,conclusion,headSha,createdAt,url).
+ * Maßgeblich ist der neueste abgeschlossene Lauf; übersprungene und abgebrochene
+ * (z. B. von einem neueren Push abgelöste) zählen nicht. Grün nur bei SUCCESS —
+ * alles Unbekannte (stale, leer, keine Läufe) heißt „unklar“ und ist Handlungsbedarf.
+ * „seitTage“ = Alter des ersten Laufs der roten Strecke; „mindestens“, wenn die
+ * Strecke bis an das Ende der abgefragten Läufe reicht.
+ */
+export function ciZustand (ablaeufe, jetzt = Date.now(), limit = 20) {
+  return ablaeufe.map(({ ablauf, aktiv = true, laeufe = [], ohneZweig = false }) => {
+    const leer = { ablauf, ohneZweig, laeuft: false, sha: null, seitTage: null, mindestens: false, url: null }
+    if (!aktiv) return { ...leer, ergebnis: 'deaktiviert' }
+    const liste = [...laeufe].sort((x, y) => Date.parse(y.createdAt) - Date.parse(x.createdAt))
+    const laeuft = liste.length > 0 && liste[0].status !== 'completed'
+    const fertig = liste.filter((l) => l.status === 'completed' && !CI_UEBERGEHEN.test(String(l.conclusion ?? '').toUpperCase()))
+    if (!fertig.length) return { ...leer, laeuft, ergebnis: 'unklar' }
+    const art = (l) => { const c = String(l.conclusion ?? '').toUpperCase(); return c === 'SUCCESS' ? 'grün' : CI_ROT.test(c) ? 'rot' : 'unklar' }
+    const neu = fertig[0]
+    const basis = { ...leer, laeuft, sha: String(neu.headSha ?? '').slice(0, 8) || null, url: neu.url ?? null }
+    if (art(neu) !== 'rot') return { ...basis, ergebnis: art(neu) }
+    let n = 0
+    while (n < fertig.length && art(fertig[n]) === 'rot') n++
+    const erster = fertig[n - 1]
+    return { ...basis, ergebnis: 'rot', seitTage: Math.floor((jetzt - Date.parse(erster.createdAt)) / TAG), mindestens: n === fertig.length && liste.length >= limit }
+  }).sort((x, y) => x.ablauf.localeCompare(y.ablauf))
+}
+
 /** Ausgabe von `composer audit --format=json`; Vorspann (Hinweise, Warnungen) davor wird übersprungen. */
 export function composerAudit (text) {
   const t = String(text)
@@ -84,8 +115,13 @@ export function einzeilig (text, max = 160) {
  * Handlungsbedarf aus allen Teilen: kurze Liste für Benachrichtigung und Kopf.
  * letzteWirkung = Alter des neuesten Nachtberichts in Tagen (null = keiner).
  */
-export function handlungsbedarf ({ sicherung = [], worktrees = [], dependabot = [], audit = {}, ungepusht = [], letzteWirkung = 0, depAlter = 14 }) {
+export function handlungsbedarf ({ sicherung = [], worktrees = [], dependabot = [], audit = {}, ungepusht = [], letzteWirkung = 0, depAlter = 14, ci = [] }) {
   const p = []
+  for (const c of ci) {
+    if (c.ergebnis === 'rot') p.push(`CI rot: ${c.ablauf}${c.seitTage !== null ? ` (seit ${c.mindestens ? 'mindestens ' : ''}${c.seitTage} T.)` : ''}`)
+    else if (c.ergebnis === 'unklar') p.push(`CI unklar: ${c.ablauf} (kein auswertbarer Lauf)`)
+    else if (c.ergebnis === 'deaktiviert') p.push(`CI-Ablauf deaktiviert: ${c.ablauf}`)
+  }
   for (const s of sicherung) if (!['aktuell', 'gepusht'].includes(s.status)) p.push(`Sicherung ${s.repo} ${s.status}`)
   if (audit.fehler) p.push(`Drupal-Sicherheit nicht prüfbar: ${audit.fehler}`)
   if (audit.warnungen?.length) p.push(`${audit.warnungen.length} Drupal-Sicherheitswarnung(en)`)
