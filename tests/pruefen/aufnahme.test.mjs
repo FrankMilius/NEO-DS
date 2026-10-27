@@ -32,7 +32,7 @@ afterAll(async () => { await browser?.close(); server?.close() })
 
 describe('pruefen: Aufnahme', () => {
   it('ersetzt styles.css durch die übergebene CSS und wechselt sie je Aufnahme', async () => {
-    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    const t = await oeffne(browser, { ...lade({ lokal: false }), ddevUrl: basis }, 400)
     t.setzeCss('body{background:rgb(0,0,255)}')
     await aufnehmen(t.seite, '/')
     expect(await t.seite.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(0, 0, 255)')
@@ -44,14 +44,14 @@ describe('pruefen: Aufnahme', () => {
   }, 30000)
 
   it('ohne setzeCss gilt die ausgelieferte styles.css (Gegenprobe ohne --css)', async () => {
-    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    const t = await oeffne(browser, { ...lade({ lokal: false }), ddevUrl: basis }, 400)
     await t.seite.goto('/')
     expect(await t.seite.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(255, 0, 0)')
     await t.schliesse()
   }, 30000)
 
   it('nimmt die ganze Seite auf, nicht nur den Ausschnitt', async () => {
-    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    const t = await oeffne(browser, { ...lade({ lokal: false }), ddevUrl: basis }, 400)
     t.setzeCss('')
     const png = await aufnehmen(t.seite, '/')
     expect(png.readUInt32BE(20)).toBe(1500) // Höhe im IHDR-Block
@@ -61,7 +61,7 @@ describe('pruefen: Aufnahme', () => {
   it('wartet auf nachgeladene Bilder (loading="lazy"), statt eine leere Fläche aufzunehmen', async () => {
     // Anlass 21.10.2026: Probe mit gleicher CSS meldete /musterseite-bauteile als geändert —
     // in Aufnahme b fehlte ein Bild, das erst beim Scrollen geladen wurde.
-    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    const t = await oeffne(browser, { ...lade({ lokal: false }), ddevUrl: basis }, 400)
     t.setzeCss('')
     await aufnehmen(t.seite, '/faul')
     expect(await t.seite.evaluate(() => [...document.images].every((i) => i.complete && i.naturalWidth > 0))).toBe(true)
@@ -69,7 +69,7 @@ describe('pruefen: Aufnahme', () => {
   }, 30000)
 
   it('HTTP-Fehler der Seite wirft, statt eine Fehlerseite zu vergleichen', async () => {
-    const t = await oeffne(browser, { ...lade(), ddevUrl: basis }, 400)
+    const t = await oeffne(browser, { ...lade({ lokal: false }), ddevUrl: basis }, 400)
     await expect(aufnehmen(t.seite, '/fehlt')).rejects.toThrow(/404/)
     await t.schliesse()
   }, 30000)

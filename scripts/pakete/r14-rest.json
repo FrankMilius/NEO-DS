@@ -12,7 +12,8 @@
     "21.10.2026 — je Paket ein neo_fe-Zweig; parallel erarbeiten, nacheinander übernehmen (Frank)",
     "22.10.2026 — Werte ohne Website-Einsatz gelten als abgenommen, wenn sie in e2e:wirkung auf der Bühne wirken (Frank)",
     "23.10.2026 — nc-device-width-per-height und nc-product-showcase-acc-device-reserve aus 3a heraus, in Bühnen-Paket 6 (Ketten wirken nur bei 390 px; keine Bühnenprobe mit Akkordeon und Gerät) (Frank)",
-    "23.10.2026 — weiter mit Paket 3c Rückmeldung und Formular (Art „beheben“), nach Freigabe von 3a (ef26a9e8) und 3b (862526c9); erweiterte Wirkungsprüfung (390 px, scroll-margin, padding-right, ::after) gilt (Frank)"
+    "23.10.2026 — weiter mit Paket 3c Rückmeldung und Formular (Art „beheben“), nach Freigabe von 3a (ef26a9e8) und 3b (862526c9); erweiterte Wirkungsprüfung (390 px, scroll-margin, padding-right, ::after) gilt (Frank)",
+    "26.10.2026 — Pakete 4 (anschließen, 4a–4d) und 5 (löschen) parallel, höchstens 2 Agenten gleichzeitig; Übernahme nacheinander, jedes Paket zieht nach der vorigen Freigabe nach (Frank)"
   ],
   "naechsterSchritt": "Reparatur über den Workflow `/pakete-parallel` (E10) — nicht von Hand in einer zweiten Sitzung beginnen.",
   "pakete": [
@@ -514,6 +515,1658 @@
           "website": []
         }
       ]
+    },
+    {
+      "id": "paket-4a",
+      "titel": "Unbenutzte anschließen: Hero-Varianten",
+      "werte": [
+        {
+          "token": "nc-hero-tmob-content-gap",
+          "komponente": "hero-tmob",
+          "standard": "var(--fnd-spacing-08)",
+          "eigenschaft": "gap",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__content { gap: var(--fnd-spacing-08) } — Standard var(--fnd-spacing-08) gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-content-max-width",
+          "komponente": "hero-tmob",
+          "standard": "800px",
+          "eigenschaft": "max-width",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-hero-tmob__content { max-width: var(--nc-container-max-width, 1440px) }",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-headline-size",
+          "komponente": "hero-tmob",
+          "standard": "var(--fs-5xl)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-hero-tmob__headline { font-size: var(--nc-type-display-m-size) }",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-headline-weight",
+          "komponente": "hero-tmob",
+          "standard": "var(--fnd-font-weight-bold)",
+          "eigenschaft": "font-weight",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__headline { font-weight: var(--fnd-font-weight-bold) } — Standard var(--fnd-font-weight-bold) gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-media-max-width",
+          "komponente": "hero-tmob",
+          "standard": "960px",
+          "eigenschaft": "max-width",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__media { max-width: 960px } — Standard 960px gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-media-radius",
+          "komponente": "hero-tmob",
+          "standard": "var(--fnd-radius-lg)",
+          "eigenschaft": "border-radius",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__media { border-radius: var(--fnd-radius-lg) } — Standard var(--fnd-radius-lg) gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-media-shadow",
+          "komponente": "hero-tmob",
+          "standard": "var(--fnd-shadow-lg)",
+          "eigenschaft": "box-shadow",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__media { box-shadow: var(--fnd-shadow-lg) } — Standard var(--fnd-shadow-lg) gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-subtext-max-width",
+          "komponente": "hero-tmob",
+          "standard": "600px",
+          "eigenschaft": "max-width",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__subtext { max-width: 600px } — Standard 600px gleich",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tmob-subtext-opacity",
+          "komponente": "hero-tmob",
+          "standard": "0.85",
+          "eigenschaft": "opacity",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tmob__subtext { opacity: var(--fnd-opacity-prominent) } — Standard 0.85 weicht ab",
+          "website": [
+            "Block „Hero — Text + Media over Background“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-expand-radius",
+          "komponente": "hero-tom",
+          "standard": "var(--fnd-radius-xl)",
+          "eigenschaft": "border-radius",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tom--expand .nc-hero-tom__media { border-radius: var(--tom-radius) } — Standard var(--fnd-radius-xl) weicht ab",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-headline-size",
+          "komponente": "hero-tom",
+          "standard": "var(--fs-5xl)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-hero-tom__headline { font-size: var(--nc-type-display-m-size) }",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-headline-weight",
+          "komponente": "hero-tom",
+          "standard": "var(--fnd-font-weight-bold)",
+          "eigenschaft": "font-weight",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tom__headline { font-weight: var(--fnd-font-weight-bold) } — Standard var(--fnd-font-weight-bold) gleich",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-kicker-family",
+          "komponente": "hero-tom",
+          "standard": "var(--font-mono)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „kicker“, Eigenschaft font-family",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-kicker-size",
+          "komponente": "hero-tom",
+          "standard": "var(--nc-mono-label-size-lg)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-hero-tom__kicker { font-size: var(--nc-type-caption-size) }",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-scrim-color",
+          "komponente": "hero-tom",
+          "standard": "rgba(0, 0, 0, 0.4)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „scrim“, Eigenschaft color",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-subtext-opacity",
+          "komponente": "hero-tom",
+          "standard": "0.85",
+          "eigenschaft": "opacity",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-hero-tom__subtext { opacity: var(--fnd-opacity-prominent) } — Standard 0.85 weicht ab",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paket-4b",
+      "titel": "Unbenutzte anschließen: Galerien",
+      "werte": [
+        {
+          "token": "nc-fade-gallery-desc-color",
+          "komponente": "fade-gallery",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-fade-gallery__desc { color: var(--fnd-color-text-secondary) } — Token ohne Standardwert",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-fade-gallery-radius",
+          "komponente": "fade-gallery",
+          "standard": "var(--fnd-radius-lg)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft border-radius",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-fade-gallery-tab-active",
+          "komponente": "fade-gallery",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „tab“, Eigenschaft None",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-fade-gallery-tab-color",
+          "komponente": "fade-gallery",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-fade-gallery__tab { color: var(--fnd-color-text-secondary) } — Token ohne Standardwert",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-gallery-media-gap",
+          "komponente": "gallery",
+          "standard": "var(--fnd-spacing-10)",
+          "eigenschaft": "gap",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 7f716007 2026-06-16, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-gallery--thumbnails .nc-gallery__nav { gap: var(--fnd-spacing-03) }",
+          "website": [
+            "Block „Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-card-height",
+          "komponente": "story-gallery",
+          "standard": "420px",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „card“, Eigenschaft height",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-desc-color",
+          "komponente": "story-gallery",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-story-gallery__desc { color: var(--fnd-color-text-secondary) } — Token ohne Standardwert",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-desc-size",
+          "komponente": "story-gallery",
+          "standard": "var(--fs-sm)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-story-gallery__desc { font-size: var(--nc-type-body-l-size) }",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-gap",
+          "komponente": "story-gallery",
+          "standard": "var(--fnd-spacing-05)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft gap",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-paddle-bg",
+          "komponente": "story-gallery",
+          "standard": "",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-story-gallery__paddle { background-color: var(--fnd-color-background-base) } — Token ohne Standardwert",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-paddle-shadow",
+          "komponente": "story-gallery",
+          "standard": "var(--fnd-shadow-md)",
+          "eigenschaft": "box-shadow",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-story-gallery__paddle { box-shadow: var(--fnd-shadow-md) } — Standard var(--fnd-shadow-md) gleich",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-paddle-size",
+          "komponente": "story-gallery",
+          "standard": "44px",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „paddle“, Eigenschaft font-size",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-radius",
+          "komponente": "story-gallery",
+          "standard": "var(--fnd-radius-lg)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft border-radius",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-title-color",
+          "komponente": "story-gallery",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-story-gallery__title { color: var(--fnd-color-text-primary) } — Token ohne Standardwert",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-title-size",
+          "komponente": "story-gallery",
+          "standard": "var(--fs-lg)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-story-gallery__title { font-size: var(--nc-type-heading-s-size) }",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-title-weight",
+          "komponente": "story-gallery",
+          "standard": "var(--fnd-font-weight-bold)",
+          "eigenschaft": "font-weight",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-story-gallery__title { font-weight: var(--fnd-font-weight-bold) } — Standard var(--fnd-font-weight-bold) gleich",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paket-4c",
+      "titel": "Unbenutzte anschließen: Suche und Eingabe",
+      "werte": [
+        {
+          "token": "nc-badge-border-color",
+          "komponente": "badge",
+          "standard": "transparent",
+          "eigenschaft": "border",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-button,.nc-card,.nc-tag,.nc-badge,.nc-chip,[class*=__tag],[class*=__badge] { border: 1px solid currentColor } — Standard transparent weicht ab",
+          "website": [
+            "Block „Accordion“"
+          ]
+        },
+        {
+          "token": "nc-input-borderless-bg-hover",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-minimal-bg-hover)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-input--borderless { background-color: rgba(0,0,0,0) } — Standard var(--nc-form-control-minimal-bg-hover) weicht ab",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-bg",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-bg)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-input--filled { background-color: var(--mod-form-control-filled-bg, var(--nc-form-control-fill }",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-bg-focus",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-bg-focus)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-input--filled { background-color: var(--mod-form-control-filled-bg, var(--nc-form-control-fill }",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-bg-hover",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-bg-hover)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-input--filled { background-color: var(--mod-form-control-filled-bg, var(--nc-form-control-fill }",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-underline-color",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-underline-color)",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-input-group__prepend>svg,.nc-input-group__prepend>.nc-icon { color: inherit } · .nc-input-group__append>svg,.nc-input-group__append>.nc-icon { color: inherit }",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-underline-width",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-border-bottom)",
+          "eigenschaft": "width",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-input { width: 100% } · .nc-input::after { width: 100% }",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-label-remove-hover-bg",
+          "komponente": "label",
+          "standard": "color-mix(in srgb, currentColor 15%, transparent)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-label { background-color: var(--_surface-bg, transparent) }",
+          "website": [
+            "Block „Card Grid“",
+            "Website-Baustein „badge-row“"
+          ]
+        },
+        {
+          "token": "nc-search-backdrop-bg",
+          "komponente": "search",
+          "standard": "var(--fnd-color-always-dark)",
+          "eigenschaft": "background",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-panel__close { background: var(--fnd-color-background-secondary) } · .nc-search-panel__close:hover,.nc-search-panel__close:focus-visible { background: var(--fnd-color-background-tertiary) }",
+          "website": []
+        },
+        {
+          "token": "nc-search-backdrop-opacity",
+          "komponente": "search",
+          "standard": "0.35",
+          "eigenschaft": "opacity",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-panel { opacity: 0 } · .nc-header.is-search-open .nc-search-panel { opacity: 1 }",
+          "website": []
+        },
+        {
+          "token": "nc-search-clear-color",
+          "komponente": "search",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-panel__close { color: var(--fnd-color-text-primary) }",
+          "website": []
+        },
+        {
+          "token": "nc-search-clear-size",
+          "komponente": "search",
+          "standard": "20px",
+          "eigenschaft": "width",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-toggle .nc-icon { width: 18px } · .nc-search-toggle .nc-icon { height: 18px }",
+          "website": []
+        },
+        {
+          "token": "nc-search-mobile-bg",
+          "komponente": "search",
+          "standard": "",
+          "eigenschaft": "background",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-panel__close { background: var(--fnd-color-background-secondary) } · .nc-search-panel__close:hover,.nc-search-panel__close:focus-visible { background: var(--fnd-color-background-tertiary) }",
+          "website": []
+        },
+        {
+          "token": "nc-search-mobile-header-height",
+          "komponente": "search",
+          "standard": "56px",
+          "eigenschaft": "height",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-toggle .nc-icon { height: 18px } · .nc-tools .button,.nc-search-toggle,.nc-lang-toggle { height: 48px }",
+          "website": []
+        },
+        {
+          "token": "nc-search-mobile-results-max-height",
+          "komponente": "search",
+          "standard": "calc(100dvh - 56px)",
+          "eigenschaft": "height",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-search-toggle .nc-icon { height: 18px } · .nc-tools .button,.nc-search-toggle,.nc-lang-toggle { height: 48px }",
+          "website": []
+        },
+        {
+          "token": "nc-tag-remove-hover-bg",
+          "komponente": "tag",
+          "standard": "color-mix(in srgb, currentColor 15%, transparent)",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 7b05aa4f 2026-02-20, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-tag { background-color: var(--_surface-bg, transparent) }",
+          "website": []
+        },
+        {
+          "token": "nc-textarea-padding",
+          "komponente": "textarea",
+          "standard": "var(--fnd-spacing-03) var(--fnd-spacing-04)",
+          "eigenschaft": "padding",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-textarea { padding: var(--mod-input-padding-y-md, var(--nc-input-padding-y-md))  }",
+          "website": [
+            "Block „Form“"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paket-4d",
+      "titel": "Unbenutzte anschließen: Seitenblöcke und Rest",
+      "werte": [
+        {
+          "token": "nc-accordion-padding",
+          "komponente": "accordion",
+          "standard": "var(--fnd-spacing-04) var(--fnd-spacing-05)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft padding",
+          "website": [
+            "Block „Accordion“",
+            "Block „Geräte-Strecke“"
+          ]
+        },
+        {
+          "token": "nc-avatar-border-color",
+          "komponente": "avatar",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft border-color",
+          "website": []
+        },
+        {
+          "token": "nc-avatar-font-size",
+          "komponente": "avatar",
+          "standard": "var(--nc-avatar-font-size-md)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-avatar { font-size: var(--mod-avatar-font-size-md, var(--nc-avatar-font-size-md) }",
+          "website": []
+        },
+        {
+          "token": "nc-avatar-size",
+          "komponente": "avatar",
+          "standard": "var(--nc-avatar-size-lg)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-avatar { font-size: var(--mod-avatar-font-size-md, var(--nc-avatar-font-size-md) }",
+          "website": []
+        },
+        {
+          "token": "nc-banner-accent-border-color",
+          "komponente": "banner",
+          "standard": "currentColor",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „accent“, Eigenschaft border-color",
+          "website": []
+        },
+        {
+          "token": "nc-button-radius-full",
+          "komponente": "button",
+          "standard": "9999px",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 7b05aa4f 2026-02-20, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „Card Grid CTA“",
+            "Block „Events Listing“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Gallery“",
+            "Block „Hero“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-columns",
+          "komponente": "card-grid-cta",
+          "standard": "3",
+          "eigenschaft": "grid-template-columns",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-card-grid-cta { grid-template-columns: repeat(var(--cgc-columns, 3), 1fr) } · .nc-card-grid-cta { grid-template-columns: 1fr }",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-gap",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fnd-spacing-04)",
+          "eigenschaft": "gap",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-card-grid-cta { gap: var(--fnd-spacing-04) } — Standard var(--fnd-spacing-04) gleich",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-padding",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fnd-spacing-06)",
+          "eigenschaft": "padding-inline",
+          "massnahme": "anschließen — Wert fest eingetragen",
+          "detail": ".nc-card-grid-cta { padding-inline: var(--fnd-spacing-06) } — Standard var(--fnd-spacing-06) gleich",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-radius",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fnd-radius-md)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft border-radius",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-padding",
+          "komponente": "card",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft padding",
+          "website": [
+            "Block „Text + CTA“",
+            "Inhalte (Standardansicht)",
+            "Inhaltstyp „Event“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-chapter-nav-padding",
+          "komponente": "chapter-nav",
+          "standard": "var(--nc-chapter-nav-padding-block) 0",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft padding",
+          "website": [
+            "Inhaltstyp „Landing-page“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-footer-bg",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "background-color",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-footer { background-color: var(--nc-footer-surface-bg) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-color",
+          "komponente": "footer",
+          "standard": "",
+          "eigenschaft": "color",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-footer { color: var(--nc-footer-surface-fg) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-cta-headline-size",
+          "komponente": "footer",
+          "standard": "var(--fs-4xl)",
+          "eigenschaft": "font-size",
+          "massnahme": "anschließen — vom Token-Wert verschieden angesprochen",
+          "detail": ".nc-footer__cta-headline { font-size: var(--nc-type-heading-l-size) }",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-cta-kicker-family",
+          "komponente": "footer",
+          "standard": "var(--font-mono)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „cta-kicker“, Eigenschaft font-family",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-footer-max-width",
+          "komponente": "footer",
+          "standard": "var(--container-max-width, 1440px)",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft max-width",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-grid-tablet-columns",
+          "komponente": "grid",
+          "standard": "8",
+          "eigenschaft": "grid-template-columns",
+          "massnahme": "anschließen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-grid--split { grid-template-columns: 1fr } · .nc-grid--split { grid-template-columns: 1fr 1fr }",
+          "website": []
+        },
+        {
+          "token": "nc-table-border-color",
+          "komponente": "table",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft border-color",
+          "website": []
+        },
+        {
+          "token": "nc-timeline-gap",
+          "komponente": "timeline",
+          "standard": "0",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft gap",
+          "website": [
+            "Block „Timeline“"
+          ]
+        },
+        {
+          "token": "nc-treeview-bg-active",
+          "komponente": "treeview",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "anschließen — unklar",
+          "detail": "Teil „“, Eigenschaft background",
+          "website": []
+        }
+      ]
+    },
+    {
+      "id": "paket-5",
+      "titel": "Unbenutzte Tokens löschen",
+      "werte": [
+        {
+          "token": "nc-accordion-padding-compact",
+          "komponente": "accordion",
+          "standard": "var(--fnd-spacing-03) var(--fnd-spacing-04)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis ce057ac3 2026-10-19 feat(accordion): Roadmap V06 Auswahl und Aktionen neben dem Auslöser — App 1.2.18 (19.10.2",
+          "website": [
+            "Block „Accordion“",
+            "Block „Geräte-Strecke“"
+          ]
+        },
+        {
+          "token": "nc-accordion-padding-spacious",
+          "komponente": "accordion",
+          "standard": "var(--fnd-spacing-06) var(--fnd-spacing-07)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis ce057ac3 2026-10-19 feat(accordion): Roadmap V06 Auswahl und Aktionen neben dem Auslöser — App 1.2.18 (19.10.2",
+          "website": [
+            "Block „Accordion“",
+            "Block „Geräte-Strecke“"
+          ]
+        },
+        {
+          "token": "nc-alert-close-size",
+          "komponente": "alert",
+          "standard": "20px",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Doppelung",
+          "detail": "gleicher Standard wie nc-alert-icon-size",
+          "website": []
+        },
+        {
+          "token": "nc-avatar-transition-duration",
+          "komponente": "avatar",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis b849d5f8 2026-03-15 feat: NEO Design System v1.0.0 — complete stable release",
+          "website": []
+        },
+        {
+          "token": "nc-card-grid-anim-delay",
+          "komponente": "card-grid",
+          "standard": "0.1s",
+          "eigenschaft": "transition-delay",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — ähnliche Stelle mit festem Wert: .nc-card-grid[data-animation=reverse-domino].is-revealed>.nc-card { transition-delay: var(--card-delay, 0s) }",
+          "website": [
+            "Block „Card Grid“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-hover-scale",
+          "komponente": "card-grid-cta",
+          "standard": "1.03",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-overlay-end",
+          "komponente": "card-grid-cta",
+          "standard": "transparent",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-overlay-start",
+          "komponente": "card-grid-cta",
+          "standard": "rgba(0, 0, 0, 0.6)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-title-color",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fnd-color-always-light)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-title-size",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fs-2xl)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-grid-cta-title-weight",
+          "komponente": "card-grid-cta",
+          "standard": "var(--fnd-font-weight-bold)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid CTA“"
+          ]
+        },
+        {
+          "token": "nc-card-header-padding",
+          "komponente": "card",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis 4a898876 2026-08-18 refactor(atoms): Card-Atom loeschen, Slider bewusst stehen lassen",
+          "website": [
+            "Block „Text + CTA“",
+            "Inhalte (Standardansicht)",
+            "Inhaltstyp „Event“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-card-link-decoration",
+          "komponente": "card",
+          "standard": "none",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis 4a898876 2026-08-18 refactor(atoms): Card-Atom loeschen, Slider bewusst stehen lassen",
+          "website": [
+            "Block „Text + CTA“",
+            "Inhalte (Standardansicht)",
+            "Inhaltstyp „Event“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-card-nav-color-hover",
+          "komponente": "card",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis 9aa2ce90 2026-08-11 feat(ds): Card-System vereinheitlichen — Radius, Label, Hover",
+          "website": [
+            "Block „Text + CTA“",
+            "Inhalte (Standardansicht)",
+            "Inhaltstyp „Event“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-card-transition-duration",
+          "komponente": "card",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis 4a898876 2026-08-18 refactor(atoms): Card-Atom loeschen, Slider bewusst stehen lassen",
+          "website": [
+            "Block „Text + CTA“",
+            "Inhalte (Standardansicht)",
+            "Inhaltstyp „Event“ (Vollansicht)"
+          ]
+        },
+        {
+          "token": "nc-container-max-width-content",
+          "komponente": "container",
+          "standard": "var(--container-content)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Footer“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Logo Wall“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Inhaltstyp „News“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“",
+            "Seitenrahmen (jede Seite)",
+            "Template node--reference-page"
+          ]
+        },
+        {
+          "token": "nc-dt-stacked-breakpoint",
+          "komponente": "data-table",
+          "standard": "768px",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-dt-transition-duration",
+          "komponente": "data-table",
+          "standard": "var(--fnd-motion-duration-200)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 7b05aa4f 2026-02-20, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-fade-gallery-fade-duration",
+          "komponente": "fade-gallery",
+          "standard": "0.5s",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-fade-gallery-headline-size",
+          "komponente": "fade-gallery",
+          "standard": "var(--fs-2xl)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-fade-gallery-tab-indicator",
+          "komponente": "fade-gallery",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Fade-In Gallery“"
+          ]
+        },
+        {
+          "token": "nc-footer-padding-inline",
+          "komponente": "footer",
+          "standard": "var(--fnd-spacing-06)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Footer“"
+          ]
+        },
+        {
+          "token": "nc-gallery-autoplay-interval",
+          "komponente": "gallery",
+          "standard": "6s",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Gallery“"
+          ]
+        },
+        {
+          "token": "nc-hero-footer-rule",
+          "komponente": "hero",
+          "standard": "color-mix(in srgb, var(--nc-hero-color) 14%, transparent)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis 1e443325 2026-08-19 feat(hero): Badges fluid und in Mono, Haarlinie sichtbar, waehlbare Kartenflaeche",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-padding-inline",
+          "komponente": "hero",
+          "standard": "var(--fnd-spacing-06)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Hero“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-kicker-tracking",
+          "komponente": "hero-tom",
+          "standard": "var(--nc-mono-tracking-caps)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 0e2ee180 2026-08-10, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-hero-tom-kicker-transform",
+          "komponente": "hero-tom",
+          "standard": "uppercase",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 0e2ee180 2026-08-10, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Hero — Text over Media“",
+            "Block „Tab Navigation Block“"
+          ]
+        },
+        {
+          "token": "nc-input-borderless-underline-focus",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-minimal-border-focus)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-input-filled-underline-color-focus",
+          "komponente": "input",
+          "standard": "var(--nc-form-control-filled-underline-color-focus)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Footer“",
+            "Block „Form“"
+          ]
+        },
+        {
+          "token": "nc-item-transition",
+          "komponente": "item",
+          "standard": "var(--fnd-motion-duration-200)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis b849d5f8 2026-03-15 feat: NEO Design System v1.0.0 — complete stable release",
+          "website": []
+        },
+        {
+          "token": "nc-label-transition-duration",
+          "komponente": "label",
+          "standard": "var(--fnd-motion-duration-200)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Card Grid“",
+            "Website-Baustein „badge-row“"
+          ]
+        },
+        {
+          "token": "nc-logo-wall-fadein-delay-step",
+          "komponente": "logo-wall",
+          "standard": "0.08s",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Logo Wall“"
+          ]
+        },
+        {
+          "token": "nc-logo-wall-item-height",
+          "komponente": "logo-wall",
+          "standard": "auto",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Logo Wall“"
+          ]
+        },
+        {
+          "token": "nc-metric-label-font-family",
+          "komponente": "metric",
+          "standard": "var(--font-mono)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Doppelung",
+          "detail": "gleicher Standard wie nc-metric-value-font-family",
+          "website": [
+            "Block „Hero“"
+          ]
+        },
+        {
+          "token": "nc-metric-label-tracking",
+          "komponente": "metric",
+          "standard": "var(--nc-mono-tracking-caps)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 0e2ee180 2026-08-10, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Hero“"
+          ]
+        },
+        {
+          "token": "nc-metric-label-transform",
+          "komponente": "metric",
+          "standard": "uppercase",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 0e2ee180 2026-08-10, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Hero“"
+          ]
+        },
+        {
+          "token": "nc-notification-transition-duration",
+          "komponente": "notification",
+          "standard": "var(--fnd-motion-duration-200)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-search-backdrop-z-index",
+          "komponente": "search",
+          "standard": "calc(var(--fnd-z-dropdown) - 1)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-search-clear-color-hover",
+          "komponente": "search",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-search-results-top-offset",
+          "komponente": "search",
+          "standard": "0",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-section-accent-bg",
+          "komponente": "section",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Hero — Text + Media over Background“",
+            "Block „Hero — Text over Media“",
+            "Block „Hero“",
+            "Block „Logo Wall“",
+            "Block „Product Showcase“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-full“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“"
+          ]
+        },
+        {
+          "token": "nc-section-accent-color",
+          "komponente": "section",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis b0962ccf 2026-10-06 feat(section): Divider gebaut, Kantenformen gestrichen (Entscheidung 06.10.2026)",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Hero — Text + Media over Background“",
+            "Block „Hero — Text over Media“",
+            "Block „Hero“",
+            "Block „Logo Wall“",
+            "Block „Product Showcase“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-full“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“"
+          ]
+        },
+        {
+          "token": "nc-section-edge-angle",
+          "komponente": "section",
+          "standard": "3deg",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Hero — Text + Media over Background“",
+            "Block „Hero — Text over Media“",
+            "Block „Hero“",
+            "Block „Logo Wall“",
+            "Block „Product Showcase“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-full“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“"
+          ]
+        },
+        {
+          "token": "nc-section-edge-fill",
+          "komponente": "section",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Hero — Text + Media over Background“",
+            "Block „Hero — Text over Media“",
+            "Block „Hero“",
+            "Block „Logo Wall“",
+            "Block „Product Showcase“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-full“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“"
+          ]
+        },
+        {
+          "token": "nc-section-edge-height",
+          "komponente": "section",
+          "standard": "48px",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Accordion“",
+            "Block „App-Store-Verweise“",
+            "Block „Bento Grid“",
+            "Block „Block-Bundle“",
+            "Block „Card Grid CTA“",
+            "Block „Card Grid“",
+            "Block „Dokumentations-Abschnitt“",
+            "Block „Events Listing“",
+            "Block „Expanding Panels“",
+            "Block „Fade-In Gallery“",
+            "Block „Feature-List“",
+            "Block „Form“",
+            "Block „Geräte-Strecke“",
+            "Block „Hero — Text + Media over Background“",
+            "Block „Hero — Text over Media“",
+            "Block „Hero“",
+            "Block „Logo Wall“",
+            "Block „Product Showcase“",
+            "Block „Product Story Gallery“",
+            "Block „Solution Tabs“",
+            "Block „Tab Navigation Block“",
+            "Block „Table“",
+            "Block „Testimonial-Grid“",
+            "Block „Testimonial“",
+            "Block „Text + CTA“",
+            "Block „Text + Media“",
+            "Block „Timeline“",
+            "Inhaltstyp „Event“ (Vollansicht)",
+            "Inhaltstyp „Landing-page“ (Vollansicht)",
+            "Layout „neo-section-default“",
+            "Layout „neo-section-full“",
+            "Layout „neo-section-sidebar“",
+            "Layout „neo-section-split“"
+          ]
+        },
+        {
+          "token": "nc-shell-sidebar-left-width-standard",
+          "komponente": "shell",
+          "standard": "260px",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-shell-sidebar-right-width-standard",
+          "komponente": "shell",
+          "standard": "260px",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-shell-z-linkbar",
+          "komponente": "shell",
+          "standard": "var(--fnd-z-base, 1)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-shell-z-sidebar",
+          "komponente": "shell",
+          "standard": "var(--fnd-z-sidebar)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Layout „region--header“",
+            "Seitenrahmen (jede Seite)"
+          ]
+        },
+        {
+          "token": "nc-story-gallery-headline-size",
+          "komponente": "story-gallery",
+          "standard": "var(--fs-2xl)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 3ad3a307 2026-03-26, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": [
+            "Block „Product Story Gallery“"
+          ]
+        },
+        {
+          "token": "nc-table-color-secondary",
+          "komponente": "table",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-table-transition-duration",
+          "komponente": "table",
+          "standard": "var(--fnd-motion-duration-150)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-tag-transition-duration",
+          "komponente": "tag",
+          "standard": "var(--fnd-motion-duration-200)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis b849d5f8 2026-03-15 feat: NEO Design System v1.0.0 — complete stable release",
+          "website": []
+        },
+        {
+          "token": "nc-text-media-headline-size",
+          "komponente": "text-media",
+          "standard": "var(--fs-2xl)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis de5e3433 2026-07-30 refactor(ds): tote text-media-Typo-Regeln entfernen, Lead-Farbe entdoppeln",
+          "website": [
+            "Block „Tab Navigation Block“",
+            "Block „Text + Media“"
+          ]
+        },
+        {
+          "token": "nc-text-media-subline-color",
+          "komponente": "text-media",
+          "standard": "",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Altlast (Leser bei Umbau entfernt)",
+          "detail": "zuletzt gelesen bis de5e3433 2026-07-30 refactor(ds): tote text-media-Typo-Regeln entfernen, Lead-Farbe entdoppeln",
+          "website": [
+            "Block „Tab Navigation Block“",
+            "Block „Text + Media“"
+          ]
+        },
+        {
+          "token": "nc-toast-auto-dismiss-duration",
+          "komponente": "toast",
+          "standard": "5000",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt 7b05aa4f 2026-02-20, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-toast-max-visible",
+          "komponente": "toast",
+          "standard": "3",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-toast-swipe-threshold",
+          "komponente": "toast",
+          "standard": "100",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        },
+        {
+          "token": "nc-treeview-checkbox-gap",
+          "komponente": "treeview",
+          "standard": "var(--fnd-spacing-02)",
+          "eigenschaft": "—",
+          "massnahme": "löschen — Doppelung",
+          "detail": "gleicher Standard wie nc-treeview-action-gap, nc-treeview-gap",
+          "website": []
+        },
+        {
+          "token": "nc-treeview-guide-style",
+          "komponente": "treeview",
+          "standard": "solid",
+          "eigenschaft": "—",
+          "massnahme": "löschen — nie angeschlossen",
+          "detail": "angelegt b849d5f8 2026-03-15, nie vom CSS gelesen — keine passende Stelle im CSS gefunden",
+          "website": []
+        }
+      ]
     }
-  ]
+  ],
+  "regel_paket_4_5": "Standard = heute sichtbarer Wert, Website unverändert (Pixel 0). Paket 4: das Token wird dort eingesetzt, wo heute ein fester Wert steht oder es nie angeschlossen wurde; ein geänderter Testwert muss ankommen. Paket 5: Token entfernen (SCSS, Token-Quelle, erzeugte Dateien, App), keine Website-Änderung."
 }

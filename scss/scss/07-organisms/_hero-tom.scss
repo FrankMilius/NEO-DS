@@ -27,9 +27,13 @@
 // (inline-/block-size, inset-inline-*), die Inhaltsbreite ueber den
 // vorhandenen Token --nc-hero-tom-content-max-width (800px); die zwei
 // Medienabfragen, die headline und kicker auf denselben Wert setzten, sind
-// entfallen. Die uebrigen --nc-hero-tom-*-Tokens (Mono-Kicker, fs-5xl-Headline,
-// Scrim-Farbe, Expand-Radius) sind weiterhin NICHT verdrahtet — das wuerde den
-// Hero sichtbar aendern und braucht eine eigene Entscheidung.
+// entfallen.
+//
+// R14 Paket 4a (26.10.2026): Kicker-Schrift und -Groesse, Headline, Subtext-
+// Deckkraft, Scrim-Farbe und Expand-Radius lesen jetzt ihre --nc-hero-tom-*-
+// Tokens. Deren Standard ist der bisher sichtbare Wert (Fliesstext-Schrift,
+// Caption-Stufe, Display-M, opacity-prominent, always-dark 40 %, radius-xl) —
+// die Website bleibt unveraendert.
 
 .nc-hero-tom {
   position: relative;
@@ -68,7 +72,7 @@
 .nc-hero-tom__scrim {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent) 0%, color-mix(in srgb, var(--fnd-color-always-dark) 15%, transparent) 70%);
+  background: radial-gradient(ellipse at center, var(--nc-hero-tom-scrim-color) 0%, color-mix(in srgb, var(--fnd-color-always-dark) 15%, transparent) 70%);
   pointer-events: none;
 }
 
@@ -97,7 +101,8 @@
 }
 
 .nc-hero-tom__kicker {
-  font-size: var(--nc-type-caption-size);
+  font-family: var(--nc-hero-tom-kicker-family);
+  font-size: var(--nc-hero-tom-kicker-size);
   font-weight: var(--nc-hero-tom-kicker-weight);
   text-transform: var(--nc-kicker-text-transform);
   letter-spacing: var(--nc-kicker-letter-spacing);
@@ -110,8 +115,8 @@
   // h1–h6 text-primary: im hellen Seitenthema dunkel auf dem Bild (Muster
   // wie event-titel, 06.10.2026).
   color: inherit;
-  font-size: var(--nc-type-display-m-size);
-  font-weight: var(--fnd-font-weight-bold);
+  font-size: var(--nc-hero-tom-headline-size);
+  font-weight: var(--nc-hero-tom-headline-weight);
   line-height: var(--lh-tight);
   margin: 0;
 }
@@ -119,7 +124,7 @@
 .nc-hero-tom__subtext {
   font-size: var(--nc-hero-tom-subtext-size);
   line-height: var(--lh-body);
-  opacity: var(--fnd-opacity-prominent);
+  opacity: var(--nc-hero-tom-subtext-opacity);
   max-inline-size: 600px; // Lesebreite des Leads, wie auf der Website
 }
 
@@ -135,7 +140,7 @@
 .nc-hero-tom--expand .nc-hero-tom__media {
   --tom-expand: 0;
   --tom-inset: calc((100vw - var(--nc-container-max-width, 1440px)) / 2 * (1 - var(--tom-expand)));
-  --tom-radius: calc(var(--fnd-radius-xl, 10px) * (1 - var(--tom-expand)));
+  --tom-radius: calc(var(--nc-hero-tom-expand-radius) * (1 - var(--tom-expand)));
   inset-inline-start: var(--tom-inset);
   inset-inline-end: var(--tom-inset);
   border-radius: var(--tom-radius);

@@ -41,6 +41,11 @@ describe('pruefen: Einstellungen', () => {
     expect(e.breiten).toEqual([1280, 390])
   })
 
+  it('lokal: false liest nur die versionierte Datei (Tests unabhängig vom Arbeitsplatz)', () => {
+    const d = ordnerMit(voll, { ddevUrl: 'https://anders.ddev.site' })
+    expect(lade({ ordner: d, lokal: false }).ddevUrl).toBe(voll.ddevUrl)
+  })
+
   it('~ wird zum Benutzerordner aufgelöst', () => {
     const e = lade({ ordner: ordnerMit(voll) })
     expect(e.drupalWurzel).toBe(path.join(homedir(), 'Sites/DRUPAL11'))

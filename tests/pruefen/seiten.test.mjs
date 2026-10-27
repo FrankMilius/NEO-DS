@@ -12,7 +12,9 @@ import { lade } from '../../scripts/pruefen/lib/einstellungen.mjs'
 
 const fixture = (n) => readFileSync(new URL(`../fixtures/pruefen/${n}`, import.meta.url), 'utf8')
 const zeilen = (t) => t.trim().split('\n')
-const einst = lade()
+// Versionierte Einstellungen: eine lokale einstellungen.lokal.json (z. B. mit
+// zusätzlichem seitenAusschluss) darf die erwartete Seitenzahl nicht ändern
+const einst = lade({ lokal: false })
 
 describe('pruefen: Seitenliste', () => {
   it('77 Aliase ohne Formular-Unterseiten und Testseiten, plus Startseite → die bekannten 72', () => {

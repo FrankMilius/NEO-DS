@@ -26,9 +26,13 @@ function aufloesen (p) {
   return p === '~' || p.startsWith('~/') ? path.join(homedir(), p.slice(2)) : p
 }
 
-/** Zusammengeführte Einstellungen; wirft, wenn ein Pflichtfeld fehlt. */
-export function lade ({ ordner = ORDNER } = {}) {
-  const e = { ...lies(path.join(ordner, 'einstellungen.json')), ...lies(path.join(ordner, 'einstellungen.lokal.json')) }
+/**
+ * Zusammengeführte Einstellungen; wirft, wenn ein Pflichtfeld fehlt.
+ * lokal: false liest nur die versionierte Datei — für Tests, deren Ergebnis
+ * nicht von einer Arbeitsplatz-Einstellung abhängen darf (27.10.2026).
+ */
+export function lade ({ ordner = ORDNER, lokal = true } = {}) {
+  const e = { ...lies(path.join(ordner, 'einstellungen.json')), ...(lokal ? lies(path.join(ordner, 'einstellungen.lokal.json')) : {}) }
   delete e._hinweis
   const fehlt = PFLICHT.filter((f) => e[f] === undefined)
   if (fehlt.length) throw new Error(`Einstellungen in ${ordner}: es fehlt ${fehlt.join(', ')}`)

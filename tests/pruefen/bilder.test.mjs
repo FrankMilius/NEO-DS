@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest'
 import { liesErgebnis, versionAusAbbild, dockerArgumente } from '../../scripts/pruefen/lib/bilder.mjs'
 import { lade } from '../../scripts/pruefen/lib/einstellungen.mjs'
 
-const einst = lade()
+const einst = lade({ lokal: false })
 
 describe('pruefen: Bildvergleich — Ergebnis lesen', () => {
   it('nur bestanden', () => {

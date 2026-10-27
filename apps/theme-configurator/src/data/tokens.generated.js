@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-26
+// Generated: 2026-10-27
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -11495,7 +11495,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-tmob-headline-size",
         "label": "Headline Size",
         "type": "size",
-        "default": "var(--fs-5xl)"
+        "default": "var(--nc-type-display-m-size)"
       },
       {
         "id": "nc-hero-tmob-headline-weight",
@@ -11513,7 +11513,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-tmob-subtext-opacity",
         "label": "Subtext Opacity",
         "type": "opacity",
-        "default": "0.85"
+        "default": "var(--fnd-opacity-prominent)"
       },
       {
         "id": "nc-hero-tmob-subtext-max-width",
@@ -11525,7 +11525,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-tmob-content-max-width",
         "label": "Content Max Width",
         "type": "size",
-        "default": "800px"
+        "default": "var(--nc-container-max-width, 1440px)"
       },
       {
         "id": "nc-hero-tmob-media-max-width",
@@ -11606,13 +11606,13 @@ export const componentTokenGroups = [
         "id": "nc-hero-tom-kicker-family",
         "label": "Kicker Family",
         "type": "fontFamily",
-        "default": "var(--font-mono)"
+        "default": "var(--font-body)"
       },
       {
         "id": "nc-hero-tom-kicker-size",
         "label": "Kicker Size",
         "type": "size",
-        "default": "var(--nc-mono-label-size-lg)"
+        "default": "var(--nc-type-caption-size)"
       },
       {
         "id": "nc-hero-tom-kicker-weight",
@@ -11624,7 +11624,7 @@ export const componentTokenGroups = [
         "id": "nc-hero-tom-headline-size",
         "label": "Headline Size",
         "type": "size",
-        "default": "var(--fs-5xl)"
+        "default": "var(--nc-type-display-m-size)"
       },
       {
         "id": "nc-hero-tom-headline-weight",
@@ -11642,13 +11642,13 @@ export const componentTokenGroups = [
         "id": "nc-hero-tom-subtext-opacity",
         "label": "Subtext Opacity",
         "type": "opacity",
-        "default": "0.85"
+        "default": "var(--fnd-opacity-prominent)"
       },
       {
         "id": "nc-hero-tom-scrim-color",
         "label": "Scrim Color",
         "type": "color",
-        "default": "rgba(0, 0, 0, 0.4)"
+        "default": "color-mix(in srgb, var(--fnd-color-always-dark) 40%, transparent)"
       },
       {
         "id": "nc-hero-tom-expand-radius",
