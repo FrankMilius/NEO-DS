@@ -4146,8 +4146,16 @@
   // JetBrains Mono (wght 100-800) steht wieder ein echtes Bold zur
   // Verfuegung. 700 statt der urspruenglichen 900: die Achse endet bei 800,
   // und 700 traegt bei diesem Grad bereits deutlich.
+  //
+  // Groesse nach der KARTE, nicht nach dem Fenster (28.10.2026, Frank E4/C):
+  // --fs-6xl waechst mit 100vw, die Karte bleibt 280 px breit. Bei 1920 px
+  // blieben rechts 10 px Luft gegen 24 px links. 22cqi bezieht sich auf
+  // .nc-metric (container-context(widget)); gemessen 56 px rechts bei 1440
+  // und 1920. Hoechstens 6XL; ab 480 px Kartenbreite gilt ohnehin die
+  // Regel container-min(widget, 'widget-two-col') in _metric.scss (2.5rem).
+  // Mehr Padding hilft nicht — mit Spacing 08 ragte die Zahl 6 px ueber den Rand.
   --nc-metric-value-font-family:   var(--font-mono);
-  --nc-metric-value-font-size:     var(--fs-6xl);
+  --nc-metric-value-font-size:     min(var(--fs-6xl), 22cqi);
   --nc-metric-value-font-weight:   var(--fnd-font-weight-bold);
   --nc-metric-value-color:         var(--fnd-color-background-accent);
   --nc-metric-value-line-height:   1.1;
@@ -4194,7 +4202,7 @@
 
   // Size: xl (Hero)
   --nc-metric-xl-padding:          var(--fnd-spacing-08);
-  --nc-metric-xl-value-font-size:  var(--fs-8xl);
+  --nc-metric-xl-value-font-size:  min(var(--fs-8xl), 22cqi);   // wie oben; ragte bei 1440 px 16 px ins Padding
   --nc-metric-xl-unit-font-size:   var(--fs-3xl);
   --nc-metric-xl-label-font-size:  var(--fs-base);
 }

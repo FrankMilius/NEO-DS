@@ -22,6 +22,7 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 - **DTCG-Export**: eigene Tokens, Schriften, Icons, semantische Abstände/Typografie und Stufen der Markenfarben kommen nicht an (im Dialog ausgewiesen); `styles.css` wird beim ersten Export nachgeladen (143 kB gzip). DTCG-Import fehlt.
 - **Präsentation**: Farbregeln der Bühne (Grund/Schrift je Welt) gegen das Markenbuch prüfen; Kontrast im Inspector nur gegen ein Papier.
 - **Token-Suche findet `--nc-…` nicht** (gesehen 22.10.2026, E10): `ComponentEditor.vue:784` vergleicht mit `t.id` ohne führendes `--`; wer den Namen aus CSS oder einer Vorlage kopiert, sieht „nichts“. Führende `--` vor dem Vergleich abschneiden. Dazu: „Technische Namen zeigen“ blendet in den Feldzeilen keinen Token-Namen ein (Table, Einstellungen).
+- **Lange Werte quetschen die Feldbeschriftung** (gesehen 28.10.2026, R17): Moleküle › Metric › Einstellungen › Typografie › Value (Big Number) mit „Technische Namen zeigen“ an — ein langer Wert wie `min(var(--fs-6xl), 22cqi)` oder schon heute `var(--fnd-font-weight-bold)` (Value Font Weight) drückt die Beschriftungsspalte so schmal, dass „Value Font Size“ einzeln untereinander steht und der Token-Name senkrecht umbricht. Weg: Beschriftungsspalte mit Mindestbreite, Wert-Chip mit `text-overflow: ellipsis` und vollem Wert im `title`.
 
 ## Foliensystem
 

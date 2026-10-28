@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-10-27
+// Generated: 2026-10-28
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -13690,7 +13690,7 @@ export const componentTokenGroups = [
         "id": "nc-metric-value-font-size",
         "label": "Value Font Size",
         "type": "size",
-        "default": "var(--fs-6xl)"
+        "default": "min(var(--fs-6xl), 22cqi)"
       },
       {
         "id": "nc-metric-value-font-weight",
@@ -13890,7 +13890,7 @@ export const componentTokenGroups = [
         "id": "nc-metric-xl-value-font-size",
         "label": "XL Value Font Size",
         "type": "size",
-        "default": "var(--fs-8xl)"
+        "default": "min(var(--fs-8xl), 22cqi)"
       },
       {
         "id": "nc-metric-xl-unit-font-size",
