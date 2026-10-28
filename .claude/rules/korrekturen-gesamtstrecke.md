@@ -20,7 +20,7 @@ Station ohne Änderung bekommt einen Satz „nichts nachzuziehen, weil …“ in
 | Doku des Design Systems | Stimmen Beschreibung, Beispiel und Recipe noch? | `docs/content/<komponente>.html`, `data/recipes/<komponente>-recipe.json` | `npm run lint:recipes` |
 | Storybook | Folgen die Stories dem Recipe? | `stories/` | `npm run generate:stories`; bei aus dem Theme aufgenommenen Komponenten vorher `npm run recipe -- <komponente> --schreiben` |
 | Nebenbefunde | Was ist aufgefallen, gehört aber nicht dazu? | `BACKLOG.md` | — |
-| Roadmap | Ist der Punkt eingetragen und erledigt? | Artefakt EFmN6VFRxTG3NTpSxBNHcj, Sammlung `eintraege` | — |
+| Roadmap | Ist der Punkt als Improvement eingetragen und erledigt? | Artefakt EFmN6VFRxTG3NTpSxBNHcj, Sammlung `eintraege` (Abschnitt unten) | — |
 
 ## Wohin die Korrektur gehört
 
@@ -39,6 +39,25 @@ Station ohne Änderung bekommt einen Satz „nichts nachzuziehen, weil …“ in
 3. `DRUPAL11` — Konfiguration nur auf ausdrücklichen Wunsch
 
 Jeder Commit-Rumpf nennt die Hashes der anderen Repositorys.
+
+## Roadmap: Improvements
+
+Jede Korrektur steht als **Improvement** in der Roadmap (Vorgabe Frank
+28.10.2026), Bereich „Improvements“ der Seite
+https://claude.ai/artifact/EFmN6VFRxTG3NTpSxBNHcj.
+
+- **Wann:** beim Anlegen des Worktrees, nicht erst am Ende. Die Nummer des
+  Eintrags ist der Punkt für `/punkt-starten` (z. B. `I02 <kurzname>`).
+- **Nummer:** `I` plus zweistellige laufende Zahl; die nächste freie aus der
+  Sammlung `eintraege` lesen.
+- **Felder:** `bereich: "improvements"`, `art` (`verbesserung`, bei einem
+  Mangel `fehler`), `titel`, `text` (was danach gilt, mit Datei oder Token),
+  `warum`, `herkunft` („Befund Frank <Datum>“), `bezug`, `zeitraum: "jetzt"`,
+  `reihenfolge`.
+- **Nach der Freigabe:** `erledigt` mit Datum, Hashes je Repository und den
+  Zahlen des Fertig-Gates; offene Folgepunkte nennen.
+- Mit `ArtifactData` schreiben; einen bestehenden Eintrag nur mit `if_version`
+  ändern.
 
 ## Ablauf
 
