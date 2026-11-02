@@ -216,6 +216,46 @@
             </div>
           </section>
 
+          <!-- Zweites Medium (I04, 02.11.2026) -->
+          <section class="docs__section" id="media-secondary">
+            <h2 class="docs__section-title">Zweites Medium</h2>
+            <p class="docs__section-desc">
+              Optional steht ein zweites Bild in <code class="docs__token">.nc-hero__media</code>
+              nach dem Hauptbild &mdash; auf der Startseite ein Screenshot der mobilen App.
+              <code class="docs__token">.nc-hero__media-secondary</code> &uuml;berlappt eine Ecke des
+              Hauptbilds: unten rechts (Vorgabe), <code class="docs__token">--top-end</code> oder
+              <code class="docs__token">--bottom-start</code>. Breite 28&nbsp;% des Mediums, unter
+              <code class="docs__token">md</code> 24&nbsp;% und innen, damit nichts &uuml;bersteht.
+            </p>
+            <p class="docs__section-desc">
+              Einflug: <code class="docs__token">data-animation="fly-in-right"</code> oder
+              <code class="docs__token">"fly-in-bottom"</code> an <code class="docs__token">.nc-hero__media</code>,
+              ausgef&uuml;hrt von <code class="docs__token">neo-behaviors</code> <code class="docs__token">einblenden</code>
+              einmal beim Sichtbarwerden (48&nbsp;px, 0,7&nbsp;s nach 0,3&nbsp;s). Versteckt ist das Bild nur,
+              solange das Behavior gebunden ist &mdash; ohne Skript und bei
+              <code class="docs__token">prefers-reduced-motion</code> steht es sofort am Platz.
+              Eigener Alternativtext; leer, wenn das Bild nur schm&uuml;ckt.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+              <section class="nc-hero" aria-label="Hero mit zweitem Medium">
+                <div class="nc-hero__grid">
+                  <div class="nc-hero__content">
+                    <h1 class="nc-hero__title">Intelligent kommunizieren</h1>
+                    <div>
+                      <a href="#" class="nc-button nc-button--primary">Demo anfordern</a>
+                    </div>
+                  </div>
+                  <div class="nc-hero__media" data-animation="fly-in-right">
+                    <img class="nc-hero__media-image" src="../assets/images/piipe-startseite.png"
+                         alt="Startseite des Intranets" width="600" height="338" />
+                    <img class="nc-hero__media-secondary" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 390 845%22%3E%3Crect width=%22390%22 height=%22845%22 fill=%22%23eef0f3%22/%3E%3Crect width=%22390%22 height=%2290%22 fill=%22%23c9ced6%22/%3E%3Crect x=%2224%22 y=%22130%22 width=%22342%22 height=%22190%22 rx=%2212%22 fill=%22%23aab1bc%22/%3E%3Crect x=%2224%22 y=%22350%22 width=%22342%22 height=%2224%22 rx=%226%22 fill=%22%23c9ced6%22/%3E%3C/svg%3E"
+                         alt="Mobile App" width="117" height="253" />
+                  </div>
+                </div>
+              </section>
+            </div>
+          </section>
+
           <!-- Dashboard-Card-Variante -->
           <section class="docs__section" id="variant-card">
             <h2 class="docs__section-title">Dashboard-Card-Variante</h2>
@@ -288,11 +328,188 @@
           <!-- AUTO:STYLE:START -->
 <section class="docs__section" id="style-tokens">
   <h2 class="docs__section-title">Component Tokens</h2>
-  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Base</h3>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Layout</h3>
   <div class="nc-data-table nc-data-table--static nc-data-table--striped">
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
+      <tr><td><code class="docs__token">--nc-hero-bg</code></td><td>var(--fnd-color-always-dark)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-min-height</code></td><td>60dvh</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-padding-block</code></td><td>var(--fnd-spacing-12)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-gap</code></td><td>var(--fnd-spacing-08)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-radius</code></td><td>0</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Overlay</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-overlay-visible</code></td><td>1</td><td>1 = sichtbar, 0 = ausgeblendet</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-start</code></td><td>rgba(0, 0, 0, 0.7)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-end</code></td><td>rgba(0, 0, 0, 0.3)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-direction</code></td><td>135deg</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Title</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-title-size</code></td><td>var(--fs-4xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-weight</code></td><td>var(--fnd-font-weight-bold)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-color</code></td><td>var(--nc-hero-color)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-max-width</code></td><td>18ch</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-line-height</code></td><td>var(--lh-heading)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Kicker</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-kicker-size</code></td><td>var(--nc-mono-label-size-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-weight</code></td><td>var(--nc-mono-label-weight-strong)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-bg</code></td><td>transparent</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-color</code></td><td>var(--nc-hero-color)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-radius</code></td><td>0</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-padding</code></td><td>0</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Subtitle</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-size</code></td><td>var(--fs-xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-color</code></td><td>color-mix(in srgb, var(--nc-hero-color) 80%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-max-width</code></td><td>40ch</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-line-height</code></td><td>var(--lh-body)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Highlights</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-highlights-gap</code></td><td>var(--fnd-spacing-02)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-color</code></td><td>color-mix(in srgb, var(--nc-hero-color) 70%, transparent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-marker</code></td><td>var(--fnd-color-background-accent)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-size</code></td><td>var(--fs-sm)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Actions</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-actions-gap</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-actions-margin-top</code></td><td>var(--fnd-spacing-04)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Flaeche</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-surface-dark-bg</code></td><td>var(--fnd-color-always-dark)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-dark-fg</code></td><td>var(--fnd-color-always-light)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-light-bg</code></td><td>var(--fnd-neutral-50)</td><td>1,04 gegen Weiss</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-light-fg</code></td><td>var(--fnd-neutral-950)</td><td>17,85 — auf 50er also ~17:1</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-muted-bg</code></td><td>var(--fnd-neutral-100)</td><td>1,12 — abgesetzt, aber hell</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Hervorhebung in der Ueberschrift</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-mark-color</code></td><td>var(--nc-hero-mark-on-dark)</td><td>Vorgabe: Hero ist dunkel</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-thickness</code></td><td>0.34em</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-on-light</code></td><td>var(--fnd-accent-200)</td><td>14,78 mit dunkler Schrift</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-on-dark</code></td><td>var(--fnd-accent-800)</td><td>6,41 mit weisser Schrift</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint</code></td><td>var(--nc-hero-mark-tint-on-dark)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint-on-light</code></td><td>var(--fnd-accent-800)</td><td>6,16 — AA auch fuer kleinen Text</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint-on-dark</code></td><td>var(--fnd-accent-300)</td><td>15,98 auf Schwarz</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Fuss: Badges und Kennzahlen</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-footer-margin-top</code></td><td>var(--fnd-spacing-08)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-footer-gap</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-gap</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-stack</code></td><td>var(--fnd-spacing-01)</td><td>Abstand innerhalb einer Karte</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-sm</code></td><td>1px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-md</code></td><td>2px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-lg</code></td><td>4px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-inset</code></td><td>var(--fnd-spacing-06)</td><td>Abstand Linie zum Inhalt</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-color</code></td><td>var(--nc-hero-cards-rule-on-dark)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-accent</code></td><td>var(--fnd-accent-500)</td><td>Markenwert, nur Flaeche</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-kicker-size</code></td><td>var(--fs-xs)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-value-size</code></td><td>var(--fs-2xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-label-size</code></td><td>var(--fs-base)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-on-dark</code></td><td>var(--fnd-neutral-100)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-on-light</code></td><td>var(--fnd-neutral-900)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-bg</code></td><td>inherit</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-fg</code></td><td>inherit</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-fg-muted</code></td><td>inherit</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-radius</code></td><td>var(--fnd-radius-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-pad</code></td><td>clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Split-Layout</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-split-columns</code></td><td>1fr 1fr</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-split-media-min-height</code></td><td>420px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-split-gap</code></td><td>var(--fnd-spacing-10)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Dashboard-Attrappe</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-mockup-width</code></td><td>min(420px, 90vw)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-ratio</code></td><td>4 / 5</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-radius</code></td><td>var(--fnd-radius-4xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-padding</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-gap</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zweites Medium</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-hero-secondary-width</code></td><td>28%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-width-mobile</code></td><td>24%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-inline</code></td><td>-4%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-inline-mobile</code></td><td>var(--fnd-spacing-03)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-block</code></td><td>-8%</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-radius</code></td><td>var(--fnd-radius-md)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-shadow</code></td><td>var(--fnd-elevation-overlay)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-distance</code></td><td>48px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-duration</code></td><td>0.7s</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-delay</code></td><td>0.3s</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-easing</code></td><td>ease-out</td><td></td></tr>
     </tbody>
     </table>
   </div>
@@ -330,13 +547,13 @@
     <tbody>
       <tr><td><code class="docs__token">.nc-hero</code></td><td>Block</td><td>hero-Container</td></tr>
       <tr><td><code class="docs__token">.nc-hero__content</code></td><td>Element</td><td>content</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__title</code></td><td>Element</td><td>title</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__highlights</code></td><td>Element (optional)</td><td>highlights</td></tr>
       <tr><td><code class="docs__token">.nc-hero__media</code></td><td>Element (optional)</td><td>media</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__picture</code></td><td>Element (optional)</td><td>picture</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__card</code></td><td>Element (optional)</td><td>card</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__mark</code></td><td>Element (optional)</td><td>Hervorhebung in Titel/Untertitel: immer Balken hinter dem Text &mdash; auch mit <code class="docs__token">.nc-hero--mark-tint</code> (Entscheidung 06.10.2026). Tinte an diesem Element nur mit <code class="docs__token">.nc-hero__mark--tint</code>.</td></tr>
-      <tr><td><code class="docs__token">.nc-hero__mark--tint</code></td><td>Element-Modifier</td><td>F&auml;rbt den Text der Hervorhebung (Token <code class="docs__token">--nc-hero-mark-tint</code>, fl&auml;chenabh&auml;ngig) statt Balken.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__media-secondary</code></td><td>Element (optional)</td><td>media-secondary</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__actions</code></td><td>Element (optional)</td><td>actions</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__footer</code></td><td>Element (optional)</td><td>footer</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards</code></td><td>Element (optional)</td><td>cards</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__mark</code></td><td>Element (optional)</td><td>mark</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__badges</code></td><td>Element (optional)</td><td>badges</td></tr>
     </tbody>
     </table>
   </div>
@@ -345,9 +562,118 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
     <tbody>
-      <tr><td><em>(kein Modifier)</em></td><td>picture</td><td>Variante — picture, card</td></tr>
-      <tr><td><em>(kein Modifier)</em></td><td>card</td><td>Variante — picture, card</td></tr>
-      <tr><td><code class="docs__token">.nc-hero--mark-tint</code></td><td>markStyle: tint</td><td>F&auml;rbt NUR <code class="docs__token">&lt;mark&gt;</code> in Titel/Untertitel (Text statt Balken). <code class="docs__token">.nc-hero__mark</code> bleibt Balken &mdash; so nutzt es die Website (Entscheidung 06.10.2026).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>picture</td><td>Visuelle Variante — picture, mockup, split</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--split</code></td><td>split</td><td>Visuelle Variante — picture, mockup, split</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>mockup</td><td>Visuelle Variante — picture, mockup, split</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Alignment-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>start</td><td>Content-Ausrichtung — start (default) oder center</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--center</code></td><td>center</td><td>Content-Ausrichtung — start (default) oder center</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Surface-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-hero--surface-dark</code></td><td>dark</td><td>Flaeche und Vordergrund als PAAR. Kommt aus dem projektweiten Feld field_surface. accent (Lime) wird bewusst nicht bedient und faellt auf dark zurueck.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--surface-muted</code></td><td>muted</td><td>Flaeche und Vordergrund als PAAR. Kommt aus dem projektweiten Feld field_surface. accent (Lime) wird bewusst nicht bedient und faellt auf dark zurueck.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--surface-light</code></td><td>light</td><td>Flaeche und Vordergrund als PAAR. Kommt aus dem projektweiten Feld field_surface. accent (Lime) wird bewusst nicht bedient und faellt auf dark zurueck.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Media Position-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>end</td><td>Auf welcher Seite das Medium steht. Der Inhalt bleibt im Markup zuerst; die Umstellung laeuft ueber order, nicht ueber die Quellreihenfolge.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--media-start</code></td><td>start</td><td>Auf welcher Seite das Medium steht. Der Inhalt bleibt im Markup zuerst; die Umstellung laeuft ueber order, nicht ueber die Quellreihenfolge.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Headline Mark-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>bar</td><td>Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert. Der Modifier tint wirkt nur auf &lt;mark&gt;; .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026).</td></tr>
+      <tr><td><code class="docs__token">.nc-hero--mark-tint</code></td><td>tint</td><td>Hervorhebung in der Ueberschrift. Balken faerbt eine Flaeche hinter dem Text und laesst den Kontrast unangetastet; Tinte faerbt den Text selbst und braucht deshalb einen zur Flaeche passenden Wert. Der Modifier tint wirkt nur auf &lt;mark&gt;; .nc-hero__mark bleibt Balken (Entscheidung 06.10.2026).</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Badges Position-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>top</td><td>Badge-Zeile ueber der Ueberschrift oder im Fuss unter den Aktionen. Vorgabe bleibt top, damit bestehende Seiten sich nicht verschieben.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom</td><td>Badge-Zeile ueber der Ueberschrift oder im Fuss unter den Aktionen. Vorgabe bleibt top, damit bestehende Seiten sich nicht verschieben.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ausrichtung der Kennzahlen-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-hero__cards--start</code></td><td>start</td><td>Getrennt von der Ausrichtung des Heroes: Ein zentrierter Hero kann linksbuendige Kennzahlen tragen und umgekehrt.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--center</code></td><td>center</td><td>Getrennt von der Ausrichtung des Heroes: Ein zentrierter Hero kann linksbuendige Kennzahlen tragen und umgekehrt.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--end</code></td><td>end</td><td>Getrennt von der Ausrichtung des Heroes: Ein zentrierter Hero kann linksbuendige Kennzahlen tragen und umgekehrt.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Trennlinien der Kennzahlen-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.nc-hero__cards--rule-sm</code></td><td>sm</td><td>Staerke und Farbe. Die Linie gliedert nur und kennzeichnet kein Bedienelement — 1.4.11 greift dort nicht, deshalb ist Lime hier zulaessig, wo es als Schriftfarbe unbrauchbar waere.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--rule-md</code></td><td>md</td><td>Staerke und Farbe. Die Linie gliedert nur und kennzeichnet kein Bedienelement — 1.4.11 greift dort nicht, deshalb ist Lime hier zulaessig, wo es als Schriftfarbe unbrauchbar waere.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--rule-lg</code></td><td>lg</td><td>Staerke und Farbe. Die Linie gliedert nur und kennzeichnet kein Bedienelement — 1.4.11 greift dort nicht, deshalb ist Lime hier zulaessig, wo es als Schriftfarbe unbrauchbar waere.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--rule-accent</code></td><td>accent</td><td>Staerke und Farbe. Die Linie gliedert nur und kennzeichnet kein Bedienelement — 1.4.11 greift dort nicht, deshalb ist Lime hier zulaessig, wo es als Schriftfarbe unbrauchbar waere.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Flaeche der Kennzahlen-Karten-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--bg-base</code></td><td>base</td><td>Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--bg-secondary</code></td><td>secondary</td><td>Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--bg-tertiary</code></td><td>tertiary</td><td>Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__cards--bg-inverse</code></td><td>inverse</td><td>Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetzter Flaeche wechselt auch die Schriftfarbe: Sie kommt dann aus den Thementoken statt vom Hero, sonst stuende weisse Schrift auf einer weissen Karte.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Secondary Position-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>bottom-end</td><td>Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__media-secondary--top-end</code></td><td>top-end</td><td>Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).</td></tr>
+      <tr><td><code class="docs__token">.nc-hero__media-secondary--bottom-start</code></td><td>bottom-start</td><td>Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Secondary Motion-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>none</td><td>Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>fly-in-right</td><td>Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>fly-in-bottom</td><td>Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.</td></tr>
     </tbody>
     </table>
   </div>
@@ -361,7 +687,100 @@
     <table class="nc-data-table__table">
     <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
     <tbody>
-      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Base</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Layout</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-bg</code></td><td>var(--fnd-color-always-dark)</td><td>var(--fnd-color-always-dark)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-min-height</code></td><td>60dvh</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-padding-block</code></td><td>var(--fnd-spacing-12)</td><td>var(--fnd-spacing-12)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-gap</code></td><td>var(--fnd-spacing-08)</td><td>var(--fnd-spacing-08)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-radius</code></td><td>0</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Overlay</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-visible</code></td><td>1</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-start</code></td><td>rgba(0, 0, 0, 0.7)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-end</code></td><td>rgba(0, 0, 0, 0.3)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-overlay-direction</code></td><td>135deg</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Kicker</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-size</code></td><td>var(--nc-mono-label-size-lg)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-weight</code></td><td>var(--nc-mono-label-weight-strong)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-bg</code></td><td>transparent</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-color</code></td><td>var(--nc-hero-color)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-radius</code></td><td>0</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-kicker-padding</code></td><td>0</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Title</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-size</code></td><td>var(--fs-4xl)</td><td>var(--fs-4xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-weight</code></td><td>var(--fnd-font-weight-bold)</td><td>var(--fnd-font-weight-bold)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-color</code></td><td>var(--nc-hero-color)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-max-width</code></td><td>18ch</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-title-line-height</code></td><td>var(--lh-heading)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Subtitle</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-size</code></td><td>var(--fs-xl)</td><td>var(--fs-xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-color</code></td><td>color-mix(in srgb, var(--nc-hero-color) 80%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-max-width</code></td><td>40ch</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-subtitle-line-height</code></td><td>var(--lh-body)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Highlights</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-gap</code></td><td>var(--fnd-spacing-02)</td><td>var(--fnd-spacing-02)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-color</code></td><td>color-mix(in srgb, var(--nc-hero-color) 70%, transparent)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-marker</code></td><td>var(--fnd-color-background-accent)</td><td>var(--fnd-color-background-accent)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-highlights-size</code></td><td>var(--fs-sm)</td><td>var(--fs-sm)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Actions</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-actions-gap</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-actions-margin-top</code></td><td>var(--fnd-spacing-04)</td><td>var(--fnd-spacing-04)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Flaeche</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-dark-bg</code></td><td>var(--fnd-color-always-dark)</td><td>var(--fnd-color-always-dark)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-dark-fg</code></td><td>var(--fnd-color-always-light)</td><td>var(--fnd-color-always-light)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-light-bg</code></td><td>var(--fnd-neutral-50)</td><td>var(--fnd-neutral-50)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-light-fg</code></td><td>var(--fnd-neutral-950)</td><td>var(--fnd-neutral-950)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-surface-muted-bg</code></td><td>var(--fnd-neutral-100)</td><td>var(--fnd-neutral-100)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Hervorhebung in der Ueberschrift</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-color</code></td><td>var(--nc-hero-mark-on-dark)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-thickness</code></td><td>0.34em</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-on-light</code></td><td>var(--fnd-accent-200)</td><td>var(--fnd-accent-200)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-on-dark</code></td><td>var(--fnd-accent-800)</td><td>var(--fnd-accent-800)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint</code></td><td>var(--nc-hero-mark-tint-on-dark)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint-on-light</code></td><td>var(--fnd-accent-800)</td><td>var(--fnd-accent-800)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mark-tint-on-dark</code></td><td>var(--fnd-accent-300)</td><td>var(--fnd-accent-300)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Fuss: Badges und Kennzahlen</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-footer-margin-top</code></td><td>var(--fnd-spacing-08)</td><td>var(--fnd-spacing-08)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-footer-gap</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-gap</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-stack</code></td><td>var(--fnd-spacing-01)</td><td>var(--fnd-spacing-01)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-sm</code></td><td>1px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-md</code></td><td>2px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-width-lg</code></td><td>4px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-inset</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-color</code></td><td>var(--nc-hero-cards-rule-on-dark)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-accent</code></td><td>var(--fnd-accent-500)</td><td>var(--fnd-accent-500)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-kicker-size</code></td><td>var(--fs-xs)</td><td>var(--fs-xs)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-value-size</code></td><td>var(--fs-2xl)</td><td>var(--fs-2xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-label-size</code></td><td>var(--fs-base)</td><td>var(--fs-base)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-on-dark</code></td><td>var(--fnd-neutral-100)</td><td>var(--fnd-neutral-100)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-rule-on-light</code></td><td>var(--fnd-neutral-900)</td><td>var(--fnd-neutral-900)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-bg</code></td><td>inherit</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-fg</code></td><td>inherit</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-fg-muted</code></td><td>inherit</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-radius</code></td><td>var(--fnd-radius-lg)</td><td>var(--fnd-radius-lg)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-cards-pad</code></td><td>clamp(16px, calc(16px + (28px - 16px) * var(--fluid-bp)), 28px)</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Split-Layout</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-split-columns</code></td><td>1fr 1fr</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-split-media-min-height</code></td><td>420px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-split-gap</code></td><td>var(--fnd-spacing-10)</td><td>var(--fnd-spacing-10)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Dashboard-Attrappe</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-width</code></td><td>min(420px, 90vw)</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-ratio</code></td><td>4 / 5</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-radius</code></td><td>var(--fnd-radius-4xl)</td><td>var(--fnd-radius-4xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-padding</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-mockup-gap</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Zweites Medium</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-width</code></td><td>28%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-width-mobile</code></td><td>24%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-inline</code></td><td>-4%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-inline-mobile</code></td><td>var(--fnd-spacing-03)</td><td>var(--fnd-spacing-03)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-offset-block</code></td><td>-8%</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-radius</code></td><td>var(--fnd-radius-md)</td><td>var(--fnd-radius-md)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-shadow</code></td><td>var(--fnd-elevation-overlay)</td><td>var(--fnd-elevation-overlay)</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-distance</code></td><td>48px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-duration</code></td><td>0.7s</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-delay</code></td><td>0.3s</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-hero-secondary-motion-easing</code></td><td>ease-out</td><td>&mdash;</td></tr>
     </tbody>
     </table>
   </div>
@@ -369,11 +788,19 @@
 <section class="docs__section" id="api-dom-notes">
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
-    <li>Grid: 2-Spalten ab 768px. Content: text-inverse, gap 1rem.</li>
-    <li>Title: fs-4xl, max-width 18ch. Highlights: Bullet-Liste mit accent-Punkt.</li>
+    <li>Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem.</li>
+    <li>Title: fs-4xl, max-width 18ch fuer optimale Scanbarkeit.</li>
+    <li>Highlights: Bullet-Liste mit accent-Punkt, line-height: tight fuer visuellen Zusammenhalt zum Titel.</li>
     <li>Card-Variante: radial-gradient dark BG, radius-3xl, Metric + Pulse-Animation.</li>
-    <li>Picture-Variante: radius-sm, elevation-overlay.</li>
-    <li>Hervorhebung im Titel: <code class="docs__token">.nc-hero__mark</code> und <code class="docs__token">&lt;mark&gt;</code> zeigen standardm&auml;&szlig;ig einen Balken hinter dem Text (Kontrast der Schrift bleibt unber&uuml;hrt). <code class="docs__token">.nc-hero--mark-tint</code> schaltet nur <code class="docs__token">&lt;mark&gt;</code> auf Tinte um; <code class="docs__token">.nc-hero__mark</code> bleibt auch dann Balken (Entscheidung 06.10.2026, Website unver&auml;ndert). Tinte an <code class="docs__token">.nc-hero__mark</code>: Element-Modifier <code class="docs__token">.nc-hero__mark--tint</code>.</li>
+    <li>Picture-Variante: radius-sm, elevation-overlay. Overlay-Gradient sichert Kontrast unabhaengig vom Bildinhalt.</li>
+    <li>Kicker: &lt;p class='nc-hero__kicker'&gt; ueber dem Titel. Token-gesteuert: --nc-hero-kicker-bg, -color, -size, -weight, -radius, -padding. Kein nc-label — eigenstaendiges Element.</li>
+    <li>Subtitle: &lt;p class='nc-hero__subtitle'&gt; unter dem Titel. Token-gesteuert: --nc-hero-subtitle-size, -color, -max-width, -line-height.</li>
+    <li>Overlay: &lt;div class='nc-hero__overlay'&gt; mit linear-gradient. Sichtbarkeit via --nc-hero-overlay-visible (1/0).</li>
+    <li>Actions: Flex-Row mit gap, primaerer + sekundaerer Button. Alignment folgt der alignment-Achse.</li>
+    <li>Breadcrumb: nc-breadcrumb am oberen Content-Rand, nur sichtbar wenn Slot befuellt.</li>
+    <li>Centered: Alle Inhalte text-align center, max-width fuer Titel und Highlights.</li>
+    <li>Split: Content links, Media rechts buendig (kein Radius), nahtlose Kante zum naechsten Abschnitt.</li>
+    <li>Hintergrundvideo und Hintergrund-Animation (Plan v4, Phase 3): die Section traegt [data-neo-video]; der Knopf .nc-video-pause (Recipe video) liegt unten am Ende ueber dem Medium. Video ohne autoplay — Start ueber neo-behaviors video.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->
@@ -387,7 +814,7 @@
 
           <!-- AUTO:A11Y:START -->
 <h2 class="docs__section-title">Accessibility Referenz</h2>
-<p class="docs__section-desc">Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: text-secondary Kontrast pruefen. Pulse-Animation: reduced-motion.</p>
+<p class="docs__section-desc">Title: fs-4xl large text. text-inverse auf dunklem BG. Highlights: line-height tight, text-secondary Kontrast pruefen. Pulse-Animation: prefers-reduced-motion. Overlay: Gradient sichert Kontrast unabhaengig vom Bild.</p>
 <div class="docs-a11y-block">
   <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
   <div class="docs-a11y-block__content">
