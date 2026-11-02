@@ -13,7 +13,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
@@ -26,8 +26,8 @@ function regeln(quelle, selektor) {
 }
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
-}, 60000);
+  css = vollCss();
+});
 
 describe('Multiselect: Rahmen wie das Eingabefeld', () => {
   it('Component-Tokens zeigen auf die Eingabefeld-Tokens', () => {

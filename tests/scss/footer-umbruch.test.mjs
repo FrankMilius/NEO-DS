@@ -17,7 +17,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
@@ -30,7 +30,7 @@ function basisRegeln(quelle, klasse) {
 }
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
+  css = vollCss();
 });
 
 describe('Footer: unteres Band laeuft mobil nicht ueber', () => {

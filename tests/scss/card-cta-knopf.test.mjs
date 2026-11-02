@@ -9,15 +9,15 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css
+  css = vollCss()
     .replace(/(--[\w-]+): +/g, '$1:');
-}, 60000);
+});
 
 const WERTE = '--nc-button-primary-bg:var(--fnd-neutral-900);--nc-button-primary-bg-hover:var(--fnd-neutral-800);--nc-button-primary-bg-active:var(--fnd-neutral-950);--nc-button-primary-color:var(--fnd-neutral-50);--nc-button-ghost-color:var(--fnd-neutral-950);--nc-button-ghost-bg-hover:var(--fnd-neutral-200);--nc-button-ghost-bg-active:var(--fnd-neutral-300)';
 
