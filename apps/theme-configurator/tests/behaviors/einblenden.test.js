@@ -5,6 +5,10 @@
  * neo_fe/js/neo-theme.js (NeoCardGrid.render, NeoBento.maybeReveal — seit Phase 7 Twig,
  * neoLogoWall). Markup wie das Twig der Website plus der Aufbau aus JSON.
  * Tasten und Ereignisse stehen in den Recipes der Traeger.
+ *
+ * I04 (02.11.2026): fourth carrier hero — the secondary media
+ * (.nc-hero__media-secondary) flies in once; root is .nc-hero__media with
+ * data-animation="fly-in-right" | "fly-in-bottom".
  */
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { readFileSync } from 'node:fs'
@@ -45,12 +49,13 @@ const pille = (n) => `<a class="nc-logo-pill" href="https://example.org/${n}" ta
 const MARKUP = {
   'card-grid': (n = 4) => `<div class="nc-card-grid nc-card-grid--cols-3" data-pattern="standard" data-animation="reverse-domino">${Array.from({ length: n }, (_, i) => karte(i)).join('')}</div>`,
   'bento-grid': (n = 3) => `<div class="nc-bento-grid" data-animation="reveal">${Array.from({ length: n }, (_, i) => kachel(i)).join('')}</div>`,
-  'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`
+  'logo-wall': (n = 5) => `<div class="nc-logo-wall nc-logo-wall--fadein" data-layout="grid">${Array.from({ length: n }, (_, i) => pille(i)).join('')}</div>`,
+  hero: (_n, richtung = 'right') => `<div class="nc-hero__media" data-animation="fly-in-${richtung}"><img class="nc-hero__media-image" src="h.png" alt="Intranet"><img class="nc-hero__media-secondary nc-hero__media-secondary--bottom-end" src="app.png" alt="Mobile App"></div>`
 }
 
 function bau (id, n) {
   const b = buehne(MARKUP[id](n))
-  const wurzel = /** @type {HTMLElement} */ (b.firstElementChild)
+  const wurzel = /** @type {HTMLElement} */ (b.querySelector('[data-animation], .nc-logo-wall--fadein'))
   const ereignisse = sammle(wurzel, 'einblenden')
   anbinden(b, ['einblenden'])
   return { b, wurzel, ereignisse }
@@ -60,16 +65,19 @@ describe('einblenden: Hilfs-Behavior der Website', () => {
   it('nurAusdruecklich, in NUR_AUSDRUECKLICH; Soll in den Recipes der Traeger', () => {
     expect(BEHAVIORS.einblenden.nurAusdruecklich).toBe(true)
     expect(NUR_AUSDRUECKLICH).toContain('einblenden')
-    expect(EINBLENDEN_RECIPES).toEqual(['card-grid', 'bento-grid', 'logo-wall'])
+    expect(EINBLENDEN_RECIPES).toEqual(['card-grid', 'bento-grid', 'logo-wall', 'hero'])
   })
 
   it('bindet an reverse-domino, reveal und fadein — nicht ohne Animation und nicht am Laufband', () => {
     const b = buehne(`${MARKUP['card-grid']()}${MARKUP['bento-grid']()}${MARKUP['logo-wall']()}
 <div class="nc-card-grid" data-pattern="standard">${karte(9)}</div>
-<div class="nc-logo-wall nc-logo-wall--marquee nc-logo-wall--fadein" data-layout="marquee"><div class="nc-logo-wall__track">${pille(1)}</div></div>`)
+<div class="nc-logo-wall nc-logo-wall--marquee nc-logo-wall--fadein" data-layout="marquee"><div class="nc-logo-wall__track">${pille(1)}</div></div>
+${MARKUP.hero(0, 'right')}${MARKUP.hero(0, 'bottom')}
+<div class="nc-hero__media"><img class="nc-hero__media-image" src="h.png" alt=""></div>
+<div class="nc-hero__media" data-animation="none"><img class="nc-hero__media-secondary" src="app.png" alt=""></div>`)
     anbinden(b, ['einblenden'])
     expect([...b.querySelectorAll('[data-neo-behavior~="einblenden"]')].map((e) => e.className.split(' ')[0] + (e.classList.contains('nc-logo-wall--marquee') ? '--marquee' : '')))
-      .toEqual(['nc-card-grid', 'nc-bento-grid', 'nc-logo-wall'])
+      .toEqual(['nc-card-grid', 'nc-bento-grid', 'nc-logo-wall', 'nc-hero__media', 'nc-hero__media'])
   })
 
   it('SCSS: versteckt nur unter gebundenem einblenden (ohne Skript nichts versteckt), reduzierte Bewegung sofort sichtbar', () => {
@@ -156,6 +164,32 @@ describe('einblenden: Hilfs-Behavior der Website', () => {
     anbinden(zwei, ['einblenden'])
     b2.rueckruf([{ target: zwei.firstElementChild, isIntersecting: true }])
     expect([...zwei.querySelectorAll('.nc-logo-pill')].map((p) => p.style.transitionDelay)).toEqual(['0s', '0.12s', '0.24s'])
+  })
+
+  it('hero: secondary media only, no stagger, both directions', () => {
+    for (const richtung of ['right', 'bottom']) {
+      const b = beobachter()
+      const buehne1 = buehne(MARKUP.hero(0, richtung))
+      const wurzel = buehne1.firstElementChild
+      anbinden(buehne1, ['einblenden'])
+      expect(b.beobachtet).toEqual([wurzel])
+      b.rueckruf([{ target: wurzel, isIntersecting: true }])
+      expect(wurzel.classList.contains('is-revealed')).toBe(true)
+      expect(wurzel.querySelector('[style]')).toBeNull()
+      // A second intersection changes nothing: observer is gone after the first
+      expect(b.getrennt).toBe(1)
+      abbinden(document.body, ['einblenden'])
+      document.body.innerHTML = ''
+    }
+  })
+
+  it('hero SCSS: hidden and offset only under bound einblenden, final state at is-revealed, transition only without reduced motion', () => {
+    const hero = readFileSync(resolve(WURZEL, 'scss/scss/07-organisms/_hero.scss'), 'utf8')
+    expect(hero).toMatch(/\.nc-hero__media\[data-animation\^="fly-in-"\]\[data-neo-behavior~='einblenden'\]:not\(\.is-revealed\) \.nc-hero__media-secondary \{\s*opacity: 0;/)
+    expect(hero).not.toMatch(/\.nc-hero__media\[data-animation\^="fly-in-"\] \.nc-hero__media-secondary \{\s*opacity: 0;/)
+    expect(hero).toMatch(/\[data-animation="fly-in-right"\][^{]*\{[^}]*translateX\(var\(--mod-hero-secondary-motion-distance, var\(--nc-hero-secondary-motion-distance\)\)\)/)
+    expect(hero).toMatch(/\[data-animation="fly-in-bottom"\][^{]*\{[^}]*translateY\(var\(--mod-hero-secondary-motion-distance, var\(--nc-hero-secondary-motion-distance\)\)\)/)
+    expect(hero).toMatch(/@media \(prefers-reduced-motion: no-preference\) \{[^}]*\.nc-hero__media-secondary \{\s*transition:/)
   })
 
   it('bento-grid: ohne Staffelung (wie vorher NeoBento.maybeReveal)', () => {

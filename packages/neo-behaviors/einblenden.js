@@ -28,6 +28,11 @@
 //     (is-revealed, z. B. erneutes Binden nach dem Aufbau), bekommen alle
 //     Glieder sofort den Endzustand.
 //
+// I04 (02.11.2026): fourth carrier hero — root .nc-hero__media with
+// data-animation="fly-in-right" | "fly-in-bottom", member the secondary
+// media .nc-hero__media-secondary; no stagger. Direction, distance, duration
+// and delay live in the SCSS (--nc-hero-secondary-motion-*).
+//
 // Ereignis `einblenden` { reason } an der Wurzel beim Einblenden: "sicht"
 // (kommt ins Bild), "reduzierte-bewegung", "ohne-beobachter".
 // Abbinden trennt die Beobachter; der Endzustand bleibt (ohne Bindung ist
@@ -37,7 +42,7 @@ import { sende } from './kern.js'
 import { reduzierteBewegung, dauerAus } from './gallery.js'
 
 /** Traeger-Recipes (Soll: keyboard, events) */
-export const EINBLENDEN_RECIPES = Object.freeze(['card-grid', 'bento-grid', 'logo-wall'])
+export const EINBLENDEN_RECIPES = Object.freeze(['card-grid', 'bento-grid', 'logo-wall', 'hero'])
 
 /** Art der Wurzel: Glieder, Staffelung @param {HTMLElement} wurzel */
 function artVon (wurzel) {
@@ -63,6 +68,13 @@ function artVon (wurzel) {
       zeige: () => {}
     }
   }
+  if (wurzel.classList.contains('nc-hero__media')) {
+    return {
+      glieder: () => /** @type {HTMLElement[]} */ ([...wurzel.querySelectorAll(':scope > .nc-hero__media-secondary')]),
+      staffeln: () => {},
+      zeige: () => {}
+    }
+  }
   return {
     glieder: () => /** @type {HTMLElement[]} */ ([...wurzel.querySelectorAll('.nc-bento-grid__cell')]),
     staffeln: () => {},
@@ -72,7 +84,7 @@ function artVon (wurzel) {
 
 export const einblenden = {
   id: 'einblenden',
-  selektor: '[data-animation="reverse-domino"], [data-animation="reveal"], .nc-logo-wall--fadein:not(.nc-logo-wall--marquee)',
+  selektor: '[data-animation="reverse-domino"], [data-animation="reveal"], .nc-logo-wall--fadein:not(.nc-logo-wall--marquee), .nc-hero__media[data-animation="fly-in-right"], .nc-hero__media[data-animation="fly-in-bottom"]',
   // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
   nurAusdruecklich: true,
   recipes: EINBLENDEN_RECIPES,

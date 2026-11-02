@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.19.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.20.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -6600,7 +6600,7 @@
   };
 
   // packages/neo-behaviors/einblenden.js
-  var EINBLENDEN_RECIPES = Object.freeze(["card-grid", "bento-grid", "logo-wall"]);
+  var EINBLENDEN_RECIPES = Object.freeze(["card-grid", "bento-grid", "logo-wall", "hero"]);
   function artVon(wurzel) {
     if (wurzel.classList.contains("nc-logo-wall--fadein")) {
       let schritt = null;
@@ -6630,6 +6630,18 @@
         }
       };
     }
+    if (wurzel.classList.contains("nc-hero__media")) {
+      return {
+        glieder: () => (
+          /** @type {HTMLElement[]} */
+          [...wurzel.querySelectorAll(":scope > .nc-hero__media-secondary")]
+        ),
+        staffeln: () => {
+        },
+        zeige: () => {
+        }
+      };
+    }
     return {
       glieder: () => (
         /** @type {HTMLElement[]} */
@@ -6643,7 +6655,7 @@
   }
   var einblenden = {
     id: "einblenden",
-    selektor: '[data-animation="reverse-domino"], [data-animation="reveal"], .nc-logo-wall--fadein:not(.nc-logo-wall--marquee)',
+    selektor: '[data-animation="reverse-domino"], [data-animation="reveal"], .nc-logo-wall--fadein:not(.nc-logo-wall--marquee), .nc-hero__media[data-animation="fly-in-right"], .nc-hero__media[data-animation="fly-in-bottom"]',
     // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
     nurAusdruecklich: true,
     recipes: EINBLENDEN_RECIPES,
@@ -6815,7 +6827,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.19.0",
+    version: "0.20.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",

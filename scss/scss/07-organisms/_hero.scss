@@ -832,6 +832,76 @@
 }
 
 // ---------------------------------------------------------------------------
+// Hero Media Secondary (I04, 02.11.2026)
+// ---------------------------------------------------------------------------
+// Optional second image inside .nc-hero__media, overlapping a corner of the
+// main image (home page: mobile app screenshot). Position modifiers:
+//   (none) | --bottom-end   bottom right corner (default)
+//   --top-end               top right corner
+//   --bottom-start          bottom left corner
+// Every rule hangs on .nc-hero__media-secondary — heroes without it are
+// untouched.
+
+.nc-hero__media-secondary {
+  --_secondary-inline: var(--mod-hero-secondary-offset-inline-mobile, var(--nc-hero-secondary-offset-inline-mobile));
+  --_secondary-block:  var(--mod-hero-secondary-offset-block, var(--nc-hero-secondary-offset-block));
+
+  position: absolute;
+  z-index: 1;
+  inset-block-end: var(--_secondary-block);
+  inset-inline-end: var(--_secondary-inline);
+  width: var(--mod-hero-secondary-width-mobile, var(--nc-hero-secondary-width-mobile));
+  height: auto;
+  border-radius: var(--mod-hero-secondary-radius, var(--nc-hero-secondary-radius));
+  box-shadow: var(--mod-hero-secondary-shadow, var(--nc-hero-secondary-shadow));
+
+  @include respond-to('md') {
+    --_secondary-inline: var(--mod-hero-secondary-offset-inline, var(--nc-hero-secondary-offset-inline));
+
+    width: var(--mod-hero-secondary-width, var(--nc-hero-secondary-width));
+  }
+}
+
+.nc-hero__media-secondary--top-end {
+  inset-block-start: var(--_secondary-block);
+  inset-block-end: auto;
+}
+
+.nc-hero__media-secondary--bottom-start {
+  inset-inline-start: var(--_secondary-inline);
+  inset-inline-end: auto;
+}
+
+// The overhang and the fly-in offset must never widen the page. The hero is
+// full-bleed, so clipping it horizontally clips exactly at the viewport edge.
+.nc-hero:has(.nc-hero__media-secondary) {
+  overflow-x: clip;
+}
+
+// Fly-in: hidden only while the behavior einblenden is bound and has not
+// revealed yet — without script, or with reduced motion (the behavior
+// reveals at once), the image stands in place.
+.nc-hero__media[data-animation^="fly-in-"][data-neo-behavior~='einblenden']:not(.is-revealed) .nc-hero__media-secondary {
+  opacity: 0;
+}
+
+.nc-hero__media[data-animation="fly-in-right"][data-neo-behavior~='einblenden']:not(.is-revealed) .nc-hero__media-secondary {
+  transform: translateX(var(--mod-hero-secondary-motion-distance, var(--nc-hero-secondary-motion-distance)));
+}
+
+.nc-hero__media[data-animation="fly-in-bottom"][data-neo-behavior~='einblenden']:not(.is-revealed) .nc-hero__media-secondary {
+  transform: translateY(var(--mod-hero-secondary-motion-distance, var(--nc-hero-secondary-motion-distance)));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nc-hero__media-secondary {
+    transition:
+      opacity var(--mod-hero-secondary-motion-duration, var(--nc-hero-secondary-motion-duration)) var(--mod-hero-secondary-motion-easing, var(--nc-hero-secondary-motion-easing)) var(--mod-hero-secondary-motion-delay, var(--nc-hero-secondary-motion-delay)),
+      transform var(--mod-hero-secondary-motion-duration, var(--nc-hero-secondary-motion-duration)) var(--mod-hero-secondary-motion-easing, var(--nc-hero-secondary-motion-easing)) var(--mod-hero-secondary-motion-delay, var(--nc-hero-secondary-motion-delay));
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Hero Card (dashboard mockup variant)
 // ---------------------------------------------------------------------------
 

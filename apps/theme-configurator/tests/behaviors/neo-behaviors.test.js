@@ -45,7 +45,7 @@ describe('neo-behaviors: Grundlagen', () => {
         expect(Object.keys(r.events || {}).length, `${id} (${rid}): events fehlt`).toBeGreaterThan(0)
       }
     }
-    expect(BEHAVIORS.einblenden.recipes).toEqual(['card-grid', 'bento-grid', 'logo-wall'])
+    expect(BEHAVIORS.einblenden.recipes).toEqual(['card-grid', 'bento-grid', 'logo-wall', 'hero'])
   })
 
   it('bindet jede Wurzel nur einmal und loest wieder', () => {

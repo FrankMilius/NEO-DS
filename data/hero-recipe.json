@@ -1009,5 +1009,20 @@
         "note": "Zentrierte Kennzahlen nur bei kurzen Werten — lange Werte brechen sonst unruhig um."
       }
     }
-  ]
+  ],
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable."
+    }
+  },
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Fired at .nc-hero__media[data-animation=\"fly-in-right|fly-in-bottom\"] when the secondary media is revealed (behavior einblenden): reason \"sicht\" (15 % in view), \"reduzierte-bewegung\" or \"ohne-beobachter\" (immediately). Rebinding an already revealed root does not fire."
+    }
+  }
 }
