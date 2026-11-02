@@ -64,6 +64,8 @@ const AXIS_LABELS = {
   cardsAlign: 'Karten-Ausrichtung',
   cardsRule: 'Karten-Linie',
   cardsSurface: 'Karten-Fläche',
+  secondaryPosition: 'Zweitmedium-Lage',
+  secondaryMotion: 'Zweitmedium-Einflug',
   progress: 'Fortschritt',
   cardTone: 'Kartenton',
   headerAlign: 'Kopf-Ausrichtung',

@@ -42,8 +42,9 @@ const NUR_SCROLL = ['hero-tom']
 // (Entscheidung 25.08.2026, Entwurf bewusst gefuehrt; ueberholt)
 const STILLGELEGT = ['scroll-expand', 'scroll-reveal']
 // Derselbe Mechanismus fuer die animierten Bloecke der Gruppen bloecke-1/-2
-// (bento-grid, question, tab-nav; Tests dort)
-const AUS_BLOECKE = ['bento-grid', 'question', 'tab-nav']
+// (bento-grid, question, tab-nav; Tests dort) und layout (hero: Einflug des
+// zweiten Mediums, I04 02.11.2026; Test in layout-block.test.js)
+const AUS_BLOECKE = ['bento-grid', 'question', 'tab-nav', 'hero']
 
 // Inline-Stile ausser Custom Properties — Instanzwerte, die die Website
 // setzt, bzw. Komponenten-CSS der Website, das styles.css nicht hat

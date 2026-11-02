@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.4.2",
+    "version": "2.5.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.5.0",
+        "changes": [
+          "I04 (02.11.2026, Entscheidungen Frank F01–F08): Slot media-secondary (.nc-hero__media-secondary) — zweites Medium in .nc-hero__media nach dem Hauptbild, ueberlappt eine Ecke (Startseite: Screenshot der mobilen App). Achse secondaryPosition (bottom-end | top-end | bottom-start, Element-Modifier am Bild) und secondaryMotion (none | fly-in-right | fly-in-bottom, data-animation an .nc-hero__media). Tokengruppe secondary (11 Tokens --nc-hero-secondary-*): Breite 28 % (mobil 24 %, innen), Versatz, Radius, Schatten, Einflug 48 px / 0,7 s / 0,3 s. Einflug ueber neo-behaviors einblenden: ohne Skript und bei reduzierter Bewegung sofort am Platz. Heros ohne zweites Medium unveraendert."
+        ]
+      },
       {
         "version": "2.4.2",
         "changes": [
@@ -91,6 +97,12 @@
         "name": "media",
         "element": ".nc-hero__media",
         "optional": true
+      },
+      {
+        "name": "media-secondary",
+        "element": ".nc-hero__media-secondary",
+        "optional": true,
+        "description": "Zweites Medium (img) IN .nc-hero__media nach dem Hauptbild; ueberlappt eine Ecke des Hauptbilds. Eigener Alternativtext (leer = dekorativ). Lage per Element-Modifier (Achse secondaryPosition), Einflug per data-animation an .nc-hero__media (Achse secondaryMotion)."
       },
       {
         "name": "actions",
@@ -404,6 +416,57 @@
           "description": "dunkle Karte im hellen Modus und umgekehrt"
         }
       }
+    },
+    "secondaryPosition": {
+      "label": "Secondary Position",
+      "description": "Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).",
+      "values": {
+        "bottom-end": {
+          "modifier": null,
+          "tokenGroups": [
+            "secondary"
+          ]
+        },
+        "top-end": {
+          "modifier": "nc-hero__media-secondary--top-end",
+          "tokenGroups": [
+            "secondary"
+          ]
+        },
+        "bottom-start": {
+          "modifier": "nc-hero__media-secondary--bottom-start",
+          "tokenGroups": [
+            "secondary"
+          ]
+        }
+      }
+    },
+    "secondaryMotion": {
+      "label": "Secondary Motion",
+      "description": "Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [
+            "secondary"
+          ],
+          "renderHint": "hero-secondary-still"
+        },
+        "fly-in-right": {
+          "modifier": null,
+          "tokenGroups": [
+            "secondary"
+          ],
+          "renderHint": "hero-secondary-fly-in-right"
+        },
+        "fly-in-bottom": {
+          "modifier": null,
+          "tokenGroups": [
+            "secondary"
+          ],
+          "renderHint": "hero-secondary-fly-in-bottom"
+        }
+      }
     }
   },
   "states": {
@@ -632,6 +695,22 @@
           "nc-hero-mockup-radius",
           "nc-hero-mockup-padding",
           "nc-hero-mockup-gap"
+        ]
+      },
+      "secondary": {
+        "label": "Zweites Medium",
+        "tokens": [
+          "nc-hero-secondary-width",
+          "nc-hero-secondary-width-mobile",
+          "nc-hero-secondary-offset-inline",
+          "nc-hero-secondary-offset-inline-mobile",
+          "nc-hero-secondary-offset-block",
+          "nc-hero-secondary-radius",
+          "nc-hero-secondary-shadow",
+          "nc-hero-secondary-motion-distance",
+          "nc-hero-secondary-motion-duration",
+          "nc-hero-secondary-motion-delay",
+          "nc-hero-secondary-motion-easing"
         ]
       }
     }
@@ -1007,6 +1086,66 @@
       "a11y": {
         "contrastTarget": "WCAG AA (4.5:1)",
         "note": "Zentrierte Kennzahlen nur bei kurzen Werten — lange Werte brechen sonst unruhig um."
+      }
+    },
+    {
+      "id": "secondary-position-comparison",
+      "label": "Zweites Medium: Lage",
+      "description": "Zweites Medium (Hochformat) ueberlappt eine Ecke des Hauptbilds: unten rechts (Vorgabe, Startseite), oben rechts, unten links.",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "picture"
+          ],
+          "secondaryPosition": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "secondary"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "secondaryPosition"
+      },
+      "render": {
+        "label": "{secondaryPosition}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)",
+        "note": "Eigener Alternativtext am zweiten Bild; leer, wenn es nur schmueckt."
+      }
+    },
+    {
+      "id": "secondary-motion-comparison",
+      "label": "Zweites Medium: Einflug",
+      "description": "Ohne Bewegung, von rechts, von unten. Die Zelle zeigt den Endzustand; „Abspielen\" spielt den Einflug einmal ab (auf der Website: neo-behaviors einblenden beim Sichtbarwerden).",
+      "matrix": {
+        "axes": {
+          "variant": [
+            "picture"
+          ],
+          "secondaryMotion": "*"
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "secondary"
+      ],
+      "layout": "grid",
+      "layoutConfig": {
+        "rowAxis": "secondaryMotion"
+      },
+      "render": {
+        "label": "{secondaryMotion}"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA large text (3:1)",
+        "note": "WCAG 2.2.2/2.3.3: Einflug einmalig, unter 5 s (0,3 s + 0,7 s), bei prefers-reduced-motion keiner."
       }
     }
   ],

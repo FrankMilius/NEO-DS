@@ -26,7 +26,17 @@
 // <mark> (Entscheidung 06.10.2026, Recipe 2.2.0).
 //
 // <section> ohne Namen wie im geernteten Markup (kein Landmark).
+//
+// Zweites Medium (I04, 02.11.2026): with secondaryPosition/secondaryMotion
+// the picture gets .nc-hero__media-secondary after the main image; position
+// modifiers go to that img (not the block), the fly-in is data-animation on
+// .nc-hero__media, shown in its final state (is-revealed). „Abspielen“
+// replays it like bento-grid's reveal.
 import { BILD_SRC, esc } from './_helfer.js'
+import { spieleEin, alle } from './_bewegung.js'
+
+// Portrait placeholder for the secondary media (phone screenshot, 9:19.5)
+const APP_SRC = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 390 845%22 width=%22117%22 height=%22253%22%3E%3Crect width=%22390%22 height=%22845%22 fill=%22%23eef0f3%22/%3E%3Crect width=%22390%22 height=%2290%22 fill=%22%23c9ced6%22/%3E%3Crect x=%2224%22 y=%22130%22 width=%22342%22 height=%22190%22 rx=%2212%22 fill=%22%23aab1bc%22/%3E%3Crect x=%2224%22 y=%22350%22 width=%22342%22 height=%2224%22 rx=%226%22 fill=%22%23c9ced6%22/%3E%3Crect x=%2224%22 y=%22390%22 width=%22240%22 height=%2224%22 rx=%226%22 fill=%22%23c9ced6%22/%3E%3C/svg%3E'
 
 const KARTEN = [
   ['Lizenz', '100%', 'Open Source'],
@@ -65,7 +75,7 @@ const merkmale = () => `<ul class="nc-hero__highlights" aria-label="Highlights">
 <li class="nc-hero__highlight">DSGVO-konform, gehostet in der EU</li>
 </ul>`
 
-function medium (variante) {
+function medium (variante, zweit) {
   if (variante === 'mockup') {
     return `<div class="nc-hero__media">
 <div class="nc-hero__mockup" aria-hidden="true">
@@ -76,8 +86,12 @@ function medium (variante) {
 </div>
 </div>`
   }
-  return `<div class="nc-hero__media">
-<div class="nc-hero__picture"><img src="${BILD_SRC}" alt="Vorschau der Plattform" width="600" height="400"></div>
+  const bewegung = zweit?.bewegung && zweit.bewegung !== 'none' ? zweit.bewegung : null
+  const zweitBild = zweit
+    ? `\n<img class="${['nc-hero__media-secondary', ...zweit.klassen].join(' ')}" src="${APP_SRC}" alt="Mobile App" width="117" height="253">`
+    : ''
+  return `<div class="nc-hero__media${bewegung ? ' is-revealed' : ''}"${bewegung ? ` data-animation="${bewegung}"` : ''}>
+<div class="nc-hero__picture"><img src="${BILD_SRC}" alt="Vorschau der Plattform" width="600" height="400"></div>${zweitBild}
 </div>`
 }
 
@@ -88,7 +102,10 @@ const vorlage = (zelle, m) => {
   const variante = m.wert('variant') || (m.wert('mediaPosition') ? 'picture' : null)
   const mitMedium = !!variante && (!slots || slots.includes('media'))
 
-  const blockKlassen = m.klassen.filter((k) => !k.startsWith('nc-hero__cards'))
+  const blockKlassen = m.klassen.filter((k) => !k.startsWith('nc-hero__cards') && !k.startsWith('nc-hero__media-secondary'))
+  const zweit = m.wert('secondaryPosition') !== undefined || m.wert('secondaryMotion') !== undefined
+    ? { klassen: m.klassen.filter((k) => k.startsWith('nc-hero__media-secondary--')), bewegung: m.wert('secondaryMotion') }
+    : null
   const kartenKlassen = m.klassen.filter((k) => k.startsWith('nc-hero__cards--'))
   const mitKarten = m.wert('badgesPosition') !== undefined || kartenKlassen.length > 0 ||
     ['cardsSurface', 'cardsRule', 'cardsAlign'].some((a) => m.wert(a) !== undefined)
@@ -112,7 +129,7 @@ const vorlage = (zelle, m) => {
   ].filter(Boolean).join('\n')
 
   const content = `<div class="nc-hero__content">\n${inhalt}\n</div>`
-  const koerper = mitMedium ? `<div class="nc-hero__grid">\n${content}\n${medium(variante)}\n</div>` : content
+  const koerper = mitMedium ? `<div class="nc-hero__grid">\n${content}\n${medium(variante, zweit)}\n</div>` : content
 
   // Hero mit Hintergrundbild (Full Featured): Bild als Inline-Stil am Block
   // wie in Drupal, darueber der Verlauf (.nc-hero__overlay)
@@ -130,3 +147,23 @@ ${verlauf}${koerper}
 // die Zelle (recipe-arena.js, zellenFlaeche).
 vorlage.eigeneFlaeche = true
 export default vorlage
+
+/**
+ * „Abspielen“ of the secondary media fly-in: is-revealed off and on again in
+ * time, with einblenden bound meanwhile (only then the SCSS hides it).
+ */
+export const abspielen = {
+  hinweis: 'Zweites Medium (secondaryMotion): is-revealed weg und wieder an — der Einflug des DS läuft ab. Auf der Website setzt neo-behaviors einblenden die Klasse beim Sichtbarwerden.',
+  starten (zelle) {
+    return alle([...zelle.querySelectorAll('.nc-hero__media[data-animation^="fly-in-"]')].map((medium) => {
+      const vorher = medium.getAttribute('data-neo-behavior')
+      medium.setAttribute('data-neo-behavior', [vorher, 'einblenden'].filter(Boolean).join(' '))
+      const anhalten = spieleEin(medium, 'is-revealed')
+      return () => {
+        anhalten()
+        if (vorher === null) medium.removeAttribute('data-neo-behavior')
+        else medium.setAttribute('data-neo-behavior', vorher)
+      }
+    }))
+  }
+}

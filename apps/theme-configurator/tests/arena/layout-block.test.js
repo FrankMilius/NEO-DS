@@ -23,7 +23,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { setActivePinia, createPinia } from 'pinia'
 import { MIT_VERHALTEN } from 'neo-behaviors'
 import RecipeArena from '../../src/components/laboratory/RecipeArena.vue'
-import { vorlageFuer, einrichtungFuer, ausprobierenFuer } from '../../src/arena-templates/index.js'
+import { vorlageFuer, einrichtungFuer, ausprobierenFuer, abspielenFuer } from '../../src/arena-templates/index.js'
 import { NICHT_GEBAUT } from '../../src/arena-templates/_layout.js'
 import { normalisiereRecipe, specimenAnsicht, fuerWeiteresThema } from '../../src/lib/recipe-arena.js'
 import { hasArena, arenaQuelle } from '../../src/composables/useArenaResolver.js'
@@ -213,7 +213,9 @@ describe('Layout-Block aus dem Recipe', () => {
     expect(BLOCK.filter((id) => ausprobierenFuer(id))).toEqual(['psychedelic-bg'])
     for (const id of BLOCK) {
       const r = rohesRecipe(id)
-      const mitVerhalten = id === 'shell'
+      // hero (I04, 02.11.2026): carrier of the helper behavior einblenden —
+      // keyboard/events describe its Soll, like card-grid and bento-grid
+      const mitVerhalten = id === 'shell' || id === 'hero'
       expect(Object.keys(r.keyboard || {}).length > 0, id).toBe(mitVerhalten)
       expect(Object.keys(r.events || {}).length > 0, id).toBe(mitVerhalten)
     }
@@ -397,6 +399,46 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     }
   })
 
+  // I04 (02.11.2026): secondary media inside .nc-hero__media after the main
+  // image; position as element modifier, fly-in as data-animation shown in
+  // its final state (is-revealed) — like bento-grid's animation axis.
+  it('hero: zweites Medium — im __media nach dem Hauptbild, Position am Element, Einflug als data-animation im Endzustand', () => {
+    const lagen = alle('hero', 'secondary-position-comparison')
+    expect(lagen.map((d) => d.querySelector('.nc-hero__media > .nc-hero__media-secondary').className)).toEqual([
+      'nc-hero__media-secondary',
+      'nc-hero__media-secondary nc-hero__media-secondary--top-end',
+      'nc-hero__media-secondary nc-hero__media-secondary--bottom-start'
+    ])
+    for (const d of lagen) {
+      expect(d.querySelector('.nc-hero').className).not.toMatch(/secondary/)
+      expect(d.querySelector('.nc-hero__media').lastElementChild.matches('img.nc-hero__media-secondary[alt][width][height]')).toBe(true)
+    }
+    const bewegung = alle('hero', 'secondary-motion-comparison').map((d) => d.querySelector('.nc-hero__media'))
+    expect(bewegung.map((m) => m.getAttribute('data-animation'))).toEqual([null, 'fly-in-right', 'fly-in-bottom'])
+    expect(bewegung.map((m) => m.classList.contains('is-revealed'))).toEqual([false, true, true])
+    for (const z of zellen('hero')) {
+      if (!z.specimen.id.startsWith('secondary-')) expect(dom(z.html).querySelector('.nc-hero__media-secondary, [data-animation]')).toBeNull()
+    }
+  })
+
+  it('hero: „Abspielen“ spielt den Einflug einmal ab — einblenden gebunden, danach Endzustand', async () => {
+    const [still, rechts] = alle('hero', 'secondary-motion-comparison')
+    const medium = rechts.querySelector('.nc-hero__media')
+    document.body.appendChild(rechts)
+    const anhalten = abspielenFuer('hero').starten(rechts)
+    expect(medium.classList.contains('is-revealed')).toBe(false)
+    expect(medium.getAttribute('data-neo-behavior')).toBe('einblenden')
+    await new Promise((r) => requestAnimationFrame(r))
+    expect(medium.classList.contains('is-revealed')).toBe(true)
+    anhalten()
+    expect(medium.classList.contains('is-revealed')).toBe(true)
+    expect(medium.hasAttribute('data-neo-behavior')).toBe(false)
+    rechts.remove()
+    const vorher = still.innerHTML
+    abspielenFuer('hero').starten(still)()
+    expect(still.innerHTML).toBe(vorher)
+  })
+
   it('hero: Flaechen und Hervorhebung als Block-Modifier; keine dunkle Seitenflaeche um die Zelle', () => {
     expect(alle('hero', 'surface-comparison').map((d) => d.querySelector('.nc-hero').className))
       .toEqual(['nc-hero nc-hero--surface-dark', 'nc-hero nc-hero--surface-muted', 'nc-hero nc-hero--surface-light'])
@@ -445,9 +487,9 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(rohesRecipe('hero').axes.markStyle.values.tint.description).toContain('.nc-hero__mark bleibt Balken')
   })
 
-  it('hero: Recipe 2.4.2 — Specimens fuer jede Achse', () => {
+  it('hero: Recipe 2.5.0 — Specimens fuer jede Achse', () => {
     const r = rohesRecipe('hero')
-    expect(r.meta.version).toBe('2.4.2') // 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
+    expect(r.meta.version).toBe('2.5.0') // 2.5.0: zweites Medium (I04); 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
     const genutzt = new Set(r.specimens.flatMap((s) => Object.keys(s.matrix.axes)))
     for (const achse of Object.keys(r.axes)) expect(genutzt.has(achse), achse).toBe(true)
   })
@@ -619,7 +661,8 @@ describe('Layout-Block in der RecipeArena', () => {
       const w = await arena(id)
       const recipe = normalisiereRecipe(rohesRecipe(id))
       expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
-      expect(w.find('.ra-modus').exists()).toBe(mitAusprobieren)
+      // hero: „Abspielen“ of the secondary media fly-in (I04)
+      expect(w.find('.ra-modus').exists()).toBe(mitAusprobieren || id === 'hero')
       expect(w.find('[data-quelle="heuristik"]').exists()).toBe(false)
       expect(w.find(`.${WURZELN[id]}, [data-nicht-gebaut]`).exists()).toBe(true)
       if (id === 'shell') {

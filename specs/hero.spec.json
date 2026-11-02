@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -24,6 +24,12 @@
         "selector": ".nc-hero__media",
         "required": false,
         "description": null
+      },
+      {
+        "name": "media-secondary",
+        "selector": ".nc-hero__media-secondary",
+        "required": false,
+        "description": "Zweites Medium (img) IN .nc-hero__media nach dem Hauptbild; ueberlappt eine Ecke des Hauptbilds. Eigener Alternativtext (leer = dekorativ). Lage per Element-Modifier (Achse secondaryPosition), Einflug per data-animation an .nc-hero__media (Achse secondaryMotion)."
       },
       {
         "name": "actions",
@@ -283,6 +289,54 @@
           "label": "inverse"
         }
       ]
+    },
+    "secondaryPosition": {
+      "label": "Secondary Position",
+      "description": "Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).",
+      "values": [
+        {
+          "value": "bottom-end",
+          "cssModifier": null,
+          "default": false,
+          "label": "bottom-end"
+        },
+        {
+          "value": "top-end",
+          "cssModifier": "nc-hero__media-secondary--top-end",
+          "default": false,
+          "label": "top-end"
+        },
+        {
+          "value": "bottom-start",
+          "cssModifier": "nc-hero__media-secondary--bottom-start",
+          "default": false,
+          "label": "bottom-start"
+        }
+      ]
+    },
+    "secondaryMotion": {
+      "label": "Secondary Motion",
+      "description": "Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "fly-in-right",
+          "cssModifier": null,
+          "default": false,
+          "label": "fly-in-right"
+        },
+        {
+          "value": "fly-in-bottom",
+          "cssModifier": null,
+          "default": false,
+          "label": "fly-in-bottom"
+        }
+      ]
     }
   },
   "states": {
@@ -530,6 +584,41 @@
         {
           "token": "--nc-hero-mockup-gap"
         }
+      ],
+      "Zweites Medium": [
+        {
+          "token": "--nc-hero-secondary-width"
+        },
+        {
+          "token": "--nc-hero-secondary-width-mobile"
+        },
+        {
+          "token": "--nc-hero-secondary-offset-inline"
+        },
+        {
+          "token": "--nc-hero-secondary-offset-inline-mobile"
+        },
+        {
+          "token": "--nc-hero-secondary-offset-block"
+        },
+        {
+          "token": "--nc-hero-secondary-radius"
+        },
+        {
+          "token": "--nc-hero-secondary-shadow"
+        },
+        {
+          "token": "--nc-hero-secondary-motion-distance"
+        },
+        {
+          "token": "--nc-hero-secondary-motion-duration"
+        },
+        {
+          "token": "--nc-hero-secondary-motion-delay"
+        },
+        {
+          "token": "--nc-hero-secondary-motion-easing"
+        }
       ]
     },
     "modTokens": [
@@ -587,12 +676,36 @@
       "--mod-hero-mockup-ratio",
       "--mod-hero-mockup-radius",
       "--mod-hero-mockup-padding",
-      "--mod-hero-mockup-gap"
+      "--mod-hero-mockup-gap",
+      "--mod-hero-secondary-width",
+      "--mod-hero-secondary-width-mobile",
+      "--mod-hero-secondary-offset-inline",
+      "--mod-hero-secondary-offset-inline-mobile",
+      "--mod-hero-secondary-offset-block",
+      "--mod-hero-secondary-radius",
+      "--mod-hero-secondary-shadow",
+      "--mod-hero-secondary-motion-distance",
+      "--mod-hero-secondary-motion-duration",
+      "--mod-hero-secondary-motion-delay",
+      "--mod-hero-secondary-motion-easing"
     ]
   },
-  "keyboard": null,
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable."
+    }
+  },
   "testSelectors": null,
-  "events": null,
+  "events": {
+    "einblenden": {
+      "bubbles": true,
+      "detail": {
+        "reason": "string"
+      },
+      "note": "Fired at .nc-hero__media[data-animation=\"fly-in-right|fly-in-bottom\"] when the secondary media is revealed (behavior einblenden): reason \"sicht\" (15 % in view), \"reduzierte-bewegung\" or \"ohne-beobachter\" (immediately). Rebinding an already revealed root does not fire."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,

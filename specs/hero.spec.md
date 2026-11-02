@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.4.2 | Status: stable | Layer: organism
+> Version 2.5.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -10,6 +10,7 @@ Root element: `.nc-hero`
 | --- | --- | --- | --- |
 | content | `.nc-hero__content` | Yes | — |
 | media | `.nc-hero__media` | No | — |
+| media-secondary | `.nc-hero__media-secondary` | No | Zweites Medium (img) IN .nc-hero__media nach dem Hauptbild; ueberlappt eine Ecke des Hauptbilds. Eigener Alternativtext (leer = dekorativ). Lage per Element-Modifier (Achse secondaryPosition), Einflug per data-animation an .nc-hero__media (Achse secondaryMotion). |
 | actions | `.nc-hero__actions` | No | Primaere und sekundaere CTA-Buttons unterhalb der Highlights. |
 | footer | `.nc-hero__footer` | No | Badges und Kennzahlen unter den Aktionen. |
 | cards | `.nc-hero__cards` | No | Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil. |
@@ -111,6 +112,24 @@ Gewaehlt wird eine ROLLE, keine Farbe — die Werte folgen dem Thema. Mit gesetz
 | secondary | `.nc-hero__cards--bg-secondary` |  |
 | tertiary | `.nc-hero__cards--bg-tertiary` |  |
 | inverse | `.nc-hero__cards--bg-inverse` |  |
+
+### Secondary Position (`secondaryPosition`)
+Welche Ecke des Hauptbilds das zweite Medium ueberlappt. Element-Modifier an .nc-hero__media-secondary, nicht am Block. Unter md bleibt es innen (kein Ueberlauf).
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| bottom-end | — |  |
+| top-end | `.nc-hero__media-secondary--top-end` |  |
+| bottom-start | `.nc-hero__media-secondary--bottom-start` |  |
+
+### Secondary Motion (`secondaryMotion`)
+Einflug des zweiten Mediums: data-animation an .nc-hero__media, ausgefuehrt von neo-behaviors einblenden (einmal beim Sichtbarwerden). Versteckt nur, solange das Behavior gebunden ist; ohne Skript und bei prefers-reduced-motion sofort am Platz.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| none | — |  |
+| fly-in-right | — |  |
+| fly-in-bottom | — |  |
 
 ## States
 Supported: `default`
@@ -236,6 +255,31 @@ Base classes: `nc-hero`
 | `--nc-hero-mockup-padding` | — | `--mod-hero-mockup-padding` |
 | `--nc-hero-mockup-gap` | — | `--mod-hero-mockup-gap` |
 
+### Zweites Medium
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-hero-secondary-width` | — | `--mod-hero-secondary-width` |
+| `--nc-hero-secondary-width-mobile` | — | `--mod-hero-secondary-width-mobile` |
+| `--nc-hero-secondary-offset-inline` | — | `--mod-hero-secondary-offset-inline` |
+| `--nc-hero-secondary-offset-inline-mobile` | — | `--mod-hero-secondary-offset-inline-mobile` |
+| `--nc-hero-secondary-offset-block` | — | `--mod-hero-secondary-offset-block` |
+| `--nc-hero-secondary-radius` | — | `--mod-hero-secondary-radius` |
+| `--nc-hero-secondary-shadow` | — | `--mod-hero-secondary-shadow` |
+| `--nc-hero-secondary-motion-distance` | — | `--mod-hero-secondary-motion-distance` |
+| `--nc-hero-secondary-motion-duration` | — | `--mod-hero-secondary-motion-duration` |
+| `--nc-hero-secondary-motion-delay` | — | `--mod-hero-secondary-motion-delay` |
+| `--nc-hero-secondary-motion-easing` | — | `--mod-hero-secondary-motion-easing` |
+
+## Keyboard Interactions
+| Key | Action | Notes |
+| --- | --- | --- |
+| `Tab` | focus-next | No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable. |
+
+## Events
+| Event | Bubbles | Detail |
+| --- | --- | --- |
+| `einblenden` | Yes | `{"reason":"string"}` |
+
 ## Accessibility
 Contrast Target: WCAG AA large text (3:1)
 
@@ -251,7 +295,7 @@ Derived from anatomy for potential `<nc-hero>` custom element:
 
 ```js
 class NcHero extends HTMLElement {
-  static observedAttributes = ['variant', 'alignment', 'surface', 'mediaPosition', 'markStyle', 'badgesPosition', 'cardsAlign', 'cardsRule', 'cardsSurface'];
+  static observedAttributes = ['variant', 'alignment', 'surface', 'mediaPosition', 'markStyle', 'badgesPosition', 'cardsAlign', 'cardsRule', 'cardsSurface', 'secondaryPosition', 'secondaryMotion'];
   // Slots: <slot name="content">
 }
 ```
