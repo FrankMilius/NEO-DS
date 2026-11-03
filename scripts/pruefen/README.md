@@ -55,6 +55,11 @@ roten Prüfung unter test/ci/bilder entfallen die folgenden davon;
 - **`--gleichzeitig`** lässt den Pixelvergleich neben test/ci/bilder laufen.
   Im Probelauf vom 21.10.2026 war das nicht schneller: CI brauchte unter der
   Last 761 s statt ~263 s (gesamt ~15 min).
+- **Dauer (I05, 03.11.2026, nacheinander, alle fünf grün):** test 16 s,
+  ci 563 s (25 Schritte, vorher 27 in 794–1013 s), bilder 35 s, pixel 236 s,
+  modul 58 s — gesamt 910 s. Schläft der Rechner während des Laufs (Akku,
+  Deckel zu), melden Tests Zeitüberschreitungen nach Minuten: vorher
+  `pmset -g log` ansehen, nicht die Zeitgrenze anheben.
 
 Ausgang **0** alles grün, **1** sonst. Zeigt der Pixelvergleich geänderte
 oder unklare Seiten, steht im Bericht **HALTEPUNKT** (E6) — auch wenn er

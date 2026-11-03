@@ -15,6 +15,12 @@
 // Uebersprungen werden Schritte mit `uses:` (Checkout, Node, Artefakte) und
 // standardmaessig `npm ci` sowie `playwright install` (lokal vorhanden).
 // Bricht beim ersten Fehler ab und nennt Job und Schritt wie in GitHub.
+//
+// Locally all jobs share ONE checkout (02.11.2026): `npm ci` is also dropped
+// at the start of a chain (`npm ci && npm run build:css` in the e2e job used
+// to reinstall the root node_modules on every run), and a step identical to
+// one that already ran (same command, same directory) runs only once — in
+// GitHub every job starts on a fresh machine, here nothing was undone.
 // ==========================================================================
 
 import { readFileSync } from 'node:fs'
@@ -62,24 +68,49 @@ export function schritte (text, job) {
   return liste
 }
 
+/**
+ * Local run plan: the workflow steps of the given jobs, each marked `weg`
+ * (reason) when it does not run locally.
+ * @param {string} text
+ * @param {string[]} jobListe
+ * @param {{ mitCi: boolean }} opt
+ */
+export function lokalerPlan (text, jobListe, { mitCi }) {
+  const gelaufen = new Set()
+  const plan = []
+  for (const job of jobListe) {
+    for (const s of schritte(text, job)) {
+      if (!s.run) continue
+      let run = s.run
+      if (!mitCi) run = run.replace(/^npm ci\s*&&\s*/, '')
+      const cwd = s['working-directory'] || '.'
+      const name = s.name || s.run.split('\n')[0]
+      const eintrag = { job, name, run, cwd, weg: null }
+      if (!mitCi && /^npm ci$/.test(run)) eintrag.weg = 'npm ci (lokal vorhanden)'
+      else if (/playwright install/.test(run)) eintrag.weg = 'playwright install (lokal vorhanden)'
+      else if (gelaufen.has(`${cwd}\0${run}`)) eintrag.weg = 'schon gelaufen'
+      else gelaufen.add(`${cwd}\0${run}`)
+      plan.push(eintrag)
+    }
+  }
+  return plan
+}
+
 function ausfuehren () {
   const text = readFileSync(WORKFLOW, 'utf8')
   const t0 = Date.now()
   let n = 0
-  for (const job of jobs) {
-    for (const s of schritte(text, job)) {
-      if (!s.run) continue
-      if (!args.has('--mit-ci') && /^npm ci$/.test(s.run)) continue
-      if (/playwright install/.test(s.run)) continue
-      const name = s.name || s.run.split('\n')[0]
-      const cwd = path.join(wurzel, s['working-directory'] || '.')
-      process.stdout.write(`\n▶ [${job}] ${name}\n`)
-      const r = spawnSync('bash', ['-eo', 'pipefail', '-c', s.run], { cwd, stdio: 'inherit', env: { ...process.env, CI: '1' } })
-      n++
-      if (r.status !== 0) {
-        console.error(`\n✗ [${job}] „${name}“ fehlgeschlagen (Exit ${r.status}). So scheitert auch GitHub.`)
-        process.exit(r.status || 1)
-      }
+  for (const s of lokalerPlan(text, jobs, { mitCi: args.has('--mit-ci') })) {
+    if (s.weg) {
+      if (s.weg === 'schon gelaufen') process.stdout.write(`\n· [${s.job}] ${s.name} — schon gelaufen\n`)
+      continue
+    }
+    process.stdout.write(`\n▶ [${s.job}] ${s.name}\n`)
+    const r = spawnSync('bash', ['-eo', 'pipefail', '-c', s.run], { cwd: path.join(wurzel, s.cwd), stdio: 'inherit', env: { ...process.env, CI: '1' } })
+    n++
+    if (r.status !== 0) {
+      console.error(`\n✗ [${s.job}] „${s.name}“ fehlgeschlagen (Exit ${r.status}). So scheitert auch GitHub.`)
+      process.exit(r.status || 1)
     }
   }
   console.log(`\n✓ ${n} Schritte aus ${path.relative(wurzel, WORKFLOW)} gruen (${jobs.join(', ')}, ${Math.round((Date.now() - t0) / 1000)} s).`)
