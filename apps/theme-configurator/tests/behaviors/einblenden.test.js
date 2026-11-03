@@ -190,6 +190,11 @@ ${MARKUP.hero(0, 'right')}${MARKUP.hero(0, 'bottom')}
     expect(hero).toMatch(/\[data-animation="fly-in-right"\][^{]*\{[^}]*translateX\(var\(--mod-hero-secondary-motion-distance, var\(--nc-hero-secondary-motion-distance\)\)\)/)
     expect(hero).toMatch(/\[data-animation="fly-in-bottom"\][^{]*\{[^}]*translateY\(var\(--mod-hero-secondary-motion-distance, var\(--nc-hero-secondary-motion-distance\)\)\)/)
     expect(hero).toMatch(/@media \(prefers-reduced-motion: no-preference\) \{[^}]*\.nc-hero__media-secondary \{\s*transition:/)
+    // 03.11.2026 (measured on the home page): with the transition on the
+    // image itself, HIDING was delayed too (0.3 s + 0.7 s) — bound and
+    // revealed before it ever reached opacity 0, so nothing flew in. The
+    // transition belongs to the revealed state only; hiding is instant.
+    expect(hero).toMatch(/@media \(prefers-reduced-motion: no-preference\) \{\s*\.nc-hero__media\.is-revealed \.nc-hero__media-secondary \{\s*transition:/)
   })
 
   it('bento-grid: ohne Staffelung (wie vorher NeoBento.maybeReveal)', () => {

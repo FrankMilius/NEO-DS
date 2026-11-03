@@ -893,8 +893,11 @@
   transform: translateY(var(--mod-hero-secondary-motion-distance, var(--nc-hero-secondary-motion-distance)));
 }
 
+// The transition belongs to the revealed state only: hiding (when the
+// behavior binds) must be instant, otherwise the delayed transition keeps the
+// image visible until it is already revealed again (measured 03.11.2026).
 @media (prefers-reduced-motion: no-preference) {
-  .nc-hero__media-secondary {
+  .nc-hero__media.is-revealed .nc-hero__media-secondary {
     transition:
       opacity var(--mod-hero-secondary-motion-duration, var(--nc-hero-secondary-motion-duration)) var(--mod-hero-secondary-motion-easing, var(--nc-hero-secondary-motion-easing)) var(--mod-hero-secondary-motion-delay, var(--nc-hero-secondary-motion-delay)),
       transform var(--mod-hero-secondary-motion-duration, var(--nc-hero-secondary-motion-duration)) var(--mod-hero-secondary-motion-easing, var(--nc-hero-secondary-motion-easing)) var(--mod-hero-secondary-motion-delay, var(--nc-hero-secondary-motion-delay));
