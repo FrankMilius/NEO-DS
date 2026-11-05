@@ -29,7 +29,11 @@ import { componentTokenGroups } from '../src/data/tokens.generated.js'
 const APP = resolve(import.meta.dirname, '..')
 const ERGEBNIS = resolve(APP, 'wirkung-ergebnis')
 const DATEI = resolve(APP, 'src/data/token-wirkung.json')
-const ZUSTAND = /hover|active|focus|pressed|visited|disabled|selected|checked|open|expanded|current|loading|skeleton|transition|duration|delay|anim|ease|drag|placeholder|scrolled|sticky|print/
+// „motion“ (I08, Frank 05.11.2026): Die Weite des Einflugs beim zweiten
+// Hero-Medium wirkt nur vor dem Einflug (:not(.is-revealed)), die Bühne zeigt
+// den Endzustand. Trifft heute nur nc-hero-secondary-motion-*; ein künftiges
+// motion-Token, das in Ruhe wirken müsste, ginge hier ebenso als Zustand durch.
+const ZUSTAND = /hover|active|focus|pressed|visited|disabled|selected|checked|open|expanded|current|loading|skeleton|transition|duration|delay|anim|motion|ease|drag|placeholder|scrolled|sticky|print/
 /** Rang: höher = schlechter. Ratsche verbietet Anstieg. */
 export const RANG = { wirkt: 0, zustand: 1, bewusst: 1, 'ohne-pruefwert': 1, 'ohne-buehne': 1, 'ohne-wirkung': 2, unbenutzt: 2 }
 export const TOT = new Set(['ohne-wirkung', 'unbenutzt'])

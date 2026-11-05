@@ -58,3 +58,21 @@ describe('Wirkungsprüfung: bewusst ohne Wirkung', () => {
     expect(messung.zaehlung.bewusst).toBe(BEWUSST.size)
   })
 })
+
+// I08 (Frank, Punkt-Stand 05.11.2026, Weg A): Die Weite des Einflugs beim
+// zweiten Hero-Medium wird nur vor dem Einflug gelesen (:not(.is-revealed));
+// die ruhende Bühne zeigt den Endzustand. Wie Dauer und Verzögerung zählt
+// sie deshalb als Zustand — über „motion“ in der Regel ZUSTAND.
+describe('Wirkungsprüfung: Bewegungswerte (motion) als Zustand', () => {
+  it('nc-hero-secondary-motion-distance ohne Messwert → zustand', () => {
+    const g = [gruppe('hero', ['nc-hero-secondary-motion-distance', 'nc-hero-anders'])]
+    const art = auswerten({ hero: { ergebnis: { 'nc-hero-secondary-motion-distance': 0, 'nc-hero-anders': 0 } } }, g)
+    expect(art).toEqual({ 'nc-hero-anders': 'ohne-wirkung', 'nc-hero-secondary-motion-distance': 'zustand' })
+  })
+
+  it('festgeschriebener Stand führt die elf Werte des zweiten Mediums, die Weite als zustand', () => {
+    const zweites = Object.keys(messung.tokens).filter((id) => id.startsWith('nc-hero-secondary-'))
+    expect(zweites).toHaveLength(11)
+    expect(messung.tokens['nc-hero-secondary-motion-distance']).toBe('zustand')
+  })
+})

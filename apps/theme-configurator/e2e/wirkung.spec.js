@@ -198,7 +198,7 @@ for (const g of gruppen) {
     // (22.10.2026: focus-ring-offset und transition-duration „wirkt“ nur in
     // einem von zwei Läufen). Gleiche Regel wie ZUSTAND in scripts/wirkung.mjs.
     const zuMessen = tokens.filter((t) => knopf.has(t.id) && typeof r.ergebnis[t.id] === 'number' &&
-      !/hover|active|focus|pressed|disabled|transition|duration|delay|anim|ease/.test(t.id))
+      !/hover|active|focus|pressed|disabled|transition|duration|delay|anim|motion|ease/.test(t.id))
     if (zuMessen.length) {
       const regler = await reglerDerBuehne(page)
       const vorher = await bilder(regler)
