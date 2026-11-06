@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-02
+// Generated: 2026-11-06
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -22735,6 +22735,54 @@ export const componentTokenGroups = [
         "label": "BG",
         "type": "color",
         "ref": "background-base"
+      },
+      {
+        "id": "nc-nav-flaeche",
+        "label": "Fläche",
+        "type": "flaeche",
+        "optionen": [
+          {
+            "id": "standard",
+            "label": "Standard",
+            "werte": {}
+          },
+          {
+            "id": "sekundaer",
+            "label": "Sekundär",
+            "werte": {
+              "nc-nav-surface": "var(--fnd-color-background-secondary)",
+              "nc-nav-fg": "var(--fnd-color-text-primary)",
+              "nc-nav-muted": "color-mix(in srgb, var(--fnd-color-text-primary) 75%, var(--fnd-color-background-secondary))",
+              "nc-nav-line": "color-mix(in srgb, var(--fnd-color-text-primary) 20%, var(--fnd-color-background-secondary))",
+              "nc-nav-hover": "color-mix(in srgb, var(--fnd-color-text-primary) 10%, var(--fnd-color-background-secondary))",
+              "nc-nav-focus": "var(--fnd-color-text-primary)"
+            }
+          },
+          {
+            "id": "invertiert",
+            "label": "Invertiert",
+            "werte": {
+              "nc-nav-surface": "var(--fnd-color-background-inverse)",
+              "nc-nav-fg": "var(--fnd-color-text-inverse)",
+              "nc-nav-muted": "color-mix(in srgb, var(--fnd-color-text-inverse) 75%, var(--fnd-color-background-inverse))",
+              "nc-nav-line": "color-mix(in srgb, var(--fnd-color-text-inverse) 25%, var(--fnd-color-background-inverse))",
+              "nc-nav-hover": "color-mix(in srgb, var(--fnd-color-text-inverse) 15%, var(--fnd-color-background-inverse))",
+              "nc-nav-focus": "var(--fnd-color-text-inverse)"
+            }
+          },
+          {
+            "id": "akzent",
+            "label": "Akzent",
+            "werte": {
+              "nc-nav-surface": "var(--fnd-color-background-accent)",
+              "nc-nav-fg": "var(--fnd-color-on-accent)",
+              "nc-nav-muted": "color-mix(in srgb, var(--fnd-color-on-accent) 80%, var(--fnd-color-background-accent))",
+              "nc-nav-line": "color-mix(in srgb, var(--fnd-color-on-accent) 25%, var(--fnd-color-background-accent))",
+              "nc-nav-hover": "color-mix(in srgb, var(--fnd-color-on-accent) 15%, var(--fnd-color-background-accent))",
+              "nc-nav-focus": "var(--fnd-color-on-accent)"
+            }
+          }
+        ]
       },
       {
         "id": "nc-nav-bg-solid",

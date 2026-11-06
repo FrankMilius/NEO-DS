@@ -1670,6 +1670,18 @@ export declare const componentTokenGroups: {
     ref?: string
     darkDefault?: string
     group?: string
+    optionen?: {
+      id: string
+      label: string
+      werte: {
+        "nc-nav-surface"?: string
+        "nc-nav-fg"?: string
+        "nc-nav-muted"?: string
+        "nc-nav-line"?: string
+        "nc-nav-hover"?: string
+        "nc-nav-focus"?: string
+      }
+    }[]
   }[]
   subGroups?: {
     id: string

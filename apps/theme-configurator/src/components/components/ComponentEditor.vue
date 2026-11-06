@@ -149,6 +149,7 @@
                     <input :aria-label="`${token.label}: Farbwert`" type="text" class="anatomy-color-input" :class="{ modified: isOverridden(token) }" :value="getTokenValue(token)" @change="updateToken(token, $event.target.value)" />
                   </div>
                   <!-- Schriftfamilie: Rolle aus Typografie (20.10.2026) -->
+                  <FlaechenEditor v-else-if="token.type === 'flaeche'" :token="token" />
                   <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
                     :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
                     :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
@@ -219,6 +220,7 @@
                       <SizeEditor v-if="token.type === 'size'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
+                      <FlaechenEditor v-else-if="token.type === 'flaeche'" :token="token" />
                       <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
                         :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
                         :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
@@ -226,7 +228,7 @@
                         <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
                         <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
                       </div>
-                      <SemanticTokenPicker v-if="token.ref || token.type === 'size'"
+                      <SemanticTokenPicker v-if="token.type !== 'flaeche' && (token.ref || token.type === 'size')"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
                     </div>
                   </transition>
@@ -324,7 +326,8 @@
                         :title="token.label" :tokenId="token.id"
                         :tokenPalettes="palettes"
                         :contrastTarget="getContrastTarget(token)" />
-                      <SemanticTokenPicker v-if="token.ref || token.type === 'color'"
+                      <FlaechenEditor v-else-if="token.type === 'flaeche'" :token="token" />
+                      <SemanticTokenPicker v-if="token.type !== 'flaeche' && (token.ref || token.type === 'color')"
                         :token="token" :currentValue="getTokenValue(token)"
                         @select="updateToken(token, $event)" />
                     </div>
@@ -405,6 +408,7 @@
                       <SizeEditor v-else-if="token.type === 'size'"
                         :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                         :title="token.label" :tokenId="token.id" :max="200" />
+                      <FlaechenEditor v-else-if="token.type === 'flaeche'" :token="token" />
                       <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
                         :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
                         :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
@@ -412,7 +416,7 @@
                         <input :aria-label="token.label" type="text" class="generic-input" :value="getTokenValue(token)" :aria-describedby="bereichId(token)" @change="updateToken(token, $event.target.value)" />
                         <FeldBereich v-if="bereichId(token)" :id="bereichId(token)" :text="erlaubterBereich('komponente', token.id)" />
                       </div>
-                      <SemanticTokenPicker v-if="token.ref || token.type === 'color' || token.type === 'size'"
+                      <SemanticTokenPicker v-if="token.type !== 'flaeche' && (token.ref || token.type === 'color' || token.type === 'size')"
                         :token="token" :currentValue="getTokenValue(token)" @select="updateToken(token, $event)" />
                     </div>
                   </transition>
@@ -459,6 +463,7 @@
                 <SizeEditor v-if="token.type === 'size'"
                   :modelValue="getTokenValue(token)" @update:modelValue="updateToken(token, $event)"
                   :title="token.label" :tokenId="token.id" :max="200" />
+                <FlaechenEditor v-else-if="token.type === 'flaeche'" :token="token" />
                 <SchriftRolleWahl v-else-if="token.type === 'fontFamily'"
                   :label="token.label" :modelValue="getTokenValue(token)" :standard="token.default"
                   :isOverridden="isOverridden(token)" @update:modelValue="updateToken(token, $event)" />
@@ -528,6 +533,8 @@ import { erlaubterBereich } from '../../utils/token-pruefung.js'
 import SizeEditor from '../editors/SizeEditor.vue'
 import GeometryTokenSelect from '../editors/GeometryTokenSelect.vue'
 import SchriftRolleWahl from '../editors/SchriftRolleWahl.vue'
+import FlaechenEditor from '../editors/FlaechenEditor.vue'
+import { flaechenSchluessel } from '../../utils/flaeche.js'
 import SemanticTokenPicker from '../editors/SemanticTokenPicker.vue'
 import VariantCreator from './VariantCreator.vue'
 import WebsiteEinsatz from './WebsiteEinsatz.vue'
@@ -595,6 +602,7 @@ const GETEILTE_GRUPPE = {
   'nav-molecules': 'nav',
   navigation: 'nav',
   'navigation-menu': 'nav',
+  'navigation-tab-mega': 'nav',
   'checkbox-group': 'group',
   'radio-group': 'group',
   'text-blocks': 'kicker',
@@ -809,7 +817,7 @@ const appearanceSubgroups = computed(() => {
     .filter(isAppearanceSubgroup)
     .map(sg => ({
       ...sg,
-      tokens: sg.tokens.filter(t => t.type === 'color')
+      tokens: sg.tokens.filter(t => t.type === 'color' || t.type === 'flaeche')
     }))
     .filter(sg => sg.tokens.length > 0)
 })
@@ -821,7 +829,7 @@ const advancedTokens = computed(() => {
   const result = []
   for (const sg of allFilteredSubgroups.value.filter(isAppearanceSubgroup)) {
     for (const t of sg.tokens) {
-      if (t.type !== 'color' && !isTypographyToken(t)) result.push(t)
+      if (t.type !== 'color' && t.type !== 'flaeche' && !isTypographyToken(t)) result.push(t)
     }
   }
   return result
@@ -937,7 +945,9 @@ function updateToken(token, value) {
 }
 
 function resetToSemantic(token) {
-  store.resetComponentToken(token.id)
+  // Eine Fläche besteht aus mehreren Tokens, die nur gemeinsam gelten.
+  const ids = token.type === 'flaeche' ? flaechenSchluessel(token) : [token.id]
+  ids.forEach(id => store.resetComponentToken(id))
 }
 
 // ---------------------------------------------------------------------------
@@ -1191,7 +1201,7 @@ const palettes = computed(() => {
 const overrideCount = computed(() => Object.keys(store.currentComponentOverrides).length)
 
 function resetAllTokens() {
-  tokens.value.forEach(token => store.resetComponentToken(token.id))
+  tokens.value.forEach(resetToSemantic)
 }
 
 function exportCSS() {

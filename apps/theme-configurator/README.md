@@ -1173,6 +1173,23 @@ Schema-/Größenprüfung und Kontrastprüfung in PHP, Permissions.
 
 ---
 
+App 1.2.39 (I06 Phase 3: Flächenliste der Hauptnavigation, 06.11.2026):
+
+- Komponente Navigation Tab Mega › Farben: „Fläche“ (`nc-nav-flaeche`, neuer
+  Steuerelement-Typ `flaeche` in `data/design-tokens.json`,
+  `src/components/editors/FlaechenEditor.vue`, Logik in `src/utils/flaeche.js`).
+  `nc-nav-bg` bleibt die freie Farbe der alten `.nc-nav`, deren Schrift keiner
+  Fläche folgt; die Fläche hat in der Hauptnavigation Vorrang.
+- Vier Flächen: Standard (schreibt nichts), Sekundär, Invertiert, Akzent. Jede
+  setzt Leiste, Panels und mobiles Menü gemeinsam, mit Text, Nebentext, Linie,
+  Hover und Fokus. Tertiär fiel nach der Kontrastmessung weg.
+- Gilt für beide Varianten. Die neuen Werte `nc-nav-fg`, `-muted`, `-line`,
+  `-surface`, `-hover`, `-focus` stehen nicht an `:root`, ohne Fläche gelten
+  die Rückfälle im SCSS.
+- Die Komponente Hauptnavigation zeigt jetzt auch die Werte der Gruppe `nav`.
+- Prüfung: `e2e/flaechen.spec.js` misst Fläche und Kontrast (axe) je Fläche,
+  Thema und Variante; `tests/utils/flaeche.test.js`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

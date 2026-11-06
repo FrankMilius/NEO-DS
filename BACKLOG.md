@@ -28,6 +28,10 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 
 - **Schriften wieder 404 seit I04 Phase 6**: Die in `neo_fe` committete `css/styles.css` (503c76b, 03.11.2026) verweist auf `url("../fonts/…woff2")`, also `/themes/custom/neo_fe/fonts/`. Den Ordner gibt es nicht, die Schriften liegen in `css/fonts/`. Die gebaute `styles.css` in WEBSITE26 verweist richtig auf `fonts/`. Derselbe Fehler war mit cc865c9 (29.10.2026) schon einmal behoben: `sync-drupal-css.js` schreibt den Pfad auf `../fonts/` um. Folge: drei 404 je Seite (Drupal-Protokoll „page not found“, 03.–05.11.) und ein roter Modul-Test `ablaeufe.spec.mjs:696 › keine unerwarteten Konsolenfehler` (33× 404) im Fertig-Gate. Sichtbar ist nichts, weil `neo-fonts.css` die Schriften aus `css/fonts/` lädt. Weg: `styles.css` mit richtigem Pfad nach `neo_fe` bringen und klären, warum der Abgleich `../fonts/` erneut geschrieben hat.
 
+## Themen (Nebenbefund I06, 06.11.2026)
+
+- **`.customer-dark-theme` ohne Papier-Block**: Direkt an `<html>` übersteuern die späteren `:root`-Regeln des Papiersystems das Thema, Text und Fläche sind dann gleich (1:1). In einem Wrapper-Element stimmt es. Der Fokusring `text-accent` liegt dort auch im Standard nur bei 3,05:1.
+
 ## Doku und Storybook (Nebenbefunde I04, 02.11.2026)
 
 - **21 Stories mit veralteter Recipe-Version**: `npm run generate:stories` (Stand main 671ccc87) ändert in 21 Story-Dateien nur Kopfzeile und Beschreibung, z. B. Avatar v2.0.0 → v2.0.1 (atoms avatar, label, tag; molecules accordion, card, logo-wall, tabs; organisms alert, card-grid, card-grid-cta, compare-table, data-table, fade-gallery, footer, notification, search, section, shell, story-gallery, text-media, treeview). Die Recipes wurden gehoben, die Stories nicht neu erzeugt. Weg: einmal `npm run generate:stories` auf main, eigener Commit; Prüfung in `npm test` oder der CI ergänzen, damit es nicht wieder auseinanderläuft.

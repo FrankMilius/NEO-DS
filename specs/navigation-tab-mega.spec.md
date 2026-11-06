@@ -1,5 +1,5 @@
 # navigation-tab-mega Component Spec
-> Version 1.2.0 | Status: stable | Layer: organism
+> Version 1.3.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `header`, `mega-menu`, `interactive`, `website`
 
@@ -166,6 +166,11 @@ Supported: `default`, `active`, `hidden`
 
 ## CSS Token API
 Base classes: `site-header`
+
+### Fläche
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-nav-flaeche` | — | — |
 
 ### Leiste
 | Token | CSS Property | Override |

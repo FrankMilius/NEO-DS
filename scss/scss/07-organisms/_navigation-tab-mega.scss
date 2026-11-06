@@ -39,18 +39,21 @@
      bisherigen Navbar (Manrope/Space Grotesk, Weiss/Blur, Interactive-Blau).
      Fallback-Werte greifen, falls die fnd- und font-Tokens fehlen. */
   /* Akzent: Design-Schwarzton (entspricht text-primary des aktiven Themes). */
-  --nn-accent: #16211b;
-  --nn-on-accent: #ffffff;
-  --nn-text: var(--fnd-color-text-primary, #16211b);
-  --nn-muted: var(--fnd-color-text-secondary, #5f7066);
-  --nn-line: var(--fnd-color-border-secondary, #dfe6e0);
+  --nn-accent: var(--nc-nav-fg, #16211b);
+  --nn-on-accent: var(--nc-nav-surface, #ffffff);
+  /* Flaechenliste (I06): --nc-nav-fg/-muted/-line/-surface/-hover/-focus sind
+     NICHT an :root registriert (Risiko R2) und nur bei gewaehlter Flaeche
+     gesetzt; ohne sie gilt jeder Rueckfall wie bisher. */
+  --nn-text: var(--nc-nav-fg, var(--fnd-color-text-primary, #16211b));
+  --nn-muted: var(--nc-nav-muted, var(--fnd-color-text-secondary, #5f7066));
+  --nn-line: var(--nc-nav-line, var(--fnd-color-border-secondary, #dfe6e0));
   /* Die Trennung zwischen Leiste und Panel — die einzige Kante im
      Verbund und deshalb eine Stufe kraeftiger als die inneren. */
-  --nn-line-strong: var(--fnd-color-border-primary, #d2d4d2);
-  --nn-surface: var(--fnd-color-background-base, #ffffff);
+  --nn-line-strong: var(--nc-nav-line, var(--fnd-color-border-primary, #d2d4d2));
+  --nn-surface: var(--nc-nav-surface, var(--fnd-color-background-base, #ffffff));
   /* Hover/aktiv-Flaeche: theme-aware Surface-Stufe statt 6%-Text-Mix
      (im Dark-Theme war der Mix nahezu unsichtbar). Light #eef1f4 / Dark #19212c. */
-  --nn-surface-2: var(--fnd-color-background-tertiary, color-mix(in srgb, var(--fnd-color-text-primary, #16211b) 6%, transparent));
+  --nn-surface-2: var(--nc-nav-hover, var(--fnd-color-background-tertiary, color-mix(in srgb, var(--fnd-color-text-primary, #16211b) 6%, transparent)));
 
   /* Nav ist Shell, nicht Content: breitere xwide-Stufe statt der Lesebreite
      (--nc-container-max-width konvergiert auf content/1090). */
@@ -122,7 +125,7 @@
 
   /* Rail der aktiven Kategorie. Lime statt Schwarz — die Markenfarbe
      markiert die Position, ohne dem Text Konkurrenz zu machen. */
-  --nav-rail-color: var(--fnd-color-background-accent, #37e93d);
+  --nav-rail-color: var(--nc-nav-focus, var(--fnd-color-background-accent, #37e93d));
   --nav-rail-width: 3px;
 
   /* Pfeil-Icon an Links. Der Abstand ist bewusst groesser als der reine
@@ -140,9 +143,9 @@
      Der Haken markiert die aktive Option. Gruen, aber NICHT Lime: #047857
      erreicht auf Weiss 4,9:1, das Marken-Lime nur 1,5:1. Lime bleibt
      Neuheiten-Markern und CTAs vorbehalten, wo es Bedeutung traegt. */
-  --nav-check-color: #047857;
-  --nav-check-color-dark: #34d399;
-  --nav-pop-bg: var(--fnd-color-background-base, #fff);
+  --nav-check-color: var(--nc-nav-focus, #047857);
+  --nav-check-color-dark: var(--nc-nav-focus, #34d399);
+  --nav-pop-bg: var(--nc-nav-surface, var(--fnd-color-background-base, #fff));
   --nav-pop-radius: var(--fnd-radius-lg, 12px);
   --nav-pop-shadow: 0 12px 34px rgba(0, 0, 0, .12);
   --nav-pop-min-width: 15rem;
@@ -152,8 +155,8 @@
      laeuft damit ueber ZWEI Kanaele — Flaeche und Ring — und bleibt auch
      ohne Farbwahrnehmung erkennbar (WCAG 1.4.1). */
   --nav-search-bg: var(--nn-surface-2);
-  --nav-search-bg-focus: var(--fnd-color-background-base, #fff);
-  --nav-search-border: var(--fnd-color-border-strong, #000);
+  --nav-search-bg-focus: var(--nc-nav-surface, var(--fnd-color-background-base, #fff));
+  --nav-search-border: var(--nc-nav-fg, var(--fnd-color-border-strong, #000));
   --nav-search-radius: var(--fnd-radius-md, 8px);
   /* Ring: 3px und 2px Abstand. Er liegt AUSSERHALB der Box, verschiebt damit
      nichts und ueberdeckt keinen Inhalt — anders als eine dickere border.
@@ -164,7 +167,7 @@
      verworfen. text-accent (#0e7490) liegt bei 5,36:1.
      Dieselbe Verwechslung von Interaktions- und Textfarbe steckte schon in
      .nc-label--accent und in den Solution Tabs. */
-  --nav-focus-ring: var(--fnd-color-text-accent, #0e7490);
+  --nav-focus-ring: var(--nc-nav-focus, var(--fnd-color-text-accent, #0e7490));
   --nav-focus-width: 3px;
   --nav-focus-offset: 2px;
   /* Breite der zweispaltigen Dropdown-Liste. Der Uebersichtslink haengt am
@@ -177,7 +180,9 @@
 
 .site-header[data-neo-nav] {
   position: sticky; top: 0; z-index: 100;
-  background: var(--nc-nav-bg, var(--nn-surface));
+  /* Flaeche vor nc-nav-bg: nc-nav-bg gehoert auch der alten .nc-nav, deren
+     Schrift der Flaeche nicht folgt; die Flaeche schreibt es deshalb nicht. */
+  background: var(--nc-nav-surface, var(--nc-nav-bg, var(--nn-surface)));
   /* backdrop-filter entfaellt: bei deckender Flaeche wirkungslos. */
   border-bottom: 1px solid var(--nn-line-strong);
   font-family: var(--nn-font);
@@ -368,7 +373,7 @@
   right: .7rem;
   bottom: calc((100% - 1.45em) / 2 - var(--fnd-underline-offset, 4px));
   height: var(--fnd-underline-thickness, 2px);
-  background: var(--fnd-color-accent-underline);
+  background: var(--nc-nav-focus, var(--fnd-color-accent-underline));
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 220ms cubic-bezier(.2, .7, .3, 1);
@@ -507,10 +512,10 @@
      Erkennbarkeit des Bedienelements und braucht 3:1 (WCAG 1.4.11).
      --nn-line kaeme nur auf 1,38:1 — dieselbe Rechnung wie beim
      Suchen-Knopf. */
-  border-color: var(--fnd-color-text-secondary, #586673);
+  border-color: var(--nn-muted);
 }
 :where(.site-header[data-neo-nav], .m-drawer) .panel-overview:active {
-  background: var(--fnd-color-background-tertiary, var(--nn-surface-2));
+  background: var(--nn-surface-2);
   border-color: var(--nn-text);
 }
 /* Pfeil-Icon aus der Icon Library statt Sonderzeichen. Der Abstand ist
@@ -544,7 +549,7 @@
 :where(.site-header[data-neo-nav], .m-drawer) .panel-overview:focus-visible {
   outline: var(--nav-focus-width) solid var(--nav-focus-ring);
   outline-offset: var(--nav-focus-offset);
-  border-color: var(--fnd-color-text-secondary, #586673);
+  border-color: var(--nn-muted);
 }
 
 /* Mega mit vertikalen Tabs */
@@ -826,7 +831,7 @@
      gegen das weisse Feld praktisch nicht zu sehen (1,05:1), also traegt die
      Kontur allein die Erkennbarkeit des Bedienelements. Mit --nn-line waren
      das 1,38:1 — WCAG 1.4.11 verlangt 3:1. Gemessen und korrigiert. */
-  border: 1px solid var(--fnd-color-text-secondary, #586673);
+  border: 1px solid var(--nn-muted);
   border-radius: var(--nn-radius-sm);
   background: var(--nav-search-bg);
   color: var(--nn-text);
