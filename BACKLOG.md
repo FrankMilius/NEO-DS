@@ -26,7 +26,8 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 
-- **Schriften wieder 404 seit I04 Phase 6**: Die in `neo_fe` committete `css/styles.css` (503c76b, 03.11.2026) verweist auf `url("../fonts/…woff2")`, also `/themes/custom/neo_fe/fonts/`. Den Ordner gibt es nicht, die Schriften liegen in `css/fonts/`. Die gebaute `styles.css` in WEBSITE26 verweist richtig auf `fonts/`. Derselbe Fehler war mit cc865c9 (29.10.2026) schon einmal behoben: `sync-drupal-css.js` schreibt den Pfad auf `../fonts/` um. Folge: drei 404 je Seite (Drupal-Protokoll „page not found“, 03.–05.11.) und ein roter Modul-Test `ablaeufe.spec.mjs:696 › keine unerwarteten Konsolenfehler` (33× 404) im Fertig-Gate. Sichtbar ist nichts, weil `neo-fonts.css` die Schriften aus `css/fonts/` lädt. Weg: `styles.css` mit richtigem Pfad nach `neo_fe` bringen und klären, warum der Abgleich `../fonts/` erneut geschrieben hat.
+- **Abgleich-Prüfung der Schriften lückenhaft (I09, Widersacher 06.11.2026)**: `fehlendeSchriften` in `scripts/sync-drupal-css.js` übersieht falsche Großschreibung, weil die macOS-Platte nicht unterscheidet (ein Linux-Server antwortet 404). Geprüft wird nur `styles.css`, nicht `design-tokens.css` und `shot-vorschau.css`; `watch:drupal` schreibt ohne Prüfung direkt ins Theme. Heute ohne Wirkung.
+- **Abgleich aus dem Worktree (I09, 06.11.2026)**: Ohne `NEO_DRUPAL_THEME` zeigt `sync-drupal-css.js` im Worktree auf `~/Sites/_worktrees/DRUPAL11/…` und bricht ab. Keine Regel und `/punkt-starten` nennen das. Bis 27.10.2026 kam `styles.css` darum am Skript vorbei ins Theme, was dessen falsches Umschreiben verdeckte. Weg: `punkt-starten` schreibt den Theme-Pfad in die STAND.md, oder das Skript findet den Theme-Worktree selbst.
 
 ## Doku und Storybook (Nebenbefunde I04, 02.11.2026)
 
