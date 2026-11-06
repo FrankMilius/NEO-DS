@@ -1189,6 +1189,8 @@ App 1.2.39 (I06 Phase 3: Flächenliste der Hauptnavigation, 06.11.2026):
 - Die Komponente Hauptnavigation zeigt jetzt auch die Werte der Gruppe `nav`.
 - Prüfung: `e2e/flaechen.spec.js` misst Fläche und Kontrast (axe) je Fläche,
   Thema und Variante; `tests/utils/flaeche.test.js`.
+- Arena (I06 Phase 4): Specimens „Zentriert — Desktop“ und „Zentriert — Mobil“
+  zeigen die Variante, die übrigen bleiben Standard.
 
 ## Bekannte Grenzen
 

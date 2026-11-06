@@ -80,8 +80,8 @@ describe('navigation-tab-mega aus dem Recipe', () => {
     const recipe = normalisiereRecipe(rohesRecipe(ID))
     expect(recipe.arena.hinweise).toEqual([])
     expect(new Set(z.map((c) => c.specimen.id))).toEqual(new Set(recipe.specimens.map((s) => s.id)))
-    expect(recipe.specimens.map((s) => s.id)).toEqual(['desktop-geschlossen', 'panel-offen', 'kopfleiste-offen', 'teaser-flaechen', 'teaser-knopf', 'mobil'])
-    expect(z.length).toBe(21)
+    expect(recipe.specimens.map((s) => s.id)).toEqual(['desktop-geschlossen', 'panel-offen', 'kopfleiste-offen', 'teaser-flaechen', 'teaser-knopf', 'mobil', 'zentriert-desktop', 'zentriert-mobil'])
+    expect(z.length).toBe(27)
   })
 
   it('Recipe, Spec, Registry und Story zeigen auf dieselben Artefakte', () => {
@@ -363,6 +363,15 @@ describe('navigation-tab-mega, Variante zentriert', () => {
   const teile = () => readFileSync(resolve(WURZEL, 'data/markup/navigation-tab-mega.html'), 'utf8').split(/<!--\s*@fassung:[^>]*-->/)
   const fassung = (n) => dom(teile()[n])
 
+  it('Specimens zentriert-* zeigen die Variante, alle anderen den Standard', () => {
+    for (const c of zellen()) {
+      const istZentriert = c.specimen.id.startsWith('zentriert-')
+      expect(c.html.includes('data-nav-variante="zentriert"'), `${c.specimen.id}/${c.label}`).toBe(istZentriert)
+    }
+    expect(zellen('zentriert-desktop').some((c) => c.html.includes('mega-gruppen'))).toBe(true)
+    expect(zellen('zentriert-mobil').some((c) => c.html.includes('m-link--eintrag'))).toBe(true)
+  })
+
   it('Standard-Fassungen tragen kein Variantenattribut und keine Eintraege', () => {
     for (const n of [1, 2, 3, 4, 5]) {
       const d = fassung(n)
@@ -463,10 +472,10 @@ describe('navigation-tab-mega in der RecipeArena', () => {
     }
     const recipe = normalisiereRecipe(rohesRecipe(ID))
     expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
-    expect(w.findAll('.ra-cell').length).toBe(21)
+    expect(w.findAll('.ra-cell').length).toBe(27)
     expect(w.find('.ra-modus').exists()).toBe(true)
     expect(w.find('[data-quelle="heuristik"], .ra-fallback').exists()).toBe(false)
-    expect(w.findAll('header.site-header[data-neo-nav]').length).toBe(21)
+    expect(w.findAll('header.site-header[data-neo-nav]').length).toBe(27)
     expect(w.find('[data-neo-behavior]').exists()).toBe(false)
     await w.findAll('.ra-modus__knopf')[1].trigger('click')
     await flushPromises()

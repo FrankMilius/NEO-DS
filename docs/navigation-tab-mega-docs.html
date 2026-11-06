@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hauptnavigation | Component Docs</title>
+  <meta name="description" content="Dokumentation der Hauptnavigation mit den Varianten Standard und zentriert." />
+  <link rel="stylesheet" href="../styles.css" />
+
+</head>
+<body class="neo-light-theme">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="docs-sidebar-overlay" id="docs-sidebar-overlay"></div>
+
+  <div class="docs-layout">
+    <!-- Documentation Header -->
+    <header class="docs-header" id="docs-header">
+      <button class="docs-header__menu-btn" id="docs-sidebar-open" aria-label="Navigation öffnen">
+        <svg class="docs-header__icon-burger" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/></svg>
+        <svg class="docs-header__icon-sidebar" viewBox="0 0 24 24" fill="none"><g transform="translate(12,12) scale(-1,1) translate(-12,-12)"><path d="M10,12 L16.5,12 L13.5,9 M13.5,15 L16.5,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      </button>
+      <a class="docs-header__title" href="./" style="text-decoration:none;color:inherit">NEO Design System</a>
+      <div class="docs-header__search" id="docs-header-search">
+        <button class="docs-header__search-btn" id="docs-search-toggle" aria-label="Suche öffnen" aria-expanded="false">
+          <svg class="docs-header__search-icon" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="docs-header__search-field" id="docs-search-field" hidden>
+          <div class="nc-input-wrapper">
+            <span class="nc-input__icon"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="21" y1="21" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <input class="nc-input nc-input--sm nc-input--search" type="search" id="docs-search-input" placeholder="Suchen..." aria-label="Dokumentation durchsuchen" />
+          </div>
+          <button class="docs-header__search-close" id="docs-search-close" aria-label="Suche schließen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg></button>
+        </div>
+      </div>
+      <label class="docs-header__paper" title="Bereichspapier (data-bg-paper)">
+        <span class="u-sr-only">Papier</span>
+        <select class="docs-header__paper-select" id="docs-paper-select" aria-label="Bereichspapier wählen">
+          <option value="graphit">Graphit</option>
+          <option value="beige">Beige</option>
+          <option value="ivory">Ivory</option>
+          <option value="warm-taupe">Warm Taupe</option>
+          <option value="pearl-white">Pearl White</option>
+          <option value="mint">Mint</option>
+        </select>
+      </label>
+      <div class="docs-header__theme-toggle">
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+        <button class="docs-header__theme-track" id="docs-theme-toggle" role="switch" aria-checked="false" aria-label="Dark Mode">
+          <span class="docs-header__theme-thumb"></span>
+        </button>
+        <span class="docs-header__theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8C13.02 3.04 12.52 3 12 3z"/></svg></span>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Dokumentations-Navigation"></aside>
+
+    <!-- Content Area -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Hauptnavigation</h1>
+        <p class="docs__subtitle">
+          Website-Navigation in zwei Varianten, gewählt am Drupal-Block: <strong>Standard</strong>
+          mit Menüpunkten links und vertikalen Tabs im Mega-Panel, <strong>zentriert</strong> mit
+          Menüpunkten in der Mitte, Gruppen mit Eyebrow, Icon und Erklärsatz je Eintrag.
+          Wurzeln: <code class="docs__token">.site-header[data-neo-nav]</code> und
+          <code class="docs__token">.m-drawer</code>.
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Dokumentation der Hauptnavigation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style" tabindex="-1">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api" tabindex="-1">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y" tabindex="-1">Barrierefreiheit</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="navigation-tab-mega-tabs">
+
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <section class="docs__section" id="varianten" style="overflow: hidden; contain: inline-size;">
+            <h2 class="docs__section-title">Varianten</h2>
+            <p class="docs__section-desc">
+              Die Variante hängt am Attribut <code class="docs__token">data-nav-variante="zentriert"</code>
+              an Header und Drawer. Ohne Attribut gilt Standard. Die Beispiele zeigen die
+              Referenz-Fassungen aus <code class="docs__token">data/markup/navigation-tab-mega.html</code>,
+              je in einem eigenen Rahmen.
+            </p>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zentriert, hell</h3>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Zentriert — Mega-Panel offen (Lösungen)" data-nav-thema="neo-light-theme" data-nav-breite="1280" height="560" style="width: 100%; border: 0; transform-origin: top left;" title="Variante zentriert, Mega-Panel offen, hell"></iframe>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Zentriert, dunkel</h3>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Zentriert — Mega-Panel offen (Lösungen)" data-nav-thema="neo-dark-theme" data-nav-breite="1280" height="560" style="width: 100%; border: 0; transform-origin: top left;" title="Variante zentriert, Mega-Panel offen, dunkel"></iframe>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Standard, hell</h3>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Mega-Panel offen" data-nav-thema="neo-light-theme" data-nav-breite="1280" height="560" style="width: 100%; border: 0; transform-origin: top left;" title="Variante Standard, Mega-Panel offen, hell"></iframe>
+            <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Standard, dunkel</h3>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Mega-Panel offen" data-nav-thema="neo-dark-theme" data-nav-breite="1280" height="560" style="width: 100%; border: 0; transform-origin: top left;" title="Variante Standard, Mega-Panel offen, dunkel"></iframe>
+          </section>
+
+          <section class="docs__section" id="mobil">
+            <h2 class="docs__section-title">Mobil</h2>
+            <p class="docs__section-desc">
+              Unter 1025&nbsp;px steht der Burger statt der Leiste. In der Variante zentriert stehen die
+              Gruppen als Abschnittstitel auf einem Bildschirm; Icon und Erklärsatz liegen im Link.
+            </p>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Zentriert — Mobil" data-nav-thema="neo-light-theme" height="640" style="width: 390px; max-width: 100%; border: 0;" title="Variante zentriert, mobil, hell"></iframe>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Zentriert — Mobil" data-nav-thema="neo-dark-theme" height="640" style="width: 390px; max-width: 100%; border: 0;" title="Variante zentriert, mobil, dunkel"></iframe>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Mobil" data-nav-thema="neo-light-theme" height="640" style="width: 390px; max-width: 100%; border: 0;" title="Variante Standard, mobil, hell"></iframe>
+            <iframe class="docs-nav-beispiel" data-nav-fassung="Mobil" data-nav-thema="neo-dark-theme" height="640" style="width: 390px; max-width: 100%; border: 0;" title="Variante Standard, mobil, dunkel"></iframe>
+          </section>
+
+          <section class="docs__section" id="flaeche">
+            <h2 class="docs__section-title">Fläche</h2>
+            <p class="docs__section-desc">
+              In der Konfig-App wählt man unter Navigation Tab Mega › Farben eine Fläche aus einer
+              festen Liste: Standard, Sekundär, Invertiert, Akzent. Jede Fläche setzt Hintergrund, Text,
+              Nebentext, Linie, Hover und Fokus gemeinsam, für Leiste, Panels und Drawer, in beiden
+              Varianten. Die Teaser-Karte behält ihre eigene Fläche. Die alte
+              <code class="docs__token">.nc-nav</code> bleibt unberührt.
+            </p>
+          </section>
+
+        </div>
+
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Fläche</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-nav-flaeche</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Leiste</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nn-text</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-muted</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-line</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-line-strong</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-surface</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-surface-2</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-content-max</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-header-h</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-radius-sm</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-l1-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-l1-weight-rest</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-l1-weight-active</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-hit-height</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-focus-ring</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Panel</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nn-shadow</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-t</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-l2-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-l3-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-eyebrow-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-rail-color</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-rail-width</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-action-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-dropdown-cols-max</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Teaser</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nn-teaser-bg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-fg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-fg-muted</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-border</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-cta-bg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-cta-fg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-image</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-scrim</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Suche</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nav-search-bg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-search-bg-focus</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-search-border</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-search-radius</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-focus-width</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-focus-offset</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Kopfleisten-Menü</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nav-pop-bg</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-pop-radius</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-pop-shadow</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-pop-min-width</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-check-color</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-check-color-dark</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Drawer</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nn-accent</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-on-accent</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-header-h</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variante zentriert</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nav-desc-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-desc-leading</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nav-ico-size</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-gruppen-min</code></td><td>—</td><td></td></tr>
+      <tr><td><code class="docs__token">--nn-eintrag-einzug</code></td><td>—</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+
+        </div>
+
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.site-header</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">site-header</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--site-header-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Ja</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.site-header</code></td><td>Block</td><td>navigation-tab-mega-Container</td></tr>
+      <tr><td><code class="docs__token">.header-inner</code></td><td>Element</td><td>inner</td></tr>
+      <tr><td><code class="docs__token">.brand</code></td><td>Element</td><td>brand</td></tr>
+      <tr><td><code class="docs__token">.brand__logo</code></td><td>Element (optional)</td><td>brand-logo</td></tr>
+      <tr><td><code class="docs__token">.brand__name</code></td><td>Element (optional)</td><td>brand-name</td></tr>
+      <tr><td><code class="docs__token">.primary-nav</code></td><td>Element</td><td>primary-nav</td></tr>
+      <tr><td><code class="docs__token">.nav-list</code></td><td>Element</td><td>list</td></tr>
+      <tr><td><code class="docs__token">.nav-btn</code></td><td>Element (optional)</td><td>trigger</td></tr>
+      <tr><td><code class="docs__token">.nav-btn__label</code></td><td>Element (optional)</td><td>trigger-label</td></tr>
+      <tr><td><code class="docs__token">.nav-btn__pm</code></td><td>Element (optional)</td><td>trigger-icon</td></tr>
+      <tr><td><code class="docs__token">.nav-link</code></td><td>Element (optional)</td><td>link</td></tr>
+      <tr><td><code class="docs__token">.header-actions</code></td><td>Element</td><td>actions</td></tr>
+      <tr><td><code class="docs__token">.hdr-group</code></td><td>Element</td><td>settings</td></tr>
+      <tr><td><code class="docs__token">.hdr-menu</code></td><td>Element</td><td>settings-menu</td></tr>
+      <tr><td><code class="docs__token">.hdr-btn</code></td><td>Element</td><td>settings-trigger</td></tr>
+      <tr><td><code class="docs__token">.hdr-pop</code></td><td>Element</td><td>settings-panel</td></tr>
+      <tr><td><code class="docs__token">.hdr-opt</code></td><td>Element</td><td>settings-option</td></tr>
+      <tr><td><code class="docs__token">.search-toggle</code></td><td>Element</td><td>search-toggle</td></tr>
+      <tr><td><code class="docs__token">.burger</code></td><td>Element</td><td>burger</td></tr>
+      <tr><td><code class="docs__token">.panel</code></td><td>Element (optional)</td><td>panel</td></tr>
+      <tr><td><code class="docs__token">.panel-inner</code></td><td>Element (optional)</td><td>panel-inner</td></tr>
+      <tr><td><code class="docs__token">.panel-overview</code></td><td>Element (optional)</td><td>panel-overview</td></tr>
+      <tr><td><code class="docs__token">.mega-grid</code></td><td>Element (optional)</td><td>mega-grid</td></tr>
+      <tr><td><code class="docs__token">.mega-cat</code></td><td>Element (optional)</td><td>mega-cat</td></tr>
+      <tr><td><code class="docs__token">.mega-cat__eyebrow</code></td><td>Element (optional)</td><td>mega-eyebrow</td></tr>
+      <tr><td><code class="docs__token">.tablist</code></td><td>Element (optional)</td><td>tablist</td></tr>
+      <tr><td><code class="docs__token">.tab</code></td><td>Element (optional)</td><td>tab</td></tr>
+      <tr><td><code class="docs__token">.tab__count</code></td><td>Element (optional)</td><td>tab-count</td></tr>
+      <tr><td><code class="docs__token">.tabpanel</code></td><td>Element (optional)</td><td>tabpanel</td></tr>
+      <tr><td><code class="docs__token">.link-grid</code></td><td>Element (optional)</td><td>link-grid</td></tr>
+      <tr><td><code class="docs__token">.dropdown-grid</code></td><td>Element (optional)</td><td>dropdown-grid</td></tr>
+      <tr><td><code class="docs__token">.dropdown-cols</code></td><td>Element (optional)</td><td>dropdown-cols</td></tr>
+      <tr><td><code class="docs__token">.teaser</code></td><td>Element (optional)</td><td>teaser</td></tr>
+      <tr><td><code class="docs__token">.teaser__title</code></td><td>Element (optional)</td><td>teaser-title</td></tr>
+      <tr><td><code class="docs__token">.teaser__text</code></td><td>Element (optional)</td><td>teaser-text</td></tr>
+      <tr><td><code class="docs__token">.teaser__cta</code></td><td>Element (optional)</td><td>teaser-cta</td></tr>
+      <tr><td><code class="docs__token">.teaser__bg</code></td><td>Element (optional)</td><td>teaser-bg</td></tr>
+      <tr><td><code class="docs__token">.mega-gruppen</code></td><td>Element (optional)</td><td>mega-gruppen</td></tr>
+      <tr><td><code class="docs__token">.mega-gruppen__liste</code></td><td>Element (optional)</td><td>mega-gruppen-liste</td></tr>
+      <tr><td><code class="docs__token">.mega-gruppen__fuss</code></td><td>Element (optional)</td><td>mega-gruppen-fuss</td></tr>
+      <tr><td><code class="docs__token">.mega-gruppe</code></td><td>Element (optional)</td><td>mega-gruppe</td></tr>
+      <tr><td><code class="docs__token">.mega-gruppe__eyebrow</code></td><td>Element (optional)</td><td>mega-gruppe-eyebrow</td></tr>
+      <tr><td><code class="docs__token">.nav-eintraege</code></td><td>Element (optional)</td><td>eintraege</td></tr>
+      <tr><td><code class="docs__token">.nav-eintrag</code></td><td>Element (optional)</td><td>eintrag</td></tr>
+      <tr><td><code class="docs__token">.nav-eintrag__ico</code></td><td>Element (optional)</td><td>eintrag-icon</td></tr>
+      <tr><td><code class="docs__token">.nav-eintrag__text</code></td><td>Element (optional)</td><td>eintrag-text</td></tr>
+      <tr><td><code class="docs__token">.nav-eintrag__label</code></td><td>Element (optional)</td><td>eintrag-label</td></tr>
+      <tr><td><code class="docs__token">.nav-eintrag__desc</code></td><td>Element (optional)</td><td>eintrag-desc</td></tr>
+      <tr><td><code class="docs__token">.m-link--eintrag</code></td><td>Element (optional)</td><td>drawer-link-eintrag</td></tr>
+      <tr><td><code class="docs__token">.nav-arrow</code></td><td>Element (optional)</td><td>arrow</td></tr>
+      <tr><td><code class="docs__token">.search-band</code></td><td>Element</td><td>search-band</td></tr>
+      <tr><td><code class="docs__token">.searchbox</code></td><td>Element</td><td>searchbox</td></tr>
+      <tr><td><code class="docs__token">.search-input</code></td><td>Element</td><td>search-input</td></tr>
+      <tr><td><code class="docs__token">.search-clear</code></td><td>Element</td><td>search-clear</td></tr>
+      <tr><td><code class="docs__token">.search-submit</code></td><td>Element</td><td>search-submit</td></tr>
+      <tr><td><code class="docs__token">.search-close</code></td><td>Element</td><td>search-close</td></tr>
+      <tr><td><code class="docs__token">.m-drawer</code></td><td>Element</td><td>drawer</td></tr>
+      <tr><td><code class="docs__token">.m-viewport</code></td><td>Element</td><td>drawer-viewport</td></tr>
+      <tr><td><code class="docs__token">.m-screen</code></td><td>Element</td><td>drawer-screen</td></tr>
+      <tr><td><code class="docs__token">.m-row</code></td><td>Element</td><td>drawer-row</td></tr>
+      <tr><td><code class="docs__token">.m-back</code></td><td>Element (optional)</td><td>drawer-back</td></tr>
+      <tr><td><code class="docs__token">.m-heading</code></td><td>Element (optional)</td><td>drawer-heading</td></tr>
+      <tr><td><code class="docs__token">.m-section-title</code></td><td>Element (optional)</td><td>drawer-section-title</td></tr>
+      <tr><td><code class="docs__token">.m-link</code></td><td>Element (optional)</td><td>drawer-link</td></tr>
+      <tr><td><code class="docs__token">.m-tools</code></td><td>Element</td><td>drawer-tools</td></tr>
+      <tr><td><code class="docs__token">.m-search</code></td><td>Element</td><td>drawer-search</td></tr>
+      <tr><td><code class="docs__token">.lang-switch</code></td><td>Element</td><td>drawer-lang</td></tr>
+      <tr><td><code class="docs__token">.m-lang</code></td><td>Element</td><td>drawer-lang-mobil</td></tr>
+      <tr><td><code class="docs__token">.m-cta</code></td><td>Element (optional)</td><td>drawer-cta</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Geöffnet-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>keins</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>mega</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>dropdown</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>suche</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>sprache</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>ansicht</td><td>Was gerade offen ist. Immer hoechstens eines: Panels, Such-Band und Kopfleisten-Menues schliessen sich gegenseitig.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Teaser-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>mit</td><td>Teaser-Karte im Panel. Redaktionell am Menuepunkt gepflegt; ohne Titel entfaellt sie samt Spalte.</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>ohne</td><td>Teaser-Karte im Panel. Redaktionell am Menuepunkt gepflegt; ohne Titel entfaellt sie samt Spalte.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Teaser-Fläche-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>standard</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+      <tr><td><code class="docs__token">.teaser--bg-g50</code></td><td>g50</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+      <tr><td><code class="docs__token">.teaser--bg-g200</code></td><td>g200</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+      <tr><td><code class="docs__token">.teaser--bg-g900</code></td><td>g900</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+      <tr><td><code class="docs__token">.teaser--bg-g950</code></td><td>g950</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+      <tr><td><code class="docs__token">.teaser--bg-accent</code></td><td>accent</td><td>Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Teaser-Knopf-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.teaser--cta-dark</code></td><td>dark</td><td>Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.</td></tr>
+      <tr><td><code class="docs__token">.teaser--cta-light</code></td><td>light</td><td>Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Ausgabe-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>desktop</td><td>Desktop (Leiste mit Panels) oder mobil (Burger + Push-Navigation im Drawer). Umschaltung im Bauteil allein ueber die Fensterbreite (max-width: 1024px).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>mobil</td><td>Desktop (Leiste mit Panels) oder mobil (Burger + Push-Navigation im Drawer). Umschaltung im Bauteil allein ueber die Fensterbreite (max-width: 1024px).</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Drawer-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>zu</td><td>Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Push-Navigation, der vorige Bildschirm rueckt um 30 % nach links).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>start</td><td>Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Push-Navigation, der vorige Bildschirm rueckt um 30 % nach links).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>unterseite</td><td>Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Push-Navigation, der vorige Bildschirm rueckt um 30 % nach links).</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Variante-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>standard</td><td>Aufbau der Navigation, am Drupal-Block gewaehlt. Standard: Menuepunkte links, Mega-Panel mit vertikalen Tabs. Zentriert: Menuepunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Eintraege mit optionalem Icon und Erklaersatz (Panel und mobil).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>zentriert</td><td>Aufbau der Navigation, am Drupal-Block gewaehlt. Standard: Menuepunkte links, Mega-Panel mit vertikalen Tabs. Zentriert: Menuepunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Eintraege mit optionalem Icon und Erklaersatz (Panel und mobil).</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Fläche</td></tr>
+      <tr><td><code class="docs__token">--nc-nav-flaeche</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Leiste</td></tr>
+      <tr><td><code class="docs__token">--nn-text</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-muted</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-line</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-line-strong</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-surface</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-surface-2</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-content-max</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-header-h</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-radius-sm</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-l1-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-l1-weight-rest</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-l1-weight-active</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-hit-height</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-focus-ring</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Panel</td></tr>
+      <tr><td><code class="docs__token">--nn-shadow</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-t</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-l2-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-l3-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-eyebrow-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-rail-color</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-rail-width</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-action-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-dropdown-cols-max</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Teaser</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-bg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-fg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-fg-muted</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-border</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-cta-bg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-cta-fg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-image</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-teaser-scrim</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Suche</td></tr>
+      <tr><td><code class="docs__token">--nav-search-bg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-search-bg-focus</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-search-border</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-search-radius</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-focus-width</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-focus-offset</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Kopfleisten-Menü</td></tr>
+      <tr><td><code class="docs__token">--nav-pop-bg</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-pop-radius</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-pop-shadow</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-pop-min-width</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-check-color</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-check-color-dark</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Drawer</td></tr>
+      <tr><td><code class="docs__token">--nn-accent</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-on-accent</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-header-h</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Variante zentriert</td></tr>
+      <tr><td><code class="docs__token">--nav-desc-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-desc-leading</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nav-ico-size</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-gruppen-min</code></td><td>—</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nn-eintrag-einzug</code></td><td>—</td><td>&mdash;</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Wurzel ist &lt;header class=&quot;site-header&quot; data-neo-nav&gt;. Das Attribut data-neo-nav ist Pflicht: alle Regeln haengen an .site-header[data-neo-nav] bzw. an :where(.site-header[data-neo-nav], .m-drawer).</li>
+    <li>Der mobile Drawer .m-drawer ist ein GESCHWISTER des Headers, kein Nachfahre — er ist die zweite Wurzel. Grund: transform am Header (Auto-Hide) erzeugt einen Containing-Block fuer position: fixed; laege der Drawer darin, wanderte er mit.</li>
+    <li>Das Twig (neo-nav.html.twig) rendert das komplette Markup serverseitig aus den Daten des Moduls neo_nav (Menuepunkte, Panels, Drawer-Bildschirme; crawlbar, ohne JS lesbar). Das Verhalten kommt aus neo-behaviors (navigation-tab-mega) und baut nichts — vor dem 03.10.2026 baute neo-nav.js Panels und Drawer aus drupalSettings.neoNav.</li>
+    <li>Panel-Typ aus der Menuestruktur, ohne Auswahlfeld: Ebene 1 ohne Kinder = a.nav-link; mit Kindern = Dropdown (ul.dropdown-cols, zweispaltig); mit Enkeln = Mega-Panel (div.mega-grid: Kategoriespalte .mega-cat mit role=tablist, Linkliste je .tabpanel, optional Teaser).</li>
+    <li>Teaser-Karte aside.teaser am Menuepunkt der Ebene 1 gepflegt (Titel leer = kein Teaser). Ohne Teaser im Mega-Panel: .mega-grid--no-teaser (zweispaltig). Flaeche ueber .teaser--bg-{g50|g200|g900|g950|accent}, Knopf ueber .teaser--cta-{dark|light}, Bild ueber --nn-teaser-image + .teaser--has-image, Animation ueber div.teaser__bg[data-neo-bg] + .teaser--has-anim.</li>
+    <li>Punkte ohne eigene Seite (&lt;nolink&gt;) haben keinen Uebersichtslink .panel-overview.</li>
+    <li>Sprache, Erscheinungsbild und Suche bilden eine Gruppe .hdr-group (role=group). Die aktive Option traegt Haken UND Fettung, keine Markenfarbe.</li>
+    <li>Breiten-Zwilling: .nav-btn__label traegt data-text mit der Beschriftung; das CSS legt daraus einen unsichtbaren Zwilling in 600 in dieselbe Rasterzelle, damit der Gewichtswechsel die Leiste nicht verschiebt.</li>
+    <li>Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen.</li>
+    <li>Sprache live (DE/EN ohne Neuladen): jede uebersetzbare Beschriftung traegt beide Fassungen als data-neo-i18n='{&quot;de&quot;:…,&quot;en&quot;:…}'; mit data-neo-i18n-attr (aria-label, placeholder, data-text) wird statt des Texts das Attribut gesetzt. Gerendert wird die Sprache der Seite; das Behavior beschriftet beim Wechsel neu und setzt lang an Header und Drawer (nicht an &lt;html&gt; — der Seiteninhalt wechselt nicht).</li>
+    <li>Drawer-Push: button.m-row[aria-controls] verweist auf seinen Unterbildschirm (.m-screen[id][data-screen]); .m-back geht zurueck. Gefunden werden Panel, Such-Band, Kopfleisten-Menue und Drawer ueber aria-controls, nicht ueber feste ids.</li>
+    <li>data-neo-nav-autohide=&quot;aus&quot; an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren&quot;); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts.</li>
+    <li>Variante zentriert (Achse variante, Block-Einstellung in Drupal): data-nav-variante=&quot;zentriert&quot; an header.site-header UND .m-drawer. Mega-Panel: div.mega-gruppen (+ --no-teaser) &gt; div.mega-gruppen__liste &gt; div.mega-gruppe je Ebene-2-Punkt (p.mega-gruppe__eyebrow mit id, ul.nav-eintraege mit aria-labelledby darauf — keine Landmarke je Gruppe), danach div.mega-gruppen__fuss mit dem Uebersichtslink, optional aside.teaser. Dropdown: ul.nav-eintraege.nav-eintraege--spalten. Eintrag: a.nav-eintrag &gt; span.nav-eintrag__ico[aria-hidden] (optional, Tabler-SVG) + span.nav-eintrag__text &gt; span.nav-eintrag__label + span.nav-eintrag__desc (optional); data-neo-i18n sitzt an Label und Erklaersatz, nicht am Link. Mobil: a.m-link.m-link--eintrag mit denselben Teilen. Das Eyebrow der Ebene 1 (field_nav_eyebrow) entfaellt in dieser Variante — es leitete die Tabliste ein.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+
+        </div>
+
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">nav.primary-nav mit aria-label. Ausloeser sind &lt;button&gt; mit aria-expanded/aria-controls/aria-haspopup, Panels role=region mit aria-label. Mega-Panel: role=tablist (aria-orientation vertical) ausserhalb des Eyebrows, role=tab/tabpanel mit aria-selected, roving tabindex. Kopfleisten-Menues: role=menu mit menuitemradio und aria-checked. Klick-gesteuert, kein Hover-Oeffnen.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Fokus-Indikator</h4>
+    <ul>
+      <li>3px solid text-accent (#0e7490, 5,36:1) mit 2px Abstand — NICHT interactive-focus (2,97:1 gegen Weiss)</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Zugänglicher Name erforderlich</h4>
+    <ul>
+      <li>Komponente muss einen zugänglichen Namen haben (via Text-Inhalt, aria-label oder aria-labelledby).</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Wenn: teaserFlaeche = g900, g950</h4>
+    <ul>
+      <li><strong>Empfohlen:</strong> <code class="docs__token">contrast-check</code></li>
+      <li>Dunkle Flaechen: Schrift kehrt sich um; Knopf-Fassung light vorsehen (hell auf dunkel 16,01:1).</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
+
+        </div>
+
+        </div><!-- /.docs-tabs -->
+      </div>
+
+    </main>
+
+  </div><!-- /.docs-layout -->
+
+  <!-- Shared Scripts -->
+  <script src="docs-sidebar-loader.js"></script>
+  <script src="docs-sidebar-toggle.js"></script>
+  <script src="docs-sidebar.js"></script>
+  <script src="docs-header-search.js"></script>
+  <script src="docs-search.js"></script>
+  <script src="docs-theme-toggle.js"></script>
+  <script src="docs-tabs.js"></script>
+  <script src="docs-toc.js"></script>
+  <script src="docs-stage-controls.js"></script>
+  <script src="docs-recipe-tab.js"></script>
+  <script src="navigation-tab-mega-docs.js"></script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-tab-mega",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -15,12 +15,18 @@
     "links": {
       "figma": "",
       "storybook": "",
-      "docs": ""
+      "docs": "/docs/navigation-tab-mega-docs"
     },
     "label": "Hauptnavigation V3 Tab-Mega",
     "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
     "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
     "changelog": [
+      {
+        "version": "1.4.0",
+        "changes": [
+          "06.11.2026 (I06, Phase 4): Specimens zentriert-desktop und zentriert-mobil; Doku-Seite docs/navigation-tab-mega-docs.html."
+        ]
+      },
       {
         "version": "1.3.0",
         "changes": [
@@ -70,7 +76,7 @@
       "drupal": [
         "neo-nav.html.twig"
       ],
-      "docs": null
+      "docs": "docs/navigation-tab-mega-docs.html"
     },
     "dependencies": [
       "kbd"
@@ -729,6 +735,52 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Burger: aria-expanded/aria-controls, Beschriftung wechselt (Menü öffnen/schließen)."
+      }
+    },
+    {
+      "id": "zentriert-desktop",
+      "label": "Zentriert — Desktop",
+      "description": "Variante zentriert: Menüpunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Dropdown als zweispaltige Liste; Einträge mit Icon und Erklärsatz.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["keins", "mega", "dropdown"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": ["zu"],
+          "variante": ["zentriert"]
+        },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "{offen}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Keine Tabs: Gruppen tragen aria-labelledby auf ihre Eyebrow. Icons sind aria-hidden."
+      }
+    },
+    {
+      "id": "zentriert-mobil",
+      "label": "Zentriert — Mobil",
+      "description": "Variante zentriert unter 1025 px: Gruppen als Abschnittstitel auf einem Bildschirm, Erklärsatz im Link.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["mobil"],
+          "offen": ["keins"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "drawer": "*",
+          "variante": ["zentriert"]
+        },
+        "states": ["default"]
+      },
+      "layout": "row",
+      "render": { "label": "{drawer}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Erklärsatz liegt im Link, kein eigener Fokuspunkt."
       }
     }
   ]
