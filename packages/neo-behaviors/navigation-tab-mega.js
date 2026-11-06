@@ -402,7 +402,7 @@ export const navigationTabMega = {
         const p = punkt.classList.contains('nav-btn') ? ziel(punkt) : null
         const ueber = p?.querySelector('.panel-overview')
         const eigenes = p ? (ueber ? norm(href(ueber)) : null) : norm(href(punkt))
-        const ziele = (p ? [...p.querySelectorAll('.link-grid a, .dropdown-cols a, .panel-overview')].map(href) : [href(punkt)])
+        const ziele = (p ? [...p.querySelectorAll('.link-grid a, .dropdown-cols a, a.nav-eintrag, .panel-overview')].map(href) : [href(punkt)])
           .map(norm).filter((h) => h && h !== '#')
         for (const z of ziele) {
           let treffer = false

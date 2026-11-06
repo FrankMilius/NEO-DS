@@ -10,14 +10,17 @@
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { anbinden, abbinden } from 'neo-behaviors'
 import { lebendigesMarkup, zellenMarkup, buehne, taste, tastenAus, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
+import { vorlageFuer } from '../../src/arena-templates/index.js'
+import { normalisiereRecipe, specimenAnsicht } from '../../src/lib/recipe-arena.js'
+import { rohesRecipe } from '../arena/_recipes.js'
 
 const ID = 'navigation-tab-mega'
 afterEach(() => { document.body.innerHTML = ''; vi.useRealTimers() })
 const aktiv = () => document.activeElement
 
 /** Desktop- (Standard) oder Mobil-Instanz, gebunden. */
-function aufbau ({ specimen = 'desktop-geschlossen', vorBinden } = {}) {
-  const b = buehne(`<button type="button" id="draussen">draussen</button>\n${lebendigesMarkup(ID, specimen)}`)
+function aufbau ({ specimen = 'desktop-geschlossen', vorBinden, markup } = {}) {
+  const b = buehne(`<button type="button" id="draussen">draussen</button>\n${markup ?? lebendigesMarkup(ID, specimen)}`)
   const kopf = b.querySelector('header.site-header[data-neo-nav]')
   vorBinden?.(kopf, b)
   anbinden(b)
@@ -505,4 +508,67 @@ describe('navigation-tab-mega: Tasten aus dem Recipe', () => {
   }
   it('jede Taste hat eine Pruefung', () => deckeTastenAb(ID, pruefungen))
   for (const t of tastenAus(ID)) it(t, () => pruefungen[t]())
+})
+
+// Variante „zentriert“ (I06 Phase 2): dasselbe Behavior auf dem Markup ohne Tabs.
+describe('navigation-tab-mega: Variante zentriert', () => {
+  /** Lebendiges Markup eines Specimens, Achse variante auf zentriert gestellt. */
+  const zentriert = (specimenId) => {
+    const roh = structuredClone(rohesRecipe(ID))
+    roh.specimens.find((s) => s.id === specimenId).matrix.axes.variante = ['zentriert']
+    const recipe = normalisiereRecipe(roh)
+    const sp = recipe.specimens.find((s) => s.id === specimenId)
+    return specimenAnsicht(sp, recipe, ID, vorlageFuer(ID), { ausprobieren: true }).zeilen[0].zellen[0].html
+  }
+  const aufbauZ = (optionen = {}) => aufbau({ markup: zentriert(optionen.specimen ?? 'desktop-geschlossen'), ...optionen })
+
+  it('Mega-Panel oeffnet ohne tablist, Escape schliesst und setzt den Fokus auf den Ausloeser, keine Konsolenfehler', () => {
+    const fehler = vi.spyOn(console, 'error')
+    const d = aufbauZ()
+    expect(d.kopf.dataset.navVariante).toBe('zentriert')
+    const panel = d.panel(d.mega)
+    expect(panel.querySelector('.mega-gruppen')).not.toBeNull()
+    expect(panel.querySelector('[role="tablist"], [role="tab"], [role="tabpanel"]')).toBeNull()
+    d.mega.focus()
+    d.mega.click()
+    expect(istOffen(panel)).toBe(true)
+    expect(d.mega.getAttribute('aria-expanded')).toBe('true')
+    taste(panel.querySelector('.nav-eintrag'), 'Escape')
+    expect(panel.classList.contains('is-open')).toBe(false)
+    expect(d.mega.getAttribute('aria-expanded')).toBe('false')
+    expect(aktiv()).toBe(d.mega)
+    expect(fehler).not.toHaveBeenCalled()
+    fehler.mockRestore()
+  })
+
+  it('Pfeiltasten auf einem Eintrag bleiben dem Browser (kein Tab-Code greift)', () => {
+    const d = aufbauZ()
+    d.mega.click()
+    const e = taste(d.panel(d.mega).querySelector('.nav-eintrag'), 'ArrowDown')
+    expect(e.defaultPrevented).toBe(false)
+    expect(istOffen(d.panel(d.mega))).toBe(true)
+  })
+
+  it('aktueller Ast: Eintraege im Panel zaehlen wie im Standard', () => {
+    const mitPfad = (pfad) => aufbauZ({ vorBinden: (k) => { k.dataset.neoNavPfad = pfad } })
+    const markiert = (d) => d.$$('.nav-list [aria-current]').map((el) => [el.textContent.trim(), el.getAttribute('aria-current')])
+    expect(markiert(mitPfad('/gesundheitswesen'))).toEqual([['Lösungen', 'true']])
+    document.body.innerHTML = ''
+    expect(markiert(mitPfad('/produkte/ai/details'))).toEqual([['Produkte', 'true']])
+  })
+
+  it('mobil: Erklaersatz liegt im Link, nicht als eigener Fokuspunkt', () => {
+    const d = aufbauZ({ specimen: 'mobil' })
+    expect(d.drawer.dataset.navVariante).toBe('zentriert')
+    const links = d.$$('.m-link--eintrag')
+    expect(links.length).toBeGreaterThan(0)
+    for (const a of links) {
+      expect(a.tagName).toBe('A')
+      expect(a.querySelector('a, button, [tabindex]')).toBeNull()
+    }
+    // Der Satz ist optional; wo er steht, liegt er im Link.
+    const saetze = d.$$('.m-drawer .nav-eintrag__desc')
+    expect(saetze.length).toBeGreaterThan(0)
+    expect(saetze.every((s) => s.closest('a.m-link--eintrag'))).toBe(true)
+  })
 })

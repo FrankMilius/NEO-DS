@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.20.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.20.1 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -2870,7 +2870,7 @@
           const p = punkt.classList.contains("nav-btn") ? ziel(punkt) : null;
           const ueber = p == null ? void 0 : p.querySelector(".panel-overview");
           const eigenes = p ? ueber ? norm(href(ueber)) : null : norm(href(punkt));
-          const ziele = (p ? [...p.querySelectorAll(".link-grid a, .dropdown-cols a, .panel-overview")].map(href) : [href(punkt)]).map(norm).filter((h) => h && h !== "#");
+          const ziele = (p ? [...p.querySelectorAll(".link-grid a, .dropdown-cols a, a.nav-eintrag, .panel-overview")].map(href) : [href(punkt)]).map(norm).filter((h) => h && h !== "#");
           for (const z of ziele) {
             let treffer = false;
             let genau = false;
@@ -6827,7 +6827,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.20.0",
+    version: "0.20.1",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",
