@@ -2,8 +2,8 @@
   <div class="flaechen-wahl" data-test="flaechen-wahl">
     <select
       class="flaechen-wahl__select"
-      :class="{ modified: aktiv !== 'standard' }"
-      :aria-label="`${token.label}: Fläche wählen`"
+      :class="{ modified: aktiv !== token.optionen[0].id }"
+      :aria-label="`${token.label}: wählen`"
       :value="aktiv"
       @change="waehle($event.target.value)"
     >

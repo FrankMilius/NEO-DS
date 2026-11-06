@@ -1,6 +1,6 @@
 // ============================================================
 // NavigationTabMega — Auto-generated from navigation-tab-mega-recipe.json
-// Version: 1.4.0 | Status: stable
+// Version: 1.5.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**NavigationTabMega** v1.4.0 (stable)
+        component: `**NavigationTabMega** v1.5.0 (stable)
 
 Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).
 

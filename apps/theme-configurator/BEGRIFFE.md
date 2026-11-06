@@ -38,6 +38,7 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Grundfarben (Ebene 1) | Primitive Colors, Primitive | die Farbpaletten |
 | Primär · Sekundär · Akzent | Primary, Secondary, Accent; „Neo Lime“ als Name einer geänderten Palette | Rollen der Markenpaletten und ihr Name (UX-34). Der NEO-Name (Graphit, Neo Lime) steht nur beim Wert des NEO-Standards; geändert heißt es „Akzent · eigene Farbe“ |
 | Fläche (Navigation): Standard · Sekundär · Invertiert · Akzent | – | feste Liste für Leiste, Panels und mobiles Menü; jede Fläche setzt Hintergrund, Text, Nebentext, Linie, Hover und Fokus gemeinsam |
+| Button-Typ (Übersichtslink): Ghost · Primär · Sekundär · Akzent | – | Aussehen des Links „Zur Übersicht“ in der Variante zentriert, für alle Panels gleich |
 | Stufe (50–950) | Shade, 5-%-Schritt | eine der 11 Abstufungen einer Palette, wie die Website sie nutzt |
 | Farbrollen (Ebene 2) | Semantic Colors, Semantik, Bedeutungen | Rollen wie Text, Fläche, Rahmen; verweisen auf Grundfarben |
 | Komponentenwerte (Ebene 3) | Level L3, Component Tokens | Werte einzelner Komponenten |

@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "navigation-tab-mega",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -303,6 +303,12 @@
         "description": null
       },
       {
+        "name": "teaser-medium",
+        "selector": ".teaser__medium",
+        "required": false,
+        "description": null
+      },
+      {
         "name": "arrow",
         "selector": ".nav-arrow",
         "required": false,
@@ -543,6 +549,48 @@
         }
       ]
     },
+    "teaserMedium": {
+      "label": "Teaser-Medium",
+      "description": "Nur Variante zentriert: Bild oder Video oberhalb des Textes, am Menüpunkt gepflegt. Video startet nie von selbst und zeigt Steuerelemente.",
+      "values": [
+        {
+          "value": "keins",
+          "cssModifier": null,
+          "default": false,
+          "label": "keins"
+        },
+        {
+          "value": "bild",
+          "cssModifier": null,
+          "default": false,
+          "label": "bild"
+        },
+        {
+          "value": "video",
+          "cssModifier": null,
+          "default": false,
+          "label": "video"
+        }
+      ]
+    },
+    "teaserHoehe": {
+      "label": "Teaser-Höhe",
+      "description": "Nur Variante zentriert: wie heute nach Inhalt, oder bündig mit den Links (oben Eyebrow, unten letzter Link). Schalter je Teaser am Menüpunkt.",
+      "values": [
+        {
+          "value": "auto",
+          "cssModifier": null,
+          "default": false,
+          "label": "auto"
+        },
+        {
+          "value": "buendig",
+          "cssModifier": "teaser--buendig",
+          "default": false,
+          "label": "buendig"
+        }
+      ]
+    },
     "teaserKnopf": {
       "label": "Teaser-Knopf",
       "description": "Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.",
@@ -649,6 +697,11 @@
       "site-header"
     ],
     "tokenGroups": {
+      "Übersichtslink": [
+        {
+          "token": "--nc-nav-uebersicht-knopf"
+        }
+      ],
       "Fläche": [
         {
           "token": "--nc-nav-flaeche"

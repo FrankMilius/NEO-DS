@@ -1255,6 +1255,13 @@ $_zentriert: ':where([data-nav-variante="zentriert"])';
   --nav-ico-size: 1.5rem;                /* 24px — Icon-Standard des DS */
   --nn-gruppen-min: 14rem;               /* Mindestbreite einer Gruppe */
   --nn-eintrag-einzug: .6rem;            /* wie .link-grid a im Standard */
+  /* Button-Typ des Uebersichtslinks (Phase 4b). Ohne Wahl: Ghost wie im Standard. */
+  --nn-uebersicht-bg: var(--nc-nav-uebersicht-bg, transparent);
+  --nn-uebersicht-fg: var(--nc-nav-uebersicht-fg, var(--nn-text));
+  --nn-uebersicht-border: var(--nc-nav-uebersicht-border, transparent);
+  --nn-uebersicht-border-hover: var(--nc-nav-uebersicht-border, var(--nn-muted));
+  --nn-uebersicht-hover: var(--nc-nav-uebersicht-hover, var(--nn-surface-2));
+  --nn-teaser-medium-abstand: var(--fnd-spacing-04);
 }
 
 /* 1 · Leiste: Menüpunkte mittig */
@@ -1293,6 +1300,33 @@ $_zentriert: ':where([data-nav-variante="zentriert"])';
   color: var(--nn-muted);
 }
 #{$_zentriert} .mega-gruppen__fuss { grid-column: 1 / -1; }
+
+/* Teaser (Phase 4b): Medium randlos oben, Hoehe auf Wunsch buendig mit den
+   Links. Vorgabe bleibt die Hoehe nach Inhalt. */
+#{$_zentriert} .teaser__medium {
+  aspect-ratio: 16 / 9;
+  margin: calc(-1 * var(--nn-teaser-padding, 1.2rem)) calc(-1 * var(--nn-teaser-padding, 1.2rem)) var(--nn-teaser-medium-abstand);
+  overflow: hidden;
+}
+#{$_zentriert} .teaser__medium :is(img, video) {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+}
+#{$_zentriert} .teaser--buendig {
+  align-self: stretch;
+  display: flex; flex-direction: column;
+}
+#{$_zentriert} .teaser--buendig .teaser__cta { margin-top: auto; }
+
+/* Uebersichtslink: Button-Typ aus der Konfig-App */
+#{$_zentriert} .panel-overview {
+  color: var(--nn-uebersicht-fg);
+  background: var(--nn-uebersicht-bg);
+  border-color: var(--nn-uebersicht-border);
+}
+#{$_zentriert} .panel-overview:is(:hover, :active) {
+  background: var(--nn-uebersicht-hover);
+  border-color: var(--nn-uebersicht-border-hover);
+}
 
 /* 3 · Einträge mit Icon und Erklärsatz (Panel) */
 #{$_zentriert} .nav-eintraege {

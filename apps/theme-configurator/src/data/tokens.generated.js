@@ -22737,6 +22737,48 @@ export const componentTokenGroups = [
         "ref": "background-base"
       },
       {
+        "id": "nc-nav-uebersicht-knopf",
+        "label": "Button-Typ",
+        "type": "flaeche",
+        "optionen": [
+          {
+            "id": "ghost",
+            "label": "Ghost",
+            "werte": {}
+          },
+          {
+            "id": "primaer",
+            "label": "Primär",
+            "werte": {
+              "nc-nav-uebersicht-bg": "var(--nc-nav-fg, var(--fnd-color-text-primary))",
+              "nc-nav-uebersicht-fg": "var(--nc-nav-surface, var(--fnd-color-background-base))",
+              "nc-nav-uebersicht-border": "var(--nc-nav-fg, var(--fnd-color-text-primary))",
+              "nc-nav-uebersicht-hover": "color-mix(in srgb, var(--nc-nav-fg, var(--fnd-color-text-primary)) 85%, var(--nc-nav-surface, var(--fnd-color-background-base)))"
+            }
+          },
+          {
+            "id": "sekundaer",
+            "label": "Sekundär",
+            "werte": {
+              "nc-nav-uebersicht-bg": "transparent",
+              "nc-nav-uebersicht-fg": "var(--nc-nav-fg, var(--fnd-color-text-primary))",
+              "nc-nav-uebersicht-border": "var(--nc-nav-fg, var(--fnd-color-text-primary))",
+              "nc-nav-uebersicht-hover": "var(--nc-nav-hover, var(--fnd-color-background-tertiary))"
+            }
+          },
+          {
+            "id": "akzent",
+            "label": "Akzent",
+            "werte": {
+              "nc-nav-uebersicht-bg": "var(--fnd-color-background-accent)",
+              "nc-nav-uebersicht-fg": "var(--fnd-color-on-accent)",
+              "nc-nav-uebersicht-border": "var(--fnd-color-on-accent)",
+              "nc-nav-uebersicht-hover": "color-mix(in srgb, var(--fnd-color-background-accent) 85%, var(--fnd-color-on-accent))"
+            }
+          }
+        ]
+      },
+      {
         "id": "nc-nav-flaeche",
         "label": "Fläche",
         "type": "flaeche",

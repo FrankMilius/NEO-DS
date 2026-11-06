@@ -1674,6 +1674,10 @@ export declare const componentTokenGroups: {
       id: string
       label: string
       werte: {
+        "nc-nav-uebersicht-bg"?: string
+        "nc-nav-uebersicht-fg"?: string
+        "nc-nav-uebersicht-border"?: string
+        "nc-nav-uebersicht-hover"?: string
         "nc-nav-surface"?: string
         "nc-nav-fg"?: string
         "nc-nav-muted"?: string

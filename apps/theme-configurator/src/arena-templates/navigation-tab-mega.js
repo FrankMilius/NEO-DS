@@ -196,6 +196,7 @@ export function optionen (m) {
     offen: live ? 'keins' : wert('offen', 'keins'),
     teaser: wert('teaser', 'mit') === 'mit',
     teaserKlassen: m.klassen.filter((k) => k.startsWith('teaser--')),
+    teaserMedium: wert('teaserMedium', 'keins'),
     aktiv: m.hat('active'),
     versteckt: m.hat('hidden'),
     drawer: live ? 'zu' : wert('drawer', 'zu')
@@ -207,11 +208,21 @@ export function optionen (m) {
 // ersten Dropdown-Punkt (Produkte).
 const offenerPunkt = (o) => NAV.find((n) => n.type === o.offen) || null
 
+// Medium oberhalb des Textes (I06 Phase 4b, nur zentriert). Video startet nie
+// von selbst: keine Bewegung ohne Zutun (WCAG 2.2.2), Steuerelemente sichtbar.
+const TEASER_BILD = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 9%22%3E%3Crect width=%2216%22 height=%229%22 fill=%22%23afb2af%22/%3E%3C/svg%3E'
+function teaserMedium (o) {
+  if (o.teaserMedium === 'bild') return `<div class="teaser__medium"><img src="${TEASER_BILD}" alt="" width="16" height="9"></div>\n`
+  if (o.teaserMedium === 'video') return `<div class="teaser__medium"><video controls muted playsinline preload="none" poster="${TEASER_BILD}" aria-label="Video zum Teaser"></video></div>\n`
+  return ''
+}
+
 function teaserKarte (t, o) {
   const fassung = o.teaserKlassen.find((k) => k.startsWith('teaser--cta-')) || 'teaser--cta-dark'
   const flaeche = o.teaserKlassen.filter((k) => k.startsWith('teaser--bg-'))
-  return `<aside class="${['teaser', fassung, ...flaeche].join(' ')}">
-<p class="teaser__title"${tr(t.title)}>${esc(t.title)}</p>
+  const buendig = o.zentriert && o.teaserKlassen.includes('teaser--buendig') ? ['teaser--buendig'] : []
+  return `<aside class="${['teaser', fassung, ...flaeche, ...buendig].join(' ')}">
+${o.zentriert ? teaserMedium(o) : ''}<p class="teaser__title"${tr(t.title)}>${esc(t.title)}</p>
 <p class="teaser__text"${tr(t.text)}>${esc(t.text)}</p>
 <a class="teaser__cta" href="${t.href}"><span${tr(t.cta)}>${esc(t.cta)}</span>${pfeil()}</a>
 </aside>`
@@ -287,11 +298,24 @@ ${mitTeaser ? teaserKarte(item.teaser, o) + '\n' : ''}${fuss ? `<div class="mega
 }
 
 function dropdownInhaltZentriert (item, o) {
-  const liste = `<ul class="nav-eintraege nav-eintraege--spalten">
+  const eintraege = `<ul class="nav-eintraege nav-eintraege--spalten">
 ${item.links.map(eintragLi).join('\n')}
-</ul>
+</ul>`
+  const liste = `${eintraege}
 ${uebersicht(item)}`
   if (!(o.teaser && item.teaser)) return liste
+  // Bündig: Der Teaser endet mit dem letzten Link, der Übersichtslink rückt darunter.
+  if (o.teaserKlassen.includes('teaser--buendig')) {
+    return `<div class="dropdown-grid">
+<div>
+${eintraege}
+</div>
+${teaserKarte(item.teaser, o)}
+<div class="mega-gruppen__fuss">
+${uebersicht(item)}
+</div>
+</div>`
+  }
   return `<div class="dropdown-grid">
 <div>
 ${liste}

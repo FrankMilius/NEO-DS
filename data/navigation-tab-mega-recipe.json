@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-tab-mega",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,6 +21,12 @@
     "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
     "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "06.11.2026 (I06, Phase 4b): Achsen teaserMedium und teaserHoehe, Specimen zentriert-teaser, Slot teaser-medium; Tokengruppe uebersicht mit der Liste nc-nav-uebersicht-knopf. Alles nur in der Variante zentriert."
+        ]
+      },
       {
         "version": "1.4.0",
         "changes": [
@@ -143,6 +149,7 @@
       { "name": "eintrag-label", "element": ".nav-eintrag__label", "optional": true },
       { "name": "eintrag-desc", "element": ".nav-eintrag__desc", "optional": true },
       { "name": "drawer-link-eintrag", "element": ".m-link--eintrag", "optional": true },
+      { "name": "teaser-medium", "element": ".teaser__medium", "optional": true },
       { "name": "arrow", "element": ".nav-arrow", "optional": true },
       { "name": "search-band", "element": ".search-band", "optional": false },
       { "name": "searchbox", "element": ".searchbox", "optional": false },
@@ -211,6 +218,23 @@
         "g900": { "modifier": "teaser--bg-g900", "tokenGroups": ["teaser"], "renderHint": "teaser-g900" },
         "g950": { "modifier": "teaser--bg-g950", "tokenGroups": ["teaser"], "renderHint": "teaser-g950" },
         "accent": { "modifier": "teaser--bg-accent", "tokenGroups": ["teaser"], "renderHint": "teaser-accent", "description": "Lime traegt schwarze Schrift (12,89:1), nie weisse (1,63:1)." }
+      }
+    },
+    "teaserMedium": {
+      "label": "Teaser-Medium",
+      "description": "Nur Variante zentriert: Bild oder Video oberhalb des Textes, am Menüpunkt gepflegt. Video startet nie von selbst und zeigt Steuerelemente.",
+      "values": {
+        "keins": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-ohne-medium" },
+        "bild": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-bild" },
+        "video": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-video" }
+      }
+    },
+    "teaserHoehe": {
+      "label": "Teaser-Höhe",
+      "description": "Nur Variante zentriert: wie heute nach Inhalt, oder bündig mit den Links (oben Eyebrow, unten letzter Link). Schalter je Teaser am Menüpunkt.",
+      "values": {
+        "auto": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-hoehe-auto" },
+        "buendig": { "modifier": "teaser--buendig", "tokenGroups": ["teaser"], "renderHint": "teaser-hoehe-buendig" }
       }
     },
     "teaserKnopf": {
@@ -442,9 +466,15 @@
     ],
     "baseTokenGroups": [
       "flaeche",
+      "uebersicht",
       "leiste"
     ],
     "tokenGroups": {
+      "uebersicht": {
+        "label": "Übersichtslink",
+        "description": "Button-Typ des Übersichtslinks in der Variante zentriert, für alle Panels gleich. Die Typen folgen der gewählten Fläche.",
+        "tokens": ["nc-nav-uebersicht-knopf"]
+      },
       "flaeche": {
         "label": "Fläche",
         "description": "Feste Liste für Leiste, Panels und Drawer, in beiden Varianten. Jede Fläche setzt Hintergrund, Text, Nebentext, Linie, Hover und Fokus gemeinsam.",
@@ -781,6 +811,32 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Erklärsatz liegt im Link, kein eigener Fokuspunkt."
+      }
+    },
+    {
+      "id": "zentriert-teaser",
+      "label": "Zentriert — Teaser",
+      "description": "Teaser-Karte der Variante zentriert: ohne Medium, mit Bild oder Video; Höhe nach Inhalt oder bündig mit den Links.",
+      "matrix": {
+        "axes": {
+          "ausgabe": ["desktop"],
+          "offen": ["mega", "dropdown"],
+          "teaser": ["mit"],
+          "teaserFlaeche": ["standard"],
+          "teaserKnopf": ["dark"],
+          "teaserMedium": "*",
+          "teaserHoehe": "*",
+          "drawer": ["zu"],
+          "variante": ["zentriert"]
+        },
+        "states": ["default"]
+      },
+      "layout": "grid",
+      "layoutConfig": { "rowAxis": "offen" },
+      "render": { "label": "{teaserMedium} · {teaserHoehe}" },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Bild ist Schmuck (alt leer). Video ohne Autoplay, mit Steuerelementen; gesprochener Inhalt braucht Untertitel."
       }
     }
   ]

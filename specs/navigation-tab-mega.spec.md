@@ -1,5 +1,5 @@
 # navigation-tab-mega Component Spec
-> Version 1.4.0 | Status: stable | Layer: organism
+> Version 1.5.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `header`, `mega-menu`, `interactive`, `website`
 
@@ -56,6 +56,7 @@ Root element: `.site-header`
 | eintrag-label | `.nav-eintrag__label` | No | — |
 | eintrag-desc | `.nav-eintrag__desc` | No | — |
 | drawer-link-eintrag | `.m-link--eintrag` | No | — |
+| teaser-medium | `.teaser__medium` | No | — |
 | arrow | `.nav-arrow` | No | — |
 | search-band | `.search-band` | Yes | — |
 | searchbox | `.searchbox` | Yes | — |
@@ -125,6 +126,23 @@ Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe 
 | g950 | `.teaser--bg-g950` |  |
 | accent | `.teaser--bg-accent` |  |
 
+### Teaser-Medium (`teaserMedium`)
+Nur Variante zentriert: Bild oder Video oberhalb des Textes, am Menüpunkt gepflegt. Video startet nie von selbst und zeigt Steuerelemente.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| keins | — |  |
+| bild | — |  |
+| video | — |  |
+
+### Teaser-Höhe (`teaserHoehe`)
+Nur Variante zentriert: wie heute nach Inhalt, oder bündig mit den Links (oben Eyebrow, unten letzter Link). Schalter je Teaser am Menüpunkt.
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| auto | — |  |
+| buendig | `.teaser--buendig` |  |
+
 ### Teaser-Knopf (`teaserKnopf`)
 Fassung des Teaser-Knopfs, je Teaser von der Redaktion gewaehlt — bei einem Hintergrundbild laesst sie sich nicht berechnen. neo-nav.js setzt dark, wenn nichts gepflegt ist.
 
@@ -166,6 +184,11 @@ Supported: `default`, `active`, `hidden`
 
 ## CSS Token API
 Base classes: `site-header`
+
+### Übersichtslink
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-nav-uebersicht-knopf` | — | — |
 
 ### Fläche
 | Token | CSS Property | Override |
@@ -289,7 +312,7 @@ Derived from anatomy for potential `<nc-navigation-tab-mega>` custom element:
 
 ```js
 class NcNavigationTabMega extends HTMLElement {
-  static observedAttributes = ['offen', 'teaser', 'teaserFlaeche', 'teaserKnopf', 'ausgabe', 'drawer', 'variante'];
+  static observedAttributes = ['offen', 'teaser', 'teaserFlaeche', 'teaserMedium', 'teaserHoehe', 'teaserKnopf', 'ausgabe', 'drawer', 'variante'];
   // Slots: <slot name="inner">, <slot name="brand">, <slot name="primary-nav">, <slot name="list">, <slot name="actions">, <slot name="settings">, <slot name="settings-menu">, <slot name="settings-trigger">, <slot name="settings-panel">, <slot name="settings-option">, <slot name="search-toggle">, <slot name="burger">, <slot name="search-band">, <slot name="searchbox">, <slot name="search-input">, <slot name="search-clear">, <slot name="search-submit">, <slot name="search-close">, <slot name="drawer">, <slot name="drawer-viewport">, <slot name="drawer-screen">, <slot name="drawer-row">, <slot name="drawer-tools">, <slot name="drawer-search">, <slot name="drawer-lang">, <slot name="drawer-lang-mobil">
 }
 ```

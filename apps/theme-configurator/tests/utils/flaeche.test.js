@@ -11,7 +11,9 @@ function sucheFlaeche (knoten) {
   if (knoten && typeof knoten === 'object') return knoten.type === 'flaeche' ? [knoten] : Object.values(knoten).flatMap(sucheFlaeche)
   return []
 }
-const [token] = sucheFlaeche(componentTokenGroups)
+const steuerelemente = sucheFlaeche(componentTokenGroups)
+const token = steuerelemente.find((t) => t.id === 'nc-nav-flaeche')
+const knopf = steuerelemente.find((t) => t.id === 'nc-nav-uebersicht-knopf')
 
 describe('Flächenliste nc-nav-flaeche', () => {
   it('kennt genau die vier gewählten Flächen', () => {
@@ -41,6 +43,13 @@ describe('Flächenliste nc-nav-flaeche', () => {
   it('ein einzelner abweichender Wert ist keine Fläche der Liste', () => {
     const akzent = token.optionen.find((o) => o.id === 'akzent')
     expect(aktiveFlaeche(token, { ...akzent.werte, 'nc-nav-fg': '#123456' })).toBe('eigene')
+  })
+
+  it('Button-Typ des Übersichtslinks: Ghost schreibt nichts, die übrigen setzen vier Werte', () => {
+    expect(knopf.optionen.map((o) => o.id)).toEqual(['ghost', 'primaer', 'sekundaer', 'akzent'])
+    expect(aktiveFlaeche(knopf, {})).toBe('ghost')
+    expect(flaechenAenderung(knopf, 'ghost').setzen).toEqual({})
+    expect(Object.keys(flaechenAenderung(knopf, 'akzent').setzen).sort()).toEqual(['nc-nav-uebersicht-bg', 'nc-nav-uebersicht-border', 'nc-nav-uebersicht-fg', 'nc-nav-uebersicht-hover'])
   })
 
   it('unbekannte Fläche ändert nichts', () => {

@@ -80,8 +80,8 @@ describe('navigation-tab-mega aus dem Recipe', () => {
     const recipe = normalisiereRecipe(rohesRecipe(ID))
     expect(recipe.arena.hinweise).toEqual([])
     expect(new Set(z.map((c) => c.specimen.id))).toEqual(new Set(recipe.specimens.map((s) => s.id)))
-    expect(recipe.specimens.map((s) => s.id)).toEqual(['desktop-geschlossen', 'panel-offen', 'kopfleiste-offen', 'teaser-flaechen', 'teaser-knopf', 'mobil', 'zentriert-desktop', 'zentriert-mobil'])
-    expect(z.length).toBe(27)
+    expect(recipe.specimens.map((s) => s.id)).toEqual(['desktop-geschlossen', 'panel-offen', 'kopfleiste-offen', 'teaser-flaechen', 'teaser-knopf', 'mobil', 'zentriert-desktop', 'zentriert-mobil', 'zentriert-teaser'])
+    expect(z.length).toBe(39)
   })
 
   it('Recipe, Spec, Registry und Story zeigen auf dieselben Artefakte', () => {
@@ -372,6 +372,30 @@ describe('navigation-tab-mega, Variante zentriert', () => {
     expect(zellen('zentriert-mobil').some((c) => c.html.includes('m-link--eintrag'))).toBe(true)
   })
 
+  it('Teaser (Phase 4b): Medium oberhalb des Textes, Höhe bündig, nur in der Variante zentriert', () => {
+    const z = zellen('zentriert-teaser')
+    const mit = (art) => z.filter((c) => c.axisValues.teaserMedium === art).map((c) => dom(c.html).querySelector('.panel.is-open .teaser'))
+    for (const t of mit('keins')) expect(t.querySelector('.teaser__medium')).toBeNull()
+    for (const t of mit('bild')) {
+      expect(t.firstElementChild.className).toBe('teaser__medium')
+      expect(t.querySelector('.teaser__medium img').getAttribute('alt')).toBe('')
+    }
+    for (const t of mit('video')) {
+      const v = t.querySelector('.teaser__medium video')
+      expect(v.hasAttribute('autoplay')).toBe(false)
+      expect(v.hasAttribute('controls')).toBe(true)
+      expect(v.getAttribute('aria-label')).toBeTruthy()
+    }
+    for (const c of z) expect(dom(c.html).querySelector('.panel.is-open .teaser').classList.contains('teaser--buendig')).toBe(c.axisValues.teaserHoehe === 'buendig')
+    for (const c of zellen().filter((x) => !x.specimen.id.startsWith('zentriert-'))) expect(c.html).not.toMatch(/teaser__medium|teaser--buendig/)
+  })
+
+  it('Dropdown bündig: Übersichtslink steht unter dem Raster, Teaser endet mit dem letzten Link', () => {
+    const c = zellen('zentriert-teaser').find((x) => x.axisValues.offen === 'dropdown' && x.axisValues.teaserHoehe === 'buendig')
+    const raster = dom(c.html).querySelector('.panel.is-open .dropdown-grid')
+    expect(raster.querySelector(':scope > .mega-gruppen__fuss .panel-overview')).not.toBeNull()
+  })
+
   it('Standard-Fassungen tragen kein Variantenattribut und keine Eintraege', () => {
     for (const n of [1, 2, 3, 4, 5]) {
       const d = fassung(n)
@@ -472,10 +496,10 @@ describe('navigation-tab-mega in der RecipeArena', () => {
     }
     const recipe = normalisiereRecipe(rohesRecipe(ID))
     expect(w.findAll('.ra-specimen').length).toBe(recipe.specimens.length)
-    expect(w.findAll('.ra-cell').length).toBe(27)
+    expect(w.findAll('.ra-cell').length).toBe(39)
     expect(w.find('.ra-modus').exists()).toBe(true)
     expect(w.find('[data-quelle="heuristik"], .ra-fallback').exists()).toBe(false)
-    expect(w.findAll('header.site-header[data-neo-nav]').length).toBe(27)
+    expect(w.findAll('header.site-header[data-neo-nav]').length).toBe(39)
     expect(w.find('[data-neo-behavior]').exists()).toBe(false)
     await w.findAll('.ra-modus__knopf')[1].trigger('click')
     await flushPromises()

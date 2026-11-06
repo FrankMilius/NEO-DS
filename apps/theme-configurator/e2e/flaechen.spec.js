@@ -21,7 +21,9 @@ function suche (knoten) {
   if (knoten && typeof knoten === 'object') return knoten.type === 'flaeche' ? [knoten] : Object.values(knoten).flatMap(suche)
   return []
 }
-const [TOKEN] = suche(componentTokenGroups)
+const STEUERELEMENTE = suche(componentTokenGroups)
+const TOKEN = STEUERELEMENTE.find((t) => t.id === 'nc-nav-flaeche')
+const KNOPF = STEUERELEMENTE.find((t) => t.id === 'nc-nav-uebersicht-knopf')
 const THEMEN = ['neo-light-theme', 'neo-dark-theme', 'customer-light-theme', 'customer-dark-theme']
 // Fassung je Variante: Mega-Panel offen und mobiler Drawer offen
 const VARIANTEN = { standard: [2, 5], zentriert: [7, 9] }
@@ -60,6 +62,24 @@ for (const option of TOKEN.optionen.filter((o) => o.id !== 'standard')) {
         }
       })
     }
+  }
+}
+
+for (const knopf of KNOPF.optionen.filter((o) => o.id !== 'ghost')) {
+  for (const thema of THEMEN) {
+    test(`Button-Typ ${knopf.label}, ${thema}: lesbar auf jeder Fläche, nur in der Variante zentriert`, async ({ page }) => {
+      for (const flaeche of TOKEN.optionen) {
+        const option = { werte: { ...flaeche.werte, ...knopf.werte } }
+        await buehne(page, thema, option, VARIANTEN.zentriert[0])
+        const { violations } = await new AxeBuilder({ page }).withRules(['color-contrast']).include('.panel-overview').analyze()
+        expect(violations.flatMap((v) => v.nodes.map((n) => `${flaeche.id}: ${n.any[0]?.message}`))).toEqual([])
+        const rand = await page.locator('.panel.is-open .panel-overview').first().evaluate((el) => getComputedStyle(el).borderTopColor)
+        expect(rand).not.toBe('rgba(0, 0, 0, 0)')
+      }
+      // Standard bleibt Ghost, auch wenn ein Typ gewählt ist
+      await buehne(page, thema, knopf, VARIANTEN.standard[0])
+      expect(await page.locator('.panel.is-open .panel-overview').first().evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)')
+    })
   }
 }
 
