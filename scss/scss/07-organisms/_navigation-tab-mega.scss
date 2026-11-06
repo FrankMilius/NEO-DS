@@ -1216,3 +1216,126 @@
 }
 
 /* <<< aufgenommen: navigation-tab-mega */
+
+// ==========================================================================
+// Variante „zentriert“ (I06, 04.11.2026)
+// ==========================================================================
+// Wählbar am Drupal-Block „NEO Hauptnavigation“; Vorgabe bleibt der Standard
+// oben. ALLE Regeln hier hängen am Attribut data-nav-variante="zentriert" an
+// BEIDEN Wurzeln (Header und Drawer sind Geschwister). Ohne das Attribut
+// greift nichts — der Standard bleibt unverändert.
+//
+// Was die Variante anders macht:
+//   1. Menüpunkte mittig. Raster 1fr | auto | 1fr mit festen Spalten, damit
+//      Logo links und Aktionen rechts stehen bleiben — auch mobil, wenn die
+//      Navigation ausgeblendet ist und sonst die Aktionen in die Mitte rückten.
+//   2. Mega-Panel ohne Tabs: jede Gruppe (Ebene 2) steht mit Eyebrow über
+//      ihren Links. Die Gruppen liegen nebeneinander.
+//   3. Einträge (Ebene 2/3) mit optionalem Icon (Tabler, 24 px, Strich 1,5,
+//      aria-hidden) und Erklärsatz. Nur im Panel und mobil, nie in der Leiste
+//      (Entscheidung 04.11.2026).
+// Recipe: Achse „variante“ in data/navigation-tab-mega-recipe.json.
+
+// Kurzer Vorsatz (Größenbudget styles.css): data-nav-variante steht nur an
+// den beiden Wurzeln (header.site-header[data-neo-nav] und .m-drawer) — so
+// legen es Twig und Recipe fest. :where() hält die Spezifität bei der der
+// Standardregeln, gewichtet wird allein über die Reihenfolge (diese Regeln
+// stehen danach).
+$_zentriert: ':where([data-nav-variante="zentriert"])';
+
+.site-header[data-neo-nav][data-nav-variante="zentriert"],
+.m-drawer[data-nav-variante="zentriert"] {
+  --nav-desc-size: .875rem;              /* 14px — Erklärsatz, eine Stufe unter L3 */
+  --nav-desc-leading: 1.4;
+  --nav-ico-size: 1.5rem;                /* 24px — Icon-Standard des DS */
+  --nn-gruppen-min: 14rem;               /* Mindestbreite einer Gruppe */
+  --nn-eintrag-einzug: .6rem;            /* wie .link-grid a im Standard */
+}
+
+/* 1 · Leiste: Menüpunkte mittig */
+#{$_zentriert} .header-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+#{$_zentriert} .brand { grid-column: 1; justify-self: start; }
+#{$_zentriert} .primary-nav { grid-column: 2; justify-self: center; margin-inline-start: 0; }
+#{$_zentriert} .header-actions { grid-column: 3; justify-self: end; }
+
+/* 2 · Mega-Panel: Gruppen mit Eyebrow statt Tabs */
+#{$_zentriert} .mega-gruppen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: var(--nn-mega-grid-gap, 1.6rem);
+  align-items: start;
+}
+#{$_zentriert} .mega-gruppen--no-teaser { grid-template-columns: minmax(0, 1fr); }
+#{$_zentriert} .mega-gruppen__liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--nn-gruppen-min), 1fr));
+  gap: var(--fnd-spacing-06) var(--fnd-spacing-07);
+  align-items: start;
+}
+/* Dieselbe Stufe wie das Eyebrow der Kategoriespalte im Standard. Einzug wie
+   die Einträge darunter, damit Eyebrow und Wort auf einer Kante stehen. */
+#{$_zentriert} .mega-gruppe__eyebrow {
+  margin: 0 0 var(--fnd-spacing-02);
+  padding-inline: var(--nn-eintrag-einzug);
+  font-family: var(--nav-eyebrow-family);
+  font-size: var(--nav-eyebrow-size);
+  font-weight: var(--fnd-font-weight-medium);
+  letter-spacing: var(--nav-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--nn-muted);
+}
+#{$_zentriert} .mega-gruppen__fuss { grid-column: 1 / -1; }
+
+/* 3 · Einträge mit Icon und Erklärsatz (Panel) */
+#{$_zentriert} .nav-eintraege {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--fnd-spacing-01);
+}
+#{$_zentriert} .nav-eintraege > li { margin: 0; padding: 0; }
+/* Dropdown: zwei Spalten wie .dropdown-cols im Standard. */
+#{$_zentriert} .nav-eintraege--spalten {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--fnd-spacing-06);
+  max-width: var(--nav-dropdown-cols-max);
+}
+/* Trefferfläche: die volle Zeile, mindestens 44 px (WCAG 2.5.8). */
+#{$_zentriert} .nav-eintrag {
+  display: flex; align-items: flex-start; gap: var(--fnd-spacing-03);
+  min-height: var(--nav-hit-height);
+  padding: .5rem var(--nn-eintrag-einzug); border-radius: var(--nn-radius-sm);
+  color: var(--nn-text);
+  transition: background var(--nn-t);   /* wie .link-grid a im Standard */
+}
+#{$_zentriert} .nav-eintrag:hover { background: var(--nn-surface-2); }
+#{$_zentriert} .nav-eintrag:focus-visible {
+  outline: var(--nav-focus-width) solid var(--nav-focus-ring);
+  outline-offset: var(--nav-focus-offset);
+}
+
+/* Icon und Text gemeinsam, ob im Panel (.nav-eintrag) oder mobil (.m-link). */
+#{$_zentriert} .nav-eintrag__ico {
+  display: inline-flex; flex: none;
+  inline-size: var(--nav-ico-size); block-size: var(--nav-ico-size);
+  color: var(--nn-muted);
+}
+#{$_zentriert} .nav-eintrag__ico svg { inline-size: 100%; block-size: 100%; display: block; stroke-width: 1.5; }
+#{$_zentriert} .nav-eintrag__text { display: flex; flex-direction: column; gap: 2px; min-inline-size: 0; }
+#{$_zentriert} .nav-eintrag__label {
+  font-size: var(--nav-l3-size); font-weight: var(--nav-l3-weight);
+  letter-spacing: var(--nav-l3-tracking);
+  line-height: var(--nav-desc-leading);
+}
+/* Mit Icon steht das Wort auf der Höhe der Icon-Mitte. */
+#{$_zentriert} .nav-eintrag__ico + .nav-eintrag__text { padding-block-start: 1px; }
+#{$_zentriert} .nav-eintrag__desc {
+  font-size: var(--nav-desc-size);
+  font-weight: var(--fnd-font-weight-regular);
+  line-height: var(--nav-desc-leading);
+  color: var(--nn-muted);
+}
+
+/* Mobil: dieselben Teile in der Zeile des Drawers. */
+#{$_zentriert} .m-link--eintrag { align-items: flex-start; gap: var(--fnd-spacing-03); }

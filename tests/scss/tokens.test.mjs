@@ -216,7 +216,13 @@ describe('CSS Output Quality', () => {
     // 09.10.2026: 148 → 143 KB. Abstands-Utilities (.u-m*/.u-p*/.u-gap*,
     // 976 Klassen) und ungenutzte a11y-Utilities entfernt (Entscheidung
     // Frank, kein Verwender). Stand 140,3 KB; ca. 2 % Luft.
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(143);
+    //
+    // 04.11.2026: 143 → 145 KB (Entscheidung Frank, I06, zusammen mit der
+    // Rohgröße unten). Stand 142,8 KB nach I04; die Variante „zentriert“
+    // der Hauptnavigation bringt +0,4 KB gzip. Die Luft deckt die
+    // Folgephasen von I06 (geschaetzt 1 KB gzip); höchstens ca. 1,5 % mehr
+    // Übertragung.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(145);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -265,7 +271,14 @@ describe('CSS Output Quality', () => {
     // Schriftfamilie steht in button-base, und das DS wiederholt button-base
     // in allen 24 Varianten (+1,4 KB). Kandidat zum Aufräumen: Varianten
     // ohne wiederholte Basis (nur mit .nc-button zusammen).
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1208);
+    //
+    // 04.11.2026: 1208 → 1215 KB (Entscheidung Frank, I06). Stand 1206,7 KB
+    // nach I04; die Variante „zentriert“ der Hauptnavigation bringt +3,4 KB
+    // (23 Regeln, alle unter [data-nav-variante="zentriert"], Selektoren
+    // schon gekuerzt). Die Luft deckt die Folgephasen von I06 (Flaechenliste,
+    // Teaser-Medium/-Hoehe, Button-Typ, geschaetzt 4–5 KB). Aufraeum-Kandidat
+    // bleibt button-base in den 24 Button-Varianten (ca. 1,4 KB).
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1215);
   });
 
   it('CSS Build hat keine Fehler', () => {

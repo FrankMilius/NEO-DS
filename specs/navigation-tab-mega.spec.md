@@ -1,5 +1,5 @@
 # navigation-tab-mega Component Spec
-> Version 1.1.2 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `navigation`, `header`, `mega-menu`, `interactive`, `website`
 
@@ -44,6 +44,18 @@ Root element: `.site-header`
 | teaser-text | `.teaser__text` | No | — |
 | teaser-cta | `.teaser__cta` | No | — |
 | teaser-bg | `.teaser__bg` | No | — |
+| mega-gruppen | `.mega-gruppen` | No | — |
+| mega-gruppen-liste | `.mega-gruppen__liste` | No | — |
+| mega-gruppen-fuss | `.mega-gruppen__fuss` | No | — |
+| mega-gruppe | `.mega-gruppe` | No | — |
+| mega-gruppe-eyebrow | `.mega-gruppe__eyebrow` | No | — |
+| eintraege | `.nav-eintraege` | No | — |
+| eintrag | `.nav-eintrag` | No | — |
+| eintrag-icon | `.nav-eintrag__ico` | No | — |
+| eintrag-text | `.nav-eintrag__text` | No | — |
+| eintrag-label | `.nav-eintrag__label` | No | — |
+| eintrag-desc | `.nav-eintrag__desc` | No | — |
+| drawer-link-eintrag | `.m-link--eintrag` | No | — |
 | arrow | `.nav-arrow` | No | — |
 | search-band | `.search-band` | Yes | — |
 | searchbox | `.searchbox` | Yes | — |
@@ -78,6 +90,7 @@ Root element: `.site-header`
 - Sprache live (DE/EN ohne Neuladen): jede uebersetzbare Beschriftung traegt beide Fassungen als data-neo-i18n='{"de":…,"en":…}'; mit data-neo-i18n-attr (aria-label, placeholder, data-text) wird statt des Texts das Attribut gesetzt. Gerendert wird die Sprache der Seite; das Behavior beschriftet beim Wechsel neu und setzt lang an Header und Drawer (nicht an <html> — der Seiteninhalt wechselt nicht).
 - Drawer-Push: button.m-row[aria-controls] verweist auf seinen Unterbildschirm (.m-screen[id][data-screen]); .m-back geht zurueck. Gefunden werden Panel, Such-Band, Kopfleisten-Menue und Drawer ueber aria-controls, nicht ueber feste ids.
 - data-neo-nav-autohide="aus" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts.
+- Variante zentriert (Achse variante, Block-Einstellung in Drupal): data-nav-variante="zentriert" an header.site-header UND .m-drawer. Mega-Panel: div.mega-gruppen (+ --no-teaser) > div.mega-gruppen__liste > div.mega-gruppe je Ebene-2-Punkt (p.mega-gruppe__eyebrow mit id, ul.nav-eintraege mit aria-labelledby darauf — keine Landmarke je Gruppe), danach div.mega-gruppen__fuss mit dem Uebersichtslink, optional aside.teaser. Dropdown: ul.nav-eintraege.nav-eintraege--spalten. Eintrag: a.nav-eintrag > span.nav-eintrag__ico[aria-hidden] (optional, Tabler-SVG) + span.nav-eintrag__text > span.nav-eintrag__label + span.nav-eintrag__desc (optional); data-neo-i18n sitzt an Label und Erklaersatz, nicht am Link. Mobil: a.m-link.m-link--eintrag mit denselben Teilen. Das Eyebrow der Ebene 1 (field_nav_eyebrow) entfaellt in dieser Variante — es leitete die Tabliste ein.
 
 ## Variants
 ### Geöffnet (`offen`)
@@ -136,6 +149,14 @@ Mobiler Drawer: zu, offen auf dem Startbildschirm oder auf einer Unterseite (Pus
 | zu | — |  |
 | start | — |  |
 | unterseite | — |  |
+
+### Variante (`variante`)
+Aufbau der Navigation, am Drupal-Block gewaehlt. Standard: Menuepunkte links, Mega-Panel mit vertikalen Tabs. Zentriert: Menuepunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Eintraege mit optionalem Icon und Erklaersatz (Panel und mobil).
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| standard | — |  |
+| zentriert | — |  |
 
 ## States
 Supported: `default`, `active`, `hidden`
@@ -216,6 +237,15 @@ Base classes: `site-header`
 | `--nn-on-accent` | — | — |
 | `--nn-header-h` | — | — |
 
+### Variante zentriert
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nav-desc-size` | — | — |
+| `--nav-desc-leading` | — | — |
+| `--nav-ico-size` | — | — |
+| `--nn-gruppen-min` | — | — |
+| `--nn-eintrag-einzug` | — | — |
+
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
@@ -254,7 +284,7 @@ Derived from anatomy for potential `<nc-navigation-tab-mega>` custom element:
 
 ```js
 class NcNavigationTabMega extends HTMLElement {
-  static observedAttributes = ['offen', 'teaser', 'teaserFlaeche', 'teaserKnopf', 'ausgabe', 'drawer'];
+  static observedAttributes = ['offen', 'teaser', 'teaserFlaeche', 'teaserKnopf', 'ausgabe', 'drawer', 'variante'];
   // Slots: <slot name="inner">, <slot name="brand">, <slot name="primary-nav">, <slot name="list">, <slot name="actions">, <slot name="settings">, <slot name="settings-menu">, <slot name="settings-trigger">, <slot name="settings-panel">, <slot name="settings-option">, <slot name="search-toggle">, <slot name="burger">, <slot name="search-band">, <slot name="searchbox">, <slot name="search-input">, <slot name="search-clear">, <slot name="search-submit">, <slot name="search-close">, <slot name="drawer">, <slot name="drawer-viewport">, <slot name="drawer-screen">, <slot name="drawer-row">, <slot name="drawer-tools">, <slot name="drawer-search">, <slot name="drawer-lang">, <slot name="drawer-lang-mobil">
 }
 ```

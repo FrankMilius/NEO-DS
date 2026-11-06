@@ -15,7 +15,7 @@
 //     div.search-band
 //   div.m-drawer > div.m-viewport > div.m-screen (Start + je Menuepunkt)
 //
-// Achsen: offen (was geoeffnet ist), teaser (mit/ohne Teaser-Karte),
+// Achsen: variante (standard | zentriert, I06), offen (was geoeffnet ist), teaser (mit/ohne Teaser-Karte),
 // teaserFlaeche/teaserKnopf (Modifier am Kind aside.teaser), ausgabe
 // (desktop/mobil), drawer (zu/start/unterseite). Zustaende: active (aktueller
 // Ast: aria-current + .is-active am Menuepunkt), hidden (.is-nav-hidden am
@@ -125,6 +125,53 @@ const ICON = {
   check: '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>',
   search: '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>'
 }
+// --- Variante „zentriert“ (I06): Icon und Erklaersatz je Eintrag ----------
+// In Drupal kommen beide aus Feldern am Menuepunkt (Icon als Tabler-Name,
+// Erklaersatz uebersetzbar). Hier eine Auswahl, damit die Arena beides zeigt:
+// Eintraege mit Icon und Satz, mit nur einem von beiden und ohne.
+// SVG-Inhalte aus @tabler/icons (outline), Strich 1,5 wie im DS.
+const TABLER = {
+  'building-bank': '<path d="M3 21l18 0"/><path d="M3 10l18 0"/><path d="M5 6l7 -3l7 3"/><path d="M4 10l0 11"/><path d="M20 10l0 11"/><path d="M8 14l0 3"/><path d="M12 14l0 3"/><path d="M16 14l0 3"/>',
+  'heart-rate-monitor': '<path d="M3 5a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -10"/><path d="M7 20h10"/><path d="M9 16v4"/><path d="M15 16v4"/><path d="M7 10h2l2 3l2 -6l1 3h3"/>',
+  bolt: '<path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11"/>',
+  'building-factory-2': '<path d="M3 21h18"/><path d="M5 21v-12l5 4v-4l5 4h4"/><path d="M19 21v-8l-1.436 -9.574a.5 .5 0 0 0 -.495 -.426h-1.145a.5 .5 0 0 0 -.494 .418l-1.43 8.582"/><path d="M9 17h1"/><path d="M14 17h1"/>',
+  coins: '<path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3"/><path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4"/><path d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598"/><path d="M3 6v10c0 .888 .772 1.45 2 2"/><path d="M3 11c0 .888 .772 1.45 2 2"/>',
+  truck: '<path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"/>',
+  speakerphone: '<path d="M18 8a3 3 0 0 1 0 6"/><path d="M10 8v11a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1v-5"/><path d="M12 8l4.524 -3.77a.9 .9 0 0 1 1.476 .692v12.156a.9 .9 0 0 1 -1.476 .692l-4.524 -3.77h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h8"/>',
+  'device-mobile': '<path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14"/><path d="M11 4h2"/><path d="M12 17v.01"/>',
+  books: '<path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14"/><path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14"/><path d="M5 8h4"/><path d="M9 16h4"/><path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041"/><path d="M14 9l4 -1"/><path d="M16 16l3.923 -.98"/>',
+  'user-plus': '<path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M16 19h6"/><path d="M19 16v6"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>',
+  'users-group': '<path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"/><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M17 10h2a2 2 0 0 1 2 2v1"/><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M3 13v-1a2 2 0 0 1 2 -2h2"/>',
+  messages: '<path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10"/><path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2"/>',
+  sparkles: '<path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6"/>',
+  book: '<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6l0 13"/><path d="M12 6l0 13"/><path d="M21 6l0 13"/>',
+  forms: '<path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3"/><path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3"/><path d="M13 7h7a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-7"/><path d="M5 7h-1a1 1 0 0 0 -1 1v8a1 1 0 0 0 1 1h1"/><path d="M17 12h.01"/><path d="M13 12h.01"/>',
+  'plug-connected': '<path d="M7 12l5 5l-1.5 1.5a3.536 3.536 0 1 1 -5 -5l1.5 -1.5"/><path d="M17 12l-5 -5l1.5 -1.5a3.536 3.536 0 1 1 5 5l-1.5 1.5"/><path d="M3 21l2.5 -2.5"/><path d="M18.5 5.5l2.5 -2.5"/><path d="M10 11l-2 2"/><path d="M13 14l-2 2"/>'
+}
+const tabler = (name) => `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${TABLER[name]}</svg>`
+
+export const ZUSATZ = {
+  'Öffentliche Verwaltung': { icon: 'building-bank', desc: 'Bürgernah informieren, sicher zusammenarbeiten.' },
+  Gesundheitswesen: { icon: 'heart-rate-monitor', desc: 'Schichtteams und Stationen auf einem Stand.' },
+  'Energie & Versorgung': { icon: 'bolt' },
+  'Industrie & Produktion': { icon: 'building-factory-2', desc: 'Auch für die Halle, nicht nur fürs Büro.' },
+  Finanzdienstleistung: { icon: 'coins' },
+  'Handel & Logistik': { icon: 'truck' },
+  'Interne Kommunikation': { icon: 'speakerphone', desc: 'News, Kampagnen und Umfragen an einem Ort.' },
+  'Mitarbeitende ohne Schreibtisch': { icon: 'device-mobile', desc: 'Per App erreichbar, ohne Firmen-E-Mail.' },
+  Wissensmanagement: { icon: 'books' },
+  Onboarding: { icon: 'user-plus' },
+  'Zusammenarbeit im Team': { icon: 'users-group' },
+  'Social Intranet': { icon: 'messages', desc: 'Das digitale Zuhause Ihrer Organisation.' },
+  'Mitarbeiter-App': { icon: 'device-mobile', desc: 'Alle erreichen, auch unterwegs.' },
+  'NEO AI': { icon: 'sparkles', desc: 'Antworten aus Ihrem Intranet.' },
+  Wissensdatenbank: { icon: 'book' },
+  'Digitale Formulare': { icon: 'forms' },
+  Integrationen: { icon: 'plug-connected' },
+  // nur Erklaersatz, ohne Icon
+  Karriere: { desc: 'Offene Stellen und wie wir arbeiten.' }
+}
+
 const BURGER_ZU = '<path d="M3 6h18M3 12h18M3 18h18"/>'
 const BURGER_OFFEN = '<path d="M6 6l12 12M18 6L6 18"/>'
 
@@ -145,6 +192,7 @@ export function optionen (m) {
   return {
     uid: m.uid,
     live,
+    zentriert: wert('variante', 'standard') === 'zentriert',
     offen: live ? 'keins' : wert('offen', 'keins'),
     teaser: wert('teaser', 'mit') === 'mit',
     teaserKlassen: m.klassen.filter((k) => k.startsWith('teaser--')),
@@ -212,11 +260,53 @@ ${teaserKarte(item.teaser, o)}
 </div>`
 }
 
+// --- Variante „zentriert“ ---------------------------------------------------
+// Eintrag mit optionalem Icon und Erklaersatz. data-neo-i18n an Label und
+// Satz (nicht am Link): das Behavior ersetzt textContent und wuerde sonst
+// Icon und Satz loeschen.
+function eintragInnen (text) {
+  const z = ZUSATZ[text] || {}
+  return `${z.icon ? `<span class="nav-eintrag__ico" aria-hidden="true">${tabler(z.icon)}</span>` : ''}<span class="nav-eintrag__text"><span class="nav-eintrag__label"${tr(text)}>${esc(text)}</span>${z.desc ? `<span class="nav-eintrag__desc"${tr(z.desc)}>${esc(z.desc)}</span>` : ''}</span>`
+}
+const eintragLi = (text) => `<li><a class="nav-eintrag" href="${pfad(text)}">${eintragInnen(text)}</a></li>`
+
+function megaInhaltZentriert (item, o) {
+  const mitTeaser = o.teaser && item.teaser
+  const gruppen = item.tabs.map((tab) => `<div class="mega-gruppe">
+<p class="mega-gruppe__eyebrow" id="${I(o, `gruppe-${item.id}-${tab.id}`)}"${tr(tab.label)}>${esc(tab.label)}</p>
+<ul class="nav-eintraege" aria-labelledby="${I(o, `gruppe-${item.id}-${tab.id}`)}">
+${tab.links.map(eintragLi).join('\n')}
+</ul>
+</div>`).join('\n')
+  const fuss = uebersicht(item)
+  return `<div class="mega-gruppen${mitTeaser ? '' : ' mega-gruppen--no-teaser'}">
+<div class="mega-gruppen__liste">
+${gruppen}
+</div>
+${mitTeaser ? teaserKarte(item.teaser, o) + '\n' : ''}${fuss ? `<div class="mega-gruppen__fuss">\n${fuss}\n</div>\n` : ''}</div>`
+}
+
+function dropdownInhaltZentriert (item, o) {
+  const liste = `<ul class="nav-eintraege nav-eintraege--spalten">
+${item.links.map(eintragLi).join('\n')}
+</ul>
+${uebersicht(item)}`
+  if (!(o.teaser && item.teaser)) return liste
+  return `<div class="dropdown-grid">
+<div>
+${liste}
+</div>
+${teaserKarte(item.teaser, o)}
+</div>`
+}
+
 function panel (item, o) {
   const auf = offenerPunkt(o) === item
   return `<div class="panel${auf ? ' is-open' : ''}" id="${I(o, `panel-${item.id}`)}" data-panel="${item.id}" role="region" aria-label="${esc(item.label)}"${tr(item.label, 'aria-label')}${attr(!auf, 'hidden')}>
 <div class="container"><div class="panel-inner">
-${item.type === 'mega' ? megaInhalt(item, o) : dropdownInhalt(item, o)}
+${o.zentriert
+  ? (item.type === 'mega' ? megaInhaltZentriert(item, o) : dropdownInhaltZentriert(item, o))
+  : (item.type === 'mega' ? megaInhalt(item, o) : dropdownInhalt(item, o))}
 </div></div>
 </div>`
 }
@@ -310,7 +400,7 @@ Schließen <kbd class="nc-kbd">Esc</kbd>
 /** Kopfleiste: header.site-header mit Panels und Such-Band. */
 export function kopf (o) {
   const drawerAuf = o.drawer !== 'zu'
-  return `<header class="site-header${o.versteckt ? ' is-nav-hidden' : ''}" id="${I(o, 'siteHeader')}" data-neo-nav${o.live ? ' data-neo-nav-autohide="aus"' : ''}>
+  return `<header class="site-header${o.versteckt ? ' is-nav-hidden' : ''}" id="${I(o, 'siteHeader')}" data-neo-nav${o.zentriert ? ' data-nav-variante="zentriert"' : ''}${o.live ? ' data-neo-nav-autohide="aus"' : ''}>
 <div class="container header-inner">
 <a class="brand" href="/" rel="home" aria-label="NEOCOSMO"><span class="brand__name">NEOCOSMO</span></a>
 <nav class="primary-nav" aria-label="Hauptnavigation">
@@ -333,7 +423,9 @@ ${suchBand(o)}
 }
 
 function mobilUnterseite (item, aktiv, o) {
-  const mLink = (t) => `<a class="m-link" href="${pfad(t)}"${tr(t)}>${esc(t)}</a>`
+  const mLink = o.zentriert
+    ? (t) => `<a class="m-link m-link--eintrag" href="${pfad(t)}">${eintragInnen(t)}</a>`
+    : (t) => `<a class="m-link" href="${pfad(t)}"${tr(t)}>${esc(t)}</a>`
   const links = item.type === 'mega'
     ? item.tabs.map((tab) => `<div class="m-section-title"${tr(tab.label)}>${esc(tab.label)}</div>\n${tab.links.map(mLink).join('\n')}`).join('\n')
     : item.links.map(mLink).join('\n')
@@ -350,7 +442,7 @@ export function drawer (o) {
   const zeilen = NAV.map((item) => (item.type === 'link'
     ? `<a class="m-row" href="${item.href}"><span${tr(item.label)}>${esc(item.label)}</span></a>`
     : `<button class="m-row" type="button" aria-controls="${I(o, `m-screen-${item.id}`)}"><span${tr(item.label)}>${esc(item.label)}</span><span class="chev" aria-hidden="true">${SVG_PLUS}</span></button>`)).join('\n')
-  return `<div class="m-drawer${o.drawer !== 'zu' ? ' is-open' : ''}" id="${I(o, 'mDrawer')}" aria-label="Mobile Navigation">
+  return `<div class="m-drawer${o.drawer !== 'zu' ? ' is-open' : ''}" id="${I(o, 'mDrawer')}"${o.zentriert ? ' data-nav-variante="zentriert"' : ''} aria-label="Mobile Navigation">
 <div class="m-viewport" id="${I(o, 'mViewport')}">
 <div class="m-screen ${unten ? 'is-prev' : 'is-active'}" data-screen="root">
 ${zeilen}

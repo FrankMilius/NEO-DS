@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "navigation-tab-mega",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -231,6 +231,78 @@
         "description": null
       },
       {
+        "name": "mega-gruppen",
+        "selector": ".mega-gruppen",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-gruppen-liste",
+        "selector": ".mega-gruppen__liste",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-gruppen-fuss",
+        "selector": ".mega-gruppen__fuss",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-gruppe",
+        "selector": ".mega-gruppe",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "mega-gruppe-eyebrow",
+        "selector": ".mega-gruppe__eyebrow",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintraege",
+        "selector": ".nav-eintraege",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintrag",
+        "selector": ".nav-eintrag",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintrag-icon",
+        "selector": ".nav-eintrag__ico",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintrag-text",
+        "selector": ".nav-eintrag__text",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintrag-label",
+        "selector": ".nav-eintrag__label",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "eintrag-desc",
+        "selector": ".nav-eintrag__desc",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "drawer-link-eintrag",
+        "selector": ".m-link--eintrag",
+        "required": false,
+        "description": null
+      },
+      {
         "name": "arrow",
         "selector": ".nav-arrow",
         "required": false,
@@ -363,7 +435,8 @@
       "Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen.",
       "Sprache live (DE/EN ohne Neuladen): jede uebersetzbare Beschriftung traegt beide Fassungen als data-neo-i18n='{\"de\":…,\"en\":…}'; mit data-neo-i18n-attr (aria-label, placeholder, data-text) wird statt des Texts das Attribut gesetzt. Gerendert wird die Sprache der Seite; das Behavior beschriftet beim Wechsel neu und setzt lang an Header und Drawer (nicht an <html> — der Seiteninhalt wechselt nicht).",
       "Drawer-Push: button.m-row[aria-controls] verweist auf seinen Unterbildschirm (.m-screen[id][data-screen]); .m-back geht zurueck. Gefunden werden Panel, Such-Band, Kopfleisten-Menue und Drawer ueber aria-controls, nicht ueber feste ids.",
-      "data-neo-nav-autohide=\"aus\" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren\"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts."
+      "data-neo-nav-autohide=\"aus\" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren\"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts.",
+      "Variante zentriert (Achse variante, Block-Einstellung in Drupal): data-nav-variante=\"zentriert\" an header.site-header UND .m-drawer. Mega-Panel: div.mega-gruppen (+ --no-teaser) > div.mega-gruppen__liste > div.mega-gruppe je Ebene-2-Punkt (p.mega-gruppe__eyebrow mit id, ul.nav-eintraege mit aria-labelledby darauf — keine Landmarke je Gruppe), danach div.mega-gruppen__fuss mit dem Uebersichtslink, optional aside.teaser. Dropdown: ul.nav-eintraege.nav-eintraege--spalten. Eintrag: a.nav-eintrag > span.nav-eintrag__ico[aria-hidden] (optional, Tabler-SVG) + span.nav-eintrag__text > span.nav-eintrag__label + span.nav-eintrag__desc (optional); data-neo-i18n sitzt an Label und Erklaersatz, nicht am Link. Mobil: a.m-link.m-link--eintrag mit denselben Teilen. Das Eyebrow der Ebene 1 (field_nav_eyebrow) entfaellt in dieser Variante — es leitete die Tabliste ein."
     ]
   },
   "api": null,
@@ -527,6 +600,24 @@
           "cssModifier": null,
           "default": false,
           "label": "unterseite"
+        }
+      ]
+    },
+    "variante": {
+      "label": "Variante",
+      "description": "Aufbau der Navigation, am Drupal-Block gewaehlt. Standard: Menuepunkte links, Mega-Panel mit vertikalen Tabs. Zentriert: Menuepunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Eintraege mit optionalem Icon und Erklaersatz (Panel und mobil).",
+      "values": [
+        {
+          "value": "standard",
+          "cssModifier": null,
+          "default": false,
+          "label": "standard"
+        },
+        {
+          "value": "zentriert",
+          "cssModifier": null,
+          "default": false,
+          "label": "zentriert"
         }
       ]
     }
@@ -706,6 +797,23 @@
         },
         {
           "token": "--nn-header-h"
+        }
+      ],
+      "Variante zentriert": [
+        {
+          "token": "--nav-desc-size"
+        },
+        {
+          "token": "--nav-desc-leading"
+        },
+        {
+          "token": "--nav-ico-size"
+        },
+        {
+          "token": "--nn-gruppen-min"
+        },
+        {
+          "token": "--nn-eintrag-einzug"
         }
       ]
     },

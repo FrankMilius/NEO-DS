@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "navigation-tab-mega",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "status": "stable",
     "tags": [
       "navigation",
@@ -21,6 +21,12 @@
     "description": "Hauptnavigation der Website: Kopfleiste mit Menuepunkten, Mega-Panel mit vertikalen Tabs, Dropdown-Panels, optionaler Teaser-Karte, Such-Band, Sprach- und Erscheinungsbild-Menue sowie mobiler Push-Navigation. Aus dem Drupal-Theme aufgenommen (Modul neo_nav, Theme neo_fe, neo-nav.css).",
     "whenToUse": "Fuer die Hauptnavigation der Website. Die Struktur kommt aus dem Drupal-Menue \"main\" (bis zu drei Ebenen) und bestimmt den Panel-Typ selbst: Ebene 1 ohne Kinder = Link, mit Kindern = Dropdown, mit Enkeln = Mega-Panel. Fuer App-Kopfzeilen im DS ist navigation (.nc-header/.nc-nav) das Bauteil.",
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "04.11.2026 (I06, Phase 1): Achse „variante“ (standard | zentriert). Zentriert: data-nav-variante=\"zentriert\" an Header UND Drawer; Menuepunkte mittig (Raster 1fr | auto | 1fr), Mega-Panel mit Gruppen und Eyebrow statt Tabs (.mega-gruppen, .mega-gruppe__eyebrow), Eintraege mit optionalem Tabler-Icon und Erklaersatz (.nav-eintrag; nur Panel und mobil, nie in der Leiste). Standard unveraendert: alle neuen Regeln haengen am Attribut, das kompilierte CSS ist ein reiner Zusatz."
+        ]
+      },
       {
         "version": "1.1.2",
         "changes": [
@@ -113,6 +119,18 @@
       { "name": "teaser-text", "element": ".teaser__text", "optional": true },
       { "name": "teaser-cta", "element": ".teaser__cta", "optional": true },
       { "name": "teaser-bg", "element": ".teaser__bg", "optional": true },
+      { "name": "mega-gruppen", "element": ".mega-gruppen", "optional": true },
+      { "name": "mega-gruppen-liste", "element": ".mega-gruppen__liste", "optional": true },
+      { "name": "mega-gruppen-fuss", "element": ".mega-gruppen__fuss", "optional": true },
+      { "name": "mega-gruppe", "element": ".mega-gruppe", "optional": true },
+      { "name": "mega-gruppe-eyebrow", "element": ".mega-gruppe__eyebrow", "optional": true },
+      { "name": "eintraege", "element": ".nav-eintraege", "optional": true },
+      { "name": "eintrag", "element": ".nav-eintrag", "optional": true },
+      { "name": "eintrag-icon", "element": ".nav-eintrag__ico", "optional": true },
+      { "name": "eintrag-text", "element": ".nav-eintrag__text", "optional": true },
+      { "name": "eintrag-label", "element": ".nav-eintrag__label", "optional": true },
+      { "name": "eintrag-desc", "element": ".nav-eintrag__desc", "optional": true },
+      { "name": "drawer-link-eintrag", "element": ".m-link--eintrag", "optional": true },
       { "name": "arrow", "element": ".nav-arrow", "optional": true },
       { "name": "search-band", "element": ".search-band", "optional": false },
       { "name": "searchbox", "element": ".searchbox", "optional": false },
@@ -146,7 +164,8 @@
       "Unter 1025 px (max-width: 1024px) entfallen .primary-nav, .hdr-group, .panel und .search-band; .burger und .m-drawer erscheinen.",
       "Sprache live (DE/EN ohne Neuladen): jede uebersetzbare Beschriftung traegt beide Fassungen als data-neo-i18n='{\"de\":…,\"en\":…}'; mit data-neo-i18n-attr (aria-label, placeholder, data-text) wird statt des Texts das Attribut gesetzt. Gerendert wird die Sprache der Seite; das Behavior beschriftet beim Wechsel neu und setzt lang an Header und Drawer (nicht an <html> — der Seiteninhalt wechselt nicht).",
       "Drawer-Push: button.m-row[aria-controls] verweist auf seinen Unterbildschirm (.m-screen[id][data-screen]); .m-back geht zurueck. Gefunden werden Panel, Such-Band, Kopfleisten-Menue und Drawer ueber aria-controls, nicht ueber feste ids.",
-      "data-neo-nav-autohide=\"aus\" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren\"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts."
+      "data-neo-nav-autohide=\"aus\" an der Wurzel schaltet das Auto-Hide ab (Arena „Ausprobieren\"); data-neo-nav-pfad ersetzt location.pathname fuer die Markierung des aktuellen Asts.",
+      "Variante zentriert (Achse variante, Block-Einstellung in Drupal): data-nav-variante=\"zentriert\" an header.site-header UND .m-drawer. Mega-Panel: div.mega-gruppen (+ --no-teaser) > div.mega-gruppen__liste > div.mega-gruppe je Ebene-2-Punkt (p.mega-gruppe__eyebrow mit id, ul.nav-eintraege mit aria-labelledby darauf — keine Landmarke je Gruppe), danach div.mega-gruppen__fuss mit dem Uebersichtslink, optional aside.teaser. Dropdown: ul.nav-eintraege.nav-eintraege--spalten. Eintrag: a.nav-eintrag > span.nav-eintrag__ico[aria-hidden] (optional, Tabler-SVG) + span.nav-eintrag__text > span.nav-eintrag__label + span.nav-eintrag__desc (optional); data-neo-i18n sitzt an Label und Erklaersatz, nicht am Link. Mobil: a.m-link.m-link--eintrag mit denselben Teilen. Das Eyebrow der Ebene 1 (field_nav_eyebrow) entfaellt in dieser Variante — es leitete die Tabliste ein."
     ]
   },
   "axes": {
@@ -206,6 +225,14 @@
         "start": { "modifier": null, "tokenGroups": ["drawer"], "renderHint": "drawer-start" },
         "unterseite": { "modifier": null, "tokenGroups": ["drawer"], "renderHint": "drawer-unterseite" }
       }
+    },
+    "variante": {
+      "label": "Variante",
+      "description": "Aufbau der Navigation, am Drupal-Block gewaehlt. Standard: Menuepunkte links, Mega-Panel mit vertikalen Tabs. Zentriert: Menuepunkte mittig, Mega-Panel mit Gruppen und Eyebrow, Eintraege mit optionalem Icon und Erklaersatz (Panel und mobil).",
+      "values": {
+        "standard": { "modifier": null, "tokenGroups": ["leiste"], "renderHint": "tabmega-standard", "description": "Vorgabe; die Website nutzt sie." },
+        "zentriert": { "modifier": null, "attribut": { "data-nav-variante": "zentriert" }, "tokenGroups": ["leiste", "zentriert"], "renderHint": "tabmega-zentriert", "description": "data-nav-variante=\"zentriert\" an Header und Drawer." }
+      }
     }
   },
   "states": {
@@ -250,7 +277,8 @@
       "Rahmen und Fokusring der Suche gehoeren an .searchbox (aeusserstes Element der Bedieneinheit), nicht an das Eingabefeld; das Feld hat ein visuell verstecktes Label (WCAG 3.3.2).",
       "Konturen von Bedienelementen aus text-secondary, nicht aus --nn-line (1,38:1) — WCAG 1.4.11 verlangt 3:1.",
       "Auto-Hide sperrt, solange der Fokus im Header liegt (WCAG 2.4.11).",
-      "prefers-reduced-motion: alle Uebergaenge in Header und Drawer entfallen, das Auto-Hide bleibt ohne Bewegung."
+      "prefers-reduced-motion: alle Uebergaenge in Header und Drawer entfallen, das Auto-Hide bleibt ohne Bewegung.",
+      "Variante zentriert: Icons sind dekorativ (aria-hidden, focusable=false), der Sinn steht im Wort. Der Erklaersatz liegt IM Link (ein Fokuspunkt, wird mitgelesen). Gruppen sind keine Landmarken: Eyebrow als p mit id, die Liste verweist per aria-labelledby darauf."
     ],
     "overrides": [
       {
@@ -480,6 +508,17 @@
           "nn-on-accent",
           "nn-header-h"
         ]
+      },
+      "zentriert": {
+        "label": "Variante zentriert",
+        "description": "Lokale Variablen der Variante (an den Wurzeln mit data-nav-variante=\"zentriert\", nicht im Konfigurator).",
+        "tokens": [
+          "nav-desc-size",
+          "nav-desc-leading",
+          "nav-ico-size",
+          "nn-gruppen-min",
+          "nn-eintrag-einzug"
+        ]
       }
     }
   },
@@ -524,7 +563,8 @@
           "teaser": ["mit"],
           "teaserFlaeche": ["standard"],
           "teaserKnopf": ["dark"],
-          "drawer": ["zu"]
+          "drawer": ["zu"],
+          "variante": ["standard"]
         },
         "states": [
           "default",
@@ -552,7 +592,8 @@
           "teaser": "*",
           "teaserFlaeche": ["standard"],
           "teaserKnopf": ["dark"],
-          "drawer": ["zu"]
+          "drawer": ["zu"],
+          "variante": ["standard"]
         },
         "states": [
           "default"
@@ -581,7 +622,8 @@
           "teaser": ["mit"],
           "teaserFlaeche": ["standard"],
           "teaserKnopf": ["dark"],
-          "drawer": ["zu"]
+          "drawer": ["zu"],
+          "variante": ["standard"]
         },
         "states": [
           "default"
@@ -607,7 +649,8 @@
           "teaser": ["mit"],
           "teaserFlaeche": "*",
           "teaserKnopf": ["dark"],
-          "drawer": ["zu"]
+          "drawer": ["zu"],
+          "variante": ["standard"]
         },
         "states": [
           "default"
@@ -633,7 +676,8 @@
           "teaser": ["mit"],
           "teaserFlaeche": ["g950"],
           "teaserKnopf": "*",
-          "drawer": ["zu"]
+          "drawer": ["zu"],
+          "variante": ["standard"]
         },
         "states": [
           "default"
@@ -659,7 +703,8 @@
           "teaser": ["mit"],
           "teaserFlaeche": ["standard"],
           "teaserKnopf": ["dark"],
-          "drawer": "*"
+          "drawer": "*",
+          "variante": ["standard"]
         },
         "states": [
           "default"

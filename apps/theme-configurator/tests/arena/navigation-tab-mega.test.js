@@ -347,12 +347,93 @@ describe('navigation-tab-mega: Markup je Specimen', () => {
   it('data/markup: Fassungen aus der Vorlage, ids wie auf der Website', () => {
     const html = readFileSync(resolve(WURZEL, 'data/markup/navigation-tab-mega.html'), 'utf8')
     const fassungen = [...html.matchAll(/<!--\s*@fassung:\s*(.+?)\s*-->/g)].map((m) => m[1])
-    expect(fassungen).toEqual(['Desktop — geschlossen', 'Desktop — Mega-Panel offen (Lösungen)', 'Desktop — Dropdown offen (Produkte)', 'Desktop — Suche offen', 'Mobil — Drawer offen'])
+    expect(fassungen).toEqual(['Desktop — geschlossen', 'Desktop — Mega-Panel offen (Lösungen)', 'Desktop — Dropdown offen (Produkte)', 'Desktop — Suche offen', 'Mobil — Drawer offen',
+      'Zentriert — geschlossen', 'Zentriert — Mega-Panel offen (Lösungen)', 'Zentriert — Dropdown offen (Produkte)', 'Zentriert — Mobil, Drawer offen (Lösungen)'])
     const d = dom(html.split(/<!--\s*@fassung:[^>]*-->/)[2])
     for (const id of ['siteHeader', 'navList', 'panelHost', 'searchBand', 'searchInput', 'burger', 'mDrawer', 'mViewport', 'trigger-nav-loesungen', 'panel-nav-loesungen', 'tab-nav-loesungen-tab-branchen', 'tabpanel-nav-loesungen-tab-branchen']) {
       expect(d.querySelector(`#${id}`), id).not.toBeNull()
     }
     expect(d.querySelector('[class*="ra-"]')).toBeNull()
+  })
+})
+
+// Variante „zentriert“ (I06, 04.11.2026): Fassungen 6–9 in data/markup,
+// erzeugt aus der Vorlage mit variante=zentriert.
+describe('navigation-tab-mega, Variante zentriert', () => {
+  const teile = () => readFileSync(resolve(WURZEL, 'data/markup/navigation-tab-mega.html'), 'utf8').split(/<!--\s*@fassung:[^>]*-->/)
+  const fassung = (n) => dom(teile()[n])
+
+  it('Standard-Fassungen tragen kein Variantenattribut und keine Eintraege', () => {
+    for (const n of [1, 2, 3, 4, 5]) {
+      const d = fassung(n)
+      expect(d.querySelector('[data-nav-variante]'), `Fassung ${n}`).toBeNull()
+      expect(d.querySelector('.nav-eintrag, .mega-gruppen, .m-link--eintrag'), `Fassung ${n}`).toBeNull()
+    }
+  })
+
+  it('Header UND Drawer tragen data-nav-variante="zentriert"', () => {
+    for (const n of [6, 7, 8, 9]) {
+      const d = fassung(n)
+      expect(d.querySelector('header.site-header[data-neo-nav]').dataset.navVariante, `Fassung ${n}`).toBe('zentriert')
+      expect(d.querySelector('.m-drawer').dataset.navVariante, `Fassung ${n}`).toBe('zentriert')
+    }
+  })
+
+  it('Leiste ohne Icons und Erklaersaetze (Entscheidung 04.11.2026)', () => {
+    const leiste = fassung(6).querySelector('.nav-list')
+    expect(leiste.querySelectorAll('.nav-btn, .nav-link').length).toBe(5)
+    expect(leiste.querySelector('.nav-eintrag__ico, .nav-eintrag__desc')).toBeNull()
+    expect([...leiste.querySelectorAll('svg')].filter((svg) => !svg.closest('.nav-btn__pm'))).toEqual([])
+  })
+
+  it('Mega-Panel: Gruppen mit Eyebrow statt Tabs, Liste per aria-labelledby benannt, keine Landmarke je Gruppe', () => {
+    const panel = fassung(7).querySelector('.panel:not([hidden])')
+    expect(panel.querySelector('[role="tablist"], [role="tab"], [role="tabpanel"], .mega-grid, .mega-cat__eyebrow')).toBeNull()
+    const gruppen = [...panel.querySelectorAll('.mega-gruppen__liste > .mega-gruppe')]
+    expect(gruppen.map((g) => g.querySelector('.mega-gruppe__eyebrow').textContent)).toEqual(['Branchen', 'Anwendungsfälle'])
+    for (const g of gruppen) {
+      const eyebrow = g.querySelector(':scope > p.mega-gruppe__eyebrow[id]')
+      expect(g.querySelector(':scope > ul.nav-eintraege').getAttribute('aria-labelledby')).toBe(eyebrow.id)
+      expect(g.tagName).toBe('DIV')
+    }
+    expect(panel.querySelector('.mega-gruppen > aside.teaser')).not.toBeNull()
+    expect(panel.querySelector('.mega-gruppen > .mega-gruppen__fuss > a.panel-overview[href="/loesungen"]')).not.toBeNull()
+  })
+
+  it('Eintraege: Icon dekorativ, Erklaersatz im Link, i18n an Label und Satz', () => {
+    const d = fassung(7)
+    const a = d.querySelector('.panel:not([hidden]) a.nav-eintrag[href="/oeffentliche-verwaltung"]')
+    expect(a.querySelector(':scope > .nav-eintrag__ico[aria-hidden="true"] > svg[focusable="false"][stroke-width="1.5"]')).not.toBeNull()
+    expect(a.querySelector(':scope > .nav-eintrag__text > .nav-eintrag__label').textContent).toBe('Öffentliche Verwaltung')
+    expect(a.querySelector('.nav-eintrag__desc').textContent).toContain('Bürgernah')
+    expect(a.hasAttribute('data-neo-i18n')).toBe(false)
+    expect(a.querySelector('.nav-eintrag__label').hasAttribute('data-neo-i18n')).toBe(true)
+    // ohne Zusatz: nur das Wort
+    const ohne = d.querySelector('a.nav-eintrag[href="/energie-versorgung"]')
+    expect(ohne.querySelector('.nav-eintrag__desc')).toBeNull()
+  })
+
+  it('Dropdown: zweispaltige Eintraege, Teaser bleibt', () => {
+    const panel = fassung(8).querySelector('.panel:not([hidden])')
+    expect(panel.querySelector('ul.nav-eintraege.nav-eintraege--spalten > li > a.nav-eintrag')).not.toBeNull()
+    expect(panel.querySelector('.dropdown-cols')).toBeNull()
+    expect(panel.querySelector('aside.teaser')).not.toBeNull()
+  })
+
+  it('Mobil: ein Bildschirm je Punkt, Gruppen als Abschnittstitel, Zeilen mit Icon und Satz', () => {
+    const sub = fassung(9).querySelector('.m-screen.is-active')
+    expect([...sub.querySelectorAll('.m-section-title')].map((t) => t.textContent)).toEqual(['Branchen', 'Anwendungsfälle'])
+    const zeile = sub.querySelector('a.m-link.m-link--eintrag[href="/interne-kommunikation"]')
+    expect(zeile.querySelector('.nav-eintrag__ico[aria-hidden="true"] svg')).not.toBeNull()
+    expect(zeile.querySelector('.nav-eintrag__desc')).not.toBeNull()
+    expect(sub.querySelector('a.m-link[href="/loesungen"] > .nav-arrow')).not.toBeNull()
+  })
+
+  it('jede Klasse der Variante steht in styles.css oder in der Recipe-Anatomie', () => {
+    const css = new Set([...dsKlassen(), ...anatomieKlassen()])
+    const klassen = new Set([6, 7, 8, 9].flatMap((n) => [...fassung(n).querySelectorAll('[class]')].flatMap((e) => [...e.classList])))
+    const fehlen = [...klassen].filter((k) => !css.has(k) && !k.startsWith('is-') && k !== 'visually-hidden')
+    expect(fehlen, fehlen.join(' ')).toEqual([])
   })
 })
 
