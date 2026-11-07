@@ -970,6 +970,36 @@
 :where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g50    { --nn-teaser-bg: var(--fnd-neutral-50);  --nn-teaser-border: var(--fnd-neutral-200); }
 :where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g200   { --nn-teaser-bg: var(--fnd-neutral-200); --nn-teaser-border: var(--fnd-neutral-300); }
 
+/* Die beiden hellen Stufen sind feste Grundfarben und bleiben auch im
+   Dunkelmodus hell (helle Insel, Entscheidung Frank 07.11.2026, I10). Deshalb
+   bringen sie ihre Schrift fest mit, wie g900/g950 umgekehrt — aus dem Thema
+   kaeme im Dunkelmodus helle Schrift auf heller Flaeche (gemessen 1,07:1).
+   Schlechtester Wert ueber alle Papiere: Schrift 950 auf 200 14,17:1,
+   Nebenschrift 700 auf 200 5,38:1. Bild und Animation stehen weiter unten
+   und gewinnen weiterhin. */
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g50,
+:where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g200 {
+  --nn-teaser-fg: var(--fnd-neutral-950);
+  --nn-teaser-fg-muted: var(--fnd-neutral-700);
+}
+
+/* Der dunkle Knopf kaeme sonst aus interactive-default und waere im
+   Dunkelmodus hell auf hell (1,07:1). Fest Graphit 900 mit Graphit 50:
+   11,36:1 gegen die Flaeche g200. Nicht auf Bild oder Animation — dort
+   entscheidet die Redaktion wie bisher. */
+:where(.site-header[data-neo-nav], .m-drawer) :is(.teaser--bg-g50, .teaser--bg-g200).teaser--cta-dark:not(.teaser--has-image, .teaser--has-anim) {
+  --nn-teaser-cta-bg: var(--fnd-neutral-900);
+  --nn-teaser-cta-fg: var(--fnd-neutral-50);
+}
+
+/* Fokusring auf der hellen Insel: Der Knopf traegt den allgemeinen Ring
+   (--fnd-focus-ring-color), der im Dunkelmodus weiss ist (gemessen 1,04:1).
+   Graphit 950 gegen g200: 14,17:1. */
+:where(.site-header[data-neo-nav], .m-drawer) :is(.teaser--bg-g50, .teaser--bg-g200):not(.teaser--has-image, .teaser--has-anim) {
+  --fnd-focus-ring-color: var(--fnd-neutral-950);
+  --nav-focus-ring: var(--fnd-neutral-950);
+}
+
 :where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g900,
 :where(.site-header[data-neo-nav], .m-drawer) .teaser--bg-g950 {
   --nn-teaser-fg: var(--fnd-neutral-50);
