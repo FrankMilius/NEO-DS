@@ -17,7 +17,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
@@ -31,8 +31,8 @@ function regeln(quelle, selektor) {
 }
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
-}, 60000); // Sass-Vollbuild braucht unter Last laenger als die 10s-Vorgabe
+  css = vollCss();
+});
 
 describe('Text-Media-Video: Seitenverhaeltnis und Rahmen', () => {
   it('kein padding-!important mehr an .nc-video', () => {

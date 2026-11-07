@@ -14,16 +14,16 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css
+  css = vollCss()
     // Custom Properties behalten im Kompressionsmodus das Leerzeichen nach dem Doppelpunkt
     .replace(/(--[\w-]+): +/g, '$1:');
-}, 60000);
+});
 
 const BEREICHE = '.neo-light-theme,.neo-dark-theme,.customer-light-theme,.customer-dark-theme{';
 

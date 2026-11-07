@@ -17,14 +17,14 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
-}, 60000); // Sass-Vollbuild braucht unter Last laenger als die 10s-Vorgabe
+  css = vollCss();
+});
 
 describe('Footer: Sitemap zwischen sm und md zweispaltig', () => {
   it('4-spaltige Sitemap ist von 768 bis 959px zweispaltig (minmax(0, 1fr))', () => {

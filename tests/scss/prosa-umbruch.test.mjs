@@ -9,14 +9,14 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { resolve } from 'path';
-import * as sass from 'sass';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 let css = '';
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
-}, 60000);
+  css = vollCss();
+});
 
 const SEL = '.nc-prose :is(h1,h2,h3,h4,h5,h6),.u-prose :is(h1,h2,h3,h4,h5,h6)';
 

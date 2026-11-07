@@ -7,7 +7,8 @@
 #                                Validator nicht schlechter als die Schwelle
 #   2. Konfig-Bundle gestaged  -> Abbruch (Build gehoert nicht ins Repo)
 #   3. Konfig-App geaendert   -> ESLint auf die gestagten Dateien,
-#                                Tests zu den geaenderten Dateien (vitest related)
+#                                Tests zu den geaenderten Dateien (vitest related;
+#                                erzeugte *.generated.js nur ihre direkten Tests)
 # Alles Langsame (Build, alle Linter) laeuft in der CI.
 #
 # Einmalig aktivieren:   npm run hooks:install
@@ -81,9 +82,24 @@ if [ -n "$APP_FILES$LINT_FILES" ]; then
       echo "▸ Konfig-App: ESLint auf die gestagten Dateien"
       (cd apps/theme-configurator && npx --no-install eslint --no-warn-ignored $LINT_FILES) || FEHLER=1
     fi
-    if [ -n "$APP_FILES" ]; then
+    # Generated data (src/data/*.generated.js) is imported by almost every
+    # module: `vitest related` on it ran the whole app suite (02.11.2026:
+    # minutes, swap, dozens of timeouts) — against the < 10 s promise above.
+    # For generated files only the tests that name them directly run; the
+    # token checks above and the CI cover the rest.
+    GENERIERT=$(echo "$APP_FILES" | grep -E '\.generated\.js$')
+    VERWANDT=$(echo "$APP_FILES" | grep -vE '\.generated\.js$')
+    DIREKT=""
+    for g in $GENERIERT; do
+      DIREKT="$DIREKT $(cd apps/theme-configurator && grep -rlF "$(basename "$g" .js)" tests)"
+    done
+    if [ -n "$VERWANDT" ]; then
       echo "▸ Konfig-App: Tests zu den geaenderten Dateien"
-      (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $APP_FILES) || FEHLER=1
+      (cd apps/theme-configurator && npx --no-install vitest related --run --passWithNoTests $VERWANDT) || FEHLER=1
+    fi
+    if [ -n "$(echo $DIREKT)" ]; then
+      echo "▸ Konfig-App: Tests, die die erzeugten Dateien direkt pruefen"
+      (cd apps/theme-configurator && npx --no-install vitest run --passWithNoTests $DIREKT) || FEHLER=1
     fi
   else
     echo "  (App-Abhaengigkeiten fehlen oder passen nicht zur Plattform — ESLint und App-Tests uebersprungen, die CI prueft)"

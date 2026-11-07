@@ -33,6 +33,11 @@ export default defineConfig({
     // Lauf 58–66 s (Vitest 4: 52 s) und lief im CI-Gesamtlauf unter Last in
     // Zeitüberschreitungen. „threads“: 41 s, alle Tests grün.
     pool: 'threads',
+    // I05 (02.11.2026): Vorgabe = Kerne − 1 = 7 Worker. Unter Last (63) trieb
+    // das die Last auf 145 — 7 Tests rot, 6 Zeitüberschreitungen (88 s).
+    // Mit 3 Workern bei gleicher Last 116 s, alle grün; bei Last 40 33 s
+    // (Vorgabe bei Last 5: 35 s). Ohne Isolation (--no-isolate) 9 Tests rot.
+    maxWorkers: 3,
     setupFiles: ['./tests/setup.js'],
     // e2e/ gehoert Playwright (npm run e2e) — *.spec.js dort nicht in Vitest
     exclude: [...configDefaults.exclude, 'e2e/**', 'playwright-report/**', 'test-results/**']

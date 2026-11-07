@@ -8,17 +8,17 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { resolve } from 'path';
-import * as sass from 'sass';
 import { shotVorschau, bloecke, teile, deklarationen, HUELLE } from '../scripts/baue-shot-vorschau.mjs';
+import { vollCss } from './_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 let css = '';
 let aus = '';
 
 beforeAll(() => {
-  css = sass.compile(resolve(ROOT, 'scss/scss/main.scss'), { style: 'compressed' }).css;
+  css = vollCss();
   aus = shotVorschau(css);
-}, 60000);
+});
 
 const selektoren = (text) => {
   const out = [];

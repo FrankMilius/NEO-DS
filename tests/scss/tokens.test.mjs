@@ -9,26 +9,21 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest';
-import { readFileSync, statSync } from 'fs';
+import { readFileSync } from 'fs';
 import { gzipSync } from 'zlib';
 import { resolve } from 'path';
-import { execSync } from 'child_process';
+import { vollCss } from '../_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '../..');
-const CSS_PATH = resolve(ROOT, 'styles.css');
 const TOKENS_SCSS = resolve(ROOT, 'scss/scss/00-settings/_component-tokens.scss');
 
 let css = '';
 let scssTokens = '';
 
 beforeAll(() => {
-  // Sicherstellen, dass CSS aktuell ist
-  try {
-    execSync('npm run build:css', { cwd: ROOT, stdio: 'pipe' });
-  } catch {
-    // Build-Fehler werden in einem separaten Test geprüft
-  }
-  css = readFileSync(CSS_PATH, 'utf-8');
+  // Compiled once per run from the current SCSS (tests/_setup/voll-css.mjs),
+  // instead of `npm run build:css` here (02.11.2026).
+  css = vollCss();
   scssTokens = readFileSync(TOKENS_SCSS, 'utf-8');
 });
 
@@ -203,7 +198,7 @@ describe('CSS Output Quality', () => {
 
   it('Übertragungsgröße (gzip) bleibt im Rahmen', () => {
     // DAS zahlen Besucher. Der Wert ist die eigentliche Leistungsgrenze.
-    const gz = gzipSync(readFileSync(CSS_PATH), { level: 9 }).length / 1024;
+    const gz = gzipSync(css, { level: 9 }).length / 1024;
     //
     // 08.10.2026: 150 → 155 KB (Entscheidung Frank, zusammen mit der
     // Rohgröße unten). Stand 147,4 KB nach Phase 5; die restlichen Arbeiten
@@ -226,7 +221,7 @@ describe('CSS Output Quality', () => {
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
-    const sizeKB = statSync(CSS_PATH).size / 1024;
+    const sizeKB = Buffer.byteLength(css) / 1024;
 
     // Die Rohgröße kostet keine Übertragung, aber Auswertungszeit im Browser
     // und Lesbarkeit. Gemessen: 102 ms Stil-Neuberechnung auf dem Schreibtisch,
@@ -282,9 +277,9 @@ describe('CSS Output Quality', () => {
   });
 
   it('CSS Build hat keine Fehler', () => {
-    const result = execSync('npm run build:css 2>&1', { cwd: ROOT, encoding: 'utf-8' });
-    expect(result).not.toContain('Error');
-    // Zeitgrenze: Der Sass-Build braucht allein 4–7 s (unter Last mehr);
-    // vitest-Standard 5 s liess den Test sporadisch scheitern (05.10.2026).
-  }, 60_000);
+    // A Sass error already fails the shared compile in globalSetup (with the
+    // Sass message); here: the result is complete CSS, not an empty file.
+    expect(css.length).toBeGreaterThan(100_000);
+    expect(css).toContain('--fnd-spacing-01');
+  });
 });
