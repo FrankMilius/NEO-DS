@@ -33,6 +33,13 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 
 - **`.customer-dark-theme` ohne Papier-Block**: Direkt an `<html>` übersteuern die späteren `:root`-Regeln des Papiersystems das Thema, Text und Fläche sind dann gleich (1:1). In einem Wrapper-Element stimmt es. Der Fokusring `text-accent` liegt dort auch im Standard nur bei 3,05:1.
 
+## Hauptnavigation (Nebenbefunde I06, 07.11.2026)
+
+- **Teaser-Flächen `g50` und `g200` ohne eigene Schriftfarbe** (Plan I06, nicht gemessen): Sie setzen nur die Fläche; im Dunkelmodus ist der Text darauf vermutlich zu kontrastarm. Gilt für beide Varianten der Hauptnavigation. Weg: je Fläche Text- und Linienfarbe wie bei `nc-nav-flaeche`, dann Kontrastpaare ergänzen.
+- **Cache der Navigation kennt keine Medien** (Widersacher I06 Phase 6, aus dem Code, nicht live belegt): `NeoMainNavBlock` trägt nur `config:system.menu.main` und `menu_link_content_list`. Wird die Datei eines Teaser-Mediums ersetzt oder gelöscht, bleibt die Navigation veraltet. Gilt schon für das Bild aus dem Teaser-Block. Weg: `media:<id>` und `file:<id>` in `neo_nav_get_items()` sammeln und an den Block hängen.
+- **Medien ohne Zugriffsprüfung** (ebenso): `_neo_nav_teaser_medium()` und `_neo_nav_teaser_block()` lesen `->entity` ohne `access('view')`; ein unveröffentlichtes Medium würde mit seiner Adresse im Kopf jeder Seite ausgeliefert.
+- **Tabler-Karte mit Ausreißern** (Widersacher I06 Phase 5): `brand-kbin` behält einen zweiten `stroke-width`, 52 Icons zeichnen mit `fill="currentColor"` (so in der Quelle). Fällt erst auf, wenn die Redaktion eines davon wählt; die Icon-Auswahl kommt mit I07.
+
 ## Doku und Storybook (Nebenbefunde I04, 02.11.2026)
 
 - **21 Stories mit veralteter Recipe-Version**: `npm run generate:stories` (Stand main 671ccc87) ändert in 21 Story-Dateien nur Kopfzeile und Beschreibung, z. B. Avatar v2.0.0 → v2.0.1 (atoms avatar, label, tag; molecules accordion, card, logo-wall, tabs; organisms alert, card-grid, card-grid-cta, compare-table, data-table, fade-gallery, footer, notification, search, section, shell, story-gallery, text-media, treeview). Die Recipes wurden gehoben, die Stories nicht neu erzeugt. Weg: einmal `npm run generate:stories` auf main, eigener Commit; Prüfung in `npm test` oder der CI ergänzen, damit es nicht wieder auseinanderläuft.
