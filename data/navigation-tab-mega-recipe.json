@@ -213,8 +213,8 @@
       "description": "Gepruefte Flaechen der Teaser-Karte (Modifier am Kind aside.teaser). Jede Stufe bringt ihre Schriftfarben mit.",
       "values": {
         "standard": { "modifier": null, "tokenGroups": ["teaser"], "renderHint": "teaser-standard", "description": "background-secondary" },
-        "g50": { "modifier": "teaser--bg-g50", "tokenGroups": ["teaser"], "renderHint": "teaser-g50" },
-        "g200": { "modifier": "teaser--bg-g200", "tokenGroups": ["teaser"], "renderHint": "teaser-g200" },
+        "g50": { "modifier": "teaser--bg-g50", "tokenGroups": ["teaser"], "renderHint": "teaser-g50", "description": "Bleibt in jedem Modus hell: Schrift Graphit 950 (mind. 17,08:1), Nebenschrift Graphit 700 (6,45:1), dunkler Knopf Graphit 900, Fokusring Graphit 950." },
+        "g200": { "modifier": "teaser--bg-g200", "tokenGroups": ["teaser"], "renderHint": "teaser-g200", "description": "Bleibt in jedem Modus hell: Schrift Graphit 950 (mind. 14,17:1), Nebenschrift Graphit 700 (5,38:1), dunkler Knopf Graphit 900 (11,36:1), Fokusring Graphit 950." },
         "g900": { "modifier": "teaser--bg-g900", "tokenGroups": ["teaser"], "renderHint": "teaser-g900" },
         "g950": { "modifier": "teaser--bg-g950", "tokenGroups": ["teaser"], "renderHint": "teaser-g950" },
         "accent": { "modifier": "teaser--bg-accent", "tokenGroups": ["teaser"], "renderHint": "teaser-accent", "description": "Lime traegt schwarze Schrift (12,89:1), nie weisse (1,63:1)." }
@@ -330,6 +330,20 @@
           "contrast-check"
         ],
         "note": "Dunkle Flaechen: Schrift kehrt sich um; Knopf-Fassung light vorsehen (hell auf dunkel 16,01:1)."
+      },
+      {
+        "when": {
+          "axes": {
+            "teaserFlaeche": [
+              "g50",
+              "g200"
+            ]
+          }
+        },
+        "suggest": [
+          "contrast-check"
+        ],
+        "note": "Helle Flaechen bleiben auch im Dunkelmodus hell und tragen feste dunkle Schrift (mind. 14,17:1, Nebenschrift 5,38:1); Knopf-Fassung dark vorsehen (Graphit 900, 11,36:1 gegen g200). Geprueft in apps/theme-configurator/e2e/teaser-flaechen.spec.js."
       }
     ]
   },
@@ -710,7 +724,7 @@
       },
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
-        "note": "Dunkle Flaechen kehren die Schrift um; Lime traegt Schwarz."
+        "note": "Dunkle Flaechen kehren die Schrift um; helle (g50, g200) tragen in jedem Modus feste dunkle Schrift; Lime traegt Schwarz."
       }
     },
     {
