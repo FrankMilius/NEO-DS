@@ -5244,3 +5244,30 @@
   --nc-video-facade-bg:         var(--fnd-color-background-tertiary);
   --nc-video-facade-play-size:  3.5rem;
 }
+
+// ---------------------------------------------------------------------------
+// Content Feed Tokens
+// ---------------------------------------------------------------------------
+// Content Feed (Aktuelles) .nc-content-feed (I11, 19.11.2026): grosse erste Karte,
+// danach Raster aus .nc-card-grid--cols-*, auf schmalen Containern eine
+// Wischleiste. Dazu das Datums-Abzeichen .nc-card__date-badge der Event-Karte.
+// Flaeche und Text des Abzeichens folgen der Semantik — im Dunkeln dunkel,
+// ohne eigenen Dunkelblock.
+
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  // -- Feed --
+  --nc-content-feed-gap:          var(--fnd-spacing-06);
+  --nc-content-feed-filter-gap:   var(--fnd-spacing-02);
+  --nc-content-feed-track-item:   80%;
+  --nc-content-feed-track-gap:    var(--fnd-spacing-04);
+
+  // -- Datums-Abzeichen der Karte (Konfig-App: Card › Datums-Abzeichen) --
+  --nc-card-date-badge-bg:        var(--fnd-color-background-base);
+  --nc-card-date-badge-color:     var(--fnd-color-text-primary);
+  --nc-card-date-badge-radius:    var(--fnd-radius-sm);
+  --nc-card-date-badge-padding:   var(--fnd-spacing-02) var(--fnd-spacing-03);
+  --nc-card-date-badge-offset:    var(--fnd-spacing-04);
+  --nc-card-date-badge-shadow:    var(--fnd-elevation-raised);
+  --nc-card-date-badge-day-size:  var(--fs-xl);
+}

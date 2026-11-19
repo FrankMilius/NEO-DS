@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card",
-    "version": "3.2.2",
+    "version": "3.3.0",
     "status": "stable",
     "tags": [
       "container",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-docs"
     },
     "changelog": [
+      {
+        "version": "3.3.0",
+        "changes": [
+          "I11 Phase 1 (19.11.2026, Freigabe ausstehend): neues Element .nc-card__date-badge (<time datetime> mit .nc-card__date-badge-day und Monat) fuer Event-Karten im Aktuelles-Feed — mit Bild oben links auf dem Bild, ohne Bild im Inhalt. Tokens --nc-card-date-badge-* (Flaeche background-base, Text text-primary, Radius, Innenabstand, Randabstand, Schatten elevation-raised, Groesse des Tages fs-xl), Konfig-App Card › Datums-Abzeichen. Noch kein Traeger auf der Website."
+        ]
+      },
       {
         "version": "3.2.2",
         "changes": [
@@ -80,6 +86,12 @@
         "element": ".nc-card__footer",
         "optional": true,
         "description": "Aktionen, Meta. margin-top: auto, immer am unteren Rand."
+      },
+      {
+        "name": "date-badge",
+        "element": ".nc-card__date-badge",
+        "optional": true,
+        "description": "Tag und Monat eines Events als <time datetime>; in .nc-card__media oben links auf dem Bild, sonst als erstes Kind von .nc-card__content."
       }
     ],
     "convenience": [
@@ -847,6 +859,18 @@
           "nc-card-title-font-weight",
           "nc-card-title-line-height",
           "nc-card-shadow"
+        ]
+      },
+      "date-badge": {
+        "label": "Datums-Abzeichen",
+        "tokens": [
+          "nc-card-date-badge-bg",
+          "nc-card-date-badge-color",
+          "nc-card-date-badge-radius",
+          "nc-card-date-badge-padding",
+          "nc-card-date-badge-offset",
+          "nc-card-date-badge-shadow",
+          "nc-card-date-badge-day-size"
         ]
       }
     }

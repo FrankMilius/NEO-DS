@@ -1,6 +1,6 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-11-06",
+  "generated": "2026-11-19",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
@@ -176,7 +176,7 @@
       "name": "layout",
       "category": "foundation",
       "tokenSource": "data/design-tokens.json → foundation.layout",
-      "tokenCount": 49,
+      "tokenCount": 50,
       "paths": {
         "scss": [
           "scss/scss/00-settings/_layout.scss",
@@ -1476,6 +1476,37 @@
         "docs": true
       },
       "coverageScore": 4
+    },
+    "content-feed": {
+      "name": "content-feed",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/content-feed-recipe.json",
+        "scss": [
+          "scss/scss/07-organisms/_content-feed.scss"
+        ],
+        "story": "stories/organisms/content-feed.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [
+          "block--block-content--neo-content-feed.html.twig",
+          "block--inline-block--neo-content-feed.html.twig"
+        ],
+        "docs": "docs/content-feed-docs.html"
+      },
+      "dependencies": [
+        "card",
+        "chip",
+        "content"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": true,
+        "drupal": true,
+        "docs": true
+      },
+      "coverageScore": 6
     },
     "cta": {
       "name": "cta",
@@ -4516,13 +4547,13 @@
   },
   "stats": {
     "components": {
-      "total": 141,
-      "withRecipe": 134,
-      "withScss": 133,
-      "withStory": 134,
-      "withArena": 135,
-      "withDrupal": 37,
-      "withDocs": 92
+      "total": 142,
+      "withRecipe": 135,
+      "withScss": 134,
+      "withStory": 135,
+      "withArena": 136,
+      "withDrupal": 38,
+      "withDocs": 93
     },
     "foundations": {
       "total": 19,
@@ -4555,7 +4586,7 @@
     },
     "layoutPresets": 15,
     "coverageDistribution": {
-      "6/6": 7,
+      "6/6": 8,
       "5/6": 110,
       "4/6": 13,
       "3/6": 5,

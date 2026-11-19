@@ -1,0 +1,105 @@
+// ==========================================================================
+// 07-Organisms: Content Feed (Aktuelles)
+// ==========================================================================
+// Selbstfuellende Sektion mit News, Artikeln und Events (I11, 19.11.2026).
+// Aufbau:
+//   __head      Ueberschrift und „Alle anzeigen“ (.nc-link-with-arrow)
+//   __filters   Filterreiter als Links (.nc-chip, aktiv: .nc-chip--selected
+//               plus aria-current) — ohne JavaScript nutzbar
+//   __list      <ul> zusammen mit .nc-card-grid und .nc-card-grid--cols-2|3|4;
+//               das Raster und sein Umbruch kommen von dort, nicht von hier
+//   __item--lead  erste Karte (.nc-card--preview.nc-card--featured) ueber
+//               die ganze Breite
+//   __footer    „Mehr laden“ (.nc-button), ohne JavaScript ein Link
+//
+// Schmaler Container (content-feed-track): Wischleiste. Keine eigene
+// Tastaturbedienung noetig — die Karten sind Links, Tab scrollt sie ins Bild
+// (WCAG 2.1.1, axe scrollable-region-focusable).
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-content-feed {
+  @include container-context(content-feed);
+  display: grid;
+  gap: var(--nc-content-feed-gap);
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--fnd-spacing-04);
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nc-content-feed-filter-gap);
+
+    .nc-chip {
+      text-decoration: none;
+    }
+  }
+
+  &__item {
+    display: flex;
+
+    > .nc-card {
+      flex: 1;
+    }
+  }
+
+  &__item--lead {
+    grid-column: 1 / -1;
+  }
+
+  // Grosse erste Karte waagerecht: .nc-card--featured fragt dafuer den
+  // Container „card“ ab, den die Karte selbst bildet — eine Container-Abfrage
+  // erreicht ihren eigenen Container nicht, die Zeilenrichtung greift dort
+  // nie (BACKLOG). Hier fragt die Regel den Feed ab. Raster statt Zeile,
+  // damit Inhalt und Fuss rechts untereinander stehen.
+  @include container-min(content-feed, 'card-wide') {
+    &__item--lead > .nc-card--featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+
+      > .nc-card__media {
+        grid-row: 1 / -1;
+        width: auto;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  // Wischleiste: waagerecht scrollbar, Karten rasten am Anfang ein. Der
+  // Innenabstand haelt Fokusring und Schatten im sichtbaren Bereich.
+  @include container-max(content-feed, 'content-feed-track') {
+    &__list {
+      display: flex;
+      gap: var(--nc-content-feed-track-gap);
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: x mandatory;
+      padding: var(--fnd-spacing-02);
+      margin: calc(-1 * var(--fnd-spacing-02));
+    }
+
+    &__item {
+      flex: 0 0 var(--nc-content-feed-track-item);
+      scroll-snap-align: start;
+    }
+
+    // In der Wischleiste ist auch die erste Karte schmal: zwischen den
+    // Schwellen card-wide (560px) und content-feed-track (600px) galt sonst
+    // das waagerechte Raster oben in einem 80-%-Streifen.
+    &__item--lead > .nc-card--featured {
+      display: flex;
+    }
+  }
+}

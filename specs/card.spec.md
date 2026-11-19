@@ -1,5 +1,5 @@
 # card Component Spec
-> Version 3.2.2 | Status: stable | Layer: molecule
+> Version 3.3.0 | Status: stable | Layer: molecule
 
 Tags: `container`, `surface`, `interactive`, `layout`
 
@@ -11,6 +11,7 @@ Root element: `.nc-card`
 | media | `.nc-card__media` | No | Bild, Video oder Platzhalter. Standard aspect-ratio 3:2. |
 | content | `.nc-card__content` | Yes | Freier Inhaltsbereich, flex-grow: 1, Padding via Token. |
 | footer | `.nc-card__footer` | No | Aktionen, Meta. margin-top: auto, immer am unteren Rand. |
+| date-badge | `.nc-card__date-badge` | No | Tag und Monat eines Events als <time datetime>; in .nc-card__media oben links auf dem Bild, sonst als erstes Kind von .nc-card__content. |
 
 ### DOM Notes
 - Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entire), <label> (selectable), <details> (expandable).
@@ -175,6 +176,17 @@ Base classes: `nc-card`
 | `--nc-card-title-font-weight` | — | `--mod-card-title-font-weight` |
 | `--nc-card-title-line-height` | — | `--mod-card-title-line-height` |
 | `--nc-card-shadow` | — | `--mod-card-shadow` |
+
+### Datums-Abzeichen
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-card-date-badge-bg` | — | — |
+| `--nc-card-date-badge-color` | — | — |
+| `--nc-card-date-badge-radius` | — | — |
+| `--nc-card-date-badge-padding` | — | — |
+| `--nc-card-date-badge-offset` | — | — |
+| `--nc-card-date-badge-shadow` | — | — |
+| `--nc-card-date-badge-day-size` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

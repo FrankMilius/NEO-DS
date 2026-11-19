@@ -214,6 +214,35 @@
     color: var(--fnd-color-text-tertiary);
   }
 
+  // Datums-Abzeichen — Tag und Monat eines Events (I11, 19.11.2026).
+  // Als <time> mit datetime. Mit Bild liegt es oben links auf dem Bild
+  // (absolut zur Karte, die Medien-Zone beginnt dort), ohne Bild steht es
+  // im Inhalt ueber der Dachzeile.
+  &__date-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: start;
+    padding: var(--nc-card-date-badge-padding);
+    background: var(--nc-card-date-badge-bg);
+    color: var(--nc-card-date-badge-color);
+    border-radius: var(--nc-card-date-badge-radius);
+    box-shadow: var(--nc-card-date-badge-shadow);
+    font-size: var(--fs-xs);
+    line-height: 1.1;
+  }
+
+  &__date-badge-day {
+    font-size: var(--nc-card-date-badge-day-size);
+    font-weight: var(--fnd-font-weight-bold);
+  }
+
+  &__media > &__date-badge {
+    position: absolute;
+    inset-block-start: var(--nc-card-date-badge-offset);
+    inset-inline-start: var(--nc-card-date-badge-offset);
+  }
+
   // ---------------------------------------------------------------------------
   // Interaktionsmodell 1: Whole-Card Click (navigational)
   // ---------------------------------------------------------------------------

@@ -125,12 +125,44 @@ ${medium()}
   )
 }
 
+// Datums-Abzeichen (I11, 19.11.2026): Event-Karte des Content Feeds — mit
+// Bild liegt das Abzeichen auf dem Bild, ohne Bild im Inhalt. Nur Buehne
+// (zusatzSpecimens), das Recipe bleibt unberuehrt.
+export const zusatzSpecimens = [
+  {
+    id: 'datums-abzeichen',
+    label: 'Datums-Abzeichen',
+    description: 'Event-Karten des Content Feeds: Abzeichen auf dem Bild und im Inhalt',
+    matrix: {
+      axes: { behavior: ['navigational'], pattern: ['preview'], statusLevel: ['none'] },
+      states: ['default']
+    },
+    layout: 'row',
+    render: { label: 'Datums-Abzeichen', compositionType: 'datums-abzeichen' }
+  }
+]
+
+const ABZEICHEN = '<time class="nc-card__date-badge" datetime="2026-12-03"><span class="nc-card__date-badge-day">03</span><span>Dez</span></time>'
+
+function datumsAbzeichen (m) {
+  const karte = (mitBild) => `<a href="#" onclick="return false" class="${klasse(m)}"${zustand(m)}>
+${mitBild ? `<div class="nc-card__media"><img src="${BILD_SRC}" alt="">${ABZEICHEN}</div>\n` : ''}<div class="nc-card__content">
+${mitBild ? '' : ABZEICHEN}<span class="nc-card__kicker">Event · 03.12.2026</span>
+<h3 class="nc-card__title">Intranet-Tag 2026</h3>
+<p class="nc-card__meta">${mitBild ? 'Berlin · Vor Ort' : 'Online'}</p>
+</div>
+${fussLink}
+</a>`
+  return reihe(feld(karte(true)), feld(karte(false)))
+}
+
 export default (zelle, m) => {
   const typ = m.specimen.render?.compositionType
   const verhalten = m.wert('behavior')
   const pattern = m.wert('pattern')
 
   if (typ === 'anwendungen') return anwendungen(m)
+  if (typ === 'datums-abzeichen') return datumsAbzeichen(m)
   if (m.hat('skeleton')) {
     return feld(`<article class="${klasse(m, 'nc-card--skeleton')}"${zustand(m)}>
 ${pattern === 'preview' ? '<div class="nc-card__media"></div>\n' : ''}<div class="nc-card__content">

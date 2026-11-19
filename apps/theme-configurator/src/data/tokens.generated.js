@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-06
+// Generated: 2026-11-19
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -5436,6 +5436,19 @@ export const componentTokenGroups = [
           "nc-card-hover-lift",
           "nc-card-summary-icon-spacing"
         ]
+      },
+      {
+        "id": "date-badge",
+        "label": "Datums-Abzeichen",
+        "tokenIds": [
+          "nc-card-date-badge-bg",
+          "nc-card-date-badge-color",
+          "nc-card-date-badge-radius",
+          "nc-card-date-badge-padding",
+          "nc-card-date-badge-offset",
+          "nc-card-date-badge-shadow",
+          "nc-card-date-badge-day-size"
+        ]
       }
     ],
     "tokens": [
@@ -5806,6 +5819,55 @@ export const componentTokenGroups = [
         "label": "Summary Icon Spacing",
         "type": "spacing",
         "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-card-date-badge-bg",
+        "label": "Datums-Abzeichen — Fläche",
+        "type": "color",
+        "ref": "background-base",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-color",
+        "label": "Datums-Abzeichen — Text",
+        "type": "color",
+        "ref": "text-primary",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-radius",
+        "label": "Datums-Abzeichen — Radius",
+        "type": "radius",
+        "default": "var(--fnd-radius-sm)",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-padding",
+        "label": "Datums-Abzeichen — Innenabstand",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02) var(--fnd-spacing-03)",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-offset",
+        "label": "Datums-Abzeichen — Abstand zum Rand",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-shadow",
+        "label": "Datums-Abzeichen — Schatten",
+        "type": "shadow",
+        "default": "var(--fnd-elevation-raised)",
+        "group": "date-badge"
+      },
+      {
+        "id": "nc-card-date-badge-day-size",
+        "label": "Datums-Abzeichen — Größe Tag",
+        "type": "size",
+        "default": "var(--fs-xl)",
+        "group": "date-badge"
       }
     ]
   },
@@ -5862,6 +5924,55 @@ export const componentTokenGroups = [
         "label": "Anim Translate Y",
         "type": "size",
         "default": "2rem"
+      }
+    ]
+  },
+  {
+    "id": "content-feed",
+    "label": "Content Feed",
+    "icon": "news",
+    "subgroups": [
+      {
+        "id": "abstaende",
+        "label": "Abstände",
+        "tokenIds": [
+          "nc-content-feed-gap",
+          "nc-content-feed-filter-gap"
+        ]
+      },
+      {
+        "id": "wischleiste",
+        "label": "Wischleiste (Handy)",
+        "tokenIds": [
+          "nc-content-feed-track-item",
+          "nc-content-feed-track-gap"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "id": "nc-content-feed-gap",
+        "label": "Abstand zwischen Kopf, Filter, Karten und Fuß",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-06)"
+      },
+      {
+        "id": "nc-content-feed-filter-gap",
+        "label": "Abstand der Filterreiter",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-content-feed-track-item",
+        "label": "Kartenbreite in der Wischleiste",
+        "type": "size",
+        "default": "80%"
+      },
+      {
+        "id": "nc-content-feed-track-gap",
+        "label": "Abstand in der Wischleiste",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
       }
     ]
   },

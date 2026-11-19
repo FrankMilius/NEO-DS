@@ -112,6 +112,7 @@ export type ComponentGroupId =
   | "button"
   | "card"
   | "card-grid"
+  | "content-feed"
   | "card-grid-cta"
   | "chapternav"
   | "checkbox"

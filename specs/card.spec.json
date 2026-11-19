@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -30,6 +30,12 @@
         "selector": ".nc-card__footer",
         "required": false,
         "description": "Aktionen, Meta. margin-top: auto, immer am unteren Rand."
+      },
+      {
+        "name": "date-badge",
+        "selector": ".nc-card__date-badge",
+        "required": false,
+        "description": "Tag und Monat eines Events als <time datetime>; in .nc-card__media oben links auf dem Bild, sonst als erstes Kind von .nc-card__content."
       }
     ],
     "notes": [
@@ -437,6 +443,29 @@
         },
         {
           "token": "--nc-card-shadow"
+        }
+      ],
+      "Datums-Abzeichen": [
+        {
+          "token": "--nc-card-date-badge-bg"
+        },
+        {
+          "token": "--nc-card-date-badge-color"
+        },
+        {
+          "token": "--nc-card-date-badge-radius"
+        },
+        {
+          "token": "--nc-card-date-badge-padding"
+        },
+        {
+          "token": "--nc-card-date-badge-offset"
+        },
+        {
+          "token": "--nc-card-date-badge-shadow"
+        },
+        {
+          "token": "--nc-card-date-badge-day-size"
         }
       ]
     },

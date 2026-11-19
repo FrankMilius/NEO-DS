@@ -1,6 +1,6 @@
 // ============================================================
 // Card — Auto-generated from card-recipe.json
-// Version: 3.2.1 | Status: stable
+// Version: 3.3.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Card** v3.2.1 (stable)
+        component: `**Card** v3.3.0 (stable)
 
 Root-Element haengt vom Behavior ab: <article> (static), <a> (navigational-entire), <label> (selectable), <details> (expandable).
 

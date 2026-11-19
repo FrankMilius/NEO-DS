@@ -1195,6 +1195,21 @@ App 1.2.39 (I06 Phase 3: Flächenliste der Hauptnavigation, 06.11.2026):
   (`nc-nav-uebersicht-knopf`, dasselbe Steuerelement wie die Fläche, Typen folgen
   der Fläche); Specimen „Zentriert — Teaser“ zeigt Medium und bündige Höhe.
 
+Content Feed (I11 Phase 1, 19.11.2026, ohne App-Version — Daten und Arena-Vorlagen, wie I06 Phase 4):
+
+- Neue Gruppe „Content Feed“ (`content-feed`, Aktuelles auf der Website) mit den Untergruppen
+  „Abstände“ (`nc-content-feed-gap`, `-filter-gap`) und „Wischleiste (Handy)“
+  (`nc-content-feed-track-item`, `-track-gap`). Arena aus
+  `data/content-feed-recipe.json` (Specimens Startseite, Übersicht, Wischleiste).
+- Card bekommt die Untergruppe „Datums-Abzeichen“ (`nc-card-date-badge-*`:
+  Fläche, Text, Radius, Innenabstand, Abstand zum Rand, Schatten, Größe Tag).
+- Arena: Vorlage `src/arena-templates/content-feed.js` (Spalten an der Liste,
+  nicht an der Wurzel) und Zusatz-Muster „Datums-Abzeichen“ in der Card-Arena
+  (`card.js`, nur Bühne), damit die Wirkungsprüfung die neuen Card-Werte sieht.
+- Die Umschaltung zur Wischleiste folgt der Breite des Feeds (Container-Schwelle
+  `content-feed-track`, 600 px) und ist nicht einstellbar.
+- Auf der Website noch ohne Träger; der Drupal-Block `neo_content_feed` folgt.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

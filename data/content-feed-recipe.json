@@ -1,0 +1,360 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "content-feed",
+    "version": "1.0.0",
+    "status": "stable",
+    "label": "Content Feed",
+    "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“.",
+    "whenToUse": "Startseite und Uebersichtsseiten, wenn sich Karten aus veroeffentlichten Beitraegen selbst fuellen sollen (Drupal-Blocktyp neo_content_feed). Fuer handgepflegte Karten bleibt das Card-Grid (card-grid).",
+    "tags": [
+      "organisms",
+      "content",
+      "cards",
+      "feed",
+      "website"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/content-feed-docs"
+    },
+    "layer": "organism",
+    "pipeline": {
+      "scss": [
+        "scss/scss/07-organisms/_content-feed.scss",
+        "scss/scss/06-molecules/_card.scss"
+      ],
+      "story": "stories/organisms/content-feed.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [
+        "block--block-content--neo-content-feed.html.twig",
+        "block--inline-block--neo-content-feed.html.twig"
+      ],
+      "docs": "docs/content/content-feed.html"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "I11 Phase 1 (19.11.2026, Freigabe ausstehend): neu. Organismus .nc-content-feed (07-organisms/_content-feed.scss) mit Kopf, Filterreitern, Liste, erster Karte ueber die ganze Breite und Fuss; Raster aus .nc-card-grid--cols-2|3|4, unter 600px Containerbreite Wischleiste (scroll-snap). Neues Karten-Element .nc-card__date-badge (Tag und Monat eines Events, auf dem Bild oben links). Tokens --nc-content-feed-* und --nc-card-date-badge-*, Konfig-App-Gruppe „Content Feed“ und Untergruppe „Datums-Abzeichen“ der Card. Noch kein Traeger auf der Website (folgt mit dem Drupal-Block)."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-content-feed"
+    },
+    "slots": [
+      {
+        "name": "head",
+        "element": ".nc-content-feed__head",
+        "optional": true,
+        "description": "Ueberschrift der Sektion und „Alle anzeigen“ (.nc-link-with-arrow). Entfaellt der Link, bleibt nur die Ueberschrift."
+      },
+      {
+        "name": "filters",
+        "element": ".nc-content-feed__filters",
+        "optional": true,
+        "description": "<nav aria-label=\"<Ueberschrift> filtern\"> mit Filterreitern als Links (.nc-chip); der aktive traegt .nc-chip--selected und aria-current=\"page\". Der Name enthaelt die Ueberschrift, damit zwei Feeds auf einer Seite unterscheidbar bleiben (axe landmark-unique). Fehlt, wenn die Uebersichtsseite ausgeschaltet ist."
+      },
+      {
+        "name": "list",
+        "element": ".nc-content-feed__list",
+        "optional": false,
+        "description": "<ul> zusammen mit .nc-card-grid und .nc-card-grid--cols-2|3|4. Je <li> eine .nc-card."
+      },
+      {
+        "name": "lead",
+        "element": ".nc-content-feed__item--lead",
+        "optional": true,
+        "description": "Erstes <li>: grosse Karte .nc-card--preview.nc-card--featured ueber die ganze Breite."
+      },
+      {
+        "name": "date-badge",
+        "element": ".nc-card__date-badge",
+        "optional": true,
+        "description": "<time datetime> mit .nc-card__date-badge-day und Monat; im Bild oben links, ohne Bild im Inhalt."
+      },
+      {
+        "name": "footer",
+        "element": ".nc-content-feed__footer",
+        "optional": true,
+        "description": "„Mehr laden“ als <a class=\"nc-button\"> auf die naechste Seite; mit Skript haengt das Behavior feed-more die Karten an."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Die ganze Karte ist ein Link (<a class=\"nc-card nc-card--navigational\">), Bild alt=\"\" und loading=\"lazy\". Externe News: target=\"_blank\" rel=\"noopener noreferrer\" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild."
+    ]
+  },
+  "axes": {
+    "columns": {
+      "label": "Spalten",
+      "description": "Hoechstzahl der kleinen Karten je Zeile (ohne Angabe fuellt .nc-card-grid nach Mindestbreite auf); schmalere Container brechen ueber .nc-card-grid--cols-* um.",
+      "values": {
+        "auto": {
+          "modifier": null,
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-cols-auto"
+        },
+        "2": {
+          "modifier": "nc-card-grid--cols-2",
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-cols-2"
+        },
+        "3": {
+          "modifier": "nc-card-grid--cols-3",
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-cols-3"
+        },
+        "4": {
+          "modifier": "nc-card-grid--cols-4",
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-cols-4"
+        }
+      }
+    },
+    "lead": {
+      "label": "Erste Karte",
+      "description": "Erste Karte gross ueber die ganze Breite oder wie die anderen.",
+      "values": {
+        "featured": {
+          "modifier": null,
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-lead"
+        },
+        "none": {
+          "modifier": null,
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-no-lead"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Filterreiter in <nav aria-label=\"<Ueberschrift> filtern\">, aktiver Reiter mit aria-current=\"page\"",
+        "Wischleiste nur mit fokussierbaren Karten (scrollable-region-focusable)",
+        "Datums-Abzeichen als <time datetime>"
+      ],
+      "note": "Ohne JavaScript vollstaendig: Filter und „Mehr laden“ sind Links."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {
+      "more": {
+        "maxChars": 20,
+        "note": "Link im Kopf: „Alle anzeigen“ (englisch „View all“)."
+      },
+      "loadMore": {
+        "maxChars": 20,
+        "note": "Knopf im Fuss: „Mehr laden“ (englisch „Load more“)."
+      },
+      "filterAll": {
+        "maxChars": 12,
+        "note": "Erster Filterreiter: „Alle“ (englisch „All“)."
+      }
+    }
+  },
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Keine eigene Bedienung: Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild."
+    }
+  },
+  "events": {},
+  "styling": {
+    "baseClasses": [
+      "nc-content-feed"
+    ],
+    "baseTokenGroups": [
+      "abstaende"
+    ],
+    "tokenGroups": {
+      "abstaende": {
+        "label": "Abstände",
+        "tokens": [
+          "nc-content-feed-gap",
+          "nc-content-feed-filter-gap"
+        ]
+      },
+      "wischleiste": {
+        "label": "Wischleiste (Handy)",
+        "tokens": [
+          "nc-content-feed-track-item",
+          "nc-content-feed-track-gap"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "card"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "card-grid"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "chip"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "link-with-arrow"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
+  ],
+  "specimens": [
+    {
+      "id": "startseite",
+      "label": "Startseite (3 Spalten)",
+      "description": "Erste Karte gross, danach News, Event mit Datums-Abzeichen und Artikel mit Lesezeit; Filterreiter, „Alle anzeigen“.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "3"
+          ],
+          "lead": [
+            "featured"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "abstaende"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "content-feed-lead",
+        "label": "startseite"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Ganze Karte als Link."
+      }
+    },
+    {
+      "id": "uebersicht",
+      "label": "Übersicht (4 Spalten, Mehr laden)",
+      "description": "Alle Beitraege ohne grosse erste Karte, mit „Mehr laden“.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "4"
+          ],
+          "lead": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "abstaende"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "content-feed-no-lead",
+        "label": "uebersicht"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "„Mehr laden“ ohne Skript ein Link."
+      }
+    },
+    {
+      "id": "wischleiste",
+      "label": "Wischleiste (schmal)",
+      "description": "Unter 600px Containerbreite liegen die Karten waagerecht und rasten ein.",
+      "matrix": {
+        "axes": {
+          "columns": [
+            "2"
+          ],
+          "lead": [
+            "featured"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "wischleiste"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "content-feed-lead",
+        "label": "wischleiste"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Per Tab erreichbar."
+      }
+    }
+  ]
+}
