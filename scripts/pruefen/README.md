@@ -173,6 +173,21 @@ Danach enthält das Modul die App aus diesem Worktree. Zurück auf den Stand
 von `main`: `bash scripts/app-uebernehmen.sh ~/Sites/WEBSITE26` im Modul,
 dann `ddev drush cr`.
 
+## `medien-ton-messen` — trifft das Einfärben die Vorlage? (I12)
+
+```bash
+node scripts/pruefen/medien-ton-messen.mjs   # Prod-Vorlage aus tests/fixtures/medien-ton/
+#   [--original <jpg>] [--vorlage <jpg>] [--ton '#88e6b1'] [--schwarzpunkt 0.3]
+#   [--grenze 12] [--suche]
+```
+
+Färbt das Original in Chromium so, wie die Website es tut (Graustufen →
+Schwarzpunkt über `brightness()` und `contrast()` → `mix-blend-mode: multiply`
+mit dem Ton auf der Fläche dahinter), und gibt die mittlere Abweichung je
+Farbkanal (0–255) gegen die von Hand gefärbte Vorlage aus. `--suche` probiert
+Schwarzpunkte von 0,20 bis 0,40. Ausgang 0, wenn jeder Kanal ≤ Grenze; ein
+Lauf dauert wenige Sekunden.
+
 ## Parallel prüfen: was nicht geht (E10, 22.10.2026)
 
 Mehrere Worktrees dürfen gleichzeitig **bauen und reparieren**, aber nicht
@@ -219,4 +234,4 @@ feldweise überschreibend, `~` wird aufgelöst.
 `einstellungen` · `seiten` · `bau` (gleiche Regel wie der Schutz-Hook) ·
 `browser` (Playwright aus `apps/theme-configurator`, keine zweite Fassung in
 der Wurzel) · `aufnahme` · `vergleich` (Canvas, in Streifen) · `messung` ·
-`pixel-bericht` · `gegenprobe` · `bilder` · `modul`.
+`pixel-bericht` · `gegenprobe` · `bilder` · `modul` · `medien-ton`.
