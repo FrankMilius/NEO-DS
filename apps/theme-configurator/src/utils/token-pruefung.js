@@ -32,6 +32,9 @@ const BEREICHE = {
 }
 const KOMPONENTEN_BEREICHE = {
   'nc-grid-columns': { min: 1, max: 24, ganz: true, text: 'eine ganze Zahl zwischen 1 und 24', erlaubt: 'ganze Zahlen von 1 bis 24' },
+  // Bilder einfärben (I12, 20.11.2026): Der Filter rechnet mit 1 / (1 − Schwarzpunkt);
+  // bei 1 teilt er durch 0 und fällt ganz weg. 0,9 lässt nur noch die hellsten Töne stehen.
+  'nc-card-medien-schwarzpunkt': { min: 0, max: 0.9, text: 'eine Zahl zwischen 0 und 0,9 (z. B. 0.26)', erlaubt: '0 bis 0,9, z. B. 0.26' },
 }
 const GEWICHT = { min: 100, max: 900, text: 'ein Gewicht zwischen 100 und 900', erlaubt: '100 bis 900' }
 /** Schriftskala: Grenzen wie die Eingabefelder (TypographyEditor) */

@@ -52,6 +52,15 @@ const LAENGE = /^-?[\d.]+(px|rem|em|%|vw|vh|ch)$|var\(--(fnd-(spacing|size|radiu
 function pruefwert (t) {
   const d = String(t.default ?? '').trim(); const id = t.id
   if ((/color|-bg|-fg|-border(?!-width|-radius)|shadow-color|fill|stroke(?!-width)/.test(id) && !/width|radius|size/.test(id)) || /^#|^rgb|^hsl|color-mix|var\(--fnd-color|transparent/.test(d)) return 'rgb(1, 2, 3)'
+  // Töne zum Bilder-Einfärben (I12, 20.11.2026): Standard ist ein Primitiv
+  // (var(--fnd-primitive-…), var(--fnd-accent-200)), der Name enthält kein
+  // „color“. Nur diese vier — ein allgemeines Muster auf accent stufte die
+  // Hero-Marken-Tokens mit um.
+  if (/^nc-card-medien-ton-/.test(id)) return 'rgb(1, 2, 3)'
+  // Schwarzpunkt nur 0 bis 0,9 (token-pruefung.js): Die allgemeine Zahl 7
+  // machte den Filter ungültig — gemessen wurde dann sein Wegfall, nicht der
+  // Schwarzpunkt (Widersacher I12 Phase 3). 0.5 liegt im Bereich.
+  if (id === 'nc-card-medien-schwarzpunkt') return '0.5'
   if (/shadow/.test(id)) return '0 0 0 7px rgb(1, 2, 3)'
   if (/family/.test(id)) return '"Courier New", monospace'
   if (/weight/.test(id)) return /^(8|9)00$|bold/.test(d) ? '100' : '900'

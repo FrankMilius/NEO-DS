@@ -1214,6 +1214,23 @@ Content Feed (I11 Phase 1, 19.11.2026, ohne App-Version — Daten und Arena-Vorl
   auf der Website.
 - Auf der Website noch ohne Träger; der Drupal-Block `neo_content_feed` folgt.
 
+Bilder einfärben (I12, 20.11.2026, ohne App-Version — Daten, Arena-Vorlage, Prüfung):
+
+- Card bekommt die Untergruppe „Bilder einfärben“: vier Töne
+  (`nc-card-medien-ton-gruen`, `-aqua`, `-lime`, `-forest`) und den Schwarzpunkt
+  (`nc-card-medien-schwarzpunkt`, Vorgabe 0.26). Auf der Website wirken sie, wo
+  ein Card-Grid oder eine Karte `data-medien-ton` trägt (Drupal: Feld „Bilder
+  einfärben“ am Card-Grid, je Karte „Bild einfaerben“ im Karten-Editor).
+- Arena (Phase 2): Zusatz-Muster „Bilder einfärben“ in der Card-Arena (`card.js`,
+  nur Bühne) — je Ton eine Karte, dazu eine Karte „aus“ im grünen Bereich.
+- Schwarzpunkt bei der Eingabe nur 0 bis 0,9 (`token-pruefung.js`, Hinweis am
+  Feld): Der Filter rechnet mit 1 / (1 − Schwarzpunkt), bei 1 fiele er ganz weg.
+  Import, Browser-Speicher und Laden aus Drupal prüfen Komponentenwerte nicht
+  auf Bereiche (gilt für alle, siehe BACKLOG).
+- Wirkungsprüfung (Phase 3): Die Töne bekommen einen Prüfwert (Standard ist ein
+  Primitiv, der Name enthält kein „color“) und wirken auf der Bühne; der
+  Schwarzpunkt wird mit 0.5 statt 7 gemessen, damit der Filter gültig bleibt.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

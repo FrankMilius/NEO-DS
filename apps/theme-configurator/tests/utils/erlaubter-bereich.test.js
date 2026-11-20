@@ -16,6 +16,16 @@ describe('erlaubterBereich', () => {
     expect(pruefeSchriftskala('base_min_px', 40)).toMatch(/10 bis 32 px/)
     expect(erlaubterBereich('schriftskala', 'ratio_max')).toBe('1 bis 1,618')
   })
+  // I12 (20.11.2026): Bei 1 teilte der Filter durch 0 und fiel weg
+  it('begrenzt den Schwarzpunkt beim Bilder-Einfärben auf 0 bis 0,9', () => {
+    expect(erlaubterBereich('komponente', 'nc-card-medien-schwarzpunkt')).toBe('0 bis 0,9, z. B. 0.26')
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', '0.26')).toBeNull()
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', '0')).toBeNull()
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', '0.9')).toBeNull()
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', '1')).toMatch(/0 und 0,9/)
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', '-0.1')).toMatch(/0 und 0,9/)
+    expect(pruefeKomponentenWert('nc-card-medien-schwarzpunkt', 'hell')).toMatch(/keine Zahl/)
+  })
   it('kennt Deckkraft und Schriftstärke von Komponenten über den Token-Typ', () => {
     expect(erlaubterBereich('komponente', 'nc-badge-pulse-opacity')).toBe('0 bis 1 oder 0 bis 100 %')
     expect(erlaubterBereich('komponente', 'nc-badge-status-font-weight')).toBe('100 bis 900')
