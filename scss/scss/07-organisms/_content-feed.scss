@@ -58,9 +58,11 @@
   // Container „card“ ab, den die Karte selbst bildet — eine Container-Abfrage
   // erreicht ihren eigenen Container nicht, die Zeilenrichtung greift dort
   // nie (BACKLOG). Hier fragt die Regel den Feed ab. Raster statt Zeile,
-  // damit Inhalt und Fuss rechts untereinander stehen.
+  // damit Inhalt und Fuss rechts untereinander stehen. Nur mit Bild: ohne
+  // Bild stuende sonst der Fuss neben dem Inhalt (Befund Testseite,
+  // 20.11.2026, Artikel ohne Bild an erster Stelle).
   @include container-min(content-feed, 'card-wide') {
-    &__item--lead > .nc-card--featured {
+    &__item--lead > .nc-card--featured:has(> .nc-card__media) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr auto;

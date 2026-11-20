@@ -27,6 +27,7 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 
 - **Abgleich-Prüfung der Schriften lückenhaft (I09, Widersacher 06.11.2026)**: `fehlendeSchriften` in `scripts/sync-drupal-css.js` übersieht falsche Großschreibung, weil die macOS-Platte nicht unterscheidet (ein Linux-Server antwortet 404). Geprüft wird nur `styles.css`, nicht `design-tokens.css` und `shot-vorschau.css`; `watch:drupal` schreibt ohne Prüfung direkt ins Theme. Heute ohne Wirkung.
+- **Content Feed: Animation ohne Wirkung (I11, 20.11.2026)**: Der Blocktyp `neo_content_feed` hat `field_card_animation` (geteilt mit dem Card-Grid), das Twig setzt aber kein `data-animation`. Das Behavior `einblenden` sucht bei `reverse-domino` die Karten als direkte Kinder des Rasters, im Feed steht ein `<li class="nc-content-feed__item">` dazwischen; das SCSS versteckt ebenfalls nur `> .nc-card`. Weg: `einblenden` und `_card.scss` um `> .nc-content-feed__item > .nc-card` erweitern, oder das Feld im Formular des Feeds ausblenden.
 - **Abgleich aus dem Worktree (I09, 06.11.2026)**: Ohne `NEO_DRUPAL_THEME` zeigt `sync-drupal-css.js` im Worktree auf `~/Sites/_worktrees/DRUPAL11/…` und bricht ab. Keine Regel und `/punkt-starten` nennen das. Bis 27.10.2026 kam `styles.css` darum am Skript vorbei ins Theme, was dessen falsches Umschreiben verdeckte. Weg: `punkt-starten` schreibt den Theme-Pfad in die STAND.md, oder das Skript findet den Theme-Worktree selbst.
 
 ## Themen (Nebenbefund I06, 06.11.2026)
