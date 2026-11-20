@@ -674,6 +674,45 @@
 
           <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
 
+          <h2 class="docs__section-title">Bilder einfärben</h2>
+          <p>
+            <code>data-medien-ton</code> am Card-Grid oder an einer Karte färbt das Bild im Duoton:
+            Graustufen, Schwarzpunkt (<code>--nc-card-medien-schwarzpunkt</code>, Vorgabe 0,26), dann
+            von Schwarz bis zum Ton. Die Bilddatei bleibt unverändert. Töne: <code>gruen</code>
+            (Prod-Grün), <code>aqua</code>, <code>lime</code>, <code>forest</code>. Die Karte schlägt
+            das Grid; <code>aus</code> zeigt eine einzelne Karte im Original. Ohne Attribut greift
+            keine Regel.
+          </p>
+          <p>
+            In Drupal: Feld „Bilder einfärben“ am Card-Grid, je Karte „Bild einfaerben“ im
+            Karten-Editor. Unten Grid <code>gruen</code>, mittlere Karte <code>aus</code>.
+          </p>
+          <div class="nc-card-grid nc-card-grid--cols-3" data-medien-ton="gruen">
+            <a href="#" class="nc-card nc-card--navigational" onclick="event.preventDefault();">
+              <div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Grün</h3>
+                <p class="nc-card__description">Ton vom Grid: <code>data-medien-ton="gruen"</code>.</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--navigational" data-medien-ton="aus" onclick="event.preventDefault();">
+              <div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Aus</h3>
+                <p class="nc-card__description">Karte mit <code>data-medien-ton="aus"</code>: Original.</p>
+              </div>
+            </a>
+            <a href="#" class="nc-card nc-card--navigational" data-medien-ton="forest" onclick="event.preventDefault();">
+              <div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div>
+              <div class="nc-card__content">
+                <h3 class="nc-card__title">Forest</h3>
+                <p class="nc-card__description">Karte mit eigenem Ton schlägt das Grid.</p>
+              </div>
+            </a>
+          </div>
+
+          <hr style="margin: var(--fnd-spacing-10) 0; border: none; border-top: 1px solid var(--fnd-color-border-secondary);" />
+
           <h2 class="docs__section-title">Skeleton</h2>
           <p>CSS-only Ladeanimation. Shimmer auf allen Convenience-Elementen. Kein JavaScript n&ouml;tig.</p>
           <div class="nc-card-grid" style="max-width: 600px;">
@@ -900,6 +939,19 @@
       <tr><td><code class="docs__token">--nc-card-title-font-weight</code></td><td>var(--fnd-font-weight-semibold)</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-card-title-line-height</code></td><td>1.3</td><td></td></tr>
       <tr><td><code class="docs__token">--nc-card-shadow</code></td><td>var(--fnd-elevation-base)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Bilder einfärben</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-card-medien-ton-gruen</code></td><td>var(--fnd-primitive-medien-gruen-500)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-card-medien-ton-aqua</code></td><td>var(--fnd-primitive-aqua-500)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-card-medien-ton-lime</code></td><td>var(--fnd-accent-200)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-card-medien-ton-forest</code></td><td>var(--fnd-primitive-forest-300)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-card-medien-schwarzpunkt</code></td><td>0.26</td><td></td></tr>
     </tbody>
     </table>
   </div>

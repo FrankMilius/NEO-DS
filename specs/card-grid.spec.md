@@ -1,5 +1,5 @@
 # card-grid Component Spec
-> Version 1.3.1 | Status: stable | Layer: organism
+> Version 1.4.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `grid`, `cards`
 
@@ -13,6 +13,7 @@ Root element: `.nc-card-grid`
 
 ### DOM Notes
 - CSS Grid mit auto-fit oder fester Spaltenanzahl. Karten aus field_cards_json, aufbereitet in includes/neo_card_grid.inc und im Twig gerendert (ohne Skript vollstaendig); Kartenbild alt="", Icons (summary) als SVG aria-hidden.
+- Bilder einfärben (I12): data-medien-ton="gruen|aqua|lime|forest" am Raster färbt alle Kartenbilder im Duoton (Soll und Tokens: card-recipe, Gruppe medien); eine Karte mit eigenem data-medien-ton schlägt das Raster, "aus" zeigt sie im Original. Bewusst keine Achse und kein Specimen: Die Card-Grid-Bühne setzt das Attribut nicht, die Card-Bühne zeigt es über die Zusatzfläche (Entscheidung Frank 20.11.2026).
 
 ## Variants
 ### Pattern (`pattern`)

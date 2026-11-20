@@ -1,5 +1,5 @@
 # card Component Spec
-> Version 3.3.0 | Status: stable | Layer: molecule
+> Version 3.4.0 | Status: stable | Layer: molecule
 
 Tags: `container`, `surface`, `interactive`, `layout`
 
@@ -19,6 +19,7 @@ Root element: `.nc-card`
 - Selectable: Hidden <input> (sr-only), :has(:checked) fuer Selected-State.
 - Footer-Actions haben z-index: 1 ueber dem Stretched Title-Link.
 - Skeleton-State via --skeleton Modifier auf Root — kein JS noetig.
+- Bilder einfärben (I12): data-medien-ton="gruen|aqua|lime|forest" an der Karte oder am umgebenden Card-Grid färbt .nc-card__media im Duoton (Token-Gruppe medien); die Karte schlägt das Grid, "aus" zeigt eine Karte im Original, ohne Attribut greift keine Regel. Bewusst keine Achse: Die Card-Bühne zeigt es über die Zusatzfläche "Bilder einfärben" (Entscheidung Frank 20.11.2026).
 
 ## Variants
 ### Behavior (`behavior`)
@@ -187,6 +188,15 @@ Base classes: `nc-card`
 | `--nc-card-date-badge-offset` | — | — |
 | `--nc-card-date-badge-shadow` | — | — |
 | `--nc-card-date-badge-day-size` | — | — |
+
+### Bilder einfärben
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-card-medien-ton-gruen` | — | — |
+| `--nc-card-medien-ton-aqua` | — | — |
+| `--nc-card-medien-ton-lime` | — | — |
+| `--nc-card-medien-ton-forest` | — | — |
+| `--nc-card-medien-schwarzpunkt` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

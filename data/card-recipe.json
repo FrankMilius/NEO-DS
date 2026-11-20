@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "status": "stable",
     "tags": [
       "container",
@@ -17,6 +17,12 @@
       "docs": "/docs/card-docs"
     },
     "changelog": [
+      {
+        "version": "3.4.0",
+        "changes": [
+          "I12 (20.11.2026, Freigabe ausstehend; Website unverändert, solange kein Ton gesetzt ist): Bilder einfärben (Anatomie-Notiz, keine Achse; Entscheidung Frank 20.11.2026) — data-medien-ton=\"gruen|aqua|lime|forest\" an der Karte oder am Card-Grid färbt .nc-card__media im Duoton (Graustufen, Schwarzpunkt --nc-card-medien-schwarzpunkt, dann multiply mit dem Ton auf der Fläche hinter dem Bild; Mixins 01-tools/_mixins-medien.scss). Die Karte schlägt das Grid, \"aus\" schaltet eine Karte ab, Skeleton-Karten bleiben ausgenommen. Token-Gruppe medien. Drupal: Feld field_cg_medien_ton am Card-Grid, Schlüssel medien_ton je Karte (neo_fe includes/neo_card_grid.inc)."
+        ]
+      },
       {
         "version": "3.3.0",
         "changes": [
@@ -167,7 +173,8 @@
       "Title-Link (navigational-partial): ::after { position: absolute; inset: 0 } fuer Stretched Link.",
       "Selectable: Hidden <input> (sr-only), :has(:checked) fuer Selected-State.",
       "Footer-Actions haben z-index: 1 ueber dem Stretched Title-Link.",
-      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig."
+      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig.",
+      "Bilder einfärben (I12): data-medien-ton=\"gruen|aqua|lime|forest\" an der Karte oder am umgebenden Card-Grid färbt .nc-card__media im Duoton (Token-Gruppe medien); die Karte schlägt das Grid, \"aus\" zeigt eine Karte im Original, ohne Attribut greift keine Regel. Bewusst keine Achse: Die Card-Bühne zeigt es über die Zusatzfläche \"Bilder einfärben\" (Entscheidung Frank 20.11.2026)."
     ]
   },
   "axes": {
@@ -871,6 +878,16 @@
           "nc-card-date-badge-offset",
           "nc-card-date-badge-shadow",
           "nc-card-date-badge-day-size"
+        ]
+      },
+      "medien": {
+        "label": "Bilder einfärben",
+        "tokens": [
+          "nc-card-medien-ton-gruen",
+          "nc-card-medien-ton-aqua",
+          "nc-card-medien-ton-lime",
+          "nc-card-medien-ton-forest",
+          "nc-card-medien-schwarzpunkt"
         ]
       }
     }

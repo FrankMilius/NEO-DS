@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "card",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -43,7 +43,8 @@
       "Title-Link (navigational-partial): ::after { position: absolute; inset: 0 } fuer Stretched Link.",
       "Selectable: Hidden <input> (sr-only), :has(:checked) fuer Selected-State.",
       "Footer-Actions haben z-index: 1 ueber dem Stretched Title-Link.",
-      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig."
+      "Skeleton-State via --skeleton Modifier auf Root — kein JS noetig.",
+      "Bilder einfärben (I12): data-medien-ton=\"gruen|aqua|lime|forest\" an der Karte oder am umgebenden Card-Grid färbt .nc-card__media im Duoton (Token-Gruppe medien); die Karte schlägt das Grid, \"aus\" zeigt eine Karte im Original, ohne Attribut greift keine Regel. Bewusst keine Achse: Die Card-Bühne zeigt es über die Zusatzfläche \"Bilder einfärben\" (Entscheidung Frank 20.11.2026)."
     ]
   },
   "api": null,
@@ -466,6 +467,23 @@
         },
         {
           "token": "--nc-card-date-badge-day-size"
+        }
+      ],
+      "Bilder einfärben": [
+        {
+          "token": "--nc-card-medien-ton-gruen"
+        },
+        {
+          "token": "--nc-card-medien-ton-aqua"
+        },
+        {
+          "token": "--nc-card-medien-ton-lime"
+        },
+        {
+          "token": "--nc-card-medien-ton-forest"
+        },
+        {
+          "token": "--nc-card-medien-schwarzpunkt"
         }
       ]
     },
