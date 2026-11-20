@@ -29,6 +29,15 @@ ${bild ? `<div class="nc-card__media"><img src="${BILD_SRC}" alt="" loading="laz
 </a>`
 }
 
+// "Load more" in the arena: there is no server page, so the link points to a
+// small embedded second page (data: URL, two cards, no further page). In
+// "Ausprobieren" the behavior content-feed appends its cards like on the
+// website; the feed is taken by class, as the ids differ per cell.
+const NAECHSTE_SEITE = 'data:text/html;charset=utf-8,' + encodeURIComponent(`<section class="nc-content-feed"><ul class="nc-content-feed__list">${[
+  ['Webinar: neo workplace in 30 Minuten', 'Event · 10.12.2026', 'Live-Vorführung mit Fragerunde.', 'Zum Event', false, ['2026-12-10', '10', 'Dez'], 'Online', false],
+  ['Barrierefreiheit im Intranet: die fünf häufigsten Lücken', 'Artikel · 21.10.2026', 'Was Prüfungen nach WCAG 2.2 im Alltag am häufigsten finden.', 'Weiterlesen', false, null, '6 Min. Lesezeit', false]
+].map((k) => `<li class="nc-content-feed__item">${karte(k, false)}</li>`).join('')}</ul></section>`)
+
 export default (zelle, m) => {
   const spalten = m.wert('columns') || 'auto'
   const gross = (m.wert('lead') || 'featured') === 'featured'
@@ -45,6 +54,7 @@ export default (zelle, m) => {
 <ul class="${liste.join(' ')}">
 ${KARTEN.map((k, i) => `<li class="nc-content-feed__item${gross && i === 0 ? ' nc-content-feed__item--lead' : ''}">${karte(k, gross && i === 0)}</li>`).join('\n')}
 </ul>
-<div class="nc-content-feed__footer"><a class="nc-button nc-button--secondary" href="#">Mehr laden</a></div>
+<div class="nc-content-feed__footer"><a class="nc-button nc-button--secondary" href="${NAECHSTE_SEITE}" data-feed-more>Mehr laden</a></div>
+<p class="u-sr-only" role="status" aria-live="polite" data-feed-geladen="{anzahl} weitere Beiträge geladen"></p>
 </section>`
 }

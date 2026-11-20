@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "content-feed",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -48,7 +48,7 @@
         "name": "footer",
         "selector": ".nc-content-feed__footer",
         "required": false,
-        "description": "„Mehr laden“ als <a class=\"nc-button\"> auf die naechste Seite; mit Skript haengt das Behavior feed-more die Karten an."
+        "description": "„Mehr laden“ als <a class=\"nc-button nc-button--secondary\" data-feed-more> auf die naechste Seite; mit Skript haengt das Behavior content-feed die Karten an. Dazu im Feed eine Statuszeile <p class=\"u-sr-only\" role=\"status\" aria-live=\"polite\" data-feed-geladen=\"{anzahl} weitere Beitraege geladen\">."
       }
     ],
     "notes": [
@@ -142,11 +142,24 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Keine eigene Bedienung: Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild."
+      "note": "Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf „Mehr laden“ (Link): laedt die naechste Seite nach, der Fokus springt auf die erste neue Karte. Ohne JavaScript oeffnet der Link die naechste Seite."
     }
   },
   "testSelectors": null,
-  "events": {},
+  "events": {
+    "content-feed-mehr": {
+      "bubbles": true,
+      "detail": {
+        "anzahl": "number",
+        "ende": "boolean"
+      },
+      "note": "Gefeuert an der Wurzel (.nc-content-feed), nachdem „Mehr laden“ Karten angehaengt hat: anzahl = neue Karten, ende = keine weitere Seite (Fuss entfernt)."
+    }
+  },
   "a11y": {
     "role": null,
     "interactive": false,
@@ -155,7 +168,8 @@
     "assertions": [
       "Filterreiter in <nav aria-label=\"<Ueberschrift> filtern\">, aktiver Reiter mit aria-current=\"page\"",
       "Wischleiste nur mit fokussierbaren Karten (scrollable-region-focusable)",
-      "Datums-Abzeichen als <time datetime>"
+      "Datums-Abzeichen als <time datetime>",
+      "„Mehr laden“: Fokus auf die erste neue Karte, Anzahl in [role=\"status\"], aria-busy an der Liste waehrend des Ladens"
     ],
     "overrides": []
   },

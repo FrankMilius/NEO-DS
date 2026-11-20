@@ -1,5 +1,5 @@
 # content-feed Component Spec
-> Version 1.0.0 | Status: stable | Layer: organism
+> Version 1.1.0 | Status: stable | Layer: organism
 
 Tags: `organisms`, `content`, `cards`, `feed`, `website`
 
@@ -13,7 +13,7 @@ Root element: `.nc-content-feed`
 | list | `.nc-content-feed__list` | Yes | <ul> zusammen mit .nc-card-grid und .nc-card-grid--cols-2|3|4. Je <li> eine .nc-card. |
 | lead | `.nc-content-feed__item--lead` | No | Erstes <li>: grosse Karte .nc-card--preview.nc-card--featured ueber die ganze Breite. |
 | date-badge | `.nc-card__date-badge` | No | <time datetime> mit .nc-card__date-badge-day und Monat; im Bild oben links, ohne Bild im Inhalt. |
-| footer | `.nc-content-feed__footer` | No | „Mehr laden“ als <a class="nc-button"> auf die naechste Seite; mit Skript haengt das Behavior feed-more die Karten an. |
+| footer | `.nc-content-feed__footer` | No | „Mehr laden“ als <a class="nc-button nc-button--secondary" data-feed-more> auf die naechste Seite; mit Skript haengt das Behavior content-feed die Karten an. Dazu im Feed eine Statuszeile <p class="u-sr-only" role="status" aria-live="polite" data-feed-geladen="{anzahl} weitere Beitraege geladen">. |
 
 ### DOM Notes
 - Die ganze Karte ist ein Link (<a class="nc-card nc-card--navigational">), Bild alt="" und loading="lazy". Externe News: target="_blank" rel="noopener noreferrer" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild.
@@ -58,11 +58,13 @@ Base classes: `nc-content-feed`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Tab` | focus-next | Keine eigene Bedienung: Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild. |
+| `Tab` | focus-next | Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild. |
+| `Enter` | activate | Auf „Mehr laden“ (Link): laedt die naechste Seite nach, der Fokus springt auf die erste neue Karte. Ohne JavaScript oeffnet der Link die naechste Seite. |
 
 ## Events
 | Event | Bubbles | Detail |
 | --- | --- | --- |
+| `content-feed-mehr` | Yes | `{"anzahl":"number","ende":"boolean"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)
@@ -70,6 +72,7 @@ Contrast Target: WCAG AA normal text (4.5:1)
 - Filterreiter in <nav aria-label="<Ueberschrift> filtern">, aktiver Reiter mit aria-current="page"
 - Wischleiste nur mit fokussierbaren Karten (scrollable-region-focusable)
 - Datums-Abzeichen als <time datetime>
+- „Mehr laden“: Fokus auf die erste neue Karte, Anzahl in [role="status"], aria-busy an der Liste waehrend des Ladens
 
 ## Web Components Mapping
 Derived from anatomy for potential `<nc-content-feed>` custom element:

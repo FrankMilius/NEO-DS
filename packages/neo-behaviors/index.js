@@ -66,6 +66,7 @@ import { heroTom } from './hero-tom.js'
 import { footer } from './footer.js'
 import { form } from './form.js'
 import { einblenden } from './einblenden.js'
+import { contentFeed } from './content-feed.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
@@ -154,6 +155,9 @@ export const BEHAVIORS = Object.freeze({
   // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
   // logo-wall: BEHAVIORS.einblenden.recipes)
   einblenden,
+  // Website-Bauteil (I11 Phase 2, 19.11.2026): „Mehr laden“ im Content
+  // Feed haengt die Karten der naechsten Seite an. In Drupal nur per nur
+  'content-feed': contentFeed,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,

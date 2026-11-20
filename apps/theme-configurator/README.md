@@ -1208,6 +1208,10 @@ Content Feed (I11 Phase 1, 19.11.2026, ohne App-Version — Daten und Arena-Vorl
   (`card.js`, nur Bühne), damit die Wirkungsprüfung die neuen Card-Werte sieht.
 - Die Umschaltung zur Wischleiste folgt der Breite des Feeds (Container-Schwelle
   `content-feed-track`, 600 px) und ist nicht einstellbar.
+- Ausprobieren (I11 Phase 2): „Mehr laden“ lädt über das Behavior
+  `content-feed` aus neo-behaviors zwei Karten aus einer eingebetteten
+  zweiten Seite nach (data-URL in der Vorlage), mit Fokus und Statuszeile wie
+  auf der Website.
 - Auf der Website noch ohne Träger; der Drupal-Block `neo_content_feed` folgt.
 
 ## Bekannte Grenzen

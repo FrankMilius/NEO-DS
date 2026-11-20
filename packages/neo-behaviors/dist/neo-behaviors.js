@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.20.1 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.21.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -6717,6 +6717,100 @@
     }
   };
 
+  // packages/neo-behaviors/content-feed.js
+  var contentFeed = {
+    id: "content-feed",
+    selektor: ".nc-content-feed",
+    // Website component: in Drupal only via drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /**
+     * Fallback: open the page like the plain link would.
+     * @param {Window} ansicht @param {string} href
+     */
+    navigiere(ansicht, href) {
+      ansicht.location.assign(href);
+    },
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const ansicht = (
+        /** @type {Window} */
+        wurzel.ownerDocument.defaultView || window
+      );
+      let laedt = false;
+      wurzel.addEventListener("click", (e) => {
+        var _a;
+        const ziel = (
+          /** @type {Element} */
+          e.target
+        );
+        const link = (
+          /** @type {HTMLAnchorElement|null} */
+          (_a = ziel.closest) == null ? void 0 : _a.call(ziel, "[data-feed-more]")
+        );
+        if (!link || !wurzel.contains(link)) return;
+        if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+        const href = link.getAttribute("href") || "";
+        if (!href || href.startsWith("#")) return;
+        e.preventDefault();
+        if (laedt) return;
+        laedt = true;
+        void lade(link, href).finally(() => {
+          laedt = false;
+        });
+      }, { signal });
+      const lade = async (link, href) => {
+        var _a;
+        const liste = wurzel.querySelector(".nc-content-feed__list");
+        link.setAttribute("aria-disabled", "true");
+        liste == null ? void 0 : liste.setAttribute("aria-busy", "true");
+        const ende = () => {
+          link.removeAttribute("aria-disabled");
+          liste == null ? void 0 : liste.removeAttribute("aria-busy");
+        };
+        try {
+          const holen = (
+            /** @type {any} */
+            ansicht.fetch || globalThis.fetch
+          );
+          const antwort = await holen(href, { headers: { Accept: "text/html" }, credentials: "same-origin" });
+          if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`);
+          const Leser = (
+            /** @type {any} */
+            ansicht.DOMParser || globalThis.DOMParser
+          );
+          const dok = new Leser().parseFromString(await antwort.text(), "text/html");
+          const quelle = wurzel.id && dok.getElementById(wurzel.id) || dok.querySelector(".nc-content-feed");
+          const neu = quelle ? [...quelle.querySelectorAll(".nc-content-feed__item")] : [];
+          if (!liste || !neu.length) throw new Error("keine Karten");
+          const angehaengt = neu.map((el) => {
+            const kopie = (
+              /** @type {HTMLElement} */
+              wurzel.ownerDocument.importNode(el, true)
+            );
+            kopie.classList.remove("nc-content-feed__item--lead");
+            liste.append(kopie);
+            return kopie;
+          });
+          const weiter = ((_a = quelle == null ? void 0 : quelle.querySelector("[data-feed-more]")) == null ? void 0 : _a.getAttribute("href")) || "";
+          ende();
+          if (weiter) link.setAttribute("href", weiter);
+          else (link.closest(".nc-content-feed__footer") || link).remove();
+          const status = wurzel.querySelector('[role="status"]');
+          if (status) status.textContent = (status.getAttribute("data-feed-geladen") || "{anzahl}").replace("{anzahl}", String(angehaengt.length));
+          const erste = (
+            /** @type {HTMLElement|null} */
+            angehaengt[0].matches("a[href]") ? angehaengt[0] : angehaengt[0].querySelector("a[href], button")
+          );
+          erste == null ? void 0 : erste.focus();
+          sende(wurzel, "content-feed-mehr", { anzahl: angehaengt.length, ende: !weiter });
+        } catch {
+          ende();
+          contentFeed.navigiere(ansicht, href);
+        }
+      };
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -6799,6 +6893,9 @@
     // Hilfs-Behavior ohne eigenes Recipe (Soll in card-grid, bento-grid,
     // logo-wall: BEHAVIORS.einblenden.recipes)
     einblenden,
+    // Website-Bauteil (I11 Phase 2, 19.11.2026): „Mehr laden“ im Content
+    // Feed haengt die Karten der naechsten Seite an. In Drupal nur per nur
+    "content-feed": contentFeed,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,
@@ -6827,7 +6924,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.20.1",
+    version: "0.21.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",

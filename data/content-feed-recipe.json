@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content-feed",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "label": "Content Feed",
     "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“.",
@@ -36,12 +36,21 @@
     },
     "changelog": [
       {
+        "version": "1.1.0",
+        "changes": [
+          "I11 Phase 2 (19.11.2026, Freigabe ausstehend): Behavior content-feed in neo-behaviors — „Mehr laden“ ([data-feed-more]) holt die naechste Seite, haengt deren .nc-content-feed__item an die Liste, fokussiert die erste neue Karte und meldet die Zahl in [role=\"status\"] (Text aus data-feed-geladen mit {anzahl}). Waehrend des Ladens aria-disabled am Link und aria-busy an der Liste; ohne naechste Seite entfaellt der Fuss. Fehler (Netz, HTTP, Seite ohne Karten) oeffnen die Seite wie ohne JavaScript; Klicks mit Zusatztaste bleiben beim Browser. Im Plan hiess das Behavior feed-more; es traegt die Recipe-ID wie alle Behaviors."
+        ]
+      },
+      {
         "version": "1.0.0",
         "changes": [
           "I11 Phase 1 (19.11.2026, Freigabe ausstehend): neu. Organismus .nc-content-feed (07-organisms/_content-feed.scss) mit Kopf, Filterreitern, Liste, erster Karte ueber die ganze Breite und Fuss; Raster aus .nc-card-grid--cols-2|3|4, unter 600px Containerbreite Wischleiste (scroll-snap). Neues Karten-Element .nc-card__date-badge (Tag und Monat eines Events, auf dem Bild oben links). Tokens --nc-content-feed-* und --nc-card-date-badge-*, Konfig-App-Gruppe „Content Feed“ und Untergruppe „Datums-Abzeichen“ der Card. Noch kein Traeger auf der Website (folgt mit dem Drupal-Block)."
         ]
       }
-    ]
+    ],
+    "source": {
+      "behavior": "packages/neo-behaviors/content-feed.js (Recipe-ID content-feed, nurAusdruecklich)"
+    }
   },
   "anatomy": {
     "root": {
@@ -82,7 +91,7 @@
         "name": "footer",
         "element": ".nc-content-feed__footer",
         "optional": true,
-        "description": "„Mehr laden“ als <a class=\"nc-button\"> auf die naechste Seite; mit Skript haengt das Behavior feed-more die Karten an."
+        "description": "„Mehr laden“ als <a class=\"nc-button nc-button--secondary\" data-feed-more> auf die naechste Seite; mit Skript haengt das Behavior content-feed die Karten an. Dazu im Feed eine Statuszeile <p class=\"u-sr-only\" role=\"status\" aria-live=\"polite\" data-feed-geladen=\"{anzahl} weitere Beitraege geladen\">."
       }
     ],
     "convenience": [],
@@ -167,7 +176,8 @@
       "assertions": [
         "Filterreiter in <nav aria-label=\"<Ueberschrift> filtern\">, aktiver Reiter mit aria-current=\"page\"",
         "Wischleiste nur mit fokussierbaren Karten (scrollable-region-focusable)",
-        "Datums-Abzeichen als <time datetime>"
+        "Datums-Abzeichen als <time datetime>",
+        "„Mehr laden“: Fokus auf die erste neue Karte, Anzahl in [role=\"status\"], aria-busy an der Liste waehrend des Ladens"
       ],
       "note": "Ohne JavaScript vollstaendig: Filter und „Mehr laden“ sind Links."
     },
@@ -193,10 +203,23 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Keine eigene Bedienung: Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild."
+      "note": "Filterreiter, Karten und „Mehr laden“ in Dokumentreihenfolge. In der Wischleiste scrollt der Browser die fokussierte Karte ins Bild."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Auf „Mehr laden“ (Link): laedt die naechste Seite nach, der Fokus springt auf die erste neue Karte. Ohne JavaScript oeffnet der Link die naechste Seite."
     }
   },
-  "events": {},
+  "events": {
+    "content-feed-mehr": {
+      "bubbles": true,
+      "detail": {
+        "anzahl": "number",
+        "ende": "boolean"
+      },
+      "note": "Gefeuert an der Wurzel (.nc-content-feed), nachdem „Mehr laden“ Karten angehaengt hat: anzahl = neue Karten, ende = keine weitere Seite (Fuss entfernt)."
+    }
+  },
   "styling": {
     "baseClasses": [
       "nc-content-feed"
