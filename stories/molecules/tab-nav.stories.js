@@ -1,6 +1,6 @@
 // ============================================================
 // TabNav — Auto-generated from tab-nav-recipe.json
-// Version: 1.5.5 | Status: stable
+// Version: 1.5.6 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**TabNav** v1.5.5 (stable)
+        component: `**TabNav** v1.5.6 (stable)
 
 Website (block--block-content--neo-tab-nav.html.twig): section.nc-section.nc-section--full.nc-solution-tabs-section.nc-tab-nav-section[style=background-color] > .nc-container > neo_fe:block-header (Badges, Kicker, Headline h2 mit id <wurzel-id>-titel, Lead; Ausrichtung field_tn_align -> nc-section-header--{align}) + div.nc-solution-tabs.nc-tab-nav#nc-tn-<Block-ID>[data-tab-nav][data-orientation][data-autoplay][data-tablist-labelledby][style=--nc-solution-tabs-autoplay-duration: <Intervall>s] (bei autoplay on mit dem Knopf .nc-solution-tabs__autoplay, sonst leer) + script[type=application/json][data-tab-nav-tabs].
 

@@ -1,6 +1,6 @@
 // ============================================================
 // ContentFeed — Auto-generated from content-feed-recipe.json
-// Version: 1.1.0 | Status: stable
+// Version: 1.2.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**ContentFeed** v1.1.0 (stable)
+        component: `**ContentFeed** v1.2.0 (stable)
 
 Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“.
 

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content-feed",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "label": "Content Feed",
     "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“.",
@@ -35,6 +35,12 @@
       "docs": "docs/content/content-feed.html"
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "I13 (20.11.2026, Freigabe ausstehend; Website unveraendert, solange kein Ton gewaehlt ist): Bilder einfaerben im Feed — data-medien-ton=\"gruen|aqua|lime|forest\" an .nc-content-feed__list faerbt jedes .nc-card__media darunter (Regel aus card, I12), auch die grosse erste Karte und die Karten, die „Mehr laden“ in dieselbe Liste haengt. Kein neues CSS, keine Achse. Drupal: Feld „Bilder einfaerben“ (field_cg_medien_ton) am Block neo_content_feed; die Uebersichtsseite /unternehmen/aktuelles waehlt ihren Ton in den Einstellungen der Aktuelles-Bereiche (neo_content_feed.settings: medien_ton)."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -96,7 +102,8 @@
     ],
     "convenience": [],
     "domNotes": [
-      "Die ganze Karte ist ein Link (<a class=\"nc-card nc-card--navigational\">), Bild alt=\"\" und loading=\"lazy\". Externe News: target=\"_blank\" rel=\"noopener noreferrer\" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild."
+      "Die ganze Karte ist ein Link (<a class=\"nc-card nc-card--navigational\">), Bild alt=\"\" und loading=\"lazy\". Externe News: target=\"_blank\" rel=\"noopener noreferrer\" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild.",
+      "Bilder einfaerben (I13): data-medien-ton=\"gruen|aqua|lime|forest\" an .nc-content-feed__list faerbt alle Kartenbilder des Feeds (Regel und Toene: card, „Bilder einfaerben“), auch die grosse erste Karte und nachgeladene Karten. Ohne Attribut bleiben die Bilder im Original. Drupal: Feld „Bilder einfaerben“ am Feed-Block, fuer die Uebersichtsseite die Einstellung der Aktuelles-Bereiche."
     ]
   },
   "axes": {

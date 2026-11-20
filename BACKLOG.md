@@ -33,6 +33,12 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 - **Bildvergleich baut bei Recipe-Änderungen nicht neu**: `pruefen:bilder --bauen` (`bauVeraltet`) und der Hinweis des Schutz-Hooks sehen nur `apps/theme-configurator/src` und `styles.css`. Die App bündelt aber `data/*-recipe.json` — nach einer Recipe-Änderung prüfte der Bildvergleich die alte Fassung (I12 Phase 4: Filterzeile blieb im Bild, obwohl die Achse entfernt war). Weg: `data/*-recipe.json` in die Veraltet-Prüfung aufnehmen.
 - **Card-Grid ohne Doku-Seite**: `card-grid-recipe.json` verweist auf `/docs/card-grid-docs`, die es nicht gibt (`pipeline.docs` null). Das Einfärben ist deshalb unter Card dokumentiert.
 
+## Bilder einfärben (Nebenbefunde I13, 20.11.2026)
+
+- **Feldbeschreibung am Card-Grid sagt „Duoton“**: DRUPAL11 `drupal_config_sync_dir/field.field.block_content.neo_card_grid.field_cg_medien_ton.yml` (I12) beschreibt „im Duoton (Graustufen bis zum gewählten Ton)“; BEGRIFFE.md ersetzt „Duotone“. Am Feed (I13) steht schon „von Schwarz bis zum gewählten Ton“. Weg: Beschreibung angleichen, Einzelexport wie in I13.
+- **Leerer Wert heißt je Ort anders**: Feld am Card-Grid und am Feed zeigen Drupals „- Nicht festgelegt/ausgewählt -“, Übersichtsseite und Tab-Navigation „Original“. Weg: an den Feldern eine leere Option „Original“ (Widget-Einstellung oder Formular-Alter), dann überall gleich.
+- **Übersicht `?typ=news` dauerhaft im Cache** (Widersacher I13 Phase 2): `x-drupal-cache-max-age: -1 (Permanent)`, die anderen Aufrufe rund 1,6 Mio. s; Ursache nicht untersucht (I11, `UebersichtController`/`FeedQuery::maxAge`). Weg: max-age je Filter messen, mit geplanten Beiträgen vergleichen.
+
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 
 - **Abgleich-Prüfung der Schriften lückenhaft (I09, Widersacher 06.11.2026)**: `fehlendeSchriften` in `scripts/sync-drupal-css.js` übersieht falsche Großschreibung, weil die macOS-Platte nicht unterscheidet (ein Linux-Server antwortet 404). Geprüft wird nur `styles.css`, nicht `design-tokens.css` und `shot-vorschau.css`; `watch:drupal` schreibt ohne Prüfung direkt ins Theme. Heute ohne Wirkung.

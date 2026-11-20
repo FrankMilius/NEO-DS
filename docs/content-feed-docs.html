@@ -321,6 +321,23 @@
     </table>
             </div>
           </section>
+
+          <section class="docs__section" id="content-feed-einfaerben">
+            <h2 class="docs__section-title">Bilder einf&auml;rben</h2>
+            <p class="docs__section-desc">
+              <code>data-medien-ton</code> an <code class="docs__token">.nc-content-feed__list</code> f&auml;rbt alle
+              Kartenbilder des Feeds von Schwarz bis zum Ton &mdash; die Regel der Card (Card &rsaquo; Bilder einf&auml;rben,
+              T&ouml;ne <code>gruen</code>, <code>aqua</code>, <code>lime</code>, <code>forest</code>). Das gilt auch f&uuml;r die
+              gro&szlig;e erste Karte und f&uuml;r Karten, die &bdquo;Mehr laden&ldquo; in dieselbe Liste h&auml;ngt. Ohne Attribut
+              bleiben die Bilder im Original.
+            </p>
+            <p>
+              In Drupal: Feld &bdquo;Bilder einf&auml;rben&ldquo; am Block Aktuelles-Feed; die &Uuml;bersichtsseite
+              /unternehmen/aktuelles w&auml;hlt ihren Ton unter Konfiguration &rsaquo; Inhaltserstellung &rsaquo;
+              Aktuelles-Bereiche. Leer = Original. Unten die Liste mit <code>data-medien-ton="gruen"</code>.
+            </p>
+            <div class="nc-content-feed" style="width: 100%;"><ul class="nc-content-feed__list nc-card-grid nc-card-grid--cols-3" data-medien-ton="gruen"><li class="nc-content-feed__item"><a class="nc-card nc-card--navigational nc-card--preview" href="#" onclick="event.preventDefault();"><div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div><div class="nc-card__content"><span class="nc-card__kicker">News · 12.11.2026</span><h3 class="nc-card__title">Eingef&auml;rbt vom Feed</h3></div></a></li><li class="nc-content-feed__item"><a class="nc-card nc-card--navigational nc-card--preview" href="#" onclick="event.preventDefault();"><div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div><div class="nc-card__content"><span class="nc-card__kicker">Event · 03.12.2026</span><h3 class="nc-card__title">Eingef&auml;rbt vom Feed</h3></div></a></li><li class="nc-content-feed__item"><a class="nc-card nc-card--navigational nc-card--preview" href="#" onclick="event.preventDefault();"><div class="nc-card__media"><img src="/assets/muster/einfuehrung-beratung-konzeption.jpg" alt="" loading="lazy"></div><div class="nc-card__content"><span class="nc-card__kicker">Artikel · 05.11.2026</span><h3 class="nc-card__title">Eingef&auml;rbt vom Feed</h3></div></a></li></ul></div>
+          </section>
         </div>
         <!-- ============================================================ -->
         <!-- TAB 2: Style                                                 -->
@@ -434,6 +451,7 @@
   <h2 class="docs__section-title">DOM-Hinweise</h2>
   <ul>
     <li>Die ganze Karte ist ein Link (&lt;a class=&quot;nc-card nc-card--navigational&quot;&gt;), Bild alt=&quot;&quot; und loading=&quot;lazy&quot;. Externe News: target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild.</li>
+    <li>Bilder einfaerben (I13): data-medien-ton=&quot;gruen|aqua|lime|forest&quot; an .nc-content-feed__list faerbt alle Kartenbilder des Feeds (Regel und Toene: card, „Bilder einfaerben“), auch die grosse erste Karte und nachgeladene Karten. Ohne Attribut bleiben die Bilder im Original. Drupal: Feld „Bilder einfaerben“ am Feed-Block, fuer die Uebersichtsseite die Einstellung der Aktuelles-Bereiche.</li>
   </ul>
 </section>
 <!-- AUTO:API:END -->

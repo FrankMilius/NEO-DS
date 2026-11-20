@@ -1,5 +1,5 @@
 # content-feed Component Spec
-> Version 1.1.0 | Status: stable | Layer: organism
+> Version 1.2.0 | Status: stable | Layer: organism
 
 Tags: `organisms`, `content`, `cards`, `feed`, `website`
 
@@ -17,6 +17,7 @@ Root element: `.nc-content-feed`
 
 ### DOM Notes
 - Die ganze Karte ist ein Link (<a class="nc-card nc-card--navigational">), Bild alt="" und loading="lazy". Externe News: target="_blank" rel="noopener noreferrer" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild.
+- Bilder einfaerben (I13): data-medien-ton="gruen|aqua|lime|forest" an .nc-content-feed__list faerbt alle Kartenbilder des Feeds (Regel und Toene: card, „Bilder einfaerben“), auch die grosse erste Karte und nachgeladene Karten. Ohne Attribut bleiben die Bilder im Original. Drupal: Feld „Bilder einfaerben“ am Feed-Block, fuer die Uebersichtsseite die Einstellung der Aktuelles-Bereiche.
 
 ## Variants
 ### Spalten (`columns`)
