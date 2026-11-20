@@ -5271,3 +5271,22 @@
   --nc-card-date-badge-shadow:    var(--fnd-elevation-raised);
   --nc-card-date-badge-day-size:  var(--fs-xl);
 }
+
+// ---------------------------------------------------------------------------
+// Card: Bilder einfärben
+// ---------------------------------------------------------------------------
+// Duoton per CSS für .nc-card__media (I12, 20.11.2026): Graustufen, alles bis
+// zum Schwarzpunkt wird schwarz, darüber linear bis zum Ton. Eingeschaltet mit
+// data-medien-ton="gruen|aqua|lime|forest" am Grid oder an der Karte, „aus“
+// schaltet eine Karte im eingefärbten Grid ab (06-molecules/_card.scss).
+// Die Töne sind helle Stufen: Sie sind die hellste Stelle des Bildes.
+
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  --nc-card-medien-ton-gruen:     var(--fnd-primitive-medien-gruen-500);
+  --nc-card-medien-ton-aqua:      var(--fnd-primitive-aqua-500);
+  --nc-card-medien-ton-lime:      var(--fnd-accent-200);
+  --nc-card-medien-ton-forest:    var(--fnd-primitive-forest-300);
+  // Helligkeit (0 bis unter 1), die schwarz wird; 0.26 trifft die Prod-Bilder
+  --nc-card-medien-schwarzpunkt:  0.26;
+}

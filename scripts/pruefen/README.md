@@ -177,15 +177,18 @@ dann `ddev drush cr`.
 
 ```bash
 node scripts/pruefen/medien-ton-messen.mjs   # Prod-Vorlage aus tests/fixtures/medien-ton/
-#   [--original <jpg>] [--vorlage <jpg>] [--ton '#88e6b1'] [--schwarzpunkt 0.3]
+#   [--original <jpg>] [--vorlage <jpg>] [--ton '#99f5c0'] [--schwarzpunkt 0.26]
 #   [--grenze 12] [--suche]
+node scripts/pruefen/medien-ton-messen.mjs --css styles.css [--medien-ton gruen]
 ```
 
 Färbt das Original in Chromium so, wie die Website es tut (Graustufen →
 Schwarzpunkt über `brightness()` und `contrast()` → `mix-blend-mode: multiply`
 mit dem Ton auf der Fläche dahinter), und gibt die mittlere Abweichung je
 Farbkanal (0–255) gegen die von Hand gefärbte Vorlage aus. `--suche` probiert
-Schwarzpunkte von 0,20 bis 0,40. Ausgang 0, wenn jeder Kanal ≤ Grenze; ein
+Schwarzpunkte von 0,20 bis 0,40. `--css` misst das gebaute Stylesheet
+(`data-medien-ton` am Grid) und prüft zusätzlich, dass eine Karte „aus“ im
+selben Grid pixelgleich zum Original bleibt. Ausgang 0, wenn jeder Kanal ≤ Grenze; ein
 Lauf dauert wenige Sekunden.
 
 ## Parallel prüfen: was nicht geht (E10, 22.10.2026)

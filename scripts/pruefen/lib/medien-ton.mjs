@@ -39,17 +39,41 @@ export function mittlereAbweichung (a, b) {
 // verlustfrei als PNG auf und vergleicht es im Browser mit der Vorlage.
 // original, vorlage: Daten-URLs. Ergebnis: { breite, hoehe, gleicheGroesse, abweichung: [r,g,b] | null }
 export async function vergleicheMitVorlage (seite, { original, vorlage, ton, schwarzpunkt }) {
-  const masse = await seite.evaluate(async (src) => {
-    const i = new Image(); i.src = src; await i.decode()
-    return [i.naturalWidth, i.naturalHeight]
-  }, original)
-  const [breite, hoehe] = masse
+  const [breite, hoehe] = await masseVon(seite, original)
   await seite.setViewportSize({ width: breite, height: hoehe })
   await seite.setContent(`<style>
     html,body{margin:0;background:#fff}
     #f{display:inline-block;line-height:0;background-color:${ton};isolation:isolate}
     #f img{display:block;filter:${filterKette(schwarzpunkt)};mix-blend-mode:multiply}
   </style><div id="f"><img src="${original}" width="${breite}" height="${hoehe}" alt=""></div>`)
+  return aufnehmenUndVergleichen(seite, vorlage)
+}
+
+// Wie oben, aber mit dem echten Stylesheet des Design Systems: Grid und Karte
+// tragen data-medien-ton (Karte schlägt Grid). gridTon/karteTon: Wert oder null.
+// Rundung und Rahmen der Karte werden abgeschaltet, damit nur das Bild zählt.
+export async function vergleicheMitStylesheet (seite, { css, original, vorlage, gridTon = null, karteTon = null }) {
+  const [breite, hoehe] = await masseVon(seite, original)
+  const attr = (ton) => (ton ? ` data-medien-ton="${ton}"` : '')
+  await seite.setViewportSize({ width: breite + 40, height: hoehe + 40 })
+  await seite.setContent(`<style>${css}</style><style>
+    html,body{margin:0;background:#fff}
+    .nc-card-grid{display:block}
+    .nc-card{border:0;border-radius:0;box-shadow:none}
+  </style><div class="nc-card-grid"${attr(gridTon)}><article class="nc-card"${attr(karteTon)}>
+    <div class="nc-card__media" id="f" style="width:${breite}px;height:${hoehe}px;aspect-ratio:auto">
+      <img src="${original}" alt=""></div></article></div>`)
+  return aufnehmenUndVergleichen(seite, vorlage)
+}
+
+async function masseVon (seite, src) {
+  return seite.evaluate(async (s) => {
+    const i = new Image(); i.src = s; await i.decode()
+    return [i.naturalWidth, i.naturalHeight]
+  }, src)
+}
+
+async function aufnehmenUndVergleichen (seite, vorlage) {
   await seite.locator('#f img').evaluate((i) => i.decode())
   const png = await seite.locator('#f').screenshot({ animations: 'disabled', scale: 'css' })
   const roh = `data:image/png;base64,${png.toString('base64')}`

@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-19
+// Generated: 2026-11-20
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -185,6 +185,22 @@ export const supportingPalettes = {
       "800": "#33000d",
       "900": "#1a0006",
       "950": "#0d0003"
+    }
+  },
+  "medien-gruen": {
+    "label": "Medien Gruen",
+    "base": "#99f5c0",
+    "shades": {
+      "100": "#ebfdf2",
+      "200": "#d6fbe6",
+      "300": "#c2f9d9",
+      "400": "#adf7cd",
+      "500": "#99f5c0",
+      "600": "#7ac49a",
+      "700": "#5c9373",
+      "800": "#3d624d",
+      "900": "#1f3126",
+      "950": "#0f1913"
     }
   },
   "coral": {
@@ -5449,6 +5465,17 @@ export const componentTokenGroups = [
           "nc-card-date-badge-shadow",
           "nc-card-date-badge-day-size"
         ]
+      },
+      {
+        "id": "medien",
+        "label": "Bilder einfärben",
+        "tokenIds": [
+          "nc-card-medien-ton-gruen",
+          "nc-card-medien-ton-aqua",
+          "nc-card-medien-ton-lime",
+          "nc-card-medien-ton-forest",
+          "nc-card-medien-schwarzpunkt"
+        ]
       }
     ],
     "tokens": [
@@ -5868,6 +5895,41 @@ export const componentTokenGroups = [
         "type": "size",
         "default": "var(--fs-xl)",
         "group": "date-badge"
+      },
+      {
+        "id": "nc-card-medien-ton-gruen",
+        "label": "Bilder einfärben — Ton Grün",
+        "type": "color",
+        "default": "var(--fnd-primitive-medien-gruen-500)",
+        "group": "medien"
+      },
+      {
+        "id": "nc-card-medien-ton-aqua",
+        "label": "Bilder einfärben — Ton Aqua",
+        "type": "color",
+        "default": "var(--fnd-primitive-aqua-500)",
+        "group": "medien"
+      },
+      {
+        "id": "nc-card-medien-ton-lime",
+        "label": "Bilder einfärben — Ton Lime",
+        "type": "color",
+        "default": "var(--fnd-accent-200)",
+        "group": "medien"
+      },
+      {
+        "id": "nc-card-medien-ton-forest",
+        "label": "Bilder einfärben — Ton Forest",
+        "type": "color",
+        "default": "var(--fnd-primitive-forest-300)",
+        "group": "medien"
+      },
+      {
+        "id": "nc-card-medien-schwarzpunkt",
+        "label": "Bilder einfärben — Schwarzpunkt",
+        "type": "number",
+        "default": "0.26",
+        "group": "medien"
       }
     ]
   },

@@ -273,7 +273,12 @@ describe('CSS Output Quality', () => {
     // schon gekuerzt). Die Luft deckt die Folgephasen von I06 (Flaechenliste,
     // Teaser-Medium/-Hoehe, Button-Typ, geschaetzt 4–5 KB). Aufraeum-Kandidat
     // bleibt button-base in den 24 Button-Varianten (ca. 1,4 KB).
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1215);
+    //
+    // 20.11.2026: 1215 → 1220 KB (Entscheidung Frank, I12). Stand 1214,6 KB
+    // auf main; Bilder einfärben (Duoton für .nc-card__media, Palette
+    // medien-gruen, fünf Card-Tokens) bringt +1,9 KB auf 1216,5 KB. Die
+    // Filterkette steht schon nur einmal im CSS. Bewusst mit Puffer gewählt.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1220);
   });
 
   it('CSS Build hat keine Fehler', () => {

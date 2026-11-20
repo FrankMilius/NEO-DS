@@ -21,6 +21,14 @@ describe('DTCG-Kern (packages/dtcg-export)', () => {
     expect(text === ZIEL).toBe(true)
   })
 
+  it('var(--fnd-primitive-<Palette>-<Stufe>) wird ein Alias auf die Palette (I12)', () => {
+    const { text } = erzeugeDtcg(grundlagen.quelle, grundlagen)
+    const card = JSON.parse(text).components.card
+    expect(card['nc-card-medien-ton-gruen'].$value).toBe('{primitives.supporting.medien-gruen.shades.500}')
+    expect(card['nc-card-medien-ton-aqua'].$value).toBe('{primitives.supporting.aqua.shades.500}')
+    expect(card['nc-card-medien-ton-forest'].$value).toBe('{primitives.neutralleitern.forest.shades.300}')
+  })
+
   it('das Node-Skript benutzt den Kern und findet die Datei aktuell', () => {
     const aus = execFileSync('node', ['scripts/export-dtcg.cjs', '--pruefen'], { cwd: WURZEL, encoding: 'utf8' })
     expect(aus).toMatch(/Datei aktuell/)

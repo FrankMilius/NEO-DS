@@ -4,7 +4,9 @@
 // Filter- und Mischlogik misst, die später die Website rendert.
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { chromium } from '../../scripts/pruefen/lib/browser.mjs'
-import { filterParameter, filterKette, mittlereAbweichung, vergleicheMitVorlage } from '../../scripts/pruefen/lib/medien-ton.mjs'
+import { readFileSync, existsSync } from 'node:fs'
+import path from 'node:path'
+import { filterParameter, filterKette, mittlereAbweichung, vergleicheMitVorlage, vergleicheMitStylesheet } from '../../scripts/pruefen/lib/medien-ton.mjs'
 
 let browser, seite
 
@@ -93,5 +95,55 @@ describe('medien-ton: Vergleich im Browser', () => {
     })
     expect(r.gleicheGroesse).toBe(false)
     expect(r.abweichung).toBeNull()
+  }, 30000)
+})
+
+// Das gebaute Stylesheet (npm test baut es vorher): data-medien-ton am Grid
+// färbt, an der Karte schlägt es das Grid, ohne Attribut bleibt alles wie es ist.
+describe('medien-ton: Design System (styles.css)', () => {
+  const datei = path.resolve(import.meta.dirname, '../../styles.css')
+  const css = () => readFileSync(datei, 'utf8')
+  const fall = async (gridTon, karteTon, original, vorlage) =>
+    vergleicheMitStylesheet(seite, { css: css(), original: await flaeche(original), vorlage: await flaeche(vorlage), gridTon, karteTon })
+  const nahe = (r, grenze = 1) => { for (const k of r.abweichung) expect(k).toBeLessThanOrEqual(grenze) }
+
+  it('styles.css ist gebaut', () => { expect(existsSync(datei)).toBe(true) })
+
+  it.each([
+    ['gruen', '#99f5c0'],
+    ['aqua', '#c0e8e8'],
+    ['lime', '#a4ff9f'],
+    ['forest', '#aabdbe'],
+  ])('Grid „%s“: Weiß wird %s', async (ton, hex) => {
+    nahe(await fall(ton, null, '#ffffff', hex))
+  }, 30000)
+
+  it('Schwarzpunkt-Token 0.26: Grau #424242 wird schwarz', async () => {
+    nahe(await fall('gruen', null, '#424242', '#000000'), 2)
+  }, 30000)
+
+  it('Karte „aus“ im grünen Grid bleibt ungefärbt', async () => {
+    nahe(await fall('gruen', 'aus', '#3366cc', '#3366cc'), 0)
+  }, 30000)
+
+  it('Karte „aqua“ im grünen Grid bekommt Aqua', async () => {
+    nahe(await fall('gruen', 'aqua', '#ffffff', '#c0e8e8'))
+  }, 30000)
+
+  it('Karte „lime“ ohne Grid-Attribut wird eingefärbt', async () => {
+    nahe(await fall(null, 'lime', '#ffffff', '#a4ff9f'))
+  }, 30000)
+
+  it('Skeleton-Karte im eingefärbten Grid behält ihre Ladefläche', async () => {
+    const markup = (ton) => `<style>${css()}</style><div class="nc-card-grid"${ton ? ` data-medien-ton="${ton}"` : ''}>
+      <article class="nc-card nc-card--skeleton"><div class="nc-card__media"></div></article></div>`
+    const flaecheVon = () => seite.evaluate(() => getComputedStyle(document.querySelector('.nc-card__media')).backgroundColor)
+    await seite.setContent(markup(null)); const ohne = await flaecheVon()
+    await seite.setContent(markup('gruen')); const mit = await flaecheVon()
+    expect(mit).toBe(ohne)
+  }, 30000)
+
+  it('ohne Attribut bleibt das Bild unverändert', async () => {
+    nahe(await fall(null, null, '#3366cc', '#3366cc'), 0)
   }, 30000)
 })

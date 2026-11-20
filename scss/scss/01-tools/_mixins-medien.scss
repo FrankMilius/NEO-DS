@@ -1,0 +1,54 @@
+// ==========================================================================
+// 01-Tools: Medien einfärben (Duoton)
+// ==========================================================================
+// Färbt Bilder und Videos per CSS ein, ohne die Datei anzufassen (I12,
+// 20.11.2026): Graustufen, alles bis zum Schwarzpunkt wird schwarz, darüber
+// linear bis zum Ton. Der Ton liegt als Fläche HINTER dem Bild, das Bild wird
+// mit multiply darübergelegt — Weiß × Ton = Ton, Schwarz bleibt Schwarz.
+// `isolation` begrenzt die Mischung auf die Fläche (sonst mischte das Bild
+// mit Kartenfläche und Glow).
+//
+// Schwarzpunkt bp über brightness(h) und dann contrast(k):
+//   x ↦ (x·h − 0.5)·k + 0.5  mit  bp ↦ 0,  1 ↦ 1
+//   ⇒  k = (1 + bp) / (1 − bp),  h = 1 / (1 + bp)
+// Gemessen gegen die Prod-Vorlage: scripts/pruefen/medien-ton-messen.mjs.
+//
+// Ein- und Ausschalten über drei Laufzeit-Variablen am Bereich (Grid oder
+// Karte), damit der nächste Vorfahr gewinnt: Variablen erben, Selektoren
+// nicht. Ohne einschaltendes Attribut greift keine Regel.
+// ==========================================================================
+
+/// Wählt den Ton eines Bereichs (setzt nur die Fläche). Getrennt von
+/// medien-ton-an, damit die lange Filterkette bei mehreren Tönen nur einmal
+/// im CSS steht (Größenbudget von styles.css).
+/// @param {String} $ton  CSS-Farbe, z. B. var(--nc-card-medien-ton-gruen)
+@mixin medien-ton($ton) {
+  --mod-medien-flaeche: #{$ton};
+}
+
+/// Schaltet das Einfärben für einen Bereich ein (Filter und Mischung).
+/// @param {String} $schwarzpunkt  Zahl 0 bis unter 1, z. B. var(--nc-card-medien-schwarzpunkt)
+@mixin medien-ton-an($schwarzpunkt) {
+  --mod-medien-filter: grayscale(1) brightness(calc(1 / (1 + #{$schwarzpunkt}))) contrast(calc((1 + #{$schwarzpunkt}) / (1 - #{$schwarzpunkt})));
+  --mod-medien-mischung: multiply;
+}
+
+/// Schaltet das Einfärben für einen Bereich wieder ab (z. B. eine Karte im
+/// eingefärbten Grid).
+@mixin medien-ton-aus {
+  --mod-medien-flaeche: transparent;
+  --mod-medien-filter: none;
+  --mod-medien-mischung: normal;
+}
+
+/// Wendet die Variablen auf einen Medien-Rahmen an (Element mit img/video).
+@mixin medien-einfaerben {
+  background-color: var(--mod-medien-flaeche, transparent);
+  isolation: isolate;
+
+  img,
+  video {
+    filter: var(--mod-medien-filter, none);
+    mix-blend-mode: var(--mod-medien-mischung, normal);
+  }
+}

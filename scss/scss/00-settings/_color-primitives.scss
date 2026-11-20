@@ -215,6 +215,13 @@ $aqua:       fn.generate-shade-scale($_aqua-base) !default;
 $cyan:       fn.generate-shade-scale($_cyan-base) !default;
 $burgundy:   fn.generate-shade-scale($_burgundy-base) !default;
 
+// Prod-Grün der eingefärbten Card-Bilder (I12, 20.11.2026). Gemessen an der
+// von Hand gefärbten Prod-Fassung: Endton des Duotons, mit dem der CSS-Filter
+// das Prod-Bild mit mittlerer Abweichung 4 von 255 trifft (Messung:
+// scripts/pruefen/medien-ton-messen.mjs). Stufe 500 = dieser Wert.
+$_medien-gruen-base: #99f5c0 !default;
+$medien-gruen: fn.generate-shade-scale($_medien-gruen-base) !default;
+
 $_coral-base:          #e06060 !default;
 $coral:       fn.generate-shade-scale($_coral-base) !default;
 
@@ -320,6 +327,9 @@ $dark-orange: fn.generate-shade-scale($_dark-orange-base) !default;
   }
   @each $step, $color in $burgundy {
     --fnd-primitive-burgundy-#{$step}: #{$color};
+  }
+  @each $step, $color in $medien-gruen {
+    --fnd-primitive-medien-gruen-#{$step}: #{$color};
   }
 
   @each $step, $color in $coral {

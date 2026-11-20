@@ -139,8 +139,38 @@ export const zusatzSpecimens = [
     },
     layout: 'row',
     render: { label: 'Datums-Abzeichen', compositionType: 'datums-abzeichen' }
+  },
+  // Bilder einfärben (I12, 20.11.2026): je Ton eine Karte, dazu eine Karte
+  // „aus“ in einem grünen Bereich — damit Ton und Schwarzpunkt auf der Bühne
+  // wirken. Nur Bühne, das Recipe folgt in Phase 4.
+  {
+    id: 'bilder-einfaerben',
+    label: 'Bilder einfärben',
+    description: 'data-medien-ton am Grid oder an der Karte: Duoton in vier Tönen, „aus“ schaltet eine Karte ab',
+    matrix: {
+      axes: { behavior: ['navigational'], pattern: ['preview'], statusLevel: ['none'] },
+      states: ['default']
+    },
+    layout: 'row',
+    render: { label: 'Bilder einfärben', compositionType: 'bilder-einfaerben' }
   }
 ]
+
+const TOENE = [['gruen', 'Grün'], ['aqua', 'Aqua'], ['lime', 'Lime'], ['forest', 'Forest']]
+
+function bilderEinfaerben (m) {
+  const karte = (attr, titel) => `<a href="#" onclick="return false" class="${klasse(m)}"${zustand(m)}${attr}>
+${medium()}
+<div class="nc-card__content">
+<span class="nc-card__kicker">Bilder einfärben</span>
+<h3 class="nc-card__title">${titel}</h3>
+</div>
+${fussLink}
+</a>`
+  const toene = TOENE.map(([ton, name]) => feld(karte(` data-medien-ton="${ton}"`, name)))
+  const aus = feld(`<div data-medien-ton="gruen">${karte(' data-medien-ton="aus"', 'Aus (im grünen Bereich)')}</div>`)
+  return reihe(...toene, aus)
+}
 
 const ABZEICHEN = '<time class="nc-card__date-badge" datetime="2026-12-03"><span class="nc-card__date-badge-day">03</span><span>Dez</span></time>'
 
@@ -163,6 +193,7 @@ export default (zelle, m) => {
 
   if (typ === 'anwendungen') return anwendungen(m)
   if (typ === 'datums-abzeichen') return datumsAbzeichen(m)
+  if (typ === 'bilder-einfaerben') return bilderEinfaerben(m)
   if (m.hat('skeleton')) {
     return feld(`<article class="${klasse(m, 'nc-card--skeleton')}"${zustand(m)}>
 ${pattern === 'preview' ? '<div class="nc-card__media"></div>\n' : ''}<div class="nc-card__content">

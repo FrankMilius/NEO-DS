@@ -7,6 +7,7 @@
 // Zusätzlich: --expandable, --horizontal, --skeleton, --disabled
 // ==========================================================================
 
+@use 'sass:list';
 @use '../01-tools' as *;
 @use '../00-settings' as settings;
 
@@ -810,4 +811,42 @@
 .nc-card:has(.nc-card__title-link) {
   --nc-card-hover-border: var(--fnd-color-background-accent);
   --nc-card-hover-glow: var(--fnd-color-background-accent);
+}
+
+// ---------------------------------------------------------------------------
+// Bilder einfärben (I12, 20.11.2026)
+// ---------------------------------------------------------------------------
+// data-medien-ton am Grid (.nc-card-grid) oder an der Karte färbt die Bilder
+// im Duoton (Mixins: 01-tools/_mixins-medien.scss). Die Karte schlägt das
+// Grid, weil sie die Laufzeit-Variablen näher am Bild setzt; „aus“ schaltet
+// eine Karte im eingefärbten Grid ab. Ohne Attribut greift keine Regel.
+// Die Tokens (Ton, Schwarzpunkt) werden am Element mit dem Attribut
+// aufgelöst: Ein Token wirkt, wenn es dort oder darüber gesetzt ist, nicht
+// erst an einer Karte unterhalb eines eingefärbten Grids.
+
+// In Anführungszeichen: aqua und lime wären sonst Sass-Farbwerte
+$_medien-toene: ('gruen', 'aqua', 'lime', 'forest');
+$_medien-an: ();
+
+@each $ton in $_medien-toene {
+  $_medien-an: list.append($_medien-an, "[data-medien-ton='#{$ton}']", comma);
+
+  [data-medien-ton='#{$ton}'] {
+    @include medien-ton(var(--nc-card-medien-ton-#{$ton}));
+  }
+}
+
+#{$_medien-an} {
+  @include medien-ton-an(var(--nc-card-medien-schwarzpunkt));
+}
+
+[data-medien-ton='aus'] {
+  @include medien-ton-aus;
+}
+
+// Skeleton-Karten ausgenommen: Ihre Medienfläche ist die Ladefläche, kein Bild
+// Zwei Fälle: Attribut an einem Vorfahren (Grid) oder an der Karte selbst.
+[data-medien-ton] .nc-card:not(.nc-card--skeleton) .nc-card__media,
+.nc-card[data-medien-ton]:not(.nc-card--skeleton) .nc-card__media {
+  @include medien-einfaerben;
 }

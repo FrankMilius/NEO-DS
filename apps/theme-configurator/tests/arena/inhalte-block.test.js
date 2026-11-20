@@ -471,8 +471,9 @@ describe('Inhalte-Block in der RecipeArena', () => {
   for (const id of ['card', 'data-table']) {
     it(`${id}: alle Specimens aus der Vorlage, nur „Zustände"`, async () => {
       const w = await geladen({ componentId: id })
-      // card: plus Zusatz-Muster „Datums-Abzeichen“ der Vorlage (I11, 19.11.2026)
-      const zusatz = id === 'card' ? 1 : 0
+      // card: plus Zusatz-Muster „Datums-Abzeichen“ (I11, 19.11.2026) und
+      // „Bilder einfärben“ (I12, 20.11.2026) der Vorlage
+      const zusatz = id === 'card' ? 2 : 0
       expect(w.findAll('.ra-specimen').length).toBe(normalisiereRecipe(rohesRecipe(id)).specimens.length + zusatz)
       expect(w.findAll('.ra-cell[data-quelle="heuristik"], .ra-cell[data-quelle="fehler"]')).toHaveLength(0)
       expect(w.find('.ra-modus').exists()).toBe(false)

@@ -240,6 +240,15 @@ export function erzeugeDtcg(src, opt = {}) {
     if ((m = name.match(/^neutral-(\d+)$/)) && P.neutralleitern.graphit.shades[m[1]]) return `{primitives.neutralleitern.graphit.shades.${m[1]}}`;
     if ((m = name.match(/^accent-(\d+)$/)) && P.neutralleitern.lime.shades[m[1]]) return `{primitives.neutralleitern.lime.shades.${m[1]}}`;
     if (IDX.has(name)) return `{${IDX.get(name)}}`;
+    // Direkter Verweis auf eine Primitiv-Stufe (--fnd-primitive-aqua-500, seit
+    // I12 20.11.2026 für die Töne „Bilder einfärben“). Nur wenn das gebaute CSS
+    // dieselbe Farbe führt — sonst verbände der Export einen anderen Wert.
+    if ((m = name.match(/^primitive-([a-z0-9-]+)-(\d+)$/))) {
+      for (const gruppe of ['brand', 'supporting', 'neutralleitern']) {
+        const stufe = P[gruppe]?.[m[1]]?.shades?.[m[2]];
+        if (stufe && (!GEBAUT.has(name) || norm(GEBAUT.get(name)) === norm(stufe))) return `{primitives.${gruppe}.${m[1]}.shades.${m[2]}}`;
+      }
+    }
     // Wie die SCSS sie ableitet: always-* aus der Foundation-Schwarz/Weiss-Skala
     // (_color-primitives.scss), Border-Aliase ueber foundation.border.width_aliases.
     if (name === 'color-always-dark') return '{primitives.foundation.black.shades.100}';
