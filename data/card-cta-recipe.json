@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "card-cta",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "status": "stable",
     "tags": [
       "aufgenommen",
@@ -15,6 +15,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.6.0",
+        "changes": [
+          "I14 (21.11.2026, Freigabe ausstehend; Website unverändert, solange kein Ton gesetzt ist): Bilder einfärben (Anatomie-Notiz, keine Achse und kein Specimen — wie Card und Card-Grid, Entscheidung Frank 20.11.2026). data-medien-ton=\"gruen|aqua|lime|forest\" an der Karte oder am Raster .nc-card-grid-cta färbt .nc-card-cta__media (Bild und Video) im Duoton; die Karte schlägt das Raster, \"aus\" zeigt eine Karte im Original. Töne und Schwarzpunkt geteilt mit der Card (card-recipe, Gruppe medien; keine eigenen Tokens). SCSS: 06-molecules/_card-cta.scss, Mixins 01-tools/_mixins-medien.scss (WEBSITE26 1de09703). Drupal folgt (I14 Phase 4 und 5): Feld field_cg_medien_ton am Block, Schlüssel medien_ton je Karte."
+        ]
+      },
       {
         "version": "1.5.0",
         "changes": [
@@ -127,7 +133,8 @@
       "Seitenverhaeltnis aus --cgc-ratio (Instanzwert am Raster, field_cgc_ratio 16/9 | 4/3 | 1/1 | 3/4; Vorgabe 16/9), Radius --nc-card-radius (Rueckfall radius-md).",
       "Ohne Medium steht die Karte auf einer Flaeche im Ton der Karte (dunkel bzw. ohne data-theme always-dark, hell always-light), ohne Verlauf.",
       "Hover: das Medium zoomt auf 1.03 (Uebergang 0,4 s, bei prefers-reduced-motion ohne Uebergang); die Karte selbst ist kein Link, der Knopf traegt das Ziel.",
-      "Die Mobilregel (max-width 768px) setzt dieselbe Titelgroesse wie die Grundregel und ist wirkungslos."
+      "Die Mobilregel (max-width 768px) setzt dieselbe Titelgroesse wie die Grundregel und ist wirkungslos.",
+      "Bilder einfärben (I14): data-medien-ton=\"gruen|aqua|lime|forest\" an der Karte oder am Raster färbt das direkte Medium .nc-card-cta__media (img oder video) im Duoton; die Karte selbst ist die Tonfläche (Ton als Bildebene über ihrer Fläche, isolation begrenzt die Mischung). Nur Karten mit Medium; ein Bild im Inhalt, Verlauf, Titel und Knopf bleiben unverändert. Die Karte schlägt das Raster, \"aus\" zeigt sie im Original, ohne Attribut greift keine Regel. Töne und Schwarzpunkt: card-recipe, Gruppe medien. Bewusst keine Achse (Entscheidung Frank 20.11.2026 für Card und Card-Grid)."
     ]
   },
   "axes": {

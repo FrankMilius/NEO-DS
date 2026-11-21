@@ -1,5 +1,5 @@
 # card-cta Component Spec
-> Version 1.5.0 | Status: stable | Layer: molecule
+> Version 1.6.0 | Status: stable | Layer: molecule
 
 Tags: `aufgenommen`, `molecules`
 
@@ -21,6 +21,7 @@ Root element: `.nc-card-cta`
 - Ohne Medium steht die Karte auf einer Flaeche im Ton der Karte (dunkel bzw. ohne data-theme always-dark, hell always-light), ohne Verlauf.
 - Hover: das Medium zoomt auf 1.03 (Uebergang 0,4 s, bei prefers-reduced-motion ohne Uebergang); die Karte selbst ist kein Link, der Knopf traegt das Ziel.
 - Die Mobilregel (max-width 768px) setzt dieselbe Titelgroesse wie die Grundregel und ist wirkungslos.
+- Bilder einfärben (I14): data-medien-ton="gruen|aqua|lime|forest" an der Karte oder am Raster färbt das direkte Medium .nc-card-cta__media (img oder video) im Duoton; die Karte selbst ist die Tonfläche (Ton als Bildebene über ihrer Fläche, isolation begrenzt die Mischung). Nur Karten mit Medium; ein Bild im Inhalt, Verlauf, Titel und Knopf bleiben unverändert. Die Karte schlägt das Raster, "aus" zeigt sie im Original, ohne Attribut greift keine Regel. Töne und Schwarzpunkt: card-recipe, Gruppe medien. Bewusst keine Achse (Entscheidung Frank 20.11.2026 für Card und Card-Grid).
 
 ## Variants
 ### Ton (`ton`)

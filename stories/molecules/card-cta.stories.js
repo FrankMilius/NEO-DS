@@ -1,6 +1,6 @@
 // ============================================================
 // CardCta — Auto-generated from card-cta-recipe.json
-// Version: 1.5.0 | Status: stable
+// Version: 1.6.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**CardCta** v1.5.0 (stable)
+        component: `**CardCta** v1.6.0 (stable)
 
 Das Twig (block--block-content--neo-card-grid-cta.html.twig, aufbereitet in includes/neo_card_grid_cta.inc) rendert die Karten aus dem JSON-Feld field_cgc_cards in das Raster .nc-card-grid-cta (Recipe card-grid-cta) — <div class="nc-card-cta" data-theme="dark|light"> mit __media, __overlay, __content > __title + __actions.
 
