@@ -1231,6 +1231,22 @@ Bilder einfärben (I12, 20.11.2026, ohne App-Version — Daten, Arena-Vorlage, P
   Primitiv, der Name enthält kein „color“) und wirken auf der Bühne; der
   Schwarzpunkt wird mit 0.5 statt 7 gemessen, damit der Filter gültig bleibt.
 
+Bilder einfärben auch an Card CTA (I14, 21.11.2026, ohne App-Version — Daten, Inspector):
+
+- Card › Bilder einfärben gilt auch für die Karten im Card Grid CTA (Komponente
+  card-cta, Bild und Video): Töne und Schwarzpunkt sind geteilt, card-cta hat
+  keine eigenen Werte. Die Untergruppe sagt das in einer eigenen Zeile unter der
+  Überschrift: „Gilt für Card und Card CTA (Card Grid CTA).“
+- Neu dafür: Eine Token-Gruppe im Recipe kann `hinweis` tragen
+  (`styling.tokenGroups.<id>.hinweis`, Schema `data/recipe-schema.json`). Der
+  Inspector zeigt den Satz unter dem Kurztext der Gruppe; Werte der Gruppe, die
+  unter „Weitere Einstellungen“ ohne Gruppenüberschrift stehen (hier der
+  Schwarzpunkt), tragen ihn in ihrer Zeile (`ComponentEditor.vue`, Test
+  `tests/components/i14-gruppen-hinweis.test.js`). Gruppen ohne Hinweis
+  bleiben wie bisher.
+- Die Bühne der Card zeigt den Ton weiter an Card-Karten; card-cta hat in der App
+  keine eigene Bühne für das Einfärben.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

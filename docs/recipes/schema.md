@@ -344,6 +344,7 @@ Jede Achse definiert benannte Werte mit CSS-Modifier und Token-Zuordnung.
 | `baseClasses` | string[] | ja | CSS-Klassen fuer jede Instanz |
 | `baseTokenGroups` | string[] | ja | Token-Gruppen fuer jede Instanz |
 | `tokenGroups` | object | ja | Benannte Token-Gruppen mit Token-IDs |
+| `tokenGroups.*.hinweis` | string | nein | Satz, den die Konfig-App unter der Ueberschrift der Gruppe zeigt, z. B. wer die Werte mitnutzt (I14, 21.11.2026; Beispiel: Card › Bilder einfaerben) |
 
 ### Regeln
 

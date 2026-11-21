@@ -131,6 +131,7 @@
               </button>
               <div v-if="expandedSubgroups.has('anat-' + sg.id)" class="ce-subgroup-body">
                 <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
+                <p v-if="sg.hinweis" class="ce-subgroup-wirkung" data-test="gruppen-hinweis">{{ sg.hinweis }}</p>
                 <div v-for="token in sg.tokens" :key="token.id" class="anatomy-row">
                   <div class="anatomy-row__label">
                     {{ token.label }}
@@ -192,6 +193,7 @@
               </button>
               <div v-if="expandedSubgroups.has('typo-' + sg.id)" class="ce-subgroup-body">
                 <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
+                <p v-if="sg.hinweis" class="ce-subgroup-wirkung" data-test="gruppen-hinweis">{{ sg.hinweis }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
@@ -284,6 +286,7 @@
               </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
                 <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
+                <p v-if="sg.hinweis" class="ce-subgroup-wirkung" data-test="gruppen-hinweis">{{ sg.hinweis }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <!-- Mirror Row: Light + Dark nebeneinander -->
                   <div :class="['mirror-row', { diff: tokenValuesDiffer(token), selected: selectedId === token.id }]" @click="selectToken(token)">
@@ -367,6 +370,7 @@
               </button>
               <div v-if="expandedSubgroups.has(sg.id)" class="ce-subgroup-body">
                 <p v-if="wirkungsText(sg)" class="ce-subgroup-wirkung" data-test="gruppen-wirkung">{{ wirkungsText(sg) }}</p>
+                <p v-if="sg.hinweis" class="ce-subgroup-wirkung" data-test="gruppen-hinweis">{{ sg.hinweis }}</p>
                 <template v-for="token in sg.tokens" :key="token.id">
                   <div :class="['token-row', { selected: selectedId === token.id }]" role="button" tabindex="0" :aria-expanded="selectedId === token.id" @click="selectToken(token)" @keydown.enter.self.prevent="selectToken(token)" @keydown.space.self.prevent="selectToken(token)">
                     <div class="token-left">
@@ -449,6 +453,7 @@
               <div class="token-info">
                 <span class="token-label">{{ token.label }}</span>
                 <span v-if="wirkungsHinweis(token.id)" class="wirkung-hinweis" data-test="wirkt-nicht" :title="wirkungsHinweis(token.id)">wirkt derzeit nicht</span>
+                <span v-if="advancedHinweise.get(token.id)" class="ce-subgroup-wirkung" data-test="token-gruppen-hinweis">{{ advancedHinweise.get(token.id) }}</span>
                 <code class="token-name">--{{ token.id }}</code>
                       <a v-if="resolveInheritance(token)?.source === 'komponente'" class="inheritance-link inheritance-link--komponente" :href="komponentenLink(resolveInheritance(token).gruppe)" :title="`Erbt von ${resolveInheritance(token).category}: ${resolveInheritance(token).varName}`" @click.stop>erbt von {{ resolveInheritance(token).category }}</a>
               </div>
@@ -673,7 +678,8 @@ function buildRecipeSubgroups() {
     if (sgTokens.length === 0) continue
     const category = detectCategory(groupId)
     const swatches = buildSwatches(sgTokens, category)
-    result.push({ id: groupId, label: group.label || groupId, category, tokenIds: sgTokens.map(t => t.id), tokens: sgTokens, swatches })
+    // hinweis (I14, 21.11.2026): freier Satz unter der Überschrift, z. B. wer die Werte mitnutzt
+    result.push({ id: groupId, label: group.label || groupId, hinweis: group.hinweis || '', category, tokenIds: sgTokens.map(t => t.id), tokens: sgTokens, swatches })
   }
   return result
 }
@@ -833,6 +839,18 @@ const advancedTokens = computed(() => {
     }
   }
   return result
+})
+
+// Hinweis der Herkunftsgruppe je Wert unter „Weitere Einstellungen“ — dort gibt
+// es keine Gruppenüberschrift, unter der er stehen könnte (I14, 21.11.2026:
+// Schwarzpunkt von Card › Bilder einfärben gilt auch für Card CTA).
+const advancedHinweise = computed(() => {
+  const m = new Map()
+  for (const sg of allFilteredSubgroups.value.filter(isAppearanceSubgroup)) {
+    if (!sg.hinweis) continue
+    for (const t of sg.tokens) m.set(t.id, sg.hinweis)
+  }
+  return m
 })
 
 // Token-Counts
