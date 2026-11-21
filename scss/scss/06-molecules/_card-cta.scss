@@ -144,3 +144,27 @@ video.nc-card-cta__media {
   }
 }
 /* <<< aufgenommen: card-cta */
+
+// ---------------------------------------------------------------------------
+// Bilder und Videos einfärben (I14, 21.11.2026)
+// ---------------------------------------------------------------------------
+// data-medien-ton am Grid (.nc-card-grid-cta) oder an der Karte färbt das
+// Medium im Duoton — wie die Card seit I12. Die Ton-Schalter (Töne und
+// Schwarzpunkt, geteilt mit der Card) stehen in _card.scss und gelten für
+// jedes Element mit dem Attribut; hier wird nur angewandt.
+// Anders als bei der Card ist das Medium das direkte Kind und die Karte selbst
+// die Tonfläche. Deshalb nur Karten MIT Medium (ohne Medium trägt die Fläche
+// den Ton der Karte, siehe oben) und nur das direkte Medium (ein Bild im
+// Inhalt bleibt unberührt). Verlauf und Inhalt liegen darüber und mischen
+// nicht mit; isolation begrenzt die Mischung auf die Karte. Der Ton liegt als
+// Bildebene über der Kartenfläche, damit eine Karte „aus“ ihre Fläche behält
+// (sichtbar, solange ein Video lädt).
+// Ohne Attribut greift keine Regel.
+[data-medien-ton] .nc-card-cta:has(> .nc-card-cta__media),
+.nc-card-cta[data-medien-ton]:has(> .nc-card-cta__media) {
+  @include medien-einfaerben-flaeche-auflage;
+
+  > .nc-card-cta__media {
+    @include medien-einfaerben-medium;
+  }
+}

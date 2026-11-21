@@ -41,14 +41,33 @@
   --mod-medien-mischung: normal;
 }
 
-/// Wendet die Variablen auf einen Medien-Rahmen an (Element mit img/video).
-@mixin medien-einfaerben {
+/// Tonfläche hinter dem Medium (das Element, das das Medium umschließt).
+@mixin medien-einfaerben-flaeche {
   background-color: var(--mod-medien-flaeche, transparent);
   isolation: isolate;
+}
+
+/// Tonfläche ÜBER einer bestehenden Hintergrundfarbe: als Bildebene, damit
+/// die Farbe des Elements darunter bleibt (bei „aus“ ist der Ton transparent).
+/// Für Komponenten, in denen die Karte selbst die Fläche ist (card-cta, I14).
+@mixin medien-einfaerben-flaeche-auflage {
+  background-image: linear-gradient(var(--mod-medien-flaeche, transparent), var(--mod-medien-flaeche, transparent));
+  isolation: isolate;
+}
+
+/// Filter und Mischung auf dem Medium selbst (img oder video). Getrennt vom
+/// Rahmen für Komponenten, in denen das Medium direktes Kind der Karte ist.
+@mixin medien-einfaerben-medium {
+  filter: var(--mod-medien-filter, none);
+  mix-blend-mode: var(--mod-medien-mischung, normal);
+}
+
+/// Wendet die Variablen auf einen Medien-Rahmen an (Element mit img/video).
+@mixin medien-einfaerben {
+  @include medien-einfaerben-flaeche;
 
   img,
   video {
-    filter: var(--mod-medien-filter, none);
-    mix-blend-mode: var(--mod-medien-mischung, normal);
+    @include medien-einfaerben-medium;
   }
 }

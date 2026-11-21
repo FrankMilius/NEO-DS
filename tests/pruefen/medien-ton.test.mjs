@@ -6,7 +6,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { chromium } from '../../scripts/pruefen/lib/browser.mjs'
 import { readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
-import { filterParameter, filterKette, mittlereAbweichung, vergleicheMitVorlage, vergleicheMitStylesheet } from '../../scripts/pruefen/lib/medien-ton.mjs'
+import { filterParameter, filterKette, mittlereAbweichung, vergleicheMitVorlage, vergleicheMitStylesheet, vergleicheCardCta } from '../../scripts/pruefen/lib/medien-ton.mjs'
 
 let browser, seite
 
@@ -145,5 +145,131 @@ describe('medien-ton: Design System (styles.css)', () => {
 
   it('ohne Attribut bleibt das Bild unverändert', async () => {
     nahe(await fall(null, null, '#3366cc', '#3366cc'), 0)
+  }, 30000)
+})
+
+// card-cta (I14, 21.11.2026): Das Medium ist das direkte Kind der Karte, die
+// Karte selbst ist die Tonfläche. Töne und Schwarzpunkt teilt card-cta mit der
+// Card. Ohne Attribut, bei „aus“ und ohne Medium bleibt die Karte wie sie ist.
+describe('medien-ton: card-cta (styles.css)', () => {
+  const datei = path.resolve(import.meta.dirname, '../../styles.css')
+  const css = () => readFileSync(datei, 'utf8')
+  const fall = async (gridTon, karteTon, original, vorlage) =>
+    vergleicheCardCta(seite, { css: css(), original: await flaeche(original), vorlage: await flaeche(vorlage), gridTon, karteTon })
+  const nahe = (r, grenze = 1) => { for (const k of r.abweichung) expect(k).toBeLessThanOrEqual(grenze) }
+  const attr = (ton) => (ton ? ` data-medien-ton="${ton}"` : '')
+
+  // Vollständige Karte wie im Drupal-Template: Medium, Verlauf, Inhalt mit Titel und Knopf
+  const karte = ({ gridTon = null, karteTon = null, medium = 'img', theme = null, inhaltBild = false } = {}) => {
+    const src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
+    const m = medium === 'img' ? `<img class="nc-card-cta__media" src="${src}" alt="">`
+      : medium === 'video' ? '<video class="nc-card-cta__media" muted playsinline></video>' : ''
+    return `<style>${css()}</style><div class="nc-card-grid-cta"${attr(gridTon)}>
+      <div class="nc-card-cta"${attr(karteTon)}${theme ? ` data-theme="${theme}"` : ''} style="width:320px">
+        ${m}${m ? '<div class="nc-card-cta__overlay"></div>' : ''}
+        <div class="nc-card-cta__content"><h3 class="nc-card-cta__title">Titel</h3>
+          ${inhaltBild ? `<img class="logo" src="${src}" alt="">` : ''}
+          <div class="nc-card-cta__actions"><a class="nc-button nc-button--primary" href="#">Mehr</a></div></div></div></div>`
+  }
+  const stile = (sel, props) => seite.evaluate(([s, p]) => {
+    const c = getComputedStyle(document.querySelector(s)); return Object.fromEntries(p.map((k) => [k, c.getPropertyValue(k)]))
+  }, [sel, props])
+
+  it.each([
+    ['gruen', '#99f5c0'],
+    ['aqua', '#c0e8e8'],
+    ['lime', '#a4ff9f'],
+    ['forest', '#aabdbe'],
+  ])('Grid „%s“: Weiß wird %s', async (ton, hex) => {
+    nahe(await fall(ton, null, '#ffffff', hex))
+  }, 30000)
+
+  it('Schwarzpunkt geteilt mit der Card: Grau #424242 wird schwarz', async () => {
+    nahe(await fall('gruen', null, '#424242', '#000000'), 2)
+  }, 30000)
+
+  it('Karte „aus“ im grünen Grid bleibt ungefärbt', async () => {
+    nahe(await fall('gruen', 'aus', '#3366cc', '#3366cc'), 0)
+  }, 30000)
+
+  it('Karte „aqua“ im grünen Grid bekommt Aqua', async () => {
+    nahe(await fall('gruen', 'aqua', '#ffffff', '#c0e8e8'))
+  }, 30000)
+
+  it('Karte „lime“ ohne Grid-Attribut wird eingefärbt', async () => {
+    nahe(await fall(null, 'lime', '#ffffff', '#a4ff9f'))
+  }, 30000)
+
+  it('ohne Attribut bleibt das Bild unverändert', async () => {
+    nahe(await fall(null, null, '#3366cc', '#3366cc'), 0)
+  }, 30000)
+
+  it('Video im grünen Grid bekommt dieselbe Filterkette und Mischung wie ein Bild', async () => {
+    const props = ['filter', 'mix-blend-mode']
+    await seite.setContent(karte({ gridTon: 'gruen' })); const bild = await stile('.nc-card-cta__media', props)
+    await seite.setContent(karte({ gridTon: 'gruen', medium: 'video' })); const video = await stile('.nc-card-cta__media', props)
+    expect(bild.filter).toContain('grayscale(1)')
+    expect(bild['mix-blend-mode']).toBe('multiply')
+    expect(video).toEqual(bild)
+  }, 30000)
+
+  it.each([[null], ['light']])('Karte ohne Medium (Ton %s) behält im grünen Grid ihre Fläche', async (theme) => {
+    const props = ['background-color', 'isolation']
+    await seite.setContent(karte({ medium: null, theme })); const ohne = await stile('.nc-card-cta', props)
+    await seite.setContent(karte({ medium: null, theme, gridTon: 'gruen' })); const mit = await stile('.nc-card-cta', props)
+    expect(mit).toEqual(ohne)
+  }, 30000)
+
+  it.each([[null], ['light']])('Verlauf, Titel und Knopf (Ton %s) bleiben im grünen Grid unverändert', async (theme) => {
+    for (const [sel, props] of [
+      ['.nc-card-cta__overlay', ['background-image', 'filter', 'mix-blend-mode', 'opacity']],
+      ['.nc-card-cta__title', ['color', 'filter', 'mix-blend-mode']],
+      ['.nc-card-cta .nc-button', ['color', 'background-color', 'filter', 'mix-blend-mode']],
+    ]) {
+      await seite.setContent(karte({ theme })); const ohne = await stile(sel, props)
+      await seite.setContent(karte({ theme, gridTon: 'gruen' })); const mit = await stile(sel, props)
+      expect(mit, sel).toEqual(ohne)
+    }
+  }, 30000)
+
+  it('Karte „aus“ im grünen Grid behält ihre Fläche (lädt das Medium noch, sieht man sie)', async () => {
+    const props = ['background-color']
+    await seite.setContent(karte({ medium: 'video' })); const ohne = await stile('.nc-card-cta', props)
+    await seite.setContent(karte({ medium: 'video', gridTon: 'gruen', karteTon: 'aus' }))
+    expect(await stile('.nc-card-cta', props)).toEqual(ohne)
+    // Bildebene durchsichtig: ohne Medium-Inhalt sieht man genau die Fläche von heute
+    const png = await seite.locator('.nc-card-cta').screenshot({ animations: 'disabled', scale: 'css' })
+    await seite.setContent(karte({ medium: 'video' }))
+    const png0 = await seite.locator('.nc-card-cta').screenshot({ animations: 'disabled', scale: 'css' })
+    const abweichung = await seite.evaluate(async ([a, b, rechne]) => {
+      const pixel = async (src) => {
+        const i = new Image(); i.src = src; await i.decode()
+        const c = document.createElement('canvas'); c.width = i.naturalWidth; c.height = i.naturalHeight
+        const x = c.getContext('2d'); x.drawImage(i, 0, 0); return x.getImageData(0, 0, c.width, c.height).data
+      }
+      return (0, eval)(`(${rechne})`)(await pixel(a), await pixel(b))
+    }, [`data:image/png;base64,${png.toString('base64')}`, `data:image/png;base64,${png0.toString('base64')}`, mittlereAbweichung.toString()])
+    // Rundung an der abgerundeten Kante (gemessen ≈ 0,0002 Stufen im Mittel)
+    for (const k of abweichung) expect(k).toBeLessThanOrEqual(0.01)
+  }, 30000)
+
+  it('Bild im Inhalt der Karte bleibt ohne Filter', async () => {
+    await seite.setContent(karte({ gridTon: 'gruen', inhaltBild: true }))
+    expect(await stile('.nc-card-cta__content img', ['filter', 'mix-blend-mode'])).toEqual({ filter: 'none', 'mix-blend-mode': 'normal' })
+  }, 30000)
+
+  it('ohne Attribut: Karte und Medium ohne Ton-Regel', async () => {
+    await seite.setContent(karte())
+    expect(await stile('.nc-card-cta', ['isolation'])).toEqual({ isolation: 'auto' })
+    expect(await stile('.nc-card-cta__media', ['filter', 'mix-blend-mode'])).toEqual({ filter: 'none', 'mix-blend-mode': 'normal' })
+  }, 30000)
+
+  it('Hover im grünen Grid: Vergrößerung bleibt, Filter bleibt', async () => {
+    await seite.setViewportSize({ width: 400, height: 400 })
+    await seite.setContent(karte({ gridTon: 'gruen' }))
+    await seite.hover('.nc-card-cta')
+    const s = await stile('.nc-card-cta__media', ['transform', 'filter'])
+    expect(s.transform).not.toBe('none')
+    expect(s.filter).toContain('grayscale(1)')
   }, 30000)
 })

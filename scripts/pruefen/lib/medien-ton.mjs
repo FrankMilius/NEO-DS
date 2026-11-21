@@ -66,6 +66,23 @@ export async function vergleicheMitStylesheet (seite, { css, original, vorlage, 
   return aufnehmenUndVergleichen(seite, vorlage)
 }
 
+// Dasselbe für card-cta (I14): Dort ist das Bild selbst das Medium
+// (.nc-card-cta__media, direktes Kind der Karte) und die Karte die Tonfläche.
+// Ohne Verlauf (.nc-card-cta__overlay), damit nur das Bild zählt; Rundung aus.
+export async function vergleicheCardCta (seite, { css, original, vorlage, gridTon = null, karteTon = null }) {
+  const [breite, hoehe] = await masseVon(seite, original)
+  const attr = (ton) => (ton ? ` data-medien-ton="${ton}"` : '')
+  await seite.setViewportSize({ width: breite + 40, height: hoehe + 40 })
+  await seite.setContent(`<style>${css}</style><style>
+    html,body{margin:0;background:#fff}
+    .nc-card-grid-cta{display:block}
+    .nc-card-cta{border-radius:0}
+  </style><div class="nc-card-grid-cta"${attr(gridTon)}>
+    <div class="nc-card-cta" id="f"${attr(karteTon)} style="width:${breite}px;height:${hoehe}px;aspect-ratio:auto">
+      <img class="nc-card-cta__media" src="${original}" alt=""></div></div>`)
+  return aufnehmenUndVergleichen(seite, vorlage)
+}
+
 async function masseVon (seite, src) {
   return seite.evaluate(async (s) => {
     const i = new Image(); i.src = s; await i.decode()
