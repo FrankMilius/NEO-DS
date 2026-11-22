@@ -44,6 +44,12 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 - **Leerer Wert heißt je Ort anders**: Feld am Card-Grid und am Feed zeigen Drupals „- Nicht festgelegt/ausgewählt -“, Übersichtsseite und Tab-Navigation „Original“. Weg: an den Feldern eine leere Option „Original“ (Widget-Einstellung oder Formular-Alter), dann überall gleich.
 - **Übersicht `?typ=news` dauerhaft im Cache** (Widersacher I13 Phase 2): `x-drupal-cache-max-age: -1 (Permanent)`, die anderen Aufrufe rund 1,6 Mio. s; Ursache nicht untersucht (I11, `UebersichtController`/`FeedQuery::maxAge`). Weg: max-age je Filter messen, mit geplanten Beiträgen vergleichen.
 
+## Doku und Storybook (Nebenbefunde I15, 22.11.2026)
+
+- **Doku-Seiten bei 390 px zu breit**: Der Docs-Kopf (`.docs-header__theme-toggle`) macht jede Doku-Seite bei 390 px etwa 489 px breit (gemessen an `blog-article-docs` und `content-feed-docs`). Die Bausteine selbst laufen nicht über.
+- **Doku-Bühne ohne Hintergrund im dunklen Theme**: Beim Theme-Wechsel auf der Bühne bleibt der Hintergrund hell; heller Text auf heller Fläche, axe meldet dort Scheinbefunde. Gemessen wurde in I15 mit `background: var(--fnd-color-background-base)` an der Bühne.
+- **19 Stories veraltet**: `npm run generate:stories` schreibt auf main 19 Stories neu (u. a. avatar, label, tag, accordion, logo-wall, timeline, shell). In I15 nicht übernommen, weil die CI sie nicht prüft und sie nicht zu Phase 1 gehören.
+
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 
 - **Abgleich-Prüfung der Schriften lückenhaft (I09, Widersacher 06.11.2026)**: `fehlendeSchriften` in `scripts/sync-drupal-css.js` übersieht falsche Großschreibung, weil die macOS-Platte nicht unterscheidet (ein Linux-Server antwortet 404). Geprüft wird nur `styles.css`, nicht `design-tokens.css` und `shot-vorschau.css`; `watch:drupal` schreibt ohne Prüfung direkt ins Theme. Heute ohne Wirkung.

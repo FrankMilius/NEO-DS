@@ -1,0 +1,39 @@
+// ============================================================
+// Byline — Auto-generated from byline-recipe.json
+// Version: 1.0.0 | Status: stable
+// DO NOT EDIT DIRECTLY — run: npm run generate:stories
+// ============================================================
+
+export default {
+  title: 'Molecules/Byline',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `**Byline** v1.0.0 (stable)
+
+Autorenzeile eines Artikels: rundes Foto (Avatar mit Initialen-Fallback), Name, darunter Lesezeit und Datum mit Trennpunkt. Variante --sm fuer Karten.
+
+
+`,
+      },
+    },
+    status: { type: 'stable' },
+  },
+  argTypes: {},
+};
+
+export const Default = {
+  name: 'Artikelkopf (mit Foto)',
+  render: () => `<div class="nc-byline"><span class="nc-avatar nc-byline__photo"><img class="nc-avatar__image" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23c9ced6%22/%3E%3Ccircle cx=%2232%22 cy=%2225%22 r=%2212%22 fill=%22%23aab1bc%22/%3E%3Cpath d=%22M10 64c2-14 11-21 22-21s20 7 22 21z%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E" alt=""><span class="nc-avatar__fallback" aria-hidden="true">LH</span></span><div class="nc-byline__text"><span class="nc-byline__name">Lena Hoffmann</span><span class="nc-byline__meta"><span>7 Min. Lesezeit</span><time datetime="2026-11-18">18. Nov. 2026</time></span></div></div>`,
+};
+
+export const OhneFotoInitialen = {
+  name: 'Ohne Foto (Initialen)',
+  render: () => `<div class="nc-byline"><span class="nc-avatar nc-byline__photo"><span class="nc-avatar__fallback" aria-hidden="true">LH</span></span><div class="nc-byline__text"><span class="nc-byline__name">Lena Hoffmann</span><span class="nc-byline__meta"><span>7 Min. Lesezeit</span><time datetime="2026-11-18">18. Nov. 2026</time></span></div></div>`,
+};
+
+export const Karteklein = {
+  name: 'Karte (klein)',
+  render: () => `<div class="nc-byline nc-byline--sm"><span class="nc-avatar nc-byline__photo"><img class="nc-avatar__image" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23c9ced6%22/%3E%3Ccircle cx=%2232%22 cy=%2225%22 r=%2212%22 fill=%22%23aab1bc%22/%3E%3Cpath d=%22M10 64c2-14 11-21 22-21s20 7 22 21z%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E" alt=""><span class="nc-avatar__fallback" aria-hidden="true">LH</span></span><div class="nc-byline__text"><span class="nc-byline__name">Lena Hoffmann</span><span class="nc-byline__meta"><span>7 Min. Lesezeit</span><time datetime="2026-11-18">18. Nov. 2026</time></span></div></div>`,
+};

@@ -27,6 +27,6 @@ Jeder Ordner enthält ein `README.md` das alle Pipeline-Artefakte verlinkt:
 
 ## Statistik
 
-- **153** Komponenten/Objects/Templates
+- **156** Komponenten/Objects/Templates
 - **19** Foundations
-- **172** READMEs generiert
+- **175** READMEs generiert

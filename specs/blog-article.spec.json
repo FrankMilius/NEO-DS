@@ -1,0 +1,179 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "blog-article",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "template",
+  "tags": [
+    "templates",
+    "content",
+    "blog",
+    "website"
+  ],
+  "anatomy": {
+    "rootElement": ".t-article.t-article--blog",
+    "slots": [
+      {
+        "name": "header",
+        "selector": ".t-article__header",
+        "required": true,
+        "description": "Kopf: Kategorie, Titel, Untertitel, .nc-byline, .nc-share-bar."
+      },
+      {
+        "name": "category",
+        "selector": ".t-article__category",
+        "required": false,
+        "description": "Kategorie als Link zur Themen- bzw. Blog-Seite, Grossbuchstaben in der Kicker-Schrift."
+      },
+      {
+        "name": "title",
+        "selector": ".t-article__title",
+        "required": true,
+        "description": "<h1> (auf der Artikelseite), heading xl."
+      },
+      {
+        "name": "subtitle",
+        "selector": ".t-article__subtitle",
+        "required": false,
+        "description": "Untertitel (Drupal field_subtitle, 200 Zeichen)."
+      },
+      {
+        "name": "figure",
+        "selector": ".t-article__figure",
+        "required": false,
+        "description": "<figure> mit <img> und <figcaption>; je Seite bis zu --nc-blog-article-figure-bleed breiter als die Textspalte."
+      },
+      {
+        "name": "prose",
+        "selector": ".t-article__prose",
+        "required": true,
+        "description": "Fliesstext (Drupal body): p, h2/h3, blockquote, ul/ol, mark. Spalte --nc-blog-article-measure."
+      },
+      {
+        "name": "tags",
+        "selector": ".t-article__tags",
+        "required": false,
+        "description": "<ul aria-label=\"Schlagwörter\"> mit .nc-chip als Links."
+      }
+    ],
+    "notes": [
+      "Die Wurzel traegt die Fliesstextgroesse; dadurch misst ch in der Spaltenbreite dieselbe Schrift wie die Prosa. Titel, Untertitel, Kategorie und Bildunterschrift setzen ihre Groesse selbst.",
+      "Raster: Spalten wide und content; alle Kinder in content, die Figur in wide. Unter der Spaltenbreite schrumpfen die Randspalten auf 0.",
+      "Die Blase .nc-share-bar__popover fuer eine markierte Stelle gehoert zur Teilen-Leiste (Recipe share-bar) und steht im Fliesstext."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "figure": {
+      "label": "Hauptbild",
+      "description": "Mit Hauptbild und Bildunterschrift oder ohne (Artikel ohne Bild).",
+      "values": [
+        {
+          "value": "with",
+          "cssModifier": null,
+          "default": false,
+          "label": "with"
+        },
+        {
+          "value": "without",
+          "cssModifier": null,
+          "default": false,
+          "label": "without"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "t-article",
+      "t-article--blog"
+    ],
+    "tokenGroups": {
+      "Fließtext und Spalte": [
+        {
+          "token": "--nc-blog-article-font-size"
+        },
+        {
+          "token": "--nc-blog-article-line-height"
+        },
+        {
+          "token": "--nc-blog-article-measure"
+        },
+        {
+          "token": "--nc-blog-article-gap"
+        }
+      ],
+      "Kopf": [
+        {
+          "token": "--nc-blog-article-category-color"
+        },
+        {
+          "token": "--nc-blog-article-subtitle-size"
+        },
+        {
+          "token": "--nc-blog-article-subtitle-color"
+        }
+      ],
+      "Bild, Zitat und Markierung": [
+        {
+          "token": "--nc-blog-article-figure-bleed"
+        },
+        {
+          "token": "--nc-blog-article-caption-color"
+        },
+        {
+          "token": "--nc-blog-article-quote-size"
+        },
+        {
+          "token": "--nc-blog-article-quote-border-width"
+        },
+        {
+          "token": "--nc-blog-article-quote-border-color"
+        },
+        {
+          "token": "--nc-blog-article-mark-bg"
+        },
+        {
+          "token": "--nc-blog-article-mark-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "Ein <h1> je Seite (Titel), Zwischentitel ab <h2>",
+      "Hauptbild mit Alternativtext, Bildunterschrift in <figcaption>",
+      "Tags in <ul aria-label=\"Schlagwörter\">",
+      "Bei 390 px kein seitliches Scrollen",
+      "Zeilenlaenge im Fliesstext 60 bis 70 Zeichen"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/08-templates/_content-templates.scss",
+      "scss/scss/06-molecules/_byline.scss",
+      "scss/scss/06-molecules/_share-bar.scss"
+    ],
+    "story": "stories/organisms/blog-article.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [],
+    "docs": "docs/content/blog-article.html"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "byline",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "molecules",
+    "content",
+    "blog",
+    "website"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-byline",
+    "slots": [
+      {
+        "name": "photo",
+        "selector": ".nc-byline__photo",
+        "required": true,
+        "description": "<span class=\"nc-avatar nc-byline__photo\"> mit <img class=\"nc-avatar__image\" alt=\"\"> und <span class=\"nc-avatar__fallback\" aria-hidden=\"true\">Initialen</span>. Ohne Foto bleiben die Initialen sichtbar."
+      },
+      {
+        "name": "name",
+        "selector": ".nc-byline__name",
+        "required": true,
+        "description": "Name der Person; spaeter ein Link auf die Autorenseite (Entwurf E)."
+      },
+      {
+        "name": "meta",
+        "selector": ".nc-byline__meta",
+        "required": false,
+        "description": "Lesezeit und <time datetime> mit Datum; zwischen den Teilen ein Punkt aus CSS (content: \"·\" / \"\")."
+      }
+    ],
+    "notes": [
+      "Das Foto ist dekorativ (alt=\"\"), der Name steht als Text daneben. Die Initialen tragen aria-hidden=\"true\", damit der Name nicht doppelt vorgelesen wird.",
+      "Mehrere Autorinnen und Autoren: erste Person gross, weitere Namen im selben __name mit „und“ (Drupal: Feld field_author, Phase 5)."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "size": {
+      "label": "Groesse",
+      "description": "Artikelkopf (Standard) oder Karte (kleiner, eine Zeile).",
+      "values": [
+        {
+          "value": "md",
+          "cssModifier": null,
+          "default": false,
+          "label": "md"
+        },
+        {
+          "value": "sm",
+          "cssModifier": "nc-byline--sm",
+          "default": false,
+          "label": "sm"
+        }
+      ]
+    },
+    "photo": {
+      "label": "Foto",
+      "description": "Mit Foto oder nur Initialen (Person ohne Bild).",
+      "values": [
+        {
+          "value": "image",
+          "cssModifier": null,
+          "default": false,
+          "label": "image"
+        },
+        {
+          "value": "initials",
+          "cssModifier": null,
+          "default": false,
+          "label": "initials"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-byline"
+    ],
+    "tokenGroups": {
+      "Foto": [
+        {
+          "token": "--nc-byline-gap"
+        },
+        {
+          "token": "--nc-byline-photo-size"
+        },
+        {
+          "token": "--nc-byline-photo-size-sm"
+        },
+        {
+          "token": "--nc-byline-initials-size"
+        },
+        {
+          "token": "--nc-byline-initials-size-sm"
+        }
+      ],
+      "Name und Angaben": [
+        {
+          "token": "--nc-byline-font-size"
+        },
+        {
+          "token": "--nc-byline-font-size-sm"
+        },
+        {
+          "token": "--nc-byline-name-color"
+        },
+        {
+          "token": "--nc-byline-name-weight"
+        },
+        {
+          "token": "--nc-byline-meta-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": null,
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "Foto alt=\"\" und Initialen aria-hidden, der Name ist Text",
+      "Datum als <time datetime>",
+      "Trennpunkt aus CSS mit leerem Alternativtext (content: \"·\" / \"\")"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_byline.scss",
+      "scss/scss/05-atoms/_avatar.scss"
+    ],
+    "story": "stories/molecules/byline.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [],
+    "docs": "docs/content/byline.html"
+  }
+}

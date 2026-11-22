@@ -1,0 +1,287 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "share-bar",
+    "version": "1.0.0",
+    "status": "stable",
+    "label": "Teilen-Leiste",
+    "description": "Leiste mit Haarlinien oben und unten und Icon-Buttons zum Teilen eines Artikels: Teilen (Web Share), LinkedIn, E-Mail, Link kopieren. Dazu die Blase __popover fuer eine markierte Textstelle („Zitat teilen“, „Link kopieren“).",
+    "whenToUse": "Im Kopf eines Blog-Artikels (t-article--blog) unter der Byline. Kein Merken, keine Zaehler, kein Vorlesen (Stufe 1). Das Verhalten (Web Share, Kopieren, Blase an der Auswahl) bringt das Behavior teilen (Phase 3).",
+    "tags": [
+      "molecules",
+      "actions",
+      "blog",
+      "website"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/share-bar-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_share-bar.scss",
+        "scss/scss/05-atoms/_button.scss"
+      ],
+      "story": "stories/molecules/share-bar.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [],
+      "docs": "docs/content/share-bar.html"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "I15 Phase 1 (22.11.2026, Freigabe ausstehend): neu. Molekuel .nc-share-bar (06-molecules/_share-bar.scss) mit __label (optional), __actions und Element __popover (Blase an der markierten Textstelle, inverse Flaeche, Spitze nach unten). Knoepfe sind .nc-button--ghost.nc-button--icon-only.nc-button--sm, in der Blase .nc-button--ghost.nc-button--xs (umgefaerbt ueber --mod-button-ghost-*). Nur Aussehen, kein JavaScript. Tokens --nc-share-bar-*, Konfig-App-Gruppe „Teilen-Leiste“. Noch kein Traeger auf der Website (Artikel-Vollansicht folgt in Phase 5)."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-share-bar"
+    },
+    "slots": [
+      {
+        "name": "label",
+        "element": ".nc-share-bar__label",
+        "optional": true,
+        "description": "Sichtbares Wort „Teilen“ am Anfang (aria-hidden, die Gruppe traegt aria-label)."
+      },
+      {
+        "name": "actions",
+        "element": ".nc-share-bar__actions",
+        "optional": false,
+        "description": "Icon-Buttons: <button> Teilen (Web Share), <a target=\"_blank\" rel=\"noopener noreferrer\"> LinkedIn, <a href=\"mailto:\"> E-Mail, <button> Link kopieren. Jeder Knopf mit aria-label."
+      },
+      {
+        "name": "popover",
+        "element": ".nc-share-bar__popover",
+        "optional": true,
+        "description": "Blase ueber einer markierten Textstelle mit zwei Knoepfen „Zitat teilen“ und „Link kopieren“ (role=\"group\", aria-label=\"Textstelle teilen\"). Steht ausserhalb der Leiste im Artikeltext; Lage und Oeffnen setzt das Behavior teilen."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Wurzel <div role=\"group\" aria-label=\"Artikel teilen\">. LinkedIn: https://www.linkedin.com/sharing/share-offsite/?url=<Adresse>; E-Mail: mailto:?subject=<Titel>&body=<Adresse>. Beide funktionieren ohne JavaScript.",
+      "Teilen und Link kopieren sind ohne JavaScript ohne Wirkung; das Behavior teilen (Phase 3) blendet sie ein bzw. verdrahtet sie."
+    ]
+  },
+  "axes": {
+    "label": {
+      "label": "Beschriftung",
+      "description": "Nur Symbole oder mit dem Wort „Teilen“ am Anfang.",
+      "values": {
+        "none": {
+          "modifier": null,
+          "tokenGroups": [
+            "leiste"
+          ],
+          "renderHint": "share-bar-icons"
+        },
+        "text": {
+          "modifier": null,
+          "tokenGroups": [
+            "leiste"
+          ],
+          "renderHint": "share-bar-label"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "precedence": [
+      "focus",
+      "hover",
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Leiste und Blase als role=\"group\" mit aria-label",
+        "Jeder Icon-Button mit aria-label; LinkedIn nennt „öffnet in neuem Tab“",
+        "Fokusring der Buttons (focus-ring), Trefferflaeche mindestens 44 px (button-touch-target)"
+      ],
+      "note": "Die Knoepfe sind Buttons des Design Systems; die Leiste selbst ist nicht fokussierbar."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {
+      "quote": {
+        "maxChars": 16,
+        "note": "„Zitat teilen“ (englisch „Share quote“)."
+      },
+      "copyLink": {
+        "maxChars": 16,
+        "note": "„Link kopieren“ (englisch „Copy link“)."
+      }
+    }
+  },
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Teilen, LinkedIn, E-Mail, Link kopieren in Dokumentreihenfolge."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Oeffnet den Link bzw. loest den Knopf aus (Verhalten ab Phase 3)."
+    }
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-share-bar"
+    ],
+    "baseTokenGroups": [
+      "leiste"
+    ],
+    "tokenGroups": {
+      "leiste": {
+        "label": "Leiste",
+        "tokens": [
+          "nc-share-bar-gap",
+          "nc-share-bar-padding-block",
+          "nc-share-bar-border-width",
+          "nc-share-bar-border-color",
+          "nc-share-bar-label-color",
+          "nc-share-bar-icon-color"
+        ]
+      },
+      "blase": {
+        "label": "Blase an der Textstelle",
+        "tokens": [
+          "nc-share-bar-popover-bg",
+          "nc-share-bar-popover-color",
+          "nc-share-bar-popover-radius",
+          "nc-share-bar-popover-padding",
+          "nc-share-bar-popover-shadow",
+          "nc-share-bar-popover-arrow"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
+  ],
+  "specimens": [
+    {
+      "id": "leiste",
+      "label": "Leiste (nur Symbole)",
+      "description": "Vier Icon-Buttons rechtsbuendig zwischen zwei Haarlinien.",
+      "matrix": {
+        "axes": {
+          "label": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "leiste"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "share-bar",
+        "label": "leiste"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "aria-label je Knopf."
+      }
+    },
+    {
+      "id": "beschriftet",
+      "label": "Mit Beschriftung",
+      "description": "Das Wort „Teilen“ am Anfang, Knoepfe rechts.",
+      "matrix": {
+        "axes": {
+          "label": [
+            "text"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "leiste"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "share-bar",
+        "label": "beschriftet"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Beschriftung aria-hidden, die Gruppe traegt den Namen."
+      }
+    },
+    {
+      "id": "blase",
+      "label": "Blase an der Textstelle",
+      "description": "Zitat teilen und Link kopieren ueber einer markierten Stelle (nur Aussehen).",
+      "matrix": {
+        "axes": {
+          "label": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "blase"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "share-bar-popover",
+        "label": "blase"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Inverse Flaeche, Kontrast AA."
+      }
+    }
+  ]
+}

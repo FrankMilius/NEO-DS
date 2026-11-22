@@ -5818,6 +5818,363 @@
         ]
       },
       {
+        "id": "byline",
+        "label": "Byline",
+        "icon": "user-circle",
+        "subgroups": [
+          {
+            "id": "foto",
+            "label": "Foto",
+            "tokenIds": [
+              "nc-byline-gap",
+              "nc-byline-photo-size",
+              "nc-byline-photo-size-sm",
+              "nc-byline-initials-size",
+              "nc-byline-initials-size-sm"
+            ]
+          },
+          {
+            "id": "text",
+            "label": "Name und Angaben",
+            "tokenIds": [
+              "nc-byline-font-size",
+              "nc-byline-font-size-sm",
+              "nc-byline-name-color",
+              "nc-byline-name-weight",
+              "nc-byline-meta-color"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-byline-gap",
+            "label": "Abstand Foto zu Text",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-03)",
+            "group": "foto"
+          },
+          {
+            "id": "nc-byline-photo-size",
+            "label": "Fotogröße",
+            "type": "size",
+            "default": "var(--nc-avatar-size-md)",
+            "group": "foto"
+          },
+          {
+            "id": "nc-byline-photo-size-sm",
+            "label": "Fotogröße (Karte)",
+            "type": "size",
+            "default": "var(--nc-avatar-size-sm)",
+            "group": "foto"
+          },
+          {
+            "id": "nc-byline-initials-size",
+            "label": "Schriftgröße Initialen",
+            "type": "size",
+            "default": "var(--nc-avatar-font-size-md)",
+            "group": "foto"
+          },
+          {
+            "id": "nc-byline-initials-size-sm",
+            "label": "Schriftgröße Initialen (Karte)",
+            "type": "size",
+            "default": "var(--nc-avatar-font-size-sm)",
+            "group": "foto"
+          },
+          {
+            "id": "nc-byline-font-size",
+            "label": "Schriftgröße",
+            "type": "size",
+            "default": "var(--fs-sm)",
+            "group": "text"
+          },
+          {
+            "id": "nc-byline-font-size-sm",
+            "label": "Schriftgröße (Karte)",
+            "type": "size",
+            "default": "var(--fs-xs)",
+            "group": "text"
+          },
+          {
+            "id": "nc-byline-name-color",
+            "label": "Name — Farbe",
+            "type": "color",
+            "ref": "text-primary",
+            "group": "text"
+          },
+          {
+            "id": "nc-byline-name-weight",
+            "label": "Name — Schriftstärke",
+            "type": "fontWeight",
+            "default": "var(--fnd-font-weight-semibold)",
+            "group": "text"
+          },
+          {
+            "id": "nc-byline-meta-color",
+            "label": "Lesezeit und Datum — Farbe",
+            "type": "color",
+            "ref": "text-secondary",
+            "group": "text"
+          }
+        ]
+      },
+      {
+        "id": "share-bar",
+        "label": "Teilen-Leiste",
+        "icon": "share",
+        "subgroups": [
+          {
+            "id": "leiste",
+            "label": "Leiste",
+            "tokenIds": [
+              "nc-share-bar-gap",
+              "nc-share-bar-padding-block",
+              "nc-share-bar-border-width",
+              "nc-share-bar-border-color",
+              "nc-share-bar-label-color",
+              "nc-share-bar-icon-color"
+            ]
+          },
+          {
+            "id": "blase",
+            "label": "Blase an der Textstelle",
+            "tokenIds": [
+              "nc-share-bar-popover-bg",
+              "nc-share-bar-popover-color",
+              "nc-share-bar-popover-radius",
+              "nc-share-bar-popover-padding",
+              "nc-share-bar-popover-shadow",
+              "nc-share-bar-popover-arrow"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-share-bar-gap",
+            "label": "Abstand der Knöpfe",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-02)",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-padding-block",
+            "label": "Innenabstand oben und unten",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-02)",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-border-width",
+            "label": "Leistenrahmen — Stärke",
+            "type": "size",
+            "default": "1px",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-border-color",
+            "label": "Leistenrahmen — Farbe",
+            "type": "color",
+            "default": "var(--fnd-color-border-hairline)",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-label-color",
+            "label": "Beschriftung — Farbe",
+            "type": "color",
+            "ref": "text-secondary",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-icon-color",
+            "label": "Symbole — Farbe",
+            "type": "color",
+            "ref": "text-secondary",
+            "group": "leiste"
+          },
+          {
+            "id": "nc-share-bar-popover-bg",
+            "label": "Blase — Fläche",
+            "type": "color",
+            "ref": "background-inverse",
+            "group": "blase"
+          },
+          {
+            "id": "nc-share-bar-popover-color",
+            "label": "Blase — Text",
+            "type": "color",
+            "ref": "text-inverse",
+            "group": "blase"
+          },
+          {
+            "id": "nc-share-bar-popover-radius",
+            "label": "Blase — Radius",
+            "type": "radius",
+            "default": "var(--fnd-radius-sm)",
+            "group": "blase"
+          },
+          {
+            "id": "nc-share-bar-popover-padding",
+            "label": "Blase — Innenabstand",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-01)",
+            "group": "blase"
+          },
+          {
+            "id": "nc-share-bar-popover-shadow",
+            "label": "Blase — Schatten",
+            "type": "shadow",
+            "default": "var(--fnd-elevation-floating)",
+            "group": "blase"
+          },
+          {
+            "id": "nc-share-bar-popover-arrow",
+            "label": "Blase — Größe der Spitze",
+            "type": "size",
+            "default": "6px",
+            "group": "blase"
+          }
+        ]
+      },
+      {
+        "id": "blog-article",
+        "label": "Blog-Artikel",
+        "icon": "article",
+        "subgroups": [
+          {
+            "id": "fliesstext",
+            "label": "Fließtext und Spalte",
+            "tokenIds": [
+              "nc-blog-article-font-size",
+              "nc-blog-article-line-height",
+              "nc-blog-article-measure",
+              "nc-blog-article-gap"
+            ]
+          },
+          {
+            "id": "kopf",
+            "label": "Kopf",
+            "tokenIds": [
+              "nc-blog-article-category-color",
+              "nc-blog-article-subtitle-size",
+              "nc-blog-article-subtitle-color"
+            ]
+          },
+          {
+            "id": "bild-zitat",
+            "label": "Bild, Zitat und Markierung",
+            "tokenIds": [
+              "nc-blog-article-figure-bleed",
+              "nc-blog-article-caption-color",
+              "nc-blog-article-quote-size",
+              "nc-blog-article-quote-border-width",
+              "nc-blog-article-quote-border-color",
+              "nc-blog-article-mark-bg",
+              "nc-blog-article-mark-color"
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "id": "nc-blog-article-font-size",
+            "label": "Fließtext — Schriftgröße",
+            "type": "size",
+            "default": "var(--fs-lg)",
+            "group": "fliesstext"
+          },
+          {
+            "id": "nc-blog-article-line-height",
+            "label": "Fließtext — Zeilenabstand",
+            "type": "number",
+            "default": "1.75",
+            "group": "fliesstext"
+          },
+          {
+            "id": "nc-blog-article-measure",
+            "label": "Spaltenbreite (52ch ≈ 65 Zeichen je Zeile)",
+            "type": "size",
+            "default": "52ch",
+            "group": "fliesstext"
+          },
+          {
+            "id": "nc-blog-article-gap",
+            "label": "Abstand der Teile",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-06)",
+            "group": "fliesstext"
+          },
+          {
+            "id": "nc-blog-article-category-color",
+            "label": "Kategorie — Farbe",
+            "type": "color",
+            "ref": "text-link",
+            "group": "kopf"
+          },
+          {
+            "id": "nc-blog-article-subtitle-size",
+            "label": "Untertitel — Schriftgröße",
+            "type": "size",
+            "default": "var(--fs-xl)",
+            "group": "kopf"
+          },
+          {
+            "id": "nc-blog-article-subtitle-color",
+            "label": "Untertitel — Farbe",
+            "type": "color",
+            "ref": "text-secondary",
+            "group": "kopf"
+          },
+          {
+            "id": "nc-blog-article-figure-bleed",
+            "label": "Hauptbild — Überstand je Seite",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-12)",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-caption-color",
+            "label": "Bildunterschrift — Farbe",
+            "type": "color",
+            "ref": "text-secondary",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-quote-size",
+            "label": "Zitat — Schriftgröße",
+            "type": "size",
+            "default": "var(--fs-xl)",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-quote-border-width",
+            "label": "Zitat — Linienstärke",
+            "type": "size",
+            "default": "3px",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-quote-border-color",
+            "label": "Zitat — Linienfarbe",
+            "type": "color",
+            "ref": "text-primary",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-mark-bg",
+            "label": "Markierung — Fläche",
+            "type": "color",
+            "ref": "selection-bg",
+            "group": "bild-zitat"
+          },
+          {
+            "id": "nc-blog-article-mark-color",
+            "label": "Markierung — Text",
+            "type": "color",
+            "ref": "selection-color",
+            "group": "bild-zitat"
+          }
+        ]
+      },
+      {
         "id": "card-grid-cta",
         "label": "Card Grid Cta",
         "icon": "components",

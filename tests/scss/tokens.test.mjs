@@ -226,7 +226,11 @@ describe('CSS Output Quality', () => {
     // 22.11.2026: 146 → 147 KB (Entscheidung Frank, Logo-Wand). Stand 145,36
     // KB auf main; Einleitung, Kennzahl, optische Größe, Rand, Pause-Knopf,
     // Linien, Leiste, Info, Filter und Link bringen +0,8 KB (146,17 KB).
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(147);
+    //
+    // 22.11.2026: 147 → 152 KB (Entscheidung Frank, I15 Innovation Blog).
+    // Stand 146,2 KB auf main; Byline, Teilen-Leiste und t-article--blog
+    // (Phase 1) bringen +1,2 KB, die Magazin-Startseite (Phase 2) folgt.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(152);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -295,7 +299,12 @@ describe('CSS Output Quality', () => {
     //
     // 22.11.2026: 1225 → 1230 KB (Entscheidung Frank, Logo-Wand, zusammen
     // mit gzip oben). Stand 1221,3 KB auf main; die Logo-Wand-Verbesserungen bringen +4,1 KB.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1230);
+    //
+    // 22.11.2026: 1230 → 1260 KB (Entscheidung Frank, I15 Innovation Blog,
+    // zusammen mit gzip oben). Stand 1225,6 KB auf main; Byline,
+    // Teilen-Leiste und t-article--blog (Phase 1) bringen +7,1 KB, die
+    // Magazin-Startseite (Phase 2) folgt.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1260);
   });
 
   it('CSS Build hat keine Fehler', () => {

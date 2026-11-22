@@ -1247,6 +1247,30 @@ Bilder einfärben auch an Card CTA (I14, 21.11.2026, ohne App-Version — Daten,
 - Die Bühne der Card zeigt den Ton weiter an Card-Karten; card-cta hat in der App
   keine eigene Bühne für das Einfärben.
 
+Blog-Artikel (I15 Phase 1, 22.11.2026, ohne App-Version — Daten und Arena-Vorlagen, wie I11 Phase 1):
+
+- Neue Gruppe „Byline“ (`byline`, Autorenzeile) mit den Untergruppen „Foto“
+  (`nc-byline-gap`, `-photo-size`, `-photo-size-sm`, `-initials-size`,
+  `-initials-size-sm`) und „Name und Angaben“ (`nc-byline-font-size`,
+  `-font-size-sm`, `-name-color`, `-name-weight`, `-meta-color`). Das Foto ist
+  der Avatar; die Byline setzt nur seine Größe.
+- Neue Gruppe „Teilen-Leiste“ (`share-bar`) mit „Leiste“ (`nc-share-bar-gap`,
+  `-padding-block`, `-border-width`, `-border-color`, `-label-color`,
+  `-icon-color`) und „Blase an der Textstelle“ (`nc-share-bar-popover-bg`,
+  `-color`, `-radius`, `-padding`, `-shadow`, `-arrow`). Die Knöpfe sind
+  Ghost-Icon-Buttons; ihre übrigen Werte stehen unter Button.
+- Neue Gruppe „Blog-Artikel“ (`blog-article`, Template-Variante
+  `t-article--blog`) mit „Fließtext und Spalte“ (`nc-blog-article-font-size`,
+  `-line-height`, `-measure`, `-gap`), „Kopf“ (`-category-color`,
+  `-subtitle-size`, `-subtitle-color`) und „Bild, Zitat und Markierung“
+  (`-figure-bleed`, `-caption-color`, `-quote-size`, `-quote-border-width`,
+  `-quote-border-color`, `-mark-bg`).
+- Arena: Vorlagen `src/arena-templates/byline.js`, `share-bar.js` und
+  `blog-article.js`; das gemeinsame Markup steht in `_blog.js` (daraus auch
+  `data/markup/*.html` und die Doku-Beispiele). Die Blase hat in Phase 1 nur
+  ihr Aussehen; „Ausprobieren“ kommt mit dem Behavior `teilen` (Phase 3).
+- Auf der Website noch ohne Träger; die Artikel-Vollansicht folgt in Phase 5.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

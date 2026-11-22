@@ -165,6 +165,161 @@
 }
 
 // ---------------------------------------------------------------------------
+// t-article--blog — Artikelseite mit Lesefokus (I15 Phase 1, 22.11.2026)
+// ---------------------------------------------------------------------------
+// Eine zentrierte Spalte (Entwurf A „Lesefokus“): Kategorie über dem Titel,
+// Titel, Untertitel, Autorenzeile (.nc-byline), Teilen-Leiste
+// (.nc-share-bar), Hauptbild mit Bildunterschrift, Fließtext mit rund
+// 65 Zeichen je Zeile (--nc-blog-article-measure: 52ch), Tags am Ende. Fließtext in Manrope (Schrift der
+// Website), größer und mit mehr Zeilenabstand. Ohne TOC.
+//
+// Die Spaltenbreite ist in ch des Fließtexts gerechnet: Die Wurzel trägt die
+// Fließtextgröße, damit ch hier und in der Prosa gleich groß ist. Das
+// Hauptbild darf je Seite um --nc-blog-article-figure-bleed breiter sein;
+// auf schmalen Breiten schrumpfen die Randspalten auf 0 (kein seitliches
+// Scrollen).
+//
+// HTML:
+//   <article class="t-article t-article--blog">
+//     <header class="t-article__header">
+//       <a class="t-article__category" href="…">Künstliche Intelligenz</a>
+//       <h1 class="t-article__title">…</h1>
+//       <p class="t-article__subtitle">…</p>
+//       <div class="nc-byline">…</div>
+//       <div class="nc-share-bar">…</div>
+//     </header>
+//     <figure class="t-article__figure"><img …><figcaption>…</figcaption></figure>
+//     <div class="t-article__prose">…</div>
+//     <ul class="t-article__tags"><li><a class="nc-chip" …>…</a></li></ul>
+//   </article>
+// ---------------------------------------------------------------------------
+
+.t-article--blog {
+  display: grid;
+  // Textspalte zuerst, die Randspalten bekommen nur den Rest
+  grid-template-columns:
+    [wide-start] minmax(0, 1fr)
+    [content-start] min(100%, var(--nc-blog-article-measure))
+    [content-end] minmax(0, 1fr)
+    [wide-end];
+  align-items: start;
+  // Nur Zeilenabstand: die Spaltenlücke aus .t-article würde die
+  // Textspalte aus der Mitte schieben
+  gap: var(--nc-blog-article-gap) 0;
+  max-inline-size: calc(var(--nc-blog-article-measure) + 2 * var(--nc-blog-article-figure-bleed));
+  margin-inline: auto;
+  color: var(--fnd-color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--nc-blog-article-font-size);
+  line-height: var(--nc-blog-article-line-height);
+  overflow-wrap: break-word;
+
+  > * {
+    grid-column: content;
+    min-width: 0;
+  }
+}
+
+.t-article__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-04);
+}
+
+.t-article__category {
+  align-self: flex-start;
+  font-family: var(--nc-kicker-font-family);
+  font-size: var(--fs-xs);
+  font-weight: var(--nc-mono-label-weight-strong);
+  letter-spacing: var(--nc-mono-tracking-caps);
+  line-height: var(--lh-snug);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--nc-blog-article-category-color);
+
+  &:is(a):hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.t-article__title {
+  @include heading('xl');
+  margin: 0;
+}
+
+// Zwei Klassen: Die allgemeine Blockstufen-Regel [class*="__subtitle"]
+// (R14) steht spaeter im CSS und setzte sonst die Blockgroesse durch.
+.t-article--blog .t-article__subtitle {
+  margin: 0;
+  font-size: var(--nc-blog-article-subtitle-size);
+  line-height: var(--lh-normal);
+  color: var(--nc-blog-article-subtitle-color);
+}
+
+// Hauptbild: breiter als die Textspalte, Bildunterschrift darunter
+.t-article__figure {
+  grid-column: wide;
+  margin: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--fnd-radius-sm);
+  }
+
+  figcaption {
+    margin-block-start: var(--fnd-spacing-02);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-normal);
+    text-align: center;
+    color: var(--nc-blog-article-caption-color);
+  }
+}
+
+// Prosa im Blog: Spalte und Größe kommen von der Wurzel
+.t-article--blog .t-article__prose {
+  max-width: none;
+  line-height: inherit;
+
+  // Absätze folgen der Wurzel statt der Element-Regel (paragraph-l)
+  p {
+    margin-block-end: var(--fnd-spacing-05);
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  blockquote {
+    padding: 0 0 0 var(--fnd-spacing-05);
+    border-inline-start: var(--nc-blog-article-quote-border-width) solid var(--nc-blog-article-quote-border-color);
+    border-radius: 0;
+    background: none;
+    color: var(--fnd-color-text-primary);
+    font-size: var(--nc-blog-article-quote-size);
+    line-height: var(--lh-relaxed);
+  }
+
+  mark {
+    padding-inline: var(--fnd-spacing-01);
+    background: var(--nc-blog-article-mark-bg);
+    color: var(--nc-blog-article-mark-color);
+  }
+}
+
+.t-article__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fnd-spacing-02);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// ---------------------------------------------------------------------------
 // t-card-grid — Auto-fill Karten-Raster
 // ---------------------------------------------------------------------------
 // Verwendung: Produkt-Uebersichten, Galerie-Seiten, Feature-Listen.

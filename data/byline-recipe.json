@@ -1,0 +1,301 @@
+{
+  "$schema": "./recipe-schema.json",
+  "meta": {
+    "schemaVersion": "3.1.0",
+    "component": "byline",
+    "version": "1.0.0",
+    "status": "stable",
+    "label": "Byline",
+    "description": "Autorenzeile eines Artikels: rundes Foto (Avatar mit Initialen-Fallback), Name, darunter Lesezeit und Datum mit Trennpunkt. Variante --sm fuer Karten.",
+    "whenToUse": "Unter dem Titel eines Blog-Artikels (t-article--blog) und klein in Blog-Karten. Kein „Folgen“-Knopf. Fuer Personenlisten bleibt der Avatar (avatar) oder das Item (item).",
+    "tags": [
+      "molecules",
+      "content",
+      "blog",
+      "website"
+    ],
+    "links": {
+      "figma": "",
+      "storybook": "",
+      "docs": "/docs/byline-docs"
+    },
+    "layer": "molecule",
+    "pipeline": {
+      "scss": [
+        "scss/scss/06-molecules/_byline.scss",
+        "scss/scss/05-atoms/_avatar.scss"
+      ],
+      "story": "stories/molecules/byline.stories.js",
+      "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+      "drupal": [],
+      "docs": "docs/content/byline.html"
+    },
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "changes": [
+          "I15 Phase 1 (22.11.2026, Freigabe ausstehend): neu. Molekuel .nc-byline (06-molecules/_byline.scss) mit __photo (ein .nc-avatar, Groesse ueber --mod-avatar-size-md), __text, __name, __meta (Trennpunkt aus CSS, nicht vorgelesen) und Modifier --sm fuer Karten. Tokens --nc-byline-*, Konfig-App-Gruppe „Byline“. Noch kein Traeger auf der Website (Artikel-Vollansicht folgt in Phase 5)."
+        ]
+      }
+    ]
+  },
+  "anatomy": {
+    "root": {
+      "element": ".nc-byline"
+    },
+    "slots": [
+      {
+        "name": "photo",
+        "element": ".nc-byline__photo",
+        "optional": false,
+        "description": "<span class=\"nc-avatar nc-byline__photo\"> mit <img class=\"nc-avatar__image\" alt=\"\"> und <span class=\"nc-avatar__fallback\" aria-hidden=\"true\">Initialen</span>. Ohne Foto bleiben die Initialen sichtbar."
+      },
+      {
+        "name": "name",
+        "element": ".nc-byline__name",
+        "optional": false,
+        "description": "Name der Person; spaeter ein Link auf die Autorenseite (Entwurf E)."
+      },
+      {
+        "name": "meta",
+        "element": ".nc-byline__meta",
+        "optional": true,
+        "description": "Lesezeit und <time datetime> mit Datum; zwischen den Teilen ein Punkt aus CSS (content: \"·\" / \"\")."
+      }
+    ],
+    "convenience": [],
+    "domNotes": [
+      "Das Foto ist dekorativ (alt=\"\"), der Name steht als Text daneben. Die Initialen tragen aria-hidden=\"true\", damit der Name nicht doppelt vorgelesen wird.",
+      "Mehrere Autorinnen und Autoren: erste Person gross, weitere Namen im selben __name mit „und“ (Drupal: Feld field_author, Phase 5)."
+    ]
+  },
+  "axes": {
+    "size": {
+      "label": "Groesse",
+      "description": "Artikelkopf (Standard) oder Karte (kleiner, eine Zeile).",
+      "values": {
+        "md": {
+          "modifier": null,
+          "tokenGroups": [
+            "foto",
+            "text"
+          ],
+          "renderHint": "byline-md"
+        },
+        "sm": {
+          "modifier": "nc-byline--sm",
+          "tokenGroups": [
+            "foto",
+            "text"
+          ],
+          "renderHint": "byline-sm"
+        }
+      }
+    },
+    "photo": {
+      "label": "Foto",
+      "description": "Mit Foto oder nur Initialen (Person ohne Bild).",
+      "values": {
+        "image": {
+          "modifier": null,
+          "tokenGroups": [
+            "foto"
+          ],
+          "renderHint": "byline-image"
+        },
+        "initials": {
+          "modifier": null,
+          "tokenGroups": [
+            "foto"
+          ],
+          "renderHint": "byline-initials"
+        }
+      }
+    }
+  },
+  "states": {
+    "supported": [
+      "default"
+    ],
+    "precedence": [
+      "default"
+    ],
+    "rules": [],
+    "interactive": false
+  },
+  "a11y": {
+    "base": {
+      "interactive": false,
+      "contrastTarget": "WCAG AA normal text (4.5:1)",
+      "assertions": [
+        "Foto alt=\"\" und Initialen aria-hidden, der Name ist Text",
+        "Datum als <time datetime>",
+        "Trennpunkt aus CSS mit leerem Alternativtext (content: \"·\" / \"\")"
+      ],
+      "note": "Nicht interaktiv; wird der Name ein Link, gilt der Fokusring des Design Systems."
+    },
+    "overrides": []
+  },
+  "constraints": {
+    "rules": [],
+    "copy": {
+      "readingTime": {
+        "maxChars": 20,
+        "note": "„7 Min. Lesezeit“ (englisch „7 min read“)."
+      }
+    }
+  },
+  "styling": {
+    "baseClasses": [
+      "nc-byline"
+    ],
+    "baseTokenGroups": [
+      "foto",
+      "text"
+    ],
+    "tokenGroups": {
+      "foto": {
+        "label": "Foto",
+        "tokens": [
+          "nc-byline-gap",
+          "nc-byline-photo-size",
+          "nc-byline-photo-size-sm",
+          "nc-byline-initials-size",
+          "nc-byline-initials-size-sm"
+        ]
+      },
+      "text": {
+        "label": "Name und Angaben",
+        "tokens": [
+          "nc-byline-font-size",
+          "nc-byline-font-size-sm",
+          "nc-byline-name-color",
+          "nc-byline-name-weight",
+          "nc-byline-meta-color"
+        ]
+      }
+    }
+  },
+  "recipes": {
+    "mode": "derived",
+    "derive": {
+      "from": [
+        "axes",
+        "states",
+        "styling.tokenGroups"
+      ],
+      "output": [
+        "classList",
+        "resolvedTokens"
+      ]
+    },
+    "resolution": {
+      "classList": [
+        "styling.baseClasses"
+      ],
+      "tokenGroups": [
+        "styling.baseTokenGroups"
+      ]
+    }
+  },
+  "komposition": [
+    {
+      "art": "enthaelt",
+      "recipe": "avatar"
+    }
+  ],
+  "specimens": [
+    {
+      "id": "artikel",
+      "label": "Artikelkopf",
+      "description": "Foto, Name, Lesezeit und Datum untereinander.",
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "photo": [
+            "image"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "foto",
+        "text"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "byline-md",
+        "label": "artikel"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Name als Text."
+      }
+    },
+    {
+      "id": "initialen",
+      "label": "Ohne Foto",
+      "description": "Person ohne Bild: Initialen im Avatar.",
+      "matrix": {
+        "axes": {
+          "size": [
+            "md"
+          ],
+          "photo": [
+            "initials"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "foto"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "byline-initials",
+        "label": "initialen"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Initialen aria-hidden."
+      }
+    },
+    {
+      "id": "karte",
+      "label": "Karte (klein)",
+      "description": "Kleines Foto, Name und Angaben in einer Zeile.",
+      "matrix": {
+        "axes": {
+          "size": [
+            "sm"
+          ],
+          "photo": [
+            "image"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "foto",
+        "text"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "byline-sm",
+        "label": "karte"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Kleinere Schrift, Kontrast bleibt AA."
+      }
+    }
+  ]
+}

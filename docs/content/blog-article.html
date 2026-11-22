@@ -1,0 +1,403 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Blog-Artikel</h1>
+        <p class="docs__subtitle">
+        Artikelseite mit Lesefokus: eine zentrierte Spalte mit Kategorie, Titel, Untertitel, Autorenzeile, Teilen-Leiste, Hauptbild mit Bildunterschrift, Flie&szlig;text in Manrope mit rund 65 Zeichen je Zeile, Zitat, Zwischentiteln und Tags. Variante des vorhandenen Templates <code class="docs__token">.t-article</code>: <code class="docs__token">.t-article--blog</code>.
+      </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Blog-Artikel-Dokumentation">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-usage" id="trigger-usage">Benutzung</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-style" id="trigger-style">Style</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-api" id="trigger-api">API</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-a11y" id="trigger-a11y">Accessibility</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="blog-article-tabs">
+        <!-- ============================================================ -->
+        <!-- TAB 1: Benutzung                                             -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-usage" aria-labelledby="trigger-usage">
+
+          <h2 class="docs__section-title">Live Demo</h2>
+          <p class="docs__section-desc">
+            Vollst&auml;ndiger Artikel nach Entwurf A, mit der Blase an einer markierten Stelle. Titel hier als <code>h2</code>, auf der Artikelseite als <code>h1</code>. Texte und Person erfunden.
+          </p>
+
+          <div class="docs-stage">
+                        <div class="docs-stage__toolbar">
+              <div class="docs-stage__controls">
+
+                <!-- Theme — Segmented Control mit farbigen Dots -->
+                <div class="nc-segmented-control nc-segmented-control--sm"
+                     role="radiogroup" aria-label="Theme"
+                     data-stage-control="segmented" data-stage-target="stage-theme" data-default="neo-light-theme">
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="true" tabindex="0"
+                          data-value="neo-light-theme" aria-label="Neo Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="neo-dark-theme" aria-label="Neo Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--neo-dark"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-light-theme" aria-label="Customer Light">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-light"></span>
+                  </button>
+                  <button class="nc-segmented-control__item" role="radio" aria-checked="false" tabindex="-1"
+                          data-value="customer-dark-theme" aria-label="Customer Dark">
+                    <span class="docs-stage__theme-dot docs-stage__theme-dot--customer-dark"></span>
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Action-Buttons -->
+              <div class="docs-stage__actions">
+                <button class="docs-stage__action-btn" data-stage-action="copy"
+                        aria-label="HTML kopieren" title="HTML kopieren">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="8" y="8" width="12" height="12" rx="2"></rect>
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+                  </svg>
+                </button>
+                <button class="docs-stage__action-btn" data-stage-action="reset"
+                        aria-label="Zurücksetzen" title="Zurücksetzen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Hidden Inputs — Backward-Kompatibilität -->
+              <select class="docs-stage__hidden" id="stage-theme">
+                <option value="neo-light-theme" selected>Neo Light</option>
+                <option value="neo-dark-theme">Neo Dark</option>
+                <option value="customer-light-theme">Customer Light</option>
+                <option value="customer-dark-theme">Customer Dark</option>
+              </select>
+            </div>
+
+
+            <div class="docs-stage__preview" id="stage-preview">
+              <article class="t-article t-article--blog" style="inline-size: 100%;"><header class="t-article__header"><a class="t-article__category" href="#">Künstliche Intelligenz</a><h2 class="t-article__title">Warum KI-Assistenten im Intranet scheitern und wie es besser geht</h2><p class="t-article__subtitle">Drei Projekte, ein Muster: Die Technik funktioniert, die Inhalte nicht. Was wir aus der Einführung bei Kommunen und Mittelständlern gelernt haben.</p><div class="nc-byline"><span class="nc-avatar nc-byline__photo"><img class="nc-avatar__image" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23c9ced6%22/%3E%3Ccircle cx=%2232%22 cy=%2225%22 r=%2212%22 fill=%22%23aab1bc%22/%3E%3Cpath d=%22M10 64c2-14 11-21 22-21s20 7 22 21z%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E" alt=""><span class="nc-avatar__fallback" aria-hidden="true">LH</span></span><div class="nc-byline__text"><span class="nc-byline__name">Lena Hoffmann</span><span class="nc-byline__meta"><span>7 Min. Lesezeit</span><time datetime="2026-11-18">18. Nov. 2026</time></span></div></div><div class="nc-share-bar" role="group" aria-label="Artikel teilen"><div class="nc-share-bar__actions"><button class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm" type="button" aria-label="Teilen"><span class="nc-button__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M15 6a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M15 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></svg></span></button><a class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fexample.org%2Finside%2Fblog%2Fki-assistenten-im-intranet" aria-label="Auf LinkedIn teilen (öffnet in neuem Tab)" target="_blank" rel="noopener noreferrer"><span class="nc-button__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 1 0 -4 0"/><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10"/></svg></span></a><a class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm" href="mailto:?subject=Warum%20KI-Assistenten%20im%20Intranet%20scheitern%20und%20wie%20es%20besser%20geht&amp;body=https%3A%2F%2Fexample.org%2Finside%2Fblog%2Fki-assistenten-im-intranet" aria-label="Per E-Mail teilen"><span class="nc-button__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"/><path d="M3 7l9 6l9 -6"/></svg></span></a><button class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm" type="button" aria-label="Link kopieren"><span class="nc-button__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/></svg></span></button></div></div></header><figure class="t-article__figure"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1600 900%22 width=%221600%22 height=%22900%22%3E%3Crect width=%221600%22 height=%22900%22 fill=%22%23c9ced6%22/%3E%3Cpath d=%22M0 900 560 400l360 300 200-150 480 350z%22 fill=%22%23aab1bc%22/%3E%3Ccircle cx=%221180%22 cy=%22250%22 r=%2290%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E" alt="Platzhalterbild: Landschaft mit Sonne" width="1600" height="900"><figcaption>Ein Assistent ist nur so gut wie die Inhalte, auf die er zugreift.</figcaption></figure><div class="t-article__prose"><p>Als wir im Frühjahr den ersten KI-Assistenten in ein Intranet einbauten, lief die Technik nach zwei Wochen stabil. Die Enttäuschung kam später, als die Mitarbeitenden ihre ersten echten Fragen stellten und Antworten bekamen, die gut klangen, aber nicht stimmten.</p><div class="nc-share-bar__popover" role="group" aria-label="Textstelle teilen" style="margin-block-end: var(--fnd-spacing-03);"><button class="nc-button nc-button--ghost nc-button--xs" type="button">Zitat teilen</button><button class="nc-button nc-button--ghost nc-button--xs" type="button">Link kopieren</button></div><p><mark>Ein Assistent findet nur, was jemand vorher sauber aufgeschrieben hat.</mark> Veraltete Richtlinien, doppelte Seiten und fehlende Zuständigkeiten führen zu Antworten, die überzeugend klingen und trotzdem falsch sind. Das Modell kann nicht wissen, welche von zwei Fassungen einer Reiserichtlinie die gültige ist.</p><blockquote><p>„Wir haben drei Monate lang Inhalte aufgeräumt, bevor der Assistent eine einzige Frage beantworten durfte.“</p></blockquote><h3>Erst die Inhalte, dann die Technik</h3><p>Bevor wir heute einen Assistenten einschalten, klären wir drei Dinge: Wem gehört welche Seite, wann wurde sie zuletzt geprüft, und welche Seiten dürfen gar nicht als Quelle dienen. Diese drei Fragen klingen banal, doch in keinem der drei Projekte gab es zu Beginn eine vollständige Antwort.</p><p>Die gute Nachricht: Die Arbeit lohnt sich doppelt. Ein aufgeräumtes Intranet hilft auch den Menschen, die ohne Assistenten suchen. Und wer Zuständigkeiten einmal festgelegt hat, kann sie im Redaktionssystem hinterlegen und regelmäßig erinnern lassen.</p></div><ul class="t-article__tags" aria-label="Schlagwörter"><li><a class="nc-chip" href="#"><span class="nc-chip__label">KI</span></a></li><li><a class="nc-chip" href="#"><span class="nc-chip__label">Intranet</span></a></li><li><a class="nc-chip" href="#"><span class="nc-chip__label">Wissensmanagement</span></a></li><li><a class="nc-chip" href="#"><span class="nc-chip__label">Öffentliche Verwaltung</span></a></li></ul></article>
+            </div>
+          </div>
+
+          <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Code</h3>
+          <div class="docs-snippet">
+            <pre>&lt;article class=&quot;t-article t-article--blog&quot;&gt;
+&lt;header class=&quot;t-article__header&quot;&gt;
+&lt;a class=&quot;t-article__category&quot; href=&quot;#&quot;&gt;Künstliche Intelligenz&lt;/a&gt;
+&lt;h1 class=&quot;t-article__title&quot;&gt;Warum KI-Assistenten im Intranet scheitern und wie es besser geht&lt;/h1&gt;
+&lt;p class=&quot;t-article__subtitle&quot;&gt;Drei Projekte, ein Muster: Die Technik funktioniert, die Inhalte nicht. Was wir aus der Einführung bei Kommunen und Mittelständlern gelernt haben.&lt;/p&gt;
+&lt;div class=&quot;nc-byline&quot;&gt;
+&lt;span class=&quot;nc-avatar nc-byline__photo&quot;&gt;
+&lt;img class=&quot;nc-avatar__image&quot; src=&quot;data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23c9ced6%22/%3E%3Ccircle cx=%2232%22 cy=%2225%22 r=%2212%22 fill=%22%23aab1bc%22/%3E%3Cpath d=%22M10 64c2-14 11-21 22-21s20 7 22 21z%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E&quot; alt=&quot;&quot;&gt;
+&lt;span class=&quot;nc-avatar__fallback&quot; aria-hidden=&quot;true&quot;&gt;LH&lt;/span&gt;
+&lt;/span&gt;
+&lt;div class=&quot;nc-byline__text&quot;&gt;
+&lt;span class=&quot;nc-byline__name&quot;&gt;Lena Hoffmann&lt;/span&gt;
+&lt;span class=&quot;nc-byline__meta&quot;&gt;
+&lt;span&gt;7 Min. Lesezeit&lt;/span&gt;
+&lt;time datetime=&quot;2026-11-18&quot;&gt;18. Nov. 2026&lt;/time&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;nc-share-bar&quot; role=&quot;group&quot; aria-label=&quot;Artikel teilen&quot;&gt;
+&lt;div class=&quot;nc-share-bar__actions&quot;&gt;
+&lt;button class=&quot;nc-button nc-button--ghost nc-button--icon-only nc-button--sm&quot; type=&quot;button&quot; aria-label=&quot;Teilen&quot;&gt;
+&lt;span class=&quot;nc-button__icon&quot;&gt;
+&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+&lt;path d=&quot;M3 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0&quot;/&gt;
+&lt;path d=&quot;M15 6a3 3 0 1 0 6 0a3 3 0 1 0 -6 0&quot;/&gt;
+&lt;path d=&quot;M15 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0&quot;/&gt;
+&lt;path d=&quot;M8.7 10.7l6.6 -3.4&quot;/&gt;
+&lt;path d=&quot;M8.7 13.3l6.6 3.4&quot;/&gt;
+&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/button&gt;
+&lt;a class=&quot;nc-button nc-button--ghost nc-button--icon-only nc-button--sm&quot; href=&quot;https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fexample.org%2Finside%2Fblog%2Fki-assistenten-im-intranet&quot; aria-label=&quot;Auf LinkedIn teilen (öffnet in neuem Tab)&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;
+&lt;span class=&quot;nc-button__icon&quot;&gt;
+&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+&lt;path d=&quot;M8 11v5&quot;/&gt;
+&lt;path d=&quot;M8 8v.01&quot;/&gt;
+&lt;path d=&quot;M12 16v-5&quot;/&gt;
+&lt;path d=&quot;M16 16v-3a2 2 0 1 0 -4 0&quot;/&gt;
+&lt;path d=&quot;M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10&quot;/&gt;
+&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/a&gt;
+&lt;a class=&quot;nc-button nc-button--ghost nc-button--icon-only nc-button--sm&quot; href=&quot;mailto:?subject=Warum%20KI-Assistenten%20im%20Intranet%20scheitern%20und%20wie%20es%20besser%20geht&amp;amp;body=https%3A%2F%2Fexample.org%2Finside%2Fblog%2Fki-assistenten-im-intranet&quot; aria-label=&quot;Per E-Mail teilen&quot;&gt;
+&lt;span class=&quot;nc-button__icon&quot;&gt;
+&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+&lt;path d=&quot;M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10&quot;/&gt;
+&lt;path d=&quot;M3 7l9 6l9 -6&quot;/&gt;
+&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/a&gt;
+&lt;button class=&quot;nc-button nc-button--ghost nc-button--icon-only nc-button--sm&quot; type=&quot;button&quot; aria-label=&quot;Link kopieren&quot;&gt;
+&lt;span class=&quot;nc-button__icon&quot;&gt;
+&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+&lt;path d=&quot;M9 15l6 -6&quot;/&gt;
+&lt;path d=&quot;M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464&quot;/&gt;
+&lt;path d=&quot;M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463&quot;/&gt;
+&lt;/svg&gt;
+&lt;/span&gt;
+&lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/header&gt;
+&lt;figure class=&quot;t-article__figure&quot;&gt;
+&lt;img src=&quot;data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1600 900%22 width=%221600%22 height=%22900%22%3E%3Crect width=%221600%22 height=%22900%22 fill=%22%23c9ced6%22/%3E%3Cpath d=%22M0 900 560 400l360 300 200-150 480 350z%22 fill=%22%23aab1bc%22/%3E%3Ccircle cx=%221180%22 cy=%22250%22 r=%2290%22 fill=%22%23aab1bc%22/%3E%3C/svg%3E&quot; alt=&quot;Platzhalterbild: Landschaft mit Sonne&quot; width=&quot;1600&quot; height=&quot;900&quot;&gt;
+&lt;figcaption&gt;Ein Assistent ist nur so gut wie die Inhalte, auf die er zugreift.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;div class=&quot;t-article__prose&quot;&gt;
+&lt;p&gt;Als wir im Frühjahr den ersten KI-Assistenten in ein Intranet einbauten, lief die Technik nach zwei Wochen stabil. Die Enttäuschung kam später, als die Mitarbeitenden ihre ersten echten Fragen stellten und Antworten bekamen, die gut klangen, aber nicht stimmten.&lt;/p&gt;
+&lt;p&gt;
+&lt;mark&gt;Ein Assistent findet nur, was jemand vorher sauber aufgeschrieben hat.&lt;/mark&gt; Veraltete Richtlinien, doppelte Seiten und fehlende Zuständigkeiten führen zu Antworten, die überzeugend klingen und trotzdem falsch sind. Das Modell kann nicht wissen, welche von zwei Fassungen einer Reiserichtlinie die gültige ist.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;„Wir haben drei Monate lang Inhalte aufgeräumt, bevor der Assistent eine einzige Frage beantworten durfte.“&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Erst die Inhalte, dann die Technik&lt;/h2&gt;
+&lt;p&gt;Bevor wir heute einen Assistenten einschalten, klären wir drei Dinge: Wem gehört welche Seite, wann wurde sie zuletzt geprüft, und welche Seiten dürfen gar nicht als Quelle dienen. Diese drei Fragen klingen banal, doch in keinem der drei Projekte gab es zu Beginn eine vollständige Antwort.&lt;/p&gt;
+&lt;p&gt;Die gute Nachricht: Die Arbeit lohnt sich doppelt. Ein aufgeräumtes Intranet hilft auch den Menschen, die ohne Assistenten suchen. Und wer Zuständigkeiten einmal festgelegt hat, kann sie im Redaktionssystem hinterlegen und regelmäßig erinnern lassen.&lt;/p&gt;
+&lt;/div&gt;
+&lt;ul class=&quot;t-article__tags&quot; aria-label=&quot;Schlagwörter&quot;&gt;
+&lt;li&gt;
+&lt;a class=&quot;nc-chip&quot; href=&quot;#&quot;&gt;
+&lt;span class=&quot;nc-chip__label&quot;&gt;KI&lt;/span&gt;
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;a class=&quot;nc-chip&quot; href=&quot;#&quot;&gt;
+&lt;span class=&quot;nc-chip__label&quot;&gt;Intranet&lt;/span&gt;
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;a class=&quot;nc-chip&quot; href=&quot;#&quot;&gt;
+&lt;span class=&quot;nc-chip__label&quot;&gt;Wissensmanagement&lt;/span&gt;
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;a class=&quot;nc-chip&quot; href=&quot;#&quot;&gt;
+&lt;span class=&quot;nc-chip__label&quot;&gt;Öffentliche Verwaltung&lt;/span&gt;
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/article&gt;</pre>
+          </div>
+
+          <section class="docs__section" id="blog-article-aufbau">
+            <h2 class="docs__section-title">Aufbau</h2>
+            <ul>
+              <li><code class="docs__token">.t-article__header</code>: <code class="docs__token">.t-article__category</code> (Link zur Kategorie), <code class="docs__token">.t-article__title</code>, <code class="docs__token">.t-article__subtitle</code>, <code class="docs__token">.nc-byline</code>, <code class="docs__token">.nc-share-bar</code>.</li>
+              <li><code class="docs__token">.t-article__figure</code>: Hauptbild mit <code>&lt;figcaption&gt;</code>, je Seite bis zu <code class="docs__token">--nc-blog-article-figure-bleed</code> breiter als die Textspalte.</li>
+              <li><code class="docs__token">.t-article__prose</code>: Flie&szlig;text mit Zwischentiteln, Zitat (<code>&lt;blockquote&gt;</code>) und Markierung (<code>&lt;mark&gt;</code>).</li>
+              <li><code class="docs__token">.t-article__tags</code>: Schlagw&ouml;rter als <code class="docs__token">.nc-chip</code>-Links in einer Liste.</li>
+            </ul>
+          </section>
+
+          <section class="docs__section" id="blog-article-lesbarkeit">
+            <h2 class="docs__section-title">Lesbarkeit</h2>
+            <p class="docs__section-desc">Die Spalte ist in Zeichen gerechnet: <code class="docs__token">--nc-blog-article-measure</code> (52ch) bei <code class="docs__token">--nc-blog-article-font-size</code> (<code>--fs-lg</code>) und Zeilenabstand <code class="docs__token">--nc-blog-article-line-height</code> (1.75). Die Wurzel tr&auml;gt die Flie&szlig;textgr&ouml;&szlig;e, damit <code>ch</code> in Spalte und Prosa dieselbe Schrift misst. <code>ch</code> ist die Breite der Ziffer 0 und in Manrope breiter als ein mittlerer Buchstabe: 52ch ergeben gemessen rund 65 Zeichen je Zeile (55 bis 70). Schrift bleibt Manrope wie auf der ganzen Website.</p>
+          </section>
+
+          <section class="docs__section" id="blog-article-regeln">
+            <h2 class="docs__section-title">Regeln</h2>
+            <ul>
+              <li>Variante statt zweitem Template: <code class="docs__token">.t-article</code> ohne TOC, die Klasse <code class="docs__token">.t-article--blog</code> stellt auf ein Raster mit den Spalten <code>wide</code> und <code>content</code> um.</li>
+              <li>Unter der Spaltenbreite schrumpfen die Randspalten auf 0; das Bild ist dann so breit wie der Text. Bei 390&nbsp;px kein seitliches Scrollen.</li>
+              <li>Auf der Artikelseite ist der Titel das einzige <code>&lt;h1&gt;</code>; Zwischentitel ab <code>&lt;h2&gt;</code>.</li>
+              <li>Drupal (Phase 5): Kategorie aus <code>field_blog_category</code>, Untertitel aus <code>field_subtitle</code>, Autor aus <code>field_author</code>, Lesezeit berechnet.</li>
+            </ul>
+          </section>
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 2: Style                                                 -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-style" aria-labelledby="trigger-style">
+          <!-- AUTO:STYLE:START -->
+<section class="docs__section" id="style-tokens">
+  <h2 class="docs__section-title">Component Tokens</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Fließtext und Spalte</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-blog-article-font-size</code></td><td>var(--fs-lg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-line-height</code></td><td>1.75</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-measure</code></td><td>52ch</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-gap</code></td><td>var(--fnd-spacing-06)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Kopf</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-blog-article-category-color</code></td><td>var(--fnd-color-text-link)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-subtitle-size</code></td><td>var(--fs-xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-subtitle-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Bild, Zitat und Markierung</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">--nc-blog-article-figure-bleed</code></td><td>var(--fnd-spacing-12)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-caption-color</code></td><td>var(--fnd-color-text-secondary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-size</code></td><td>var(--fs-xl)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-border-width</code></td><td>3px</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-border-color</code></td><td>var(--fnd-color-text-primary)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-mark-bg</code></td><td>var(--fnd-color-selection-bg)</td><td></td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-mark-color</code></td><td>var(--fnd-color-selection-color)</td><td></td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<!-- AUTO:STYLE:END -->
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 3: API                                                   -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-api" aria-labelledby="trigger-api">
+          <!-- AUTO:API:START -->
+<section class="docs__section" id="api-overview">
+  <h2 class="docs__section-title">Component Overview</h2>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <tbody>
+      <tr><td><strong>Kanonische Klasse</strong></td><td><code class="docs__token">.t-article.t-article--blog</code></td></tr>
+      <tr><td><strong>BEM-Block</strong></td><td><code class="docs__token">t-article.t-article--blog</code></td></tr>
+      <tr><td><strong>Token-Namespace</strong></td><td><code class="docs__token">--t-article.t-article--blog-*</code></td></tr>
+      <tr><td><strong>Status</strong></td><td>stable</td></tr>
+      <tr><td><strong>Interaktiv</strong></td><td>Nein</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-classes">
+  <h2 class="docs__section-title">CSS-Klassen (BEM)</h2>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Block &amp; Elemente</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Typ</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><code class="docs__token">.t-article.t-article--blog</code></td><td>Block</td><td>blog-article-Container</td></tr>
+      <tr><td><code class="docs__token">.t-article__header</code></td><td>Element</td><td>header</td></tr>
+      <tr><td><code class="docs__token">.t-article__category</code></td><td>Element (optional)</td><td>category</td></tr>
+      <tr><td><code class="docs__token">.t-article__title</code></td><td>Element</td><td>title</td></tr>
+      <tr><td><code class="docs__token">.t-article__subtitle</code></td><td>Element (optional)</td><td>subtitle</td></tr>
+      <tr><td><code class="docs__token">.t-article__figure</code></td><td>Element (optional)</td><td>figure</td></tr>
+      <tr><td><code class="docs__token">.t-article__prose</code></td><td>Element</td><td>prose</td></tr>
+      <tr><td><code class="docs__token">.t-article__tags</code></td><td>Element (optional)</td><td>tags</td></tr>
+    </tbody>
+    </table>
+  </div>
+  <h3 class="docs__section-title" style="font-size: var(--fnd-typography-heading-s-font-size);">Hauptbild-Modifier</h3>
+  <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Klasse</th><th>Wert</th><th>Beschreibung</th></tr></thead>
+    <tbody>
+      <tr><td><em>(kein Modifier)</em></td><td>with</td><td>Mit Hauptbild und Bildunterschrift oder ohne (Artikel ohne Bild).</td></tr>
+      <tr><td><em>(kein Modifier)</em></td><td>without</td><td>Mit Hauptbild und Bildunterschrift oder ohne (Artikel ohne Bild).</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-tokens">
+  <h2 class="docs__section-title">CSS Custom Properties</h2>
+  <p class="docs__section-desc">
+    Alle Tokens werden in <code class="docs__token">:root</code> registriert und k&ouml;nnen auf jedem Scope &uuml;berschrieben werden.
+  </p>
+  <div class="nc-data-table nc-data-table--static nc-data-table--compact nc-data-table--striped">
+    <table class="nc-data-table__table">
+    <thead><tr><th>Token</th><th>Default</th><th>Foundation</th></tr></thead>
+    <tbody>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Fließtext und Spalte</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-font-size</code></td><td>var(--fs-lg)</td><td>var(--fs-lg)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-line-height</code></td><td>1.75</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-measure</code></td><td>52ch</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-gap</code></td><td>var(--fnd-spacing-06)</td><td>var(--fnd-spacing-06)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Kopf</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-category-color</code></td><td>var(--fnd-color-text-link)</td><td>var(--fnd-color-text-link)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-subtitle-size</code></td><td>var(--fs-xl)</td><td>var(--fs-xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-subtitle-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td colspan="3" style="padding: var(--fnd-spacing-02); background: var(--fnd-color-background-secondary); font-weight: 600;">Bild, Zitat und Markierung</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-figure-bleed</code></td><td>var(--fnd-spacing-12)</td><td>var(--fnd-spacing-12)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-caption-color</code></td><td>var(--fnd-color-text-secondary)</td><td>var(--fnd-color-text-secondary)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-size</code></td><td>var(--fs-xl)</td><td>var(--fs-xl)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-border-width</code></td><td>3px</td><td>&mdash;</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-quote-border-color</code></td><td>var(--fnd-color-text-primary)</td><td>var(--fnd-color-text-primary)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-mark-bg</code></td><td>var(--fnd-color-selection-bg)</td><td>var(--fnd-color-selection-bg)</td></tr>
+      <tr><td><code class="docs__token">--nc-blog-article-mark-color</code></td><td>var(--fnd-color-selection-color)</td><td>var(--fnd-color-selection-color)</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+<section class="docs__section" id="api-dom-notes">
+  <h2 class="docs__section-title">DOM-Hinweise</h2>
+  <ul>
+    <li>Die Wurzel traegt die Fliesstextgroesse; dadurch misst ch in der Spaltenbreite dieselbe Schrift wie die Prosa. Titel, Untertitel, Kategorie und Bildunterschrift setzen ihre Groesse selbst.</li>
+    <li>Raster: Spalten wide und content; alle Kinder in content, die Figur in wide. Unter der Spaltenbreite schrumpfen die Randspalten auf 0.</li>
+    <li>Die Blase .nc-share-bar__popover fuer eine markierte Stelle gehoert zur Teilen-Leiste (Recipe share-bar) und steht im Fliesstext.</li>
+  </ul>
+</section>
+<!-- AUTO:API:END -->
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 4: Accessibility                                         -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-a11y" aria-labelledby="trigger-a11y">
+          <!-- AUTO:A11Y:START -->
+<h2 class="docs__section-title">Accessibility Referenz</h2>
+<p class="docs__section-desc">Kategorie und Tags sind Links mit Fokusring.</p>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Nicht interaktiv</h4>
+    <ul>
+      <li>Diese Komponente ist nicht fokussierbar und nicht klickbar.</li>
+    </ul>
+  </div>
+</div>
+<div class="docs-a11y-block">
+  <svg class="docs-a11y-block__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+  <div class="docs-a11y-block__content">
+    <h4>Farbkontrast: WCAG AA normal text (4.5:1)</h4>
+    <ul>
+      <li>Alle Farbvarianten erfüllen dieses Kontrastziel im Default-Theme.</li>
+      <li>Bei Custom-Überschreibungen den Kontrast manuell prüfen.</li>
+    </ul>
+  </div>
+</div>
+<!-- AUTO:A11Y:END -->
+        </div>
+        </div>
+      </div>
+    </main>
+<!-- /BODY -->
+
+<!-- SCRIPTS -->
+  <script>
+    // Theme switcher for stage
+    const themeSelect = document.getElementById('stage-theme');
+    const stagePreview = document.getElementById('stage-preview');
+    if (themeSelect && stagePreview) {
+      themeSelect.addEventListener('change', () => {
+        stagePreview.className = 'docs-stage__preview ' + themeSelect.value;
+      });
+    }
+  </script>
+<!-- /SCRIPTS -->

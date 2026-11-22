@@ -1,0 +1,153 @@
+{
+  "$schema": "../data/component-spec-schema.json",
+  "component": "share-bar",
+  "version": "1.0.0",
+  "status": "stable",
+  "layer": "molecule",
+  "tags": [
+    "molecules",
+    "actions",
+    "blog",
+    "website"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-share-bar",
+    "slots": [
+      {
+        "name": "label",
+        "selector": ".nc-share-bar__label",
+        "required": false,
+        "description": "Sichtbares Wort „Teilen“ am Anfang (aria-hidden, die Gruppe traegt aria-label)."
+      },
+      {
+        "name": "actions",
+        "selector": ".nc-share-bar__actions",
+        "required": true,
+        "description": "Icon-Buttons: <button> Teilen (Web Share), <a target=\"_blank\" rel=\"noopener noreferrer\"> LinkedIn, <a href=\"mailto:\"> E-Mail, <button> Link kopieren. Jeder Knopf mit aria-label."
+      },
+      {
+        "name": "popover",
+        "selector": ".nc-share-bar__popover",
+        "required": false,
+        "description": "Blase ueber einer markierten Textstelle mit zwei Knoepfen „Zitat teilen“ und „Link kopieren“ (role=\"group\", aria-label=\"Textstelle teilen\"). Steht ausserhalb der Leiste im Artikeltext; Lage und Oeffnen setzt das Behavior teilen."
+      }
+    ],
+    "notes": [
+      "Wurzel <div role=\"group\" aria-label=\"Artikel teilen\">. LinkedIn: https://www.linkedin.com/sharing/share-offsite/?url=<Adresse>; E-Mail: mailto:?subject=<Titel>&body=<Adresse>. Beide funktionieren ohne JavaScript.",
+      "Teilen und Link kopieren sind ohne JavaScript ohne Wirkung; das Behavior teilen (Phase 3) blendet sie ein bzw. verdrahtet sie."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "label": {
+      "label": "Beschriftung",
+      "description": "Nur Symbole oder mit dem Wort „Teilen“ am Anfang.",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "text",
+          "cssModifier": null,
+          "default": false,
+          "label": "text"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus"
+    ],
+    "interactive": false,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-share-bar"
+    ],
+    "tokenGroups": {
+      "Leiste": [
+        {
+          "token": "--nc-share-bar-gap"
+        },
+        {
+          "token": "--nc-share-bar-padding-block"
+        },
+        {
+          "token": "--nc-share-bar-border-width"
+        },
+        {
+          "token": "--nc-share-bar-border-color"
+        },
+        {
+          "token": "--nc-share-bar-label-color"
+        },
+        {
+          "token": "--nc-share-bar-icon-color"
+        }
+      ],
+      "Blase an der Textstelle": [
+        {
+          "token": "--nc-share-bar-popover-bg"
+        },
+        {
+          "token": "--nc-share-bar-popover-color"
+        },
+        {
+          "token": "--nc-share-bar-popover-radius"
+        },
+        {
+          "token": "--nc-share-bar-popover-padding"
+        },
+        {
+          "token": "--nc-share-bar-popover-shadow"
+        },
+        {
+          "token": "--nc-share-bar-popover-arrow"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "Tab": {
+      "action": "focus-next",
+      "note": "Teilen, LinkedIn, E-Mail, Link kopieren in Dokumentreihenfolge."
+    },
+    "Enter": {
+      "action": "activate",
+      "note": "Oeffnet den Link bzw. loest den Knopf aus (Verhalten ab Phase 3)."
+    }
+  },
+  "testSelectors": null,
+  "events": null,
+  "a11y": {
+    "role": null,
+    "interactive": false,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": null,
+    "assertions": [
+      "Leiste und Blase als role=\"group\" mit aria-label",
+      "Jeder Icon-Button mit aria-label; LinkedIn nennt „öffnet in neuem Tab“",
+      "Fokusring der Buttons (focus-ring), Trefferflaeche mindestens 44 px (button-touch-target)"
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": {
+    "scss": [
+      "scss/scss/06-molecules/_share-bar.scss",
+      "scss/scss/05-atoms/_button.scss"
+    ],
+    "story": "stories/molecules/share-bar.stories.js",
+    "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+    "drupal": [],
+    "docs": "docs/content/share-bar.html"
+  }
+}

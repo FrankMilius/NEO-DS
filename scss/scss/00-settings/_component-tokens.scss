@@ -5327,3 +5327,60 @@
   // Helligkeit (0 bis unter 1), die schwarz wird; 0.26 trifft die Prod-Bilder
   --nc-card-medien-schwarzpunkt:  0.26;
 }
+
+// ---------------------------------------------------------------------------
+// Blog: Byline, Teilen-Leiste, Blog-Artikel
+// ---------------------------------------------------------------------------
+// Artikelseite mit Lesefokus (I15 Phase 1, 22.11.2026): Autorenzeile
+// .nc-byline (06-molecules/_byline.scss), Teilen-Leiste .nc-share-bar mit der
+// Blase an einer markierten Textstelle (06-molecules/_share-bar.scss) und
+// die Template-Variante .t-article--blog (08-templates/_content-templates.scss).
+// Alle Farben folgen der Semantik — im Dunkeln dunkel, ohne eigenen
+// Dunkelblock; die Blase nimmt die inverse Fläche wie der Tooltip.
+
+:root,
+:where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
+  // -- Byline (Konfig-App: Byline) --
+  --nc-byline-gap:                    var(--fnd-spacing-03);
+  --nc-byline-photo-size:             var(--nc-avatar-size-md);
+  --nc-byline-photo-size-sm:          var(--nc-avatar-size-sm);
+  --nc-byline-initials-size:          var(--nc-avatar-font-size-md);
+  --nc-byline-initials-size-sm:       var(--nc-avatar-font-size-sm);
+  --nc-byline-font-size:              var(--fs-sm);
+  --nc-byline-font-size-sm:           var(--fs-xs);
+  --nc-byline-name-color:             var(--fnd-color-text-primary);
+  --nc-byline-name-weight:            var(--fnd-font-weight-semibold);
+  --nc-byline-meta-color:             var(--fnd-color-text-secondary);
+
+  // -- Teilen-Leiste (Konfig-App: Teilen-Leiste) --
+  --nc-share-bar-gap:                 var(--fnd-spacing-02);
+  --nc-share-bar-padding-block:       var(--fnd-spacing-02);
+  --nc-share-bar-border-width:        1px;
+  --nc-share-bar-border-color:        var(--fnd-color-border-hairline);
+  --nc-share-bar-label-color:         var(--fnd-color-text-secondary);
+  --nc-share-bar-icon-color:          var(--fnd-color-text-secondary);
+  --nc-share-bar-popover-bg:          var(--fnd-color-background-inverse);
+  --nc-share-bar-popover-color:       var(--fnd-color-text-inverse);
+  --nc-share-bar-popover-radius:      var(--fnd-radius-sm);
+  --nc-share-bar-popover-padding:     var(--fnd-spacing-01);
+  --nc-share-bar-popover-shadow:      var(--fnd-elevation-floating);
+  --nc-share-bar-popover-arrow:       6px;
+
+  // -- Blog-Artikel (Konfig-App: Blog-Artikel) --
+  --nc-blog-article-font-size:        var(--fs-lg);
+  --nc-blog-article-line-height:      1.75;
+  // 52ch ergeben in Manrope rund 65 Zeichen je Zeile (die Ziffer 0, an der
+  // ch gemessen wird, ist breiter als ein mittlerer Buchstabe)
+  --nc-blog-article-measure:          52ch;
+  --nc-blog-article-figure-bleed:     var(--fnd-spacing-12);
+  --nc-blog-article-gap:              var(--fnd-spacing-06);
+  --nc-blog-article-category-color:   var(--fnd-color-text-link);
+  --nc-blog-article-subtitle-size:    var(--fs-xl);
+  --nc-blog-article-subtitle-color:   var(--fnd-color-text-secondary);
+  --nc-blog-article-caption-color:    var(--fnd-color-text-secondary);
+  --nc-blog-article-quote-size:       var(--fs-xl);
+  --nc-blog-article-quote-border-width: 3px;
+  --nc-blog-article-quote-border-color: var(--fnd-color-text-primary);
+  --nc-blog-article-mark-bg:          var(--fnd-color-selection-bg);
+  --nc-blog-article-mark-color:       var(--fnd-color-selection-color);
+}

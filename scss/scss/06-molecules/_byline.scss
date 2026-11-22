@@ -1,0 +1,107 @@
+// ==========================================================================
+// 06-Molecules: Byline v1.0.0
+// ==========================================================================
+// Autorenzeile eines Artikels (I15 Phase 1, 22.11.2026): rundes Foto oder
+// Initialen, Name, darunter Lesezeit und Datum mit Trennpunkt.
+//
+// ARCHITEKTUR:
+//   Das Foto ist der vorhandene Avatar (05-atoms/_avatar.scss, Bild über
+//   Initialen-Fallback). Die Byline setzt an __photo nur dessen Größe über
+//   --mod-avatar-size-md; alle übrigen Werte aus --nc-byline-*.
+//   Kein „Folgen“-Knopf (Entscheidung Frank, Stufe 1).
+//
+// HTML:
+//   <div class="nc-byline">
+//     <span class="nc-avatar nc-byline__photo">
+//       <img class="nc-avatar__image" src="…" alt="">
+//       <span class="nc-avatar__fallback" aria-hidden="true">LH</span>
+//     </span>
+//     <div class="nc-byline__text">
+//       <span class="nc-byline__name">Lena Hoffmann</span>
+//       <span class="nc-byline__meta">
+//         <span>7 Min. Lesezeit</span><time datetime="2026-11-18">18. Nov. 2026</time>
+//       </span>
+//     </div>
+//   </div>
+//
+// MODIFIER:
+//   --sm  Kleineres Foto und kleinere Schrift (Karten im Blog)
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-byline {
+  display: flex;
+  align-items: center;
+  gap: var(--nc-byline-gap);
+  min-width: 0;
+  font-size: var(--nc-byline-font-size);
+  line-height: var(--lh-snug);
+
+  // Foto: Größe des Avatars aus der Byline, ohne eigene Avatar-Stufe
+  &__photo {
+    --mod-avatar-size-md: var(--nc-byline-photo-size);
+    --mod-avatar-font-size-md: var(--nc-byline-initials-size);
+  }
+
+  // Name darf Link sein (Autorenseite folgt später)
+  &__name {
+    color: var(--nc-byline-name-color);
+    font-weight: var(--nc-byline-name-weight);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+      }
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fnd-spacing-01);
+    min-width: 0;
+  }
+
+  // Lesezeit · Datum — der Punkt kommt aus CSS und wird nicht vorgelesen
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--nc-byline-meta-color);
+
+    > * + *::before {
+      content: '·';
+      content: '·' / '';
+      margin-inline: var(--fnd-spacing-02);
+    }
+  }
+
+  // -- Karten: kleineres Foto, Name und Meta in einer Zeile --
+  &--sm {
+    font-size: var(--nc-byline-font-size-sm);
+
+    .nc-byline__photo {
+      --mod-avatar-size-md: var(--nc-byline-photo-size-sm);
+      --mod-avatar-font-size-md: var(--nc-byline-initials-size-sm);
+    }
+
+    .nc-byline__text {
+      flex-direction: row;
+      flex-wrap: wrap;
+      column-gap: var(--fnd-spacing-02);
+    }
+
+    .nc-byline__meta::before {
+      content: '·';
+      content: '·' / '';
+      margin-inline-end: var(--fnd-spacing-02);
+    }
+  }
+}

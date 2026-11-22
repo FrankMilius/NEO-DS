@@ -1,6 +1,6 @@
 {
   "$schema": "./component-registry-schema.json",
-  "generated": "2026-11-20",
+  "generated": "2026-11-22",
   "description": "Kanonisches Mapping ALLER NEO Design System Artefakte über alle 10 ITCSS-Schichten. AUTO-GENERIERT — nicht manuell bearbeiten. Neu generieren: node scripts/generate-component-registry.js",
   "foundations": {
     "typography": {
@@ -1071,6 +1071,31 @@
       },
       "coverageScore": 5
     },
+    "blog-article": {
+      "name": "blog-article",
+      "layer": "organism",
+      "paths": {
+        "recipe": "data/blog-article-recipe.json",
+        "scss": [],
+        "story": "stories/organisms/blog-article.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [],
+        "docs": "docs/blog-article-docs.html"
+      },
+      "dependencies": [
+        "byline",
+        "chip"
+      ],
+      "coverage": {
+        "recipe": true,
+        "scss": false,
+        "story": true,
+        "arena": true,
+        "drupal": false,
+        "docs": true
+      },
+      "coverageScore": 4
+    },
     "breadcrumb": {
       "name": "breadcrumb",
       "layer": "molecule",
@@ -1133,6 +1158,32 @@
         "drupal": [],
         "docs": "docs/button-docs.html"
       },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": true,
+        "drupal": false,
+        "docs": true
+      },
+      "coverageScore": 5
+    },
+    "byline": {
+      "name": "byline",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/byline-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_byline.scss"
+        ],
+        "story": "stories/molecules/byline.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [],
+        "docs": "docs/byline-docs.html"
+      },
+      "dependencies": [
+        "avatar"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -2563,6 +2614,9 @@
         ],
         "docs": "docs/logo-wall-docs.html"
       },
+      "dependencies": [
+        "section"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -3408,6 +3462,32 @@
         "drupal": [],
         "docs": "docs/select-docs.html"
       },
+      "coverage": {
+        "recipe": true,
+        "scss": true,
+        "story": true,
+        "arena": true,
+        "drupal": false,
+        "docs": true
+      },
+      "coverageScore": 5
+    },
+    "share-bar": {
+      "name": "share-bar",
+      "layer": "molecule",
+      "paths": {
+        "recipe": "data/share-bar-recipe.json",
+        "scss": [
+          "scss/scss/06-molecules/_share-bar.scss"
+        ],
+        "story": "stories/molecules/share-bar.stories.js",
+        "arena": "apps/theme-configurator/src/components/laboratory/RecipeArena.vue",
+        "drupal": [],
+        "docs": "docs/share-bar-docs.html"
+      },
+      "dependencies": [
+        "button"
+      ],
       "coverage": {
         "recipe": true,
         "scss": true,
@@ -4552,13 +4632,13 @@
   },
   "stats": {
     "components": {
-      "total": 142,
-      "withRecipe": 135,
-      "withScss": 134,
-      "withStory": 135,
-      "withArena": 136,
+      "total": 145,
+      "withRecipe": 138,
+      "withScss": 136,
+      "withStory": 138,
+      "withArena": 139,
       "withDrupal": 38,
-      "withDocs": 93
+      "withDocs": 96
     },
     "foundations": {
       "total": 19,
@@ -4592,8 +4672,8 @@
     "layoutPresets": 15,
     "coverageDistribution": {
       "6/6": 8,
-      "5/6": 110,
-      "4/6": 13,
+      "5/6": 112,
+      "4/6": 14,
       "3/6": 5,
       "1/6": 6
     }
@@ -4611,6 +4691,7 @@
       ],
       "missingScss": [
         "aspect-ratio",
+        "blog-article",
         "container",
         "grid",
         "navigation-orchestration",

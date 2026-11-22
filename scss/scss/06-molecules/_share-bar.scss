@@ -1,0 +1,97 @@
+// ==========================================================================
+// 06-Molecules: Share Bar (Teilen-Leiste) v1.0.0
+// ==========================================================================
+// Leiste unter der Autorenzeile eines Artikels (I15 Phase 1, 22.11.2026):
+// Haarlinien oben und unten, darin Icon-Buttons — Teilen, LinkedIn, E-Mail,
+// Link kopieren. Kein Merken, keine Zähler, kein Vorlesen (Entscheidung
+// Frank, Stufe 1).
+//
+// ARCHITEKTUR:
+//   Die Knöpfe sind vorhandene Buttons (05-atoms/_button.scss):
+//   .nc-button.nc-button--ghost.nc-button--icon-only.nc-button--sm.
+//   Die Leiste setzt nur Rahmen, Abstände und Ausrichtung.
+//
+//   __popover ist die Blase an einer markierten Textstelle („Zitat teilen“,
+//   „Link kopieren“). Hier nur das Aussehen; Öffnen, Lage und Schließen
+//   übernimmt später das Behavior teilen (Phase 3). Die Knöpfe darin sind
+//   ebenfalls Ghost-Buttons, umgefärbt über --mod-button-ghost-*.
+//
+// HTML:
+//   <div class="nc-share-bar" role="group" aria-label="Artikel teilen">
+//     <span class="nc-share-bar__label">Teilen</span>          (optional)
+//     <div class="nc-share-bar__actions">
+//       <button class="nc-button nc-button--ghost nc-button--icon-only nc-button--sm"
+//               type="button" aria-label="Teilen">…</button>
+//       <a class="nc-button …" href="https://www.linkedin.com/…" aria-label="Auf LinkedIn teilen">…</a>
+//     </div>
+//   </div>
+//
+//   <div class="nc-share-bar__popover" role="group" aria-label="Textstelle teilen">
+//     <button class="nc-button nc-button--ghost nc-button--xs" type="button">Zitat teilen</button>
+//     <button class="nc-button nc-button--ghost nc-button--xs" type="button">Link kopieren</button>
+//   </div>
+// ==========================================================================
+
+@use '../01-tools' as *;
+
+.nc-share-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--nc-share-bar-gap);
+  padding-block: var(--nc-share-bar-padding-block);
+  border-block: var(--nc-share-bar-border-width) solid var(--nc-share-bar-border-color);
+  min-width: 0;
+
+  &__label {
+    margin-inline-end: auto;
+    color: var(--nc-share-bar-label-color);
+    font-size: var(--fs-sm);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--nc-share-bar-gap);
+    margin-inline-start: auto;
+  }
+
+  // Knöpfe in der Leiste: Ton der Leiste, Akzent erst beim Darüberfahren
+  .nc-button {
+    --mod-button-ghost-color: var(--nc-share-bar-icon-color);
+  }
+
+  // -- Blase an der markierten Textstelle --
+  // Das Behavior setzt später position: absolute und die Lage (inset); ohne
+  // Behavior steht sie im Fluss (Doku-Beispiel). relative ist der Bezugspunkt
+  // der Spitze.
+  &__popover {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fnd-spacing-01);
+    padding: var(--nc-share-bar-popover-padding);
+    border-radius: var(--nc-share-bar-popover-radius);
+    background: var(--nc-share-bar-popover-bg);
+    color: var(--nc-share-bar-popover-color);
+    box-shadow: var(--nc-share-bar-popover-shadow);
+    z-index: var(--fnd-z-dropdown);
+    white-space: nowrap;
+
+    --mod-button-ghost-color: var(--nc-share-bar-popover-color);
+    --mod-button-ghost-bg-hover: color-mix(in srgb, var(--nc-share-bar-popover-color) 16%, transparent);
+    --mod-button-ghost-bg-active: color-mix(in srgb, var(--nc-share-bar-popover-color) 24%, transparent);
+
+    // Spitze nach unten zur Textstelle
+    &::after {
+      content: '';
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline-start: 50%;
+      translate: -50% 0;
+      border: var(--nc-share-bar-popover-arrow) solid transparent;
+      border-block-end: 0;
+      border-block-start-color: var(--nc-share-bar-popover-bg);
+    }
+  }
+}
