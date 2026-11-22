@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "timeline",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "status": "stable",
     "tags": [
       "chronological",
@@ -19,6 +19,12 @@
       "docs": "/docs/timeline-docs"
     },
     "changelog": [
+      {
+        "version": "2.5.0",
+        "changes": [
+          "Variant B (22.11.2026): horizontal track — line and fill as local backgrounds over the whole scroll width; fill follows the scroll position (node of the last revealed card inside the visible area); is-more-start / is-more-end on the root for the edge fade; step buttons in [data-timeline-controls] right after the root, shown only while the track scrolls; cards share the row and have equal heights. Below 860px horizontal stacks like the vertical layouts. Observer thresholds [0, 0.34]: vertical still needs a third in view, a horizontal card is revealed as soon as it peeks in."
+        ]
+      },
       {
         "version": "2.4.0",
         "changes": [
@@ -530,7 +536,10 @@
     }
   },
   "komposition": [
-    { "art": "enthaelt", "recipe": "button" }
+    {
+      "art": "enthaelt",
+      "recipe": "button"
+    }
   ],
   "specimens": [
     {
@@ -708,7 +717,7 @@
       "detail": {
         "progress": "number"
       },
-      "note": "Gefeuert an der Wurzel, wenn sich die Fuellhoehe der Linie aendert: Anteil der eingeblendeten Eintraege (0 bis 1, drei Stellen); bei prefers-reduced-motion oder ohne IntersectionObserver einmal 1 beim Binden."
+      "note": "Gefeuert an der Wurzel, wenn sich die Fuellhoehe der Linie aendert: Anteil der eingeblendeten Eintraege (0 bis 1, drei Stellen); bei prefers-reduced-motion oder ohne IntersectionObserver einmal 1 beim Binden. Horizontal (Spur scrollt seitlich): Anteil der Scrollbreite bis zum Knoten der letzten eingeblendeten Karte im sichtbaren Bereich, beim Scrollen nachgefuehrt."
     }
   }
 }

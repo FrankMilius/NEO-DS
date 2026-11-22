@@ -243,7 +243,7 @@ $timeline-node-ring:
 // Leiste links (rail, Variante A) und Zickzack geteilt (split, Variante C).
 // --_tl-x ist die Lage der Linie; rail und der mobile Umbruch setzen sie
 // an den Knoten links.
-:is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
+:is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal) {
   position: relative;
   max-inline-size: var(--mod-timeline-alt-max-width, var(--nc-timeline-alt-max-width));
   margin-inline: auto;
@@ -585,7 +585,8 @@ $timeline-node-ring:
       transition: none;
     }
   }
-  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal)::after { transition: none; }
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal)::after,
+  .nc-timeline--horizontal { transition: none; }
 }
 
 // -- Umbruch: unter 860px stapeln alle senkrechten Anordnungen gleich
@@ -595,7 +596,7 @@ $timeline-node-ring:
 // wieder eine Karte (der Kopf liegt sonst auf der Linie).
 
 @media (max-width: 53.75em) {
-  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal) {
     --_tl-x: 50%;
 
     .nc-timeline__item {
@@ -641,7 +642,7 @@ $timeline-node-ring:
 }
 
 @media (forced-colors: active) {
-  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal) {
     .nc-timeline__content,
     .nc-timeline__node { border-color: CanvasText; }
     .nc-timeline__fill { background-color: Highlight; }
@@ -666,143 +667,75 @@ $timeline-node-ring:
 }
 
 // ---------------------------------------------------------------------------
-// Variante: Horizontal (seitlich scrollend)
+// Variant B: horizontal (scrolls sideways), from 860px up
 // ---------------------------------------------------------------------------
-// Karten nebeneinander, Linie waagerecht, Scroll-Snap pro Karte.
+// Below 860px it stacks like the vertical layouts (it is part of their group).
+// Cards share the row and grow when they fit; otherwise the track scrolls.
+// Line and fill are local backgrounds, so they span the whole scrolled track
+// (an absolute pseudo element only spans the visible part). The behavior sets
+// --nc-timeline-progress from the scroll position, plus is-more-start /
+// is-more-end for the edge fade and the step buttons (.nc-timeline__controls).
 //
-// BARRIEREFREIHEIT:
-//   Ein scrollender Bereich muss per Tastatur erreichbar sein (WCAG 2.1.1).
-//   Das Template setzt dafuer tabindex="0" + role="group" + aria-label; hier
-//   kommt die sichtbare Fokusanzeige dazu.
+// ACCESSIBILITY: a scrolling region must be keyboard reachable (WCAG 2.1.1) —
+// the template sets tabindex="0", role="group" and aria-label.
 
-.nc-timeline--horizontal {
-  position: relative;
-  display: flex;
-  gap: var(--mod-timeline-h-gap, var(--nc-timeline-h-gap));
-  list-style: none;
-  margin: 0;
-  padding: var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block)) 0;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  // Platz fuer den Node-Ring, sonst wird er vom Rand beschnitten.
-  scroll-padding-inline: var(--fnd-spacing-04);
-
-  &:focus-visible {
-    outline: var(--fnd-border-width-sm) solid var(--fnd-color-border-focus, var(--fnd-color-text-accent));
-    outline-offset: var(--fnd-spacing-01);
-  }
-
-  // Waagerechte Linie auf Node-Hoehe
-  &::before {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    inset-block-start: calc(
-      var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block))
-      + var(--nc-timeline-alt-node-size) / 2
-    );
-    block-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
-    background-color: var(--mod-timeline-line-color, var(--nc-timeline-line-color));
-    border-radius: var(--fnd-radius-full);
-    z-index: 0;
-  }
-
-  // Fortschritt waagerecht
-  &::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: calc(
-      var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block))
-      + var(--nc-timeline-alt-node-size) / 2
-    );
-    inline-size: calc(100% * var(--nc-timeline-progress, 1));
-    block-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
-    background-image: linear-gradient(
-      to right,
-      transparent 0%,
-      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 8%,
-      var(--mod-timeline-progress-color, var(--nc-timeline-progress-color)) 92%,
-      transparent 100%
-    );
-    border-radius: var(--fnd-radius-full);
-    z-index: 1;
-    transition: inline-size .3s linear;
-    pointer-events: none;
-  }
-
-  .nc-timeline__item {
-    flex: 0 0 var(--mod-timeline-h-card-width, var(--nc-timeline-h-card-width));
-    max-inline-size: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--fnd-spacing-05);
-    scroll-snap-align: start;
-    position: relative;
-    z-index: 2;
-    margin: 0;
-    padding: 0;
-
-    &::before { display: none; }
-  }
-
-  .nc-timeline__node {
-    inline-size: var(--nc-timeline-alt-node-size);
-    block-size: var(--nc-timeline-alt-node-size);
-    flex: none;
-    // Mittig ueber der Karte, damit die Linie durch die Kartenmitten laeuft.
-    align-self: center;
-    // s. alternating: 2px aus dem Basis-Mixin wegnehmen, sonst trifft die
-    // waagerechte Linie die Node-Mitte nicht.
-    margin-block-start: 0;
-  }
-
-  .nc-timeline__content {
-    background-color: var(--mod-timeline-card-bg, var(--nc-timeline-card-bg));
-    border: var(--fnd-border-width-hairline) solid var(--mod-timeline-card-border, var(--nc-timeline-card-border));
-    border-radius: var(--mod-timeline-card-radius, var(--nc-timeline-card-radius));
-    padding: var(--mod-timeline-card-padding, var(--nc-timeline-card-padding));
-    box-shadow: var(--mod-timeline-card-shadow, var(--nc-timeline-card-shadow));
-    inline-size: 100%;
-    gap: var(--fnd-spacing-02);
-  }
-}
-
-// Auf schmalen Viewports ist seitliches Scrollen unhandlich -> untereinander.
-@media (max-width: 53.75em) {
+@media (min-width: 53.76em) {
   .nc-timeline--horizontal {
-    display: block;
-    overflow-x: visible;
-    scroll-snap-type: none;
+    --_tl-y: calc(var(--nc-timeline-h-pad-block) + (var(--nc-timeline-alt-node-size) - var(--nc-timeline-line-width)) / 2);
+    display: flex;
+    gap: var(--mod-timeline-h-gap, var(--nc-timeline-h-gap));
+    max-inline-size: none;
+    // Bottom padding keeps the card shadow inside the scroll box.
+    padding: var(--mod-timeline-h-pad-block, var(--nc-timeline-h-pad-block)) var(--fnd-spacing-04) var(--fnd-spacing-10);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--fnd-spacing-04);
+    background:
+      linear-gradient(var(--nc-timeline-progress-color), var(--nc-timeline-progress-color)) 0 var(--_tl-y) / calc(100% * var(--nc-timeline-progress, 1)) var(--nc-timeline-line-width) no-repeat local,
+      linear-gradient(var(--nc-timeline-line-color), var(--nc-timeline-line-color)) 0 var(--_tl-y) / 100% var(--nc-timeline-line-width) no-repeat local;
+    transition: background-size .3s linear;
 
     &::before,
     &::after { display: none; }
 
+    // Edge fade where more phases wait. The outline sits inside, otherwise
+    // the mask would cut it off.
+    &.is-more-end { mask-image: linear-gradient(to left, transparent, #000 var(--fnd-spacing-08)); }
+    &.is-more-start { mask-image: linear-gradient(to right, transparent, #000 var(--fnd-spacing-08)); }
+    &.is-more-start.is-more-end { mask-image: linear-gradient(to right, transparent, #000 var(--fnd-spacing-08) calc(100% - var(--fnd-spacing-08)), transparent); }
+
+    &:focus-visible {
+      outline: var(--fnd-border-width-sm) solid var(--fnd-color-border-focus, var(--fnd-color-text-accent));
+      outline-offset: calc(-1 * var(--fnd-border-width-sm));
+    }
+
     .nc-timeline__item {
-      flex: none;
-      flex-direction: row;
-      align-items: flex-start;
-      margin-block-end: var(--fnd-spacing-08);
-
-      &:last-child { margin-block-end: 0; }
+      flex: 1 0 var(--mod-timeline-h-card-width, var(--nc-timeline-h-card-width));
+      max-inline-size: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--fnd-spacing-05);
+      margin: 0;
+      scroll-snap-align: start;
     }
 
-    .nc-timeline__node {
-      inline-size: var(--nc-timeline-alt-node-size-sm);
-      block-size: var(--nc-timeline-alt-node-size-sm);
-      box-shadow: none;
+    .nc-timeline__node { align-self: center; }
+
+    // Equal card heights, link at the bottom.
+    .nc-timeline__content {
+      flex: 1;
+      margin: 0;
     }
+    .nc-timeline__cta { margin-block-start: auto; }
   }
 }
 
-@media (forced-colors: active) {
-  .nc-timeline--horizontal {
-    .nc-timeline__content,
-    .nc-timeline__node { border-color: CanvasText; }
-    &::after { background-color: Highlight; }
-  }
+.nc-timeline__controls:not([hidden]) {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--fnd-spacing-03);
 }
 
 // ---------------------------------------------------------------------------

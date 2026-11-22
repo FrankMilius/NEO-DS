@@ -6209,30 +6209,99 @@
       const hatteKlasse = wurzel.classList.contains("nc-timeline--progress");
       let beobachter = null;
       const gesetzt = [];
+      const naechstes = wurzel.nextElementSibling;
+      const controls = naechstes && naechstes.matches("[data-timeline-controls]") ? (
+        /** @type {HTMLElement} */
+        naechstes
+      ) : null;
+      const buttons = controls ? (
+        /** @type {HTMLButtonElement[]} */
+        [...controls.querySelectorAll("[data-timeline-step]")]
+      ) : [];
+      const reduced = reduzierteBewegung(wurzel);
+      let resize = null;
+      let letzter = "";
+      let frame = 0;
+      let mitSicht = false;
       signal.addEventListener("abort", () => {
         if (beobachter) beobachter.disconnect();
+        if (resize) resize.disconnect();
+        if (frame && typeof ansicht.cancelAnimationFrame === "function") ansicht.cancelAnimationFrame(frame);
+        wurzel.classList.remove("is-more-start", "is-more-end");
+        if (controls) controls.hidden = true;
         if (!hatteKlasse) wurzel.classList.remove("nc-timeline--progress");
         if (vorher) wurzel.style.setProperty("--nc-timeline-progress", vorher);
         else wurzel.style.removeProperty("--nc-timeline-progress");
         for (const e of gesetzt) e.classList.remove("is-visible");
       });
       const fuelle = (wert) => {
+        if (wert === letzter) return;
+        letzter = wert;
         wurzel.style.setProperty("--nc-timeline-progress", wert);
         sende(wurzel, "timeline-progress", { progress: Number(wert) });
       };
-      if (reduzierteBewegung(wurzel) || typeof Beobachter !== "function") {
+      const nachfuehren = () => {
+        if (!scrolls()) {
+          const gesehen = eintraege.filter((e) => e.classList.contains("is-visible")).length;
+          fuelle((gesehen / eintraege.length).toFixed(3));
+          return;
+        }
+        const end = wurzel.scrollLeft + wurzel.clientWidth;
+        let reach = 0;
+        eintraege.forEach((e, i) => {
+          const centre = e.offsetLeft + e.offsetWidth / 2;
+          if (e.classList.contains("is-visible") && centre <= end) reach = i === eintraege.length - 1 ? wurzel.scrollWidth : centre;
+        });
+        fuelle((reach / wurzel.scrollWidth).toFixed(3));
+      };
+      const scrolls = () => wurzel.scrollWidth > wurzel.clientWidth + 1;
+      const edges = () => {
+        const on = scrolls();
+        const start = on && wurzel.scrollLeft > 1;
+        const end = on && wurzel.scrollLeft + wurzel.clientWidth < wurzel.scrollWidth - 1;
+        wurzel.classList.toggle("is-more-start", start);
+        wurzel.classList.toggle("is-more-end", end);
+        if (controls) controls.hidden = !on;
+        for (const b of buttons) b.disabled = Number(b.dataset.timelineStep) < 0 ? !start : !end;
+      };
+      const update = () => {
+        frame = 0;
+        edges();
+        if (mitSicht) nachfuehren();
+      };
+      const plan = () => {
+        if (frame) return;
+        const raf = ansicht.requestAnimationFrame;
+        frame = typeof raf === "function" ? raf.call(ansicht, update) : (update(), 0);
+      };
+      wurzel.addEventListener("scroll", plan, { passive: true, signal });
+      const RO = (
+        /** @type {any} */
+        globalThis.ResizeObserver || /** @type {any} */
+        ansicht.ResizeObserver
+      );
+      if (typeof RO === "function") {
+        resize = new RO(plan);
+        resize.observe(wurzel);
+      } else ansicht.addEventListener("resize", plan, { signal });
+      for (const b of buttons) {
+        b.addEventListener("click", () => {
+          const first = eintraege[0];
+          const step = first.offsetWidth + (parseFloat(ansicht.getComputedStyle(wurzel).columnGap) || 0);
+          if (typeof wurzel.scrollBy === "function") wurzel.scrollBy({ left: Number(b.dataset.timelineStep) * step, behavior: reduced ? "auto" : "smooth" });
+        }, { signal });
+      }
+      edges();
+      if (reduced || typeof Beobachter !== "function") {
         fuelle("1");
         return;
       }
       wurzel.classList.add("nc-timeline--progress");
       wurzel.style.setProperty("--nc-timeline-progress", "0");
-      const nachfuehren = () => {
-        const gesehen = eintraege.filter((e) => e.classList.contains("is-visible")).length;
-        fuelle((gesehen / eintraege.length).toFixed(3));
-      };
+      mitSicht = true;
       beobachter = new Beobachter((es) => {
         for (const e of es) {
-          if (!e.isIntersecting) continue;
+          if (!e.isIntersecting || e.intersectionRatio < 0.34 && !scrolls()) continue;
           const el = (
             /** @type {HTMLElement} */
             e.target
@@ -6244,7 +6313,7 @@
           beobachter.unobserve(el);
           nachfuehren();
         }
-      }, { threshold: 0.34, rootMargin: "0px 0px -10% 0px" });
+      }, { threshold: [0, 0.34], rootMargin: "0px 0px -10% 0px" });
       for (const e of eintraege) beobachter.observe(e);
     }
   };

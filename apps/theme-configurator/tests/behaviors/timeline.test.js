@@ -78,24 +78,26 @@ describe('timeline: Website-Bauteil', () => {
     expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe('1')
   })
 
-  it('mit Beobachter: Klasse und Fortschritt 0, jeder Eintrag beobachtet (threshold 0.34, rootMargin wie neoTimeline)', () => {
+  it('mit Beobachter: Klasse und Fortschritt 0, jeder Eintrag beobachtet (threshold [0, 0.34], rootMargin wie neoTimeline)', () => {
     const b = beobachter()
     const { wurzel, eintraege } = bau()
     expect(wurzel.classList.contains('nc-timeline--progress')).toBe(true)
     expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe('0')
     expect(b.beobachtet).toEqual(eintraege)
-    expect(b.opt).toEqual({ threshold: 0.34, rootMargin: '0px 0px -10% 0px' })
+    expect(b.opt).toEqual({ threshold: [0, 0.34], rootMargin: '0px 0px -10% 0px' })
   })
 
   it('Eintraege im Bild: is-visible, nicht mehr beobachtet, Fuellhoehe = Anteil (3 Stellen), Ereignis je Aenderung', () => {
     const b = beobachter()
     const { wurzel, eintraege, fortschritt } = bau(3)
-    b.rueckruf([{ target: eintraege[0], isIntersecting: true }, { target: eintraege[1], isIntersecting: false }])
+    b.rueckruf([{ target: eintraege[0], isIntersecting: true, intersectionRatio: 0.5 }, { target: eintraege[1], isIntersecting: false, intersectionRatio: 0 }])
     expect(eintraege[0].classList.contains('is-visible')).toBe(true)
     expect(eintraege[1].classList.contains('is-visible')).toBe(false)
     expect(b.entfernt).toEqual([eintraege[0]])
     expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe('0.333')
-    b.rueckruf([{ target: eintraege[1], isIntersecting: true }, { target: eintraege[2], isIntersecting: true }])
+    b.rueckruf([{ target: eintraege[1], isIntersecting: true, intersectionRatio: 0.1 }])
+    expect(eintraege[1].classList.contains('is-visible')).toBe(false)
+    b.rueckruf([{ target: eintraege[1], isIntersecting: true, intersectionRatio: 0.4 }, { target: eintraege[2], isIntersecting: true, intersectionRatio: 1 }])
     expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe('1.000')
     expect(fortschritt.map((e) => e.detail.progress)).toEqual([0.333, 0.667, 1])
     for (const e of fortschritt) passtZumRecipe('timeline', e)
@@ -120,7 +122,7 @@ describe('timeline: Website-Bauteil', () => {
   it('Abbinden: Beobachter getrennt, Klasse, Fortschritt und is-visible zurueck; erneutes Binden geht', () => {
     const b = beobachter()
     const { b: buehne1, wurzel, eintraege } = bau()
-    b.rueckruf([{ target: eintraege[0], isIntersecting: true }])
+    b.rueckruf([{ target: eintraege[0], isIntersecting: true, intersectionRatio: 1 }])
     abbinden(buehne1, ['timeline'])
     expect(b.getrennt).toBe(1)
     expect(wurzel.classList.contains('nc-timeline--progress')).toBe(false)
@@ -136,5 +138,82 @@ describe('timeline: Website-Bauteil', () => {
     const b = buehne('<ol class="nc-timeline" data-timeline></ol>')
     anbinden(b, ['timeline'])
     expect(b.querySelector('ol').classList.contains('nc-timeline--progress')).toBe(false)
+  })
+})
+
+describe('timeline: horizontal track (variant B)', () => {
+  const quer = (n = 4) => `<section class="nc-section"><ol class="nc-timeline nc-timeline--horizontal" data-timeline tabindex="0" role="group" aria-label="Ablauf">${Array.from({ length: n }, (_, i) => eintrag(i + 1)).join('')}</ol>
+<div class="nc-timeline__controls" data-timeline-controls hidden><button type="button" data-timeline-step="-1" aria-label="Vorherige Phasen"></button><button type="button" data-timeline-step="1" aria-label="Weitere Phasen"></button></div></section>`
+
+  /** Fake layout: four 300px cards with 40px gap in a 700px track */
+  function track (wurzel, eintraege) {
+    let left = 0
+    Object.defineProperty(wurzel, 'clientWidth', { configurable: true, get: () => 700 })
+    Object.defineProperty(wurzel, 'scrollWidth', { configurable: true, get: () => 1320 })
+    Object.defineProperty(wurzel, 'scrollLeft', { configurable: true, get: () => left, set: (v) => { left = v } })
+    eintraege.forEach((e, i) => {
+      Object.defineProperty(e, 'offsetLeft', { configurable: true, get: () => i * 340 })
+      Object.defineProperty(e, 'offsetWidth', { configurable: true, get: () => 300 })
+    })
+    return { scrollTo: (v) => { left = v; wurzel.dispatchEvent(new Event('scroll')) } }
+  }
+
+  function bauQuer () {
+    vi.stubGlobal('requestAnimationFrame', (cb) => { cb(); return 0 })
+    const b = buehne(quer())
+    const wurzel = /** @type {HTMLElement} */ (b.querySelector('[data-timeline]'))
+    const eintraege = /** @type {HTMLElement[]} */ ([...wurzel.querySelectorAll('.nc-timeline__item')])
+    const t = track(wurzel, eintraege)
+    const fortschritt = sammle(wurzel, 'timeline-progress')
+    anbinden(b, ['timeline'])
+    return { b, wurzel, eintraege, fortschritt, ...t, controls: b.querySelector('[data-timeline-controls]'), knoepfe: [...b.querySelectorAll('[data-timeline-step]')] }
+  }
+
+  it('scrolling track: controls shown, edge classes and disabled buttons follow the scroll position', () => {
+    beobachter()
+    const { wurzel, controls, knoepfe, scrollTo } = bauQuer()
+    expect(controls.hidden).toBe(false)
+    expect(wurzel.classList.contains('is-more-end')).toBe(true)
+    expect(wurzel.classList.contains('is-more-start')).toBe(false)
+    expect(knoepfe.map((k) => k.disabled)).toEqual([true, false])
+    scrollTo(300)
+    expect(wurzel.classList.contains('is-more-start')).toBe(true)
+    expect(knoepfe.map((k) => k.disabled)).toEqual([false, false])
+    scrollTo(620)
+    expect(wurzel.classList.contains('is-more-end')).toBe(false)
+    expect(knoepfe.map((k) => k.disabled)).toEqual([false, true])
+  })
+
+  it('fill reaches the node of the last revealed card inside the visible area, 1 at the last card', () => {
+    const b = beobachter()
+    const { wurzel, eintraege, fortschritt, scrollTo } = bauQuer()
+    // horizontal: a card that only peeks in (ratio 0.1) is revealed too
+    b.rueckruf(eintraege.slice(0, 3).map((target, i) => ({ target, isIntersecting: true, intersectionRatio: i === 2 ? 0.1 : 1 })))
+    expect(eintraege[2].classList.contains('is-visible')).toBe(true)
+    // nodes at 150, 490, 830: only the first two lie inside 0..700
+    expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe((490 / 1320).toFixed(3))
+    scrollTo(620)
+    b.rueckruf([{ target: eintraege[3], isIntersecting: true, intersectionRatio: 1 }])
+    expect(wurzel.style.getPropertyValue('--nc-timeline-progress')).toBe('1.000')
+    for (const e of fortschritt) passtZumRecipe('timeline', e)
+  })
+
+  it('step buttons scroll by one card plus gap', () => {
+    beobachter()
+    const { wurzel, knoepfe } = bauQuer()
+    wurzel.scrollBy = vi.fn()
+    knoepfe[1].click()
+    expect(wurzel.scrollBy).toHaveBeenCalledWith(expect.objectContaining({ left: 300 + (parseFloat(getComputedStyle(wurzel).columnGap) || 0) }))
+  })
+
+  it('track that fits: controls stay hidden, no edge classes; unbinding hides them again', () => {
+    beobachter()
+    const b = buehne(quer(2))
+    anbinden(b, ['timeline'])
+    expect(b.querySelector('[data-timeline-controls]').hidden).toBe(true)
+    const { b: b2, wurzel, controls } = bauQuer()
+    abbinden(b2, ['timeline'])
+    expect(controls.hidden).toBe(true)
+    expect(wurzel.classList.contains('is-more-end')).toBe(false)
   })
 })
