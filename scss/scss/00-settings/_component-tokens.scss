@@ -1088,7 +1088,7 @@
   --nc-accordion-trigger-tracking:  var(--fnd-tracking-snug);
 
   // Etikett ueber dem Ausloeser — dieselbe Sprache wie jedes Etikett im System.
-  --nc-accordion-kicker-family:     var(--font-mono);
+  --nc-accordion-kicker-family:     var(--nc-kicker-font-family);
   --nc-accordion-kicker-size:       var(--fs-xs);
   --nc-accordion-kicker-weight:     var(--nc-mono-label-weight-strong);
   --nc-accordion-kicker-tracking:   var(--nc-mono-tracking-caps);
@@ -2921,12 +2921,15 @@
   // -- Einblend-Effekte (nur aktiv, wenn JS laeuft) --
   --nc-timeline-reveal-shift:     1.375rem;   // 22px, wie in der Vorlage
   --nc-timeline-reveal-duration:  .5s;
-  // Leuchtring am Node: innerer Ring in Flaechenfarbe (damit die Linie
-  // "abreisst"), darueber der Akzentschimmer.
-  --nc-timeline-node-glow:
-      0 0 0 .625rem var(--fnd-color-background-base),
-      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 14%, transparent),
-      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 30%, transparent);
+  // Grosser Knoten (22.11.2026): Ring in der Flaeche hinter der Timeline
+  // (die Linie "reisst" am Knoten ab), aussen eine Haarlinie in Farbe und
+  // Staerke der Linie, eingeblendet ein Schimmer. Die Schatten werden am
+  // Knoten selbst zusammengesetzt (s. _timeline.scss) — als fertiger Token
+  // loeste var(--fnd-color-background-base) auf :root auf, der Ring war
+  // dadurch auf getoenten Flaechen heller als der Grund.
+  --nc-timeline-node-ring:        .625rem;   // 10px Abstand zur Haarlinie
+  --nc-timeline-node-glow-blur:   2rem;
+  --nc-timeline-node-glow-strength: 30%;
 }
 
 // Anthrazit traegt im Dunkeln nicht -> Graphit 300. Dunkle Bereiche per
@@ -3484,7 +3487,7 @@
   // -- Kicker / Badge --
   // Hero: steht ueber einer DISPLAY-Headline und traegt deshalb eine Stufe
   // weiter als die Section-Dachzeile.
-  --nc-hero-kicker-family:         var(--font-mono);
+  --nc-hero-kicker-family:         var(--nc-kicker-font-family);
   --nc-hero-kicker-size:           var(--nc-mono-label-size-lg);
   // 800 statt 500: im Hero steht die Dachzeile auf einer farbigen Flaeche und
   // in Versalien — bei 500 wirkte sie dort duenn gegen die Display-Headline.
@@ -3600,7 +3603,7 @@
   // "Barrierefrei".
   --nc-hero-cards-kicker-size:     var(--fs-xs);
   --nc-hero-cards-kicker-weight:   var(--nc-mono-label-weight-strong);
-  --nc-hero-cards-kicker-family:   var(--font-mono);
+  --nc-hero-cards-kicker-family:   var(--nc-kicker-font-family);
   --nc-hero-cards-kicker-tracking: var(--nc-mono-tracking-caps);
   --nc-hero-cards-value-size:      var(--fs-2xl);
   --nc-hero-cards-value-family:    var(--font-heading);
@@ -4471,7 +4474,7 @@
   --nc-footer-link-size:             var(--fs-sm);
 
   // -- CTA --
-  --nc-footer-cta-kicker-family:     var(--font-mono);
+  --nc-footer-cta-kicker-family:     var(--nc-kicker-font-family);
   --nc-footer-cta-kicker-size:       var(--nc-mono-label-size);
   --nc-footer-cta-headline-size:     var(--fs-4xl);
   --nc-footer-cta-headline-weight:   var(--fnd-font-weight-bold);
@@ -4932,7 +4935,7 @@
 
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
-  --nc-hero-tom-kicker-family:       var(--font-body);
+  --nc-hero-tom-kicker-family:       var(--nc-kicker-font-family);   // Kicker-Regel (22.11.2026), vorher Manrope
   --nc-hero-tom-kicker-size:         var(--nc-type-caption-size);
   --nc-hero-tom-kicker-weight:       var(--nc-mono-label-weight-strong);
   --nc-hero-tom-headline-size:       var(--nc-type-display-m-size);

@@ -82,6 +82,13 @@
 // (22.11.2026): kein Akzentring mehr; Flaeche hell oder dunkel, Inhalt
 // Icon, Ziffer oder Punkt (Modifier am <ol>, s. unten). Der Ring in
 // Seitenfarbe laesst die Linie hinter dem Knoten "abreissen".
+// Ring in Flaechenfarbe + Haarlinie in Linienfarbe/-staerke. Am Knoten
+// aufgeloest, damit --fnd-color-background-base die Flaeche des Abschnitts
+// trifft (getoente Flaeche, dunkler Block), nicht die der Seite.
+$timeline-node-ring:
+  0 0 0 var(--nc-timeline-node-ring) var(--fnd-color-background-base),
+  0 0 0 calc(var(--nc-timeline-node-ring) + var(--nc-timeline-line-width)) var(--nc-timeline-progress-color);
+
 @mixin timeline-node-surface {
   display: flex;
   align-items: center;
@@ -90,7 +97,7 @@
   border-radius: var(--fnd-radius-full);
   background-color: var(--mod-timeline-node-surface-bg, var(--nc-timeline-node-surface-bg));
   color: var(--mod-timeline-node-surface-fg, var(--nc-timeline-node-surface-fg));
-  box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
+  box-shadow: $timeline-node-ring;
   z-index: 3;
 
   svg { inline-size: 50%; block-size: 50%; }
@@ -318,8 +325,7 @@
     // Das ist fuer die kompakte Timeline richtig, verschiebt den Node hier
     // aber 2px unter die Kartenmitte - trotz align-items:center.
     margin-block-start: 0;
-    // Flaeche, Inhalt, Ring: gemeinsam mit horizontal, s. Knoten-Abschnitt.
-    @include timeline-node-surface;
+    // Flaeche, Inhalt, Ring: gemeinsame Regel mit horizontal (s. unten).
   }
 
   .nc-timeline__content {
@@ -344,6 +350,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--fnd-spacing-07);
   }
+}
+
+// Knoten der Prozess-Varianten: eine gemeinsame Regel statt zweier Kopien
+// (spart Uebertragungsgroesse). Steht vor den Umbruch-Regeln, die den
+// Schatten mobil abschalten.
+.nc-timeline--alternating .nc-timeline__node,
+.nc-timeline--horizontal .nc-timeline__node {
+  @include timeline-node-surface;
 }
 
 // -- Karten-Bestandteile (auch ausserhalb von alternating nutzbar) --
@@ -396,6 +410,7 @@
 
 .nc-timeline__phase {
   margin: 0;
+  font-family: var(--nc-kicker-font-family);   // Kicker-Regel: JetBrains Mono (22.11.2026)
   font-size: var(--fs-2xs);
   font-weight: var(--fnd-font-weight-semibold);
   color: var(--mod-timeline-phase-color, var(--nc-timeline-phase-color));
@@ -477,7 +492,10 @@
     }
 
     .nc-timeline__node {
-      box-shadow: var(--nc-timeline-node-glow);
+      box-shadow:
+        $timeline-node-ring,
+        0 0 var(--nc-timeline-node-glow-blur)
+          color-mix(in srgb, var(--nc-timeline-progress-color) var(--nc-timeline-node-glow-strength), transparent);
     }
   }
 }
@@ -644,7 +662,6 @@
     // s. alternating: 2px aus dem Basis-Mixin wegnehmen, sonst trifft die
     // waagerechte Linie die Node-Mitte nicht.
     margin-block-start: 0;
-    @include timeline-node-surface;
   }
 
   .nc-timeline__content {

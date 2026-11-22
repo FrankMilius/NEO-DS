@@ -20654,12 +20654,6 @@ export const componentTokenGroups = [
         "default": ".5s"
       },
       {
-        "id": "nc-timeline-node-glow",
-        "label": "Node Glow",
-        "type": "color",
-        "default": "0 0 0 .625rem var(--fnd-color-background-base),\n      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 14%, transparent),\n      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 30%, transparent)"
-      },
-      {
         "id": "nc-timeline-node-dot-size",
         "label": "Node Dot Size",
         "type": "size",
@@ -20724,6 +20718,24 @@ export const componentTokenGroups = [
         "label": "Card Title Line Height",
         "type": "generic",
         "default": "1.25"
+      },
+      {
+        "id": "nc-timeline-node-ring",
+        "label": "Node Ring",
+        "type": "size",
+        "default": ".625rem"
+      },
+      {
+        "id": "nc-timeline-node-glow-blur",
+        "label": "Node Glow Blur",
+        "type": "size",
+        "default": "2rem"
+      },
+      {
+        "id": "nc-timeline-node-glow-strength",
+        "label": "Node Glow Strength",
+        "type": "generic",
+        "default": "30%"
       }
     ],
     "subgroups": [
@@ -20745,7 +20757,9 @@ export const componentTokenGroups = [
           "nc-timeline-h-gap",
           "nc-timeline-cta-gap",
           "nc-timeline-node-dot-size",
-          "nc-timeline-marker-size"
+          "nc-timeline-marker-size",
+          "nc-timeline-node-ring",
+          "nc-timeline-node-glow-blur"
         ]
       },
       {
@@ -20773,11 +20787,11 @@ export const componentTokenGroups = [
           "nc-timeline-phase-color",
           "nc-timeline-lead-color",
           "nc-timeline-marker-color",
-          "nc-timeline-node-glow",
           "nc-timeline-node-surface-bg",
           "nc-timeline-node-surface-fg",
           "nc-timeline-node-dark-bg",
-          "nc-timeline-node-dark-fg"
+          "nc-timeline-node-dark-fg",
+          "nc-timeline-node-glow-strength"
         ]
       },
       {
