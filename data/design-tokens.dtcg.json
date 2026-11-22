@@ -30261,11 +30261,7 @@
         }
       },
       "nc-timeline-alt-max-width": {
-        "$type": "dimension",
-        "$value": {
-          "value": 54,
-          "unit": "rem"
-        },
+        "$value": "none",
         "$extensions": {
           "de.neocosmo": {
             "label": "Alt Max Width",
@@ -30276,7 +30272,7 @@
       "nc-timeline-alt-node-col": {
         "$type": "dimension",
         "$value": {
-          "value": 5.625,
+          "value": 4,
           "unit": "rem"
         },
         "$extensions": {
@@ -30287,7 +30283,7 @@
         }
       },
       "nc-timeline-alt-gap": {
-        "$value": "{foundation._configurator.spacing.04}",
+        "$value": "{foundation._configurator.spacing.03}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Alt Gap",
@@ -30296,7 +30292,7 @@
         }
       },
       "nc-timeline-alt-item-gap": {
-        "$value": "{foundation._configurator.spacing.12}",
+        "$value": "{foundation._configurator.spacing.08}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Alt Item Gap",
@@ -30305,7 +30301,7 @@
         }
       },
       "nc-timeline-alt-node-size": {
-        "$value": "{foundation._configurator.size.xl}",
+        "$value": "{foundation._configurator.size.lg}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Alt Node Size",
@@ -30327,12 +30323,11 @@
         }
       },
       "nc-timeline-progress-color": {
-        "$value": "{semantic.text-accent}",
+        "$value": "{primitives.neutralleitern.graphit.shades.800}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Progress Color",
-            "cssType": "color",
-            "ref": "text-accent"
+            "cssType": "color"
           }
         }
       },
@@ -30364,7 +30359,7 @@
         }
       },
       "nc-timeline-card-padding": {
-        "$value": "{foundation._configurator.spacing.06}",
+        "$value": "{foundation._configurator.spacing.07}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Card Padding",
@@ -30419,22 +30414,20 @@
         }
       },
       "nc-timeline-lead-color": {
-        "$value": "{semantic.text-accent}",
+        "$value": "{semantic.text-primary}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Lead Color",
-            "cssType": "color",
-            "ref": "text-accent"
+            "cssType": "color"
           }
         }
       },
       "nc-timeline-marker-color": {
-        "$value": "{semantic.text-accent}",
+        "$value": "{primitives.neutralleitern.lime.shades.500}",
         "$extensions": {
           "de.neocosmo": {
             "label": "Marker Color",
-            "cssType": "color",
-            "ref": "text-accent"
+            "cssType": "color"
           }
         }
       },
@@ -30522,21 +30515,119 @@
           }
         }
       },
-      "nc-timeline-reveal-glow": {
-        "$value": "0 0 0 var(--fnd-border-width-hairline) var(--nc-timeline-progress-color),\n      0 0 1.125rem color-mix(in srgb, var(--nc-timeline-progress-color) 22%, transparent)",
-        "$extensions": {
-          "de.neocosmo": {
-            "label": "Reveal Glow",
-            "cssType": "color"
-          }
-        }
-      },
       "nc-timeline-node-glow": {
-        "$value": "0 0 0 .625rem var(--fnd-color-background-base),\n      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 18%, transparent),\n      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 45%, transparent)",
+        "$value": "0 0 0 .625rem var(--fnd-color-background-base),\n      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 14%, transparent),\n      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 30%, transparent)",
         "$extensions": {
           "de.neocosmo": {
             "label": "Node Glow",
             "cssType": "color"
+          }
+        }
+      },
+      "nc-timeline-node-dot-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.375,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Node Dot Size",
+            "cssType": "size"
+          }
+        }
+      },
+      "nc-timeline-node-surface-bg": {
+        "$value": "{semantic.surface-elevated}",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Node Surface BG",
+            "cssType": "color"
+          }
+        }
+      },
+      "nc-timeline-node-surface-fg": {
+        "$value": "{components.timeline.nc-timeline-progress-color}",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Node Surface FG",
+            "cssType": "color"
+          }
+        }
+      },
+      "nc-timeline-node-dark-bg": {
+        "$value": "{primitives.neutralleitern.graphit.shades.900}",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Node Dark BG",
+            "cssType": "color"
+          }
+        }
+      },
+      "nc-timeline-node-dark-fg": {
+        "$value": "{primitives.neutralleitern.graphit.shades.50}",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Node Dark FG",
+            "cssType": "color"
+          }
+        }
+      },
+      "nc-timeline-lead-size": {
+        "$value": "var(--fs-sm)",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Lead Size",
+            "cssType": "size"
+          }
+        }
+      },
+      "nc-timeline-lead-lh": {
+        "$value": "var(--lh-body)",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Lead Line Height",
+            "cssType": "generic"
+          }
+        }
+      },
+      "nc-timeline-list-size": {
+        "$value": "var(--fs-xs)",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "List Size",
+            "cssType": "size"
+          }
+        }
+      },
+      "nc-timeline-list-lh": {
+        "$value": "1.5",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "List Line Height",
+            "cssType": "generic"
+          }
+        }
+      },
+      "nc-timeline-marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.4375,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Marker Size",
+            "cssType": "size"
+          }
+        }
+      },
+      "nc-timeline-card-title-lh": {
+        "$value": "1.25",
+        "$extensions": {
+          "de.neocosmo": {
+            "label": "Card Title Line Height",
+            "cssType": "generic"
           }
         }
       }

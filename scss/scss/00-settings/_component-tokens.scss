@@ -2852,19 +2852,31 @@
   --nc-timeline-time-weight:      var(--fnd-font-weight-regular);
 
   // -- Alternating Layout (Zickzack, Linie mittig) --
-  --nc-timeline-alt-max-width:    54rem;
-  --nc-timeline-alt-node-col:     5.625rem;   // Mittelspalte fuer den Node
-  --nc-timeline-alt-gap:          var(--fnd-spacing-04);
-  --nc-timeline-alt-item-gap:     var(--fnd-spacing-12);
-  --nc-timeline-alt-node-size:    var(--fnd-size-xl);   // 64px
+  // Iteration 1 (22.11.2026): Karten nutzen die volle Containerbreite
+  // (vorher 54rem -> ca. 390px Kartenbreite, Karten zu hoch fuer Laptops).
+  --nc-timeline-alt-max-width:    none;
+  --nc-timeline-alt-node-col:     4rem;       // Mittelspalte fuer den Node
+  --nc-timeline-alt-gap:          var(--fnd-spacing-03);
+  --nc-timeline-alt-item-gap:     var(--fnd-spacing-08);   // 32-40px, vorher 80-120px
+  --nc-timeline-alt-node-size:    var(--fnd-size-lg);   // 48px, vorher 64px
   --nc-timeline-alt-node-size-sm: 2.75rem;              // 44px, Touch-Ziel
-  --nc-timeline-progress-color:   var(--fnd-color-text-accent);
+  --nc-timeline-node-dot-size:    1.375rem;             // 22px, Knoteninhalt „Punkt"
+  // Linie, Knoteninhalt und Leuchten: Anthrazit (Graphit 800) statt
+  // Akzentgruen (Iteration 1, 22.11.2026). Im Dunkeln Graphit 300, s. unten.
+  --nc-timeline-progress-color:   var(--fnd-neutral-800);
+
+  // Knotenflaeche (Redaktion: hell / dunkel). Hell = Kartenweiss mit
+  // anthrazitfarbenem Inhalt, dunkel = Graphit 900 mit hellem Inhalt.
+  --nc-timeline-node-surface-bg:  var(--fnd-color-surface-elevated);
+  --nc-timeline-node-surface-fg:  var(--nc-timeline-progress-color);
+  --nc-timeline-node-dark-bg:     var(--fnd-neutral-900);
+  --nc-timeline-node-dark-fg:     var(--fnd-neutral-50);
 
   // -- Karte --
   --nc-timeline-card-bg:          var(--fnd-color-surface-elevated);
   --nc-timeline-card-border:      var(--fnd-color-border-hairline);
   --nc-timeline-card-radius:      var(--fnd-radius-lg);
-  --nc-timeline-card-padding:     var(--fnd-spacing-06);
+  --nc-timeline-card-padding:     var(--fnd-spacing-07);
   --nc-timeline-card-shadow:      var(--nc-media-frame-shadow);
 
   // Badges. Tint bewusst 8%: hoehere Werte reissen im Light-Theme
@@ -2874,8 +2886,16 @@
   --nc-timeline-badge-size:       var(--fs-2xs);
 
   --nc-timeline-phase-color:      var(--fnd-color-text-tertiary);
-  --nc-timeline-lead-color:       var(--fnd-color-text-accent);
-  --nc-timeline-marker-color:     var(--fnd-color-text-accent);
+  // Einleitung in Textfarbe statt Akzentgruen, eine Stufe kleiner; Liste
+  // darunter (Iteration 1, 22.11.2026: Titel 24 / Einleitung 16 / Liste 15).
+  --nc-timeline-lead-color:       var(--fnd-color-text-primary);
+  --nc-timeline-lead-size:        var(--fs-sm);
+  --nc-timeline-lead-lh:          var(--lh-body);         // 1,6
+  --nc-timeline-list-size:        var(--fs-xs);
+  --nc-timeline-list-lh:          1.5;
+  // Eckige Listenpunkte in Lime (Markenakzent als Flaeche, nicht als Schrift).
+  --nc-timeline-marker-color:     var(--fnd-accent-500);
+  --nc-timeline-marker-size:      .4375rem;               // 7px
 
   // Kartentitel (h3). NICHT --nc-timeline-title-size verwenden: das ist der
   // Default der KOMPAKTEN Timeline (--fs-sm, 12-15px) und als Kartentitel
@@ -2885,6 +2905,7 @@
   // Deckt sich mit dem Peer bento-grid, der ebenfalls --fs-xl nutzt.
   --nc-timeline-card-title-size:  var(--nc-type-heading-m-size);
   --nc-timeline-card-title-weight: var(--fnd-font-weight-heading-strong);
+  --nc-timeline-card-title-lh:    1.25;
 
   // -- Horizontale Variante --
   --nc-timeline-h-card-width:     22rem;
@@ -2900,17 +2921,23 @@
   // -- Einblend-Effekte (nur aktiv, wenn JS laeuft) --
   --nc-timeline-reveal-shift:     1.375rem;   // 22px, wie in der Vorlage
   --nc-timeline-reveal-duration:  .5s;
-  // Weicher Schein um die eingeblendete Karte. Der 1px-Ring liegt auf der
-  // Hairline, ersetzt sie also optisch, ohne das Layout zu verschieben.
-  --nc-timeline-reveal-glow:
-      0 0 0 var(--fnd-border-width-hairline) var(--nc-timeline-progress-color),
-      0 0 1.125rem color-mix(in srgb, var(--nc-timeline-progress-color) 22%, transparent);
   // Leuchtring am Node: innerer Ring in Flaechenfarbe (damit die Linie
   // "abreisst"), darueber der Akzentschimmer.
   --nc-timeline-node-glow:
       0 0 0 .625rem var(--fnd-color-background-base),
-      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 18%, transparent),
-      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 45%, transparent);
+      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 14%, transparent),
+      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 30%, transparent);
+}
+
+// Anthrazit traegt im Dunkeln nicht -> Graphit 300. Dunkle Bereiche per
+// Theme-Klasse (z. B. dunkle Flaeche eines Blocks) und automatisches Dunkel.
+:where(.neo-dark-theme, .customer-dark-theme) {
+  --nc-timeline-progress-color:   var(--fnd-neutral-300);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --nc-timeline-progress-color: var(--fnd-neutral-300);
+  }
 }
 
 // ---------------------------------------------------------------------------

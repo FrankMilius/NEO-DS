@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-20
+// Generated: 2026-11-22
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -20501,31 +20501,31 @@ export const componentTokenGroups = [
         "id": "nc-timeline-alt-max-width",
         "label": "Alt Max Width",
         "type": "size",
-        "default": "54rem"
+        "default": "none"
       },
       {
         "id": "nc-timeline-alt-node-col",
         "label": "Alt Node Col",
         "type": "size",
-        "default": "5.625rem"
+        "default": "4rem"
       },
       {
         "id": "nc-timeline-alt-gap",
         "label": "Alt Gap",
         "type": "spacing",
-        "default": "var(--fnd-spacing-04)"
+        "default": "var(--fnd-spacing-03)"
       },
       {
         "id": "nc-timeline-alt-item-gap",
         "label": "Alt Item Gap",
         "type": "spacing",
-        "default": "var(--fnd-spacing-12)"
+        "default": "var(--fnd-spacing-08)"
       },
       {
         "id": "nc-timeline-alt-node-size",
         "label": "Alt Node Size",
         "type": "size",
-        "default": "var(--fnd-size-xl)"
+        "default": "var(--fnd-size-lg)"
       },
       {
         "id": "nc-timeline-alt-node-size-sm",
@@ -20537,7 +20537,7 @@ export const componentTokenGroups = [
         "id": "nc-timeline-progress-color",
         "label": "Progress Color",
         "type": "color",
-        "ref": "text-accent"
+        "default": "var(--fnd-neutral-800)"
       },
       {
         "id": "nc-timeline-card-bg",
@@ -20561,7 +20561,7 @@ export const componentTokenGroups = [
         "id": "nc-timeline-card-padding",
         "label": "Card Padding",
         "type": "spacing",
-        "default": "var(--fnd-spacing-06)"
+        "default": "var(--fnd-spacing-07)"
       },
       {
         "id": "nc-timeline-card-shadow",
@@ -20597,13 +20597,13 @@ export const componentTokenGroups = [
         "id": "nc-timeline-lead-color",
         "label": "Lead Color",
         "type": "color",
-        "ref": "text-accent"
+        "default": "var(--fnd-color-text-primary)"
       },
       {
         "id": "nc-timeline-marker-color",
         "label": "Marker Color",
         "type": "color",
-        "ref": "text-accent"
+        "default": "var(--fnd-accent-500)"
       },
       {
         "id": "nc-timeline-card-title-size",
@@ -20654,16 +20654,76 @@ export const componentTokenGroups = [
         "default": ".5s"
       },
       {
-        "id": "nc-timeline-reveal-glow",
-        "label": "Reveal Glow",
-        "type": "color",
-        "default": "0 0 0 var(--fnd-border-width-hairline) var(--nc-timeline-progress-color),\n      0 0 1.125rem color-mix(in srgb, var(--nc-timeline-progress-color) 22%, transparent)"
-      },
-      {
         "id": "nc-timeline-node-glow",
         "label": "Node Glow",
         "type": "color",
-        "default": "0 0 0 .625rem var(--fnd-color-background-base),\n      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 18%, transparent),\n      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 45%, transparent)"
+        "default": "0 0 0 .625rem var(--fnd-color-background-base),\n      0 0 0 .75rem color-mix(in srgb, var(--nc-timeline-progress-color) 14%, transparent),\n      0 0 2rem color-mix(in srgb, var(--nc-timeline-progress-color) 30%, transparent)"
+      },
+      {
+        "id": "nc-timeline-node-dot-size",
+        "label": "Node Dot Size",
+        "type": "size",
+        "default": "1.375rem"
+      },
+      {
+        "id": "nc-timeline-node-surface-bg",
+        "label": "Node Surface BG",
+        "type": "color",
+        "default": "var(--fnd-color-surface-elevated)"
+      },
+      {
+        "id": "nc-timeline-node-surface-fg",
+        "label": "Node Surface FG",
+        "type": "color",
+        "default": "var(--nc-timeline-progress-color)"
+      },
+      {
+        "id": "nc-timeline-node-dark-bg",
+        "label": "Node Dark BG",
+        "type": "color",
+        "default": "var(--fnd-neutral-900)"
+      },
+      {
+        "id": "nc-timeline-node-dark-fg",
+        "label": "Node Dark FG",
+        "type": "color",
+        "default": "var(--fnd-neutral-50)"
+      },
+      {
+        "id": "nc-timeline-lead-size",
+        "label": "Lead Size",
+        "type": "size",
+        "default": "var(--fs-sm)"
+      },
+      {
+        "id": "nc-timeline-lead-lh",
+        "label": "Lead Line Height",
+        "type": "generic",
+        "default": "var(--lh-body)"
+      },
+      {
+        "id": "nc-timeline-list-size",
+        "label": "List Size",
+        "type": "size",
+        "default": "var(--fs-xs)"
+      },
+      {
+        "id": "nc-timeline-list-lh",
+        "label": "List Line Height",
+        "type": "generic",
+        "default": "1.5"
+      },
+      {
+        "id": "nc-timeline-marker-size",
+        "label": "Marker Size",
+        "type": "size",
+        "default": ".4375rem"
+      },
+      {
+        "id": "nc-timeline-card-title-lh",
+        "label": "Card Title Line Height",
+        "type": "generic",
+        "default": "1.25"
       }
     ],
     "subgroups": [
@@ -20683,14 +20743,21 @@ export const componentTokenGroups = [
           "nc-timeline-card-title-size",
           "nc-timeline-h-card-width",
           "nc-timeline-h-gap",
-          "nc-timeline-cta-gap"
+          "nc-timeline-cta-gap",
+          "nc-timeline-node-dot-size",
+          "nc-timeline-marker-size"
         ]
       },
       {
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-timeline-card-title-weight"
+          "nc-timeline-card-title-weight",
+          "nc-timeline-lead-size",
+          "nc-timeline-lead-lh",
+          "nc-timeline-list-size",
+          "nc-timeline-list-lh",
+          "nc-timeline-card-title-lh"
         ]
       },
       {
@@ -20706,8 +20773,11 @@ export const componentTokenGroups = [
           "nc-timeline-phase-color",
           "nc-timeline-lead-color",
           "nc-timeline-marker-color",
-          "nc-timeline-reveal-glow",
-          "nc-timeline-node-glow"
+          "nc-timeline-node-glow",
+          "nc-timeline-node-surface-bg",
+          "nc-timeline-node-surface-fg",
+          "nc-timeline-node-dark-bg",
+          "nc-timeline-node-dark-fg"
         ]
       },
       {

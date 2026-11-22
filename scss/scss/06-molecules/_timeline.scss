@@ -78,6 +78,24 @@
   margin-top: 2px; // Optische Ausrichtung mit erstem Text
 }
 
+// Knoten der Prozess-Varianten (alternating, horizontal). Iteration 1
+// (22.11.2026): kein Akzentring mehr; Flaeche hell oder dunkel, Inhalt
+// Icon, Ziffer oder Punkt (Modifier am <ol>, s. unten). Der Ring in
+// Seitenfarbe laesst die Linie hinter dem Knoten "abreissen".
+@mixin timeline-node-surface {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--mod-timeline-node-surface-bg, var(--nc-timeline-node-surface-bg));
+  color: var(--mod-timeline-node-surface-fg, var(--nc-timeline-node-surface-fg));
+  box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
+  z-index: 3;
+
+  svg { inline-size: 50%; block-size: 50%; }
+}
+
 // ---------------------------------------------------------------------------
 // BEM-Klassen
 // ---------------------------------------------------------------------------
@@ -300,18 +318,8 @@
     // Das ist fuer die kompakte Timeline richtig, verschiebt den Node hier
     // aber 2px unter die Kartenmitte - trotz align-items:center.
     margin-block-start: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--fnd-radius-full);
-    background-color: var(--fnd-color-background-base);
-    border: var(--fnd-border-width-sm) solid var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
-    color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
-    // Ring in Flaechenfarbe, damit die Linie hinter dem Node "abreisst".
-    box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
-    z-index: 3;
-
-    svg { inline-size: 45%; block-size: 45%; }
+    // Flaeche, Inhalt, Ring: gemeinsam mit horizontal, s. Knoten-Abschnitt.
+    @include timeline-node-surface;
   }
 
   .nc-timeline__content {
@@ -321,7 +329,20 @@
     padding: var(--mod-timeline-card-padding, var(--nc-timeline-card-padding));
     box-shadow: var(--mod-timeline-card-shadow, var(--nc-timeline-card-shadow));
     margin-inline: var(--mod-timeline-alt-gap, var(--nc-timeline-alt-gap));
-    gap: var(--fnd-spacing-02);
+    gap: var(--fnd-spacing-03);
+    min-inline-size: 0;
+    // Bezugsgroesse fuer die zweispaltige Liste (Container-Abfrage unten).
+    container-type: inline-size;
+  }
+}
+
+// Breite Karte -> Leistungen zweispaltig. Haelt die Karte flach, ohne die
+// Schrift zu verkleinern (Iteration 1, 22.11.2026).
+@container (min-width: 28rem) {
+  .nc-timeline--alternating .nc-timeline__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--fnd-spacing-07);
   }
 }
 
@@ -332,8 +353,16 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: var(--fnd-spacing-02) var(--fnd-spacing-03);
+}
+
+// Rechte Seite der Dachzeile: Zeitraum und Badge.
+.nc-timeline__meta-end {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--fnd-spacing-02);
-  margin-block-end: var(--fnd-spacing-03);
+  margin-inline-start: auto;
 }
 
 .nc-timeline__period,
@@ -366,17 +395,27 @@
 }
 
 .nc-timeline__phase {
+  margin: 0;
   font-size: var(--fs-2xs);
-  font-weight: var(--fnd-font-weight-medium);
+  font-weight: var(--fnd-font-weight-semibold);
   color: var(--mod-timeline-phase-color, var(--nc-timeline-phase-color));
   text-transform: uppercase;
-  letter-spacing: var(--fnd-tracking-wider);
+  letter-spacing: var(--fnd-tracking-widest);
+}
+
+// Schlagwort hinter der Phase: „Phase 1 · Analyse".
+.nc-timeline__tag {
+  color: var(--fnd-color-text-secondary);
 }
 
 .nc-timeline__lead {
-  margin: 0 0 var(--fnd-spacing-03);
-  font-size: var(--nc-type-body-m-size);
-  line-height: var(--lh-body);
+  margin: 0 0 var(--fnd-spacing-01);
+  // Weiche fuer die Block-Typografie: [class*="__lead"] in _block-roles liest
+  // --_block-size/-lh und setzte sonst die Block-Leadgroesse (~21px).
+  --_block-size: var(--mod-timeline-lead-size, var(--nc-timeline-lead-size));
+  --_block-lh: var(--mod-timeline-lead-lh, var(--nc-timeline-lead-lh));
+  font-size: var(--_block-size);
+  line-height: var(--_block-lh);
   color: var(--mod-timeline-lead-color, var(--nc-timeline-lead-color));
 }
 
@@ -391,20 +430,20 @@
   li {
     position: relative;
     padding-inline-start: var(--fnd-spacing-05);
-    font-size: var(--nc-type-body-m-size);
-    line-height: var(--lh-body);
+    font-size: var(--mod-timeline-list-size, var(--nc-timeline-list-size));
+    line-height: var(--mod-timeline-list-lh, var(--nc-timeline-list-lh));
     color: var(--fnd-color-text-secondary);
 
+    // Eckiger Punkt in Lime statt Pfeil — Pfeile lasen sich wie Links
+    // (Iteration 1, 22.11.2026). Rein dekorativ, die Liste traegt <ul>.
     &::before {
       content: "";
       position: absolute;
       inset-inline-start: 0;
-      inset-block-start: .55em;
-      inline-size: .5rem;
-      block-size: .5rem;
-      border-block-start: var(--fnd-border-width-sm) solid var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
-      border-inline-end: var(--fnd-border-width-sm) solid var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
-      transform: rotate(45deg);
+      inset-block-start: calc((1lh - var(--nc-timeline-marker-size)) / 2);
+      inline-size: var(--mod-timeline-marker-size, var(--nc-timeline-marker-size));
+      block-size: var(--mod-timeline-marker-size, var(--nc-timeline-marker-size));
+      background-color: var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
     }
   }
 }
@@ -421,9 +460,7 @@
     transform: translateY(var(--nc-timeline-reveal-shift));
     transition:
       opacity var(--nc-timeline-reveal-duration) ease,
-      transform var(--nc-timeline-reveal-duration) ease,
-      border-color var(--nc-timeline-reveal-duration) ease,
-      box-shadow var(--nc-timeline-reveal-duration) ease;
+      transform var(--nc-timeline-reveal-duration) ease;
   }
 
   .nc-timeline__node {
@@ -433,11 +470,10 @@
   }
 
   .nc-timeline__item.is-visible {
+    // Karte nur einblenden: kein Akzentrahmen, kein Schein (Iteration 1).
     .nc-timeline__content {
       opacity: 1;
       transform: none;
-      border-color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
-      box-shadow: var(--nc-timeline-reveal-glow);
     }
 
     .nc-timeline__node {
@@ -446,8 +482,7 @@
   }
 }
 
-// Reduzierte Bewegung: Endzustand sofort, keine Uebergaenge. Der Akzentrand
-// bleibt erhalten — er ist Gestaltung, keine Animation.
+// Reduzierte Bewegung: Endzustand sofort, keine Uebergaenge.
 @media (prefers-reduced-motion: reduce) {
   .nc-timeline--progress {
     .nc-timeline__content,
@@ -511,8 +546,9 @@
   .nc-timeline__title {
     font-size: var(--mod-timeline-card-title-size, var(--nc-timeline-card-title-size));
     font-weight: var(--mod-timeline-card-title-weight, var(--nc-timeline-card-title-weight));
-    line-height: var(--lh-heading);
+    line-height: var(--mod-timeline-card-title-lh, var(--nc-timeline-card-title-lh));
     letter-spacing: var(--fnd-tracking-snug);
+    text-wrap: balance;
   }
 }
 
@@ -608,17 +644,7 @@
     // s. alternating: 2px aus dem Basis-Mixin wegnehmen, sonst trifft die
     // waagerechte Linie die Node-Mitte nicht.
     margin-block-start: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--fnd-radius-full);
-    background-color: var(--fnd-color-background-base);
-    border: var(--fnd-border-width-sm) solid var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
-    color: var(--mod-timeline-progress-color, var(--nc-timeline-progress-color));
-    box-shadow: 0 0 0 .625rem var(--fnd-color-background-base);
-    z-index: 3;
-
-    svg { inline-size: 45%; block-size: 45%; }
+    @include timeline-node-surface;
   }
 
   .nc-timeline__content {
@@ -675,10 +701,60 @@
 // Block-Primaer-CTA, der laut P6 durchgaengig lg traegt.
 
 .nc-timeline__cta {
-  margin-block-start: var(--mod-timeline-cta-gap, var(--nc-timeline-cta-gap));
+  margin: var(--mod-timeline-cta-gap, var(--nc-timeline-cta-gap)) 0 0;
 
   // Im schmalen Karten-Kontext darf der Button umbrechen statt zu ueberlaufen.
   .nc-button {
     max-inline-size: 100%;
+  }
+}
+
+// Textlink mit Pfeil (Iteration 1): .link-with-arrow liefert Farbe, Abstand
+// und Fokus; hier nur Gewicht und Unterstreichung in Lime als Linkzeichen.
+.nc-timeline__link {
+  display: inline-flex;
+  font-weight: var(--fnd-font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--mod-timeline-marker-color, var(--nc-timeline-marker-color));
+  text-decoration-thickness: var(--fnd-border-width-sm);
+  text-underline-offset: .3em;
+
+  svg { flex: none; }
+}
+
+// ---------------------------------------------------------------------------
+// Knoten-Optionen (Redaktion, Iteration 1, 22.11.2026)
+// ---------------------------------------------------------------------------
+// Modifier am <ol>: --node-icon (Standard) | --node-number | --node-dot,
+// dazu --node-dark fuer die dunkle Flaeche.
+
+.nc-timeline--node-dark {
+  --nc-timeline-node-surface-bg: var(--nc-timeline-node-dark-bg);
+  --nc-timeline-node-surface-fg: var(--nc-timeline-node-dark-fg);
+}
+
+.nc-timeline__node-num {
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: var(--fnd-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.nc-timeline__node-dot {
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: var(--fnd-radius-full);
+  background-color: currentColor;
+}
+
+// Knoten „Punkt": kleiner Kreis. Nur im Zickzack und erst ab dessen Umbruch —
+// darunter steht der Knoten als 44px-Marke links neben der Karte. Horizontal
+// bleibt die volle Groesse, weil die waagerechte Linie auf die Knotenmitte
+// der vollen Groesse gerechnet ist.
+@media (min-width: 53.75em) {
+  .nc-timeline--alternating.nc-timeline--node-dot .nc-timeline__node {
+    inline-size: var(--nc-timeline-node-dot-size);
+    block-size: var(--nc-timeline-node-dot-size);
   }
 }
