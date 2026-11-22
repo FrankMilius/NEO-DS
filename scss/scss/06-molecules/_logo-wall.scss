@@ -96,7 +96,8 @@
     opacity var(--mod-logo-wall-item-transition, var(--nc-logo-wall-item-transition)) ease,
     filter var(--mod-logo-wall-item-transition, var(--nc-logo-wall-item-transition)) ease;
 
-  .nc-logo-pill:hover & {
+  // Hover and keyboard focus give the brand colour back (22.11.2026).
+  .nc-logo-pill:is(:hover, :focus-visible) & {
     opacity: var(--mod-logo-wall-logo-opacity-hover, var(--nc-logo-wall-logo-opacity-hover));
     filter: var(--mod-logo-wall-logo-filter-hover, var(--nc-logo-wall-logo-filter-hover));
   }
@@ -182,52 +183,45 @@
 // Modifier: Monochrome (alle Logos grau, hover = Original)
 // ---------------------------------------------------------------------------
 
-// Monochrom MIT Binnenstruktur.
+// One graphite tone for every logo (22.11.2026).
 //
-// Vorgeschichte in zwei Schritten. Zuerst stand hier
-// grayscale(100%) brightness(0.8) bei opacity 0.6 — ein „heller Grauschleier",
-// der die Marke mit dem Untergrund mischte und je nach Logo auf 1,7-3,0:1 kam.
+// Before: grayscale(100%) only. Each logo kept its own lightness, so pale
+// marks stayed pale (DRV, mean lightness 158 of 255) next to near-black ones,
+// and the wall looked uneven. (The old comment here described a
+// brightness(0.4) chain that was no longer in the code.)
 //
-// Die Antwort darauf war brightness(0): das legt jede nicht-transparente
-// Flaeche auf EINE Farbe. Der Kontrast stimmte damit, aber der Preis war zu
-// hoch — ein Logo mit Wortmarke, Bildmarke und Aussparungen wurde zu einem
-// schwarzen Klotz. Genau so sah es auf der Website aus.
+// Now: brightness(0) turns every inked pixel black, the opacity lifts it to
+// a graphite grey on the surface — one tone, one weight, like a single-colour
+// SVG wall. Shapes and cut-outs stay (all logos are transparent PNGs, 0 %
+// white area, measured 13.08.2026). A logo with WHITE inner parts (text on a
+// coloured box) would turn into a solid shape — such a logo needs a
+// transparent version for this mode.
 //
-// Jetzt: `brightness(0.4)` MULTIPLIZIERT statt zu klemmen. Schwarz bleibt
-// schwarz, Weiss wird mittelgrau, und der Abstand zwischen hell und dunkel
-// bleibt in voller Breite erhalten. Aussparungen und Binnenformen sind wieder
-// zu sehen.
+//   black at 72 % on the light section surface  ~ 8:1
 //
-//   dunkelste Stelle auf Weiss   21,0:1
-//   hellste Stelle auf Weiss      5,7:1
-//
-// contrast(1.1) davor spreizt flaue Logos leicht auf, ohne die Enden
-// abzuschneiden. Voraussetzung bleibt ein transparenter Hintergrund; alle 13
-// Logos erfuellen das (83-95% transparent, 0% Weissflaeche, gemessen). Ein
-// Logo mit WEISSEM Kasten wuerde hier als grauer Kasten erscheinen.
+// Hover and keyboard focus show the original colours.
 .nc-logo-wall--mono {
-  --nc-logo-wall-logo-filter: grayscale(100%);
-  --nc-logo-wall-logo-opacity: 1;
+  --nc-logo-wall-logo-filter: brightness(0);
+  --nc-logo-wall-logo-opacity: .72;
   --nc-logo-wall-logo-filter-hover: none;
   --nc-logo-wall-logo-opacity-hover: 1;
 }
 
-// Dunkles Thema: DIESELBE Normalisierung, danach invertiert.
-//
-// Das ist der Kniff. Weil brightness(0.4) alles zuvor in den Bereich 0-0.4
-// legt, landet die Umkehrung geschlossen bei 0.6-1.0 — hell genug auf dunklem
-// Grund, und der Strukturabstand bleibt derselbe wie im hellen Thema. Ein
-// blosses Aufhellen (brightness > 1) reicht nicht: dunkle Logos blieben dabei
-// dunkel, ein Partnerlogo kam auf 1,87:1.
-//
-//   hellste Stelle auf dem dunklen Grund   17,9:1
-//   dunkelste Stelle                        6,3:1
+// Dark: the same silhouette, inverted to white, at the same opacity. Applies
+// with an explicit dark theme (class or data-theme) AND with the automatic
+// dark mode (prefers-color-scheme, no theme chosen) — before, only the
+// classes switched, so automatic dark mode left dark logos on a dark ground.
+// A block bound to a light surface (.neo-light-theme) keeps the light rule.
 .neo-dark-theme .nc-logo-wall--mono,
 [data-theme='neo-dark-theme'] .nc-logo-wall--mono,
 .neo-mono-dark .nc-logo-wall--mono {
-  --nc-logo-wall-logo-filter: grayscale(100%) invert(1);
-  --nc-logo-wall-logo-opacity: 1;
-  --nc-logo-wall-logo-filter-hover: none;
+  --nc-logo-wall-logo-filter: brightness(0) invert(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .nc-logo-wall--mono:not(.neo-light-theme *) {
+    --nc-logo-wall-logo-filter: brightness(0) invert(1);
+  }
 }
 
 // ---------------------------------------------------------------------------
