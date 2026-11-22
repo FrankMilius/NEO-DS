@@ -80,13 +80,14 @@
 
 // Knoten der Prozess-Varianten (alternating, horizontal). Iteration 1
 // (22.11.2026): kein Akzentring mehr; Flaeche hell oder dunkel, Inhalt
-// Icon, Ziffer oder Punkt (Modifier am <ol>, s. unten). Der Ring in
-// Seitenfarbe laesst die Linie hinter dem Knoten "abreissen".
-// Ring in Flaechenfarbe + Haarlinie in Linienfarbe/-staerke. Am Knoten
-// aufgeloest, damit --fnd-color-background-base die Flaeche des Abschnitts
-// trifft (getoente Flaeche, dunkler Block), nicht die der Seite.
+// Icon, Ziffer oder Punkt (Modifier am <ol>, s. unten).
+// Grosser Kreis = Ring in der Knotenflaeche (Redaktion: hell/dunkel), damit
+// kleiner und grosser Kreis eine Flaeche bilden und die Linie am Knoten
+// abreisst (22.11.2026; vorher Abschnittsflaeche). Aussen eine Haarlinie in
+// Farbe und Staerke der Linie. Am Knoten aufgeloest, damit der dunkle
+// Modifier am <ol> greift.
 $timeline-node-ring:
-  0 0 0 var(--nc-timeline-node-ring) var(--fnd-color-background-base),
+  0 0 0 var(--nc-timeline-node-ring) var(--nc-timeline-node-surface-bg),
   0 0 0 calc(var(--nc-timeline-node-ring) + var(--nc-timeline-line-width)) var(--nc-timeline-progress-color);
 
 @mixin timeline-node-surface {
