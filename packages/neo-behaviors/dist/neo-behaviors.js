@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.21.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.22.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -2987,6 +2987,23 @@
   function merkeHoehe(el, eigenschaft) {
     const hoehe = el.getBoundingClientRect().height;
     if (hoehe > 0) el.style.setProperty(eigenschaft, `${Math.ceil(hoehe)}px`);
+  }
+  function statuszeile(wurzel, signal) {
+    const da = (
+      /** @type {HTMLElement|null} */
+      wurzel.querySelector('[role="status"]')
+    );
+    if (da) return da;
+    const zeile = wurzel.ownerDocument.createElement("span");
+    zeile.className = "u-sr-only";
+    zeile.setAttribute("role", "status");
+    zeile.setAttribute("aria-live", "polite");
+    wurzel.append(zeile);
+    signal == null ? void 0 : signal.addEventListener("abort", () => zeile.remove());
+    return zeile;
+  }
+  function ansagen(zeile, text) {
+    zeile.textContent = zeile.textContent === text ? `${text} ` : text;
   }
 
   // packages/neo-behaviors/toast.js
@@ -6941,6 +6958,346 @@
     }
   };
 
+  // packages/neo-behaviors/teilen.js
+  var RUHE = 300;
+  var RAND = 8;
+  var ABSTAND2 = 10;
+  var DAUER2 = 2e3;
+  var MIN_WOERTER = 3;
+  var KURZ = 80;
+  var RANDWOERTER = 4;
+  var TEXT = {
+    kopieren: "Link kopieren",
+    kopiert: "Link kopiert",
+    fehler: "Link konnte nicht kopiert werden. Bitte kopieren Sie die Adresse aus der Adresszeile.",
+    zitat: "Zitat teilen",
+    blase: "Textstelle teilen"
+  };
+  var BELEGT = /* @__PURE__ */ new WeakSet();
+  var kodiere = (s) => encodeURIComponent(s).replace(/-/g, "%2D");
+  function textFragment(roh) {
+    const text = roh.replace(/\s+/g, " ").trim();
+    const woerter = text.split(" ");
+    const absaetze = /\n/.test(roh.trim());
+    if (!absaetze && text.length <= KURZ || woerter.length < 2) return `#:~:text=${kodiere(text)}`;
+    const n = woerter.length >= 2 * RANDWOERTER ? RANDWOERTER : Math.ceil(woerter.length / 2);
+    const anfang = woerter.slice(0, n).join(" ");
+    const ende = woerter.slice(woerter.length >= 2 * RANDWOERTER ? -n : n).join(" ");
+    return `#:~:text=${kodiere(anfang)},${kodiere(ende)}`;
+  }
+  var linkedin = (url) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+  var teilen = {
+    id: "share-bar",
+    selektor: ".nc-share-bar",
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    textFragment,
+    /**
+     * LinkedIn in neuem Tab (ohne Web Share). Eigene Methode, damit Tests sie
+     * ersetzen koennen.
+     * @param {Window} ansicht @param {string} url
+     */
+    oeffne(ansicht, url) {
+      ansicht.open(url, "_blank", "noopener,noreferrer");
+    },
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      const dok = wurzel.ownerDocument;
+      const ansicht = (
+        /** @type {Window} */
+        dok.defaultView || window
+      );
+      const nav = (
+        /** @type {any} */
+        ansicht.navigator || {}
+      );
+      const kannTeilen = () => typeof nav.share === "function";
+      const titel = () => wurzel.getAttribute("data-teilen-titel") || dok.title;
+      const adresse = () => wurzel.getAttribute("data-teilen-url") || ansicht.location.href.split("#")[0];
+      const zeile = statuszeile(wurzel, signal);
+      const uhren = /* @__PURE__ */ new Set();
+      const spaeter = (fn, ms) => {
+        const t = setTimeout(() => {
+          uhren.delete(t);
+          fn();
+        }, ms);
+        uhren.add(t);
+        return t;
+      };
+      signal.addEventListener("abort", () => {
+        for (const t of uhren) clearTimeout(t);
+      });
+      const teilenKnopf = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector("[data-teilen]")
+      );
+      if (teilenKnopf) {
+        const vorher = teilenKnopf.hidden;
+        teilenKnopf.hidden = !kannTeilen();
+        signal.addEventListener("abort", () => {
+          teilenKnopf.hidden = vorher;
+        });
+      }
+      const teile = async (daten, quelle) => {
+        let ok = false;
+        try {
+          await nav.share(daten);
+          ok = true;
+        } catch {
+        }
+        if (!signal.aborted) sende(wurzel, "share-bar-share", { quelle, ok });
+      };
+      const kopiere = async (url, quelle, zeigen) => {
+        var _a;
+        let ok = false;
+        try {
+          if (typeof ((_a = nav.clipboard) == null ? void 0 : _a.writeText) === "function") {
+            await nav.clipboard.writeText(url);
+            ok = true;
+          }
+        } catch {
+        }
+        if (signal.aborted) return;
+        ansagen(zeile, ok ? TEXT.kopiert : TEXT.fehler);
+        zeigen == null ? void 0 : zeigen(ok);
+        sende(wurzel, "share-bar-copy", { quelle, ok });
+      };
+      wurzel.addEventListener("click", (e) => {
+        var _a;
+        const ziel = (
+          /** @type {Element} */
+          e.target
+        );
+        const knopf = (
+          /** @type {HTMLElement|null} */
+          (_a = ziel.closest) == null ? void 0 : _a.call(ziel, "[data-teilen], [data-teilen-kopieren]")
+        );
+        if (!knopf || !wurzel.contains(knopf)) return;
+        if (knopf.hasAttribute("data-teilen")) {
+          if (kannTeilen()) void teile({ title: titel(), url: adresse() }, "leiste");
+          return;
+        }
+        void kopiere(adresse(), "leiste", (ok) => {
+          if (!ok) return;
+          knopf.setAttribute("aria-label", TEXT.kopiert);
+          spaeter(() => knopf.setAttribute("aria-label", TEXT.kopieren), DAUER2);
+        });
+      }, { signal });
+      const bereich = wurzel.closest("[data-teilen-bereich], article");
+      const text = (
+        /** @type {HTMLElement|null} */
+        (bereich == null ? void 0 : bereich.querySelector("[data-teilen-text]")) || null
+      );
+      if (!text || BELEGT.has(text)) return;
+      BELEGT.add(text);
+      signal.addEventListener("abort", () => BELEGT.delete(text));
+      let blase = null;
+      let auswahl2 = null;
+      let gesperrt2 = null;
+      let rueck = null;
+      let maus = false;
+      let warte = (
+        /** @type {ReturnType<typeof setTimeout>|undefined} */
+        void 0
+      );
+      signal.addEventListener("abort", () => {
+        clearTimeout(warte);
+        blase == null ? void 0 : blase.remove();
+      });
+      const offen = () => !!blase && !blase.hidden;
+      const fragmentAdresse = () => adresse() + textFragment((auswahl2 == null ? void 0 : auswahl2.roh) || "");
+      const gleich = (a, b) => a.startContainer === b.startContainer && a.startOffset === b.startOffset && a.endContainer === b.endContainer && a.endOffset === b.endOffset;
+      const baue = () => {
+        const el = dok.createElement("div");
+        el.className = "nc-share-bar__popover";
+        el.setAttribute("role", "group");
+        el.setAttribute("aria-label", TEXT.blase);
+        el.hidden = true;
+        const knopf = (inhalt, attr) => {
+          const k = dok.createElement("button");
+          k.type = "button";
+          k.className = "nc-button nc-button--ghost nc-button--xs";
+          k.setAttribute(attr, "");
+          k.textContent = inhalt;
+          return k;
+        };
+        el.append(knopf(TEXT.zitat, "data-teilen-zitat"), knopf(TEXT.kopieren, "data-teilen-link"));
+        el.addEventListener("mousedown", (e) => e.preventDefault());
+        el.addEventListener("click", (e) => {
+          var _a, _b;
+          const k = (
+            /** @type {Element} */
+            (_b = (_a = e.target).closest) == null ? void 0 : _b.call(_a, "button")
+          );
+          if (!k || !auswahl2) return;
+          if (k.hasAttribute("data-teilen-zitat")) {
+            const url = fragmentAdresse();
+            if (kannTeilen()) void teile({ title: titel(), text: `„${auswahl2.text}“`, url }, "auswahl");
+            else {
+              teilen.oeffne(ansicht, linkedin(url));
+              sende(wurzel, "share-bar-share", { quelle: "auswahl", ok: true });
+            }
+            return;
+          }
+          void kopiere(fragmentAdresse(), "auswahl", (ok) => {
+            if (!ok) return;
+            k.textContent = TEXT.kopiert;
+            spaeter(() => {
+              k.textContent = TEXT.kopieren;
+            }, DAUER2);
+          });
+        });
+        el.addEventListener("focusout", (e) => {
+          const neu = (
+            /** @type {Node|null} */
+            e.relatedTarget
+          );
+          if (neu && !el.contains(neu)) schliesse();
+        });
+        text.after(el);
+        return el;
+      };
+      const setze = (range) => {
+        if (!blase) return;
+        blase.style.position = "absolute";
+        blase.style.margin = "0";
+        const r = range.getBoundingClientRect();
+        const breite = blase.offsetWidth;
+        const hoehe = blase.offsetHeight;
+        const sicht = dok.documentElement.clientWidth || ansicht.innerWidth;
+        let oben = r.top - hoehe - ABSTAND2;
+        if (oben < RAND) oben = r.bottom + ABSTAND2;
+        const mitte = r.left + r.width / 2;
+        const links = Math.max(RAND, Math.min(mitte - breite / 2, sicht - breite - RAND));
+        const bezug = (
+          /** @type {HTMLElement|null} */
+          blase.offsetParent
+        );
+        let dx = ansicht.scrollX;
+        let dy = ansicht.scrollY;
+        if (bezug && bezug !== dok.body && bezug !== dok.documentElement) {
+          const b = bezug.getBoundingClientRect();
+          dx = bezug.scrollLeft - b.left - bezug.clientLeft;
+          dy = bezug.scrollTop - b.top - bezug.clientTop;
+        }
+        blase.style.left = `${Math.round(links + dx)}px`;
+        blase.style.top = `${Math.round(oben + dy)}px`;
+      };
+      const oeffne = () => {
+        if (!auswahl2) return;
+        if (!blase) blase = baue();
+        const neu = blase.hidden;
+        if (neu) {
+          const link = blase.querySelector("[data-teilen-link]");
+          if (link) link.textContent = TEXT.kopieren;
+        }
+        blase.hidden = false;
+        setze(auswahl2.range);
+        if (neu) sende(wurzel, "share-bar-popover", { open: true });
+      };
+      const schliesse = ({ zurueck = false } = {}) => {
+        var _a;
+        if (!blase || blase.hidden) return;
+        const drin = blase.contains(dok.activeElement);
+        blase.hidden = true;
+        if (zurueck && auswahl2) {
+          gesperrt2 = auswahl2.range.cloneRange();
+          if (drin) {
+            if (rueck && rueck.isConnected && rueck !== dok.body) rueck.focus();
+            else {
+              const aktiv = (
+                /** @type {HTMLElement|null} */
+                dok.activeElement
+              );
+              (_a = aktiv == null ? void 0 : aktiv.blur) == null ? void 0 : _a.call(aktiv);
+              const sel = dok.getSelection();
+              sel == null ? void 0 : sel.removeAllRanges();
+              sel == null ? void 0 : sel.addRange(gesperrt2.cloneRange());
+            }
+          }
+        }
+        rueck = null;
+        sende(wurzel, "share-bar-popover", { open: false });
+      };
+      const pruefe = () => {
+        if (maus || signal.aborted) return;
+        if (blase && blase.contains(dok.activeElement)) return;
+        const sel = dok.getSelection();
+        if (!sel || !sel.rangeCount || sel.isCollapsed) {
+          gesperrt2 = null;
+          schliesse();
+          return;
+        }
+        const range = sel.getRangeAt(0);
+        if (!text.contains(range.startContainer) || !text.contains(range.endContainer)) {
+          schliesse();
+          return;
+        }
+        const roh = sel.toString();
+        const sauber = roh.replace(/\s+/g, " ").trim();
+        if (sauber.split(" ").filter(Boolean).length < MIN_WOERTER) {
+          schliesse();
+          return;
+        }
+        if (gesperrt2 && gleich(gesperrt2, range)) return;
+        gesperrt2 = null;
+        auswahl2 = { text: sauber, roh, range: range.cloneRange() };
+        oeffne();
+      };
+      const plane = () => {
+        clearTimeout(warte);
+        warte = setTimeout(pruefe, RUHE);
+      };
+      dok.addEventListener("selectionchange", plane, { signal });
+      dok.addEventListener("pointerdown", (e) => {
+        const ziel = (
+          /** @type {Node} */
+          e.target
+        );
+        if (offen() && blase && !blase.contains(ziel)) schliesse();
+        if (
+          /** @type {MouseEvent} */
+          e.button === 0
+        ) {
+          maus = true;
+          gesperrt2 = null;
+        }
+      }, { signal, capture: true });
+      dok.addEventListener("pointerup", () => {
+        if (!maus) return;
+        maus = false;
+        plane();
+      }, { signal, capture: true });
+      dok.addEventListener("pointercancel", () => {
+        maus = false;
+      }, { signal });
+      dok.addEventListener("keydown", (e) => {
+        if (!offen() || !blase) return;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          schliesse({ zurueck: true });
+          return;
+        }
+        if (e.key === "Tab" && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey && !blase.contains(dok.activeElement)) {
+          e.preventDefault();
+          const aktiv = (
+            /** @type {HTMLElement|null} */
+            dok.activeElement
+          );
+          rueck = aktiv && aktiv !== dok.body ? aktiv : null;
+          const erster = (
+            /** @type {HTMLElement|null} */
+            blase.querySelector("button")
+          );
+          erster == null ? void 0 : erster.focus();
+        }
+      }, { signal });
+      ansicht.addEventListener("resize", () => {
+        if (offen() && auswahl2) setze(auswahl2.range);
+      }, { signal });
+    }
+  };
+
   // packages/neo-behaviors/index.js
   var BEHAVIORS = Object.freeze({
     tabs,
@@ -7029,6 +7386,10 @@
     // Website-Bauteil (I11 Phase 2, 19.11.2026): „Mehr laden“ im Content
     // Feed haengt die Karten der naechsten Seite an. In Drupal nur per nur
     "content-feed": contentFeed,
+    // Website-Bauteil (I15 Phase 3, 22.11.2026): Teilen-Leiste — Web Share,
+    // Link kopieren und die Blase an einer markierten Textstelle. In Drupal
+    // nur per nur
+    "share-bar": teilen,
     // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
     shot,
     toast,
@@ -7057,7 +7418,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.21.0",
+    version: "0.22.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",

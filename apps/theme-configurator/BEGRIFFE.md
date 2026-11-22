@@ -61,6 +61,11 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Blog-Artikel | Blog Article, Artikel-Template, Lesefokus | Template-Variante `t-article--blog` für die Artikelseite des Blogs (Gruppe Blog-Artikel, I15 22.11.2026) |
 | Spaltenbreite (Zeichen je Zeile) | Measure, Zeilenlänge, max-width | Breite der Textspalte im Blog-Artikel (Vorgabe 52ch, gemessen rund 65 Zeichen je Zeile) |
 | Überstand (Hauptbild) | Bleed, Breakout | so viel ist das Hauptbild je Seite breiter als die Textspalte; auf schmalen Breiten 0 |
+| Zitat teilen | Share quote, Quote teilen, Highlight teilen | Knopf in der Blase an der Textstelle: teilt die markierte Stelle in Anführungszeichen mit der Adresse samt Textstelle (Web Share, sonst LinkedIn; Behavior share-bar, I15 22.11.2026) |
+| Link kopieren · Link kopiert | Copy link, URL kopieren, Kopiert! | Knopf der Teilen-Leiste und der Blase; nach Erfolg heißt er 2 s „Link kopiert“ und die Statuszeile meldet es. Fehler: „Link konnte nicht kopiert werden. Bitte kopieren Sie die Adresse aus der Adresszeile.“ (I15 22.11.2026) |
+| Artikel teilen | Share article, Beitrag teilen | Name (aria-label) der Teilen-Leiste für Screenreader (I15 22.11.2026) |
+| Textstelle teilen | Share selection, Auswahl teilen | Name (aria-label) der Blase an der Textstelle für Screenreader (I15 22.11.2026) |
+| Adresse mit Textstelle | Text-Fragment, Deep Link, Scroll-to-Text | Link, der beim Öffnen zur markierten Stelle springt und sie hervorhebt (`#:~:text=`); im Fließtext so nennen, „Text-Fragment“ nur bei „Technische Namen zeigen“ |
 | Magazin (Darstellung) | Magazine Layout, Blog-Layout, Editorial | Darstellung des Content Feeds für die Blog-Startseite: Kopf mit RSS-Link, Aufmacher, zwei Nebenbeiträge, darunter „Neueste Artikel“ als Raster (Content Feed › Magazin, I15 22.11.2026); Gegenstück „Standard“ |
 | Aufmacher | Hero-Artikel, Featured Post, Lead Story | der große Beitrag links oben im Magazin, mit Bild, Teaser und Byline (Artikel mit „Hervorgehoben“, sonst der neueste); nicht die „große erste Karte“ des Standard-Feeds |
 | Nebenbeitrag | Side Post, Teaser, Secondary | einer der zwei kleineren Beiträge rechts neben dem Aufmacher, mit kleinem Bild, Kategorie, Titel, Lesezeit und Datum |

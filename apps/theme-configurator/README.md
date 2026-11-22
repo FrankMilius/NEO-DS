@@ -1268,7 +1268,7 @@ Blog-Artikel (I15 Phase 1, 22.11.2026, ohne App-Version — Daten und Arena-Vorl
 - Arena: Vorlagen `src/arena-templates/byline.js`, `share-bar.js` und
   `blog-article.js`; das gemeinsame Markup steht in `_blog.js` (daraus auch
   `data/markup/*.html` und die Doku-Beispiele). Die Blase hat in Phase 1 nur
-  ihr Aussehen; „Ausprobieren“ kommt mit dem Behavior `teilen` (Phase 3).
+  ihr Aussehen; „Ausprobieren“ kam mit dem Behavior `share-bar` (Phase 3).
 - Auf der Website noch ohne Träger; die Artikel-Vollansicht folgt in Phase 5.
 
 Magazin im Content Feed (I15 Phase 2, 22.11.2026, ohne App-Version — Daten und Arena-Vorlage, wie Phase 1):
@@ -1288,6 +1288,20 @@ Magazin im Content Feed (I15 Phase 2, 22.11.2026, ohne App-Version — Daten und
   `data/markup/content-feed.html` und das Doku-Beispiel). „Mehr laden“ hängt
   in „Ausprobieren“ wie im Standard die eingebettete zweite Seite an.
 - Auf der Website noch ohne Träger; die Blog-Startseite folgt in Phase 6.
+
+Teilen-Leiste mit Verhalten (I15 Phase 3, 22.11.2026, ohne App-Version — Arena-Vorlage und Tests, wie I11 Phase 2):
+
+- Arena share-bar: „Ausprobieren“ zeigt je Specimen die Leiste mit zwei
+  Absätzen Artikeltext (`[data-teilen-text]`) in einem `<article>`. Das
+  Behavior `share-bar` aus neo-behaviors (0.22.0, `teilen.js`) verdrahtet
+  Teilen (ohne Web Share ausgeblendet) und Link kopieren; eine markierte
+  Stelle ab drei Wörtern öffnet die Blase mit „Zitat teilen“ und „Link
+  kopieren“ (Adresse mit `#:~:text=`). Tab führt hinein, Escape schließt.
+- Markup in `_blog.js`: `data-teilen` am Teilen-Knopf, `data-teilen-kopieren`
+  an Link kopieren, `data-teilen-text` am Fließtext des Blog-Artikels.
+- Tests `tests/behaviors/share-bar.test.js`; neue Oberflächentexte in
+  `BEGRIFFE.md` (Zitat teilen, Link kopiert, Textstelle teilen, Adresse mit
+  Textstelle).
 
 ## Bekannte Grenzen
 

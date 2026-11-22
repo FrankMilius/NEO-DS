@@ -56,6 +56,8 @@ const knopf = (inhalt, label, href, extra = '') => href
 
 /**
  * Teilen-Leiste: Teilen (Web Share), LinkedIn, E-Mail, Link kopieren.
+ * data-teilen und data-teilen-kopieren verdrahtet das Behavior share-bar
+ * (neo-behaviors teilen.js, I15 Phase 3); ohne Web Share blendet es Teilen aus.
  * @param {{ beschriftung?: boolean, klasse?: string, attrs?: string }} o
  */
 export function shareBar ({ beschriftung = false, klasse = 'nc-share-bar', attrs = '' } = {}) {
@@ -64,14 +66,14 @@ export function shareBar ({ beschriftung = false, klasse = 'nc-share-bar', attrs
   return `<div class="${klasse}" role="group" aria-label="Artikel teilen"${attrs}>` +
     (beschriftung ? '<span class="nc-share-bar__label" aria-hidden="true">Teilen</span>' : '') +
     '<div class="nc-share-bar__actions">' +
-    knopf(ICON.share, 'Teilen') +
+    knopf(ICON.share, 'Teilen', '', ' data-teilen') +
     knopf(ICON.linkedin, 'Auf LinkedIn teilen (öffnet in neuem Tab)', linkedin, ' target="_blank" rel="noopener noreferrer"') +
     knopf(ICON.mail, 'Per E-Mail teilen', mail) +
-    knopf(ICON.link, 'Link kopieren') +
+    knopf(ICON.link, 'Link kopieren', '', ' data-teilen-kopieren') +
     '</div></div>'
 }
 
-/** Blase an einer markierten Textstelle (nur Aussehen, Verhalten folgt in Phase 3). */
+/** Blase an einer markierten Textstelle als festes Beispiel (Aussehen). Im Betrieb baut das Behavior share-bar sie selbst. */
 export function popover ({ attrs = '' } = {}) {
   return `<div class="nc-share-bar__popover" role="group" aria-label="Textstelle teilen"${attrs}>` +
     '<button class="nc-button nc-button--ghost nc-button--xs" type="button">Zitat teilen</button>' +
@@ -110,7 +112,7 @@ export function artikel ({ titelEbene = 1, attrs = '', klasse = 't-article t-art
     shareBar() +
     '</header>' +
     (mitBild ? `<figure class="t-article__figure"><img src="${BILD_SRC}" alt="Platzhalterbild: Landschaft mit Sonne" width="1600" height="900"><figcaption>${ARTIKEL.bildunterschrift}</figcaption></figure>` : '') +
-    `<div class="t-article__prose">${prosa}</div>` +
+    `<div class="t-article__prose" data-teilen-text>${prosa}</div>` +
     `<ul class="t-article__tags" aria-label="Schlagwörter">${ARTIKEL.tags.map((t) => `<li><a class="nc-chip" href="#"><span class="nc-chip__label">${t}</span></a></li>`).join('')}</ul>` +
     '</article>'
 }

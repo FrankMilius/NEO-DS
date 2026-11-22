@@ -3,11 +3,11 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "share-bar",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "status": "stable",
     "label": "Teilen-Leiste",
     "description": "Leiste mit Haarlinien oben und unten und Icon-Buttons zum Teilen eines Artikels: Teilen (Web Share), LinkedIn, E-Mail, Link kopieren. Dazu die Blase __popover fuer eine markierte Textstelle („Zitat teilen“, „Link kopieren“).",
-    "whenToUse": "Im Kopf eines Blog-Artikels (t-article--blog) unter der Byline. Kein Merken, keine Zaehler, kein Vorlesen (Stufe 1). Das Verhalten (Web Share, Kopieren, Blase an der Auswahl) bringt das Behavior teilen (Phase 3).",
+    "whenToUse": "Im Kopf eines Blog-Artikels (t-article--blog) unter der Byline. Kein Merken, keine Zaehler, kein Vorlesen (Stufe 1). Das Verhalten (Web Share, Link kopieren, Blase an der Auswahl im Artikeltext) bringt das Behavior share-bar aus neo-behaviors (teilen.js); in Drupal nur per nur.",
     "tags": [
       "molecules",
       "actions",
@@ -31,6 +31,13 @@
       "docs": "docs/content/share-bar.html"
     },
     "changelog": [
+      {
+        "version": "1.1.0",
+        "changes": [
+          "I15 Phase 3 (22.11.2026, Freigabe ausstehend): Verhalten aus neo-behaviors (Recipe-ID share-bar, Datei teilen.js, nurAusdruecklich). Teilen [data-teilen] ruft navigator.share({ title, url }); ohne Web Share ist der Knopf [hidden], LinkedIn und E-Mail bleiben. Abbrechen (AbortError) bleibt still. Link kopieren [data-teilen-kopieren] schreibt die Adresse per navigator.clipboard.writeText und meldet „Link kopiert“ bzw. „Link konnte nicht kopiert werden. Bitte kopieren Sie die Adresse aus der Adresszeile.“ in einer Statuszeile (role=\"status\", _meldung.js). Titel und Adresse aus data-teilen-titel und data-teilen-url, sonst document.title und location ohne #.",
+          "Blase an der Textstelle: Eine Auswahl ab drei Woertern ganz im Artikeltext [data-teilen-text] (im selben article oder [data-teilen-bereich]) oeffnet nach 300 ms Ruhe die Blase .nc-share-bar__popover direkt nach dem Artikeltext: „Zitat teilen“ (Web Share mit Text in Anfuehrungszeichen, sonst LinkedIn) und „Link kopieren“ (Adresse mit Text-Fragment #:~:text=, lange Stellen als textStart,textEnd). Absolut an der Auswahl, waagerecht im Viewport. Tab fuehrt hinein, Escape und Klick ausserhalb schliessen, Fokus zurueck. Ereignisse share-bar-share, share-bar-copy, share-bar-popover."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -60,13 +67,15 @@
         "name": "popover",
         "element": ".nc-share-bar__popover",
         "optional": true,
-        "description": "Blase ueber einer markierten Textstelle mit zwei Knoepfen „Zitat teilen“ und „Link kopieren“ (role=\"group\", aria-label=\"Textstelle teilen\"). Steht ausserhalb der Leiste im Artikeltext; Lage und Oeffnen setzt das Behavior teilen."
+        "description": "Blase ueber einer markierten Textstelle mit zwei Knoepfen „Zitat teilen“ und „Link kopieren“ (role=\"group\", aria-label=\"Textstelle teilen\"). Baut das Behavior share-bar bei der ersten Auswahl und setzt sie direkt nach den Artikeltext [data-teilen-text]; Lage (position: absolute, left/top) und Oeffnen ([hidden]) kommen vom Behavior."
       }
     ],
     "convenience": [],
     "domNotes": [
       "Wurzel <div role=\"group\" aria-label=\"Artikel teilen\">. LinkedIn: https://www.linkedin.com/sharing/share-offsite/?url=<Adresse>; E-Mail: mailto:?subject=<Titel>&body=<Adresse>. Beide funktionieren ohne JavaScript.",
-      "Teilen und Link kopieren sind ohne JavaScript ohne Wirkung; das Behavior teilen (Phase 3) blendet sie ein bzw. verdrahtet sie."
+      "Teilen traegt data-teilen, Link kopieren data-teilen-kopieren. Beide brauchen JavaScript: das Behavior share-bar blendet Teilen ohne Web Share aus ([hidden]) und verdrahtet Link kopieren. Auf der Website den Teilen-Knopf mit hidden ausliefern — das Behavior zeigt ihn, wenn navigator.share da ist.",
+      "Optional an der Wurzel: data-teilen-titel (Titel fuer Web Share) und data-teilen-url (kanonische Adresse); sonst document.title und location ohne #.",
+      "Textstelle teilen: Artikeltext mit data-teilen-text im selben <article> (oder einem Element mit data-teilen-bereich) wie die Leiste. Die Blase baut das Behavior selbst und setzt sie direkt nach den Artikeltext; im Markup steht sie nicht. Die Statuszeile (span.u-sr-only role=\"status\") legt das Behavior in der Leiste an, wenn keine da ist."
     ]
   },
   "axes": {
@@ -103,18 +112,22 @@
       "default"
     ],
     "rules": [],
-    "interactive": false
+    "interactive": true
   },
   "a11y": {
     "base": {
-      "interactive": false,
+      "interactive": true,
       "contrastTarget": "WCAG AA normal text (4.5:1)",
       "assertions": [
-        "Leiste und Blase als role=\"group\" mit aria-label",
+        "Leiste und Blase als role=\"group\" mit aria-label („Artikel teilen“, „Textstelle teilen“)",
         "Jeder Icon-Button mit aria-label; LinkedIn nennt „öffnet in neuem Tab“",
-        "Fokusring der Buttons (focus-ring), Trefferflaeche mindestens 44 px (button-touch-target)"
+        "Fokusring der Buttons (focus-ring), Trefferflaeche mindestens 44 px (button-touch-target)",
+        "Ohne Web Share ist Teilen [hidden] statt wirkungslos; LinkedIn und E-Mail bleiben als Links",
+        "Kopieren meldet Erfolg und Fehler in einer Live-Region (role=\"status\", aria-live=\"polite\"); der Knopf heisst 2 s „Link kopiert“",
+        "Blase per Tastatur erreichbar: Auswahl mit Umschalt+Pfeil (Caret-Browsing), nach der Ruhe fuehrt Tab in die Blase; Escape schliesst und gibt den Fokus zurueck (WCAG 2.1.1, 2.4.3)",
+        "Die Blase oeffnet nicht von selbst den Fokus (kein Fokusraub beim Markieren mit der Maus)"
       ],
-      "note": "Die Knoepfe sind Buttons des Design Systems; die Leiste selbst ist nicht fokussierbar."
+      "note": "Die Knoepfe sind Buttons des Design Systems; die Leiste selbst ist nicht fokussierbar. Die Blase ist kein Dialog (kein aria-modal, keine Fokus-Falle)."
     },
     "overrides": []
   },
@@ -134,11 +147,44 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Teilen, LinkedIn, E-Mail, Link kopieren in Dokumentreihenfolge."
+      "note": "In der Leiste: Teilen, LinkedIn, E-Mail, Link kopieren in Dokumentreihenfolge. Ist die Blase offen und der Fokus ausserhalb, fuehrt Tab auf ihren ersten Knopf; Tab aus der Blase heraus schliesst sie."
     },
     "Enter": {
       "action": "activate",
-      "note": "Oeffnet den Link bzw. loest den Knopf aus (Verhalten ab Phase 3)."
+      "note": "Oeffnet den Link bzw. loest den Knopf aus (Teilen, Link kopieren, Zitat teilen). Leertaste wie Enter (native Buttons)."
+    },
+    "Escape": {
+      "action": "close",
+      "note": "Nur bei offener Blase: schliesst sie; der Fokus geht an das Element vor der Blase zurueck, sonst bleibt die Auswahl stehen. Fuer dieselbe Auswahl oeffnet die Blase nicht erneut."
+    },
+    "Shift+ArrowRight": {
+      "action": "select",
+      "note": "Auswahl per Tastatur (Umschalt+Pfeil, mit Caret-Browsing): nach 300 ms ohne weitere Aenderung oeffnet die Blase, wie nach dem Loslassen der Maus. Gilt fuer alle Umschalt+Pfeil-Tasten."
+    }
+  },
+  "events": {
+    "share-bar-share": {
+      "bubbles": true,
+      "detail": {
+        "quelle": "string",
+        "ok": "boolean"
+      },
+      "note": "An der Leiste nach dem Teilen: quelle = leiste (Teilen-Knopf) oder auswahl (Zitat teilen); ok = false, wenn der Teilen-Dialog abgebrochen wurde oder fehlschlug. Ohne Web Share (Zitat ueber LinkedIn) ok = true."
+    },
+    "share-bar-copy": {
+      "bubbles": true,
+      "detail": {
+        "quelle": "string",
+        "ok": "boolean"
+      },
+      "note": "An der Leiste nach Link kopieren: quelle = leiste oder auswahl; ok = Zwischenablage beschrieben."
+    },
+    "share-bar-popover": {
+      "bubbles": true,
+      "detail": {
+        "open": "boolean"
+      },
+      "note": "An der Leiste, wenn die Blase an der Textstelle aufgeht oder schliesst."
     }
   },
   "styling": {

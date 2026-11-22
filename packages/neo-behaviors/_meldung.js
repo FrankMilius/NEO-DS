@@ -73,3 +73,34 @@ export function merkeHoehe (el, eigenschaft) {
   const hoehe = el.getBoundingClientRect().height
   if (hoehe > 0) el.style.setProperty(eigenschaft, `${Math.ceil(hoehe)}px`)
 }
+
+// --------------------------------------------------------------------------
+// Statuszeile (I15 Phase 3, 22.11.2026): kurze Meldungen ohne eigenes
+// Bauteil, z. B. „Link kopiert“ der Teilen-Leiste. Eine Live-Region
+// (role="status", u-sr-only) muss vor der ersten Meldung im Dokument stehen,
+// damit Screenreader sie ansagen — deshalb legt statuszeile() sie beim Binden
+// an. ansagen() haengt bei gleichem Text ein festes Leerzeichen an, damit
+// dieselbe Meldung zweimal hintereinander erneut angesagt wird.
+// --------------------------------------------------------------------------
+
+/**
+ * Vorhandene Statuszeile in `wurzel` (role="status") oder eine neue am Ende.
+ * @param {HTMLElement} wurzel @param {AbortSignal} [signal] entfernt eine neu angelegte beim Abbinden
+ * @returns {HTMLElement}
+ */
+export function statuszeile (wurzel, signal) {
+  const da = /** @type {HTMLElement|null} */ (wurzel.querySelector('[role="status"]'))
+  if (da) return da
+  const zeile = wurzel.ownerDocument.createElement('span')
+  zeile.className = 'u-sr-only'
+  zeile.setAttribute('role', 'status')
+  zeile.setAttribute('aria-live', 'polite')
+  wurzel.append(zeile)
+  signal?.addEventListener('abort', () => zeile.remove())
+  return zeile
+}
+
+/** @param {HTMLElement} zeile @param {string} text */
+export function ansagen (zeile, text) {
+  zeile.textContent = zeile.textContent === text ? `${text} ` : text
+}

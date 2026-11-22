@@ -49,6 +49,8 @@ Was beim Arbeiten auffällt und nicht in den laufenden Commit gehört. Ein Eintr
 - **Doku-Seiten bei 390 px zu breit**: Der Docs-Kopf (`.docs-header__theme-toggle`) macht jede Doku-Seite bei 390 px etwa 489 px breit (gemessen an `blog-article-docs` und `content-feed-docs`). Die Bausteine selbst laufen nicht über.
 - **Doku-Bühne ohne Hintergrund im dunklen Theme**: Beim Theme-Wechsel auf der Bühne bleibt der Hintergrund hell; heller Text auf heller Fläche, axe meldet dort Scheinbefunde. Gemessen wurde in I15 mit `background: var(--fnd-color-background-base)` an der Bühne.
 - **19 Stories veraltet**: `npm run generate:stories` schreibt auf main 19 Stories neu (u. a. avatar, label, tag, accordion, logo-wall, timeline, shell). In I15 nicht übernommen, weil die CI sie nicht prüft und sie nicht zu Phase 1 gehören.
+- **Spitze der Teilen-Blase zeigt daneben** (I15 Phase 3, 22.11.2026): Die Spitze von `.nc-share-bar__popover` sitzt im SCSS fest in der Mitte. Rückt das Behavior die Blase am Rand ein (390 px) oder setzt es sie unter die Auswahl (ganz oben im Fenster), zeigt die Spitze nicht genau auf die Stelle bzw. in die falsche Richtung. Weg: Variable für die Lage der Spitze und gekippte Fassung unter `.nc-share-bar__popover`.
+- **`update-docs-from-recipes.cjs --help` schreibt sofort** (I15 Phase 3): Das Skript kennt kein `--help` und schreibt bei jedem Aufruf alle Doku-Seiten neu (36 fremde Dateien). Weg: Argumente prüfen, unbekannte ablehnen.
 
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 

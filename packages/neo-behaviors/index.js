@@ -68,6 +68,7 @@ import { footer } from './footer.js'
 import { form } from './form.js'
 import { einblenden } from './einblenden.js'
 import { contentFeed } from './content-feed.js'
+import { teilen } from './teilen.js'
 
 export { setzeIndikator } from './segmented-control.js'
 export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
@@ -162,6 +163,10 @@ export const BEHAVIORS = Object.freeze({
   // Website-Bauteil (I11 Phase 2, 19.11.2026): „Mehr laden“ im Content
   // Feed haengt die Karten der naechsten Seite an. In Drupal nur per nur
   'content-feed': contentFeed,
+  // Website-Bauteil (I15 Phase 3, 22.11.2026): Teilen-Leiste — Web Share,
+  // Link kopieren und die Blase an einer markierten Textstelle. In Drupal
+  // nur per nur
+  'share-bar': teilen,
   // Medien-Bauteil der Website (Entscheidung 07.10.2026): in Drupal nur per nur
   shot,
   toast,
