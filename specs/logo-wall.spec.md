@@ -1,5 +1,5 @@
 # logo-wall Component Spec
-> Version 2.3.1 | Status: stable | Layer: molecule
+> Version 2.4.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `branding`, `logos`, `partner`, `marquee`
 
@@ -134,12 +134,13 @@ Base classes: `nc-logo-wall`
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Tab` | focus-next | Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. |
+| `Tab` | focus-next | Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. Filterknoepfe (logo-filter) sind native Knoepfe mit aria-pressed: Tab erreicht sie, Enter und Leertaste waehlen. |
 
 ## Events
 | Event | Bubbles | Detail |
 | --- | --- | --- |
 | `einblenden` | Yes | `{"reason":"string"}` |
+| `logo-filter` | Yes | `{"sector":"string","count":"number"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

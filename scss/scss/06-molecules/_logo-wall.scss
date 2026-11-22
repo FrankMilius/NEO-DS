@@ -108,24 +108,27 @@
 }
 
 // -- Optical size: mark box = ink box of the image (see header) --
+// Die --lw-*-Werte setzt das Theme je Logo inline (neo_fe, Logo-Wand-Twig).
+// Rueckfallwerte = ganzes Bild als Tintenflaeche (Faktor 1, quadratisch,
+// keine Verschiebung); sie greifen nur, wenn ein Logo ohne Werte kommt.
 .nc-logo-pill__mark {
   position: relative;
   display: block;
   flex: none;
   overflow: hidden;
   inline-size: min(
-    calc(var(--mod-logo-wall-logo-base, var(--nc-logo-wall-logo-base)) * var(--lw-f)),
-    calc(var(--mod-logo-wall-logo-max-height, var(--nc-logo-wall-logo-max-height)) * var(--lw-ar))
+    calc(var(--mod-logo-wall-logo-base, var(--nc-logo-wall-logo-base)) * var(--lw-f, 1)),
+    calc(var(--mod-logo-wall-logo-max-height, var(--nc-logo-wall-logo-max-height)) * var(--lw-ar, 1))
   );
   max-inline-size: 100%;
-  aspect-ratio: var(--lw-ar);
+  aspect-ratio: var(--lw-ar, 1);
   transition: transform var(--nc-logo-wall-item-transition) ease;
 
   .nc-logo-pill__img {
     position: absolute;
-    inset-inline-start: var(--lw-ix);
-    inset-block-start: var(--lw-iy);
-    inline-size: var(--lw-iw);
+    inset-inline-start: var(--lw-ix, 0%);
+    inset-block-start: var(--lw-iy, 0%);
+    inline-size: var(--lw-iw, 100%);
     max-inline-size: none;
     max-block-size: none;
   }

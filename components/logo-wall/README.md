@@ -20,6 +20,10 @@
 - [Component Spec (Markdown)](../specs/logo-wall.spec.md)
 - [Component Spec (JSON)](../specs/logo-wall.spec.json)
 
+## Dependencies
+
+- [`section`](../section/)
+
 ## Quick Links
 
 - [Recipe JSON](../data/logo-wall-recipe.json)

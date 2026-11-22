@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "logo-wall",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -311,7 +311,7 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. Filterknoepfe (logo-filter) sind native Knoepfe mit aria-pressed: Tab erreicht sie, Enter und Leertaste waehlen."
     }
   },
   "testSelectors": null,
@@ -322,6 +322,14 @@
         "reason": "string"
       },
       "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    },
+    "logo-filter": {
+      "bubbles": true,
+      "detail": {
+        "sector": "string",
+        "count": "number"
+      },
+      "note": "Fired at the filter group [data-logo-filter] (behavior logo-filter) after a click: chosen sector (\"\" = all) and number of logos shown."
     }
   },
   "a11y": {

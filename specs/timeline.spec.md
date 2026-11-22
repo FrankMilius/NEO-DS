@@ -1,5 +1,5 @@
 # timeline Component Spec
-> Version 2.4.0 | Status: stable | Layer: molecule
+> Version 2.5.0 | Status: stable | Layer: molecule
 
 Tags: `chronological`, `content`, `layout`, `process`, `scroll`, `steps`
 
