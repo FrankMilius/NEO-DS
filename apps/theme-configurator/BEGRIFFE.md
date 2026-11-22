@@ -61,6 +61,12 @@ Systems (Button, Card, Accordion …) — ausgeschrieben, ohne Kürzel
 | Blog-Artikel | Blog Article, Artikel-Template, Lesefokus | Template-Variante `t-article--blog` für die Artikelseite des Blogs (Gruppe Blog-Artikel, I15 22.11.2026) |
 | Spaltenbreite (Zeichen je Zeile) | Measure, Zeilenlänge, max-width | Breite der Textspalte im Blog-Artikel (Vorgabe 52ch, gemessen rund 65 Zeichen je Zeile) |
 | Überstand (Hauptbild) | Bleed, Breakout | so viel ist das Hauptbild je Seite breiter als die Textspalte; auf schmalen Breiten 0 |
+| Magazin (Darstellung) | Magazine Layout, Blog-Layout, Editorial | Darstellung des Content Feeds für die Blog-Startseite: Kopf mit RSS-Link, Aufmacher, zwei Nebenbeiträge, darunter „Neueste Artikel“ als Raster (Content Feed › Magazin, I15 22.11.2026); Gegenstück „Standard“ |
+| Aufmacher | Hero-Artikel, Featured Post, Lead Story | der große Beitrag links oben im Magazin, mit Bild, Teaser und Byline (Artikel mit „Hervorgehoben“, sonst der neueste); nicht die „große erste Karte“ des Standard-Feeds |
+| Nebenbeitrag | Side Post, Teaser, Secondary | einer der zwei kleineren Beiträge rechts neben dem Aufmacher, mit kleinem Bild, Kategorie, Titel, Lesezeit und Datum |
+| Kategorie-Reiter | Tabs, Filter-Tabs, Pills | die Filterreiter des Content Feeds, im Magazin je Blog-Kategorie (Content Feed › Magazin, I15 22.11.2026) |
+| Zwischentitel | Subheading, H3, Zwischenüberschrift | die Überschrift „Neueste Artikel“ zwischen Aufmacher und Raster im Magazin |
+| RSS-Feed | Feed, News-Feed, Atom | Adresse, unter der Feed-Leser neue Blog-Artikel abholen; Link im Kopf „Als RSS-Feed abonnieren“ |
 | Entwurf | „Recipe im Status draft“ | Kennzeichen; „Recipe“ nur mit technischen Namen |
 | Gesperrt / Bearbeitbar, Version | Locked, Unlocked | Sperre einer Komponente |
 | Variante: NEO · Kunde | Theme-Set, Neo / Customer | nur im lokalen Betrieb (Entscheidung E3); wählt die Variante **innerhalb** eines Themes. Weitere Kunden = weitere Themes. In Drupal unsichtbar. |

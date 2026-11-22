@@ -1,6 +1,6 @@
 // ============================================================
 // Byline — Auto-generated from byline-recipe.json
-// Version: 1.0.0 | Status: stable
+// Version: 1.0.1 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Byline** v1.0.0 (stable)
+        component: `**Byline** v1.0.1 (stable)
 
 Autorenzeile eines Artikels: rundes Foto (Avatar mit Initialen-Fallback), Name, darunter Lesezeit und Datum mit Trennpunkt. Variante --sm fuer Karten.
 

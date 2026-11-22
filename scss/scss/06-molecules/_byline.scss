@@ -1,5 +1,5 @@
 // ==========================================================================
-// 06-Molecules: Byline v1.0.0
+// 06-Molecules: Byline v1.0.1
 // ==========================================================================
 // Autorenzeile eines Artikels (I15 Phase 1, 22.11.2026): rundes Foto oder
 // Initialen, Name, darunter Lesezeit und Datum mit Trennpunkt.
@@ -25,7 +25,8 @@
 //   </div>
 //
 // MODIFIER:
-//   --sm  Kleineres Foto und kleinere Schrift (Karten im Blog)
+//   --sm  Kleineres Foto und kleinere Schrift (Karten im Blog); ab 384px
+//         Breite Name und Meta in einer Zeile
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -83,22 +84,32 @@
     }
   }
 
-  // -- Karten: kleineres Foto, Name und Meta in einer Zeile --
+  // -- Karten: kleineres Foto; Name und Meta in einer Zeile, wenn Platz ist --
+  // Die Byline ist dafuer selbst Container (I15 Phase 2, 22.11.2026): unter
+  // byline-inline (384px, gemessen „Lena Hoffmann · 7 Min. Lesezeit · 18. Nov.
+  // 2026“ mit Foto: 342–364px) steht die Meta-Zeile darunter wie in der
+  // normalen Byline, ohne fuehrenden Punkt. inline-size: 100%, weil ein
+  // Container seine Breite nicht aus dem Inhalt nimmt — in einer Flex-Zeile
+  // fiele die Byline sonst auf 0 zusammen.
   &--sm {
+    @include container-context(byline);
+    inline-size: 100%;
     font-size: var(--nc-byline-font-size-sm);
 
     .nc-byline__photo {
       --mod-avatar-size-md: var(--nc-byline-photo-size-sm);
       --mod-avatar-font-size-md: var(--nc-byline-initials-size-sm);
     }
+  }
 
-    .nc-byline__text {
+  @include container-min(byline, 'byline-inline') {
+    &--sm .nc-byline__text {
       flex-direction: row;
       flex-wrap: wrap;
       column-gap: var(--fnd-spacing-02);
     }
 
-    .nc-byline__meta::before {
+    &--sm .nc-byline__meta::before {
       content: '·';
       content: '·' / '';
       margin-inline-end: var(--fnd-spacing-02);

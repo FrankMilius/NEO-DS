@@ -1,6 +1,6 @@
 # Layout (Foundation)
 
-> **Category:** foundation | **Tokens:** 50 | **Source:** `data/design-tokens.json → foundation.layout`
+> **Category:** foundation | **Tokens:** 52 | **Source:** `data/design-tokens.json → foundation.layout`
 
 *AUTO-GENERIERT — nicht manuell bearbeiten.*
 

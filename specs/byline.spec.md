@@ -1,5 +1,5 @@
 # byline Component Spec
-> Version 1.0.0 | Status: stable | Layer: molecule
+> Version 1.0.1 | Status: stable | Layer: molecule
 
 Tags: `molecules`, `content`, `blog`, `website`
 
@@ -18,7 +18,7 @@ Root element: `.nc-byline`
 
 ## Variants
 ### Groesse (`size`)
-Artikelkopf (Standard) oder Karte (kleiner, eine Zeile).
+Artikelkopf (Standard) oder Karte (kleiner; ab 384px Breite in einer Zeile).
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |

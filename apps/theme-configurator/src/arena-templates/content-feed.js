@@ -2,8 +2,12 @@
 // 19.11.2026). Die Achse columns setzt ihre Klasse nicht an die Wurzel,
 // sondern an die Liste (.nc-card-grid--cols-*), wie im Drupal-Block; „auto“
 // laesst .nc-card-grid nach Mindestbreite auffuellen. lead=featured macht
-// die erste Karte gross ueber die ganze Breite.
+// die erste Karte gross ueber die ganze Breite. display=magazin (I15 Phase 2,
+// 22.11.2026) zeigt die Blog-Startseite aus _blog.js: Kopf mit RSS-Link,
+// Aufmacher, zwei Nebenbeitraege, Zwischentitel und Raster; lead gilt dort
+// nicht (der Aufmacher ersetzt die grosse erste Karte).
 import { BILD_SRC, SYMBOL } from './_helfer.js'
+import { magazin } from './_blog.js'
 
 const PFEIL = '<svg class="nc-card__footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12H19"/><path d="M13 18L19 12L13 6"/></svg>'
 const PFEIL_EXTERN = '<svg class="nc-card__footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 7L7 17"/><path d="M8 7H17V16"/></svg>'
@@ -40,6 +44,17 @@ const NAECHSTE_SEITE = 'data:text/html;charset=utf-8,' + encodeURIComponent(`<se
 
 export default (zelle, m) => {
   const spalten = m.wert('columns') || 'auto'
+  if (m.wert('display') === 'magazin') {
+    // Die Spaltenklasse der Achse columns gehoert an die Liste, nicht an die
+    // Wurzel: dort machte sie die Sektion selbst zum Drei-Spalten-Raster
+    return magazin({
+      id: `feed-${m.uid}`,
+      klasse: m.basisKlasse.split(' ').filter((k) => !k.startsWith('nc-card-grid--cols-')).join(' '),
+      spalten,
+      mehrHref: NAECHSTE_SEITE,
+      attrs: ` style="width: 100%;"${m.attrs}`
+    })
+  }
   const gross = (m.wert('lead') || 'featured') === 'featured'
   const id = `feed-${m.uid}`
   const liste = ['nc-content-feed__list', 'nc-card-grid']

@@ -114,3 +114,78 @@ export function artikel ({ titelEbene = 1, attrs = '', klasse = 't-article t-art
     `<ul class="t-article__tags" aria-label="Schlagwörter">${ARTIKEL.tags.map((t) => `<li><a class="nc-chip" href="#"><span class="nc-chip__label">${t}</span></a></li>`).join('')}</ul>` +
     '</article>'
 }
+
+// ---------------------------------------------------------------------------
+// Magazin: Blog-Startseite nach Entwurf B (I15 Phase 2, 22.11.2026)
+// ---------------------------------------------------------------------------
+// .nc-content-feed.nc-content-feed--magazin — Kopf mit Titel, Einleitung und
+// RSS-Link, Kategorie-Reiter, Aufmacher mit Byline, zwei Nebenbeitraege,
+// Zwischentitel und das Raster des Feeds mit „Mehr laden“. Daraus die
+// Arena-Vorlage content-feed.js (display=magazin), die Fassung „Magazin“ in
+// data/markup/content-feed.html und das Doku-Beispiel. Kategorien wie im
+// Blog (Entscheidung Frank 22.11.2026), Texte und Person erfunden.
+
+export const KATEGORIEN = ['Künstliche Intelligenz', 'Digitaler Arbeitsplatz', 'Aus Projekten']
+
+// Tabler Icon rss, 20 px
+export const ICON_RSS = svg('<path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M4 4a16 16 0 0 1 16 16"/><path d="M4 11a9 9 0 0 1 9 9"/>')
+
+const PFEIL_KARTE = '<svg class="nc-card__footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12H19"/><path d="M13 18L19 12L13 6"/></svg>'
+
+// [Kategorie, Titel, Teaser, Lesezeit · Datum]
+export const NEBEN = [
+  ['Aus Projekten', 'Ein Bürgerportal in zwölf Wochen: unser Ablauf', '', '8 Min. Lesezeit · 11. Nov. 2026'],
+  ['Digitaler Arbeitsplatz', 'Hybride Teams brauchen weniger Werkzeuge, nicht mehr', '', '6 Min. Lesezeit · 4. Nov. 2026']
+]
+export const NEUESTE = [
+  ['Künstliche Intelligenz', 'Prompts sind keine Dokumentation', 'Wie wir Wissen so ablegen, dass Menschen und Assistenten es finden.', '4 Min. Lesezeit · 28. Okt. 2026'],
+  ['Digitaler Arbeitsplatz', 'Die Startseite als Schreibtisch: was Mitarbeitende morgens brauchen', 'Drei Fragen, mit denen wir jede Intranet-Startseite prüfen.', '5 Min. Lesezeit · 21. Okt. 2026'],
+  ['Aus Projekten', 'Vom Altsystem zum neuen Intranet ohne Stillstand', 'Wie eine Stadtverwaltung ihre Inhalte in vier Etappen umgezogen hat.', '7 Min. Lesezeit · 14. Okt. 2026']
+]
+
+/** Blog-Karte: Kategorie als Kicker, Titel, Teaser, Lesezeit · Datum */
+export function blogKarte ([kategorie, titel, text, meta], { fuss = true, bild = true } = {}) {
+  return '<a class="nc-card nc-card--navigational nc-card--preview" href="#">' +
+    (bild ? `<div class="nc-card__media"><img src="${BILD_SRC}" alt="" loading="lazy"></div>` : '') +
+    `<div class="nc-card__content"><span class="nc-card__kicker">${kategorie}</span><h3 class="nc-card__title">${titel}</h3>` +
+    (text ? `<p class="nc-card__description">${text}</p>` : '') +
+    `<p class="nc-card__meta">${meta}</p></div>` +
+    (fuss ? `<div class="nc-card__footer"><span class="nc-card__footer-label">Weiterlesen</span>${PFEIL_KARTE}</div>` : '') +
+    '</a>'
+}
+
+/**
+ * Ganze Blog-Startseite als Content Feed in Magazin-Darstellung.
+ * @param {{ id?: string, klasse?: string, attrs?: string, spalten?: string, mehrHref?: string }} o
+ */
+export function magazin ({ id = 'blog-start', klasse = 'nc-content-feed nc-content-feed--magazin', attrs = '', spalten = '3', mehrHref = '#' } = {}) {
+  const liste = ['nc-content-feed__list', 'nc-card-grid']
+  if (spalten && spalten !== 'auto') liste.push(`nc-card-grid--cols-${spalten}`)
+  const reiter = ['Alle', ...KATEGORIEN]
+    .map((n, i) => `<a class="nc-chip${i === 0 ? ' nc-chip--selected' : ''}" href="#"${i === 0 ? ' aria-current="page"' : ''}><span class="nc-chip__label">${n}</span></a>`)
+    .join('')
+  const aufmacher = '<a class="nc-card nc-card--navigational nc-card--preview" href="#">' +
+    `<div class="nc-card__media"><img src="${BILD_SRC}" alt="" loading="lazy"></div>` +
+    `<div class="nc-card__content"><span class="nc-card__kicker">${ARTIKEL.kategorie}</span><h3 class="nc-card__title">${ARTIKEL.titel}</h3>` +
+    '<p class="nc-card__description">Drei Projekte, ein Muster: Die Technik funktioniert, die Inhalte nicht. Was wir aus der Einführung gelernt haben.</p>' +
+    byline({ klein: true }) +
+    '</div></a>'
+  return `<section class="${klasse}" aria-labelledby="${id}"${attrs}>` +
+    '<div class="nc-content-feed__head">' +
+    `<div class="nc-content-feed__intro"><h2 class="nc-content-feed__heading" id="${id}">Innovation Blog</h2>` +
+    '<p class="nc-content-feed__intro-text">Was wir bei digitalen Arbeitsplätzen und KI ausprobieren, lernen und weitergeben.</p></div>' +
+    `<a class="nc-content-feed__rss" href="#">${ICON_RSS}Als RSS-Feed abonnieren</a>` +
+    '</div>' +
+    `<nav class="nc-content-feed__filters" aria-label="Innovation Blog filtern">${reiter}</nav>` +
+    '<ul class="nc-content-feed__top nc-card-grid">' +
+    `<li class="nc-content-feed__feature">${aufmacher}</li>` +
+    NEBEN.map((k) => `<li class="nc-content-feed__side">${blogKarte(k, { fuss: false })}</li>`).join('') +
+    '</ul>' +
+    '<h3 class="nc-content-feed__subhead">Neueste Artikel</h3>' +
+    `<ul class="${liste.join(' ')}">` +
+    NEUESTE.map((k) => `<li class="nc-content-feed__item">${blogKarte(k)}</li>`).join('') +
+    '</ul>' +
+    `<div class="nc-content-feed__footer"><a class="nc-button nc-button--secondary" href="${mehrHref}" data-feed-more>Mehr laden</a></div>` +
+    '<p class="u-sr-only" role="status" aria-live="polite" data-feed-geladen="{anzahl} weitere Artikel geladen"></p>' +
+    '</section>'
+}

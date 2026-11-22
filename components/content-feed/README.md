@@ -22,6 +22,8 @@
 
 ## Dependencies
 
+- [`avatar`](../avatar/)
+- [`byline`](../byline/)
 - [`card`](../card/)
 - [`chip`](../chip/)
 - [`content`](../content/)

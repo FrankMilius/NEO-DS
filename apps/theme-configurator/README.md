@@ -1271,6 +1271,24 @@ Blog-Artikel (I15 Phase 1, 22.11.2026, ohne App-Version — Daten und Arena-Vorl
   ihr Aussehen; „Ausprobieren“ kommt mit dem Behavior `teilen` (Phase 3).
 - Auf der Website noch ohne Träger; die Artikel-Vollansicht folgt in Phase 5.
 
+Magazin im Content Feed (I15 Phase 2, 22.11.2026, ohne App-Version — Daten und Arena-Vorlage, wie Phase 1):
+
+- Gruppe „Content Feed“ (`content-feed`) bekommt die Untergruppe „Magazin“
+  (`magazin`) mit `nc-content-feed-magazin-title-size`, `-intro-color`,
+  `-intro-width`, `-rule-width`, `-rule-color`, `-feature-width`,
+  `-feature-title-size`, `-top-gap`, `-side-gap`, `-side-media-size`,
+  `-side-title-size` und `-subhead-size`. Sie wirken nur in der Darstellung
+  `nc-content-feed--magazin`; der Standard-Feed ändert sich nicht.
+- Recipe content-feed 1.3.0: neue Achse „Darstellung“ (`display`) mit
+  Standard (Vorgabe) und Magazin, Specimen „Magazin (Blog-Startseite)“. Neue
+  Container-Schwelle `content-feed-magazin` (640px): darüber Aufmacher und
+  Nebenbeiträge nebeneinander, darunter gestapelt, keine Wischleiste.
+- Arena: `src/arena-templates/content-feed.js` zeigt bei display=magazin das
+  Markup aus `magazin()` in `_blog.js` (daraus auch die Fassung „Magazin“ in
+  `data/markup/content-feed.html` und das Doku-Beispiel). „Mehr laden“ hängt
+  in „Ausprobieren“ wie im Standard die eingebettete zweite Seite an.
+- Auf der Website noch ohne Träger; die Blog-Startseite folgt in Phase 6.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

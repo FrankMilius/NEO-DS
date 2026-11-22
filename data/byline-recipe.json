@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "byline",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "status": "stable",
     "label": "Byline",
     "description": "Autorenzeile eines Artikels: rundes Foto (Avatar mit Initialen-Fallback), Name, darunter Lesezeit und Datum mit Trennpunkt. Variante --sm fuer Karten.",
@@ -31,6 +31,12 @@
       "docs": "docs/content/byline.html"
     },
     "changelog": [
+      {
+        "version": "1.0.1",
+        "changes": [
+          "I15 Phase 2 (22.11.2026, Freigabe ausstehend): --sm setzt Name und Lesezeit · Datum nur noch in eine Zeile, wenn die Byline mindestens 384px breit ist (Container-Abfrage auf der Byline, neue Schwelle byline-inline); schmaler steht die Meta-Zeile darunter wie in der normalen Byline, ohne fuehrenden Punkt. Befund: im Aufmacher des Magazins brach die Meta-Zeile um und begann mit „·“. Die Byline --sm nimmt dafuer die volle Breite (inline-size: 100%), weil ein Container seine Breite nicht aus dem Inhalt nimmt."
+        ]
+      },
       {
         "version": "1.0.0",
         "changes": [
@@ -72,7 +78,7 @@
   "axes": {
     "size": {
       "label": "Groesse",
-      "description": "Artikelkopf (Standard) oder Karte (kleiner, eine Zeile).",
+      "description": "Artikelkopf (Standard) oder Karte (kleiner; ab 384px Breite in einer Zeile).",
       "values": {
         "md": {
           "modifier": null,
@@ -269,7 +275,7 @@
     {
       "id": "karte",
       "label": "Karte (klein)",
-      "description": "Kleines Foto, Name und Angaben in einer Zeile.",
+      "description": "Kleines Foto, Name und Angaben in einer Zeile (ab 384px Breite, schmaler untereinander).",
       "matrix": {
         "axes": {
           "size": [

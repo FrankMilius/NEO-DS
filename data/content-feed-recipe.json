@@ -3,10 +3,10 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content-feed",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "stable",
     "label": "Content Feed",
-    "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“.",
+    "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“. Darstellung „Magazin“ (--magazin) fuer die Blog-Startseite: Kopf mit RSS-Link, Aufmacher, zwei Nebenbeitraege, Zwischentitel und Raster.",
     "whenToUse": "Startseite und Uebersichtsseiten, wenn sich Karten aus veroeffentlichten Beitraegen selbst fuellen sollen (Drupal-Blocktyp neo_content_feed). Fuer handgepflegte Karten bleibt das Card-Grid (card-grid).",
     "tags": [
       "organisms",
@@ -35,6 +35,12 @@
       "docs": "docs/content/content-feed.html"
     },
     "changelog": [
+      {
+        "version": "1.3.0",
+        "changes": [
+          "I15 Phase 2 (22.11.2026, Freigabe ausstehend; Website unveraendert, der normale Feed hat keine neue Regel): neue Achse display (Darstellung) mit standard (Vorgabe) und magazin. Modifikator .nc-content-feed--magazin fuer die Blog-Startseite nach Entwurf B: Kopf mit Titel (__heading), Einleitung (__intro-text) und RSS-Link (__rss, Tabler-Icon rss, „Als RSS-Feed abonnieren“) ueber einer Linie, die Filterreiter als Kategorie-Reiter, darunter <ul class=\"nc-content-feed__top nc-card-grid\"> mit Aufmacher (__feature, Vorschau-Karte mit grossem Titel und .nc-byline--sm) und zwei Nebenbeitraegen (__side, kleines quadratisches Bild links), Zwischentitel „Neueste Artikel“ (__subhead) und das vorhandene Raster mit „Mehr laden“. Ab 640px Containerbreite (neue Schwelle content-feed-magazin) Aufmacher und Nebenbeitraege nebeneinander, darunter gestapelt; keine Wischleiste im Magazin. Karten bleiben .nc-card. 12 Tokens --nc-content-feed-magazin-*, Konfig-App Content Feed › Magazin. Keine Suche (nicht Teil von I15)."
+        ]
+      },
       {
         "version": "1.2.0",
         "changes": [
@@ -76,6 +82,42 @@
         "description": "<nav aria-label=\"<Ueberschrift> filtern\"> mit Filterreitern als Links (.nc-chip); der aktive traegt .nc-chip--selected und aria-current=\"page\". Der Name enthaelt die Ueberschrift, damit zwei Feeds auf einer Seite unterscheidbar bleiben (axe landmark-unique). Fehlt, wenn die Uebersichtsseite ausgeschaltet ist."
       },
       {
+        "name": "intro",
+        "element": ".nc-content-feed__intro",
+        "optional": true,
+        "description": "Nur Magazin: Titel und Einleitung im Kopf. Darin <h2 class=\"nc-content-feed__heading\"> (Titel, z. B. „Innovation Blog“) und <p class=\"nc-content-feed__intro-text\"> (Einleitung). Klassennamen bewusst ohne __title und __lead (Blockstufen-Regeln R14)."
+      },
+      {
+        "name": "rss",
+        "element": ".nc-content-feed__rss",
+        "optional": true,
+        "description": "Nur Magazin: Link „Als RSS-Feed abonnieren“ mit Tabler-Icon rss (aria-hidden) auf den Feed des Blogs, im Kopf rechts neben Titel und Einleitung."
+      },
+      {
+        "name": "top",
+        "element": ".nc-content-feed__top",
+        "optional": true,
+        "description": "Nur Magazin: <ul class=\"nc-content-feed__top nc-card-grid\"> mit dem Aufmacher und zwei Nebenbeitraegen; ab 640px Containerbreite nebeneinander, darunter gestapelt; ein Nebenbeitrag hat das Bild links, sobald er selbst mindestens 280px breit ist (card-min), sonst oben."
+      },
+      {
+        "name": "feature",
+        "element": ".nc-content-feed__feature",
+        "optional": true,
+        "description": "Nur Magazin: <li> mit dem Aufmacher — Vorschau-Karte (.nc-card--preview) mit Bild, Kategorie als Kicker, Titel, Teaser und .nc-byline--sm, ohne Fuss."
+      },
+      {
+        "name": "side",
+        "element": ".nc-content-feed__side",
+        "optional": true,
+        "description": "Nur Magazin: <li> je Nebenbeitrag — Vorschau-Karte mit kleinem quadratischem Bild links, Kategorie, Titel und „Lesezeit · Datum“ in .nc-card__meta, ohne Fuss."
+      },
+      {
+        "name": "subhead",
+        "element": ".nc-content-feed__subhead",
+        "optional": true,
+        "description": "Nur Magazin: Zwischentitel „Neueste Artikel“ (<h3>) zwischen Aufmacher und Raster."
+      },
+      {
         "name": "list",
         "element": ".nc-content-feed__list",
         "optional": false,
@@ -103,10 +145,32 @@
     "convenience": [],
     "domNotes": [
       "Die ganze Karte ist ein Link (<a class=\"nc-card nc-card--navigational\">), Bild alt=\"\" und loading=\"lazy\". Externe News: target=\"_blank\" rel=\"noopener noreferrer\" und der schraege Pfeil im Fuss. Wischleiste ohne tabindex: die Karten-Links sind fokussierbar und scrollen beim Fokus ins Bild.",
-      "Bilder einfaerben (I13): data-medien-ton=\"gruen|aqua|lime|forest\" an .nc-content-feed__list faerbt alle Kartenbilder des Feeds (Regel und Toene: card, „Bilder einfaerben“), auch die grosse erste Karte und nachgeladene Karten. Ohne Attribut bleiben die Bilder im Original. Drupal: Feld „Bilder einfaerben“ am Feed-Block, fuer die Uebersichtsseite die Einstellung der Aktuelles-Bereiche."
+      "Bilder einfaerben (I13): data-medien-ton=\"gruen|aqua|lime|forest\" an .nc-content-feed__list faerbt alle Kartenbilder des Feeds (Regel und Toene: card, „Bilder einfaerben“), auch die grosse erste Karte und nachgeladene Karten. Ohne Attribut bleiben die Bilder im Original. Drupal: Feld „Bilder einfaerben“ am Feed-Block, fuer die Uebersichtsseite die Einstellung der Aktuelles-Bereiche.",
+      "Magazin (I15 Phase 2): Reiter sind die Blog-Kategorien als Links (?kategorie=<id>), wie die Filterreiter ohne JavaScript nutzbar. In den Karten steht die Kategorie im Kicker, Lesezeit und Datum in .nc-card__meta. Bilder einfaerben: data-medien-ton an .nc-content-feed__list und an .nc-content-feed__top."
     ]
   },
   "axes": {
+    "display": {
+      "label": "Darstellung",
+      "description": "Standard (Aktuelles: grosse erste Karte, Raster, schmal Wischleiste) oder Magazin (Blog-Startseite: Kopf mit RSS-Link, Aufmacher, zwei Nebenbeitraege, Zwischentitel, Raster; schmal gestapelt).",
+      "values": {
+        "standard": {
+          "modifier": null,
+          "tokenGroups": [
+            "abstaende"
+          ],
+          "renderHint": "content-feed-standard"
+        },
+        "magazin": {
+          "modifier": "nc-content-feed--magazin",
+          "tokenGroups": [
+            "abstaende",
+            "magazin"
+          ],
+          "renderHint": "content-feed-magazin"
+        }
+      }
+    },
     "columns": {
       "label": "Spalten",
       "description": "Hoechstzahl der kleinen Karten je Zeile (ohne Angabe fuellt .nc-card-grid nach Mindestbreite auf); schmalere Container brechen ueber .nc-card-grid--cols-* um.",
@@ -184,7 +248,8 @@
         "Filterreiter in <nav aria-label=\"<Ueberschrift> filtern\">, aktiver Reiter mit aria-current=\"page\"",
         "Wischleiste nur mit fokussierbaren Karten (scrollable-region-focusable)",
         "Datums-Abzeichen als <time datetime>",
-        "„Mehr laden“: Fokus auf die erste neue Karte, Anzahl in [role=\"status\"], aria-busy an der Liste waehrend des Ladens"
+        "„Mehr laden“: Fokus auf die erste neue Karte, Anzahl in [role=\"status\"], aria-busy an der Liste waehrend des Ladens",
+        "Magazin: Titel als Ueberschrift mit aria-labelledby an der Sektion, Zwischentitel „Neueste Artikel“ als <h3>, RSS-Symbol aria-hidden (der Linktext traegt den Namen), Fokusring am RSS-Link"
       ],
       "note": "Ohne JavaScript vollstaendig: Filter und „Mehr laden“ sind Links."
     },
@@ -204,6 +269,14 @@
       "filterAll": {
         "maxChars": 12,
         "note": "Erster Filterreiter: „Alle“ (englisch „All“)."
+      },
+      "rss": {
+        "maxChars": 30,
+        "note": "Nur Magazin: Link im Kopf „Als RSS-Feed abonnieren“ (englisch „Subscribe via RSS“)."
+      },
+      "subhead": {
+        "maxChars": 30,
+        "note": "Nur Magazin: Zwischentitel „Neueste Artikel“ (englisch „Latest articles“)."
       }
     }
   },
@@ -247,6 +320,23 @@
         "tokens": [
           "nc-content-feed-track-item",
           "nc-content-feed-track-gap"
+        ]
+      },
+      "magazin": {
+        "label": "Magazin",
+        "tokens": [
+          "nc-content-feed-magazin-title-size",
+          "nc-content-feed-magazin-intro-color",
+          "nc-content-feed-magazin-intro-width",
+          "nc-content-feed-magazin-rule-width",
+          "nc-content-feed-magazin-rule-color",
+          "nc-content-feed-magazin-feature-width",
+          "nc-content-feed-magazin-feature-title-size",
+          "nc-content-feed-magazin-top-gap",
+          "nc-content-feed-magazin-side-gap",
+          "nc-content-feed-magazin-side-media-size",
+          "nc-content-feed-magazin-side-title-size",
+          "nc-content-feed-magazin-subhead-size"
         ]
       }
     }
@@ -293,6 +383,16 @@
     {
       "art": "enthaelt",
       "recipe": "button"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "byline",
+      "hinweis": "Nur Magazin: kleine Byline (.nc-byline--sm) im Aufmacher"
+    },
+    {
+      "art": "enthaelt",
+      "recipe": "avatar",
+      "hinweis": "Nur Magazin: das Foto der Byline im Aufmacher ist ein .nc-avatar"
     }
   ],
   "specimens": [
@@ -302,6 +402,9 @@
       "description": "Erste Karte gross, danach News, Event mit Datums-Abzeichen und Artikel mit Lesezeit; Filterreiter, „Alle anzeigen“.",
       "matrix": {
         "axes": {
+          "display": [
+            "standard"
+          ],
           "columns": [
             "3"
           ],
@@ -332,6 +435,9 @@
       "description": "Alle Beitraege ohne grosse erste Karte, mit „Mehr laden“.",
       "matrix": {
         "axes": {
+          "display": [
+            "standard"
+          ],
           "columns": [
             "4"
           ],
@@ -362,6 +468,9 @@
       "description": "Unter 600px Containerbreite liegen die Karten waagerecht und rasten ein.",
       "matrix": {
         "axes": {
+          "display": [
+            "standard"
+          ],
           "columns": [
             "2"
           ],
@@ -384,6 +493,39 @@
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
         "note": "Per Tab erreichbar."
+      }
+    },
+    {
+      "id": "magazin",
+      "label": "Magazin (Blog-Startseite)",
+      "description": "Kopf „Innovation Blog“ mit Einleitung und RSS-Link, Kategorie-Reiter, Aufmacher mit Byline, zwei Nebenbeitraege, „Neueste Artikel“ als Raster mit „Mehr laden“; schmal gestapelt.",
+      "matrix": {
+        "axes": {
+          "display": [
+            "magazin"
+          ],
+          "columns": [
+            "3"
+          ],
+          "lead": [
+            "none"
+          ]
+        },
+        "states": [
+          "default"
+        ]
+      },
+      "focusTokenGroups": [
+        "magazin"
+      ],
+      "layout": "single",
+      "render": {
+        "compositionType": "content-feed-magazin",
+        "label": "magazin"
+      },
+      "a11y": {
+        "contrastTarget": "WCAG AA normal text (4.5:1)",
+        "note": "Reiter und „Mehr laden“ sind Links; RSS-Symbol aria-hidden."
       }
     }
   ]

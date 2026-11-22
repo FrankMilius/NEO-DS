@@ -6009,6 +6009,24 @@ export const componentTokenGroups = [
           "nc-content-feed-track-item",
           "nc-content-feed-track-gap"
         ]
+      },
+      {
+        "id": "magazin",
+        "label": "Magazin",
+        "tokenIds": [
+          "nc-content-feed-magazin-title-size",
+          "nc-content-feed-magazin-intro-color",
+          "nc-content-feed-magazin-intro-width",
+          "nc-content-feed-magazin-rule-width",
+          "nc-content-feed-magazin-rule-color",
+          "nc-content-feed-magazin-feature-width",
+          "nc-content-feed-magazin-feature-title-size",
+          "nc-content-feed-magazin-top-gap",
+          "nc-content-feed-magazin-side-gap",
+          "nc-content-feed-magazin-side-media-size",
+          "nc-content-feed-magazin-side-title-size",
+          "nc-content-feed-magazin-subhead-size"
+        ]
       }
     ],
     "tokens": [
@@ -6035,6 +6053,78 @@ export const componentTokenGroups = [
         "label": "Abstand in der Wischleiste",
         "type": "spacing",
         "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-content-feed-magazin-title-size",
+        "label": "Titel im Kopf — Schriftgröße",
+        "type": "size",
+        "default": "var(--fs-5xl)"
+      },
+      {
+        "id": "nc-content-feed-magazin-intro-color",
+        "label": "Einleitung — Farbe",
+        "type": "color",
+        "default": "var(--fnd-color-text-secondary)"
+      },
+      {
+        "id": "nc-content-feed-magazin-intro-width",
+        "label": "Einleitung — größte Breite",
+        "type": "size",
+        "default": "44ch"
+      },
+      {
+        "id": "nc-content-feed-magazin-rule-width",
+        "label": "Linie unter dem Kopf — Stärke",
+        "type": "size",
+        "default": "2px"
+      },
+      {
+        "id": "nc-content-feed-magazin-rule-color",
+        "label": "Linie unter dem Kopf — Farbe",
+        "type": "color",
+        "default": "var(--fnd-color-border-strong)"
+      },
+      {
+        "id": "nc-content-feed-magazin-feature-width",
+        "label": "Aufmacher — Anteil an der Breite",
+        "type": "size",
+        "default": "60%"
+      },
+      {
+        "id": "nc-content-feed-magazin-feature-title-size",
+        "label": "Aufmacher — Titelgröße",
+        "type": "size",
+        "default": "var(--fs-2xl)"
+      },
+      {
+        "id": "nc-content-feed-magazin-top-gap",
+        "label": "Abstand Aufmacher zu Nebenbeiträgen",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-08)"
+      },
+      {
+        "id": "nc-content-feed-magazin-side-gap",
+        "label": "Abstand zwischen den Nebenbeiträgen",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-04)"
+      },
+      {
+        "id": "nc-content-feed-magazin-side-media-size",
+        "label": "Nebenbeitrag — Bildbreite",
+        "type": "size",
+        "default": "6rem"
+      },
+      {
+        "id": "nc-content-feed-magazin-side-title-size",
+        "label": "Nebenbeitrag — Titelgröße",
+        "type": "size",
+        "default": "var(--fs-base)"
+      },
+      {
+        "id": "nc-content-feed-magazin-subhead-size",
+        "label": "Zwischentitel „Neueste Artikel“ — Schriftgröße",
+        "type": "size",
+        "default": "var(--fs-xl)"
       }
     ]
   },

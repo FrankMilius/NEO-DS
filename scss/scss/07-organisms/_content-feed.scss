@@ -15,6 +15,21 @@
 // Schmaler Container (content-feed-track): Wischleiste. Keine eigene
 // Tastaturbedienung noetig — die Karten sind Links, Tab scrollt sie ins Bild
 // (WCAG 2.1.1, axe scrollable-region-focusable).
+//
+// Magazin (--magazin, I15 Phase 2, 22.11.2026): Blog-Startseite nach
+// Entwurf B. Zusaetzlich zu den Elementen oben:
+//   __intro       Titel (__heading) und Einleitung (__intro-text) im Kopf
+//   __rss         Link „Als RSS-Feed abonnieren“ mit Symbol rss
+//   __top         <ul class="… nc-card-grid">: Aufmacher (__feature) links,
+//                 zwei Nebenbeitraege (__side) rechts untereinander
+//   __subhead     Zwischentitel „Neueste Artikel“ vor dem Raster
+// Ab content-feed-magazin (640px) Aufmacher und Nebenbeitraege
+// nebeneinander, darunter alles gestapelt. Keine Wischleiste: das Raster
+// bleibt auch schmal ein Raster. Alle Regeln nur unter --magazin — der
+// normale Feed ist Traeger der Website (/, /unternehmen/aktuelles) und
+// bleibt unveraendert. Klassennamen ohne __title, __lead, __subtitle: die
+// Blockstufen-Regeln [class*="__title"] usw. (R14) stehen spaeter im CSS und
+// gewinnen bei gleicher Spezifitaet.
 // ==========================================================================
 
 @use '../01-tools' as *;
@@ -103,5 +118,153 @@
     &__item--lead > .nc-card--featured {
       display: flex;
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Magazin (Blog-Startseite)
+  // ---------------------------------------------------------------------------
+
+  // Linie unter dem Kopf als eigene Zeile des Flex-Umbruchs (statt
+  // border-bottom): steht auch dann unter allem, wenn Titel und RSS-Link
+  // schmal untereinander umbrechen; den Abstand darueber gibt der gap.
+  &--magazin &__head::after {
+    content: '';
+    flex: 1 0 100%;
+    block-size: var(--nc-content-feed-magazin-rule-width);
+    background: var(--nc-content-feed-magazin-rule-color);
+  }
+
+  &--magazin &__intro {
+    display: grid;
+    gap: var(--fnd-spacing-03);
+  }
+
+  &--magazin &__heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--nc-content-feed-magazin-title-size);
+    font-weight: var(--fnd-font-weight-bold);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--fnd-tracking-tighter);
+  }
+
+  &--magazin &__intro-text {
+    margin: 0;
+    max-inline-size: var(--nc-content-feed-magazin-intro-width);
+    font-size: var(--fs-base);
+    color: var(--nc-content-feed-magazin-intro-color);
+  }
+
+  &--magazin &__rss {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fnd-spacing-02);
+    font-size: var(--fs-sm);
+    font-weight: var(--fnd-font-weight-semibold);
+    color: var(--fnd-color-text-link);
+    text-decoration: none;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // Aufmacher und Nebenbeitraege: ein <ul> mit .nc-card-grid (Kartenflaeche
+  // wie im Raster, auch im Dunkeln); schmal untereinander
+  &--magazin &__top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--nc-content-feed-magazin-side-gap);
+  }
+
+  &--magazin &__feature,
+  &--magazin &__side {
+    display: flex;
+
+    > .nc-card {
+      flex: 1;
+    }
+  }
+
+  // Der Nebenbeitrag ist selbst Container: ob das Bild links steht, haengt
+  // an seiner eigenen Breite, nicht an der des Feeds (neben dem Aufmacher ist
+  // die Spalte schmaler als gestapelt). Die Karte kann ihren eigenen
+  // Container „card“ nicht abfragen, deshalb hier das <li>.
+  &--magazin &__side {
+    @include container-context(content-feed-side);
+  }
+
+  // Aufmacher: grosser Titel ueber die Weiche der Vorschau-Karte
+  &--magazin &__feature > .nc-card {
+    --mod-card-preview-title-size: var(--nc-content-feed-magazin-feature-title-size);
+
+    // Der Titel des Aufmachers darf eine Zeile laenger sein als in der
+    // Vorschau-Karte (dort zwei)
+    .nc-card__title {
+      @include line-clamp(3);
+    }
+  }
+
+  // Nebenbeitrag: kleinerer Titel; ab card-min (280px) eigener Breite ein
+  // kleines quadratisches Bild links, Text rechts — schmaler steht das Bild
+  // wie in jeder Vorschau-Karte oben
+  &--magazin &__side > .nc-card {
+    --mod-card-preview-title-size: var(--nc-content-feed-magazin-side-title-size);
+  }
+
+  @include container-min(content-feed-side, 'card-min') {
+    &--magazin &__side > .nc-card {
+      display: grid;
+      grid-template-columns: var(--nc-content-feed-magazin-side-media-size) minmax(0, 1fr);
+      align-items: start;
+
+      > .nc-card__media {
+        aspect-ratio: 1;
+      }
+    }
+  }
+
+  @include container-min(content-feed, 'content-feed-magazin') {
+    &--magazin &__top {
+      grid-template-columns: minmax(0, var(--nc-content-feed-magazin-feature-width)) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      column-gap: var(--nc-content-feed-magazin-top-gap);
+    }
+
+    &--magazin &__feature {
+      grid-row: 1 / -1;
+    }
+
+    &--magazin &__side {
+      align-self: start;
+    }
+  }
+
+  &--magazin &__subhead {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: var(--nc-content-feed-magazin-subhead-size);
+    font-weight: var(--fnd-font-weight-semibold);
+    line-height: var(--lh-snug);
+  }
+
+  // Keine Wischleiste im Magazin: die Liste bleibt in jeder Breite das
+  // Raster (.nc-card-grid--cols-*). Hoehere Spezifitaet als die Regel der
+  // Wischleiste oben; ausserhalb der Container-Abfrage, damit sie dort sicher
+  // greift. Breit aendert sich nichts (die Werte gleichen denen des Rasters).
+  &--magazin &__list {
+    display: grid;
+    gap: var(--nc-card-grid-gap);
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding: 0;
+    margin: 0;
   }
 }
