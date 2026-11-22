@@ -7,6 +7,15 @@
 //   Grid (Default)  — Responsives auto-fit Raster
 //   Marquee          — Endlose horizontale Laufschrift (Ticker)
 //   Cluster          — Organisches Flex-Layout mit Wrap
+//   Bar              — compact bar: statement left, small logos right
+//                      (22.11.2026, e.g. below a hero)
+//
+// FORM: pill (default), boxed (cards 3:2), lines (grid with hairlines, no
+// cards; 22.11.2026)
+//
+// OPTICAL SIZE (22.11.2026): .nc-logo-pill__mark crops the image to its
+// visible ink box (values from the Drupal preprocess) and sizes it by area:
+// width = base x sqrt(aspect ratio), capped by the max height.
 //
 // VARIANTEN (Darstellung):
 //   Original         — Logos in Originalfarben
@@ -97,6 +106,59 @@
   }
 }
 
+// -- Optical size: mark box = ink box of the image (see header) --
+.nc-logo-pill__mark {
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+  inline-size: min(
+    calc(var(--mod-logo-wall-logo-base, var(--nc-logo-wall-logo-base)) * var(--lw-f)),
+    calc(var(--mod-logo-wall-logo-max-height, var(--nc-logo-wall-logo-max-height)) * var(--lw-ar))
+  );
+  max-inline-size: 100%;
+  aspect-ratio: var(--lw-ar);
+  transition: transform var(--nc-logo-wall-item-transition) ease;
+
+  .nc-logo-pill__img {
+    position: absolute;
+    inset-inline-start: var(--lw-ix);
+    inset-block-start: var(--lw-iy);
+    inline-size: var(--lw-iw);
+    max-inline-size: none;
+    max-block-size: none;
+  }
+}
+
+// -- Info line at the logo (option): on hover/focus, always on touch --
+.nc-logo-wall--info .nc-logo-pill {
+  position: relative;
+  flex-direction: column;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-logo-pill__info {
+  font: var(--fnd-font-weight-medium) var(--fs-2xs) / 1.3 var(--font-mono);
+  letter-spacing: var(--fnd-tracking-wide, .04em);
+  text-transform: uppercase;
+  color: var(--fnd-color-text-secondary);
+}
+
+@media (hover: hover) {
+  .nc-logo-pill__info {
+    position: absolute;
+    inset-inline: var(--fnd-spacing-02);
+    inset-block-end: var(--fnd-spacing-03);
+    opacity: 0;
+    transition: opacity var(--nc-logo-wall-item-transition) ease;
+  }
+
+  .nc-logo-wall--info .nc-logo-pill:is(:hover, :focus-visible) {
+    .nc-logo-pill__info { opacity: 1; }
+    > :first-child { transform: translateY(calc(-1 * var(--fnd-spacing-03))); }
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Modifier: Groessen
 // ---------------------------------------------------------------------------
@@ -105,6 +167,7 @@
   --nc-logo-wall-grid-min: var(--mod-logo-wall-item-width-sm, var(--nc-logo-wall-item-width-sm));
   --nc-logo-wall-item-padding: 0.75rem 1.25rem;
   --nc-logo-wall-logo-max-height: 56px;
+  --nc-logo-wall-logo-base: 2.5rem;
   --nc-logo-wall-font-size: var(--fs-xs);
 }
 
@@ -112,6 +175,7 @@
   --nc-logo-wall-grid-min: var(--mod-logo-wall-item-width-lg, var(--nc-logo-wall-item-width-lg));
   --nc-logo-wall-item-padding: 1.5rem 2.25rem;
   --nc-logo-wall-logo-max-height: 120px;
+  --nc-logo-wall-logo-base: 4.5rem;
 }
 
 // ---------------------------------------------------------------------------
@@ -191,9 +255,19 @@
     will-change: transform;
   }
 
+  // Same width for every logo; the track's flex stretch gives one height.
   .nc-logo-pill {
     flex-shrink: 0;
+    box-sizing: content-box;
+    inline-size: calc(var(--mod-logo-wall-logo-base, var(--nc-logo-wall-logo-base)) * 2.4);
   }
+
+  // Edge fade over the track (22.11.2026); the strip below for the pause
+  // button stays unmasked.
+  --_pause-zone: calc(var(--nc-marquee-pause-min-size) + var(--nc-marquee-pause-margin-block) + var(--fnd-spacing-02));
+  mask:
+    linear-gradient(to right, transparent, #000 var(--fnd-spacing-10), #000 calc(100% - var(--fnd-spacing-10)), transparent) top / 100% calc(100% - var(--_pause-zone)) no-repeat,
+    linear-gradient(#000, #000) bottom / 100% var(--_pause-zone) no-repeat;
 
   // Ruhe: Maus/Fokus (.is-paused) oder angehalten per Knopf (.is-stopped),
   // beides setzt neo-behaviors marquee. Ungebunden (Doku ohne Skript) haelt
@@ -205,6 +279,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    --_pause-zone: 0px;
+
     .nc-logo-wall__track {
       animation: none;
     }
@@ -212,25 +288,20 @@
 }
 
 // Pause-Knopf des Laufbands (Plan v4, Phase 2, 12.10.2026, WCAG 2.2.2):
-// vor der Spur, Tokens und Verhalten aus marquee (--nc-marquee-pause-*,
-// neo-behaviors marquee). Bei reduzierter Bewegung steht die Spur — kein Knopf.
+// Tokens und Verhalten aus marquee (--nc-marquee-pause-*, neo-behaviors
+// marquee). Seit 22.11.2026 rund unter der Spur, rechts; die Beschriftung
+// bleibt fuer Screenreader. Bei reduzierter Bewegung steht die Spur — kein Knopf.
 .nc-logo-wall__pause {
-  display: flex;
-  align-items: center;
-  gap: var(--nc-marquee-pause-gap);
-  inline-size: fit-content;
-  min-block-size: var(--nc-marquee-pause-min-size);
-  min-inline-size: var(--nc-marquee-pause-min-size);
-  margin: 0 0 var(--nc-marquee-pause-margin-block) auto;
-  padding: 0 var(--nc-marquee-pause-padding-inline);
+  display: grid;
+  place-items: center;
+  inline-size: var(--nc-marquee-pause-min-size);
+  block-size: var(--nc-marquee-pause-min-size);
+  margin: var(--nc-marquee-pause-margin-block) var(--fnd-spacing-02) var(--fnd-spacing-02) auto;
+  padding: 0;
   border: 1px solid var(--nc-marquee-pause-border);
-  border-radius: var(--nc-marquee-pause-radius);
+  border-radius: var(--fnd-radius-full);
   background: transparent;
   color: var(--nc-marquee-pause-color);
-  font: inherit;
-  font-size: var(--nc-marquee-pause-font-size);
-  font-weight: var(--fnd-font-weight-semibold);
-  line-height: var(--lh-tight);
   cursor: pointer;
   @include transition-quick((color, background-color));
 
@@ -253,6 +324,11 @@
 }
 
 .nc-logo-wall__pause-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -306,6 +382,135 @@
 }
 
 // ---------------------------------------------------------------------------
+// Modifier: Lines (grid with hairlines instead of cards, 22.11.2026)
+// ---------------------------------------------------------------------------
+// Each logo draws its right and bottom line and shifts one line width out;
+// the wall clips the outer lines, so only the inner grid remains.
+
+.nc-logo-wall--lines {
+  --_line: var(--fnd-border-width-hairline) solid var(--fnd-color-border-secondary);
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  margin-block: var(--mod-logo-wall-padding-block, var(--nc-logo-wall-padding-block));
+
+  .nc-logo-pill,
+  .nc-logo-pill:hover {
+    border: 0;
+    border-inline-end: var(--_line);
+    border-block-end: var(--_line);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    aspect-ratio: auto;
+    margin: 0 calc(-1 * var(--fnd-border-width-hairline)) calc(-1 * var(--fnd-border-width-hairline)) 0;
+    padding: var(--fnd-spacing-07) var(--fnd-spacing-06);
+  }
+}
+
+.nc-logo-wall--marquee.nc-logo-wall--lines {
+  margin-block: 0;
+
+  .nc-logo-pill { border-block-end: 0; margin: 0; }
+}
+
+// ---------------------------------------------------------------------------
+// Layout: Bar (compact, 22.11.2026)
+// ---------------------------------------------------------------------------
+
+.nc-logo-wall-section--bar {
+  --nc-section-padding-block: var(--fnd-spacing-08);
+}
+
+.nc-logo-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fnd-spacing-06) var(--fnd-spacing-10);
+}
+
+.nc-logo-bar__title {
+  flex: 0 1 16rem;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: var(--fnd-font-weight-semibold);
+  line-height: var(--lh-snug, 1.35);
+  color: var(--fnd-color-text-secondary);
+  text-wrap: balance;
+}
+
+.nc-logo-bar__stat {
+  display: block;
+  font-size: var(--fs-3xl);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: 1;
+  color: var(--fnd-color-text-primary);
+}
+
+.nc-logo-wall--bar {
+  --nc-logo-wall-logo-base: 2.75rem;
+  --nc-logo-wall-logo-max-height: 3.25rem;
+  flex: 1 1 28rem;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: var(--fnd-spacing-06) var(--fnd-spacing-07);
+  padding: 0;
+
+  .nc-logo-pill,
+  .nc-logo-pill:hover {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    aspect-ratio: auto;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Header with key figure, sector filter, link below the wall (22.11.2026)
+// ---------------------------------------------------------------------------
+
+.nc-section-header--stat .nc-section-header__title {
+  display: grid;
+  justify-items: center;
+  gap: var(--fnd-spacing-03);
+}
+
+.nc-section-header__stat {
+  font-size: var(--fs-7xl);
+  font-weight: var(--fnd-font-weight-bold);
+  line-height: .9;
+  letter-spacing: var(--fnd-tracking-tight, -.02em);
+}
+
+.nc-logo-wall__filter:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--fnd-spacing-02);
+}
+
+.nc-logo-pill[hidden] {
+  display: none;
+}
+
+.nc-logo-wall__more {
+  display: flex;
+  justify-content: center;
+  margin: var(--fnd-spacing-04) 0 0;
+}
+
+.nc-logo-wall__link {
+  font-weight: var(--fnd-font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--fnd-accent-500);
+  text-decoration-thickness: var(--fnd-border-width-sm);
+  text-underline-offset: .3em;
+}
+
+// ---------------------------------------------------------------------------
 // Animation: Staggered Fade-In (via Intersection Observer). Ausgeblendet
 // wird nur, solange neo-behaviors einblenden gebunden ist (data-neo-behavior,
 // Plan v4, Phase 6b) — ohne Skript ist nichts versteckt.
@@ -347,5 +552,6 @@
     --nc-logo-wall-gap: var(--fnd-spacing-03);
     --nc-logo-wall-item-padding: 0.625rem 1rem;
     --nc-logo-wall-logo-max-height: 56px;
+    --nc-logo-wall-logo-base: 2.75rem;
   }
 }

@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "logo-wall",
-    "version": "2.3.1",
+    "version": "2.4.0",
     "status": "stable",
     "tags": [
       "display",
@@ -18,6 +18,12 @@
       "docs": "/docs/logo-wall-docs"
     },
     "changelog": [
+      {
+        "version": "2.4.0",
+        "changes": [
+          "Logo wall improvements (22.11.2026): lead below the headline, optional key figure (.nc-section-header--stat), optical size from the visible ink box (.nc-logo-pill__mark), round pause button below the track and edge fade (marquee), form lines (.nc-logo-wall--lines), layout bar (.nc-logo-wall--bar), info line at the logo (.nc-logo-wall--info, .nc-logo-pill__info), sector filter (behavior logo-filter, nc-chip buttons), link below the wall (.nc-logo-wall__more)."
+        ]
+      },
       {
         "version": "2.3.1",
         "changes": [
@@ -730,7 +736,7 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet."
+      "note": "Keine eigene Bedienung: verlinkte Glieder in Dokumentreihenfolge. Die Einblendung versteckt nur optisch (opacity); ein noch nicht eingeblendetes Glied wird beim Fokussieren ins Bild gescrollt und dabei eingeblendet. Filterknoepfe (logo-filter) sind native Knoepfe mit aria-pressed: Tab erreicht sie, Enter und Leertaste waehlen."
     }
   },
   "events": {
@@ -740,6 +746,14 @@
         "reason": "string"
       },
       "note": "Gefeuert an der Wurzel beim Einblenden (Behavior einblenden): reason \"sicht\" (15 % im Bild), \"reduzierte-bewegung\" oder \"ohne-beobachter\" (sofort). Erneutes Binden einer schon eingeblendeten Wurzel meldet nicht."
+    },
+    "logo-filter": {
+      "bubbles": true,
+      "detail": {
+        "sector": "string",
+        "count": "number"
+      },
+      "note": "Fired at the filter group [data-logo-filter] (behavior logo-filter) after a click: chosen sector (\"\" = all) and number of logos shown."
     }
   }
 }

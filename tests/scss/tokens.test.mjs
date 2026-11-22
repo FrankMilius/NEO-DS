@@ -222,7 +222,11 @@ describe('CSS Output Quality', () => {
     // Stand 145,00 KB auf main; „Leiste links“ und „Titel gegenüber“ im
     // Feld Anordnung bringen +0,3 KB. Die Luft deckt die Überarbeitung der
     // horizontalen Variante; höchstens ca. 0,7 % mehr Übertragung.
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(146);
+    //
+    // 22.11.2026: 146 → 147 KB (Entscheidung Frank, Logo-Wand). Stand 145,36
+    // KB auf main; Einleitung, Kennzahl, optische Größe, Rand, Pause-Knopf,
+    // Linien, Leiste, Info, Filter und Link bringen +0,8 KB (146,17 KB).
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(147);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -288,7 +292,10 @@ describe('CSS Output Quality', () => {
     // zusammen mit gzip oben). Stand 1219,3 KB auf main; die zwei neuen
     // Anordnungen bringen +2,4 KB, die Überarbeitung der horizontalen
     // Variante folgt.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1225);
+    //
+    // 22.11.2026: 1225 → 1230 KB (Entscheidung Frank, Logo-Wand, zusammen
+    // mit gzip oben). Stand 1221,3 KB auf main; die Logo-Wand-Verbesserungen bringen +4,1 KB.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1230);
   });
 
   it('CSS Build hat keine Fehler', () => {

@@ -2410,7 +2410,9 @@
   // --nc-logo-wall-item-width-md (240px) NIRGENDS verwendet wurde — die
   // Standardgroesse hing an einer zweiten, stillen Zahl.
   --nc-logo-wall-grid-min:             var(--nc-logo-wall-item-width-md);
-  --nc-logo-wall-align:                center;
+  // stretch (22.11.2026): one height per row — logos now differ in height
+  // (optical size), and the lines form needs aligned cells.
+  --nc-logo-wall-align:                stretch;
 
   // -- Item (Pill) --
   --nc-logo-wall-item-bg:              var(--fnd-color-surface-elevated);
@@ -2433,6 +2435,8 @@
   // Werte sind entsprechend angehoben, damit die Marke selbst auf ~24px (md)
   // bzw. ~32px (lg) kommt — das uebliche Band fuer Partnerleisten.
   --nc-logo-wall-logo-max-height:      88px;
+  // Optical sizing (22.11.2026): mark width = base x sqrt(ink aspect ratio)
+  --nc-logo-wall-logo-base:            3.5rem;
   --nc-logo-wall-logo-opacity:         1;
   --nc-logo-wall-logo-filter:          none;
   --nc-logo-wall-logo-filter-hover:    none;

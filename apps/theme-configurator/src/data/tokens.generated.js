@@ -13416,6 +13416,7 @@ export const componentTokenGroups = [
           "nc-logo-wall-item-width-md",
           "nc-logo-wall-item-width-lg",
           "nc-logo-wall-logo-max-height",
+          "nc-logo-wall-logo-base",
           "nc-logo-wall-marquee-gap"
         ]
       },
@@ -13494,7 +13495,7 @@ export const componentTokenGroups = [
         "id": "nc-logo-wall-align",
         "label": "Align",
         "type": "size",
-        "default": "center"
+        "default": "stretch"
       },
       {
         "id": "nc-logo-wall-item-bg",
@@ -13561,6 +13562,12 @@ export const componentTokenGroups = [
         "label": "Logo Max Height",
         "type": "size",
         "default": "88px"
+      },
+      {
+        "id": "nc-logo-wall-logo-base",
+        "label": "Logo Base Size (optical sizing)",
+        "type": "size",
+        "default": "3.5rem"
       },
       {
         "id": "nc-logo-wall-logo-opacity",
