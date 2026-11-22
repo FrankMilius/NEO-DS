@@ -239,7 +239,11 @@ $timeline-node-ring:
 //     also die Lesereihenfolge.
 //   * Linie und Fuellung sind dekorativ (aria-hidden im Template).
 
-.nc-timeline--alternating {
+// Gemeinsam fuer die drei senkrechten Anordnungen: Zickzack (alternating),
+// Leiste links (rail, Variante A) und Zickzack geteilt (split, Variante C).
+// --_tl-x ist die Lage der Linie; rail und der mobile Umbruch setzen sie
+// an den Knoten links.
+:is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
   position: relative;
   max-inline-size: var(--mod-timeline-alt-max-width, var(--nc-timeline-alt-max-width));
   margin-inline: auto;
@@ -251,7 +255,7 @@ $timeline-node-ring:
     content: "";
     position: absolute;
     inset-block: 0;
-    inset-inline-start: 50%;
+    inset-inline-start: var(--_tl-x, 50%);
     transform: translateX(-50%);
     inline-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
     background-color: var(--mod-timeline-line-color, var(--nc-timeline-line-color));
@@ -266,7 +270,7 @@ $timeline-node-ring:
     content: "";
     position: absolute;
     inset-block-start: 0;
-    inset-inline-start: 50%;
+    inset-inline-start: var(--_tl-x, 50%);
     transform: translateX(-50%);
     inline-size: var(--mod-timeline-line-width, var(--nc-timeline-line-width));
     block-size: calc(100% * var(--nc-timeline-progress, 1));
@@ -308,17 +312,8 @@ $timeline-node-ring:
     grid-row: 1;
   }
 
-  // Wechselseitige Anordnung
-  .nc-timeline__item:nth-child(odd) {
-    .nc-timeline__content { grid-column: 1; }
-    .nc-timeline__node    { grid-column: 2; }
-  }
-  .nc-timeline__item:nth-child(even) {
-    .nc-timeline__node    { grid-column: 2; }
-    .nc-timeline__content { grid-column: 3; }
-  }
-
   .nc-timeline__node {
+    grid-column: 2;
     inline-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
     block-size: var(--mod-timeline-alt-node-size, var(--nc-timeline-alt-node-size));
     margin-inline: auto;
@@ -343,10 +338,90 @@ $timeline-node-ring:
   }
 }
 
+// Zickzack: Karten wechselseitig
+.nc-timeline--alternating {
+  .nc-timeline__item:nth-child(odd) .nc-timeline__content { grid-column: 1; }
+  .nc-timeline__item:nth-child(even) .nc-timeline__content { grid-column: 3; }
+}
+
+// Variante A — Leiste links: Linie und Knoten links, Karte ueber die volle
+// Breite; ab 60em Titel/Einleitung links und Leistungen rechts in der Karte.
+// Der Knoten steht senkrecht mittig zur Karte (Frank, 22.11.2026).
+.nc-timeline--rail {
+  --_tl-x: calc(var(--nc-timeline-alt-node-size) / 2);
+  max-inline-size: var(--mod-timeline-rail-max-width, var(--nc-timeline-rail-max-width));
+
+  .nc-timeline__item {
+    grid-template-columns: var(--nc-timeline-alt-node-size) minmax(0, 1fr);
+    column-gap: var(--fnd-spacing-06);
+  }
+  .nc-timeline__node { grid-column: 1; }
+  .nc-timeline__content {
+    grid-column: 2;
+    margin-inline: 0;
+  }
+}
+
+@media (min-width: 60em) {
+  .nc-timeline--rail .nc-timeline__content {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-content: start;
+    column-gap: var(--fnd-spacing-09);
+
+    > * { grid-column: 1; }
+  }
+  .nc-timeline--rail .nc-timeline__list {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+  }
+}
+
+// Variante C — Zickzack geteilt: Dachzeile und Titel stehen gegenueber der
+// Karte (.nc-timeline__head, nur bei split im Markup), die Karte traegt
+// Einleitung, Leistungen und Link. Die freie Haelfte des Zickzacks wird so
+// genutzt. Unter 860px wie die anderen: Kopf ueber der Karte.
+.nc-timeline--split {
+  .nc-timeline__item { align-items: start; }
+  .nc-timeline__node { margin-block-start: var(--nc-timeline-card-padding); }
+}
+
+.nc-timeline__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fnd-spacing-03);
+  min-inline-size: 0;
+
+  .nc-timeline__meta { justify-content: flex-start; }
+  .nc-timeline__meta-end { margin-inline-start: 0; }
+}
+
+@media (min-width: 53.76em) {
+  .nc-timeline--split {
+    .nc-timeline__head {
+      grid-column: 3;
+      margin: 0 var(--nc-timeline-alt-gap);
+      padding-block-start: var(--nc-timeline-card-padding);
+    }
+    .nc-timeline__content { grid-column: 1; }
+
+    .nc-timeline__item:nth-child(odd) {
+      .nc-timeline__head {
+        grid-column: 1;
+        align-items: flex-end;
+        text-align: end;
+
+        .nc-timeline__meta { justify-content: flex-end; }
+      }
+      .nc-timeline__content { grid-column: 3; }
+    }
+  }
+}
+
 // Breite Karte -> Leistungen zweispaltig. Haelt die Karte flach, ohne die
 // Schrift zu verkleinern (Iteration 1, 22.11.2026).
 @container (min-width: 28rem) {
-  .nc-timeline--alternating .nc-timeline__list {
+  :is(.nc-timeline--alternating, .nc-timeline--split) .nc-timeline__list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--fnd-spacing-07);
@@ -356,8 +431,7 @@ $timeline-node-ring:
 // Knoten der Prozess-Varianten: eine gemeinsame Regel statt zweier Kopien
 // (spart Uebertragungsgroesse). Steht vor den Umbruch-Regeln, die den
 // Schatten mobil abschalten.
-.nc-timeline--alternating .nc-timeline__node,
-.nc-timeline--horizontal .nc-timeline__node {
+:is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal) .nc-timeline__node {
   @include timeline-node-surface;
 }
 
@@ -511,42 +585,63 @@ $timeline-node-ring:
       transition: none;
     }
   }
-  .nc-timeline--alternating::after,
-  .nc-timeline--horizontal::after { transition: none; }
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal)::after { transition: none; }
 }
 
-// -- Umbruch: unter 860px faellt alternating auf einspaltig zurueck --
+// -- Umbruch: unter 860px stapeln alle senkrechten Anordnungen gleich
+// (Frank, 22.11.2026): Linie mittig, Knoten mittig ueber der Karte, dann die
+// Karte, dann der naechste Knoten. Die Karten verdecken die Linie, sichtbar
+// bleibt sie zwischen Knoten und Karte. Bei „geteilt“ bilden Kopf und Karte
+// wieder eine Karte (der Kopf liegt sonst auf der Linie).
 
 @media (max-width: 53.75em) {
-  .nc-timeline--alternating {
-    &::before,
-    .nc-timeline__fill {
-      inset-inline-start: calc(var(--nc-timeline-alt-node-size-sm) / 2);
-      transform: none;
-    }
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
+    --_tl-x: 50%;
 
     .nc-timeline__item {
-      display: block;
-      padding-inline-start: calc(var(--nc-timeline-alt-node-size-sm) + var(--fnd-spacing-06));
-      margin-block-end: var(--fnd-spacing-10);
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--fnd-spacing-06);
     }
 
     .nc-timeline__node {
-      position: absolute;
-      inset-inline-start: 0;
-      inset-block-start: 0;
       inline-size: var(--nc-timeline-alt-node-size-sm);
       block-size: var(--nc-timeline-alt-node-size-sm);
-      margin-inline: 0;
+      margin: 0;
     }
 
-    .nc-timeline__content { margin-inline: 0; }
+    .nc-timeline__content {
+      align-self: stretch;
+      margin: 0;
+    }
+  }
+
+  .nc-timeline--split {
+    .nc-timeline__item { gap: 0; }
+    .nc-timeline__node { margin-block-end: var(--fnd-spacing-06); }
+
+    .nc-timeline__head {
+      align-self: stretch;
+      position: relative;
+      z-index: 1;
+      padding: var(--nc-timeline-card-padding) var(--nc-timeline-card-padding) var(--fnd-spacing-03);
+      background-color: var(--nc-timeline-card-bg);
+      border: var(--fnd-border-width-hairline) solid var(--nc-timeline-card-border);
+      border-block-end: 0;
+      border-radius: var(--nc-timeline-card-radius) var(--nc-timeline-card-radius) 0 0;
+    }
+    .nc-timeline__content {
+      border-block-start: 0;
+      border-start-start-radius: 0;
+      border-start-end-radius: 0;
+      padding-block-start: 0;
+    }
   }
 }
 
 @media (forced-colors: active) {
-  .nc-timeline--alternating {
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split) {
     .nc-timeline__content,
     .nc-timeline__node { border-color: CanvasText; }
     .nc-timeline__fill { background-color: Highlight; }
@@ -560,8 +655,7 @@ $timeline-node-ring:
 // Einspalten-Timeline richtig. Als KARTENTITEL war er mit ~14px deutlich zu
 // klein; hier greift die kanonische Stufe unter der Section-H2.
 
-.nc-timeline--alternating,
-.nc-timeline--horizontal {
+:is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split, .nc-timeline--horizontal) {
   .nc-timeline__title {
     font-size: var(--mod-timeline-card-title-size, var(--nc-timeline-card-title-size));
     font-weight: var(--mod-timeline-card-title-weight, var(--nc-timeline-card-title-weight));
@@ -771,7 +865,7 @@ $timeline-node-ring:
 // bleibt die volle Groesse, weil die waagerechte Linie auf die Knotenmitte
 // der vollen Groesse gerechnet ist.
 @media (min-width: 53.75em) {
-  .nc-timeline--alternating.nc-timeline--node-dot .nc-timeline__node {
+  :is(.nc-timeline--alternating, .nc-timeline--rail, .nc-timeline--split).nc-timeline--node-dot .nc-timeline__node {
     inline-size: var(--nc-timeline-node-dot-size);
     block-size: var(--nc-timeline-node-dot-size);
   }

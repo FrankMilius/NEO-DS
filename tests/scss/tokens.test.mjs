@@ -217,7 +217,12 @@ describe('CSS Output Quality', () => {
     // der Hauptnavigation bringt +0,4 KB gzip. Die Luft deckt die
     // Folgephasen von I06 (geschaetzt 1 KB gzip); höchstens ca. 1,5 % mehr
     // Übertragung.
-    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(145);
+    //
+    // 22.11.2026: 145 → 146 KB (Entscheidung Frank, Timeline-Varianten).
+    // Stand 145,00 KB auf main; „Leiste links“ und „Titel gegenüber“ im
+    // Feld Anordnung bringen +0,3 KB. Die Luft deckt die Überarbeitung der
+    // horizontalen Variante; höchstens ca. 0,7 % mehr Übertragung.
+    expect(gz, `CSS gzip zu groß: ${gz.toFixed(0)}KB`).toBeLessThan(146);
   });
 
   it('Rohgröße bleibt im Rahmen', () => {
@@ -278,7 +283,12 @@ describe('CSS Output Quality', () => {
     // auf main; Bilder einfärben (Duoton für .nc-card__media, Palette
     // medien-gruen, fünf Card-Tokens) bringt +1,9 KB auf 1216,5 KB. Die
     // Filterkette steht schon nur einmal im CSS. Bewusst mit Puffer gewählt.
-    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1220);
+    //
+    // 22.11.2026: 1220 → 1225 KB (Entscheidung Frank, Timeline-Varianten,
+    // zusammen mit gzip oben). Stand 1219,3 KB auf main; die zwei neuen
+    // Anordnungen bringen +2,4 KB, die Überarbeitung der horizontalen
+    // Variante folgt.
+    expect(sizeKB, `CSS zu groß: ${sizeKB.toFixed(0)}KB`).toBeLessThan(1225);
   });
 
   it('CSS Build hat keine Fehler', () => {

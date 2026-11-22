@@ -20736,6 +20736,12 @@ export const componentTokenGroups = [
         "label": "Node Glow Strength",
         "type": "generic",
         "default": "30%"
+      },
+      {
+        "id": "nc-timeline-rail-max-width",
+        "label": "Rail Max Width",
+        "type": "size",
+        "default": "68rem"
       }
     ],
     "subgroups": [
@@ -20759,7 +20765,8 @@ export const componentTokenGroups = [
           "nc-timeline-node-dot-size",
           "nc-timeline-marker-size",
           "nc-timeline-node-ring",
-          "nc-timeline-node-glow-blur"
+          "nc-timeline-node-glow-blur",
+          "nc-timeline-rail-max-width"
         ]
       },
       {
