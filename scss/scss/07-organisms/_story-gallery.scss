@@ -68,13 +68,33 @@
   overflow: hidden;
 }
 
+// Bühne (I16, 23.11.2026, Entscheidung Frank: für alle Galerien): Jedes
+// Medium steht mit Innenabstand oben und seitlich auf derselben getönten
+// Fläche. Bild, Browser-Rahmen und Video füllen nur die Innenfläche.
 .nc-story-gallery__media {
+  position: relative;
   height: var(--sg-card-height);
   width: 100%;
   border-radius: var(--sg-card-radius);
   overflow: hidden;
-  background-color: var(--fnd-color-background-tertiary);
+  background-color: var(--nc-story-gallery-stage-bg);
+  padding: var(--nc-story-gallery-stage-padding) var(--nc-story-gallery-stage-padding) 0;
   flex-shrink: 0;
+}
+
+// Bildschirmkante: nc-shot zoomt per transform am Bild selbst, ohne Hülle —
+// ein gezoomtes Bild ragt sonst in die Bühne. Die Ebene darüber deckt alles
+// außerhalb der Innenfläche in Bühnenfarbe ab, rundet die oberen Ecken und
+// wirft den Schatten des Bildschirms auf die Bühne.
+.nc-story-gallery__media::after {
+  content: "";
+  position: absolute;
+  inset: var(--nc-story-gallery-stage-padding) var(--nc-story-gallery-stage-padding) 0;
+  border-radius: var(--nc-story-gallery-stage-radius) var(--nc-story-gallery-stage-radius) 0 0;
+  box-shadow:
+    var(--nc-story-gallery-stage-shadow),
+    0 0 0 100vmax var(--nc-story-gallery-stage-bg);
+  pointer-events: none;
 }
 
 .nc-story-gallery__media img,

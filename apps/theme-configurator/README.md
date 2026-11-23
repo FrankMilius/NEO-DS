@@ -1331,6 +1331,18 @@ Story Gallery: Raster und gemeinsame Grundlinie (I16 Phase 2, 23.11.2026, ohne A
   JavaScript): Beschreibungen auf einer Höhe, Verhältnis 0,75 bis 1,5,
   bis 52 Zeichen je Zeile (38ch ist die Breite von 38 Nullen).
 
+Story Gallery: Medienfläche für alle Bilder (I16 Phase 3, 23.11.2026, ohne App-Version — nur Daten in `data/design-tokens.json`):
+
+- Neue Untergruppe „Medienfläche“ in „Story Gallery“: „Medienfläche – Farbe“
+  (`nc-story-gallery-stage-bg`, Mischung aus 12 % `background-accent` und
+  `background-tertiary`, folgt dem Thema), „Medienfläche – Innenabstand“
+  (`-stage-padding`, `--fnd-spacing-07`), „Bildschirm – Ecken oben“
+  (`-stage-radius`) und „Bildschirm – Schatten“ (`-stage-shadow`).
+- Jedes Medium (Bild, Browser-Rahmen, Video) steht mit Innenabstand oben und
+  seitlich auf der Fläche; eine Ebene darüber deckt gezoomte Bilder ab und
+  wirft den Schatten. Begriff „Medienfläche · Bildschirm“ in `BEGRIFFE.md`,
+  weil „Bühne“ die Vorschaufläche der App bezeichnet.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul
