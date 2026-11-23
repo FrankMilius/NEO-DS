@@ -19183,6 +19183,17 @@ export const componentTokenGroups = [
           "nc-story-gallery-head-gap",
           "nc-story-gallery-content-max-width"
         ]
+      },
+      {
+        "id": "footer",
+        "label": "Fußleiste",
+        "tokenIds": [
+          "nc-story-gallery-footer-spacing",
+          "nc-story-gallery-footer-gap",
+          "nc-story-gallery-progress-height",
+          "nc-story-gallery-progress-track",
+          "nc-story-gallery-progress-bar"
+        ]
       }
     ],
     "tokens": [
@@ -19365,6 +19376,36 @@ export const componentTokenGroups = [
         "label": "Inhaltsbreite bei voller Breite",
         "type": "size",
         "default": "var(--container-xwide, 1536px)"
+      },
+      {
+        "id": "nc-story-gallery-footer-spacing",
+        "label": "Fußleiste – Abstand zur Galerie",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-07)"
+      },
+      {
+        "id": "nc-story-gallery-footer-gap",
+        "label": "Fußleiste – Abstand Balken zu Pfeilen",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-story-gallery-progress-height",
+        "label": "Fortschritt – Stärke",
+        "type": "size",
+        "default": "var(--fnd-border-width-md)"
+      },
+      {
+        "id": "nc-story-gallery-progress-track",
+        "label": "Fortschritt – Spur",
+        "type": "color",
+        "default": "color-mix(in oklab, var(--fnd-color-text-primary) 15%, transparent)"
+      },
+      {
+        "id": "nc-story-gallery-progress-bar",
+        "label": "Fortschritt – Balken",
+        "type": "color",
+        "default": "var(--fnd-color-text-primary)"
       }
     ]
   },

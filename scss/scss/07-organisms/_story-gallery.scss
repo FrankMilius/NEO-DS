@@ -17,7 +17,8 @@
 // Prozent bezieht sich bei beiden auf dieselbe Breite (Container bzw.
 // Scroller in voller Containerbreite).
 .nc-section-header:has(+ .nc-story-gallery),
-.nc-story-gallery__track {
+.nc-story-gallery__track,
+.nc-story-gallery__footer {
   --_sg-kante: max(0px, calc((100% - var(--nc-story-gallery-content-max-width)) / 2));
 }
 
@@ -43,13 +44,38 @@
   position: relative;
 }
 
+// Fußleiste (I16, 23.11.2026, Entscheidung Frank): bei „Pfeile: unten“ und im
+// Endlos-Modus Fortschrittsbalken links, Pfeile rechts — auch auf dem Handy.
+// Sie steht im Container wie Kopf und Spur, darum dieselbe Kante statt eines
+// eigenen Einzugs.
 .nc-story-gallery__footer {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  max-width: var(--nc-container-max-width, 1440px);
-  margin-inline: auto;
-  padding-inline: var(--sg-content-padding);
-  padding-block-start: var(--fnd-spacing-05);
+  gap: var(--nc-story-gallery-footer-gap);
+  padding-inline: var(--_sg-kante);
+  padding-block-start: var(--nc-story-gallery-footer-spacing);
+}
+
+.nc-story-gallery__progress {
+  position: relative;
+  flex: 1 1 auto;
+  height: var(--nc-story-gallery-progress-height);
+  border-radius: var(--fnd-radius-full);
+  background-color: var(--nc-story-gallery-progress-track);
+  overflow: hidden;
+}
+
+// Breite = sichtbarer Anteil, Lage = Fortschritt; beides setzt das Skript
+// als --sg-fortschritt-breite und --sg-fortschritt-lage (0 … 1).
+.nc-story-gallery__progress-bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: calc(var(--sg-fortschritt-breite, 0.25) * 100%);
+  border-radius: inherit;
+  background-color: var(--nc-story-gallery-progress-bar);
+  transform: translateX(calc(var(--sg-fortschritt-lage, 0) * (100% / var(--sg-fortschritt-breite, 0.25) - 100%)));
 }
 
 .nc-story-gallery__scroll {
@@ -245,8 +271,7 @@
 }
 
 @media (max-width: 768px) {
-  .nc-story-gallery__paddles--overlay,
-    .nc-story-gallery__footer {
+  .nc-story-gallery__paddles--overlay {
     display: none;
   }
 }

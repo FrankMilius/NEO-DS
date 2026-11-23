@@ -36,6 +36,11 @@ const KARTEN = [
   ['Ken-Burns', 'Langsamer Zoom über den Ausschnitt.', 4, 3]
 ]
 
+// Fußleiste (I16 Phase 5, 23.11.2026): bei „unten“ und im Endlos-Modus
+// Fortschrittsbalken links, Pfeile rechts — wie das Twig. Der Balken steht
+// statisch bei einem Viertel; die Lage setzt auf der Website das Skript.
+const FORTSCHRITT = '<div class="nc-story-gallery__progress" aria-hidden="true"><span class="nc-story-gallery__progress-bar" style="--sg-fortschritt-breite: 0.25; --sg-fortschritt-lage: 0;"></span></div>'
+
 const paddles = (art) => `<div class="nc-story-gallery__paddles nc-story-gallery__paddles--${art}">
 <button type="button" class="nc-story-gallery__paddle nc-story-gallery__paddle--prev" aria-label="Zurück" disabled>${PFEIL_LINKS}</button>
 <button type="button" class="nc-story-gallery__paddle nc-story-gallery__paddle--next" aria-label="Weiter">${PFEIL_RECHTS}</button>
@@ -59,8 +64,8 @@ export default (zelle, m) => {
 ${karten}
 </ul>
 </div>
-${oben ? paddles('overlay') + '\n' : ''}</div>
-${oben ? '' : `<div class="nc-story-gallery__footer">\n${paddles('below')}\n</div>`}`
+${oben && !schleife ? paddles('overlay') + '\n' : ''}</div>
+${oben && !schleife ? '' : `<div class="nc-story-gallery__footer">\n${FORTSCHRITT}\n${paddles('below')}\n</div>`}`
   if (!schleife) return galerie
   return `<div class="ra-bildschirm ra-bildschirm--voll">
 ${galerie}

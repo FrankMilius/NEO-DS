@@ -1356,6 +1356,19 @@ Story Gallery: Kopf und gemeinsame Kante (I16 Phase 4, 23.11.2026, ohne App-Vers
   auf derselben Kante, mit und ohne Endlos-Modus
   (`npm run pruefen:sg-kante`).
 
+Story Gallery: Fußleiste mit Fortschritt (I16 Phase 5, 23.11.2026, ohne App-Version — Daten und Arena-Vorlage):
+
+- Neue Untergruppe „Fußleiste“ in „Story Gallery“: „Fußleiste – Abstand zur
+  Galerie“ (`nc-story-gallery-footer-spacing`), „Fußleiste – Abstand Balken
+  zu Pfeilen“ (`-footer-gap`), „Fortschritt – Stärke“ (`-progress-height`),
+  „Fortschritt – Spur“ (`-progress-track`) und „Fortschritt – Balken“
+  (`-progress-bar`). Begriff „Fußleiste · Fortschritt“ in `BEGRIFFE.md`.
+- Bei „Pfeile: unten“ und im Endlos-Modus zeigt die Galerie unten links einen
+  dünnen Fortschrittsbalken und rechts die Pfeile, auch auf dem Handy; die
+  Overlay-Pfeile ohne Endlos-Modus bleiben. Die Vorschau zeigt die Fußleiste
+  entsprechend (Balken statisch bei einem Viertel).
+- Prüfung auf der Website: `npm run pruefen:sg-orientierung`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul
