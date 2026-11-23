@@ -1,6 +1,6 @@
 // ============================================================
 // Footer — Auto-generated from footer-recipe.json
-// Version: 2.1.0 | Status: stable
+// Version: 2.1.2 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**Footer** v2.1.0 (stable)
+        component: `**Footer** v2.1.2 (stable)
 
 Root: <footer> mit role='contentinfo'. BEM-Root: .nc-footer.
 
@@ -27,6 +27,7 @@ export const Default = {
   name: 'Standard',
   render: () => `<footer class="nc-footer nc-footer--columns nc-footer--4-col nc-footer--inverse" role="contentinfo" aria-label="Fußzeile">
 <div class="nc-footer__inner nc-container">
+<h2 class="u-sr-only">Fußbereich</h2>
 <div class="nc-footer__main">
 <div class="nc-footer__brand">
 <div class="nc-footer__contact">
