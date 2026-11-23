@@ -1369,6 +1369,15 @@ Story Gallery: Fußleiste mit Fortschritt (I16 Phase 5, 23.11.2026, ohne App-Ver
   entsprechend (Balken statisch bei einem Viertel).
 - Prüfung auf der Website: `npm run pruefen:sg-orientierung`.
 
+Story Gallery: alle Felder deutsch (I16 Phase 7, 23.11.2026, ohne App-Version — nur Daten in `data/design-tokens.json`):
+
+- Die 13 älteren Felder heißen jetzt „Kartenhöhe“, „Kartenabstand“, „Ecken
+  der Medienfläche“, „Titelgröße“, „Titelgewicht“, „Titelfarbe“,
+  „Textgröße“, „Textfarbe“, „Pfeilgröße“, „Pfeilfläche“, „Pfeilschatten“,
+  „Pfeile – Deckkraft gesperrt“ und „Mauspfeil – Deckkraft (Endlos-Modus)“
+  (vorher „Card Height“, „Gap“, „Radius“, „Title Size“ … „Cursor Paddle Is
+  Visible Opacity“). Token-Namen und Werte unverändert.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

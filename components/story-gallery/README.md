@@ -22,6 +22,7 @@
 
 ## Dependencies
 
+- [`section`](../section/)
 - [`shot`](../shot/)
 - [`video`](../video/)
 

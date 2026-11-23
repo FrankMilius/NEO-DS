@@ -19199,79 +19199,79 @@ export const componentTokenGroups = [
     "tokens": [
       {
         "id": "nc-story-gallery-paddle-disabled-opacity",
-        "label": "Paddle Disabled Opacity",
+        "label": "Pfeile – Deckkraft gesperrt",
         "type": "opacity",
         "default": "0.3"
       },
       {
         "id": "nc-story-gallery-cursor-paddle-is-visible-opacity",
-        "label": "Cursor Paddle Is Visible Opacity",
+        "label": "Mauspfeil – Deckkraft (Endlos-Modus)",
         "type": "opacity",
         "default": "1"
       },
       {
         "id": "nc-story-gallery-card-height",
-        "label": "Card Height",
+        "label": "Kartenhöhe",
         "type": "size",
         "default": "420px"
       },
       {
         "id": "nc-story-gallery-gap",
-        "label": "Gap",
+        "label": "Kartenabstand",
         "type": "spacing",
         "default": "var(--fnd-spacing-06)"
       },
       {
         "id": "nc-story-gallery-radius",
-        "label": "Radius",
+        "label": "Ecken der Medienfläche",
         "type": "radius",
         "default": "var(--fnd-radius-lg)"
       },
       {
         "id": "nc-story-gallery-title-size",
-        "label": "Title Size",
+        "label": "Titelgröße",
         "type": "size",
         "default": "var(--fs-xl)"
       },
       {
         "id": "nc-story-gallery-title-weight",
-        "label": "Title Weight",
+        "label": "Titelgewicht",
         "type": "fontWeight",
         "default": "var(--fnd-font-weight-semibold)"
       },
       {
         "id": "nc-story-gallery-title-color",
-        "label": "Title Color",
+        "label": "Titelfarbe",
         "type": "color",
         "ref": "text-primary"
       },
       {
         "id": "nc-story-gallery-desc-size",
-        "label": "Desc Size",
+        "label": "Textgröße",
         "type": "size",
         "default": "var(--fs-base)"
       },
       {
         "id": "nc-story-gallery-desc-color",
-        "label": "Desc Color",
+        "label": "Textfarbe",
         "type": "color",
         "default": "color-mix(in oklab, var(--fnd-color-text-primary) 45%, var(--fnd-color-text-secondary))"
       },
       {
         "id": "nc-story-gallery-paddle-size",
-        "label": "Paddle Size",
+        "label": "Pfeilgröße",
         "type": "size",
         "default": "44px"
       },
       {
         "id": "nc-story-gallery-paddle-bg",
-        "label": "Paddle BG",
+        "label": "Pfeilfläche",
         "type": "color",
         "ref": "background-base"
       },
       {
         "id": "nc-story-gallery-paddle-shadow",
-        "label": "Paddle Shadow",
+        "label": "Pfeilschatten",
         "type": "color",
         "default": "var(--fnd-shadow-md)"
       },

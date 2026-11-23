@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.4.1 | Status: stable | Layer: organism
+> Version 1.5.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -16,6 +16,8 @@ Root element: `.nc-story-gallery`
 | title | `.nc-story-gallery__title` | Yes | — |
 | desc | `.nc-story-gallery__desc` | No | — |
 | footer | `.nc-story-gallery__footer` | No | — |
+| progress | `.nc-story-gallery__progress` | No | — |
+| progress-bar | `.nc-story-gallery__progress-bar` | No | — |
 | paddles | `.nc-story-gallery__paddles` | No | — |
 | paddle | `.nc-story-gallery__paddle` | No | — |
 | cursor-paddle | `.nc-story-gallery__cursor-paddle` | No | — |
@@ -23,9 +25,10 @@ Root element: `.nc-story-gallery`
 
 ### DOM Notes
 - Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
-- Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.
+- Markup wie block--block-content--neo-story-gallery.html.twig: __footer (Fortschritt __progress links, Pfeile __paddles--below rechts) ist Geschwister der Galerie — bei navigation below und im Endlos-Modus; __paddles--overlay liegt in der Galerie (nur overlay ohne Endlos-Modus). Ein .nc-section-header direkt davor wird zum Kopf der Galerie (linksbuendig, Token-Gruppe head).
 - Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen.
-- Medium: DS-Bauteil shot (seit 07.10.2026, vorher neo-shot.js/neo-shot.css der Website) — neo-theme.js ruft NeoBehaviors.shotAufbauen(.nc-story-gallery__media, Karte); das Medium wird selbst .nc-shot[data-nc-shot] (Fokus-Crop und Darstellungen). Die Arena zeigt das Medium als einfaches Bild.
+- Medienflaeche: .nc-story-gallery__media hat Innenabstand (stage-padding) oben und seitlich; ::after zeichnet Ecken und Schatten des Bildschirms ueber dem Bild. nc-shot rechnet Fokus und Zoom im eingerueckten Bildkasten (I16 Phase 6 gemessen: Fokuspunkt auf 2 px).
+- Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.
 
@@ -46,7 +49,7 @@ Lage der Blaetter-Knoepfe.
 | overlay | — |  |
 
 ### Endlos (`loop`)
-Spur ohne Einzug, Cursor-Paddle statt Mauszeiger.
+Endlose Spur aus Kopien; Fussleiste mit Fortschritt je Runde und zusaetzlich Cursor-Paddle.
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
@@ -64,27 +67,63 @@ Base classes: `nc-story-gallery`
 | --- | --- | --- |
 | `--nc-story-gallery-card-height` | — | — |
 | `--nc-story-gallery-gap` | — | — |
+| `--nc-story-gallery-gap-mobile` | — | — |
 | `--nc-story-gallery-radius` | — | — |
+| `--nc-story-gallery-ratio-min` | — | — |
+| `--nc-story-gallery-ratio-max` | — | — |
+| `--nc-story-gallery-caption-gap` | — | — |
+| `--nc-story-gallery-caption-max-width` | — | — |
 
 ### Title
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-title-size` | — | — |
 | `--nc-story-gallery-title-weight` | — | — |
+| `--nc-story-gallery-title-line-height` | — | — |
+| `--nc-story-gallery-title-lines` | — | — |
+| `--nc-story-gallery-title-gap` | — | — |
 | `--nc-story-gallery-title-color` | — | — |
 
 ### Description
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-desc-size` | — | — |
+| `--nc-story-gallery-desc-line-height` | — | — |
 | `--nc-story-gallery-desc-color` | — | — |
 
 ### Paddles
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-paddle-size` | — | — |
+| `--nc-story-gallery-paddle-color` | — | — |
 | `--nc-story-gallery-paddle-bg` | — | — |
 | `--nc-story-gallery-paddle-shadow` | — | — |
+| `--nc-story-gallery-paddle-disabled-opacity` | — | — |
+| `--nc-story-gallery-cursor-paddle-is-visible-opacity` | — | — |
+
+### Medienflaeche
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-story-gallery-stage-bg` | — | — |
+| `--nc-story-gallery-stage-padding` | — | — |
+| `--nc-story-gallery-stage-radius` | — | — |
+| `--nc-story-gallery-stage-shadow` | — | — |
+
+### Kopf
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-story-gallery-head-title-size` | — | — |
+| `--nc-story-gallery-head-gap` | — | — |
+| `--nc-story-gallery-content-max-width` | — | — |
+
+### Fussleiste
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-story-gallery-footer-spacing` | — | — |
+| `--nc-story-gallery-footer-gap` | — | — |
+| `--nc-story-gallery-progress-height` | — | — |
+| `--nc-story-gallery-progress-track` | — | — |
+| `--nc-story-gallery-progress-bar` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

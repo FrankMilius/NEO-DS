@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,16 @@
       "docs": "/docs/story-gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.5.0",
+        "changes": [
+          "I16 Story-Gallery-Feinschliff (23.11.2026, Entscheidungen Frank, Phasen 1 bis 5 website-sichtbar und freigegeben): Titel, Text, Abstände und Pfeilfarbe aus eigenen Tokens (Blockrollen-Weiche --_block-*); Kartenformat begrenzt auf --nc-story-gallery-ratio-min/-max, Bildunterschrift --nc-story-gallery-caption-max-width (38ch) mit Raum fuer --nc-story-gallery-title-lines Titelzeilen.",
+          "Medienflaeche (Token-Gruppe stage): jedes Medium steht auf einer getoenten Flaeche mit Innenabstand oben und seitlich; das Bild darauf (Bildschirm) hat oben gerundete Ecken und Schatten.",
+          "Kopf (Token-Gruppe head): .nc-section-header direkt vor der Galerie linksbuendig, groesser, mehr Abstand; Kopf und erste Karte auf einer Kante (--_sg-kante, im vollen Container ab 1920 px auf --nc-story-gallery-content-max-width). Die Spur hat keinen eigenen Einzug mehr.",
+          "Fussleiste (Token-Gruppe footer): bei navigation below und im Endlos-Modus __footer mit __progress (aria-hidden, Breite und Lage aus --sg-fortschritt-breite/-lage, im Endlos-Modus je Runde) und den Pfeilen, auch auf dem Handy; overlay ohne Endlos-Modus unveraendert. Endlos-Blaettern trifft immer die naechste Karte (Kopien vor dem Scrollen, auch bei Karten breiter als der Ausschnitt).",
+          "Pruefungen: npm run pruefen:sg-kante, npm run pruefen:sg-orientierung."
+        ]
+      },
       {
         "version": "1.4.1",
         "changes": [
@@ -123,6 +133,16 @@
         "optional": true
       },
       {
+        "name": "progress",
+        "element": ".nc-story-gallery__progress",
+        "optional": true
+      },
+      {
+        "name": "progress-bar",
+        "element": ".nc-story-gallery__progress-bar",
+        "optional": true
+      },
+      {
         "name": "paddles",
         "element": ".nc-story-gallery__paddles",
         "optional": true
@@ -146,9 +166,10 @@
     "convenience": [],
     "domNotes": [
       "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).",
-      "Markup wie data/markup/story-gallery.html (Website) und block--block-content--neo-story-gallery.html.twig: __footer mit den Paddles ist Geschwister der Galerie (navigation below), __paddles--overlay liegt in der Galerie.",
+      "Markup wie block--block-content--neo-story-gallery.html.twig: __footer (Fortschritt __progress links, Pfeile __paddles--below rechts) ist Geschwister der Galerie — bei navigation below und im Endlos-Modus; __paddles--overlay liegt in der Galerie (nur overlay ohne Endlos-Modus). Ein .nc-section-header direkt davor wird zum Kopf der Galerie (linksbuendig, Token-Gruppe head).",
       "Website-only (kein CSS im DS, die Arena laesst sie weg): .nc-story-gallery--nav-below — setzt das Twig (block--…--neo-story-gallery.html.twig), wenn die Paddles unter der Galerie stehen.",
-      "Medium: DS-Bauteil shot (seit 07.10.2026, vorher neo-shot.js/neo-shot.css der Website) — neo-theme.js ruft NeoBehaviors.shotAufbauen(.nc-story-gallery__media, Karte); das Medium wird selbst .nc-shot[data-nc-shot] (Fokus-Crop und Darstellungen). Die Arena zeigt das Medium als einfaches Bild.",
+      "Medienflaeche: .nc-story-gallery__media hat Innenabstand (stage-padding) oben und seitlich; ::after zeichnet Ecken und Schatten des Bildschirms ueber dem Bild. nc-shot rechnet Fokus und Zoom im eingerueckten Bildkasten (I16 Phase 6 gemessen: Fokuspunkt auf 2 px).",
+      "Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1."
     ]
@@ -164,7 +185,10 @@
             "layout",
             "title",
             "description",
-            "paddles"
+            "paddles",
+            "stage",
+            "head",
+            "footer"
           ],
           "renderHint": "story-gallery-default"
         }
@@ -177,22 +201,23 @@
         "below": {
           "modifier": null,
           "tokenGroups": [
-            "paddles"
+            "paddles",
+            "footer"
           ],
-          "description": "__footer > __paddles--below unter der Galerie"
+          "description": "__footer mit __progress und __paddles--below unter der Galerie, auch unter 768 px"
         },
         "overlay": {
           "modifier": null,
           "tokenGroups": [
             "paddles"
           ],
-          "description": "__paddles--overlay ueber den Karten (unter 768 px ausgeblendet)"
+          "description": "__paddles--overlay ueber den Karten (unter 768 px ausgeblendet); mit loop on gilt die Fussleiste wie bei below"
         }
       }
     },
     "loop": {
       "label": "Endlos",
-      "description": "Spur ohne Einzug, Cursor-Paddle statt Mauszeiger.",
+      "description": "Endlose Spur aus Kopien; Fussleiste mit Fortschritt je Runde und zusaetzlich Cursor-Paddle.",
       "values": {
         "off": {
           "modifier": null,
@@ -201,7 +226,8 @@
         "on": {
           "modifier": "nc-story-gallery--loop",
           "tokenGroups": [
-            "paddles"
+            "paddles",
+            "footer"
           ],
           "description": "Cursor-Paddle (.nc-story-gallery__cursor-paddle.is-visible) folgt der Maus (nur pointerType mouse); ein Linksklick blaettert, ausser auf bedienbaren Teilen (dort tritt es zurueck)."
         }
@@ -241,7 +267,10 @@
       "layout",
       "title",
       "description",
-      "paddles"
+      "paddles",
+      "stage",
+      "head",
+      "footer"
     ],
     "tokenGroups": {
       "layout": {
@@ -249,7 +278,12 @@
         "tokens": [
           "nc-story-gallery-card-height",
           "nc-story-gallery-gap",
-          "nc-story-gallery-radius"
+          "nc-story-gallery-gap-mobile",
+          "nc-story-gallery-radius",
+          "nc-story-gallery-ratio-min",
+          "nc-story-gallery-ratio-max",
+          "nc-story-gallery-caption-gap",
+          "nc-story-gallery-caption-max-width"
         ]
       },
       "title": {
@@ -257,6 +291,9 @@
         "tokens": [
           "nc-story-gallery-title-size",
           "nc-story-gallery-title-weight",
+          "nc-story-gallery-title-line-height",
+          "nc-story-gallery-title-lines",
+          "nc-story-gallery-title-gap",
           "nc-story-gallery-title-color"
         ]
       },
@@ -264,6 +301,7 @@
         "label": "Description",
         "tokens": [
           "nc-story-gallery-desc-size",
+          "nc-story-gallery-desc-line-height",
           "nc-story-gallery-desc-color"
         ]
       },
@@ -271,8 +309,38 @@
         "label": "Paddles",
         "tokens": [
           "nc-story-gallery-paddle-size",
+          "nc-story-gallery-paddle-color",
           "nc-story-gallery-paddle-bg",
-          "nc-story-gallery-paddle-shadow"
+          "nc-story-gallery-paddle-shadow",
+          "nc-story-gallery-paddle-disabled-opacity",
+          "nc-story-gallery-cursor-paddle-is-visible-opacity"
+        ]
+      },
+      "stage": {
+        "label": "Medienflaeche",
+        "tokens": [
+          "nc-story-gallery-stage-bg",
+          "nc-story-gallery-stage-padding",
+          "nc-story-gallery-stage-radius",
+          "nc-story-gallery-stage-shadow"
+        ]
+      },
+      "head": {
+        "label": "Kopf",
+        "tokens": [
+          "nc-story-gallery-head-title-size",
+          "nc-story-gallery-head-gap",
+          "nc-story-gallery-content-max-width"
+        ]
+      },
+      "footer": {
+        "label": "Fussleiste",
+        "tokens": [
+          "nc-story-gallery-footer-spacing",
+          "nc-story-gallery-footer-gap",
+          "nc-story-gallery-progress-height",
+          "nc-story-gallery-progress-track",
+          "nc-story-gallery-progress-bar"
         ]
       }
     }
@@ -311,7 +379,7 @@
     {
       "id": "default",
       "label": "Story Gallery",
-      "description": "Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style), Paddles darunter — statisch am Anfang der Spur.",
+      "description": "Horizontale Scroll-Gallery mit Caption-Cards auf Medienflaechen, Kopf linksbuendig davor, Fussleiste mit Fortschritt und Pfeilen darunter — statisch am Anfang der Spur.",
       "matrix": {
         "axes": {
           "variant": [
@@ -332,7 +400,10 @@
         "layout",
         "title",
         "description",
-        "paddles"
+        "paddles",
+        "stage",
+        "head",
+        "footer"
       ],
       "layout": "single",
       "render": {
@@ -367,7 +438,8 @@
         "label": "{navigation}"
       },
       "focusTokenGroups": [
-        "paddles"
+        "paddles",
+        "footer"
       ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
@@ -377,7 +449,7 @@
     {
       "id": "loop",
       "label": "Endlos mit Cursor-Paddle",
-      "description": "--loop: Spur ohne Einzug; das Cursor-Paddle (folgt sonst der Maus) steht sichtbar an fester Stelle.",
+      "description": "--loop: endlose Spur; Fussleiste mit Fortschritt je Runde, dazu das Cursor-Paddle (folgt sonst der Maus) sichtbar an fester Stelle.",
       "matrix": {
         "axes": {
           "variant": [
@@ -399,7 +471,8 @@
         "label": "loop"
       },
       "focusTokenGroups": [
-        "paddles"
+        "paddles",
+        "footer"
       ],
       "a11y": {
         "contrastTarget": "WCAG AA normal text (4.5:1)",
