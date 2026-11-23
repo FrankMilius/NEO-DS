@@ -66,6 +66,11 @@ Stufe 1 (Entwürfe A und B) ist umgesetzt; diese Punkte gehören bewusst nicht d
 - **`/en/inside/blog` ist 404** (gemessen 23.11.2026, schon vor I15): Knoten 61 hat nur eine deutsche Fassung, der englische Hauptmenü-Eintrag „Innovation Blog“ führt ins Leere. `/en/inside/blog/rss.xml` antwortet (ohne Einträge, es gibt keine englischen Artikel). Weg: englische Fassung von Knoten 61 anlegen oder den englischen Menüeintrag ausblenden.
 - **Person „neocosmo Redaktion“ ist ein Entwurf** (I15 Phase 7): Name, Foto und Rolle prüfen und veröffentlichen, sonst zeigt die Autorenzeile von „Aus PIIPE Workplace wird neo workplace“ keinen Namen. Untertitel und Bildunterschrift dieses Artikels fehlen noch.
 
+## Story Gallery (Nebenbefunde I16, 23.11.2026)
+
+- **Englische Feldnamen in der Gruppe „Story Gallery“** (Konfig-App, `data/design-tokens.json` › `components.groups` › `story-gallery`): Die mit I16 Phase 1 neuen Felder sind deutsch („Abstand Bild zu Titel“, „Pfeilfarbe“), die älteren noch englisch („Gap“, „Title Size“, „Desc Color“, „Paddle BG“, „Paddle Shadow“, „Paddle Disabled Opacity“). Weg: beim Recipe-Nachzug in I16 Phase 7 einheitlich deutsch beschriften, Begriffe gegen `apps/theme-configurator/BEGRIFFE.md` prüfen.
+- **Golden Master veraltet** (`data/design-tokens.golden.json`): `npm run tokens:diff` meldet schon auf main 48 hinzugefügte, 8 entfernte und 79 geänderte Werte in fremden Gruppen (Logo-Wall u. a.). Weg: erst klären, welche Commits den Stand ohne `tokens:golden` geändert haben, dann einmal bewusst `npm run tokens:golden` mit Freigabe.
+
 ## Theme neo_fe (Nebenbefund I08, 05.11.2026)
 
 - **Abgleich-Prüfung der Schriften lückenhaft (I09, Widersacher 06.11.2026)**: `fehlendeSchriften` in `scripts/sync-drupal-css.js` übersieht falsche Großschreibung, weil die macOS-Platte nicht unterscheidet (ein Linux-Server antwortet 404). Geprüft wird nur `styles.css`, nicht `design-tokens.css` und `shot-vorschau.css`; `watch:drupal` schreibt ohne Prüfung direkt ins Theme. Heute ohne Wirkung.

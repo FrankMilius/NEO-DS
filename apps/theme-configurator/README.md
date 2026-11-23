@@ -1303,6 +1303,22 @@ Teilen-Leiste mit Verhalten (I15 Phase 3, 22.11.2026, ohne App-Version — Arena
   `BEGRIFFE.md` (Zitat teilen, Link kopiert, Textstelle teilen, Adresse mit
   Textstelle).
 
+Story Gallery: eigene Tokens wirken (I16 Phase 1, 23.11.2026, ohne App-Version — nur Daten in `data/design-tokens.json`):
+
+- Bisher wirkte kein Feld der Gruppe „Story Gallery“ (Muster R11):
+  `_story-gallery.scss` las Titel, Text, Farben und Abstände aus anderen
+  Quellen. Jetzt liest sie nur `--nc-story-gallery-*`; Größe, Gewicht und
+  Zeilenhöhe laufen über die Weiche `--_block-*`, weil `_block-roles.scss` sie
+  sonst überschreibt (Muster R14).
+- Sechs neue Felder: „Kartenabstand (Handy)“ (`nc-story-gallery-gap-mobile`),
+  „Abstand Bild zu Titel“ (`-caption-gap`), „Abstand Titel zu Text“
+  (`-title-gap`), „Zeilenhöhe Titel“ (`-title-line-height`), „Zeilenhöhe Text“
+  (`-desc-line-height`), „Pfeilfarbe“ (`-paddle-color`).
+- Neue Vorgaben: Kartenabstand `--fnd-spacing-06` (auf der Website 22 statt
+  58 px bei 1280), Titel `--fs-xl` halbfett, Text `--fs-base`, Textfarbe als
+  Mischung aus `text-primary` und `text-secondary` (Kontrast 11,17 statt 6,77).
+  Auf `/` gemessen: alle geänderten Werte wirken.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

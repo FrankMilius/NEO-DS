@@ -11,7 +11,7 @@
 /* >>> aufgenommen: story-gallery */
 .nc-story-gallery {
   --sg-card-height: 420px;
-  --sg-gap: var(--fnd-spacing-10);
+  --sg-gap: var(--nc-story-gallery-gap);
   --sg-card-radius: var(--fnd-radius-lg);
   --sg-content-padding: var(--fnd-spacing-06);
   position: relative;
@@ -80,26 +80,36 @@
 }
 
 .nc-story-gallery__caption {
-  padding-block: var(--fnd-spacing-04);
+  padding-block: var(--nc-story-gallery-caption-gap);
   width: 100%;
   overflow: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
+// Titel und Text lesen nur die eigenen Tokens (I16, 23.11.2026). Die
+// Blockrollen in 10-utilities/_block-roles.scss setzen h3[class*='__title']
+// und .nc-story-gallery__desc später nach — darum über die Weiche
+// --_block-* statt nur über font-size (Muster R14).
 .nc-story-gallery__title {
-  font-size: var(--nc-type-heading-s-size);
-  font-weight: var(--fnd-font-weight-bold);
-  color: var(--fnd-color-text-primary);
-  line-height: var(--lh-heading);
-  letter-spacing: var(--fnd-tracking-snug);
-  margin: 0 0 var(--fnd-spacing-02);
+  --_block-size: var(--nc-story-gallery-title-size);
+  --_block-lh: var(--nc-story-gallery-title-line-height);
+  --_block-weight: var(--nc-story-gallery-title-weight);
+  --_block-tracking: var(--fnd-tracking-snug);
+  font-size: var(--_block-size);
+  font-weight: var(--_block-weight);
+  color: var(--nc-story-gallery-title-color);
+  line-height: var(--_block-lh);
+  letter-spacing: var(--_block-tracking);
+  margin: 0 0 var(--nc-story-gallery-title-gap);
 }
 
 .nc-story-gallery__desc {
-  font-size: var(--nc-type-body-l-size);
-  color: var(--fnd-color-text-secondary);
-  line-height: var(--lh-body);
+  --_block-size: var(--nc-story-gallery-desc-size);
+  --_block-lh: var(--nc-story-gallery-desc-line-height);
+  font-size: var(--_block-size);
+  color: var(--nc-story-gallery-desc-color);
+  line-height: var(--_block-lh);
   margin: 0;
 }
 
@@ -135,7 +145,7 @@
   border: none;
   border-radius: var(--fnd-radius-full);
   background-color: var(--fnd-color-background-base);
-  color: var(--fnd-color-text-primary);
+  color: var(--nc-story-gallery-paddle-color);
   box-shadow: var(--fnd-shadow-md);
   cursor: pointer;
   pointer-events: auto;
@@ -170,7 +180,7 @@
 @media (max-width: 768px) {
   .nc-story-gallery__track {
     padding-inline-start: var(--sg-content-padding);
-    gap: var(--fnd-spacing-03);
+    gap: var(--nc-story-gallery-gap-mobile);
   }
 }
 
@@ -178,12 +188,6 @@
   .nc-story-gallery__paddles--overlay,
     .nc-story-gallery__footer {
     display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .nc-story-gallery__title {
-    font-size: var(--nc-type-heading-s-size);
   }
 }
 
@@ -229,7 +233,7 @@
 
 .nc-story-gallery__cursor-icon {
   display: none;
-  color: var(--fnd-color-text-primary);
+  color: var(--nc-story-gallery-paddle-color);
 }
 
 .nc-story-gallery__cursor-icon--prev {

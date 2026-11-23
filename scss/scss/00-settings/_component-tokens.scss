@@ -4864,14 +4864,24 @@
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-story-gallery-card-height:    420px;
-  --nc-story-gallery-gap:            var(--fnd-spacing-05);
+  // Kartenabstand, Bild zu Titel, Titel zu Text: Rhythmus 24 / 20 / 8 (I16, 23.11.2026)
+  --nc-story-gallery-gap:            var(--fnd-spacing-06);
+  --nc-story-gallery-gap-mobile:     var(--fnd-spacing-03);
+  --nc-story-gallery-caption-gap:    var(--fnd-spacing-05);
+  --nc-story-gallery-title-gap:      var(--fnd-spacing-02);
   --nc-story-gallery-radius:         var(--fnd-radius-lg);
-  --nc-story-gallery-title-size:     var(--fs-lg);
-  --nc-story-gallery-title-weight:   var(--fnd-font-weight-bold);
+  // Titel klar über dem Text: Verhältnis rund 1,5 (I16, 23.11.2026)
+  --nc-story-gallery-title-size:     var(--fs-xl);
+  --nc-story-gallery-title-weight:   var(--fnd-font-weight-semibold);
+  --nc-story-gallery-title-line-height: var(--lh-snug);
   --nc-story-gallery-title-color:    var(--fnd-color-text-primary);
-  --nc-story-gallery-desc-size:      var(--fs-sm);
-  --nc-story-gallery-desc-color:     var(--fnd-color-text-secondary);
+  --nc-story-gallery-desc-size:      var(--fs-base);
+  --nc-story-gallery-desc-line-height: var(--lh-relaxed);
+  // Lesetext auf getöntem Grund braucht ≥ 7:1; text-secondary allein erreicht
+  // im hellen Thema nur AA. Die Mischung bleibt themefähig (I16, 23.11.2026).
+  --nc-story-gallery-desc-color:     color-mix(in oklab, var(--fnd-color-text-primary) 45%, var(--fnd-color-text-secondary));
   --nc-story-gallery-paddle-size:    44px;
+  --nc-story-gallery-paddle-color:   var(--fnd-color-text-primary);
   --nc-story-gallery-paddle-bg:      var(--fnd-color-surface-elevated);
   --nc-story-gallery-paddle-shadow:  var(--fnd-shadow-md);
 }

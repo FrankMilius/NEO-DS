@@ -19131,6 +19131,9 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-story-gallery-card-height",
           "nc-story-gallery-gap",
+          "nc-story-gallery-gap-mobile",
+          "nc-story-gallery-caption-gap",
+          "nc-story-gallery-title-gap",
           "nc-story-gallery-radius",
           "nc-story-gallery-title-size",
           "nc-story-gallery-desc-size",
@@ -19141,7 +19144,9 @@ export const componentTokenGroups = [
         "id": "typography",
         "label": "Typografie",
         "tokenIds": [
-          "nc-story-gallery-title-weight"
+          "nc-story-gallery-title-weight",
+          "nc-story-gallery-title-line-height",
+          "nc-story-gallery-desc-line-height"
         ]
       },
       {
@@ -19151,6 +19156,7 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-story-gallery-title-color",
           "nc-story-gallery-desc-color",
+          "nc-story-gallery-paddle-color",
           "nc-story-gallery-paddle-bg",
           "nc-story-gallery-paddle-shadow"
         ]
@@ -19179,7 +19185,7 @@ export const componentTokenGroups = [
         "id": "nc-story-gallery-gap",
         "label": "Gap",
         "type": "spacing",
-        "default": "var(--fnd-spacing-05)"
+        "default": "var(--fnd-spacing-06)"
       },
       {
         "id": "nc-story-gallery-radius",
@@ -19191,13 +19197,13 @@ export const componentTokenGroups = [
         "id": "nc-story-gallery-title-size",
         "label": "Title Size",
         "type": "size",
-        "default": "var(--fs-lg)"
+        "default": "var(--fs-xl)"
       },
       {
         "id": "nc-story-gallery-title-weight",
         "label": "Title Weight",
         "type": "fontWeight",
-        "default": "var(--fnd-font-weight-bold)"
+        "default": "var(--fnd-font-weight-semibold)"
       },
       {
         "id": "nc-story-gallery-title-color",
@@ -19209,13 +19215,13 @@ export const componentTokenGroups = [
         "id": "nc-story-gallery-desc-size",
         "label": "Desc Size",
         "type": "size",
-        "default": "var(--fs-sm)"
+        "default": "var(--fs-base)"
       },
       {
         "id": "nc-story-gallery-desc-color",
         "label": "Desc Color",
         "type": "color",
-        "ref": "text-secondary"
+        "default": "color-mix(in oklab, var(--fnd-color-text-primary) 45%, var(--fnd-color-text-secondary))"
       },
       {
         "id": "nc-story-gallery-paddle-size",
@@ -19234,6 +19240,42 @@ export const componentTokenGroups = [
         "label": "Paddle Shadow",
         "type": "color",
         "default": "var(--fnd-shadow-md)"
+      },
+      {
+        "id": "nc-story-gallery-gap-mobile",
+        "label": "Kartenabstand (Handy)",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-story-gallery-caption-gap",
+        "label": "Abstand Bild zu Titel",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-05)"
+      },
+      {
+        "id": "nc-story-gallery-title-gap",
+        "label": "Abstand Titel zu Text",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-02)"
+      },
+      {
+        "id": "nc-story-gallery-title-line-height",
+        "label": "Zeilenhöhe Titel",
+        "type": "generic",
+        "default": "var(--lh-snug)"
+      },
+      {
+        "id": "nc-story-gallery-desc-line-height",
+        "label": "Zeilenhöhe Text",
+        "type": "generic",
+        "default": "var(--lh-relaxed)"
+      },
+      {
+        "id": "nc-story-gallery-paddle-color",
+        "label": "Pfeilfarbe",
+        "type": "color",
+        "default": "var(--fnd-color-text-primary)"
       }
     ]
   },
