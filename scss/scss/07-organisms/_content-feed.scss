@@ -23,6 +23,7 @@
 //   __top         <ul class="… nc-card-grid">: Aufmacher (__feature) links,
 //                 zwei Nebenbeitraege (__side) rechts untereinander
 //   __subhead     Zwischentitel „Neueste Artikel“ vor dem Raster
+//   Titel der Karten ganz, ohne automatische Trennung (I15 Phase 6)
 // Ab content-feed-magazin (640px) Aufmacher und Nebenbeitraege
 // nebeneinander, darunter alles gestapelt. Keine Wischleiste: das Raster
 // bleibt auch schmal ein Raster. Alle Regeln nur unter --magazin — der
@@ -204,12 +205,19 @@
   // Aufmacher: grosser Titel ueber die Weiche der Vorschau-Karte
   &--magazin &__feature > .nc-card {
     --mod-card-preview-title-size: var(--nc-content-feed-magazin-feature-title-size);
+  }
 
-    // Der Titel des Aufmachers darf eine Zeile laenger sein als in der
-    // Vorschau-Karte (dort zwei)
-    .nc-card__title {
-      @include line-clamp(3);
-    }
+  // Titel im Magazin ganz und ohne Silbentrennung (Befund Frank 22.11.2026,
+  // gemessen auf /inside/blog 23.11.2026 bei 1280: „Start-seite als
+  // Schreibtisch: wa…“). Die Vorschau-Karte kuerzt auf zwei Zeilen und
+  // trennt automatisch — im Blog ist der Titel der Inhalt. Getrennt wird nur
+  // an Bindestrichen und weichen Trennstellen; overflow-wrap: anywhere aus
+  // der Karte bleibt, damit ueberlange Woerter die Spalte nicht sprengen.
+  &--magazin .nc-card__title {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    hyphens: manual;
   }
 
   // Nebenbeitrag: kleinerer Titel; ab card-min (280px) eigener Breite ein

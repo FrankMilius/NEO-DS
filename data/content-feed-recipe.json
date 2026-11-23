@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "content-feed",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "status": "stable",
     "label": "Content Feed",
     "description": "Selbstfuellende Sektion mit News, Artikeln und Events: erste Karte gross (featured), danach ein Raster aus 2, 3 oder 4 Spalten, auf schmalen Containern eine Wischleiste. Dazu Filterreiter als Links, „Alle anzeigen“ und „Mehr laden“. Darstellung „Magazin“ (--magazin) fuer die Blog-Startseite: Kopf mit RSS-Link, Aufmacher, zwei Nebenbeitraege, Zwischentitel und Raster.",
@@ -35,7 +35,13 @@
       "docs": "docs/content/content-feed.html"
     },
     "changelog": [
-      {
+            {
+        "version": "1.3.1",
+        "changes": [
+          "I15 Phase 6 (23.11.2026, Freigabe ausstehend): Titel der Karten im Magazin ganz und ohne automatische Silbentrennung (Befund Frank 22.11.2026, auf /inside/blog bei 1280 gemessen: Rastertitel mitten im Wort getrennt und mit … gekuerzt). Regel .nc-content-feed--magazin .nc-card__title: kein line-clamp, hyphens: manual; overflow-wrap: anywhere aus der Karte bleibt. Der Aufmacher verliert seine Begrenzung auf drei Zeilen. Normaler Feed unveraendert. Erster Traeger auf der Website: /inside/blog (neo_fe, Darstellung Blog-Magazin)."
+        ]
+      },
+{
         "version": "1.3.0",
         "changes": [
           "I15 Phase 2 (22.11.2026, Freigabe ausstehend; Website unveraendert, der normale Feed hat keine neue Regel): neue Achse display (Darstellung) mit standard (Vorgabe) und magazin. Modifikator .nc-content-feed--magazin fuer die Blog-Startseite nach Entwurf B: Kopf mit Titel (__heading), Einleitung (__intro-text) und RSS-Link (__rss, Tabler-Icon rss, „Als RSS-Feed abonnieren“) ueber einer Linie, die Filterreiter als Kategorie-Reiter, darunter <ul class=\"nc-content-feed__top nc-card-grid\"> mit Aufmacher (__feature, Vorschau-Karte mit grossem Titel und .nc-byline--sm) und zwei Nebenbeitraegen (__side, kleines quadratisches Bild links), Zwischentitel „Neueste Artikel“ (__subhead) und das vorhandene Raster mit „Mehr laden“. Ab 640px Containerbreite (neue Schwelle content-feed-magazin) Aufmacher und Nebenbeitraege nebeneinander, darunter gestapelt; keine Wischleiste im Magazin. Karten bleiben .nc-card. 12 Tokens --nc-content-feed-magazin-*, Konfig-App Content Feed › Magazin. Keine Suche (nicht Teil von I15)."
