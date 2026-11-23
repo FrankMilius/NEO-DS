@@ -4864,6 +4864,14 @@
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-story-gallery-card-height:    420px;
+  // Kartenbreite = Höhe × Seitenverhältnis, begrenzt auf 3:4 bis 3:2: zwei
+  // verwandte Breiten statt Faktor 3 zwischen 9:16 und 16:9 (I16, 23.11.2026)
+  --nc-story-gallery-ratio-min:      0.75;
+  --nc-story-gallery-ratio-max:      1.5;
+  // Zeilenlänge der Bildunterschrift und Raum für den Titel, damit alle
+  // Beschreibungen einer Galerie auf einer Höhe beginnen (I16, 23.11.2026)
+  --nc-story-gallery-caption-max-width: 38ch;
+  --nc-story-gallery-title-lines:    2;
   // Kartenabstand, Bild zu Titel, Titel zu Text: Rhythmus 24 / 20 / 8 (I16, 23.11.2026)
   --nc-story-gallery-gap:            var(--fnd-spacing-06);
   --nc-story-gallery-gap-mobile:     var(--fnd-spacing-03);

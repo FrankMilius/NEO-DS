@@ -57,7 +57,13 @@
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  width: calc(var(--sg-card-height) * var(--sg-card-ratio-w, 4) / var(--sg-card-ratio-h, 3));
+  // Seitenverhältnis aus dem Inhalt, im Code begrenzt (I16, Entscheidung
+  // Frank 23.11.2026: Inhalte bleiben unverändert).
+  width: calc(var(--sg-card-height) * clamp(
+    var(--nc-story-gallery-ratio-min),
+    var(--sg-card-ratio-w, 4) / var(--sg-card-ratio-h, 3),
+    var(--nc-story-gallery-ratio-max)
+  ));
   min-width: 0;
   overflow: hidden;
 }
@@ -82,6 +88,7 @@
 .nc-story-gallery__caption {
   padding-block: var(--nc-story-gallery-caption-gap);
   width: 100%;
+  max-inline-size: var(--nc-story-gallery-caption-max-width);
   overflow: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -102,6 +109,11 @@
   line-height: var(--_block-lh);
   letter-spacing: var(--_block-tracking);
   margin: 0 0 var(--nc-story-gallery-title-gap);
+  // Gemeinsame Grundlinie: jeder Titel bekommt gleich viele Zeilen Raum,
+  // ausgeglichen umbrochen. Ersatzwert ohne lh-Einheit zuerst.
+  min-block-size: calc(var(--nc-story-gallery-title-lines) * var(--_block-lh) * 1em);
+  min-block-size: calc(var(--nc-story-gallery-title-lines) * 1lh);
+  text-wrap: balance;
 }
 
 .nc-story-gallery__desc {

@@ -1319,6 +1319,18 @@ Story Gallery: eigene Tokens wirken (I16 Phase 1, 23.11.2026, ohne App-Version �
   Mischung aus `text-primary` und `text-secondary` (Kontrast 11,17 statt 6,77).
   Auf `/` gemessen: alle geänderten Werte wirken.
 
+Story Gallery: Raster und gemeinsame Grundlinie (I16 Phase 2, 23.11.2026, ohne App-Version — nur Daten in `data/design-tokens.json`):
+
+- Vier neue Felder in „Story Gallery“: „Schmalstes Kartenformat“
+  (`nc-story-gallery-ratio-min`, 0,75 = 3:4) und „Breitestes Kartenformat“
+  (`-ratio-max`, 1,5 = 3:2) begrenzen das Seitenverhältnis aus dem Inhalt;
+  „Spaltenbreite (Zeichen je Zeile)“ (`-caption-max-width`, 38ch) begrenzt
+  die Bildunterschrift; „Titelzeilen“ (`-title-lines`, 2) gibt jedem Titel gleich
+  viel Raum, damit alle Beschreibungen auf einer Höhe beginnen.
+- Auf `/` und `/musterseite-bauteile` gemessen (1280 und 390, mit und ohne
+  JavaScript): Beschreibungen auf einer Höhe, Verhältnis 0,75 bis 1,5,
+  bis 52 Zeichen je Zeile (38ch ist die Breite von 38 Nullen).
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

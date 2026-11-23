@@ -19130,6 +19130,9 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-story-gallery-card-height",
+          "nc-story-gallery-ratio-min",
+          "nc-story-gallery-ratio-max",
+          "nc-story-gallery-caption-max-width",
           "nc-story-gallery-gap",
           "nc-story-gallery-gap-mobile",
           "nc-story-gallery-caption-gap",
@@ -19146,7 +19149,8 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-story-gallery-title-weight",
           "nc-story-gallery-title-line-height",
-          "nc-story-gallery-desc-line-height"
+          "nc-story-gallery-desc-line-height",
+          "nc-story-gallery-title-lines"
         ]
       },
       {
@@ -19276,6 +19280,30 @@ export const componentTokenGroups = [
         "label": "Pfeilfarbe",
         "type": "color",
         "default": "var(--fnd-color-text-primary)"
+      },
+      {
+        "id": "nc-story-gallery-ratio-min",
+        "label": "Schmalstes Kartenformat",
+        "type": "number",
+        "default": "0.75"
+      },
+      {
+        "id": "nc-story-gallery-ratio-max",
+        "label": "Breitestes Kartenformat",
+        "type": "number",
+        "default": "1.5"
+      },
+      {
+        "id": "nc-story-gallery-caption-max-width",
+        "label": "Spaltenbreite (Zeichen je Zeile)",
+        "type": "size",
+        "default": "38ch"
+      },
+      {
+        "id": "nc-story-gallery-title-lines",
+        "label": "Titelzeilen",
+        "type": "number",
+        "default": "2"
       }
     ]
   },
