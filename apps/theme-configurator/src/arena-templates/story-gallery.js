@@ -17,6 +17,10 @@
 // fixed, folgt der Maus) zeigt die Zelle im Rahmen ra-bildschirm sichtbar
 // (.is-visible, Richtung next) an fester Stelle.
 //
+// Kopf (I16 Phase 4, 23.11.2026): wie im Twig steht der Sektionskopf direkt
+// vor der Galerie; das DS setzt ihn dort linksbündig, größer und mit mehr
+// Abstand (--nc-story-gallery-head-*), sonst wirkten diese Werte nicht.
+//
 // Zustände: statisch, erste Karte am Anfang. Abspielen: die Spur blaettert
 // Karte um Karte — die Bewegung ist scroll-behavior: smooth aus dem DS
 // (bei prefers-reduced-motion: auto); „Zurueck"/„Weiter" sperren sich am
@@ -44,7 +48,12 @@ export default (zelle, m) => {
 <div class="nc-story-gallery__media"><img src="${BILD_SRC}" alt="${titel}" decoding="async"></div>
 <div class="nc-story-gallery__caption"><h3 class="nc-story-gallery__title">${titel}</h3><p class="nc-story-gallery__desc">${text}</p></div>
 </li>`).join('\n')
-  const galerie = `<div class="${wurzelKlassen(m)}" style="--sg-card-height: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
+  const kopf = `<div class="nc-section-header">
+<span class="nc-section-header__label">NEO Workplace</span>
+<h2 class="nc-section-header__title">Unsere Highlights</h2>
+</div>`
+  const galerie = `${kopf}
+<div class="${wurzelKlassen(m)}" style="--sg-card-height: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
 <div class="nc-story-gallery__scroll" tabindex="0">
 <ul class="nc-story-gallery__track" role="list">
 ${karten}

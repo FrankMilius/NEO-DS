@@ -9,6 +9,32 @@
 @use '../01-tools' as *;
 
 /* >>> aufgenommen: story-gallery */
+
+// Inhaltskante (I16, 23.11.2026): in einem Container mit voller Breite
+// (nc-cw-full) fällt ab 1920 px der Innenabstand weg — Kopf und Karten
+// klebten am Fensterrand. Kopf und Spur rücken dann um den Rest bis zur
+// üblichen Inhaltsbreite ein; im normalen Container ist der Wert 0.
+// Prozent bezieht sich bei beiden auf dieselbe Breite (Container bzw.
+// Scroller in voller Containerbreite).
+.nc-section-header:has(+ .nc-story-gallery),
+.nc-story-gallery__track {
+  --_sg-kante: max(0px, calc((100% - var(--nc-story-gallery-content-max-width)) / 2));
+}
+
+// Kopf der Galerie (I16, 23.11.2026, Entscheidung Frank: immer linksbündig):
+// der Sektionskopf direkt vor der Galerie steht auf ihrer linken Kante, ist
+// größer und hält mehr Abstand. Gilt auch, wenn die Vorlage noch
+// nc-section-header--center setzt; andere Sektionsköpfe bleiben unberührt.
+.nc-section-header:has(+ .nc-story-gallery) {
+  --nc-section-header-title-font-size: var(--nc-story-gallery-head-title-size);
+  --nc-section-header-gap: var(--nc-story-gallery-head-gap);
+  margin-inline: 0;
+  padding-inline-start: var(--_sg-kante);
+  text-align: start;
+
+  .nc-badge-row { justify-content: flex-start; }
+}
+
 .nc-story-gallery {
   --sg-card-height: 420px;
   --sg-gap: var(--nc-story-gallery-gap);
@@ -48,9 +74,12 @@
   gap: var(--sg-gap);
   list-style: none;
   margin: 0;
+  // Einzug nur noch bis zur Inhaltskante (I16, 23.11.2026): die Galerie
+  // steht im Container, der schon eingerückt ist. Die frühere Rechnung mit
+  // 100vw ging von voller Fensterbreite aus und rückte die erste Karte
+  // doppelt ein — neben den Kopf. --_sg-kante ist im normalen Container 0.
   padding: 0;
-  padding-inline-start: max(var(--sg-content-padding), calc((100vw - var(--nc-container-max-width, 1440px)) / 2));
-  padding-inline-end: 0;
+  padding-inline-start: var(--_sg-kante);
 }
 
 .nc-story-gallery__card {
@@ -211,7 +240,6 @@
 
 @media (max-width: 768px) {
   .nc-story-gallery__track {
-    padding-inline-start: var(--sg-content-padding);
     gap: var(--nc-story-gallery-gap-mobile);
   }
 }
@@ -227,11 +255,6 @@
   .nc-story-gallery__scroll {
     scroll-behavior: auto;
   }
-}
-
-.nc-story-gallery--loop .nc-story-gallery__track {
-  padding-inline-start: 0;
-  padding-inline-end: 0;
 }
 
 .nc-story-gallery--loop .nc-story-gallery__scroll {

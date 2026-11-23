@@ -1343,6 +1343,19 @@ Story Gallery: Medienfläche für alle Bilder (I16 Phase 3, 23.11.2026, ohne App
   wirft den Schatten. Begriff „Medienfläche · Bildschirm“ in `BEGRIFFE.md`,
   weil „Bühne“ die Vorschaufläche der App bezeichnet.
 
+Story Gallery: Kopf und gemeinsame Kante (I16 Phase 4, 23.11.2026, ohne App-Version — nur Daten in `data/design-tokens.json`):
+
+- Neue Untergruppe „Kopf“ in „Story Gallery“: „Kopf – Titelgröße“
+  (`nc-story-gallery-head-title-size`, `--fs-3xl`) und „Kopf – Abstand zur
+  Galerie“ (`-head-gap`, `--fnd-spacing-10`) und „Inhaltsbreite bei voller
+  Breite“ (`-content-max-width`, `--container-xwide`). Sie gelten nur für den
+  Sektionskopf direkt vor der Galerie; der Kopf steht dort immer linksbündig.
+  In einem Container mit voller Breite rücken Kopf und Spur ab 1920 px auf die
+  Kante der übrigen Inhalte (sonst klebten sie am Fensterrand).
+- Die Spur hat keinen eigenen Einzug mehr; erste Karte und Kopftitel stehen
+  auf derselben Kante, mit und ohne Endlos-Modus
+  (`npm run pruefen:sg-kante`).
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

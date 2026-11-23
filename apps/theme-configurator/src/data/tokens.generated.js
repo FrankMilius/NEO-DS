@@ -19174,6 +19174,15 @@ export const componentTokenGroups = [
           "nc-story-gallery-stage-radius",
           "nc-story-gallery-stage-shadow"
         ]
+      },
+      {
+        "id": "head",
+        "label": "Kopf",
+        "tokenIds": [
+          "nc-story-gallery-head-title-size",
+          "nc-story-gallery-head-gap",
+          "nc-story-gallery-content-max-width"
+        ]
       }
     ],
     "tokens": [
@@ -19338,6 +19347,24 @@ export const componentTokenGroups = [
         "label": "Bildschirm – Schatten",
         "type": "shadow",
         "default": "var(--fnd-shadow-md)"
+      },
+      {
+        "id": "nc-story-gallery-head-title-size",
+        "label": "Kopf – Titelgröße",
+        "type": "size",
+        "default": "var(--fs-3xl)"
+      },
+      {
+        "id": "nc-story-gallery-head-gap",
+        "label": "Kopf – Abstand zur Galerie",
+        "type": "spacing",
+        "default": "var(--fnd-spacing-10)"
+      },
+      {
+        "id": "nc-story-gallery-content-max-width",
+        "label": "Inhaltsbreite bei voller Breite",
+        "type": "size",
+        "default": "var(--container-xwide, 1536px)"
       }
     ]
   },
