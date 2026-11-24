@@ -94,8 +94,24 @@ describe('shot: Markup wie neo-shot.js (NeoShot.render)', () => {
     expect(leiste.querySelector('b')).toBeNull()
     expect(rahmen.children[1].className).toBe('nc-shot__viewport')
     expect(rahmen.querySelector('.nc-shot__viewport > .nc-shot__img')).not.toBeNull()
+    // Schlichter Rahmen (I18 Phase 10, 24.11.2026, E7 Frank): ohne url keine
+    // Adresse mehr, nur die drei Punkte
     const { host: h2 } = medium({ preset: 'frame' })
-    expect(h2.querySelector('.nc-shot__chrome-url').textContent).toBe('workplace.neocosmo.de')
+    expect(h2.querySelector('.nc-shot__chrome-url')).toBeNull()
+    expect(h2.querySelectorAll('.nc-shot__chrome-dot').length).toBe(3)
+  })
+
+  it('frame Telefon: Kontur ohne Leiste, Bild im Viewport; Vorgabe für Hochformat ohne Rahmenart', () => {
+    const { host } = medium({ preset: 'frame', params: { frame: 'Telefon' } })
+    const rahmen = host.querySelector(':scope > .nc-shot__frame')
+    expect(rahmen.className).toBe('nc-shot__frame nc-shot__frame--telefon nc-shot--shadow')
+    expect(rahmen.querySelector('.nc-shot__chrome-bar')).toBeNull()
+    expect(rahmen.querySelector('.nc-shot__viewport > .nc-shot__img')).not.toBeNull()
+    const { host: hoch } = medium({ preset: 'frame', params: { ratio: '9/16' } })
+    expect(hoch.querySelector('.nc-shot__frame--telefon')).not.toBeNull()
+    const { host: quer } = medium({ preset: 'frame', params: { ratio: '16/9' } })
+    expect(quer.querySelector('.nc-shot__frame--telefon')).toBeNull()
+    expect(quer.querySelector('.nc-shot__chrome-bar')).not.toBeNull()
   })
 
   it('frame Minimal/Ohne: ohne Leiste; shadow:false ohne Schatten', () => {

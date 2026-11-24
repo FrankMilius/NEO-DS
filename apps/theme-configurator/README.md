@@ -1404,6 +1404,21 @@ Story Gallery: Anordnung auf der Fläche (I18 Phase 9, 24.11.2026, ohne App-Vers
   „Medienfläche“ (Innenabstand, Ecken, Schatten). Prüfung auf der Website:
   `npm run pruefen:sg-anordnung`.
 
+Shot: schlichte Rahmen und Telefon (I18 Phase 10, 24.11.2026, ohne App-Version — Daten, Recipe 1.2.0, Arena-Vorlage):
+
+- „Browser-Rahmen“ schlicht und überall (E7 Frank, auch Feature-Liste):
+  „Leiste — Fläche/Linie/Punkte“ jetzt aus der Semantik (surface-elevated,
+  border-hairline, border-primary), „Rahmen — Schatten“ `var(--fnd-shadow-lg)`,
+  „Leiste — Innenabstand“ aus der Abstandsskala. Die Adresse erscheint nur,
+  wenn die Karte eine nennt.
+- Neue Untergruppe „Telefon-Rahmen“: „Telefon — Randbreite“, „— Ecken“,
+  „— Farbe“, „— Seitenverhältnis“ (`nc-shot-phone-*`). Vorschau-Achse
+  „Rahmen“ hat den Wert „telefon“. Ohne Rahmenart wird ein Hochformat zum
+  Telefon, sonst zum Browser.
+- Wirkung: die Telefon-Tokens „ohne Wirkung“ bzw. „ohne Prüfwert“, weil die
+  Vorschau im Grundzustand den Browser-Rahmen zeigt; auf der Website gemessen
+  mit `npm run pruefen:sg-rahmen`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

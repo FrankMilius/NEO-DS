@@ -21,8 +21,9 @@
 //   .nc-shot--ratio         Standalone: aspect-ratio (inline) + volle Breite
 //   .nc-shot--shadow        Schatten am Browser-Rahmen
 //   .nc-shot__img           Bild im Fokus-Crop
-//   .nc-shot__frame         Browser-Rahmen
-//   .nc-shot__chrome-bar    Leiste mit drei Punkten und Adresse
+//   .nc-shot__frame         Rahmen (Browser, Minimal, Ohne)
+//   .nc-shot__frame--telefon Telefon-Kontur (I18 Phase 10)
+//   .nc-shot__chrome-bar    Leiste mit drei Punkten (Adresse nur mit url)
 //   .nc-shot__chrome-dot / __chrome-url
 //   .nc-shot__viewport      Bildbereich im Rahmen
 //   .nc-shot__lens          Lupe (setzt das Verhalten)
@@ -62,6 +63,18 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .nc-shot--shadow { box-shadow: var(--nc-shot-frame-shadow); }
+
+// ── Telefon-Rahmen (I18 Phase 10, 24.11.2026) ──
+// Schlichte Kontur ohne Kerbe: so hoch wie der Platz, Breite aus dem
+// Seitenverhältnis, mittig. Der Screen füllt die Innenfläche per Fokus-Crop;
+// overflow: hidden am Rahmen rundet ihn mit dem inneren Radius ab.
+.nc-shot__frame--telefon {
+  width: auto; max-width: 100%; margin-inline: auto;
+  aspect-ratio: var(--nc-shot-phone-ratio);
+  border: var(--nc-shot-phone-bezel) solid var(--nc-shot-phone-color);
+  border-radius: var(--nc-shot-phone-radius);
+  background: var(--nc-shot-phone-color);
+}
 
 // ── Ken-Burns: langsame Fokus-Fahrt zwischen zwei Punkten ──
 // Dauer je Instanz per --nc-shot-dur (setzt das Verhalten aus der Karte).

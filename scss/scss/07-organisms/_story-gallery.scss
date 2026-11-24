@@ -198,8 +198,9 @@
 // Ohne Beschnitt braucht es keine Abdeckung; Ecken und Schatten trägt der
 // Screen selbst, damit sie an seiner sichtbaren Kante liegen — auch bei
 // Videos (Widersacher Phase 9: Hochformat-Video bekommt „ganz“ von selbst).
-// Bild, Video und Rahmen über Element bzw. :not() statt über die nc-shot-Klassen — Regeln an
-// .nc-shot__* gehören dem Bauteil shot (tests/arena/shot.test.js).
+// Bild und Video über das Element statt über die nc-shot-Klassen — Regeln an
+// .nc-shot__* gehören dem Bauteil shot (tests/arena/shot.test.js). Ein
+// Rahmen bringt Ecken und Schatten selbst mit (Telefon, Browser; Phase 10).
 .nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media::after {
   content: none;
 }
@@ -214,10 +215,6 @@
   box-shadow: var(--nc-story-gallery-stage-shadow);
 }
 
-.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > :not(img, video) {
-  border-radius: var(--nc-story-gallery-stage-radius);
-  box-shadow: var(--nc-story-gallery-stage-shadow);
-}
 
 .nc-story-gallery__caption {
   padding-block: var(--nc-story-gallery-caption-gap);

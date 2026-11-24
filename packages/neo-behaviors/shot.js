@@ -9,7 +9,8 @@
 // Darstellungen (data-nc-shot):
 //
 //   none      nur Fokus-Crop
-//   frame     Browser-Rahmen (Leiste mit Punkten und Adresse) bzw. Minimal/Ohne
+//   frame     Rahmen: Browser (Leiste mit Punkten, Adresse nur mit url),
+//             Telefon (Kontur; Vorgabe für Hochformat), Minimal, Ohne
 //   kenburns  langsame Fokus-Fahrt zwischen Start und Ziel; pausiert ausser
 //             Sicht (IntersectionObserver), aus bei prefers-reduced-motion
 //   lens      Lupe folgt dem Zeiger (reine Zeiger-Zugabe, das Bild bleibt
@@ -46,6 +47,12 @@ import { sende, bindeAlle, loeseAlle } from './kern.js'
 const DARSTELLUNGEN = ['none', 'frame', 'kenburns', 'lens', 'hotspots', 'compare']
 
 const clamp01 = (v, d) => Math.min(1, Math.max(0, v == null ? d : v))
+
+/** Format "w/h" mit w < h (Hochformat); sonst false */
+const hochformat = (ratio) => {
+  const t = String(ratio || '').split('/').map((x) => parseFloat(x))
+  return t.length === 2 && t[0] > 0 && t[1] > 0 && t[0] < t[1]
+}
 
 /**
  * Fokuspunkt und Zoom am Bild (object-position, transform-origin, scale) —
@@ -103,9 +110,10 @@ const BAU = {
 
   frame (c, o, dok) {
     const P = o.params || {}
-    const art = P.frame || 'Browser'
+    // Ohne Rahmenart: Hochformat als Telefon, sonst Browser (I18 Phase 10)
+    const art = P.frame || (hochformat(P.ratio || o.ratio) ? 'Telefon' : 'Browser')
     const rahmen = dok.createElement('div')
-    rahmen.className = 'nc-shot__frame' + (P.shadow === false ? '' : ' nc-shot--shadow')
+    rahmen.className = 'nc-shot__frame' + (art === 'Telefon' ? ' nc-shot__frame--telefon' : '') + (P.shadow === false ? '' : ' nc-shot--shadow')
     if (art === 'Browser') {
       const leiste = dok.createElement('div')
       leiste.className = 'nc-shot__chrome-bar'
@@ -114,10 +122,13 @@ const BAU = {
         punkt.className = 'nc-shot__chrome-dot'
         leiste.appendChild(punkt)
       }
-      const adresse = dok.createElement('span')
-      adresse.className = 'nc-shot__chrome-url'
-      adresse.textContent = P.url || 'workplace.neocosmo.de'
-      leiste.appendChild(adresse)
+      // Schlicht (I18 Phase 10, E7 Frank): Adresse nur, wenn die Karte eine nennt
+      if (P.url) {
+        const adresse = dok.createElement('span')
+        adresse.className = 'nc-shot__chrome-url'
+        adresse.textContent = P.url
+        leiste.appendChild(adresse)
+      }
       rahmen.appendChild(leiste)
     }
     const sicht = dok.createElement('div')

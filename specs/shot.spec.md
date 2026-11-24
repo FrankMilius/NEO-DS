@@ -1,5 +1,5 @@
 # shot Component Spec
-> Version 1.1.0 | Status: stable | Layer: molecule
+> Version 1.2.0 | Status: stable | Layer: molecule
 
 Tags: `molecules`, `media`, `image`, `interactive`, `website`
 
@@ -45,12 +45,13 @@ Praesentations-Preset (data-nc-shot, Karten-Feld preset).
 | compare | — |  |
 
 ### Rahmen (`rahmen`)
-Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste; Minimal und Ohne nur Radius (und Schatten).
+Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste (Adresse nur mit url); Telefon eine schlichte Kontur im Hochformat; Minimal und Ohne nur Radius (und Schatten). Ohne Rahmenart: Hochformat Telefon, sonst Browser (I18 Phase 10).
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | browser | — |  |
 | minimal | — |  |
+| telefon | — |  |
 
 ### Schatten (`schatten`)
 Nur Darstellung frame (Karten-Feld shadow, Vorgabe an): .nc-shot--shadow am Rahmen.
@@ -99,6 +100,14 @@ Base classes: `nc-shot`
 | `--nc-shot-chrome-url-bg` | — | — |
 | `--nc-shot-chrome-url-radius` | — | — |
 | `--nc-shot-chrome-url-padding` | — | — |
+
+### Telefon-Rahmen
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-shot-phone-bezel` | — | — |
+| `--nc-shot-phone-radius` | — | — |
+| `--nc-shot-phone-color` | — | — |
+| `--nc-shot-phone-ratio` | — | — |
 
 ### Lupe
 | Token | CSS Property | Override |
