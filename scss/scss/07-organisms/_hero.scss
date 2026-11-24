@@ -1015,3 +1015,358 @@
     }
   }
 }
+
+// ==========================================================================
+// Variante „Wortwechsel“ (I19, 24.11.2026)
+// ==========================================================================
+// Startseiten-Hero: festes Wort + wechselndes Wort, daneben je Claim ein
+// Web-Screen (4:3) und optional ein App-Screen davor. Vorlage ist der
+// abgenommene Prototyp vom 24.11.2026 (DRUPAL11 …/files/hero-prototyp).
+//
+// Der Prototyp rechnete das Layout per Skript. Hier steht es als CSS:
+//   - Ueberdeckung durch die klebende Kopfzeile: bestehende Shell-Regel
+//     (.nc-shell:has(.nc-hero), --nc-nav-height) — hier nichts zu tun.
+//   - Breite wie die Kopfzeile: nc-hero--cw-xwide; ab xxl (1920 px) faellt
+//     der Seitenabstand wie in der Kopfzeile auf 0.
+//   - Buehne rechts vom laengsten Wort: alle Woerter liegen gestapelt in
+//     EINER Rasterzelle, die Textspalte ist mindestens so breit (min-content).
+//   - Gleicher Rahmen oben/unten: Der Screens-Block traegt oben und unten
+//     die Laufleistenzone als Rand. Unten steht darin die Laufleiste, oben
+//     zieht ein negativer Rand am Raster dieselbe Zone wieder ab (ein
+//     Innenabstand darf nicht negativ werden). So stehen Text und Buehne
+//     zueinander mittig, und Rahmen oben = Rahmen unten.
+// Nur das Fuellen des Bildschirms bei < 100 px Rest bleibt Verhalten
+// (heroWortwechsel, Klasse is-fill).
+//
+// Ohne Skript: erster Claim sichtbar (is-on aus dem Markup), Laufleiste
+// verborgen, bis das Verhalten is-ready setzt.
+// ==========================================================================
+
+
+.nc-hero--wortwechsel {
+  // Rahmen oben und unten; die Shell-Regel addiert oben die Kopfzeile dazu
+  --mod-hero-padding-block: var(--nc-hero-ww-frame);
+  // Hoehe nach Inhalt (das Feld Hoehe des Blocks gilt hier nicht)
+  --mod-hero-min-height: 0;
+  // Typografie des Prototyps ueber die vorhandenen Stellschrauben
+  --mod-hero-title-size: var(--nc-hero-ww-claim-size);
+  --mod-hero-title-weight: var(--nc-hero-ww-claim-weight);
+  --mod-hero-title-line-height: var(--nc-hero-ww-claim-line-height);
+  --mod-hero-title-max-width: none;
+  --mod-hero-kicker-size: var(--nc-hero-ww-kicker-size);
+  --mod-hero-kicker-weight: var(--nc-hero-ww-kicker-weight);
+  --mod-hero-kicker-color: var(--nc-hero-ww-kicker-color);
+  --mod-hero-subtitle-size: var(--nc-hero-ww-sub-size);
+  --mod-hero-subtitle-color: var(--nc-hero-ww-sub-color);
+  --mod-hero-subtitle-max-width: var(--nc-hero-ww-sub-max-width);
+  --mod-hero-subtitle-line-height: var(--nc-hero-ww-sub-line-height);
+  --_ww-accent: var(--nc-hero-ww-accent);
+  --_ww-accent-alt: var(--nc-hero-ww-accent-alt);
+
+  display: block;
+  isolation: isolate;
+
+  &[data-tone='blue'] {
+    --_ww-accent: var(--nc-hero-ww-accent-alt);
+    --_ww-accent-alt: var(--nc-hero-ww-accent);
+  }
+
+  // ab xxl wie die Kopfzeile buendig (Text unter dem Logo)
+  @include respond-to('xxl') {
+    --mod-container-padding-inline-constrained: var(--nc-container-padding-inline-xxl, 0px);
+  }
+
+  .nc-hero__grid {
+    container: ww / inline-size;
+    grid-template-columns: var(--nc-hero-ww-columns);
+    grid-template-areas: 'text screens';
+    column-gap: var(--nc-hero-ww-column-gap);
+    row-gap: 0;
+    align-items: center;
+    // gleicht den oberen Rand des Screens-Blocks aus
+    margin-block-start: calc(-1 * var(--nc-hero-ww-bar-zone));
+  }
+
+  // Seitenabstand kommt vom Raster (wie bei .nc-hero:has(.nc-hero__media))
+  .nc-hero__content {
+    grid-area: text;
+    gap: var(--nc-hero-ww-text-gap);
+    padding-inline: 0;
+    max-width: none;
+  }
+
+  .nc-hero__kicker {
+    margin: 0;
+    letter-spacing: var(--nc-hero-ww-kicker-tracking);
+  }
+
+  .nc-hero__title {
+    margin: 0;
+    letter-spacing: var(--nc-hero-ww-claim-tracking);
+  }
+
+  .nc-hero__subtitle {
+    font-weight: var(--nc-hero-ww-sub-weight);
+
+    > p { margin: 0; }
+  }
+
+  .nc-hero__actions {
+    margin-block-start: 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Leuchten (statisch; Drehung kommt mit dem Verhalten)
+// ---------------------------------------------------------------------------
+
+.nc-hero__glow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: -8%;
+    top: 50%;
+    width: 78%;
+    height: 72%;
+    translate: 0 -42%;
+    border-radius: var(--fnd-radius-full);
+    background: conic-gradient(from 90deg,
+      var(--_ww-accent),
+      var(--_ww-accent-alt),
+      color-mix(in srgb, var(--_ww-accent) 40%, var(--fnd-color-always-light)),
+      var(--_ww-accent));
+    filter: blur(var(--nc-hero-ww-glow-blur));
+    opacity: var(--nc-hero-ww-glow-opacity);
+  }
+
+  // Vignette: haelt Text und Raender dunkel
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(70% 90% at 72% 55%, transparent 30%, var(--fnd-color-always-dark) 85%);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Woerter: gestapelt in einer Zelle → Breite = laengstes Wort
+// ---------------------------------------------------------------------------
+
+.nc-hero__ww-static {
+  display: block;
+}
+
+.nc-hero__ww-words {
+  display: grid;
+  color: var(--_ww-accent);
+}
+
+.nc-hero__ww-word {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  visibility: hidden;
+
+  &.is-on { visibility: visible; }
+}
+
+// ---------------------------------------------------------------------------
+// Screens-Block: Buehne + Laufleiste
+// ---------------------------------------------------------------------------
+
+.nc-hero__ww-screens {
+  grid-area: screens;
+  justify-self: end;
+  position: relative;
+  width: var(--nc-hero-ww-stage-width);
+  // Laufleistenzone oben und unten → Text steht mittig zur Buehne
+  margin-block: var(--nc-hero-ww-bar-zone);
+  min-width: 0;
+}
+
+.nc-hero__ww-stage {
+  position: relative;
+  aspect-ratio: var(--nc-hero-ww-stage-ratio);
+}
+
+.nc-hero__ww-web {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--nc-hero-ww-web-width);
+  aspect-ratio: var(--nc-hero-ww-web-ratio);
+  border-radius: var(--nc-hero-ww-web-radius);
+  overflow: hidden;
+  background: var(--nc-hero-ww-web-bg);
+  box-shadow: var(--nc-hero-ww-web-shadow);
+  outline: 1px solid var(--nc-hero-ww-ring);
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: var(--x, 50%) 0;
+    transform-origin: var(--x, 50%) 0;
+    transform: scale(var(--z, 1));
+    opacity: 0;
+
+    &.is-on { opacity: 1; }
+  }
+}
+
+.nc-hero__ww-app {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--nc-hero-ww-app-width);
+  visibility: hidden;
+
+  .has-app > & { visibility: visible; }
+}
+
+.nc-hero__ww-phone {
+  position: relative;
+  aspect-ratio: var(--nc-hero-ww-phone-ratio);
+  border-radius: var(--nc-hero-ww-phone-radius);
+  overflow: hidden;
+  border: var(--nc-hero-ww-phone-border) solid var(--nc-hero-ww-phone-frame);
+  background: var(--nc-hero-ww-phone-frame);
+  box-shadow: var(--nc-hero-ww-phone-shadow);
+  outline: 1px solid var(--nc-hero-ww-ring);
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    opacity: 0;
+
+    &.is-on { opacity: 1; }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Laufleiste: frei unter der Buehne, zaehlt nicht zur Hoehe
+// ---------------------------------------------------------------------------
+
+.nc-hero__ww-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + var(--nc-hero-ww-bar-gap));
+  height: var(--nc-hero-ww-bar-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fnd-spacing-03);
+  visibility: hidden;
+
+  .nc-hero--wortwechsel.is-ready & { visibility: visible; }
+}
+
+.nc-hero__ww-pause {
+  flex: none;
+  padding: 0;
+}
+
+.nc-hero__ww-segs {
+  display: flex;
+  gap: var(--nc-hero-ww-seg-gap);
+  align-items: center;
+}
+
+.nc-hero__ww-seg {
+  width: var(--nc-hero-ww-seg-width);
+  height: var(--nc-hero-ww-seg-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  align-items: center;
+
+  i {
+    display: block;
+    height: var(--nc-hero-ww-seg-line);
+    border-radius: var(--nc-hero-ww-seg-line);
+    background: var(--nc-hero-ww-seg-track);
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--_ww-accent);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+    }
+  }
+
+  &.is-done i::after {
+    transform: scaleX(1);
+    background: var(--nc-hero-ww-seg-done);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Unter md: Text, Screens, Laufleiste untereinander
+// ---------------------------------------------------------------------------
+
+@include respond-to-max('md') {
+  .nc-hero--wortwechsel {
+    --mod-hero-padding-block: var(--nc-hero-ww-top-mobile);
+    --mod-hero-title-size: var(--nc-hero-ww-claim-size-mobile);
+    --mod-hero-kicker-size: var(--nc-hero-ww-kicker-size-mobile);
+    --mod-hero-subtitle-size: 1rem;
+    padding-block-end: var(--nc-hero-ww-frame-mobile);
+
+    .nc-hero__grid {
+      margin-block-start: 0;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'text' 'screens';
+      row-gap: var(--nc-hero-ww-row-gap-mobile);
+    }
+
+    .nc-hero__content { gap: var(--nc-hero-ww-text-gap-mobile); }
+    .nc-hero__kicker { letter-spacing: var(--nc-hero-ww-kicker-tracking-mobile); }
+  }
+
+  .nc-hero__ww-break { display: none; }
+
+  .nc-hero__ww-screens {
+    justify-self: stretch;
+    width: auto;
+    margin-block: 0 var(--nc-hero-ww-bar-zone);
+  }
+
+  .nc-hero__glow::before {
+    right: -40%;
+    width: 160%;
+    height: 60%;
+    top: 62%;
+  }
+}
+
+// Kurze Fenster nebeneinander: Untertitel hoechstens zwei Zeilen
+@media (min-width: 960px) and (max-height: 700px) {
+  .nc-hero--wortwechsel .nc-hero__subtitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

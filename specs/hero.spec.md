@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.5.0 | Status: stable | Layer: organism
+> Version 2.6.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -34,13 +34,14 @@ Root element: `.nc-hero`
 
 ## Variants
 ### Variant (`variant`)
-Visuelle Variante — picture, mockup, split
+Visuelle Variante — picture, mockup, split, wortwechsel
 
 | Value | CSS Modifier | Default |
 | --- | --- | --- |
 | picture | — |  |
 | split | `.nc-hero--split` |  |
 | mockup | — |  |
+| wortwechsel | `.nc-hero--wortwechsel` |  |
 
 ### Alignment (`alignment`)
 Content-Ausrichtung — start (default) oder center
@@ -269,6 +270,62 @@ Base classes: `nc-hero`
 | `--nc-hero-secondary-motion-duration` | — | `--mod-hero-secondary-motion-duration` |
 | `--nc-hero-secondary-motion-delay` | — | `--mod-hero-secondary-motion-delay` |
 | `--nc-hero-secondary-motion-easing` | — | `--mod-hero-secondary-motion-easing` |
+
+### Wortwechsel
+| Token | CSS Property | Override |
+| --- | --- | --- |
+| `--nc-hero-ww-viewport` | — | — |
+| `--nc-hero-ww-accent` | — | — |
+| `--nc-hero-ww-accent-alt` | — | — |
+| `--nc-hero-ww-claim-size` | — | — |
+| `--nc-hero-ww-claim-size-mobile` | — | — |
+| `--nc-hero-ww-claim-weight` | — | — |
+| `--nc-hero-ww-claim-tracking` | — | — |
+| `--nc-hero-ww-claim-line-height` | — | — |
+| `--nc-hero-ww-kicker-size` | — | — |
+| `--nc-hero-ww-kicker-size-mobile` | — | — |
+| `--nc-hero-ww-kicker-tracking` | — | — |
+| `--nc-hero-ww-kicker-tracking-mobile` | — | — |
+| `--nc-hero-ww-kicker-weight` | — | — |
+| `--nc-hero-ww-kicker-color` | — | — |
+| `--nc-hero-ww-sub-size` | — | — |
+| `--nc-hero-ww-sub-weight` | — | — |
+| `--nc-hero-ww-sub-line-height` | — | — |
+| `--nc-hero-ww-sub-color` | — | — |
+| `--nc-hero-ww-sub-max-width` | — | — |
+| `--nc-hero-ww-text-gap` | — | — |
+| `--nc-hero-ww-text-gap-mobile` | — | — |
+| `--nc-hero-ww-columns` | — | — |
+| `--nc-hero-ww-column-gap` | — | — |
+| `--nc-hero-ww-row-gap-mobile` | — | — |
+| `--nc-hero-ww-bar-gap` | — | — |
+| `--nc-hero-ww-bar-height` | — | — |
+| `--nc-hero-ww-bar-zone` | — | — |
+| `--nc-hero-ww-frame` | — | — |
+| `--nc-hero-ww-frame-mobile` | — | — |
+| `--nc-hero-ww-top-mobile` | — | — |
+| `--nc-hero-ww-stage-ratio` | — | — |
+| `--nc-hero-ww-stage-width` | — | — |
+| `--nc-hero-ww-web-width` | — | — |
+| `--nc-hero-ww-web-ratio` | — | — |
+| `--nc-hero-ww-web-radius` | — | — |
+| `--nc-hero-ww-web-bg` | — | — |
+| `--nc-hero-ww-web-shadow` | — | — |
+| `--nc-hero-ww-ring` | — | — |
+| `--nc-hero-ww-app-width` | — | — |
+| `--nc-hero-ww-phone-ratio` | — | — |
+| `--nc-hero-ww-phone-radius` | — | — |
+| `--nc-hero-ww-phone-border` | — | — |
+| `--nc-hero-ww-phone-frame` | — | — |
+| `--nc-hero-ww-phone-shadow` | — | — |
+| `--nc-hero-ww-seg-width` | — | — |
+| `--nc-hero-ww-seg-height` | — | — |
+| `--nc-hero-ww-seg-gap` | — | — |
+| `--nc-hero-ww-seg-line` | — | — |
+| `--nc-hero-ww-seg-track` | — | — |
+| `--nc-hero-ww-seg-done` | — | — |
+| `--nc-hero-ww-glow-opacity` | — | — |
+| `--nc-hero-ww-glow-blur` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

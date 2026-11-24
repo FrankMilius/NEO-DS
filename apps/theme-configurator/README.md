@@ -1378,6 +1378,20 @@ Story Gallery: alle Felder deutsch (I16 Phase 7, 23.11.2026, ohne App-Version �
   (vorher „Card Height“, „Gap“, „Radius“, „Title Size“ … „Cursor Paddle Is
   Visible Opacity“). Token-Namen und Werte unverändert.
 
+Hero: Variante Wortwechsel (I19 Phase 1, 24.11.2026, ohne App-Version — Daten und Arena-Vorlage, wie I16 Phase 5):
+
+- Komponente Hero: neue Variante „wortwechsel“ (Recipe 2.6.0) mit der
+  Token-Gruppe „wortwechsel“ — 52 Tokens `--nc-hero-ww-*` (Claim, Kicker,
+  Untertitel, Bühne, Web- und App-Screen, Laufleiste, Leuchten). Eigene
+  Untergruppe und Feldtexte in der App folgen in Phase 4.
+- Arena: `src/arena-templates/hero.js` zeichnet die Variante mit
+  Platzhalterbildern, drittem Claim aktiv und zwei erledigten Segmenten;
+  Test in `tests/arena/layout-block.test.js`.
+- Wirkungsstand festgeschrieben (`src/data/token-wirkung.json`): wirkt 2018
+  (vorher 1970); von den 52 neuen Tokens wirken 48, vier ohne Prüfwert
+  (`-accent-alt`, `-columns`, `-web-ratio`, `-phone-ratio`; BACKLOG).
+- Prüfung auf der Website: `npm run pruefen:hero-ww`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

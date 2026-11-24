@@ -487,9 +487,29 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(rohesRecipe('hero').axes.markStyle.values.tint.description).toContain('.nc-hero__mark bleibt Balken')
   })
 
-  it('hero: Recipe 2.5.0 — Specimens fuer jede Achse', () => {
+  it('hero: Wortwechsel — Wortstapel, Buehne, Laufleiste mit Paddle, dritter Claim aktiv (I19)', () => {
+    const d = alle('hero', 'variant-comparison').find((x) => x.querySelector('.nc-hero--wortwechsel'))
+    expect(d).toBeTruthy()
+    const hero = d.querySelector('.ra-desktop > section.nc-hero.nc-hero--wortwechsel.nc-hero--cw-xwide.is-ready')
+    expect(hero).not.toBeNull()
+    const grid = hero.querySelector(':scope > .nc-hero__grid')
+    expect([...grid.children].map((e) => e.className)).toEqual(['nc-hero__content', 'nc-hero__ww-screens'])
+    const worte = [...hero.querySelectorAll('.nc-hero__ww-words[aria-hidden="true"] > .nc-hero__ww-word')]
+    expect(worte).toHaveLength(6)
+    expect(worte.map((w) => w.classList.contains('is-on'))).toEqual([false, false, true, false, false, false])
+    expect(worte[2].querySelector('.nc-hero__ww-break')).not.toBeNull()
+    expect(hero.querySelector('.nc-hero__title .u-sr-only').textContent).toBe('zusammenarbeiten')
+    expect(hero.querySelector('.nc-hero__ww-stage[role="img"][aria-label] > .nc-hero__ww-web > img.is-on')).not.toBeNull()
+    expect(hero.querySelector('.nc-hero__ww-stage.has-app .nc-hero__ww-phone > img.is-on')).not.toBeNull()
+    expect(hero.querySelector('.nc-hero__ww-bar > button.nc-story-gallery__paddle.nc-hero__ww-pause[aria-label]')).not.toBeNull()
+    const seg = [...hero.querySelectorAll('.nc-hero__ww-segs > button.nc-hero__ww-seg')]
+    expect(seg.map((b) => b.classList.contains('is-done'))).toEqual([true, true, false, false, false, false])
+    expect(seg.map((b) => b.getAttribute('aria-current'))).toEqual([null, null, 'true', null, null, null])
+  })
+
+  it('hero: Recipe 2.6.0 — Specimens fuer jede Achse', () => {
     const r = rohesRecipe('hero')
-    expect(r.meta.version).toBe('2.5.0') // 2.5.0: zweites Medium (I04); 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
+    expect(r.meta.version).toBe('2.6.0') // 2.6.0: Variante wortwechsel (I19); 2.5.0: zweites Medium (I04); 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
     const genutzt = new Set(r.specimens.flatMap((s) => Object.keys(s.matrix.axes)))
     for (const achse of Object.keys(r.axes)) expect(genutzt.has(achse), achse).toBe(true)
   })

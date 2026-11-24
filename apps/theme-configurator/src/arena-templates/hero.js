@@ -95,7 +95,48 @@ function medium (variante, zweit) {
 </div>`
 }
 
+// Wortwechsel (I19, 24.11.2026): Markup wie das Beispiel der Musterseite
+// (docs/content/hero.html, Marke hero-wortwechsel:beispiel), Platzhalter statt
+// Screenshots. is-ready zeigt die Laufleiste, die ohne Verhalten verborgen ist.
+// Dritter Claim aktiv, damit erledigte Segmente (nc-hero-ww-seg-done) zu sehen sind.
+const WORTE = ['kommunizieren', 'informieren', 'zusammen|arbeiten', 'Wissen teilen', 'vernetzen', 'organisieren']
+const PAUSE = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /><path d="M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /></svg>'
+
+function wortwechsel (m) {
+  const blockKlassen = [...new Set([...m.klassen, 'nc-hero--cw-xwide', 'is-ready'])]
+  // dritter Claim aktiv: zeigt die Trennstelle und zwei erledigte Segmente
+  const AKTIV = 2
+  const worte = WORTE.map((w, i) => `<span class="nc-hero__ww-word${i === AKTIV ? ' is-on' : ''}">${w.split('|').map(esc).join('<span class="nc-hero__ww-break">-<br></span>')}</span>`).join('')
+  const segmente = WORTE.map((w, i) => `<button type="button" class="nc-hero__ww-seg${i < AKTIV ? ' is-done' : ''}"${i === AKTIV ? ' aria-current="true"' : ''} aria-label="Claim ${i + 1} von ${WORTE.length}: ${esc(w.replace('|', ''))}"><i></i></button>`).join('\n')
+  return `<div class="ra-desktop">
+<section class="${blockKlassen.join(' ')}"${m.attrs} data-tone="lime">
+<div class="nc-hero__glow" aria-hidden="true"></div>
+<div class="nc-hero__grid">
+<div class="nc-hero__content">
+<p class="nc-hero__kicker">Social Intranet · Kommunikation · KI</p>
+<h1 class="nc-hero__title"><span class="nc-hero__ww-static">Intelligent</span> <span class="nc-hero__ww-words" aria-hidden="true">${worte}</span><span class="u-sr-only">zusammenarbeiten</span></h1>
+<div class="nc-hero__subtitle">\n<p>neo workplace ist die KI-basierte Social-Intranet-Plattform für Kommunikation, Wissen und Zusammenarbeit.</p>\n</div>
+${aktionen()}
+</div>
+<div class="nc-hero__ww-screens">
+<div class="nc-hero__ww-stage has-app" role="img" aria-label="Startseite, davor die App">
+<div class="nc-hero__ww-web"><img class="is-on" src="${BILD_SRC}" alt="" /></div>
+<div class="nc-hero__ww-app"><div class="nc-hero__ww-phone"><img class="is-on" src="${APP_SRC}" alt="" /></div></div>
+</div>
+<div class="nc-hero__ww-bar">
+<button type="button" class="nc-story-gallery__paddle nc-hero__ww-pause" aria-label="Wechsel anhalten">${PAUSE}</button>
+<div class="nc-hero__ww-segs">
+${segmente}
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>`
+}
+
 const vorlage = (zelle, m) => {
+  if (m.wert('variant') === 'wortwechsel') return wortwechsel(m)
   const art = m.specimen.render?.compositionType
   const voll = art === 'full-anatomy'
   const slots = m.specimen.render?.slots

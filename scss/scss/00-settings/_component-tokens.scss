@@ -3580,6 +3580,70 @@
   --nc-hero-secondary-motion-delay:         0.3s;
   --nc-hero-secondary-motion-easing:        ease-out;
 
+  // -- Variante Wortwechsel (I19, 24.11.2026) --
+  // Werte aus dem abgenommenen Prototyp (hero-prototyp, 24.11.2026). Was dort
+  // das Skript rechnete, steht hier als Formel: sichtbare Hoehe unter der
+  // Kopfzeile (64 px + 1 px Linie), Rahmen, Buehnenbreite, Claim-Groesse.
+  --nc-hero-ww-viewport:        calc(100svh - var(--nc-nav-height) - 1px);
+  --nc-hero-ww-accent:          var(--fnd-color-background-accent);   // Lime
+  --nc-hero-ww-accent-alt:      var(--fnd-primitive-neo-blue-500);    // Neo Blue
+  // Claim: 5,8 % der Rasterbreite, hoechstens 11 % der sichtbaren Hoehe, 40–88 px
+  --nc-hero-ww-claim-size:      clamp(2.5rem, min(5.8cqi, calc(var(--nc-hero-ww-viewport) * 0.11)), 5.5rem);
+  --nc-hero-ww-claim-size-mobile: clamp(2rem, 9.4cqi, 4.5rem);
+  --nc-hero-ww-claim-weight:    var(--fnd-font-weight-semibold);
+  --nc-hero-ww-claim-tracking:  -0.045em;
+  --nc-hero-ww-claim-line-height: 0.98;
+  --nc-hero-ww-kicker-size:     0.875rem;
+  --nc-hero-ww-kicker-size-mobile: 0.6875rem;
+  --nc-hero-ww-kicker-tracking: 0.22em;
+  --nc-hero-ww-kicker-tracking-mobile: 0.16em;
+  --nc-hero-ww-kicker-weight:   var(--fnd-font-weight-regular);
+  --nc-hero-ww-kicker-color:    color-mix(in srgb, var(--nc-hero-color) 62%, transparent);
+  --nc-hero-ww-sub-size:        clamp(1rem, min(1.6cqi, calc(var(--nc-hero-ww-viewport) * 0.026)), 1.375rem);
+  --nc-hero-ww-sub-weight:      var(--fnd-font-weight-light);
+  --nc-hero-ww-sub-line-height: 1.5;
+  --nc-hero-ww-sub-color:       color-mix(in srgb, var(--nc-hero-color) 74%, transparent);
+  --nc-hero-ww-sub-max-width:   30em;
+  --nc-hero-ww-text-gap:        max(var(--fnd-spacing-04), calc(var(--nc-hero-ww-viewport) * 0.026));
+  --nc-hero-ww-text-gap-mobile: 18px;
+  // Raster: Text | Buehne. Die Textspalte ist mindestens so breit wie das laengste Wort.
+  --nc-hero-ww-columns:         minmax(min-content, 38fr) minmax(0, 62fr);
+  --nc-hero-ww-column-gap:      max(28px, 2.5%);
+  --nc-hero-ww-row-gap-mobile:  40px;
+  // Laufleiste frei unter der Buehne; Hoehe = Story-Gallery-Paddle
+  --nc-hero-ww-bar-gap:         var(--fnd-spacing-06);
+  --nc-hero-ww-bar-height:      var(--nc-story-gallery-paddle-size);
+  --nc-hero-ww-bar-zone:        calc(var(--nc-hero-ww-bar-gap) + var(--nc-hero-ww-bar-height));
+  // Rahmen oben = unten: 7 % der sichtbaren Hoehe (28–88 px), mindestens 2 × Abstand zur Laufleiste (Naehe 1:2)
+  --nc-hero-ww-frame:           max(clamp(28px, calc(var(--nc-hero-ww-viewport) * 0.07), 88px), calc(2 * var(--nc-hero-ww-bar-gap)));
+  --nc-hero-ww-frame-mobile:    max(28px, calc(2 * var(--nc-hero-ww-bar-gap)));
+  --nc-hero-ww-top-mobile:      28px;
+  // Buehne: Web 96 % breit im Format 4:3, App 20 % rechts unten → Seitenverhaeltnis 1,389
+  --nc-hero-ww-stage-ratio:     1.389;
+  --nc-hero-ww-stage-width:     min(100%, max(260px, calc((var(--nc-hero-ww-viewport) - 2 * var(--nc-hero-ww-frame) - var(--nc-hero-ww-bar-zone)) * var(--nc-hero-ww-stage-ratio))));
+  --nc-hero-ww-web-width:       96%;
+  --nc-hero-ww-web-ratio:       4 / 3;
+  --nc-hero-ww-web-radius:      var(--fnd-radius-xl);
+  --nc-hero-ww-web-bg:          var(--fnd-neutral-50);
+  --nc-hero-ww-web-shadow:      var(--fnd-elevation-overlay);
+  --nc-hero-ww-ring:            color-mix(in srgb, var(--fnd-color-always-light) 14%, transparent);
+  --nc-hero-ww-app-width:       20%;
+  --nc-hero-ww-phone-ratio:     1206 / 2622;
+  --nc-hero-ww-phone-radius:    16% / 7.4%;
+  --nc-hero-ww-phone-border:    5px;
+  --nc-hero-ww-phone-frame:     var(--fnd-color-always-dark);
+  --nc-hero-ww-phone-shadow:    var(--fnd-elevation-overlay);
+  // Laufleiste
+  --nc-hero-ww-seg-width:       34px;
+  --nc-hero-ww-seg-height:      24px;
+  --nc-hero-ww-seg-gap:         6px;
+  --nc-hero-ww-seg-line:        3px;
+  --nc-hero-ww-seg-track:       color-mix(in srgb, var(--fnd-color-always-light) 22%, transparent);
+  --nc-hero-ww-seg-done:        color-mix(in srgb, var(--fnd-color-always-light) 50%, transparent);
+  // Leuchten hinter der Buehne
+  --nc-hero-ww-glow-opacity:    0.42;
+  --nc-hero-ww-glow-blur:       90px;
+
   // -- Fuss: Badges und Kennzahlen unter den Aktionen --
   --nc-hero-footer-margin-top:     var(--fnd-spacing-08);
   --nc-hero-footer-gap:            var(--fnd-spacing-06);

@@ -256,6 +256,74 @@
             </div>
           </section>
 
+          <!-- Wortwechsel (I19, 24.11.2026) -->
+          <section class="docs__section" id="variant-wortwechsel">
+            <h2 class="docs__section-title">Wortwechsel</h2>
+            <p class="docs__section-desc">
+              Startseiten-Hero: Nach dem festen Wort (&bdquo;Intelligent&ldquo;) wechselt das zweite Wort,
+              daneben steht je Claim ein Web-Screen im Format 4:3 und optional ein App-Screen davor.
+              Modifier <code class="docs__token">.nc-hero--wortwechsel</code> zusammen mit
+              <code class="docs__token">.nc-hero--cw-xwide</code>. Das Layout kommt ohne Skript aus:
+              Die W&ouml;rter liegen gestapelt in einer Zelle, deshalb ist die Textspalte so breit wie das
+              l&auml;ngste Wort und die B&uuml;hne beginnt rechts davon. Rahmen oben und unten sind gleich,
+              die Laufleiste steht im Abstand <code class="docs__token">--fnd-spacing-06</code> unter den Screens.
+            </p>
+            <p class="docs__section-desc">
+              Ohne Skript zeigt der Hero den ersten Claim (Klasse <code class="docs__token">is-on</code>),
+              die Laufleiste bleibt verborgen. Wechsel, Buchstaben-Aufbau und Start/Pause bringt das
+              Verhalten <code class="docs__token">heroWortwechsel</code>. Trennstelle im Wort:
+              <code class="docs__token">.nc-hero__ww-break</code>, nur sichtbar, solange Text und Screens nebeneinander stehen.
+            </p>
+            <div style="margin-block-end: var(--fnd-spacing-06);">
+<!-- hero-wortwechsel:beispiel -->
+<section class="nc-hero nc-hero--surface-dark nc-hero--cw-xwide nc-hero--wortwechsel" data-tone="lime" aria-labelledby="hero-ww-titel">
+  <div class="nc-hero__glow" aria-hidden="true"></div>
+  <div class="nc-hero__grid">
+    <div class="nc-hero__content">
+      <p class="nc-hero__kicker">Social Intranet · Kommunikation · KI</p>
+      <h1 class="nc-hero__title" id="hero-ww-titel"><span class="nc-hero__ww-static">Intelligent</span> <span class="nc-hero__ww-words" aria-hidden="true"><span class="nc-hero__ww-word is-on">kommunizieren</span><span class="nc-hero__ww-word">informieren</span><span class="nc-hero__ww-word">zusammen<span class="nc-hero__ww-break">-<br></span>arbeiten</span><span class="nc-hero__ww-word">Wissen teilen</span><span class="nc-hero__ww-word">vernetzen</span><span class="nc-hero__ww-word">organisieren</span></span><span class="u-sr-only nc-hero__ww-current">kommunizieren</span></h1>
+      <div class="nc-hero__subtitle"><p>neo workplace ist die KI-basierte Social-Intranet-Plattform für Kommunikation, Wissen und Zusammenarbeit.</p></div>
+      <div class="nc-hero__actions">
+        <a href="#" class="nc-button nc-button--accent nc-button--lg"><span>Demo anfordern</span></a>
+        <a href="#" class="nc-button nc-button--ghost nc-button--lg"><span>Produkte entdecken</span></a>
+      </div>
+    </div>
+    <div class="nc-hero__ww-screens">
+      <div class="nc-hero__ww-stage has-app" role="img" aria-label="Startseite mit Spotlight und Unternehmensnachrichten, davor die App">
+        <div class="nc-hero__ww-web">
+          <img class="is-on" src="../assets/images/hero-wortwechsel/web-kommunizieren.webp" alt="" width="1600" height="900" fetchpriority="high" style="--z: 1" />
+          <img src="../assets/images/hero-wortwechsel/web-informieren.webp" alt="" width="1600" height="1200" loading="lazy" style="--z: 1.36" />
+          <img src="../assets/images/hero-wortwechsel/web-zusammenarbeiten.webp" alt="" width="1600" height="900" loading="lazy" style="--z: 1; --x: 45%" />
+          <img src="../assets/images/hero-wortwechsel/web-wissen.webp" alt="" width="1600" height="1200" loading="lazy" style="--z: 1.3" />
+          <img src="../assets/images/hero-wortwechsel/web-vernetzen.webp" alt="" width="1600" height="1200" loading="lazy" style="--z: 1.36" />
+          <img src="../assets/images/hero-wortwechsel/web-organisieren.webp" alt="" width="1600" height="1200" loading="lazy" style="--z: 1.36" />
+        </div>
+        <div class="nc-hero__ww-app">
+          <div class="nc-hero__ww-phone">
+            <img class="is-on" data-ww-index="0" src="../assets/images/hero-wortwechsel/app-kommunizieren.webp" alt="" width="520" height="1131" />
+            <img data-ww-index="2" src="../assets/images/hero-wortwechsel/app-zusammenarbeiten.webp" alt="" width="520" height="1131" loading="lazy" />
+            <img data-ww-index="4" src="../assets/images/hero-wortwechsel/app-vernetzen.webp" alt="" width="520" height="1131" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="nc-hero__ww-bar">
+        <button type="button" class="nc-story-gallery__paddle nc-hero__ww-pause" aria-label="Wechsel anhalten"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /><path d="M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /></svg></button>
+        <div class="nc-hero__ww-segs">
+          <button type="button" class="nc-hero__ww-seg" aria-current="true" aria-label="Claim 1 von 6: kommunizieren"><i></i></button>
+          <button type="button" class="nc-hero__ww-seg" aria-label="Claim 2 von 6: informieren"><i></i></button>
+          <button type="button" class="nc-hero__ww-seg" aria-label="Claim 3 von 6: zusammenarbeiten"><i></i></button>
+          <button type="button" class="nc-hero__ww-seg" aria-label="Claim 4 von 6: Wissen teilen"><i></i></button>
+          <button type="button" class="nc-hero__ww-seg" aria-label="Claim 5 von 6: vernetzen"><i></i></button>
+          <button type="button" class="nc-hero__ww-seg" aria-label="Claim 6 von 6: organisieren"><i></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /hero-wortwechsel:beispiel -->
+            </div>
+          </section>
+
           <!-- Dashboard-Card-Variante -->
           <section class="docs__section" id="variant-card">
             <h2 class="docs__section-title">Dashboard-Card-Variante</h2>
