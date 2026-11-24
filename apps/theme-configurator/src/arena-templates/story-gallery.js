@@ -7,8 +7,9 @@
 // Das Medium ist auf der Website das DS-Bauteil shot (seit 07.10.2026,
 // eigene Arena) — hier das Bild direkt im __media, wie es
 // .nc-story-gallery__media img gestaltet.
-// Die Groessen (--sg-card-height, --sg-card-ratio-w/-h) sind Instanzwerte,
-// die Drupal je Block und Karte inline setzt.
+// Die Groessen (--sg-card-height-block, --sg-card-ratio-w/-h) sind
+// Instanzwerte, die Drupal je Block und Karte inline setzt (Hoehe seit I18
+// als -block, damit die Handy-Hoehe greift).
 //
 // Achse navigation: below = Paddles unter der Galerie (__footer >
 // __paddles--below), overlay = Paddles ueber den Karten (__paddles--overlay
@@ -58,7 +59,7 @@ export default (zelle, m) => {
 <h2 class="nc-section-header__title">Unsere Highlights</h2>
 </div>`
   const galerie = `${kopf}
-<div class="${wurzelKlassen(m)}" style="--sg-card-height: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
+<div class="${wurzelKlassen(m)}" style="--sg-card-height-block: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
 <div class="nc-story-gallery__scroll" tabindex="0">
 <ul class="nc-story-gallery__track" role="list">
 ${karten}

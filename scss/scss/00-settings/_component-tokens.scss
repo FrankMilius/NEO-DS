@@ -4864,6 +4864,12 @@
 :root,
 :where(.neo-light-theme, .neo-dark-theme, .customer-light-theme, .customer-dark-theme) {
   --nc-story-gallery-card-height:    420px;
+  // Handy (bis 768 px): eigene Höhe, und keine Karte breiter als der
+  // Scroller abzüglich eines Streifens der nächsten Karte (I18, 24.11.2026,
+  // Entscheidung Frank: 280 px, 24 px sichtbar, schmalstes Format 1:1)
+  --nc-story-gallery-card-height-mobile: 280px;
+  --nc-story-gallery-peek-mobile:    var(--fnd-size-xs);
+  --nc-story-gallery-ratio-min-mobile: 1;
   // Kartenbreite = Höhe × Seitenverhältnis, begrenzt auf 3:4 bis 3:2: zwei
   // verwandte Breiten statt Faktor 3 zwischen 9:16 und 16:9 (I16, 23.11.2026)
   --nc-story-gallery-ratio-min:      0.75;

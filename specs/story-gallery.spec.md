@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.5.0 | Status: stable | Layer: organism
+> Version 1.6.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -31,6 +31,7 @@ Root element: `.nc-story-gallery`
 - Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.
+- Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.
 
 ## Variants
 ### Variant (`variant`)
@@ -66,10 +67,13 @@ Base classes: `nc-story-gallery`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-card-height` | — | — |
+| `--nc-story-gallery-card-height-mobile` | — | — |
+| `--nc-story-gallery-peek-mobile` | — | — |
 | `--nc-story-gallery-gap` | — | — |
 | `--nc-story-gallery-gap-mobile` | — | — |
 | `--nc-story-gallery-radius` | — | — |
 | `--nc-story-gallery-ratio-min` | — | — |
+| `--nc-story-gallery-ratio-min-mobile` | — | — |
 | `--nc-story-gallery-ratio-max` | — | — |
 | `--nc-story-gallery-caption-gap` | — | — |
 | `--nc-story-gallery-caption-max-width` | — | — |

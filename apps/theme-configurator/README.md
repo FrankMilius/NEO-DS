@@ -1378,6 +1378,22 @@ Story Gallery: alle Felder deutsch (I16 Phase 7, 23.11.2026, ohne App-Version �
   (vorher „Card Height“, „Gap“, „Radius“, „Title Size“ … „Cursor Paddle Is
   Visible Opacity“). Token-Namen und Werte unverändert.
 
+Story Gallery: Kartenhöhe auf dem Handy (I18 Phase 8, 24.11.2026, ohne App-Version — Daten und Arena-Vorlage):
+
+- Geometrie: drei neue Felder „Kartenhöhe (Handy)“
+  (`nc-story-gallery-card-height-mobile`, 280px), „Nächste Karte sichtbar
+  (Handy)“ (`nc-story-gallery-peek-mobile`, `var(--fnd-size-xs)` = 24 px) und
+  „Schmalstes Kartenformat (Handy)“ (`nc-story-gallery-ratio-min-mobile`, 1).
+- Die Höhe gilt für die Medienfläche, nicht für die ganze Karte. Bis 768 px
+  ist keine Karte breiter als der Scroller minus „Nächste Karte sichtbar“
+  (bei 390 px: 334 px); unter etwa 328 px Fensterbreite hat diese Grenze
+  Vorrang vor dem schmalsten Format.
+- Bisher wirkte die Handy-Höhe nie: Drupal setzte `--sg-card-height` inline.
+  Twig und Arena-Vorlage setzen jetzt `--sg-card-height-block`.
+- Wirkung: „Kartenhöhe (Handy)“ und „Nächste Karte sichtbar (Handy)“ wirken;
+  „Schmalstes Kartenformat (Handy)“ ohne Wirkung in der Vorschau (keine
+  Hochkant-Karte), auf der Website gemessen mit `npm run pruefen:sg-handy`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

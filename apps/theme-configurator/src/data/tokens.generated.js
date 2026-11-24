@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-23
+// Generated: 2026-11-24
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -19130,7 +19130,10 @@ export const componentTokenGroups = [
         "label": "Geometrie",
         "tokenIds": [
           "nc-story-gallery-card-height",
+          "nc-story-gallery-card-height-mobile",
+          "nc-story-gallery-peek-mobile",
           "nc-story-gallery-ratio-min",
+          "nc-story-gallery-ratio-min-mobile",
           "nc-story-gallery-ratio-max",
           "nc-story-gallery-caption-max-width",
           "nc-story-gallery-gap",
@@ -19280,6 +19283,24 @@ export const componentTokenGroups = [
         "label": "Kartenabstand (Handy)",
         "type": "spacing",
         "default": "var(--fnd-spacing-03)"
+      },
+      {
+        "id": "nc-story-gallery-card-height-mobile",
+        "label": "Kartenhöhe (Handy)",
+        "type": "size",
+        "default": "280px"
+      },
+      {
+        "id": "nc-story-gallery-peek-mobile",
+        "label": "Nächste Karte sichtbar (Handy)",
+        "type": "size",
+        "default": "var(--fnd-size-xs)"
+      },
+      {
+        "id": "nc-story-gallery-ratio-min-mobile",
+        "label": "Schmalstes Kartenformat (Handy)",
+        "type": "number",
+        "default": "1"
       },
       {
         "id": "nc-story-gallery-caption-gap",
