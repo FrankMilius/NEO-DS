@@ -132,22 +132,28 @@ describe('shot: Arena aus dem Recipe', () => {
 })
 
 describe('shot: Tokens (hell = bisherige Werte, dunkel neu)', () => {
-  // Werte aus neo_fe css/neo-shot.css (master b6b19ad)
+  // Werte aus neo_fe css/neo-shot.css (master b6b19ad); Browser-Rahmen seit
+  // I18 Phase 10 (24.11.2026, E7 Frank) schlicht: helle Leiste, weicher Schatten
   const BISHER = {
     'nc-shot-accent': '#37e93d',
     'nc-shot-frame-radius': '14px',
-    'nc-shot-frame-shadow': '0 24px 70px rgba(0, 0, 0, .45), 0 0 40px rgba(55, 233, 61, .05)',
+    'nc-shot-frame-shadow': 'var(--fnd-shadow-lg)',
     'nc-shot-chrome-gap': '.5rem',
-    'nc-shot-chrome-padding': '.55rem .8rem',
-    'nc-shot-chrome-bg': '#101a24',
-    'nc-shot-chrome-border': 'rgba(255, 255, 255, .06)',
-    'nc-shot-chrome-dot-bg': '#2a3845',
+    'nc-shot-chrome-padding': 'var(--fnd-spacing-02) var(--fnd-spacing-03)',
+    'nc-shot-chrome-bg': 'var(--fnd-color-surface-elevated)',
+    'nc-shot-chrome-border': 'var(--fnd-color-border-hairline)',
+    'nc-shot-chrome-dot-bg': 'var(--fnd-color-border-primary)',
     'nc-shot-chrome-url-font-size': '.62rem',
     'nc-shot-chrome-url-font-family': 'ui-monospace, Menlo, monospace',
-    'nc-shot-chrome-url-color': '#7da58a',
-    'nc-shot-chrome-url-bg': '#0a131c',
+    'nc-shot-chrome-url-color': 'var(--fnd-color-text-secondary)',
+    'nc-shot-chrome-url-bg': 'var(--fnd-color-background-secondary)',
     'nc-shot-chrome-url-radius': '6px',
     'nc-shot-chrome-url-padding': '.25rem .8rem',
+    // Telefon-Rahmen (I18 Phase 10, 24.11.2026): schlichte Kontur aus CSS
+    'nc-shot-phone-bezel': 'var(--fnd-spacing-02)',
+    'nc-shot-phone-radius': 'calc(var(--fnd-radius-4xl) * 2)',
+    'nc-shot-phone-color': 'var(--fnd-color-always-dark)',
+    'nc-shot-phone-ratio': '9 / 19.5',
     'nc-shot-lens-border-width': '2px',
     'nc-shot-lens-shadow': '0 10px 40px rgba(0, 0, 0, .6)',
     'nc-shot-lens-bg': '#060c12',

@@ -36,8 +36,12 @@
   .nc-badge-row { justify-content: flex-start; }
 }
 
+// Kartenhöhe (I18, 24.11.2026): Die Vorlage gibt den Wert des Blocks als
+// --sg-card-height-block im Inline-Stil aus, nicht mehr als --sg-card-height.
+// Ein Inline-Stil schlägt jede Regel — die Handy-Höhe darunter kam nie an,
+// die Karten waren auf dem Handy bis zu 780 px breit.
 .nc-story-gallery {
-  --sg-card-height: 420px;
+  --sg-card-height: var(--sg-card-height-block, var(--nc-story-gallery-card-height));
   --sg-gap: var(--nc-story-gallery-gap);
   --sg-card-radius: var(--fnd-radius-lg);
   --sg-content-padding: var(--fnd-spacing-06);
@@ -115,7 +119,7 @@
   // Seitenverhältnis aus dem Inhalt, im Code begrenzt (I16, Entscheidung
   // Frank 23.11.2026: Inhalte bleiben unverändert).
   width: calc(var(--sg-card-height) * clamp(
-    var(--nc-story-gallery-ratio-min),
+    var(--_sg-ratio-min, var(--nc-story-gallery-ratio-min)),
     var(--sg-card-ratio-w, 4) / var(--sg-card-ratio-h, 3),
     var(--nc-story-gallery-ratio-max)
   ));
@@ -159,6 +163,58 @@
   height: 100%;
   object-fit: cover;
 }
+
+// Anordnung des Screens auf der Fläche (I18 Phase 9, 24.11.2026, Vorschläge
+// 2 und 11): ohne Klasse „unten“ wie oben. „rechts“ und „links“ lassen den
+// Screen zu dieser Seite aus der Fläche laufen (Vorbild simpplr.com) — der
+// Fokuspunkt bestimmt weiter, welcher Teil zu sehen ist. „ganz“ zeigt den
+// ganzen Screen mit Abstand rundum, ohne Beschnitt und ohne Zoom; die
+// Vorlage setzt es für Hochformate von selbst (E3 Frank).
+.nc-story-gallery__card--anordnung-rechts .nc-story-gallery__media {
+  padding-inline-end: 0;
+}
+
+.nc-story-gallery__card--anordnung-rechts .nc-story-gallery__media::after {
+  inset-inline-end: 0;
+  border-start-end-radius: 0;
+}
+
+.nc-story-gallery__card--anordnung-links .nc-story-gallery__media {
+  padding-inline-start: 0;
+}
+
+.nc-story-gallery__card--anordnung-links .nc-story-gallery__media::after {
+  inset-inline-start: 0;
+  border-start-start-radius: 0;
+}
+
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nc-story-gallery-stage-padding);
+}
+
+// Ohne Beschnitt braucht es keine Abdeckung; Ecken und Schatten trägt der
+// Screen selbst, damit sie an seiner sichtbaren Kante liegen — auch bei
+// Videos (Widersacher Phase 9: Hochformat-Video bekommt „ganz“ von selbst).
+// Bild und Video über das Element statt über die nc-shot-Klassen — Regeln an
+// .nc-shot__* gehören dem Bauteil shot (tests/arena/shot.test.js). Ein
+// Rahmen bringt Ecken und Schatten selbst mit (Telefon, Browser; Phase 10).
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media::after {
+  content: none;
+}
+
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > img,
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > video {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--nc-story-gallery-stage-radius);
+  box-shadow: var(--nc-story-gallery-stage-shadow);
+}
+
 
 .nc-story-gallery__caption {
   padding-block: var(--nc-story-gallery-caption-gap);
@@ -258,9 +314,25 @@
   height: 20px;
 }
 
+// Handy (I18, 24.11.2026): eigene Höhe statt des Blockwerts, schmalstes
+// Format eigenes Token, und keine Karte breiter als der Scroller abzüglich
+// eines Streifens der nächsten Karte — breite Formate werden dafür seitlich
+// enger beschnitten.
 @media (max-width: 768px) {
   .nc-story-gallery {
-    --sg-card-height: 280px;
+    --sg-card-height: var(--nc-story-gallery-card-height-mobile);
+    // Hochkant-Karten nicht schmaler als quadratisch: bei 3:4 brach der Text
+    // auf 210 px in so viele Zeilen um, dass die Spur unter allen anderen
+    // Karten bis zu 200 px Leerraum hatte (Entscheidung Frank 24.11.2026).
+    --_sg-ratio-min: var(--nc-story-gallery-ratio-min-mobile);
+  }
+
+  .nc-story-gallery__scroll {
+    container-type: inline-size;
+  }
+
+  .nc-story-gallery__card {
+    max-inline-size: calc(100cqi - var(--nc-story-gallery-peek-mobile));
   }
 }
 

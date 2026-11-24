@@ -13412,24 +13412,7 @@
           "description": "Rahmen — Radius"
         },
         "nc-shot-frame-shadow": {
-          "value": [
-            {
-              "x": "0",
-              "y": "24",
-              "blur": "70",
-              "spread": "0",
-              "color": "rgba(0, 0, 0, .45)",
-              "type": "dropShadow"
-            },
-            {
-              "x": "0",
-              "y": "0",
-              "blur": "40",
-              "spread": "0",
-              "color": "rgba(55, 233, 61, .05)",
-              "type": "dropShadow"
-            }
-          ],
+          "value": "{foundation.shadow.lg}",
           "type": "boxShadow",
           "description": "Rahmen — Schatten"
         },
@@ -13439,22 +13422,22 @@
           "description": "Leiste — Abstand"
         },
         "nc-shot-chrome-padding": {
-          "value": ".55rem .8rem",
+          "value": "var(--fnd-spacing-02) var(--fnd-spacing-03)",
           "type": "other",
           "description": "Leiste — Innenabstand"
         },
         "nc-shot-chrome-bg": {
-          "value": "#101a24",
+          "value": "{semantic.surface-elevated}",
           "type": "color",
           "description": "Leiste — Fläche"
         },
         "nc-shot-chrome-border": {
-          "value": "#ffffff0f",
+          "value": "{semantic.border-hairline}",
           "type": "color",
           "description": "Leiste — Linie"
         },
         "nc-shot-chrome-dot-bg": {
-          "value": "#2a3845",
+          "value": "{semantic.border-primary}",
           "type": "color",
           "description": "Leiste — Punkte"
         },
@@ -13469,12 +13452,12 @@
           "description": "Adresse — Schrift"
         },
         "nc-shot-chrome-url-color": {
-          "value": "#7da58a",
+          "value": "{semantic.text-secondary}",
           "type": "color",
           "description": "Adresse — Text"
         },
         "nc-shot-chrome-url-bg": {
-          "value": "#0a131c",
+          "value": "{semantic.background-secondary}",
           "type": "color",
           "description": "Adresse — Fläche"
         },
@@ -13487,6 +13470,26 @@
           "value": ".25rem .8rem",
           "type": "other",
           "description": "Adresse — Innenabstand"
+        },
+        "nc-shot-phone-bezel": {
+          "value": "{foundation.spacing.02}",
+          "type": "spacing",
+          "description": "Telefon — Randbreite"
+        },
+        "nc-shot-phone-radius": {
+          "value": "calc(var(--fnd-radius-4xl) * 2)",
+          "type": "other",
+          "description": "Telefon — Ecken"
+        },
+        "nc-shot-phone-color": {
+          "value": "{primitives.foundation.black.shades.100}",
+          "type": "color",
+          "description": "Telefon — Farbe"
+        },
+        "nc-shot-phone-ratio": {
+          "value": "9 / 19.5",
+          "type": "other",
+          "description": "Telefon — Seitenverhältnis"
         },
         "nc-shot-lens-border-width": {
           "value": "2px",
@@ -14151,6 +14154,21 @@
           "type": "spacing",
           "description": "Kartenabstand (Handy)"
         },
+        "nc-story-gallery-card-height-mobile": {
+          "value": "280px",
+          "type": "sizing",
+          "description": "Kartenhöhe (Handy)"
+        },
+        "nc-story-gallery-peek-mobile": {
+          "value": "{foundation.size.xs}",
+          "type": "sizing",
+          "description": "Nächste Karte sichtbar (Handy)"
+        },
+        "nc-story-gallery-ratio-min-mobile": {
+          "value": "1",
+          "type": "number",
+          "description": "Schmalstes Kartenformat (Handy)"
+        },
         "nc-story-gallery-caption-gap": {
           "value": "{foundation.spacing.05}",
           "type": "spacing",
@@ -14197,9 +14215,29 @@
           "description": "Titelzeilen"
         },
         "nc-story-gallery-stage-bg": {
+          "value": "{components.story-gallery.nc-story-gallery-stage-bg-akzent}",
+          "type": "color",
+          "description": "Medienfläche – Farbe (Vorgabe)"
+        },
+        "nc-story-gallery-stage-bg-akzent": {
           "value": "color-mix(in oklab, var(--fnd-color-background-accent) 12%, var(--fnd-color-background-tertiary))",
           "type": "other",
-          "description": "Medienfläche – Farbe"
+          "description": "Fläche „Akzent“"
+        },
+        "nc-story-gallery-stage-bg-neutral": {
+          "value": "{semantic.background-tertiary}",
+          "type": "color",
+          "description": "Fläche „Neutral“"
+        },
+        "nc-story-gallery-stage-bg-hell": {
+          "value": "{semantic.background-secondary}",
+          "type": "color",
+          "description": "Fläche „Hell“"
+        },
+        "nc-story-gallery-stage-bg-dunkel": {
+          "value": "{primitives.neutralleitern.graphit.shades.800}",
+          "type": "color",
+          "description": "Fläche „Dunkel“"
         },
         "nc-story-gallery-stage-padding": {
           "value": "{foundation.spacing.07}",

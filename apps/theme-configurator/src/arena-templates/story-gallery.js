@@ -7,8 +7,9 @@
 // Das Medium ist auf der Website das DS-Bauteil shot (seit 07.10.2026,
 // eigene Arena) — hier das Bild direkt im __media, wie es
 // .nc-story-gallery__media img gestaltet.
-// Die Groessen (--sg-card-height, --sg-card-ratio-w/-h) sind Instanzwerte,
-// die Drupal je Block und Karte inline setzt.
+// Die Groessen (--sg-card-height-block, --sg-card-ratio-w/-h) sind
+// Instanzwerte, die Drupal je Block und Karte inline setzt (Hoehe seit I18
+// als -block, damit die Handy-Hoehe greift).
 //
 // Achse navigation: below = Paddles unter der Galerie (__footer >
 // __paddles--below), overlay = Paddles ueber den Karten (__paddles--overlay
@@ -49,7 +50,10 @@ const paddles = (art) => `<div class="nc-story-gallery__paddles nc-story-gallery
 export default (zelle, m) => {
   const oben = m.wert('navigation') === 'overlay'
   const schleife = m.wert('loop') === 'on'
-  const karten = KARTEN.map(([titel, text, w, h]) => `<li class="nc-story-gallery__card" style="--sg-card-ratio-w: ${w}; --sg-card-ratio-h: ${h};">
+  // Achse anordnung (I18 Phase 9): Klasse an jeder Karte, unten = keine
+  const anordnung = m.wert('anordnung')
+  const kartenKlasse = anordnung && anordnung !== 'unten' ? ` nc-story-gallery__card--anordnung-${anordnung}` : ''
+  const karten = KARTEN.map(([titel, text, w, h]) => `<li class="nc-story-gallery__card${kartenKlasse}" style="--sg-card-ratio-w: ${w}; --sg-card-ratio-h: ${h};">
 <div class="nc-story-gallery__media"><img src="${BILD_SRC}" alt="${titel}" decoding="async"></div>
 <div class="nc-story-gallery__caption"><h3 class="nc-story-gallery__title">${titel}</h3><p class="nc-story-gallery__desc">${text}</p></div>
 </li>`).join('\n')
@@ -58,7 +62,7 @@ export default (zelle, m) => {
 <h2 class="nc-section-header__title">Unsere Highlights</h2>
 </div>`
   const galerie = `${kopf}
-<div class="${wurzelKlassen(m)}" style="--sg-card-height: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
+<div class="${wurzelKlassen(m)}" style="--sg-card-height-block: 280px;" role="group" aria-roledescription="Galerie" aria-label="Screenshot-System"${m.attrs}>
 <div class="nc-story-gallery__scroll" tabindex="0">
 <ul class="nc-story-gallery__track" role="list">
 ${karten}

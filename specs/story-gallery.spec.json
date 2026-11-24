@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "story-gallery",
-  "version": "1.5.0",
+  "version": "1.9.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -105,7 +105,11 @@
       "Medienflaeche: .nc-story-gallery__media hat Innenabstand (stage-padding) oben und seitlich; ::after zeichnet Ecken und Schatten des Bildschirms ueber dem Bild. nc-shot rechnet Fokus und Zoom im eingerueckten Bildkasten (I16 Phase 6 gemessen: Fokuspunkt auf 2 px).",
       "Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
-      "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1."
+      "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.",
+      "Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.",
+      "Anordnung (I18 Phase 9, 24.11.2026): includes/neo_story_gallery.inc liest den Kartenschlüssel „anordnung“ (unten|rechts|links|ganz), Vorgabe ohne Wahl: Hochformat (Breite < Höhe) „ganz“, sonst keine Klasse; bei „ganz“ setzt sie Zoom 1 und Fokus Mitte im data-sg-shot. Der Editor (neo_fe/js/neo-shot-editor.js) bietet vier Knöpfe mit Bildchen und rückt bei „rechts“/„links“ einen mittigen Fokus an die sichtbare Kante.",
+      "Kartenfläche (I18 Phase 11, 24.11.2026): neo_fe includes/neo_story_gallery.inc (_neo_fe_sg_flaeche) prüft Block-Feld und Kartenschlüssel und gibt nur var(--nc-story-gallery-stage-bg-*), var(--fnd-primitive-<palette>-<stufe>), transparent oder #hex aus; die Vorlage setzt den Wert als --nc-story-gallery-stage-bg im style der Galerie bzw. Karte. Farbfelder im Karten-Editor (js/neo-shot-editor.js) lesen die Paletten aus css/neo-shot-vorschau.css (scripts/baue-shot-vorschau.mjs, kartenflaechenTokens).",
+      "Bildgrößen (I18 Phase 12, 24.11.2026): Für Bilder unter /sites/default/files/ ergänzt _neo_fe_sg_bildgroessen() srcset (nur Stufen kleiner als das Original, größte Stufe neo_sg_original) und _neo_fe_sg_sizes() sizes; eine Karte mit eigenem srcset behält es. Ohne Drupal (lokales PHP) bleibt nur src."
     ]
   },
   "api": null,
@@ -137,6 +141,36 @@
           "cssModifier": null,
           "default": false,
           "label": "overlay"
+        }
+      ]
+    },
+    "anordnung": {
+      "label": "Anordnung",
+      "description": "Wo der Screen die Medienfläche verlässt — je Karte (Karten-JSON „anordnung“), Klasse an der Karte .nc-story-gallery__card--anordnung-*. Ohne Wahl: Hochformat „ganz“, sonst „unten“ (I18 Phase 9, E3 Frank).",
+      "values": [
+        {
+          "value": "unten",
+          "cssModifier": null,
+          "default": false,
+          "label": "unten"
+        },
+        {
+          "value": "rechts",
+          "cssModifier": null,
+          "default": false,
+          "label": "rechts"
+        },
+        {
+          "value": "links",
+          "cssModifier": null,
+          "default": false,
+          "label": "links"
+        },
+        {
+          "value": "ganz",
+          "cssModifier": null,
+          "default": false,
+          "label": "ganz"
         }
       ]
     },
@@ -176,6 +210,12 @@
           "token": "--nc-story-gallery-card-height"
         },
         {
+          "token": "--nc-story-gallery-card-height-mobile"
+        },
+        {
+          "token": "--nc-story-gallery-peek-mobile"
+        },
+        {
           "token": "--nc-story-gallery-gap"
         },
         {
@@ -186,6 +226,9 @@
         },
         {
           "token": "--nc-story-gallery-ratio-min"
+        },
+        {
+          "token": "--nc-story-gallery-ratio-min-mobile"
         },
         {
           "token": "--nc-story-gallery-ratio-max"
@@ -251,6 +294,18 @@
       "Medienflaeche": [
         {
           "token": "--nc-story-gallery-stage-bg"
+        },
+        {
+          "token": "--nc-story-gallery-stage-bg-akzent"
+        },
+        {
+          "token": "--nc-story-gallery-stage-bg-neutral"
+        },
+        {
+          "token": "--nc-story-gallery-stage-bg-hell"
+        },
+        {
+          "token": "--nc-story-gallery-stage-bg-dunkel"
         },
         {
           "token": "--nc-story-gallery-stage-padding"

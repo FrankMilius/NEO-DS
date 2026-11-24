@@ -1,6 +1,6 @@
 // ============================================================
 // StoryGallery — Auto-generated from story-gallery-recipe.json
-// Version: 1.5.0 | Status: stable
+// Version: 1.9.0 | Status: stable
 // DO NOT EDIT DIRECTLY — run: npm run generate:stories
 // ============================================================
 
@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `**StoryGallery** v1.5.0 (stable)
+        component: `**StoryGallery** v1.9.0 (stable)
 
 Horizontale Scroll-Gallery mit Caption-Cards (Apple-Style).
 

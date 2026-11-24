@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.5.0",
+    "version": "1.9.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,30 @@
       "docs": "/docs/story-gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.9.0",
+        "changes": [
+          "I18 Phase 12 (24.11.2026, Vorschlag 15, E5 Frank): Bilder in passender Größe — neo_fe includes/neo_story_gallery.inc gibt je Karte srcset (Bildstile neo_sg_800/1600/2400 und neo_sg_original, AVIF bzw. WebP, DRUPAL11) und sizes (benötigte Breite × Zoom, bei Beschnitt nach Bildproportion) in data-sg-shot; shot setzt sie am Bild. Block 26 auf /: 9,25 MB → 0,49 MB bei gleicher Schärfe (pruefen:sg-bilder)."
+        ]
+      },
+      {
+        "version": "1.8.0",
+        "changes": [
+          "I18 Phase 11 (24.11.2026, E4/E5 Frank): Kartenfläche je Block (Drupal-Feld field_sg_stage) und je Karte (Kartenschlüssel „flaeche“), Karte vor Block vor Vorgabe — als --nc-story-gallery-stage-bg inline an Galerie bzw. Karte. Werte: akzent (Vorgabe), neutral, hell, dunkel, ohne, palette:<name>-<stufe> (ergänzende Paletten ohne neo-blue/neo-darkblue), #rgb/#rrggbb. Neue Tokens --nc-story-gallery-stage-bg-{akzent,neutral,hell,dunkel}; --nc-story-gallery-stage-bg zeigt auf -akzent."
+        ]
+      },
+      {
+        "version": "1.7.0",
+        "changes": [
+          "I18 Phase 9 (24.11.2026): Achse „anordnung“ (unten, rechts, links, ganz) als Klasse an der Karte; Hochformate ohne Wahl „ganz“ (E3 Frank). Bei „ganz“ kein Zoom und kein Fokus, ::after entfällt, Ecken und Schatten am Screen."
+        ]
+      },
+      {
+        "version": "1.6.0",
+        "changes": [
+          "I18 Phase 8 (24.11.2026): Kartenhöhe auf dem Handy aus --nc-story-gallery-card-height-mobile (280 px); keine Karte breiter als der Scroller minus --nc-story-gallery-peek-mobile (24 px); schmalstes Format dort --nc-story-gallery-ratio-min-mobile (1:1), damit Hochkant-Texte nicht die ganze Spur in die Höhe ziehen. Die Vorlage gibt den Blockwert als --sg-card-height-block aus, weil ein Inline-Stil --sg-card-height jede Handy-Regel schlug; --nc-story-gallery-card-height gilt, wenn der Block keinen Wert setzt."
+        ]
+      },
       {
         "version": "1.5.0",
         "changes": [
@@ -171,7 +195,11 @@
       "Medienflaeche: .nc-story-gallery__media hat Innenabstand (stage-padding) oben und seitlich; ::after zeichnet Ecken und Schatten des Bildschirms ueber dem Bild. nc-shot rechnet Fokus und Zoom im eingerueckten Bildkasten (I16 Phase 6 gemessen: Fokuspunkt auf 2 px).",
       "Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
-      "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1."
+      "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.",
+      "Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.",
+      "Anordnung (I18 Phase 9, 24.11.2026): includes/neo_story_gallery.inc liest den Kartenschlüssel „anordnung“ (unten|rechts|links|ganz), Vorgabe ohne Wahl: Hochformat (Breite < Höhe) „ganz“, sonst keine Klasse; bei „ganz“ setzt sie Zoom 1 und Fokus Mitte im data-sg-shot. Der Editor (neo_fe/js/neo-shot-editor.js) bietet vier Knöpfe mit Bildchen und rückt bei „rechts“/„links“ einen mittigen Fokus an die sichtbare Kante.",
+      "Kartenfläche (I18 Phase 11, 24.11.2026): neo_fe includes/neo_story_gallery.inc (_neo_fe_sg_flaeche) prüft Block-Feld und Kartenschlüssel und gibt nur var(--nc-story-gallery-stage-bg-*), var(--fnd-primitive-<palette>-<stufe>), transparent oder #hex aus; die Vorlage setzt den Wert als --nc-story-gallery-stage-bg im style der Galerie bzw. Karte. Farbfelder im Karten-Editor (js/neo-shot-editor.js) lesen die Paletten aus css/neo-shot-vorschau.css (scripts/baue-shot-vorschau.mjs, kartenflaechenTokens).",
+      "Bildgrößen (I18 Phase 12, 24.11.2026): Für Bilder unter /sites/default/files/ ergänzt _neo_fe_sg_bildgroessen() srcset (nur Stufen kleiner als das Original, größte Stufe neo_sg_original) und _neo_fe_sg_sizes() sizes; eine Karte mit eigenem srcset behält es. Ohne Drupal (lokales PHP) bleibt nur src."
     ]
   },
   "axes": {
@@ -212,6 +240,40 @@
             "paddles"
           ],
           "description": "__paddles--overlay ueber den Karten (unter 768 px ausgeblendet); mit loop on gilt die Fussleiste wie bei below"
+        }
+      }
+    },
+    "anordnung": {
+      "label": "Anordnung",
+      "description": "Wo der Screen die Medienfläche verlässt — je Karte (Karten-JSON „anordnung“), Klasse an der Karte .nc-story-gallery__card--anordnung-*. Ohne Wahl: Hochformat „ganz“, sonst „unten“ (I18 Phase 9, E3 Frank).",
+      "values": {
+        "unten": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "Abstand oben und seitlich, läuft unten aus (keine Klasse)"
+        },
+        "rechts": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-rechts: Abstand oben und links, läuft rechts und unten aus"
+        },
+        "links": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-links: Abstand oben und rechts, läuft links und unten aus"
+        },
+        "ganz": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-ganz: Abstand rundum, ganzer Screen ohne Beschnitt und Zoom, Ecken und Schatten am Screen"
         }
       }
     },
@@ -277,10 +339,13 @@
         "label": "Layout",
         "tokens": [
           "nc-story-gallery-card-height",
+          "nc-story-gallery-card-height-mobile",
+          "nc-story-gallery-peek-mobile",
           "nc-story-gallery-gap",
           "nc-story-gallery-gap-mobile",
           "nc-story-gallery-radius",
           "nc-story-gallery-ratio-min",
+          "nc-story-gallery-ratio-min-mobile",
           "nc-story-gallery-ratio-max",
           "nc-story-gallery-caption-gap",
           "nc-story-gallery-caption-max-width"
@@ -320,6 +385,10 @@
         "label": "Medienflaeche",
         "tokens": [
           "nc-story-gallery-stage-bg",
+          "nc-story-gallery-stage-bg-akzent",
+          "nc-story-gallery-stage-bg-neutral",
+          "nc-story-gallery-stage-bg-hell",
+          "nc-story-gallery-stage-bg-dunkel",
           "nc-story-gallery-stage-padding",
           "nc-story-gallery-stage-radius",
           "nc-story-gallery-stage-shadow"

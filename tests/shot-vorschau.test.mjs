@@ -8,7 +8,7 @@
  */
 import { describe, it, expect, beforeAll } from 'vitest';
 import { resolve } from 'path';
-import { shotVorschau, bloecke, teile, deklarationen, HUELLE } from '../scripts/baue-shot-vorschau.mjs';
+import { shotVorschau, bloecke, teile, deklarationen, HUELLE, kartenflaechenTokens } from '../scripts/baue-shot-vorschau.mjs';
 import { vollCss } from './_hilfen/voll-css.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
@@ -55,6 +55,18 @@ describe('Shot-Vorschau-CSS', () => {
     }
     expect(definiert.has('--nc-shot-accent')).toBe(true);
     expect(definiert.has('--fnd-focus-ring-color')).toBe(true);
+  });
+
+  it('Kartenflächen (I18 Phase 11): Flächen-Tokens und ergänzende Paletten ohne Neo Blue/Darkblue an der Huelle', () => {
+    const namen = kartenflaechenTokens();
+    for (const n of ['--nc-story-gallery-stage-bg-akzent', '--nc-story-gallery-stage-bg-neutral', '--nc-story-gallery-stage-bg-hell', '--nc-story-gallery-stage-bg-dunkel', '--fnd-primitive-coral-100', '--fnd-primitive-dark-orange-950']) expect(namen, n).toContain(n);
+    expect(namen.some((n) => /neo-(dark)?blue/.test(n))).toBe(false);
+    expect(namen.filter((n) => n.startsWith('--fnd-primitive-')).length).toBe(10 * 11);
+    const mit = shotVorschau(css, { zusatz: namen });
+    const tokenBlock = bloecke(mit).find((b) => b.kopf === `:where(${HUELLE})`);
+    const definiert = new Set(deklarationen(tokenBlock.rumpf).map(([n]) => n));
+    for (const n of namen) if (css.includes(`${n}:`)) expect(definiert.has(n), n).toBe(true);
+    for (const m of tokenBlock.rumpf.matchAll(/var\((--[\w-]+)(,)?/g)) if (!m[2]) expect(definiert.has(m[1]), m[1]).toBe(true);
   });
 
   it('bleibt klein (keine Elementstile, kein Reset ausser box-sizing in der Huelle)', () => {

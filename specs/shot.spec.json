@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "shot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -144,7 +144,7 @@
     },
     "rahmen": {
       "label": "Rahmen",
-      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste; Minimal und Ohne nur Radius (und Schatten).",
+      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste (Adresse nur mit url); Telefon eine schlichte Kontur im Hochformat; Minimal und Ohne nur Radius (und Schatten). Ohne Rahmenart: Hochformat Telefon, sonst Browser (I18 Phase 10).",
       "values": [
         {
           "value": "browser",
@@ -157,6 +157,12 @@
           "cssModifier": null,
           "default": false,
           "label": "minimal"
+        },
+        {
+          "value": "telefon",
+          "cssModifier": null,
+          "default": false,
+          "label": "telefon"
         }
       ]
     },
@@ -275,6 +281,20 @@
         },
         {
           "token": "--nc-shot-chrome-url-padding"
+        }
+      ],
+      "Telefon-Rahmen": [
+        {
+          "token": "--nc-shot-phone-bezel"
+        },
+        {
+          "token": "--nc-shot-phone-radius"
+        },
+        {
+          "token": "--nc-shot-phone-color"
+        },
+        {
+          "token": "--nc-shot-phone-ratio"
         }
       ],
       "Lupe": [

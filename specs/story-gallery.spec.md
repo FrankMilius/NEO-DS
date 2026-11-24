@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.5.0 | Status: stable | Layer: organism
+> Version 1.9.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -31,6 +31,10 @@ Root element: `.nc-story-gallery`
 - Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.
+- Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.
+- Anordnung (I18 Phase 9, 24.11.2026): includes/neo_story_gallery.inc liest den Kartenschlüssel „anordnung“ (unten|rechts|links|ganz), Vorgabe ohne Wahl: Hochformat (Breite < Höhe) „ganz“, sonst keine Klasse; bei „ganz“ setzt sie Zoom 1 und Fokus Mitte im data-sg-shot. Der Editor (neo_fe/js/neo-shot-editor.js) bietet vier Knöpfe mit Bildchen und rückt bei „rechts“/„links“ einen mittigen Fokus an die sichtbare Kante.
+- Kartenfläche (I18 Phase 11, 24.11.2026): neo_fe includes/neo_story_gallery.inc (_neo_fe_sg_flaeche) prüft Block-Feld und Kartenschlüssel und gibt nur var(--nc-story-gallery-stage-bg-*), var(--fnd-primitive-<palette>-<stufe>), transparent oder #hex aus; die Vorlage setzt den Wert als --nc-story-gallery-stage-bg im style der Galerie bzw. Karte. Farbfelder im Karten-Editor (js/neo-shot-editor.js) lesen die Paletten aus css/neo-shot-vorschau.css (scripts/baue-shot-vorschau.mjs, kartenflaechenTokens).
+- Bildgrößen (I18 Phase 12, 24.11.2026): Für Bilder unter /sites/default/files/ ergänzt _neo_fe_sg_bildgroessen() srcset (nur Stufen kleiner als das Original, größte Stufe neo_sg_original) und _neo_fe_sg_sizes() sizes; eine Karte mit eigenem srcset behält es. Ohne Drupal (lokales PHP) bleibt nur src.
 
 ## Variants
 ### Variant (`variant`)
@@ -47,6 +51,16 @@ Lage der Blaetter-Knoepfe.
 | --- | --- | --- |
 | below | — |  |
 | overlay | — |  |
+
+### Anordnung (`anordnung`)
+Wo der Screen die Medienfläche verlässt — je Karte (Karten-JSON „anordnung“), Klasse an der Karte .nc-story-gallery__card--anordnung-*. Ohne Wahl: Hochformat „ganz“, sonst „unten“ (I18 Phase 9, E3 Frank).
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| unten | — |  |
+| rechts | — |  |
+| links | — |  |
+| ganz | — |  |
 
 ### Endlos (`loop`)
 Endlose Spur aus Kopien; Fussleiste mit Fortschritt je Runde und zusaetzlich Cursor-Paddle.
@@ -66,10 +80,13 @@ Base classes: `nc-story-gallery`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-card-height` | — | — |
+| `--nc-story-gallery-card-height-mobile` | — | — |
+| `--nc-story-gallery-peek-mobile` | — | — |
 | `--nc-story-gallery-gap` | — | — |
 | `--nc-story-gallery-gap-mobile` | — | — |
 | `--nc-story-gallery-radius` | — | — |
 | `--nc-story-gallery-ratio-min` | — | — |
+| `--nc-story-gallery-ratio-min-mobile` | — | — |
 | `--nc-story-gallery-ratio-max` | — | — |
 | `--nc-story-gallery-caption-gap` | — | — |
 | `--nc-story-gallery-caption-max-width` | — | — |
@@ -105,6 +122,10 @@ Base classes: `nc-story-gallery`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-story-gallery-stage-bg` | — | — |
+| `--nc-story-gallery-stage-bg-akzent` | — | — |
+| `--nc-story-gallery-stage-bg-neutral` | — | — |
+| `--nc-story-gallery-stage-bg-hell` | — | — |
+| `--nc-story-gallery-stage-bg-dunkel` | — | — |
 | `--nc-story-gallery-stage-padding` | — | — |
 | `--nc-story-gallery-stage-radius` | — | — |
 | `--nc-story-gallery-stage-shadow` | — | — |
@@ -135,7 +156,7 @@ Derived from anatomy for potential `<nc-story-gallery>` custom element:
 
 ```js
 class NcStoryGallery extends HTMLElement {
-  static observedAttributes = ['variant', 'navigation', 'loop'];
+  static observedAttributes = ['variant', 'navigation', 'anordnung', 'loop'];
   // Slots: <slot name="scroll">, <slot name="track">, <slot name="card">, <slot name="media">, <slot name="caption">, <slot name="title">
 }
 ```

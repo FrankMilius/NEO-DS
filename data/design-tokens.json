@@ -18406,6 +18406,16 @@
             ]
           },
           {
+            "id": "telefon",
+            "label": "Telefon-Rahmen",
+            "tokenIds": [
+              "nc-shot-phone-bezel",
+              "nc-shot-phone-radius",
+              "nc-shot-phone-color",
+              "nc-shot-phone-ratio"
+            ]
+          },
+          {
             "id": "lupe",
             "label": "Lupe",
             "tokenIds": [
@@ -18461,7 +18471,7 @@
             "id": "nc-shot-frame-shadow",
             "label": "Rahmen — Schatten",
             "type": "shadow",
-            "default": "0 24px 70px rgba(0, 0, 0, .45), 0 0 40px rgba(55, 233, 61, .05)"
+            "default": "var(--fnd-shadow-lg)"
           },
           {
             "id": "nc-shot-chrome-gap",
@@ -18473,25 +18483,25 @@
             "id": "nc-shot-chrome-padding",
             "label": "Leiste — Innenabstand",
             "type": "spacing",
-            "default": ".55rem .8rem"
+            "default": "var(--fnd-spacing-02) var(--fnd-spacing-03)"
           },
           {
             "id": "nc-shot-chrome-bg",
             "label": "Leiste — Fläche",
             "type": "color",
-            "default": "#101a24"
+            "default": "var(--fnd-color-surface-elevated)"
           },
           {
             "id": "nc-shot-chrome-border",
             "label": "Leiste — Linie",
             "type": "color",
-            "default": "rgba(255, 255, 255, .06)"
+            "default": "var(--fnd-color-border-hairline)"
           },
           {
             "id": "nc-shot-chrome-dot-bg",
             "label": "Leiste — Punkte",
             "type": "color",
-            "default": "#2a3845"
+            "default": "var(--fnd-color-border-primary)"
           },
           {
             "id": "nc-shot-chrome-url-font-size",
@@ -18509,13 +18519,13 @@
             "id": "nc-shot-chrome-url-color",
             "label": "Adresse — Text",
             "type": "color",
-            "default": "#7da58a"
+            "default": "var(--fnd-color-text-secondary)"
           },
           {
             "id": "nc-shot-chrome-url-bg",
             "label": "Adresse — Fläche",
             "type": "color",
-            "default": "#0a131c"
+            "default": "var(--fnd-color-background-secondary)"
           },
           {
             "id": "nc-shot-chrome-url-radius",
@@ -18528,6 +18538,30 @@
             "label": "Adresse — Innenabstand",
             "type": "spacing",
             "default": ".25rem .8rem"
+          },
+          {
+            "id": "nc-shot-phone-bezel",
+            "label": "Telefon — Randbreite",
+            "type": "spacing",
+            "default": "var(--fnd-spacing-02)"
+          },
+          {
+            "id": "nc-shot-phone-radius",
+            "label": "Telefon — Ecken",
+            "type": "radius",
+            "default": "calc(var(--fnd-radius-4xl) * 2)"
+          },
+          {
+            "id": "nc-shot-phone-color",
+            "label": "Telefon — Farbe",
+            "type": "color",
+            "default": "var(--fnd-color-always-dark)"
+          },
+          {
+            "id": "nc-shot-phone-ratio",
+            "label": "Telefon — Seitenverhältnis",
+            "type": "number",
+            "default": "9 / 19.5"
           },
           {
             "id": "nc-shot-lens-border-width",
@@ -19397,7 +19431,10 @@
             "label": "Geometrie",
             "tokenIds": [
               "nc-story-gallery-card-height",
+              "nc-story-gallery-card-height-mobile",
+              "nc-story-gallery-peek-mobile",
               "nc-story-gallery-ratio-min",
+              "nc-story-gallery-ratio-min-mobile",
               "nc-story-gallery-ratio-max",
               "nc-story-gallery-caption-max-width",
               "nc-story-gallery-gap",
@@ -19437,6 +19474,10 @@
             "label": "Medienfläche",
             "tokenIds": [
               "nc-story-gallery-stage-bg",
+              "nc-story-gallery-stage-bg-akzent",
+              "nc-story-gallery-stage-bg-neutral",
+              "nc-story-gallery-stage-bg-hell",
+              "nc-story-gallery-stage-bg-dunkel",
               "nc-story-gallery-stage-padding",
               "nc-story-gallery-stage-radius",
               "nc-story-gallery-stage-shadow"
@@ -19549,6 +19590,24 @@
             "default": "var(--fnd-spacing-03)"
           },
           {
+            "id": "nc-story-gallery-card-height-mobile",
+            "label": "Kartenhöhe (Handy)",
+            "type": "size",
+            "default": "280px"
+          },
+          {
+            "id": "nc-story-gallery-peek-mobile",
+            "label": "Nächste Karte sichtbar (Handy)",
+            "type": "size",
+            "default": "var(--fnd-size-xs)"
+          },
+          {
+            "id": "nc-story-gallery-ratio-min-mobile",
+            "label": "Schmalstes Kartenformat (Handy)",
+            "type": "number",
+            "default": "1"
+          },
+          {
             "id": "nc-story-gallery-caption-gap",
             "label": "Abstand Bild zu Titel",
             "type": "spacing",
@@ -19604,9 +19663,33 @@
           },
           {
             "id": "nc-story-gallery-stage-bg",
-            "label": "Medienfläche – Farbe",
+            "label": "Medienfläche – Farbe (Vorgabe)",
+            "type": "color",
+            "default": "var(--nc-story-gallery-stage-bg-akzent)"
+          },
+          {
+            "id": "nc-story-gallery-stage-bg-akzent",
+            "label": "Fläche „Akzent“",
             "type": "color",
             "default": "color-mix(in oklab, var(--fnd-color-background-accent) 12%, var(--fnd-color-background-tertiary))"
+          },
+          {
+            "id": "nc-story-gallery-stage-bg-neutral",
+            "label": "Fläche „Neutral“",
+            "type": "color",
+            "default": "var(--fnd-color-background-tertiary)"
+          },
+          {
+            "id": "nc-story-gallery-stage-bg-hell",
+            "label": "Fläche „Hell“",
+            "type": "color",
+            "default": "var(--fnd-color-background-secondary)"
+          },
+          {
+            "id": "nc-story-gallery-stage-bg-dunkel",
+            "label": "Fläche „Dunkel“",
+            "type": "color",
+            "default": "var(--fnd-neutral-800)"
           },
           {
             "id": "nc-story-gallery-stage-padding",

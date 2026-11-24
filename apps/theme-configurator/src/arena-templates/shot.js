@@ -38,7 +38,7 @@ export function optionen (m) {
   const karte = {
     ...KARTEN[preset],
     preset,
-    frame: m.wert('rahmen') === 'minimal' ? 'Minimal' : 'Browser',
+    frame: { minimal: 'Minimal', telefon: 'Telefon' }[m.wert('rahmen')] || 'Browser',
     shadow: m.wert('schatten') !== 'ohne'
   }
   return {

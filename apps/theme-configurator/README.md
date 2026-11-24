@@ -1378,6 +1378,57 @@ Story Gallery: alle Felder deutsch (I16 Phase 7, 23.11.2026, ohne App-Version �
   (vorher „Card Height“, „Gap“, „Radius“, „Title Size“ … „Cursor Paddle Is
   Visible Opacity“). Token-Namen und Werte unverändert.
 
+Story Gallery: Kartenhöhe auf dem Handy (I18 Phase 8, 24.11.2026, ohne App-Version — Daten und Arena-Vorlage):
+
+- Geometrie: drei neue Felder „Kartenhöhe (Handy)“
+  (`nc-story-gallery-card-height-mobile`, 280px), „Nächste Karte sichtbar
+  (Handy)“ (`nc-story-gallery-peek-mobile`, `var(--fnd-size-xs)` = 24 px) und
+  „Schmalstes Kartenformat (Handy)“ (`nc-story-gallery-ratio-min-mobile`, 1).
+- Die Höhe gilt für die Medienfläche, nicht für die ganze Karte. Bis 768 px
+  ist keine Karte breiter als der Scroller minus „Nächste Karte sichtbar“
+  (bei 390 px: 334 px); unter etwa 328 px Fensterbreite hat diese Grenze
+  Vorrang vor dem schmalsten Format.
+- Bisher wirkte die Handy-Höhe nie: Drupal setzte `--sg-card-height` inline.
+  Twig und Arena-Vorlage setzen jetzt `--sg-card-height-block`.
+- Wirkung: „Kartenhöhe (Handy)“ und „Nächste Karte sichtbar (Handy)“ wirken;
+  „Schmalstes Kartenformat (Handy)“ ohne Wirkung in der Vorschau (keine
+  Hochkant-Karte), auf der Website gemessen mit `npm run pruefen:sg-handy`.
+
+Story Gallery: Anordnung auf der Fläche (I18 Phase 9, 24.11.2026, ohne App-Version — Recipe und Arena-Vorlage):
+
+- Neue Achse „Anordnung“ in der Vorschau: unten (bisher), rechts, links,
+  ganz. Auf der Website wählt die Redaktion sie je Karte im Karten-Editor
+  von Drupal („Anordnung auf der Fläche“, vier Knöpfe mit Bildchen); ohne
+  Wahl zeigt ein Hochformat den ganzen Screen.
+- Keine neuen Tokens: die Anordnung nutzt die Felder der Untergruppe
+  „Medienfläche“ (Innenabstand, Ecken, Schatten). Prüfung auf der Website:
+  `npm run pruefen:sg-anordnung`.
+
+Shot: schlichte Rahmen und Telefon (I18 Phase 10, 24.11.2026, ohne App-Version — Daten, Recipe 1.2.0, Arena-Vorlage):
+
+- „Browser-Rahmen“ schlicht und überall (E7 Frank, auch Feature-Liste):
+  „Leiste — Fläche/Linie/Punkte“ jetzt aus der Semantik (surface-elevated,
+  border-hairline, border-primary), „Rahmen — Schatten“ `var(--fnd-shadow-lg)`,
+  „Leiste — Innenabstand“ aus der Abstandsskala. Die Adresse erscheint nur,
+  wenn die Karte eine nennt.
+- Neue Untergruppe „Telefon-Rahmen“: „Telefon — Randbreite“, „— Ecken“,
+  „— Farbe“, „— Seitenverhältnis“ (`nc-shot-phone-*`). Vorschau-Achse
+  „Rahmen“ hat den Wert „telefon“. Ohne Rahmenart wird ein Hochformat zum
+  Telefon, sonst zum Browser.
+- Wirkung: die Telefon-Tokens „ohne Wirkung“ bzw. „ohne Prüfwert“, weil die
+  Vorschau im Grundzustand den Browser-Rahmen zeigt; auf der Website gemessen
+  mit `npm run pruefen:sg-rahmen`.
+
+Story Gallery: Kartenflächen zur Wahl (I18 Phase 11, 24.11.2026, ohne App-Version — nur Daten):
+
+- Medienfläche: vier neue Felder „Fläche „Akzent““, „„Neutral““, „„Hell““,
+  „„Dunkel““ (`nc-story-gallery-stage-bg-{akzent,neutral,hell,dunkel}`);
+  „Medienfläche – Farbe (Vorgabe)“ zeigt auf „Akzent“.
+- Auf der Website wählt die Redaktion die Fläche im Block („Kartenfläche“,
+  Drupal-Feld) und je Karte im Karten-Editor: Vorgaben, ergänzende Paletten
+  (alle Stufen, ohne Neo Blue/Neo Darkblue) oder ein eigener Farbwert.
+  Prüfung: `npm run pruefen:sg-flaeche`.
+
 Hero: Variante Wortwechsel (I19 Phase 1, 24.11.2026, ohne App-Version — Daten und Arena-Vorlage, wie I16 Phase 5):
 
 - Komponente Hero: neue Variante „wortwechsel“ (Recipe 2.6.0) mit der

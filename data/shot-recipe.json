@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "shot",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "status": "stable",
     "label": "Shot (Medien-Bauteil)",
     "description": "Ein Master-Bild, viele Ausspielungen: je Instanz Fokuspunkt, Zoom und Format; darueber die Darstellungen Standard, Browser-Rahmen, Ken-Burns-Fahrt, Lupe, Marker mit Erklaerung und Vorher/Nachher-Vergleich.",
@@ -21,6 +21,12 @@
       "docs": ""
     },
     "changelog": [
+      {
+        "version": "1.2.0",
+        "changes": [
+          "I18 Phase 10 (24.11.2026, E7 Frank, gilt überall): Browser-Rahmen schlicht — helle Leiste aus der Semantik (surface-elevated, border-hairline, border-primary; Adresse text-secondary auf background-secondary), weicher Schatten var(--fnd-shadow-lg), Adresse nur mit Karten-Feld url. Neue Rahmenart Telefon (.nc-shot__frame--telefon, Tokens --nc-shot-phone-*): schlichte Kontur, Höhe des Platzes, Breite aus dem Seitenverhältnis. Ohne Rahmenart: Hochformat Telefon, sonst Browser."
+        ]
+      },
       {
         "version": "1.1.0",
         "changes": [
@@ -200,7 +206,7 @@
     },
     "rahmen": {
       "label": "Rahmen",
-      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste; Minimal und Ohne nur Radius (und Schatten).",
+      "description": "Nur Darstellung frame (Karten-Feld frame). Browser zeigt die Leiste (Adresse nur mit url); Telefon eine schlichte Kontur im Hochformat; Minimal und Ohne nur Radius (und Schatten). Ohne Rahmenart: Hochformat Telefon, sonst Browser (I18 Phase 10).",
       "values": {
         "browser": {
           "modifier": null,
@@ -215,6 +221,14 @@
             "rahmen"
           ],
           "renderHint": "shot-rahmen-minimal"
+        },
+        "telefon": {
+          "modifier": null,
+          "tokenGroups": [
+            "rahmen",
+            "telefon"
+          ],
+          "renderHint": "shot-rahmen-telefon"
         }
       }
     },
@@ -411,6 +425,15 @@
           "nc-shot-chrome-url-bg",
           "nc-shot-chrome-url-radius",
           "nc-shot-chrome-url-padding"
+        ]
+      },
+      "telefon": {
+        "label": "Telefon-Rahmen",
+        "tokens": [
+          "nc-shot-phone-bezel",
+          "nc-shot-phone-radius",
+          "nc-shot-phone-color",
+          "nc-shot-phone-ratio"
         ]
       },
       "lupe": {

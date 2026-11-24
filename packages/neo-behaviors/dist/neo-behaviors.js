@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.23.1 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.24.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -4640,6 +4640,10 @@
   // packages/neo-behaviors/shot.js
   var DARSTELLUNGEN = ["none", "frame", "kenburns", "lens", "hotspots", "compare"];
   var clamp01 = (v, d) => Math.min(1, Math.max(0, v == null ? d : v));
+  var hochformat = (ratio) => {
+    const t = String(ratio || "").split("/").map((x) => parseFloat(x));
+    return t.length === 2 && t[0] > 0 && t[1] > 0 && t[0] < t[1];
+  };
   function setzeFokus(img, fokus, zoom) {
     const fx = (clamp01(fokus && fokus.x, 0.5) * 100).toFixed(2);
     const fy = (clamp01(fokus && fokus.y, 0.5) * 100).toFixed(2);
@@ -4678,9 +4682,9 @@
     },
     frame(c, o, dok) {
       const P = o.params || {};
-      const art2 = P.frame || "Browser";
+      const art2 = P.frame || (hochformat(P.ratio || o.ratio) ? "Telefon" : "Browser");
       const rahmen = dok.createElement("div");
-      rahmen.className = "nc-shot__frame" + (P.shadow === false ? "" : " nc-shot--shadow");
+      rahmen.className = "nc-shot__frame" + (art2 === "Telefon" ? " nc-shot__frame--telefon" : "") + (P.shadow === false ? "" : " nc-shot--shadow");
       if (art2 === "Browser") {
         const leiste = dok.createElement("div");
         leiste.className = "nc-shot__chrome-bar";
@@ -4689,10 +4693,12 @@
           punkt.className = "nc-shot__chrome-dot";
           leiste.appendChild(punkt);
         }
-        const adresse = dok.createElement("span");
-        adresse.className = "nc-shot__chrome-url";
-        adresse.textContent = P.url || "workplace.neocosmo.de";
-        leiste.appendChild(adresse);
+        if (P.url) {
+          const adresse = dok.createElement("span");
+          adresse.className = "nc-shot__chrome-url";
+          adresse.textContent = P.url;
+          leiste.appendChild(adresse);
+        }
         rahmen.appendChild(leiste);
       }
       const sicht = dok.createElement("div");
@@ -7635,7 +7641,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.23.1",
+    version: "0.24.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",
