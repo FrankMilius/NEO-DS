@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.22.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.23.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -6436,6 +6436,215 @@
     }
   };
 
+  // packages/neo-behaviors/hero-wortwechsel.js
+  var TEXTE7 = {
+    de: { pause: "Wechsel anhalten", play: "Wechsel fortsetzen", next: "Nächster Claim", app: ", davor die App" },
+    en: { pause: "Pause word change", play: "Resume word change", next: "Next claim", app: ", with the app in front" }
+  };
+  var PFADE = {
+    pause: '<path d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /><path d="M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />',
+    play: '<path d="M7 4v16l13 -8z" />',
+    next: '<path d="M9 6l6 6l-6 6" />'
+  };
+  var symbol2 = (name) => `<svg data-symbol="${name}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${PFADE[name]}</svg>`;
+  var VORGABE_MS3 = 5e3;
+  var REST_FUELLEN = 100;
+  function zerlege(el, zaehler7) {
+    for (const knoten of [...el.childNodes]) {
+      if (knoten.nodeType === 3) {
+        const teil = el.ownerDocument.createDocumentFragment();
+        for (const zeichen of knoten.textContent || "") {
+          const l = el.ownerDocument.createElement("span");
+          l.className = "nc-hero__ww-letter";
+          l.style.setProperty("--i", String(zaehler7.i++));
+          l.textContent = zeichen;
+          teil.appendChild(l);
+        }
+        knoten.replaceWith(teil);
+      } else if (knoten.nodeType === 1 && !/** @type {Element} */
+      knoten.matches("br")) {
+        zerlege(
+          /** @type {Element} */
+          knoten,
+          zaehler7
+        );
+      }
+    }
+  }
+  function wortText(wort) {
+    const kopie = (
+      /** @type {Element} */
+      wort.cloneNode(true)
+    );
+    kopie.querySelectorAll(".nc-hero__ww-break").forEach((b) => b.remove());
+    return (kopie.textContent || "").trim();
+  }
+  var heroWortwechsel = {
+    id: "hero-wortwechsel",
+    selektor: ".nc-hero--wortwechsel",
+    // Soll in Recipe hero (Variante wortwechsel), kein eigenes Recipe
+    recipes: ["hero"],
+    // Website-Bauteil: in Drupal nur per drupalSettings.neoBehaviors.nur
+    nurAusdruecklich: true,
+    /** @param {HTMLElement} wurzel @param {AbortSignal} signal */
+    binde(wurzel, signal) {
+      var _a, _b;
+      const worte = [...wurzel.querySelectorAll(".nc-hero__ww-word")];
+      if (worte.length < 2) return;
+      const ansicht = wurzel.ownerDocument.defaultView || window;
+      const vorher = {
+        html: wurzel.innerHTML,
+        klasse: wurzel.getAttribute("class"),
+        stil: wurzel.getAttribute("style"),
+        ton: wurzel.getAttribute("data-tone")
+      };
+      const webs = [...wurzel.querySelectorAll(".nc-hero__ww-web > img")];
+      const apps = (
+        /** @type {HTMLElement[]} */
+        [...wurzel.querySelectorAll(".nc-hero__ww-phone > img")]
+      );
+      const segmente = (
+        /** @type {HTMLButtonElement[]} */
+        [...wurzel.querySelectorAll(".nc-hero__ww-seg")]
+      );
+      const knopf = (
+        /** @type {HTMLButtonElement|null} */
+        wurzel.querySelector(".nc-hero__ww-pause")
+      );
+      const buehne = wurzel.querySelector(".nc-hero__ww-stage");
+      const text = (
+        /** @type {HTMLElement|null} */
+        wurzel.querySelector(".nc-hero__content")
+      );
+      const vorlesen = wurzel.querySelector(".nc-hero__ww-current");
+      const texte = TEXTE7[spracheVon(wurzel)];
+      const ruhig = reduzierteBewegung(wurzel);
+      const dauer = dauerAus(wurzel, "--nc-hero-ww-duration", VORGABE_MS3);
+      const namen = worte.map(wortText);
+      const zaehler7 = { i: 0 };
+      worte.forEach((w) => {
+        zaehler7.i = 0;
+        zerlege(w, zaehler7);
+      });
+      let aktuell = Math.max(0, worte.findIndex((w) => w.classList.contains("is-on")));
+      let angehalten = false;
+      let zeitgeber = 0;
+      let start = 0;
+      let rest = dauer;
+      const tausche = (liste, i, alt) => liste.forEach((el, k) => {
+        el.classList.toggle("is-on", k === i);
+        el.classList.toggle("is-off", k === alt && k !== i);
+      });
+      const zeige = (i, alt) => {
+        var _a2;
+        tausche(worte, i, alt);
+        tausche(webs, i, alt);
+        const mitApp = apps.some((a) => Number(a.dataset.wwIndex) === i);
+        apps.forEach((a) => a.classList.toggle("is-on", Number(a.dataset.wwIndex) === i));
+        buehne == null ? void 0 : buehne.classList.toggle("has-app", mitApp);
+        wurzel.setAttribute("data-tone", i % 2 ? "blue" : "lime");
+        const label = (_a2 = webs[i]) == null ? void 0 : _a2.getAttribute("data-ww-label");
+        if (buehne && label) buehne.setAttribute("aria-label", label + (mitApp ? texte.app : ""));
+        if (vorlesen) vorlesen.textContent = namen[i];
+        segmente.forEach((s, k) => {
+          s.classList.toggle("is-done", k < i);
+          if (k === i) {
+            s.setAttribute("aria-current", "true");
+            s.innerHTML = "<i></i>";
+          } else s.removeAttribute("aria-current");
+        });
+      };
+      const stoppe = () => {
+        if (zeitgeber) ansicht.clearTimeout(zeitgeber);
+        zeitgeber = 0;
+      };
+      const plane = (ms) => {
+        stoppe();
+        if (ruhig || angehalten) return;
+        start = Date.now();
+        rest = ms;
+        zeitgeber = ansicht.setTimeout(() => wechsle((aktuell + 1) % worte.length), ms);
+      };
+      function wechsle(i) {
+        const alt = aktuell;
+        aktuell = i;
+        zeige(i, alt);
+        sende(wurzel, "hero-wortwechsel-change", { index: i, previousIndex: alt });
+        plane(dauer);
+      }
+      const setzeKnopf = () => {
+        if (!knopf) return;
+        const art2 = ruhig ? "next" : angehalten ? "play" : "pause";
+        knopf.innerHTML = symbol2(art2);
+        knopf.setAttribute("aria-label", ruhig ? texte.next : angehalten ? texte.play : texte.pause);
+      };
+      knopf == null ? void 0 : knopf.addEventListener("click", () => {
+        if (ruhig) return wechsle((aktuell + 1) % worte.length);
+        angehalten = !angehalten;
+        wurzel.classList.toggle("is-paused", angehalten);
+        if (angehalten) {
+          rest = Math.max(0, rest - (Date.now() - start));
+          stoppe();
+        } else plane(rest);
+        setzeKnopf();
+        sende(wurzel, "hero-wortwechsel-autoplay", { playing: !angehalten, reason: "knopf" });
+      }, { signal });
+      segmente.forEach((s, k) => s.addEventListener("click", () => {
+        rest = dauer;
+        if (k !== aktuell) return wechsle(k);
+        s.innerHTML = "<i></i>";
+        plane(dauer);
+      }, { signal }));
+      const messe = () => {
+        var _a2, _b2;
+        if (!((_b2 = (_a2 = ansicht.matchMedia) == null ? void 0 : _a2.call(ansicht, "(min-width: 960px)")) == null ? void 0 : _b2.matches)) {
+          wurzel.style.removeProperty("--_ww-ausgleich");
+          wurzel.style.removeProperty("--_ww-fuell");
+          return;
+        }
+        const t = (text == null ? void 0 : text.getBoundingClientRect().height) || 0;
+        const s = (buehne == null ? void 0 : buehne.getBoundingClientRect().height) || 0;
+        wurzel.style.setProperty("--_ww-ausgleich", `${Math.max(0, (t - s) / 2)}px`);
+        wurzel.style.setProperty("--_ww-fuell", "0px");
+        const kopf = wurzel.ownerDocument.querySelector(".site-header");
+        const kopfUnten = kopf ? kopf.getBoundingClientRect().height : 0;
+        const r = wurzel.getBoundingClientRect();
+        const oben = r.top + (ansicht.scrollY || 0);
+        const sichtbar = r.height - Math.max(0, kopfUnten - oben);
+        const restHoehe = ansicht.innerHeight - kopfUnten - sichtbar;
+        wurzel.style.setProperty("--_ww-fuell", `${restHoehe > 0 && restHoehe < REST_FUELLEN ? restHoehe / 2 : 0}px`);
+      };
+      let frame = 0;
+      ansicht.addEventListener("resize", () => {
+        if (!frame) frame = ansicht.setTimeout(() => {
+          frame = 0;
+          messe();
+        }, 16);
+      }, { signal });
+      (_b = (_a = wurzel.ownerDocument.fonts) == null ? void 0 : _a.ready) == null ? void 0 : _b.then(() => {
+        if (!signal.aborted) messe();
+      });
+      signal.addEventListener("abort", () => {
+        stoppe();
+        if (frame) ansicht.clearTimeout(frame);
+        wurzel.innerHTML = vorher.html;
+        for (
+          const [name, wert] of
+          /** @type {[string, string|null][]} */
+          [["class", vorher.klasse], ["style", vorher.stil], ["data-tone", vorher.ton]]
+        ) {
+          if (wert === null) wurzel.removeAttribute(name);
+          else wurzel.setAttribute(name, wert);
+        }
+      });
+      wurzel.classList.add("is-ready");
+      zeige(aktuell, -1);
+      setzeKnopf();
+      messe();
+      plane(dauer);
+    }
+  };
+
   // packages/neo-behaviors/footer.js
   var FOKUSSIERBAR3 = "a[href], button, input, select, textarea, summary, [tabindex]";
   function zielVon(knopf) {
@@ -6487,7 +6696,7 @@
   };
 
   // packages/neo-behaviors/form.js
-  var TEXTE7 = {
+  var TEXTE8 = {
     de: {
       fehlt: "Bitte @label angeben.",
       bestaetigen: "Bitte bestätigen Sie diese Angabe.",
@@ -6593,7 +6802,7 @@
         /** @type {HTMLFormElement} */
         wurzel
       );
-      const t = TEXTE7[spracheVon(formEl)];
+      const t = TEXTE8[spracheVon(formEl)];
       const dok = formEl.ownerDocument;
       const einheiten = einheitenVon(formEl);
       if (!einheiten.length) return;
@@ -7375,6 +7584,10 @@
     // Markup aus neo-theme.js. In Drupal nur per nur
     timeline,
     "hero-tom": heroTom,
+    // Website-Bauteil (I19 Phase 2, 24.11.2026): Hero-Variante Wortwechsel —
+    // Takt, Laufleiste, Start/Pause, Rahmen-Ausgleich und Fuellen. Soll im
+    // Recipe hero (BEHAVIORS['hero-wortwechsel'].recipes). In Drupal nur per nur
+    "hero-wortwechsel": heroWortwechsel,
     footer,
     // Website-Bauteil (Plan v4, Phase 8, 13.10.2026): Pruefung der
     // Formulare (Felder im Twig, vorher NeoForm.renderFields), Zusammenfassung
@@ -7418,7 +7631,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.22.0",
+    version: "0.23.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",

@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.6.0 | Status: stable | Layer: organism
+> Version 2.7.0 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -326,16 +326,35 @@ Base classes: `nc-hero`
 | `--nc-hero-ww-seg-done` | — | — |
 | `--nc-hero-ww-glow-opacity` | — | — |
 | `--nc-hero-ww-glow-blur` | — | — |
+| `--nc-hero-ww-duration` | — | — |
+| `--nc-hero-ww-ease` | — | — |
+| `--nc-hero-ww-ease-app` | — | — |
+| `--nc-hero-ww-letter-duration` | — | — |
+| `--nc-hero-ww-letter-delay` | — | — |
+| `--nc-hero-ww-letter-delay-step` | — | — |
+| `--nc-hero-ww-word-fade-duration` | — | — |
+| `--nc-hero-ww-fade-duration` | — | — |
+| `--nc-hero-ww-shot-duration` | — | — |
+| `--nc-hero-ww-shot-delay` | — | — |
+| `--nc-hero-ww-app-duration` | — | — |
+| `--nc-hero-ww-app-delay` | — | — |
+| `--nc-hero-ww-phone-delay` | — | — |
+| `--nc-hero-ww-glow-duration` | — | — |
+| `--nc-hero-ww-intro-duration` | — | — |
+| `--nc-hero-ww-rise-duration` | — | — |
+| `--nc-hero-ww-rise-delay` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |
 | --- | --- | --- |
-| `Tab` | focus-next | No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable. |
+| `Tab` | focus-next | No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable. Variante wortwechsel (Verhalten hero-wortwechsel): der Start/Pause-Knopf (.nc-hero__ww-pause) und die Segmente der Laufleiste (.nc-hero__ww-seg) sind Knoepfe in der Tab-Folge; Enter und Leertaste loesen sie nativ aus (Knopf: anhalten/fortsetzen, bei reduzierter Bewegung naechster Claim; Segment: diesen Claim zeigen). |
 
 ## Events
 | Event | Bubbles | Detail |
 | --- | --- | --- |
 | `einblenden` | Yes | `{"reason":"string"}` |
+| `hero-wortwechsel-change` | Yes | `{"index":"number","previousIndex":"number"}` |
+| `hero-wortwechsel-autoplay` | Yes | `{"playing":"boolean","reason":"string"}` |
 
 ## Accessibility
 Contrast Target: WCAG AA large text (3:1)

@@ -64,6 +64,7 @@ import { testimonialGrid } from './testimonial-grid.js'
 import { video } from './video.js'
 import { timeline } from './timeline.js'
 import { heroTom } from './hero-tom.js'
+import { heroWortwechsel } from './hero-wortwechsel.js'
 import { footer } from './footer.js'
 import { form } from './form.js'
 import { einblenden } from './einblenden.js'
@@ -152,6 +153,10 @@ export const BEHAVIORS = Object.freeze({
   // Markup aus neo-theme.js. In Drupal nur per nur
   timeline,
   'hero-tom': heroTom,
+  // Website-Bauteil (I19 Phase 2, 24.11.2026): Hero-Variante Wortwechsel —
+  // Takt, Laufleiste, Start/Pause, Rahmen-Ausgleich und Fuellen. Soll im
+  // Recipe hero (BEHAVIORS['hero-wortwechsel'].recipes). In Drupal nur per nur
+  'hero-wortwechsel': heroWortwechsel,
   footer,
   // Website-Bauteil (Plan v4, Phase 8, 13.10.2026): Pruefung der
   // Formulare (Felder im Twig, vorher NeoForm.renderFields), Zusammenfassung

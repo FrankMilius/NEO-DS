@@ -4,14 +4,16 @@
 // (I19 Phase 1, 24.11.2026; Abnahme in STAND.md)
 //
 //   npm run pruefen:hero-ww -- [--css <styles.css>] [--ausgeliefert]
-//        [--ohne-ersatz] [--js <neo-behaviors.js>] [--vergleich]
+//        [--ohne-ersatz] [--js <neo-behaviors.js>] [--binden] [--vergleich]
 //        [--groessen 1280x560,1440x900,…]
 //
 // Lädt die DDEV-Startseite. Standard: styles.css aus diesem Arbeitsbaum
 // (--ausgeliefert: die von DDEV), und der heutige Hero wird durch das
 // Beispiel aus docs/content/hero.html (Marke hero-wortwechsel:beispiel)
 // ersetzt — Bilder aus dem Prototyp-Ordner. --ohne-ersatz misst den Hero,
-// den Drupal ausliefert (ab Phase 6). --vergleich misst dieselbe Größe im
+// den Drupal ausliefert (ab Phase 6). --js ersetzt die neo-behaviors.js des
+// Themes; --binden bindet danach hero-wortwechsel (Phase 2: Drupal bindet
+// es erst mit dem Twig aus Phase 6). --vergleich misst dieselbe Größe im
 // Prototyp und zeigt die Abweichung (nur zur Information).
 //
 // Regeln je Größe:
@@ -38,6 +40,7 @@ const { values: a } = parseArgs({
     ausgeliefert: { type: 'boolean', default: false },
     'ohne-ersatz': { type: 'boolean', default: false },
     js: { type: 'string' },
+    binden: { type: 'boolean', default: false },
     vergleich: { type: 'boolean', default: false },
     groessen: { type: 'string', default: '1280x560,1336x728,1440x900,1643x992,1920x1080,2734x1400,1024x768,390x844' },
   },
@@ -130,6 +133,10 @@ for (const [w, h] of groessen) {
     const antwort = await s.goto('/', { waitUntil: 'networkidle', timeout: 45000 })
     if (!antwort || antwort.status() >= 400) throw new Error(`HTTP ${antwort?.status() ?? 'ohne Antwort'}`)
     await s.evaluate(() => document.fonts.ready)
+    if (a.binden) {
+      const ok = await s.evaluate(() => { const nb = /** @type {any} */ (window).NeoBehaviors; if (!nb) return false; nb.anbinden(document, ['hero-wortwechsel']); return true })
+      if (!ok) throw new Error('NeoBehaviors fehlt auf der Seite (--binden)')
+    }
     await s.waitForTimeout(800)
     const m = await s.evaluate(messen)
     geprueft++

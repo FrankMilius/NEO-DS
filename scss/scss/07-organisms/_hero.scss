@@ -1045,7 +1045,8 @@
 
 .nc-hero--wortwechsel {
   // Rahmen oben und unten; die Shell-Regel addiert oben die Kopfzeile dazu
-  --mod-hero-padding-block: var(--nc-hero-ww-frame);
+  // --_ww-fuell: halber Rest, wenn der Hero das Fenster fuellt (Verhalten)
+  --mod-hero-padding-block: calc(var(--nc-hero-ww-frame) + var(--_ww-fuell, 0px));
   // Hoehe nach Inhalt (das Feld Hoehe des Blocks gilt hier nicht)
   --mod-hero-min-height: 0;
   // Typografie des Prototyps ueber die vorhandenen Stellschrauben
@@ -1084,7 +1085,8 @@
     row-gap: 0;
     align-items: center;
     // gleicht den oberen Rand des Screens-Blocks aus
-    margin-block-start: calc(-1 * var(--nc-hero-ww-bar-zone));
+    // --_ww-ausgleich: Text hoeher als die Buehne → (Text − Buehne) / 2 (Verhalten)
+    margin-block-start: calc(var(--_ww-ausgleich, 0px) - var(--nc-hero-ww-bar-zone));
   }
 
   // Seitenabstand kommt vom Raster (wie bei .nc-hero:has(.nc-hero__media))
@@ -1163,7 +1165,8 @@
 
 .nc-hero__ww-words {
   display: grid;
-  color: var(--_ww-accent);
+  // immer Lime wie im Prototyp; der Ton (data-tone) faerbt nur das Leuchten
+  color: var(--nc-hero-ww-accent);
 }
 
 .nc-hero__ww-word {
@@ -1368,5 +1371,131 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Bewegung (I19 Phase 2): nur mit gebundenem Verhalten (is-ready) und ohne
+// reduzierte Bewegung. Die Klassen is-on/is-off setzt hero-wortwechsel.
+// ---------------------------------------------------------------------------
+
+// Buchstaben legt das Verhalten an; ruhend stehen sie einfach da
+.nc-hero__ww-letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+// Aktuelles Segment ohne Bewegung: voll
+.nc-hero__ww-seg[aria-current='true'] i::after {
+  transform: scaleX(1);
+}
+
+@keyframes nc-hero-ww-letter {
+  from { opacity: 0; transform: translateX(-0.18em); filter: blur(5px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes nc-hero-ww-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes nc-hero-ww-spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes nc-hero-ww-intro {
+  from { filter: blur(16px); opacity: 0; letter-spacing: 0.02em; }
+  to   { filter: none; opacity: 1; }
+}
+
+@keyframes nc-hero-ww-rise {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nc-hero--wortwechsel.is-ready {
+    .nc-hero__ww-static {
+      animation: nc-hero-ww-intro var(--nc-hero-ww-intro-duration) var(--nc-hero-ww-ease) both;
+    }
+
+    .nc-hero__ww-screens {
+      animation: nc-hero-ww-rise var(--nc-hero-ww-rise-duration) var(--nc-hero-ww-ease) var(--nc-hero-ww-rise-delay) both;
+    }
+
+    // Wort: blendet beim Wechsel aus, das neue baut sich Buchstabe fuer Buchstabe auf
+    .nc-hero__ww-word {
+      visibility: visible;
+      opacity: 0;
+      transition: opacity var(--nc-hero-ww-word-fade-duration) ease;
+
+      &.is-on {
+        opacity: 1;
+        transition: none;
+      }
+    }
+
+    .nc-hero__ww-word.is-on .nc-hero__ww-letter {
+      opacity: 0;
+      animation: nc-hero-ww-letter var(--nc-hero-ww-letter-duration) var(--nc-hero-ww-ease) forwards;
+      animation-delay: calc(var(--nc-hero-ww-letter-delay) + var(--i, 0) * var(--nc-hero-ww-letter-delay-step));
+    }
+
+    // Web-Screen: neues Bild hebt sich scharf, altes zieht unscharf nach oben weg
+    .nc-hero__ww-web img {
+      transform: translateY(3%) scale(calc(var(--z, 1) * 1.02));
+      filter: blur(6px);
+      transition:
+        opacity var(--nc-hero-ww-fade-duration) ease,
+        transform var(--nc-hero-ww-shot-duration) var(--nc-hero-ww-ease),
+        filter var(--nc-hero-ww-fade-duration) ease;
+
+      &.is-on {
+        transform: scale(var(--z, 1));
+        filter: none;
+        transition-delay: var(--nc-hero-ww-shot-delay);
+      }
+
+      &.is-off {
+        transform: translateY(-2%) scale(calc(var(--z, 1) * 0.98));
+      }
+    }
+
+    // App faehrt von rechts herein, wenn der Claim eine hat
+    .nc-hero__ww-app {
+      visibility: visible;
+      opacity: 0;
+      transform: translateX(40%) rotate(3deg);
+      transform-origin: 50% 100%;
+      transition:
+        transform var(--nc-hero-ww-app-duration) var(--nc-hero-ww-ease-app),
+        opacity var(--nc-hero-ww-fade-duration) ease;
+    }
+
+    .has-app > .nc-hero__ww-app {
+      opacity: 1;
+      transform: none;
+      transition-delay: var(--nc-hero-ww-app-delay);
+    }
+
+    .nc-hero__ww-phone img {
+      transition: opacity var(--nc-hero-ww-fade-duration) ease;
+
+      &.is-on { transition-delay: var(--nc-hero-ww-phone-delay); }
+    }
+
+    // Laufleiste: Fortschritt in der Dauer des Takts, haelt mit dem Knopf an
+    .nc-hero__ww-seg[aria-current='true'] i::after {
+      animation: nc-hero-ww-progress var(--nc-hero-ww-duration) linear forwards;
+    }
+
+    &.is-paused .nc-hero__ww-seg[aria-current='true'] i::after {
+      animation-play-state: paused;
+    }
+
+    .nc-hero__glow::before {
+      animation: nc-hero-ww-spin var(--nc-hero-ww-glow-duration) linear infinite;
+    }
   }
 }

@@ -1392,6 +1392,17 @@ Hero: Variante Wortwechsel (I19 Phase 1, 24.11.2026, ohne App-Version — Daten 
   (`-accent-alt`, `-columns`, `-web-ratio`, `-phone-ratio`; BACKLOG).
 - Prüfung auf der Website: `npm run pruefen:hero-ww`.
 
+Hero: Wortwechsel bewegt sich (I19 Phase 2, 24.11.2026, ohne App-Version — nur Daten):
+
+- 17 weitere Tokens der Gruppe „wortwechsel“ für die Bewegung, darunter
+  „Wortwechsel — Dauer je Claim“ (`--nc-hero-ww-duration`, 5 s; das Verhalten
+  `hero-wortwechsel` liest sie), Buchstaben-Aufbau, Überblenden, Einfahren der
+  App, Umlauf des Leuchtens. Die Arena zeigt den ruhenden Zustand; die
+  Wirkungsprüfung führt die Dauern als „Zustand“.
+- Verhalten `hero-wortwechsel` (neo-behaviors 0.23.0, Recipe hero 2.7.0):
+  Takt, Start/Pause, reduzierte Bewegung, Rahmen-Ausgleich, Füllen; Tests in
+  `tests/behaviors/hero-wortwechsel.test.js`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

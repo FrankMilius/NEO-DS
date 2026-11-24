@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -782,6 +782,57 @@
         },
         {
           "token": "--nc-hero-ww-glow-blur"
+        },
+        {
+          "token": "--nc-hero-ww-duration"
+        },
+        {
+          "token": "--nc-hero-ww-ease"
+        },
+        {
+          "token": "--nc-hero-ww-ease-app"
+        },
+        {
+          "token": "--nc-hero-ww-letter-duration"
+        },
+        {
+          "token": "--nc-hero-ww-letter-delay"
+        },
+        {
+          "token": "--nc-hero-ww-letter-delay-step"
+        },
+        {
+          "token": "--nc-hero-ww-word-fade-duration"
+        },
+        {
+          "token": "--nc-hero-ww-fade-duration"
+        },
+        {
+          "token": "--nc-hero-ww-shot-duration"
+        },
+        {
+          "token": "--nc-hero-ww-shot-delay"
+        },
+        {
+          "token": "--nc-hero-ww-app-duration"
+        },
+        {
+          "token": "--nc-hero-ww-app-delay"
+        },
+        {
+          "token": "--nc-hero-ww-phone-delay"
+        },
+        {
+          "token": "--nc-hero-ww-glow-duration"
+        },
+        {
+          "token": "--nc-hero-ww-intro-duration"
+        },
+        {
+          "token": "--nc-hero-ww-rise-duration"
+        },
+        {
+          "token": "--nc-hero-ww-rise-delay"
         }
       ]
     },
@@ -857,7 +908,7 @@
   "keyboard": {
     "Tab": {
       "action": "focus-next",
-      "note": "No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable."
+      "note": "No own interaction: links and buttons in document order. The fly-in of the secondary media (.nc-hero__media-secondary) is visual only (opacity, transform); the image is never focusable. Variante wortwechsel (Verhalten hero-wortwechsel): der Start/Pause-Knopf (.nc-hero__ww-pause) und die Segmente der Laufleiste (.nc-hero__ww-seg) sind Knoepfe in der Tab-Folge; Enter und Leertaste loesen sie nativ aus (Knopf: anhalten/fortsetzen, bei reduzierter Bewegung naechster Claim; Segment: diesen Claim zeigen)."
     }
   },
   "testSelectors": null,
@@ -868,6 +919,22 @@
         "reason": "string"
       },
       "note": "Fired at .nc-hero__media[data-animation=\"fly-in-right|fly-in-bottom\"] when the secondary media is revealed (behavior einblenden): reason \"sicht\" (15 % in view), \"reduzierte-bewegung\" or \"ohne-beobachter\" (immediately). Rebinding an already revealed root does not fire."
+    },
+    "hero-wortwechsel-change": {
+      "bubbles": true,
+      "detail": {
+        "index": "number",
+        "previousIndex": "number"
+      },
+      "note": "Variante wortwechsel: gefeuert an der Wurzel .nc-hero--wortwechsel bei jedem Wechsel des Claims (Takt, Segment, Knopf bei reduzierter Bewegung). Der Stand beim Binden meldet nicht."
+    },
+    "hero-wortwechsel-autoplay": {
+      "bubbles": true,
+      "detail": {
+        "playing": "boolean",
+        "reason": "string"
+      },
+      "note": "Variante wortwechsel: gefeuert an der Wurzel, wenn der Takt per Knopf anhaelt oder weiterlaeuft (reason \"knopf\"). Bei reduzierter Bewegung laeuft kein Takt und es gibt kein Ereignis."
     }
   },
   "a11y": {
