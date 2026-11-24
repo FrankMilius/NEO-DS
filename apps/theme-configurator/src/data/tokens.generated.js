@@ -19207,6 +19207,10 @@ export const componentTokenGroups = [
         "label": "Medienfläche",
         "tokenIds": [
           "nc-story-gallery-stage-bg",
+          "nc-story-gallery-stage-bg-akzent",
+          "nc-story-gallery-stage-bg-neutral",
+          "nc-story-gallery-stage-bg-hell",
+          "nc-story-gallery-stage-bg-dunkel",
           "nc-story-gallery-stage-padding",
           "nc-story-gallery-stage-radius",
           "nc-story-gallery-stage-shadow"
@@ -19392,9 +19396,33 @@ export const componentTokenGroups = [
       },
       {
         "id": "nc-story-gallery-stage-bg",
-        "label": "Medienfläche – Farbe",
+        "label": "Medienfläche – Farbe (Vorgabe)",
+        "type": "color",
+        "default": "var(--nc-story-gallery-stage-bg-akzent)"
+      },
+      {
+        "id": "nc-story-gallery-stage-bg-akzent",
+        "label": "Fläche „Akzent“",
         "type": "color",
         "default": "color-mix(in oklab, var(--fnd-color-background-accent) 12%, var(--fnd-color-background-tertiary))"
+      },
+      {
+        "id": "nc-story-gallery-stage-bg-neutral",
+        "label": "Fläche „Neutral“",
+        "type": "color",
+        "default": "var(--fnd-color-background-tertiary)"
+      },
+      {
+        "id": "nc-story-gallery-stage-bg-hell",
+        "label": "Fläche „Hell“",
+        "type": "color",
+        "default": "var(--fnd-color-background-secondary)"
+      },
+      {
+        "id": "nc-story-gallery-stage-bg-dunkel",
+        "label": "Fläche „Dunkel“",
+        "type": "color",
+        "default": "var(--fnd-neutral-800)"
       },
       {
         "id": "nc-story-gallery-stage-padding",

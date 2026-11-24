@@ -1419,6 +1419,16 @@ Shot: schlichte Rahmen und Telefon (I18 Phase 10, 24.11.2026, ohne App-Version �
   Vorschau im Grundzustand den Browser-Rahmen zeigt; auf der Website gemessen
   mit `npm run pruefen:sg-rahmen`.
 
+Story Gallery: Kartenflächen zur Wahl (I18 Phase 11, 24.11.2026, ohne App-Version — nur Daten):
+
+- Medienfläche: vier neue Felder „Fläche „Akzent““, „„Neutral““, „„Hell““,
+  „„Dunkel““ (`nc-story-gallery-stage-bg-{akzent,neutral,hell,dunkel}`);
+  „Medienfläche – Farbe (Vorgabe)“ zeigt auf „Akzent“.
+- Auf der Website wählt die Redaktion die Fläche im Block („Kartenfläche“,
+  Drupal-Feld) und je Karte im Karten-Editor: Vorgaben, ergänzende Paletten
+  (alle Stufen, ohne Neo Blue/Neo Darkblue) oder ein eigener Farbwert.
+  Prüfung: `npm run pruefen:sg-flaeche`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

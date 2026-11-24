@@ -31,6 +31,26 @@ import { fileURLToPath } from 'node:url'
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 export const HUELLE = '.nc-shot-vorschau'
 
+// Kartenflächen (I18 Phase 11, 24.11.2026, E4/E5 Frank): Die Auswahl der
+// Medienfläche im Karten-Editor zeigt Farbfelder — dafür braucht die Hülle
+// auch die Flächen-Tokens der Story Gallery und die ergänzenden Paletten
+// (primitives.supporting in data/design-tokens.json, alle Stufen) außer
+// den beiden Reserve-Paletten des Backend-Themes. Der Editor liest die
+// Namen aus diesem Token-Block, es gibt keine zweite Liste.
+export const FLAECHEN = ['akzent', 'neutral', 'hell', 'dunkel']
+export const PALETTEN_OHNE = ['neo-blue', 'neo-darkblue']
+export const STUFEN = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']
+
+/** Namen der Tokens, die die Flächenwahl im Admin braucht. */
+export function kartenflaechenTokens () {
+  const d = JSON.parse(readFileSync(resolve(WURZEL, 'data/design-tokens.json'), 'utf8'))
+  const paletten = Object.keys(d.primitives?.supporting || {}).filter((p) => !PALETTEN_OHNE.includes(p))
+  return [
+    ...FLAECHEN.map((f) => `--nc-story-gallery-stage-bg-${f}`),
+    ...paletten.flatMap((p) => STUFEN.map((st) => `--fnd-primitive-${p}-${st}`))
+  ]
+}
+
 /**
  * Zerlegt (komprimiertes) CSS in Bloecke der obersten Ebene:
  * { kopf, rumpf } — kopf ist Selektor bzw. @-Regel, rumpf der Inhalt.
@@ -101,13 +121,14 @@ const istShot = (sel) => /^\.nc-shot(?![\w-])|^\.nc-shot(__|--)/.test(sel)
 
 /**
  * @param {string} css gebautes styles.css
+ * @param {{ zusatz?: string[] }} [opt] weitere Tokens an der Hülle (Kartenflächen)
  * @returns {string} Vorschau-CSS
  */
-export function shotVorschau (css) {
+export function shotVorschau (css, { zusatz = [] } = {}) {
   const alle = bloecke(css)
   /** @type {string[]} */
   const regeln = []
-  const genutzt = new Set()
+  const genutzt = new Set(zusatz)
   const animationen = new Set()
 
   const nimmRegel = (b) => {
@@ -172,7 +193,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1)
   }
   const ziel = resolve(WURZEL, 'shot-vorschau.css')
-  const css = shotVorschau(readFileSync(quelle, 'utf8'))
+  const css = shotVorschau(readFileSync(quelle, 'utf8'), { zusatz: kartenflaechenTokens() })
   writeFileSync(ziel, css)
   console.log(`  ✓ shot-vorschau.css (${(Buffer.byteLength(css) / 1024).toFixed(1)} KB) aus styles.css`)
 }
