@@ -12,7 +12,8 @@
 //
 // PAUSE-KNOPF (Plan v4, Phase 2, 12.10.2026, WCAG 2.2.2): .nc-marquee__pause
 // steht VOR der Spur (erste Station in der Tab-Folge vor der Bewegung). Ein
-// Knopf mit wechselnder Beschriftung „Laufband anhalten/fortsetzen";
+// Knopf mit wechselnder Beschriftung „Laufband anhalten/fortsetzen" (seit I19
+// Phase 3 nur fuer Screenreader, Knopf wie die Story-Gallery-Pfeile);
 // data-playing waehlt das Symbol (neo-behaviors marquee). Angehalten
 // (.is-stopped) oder Maus/Fokus im Laufband (.is-paused): die Spur ruht.
 // Tokens --nc-marquee-pause-* (auch fuer .nc-logo-wall__pause).
@@ -51,28 +52,24 @@
 // Pause-Knopf (Plan v4, Phase 2, 12.10.2026)
 // ---------------------------------------------------------------------------
 .nc-marquee__pause {
-  display: flex;
-  align-items: center;
-  gap: var(--nc-marquee-pause-gap);
-  inline-size: fit-content;
-  min-block-size: var(--nc-marquee-pause-min-size);
-  min-inline-size: var(--nc-marquee-pause-min-size);
+  display: grid;
+  place-items: center;
+  inline-size: var(--nc-marquee-pause-min-size);
+  block-size: var(--nc-marquee-pause-min-size);
   margin: 0 0 var(--nc-marquee-pause-margin-block) auto;
-  padding: 0 var(--nc-marquee-pause-padding-inline);
-  border: 1px solid var(--nc-marquee-pause-border);
+  padding: 0;
+  border: none;
   border-radius: var(--nc-marquee-pause-radius);
-  background: transparent;
+  background-color: var(--nc-marquee-pause-bg);
   color: var(--nc-marquee-pause-color);
-  font: inherit;
-  font-size: var(--nc-marquee-pause-font-size);
-  font-weight: var(--fnd-font-weight-semibold);
-  line-height: var(--lh-tight);
+  box-shadow: var(--nc-marquee-pause-shadow);
   cursor: pointer;
-  @include transition-quick((color, background-color));
+  @include transition-quick((color, background-color, box-shadow));
 
   &:hover {
     color: var(--nc-marquee-pause-color-hover);
     background-color: var(--nc-marquee-pause-bg-hover);
+    box-shadow: var(--nc-marquee-pause-shadow-hover);
   }
 
   &:focus-visible {
@@ -90,7 +87,14 @@
   }
 }
 
+// Beschriftung nur fuer Screenreader (seit I19 Phase 3: Knopf wie die
+// Pfeile der Story Gallery, nur Symbol)
 .nc-marquee__pause-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -98,7 +102,6 @@
   flex: 0 0 auto;
   inline-size: var(--nc-marquee-pause-icon-size);
   block-size: var(--nc-marquee-pause-icon-size);
-  fill: currentColor;
 }
 
 // Symbol folgt dem Zustand: laeuft → Pause-Balken, steht → Abspiel-Dreieck

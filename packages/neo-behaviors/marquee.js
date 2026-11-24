@@ -48,10 +48,17 @@ export const TEXTE = {
   en: { pause: 'Pause scrolling', play: 'Resume scrolling' }
 }
 
-/** Symbol fuer einen angelegten Knopf (das Twig rendert dasselbe) @param {string} b Block */
-const symbol = (b) => `<svg class="${b}__pause-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">` +
-  `<path class="${b}__pause-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/>` +
-  `<path class="${b}__pause-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>`
+/**
+ * Symbol des Knopfs: Tabler player-pause / player-play im 24er-Raster,
+ * Strichstaerke 2 wie die Pfeile der Story Gallery (I19 Phase 3,
+ * Entscheidung Frank 24.11.2026, gilt fuer Laufband und Logo-Leiste). Das
+ * Behavior setzt es auch in einen Knopf aus dem Twig, der noch das alte
+ * Symbol traegt; Abbinden stellt das alte wieder her.
+ * @param {string} b Block
+ */
+const symbol = (b) => `<svg class="${b}__pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">` +
+  `<path class="${b}__pause-pause" d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1zM14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/>` +
+  `<path class="${b}__pause-play" d="M7 4v16l13 -8z"/></svg>`
 
 export const marquee = {
   id: 'marquee',
@@ -96,6 +103,11 @@ export const marquee = {
       angelegt = true
     }
     const k = knopf
+    // Symbol vereinheitlichen (Twig liefert ggf. noch das alte)
+    if (!angelegt) {
+      k.querySelectorAll(':scope > svg').forEach((alt) => alt.remove())
+      k.insertAdjacentHTML('afterbegin', symbol(b))
+    }
     // Verborgene Wurzel (dekorativ): aria-hidden an die Spur weitergeben
     const wurzelVerborgen = wurzel.getAttribute('aria-hidden') === 'true'
     const spurHatteHidden = spur.getAttribute('aria-hidden')

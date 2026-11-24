@@ -14539,16 +14539,15 @@ export const componentTokenGroups = [
         "label": "Pause-Knopf",
         "tokenIds": [
           "nc-marquee-pause-min-size",
-          "nc-marquee-pause-padding-inline",
-          "nc-marquee-pause-gap",
           "nc-marquee-pause-radius",
-          "nc-marquee-pause-font-size",
           "nc-marquee-pause-icon-size",
           "nc-marquee-pause-margin-block",
           "nc-marquee-pause-color",
           "nc-marquee-pause-color-hover",
-          "nc-marquee-pause-border",
-          "nc-marquee-pause-bg-hover"
+          "nc-marquee-pause-bg",
+          "nc-marquee-pause-bg-hover",
+          "nc-marquee-pause-shadow",
+          "nc-marquee-pause-shadow-hover"
         ]
       }
     ],
@@ -14563,19 +14562,7 @@ export const componentTokenGroups = [
         "id": "nc-marquee-pause-min-size",
         "label": "Pause Min Size",
         "type": "size",
-        "default": "2.5rem"
-      },
-      {
-        "id": "nc-marquee-pause-padding-inline",
-        "label": "Pause Padding Inline",
-        "type": "size",
-        "default": "var(--fnd-spacing-04)"
-      },
-      {
-        "id": "nc-marquee-pause-gap",
-        "label": "Pause Gap",
-        "type": "size",
-        "default": "var(--fnd-spacing-02)"
+        "default": "var(--nc-story-gallery-paddle-size)"
       },
       {
         "id": "nc-marquee-pause-radius",
@@ -14584,16 +14571,10 @@ export const componentTokenGroups = [
         "default": "var(--fnd-radius-full)"
       },
       {
-        "id": "nc-marquee-pause-font-size",
-        "label": "Pause Font Size",
-        "type": "size",
-        "default": "var(--nc-type-label-size)"
-      },
-      {
         "id": "nc-marquee-pause-icon-size",
         "label": "Pause Icon Size",
         "type": "size",
-        "default": "1rem"
+        "default": "1.25rem"
       },
       {
         "id": "nc-marquee-pause-margin-block",
@@ -14605,25 +14586,37 @@ export const componentTokenGroups = [
         "id": "nc-marquee-pause-color",
         "label": "Pause Color",
         "type": "color",
-        "ref": "text-secondary"
+        "default": "var(--nc-story-gallery-paddle-color)"
       },
       {
         "id": "nc-marquee-pause-color-hover",
         "label": "Pause Color Hover",
         "type": "color",
-        "ref": "text-primary"
+        "default": "var(--nc-story-gallery-paddle-color)"
       },
       {
-        "id": "nc-marquee-pause-border",
-        "label": "Pause Border",
+        "id": "nc-marquee-pause-bg",
+        "label": "Pause-Knopf — Fläche",
         "type": "color",
-        "ref": "border-primary"
+        "default": "var(--fnd-color-background-base)"
       },
       {
         "id": "nc-marquee-pause-bg-hover",
         "label": "Pause Bg Hover",
         "type": "color",
-        "ref": "text-primary"
+        "default": "var(--fnd-color-background-base)"
+      },
+      {
+        "id": "nc-marquee-pause-shadow",
+        "label": "Pause-Knopf — Schatten",
+        "type": "shadow",
+        "default": "var(--nc-story-gallery-paddle-shadow)"
+      },
+      {
+        "id": "nc-marquee-pause-shadow-hover",
+        "label": "Pause-Knopf — Schatten (Hover)",
+        "type": "shadow",
+        "default": "var(--fnd-shadow-lg)"
       }
     ]
   },

@@ -286,8 +286,10 @@
 
 // Pause-Knopf des Laufbands (Plan v4, Phase 2, 12.10.2026, WCAG 2.2.2):
 // Tokens und Verhalten aus marquee (--nc-marquee-pause-*, neo-behaviors
-// marquee). Seit 22.11.2026 rund unter der Spur, rechts; die Beschriftung
-// bleibt fuer Screenreader. Bei reduzierter Bewegung steht die Spur — kein Knopf.
+// marquee). Rund unter der Spur, rechts; seit I19 Phase 3 (24.11.2026) wie
+// die Pfeile der Story Gallery (Flaeche, Schatten, kein Rand). Die
+// Beschriftung bleibt fuer Screenreader. Bei reduzierter Bewegung steht die
+// Spur — kein Knopf.
 .nc-logo-wall__pause {
   display: grid;
   place-items: center;
@@ -295,16 +297,18 @@
   block-size: var(--nc-marquee-pause-min-size);
   margin: var(--nc-marquee-pause-margin-block) var(--fnd-spacing-02) var(--fnd-spacing-02) auto;
   padding: 0;
-  border: 1px solid var(--nc-marquee-pause-border);
-  border-radius: var(--fnd-radius-full);
-  background: transparent;
+  border: none;
+  border-radius: var(--nc-marquee-pause-radius);
+  background-color: var(--nc-marquee-pause-bg);
   color: var(--nc-marquee-pause-color);
+  box-shadow: var(--nc-marquee-pause-shadow);
   cursor: pointer;
-  @include transition-quick((color, background-color));
+  @include transition-quick((color, background-color, box-shadow));
 
   &:hover {
     color: var(--nc-marquee-pause-color-hover);
     background-color: var(--nc-marquee-pause-bg-hover);
+    box-shadow: var(--nc-marquee-pause-shadow-hover);
   }
 
   &:focus-visible {
@@ -333,7 +337,6 @@
   flex: 0 0 auto;
   inline-size: var(--nc-marquee-pause-icon-size);
   block-size: var(--nc-marquee-pause-icon-size);
-  fill: currentColor;
 }
 
 .nc-logo-wall__pause[data-playing='false'] .nc-logo-wall__pause-pause,

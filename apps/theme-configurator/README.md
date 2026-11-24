@@ -1403,6 +1403,18 @@ Hero: Wortwechsel bewegt sich (I19 Phase 2, 24.11.2026, ohne App-Version — nur
   Takt, Start/Pause, reduzierte Bewegung, Rahmen-Ausgleich, Füllen; Tests in
   `tests/behaviors/hero-wortwechsel.test.js`.
 
+Laufband und Logo-Leiste: Pause-Knopf wie die Story-Gallery-Pfeile (I19 Phase 3, 24.11.2026, ohne App-Version — nur Daten):
+
+- Komponente Laufband, Untergruppe „Pause-Knopf“: neu „Pause-Knopf — Fläche“
+  (`nc-marquee-pause-bg`), „— Schatten“ (`-shadow`) und „— Schatten (Hover)“
+  (`-shadow-hover`). Größe und Farbe zeigen jetzt auf die Pfeil-Tokens der
+  Story Gallery.
+- Entfernt: `nc-marquee-pause-padding-inline`, `-gap`, `-font-size`,
+  `-border` (der Knopf hat keinen Rand und keine sichtbare Beschriftung
+  mehr). Gespeicherte Werte dieser Tokens verwirft die App beim Laden mit
+  Hinweis (wie seit R14 Paket 5).
+- Wirkungsstand festgeschrieben (`src/data/token-wirkung.json`).
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

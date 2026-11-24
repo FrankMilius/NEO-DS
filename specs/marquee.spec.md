@@ -1,5 +1,5 @@
 # marquee Component Spec
-> Version 1.3.0 | Status: stable | Layer: molecule
+> Version 1.4.0 | Status: stable | Layer: molecule
 
 Tags: `display`, `animation`, `decorative`
 
@@ -8,7 +8,7 @@ Root element: `.nc-marquee`
 
 | Slot | Selector | Required | Description |
 | --- | --- | --- | --- |
-| pause | `.nc-marquee__pause` | No | Pause-Knopf vor der Spur (WCAG 2.2.2): Symbol .nc-marquee__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-marquee__pause-label „Laufband anhalten“/„Laufband fortsetzen“. Bei prefers-reduced-motion [hidden]. |
+| pause | `.nc-marquee__pause` | No | Pause-Knopf vor der Spur (WCAG 2.2.2): Symbol .nc-marquee__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-marquee__pause-label (nur fuer Screenreader) „Laufband anhalten“/„Laufband fortsetzen“. Bei prefers-reduced-motion [hidden]. Seit 1.4.0 wie die Pfeile der Story Gallery: rund, Flaeche, Schatten, kein Rand; Symbol Tabler player-pause/-play. |
 | track | `.nc-marquee__track` | Yes | — |
 | text | `.nc-marquee__text` | Yes | — |
 
@@ -46,16 +46,15 @@ Base classes: `nc-marquee`
 | Token | CSS Property | Override |
 | --- | --- | --- |
 | `--nc-marquee-pause-min-size` | — | — |
-| `--nc-marquee-pause-padding-inline` | — | — |
-| `--nc-marquee-pause-gap` | — | — |
 | `--nc-marquee-pause-radius` | — | — |
-| `--nc-marquee-pause-font-size` | — | — |
 | `--nc-marquee-pause-icon-size` | — | — |
 | `--nc-marquee-pause-margin-block` | — | — |
 | `--nc-marquee-pause-color` | — | — |
 | `--nc-marquee-pause-color-hover` | — | — |
-| `--nc-marquee-pause-border` | — | — |
+| `--nc-marquee-pause-bg` | — | — |
 | `--nc-marquee-pause-bg-hover` | — | — |
+| `--nc-marquee-pause-shadow` | — | — |
+| `--nc-marquee-pause-shadow-hover` | — | — |
 
 ## Keyboard Interactions
 | Key | Action | Notes |

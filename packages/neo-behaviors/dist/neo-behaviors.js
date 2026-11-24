@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.23.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.23.1 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -5270,7 +5270,7 @@
     de: { pause: "Laufband anhalten", play: "Laufband fortsetzen" },
     en: { pause: "Pause scrolling", play: "Resume scrolling" }
   };
-  var symbol = (b) => `<svg class="${b}__pause-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="${b}__pause-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="${b}__pause-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>`;
+  var symbol = (b) => `<svg class="${b}__pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="${b}__pause-pause" d="M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1zM14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path class="${b}__pause-play" d="M7 4v16l13 -8z"/></svg>`;
   var marquee = {
     id: "marquee",
     selektor: ".nc-marquee, .nc-logo-wall--marquee",
@@ -5316,6 +5316,10 @@
         angelegt = true;
       }
       const k = knopf;
+      if (!angelegt) {
+        k.querySelectorAll(":scope > svg").forEach((alt) => alt.remove());
+        k.insertAdjacentHTML("afterbegin", symbol(b));
+      }
       const wurzelVerborgen = wurzel.getAttribute("aria-hidden") === "true";
       const spurHatteHidden = spur.getAttribute("aria-hidden");
       if (wurzelVerborgen) {
@@ -7631,7 +7635,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.23.0",
+    version: "0.23.1",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",

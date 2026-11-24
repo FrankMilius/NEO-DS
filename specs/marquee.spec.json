@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "marquee",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "stable",
   "layer": "molecule",
   "tags": [
@@ -16,7 +16,7 @@
         "name": "pause",
         "selector": ".nc-marquee__pause",
         "required": false,
-        "description": "Pause-Knopf vor der Spur (WCAG 2.2.2): Symbol .nc-marquee__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-marquee__pause-label „Laufband anhalten“/„Laufband fortsetzen“. Bei prefers-reduced-motion [hidden]."
+        "description": "Pause-Knopf vor der Spur (WCAG 2.2.2): Symbol .nc-marquee__pause-icon (Pfade -pause/-play, Wahl per data-playing) und Beschriftung .nc-marquee__pause-label (nur fuer Screenreader) „Laufband anhalten“/„Laufband fortsetzen“. Bei prefers-reduced-motion [hidden]. Seit 1.4.0 wie die Pfeile der Story Gallery: rund, Flaeche, Schatten, kein Rand; Symbol Tabler player-pause/-play."
       },
       {
         "name": "track",
@@ -104,16 +104,7 @@
           "token": "--nc-marquee-pause-min-size"
         },
         {
-          "token": "--nc-marquee-pause-padding-inline"
-        },
-        {
-          "token": "--nc-marquee-pause-gap"
-        },
-        {
           "token": "--nc-marquee-pause-radius"
-        },
-        {
-          "token": "--nc-marquee-pause-font-size"
         },
         {
           "token": "--nc-marquee-pause-icon-size"
@@ -128,10 +119,16 @@
           "token": "--nc-marquee-pause-color-hover"
         },
         {
-          "token": "--nc-marquee-pause-border"
+          "token": "--nc-marquee-pause-bg"
         },
         {
           "token": "--nc-marquee-pause-bg-hover"
+        },
+        {
+          "token": "--nc-marquee-pause-shadow"
+        },
+        {
+          "token": "--nc-marquee-pause-shadow-hover"
         }
       ]
     },

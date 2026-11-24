@@ -118,6 +118,25 @@ describe('marquee: Knopf, Ruhe, Ereignisse', () => {
     expect(label(knopf)).toBe('Laufband anhalten')
   })
 
+  it('Symbol wie die Story-Gallery-Pfeile: Tabler player-pause/-play, 24er-Raster, Strich 2 — auch ein Symbol aus dem Twig wird ersetzt, Abbinden stellt es her (I19 Phase 3)', () => {
+    const html = logoMarkup().replace('<svg class="nc-logo-wall__pause-icon" aria-hidden="true"></svg>',
+      '<svg class="nc-logo-wall__pause-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path class="nc-logo-wall__pause-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/><path class="nc-logo-wall__pause-play" d="M4.5 2.2 13.5 8l-9 5.8z"/></svg>')
+    const b = buehne(html)
+    const vorher = b.querySelector('.nc-logo-wall__pause').innerHTML
+    anbinden(b, ['marquee'])
+    const svg = b.querySelector('.nc-logo-wall__pause > svg.nc-logo-wall__pause-icon')
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
+    expect(svg.getAttribute('fill')).toBe('none')
+    expect(svg.getAttribute('stroke')).toBe('currentColor')
+    expect(svg.getAttribute('stroke-width')).toBe('2')
+    expect(svg.querySelector('.nc-logo-wall__pause-pause').getAttribute('d')).toContain('M6 6a1 1 0 0 1 1 -1h2')
+    expect(svg.querySelector('.nc-logo-wall__pause-play').getAttribute('d')).toBe('M7 4v16l13 -8z')
+    expect(b.querySelectorAll('.nc-logo-wall__pause svg')).toHaveLength(1)
+    expect(label(b.querySelector('.nc-logo-wall__pause'))).toBe('Laufband anhalten')
+    abbinden(b, ['marquee'])
+    expect(b.querySelector('.nc-logo-wall__pause').innerHTML).toBe(vorher)
+  })
+
   it('Maus ueber der Spur und Fokus im Laufband: .is-paused; ueber/auf dem Knopf nicht', () => {
     const { knopf, wurzel, spur } = bau()
     spur.firstElementChild.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }))
