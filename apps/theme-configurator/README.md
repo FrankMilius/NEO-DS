@@ -1394,6 +1394,16 @@ Story Gallery: Kartenhöhe auf dem Handy (I18 Phase 8, 24.11.2026, ohne App-Vers
   „Schmalstes Kartenformat (Handy)“ ohne Wirkung in der Vorschau (keine
   Hochkant-Karte), auf der Website gemessen mit `npm run pruefen:sg-handy`.
 
+Story Gallery: Anordnung auf der Fläche (I18 Phase 9, 24.11.2026, ohne App-Version — Recipe und Arena-Vorlage):
+
+- Neue Achse „Anordnung“ in der Vorschau: unten (bisher), rechts, links,
+  ganz. Auf der Website wählt die Redaktion sie je Karte im Karten-Editor
+  von Drupal („Anordnung auf der Fläche“, vier Knöpfe mit Bildchen); ohne
+  Wahl zeigt ein Hochformat den ganzen Screen.
+- Keine neuen Tokens: die Anordnung nutzt die Felder der Untergruppe
+  „Medienfläche“ (Innenabstand, Ecken, Schatten). Prüfung auf der Website:
+  `npm run pruefen:sg-anordnung`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

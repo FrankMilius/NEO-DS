@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/story-gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.7.0",
+        "changes": [
+          "I18 Phase 9 (24.11.2026): Achse „anordnung“ (unten, rechts, links, ganz) als Klasse an der Karte; Hochformate ohne Wahl „ganz“ (E3 Frank). Bei „ganz“ kein Zoom und kein Fokus, ::after entfällt, Ecken und Schatten am Screen."
+        ]
+      },
       {
         "version": "1.6.0",
         "changes": [
@@ -178,7 +184,8 @@
       "Blaettern: Pfeile, Cursor-Paddle und Fortschritt steuert neo_fe/js/neo-story-gallery.js (setzt --sg-fortschritt-breite und --sg-fortschritt-lage am Balken); die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).",
       "Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.",
-      "Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit."
+      "Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.",
+      "Anordnung (I18 Phase 9, 24.11.2026): includes/neo_story_gallery.inc liest den Kartenschlüssel „anordnung“ (unten|rechts|links|ganz), Vorgabe ohne Wahl: Hochformat (Breite < Höhe) „ganz“, sonst keine Klasse; bei „ganz“ setzt sie Zoom 1 und Fokus Mitte im data-sg-shot. Der Editor (neo_fe/js/neo-shot-editor.js) bietet vier Knöpfe mit Bildchen und rückt bei „rechts“/„links“ einen mittigen Fokus an die sichtbare Kante."
     ]
   },
   "axes": {
@@ -219,6 +226,40 @@
             "paddles"
           ],
           "description": "__paddles--overlay ueber den Karten (unter 768 px ausgeblendet); mit loop on gilt die Fussleiste wie bei below"
+        }
+      }
+    },
+    "anordnung": {
+      "label": "Anordnung",
+      "description": "Wo der Screen die Medienfläche verlässt — je Karte (Karten-JSON „anordnung“), Klasse an der Karte .nc-story-gallery__card--anordnung-*. Ohne Wahl: Hochformat „ganz“, sonst „unten“ (I18 Phase 9, E3 Frank).",
+      "values": {
+        "unten": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "Abstand oben und seitlich, läuft unten aus (keine Klasse)"
+        },
+        "rechts": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-rechts: Abstand oben und links, läuft rechts und unten aus"
+        },
+        "links": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-links: Abstand oben und rechts, läuft links und unten aus"
+        },
+        "ganz": {
+          "modifier": null,
+          "tokenGroups": [
+            "stage"
+          ],
+          "description": "__card--anordnung-ganz: Abstand rundum, ganzer Screen ohne Beschnitt und Zoom, Ecken und Schatten am Screen"
         }
       }
     },

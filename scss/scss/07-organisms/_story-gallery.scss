@@ -164,6 +164,61 @@
   object-fit: cover;
 }
 
+// Anordnung des Screens auf der Fläche (I18 Phase 9, 24.11.2026, Vorschläge
+// 2 und 11): ohne Klasse „unten“ wie oben. „rechts“ und „links“ lassen den
+// Screen zu dieser Seite aus der Fläche laufen (Vorbild simpplr.com) — der
+// Fokuspunkt bestimmt weiter, welcher Teil zu sehen ist. „ganz“ zeigt den
+// ganzen Screen mit Abstand rundum, ohne Beschnitt und ohne Zoom; die
+// Vorlage setzt es für Hochformate von selbst (E3 Frank).
+.nc-story-gallery__card--anordnung-rechts .nc-story-gallery__media {
+  padding-inline-end: 0;
+}
+
+.nc-story-gallery__card--anordnung-rechts .nc-story-gallery__media::after {
+  inset-inline-end: 0;
+  border-start-end-radius: 0;
+}
+
+.nc-story-gallery__card--anordnung-links .nc-story-gallery__media {
+  padding-inline-start: 0;
+}
+
+.nc-story-gallery__card--anordnung-links .nc-story-gallery__media::after {
+  inset-inline-start: 0;
+  border-start-start-radius: 0;
+}
+
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nc-story-gallery-stage-padding);
+}
+
+// Ohne Beschnitt braucht es keine Abdeckung; Ecken und Schatten trägt der
+// Screen selbst, damit sie an seiner sichtbaren Kante liegen — auch bei
+// Videos (Widersacher Phase 9: Hochformat-Video bekommt „ganz“ von selbst).
+// Bild, Video und Rahmen über Element bzw. :not() statt über die nc-shot-Klassen — Regeln an
+// .nc-shot__* gehören dem Bauteil shot (tests/arena/shot.test.js).
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media::after {
+  content: none;
+}
+
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > img,
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > video {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--nc-story-gallery-stage-radius);
+  box-shadow: var(--nc-story-gallery-stage-shadow);
+}
+
+.nc-story-gallery__card--anordnung-ganz .nc-story-gallery__media > :not(img, video) {
+  border-radius: var(--nc-story-gallery-stage-radius);
+  box-shadow: var(--nc-story-gallery-stage-shadow);
+}
+
 .nc-story-gallery__caption {
   padding-block: var(--nc-story-gallery-caption-gap);
   width: 100%;

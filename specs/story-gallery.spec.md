@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.6.0 | Status: stable | Layer: organism
+> Version 1.7.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -32,6 +32,7 @@ Root element: `.nc-story-gallery`
 - Blaettern: Paddles und Cursor-Paddle steuert neo-theme.js; die Bewegung der Spur ist scroll-behavior: smooth aus dem DS (bei prefers-reduced-motion: auto).
 - Karten-Video (Plan v4, Phase 3): .nc-story-gallery__media mit [data-neo-video]; Knopf .nc-video-pause (Recipe video) unten am Ende des Mediums; in Kopien (aria-hidden) tabindex=-1.
 - Kartenhöhe (I18, 24.11.2026): Die Vorlage setzt den Blockwert als --sg-card-height-block im Inline-Stil der Galerie; das DS leitet daraus --sg-card-height ab und ersetzt ihn bis 768 px durch --nc-story-gallery-card-height-mobile. Karten sind dort höchstens 100cqi des Scrollers minus --nc-story-gallery-peek-mobile breit.
+- Anordnung (I18 Phase 9, 24.11.2026): includes/neo_story_gallery.inc liest den Kartenschlüssel „anordnung“ (unten|rechts|links|ganz), Vorgabe ohne Wahl: Hochformat (Breite < Höhe) „ganz“, sonst keine Klasse; bei „ganz“ setzt sie Zoom 1 und Fokus Mitte im data-sg-shot. Der Editor (neo_fe/js/neo-shot-editor.js) bietet vier Knöpfe mit Bildchen und rückt bei „rechts“/„links“ einen mittigen Fokus an die sichtbare Kante.
 
 ## Variants
 ### Variant (`variant`)
@@ -48,6 +49,16 @@ Lage der Blaetter-Knoepfe.
 | --- | --- | --- |
 | below | — |  |
 | overlay | — |  |
+
+### Anordnung (`anordnung`)
+Wo der Screen die Medienfläche verlässt — je Karte (Karten-JSON „anordnung“), Klasse an der Karte .nc-story-gallery__card--anordnung-*. Ohne Wahl: Hochformat „ganz“, sonst „unten“ (I18 Phase 9, E3 Frank).
+
+| Value | CSS Modifier | Default |
+| --- | --- | --- |
+| unten | — |  |
+| rechts | — |  |
+| links | — |  |
+| ganz | — |  |
 
 ### Endlos (`loop`)
 Endlose Spur aus Kopien; Fussleiste mit Fortschritt je Runde und zusaetzlich Cursor-Paddle.
@@ -139,7 +150,7 @@ Derived from anatomy for potential `<nc-story-gallery>` custom element:
 
 ```js
 class NcStoryGallery extends HTMLElement {
-  static observedAttributes = ['variant', 'navigation', 'loop'];
+  static observedAttributes = ['variant', 'navigation', 'anordnung', 'loop'];
   // Slots: <slot name="scroll">, <slot name="track">, <slot name="card">, <slot name="media">, <slot name="caption">, <slot name="title">
 }
 ```

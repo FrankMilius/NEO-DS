@@ -50,7 +50,10 @@ const paddles = (art) => `<div class="nc-story-gallery__paddles nc-story-gallery
 export default (zelle, m) => {
   const oben = m.wert('navigation') === 'overlay'
   const schleife = m.wert('loop') === 'on'
-  const karten = KARTEN.map(([titel, text, w, h]) => `<li class="nc-story-gallery__card" style="--sg-card-ratio-w: ${w}; --sg-card-ratio-h: ${h};">
+  // Achse anordnung (I18 Phase 9): Klasse an jeder Karte, unten = keine
+  const anordnung = m.wert('anordnung')
+  const kartenKlasse = anordnung && anordnung !== 'unten' ? ` nc-story-gallery__card--anordnung-${anordnung}` : ''
+  const karten = KARTEN.map(([titel, text, w, h]) => `<li class="nc-story-gallery__card${kartenKlasse}" style="--sg-card-ratio-w: ${w}; --sg-card-ratio-h: ${h};">
 <div class="nc-story-gallery__media"><img src="${BILD_SRC}" alt="${titel}" decoding="async"></div>
 <div class="nc-story-gallery__caption"><h3 class="nc-story-gallery__title">${titel}</h3><p class="nc-story-gallery__desc">${text}</p></div>
 </li>`).join('\n')
