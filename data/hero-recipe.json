@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "hero",
-    "version": "2.7.0",
+    "version": "2.7.1",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/hero-docs"
     },
     "changelog": [
+      {
+        "version": "2.7.1",
+        "changes": [
+          "I19 Phase 4 (24.11.2026): Tokengruppe wortwechsel-bewegung (17 Dauern und Kurven) getrennt von wortwechsel (52), wie die Untergruppen „Wortwechsel“ und „Wortwechsel · Bewegung“ der Konfig-App. Feldnamen sagen „Screens“ statt „Bühne“ (BEGRIFFE.md). Anatomie: Elemente der Variante wortwechsel (ww-words … glow)."
+        ]
+      },
       {
         "version": "2.7.0",
         "changes": [
@@ -145,6 +151,66 @@
         "element": ".nc-hero__badges",
         "optional": true,
         "description": "Badge-Zeile ueber der Headline: .nc-badge-row.nc-hero__badges mit .nc-label; auf dunklem Hero eigener Schleier (--nc-badge-row-hero-*)."
+      },
+      {
+        "name": "ww-words",
+        "element": ".nc-hero__ww-words",
+        "optional": true,
+        "description": "Variante wortwechsel: Stapel der wechselnden Woerter in der Ueberschrift (aria-hidden); alle Woerter liegen in einer Rasterzelle, die Textspalte ist so breit wie das laengste. Immer Lime."
+      },
+      {
+        "name": "ww-word",
+        "element": ".nc-hero__ww-word",
+        "optional": true,
+        "description": "Ein Wort des Stapels; .is-on sichtbar, .is-off blendet aus. Das Verhalten zerlegt es in .nc-hero__ww-letter (--i) fuer den Buchstaben-Aufbau."
+      },
+      {
+        "name": "ww-break",
+        "element": ".nc-hero__ww-break",
+        "optional": true,
+        "description": "Trennstelle im Wort („zusammen-arbeiten“), nur sichtbar, solange Text und Screens nebeneinander stehen."
+      },
+      {
+        "name": "ww-current",
+        "element": ".nc-hero__ww-current",
+        "optional": true,
+        "description": "Aktuelles Wort fuer Screenreader (.u-sr-only, nicht live); das Verhalten fuehrt es nach."
+      },
+      {
+        "name": "ww-screens",
+        "element": ".nc-hero__ww-screens",
+        "optional": true,
+        "description": "Screens-Block rechts: Screens plus Laufleistenzone oben und unten als Rand (Rahmen oben = unten)."
+      },
+      {
+        "name": "ww-stage",
+        "element": ".nc-hero__ww-stage",
+        "optional": true,
+        "description": "Screens (role=\"img\", aria-label aus data-ww-label des Web-Bilds); .has-app, wenn der Claim einen App-Screen hat."
+      },
+      {
+        "name": "ww-web",
+        "element": ".nc-hero__ww-web",
+        "optional": true,
+        "description": "Web-Screen 4:3 mit je einem Bild pro Claim; Zuschnitt per --z (Zoom) und --x (Ausschnitt waagerecht) am Bild."
+      },
+      {
+        "name": "ww-app",
+        "element": ".nc-hero__ww-app",
+        "optional": true,
+        "description": "App-Screen rechts unten, 20 % breit, darin .nc-hero__ww-phone mit Bildern data-ww-index."
+      },
+      {
+        "name": "ww-bar",
+        "element": ".nc-hero__ww-bar",
+        "optional": true,
+        "description": "Laufleiste frei unter den Screens: Start/Pause (.nc-hero__ww-pause, nc-story-gallery__paddle) und Segmente (.nc-hero__ww-seg, aria-current, .is-done). Verborgen, bis das Verhalten is-ready setzt."
+      },
+      {
+        "name": "glow",
+        "element": ".nc-hero__glow",
+        "optional": true,
+        "description": "Leuchten hinter den Screens (aria-hidden), Ton per data-tone lime/blue."
       }
     ],
     "convenience": [
@@ -252,7 +318,8 @@
         "wortwechsel": {
           "modifier": "nc-hero--wortwechsel",
           "tokenGroups": [
-            "wortwechsel"
+            "wortwechsel",
+            "wortwechsel-bewegung"
           ],
           "renderHint": "hero-wortwechsel",
           "slotConfig": {
@@ -791,7 +858,12 @@
           "nc-hero-ww-seg-track",
           "nc-hero-ww-seg-done",
           "nc-hero-ww-glow-opacity",
-          "nc-hero-ww-glow-blur",
+          "nc-hero-ww-glow-blur"
+        ]
+      },
+      "wortwechsel-bewegung": {
+        "label": "Wortwechsel · Bewegung",
+        "tokens": [
           "nc-hero-ww-duration",
           "nc-hero-ww-ease",
           "nc-hero-ww-ease-app",

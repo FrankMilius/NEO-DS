@@ -1,5 +1,5 @@
 # hero Component Spec
-> Version 2.7.0 | Status: stable | Layer: organism
+> Version 2.7.1 | Status: stable | Layer: organism
 
 Tags: `display`, `content`, `hero`, `landing`
 
@@ -16,6 +16,16 @@ Root element: `.nc-hero`
 | cards | `.nc-hero__cards` | No | Kennzahlen-Raster. Nutzt .nc-metric, kein eigenes Bauteil. |
 | mark | `.nc-hero__mark` | No | Hervorhebung INNERHALB der Ueberschrift. Immer Balken — auch mit nc-hero--mark-tint (Entscheidung 06.10.2026); Tinte nur mit dem Element-Modifier .nc-hero__mark--tint. Nicht zu verwechseln mit .nc-hero__highlight, dem Eintrag der Merkmalsliste. |
 | badges | `.nc-hero__badges` | No | Badge-Zeile ueber der Headline: .nc-badge-row.nc-hero__badges mit .nc-label; auf dunklem Hero eigener Schleier (--nc-badge-row-hero-*). |
+| ww-words | `.nc-hero__ww-words` | No | Variante wortwechsel: Stapel der wechselnden Woerter in der Ueberschrift (aria-hidden); alle Woerter liegen in einer Rasterzelle, die Textspalte ist so breit wie das laengste. Immer Lime. |
+| ww-word | `.nc-hero__ww-word` | No | Ein Wort des Stapels; .is-on sichtbar, .is-off blendet aus. Das Verhalten zerlegt es in .nc-hero__ww-letter (--i) fuer den Buchstaben-Aufbau. |
+| ww-break | `.nc-hero__ww-break` | No | Trennstelle im Wort („zusammen-arbeiten“), nur sichtbar, solange Text und Screens nebeneinander stehen. |
+| ww-current | `.nc-hero__ww-current` | No | Aktuelles Wort fuer Screenreader (.u-sr-only, nicht live); das Verhalten fuehrt es nach. |
+| ww-screens | `.nc-hero__ww-screens` | No | Screens-Block rechts: Screens plus Laufleistenzone oben und unten als Rand (Rahmen oben = unten). |
+| ww-stage | `.nc-hero__ww-stage` | No | Screens (role="img", aria-label aus data-ww-label des Web-Bilds); .has-app, wenn der Claim einen App-Screen hat. |
+| ww-web | `.nc-hero__ww-web` | No | Web-Screen 4:3 mit je einem Bild pro Claim; Zuschnitt per --z (Zoom) und --x (Ausschnitt waagerecht) am Bild. |
+| ww-app | `.nc-hero__ww-app` | No | App-Screen rechts unten, 20 % breit, darin .nc-hero__ww-phone mit Bildern data-ww-index. |
+| ww-bar | `.nc-hero__ww-bar` | No | Laufleiste frei unter den Screens: Start/Pause (.nc-hero__ww-pause, nc-story-gallery__paddle) und Segmente (.nc-hero__ww-seg, aria-current, .is-done). Verborgen, bis das Verhalten is-ready setzt. |
+| glow | `.nc-hero__glow` | No | Leuchten hinter den Screens (aria-hidden), Ton per data-tone lime/blue. |
 
 ### DOM Notes
 - Grid: 2-Spalten ab 768px (split: 50/50 buendig). Content: text-inverse, gap 1rem.
@@ -326,6 +336,10 @@ Base classes: `nc-hero`
 | `--nc-hero-ww-seg-done` | — | — |
 | `--nc-hero-ww-glow-opacity` | — | — |
 | `--nc-hero-ww-glow-blur` | — | — |
+
+### Wortwechsel · Bewegung
+| Token | CSS Property | Override |
+| --- | --- | --- |
 | `--nc-hero-ww-duration` | — | — |
 | `--nc-hero-ww-ease` | — | — |
 | `--nc-hero-ww-ease-app` | — | — |

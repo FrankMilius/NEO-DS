@@ -1415,6 +1415,19 @@ Laufband und Logo-Leiste: Pause-Knopf wie die Story-Gallery-Pfeile (I19 Phase 3,
   Hinweis (wie seit R14 Paket 5).
 - Wirkungsstand festgeschrieben (`src/data/token-wirkung.json`).
 
+Hero: Untergruppen Wortwechsel (I19 Phase 4, 24.11.2026, ohne App-Version — Daten und Arena-Vorlage):
+
+- „Hero“ hat zwei neue Untergruppen: „Wortwechsel“ (52 Felder: Claim,
+  Kicker, Untertitel, Screens, Web- und App-Screen, Laufleiste, Leuchten)
+  und „Wortwechsel · Bewegung“ (17 Dauern und Kurven, darunter „Dauer je
+  Claim“). Drei Feldnamen sagen „Screens“ statt „Bühne“ (BEGRIFFE.md).
+- Neue Begriffe in `BEGRIFFE.md`: Wortwechsel, Claim, Screens · Web-Screen ·
+  App-Screen, Laufleiste · Segment, Leuchten.
+- „Abspielen“ in der Hero-Arena bindet in der Zelle „wortwechsel“ das
+  Verhalten `hero-wortwechsel`; die eingestellte Dauer je Claim gilt dort
+  (gemessen in Chromium: 1,2 s am Theme-Bereich → Wechsel nach 1242 und
+  2444 ms).
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

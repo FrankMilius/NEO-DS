@@ -1,7 +1,7 @@
 {
   "$schema": "../data/component-spec-schema.json",
   "component": "hero",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "status": "stable",
   "layer": "organism",
   "tags": [
@@ -60,6 +60,66 @@
         "selector": ".nc-hero__badges",
         "required": false,
         "description": "Badge-Zeile ueber der Headline: .nc-badge-row.nc-hero__badges mit .nc-label; auf dunklem Hero eigener Schleier (--nc-badge-row-hero-*)."
+      },
+      {
+        "name": "ww-words",
+        "selector": ".nc-hero__ww-words",
+        "required": false,
+        "description": "Variante wortwechsel: Stapel der wechselnden Woerter in der Ueberschrift (aria-hidden); alle Woerter liegen in einer Rasterzelle, die Textspalte ist so breit wie das laengste. Immer Lime."
+      },
+      {
+        "name": "ww-word",
+        "selector": ".nc-hero__ww-word",
+        "required": false,
+        "description": "Ein Wort des Stapels; .is-on sichtbar, .is-off blendet aus. Das Verhalten zerlegt es in .nc-hero__ww-letter (--i) fuer den Buchstaben-Aufbau."
+      },
+      {
+        "name": "ww-break",
+        "selector": ".nc-hero__ww-break",
+        "required": false,
+        "description": "Trennstelle im Wort („zusammen-arbeiten“), nur sichtbar, solange Text und Screens nebeneinander stehen."
+      },
+      {
+        "name": "ww-current",
+        "selector": ".nc-hero__ww-current",
+        "required": false,
+        "description": "Aktuelles Wort fuer Screenreader (.u-sr-only, nicht live); das Verhalten fuehrt es nach."
+      },
+      {
+        "name": "ww-screens",
+        "selector": ".nc-hero__ww-screens",
+        "required": false,
+        "description": "Screens-Block rechts: Screens plus Laufleistenzone oben und unten als Rand (Rahmen oben = unten)."
+      },
+      {
+        "name": "ww-stage",
+        "selector": ".nc-hero__ww-stage",
+        "required": false,
+        "description": "Screens (role=\"img\", aria-label aus data-ww-label des Web-Bilds); .has-app, wenn der Claim einen App-Screen hat."
+      },
+      {
+        "name": "ww-web",
+        "selector": ".nc-hero__ww-web",
+        "required": false,
+        "description": "Web-Screen 4:3 mit je einem Bild pro Claim; Zuschnitt per --z (Zoom) und --x (Ausschnitt waagerecht) am Bild."
+      },
+      {
+        "name": "ww-app",
+        "selector": ".nc-hero__ww-app",
+        "required": false,
+        "description": "App-Screen rechts unten, 20 % breit, darin .nc-hero__ww-phone mit Bildern data-ww-index."
+      },
+      {
+        "name": "ww-bar",
+        "selector": ".nc-hero__ww-bar",
+        "required": false,
+        "description": "Laufleiste frei unter den Screens: Start/Pause (.nc-hero__ww-pause, nc-story-gallery__paddle) und Segmente (.nc-hero__ww-seg, aria-current, .is-done). Verborgen, bis das Verhalten is-ready setzt."
+      },
+      {
+        "name": "glow",
+        "selector": ".nc-hero__glow",
+        "required": false,
+        "description": "Leuchten hinter den Screens (aria-hidden), Ton per data-tone lime/blue."
       }
     ],
     "notes": [
@@ -782,7 +842,9 @@
         },
         {
           "token": "--nc-hero-ww-glow-blur"
-        },
+        }
+      ],
+      "Wortwechsel · Bewegung": [
         {
           "token": "--nc-hero-ww-duration"
         },

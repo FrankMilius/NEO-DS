@@ -439,6 +439,33 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(still.innerHTML).toBe(vorher)
   })
 
+  it('hero: „Abspielen“ in der Wortwechsel-Zelle bindet hero-wortwechsel; die Dauer aus der Konfig-App bestimmt den Takt (I19 Phase 4)', () => {
+    vi.useFakeTimers()
+    try {
+      const d = alle('hero', 'variant-comparison').find((x) => x.querySelector('.nc-hero--wortwechsel'))
+      const hero = d.querySelector('.nc-hero--wortwechsel')
+      // Token-Wert wie aus der Konfig-App. jsdom vererbt Custom Properties
+      // nicht, deshalb an der Wurzel; die Vererbung vom Theme-Bereich belegt
+      // die Messung in Chromium (I19 Phase 4, Commit-Rumpf).
+      hero.style.setProperty('--nc-hero-ww-duration', '1.5s')
+      document.body.appendChild(d)
+      const vorher = d.innerHTML
+      const aktiv = () => [...hero.querySelectorAll('.nc-hero__ww-word')].findIndex((w) => w.classList.contains('is-on'))
+      const anhalten = abspielenFuer('hero').starten(d)
+      expect(hero.getAttribute('data-neo-behavior')).toContain('hero-wortwechsel')
+      expect(aktiv()).toBe(2)
+      vi.advanceTimersByTime(1499)
+      expect(aktiv()).toBe(2)
+      vi.advanceTimersByTime(1)
+      expect(aktiv()).toBe(3)
+      anhalten()
+      expect(d.innerHTML).toBe(vorher)
+      d.remove()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('hero: Flaechen und Hervorhebung als Block-Modifier; keine dunkle Seitenflaeche um die Zelle', () => {
     expect(alle('hero', 'surface-comparison').map((d) => d.querySelector('.nc-hero').className))
       .toEqual(['nc-hero nc-hero--surface-dark', 'nc-hero nc-hero--surface-muted', 'nc-hero nc-hero--surface-light'])
@@ -487,7 +514,7 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(rohesRecipe('hero').axes.markStyle.values.tint.description).toContain('.nc-hero__mark bleibt Balken')
   })
 
-  it('hero: Wortwechsel — Wortstapel, Buehne, Laufleiste mit Paddle, dritter Claim aktiv (I19)', () => {
+  it('hero: Wortwechsel — Wortstapel, Screens, Laufleiste mit Paddle, dritter Claim aktiv (I19)', () => {
     const d = alle('hero', 'variant-comparison').find((x) => x.querySelector('.nc-hero--wortwechsel'))
     expect(d).toBeTruthy()
     const hero = d.querySelector('.ra-desktop > section.nc-hero.nc-hero--wortwechsel.nc-hero--cw-xwide.is-ready')
@@ -507,9 +534,9 @@ describe('Layout-Block: Zustände und Aufbau', () => {
     expect(seg.map((b) => b.getAttribute('aria-current'))).toEqual([null, null, 'true', null, null, null])
   })
 
-  it('hero: Recipe 2.7.0 — Specimens fuer jede Achse', () => {
+  it('hero: Recipe 2.7.1 — Specimens fuer jede Achse', () => {
     const r = rohesRecipe('hero')
-    expect(r.meta.version).toBe('2.7.0') // 2.7.0: Verhalten hero-wortwechsel (I19 Phase 2); 2.6.0: Variante wortwechsel (I19); 2.5.0: zweites Medium (I04); 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
+    expect(r.meta.version).toBe('2.7.1') // 2.7.1: Bewegung als eigene Tokengruppe (I19 Phase 4); 2.7.0: Verhalten hero-wortwechsel (I19 Phase 2); 2.6.0: Variante wortwechsel (I19); 2.5.0: zweites Medium (I04); 2.4.2: unbenutzte Tokens geloescht (R14 Paket 5); 2.3.0: Slot badges (Plan v3, Phase 5); 2.3.1: Video 16:9 (Abschluss 2); 2.4.0: Pause-Knopf Hintergrundvideo (Plan v4, Phase 3); 2.4.1: Video-Fassade, zwei Pause-Knoepfe (Nachlauf, 14.10.2026)
     const genutzt = new Set(r.specimens.flatMap((s) => Object.keys(s.matrix.axes)))
     for (const achse of Object.keys(r.axes)) expect(genutzt.has(achse), achse).toBe(true)
   })

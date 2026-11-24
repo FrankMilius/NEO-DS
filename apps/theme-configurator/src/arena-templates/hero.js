@@ -34,6 +34,7 @@
 // replays it like bento-grid's reveal.
 import { BILD_SRC, esc } from './_helfer.js'
 import { spieleEin, alle } from './_bewegung.js'
+import { anbinden } from 'neo-behaviors'
 
 // Portrait placeholder for the secondary media (phone screenshot, 9:19.5)
 const APP_SRC = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 390 845%22 width=%22117%22 height=%22253%22%3E%3Crect width=%22390%22 height=%22845%22 fill=%22%23eef0f3%22/%3E%3Crect width=%22390%22 height=%2290%22 fill=%22%23c9ced6%22/%3E%3Crect x=%2224%22 y=%22130%22 width=%22342%22 height=%22190%22 rx=%2212%22 fill=%22%23aab1bc%22/%3E%3Crect x=%2224%22 y=%22350%22 width=%22342%22 height=%2224%22 rx=%226%22 fill=%22%23c9ced6%22/%3E%3Crect x=%2224%22 y=%22390%22 width=%22240%22 height=%2224%22 rx=%226%22 fill=%22%23c9ced6%22/%3E%3C/svg%3E'
@@ -194,9 +195,13 @@ export default vorlage
  * time, with einblenden bound meanwhile (only then the SCSS hides it).
  */
 export const abspielen = {
-  hinweis: 'Zweites Medium (secondaryMotion): is-revealed weg und wieder an — der Einflug des DS läuft ab. Auf der Website setzt neo-behaviors einblenden die Klasse beim Sichtbarwerden.',
+  hinweis: 'Zweites Medium (secondaryMotion): is-revealed weg und wieder an — der Einflug des DS läuft ab. Auf der Website setzt neo-behaviors einblenden die Klasse beim Sichtbarwerden. Wortwechsel: neo-behaviors hero-wortwechsel wechselt die Claims im Takt der Dauer je Claim.',
   starten (zelle) {
-    return alle([...zelle.querySelectorAll('.nc-hero__media[data-animation^="fly-in-"]')].map((medium) => {
+    // Wortwechsel (I19 Phase 4): das Verhalten der Website bindet in der
+    // Zelle; die Dauer je Claim liest es aus --nc-hero-ww-duration, also auch
+    // aus dem Wert, den die Konfig-App setzt. Aufraeumen stellt die Zelle her.
+    const wortwechsel = zelle.querySelector('.nc-hero--wortwechsel') ? [anbinden(zelle, ['hero-wortwechsel'])] : []
+    return alle([...wortwechsel, ...[...zelle.querySelectorAll('.nc-hero__media[data-animation^="fly-in-"]')].map((medium) => {
       const vorher = medium.getAttribute('data-neo-behavior')
       medium.setAttribute('data-neo-behavior', [vorher, 'einblenden'].filter(Boolean).join(' '))
       const anhalten = spieleEin(medium, 'is-revealed')
@@ -205,6 +210,6 @@ export const abspielen = {
         if (vorher === null) medium.removeAttribute('data-neo-behavior')
         else medium.setAttribute('data-neo-behavior', vorher)
       }
-    }))
+    })])
   }
 }
