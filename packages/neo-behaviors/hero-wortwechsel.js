@@ -10,7 +10,7 @@
 //               (data-ww-index), Ton (lime/blue im Wechsel), Segment der
 //               Laufleiste (aria-current, erledigte is-done), Name der Bühne
 //               (data-ww-label des Web-Bilds, mit App „, davor die App“) und
-//               der Text für Screenreader (.nc-hero__ww-current, nicht live).
+//               der Text für Screenreader ([data-ww-current], nicht live).
 //               Dauer aus --nc-hero-ww-duration (Vorgabe 5 s); ein Zeitgeber,
 //               die Laufleiste zeigt dieselbe Dauer per CSS-Animation.
 //   Knopf       .nc-hero__ww-pause: anhalten/fortsetzen (Restzeit bleibt),
@@ -107,7 +107,7 @@ export const heroWortwechsel = {
     const knopf = /** @type {HTMLButtonElement|null} */ (wurzel.querySelector('.nc-hero__ww-pause'))
     const buehne = wurzel.querySelector('.nc-hero__ww-stage')
     const text = /** @type {HTMLElement|null} */ (wurzel.querySelector('.nc-hero__content'))
-    const vorlesen = wurzel.querySelector('.nc-hero__ww-current')
+    const vorlesen = wurzel.querySelector('[data-ww-current]')
     const texte = TEXTE[spracheVon(wurzel)]
     const ruhig = reduzierteBewegung(wurzel)
     const dauer = dauerAus(wurzel, '--nc-hero-ww-duration', VORGABE_MS)

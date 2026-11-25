@@ -6526,7 +6526,7 @@
         /** @type {HTMLElement|null} */
         wurzel.querySelector(".nc-hero__content")
       );
-      const vorlesen = wurzel.querySelector(".nc-hero__ww-current");
+      const vorlesen = wurzel.querySelector("[data-ww-current]");
       const texte = TEXTE7[spracheVon(wurzel)];
       const ruhig = reduzierteBewegung(wurzel);
       const dauer = dauerAus(wurzel, "--nc-hero-ww-duration", VORGABE_MS3);

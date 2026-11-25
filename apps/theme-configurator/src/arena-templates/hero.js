@@ -115,7 +115,7 @@ function wortwechsel (m) {
 <div class="nc-hero__grid">
 <div class="nc-hero__content">
 <p class="nc-hero__kicker">Social Intranet · Kommunikation · KI</p>
-<h1 class="nc-hero__title"><span class="nc-hero__ww-static">Intelligent</span> <span class="nc-hero__ww-words" aria-hidden="true">${worte}</span><span class="u-sr-only">zusammenarbeiten</span></h1>
+<h1 class="nc-hero__title"><span class="nc-hero__ww-static">Intelligent</span> <span class="nc-hero__ww-words" aria-hidden="true">${worte}</span><span class="u-sr-only" data-ww-current>zusammenarbeiten</span></h1>
 <div class="nc-hero__subtitle">\n<p>neo workplace ist die KI-basierte Social-Intranet-Plattform für Kommunikation, Wissen und Zusammenarbeit.</p>\n</div>
 ${aktionen()}
 </div>

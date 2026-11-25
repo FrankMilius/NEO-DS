@@ -19,7 +19,7 @@ Root element: `.nc-hero`
 | ww-words | `.nc-hero__ww-words` | No | Variante wortwechsel: Stapel der wechselnden Woerter in der Ueberschrift (aria-hidden); alle Woerter liegen in einer Rasterzelle, die Textspalte ist so breit wie das laengste. Immer Lime. |
 | ww-word | `.nc-hero__ww-word` | No | Ein Wort des Stapels; .is-on sichtbar, .is-off blendet aus. Das Verhalten zerlegt es in .nc-hero__ww-letter (--i) fuer den Buchstaben-Aufbau. |
 | ww-break | `.nc-hero__ww-break` | No | Trennstelle im Wort („zusammen-arbeiten“), nur sichtbar, solange Text und Screens nebeneinander stehen. |
-| ww-current | `.nc-hero__ww-current` | No | Aktuelles Wort fuer Screenreader (.u-sr-only, nicht live); das Verhalten fuehrt es nach. |
+| ww-current | `[data-ww-current]` | No | Aktuelles Wort fuer Screenreader (.u-sr-only mit data-ww-current, nicht live; Haken des Verhaltens, keine eigene Klasse); das Verhalten fuehrt es nach. |
 | ww-screens | `.nc-hero__ww-screens` | No | Screens-Block rechts: Screens plus Laufleistenzone oben und unten als Rand (Rahmen oben = unten). |
 | ww-stage | `.nc-hero__ww-stage` | No | Screens (role="img", aria-label aus data-ww-label des Web-Bilds); .has-app, wenn der Claim einen App-Screen hat. |
 | ww-web | `.nc-hero__ww-web` | No | Web-Screen 4:3 mit je einem Bild pro Claim; Zuschnitt per --z (Zoom) und --x (Ausschnitt waagerecht) am Bild. |

@@ -20,7 +20,7 @@
       {
         "version": "2.7.1",
         "changes": [
-          "I19 Phase 4 (24.11.2026): Tokengruppe wortwechsel-bewegung (17 Dauern und Kurven) getrennt von wortwechsel (52), wie die Untergruppen „Wortwechsel“ und „Wortwechsel · Bewegung“ der Konfig-App. Feldnamen sagen „Screens“ statt „Bühne“ (BEGRIFFE.md). Anatomie: Elemente der Variante wortwechsel (ww-words … glow)."
+          "I19 Phase 4 (24.11.2026): Tokengruppe wortwechsel-bewegung (17 Dauern und Kurven) getrennt von wortwechsel (52), wie die Untergruppen „Wortwechsel“ und „Wortwechsel · Bewegung“ der Konfig-App. Feldnamen sagen „Screens“ statt „Bühne“ (BEGRIFFE.md). Anatomie: Elemente der Variante wortwechsel (ww-words … glow). Screenreader-Text als [data-ww-current] statt eigener Klasse (Klassenprüfung)."
         ]
       },
       {
@@ -172,9 +172,9 @@
       },
       {
         "name": "ww-current",
-        "element": ".nc-hero__ww-current",
+        "element": "[data-ww-current]",
         "optional": true,
-        "description": "Aktuelles Wort fuer Screenreader (.u-sr-only, nicht live); das Verhalten fuehrt es nach."
+        "description": "Aktuelles Wort fuer Screenreader (.u-sr-only mit data-ww-current, nicht live; Haken des Verhaltens, keine eigene Klasse); das Verhalten fuehrt es nach."
       },
       {
         "name": "ww-screens",
