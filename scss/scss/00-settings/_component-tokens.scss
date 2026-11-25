@@ -4956,14 +4956,16 @@
   --nc-story-gallery-card-height-mobile: 280px;
   --nc-story-gallery-peek-mobile:    var(--fnd-size-xs);
   --nc-story-gallery-ratio-min-mobile: 1;
+  // Sanfter Rand der Spur im Seitenrand (I21 Phase 1, 25.11.2026): höchstens
+  // so breit, nie breiter als der Seitenrand selbst
+  --nc-story-gallery-fade-width:     clamp(24px, 4vw, 64px);
   // Kartenbreite = Höhe × Seitenverhältnis, begrenzt auf 3:4 bis 3:2: zwei
   // verwandte Breiten statt Faktor 3 zwischen 9:16 und 16:9 (I16, 23.11.2026)
   --nc-story-gallery-ratio-min:      0.75;
   --nc-story-gallery-ratio-max:      1.5;
-  // Zeilenlänge der Bildunterschrift und Raum für den Titel, damit alle
-  // Beschreibungen einer Galerie auf einer Höhe beginnen (I16, 23.11.2026)
+  // Zeilenlänge der Bildunterschrift (I16, 23.11.2026; die Titelzeilen-
+  // Reserve entfiel mit I21, 25.11.2026)
   --nc-story-gallery-caption-max-width: 38ch;
-  --nc-story-gallery-title-lines:    2;
   // Einheitliche Bühne für alle Medien: getönte Fläche, Innenabstand oben und
   // seitlich, Bildschirm mit Schatten und oben gerundeten Ecken (I16, 23.11.2026).
   // Die Mischung folgt dem Thema, im Dunkeln wird die Fläche von selbst dunkel.

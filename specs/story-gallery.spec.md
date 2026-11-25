@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.10.0 | Status: stable | Layer: organism
+> Version 1.11.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -90,6 +90,7 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-ratio-max` | — | — |
 | `--nc-story-gallery-caption-gap` | — | — |
 | `--nc-story-gallery-caption-max-width` | — | — |
+| `--nc-story-gallery-fade-width` | — | — |
 
 ### Title
 | Token | CSS Property | Override |
@@ -97,7 +98,6 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-title-size` | — | — |
 | `--nc-story-gallery-title-weight` | — | — |
 | `--nc-story-gallery-title-line-height` | — | — |
-| `--nc-story-gallery-title-lines` | — | — |
 | `--nc-story-gallery-title-gap` | — | — |
 | `--nc-story-gallery-title-color` | — | — |
 

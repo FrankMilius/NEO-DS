@@ -19665,7 +19665,8 @@ export const componentTokenGroups = [
           "nc-story-gallery-radius",
           "nc-story-gallery-title-size",
           "nc-story-gallery-desc-size",
-          "nc-story-gallery-paddle-size"
+          "nc-story-gallery-paddle-size",
+          "nc-story-gallery-fade-width"
         ]
       },
       {
@@ -19674,8 +19675,7 @@ export const componentTokenGroups = [
         "tokenIds": [
           "nc-story-gallery-title-weight",
           "nc-story-gallery-title-line-height",
-          "nc-story-gallery-desc-line-height",
-          "nc-story-gallery-title-lines"
+          "nc-story-gallery-desc-line-height"
         ]
       },
       {
@@ -19829,6 +19829,12 @@ export const componentTokenGroups = [
         "default": "1"
       },
       {
+        "id": "nc-story-gallery-fade-width",
+        "label": "Sanfter Rand – Breite",
+        "type": "size",
+        "default": "clamp(24px, 4vw, 64px)"
+      },
+      {
         "id": "nc-story-gallery-caption-gap",
         "label": "Abstand Bild zu Titel",
         "type": "spacing",
@@ -19875,12 +19881,6 @@ export const componentTokenGroups = [
         "label": "Spaltenbreite (Zeichen je Zeile)",
         "type": "size",
         "default": "38ch"
-      },
-      {
-        "id": "nc-story-gallery-title-lines",
-        "label": "Titelzeilen",
-        "type": "number",
-        "default": "2"
       },
       {
         "id": "nc-story-gallery-stage-bg",

@@ -82,13 +82,28 @@
   transform: translateX(calc(var(--sg-fortschritt-lage, 0) * (100% / var(--sg-fortschritt-breite, 0.25) - 100%)));
 }
 
+// Spur bis an den Fensterrand, sanfter Rand nur im Seitenrand (I21 Phase 1,
+// 25.11.2026, Empfehlung F Frank): js/neo-story-gallery.js setzt den Abstand
+// der Galerie zum linken und rechten Fensterrand als --_sg-rand-l/-r. Die
+// Spur reicht um diesen Abstand hinaus, ihr Einzug hält die erste Karte an der
+// Inhaltskante; der Verlauf zur Transparenz liegt nur im Seitenrand und ist
+// höchstens --nc-story-gallery-fade-width breit. Ohne Skript sind beide 0 —
+// dann gilt das Bild wie bisher.
 .nc-story-gallery__scroll {
+  --_sg-fade-l: min(var(--_sg-rand-l, 0px), var(--nc-story-gallery-fade-width));
+  --_sg-fade-r: min(var(--_sg-rand-r, 0px), var(--nc-story-gallery-fade-width));
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   cursor: grab;
+  margin-inline: calc(-1 * var(--_sg-rand-l, 0px)) calc(-1 * var(--_sg-rand-r, 0px));
+  mask-image: linear-gradient(to right,
+    transparent calc(var(--_sg-rand-l, 0px) - var(--_sg-fade-l)),
+    #000 var(--_sg-rand-l, 0px),
+    #000 calc(100% - var(--_sg-rand-r, 0px)),
+    transparent calc(100% - var(--_sg-rand-r, 0px) + var(--_sg-fade-r)));
 }
 
 .nc-story-gallery__scroll::-webkit-scrollbar {
@@ -109,7 +124,10 @@
   // 100vw ging von voller Fensterbreite aus und rückte die erste Karte
   // doppelt ein — neben den Kopf. --_sg-kante ist im normalen Container 0.
   padding: 0;
-  padding-inline-start: var(--_sg-kante);
+  // Die Spur ist um den Seitenrand breiter als die Galerie (I21): Kante aus
+  // der Galeriebreite rechnen und den linken Seitenrand dazunehmen.
+  --_sg-kante: max(0px, calc((100% - var(--_sg-rand-l, 0px) - var(--_sg-rand-r, 0px) - var(--nc-story-gallery-content-max-width)) / 2));
+  padding-inline-start: calc(var(--_sg-kante) + var(--_sg-rand-l, 0px));
 }
 
 .nc-story-gallery__card {
@@ -240,10 +258,8 @@
   line-height: var(--_block-lh);
   letter-spacing: var(--_block-tracking);
   margin: 0 0 var(--nc-story-gallery-title-gap);
-  // Gemeinsame Grundlinie: jeder Titel bekommt gleich viele Zeilen Raum,
-  // ausgeglichen umbrochen. Ersatzwert ohne lh-Einheit zuerst.
-  min-block-size: calc(var(--nc-story-gallery-title-lines) * var(--_block-lh) * 1em);
-  min-block-size: calc(var(--nc-story-gallery-title-lines) * 1lh);
+  // Keine Zeilenreserve mehr (I21 Phase 1, Entscheidung Frank 25.11.2026):
+  // längere Titel sind die Ausnahme, einzeilige stehen direkt über dem Text.
   text-wrap: balance;
 }
 
@@ -331,8 +347,9 @@
     container-type: inline-size;
   }
 
+  // 100cqi ist die Spur mit Seitenrand (I21) — den Rand wieder abziehen.
   .nc-story-gallery__card {
-    max-inline-size: calc(100cqi - var(--nc-story-gallery-peek-mobile));
+    max-inline-size: calc(100cqi - var(--_sg-rand-l, 0px) - var(--_sg-rand-r, 0px) - var(--nc-story-gallery-peek-mobile));
   }
 }
 

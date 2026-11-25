@@ -3,7 +3,7 @@
 // pruefen:sg-handy — passen die Karten der Story Gallery auf jede Breite?
 // (I18 Phase 8, 24.11.2026, Vorschlag 9; Entscheidung E2 Frank)
 //
-//   npm run pruefen:sg-handy -- [--css <styles.css>] [--vorlage-nachbauen]
+//   npm run pruefen:sg-handy -- [--css <styles.css>] [--js <neo-story-gallery.js>] [--vorlage-nachbauen]
 //        [--seiten /,/musterseite-bauteile] [--breiten 390,768,1280]
 //
 // Je Seite und Breite, für jede Originalkarte (ohne Endlos-Kopien):
@@ -34,6 +34,7 @@ import { oeffne } from './lib/aufnahme.mjs'
 const { values: a } = parseArgs({
   options: {
     css: { type: 'string' },
+    js: { type: 'string' },
     'vorlage-nachbauen': { type: 'boolean', default: false },
     seiten: { type: 'string', default: '/,/musterseite-bauteile' },
     breiten: { type: 'string', default: '390,768,1280' },
@@ -44,6 +45,7 @@ const einst = lade()
 const seiten = a.seiten.split(',').map((s) => s.trim()).filter(Boolean)
 const breiten = a.breiten.split(',').map(Number).filter(Boolean)
 const css = a.css ? readFileSync(a.css, 'utf8') : null
+const js = a.js ? readFileSync(a.js, 'utf8') : null
 
 function messen () {
   const g = document.querySelector('[data-neo-story-gallery]')
@@ -64,7 +66,7 @@ function messen () {
     sollHandy: px('--nc-story-gallery-card-height-mobile'),
     vorschau: px('--nc-story-gallery-peek-mobile'),
     ratioMinHandy: parseFloat(getComputedStyle(g).getPropertyValue('--nc-story-gallery-ratio-min-mobile')),
-    scrollBreite: scroll.clientWidth,
+    scrollBreite: g.clientWidth,
     karten: [...g.querySelectorAll('.nc-story-gallery__card:not(.nc-story-gallery__card--clone)')].map((k) => {
       const r = k.getBoundingClientRect()
       const m = k.querySelector('.nc-story-gallery__media').getBoundingClientRect()
@@ -79,6 +81,7 @@ let geprueft = 0
 for (const breite of breiten) {
   const t = await oeffne(browser, einst, breite)
   if (css !== null) t.setzeCss(css)
+  if (js !== null) await t.seite.context().route(/neo_fe\/js\/neo-story-gallery\.js/, (r) => r.fulfill({ body: js, contentType: 'text/javascript' }))
   if (a['vorlage-nachbauen']) {
     await t.seite.route((u) => seiten.includes(new URL(u).pathname), async (r) => {
       const antwort = await r.fetch()

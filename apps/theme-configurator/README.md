@@ -1479,6 +1479,15 @@ Hero: Untergruppen Wortwechsel (I19 Phase 4, 24.11.2026, ohne App-Version — Da
   (gemessen in Chromium: 1,2 s am Theme-Bereich → Wechsel nach 1242 und
   2444 ms).
 
+Story Gallery: sanfter Rand, keine Titelzeilen-Reserve (I21 Phase 1, 25.11.2026, ohne App-Version — nur Daten):
+
+- Neues Feld „Sanfter Rand – Breite“ (`nc-story-gallery-fade-width`,
+  `clamp(24px, 4vw, 64px)`): die Spur reicht bis an den Fensterrand, der
+  Verlauf zur Transparenz liegt nur im Seitenrand und ist höchstens so breit
+  wie dieser. Prüfung: `npm run pruefen:sg-rand`.
+- Feld „Titelzeilen“ (`nc-story-gallery-title-lines`) entfernt — Titel
+  halten keine Zeilen mehr frei.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul
