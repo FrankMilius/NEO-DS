@@ -1,4 +1,4 @@
-/*! neo-behaviors 0.24.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
+/*! neo-behaviors 0.25.0 — NEO Design System. Gebaut aus packages/neo-behaviors (scripts/baue-behaviors.mjs). Nicht von Hand aendern. */
 (() => {
   // packages/neo-behaviors/kern.js
   var GEBUNDEN = /* @__PURE__ */ new WeakMap();
@@ -4640,6 +4640,29 @@
   // packages/neo-behaviors/shot.js
   var DARSTELLUNGEN = ["none", "frame", "kenburns", "lens", "hotspots", "compare"];
   var clamp01 = (v, d) => Math.min(1, Math.max(0, v == null ? d : v));
+  function shotSchaerfe({ bild, kasten, zoom = 1, dichte = 2, ganz = false }) {
+    const [bw, bh] = bild, [kw, kh] = kasten;
+    if (!(bw > 0 && bh > 0 && kw > 0 && kh > 0)) return { wert: 0, ampel: "rot", zoomMax: 1, mindestBreite: 0 };
+    const grund = ganz ? Math.min(kw / bw, kh / bh) : Math.max(kw / bw, kh / bh);
+    const z = ganz ? 1 : Math.max(1, Number(zoom) || 1);
+    const wert = Math.round(100 / (grund * z * dichte)) / 100;
+    const ohneZoom = 1 / (grund * dichte);
+    const auf = (x) => Math.ceil(x - 1e-9);
+    const mindestBreite = ganz ? auf(Math.min(kw * dichte, kh * dichte * bw / bh)) : auf(Math.max(kw, kh * bw / bh) * z * dichte);
+    return {
+      wert,
+      ampel: wert >= 1.2 ? "gruen" : wert >= 1 ? "gelb" : "rot",
+      // abgerundet, damit der höchste erlaubte Zoom die Schärfe 1 noch hält
+      zoomMax: ganz ? 1 : Math.floor(Math.min(3, Math.max(1, ohneZoom)) * 10) / 10,
+      mindestBreite
+    };
+  }
+  function shotKasten({ ratio = "4/3", hoehe = 420, handy = false }) {
+    const t = String(ratio).split("/").map(Number);
+    const r = t.length === 2 && t[0] > 0 && t[1] > 0 ? t[0] / t[1] : 4 / 3;
+    if (handy) return [Math.round(Math.min(280 * Math.min(Math.max(r, 1), 1.5), 334)), 280];
+    return [Math.round(hoehe * Math.min(Math.max(r, 0.75), 1.5)), hoehe];
+  }
   var hochformat = (ratio) => {
     const t = String(ratio || "").split("/").map((x) => parseFloat(x));
     return t.length === 2 && t[0] > 0 && t[1] > 0 && t[0] < t[1];
@@ -7641,7 +7664,7 @@
   // packages/neo-behaviors/package.json
   var package_default = {
     name: "neo-behaviors",
-    version: "0.24.0",
+    version: "0.25.0",
     private: true,
     description: "Verhalten der NEO-Bauteile (Tabs, Akkordeon, Select, Suche, Formular-Bauteile, Overlays, Navigation) — eine Quelle fuer Drupal, Doku und Theme-Konfigurator",
     type: "module",
@@ -7652,7 +7675,7 @@
   };
 
   // packages/neo-behaviors/drupal.js
-  var NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, shotAufbauen, version: package_default.version });
+  var NeoBehaviors = Object.freeze({ anbinden, abbinden, BEHAVIORS, MIT_VERHALTEN, NUR_AUSDRUECKLICH, shotAufbauen, shotSchaerfe, shotKasten, version: package_default.version });
   var STANDARD = MIT_VERHALTEN.filter((id) => !NUR_AUSDRUECKLICH.includes(id));
   function nurListe(nur) {
     if (Array.isArray(nur)) return nur.filter((id) => typeof id === "string");

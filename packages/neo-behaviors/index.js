@@ -72,7 +72,7 @@ import { contentFeed } from './content-feed.js'
 import { teilen } from './teilen.js'
 
 export { setzeIndikator } from './segmented-control.js'
-export { shotAufbauen, shotBauen, setzeFokus } from './shot.js'
+export { shotAufbauen, shotBauen, setzeFokus, shotSchaerfe, shotKasten } from './shot.js'
 export { einbettung as videoEinbettung } from './video.js'
 export { EINBLENDEN_RECIPES } from './einblenden.js'
 

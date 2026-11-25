@@ -10,7 +10,7 @@
  *   - Jede Taste aus `keyboard`, jedes Ereignis aus `events` im Recipe.
  */
 import { describe, it, expect, afterEach, vi } from 'vitest'
-import { anbinden, abbinden, BEHAVIORS, NUR_AUSDRUECKLICH, shotBauen, shotAufbauen } from 'neo-behaviors'
+import { anbinden, abbinden, BEHAVIORS, NUR_AUSDRUECKLICH, shotBauen, shotAufbauen, shotSchaerfe, shotKasten } from 'neo-behaviors'
 import { buehne, lebendigesMarkup, taste, deckeTastenAb, sammle, passtZumRecipe } from './_helfer.js'
 
 afterEach(() => {
@@ -434,5 +434,46 @@ describe('shot: Arena „Ausprobieren"', () => {
     taste(r, 'End')
     expect(r.value).toBe('100')
     expect(b.querySelector('.nc-shot__lens')).not.toBeNull()
+  })
+})
+
+// I18 Phase 13 (25.11.2026, Vorschläge 16/17): eine Rechnung für Karten-Editor
+// (Ampel, Zoom-Grenze) und Prüfbefehl — Bildpixel je Gerätepixel.
+describe('shot: Schärfe', () => {
+  it('Block 26 Karte 4: 764 × 741 in 780 × 520 bei 2-facher Dichte = 0,49, rot', () => {
+    const s = shotSchaerfe({ bild: [764, 741], kasten: [780, 520], zoom: 1, dichte: 2 })
+    expect(s.wert).toBeCloseTo(0.49, 2)
+    expect(s.ampel).toBe('rot')
+  })
+  it('Karte 1: 2751 × 1550 in 693 × 520 = 1,49 grün; Karte 3 Zoom 1,9 bei 2400 × 1800 in 520 × 520 = 0,91 rot', () => {
+    expect(shotSchaerfe({ bild: [2751, 1550], kasten: [693, 520], dichte: 2 }).ampel).toBe('gruen')
+    const z = shotSchaerfe({ bild: [2400, 1800], kasten: [520, 520], zoom: 1.9, dichte: 2 })
+    expect(z.wert).toBeGreaterThanOrEqual(0.9)
+    expect(z.wert).toBeLessThan(1)
+    expect(z.ampel).toBe('rot')
+  })
+  it('ganz (contain): kleinste Skalierung statt größter, Zoom zählt nicht', () => {
+    const s = shotSchaerfe({ bild: [1206, 2622], kasten: [390, 520], zoom: 3, dichte: 2, ganz: true })
+    expect(s.wert).toBeCloseTo(2622 / (520 * 2), 2)
+  })
+  it('Zoom-Grenze: größter Zoom mit Schärfe ≥ 1, mindestens 1', () => {
+    // 1800 / (520 × 2) = 1,73 → auf eine Stelle abgerundet
+    expect(shotSchaerfe({ bild: [2400, 1800], kasten: [520, 520], dichte: 2 }).zoomMax).toBe(1.7)
+    expect(shotSchaerfe({ bild: [764, 741], kasten: [780, 520], dichte: 2 }).zoomMax).toBe(1)
+  })
+  it('mindestBreite: Dateibreite für Schärfe 1 (Widersacher Phase 13: Handy bei Kartenhöhe 320 strenger als Desktop)', () => {
+    expect(shotSchaerfe({ bild: [764, 741], kasten: [780, 520], dichte: 2 }).mindestBreite).toBe(1560)
+    const d = shotSchaerfe({ bild: [1000, 750], kasten: shotKasten({ ratio: '4/3', hoehe: 320 }), dichte: 2 })
+    const h = shotSchaerfe({ bild: [1000, 750], kasten: shotKasten({ ratio: '4/3', hoehe: 320, handy: true }), dichte: 3 })
+    expect(d.wert).toBeGreaterThan(h.wert)
+    expect(h.ampel).toBe('rot')
+    expect(h.mindestBreite).toBeGreaterThan(d.mindestBreite)
+    expect(Math.min(d.zoomMax, h.zoomMax)).toBe(1)
+  })
+  it('Kartenkasten wie im Design System: Desktop Höhe × Format 3:4–3:2, Handy 280 hoch, 1:1–3:2, höchstens 334', () => {
+    expect(shotKasten({ ratio: '16/9', hoehe: 520 })).toEqual([780, 520])
+    expect(shotKasten({ ratio: '9/16', hoehe: 520 })).toEqual([390, 520])
+    expect(shotKasten({ ratio: '4/3', hoehe: 520, handy: true })).toEqual([334, 280])
+    expect(shotKasten({ ratio: '9/16', hoehe: 520, handy: true })).toEqual([280, 280])
   })
 })

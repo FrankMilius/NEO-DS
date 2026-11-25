@@ -48,6 +48,50 @@ const DARSTELLUNGEN = ['none', 'frame', 'kenburns', 'lens', 'hotspots', 'compare
 
 const clamp01 = (v, d) => Math.min(1, Math.max(0, v == null ? d : v))
 
+/**
+ * Schärfe eines Screens (I18 Phase 13, 25.11.2026, Vorschläge 16/17): Bildpixel
+ * je Gerätepixel im sichtbaren Ausschnitt. Unter 1 rechnet der Browser hoch,
+ * das Bild wird weich. Karten-Editor (Ampel, Zoom-Grenze) und Prüfbefehl
+ * (scripts/pruefen/story-gallery-schaerfe.mjs) nutzen diese eine Rechnung.
+ *   cover (Vorgabe): größte Skalierung × Zoom; ganz (contain): kleinste, ohne Zoom
+ * @param {{ bild: [number, number], kasten: [number, number], zoom?: number, dichte?: number, ganz?: boolean }} o
+ * @returns {{ wert: number, ampel: 'gruen'|'gelb'|'rot', zoomMax: number, mindestBreite: number }}
+ *   mindestBreite: Dateibreite (bei gleicher Proportion) für Schärfe 1 bei diesem Zoom
+ */
+export function shotSchaerfe ({ bild, kasten, zoom = 1, dichte = 2, ganz = false }) {
+  const [bw, bh] = bild, [kw, kh] = kasten
+  if (!(bw > 0 && bh > 0 && kw > 0 && kh > 0)) return { wert: 0, ampel: 'rot', zoomMax: 1, mindestBreite: 0 }
+  const grund = ganz ? Math.min(kw / bw, kh / bh) : Math.max(kw / bw, kh / bh)
+  const z = ganz ? 1 : Math.max(1, Number(zoom) || 1)
+  const wert = Math.round(100 / (grund * z * dichte)) / 100
+  const ohneZoom = 1 / (grund * dichte)
+  const auf = (x) => Math.ceil(x - 1e-9)
+  const mindestBreite = ganz
+    ? auf(Math.min(kw * dichte, kh * dichte * bw / bh))
+    : auf(Math.max(kw, kh * bw / bh) * z * dichte)
+  return {
+    wert,
+    ampel: wert >= 1.2 ? 'gruen' : wert >= 1 ? 'gelb' : 'rot',
+    // abgerundet, damit der höchste erlaubte Zoom die Schärfe 1 noch hält
+    zoomMax: ganz ? 1 : Math.floor(Math.min(3, Math.max(1, ohneZoom)) * 10) / 10,
+    mindestBreite
+  }
+}
+
+/**
+ * Größe der Medienfläche einer Story-Gallery-Karte wie im Design System
+ * (_story-gallery.scss, I16/I18): Desktop Blockhöhe × Format 3:4–3:2; Handy
+ * 280 px hoch, Format 1:1–3:2, höchstens 334 px breit (390-px-Fenster).
+ * @param {{ ratio?: string, hoehe?: number, handy?: boolean }} o
+ * @returns {[number, number]}
+ */
+export function shotKasten ({ ratio = '4/3', hoehe = 420, handy = false }) {
+  const t = String(ratio).split('/').map(Number)
+  const r = t.length === 2 && t[0] > 0 && t[1] > 0 ? t[0] / t[1] : 4 / 3
+  if (handy) return [Math.round(Math.min(280 * Math.min(Math.max(r, 1), 1.5), 334)), 280]
+  return [Math.round(hoehe * Math.min(Math.max(r, 0.75), 1.5)), hoehe]
+}
+
 /** Format "w/h" mit w < h (Hochformat); sonst false */
 const hochformat = (ratio) => {
   const t = String(ratio || '').split('/').map((x) => parseFloat(x))

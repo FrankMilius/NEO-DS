@@ -1,5 +1,5 @@
 # shot Component Spec
-> Version 1.2.0 | Status: stable | Layer: molecule
+> Version 1.3.0 | Status: stable | Layer: molecule
 
 Tags: `molecules`, `media`, `image`, `interactive`, `website`
 
