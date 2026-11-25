@@ -1,0 +1,209 @@
+<!-- BODY -->
+    <main class="docs">
+
+      <!-- Page Header -->
+      <div class="docs__hero">
+        <h1 class="docs__title">Screenshots</h1>
+        <p class="docs__subtitle">
+          Leitfaden für Produkt-Screenshots in der Story Gallery und überall, wo das Medien-Bauteil
+          <code class="docs__token">.nc-shot</code> einen Screen zeigt: wie man aufnimmt, wie groß die Datei sein muss,
+          wie der Screen auf der Fläche sitzt und was vor dem Hochladen zu prüfen ist.
+          Entstanden aus dem Befund zur Startseiten-Galerie (Roadmap I18, November 2026).
+        </p>
+      </div>
+
+      <div class="docs__tab-nav">
+        <div class="docs-tabs__list" role="tablist" aria-label="Screenshot-Leitfaden">
+          <button class="docs-tabs__trigger" role="tab" aria-selected="true" aria-controls="tab-aufnahme" id="trigger-aufnahme">Aufnahme</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-groesse" id="trigger-groesse">Größe &amp; Schärfe</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-einbinden" id="trigger-einbinden">Einbinden</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-recht" id="trigger-recht">Recht &amp; Barrierefreiheit</button>
+          <button class="docs-tabs__trigger" role="tab" aria-selected="false" aria-controls="tab-checkliste" id="trigger-checkliste">Checkliste</button>
+        </div>
+      </div>
+
+      <div class="docs__body">
+        <div class="docs-tabs" id="screenshots-tabs">
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: Aufnahme                                              -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel is-active" role="tabpanel" id="tab-aufnahme" aria-labelledby="trigger-aufnahme">
+
+          <h2 class="docs__section-title">Ein Setup für alle Screens</h2>
+          <p class="docs__section-desc">
+            Eine Galerie wirkt ruhig, wenn alle Screens gleich entstehen. Unterschiedliche Fenstergrößen,
+            Zoomstufen und Themes lesen sich als drei Bildsprachen nebeneinander.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Was</th><th>Desktop</th><th>Handy</th></tr></thead>
+              <tbody>
+                <tr><td>Fenster</td><td>Browser 1440 × 900, Zoom 100 %</td><td>iPhone-Simulator, ein Gerät für alle</td></tr>
+                <tr><td>Pixeldichte</td><td>2-fach — Datei 2880 × 1800</td><td>3-fach (Simulator-Standard)</td></tr>
+                <tr><td>Theme und Sprache</td><td colspan="2">helles Theme, deutsche Oberfläche, ein Demo-Konto</td></tr>
+                <tr><td>Statusleiste</td><td>—</td><td><code>xcrun simctl status_bar booted override --time 9:41 --batteryState charged --batteryLevel 100</code></td></tr>
+                <tr><td>Dateiformat</td><td colspan="2">PNG für die Aufnahme; ausgeliefert wird AVIF bzw. WebP in passender Größe (Bildstile <code>neo_sg_*</code>)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Ausschnitt statt ganzer Seite</h2>
+          <ul class="docs__list">
+            <li>Je Karte den Bereich aufnehmen, der die Funktion zeigt. Eine ganze Seite in einer Karte schrumpft die Schrift auf 5 bis 7 px.</li>
+            <li>Faustregel: Schrift im Screen nie kleiner als 11 px in der Karte — also höchstens auf zwei Drittel verkleinern.</li>
+            <li>Welcher Teil betont wird, regelt der Fokuspunkt; mit „rechts“ oder „links auslaufend“ läuft der Screen zu dieser Seite aus der Fläche (Tab „Einbinden“).</li>
+          </ul>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Reiner Screen, kein Gerät im Bild</h2>
+          <p class="docs__section-desc">
+            Laptop-Fotos oder eine graue Fläche im Bild ergeben auf der getönten Medienfläche einen doppelten Rahmen
+            und werden auf dem Handy angeschnitten. Hochladen wird der reine Screen; Fläche, Rahmen, Ecken und Schatten
+            setzt die Komponente.
+          </p>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Saubere Demodaten</h2>
+          <ul class="docs__list">
+            <li>Eine fiktive Firma mit aktuellen Beiträgen — keine Inhalte mit veralteten Jahreszahlen oder abgelaufenen Daten.</li>
+            <li>Keine internen Bezeichnungen oder Diagnoseanzeigen (z. B. <code>knowledge_answer</code>), keine englischen Restbegriffe.</li>
+            <li>Eine Marke über alle Screens.</li>
+            <li>Für Abläufe (Frage und Antwort, Newsletter, Chat) eignen sich kurze stumme Videos von 6 bis 10 Sekunden; die Galerie spielt sie ab.</li>
+          </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Größe & Schärfe                                       -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-groesse" aria-labelledby="trigger-groesse" hidden>
+
+          <h2 class="docs__section-title">Schärfe</h2>
+          <p class="docs__section-desc">
+            Schärfe heißt hier: Bildpixel je Bildschirmpixel im sichtbaren Ausschnitt. Unter 1 rechnet der Browser hoch,
+            das Bild wird weich. Gerechnet wird für Desktop bei 2-facher, für das Handy bei 3-facher Pixeldichte,
+            mit dem Zoom der Karte. Die Rechnung steht im Bauteil (<code>shotSchaerfe</code>, <code>shotKasten</code> in
+            <code>packages/neo-behaviors/shot.js</code>); dieselbe nutzen die Ampel im Karten-Editor und der Bericht
+            <code>npm run pruefen:sg-schaerfe</code>.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Ampel</th><th>Schärfe</th><th>Bedeutung</th></tr></thead>
+              <tbody>
+                <tr><td>grün</td><td>ab 1,2</td><td>scharf mit Reserve</td></tr>
+                <tr><td>gelb</td><td>1 bis unter 1,2</td><td>gerade scharf — kein weiterer Zoom</td></tr>
+                <tr><td>rot</td><td>unter 1</td><td>weich — größere Datei hochladen oder Zoom senken</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Mindestgröße der Datei</h2>
+          <p class="docs__section-desc">
+            Für einen Screen im selben Format wie die Karte und Zoom 1 (größere Zoomstufen mit dem Zoom malnehmen).
+            Die strengere von Desktop und Handy zählt; Breite aus <code>shotSchaerfe</code> (mindestBreite), Höhe daraus im Format aufgerundet.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Kartenformat</th><th>Kartenhöhe 420</th><th>Kartenhöhe 520</th></tr></thead>
+              <tbody>
+                <tr><td>3:4 (Hochformat)</td><td>840 × 1120</td><td>840 × 1120</td></tr>
+                <tr><td>1:1</td><td>840 × 840</td><td>1040 × 1040</td></tr>
+                <tr><td>4:3</td><td>1120 × 840</td><td>1387 × 1041</td></tr>
+                <tr><td>3:2</td><td>1260 × 840</td><td>1560 × 1040</td></tr>
+                <tr><td>16:9 (in 3:2 beschnitten)</td><td>1494 × 841</td><td>1849 × 1041</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="docs__section-desc">
+            Ein Desktop-Screen aus dem Setup (2880 × 1800) reicht für jedes Format; ein Handy-Screen aus dem Simulator
+            (1206 × 2622) für jede Karte im Hochformat.
+          </p>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Ausgeliefert wird passend</h2>
+          <p class="docs__section-desc">
+            Die Vorlage gibt je Karte <code>srcset</code> aus den Bildstilen <code>neo_sg_800</code>, <code>neo_sg_1600</code>,
+            <code>neo_sg_2400</code> und <code>neo_sg_original</code> (AVIF, Rückfall WebP) und <code>sizes</code> nach
+            Kartenbreite, Zoom und Beschnitt. Die große Datei schadet also nicht: geladen wird nur, was die Karte braucht.
+            Startseite November 2026: 9,25 MB → 0,49 MB bei gleicher Schärfe (<code>npm run pruefen:sg-bilder</code>, auf der Website nachgemessen am 25.11.2026).
+          </p>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: Einbinden                                             -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-einbinden" aria-labelledby="trigger-einbinden" hidden>
+
+          <h2 class="docs__section-title">Karten-Editor in Drupal</h2>
+          <p class="docs__section-desc">
+            Block Story Gallery → Karten. Jede Karte zeigt eine Vorschau für Desktop (1280) und Handy (390) im Format
+            der Medienfläche, die Schärfe je Breite und begrenzt den Zoom auf das, was die Datei hergibt.
+          </p>
+
+          <div class="nc-data-table nc-data-table--static nc-data-table--striped">
+            <table class="nc-data-table__table">
+              <thead><tr><th>Einstellung</th><th>Werte</th><th>Wann</th></tr></thead>
+              <tbody>
+                <tr><td>Anordnung auf der Fläche</td><td>Unten auslaufend (Vorgabe) · Rechts auslaufend · Links auslaufend · Ganz sichtbar</td><td>„rechts“/„links“, um einen Bereich am Rand zu betonen (der Fokus rückt mit); „ganz“ für Handy-Screens — Hochformate stehen ohne Wahl darauf</td></tr>
+                <tr><td>Rahmen</td><td>Ohne (Vorgabe) · Browser · Telefon · Minimal</td><td>Rahmen ist optional; Browser zeigt nur eine helle Leiste (Adresse nur, wenn eingetragen), Telefon eine schlichte Kontur. Ohne Rahmenart: Hochformat Telefon, sonst Browser</td></tr>
+                <tr><td>Kartenfläche</td><td>Wie im Block · Akzent · Neutral · Hell · Dunkel · Ohne · ergänzende Paletten · eigener Wert</td><td>Im Block für alle Karten vorausgewählt (Feld „Kartenfläche“), je Karte übersteuerbar</td></tr>
+                <tr><td>Alt-Text</td><td>ein Satz, höchstens 150 Zeichen</td><td>immer — leer zeigt der Editor eine Warnung</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Im Design System</h2>
+          <ul class="docs__list">
+            <li>Medienfläche: <code>--nc-story-gallery-stage-bg</code> (Vorgabe Akzent) und <code>-stage-bg-{akzent,neutral,hell,dunkel}</code>, Innenabstand, Ecken, Schatten — Konfig-App › Story Gallery › Medienfläche.</li>
+            <li>Handy: <code>--nc-story-gallery-card-height-mobile</code> (280), <code>-peek-mobile</code> (24 px der nächsten Karte), <code>-ratio-min-mobile</code> (1:1).</li>
+            <li>Rahmen: <code>--nc-shot-frame-*</code>, <code>--nc-shot-chrome-*</code>, Telefon <code>--nc-shot-phone-*</code> — Konfig-App › Shot.</li>
+            <li>Prüfungen: <code>pruefen:sg-handy</code>, <code>-anordnung</code>, <code>-rahmen</code>, <code>-flaeche</code>, <code>-bilder</code>, <code>-schaerfe</code>.</li>
+          </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: Recht & Barrierefreiheit                              -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-recht" aria-labelledby="trigger-recht" hidden>
+
+          <h2 class="docs__section-title">Vorgaben</h2>
+          <p class="docs__section-desc">Zusammenfassung, keine Rechtsberatung — im Zweifel die Vorgaben der jeweiligen Stelle im Original prüfen.</p>
+          <ul class="docs__list">
+            <li><strong>Datenschutz:</strong> Namen und Fotos echter Personen nur mit Einwilligung; sicherer ist ein fiktiver Demo-Datensatz.</li>
+            <li><strong>Bildrechte:</strong> Stockfotos im Screen brauchen eine Lizenz, die Werbung abdeckt.</li>
+            <li><strong>Marken Dritter:</strong> Namen wie SharePoint, Jira, Confluence oder SAP dürfen genannt werden, Logos nur nach den Richtlinien der Hersteller; Produktnamen aktuell halten (z. B. „Microsoft 365“).</li>
+            <li><strong>Gerätebilder:</strong> Fotos oder Renderings echter Geräte nur aus den Vorlagen der Hersteller und unverändert. Die Telefon-Kontur der Komponente ist eine schlichte Form aus CSS und braucht das nicht.</li>
+            <li><strong>Barrierefreiheit:</strong> Jeder Screen braucht einen Alternativtext, der sagt, was die Funktion zeigt (WCAG 1.1.1) — „Personalisierte Startseite mit News, Terminen und Themen“, nicht „Startseite“ oder „Toolbar“.</li>
+          </ul>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: Checkliste                                            -->
+        <!-- ============================================================ -->
+        <div class="docs-tabs__panel" role="tabpanel" id="tab-checkliste" aria-labelledby="trigger-checkliste" hidden>
+
+          <h2 class="docs__section-title">Vor dem Hochladen</h2>
+          <ol class="docs__list">
+            <li>Aufgenommen mit dem Setup (Fenster, Pixeldichte, Theme, Sprache, Demo-Konto).</li>
+            <li>Reiner Screen, kein Gerät, keine Fläche im Bild.</li>
+            <li>Ausschnitt zeigt die Funktion; Schrift in der Karte mindestens 11 px.</li>
+            <li>Datei mindestens so groß wie in der Tabelle (Tab „Größe &amp; Schärfe“).</li>
+            <li>Inhalte aktuell, keine echten Personen ohne Einwilligung, keine internen Bezeichnungen.</li>
+            <li>Bild passt zu Titel und Text der Karte.</li>
+          </ol>
+
+          <h2 class="docs__section-title" style="margin-top: 2rem;">Im Karten-Editor</h2>
+          <ol class="docs__list">
+            <li>Schärfe-Ampel auf Desktop und Handy nicht rot.</li>
+            <li>Vorschau Desktop und Handy: der gemeinte Bereich ist auf beiden zu sehen (Fokuspunkt).</li>
+            <li>Anordnung, Rahmen und Kartenfläche gewählt — oder bewusst die Vorgabe gelassen.</li>
+            <li>Alt-Text eingetragen.</li>
+            <li>Nach dem Speichern: <code>npm run pruefen:sg-schaerfe</code> zeigt keine rote Karte.</li>
+          </ol>
+        </div>
+
+        </div> <!-- /docs-tabs -->
+      </div> <!-- /docs__body -->
+
+    </main>
+<!-- /BODY -->
