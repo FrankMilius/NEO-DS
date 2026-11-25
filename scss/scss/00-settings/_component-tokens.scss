@@ -3620,7 +3620,9 @@
   --nc-hero-ww-frame:           max(clamp(28px, calc(var(--nc-hero-ww-viewport) * 0.07), 88px), calc(2 * var(--nc-hero-ww-bar-gap)));
   --nc-hero-ww-frame-mobile:    max(28px, calc(2 * var(--nc-hero-ww-bar-gap)));
   --nc-hero-ww-top-mobile:      28px;
-  // Buehne: Web 96 % breit im Format 4:3, App 20 % rechts unten → Seitenverhaeltnis 1,389
+  // Buehne: Web 96 % breit im Format 4:3 → Seitenverhaeltnis 1,389. Die App sitzt
+  // rechts unten und waechst mit ihrer Breite nach oben links; ab rund 33 % waere
+  // sie hoeher als die Buehne. 28 % seit I20 (Frank 25.11.2026, vorher 20 %).
   --nc-hero-ww-stage-ratio:     1.389;
   --nc-hero-ww-stage-width:     min(100%, max(260px, calc((var(--nc-hero-ww-viewport) - 2 * var(--nc-hero-ww-frame) - var(--nc-hero-ww-bar-zone)) * var(--nc-hero-ww-stage-ratio))));
   --nc-hero-ww-web-width:       96%;
@@ -3629,7 +3631,7 @@
   --nc-hero-ww-web-bg:          var(--fnd-neutral-50);
   --nc-hero-ww-web-shadow:      var(--fnd-elevation-overlay);
   --nc-hero-ww-ring:            color-mix(in srgb, var(--fnd-color-always-light) 14%, transparent);
-  --nc-hero-ww-app-width:       20%;
+  --nc-hero-ww-app-width:       28%;
   --nc-hero-ww-phone-ratio:     1206 / 2622;
   --nc-hero-ww-phone-radius:    16% / 7.4%;
   --nc-hero-ww-phone-border:    5px;
