@@ -29,8 +29,10 @@
 .nc-section-header:has(+ .nc-story-gallery) {
   --nc-section-header-title-font-size: var(--nc-story-gallery-head-title-size);
   --nc-section-header-gap: var(--nc-story-gallery-head-gap);
-  margin-inline: 0;
-  padding-inline-start: var(--_sg-kante);
+  // Einzug als Außenabstand (I22, 26.11.2026): ein Innenabstand läge
+  // innerhalb der 72ch-Kappe des Kopfs und nahm ab 1920 px der Überschrift
+  // den Platz (2560 px: 191 statt 703 px, ab etwa 2900 px brach der Kicker).
+  margin-inline: var(--_sg-kante) 0;
   text-align: start;
 
   .nc-badge-row { justify-content: flex-start; }
@@ -82,16 +84,26 @@
   transform: translateX(calc(var(--sg-fortschritt-lage, 0) * (100% / var(--sg-fortschritt-breite, 0.25) - 100%)));
 }
 
-// Spur bis an den Fensterrand, sanfter Rand nur im Seitenrand (I21 Phase 1,
+// Spur bis an den Fensterrand, sanfter Rand außen (I21 Phase 1,
 // 25.11.2026, Empfehlung F Frank): js/neo-story-gallery.js setzt den Abstand
 // der Galerie zum linken und rechten Fensterrand als --_sg-rand-l/-r. Die
 // Spur reicht um diesen Abstand hinaus, ihr Einzug hält die erste Karte an der
-// Inhaltskante; der Verlauf zur Transparenz liegt nur im Seitenrand und ist
-// höchstens --nc-story-gallery-fade-width breit. Ohne Skript sind beide 0 —
-// dann gilt das Bild wie bisher.
+// Inhaltskante. Ohne Skript sind beide 0.
+//
+// Der Verlauf zur Transparenz (I22, 26.11.2026) liegt im Bereich außerhalb
+// der Inhaltskante — Seitenrand plus Einzug bis zur Inhaltsbreite. In einem
+// Container mit Seitenrand ist das der Seitenrand (wie in I21); in einem
+// vollen Container ab 1920 px ist der Seitenrand 0 und der Bereich der
+// Einzug — vorher hatte der Verlauf dort die Breite 0. Er ist höchstens
+// --nc-story-gallery-fade-width breit und endet spätestens an der
+// Inhaltskante; ist der Bereich breiter, liegt er am Fensterrand.
+// Prozent beziehen sich im Verlauf auf die Breite der Spur.
 .nc-story-gallery__scroll {
-  --_sg-fade-l: min(var(--_sg-rand-l, 0px), var(--nc-story-gallery-fade-width));
-  --_sg-fade-r: min(var(--_sg-rand-r, 0px), var(--nc-story-gallery-fade-width));
+  --_sg-kante-s: max(0px, calc((100% - var(--_sg-rand-l, 0px) - var(--_sg-rand-r, 0px) - var(--nc-story-gallery-content-max-width)) / 2));
+  --_sg-fade-l: min(calc(var(--_sg-rand-l, 0px) + var(--_sg-kante-s)), var(--nc-story-gallery-fade-width));
+  --_sg-fade-r: min(calc(var(--_sg-rand-r, 0px) + var(--_sg-kante-s)), var(--nc-story-gallery-fade-width));
+  --_sg-deckend-l: max(var(--_sg-rand-l, 0px), var(--_sg-fade-l));
+  --_sg-deckend-r: max(var(--_sg-rand-r, 0px), var(--_sg-fade-r));
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -100,10 +112,10 @@
   cursor: grab;
   margin-inline: calc(-1 * var(--_sg-rand-l, 0px)) calc(-1 * var(--_sg-rand-r, 0px));
   mask-image: linear-gradient(to right,
-    transparent calc(var(--_sg-rand-l, 0px) - var(--_sg-fade-l)),
-    #000 var(--_sg-rand-l, 0px),
-    #000 calc(100% - var(--_sg-rand-r, 0px)),
-    transparent calc(100% - var(--_sg-rand-r, 0px) + var(--_sg-fade-r)));
+    transparent calc(var(--_sg-deckend-l) - var(--_sg-fade-l)),
+    #000 var(--_sg-deckend-l),
+    #000 calc(100% - var(--_sg-deckend-r)),
+    transparent calc(100% - var(--_sg-deckend-r) + var(--_sg-fade-r)));
 }
 
 .nc-story-gallery__scroll::-webkit-scrollbar {

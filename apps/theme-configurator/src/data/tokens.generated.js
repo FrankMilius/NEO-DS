@@ -1,6 +1,6 @@
 // AUTO-GENERATED from data/design-tokens.json — DO NOT EDIT DIRECTLY.
 // Token Contract v2.0.0 — Theme Configurator App Data Model
-// Generated: 2026-11-25
+// Generated: 2026-11-26
 
 // ==========================================================================
 // NEO Theme Configurator — Token Data Model (Generated)
@@ -19964,7 +19964,7 @@ export const componentTokenGroups = [
         "id": "nc-story-gallery-caption-max-width",
         "label": "Spaltenbreite (Zeichen je Zeile)",
         "type": "size",
-        "default": "38ch"
+        "default": "100%"
       },
       {
         "id": "nc-story-gallery-stage-bg",

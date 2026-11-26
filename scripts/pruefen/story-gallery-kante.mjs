@@ -4,7 +4,7 @@
 // (I16 Phase 4, 23.11.2026, Vorschläge 8 und 9)
 //
 //   npm run pruefen:sg-kante -- [--css <styles.css>] [--js <neo-story-gallery.js>]
-//        [--seiten /,/musterseite-bauteile] [--breiten 1280,1440,1920,390]
+//        [--seiten /,/musterseite-bauteile] [--breiten 1280,1440,1920,2560,3000,390]
 //        [--ohne-endlos]
 //
 // --ohne-endlos schreibt das HTML der Seite so um, dass die Galerie ohne
@@ -16,7 +16,9 @@
 // einmal „weiter“ und nach einmal „zurück“ (Pfeiltasten im Scroller, wie die
 // Galerie sie anbietet). Toleranz 1 px. Dazu: Titelgröße des Kopfs gleich
 // --nc-story-gallery-head-title-size, und der Kopf hält mindestens 15 px
-// Abstand zum Fensterrand.
+// Abstand zum Fensterrand. Dazu (I22, 26.11.2026): Der Kopf behält seine
+// volle Breite — Inhaltsbreite = min(max-width, Platz rechts der Kante);
+// ein Einzug darf sie nicht schmälern (vorher 191 statt 703 px bei 2560).
 //
 // Ohne --css/--js gilt, was DDEV ausliefert. Ausgang 0 alles auf einer Kante,
 // 1 mindestens eine Abweichung, 2 Aufruf- oder Seitenfehler.
@@ -32,7 +34,8 @@ const { values: a } = parseArgs({
     css: { type: 'string' },
     js: { type: 'string' },
     seiten: { type: 'string', default: '/,/musterseite-bauteile' },
-    breiten: { type: 'string', default: '1280,1440,1920,390' },
+    breiten: { type: 'string', default: '1280,1440,1920,2560,3000,390' },
+    voll: { type: 'boolean', default: false },
     'ohne-endlos': { type: 'boolean', default: false },
   },
 })
@@ -66,7 +69,10 @@ function messen () {
   kopf.appendChild(probe)
   const soll = getComputedStyle(probe).fontSize
   probe.remove()
-  return { kopfLinks, karteLinks, titelGroesse: getComputedStyle(titel).fontSize, sollGroesse: soll }
+  const ks = getComputedStyle(kopf), eltern = kopf.parentElement.getBoundingClientRect()
+  const kopfInhalt = kopf.clientWidth - parseFloat(ks.paddingLeft) - parseFloat(ks.paddingRight)
+  const kopfSoll = Math.min(parseFloat(ks.maxWidth) || Infinity, eltern.right - parseFloat(getComputedStyle(kopf.parentElement).paddingRight) - kopfLinks)
+  return { kopfInhalt, kopfSoll, kopfLinks, karteLinks, titelGroesse: getComputedStyle(titel).fontSize, sollGroesse: soll }
 }
 
 const browser = await chromium().launch()
@@ -76,6 +82,14 @@ for (const breite of breiten) {
   const t = await oeffne(browser, einst, breite)
   if (css !== null) t.setzeCss(css)
   if (js !== null) await t.seite.context().route(/neo_fe\/js\/neo-story-gallery\.js/, (r) => r.fulfill({ body: js, contentType: 'text/javascript' }))
+  if (a.voll) {
+    const pfade = seiten
+    await t.seite.route((u) => pfade.includes(new URL(u).pathname), async (r) => {
+      const antwort = await r.fetch()
+      const html = (await antwort.text()).replace(/class="nc-cw-[a-z]+/g, 'class="nc-cw-full')
+      await r.fulfill({ response: antwort, body: html })
+    })
+  }
   if (a['ohne-endlos']) {
     await t.seite.route((u) => seiten.includes(new URL(u).pathname), async (r) => {
       const antwort = await r.fetch()
@@ -106,6 +120,7 @@ for (const breite of breiten) {
         if (!ok) fehler.push(`${breite} ${s} ${name}: Karte ${d} px neben dem Kopf`)
         // Nicht am Fensterrand (Widersacher Phase 4: voller Container ab 1920 px)
         if (m.kopfLinks < 15) fehler.push(`${breite} ${s} ${name}: Kopf ${m.kopfLinks.toFixed(1)} px vom Fensterrand`)
+        if (name === 'geladen' && m.kopfInhalt < m.kopfSoll - 1) fehler.push(`${breite} ${s}: Kopf hat ${m.kopfInhalt.toFixed(0)} statt ${m.kopfSoll.toFixed(0)} px Platz`)
         if (!groesseOk) fehler.push(`${breite} ${s} ${name}: Kopftitel ${m.titelGroesse} statt ${m.sollGroesse}`)
       }
     } catch (e) {

@@ -1505,6 +1505,18 @@ Story Gallery: fluide Höhe (I21 Phase 2, 25.11.2026, ohne App-Version — nur D
   Fenstergrößen und zeigen in der festen Vorschaufläche keine Wirkung
   (Wirkungsstand „ohne Wirkung“). Prüfung: `npm run pruefen:sg-fluide`.
 
+Story Gallery: volle Breite ab 1920 px und Text über die ganze Karte (I22, 26.11.2026, ohne App-Version — nur Daten):
+
+- „Spaltenbreite (Zeichen je Zeile)“ (`nc-story-gallery-caption-max-width`)
+  steht jetzt auf 100 %: die Bildunterschrift läuft über die ganze
+  Kartenbreite, auf breiten 16:9-Karten bis rund 90 Zeichen je Zeile. Eine
+  Angabe in ch (z. B. 38ch) begrenzt sie wieder.
+- Ohne neues Feld: In einem Container ohne Seitenrand (Breite „voll“, ab
+  1920 px) behält der Kopf seine volle Breite, und der Verlauf am Rand der
+  Spur liegt im Einzug bis zur Inhaltskante, höchstens „Sanfter Rand – Breite“
+  breit. Prüfung: `npm run pruefen:sg-rand -- --voll` und
+  `npm run pruefen:sg-kante -- --voll`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.12.0 | Status: stable | Layer: organism
+> Version 1.13.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
