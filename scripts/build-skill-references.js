@@ -36,8 +36,38 @@ const ziel = resolve(wurzel, 'skill/neo-design-system');
 function schreibeWennGeaendert(pfad, inhalt) {
   const fluechtig = (t) => t.split('\n').filter((z) => !/@source|@updated|Quelle: WEBSITE26 @/.test(z)).join('\n');
   if (existsSync(pfad) && fluechtig(readFileSync(pfad, 'utf8')) === fluechtig(inhalt)) return false;
+  if (PRUEFEN) { veraltet.push(pfad.slice(wurzel.length + 1)); return true; }
   writeFileSync(pfad, inhalt);
   return true;
+}
+
+/** --pruefen: nichts schreiben, nur melden, ob die Referenzen veraltet sind.
+ *  Laeuft im pre-commit-Hook, sobald Tokens oder SCSS-Settings gestaged sind —
+ *  damit der Skill nicht wieder monatelang hinter dem System herlaeuft
+ *  (Stand 26.11.2026: Referenz vom 12.08., Graphit-Neutrale fehlten). */
+const PRUEFEN = process.argv.includes('--pruefen');
+const veraltet = [];
+
+/** Quelle der kompilierten Styles. Im Hook zeigt SKILL_CSS auf eine frisch
+ *  kompilierte Temp-Datei, weil styles.css als Build-Ausgabe veraltet sein kann. */
+const STYLES_PFAD = process.env.SKILL_CSS || resolve(wurzel, 'styles.css');
+
+/** Loest var()-Verweise auf, deren Ziel NICHT in der Referenz steht.
+ *
+ *  Seit den Graphit-Neutralen zeigen semantische Tokens auf Primitive
+ *  (--fnd-color-text-primary: var(--fnd-neutral-950)). Die Rohpalette steht
+ *  bewusst nicht in tokens.css — ohne Aufloesung haette ein Artefakt also
+ *  97 Verweise ins Leere und rendert ohne Farben. Verweise auf Tokens, die
+ *  in der Referenz stehen (z. B. --fnd-color-paper), bleiben erhalten, damit
+ *  die Theme-Umschaltung weiter ueber sie laeuft. */
+function loeseAuf(wert, karte, behalten, tiefe = 0) {
+  if (tiefe > 12 || !wert.includes('var(')) return wert;
+  return wert.replace(/var\(\s*(--[\w-]+)\s*(?:,\s*([^()]*(?:\([^()]*\)[^()]*)*))?\)/g, (ganz, name, ersatz) => {
+    if (behalten.has(name)) return ganz;
+    if (karte.has(name)) return loeseAuf(karte.get(name), karte, behalten, tiefe + 1);
+    if (ersatz !== undefined) return loeseAuf(ersatz.trim(), karte, behalten, tiefe + 1);
+    return ganz;
+  });
 }
 
 /** Sammelt die Rumpfe ALLER Bloecke, deren Selektorliste `passt` erfuellt.
@@ -161,19 +191,29 @@ function schreibeGruppiert(paare, eingerueckt = '  ') {
 // ---------------------------------------------------------------------------
 
 function baueTokens() {
-  const styles = readFileSync(resolve(wurzel, 'styles.css'), 'utf8');
+  const styles = readFileSync(STYLES_PFAD, 'utf8');
   const fnd = readFileSync(resolve(wurzel, 'data/design-tokens.css'), 'utf8');
 
-  const ausStyles = [...sammle(styles, istRoot)]
+  const stylesRoot = sammle(styles, istRoot);
+  let ausStyles = [...stylesRoot]
     .filter(([n]) => /^--(font|fs|lh|container|fluid-bp)/.test(n));
   // Foundation aus BEIDEN Quellen: design-tokens.css ist die generierte Basis,
   // styles.css ergaenzt sie um das, was erst im SCSS entsteht.
   const fndKarte = sammle(fnd, istRoot);
-  for (const [n, v] of sammle(styles, istRoot)) if (n.startsWith('--fnd-') && !fndKarte.has(n)) fndKarte.set(n, v);
-  const ausFnd = [...fndKarte].filter(([n]) => n.startsWith('--fnd-') && !istRauschen(n));
+  for (const [n, v] of stylesRoot) if (n.startsWith('--fnd-') && !fndKarte.has(n)) fndKarte.set(n, v);
+  let ausFnd = [...fndKarte].filter(([n]) => n.startsWith('--fnd-') && !istRauschen(n));
 
   // Dark Theme: nur die Farbumschaltung ist fuer Artefakte relevant.
-  const dunkel = [...sammle(styles, istDunkel)].filter(([n]) => n.startsWith('--fnd-color-'));
+  const dunkelKarte = sammle(styles, istDunkel);
+  let dunkel = [...dunkelKarte].filter(([n]) => n.startsWith('--fnd-color-'));
+
+  // Verweise auf nicht enthaltene Tokens (Primitive) in Werte aufloesen.
+  const alle = new Map([...stylesRoot, ...fndKarte]);
+  const alleDunkel = new Map([...alle, ...dunkelKarte]);
+  const behalten = new Set([...ausStyles, ...ausFnd].map(([n]) => n));
+  ausStyles = ausStyles.map(([n, v]) => [n, loeseAuf(v, alle, behalten)]);
+  ausFnd = ausFnd.map(([n, v]) => [n, loeseAuf(v, alle, behalten)]);
+  dunkel = dunkel.map(([n, v]) => [n, loeseAuf(v, alleDunkel, behalten)]);
 
   const commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: wurzel }).toString().trim();
 
@@ -299,6 +339,12 @@ function baueSchriften() {
   const raus = resolve(ziel, 'assets/fonts');
   mkdirSync(raus, { recursive: true });
   const bericht = [];
+  // Die Schriften aendern sich selten, brauchen aber fontTools (Python).
+  // Im Pruefmodus und ohne fontTools bleiben die vorhandenen Dateien stehen,
+  // statt dass der ganze Lauf abbricht.
+  if (PRUEFEN) return ['Schriften: im Pruefmodus nicht verglichen'];
+  try { execFileSync('python3', ['-c', 'import fontTools.subset'], { stdio: 'ignore' }); }
+  catch { return ['Schriften: unveraendert (fontTools fehlt — pip install fonttools brotli)']; }
   for (const [slug, datei, familie, gewicht] of SCHRIFTEN) {
     const quelle = resolve(wurzel, 'fonts', datei);
     if (!existsSync(quelle)) { bericht.push(`${familie}: Quelle fehlt`); continue; }
@@ -427,6 +473,16 @@ function baueTemplate() {
 // ---------------------------------------------------------------------------
 
 mkdirSync(ziel, { recursive: true });
+if (PRUEFEN) {
+  baueTokens(); baueKomponenten(); baueTemplate();
+  if (veraltet.length) {
+    console.log('  ✗ Skill-Referenzen veraltet: ' + veraltet.join(', '));
+    console.log('    → npm run skill:build  (danach skill/ mit committen und die .skill-Datei neu hochladen)');
+    process.exit(1);
+  }
+  console.log('  ✓ Skill-Referenzen aktuell');
+  process.exit(0);
+}
 const t = baueTokens();
 const k = baueKomponenten();
 const s = baueSchriften();

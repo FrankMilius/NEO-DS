@@ -56,6 +56,22 @@ if echo "$STAGED" | grep -qE '^(data/design-tokens(\.dtcg)?\.json|scss/scss/00-s
   fi
 fi
 
+# --- 1a. Skill neo-design-system: Token-Referenz aktuell --------------------
+# Der Claude-Skill traegt eine Kopie der Foundation-Tokens. Sie lag vom 12.08.
+# bis 26.11.2026 unbemerkt hinter dem System (Graphit-Neutrale fehlten).
+# styles.css ist Build-Ausgabe und kann veraltet sein -> frisch in Temp-Datei
+# kompilieren (rund 1,5 s) und dagegen pruefen.
+if echo "$STAGED" | grep -qE '^(data/design-tokens|scss/scss/00-settings/|data/neo-theme-defaults/|scripts/build-skill-references\.js|skill/neo-design-system/)'; then
+  echo "▸ Skill: Token-Referenz aktuell"
+  SKILL_TMP=$(mktemp -t skillcss)
+  if npx --no-install sass scss/scss/main.scss "$SKILL_TMP" --style=compressed --no-source-map >/dev/null 2>&1; then
+    SKILL_CSS="$SKILL_TMP" node scripts/build-skill-references.js --pruefen || FEHLER=1
+  else
+    echo "  ! Sass nicht ausfuehrbar — Skill-Pruefung uebersprungen (npm run skill:check)"
+  fi
+  rm -f "$SKILL_TMP"
+fi
+
 # --- 1b. Docs: Seite muss aus ihrer Inhaltsdatei entstehen ------------------
 if echo "$STAGED" | grep -qE '^docs/(content/|_template\.html|_pages\.json|[a-z0-9-]+-docs\.html$)'; then
   echo "▸ Docs: Seiten == Inhaltsdateien"
