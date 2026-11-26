@@ -1488,6 +1488,23 @@ Story Gallery: sanfter Rand, keine Titelzeilen-Reserve (I21 Phase 1, 25.11.2026,
 - Feld „Titelzeilen“ (`nc-story-gallery-title-lines`) entfernt — Titel
   halten keine Zeilen mehr frei.
 
+Story Gallery: fluide Höhe (I21 Phase 2, 25.11.2026, ohne App-Version — nur Daten):
+
+- Ab 769 px richtet sich die Medienhöhe nach der sichtbaren Fensterhöhe:
+  höchstens der Blockwert und die Stufe des Breakpoints („Kartenhöhe –
+  höchstens ab 769/960/1200/1600 px“, 340/400/460/520 px), sonst Fensterhöhe
+  minus Navigation minus „Platz für Text und Leiste“ (400 px), mindestens
+  „Kartenhöhe – Mindestwert“ (300 px). „Kartenbreite – Mindestwert“ (20rem)
+  hält schmale Karten lesbar.
+- Titelgröße, Textgröße und die Abstände Bild zu Titel, Titel zu Text und
+  zur Fußleiste sind jetzt Obergrenzen: in niedrigen Fenstern werden sie bis
+  zu ihrem neuen „… – Mindestwert“ kleiner, in hohen gilt der eingestellte
+  Wert. Das Handy bleibt unverändert.
+- Die Stufen, der Mindestwert der Höhe, „Platz für Text und Leiste“ und
+  „Abstand Titel zu Text – Mindestwert“ wirken nur bei bestimmten
+  Fenstergrößen und zeigen in der festen Vorschaufläche keine Wirkung
+  (Wirkungsstand „ohne Wirkung“). Prüfung: `npm run pruefen:sg-fluide`.
+
 ## Bekannte Grenzen
 
 - **Speichern in Drupal:** Vertrag, App und Server stehen — Drupal-Modul

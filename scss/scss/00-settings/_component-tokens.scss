@@ -4959,6 +4959,23 @@
   // Sanfter Rand der Spur im Seitenrand (I21 Phase 1, 25.11.2026): höchstens
   // so breit, nie breiter als der Seitenrand selbst
   --nc-story-gallery-fade-width:     clamp(24px, 4vw, 64px);
+  // Fluide Höhe ab 769 px (I21 Phase 2, 25.11.2026, Empfehlung F Frank):
+  // Medienhöhe aus der sichtbaren Höhe minus Platz für Text und Leiste,
+  // höchstens die Stufe des Breakpoints (sm/md/lg/xl), mindestens -min;
+  // Karte nie schmaler als eine lesbare Textspalte. Die -min-Werte sind die
+  // Untergrenzen von Text und Abständen in niedrigen Fenstern.
+  --nc-story-gallery-card-height-min: 300px;
+  --nc-story-gallery-card-height-sm: 340px;
+  --nc-story-gallery-card-height-md: 400px;
+  --nc-story-gallery-card-height-lg: 460px;
+  --nc-story-gallery-card-height-xl: 520px;
+  --nc-story-gallery-text-reserve:   400px;
+  --nc-story-gallery-card-min-width: 20rem;
+  --nc-story-gallery-title-size-min: 1.125rem;
+  --nc-story-gallery-desc-size-min:  0.9375rem;
+  --nc-story-gallery-caption-gap-min: 10px;
+  --nc-story-gallery-title-gap-min:  6px;
+  --nc-story-gallery-footer-spacing-min: 12px;
   // Kartenbreite = Höhe × Seitenverhältnis, begrenzt auf 3:4 bis 3:2: zwei
   // verwandte Breiten statt Faktor 3 zwischen 9:16 und 16:9 (I16, 23.11.2026)
   --nc-story-gallery-ratio-min:      0.75;

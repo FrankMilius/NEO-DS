@@ -1,5 +1,5 @@
 # story-gallery Component Spec
-> Version 1.11.0 | Status: stable | Layer: organism
+> Version 1.12.0 | Status: stable | Layer: organism
 
 Tags: `display`, `gallery`, `scroll`, `cards`
 
@@ -91,6 +91,14 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-caption-gap` | — | — |
 | `--nc-story-gallery-caption-max-width` | — | — |
 | `--nc-story-gallery-fade-width` | — | — |
+| `--nc-story-gallery-card-height-min` | — | — |
+| `--nc-story-gallery-card-height-sm` | — | — |
+| `--nc-story-gallery-card-height-md` | — | — |
+| `--nc-story-gallery-card-height-lg` | — | — |
+| `--nc-story-gallery-card-height-xl` | — | — |
+| `--nc-story-gallery-text-reserve` | — | — |
+| `--nc-story-gallery-card-min-width` | — | — |
+| `--nc-story-gallery-caption-gap-min` | — | — |
 
 ### Title
 | Token | CSS Property | Override |
@@ -100,6 +108,8 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-title-line-height` | — | — |
 | `--nc-story-gallery-title-gap` | — | — |
 | `--nc-story-gallery-title-color` | — | — |
+| `--nc-story-gallery-title-size-min` | — | — |
+| `--nc-story-gallery-title-gap-min` | — | — |
 
 ### Description
 | Token | CSS Property | Override |
@@ -107,6 +117,7 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-desc-size` | — | — |
 | `--nc-story-gallery-desc-line-height` | — | — |
 | `--nc-story-gallery-desc-color` | — | — |
+| `--nc-story-gallery-desc-size-min` | — | — |
 
 ### Paddles
 | Token | CSS Property | Override |
@@ -145,6 +156,7 @@ Base classes: `nc-story-gallery`
 | `--nc-story-gallery-progress-height` | — | — |
 | `--nc-story-gallery-progress-track` | — | — |
 | `--nc-story-gallery-progress-bar` | — | — |
+| `--nc-story-gallery-footer-spacing-min` | — | — |
 
 ## Accessibility
 Contrast Target: WCAG AA normal text (4.5:1)

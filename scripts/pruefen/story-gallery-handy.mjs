@@ -16,7 +16,10 @@
 //               Vorrang, die Karte wird dann schmaler als quadratisch
 //               (Widersacher I18 Phase 8, gewollt: nie breiter als der Platz)
 //   Gemessen wird die Medienfläche (__media), nicht die ganze Karte mit Text.
-//   ab 769 px   Medienhöhe = Wert aus dem Block (Inline-Stil der Galerie)
+//   ab 769 px   Medienhöhe = Wert aus dem Block (Inline-Stil der Galerie),
+//               seit I21 Phase 2 fluide: min(Block, max(-card-height-min,
+//               min(Fensterhöhe − Navigation − -text-reserve, Stufe des
+//               Breakpoints))) — gleiche Formel wie pruefen:sg-fluide
 //
 // --vorlage-nachbauen: DDEV rendert Twig aus dem Haupt-Checkout von neo_fe.
 // Das HTML der Seite wird deshalb so umgeschrieben, wie die Vorlage es ab
@@ -60,9 +63,14 @@ function messen () {
     return w
   }
   const inline = (g.getAttribute('style') || '').match(/--sg-card-height(?:-block)?:\s*(\d+(?:\.\d+)?)px/)
-  const scroll = g.querySelector('.nc-story-gallery__scroll')
+  const breite = document.documentElement.clientWidth
+  const stufe = breite >= 1600 ? 'xl' : breite >= 1200 ? 'lg' : breite >= 960 ? 'md' : 'sm'
+  const block = inline ? Number(inline[1]) : null
+  const fluide = block && Math.min(block, Math.max(px('--nc-story-gallery-card-height-min'),
+    Math.min(window.innerHeight - px('--nc-nav-height') - px('--nc-story-gallery-text-reserve'), px(`--nc-story-gallery-card-height-${stufe}`))))
   return {
-    blockHoehe: inline ? Number(inline[1]) : null,
+    blockHoehe: block,
+    sollDesktop: fluide,
     sollHandy: px('--nc-story-gallery-card-height-mobile'),
     vorschau: px('--nc-story-gallery-peek-mobile'),
     ratioMinHandy: parseFloat(getComputedStyle(g).getPropertyValue('--nc-story-gallery-ratio-min-mobile')),
@@ -101,7 +109,7 @@ for (const breite of breiten) {
       const handy = breite <= 768
       if (handy && !(m.sollHandy > 0 && m.vorschau > 0 && m.ratioMinHandy > 0)) f('Token -card-height-mobile, -peek-mobile oder -ratio-min-mobile fehlt')
       if (!handy && !m.blockHoehe) f('kein Höhenwert im Inline-Stil der Galerie')
-      const sollHoehe = handy ? m.sollHandy : m.blockHoehe
+      const sollHoehe = handy ? m.sollHandy : m.sollDesktop
       const maxBreite = m.scrollBreite - m.vorschau
       let breiteste = 0, schmalste = Infinity
       m.karten.forEach((k, i) => {

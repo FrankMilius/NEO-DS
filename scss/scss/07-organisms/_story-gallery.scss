@@ -353,6 +353,69 @@
   }
 }
 
+// Fluide Höhe ab 769 px (I21 Phase 2, 25.11.2026, Empfehlung F Frank): Bild,
+// Text und Laufleiste passen zusammen ins Fenster, wie beim Hero. Die
+// Medienhöhe folgt der sichtbaren Höhe (100svh − Navigation − Platz für Text
+// und Leiste), höchstens der Stufe des Breakpoints und dem Wert des Blocks,
+// mindestens --nc-story-gallery-card-height-min. Ein Block unter dem
+// Mindestwert behält seinen Wert. Hohe Fenster bleiben unverändert.
+@media (min-width: 769px) {
+  .nc-story-gallery {
+    --_sg-stufe: var(--nc-story-gallery-card-height-sm);
+    --sg-card-height: min(
+      var(--sg-card-height-block, var(--nc-story-gallery-card-height)),
+      max(
+        var(--nc-story-gallery-card-height-min),
+        min(calc(100svh - var(--nc-nav-height) - var(--nc-story-gallery-text-reserve)), var(--_sg-stufe))
+      )
+    );
+  }
+
+  // Schmale Karten brechen den Text in viele Zeilen — nie schmaler als eine
+  // lesbare Spalte, nie breiter als die Spur ohne rechten Seitenrand und
+  // einen Streifen der nächsten Karte. 100 % ist die Spur ohne ihren Einzug.
+  .nc-story-gallery__card {
+    min-inline-size: min(
+      var(--nc-story-gallery-card-min-width),
+      calc(100% - var(--_sg-rand-r, 0px) - var(--nc-story-gallery-peek-mobile))
+    );
+  }
+
+  // Text und Abstände werden in niedrigen Fenstern kleiner: der Token-Wert
+  // ist die Obergrenze (Konfig-App), der -min-Token die Untergrenze, dazwischen
+  // ein Anteil der sichtbaren Höhe. Die Anteile sind so gewählt, dass ab
+  // 1080 px Fensterhöhe überall der Token-Wert gilt (Widersacher 26.11.2026).
+  .nc-story-gallery__caption {
+    padding-block: min(var(--nc-story-gallery-caption-gap), max(var(--nc-story-gallery-caption-gap-min), 1.9svh));
+  }
+
+  .nc-story-gallery__title {
+    --_block-size: min(var(--nc-story-gallery-title-size), max(var(--nc-story-gallery-title-size-min), 2.6svh));
+    margin-block-end: min(var(--nc-story-gallery-title-gap), max(var(--nc-story-gallery-title-gap-min), 1svh));
+  }
+
+  .nc-story-gallery__desc {
+    --_block-size: min(var(--nc-story-gallery-desc-size), max(var(--nc-story-gallery-desc-size-min), 1.9svh));
+  }
+
+  .nc-story-gallery__footer {
+    padding-block-start: min(var(--nc-story-gallery-footer-spacing), max(var(--nc-story-gallery-footer-spacing-min), 3svh));
+  }
+}
+
+// Höchstwert der Medienhöhe je Breakpoint des Design Systems
+@include respond-to('md') {
+  .nc-story-gallery { --_sg-stufe: var(--nc-story-gallery-card-height-md); }
+}
+
+@include respond-to('lg') {
+  .nc-story-gallery { --_sg-stufe: var(--nc-story-gallery-card-height-lg); }
+}
+
+@include respond-to('xl') {
+  .nc-story-gallery { --_sg-stufe: var(--nc-story-gallery-card-height-xl); }
+}
+
 @media (max-width: 768px) {
   .nc-story-gallery__track {
     gap: var(--nc-story-gallery-gap-mobile);

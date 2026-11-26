@@ -3,7 +3,7 @@
   "meta": {
     "schemaVersion": "3.1.0",
     "component": "story-gallery",
-    "version": "1.11.0",
+    "version": "1.12.0",
     "status": "stable",
     "tags": [
       "display",
@@ -17,6 +17,12 @@
       "docs": "/docs/story-gallery-docs"
     },
     "changelog": [
+      {
+        "version": "1.12.0",
+        "changes": [
+          "I21 Phase 2 (25.11.2026, Entscheidung Frank, Empfehlung F): fluide Höhe ab 769 px — Medienhöhe min(Block, max(--nc-story-gallery-card-height-min, min(100svh − Navigation − --nc-story-gallery-text-reserve, Stufe --nc-story-gallery-card-height-sm/md/lg/xl))), Karte mindestens --nc-story-gallery-card-min-width breit; Titel, Text und Abstände werden in niedrigen Fenstern bis zu ihren -min-Werten kleiner, in hohen Fenstern gilt der Token-Wert. Bild, Text und Laufleiste passen in allen Fenstern des Befunds ins Bild (pruefen:sg-fluide)."
+        ]
+      },
       {
         "version": "1.11.0",
         "changes": [
@@ -361,7 +367,15 @@
           "nc-story-gallery-ratio-max",
           "nc-story-gallery-caption-gap",
           "nc-story-gallery-caption-max-width",
-          "nc-story-gallery-fade-width"
+          "nc-story-gallery-fade-width",
+          "nc-story-gallery-card-height-min",
+          "nc-story-gallery-card-height-sm",
+          "nc-story-gallery-card-height-md",
+          "nc-story-gallery-card-height-lg",
+          "nc-story-gallery-card-height-xl",
+          "nc-story-gallery-text-reserve",
+          "nc-story-gallery-card-min-width",
+          "nc-story-gallery-caption-gap-min"
         ]
       },
       "title": {
@@ -371,7 +385,9 @@
           "nc-story-gallery-title-weight",
           "nc-story-gallery-title-line-height",
           "nc-story-gallery-title-gap",
-          "nc-story-gallery-title-color"
+          "nc-story-gallery-title-color",
+          "nc-story-gallery-title-size-min",
+          "nc-story-gallery-title-gap-min"
         ]
       },
       "description": {
@@ -379,7 +395,8 @@
         "tokens": [
           "nc-story-gallery-desc-size",
           "nc-story-gallery-desc-line-height",
-          "nc-story-gallery-desc-color"
+          "nc-story-gallery-desc-color",
+          "nc-story-gallery-desc-size-min"
         ]
       },
       "paddles": {
@@ -421,7 +438,8 @@
           "nc-story-gallery-footer-gap",
           "nc-story-gallery-progress-height",
           "nc-story-gallery-progress-track",
-          "nc-story-gallery-progress-bar"
+          "nc-story-gallery-progress-bar",
+          "nc-story-gallery-footer-spacing-min"
         ]
       }
     }
