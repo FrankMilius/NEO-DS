@@ -39,7 +39,7 @@ wertlos — und schlimmer als kein Vergleich, weil er wie ein echter aussieht.
 **Kein `@import`.** Artefakte laufen unter strikter CSP: keine externen
 Stylesheets, Skripte, Schriften oder Bilder. Alles muss inline oder als
 `data:`-URI ins Dokument. Nur die tatsächlich benötigten Token-Gruppen
-übernehmen — die Datei hat 569 Einträge.
+übernehmen — die Datei hat über 600 Einträge.
 
 ## Schriften
 
@@ -105,10 +105,11 @@ Diese gelten unabhängig vom aktuellen Token-Stand:
 
 ### Noch nicht tokenisiert
 
-Zwei Werte aus den Prinzipien haben **kein** Token und stehen nur hier:
-`#047857` (grüne Schrift auf Hell) und `#06210a` (Text auf Lime-Fläche, wobei
-das System dafür `--fnd-color-on-accent: #000000` führt). Wer sie verwendet,
-kennzeichnet sie wie einen Platzhalter.
+Grüne Schrift auf Hell ist inzwischen tokenisiert: `--fnd-color-text-accent`
+(hell `--fnd-accent-800` = `#006f0a`, dunkel `--fnd-accent-500`). Den alten
+Wert `#047857` nicht mehr verwenden. Für Text auf Lime-Fläche gilt
+`--fnd-color-on-accent` (`#000000`); `#06210a` hat kein Token und wird wie ein
+Platzhalter gekennzeichnet.
 
 ## Aufbau jedes Artefakts
 
