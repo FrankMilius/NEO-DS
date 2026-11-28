@@ -1,0 +1,361 @@
+{
+  "$schema": "../../data/component-spec-schema.json",
+  "component": "combobox",
+  "version": "0.1.0",
+  "status": "draft",
+  "layer": "unknown",
+  "tags": [
+    "entwurf",
+    "molecules",
+    "formular"
+  ],
+  "anatomy": {
+    "rootElement": ".nc-combobox",
+    "slots": [
+      {
+        "name": "label",
+        "selector": ".nc-form-label",
+        "required": true,
+        "description": "Sichtbares Label (label for=<feld>-input) mit „ *“ (aria-hidden) bzw. „(optional)“. Pflicht: das Eingabefeld bezieht seinen Namen daraus."
+      },
+      {
+        "name": "field",
+        "selector": ".nc-combobox__field",
+        "required": true,
+        "description": "Rahmen des Felds wie .nc-input (Höhe 2,5rem bei einzeiliger Belegung, Radius, Rahmen, Hover/Fokus/Fehler/deaktiviert über --nc-combobox-field-* → --nc-input-*). Trägt bei multiple die Chips und das Eingabefeld in einer Zeile, bricht bei Bedarf um (min. 2,5rem, wächst)."
+      },
+      {
+        "name": "chips",
+        "selector": ".nc-combobox__chips",
+        "required": false,
+        "description": "Nur multiple: Liste der gewählten Werte (ul, aria-label „Gewählt“) aus nc-chip --sm mit __remove-Knopf; steht im Feld vor dem Eingabefeld."
+      },
+      {
+        "name": "input",
+        "selector": ".nc-combobox__input",
+        "required": true,
+        "description": "input type=text role=combobox mit aria-expanded, aria-controls aufs Listenfeld, aria-autocomplete=list, aria-activedescendant auf die markierte Option; ohne eigenen Rahmen (der Rahmen gehört zu __field). Text 8 px unter der Oberkante des Felds (1 px Rahmen + 7 px Innenabstand)."
+      },
+      {
+        "name": "indicator",
+        "selector": ".nc-combobox__indicator",
+        "required": true,
+        "description": "Pfeil als Knopf (button type=button tabindex=-1, aria-label „Liste öffnen“), dasselbe SVG und dieselbe Lage wie .nc-select (Chevron, --nc-select-indicator-size, rechts --nc-input-padding-x-md, senkrecht mittig, --nc-select-indicator-color); offen nach oben gedreht. Bei der Variante search statt Pfeil die Lupe links im Feld wie .nc-search."
+      },
+      {
+        "name": "listbox",
+        "selector": ".nc-combobox__listbox",
+        "required": true,
+        "description": "ul role=listbox (aria-multiselectable=true bei multiple), absolut unter dem Feld (100 % + spacing-01), höchstens 16rem hoch, scrollt; Fläche, Rahmen und Schatten wie .nc-multiselect__panel; geschlossen [hidden]."
+      },
+      {
+        "name": "group",
+        "selector": ".nc-combobox__group",
+        "required": false,
+        "description": "li role=presentation > span.nc-combobox__group-label (Mono, Versalien, text-secondary) + ul role=group aria-labelledby: Gruppen des Vokabulars (z. B. Anlass, Ort, Thema)."
+      },
+      {
+        "name": "option",
+        "selector": ".nc-combobox__option",
+        "required": true,
+        "description": "li role=option mit id, aria-selected und data-value; min. 2,5rem hoch, Innenabstand wie .nc-multiselect__option. Markiert (aktive Option der Tastatur) mit .is-active: Fläche background-secondary. Gewählt: Häkchen-Symbol links (bei multiple Checkbox-Optik wie nc-checkbox, rein visuell)."
+      },
+      {
+        "name": "match",
+        "selector": ".nc-combobox__match",
+        "required": false,
+        "description": "Hervorhebung des getippten Teils im Optionstext (mark, Schriftgewicht 650, keine Farbe)."
+      },
+      {
+        "name": "synonym",
+        "selector": ".nc-combobox__synonym",
+        "required": false,
+        "description": "Zusatz hinter der Option, wenn ein Synonym getroffen hat: „auch „basketball““ (text-secondary, kleiner)."
+      },
+      {
+        "name": "create",
+        "selector": ".nc-combobox__create",
+        "required": false,
+        "description": "Letzte Option (role=option, data-create), nur bei creatable=suggest|create und wenn kein Begriff und kein Synonym exakt passt: Plus-Symbol, „„<Eingabe>“ als neues Schlagwort vorschlagen“ bzw. „… anlegen“, darunter eine Zeile Erklärung (text-secondary); Trennlinie oben."
+      },
+      {
+        "name": "status",
+        "selector": ".nc-combobox__status",
+        "required": true,
+        "description": "Unsichtbare Live-Region (role=status, u-sr-only): Anzahl der Treffer, „Kein Treffer“, Laden, Auswahl/Entfernen, Vorschlag notiert."
+      },
+      {
+        "name": "native",
+        "selector": ".nc-combobox__native",
+        "required": true,
+        "description": "Ausgangs-Markup ohne JavaScript: select (multiple bei multiple) mit allen Optionen und optgroup je Gruppe; das Behavior blendet es aus (hidden) und hält es synchron — es trägt name und wird übertragen."
+      }
+    ],
+    "notes": [
+      "Ausgangs-Markup (progressive Verbesserung, ohne JavaScript bedienbar): div.nc-form-field.nc-combobox[data-combobox][data-variant=single|multiple|search][data-creatable=none|suggest|create][data-max] > label.nc-form-label[for=<feld>-native] + select.nc-select.nc-combobox__native#<feld>-native[name][multiple?] mit optgroup/option + p.nc-form-hint. Das Behavior combobox (neo-behaviors) baut daraus __field (mit __chips, __input, __indicator), __listbox und __status, setzt label[for] auf das Eingabefeld um und blendet das Select aus.",
+      "ARIA nach WAI-ARIA APG „Combobox with listbox popup“ (editierbar, Autovervollständigung list): input role=combobox[aria-expanded][aria-controls=<feld>-listbox][aria-autocomplete=list][aria-activedescendant]; Fokus bleibt immer im Eingabefeld, die Option wird über aria-activedescendant markiert. Kein aria-haspopup (der Standardwert von combobox ist listbox).",
+      "Mehrfach (data-variant=multiple): Listbox mit aria-multiselectable=true, Optionen aria-selected; die Auswahl bleibt nach Enter offen (Panel bleibt), gewählte Werte erscheinen als Chips im Feld. Chips sind eigene Tab-Stopps über ihren __remove-Knopf (aria-label „<Wert> entfernen“).",
+      "Einzeln (data-variant=single): Auswahl schreibt den Text ins Eingabefeld und schließt die Liste; Leeren über Löschen-Knopf (input-Muster __clear) oder Text löschen + Verlassen.",
+      "Suche (data-variant=search): wie single, Lupe links statt Pfeil rechts, Liste öffnet erst ab der ersten Eingabe; für Personen und Orte mit vielen Einträgen.",
+      "Filtern: Teiltreffer in Begriff und Synonymen, unabhängig von Groß-/Kleinschreibung, Umlauten (ä=ae …), Bindestrichen und Leerzeichen. Reihenfolge: Treffer am Wortanfang vor Treffern im Wort, dann Synonym-Treffer, je Gruppe in der Reihenfolge des Vokabulars.",
+      "Neu vorschlagen (data-creatable=suggest): die Option __create erscheint nur, wenn kein Begriff und kein Synonym exakt passt; Auswahl feuert combobox-create und legt einen Chip mit Kennzeichen „Vorschlag“ (nc-chip --outline, gestrichelt) an; der Wert geht als data-pending in ein verstecktes Feld <name>_pending[] und wird erst nach Prüfung durch die Redaktion ein Begriff. data-creatable=create (nur Redaktion): legt sofort an.",
+      "Asynchron (data-source=<url>): ab data-min-chars (Standard 2) Zeichen, Abfrage nach 200 ms Pause, laufende Abfrage wird abgebrochen; währenddessen aria-busy=true an der Listbox, nc-spinner sm in der Liste, Status „Lade …“. Antwort JSON [{value,label,group?,synonym?}].",
+      "Höchstzahl (data-max): ist sie erreicht, sind nicht gewählte Optionen aria-disabled, __create ebenfalls; Hinweis im Feld-Hinweis und in der Live-Region.",
+      "Fehler: .nc-form-field--invalid am Feld färbt den Rahmen von __field text-danger, aria-invalid am Eingabefeld, p.nc-form-error (id <feld>-err) per aria-describedby — wie multiselect.",
+      "Sprache: Texte („Liste öffnen“, „Gewählt“, „Kein Treffer“, „<n> Treffer“, „als neues Schlagwort vorschlagen“, „Vorschlag“, „entfernen“) folgen lang am Feld bzw. Vorfahren (de/en); überschreibbar per data-text-* am Feld, in neo_fe aus Drupal.t."
+    ]
+  },
+  "api": null,
+  "variants": {
+    "variant": {
+      "label": "Variante",
+      "description": "Einzel-, Mehrfachauswahl oder Suche",
+      "values": [
+        {
+          "value": "single",
+          "cssModifier": null,
+          "default": false,
+          "label": "single"
+        },
+        {
+          "value": "multiple",
+          "cssModifier": "nc-combobox--multiple",
+          "default": false,
+          "label": "multiple"
+        },
+        {
+          "value": "search",
+          "cssModifier": "nc-combobox--search",
+          "default": false,
+          "label": "search"
+        }
+      ]
+    },
+    "creatable": {
+      "label": "Neue Werte",
+      "description": "Ob und wie fehlende Werte entstehen",
+      "values": [
+        {
+          "value": "none",
+          "cssModifier": null,
+          "default": false,
+          "label": "none"
+        },
+        {
+          "value": "suggest",
+          "cssModifier": null,
+          "default": false,
+          "label": "suggest"
+        },
+        {
+          "value": "create",
+          "cssModifier": null,
+          "default": false,
+          "label": "create"
+        }
+      ]
+    }
+  },
+  "states": {
+    "supported": [
+      "default",
+      "hover",
+      "focus",
+      "open",
+      "loading",
+      "empty",
+      "max",
+      "error",
+      "disabled",
+      "readonly"
+    ],
+    "interactive": true,
+    "rules": []
+  },
+  "cssApi": {
+    "baseClasses": [
+      "nc-combobox"
+    ],
+    "tokenGroups": {
+      "Feld": [
+        {
+          "token": "--nc-combobox-field-height"
+        },
+        {
+          "token": "--nc-combobox-field-radius"
+        },
+        {
+          "token": "--nc-combobox-field-border"
+        },
+        {
+          "token": "--nc-combobox-field-border-width"
+        },
+        {
+          "token": "--nc-combobox-field-border-hover"
+        },
+        {
+          "token": "--nc-combobox-field-border-focus"
+        },
+        {
+          "token": "--nc-combobox-field-border-error"
+        },
+        {
+          "token": "--nc-combobox-field-bg"
+        },
+        {
+          "token": "--nc-combobox-field-padding-x"
+        },
+        {
+          "token": "--nc-combobox-field-padding-top"
+        },
+        {
+          "token": "--nc-combobox-field-padding-bottom"
+        },
+        {
+          "token": "--nc-combobox-indicator-size"
+        },
+        {
+          "token": "--nc-combobox-indicator-color"
+        }
+      ],
+      "Liste": [
+        {
+          "token": "--nc-combobox-listbox-max-height"
+        },
+        {
+          "token": "--nc-combobox-listbox-offset"
+        },
+        {
+          "token": "--nc-combobox-listbox-shadow"
+        },
+        {
+          "token": "--nc-combobox-listbox-padding"
+        },
+        {
+          "token": "--nc-combobox-option-min-height"
+        },
+        {
+          "token": "--nc-combobox-option-padding"
+        },
+        {
+          "token": "--nc-combobox-option-bg-active"
+        },
+        {
+          "token": "--nc-combobox-group-label-color"
+        },
+        {
+          "token": "--nc-combobox-synonym-color"
+        }
+      ],
+      "Chips (multiple)": [
+        {
+          "token": "--nc-combobox-chips-gap"
+        },
+        {
+          "token": "--nc-combobox-pending-border-style"
+        }
+      ],
+      "Neuer Wert": [
+        {
+          "token": "--nc-combobox-create-border-color"
+        }
+      ]
+    },
+    "modTokens": []
+  },
+  "keyboard": {
+    "ArrowDown": {
+      "action": "open-or-next",
+      "note": "Geschlossen: öffnet die Liste und markiert die erste Option (bzw. die gewählte bei single). Offen: nächste Option, am Ende keine Umrundung."
+    },
+    "ArrowUp": {
+      "action": "previous",
+      "note": "Offen: vorherige Option; auf der ersten Option zurück ins reine Eingabefeld (keine Markierung)."
+    },
+    "Alt+ArrowDown": {
+      "action": "open",
+      "note": "Öffnet ohne die Markierung zu verschieben."
+    },
+    "Alt+ArrowUp": {
+      "action": "close",
+      "note": "Schließt; bei single wird die markierte Option übernommen."
+    },
+    "Enter": {
+      "action": "select-or-create",
+      "note": "Offen mit markierter Option: wählt (single: schließt; multiple: wählt bzw. wählt ab, bleibt offen, Eingabe wird geleert). Markiert ist die Vorschlags-Option: legt den Vorschlag an. Ohne Markierung und mit genau einem Treffer: wählt diesen. Nie Formular absenden, solange die Liste offen ist."
+    },
+    "Escape": {
+      "action": "close-or-clear",
+      "note": "Offen: schließt, Eingabe bleibt. Geschlossen: leert die Eingabe (Auswahl bleibt)."
+    },
+    "Home": {
+      "action": "caret-start",
+      "note": "Cursor an den Anfang der Eingabe (APG: Home/End bleiben im Textfeld)."
+    },
+    "End": {
+      "action": "caret-end",
+      "note": "Cursor ans Ende der Eingabe."
+    },
+    "PageDown": {
+      "action": "next-page",
+      "note": "Offen: zehn Optionen weiter."
+    },
+    "PageUp": {
+      "action": "previous-page",
+      "note": "Offen: zehn Optionen zurück."
+    },
+    "Backspace": {
+      "action": "remove-last",
+      "note": "Nur multiple, bei leerer Eingabe: markiert den letzten Chip; zweites Backspace entfernt ihn (Status meldet es)."
+    },
+    "Tab": {
+      "action": "leave",
+      "note": "Verlässt das Feld und schließt die Liste, ohne die Auswahl zu ändern (APG: keine Übernahme bei Tab). Chips sind über ihren Entfernen-Knopf erreichbar."
+    }
+  },
+  "testSelectors": null,
+  "events": {
+    "combobox-change": {
+      "bubbles": true,
+      "detail": {
+        "values": "string[]"
+      },
+      "note": "Gefeuert am Feld (.nc-combobox) bei jeder Änderung der Auswahl; values in Auswahlreihenfolge. Das native select ist bereits synchron."
+    },
+    "combobox-create": {
+      "bubbles": true,
+      "detail": {
+        "label": "string",
+        "mode": "suggest|create"
+      },
+      "note": "Gefeuert bei Auswahl der Option __create. suggest: Wert landet in <name>_pending[] und als Chip „Vorschlag“; create: die Seite legt den Begriff an und antwortet mit combobox:add."
+    },
+    "combobox-query": {
+      "bubbles": true,
+      "detail": {
+        "query": "string"
+      },
+      "note": "Nur ohne data-source: gefeuert nach 200 ms Pause beim Tippen, damit die Seite eigene Treffer liefern kann."
+    }
+  },
+  "a11y": {
+    "role": null,
+    "interactive": true,
+    "contrastTarget": "WCAG AA normal text (4.5:1)",
+    "focusIndicator": "Fokus am Feld (__field:focus-within): 2px solid --fnd-color-interactive-focus, Abstand 2px; Chip-Entfernen-Knöpfe nach chip",
+    "assertions": [
+      "4.1.2: Combobox-Muster der WAI-ARIA APG (Listbox-Popup, aria-autocomplete=list): role=combobox am Eingabefeld mit aria-expanded, aria-controls, aria-activedescendant; Listbox role=listbox (aria-multiselectable bei multiple), Optionen role=option mit aria-selected; Gruppen role=group mit Namen.",
+      "4.1.2: Name des Eingabefelds aus dem sichtbaren Label (label for); der Pfeil-Knopf ist tabindex=-1 und aria-label „Liste öffnen“, damit er den Tab-Fluss nicht verdoppelt.",
+      "2.1.1/2.4.3: Bedienung ganz mit der Tastatur (siehe keyboard); Fokus bleibt im Eingabefeld, Escape schließt und leert ggf. die Eingabe, Tab verlässt das Feld ohne Auswahl zu ändern.",
+      "4.1.3: Statusmeldungen über role=status ohne Fokuswechsel: Trefferzahl, Kein Treffer, Laden, gewählt/entfernt, Vorschlag notiert, Höchstzahl erreicht.",
+      "1.3.1: Gruppen und Vorschläge sind im Markup erkennbar (role=group mit Label, Option „Vorschlag“ als Text, nicht nur Symbol); Synonym-Hinweis als Text.",
+      "1.4.1: Gewählt und markiert nicht nur über Farbe: gewählt mit Häkchen bzw. Checkbox-Optik, markiert mit Fläche plus Rahmen in forced-colors.",
+      "2.5.8: Zielgröße min. 24×24 px für Pfeil und Chip-Entfernen (Fläche 2,5rem bzw. 1,5rem mit Abstand).",
+      "3.3.1: Fehler mit .nc-form-field--invalid, aria-invalid und Meldung per aria-describedby — nicht nur Farbe.",
+      "Ohne JavaScript: das native select bleibt bedienbar und überträgt die Werte (progressive Verbesserung)."
+    ],
+    "overrides": []
+  },
+  "dependencies": [],
+  "pipeline": null
+}
